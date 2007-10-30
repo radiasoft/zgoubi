@@ -1,0 +1,234 @@
+%
+% Mise en page du rapport Zgoubi
+% B. Auzeby
+% derniere mise ‡ jour 13/1/97
+
+\parindent=30pt 
+\baselineskip=15.0truept
+\marginparwidth=0cm
+\marginparsep=0cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Dimensions du papier, a	utiliser avec Vmargin.sty	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setpapersize{A4}
+\setmargins{2cm}% leftmargin
+%        {1in}%%% topmargin
+%        {17cm}%%%textwidth
+%        {23cm}%%%textheight
+%        {0pt}%\headheight
+%        {0pt}  %%\headsep
+%        {\footheight}{\footskip}  %% unchanged
+%%% modifie pour passage a pagestyle{headings
+        {20mm}%%% topmargin
+        {17cm}%%%textwidth
+        {23cm}%%%textheight
+        {1mm}%\headheight
+        {13mm}  %%\headsep
+        {\footheight}{\footskip}  %% unchanged
+% anciennes commandes
+%\textheight=23cm
+%\textwidth=17cm
+%\evensidemargin=2cm
+%\oddsidemargin=2cm
+%\hoffset -1in
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					Macros speciales					  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\zgou}{\textbf{Zgoubi }}
+\newcommand{\zgou}{\textbf{zgoubi }}
+\newcommand{\zgoubi}{\textbf{zgoubi }}
+\newcommand{\zpop}{\textbf{zpop }}
+
+\newcommand{\cinqprime}{\,\prime\prime\prime\prime\prime}
+\newcommand{\quaprime}{\,\prime\prime\prime\prime}
+
+\newcommand{\paral}{\mathrel{/\kern-.25em/}}
+\newcommand{\losim}{\mathrel{\hbox{\lower1ex\hbox{\rlap{$\sim$}\raise1ex\hbox{$<$}}}}}
+
+\newcommand{\Bone}{\ensuremath{B\!1}} %%
+\newcommand{\BORO}{\ensuremath{B\!O\!R\!O}} %%
+\newcommand{\Br}{\ensuremath{B\!\rho}} %%
+\newcommand{\Bz}{\ensuremath{{B_z}}} %%
+\newcommand{\CHANGREF}{\textsl{CHANGREF }}%%
+\newcommand{\Ecal}{\ensuremath{\mathcal{E}}}
+\newcommand{\FORTRAN}{\textsl{FORTRAN }}
+\newcommand{\IA}{ \ensuremath{I\!A}} %%
+\newcommand{\IB}{ \ensuremath{I\!B}} %%
+\newcommand{\IC}{ \ensuremath{I\!C}} %%
+\newcommand{\IL}{ \ensuremath{I\!L}} %%
+\newcommand{\IEX}{\ensuremath{\textsl{I\!E\!X}}} %%
+\newcommand{\IMAX}{\ensuremath{\textsl{I\!M\!A\!X }}} %%%
+\newcommand{\imax}{\ensuremath{10^4}} %%%
+\newcommand{\IDMAX}{\textsl{I\!D\!M\!A\!X }} %%
+\newcommand{\IAMAX}{\textsl{I\!A\!M\!A\!X }}  %%
+\newcommand{\IRMAX}{\textsl{I\!R\!M\!A\!X }}%%
+\newcommand{\IMAGES}{\textsl{IMAGES }}%%
+% \newcommand{\IREP}{\textsl{IREP }}
+\newcommand{\KOBJ}{\textsl{KOBJ }}%%
+\newcommand{\LABEL}{ \ensuremath{L\!A\!B\!E\!L}} %%
+\newcommand{\NC}{\textsl{N\!C }}%%
+\newcommand{\NCE}{\textsl{N\!C\!E }}%%
+\newcommand{\NCS}{\textsl{N\!C\!S }}%%
+\newcommand{\ntm}{\ensuremath{41}} %%%
+\newcommand{\NH}{ \ensuremath{N\!H}} %%
+\newcommand{\NV}{\textsl{N\!V }}%%
+\newcommand{\REBELOTE}{\textsl{REBELOTE }} %%
+\newcommand{\RMAX}{\textsl{R\!M\!A\!X }} %%
+\newcommand{\RMIN}{\textsl{R\!M\!I\!N }} %%
+
+\newcommand{\wrt}{{\textsl{wrt.}}} %%
+\newcommand{\IX}{ \ensuremath{I\!X}} %%
+\newcommand{\IY}{ \ensuremath{I\!Y}} %%
+\newcommand{\IZ}{ \ensuremath{I\!Z}} %%
+\newcommand{\IT}{ \ensuremath{I\!T}} %%
+\newcommand{\ID}{ \ensuremath{I\!D}} %%
+\newcommand{\IP}{ \ensuremath{I\!P}} %%
+\newcommand{\PX}{ \ensuremath{P\!X}} %%
+\newcommand{\PY}{ \ensuremath{P\!Y}} %%
+\newcommand{\PZ}{ \ensuremath{P\!Z}} %%
+\newcommand{\PT}{ \ensuremath{P\!T}} %%
+\newcommand{\PD}{ \ensuremath{P\!D}} %%
+\newcommand{\PP}{ \ensuremath{P\!P}} %%
+\newcommand{\PR}{ \ensuremath{P\!R}} %%
+\newcommand{\TC}{ \ensuremath{T\!C}} %%
+\newcommand{\TL}{ \ensuremath{T\!L}} %%
+\newcommand{\TR}{ \ensuremath{T\!R}} %%
+\newcommand{\XC}{ \ensuremath{X\!C}} %%
+\newcommand{\XL}{ \ensuremath{X\!L}} %%
+\newcommand{\XR}{ \ensuremath{X\!R}} %%
+\newcommand{\YC}{ \ensuremath{Y\!C}} %%
+\newcommand{\YL}{ \ensuremath{Y\!L}} %%
+\newcommand{\YR}{ \ensuremath{Y\!R}} %%
+\newcommand{\ZC}{ \ensuremath{Z\!C}} %%
+\newcommand{\ZL}{ \ensuremath{Z\!L}} %%
+\newcommand{\ZR}{ \ensuremath{Z\!R}} %%
+\newcommand{\DR}{ \ensuremath{D\!R}} %%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          Commandes spéciales à ne pas retirer           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength{\LL} 
+
+\renewcommand{\footnoterule}{}
+
+\setcounter{tocdepth}{3}   %%  ceci permet d'obtenir les sous-sous-sections
+  							%% dans le sommaire
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Sections:                  redéfinition des corps     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+
+\renewcommand{\thepart}{\Alph{part}}
+\renewcommand{\partname}{PART}
+\@addtoreset{section}{part}
+%% \@addtoreset{page}{part}
+
+
+\renewcommand{\part}[2]{%[#2]
+      \cleardoublepage 
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\textbf{PART \thepart\hspace{1em}#1}}%
+      \thispagestyle{empty}%
+      \vspace*{\fill}% 
+       \centerline{\Huge\bfseries \partname~\thepart}%
+       \par\nobreak%
+     \begin{center}%
+     	\huge \bfseries #2%
+     \end{center}%
+     \normalfont\normalsize\vspace*{\fill}\par\pagebreak}
+
+
+\renewcommand{\section}{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\reset@font\normalsize\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\reset@font\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\reset@font\normalsize\bfseries}}
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {1.5ex \@plus .2ex} %
+                                    {\normalfont\normalsize\bfseries}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   ceci permet une numérotation des équations type 1.2.1 %
+%   et ramène le compteur à zéro à chaque sous-section    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand\theequation{\thesubsection.\arabic{equation}}
+\@addtoreset{equation}{subsection}
+
+\renewcommand{\arraystretch}{1.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Figures												  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\restylefloat{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																		   %
+%		Macros de Bernd	Raichle	pour obtenir des figures non numérotées	   %
+%					  14/06/96											   %
+%																		   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                         
+\newcommand{\unnumberedcaption}{\@dblarg{\@unnumberedcaption\@captype}}
+
+\newcommand{\@unnumberedcaption}{}% make sure it is undefined yet
+\long\def\@unnumberedcaption#1[#2]#3{\par
+  \addcontentsline{\csname ext@#1\endcsname}{#1}{%
+    % orig: \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}%
+    \protect\numberline{}{\ignorespaces #2}%
+    }%
+  \begingroup
+    \@parboxrestore
+    \normalsize
+    % orig: \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+    \@makeunnumberedcaption{\ignorespaces #3}\par
+  \endgroup}
+
+% redefine \@makeunnumberedcaption (like \@makecaption)
+% for your own layout
+\newcommand{\@makeunnumberedcaption}[1]{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1\par
+  \else
+    \global \@minipagefalse
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+% for LaTeX 2.09 compatibility, define \above/belowcaptionskip:
+\@ifundefined{abovecaptionskip}{%
+  \newlength{\abovecaptionskip}%
+  \setlength{\abovecaptionskip}{10pt}%
+}{}
+\@ifundefined{belowcaptionskip}{%
+  \newlength{\belowcaptionskip}%
+  \setlength{\belowcaptionskip}{0pt}%
+}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Tables des matières	                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\contentsname}{\large Table of contents}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Glossaires       	                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\gloss}[2]{\textbf{#1}&  #2 \dotfill  \pageref{#1}\\}

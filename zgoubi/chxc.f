@@ -1,0 +1,1091 @@
+C  ZGOUBI, a program for computing the trajectories of charged particles
+C  in electric and magnetic fields
+C  Copyright (C) 1988-2007  François Méot
+C
+C  This program is free software; you can redistribute it and/or modify
+C  it under the terms of the GNU General Public License as published by
+C  the Free Software Foundation; either version 2 of the License, or
+C  (at your option) any later version.
+C
+C  This program is distributed in the hope that it will be useful,
+C  but WITHOUT ANY WARRANTY; without even the implied warranty of
+C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C  GNU General Public License for more details.
+C
+C  You should have received a copy of the GNU General Public License
+C  along with this program; if not, write to the Free Software
+C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
+C  Boston, MA  02110-1301  USA
+C
+C  François Méot <meot@lpsc.in2p3.fr>
+C  Service Accélerateurs
+C  LPSC Grenoble
+C  53 Avenue des Martyrs
+C  38026 Grenoble Cedex
+C  France
+      SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,
+     >                                    XL,DSREF)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C     --------------------------------------------------
+C     DEFINES THE FIELD:
+C       KALC = 1: DEFINES A MAGNETIC FIELD IN THE MEDIAN
+C                 PLANE + ASSUMES MID PLANE SYM
+C       KALC = 2: READS A FIELD MAP
+C       KALC = 3: DEFINES QUAD , SEXTU , ... , MULTPL...
+C     --------------------------------------------------
+      INCLUDE 'PARIZ.H'
+C      PARAMETER (MXX=400, MXY=200)
+      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      PARAMETER(MCOEF=6)
+      COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
+C      COMMON/CHAFUI/ XE,XS,CE(6),    CS(6),    QCE(6),    QCS(6)
+      INCLUDE "MAXTRA.H"
+      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
+     > ,YCH,ZCH
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER*80 TA
+      COMMON/DONT/ TA(MXL,20)
+      PARAMETER (MDR=9)
+      COMMON/DROITE/ CA(MDR),SA(MDR),CM(MDR),IDRT
+      COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
+      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      PARAMETER(MPOL=10)
+      COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
+     >,QFM(MPOL),QE(MPOL,6),QS(MPOL,6),RTQ(MPOL) 
+      COMMON/MULTPL/ BBM(MPOL),DLE(MPOL),DLS(MPOL)
+     >,DFM(MPOL),DE(MPOL,10),DS(MPOL,10),RTB(MPOL)
+      LOGICAL ZSYM
+      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE 'MXFS.H'
+      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/STEP/ TPAS(3), KPAS
+C      COMMON/STEP/ KPAS, TPAS(3) 
+      COMMON/SYNRA/ KSYN
+      COMMON/VITES/ U(6,3),DBR(6),DDT(6) 
+
+      LOGICAL BINAR,BINARI,IDLUNI
+C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
+      CHARACTER TITL*80 , NOMFIC(20)*80, NAMFIC*80
+      DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
+      INTEGER DEBSTR,FINSTR
+ 
+      DIMENSION BREAD(3)
+
+      CHARACTER LMNT(22)*10
+      CHARACTER KTOR(2)*10
+ 
+      CHARACTER*6 ES(2)
+      LOGICAL FLIP 
+      SAVE IPREC
+      INCLUDE 'FILPLT.H'
+
+      PARAMETER (I0=0)
+
+      LOGICAL SUMAP
+      DATA SUMAP /.FALSE./
+
+      DATA (ES(I),I=1,2)/ 'ENTREE' , 'SORTIE' /
+      DATA LMNT / 'DIPOLE', 'QUADRUPOLE', 'SEXTUPOLE', 'OCTUPOLE',
+     > 'DECAPOLE' , 'DODECAPOLE', 
+     > '14-POLE', '16-POLE', '18-POLE', '20-POLE', 
+     > 'MULTIPOLE ', 8*' ', 'SOLENOID ', 'WIENFILTER', '2-ELC LENS' /
+      DATA KTOR /  'CLAMPEES', 'PARALLELES' /
+
+      SAVE YSHFT
+
+C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
+C   &  CARTE (2)
+  
+      ZSYM=.TRUE.
+      SUMAP = .FALSE.
+
+      IF(KALC .EQ. 2 ) THEN
+C------- Field is defined by maps
+
+        LF =NINT(A(NOEL,1))
+C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
+        LST = LSTSET(NINT(A(NOEL,2)))
+
+      ELSE
+C        Field is defined by analytical models
+
+        LST =LSTSET(NINT(A(NOEL,1)))
+
+      ENDIF
+
+      IF(LST.EQ.2 .OR. LST.GE.4) CALL OPEN2('CHXC',NPLT,FILPLT)
+ 
+C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
+      SCAL = SCAL0()
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
+
+      XE = 0.D0
+      XS = 0.D0
+      IDRT = 0
+      IFB = 0
+      NND = 10
+ 
+      XCE = 0.D0
+      YCE = 0.D0
+      ALE = 0.D0
+      XCS = 0.D0
+      YCS = 0.D0
+      ALS = 0.D0
+
+C----- Default values of upper order of field derivative 
+      IDE=2
+      IDB=2
+
+C----- Default values of upper order for mid-plane extrapolation
+      IDZ=2
+
+      GOTO (2001, 2002, 2003) KALC 
+ 
+ 2001 CONTINUE
+C        ... KALC = 1: defines a magnetic field in the median plane
+C            with median plane symmetry
+ 
+         XL=A(NOEL,10)
+         DSREF = XL
+         RO  =A(NOEL,11)
+         BO  =A(NOEL,12)*SCAL
+         IF(BO .EQ. 0.D0) KFLD=0
+         XI=0D0
+         XLIM=XL
+         XF=XLIM
+
+         IDZ=3
+         IDB=3
+         IRD=2
+ 
+         IF    (KUASEX .EQ. 1 )   THEN
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,108)
+ 108         FORMAT(/, 9X,' QUADRUPOLE  SPECIAL  POUR  LE  SPES2 ',/)
+             WRITE(NRES,110) XL,RO,BO
+ 110         FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
+     >             ,/,15X,' 1/2width  :',   G12.4,' cm'
+     >             ,/,15X,'       BO  :',   G12.4,' kG',/)
+           ENDIF
+           BO=BO/RO
+ 
+         ELSEIF(KUASEX .EQ. 3  .OR. KUASEX .EQ. 4) THEN
+C          ****  QUADISEX & SEXQUAD. Champ DIPOLAIRE AVEC INDICES N, N' OU N''
+ 
+           EN  =A(NOEL,20)
+           EB1 =A(NOEL,21)
+           EB2 =A(NOEL,22)
+           EG1 =A(NOEL,23)
+           EG2 =A(NOEL,24)
+ 
+           IF(NRES.GT.0) THEN
+             IF(KUASEX .EQ. 3) THEN
+C--------------- QUADISEX
+                WRITE(NRES,112)
+ 112            FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
+     >          2X,'BO(1+N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
+             ELSE
+C--------------- SEXQUAD
+                WRITE(NRES,114)
+ 114            FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
+     >          2X,'BO(N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
+             ENDIF
+ 
+             WRITE(NRES,110) XLIM,RO,BO
+             WRITE(NRES,116) EN,EB1,EB2,EG1,EG2
+ 116         FORMAT(55X,4HN = ,F10.6,' POUR  Y  POSITIF '
+     >           ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
+     >           ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
+     >           ,/,55X,4HG = ,F10.8,' POUR  Y  POSITIF'
+     >           ,/,55X,4HG = ,F10.8,' POUR  Y  NEGATIF')
+           ENDIF
+ 
+           EN = EN / RO
+           ROO = RO * RO
+           EB1 = EB1 / ROO
+           EB2 = EB2 / ROO
+           ROOO = ROO * RO
+           EG1 = EG1 / ROOO
+           EG2 = EG2 / ROOO
+
+         ELSEIF(KUASEX .EQ. 5 )   THEN
+C---------- VENUS
+           XL2 = XL / 2.D0
+           XL2RO = XL2 / RO
+           EB1 = 1.D0 / (1.D0 + XL2RO * XL2RO)
+           XLMAG = 2.D0 * RO * ATAN(XL2RO) - XL2 * EB1
+           EB1 = EB1 * BO
+
+           XI=-XL / 2.D0
+           XLIM=XL / 2.D0
+           XF=XLIM
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,118) 
+ 118         FORMAT(/, 9X,' Champ CONSTANT DANS UN RECTANGLE ',/)
+             WRITE(NRES,124) XL,RO,BO
+           ENDIF
+           IF( KP .EQ. 3 ) THEN
+
+C             Stop if XCE .ne. 0. To be provisionned...
+             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >                   STOP ' KPOS=3 does not support XCE.ne.0'
+
+C             Calculate ALE as half BL/BRho. BL_arc???
+             IF(A(NOEL,ND+NND+3) .EQ. 0.D0)   
+     >         A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/BORO)
+C Modified, FM, Dec 05 :
+C             Calculate XCE, YCE for entrance change of referential    
+             YSHFT = A(NOEL,ND+NND+2)
+             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+
+           ENDIF
+           DSREF = ABS(XLMAG)
+
+         ELSEIF(KUASEX .EQ. 6 )   THEN
+C---------- PS170
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,122)
+ 122         FORMAT(/, 9X,' Champ CONSTANT DANS UN CERCLE ',/)
+             WRITE(NRES,124) XLIM,RO,BO
+ 124         FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
+     >             ,/,15X,'   radius  :',   G12.4,' cm'
+     >             ,/,15X,'       BO  :',   G12.4,' kG',/)
+           ENDIF
+ 
+         ELSEIF(KUASEX .EQ. 7 )   THEN
+C---------- Toroidal spectro for LNS
+           EN  =A(NOEL,20)
+           EB1 =A(NOEL,21)
+           EB2 =A(NOEL,22)
+           EG1 =A(NOEL,23)
+           EG2 =A(NOEL,24)
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,173)
+ 173         FORMAT(/, 9X,' Champ TOROIDAL DANS UN RECTANGLE ',/)
+             WRITE(NRES,110) XLIM,RO,BO
+             WRITE(NRES,174) KTOR(NINT(EN)),EB1,EB2,EG1,EG2
+ 174         FORMAT(/, 15X,' GAP  A  FACES  ',A
+     >             ,/, 15X,' R1-4 = ',4F8.3,' CM',/)
+           ENDIF
+ 
+         ELSEIF(KUASEX .EQ. 8 )   THEN
+C--------- BENDING MAGNET
+
+          CALL BENDI(SCAL,
+     >                    XL,DEV)
+          KP = NINT(A(NOEL,ND+NND))
+          IF( KP .EQ. 3 ) THEN
+C            Stop if XCE .ne. 0. To be provisionned...
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >                  STOP ' KPOS=3 does not support XCE.ne.0'
+C             Calculate ALE as half deviation. 
+            IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+     >                      A(NOEL,ND+NND+3)=-DEV/2.D0
+C Modified, FM, Dec 05 :
+C             Calculate XCE, YCE for entrance change of referential    
+             YSHFT = A(NOEL,ND+NND+2)
+             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+          ENDIF
+          DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
+
+        ENDIF
+C--------- KUASEX
+
+      GOTO 91
+ 
+C---------------------------------------------------------------
+ 2002 CONTINUE
+C-------- KALC = 2: READS FIELD MAP
+
+         RFR = 0.D0
+ 
+         IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
+
+            IF(KUASEX .EQ. 2) THEN
+C---------- 2 : TOSCA. Reads a 2-D field map, assumes Bx=By=0
+              NDIM = 2
+              CALL TOSCAC(SCAL,KUASEX,NDIM, 
+     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+            ELSEIF(KUASEX.EQ.7) THEN
+C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format. 
+              NDIM = 3
+              CALL TOSCAC(SCAL,KUASEX,NDIM, 
+     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+            ENDIF
+
+         ELSE
+ 
+           IF    (KUASEX .EQ. 8) THEN
+             NDIM=1 
+           ELSE
+             NDIM=2
+           ENDIF
+ 
+           BNORM = A(NOEL,10)*SCAL
+           XNORM = A(NOEL,11)
+           YNORM = 0.D0
+           ZNORM = 0.D0
+           TITL = TA(NOEL,1)
+           IDEB = DEBSTR(TITL)
+           FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
+           IXMA = A(NOEL,20)
+           IF(IXMA.GT.MXX) 
+     >        CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
+           IF(NDIM .EQ. 1) THEN
+             JYMA=1
+           ELSE
+             JYMA = A(NOEL,21)
+             IF(JYMA.GT.MXY ) 
+     >          CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
+             IF(NDIM .EQ. 3) THEN
+               KZMA =A(NOEL,22)
+               IF(KZMA.GT.IZ ) 
+     >            CALL ENDJOB('Z-dim of map is too large,  max  is ',IZ)
+             ENDIF
+           ENDIF
+ 
+           IF    (NDIM.LE.2 ) THEN
+             I1 = 1
+             KZMA = 1
+             NFIC=0
+ 267         CONTINUE
+               NFIC = NFIC+1
+               NAMFIC = TA(NOEL,NFIC+1)
+               IFN = FINSTR(NAMFIC)
+               IDN = DEBSTR(NAMFIC)
+
+               IF(NAMFIC(IDN:IDN).EQ.'+') THEN
+C--------- Will sum (superimpose) 1D field maps if map file name is followed with 'SUM'
+                 NAMFIC = NAMFIC(IDN+1:IFN)
+                 SUMAP = .TRUE.
+               ELSE
+                 SUMAP = .FALSE.
+               ENDIF
+               NOMFIC(NFIC) = NAMFIC
+
+               IF(SUMAP) GOTO 267
+
+                 JFIC = 1
+                 IF(IDLUNI(
+     >                     LUN)) THEN
+                   BINAR=BINARI(NOMFIC(JFIC), 
+     >                                       IDUM)
+                   IF(BINAR) THEN
+                     OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),FORM='UNFORMATTED'
+     >               ,STATUS='OLD',ERR=96)
+                   ELSE
+                     OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),
+     >                                  STATUS='OLD',ERR=96)
+                   ENDIF
+                 ELSE
+                   GOTO 96 
+                 ENDIF
+            
+           ELSEIF(NDIM .EQ. 3 ) THEN
+             MOD = NINT(A(NOEL,23))
+             IF    (MOD .EQ. 0) THEN
+C-------------- The 3-D map is symmetrised /  horizontal plane
+               I1 = (KZMA/2) + 1
+             ELSEIF(MOD .EQ. 1) THEN
+               I1 = 1
+C-------------- Map may be non-symm wrt. median plane, hence motion has no z-symm. 
+               ZSYM=.FALSE.
+             ELSEIF(MOD .EQ. 12) THEN
+C------------- The all 3D map is contained in a single file
+             ENDIF
+             NFIC=0
+             DO 129 I=I1,KZMA
+               NFIC = NFIC+1
+               NAMFIC = TA(NOEL,1+NFIC)
+               NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+ 129         CONTINUE
+           ENDIF
+ 
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,209) ' Title in this field map problem :', TITL
+ 209         FORMAT(/,10X,2A)
+             WRITE(NRES,*) ' A total of',NFIC,
+     >                      ' field map(s) to be loaded :'
+             WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+ 208         FORMAT(10X,A)
+           ENDIF
+
+           BMIN =  1.D10
+           BMAX = -1.D10
+
+           IDZ=2
+           IRD = NINT(A(NOEL,40))
+           IF(IRD .EQ. 4) THEN
+             IDZ=4
+             IDB=4
+           ENDIF
+
+           IF(KUASEX .EQ. 1 ) THEN
+C----------- CARTEMES
+C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
+ 
+             IF(BINAR) THEN
+               READ(LUN) (YH(J),J=1,JYMA)
+             ELSE
+               READ(LUN,400) (YH(J),J=1,JYMA)
+             ENDIF
+             DO 212 I=1,IXMA
+               IF(BINAR) THEN
+                 READ(LUN) XH(I),(CBM(J),J=1,JYMA)
+               ELSE
+                 READ(LUN,401) XH(I),(CBM(J),J=1,JYMA)
+               ENDIF
+               DO  212  J = 1,JYMA
+                 IF(CBM(J) .GT. BMAX) THEN
+                   BMAX = CBM(J)
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                 ELSEIF(CBM(J) .LT. BMIN) THEN
+                   BMIN = CBM(J)
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                 ENDIF
+                 HC(ID,I,J,1) = CBM(J) * BNORM
+ 212         CONTINUE
+ 
+           ELSEIF(KUASEX .EQ. 3 ) THEN
+C------------ CARTE MESUREE DU SPES3 (CEA-SACLAY)
+ 
+             XX0=0D0
+             YY0=0D0
+ 
+             XX=-2.D0+XX0
+             do 510 i=1,IXMA
+               XX=XX+2.D0
+ 510           XH(I)=XX
+ 
+             YY=-2.D0+YY0
+             DO 511 J=1,JYMA
+               YY=YY+2.D0
+511            YH(J)=YY
+ 
+ 
+C      skip blocks 1 to 9
+ 
+             do 7000 i = 1,144
+              read(lun,*)
+7000         continue
+ 
+C      read in magnetic field
+ 
+              do 8000 i = 1,MXY
+                read(LUN,*)
+                kmax = 140
+                if (i.ge.101) kmax = 270
+                do 8600 k = 0,kmax,10
+                read(LUN,8103,ERR=8801,END=8802) (HC1(k+j,i),j=1,10)
+8103            format(2x,10f7.0)
+8600          continue
+8000         continue
+             GOTO 8901
+8801         IF(NRES .GT. 0) WRITE(NRES,*) ' ERROR  reading  field...'
+             IF(NRES .GT. 0) WRITE(NRES,8103) (HC1(k+j,i),j=1,10)
+             GOTO 8901
+8802         IF(NRES .GT. 0) WRITE(NRES,*) 
+     >                    ' OK !  FIN  DE  FICHIER  RENCONTREE...'
+ 
+C     inversion of x-axis and from G to kG
+ 
+8901         CONTINUE
+             do 8800 i = 1,MXY
+              do 8800 j = 1,280
+               HH = hc1(281-j,i)/1.D3
+               IF    (HH .GT. BMAX) THEN
+                 BMAX = HH
+                 XBMA = XH(281-J)
+                 YBMA = YH(I)
+               ELSEIF(HH .LT. BMIN) THEN
+                 BMIN = HH
+                 XBMI = XH(281-J)
+                 YBMI = YH(I)
+               ENDIF
+               hc(id,j,i,1) = HH
+8800         CONTINUE
+C    +++++++++++++++++++++++++++
+ 
+C     set magnetic field before target position to 0.
+ 
+             do 8820 i = 1,MXY
+              do 8820 j = 1,18
+8820            hc(id,j,i,1) = 0D0
+             IRCHA = 1
+ 
+             DO 232 I=1,IXMA
+               DO  232  J = 1,JYMA
+                 HC(ID,I,J,1) = HC(ID,I,J,1) * BNORM
+ 232         CONTINUE
+ 
+           ELSEIF(KUASEX .EQ. 4 ) THEN
+C------------ CARTE CARTESIENNE 2-D DE CHALUT
+ 
+             DO 63 J=1,55
+               READ(LUN,*)
+ 63          CONTINUE
+ 
+             DO  64  J = 1,JYMA
+               YH(J) = 2.D0*(J-1.D0)-22D0
+ 64          CONTINUE
+ 
+             DO 242 I=1,IXMA
+               READ(LUN,143) XH(I)
+ 143           FORMAT(F10.3)
+               IF(BINAR) THEN
+                 READ(LUN) (CBM(J),J=1,JYMA)
+               ELSE
+                 READ(LUN,142) (CBM(J),J=1,JYMA)
+ 142             FORMAT(7F10.3)
+               ENDIF
+               DO  242  J = 1,JYMA
+                 IF    (CBM(J) .GT. BMAX) THEN
+                   BMAX = CBM(J)
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                 ELSEIF(CBM(J) .LT. BMIN) THEN
+                   BMIN = CBM(J)
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                 ENDIF
+                 HC(ID,I,J,1) = CBM(J) * BNORM
+ 242          CONTINUE
+ 
+           ELSEIF(KUASEX .EQ. 5 ) THEN
+C------------ CARTE CARTESIENNE 2-D POISSON
+ 
+             CALL RDPOIS(LUN,IXMA,JYMA,XH,YH,CBM)
+             DO 252 J=1,JYMA
+               DO  252  I = 1,IXMA
+                 IF    (CBM(I) .GT. BMAX) THEN
+                   BMAX = CBM(I)
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                 ELSEIF(CBM(I) .LT. BMIN) THEN
+                   BMIN = CBM(I)
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                 ENDIF
+                 HC(ID,I,J,1) = CBM(I) * BNORM
+ 252         CONTINUE
+  
+           ELSEIF(KUASEX .EQ. 6 ) THEN
+C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
+ 
+             YH(1)=-91.D0
+             DO 624 J=2,JYMA
+               YH(J)=YH(J-1)+3.D0
+ 624         CONTINUE
+             XH(1)=-57.D0
+             DO 623 I=2,IXMA
+               XH(I)=XH(I-1)+3.D0
+ 623         CONTINUE
+ 
+             DO 622 I=1,IXMA
+               IF(BINAR) THEN
+                 READ(LUN,ERR=97) (CBM(J),J=1,JYMA)
+               ELSE
+                 READ(LUN,602,ERR=97) (CBM(J),J=1,JYMA)
+ 602             FORMAT(6E13.5,/,E11.5,3E13.5)
+               ENDIF
+               DO 625 J=1,JYMA
+                 IF(CBM(J) .GT. BMAX) THEN
+                   BMAX = CBM(J)
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                 ELSEIF(CBM(J) .LT. BMIN) THEN
+                   BMIN = CBM(J)
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                 ENDIF
+                 HC(ID,I,J,1) = CBM(J) * BNORM
+ 625           CONTINUE
+ 622         CONTINUE
+ 
+           ELSEIF(KUASEX.EQ.9) THEN
+C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
+C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
+             CLOSE(LUN)
+             IF(KUASEX .EQ. 9) THEN
+C-------------- No 2nd-order 25-point interpolation available with MAP2D[_E]
+               IF(IRD.EQ.25) IRD=2
+               INDEX=0
+               NT = 1
+               CALL PAVELW(INDEX,NT)
+             ENDIF
+
+             NFIC = 0
+
+             DO 12 I=I1,KZMA
+               NFIC = NFIC+1
+               IF(IDLUNI(
+     >                   LUN)) THEN
+                 BINAR=BINARI(NOMFIC(NFIC),IB)
+                 IF(BINAR) THEN
+                   OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
+     >             ,STATUS='OLD',ERR=96)
+                 ELSE
+                   OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
+                 ENDIF
+               ELSE
+                 GOTO 96
+               ENDIF
+
+               DO 10 J=1,JYMA
+                 DO  10  K = 1,IXMA
+                   IF( BINAR ) THEN
+                     READ(LUN)
+     >               YH(J),ZH(I),XH(K),BREAD(2),BREAD(3),BREAD(1)
+                   ELSE
+C------  Manip VAMOS ganil, oct 2001
+C                     READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
+                     READ(LUN,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
+     >                                      BREAD(2),BREAD(3),BREAD(1)
+
+CC----  Manip VAMOS ganil, oct 2001 
+C                     YH(J) = YH(J) * 1.D2
+C                     zH(i) = zH(i) * 1.D2
+C                     xH(k) = xH(k) * 1.D2
+
+                   ENDIF
+                   BMAX0 = BMAX
+                   BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                   IF(BMAX.NE.BMAX0) THEN
+                     XBMA = XH(K)
+                     YBMA = YH(J)
+                     ZBMA = ZH(I)
+                   ENDIF
+                   BMIN0 = BMIN
+                   BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                   IF(BMIN.NE.BMIN0) THEN
+                     XBMI = XH(K)
+                     YBMI = YH(J)
+                     ZBMI = ZH(I)
+                   ENDIF
+C FM 11/03 
+                   IF(ID.EQ.1) THEN
+                     HC(ID,K,J,I) =  BREAD(3) * BNORM
+                   ELSE
+                     DO 187 LHC=1,ID
+ 187                    HC(LHC,K,J,I) = BREAD(LHC) * BNORM
+                   ENDIF
+                   IF(I1 .GT. 1) THEN
+C--------------------- Symmetrize 3D map wrt XY plane (IZ>1)
+                     IF( I .GT. I1 ) THEN
+                       ZH(2*I1-I) = -ZH(I)
+                       FAC = -1.D0
+C                       DO 188 LHC=1,ID
+C                         IF(LHC .EQ. 3) FAC=1.D0
+C 188                     HC(LHC,K,J,2*I1-I) =  FAC * BREAD(LHC)* BNORM
+                       HC(1,K,J,2*I1-I) =   -BREAD(1)* BNORM
+                       II=2
+                       HC(II,K,J,2*I1-I) =   -BREAD(2)* BNORM
+                       II=3
+                       HC(II,K,J,2*I1-I) =   BREAD(3)* BNORM
+                     ENDIF
+                   ENDIF
+ 10            CONTINUE
+               CLOSE(UNIT=LUN)
+ 12          CONTINUE
+CCCC               close(lll) 
+
+           ELSEIF(KUASEX .EQ. 8 ) THEN
+C---------- BREVOL AND ELREVOL
+C           Read a 1-D X-map of  Bx(R=0,X)-field,
+C                            or  E(R=0,X)-field
+C                                  (x-cylindrical symmetry assumed)
+ 
+             CALL RAZ(HC,ID*IXMA)
+             JFIC = 0
+ 5521        CONTINUE
+               JFIC = JFIC+1
+               IF(IDLUNI(
+     >                   LUN)) THEN
+C Rustine pb FIT
+                  lun = 30 
+                 BINAR=BINARI(NOMFIC(JFIC),IB)
+                 IF(BINAR) THEN
+                   OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),FORM='UNFORMATTED'
+     >             ,STATUS='OLD',ERR=96)
+                 ELSE
+                   OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),STATUS='OLD',ERR=96)
+                 ENDIF
+               ELSE
+                 GOTO 96
+               ENDIF
+               DO  552  I = 1,IXMA
+                 IF(BINAR) THEN
+                   READ(LUN) XH(I),BMES
+                 ELSE
+                   READ(LUN,*) XH(I),BMES
+                 ENDIF
+                 IF    (BMES .GT. BMAX) THEN
+                   BMAX = BMES
+                   XBMA = XH(I)
+                 ELSEIF(BMES .LT. BMIN) THEN
+                   BMIN = BMES
+                   XBMI = XH(I)
+                 ENDIF
+C---------------------- Rustine collecte e+ / Jab
+                   fac=1.D0
+CCCCCCCCCCCCCCCCCCCC   if(jfic.eq.2) fac = 3.5d0    ! pour obtenir le meme champ que Jab dans le 2eme soleno
+               HC(ID,I,1,1) = HC(ID,I,1,1) + BMES * BNORM*FAC
+C---------------------------------------------------------
+C               HC(ID,I,1,1) = HC(ID,I,1,1) + BMES * BNORM
+                 XH(I) = XH(I) * XNORM
+ 552         CONTINUE
+             CLOSE(LUN)
+
+C------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat. 
+             IF(JFIC.LT.NFIC) GOTO 5521
+
+C           Motion in this lmnt has no z-symm. 
+             ZSYM=.FALSE.
+ 
+           ENDIF
+         ENDIF
+C        ... ENDIF KUASEX
+
+
+         CLOSE(UNIT=LUN)
+C close does not idle lun => makes problem with FIT !!   
+C            write(*,*) ' unit = ', lun 
+
+         XBMA = XBMA*XNORM
+         XBMI = XBMI*XNORM
+         BMAX = BMAX*BNORM
+         BMIN = BMIN*BNORM
+         XI =XH(1)
+         XF =XH(IXMA)
+         XL = XF - XI
+
+         CALL INIDRT(TITL,ND,XI,
+     >                          RCS)
+
+         IF(NRES.GT.0) THEN
+ 
+           IF(FLIP) THEN
+             IF(KUASEX .EQ. 2) THEN
+               WRITE(NRES,FMT='(/,5X,'' Field map has been flipped '')')
+             ELSE
+               WRITE(NRES,FMT='(/,5X,'' FLIP not yet implemented...'')')
+             ENDIF
+           ENDIF
+
+           WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
+     >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
+     >      BNORM,XNORM,YNORM,ZNORM,
+     >      BMIN,BMAX,IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
+  203 FORMAT(
+     >      //,5X,'Min/max fields in map       : ', 
+     >                               1P,G12.4,T64,'/ ',G12.4
+     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
+     >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4G12.4
+     >     , /,5X,'Min/max normalised fields   :', 2(G12.4,20X)
+     >     ,//,5X,'Nber of steps in X =',I4,'  NBRE DE PAS EN Y =',I5
+     >     , /,5X,'Step in X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+C     >      //,5X,'Champ MIN/MAX CARTE       : ', 
+C     >                               1P,G12.4,T64,'/ ',G12.4
+C     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
+C     >     , /,5X,'COEFF. DE NORMALISATION   :', G12.4
+C     >     , /,5X,'Champ MIN/MAX NORMALISE   :', 2(G12.4,20X)
+C     >     ,//,5X,'NBRE DE PAS EN X =',I4,'  NBRE DE PAS EN Y =',I5
+C     >     , /,5X,'PAS EN X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+           IF(IDRT .NE. 0) THEN
+             IF    (IDRT .EQ. -1) THEN
+               WRITE(NRES,403)
+     >         ES(1),CA(1)*RCS(1),SA(1)*RCS(1),CM(1)*RCS(1)
+ 403           FORMAT(5X,' DROITE  DE  COUPURE  ',A6,'  D''EQUATION'
+     >         ,5X,'(',F8.3,')*X + (',F8.3,')*Y + (',F8.3,') =0')
+             ELSEIF(IDRT .EQ. 1) THEN
+               WRITE(NRES,403)
+     >         ES(2),CA(2)*RCS(2) ,SA(2)*RCS(2) ,CM(2)*RCS(2)
+             ELSEIF(IDRT .GE. 2) THEN
+               WRITE(NRES,403) ( ES(I),CA(I)*RCS(I)
+     >         ,SA(I)*RCS(I) ,CM(I)*RCS(I) , I=1,IDRT)
+             ENDIF
+           ENDIF
+ 
+           IF    (NDIM .EQ. 1) THEN
+             WRITE(NRES,111) IRD
+           ELSEIF(NDIM .EQ. 2) THEN
+             WRITE(NRES,111) IRD
+ 111         FORMAT(/,20X,' OPTION  DE  CALCUL  :',I2)
+             IF(IRD .EQ. 2) THEN
+               WRITE(NRES,113)
+ 113           FORMAT(20X,' LISSAGE  A   9  POINTS ')
+             ELSE
+C              .... IRD=4 OU 25
+               WRITE(NRES,115)
+ 115           FORMAT(20X,' LISSAGE  A  25  POINTS ')
+             ENDIF
+           ELSEIF(NDIM .EQ. 3) THEN
+             WRITE(NRES,119) IRD
+ 119         FORMAT(/,20X,' OPTION  DE  CALCUL  :  GRILLE  3-D',2X,
+     X       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
+           ENDIF
+ 
+           IF(LF .NE. 0) CALL FMAPW('CHXC',0.D0,RFR,1)
+ 
+         ENDIF
+C         ... endif NRES>0
+ 
+         CALL MAPLI1(BMAX-BMIN)
+
+      GOTO 91
+ 
+C---------------------------------------------------------------
+ 2003 CONTINUE
+C------- KALC = 3: DIP,QUAD, ... DODECA, MULTPL, SOLENOID, WIENFILTER, COILS
+C          EL2TUB, UNIPOT
+
+        IF(KUASEX .LE. MPOL+1 )   THEN
+C---------- DIP,QUAD, ... DODECA, MULTPL
+C          B (KFLD=MG) or E (KFLD=LC) or EB (KFLD=ML)
+ 
+           IRD = KORD
+           IF(IRD .EQ. 4) IDB=4
+
+C Modif, FM, Dec. 05
+C           IF(KUASEX .EQ. MPOL+1) NND = 1
+           IF(KUASEX .EQ. MPOL+1) NND = 3
+
+           IF(KFLD .EQ. MG) THEN
+C------------ Magnetic
+             CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
+     >        DEV,RTB,XL,BBM,DLE,DLS,DFM,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+           ELSEIF(KFLD .EQ. LC) THEN
+C------------ Electric
+             CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
+     >        DEV,RTQ,XL,EM ,QLE,QLS,QFM,QE,QS,XE,XS,QCE,QCS,BORO,*95)
+           ELSEIF(KFLD .EQ. ML) THEN
+C------------ Electric & Magnetic
+             CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
+     >        DEV,RTQ,XL,EM ,QLE,QLS,QFM,QE,QS,XE,XS,QCE,QCS,BORO,*95)
+             CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
+     >        DEV,RTB,XL,BBM,DLE,DLS,DFM,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+           ENDIF
+           KP = NINT(A(NOEL,ND+NND))
+           IF( KP .EQ. 3 ) THEN
+CC             Stop if XCE .ne. 0. To be provisionned...
+C            write(*,*) 'KPOS=3 does not su', nd,nnd, 
+C     > A(NOEL,ND+NND),A(NOEL,ND+NND+1),A(NOEL,ND+NND+2),A(NOEL,ND+NND+3)  
+C             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+C     >                   STOP ' KPOS=3 does not support XCE.ne.0'
+C             Calculate ALE as half deviation. 
+             IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+     >                              A(NOEL,ND+NND+3)=-DEV/2.D0
+C Modified, FM, Feb. 05 :
+C             Calculate XCE, YCE for entrance change of referential    
+             YSHFT = A(NOEL,ND+NND+2)
+C             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+c Test, Dec. 06 :
+             XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
+             YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
+             GOTO 92
+CC Modified, FM, Dec 05 :
+CC             Calculate XCE, YCE for entrance change of referential    
+C             YSHFT = A(NOEL,ND+NND+2)
+C             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+C            write(*,*) 'KPOS=3 does not su', nd,nnd, 
+C     > A(NOEL,ND+NND),A(NOEL,ND+NND+1),A(NOEL,ND+NND+2),A(NOEL,ND+NND+3)  
+           ENDIF
+
+        ELSEIF(KUASEX .EQ. 20 )   THEN
+C--------- SOLENOID
+          CALL SOLENO(KUASEX,LMNT,SCAL,  
+     >                                 XL)
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+ 
+        ELSEIF(KUASEX .EQ. 21)   THEN
+C--------- WIENFILT
+          IDZ=2
+          CALL WIENFI(SCAL,  XL)
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+ 
+        ELSEIF(KUASEX .EQ. 22)   THEN
+C--------- EL2TUB.
+          CALL EL2TUB(SCAL,  XL)
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+ 
+        ELSEIF(KUASEX .EQ. 23)   THEN
+C--------- UNIPOT
+          CALL UNIPOT(SCAL,  XL)
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+
+        ELSEIF(KUASEX .EQ. 25)   THEN
+C--------- ELMIR
+C--------- field derivatives provided to second order (by SBR ELMIRF)
+          IDE=2
+          CALL ELMIRI(SCAL,  
+     >                     XL,DEV)
+          KP = NINT(A(NOEL,ND+NND))
+          IF( KP .EQ. 3 ) THEN
+C            Stop if XCE .ne. 0. To be provisionned...
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >                  STOP ' KPOS=3 does not support XCE.ne.0'
+C             Calculate ALE as half deviation. 
+            IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+     >       CALL ENDJOB('Stopped in ELMIR :  ALE  cannot be ',I0)
+C Modified, FM, Dec 05 :
+C             Calculate XCE, YCE for entrance change of referential    
+             YSHFT = A(NOEL,ND+NND+2)
+C             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+             XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
+             YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
+          ENDIF
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+        ELSEIF(KUASEX .EQ. 28 ) THEN
+C--------- HELIX
+          CALL HELIX(SCAL,
+     >                    XL)
+        ELSEIF(KUASEX .EQ. 29 )   THEN
+C--------- COILS
+          CALL COILS(KUASEX,SCAL,  
+     >                            XL)
+C           Motion in this lmnt has no z-symm. 
+          ZSYM=.FALSE.
+ 
+        ELSEIF(KUASEX .EQ. 30)   THEN
+C--------- UNDULATOR
+          RO=1.D10
+          CALL UNDULI(SCAL,
+     >                     XL)
+
+        ENDIF
+
+        DSREF = XL
+
+C--------------------- ENDIF KUASEX
+C-------- End 2003
+
+C------- END KALC=1-3
+
+
+C-------------------------------------------------------------------
+ 91   CONTINUE
+      XCE  = A(NOEL,ND+NND+1)
+      YCE  = A(NOEL,ND+NND+2)
+ 92   CONTINUE
+      ALE  = A(NOEL,ND+NND+3)
+      PAS = A(NOEL,ND)
+      KP = NINT(A(NOEL,ND+NND))
+
+      IF(KSCL .EQ. 1
+C------ Cavity
+     >  .OR. KSYN.EQ.1) THEN
+C------------SR Loss
+
+        IF(NRES .GT. 0)  WRITE(NRES,199) SCAL
+ 199    FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8)
+
+      ENDIF
+      IF(KFLD.GE.LC) THEN
+        IF(Q*AM .EQ. 0.D0) 
+     >  CALL ENDJOB('Give  mass  and  charge - keyword PARTICUL',-99)
+      ENDIF
+ 
+C----- Some more actions on Magnetic Multipoles, BEND, etc.  :
+C          - automatic positioning in SBR TRANSF,
+C          - warning on z-foc. if sharp edge dipole field
+
+      IF( KP .EQ. 3 )  THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
+     >     ''Automatic positioning of element, XCE, YCE, ALE  ='',
+     >                 1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE
+      ENDIF
+
+      IF( KPAS .GT. 0 ) THEN
+C------- Coded step size of form  #stp_1|stp_2|stp_3, stp_i= arbitrary integer
+C                                    entr body exit
+C      (max stp_i is MXSTEP as assigned in SBR INTEGR), 
+C                      step size = length/stp_i
+C------- KPAS=2 -> Variable step
+
+C Modif, FM, Dec. 05
+C        STP1 = A(NOEL,ND-2)
+C        STP2 = A(NOEL,ND-1)
+C        STP3 = A(NOEL,ND)
+        STP1 = A(NOEL,ND)
+        STP2 = A(NOEL,ND+1)
+        STP3 = A(NOEL,ND+2)
+        TPAS(1) = 2.D0 * XE / STP1
+        TPAS(2) = ( XL - XE - ( XLIM - XS ) ) / STP2
+        TPAS(3) = 2.D0 * ( XLIM - XS ) / STP3
+
+        IF(NRES.GT.0) WRITE(NRES,101) (TPAS(I),I=1,3), 
+     >                               INT(STP1),INT(STP2),INT(STP3)
+ 101      FORMAT(/,20X,
+     >    'Integration steps inside entrance|body|exit region : ',
+     >    /,1P,T36,3G11.3,' (cm)',
+     >       /,T36,I3,T47,I6,T58,I3)
+
+        IF(KPAS.EQ.2) THEN
+          IF(NRES.GT.0) 
+     >       WRITE(NRES,FMT='(/,25X,'' ++ Variable step ++'',/,
+     >            25X,'' PRECISION ='',1P,G12.4,/)') 10.D0**(-IPREC)
+        ENDIF
+        
+      ELSE
+
+        IF(NRES.GT.0) WRITE(NRES,102) PAS
+ 102    FORMAT(/,20X,'Integration step :',1P,G12.4,' cm',/)
+
+      ENDIF
+
+      RETURN
+
+      ENTRY CHXC1R(
+     >             KPASO)
+      KPASO = KPAS
+      RETURN
+      ENTRY CHXC1W(KPASI,IPRECI)
+      KPAS = KPASI
+      IPREC = IPRECI
+      IF(KPAS .EQ. 2) CALL DEPLAW(.TRUE.,IPREC)
+      RETURN
+
+ 97   NRES = ABS(NRES)
+      WRITE(NRES,200) '  ERROR DURING READ IN ',NOMFIC(NFIC)
+      WRITE(NRES,*) '                 AT NODE IX =',I,',  IY =',J
+      CALL ENDJOB('Execution stopped : error during READ  ',-99)
+ 96   NRES = ABS(NRES)
+      WRITE(NRES,200) '  ERROR  OPEN  FILE ',NOMFIC(NFIC)
+      CALL ENDJOB('Execution stopped : error at OPEN  file  ',-99)
+ 95   NRES = ABS(NRES)
+      WRITE(NRES,FMT=
+     > '(//,''  Error  in  data  list'')')
+      WRITE(6,FMT=
+     > '(//,''  Error  in  data  list'',
+     >        /,''    * See zgoubi.res'',//)')
+      CALL ENDJOB('Execution stopped, data list error ',-99)
+ 
+  200 FORMAT(2A)
+  201 FORMAT(11F7.2)
+ 400    FORMAT(10F8.2)
+ 401   FORMAT(10F8.1)
+  205 FORMAT(F6.0)
+  206 FORMAT(F8.5)
+  207 FORMAT(1H0,10X,'Champ TRANSPORT = ',F9.5,'KG',/)
+      END

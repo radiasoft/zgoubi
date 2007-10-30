@@ -1,0 +1,852 @@
+\documentclass[a4paper,12pt,titlepage]{article}
+
+\usepackage[french]{babel}
+\usepackage[latin1]{inputenc}
+
+\title{BIBLIOTHEQUES  \bf librpsld\rm\  et \bf libfminigraf\rm}
+\author{Laboratoire  National Saturne\\
+        Groupe Informatique\\
+        J.L.Hamel}
+\date{\today}
+
+\textwidth 16.8cm
+\textheight 23.7cm
+\oddsidemargin -.25in
+\evensidemargin -.25in
+\topmargin -1in
+\topskip 1.5cm
+\footskip 1.5cm
+%\footheight 1.5cm
+\headheight 1.5cm
+\headsep 0cm
+\sloppy
+
+\newcommand{\darg}[1]{\item[\tt #1\rm]}
+\newcommand{\fsub}[1]{\hbox {\tt SUBROUTINE #1  } \medskip }
+\newcommand{\ffun}[1]{\hbox {\tt FUNCTION   #1  } \medskip }
+
+\newenvironment{argdesc}{\begin{list}{-}{\leftmargin 8em \labelwidth 7em}}%
+{\end{list}}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{G\'en\'eralit\'es}
+%--------------------------
+
+La pr\'esente notice d\'ecrit la version UNIX actuelle des biblioth\`eques
+FORTRAN \tt lib\-fmini\-graf\rm\  (graphique sur consoles FALCO ou fen\^etres
+<< xterm >>) et
+\tt librpsld\rm\  (entr\'ee de donn\'ees au clavier) utilisables au L.N.S. sur
+stations SUN et HP.
+
+Ces biblioth\`eques assurent autant que possible la compatibilit\'e avec les
+versions tournant sur MAC68K, ATARI ST, et PC.
+
+En outre, elles comprennent d'importants perfectionnements par rapports aux
+versions pr\'e\-c\'e\-dentes.
+
+\section{Routines graphiques}
+%----------------------------
+
+    Les   modules  graphiques  pr\'esent\'es  ici  sont  con\c{c}us   pour 
+faciliter  le  trac\'e de courbes dans des syst\`emes  de  coordonn\'ees 
+vari\'es et permettre le transport de programmes graphiques sur
+diff\'erentes machines. 
+
+   La version pr\'esent\'ee ici fonctionne sous UNIX dans un environnement
+graphique de type TEKTRONIX 4014 utilisable sur terminaux FALCO et sur
+fen\^etres << xterm >> de terminaux X. Elle est impl\'ement\'ee sur SUN et
+HP.
+
+    On utilise un \'ecran graphique virtuel de $1024 \times 768$ points par
+d\'efaut, compatible TEKTRONIX. \em Afin d'assurer la portabilit\'e de
+programmes \'ecrits pour d'autres versions de ces biblioth\`eques (par
+exemple les versions pour modules graphiques MITV et MIVG, ou pour PC), il
+est possible de red\'efinir le nombre de pixels de l'\'ecran virtuel. \em
+Lorsque la pr\'esente notice parle \em d'unit\'es << \'ecran >>\em, il s'agit des
+unit\'es de \em l'\'ecran virtuel\em\ ; la biblioth\`eque assure la conversion en
+points d'\'ecrans r\'eels de fa\c{c}on transparente pour l'utilisateur.
+
+\begin{quote}
+    {\bf Important ! } Tout programme utilisant les routines graphiques
+doit commencer par un appel \`a \tt INISCA\rm\ (si n\'ecessaire) pour
+d\'efinir l'\'ecran virtuel suivi d'un appel \`a \tt INIVCF\rm\ et se
+terminer par un appel \`a \tt FINVCF\rm.
+\end{quote}
+
+\subsection{D\'efinition de l'\'ecran virtuel : \tt INISCA}
+\fsub{INISCA(NPX,NPY)}
+
+  \em  Red\'efinition des dimensions de l'\'ecran virtuel.\em
+\begin{argdesc}
+    \darg{NPX,NPY :} Entiers contenant les \em nombres de pixels moins
+		      un\em\ horizontaux et verticaux de l'\'ecran virtuel. 
+
+                 Valeurs par d\'efaut : \tt NPX\rm\ = 1023, \tt NPY\rm\  = 779
+\end{argdesc}
+
+\subsection{Init. du syst\`eme graphique : \tt INIVCF}
+\fsub{INIVCF}
+
+   \em Initialisation  du syst\`eme graphique (au  premier  appel),  et 
+restitution des param\`etres par d\'e\-faut.\em
+\begin{itemize}
+              \item L'effet de limitation d'une fen\^etre est annul\'e, mais 
+              non  la  correspondance  entre l'espace  physique et l'espace 
+              \'ecran.
+
+              \item Les  options  par  d\'efaut  pour  les   textes,   les 
+              marqueurs et le type de ligne sont r\'etablies.
+
+              \item Cette  routine doit \^etre appel\'ee au moins  une  fois 
+              avant  tout appel de fonction graphique (sous  peine 
+              de non fonctionnement ou de plantage).
+\end{itemize}
+
+\subsection{Arr\^et du syst\`eme graphique : \tt FINVCF}
+\fsub{FINVCF}
+
+    \em L'appel \`a cette routine met fin \`a l'utilisation des fonctions
+    graphiques.\em
+
+\subsection{Commutation alphanum\'erique vers graphique : \tt TXTFBG}
+\fsub{TXTFBG}
+
+   \em Commutation de l'\'ecran alphanum\'erique vers l'\'ecran graphique.\em
+
+   Cette routine, invoqu\'ee automatiquement par les fonctions de trac\'e de
+vecteur et de texte ne devrait pas normalement \^etre appel\'ee directement.
+
+\subsection{Commutation graphique vers alphanum\'erique : \tt FBGTXT}
+\fsub{FBGTXT}
+
+   \em Commutation de l'\'ecran graphique vers l'\'ecran alphanum\'erique.\em
+
+   Cette routine doit \^etre appel\'ee chaque fois que l'on d\'esire
+\'ecrire sur l'\'ecran alphanum\'erique apr\`es une op\'eration graphique.
+Elle est cependant invoqu\'ee automatiquement par les routines \tt RPSLDS\rm\
+et \tt FINVCF\rm. 
+
+\subsection{Trac\'e d'axes automatique : \tt TRAXE}
+\fsub{TRAXE(XMIN,XMAX,YMIN,YMAX,MODE)}
+
+    \em Routine de trac\'e d'axes automatique.\em
+
+\begin{argdesc}
+    \darg{XMIN,XMAX,YMIN,YMAX  :}
+              R\'eels ;  bornes de la fen\^etre en unit\'es physiques.
+    \darg{MODE  :}      Entier  de un ou deux chiffres d\'ecimaux de la  forme 
+              $xy$ ;   d\'efinit  le type des  axes.  Signification  des 
+              chiffres $x$ et $y$ ($x$ peut \^etre absent) : 
+
+              \begin{center}\begin{tabular}{ll}
+            $x$  &  0 ou absent  :  axes lin\'eaires.\\
+                 &  1  :  axe X log.    , axe Y lin\'eaire.\\
+                 &  2  :  axe X lin\'eaire, axe Y log.\\
+                 &  3  :  axes logarithmiques.\\
+            $y$  &  1  :  axes normaux sans grille.\\
+                 &  2  :  axes avec grille.\\
+                 &  3  :  axes non trac\'es.\\
+              \end{tabular}\end{center}
+\end{argdesc}
+
+\subsection{Valeur des divisions sur un axe : \tt TRGETD}
+\fsub{TRGETD(VMIN,VMAX,DIV,TIC)}
+
+    \em Routine donnant, en unit\'es physiques, la valeur des grandes et
+petites divisions sur un axe.\em
+
+    Les arguments sont des r\'eels exprim\'es en unit\'es physiques.
+
+\begin{argdesc}
+    \darg{VMIN,VMAX :} Valeurs d'entr\'ee : minimum et maximum sur l'axe.
+    \darg{DIV~,TIC~ :} Valeurs retourn\'ees : grande et petite division.
+\end{argdesc}
+
+\subsection{D\'efinition de fen\^etre graphique : \tt TRDEF}
+\fsub{TRDEF(XMIN,XMAX,YMIN,YMAX,IMIN,IMAX,JMIN,JMAX)}
+
+    \em Routine d\'efinissant la correspondance entre une fen\^etre physique
+et une fen\^etre en unit\'es de l'\'ecran virtuel. Un clipping est
+effectu\'e, limitant un dessin \`a la fen\^etre active.\em
+
+   Cette routine est utilis\'ee en particulier par \tt TRAXE\rm.
+
+\begin{argdesc}
+    \darg{XMIN,XMAX,YMIN,YMAX :}
+              R\'eels ;  bornes de la fen\^etre en unit\'es physiques.
+    \darg{IMIN,IMAX,JMIN,JMAX :}
+              Entiers ;   bornes  de  la fen\^etre  correspondante  en 
+              unit\'es de l'\'ecran.
+\end{argdesc}
+
+\subsection{Taille des caract\`eres graphiques : \tt DEFCAR}
+\fsub{DEFCAR(IHAUT,IFORM,IEFFA)}
+
+    \em Routine d\'efinissant la taille des textes \'ecrits en caract\`eres
+graphiques par la routine\em\ \tt TRTEXT\rm\em .\em
+
+   Dans cette version, cette routine est limit\'ee aux possibilit\'es des
+terminaux TEKTRONIX. Seul, le premier argument est utilis\'e, les autres ont
+\'et\'e conserv\'es pour rester compatible avec les autres versions.
+
+\begin{argdesc}
+    \darg{IHAUT :}     Entier  de 1 \`a 4 d\'efinissant la  taille.  
+              La  taille ordinaire par d\'efaut est 2.
+        \begin{center}\begin{tabular}{|c|c|c|}
+        \hline
+     \tt IHAUT\rm     & Lignes & Colonnes\\
+        \hline
+           1 & 58     & 133 \\
+           2 & 50     & 120 \\
+           3 & 38     & ~81 \\
+           4 & 35     & ~76 \\
+     \hline
+        \end{tabular}\end{center}
+    \darg{IFORM :} Entier non utilis\'e dans cette version (mettre 0).
+    \darg{IEFFA :} Entier non utilis\'e dans cette version (mettre 0).
+\end{argdesc}
+
+\subsection{D\'efinition des marqueurs : \tt DEFMKR}
+\fsub{DEFMKR(LHAUT,ITYPE)}
+
+    \em Routine  d\'efinissant  les marqueurs des  points  d'une  courbe 
+trac\'ee en mode point (option 9 de la routine\em\ \tt  INIVPH\rm \em ).\em
+
+\begin{argdesc}
+    \darg{LHAUT :} Entier ;    hauteur   en  nombre  de  points   d'\'ecran 
+              (ineffectif si \tt ITYPE\rm\ = 1 ).
+    \darg{ITYPE :}  Entier d\'efinissant le type de marqueur. 
+
+              \begin{center}\begin{tabular}{ll}
+              1 &  point d'\'ecran \'el\'ementaire (option par d\'efaut).\\
+              2 &   croix droite.\\
+              3 &   ast\'erisque.\\
+              4 &   carr\'e droit.\\
+              5 &   croix diagonale.\\
+              6 &   carr\'e diagonal.\\
+              \end{tabular}\end{center}
+\end{argdesc}
+
+\subsection{Ecriture de texte graphique : \tt TRTEXT}
+\fsub{TRTEXT(X,Y,TEXTE,IUNIT)}
+
+    \em Routine d'\'ecriture de texte graphique.\em
+
+\begin{argdesc}
+    \darg{X,Y :} R\'eels ;   coordonn\'ees  du  coin  inf\'erieur  gauche  du 
+              premier  caract\`ere du texte en unit\'es  physi\-ques  ou 
+              \'ecran selon l'argument \tt IUNIT\rm.
+    \darg{TEXTE :} Cha\^{\i}ne ou sous cha\^{\i}ne de caract\`eres 
+                (type \tt CHARACTER\rm ) 
+              contenant le texte, ou bien texte entre quotes.
+    \darg{IUNIT :} Entier  d\'efinissant le type des unit\'es pour 
+                           \tt X\rm\ et  \tt Y\rm. 
+
+              \begin{center}\begin{tabular}{ll}
+              0 &   unit\'es \'ecran.\\
+              1 &   unit\'es physiques.\\
+              \end{tabular}\end{center}
+\end{argdesc}
+
+\subsection{Type de ligne et mode point : \tt  INIVPH}
+\fsub{INIVPH(NTYPE)}
+
+    \em D\'efinition du type de ligne utilis\'e lors des trac\'es.\em
+
+\begin{argdesc}
+    \darg{NTYPE :} Entier ;  d\'efinit le type de ligne.
+
+              \begin{itemize}
+              \item[1]    trait continu (option par d\'efaut).
+              \item[2]    pointill\'es
+              \item[3]    pointill\'es et tirets
+              \item[4]    tirets courts
+              \item[5]    tirets longs
+              \item[6]    inutilis\'e
+              \item[7]    inutilis\'e
+              \item[8]    inutilis\'e
+              \item[9]    mode  point :   dans ce mode seul le point ou  le 
+                   marqueur situ\'e \`a l'extr\'emit\'e du vecteur est
+		   trac\'e (Cf. routine \tt DEFMKR\rm).
+              \end{itemize}
+\end{argdesc}
+
+\subsection{Trac\'e  de  vecteur (espace physique) : \tt VECTPH}
+\fsub{VECTPH(X,Y,MODE)}
+
+    \em Trac\'e  de  vecteur en unit\'es physiques.\em
+
+  Pour utiliser cette routine, la correspondance entre les unit\'es
+\'ecran et les unit\'es physiques doit avoir \'et\'e d\'efinie par au
+moins un appel \`a \tt TRAXE\rm\ ou \tt TRDEF\rm.
+
+\begin{argdesc}
+    \darg{X,Y :} R\'eels  repr\'esentant  les coordonn\'ees d'un  point  de 
+              l'espace physique. A chaque appel, le sous programme 
+              prend  pour origine du vecteur le point  d\'efini  par 
+              l'appel pr\'ec\'edent, et pour extr\'emit\'e le point d\'efini 
+              par l'appel courant.
+    \darg{MODE :}      Entier d\'efinissant le mode de trac\'e.
+
+              \begin{itemize}
+              \item[0]    Effacement  de  l'\'ecran  et  positionnement  du 
+                   curseur au point (\tt X,Y\rm ) sans trac\'e.
+              \item[1]    Trac\'e en mode effacement (non impl\'ement\'e).
+              \item[2]    Trac\'e en mode normal (opaque).
+              \item[3]    Trac\'e  en  mode inversion (non impl\'ement\'e).
+              \item[4]    Positionnement au point (\tt X,Y\rm ) sans trac\'e.
+              \end{itemize}
+\end{argdesc}
+
+\subsection{Trac\'e de vecteur (espace \'ecran) : \tt VECTF}
+\fsub{VECTF(IX,IY,MODE)}
+
+    \em Trac\'e de vecteur en unit\'es \'ecran.\em
+
+\begin{argdesc}
+    \darg{IX,IY :} Entiers ;   coordonn\'ees du point courant,  comme  pour 
+              \tt VECTPH\rm ,  mais en unit\'es \'ecran. 
+
+    \darg{MODE :} Entier ; mode de trac\'e ; m\^emes sp\'ecifications que
+              pour \tt VECTPH\rm , ci-dessus.
+\end{argdesc}
+
+\subsection{Trac\'e de symboles : \tt TRSYMB}
+\fsub{TRSYMB(X,Y,MODE,ISYMB,ITYPX,ITYPY,COEFX,COEFY)}
+
+    \em Trac\'e  de symboles (d\'efinis par l'utilisateur)  dans  l'espace 
+physique.\em
+
+\begin{argdesc}
+    \darg{X,Y :} R\'eels  d\'efinissant  les coordonn\'ees  de  l'\'ecran  en 
+              unit\'es physiques. 
+    \darg{MODE :}  Entier ;  mode de trac\'e.
+
+              \begin{center}\begin{tabular}{ll}
+              1 &   mode effacement (non impl\'ement\'e).\\
+              2 &   mode normal.\\
+              \end{tabular}\end{center}
+    \darg{ISYMB :} Tableau de type \tt INTEGER*2\rm\ d\'efinissant le symbole. Il 
+              s'agit d'une suite de listes de la forme :
+
+                   \centerline{$nbpoints,x_1,y_1,x_2,y_2,...\;x_n,y_n$}
+	      \noindent suivie d'un z\'ero, d\'ecrivant les trac\'es
+	      composant le symbole.  Les coordonn\'ees $x_i,y_i$ sont d\'efinies
+	      par rapport \`a un syst\`eme d'axes li\'e au symbole, avec
+	      des unit\'es arbitraires.  Les coefficients multiplicatifs
+	      \tt COEFX, COEFY\rm\ permettent le passage de ces unit\'es vers les
+	      unit\'es physiques ou \'ecran, suivant le cas. 
+    \darg{ITYPX :} Entier ;  indique l'espace utilis\'e pour le coefficient 
+              \tt COEFX\rm.
+
+              \begin{center}\begin{tabular}{ll}
+              0 &   espace \'ecran.\\
+              1 &   espace physique.\\
+              \end{tabular}\end{center}
+    \darg{ITYPY :} Entier ;  indique l'espace utilis\'e pour le coefficient 
+              \tt COEFY\rm.
+
+              \begin{center}\begin{tabular}{ll}
+              0 &   espace \'ecran.\\
+              1 &   espace physique.\\
+              \end{tabular}\end{center}
+    \darg{COEFX :} R\'eel ;  coefficient de grandissement horizontal.
+    \darg{COEFY :} R\'eel ;  coefficient de grandissement vertical.
+\end{argdesc}
+
+\subsection{Copie d'\'ecran sur fichier ou imprimante : \tt SAVECR}
+\fsub{SAVECR(NOMFIC)}
+
+    \em Sauvegarde de l'\'ecran sur un fichier au format PostScript en vue
+d'une r\'eutilisation ult\'e\-rieure (pour l'incorporer dans un document par
+exemple) ou copie d'\'ecran sur imprimante.\em
+\begin{argdesc}
+    \darg{NOMFIC :} Deux possibilit\'es :
+       \begin{description}
+          \item[Sortie sur fichier : ] Cha\^{\i}ne de caract\`eres contenant
+les cinq premiers caract\`eres du nom du fichier. Le reste du nom est
+compos\'e par le syst\`eme en vue d'\'eviter d'obtenir deux noms identiques.
+          \item[Sortie sur imprimante : ] Nom d'imprimante suivi du
+caract\`ere << : >> .\\
+Exemple  : \tt ricoh2:\rm\\
+ \em L'imprimante doit \^etre une
+imprimante PostScript.\em
+       \end{description}
+\end{argdesc}
+
+
+\section{Modules de gestion du terminal alphanum\'erique}
+%----------------------------------------------------------
+
+   Ces modules fonctionnent en environnement VTxxx (FALCO) ou << xterm >>.
+
+\subsection{Init. du terminal : \tt INITRM}
+\fsub{INITRM}
+
+Cette routine initialise le terminal en mesurant son nombre de lignes et en
+r\'eservant au bas de l'\'ecran une ligne d'informations utilisable par le
+programmeur pour donner \`a l'utilisateur des renseignements sur le
+programme en cours. Cette ligne s'affiche en vid\'eo inverse.
+
+\em Il est fortement recommand\'e d'appeler syst\'ematiquement cette routine
+en d\'ebut de programme.\em
+
+\subsection{Lecture du nombre de lignes du terminal : \tt GETPAG}
+\fsub{GETPAG(NLI)}
+
+Cette routine rend dans son argument entier \tt NLI\rm\ le nombre de lignes
+du terminal (non compris la ligne d'information).
+
+\subsection{Ecriture de la ligne d'informations : \tt WRSTAT}
+\fsub{WRSTAT(TEXTE)}
+
+Cette routine \'ecrit la cha\^{\i}ne de caract\`eres contenue dans la
+variable \tt TEXTE\rm\ de type \tt CHA\-RAC\-TER\rm\ (80 caract\`eres maximum)
+sur la ligne d'informations. Si la longueur du texte est inf\'erieure \`a 80
+caract\`eres, le texte est centr\'e automatiquement.
+
+\subsection{Init. des cl\'es PF : \tt INPFKY}
+\fsub{INPFKY(NKEY,TEXTE)}
+
+Cette routine permet de programmer les cl\'es \framebox{PF1} \ldots
+\framebox{PF4} du clavier, en associant \`a une cl\'e un texte qui sera
+envoy\'e par la frappe de cette cl\'e lors d'une entr\'ee de donn\'ees par
+la routine \tt RPSLDS\rm.
+\begin{argdesc}
+    \darg{NKEY :} Entier donnant le num\'ero de cl\'e (1 \`a 4).
+    \darg{TEXTE :} Cha\^{\i}ne contenant le texte associ\'e \`a la cl\'e (80
+                    caract\`eres maximum).
+\end{argdesc}
+
+\noindent {\bf Remarques :}
+\begin{itemize}
+    \item Les cl\'es PF ne sont utilisables qu'apr\`es les avoir arm\'ees par
+la routine \tt ENPFKY\rm.
+    \item Les cl\'es PF sont automatiquement d\'esarm\'ees apr\`es chaque
+entr\'ee par \tt RPSLDS\rm, \em ce qui efface \'egalement le contenu de la
+ligne d'informations\em.
+    \item Les cha\^{\i}nes de caract\`eres associ\'ees par d\'efaut aux cl\'es PF
+sont :  PF1, PF2, PF3, PF4.
+\end{itemize}
+
+\subsection{Armement des cl\'es PF : \tt ENPFKY}
+\fsub{ENPFKY(INFO)}
+
+Cette routine arme les cl\'es PF, et \'ecrit le texte contenu dans la
+cha\^{\i}ne
+\tt INFO\rm\ sur la ligne d'in\-for\-ma\-tions. Ce texte est sens\'e
+indiquer \`a l'utilisateur la fonction des cl\'es.
+ 
+\subsection{Positionnement du curseur : \tt SCRLOC}
+\fsub{SCRLOC(IL,IC)}
+
+    Positionnement du curseur.
+\begin{argdesc}
+    \darg{IL :}   Entier ;  num\'ero de ligne.
+    \darg{IC :}   Entier ;  num\'ero de colonne.
+\end{argdesc}
+
+\subsection{Effacement de l'\'ecran : \tt SCRCLR}
+\fsub{SCRCLR(IL,IC)}
+
+    Effet identique \`a \tt SCRLOC\rm\ avec,  en plus effacement de  l'\'ecran 
+depuis  la  position demand\'ee jusqu'au bas  de  l'\'ecran.
+
+\section{Entr\'ee de donn\'ees avec \'edition ;  modules RPSLD.}
+%---------------------------------------------------------------
+
+   Ces modules fonctionnent en environnement VTxxx (FALCO) ou << xterm >>.
+
+    Les modules RPSLD assurent les entr\'ees de donn\'ees en format libre
+sur les consoles, avec possibilit\'e de relire une ligne pr\'ec\'edemment
+\'ecrite apr\`es l'avoir \'eventuellement modifi\'ee au clavier.  
+
+Pour utiliser les modules RPSLD il faut tenir compte des remarques suivantes
+: 
+\begin{itemize}
+  \item Tout  programme ou sous programme utilisant des modules  RPSLD 
+    devra comporter les d\'e\-cla\-rations :
+ 
+    \begin{center}\begin{tabular}{l}
+                   \verb+CHARACTER*81 TAMP+\\
+                   \verb+COMMON/EDIT/TAMP+
+    \end{tabular}\end{center}
+
+  \item Toute op\'eration d'entr\'ee de donn\'ees doit d\'ebuter par un
+    appel \`a l'une des routine \tt RPSLDS\rm\ ou \tt RPSLDH\rm\ qui
+    g\`erent l'\'edition et la lecture physique de la ligne o\`u se trouvent
+    la ou les donn\'ees \`a entrer.  Ensuite, dans le cas o\'u \tt
+    RPSLDS\rm\ a \'et\'e utilis\'ee, et pour chaque donn\'ee \`a entrer
+    depuis la ligne \'edit\'ee, il faut appeler le programme de conversion
+    appropri\'e.
+
+  \item Les routines de conversion ne  comportent qu'un seul argument.
+
+  \item Dans le cas o\`u la lecture par \tt RPSLDS\rm\ est pr\'ec\'ed\'ee
+    d'une \'ecriture (sur la m\^eme ligne), cette derni\`ere doit se faire
+    dans le tampon \tt
+TAMP\rm\ ; ensuite il faut appeler \tt RPSLDS\rm, puis faire les
+    op\'erations de lecture.
+
+       \pagebreak 
+              Exemple : 
+
+    \begin{verbatim}
+        WRITE(TAMP,100)
+    100 FORMAT(' ENTREZ DEUX ENTIERS ET UN FLOTTANT :  1 23 1.23')
+        CALL RPSLDS(0)
+        CALL RPSLDI(I)
+        CALL RPSLDI(J)
+        CALL RPSLDE(X)
+    \end{verbatim}
+
+  \item Dans le cas o\`u l'entr\'ee par \tt RPSLDS\rm\ doit se faire sur une
+    ligne vierge, il suffit d'initialiser TAMP \`a blanc : 
+
+    \begin{verbatim}
+        TAMP=' '
+        CALL RPSLDS(1)
+        CALL RPSLDI(I)
+    \end{verbatim}
+
+  \item Les entr\'ees successives sont sauvegard\'ees dans une pile
+   circulaire de vingt lignes de sorte qu'il est possible, lors d'une
+   entr\'ee de donn\'ees, de rappeler les commandes pr\'ec\'edentes en
+   utilisant \em les curseurs verticaux\em\ (comme sur le VAX). Il est
+   \'egalement possible d'injecter directement par programme (nouvelle
+   routine \tt RPSLDP\rm) des lignes de texte dans la pile en vue d'un
+   rappel ult\'erieur.
+
+  \noindent {\bf Remarque.} Si l'on effectue une entr\'ee apr\`es \em avoir
+d\'eplac\'e le pointeur de pile avec les curseurs\em, celui-ci se
+place sur la position imm\'ediatement suivante dans la pile
+(comportement diff\'erent du VAX), permettant ainsi d'envoyer facilement des
+donn\'ees pr\'ea\-lablement empil\'ees en pressant alternativement les touches
+\framebox{$\downarrow$} et \framebox{Return}.
+
+  \item Lors de l'\'edition d'une ligne, outre l'utilisation des curseurs
+verticaux pour le rappel des donn\'ees de la pile, plusieurs autres
+facilit\'es ont \'et\'e ajout\'ees, pour se d\'eplacer plus rapidement dans
+la ligne \`a \'editer, g\'en\'eralement constitu\'ee de plusieurs champs
+s\'epar\'es par des espaces :
+
+       \begin{itemize}
+            \item Initialement, le curseur est plac\'e au d\'ebut du premier
+champ.
+            \item La touche \framebox{Tab} avance au d\'ebut du champ
+suivant.
+            \item L'appui simultan\'e des touches \framebox{Ctrl} et
+\framebox{H} fait passer au d\'ebut du premier champ.
+            \item L'appui simultan\'e des touches \framebox{Ctrl} et
+\framebox{E} fait passer au d\'ebut du dernier champ.
+            \item La touche \framebox{Del} efface le caract\`ere plac\'e
+avant le curseur.
+            \item L'appui simultan\'e des touches \framebox{Ctrl} et
+\framebox{A} fait basculer entre le mode << surimpression >> (par d\'efaut en
+d\'ebut d'\'edition) et le mode << insertion >>.
+       \end{itemize}
+
+\end{itemize}
+
+    Les sous-programmes (de type \tt SUBROUTINE\rm) impl\'ement\'es sont
+d\'ecrits dans les sections suivantes.
+
+\subsection{Entr\'ee de ligne avec plusieurs champs \'editables : \tt RPSLDS}
+\fsub{RPSLDS(N)}
+
+                   Ecrit le tampon TAMP sur l'\'ecran, puis
+		   g\`ere l'\'edition de la ligne par le clavier.  Si
+		   l'argument entier \tt N\rm\ n'est pas nul, l'\'edition
+		   s'effectue \`a partir du \tt N\rm i\`eme caract\`ere ; si
+		   \tt N\rm\ = 0, l'\'edition s'effectue apr\`es le
+		   caract\`ere << : >> s'il est trouv\'e, sinon \`a partir du
+		   d\'ebut de la ligne.
+
+   {\bf Remarque.} Le premier caract\`ere du tampon TAMP est trait\'e \`a
+l'impression comme un caract\`ere de format. Le caract\`ere << 1 >> provoque
+un effacement de l'\'ecran, << 0 >> un interligne suppl\'ementaire, et tout
+autre code, une \'ecriture normale. \em Ce traitement est effectu\'e
+directement par la routine, sans utiliser la sortie FORTRAN standard\em\ ; en
+effet les nouveaux compilateurs FORTRAN n'effectuent plus ce traitement. Il
+n'est donc plus n\'ecessaire, sur les machines SUN, d'ins\'erer en d\'ebut
+de programme l'instruction (non por\-ta\-ble sur d'au\-tres sys\-t\`e\-mes) :
+
+   \begin{center}
+                   \tt OPEN(6,FORM = 'p')\rm
+   \end{center}
+
+\subsection{Entr\'ee de lignes dans la pile : \tt RPSLDP}
+\fsub{   RPSLDP(N)}
+
+Cette routine effectue un traitement initial identique \`a \tt RPSLDS\rm\ ;
+le texte est imprim\'e, mais \em aucune entr\'ee au clavier n'est
+effectu\'ee\em. Au lieu de cel\`a, la partie \'editable du texte est ajout\'ee
+dans la pile pour pouvoir \^etre rappel\'ee lors d'une entr\'ee ult\'erieure
+par action sur les curseurs verticaux.
+
+\subsection{Entr\'ee d'une ligne compl\`ete : \tt RPSLDH}
+\fsub{  RPSLDH(ITAB)}
+                   Lecture de la partie \'editable de la
+		   ligne (80 caract\`eres maximum) dans un tableau entier de
+		   type \tt INTEGER~ITAB(20)\rm\ ou une cha\^{\i}ne \tt
+                   CHARACTER*80~ITAB\rm .
+
+\subsection{Entr\'ee de donn\'ees situ\'ees dans un tableau : \tt RPSDEC}
+\fsub{RPSDEC(ARG)}
+                   Si \tt ARG\rm\ est le nom d'un tableau de 20
+		   entiers ou d'une cha\^{\i}ne de 80 caract\`eres, alors les
+		   lectures ult\'erieures s'effectueront dans ce tableau.
+		   Utilisable pour analyser une ligne entr\'ee par \tt
+                   RPSLDH\rm.
+		   Si \tt ARG\rm\ = 0 , retour \`a la lecture normale au clavier.
+
+\subsection{Blocage du clavier en majuscules : \tt RPSUPP}
+\fsub{   RPSUPP(CAPS)}
+
+Si la valeur de l'argument \tt CAPS\rm\ de type \tt LOGICAL\rm\ est \tt
+.TRUE.\rm, tous les caract\`eres entr\'es par \tt RPSLDS\rm\ sont convertis
+en majuscules et imprim\'es comme tels sur l'\'ecran, quel que soit l'\'etat
+du clavier. Un appel avec la valeur \tt .FALSE.\rm\ restitue le
+fonctionnement normal.
+
+\em L'usage de cette routine est recommand\'e dans les programmes
+conversationnels ; il \'evite d'avoir \`a tester les majuscules et les
+minuscules dans le programme, et minimise les erreurs de l'op\'erateur.\em
+
+\subsection{Routines de conversion : \tt RPSLDx}
+
+Ces routines sont utilis\'ees pour lire des valeurs de diverses natures
+situ\'ees dans les champs successifs d'une ligne entr\'ee p\'ealablement par
+\tt RPSLDS\rm, ou point\'ee par \tt RPSDEC\rm.
+
+\begin{argdesc}
+\darg{RPSLDE(X) :}
+                   Lecture d'un flottant.
+
+\darg{RPSLDD(D) :}
+                   Lecture d'un flottant double pr\'ecision.
+
+\darg{RPSLDI(I) :}
+                   Lecture   d'un  entier  normal  (32  bits).
+
+\darg{RPSLDM(V) :}
+                   Lecture  d'un  mot  de  4  caract\`eres  dans  un 
+                   flottant.  Attention\rm :   la  valeur de ce mot  ne 
+                   peut  \^etre compar\'ee qu'avec une autre  variable 
+                   flottante initialis\'ee par \tt DATA\rm, et non avec une 
+                   cha\^{\i}ne de caract\`eres.
+
+\darg{RPSLDL(W) :}
+                   Lecture  d'un  mot  de  8  caract\`eres  dans  un 
+                   flottant double pr\'ecision. M\^eme remarque.
+
+\darg{RPSLDX(X) :}
+                   Si le premier caract\`ere lu est num\'erique (ou un 
+                   signe ou un point),  on lit un nombre flottant, 
+                   sinon on lit un mot de 4 caract\`eres comme  pour 
+                   \tt RPSLDM\rm.
+
+\darg{RPSLDC(C) :}
+                   Lecture  d'un complexe (partie  r\'eelle,  partie 
+                   imaginaire).
+
+\darg{RPSLDZ(I) :}
+                   Lecture d'un entier en hexad\'ecimal.
+
+\darg{RPSLDT(T) :} Lecture d'une cha\^{\i}ne (ou sous cha\^{\i}ne) de
+		   caract\`eres ne comportant pas d'es\-pa\-ce.
+\end{argdesc}
+
+\subsection{Contr\^ole des erreurs : \tt IRPSLD}
+\fsub{   IRPSLD(IER)} 
+   Routine de contr\^ole des erreurs. L'appel \`a cette routine rend dans la
+variable enti\`ere \tt IER\rm\ un code d'erreur portant sur la derni\`ere
+op\'eration de conversion, et arme le contr\^ole des erreurs. L'absence
+d'erreur est indiqu\'ee par \tt IER\rm\ = 0 .
+
+   Le contr\^ole des erreurs est d\'esarm\'e par chaque appel \`a \tt
+RPSLDS\rm. C'est pourquoi \tt IRPSLD\rm\ \em doit \^etre invoqu\'e apr\`es
+appel \`a \em
+\tt RPSLDS\rm\ \em et avant chaque routine de conversion\em.
+
+  Il peut se produire deux sortes d'erreurs d'entr\'ee de donn\'ees:
+
+  \begin{itemize}
+      \item Les donn\'ees sont syntaxiquement erron\'ees. Si le contr\^ole
+d'erreur n'est pas arm\'e, le programme est << abort\'e >> avec un message
+d'erreur. Sinon \tt IER\rm\ est strictement positif et contient un code qui
+peut d\'ependre de la machine utilis\'ee.
+
+      \item Il manque une ou plusieurs donn\'ees dans la ligne lue. Cette
+erreur n'est pas fatale, m\^eme en absence de contr\^ole, et la variable \tt
+IER\rm\ contient un nombre n\'egatif dont la valeur absolue est \'egale au
+nombre de donn\'ees manquantes.
+   \end{itemize}
+
+   En cas d'erreur, les donn\'ees lues par les programmes de conversion sont
+ainsi trait\'ees : s'il s'agit de variables num\'eriques, elles conservent
+leur pr\'ec\'edente valeur ; les variables litt\'erales sont remplies par
+des espaces.
+
+\subsection{Type des donn\'ees lues par \tt RPSLDX\rm\ : \tt JRPSLD}
+\fsub{JRPSLD(ITYPE)}
+                    Apr\`es un appel \`a \tt RPSLDX\rm, cette
+		   routine rend dans l'entier \tt ITYPE\rm\ la nature de
+		   l'argument lu :
+
+                   \begin{center}\begin{tabular}{ll} 
+                        1 &    flottant\\
+                        2 &    mot
+                   \end{tabular}\end{center}
+
+\section{Fonctions associ\'ees \`a des menus}
+%--------------------------------------------
+
+    Deux fonctions ont \'egalement \'et\'es \'ecrites pour faciliter les
+dialogues au moyen de menus.
+
+Ces fonctions posent une question et traitent les diff\'erentes r\'eponses
+possibles.
+
+\subsection{Entr\'ee d'options d\'efinies dans une cha\^{\i}ne de
+             caract\`eres : \tt IDLG}
+\ffun{IDLG(FORME,CTABREP,NREP)} 
+
+\begin{argdesc} 
+
+\darg{FORME :} Deux possibilit\'es :
+    \begin{itemize}
+          \item    cha\^{\i}ne de caract\`eres contenant le
+		   format d'impression de la question ; le texte \`a
+		   imprimer se termine par << : >>.  
+          \item    Nombre 0, ou cha\^{\i}ne de caract\`eres commen\c{c}ant
+                   par \tt CHAR(0)\rm. Dans ce cas, la question est prise
+                   dans le tampon \tt TAMP\rm\ du \tt COMMON EDIT\rm.
+    \end{itemize}
+
+   Dans les deux cas, la question sera exploit\'ee par \tt RPSLDS\rm\ et le
+   premier caract\`ere de celle-ci sera donc trait\'e en temps que
+   caract\`ere de format (Cf. \tt RPSLDS\rm).
+\darg{CTABREP :}
+		   Cha\^{\i}ne de caract\`eres contenant la succession des
+		   r\'eponses possibles (chaque r\'eponse sur 4
+		   caract\`eres, cadrage gauche).  
+\darg{NREP :} Nombre de r\'eponses possibles.  En sortie, la fonction rend le
+		   num\'ero de la r\'eponse.  
+
+       \pagebreak
+                   Exemple :
+
+                   \begin{center}\begin{tabular}{l}
+                       \verb+C-----AFFICHAGE DU MENU-----+\\
+                       \verb+      WRITE(6,100)+\\
+                       \verb+100   FORMAT('CONTINUER : C'/+\\
+                       \verb+     *       'ARRETER   : A')+\\
+                       \verb+C-----ENTREE DE LA REPONSE+\\
+                       \verb+      I=IDLG('('' CHOIX : '')','C   A   ',2)+\\
+                       \verb+      GOTO (1,2), I+
+                   \end{tabular}\end{center}
+
+                    L'entr\'ee de la r\'eponse de l'exemple pr\'ec\'edent
+                    peut \'egalement s'\'ecrire:
+                   \begin{center}\begin{tabular}{l}
+                       \verb+C-----ENTREE DE LA REPONSE+\\
+                       \verb+      TAMP=' CHOIX : C '+\\
+                       \verb+      I=IDLG(0,'C   A   ',2)+\\
+                       \verb+      GOTO (1,2), I+
+                   \end{tabular}\end{center}
+
+                    Remarquons la r\'eponse << C >> propos\'ee par d\'efaut
+                    dans ce dernier cas.
+
+\end{argdesc}              
+
+\subsection{Entr\'ee d'options d\'efinies dans un tableau : \tt IDLGA}
+\ffun{IDLGA(FORME,TABREP,NREP)} 
+
+   Cette routine est analogue \`a la pr\'ec\'edente, mais l'argument \tt
+TABREP\rm\ d\'esigne ici un tableau de \tt CHARACTER*4\rm\ dimensionn\'e \`a
+\tt NREP\rm, contenant les r\'eponses possibles.
+
+\section{Lecture de donn\'ees sur un fichier.}
+%----------------------------------------------
+
+   Les modules RPSLD sont maintenant capables de traiter des donn\'ees lues
+sur un fichier. Il suffit pour cel\`a de rediriger sur ce fichier l'entr\'ee
+standard du programme, lors du lancement de celui-ci : 
+
+\begin{center}
+     {\tt programme < fichier\_de\_donn\'ees}
+\end{center}
+
+   Le fichier de donn\'ees comportera une ligne par appel \`a \tt RPSLDS
+\rm\ ou \tt RPSLDH\rm. Afin de faciliter la relecture du fichier de
+donn\'ees par le programmeur, ce fichier pourra comporter des lignes de
+commentaires \em commen\c{c}ant par le caract\`ere\em\ << \# >>. Ces lignes
+seront ignor\'ees lors de l'ex\'ecution du programme.
+
+\section{Utilisation des biblioth\`eques.}
+%------------------------------------------
+
+    Pour pouvoir ex\'ecuter un programme graphique, il est imp\'eratif 
+que le fichier \tt .login\rm\  de l'uti\-lisa\-teur comporte les commandes : 
+  \begin{center}\begin{tabular}{l}
+     \verb+/home/etc/rpsld_login+\\
+     \verb+/home/etc/fminigraf_login+
+  \end{tabular}\end{center}
+
+    L'ex\'ecution de ces commandes initialise les variables
+d'en\-viron\-ne\-ment : 
+
+    \begin{center}\begin{tabular}{l}
+    \verb/LNK_RPSLD/\\
+    \verb/LNK_FMINIGRAF/ 
+    \end{tabular}\end{center}
+
+\noindent
+contenant les options n\'ecessaires \`a l'\'edition de lien d'un programme.
+
+    Si le fichier \tt.login \rm n'a pas \'et\'e ex\'ecut\'e, on pourra le
+lancer manuellement par:
+
+     \begin{center}
+     {\tt source ~/.login}
+     \end{center}
+
+    Pour l'\'edition de liens d'un programme, on utilisera \tt f77\rm\ sur
+SUN et \tt fort77\rm\ sur HP. Si on utilise une commande directe on ajoutera
+les options:
+
+      \begin{center}
+      \verb/$LNK_RPSLD $LNK_FMINIGRAF/
+      \end{center}
+
+\noindent
+Et dans un \tt Makefile\rm :
+
+      \begin{center}
+      \verb/$(LNK_RPSLD) $(LNK_FMINIGRAF)/
+      \end{center}
+
+   Les routines graphiques se trouvent dans la biblioth\`eque \tt
+libfminigraf\rm,
+et \em toutes les autres routines sont dans \em \tt librpsld\rm.
+
+\noindent
+   {\bf Remarque.} \em Si la biblioth\`eque \em {\tt librpsld}\em\ est utilis\'ee
+seule\em\ il faut ajouter au programme un module << bidon  >> :
+
+   \begin{center}\begin{tabular}{l}
+      \verb/SUBROUTINE FBGTXT/\\
+      \verb/RETURN/\\
+      \verb/END/
+   \end{tabular}\end{center}
+
+\end{document}

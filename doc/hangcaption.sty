@@ -1,0 +1,31 @@
+
+\newlength\captionwidth \captionwidth=\hsize
+
+\def\hangcaption{\refstepcounter\@captype\@dblarg{\@hangcaption\@captype}}
+
+\long\def\@hangcaption#1[#2]#3{%
+  \baselineskip 14.5\p@
+  \addcontentsline{\csname ext@#1\endcsname}{#1}%
+    {\protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}}%
+  \par
+  \begingroup
+    \@parboxrestore
+    \setbox\@tempboxa\hbox{\csname fnum@#1\endcsname: #3}%
+    \ifdim \wd\@tempboxa > \captionwidth
+      \begingroup
+        \setbox\@tempboxa\hbox{\csname fnum@#1\endcsname: }%
+        \advance \captionwidth by -\wd\@tempboxa
+        \@makecaption{\csname fnum@#1\endcsname}%
+            {\ignorespaces{\protect\parbox[t]{\captionwidth}{\leavevmode#3}}}%
+      \endgroup
+    \else
+      \begingroup
+        \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}%
+      \endgroup
+    \fi
+    \par\vspace{1.7ex}%
+  \endgroup}
+
+\let\isucaption\hangcaption
+
+\endinput

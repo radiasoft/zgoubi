@@ -1,0 +1,67 @@
+There are still several common files between zgoubi and zpop.  Unfortunately
+they are sufficiently different that one cannot use the one routine in both
+programs.  In addition, there is an inconsistency in zpop in the layout of the
+common block CDF (RFFAG uses the layout found in zgoubi).  I think we should
+try to make all of the common files (particularly the r* files) consistent.
+Here is the list of the remaining routines which should be checked (some of
+which are not really common routines):
+
+block.f
+debstr.f
+finstr.f
+flush2.f
+header.f
+idluni.f
+lpsfit.f
+okkt.f
+prdata.f
+raiman.f
+rautor.f
+rbend.f
+rbinar.f
+rcarte.f
+rcavit.f
+rcible.f
+rcoils.f
+rcolli.f
+rcsr.f
+rdips.f
+rebmul.f
+rel2tu.f
+relcmi.f
+relcyl.f
+relmir.f
+rffags.f
+rfit.f
+rfitgt.f
+rgasca.f
+rhelix.f
+rmcdes.f
+rmcobj.f
+rmulti.f
+rnorma.f
+robjet.f
+robjta.f
+rqsod.f
+rsepar.f
+rsimb.f
+rsolen.f
+rspn.f
+rsrlos.f
+rtrans.f
+rundul.f
+runipo.f
+rwienf.f
+sref.f
+
+Make the documentation consistent with the code.
+
+Make this compile with gfortran.
+
+Improve the Makefiles to be more portable, and propagate the relevant fortran
+compiler flags, etc.
+
+Determine if the current g77 flags are necessary, and make changes to the code
+so that they are not.
+
+Fix the warnings, in particular the one about tempnam.

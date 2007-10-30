@@ -1,0 +1,114 @@
+C  ZGOUBI, a program for computing the trajectories of charged particles
+C  in electric and magnetic fields
+C  Copyright (C) 1988-2007  François Méot
+C
+C  This program is free software; you can redistribute it and/or modify
+C  it under the terms of the GNU General Public License as published by
+C  the Free Software Foundation; either version 2 of the License, or
+C  (at your option) any later version.
+C
+C  This program is distributed in the hope that it will be useful,
+C  but WITHOUT ANY WARRANTY; without even the implied warranty of
+C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C  GNU General Public License for more details.
+C
+C  You should have received a copy of the GNU General Public License
+C  along with this program; if not, write to the Free Software
+C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
+C  Boston, MA  02110-1301  USA
+C
+C  François Méot <meot@lpsc.in2p3.fr>
+C  Service Accélerateurs
+C  LPSC Grenoble
+C  53 Avenue des Martyrs
+C  38026 Grenoble Cedex
+C  France
+      SUBROUTINE COFIN
+     >(KART,NL,LST,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
+     >                                                     *)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+C     ----------------------------------
+C     COORDONNEES ABSOLUES EN FIN DE DS
+C      APPELE PAR INTEGR
+C     ----------------------------------
+      LOGICAL EVNT
+      COMMON/AIM/ AE,AT,AS,RM,XI,XFF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "MAXTRA.H"
+      COMMON/CHAMBR/ LIMIT,IFORM,YL2,ZL2,SORT(MXT),FMAG,BMAX
+     > ,YC,ZC
+      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      COMMON/CONST2/ ZERO, UN
+      INCLUDE 'MXSTEP.H'
+      INCLUDE 'CSR.H'
+C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
+      COMMON/DEPL/ XF(3),DXF(3),DBRO,DTAR
+      COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
+     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
+      INCLUDE "MAXCOO.H"
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
+      CHARACTER LET
+      COMMON/FAISCT/ LET(MXT)
+      COMMON/GASC/ AI, DEN, KGA
+C      COMMON/MARK/ KART,KALC,KERK,KUASEX
+      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      LOGICAL ZSYM
+      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
+      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
+      COMMON/SYNRA/ KSYN
+ 
+C----- Write position M0, field at M0,  etc.
+      IF(LST .EQ. 2) CALL IMPPLT(NL,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+
+      SAR=SAR+DS
+      Y=Y+XF(2)
+      Z=Z+XF(3)
+
+CCCCC         
+C             z = .1d0
+
+
+      T=ATAN2(DXF(2),DXF(1))
+      P=ATAN( DXF(3)/SQRT(DXF(1)*DXF(1)+DXF(2)*DXF(2)) )
+C      P=ATAN2( DXF(3),SQRT(DXF(1)*DXF(1)+DXF(2)*DXF(2)) )
+      IF(QT*AMT .NE. 0.D0)      TAR = TAR + DTAR
+
+      IF(KFLD.GE.LC) BR=BR + DBRO
+
+      IF(KART .EQ. 2) THEN
+C-------- Polar coordinates
+         DX=ATAN(XF(1)/Y)
+         Y=SQRT(XF(1)*XF(1)+Y*Y)
+         X=X+DX
+         T=T+DX
+      ELSE
+         X=X+XF(1)
+      ENDIF
+ 
+      IF(EVNT) THEN 
+        IF(KSPN .EQ. 1) THEN
+C--------- Spin tracking
+          IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
+          CALL SPNTRK(IT,DS)
+C----- Coherent synchrotron radiation
+        ELSEIF(KCSR .EQ. 1) THEN
+          IF    (IPASS.EQ.1) THEN
+C----------- Store reference trajectory
+C            IF(IT .EQ. KTRA) THEN
+              CALL IMPCSR(DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+C            ENDIF
+          ELSEIF(IPASS.EQ.2) THEN
+C----------- Compute interaction undergone by current particle, due to all earlier CSR emittors
+            CALL CSRINT(DS,IMAX)
+          ENDIF
+        ELSE        
+          CALL EVENT(
+     >    DS,Y,T,Z,P,X,-DX,ZERO,ZERO,ZERO,BR,SAR,TAR,KEX,IT,
+     >    AMT,QT,BORO,KART,KSPN,IFDES,KGA,KSYN,IMAX,*99)
+        ENDIF
+      ENDIF
+      RETURN
+ 99   RETURN 1
+      END

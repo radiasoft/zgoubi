@@ -1,0 +1,10 @@
+This is ZGOUBI, a program for computing the trajectories of charged particles.
+
+The directory layout is as follows:
+
+common   : Fortran files common to zgoubi and zpop
+doc      : Documentation for zgoubi
+exemples : Examples of zgoubi input files.
+include  : Include files common to zgoubi and zpop
+zgoubi   : The zgoubi program itself
+zpop     : A program for plotting zgoubi results
