@@ -64,7 +64,7 @@ C  France
       CALL CPU_TIME(TIMSEC)
 
       WRITE(6   ,103) DMY,HMS
- 103  FORMAT(/,'  Zgoubi, version V4.99.',/,
+ 103  FORMAT(/,'  Zgoubi, version 5.0.0.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
       READAT = .TRUE.

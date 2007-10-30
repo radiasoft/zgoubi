@@ -103,7 +103,7 @@ C------- Print after defined labels. Switched on by FAISTORE.
  997  CONTINUE
       IF(READAT) READ(NDAT,103) TITRE
  103  FORMAT(A)
-      TITRE = TITRE(1:50)//'       Zgoubi Version V4.99.' 
+      TITRE = TITRE(1:50)//'       Zgoubi Version 5.0.0.' 
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
