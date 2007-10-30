@@ -26,8 +26,19 @@ C  France
       SUBROUTINE DATE2(DMY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER * (*)   DMY
+      CHARACTER*3 MM(12)
+      CHARACTER*8 DD
+      CHARACTER*10 TT
+      CHARACTER*5 ZZ
+      INTEGER VV(8)
+      DATA MM/'Jan','Feb','Mar','Apr','May','Jun',
+     $     'Jul','Aug','Sep','Oct','Nov','Dec'/
       LONG = LEN(DMY)
-      IF(LONG.GE.9) CALL DATE(DMY(1:9))
+      IF(LONG.GE.9) THEN
+         CALL DATE_AND_TIME(DD,TT,ZZ,VV)
+         WRITE(DMY,'(I2.2,1H-,A3,1H-,I2.2)')
+     $        VV(3),MM(VV(2)),MOD(VV(1),100)
+      ENDIF
       IF(LONG.GT.9) DMY=DMY(1:9)//' '      
       RETURN
       END
