@@ -68,6 +68,7 @@ C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
             IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
             IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
             IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
+            IF(SBR .EQ. 'MAIN') TXT='COORDINATES'
             IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
             IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
             TXT80 = ' ' 
