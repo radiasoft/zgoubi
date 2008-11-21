@@ -42,7 +42,7 @@
 #include <curses.h>
 #include <stdio.h>
 
-#ifdef LINUX
+#if defined(LINUX) || defined(GFORTRAN4)
 #define WRSTAT wrstat_
 #define INITRM initrm_
 #define GETPAG getpag_

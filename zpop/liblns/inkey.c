@@ -46,6 +46,22 @@
 #define SEND_INT	send_int__
 #define FSLEEP          fsleep_
 #endif
+
+#ifdef GFORTRAN4
+
+#include <stdlib.h>
+
+#define	FTSTTY		ftstty_
+#define	OPEN_KEY	open_key_
+#define	TEST_KEY	test_key_
+#define	GET_C		get_c_
+#define	PUT_C		put_c_
+#define	CLOSE_KEY	close_key_
+#define	CTRLC_KEY	ctrlc_key_
+#define SEND_INT	send_int_
+#define FSLEEP          fsleep_
+#endif
+
 #ifdef SUN
 
 #include <stdlib.h>

@@ -69,9 +69,9 @@ C     ---------------------------
      >                            FNAM,OKOPN)
 
  69     WRITE(6,FMT='(/,
-     >    ''  Max pass, max lmnt (default is'',2I,'') ?'')')
+     >    ''  Max pass, max lmnt (default is'',2I6,'') ?'')')
      >               MXPAS0, MXLM0
-        READ(5,FMT='(2I)',ERR=69,END=68) MXPAS, MXLM
+        READ(5,*,ERR=69,END=68) MXPAS, MXLM
  68     CONTINUE
         IF(MXLM.LE.0) MXLM=MXLM0
         IF(MXPAS.LE.0) MXPAS=MXPAS0
@@ -238,7 +238,7 @@ C---------- Emittance/4
             SQ=SQRT(SQ2)
             EsPi(JJ,IEL)= SQ/2.D0
             IF(SQ.EQ.0.D0) THEN
-              WRITE(6,FMT='(I,A)') JJ,'  ZERO EMITTANCE'
+              WRITE(6,FMT='(I2,A)') JJ,'  ZERO EMITTANCE'
               WRITE(6,*) '      Cannot compute beta functions...'
             ELSE
               BETA(JJ,IEL) =2.D0* SC2(JC,IEL)  /SQ

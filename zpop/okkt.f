@@ -32,7 +32,7 @@ C  France
       INCLUDE 'MAXNTR.H'          
       LOGICAL LOST(NTRMAX)
       SAVE LOST
-      DATA LOST / NTRMAX*(.FALSE.) / 
+      DATA LOST / NTRMAX*.FALSE. / 
 
       CALL FBGTXT
 

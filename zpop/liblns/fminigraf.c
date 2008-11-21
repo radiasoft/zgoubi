@@ -56,7 +56,7 @@
 
 /* GENERATION CONDITIONNELLE SELON SYSTEME */
 
-#if defined(SUN) || defined(LINUX)
+#if defined(SUN) || defined(LINUX) || defined(GFORTRAN4)
 #define TRAXE  traxe_  
 #define TRDEF  trdef_
 #define TRTEXT trtext_
@@ -73,7 +73,7 @@
 #define DEFMKR defmkr_
 #define DEFCAR defcar_
 #define TRGETD trgetd_
-#endif SUN, LINUX 
+#endif
 
 #ifdef HP
 #define TRAXE  traxe  
@@ -92,7 +92,7 @@
 #define DEFMKR defmkr
 #define DEFCAR defcar
 #define TRGETD trgetd
-#endif HP 
+#endif
 
 /* DECLARATIONS GLOBALES */
 
@@ -1465,7 +1465,7 @@ void SAVECR(savfic,nsavfic)
 
 	if(ncpr) {
 		/* namfic[nsavfic-1] = 0; */
-#if defined(SUN) || defined(LINUX)
+#if defined(SUN) || defined(LINUX) || defined(GFORTRAN4)
 		sprintf(buf,"lpr -P%s %s;rm -f %s",namfic,g_pname,g_pname);
 #endif
 #ifdef HP

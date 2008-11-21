@@ -62,7 +62,8 @@ C  France
           Y = R + YM(JJ)
           YP= -A(JJ)/B(JJ) * R + YPM(JJ)
           CALL VECTPL(Y,YP,4)      
-          DO 201 PHI=0.D0, DPI, DPI/400.D0
+          DO 201 IPHI=0,400
+            PHI = IPHI*DPI/400
             Y = R * COS(PHI)
             YP= (-A(JJ)* Y + R * SIN(PHI) )/B(JJ)  + YPM(JJ)
             Y = Y + YM(JJ)
