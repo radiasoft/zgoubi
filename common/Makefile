@@ -1,8 +1,4 @@
-FC=g77
-INCLUDE=-I../include
-FFLAGS=$(INCLUDE) -O -Wall -fno-automatic -finit-local-zero 
-
-.PHONY : all clean
+INC=../include
 
 OBJS=\
  libzg.a(date2.o)\
@@ -18,10 +14,15 @@ OBJS=\
  libzg.a(time2.o)
 
 
+.POSIX:
+
+.f.o:
+	$(FC) $(FFLAGS) -I$(INC) -c $<
+
 all : $(OBJS)
 
 clean:
 	$(RM) libzg.a *.o *~
 
-libsg.a(okkp.o) : ../include/OKKP.H
-libsg.a(rffag.o) : ../include/MXLD.H
+libsg.a(okkp.o) : $(INC)/OKKP.H
+libsg.a(rffag.o) : $(INC)/MXLD.H

@@ -1,6 +1,4 @@
-INCLUDE = -I../include
-FFLAGS	= $(INCLUDE) -O -fno-automatic -finit-local-zero
-LDFLAGS=-L../common -lzg
+INC=../include
 
 MODULEF =\
  amini.f\
@@ -174,19 +172,22 @@ MODULEF =\
 OBJECTF = $(MODULEF:.f=.o)
 OBJECTS = $(OBJECTF)
 
-.PHONY : clean
+.POSIX:
+
+.f.o:
+	$(FC) $(FFLAGS) -I$(INC) -c $<
 
 zpop  : $(OBJECTS)
-	$(MAKE) -C liblns
+	cd liblns ; $(MAKE)
 	$(FC) $(LDFLAGS) $(OBJECTS) liblns/libfminigraf.a liblns/librpsld.a -L../common -lzg -lm -lcurses -o $@
 
 clean :
-	$(MAKE) -C liblns clean
+	cd liblns ; $(MAKE) clean
 	$(RM) *.o zpop *~
 
 bin.o: MXVAR.H
-block.o: ../include/MAXTRA.H
-caltra.o: ../include/MXLD.H ../include/MXFS.H ../include/LSTKEY.H
+block.o: $(INC)/MAXTRA.H
+caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
 filcoo.o: MAXNTR.H
 graph1.o: MXVAR.H MAXNTR.H
 graph2.o: MXVAR.H
@@ -196,68 +197,68 @@ isofld.o: MXVAR.H
 lips.o: MAXNTR.H FILFAI.H
 lpscnt.o: MAXNTR.H
 lpsdrw.o: MXVAR.H MAXNTR.H
-lpsfit.o: MAXNTR.H ../include/MAXCOO.H
+lpsfit.o: MAXNTR.H $(INC)/MAXCOO.H
 okkl.o: OKKL.H
-okkt.o: MAXNTR.H ../include/OKKT.H
-opnmn.o: ../include/FILPLT.H FILFAI.H
-opnmnl.o: ../include/FILPLT.H FILFAI.H
+okkt.o: MAXNTR.H $(INC)/OKKT.H
+opnmn.o: $(INC)/FILPLT.H FILFAI.H
+opnmnl.o: $(INC)/FILPLT.H FILFAI.H
 pllips.o: MXVAR.H MAXNTR.H
-ploter.o: MXVAR.H ../include/MAXTRA.H
-pltemi.o: MXVAR.H ../include/MXLD.H FILFAI.H
+ploter.o: MXVAR.H $(INC)/MAXTRA.H
+pltemi.o: MXVAR.H $(INC)/MXLD.H FILFAI.H
 plthis.o: MXVAR.H
-pltlps.o: ../include/MAXTRA.H MXVAR.H
+pltlps.o: $(INC)/MAXTRA.H MXVAR.H
 pltopt.o: MXVAR.H
-prdata.o: ../include/MXLD.H
-rautor.o: ../include/MXLD.H
-rbend.o: ../include/MXLD.H
-rbinar.o: ../include/MXLD.H
-rcarte.o: ../include/MXLD.H
-rcavit.o: ../include/MXLD.H
-rcible.o: ../include/MXLD.H
-rcolli.o: ../include/MXLD.H
-rcsr.o: ../include/MXLD.H
-rdips.o: ../include/MXLD.H
-readco.o: MXVAR.H ../include/MXLD.H MAXNTR.H ../include/FRMFAI.H ../include/FRMPLT.H
-rebmul.o: ../include/MXLD.H
-rel2tu.o: ../include/MXLD.H
-relcmi.o: ../include/MXLD.H
-relcyl.o: ../include/MXLD.H
-relmir.o: ../include/MXLD.H
-rffags.o: ../include/MXLD.H
-rfit.o: ../include/MXLD.H
-rfitgt.o: ../include/MXLD.H
-rgasca.o: ../include/MXLD.H
-rhelix.o: ../include/MXLD.H
-rmcdes.o: ../include/MXLD.H
-rmcobj.o: ../include/MXLD.H
-rnorma.o: ../include/MXLD.H
-robjet.o: ../include/MXLD.H
-robjta.o: ../include/MXLD.H
-rscale.o: ../include/MXLD.H ../include/MXFS.H
-rsepar.o: ../include/MXLD.H
-rsimb.o: ../include/MXLD.H
-rsolen.o: ../include/MXLD.H
-rspn.o: ../include/MXLD.H ../include/MAXTRA.H
-rsrlos.o: ../include/MXLD.H
-rtrans.o: ../include/MXLD.H
-rundul.o: ../include/MXLD.H
-runipo.o: ../include/MXLD.H
-rwienf.o: ../include/MXLD.H
+prdata.o: $(INC)/MXLD.H
+rautor.o: $(INC)/MXLD.H
+rbend.o: $(INC)/MXLD.H
+rbinar.o: $(INC)/MXLD.H
+rcarte.o: $(INC)/MXLD.H
+rcavit.o: $(INC)/MXLD.H
+rcible.o: $(INC)/MXLD.H
+rcolli.o: $(INC)/MXLD.H
+rcsr.o: $(INC)/MXLD.H
+rdips.o: $(INC)/MXLD.H
+readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H
+rebmul.o: $(INC)/MXLD.H
+rel2tu.o: $(INC)/MXLD.H
+relcmi.o: $(INC)/MXLD.H
+relcyl.o: $(INC)/MXLD.H
+relmir.o: $(INC)/MXLD.H
+rffags.o: $(INC)/MXLD.H
+rfit.o: $(INC)/MXLD.H
+rfitgt.o: $(INC)/MXLD.H
+rgasca.o: $(INC)/MXLD.H
+rhelix.o: $(INC)/MXLD.H
+rmcdes.o: $(INC)/MXLD.H
+rmcobj.o: $(INC)/MXLD.H
+rnorma.o: $(INC)/MXLD.H
+robjet.o: $(INC)/MXLD.H
+robjta.o: $(INC)/MXLD.H
+rscale.o: $(INC)/MXLD.H $(INC)/MXFS.H
+rsepar.o: $(INC)/MXLD.H
+rsimb.o: $(INC)/MXLD.H
+rsolen.o: $(INC)/MXLD.H
+rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H
+rsrlos.o: $(INC)/MXLD.H
+rtrans.o: $(INC)/MXLD.H
+rundul.o: $(INC)/MXLD.H
+runipo.o: $(INC)/MXLD.H
+rwienf.o: $(INC)/MXLD.H
 spctra.o: MAXNTR.H FILFAI.H
 speana.o: MAXNTR.H
 speimp.o: MAXNTR.H
-srdwc.o: ../include/MXSTEP.H
-srdw.o: ../include/MXSTEP.H
-srdwm.o: ../include/FILPLT.H
+srdwc.o: $(INC)/MXSTEP.H
+srdw.o: $(INC)/MXSTEP.H
+srdwm.o: $(INC)/FILPLT.H
 srdwpl.o: MXVAR.H
-sref.o: ../include/MXSTEP.H MXVAR.H
-srefm.o: ../include/FILPLT.H
-srinc.o: ../include/MXSTEP.H
-srinm.o: MXVAR.H ../include/FILPLT.H
-srmen.o: ../include/FILPLT.H
+sref.o: $(INC)/MXSTEP.H MXVAR.H
+srefm.o: $(INC)/FILPLT.H
+srinc.o: $(INC)/MXSTEP.H
+srinm.o: MXVAR.H $(INC)/FILPLT.H
+srmen.o: $(INC)/FILPLT.H
 storco.o: MAXNTR.H MXVAR.H
-storig.o: ../include/MXLD.H
+storig.o: $(INC)/MXLD.H
 synaxe.o: PARCST.H
 synbox.o: PARCST.H
-xyzbr.o: MXVAR.H ../include/MXSTEP.H
+xyzbr.o: MXVAR.H $(INC)/MXSTEP.H
 zpop_diagQ.o: LMKDIM.H

@@ -1,4 +1,4 @@
-.PHONY : clean
+.POSIX:
 
 liblns.pdf : liblns.toc
 	pdflatex liblns

@@ -1,5 +1,3 @@
-.PHONY : clean
-
 ZGOUBITEX=\
  Zgoubi.tex\
  ZGlossTitl.tex\
@@ -77,6 +75,8 @@ ZGOUBIFIG=\
  G.eps\
  grid.eps\
  NewFig5.ps
+
+.POSIX:
 
 Zgoubi.pdf : Zgoubi.ps
 	ps2pdf14 Zgoubi.ps

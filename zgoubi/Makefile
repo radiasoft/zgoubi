@@ -1,9 +1,4 @@
-FC=g77
-INCLUDE=-I../include
-FFLAGS=$(INCLUDE) -O -Wall -fno-automatic -finit-local-zero 
-LDFLAGS=
-
-.PHONY : clean
+INC=../include
 
 OBJ=\
  accen.o\
@@ -319,204 +314,209 @@ OBJ=\
  zgoubi.o\
  zgoubi_main.o
 
+.POSIX:
+
+.f.o:
+	$(FC) $(FFLAGS) -I$(INC) -c $<
+
 zgoubi : $(OBJ)
 	$(FC) $(LDFLAGS) $(OBJ) -L../common -lzg -o $@
 
 clean :
 	$(RM) *.o zgoubi *~
 
-accen.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-accep.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-aimant.o: ../include/MXLD.H ../include/MAXCOO.H
-autorf.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-bendi.o: ../include/MXLD.H
-binary.o: ../include/MXLD.H
-block.o: ../include/MAXCOO.H ../include/MAXTRA.H ../include/MXFS.H
-bonul.o: ../include/MAXCOO.H ../include/MAXTRA.H
-carla.o: PARIZ.H ../include/MAXTRA.H ../include/MXLD.H
-carshi.o: PARIZ.H ../include/MXLD.H
-cavite.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H ../include/MXFS.H
-chamb.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-chamc.o: ../include/MAXTRA.H
-chamk.o: PARIZ.H ../include/MAXTRA.H
-charef.o: ../include/MAXTRA.H ../include/MAXCOO.H
-chmbre.o: ../include/MAXTRA.H
-chmbr.o: ../include/MAXTRA.H ../include/MAXCOO.H
-chrefe.o: ../include/MAXTRA.H ../include/MXSTEP.H CSR.H ../include/MXLD.H ../include/MAXCOO.H
-chxc.o: PARIZ.H ../include/MAXTRA.H ../include/MXLD.H ../include/MXFS.H ../include/FILPLT.H
-chxp.o: PARIZ.H ../include/MXLD.H ../include/MXFS.H ../include/FILPLT.H
-cible.o: ../include/MAXCOO.H ../include/MAXTRA.H ../include/MXLD.H
-cntinl.o: ../include/MAXCOO.H ../include/MAXTRA.H
-coeffs.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-cofin.o: ../include/MAXTRA.H ../include/MXSTEP.H CSR.H ../include/MAXCOO.H
-coils.o: ../include/MXLD.H
-collim.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-csri.o: ../include/MXSTEP.H ../include/MAXTRA.H CSR.H ../include/MXLD.H ../include/MAXCOO.H
-csrint.o: ../include/MXSTEP.H ../include/MAXTRA.H CSR.H ../include/MAXCOO.H
-dejaca.o: ../include/MAXTRA.H ../include/MAXCOO.H
-dipi.o: ../include/MXLD.H
-dipolm.o: PARIZ.H ../include/MAXTRA.H ../include/MXLD.H
-dipsi.o: ../include/MXLD.H
-dist2.o: ../include/MAXTRA.H ../include/MAXCOO.H
-dpkick.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H ../include/MXFS.H
-el2tub.o: ../include/MXLD.H
-elcmii.o: ../include/MXLD.H
-elcyld.o: ../include/MXLD.H
-elmiri.o: ../include/MXLD.H
-end.o: ../include/MXSTEP.H ../include/MAXTRA.H CSR.H ../include/MAXCOO.H
-endfit.o: ../include/MXLD.H
-esl.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-eslvir.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-event.o: ../include/MAXTRA.H
-fborne.o: ../include/MXLD.H
-ffagi.o: ../include/MXLD.H
-ff.o: ../include/MAXTRA.H ../include/MAXCOO.H
-ffgspi.o: ../include/MXLD.H
-fitarr.o: ../include/MXLD.H
-fitest.o: ../include/MAXCOO.H ../include/MAXTRA.H ../include/MXLD.H
-fitgtv.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-fitlav.o: ../include/MAXCOO.H ../include/MAXTRA.H
-fitlma.o: ../include/MAXCOO.H ../include/MAXTRA.H
-fitnu.o: ../include/MXLD.H
-fitset.o: ../include/MXLD.H
+accen.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+accep.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
+autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+bendi.o: $(INC)/MXLD.H
+binary.o: $(INC)/MXLD.H
+block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+bonul.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+carla.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+carshi.o: PARIZ.H $(INC)/MXLD.H
+cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+chamb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+chamc.o: $(INC)/MAXTRA.H
+chamk.o: PARIZ.H $(INC)/MAXTRA.H
+charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+chmbre.o: $(INC)/MAXTRA.H
+chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+chrefe.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+chxc.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H
+chxp.o: PARIZ.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H
+cible.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+cntinl.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+coeffs.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+cofin.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MAXCOO.H
+coils.o: $(INC)/MXLD.H
+collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
+dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dipi.o: $(INC)/MXLD.H
+dipolm.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+dipsi.o: $(INC)/MXLD.H
+dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+el2tub.o: $(INC)/MXLD.H
+elcmii.o: $(INC)/MXLD.H
+elcyld.o: $(INC)/MXLD.H
+elmiri.o: $(INC)/MXLD.H
+end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
+endfit.o: $(INC)/MXLD.H
+esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+event.o: $(INC)/MAXTRA.H
+fborne.o: $(INC)/MXLD.H
+ffagi.o: $(INC)/MXLD.H
+ff.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+ffgspi.o: $(INC)/MXLD.H
+fitarr.o: $(INC)/MXLD.H
+fitest.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+fitgtv.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+fitlav.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+fitlma.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+fitnu.o: $(INC)/MXLD.H
+fitset.o: $(INC)/MXLD.H
 fmapw.o: PARIZ.H
-focal1.o: ../include/MAXTRA.H ../include/MAXCOO.H
-focale.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-gascat.o: ../include/MAXTRA.H ../include/MAXCOO.H
-gasesl.o: ../include/MAXTRA.H ../include/MAXCOO.H
-gasini.o: ../include/MXLD.H
-helix.o: ../include/MXLD.H
-hist.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
+focal1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+focale.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+gascat.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+gasesl.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+gasini.o: $(INC)/MXLD.H
+helix.o: $(INC)/MXLD.H
+hist.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 icentr.o: PARIZ.H
-impcsr.o: ../include/MAXTRA.H ../include/MXSTEP.H CSR.H ../include/MXLD.H ../include/MAXCOO.H ../include/MXFS.H
-impdev.o: ../include/MAXTRA.H
-impfai.o: ../include/MAXTRA.H ../include/MAXCOO.H ../include/FRMFAI.H
-impplt.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H ../include/MXFS.H ../include/FRMPLT.H
-imptra.o: ../include/MAXTRA.H ../include/MAXCOO.H
-impvar.o: ../include/MXLD.H
-inidrt.o: ../include/MXLD.H
-initra.o: ../include/MAXTRA.H ../include/MAXCOO.H
-integr.o: ../include/MXSTEP.H
-intplf.o: ../include/MAXTRA.H
+impcsr.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+impdev.o: $(INC)/MAXTRA.H
+impfai.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
+impplt.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/FRMPLT.H
+imptra.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+impvar.o: $(INC)/MXLD.H
+inidrt.o: $(INC)/MXLD.H
+initra.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+integr.o: $(INC)/MXSTEP.H
+intplf.o: $(INC)/MAXTRA.H
 jcentr.o: PARIZ.H
 krtax.o: PARIZ.H
-kstop.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H ../include/MXFS.H
-lign.o: ../include/MAXTRA.H ../include/MAXCOO.H
-lpsfit.o: ../include/MAXCOO.H ../include/MAXTRA.H
-majtra.o: ../include/MAXCOO.H ../include/MAXTRA.H
-mat1.o: ../include/MAXTRA.H ../include/MAXCOO.H
-mat2.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-matimp.o: ../include/MAXCOO.H ../include/MAXTRA.H
-matric.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-mcdes.o: ../include/MAXTRA.H ../include/MAXCOO.H
-mcdesi.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-mcdesl.o: ../include/MAXTRA.H ../include/MAXCOO.H
-mcobj1.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-mcobj3.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-mcobj.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-mix.o: ../include/MAXCOO.H
-mksa.o: ../include/MAXCOO.H
-modord.o: ../include/MXLD.H
-multip.o: ../include/MAXTRA.H
-multpo.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MXFS.H
-normal.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-obj3.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H ../include/FRMFAI.H
-obj5.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-obj6.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-obj8.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-objeta.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-objets.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-objtrk.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-okkt.o: ../include/OKKT.H
-partic.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-path.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
+kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+majtra.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+mat1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+mat2.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+matimp.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+matric.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+mcdes.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+mcdesi.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+mcdesl.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+mcobj1.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+mcobj3.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+mcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+mix.o: $(INC)/MAXCOO.H
+mksa.o: $(INC)/MAXCOO.H
+modord.o: $(INC)/MXLD.H
+multip.o: $(INC)/MAXTRA.H
+multpo.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+normal.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+obj3.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
+obj5.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+obj6.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+obj8.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+okkt.o: $(INC)/OKKT.H
+partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+path.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 pavel.o: PARIZ.H
-pckup.o: ../include/MAXTRA.H ../include/MAXCOO.H
-pltdat.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-polmes.o: PARIZ.H ../include/MXLD.H
-prdata.o: ../include/MXLD.H
-quasex.o: ../include/MXLD.H ../include/MAXCOO.H
-rautor.o: ../include/MXLD.H
-raysyn.o: ../include/MXLD.H ../include/MXFS.H ../include/MAXTRA.H
-rbend.o: ../include/MXLD.H
-rbinar.o: ../include/MXLD.H
-rcarte.o: ../include/MXLD.H
-rcavit.o: ../include/MXLD.H
-rcible.o: ../include/MXLD.H
-rcolli.o: ../include/MXLD.H
-rcsr.o: ../include/MXLD.H
-rdip.o: ../include/MXLD.H
-rdips.o: ../include/MXLD.H
-rebel.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-rebmul.o: ../include/MXLD.H
-refer.o: ../include/MAXCOO.H ../include/MAXTRA.H
-rel2tu.o: ../include/MXLD.H
-relcmi.o: ../include/MXLD.H        
-relcyl.o: ../include/MXLD.H
-relmir.o: ../include/MXLD.H        
-rempli.o: ../include/MXLD.H
-reset.o: ../include/MAXTRA.H ../include/MAXCOO.H ../include/MXFS.H
-rfaist.o: ../include/MXLD.H
-rffags.o: ../include/MXLD.H
-rfit.o: ../include/MXLD.H
-rfitgt.o: ../include/MXLD.H
-rgasca.o: ../include/MXLD.H
-rhelix.o: ../include/MXLD.H
-rmcdes.o: ../include/MXLD.H
-rmcobj.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-rnorma.o: ../include/MXLD.H
-robjet.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-robjta.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-rparti.o: ../include/MXLD.H
-rscal.o: ../include/MXLD.H ../include/MXFS.H
-rsepar.o: ../include/MXLD.H
-rsimb.o: ../include/MXLD.H
-rspn.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-rsrlos.o: ../include/MXLD.H
-rtrans.o: ../include/MXLD.H
-rundul.o: ../include/MXLD.H
-runipo.o: ../include/MXLD.H
-rwienf.o: ../include/MXLD.H        
-scaler.o: ../include/MXFS.H ../include/MXLD.H
-scalin.o: ../include/MXLD.H ../include/MXFS.H
-scumul.o: ../include/MAXCOO.H
-separa.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
+pckup.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+pltdat.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+polmes.o: PARIZ.H $(INC)/MXLD.H
+prdata.o: $(INC)/MXLD.H
+quasex.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
+rautor.o: $(INC)/MXLD.H
+raysyn.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MAXTRA.H
+rbend.o: $(INC)/MXLD.H
+rbinar.o: $(INC)/MXLD.H
+rcarte.o: $(INC)/MXLD.H
+rcavit.o: $(INC)/MXLD.H
+rcible.o: $(INC)/MXLD.H
+rcolli.o: $(INC)/MXLD.H
+rcsr.o: $(INC)/MXLD.H
+rdip.o: $(INC)/MXLD.H
+rdips.o: $(INC)/MXLD.H
+rebel.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+rebmul.o: $(INC)/MXLD.H
+refer.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+rel2tu.o: $(INC)/MXLD.H
+relcmi.o: $(INC)/MXLD.H        
+relcyl.o: $(INC)/MXLD.H
+relmir.o: $(INC)/MXLD.H        
+rempli.o: $(INC)/MXLD.H
+reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+rfaist.o: $(INC)/MXLD.H
+rffags.o: $(INC)/MXLD.H
+rfit.o: $(INC)/MXLD.H
+rfitgt.o: $(INC)/MXLD.H
+rgasca.o: $(INC)/MXLD.H
+rhelix.o: $(INC)/MXLD.H
+rmcdes.o: $(INC)/MXLD.H
+rmcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+rnorma.o: $(INC)/MXLD.H
+robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+rparti.o: $(INC)/MXLD.H
+rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H
+rsepar.o: $(INC)/MXLD.H
+rsimb.o: $(INC)/MXLD.H
+rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+rsrlos.o: $(INC)/MXLD.H
+rtrans.o: $(INC)/MXLD.H
+rundul.o: $(INC)/MXLD.H
+runipo.o: $(INC)/MXLD.H
+rwienf.o: $(INC)/MXLD.H        
+scaler.o: $(INC)/MXFS.H $(INC)/MXLD.H
+scalin.o: $(INC)/MXLD.H $(INC)/MXFS.H
+scumul.o: $(INC)/MAXCOO.H
+separa.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 serv2.o: PARIZ.H
 serv32.o: PARIZ.H
 serv34.o: PARIZ.H
 serv4.o: PARIZ.H
 serv5.o: PARIZ.H
-settim.o: ../include/MAXCOO.H ../include/MAXTRA.H
-soleno.o: ../include/MXLD.H
-spn.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-spnprn.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H
-spnprt.o: ../include/MAXTRA.H ../include/MAXCOO.H
-spnrot.o: ../include/MAXTRA.H ../include/MAXCOO.H
-spntrk.o: ../include/MAXTRA.H
-sref.o: ../include/MXSTEP.H ../include/MAXTRA.H CSR.H ../include/MAXCOO.H
-srloss.o: ../include/MXLD.H
-srprn.o: ../include/MXLD.H
-stpsiz.o: ../include/MXLD.H
-synpar.o: ../include/MXLD.H
-toroid.o: ../include/MAXTRA.H
-toscac.o: PARIZ.H ../include/MAXTRA.H ../include/MXLD.H
-toscap.o: PARIZ.H ../include/MAXTRA.H ../include/MXLD.H
-trace.o: ../include/MAXTRA.H ../include/MAXCOO.H
-track.o: ../include/MXLD.H
-transf.o: ../include/MAXTRA.H ../include/MXSTEP.H CSR.H ../include/MXLD.H ../include/MAXCOO.H ../include/MXFS.H
-transm.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-traobj.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-trarot.o: ../include/MAXTRA.H ../include/MXSTEP.H CSR.H ../include/MXLD.H ../include/MAXCOO.H
-trbeam.o: ../include/MXLD.H ../include/MXFS.H
-trobj.o: ../include/MAXTRA.H ../include/MXLD.H ../include/MAXCOO.H
-trrote.o: ../include/MAXTRA.H ../include/MAXCOO.H
-twiss.o: ../include/MXLD.H ../include/MAXCOO.H ../include/MAXTRA.H
-undulia.o: ../include/MXLD.H
-unduli.o: ../include/MXLD.H
-unipot.o: ../include/MXLD.H
-waist.o: ../include/MAXTRA.H ../include/MAXCOO.H
-wedgki.o: ../include/MAXCOO.H
-wienfi.o: ../include/MXLD.H
-ymoiny.o: ../include/MAXTRA.H ../include/MAXCOO.H
-zgoubi.o: ../include/MXLD.H ../include/MAXTRA.H ../include/MAXCOO.H ../include/MXFS.H PARIZ.H ../include/FILPLT.H ../include/LSTKEY.H
-zgoubi_main.o: ../include/MXLD.H
+settim.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+soleno.o: $(INC)/MXLD.H
+spn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spnprt.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spnrot.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spntrk.o: $(INC)/MAXTRA.H
+sref.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
+srloss.o: $(INC)/MXLD.H
+srprn.o: $(INC)/MXLD.H
+stpsiz.o: $(INC)/MXLD.H
+synpar.o: $(INC)/MXLD.H
+toroid.o: $(INC)/MAXTRA.H
+toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+toscap.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+trace.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+track.o: $(INC)/MXLD.H
+transf.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+transm.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+traobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+trarot.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+trbeam.o: $(INC)/MXLD.H $(INC)/MXFS.H
+trobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+trrote.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+twiss.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+undulia.o: $(INC)/MXLD.H
+unduli.o: $(INC)/MXLD.H
+unipot.o: $(INC)/MXLD.H
+waist.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+wedgki.o: $(INC)/MAXCOO.H
+wienfi.o: $(INC)/MXLD.H
+ymoiny.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H
+zgoubi_main.o: $(INC)/MXLD.H

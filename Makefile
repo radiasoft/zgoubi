@@ -1,17 +1,21 @@
-.PHONY : all clean doc
+CFLAGS=-g -DGFORTRAN4
+FC=gfortran
+FFLAGS=-O -Wall -fno-automatic -finit-local-zero
+
+.POSIX:
 
 all :
-	$(MAKE) -C common
-	$(MAKE) -C zgoubi
-	$(MAKE) -C zpop
+	cd common ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zgoubi ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zpop ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 
 clean :
 	$(RM) *~
-	$(MAKE) -C common clean
-	$(MAKE) -C zgoubi clean
-	$(MAKE) -C zpop clean
-	$(MAKE) -C doc clean
+	cd common ; $(MAKE) clean
+	cd zgoubi ; $(MAKE) clean
+	cd zpop ; $(MAKE) clean
+	cd doc ; $(MAKE) clean
 
-doc :
-	$(MAKE) -C doc
-	$(MAKE) -C zpop/liblns/doc
+docs :
+	cd doc ; $(MAKE)
+	cd zpop/liblns/doc ; $(MAKE)
