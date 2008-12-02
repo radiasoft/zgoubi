@@ -1,6 +1,6 @@
 To build, make any necessary modifications to the Makefiles in the main
 directory, common, doc, zgoubi, zpop, zpop/liblns, and zpop/liblns/doc, and
-type "make" (to build the programs) or "make doc" (to build the documentation.
+type "make" (to build the programs) or "make docs" (to build the documentation).
 This should build zgoubi, zpop, and the documentation.
 
 The makefiles should work on a system with g77.
