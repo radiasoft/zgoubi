@@ -56,12 +56,7 @@ sref.f
 
 Make the documentation consistent with the code.
 
-Make this compile with gfortran.
-
-Improve the Makefiles to be more portable, and propagate the relevant fortran
-compiler flags, etc.
-
-Determine if the current g77 flags are necessary, and make changes to the code
+Determine if the current FFLAGS are necessary, and make changes to the code
 so that they are not.
 
 Fix the warnings, in particular the one about tempnam.
