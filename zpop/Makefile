@@ -171,15 +171,18 @@ MODULEF =\
 # obtient la liste des .o a partir des .f :
 OBJECTF = $(MODULEF:.f=.o)
 OBJECTS = $(OBJECTF)
+LNSLIBS = liblns/libfminigraf.a liblns/librpsld.a
 
 .POSIX:
 
 .f.o:
 	$(FC) $(FFLAGS) -I$(INC) -c $<
 
-zpop  : $(OBJECTS)
+zpop  : $(OBJECTS) build_liblns
+	$(FC) $(LDFLAGS) $(OBJECTS) $(LNSLIBS) -L../common -lzg -lm -lcurses -o $@
+
+build_liblns :
 	cd liblns ; $(MAKE)
-	$(FC) $(LDFLAGS) $(OBJECTS) liblns/libfminigraf.a liblns/librpsld.a -L../common -lzg -lm -lcurses -o $@
 
 clean :
 	cd liblns ; $(MAKE) clean
