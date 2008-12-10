@@ -143,7 +143,7 @@ C      CHARACTER CMND*70
           IF(KL1.EQ.-1) THEN
             WRITE(TXTL,FMT='(A5)') '* all'
           ELSE
-            WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,A,KL2
+            WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,KL2
           ENDIF
 C          IF(LM.EQ.-1) THEN
 C             WRITE(TXTL,FMT='(A5)') '* all'
@@ -220,7 +220,7 @@ C 79       CONTINUE
             IF(KL1.EQ.-1) THEN
               WRITE(TXTL,FMT='(A5)') '* all'
             ELSE
-              WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,A,KL2
+              WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,KL2
             ENDIF
 C            IF(LM.EQ.-1) THEN
 C              WRITE(TXTL,FMT='(A5)') '* all'
