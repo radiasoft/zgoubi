@@ -1418,14 +1418,17 @@ void SAVECR(savfic,nsavfic)
 	strncpy(namfic,savfic,nsavfic);
 	namfic[nsavfic] = 0;
 
-	if(ncpr = (char *)strchr(namfic,':')) *ncpr = 0;
+	if(ncpr = (char *)strchr(namfic,':'))
+	  {
+	    *ncpr = 0;
+	    g_pname = tempnam(".",namfic);
+	  }
 
-	g_pname = tempnam(".",namfic);
-
-       	if ( (g_ppsc = fopen(g_pname,"w")) == 0) {
+       	if ( (g_ppsc = fopen(ncpr ? g_pname : namfic,"w")) == 0) {
                 perror("Erreur ouverture fichier PostScript:");
 		exit(-1);
        	}
+
 	fputs("%!PS-Adobe-2.0 EPSF-2.0\n",g_ppsc);
 	fprintf(g_ppsc,"%%%%Title: %s\n",namfic);
 	fprintf(g_ppsc,"%%%%Titre: %s\n",namfic);
@@ -1472,8 +1475,8 @@ void SAVECR(savfic,nsavfic)
 #endif
 
 		system(buf);
+		free(g_pname);
 	}
-	free(g_pname);
 }
 
 /* Fin fichier PostScript*/
