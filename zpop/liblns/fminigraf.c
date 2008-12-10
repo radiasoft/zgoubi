@@ -1408,7 +1408,7 @@ void SAVECR(savfic,nsavfic)
 	int nsavfic;
 
 {
-	char buf[100], *g_pname, namfic[50], *ncpr=0;
+	char buf[100], *g_pname, namfic[50], *ncpr;
 	int i;
 
 	if(!v_init) return;
