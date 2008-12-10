@@ -1408,7 +1408,7 @@ void SAVECR(savfic,nsavfic)
 	int nsavfic;
 
 {
-	char buf[100], *g_pname, namfic[50], *ncpr;
+	char buf[100], *g_pname, namfic[50], *ncpr, *ncbl;
 	int i;
 
 	if(!v_init) return;
@@ -1423,6 +1423,7 @@ void SAVECR(savfic,nsavfic)
 	    *ncpr = 0;
 	    g_pname = tempnam(".",namfic);
 	  }
+        if(ncbl = (char *)strchr(namfic,' ')) *ncbl = 0;
 
        	if ( (g_ppsc = fopen(ncpr ? g_pname : namfic,"w")) == 0) {
                 perror("Erreur ouverture fichier PostScript:");
