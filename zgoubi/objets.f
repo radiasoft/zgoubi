@@ -96,7 +96,6 @@ C----- Was necessary for FIT procedure when time is constrained :
 
       KOBJ = A(NOEL,10)
       KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
-      IF (KOBJ.NE.5) KOBJ2 = KOBJ2/10
 
       GOTO( 1, 2,16,97,50,60,1 ,80),KOBJ
 

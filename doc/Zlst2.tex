@@ -2180,12 +2180,12 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \KOBJ           \>Option index            \>1-6    \>I \\
  \\
-\textbf{if KOBJ = 1[.1]}      \> [Non-] Symmetric object \> \> \\
+\textbf{if KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
 \\
  \textsl{IY, IT, IZ, IP, IX, ID}  
  \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP**IX*ID $\leq \imax$ } \> 6*1  \\
  \>Total number of points in $\pm Y$, $\pm T$, $\pm Z$, $\pm P$ \> \> \\ 
-		\> [$+Z$, $+P$ with KOBJ = 1.1], $\pm X$.    \> \>\\
+		\> [$+Z$, $+P$ with KOBJ = 1.01], $\pm X$.    \> \>\\
  \>and $\pm D$ coordinates ($IY \leq 20$,...,$ID \leq 20$)   \> \>\\
  \\
  \textsl{PY, PT, PZ, PP, PX, PD}
@@ -2211,9 +2211,10 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \>number $I$ is calculated. If $IEX(I)=-9$, it    \> \> \\
  \>is not calculated \>\>\\
  \\
-\textbf{If KOBJ=3[.I, I=0,1]}      \>Reads coordinates from a storage file \> \> \\
-                     \> I=0 : zgoubi.fai like data file FORMAT  \> \> \\
-                     \> I=1 : read FORMAT is \texttt{\small``READ(NL,*,ERR=97,END=95) Y,T,Z,P,S,DP''}   \> \> \\
+\textbf{If KOBJ=3[.NN,}\\
+\hskip1em\textbf{NN=00,01]}      \>Reads coordinates from a storage file \> \> \\
+                     \> NN=00 : zgoubi.fai like data file FORMAT  \> \> \\
+                     \> NN=01 : read FORMAT is \texttt{\small``READ(NL,*,ERR=97,END=95) Y,T,Z,P,S,DP''}   \> \> \\
  \\
  \textsl{IT1, IT2, ITStep}     \> Read particles numbered IT1 to IT2, step ITStep
               \> $\geq 1$, $\geq IT1$, $\geq 1$ \>3*I\\

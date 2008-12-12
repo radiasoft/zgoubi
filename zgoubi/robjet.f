@@ -52,7 +52,6 @@ C----- KOBJ
 C----- KOBJ may be of the form "K.K2"
       K=INT(A(NOEL,10))
       K2 = NINT(100.D0*A(NOEL,10)) - 100*K
-      IF (K.NE.5) K2 = K2/10
       
       IF(K .LT. 0) K=-K
 
