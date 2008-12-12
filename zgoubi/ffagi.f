@@ -1474,6 +1474,8 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
          DYR3TAS  =  YR3TA  -  YOR3TAS
          DY2R2TAS =  Y2R2TA -  YO2R2TAS
          
+         ROOT2S  = ROOTS*ROOTS
+         ROOT3S  = ROOT2S*ROOTS
          ROOT5S  = ROOT2S*ROOT3S
          ROOT7S  = ROOT5S*ROOT2S
 
@@ -1600,7 +1602,7 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
      >        + 8*DS*GA3ROS*GAPS2*GAROS
      >        -12*GAPS*GAROS*GAROS*(3*DS*GA2ROS-(SIGNS*D2ROS)*GAPS)
      >        -4*GAPS3*((SIGNS*D1ROS)*GA3ROS+(SIGNS*D3ROS)*GAROS)   
-     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5  
+     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5
          PPPTAS = ULS*(SIGNS*D1TTAS)*PPPP
          PP2TAS = ULS*((SIGNS*D2TTAS)*PPP 
      >        + (SIGNS*D1TTAS)*ULS*(SIGNS*D1TTAS)*PPPP)
@@ -1799,7 +1801,7 @@ C********************* TRANSFORMATION EN COORDONNEES CARTESIENNES *************
       BZXXY = -2.D0*R13*B2TTA - R12*BRO + R11*B2RO  
       BZXYY = 2.D0*R13*BTTA - 2.D0*R12*BRTA             
 
-      IF (IDB.EQ.1) THEN
+      IF (IDB.EQ.4) THEN
          
          D3HRC = ((COEF-2)/RO)*D2HRC
          D4HRC = ((COEF-3)/RO)*D3HRC

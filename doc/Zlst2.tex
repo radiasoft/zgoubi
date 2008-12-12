@@ -2255,7 +2255,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 %$XR,DR$              \> ($DR=B\rho/\text{\BORO}$) \>  cm, no dim.     \>\\
 % \\
 
-\textbf{If KOBJ = 5[.I, I=1,9]}\>\textbf{Generation of 11 particles, or 11*(I-1) if $I\ge 2$} 
+\textbf{If KOBJ = 5[.NN, }\>\\
+\hskip1em\textbf{NN=01,99]}\>\textbf{Generation of 11 particles, or 11*NN if $I\ge 2$} 
                                    (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=1$)  \>\>\\
  \\
  \textsl{PY, PT, PZ, PP, PX, PD}  \>Step sizes in $Y$, $T$, $Z$, $P$, $X$ and $D$
@@ -2264,12 +2265,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{YR, TR, ZR, PR, XR, DR} \> 
                         Reference trajectory   ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
  \\
-\textit{If KOBJ = 5.1}      \> additional data line~:  \>\>\\
+\textit{If KOBJ = 5.01}      \> additional data line~:  \>\>\\
  $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$,  \> Initial beam ellipse parameters\footnotemark[1]  
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D'_Y$, $D_Z, D'_Z$  \>       \> 2(m,rad)\>  4*E \\
  \\
-\textit{If KOBJ = 5.I, I=2-9}      \> i = 1 to 8 (if, resp$^{ly}$, I=2 to 9) additional data lines~:  \>\>\\
+\textit{If KOBJ = 5.NN,}\\
+\hskip1em\textit{NN=02-99}      \> i = 1 to 98 (if, resp$^{ly}$, NN=02 to 99) additional data lines~:  \>\>\\
  \textsl{YR, TR, ZR, PR, XR, DR}  \> 
                         Reference trajectory \# i  ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\

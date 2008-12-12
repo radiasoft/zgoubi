@@ -2134,12 +2134,18 @@ The reference rigidity  is $ DR\ast \BORO$
 
 \bigskip
 
-\noindent\textbf{KOBJ = 5.1:} Same as \textbf{KOBJ = 5}, except for an additional data line giving 
+\noindent\textbf{KOBJ = 5.01:} Same as \textbf{KOBJ = 5}, except for an additional data line giving 
 initial beam ellipse parameters $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$,  
  for further transport of these using \textsl{MATRIX}, or for  possible use by the \textsl{FIT}\index{FIT} procedure. 
 
 \bigskip
 
+\noindent\textbf{KOBJ = 5.NN:} Like \textbf{KOBJ = 5}, except that instead of
+just one set of initial coordinates, the input file contains \textbf{NN} sets
+of initial coordinates.  For example, to have 6 sets of initial coordinates,
+\textbf{KOBJ} should be \textbf{5.06}.
+
+\bigskip
 
 \noindent\textbf{KOBJ = 6:}  Mostly dedicated to the calculation of first, second
 and other higher order transfer coefficients and various other  optical parameters, 
