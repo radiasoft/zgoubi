@@ -287,7 +287,7 @@ C------- Radiated electric field x,y,z components ( V/m )
         E(3) = FE * ( ON(1)*V2 - ON(2)*V1 ) / UNB3 / R
 C              write(*,*) '   unb approx    ', UNB, 
 C     >             sqrt(E(1)*E(1)+E(2)*E(2)+E(3)*E(3))
-C              write(88,*) ' iq,  an, qsx ', iq, an,qsx, 
+C              write(78,*) ' iq,  an, qsx ', iq, an,qsx, 
 C            write(*,*) EPX,QSX,ON(2),BE(2),ON(3),BE(3),unb, 
 C              write(*,*) ox(2),rp(1),rp(2),
 C              write(*,*) on(2),ro(2),r,unb, 

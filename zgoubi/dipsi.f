@@ -123,7 +123,7 @@ C  NBMAG=number of magnets.  AT=total extent angle of field
       RM    = A(NOEL,NP)
 
       IF(NRES.GT.0) WRITE(NRES,200) NBMAG,AT,RM
-  200 FORMAT(20X,1P,'Dipole  magnet  N-uplet,  # of  units  N = ',I2,//,
+  200 FORMAT(20X,1P,'Dipole  magnet  N-tuple,  # of  units  N = ',I2,//,
      1 11X,' Total  angular  extent  of  sector  AT = ',G12.4,' degs.',
      2 /,11X,' Reference  radius  of  sector  is  RM = ',G12.4,' cm')
 
@@ -307,11 +307,26 @@ C Lateral EFB
       IF(KMAG.LT.NBMAG) GOTO 10
 C-----------------------------
       
+      SHARPE = .TRUE.
+      SHARPS = .TRUE.
+      DO 57 KMAG = 1, NBMAG
+        SHARPE = SHARPE .AND. (LAMBDE(KMAG).EQ.0.D0)
+        SHARPS = SHARPS .AND. (LAMBDS(KMAG).EQ.0.D0)
+ 57   CONTINUE
+C------- Correction for entrance wedge
+      IF(SHARPE) CALL INTEG1(ZERO,FFXTE)
+      IF(SHARPS) CALL INTEG2(ZERO,FFXTS)
+
+C Get type of field & deriv. calculation 
       NP=NP+1 
-C Choice of the type of field & deriv. calculation 
       IRD2 = NINT(A(NOEL,NP))
+C Get resol, or idb
+      NP=NP+1 
+      RESOL=A(NOEL,NP)
       IF    (IRD2.NE.0) THEN
-C        interpolation
+C        interpolation method
+        IF(SHARPE .OR. SHARPS) CALL ENDJOB
+     >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
         IRD = IRD2
         IRD2 = 1
         IF    (IRD.EQ.2) THEN 
@@ -325,43 +340,37 @@ C        interpolation
         ENDIF
       ELSEIF(IRD2.EQ.0) THEN
 C        analytic
-        IDB = NINT(10*A(NOEL,NP))
+C        IDB = NINT(10*A(NOEL,NP))
+        IDB = NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
       CALL CHAMC6(IRD2)
 
-      ITYPF = NINT(100.D0* (A(NOEL,NP)-DBLE(IRD)) )
+C Get flag field type. iord.option has the form xx.yy, iord=2, 25 or 4 and yy=01-99
+C      ITYPF = NINT(100.D0* (A(NOEL,NP-1)-DBLE(IRD)) )
+      ITYPF = NINT(100.D0* (A(NOEL,NP-1)-DBLE(NINT(A(NOEL,NP-1)))) )
       IF(NRES .GT. 0) THEN
-       IF(ITYPF.NE.0) THEN
-        IF(ITYPF.EQ.1) THEN
+        WRITE(NRES,FMT='(/,5X,'' itypf= '',i6)') itypf
+        IF    (ITYPF.EQ.0) THEN
+          WRITE(NRES,FMT='(/,5X,'' Field formula : default  '')')
+        ELSEIF(ITYPF.EQ.1) THEN
+          WRITE(NRES,FMT='(/,5X,'' Field formula : type 2  '')')
+        ELSEIF(ITYPF.EQ.7) THEN
+C          Sandro's FFAG magnet
           WRITE(NRES,FMT='(/,5X,'' Field  coefficients, AD : '')')
           WRITE(NRES,FMT='(1P,5G14.6)')  AD20, AD22, AD24, AD26, AD28 
-     >   , AD30, AD32, AD34, AD36, AD38 
-     >   , AD40, AD42, AD44, AD46, AD48 
-     >   , AD50, AD52, AD54, AD56, AD58 
+     >    , AD30, AD32, AD34, AD36, AD38 
+     >    , AD40, AD42, AD44, AD46, AD48 
+     >    , AD50, AD52, AD54, AD56, AD58 
 
-        ELSEIF(ITYPF.GE.2) THEN
+        ELSEIF(ITYPF.EQ.8 .OR. ITYPF.EQ.9) THEN
           WRITE(NRES,FMT='(/,5X,'' Field  coefficients, AF : '')')
           WRITE(NRES,FMT='(1P,5G14.6)')  AF20, AF22, AF24, AF26, AF28 
-     >   , AF30, AF32, AF34, AF36, AF38 
-     >   , AF40, AF42, AF44, AF46, AF48 
-     >   , AF50, AF52, AF54, AF56, AF58 
+     >    , AF30, AF32, AF34, AF36, AF38 
+     >    , AF40, AF42, AF44, AF46, AF48 
+     >    , AF50, AF52, AF54, AF56, AF58 
         ENDIF
-       ENDIF
       ENDIF
-
-      NP=NP+1 
-      RESOL=A(NOEL,NP)
-
-      SHARPE = .TRUE.
-      SHARPS = .TRUE.
-      DO 57 KMAG = 1, NBMAG
-        SHARPE = SHARPE .AND. (LAMBDE(KMAG).EQ.0.D0)
-        SHARPS = SHARPS .AND. (LAMBDS(KMAG).EQ.0.D0)
- 57   CONTINUE
-C------- Correction for entrance wedge
-      IF(SHARPE) CALL INTEG1(ZERO,FFXTE)
-      IF(SHARPS) CALL INTEG2(ZERO,FFXTS)
 
       AE=0.D0
       AS=0.D0
@@ -369,7 +378,7 @@ C------- Correction for entrance wedge
       XI = 0.D0
       XF = AT
 
-C Formule à revoir...
+C Formula to be revisited...
       KMAG = 1
       DSREF = RM * (  (UMEGA(1)-UMEGAS(KMAG))*RAD + 
      >         TAN(ACN(1) - UMEGA(1)* RAD) + 
@@ -412,6 +421,7 @@ C----- Numerical calculation of B & derivatives ---------------------
       KMAG = KMAG+1
 
       RRM(KMAG) = RM +DRM(KMAG)
+C           write(*,*) ' dipsi rm, drm :',RM ,DRM(KMAG)
 
 C Entrance EFB
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
@@ -514,7 +524,8 @@ C      Coordinates of current position
           TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
           ZETA = ACN(KMAG) - TTAI 
 
-          X = ROJ * COS(ZETA) - RM
+C          X = ROJ * COS(ZETA) - RM
+          X = ROJ * COS(ZETA) - RRM(KMAG)
           Y = ROJ * SIN(ZETA)
 
 C         ... AX (CX) = COTE X DE LA PROJECTION DE A (C) SUR LA DROITE (MX)
@@ -696,20 +707,32 @@ C             ... REGION DE COURBURE R2
           IF(NBFACE(KMAG) .EQ. 3) F = F * F3
  
 C          ROI= (ROJ-RM)/RM
-          ROI= ROJ-RM
+C          ROI= ROJ-RM
+          ROI= ROJ-RRM(KMAG)
 
           IF    (ITYPF.EQ.0) THEN
-            ROI= ROI/RM
+C            ROI= ROI/RM
+            ROI= ROI/RRM(KMAG)
             SF = 1.D0
             IF(IND(KMAG).NE.0) THEN
               PROI = 1.D0
-              DO 29 KND = 1, IND(KMAG)
+              DO KND = 1, IND(KMAG)
                 PROI = PROI * ROI
                 SF = SF + CIND(KMAG,KND) * PROI
- 29           CONTINUE
+              ENDDO
             ENDIF
             FTAB(ITTA,JRO) = FTAB(ITTA,JRO) + F*HNORM(KMAG) * SF
-          ELSEIF(ITYPF.NE.0) THEN
+          ELSEIF(ITYPF.EQ.1) THEN
+            SF = HNORM(KMAG)
+            IF(IND(KMAG).NE.0) THEN
+              PROI = 1.D-1 ! convert CIND from T/m^* to kG/cm^*
+              DO KND = 1, IND(KMAG)
+                PROI = PROI * ROI
+                SF = SF + CIND(KMAG,KND) * PROI
+              ENDDO
+            ENDIF
+            FTAB(ITTA,JRO) = FTAB(ITTA,JRO) + F * SF
+          ELSEIF(ITYPF.GE.7) THEN
 C Sandro's type of field for AGS upgrade FFAG
             ROI = ROI * 1.D-2  
             ROI2 = ROI  * ROI
@@ -718,7 +741,7 @@ C Sandro's type of field for AGS upgrade FFAG
             ROI5 = ROI4 * ROI
             SF = HNORM(KMAG) + CIND(KMAG,1) * ROI
 
-            IF    (ITYPF.EQ.1) THEN
+            IF    (ITYPF.EQ.7) THEN
 C D-type dipole. TTRF is at half the sector angle. 
 
               TTRF = ACN(KMAG)-0.5D0*(UMEG+UMEGS)
@@ -733,12 +756,12 @@ C D-type dipole. TTRF is at half the sector angle.
      >        ROI5*(ad50 +ad52*TTA2 +ad54*TTA4 +ad56*TTA6 +ad58*TTA8)
               IF(IND(KMAG).LT.0)  SF = -SF
 
-            ELSEIF(ITYPF.GE.2) THEN
+            ELSEIF(ITYPF.EQ.8 .OR. ITYPF.EQ.9) THEN
 C F-type dipole
-              IF    (ITYPF.EQ.2) THEN
+              IF    (ITYPF.EQ.8) THEN
 C First type F-type dipole
                 TTRF = ACN(KMAG)-UMEGS
-              ELSEIF(ITYPF.EQ.3) THEN
+              ELSEIF(ITYPF.EQ.9) THEN
 C Second type F-type dipole
                 TTRF = ACN(KMAG)-UMEG
               ENDIF
@@ -768,8 +791,8 @@ C------------------------------
 
 C-------------------------------------------------------------------
 C----- Analytic calculation of B & derivatives ---------------------
-      ENTRY DIPSFA(IDB,TTA,RO,Z1,
-     >                           BZ0)
+      ENTRY DIPSFA(IDB,TTA,RO,
+     >                        BZ0)
       KMAG = 0
  30   CONTINUE
       KMAG = KMAG+1
@@ -777,11 +800,19 @@ C----- Analytic calculation of B & derivatives ---------------------
       QGAP=QSIE(KMAG)
       QGAPS=QSIS(KMAG)
       HO=HNORM(KMAG)
-      COEF1 = CIND(KMAG,1)
-      COEF2 = CIND(KMAG,2)
-      COEF3 = CIND(KMAG,3)
-      COEF4 = CIND(KMAG,4)
-      COEF5 = CIND(KMAG,5)
+      IF    (ITYPF.EQ.0) THEN
+        COEF1 = CIND(KMAG,1)
+        COEF2 = CIND(KMAG,2)
+        COEF3 = CIND(KMAG,3)
+        COEF4 = CIND(KMAG,4)
+        COEF5 = CIND(KMAG,5)
+      ELSEIF(ITYPF.EQ.1) THEN
+        COEF1 = CIND(KMAG,1)*RM    *1.D-1
+        COEF2 = CIND(KMAG,2)*RM**2 *1.D-1
+        COEF3 = CIND(KMAG,3)*RM**3 *1.D-1
+        COEF4 = CIND(KMAG,4)*RM**4 *1.D-1
+        COEF5 = CIND(KMAG,5)*RM**5 *1.D-1
+      ENDIF
 
       RR1 = R1(KMAG)
       RR2 = R2(KMAG)
@@ -876,6 +907,8 @@ C           (M=POINT COURANT), PARALLELEMENT A LA DROITE (ABC)
        D = SQRT((X - XO)**2 + (Y - YO)**2 )
        D2 = D * D
        ROOT   = D
+       IF(ROOT.EQ.0.D0) 
+     > CALL ENDJOB('ERROR : root=0 in dipsfa. Try D=1e-99 in pgm',-99)
        SIGN = 1.D0
        IF( Y .LE. YL .OR. D .LE. 1.D-6 ) THEN
           D=-D
@@ -1358,6 +1391,8 @@ C           (M=POINT COURANT), PARALLELEMENT A LA D1ROITE (ABC)
        DS = SQRT((X - XOS)**2 + (Y - YOS)**2 )
        DS2 = DS * DS
        ROOTS = DS
+       IF(ROOTS.EQ.0.D0) 
+     > CALL ENDJOB('ERROR : roots=0 in dipsfa. Try DS=1e-99 in pgm',-99)
        SIGNS = 1.D0
        IF( Y .GE. YLS .OR. DS .LE. 1.D-6 ) THEN 
          DS = -DS
@@ -1658,7 +1693,7 @@ C      IF (IRDA.EQ.1) THEN
      >        + 8*DS*GA3ROS*GAPS2*GAROS
      >        -12*GAPS*GAROS*GAROS*(3*DS*GA2ROS-(SIGNS*D2ROS)*GAPS)
      >        -4*GAPS3*((SIGNS*D1ROS)*GA3ROS+(SIGNS*D3ROS)*GAROS)   
-     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5  
+     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5
          PPPTAS = ULS*(SIGNS*D1TTAS)*PPPP
          PP2TAS = ULS*((SIGNS*D2TTAS)*PPP 
      >        + (SIGNS*D1TTAS)*ULS*(SIGNS*D1TTAS)*PPPP)
@@ -1824,13 +1859,24 @@ C-------------------------------------------------------------
 C    Calcul de B et des derivees de B par rapport a RO  et TTA 
 
       ROI   = (RO-RM)/RM
-      HRC = HO*(1.D0+(COEF1+(COEF2+(COEF3
+C         write(*,*) ' anal itypf = ',itypf
+      IF    (ITYPF.EQ.0) THEN
+C         write(*,*) ' anal itypf 0 '
+        HRC = HO*(1.D0+(COEF1+(COEF2+(COEF3
      >          +(COEF4+COEF5*ROI)*ROI)*ROI)*ROI)*ROI)
-      DHRC  = (HO/RM)*(COEF1+(2*COEF2+(3*COEF3
-     >          +(4*COEF4+5*COEF5*ROI)*ROI)*ROI)*ROI)
-      D2HRC = (HO/(RM*RM))*(2*COEF2+(6*COEF3
-     >          +(12*COEF4+20*COEF5*ROI)*ROI)*ROI)
-     
+        DHRC  = (HO/RM)*(COEF1+(2.D0*COEF2+(3.D0*COEF3
+     >          +(4.D0*COEF4+5.D0*COEF5*ROI)*ROI)*ROI)*ROI)
+        D2HRC = (HO/(RM*RM))*(2.D0*COEF2+(6.D0*COEF3
+     >          +(12.D0*COEF4+20.D0*COEF5*ROI)*ROI)*ROI)
+      ELSEIF(ITYPF.EQ.1) THEN
+        HRC = (HO+(COEF1+(COEF2+(COEF3
+     >          +(COEF4+COEF5*ROI)*ROI)*ROI)*ROI)*ROI)
+        DHRC  = (1.D0/RM)*(COEF1+(2.D0*COEF2+(3.D0*COEF3
+     >          +(4.D0*COEF4+5.D0*COEF5*ROI)*ROI)*ROI)*ROI)
+        D2HRC = (1.D0/(RM*RM))*(2.D0*COEF2+(6.D0*COEF3
+     >          +(12.D0*COEF4+20.D0*COEF5*ROI)*ROI)*ROI)
+      ENDIF
+
       R11=1.D0/RO
       R12=R11*R11
 
@@ -1866,8 +1912,14 @@ C    Calcul de B et des derivees de B par rapport a RO  et TTA
 C      IF (IRDA.EQ.1) THEN
       IF (IDB.GE.4) THEN
          
+        IF    (ITYPF.EQ.0) THEN
          D3HRC =  (HO/(RM*RM*RM))*(6*COEF3+(24*COEF4+60*COEF5*ROI)*ROI)
          D4HRC =  (HO/(RM*RM*RM*RM))*(24*COEF4+120*COEF5*ROI)
+        ELSEIF(ITYPF.EQ.1) THEN
+         D3HRC =  (1.D0/(RM*RM*RM))*(6.D0*COEF3+
+     >               (24.D0*COEF4+60.D0*COEF5*ROI)*ROI)
+         D4HRC =  (1.D0/(RM*RM*RM*RM))*(24.D0*COEF4+120.D0*COEF5*ROI)
+        ENDIF
 
          FAC3RO = 3*FROS*(2*FRO*FROL+FL*F2RO+F*F2ROL) 
      >        + 3*(FL*FRO+F*FROL)*F2ROS 

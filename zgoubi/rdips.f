@@ -56,8 +56,10 @@ C         ... Exit face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
         NP=NP+2 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+C        write(*,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
+C        write(*,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
 C         ... Lateral face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
@@ -76,7 +78,7 @@ C     ... XPAS
       NP=NP+1
       ND=NP
       READ(NDAT,*) A(NOEL,ND)
-         write(*,*) ' rdips ' ,nd
+C         write(*,*) ' rdips ' ,nd, A(NOEL,ND)
 C Modif, FM, Dec. 05
 C     ... KP, RE, TE, RS, TS
 C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)

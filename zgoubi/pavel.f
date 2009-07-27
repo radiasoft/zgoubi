@@ -28,7 +28,8 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       INCLUDE 'PARIZ.H'
-      COMMON//AM(MXX),RM(MXY),ZM(IZ),H(ID,MXX,MXY,IZ),IAMAX,IRMAX,IZMAX
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 C      COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
 C      COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
  
@@ -38,7 +39,7 @@ C      COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       SAVE INDEX, NT
 C      DATA INDEX/0/
 
-      IF(IORDE .EQ. 2)GOTO 3001
+      IF(IORDE .EQ. 2) GOTO 3001
 
 CC EXTRAPOLATION IS DONE FROM THE NT PLANE 
 C      NT=1
@@ -55,6 +56,7 @@ C      NT=1
       Z0=Z1
       CALL ICENTR(X0,Y0,DX,DY,ICX,ICY,
      >                                KERK)
+
       DZ=Z0-Z(NT)
 
       DX2 = DX**2
@@ -82,7 +84,7 @@ C      NT=1
       DO 500 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(ID3,IX,IY,NT)
+        TEMP = HC(3,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -144,7 +146,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 501 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(1,IX,IY,NT)
+        TEMP = HC(1,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -201,7 +203,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 502 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(ID2,IX,IY,NT)
+        TEMP = HC(2,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -316,6 +318,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CC EXTRAPOLATION IS DONE FROM THE NT PLANE
 C      NT=1
 
+C          write(*,*) ' pavel, index, nt : ',index,nt
+
       IF(INDEX .EQ. 1) GOTO 302
 
       CALL SERV5
@@ -330,6 +334,9 @@ C      NT=1
      >                                KERK)
       DZ=Z0-Z(NT)
 
+C          write(*,*) ' pavel, dz : ',Z0,Z(NT),NT,dz
+C          write(*,*) ' pavel, x0,y0,z0  : ',x0,y0,z0
+
       DX2 = DX**2
       DY2 = DY**2
 
@@ -342,7 +349,7 @@ C      NT=1
       DO 600 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(ID3,IX,IY,NT)
+        TEMP = HC(3,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -366,7 +373,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 601 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(1,IX,IY,NT)
+        TEMP = HC(1,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -391,7 +398,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 602 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = H(ID2,IX,IY,NT)
+        TEMP = HC(2,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP

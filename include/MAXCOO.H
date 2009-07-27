@@ -23,4 +23,6 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
+
+C Max number of coordinates
       PARAMETER (MXJ=7)

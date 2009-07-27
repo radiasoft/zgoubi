@@ -220,6 +220,8 @@ C----- PLOT SPECTRUM
             NPTS=NPTR
             CALL STORCO(MODSTO,NL,LM,1  ,BINARY, 
      >                                          NPASS)
+c            write(*,*) ' spctra  npass : ', npass
+
             CHANGE=.FALSE.
             IF(NPTR.GT.0) THEN
               IF(NPTS.GT. NPTR) NPTS=NPTR

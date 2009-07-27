@@ -262,7 +262,7 @@ C            DEM(JJ,IEL)=EsPi(JJ,IEL)-EsPi0(JJ)
           ENDIF
  29     CONTINUE
          
-        WRITE(88,FMT='(1P,G10.2,I4,6G11.3,2G12.4,G11.3)')
+        WRITE(78,FMT='(1P,G10.2,I4,6G11.3,2G12.4,G11.3)')
 C Col #     1          2         3         4       5  
 C-------    s                   <X>       <Y>     <dp>
      >    SCUM(IEL),JEL(IEL),SC(1,IEL),SC(3,IEL),SC(6,IEL), 

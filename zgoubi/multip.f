@@ -232,7 +232,7 @@ C         endif CHU
       ENDIF
 C     **  endif test DLE+DLS
  
- 999  CONTINUE
+C 999  CONTINUE
  
       IF(RT(IP) .NE. ZERO)
      >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)

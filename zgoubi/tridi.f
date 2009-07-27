@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      subroutine TRIDI(L,D,U,COE,nd,n)
+      SUBROUTINE TRIDI(L,D,U,COE,nd,n)
 C TRIDIAGONAL MATRIX
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       integer m,i

@@ -99,7 +99,7 @@ C The r0 value in B = B0(r/r0)^k and in gap = gap0 (r0/r)^k :
       RM    = A(NOEL,NP)
 
       IF(NRES.GT.0) WRITE(NRES,200) NBMAG,AT,RM
-  200 FORMAT(20X,'FFAG  N-uplet,  number  of  dipoles  N : ',I2,//,
+  200 FORMAT(20X,'FFAG  N-tuple,  number  of  dipoles  N : ',I2,//,
      1 11X,' Total angular extent of the magnet : ',F6.2,' Degres',/,
      2 11X,' Reference geometrical radius R0  : ',F10.2,' cm',/)
 
@@ -288,26 +288,22 @@ C        IDB = NINT(10*A(NOEL,NP))
         IF(IDB.NE.4) IDB=2
       ENDIF
       CALL CHAMC6(IRD2)
-
-c      NP=NP+1 
-c      RESOL=A(NOEL,NP)
-
-
+    
       AE=0.D0
       AS=0.D0
       AT = AT * RAD
 
-      AMIN = -AT/2.D0 - ACN(KMAG)       
-      AMAX =  AT/2.D0 - ACN(KMAG)       
+      AMIN = -AT/2.D0 !- ACN(KMAG)       
+      AMAX =  AT/2.D0 !- ACN(KMAG)       
+
+c          write(*,*) ' sbr ffgspi,   amin,amax :', amin,amax
+c                 pause
 
       XI = AMIN
       XF = AMAX
  
 C--- Formule à revoir...
-      KMAG = 1
-      DSREF = RM * (  (UMEGA(1)-UMEGAS(KMAG))*RAD + 
-     >         TAN(ACN(1) - UMEGA(1)* RAD) + 
-     >         TAN(AT - ACN(KMAG) + UMEGAS(KMAG)* RAD) )
+      DSREF = RM * (UMEGA(KMAG)-UMEGAS(KMAG))
 C--------------------
 
       IF(NRES.GT.0) THEN
@@ -335,7 +331,8 @@ C------------------------------------------------------------
 C  Compute FFAG field  and derivatives from flying field-mesh
       ENTRY FFGSPF(TTA,RO,
      >                   DTTA,DRO,FTAB)
-c           write(*,*) ' tta, ro  ',tta, ro,acn(kmag),tta-amin,amin
+
+C           write(*,*) ' tta, ro  ',tta, ro,acn(kmag),tta-amin,amin
       CALL INTEG5(
      >            STEP)
 
@@ -355,9 +352,9 @@ C Entrance EFB
       UMEG = UMEGA(KMAG) * RAD
       ASP = ASPIE(KMAG) * RAD
 
- 
 C Exit EFB
 
+C For the moment, entrance and exit EFBs have the same parameters
 
 C------------------------------------------------------------
 
@@ -371,17 +368,19 @@ C      COORDONNEES DU POINT COURANT
       RO2=RM
       B2=B1
 
-      AMIN = -AT/2.D0 - ACN(KMAG)       
-      AMAX =  AT/2.D0 - ACN(KMAG)       
+      AMIN = -AT/2.D0 !- ACN(KMAG)       
+      AMAX =  AT/2.D0 !- ACN(KMAG)       
 
-      TTA1 = UMEG
-      TTA2 = -UMEG
+c          write(*,*) ' sbr ffgspi, num. model, acn ', acn(kmag) 
 
+c      TTA1 = UMEG
+c      TTA2 = -UMEG
+      TTA1 = acn(kmag) + UMEG
+      TTA2 = acn(kmag) - UMEG
 
       DO  1  JRO = 1,NN
         ROJ = RO + DRO * DBLE(NN-JRO-INT(NN/2))
      
-
         DO  1  ITTA = 1,NN
           TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
 
@@ -390,14 +389,11 @@ C      COORDONNEES DU POINT COURANT
 
 C CALCUL DE LA DISTANCE DE (X,Y) A LA FACE D'ENTREE
 
-
           D=-DSTEFB(X,Y,RO1,B1,AMIN,AMAX,XACC,TTA1,YN)
-
 
 C            IF( Y .GT. YN .OR. D .LE. 1.D-6) D = -D
             IF( Y .GT. YN ) D = -D
 C            D=( D + SHIFTE(KMAG) )
-
 
 C CALCUL DE FE
 
@@ -427,16 +423,13 @@ C CALCUL DE FE
             ENDIF
           ENDIF
 
-
 C CALCUL DE LA DISTANCE DE (X,Y) A LA FACE DE SORTIE
 
          D=DSTEFB(X,Y,RO2,B2,AMIN,AMAX,XACC,TTA2,YN)
 
-
 C            IF( Y .GT. YN .OR. D .LE.1.D-6 ) D = -D
             IF( Y .GT. YN ) D = -D
 C            D=( D + SHIFTS(KMAG) )
-
 
 C CALCUL DE FS
 
@@ -482,9 +475,12 @@ C-----
 
 C-----------------------------------------------------------
 C  Compute FFAG field  and derivatives from analytical model
-      ENTRY FFGSPA(IDB,TTA,RO,Z1,
-     >                           BZ0)
+      ENTRY FFGSPA(IDB,TTA,RO,
+     >                        BZ0)
          
+      CALL ENDJOB
+     >    ('SBR FFGSPI : analytical  model not implemented. ',-99)
+
       KMAG = 0
  30   CONTINUE
       KMAG = KMAG+1
@@ -558,6 +554,8 @@ C************************ Exit EFB *********************
       COS2S = COSOS**2
       SICOS = SINOS * COSOS
        
+C          write(*,*) ' sbr ffgspi, acn ', acn(kmag) 
+
 C      Projections du point M sur les axes X et Y
        ZETA = ACN(KMAG)-TTA
        COSZ = COS(ZETA)
@@ -1420,8 +1418,8 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
      >        +24*(SIGNS*D1ROS)*GA2ROS*GAPS2*GAROS
      >        + 8*DS*GA3ROS*GAPS2*GAROS
      >        -12*GAPS*GAROS*GAROS*(3*DS*GA2ROS-(SIGNS*D2ROS)*GAPS)
-     >        -4*GAPS3*((SIGNS*D1ROS)*GA3ROS+(SIGNS*D3ROS)*GAROS)   
-     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5  
+     >        -4*GAPS3*((SIGNS*D1ROS)*GA3ROS+(SIGNS*D3ROS)*GAROS)
+     >        -24*GAROS*GAROS*GAROS*((SIGNS*D1ROS)*GAPS-DS*GAROS))/GAPS5
          PPPTAS = ULS*(SIGNS*D1TTAS)*PPPP
          PP2TAS = ULS*((SIGNS*D2TTAS)*PPP 
      >        + (SIGNS*D1TTAS)*ULS*(SIGNS*D1TTAS)*PPPP)
@@ -1553,7 +1551,7 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
          ENDIF
       ENDIF      
 
-C*************** CALCUL DE FL - unused  *************************
+C*************** CALCUL DE FL (a 3rf EFB) - unused  *************************
 
       FL      = 1.D0
       FROL    = 0.D0
@@ -1763,12 +1761,10 @@ C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL)
           BZ0(1,5) = BZY4
         ENDIF
       ELSE
-        STOP ' *** Error, SBR FFAGFA -> KMAG'
+        STOP ' *** Error, SBR FFGSPA -> KMAG'
       ENDIF
 
       IF (KMAG.LT.NBMAG) GOTO 30
 
- 98   CONTINUE
       RETURN
- 99   STOP
       END 

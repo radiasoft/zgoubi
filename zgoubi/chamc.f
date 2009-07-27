@@ -40,6 +40,7 @@ C     --------------------------------------------------------------
       COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
+      COMMON/CONST2/ ZERO, UN
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
       COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
@@ -292,14 +293,16 @@ C--------- FFAG
 C  Equivalence (X,ANGLE), (Y,RADIUS)
           IF    (IRD2.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
-            CALL FFAGFA(IDB,X,Y,Z,
-     >                            BZ0)
+            CALL FFAGFA(IDB,X,Y,
+     >                          BZ0)
           ELSEIF(IRD2.EQ.1) THEN
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFAGF(X,Y,
      >                     DA,DR,FTAB)
-            CALL INTPLF(X,Y,Z,DA,DR,FTAB,IRD, 
-     >                                       BZ0)
+            AAA = ZERO
+            RRR = ZERO
+            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD, 
+     >                                             BZ0)
           ELSE
             STOP '*** SBR CHAMC. No such field case'
           ENDIF
@@ -312,21 +315,22 @@ C--------- Free!!
 C--------- DIPOLE
 C  Equivalence (X,ANGLE), (Y,RADIUS)
           CALL DIPF(X,Y,
-     >                  DA,DR,FTAB)
-          CALL INTPLF(X,Y,Z,DA,DR,FTAB,IRD,
-     >                                     BZ0)
+     >                  AAA,RRR,DA,DR,FTAB)
+          CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD,
+     >                                           BZ0)
 
         ELSEIF(KUASEX .EQ. 32) THEN
 C--------- DIPOLES
 C  Equivalence (X,ANGLE), (Y,RADIUS)
           IF    (IRD2.EQ.0) THEN 
-              CALL DIPSFA(IDB,X,Y,Z,
-     >                              BZ0)
+              CALL DIPSFA(IDB,X,Y,
+     >                            BZ0)
           ELSEIF(IRD2.EQ.1) THEN
             CALL DIPSF(X,Y,
      >                     DA,DR,FTAB)
-           CALL INTPLF(X,Y,Z,DA,DR,FTAB,IRD,
-     >                                      BZ0)
+C     >                     AAA,RRR,DA,DR,FTAB)
+            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD,
+     >                                             BZ0)
           ENDIF
 
         ELSEIF(KUASEX .EQ. 33) THEN
@@ -334,14 +338,16 @@ C--------- FFAG-SPI
 C  Equivalence (X,ANGLE), (Y,RADIUS)
           IF    (IRD2.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
-            CALL FFGSPA(IDB,X,Y,Z,
-     >                            BZ0)
+            CALL FFGSPA(IDB,X,Y,
+     >                          BZ0)
           ELSEIF(IRD2.EQ.1) THEN
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFGSPF(X,Y,
-     >                     DA,DR,FTAB)
-            CALL INTPLF(X,Y,Z,DA,DR,FTAB,IRD, 
-     >                                       BZ0)
+     >                      DA,DR,FTAB)
+            AAA = ZERO
+            RRR = ZERO
+            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD, 
+     >                                             BZ0)
           ELSE
             STOP '*** SBR CHAMC. No such field case' 
           ENDIF

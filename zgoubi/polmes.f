@@ -28,7 +28,8 @@ C  France
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
-      COMMON//XA(MXX),RO(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IAMA,JRMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE "MAXTRA.H"
@@ -60,11 +61,11 @@ C      DATA ACN / 0.D0 /
 
       BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
-      IAMA = A(NOEL,20)
-      IF(IAMA.GT.MXX) 
+      IXMA = A(NOEL,20)
+      IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
-      JRMA = A(NOEL,21)
-      IF(JRMA.GT.MXY ) 
+      JYMA = A(NOEL,21)
+      IF(JYMA.GT.MXY ) 
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
 
       IF(NDIM .EQ. 3) THEN
@@ -78,7 +79,7 @@ C      DATA ACN / 0.D0 /
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))             
+        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
       ELSEIF(NDIM .EQ. 3 ) THEN
         MOD = NINT(A(NOEL,23))
         IF    (MOD .EQ. 0) THEN
@@ -140,17 +141,17 @@ C------ CARTE POLAIRE 2-D
           CALL FMAPR(BINAR,LUN,
      >                         RM)
   
-          DO 222 J=1,JRMA
-            DO  222  I = 1,IAMA
+          DO 222 J=1,JYMA
+            DO  222  I = 1,IXMA
               BFLD = HC(ID,I,J,1)
               IF    (BFLD .GT. BMAX) THEN
                 BMAX = BFLD
-                XBMA = XA(I)
-                YBMA = RO(J)
+                XBMA = XH(I)
+                YBMA = YH(J)
               ELSEIF(BFLD .LT. BMIN) THEN
                 BMIN = BFLD
-                XBMI = XA(I)
-                YBMI = RO(J)
+                XBMI = XH(I)
+                YBMI = YH(J)
               ENDIF
               HC(ID,I,J,1) = BFLD * BNORM
  222      CONTINUE
@@ -161,16 +162,14 @@ C----- KUASEX
 
       CALL MAPLI1(BMAX-BMIN)
 
-      AT=XA(IAMA)-XA(1)
+      AT=XH(IXMA)-XH(1)
       ATO = 0D0
       ATOS = 0D0
-C      RM=.5D0*(RO(JRMA)+RO(1))
+C      RM=.5D0*(YH(JYMA)+YH(1))
 
-      XI = XA(1)
-      XF = XA(IAMA)
+      XI = XH(1)
+      XF = XH(IXMA)
  
-15    CONTINUE
-
       RETURN
 
  96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)

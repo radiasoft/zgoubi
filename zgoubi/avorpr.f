@@ -61,7 +61,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
  251    CONTINUE
         DO 4 I = 1, IPU
           NT = NINT(FPU(8,I))
-          WRITE(LUN,FMT= '(1P,2X,I4,1X,E15.7,7E12.4,I7,I7)' )
+          WRITE(LUN,FMT= '(1P,2X,I4,1X,8E15.7,I7,I7)' )
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
  4      CONTINUE
@@ -69,7 +69,8 @@ C Careful before changing output format : there may be processor needing high pr
         WRITE(LUN,FMT= '(/,T5,''PU_average (over partcl and pass) : '',
      >  /,T14,''Y'',T26,''T'',T39,''Z'',T50,''P'',
      >  T60,''path-L'',T74,''D'',T85,''time'', 
-     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
+     >  /,7X,1P,7E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
+C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
         WRITE(LUN,FMT= '(/,T5,''Sigma  '',
      >  /,7X,1P,2E16.8,4E12.4,E16.8)' )
      >  (CO2(J),J=2,6 ), CO2(1), CO2(7)

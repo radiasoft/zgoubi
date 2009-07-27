@@ -43,13 +43,16 @@ C  France
 
       CHARACTER*1 KLET
 
-      SAVE AX,PX,BX,AY,PY,BY
+      SAVE AX,PX,BX,AY,PY,BY,IBXY
+
+      LOGICAL IDLUNI
 
       DATA KAX/ 'Full  scale   ',  'Proportionnal ' /
       DATA KLIS / 'No ', 'Yes'/
       DATA OKXAV,OKYAV / .FALSE., .FALSE./
       DATA OKX12,OKY12 / .FALSE., .FALSE./
       DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /
+      DATA IBXY,IUN / 0, 0 /
       
  21   CONTINUE
       CALL HOMCLR
@@ -90,11 +93,11 @@ C     >, /,8X,'16: Plot <y> +/- sig_y vs. x (e.g., Env. vs. Ipass) :', L1
       GOTO 21
 
  2    CONTINUE
-C------ List X & Y
+C------ List/NoList X & Y (2/1)
        IF(LIS .EQ. 1) THEN
-          LIS = 2
+          LIS = 2   ! list
         ELSE
-          LIS = 1
+          LIS = 1   ! no list
         ENDIF 
       GOTO 98
 
@@ -196,30 +199,63 @@ C------- Select particle number
       WRITE(6,147) 
  147  FORMAT(/,5X,' Possible changes to quantities to be plotted : ', 
      >/,8X,' 1:  horiz. axis  :   X -> a*X^n  + b   ', 
-     >/,8X,' 2:  horiz. axis  :   X -> a*|X|^n + b   ', 
-     >/,8X,' 3:  vertic. axis :   Y -> c*Y^m  + d   ', 
-     >/,8X,' 4:  vertic. axis :   Y -> c*|Y|^m + d   ', 
+     >/,8X,' 2:  horiz. axis  :   X -> a*(X-b)^n    ', 
+     >/,8X,' 3:  horiz. axis  :   X -> a*|X|^n + b   ', 
+     >/,8X,' 4:  horiz. axis  :   X -> a*|X-b|^n   ', 
+     >/,8X,' 5:  vertic. axis :   Y -> c*Y^m  + d   ', 
+     >/,8X,' 6:  vertic. axis :   Y -> c*(Y-d)^m ', 
+     >/,8X,' 7:  vertic. axis :   Y -> c*|Y|^m + d   ', 
+     >/,8X,' 8:  vertic. axis :   Y -> c*|Y-d|^m   ', 
+     >/,8X,'88:  RESET ', 
      >/)
       WRITE(6,148) ' * Option  number : '
  148  FORMAT(A20,$)
       READ(5,*,ERR=14) IO
-      GOTO(141,141,142,142) IO
+      IF(IO.EQ.88) GOTO 1488
+      GOTO(141,141,141,141,142,142,142,142) IO
       GOTO 14
 
  141    WRITE(6,FMT='('' H axis, give your choice for   a, n, b : '', 
-     >   /,''    (now : '',1P,3G12.4,'') : '')') AX,PX,BX
+     >   /,''    (b=-99 if read from zpop_7.3.14.in)'', 
+     >   /,'' present values : '',1P,3G12.4,'' : '')') AX,PX,BX
         READ(5,*,ERR=141)  AX,PX,BX
         WRITE(6,FMT='('' a, n, b : '', 1P,3G12.4,'') : '')') 
      >        AX,PX,BX
+        IBXY = 0
+        IF(BX.EQ.-99.D0) IBXY = 1
         GOTO 149
  142    WRITE(6,FMT='('' V axis, give your choice for   c, m, d : '', 
-     >   /,''    (now : '',1P,3G12.4,'') : '')') AY,PY,BY
+     >   /,''    (b=-99 if read from zpop_7.3.14.in)'', 
+     >   /,'' present values : '',1P,3G12.4,'' : '')') AY,PY,BY
         READ(5,*,ERR=142)  AY,PY,BY
         WRITE(6,FMT='('' c, m, d : '', 1P,3G12.4,'') : '')') 
      >        AY,PY,BY
 
- 149    CONTINUE
-        CALL PLOT5(AX,PX,BX,AY,PY,BY,IO)
+        IBXY = 0
+        IF(BY.EQ.-99.D0) IBXY = 2
+        GOTO 149
+
+ 1488 CONTINUE
+        AX = 1.D0
+        PX = 1.D0
+        BX = 0.D0
+        AY = 1.D0
+        PY = 1.D0
+        BY = 0.D0
+        IBXY = 0
+        CALL PLOT51(AX,PX,BX,AY,PY,BY)
+      GOTO 98
+
+ 149  CONTINUE
+        IF(IBXY.NE.0) THEN
+          IF (IDLUNI(IUN)) THEN
+            OPEN(UNIT=IUN,FILE='zpop_7.3.14.in')
+          ELSE
+            WRITE(6,*) 
+     >      ' *** SBR PLTOPT, problem : could not open  zpop_7.3.14.in'
+          ENDIF
+        ENDIF
+        CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
         CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
       GOTO 98
 

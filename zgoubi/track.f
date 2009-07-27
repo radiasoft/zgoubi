@@ -29,6 +29,8 @@ C  France
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
+      LOGICAL READAT, FITING
+      PARAMETER (I6 = 6)
 C      DIMENSION VECT(6,100)
 
       WRITE(NRES,*) ' Now tracking, from lmnt ',NLA,' to lmnt ',NLB
@@ -36,7 +38,9 @@ C      DIMENSION VECT(6,100)
 C      CALL OBJTRK(VECT)
       NOEL = 1
       CALL OBJETS
-      CALL ZGOUBI(NLA,NLB,.FALSE.,.FALSE.)
-
+      READAT = .FALSE.
+      FITING = .FALSE.
+      CALL FITSTA(6,FITING)
+      CALL ZGOUBI(NLA,NLB,READAT)
       RETURN
       END

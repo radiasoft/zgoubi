@@ -41,6 +41,9 @@ C----------- Current coordinates
 C----------- Initial coordinates
           IF(KPS.EQ. 0) II = 10
 
+C if   :   DATA KXYL / 2, 3, 4, 5, 7, 20 /
+C then :               x  x' z  z' t  E
+
           COOR(NOC,1)=YZXB(KXYL(1)+II )
           COOR(NOC,2)=YZXB(KXYL(2)+II )
           COOR(NOC,3)=YZXB(KXYL(3)+II )

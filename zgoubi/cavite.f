@@ -251,9 +251,8 @@ C      HN = AN12
       PS0 = SQRT((WS0+AM)**2 - AM2)
       BTS0 = PS0/SQRT(PS0*PS0+AM2)
 C     ... Conditions at cavity entrance 
-      FREV = FREV0*HN !!!!!* SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)      
 C        write(*,*) frev0,hn,SCALER(IPASS,NOEL,DTA1,DTA2,DTA3),ipass,noel
-      OMRF = 2.D0*PI*FREV
+      OMRF = 2.D0*PI*FREV0*HN !!!!!* SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)      
 C     ... Synchronous conditions at cavity exit
       DWS = QV * SIN(PHS)
       WS = WS0 + DBLE(IPASS) * DWS
@@ -267,7 +266,7 @@ c         goto 1
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
-        WRITE(NRES,126) HN, QV/(Q *1.D-6), PHS, FREV,  
+        WRITE(NRES,126) HN, QV/(Q *1.D-6), PHS, OMRF/(2.D0*PI),  
      >       QV*SIN(PHS),COS(PHS),   GTRNUS, ACCDP
  126    FORMAT(1P, 
      >       /,20X,'RF  harmonic          =',G15.4,
@@ -308,13 +307,12 @@ c        zero = 0.
 c          write(88,*) ipass, zero, phi, ti, ekbef
 
 C Phase, in [-pi,pi] interval
-c        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
-c        IF    (PHI .GT.  PI) THEN
-c          PHI =PHI - 2.D0*PI
-c        ELSEIF(PHI .LT. -PI) THEN
-c          PHI =PHI + 2.D0*PI
-c        ENDIF
-        phi = dmod(phi,2.d0*pi)
+        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+        IF    (PHI .GT.  PI) THEN
+          PHI =PHI - 2.D0*PI
+        ELSEIF(PHI .LT. -PI) THEN
+          PHI =PHI + 2.D0*PI
+        ENDIF
 
         DWF =  QV * SIN(PHI)
         PH(I) = PHI
@@ -342,10 +340,11 @@ c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
           scalo = SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
           WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
      >            ipass, omrf/(2.*pi),
-     >            scalo, 
+C     >            scalo, 
 C     >            PHI-PHS,
+     >            PHI,
      >            TI,
-     >             ekaft,
+     >             wf,
 C     >              QV*SIN(PH(I))/(Q*1.D-6), 
      >               P-PS, I, 
      >            ' ipass freq phi-phs ti qV*sin p-ps ITraj'

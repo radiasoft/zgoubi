@@ -168,7 +168,7 @@ C               YP = YP /2.D0
  108      FORMAT(A,' v.s. ',A) 
           J = 2*JJ - 1
           WRITE(*,107) YMX(J),YMX(J+1),YPMX(J),YPMX(J+1)
- 107      FORMAT(' Min-max - Hor.: ',1P,2G11.3,'; Ver.: ',2G11.3)
+ 107      FORMAT(' Min-max - Hor.: ',1P,2G13.5,'; Ver.: ',2G13.5)
           WRITE(*,105) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ)
  105      FORMAT(' Eps/pi, Beta, Alpha, center : ',1P,
      >                                G12.4,4G11.3,' (MKSA)')

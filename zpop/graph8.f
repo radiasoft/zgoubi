@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 CDECK GRAPH2 
-      SUBROUTINE GRAPH2(NLOG, LM, NOMFIC)
+      SUBROUTINE GRAPH8(NLOG, LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*)  NOMFIC 
       
@@ -123,11 +123,11 @@ C      IF(.NOT. OKOPN) CALL OPNWRN(1)
           WRITE(6,*) ' Busy: calculating scales'
           CALL CALECH(NL,LM,
      >                      NOC)
-          CALL READC3(KL1,KL2)
+          CALL READC3C(KL1,KL2)
           IF(KL1.EQ.-1) THEN
             WRITE(TXTL,FMT='(A5)') '* all'
           ELSE
-            WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,A,KL2
+            WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
           ENDIF
 C          IF(LM.EQ.-1) THEN
 C             WRITE(TXTL,FMT='(A5)') '* all'

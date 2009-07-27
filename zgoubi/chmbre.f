@@ -40,6 +40,8 @@ C------- SKIP SI LA PARTICULE EST DEJA SORTIE :
 CC---- SEULEMNT SI LA FACE MAGNTQ EST FRANCHIE :
 CCCCC IF(FMAG .GE. .45D0) THEN
  
+        TEMP = SAR
+
         YP2 = (Y - YC)*(Y - YC)/YL2
         ZP2 = (Z - ZC)*(Z - ZC)/ZL2
 

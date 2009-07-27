@@ -42,7 +42,7 @@ CC----- Calculate normalized POISSON law p(k)=exp(-A)*A^k/k!
 C         NN now contains the index k of the last non-zero value
       FPMAX= -1.D-10
       JJ=-1
- 14   INTA=1+IA
+      INTA=1+IA
  11   JJ=-JJ
       INTA = INTA+JJ
       J=INTA

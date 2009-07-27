@@ -78,6 +78,8 @@ OBJ=\
  ellip.o\
  elmirf.o\
  elmiri.o\
+ emmac.o\
+ emmap.o\
  end.o\
  endfit.o\
  endjob.o\
@@ -101,6 +103,7 @@ OBJ=\
  fitgtv.o\
  fitlav.o\
  fitlma.o\
+ fitmm.o\
  fitnu.o\
  fitset.o\
  fitsta.o\
@@ -115,6 +118,8 @@ OBJ=\
  gasesl.o\
  gasini.o\
  geneta.o\
+ getnam.o\
+ getdst.o\
  gg.o\
  header.o\
  helix.o\
@@ -150,9 +155,11 @@ OBJ=\
  lingua.o\
  lnul.o\
  lpsfit.o\
+ lpsfi4.o\
  lstins.o\
  lstset.o\
  majtra.o\
+ mapshf.o\
  maplim.o\
  mat1.o\
  mat2.o\
@@ -220,6 +227,7 @@ OBJ=\
  relcmi.o\
  relcyl.o\
  relmir.o\
+ remma.o\
  rempli.o\
  reset.o\
  rfaist.o\

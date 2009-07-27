@@ -48,11 +48,15 @@ C      WRITE(NRES,*) ' SBR DRVG C, S, POL :',(C(I),I=1,6),S,POL
       G  = 1.D0/(1.D0+EP)
 C----- U=1+EP, GU=1
 
+      IF(IG .LE. 0) RETURN
+
       DP  = C(2)+(2.D0*C(3)+(3.D0*C(4) +(4.D0*C(5) +5.D0*C(6)*S)*S)*S)*S
       DU  = DP*EP
 C----- (GU)' = 0
       DG =-DU*G*G
  
+      IF(IG .LE. 1) RETURN
+
       D2P = 2.D0*C(3) +(6.D0*C(4) +(12.D0*C(5) +20.D0*C(6)*S)*S)*S
       D2U = D2P*EP + DP*DU
 C----- (GU)'' = 0

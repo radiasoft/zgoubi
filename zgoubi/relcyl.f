@@ -37,10 +37,10 @@ C------ IL
       READ(NDAT,*) A(NOEL,1)
 C------ Angle (rad), Layout radius (m), E field (V/m)
       READ(NDAT,*) (A(NOEL,I),I=10,12)
-C     ... XE, LE (cm, cm) and entrance fringe field coeff
+C     ... XE, LE (cm, cm) and entrance fringe field coeffs
       READ(NDAT,*) (A(NOEL,I),I=20,21)
       READ(NDAT,*) (A(NOEL,I),I=30,35)
-C     ... XS, LS and exit fringe field coeff
+C     ... XS, LS and exit fringe field coeffs
       READ(NDAT,*) (A(NOEL,I),I=40,41)
       READ(NDAT,*) (A(NOEL,I),I=50,55)
  

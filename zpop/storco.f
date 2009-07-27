@@ -40,6 +40,8 @@ C     ---------------------------------------------------
 
       CALL RAZ(COOR,NTRMAX*9)
 
+            CALL REWIN2(NL,*96)
+
       IF(MODSTO.EQ.2) THEN
 C----- Case call by ellipse fit
         CALL READC1(KP1,KP2)
@@ -77,12 +79,12 @@ C         ----------------------------------
         ENDIF
       ENDIF
 
-C        pause
-
       NOC=0
       NRBLT = -1 
 C----- BOUCLE SUR READ FICHIER NL 
  44   CONTINUE
+              
+c             write(*,*) ' storco  nl,lm : ',nl,lm
         CALL READCO(NL,LM,
      >                    KART,LET,YZXB,NDX,*10,*79)
 
@@ -90,7 +92,9 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
 
         NOC=NOC+1
 
+             nrbltav = nrblt
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
+c             write(*,*) ' nrbltav, nrbltap ',nrbltav, nrblt
 
         IF(MODSTO.EQ.2) THEN
 C------- Case call by ellipse fit

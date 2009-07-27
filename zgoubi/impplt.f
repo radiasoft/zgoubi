@@ -54,6 +54,8 @@ C         Post-processing of stored data possible with zpop.
  
       LOGICAL BINARY,BINARI
       SAVE BINARY
+      LOGICAL IDLUNI, OPN
+      SAVE LST2, LUN
 
       CALL INTEG4(NSTEP)
       K = LSTK()
@@ -136,10 +138,31 @@ C                 rigidity(kG.cm)
         INCLUDE "FRMPLT.H"
       ENDIF 
 C      CALL FLUSH2(LN,.FALSE.)
+      if(lst2.gt.0) write(lun,fmt='(8e12.4,I6,4e12.4)')
+     2   XXX,Y-DY,T*1.D3,
+     3   Z,P*1.D3,SAR,     TAR,     DY, 
+     4   IT,X, BX,BY,BZ
+
 
       RETURN
 
       ENTRY IMPPL2(BINARI)
       BINARY=BINARI
+      RETURN
+      ENTRY IMPPL3(LST2I)
+      LST2=LST2I
+      if(lst2.gt.0) then
+        INQUIRE(FILE='zgoubi.impplt',OPENED=OPN)
+        if(.not.opn) then
+          IF(IDLUNI(
+     >              LUN)) THEN
+c              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
+c              CLOSE(UNIT=LUN,STATUS='DELETE')
+              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
+ 99     write(*,*) '**** SBR impplt : '
+        write(*,*) '         error upon open zgoubi.impplt'
+          ENDIF
+        ENDIF
+      ENDIF
       RETURN
       END

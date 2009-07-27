@@ -78,5 +78,6 @@ C            write(*,*) ' sbr charef ',it,y,rm,y+rm
 C        CALL EVENT(DL,YY,T,Z,P,XX,ZERO,ZERO,ZERO,UN,BR,SAR,TAR,KEX,IT,
 C     >  AMT,QT,BORO,KART,KSPN,IFDES,KGA,I0,IMAX,*99)
       ENDIF
- 99   RETURN 
+C 99   RETURN 
+      RETURN 
       END

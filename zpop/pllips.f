@@ -77,7 +77,7 @@ C  France
  108      FORMAT(A,' vs. ',A) 
           J = 2*JJ - 1
           WRITE(*,107) YMX(J),YMX(J+1),YPMX(J),YPMX(J+1)
- 107      FORMAT(' Min-max - Hor.: ',1P,2G11.3,'; Ver.: ',2G11.3)
+ 107      FORMAT(' Min-max - Hor.: ',1P,2G13.5,'; Ver.: ',2G13.5)
           WRITE(*,106) YM(J),YPM(J)
  106      FORMAT(' Centering,  H/V : ',1P,G11.3,' / ',G11.3)
           WRITE(*,105) U(JJ),B(JJ),A(JJ)

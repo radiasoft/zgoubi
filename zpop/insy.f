@@ -148,7 +148,7 @@ C  France
      4,/,5X,' 4  Multipole  : ',G12.4            
      5,/,5X,' 5  Drift      : ',G12.4           
      6,/,5X,' 6  Pick-up    : ',G12.4           
-     6,/,5X,'             '
+     >,/,5X,'             '
      7,/,5X,' 7  Magnifying factor  - current is : ', G12.4
      9,/,5X,' 9  EXIT  THIS  MENU '
      >,/)

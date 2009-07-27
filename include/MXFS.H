@@ -26,7 +26,7 @@ C  France
 C------ MXF=max number of families that can be declared in SCALING
 C       MXS=max number of timings
 
-      PARAMETER (MXF=9,MXS=1000)
+      PARAMETER (MXF=9,MXS=300)
 
 C------ MXLF=max number of labels following a family name in SCALING
 

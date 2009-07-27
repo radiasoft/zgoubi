@@ -39,15 +39,11 @@ C     the dipole's ACENT value.
 C---------------------------------------------------------
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-C      INCLUDE "MAXTRA.H"
-C      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-C     > ,YCH,ZCH
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DPPP,BR
   
@@ -97,9 +93,9 @@ C The r0 value in B = B0(r/r0)^k and in gap = gap0 (r0/r)^k :
       RM    = A(NOEL,NP)
 
       IF(NRES.GT.0) WRITE(NRES,200) NBMAG,AT,RM
-  200 FORMAT(20X,'FFAG  N-uplet,  number  of  dipoles  N : ',I2,//,
-     1 11X,' Total angular extent of the magnet : ',F6.2,' Degres',/,
-     2 11X,' Reference geometrical radius R0  : ',F10.2,' cm',/)
+  200 FORMAT(20X,'FFAG  N-tuple,  number  of  dipoles,  N : ',I2,//,
+     1 11X,' Total angular extent of the magnet : ',F8.4,' Degres',/,
+     2 11X,' Reference geometrical radius R0  : ',F12.4,' cm',/)
 
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
@@ -125,9 +121,9 @@ C-----  a list of NBMAG.LE.NM magnets
       IF(NRES.GT.0) WRITE(NRES,100) KMAG,ACN(KMAG)/RAD,DRM(KMAG),
      >       HNORM(KMAG),COEFN(KMAG)
  100  FORMAT(5X,'Dipole # ',I1,/,1P,
-     > 11X,' Positionning  angle ACENT : ',G12.4,' degrees',/,
-     > 11X,' Positionning  wrt.  R0  : ',G10.2,' cm',/,
-     5 11X,' B0 =',G12.4,' kGauss,',7X,'K =',G13.5)
+     > 11X,' Positionning  angle ACENT : ',G14.6,' degrees',/,
+     > 11X,' Positionning  wrt.  R0  : ',G14.6,' cm',/,
+     5 11X,' B0 =',G16.8,' kGauss,',7X,'K =',G13.5)
 
       NP=NP+1 
       LAMBDE(KMAG) = A(NOEL,NP)
@@ -271,7 +267,10 @@ C Choice of the type of field & deriv. calculation
 C                (0/1 : analytic/interpolation): 
       NP=NP+1 
       IRD2 = NINT(A(NOEL,NP))
+      NP=NP+1 
+      RESOL=A(NOEL,NP)
       IF    (IRD2.NE.0) THEN
+C        interpolation method
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
         IRD = IRD2
@@ -285,18 +284,17 @@ C                (0/1 : analytic/interpolation):
         ELSE
           STOP ' *** ERROR - SBR FFAGI, WRONG VALUE IRD'
         ENDIF
-        NP=NP+1 
-        RESOL=A(NOEL,NP)
       ELSEIF(IRD2.EQ.0) THEN
 C        IDB = NINT(10*A(NOEL,NP))
-        NP=NP+1 
-        IDB=A(NOEL,NP)
+C        NP=NP+1 
+C        IDB=A(NOEL,NP)
+        IDB=NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
       CALL CHAMC6(IRD2)
 
-c      NP=NP+1 
-c      RESOL=A(NOEL,NP)
+C      NP=NP+1 
+C      RESOL=A(NOEL,NP)
 
       AE=0.D0
       AS=0.D0
@@ -656,8 +654,8 @@ C-----
 
 C-----------------------------------------------------------
 C  Compute FFAG field  and derivatives from analytical model
-      ENTRY FFAGFA(IDB,TTA,RO,Z1,
-     >                           BZ0)
+      ENTRY FFAGFA(IDB,TTA,RO,
+     >                        BZ0)
 
       KMAG = 0
  30   CONTINUE
@@ -765,6 +763,8 @@ C           (M=POINT COURANT), PARALLELEMENT A LA DROITE (ABC)
        D = SQRT((X - XO)**2 + (Y - YO)**2 )
        D2 = D * D
        ROOT =  D
+       IF(ROOT.EQ.0.D0) 
+     > CALL ENDJOB('ERROR : root=0 in ffagfa. Try D=1e-99 in pgm',-99)
        SIGN = 1.D0
        IF( Y .LE. YL .OR. D .LE. 1.D-6 ) THEN
           D=-D
@@ -946,6 +946,7 @@ C F et  derivees de F par rapport a RO (PRO) et TTA (FTTA)
       ENDIF
 
       IF (IDB.EQ.4) THEN
+
           X3RO   =  0.D0
           X4RO   =  0.D0
           X3TTA  = -RO*SINZ
@@ -1278,6 +1279,8 @@ C           (M=POINT COURANT), PARALLELEMENT A LA D1ROITE (ABC)
        DS = SQRT((X - XOS)**2 + (Y - YOS)**2 )
        DS2 = DS * DS
        ROOTS = DS
+       IF(ROOTS.EQ.0.D0) 
+     > CALL ENDJOB('ERROR : roots=0 in ffagfa. Try DS=1e-99 in pgm',-99)
        SIGNS = 1.D0
        IF( Y .GE. YLS .OR. DS .LE. 1.D-6 ) THEN 
           DS = -DS
@@ -1428,6 +1431,7 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
 
 
       IF (IDB.EQ.4) THEN 
+
          PROS2  = PROS*PROS
          PTTAS2 = PTTAS*PTTAS
          D2DS= ((SIGNS*D2ROS)*GAPS2-DS*GAPS*GA2ROS
@@ -1484,6 +1488,7 @@ C     Calcul de F et des derivees de F par rapport a RO (PRO) et TTA (FTTA)
      >        + DXS*DX2ROS + DYS*DY2ROS)) / ROOT3S 
      >        + (3*DXROS*DX2ROS + 3*DYROS*DY2ROS + DXS*DX3ROS 
      >        + DYS*DY3ROS) / ROOTS
+
          D4ROS   = - 15*(DXS* DXROS + DYS* DYROS)**4 / ROOT7S 
      >        + 9*(DXS*DXROS + DYS*DYROS)**2*(2*DXROS**2 
      >        + 2*DYROS**2 +  2*DXS*DX2ROS + 2*DYS*DY2ROS) / ROOT5S 
@@ -1949,7 +1954,6 @@ C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL)
 
       IF (KMAG.LT.NBMAG) GOTO 30
 
- 98   CONTINUE
       RETURN
  99   STOP
       END 

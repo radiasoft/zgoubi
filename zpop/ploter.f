@@ -64,11 +64,16 @@ C------ Entering negative value for X  will cancel tagging
       SAVE OKXAV, XMOY, OKYAV, YMOY
       LOGICAL OKX12, OKY12, OKX12I, OKY12I, OKX12O, OKY12O
       SAVE OKX12, OKY12
-      SAVE AX,PX,BX,AY,PY,BY
+
+      INCLUDE "MXSTEP.H"
+      DIMENSION BTAB(MXSTEP,2)
+      SAVE AX,PX,BX,AY,PY,BY, BTAB
+
+      LOGICAL  OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
+      SAVE     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
+      DATA     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY /6*.FALSE./
 
       LOGICAL BINM
-      LOGICAL ABSX, ABSY
-      SAVE ABSX, ABSY
 
 C----- For possible storing of coordinates in , if ellipse plot
       LOGICAL KLIPS, KLIPSI                   
@@ -80,14 +85,19 @@ C----- For possible storing of coordinates in , if ellipse plot
       DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /
 
       LOGICAL IDLUNI
+      LOGICAL READBX, READBY
+      DATA READBX, READBY / .FALSE., .FALSE. /
 
       IF(LIS .EQ. 2) THEN 
         IF (IDLUNI(JUN)) THEN
           OPEN(UNIT=JUN,FILE='zpop.log_IMPV')
           CALL IMPV2(JUN)
+          write(*,*)  ' sbr ploter jun =', jun
+C           pause
         ELSE
           WRITE(6,*) ' *** sbr PLOTER, Problem : No idle unit number ! '
           CALL IMPV2(0)
+C           pause
         ENDIF
       ENDIF
 
@@ -98,6 +108,7 @@ C----- For possible storing of coordinates in , if ellipse plot
       NOC = 0
       NRD=0
       D0=0.D0
+      ITAB = 1
 
       LET0 = ' '
       IT0 = 0
@@ -121,7 +132,8 @@ C----- Read next coordinate
      >                  KART,LET,YZXB,NDX,*10,*19)
 C          write(*,*) nrd, yzxb(8)
 C      IF(NDX(1) .LE. -1) GOTO 44
-      IPASS=YZXB(39)
+C      IPASS=YZXB(39)
+      IPASS=NINT(YZXB(39))
       IF(IPASS .NE. IPASS0) NPT = 0
 
 C----- File type zgoubi.plt
@@ -131,8 +143,8 @@ C-------  Particle changes
         IF(LET .NE. LET0 .OR. NDX(2) .NE. IT0 ) THEN
 
 C--------- If this is not the first particle...
-C         IF(LET0 .NE. ' ') THEN
-         IF(IT0 .NE. 0) THEN
+C          IF(LET0 .NE. ' ') THEN
+          IF(IT0 .NE. 0) THEN
 
 C----------- Extrapolate the plot linearly over an additive path length PPA
 C            at end of field maps
@@ -141,6 +153,7 @@ C            at end of field maps
           ENDIF
 
           NPT=0
+          itab = 1
           LET0=LET
           IT0 = NDX(2)
            
@@ -165,13 +178,39 @@ C----- File type zgoubi.spn
 
       X = YZXB(KX)
       Y = YZXB(KY)
+         yyy = y
+C         write(*,*) 'lohvlouivv ',kx,x
 
       IF(OKXAV) X=X-XMOY
       IF(OKYAV) Y=Y-YMOY
-      IF(ABSX) X = ABS(X)
-      IF(ABSY) Y = ABS(Y)
-      X = AX*X**PX + BX
-      Y = AY*Y**PY + BY
+      IF(OKABSX) X = ABS(X)
+      IF(OKABSY) Y = ABS(Y)
+      IF(OKDX) THEN 
+        XX = BX
+        IF(READBX) XX = BTAB(ITAB,1)
+        X = AX*(X-XX)**PX
+      ELSEIF(OKABDX) THEN 
+        XX = BX
+        IF(READBX) XX = BTAB(ITAB,1)
+        X = AX*ABS(X-XX)**PX
+      ELSE
+        X = AX*X**PX + BX
+      ENDIF
+      IF(OKDY) THEN 
+        YY = BY
+        IF(READBY) YY = BTAB(ITAB,2)
+        Y = AY*(Y-YY)**PY
+      ELSEIF(OKABDY) THEN 
+        YY = BY
+        IF(READBY) YY = BTAB(ITAB,2)
+        Y = AY*ABS(Y-YY)**PY
+      ELSE
+        Y = AY*Y**PY + BY
+      ENDIF
+      
+C      WRITE(*,*) x,y,npt, ' sbr ploter '
+
+      ITAB = ITAB + 1
 
       IF    (NL .EQ. NPLT
      >           .OR. NL .EQ. NFAI) THEN
@@ -305,7 +344,7 @@ C     ------------------------------------
       WRITE(6,*) ' Means : <X>, SigmaX, <Y>, SigmaY, Correlation'
       WRITE(6,FMT='(1P,5G14.6)') XM,SX,YM,SY,COR
       WRITE(6,FMT=
-     >'(''Linear regression :   Y ='',1P,G12.4,'' + '',G12.4,'' * X'')') 
+     >'(''Linear regression :   Y ='',1P,E16.8,'' + '',E16.8,'' * X'')') 
      >YM-COR*SY/SX*XM, COR*SY/SX
 
       IF(LIS .EQ. 2) CLOSE(JUN)
@@ -354,15 +393,53 @@ C     ------------------------------------
         OKYAVO=OKYAV
       RETURN
 
-      ENTRY PLOT5(AXI,PXI,BXI,AYI,PYI,BYI,IOPT)
+      ENTRY PLOT5(AXI,PXI,BXI,AYI,PYI,BYI,IOPT,IBXY,IUN)
         AX = AXI
         BX = BXI
         PX = PXI
         AY = AYI
         BY = BYI
         PY = PYI
-        ABSX = IOPT.EQ.2
-        ABSY = IOPT.EQ.4
+        OKDX = OKDX .OR. IOPT.EQ.2
+        OKABSX = OKABSX .OR. IOPT.EQ.3
+        OKABDX = OKABDX .OR. IOPT.EQ.4
+        OKDY = OKDY .OR. IOPT.EQ.6
+        OKABSY = OKABSY .OR. IOPT.EQ.7
+        OKABDY = OKABDY .OR. IOPT.EQ.8
+        IF(IBXY.NE.0) THEN
+          READBX = IBXY.EQ.1
+          READBY = IBXY.EQ.2
+          ISTEP=1
+c          write(*,*) ibxy,  'ibxy'
+c           pause
+
+ 51       CONTINUE
+C Units in BTAB should be m, as delivered by READCO
+            READ(IUN,*,ERR=519,END=518) DUM,BTAB(ISTEP,IBXY)
+c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
+            ISTEP=ISTEP+1
+            GOTO 51
+ 518        WRITE(6,*) ' SBR PLOTER : end read BTAB upon EOF'
+            GOTO 510
+ 519        WRITE(6,*) ' SBR PLOTER : end read BTAB upon error'
+ 510        CONTINUE
+            WRITE(6,*) '  ->  ',ISTEP-1,' data have been read'
+        ENDIF
+      RETURN
+
+      ENTRY PLOT51(AXJ,PXJ,BXJ,AYJ,PYJ,BYJ)
+        AX = AXJ
+        BX = BXJ
+        PX = PXJ
+        AY = AYJ
+        BY = BYJ
+        PY = PYJ
+        OKDX = .FALSE.
+        OKABSX = .FALSE.
+        OKDY = .FALSE.
+        OKABSY = .FALSE.
+          READBX = .FALSE.
+          READBY = .FALSE.
       RETURN
 
       ENTRY PLOT6(KLIPSI)
@@ -415,6 +492,7 @@ C------- Histogram
         YMI = 1.D10
         YMA =-1.D10
         NRD=0
+        ITAB = 1
         CALL REWIN2(NL,*97)
 
 C       ******** BOUCLE SUR READ FICHIER NL 
@@ -424,16 +502,85 @@ C       ******** BOUCLE SUR READ FICHIER NL
      >                    KART,LET,YZXB,NDX,*110,*96) 
 C        IF(NDX(1).LT. -1) GOTO 144
 
-C        IPASS=NINT(YZXB(20))
         IPASS=NINT(YZXB(39))
         NOCE = NOCE+1
+
+      IF(IPASS .NE. IPASS0) NPT = 0
+
+C----- File type zgoubi.plt
+      IF    (NL .EQ. NPLT) THEN
+
+C-------  Particle changes
+        IF(LET .NE. LET0 .OR. NDX(2) .NE. IT0 ) THEN
+
+C--------- If this is not the first particle...
+C          IF(LET0 .NE. ' ') THEN
+          IF(IT0 .NE. 0) THEN
+
+C----------- Extrapolate the plot linearly over an additive path length PPA
+C            at end of field maps
+            IF(KX.EQ. 8 .AND. KY.EQ. 2..AND.PPA.NE. 0.D0)
+     >        CALL PPAR(PPA,X,Y,T0,KART)
+          ENDIF
+
+          NPT=0
+          itab = 1
+          LET0=LET
+          IT0 = NDX(2)
+           
+        ENDIF
+        T0 = YZXB(3)
+
+C----- File type zgoubi.fai
+      ELSEIF(NL .EQ. NFAI) THEN   
+
+        IF(YZXB(11) .NE. D0) THEN
+C---------- Detects a change of dp/p|_initial
+          NPT=0
+          D0=YZXB(11)
+        ENDIF
+
+C----- File type zgoubi.spn
+      ELSEIF(NL .EQ. NSPN) THEN   
+
+        IF(IPASS.EQ. 1) NPT=0
+
+      ENDIF  
+
         X = YZXB(KX)
         Y = YZXB(KY)
 
         XMOY = XMOY+X
         YMOY = YMOY+Y
+
+      IF(OKABSX) X = ABS(X)
+      IF(OKABSY) Y = ABS(Y)
+      IF(OKDX) THEN 
+        XX = BX
+        IF(READBX) XX = BTAB(ITAB,1)
+        X = AX*(X-XX)**PX
+      ELSEIF(OKABDX) THEN 
+        XX = BX
+        IF(READBX) XX = BTAB(ITAB,1)
+        X = AX*ABS(X-XX)**PX
+      ELSE
         X = AX*X**PX + BX
+      ENDIF
+      IF(OKDY) THEN 
+        YY = BY
+        IF(READBY) YY = BTAB(ITAB,2)
+        Y = AY*(Y-YY)**PY
+      ELSEIF(OKABDY) THEN 
+        YY = BY
+        IF(READBY) YY = BTAB(ITAB,2)
+        Y = AY*ABS(Y-YY)**PY
+      ELSE
         Y = AY*Y**PY + BY
+      ENDIF
+      ITAB = ITAB + 1
+
+c        X = AX*X**PX + BX
+c        Y = AY*Y**PY + BY
         CALL MINMAX(X,Y,XMI,XMA,YMI,YMA)
 
         GOTO 144             

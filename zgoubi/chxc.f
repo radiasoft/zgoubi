@@ -35,7 +35,8 @@ C       KALC = 3: DEFINES QUAD , SEXTU , ... , MULTPL...
 C     --------------------------------------------------
       INCLUDE 'PARIZ.H'
 C      PARAMETER (MXX=400, MXY=200)
-      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
@@ -71,7 +72,7 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
       LOGICAL BINAR,BINARI,IDLUNI
 C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
-      CHARACTER TITL*80 , NOMFIC(20)*80, NAMFIC*80
+      CHARACTER TITL*120 , NOMFIC(20)*80, NAMFIC*80
       DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
       INTEGER DEBSTR,FINSTR
  
@@ -86,6 +87,7 @@ C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       INCLUDE 'FILPLT.H'
 
       PARAMETER (I0=0)
+      CHARACTER*120 FMTYP
 
       LOGICAL SUMAP
       DATA SUMAP /.FALSE./
@@ -98,6 +100,8 @@ C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       DATA KTOR /  'CLAMPEES', 'PARALLELES' /
 
       SAVE YSHFT
+
+      DATA DTA1,DTA2,DTA3 / 3*0.D0 /
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
@@ -116,6 +120,8 @@ C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
 C        Field is defined by analytical models
 
         LST =LSTSET(NINT(A(NOEL,1)))
+        LST2 = 10 * (A(NOEL,1) - NINT(A(NOEL,1)))
+        CALL IMPPL3(LST2)
 
       ENDIF
 
@@ -123,7 +129,8 @@ C        Field is defined by analytical models
  
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
-      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 DTA1,DTA2,DTA3)
 
       XE = 0.D0
       XS = 0.D0
@@ -310,19 +317,34 @@ C-------- KALC = 2: READS FIELD MAP
          IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
 
             IF(KUASEX .EQ. 2) THEN
+C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
+              NDIM = 2
+C              CALL TOSCAC(SCAL,NDIM, 
+C     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+C     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+            ELSEIF(KUASEX.EQ.7) THEN
+C---------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
+              NDIM = 3
+            ENDIF
+            CALL TOSCAC(SCAL,NDIM, 
+     >                        BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >             XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+         ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
+C----------- EMMA 
+
+            IF(KUASEX .EQ. 34) THEN
 C---------- 2 : TOSCA. Reads a 2-D field map, assumes Bx=By=0
               NDIM = 2
-              CALL TOSCAC(SCAL,KUASEX,NDIM, 
+            ELSEIF(KUASEX.EQ.35) THEN
+C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format. 
+              NDIM = 3
+            ENDIF
+            CALL EMMAC(SCAL,NDIM, 
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
-            ELSEIF(KUASEX.EQ.7) THEN
-C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format. 
-              NDIM = 3
-              CALL TOSCAC(SCAL,KUASEX,NDIM, 
-     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-            ENDIF
 
          ELSE
  
@@ -366,7 +388,7 @@ C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format.
                IDN = DEBSTR(NAMFIC)
 
                IF(NAMFIC(IDN:IDN).EQ.'+') THEN
-C--------- Will sum (superimpose) 1D field maps if map file name is followed with 'SUM'
+C--------- Will sum (superimpose) 1D or 2D field maps if map file name is followed by 'SUM'
                  NAMFIC = NAMFIC(IDN+1:IFN)
                  SUMAP = .TRUE.
                ELSE
@@ -515,7 +537,7 @@ C     inversion of x-axis and from G to kG
                  XBMI = XH(281-J)
                  YBMI = YH(I)
                ENDIF
-               hc(id,j,i,1) = HH
+               HC(ID,J,I,1) = HH
 8800         CONTINUE
 C    +++++++++++++++++++++++++++
  
@@ -619,13 +641,13 @@ C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
 C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
 C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
              CLOSE(LUN)
-             IF(KUASEX .EQ. 9) THEN
+C             IF(KUASEX .EQ. 9) THEN
 C-------------- No 2nd-order 25-point interpolation available with MAP2D[_E]
                IF(IRD.EQ.25) IRD=2
                INDEX=0
                NT = 1
                CALL PAVELW(INDEX,NT)
-             ENDIF
+C             ENDIF
 
              NFIC = 0
 
@@ -644,17 +666,39 @@ C-------------- No 2nd-order 25-point interpolation available with MAP2D[_E]
                  GOTO 96
                ENDIF
 
+C Map data file starts with 8-line header
+        IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' HEADER : '
+        READ(LUN,FMT='(A120)') TITL
+        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+        READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
+        GOTO 50
+ 49     CONTINUE
+        IF(NRES.GT.0) WRITE(NRES,*) 
+     >         ' Error upon readinng R0, DR, DX, DZ'
+ 50     CONTINUE
+        READ(LUN,FMT='(A120)') TITL
+        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+        FMTYP = TITL(DEBSTR(TITL):FINSTR(TITL))
+        DO 32 II=1, 6
+          READ(LUN,FMT='(A120)') TITL
+ 32       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+        IF(NRES.GT.0) WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
+        IF(NRES.GT.0) WRITE(NRES,*) ' FORMAT type : ', FMTYP
+
                DO 10 J=1,JYMA
                  DO  10  K = 1,IXMA
                    IF( BINAR ) THEN
                      READ(LUN)
      >               YH(J),ZH(I),XH(K),BREAD(2),BREAD(3),BREAD(1)
                    ELSE
-C------  Manip VAMOS ganil, oct 2001
-C                     READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
-                     READ(LUN,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
+                     IF(FMTYP.EQ.'GSI') THEN
+                       READ(LUN,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
      >                                      BREAD(2),BREAD(3),BREAD(1)
-
+                     ELSE
+C-------  Manip VAMOS ganil, oct 2001
+                       READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
+     >                                      BREAD(2),BREAD(3),BREAD(1)
+                     ENDIF
 CC----  Manip VAMOS ganil, oct 2001 
 C                     YH(J) = YH(J) * 1.D2
 C                     zH(i) = zH(i) * 1.D2
@@ -750,6 +794,7 @@ C               HC(ID,I,1,1) = HC(ID,I,1,1) + BMES * BNORM
              CLOSE(LUN)
 
 C------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat. 
+C        SUMAP is .T.
              IF(JFIC.LT.NFIC) GOTO 5521
 
 C           Motion in this lmnt has no z-symm. 
@@ -795,8 +840,11 @@ C            write(*,*) ' unit = ', lun
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
      >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4G12.4
      >     , /,5X,'Min/max normalised fields   :', 2(G12.4,20X)
-     >     ,//,5X,'Nber of steps in X =',I4,'  NBRE DE PAS EN Y =',I5
-     >     , /,5X,'Step in X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+     >     ,//,5X,'Nber of steps in X =',I4,';  nber of steps in Y =',I5
+     >     , /,5X,'Step in X =',G12.4,' cm ;  step in Y =',G12.4,' cm')
+           IF(NDIM .EQ. 3) WRITE(NRES,FMT='(5X,
+     >     ''nber of steps in Z ='',I5,'' ; Step in Z ='',G12.4,
+     >                                   '' cm'')') 2*KZMA-1,ZH(2)-ZH(1)
 C     >      //,5X,'Champ MIN/MAX CARTE       : ', 
 C     >                               1P,G12.4,T64,'/ ',G12.4
 C     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
@@ -838,7 +886,7 @@ C              .... IRD=4 OU 25
      X       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
            ENDIF
  
-           IF(LF .NE. 0) CALL FMAPW('CHXC',0.D0,RFR,1)
+           IF(LF .NE. 0) CALL FMAPW(0.D0,RFR,1)
  
          ENDIF
 C         ... endif NRES>0
@@ -1082,10 +1130,8 @@ C        STP3 = A(NOEL,ND)
       CALL ENDJOB('Execution stopped, data list error ',-99)
  
   200 FORMAT(2A)
-  201 FORMAT(11F7.2)
- 400    FORMAT(10F8.2)
- 401   FORMAT(10F8.1)
-  205 FORMAT(F6.0)
-  206 FORMAT(F8.5)
-  207 FORMAT(1H0,10X,'Champ TRANSPORT = ',F9.5,'KG',/)
+ 400   FORMAT(10E8.1)
+ 401   FORMAT(10E8.1)
+C 400    FORMAT(10F8.2)
+C 401   FORMAT(10F8.1)
       END

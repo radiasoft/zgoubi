@@ -37,13 +37,13 @@ C     -------------------------------------------------------------
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
-C rustine RACCAM
-C      INCLUDE 'MXLD.H'
-C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
+      INCLUDE "MAXTRA.H"
+      INCLUDE "MAXCOO.H"
+      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/RIGID/ BORO,DPREF,DP,BR
       COMMON/STEP/ TPAS(3), KPAS
@@ -65,6 +65,14 @@ C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
       DATA WDGE, WDGS, FFXTE, FFXTS / 0.D0, 0.D0, 0.D0, 0.D0 /
       SAVE WDGE, WDGS, FFXTE, FFXTS
+
+       LOGICAL FITTST
+       DATA FITTST / .FALSE. /
+       SAVE FITTST
+
+      logical consty
+      parameter(consty=.false.)
+C      parameter(consty=.true.)
 
 C rustine RACCAM
 c      logical first
@@ -91,8 +99,10 @@ C--------- Entrance is sharp edge
       X2 = X
       Y2 = Y  
       Z2 = Z
+      IF(FITTST) CALL FITMM2
 
 C----- DEBUT DE BOUCLE SUR DXI
+C      Start loop on DXI
     1 CONTINUE
 
 C---------------------  Some tests to possibly stop integration 
@@ -172,6 +182,7 @@ C-------- CHREG is .true. if particle is going to next region
       ENDIF
 
 C----------------   TEST  DROITE(S) DE COUPURE SORTIE
+C                   Test exit integration boundary
 C                   Used either in maps, 
 C                   or in case of sharp edge exit in BEND, WIENF, UNDUL, ELMIR...
 C FM 08/99      IF(IDRT .GE. 2) THEN
@@ -242,6 +253,8 @@ C     >             *99)
 C------------- if .not.mirror etc. 
 
           ENDIF
+        ELSEIF( KART .EQ. 2) THEN
+          stop ' SBR INTEGR : IDRT not implemented'
         ENDIF
       ENDIF
 
@@ -298,7 +311,9 @@ C---------- kart .eq. 1
 C-------- ifb .ne. 0
 
       DX=XLIM-X
-C        write(89,*)  x, dxi, dx, xlim, ' 1  sbr integr' 
+C        write(*,*)  x*180.d0/(4.d0*atan(1.d0)), 
+C     >  dxi*180.d0/(4.d0*atan(1.d0)), xlim,pas,
+C     > 'sbr integr' 
       IF(DX/DXI .LT. 1.D0) THEN
         IF(.NOT.MIRROR) THEN
           GOTO 2
@@ -306,6 +321,7 @@ C        write(89,*)  x, dxi, dx, xlim, ' 1  sbr integr'
           IF(.NOT.BACK) CALL KSTOP(8,IT,KEX,*97)
         ENDIF
       ENDIF
+
       PAF = PAS
       CALL DEPLA(PAF)
       CALL COFIN
@@ -313,7 +329,15 @@ C        write(89,*)  x, dxi, dx, xlim, ' 1  sbr integr'
      >   *97)
 C     >   *99)
 
+C       write(*,*) ' integr call fitmm  '
+      IF(FITTST) THEN
+        CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
+C        WRITE(*,*) ' INTEGR   FITTST : ',FITTST
+      ENDIF
+
 C rustine RACCAM -----------
+c        call zgnoel(
+c     >              noel)
 c        if(it.eq.1.and.noel.eq.8) then
 c          if(x.gt.-.0046) then 
 c            if(first) then
@@ -329,14 +353,25 @@ C---------------------------
       CT=COS(T)
       ST=SIN(T)
 
+         if(consty) then 
+                        y = fo(2,it)
+                    xxx = nstep*dxi
+                    x = xxx
+           write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
+     >          b(1,1),b(1,3)*br,b(1,2),'    sbr integr'
+         endif
+
+
       X2 = X
       Y2 = Y
       Z2 = Z
 
       GOTO 1
 C---------  FIN DE BOUCLE SUR DXI
+C           End loop on DXI
  
  2    CONTINUE
+
 C        write(89,*)  x, dxi, dx, xlim, ' 2  sbr integr' 
       IF(KART .EQ. 1) THEN
         AL=1.D0
@@ -389,6 +424,15 @@ C----------- Spin tracking
         ENDIF
       ENDIF
 C        write(89,*)  x, dxi, dx, xlim, ' 4  sbr integr' 
+
+         if(consty) then 
+                        y = fo(2,it)
+                    xxx = nstep*dxi
+                    x = xxx
+           write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
+     >          b(1,1),b(1,3)*br,b(1,2),'    sbr integr'
+         endif
+
 
  99   CONTINUE
       IF(KALC .EQ. 2 ) THEN
@@ -449,5 +493,8 @@ C----- Print last step if requested
       AREG(2)=AREGI(2)
       BREG(2)=BREGI(2)
       CREG(2)=CREGI(2)
+      RETURN
+      ENTRY INTEG8(KFIT)
+      FITTST = KFIT.EQ.1
       RETURN
       END

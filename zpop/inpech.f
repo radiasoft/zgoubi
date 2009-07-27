@@ -34,14 +34,10 @@ C  France
  30   CONTINUE
       CALL HOMCLR
 
-      WRITE(6,103) XMI,XMA,YMI,YMA 
- 103  FORMAT(/,' * Present  values  of  scale  min - max :',
-     >//,'    Xmin,max, Ymin,max : ',//, 
-     >1P, 4G17.9,//)
-C     1,//,'    XMI = ',1P,G17.9  
-C     1,/ ,'    XMA = ',   G17.9  
-C     1,/ ,'    YMI = ',   G17.9  
-C     1,/ ,'    YMA = ',   G17.9  ,//)
+      WRITE(6,103) XMI,XMA,YMI,YMA, ITYP
+ 103  FORMAT(/,' * Present  values  of  scale  min - max, Mode :',
+     >//,'    Xmin,max, Ymin,max, mode(1-3) : ',//, 
+     >1P, 4G17.9,3X,I1//)
       
       WRITE(6,100)
  100  FORMAT('$  * Want  to  change  (Y/N) : ')
@@ -59,7 +55,7 @@ C     1,/ ,'    YMA = ',   G17.9  ,//)
  40     CONTINUE
         WRITE(6,*)
         WRITE(6,101) 
- 101    FORMAT('  Give  XMI, XMA, YMI, YMA, Type(1-3) : ',$)
+ 101    FORMAT('  Give  XMI, XMA, YMI, YMA, Mode(1-3) : ',$)
         READ(5,*,ERR=40) XMI,XMA,YMI,YMA, ITYP
         IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN 
 C          CALL TXTFBG

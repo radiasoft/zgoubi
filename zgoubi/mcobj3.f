@@ -103,42 +103,42 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
    
 C----- Constitution of the beam
       DO 1 J=2,MXJ1,2
-	J1=J+1
-	IF(J1.EQ.MXJ) J1=1 
-	IF(EPS(J).EQ.0.D0) THEN
+        J1=J+1
+        IF(J1.EQ.MXJ) J1=1 
+        IF(EPS(J).EQ.0.D0) THEN
           DO 11 I=IMI,IMA
-    	    FO(J ,I)=0.D0
-	    FO(J1,I)=0.D0
+            FO(J ,I)=0.D0
+        FO(J1,I)=0.D0
  11       CONTINUE
-	ELSE
+        ELSE
           REB=SQRT(EPS(J)*BET(J))
-	  REBM=SQRT(RMA(J)*EPS(J)*BET(J))
+          REBM=SQRT(RMA(J)*EPS(J)*BET(J))
 C          RM = RMA(J)*REB
-	  DO 12 I=IMI,IMA
-	    IF    (KTIR(J) .EQ. 'Uniform') THEN
+          DO 12 I=IMI,IMA
+            IF    (KTIR(J) .EQ. 'Uniform') THEN
 C       Tirage uniforme en r2 = uniforme en surface, elliptique en y et y'
               IF(J.LE.4) THEN
 C                TRANSVERSE COORDINATES
- 	        R=SQRT(RNDM(IR1))*REBM
+                R=SQRT(RNDM(IR1))*REBM
                 ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
                 X = R*COS(ANG)
                 FO(J ,I) = X/UNIT(J-1)
                 FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
               ELSE
 C                DP/P, X
- 	        R=RNDM(IR1)*REBM
+                R=RNDM(IR1)*REBM
                 SIGN =  1.D0 
                 IF(2.D0*(RNDM(IR1)-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J ,I) = X/UNIT(J-1)
- 	        R=RNDM(IR1)*
+                R=RNDM(IR1)*
      >            SQRT(RMA(J)*EPS(J)*(1.D0+ALP(J))**2/BET(J))
                 SIGN =  1.D0 
                 IF(2.D0*(RNDM(IR1)-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J1,I) = X/UNIT(J)
               ENDIF
-    	    ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
+              ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
 C-------------  Tirage uniforme en exp(-r2) = gaussien en y et y'
               SM=EXP(-RMA(J)*RMA(J)/2.D0)
 C              SM=EXP(-RMA(J)/2.D0)
@@ -159,13 +159,13 @@ CCCCC                            concentration ellipse in zgplot :
 CCCCC             R=SQRT(-2.D0*LOG(R))*REB /2.D0
 
 C-------------- Leads to sigma_x=sqrt( beta_x epsilon_x/pi) :
-	      R=SQRT(-2.D0*LOG(R))*REB
+              R=SQRT(-2.D0*LOG(R))*REB
               ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
               X = R*COS(ANG)
               FO(J ,I) = X/UNIT(J-1)
               FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
 
-	    ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
+            ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
 C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
  7            R = RNDM(IR1)
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
@@ -182,7 +182,7 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
               X = XM - DXM * COS ( A3 + PI/3.D0 )
               FO(J1,I) = X/UNIT(J)
-	    ENDIF
+            ENDIF
 C            ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
 C            X = R*COS(ANG)
 C            FO(J ,I) = X/UNIT(J-1)

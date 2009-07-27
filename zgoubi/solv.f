@@ -23,7 +23,9 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SOLV(A,N,N1,DET,INT)
+C Error, correction B.Bru, 05/2009      
+C      SUBROUTINE SOLV(A,N,N1,DET,INT)
+      SUBROUTINE SOLV(A,N,N1,DET,IND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION RES(20)
       DIMENSION A(20,21),IND(20)

@@ -1108,7 +1108,7 @@ C----- FFAG-SPI. FFAG, spiral.
 
 C      shift of origin (due to upstream fringe field extent) : 
       AMIN = AT/2.D0 +ACN       
-      XI =  -RM * TAN(op-(2.d0*acn-at/2.d0)*DEG2RD) * CM2M
+      XI =  RM * TAN(op-(2.d0*acn-at/2.d0)*DEG2RD) * CM2M
       TXT = 'FFAG-SPI'
 
       B1  =A(NOEL,12)
@@ -1162,6 +1162,10 @@ C           CALL TRTXT(S,Y,LABEL(NOEL,1),4,1)
 C           CALL TRTXT(S0+AL2*CC/2.D0,Y0+AL2*SS/2.D0,TXT,4,1)
 
          ENDIF
+      GOTO 998
+C----- EMMA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
+C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
+ 103  CONTINUE
       GOTO 998
 
 c      MOD = 33

@@ -106,7 +106,7 @@ C MODIFIED, FM, 04/97
      > ,/,10X,' P/Z3   ',5X,   G14.5
      > ,/,10X,' P/P3   ',5X,   G14.5)
  
- 99   CONTINUE
+      CONTINUE
       WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
   101 FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
       RETURN

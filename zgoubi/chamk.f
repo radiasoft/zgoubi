@@ -33,7 +33,8 @@ C      SI ID=1 ALORS IZ=1 ;
 C      SI ID=3 ALORS IZ >= NOMBRE DE CARTES EN Z= IMPAIR > 2
 C     --------------------------------------------------------
       INCLUDE 'PARIZ.H'
-      COMMON//AM(MXX),RM(MXY),ZM(IZ),H(ID,MXX,MXY,IZ),IAMAX,IRMAX,IZMAX
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
@@ -84,34 +85,35 @@ C------- MAP2D, MAP2D_E.  Tracking in symmetryless 2D map
         RETURN
       ENDIF
  
-      DA=AM(2)-AM(1)
-      IAC=(A1-AM(1))/DA+1.5D0
+      DA=XH(2)-XH(1)
+      IAC=(A1-XH(1))/DA+1.5D0
       IF(KUASEX .EQ. 8) THEN
 C--------  KUASEX = 8:  1-D  map  with  X-cylindrical symmetry (e.g., solenoidal field)
 C    1-D  mesh, 5 points grid
           IAC=MAX0(IAC,3)
-          IAC=MIN0(IAC,IAMAX-2)
-          A=A1-AM(IAC)
+          IAC=MIN0(IAC,IXMA-2)
+          A=A1-XH(IAC)
           GOTO 42
       ENDIF
  
       IF(IRD .EQ. 2) THEN
 C-------  2-D/3*3 points or 3-D/3*3*3 points grid
         IAC=MAX0(IAC,2)
-        IAC=MIN0(IAC,IAMAX-1)
+        IAC=MIN0(IAC,IXMA-1)
       ELSE
 C-------  2-D  5*5 points
         IAC=MAX0(IAC,3)
-        IAC=MIN0(IAC,IAMAX-2)
+        IAC=MIN0(IAC,IXMA-2)
       ENDIF
-      A=A1-AM(IAC)
+      A=A1-XH(IAC)
  
-      DR=RM(2)-RM(1)           
-      IRC=(R1-RM(1))/DR+1.5D0
+      DR=YH(2)-YH(1)           
+      IRC=(R1-YH(1))/DR+1.5D0
+C        write(*,*) dr,YH(2),YH(1),irc,r1,YH(irc),' chamk'
 
-C      IF    (IRC.LE.1 .OR. IRC.GE.IRMAX) THEN
+C      IF    (IRC.LE.1 .OR. IRC.GE.JYMA) THEN
 CC        ... POINT en limite ou HORS CARTE DE Champ
-      IF    (IRC.LT.1 .OR. IRC.GT.IRMAX) THEN
+      IF    (IRC.LT.1 .OR. IRC.GT.JYMA) THEN
 C        ... POINT HORS CARTE DE Champ
          KERK=1
       ELSE
@@ -122,42 +124,42 @@ C        ... Particle is inside field map
       IF(IRD .EQ. 2) THEN
 C      +++ 2-D  3*3 points or 3-D  3*3*3 points grid
         IRC=MAX0(IRC,2)
-        IRC=MIN0(IRC,IRMAX-1)
+        IRC=MIN0(IRC,JYMA-1)
       ELSE
 C      +++  2-D grid,  5*5 points
         IRC=MAX0(IRC,3)
-        IRC=MIN0(IRC,IRMAX-2)
+        IRC=MIN0(IRC,JYMA-2)
       ENDIF
-      R=R1-RM(IRC)
- 
+      R=R1-YH(IRC)
+        
       IF(KUASEX .EQ. 7) THEN
-C--------  KUASEX = 7: CARTE 3-D            
-C Note :  normally IZ2=2. Yet, if IZ=1 in PARIZ.H then IZ2=1 and the following is irrelevant, of course
-        DZ=ZM(IZ2)-ZM(1)
-        IZC=(Z1-ZM(1))/DZ+1.5D0
+C--------  KUASEX = 7: CARTE 3-D   
+        IF(IZ.EQ.1) 
+     >        STOP 'SBR CHAMK, 3D map, give IZ>1 in PARIZ.H' 
+        DZ=ZH(2)-ZH(1)
+        IZC=(Z1-ZH(1))/DZ+1.5D0
         IZC=MAX0(IZC,2)
-        IZC=MIN0(IZC,IZMAX-1)
-        Z=Z1-ZM(IZC)
+        IZC=MIN0(IZC,KZMA-1)
+        Z=Z1-ZH(IZC)
         GOTO 41
       ENDIF
 
- 40   CONTINUE
+C 40   CONTINUE
 C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
       IF(IRD-4) 20,21,22
  
  20   CONTINUE
 C       .... ORDRE 2 ,  3*3 points grid
  
-C
-      F1=H(ID,IAC-1,IRC-1,1)
-      F2=H(ID,IAC  ,IRC-1,1)
-      F3=H(ID,IAC+1,IRC-1,1)
-      F4=H(ID,IAC-1,IRC  ,1)
-      F5=H(ID,IAC  ,IRC  ,1)
-      F6=H(ID,IAC+1,IRC  ,1)
-      F7=H(ID,IAC-1,IRC+1,1)
-      F8=H(ID,IAC  ,IRC+1,1)
-      F9=H(ID,IAC+1,IRC+1,1)
+      F1= HC(ID,IAC-1,IRC-1,1)
+      F2= HC(ID,IAC  ,IRC-1,1)
+      F3= HC(ID,IAC+1,IRC-1,1)
+      F4= HC(ID,IAC-1,IRC  ,1)
+      F5= HC(ID,IAC  ,IRC  ,1)
+      F6= HC(ID,IAC+1,IRC  ,1)
+      F7= HC(ID,IAC-1,IRC+1,1)
+      F8= HC(ID,IAC  ,IRC+1,1)
+      F9= HC(ID,IAC+1,IRC+1,1)
 
 C BB/FM/ 18/08 to be thought of......
       CALL MAPLIM(*999, 9, BMESH1)
@@ -191,7 +193,7 @@ C BB/FM/ 18/08 to be thought of......
       BZXY=C6/(4.D0*DA*DR)                /BR
       BZX=C2/(6.D0*DA)                    /BR
       BZY=C3/(6.D0*DR)                    /BR
-      BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36D0     /BR
+      BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36.D0   /BR
       BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) /BR
       BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) /BR
 
@@ -225,7 +227,7 @@ C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
          IRCJR=IRC+JR
          DO 2 I=1,5
             IA=I-3
-            BIAJR=H(ID,IAC+IA,IRCJR,1)
+            BIAJR= HC(ID,IAC+IA,IRCJR,1)
             BMESH(I,J) = BIAJR
             AI=DBLE(IA)
             AI2=AI*AI*BIAJR
@@ -355,7 +357,7 @@ C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
             IA=I-3
             AI=DBLE(IA)
             AI2=AI*AI
-            BIAJR=H(ID,IAC+IA,IRCJR,1)
+            BIAJR= HC(ID,IAC+IA,IRCJR,1)
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
             A11=A11+             RJ   *BIAJR
@@ -404,10 +406,18 @@ C
  
  30   CONTINUE
 C  +++ CALCUL DE BZ ET SES DERIVEES AU POINT COURANT A1,R1
+C       dum = BZ
       BZ=BZ+BZX*A+BZY*R+0.5D0*BZXX*A*A+0.5D0*BZYY*R*R+BZXY*A*R
       BZX=BZX+BZXX*A+BZXY*R
       BZY=BZY+BZXY*A+BZYY*R
- 
+
+C         aamm = XH(iac)*180.d0/(4.d0*atan(1.d0))
+C        write(88,*) bz*br,dum*br,a,r,iac,aamm,
+C     >              HC(ID,IAC  ,IRC  ,1),' chamk'
+C        write( *,*) bz*br,dum*br,a1,a,r,iac,aamm,
+C     >              HC(ID,IAC  ,IRC  ,1),' chamk'
+
+
 CC     ** PASSAGE DE LA FACE MAGNETIQUE (FMAG>.45) ,
 CC        SI ON UTILISE CHAMBR
 C      IF(LIMIT .EQ. 1) FMAG=ABS(BZ*BR/BMAX)
@@ -452,7 +462,7 @@ C                        isum =0
             IA=I-2
             DO 416 K=1,3
               KZ=K-2
-              BIJK=H(L,IAC+IA,IRC+JR,IZC+KZ)
+              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ)
               BMESH3(K,I,J) = BIJK
               A000(L)=A000(L) + 
      >             DBLE(7-3*(IA*IA+JR*JR+KZ*KZ))/3.D0 *BIJK
@@ -571,7 +581,7 @@ C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
  
  
  42   CONTINUE
-C------- KUASEX = 8: CARTE 1-D A SYM DE REVOL/X, GRILLE 1-D A 5 POINTS
+C------- KUASEX = 8: 1-D map with  x-revolution symmetry, grid 1-D with 5 points
         CALL KRTAX(A1,BX)
         R2=R1*R1+Z1*Z1
         R=SQRT(R2)

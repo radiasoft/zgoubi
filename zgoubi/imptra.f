@@ -42,6 +42,7 @@ C     1,AMS ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
       COMMON/RIGID/ BORO,DPREF,DP,BR
       COMMON/UNITS/ UNIT(MXJ) 
 
+      DIMENSION SIG(4,4)
       CHARACTER TXT*10, TXT2*2 
 
       WRITE(NRES,100) IMAX2-IMAX1+1
@@ -81,11 +82,24 @@ Compute number of particles alive and numberinside ellipse
      >                                        NLIV,NINL)
         RATIN = DBLE(NINL)/DBLE(IMAX)
         WRITE(TXT2,FMT='(I1)') JJ
-        WRITE(NRES,110) IPASS, 
-     >       PI4*EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN,TXT//TXT2
- 110    FORMAT(I4,1P,5(1X,G12.4),2I8,1X,G12.4,A)
+        WRITE(NRES,110)
+     >       PI4*EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN,TXT//TXT2,IPASS
+ 110    FORMAT(1P,5(1X,G12.4),2I8,1X,G12.4,A,I6)
  10   CONTINUE
 
+Compute 4-D sigma matrix
+      WRITE(NRES,FMT='(//,''  Beam  characteristics '', 1X
+     >,'' SIGMA(4,4) : '',/)')
+      CALL LPSFI4( 
+     >             sqx,sqz,SIG)
+
+      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' Ex, Ez =', sqx,sqz
+      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpX, BetX =', 
+     >                  sig(1,2)/sqx, sig(1,1)/sqx
+      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpZ, BetZ =', 
+     >                  sig(3,4)/sqZ, sig(3,3)/sqx
+      WRITE(NRES,120) ((SIG(I,J),J=1,4),I=1,4)
+ 120  FORMAT(/,1P,4E14.6)
 
 CC----------- Rustine talk hpcpast 2002
 C         x=f(2,1)/100.D0

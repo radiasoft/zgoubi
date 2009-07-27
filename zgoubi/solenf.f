@@ -84,8 +84,8 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
       ER=ER*BBC
       PR=PR*BBC
  
-      AL =2*(KL-EL)-K2L*KL
-      AR =2*(KR-ER)-K2R*KR
+      AL =2.D0*(KL-EL)-K2L*KL
+      AR =2.D0*(KR-ER)-K2R*KR
       GL  =RL/R
       GR  =RR/R
  
@@ -181,18 +181,18 @@ CCCCCCCCCCCCCCCCCCC Seems not to work well...CCCCCCCCCCC
       V5=V3*VV
  
       BC(1)=(XR/SQU+XL/SQV)  
-      BC(2)=0D0
+      BC(2)=0.D0
  
-      DBC(1,1) =-1/SQU+1/SQV+XR*XR/U3-XL*XL/V3 
+      DBC(1,1) =-1.D0/SQU+1/SQV+XR*XR/U3-XL*XL/V3 
 CCC DBC(2,2)=0?????
-      DBC(2,2)=0D0
-      DBC(2,1)=0D0
+      DBC(2,2)=0.D0
+      DBC(2,1)=0.D0
  
-      DDBC(1,1,1)=3*(-XR/U3-XL/V3+XR*XR*XR/U5+XL*XL*XL/V5)
-      DDBC(2,1,1)= 0D0
+      DDBC(1,1,1)=3.D0*(-XR/U3-XL/V3+XR*XR*XR/U5+XL*XL*XL/V5)
+      DDBC(2,1,1)= 0.D0
 CCC DDBC(2,2,1)=0?????
-      DDBC(2,2,1)=0D0
-      DDBC(2,2,2)= 0D0
+      DDBC(2,2,1)=0.D0
+      DDBC(2,2,2)= 0.D0
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
  2000 CONTINUE

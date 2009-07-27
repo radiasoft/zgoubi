@@ -134,11 +134,11 @@ C         CALL ZGOUBI(200,.TRUE.)
          GOTO 21
 
  7    CONTINUE                      
-         CALL GRAPH1(NLOG, LM, NOMFIC)
+         CALL GRAPH7(NLOG, LM, NOMFIC)
          GOTO 21
 
  8    CONTINUE                      
-         CALL GRAPH2(NLOG, LM, NOMFIC)
+         CALL GRAPH8(NLOG, LM, NOMFIC)
          GOTO 21
 
  11   CONTINUE

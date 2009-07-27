@@ -136,9 +136,7 @@ C----- For allowing the use of the first 7 traj with FIT
         DO 112 J=2,MXJ1
           FO(J,I) = A(NOEL,II+J-2)
  112      CONTINUE
-C        P0 = BORO*CL9*FO(1,I)
-C        BTA = P0 / SQRT( P0*P0 + 0.511**2 )  
-C        FO(7,I) = FO(6,I)/(BTA*CL)
+C       Time=FO(7,I) further initialized by 'PARTICUL' if used. 
  11   CONTINUE
 
       LUN = NRES
@@ -195,137 +193,211 @@ C---------- OBJET AUTOMATIQUE SYMETRIQUE
       D = A(NOEL,45)
 
       IF(KOBJ2.EQ.0) THEN
-      DO 6 J=1,5
-         IDEMAX=IDE(J)
-         DO 7 K=1,IDEMAX
-C           DE(J,K)=DELTA(K,P(J))
-            K2=K/2
-            IF(2*K2 .EQ. K) THEN
-               DE(J,K) = K2*P(J)
-            ELSE
-               DE(J,K) =-K2*P(J)
-            ENDIF
-    7    CONTINUE
-    6 CONTINUE
-      DO 14 K=1,IDMAX
-         DE(1,K)=DE(1,K)+D
-   14 CONTINUE
-      I=0
-      DO  8 ID=1,IDMAX
-        IKAR=0
-        DO  8 IY=1,IYMAX
-          DO  8 IT=1,ITMAX
-            IKAR=IKAR+1
-            IF(IKAR.GT.41)  IKAR=1
-            DO  8 IZ=1,IZMAX
-              DO  8 IP=1,IPMAX
-                I=I+1
-                IREP(I)=I
-                IF(IZ .EQ. 1 .AND. DE(5,IP).LT.0.D0)  IREP(I)=I-1
-                IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .EQ. 0.D0)
-     >           IREP(I)=I-IPMAX
-                IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .GT. 0.D0)
-     >           IREP(I)=I-IPMAX+1
-                IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .LT. 0.D0)
-     >           IREP(I)=I-IPMAX-1
-                DO 13 J=1,5
-                  KDE=JDE(J)
-                  FO(J,I)=DE(J,KDE)
-C                  F(J,I)=FO(J,I)
-                  LET(I)=KAR(IKAR)
-13              CONTINUE
-        F(6,I)= 0D0
-8     CONTINUE
-      IMAX=I
+        DO 6 J=1,5
+           IDEMAX=IDE(J)
+           DO 7 K=1,IDEMAX
+C             DE(J,K)=DELTA(K,P(J))
+              K2=K/2
+              IF(2*K2 .EQ. K) THEN
+                 DE(J,K) = K2*P(J)
+              ELSE
+                 DE(J,K) =-K2*P(J)
+              ENDIF
+    7      CONTINUE
+    6   CONTINUE
+        DO 14 K=1,IDMAX
+           DE(1,K)=DE(1,K)+D
+   14   CONTINUE
+        I=0
+        DO  8 ID=1,IDMAX
+          IKAR=0
+          DO  8 IY=1,IYMAX
+            DO  8 IT=1,ITMAX
+              IKAR=IKAR+1
+              IF(IKAR.GT.41)  IKAR=1
+              DO  8 IZ=1,IZMAX
+                DO  8 IP=1,IPMAX
+                  I=I+1
+                  IREP(I)=I
+                  IF(IZ .EQ. 1 .AND. DE(5,IP).LT.0.D0)  IREP(I)=I-1
+                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .EQ. 0.D0)
+     >             IREP(I)=I-IPMAX
+                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .GT. 0.D0)
+     >             IREP(I)=I-IPMAX+1
+                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .LT. 0.D0)
+     >             IREP(I)=I-IPMAX-1
+                  DO 13 J=1,5
+                    KDE=JDE(J)
+                    FO(J,I)=DE(J,KDE)
+C                    F(J,I)=FO(J,I)
+                    LET(I)=KAR(IKAR)
+13                CONTINUE
+          F(6,I)= 0D0
+8       CONTINUE
+        IMAX=I
  
-      IF(IMAX .GT. MXT) GOTO 98
+        IF(IMAX .GT. MXT) GOTO 98
  
-      K = 40
-      DO 162 J = 2,MXJ1
-        REF(J) = A(NOEL,K)
-        K = K + 1
- 162  CONTINUE
+        K = 40
+        DO 162 J = 2,MXJ1
+          REF(J) = A(NOEL,K)
+          K = K + 1
+ 162    CONTINUE
 
-      REF(1) = 0.D0
-      DO 161 I=1,IMAX
-        DO 161 J=1, 6
-          FO(J,I) = FO(J,I) + REF(J)
-          F(J,I)=FO(J,I)
- 161  CONTINUE
+        REF(1) = 0.D0
+        DO 161 I=1,IMAX
+          DO 161 J=1, 6
+            FO(J,I) = FO(J,I) + REF(J)
+            F(J,I)=FO(J,I)
+ 161    CONTINUE
 
       ELSEIF(KOBJ2.EQ.1) THEN
 C--------------- OBJET with Z>0 ET P>0
-      DO 21 J=1,3
-         IDEMAX=IDE(J)
-         DO 22 K=1,IDEMAX
-            K2=K/2
+        DO 21 J=1,3
+          IDEMAX=IDE(J)
+          DO 22 K=1,IDEMAX
+              K2=K/2
             IF(2*K2 .EQ. K) THEN
                DE(J,K) = K2*P(J)
             ELSE
                DE(J,K) =-K2*P(J)
             ENDIF
-22       CONTINUE
-21    CONTINUE
-      DO 23 J=4,5
-         IDEMAX=IDE(J)
-         DO 23 K=1,IDEMAX
+22        CONTINUE
+21      CONTINUE
+        DO 23 J=4,5
+          IDEMAX=IDE(J)
+          DO 23 K=1,IDEMAX
             DE(J,K) =(K-1)*P(J)
-23    CONTINUE
-      DO 29 K=1,IDMAX
-29       DE(1,K)=DE(1,K)+D
-      I=0
-      DO 25 ID=1,IDMAX
-         IKAR=0
-         DO 25 IY=1,IYMAX
+23      CONTINUE
+        DO 29 K=1,IDMAX
+29        DE(1,K)=DE(1,K)+D
+        I=0
+        DO 25 ID=1,IDMAX
+          IKAR=0
+          DO 25 IY=1,IYMAX
             DO 25 IT=1,ITMAX
-               IKAR=IKAR+1
-               IF(IKAR.GT.41)  IKAR=1
-               DO 25 IZ=1,IZMAX
-                  DO 25 IP=1,IPMAX
-                     I=I+1
-                     IREP(I)=I
-                     DO 26 J=1,5
+              IKAR=IKAR+1
+              IF(IKAR.GT.41)  IKAR=1
+              DO 25 IZ=1,IZMAX
+                DO 25 IP=1,IPMAX
+                   I=I+1
+                   IREP(I)=I
+                   DO 26 J=1,5
                         KDE=JDE(J)
                         FO(J,I)=DE(J,KDE)
                         F(J,I)=FO(J,I)
                         LET(I)=KAR(IKAR)
-26                   CONTINUE
-                  F(6,I)= 0D0
-25    CONTINUE
-      IMAX=I
+26                 CONTINUE
+                   F(6,I)= 0D0
+25      CONTINUE
+        IMAX=I
 
-      IF(IMAX .GT. MXT) GOTO 98
+        IF(IMAX .GT. MXT) GOTO 98
 
-      K = 40
-      DO 24 J = 2,MXJ1
-        REF(J) = A(NOEL,K)
-        K = K + 1
- 24   CONTINUE
+        K = 40
+        DO 24 J = 2,MXJ1
+          REF(J) = A(NOEL,K)
+          K = K + 1
+ 24     CONTINUE
 
-      REF(1) = 0.D0
-      DO 28 I=1,IMAX
-        DO 28 J=1, 6
-          FO(J,I) = FO(J,I) + REF(J)
-          F(J,I)=FO(J,I)
- 28   CONTINUE
+        REF(1) = 0.D0
+        DO 28 I=1,IMAX
+          DO 28 J=1, 6
+            FO(J,I) = FO(J,I) + REF(J)
+            F(J,I)=FO(J,I)
+ 28     CONTINUE
 
-      IMAXT=IMAX/IDMAX
-      IF(NRES.GT.0) THEN
-        WRITE(NRES,106) KOBJ,IMAX
-        WRITE(NRES,101) (IDE(J),J=1,MXJ1)
-        WRITE(NRES,102) (P(J),J=1,MXJ1)
-      ENDIF
-      DO 27 I=1,IMAX
+        IMAXT=IMAX/IDMAX
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,106) KOBJ,IMAX
+          WRITE(NRES,101) (IDE(J),J=1,MXJ1)
+          WRITE(NRES,102) (P(J),J=1,MXJ1)
+        ENDIF
+        DO 27 I=1,IMAX
          IEX(I) = 1
-   27 CONTINUE
-      ENDIF
+   27   CONTINUE
 
+      ELSEIF(KOBJ2.EQ.2) THEN
+C--------------- OBJET with Y>0 ET T>0, Z>0 ET P>0
+        DO J=1,1
+          IDEMAX=IDE(J)
+          DO K=1,IDEMAX
+            K2=K/2
+            IF(2*K2 .EQ. K) THEN
+               DE(J,K) = K2*P(J)
+            ELSE
+               DE(J,K) =-K2*P(J)
+            ENDIF
+          ENDDO
+        ENDDO
+        DO J=2,5
+          IDEMAX=IDE(J)
+          DO K=1,IDEMAX
+            DE(J,K) =(K-1)*P(J)
+          ENDDO
+        ENDDO
+        DO K=1,IDMAX
+          DE(1,K)=DE(1,K)+D
+        ENDDO
+        I=0
+        DO ID=1,IDMAX
+          IKAR=0
+          DO IY=1,IYMAX
+            DO IT=1,ITMAX
+              IKAR=IKAR+1
+              IF(IKAR.GT.41)  IKAR=1
+              DO IZ=1,IZMAX
+                DO IP=1,IPMAX
+                   I=I+1
+                   IREP(I)=I
+                   DO J=1,5
+                        KDE=JDE(J)
+                        FO(J,I)=DE(J,KDE)
+                        F(J,I)=FO(J,I)
+                        LET(I)=KAR(IKAR)
+                   ENDDO
+                   F(6,I)= 0D0
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDDO
+        IMAX=I
+
+        IF(IMAX .GT. MXT) GOTO 98
+
+        K = 40
+        DO J = 2,MXJ1
+          REF(J) = A(NOEL,K)
+          K = K + 1
+        ENDDO
+
+        REF(1) = 0.D0
+        DO I=1,IMAX
+          DO J=1, 6
+            FO(J,I) = FO(J,I) + REF(J)
+            F(J,I)=FO(J,I)
+          ENDDO
+        ENDDO
+
+        IMAXT=IMAX/IDMAX
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,106) KOBJ,IMAX
+          WRITE(NRES,101) (IDE(J),J=1,MXJ1)
+          WRITE(NRES,102) (P(J),J=1,MXJ1)
+        ENDIF
+        DO I=1,IMAX
+         IEX(I) = 1
+        ENDDO
+
+      ENDIF ! KOBJ2
 
       IF(KOBJ .EQ. 7) THEN
 C------- EFFET CINEMATIQUE PRIS EN COMPTE
-        DO 19 I=1,IMAX
+        DO I=1,IMAX
           FO(1,I)=D + FO(3,I)*P(1)
- 19       F(1,I)=FO(1,I)
+          F(1,I)=FO(1,I)
+        ENDDO
       ENDIF
  
       IMAXT=IMAX/IDMAX

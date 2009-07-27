@@ -40,6 +40,7 @@ C  France
       CHARACTER*80 TITL, TXT, FILE3O
       CHARACTER STOR*5
       LOGICAL EXS, OPN, IDLUNI 
+      LOGICAL EXS2, OPN2
       INTEGER DEBSTR
       LOGICAL EMPTY
       DATA IFIVE /5/
@@ -98,7 +99,7 @@ C---------- Synchrotron radiation menu
 C---------- Main menu
           KX0 = KX
           KY0 = KY
-C          Lab coordinate types
+C--------- Lab coordinate types
           LINE = 0
           READ(LN,*,ERR=57,END=57) KX,KY
           LINE = LINE+1
@@ -114,7 +115,7 @@ c            RM = 3.482590E2
 c            CM2M = 0.01
 c            CALL READCC(MOD,RM*CM2M,RM*CM2M)
           ENDIF
-C          Axis range
+C--------- Axis range
           XMI0 = XMI
           XMA0 = XMA
           YMI0 = YMI
@@ -131,14 +132,14 @@ C          Axis range
             YMA = YMA0
             OKECH = .FALSE.
           ENDIF
-C           LIST option and histogram bins number
+C--------- LIST option and histogram bins number
           READ(LN,*,ERR=57,END=57) LIS, NB
           LINE = LINE+1
-C           Marker/line type
+C--------- Marker/line type
           READ(LN,*,ERR=57,END=57) MARK
           LINE = LINE+1
           CALL LINTYW(MARK)
-C          Trajectories data file (default is zgoubi.plt)
+C--------- Trajectories data file (default is zgoubi.plt)
           FILE2O = ''
           READ(LN,*,ERR=57,END=57) FILE2O
           LINE = LINE+1
@@ -146,9 +147,62 @@ C          Trajectories data file (default is zgoubi.plt)
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KT1, KT2
           LINE = LINE+1
-C          Optical structure data file (default is zgoubi.dat)
+C--------- Optical structure data file (default is zgoubi.dat)
           FILE3O = ''
           READ(LN,*,ERR=57,END=57) FILE3O  !!!!!, LMNT1, LMNT2
+          LINE = LINE+1
+C--------- Options, menu 7.3.14
+          READ(LN,*,ERR=57,END=57) AX,PX,BX
+          IBXY = 0
+          IF(BX.EQ.-99.D0) IBXY = 1
+          IF(IBXY.NE.0) THEN
+            INQUIRE(FILE='zpop_7.3.14.in',EXIST=EXS2, ERR=98,IOSTAT=IOS,
+     >      OPENED=OPN2, NUMBER=LN2)
+            IF(EXS2) THEN
+              IF(OPN2) THEN
+                REWIND(LN2)
+              ELSE
+                IF (IDLUNI(IUN)) THEN
+                  OPEN(UNIT=IUN,FILE='zpop_7.3.14.in')
+                  OPN2 = .TRUE.
+                ELSE
+                  WRITE(6,*) 
+     >        '*** SBR PLINIT, problem : could not open  zpop_7.3.14.in'
+                ENDIF
+              ENDIF
+            ELSE
+              WRITE(6,*) 
+     >        '*** SBR PLINIT : no such file to open, zpop_7.3.14.in'
+            ENDIF
+          ENDIF
+          CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
+          CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
+          LINE = LINE+1
+          READ(LN,*,ERR=57,END=57) AY,PY,BY
+          IBXY = 0
+          IF(BY.EQ.-99.D0) IBXY = 2
+          IF(IBXY.NE.0) THEN
+            INQUIRE(FILE='zpop_7.3.14.in',EXIST=EXS2, ERR=98,IOSTAT=IOS,
+     >      OPENED=OPN2, NUMBER=LN2)
+            IF(EXS2) THEN
+              IF(OPN2) THEN
+                REWIND(LN2)
+              ELSE
+                IF (IDLUNI(IUN)) THEN
+                  OPEN(UNIT=IUN,FILE='zpop_7.3.14.in')
+                  OPN2 = .TRUE.
+                ELSE
+                  WRITE(6,*) 
+     >        '*** SBR PLINIT, problem : could not open  zpop_7.3.14.in'
+                ENDIF
+              ENDIF
+            ELSE
+              WRITE(6,*) 
+     >        '*** SBR PLINIT : no such file to open, zpop_7.3.14.in'
+            ENDIF
+          ENDIF
+          CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
+          CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
           LINE = LINE+1
           
  57       WRITE(6,FMT='(I2,2A)') LINE,' lines of initialisation ',  

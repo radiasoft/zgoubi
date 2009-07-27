@@ -47,7 +47,7 @@ C  France
  
       DO 1 IFIC=1,NFIC
         OLDFIL=TA(NOEL,IFIC)
- 200    FORMAT(A)
+C 200    FORMAT(A)
         IDEB = DEBSTR(OLDFIL)
         IFIN = FINSTR(OLDFIL)
  
@@ -120,7 +120,7 @@ C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
 C            READ (LNR,404, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             line = line + 1
- 404        FORMAT(1X,7E11.2)
+C 404        FORMAT(1X,7E11.2)
             WRITE(LNW) (X7(I),I=1,7)
           GOTO 11
         ENDIF

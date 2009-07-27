@@ -33,7 +33,8 @@ C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
-      CHARACTER   TITRE*80
+C      CHARACTER   TEXT*80
+      CHARACTER   TEXT*110
       INTEGER DEBSTR
       LOGICAL EMPTY
 
@@ -43,25 +44,25 @@ C-----------------------------------------------------------------------
       WRITE(6,*) '  numbering  and  labeling  elements...'
 
 C----- Read zgoubi.dat title (1st data line)
-      READ (NDAT,FMT='(A)',ERR=10,END=95) TITRE
-      IF(NRES .GT. 0) WRITE(NRES,FMT='(A)') TITRE
+      READ (NDAT,FMT='(A)',ERR=10,END=95) TEXT
+      IF(NRES .GT. 0) WRITE(NRES,FMT='(A)') TEXT
 
       NOEL=0
  10   CONTINUE
-        READ (NDAT,FMT='(A)',ERR=10,END=95) TITRE
-        IDEB=DEBSTR(TITRE)
-        IF( TITRE(IDEB:IDEB) .EQ. '''' ) THEN
+        READ (NDAT,FMT='(A)',ERR=10,END=95) TEXT
+        IDEB=DEBSTR(TEXT)
+        IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN
           NOEL=NOEL+1
 
           DO 1 I=IDEB+1,IDEB+9
-            IF(TITRE(I:I) .EQ. '''') GOTO 2
+            IF(TEXT(I:I) .EQ. '''') GOTO 2
  1        CONTINUE
 
  2        CONTINUE
 
-            IF( .NOT. EMPTY(TITRE((I+1):80)) ) THEN
-              CALL STRGET(TITRE((I+1):80),(80-I),2,
-     >                                             NST,LAB2)
+            IF( .NOT. EMPTY(TEXT((I+1):110)) ) THEN
+              CALL STRGET(TEXT((I+1):110),(110-I),2,
+     >                                              NST,LAB2)
               LABEL(NOEL,1) = LAB2(1)
               IF(NST.EQ.2) THEN 
                 LABEL(NOEL,2) = LAB2(2)
@@ -73,13 +74,15 @@ C----- Read zgoubi.dat title (1st data line)
               LABEL(NOEL,2) = '        '
             ENDIF
 
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(A,I6)') TITRE, NOEL
+          
+C          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,T110,I6)') TEXT, NOEL
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,I6)') TEXT, NOEL
 
-          IF(   TITRE(IDEB:IDEB+4) .EQ. '''FIN'''
-     >     .OR. TITRE(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
+          IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
+     >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
 
         ELSE
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(A)')  TITRE
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110)')  TEXT
 
         ENDIF
 

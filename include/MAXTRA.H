@@ -24,6 +24,8 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C If you change here, make sure you also re-compile zpop...
+
+C Max number of particles
 C      PARAMETER (MXT=1000)
 C      PARAMETER (MXT=10000)
       PARAMETER (MXT=40000)

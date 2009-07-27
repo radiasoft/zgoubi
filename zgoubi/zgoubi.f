@@ -23,9 +23,9 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ZGOUBI(NL1,NL2,READAT,FITING)
+      SUBROUTINE ZGOUBI(NL1,NL2,READAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL READAT, FITING
+      LOGICAL READAT
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -65,6 +65,8 @@ C----- Average orbit
       CHARACTER*10 PULAB
       COMMON/COT/ PULAB(MPULAB)
 
+C----- Tells whether FIT is active or not
+      LOGICAL FITING
 C----- To get values into A(), from earlier FIT
       LOGICAL FITGET
       SAVE FITGET
@@ -79,6 +81,8 @@ C----- To get values into A(), from earlier FIT
       INCLUDE 'PARIZ.H'
       INCLUDE 'FILPLT.H'
 
+      PARAMETER (I1=1, I2=2, I3=3, I5=5, I6=6)
+
       DATA LBL / MLB * ' ' / 
 C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
@@ -92,17 +96,23 @@ C This INCLUDE must stay located right before the first statement
       IF(READAT) THEN
         CALL PRDATA(
      >              LABEL,NOELMX)
+        CALL FITSTA(I5,
+     >                 FITING)
+        IF(.NOT.FITING) NL2=NOELMX
         CALL LINGUA(LNG)
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
         PRLB = .FALSE.
       ENDIF
 
+C----- Get FIT status
+      CALL FITSTA(I5,
+     >               FITING)
       IF(FITING) CALL RESET2
 
  997  CONTINUE
-      IF(READAT) READ(NDAT,103) TITRE
- 103  FORMAT(A)
+      IF(READAT) READ(NDAT,503) TITRE
+ 503  FORMAT(A)
       TITRE = TITRE(1:50)//'       Zgoubi Version 5.0.0.' 
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
@@ -335,8 +345,8 @@ C----- CARTEMES. CARTE DE Champ CARTESIENNE MESUREE DU SPES2
  21   CONTINUE
       KALC =2
       KUASEX = 1
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -365,7 +375,6 @@ C----- OBJET.
 C----- MCOBJET. Object defined by Monte-Carlo
  25   CONTINUE
       IF(READAT) CALL RMCOBJ
-C      CALL MCOBJ
       IF(.NOT. FITING) THEN
         CALL MCOBJ
       ELSE
@@ -411,14 +420,14 @@ C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code),
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  31   CONTINUE
       KALC = 2
-      IF(READAT) CALL RCARTE(KART,3,
-     >                              ND(NOEL))
+      IF(READAT) CALL RCARTE(KART,I3,
+     >                               ND(NOEL))
 
       IF    (A(NOEL,22) .EQ. 1) THEN
-C------- 2-D map, KZMA = 1
+C        KZMA = 1, 2-D map
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN
-C------- 3-D map, KZMA > 1
+C        KZMA > 1, 3-D map
         KUASEX = 7
         IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, need
      >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
@@ -506,15 +515,16 @@ C          OR RECIPROCAL.
       IF(READAT) CALL RBINAR
       CALL BINARY
       GOTO 998
-C----- FIT. 
- 102  MTHD = 2
+C----- FIT, FIT2. Two methods are available 
+ 102  MTHOD = 2
       GOTO 461
  46   CONTINUE
-      MTHD = 1
+      MTHOD = 1
  461  CONTINUE
-      CALL FITNU2(MTHD)
+      CALL FITNU2(MTHOD)
       CALL RFIT
       FITING = .TRUE.
+      CALL FITSTA(I6,FITING)
       FITGET = .FALSE.
       RETURN
 C----- SPES3. CARTE DE Champ CARTESIENNE MESUREE DU SPES3
@@ -522,8 +532,8 @@ C          D'APRES W. ROSCH, 1991
  47   CONTINUE
       KALC =2
       KUASEX = 3
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -531,8 +541,8 @@ C----- CARTE DE Champ CARTESIENNE 2-D DE CHALUT
  48   CONTINUE
       KALC =2
       KUASEX = 4
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -575,7 +585,7 @@ C----- Plot transverse coordinates (for use on a workstation)
       GOTO 998
 C----- SPNPRNL. Store  state of spins in logical unit
  54   CONTINUE
-      IF(READAT) READ(NDAT,103) TA(NOEL,1)
+      IF(READAT) READ(NDAT,503) TA(NOEL,1)
       IF(FITGET) CALL FITGT1
       CALL SPNPRN(0)
       GOTO 998
@@ -606,8 +616,8 @@ C----- BREVOL. 1-D field B(r=0,x) on-axis field map, with cylindrical symmetry.
  58   CONTINUE
       KALC =2
       KUASEX = 8
-      IF(READAT) CALL RCARTE(1,1,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I1,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -615,8 +625,8 @@ C----- POISSON. CARTE DE Champ CARTESIENNE 2-D FABRIQUEE PAR POISSON
  59   CONTINUE
       KALC =2
       KUASEX = 5
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -632,8 +642,8 @@ C----- CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  61   CONTINUE
       KALC =2
       KUASEX = 6
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -643,8 +653,8 @@ C----- MAP2D. 2D B-FIELD MAP, NO SPECIAL SYMMETRY (P. Akishin, 07/1992)
      >   CALL ENDJOB('Use of MAP2D :  you need IZ>1 in PARIZ.H',-99)
       KALC =2
       KUASEX = 9
-      IF(READAT) CALL RCARTE(1,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I1,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
@@ -683,7 +693,7 @@ C----- WIENFILT - INTEGR NUMERIQ.
       GOTO 998
 C----- FAISTORE - Similar to FAISCNL, with additional options:
 C        - Print after LABEL'ed elements
-C        - Print every other run IPASS = mutltiple of IA
+C        - Print every other IPASS = mutltiple of IA
  66   CONTINUE
       IF(READAT) CALL RFAIST(MLB,
      >                           PRLB,IALB,LBL,NLB)
@@ -698,7 +708,7 @@ C        - Print every other run IPASS = mutltiple of IA
 C----- SPNPRNLA - PRINT SPINS ON FILE, EACH IPASS=MULTIPL OF IA
  67   CONTINUE
       IF(READAT) THEN
-        READ(NDAT,103) TA(NOEL,1)
+        READ(NDAT,503) TA(NOEL,1)
         READ(NDAT,*) A(NOEL,1)
         IA=A(NOEL,1)
       ENDIF
@@ -767,8 +777,8 @@ C----- POLARMES. CARTE DE Champ POLAIRE MESUREE
  76   CONTINUE
       KALC =2
       KUASEX = 22
-      IF(READAT) CALL RCARTE(2,2,
-     >                           ND(NOEL))
+      IF(READAT) CALL RCARTE(I2,I2,
+     >                             ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
@@ -777,7 +787,7 @@ C----- TRANSLATION X,Y,Z ET ROTATION RX,RY,RZ
       IF(READAT) READ(NDAT,*) (A(NOEL,II),II=1,6)
       IF(FITGET) CALL FITGT1
       CALL TRAROT(A(NOEL,1),A(NOEL,2),A(NOEL,3)
-     >  ,A(NOEL,4)*RAD,A(NOEL,5)*RAD,A(NOEL,6)*RAD)
+     >  ,A(NOEL,4),A(NOEL,5),A(NOEL,6))
       GOTO 998
 C----- SRLOSS. Switch synchrotron ligth on
  78   CONTINUE
@@ -935,7 +945,7 @@ C      CALL SUPERP
       GOTO 998
 C----- MARKER. 
  98   CONTINUE
-      IF(LABEL(NOEL,2).EQ.'.plt') THEN
+      IF(LABEL(NOEL,2).EQ.'.plt' .OR. LABEL(NOEL,2).EQ.'.PLT') THEN
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO 981 IT = 1, IMAX
  981      CALL IMPPLB(NPLT,0.D0,F(2,IT),F(3,IT),F(4,IT),F(5,IT),0.D0, 
@@ -969,10 +979,39 @@ C----- FFAG-SPI. FFAG, spiral.
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
+C----- EMMA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
+C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
+ 103  CONTINUE
+      KALC = 2
+      IF(READAT) CALL REMMA(KART,I3,
+     >                              ND(NOEL))
+
+      IF    (A(NOEL,22) .EQ. 1) THEN
+C------- 2-D map, KZMA = 1
+        KUASEX = 34
+      ELSEIF(A(NOEL,22) .GT. 1) THEN
+C------- 3-D map, KZMA > 1
+        KUASEX = 35
+        IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, need
+     >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
+      ENDIF
+      IF(FITGET) CALL FITGT1
+      IF    (KART.EQ.1) THEN 
+        CALL QUASEX(ND(NOEL))
+      ELSEIF(KART.EQ.2) THEN 
+        CALL AIMANT(ND(NOEL))
+      ENDIF
+      GOTO 998
 
 C------------------------------------------------------------------------
-      ENTRY ZGLMNT(TXTELO)
+      ENTRY ZGLMNT(
+     >             TXTELO)
       TXTELO = TXTELT
+      RETURN
+
+      ENTRY ZGNOEL(
+     >             NOELO)
+      NOELO = NOEL
       RETURN
 
       END

@@ -28,11 +28,12 @@ C  France
       LOGICAL FITIN, FITING
       SAVE FITING
       DATA FITING / .FALSE. /
+C FITIN set to .true. (in zgoubi.f) when FIT procedure run
       IF(IO.EQ.5) THEN
-C-------- read
+C-------- read status
          FITIN = FITING
       ELSEIF(IO.EQ.6) THEN
-C-------- write
+C-------- write status
          FITING = FITIN
       ENDIF         
       RETURN

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE TOSCAP(SCAL,KUASEX,NDIM,
+      SUBROUTINE TOSCAP(SCAL,NDIM,
      >                           BMIN,BMAX,BNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -32,7 +32,8 @@ C     Read TOSCA map with cylindrical coordinates.
 C     TOSCA keyword with MOD.ge.20. 
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
-      COMMON//XA(MXX),RO(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IAMA,JRMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -54,13 +55,16 @@ C-------------------------------------------------
 
       INTEGER DEBSTR,FINSTR
 
+      DATA NHDF / 8 /
+      SAVE NHDF
+
       BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
-      IAMA = A(NOEL,20)
-      IF(IAMA.GT.MXX) 
+      IXMA = A(NOEL,20)
+      IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
-      JRMA = A(NOEL,21)
-      IF(JRMA.GT.MXY ) 
+      JYMA = A(NOEL,21)
+      IF(JYMA.GT.MXY ) 
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
 
 C      IF(NDIM .EQ. 3) THEN
@@ -70,6 +74,7 @@ C      IF(NDIM .EQ. 3) THEN
 C      ENDIF
 
       MOD = NINT(A(NOEL,23))
+      MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
 
       IF    (NDIM.EQ.2 ) THEN
         NFIC=1
@@ -78,7 +83,8 @@ C      ENDIF
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
       ELSEIF(NDIM .EQ. 3 ) THEN
-        IF(MOD .GE. 20) THEN
+C        IF(MOD .GE. 20) THEN
+        IF(MOD .EQ. 20) THEN
 C--------- an option on symmetrization for creating full field map from 
 C          a 1-quarter map (done by  ENTRY FMAPR2). 
 C          Cylindrical mesh. Axis is Z
@@ -91,7 +97,7 @@ C--------- another option for symmetrization by FMAPR2
         ELSEIF(MOD .EQ. 22) THEN
 C--------- another option for symmetrization by FMAPR2
           I1 = 1
-          I2 = KZMA
+          I2 = 1  !!!KZMA   FM, 2009-04-10 for raccam measured 3-D field maps
         ELSE
           STOP ' *** Error. SBR TOSCAP. No such MOD value '
         ENDIF
@@ -140,19 +146,22 @@ C--------- another option for symmetrization by FMAPR2
         ENDIF
 
         IRD = NINT(A(NOEL,40))
-
-        CALL FMAPR2(BINAR,LUN,MOD,BNORM,
+        NHD = NHDF
+        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       ENDIF
 
         CALL MAPLI1(BMAX-BMIN)
-        AT=XA(IAMA)-XA(1)
+        AT=XH(IXMA)-XH(1)
         ATO = 0.D0
         ATOS = 0.D0
-        RM=.5D0*(RO(JRMA)+RO(1))
-        XI = XA(1)
-        XF = XA(IAMA)
+        RM=.5D0*(YH(JYMA)+YH(1))
+        XI = XH(1)
+        XF = XH(IXMA)
+
+C          write(*,*) 'toscap  at, xi, xf : ', at,xi,xf
+
  
       RETURN
  96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)

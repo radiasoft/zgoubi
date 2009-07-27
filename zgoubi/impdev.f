@@ -53,9 +53,10 @@ C------- CONDITIONS DE MAXWELL
       IF(NRES .GT. 0) THEN
         IF(LST .EQ. 1) THEN
 C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
+C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
           WRITE(NRES,105) IT,BR/BORO,Y,T,Z,P,X,SAR
  105      FORMAT(/,' SPGM   IMPDEV',5X,'TRAJ ',I3
-     >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E11.3)
+     >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E13.5)
  
           IF(KFLD .EQ. LC .OR. KFLD .EQ. ML) THEN
  
@@ -70,6 +71,10 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
  
           IF(KFLD .EQ. MG .OR. KFLD .EQ. ML) THEN
  
+C            WRITE(*,106) BR*B(1,1),BR*B(1,2),BR*B(1,3)
+C     >      ,BR*DB(1,1),BR*DB(2,1),BR*DB(3,1),BR*DB(2,2),BR*DB(3,2)
+C     >      ,BR*DDB(1,1,1),BR*DDB(2,1,1),BR*DDB(3,1,1)
+C     >      ,BR*DDB(2,2,1),BR*DDB(3,2,1),BR*DDB(3,3,1)
             WRITE(NRES,106) BR*B(1,1),BR*B(1,2),BR*B(1,3)
      >      ,BR*DB(1,1),BR*DB(2,1),BR*DB(3,1),BR*DB(2,2),BR*DB(3,2)
      >      ,BR*DDB(1,1,1),BR*DDB(2,1,1),BR*DDB(3,1,1)

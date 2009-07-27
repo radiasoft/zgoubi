@@ -35,7 +35,7 @@ C  France
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/UT/ U(6,6), T(6,6,6)
       COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
  
       CHARACTER BLANC*1,AST*10
       PARAMETER (BLANC=' ')
@@ -45,10 +45,12 @@ C      PARAMETER (AST  ='*')
 
       DIMENSION F0P(6,6), F0PD(6,6), F0MD(6,6)
 
-      DIMENSION IC2(MXV)
-      SAVE IC2
+C      DIMENSION IC2(MXV)
+C      SAVE IC2
 
       DIMENSION RPD(6,6), RMD(6,6) 
+
+      LOGICAL READAT
 
       M=1
       CALL REMPLI(M)
@@ -62,7 +64,12 @@ C      PARAMETER (AST  ='*')
          IF(I3(I) .NE. KK) THEN
             KK=I3(I)
 C----------- Compute present value of constraint 
-            CALL ZGOUBI(1,KK,.FALSE.,.TRUE.)
+C            FITING = .FALSE.
+C            CALL FITSTA(6,FITING)
+            READAT = .FALSE.
+            CALL ZGOUBI(1,KK,READAT)
+C           write(*,*) ' kk ',kk,i3(i)
+C             stop
          ENDIF
 
          IF     (ICONT .EQ. 0) THEN
@@ -127,10 +134,10 @@ C-----------Contraints are second order transport coeffs
              CALL COEFFS(0,IORD,U,T,F0P,1)
              CALL MAT2P(RPD,DP)
              CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
-     >                                              YNUP,ZNUP,CMUY,CMUZ) 
+     >                                             YNUP,ZNUP,CMUY,CMUZ) 
              CALL MAT2M(RMD,DP)
              CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
-     >                                              YNUM,ZNUM,CMUY,CMUZ) 
+     >                                             YNUM,ZNUM,CMUY,CMUZ) 
              DNUYDP = (YNUP-YNUM)/2.D0/DP
              DNUZDP = (ZNUP-ZNUM)/2.D0/DP
              WRITE(*,FMT='(/,34X,''Chromaticities:'',
@@ -141,7 +148,7 @@ C-----------Contraints are second order transport coeffs
 C----------- Constraints on particle coordinates or bundle
            IF    (ICONT2.EQ.0) THEN
              IF(K .GT. 0) THEN
-C-------------- Constraint is coordinate L of particle K
+C-------------- Constraint is value of coordinate L of particle K
                VAL=F(L,K)
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
@@ -168,7 +175,26 @@ C             or opposite angle values (L=3,5)
 C                 at ends of cell 
 C                   (hence expected constraint value in zgoubi.dat is 0)
              VAL=ABS(F(L,K) + FO(L,K))
-c             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
+C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
+           ELSEIF(ICONT2.EQ.3) THEN
+C------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached inside optical element KK
+             MIMA = NINT(CPAR(I,2))
+             CALL FITMM1(L,KK,MIMA,
+     >                             VAL)
+C             CALL FITMM2            
+     
+           ELSEIF(ICONT2.EQ.4) THEN
+C------------ Same coordinate L, two different particles K, K2 
+             K2 = NINT(CPAR(I,2)) 
+             VAL=ABS( F(L,K) - F(L,K2) )
+C             write(*,*) ' i, f1, f2 : ',i,F(L,K),F(L,K2)
+
+           ELSEIF(ICONT2.EQ.5) THEN
+C------------ Same coordinate L, two different particles K, K2 
+             K2 = NINT(CPAR(I,2)) 
+             VAL=F(L,K) / F(L,K2) -1.D0
+C             write(*,*) ' i, f1, f2 : ',i,F(L,K),F(L,K2)
+
            ENDIF
 
          ELSE IF(ICONT .EQ. 4) THEN
@@ -252,7 +278,7 @@ C    constraint rms  emittance
          Z=Z+((VAL-V(I))/W(I))**2
          VAT(I)=VAL
 3     CONTINUE
-           
+      
       IF(FINI.LE.Z) THEN
 C        WRITE(6,100) CHAR(13),IV,FINI,Z,BLANC
 C100      FORMAT(1H+,A1,I3,1P,2E20.5,1X,A10,$)
@@ -263,8 +289,4 @@ C         WRITE(6,100) CHAR(13),IV,FINI,Z,AST
       FF=Z
       RETURN
 
-      ENTRY FFI(IC2IN,IIC2)
-      IC2(IIC2) = IC2IN
-      FFI=0.D0
-      RETURN
       END

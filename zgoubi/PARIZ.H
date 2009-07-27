@@ -24,10 +24,9 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C-- Max mesh nodes in Z direction, # of field coordinates
-C      PARAMETER (IZ=9 , ID=3, IZ2=2, ID2=2, ID3=3)
-C      PARAMETER (IZ=5 , ID=3, IZ2=2, ID2=2, ID3=3)
-C      PARAMETER (IZ=3 , ID=3, IZ2=2, ID2=2, ID3=3)
-C      PARAMETER (IZ=1 , ID=1, IZ2=1, ID2=1, ID3=1)
+C      PARAMETER (IZ=9 , ID=3)
+C      PARAMETER (IZ=5 , ID=3)
+C      PARAMETER (IZ=3 , ID=3)
 
 C-- Max mesh nodes in X (longitudinal) and Y (transverse horiz) dirctions
 C      PARAMETER (MXX=400, MXY=200)
@@ -36,17 +35,25 @@ C      PARAMETER (MXX=601, MXY=200)
 C      PARAMETER (MXX=2000, MXY=600)
 
 C----- KEK/TOSCA.  Masamitsu Aiba
-C      PARAMETER (IZ=41 , ID=3, IZ2=2, ID2=2, ID3=3)
+C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=301, MXY=121)
 
 CC----- PRISM.  Yasutoshi Kuriyama
-C      PARAMETER (IZ=35 , ID=3, IZ2=2, ID2=2, ID3=3)
-C      PARAMETER (IZ=41 , ID=3, IZ2=2, ID2=2, ID3=3)
+C      PARAMETER (IZ=35 , ID=3)
+C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=361, MXY=171)
 
 CC----- RACCAM spiral field maps
-C       PARAMETER (IZ=21 , ID=3, IZ2=2, ID2=2, ID3=3)
+C       PARAMETER (IZ=21 , ID=3)
 C       PARAMETER (MXX=671, MXY=53)
 
-      PARAMETER (IZ=41 , ID=3, IZ2=2, ID2=2, ID3=3)
-      PARAMETER (MXX=1000, MXY=500)
+C      PARAMETER (IZ=41 , ID=3)
+C      PARAMETER (MXX=1000, MXY=500)
+
+CC---- EMMA 
+C      PARAMETER (IZ=1 , ID=3)
+C      PARAMETER (MXX=400, MXY=230)
+
+CC---- 
+      PARAMETER (IZ=5 , ID=3)
+      PARAMETER (MXX=400, MXY=230)

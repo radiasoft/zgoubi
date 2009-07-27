@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE TOSCAC(SCAL,KUASEX,NDIM, 
+      SUBROUTINE TOSCAC(SCAL,NDIM, 
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -32,7 +32,8 @@ C     Read TOSCA map with cartesian coordinates.
 C     TOSCA keyword with MOD.le.19. 
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
-      COMMON//XA(MXX),RO(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -80,6 +81,7 @@ C-------------------------------------------------
       ENDIF
 
       MOD = NINT(A(NOEL,23))
+      MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
 
       IF    (NDIM.EQ.2 ) THEN
         I1=1
@@ -88,6 +90,10 @@ C-------------------------------------------------
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
+          write(*,*) 
+          write(*,*) NEWFIC 
+          write(*,*) NAMFIC 
+          write(*,*) NOMFIC(NFIC),nfic
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
@@ -156,7 +162,7 @@ C--------- A single data file contains the all 3D volume
              ENDIF
 
              IRD = NINT(A(NOEL,40))
-             CALL FMAPR3(BINAR,LUN,MOD,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -166,15 +172,22 @@ C--------- A single data file contains the all 3D volume
 
 c voir si ok avec cartésien
         CALL MAPLI1(BMAX-BMIN)
-        AT=XA(IAMA)-XA(1)
+        AT=XH(IAMA)-XH(1)
         ATO = 0.D0
         ATOS = 0.D0
-        RM=.5D0*(RO(JRMA)+RO(1))
-        XI = XA(1)
-        XF = XA(IAMA)
+        RM=.5D0*(YH(JRMA)+YH(1))
+        XI = XH(1)
+        XF = XH(IAMA)
  
       RETURN
  96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
       RETURN
+
+      ENTRY TOSCA1
+      DO I = 1, IZ
+        NOMFIC(I) = ' '
+      ENDDO
+      RETURN
+
       END

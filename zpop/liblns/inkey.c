@@ -37,6 +37,22 @@
 #include <stdlib.h>
 
 #define	FTSTTY		ftstty_
+#define	OPEN_KEY	open_key_
+#define	TEST_KEY	test_key_
+#define	GET_C		get_c_
+#define	PUT_C		put_c_
+#define	CLOSE_KEY	close_key_
+#define	CTRLC_KEY	ctrlc_key_
+#define SEND_INT	send_int_
+#define FSLEEP          fsleep_
+#endif
+
+/* Case LINUX in version originale */
+#ifdef XUNIL
+
+#include <stdlib.h>
+
+#define	FTSTTY		ftstty_
 #define	OPEN_KEY	open_key__
 #define	TEST_KEY	test_key__
 #define	GET_C		get_c__

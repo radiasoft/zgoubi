@@ -38,7 +38,8 @@ C     ----------------------------------------------------
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       INCLUDE 'MAXNTR.H'          
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
-      PARAMETER (MXJ=7)
+C      PARAMETER (MXJ=7)
+      INCLUDE 'MAXCOO.H'
       COMMON/UNITS/ UNIT(MXJ-1) 
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
@@ -67,15 +68,15 @@ C     ----------------------------------------------------
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
 
-      data noel2, noc / 0, 0 /
-      save noel2, noc
+      data noel1, noc / -1, 0 /
+      save noel1, noc
 
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file
 
  1      READ(NL,101,ERR=99,END=10) LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
      >  ,GA,IT,IMAX,IPASS,NOEL
- 101    FORMAT(1X,A1,I2,1P,8E15.7,/,E15.7,2I3,I6,I5)
+ 101    FORMAT(1X,A1,I2,8E15.7,/,E15.7,2I3,I6,I5)
 
 C        IF(LM .NE. -1) THEN
 C          IF(LM .NE. NOEL) GOTO 1
@@ -101,6 +102,8 @@ C        ENDIF
         YZXB(22) = SF(2)
         YZXB(23) = SF(3)
         YZXB(24) = SF(4)
+
+C               write(*,*) ' readco ',SF(3)
 
         IF(IPASS.EQ. 1) THEN
           SX(IT) = 0.D0
@@ -130,9 +133,9 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 222
 C            ENDIF
 
-C              write(*,*) 'in zgoubi.fai type storage file A',
-C     >          ipass,' toto ',kley,lbl1,lbl2,noel
-
+c              write(*,*) 'in zgoubi.fai type storage file A',
+c     >          ipass,' toto ',kley,lbl1,lbl2,noel
+c                 pause
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                             IEND)) GOTO 222
@@ -240,17 +243,20 @@ C------- Y, T, Z, P, S, Time
 CCCCCCC          if(j.eq.2) YZXB(J) = (f(j)-yref) * UNIT(JU)
  20       YZXB(J+10) = FO(J)  * UNIT(JU) 
 
-C------- KART=1 : Cartesian coordinates, X is current x-coordinate
-C        KART=2 : Cylindrical coordinates, X is current angle
+C------- KART=1 : Cartesian coordinates, X is current x-coordinate (normally 
+C        ranging in [XI,XF] as defined in quasex.f)
+C        KART=2 : Cylindrical coordinates, X is current angle (normally 
+C        ranging in [XI,XF] as defined in aimant.f)
+C        write(*,*) '  * * * * * * * * ',xx
         YZXB(8) = XX
 
         IF(KART .EQ. 1) THEN
           YZXB(8) = YZXB(8) * UNIT(5)
         ELSE
 C Rustine  RACCAM pour plot avec ffag-spi
-          if(noel.ne.noel2) then
+          if(noel.ne.noel1) then
             if(kley .eq. 'FFAG-SPI') noc = noc+1
-            noel2 = noel
+            noel1 = noel
           endif
           nbCell = 10
           pnCell = 4.d0 * atan(1.d0) / float(nbCell)
@@ -273,12 +279,12 @@ C         convert B from kG to T
         YZXB(30) = BX      * .1D0
         YZXB(31) = BY      * .1D0
         YZXB(32) = BZ      * .1D0
-        YZXB(33) = SQRT(BY*BY +  BZ*BZ) * .1D0
+        YZXB(33) = SQRT(BX*BX + BY*BY +  BZ*BZ) * .1D0
 
         YZXB(34) = EX
         YZXB(35) = EY     !!!/YZXB(2)
         YZXB(36) = EZ 
-        YZXB(37) = SQRT(EY*EY +  EZ*EZ)
+        YZXB(37) = SQRT(EX*EX + EY*EY +  EZ*EZ)
 
 C AMAG is magnyfying factor for plotting of element synoptic and trajectories
 C        CALL INSY1(
@@ -310,8 +316,20 @@ C             write(*,*) mod,rfr,'  ploter'
               ENDIF
             ELSEIF(MOD.EQ.0) THEN
 C Example : SPES3 using DIPOLE-M, with KX=48, KY=42
+C           FFAG-SPI
               Y = Y + RFR
               TEMP = X 
+C-------------------------
+C Rustine  RACCAM pour plot avec ffag-spi
+              if(noel.ne.noel1) then
+                if(kley .eq. 'FFAG-SPI') noc = noc+1
+                noel1 = noel
+              endif
+              nbCell = 10
+              pnCell = 4.d0 * atan(1.d0) / float(nbCell)
+C               write(*,*) '  noc, yzxb(8) ', noc, yzxb(8)
+              temp = temp + pnCell * (2.d0*noc -1.d0) 
+C-------------------------
               X = Y * SIN(TEMP) 
               Y = Y * COS(TEMP)  - RFR2
             ENDIF
@@ -326,6 +344,8 @@ C Example : SPES3 using DIPOLE-M, with KX=48, KY=42
         YZXB(48) = ( XINL*CT - YINL*ST) + ORIG(NOEL,1)
         YZXB(42) = ( XINL*ST + YINL*CT) + ORIG(NOEL,2)
 
+C        write(*,*) ' sbr readco xx,yzxb(8)', xx,yzxb(8)
+
  77     continue
 
       ENDIF ! NL = NPLT
@@ -337,7 +357,7 @@ C      Location about where particle was lost
 
 c       nCell = 8
 c        pi = 4.d0 *atan(1.d0)
-c      if(noel.ne.noel2) noc = noc+1
+c      if(noel.ne.noel1) noc = noc+1
 c      YZXB(62) = (Y+RFR) * SIN(XX + 2.d0 * pi / nCell * float(noc-1))
 c      YZXB(68) = (Y+RFR) * COS(XX + 2.d0 * pi / nCell * float(noc-1))
 
@@ -487,10 +507,10 @@ C----------------------------
 
  10   continue
         noc = 0
-        noel2 = 0
+        noel1 = 0
         RETURN 1
  99   continue
         noc = 0
-        noel2 = 0
+        noel1 = 0
         RETURN 2      
       END

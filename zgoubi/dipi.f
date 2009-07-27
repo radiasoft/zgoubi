@@ -58,7 +58,10 @@ C     > ,YCH,ZCH
       SAVE UMEGA,THETA,R1,U1,U2,R2
       SAVE UMEGAS,THETAS,R1S,U1S,U2S,R2S
       SAVE NN, RESOL
-   
+
+      LOGICAL OKTTA, LTXI, GTXF
+      DATA OKTTA, LTXI, GTXF / .TRUE., .FALSE.   , .FALSE.   /
+
       NP = 2
       AT    = A(NOEL,NP)
       NP=NP+1 
@@ -249,11 +252,13 @@ C--------- IRD=4 OU 25
       RETURN
 
       ENTRY DIPF(TTA,RO,
-     >                   DTTA,DRO,FTAB)
+     >                  AAA,RRR,DA,DR,FTAB)
       CALL INTEG5(
      >            STEP)
       DRO = STEP/RESOL
       DTTA = DRO/RM
+      DR = DRO
+      DA = DTTA
 
 C Entrance EFB
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
@@ -351,12 +356,43 @@ C---------- endif third EFB
 
 C----- CALCUL LE Champ en X, Y 
 C      COORDONNEES DU POINT COURANT
-
+      RRR = 0.D0
       DO  1  JRO = 1,NN
         ROJ = RO + DRO * DBLE(NN-JRO-INT(NN/2))
 
+        LTXI = TTA-DTTA .LT. XI
+        GTXF = TTA+DTTA .GT. XF
+        OKTTA = .NOT.(LTXI .OR. GTXF)
+C        write(*,*) ' dipi  oktta, ltxi, gtxf ', oktta, ltxi, gtxf
+        IF(OKTTA) THEN 
+          AAA = 0.D0
+        ELSEIF(LTXI) THEN 
+          AAA=-DTTA 
+          DA = 2.D0 * DTTA
+          IF(IRD .NE. 2) THEN
+            AAA = AAA -DTTA
+            DA = 4.D0 * DTTA
+          ENDIF
+        ELSEIF(GTXF) THEN
+          AAA= DTTA 
+          DA = 2.D0 * DTTA
+          IF(IRD .NE. 2) THEN
+            AAA = AAA +DTTA
+            DA = 4.D0 * DTTA
+          ENDIF          
+        ENDIF
+
         DO  1  ITTA = 1,NN
           TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
+          IF(OKTTA) THEN 
+          ELSEIF(LTXI) THEN 
+            TTAI = TTAI + DTTA
+            IF(IRD .NE. 2) TTAI = TTAI + DTTA
+          ELSEIF(GTXF) THEN
+            TTAI = TTAI - DTTA
+            IF(IRD .NE. 2) TTAI = TTAI - DTTA
+          ENDIF
+          
           ZETA = ACN - TTAI 
 
           X = ROJ * COS(ZETA) - RM

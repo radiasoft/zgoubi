@@ -26,7 +26,7 @@ C  France
       SUBROUTINE OBJ3(KOBJ2,BORO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     **************************************
-C     CONSTITUTION DE L'OBJET INITIAL KOBJ=5
+C     CONSTITUTION DE L'OBJET INITIAL KOBJ=3
 C     **************************************
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -204,6 +204,27 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
+
+          ELSEIF(KOBJ2.EQ.3) THEN 
+C------------ Was installed for RHS_DESIR
+            IKAR = IKAR+1
+            IF(IKAR.GT.41)  IKAR=1
+            READ(NL,*,ERR=97,END=95) dp,Y,T,Z,P,S,time,amq1, amq2
+C            TIM = 0.D0
+            LETI=KAR(IKAR)
+            IEXI=1
+            IT = IT1
+            IREPI = IT
+            IPASSR =  KP1    
+            BRO = BORO
+            YO= 0.D0
+            TO= 0.D0
+            ZO= 0.D0
+            PO= 0.D0
+            SO= 0.D0
+            DPO= 0.D0
+            TIMO= 0.D0
+
           ENDIF 
 
           IF(LM .NE. -1) THEN

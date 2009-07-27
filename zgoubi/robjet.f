@@ -59,9 +59,10 @@ C----- KOBJ may be of the form "K.K2"
       CALL ENDJOB('*** Error, SBR ROBJET -> No  such  object  KOBJ= ',K)
  
  1    CONTINUE
-      READ(NDAT,*,ERR=99) (IA(I),I=1,MXJ1)
-      DO 11 I=1,MXJ1
- 11     A(NOEL,19+I) = IA(I)
+c      READ(NDAT,*,ERR=99) (IA(I),I=1,MXJ1)
+c      DO 11 I=1,MXJ1
+c 11     A(NOEL,19+I) = IA(I)
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,45)
       RETURN

@@ -83,10 +83,10 @@ C----- Change ref. at entrance or exit
 C-----   (Including Automatic positionning, i.e. case KPOS=3 : MULTIPOL with non 
 C                                       zero B(1), BEND, etc.)
 C Tests, Jan 06, FM
-C      CHGRFE= ( KP .GE. 2 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
-C      CHGRFS= ( KP .GE. 2 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
-      CHGRFE= ( KP .GE. 1 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
-      CHGRFS= ( KP .GE. 1 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
+C      CHGRFE= ( KP .GE. 1 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
+C      CHGRFS= ( KP .GE. 1 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
+      CHGRFE= ( KP .GE. 2 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
+      CHGRFS= ( KP .GE. 2 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
  
 C----- Champ DE FUITE ENTREE OU SORTIE
       CHPFE = ( KART .EQ. 1 .AND. XE .NE. ZERO )

@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 CDECK GRAPH1 
-      SUBROUTINE GRAPH1(NLOG,LM,NOMFIC)
+      SUBROUTINE GRAPH7(NLOG,LM,NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*) NOMFIC
       
@@ -47,7 +47,7 @@ C      CHARACTER CMND*70
 
       CHARACTER*1 KLET
 
-      CHARACTER RLIPS,RLIPS0,RLIPS2
+      CHARACTER RLIPS,RLIPS0,RLIPS2,RSNPT,RSNPT0,RSNPT2
       CHARACTER RHIST,RHIST0,RHIST2
 
       DATA IZERO /0/
@@ -59,6 +59,7 @@ C      CHARACTER CMND*70
       DATA CHANGE / .TRUE./
       DATA SAVFIL / 'zpop.ps' /
       DATA FIRST / .TRUE. /
+      DATA RSNPT,RSNPT2 / 'N','Y' /
       DATA RLIPS,RLIPS2 / 'Y','N' /
       DATA RHIST,RHIST2 / 'Y','N' /
 
@@ -143,7 +144,7 @@ C      CHARACTER CMND*70
           IF(KL1.EQ.-1) THEN
             WRITE(TXTL,FMT='(A5)') '* all'
           ELSE
-            WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,KL2
+            WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
           ENDIF
 C          IF(LM.EQ.-1) THEN
 C             WRITE(TXTL,FMT='(A5)') '* all'
@@ -181,17 +182,6 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
         ENDIF
       GOTO 920
      
- 6    CONTINUE
-C         CALL HOMCLR 
-C         CMND = 'SET TERM/WIDTH=132'
-C         IOUPI=LIBSPA(CMND)
-C         CMND= 'ED '//NOMFIC
-C         WRITE(6,*) '   ',CMND,'EN COURS...' 
-C         IOUPI=LIBSPA(CMND) 
-C         CMND = 'SET TERM/WIDTH=80'
-C         IOUPI=LIBSPA(CMND)
-       GOTO 921 
-                   
  7    CONTINUE 
         IF(NOMFIC.EQ.'none') THEN
           IOP=1
@@ -199,10 +189,29 @@ C         IOUPI=LIBSPA(CMND)
           IOP=5
         ENDIF
         IF(TYLAB(KX,KY)) THEN
-          CALL OPNMN(IOP,
-     >                   NL,OKOPN,CHANGE,NOMFIC)
-               IF(TYLABR()) CALL TRACSY(2,*799)
- 799        CONTINUE
+                  RSNPT0=RSNPT
+ 755              CONTINUE      
+                  WRITE(6,FMT='(/,
+     >              ''  Plot synoptic ? ('',A1,''/'',A1,'') : '',
+     >              $)') RSNPT,RSNPT2
+                  READ(5,FMT='(A1)',ERR=755) RSNPT
+                  IF(RSNPT.EQ.'n') RSNPT='N'
+                  IF(RSNPT.EQ.'y') RSNPT='Y'
+                  IF(RSNPT.NE.RSNPT2) THEN
+                    RSNPT=RSNPT0
+                  ELSE
+                    IF(RSNPT2.EQ.'Y') THEN
+                      RSNPT2='N'
+                    ELSE
+                      RSNPT2='Y'
+                    ENDIF
+                  ENDIF
+          IF(RSNPT.EQ.'Y') THEN
+            CALL OPNMN(IOP,
+     >                     NL,OKOPN,CHANGE,NOMFIC)
+                 IF(TYLABR()) CALL TRACSY(2,*799)
+ 799          CONTINUE
+          ENDIF
         ENDIF
         CALL OPNMN1(KX,KY,
      >                    *920)
@@ -220,7 +229,7 @@ C 79       CONTINUE
             IF(KL1.EQ.-1) THEN
               WRITE(TXTL,FMT='(A5)') '* all'
             ELSE
-              WRITE(TXTL,FMT='(I5,'' to '',I5)') KL1,KL2
+              WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
             ENDIF
 C            IF(LM.EQ.-1) THEN
 C              WRITE(TXTL,FMT='(A5)') '* all'

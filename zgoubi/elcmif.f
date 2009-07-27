@@ -38,10 +38,6 @@ C------ ER0(n) = -d^nV/dR^n at Z=0
       DIMENSION ER0(MDR)
       DATA ER0 /  MDR*0.D0 /
 
-C      DIMENSION EC(2),DEC(2,2),DDEC(2,2,2)
-
-C      PARAMETER (ZERO=0.D0)
-
       CALL ELCMID(R,BR,IDE, 
      >                     ER0)
       CALL EREXYZ(ER0,R,Z,IDE,

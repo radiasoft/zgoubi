@@ -49,7 +49,8 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
 
       NFAM = A(NOEL,2)
       IF(NFAM .GT. MXF) 
-     >  CALL ENDJOB(' Too many families, maximum allowed is ',MXF)
+     >  CALL ENDJOB('SBR RSCAL - Too many families, maximum allowed is '
+     >  ,MXF)
 
       DO 1 IF=1,NFAM
 
@@ -61,7 +62,8 @@ C------- Store name of family and label(s)
         CALL STRGET(TA(NOEL,IF),80,MST,
      >                                 NST,STRA)
         IF(NST-1 .GT. MXLBF) 
-     >     CALL ENDJOB('Too many labels per family, max is ',MXLBF)
+     >     CALL ENDJOB('SBR RSCAL - Too many labels per family, max is '
+     >     ,MXLBF)
 
         FAM(IF) = STRA(1)    
 
@@ -73,9 +75,15 @@ C------- Store name of family and label(s)
         DO 12 KL=NST+1, MST
  12       LBF(IF,KL-1) = ' '
 
-        READ(NDAT,*) NTIM(IF)
-        IF(NTIM(IF) .GT. MXS) 
-     >     CALL ENDJOB('Too many timings, max is ',MXS)
+C CPRM tells which parameter in the element (IF) the scaling is to be applied to
+C Case ERR accounts for older versions of zgoubi, w/o CPRM
+        READ(NDAT,*,ERR=121) NTIM(IF)  !!, CPRM(IF)
+        GOTO 122
+ 121    CONTINUE
+C        CPRM(IF) = 0.D0
+ 122    CONTINUE
+        IF(NTIM(IF) .GT. MXS-2) 
+     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
 
         IF(NTIM(IF) .GE. 0) THEN
           NDSCL=NTIM(IF)
@@ -100,6 +108,10 @@ C               max = max(NDSCL,NDTIM)
         ENDIF
 
 C------- SCL(IF,IT)
+        IT = MXS-2
+        IF(10*IF+IT-1 .GT. MXD) 
+     >     CALL ENDJOB('SBR RSCAL - Too many data for A, max is '
+     >     ,MXD)
         READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
 C------- TIM(IF,IT)
         READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)

@@ -55,7 +55,8 @@ C-----------------------------------
  4    CONTINUE
       WRITE(6,*)
       WRITE(6,102) NOMFIC
- 102  FORMAT('$  Read  the field map, from ',A,5X,' (Y/N) : ')
+ 102  FORMAT('$  Read ',A,5X,
+     > ' (as generated using IC=2 in zgoubi.dat) (Y/N) : ')
       READ(5,FMT='(A1)',ERR=4) REP
 
       IF(REP.NE. 'N' .AND. REP.NE. 'n') THEN
@@ -68,8 +69,8 @@ C        KY = 2
         OKOPN=.FALSE.
         NL=NMAP
         OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',ERR=97)
-        WRITE(6,*) ' OPEN ',NOMFIC,'  OK !' 
         OKOPN = .TRUE.
+        WRITE(6,*) ' OPEN ',NOMFIC,'  OK !' 
         WRITE(6,*) ' BUSY: READING  THE  MAP  IN ',NOMFIC
         WRITE(6,*) 
 
@@ -160,7 +161,7 @@ C e.g., KEK 150 MeV FFAG
               ENDIF
             ENDIF
             CALL MINMAX(X,Y,XMI,XMA,YMI,YMA)
-C            write(88,*) ymi,yma,ia,' isofld'
+C            write(78,*) ymi,yma,ia,' isofld'
  2      CONTINUE
 
         WRITE(6,*) 
@@ -315,9 +316,19 @@ C              Y = Y * COS(ZETA)
       GOTO 10
 
  96   WRITE(6,*) ' *** Error during read header in ', NOMFIC
-      RETURN
+      WRITE(6,*) ' Make sure ', NOMFIC,
+     >     ' has been generated using IC=2 ini zgoubi.dat'
+      WRITE(6,*) ' '
+      GOTO 99
+
  97   WRITE(6,*) ' *** Error open ',NOMFIC
-      RETURN
+      WRITE(6,*) ' '
+      GOTO 99
+
  98   WRITE(6,*) ' *** Error during read in ', NOMFIC
-      RETURN
+      WRITE(6,*) ' Make sure ', NOMFIC,
+     >     ' has been generated using IC=2 ini zgoubi.dat'
+      WRITE(6,*) ' '
+
+ 99   RETURN
       END

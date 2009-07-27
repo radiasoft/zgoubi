@@ -53,10 +53,9 @@ C         CALL KSTOP(7,IT,KEX,*99)
       ENDIF
       RETURN
 
- 99   RETURN 1
+C 99   RETURN 1
 
       ENTRY MAPLI1(TEMP)
-
       BAMP = TEMP
       RETURN
 

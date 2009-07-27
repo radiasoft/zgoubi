@@ -58,6 +58,8 @@ C      COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/RIGID/ BORO,DPREF,DP,BR
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNRA/ KSYN
+
+      COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
  
 C----- Write position M0, field at M0,  etc.
       IF(LST .EQ. 2) CALL IMPPLT(NL,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
@@ -83,10 +85,11 @@ C-------- Polar coordinates
          Y=SQRT(XF(1)*XF(1)+Y*Y)
          X=X+DX
          T=T+DX
+
       ELSE
          X=X+XF(1)
       ENDIF
- 
+
       IF(EVNT) THEN 
         IF(KSPN .EQ. 1) THEN
 C--------- Spin tracking

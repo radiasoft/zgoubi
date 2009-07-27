@@ -23,8 +23,9 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-! Max lmnts in a structure, max data (in zgoubi data list) per lmnt
+
+C Max lmnts in a structure, max data (in zgoubi data list) per lmnt
 C       PARAMETER (MXL=2000 , MXD=300)
        PARAMETER (MXL=7000 , MXD=400)
-!-- For LHC
-!       PARAMETER (MXL=25000 , MXD=300)
+C-- For LHC
+C       PARAMETER (MXL=25000 , MXD=300)

@@ -64,6 +64,12 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
      >             ,/,15X,'   RZ =',G12.4,'  rad')
       ENDIF
 
+        WRITE(NRES,*) ' Not available. To be provisonned ' 
+        WRITE(6,*) ' Not available. To be provisonned ' 
+
+C      STOP '  ...Sorry !'
+
+
       EVNT = KSPN .EQ. 1 .OR. IFDES .EQ. 1 .OR. KGA .EQ. 1 .OR.
      >  LIMIT .EQ. 1 .OR. KCSR.EQ. 1
  

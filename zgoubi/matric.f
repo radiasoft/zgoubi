@@ -85,17 +85,28 @@ C------        Beam_ref    +dp/p     -dp/p
           IT2 = IT1+3
           IT3 = IT1+4
 
-          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
+C FM, Nov. 2008
+C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
+          IFC = IFOC
+          IF(PRDIC) IFC = 0
+          CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
           CALL MAT1(R,T,IT1)
           CALL MKSA(IORD,R,T,T3,T4,TX2Y,TXY2)
           CALL MATIMP(R)
           IF(PRDIC) CALL TUNES(R,F0,IFOC-10,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
-          CALL REFER(2,IORD,IFOC,IT1,IT2,IT3)
+C FM, Nov. 2008
+C          CALL REFER(2,IORD,IFOC,IT1,IT2,IT3)
+          CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
           IF(IREF.LT.NBREF) GOTO 1
           
       ELSEIF(IORD .EQ. 2) THEN
-        CALL REFER(1,IORD,IFOC,1,6,7)
+
+C FM, Nov. 2008
+C        CALL REFER(1,IORD,IFOC,1,6,7)
+        IFC = IFOC
+        IF(PRDIC) IFC = 0
+        CALL REFER(1,IORD,IFC,1,6,7)
         CALL MAT2(R,T,T3,T4,TX2Y,TXY2)
         CALL MKSA(IORD,R,T,T3,T4,TX2Y,TXY2)
         CALL MATIMP(R)
@@ -107,12 +118,12 @@ C------        Beam_ref    +dp/p     -dp/p
           CALL MKSA(IORD,RPD,T,T3,T4,TX2Y,TXY2)
           CALL MATIMP(RPD)
           CALL TUNES(RPD,F0PD,IFOC-10,IERY,IERZ,.TRUE.,
-     >                                              YNUP,ZNUP,CMUY,CMUZ) 
+     >                                              YNUP,ZNUP,CMUY,CMUZ)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4,TX2Y,TXY2)
           CALL MATIMP(RMD)
           CALL TUNES(RMD,F0MD,IFOC-10,IERY,IERZ,.TRUE.,
-     >                                              YNUM,ZNUM,CMUY,CMUZ) 
+     >                                              YNUM,ZNUM,CMUY,CMUZ)
 C Momentum detuning
           NUML = 1
 C          DNUYDP = (YNUP-YNUM)/2.D0/A(NUML,25)
@@ -124,7 +135,8 @@ C          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
      >         30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
 C             write(nres,*) dp, a(numl,25)
         ENDIF
-        CALL REFER(2,IORD,IFOC,1,6,7)
+C        CALL REFER(2,IORD,IFOC,1,6,7)
+        CALL REFER(2,IORD,IFC,1,6,7)
       ENDIF
 
       IF(.NOT. PRDIC) THEN

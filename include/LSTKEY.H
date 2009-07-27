@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      PARAMETER (MXKLE=102)
+      PARAMETER (MXKLE=103)
       CHARACTER*10  KLE(MXKLE)
 C           1           2            3            4            5
       DATA KLE/   
@@ -47,7 +47,7 @@ C           1           2            3            4            5
      9  'MAP2D_E' ,  'SRPRNT'  , 'BETATRON' ,  'TWISS'   ,   'END'    , 
      >    'FFAG'  ,  'HELIX'   ,   'CSR'    ,   'PATH'   ,   'COILS'  ,
      A 'GETFITVAL', 'SUPERPOSE',  'MARKER'  , 'DIPOLES'  , 'TRACKING' ,
-     > 'FFAG-SPI' ,   'FIT2'
+     > 'FFAG-SPI' ,   'FIT2'   ,   'EMMA'
      B  /
 
       GOTO 1000
@@ -56,7 +56,7 @@ C           1           2            3            4            5
      >,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37, 1,39, 9,41
      >,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
      >,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83
-     >,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102
+     >,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103
      > ),IKLE
       GOTO 999
 

@@ -34,7 +34,7 @@ C     ***************************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
 
       READ(NDAT,*) NV
       IF(NV.LT.1) RETURN
@@ -49,8 +49,7 @@ C         READ(NDAT,*)          IC(I),I1(I),I2(I),I3(I),V(I),W(I)
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
  41     CONTINUE
         IC(I) = INT(XC)
-        IC2 = NINT(10.D0*XC - 10*IC(I))
-        TST = FFI(IC2,I)
+        IC2(I) = NINT(10.D0*XC - 10*IC(I))
  4    CONTINUE  
 
 C----- Looks for possible parameters, with values in CPAR, and action

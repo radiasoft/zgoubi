@@ -30,8 +30,8 @@ MODULEF =\
  funk.f\
  gk1.f\
  grad.f\
- graph1.f\
- graph2.f\
+ graph7.f\
+ graph8.f\
  header.f\
  help.f\
  hermit.f\
@@ -192,8 +192,8 @@ bin.o: MXVAR.H
 block.o: $(INC)/MAXTRA.H
 caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
 filcoo.o: MAXNTR.H
-graph1.o: MXVAR.H MAXNTR.H
-graph2.o: MXVAR.H
+graph7.o: MXVAR.H MAXNTR.H
+graph8.o: MXVAR.H
 inigr.o: MXVAR.H MAXNTR.H
 inpvar.o: MXVAR.H
 isofld.o: MXVAR.H

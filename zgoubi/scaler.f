@@ -129,8 +129,8 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
 c          xv = ipass
 c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
           xv = OCLOCK
-C                         time phase
-          scaler = CUBSPL(xm,  ym,  xv,nd,nfrq)
+C                         time   phase
+          scaler = CUBSPL(xm,    ym,    xv,nd,nfrq)
 C                         
           xv = ekin
 C                          ekin freq

@@ -32,6 +32,8 @@ C  France
       LOGICAL IDLUNI, READAT, FITING
       CHARACTER*10 FNAME
 
+      PARAMETER (I5=5, I6=6)
+
       CALL BLOCK
       CALL RESET
 
@@ -69,17 +71,32 @@ C  France
 
       READAT = .TRUE.
       FITING = .FALSE.
-      CALL FITSTA(6,FITING)
+      CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
-      CALL ZGOUBI(NL1,NL2,READAT,FITING)
+      CALL ZGOUBI(NL1,NL2,READAT)
+      NOELMX=NL2
+
+      CALL FITSTA(I5,
+     >               FITING)
       IF(FITING) THEN
-        CALL FITSTA(6,FITING)
-        CALL FITNU(*99)
         READAT = .FALSE.
+        CALL FITNU(*99)
         FITING = .FALSE.
-        NL2 = NB
-        CALL ZGOUBI(NL1,NL2,READAT,FITING)
+        CALL FITSTA(I6,
+     >                 FITING)
+        NL2 = NOELMX-2   ! FIT keyword is at position NOELMX
+C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
+        WRITE(6,201)
+        WRITE(NRES,201)
+        WRITE(6,200) 
+        WRITE(NRES,200) 
+ 200    FORMAT(/,10X,
+     >   ' MAIN PROGRAM :  now final run using FIT values ',A10)
+        CALL ZGOUBI(NL1,NL2,READAT)
+        WRITE(6,201)
+        WRITE(NRES,201)
+ 201    FORMAT(/,128(1H*))
       ENDIF
 
       GOTO 10

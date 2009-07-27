@@ -33,7 +33,8 @@ C     Improved version of SBR AIMANT.
 C-----------------------------------------------------------------------
       DOUBLE PRECISION LAMBDS,LAMBDE,LAMBD3
       INCLUDE 'PARIZ.H'
-      COMMON//T5(MXX),RO(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IAMA,JRMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CARSH/ ATS,RMS
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -53,17 +54,17 @@ C-----------------------------------------------------------------------
 C----- NBFACE=2(3) :DIPOLE LIMITE PAR (2)3 FACES.
       NBFACE = A(NOEL,1)
  
-C  IAMA/JRMA = NBRE DE PAS ANGULAIRE/RADIAL DE LA CARTE DE Champ.
+C  IXMA/JYMA = NBRE DE PAS ANGULAIRE/RADIAL DE LA CARTE DE Champ.
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
 C  AT=ANGLE TOTAL DE LA CARTE DE Champ, ACENT='ANGLE AU CENTRE',
 C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
  
-      IAMA = A(NOEL,4)
-      IF(IAMA.GT.MXX) 
+      IXMA = A(NOEL,4)
+      IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
-      JRMA = A(NOEL,5)
-      IF(JRMA.GT.MXY ) 
+      JYMA = A(NOEL,5)
+      IF(JYMA.GT.MXY ) 
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
 
       HNORM = A(NOEL,6)*SCAL
@@ -82,16 +83,16 @@ C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
         IF(NBFACE .EQ. 3 .AND. (RMIN.GT.RM.OR.RMAX.LT.RM))
      >  WRITE(NRES,101)
 101     FORMAT(/,10X,' ATTENTION: VALEURS DES RAYONS INCOMPATIBLES||'/)
-        WRITE(NRES,105) IAMA,JRMA
+        WRITE(NRES,105) IXMA,JYMA
 105     FORMAT(20X,'NBRE PAS ANGULAIRE=',I5,'  NBRE PAS RAYON=',I5)
       ENDIF
  
       AE = 0.D0
       AS = 0.D0
-      ATS = AT / (IAMA - 1)
-      RMS = (RMAX - RMIN) / (JRMA - 1)
-      DO  25  I = 1,JRMA
-         RO(I) = RMIN + (I - 1) * RMS
+      ATS = AT / (IXMA - 1)
+      RMS = (RMAX - RMIN) / (JYMA - 1)
+      DO  25  I = 1,JYMA
+         YH(I) = RMIN + (I - 1) * RMS
    25 CONTINUE
       NN = 0
       ACN = ACENT * RAD
@@ -267,21 +268,21 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
  
       ENDIF
  
-C  CALCUL LA CARTE DE Champ, POUR IAMA ANGLES ET JRMA RAYONS
+C  CALCUL LA CARTE DE Champ, POUR IXMA ANGLES ET JYMA RAYONS
  
 C     ****DEBUT DE BOUCLES SUR ANGLES ET RAYONS
       BMIN=1.D10
       BMAX=-1.D10
 
-      DO  1  J = 1,IAMA
+      DO  1  J = 1,IXMA
         NN = NN + 1
-        T5(NN) = (NN - 1) * ATS * RAD
-        ZETA = ACN - T5(NN)
-        DO  2  I = 1,JRMA
+        XH(NN) = (NN - 1) * ATS * RAD
+        ZETA = ACN - XH(NN)
+        DO  2  I = 1,JYMA
  
 C         ... COORDONNEES DU POINT COURANT
-          X = RO(I) * COS(ZETA) - RM
-          Y = RO(I) * SIN(ZETA)
+          X = YH(I) * COS(ZETA) - RM
+          Y = YH(I) * SIN(ZETA)
 
 C         ... AX (CX) = COTE X DE LA PROJECTION DE A (C) SUR LA DROITE (MX)
 C         (M=POINT COURANT), ORTHOGONALEMENT A LA DROITE (ABC)
@@ -455,20 +456,20 @@ C             ... REGION DE COURBURE R2
  
 C         CE 'POINT DE MESURE' PERMET DE SUIVRE LE
 C         PARCOURS A TRAVERS LES FACES, LE LONG D'UN RAYON.
-C         IF(I .EQ. JRMA/2)
+C         IF(I .EQ. JYMA/2)
 C     X   WRITE(NRES,8001) FE,FS,F3,F,X,Y,J,I
 C 8001    FORMAT(' .....FE,FS,F3,F  ,X,Y, ANG,RAY :',6G12.4,2I5)
 C
-          ROI= (RO(I)-RM)/RM
-          BFLD=F*HNORM*(1.D0+(COEFN+(COEFB+COEFG*ROI)*ROI)*ROI)
+          YHI= (YH(I)-RM)/RM
+          BFLD=F*HNORM*(1.D0+(COEFN+(COEFB+COEFG*YHI)*YHI)*YHI)
           IF    (BFLD .GT. BMAX) THEN
             BMAX = BFLD
-            XBMA = T5(NN)
-            YBMA = RO(I)
+            XBMA = XH(NN)
+            YBMA = YH(I)
           ELSEIF(BFLD .LT. BMIN) THEN
             BMIN = BFLD
-            XBMI = T5(NN)
-            YBMI = RO(I)
+            XBMI = XH(NN)
+            YBMI = YH(I)
           ENDIF
           HC(ID,NN,I,1) = BFLD
 C
@@ -501,10 +502,10 @@ C           ****PERTURBATION LINEAIRE EN ANGLE
      >      ,' DEG.,  AVEC DB/B0(TOTALE) = ',F10.6)
             J0=INT(ZETA/ATS)
             DZETA=ZETA-J0*ATS
-            DBSB=DBSB /IAMA
+            DBSB=DBSB /IXMA
             P=1.D0-DBSB*DZETA/ATS
-            DO 3 J=1,IAMA
-               DO 3 I=1,JRMA
+            DO 3 J=1,IXMA
+               DO 3 I=1,JYMA
                   HC(ID,J ,I,1 )=HC(ID,J ,I,1 )*(P+DBSB*(J-J0))
 3           CONTINUE
          ELSEIF(NBSHIM .EQ. -2) THEN
@@ -517,10 +518,10 @@ C           ****PERTURBATION LINEAIRE EN RAYON
      >      ,' CM,   AVEC DB/B0(TOTALE) = ',F10.6)
             J0=INT(RR  /RMS)
             DRR  =RR  -J0*RMS
-            DBSB=DBSB /JRMA
+            DBSB=DBSB /JYMA
             P=1.D0-DBSB*DRR  /RMS
-            DO 4 J=1,IAMA
-               DO 4 I=1,JRMA
+            DO 4 J=1,IXMA
+               DO 4 I=1,JYMA
                   HC(ID,J ,I,1 )=HC(ID,J ,I,1 )*(P+DBSB*(I-J0))
 4           CONTINUE
          ENDIF
@@ -532,8 +533,8 @@ C           ****PERTURBATION LINEAIRE EN RAYON
       IRD = NINT(A(NOEL,93))
  
       AT = AT * RAD
-      XI = T5(1)
-      XF = T5(NN)
+      XI = XH(1)
+      XF = XH(NN)
  
 15    CONTINUE
  

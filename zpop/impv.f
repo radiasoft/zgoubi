@@ -27,11 +27,11 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE JUN
       CALL FBGTXT
-      WRITE(6 ,FMT='(1P,2G20.12,2G15.5,2I6)') X,Y,YDX,SYDX,NPT,IT
-      WRITE(NLOG,FMT='(1P,3E20.12,2I3,A)') X,Y,SYDX,KX,KY,
-     >                                        '  X,Y,SYDX,KX,KY'
-      WRITE(JUN,FMT='(1P,3E20.12,2I3,A)') X,Y,SYDX,KX,KY,
-     >                                        '  X,Y,SYDX,KX,KY'
+      WRITE(6 ,FMT='(1P,3G20.12,3X,2I6)') X,Y,SYDX,NPT,IT
+      WRITE(NLOG,FMT='(1P,3E20.12,2I5,A)') X,Y,SYDX,NPT,IT,
+     >                                        '  X,Y,SYDX,NP,IT 2'
+      WRITE( JUN,FMT='(1P,3E20.12,2I5,A)') X,Y,SYDX,NPT,IT,
+     >                                        '  X,Y,SYDX,NP,IT 1'
 C      WRITE(NLOG,FMT='(1P,2G20.12,5X,2G18.10,2I6)') X,Y,YDX,SYDX,NPT,IT
       CALL FLUSH2(NLOG,.FALSE.)
       CALL TXTFBG

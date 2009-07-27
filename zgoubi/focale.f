@@ -35,7 +35,6 @@ C     ***********************************************
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
@@ -51,7 +50,7 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       DATA (HOVE(I),I=1,2) / 'HORIZONTAL' , 'VERTICAL' /
       DATA (YZ(I),I=1,2) / 'Y', 'Z' /
       DATA (LAHA(I),I=1,2) / 'LARGEUR' , 'HAUTEUR' /
-C
+
       IF    (IENERG .GT.0) THEN
         HV=1
         DO 4 I=1,IMAX
@@ -147,12 +146,13 @@ C          CALL TRACE
  
       RETURN
  
-  103 FORMAT(/,5X,'RECHERCHE DU POINT DE FOCALISATION ',A,' DE',I3
-     1,' TRAJECTOIRES (SUR',I3,')'
+  103 FORMAT(/,1P,
+     >5X,'RECHERCHE DU POINT DE FOCALISATION ',A,' DE ',I6
+     1,' TRAJECTOIRES (SUR ',I6,')'
      1,//,5X,'POINT DE FOCALISATION ',A
-     2,' SUR L ORBITE MOYENNE    X =',F9.2,' CM    ',A,' =',F9.2
-     3,' CM',//,5X,'DECALAGE DU CENTRE DE GRAVITE EN ',A,' = ',F9.2
-     4,' CM',//,5X,A,' IMAGE,  A MI-HAUTEUR =',F12.6,' CM,  TOTALE ='
-     5,F12.6,' CM',/,21X,2(17X,9('.')),/)
+     2,' SUR L ORBITE MOYENNE    X =',G14.6,' CM    ',A,' =',G14.6
+     3,' CM',//,5X,'DECALAGE DU CENTRE DE GRAVITE EN ',A,' = ',G14.6
+     4,' CM',//,5X,A,' IMAGE,  A MI-HAUTEUR =',G14.6,' CM,  TOTALE ='
+     5,G14.6,' CM',/,21X,2(17X,9('.')),/)
  
       END

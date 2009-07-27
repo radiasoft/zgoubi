@@ -203,9 +203,9 @@ C-------------- Elliptical
 C------------ Longitudinal space  collimator
 C            IFRM = 6, 7 for rspctvly S, Time
 C            JFRM = 1, 2 for rspctvly 1+dp/p, kinE
-            IH = IFRM
+            JH = IFRM
             JV = JFRM
-            H = F(IH,I)
+            H = F(JH,I)
             IF    (JFRM.EQ.1) THEN
               V = F(JV,I)
             ELSEIF(JFRM.EQ.2) THEN

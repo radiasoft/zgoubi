@@ -25,4 +25,4 @@ C  38026 Grenoble Cedex
 C  France
 C-- Max integration steps in an lmnt
 C      PARAMETER (MXSTEP = 10000)
-      PARAMETER (MXSTEP = 100000)
+      PARAMETER (MXSTEP = 1000000)

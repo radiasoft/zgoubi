@@ -31,10 +31,11 @@ C  France
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
       PARAMETER (MXV=40) 
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
+      PARAMETER (INT1=1) 
+
       IER=0
 C----- CONTROLE VARIABLES
       IF(NV.LT.1) IER=1
@@ -113,6 +114,12 @@ C----- CONTROLE CONTRAINTES
           ELSE
             WRITE(NRES,*) '          constraint # ',I,
      >      '      I  = ',I1(I),',   ok.'
+          ENDIF
+          IF(IC2(I) .EQ. 3) THEN
+C------------ Constraint on max value of coordinate in optical element, 
+C             reset min-max storage table'
+            CALL INTEG8(INT1)
+            CALL FITMM2            
           ENDIF
         ENDIF
  8    CONTINUE

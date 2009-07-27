@@ -35,10 +35,10 @@ C  France
       VAL = 0.D0
       II = 0
       DO 10 JT = IT1, IT2-1, IIT
-      DO 10 IT = JT+1, IT2, IIT
-        DVAL2 = F(L,JT) - F(L,IT)
-        VAL = VAL + DVAL2*DVAL2
-        II = II + 1
+        DO 10 IT = JT+1, IT2, IIT
+          DVAL2 = F(L,JT) - F(L,IT)
+          VAL = VAL + DVAL2*DVAL2
+          II = II + 1
 C        write(*,*) ' DIST2 :  F(L,JT-IT) ', F(L,JT),F(L,IT),jt,it
  10   CONTINUE
       IF(II.GT.0) THEN 

@@ -114,15 +114,15 @@ C----- PARAMETRE ELLIPSES
 
 C----- CONSTITUTION DU FAISCEAU
       DO 1 J=2,MXJ1,2
-	J1=J+1
+        J1=J+1
         J2=J/2
-	IF(J1.EQ.MXJ) J1=1 
-	IF(EPS(J).EQ.0.D0) THEN
+        IF(J1.EQ.MXJ) J1=1 
+        IF(EPS(J).EQ.0.D0) THEN
           DO 11 I=IMI,IMA
-    	    FO(J ,I)=0.D0
-	    FO(J1,I)=0.D0
+            FO(J ,I)=0.D0
+            FO(J1,I)=0.D0
  11       CONTINUE
-	ELSE
+        ELSE
           IF(ISAM(J2) .GT. 0) THEN 
             REB=SQRT(EPS(J)*BET(J))
             DA = 2.D0*PI/DBLE(ISAM(J2))
@@ -133,7 +133,7 @@ C----- CONSTITUTION DU FAISCEAU
 C          DA = 2.D0*PI/IMAX
 C          DA = 2.D0*PI/(IMA-IMI+1)
           ANG = 0.D0
- 	  DO 12 I=IMI,IMA
+          DO 12 I=IMI,IMA
             X = REB*COS(ANG)
             FO(J ,I) = X/UNIT(J-1)
             FO(J1,I) = (REB*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
@@ -163,4 +163,5 @@ C          DA = 2.D0*PI/(IMA-IMI+1)
       CALL OBJERR(ABS(NRES),2,MXT,TXT)
       CALL ENDJOB('OBJERR,  Too  many  particles ',-99)
 
+      RETURN
       END

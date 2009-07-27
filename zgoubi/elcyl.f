@@ -40,23 +40,23 @@ C------- Extent of Entrance/Exit fringe field region
       EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0)
 
       LOGICAL CHFE, CHU, CHFS
-      PARAMETER (I0=0)
+      PARAMETER (I0=0, I1=1)
  
       VN = V0/BR
 
-C----- LambdaE,S
+C----- LambdaE,LambdaS
       QLE = QLEM(1)
       QLS = QLSM(1)
 
+      AA = A 
+      RR = R
       IF(QLE+QLS .EQ. 0D0) THEN
 C------- Sharp edges  !!! test !!!  non physical -> dp/p altered
  
-        IF ( A .GE. AE .AND. A .LE. AE+AT ) THEN
+        IF ( AA .GE. AE .AND. AA .LE. AE+AT ) THEN
 C         Inside the deflector
 
-          E(1,2) = - VN / R
-C          DE(2,2) = - E(1,2) / R
-C          DDE(2,2,2) = - DE(2,2) * 2. / R
+          E(1,2) = - VN / RR
 
         ENDIF
 
@@ -64,34 +64,33 @@ C          DDE(2,2,2) = - DE(2,2) * 2. / R
  
 C        Position w.r.t. Entrance/Exit EFB 
 
-        CHFE= A .LE. 2D0*AE .AND. QLE.NE.0D0
-        CHU=  A .GT. 2D0*AE .AND. A .LT. AT - 2D0*AS   
-        CHFS= A .GE. AT - 2D0*AS .AND. QLS.NE.0D0
-  
+        CHFE= AA .LE. 2D0*AE .AND. QLE.NE.0D0
+        CHU=  AA .GT. 2D0*AE .AND. AA .LT. AT - 2D0*AS   
+        CHFS= AA .GE. AT - 2D0*AS .AND. QLS.NE.0D0
+
+C        write(*,*) ' chfe, chu, chfs  :',chfe, chu, chfs  
+
         IF(CHU) THEN
 C---------- Central region
  
-          E(1,2) = - VN / R
-C          DE(2,2) = - E(1,2) / R
-C          DDE(2,2,2) = -2./R * DE(2,2) 
+          E(1,2) = - VN / RR
       
         ELSE
-C---------- ENtrance or exit fringe field
+C---------- Entrance or exit fringe field
  
           IF(.NOT. CHFE) THEN
-C           *** HORS D'EFFET DU Champ DE FUITE D'ENTREE
-C               OU GRADIENT CRENEAU
+C           *** Either beyond effect of entrance fringe
+C               or     hard edge
  
             GE  =1D0
             DGE = 0D0
-            D2GE = 0D0
 
           ELSE
-C           *** EFFET DU Champ DE FUITE D'ENTREE
+C           *** Entrance fringe
  
 C------------ SE>0 outside
-            SE=(AE-A)*R/QLE
-            CALL DRVG(IDE,QCE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+            SE=(AE-AA)*RR/QLE
+            CALL DRVG(I1,QCE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
 C     >                                   D7GE,D8GE,D9GE,D10GE)
 
             DSEA = - 1.D0
@@ -99,19 +98,18 @@ C     >                                   D7GE,D8GE,D9GE,D10GE)
           ENDIF
  
           IF(.NOT. CHFS) THEN
-C           *** HORS D'EFFET DU Champ DE FUITE DE SORTIE
-C               OU GRADIENT CRENEAU
+C           *** Either beyond effect of exit fringe
+C               or     hard edge
   
             GS  =1D0
             DGS = 0D0
-            D2GS = 0D0
 
           ELSE
-C           *** EFFET DU Champ DE FUITE DE SORTIE
+C           *** Exit fringe
  
 C------------ SS>0 outside
-            SS=(A-(AT-AS))*R/QLS        
-            CALL DRVG(IDE,QCS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+            SS=(AA-(AT-AS))*RR/QLS        
+            CALL DRVG(I1,QCS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
 C     >                                   D7GS,D8GS,D9GS,D10GS)
 
             DSSA = 1.D0
@@ -121,52 +119,28 @@ C     >                                   D7GS,D8GS,D9GS,D10GS)
           G = ( GE+GS-1D0 )
 
           IF(G.LT.0D0) CALL ENDJOB(
-     >      ' SBR CHAMC :  problem  with  Gradient (=GE+GS-1) < ',I0)
+     >      ' SBR CHAMC :  problem  with  Gradient  ->  GE+GS-1 < ',I0)
  
-C--------- limited to D2G due to IDE = 2
           DG  = (DGE  * QE(1,1)*DSEA + DGS*QS(1,1)*DSSA)  /BR
-          D2G = (D2GE * QE(1,2) + D2GS * QS(1,2))  /BR
 
-C--------- Er and derivatives w.r.t R and A
-          ER = - G * VN / R
-          DRR = - ER / R
-          DRA = - DG * RM / R
+C--------- Er 
+          ER = - G * VN / RR
+          DRA = - DG * RM / RR
 
-C--------- Ea and derivatives w.r.t R and A
-          RRM = (R-RM) / RM
-C          EA = - DG * RRM * ( 1.D0 + ( - 1.5D0 + ( 11.D0 / 6.D0
-C     >       - 50.D0/24.D0 * RRM) * RRM) * RRM)
-C          DAA = - D2G * (R-RM) * ( 1.D0 + ( - 1.5D0 + ( 11.D0 / 6.D0
-C     >       - 50.D0/24.D0 * RRM) * RRM) * RRM)
+C--------- Ea, from Maxwell's equation
+          RRM = (RR-RM) / RM
           DAR = - DG / RM * ( 1.D0 + ( - 3.D0 + ( 5.5D0
-     >       - 50.D0/6.D0 * RRM) * RRM) * RRM)
-          EA = DRA - R * DAR
+     >       - 50.D0/6.D0 * RRM) * RRM) * RRM)  ! Check that !!
+          EA = DRA - RR * DAR  ! Spherical ?? Check that !!
 
-C---------- Transform to cartesian co-ordinates
-C          Ex, Ey
-          E(1,1) = EA
+          E(1,1) = EA*VN
           E(1,2) = ER
 
-          DADX = 1D0 / R
-
-C         ... dBx/dX
-C          DE(1,1) = 
-C         ... dBx/dY = dBy/dX
-C          DE(2,1) = DAR
-C         ... dBy/dY
-C          DE(2,2) = DRR
-  
-CC         ... d2Bx/dX2
-C          DDE(1,1,1) = ( D2AA2 / R + DRR ) / R       !??? 
-CC         ... d2Bx/dXdY = d2By/dX2
-C          DDE(2,1,1)= D2ARA * DADX
-CC         ... d2Bx/dY2 = d2By/dXdY
-C          DDE(2,2,1) = D2RRA * DADX
-CC         ... d2By/dY2
-C          DDE(2,2,2) = D2RR2
-C 
         ENDIF
       ENDIF
+
+C             write(*,*) ' rr, rm, rrm : ',rr,rm,rrm
+C             write(*,*) ' se, ss, ea, er : ',se,ss,ea, er
 
       RETURN
       END

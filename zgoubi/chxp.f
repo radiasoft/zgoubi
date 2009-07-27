@@ -28,7 +28,8 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'PARIZ.H'
-      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IAMA,JRMA,KZMA
+      INCLUDE "XYZHC.H"
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -48,6 +49,9 @@ C      COMMON/STEP/ KPAS, TPAS(3)
   
       CHARACTER TXTT*39, TXTS*39, TXTA*39, TXTEMP*11
       SAVE IPREC
+
+      DATA DTA1,DTA2,DTA3 / 3*0.D0 /
+
       INCLUDE 'FILPLT.H'
 
       ZSYM=.TRUE.
@@ -58,7 +62,7 @@ C   &  CARTE (2)
 C------- Field is defined by maps
 
         IF(KUASEX .EQ. 22) THEN
-C--------- POLARMES keywords
+C--------- POLARMES keyword
           LF = NINT(A(NOEL,1))
 C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
           LST =LSTSET(NINT(A(NOEL,2)))
@@ -74,7 +78,13 @@ C          NDD = ND+2
           KP = NINT(A(NOEL,ND+3))
           NDD = ND+4
         ELSEIF(KUASEX .EQ. 7 .OR. KUASEX .EQ. 2) THEN
-C--------- TOSCA keywords using cylindrical mesh (MOD.ge.20)
+C--------- TOSCA keyword using cylindrical mesh (MOD.ge.20)
+          LF =  NINT(A(NOEL,1))
+          LST =LSTSET(NINT(A(NOEL,2)))
+          KP = NINT(A(NOEL,ND+10))
+          NDD = ND+20
+        ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
+C--------- EMMA keyword using cylindrical mesh (MOD.ge.20)
           LF =  NINT(A(NOEL,1))
           LST =LSTSET(NINT(A(NOEL,2)))
           KP = NINT(A(NOEL,ND+10))
@@ -100,9 +110,11 @@ C--------- EMPTY
 
       IF(LST.EQ.2 .OR. LST.GE.4) CALL OPEN2('CHXP',NPLT,FILPLT)
 
-C----- FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
+C----- FACTEUR D'ECHELLE DES Champs. UTILISE PAR 'SCALING'
+C Field scale factor. Used by  'SCALING'
       SCAL = SCAL0()
-      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 DTA1,DTA2,DTA3)
 
       AE = 0.D0
       AS = 0.D0
@@ -121,6 +133,7 @@ C----- FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
 C----------- KALC = 1: Define field in the median plane 
 C                  with median plane symetry
 
+C Default IDB value is set here : 
       IRD = KORD
       IF(IRD.EQ.4) IDB=4
 
@@ -129,7 +142,6 @@ C-------- FFAG                ffag radial
 
         CALL FFAGI(SCAL,
      >                  DSREF,IRD,IDB)
-C     >                  XL,DEV)
         IDZ=3
 C Modif, FM, Dec. 05
 C        KP = NINT(A(NOEL,ND+1))
@@ -187,21 +199,47 @@ C---------------------------------------------------------------
  2002 CONTINUE
 C----- KALC = 2 : either read (TOSCAP, POLMES), or generate (CARLA, DIPOLM) a field map
 
-      IF(KUASEX .EQ. 2) THEN
+      IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
 C TOSCA keyword with MOD.ge.20. 
-        NDIM = 2
-        CALL TOSCAP(SCAL,KUASEX,NDIM,
+
+        IF(KUASEX .EQ. 2) THEN
+          NDIM = 2
+          CALL TOSCAP(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+
+        ELSEIF(KUASEX .EQ. 7) THEN
+          NDIM = 3
+          CALL TOSCAP(SCAL,NDIM,
+     >                          BMIN,BMAX,BNORM,
+     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+
+        ENDIF
+
         RFR = RM
 
-      ELSEIF(KUASEX .EQ. 7) THEN
-C TOSCA keyword with MOD.ge.20. 
-        NDIM = 3
-        CALL TOSCAP(SCAL,KUASEX,NDIM,
+      ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
+C EMMA. Polar -> MOD.ge.20. 
+
+        IF(KUASEX .EQ. 34) THEN
+C            write(*,*) ' EMMA. Polar ndim=2 '
+          NDIM = 2
+          CALL EMMAP(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+
+        ELSEIF(KUASEX .EQ. 35) THEN
+          NDIM = 3
+          CALL EMMAP(SCAL,NDIM,
+     >                          BMIN,BMAX,BNORM,
+     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+
+        ENDIF
+
         RFR = RM
+
+C            write(*,*) ' EMMA. Polar ndim=2  rfr=',RFR
+
 
       ELSEIF(KUASEX .EQ. 20) THEN
 C AIMANT keyword
@@ -218,7 +256,7 @@ C DIPOLE-M keyword
      >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
         NDIM = 2
-           write(*,*) ' sbr chxp ',A(NOEL,ND+3),A(NOEL,ND+4)
+C           write(*,*) ' sbr chxp ',A(NOEL,ND+3),A(NOEL,ND+4)
         IF(NINT(A(NOEL,ND+3)) .EQ. 2) RFR = A(NOEL,ND+4)
 
       ELSEIF(KUASEX .EQ. 22) THEN
@@ -235,19 +273,20 @@ C POLARMES keyword
       IF(NRES.GT.0) THEN
         WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
      >      ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA, 
-     >      BNORM,BMIN,BMAX,IAMA,JRMA,KZMA,
+     >      BNORM,BMIN,BMAX,IXMA,JYMA,KZMA,
      >      XH(2)-XH(1),YH(2)-YH(1),ZH(2)-ZH(1)
   203   FORMAT(
      >    //,5X,' Min / max  fields  drawn  from  map  data : ', 
      >                           1P,G11.3,T80,' / ',G11.3,
-     >    /,5X,'  @  A(rad),  R(cm), Z(cm) :              ', 
+     >    /,5X,'  @  x-node, y-node, z-node :              ', 
      >                             3G10.3,T80,' / ',3G10.3,
      >    /,5X,'Normalisation  coeff.  BNORM   :', G12.4,
      >    /,5X,'Field  min/max  normalised  :             ', 
      >                           1P,G11.3,T64,' / ',G11.3,
-     >    /,5X,'Nbre of  steps  in  angle/radius/Z :',I4,'/',I4,'/',I4,
-     >    /,5X,'Steps  in  angle/radius/Z :  ',G12.4,'/',
-     >                  G12.4,'/',G12.4,'  (rad/cm/cm)')
+     >    /,5X,'Nbre  of  nodes  in  x/y/z : ',I4,'/',I4,'/',I4,
+     >    /,5X,'Node  distance  in   x/y/z : ',G12.4,'/',
+     >                  G12.4,'/',G12.4)
+CCCCCCCC     >                  G12.4,'/',G12.4,'  (rad/cm/cm)')
 
         IF    (NDIM .EQ. 1) THEN
           WRITE(NRES,111) IRD
@@ -268,7 +307,7 @@ C           .... IRD=4 OU 25
      >    '  3*3*3  points,   interpolation  at  ordre ',I2)
         ENDIF
  
-        IF(LF .NE. 0) CALL FMAPW('CHXP',0.D0,RFR,2)
+        IF(LF .NE. 0) CALL FMAPW(0.D0,RFR,2)
  
       ENDIF
 C     ... endif NRES>0
@@ -365,8 +404,9 @@ C        STP3 = A(NOEL,ND)
       ELSE
 
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Integration step :'',
-     >    1P,G12.4,'' cm   (i.e., '',G12.4,'' rad  at mean radius)'')') 
-     >      PAS, PAS/RM
+     >    1P,G12.4,'' cm   (i.e., '',G12.4,'' rad  at mean radius''
+     >    '' RM = '',G12.4,'')'')') 
+     >      PAS, PAS/RM, RM
 
       ENDIF
 
@@ -377,11 +417,11 @@ C        STP3 = A(NOEL,ND)
 
       RETURN
 
-      ENTRY CHXP1R(
-     >             KPASO)
+      ENTRY CHXP1(
+     >            KPASO)
       KPASO = KPAS
       RETURN
-      ENTRY CHXP1W(KPASI,IPRECI)
+      ENTRY CHXP2(KPASI,IPRECI)
       KPAS = KPASI
       IPREC = IPRECI
       IF(KPAS .EQ. 2) CALL DEPLAW(.TRUE.,IPREC)

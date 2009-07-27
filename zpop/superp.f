@@ -105,13 +105,13 @@ C      CALL LINTYW(LTYP)
       IF(REP .EQ. 'y') REP = 'Y'
       IF(REP .NE. 'Y') REP = 'N'
       IF(REP.EQ.'Y') THEN
- 141     WRITE(6,FMT='('' Give your choice for a*x^p+b,   a, n, b : '', 
+ 141     WRITE(6,FMT='('' Give your choice for a*x^p+b,   a, p, b : '', 
      >   /,''    (now : '',1P,3G12.4,'') : '')') AX,PX,BX
           READ(5,*,ERR=141)  AX,PX,BX
 C          PX = NINT(XN)
           WRITE(6,FMT='('' a, n, b : '', 1P,3G12.4,'') : '')') 
      >          AX,PX,BX
- 142      WRITE(6,FMT='('' Give your choice for c*y^q+d,   c, m, d : '', 
+ 142      WRITE(6,FMT='('' Give your choice for c*y^q+d,   c, q, d : '', 
      >     /,''    (now : '',1P,3G12.4,'') : '')') AY,PY,BY
           READ(5,*,ERR=142)  AY,PY,BY
 C          PY = NINT(YN)
@@ -161,7 +161,10 @@ C       OKECH=.false.
 
 C        READ(LN,*,END=10,ERR=3) (TAB(I), I=1, MXTAB)
  11     READ(LN,FMT='(A80)',END=10,ERR=3) TXT80
-        IF(STRCON(TXT80,'%',
+        IF    (STRCON(TXT80,'%',
+     >                       IS) ) THEN
+          GOTO 11
+        ELSEIF(STRCON(TXT80,'&',
      >                       IS) ) THEN
           GOTO 11
         ELSEIF(EMPTY(TXT80)) THEN
@@ -189,8 +192,11 @@ CCCCC           if(x.lt. 500) x = x+2.6659E+04
           NR = NR+1
 C          READ(LN,*,END=2,ERR=3) (TAB(I), I=1, MXTAB)
           READ(LN,FMT='(A80)',END=2,ERR=3) TXT80
-          IF(STRCON(TXT80,'%',
+          IF    (STRCON(TXT80,'%',
      >                         IS) ) THEN
+            GOTO 1
+          ELSEIF(STRCON(TXT80,'&',
+     >                       IS) ) THEN
             GOTO 1
           ELSEIF(EMPTY(TXT80)) THEN
             GOTO 1
@@ -255,8 +261,11 @@ C----- NOW PLOT !
 
 C      READ(LN,*,END=10,ERR=33) (TAB(I), I=1, MXTAB)
  12   READ(LN,FMT='(A80)',END=10,ERR=33) TXT80
-      IF(STRCON(TXT80,'%',
+      IF    (STRCON(TXT80,'%',
      >                     IS) ) THEN
+        GOTO 12
+      ELSEIF(STRCON(TXT80,'&',
+     >                       IS) ) THEN
         GOTO 12
       ELSEIF(EMPTY(TXT80)) THEN
         GOTO 12
@@ -296,8 +305,12 @@ C      X2 = X
  4    CONTINUE
         NR = NR+1
         READ(LN,FMT='(A80)',END=10,ERR=33) TXT80
-        IF(STRCON(TXT80,'%',
+        IF    (STRCON(TXT80,'%',
      >                      IS) ) THEN
+          MODV=4
+          GOTO 4
+        ELSEIF(STRCON(TXT80,'&',
+     >                       IS) ) THEN
           MODV=4
           GOTO 4
         ELSEIF(EMPTY(TXT80)) THEN
@@ -350,7 +363,7 @@ CCCCCC           if(x.lt. 500) x = x+2.6659E+04
  10   CONTINUE
 C      CALL VECTPL(X,Y,4)
       CALL VECTPL(X,Y,2)
-      NPT=NPT+1
+C      NPT=NPT+1
       CLOSE(LN)
       CALL FBGTXT
 

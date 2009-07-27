@@ -110,7 +110,7 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
             IF(IDLUNI(
      >                LUN)) THEN
               OPEN(UNIT=LUN,
-     >            FILE='zgoubi.freqLaw.In',STATUS='OLD',ERR=596)
+     >            FILE='zgoubi.freqLaw.In',STATUS='OLD',ERR=597)
             ELSE
               WRITE(NRES,*) ' Tried  to  open  zgoubi.freqLaw.In...'
               GOTO 596
@@ -120,10 +120,10 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
  11         CONTINUE
 C Array XM must be  increasing function of index
 C              READ(LUN,*,ERR=599,END=598) XM(I),YM(I)
-C Read  turn#, freq, phi, oclock, Ekin 
+C Read                 turn#,  freq,   phi,   oclock, Ekin 
               READ(LUN,*,ERR=599,END=598) 
-     >                 turn(i),freq(i),YM(I), XM(I), ekin(i)
-              IF(I.GT.ND) STOP ' SBR CUBSPL, too many data'
+     >                 turn(i),freq(i),YM(I), XM(I),  ekin(i)
+              IF(I.GT.ND) STOP ' SBR SCALIN, too many data'
 c              WRITE(88,fmt='(1p,4e14.6,2x,a)') turn,freq, yM(I), xM(I), 
 c     >                   '  sbr scalin turn freq phase oclock '
               I = I+1
@@ -152,6 +152,10 @@ c     >                   '  sbr scalin turn freq phase oclock '
  
       RETURN
 
+ 597  CONTINUE
+      WRITE(6,FMT='(3A)') ' SBR SCALIN : COULD NOT OPEN FILE ',
+     > 'zgoubi.freqLaw.In','.  Check existence...'
+      STOP 
  596  CONTINUE
       STOP ' SBR SCALIN :  IDLE  UNIT  PROBLEM  AT  OPEN  FILE '
       RETURN
