@@ -321,7 +321,7 @@ CCCCC            T2 = F(1,I)*UNIT(6) - XPM
 C        CALL REBELR(KREB3,KDUM,IMX)
 C        IF(KREB3.NE.99) IMX = IMX + IMAX
 
- 88     CONTINUE
+        CONTINUE
 
         CALL CNTMXR(
      >              IMX) 

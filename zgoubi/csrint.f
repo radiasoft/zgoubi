@@ -61,7 +61,7 @@ C------- Neglect (avoid!) action of bunch on itself
         IF(NSTP.EQ.1) RETURN
         KSTP = NSTP-1
 
- 1      CONTINUE
+        CONTINUE
 
 C------- Loop on all emittors within bunch at step KSTP, except current particle itself
           ITE = IT+1
@@ -143,7 +143,7 @@ C             GOTO 3
       WRITE(6,*) ' Problem in CSRINT :  in sref '
       stop
       RETURN
- 98   CONTINUE
+      CONTINUE
       WRITE(6,*) 
      >  'Radiator is still ahead of receiver -> goto next receiver step'
       RETURN

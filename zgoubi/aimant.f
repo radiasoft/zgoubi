@@ -56,7 +56,7 @@ C------ Fields defined in polar coordinates - Champs definis en coordonnees pola
       CALL SCUMR(
      >            DUM,SCUM,TCUM) 
 
-      CALL RAZDRV(3,99,99)
+      CALL RAZDRV(3)
 
       IF(PAS .LT. 0.D0)  THEN
         TEMP=AE

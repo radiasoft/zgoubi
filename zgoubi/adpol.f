@@ -90,7 +90,7 @@ C              ID GE 2
 C            ID GE 1
         ENDIF
 C          ID GE 0
-        CALL RAZDRV(KFL,ID,ID)
+        CALL RAZDRV(KFL)
 
         IK=2
  
@@ -152,7 +152,7 @@ C            ID GE 1
         ENDIF
 C          ID GE 0
 
-        CALL RAZDRV(KFL,ID,ID)
+        CALL RAZDRV(KFL)
 
       GOTO 99
  

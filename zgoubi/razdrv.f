@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE RAZDRV(IOP,IDB,IDE)
+      SUBROUTINE RAZDRV(IOP)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------------
 C     INITIALISATIONS DANS CHAMC.
@@ -46,28 +46,20 @@ C     --------------------------------------------------------
 
       DO 10 I=1,3
  10     B(1,I)=0.D0
-      IF(IDB.GE.1) THEN
         DO 11 I=1,9
  11       DB(I)=0.D0
-        IF(IDB.GE.2) THEN
           DO 12 I=1,27
  12         DDB(I)=0.D0
-          IF(IDB.GE.3) THEN
             DO 13 I=1,27
               D3BX(I)=0.D0
               D3BY(I)=0.D0
               D3BZ(I)=0.D0
  13         CONTINUE
-            IF(IDB.GE.4) THEN
               DO 14 I=1,81
                 D4BX(I)=0.D0
                 D4BY(I)=0.D0
                 D4BZ(I)=0.D0
  14           CONTINUE
-            ENDIF
-          ENDIF
-        ENDIF
-      ENDIF
 
       DO 15 J=1,5
         DO 15 I=1,5
@@ -79,28 +71,20 @@ C     --------------------------------------------------------
 
       DO 20 I=1,3
  20     E(1,I)=0.D0
-      IF(IDE.GE.1) THEN
         DO 21 I=1,9
  21       DE(I)=0.D0
-        IF(IDE.GE.2) THEN
           DO 22 I=1,27
  22         DDE(I)=0.D0
-          IF(IDE.GE.3) THEN
             DO 23 I=1,27
               D3EX(I)=0.D0
               D3EY(I)=0.D0
               D3EZ(I)=0.D0
  23         CONTINUE
-            IF(IDE.GE.4) THEN
               DO 24 I=1,81
                 D4EX(I)=0.D0
                 D4EY(I)=0.D0
                 D4EZ(I)=0.D0
  24           CONTINUE
-            ENDIF
-          ENDIF
-        ENDIF
-      ENDIF
 
       DO 25 J=1,5
         DO 25 I=1,5

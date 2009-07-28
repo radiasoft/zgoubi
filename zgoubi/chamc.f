@@ -84,7 +84,7 @@ C      ENDIF
       IF( KALC .EQ. 3) THEN
 C------- DIP, QUAD, SEXTU, ..., MULT, SOLENO...
  
-        CALL RAZDRV(KFLD,IDB,IDE)
+        CALL RAZDRV(KFLD)
  
         IF(KUASEX.LE.MPOL+1) THEN
 C--------- DIP, QUAD, SEXTU, etc. up to 20-POLE ; MULTIPOL ; ELMULT ; EBMULT
