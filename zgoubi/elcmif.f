@@ -40,7 +40,7 @@ C------ ER0(n) = -d^nV/dR^n at Z=0
 
       CALL ELCMID(R,BR,
      >                     ER0)
-      CALL EREXYZ(ER0,R,Z,IDE,
+      CALL EREXYZ(ER0,Z,IDE,
      >                        E,DE,DDE)
       CALL DBDXYZ(IDE,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 

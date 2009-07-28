@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE EREXYZ(ER0,R,Z,IDE,
+      SUBROUTINE EREXYZ(ER0,Z,IDE,
      >                              E,DE,DDE)
 C-------------------------------------------------
 C Derive derivatives d^(i+j)E/didj at (X,Y,Z) from 
