@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION CHREG(KART,X,Y,XE,AREG,BREG,CREG,DXI,TPAS,
+      FUNCTION CHREG(KART,X,Y,AREG,BREG,CREG,DXI,TPAS,
      >                                                   KREG,AL,BL,D)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL CHREG
@@ -47,7 +47,7 @@ C----------- Test End of entrance fringe-field:
 C------------- Now in central region
 C FM 08/99              D = 2.D0*XS-XLIM - X
               D = -(AREG(2)*X + BREG(2)*Y + CREG(2))
-C		........................1            
+C               ........................1            
 C(1) Warning: Variable Y is used before its value has been defined
               IF( D.LE.DXI ) THEN
 C--------------- End of central region

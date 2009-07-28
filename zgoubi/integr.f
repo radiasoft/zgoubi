@@ -159,7 +159,7 @@ C------- Test case diffrnt step values @ entrance|body|exit.
 C         Exist entrance and/or exit fringe field regions and XPAS is coded. 
 
 C-------- CHREG is .true. if particle is going to next region 
-        IF(CHREG(KART,X,Y,XE,AREG,BREG,CREG,DXI,TPAS,
+        IF(CHREG(KART,X,Y,AREG,BREG,CREG,DXI,TPAS,
      >                                               KREG,AL,BL,D)) THEN
             CL = -D
             ST = SIN(T)
