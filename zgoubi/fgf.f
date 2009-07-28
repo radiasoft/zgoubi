@@ -39,7 +39,6 @@ C  France
       IF(I .EQ. 13)GOTO 13
       IF(I .EQ. 14)GOTO 14
       IF(I .EQ. 15)GOTO 15
-1     CONTINUE
       FGF=1D0
       RETURN
 2     CONTINUE
