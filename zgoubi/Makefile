@@ -85,7 +85,6 @@ OBJ=\
  enrgy.o\
  ererz.o\
  erexyz.o\
- erzxyz.o\
  esl.o\
  eslvir.o\
  event.o\
