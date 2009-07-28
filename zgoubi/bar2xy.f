@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE BAR2XY(BZAR,R,Z,IDB,
+      SUBROUTINE BAR2XY(BZAR,R,IDB,
      >                              BZ0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -63,15 +63,18 @@ C      BZ0(1,2)=BZY
       BZ0(3,1)=BZXX
       BZ0(2,2)=BZXY
 C      BZ0(1,3)=BZYY
-      BZ0(4,1)=BZXXX
-      BZ0(3,2)=BZXXY
-      BZ0(2,3)=BZXYY
-C      BZ0(1,4)=BZYYY
-      BZ0(5,1)=BZX4
-      BZ0(4,2)=BZX3Y
-      BZ0(3,3)=BZX2Y2
-      BZ0(2,4)=BZXY3
-C      BZ0(1,5)=BZY4
-
+      IF (IDB.GE.3) THEN
+         BZ0(4,1)=BZXXX
+         BZ0(3,2)=BZXXY
+         BZ0(2,3)=BZXYY
+C        BZ0(1,4)=BZYYY
+         IF (IDB.GE.4) THEN
+            BZ0(5,1)=BZX4
+            BZ0(4,2)=BZX3Y
+            BZ0(3,3)=BZX2Y2
+            BZ0(2,4)=BZXY3
+C           BZ0(1,5)=BZY4
+         ENDIF
+      ENDIF
       RETURN
       END
