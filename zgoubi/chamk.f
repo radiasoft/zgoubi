@@ -588,11 +588,11 @@ C------- KUASEX = 8: 1-D map with  x-revolution symmetry, grid 1-D with 5 points
         CALL BAXBXR(BX,R,R2,BC,DBC,DDBC)
         IF    (KFLD .EQ. MG) THEN
 C--------- magnetique
-          CALL BXRXYZ(BC,DBC,DDBC,R1,Z1,R,R2,2,B,DB,DDB)
+          CALL BXRXYZ(BC,DBC,DDBC,R1,Z1,R,2,B,DB,DDB)
           CALL DBDXYZ(2,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
         ELSEIF(KFLD .EQ. LC) THEN
 C--------- electrique
-          CALL BXRXYZ(BC,DBC,DDBC,R1,Z1,R,R2,2,E,DE,DDE)
+          CALL BXRXYZ(BC,DBC,DDBC,R1,Z1,R,2,E,DE,DDE)
           CALL DBDXYZ(2,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
         ENDIF
       RETURN

@@ -42,7 +42,7 @@ C----- D=DISTANCE ENTRE TUBES, V21=(V2-V1), OM=Omega/Rayon, X0=refX
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,ER,DER,DDER)
-      CALL BXRXYZ(ER,DER,DDER,Y,Z,R,R2,2,E,DE,DDE)
+      CALL BXRXYZ(ER,DER,DDER,Y,Z,R,2,E,DE,DDE)
  
       RETURN
       END

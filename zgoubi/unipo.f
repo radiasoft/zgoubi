@@ -43,7 +43,7 @@ C----- D=DISTANCE TUBES, VDR=(V2-V1)/(D.RO), OR=Omega/RO, X0=refX
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,
      >                    ER,DER,DDER)
-      CALL BXRXYZ(ER,DER,DDER,Y,Z,R,R2,2,
+      CALL BXRXYZ(ER,DER,DDER,Y,Z,R,2,
      >                                   E,DE,DDE)
  
       RETURN

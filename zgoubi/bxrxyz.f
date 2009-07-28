@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE BXRXYZ(BR,DBR,DDBR,Y,Z,R,R2,ID,B,DB,DDB)
+      SUBROUTINE BXRXYZ(BR,DBR,DDBR,Y,Z,R,ID,B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BR(*),DBR(2,*),DDBR(2,2,*)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
