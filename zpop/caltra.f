@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE CALTRA(N,IPLAN)
+      SUBROUTINE CALTRA(N)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
@@ -53,7 +53,7 @@ C  France
      >           SMIN,SMAX,YMIN,YMAX,SB0,YB0
       INTEGER BLACK, BLUE, CYAN
 
-      CHARACTER*5 TXT
+      CHARACTER*32 TXT
 
       DATA BLACK, BLUE, CYAN / 0,0,0 /
       DATA DS / 0.D0 /
@@ -73,7 +73,6 @@ C This INCLUDE must stay located right before the first statement
      
       IF(READAT) CALL PRDATA(LABEL,NB)
 
- 997  CONTINUE
       IF(READAT) THEN
         READ(NDAT,FMT='(A)') TITRE
         WRITE(6,FMT='(/,A,/)') TITRE

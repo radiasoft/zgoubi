@@ -49,7 +49,6 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
  
       LOC = A(NOEL,1)       
 
- 897  CONTINUE
       IF(IPASS0 .EQ. 0) THEN
         IF(IDLUNI(
      >            LUN)) THEN

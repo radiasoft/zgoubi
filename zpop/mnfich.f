@@ -107,7 +107,6 @@ C         CMND= 'COPY '//NOMFIC(N1:N2)//TYP//' zgoubi'//TYP
          WRITE(6,*) '   ',CMND,'TERMINEE...' 
       GOTO 20                
 
- 4    CONTINUE
 C         CALL DRCTRY(TYP)
 C         WRITE(6,105)
 C 105     FORMAT('$ NOM DU FICHIER A RENAMER (QUIT = QQ) : ')

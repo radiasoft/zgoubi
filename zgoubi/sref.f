@@ -104,13 +104,7 @@ C------- EVB = E + vXB
         EVB(3) = E(3) + ( BE(1)*EVB(2) - BE(2)*EVB(1) )
 
       RETURN      
- 93   WRITE(6,*)
-     >' SBR SREF: Process stopped; MORE THAN 100 iterations on QsiX'
-      RETURN 1
- 94   WRITE(6,*)
-     >' SBR SREF: Process stopped; calculations go wrong (1-n.beta<0)'
-      RETURN 1
- 
+
       ENTRY SREF1(KSTP,ITE,
      >                     RRR,ONO,BEO,BTAO)
 C----- Position of front particle (the observer, victim of the interaction)

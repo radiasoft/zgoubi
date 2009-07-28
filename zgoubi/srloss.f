@@ -49,7 +49,6 @@ C  France
       SCALE=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
 
 C----- Set SR loss tracking
- 1    CONTINUE
       IF(NRES.GT.0) THEN 
           WRITE(NRES,FMT='(/,15X,'' S.R.  TRACKING  REQUESTED'')')
           IF(TA(NOEL,1).NE.'ALL') WRITE(NRES,FMT='(20X,

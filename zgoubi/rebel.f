@@ -277,5 +277,4 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
       KREB31O = KREB31
       RETURN
 
- 99   WRITE(NRES,*) ' *** SBR REBEL ; CANNOT OPEN ','zgoubi.co'
       END

@@ -138,7 +138,6 @@ C----------------------------------------------------------------
             GOTO 1
          ENDIF
       ENDIF
-4     CONTINUE
       ITSENS=OK
       RETURN
       END

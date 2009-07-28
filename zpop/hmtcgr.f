@@ -47,8 +47,6 @@ C      CALL HOMCLR
       KY = 28
       OKVAR = .TRUE.
 
- 11   CONTINUE
-
         IF(XMI .LT. XMA .AND. YMI .LT. YMA) THEN
           OKECH = .TRUE.
           CALL TRAXES(XMI,XMA,YMI,YMA*1.05,-1) 
@@ -58,7 +56,6 @@ C      CALL HOMCLR
           GOTO 70
         ENDIF          
 
- 12   CONTINUE
       CALL LINTYP(1)
 
       CALL FUNK(FNCT,V,CX(MXC-1),CX(MXC),NC,NV,CX,FCT)

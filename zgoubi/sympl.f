@@ -33,7 +33,6 @@ C  France
 
 C----- First order. Cours INSTN G. Leleux, p5-14.
 C      conditions equivalent to T(R).S.R = S
- 1    CONTINUE
       S(1) = R(1,1)*R(2,2)-R(1,2)*R(2,1)+R(3,1)*R(4,2)-R(3,2)*R(4,1)-1D0
       S(2) = R(1,3)*R(2,4)-R(1,4)*R(2,3)+R(3,3)*R(4,4)-R(3,4)*R(4,3)-1D0
       S(3)= R(2,4)*R(1,1)-R(1,4)*R(2,1) + R(4,4)*R(3,1)-R(3,4)*R(4,1)
@@ -50,7 +49,6 @@ C      conditions equivalent to T(R).S.R = S
       ENTRY SYMPL2(R,T)
 
 C----- Second order. These J.L. Laclare, p18.
- 2    CONTINUE
       S(1) =    R(1,1)*(T(2,1,2)+T(2,2,1)) + 2.D0*R(2,2)*T(1,1,1) 
      > - 2.D0*R(1,2)*T(2,1,1) -    R(2,1)*(T(1,1,2)+T(1,2,1))
 

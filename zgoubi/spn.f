@@ -81,15 +81,6 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
  108        FORMAT(15X,' OPTION 5 UNAVAILABLE IN THIS VERSION',/)
             KSO=0
             RETURN
-C            WRITE(NRES,105)   TO, PO, AL, DA
- 105        FORMAT(
-     >       30X,' INITIAL  MEAN  POLARISATION  AXIS :'
-     >      ,/,35X,' TO = ',F10.6,' RD'
-     >      ,/,35X,' PO = ',F10.6,' RD'
-     >      ,/,30X,' PARAMETERS  OF  THE  CONE  DISTRIBUTION',
-     >      2X,'AROUND  THE  MEAN  AXIS :'
-     >      ,/,35X,' APERTURE  ANGLE            = ',F10.6,' RD'
-     >      ,/,35X,' APERTURE  ANGLE  SPREADING = ',F10.6,' RD',/)
          ENDIF
  
 C          P = BORO*CL*1D-9*(Q/QE)
