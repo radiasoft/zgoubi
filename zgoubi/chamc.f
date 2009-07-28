@@ -159,7 +159,7 @@ C--------- ELMIR
           Y0=Y
           Z0=Z
           IF(EM(6).NE.0.D0) CALL ROTX(EM(6),Y0,Z0)
-          CALL ELMIRF(X,Y0,Z0,BR,
+          CALL ELMIRF(X,Z0,BR,
      >                           E,DE,DDE)
           IF(EM(6).NE.0.D0)
      >      CALL XROTB(EM(6),E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
