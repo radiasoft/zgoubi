@@ -10,7 +10,6 @@ OBJ=\
  apherf.o\
  autorf.o\
  avorpr.o\
- bar2xy.o\
  baxbxr.o\
  beaimp.o\
  beamat.o\
