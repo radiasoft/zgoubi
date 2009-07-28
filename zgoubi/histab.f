@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE HISTAB(IC1,IC2,NLIN,KAR,MODE,IMAX,*)
+      SUBROUTINE HISTAB(IC1,IC2,NLIN,KAR,MODE,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -------------------------------------------------------------
 C     Y EST UN HISTOGRAMME DE VALEURS
