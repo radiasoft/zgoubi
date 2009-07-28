@@ -25,7 +25,7 @@ C  38026 Grenoble Cedex
 C  France
       FUNCTION CUBSPL(xm,ym,xv,nd,n)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      integer nd,n,i,m,j,k,count,sele
+      integer nd,n,i,m,j,k,count
       doubleprecision 
      >XM(nd),YM(nd),LM(nd),UM(nd),DM(nd),CM(0:nd),EM(nd),
      >xv,fact,e,ff,g,h
