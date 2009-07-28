@@ -99,7 +99,7 @@ C------- Life time (s) of secondary particle
           RETURN 1
         ENDIF
         IT = IT + 1
-        U=RNDM(IRSAR)
+        U=RNDM()
         IF(U .EQ. 0.D0) U=1.D0
         AMP2 = AMP * AMP
         ENSTAR = .5D0*(AMP2+AMS2-AM32)/AMP
@@ -110,9 +110,8 @@ C------- Life time (s) of secondary particle
         CTOLAB = 1.D-7*CEL*CEL * BORO * TO / AMP
         SCTO = SCTO + CTOLAB
         FDES(6,I) = -CTOLAB*F(1,I)* LOG(U)
-CError FM, ON Aug.2003        TETPHI(1,I) = 2.D0*PI*(RNDM(IRTET) - .5D0)
-        TETPHI(1,I) = ACOS(1.D0 - 2.D0*RNDM(IRTET))
-        TETPHI(2,I) = 2.D0*PI* RNDM(IRPHI)
+        TETPHI(1,I) = ACOS(1.D0 - 2.D0*RNDM())
+        TETPHI(2,I) = 2.D0*PI* RNDM()
         TDVM=TDVM+FDES(6,I)
 CC---------- Test densities ("ligne verte")//
 C        ppi = F(1,I)*BORO*CL9 *Q

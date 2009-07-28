@@ -184,21 +184,21 @@ C------- TIRAGE GENERATEUR IR1
 
             CENTR=CENTRE(J)
             IF(KOUV .EQ. 'Grid') THEN
-              IGR = 1 + IG(J) * RNDM(IR1) * .999999D0
+              IGR = 1 + IG(J) * RNDM() * .999999D0
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF
  
             IF    (KTIR(J) .EQ. 'Uniform') THEN
-              FAISC1(J,I)= CENTR+2.D0*(RNDM(IR1)-.5D0)*AMAX(J)
+              FAISC1(J,I)= CENTR+2.D0*(RNDM()-.5D0)*AMAX(J)
 
             ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
-              FAISC1(J,I)=APHERF(IR1,CENTR,AMAX(J))
+              FAISC1(J,I)=APHERF(CENTR,AMAX(J))
 
             ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
 
             ELSEIF(KTIR(J) .EQ. 'Exponentl') THEN
-              FAISC1(J,I)=APHERF(IR1,CENTR,AMAX(J))
+              FAISC1(J,I)=APHERF(CENTR,AMAX(J))
 
             ENDIF
  
@@ -211,27 +211,27 @@ C------- TIRAGE GENERATEUR IR2
             IF(IU .EQ. 0) IU=6
             CENTR=CENTRE(J)
             IF(KOUV .EQ. 'Grid') THEN
-              IGR = 1 + IG(J) * RNDM(IR2) * .999999D0
+              IGR = 1 + IG(J) * RNDM() * .999999D0
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF
  
             IF    (KTIR(J) .EQ. 'Uniform') THEN
-              FAISC2(J,I)= CENTR+2.D0*(RNDM(IR2)-.5D0)*AMAX(J)
+              FAISC2(J,I)= CENTR+2.D0*(RNDM()-.5D0)*AMAX(J)
 
             ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
-              FAISC2(J,I)=APHERF(IR2,CENTR,AMAX(J))
+              FAISC2(J,I)=APHERF(CENTR,AMAX(J))
 
             ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
 
             ELSEIF(KTIR(J) .EQ. 'Exponentl') THEN
-              FAISC2(J,I)=APHERF(IR2,CENTR,AMAX(J))
+              FAISC2(J,I)=APHERF(CENTR,AMAX(J))
 
             ENDIF
  
  41     CONTINUE
  
-      CALL MIX(IMAX,FO,FAISC1,FAISC2,IR3)
+      CALL MIX(IMAX,FO,FAISC1,FAISC2)
  
       XL = 0.D0
       DO 5 I=1,IMAX

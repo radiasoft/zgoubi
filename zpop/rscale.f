@@ -48,8 +48,9 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
 
       NFAM = A(NOEL,2)
       IF(NFAM .GT. MXF) THEN
-        WRITE(NRES,FMT='
-     >  ('' To many families (maximum number allowed is '',I2,'')'')')MXF
+        WRITE(NRES,FMT=
+     $ '('' To many families (maximum number allowed is '',I2,'')'')'
+     $        )MXF
         STOP
       ENDIF
 
@@ -60,7 +61,7 @@ C------- Store name of family and label(s)
  100    FORMAT(A80)
         TA(NOEL,IF) = 
      >    TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
-        CALL STRGET(TA(NOEL,IF),80,MST,
+        CALL STRGET(TA(NOEL,IF),MST,
      >                                 NST,STRA)
         IF(NST-1 .GT. MXLF) THEN
           WRITE(NRES,FMT='
@@ -69,11 +70,11 @@ C------- Store name of family and label(s)
           STOP
         ENDIF
 
-        FAM(IF) = STRA(1)        
+        FAM(IF) = STRA(1)(1:8)
             
         IF(NST .GE. 2) THEN
           DO 11 KL=2,NST
- 11         LBF(IF,KL-1) =  STRA(KL)
+ 11         LBF(IF,KL-1) =  STRA(KL)(1:8)
         ENDIF
         DO 12 KL=NST+1, MST
  12       LBF(IF,KL-1) = ' '

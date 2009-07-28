@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION APDPO(A,IRA)
+      FUNCTION APDPO(A)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (N=500)
       DIMENSION FP(N)
@@ -76,10 +76,10 @@ C-------- FP(J) now contains the normalised POISSON law
 C            FP_k, k=0,nn-1 = FP(J=1,NN)
 C----- Number of photons emitted by each particle, 
 C                 "acceptance-rejection" method. 
- 17     R1=RNDM(IRA)       
+ 17     R1=RNDM()       
           K= NN*R1
           J=K+1
-          R2=RNDM(IRA)       
+          R2=RNDM()       
         IF(R2.GT.FP(J)) GOTO 17
        APDPO=K
        RETURN

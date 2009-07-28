@@ -181,7 +181,7 @@ C---------- Assign  lettre 'S'(-econdary) to decay particle
 C---------- FDES(7,IT) contains com life time (s) of S particle
            TOS = FDES(7,IT)
            IF(TOS.NE.0.D0) THEN
-             U=RNDM(IRSEED)
+             U=RNDM()
              IF(U .EQ. 0.D0) U=1.D0
              FDES(6,IT) = FDES(6,IT)
      >                 -1.D-7*CEL*CEL * BORO*DP * TOS / AMS * LOG(U)

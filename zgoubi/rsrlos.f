@@ -33,7 +33,7 @@ C  France
       CHARACTER*8 STRA(2)
       READ(NDAT,*,ERR=99) A(NOEL,1)
       READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)
-      CALL STRGET(TA(NOEL,1),80,2,
+      CALL STRGET(TA(NOEL,1),2,
      >                             NOUT,STRA)
       TA(NOEL,1)=' '
       TA(NOEL,2)=' '

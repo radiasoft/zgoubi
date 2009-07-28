@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE GENETA(AK,E3CM,E4CM,P3,P4,B ,IRAND)
+      SUBROUTINE GENETA(AK,E3CM,E4CM,P3,P4,B)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION P3(*),P4(*),B(*)
 C      DATA PI,DPI,RAD/3.14159265359D0,6.28318530718D0,
@@ -32,12 +32,10 @@ C      DATA PI,DPI,RAD/3.14159265359,6.28318530718,1.745329252E-2/
  
       DPI = 8.D0 * ATAN(1.D0)
 C .......3He et eta (pi) dans le CM
-C      U=RNDM(U)
-      U=RNDM(IRAND)
+      U=RNDM()
       COSTET=1.D0-2.D0*U
       SINTET=SQRT(1.D0-COSTET*COSTET)
-C      U=RNDM(U)
-      U=RNDM(IRAND)
+      U=RNDM()
       PHI=DPI*U
       P3(1)=AK*COSTET
       AUX=AK*SINTET

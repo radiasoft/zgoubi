@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE STRGET(STR,ICHA,MSS,
+      SUBROUTINE STRGET(STR,MSS,
      >                               NST,STRA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C      CHARACTER STR*(ICHA), STRA(MSS)*(*)

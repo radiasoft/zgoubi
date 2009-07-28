@@ -24,14 +24,14 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE ADPOL(ID,IK,KFL,
-     >                 B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
+     >                 B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C--------------------------------------------------------------------
 C     Add up pole components of multipole lenses. Can be E or B field
 C--------------------------------------------------------------------
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
-      DIMENSION D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
-      DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
+      DIMENSION D3BX(3,3,3), D3BY(3,3,3)
+      DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3)
       DIMENSION BT(5,15) 
  
       GOTO(1,2,3) IK

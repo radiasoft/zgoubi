@@ -23,8 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE EVENT(DL,Y,T,Z,P,X,RZ,RX,RY,XAR,BR,SAR,TAR,KEX,IT,
-     > AMT,QT,BORO,KART,KSPN,IFDES,KGA,KSYN,IMAX,*)
+      SUBROUTINE EVENT(DL,Y,T,Z,P,X,XAR,BR,SAR,TAR,KEX,IT,
+     > AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "MAXTRA.H"
@@ -46,7 +46,7 @@ C------- Walls (chamber)
      >                                        KEX,*99)
 
 C----- synchrotron radiation
-      IF(KSYN .GE. 1 ) CALL RAYSYN(KSYN,DL,IT,IMAX)
+      IF(KSYN .GE. 1 ) CALL RAYSYN(DL,IT,IMAX)
 
       RETURN
  99   RETURN 1

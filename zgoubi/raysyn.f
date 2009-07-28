@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE RAYSYN(KSYN,DS,IT,IMAX)
+      SUBROUTINE RAYSYN(DS,IT,IMAX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
@@ -92,8 +92,8 @@ C         BR=Brho (kG.cm)
       G3=EN*EN2/(AM*AM2)
 C----- Parameter of Poisson law (step DS is in cm)
       A=FAC*BTA*BTA*BFIELD*(DS*UNIT)
-C         K= INT(APDPO(A,IRA))
-         K= INT(POIDEV(A,IRA))
+C         K= INT(APDPO(A))
+         K= INT(POIDEV(A))
          TPHOT(IT)=TPHOT(IT)+K
 C----- Photon energies (ELOSS*EC) at current step
 C----- Cumulated energy loss TLOSS per particle (over all integr. steps) 
@@ -102,7 +102,7 @@ C----- Cumulated energy loss TLOSS per particle (over all integr. steps)
       ECMEAN=ECMEAN+EC
       ELOSS=0.D0
       DO 19 JJ=1,K
-        R1=RNDM(IRA)
+        R1=RNDM()
 C-------- 0.26 is a (somewhat arbitrary) limit within which 
 C    G(E/Ec)~(E/Ec)^(1/3), giving (E/Ec) with better than 1% precision  
         IF(R1.LT.0.26D0) THEN

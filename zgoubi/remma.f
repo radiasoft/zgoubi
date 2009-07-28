@@ -97,7 +97,7 @@ C        CALL ENDJOB('*** Input data error -> No such option MOD = ',MOD)
 C----- MAP FILE NAME(S)
       DO 37 IFIC=1,NFIC
         READ(NDAT,FMT='(A)') TXT
-        CALL STRGET(TXT,80,1,
+        CALL STRGET(TXT,1,
      >                       IDUM,STRA) 
         TA(NOEL,1+IFIC) = STRA(1)
 C               write(*,*) ' sbr remma : ', TA(NOEL,1+IFIC) 

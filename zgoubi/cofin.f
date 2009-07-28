@@ -108,8 +108,8 @@ C----------- Compute interaction undergone by current particle, due to all earli
           ENDIF
         ELSE        
           CALL EVENT(
-     >    DS,Y,T,Z,P,X,-DX,ZERO,ZERO,ZERO,BR,SAR,TAR,KEX,IT,
-     >    AMT,QT,BORO,KART,KSPN,IFDES,KGA,KSYN,IMAX,*99)
+     >    DS,Y,T,Z,P,X,ZERO,BR,SAR,TAR,KEX,IT,
+     >    AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*99)
         ENDIF
       ENDIF
       RETURN

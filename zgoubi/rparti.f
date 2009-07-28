@@ -35,7 +35,7 @@ C  France
       READ(NDAT,FMT='(A)') TXT
       IFT = FINSTR(TXT)
       TXT = TXT(DEBSTR(TXT):IFT)
-      CALL STRGET(TXT,132,1,
+      CALL STRGET(TXT,1,
      >                      IDUM,STRA)
       IFIN = FINSTR(STRA(1))
       IDT = IFIN+1

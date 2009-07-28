@@ -44,7 +44,7 @@ C----- Will print into file TA(NOEL,1),
 C           right after any occurence of element label[s] TA(noel,2)
 
       READ(NDAT,FMT='(A)') TXT
-      CALL STRGET(TXT,80,1,
+      CALL STRGET(TXT,1,
      >                     IDUM,STRA) 
       TA(NOEL,1) = STRA(1)
 
@@ -52,7 +52,7 @@ C           right after any occurence of element label[s] TA(noel,2)
         LENG = 1+FINSTR(STRA(1))-DEBSTR(STRA(1))
         TXT = TXT(LENG+2:FINSTR(TXT))
         TA(NOEL,2) = TXT
-        CALL STRGET(TXT,80,MLB,
+        CALL STRGET(TXT,MLB,
      >                         NLB,LBL)
         IF(NLB .GE. 1) PRLB = .TRUE.
 

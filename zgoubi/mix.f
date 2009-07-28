@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE MIX(IMAX,FO,FAISC1,FAISC2,IR3)
+      SUBROUTINE MIX(IMAX,FO,FAISC1,FAISC2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXCOO.H"
       DIMENSION FO(MXJ,*),FAISC1(MXJ,*),FAISC2(MXJ,*)
@@ -64,7 +64,7 @@ C      JRND2=2
       JRND2=1
 
       DO 3 I=1,IMAX
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA .LE. .5D0) THEN
           FO(2,I)=FAISC1(2,JRND21)
           JRND21=JRND21+1
@@ -72,7 +72,7 @@ C      JRND2=2
           FO(2,I)=FAISC2(2,JRND22)
           JRND22=JRND22+1
         ENDIF
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA.LE.5D0) THEN
           FO(3,I)=FAISC1(3,JRND31)
           JRND31=JRND31+1
@@ -80,7 +80,7 @@ C      JRND2=2
           FO(3,I)=FAISC2(3,JRND32)
           JRND32=JRND32+1
         ENDIF
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA.LE.5D0) THEN
           FO(4,I)=FAISC1(4,JRND41)
           JRND41=JRND41+1
@@ -88,7 +88,7 @@ C      JRND2=2
           FO(4,I)=FAISC2(4,JRND42)
           JRND42=JRND42+1
         ENDIF
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA.LE.5D0) THEN
           FO(5,I)=FAISC1(5,JRND51)
           JRND51=JRND51+1
@@ -96,7 +96,7 @@ C      JRND2=2
           FO(5,I)=FAISC2(5,JRND52)
           JRND52=JRND52+1
         ENDIF
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA.LE.5D0) THEN
           FO(1,I)=FAISC1(1,JRND11)
           JRND11=JRND11+1
@@ -104,7 +104,7 @@ C      JRND2=2
           FO(1,I)=FAISC2(1,JRND12)
           JRND12=JRND12+1
         ENDIF
-        XARPHA=RNDM(IR3)
+        XARPHA=RNDM()
         IF(XARPHA.LE.5D0) THEN
           JRND1=JRND1+1
         ELSE

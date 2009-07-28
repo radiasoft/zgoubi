@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION POIDEV(XM,IDUM)
+      FUNCTION POIDEV(XM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (PI=3.141592653589793238D0)
       DATA OLDM / -1.D0 /
@@ -38,7 +38,7 @@ C station, 1999)
         EM=-1
         T=1.D0
  2      EM=EM+1.D0
-        R1=RNDM(IDUM)
+        R1=RNDM()
         T=T*R1
         IF(T.GT.G) GOTO 2
       ELSE
@@ -48,13 +48,13 @@ C station, 1999)
           ALXM=LOG(XM)
           G=XM*ALXM-GAMMLN(XM+1D0)
         ENDIF
- 1      Y=TAN(PI*RNDM(IDUM))
+ 1      Y=TAN(PI*RNDM())
         EM=SQ*Y+XM
         IF(EM.LT.0.D0) GOTO 1
         EM=INT(EM)
         GG=GAMMLN(EM+1.D0)
         T=0.9D0*(1.D0+Y*Y)*EXP(EM*ALXM-GG-G)
-        IF(RNDM(IDUM).GT.T) GOTO 1
+        IF(RNDM().GT.T) GOTO 1
       ENDIF
       POIDEV=EM
       RETURN

@@ -23,19 +23,19 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION APHERF(IRAN,XMOY,SIG)
+      FUNCTION APHERF(XMOY,SIG)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------------------
 C     GENERE DES N.A. DANS UNE DISTRIBUTION GAUSSIENNE
 C     D'ECART TYPE SIG, CENTREE EN XMOY
 C     ------------------------------------------------
       DATA PIS4,R2 / -.7853981634D0, 1.414213562D0/
-      IF(RNDM(IRAN) .GE. 0.5D0) THEN
+      IF(RNDM() .GE. 0.5D0) THEN
         SGN=1.D0
       ELSE
         SGN=-1.D0
       ENDIF
-      U=1.D0-2.D0*RNDM(IRAN)
+      U=1.D0-2.D0*RNDM()
       APHERF= XMOY+SGN*R2*SIG*SQRT(PIS4*LOG(1.D0-U*U))
       RETURN
       END

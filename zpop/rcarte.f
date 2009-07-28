@@ -103,7 +103,7 @@ C----- MAP FILE NAME(S)
 C          READ(NDAT,200) TA(NOEL,1+IFIC)
            WRITE(*,*) '  BLUB  5, NFIC', IFIC
           READ(NDAT,FMT='(A)') TXT
-          CALL STRGET(TXT,80,1,
+          CALL STRGET(TXT,1,
      >                         IDUM,STRA) 
           TA(NOEL,1+IFIC) = STRA(1)
  37     CONTINUE
@@ -114,11 +114,11 @@ C------- Will sum (superimpose) 1D field maps if map file name is followed with 
           STRA(2) = ' '
           IFIC = IFIC + 1
           READ(NDAT,FMT='(A)') TXT
-          CALL STRGET(TXT,80,2,
+          CALL STRGET(TXT,2,
      >                         IDUM,STRA) 
           TA(NOEL,1+IFIC) = STRA(1)
           IF(STRA(2).EQ.'SUM') THEN
-            TA(NOEL,1+IFIC) = '+'//TA(NOEL,1+IFIC)
+            TA(NOEL,1+IFIC) = '+'//TA(NOEL,1+IFIC)(1:79)
             GOTO 371
           ENDIF
           WRITE(TA(NOEL,2+IFIC),*) 

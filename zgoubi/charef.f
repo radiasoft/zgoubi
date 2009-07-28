@@ -75,8 +75,8 @@ C--------- Cylindrical coordinates
 C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be 
 C either y or y+rm  depending when it is called
 C            write(*,*) ' sbr charef ',it,y,rm,y+rm
-C        CALL EVENT(DL,YY,T,Z,P,XX,ZERO,ZERO,ZERO,UN,BR,SAR,TAR,KEX,IT,
-C     >  AMT,QT,BORO,KART,KSPN,IFDES,KGA,I0,IMAX,*99)
+C        CALL EVENT(DL,YY,T,Z,P,XX,UN,BR,SAR,TAR,KEX,IT,
+C     >  AMT,QT,BORO,KART,IFDES,KGA,I0,IMAX,*99)
       ENDIF
 C 99   RETURN 
       RETURN 

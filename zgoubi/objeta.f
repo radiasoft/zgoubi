@@ -187,8 +187,8 @@ C
  11   CONTINUE
         STIR = STIR+1
  
-        CALL DESBIN(AM4,AM5,AM6,PX1,PX2,IRAND)
-        CALL GENETA(AK,E3CM,E4CM,P3,P4,B4,IRAND)
+        CALL DESBIN(AM4,AM5,AM6,PX1,PX2)
+        CALL GENETA(AK,E3CM,E4CM,P3,P4,B4)
  
         IF(IBODY .EQ. 1) THEN
  
@@ -229,12 +229,12 @@ C         PX1(4)=Etot=T+Masse ,  PX1(5)=P=SQRT(PX**2+PY**2+PZ**2) .
         IF    (KOBJ .EQ. 1) THEN
 C         ... TIRAGE Y , Z  Uniform
           DO 14 J=2,4,2
-            FO(J,I)= 2.D0*(RNDM(IRAND2)-.5D0)*AMAX(J)
+            FO(J,I)= 2.D0*(RNDM()-.5D0)*AMAX(J)
  14       CONTINUE
         ELSEIF(KOBJ .EQ. 2) THEN
 C         ... TIRAGE Y , Z  Gaussian
           DO 15 J=2,4,2
-            FO(J,I)=APHERF(IRAND2,CENTRE(J),AMAX(J))
+            FO(J,I)=APHERF(CENTRE(J),AMAX(J))
  15       CONTINUE
         ENDIF
         IF ( XL .EQ. 0.D0) THEN
@@ -243,7 +243,7 @@ C         ... TIRAGE Y , Z  Gaussian
 C         ... CIBLE LONGUE : ON PROJETE LES COORDONNEES
 C         DANS LE PLAN ORTHOGONAL A L'AXE LONGITUDINAL
 C         AU CENTRE DE LA CIBLE
-          AL = 2.D0*XL*( RNDM(IRAND2) - .5D0 )
+          AL = 2.D0*XL*( RNDM() - .5D0 )
           FO(2,I)=FO(2,I) - AL*TAN(FO(3,I)*1.D-3)
           FO(4,I)=FO(4,I) - AL*TAN(FO(5,I)*1.D-3)/COS(FO(3,I)*1.D-3)
 C          FO(6,I)= - AL/(COS(FO(3,I)*1.D-3)*COS(FO(5,I)*1.D-3))

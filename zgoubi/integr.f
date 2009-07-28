@@ -418,8 +418,8 @@ C----------- Spin tracking
             CALL SPNTRK(IT,PAF)
           ELSE         
             CALL EVENT(
-     >      PAF,Y,T,Z,P,X,-DX,ZERO,ZERO,ZERO,BR,SAR,TAR,KEX,IT,
-     >      AMT,QT,BORO,KART,KSPN,IFDES,KGA,KSYN,IMAX,*97)
+     >      PAF,Y,T,Z,P,X,ZERO,BR,SAR,TAR,KEX,IT,
+     >      AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*97)
           ENDIF
         ENDIF
       ENDIF

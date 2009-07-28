@@ -38,6 +38,7 @@ C----------------------------------------------------------------------------
       INCLUDE "MAXTRA.H"
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
       COMMON/UNITS/ UNIT(MXJ)
+      PARAMETER (RANGE=0.2D0,ISTP=3)
 
       SAVE EPSPI
 
@@ -46,21 +47,23 @@ Compute rms ellipse
      >                         EMIT,ALP,BET,XM,XPM)
 
 Compute number of particles alive and number inside ellipse
-      RANGE = 0.2D0
-      STP = 3.D0
-      DX = XM*RANGE/STP
+      DX = XM*RANGE/ISTP
       IF(DX.EQ.0.D0) DX = 1.D-10
-      DXP = XPM*RANGE/STP
+      DXP = XPM*RANGE/ISTP
       IF(DXP.EQ.0.D0) DXP = 1.D-10
-      DA = ALP*(2.D0*RANGE)/STP
+      DA = ALP*(2.D0*RANGE)/ISTP
       IF(DA.EQ.0.D0) DA = 1.D-10
-      DB = BET*(2.D0*RANGE)/STP
+      DB = BET*(2.D0*RANGE)/ISTP
       IF(DB.EQ.0.D0) DB = 1.D-10
       MXINL = -1
-      DO 10 XX = XM*(1.D0-RANGE), XM*(1.D0+RANGE), DX
-       DO 10 XXP = XPM*(1.D0-RANGE), XPM*(1.D0+RANGE), DXP
-        DO 10 AA = ALP*(1.D0-2.D0*RANGE), ALP*(1.D0+2.D0*RANGE), DA
-         DO 10 BB = BET*(1.D0-2.D0*RANGE), BET*(1.D0+2.D0*RANGE), DB
+      DO 10 IXX = -ISTP,ISTP
+       XX = XM + IXX*DX
+       DO 10 IXXP = -ISTP,ISTP
+        XXP = XPM + IXXP*DXP
+        DO 10 IAA = -ISTP,ISTP
+         AA = ALP + IAA*DA
+         DO 10 IBB = -ISTP,ISTP
+          BB = BET + IBB*DB
           CALL CNTINL(JJ,UN,EPSPI,AA,BB,XX,XXP,
      >                                         NLIV,NINL)
           IF(NINL .GT. MXINL) THEN

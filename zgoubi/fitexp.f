@@ -23,16 +23,16 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION FITEXP(IRAN,DMOY,DMAX)
+      FUNCTION FITEXP(DMOY,DMAX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------------
 C     GENERE DES N.A. DANS UNE DISTRIBUTION EXPO
 C     ------------------------------------------
       COMMON/ FITEX /DN0,C0,C1,C2,C3,DL
  
- 10   X=RNDM(IRAN)
+ 10   X=RNDM()
       Y = EXP( C0 + (C1 + (C2 + C3*X)*X)*X ) / DN0
-      A=RNDM(IRAN)
+      A=RNDM()
       IF(A .GT. Y) GOTO 10
       FITEXP=DMOY+2.D0*(X-.5D0)*DMAX
  

@@ -92,20 +92,20 @@ C--------- DIP, QUAD, SEXTU, etc. up to 20-POLE ; MULTIPOL ; ELMULT ; EBMULT
           IF(KFLD .EQ. MG) THEN
 C----------- Magnetic
 c        write(*,*) ' sbr chamc di ds ',di(1,1),di(1,2),di(1,3),di(1,4)
-            CALL MULTIP(IDB,MG,KUASEX,X,Y,Z,BM,DLE,DLS,DFM,DI,DS,RTB,
+            CALL MULTIP(IDB,MG,KUASEX,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS,CE, CS,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
           ELSEIF(KFLD .EQ. LC) THEN
 C----------- Electric
-            CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QFM,QE,QS,RTQ,
+            CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QE,QS,RTQ,
      >               XE,XS,QCE,QCS,
      >               E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ,ET)
           ELSEIF(KFLD .EQ. ML) THEN
 C----------- Electric & Magnetic
-            CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QFM,QE,QS,RTQ,
+            CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QE,QS,RTQ,
      >               XE,XS,QCE,QCS,
      >               E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ,ET)
-            CALL MULTIP(IDB,MG,KUASEX,X,Y,Z,BM,DLE,DLS,DFM,DI,DS,RTB,
+            CALL MULTIP(IDB,MG,KUASEX,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS, CE, CS,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
           ENDIF

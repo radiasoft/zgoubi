@@ -54,7 +54,7 @@ C----- Read zgoubi.dat title (1st data line)
  2        CONTINUE
 
             IF( .NOT. EMPTY(TITRE((I+1):80)) ) THEN
-              CALL STRGET(TITRE((I+1):80),(80-I),2,
+              CALL STRGET(TITRE((I+1):80),2,
      >                                             NST,LAB2)
               LABEL(NOEL,1) = LAB2(1)
               IF(NST.EQ.2) THEN 

@@ -119,22 +119,22 @@ C          RM = RMA(J)*REB
 C       Tirage uniforme en r2 = uniforme en surface, elliptique en y et y'
               IF(J.LE.4) THEN
 C                TRANSVERSE COORDINATES
-                R=SQRT(RNDM(IR1))*REBM
-                ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
+                R=SQRT(RNDM())*REBM
+                ANG = 2.D0*(RNDM()-.5D0)*PI
                 X = R*COS(ANG)
                 FO(J ,I) = X/UNIT(J-1)
                 FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
               ELSE
 C                DP/P, X
-                R=RNDM(IR1)*REBM
+                R=RNDM()*REBM
                 SIGN =  1.D0 
-                IF(2.D0*(RNDM(IR1)-.5D0).LE.0.D0) SIGN=-SIGN
+                IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J ,I) = X/UNIT(J-1)
-                R=RNDM(IR1)*
+                R=RNDM()*
      >            SQRT(RMA(J)*EPS(J)*(1.D0+ALP(J))**2/BET(J))
                 SIGN =  1.D0 
-                IF(2.D0*(RNDM(IR1)-.5D0).LE.0.D0) SIGN=-SIGN
+                IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J1,I) = X/UNIT(J)
               ENDIF
@@ -145,13 +145,13 @@ C              SM=EXP(-RMA(J)/2.D0)
               IF(RMB(J) .EQ. 0.D0) THEN
 C---------------- Sorting in [0,SMA]
 C                R=RNDM(IR1)*(1.D0-SM)+SM
-                R=1.D0 + RNDM(IR1)*(SM-1.D0)
+                R=1.D0 + RNDM()*(SM-1.D0)
               ELSE
 C---------------    Sorting in [SMA,SMB]
 CCCCC                SMB = EXP(-RMB(J)/2.D0)
                 SMB = EXP(-RMB(J)*RMB(J)/2.D0)
                 SM  = EXP(-RMA(J)*RMA(J)/2.D0)
-                R=SM + RNDM(IR1)*(SMB-SM)
+                R=SM + RNDM()*(SMB-SM)
               ENDIF
 
 CCCCC------------- /2.D0 leads to same emittance as calculated from 
@@ -160,14 +160,14 @@ CCCCC             R=SQRT(-2.D0*LOG(R))*REB /2.D0
 
 C-------------- Leads to sigma_x=sqrt( beta_x epsilon_x/pi) :
               R=SQRT(-2.D0*LOG(R))*REB
-              ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
+              ANG = 2.D0*(RNDM()-.5D0)*PI
               X = R*COS(ANG)
               FO(J ,I) = X/UNIT(J-1)
               FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
 
             ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
 C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
- 7            R = RNDM(IR1)
+ 7            R = RNDM()
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
               X = - REBM * COS ( A3 + PI/3.D0 )
               FO(J ,I) = X/UNIT(J-1)
@@ -178,7 +178,7 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
               IF(DXM .LT. 0.D0) GOTO 7
               DXM = SQRT( DXM )
               XM = -AXB
-              R = RNDM(IR1)
+              R = RNDM()
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
               X = XM - DXM * COS ( A3 + PI/3.D0 )
               FO(J1,I) = X/UNIT(J)

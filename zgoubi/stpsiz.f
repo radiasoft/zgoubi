@@ -38,7 +38,7 @@ C  France
 
       READ(NDAT,FMT='(A)') TXT
       TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
-      CALL STRGET(TXT,30,1,
+      CALL STRGET(TXT,1,
      >                     IDUM,STRA)
       TXT = STRA(1)
       IFIN = FINSTR(TXT)
