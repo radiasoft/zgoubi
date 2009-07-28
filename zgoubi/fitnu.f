@@ -56,10 +56,6 @@ C Implemented by Scott Berg, LPSC, April 2007
          ELSE
            CALL MINO1(FF,NV,X,P,VI,Y,XI,F,FINI)
          ENDIF
-C         IREP=IDLG(
-C     S   '('' IMPRESSION DES RESULTATS DU FIT (N/O) :'')',
-C     S   'N   O   ',2)
-C         IF(IREP .EQ. 2) CALL IMPAJU(7,F)
          CALL IMPAJU(F)
       ENDIF
       CALL ENDFIT

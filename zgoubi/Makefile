@@ -125,7 +125,6 @@ OBJ=\
  histab.o\
  hist.o\
  icentr.o\
- idlg.o\
  idluni.o\
  ifmes.o\
  impaju.o\

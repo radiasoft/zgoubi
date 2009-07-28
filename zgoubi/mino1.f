@@ -75,17 +75,7 @@ C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
          CALL CPTWRT(I)
-         IF(IFMES(3) .NE. 0) THEN
-            IREP=IDLG(
-     S      '('' VOULEZ VOUS PLUS DE PRECISION (O/N) :'')',
-     S      'O   N   ',2)
-            IF(IREP .EQ. 1) THEN
-               IREP=IFMES(0)
-               GOTO 1
-            ENDIF
-         ELSE
-            IF(NI.LE.NITER) GOTO 1
-         ENDIF
+         IF(NI.LE.NITER) GOTO 1
       ENDIF
       RETURN
       END
