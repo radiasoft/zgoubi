@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ELCMIF(A,R,Z,BR,
+      SUBROUTINE ELCMIF(R,Z,BR,
      >                          E,DE,DDE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
@@ -38,7 +38,7 @@ C------ ER0(n) = -d^nV/dR^n at Z=0
       DIMENSION ER0(MDR)
       DATA ER0 /  MDR*0.D0 /
 
-      CALL ELCMID(R,BR,IDE, 
+      CALL ELCMID(R,BR,
      >                     ER0)
       CALL EREXYZ(ER0,R,Z,IDE,
      >                        E,DE,DDE)

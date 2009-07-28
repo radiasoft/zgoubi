@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ELCMID(R,BR,IDE,
+      SUBROUTINE ELCMID(R,BR,
      >                           ER0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C--------------------------------------------------------------

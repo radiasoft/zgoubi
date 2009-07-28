@@ -166,7 +166,7 @@ C--------- ELMIR
 
         ELSEIF(KUASEX .EQ. 26 ) THEN
 C--------- ELCMIR 
-          CALL ELCMIF(X,Y,Z,BR,
+          CALL ELCMIF(Y,Z,BR,
      >                         E,DE,DDE)
               
         ELSEIF(KUASEX .EQ. 28 ) THEN
