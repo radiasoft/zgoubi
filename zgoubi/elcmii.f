@@ -82,5 +82,7 @@ C------ XI, XF IS IN RAD
 
       CALL ELCMIW(D,R1,R2,V21D,V32D)
 
+      XL = 0.0
+
       RETURN
       END
