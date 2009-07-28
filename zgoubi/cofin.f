@@ -100,7 +100,7 @@ C----- Coherent synchrotron radiation
           IF    (IPASS.EQ.1) THEN
 C----------- Store reference trajectory
 C            IF(IT .EQ. KTRA) THEN
-              CALL IMPCSR(DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+              CALL IMPCSR(DS,Y,T,Z,P,X,SAR,TAR,IT)
 C            ENDIF
           ELSEIF(IPASS.EQ.2) THEN
 C----------- Compute interaction undergone by current particle, due to all earlier CSR emittors
