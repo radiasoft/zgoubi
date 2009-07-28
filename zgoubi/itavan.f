@@ -44,7 +44,7 @@ C  France
                ENDIF
             ENDIF
 2        CONTINUE
-         CALL CPTFCT(FONC,F1,0)
+         CALL CPTFCT(FONC,F1)
          IF(F1.LT.F0) THEN
             F0=F1
             GOTO 1

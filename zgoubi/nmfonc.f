@@ -50,7 +50,7 @@ C  France
          X(I) = XX(I)
  1000 CONTINUE
       NI = NI+1
-      CALL CPTFCT(FF,FR,0)
+      CALL CPTFCT(FF,FR)
       CALL IMPVAR(6,NI)
       CALL IMPCTR(6,FR)
       CALL CPTWRT(I)

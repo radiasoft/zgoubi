@@ -40,7 +40,7 @@ C  France
       FINI=VALMAX
 1     CONTINUE
       NI=NI+1
-      CALL CPTFCT(FONC,F0,0)
+      CALL CPTFCT(FONC,F0)
       CALL IMPVAR(6,NI)
       CALL IMPCTR(6,F0)
       CALL CPTWRT(I)
@@ -71,7 +71,7 @@ C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
                P(I)=P(I)/D
 129         CONTINUE
          ENDIF
-         CALL CPTFCT(FONC,F0,0)
+         CALL CPTFCT(FONC,F0)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
          CALL CPTWRT(I)

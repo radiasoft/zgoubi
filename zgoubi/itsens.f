@@ -107,7 +107,7 @@ C----------------------------------------------------------------
                   X(I)=XMAX(I)
                   X2=0.0
                ENDIF
-               CALL CPTFCT(FONC,F1,I)
+               CALL CPTFCT(FONC,F1)
                IF(F1.GE.F0) THEN
                   X2=-P(I)
                   X(I)=X1+X2
@@ -115,7 +115,7 @@ C----------------------------------------------------------------
                      X(I)=XMIN(I)
                      X2=0.0
                   ENDIF
-                  CALL CPTFCT(FONC,F1,-I)
+                  CALL CPTFCT(FONC,F1)
                   IF(F1.GE.F0) THEN
                      X(I)=X1
                   ELSE

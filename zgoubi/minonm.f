@@ -23,12 +23,10 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE MINONM(FONC,N,X,P,V,Y,XI,F0,FINI)
+      SUBROUTINE MINONM(N,X,P,V,Y,XI,F0,FINI)
 
       IMPLICIT NONE
 
-      DOUBLE PRECISION FONC
-      EXTERNAL FONC
       INTEGER N
       DOUBLE PRECISION X(*),P(*),V(*),Y(*),XI(*),F0,FINI
       INTEGER I

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE CPTFCT(FONC,F,I)
+      SUBROUTINE CPTFCT(FONC,F)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       EXTERNAL FONC
@@ -31,7 +31,7 @@ C  France
       SAVE ICPTF
 
       ICPTF=ICPTF+1
-      F=FONC(I)
+      F=FONC()
       RETURN
 
       ENTRY CPTINI
