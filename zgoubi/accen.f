@@ -45,7 +45,7 @@ Compute rms ellipse
       CALL LPSFIT(NRES,NOEL,JJ, 
      >                         EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
-      CALL CNTINL(JJ,UN,EPSPI,ALP,BET,XM,XPM,
+      CALL CNTINL(JJ,EPSPI,ALP,BET,XM,XPM,
      >                                       NLIV,NINL)
 C        GAM = (1.D0+ALP*ALP) / BET
 CC------- JJ = 1, 2 or 3

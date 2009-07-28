@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE CNTINL(JJ,CUTOFF,EPSPI,ALP,BET,XM,XPM,
+      SUBROUTINE CNTINL(JJ,EPSPI,ALP,BET,XM,XPM,
      >                                                 LIVE,NINL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M

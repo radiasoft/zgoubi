@@ -78,7 +78,7 @@ Compute rms ellipse
         CALL LPSFIT(NRES,NOEL,JJ, 
      >                           EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
-        CALL CNTINL(JJ,UN,PI4*EMIT,ALP,BET,XM,XPM,
+        CALL CNTINL(JJ,PI4*EMIT,ALP,BET,XM,XPM,
      >                                        NLIV,NINL)
         RATIN = DBLE(NINL)/DBLE(IMAX)
         WRITE(TXT2,FMT='(I1)') JJ

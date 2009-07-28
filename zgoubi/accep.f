@@ -64,7 +64,7 @@ Compute number of particles alive and number inside ellipse
          AA = ALP + IAA*DA
          DO 10 IBB = -ISTP,ISTP
           BB = BET + IBB*DB
-          CALL CNTINL(JJ,UN,EPSPI,AA,BB,XX,XXP,
+          CALL CNTINL(JJ,EPSPI,AA,BB,XX,XXP,
      >                                         NLIV,NINL)
           IF(NINL .GT. MXINL) THEN
             MXINL = NINL   
