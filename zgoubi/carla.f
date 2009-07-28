@@ -837,5 +837,16 @@ C  103 FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,// ,
      2 11X,21HStraight  segment 1 =,G10.2,3H cm,// ,
      3 11X,21HStraight  segment 2 =,G10.2,3H cm,// ,
      4 11X,10HRadius 2 =,G10.2,3H cm)
+
+      BMIN = -1.1D8
+      BMAX = 1.1D8
+      BNORM = 1.2D8
+      ABMI = -1.3D8
+      RBMI = -1.4D8
+      ZBMI = -1.5D8
+      ABMA = 1.3D8
+      RBMA = 1.4D8
+      ZBMA = 1.5D8
+
       RETURN
       END
