@@ -948,8 +948,8 @@ C----- MARKER.
       IF(LABEL(NOEL,2).EQ.'.plt' .OR. LABEL(NOEL,2).EQ.'.PLT') THEN
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO 981 IT = 1, IMAX
- 981      CALL IMPPLB(NPLT,0.D0,F(2,IT),F(3,IT),F(4,IT),F(5,IT),0.D0, 
-     >    F(6,IT),F(7,IT),IEX(IT),IT,AMQ(1,IT),AMQ(2,IT))
+ 981      CALL IMPPLB(NPLT,F(2,IT),F(3,IT),F(4,IT),F(5,IT),0.D0, 
+     >    F(6,IT),F(7,IT),IEX(IT),IT)
       ENDIF
       GOTO 998
 C----- DIPOLES. A set of neiboring or overlapping dipoles. 

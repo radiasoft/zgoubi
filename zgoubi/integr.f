@@ -214,9 +214,9 @@ C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*99)
      >           *97)
 C     >           *99)
               IF(LST .EQ. 2) THEN 
-                CALL IMPPLA(NPLT,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+                CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
               ELSEIF(LST .EQ. 3) THEN 
-                CALL IMPPLA(  30,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+                CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,KEX,IT)
               ENDIF
 
 C FM 08/99              IF    (KDR .EQ. IDRT) THEN
@@ -242,9 +242,9 @@ C                                    de detecteurs)
      >             *97)
 C     >             *99)
                 IF(LST .EQ. 2) THEN 
-                  CALL IMPPLA(NPLT,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+                  CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
                 ELSEIF(LST .EQ. 3) THEN 
-                  CALL IMPPLA(  30,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+                  CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,KEX,IT)
                 ENDIF
                 XFINAL = -CM(IDRT)
                 GOTO 6
@@ -457,7 +457,7 @@ C-------- Wedge correction in BEND, in MULTIPOL with non zero B1, etc.
 C----- Print last step if requested
       IF(LST .GE. 1) THEN
         IF(LST .EQ. 2) THEN
-          CALL IMPPLA(NPLT,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+          CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
         ELSE
           CALL IMPDEV
         ENDIF

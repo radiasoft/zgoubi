@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE IMPPLT(LN,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+      SUBROUTINE IMPPLT(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------- Store into zgoubi.plt. 
 C         Post-processing of stored data possible with zpop. 
@@ -63,7 +63,7 @@ C         Post-processing of stored data possible with zpop.
 C----- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)
       IF(1+K*((NSTEP-1)/K) .NE. NSTEP) RETURN
 
-      ENTRY IMPPLA(LN,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+      ENTRY IMPPLA(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
 
 C------- Bx,y,z (kG)
       BX=B(1,1)  *BR 
@@ -93,7 +93,7 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
    
       GOTO 10
 
-      ENTRY IMPPLB(LN,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT)
+      ENTRY IMPPLB(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
 
       BX=0.D0
       BY=0.D0
