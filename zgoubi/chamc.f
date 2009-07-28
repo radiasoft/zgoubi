@@ -301,7 +301,7 @@ C  Compute FFAG field  and derivatives from flying field-mesh
      >                     DA,DR,FTAB)
             AAA = ZERO
             RRR = ZERO
-            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD, 
+            CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
           ELSE
             STOP '*** SBR CHAMC. No such field case'
@@ -316,7 +316,7 @@ C--------- DIPOLE
 C  Equivalence (X,ANGLE), (Y,RADIUS)
           CALL DIPF(X,Y,
      >                  AAA,RRR,DA,DR,FTAB)
-          CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD,
+          CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD,
      >                                           BZ0)
 
         ELSEIF(KUASEX .EQ. 32) THEN
@@ -329,7 +329,7 @@ C  Equivalence (X,ANGLE), (Y,RADIUS)
             CALL DIPSF(X,Y,
      >                     DA,DR,FTAB)
 C     >                     AAA,RRR,DA,DR,FTAB)
-            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD,
+            CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD,
      >                                             BZ0)
           ENDIF
 
@@ -346,7 +346,7 @@ C  Compute FFAG field  and derivatives from flying field-mesh
      >                      DA,DR,FTAB)
             AAA = ZERO
             RRR = ZERO
-            CALL INTPLF(X,Y,AAA,RRR,DA,DR,FTAB,IRD, 
+            CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
           ELSE
             STOP '*** SBR CHAMC. No such field case' 
