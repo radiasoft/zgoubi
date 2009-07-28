@@ -151,8 +151,8 @@ C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
 
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
-          CALL ELCYL(IDE,EM(1),MPOL,QLE,QLS,QE,QS,RTQ,X,Y, 
-     >                                                    E,DE,DDE)
+          CALL ELCYL(MPOL,QLE,QLS,QE,QS,X,Y, 
+     >                                                    E)
  
         ELSEIF(KUASEX.EQ.25) THEN
 C--------- ELMIR

@@ -23,11 +23,11 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ELCYL(IDE,E0,MPOL,QLEM,QLSM,QE,QS,RTQ,A,R, 
-     >                                                     E,DE,DDE)
+      SUBROUTINE ELCYL(MPOL,QLEM,QLSM,QE,QS,A,R, 
+     >                                                     E)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION QLEM(MPOL),QLSM(MPOL),QE(MPOL,6),QS(MPOL,6),RTQ(MPOL)
-      DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
+      DIMENSION QLEM(MPOL),QLSM(MPOL),QE(MPOL,6),QS(MPOL,6)
+      DIMENSION E(5,3)
 
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
