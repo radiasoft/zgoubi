@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE LPSFIT(NLOG,NOEL,JJ, 
+      SUBROUTINE LPSFIT(JJ, 
      >                               SQ,A,B,XM,XPM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M

@@ -75,7 +75,7 @@ Compute rms ellipse
       TXT = 'B-Dim '
       PI4 = 4.D0 *      4.D0 * ATAN(1.D0)
       DO 10 JJ = 1, 3
-        CALL LPSFIT(NRES,NOEL,JJ, 
+        CALL LPSFIT(JJ, 
      >                           EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
         CALL CNTINL(JJ,PI4*EMIT,ALP,BET,XM,XPM,

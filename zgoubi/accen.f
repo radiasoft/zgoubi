@@ -42,7 +42,7 @@ C--------------------------------------------------------------------------
       SAVE EPSPI
 
 Compute rms ellipse
-      CALL LPSFIT(NRES,NOEL,JJ, 
+      CALL LPSFIT(JJ, 
      >                         EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
       CALL CNTINL(JJ,EPSPI,ALP,BET,XM,XPM,
