@@ -30,7 +30,6 @@ C  France
       IF(I .EQ. 4)GOTO 4
       IF(I .EQ. 5)GOTO 5
       IF(I .EQ. 6)GOTO 6
-1     CONTINUE
       GG=1D0
       RETURN
 2     CONTINUE
