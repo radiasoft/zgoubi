@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE COILS(KUASEX,SCAL,
+      SUBROUTINE COILS(SCAL,
      >                              XLT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2

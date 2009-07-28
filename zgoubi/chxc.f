@@ -1010,7 +1010,7 @@ C--------- HELIX
      >                    XL)
         ELSEIF(KUASEX .EQ. 29 )   THEN
 C--------- COILS
-          CALL COILS(KUASEX,SCAL,  
+          CALL COILS(SCAL,  
      >                            XL)
 C           Motion in this lmnt has no z-symm. 
           ZSYM=.FALSE.
