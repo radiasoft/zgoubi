@@ -30,21 +30,15 @@ C Fake
 
       if(xv.le.xm(2)) then 
          interv = 1
-      elseif(xv.ge.xm(n-1)) then
-         interv = n-1
       else
-        do jj = 1, n
-          if(xm(jj).ge.xv) then 
-            j = jj-1
-            goto 77
+        do jj = 3, n-1
+          if(xm(jj).ge.xv) then
+            interv = jj-1
+            return
           endif
         enddo
+        interv = n-1
       endif
-
-      return
-
- 77   continue
-      interv = j
 
       return
       end
