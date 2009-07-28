@@ -374,10 +374,10 @@ C        STP3 = A(NOEL,ND)
           WRITE(TXTT,FMT='('' /   central   / '')') 
           IF(TPAS(1) .NE. 0.D0) THEN
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(1)/RM
-            TXTA = TXTEMP//TXTA
+            TXTA = TXTEMP//TXTA(1:28)
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(1)
-            TXTS = TXTEMP//TXTS
-            TXTT = ' entrance  '//TXTT
+            TXTS = TXTEMP//TXTS(1:28)
+            TXTT = ' entrance  '//TXTT(1:28)
           ENDIF 
           IF(TPAS(3) .NE. 0.D0) THEN
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(3)/RM
