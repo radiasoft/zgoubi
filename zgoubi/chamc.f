@@ -171,8 +171,8 @@ C--------- ELCMIR
               
         ELSEIF(KUASEX .EQ. 28 ) THEN
 C--------- HELIX
-          CALL HELIXF(X,Y,Z,BR,RO,EN,BO,
-     >                                  B,DB,DDB)
+          CALL HELIXF(X,Y,Z,BR,RO,BO,
+     >                                  B)
         ELSEIF(KUASEX .EQ. 29) THEN
 C--------- COILS
           CALL COILSF(X,Y,Z)
