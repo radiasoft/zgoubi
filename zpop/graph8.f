@@ -38,8 +38,6 @@ CDECK GRAPH2
 
       CHARACTER SAVFIL*20
       LOGICAL OKOPN, INPECH, CHANGE
-      CHARACTER*14 TXTL
-      CHARACTER*1 KLET
       SAVE NL
       DATA IZERO /0/
       DATA  OKOPN / .FALSE. /
@@ -100,13 +98,6 @@ C      IF(.NOT. OKOPN) CALL OPNWRN(1)
         ENDIF
       GOTO 921
 
- 2    CONTINUE
-        KX0=KX
-        KY0=KY
-        CALL INPVAR
-        OKVAR = .TRUE.
-      GOTO 921 
-
  3    CONTINUE                      
         CALL PLTOPT(
      >              LM,OKECH,OKBIN,KOPT)
@@ -116,55 +107,6 @@ C      IF(.NOT. OKOPN) CALL OPNWRN(1)
         OKECH=INPECH()
       GOTO 921
         
- 5    CONTINUE
-        IF(OKOPN) THEN
-          OKECH = .FALSE.
-          WRITE(6,*) 
-          WRITE(6,*) ' Busy: calculating scales'
-          CALL CALECH(NL,LM,
-     >                      NOC)
-          CALL READC3C(KL1,KL2)
-          IF(KL1.EQ.-1) THEN
-            WRITE(TXTL,FMT='(A5)') '* all'
-          ELSE
-            WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
-          ENDIF
-C          IF(LM.EQ.-1) THEN
-C             WRITE(TXTL,FMT='(A5)') '* all'
-C          ELSE
-C             WRITE(TXTL,FMT='(I5)') LM
-C          ENDIF
-          CALL READC5(KT1,KT2)
-          CALL READC1(KP1,KP2)
-          CALL READC9(KKEX,KLET)
-          WRITE(6,*) 
-          WRITE(6,*) ' Particle  # :',KT1,' to ',KT2,
-     >                              ' ;  element  # : ',TXTL,' ;'
-          WRITE(6,*) ' pass # ',KP1,' to ',KP2,' ;  case  KEX/KTag =',
-     >       KKEX,'/',KLET
-          WRITE(6,*) ' calculation  of  scales  from ',NOC,'  points;'
-          WRITE(6,*) ' Xmin-max :',XMI,XMA,KDIM(KX)
-          WRITE(6,*) ' Ymin-max :',YMI,YMA,KDIM(KY)
-          IF(NOC .EQ. 0) THEN
-            WRITE(6,*) 
-            WRITE(6,*) '   ***  No  data  could  be  read  ***'
-            WRITE(6,*) '     Check particle or element number ' 
-            WRITE(6,*) '        -  Main menu, option 2  -'
-          ENDIF
-          IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN
-C            CALL TXTFBG
-            CALL LINTYP(-1)
-C            DDX=ABS(XMA-XMI)*0.05D0
-C            DDY=ABS(YMA-YMI)*0.05D0
-            CALL TRAXES(XMI,XMA,YMI,YMA,2)
-C            CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
-            OKECH = .TRUE.
-          ENDIF
-        ELSE
-          CALL OPNWRN(1)
-        ENDIF
-      GOTO 920
-     
  6    CONTINUE 
          CALL TRACSY(2,*920)
       GOTO 921

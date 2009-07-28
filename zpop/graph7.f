@@ -269,14 +269,20 @@ C              CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
               IF(KY.EQ. 28) THEN
                 CALL PLTHIS(NLOG,NL,LM,NOC,OKBIN,OKECH,NPTS,NPTR)
               ELSE
-                KLIPS=((KX.EQ.2  .AND. KY.EQ.3)  .OR.      ! xxp phase-space
-     >                 (KX.EQ.12 .AND. KY.EQ.13) .OR.    ! xxp initial phase-space
-     >                 (KX.EQ.4  .AND. KY.EQ.5)  .OR.      ! zzp initial phase-space
-     >                 (KX.EQ.14 .AND. KY.EQ.15) .OR.    ! xxp initial phase-space
+                KLIPS=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
+C                      xxp phase-space
+     >                 (KX.EQ.12 .AND. KY.EQ.13) .OR.
+C                      xxp initial phase-space
+     >                 (KX.EQ.4  .AND. KY.EQ.5)  .OR.
+C                      zzp initial phase-space
+     >                 (KX.EQ.14 .AND. KY.EQ.15) .OR.    
+C                      xxp initial phase-space
      >                ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
-     >                                 (KY.EQ.1  .OR. KY.EQ.20)) .OR.     ! s/time/phase-dp/Ekin  phase-space
+     >                                 (KY.EQ.1  .OR. KY.EQ.20)) .OR.     
+C                     s/time/phase-dp/Ekin  phase-space
      >                ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
-     >                                 (KY.EQ.11 .OR. KY.EQ.20)))         ! s/time/phase-dp/Ekin initial phase-space
+     >                                 (KY.EQ.11 .OR. KY.EQ.20)))
+C                     s/time/phase-dp/Ekin initial phase-space
                 IF(KX.LT.10) THEN
                   KPS=1
                 ELSE
@@ -354,16 +360,6 @@ C        CALL MENVCF
         OKECH=.FALSE.
       GOTO 921
 
- 13   CONTINUE 
-         CALL SPCTRA(NLOG,NL,LM,OKOPN,CHANGE)
-         GOTO 921
-C 98      WRITE(6,*) ' ERREUR OPEN ',NOMFIC
-C      GOTO 920
-
- 14   CONTINUE 
-         CALL LIPS(NLOG,NL,LM,OKOPN,NOMFIC,CHANGE)
-      GOTO 921
-
  15   CONTINUE
       WRITE(6,*) 
       WRITE(6,*) ' KILL/CREATE GRAPHIC SUB-PROCESS (0/1):'
@@ -373,22 +369,6 @@ C      GOTO 920
       ELSEIF(KC.EQ. 1) THEN
         CALL BEGVCF
       ENDIF   
-      GOTO 921
-
- 16   CONTINUE 
-        CALL SRMEN(NLOG,NL,LM,OKOPN,NOMFIC)
-      GOTO 921
-
- 17   CONTINUE 
-        CALL CLORBI(NLOG,OKECH,*920)
-      GOTO 921
-
- 18   CONTINUE 
-        CALL FMATCH(NLOG,NOMFIC)
-      GOTO 921
-
- 19   CONTINUE 
-        CALL HMATCH(NLOG,NOMFIC)
       GOTO 921
 
  20   CONTINUE 

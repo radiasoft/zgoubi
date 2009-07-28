@@ -92,7 +92,7 @@ C         DOIT PRECEDER LE TEST CHMBR !!
             IF(NRES.GT.0) THEN
               WRITE(NRES,*) 
               WRITE(NRES,*) ' *** WARNING, subroutine ESL'
-              WRITE(NRES,*) '   mixing of gas-scattering and decay in '          
+              WRITE(NRES,*) '   mixing of gas-scattering and decay in '
               WRITE(NRES,*) '   flight not correctly implemented'
               WRITE(NRES,*) 
             ENDIF

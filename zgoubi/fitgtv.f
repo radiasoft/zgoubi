@@ -104,11 +104,8 @@ C To be completed
  99   CONTINUE
       CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
       RETURN 
- 998  CONTINUE
-      CALL ENDJOB('*** Error, SBR FITGTV ->  data eading error ',-99)  
-      RETURN 
  999  CONTINUE
-      CALL ENDJOB('*** Error, SBR FITGTV ->  Read error at header',-99)  
+      CALL ENDJOB('*** Error, SBR FITGTV ->  Read error at header',-99)
       RETURN 
 
       ENTRY FITGT1

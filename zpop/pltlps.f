@@ -112,7 +112,7 @@ C           ... PLOT EACH KT TURN
             CALL VECTPL(X0(I),Y0(I),4)
             CALL VECTPL(X,Y,2)
             IF(LIS.EQ.2) 
-     >           CALL IMPV(NLOG,IPASS,X,Y,DUM,DUM,IDUM,IDUM,KX,KY)       
+     >           CALL IMPV(NLOG,IPASS,X,Y,DUM,DUM,IDUM,IDUM,KX,KY)
 C          ENDIF
         ENDIF
 

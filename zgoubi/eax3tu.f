@@ -65,7 +65,7 @@ C        V(X) = (V2-V1)/2.Omega.D ( LOG(CH++/CH+) + LOG(CH--/CH-) )
 
 C------- EX(n)=-dnV/dXn
         EX(1)=-.5D0*VDR*(SPP/CPP - SP/CP + SMM/CMM - SM/CM) 
-        EX(2)=-OR*.5D0*VDR*(1.D0/CPP2 - 1.D0/CP2 + 1.D0/CMM2 - 1.D0/CM2) 
+        EX(2)=-OR*.5D0*VDR*(1.D0/CPP2 - 1.D0/CP2 + 1.D0/CMM2 - 1.D0/CM2)
         EX(3)= OR2*VDR*(SPP/CPP2/CPP - SP/CP2/CP 
      >     + SMM/CMM2/CMM - SM/CM2/CM) 
         EX(4)= OR2*OR*VDR*( (1.D0-2.D0*SPP2)/CPP4 - (1.D0-2.D0*SP2)/CP4

@@ -48,7 +48,7 @@ C      COMMON/PTICUL/ AM,Q,G,TO
 
       CHARACTER SMT(2)*6, HV(2,2)*10
       DATA SMT /          'mirror',                'lens' /
-      DATA HV / 'horizontal', ' vertical', ' vertical', 'horizontal' /      
+      DATA HV / 'horizontal', ' vertical', ' vertical', 'horizontal' /
 
       NP =A(NOEL,10)
       DO 10 I=1, NP

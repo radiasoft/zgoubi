@@ -291,7 +291,7 @@ C             ... protection ungainst previous traxe
 
             CALL VECTPL(X,Y,2) 
             IF(LIS .EQ. 2)
-     >            CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)       
+     >            CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
 C     >            CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)       
 
             XYLAST(1,NDX(2)) = X
@@ -371,7 +371,7 @@ C     ------------------------------------
 
       ENTRY PLOTE3
         OKS0 = OKS
- 30     WRITE(6,130)
+        WRITE(6,130)
  130    FORMAT('  Reset S coordinate to 0 at each pass (n/y)')
         READ(5,*,ERR=20) TXT
         OKS = TXT.EQ.'Y' .OR. TXT.EQ.'y'
