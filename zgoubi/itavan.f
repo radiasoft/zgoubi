@@ -30,29 +30,27 @@ C  France
       EXTERNAL FONC
 
 1     CONTINUE
-      IF(IFMES(0) .EQ. 0) THEN
-         DO 2 I=1,N
-            Y(I)=X(I)
-            IF(V(I) .NE. 0) THEN
-               X(I)=X(I)+V(I)
-               IF     (X(I).LE.XMIN(I)) THEN
-                  V(I)=0.0
-                  X(I)=XMIN(I)
-               ELSE IF(X(I).GE.XMAX(I)) THEN
-                  V(I)=0.0
-                  X(I)=XMAX(I)
-               ENDIF
+      DO 2 I=1,N
+         Y(I)=X(I)
+         IF(V(I) .NE. 0) THEN
+            X(I)=X(I)+V(I)
+            IF     (X(I).LE.XMIN(I)) THEN
+               V(I)=0.0
+               X(I)=XMIN(I)
+            ELSE IF(X(I).GE.XMAX(I)) THEN
+               V(I)=0.0
+               X(I)=XMAX(I)
             ENDIF
-2        CONTINUE
-         CALL CPTFCT(FONC,F1)
-         IF(F1.LT.F0) THEN
-            F0=F1
-            GOTO 1
-         ELSE
-            DO 3 I=1,N
-               X(I)=Y(I)
-3           CONTINUE
          ENDIF
+ 2    CONTINUE
+      CALL CPTFCT(FONC,F1)
+      IF(F1.LT.F0) THEN
+         F0=F1
+         GOTO 1
+      ELSE
+         DO 3 I=1,N
+            X(I)=Y(I)
+ 3       CONTINUE
       ENDIF
       RETURN
       END

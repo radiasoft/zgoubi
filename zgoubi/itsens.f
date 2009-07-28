@@ -97,41 +97,36 @@ C----------------------------------------------------------------
       OK=.FALSE.
 1     CONTINUE
       DO 2 I=1,N
-         IF(IFMES(3) .EQ. 0) THEN
-            V(I)=0.0
-            IF(P(I) .NE. 0) THEN
-               X1=X(I)
-               X2=P(I)
+         V(I)=0.0
+         IF(P(I) .NE. 0) THEN
+            X1=X(I)
+            X2=P(I)
+            X(I)=X1+X2
+            IF(X(I).GT.XMAX(I)) THEN
+               X(I)=XMAX(I)
+               X2=0.0
+            ENDIF
+            CALL CPTFCT(FONC,F1)
+            IF(F1.GE.F0) THEN
+               X2=-P(I)
                X(I)=X1+X2
-               IF(X(I).GT.XMAX(I)) THEN
-                  X(I)=XMAX(I)
+               IF(X(I).LT.XMIN(I)) THEN
+                  X(I)=XMIN(I)
                   X2=0.0
                ENDIF
                CALL CPTFCT(FONC,F1)
                IF(F1.GE.F0) THEN
-                  X2=-P(I)
-                  X(I)=X1+X2
-                  IF(X(I).LT.XMIN(I)) THEN
-                     X(I)=XMIN(I)
-                     X2=0.0
-                  ENDIF
-                  CALL CPTFCT(FONC,F1)
-                  IF(F1.GE.F0) THEN
-                     X(I)=X1
-                  ELSE
-                     OK=.TRUE.
-                     V(I)=X2
-                     F0=F1
-                  ENDIF
+                  X(I)=X1
                ELSE
                   OK=.TRUE.
                   V(I)=X2
                   F0=F1
                ENDIF
+            ELSE
+               OK=.TRUE.
+               V(I)=X2
+               F0=F1
             ENDIF
-         ELSE
-            OK=.FALSE.
-            GOTO 4
          ENDIF
 2     CONTINUE
       IF(.NOT.OK) THEN
