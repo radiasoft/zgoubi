@@ -79,9 +79,9 @@ C                   AMPLI.VERT.  SYMBOLE  NORM.VERT   P(PRIM) OU Q (PAS
 C                    #30                    1-2       DE SELECTION)
 C      READ(NDAT,*) NBLINE    ,   KAR   ,  NORMY  ,       TYP(J,NH)
       NBLINE = A(NOEL,10)
-      KAR = TA(NOEL,1)
+      KAR = TA(NOEL,1)(1:1)
       NORMY = A(NOEL,11)
-      TYP(J,NH) = TA(NOEL,2)
+      TYP(J,NH) = TA(NOEL,2)(1:2)
 C
 C     LE GRAPHIQ SE CENTRE AUTOMATIQT SUR LA COLONNE
 C     MIDCOL DU LSTING. SA LARGEUR EST DE NCOL COLONNES
