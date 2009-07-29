@@ -148,10 +148,12 @@ C------ CARTE POLAIRE 2-D
                 BMAX = BFLD
                 XBMA = XH(I)
                 YBMA = YH(J)
+                ZBMA = 0D0
               ELSEIF(BFLD .LT. BMIN) THEN
                 BMIN = BFLD
                 XBMI = XH(I)
                 YBMI = YH(J)
+                ZBMI = 0D0
               ENDIF
               HC(ID,I,J,1) = BFLD * BNORM
  222      CONTINUE
