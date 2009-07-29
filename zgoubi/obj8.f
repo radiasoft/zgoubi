@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE OBJ8(KREB3,KREB31)
+      SUBROUTINE OBJ8(KREB31)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------
 C      CONSTITUTION DE L'OBJET SUR UN ELLIPSOID

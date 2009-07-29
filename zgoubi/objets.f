@@ -167,7 +167,7 @@ C        FO(7,I) = FO(6,I)/(BTA*CL)
  
 C---------- Initial conditions on an ellipsoid
  80   CONTINUE
-       CALL OBJ8(KREB3,KREB31)
+       CALL OBJ8(KREB31)
       GOTO 99
  
 
