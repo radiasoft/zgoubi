@@ -40,10 +40,17 @@ C----- CONSTANTES
 
       COMMON/EFBS/ AFB(MRD), BFB(MRD), CFB(MRD), IFB
 
+      LOGICAL OKECH, OKVAR, OKBIN
+      COMMON/ECHL/OKECH, OKVAR, OKBIN
+
       CHARACTER  KAR(41)
       COMMON/KAR/ KAR
  
-      INCLUDE "MAXTRA.H"
+      INCLUDE 'MXVAR.H'
+      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      COMMON/INPVR/ KVAR, KPOL, KDIM
+
+      INCLUDE 'MAXNTR.H'
       COMMON/OBJET/ FO(6,1),KOBJ,IDMAX,IMAXT
  
       LOGICAL ZSYM
@@ -58,9 +65,17 @@ C----- CONSTANTES
       COMMON/SCAL/
      >  SCL(MXF,MXC),TIM(MXF,MXC),FAM(MXF),KTI(MXF),KSCL,KLEY
  
+      PARAMETER (NCANAL=2500)
+      COMMON/SPEDF/BORNE(6),SPEC(NCANAL,3),PMAX(3),NC0(3)
+
+      COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
+
 C----- CONVERSION COORD. (CM,MRD) -> (M,RD)
       PARAMETER (MXJ=7)
       COMMON/UNITS/ UNIT(MXJ-1)
+
+      COMMON/VEN/Y1,S1,D,DQ,DS,DM,DSS,DPU,TETA1,
+     >           SMIN,SMAX,YMIN,YMAX,SB0,YB0
 
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
@@ -99,5 +114,42 @@ C                    Y     T     Z       P     X,S   dp/p
 
 C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
       DATA KX,KY,IAX,LIS,NB /2, 3, 1, 1, 100 /
+
+      DATA DS / 0.D0 /
+
+      DATA  OKECH ,OKVAR, OKBIN / .FALSE., .TRUE., .FALSE.  /
+
+      DATA KVAR/
+     >' dp/p ','   Y  ','  Y'' ','   Z  ','  Z'' ','   s  ',' Time ',
+     >'   X  ',' Step ','   r  ',
+     >'dp/p|o',' Y_o  ',' Y''_o ',' Z_o  ',' Z''_o  ',' s_o  ',' Time ',
+     >'Phase ',' dp/p ','KinEnr',
+     >'  Sx  ','  Sy  ','  Sz  ',' <S>  ',
+     >' <Sx> ',' <Sy> ',' <Sz> ','COUNT ','      ',
+     >'  Bx  ','  By  ','  Bz  ','  Br  ',
+     >'  Ex  ','  Ey  ','  Ez  ','  Er  ',
+     >' S_out',' Pass#'  ,2*'      ',
+     >' Y_Lab','      ',' Z_Lab','      ','      ','      ',' X_Lab',
+     >8*' ',
+     >' lmnt#' ,
+     >13*' '
+     >/
+      DATA KPOL/ 'cartesian' , 'cylindr.' /
+
+C      DATA BORNE/ .01D0, .99D0, .01D0, .99D0, .001D0, .999D0 /
+      DATA BORNE/ .0D0, .5D0, .0D0, .5D0, .001D0, .999D0 /
+      DATA NC0/ 2000, 2000, 2000 /
+
+      DATA NPTS / NTRMAX /
+
+      DATA KDIM/
+     >'       ','  (m)  ',' (rad) ','  (m)  ',' (rad) ','  (m)  ',
+     >'(mu_s) ','  (m)  ','  (m)  ','  (m)  '                  ,
+     >'       ','  (m)  ',' (rad) ','  (m)  ',' (rad) ','  (m)  ',
+     >'       ',' (rad) ','       ',' (MeV) ',9*'       ',
+     > 4*'  (T)  ', 4*'(eV/m) ' ,
+     >'  (m)  ',3*' ',
+     >'  (m)  ','      ','  (m)  ','      ','      ','      ','  (m)  ',
+     >22*'   '/
 
       END

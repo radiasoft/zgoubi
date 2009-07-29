@@ -47,41 +47,6 @@ C  France
       CHARACTER*80 TXT
       CHARACTER LOGOT*18, TEMP*80
 
-      DATA  OKECH ,OKVAR, OKBIN / .FALSE., .TRUE., .FALSE.  /
-
-      DATA KVAR/
-     >' dp/p ','   Y  ','  Y'' ','   Z  ','  Z'' ','   s  ',' Time ',
-     >'   X  ',' Step ','   r  ',
-     >'dp/p|o',' Y_o  ',' Y''_o ',' Z_o  ',' Z''_o  ',' s_o  ',' Time ',
-     >'Phase ',' dp/p ','KinEnr',
-     >'  Sx  ','  Sy  ','  Sz  ',' <S>  ',
-     >' <Sx> ',' <Sy> ',' <Sz> ','COUNT ','      ',
-     >'  Bx  ','  By  ','  Bz  ','  Br  ',
-     >'  Ex  ','  Ey  ','  Ez  ','  Er  ',
-     >' S_out',' Pass#'  ,2*'      ',
-     >' Y_Lab','      ',' Z_Lab','      ','      ','      ',' X_Lab',
-     >8*' ',
-     >' lmnt#' ,
-     >13*' '
-     >/
-      DATA KPOL/ 'cartesian' , 'cylindr.' /
-
-C      DATA BORNE/ .01D0, .99D0, .01D0, .99D0, .001D0, .999D0 /
-      DATA BORNE/ .0D0, .5D0, .0D0, .5D0, .001D0, .999D0 /
-      DATA NC0/ 2000, 2000, 2000 /
-
-      DATA NPTS / NTRMAX /
-
-      DATA KDIM/
-     >'       ','  (m)  ',' (rad) ','  (m)  ',' (rad) ','  (m)  ',
-     >'(mu_s) ','  (m)  ','  (m)  ','  (m)  '                  ,
-     >'       ','  (m)  ',' (rad) ','  (m)  ',' (rad) ','  (m)  ',
-     >'       ',' (rad) ','       ',' (MeV) ',9*'       ',
-     > 4*'  (T)  ', 4*'(eV/m) ' ,
-     >'  (m)  ',3*' ',
-     >'  (m)  ','      ','  (m)  ','      ','      ','      ','  (m)  ',
-     >22*'   '/
-
 
       DATA KARSIZ / 3 /
       SAVE KARSIZ 

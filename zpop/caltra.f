@@ -56,7 +56,6 @@ C  France
       CHARACTER*32 TXT
 
       DATA BLACK, BLUE, CYAN / 0,0,0 /
-      DATA DS / 0.D0 /
 
       PARAMETER (ZERO = 0.D0)
 
