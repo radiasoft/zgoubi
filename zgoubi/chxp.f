@@ -404,7 +404,7 @@ C        STP3 = A(NOEL,ND)
       ELSE
 
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Integration step :'',
-     >    1P,G12.4,'' cm   (i.e., '',G12.4,'' rad  at mean radius''
+     >    1P,G12.4,'' cm   (i.e., '',G12.4,'' rad  at mean radius'',
      >    '' RM = '',G12.4,'')'')') 
      >      PAS, PAS/RM, RM
 
