@@ -128,7 +128,6 @@ MODULEF =\
  spegr.f\
  speimp.f\
  spepr.f\
- splcli.f\
  square.f\
  srax.f\
  srcul.f\
