@@ -77,7 +77,6 @@ MODULEF =\
  prffag.f\
  prtime.f\
  raiman.f\
- range.f\
  rautor.f\
  ravorb.f\
  razi.f\
