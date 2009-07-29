@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       FUNCTION SCALER(IPASS,NOEL, 
-     >                           D1,D2,D3)
+     >                           D1)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

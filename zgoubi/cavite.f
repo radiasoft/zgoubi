@@ -118,14 +118,14 @@ C In pulsed synchro Ph_s is computed from rigidity law as specified using SCALIN
       ORBL = AN10
       HARM = AN11
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
-      PS = P0*SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
+      PS = P0*SCALER(IPASS,NOEL,DTA1)
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
       WS = PS/BTS
       FREV = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
-      PS = P0*SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
+      PS = P0*SCALER(IPASS+1,NOEL,DTA1)
       DWS = SQRT(PS*PS+AM2) - WS
       PHS=ASIN(DWS/QV)
       GOTO 1
@@ -252,7 +252,7 @@ C      HN = AN12
       BTS0 = PS0/SQRT(PS0*PS0+AM2)
 C     ... Conditions at cavity entrance 
 C        write(*,*) frev0,hn,SCALER(IPASS,NOEL,DTA1,DTA2,DTA3),ipass,noel
-      OMRF = 2.D0*PI*FREV0*HN !!!!!* SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)      
+      OMRF = 2.D0*PI*FREV0*HN
 C     ... Synchronous conditions at cavity exit
       DWS = QV * SIN(PHS)
       WS = WS0 + DBLE(IPASS) * DWS
@@ -300,7 +300,7 @@ C F(7,I) is time in mu_s. of course, TI is in s
 C        PHI = OMRF * TI + PHS
         DUM = SCALE4(F(7,I),WF1(I))
         PHI = SCALER(IPASS,NOEL,
-     >                          coTime,DTA2,DTA3) + PHS
+     >                          coTime) + PHS
 
 c        ekbef = sqrt(p*p + am*am) -am
 c        zero = 0.
@@ -337,7 +337,7 @@ c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
 
         IF(OKIMP) THEN
-          scalo = SCALER(IPASS,NOEL,DTA1,DTA2,DTA3)
+          scalo = SCALER(IPASS,NOEL,DTA1)
           WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
      >            ipass, omrf/(2.*pi),
 C     >            scalo, 

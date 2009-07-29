@@ -50,7 +50,7 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       CHARACTER TXTT*39, TXTS*39, TXTA*39, TXTEMP*11
       SAVE IPREC
 
-      DATA DTA1,DTA2,DTA3 / 3*0.D0 /
+      DATA DTA1 / 0.D0 /
 
       INCLUDE 'FILPLT.H'
 
@@ -114,7 +114,7 @@ C----- FACTEUR D'ECHELLE DES Champs. UTILISE PAR 'SCALING'
 C Field scale factor. Used by  'SCALING'
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
-     >                                                 DTA1,DTA2,DTA3)
+     >                                                 DTA1)
 
       AE = 0.D0
       AS = 0.D0

@@ -101,7 +101,7 @@ C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
 
       SAVE YSHFT
 
-      DATA DTA1,DTA2,DTA3 / 3*0.D0 /
+      DATA DTA1 / 0.D0 /
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
@@ -130,7 +130,7 @@ C        Field is defined by analytical models
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
-     >                                                 DTA1,DTA2,DTA3)
+     >                                                 DTA1)
 
       XE = 0.D0
       XS = 0.D0
