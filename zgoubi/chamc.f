@@ -179,7 +179,7 @@ C--------- COILS
  
         ELSEIF(KUASEX .EQ. 30) THEN
 C--------- UNDULATOR
-          CALL UNDULF(BM(1),X,Y,Z,
+          CALL UNDULF(BM(1),X,Z,
      >                            B,DB,DDB)
         ELSE
           STOP ' SBR CHAMC :  No such field  installed !'

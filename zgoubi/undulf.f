@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE UNDULF(BO,X,Y,Z,
+      SUBROUTINE UNDULF(BO,X,Z,
      >                           B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
