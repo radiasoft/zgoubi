@@ -46,7 +46,6 @@ MODULEF =\
  inrang.f\
  insy.f\
  isofld.f\
- libspa.f\
  lintyp.f\
  lips.f\
  lpscnt.f\
@@ -55,8 +54,6 @@ MODULEF =\
  match.f\
  menvcf.f\
  minmax.f\
- mnfich.f\
- mnfile.f\
  mnzgra.f\
  okkl.f\
  okkt.f\

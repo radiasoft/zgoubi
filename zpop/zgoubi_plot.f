@@ -32,7 +32,7 @@ C DES OUTPUT DE ZGOUBI
       COMMON/LUN/                        L1  ,L2  ,L3  ,L4  ,L5  ,L6  
 
       CHARACTER * 9   DMY,HMSI,HMSF  
-      CHARACTER * 80  CMND, NOMFIC
+      CHARACTER * 80  NOMFIC
       LOGICAL FIRST
       SAVE FIRST
                                  
@@ -74,10 +74,6 @@ C DES OUTPUT DE ZGOUBI
       GOTO (21,21,21,21,21,21, 7, 8,21,99,21) IOPT  
       GOTO 21
 
- 1    CONTINUE
-
-         OPEN(UNIT=NDAT,FILE='zgoubi.dat' ,STATUS='OLD',ERR=996)
-         I=0
  897     OPEN(UNIT=NRES,FILE='zgoubi.res' ,STATUS='NEW',ERR=997
      >   ,IOSTAT=IOS)
          IF(IOS.NE.0) THEN 
@@ -96,8 +92,6 @@ C         CALL ZGOUBI(200,.TRUE.)
          CALL SYSTEM(COMMND)
          GOTO 10
 
- 996     WRITE(6,*) ' SBR ZGOUBI : ERREUR  OPEN FICHIER  zgoubi.dat '
-         GOTO 10
  997     I=I+1
          OPEN(UNIT=NRES,FILE= 'zgoubi.res' ,STATUS='OLD')
          CLOSE(UNIT=NRES,STATUS='DELETE')
@@ -124,15 +118,6 @@ C         CALL ZGOUBI(200,.TRUE.)
  100     FORMAT(/,'  Job  ended  on  ',A9,',  at  ',A9,/)
          GOTO 20      
 
- 2    CONTINUE            
-         CMND='BATCH ZGOUBI'
-         IOUPI=LIBSPA(CMND) 
-         GOTO 20 
-
- 3    CONTINUE
-         CALL MNFILE          
-         GOTO 21
-
  7    CONTINUE                      
          CALL GRAPH7(NLOG, LM, NOMFIC)
          GOTO 21
@@ -140,11 +125,6 @@ C         CALL ZGOUBI(200,.TRUE.)
  8    CONTINUE                      
          CALL GRAPH8(NLOG, LM, NOMFIC)
          GOTO 21
-
- 11   CONTINUE
-         CMND= '   SHOW  QUEUE  ' 
-         IOUPI=LIBSPA(CMND)
-      GOTO 20 
 
 99    CONTINUE
          CALL ENDVCF
