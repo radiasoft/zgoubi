@@ -66,8 +66,8 @@ C  France
      >,//,'   SPIN:'
      >, /,8X,'21,22,23,24:    Sx, Sy, Sz, <S>'
      >, /,8X,'25,26,27,:      SumSx/#turn, SumSy/#turn SumSz/#turn')
-      FORMAT(
-     >, /,'   HISTOGRAM :'
+ 117  FORMAT(
+     >  /,'   HISTOGRAM :'
      >, /,8X,'28: Counts'
      >,//,'   E and B FIELDS :'
      >, /,8X,'30,31,32,33 :    Bx, By, Bz, sqrt(By^2+Bz^2)  (T)'
