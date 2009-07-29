@@ -303,7 +303,7 @@ C     >            CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
             XYM = XYM + X*Y
         ENDIF
 
-        IF(KLIPS) CALL FILCOO(KPS,NOC,YZXB,NDX)
+        IF(KLIPS) CALL FILCOO(KPS,NOC,YZXB)
 
       ENDIF
 

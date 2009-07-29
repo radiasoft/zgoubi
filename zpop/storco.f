@@ -23,13 +23,12 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE STORCO(MODSTO,NL,LM,KPS,BINARY,
+      SUBROUTINE STORCO(MODSTO,NL,LM,KPS,
      >                                          NPASS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
 C     Read coordinates from zgoubi output file, and store  
 C     ---------------------------------------------------
-      LOGICAL BINARY
       INCLUDE 'MAXNTR.H'          
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
 
@@ -106,7 +105,7 @@ C----------- Only pass in [KP1,KP2] wanted, or all passes if KP=-1
 C            Nothing to do, this is handled by OKKP in READCO
           ENDIF
         ENDIF
-        CALL FILCOO(KPS,NOC,YZXB,NDX)
+        CALL FILCOO(KPS,NOC,YZXB)
         IF(NOC.EQ. NPTR) GOTO 11
 
       GOTO 44             
