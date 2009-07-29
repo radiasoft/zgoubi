@@ -88,7 +88,7 @@ C
       SUBROUTINE RPSLDP(NCAR)
       CHARACTER*4 TZERO
 C      PARAMETER (TZERO=CHAR(0)//CHAR(0)//CHAR(0)//CHAR(0))
-      integer*4 itzero
+      integer itzero
       equivalence (tzero, itzero)
       data itzero/0/
       LOGICAL IDEC,CTRL,UPPER,FLG
@@ -390,7 +390,7 @@ C      PARAMETER (LF=CHAR(8))
 C      CHARACTER*1 CHZERO
 C      PARAMETER (CHZERO=CHAR(0))
       CHARACTER*80 RING(0:MRING)
-      INTEGER*4 TRING(LTRING)
+      INTEGER TRING(LTRING)
       EQUIVALENCE (RING, TRING)
       SAVE BUF,CODE,CURC,CURX,INS,RING,NRING,PFKEY,PFKYON
       DATA NRING/0/

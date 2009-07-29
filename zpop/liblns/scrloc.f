@@ -30,7 +30,7 @@ C  France
       CHARACTER *2 CSI
       PARAMETER (ESC='')
       PARAMETER (CSI='[')
-      INTEGER * 4 LIN,COL
+      INTEGER LIN,COL
       CHARACTER * 7 CODE
 
       IF(.NOT.FTSTTY(1)) RETURN
@@ -52,7 +52,7 @@ C  France
       CHARACTER *2 CSI
       PARAMETER (ESC='')
       PARAMETER (CSI='[')
-      INTEGER * 4 LIN,COL
+      INTEGER LIN,COL
 
       IF(.NOT.FTSTTY(1)) RETURN
       CALL SCRLOC(LIN,COL)
