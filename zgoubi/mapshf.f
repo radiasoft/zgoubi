@@ -96,9 +96,10 @@ C          +++  2-D grid,  5*5 points
           R=R1-YH(IRC)
             
 C         .... 2-D mid-plane field maps
-          IF(IRD-4) 20,21,22
+          IF (IRD.EQ.4) GOTO 21
+          IF (IRD.GT.4) GOTO 22
  
- 20       CONTINUE
+          CONTINUE
 C          WRITE(*,*) ' .... ORDRE 2 ,  3*3 points grid'
  
           F1= HC(ID,IAC-1,IRC-1,1)

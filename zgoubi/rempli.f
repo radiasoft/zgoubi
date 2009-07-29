@@ -37,12 +37,12 @@ C  France
       DO 1 I=1,NV
         K=IR(I)
         L=IS(I)
-        IF(K) 10,7,10
- 7      CONTINUE
+        IF(K.NE.0) GOTO 10
+        CONTINUE
         II1=L/10
         II2=L-10*II1
-        IF(M) 9,8,9
- 8      CONTINUE
+        IF(M.NE.0) GO TO 9
+        CONTINUE
         EXI=F0(1,1)*F0(2,2)-F0(2,1)*F0(2,1)
         EZI=F0(4,4)*F0(5,5)-F0(5,4)*F0(5,4)
         X(I)=F0(II1,II2)
@@ -51,15 +51,14 @@ C  France
 
  9      CONTINUE
         F0(II1,II2)=X(I)
-        IF(II1-2) 11,11,12
-   11   IF(II2-2) 13,13,17
-   13   F0(2,2)=(EXI+F0(2,1)*F0(2,1))/F0(1,1)
+        IF(II1.GT.2) GO TO 12
+        IF(II2.GT.2) GO TO 17
+        F0(2,2)=(EXI+F0(2,1)*F0(2,1))/F0(1,1)
 
         GOTO 17
 
-   12   IF(II1-4) 17,18,18
-   18   IF(II2-4) 17,19,19
-   19   F0(5,5)=(EZI+F0(5,4)*F0(5,4))/F0(4,4)
+   12   IF(II1.LT.4.OR.II2.LT.4) GO TO 17
+        F0(5,5)=(EZI+F0(5,4)*F0(5,4))/F0(4,4)
    17   CONTINUE
 
         GOTO 1
@@ -67,8 +66,8 @@ C  France
  10     CONTINUE
         KL=NINT(XCOU(I))
         KP=NINT((100.D0*XCOU(I)-100.D0*KL))
-        IF(KL) 2,5,6
- 5      CONTINUE
+        IF (KL.LT.0) GOTO 2
+        IF (KL.GT.0) GOTO 6
         IF(M .EQ. 0)   X(I)=A(K,L)
         IF(M .EQ. 1)      A(K,L)=X(I)
         GOTO 1
@@ -86,7 +85,7 @@ C        A(ICOUP,1) = CC-A(K,1)
         KL=-KL
         KP=-KP
         CC=A(K,L)+A(KL,KP)
-        IF(M) 3,3,4
+        IF(M.GT.0) GO TO 4
  3      CONTINUE
         X(I)=A(K,L)
         GOTO 1
@@ -95,8 +94,8 @@ C        A(ICOUP,1) = CC-A(K,1)
         A(KL,KP) = CC-A(K,L)
         GOTO 1
  6      CONTINUE
-        IF(M) 3,3,61
- 61     CONTINUE
+        IF(M.LE.0) GO TO 3
+        CONTINUE
         A(K,L) = X(I)
         A(KL,KP) = X(I)
  1    CONTINUE
