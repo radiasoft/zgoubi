@@ -146,9 +146,10 @@ C--------  KUASEX = 7: CARTE 3-D
 
 C 40   CONTINUE
 C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
-      IF(IRD-4) 20,21,22
+      IF (IRD.EQ.4) GO TO 21
+      IF (IRD.GT.4) GO TO 22
  
- 20   CONTINUE
+      CONTINUE
 C       .... ORDRE 2 ,  3*3 points grid
  
       F1= HC(ID,IAC-1,IRC-1,1)
