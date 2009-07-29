@@ -37,9 +37,9 @@ C
       N0=N/2
       K0=INT(A)
       AK=AINT(A)
-      IF(A-15)10,11,11
+      IF(A.GE.15D0) GO TO 11
 C ***CAS OU A EST INFERIEUR A 15
- 10   P0=EXP(-A)
+      P0=EXP(-A)
       FP(1)=P0
       IF(K0.EQ.0)GO TO 50
 C **CALCUL DES FP DE FP(1) A FP(K0+1) ET CUMUL DE LA SOMME
