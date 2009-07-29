@@ -87,7 +87,7 @@ C     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G15.8,2(1X,G10.3))
 
  10   CONTINUE
       IF(KREAD.GE.1) FITGET = .TRUE.
-      IF(NRES .GT. 0) WRITE(NRES,103) , KREAD,NAMFIC
+      IF(NRES .GT. 0) WRITE(NRES,103) KREAD,NAMFIC
  103  FORMAT(/,10X, I3, 
      >  ' variables have been read from FIT storage file ',A,/)
 
