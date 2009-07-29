@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLLIPS(NLOG,NL,LM,KX,KY,*)
+      SUBROUTINE PLLIPS(NLOG,LM,KX,KY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL,PI,DPI,RAD,DEG,QE,AH
       INCLUDE 'MXVAR.H'
@@ -32,7 +32,7 @@ C  France
       INCLUDE 'MAXNTR.H'
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
 
-      DIMENSION YM(3), YPM(3), U(3), A(3), B(3), YNU(3)
+      DIMENSION YM(3), YPM(3), U(3), A(3), B(3)
       DIMENSION YMX(6), YPMX(6)
       DIMENSION XSIGU(3)
       CHARACTER TXT*80
@@ -68,7 +68,7 @@ C  France
             YP= (-A(JJ)* Y + R * SIN(PHI) )/B(JJ)  + YPM(JJ)
             Y = Y + YM(JJ)
             CALL VECTPL(Y,YP,2)      
-            IF(LIS.EQ.2) CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM,IDUM,KX,KY)       
+            IF(LIS.EQ.2) CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM,IDUM,KX,KY)
  201      CONTINUE
 
           CALL FBGTXT
