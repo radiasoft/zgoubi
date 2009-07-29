@@ -25,6 +25,7 @@ C  38026 Grenoble Cedex
 C  France
       subroutine drawspi(tta0,r0,rp1,rp2,xi,lunOut)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      PARAMETER (N=100)
       pi = 4.d0 * atan(1.d0)
       b = 1.d0 / tan(xi*pi/180.d0)
 
@@ -33,13 +34,14 @@ C Limit angles corresponding to limit radii rp1, rp2
         tta2 =  log(rp2/r0) / b
 
 Compute spiral EFB
-        do tta = tta1, tta2, (tta2-tta1)/100.d0
+        DO 100 I=0,N
+           TTA = ((N-I)*tta1 + I*tta2)/N
            r = r0 *exp(b * tta)
            x = r *cos(tta + tta0)  
            y = r *sin(tta + tta0)
            curv = exp( - b * tta)/ (r0 * sqrt(1 + b*b))
            write(lunOut,*) x, y, tta, curv
-        enddo
+ 100    CONTINUE
       
       return
       end
