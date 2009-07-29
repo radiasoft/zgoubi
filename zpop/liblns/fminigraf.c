@@ -1408,7 +1408,7 @@ void SAVECR(savfic,nsavfic)
 	int nsavfic;
 
 {
-	char buf[100], *g_pname, namfic[50], *ncpr, *ncbl;
+	char buf[100], g_pname[60], namfic[50], *ncpr, *ncbl;
 	int i;
 
 	if(!v_init) return;
@@ -1421,7 +1421,8 @@ void SAVECR(savfic,nsavfic)
 	if(ncpr = (char *)strchr(namfic,':'))
 	  {
 	    *ncpr = 0;
-	    g_pname = tempnam(".",namfic);
+	    snprintf(g_pname,sizeof(g_pname),"%s%04X",namfic,
+		     ((unsigned)time(0))&0xFFFF);
 	  }
         if(ncbl = (char *)strchr(namfic,' ')) *ncbl = 0;
 
