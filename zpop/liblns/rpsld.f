@@ -261,7 +261,7 @@ C
       CINI=RECORD(1:1)
       IF (((CINI.GE.'0').AND.(CINI.LE.'9'))
      X     .OR.(CINI.EQ.'+').OR.(CINI.EQ.'-').OR.(CINI.EQ.'.')) THEN
-         RECORD=' '//RECORD
+         RECORD=' '//RECORD(1:19)
          IF(IER.EQ.0) READ(RECORD,*,IOSTAT=IER)VAL 
          ITYPE=1  
       ELSE
@@ -603,7 +603,7 @@ C+++++FIN DE LINE_EDIT
 C.....Si le tampon envoye est dans la pile, il y reste...
 C.....Sinon le nouveau tampon est mis en pile
       IF(KR.EQ.0) NRING=MOD(NRING+1,LRING)
-      RING(NRING)=TAMP
+      RING(NRING)=TAMP(1:80)
 C.....Si les cles PF sont armees, les desarmer, et RAZ ligne d'etat
       IF(PFKYON) THEN
          CALL WRSTAT(' ')
