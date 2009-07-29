@@ -38,11 +38,11 @@ C  France
 
       WRITE(TXT,100) 'TUNES'
  100  FORMAT(A5)
-      CALL TRTXT(120.D0,245.D0,TXT,80,0) 
+      CALL TRTXT(120.D0,245.D0,TXT,0) 
       WRITE(TXT,179) YNU(JNU),'  amplitude = ',PMAX(JNU)
  179    FORMAT(F10.6,A14,G12.4 )
       TXT = TIT(JNU)//TXT(1:75)
-      CALL TRTXT(10.D0,PTXT,TXT,80,0)
+      CALL TRTXT(10.D0,PTXT,TXT,0)
       PTXT = PTXT - 7.D0
       IF(PTXT .LT. 7.D0) PTXT = PTXT0
       IF(NT.EQ.-1) THEN
@@ -58,7 +58,7 @@ C  France
       ENDIF
       WRITE(TXT,101) TXTP,TXTL
  101  FORMAT(' Part',A5,'  at Lmnt ',A5) 
-      CALL TRTXT(10.D0,0.001D0,TXT,80,0)
+      CALL TRTXT(10.D0,0.001D0,TXT,0)
 
       RETURN
       END

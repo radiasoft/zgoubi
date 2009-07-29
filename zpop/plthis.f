@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLTHIS(NLOG,NL,LM,NOC,OKBIN,OKECH)
+      SUBROUTINE PLTHIS(NLOG,NL,NOC,OKBIN,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKBIN, OKECH
 C     ----------------
@@ -70,7 +70,7 @@ C     ----------------
       CALL VECTPL(X,0.D0,2)
       CALL LINTYP(-1)
 
-      CALL TRKVAR(LM,NB,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
+      CALL TRKVAR(NB,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
 
       WRITE(6,100)
  100  FORMAT(' Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
@@ -79,7 +79,7 @@ C     ----------------
       WRITE(TXT,102) XMOY,SIG,XYMAX,NOC
  102  FORMAT(' Mean:',1P,G12.5,'; Sigma:',G12.5,'; X(max):',G12.5,
      >       '; Counts:',I7)
-      CALL TRTXT(10.D0,18.D0,TXT,80,0)
+      CALL TRTXT(10.D0,18.D0,TXT,0)
 
       RETURN
  99   WRITE(6,*) ' SBR PLTHIS   ERROR DURING BINING'

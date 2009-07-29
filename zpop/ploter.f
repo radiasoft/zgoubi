@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLOTER(NLOG,NL,LM,KPS,NPTS,NPTR)
+      SUBROUTINE PLOTER(NLOG,NL,KPS,NPTS,NPTR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------
 C     TRACE LES VARIABLES KY V.S. KX 
@@ -256,7 +256,7 @@ C              CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
                 IF(X .GT. XMI+TAGX*(XMA-XMI)) THEN
                   OKT(NDX(2)) = 1
                   WRITE(TXT,FMT='(A)') LET 
-                  CALL TRTXT(X,Y+TAGY*(YMA - YMI),TXT,3,1)
+                  CALL TRTXT(X,Y+TAGY*(YMA - YMI),TXT,1)
                 ENDIF
               ENDIF
             ENDIF
@@ -324,7 +324,7 @@ C     ------------------------------------
         IF(KX.EQ. 7.AND.KY.EQ. 2..AND.PPA.NE.0.D0)
      >           CALL PPAR(PPA,X,Y,T0,KART)
       ENDIF
-      CALL TRKVAR(LM,NOC,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
+      CALL TRKVAR(NOC,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
       WRITE(6,FMT='(/,'' SUM(Y)dX [XMI->XMA] ='',1P,E16.8,/)') SYDX 
       WRITE(6,*) ' PLOTTED ',NOC,' POINTS,  OVER',NRD-1,' READ IN FILE'
 
@@ -458,7 +458,7 @@ c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
       RETURN
 
 C----- Scale computer
-      ENTRY CALECH(NL,LM,
+      ENTRY CALECH(NL,
      >                   NOCE)
       IF(KY.EQ. 28) THEN
 C------- Histogram

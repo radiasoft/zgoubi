@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRINM(NLOG,NL,LM,KPL,NT,OX,WF,WO,Q,AM,FE,HZ,YNRM,
+      SUBROUTINE SRINM(NLOG,NL,LM,KPL,OX,WF,WO,Q,AM,FE,HZ,YNRM,
      >  NOMFIC,OKOPN,GNUFIL,STORE,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*), WF(*), WO(*)
@@ -230,14 +230,14 @@ C------- KSC = 5 : dW/dPsi (J/rad) v.s. Gamma.Psi (vertical angle, rad)
           ENDIF      
 
           CALL SRINC
-     >      (NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
+     >      (NLOG,KSC,KPL,IP,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
      >                                                   YNRM,NOC,NRD)
           CALL PRTIME(2,
      >                  DMY,HMSI,HMSF)
           CHANGE = .FALSE.
         ENDIF
 
-        CALL SRINPL(NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,
+        CALL SRINPL(NLOG,KSC,KPL,IP,OX,WF,WO,Q,AM,FE,HZ,
      >                                                 YNRM,NOC,NRD)
         IF( STORE ) THEN
           WRITE(6,FMT='(/,'' SR integrals stored in '',A)') GNUFIL

@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE SRINC
-     >  (NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
+     >  (NLOG,KSC,KPL,IP,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
      >                                                 YNRM,NOC,NRD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*), WF(*), WO(*)
@@ -198,7 +198,7 @@ C----------- Intermediate plot of dW_y,z/dNu.dOmga - at each fragment
               CALL SRAX(.TRUE.,  0,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))
               CALL SRDWPL(NLOG,  0,KPL,1, 2, 3,MNU,DW,YNRM,
      >                                                          SYDX)
-              CALL SRPLV(NLOG,  0,LM,NT,MNU,SYDX,HZ,
+              CALL SRPLV(NLOG,  0,MNU,SYDX,HZ,
      >          XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)
             ELSE
               WRITE(6,*) ' Scale error detected in SBR SRDWSC'
@@ -212,7 +212,7 @@ C----------- Intermediate plot of dW_y,z/dNu.dOmga - at each fragment
       CLOSE(LUO)
       RETURN
 
-      ENTRY SRINPL(NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,
+      ENTRY SRINPL(NLOG,KSC,KPL,IP,OX,WF,WO,Q,AM,FE,HZ,
      >                                                 YNRM,NOC,NRD)
 
       IF(KSC .EQ. 4) THEN
@@ -257,7 +257,7 @@ C        DX = DNU
 
       CALL SRDWPL(NLOG,KSC,KPL,J1,J2,J3,MX,D3W,YNRM,
      >                                                    SYDX)
-      CALL SRPLV(NLOG,KSC,LM,NT,MX,SYDX,FAC,
+      CALL SRPLV(NLOG,KSC,MX,SYDX,FAC,
      >            XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)
 
       RETURN

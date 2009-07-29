@@ -385,7 +385,7 @@ C     ------------------------------------------
       ELSEIF(KEP .EQ. 2) THEN
 
         WRITE(TXT,FMT='('' SUM(Y)dX [XMI->XMA] ='',1P,E16.8)') SYDX
-        CALL TRTXT(10.D0,10.D0,TXT,50,0)
+        CALL TRTXT(10.D0,10.D0,TXT,0)
         CALL FBGTXT
         WRITE(6,FMT='(/,'' SUM(Y)dX [XMI->XMA] ='',1P,E16.8,/)') SYDX
         WRITE(6,*) ' PLOTTED ',NOC,' POINTS, OVER ',

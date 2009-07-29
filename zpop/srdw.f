@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRDW(NLOG,KSC,KPL,LM,NT,OX,Q,AM,FE,HZ,YNRM,
+      SUBROUTINE SRDW(NLOG,KSC,KPL,OX,Q,AM,FE,HZ,YNRM,
      >  MNU,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*)
@@ -90,7 +90,7 @@ C          Calculate energy density : SDW_2,3 = dW_x,y/dOmga  (J/srd)
         CALL SRAX(OKECH,KSC,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))
         CALL SRDWPL(NLOG,KSC,KPL,1, 2, 3,MNU,DW,YNRM,
      >                                                     SYDX)
-        CALL SRPLV(NLOG,KSC,LM,NT,MNU,SYDX,HZ,
+        CALL SRPLV(NLOG,KSC,MNU,SYDX,HZ,
      >    XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)
 
       ELSE

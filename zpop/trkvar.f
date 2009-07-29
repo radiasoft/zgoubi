@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE TRKVAR(LM,NOC,KVY,KDY,KVX,KDX)
+      SUBROUTINE TRKVAR(NOC,KVY,KDY,KVX,KDX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER  KVY*(*),KDY*(*),KVX*(*),KDX*(*)
 
@@ -40,7 +40,7 @@ C  France
 
       CALL LOGO
       WRITE(TXT,FMT='(A54)') '* '//TITL(1:50)//' *'
-      CALL TRTXT(60.D0,28.D0,TXT,50,0)
+      CALL TRTXT(60.D0,28.D0,TXT,0)
 
       CALL READC3(KL1,KL2)
       IF(KL1.EQ.-1) THEN
@@ -66,15 +66,15 @@ C      CALL TRTXT(.2D0,1.1D0,TXT,50,0)
 C Hamel's graphic libraries,
 C positionning of TXT is in screen units (x384/y256 Pix)
       WRITE(TXT,100) KVY,KDY,KVX,KDX
-      CALL TRTXT(110.D0,248.D0,TXT,80,0)
+      CALL TRTXT(110.D0,248.D0,TXT,0)
       WRITE(TXT,107) XMI,XMA,YMI,YMA
 C      CALL TRTXT(10.D0,18.D0,TXT,80,0)
-      CALL TRTXT(10.D0,10.D0,TXT,80,0)
+      CALL TRTXT(10.D0,10.D0,TXT,0)
       CALL READC1(KP1,KP2)
       CALL READC5(KT1,KT2)
       CALL READC9(KEX,KLET)
       WRITE(TXT,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
-      CALL TRTXT(10.D0,2.D0,TXT,80,0)
+      CALL TRTXT(10.D0,2.D0,TXT,0)
 
       CALL FBGTXT
 C      WRITE(6,*)

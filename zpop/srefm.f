@@ -279,7 +279,7 @@ C            GOTO 20
 C--------- Plot radiated Electric field
           CALL SREF(2,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*20)
-          CALL TRKVAR(LM,NOC,KVY,KDY,KVX,KDX)
+          CALL TRKVAR(NOC,KVY,KDY,KVX,KDX)
           WRITE(6,*) ' Plot  OK; END OF FILE encountered'
       ENDIF
       GOTO 20

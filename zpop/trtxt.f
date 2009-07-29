@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE TRTXT(X,Y,TXT,IDUM,IUN)
+      SUBROUTINE TRTXT(X,Y,TXT,IUN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*) TXT
       IF(IUN .EQ. 0) THEN

@@ -96,12 +96,12 @@ C positionning of TXT is in screen units (x384/y256 Pix)
 
       WRITE(TXT,FMT=
      >  '(''Profile  v.s.  distance (data & model)'')')
-      CALL TRTXT(120.D0,245.D0,TXT,80,0)
+      CALL TRTXT(120.D0,245.D0,TXT,0)
       WRITE(TXT,FMT='(''XM, Sigma ='',2F11.6,'' cm'')') XM, SIG
-      CALL TRTXT(10.D0,18.D0,TXT,80,0)
+      CALL TRTXT(10.D0,18.D0,TXT,0)
 
       WRITE(TXT,FMT='(''C0-C'',I1,'' ='',11F8.4)') NV-1,(V(I), I=1,NV)
-      CALL TRTXT(10.D0,10.D0,TXT,80,0)
+      CALL TRTXT(10.D0,10.D0,TXT,0)
 
  70   CALL FBGTXT
       WRITE(*,FMT=

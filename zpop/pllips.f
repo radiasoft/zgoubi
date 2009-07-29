@@ -84,7 +84,7 @@ C  France
  105      FORMAT(' Eps/pi, Beta, Alpha: ',1P,G12.4,2G11.3)
 
           WRITE(TXT,105) U(JJ),B(JJ),A(JJ)
-          CALL TRTXT(10.D0,18.D0,TXT,80,0)
+          CALL TRTXT(10.D0,18.D0,TXT,0)
           CALL LINTYP(-1)
 
       ENDIF

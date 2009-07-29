@@ -32,7 +32,7 @@ C  France
 
       WRITE(TXT,100) (SYDX(I)*FAC, I=2, 4), SY
  100  FORMAT(' Integrals : ',1P,3G13.5,' ',A)
-      CALL TRTXT(10.D0,10.D0,TXT,80,0)
+      CALL TRTXT(10.D0,10.D0,TXT,0)
 
       CALL FBGTXT
 

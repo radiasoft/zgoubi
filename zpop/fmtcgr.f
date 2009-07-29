@@ -93,15 +93,15 @@ C positionning of TXT is in screen units (x384/y256 Pix)
 
       WRITE(TXT,FMT=
      >  '(''Field fall-off  v.s.  distance (m)  (data & model)'')')
-      CALL TRTXT(120.D0,245.D0,TXT,80,0)
+      CALL TRTXT(120.D0,245.D0,TXT,0)
       WRITE(TXT,FMT='(''XFB, Lambda ='',2F11.6,'' m'')') XFB, XLAMB
-      CALL TRTXT(10.D0,18.D0,TXT,80,0)
+      CALL TRTXT(10.D0,18.D0,TXT,0)
 C      WRITE(TXT,FMT='(''C0-C'',I1,'' ='',6F9.5)') NV-1,(V(I), I=1,NV)
       WRITE(TXT,FMT='(''C0-C5 = '',6F9.5)') (V(I), I=1,6)
-      CALL TRTXT(10.D0,10.D0,TXT,80,0)
+      CALL TRTXT(10.D0,10.D0,TXT,0)
       WRITE(TXT,FMT='(''I1.Gap = FINT.Gap ='',F11.6,'' m'')')
      >  GK1(FNCT,CX,NC,NV,V)
-      CALL TRTXT(10.D0,2.D0,TXT,80,0)
+      CALL TRTXT(10.D0,2.D0,TXT,0)
 
       CALL FBGTXT
       WRITE(*,FMT=

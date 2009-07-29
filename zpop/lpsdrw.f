@@ -175,13 +175,13 @@ C               YP = YP /2.D0
      >                                G12.4,4G11.3,' (MKSA)')
 
           WRITE(TXT,108) KVAR(KY),KVAR(KX)
-          CALL TRTXT(10D0,26.D0,TXT,80,0)
+          CALL TRTXT(10D0,26.D0,TXT,0)
           WRITE(TXT,107) YMX(J),YMX(J+1),YPMX(J),YPMX(J+1)
-          CALL TRTXT(10.D0,10.D0,TXT,80,0)
+          CALL TRTXT(10.D0,10.D0,TXT,0)
           WRITE(TXT,105) U(JJ),B(JJ),A(JJ)
-          CALL TRTXT(10.D0,18.D0,TXT,80,0)
+          CALL TRTXT(10.D0,18.D0,TXT,0)
 
-          CALL TRTXT(0.0D0,0.0D0,' ',45,0)
+          CALL TRTXT(0.0D0,0.0D0,' ',0)
 
           CALL LINTYP(-1)
 

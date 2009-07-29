@@ -117,7 +117,7 @@ C------------- Pi component
  21     CONTINUE
  20   CONTINUE
 
-      CALL TRKVAR(LM,Npt,'E','(rel.)','Omgc-t','(rad)') 
+      CALL TRKVAR(Npt,'E','(rel.)','Omgc-t','(rad)') 
 
       WRITE(6,*) ' X(Ymax) = ', XYM
       WRITE(6,*) ' change scales (n/y)'

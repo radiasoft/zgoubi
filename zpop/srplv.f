@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRPLV(NLOG,KSC,LM,NT,MX,SYDX,FAC,XVA,XDI,YVA,YDI,SY,
+      SUBROUTINE SRPLV(NLOG,KSC,MX,SYDX,FAC,XVA,XDI,YVA,YDI,SY,
      >                                                            YNRM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION SYDX(*)
@@ -39,7 +39,7 @@ C  France
         SY = '(Normalized)'
       ENDIF
 
-      CALL TRKVAR(LM,MX,YVA,YDI1,XVA,XDI)
+      CALL TRKVAR(MX,YVA,YDI1,XVA,XDI)
       CALL SRPLI(NLOG,KSC,SYDX,FAC,SY)
 
       IF(YNRM .EQ. 1.D0) THEN

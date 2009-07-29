@@ -133,10 +133,10 @@ C----- Graphic character size
       ENTRY LOGO
       CALL DEFCAR(1,0,0)
       WRITE(TXT,FMT='(A12)') 'Zgoubi|Zpop '
-      CALL TRTXT(2.D0,251.D0,TXT,32,0)
+      CALL TRTXT(2.D0,251.D0,TXT,0)
       CALL DATE2(DMY)
       WRITE(TXT,FMT='(A)') DMY
-      CALL TRTXT(2.D0,245.D0,TXT,9,0)
+      CALL TRTXT(2.D0,245.D0,TXT,0)
       CALL DEFCAR(KARSIZ,0,0)  
       RETURN
 

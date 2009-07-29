@@ -138,7 +138,7 @@ C      CHARACTER CMND*70
           OKECH = .FALSE.
           WRITE(6,*)
           WRITE(6,*) ' Busy: calculating scales'
-          CALL CALECH(NL,LM,
+          CALL CALECH(NL,
      >                      NOC)
           CALL READC3(KL1,KL2)
           IF(KL1.EQ.-1) THEN
@@ -223,7 +223,7 @@ C 79       CONTINUE
           IF( .NOT. OKECH) THEN
             WRITE(6,*) 
             WRITE(6,*) ' Busy: calculating scales'
-            CALL CALECH(NL,LM,
+            CALL CALECH(NL,
      >                        NOC)
             CALL READC3(KL1,KL2)
             IF(KL1.EQ.-1) THEN
@@ -267,7 +267,7 @@ C              CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
           IF(OKECH) THEN
             IF(OKVAR) THEN
               IF(KY.EQ. 28) THEN
-                CALL PLTHIS(NLOG,NL,LM,NOC,OKBIN,OKECH)
+                CALL PLTHIS(NLOG,NL,NOC,OKBIN,OKECH)
               ELSE
                 KLIPS=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
 C                      xxp phase-space
@@ -330,7 +330,7 @@ C                     s/time/phase-dp/Ekin initial phase-space
 
                 CALL PLOT6(KLIPS)
 
-                CALL PLOTER(NLOG,NL,LM,KPS,NPTS,NPTR)
+                CALL PLOTER(NLOG,NL,KPS,NPTS,NPTR)
 
                 IF(KLIPS) CALL PLLIPS(NLOG,LM,KX,KY,*921)  
                 IF(KHIST) CALL PLHIST(NL)
