@@ -77,7 +77,7 @@ C----- Reset particle counter
       SFAC = A(NOEL,44)
       DPFAC= A(NOEL,45)
       TIFAC= A(NOEL,46)
-      LETAG=TA(NOEL,1)
+      LETAG=TA(NOEL,1)(1:1)
       YREF = A(NOEL,50)
       TREF = A(NOEL,51)
       ZREF = A(NOEL,52)
