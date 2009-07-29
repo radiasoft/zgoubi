@@ -56,6 +56,11 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       INTEGER DEBSTR,FINSTR
 
+      DATA NHDF / 8 /
+      SAVE NHDF
+
+      LOGICAL STRCON 
+
       DIMENSION HC1(ID,MXX,MXY,IZ), HC2(ID,MXX,MXY,IZ)
       DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       SAVE HC1, HC2, HCA, HCB
@@ -64,11 +69,20 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       parameter (idmx=ID*MXX*MXY*IZ)
           data hcu /  IDMX * 0.d0 /
 
+      CHARACTER*20 FMTYP
+      DATA FMTYP / ' regular' / 
+
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'HEADER',
+     >                            IS) ) THEN
+        READ(TITL(IS+8:IS+8),FMT='(I1)') NHD
+      ELSE
+        NHD = NHDF
+      ENDIF
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
@@ -195,7 +209,7 @@ C such that resulting single map is a linear superimposition of both
                GOTO 96
              ENDIF
 
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -221,7 +235,7 @@ C such that resulting single map is a linear superimposition of both
                GOTO 96
              ENDIF
 
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -271,7 +285,7 @@ C  resulting single map is linear superimposition of both
                GOTO 96
              ENDIF
 
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -305,7 +319,7 @@ C  resulting single map is linear superimposition of both
                GOTO 96
              ENDIF
 
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 

@@ -68,7 +68,6 @@ C      LOGICAL FITING
       DATA NHDF / 8 /
       SAVE NHDF
 
-      CHARACTER TXT80*80
       LOGICAL STRCON
 
       DATA KFIC0 / -99 /
@@ -78,16 +77,12 @@ C      LOGICAL FITING
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
-
-      IF    (STRCON(TXT80,'HEADER',
-     >                             IS) ) THEN
-        READ(txt80(IS+8:IS+8),FMT='(I1)') NHD
+      IF    (STRCON(TITL,'HEADER',
+     >                            IS) ) THEN
+        READ(TITL(IS+8:IS+8),FMT='(I1)') NHD
       ELSE
         NHD = NHDF
       ENDIF
-C      IF(NHD.EQ.0) NHD = NHDF
-C            WRITE(*,*) ' NHD = ',NHD
-C           STOP
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)

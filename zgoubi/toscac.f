@@ -57,11 +57,26 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       INTEGER DEBSTR,FINSTR
 
+      DATA NHDF / 8 /
+      SAVE NHDF
+
+      LOGICAL STRCON 
+
+      CHARACTER*20 FMTYP
+      DATA FMTYP / ' regular' / 
+
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'HEADER',
+     >                              IS) ) THEN
+        READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
+             write(*,*) '  header, nhd, is ', TITL(IS:IS+7),nhd,is
+      ELSE
+        NHD = NHDF
+      ENDIF
       IDEB = DEBSTR(TITL)
       FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       IXMA = A(NOEL,20)
@@ -90,10 +105,10 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-          write(*,*) 
-          write(*,*) NEWFIC 
-          write(*,*) NAMFIC 
-          write(*,*) NOMFIC(NFIC),nfic
+!          write(*,*) 
+!          write(*,*) NEWFIC 
+!          write(*,*) NAMFIC 
+!          write(*,*) NOMFIC(NFIC),nfic
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
@@ -132,7 +147,7 @@ C--------- A single data file contains the all 3D volume
            WRITE(NRES,209) 
  209       FORMAT(/,10X,' A new field map is now used ; ', 
      >     ' Name(s) of map data file(s) are : ')
-           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
+!           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -161,8 +176,18 @@ C--------- A single data file contains the all 3D volume
                GOTO 96
              ENDIF
 
+             IF(     STRCON(NOMFIC(NFIC),'GSI',IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'gsi',IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
+             ENDIF
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              IRD = NINT(A(NOEL,40))
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,BNORM,I1,KZ,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 

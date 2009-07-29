@@ -23,23 +23,27 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION STRCON(STR,KAR,
+      FUNCTION STRCON(STR,STR2,
      >                        IS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STRCON
-      CHARACTER STR*(*), KAR*1
-C     --------------------------------------------------------------------
-C     .TRUE. if the string STR contains the character KAR at least once
-C     IS = position of first occurence of KAR in STR (i.e.,STR(IS:IS)=kar)
-C     --------------------------------------------------------------------
+      CHARACTER STR*(*), STR2*1
+C     ---------------------------------------------------------------
+C     .TRUE. if the string STR contains the string STR2 at least once
+C     IS = position of first occurence of STR2 in STR 
+C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
+C     ---------------------------------------------------------------
 
       INTEGER DEBSTR,FINSTR
+
+      LNG = LEN(STR2)
 
       II = 0
       DO 1 I = DEBSTR(STR), FINSTR(STR)
         II = II+1
-        IF( STR(I:I) .EQ. KAR ) THEN
-          IS = II
+        IF( STR(I:I+LNG-1) .EQ. STR2 ) THEN
+C          IS = II
+          IS = I 
           STRCON = .TRUE.
           RETURN
         ENDIF

@@ -105,7 +105,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       KAXV0 = KAXV
       WRITE(*,FMT=
      >'('' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
-     >''dp/p, # particles, PU posit.  (1-8) : '',$)')
+     >''dp/p, # particles, PU posit.  (1-8) : '',1p,e12.4,$)') kaxv
       READ(5,FMT='(I1)',ERR=31) KAXV
       IF(KAXV .GE. 1 .AND. KAXV .LE. 8) GOTO 21
  31   KAXV = KAXV0

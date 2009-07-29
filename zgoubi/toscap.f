@@ -58,8 +58,16 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       DATA NHDF / 8 /
       SAVE NHDF
 
+      LOGICAL STRCON
+ 
       BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'HEADER',
+     >                            IS) ) THEN
+        READ(TITL(IS+8:IS+8),FMT='(I1)') NHD
+      ELSE
+        NHD = NHDF
+      ENDIF
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
@@ -146,7 +154,7 @@ C--------- another option for symmetrization by FMAPR2
         ENDIF
 
         IRD = NINT(A(NOEL,40))
-        NHD = NHDF
+C        NHD = NHDF
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

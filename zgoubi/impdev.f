@@ -56,7 +56,7 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
 C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
           WRITE(NRES,105) IT,BR/BORO,Y,T,Z,P,X,SAR
  105      FORMAT(/,' SPGM   IMPDEV',5X,'TRAJ ',I3
-     >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E13.5)
+     >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E16.8)
  
           IF(KFLD .EQ. LC .OR. KFLD .EQ. ML) THEN
  
@@ -64,24 +64,20 @@ C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
      >      ,BR*DE(1,1),BR*DE(2,1),BR*DE(3,1),BR*DE(2,2),BR*DE(3,2)
      >      ,BR*DDE(1,1,1),BR*DDE(2,1,1),BR*DDE(3,1,1)
      >      ,BR*DDE(2,2,1),BR*DDE(3,2,1),BR*DDE(3,3,1)
- 104        FORMAT(' EX, EY, EZ (MV/cm):',1P,3E11.3
-     >          ,/,' E'' :',5E11.3
-     >          ,/,' E'''':',6E11.3)
+ 104        FORMAT(' EX, EY, EZ (MV/cm):',1P,3E16.8
+     >          ,/,' E'' :',5E16.8
+     >          ,/,' E'''':',6E16.8)
           ENDIF
  
           IF(KFLD .EQ. MG .OR. KFLD .EQ. ML) THEN
  
-C            WRITE(*,106) BR*B(1,1),BR*B(1,2),BR*B(1,3)
-C     >      ,BR*DB(1,1),BR*DB(2,1),BR*DB(3,1),BR*DB(2,2),BR*DB(3,2)
-C     >      ,BR*DDB(1,1,1),BR*DDB(2,1,1),BR*DDB(3,1,1)
-C     >      ,BR*DDB(2,2,1),BR*DDB(3,2,1),BR*DDB(3,3,1)
             WRITE(NRES,106) BR*B(1,1),BR*B(1,2),BR*B(1,3)
      >      ,BR*DB(1,1),BR*DB(2,1),BR*DB(3,1),BR*DB(2,2),BR*DB(3,2)
      >      ,BR*DDB(1,1,1),BR*DDB(2,1,1),BR*DDB(3,1,1)
      >      ,BR*DDB(2,2,1),BR*DDB(3,2,1),BR*DDB(3,3,1)
- 106        FORMAT(' BX, BY, BZ (kG)   :',1P,3E11.3
-     >          ,/,' B'' :',5E11.3
-     >          ,/,' B'''':',6E11.3)
+ 106        FORMAT(' BX, BY, BZ (kG)   :',1P,3E16.8
+     >          ,/,' B'' :',5E16.8
+     >          ,/,' B'''':',6E16.8)
           ENDIF
  
         ELSEIF(LST .EQ. 7) THEN

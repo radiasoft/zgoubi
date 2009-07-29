@@ -34,18 +34,17 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
 
-      INTEGER DEBSTR, FINSTR
       DIMENSION BREAD(3)
 C----- at entry FMAPR :
 C      LOGICAL IDLUNI, BINARI
       LOGICAL BINAR
       CHARACTER*120 TITL
-      CHARACTER*120 FMTYP
+      CHARACTER*20 FMTYP
       CHARACTER BE(2)
       DATA BE /'B','E'/
 
-      DATA MOD, MOD2, NHDF / 0, 0, 8/
-      SAVE MOD, MOD2, NHDF
+      DATA MOD, MOD2 / 0, 0 /
+      SAVE MOD, MOD2
 
       IF(LF .EQ. 1) THEN
 C------- Print field map in zgoubi.res
@@ -157,32 +156,28 @@ C Read and interprete field maps in polar frame (MOD >= 20)
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       MOD = MODI
       MOD2 = MODI2
-      IF(NHDI.EQ.0) THEN
-        NHD = NHDF
-      ELSE
         NHD = NHDI
-      ENDIF
 
       BMIN =  1.D10
       BMAX = -1.D10
 
-      IF(NRES.GT.0) THEN
-        WRITE(NRES,*) ' '
-        WRITE(NRES,*) ' Header : '
-      ENDIF
+      IF(NRES.GT.0) 
+     >   WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
+
       IF(BINAR) THEN
 C Map data file starts with 1-line header
         READ(LUN) R0, DR, DTTA, DZ    !    430  1. .1 1.  (cm cm deg cm)
         IF(NRES.GT.0) WRITE(NRES,*) '  R0, DR, DTTA, DZ :',R0,DR,DTTA,DZ
       ELSE
 C Map data file starts with NHD-line header (NORMALLY 8)
-        READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
-        READ(TITL,*) R0, DR, DTTA, DZ
-        IF(NRES.GT.0) WRITE(NRES,*) '  R0, DR, DTTA, DZ :',R0,DR,DTTA,DZ
-        DO 39 II=1, NHD-1
+        IF(NHD .GT. 0) THEN
           READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
- 39       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-           
+          READ(TITL,*) R0, DR, DTTA, DZ
+          IF(NRES.GT.0) WRITE(NRES,*)'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
+          DO 39 II=1, NHD-1
+            READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
+ 39         IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+        ENDIF
       ENDIF
 
       DTTA = DTTA * RAD
@@ -408,18 +403,22 @@ C        enddo
 
 C-------------------------------------------------------------
 C Read and interprete field maps in cartesian frame (MOD < 20)
-      ENTRY FMAPR3(BINAR,LUN,MODI,MODI2, BNORM,I1,KZI,
+      ENTRY FMAPR3(BINAR,LUN,MODI,MODI2,NHDI,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       
       MOD = MODI
       MOD2 = MODI2
+        NHD = NHDI
       KZ = KZI
       BMIN =  1.D10
       BMAX = -1.D10
 
-C Map data file starts with 8-line header
-        IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' HEADER : '
+C Map data file starts with NHD-line header
+      IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
+
+      IF(NHD .GE. 1) THEN
         READ(LUN,FMT='(A120)') TITL
         IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
         READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
@@ -428,15 +427,21 @@ C Map data file starts with 8-line header
         IF(NRES.GT.0) WRITE(NRES,*) 
      >         ' Error upon readinng R0, DR, DX, DZ'
  50     CONTINUE
-        READ(LUN,FMT='(A120)') TITL
-        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-        FMTYP = TITL(DEBSTR(TITL):FINSTR(TITL))
-        DO 32 II=1, 6
+        IF(NHD .GE. 2) THEN
           READ(LUN,FMT='(A120)') TITL
- 32       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-        IF(NRES.GT.0) WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
-        IF(NRES.GT.0) WRITE(NRES,*) ' FORMAT type : ', FMTYP
-
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+          IF(NHD .GE. 2) THEN
+            DO 32 II=1, NHD
+              READ(LUN,FMT='(A120)') TITL
+              IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+ 32         CONTINUE
+            IF(NRES.GT.0) THEN
+              WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
+            ENDIF
+          ENDIF
+        ENDIF
+      ENDIF
+ 
       IF(MOD .EQ. 12) THEN
 
            jtcnt=0
