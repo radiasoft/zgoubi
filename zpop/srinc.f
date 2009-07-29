@@ -148,7 +148,7 @@ C              CALL TXTFBG
 
 C--------- Calculate DW_1 = omga (KeV)
 C                    DW_2,3 = dW_y,z/dNu.dOmga (J/Hz.srd)
- 79       CALL SRDWC(ANU1,MNU,HZ,R,
+ 79       CALL SRDWC(MNU,HZ,R,
      >                             DW)
 
 C--------- Store sum over fragments  -> D3W_2,3(Nu) = dW_x,y/dNu  (J/Hz),

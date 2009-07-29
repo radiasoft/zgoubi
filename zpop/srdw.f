@@ -57,7 +57,7 @@ C  France
 
 C------- Calculate DW_1 = omga (KeV)
 C                  DW_2,3 = dW_y,z/dNu.dOmga (J/Hz.srd)
-      CALL SRDWC(ANU1,MNU,HZ,R,
+      CALL SRDWC(MNU,HZ,R,
      >                         DW)
 
       DO 1 IN=1,MNU

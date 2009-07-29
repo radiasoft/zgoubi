@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRDWC(ANU1,MNU,HZ,R,
+      SUBROUTINE SRDWC(MNU,HZ,R,
      >                               DW)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MSAM=1000)
