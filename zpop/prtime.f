@@ -30,14 +30,14 @@ C  France
       IF(IOP .EQ. 1) THEN
         CALL DATE2(DMY)                     
         CALL TIME2(HMSI)      
-        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)'),
+        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)')
      >   DMY, HMSI
-        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)'),
+        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)')
      >   DMY, HMSI
       ELSEIF(IOP .EQ. 2) THEN
         CALL DATE2(DMY)                     
         CALL TIME2(HMSF)
-        WRITE(6,FMT='(/,''  Job  ended  on  '',A9,'',  at  '',A9,/)'),
+        WRITE(6,FMT='(/,''  Job  ended  on  '',A9,'',  at  '',A9,/)')
      >   DMY, HMSF
       ENDIF
       RETURN
