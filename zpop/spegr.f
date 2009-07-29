@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SPEGR(LM,NT,JNU,YNU,PMAX)
+      SUBROUTINE SPEGR(NT,JNU,YNU,PMAX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YNU(*), PMAX(*)
 
@@ -41,7 +41,7 @@ C  France
       CALL TRTXT(120.D0,245.D0,TXT,80,0) 
       WRITE(TXT,179) YNU(JNU),'  amplitude = ',PMAX(JNU)
  179    FORMAT(F10.6,A14,G12.4 )
-      TXT = TIT(JNU)//TXT
+      TXT = TIT(JNU)//TXT(1:75)
       CALL TRTXT(10.D0,PTXT,TXT,80,0)
       PTXT = PTXT - 7.D0
       IF(PTXT .LT. 7.D0) PTXT = PTXT0
