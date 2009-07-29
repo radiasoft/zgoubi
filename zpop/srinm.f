@@ -147,7 +147,7 @@ C      CALL HOMCLR
      >                                                KT1,' only'
             CALL READC6B(KT1,KT1)
           ENDIF
-          CALL XYZBR(NL,LM)
+          CALL XYZBR(NL)
         ELSEIF(KOPT.EQ.88) THEN
           IP = 0
           WRITE(6,*) ' Plot intermediate graphs E(t) ? (N/Y)'

@@ -65,7 +65,7 @@ C      IF(OKOPN) CALL XYZBR(NL,LM,KT)
      >                                                KT1,' only'
          CALL READC6B(KT1,KT1)
       ENDIF
-      IF(OKOPN) CALL XYZBR(NL,LM)
+      IF(OKOPN) CALL XYZBR(NL)
 
       CALL SRINIT(GNUFIL,'////MENU08/16////',
      >                   PART,R0,Q,AM,OX,WF,WO,FNR,STORE)
@@ -130,7 +130,7 @@ C----- Open data file
         WRITE(6,*) '     as being read from ',nomfic
         WRITE(6,*) 
 C        CALL XYZBR(NL,LM,KT)
-        CALL XYZBR(NL,LM)
+        CALL XYZBR(NL)
       ENDIF
 C      OKECH = .FALSE.
       GOTO 20

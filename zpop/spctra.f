@@ -218,7 +218,7 @@ C----- PLOT SPECTRUM
           IF(CHANGE) THEN
             NPTR = NTRMAX
             NPTS=NPTR
-            CALL STORCO(MODSTO,NL,LM,1  ,
+            CALL STORCO(MODSTO,NL,1  ,
      >                                          NPASS)
 c            write(*,*) ' spctra  npass : ', npass
 

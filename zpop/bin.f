@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE BIN(NL,LM,OKECH,KX,NB,
+      SUBROUTINE BIN(NL,OKECH,KX,NB,
      >                               NOC,OKBIN,XMOY,SIG,XMI,XMA,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKBIN, OKECH
@@ -67,7 +67,7 @@ C------- Searching XMI, XMAX
 C--------- Loop over NL file
  45       CONTINUE
           NRD=NRD+1                 
-          CALL READCO(NL,LM,
+          CALL READCO(NL,
      >                      KART,LET,YZXB,NDX,*11,*89) 
 C          IF(NDX(1).LT. -1) GOTO 45
 C          IPASS=YZXB(20)
@@ -105,7 +105,7 @@ C----- Fills up  the histogram
 C----- Loop  over  READ file NL
  44   CONTINUE                 
       NRD=NRD+1
-      CALL READCO(NL,LM,
+      CALL READCO(NL,
      >                  KART,LET,YZXB,NDX,*10,*10)
 C      IPASS=NINT(YZXB(20))
       IPASS=NINT(YZXB(39))

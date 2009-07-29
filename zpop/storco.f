@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE STORCO(MODSTO,NL,LM,KPS,
+      SUBROUTINE STORCO(MODSTO,NL,KPS,
      >                                          NPASS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
@@ -52,7 +52,7 @@ C------- Only last pass wanted, hence first search value of NPASS
           NRBLT = -1 
 C--------- BOUCLE SUR READ FICHIER NL 
  45       CONTINUE
-            CALL READCO(NL,LM,
+            CALL READCO(NL,
      >                        KART,LET,YZXB,NDX,*12,*78)
 
 C--------- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
@@ -84,7 +84,7 @@ C----- BOUCLE SUR READ FICHIER NL
  44   CONTINUE
               
 c             write(*,*) ' storco  nl,lm : ',nl,lm
-        CALL READCO(NL,LM,
+        CALL READCO(NL,
      >                    KART,LET,YZXB,NDX,*10,*79)
 
 C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX

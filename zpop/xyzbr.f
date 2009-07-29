@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE XYZBR(NL,LM)
+      SUBROUTINE XYZBR(NL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       CHARACTER LET
@@ -51,7 +51,7 @@ C----- Loop on data reading
  44   CONTINUE                 
 
         NSTP=NSTP+1
-        CALL READCO(NL,LM,
+        CALL READCO(NL,
      >                    KART,LET,YZXB,NDX,*11,*12)
 
         YZXBU(NSTP,1) = YZXB(9)           ! Size of next step (m)

@@ -43,7 +43,7 @@ C     ----------------
      >               XMOY,SIG)
       ELSE
         CALL FBGTXT
-        CALL BIN(NL,LM,OKECH,KX,NB,
+        CALL BIN(NL,OKECH,KX,NB,
      >                          NOC,OKBIN,XMOY,SIG,XMI,XMA,*99)
       ENDIF
 

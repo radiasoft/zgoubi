@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLTEMI(NL,LM)
+      SUBROUTINE PLTEMI(NL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------
 C     Compute and plot emittances
@@ -88,7 +88,7 @@ C     ---------------------------
  44   CONTINUE
       NRD=NRD+1
 C----- Read next coordinate
-      CALL READCO(NL,LM,
+      CALL READCO(NL,
      >                  KART,LET,YZXB,NDX,*50,*59)
 C     >                     KART,LET,YZXB,NDX,*50,*44)
 C      IF(NDX(1) .LT. -1) GOTO 44
@@ -162,7 +162,7 @@ C     ----------------------------------------------
  45   CONTINUE
       NRD=NRD+1
 C----- Read next coordinate
-      CALL READCO(NL,LM,
+      CALL READCO(NL,
      >                  KART,LET,YZXB,NDX,*10,*19)
 C      IF(NDX(1) .LT. -1) GOTO 44
 

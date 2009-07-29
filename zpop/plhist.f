@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLHIST(NL,LM)
+      SUBROUTINE PLHIST(NL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXB=1000)
       COMMON/B/BINS(MXB+2)
@@ -35,7 +35,7 @@ C  France
       CALL BIN3W(0,0)
 
 C------ Histogram X
-      CALL BIN(NL,LM,OKECH,KX,NB,
+      CALL BIN(NL,OKECH,KX,NB,
      >                        NOCE,OKBIN,XMOY,SIG,XMI,XMA,*97)
         
         BMI = 1.D10
@@ -86,7 +86,7 @@ C      FB = (YMA - YMI)/10.D0
  97   CONTINUE
 
 C------ Histogram Y
-      CALL BIN(NL,LM,OKECH,KY,NB,
+      CALL BIN(NL,OKECH,KY,NB,
      >                        NOCE,OKBIN,XMOY,SIG,YMI,YMA,*98)
         BMI = 1.D10
         BMA =-1.D10

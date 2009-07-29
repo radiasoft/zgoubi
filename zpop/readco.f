@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE READCO(NL,LM,
+      SUBROUTINE READCO(NL,
      >                        KART,LET,YZXB,NDX,*,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------------
@@ -346,7 +346,7 @@ C-------------------------
 
 C        write(*,*) ' sbr readco xx,yzxb(8)', xx,yzxb(8)
 
- 77     continue
+        continue
 
       ENDIF ! NL = NPLT
 
@@ -419,7 +419,7 @@ C--
         KLA = KL1
         KLB = KL2
 C------- Write lmnt #,  KL1 to KL2
- 30     WRITE(6,FMT='('' Observation now at elements  KL1='',I6,
+        WRITE(6,FMT='('' Observation now at elements  KL1='',I6,
      >   ''to   KL2='',I6)') KL1, KL2
         WRITE(6,FMT='(''     Available options for elment are : '',
      >   /,10X,'' 0 < KL1 < KL2  : will plot within range [KL1,KL2]'', 
@@ -456,7 +456,7 @@ C------- Specify traj. #,  KT1 to KT2
         WRITE(6,FMT='(''     Available options are : '',
      >  /,9X,'' KT1, KT2 > 0  : will treat range [KT1,KT2]'', 
      >  /,9X,'' KT1=-1, KT2 > 0 '',
-     >                    '' : will treat every KT2 other particle '')') 
+     >                    '' : will treat every KT2 other particle '')')
         WRITE(6,FMT='(/,
      >        '' Enter desired values KT1, KT2  ( 0 0 to exit ) : '')')
         READ(LN,*,ERR=50) KT1NEW, KT2NEW

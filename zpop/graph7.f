@@ -333,7 +333,7 @@ C                     s/time/phase-dp/Ekin initial phase-space
                 CALL PLOTER(NLOG,NL,LM,KPS,NPTS,NPTR)
 
                 IF(KLIPS) CALL PLLIPS(NLOG,LM,KX,KY,*921)  
-                IF(KHIST) CALL PLHIST(NL,LM)
+                IF(KHIST) CALL PLHIST(NL)
 
               ENDIF
             ELSE

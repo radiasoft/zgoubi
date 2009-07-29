@@ -128,7 +128,7 @@ C----- BOUCLE SUR READ FICHIER NL
       NRD=NRD+1
 
 C----- Read next coordinate 
-      CALL READCO(NL,LM,
+      CALL READCO(NL,
      >                  KART,LET,YZXB,NDX,*10,*19)
 C          write(*,*) nrd, yzxb(8)
 C      IF(NDX(1) .LE. -1) GOTO 44
@@ -462,7 +462,7 @@ C----- Scale computer
      >                   NOCE)
       IF(KY.EQ. 28) THEN
 C------- Histogram
-        IF(.NOT.OKBIN) CALL BIN(NL,LM,OKECH,KX,NB,
+        IF(.NOT.OKBIN) CALL BIN(NL,OKECH,KX,NB,
      >                           NOCE,OKBIN,XMOY,SIG,XMI,XMA,*98)
         YMI = 1.D10
         YMA =-1.D10
@@ -498,7 +498,7 @@ C------- Histogram
 C       ******** BOUCLE SUR READ FICHIER NL 
  144    CONTINUE                 
         NRD=NRD+1
-        CALL READCO(NL,LM,
+        CALL READCO(NL,
      >                    KART,LET,YZXB,NDX,*110,*96) 
 C        IF(NDX(1).LT. -1) GOTO 144
 

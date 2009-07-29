@@ -148,7 +148,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
 
  6    CONTINUE
           IF(CHANGE) THEN
-            CALL STORCO(MODSTO,NL,LM,KPS,
+            CALL STORCO(MODSTO,NL,KPS,
      >                                          NPASS)
             CHANGE=.FALSE.
           ENDIF

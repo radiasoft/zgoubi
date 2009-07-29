@@ -182,7 +182,7 @@ C      OKECH = .FALSE.
      >                                                KT1,' only'
             CALL READC6B(KT1,KT1)
           ENDIF
-          CALL XYZBR(NL,LM)
+          CALL XYZBR(NL)
           GOTO 20
         ELSEIF(KOPT.EQ.88) THEN
  31       WRITE(6,*) ' Normalize Obsrvr time t to (t-t(Ey_max)/tc,'

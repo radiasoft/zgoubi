@@ -117,7 +117,7 @@ C        CALL MENVCF
       GOTO 921
 
  10   CONTINUE 
-         CALL PLTEMI(NL,-1)
+         CALL PLTEMI(NL)
       GOTO 920
 
  11   CONTINUE 
