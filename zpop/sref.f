@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SREF(KEP,NL,LM,NT,IT,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+      SUBROUTINE SREF(KEP,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                           GAM,R,NOC,NRD,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------
@@ -98,7 +98,7 @@ C----- BOUCLE SUR READ FICHIER NL
 
         IF(NEWT) THEN
           NTRAJ =  NDX(2)
-          CALL SRPLTI(JDUM)
+          CALL SRPLTI
 C           call fbgtxt
 C              write(*,*)  ' -------  newt =',NEWT
         ENDIF
@@ -421,9 +421,6 @@ C     ------------------------------------------
 C 98   WRITE(6,*)
 C     >' SBR SREF: Process stopped; donnot overlap fringe fields'
 C      RETURN 1
- 99   WRITE(6,*) ' SBR SREF: Process stopped;'
-      Write(*,*) ' ERROR DURING READ OF EVENT #',NRD
-      RETURN 1
 
       ENTRY SREFW(MXSTPI)
       MXSTP = MXSTPI

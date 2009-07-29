@@ -63,12 +63,12 @@ C      CALL HOMCLR
       X = CX(I)
       Y = FCT(I)
       CALL VECTPL(X,Y,4)
-      IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+      IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
       DO 1 I = 2, NC
         X = CX(I)
         Y = FCT(I)
         CALL VECTPL(X,Y,2)
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
  1    CONTINUE
 
       CALL LINTYP(12)
@@ -76,12 +76,12 @@ C      CALL HOMCLR
       X = CX(I)
       Y = CY(I)
       CALL VECTPL(X,Y,4)
-      IF(LIS .EQ.  2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+      IF(LIS .EQ.  2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
       DO 2 I = 2, NC
         X = CX(I)
         Y = CY(I)
         CALL VECTPL(X,Y,2)
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
  2    CONTINUE
  
 C------ Magnetic face

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRDWPL(NLOG,KSC,KPL,LM,NT,J1,J2,J3,MX,DW,YNRM,
+      SUBROUTINE SRDWPL(NLOG,KSC,KPL,J1,J2,J3,MX,DW,YNRM,
      >                                                         SYDX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MSAM=1000)
@@ -102,7 +102,7 @@ C          YDX = 0.D0
           X0 = X
 
           CALL VECTPL(X,Y,4)
-          IF(LIS .EQ. 2) CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(IS),IDUM,IDUM) 
+          IF(LIS .EQ. 2) CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(IS),IDUM) 
 
           DO 31 IX = 2, MX-1
             X = DW(IX,J1)
@@ -137,7 +137,7 @@ C------------- Plot dW/dWaveL (J/m) v.s. WaveL(micro-m)
 
             CALL VECTPL(X,Y,2)
             IF(LIS .EQ. 2) 
-     >         CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(ISS),IDUM,IDUM) 
+     >         CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(ISS),IDUM) 
 
  31       CONTINUE
 
@@ -173,7 +173,7 @@ C------------- Plot dW/dWaveL (J/m) v.s. WaveL(micro-m)
 
             CALL VECTPL(X,Y,2)
             IF(LIS .EQ. 2)  
-     >        CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(ISS),IDUM,IDUM) 
+     >        CALL IMPV(NLOG,IX,X,Y,YDX,SYDX(ISS),IDUM) 
              
  3      CONTINUE
 

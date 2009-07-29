@@ -153,7 +153,7 @@ C                XX = (X - TM) / TC
               IF(NOC.EQ.NPTS) YDX = YDX/2.D0
               SYDX = SYDX + YDX
               CALL VECTPL(XX,Y,2) 
-              IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,XX,Y,YDX,SYDX,IDUM,IDUM) 
+              IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,XX,Y,YDX,SYDX,IDUM)
             ELSE
               CALL VECTPL(XX,Y,4) 
             ENDIF
@@ -179,7 +179,7 @@ C              SYDX = YDX
               SYDX = YDX * 0.5D0
 
               CALL VECTPL(X,Y,2) 
-              IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,IDUM,IDUM) 
+              IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,IDUM)
             ELSE
               SYDX = 0.D0
             ENDIF 
@@ -203,7 +203,7 @@ C------- Initialize scales
 
       RETURN
 
-      ENTRY SRPLTI(JDUM)
+      ENTRY SRPLTI
       NONEWT= .FALSE. 
 C           call fbgtxt
 C              write(*,*)  ' -----------NEWT-----------'

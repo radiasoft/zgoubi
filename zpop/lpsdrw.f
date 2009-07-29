@@ -161,7 +161,7 @@ CC------------ MAY 1999
 C               Y = Y /2.D0
 C               YP = YP /2.D0
             CALL VECTPL(Y,YP,2)      
-            IF(LIS .EQ. 2)  CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM,IDUM)
+            IF(LIS .EQ. 2)  CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM)
  201      CONTINUE
 
           CALL FBGTXT
@@ -222,7 +222,7 @@ C            NPOINT=5000
           DO 42 I=1,NPOINT
             CALL VECTPL(COOR(I,J),COOR(I,J+1),2)
             IF(LIS.EQ.2) 
-     >        CALL IMPV(NLOG,I,COOR(I,J),COOR(I,J+1),DUM,DUM,IDUM,IDUM)
+     >        CALL IMPV(NLOG,I,COOR(I,J),COOR(I,J+1),DUM,DUM,IDUM)
  42       CONTINUE     
           CALL LINTYP(-1)
           CALL FBGTXT
@@ -285,7 +285,7 @@ C        READ(*,*,ERR=6) EPS,BET,ALP,CLIP,CLIPP
           YP= (-ALP* Y + R * SIN(PHI) )/BET  + CLIPP
           Y = Y + CLIP
           CALL VECTPL(Y,YP,2)      
-          IF(LIS .EQ. 2)  CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM,IDUM)
+          IF(LIS .EQ. 2)  CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM)
  601    CONTINUE
         CALL LINTYP(-1)
         CALL FBGTXT

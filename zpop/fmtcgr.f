@@ -61,12 +61,12 @@ C      CHARACTER TX1*80, TFM*80
       X = CX(I)
       Y = YMA * FCT(I)
       CALL VECTPL(X,Y,4)
-      IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+      IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
       DO 1 I = 2, NC
         X = CX(I)
         Y = YMA * FCT(I)
         CALL VECTPL(X,Y,2)
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
  1    CONTINUE
 
       CALL LINTYP(12)
@@ -74,12 +74,12 @@ C      CHARACTER TX1*80, TFM*80
       X = CX(I)
       Y = CY(I) * YMA
       CALL VECTPL(X,Y,4)
-      IF(LIS .EQ.  2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+      IF(LIS .EQ.  2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
       DO 2 I = 2, NC
         X = CX(I)
         Y = CY(I) * YMA
         CALL VECTPL(X,Y,2)
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X,Y,DUM,DUM,IDUM)
  2    CONTINUE
  
 C------ Magnetic face

@@ -75,8 +75,7 @@ C      CALL HOMCLR
         nph = ncu
         nps = 1
         WRITE(6,*) ' Give the ',nph,' values for Gamma*Phi:'
-C        do 22 i=1, nph
- 22       READ(5,*) (gph(i), i=1, nph)
+        READ(5,*) (gph(i), i=1, nph)
         WRITE(6,*) ' Give the value for Gamma*Psi:'
         READ(5,*) gps(1)
       else
@@ -94,7 +93,7 @@ C        do 22 i=1, nph
       GOTO 21
 
  7    CONTINUE
-        CALL SRMDL1(NLOG,TC,KC,TP,KP,NPH,GPH,NPS,GPS)
+        CALL SRMDL1(NLOG,KC,NPH,GPH,NPS,GPS)
       GOTO 20
       
  99   RETURN

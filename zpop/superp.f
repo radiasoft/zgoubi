@@ -99,7 +99,7 @@ C      CALL LINTYW(LTYP)
       WRITE(6,*) ' Will  plot  col.# ',JY,'  vs.  col.# ',IX
       WRITE(6,*) 
 
- 25   WRITE(6,*) ' x and y norm.  (y/n) : '
+      WRITE(6,*) ' x and y norm.  (y/n) : '
       READ(5,FMT='(A)',ERR=26) REP
       IF( EMPTY(REP) ) REP = 'n'
       IF(REP .EQ. 'y') REP = 'Y'
@@ -118,7 +118,6 @@ C          PY = NINT(YN)
           WRITE(6,FMT='('' c, m, d : '', 1P,3G12.4,'') : '')') 
      >        AY,PY,BY
       ENDIF
- 250  CONTINUE
 
  27   WRITE(6,*) ' Lin/lin axis, log/log axis (2/32) (now ',MOD,') :'
       READ(5,FMT='(A)',ERR=27) TXT
@@ -134,7 +133,6 @@ C          PY = NINT(YN)
       CTR0=CTR
       IF(CTR .EQ. 'y') CTR = 'Y'
       IF(CTR .NE. 'Y') CTR = 'N'
- 260  CONTINUE
 
  22   WRITE(6,*) ' Give X-axis text - Max 15 char. Default is blank :'
       READ(5,FMT='(A)',ERR=22) TXTX
@@ -350,7 +348,7 @@ CCCCCC           if(x.lt. 500) x = x+2.6659E+04
         IF(MODV.EQ.4) MODV=2
 
         NPT=NPT+1
-        IF(LIS .EQ. 2)CALL IMPV(NLOG,NPT,X,Y,ZERO,ZERO,I0,I0,KX,KY)       
+        IF(LIS .EQ. 2)CALL IMPV(NLOG,NPT,X,Y,ZERO,ZERO,I0)
 
       GOTO 4
 

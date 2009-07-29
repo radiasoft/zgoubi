@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRDW(NLOG,KSC,KPL,NL,LM,NT,IT,OX,Q,AM,FE,HZ,YNRM,
+      SUBROUTINE SRDW(NLOG,KSC,KPL,LM,NT,OX,Q,AM,FE,HZ,YNRM,
      >  MNU,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*)
@@ -49,7 +49,7 @@ C  France
       WRITE(6,*) ' SBR SRDW     Busy, calculate electric field'
       WRITE(6,*) '               May take a while...'
 
-      CALL SREF(3,NL,LM,NT,IT,OX, 1, 2,Q,AM,FE, 0, 0,
+      CALL SREF(3,OX, 1, 2,Q,AM,FE, 0, 0,
      >                                        GAM,R,NOC,NRD,*79)
 
  79   CONTINUE
@@ -88,7 +88,7 @@ C          Calculate energy density : SDW_2,3 = dW_x,y/dOmga  (J/srd)
 
         WRITE(6,*) '               Busy, plotting'
         CALL SRAX(OKECH,KSC,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))
-        CALL SRDWPL(NLOG,KSC,KPL,LM,NT,1, 2, 3,MNU,DW,YNRM,
+        CALL SRDWPL(NLOG,KSC,KPL,1, 2, 3,MNU,DW,YNRM,
      >                                                     SYDX)
         CALL SRPLV(NLOG,KSC,LM,NT,MNU,SYDX,HZ,
      >    XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)

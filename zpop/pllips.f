@@ -68,7 +68,7 @@ C  France
             YP= (-A(JJ)* Y + R * SIN(PHI) )/B(JJ)  + YPM(JJ)
             Y = Y + YM(JJ)
             CALL VECTPL(Y,YP,2)      
-            IF(LIS.EQ.2) CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM,IDUM,KX,KY)
+            IF(LIS.EQ.2) CALL IMPV(NLOG,0,Y,YP,DUM,DUM,IDUM)
  201      CONTINUE
 
           CALL FBGTXT

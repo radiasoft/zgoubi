@@ -23,22 +23,20 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRMDL1(NLOG,TC,KC,TP,KP,NPH,GPH,NPS,GPS)
+      SUBROUTINE SRMDL1(NLOG,KC,NPH,GPH,NPS,GPS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) TC(*), TP(*)
       DIMENSION GPH(*), GPS(*)
 
       CHARACTER REP
 
       COMMON/VXPLT/ XMI,XMA,YI,YA,KX,KY,IAX,LIS,NB
-      DATA OCT1, OCT2, STP / -50.D0 , 50.D0, .1D0 /
+      PARAMETER (NOCT=100)
 
       OCT0 = GPH(1) * ( 3.D0 * (1 + GPS(1)**2) + GPH(1)**2 )/8.D0 
       OCT1 = OCT0 - GPH(1)
       OCT2 = OCT0 + GPH(1)
 
  2    CONTINUE
-      STP = (OCT2-OCT1) / 100.
 
 C----- Calculate min/max
       YMI = 1.D10
@@ -52,7 +50,8 @@ C----- Calculate min/max
           RPS = SQRT(UPS)
           HS = PH / RPS
           UU = .5D0 * HS * (3.D0 + HS * HS)
-          DO 12 OCT = OCT1, OCT2, STP
+          DO 12 IOCT = 0,NOCT
+            OCT = ((NOCT-IOCT)*OCT1 + IOCT*OCT2)/NOCT
             U = UU - 4.D0 * OCT / RPS**3
             ASH = ASINH(U)
             SH =  SINH ( ASINH(U) / 3.D0 )
@@ -75,7 +74,6 @@ C------------- Pi component
  11     CONTINUE
  10   CONTINUE
 
- 1    CONTINUE
 C      CALL TXTFBG
 C      CALL LINTYP(1)
       CALL TRAXES(OCT1, OCT2, YMI,YMA,2) 
@@ -94,7 +92,8 @@ C----- Plot
           HS = PH / RPS
           UU = .5D0 * HS * (3.D0 + HS * HS)
           NPT = 0 
-          DO 22 OCT = OCT1, OCT2, STP
+          DO 22 IOCT = 0,NOCT
+            OCT = ((NOCT-IOCT)*OCT1 + IOCT*OCT2)/NOCT
             NPT = NPT + 1
             U = UU - 4.D0 * OCT / RPS**3
             ASH = ASINH(U)
@@ -113,7 +112,7 @@ C------------- Pi component
             IF(OCT .EQ. OCT1) CALL VECTPL(X,Y,4)
             CALL VECTPL(X,Y,2)
             WRITE(6,*) npt, x, y
-            IF(LIS .EQ. 2) CALL IMPV(NLOG,NPT,X,Y,DUM,DUM,IDUM,IDUM) 
+            IF(LIS .EQ. 2) CALL IMPV(NLOG,NPT,X,Y,DUM,DUM,IDUM)
  22       CONTINUE
  21     CONTINUE
  20   CONTINUE

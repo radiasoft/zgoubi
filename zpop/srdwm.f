@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SRDWM(NLOG,NL,LM,KPL,NT,IT,OX,WF,Q,AM,FE,HZ,YNRM,
+      SUBROUTINE SRDWM(NLOG,NL,LM,KPL,NT,OX,WF,Q,AM,FE,HZ,YNRM,
      >  NOMFIC,OKECH,OKOPN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*), WF(*)
@@ -148,7 +148,7 @@ C      OKECH = .FALSE.
 
   71      CONTINUE
 C----------- dW/dNu.dOmga (J/Hz.srd) v.s. omga(keV)
-            CALL SRDW(NLOG,KSC,KPL,NL,LM,NT,IT,OX,Q,AM,FE,HZ,YNRM,
+            CALL SRDW(NLOG,KSC,KPL,LM,NT,OX,Q,AM,FE,HZ,YNRM,
      >        MNU,OKECH)
           GOTO 20
 
@@ -158,7 +158,7 @@ C----------- dW/dWaveL.dOmga (J/m.srd) v.s. WaveL(micro-m)
               WRITE(6,*) ' Infinite Wavelength in scales definition,'
               WRITE(6,*) ' unacceptable - Change it'
             ELSE
-              CALL SRDW(NLOG,KSC,KPL,NL,LM,NT,IT,OX,Q,AM,FE,HZ,YNRM,
+              CALL SRDW(NLOG,KSC,KPL,LM,NT,OX,Q,AM,FE,HZ,YNRM,
      >          MNU,OKECH)
             ENDIF
           GOTO 20
@@ -166,7 +166,7 @@ C----------- dW/dWaveL.dOmga (J/m.srd) v.s. WaveL(micro-m)
   73      CONTINUE
 C----------- dN/dt.(domga/omga).dOmga (phot/s.BW.srd) 
 C                        v.s. omga(keV)
-            CALL SRDW(NLOG,KSC,KPL,NL,LM,NT,IT,OX,Q,AM,FE,HZ,YNRM,
+            CALL SRDW(NLOG,KSC,KPL,LM,NT,OX,Q,AM,FE,HZ,YNRM,
      >        MNU,OKECH)
 
       GOTO 20

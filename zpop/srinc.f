@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE SRINC
-     >  (NLOG,KSC,KPL,IP,NL,LM,NT,IT,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
+     >  (NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,STORE,LUO,
      >                                                 YNRM,NOC,NRD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*), WF(*), WO(*)
@@ -126,13 +126,13 @@ C          DOM = COS( PS ) * DPH * DPS
           CALL TIME2(HMS)
 
           IF(IP .EQ. 0) THEN
-            CALL SREF(3,NL,LM,NT,IT,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(3,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*79)
 
           ELSEIF(IP .EQ. 1) THEN
 C----------- Intermediate plot of E-field - at each fragment of the window
 
-            CALL SREF(1,NL,LM,NT,IT,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(1,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*179)
  179        CONTINUE
             IF(XMI.LT.XMA .AND. YMI.LT.YMA) THEN
@@ -142,7 +142,7 @@ C              CALL TXTFBG
               WRITE(6,*) 
      >         ' Scale min-max problem ; cannot plot E-field !'
             ENDIF
-            CALL SREF(2,NL,LM,NT,IT,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(2,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*79)
           ENDIF
 
@@ -196,7 +196,7 @@ C----------- Intermediate plot of dW_y,z/dNu.dOmga - at each fragment
               CALL CLSCR
 
               CALL SRAX(.TRUE.,  0,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))
-              CALL SRDWPL(NLOG,  0,KPL,LM,NT,1, 2, 3,MNU,DW,YNRM,
+              CALL SRDWPL(NLOG,  0,KPL,1, 2, 3,MNU,DW,YNRM,
      >                                                          SYDX)
               CALL SRPLV(NLOG,  0,LM,NT,MNU,SYDX,HZ,
      >          XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)
@@ -212,7 +212,7 @@ C----------- Intermediate plot of dW_y,z/dNu.dOmga - at each fragment
       CLOSE(LUO)
       RETURN
 
-      ENTRY SRINPL(NLOG,KSC,KPL,IP,NL,LM,NT,IT,OX,WF,WO,Q,AM,FE,HZ,
+      ENTRY SRINPL(NLOG,KSC,KPL,IP,LM,NT,OX,WF,WO,Q,AM,FE,HZ,
      >                                                 YNRM,NOC,NRD)
 
       IF(KSC .EQ. 4) THEN
@@ -248,14 +248,14 @@ C        DX = DNU
 
         IF(IER .GE. 0) THEN
           WRITE(6,*) '               Busy, plotting'
-          CALL SRAX(.TRUE.,KSC,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))        
+          CALL SRAX(.TRUE.,KSC,XMI,XMA,YMI,YMA,XDI(KSC),YDI(KSC))
         ELSE
           WRITE(6,*) ' Scale error detected in SBR SRDWSC'
           WRITE(6,*) ' Could not plot '
         ENDIF
       ENDIF
 
-      CALL SRDWPL(NLOG,KSC,KPL,LM,NT,J1,J2,J3,MX,D3W,YNRM,
+      CALL SRDWPL(NLOG,KSC,KPL,J1,J2,J3,MX,D3W,YNRM,
      >                                                    SYDX)
       CALL SRPLV(NLOG,KSC,LM,NT,MX,SYDX,FAC,
      >            XVA(KSC),XDI(KSC),YVA(KSC),YDI(KSC),SY(KSC),YNRM)

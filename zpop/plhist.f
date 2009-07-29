@@ -72,7 +72,7 @@ C      FB = (YMA - YMI)/10.D0
         YY = Y/(BMA-BMI) * FB + YMA
         CALL VECTPL(X,YY,2)
         SYDX = SYDX + Y*DB
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,NB,X,YY,Y*DB,SYDX,IDUM,IDUM,KX,KY)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,NB,X,YY,Y*DB,SYDX,IDUM)
         X=X+DB
         CALL VECTPL(X,YY,2)
         IF(Y.GT.YMAX) THEN
@@ -119,7 +119,7 @@ C      FB = (XMA - XMI)/10.D0
         XX = X/(BMA-BMI) * FB + XMA
         CALL VECTPL(XX,Y,2)
         SYDX = SYDX + Y*DB
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,NB,XX,Y,Y*DB,SYDX,IDUM,IDUM,KX,KY)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,NB,XX,Y,Y*DB,SYDX,IDUM)
         Y=Y+DB
         CALL VECTPL(XX,Y,2)
         IF(Y.GT.YMAX) THEN

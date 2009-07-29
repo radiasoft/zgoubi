@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SREFM(NL,LM,NT,IT,OX,Q,AM,FE,NOMFIC,OKOPN,*)
+      SUBROUTINE SREFM(NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*)
       CHARACTER*(*) NOMFIC
@@ -221,7 +221,7 @@ C------- Calculate scales and plot axis
         XMA = -1.D10
         YMI = 1.D10
         YMA = -1.D10
-        CALL SREF(1,NL,LM,NT,IT,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+        CALL SREF(1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*51)
  51     CONTINUE
         WRITE(6,*) ' CALCULATION OF SCALES FROM ',NOC,' POINTS'
@@ -250,7 +250,7 @@ C          CALL TXTFBG
 
         IF(.NOT. OKECH ) THEN
 C--------- Calculate scales and plot axis
-          CALL SREF(1,NL,LM,NT,IT,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+          CALL SREF(1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*79)
  79       CONTINUE
           WRITE(6,*)
@@ -277,7 +277,7 @@ C            GOTO 20
 
        IF(OKECH) THEN
 C--------- Plot radiated Electric field
-          CALL SREF(2,NL,LM,NT,IT,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+          CALL SREF(2,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*20)
           CALL TRKVAR(LM,NOC,KVY,KDY,KVX,KDX)
           WRITE(6,*) ' Plot  OK; END OF FILE encountered'

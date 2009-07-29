@@ -23,16 +23,15 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE IMPV(NLOG,NPT,X,Y,YDX,SYDX,IT,KEX,KX,KY)
+      SUBROUTINE IMPV(NLOG,NPT,X,Y,YDX,SYDX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE JUN
       CALL FBGTXT
-      WRITE(6 ,FMT='(1P,3G20.12,3X,2I6)') X,Y,SYDX,NPT,IT
-      WRITE(NLOG,FMT='(1P,3E20.12,2I5,A)') X,Y,SYDX,NPT,IT,
-     >                                        '  X,Y,SYDX,NP,IT 2'
-      WRITE( JUN,FMT='(1P,3E20.12,2I5,A)') X,Y,SYDX,NPT,IT,
-     >                                        '  X,Y,SYDX,NP,IT 1'
-C      WRITE(NLOG,FMT='(1P,2G20.12,5X,2G18.10,2I6)') X,Y,YDX,SYDX,NPT,IT
+      WRITE(6 ,FMT='(1P,4G15.7,3X,2I6)') X,Y,YDX,SYDX,NPT,IT
+      WRITE(NLOG,FMT='(1P,4E20.12,2I5,A)') X,Y,YDX,SYDX,NPT,IT,
+     >                                        '  X,Y,YDX,SYDX,NP,IT 2'
+      WRITE( JUN,FMT='(1P,4E20.12,2I5,A)') X,Y,YDX,SYDX,NPT,IT,
+     >                                        '  X,Y,YDX,SYDX,NP,IT 1'
       CALL FLUSH2(NLOG,.FALSE.)
       CALL TXTFBG
       RETURN

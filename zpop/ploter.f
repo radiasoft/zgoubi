@@ -248,7 +248,7 @@ C----- File type zgoubi.plt
 
             IF(LIS .EQ. 2) THEN 
 C              CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
-              CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
+              CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2))
             ENDIF
 
             IF(OKTAG) THEN
@@ -291,7 +291,7 @@ C             ... protection ungainst previous traxe
 
             CALL VECTPL(X,Y,2) 
             IF(LIS .EQ. 2)
-     >            CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
+     >            CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2))
 C     >            CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)       
 
             XYLAST(1,NDX(2)) = X

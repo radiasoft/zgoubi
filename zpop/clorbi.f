@@ -229,7 +229,7 @@ C--------------------
         YA2 = YM2 - SIGY
         YB2 = YM2 + SIGY
         SIG2 = SIGY
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM)
         CALL VECTPL(X1,YA1,4)
         CALL VECTPL(X2,YA2,2)
         CALL LINTYP(1)
