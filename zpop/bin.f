@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE BIN(NL,LM,OKECH,KX,NB,LIS,NPTS,NPTR,
+      SUBROUTINE BIN(NL,LM,OKECH,KX,NB,
      >                               NOC,OKBIN,XMOY,SIG,XMI,XMA,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKBIN, OKECH

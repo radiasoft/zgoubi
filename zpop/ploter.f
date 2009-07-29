@@ -462,7 +462,7 @@ C----- Scale computer
      >                   NOCE)
       IF(KY.EQ. 28) THEN
 C------- Histogram
-        IF(.NOT.OKBIN) CALL BIN(NL,LM,OKECH,KX,NB,LIS,NPTS,NPTR,
+        IF(.NOT.OKBIN) CALL BIN(NL,LM,OKECH,KX,NB,
      >                           NOCE,OKBIN,XMOY,SIG,XMI,XMA,*98)
         YMI = 1.D10
         YMA =-1.D10

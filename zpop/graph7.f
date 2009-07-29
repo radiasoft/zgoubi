@@ -267,7 +267,7 @@ C              CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
           IF(OKECH) THEN
             IF(OKVAR) THEN
               IF(KY.EQ. 28) THEN
-                CALL PLTHIS(NLOG,NL,LM,NOC,OKBIN,OKECH,NPTS,NPTR)
+                CALL PLTHIS(NLOG,NL,LM,NOC,OKBIN,OKECH)
               ELSE
                 KLIPS=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
 C                      xxp phase-space
@@ -333,7 +333,7 @@ C                     s/time/phase-dp/Ekin initial phase-space
                 CALL PLOTER(NLOG,NL,LM,KPS,NPTS,NPTR)
 
                 IF(KLIPS) CALL PLLIPS(NLOG,NL,LM,KX,KY,*921)  
-                IF(KHIST) CALL PLHIST(NL,LM,NPTS,NPTR)
+                IF(KHIST) CALL PLHIST(NL,LM)
 
               ENDIF
             ELSE
