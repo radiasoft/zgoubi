@@ -28,7 +28,7 @@ C  France
 
 C--------- Sun, FNAL
 C      REAL*4 RAN
-      REAL*4 RAND
+      REAL RAND
 
 C------- Random generator HP Saclay
 C      RNDM=RAN(IR)
