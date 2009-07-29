@@ -37,7 +37,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       DIMENSION FCO(8,MXPU), FCO2(7,MXPU)
       DIMENSION CO1(6),CO2(6),COM(6)      
 
-      CHARACTER TAXV(8)*9, TAXH(2)*9, TXT*80
+      CHARACTER TAXV(8)*13, TAXH(2)*9, TXT*80
       DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.', 
      >  'dp/p', ' # particles ', 'PU posit.' /
       SAVE TAXV
@@ -45,7 +45,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       DATA TAXH / 'path  (m)', 'pick-up  ' /
       SAVE TAXH
 
-      LOGICAL EMPTY, IDLUNI
+      LOGICAL IDLUNI
 
       CHARACTER REP, NOMFIC*80
       DATA NOMFIC /'none'/
@@ -114,7 +114,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
  4    CONTINUE
       KAXH0 = KAXH
       WRITE(*,FMT=
-     > '(''  Horizontal axis :  path length / PU occur.  (1/2) : '',$)') 
+     > '(''  Horizontal axis :  path length / PU occur.  (1/2) : '',$)')
       READ(5,FMT='(I1)',ERR=41) KAXH
       IF(KAXH .GE. 1 .AND. KAXH .LE. 2) GOTO 21
  41   KAXH = KAXH0

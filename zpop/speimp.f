@@ -29,7 +29,6 @@ C  France
       INCLUDE 'MAXNTR.H'
       PARAMETER (NTR=NTRMAX*9)
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
-      LOGICAL OKKT5
       IF(YNU(1).GE.BORNE(1) .AND. YNU(1).LE.BORNE(2)) THEN
         XXNU = YNU(1)
       ELSE
@@ -43,7 +42,6 @@ C  France
       IF(NPTS.EQ.NPTR) 
      >  WRITE(IUN,179) XXNU,ZZNU, (U(I),I=1,3),COOR(KT,6), KT,NPTS
  179    FORMAT(1P,6G14.6,2I6)
-C        WRITE(IUN,*) OKKT5(KT)
       RETURN
 
       END

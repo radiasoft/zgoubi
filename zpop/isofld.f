@@ -42,7 +42,6 @@ C-----------------------------------
 
       CHARACTER REP, TXT*11, TXT132*132
       CHARACTER * 80  NOMFIC 
-      CHARACTER * 80 TITL
 
       DIMENSION TX(400),RY(200),HP(400,200)
       PARAMETER (MRD=9)
@@ -76,10 +75,6 @@ C        KY = 2
 
 C-------- Swallow 2 lines of header
         CALL HEADER(NL,2,BINARY,*98)
-C        DO 5 I=1, 4
-C          READ(NL,FMT='(A)') TITL
-C          WRITE(6,FMT='(A)') TITL
-C 5      CONTINUE
 
         READ(NL,FMT='(1X,A11,1X,I1,1P,3G15.7)',ERR=96)
      >    TXT,IDRT,(AM(I),BM(I),CM(I),I=1,IDRT)

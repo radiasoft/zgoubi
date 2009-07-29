@@ -1098,7 +1098,7 @@ C----- FFAG-SPI. FFAG, spiral.
       IF(READAT) GOTO 998
 
       if(n.eq.2) 
-     >CALL PRFFAG(NOEL,NMAG,AT,RM,ACN,OP,QSIE,OM,QSIS,RE,TE,RS,TS)
+     >CALL PRFFAG(NMAG,AT,RM,ACN,OP,QSIE,OM,QSIS,RE,TE,RS,TS)
 
       XL = 2.d0 * RM * sin((op - om)*deg2rd/2.d0)  
       AL = XL*COEF  * CM2M 

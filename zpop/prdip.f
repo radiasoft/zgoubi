@@ -25,7 +25,7 @@ C  38026 Grenoble Cedex
 C  France
       SUBROUTINE PRDIP(NMAG,AT,RM,ACN,OP,XIE,OM,XIS,RE,TE,RS,TS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL EMPTY, IDLUNI
+      LOGICAL IDLUNI
       character fnam*132, txt4*4
       data fnam /'zpop.out_PRDIP'/
       save fnam

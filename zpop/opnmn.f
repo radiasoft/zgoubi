@@ -39,7 +39,6 @@ C  France
       CHARACTER*80 OTHER
       SAVE OTHER, KTYP
      
-      LOGICAL TYLABR
       INCLUDE 'FILPLT.H'
       INCLUDE 'FILFAI.H'
 
@@ -168,13 +167,6 @@ C  France
            RETURN 1
         ENDIF
       ENDIF
-
-C      IF(TYLABR() .AND. KTYP .NE. 1) THEN
-C         WRITE(6,*) 
-C         WRITE(6,*) ' In order to plot laboratory coordinates, '
-C         WRITE(6,*) '     you need to open a  .plt  type file'
-C         RETURN 1
-C      ENDIF
 
       RETURN
       END

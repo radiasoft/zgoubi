@@ -23,9 +23,9 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PRFFAG(NOEL,NMAG,AT,RM,ACN,OP,XIE,OM,XIS,RE,TE,RS,TS)
+      SUBROUTINE PRFFAG(NMAG,AT,RM,ACN,OP,XIE,OM,XIS,RE,TE,RS,TS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL EMPTY, IDLUNI
+      LOGICAL IDLUNI
       character fnam*132, txt4*4
       data fnam /'zpop.out_PRFFAG'/
       logical first
@@ -156,8 +156,8 @@ c entrance efb
       ttseg = sign * (op+xie) * deg2rd +
      >   (2.d0 * ACN -AT/2.d0) * deg2rd + ttrf
       sseg = 0.2d0 * rme
-      x2seg = rme * cos(op*deg2rd +(2.d0 * ACN -AT/2.d0) *deg2rd + ttrf) 
-      y2seg = rme * sin(op*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf) 
+      x2seg = rme * cos(op*deg2rd +(2.d0 * ACN -AT/2.d0) *deg2rd + ttrf)
+      y2seg = rme * sin(op*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf)
       x1seg = x2seg + sseg * cos(ttseg)
       y1seg = y2seg + sseg * sin(ttseg)
       write(iun,*) 'LTYP  2       entr. EFB'
@@ -172,8 +172,8 @@ c entrance efb
 c exit efb
       ttseg = sign * (om+xis) * deg2rd+(2.d0*ACN-AT/2.d0)*deg2rd+ttrf
       sseg = 0.2d0 * rme
-      x2seg = rme * cos(om*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf) 
-      y2seg = rme * sin(om*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf) 
+      x2seg = rme * cos(om*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf)
+      y2seg = rme * sin(om*deg2rd+(2.d0 * ACN -AT/2.d0) * deg2rd + ttrf)
       x1seg = x2seg + sseg * cos(ttseg)
       y1seg = y2seg + sseg * sin(ttseg)
       write(iun,*) 'LTYP  2        exit EFB'
