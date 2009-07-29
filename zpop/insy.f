@@ -129,11 +129,11 @@ C  France
       GOTO 21
 
  5    CONTINUE
-      WRITE(6,FMT='(A,$,2G13.6)') 'Initial coordinates (m) : ',XB0,YB0
+      WRITE(6,FMT='(A,2G13.6)') 'Initial coordinates (m) : ',XB0,YB0
       READ(5,FMT='(2E12.4)',ERR=5) XB0,YB0
       XB00 = XB0
       YB00 = YB0
- 51   WRITE(6,FMT='(''Initial angle (rd) : '',$,G13.6)') TETA0
+ 51   WRITE(6,FMT='(''Initial angle (rd) : '',G13.6)') TETA0
       READ(5,FMT='(E12.4)',ERR=51) TETA0
       TETA00 = TETA0
       WRITE(6,FMT='(''Initial angle is now  '',G13.6,'' rad'')') TETA0
@@ -176,7 +176,7 @@ C  France
  606  WRITE(6,FMT='(A,G13.6)') 'Pick-Up width :',DPU
       READ(5,*,ERR=606) DPU
       GOTO 20
- 607  WRITE(6,FMT='(''Geom. magnification factor : '',$,G13.6)') AMAG
+ 607  WRITE(6,FMT='(''Geom. magnification factor : '',G13.6)') AMAG
       READ(5,*,ERR=607) AMAG
       GOTO 20
 
