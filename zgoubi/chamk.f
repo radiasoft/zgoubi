@@ -621,7 +621,7 @@ C Due to reminicences from ancient times
       IF(KART .NE. 1) IDZ=3
       IF(IRD .EQ. 4) IDZ=4
       CALL SYMMED(Z1,IDZ,BZ0,
-     >                       B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+     >                       B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY)
       IDB=2
       IF(KART .NE. 1) IDB=3
       IF(IRD .EQ. 4) IDB=4

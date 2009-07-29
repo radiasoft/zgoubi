@@ -24,12 +24,12 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE SYMMED(Z,IDZ,BZ0,
-     >                           B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+     >                           B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BZ0(5,5)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       DIMENSION D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
-      DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
+      DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3)
 C     ---------------------------------------------------
 C     CARTES  2-D  OU  ELEMENTS  DEFINIS  PAR  BZ(X,Y,0):
 C     SYMMETRISE PAR RAPPORT AU PLAN MEDIAN

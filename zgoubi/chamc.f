@@ -126,7 +126,7 @@ C          CALL BENDF(EM(1),MPOL,QLE,QLS,QE,QS,RTQ,X,Y0,
           CALL BENDF(EM(1),MPOL,XE,XS,QCE,QCS,QLE,QLS,QE,QS,RTQ,X,Y0,
      >                                                              EZ0)
           CALL SYMMED(Z0,IDZ,EZ0
-     >                         ,E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
+     >                         ,E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY)
           CALL XROTB(EM(6),E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 C--------- Magnetic component
 
@@ -138,7 +138,7 @@ C          CALL BENDF(BM(1),MPOL,DLE,DLS,DI,DS,RTB,X,Y0,
           CALL BENDF(BM(1),MPOL,XE,XS,CE,CS,DLE,DLS,DI,DS,RTB,X,Y0,
      >                                                             BZ0)
           CALL SYMMED(Z0,IDZ,BZ0,
-     >                          B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+     >                          B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY)
           CALL XROTB(BM(6),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
  
         ELSEIF(KUASEX .EQ. 22) THEN
@@ -356,7 +356,7 @@ C  Compute FFAG field  and derivatives from flying field-mesh
 C---------- ENDIF KUASEX
  
         CALL SYMMED(Z,IDZ,BZ0, 
-     >                       B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+     >                       B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY)
 
         IF(KUASEX .EQ. 8 ) THEN
           IF(BM(6) .NE. 0) THEN
