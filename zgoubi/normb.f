@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE NORMB(IORD,B,DB,DDB)
+      SUBROUTINE NORMB(B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       COMMON/RIGID/ BORO,DPREF,DP,BR

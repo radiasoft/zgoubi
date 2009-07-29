@@ -75,12 +75,12 @@ C------- MAP2D, MAP2D_E.  Tracking in symmetryless 2D map
         IF    (KFLD .EQ. MG) THEN
           CALL PAVEL(IRD,A1,R1,Z1,
      >                            B,DB,DDB,KERK)
-          CALL NORMB(2,B,DB,DDB)
+          CALL NORMB(B,DB,DDB)
           BZ=B(1,1)
         ELSEIF(KFLD .EQ. LC) THEN
           CALL PAVEL(IRD,A1,R1,Z1,
      >                            E,DE,DDE,KERK)
-          CALL NORMB(2,E,DE,DDE)
+          CALL NORMB(E,DE,DDE)
         ENDIF
         RETURN
       ENDIF
