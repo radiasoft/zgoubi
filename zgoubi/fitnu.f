@@ -52,7 +52,7 @@ C  France
          CALL FBORNE
          IF(MTHD .EQ. 2) THEN
 C Implemented by Scott Berg, LPSC, April 2007
-           CALL MINONM(NV,X,P,VI,Y,XI,F,FINI)
+           CALL MINONM(NV,X,P,VI,XI,F,FINI)
          ELSE
            CALL MINO1(FF,NV,X,P,VI,Y,XI,F,FINI)
          ENDIF
