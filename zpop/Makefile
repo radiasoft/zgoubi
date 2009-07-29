@@ -130,7 +130,6 @@ MODULEF =\
  spepr.f\
  square.f\
  srax.f\
- srcul.f\
  srdnu.f\
  srdwc.f\
  srdw.f\
