@@ -51,9 +51,9 @@ c            return
 
       DA=XH(2)-XH(1)
 
-      DO A1 = XH(1)+DX, XH(IXMA)+DX, DA
-      
-        IAC=(A1-XH(1)-DX)/DA+1.5D0
+      DO IA1=1,IXMA
+        A1 = XH(IA1)+DX
+        IAC = IA1
         JAC=(A1-XH(1))/DA+1.5D0
 
         IF(IRD .EQ. 2) THEN
@@ -70,8 +70,9 @@ C---------  2-D  5*5 points
         DR=YH(2)-YH(1)           
 
 C           write(88,*) dy,yh(1),yh(jyma),dr
-        DO R1 = YH(1)+DY, YH(JYMA)+DY, DR  
-          IRC=(R1-YH(1)-DY)/DR+1.5D0
+        DO IR1 = 1,JYMA
+          R1 = YH(IR1)+DY
+          IRC=IR1
           JRC=(R1-YH(1))/DR+1.5D0
 
           IF    (IRC.LT.1 .OR. IRC.GT.JYMA) THEN
