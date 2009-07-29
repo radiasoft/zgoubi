@@ -38,8 +38,8 @@ C  France
       
       DIMENSION T(6,6,6)
       SAVE      T
-      DIMENSION TX3(5,6) , TX4(5,6), TX2Y(5,6,6) , TXY2(5,6,6)
-      SAVE      TX3,       TX4,      TX2Y,         TXY2
+      DIMENSION TX3(5,6) , TX4(5,6)
+      SAVE      TX3,       TX4
 
       DIMENSION REF(6)
       SAVE REF
@@ -113,10 +113,10 @@ C            IF(NRES .GT. 0) NRES =-NRES
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)
-            CALL MAT2(RREF,T,TX3,TX4,TX2Y,TXY2)
+            CALL MAT2(RREF,T,TX3,TX4)
             CALL REFER(2,2,0,1,6,7)
           ENDIF
-          CALL MKSA(IORD,RREF,T,TX3,TX4,TX2Y,TXY2)
+          CALL MKSA(IORD,RREF,T,TX3,TX4)
           CALL MATIMP(RREF)
           CALL TUNES(RREF,F0REF,1,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
@@ -155,10 +155,10 @@ C------- 3rd pass through structure will follow
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)
-            CALL MAT2(RMINUS,T,TX3,TX4,TX2Y,TXY2)
+            CALL MAT2(RMINUS,T,TX3,TX4)
             CALL REFER(2,2,0,1,6,7)
           ENDIF
-          CALL MKSA(IORD,RMINUS,T,TX3,TX4,TX2Y,TXY2)
+          CALL MKSA(IORD,RMINUS,T,TX3,TX4)
           CALL MATIMP(RMINUS)
           CALL TUNES(RMINUS,F0M,1,IERY,IERZ,.TRUE.,
      >                                             YNUM,ZNUM,CMUY,CMUZ)
@@ -189,10 +189,10 @@ C--------- reactivate WRITE for printing results
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)
-            CALL MAT2(RPLUS,T,TX3,TX4,TX2Y,TXY2)
+            CALL MAT2(RPLUS,T,TX3,TX4)
             CALL REFER(2,2,0,1,6,7)
           ENDIF
-          CALL MKSA(IORD,RPLUS,T,TX3,TX4,TX2Y,TXY2)
+          CALL MKSA(IORD,RPLUS,T,TX3,TX4)
           CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
@@ -232,10 +232,10 @@ C--------- Reset reference coordinates for OBJECT sampling : y -> y+dy
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)
-            CALL MAT2(RPLUS,T,TX3,TX4,TX2Y,TXY2)
+            CALL MAT2(RPLUS,T,TX3,TX4)
             CALL REFER(2,2,0,1,6,7)
           ENDIF
-          CALL MKSA(IORD,RPLUS,T,TX3,TX4,TX2Y,TXY2)
+          CALL MKSA(IORD,RPLUS,T,TX3,TX4)
           CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
@@ -290,10 +290,10 @@ C------- reactivate WRITE
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
           CALL REFER(1,2,0,1,6,7)
-          CALL MAT2(RPLUS,T,TX3,TX4,TX2Y,TXY2)
+          CALL MAT2(RPLUS,T,TX3,TX4)
           CALL REFER(2,2,0,1,6,7)
         ENDIF
-        CALL MKSA(IORD,RPLUS,T,TX3,TX4,TX2Y,TXY2)
+        CALL MKSA(IORD,RPLUS,T,TX3,TX4)
         CALL MATIMP(RPLUS)
         CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)

@@ -23,10 +23,10 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE MAT2(R,T,T3,T4,TX2Y,TXY2)
+      SUBROUTINE MAT2(R,T,T3,T4)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*) , T(6,6,*)
-      DIMENSION  T3(5,*), T4(5,*), TX2Y(5,6,*), TXY2(5,6,*)
+      DIMENSION  T3(5,*), T4(5,*)
 C     ------------------------------------
 C     Option  IORD = 2 :
 C       Matrix ordre 1, coeff ordre 2, & 

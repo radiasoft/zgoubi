@@ -23,10 +23,10 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE MKSA(IORD,R,T,T3,T4,TX2Y,TXY2)
+      SUBROUTINE MKSA(IORD,R,T,T3,T4)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*) , T(6,6,*)
-      DIMENSION  T3(5,*), T4(5,*), TX2Y(5,6,*), TXY2(5,6,*)
+      DIMENSION  T3(5,*), T4(5,*)
 
       INCLUDE "MAXCOO.H"
       COMMON/UNITS/ UNIT(MXJ)
@@ -45,9 +45,6 @@ C          DO 1 IC=1,IB
        DO 2 IB=1,6
         T3(IA,IB) = T3(IA,IB)*UNIT(IA)/UNIT(IB)**3
         T4(IA,IB) = T4(IA,IB)*UNIT(IA)/UNIT(IB)**4
-        DO 2 IC=1,6
-         TX2Y(IA,IC,IB) = TX2Y(IA,IC,IB)*UNIT(IA)/UNIT(IC)**2/UNIT(IB)
-         TXY2(IA,IC,IB) = TXY2(IA,IC,IB)*UNIT(IA)/UNIT(IC)/UNIT(IB)**2
  2    CONTINUE
  
       RETURN
