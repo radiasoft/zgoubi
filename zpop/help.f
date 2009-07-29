@@ -105,7 +105,8 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
      >'   upon Option 3).',
      >'   2/6 : to get a linear extension of particle tracks inside',
      >'   field maps (upon use of Option 11), although these normally',
-     >'   stop at the map limit.',
+     >'   stop at the map limit.'
+        WRITE(6,FMT='(/,A)') 
      >'   2/7 : when using .plt or .spn type data files (see Option 1)',
      >'   only those data generated within the specified optical ',
      >'   element will be plotted ; when using .fai type data file, ',

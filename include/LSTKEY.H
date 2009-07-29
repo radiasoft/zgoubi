@@ -26,7 +26,7 @@ C  France
       PARAMETER (MXKLE=103)
       CHARACTER*10  KLE(MXKLE)
 C           1           2            3            4            5
-      DATA KLE/   
+      DATA (KLE(I),I=1,50)/
      >     'ESL'  ,   'AIMANT' , 'QUADRUPO' , 'SEXTUPOL' ,   'IMAGE'  ,
      1   'IMAGES' , 'FAISCEAU' , 'FAISCNL'  ,   'CIBLE'  ,  'FOCALE'  ,
      > 'REBELOTE' , 'QUADISEX' , 'CHANGREF' ,  'SEXQUAD' ,  'TOROID'  ,
@@ -36,7 +36,8 @@ C           1           2            3            4            5
      >   'TOSCA'  ,  'AUTOREF' , 'COLLIMA'  , 'MULTIPOL' ,  'SEPARA'  ,
      4   'RESET'  ,  'ORDRE'   ,   'DRIFT'  , 'DIPOLE-M' ,  'TARGET'  ,
      >   'IMAGEZ' , 'IMAGESZ'  ,  'FOCALEZ' , 'PLOTDATA' ,  'BINARY'  ,
-     5     'FIT'  ,  'SPES3'   ,  'CHALUT'  , 'SPNTRK'   ,  'SPNPRT'  ,
+     5     'FIT'  ,  'SPES3'   ,  'CHALUT'  , 'SPNTRK'   ,  'SPNPRT'  /
+      DATA (KLE(I),I=51,100)/
      >     'BEND' , 'SOLENOID' ,  'PLTLPS'  , 'SPNPRNL'  ,  'CAVITE'  ,
      6 'PARTICUL' ,  'SCALING' ,  'BREVOL'  , 'POISSON'  , 'DIPOLE'  ,
      >  'DANFGSI' ,   'MAP2D'  , 'DECAPOLE' , 'DODECAPO' , 'WIENFILT' ,
@@ -46,7 +47,8 @@ C           1           2            3            4            5
      >   'GASCAT' ,'UNDULATOR' , 'ELCYLDEF' ,  'ELMIR'   ,  'ELCMIR'  ,
      9  'MAP2D_E' ,  'SRPRNT'  , 'BETATRON' ,  'TWISS'   ,   'END'    , 
      >    'FFAG'  ,  'HELIX'   ,   'CSR'    ,   'PATH'   ,   'COILS'  ,
-     A 'GETFITVAL', 'SUPERPOSE',  'MARKER'  , 'DIPOLES'  , 'TRACKING' ,
+     A 'GETFITVAL', 'SUPERPOSE',  'MARKER'  , 'DIPOLES'  , 'TRACKING' /
+      DATA (KLE(I),I=101,MXKLE)/
      > 'FFAG-SPI' ,   'FIT2'   ,   'EMMA'
      B  /
 
