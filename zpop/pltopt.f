@@ -156,8 +156,6 @@ C------- Select particle number
         CALL READC6(5)
       GOTO 98
 
- 9    GOTO 98
-
  10   CONTINUE
         CALL TYPTRA
       GOTO 98
@@ -291,6 +289,6 @@ C------- Path extrapolation
         CALL PLOTE2
       GOTO 98
 
- 88   RETURN 2
- 98   RETURN 1
+ 88   RETURN
+ 98   RETURN
       END
