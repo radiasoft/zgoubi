@@ -158,6 +158,7 @@ MODULEF =\
  trtxt.f\
  tylab.f\
  typtra.f\
+ unitr.f\
  vectpl.f\
  xyzbr.f\
  zgoubi_plot.f

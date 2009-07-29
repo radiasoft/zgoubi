@@ -40,7 +40,6 @@ C DES OUTPUT DE ZGOUBI
 
       DATA FIRST / .TRUE. /
 
-      CALL BLOCK
       CALL INIGR(
      >           NLOG, LM, NOMFIC)
       

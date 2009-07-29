@@ -25,7 +25,7 @@ C  38026 Grenoble Cedex
 C  France
 C1       2         3         4         5         6         7
 C2345678901234567890123456789012345678901234567890123456789012
-      SUBROUTINE BLOCK
+      BLOCK DATA BLOCK
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
 C----- NUMERO DES UNITES LOGIQUES D'ENTREES-SORTIE
@@ -100,23 +100,4 @@ C                    Y     T     Z       P     X,S   dp/p
 C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
       DATA KX,KY,IAX,LIS,NB /2, 3, 1, 1, 100 /
 
-      RETURN
-
-      ENTRY UNITR(KXI,KYI,
-     >                    UXO,UYO)
-      IF(KXI.EQ.1) THEN
-        UXO = UNIT(6)
-      ELSEIF(KXI.LE.MXJ) THEN
-        UXO = UNIT(KXI-1)
-      ELSE
-        UXO = 1.D0
-      ENDIF
-      IF(KYI.EQ.1) THEN
-        UYO = UNIT(6)
-      ELSEIF(KYI.LE.MXJ) THEN
-        UYO = UNIT(KYI-1)
-      ELSE
-        UYO = 1.D0
-      ENDIF
-      RETURN
       END
