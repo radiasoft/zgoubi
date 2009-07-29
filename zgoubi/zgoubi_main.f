@@ -34,7 +34,7 @@ C  France
 
       PARAMETER (I5=5, I6=6)
 
-      CALL BLOCK
+      CALL INIDAT
       CALL RESET
 
       IF(IDLUNI(

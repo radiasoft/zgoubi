@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE BLOCK
+      BLOCK DATA BLOCK
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -64,11 +64,6 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       DATA LF,LST / 2 * 0 /
       DATA KCO / 0 /
       DATA CL, QE, AMPROT / 2.99792458D8, 1.60217733D-19, 938.2723D0 /
-      CL9=CL*1.D-9
-      PI = 4.D0 * ATAN(1.D0)
-      RAD = PI/180.D0
-      DEG = 180.D0/PI
-      CM2M = 1.D-2
       DATA XF,DXF,DBRO / 3*0.D0, 3*0.D0, 0.D0 /
       DATA ZERO, UN / 0.D0, 1.D0 /
       DATA IDRT, AM, BM, CM / 0, MDR3*0.D0 /
@@ -90,5 +85,4 @@ C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time
 C                                m     rad    m    rad    m    1     s
       DATA (UNIT(I),I=1,MXJ) / 1.D-2,1.D-3,1.D-2,1.D-3,1.D-2,1.D0,1.D-6/
-      RETURN
       END

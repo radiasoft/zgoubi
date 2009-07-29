@@ -135,6 +135,7 @@ OBJ=\
  imptra.o\
  impvar.o\
  inicin.o\
+ inidat.o\
  inidrt.o\
  initra.o\
  integr.o\
