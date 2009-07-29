@@ -1194,13 +1194,16 @@ C       IF (IRDA.EQ.1) THEN
           D2R2TA =-(DX*DXTTA+ DY*DYTTA)*(2.D0*DX*DX2RTA+ 4.D0*DXRO*DXRTA 
      >         + 2*DX2RO*DXTTA  + 2*DY*DY2RTA + 4*DYRO*DYRTA 
      >         + 2*DY2RO*DYTTA) / ROOT3
+          D2R2TA = D2R2TA
      >         + 3*(DX*DXRO + DY*DYRO)*(2*DX*DXTTA + 2*DY*DYTTA)
      >         * (2*DX*DXRTA + 2*DXRO*DXTTA + 2*DY*DYRTA 
      >         + 2*DYRO*DYTTA) / ROOT5
+          D2R2TA = D2R2TA
      >         - (2*(DX*DXRTA + DXRO*DXTTA + DY*DYRTA+DYRO*DYTTA)**2 
      >         + 2*(DX*DXRO + DY*DYRO)*(DX*DXR2TA + DX2TA*DXRO 
      >         + 2*DXRTA*DXTTA + DY*DYR2TA + DY2TA*DYRO 
      >         + 2*DYRTA*DYTTA))/ROOT3 
+          D2R2TA = D2R2TA
      >         + (DX*DXRO + DY*DYRO)**2*(-15*(DX*DXTTA +DY*DYTTA)**2 
      >         / ROOT7
      >         + 3*(DX*DX2TA + DXTTA**2 + DY*DY2TA 
@@ -1649,14 +1652,17 @@ C      IF (IRDA.EQ.1) THEN
          D2R2TAS =  -(DXS*DXTTAS + DYS*DYTTAS)*(2*DXS*DX2RTAS 
      >        + 4*DXROS*DXRTAS + 2*DX2ROS*DXTTAS + 2*DYS*DY2RTAS 
      >        + 4*DYROS*DYRTAS + 2*DY2ROS*DYTTAS) / ROOT3S
+         D2R2TAS = D2R2TAS
      >        + 3*(DXS*DXROS +DYS*DYROS)*(2*DXS*DXTTAS+2*DYS*DYTTAS)
      >        * (2*DXS*DXRTAS + 2*DXROS*DXTTAS + 2*DYS*DYRTAS 
      >        + 2*DYROS*DYTTAS) / ROOT5S
+         D2R2TAS = D2R2TAS
      >        - (2*(DXS*DXRTAS + DXROS*DXTTAS 
      >        + DYS*DYRTAS+DYROS*DYTTAS)**2 
      >        + 2*(DXS*DXROS + DYS*DYROS)*(DXS*DXR2TAS +DX2TAS*DXROS 
      >        + 2*DXRTAS*DXTTAS + DYS*DYR2TAS + DY2TAS*DYROS 
      >        + 2*DYRTAS*DYTTAS))/ROOT3S 
+         D2R2TAS = D2R2TAS
      >        + (DXS*DXROS+DYS*DYROS)**2
      >        *(-15*(DXS*DXTTAS+DYS*DYTTAS)**2 / ROOT7S
      >        + 3*(DXS*DX2TAS + DXTTAS**2 + DYS*DY2TAS 
