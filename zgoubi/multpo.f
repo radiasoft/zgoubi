@@ -24,10 +24,10 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE MULTPO(KUASEX,LMNT,KFL,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DFM,DE,DS,XE,XS,CE,CS,BORO,*)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER LMNT(*)*(*)
-      DIMENSION RT(*),BM(*),DLE(*),DLS(*),DFM(*),DE(MPOL,*),DS(MPOL,*)
+      DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
  

@@ -57,7 +57,7 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),    CS(6),    QCE(6),    QCS(6)
       COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
      >,QFM(MPOL),QE(MPOL,6),QS(MPOL,6),RTQ(MPOL) 
       COMMON/MULTPL/ BBM(MPOL),DLE(MPOL),DLS(MPOL)
-     >,DFM(MPOL),DE(MPOL,10),DS(MPOL,10),RTB(MPOL)
+     >,DE(MPOL,10),DS(MPOL,10),RTB(MPOL)
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
@@ -914,7 +914,7 @@ C           IF(KUASEX .EQ. MPOL+1) NND = 1
            IF(KFLD .EQ. MG) THEN
 C------------ Magnetic
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DFM,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
            ELSEIF(KFLD .EQ. LC) THEN
 C------------ Electric
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
@@ -924,7 +924,7 @@ C------------ Electric & Magnetic
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
      >        DEV,RTQ,XL,EM ,QLE,QLS,QFM,QE,QS,XE,XS,QCE,QCS,BORO,*95)
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DFM,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
            ENDIF
            KP = NINT(A(NOEL,ND+NND))
            IF( KP .EQ. 3 ) THEN

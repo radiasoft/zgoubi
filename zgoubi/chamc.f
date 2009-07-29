@@ -52,7 +52,7 @@ C     --------------------------------------------------------------
       PARAMETER(MPOL=10)
       COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL),QFM(MPOL)
      >,QE(MPOL,6),QS(MPOL,6),RTQ(MPOL)
-      COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DFM(MPOL)
+      COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL)
      >,DI(MPOL,10),DS(MPOL,10),RTB(MPOL)
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
