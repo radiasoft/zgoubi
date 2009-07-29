@@ -149,7 +149,8 @@ CC------------ MAY 1999
 C               Y = Y /2.D0
 C               YP = YP /2.D0
           CALL VECTPL(Y,YP,4)      
-          DO 201 PHI=0.D0, DPI, 1.7D-2
+          DO 201 IPHI=0,360
+            PHI = IPHI*DPI/360
             Y = R * COS(PHI)
 C            YP= -(A(JJ)* Y + R * SIN(PHI) )/B(JJ)  + YPM(JJ)
 C FM 03/02
@@ -256,7 +257,8 @@ C        READ(*,*,ERR=6) EPS,BET,ALP,CLIP,CLIPP
           XMA = -1.D10
           YMI = 1.D10
           YMA = -1.D10
-          DO 602 PHI=0.D0, DPI, 1.7D-2
+          DO 602 IPHI=0,360
+            PHI = IPHI*DPI/360
             Y = R * COS(PHI)
             YP= (-ALP* Y + R * SIN(PHI) )/BET  + CLIPP
             Y = Y + CLIP
@@ -277,7 +279,8 @@ C        READ(*,*,ERR=6) EPS,BET,ALP,CLIP,CLIPP
         Y = R + CLIP
         YP= -ALP/BET * R + CLIPP
         CALL VECTPL(Y,YP,4)      
-        DO 601 PHI=0.D0, DPI, 1.7D-2
+        DO 601 IPHI=0,360
+          PHI = IPHI*DPI/360
           Y = R * COS(PHI)
           YP= (-ALP* Y + R * SIN(PHI) )/BET  + CLIPP
           Y = Y + CLIP
