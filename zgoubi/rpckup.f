@@ -36,7 +36,7 @@ C----- NPU = 0 (OFF) or NPU > 0 (# of distinct lmnt LABEL's)
       READ(NDAT,*) NPU
       IF(NPU .GT. MPULAB) THEN 
         NPU = MPULAB
-        WRITE(NRES,FMT='(/,10X'' ** WARNING '', 
+        WRITE(NRES,FMT='(/,10X,'' ** WARNING '', 
      >  ''  Too  many  PUs  =>  number  forced  to  '',I3)') MPULAB 
       ELSEIF(NPU .GT. 0) THEN
         KCO = 1

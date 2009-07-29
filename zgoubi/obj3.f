@@ -343,7 +343,7 @@ C-----
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,
      >    ''  particles  are  of  secondary  type  (LET="S")'')') IS
         IF(II.GT.0) WRITE(NRES,
-     >    FMT='(/,T5,I6,''/'',I6,'' particles  have  IEX < 0,  hence''
+     >    FMT='(/,T5,I6,''/'',I6,'' particles  have  IEX < 0,  hence'',
      >    I6,''  only  left  to  be  ray-traced. '')') II,IMAX,IMAX-II
         WRITE(NRES,*) '  Last  pass  number  read  :  ',IPASSR, 
      >    '   in requested range  :   [',KP1,',',KP2,'].'
