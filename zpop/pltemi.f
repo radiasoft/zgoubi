@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLTEMI(NLOG,NL,LM)
+      SUBROUTINE PLTEMI(NL,LM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------
 C     Compute and plot emittances
@@ -232,7 +232,8 @@ C     ------------------------------------------------
 C---------- Emittance/4
           SQ2=4.D0*(SC2(JC,IEL)*SC2(JC+1,IEL)-SC2(JJ+6,IEL)**2 )
           IF(SQ2.LT.0.D0) THEN
-            WRITE(6,*) ' Warning : imaginary emittance at iel,jc=',IEL,JJ
+            WRITE(6,*) ' Warning : imaginary emittance at iel,jc=',
+     $            IEL,JJ
             WRITE(6,*) '        Calculation skipped...'
           ELSE
             SQ=SQRT(SQ2)
@@ -300,6 +301,4 @@ C-------         Ex Ez            dEx
       CLOSE(NL)
       CLOSE(88)
       RETURN
- 97   write(6,*) '    ERROR open file ',FNAME
-      CLOSE(NL)
       END
