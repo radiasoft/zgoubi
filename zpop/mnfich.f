@@ -78,7 +78,7 @@ C         CMND= 'COPY zgoubi'//TYP//' '//NOMFIC(N1:N2)//TYP
       GOTO 20                
 
  2    CONTINUE
-         CALL DRCTRY(TYP)
+         CALL DRCTRY
          WRITE(6,102)
  102     FORMAT('$ NOM DU FICHIER A LIRE (QUIT = QQ) : ')
          READ(5,106,ERR=2) NOMFIC
@@ -94,7 +94,7 @@ C         CMND= 'COPY '//NOMFIC(N1:N2)//TYP//' zgoubi'//TYP
       GOTO 20                
 
  3    CONTINUE
-         CALL DRCTRY(TYP)
+         CALL DRCTRY
          WRITE(6,103)
  103     FORMAT('$ NOM DU FICHIER A DELETER (QUIT = QQ) : ')
          READ(5,106,ERR=3) NOMFIC       
@@ -107,7 +107,7 @@ C         CMND= 'COPY '//NOMFIC(N1:N2)//TYP//' zgoubi'//TYP
          WRITE(6,*) '   ',CMND,'TERMINEE...' 
       GOTO 20                
 
-C         CALL DRCTRY(TYP)
+C         CALL DRCTRY
 C         WRITE(6,105)
 C 105     FORMAT('$ NOM DU FICHIER A RENAMER (QUIT = QQ) : ')
 C         READ(5,106,ERR=4) NOMFIC                       
@@ -119,7 +119,7 @@ C         IOUPI=LIBSPA(CMND)
 C         WRITE(6,*) '   ',CMND,'TERMINEE...' 
       GOTO 20 
  5    CONTINUE                  
-         CALL DRCTRY(TYP)
+         CALL DRCTRY
       GOTO 20 
  6    CONTINUE                                          
          CALL HOMCLR 

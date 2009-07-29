@@ -24,12 +24,11 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C
-      SUBROUTINE DRCTRY(TYP)
+      SUBROUTINE DRCTRY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER * (*) TYP
 
       CALL HOMCLR 
-C      IOUPI=LIBSPA(' DIRECTORY '//TYP ) 
+
       WRITE(6,*) ' '
       RETURN
       END
