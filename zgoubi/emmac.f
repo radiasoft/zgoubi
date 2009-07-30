@@ -180,14 +180,14 @@ C and used for tracking.
           WRITE(NRES,FMT='(/,5X,A,1P,E12.4)') 
      >    ' Distance between axis of quads : ', DIST
           WRITE(NRES,FMT='(/,5X,A)') 
-     >    ,'A single map is built by superimposition prior to tracking'
+     >    'A single map is built by superimposition prior to tracking'
         ELSEIF(MOD .EQ. 1) THEN
           WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A)') 
      >    ' Field map 1 recomputed following radial move ',DIST,' (cm)'
           WRITE(NRES,FMT='(  5X,A,1P,E14.6,A)') 
      >    ' Field map 2 recomputed following radial move ',DIST2,' (cm)'
           WRITE(NRES,FMT='(/,5X,A)') 
-     >    ,'A single map is built by superimposition prior to tracking'
+     >    'A single map is built by superimposition prior to tracking'
         ENDIF
       ENDIF 
 

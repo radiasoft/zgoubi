@@ -23,19 +23,28 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE INIDAT
+      SUBROUTINE ARRIER(S)
 
-      DOUBLE PRECISION CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      CHARACTER*(*) S
 
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INTEGER MODE
 
-      CL9=CL*1.D-9
-      PI = 4.D0 * ATAN(1.D0)
-      RAD = PI/180.D0
-      DEG = 180.D0/PI
-      CM2M = 1.D-2
+      CHARACTER*3 ANSI_CPL
+      INTEGER TTYMODE
+      SAVE TTYMODE,ANSI_CPL
 
-      CALL INIARR(1)
+      IF (TTYMODE.EQ.1) THEN
+         WRITE(6,'(1H+,A,A)') ANSI_CPL,S
+      ELSE
+         WRITE(6,'(1H+,A)') S
+      ENDIF
+      
+      RETURN
+
+      ENTRY INIARR(MODE)
+
+      TTYMODE=MODE
+      ANSI_CPL=CHAR(27)//'[F'
 
       RETURN
 

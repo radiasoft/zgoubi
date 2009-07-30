@@ -118,7 +118,7 @@ C----- Get FIT status
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
       IF(NRES .GT. 0) WRITE(6,105) TITRE
- 105  FORMAT(/,1X,A80,/)
+ 105  FORMAT(/,1X,A80,//)
 
       TOMANY = .FALSE.
 C      NOEL = 0
@@ -182,8 +182,7 @@ C------- Steps here in case of "FIT"
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A8,2(A1,A8))') 
      >    NOEL,'/',NOELMX,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
-        IF(IPASS.EQ.1) WRITE(6,FMT='(1H+,A,A,$)') CHAR(13),TXTELT
-        CALL FLUSH(6)
+        IF (IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
  
       KFLD=MG

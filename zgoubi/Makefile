@@ -8,6 +8,7 @@ OBJ=\
  apdpo1.o\
  apdpo.o\
  apherf.o\
+ arrier.o\
  autorf.o\
  avorpr.o\
  baxbxr.o\

@@ -50,6 +50,7 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       DIMENSION SSP(4,MXT)
       SAVE SSP
       CHARACTER*9 HMS
+      CHARACTER*95 TXTBUF
 
       SAVE KREB3, KREB31
       DATA KREB3, KREB31 / 0, 0 /
@@ -75,10 +76,11 @@ C        WRITE(6,FMT='(A,I7,3X,A)') ' IPASS=',IPASS,HMS
 C        IF(1*(IPASS/1).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(6,FMT='(A1,A19,I6,A1,I6,A34,I5,A1,I5,A9,A9,$)') 
-     >    CHAR(13),' Pass #/Requested :',IPASS,'/', NRBLT+1,
+          WRITE(TXTBUF,FMT='(A1,A19,I6,A1,I6,A34,I5,A1,I5,A9,A9)') 
+     >    ' Pass #/Requested :',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS
+          CALL ARRIER(TXTBUF)
         ENDIF
         IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
         IF(IPASS.EQ.NRBLT) WRITE(6,FMT='(/)')
