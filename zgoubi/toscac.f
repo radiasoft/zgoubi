@@ -73,7 +73,7 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       IF    (STRCON(TITL,'HEADER',
      >                              IS) ) THEN
         READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
-             write(*,*) '  header, nhd, is ', TITL(IS:IS+7),nhd,is
+C             write(*,*) '  header, nhd, is ', TITL(IS:IS+7),nhd,is
       ELSE
         NHD = NHDF
       ENDIF

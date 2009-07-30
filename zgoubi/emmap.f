@@ -82,7 +82,7 @@ C      LOGICAL FITING
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                            IS) ) THEN
-        READ(TITL(IS+8:IS+8),FMT='(I1)') NHD
+        READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
       ELSE
         NHD = NHDF
       ENDIF
@@ -184,12 +184,11 @@ C             WRITE(6   ,208) (NOMFIC(I),' (field map)',I=1,NFIC)
           write(nres,*) ' NFMP pairs of 2D maps (a pair is of type '
      >    ,' "QFon, QDon"). Total B is a linear superimposition of '
      >    ,' both. '
-     >    ,' The names of the 2*NFMP field maps together with related'
-     >    ,' DSTP pair-distance are in the indicated data file '
+          write(nres,*) 
+     >    ' The names of the 2*NFMP field maps together with related'
+     >    ,' DSTP pair-distance are in the above data file. '
         ENDIF 
-
       ENDIF 
-
 
       IRD = NINT(A(NOEL,50))
       KZ = 1
@@ -216,7 +215,7 @@ C such that total B is a linear superimposition of both
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
@@ -247,7 +246,7 @@ C such that total B is a linear superimposition of both
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
@@ -293,7 +292,7 @@ C Put file names into NOMFIC
      >                             NOMFIC,NBDST)
              IF(NRES.GT.0) THEN
                WRITE(NRES,FMT='(/,5X,A,I3,A,/)') 
-     >            ' EMMAP. GETNAM read  ',2*NBDST,' files : '
+     >            ' EMMAP subroutine, GETNAM read  ',2*NBDST,' files : '
                WRITE(NRES,FMT='(A)') (NOMFIC(I),I=1,2*NBDST)
              ENDIF
 C Put corresponding quads' axis distances into DISTL
@@ -375,14 +374,14 @@ C             ENDIF
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-               IF(NRES.GT.0) 
-     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
+C               IF(NRES.GT.0) 
+C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                CLOSE(UNIT=LUN)
                DO JJJ=1,JYMA
                  DO III=1,IXMA
@@ -409,14 +408,14 @@ C               write(*,*) '  emmap, nomfic 1 : ',NOMFIC(JFIC)
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                        BMIN,BMAX,
      >                        XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-               IF(NRES.GT.0) 
-     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
+C               IF(NRES.GT.0) 
+C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                CLOSE(UNIT=LUN)
                DO JJJ=1,JYMA
                  DO III=1,IXMA

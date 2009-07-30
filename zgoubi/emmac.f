@@ -79,7 +79,7 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                            IS) ) THEN
-        READ(TITL(IS+8:IS+8),FMT='(I1)') NHD
+        READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
       ELSE
         NHD = NHDF
       ENDIF

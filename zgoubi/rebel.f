@@ -70,13 +70,11 @@ C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
 
       IF(KWRI6 .NE. 0) THEN
         CALL TIME2(HMS)
-C        WRITE(6,FMT='(A,I7,3X,A)') ' IPASS=',IPASS,HMS
         II = 10**(KWRI6-1)
         IF(II*(IPASS/II).EQ.IPASS) THEN
-C        IF(1*(IPASS/1).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(TXTBUF,FMT='(A1,A19,I6,A1,I6,A34,I5,A1,I5,A9,A9)') 
+          WRITE(TXTBUF,FMT='(A19,I6,A1,I6,A34,I5,A1,I5,A9,A9)') 
      >    ' Pass #/Requested :',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS
