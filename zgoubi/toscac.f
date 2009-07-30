@@ -137,16 +137,17 @@ C--------- A single data file contains the all 3D volume
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I3,2A,I3,/)') 
-     >  'NDIM = 3 ;   Value of MOD is ', MOD,' ;  ', 
-     >  'Number of field data files used is ',NFIC
       ENDIF
+      IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 
+     >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
+     >'Number of field data files used is ',NFIC
 
       IF(NRES.GT.0) THEN
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
- 209       FORMAT(/,10X,' A new field map is now used ; ', 
-     >     ' Name(s) of map data file(s) are : ')
+ 209       FORMAT(/,10X  
+     >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
+     >     ,/,10X,' name(s) of map data file(s) are : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)

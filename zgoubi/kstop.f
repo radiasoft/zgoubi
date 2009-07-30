@@ -84,23 +84,40 @@ C  France
       CALL CNTSTO(
      >            NSTOP)
       CALL ZGLMNT(TXTELT)
-C      IF(NRES .GT. 0) THEN
-        WRITE(ABS(NRES),FMT='(A,I6,A,I4,3A,T103,A,I6,''/'',I6,A,I2,A)') 
-     >  TXTELT(1:FINSTR(TXTELT))//' *** Traj. #',II,' stopped in lmnt ',
-     >  NOEL,' : ',
-     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;',' remain/launched= ',
-     >   IMX-NSTOP,IMX,' (IK=',IK,')'
-C      ENDIF
 
+      IF    ( IK .EQ. 2 ) THEN
+      ELSEIF( IK .EQ. 3 ) THEN
+      ELSEIF( IK .EQ. 4 ) THEN
+      ELSEIF( IK .EQ. 5 ) THEN
+        CALL FITSTA(5,FITING)
+        IF(.NOT.FITING) THEN 
+          WRITE(6,100) 
+     >    'Lmnt # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
+     >    II,' stopped (IK=',IK,') : ',
+     >    TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
+     >      IMX-NSTOP,'/',IMX
+ 100      FORMAT(A,I6,A,I4,3A,I6,A1,I6)
+          WRITE(ABS(NRES),100) 
+     >    'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
+     >    II,' stopped (IK=',IK,') : ',
+     >    TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
+     >      IMX-NSTOP,'/',IMX
+        ENDIF
+      ELSEIF( IK .EQ. 6 ) THEN
+      ELSEIF( IK .EQ. 7 ) THEN
+      ELSEIF( IK .EQ. 8 ) THEN
+      ELSEIF( IK .EQ. 9 ) THEN
+      ELSEIF( IK .EQ. 10) THEN
+      ENDIF
+ 
       IF(NSTOP.GE.IMX) THEN
         CALL FITSTA(5,FITING)
         IF(.NOT.FITING) THEN 
           CALL ENDJOB
      >    ('SBR KSTOP : execution stopped, all particles lost !!',-99)
-C        ELSE      
-C          RETURN
         ENDIF
       ENDIF
+
  99   RETURN 1
 
       ENTRY KSTOPI(LMNTI)

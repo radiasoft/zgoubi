@@ -75,7 +75,7 @@ C----- To get values into A(), from earlier FIT
       CHARACTER TXTEMP*80
       INTEGER DEBSTR,FINSTR
 
-      CHARACTER*40 TXTELT, TXTELO
+      CHARACTER*38 TXTELT, TXTELO
       SAVE TXTELT
 
       INCLUDE 'PARIZ.H'
@@ -180,8 +180,8 @@ C------- Steps here in case of "FIT"
         WRITE(NRES,334) NOEL,KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
  334    FORMAT(2X,I5,3(2X,A))
         CALL FLUSH2(NRES,.FALSE.)
-        WRITE(TXTELT,FMT='(I5,A1,I5,3(1X,A8))') 
-     >    NOEL,'/',NOELMX,KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
+        WRITE(TXTELT,FMT='(I5,A1,I5,1X,A8,2(A1,A8))') 
+     >    NOEL,'/',NOELMX,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) WRITE(6,FMT='(1H+,A,A,$)') CHAR(13),TXTELT
         CALL FLUSH(6)
       ENDIF

@@ -71,11 +71,11 @@ C          1 other run to get matrices with +/-dZ amplitude
       IF(KWRI6 .NE. 0) THEN
         CALL TIME2(HMS)
 C        WRITE(6,FMT='(A,I7,3X,A)') ' IPASS=',IPASS,HMS
-        WRITE(6,FMT='(1H+,A1,A31,I7,A2,I7,A1,A11,A9,$)') CHAR(13),
-     >    ' # of pass achieved/Requested :',IPASS,' /', NRBLT+1,
-     >         ',','  at time :', HMS
-        IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
-        CALL FLUSH(6)
+C        WRITE(6,FMT='(1H+,A1,A31,I7,A2,I7,A1,A11,A9,$)') CHAR(13),
+C     >    ' # of pass achieved/Requested :',IPASS,' /', NRBLT+1,
+C     >         ',','  at time :', HMS
+C        IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
+C        CALL FLUSH(6)
       ENDIF
  
       IF( IPASS .LT. NRBLT ) THEN

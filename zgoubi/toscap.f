@@ -60,6 +60,9 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       LOGICAL STRCON
  
+      CHARACTER*20 FMTYP
+      DATA FMTYP / ' regular' / 
+
       BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
@@ -117,17 +120,18 @@ C--------- another option for symmetrization by FMAPR2
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I3,2A,I3,/)') 
-     >  'NDIM = 3 ;   Value of MOD is ', MOD,' ;  ', 
-     >  'Number of field data files used is ',NFIC
       ENDIF
+      IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 
+     >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
+     >'Number of field data files used is ',NFIC
 
       IF(NRES.GT.0) THEN
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
- 209       FORMAT(/,10X,' A new field map is now used ; ', 
-     >     ' Name(s) of map data file(s) are : ')
-           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
+ 209       FORMAT(/,10X  
+     >     ,' New field map(s) now used, cartesian mesh (MOD.ge.20) ; '
+     >     ,/,10X,' name(s) of map data file(s) are : ')
+!           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -153,6 +157,12 @@ C--------- another option for symmetrization by FMAPR2
           GOTO 96
         ENDIF
 
+
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
         IRD = NINT(A(NOEL,40))
 C        NHD = NHDF
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,

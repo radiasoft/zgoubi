@@ -431,7 +431,7 @@ C Map data file starts with NHD-line header
           READ(LUN,FMT='(A120)') TITL
           IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           IF(NHD .GE. 2) THEN
-            DO 32 II=1, NHD
+            DO 32 II=1, NHD-2
               READ(LUN,FMT='(A120)') TITL
               IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
  32         CONTINUE

@@ -87,6 +87,9 @@ C------- AF, AD,  DISTance between axis of quads
       ELSEIF(MOD.EQ.1) THEN
 C------- AF, AD, DIST1, DIST2
         READ(NDAT,*) A(NOEL,30),A(NOEL,31),A(NOEL,32),A(NOEL,33)
+      ELSEIF(MOD.EQ.22) THEN
+C------- AF, AD, DIST
+        READ(NDAT,*) A(NOEL,30),A(NOEL,31),A(NOEL,32)
       ELSEIF(MOD.EQ.24) THEN
 C------- AF, AD, DIST
         READ(NDAT,*) A(NOEL,30),A(NOEL,31),A(NOEL,32)
@@ -104,7 +107,7 @@ C               write(*,*) ' sbr remma : ', TA(NOEL,1+IFIC)
 C               write(*,*) ' sbr remma : ', noel, ific
  37   CONTINUE
 
-C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)
+C----- DROITE(S) DE COUPURE (IA=0,-1, 1, 2 or 3)
 C      READ(NDAT,*) IA, ( A(NOEL,I),I=41,43)
       READ(NDAT,*) IA, ( A(NOEL,I),I=41,40+3*ABS(IA))
       IF(IA .GT. 3) CALL ENDJOB(

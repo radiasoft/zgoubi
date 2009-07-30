@@ -168,7 +168,7 @@ C-------- CHREG is .true. if particle is going to next region
             PAF = D/COSTA
             CALL DEPLA(PAF)
             COSTA=AL*CT+BL*ST
-            CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*97)
+            CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
             CALL COFIN
      >        (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >         *97)
@@ -207,8 +207,8 @@ C------------- Step onto the exit 'DROITE'
 
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
-              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*97)
-C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*99)
+              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*99)
               CALL COFIN
      >          (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >           *97)
@@ -291,8 +291,8 @@ C----------- EFB sortie
               PAF = D/COSTA
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
-              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*97)
-C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*99)
+              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*99)
               CALL COFIN
      >          (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >           *97)
@@ -387,7 +387,7 @@ C        write(89,*)  x, dxi, dx, xlim, ' 2  sbr integr'
  
       CALL DEPLA(PAF)
       COSTA=AL*CT+BL*ST
-      CALL ITER(AL,BL,CL,PAF,COSTA,KEX,*97)
+      CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
       CALL COFIN
      >  (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >   *97)

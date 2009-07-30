@@ -23,12 +23,13 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ITER(A,B,C,DS,COSTA,KEX,*)
+      SUBROUTINE ITER(A,B,C,DS,COSTA,KEX,IT,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST2/ ZERO, UN
       COMMON/DEPL/ XF(3),DXF(3),DBRO,DTAR
-       PARAMETER (EPS=1.D-6,ITMAX=1000)
+      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      PARAMETER (EPS=1.D-6,ITMAX=1000)
       PARAMETER (EPS2=1.D-10)
 
       dm=1.d30
@@ -50,11 +51,11 @@ C Etienne F. 25 Oct. 05
         CALL DEPLA(DS)
  1    CONTINUE
 
-      WRITE(6,*) '** WARNING, SBR ITER : # of iterations reached'
-     >  , I,' ;  ABS(D)=',absd
-      WRITE(ABS(NRES),*)'** WARNING, SBR ITER : # of iterations reached' 
-     >  , I,' ;  ABS(D)=',absd
-C      CALL KSTOP(5,IT,KEX,*99) 
+C      WRITE(        6,*)' WARNING, SBR ITER, # of iterations reached is'
+C     >  , ITMAX,' ;  ABS(D)=',absd
+C      WRITE(ABS(NRES),*)' WARNING, SBR ITER, # of iterations reached is'
+C     >  , ITMAX,' ;  ABS(D)=',absd
+      CALL KSTOP(5,IT,KEX,*99) 
 
  99   CONTINUE
       RETURN 1

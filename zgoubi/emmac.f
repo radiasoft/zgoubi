@@ -107,7 +107,8 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
         IF(MOD .EQ. 0) THEN
 C--------- Rectangular mesh
 C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
-C such that resulting single map is a linear superimposition of both
+C a single map superimposition of both is built prior to tracking
+C and used for tracking. 
 
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
@@ -125,8 +126,9 @@ C--------- Rectangular mesh
 C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
 C the resulting single map is obtained in the following way : 
 C  QF_new is interpolated from QF with dr=xF, 
-C  QD_new is interpolated from QD with dr=xD, 
-C  resulting single map is linear superimposition of both
+C  QD_new is interpolated from QD with dr=xD. 
+C A single map superimposition of both is built prior to tracking
+C and used for tracking. 
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
           NAMFIC(2) = TA(NOEL,1+NFIC)
@@ -152,28 +154,16 @@ C  resulting single map is linear superimposition of both
 
       IF(NRES.GT.0) THEN
 
-        WRITE(NRES,FMT='(/,5X,2(A,I3),2A,I3,/)') 
-     >  'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
-     >  'Number of field data files used is ',NFIC
-
-        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4,/)') 
-     >  ' Value of field factor coefficients AF, AD are : ', AF, AD
-
-        IF(MOD .EQ. 0) THEN
-          WRITE(NRES,FMT='(/,5X,A,1P,E12.4,/)') 
-     >    ' Distance between axis of quads : ', DIST
-        ELSEIF(MOD .EQ. 1) THEN
-          WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A  )') 
-     >    ' Field map 1 recomputed following radial move ',DIST,' (cm)'
-          WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A,/)') 
-     >    ' Field map 2 recomputed following radial move ',DIST2,' (cm)'
-        ENDIF
+        WRITE(NRES,FMT='(/,5X,2(A,I3),A,A,I3)') 
+     >  'NDIM = ',NDIM,' ;   value of MOD is ', MOD,' ;  '
+     >  ,'Number of field data files used is ',NFIC
 
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
- 209       FORMAT(/,10X,' new field maps are now used ; ', 
-     >     ' Names of map data files are : ')
-           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
+ 209       FORMAT(/,10X  
+     >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
+     >     ,/,10X,' name(s) of map data file(s) : ')
+!           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -182,14 +172,32 @@ C  resulting single map is linear superimposition of both
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
         ENDIF
+
+        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4)') 
+     >  ' Value of field factor coefficients AF, AD are : ', AF, AD
+
+        IF(MOD .EQ. 0) THEN
+          WRITE(NRES,FMT='(/,5X,A,1P,E12.4)') 
+     >    ' Distance between axis of quads : ', DIST
+          WRITE(NRES,FMT='(/,5X,A)') 
+     >    ,'A single map is built by superimposition prior to tracking'
+        ELSEIF(MOD .EQ. 1) THEN
+          WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A)') 
+     >    ' Field map 1 recomputed following radial move ',DIST,' (cm)'
+          WRITE(NRES,FMT='(  5X,A,1P,E14.6,A)') 
+     >    ' Field map 2 recomputed following radial move ',DIST2,' (cm)'
+          WRITE(NRES,FMT='(/,5X,A)') 
+     >    ,'A single map is built by superimposition prior to tracking'
+        ENDIF
       ENDIF 
 
 C      IF(NEWFIC) THEN
 
         IF(MOD .EQ. 0) THEN
 C------- Rectangular mesh
-C Keyword EMMA with *two* 2D maps, one for QF at fixed xF, one for QD at fixed xD, 
-C such that resulting single map is a linear superimposition of both
+C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
+C a single map superimposition of both is built prior to tracking
+C and used for tracking. 
 
              IRD = NINT(A(NOEL,50))
              KZ = 1
@@ -209,6 +217,11 @@ C such that resulting single map is a linear superimposition of both
                GOTO 96
              ENDIF
 
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -235,6 +248,11 @@ C such that resulting single map is a linear superimposition of both
                GOTO 96
              ENDIF
 
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -262,8 +280,9 @@ C--------- Rectangular mesh
 C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
 C the resulting single map is obtained in the following way : 
 C  QF_new is interpolated from QF with dr=xF, 
-C  QD_new is interpolated from QD with dr=xD, 
-C  resulting single map is linear superimposition of both
+C  QD_new is interpolated from QD with dr=xD. 
+C A single map superimposition of both is built prior to tracking
+C and used for tracking. 
 
              IRD = NINT(A(NOEL,50))
              KZ = 1
@@ -285,6 +304,11 @@ C  resulting single map is linear superimposition of both
                GOTO 96
              ENDIF
 
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -319,6 +343,11 @@ C  resulting single map is linear superimposition of both
                GOTO 96
              ENDIF
 
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

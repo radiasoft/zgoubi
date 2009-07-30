@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ENDFIT
+      SUBROUTINE ENDFIT(F)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
@@ -31,5 +31,8 @@ C  France
       PARAMETER (INT0=0)
       IF(NRES .LT. 0) NRES = -NRES
       CALL INTEG8(INT0)
+      WRITE(NRES,FMT='(/,'' Status at end of fit : '',/)')
+      CALL IMPVAR(NRES,-99)
+      CALL IMPCTR(NRES,F)
       RETURN
       END

@@ -72,6 +72,9 @@ C      LOGICAL FITING
 
       DATA KFIC0 / -99 /
 
+      CHARACTER*20 FMTYP
+      DATA FMTYP / ' regular' / 
+
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
@@ -145,16 +148,11 @@ C A pair comprises one QF & one QD map  such that total B is a linear superimpos
      >  'NDIM = 3 ;   Value of MOD / MOD2 is ', MOD,' / ',MOD2,' ;  ', 
      >  'Number of field data files used is ',NFIC
 
-        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4,/)') 
-     >  ' Value of multiplying coefficients AF, AD are : ', AF, AD
-
-        WRITE(NRES,FMT='(/,5X,A,1P,E12.4,A,/)') 
-     >  ' Distance between axis of quads is : ', DIST,' cm'
-
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
- 209       FORMAT(/,10X,' new field maps are now used ; ', 
-     >     ' Names of files are : ')
+ 209       FORMAT(/,10X  
+     >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
+     >     ,/,10X,' name(s) of map data file(s) : ')
            IF(MOD.EQ.24) THEN 
 C             WRITE(6   ,208) NOMFIC(MXFIC1),' (field map file list)'
              WRITE(NRES,208) NOMFIC(MXFIC1),' (field map file list)'
@@ -173,6 +171,23 @@ C             WRITE(6   ,208) (NOMFIC(I),' (field map)',I=1,NFIC)
      >      10X,'Skip  reading  file : ',10X,A80)
           ENDIF
         ENDIF
+
+        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4,/)') 
+     >  ' Value of multiplying coefficients AF, AD are : ', AF, AD
+        WRITE(NRES,FMT='(/,5X,A,1P,E12.4,A,/)') 
+     >  ' Distance between axis of quads is : ', DIST,' cm'
+        IF    (MOD .EQ. 22) THEN
+          write(nres,*) ' Two 2D maps used, one for'
+     >    ,' QF, one for QD. '
+     >    ,' Total B is a linear superimposition of BF and BD '
+        ELSEIF(MOD .EQ. 24) THEN
+          write(nres,*) ' NFMP pairs of 2D maps (a pair is of type '
+     >    ,' "QFon, QDon"). Total B is a linear superimposition of '
+     >    ,' both. '
+     >    ,' The names of the 2*NFMP field maps together with related'
+     >    ,' DSTP pair-distance are in the indicated data file '
+        ENDIF 
+
       ENDIF 
 
 
@@ -198,6 +213,12 @@ C such that total B is a linear superimposition of both
              ELSE
                GOTO 96
              ENDIF
+
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -223,6 +244,12 @@ C such that total B is a linear superimposition of both
              ELSE
                GOTO 96
              ENDIF
+
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -345,6 +372,12 @@ C             ENDIF
                ELSE
                  GOTO 96
                ENDIF
+
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -373,6 +406,12 @@ C               write(*,*) '  emmap, nomfic 1 : ',NOMFIC(JFIC)
                ELSE
                  GOTO 96
                ENDIF
+
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+             WRITE(NRES,FMT='(/,3A)') 
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                        BMIN,BMAX,
      >                        XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

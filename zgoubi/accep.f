@@ -76,6 +76,7 @@ Compute number of particles alive and number inside ellipse
  10   CONTINUE
 C      RATIN = DBLE(MXINL)/DBLE(IMAX)
       EMIT = EPSPI
+C        write(*,*) ' sbr accep nliv, ninl :', nliv, ninl 
       RETURN
       ENTRY ACCEPW(EPSPIN)
       EPSPI = EPSPIN
