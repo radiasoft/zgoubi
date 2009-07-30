@@ -29,12 +29,14 @@ C  France
 
       INTEGER MODE
 
-      CHARACTER*3 ANSI_CPL
+      CHARACTER*1 ANSI_CR
+      CHARACTER*2 ANSI_CSI
+      CHARACTER*3 ANSI_CUU_1
       INTEGER TTYMODE
-      SAVE TTYMODE,ANSI_CPL
+      SAVE TTYMODE,ANSI_CR,ANSI_CUU_1
 
       IF (TTYMODE.EQ.1) THEN
-         WRITE(6,'(1H+,A,A)') ANSI_CPL,S
+         WRITE(6,'(1H+,A,A)') ANSI_CUU_1//ANSI_CR,S
       ELSE
          WRITE(6,'(1H+,A)') S
       ENDIF
@@ -44,7 +46,9 @@ C  France
       ENTRY INIARR(MODE)
 
       TTYMODE=MODE
-      ANSI_CPL=CHAR(27)//'[F'
+      ANSI_CR    = CHAR(13)
+      ANSI_CSI   = CHAR(27)//'['
+      ANSI_CUU_1 = ANSI_CSI//'A'
 
       RETURN
 
