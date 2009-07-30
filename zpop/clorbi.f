@@ -37,9 +37,9 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       DIMENSION FCO(8,MXPU), FCO2(7,MXPU)
       DIMENSION CO1(6),CO2(6),COM(6)      
 
-      CHARACTER TAXV(8)*13, TAXH(2)*9, TXT*80
-      DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.', 
-     >  'dp/p', ' # particles ', 'PU posit.' /
+      CHARACTER TAXV(8)*11, TAXH(2)*9, TXT*80
+      DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.',
+     >  'dp/p', '# particles', 'PU posit.' /
       SAVE TAXV
 
       DATA TAXH / 'path  (m)', 'pick-up  ' /
@@ -62,7 +62,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
 
  20   CONTINUE      
       CALL FBGTXT
-      WRITE(*,FMT='(/,''  Press RETURN for more'')') 
+      WRITE(*,FMT='(/,'' Press RETURN for more '')') 
       READ(*,200,ERR=20) REP 
  200  FORMAT(A1)
 
@@ -103,9 +103,10 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
 
  3    CONTINUE
       KAXV0 = KAXV
-      WRITE(*,FMT=
-     >'('' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
-     >''dp/p, # particles, PU posit.  (1-8) : '',1p,e12.4,$)') kaxv
+      WRITE(6,FMT=
+     >'(A1,'' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
+     >''dp/p, # particles, PU posit.  (1-8) : '',T92,I1,A2,$)')
+     > CHAR(13),KAXV,'  '
       READ(5,FMT='(I1)',ERR=31) KAXV
       IF(KAXV .GE. 1 .AND. KAXV .LE. 8) GOTO 21
  31   KAXV = KAXV0
@@ -229,7 +230,7 @@ C--------------------
         YA2 = YM2 - SIGY
         YB2 = YM2 + SIGY
         SIG2 = SIGY
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM,IDUM)
         CALL VECTPL(X1,YA1,4)
         CALL VECTPL(X2,YA2,2)
         CALL LINTYP(1)
@@ -250,11 +251,11 @@ C        CALL VECTPL(X2,SIG2,2)
       CALL LOGO
       WRITE(TXT,109) TAXV(KAXV),' S (m)'
  109  FORMAT(1X,A,' v.s. ',A) 
-      CALL TRTXT(120.D0,245.D0,TXT,0)
+      CALL TRTXT(120.D0,245.D0,TXT,80,0)
       WRITE(TXT,103) TAXV(KAXV),NPU
-      CALL TRTXT(10.D0,21.D0,TXT,0)
+      CALL TRTXT(10.D0,21.D0,TXT,50,0)
       WRITE(TXT,*) '   '
-      CALL TRTXT(.2D0,1.1D0,TXT,0)
+      CALL TRTXT(.2D0,1.1D0,TXT,50,0)
 
       CALL FBGTXT
 

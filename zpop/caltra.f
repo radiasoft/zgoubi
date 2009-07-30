@@ -720,7 +720,7 @@ C----- COMMANDE DES SCALINGS ( B, FREQ...)
       WRITE(*,*) '   for instance wrong angles in BEND...'
       WRITE(*,*) '-----------------------------------------------------'
       WRITE(*,*) 
-      I=IDLG('('' Press RETURN tp persue :'')','    ',1)
+      I=IDLG(' Press RETURN for more ','    ',1)
       IF(READAT) GOTO 998
       GOTO 998
 C----- ELREVOL - CHAMP ELCTROSTATIQ Ex(R=0,X) 1-D MESURE. SYM CYLINDRIQ

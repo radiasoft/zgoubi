@@ -36,7 +36,6 @@ CDECK LIPS
 
       DIMENSION YM(3), YPM(3), U(3), A(3), B(3)
       DIMENSION YMX(6), YPMX(6)
-      CHARACTER REP
       DATA KPS / 1 /
       LOGICAL BINARY, BINARF
       INCLUDE 'FILFAI.H'
@@ -56,9 +55,7 @@ CDECK LIPS
 
  20   CONTINUE      
       CALL FBGTXT
-      WRITE(*,FMT='(/,''  Press RETURN for more'')') 
-      READ(*,200,ERR=20) REP 
- 200  FORMAT(A1)
+      II=IDLG(' Press RETURN for more ','    ',1)
 
  21   CONTINUE
       CALL FBGTXT

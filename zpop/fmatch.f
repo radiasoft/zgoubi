@@ -99,7 +99,7 @@ C      OKOPN = .TRUE.
       
  20   CONTINUE      
       CALL FBGTXT
-      WRITE(*,FMT='(/,''  Press RETURN for more'')') 
+      WRITE(*,FMT='(/,'' Press RETURN for more '')') 
       READ(*,FMT='(A1)',ERR=20) REP 
 
  21   CONTINUE

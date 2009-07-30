@@ -39,6 +39,7 @@ MODULEF =\
  hmtcgr.f\
  homclr.f\
  idluni.f\
+ idlg.f\
  impv.f\
  inigr.f\
  inpech.f\
@@ -166,7 +167,7 @@ MODULEF =\
 # obtient la liste des .o a partir des .f :
 OBJECTF = $(MODULEF:.f=.o)
 OBJECTS = $(OBJECTF)
-LNSLIBS = liblns/libfminigraf.a liblns/librpsld.a
+LNSLIBS = liblns/libfminigraf.a
 
 .POSIX:
 
