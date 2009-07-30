@@ -98,13 +98,11 @@ C----- +/- widths (of window or bars)
 
  3    CONTINUE
 
-      DO 1 J = 1, MXJ1
-
-        IF(KTIR(J) .EQ. 'Gaussian') THEN
 C------- Cut-offs
-
-          J2 = J+1
-          IF(J2 .EQ. MXJ1+1) J2 = 1
+      DO 1 J = 1, MXJ1
+        J2 = J+1
+        IF(J2 .EQ. MXJ1+1) J2 = 1
+        IF(KTIR(J) .EQ. 'Gaussian') THEN
           L2 = NL + 10 + J - 1
           CUT(J2) = A(NOEL,L2) 
         ELSE
