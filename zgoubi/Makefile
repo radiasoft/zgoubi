@@ -188,7 +188,6 @@ OBJ=\
  objerr.o\
  objeta.o\
  objets.o\
- objtrk.o\
  okkt.o\
  open2.o\
  partic.o\

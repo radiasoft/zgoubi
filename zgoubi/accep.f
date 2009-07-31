@@ -36,7 +36,8 @@ C----------------------------------------------------------------------------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
+      LOGICAL AMQLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
       COMMON/UNITS/ UNIT(MXJ)
       PARAMETER (RANGE=0.2D0,ISTP=3)
 

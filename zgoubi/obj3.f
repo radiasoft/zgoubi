@@ -38,7 +38,8 @@ C     **************************************
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
+      LOGICAL AMQLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       CHARACTER  KAR(41)
@@ -119,6 +120,8 @@ C----- Traj. counter
       IKAR = 0
       IPASSR = 0
       IEND = 0
+
+      AMQLU = KOBJ2.EQ.0
 
   17  CONTINUE
         IPASS1 = IPASSR
@@ -265,16 +268,18 @@ C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
-        RET(IT1)=RETI
-        DPR(IT1)=DPRI
-C        IREP(IT1) = IREPI
         IREP(IT1) = IT1
-        SORT(IT1) = SORTI
-        AMQ(1,IT1) = AMQ1
-        AMQ(2,IT1) = AMQ2
-        AMQ(3,IT1) = AMQ3
-        AMQ(4,IT1) = AMQ4
-        AMQ(5,IT1) = AMQ5
+        IF (KOBJ2.EQ.0) THEN
+           RET(IT1)=RETI
+           DPR(IT1)=DPRI
+C        IREP(IT1) = IREPI
+           SORT(IT1) = SORTI
+           AMQ(1,IT1) = AMQ1
+           AMQ(2,IT1) = AMQ2
+           AMQ(3,IT1) = AMQ3
+           AMQ(4,IT1) = AMQ4
+           AMQ(5,IT1) = AMQ5
+        ENDIF
 
 C TESTS COOLING NUFACT--------------------
 C        AM2 = AMQ(1,IT)*AMQ(1,IT)

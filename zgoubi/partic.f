@@ -31,7 +31,8 @@ C  France
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT)
+      LOGICAL AMQLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
 C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,BR
@@ -64,20 +65,22 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
  
-      DO 10 I=1,IMAX
-        IF(NM.EQ.1) THEN
-          AMQ(1,I) = AM
-        ELSEIF(NM.EQ.2) THEN
-          IF(I .LT. IMAX/2) THEN
+      IF (.NOT.AMQLU) THEN
+        DO 10 I=1,IMAX
+          IF(NM.EQ.1) THEN
             AMQ(1,I) = AM
-          ELSE
-            AMQ(1,I) = AM2
+          ELSEIF(NM.EQ.2) THEN
+            IF(I .LT. IMAX/2) THEN
+              AMQ(1,I) = AM
+            ELSE
+              AMQ(1,I) = AM2
+            ENDIF
           ENDIF
-        ENDIF
-        AMQ(2,I) = Q
-        AMQ(3,I) = G
-        AMQ(4,I) = TO
- 10   CONTINUE
+          AMQ(2,I) = Q
+          AMQ(3,I) = G
+          AMQ(4,I) = TO
+ 10     CONTINUE
+      ENDIF
 
 C----- Set time at OBJET
       DO 11 I=1,IMAX
