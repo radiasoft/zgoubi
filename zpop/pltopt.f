@@ -209,6 +209,7 @@ C------- Select particle number
       WRITE(6,148) ' * Option  number : '
  148  FORMAT(A20,$)
       READ(5,*,ERR=14) IO
+
       IF(IO.EQ.88) GOTO 1488
       GOTO(141,141,141,141,142,142,142,142) IO
       GOTO 14
@@ -222,13 +223,13 @@ C------- Select particle number
         IBXY = 0
         IF(BX.EQ.-99.D0) IBXY = 1
         GOTO 149
+
  142    WRITE(6,FMT='('' V axis, give your choice for   c, m, d : '', 
      >   /,''    (b=-99 if read from zpop_7.3.14.in)'', 
      >   /,'' present values : '',1P,3G12.4,'' : '')') AY,PY,BY
         READ(5,*,ERR=142)  AY,PY,BY
         WRITE(6,FMT='('' c, m, d : '', 1P,3G12.4,'') : '')') 
      >        AY,PY,BY
-
         IBXY = 0
         IF(BY.EQ.-99.D0) IBXY = 2
         GOTO 149
@@ -242,6 +243,7 @@ C------- Select particle number
         BY = 0.D0
         IBXY = 0
         CALL PLOT51(AX,PX,BX,AY,PY,BY)
+        CALL BIN41W(AX,PX,BX,AY,PY,BY)
       GOTO 98
 
  149  CONTINUE
@@ -254,7 +256,7 @@ C------- Select particle number
           ENDIF
         ENDIF
         CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
-        CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
+        CALL BIN4W(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
       GOTO 98
 
  15   CONTINUE
@@ -280,8 +282,6 @@ C------- Plot X(ipass)-X(ipass-1), Y(ipass)-Y(ipass-1)
         IF(IOP.LT.0 .OR. IOP .GT. 3) GOTO 151
         OKX12 = (IOP .EQ. 1) .OR.  (IOP .EQ. 3) 
         OKY12 = (IOP .EQ. 2) .OR.  (IOP .EQ. 3) 
-C        CALL PLOT5(OKX12)
-C        CALL PLOT51(OKY12)
       GOTO 98
 
  26   CONTINUE

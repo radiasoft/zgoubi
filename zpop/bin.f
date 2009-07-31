@@ -46,10 +46,18 @@ C     --------------------------
 
       DIMENSION NOCY(MXB)
 
+      INCLUDE "MXSTEP.H"
+      DIMENSION BTAB(MXSTEP,2)
+      SAVE AX,PX,BX,AY,PY,BY, BTAB
       DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /
-      SAVE AX,PX,BX,AY,PY,BY
-      LOGICAL ABSX, ABSY
-      SAVE ABSX, ABSY
+
+      LOGICAL  OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
+      SAVE     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
+      DATA     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY / 6*.FALSE. /
+
+      LOGICAL READBX, READBY
+      SAVE READBX, READBY
+      DATA READBX, READBY / 2*.FALSE. /
 
       OKBIN=.FALSE.
       WRITE(6,*) ' Bining  for  histogram, wait ...'
@@ -69,15 +77,29 @@ C--------- Loop over NL file
           NRD=NRD+1                 
           CALL READCO(NL,
      >                      KART,LET,YZXB,NDX,*11,*89) 
-C          IF(NDX(1).LT. -1) GOTO 45
-C          IPASS=YZXB(20)
           IPASS=YZXB(39)
           NOC=NOC+1
+
           XX = YZXB(KX)
-          IF(ABSX) XX = ABS(XX)
-          XX = AX * XX**PX + BX
+          IF(OKABSX) XX = ABS(XX)
+          IF(OKDX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*(XX-BB)**PX
+          ELSEIF(OKABSX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*XX**PX + BB
+          ELSEIF(OKABDX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*ABS(XX-BB)**PX
+          ELSE
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*XX**PX + BB
+          ENDIF
           CALL MINMAX(XX,0.D0,XMI,XMA,DUM,DUM)
-C          CALL MINMAX(YZXB(KX),0.D0,XMI,XMA,DUM,DUM)
           GOTO 45             
 C-----------------------------------------------
 
@@ -110,18 +132,50 @@ C----- Loop  over  READ file NL
 C      IPASS=NINT(YZXB(20))
       IPASS=NINT(YZXB(39))
       NOC=NOC+1
-      XX = YZXB(KX)
-      IF(ABSX) XX = ABS(XX)
-      XX = AX * XX**PX + BX
+          XX = YZXB(KX)
+          IF(OKABSX) XX = ABS(XX)
+          IF(OKDX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*(XX-BB)**PX
+          ELSEIF(OKABSX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*XX**PX + BB
+          ELSEIF(OKABDX) THEN 
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*ABS(XX-BB)**PX
+          ELSE
+            BB = BX
+            IF(READBX) BB = BTAB(ITAB,1)
+            XX = AX*XX**PX + BB
+          ENDIF
       IB=1+INT((XX-XMI)/DB)
 C      IB=1+INT((YZXB(KX)-XMI)/DB)
       IF(IB.GT.IBMA) IBMA=IB
       IF(IB.LT.IBMI) IBMI=IB
       IF(BINM) THEN
 C------- Bin average value of KY
-        YY = YZXB(KYB)
-        IF(ABSY) YY = ABS(YY)
-        YY = AY * YY**PY + BY
+          YY = YZXB(KYB)
+          IF(OKABSY) YY = ABS(YY)
+          IF(OKDY) THEN 
+            BB = BY
+            IF(READBY) BB = BTAB(ITAB,1)
+            YY = AY*(YY-BB)**PY
+          ELSEIF(OKABSY) THEN 
+            BB = BY
+            IF(READBY) BB = BTAB(ITAB,1)
+            YY = AY*YY**PY + BB
+          ELSEIF(OKABDY) THEN 
+            BB = BY
+            IF(READBY) BB = BTAB(ITAB,1)
+            YY = AY*ABS(YY-BB)**PY
+          ELSE
+            BB = BY
+            IF(READBY) BB = BTAB(ITAB,1)
+            YY = AY*YY**PY + BB
+          ENDIF
         DY =  YY
         NOCY(IB) = NOCY(IB)+1.D0
       ELSE
@@ -169,15 +223,57 @@ C-----------------------------------------
       BINMO = BINM
       RETURN         
          
-      ENTRY BIN4W(AXI,PXI,BXI,AYI,PYI,BYI,IOPT)
+      ENTRY BIN4W(AXI,PXI,BXI,AYI,PYI,BYI,IOPT,IBXY,IUN)
         AX = AXI
         BX = BXI
         PX = PXI
         AY = AYI
         BY = BYI
         PY = PYI
-        ABSX = IOPT.EQ.2
-        ABSY = IOPT.EQ.4
+        OKDX = IOPT.EQ.2
+        OKABSX = IOPT.EQ.3
+        OKABDX = IOPT.EQ.4
+        OKDY = IOPT.EQ.6
+        OKABSY = IOPT.EQ.7
+        OKABDY = IOPT.EQ.8
+C        OKDX = OKDX .OR. IOPT.EQ.2
+C        OKABSX = OKABSX .OR. IOPT.EQ.3
+C        OKABDX = OKABDX .OR. IOPT.EQ.4
+C        OKDY = OKDY .OR. IOPT.EQ.6
+C        OKABSY = OKABSY .OR. IOPT.EQ.7
+C        OKABDY = OKABDY .OR. IOPT.EQ.8
+        IF(IBXY.NE.0) THEN
+          READBX = IBXY.EQ.1
+          READBY = IBXY.EQ.2
+          ISTEP=1
+
+ 51       CONTINUE
+C Units in BTAB should be m, as delivered by READCO
+            READ(IUN,*,ERR=519,END=518) DUM,BTAB(ISTEP,IBXY)
+c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
+            ISTEP=ISTEP+1
+            GOTO 51
+ 518        WRITE(6,*) ' SBR PLOTER : end read BTAB upon EOF'
+            GOTO 510
+ 519        WRITE(6,*) ' SBR PLOTER : end read BTAB upon error'
+ 510        CONTINUE
+            WRITE(6,*) '  ->  ',ISTEP-1,' data have been read'
+        ENDIF
+      RETURN
+
+      ENTRY BIN41W(AXJ,PXJ,BXJ,AYJ,PYJ,BYJ)
+        AX = AXJ
+        BX = BXJ
+        PX = PXJ
+        AY = AYJ
+        BY = BYJ
+        PY = PYJ
+        OKDX = .FALSE.
+        OKABSX = .FALSE.
+          READBX = .FALSE.
+        OKDY = .FALSE.
+        OKABSY = .FALSE.
+          READBY = .FALSE.
       RETURN
 
  97   WRITE(6,*) ' SBR BIN: ERROR   XMI > XMA'      

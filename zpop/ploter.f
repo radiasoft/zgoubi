@@ -130,9 +130,6 @@ C----- BOUCLE SUR READ FICHIER NL
 C----- Read next coordinate 
       CALL READCO(NL,
      >                  KART,LET,YZXB,NDX,*10,*19)
-C          write(*,*) nrd, yzxb(8)
-C      IF(NDX(1) .LE. -1) GOTO 44
-C      IPASS=YZXB(39)
       IPASS=NINT(YZXB(39))
       IF(IPASS .NE. IPASS0) NPT = 0
 
@@ -178,34 +175,44 @@ C----- File type zgoubi.spn
 
       X = YZXB(KX)
       Y = YZXB(KY)
-         yyy = y
-C         write(*,*) 'lohvlouivv ',kx,x
 
       IF(OKXAV) X=X-XMOY
       IF(OKYAV) Y=Y-YMOY
       IF(OKABSX) X = ABS(X)
       IF(OKABSY) Y = ABS(Y)
       IF(OKDX) THEN 
-        XX = BX
-        IF(READBX) XX = BTAB(ITAB,1)
-        X = AX*(X-XX)**PX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*(X-BB)**PX
+      ELSEIF(OKABSX) THEN 
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*X**PX + BB
       ELSEIF(OKABDX) THEN 
-        XX = BX
-        IF(READBX) XX = BTAB(ITAB,1)
-        X = AX*ABS(X-XX)**PX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*ABS(X-BB)**PX
       ELSE
-        X = AX*X**PX + BX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*X**PX + BB
       ENDIF
       IF(OKDY) THEN 
-        YY = BY
-        IF(READBY) YY = BTAB(ITAB,2)
-        Y = AY*(Y-YY)**PY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*(Y-BB)**PY
+      ELSEIF(OKABSY) THEN 
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*Y**PY + BB
       ELSEIF(OKABDY) THEN 
-        YY = BY
-        IF(READBY) YY = BTAB(ITAB,2)
-        Y = AY*ABS(Y-YY)**PY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*ABS(Y-BB)**PY
       ELSE
-        Y = AY*Y**PY + BY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*Y**PY + BB
       ENDIF
       
 C      WRITE(*,*) x,y,npt, ' sbr ploter '
@@ -400,18 +407,22 @@ C     ------------------------------------
         AY = AYI
         BY = BYI
         PY = PYI
-        OKDX = OKDX .OR. IOPT.EQ.2
-        OKABSX = OKABSX .OR. IOPT.EQ.3
-        OKABDX = OKABDX .OR. IOPT.EQ.4
-        OKDY = OKDY .OR. IOPT.EQ.6
-        OKABSY = OKABSY .OR. IOPT.EQ.7
-        OKABDY = OKABDY .OR. IOPT.EQ.8
+        OKDX = IOPT.EQ.2
+        OKABSX = IOPT.EQ.3
+        OKABDX = IOPT.EQ.4
+        OKDY = IOPT.EQ.6
+        OKABSY = IOPT.EQ.7
+        OKABDY = IOPT.EQ.8
+C        OKDX = OKDX .OR. IOPT.EQ.2
+C        OKABSX = OKABSX .OR. IOPT.EQ.3
+C        OKABDX = OKABDX .OR. IOPT.EQ.4
+C        OKDY = OKDY .OR. IOPT.EQ.6
+C        OKABSY = OKABSY .OR. IOPT.EQ.7
+C        OKABDY = OKABDY .OR. IOPT.EQ.8
         IF(IBXY.NE.0) THEN
           READBX = IBXY.EQ.1
           READBY = IBXY.EQ.2
           ISTEP=1
-c          write(*,*) ibxy,  'ibxy'
-c           pause
 
  51       CONTINUE
 C Units in BTAB should be m, as delivered by READCO
@@ -436,9 +447,9 @@ c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
         PY = PYJ
         OKDX = .FALSE.
         OKABSX = .FALSE.
+          READBX = .FALSE.
         OKDY = .FALSE.
         OKABSY = .FALSE.
-          READBX = .FALSE.
           READBY = .FALSE.
       RETURN
 
@@ -556,26 +567,38 @@ C----- File type zgoubi.spn
       IF(OKABSX) X = ABS(X)
       IF(OKABSY) Y = ABS(Y)
       IF(OKDX) THEN 
-        XX = BX
-        IF(READBX) XX = BTAB(ITAB,1)
-        X = AX*(X-XX)**PX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*(X-BB)**PX
+      ELSEIF(OKABSX) THEN 
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*X**PX + BB
       ELSEIF(OKABDX) THEN 
-        XX = BX
-        IF(READBX) XX = BTAB(ITAB,1)
-        X = AX*ABS(X-XX)**PX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*ABS(X-BB)**PX
       ELSE
-        X = AX*X**PX + BX
+        BB = BX
+        IF(READBX) BB = BTAB(ITAB,1)
+        X = AX*X**PX + BB
       ENDIF
       IF(OKDY) THEN 
-        YY = BY
-        IF(READBY) YY = BTAB(ITAB,2)
-        Y = AY*(Y-YY)**PY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*(Y-BB)**PY
+      ELSEIF(OKABSY) THEN 
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*Y**PY + BB
       ELSEIF(OKABDY) THEN 
-        YY = BY
-        IF(READBY) YY = BTAB(ITAB,2)
-        Y = AY*ABS(Y-YY)**PY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*ABS(Y-BB)**PY
       ELSE
-        Y = AY*Y**PY + BY
+        BB = BY
+        IF(READBY) BB = BTAB(ITAB,2)
+        Y = AY*Y**PY + BB
       ENDIF
       ITAB = ITAB + 1
 
