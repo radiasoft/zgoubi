@@ -52,7 +52,7 @@ C     ---------
      3 ,9X,' 13       x           ',///)
 
       WRITE(6,102) ' * Option  number : '
- 102  FORMAT(A20,$)
+ 102  FORMAT(A20)
       READ(5,FMT='(I2)',ERR=21) LTYP 
       IF( LTYP .LT. 1  .OR.  LTYP .GT. 13 ) GOTO 21
       CALL LINTYW(LTYP)

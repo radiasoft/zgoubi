@@ -85,7 +85,7 @@ C     >, /,8X,'16: Plot <y> +/- sig_y vs. x (e.g., Env. vs. Ipass) :', L1
      >,/)
 
       WRITE(6,100) ' * Option  number : '
- 100  FORMAT(A20,$)
+ 100  FORMAT(A20)
       READ(5,*,ERR=21) IO
       GOTO(21, 2,3 ,4 ,5 ,6 ,7 ,8 ,98,10,11,12,13,14,15) IO
       IF(IO.EQ.26) GOTO 26
@@ -207,7 +207,7 @@ C------- Select particle number
      >/,8X,'88:  RESET ', 
      >/)
       WRITE(6,148) ' * Option  number : '
- 148  FORMAT(A20,$)
+ 148  FORMAT(A20)
       READ(5,*,ERR=14) IO
 
       IF(IO.EQ.88) GOTO 1488

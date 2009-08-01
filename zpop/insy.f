@@ -98,7 +98,7 @@ C  France
      >,/)
 
       WRITE(6,100)
- 100  FORMAT('$  Option  number : ',$)
+ 100  FORMAT('$  Option  number : ')
       READ(5,108,ERR=21) IOPT
  108  FORMAT(I2)
       BINARY=BINARF(NL)
@@ -122,7 +122,7 @@ C  France
 
  4    CONTINUE
       WRITE(6,FMT='('' Plane to plot is : '',A)') PLAN(IPLAN)
-      WRITE(6,FMT='(''    Give new value (1/2 for H/V) : '',$)')
+      WRITE(6,FMT='(''    Give new value (1/2 for H/V) : '')')
       READ(5,FMT='(I1)',ERR=4) IPLAN
       IF(IPLAN .NE. 1 .AND. IPLAN .NE. 2) GOTO 4
       IPLAN0 = IPLAN
@@ -153,7 +153,7 @@ C  France
      9,/,5X,' 9  EXIT  THIS  MENU '
      >,/)
       WRITE(6,162)
- 162  FORMAT('$  Your choice : ',$)
+ 162  FORMAT('$  Your choice : ')
       READ(5,108,ERR=6) IOPT
         GOTO ( 601,602,603,604,605,606,607, 6,21) IOPT  
         GOTO 6

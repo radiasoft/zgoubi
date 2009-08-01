@@ -160,7 +160,7 @@ C                    energy at prsnt Psi -> D3W_8,9(Psi) = dW_x,y/dPsi (J/rad)
 
          IF(JY .EQ. NY2) THEN
             WRITE(6,*) '---------------------------------------'
-            WRITE(6,FMT='(A1,A9,2X,A9,$)') CHAR(13), DMY, HMS
+            WRITE(6,FMT='(A9,2X,A9)') DMY, HMS
             WRITE(6,FMT=
      >'('' Energy in fragmnt # '',I5,''  at y,z='',1P,2G12.4,'' m :'')')
      >      IW, XO(2),XO(3)

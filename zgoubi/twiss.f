@@ -34,7 +34,7 @@ C  France
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
-      CHARACTER*9   HMS
+C      CHARACTER*9   HMS
       
       DIMENSION T(6,6,6)
       SAVE      T
@@ -68,15 +68,15 @@ C          1 other run to get matrices with +/-dZ amplitude
 
       IF(KTWISS .EQ. 0) RETURN
 
-      IF(KWRI6 .NE. 0) THEN
-        CALL TIME2(HMS)
+C      IF(KWRI6 .NE. 0) THEN
+C        CALL TIME2(HMS)
 C        WRITE(6,FMT='(A,I7,3X,A)') ' IPASS=',IPASS,HMS
-C        WRITE(6,FMT='(1H+,A1,A31,I7,A2,I7,A1,A11,A9,$)') CHAR(13),
+C        WRITE(6,FMT='(1H+,A31,I7,A2,I7,A1,A11,A9)') 
 C     >    ' # of pass achieved/Requested :',IPASS,' /', NRBLT+1,
 C     >         ',','  at time :', HMS
 C        IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
 C        CALL FLUSH(6)
-      ENDIF
+C      ENDIF
  
       IF( IPASS .LT. NRBLT ) THEN
         LUN=ABS(NRES) 

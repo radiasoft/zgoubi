@@ -69,7 +69,7 @@ C      CALL TXTFBG
      >,/)
 
       WRITE(*,100)
- 100  FORMAT('$  Option  number : ',$)
+ 100  FORMAT('$  Option  number : ')
       READ(*,101,ERR=21) IOPT
 101   FORMAT(I2)
       GOTO ( 1, 1, 1, 4,21,21,21, 8, 9,21,21,12) IOPT  

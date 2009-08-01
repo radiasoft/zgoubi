@@ -84,7 +84,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
      >/)
 
       WRITE(*,100)
- 100  FORMAT('$  Option  number : ',$)
+ 100  FORMAT('$  Option  number : ')
       READ(*,108,ERR=21) IOPT
 108   FORMAT(I2)
       IF(.NOT. OKOPN .AND. IOPT.EQ.7) THEN
@@ -104,9 +104,9 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
  3    CONTINUE
       KAXV0 = KAXV
       WRITE(6,FMT=
-     >'(A1,'' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
-     >''dp/p, # particles, PU posit.  (1-8) : '',T92,I1,A2,$)')
-     > CHAR(13),KAXV,'  '
+     >'('' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
+     >''dp/p, # particles, PU posit.  (1-8) : '',T92,I1,A2)')
+     > KAXV,'  '
       READ(5,FMT='(I1)',ERR=31) KAXV
       IF(KAXV .GE. 1 .AND. KAXV .LE. 8) GOTO 21
  31   KAXV = KAXV0
@@ -115,7 +115,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
  4    CONTINUE
       KAXH0 = KAXH
       WRITE(*,FMT=
-     > '(''  Horizontal axis :  path length / PU occur.  (1/2) : '',$)')
+     > '(''  Horizontal axis :  path length / PU occur.  (1/2) : '')')
       READ(5,FMT='(I1)',ERR=41) KAXH
       IF(KAXH .GE. 1 .AND. KAXH .LE. 2) GOTO 21
  41   KAXH = KAXH0
@@ -124,7 +124,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
  5    CONTINUE
       KPU0 = KPU
       WRITE(*,FMT=
-     > '(''  Observation  pick-up  #  (-1 for all) : '',$)') 
+     > '(''  Observation  pick-up  #  (-1 for all) : '')') 
       READ(5,FMT='(I1)',ERR=51) KPU
       IF(KPU .GE. -1) THEN 
         GOTO 21

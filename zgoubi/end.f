@@ -42,15 +42,15 @@ C  France
       COMMON/FAISCT/ LET(MXT)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/UNITS/ UNIT(MXJ)
-      CHARACTER * 9   HMS
+C      CHARACTER * 9   HMS
 
 C----- Coherent synchrotron radiation
       IF(KCSR.EQ.1) THEN
         IF(IPASS .EQ. 1) THEN
-          CALL TIME2(HMS)
-C          WRITE(6,FMT='(1H+,A1,A31,I7,A2,I7,A1,A11,A9,$)') CHAR(13),
+C          CALL TIME2(HMS)
+C          WRITE(6,FMT='(1H+,A31,I7,A2,I7,A1,A11,A9)') 
 C     >    ' # of pass achieved/Requested :',IPASS,' /', NRBLT+1,
-C    >         ',','  at time :', HMS
+C     >         ',','  at time :', HMS
 C          IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
 C          CALL FLUSH(6)
  

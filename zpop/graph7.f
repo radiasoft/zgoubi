@@ -100,7 +100,7 @@ C      CHARACTER CMND*70
       IF(.NOT. OKOPN) CALL OPNWRN(1)
 
       WRITE(6,101) ' * Option  number : '
- 101  FORMAT(A20,$)
+ 101  FORMAT(A20)
       READ(5,201,ERR=921) IOPT
  201  FORMAT(I2)
       IF(IOPT.EQ.88) GOTO 88
@@ -192,8 +192,8 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
                   RSNPT0=RSNPT
  755              CONTINUE      
                   WRITE(6,FMT='(/,
-     >              ''  Plot synoptic ? ('',A1,''/'',A1,'') : '',
-     >              $)') RSNPT,RSNPT2
+     >              ''  Plot synoptic ? ('',A1,''/'',A1,'') : ''
+     >              )') RSNPT,RSNPT2
                   READ(5,FMT='(A1)',ERR=755) RSNPT
                   IF(RSNPT.EQ.'n') RSNPT='N'
                   IF(RSNPT.EQ.'y') RSNPT='Y'
@@ -293,8 +293,8 @@ C                     s/time/phase-dp/Ekin initial phase-space
                   RLIPS0=RLIPS
  710              CONTINUE      
                   WRITE(6,FMT='(/,
-     >              ''  Plot matched ellipse ? ('',A1,''/'',A1,'') : '',
-     >              $)') RLIPS,RLIPS2
+     >              ''  Plot matched ellipse ? ('',A1,''/'',A1,'') : ''
+     >              )') RLIPS,RLIPS2
                   READ(5,FMT='(A1)',ERR=710) RLIPS
                   IF(RLIPS.EQ.'n') RLIPS='N'
                   IF(RLIPS.EQ.'y') RLIPS='Y'
@@ -311,8 +311,8 @@ C                     s/time/phase-dp/Ekin initial phase-space
                   RHIST0=RHIST
  711              CONTINUE      
                   WRITE(6,FMT='(/,
-     >              ''  Plot histograms ? ('',A1,''/'',A1,'') : '',
-     >              $)') RHIST,RHIST2
+     >              ''  Plot histograms ? ('',A1,''/'',A1,'') : ''
+     >              )') RHIST,RHIST2
                   READ(5,FMT='(A1)',ERR=711) RHIST
                   IF(RHIST.EQ.'n') RHIST='N'
                   IF(RHIST.EQ.'y') RHIST='Y'

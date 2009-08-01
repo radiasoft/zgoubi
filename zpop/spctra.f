@@ -100,7 +100,7 @@ C----- PLOT SPECTRUM
      >,/)
 
       WRITE(*,100)
- 100  FORMAT('$  Option  number : ',$)
+ 100  FORMAT('$  Option  number : ')
       READ(*,108,ERR=21) IOPT
 108   FORMAT(I2)
       BINARY=BINARF(NL)
@@ -156,7 +156,7 @@ C----- PLOT SPECTRUM
       NPTR0=NPTR
       WRITE(*,130) '  NUMBER OF PHASE-SPACE COORDINATES TO READ',
      >  '  (max is ',NTRMAX,' ;  now ',NPTR,')  :'
- 130  FORMAT(/,A43,A9,I6,A8,I6,A4,$) 
+ 130  FORMAT(/,A43,A9,I6,A8,I6,A4) 
 
       READ(5,*,ERR=3) NPTR
       IF(NPTR.LE. 0 .OR. NPTR.GT. NTRMAX) GOTO 3

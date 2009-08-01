@@ -30,7 +30,7 @@ C
       ESC=CHAR(27)                         
 C---- HOME CLEAR 
       SCREEN=ESC// '[H' //ESC// '[2J'
-      WRITE(6,FMT='(1H+,A,$)') SCREEN
+      WRITE(6,FMT='(1H+,A)') SCREEN
       WRITE(6,*) ' '
       RETURN
       END                 

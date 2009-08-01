@@ -55,7 +55,7 @@ C  France
  40     CONTINUE
         WRITE(6,*)
         WRITE(6,101) 
- 101    FORMAT('  Give  XMI, XMA, YMI, YMA, Mode(1-3) : ',$)
+ 101    FORMAT('  Give  XMI, XMA, YMI, YMA, Mode(1-3) : ')
         READ(5,*,ERR=40) XMI,XMA,YMI,YMA, ITYP
         IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN 
 C          CALL TXTFBG

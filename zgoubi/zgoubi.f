@@ -183,7 +183,7 @@ C------- Steps here in case of "FIT"
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A8,2(A1,A8))') 
      >    NOEL,'/',NOELMX,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
-        IF (IPASS.EQ.1) CALL ARRIER(TXTELT)
+        IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
  
       KFLD=MG

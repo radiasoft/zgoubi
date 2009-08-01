@@ -73,7 +73,7 @@ C  France
      > /,3X,60(1H*),/)
 
       WRITE(6,101) ' * Option  number : '
- 101  FORMAT(A20,$)
+ 101  FORMAT(A20)
       READ(5,201,ERR=21) IOPT
  201  FORMAT(I2)
 

@@ -78,7 +78,7 @@ C  France
      >,/)
 
       WRITE(*,100)
- 100  FORMAT('$  Option  number : ',$)
+ 100  FORMAT('$  Option  number : ')
       READ(*,101,ERR=21) IOPT
 101   FORMAT(I2)
       GOTO ( 1, 1, 1, 4, 5, 6,21, 8, 9,21,21,12) IOPT  
@@ -240,7 +240,7 @@ C            NPOINT=5000
  6    CONTINUE
         WRITE(*,FMT='(''Give ellipse parameters and center'')')
         WRITE(*,61) EPS,BET,ALP,CLIP,CLIPP
- 61     FORMAT('  (Now  EPS/pi BET ALP x xp = ',1P,5G12.4,')   : ',$)
+ 61     FORMAT('  (Now  EPS/pi BET ALP x xp = ',1P,5G12.4,')   : ')
 C        READ(*,*,ERR=6) EPS,BET,ALP,CLIP,CLIPP
         READ(*,*,ERR=62) EPS,BET,ALP,CLIP,CLIPP
         AGAIN = .FALSE.

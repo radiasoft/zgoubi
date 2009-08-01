@@ -73,7 +73,7 @@ CDECK LIPS
 C      IF(NT.EQ. -1) WRITE(*,105) KPS
       IF(NT2.GT.NT1) WRITE(*,105) KPS
  105  FORMAT(5X,' 5  Fit initial or final phase-space coordinates',
-     5' (0/1)  (now ',I1,') : ',$)
+     5' (0/1)  (now ',I1,') : ')
       WRITE(*,106) 
  106  FORMAT(/,
      6   5X,' 6  **  Compute fitting ellipse parameters   ** '                           
@@ -84,7 +84,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
      >,/)
 
       WRITE(*,100)
- 100  FORMAT('$  Option  number : ',$) 
+ 100  FORMAT('$  Option  number : ') 
       READ(*,108,ERR=21) IOPT
 108   FORMAT(I2)
 
@@ -120,7 +120,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
       WRITE(*,130) NTRMAX, NPTR
  130  FORMAT
      >(/,' Read phase-space coordinates up to (max=',I7,')   (now ',
-     > I7,') : ',$)
+     > I7,') : ')
       READ(5,*,ERR=3) NPTR
       IF(NPTR.LE. 0 .OR. NPTR.GT. NTRMAX) GOTO 3
       IF(NPTR.GT. NPTR0) CHANGE=.TRUE.
@@ -128,7 +128,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
 
  31   WRITE(*,140) NPTS
  140  FORMAT(/,'  Number of phase-space coordinates'
-     >,1X,'to fit (max =  # read)   (now ',I6,') : ',$)
+     >,1X,'to fit (max =  # read)   (now ',I6,') : ')
       READ(5,*,ERR=31) NPTS
       IF(NPTS.LE. 0) GOTO 31
       IF(NPTS.GT. NPTR) NPTS=NPTR
@@ -137,7 +137,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
  5    CONTINUE
       KPS0=KPS
       WRITE(*,150) KPS
- 150  FORMAT(/,'  Initial or final coordinates (0/1) (now ',I1,') : ',$)
+ 150  FORMAT(/,'  Initial or final coordinates (0/1) (now ',I1,') : ')
       READ(5,*,ERR=5) KPS
       IF(KPS.NE.0 .AND. KPS.NE.1) GOTO 5 
       IF(KPS.NE.KPS0) CHANGE=.TRUE.

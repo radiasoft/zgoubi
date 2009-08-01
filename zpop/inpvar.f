@@ -84,7 +84,7 @@ C  France
       KX0 = KX
       KY0 = KY
       WRITE(6,100) ' * Give desired variables  (KX=KY to quit) : '
- 100  FORMAT(A45,$)
+ 100  FORMAT(A45)
       READ(5,*,ERR=20) KX, KY
 
       IF(KX .NE. KY) THEN

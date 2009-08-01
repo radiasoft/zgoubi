@@ -45,7 +45,7 @@ C     1 ,9X,' 11    SHOW QUEUE '
      >,///,3X,60(1H*),/)
 
       WRITE(6,105) ' * Option  number : '
- 105  FORMAT(A20,$)
+ 105  FORMAT(A20)
       READ(5,101,ERR=21) IOPT
  101  FORMAT(I2)
       IF(IOPT.GE. 1 .OR. IOPT.LE. 11) THEN

@@ -81,7 +81,7 @@ C     5 ,9X,'  5    Automatic  scales ',/
 C      IF(.NOT. OKOPN) CALL OPNWRN(1)
 
       WRITE(6,101) ' * Option  number : '
- 101  FORMAT(A20,$)
+ 101  FORMAT(A20)
       READ(5,201,ERR=921) IOPT
  201  FORMAT(I2)
       IF(IOPT.EQ.88) GOTO 88
