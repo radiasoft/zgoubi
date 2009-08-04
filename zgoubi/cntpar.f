@@ -37,7 +37,8 @@ C----- Reset
 C----- # of particles rejected
       NRJ = NRJ+1
       RETURN
-      ENTRY CNTNRR(NRJO)
+      ENTRY CNTNRR(
+     >             NRJO)
       NRJO = NRJ
       RETURN
       ENTRY CNTOUT

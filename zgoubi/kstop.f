@@ -78,6 +78,7 @@ C  France
       ELSEIF(IK .EQ. 10) THEN
         CALL CNTNRJ
         TXT = 'secondary particle has decayed'
+        IEX(II) = KEX
       ENDIF
  
       CALL CNTMXR(

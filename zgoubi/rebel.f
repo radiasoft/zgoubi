@@ -110,12 +110,12 @@ C----- Average orbit----------------------------------------
 C------- In-flight decay ----------------------------------
       IF(IFDES .EQ. 1) THEN
         IF(IPASS .EQ. 1) THEN
-C--------- 1-er pass at REBELOTE
+C--------- 1st pass at REBELOTE
           STDVM = 0.D0
           NNDES = 0
         ENDIF
         STDVM = STDVM + TDVM*IMAX
-        NNDES = NNDES + NDES
+        IF(KREB3.NE.99) NNDES = NNDES + NDES
       ENDIF
 C------- endif In-flight decay ----------------------------------
 
@@ -156,7 +156,12 @@ C--------- endif SR loss ----------------------------------
           CALL CNTMXR(
      >                IMX)
           WRITE(LUN,103) IMX
-          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX, NNDES
+          IF(KREB3.NE.99) THEN
+            KNDES = NNDES
+          ELSE
+            KNDES = NDES
+          ENDIF
+          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
           IF(KSPN .EQ. 1) THEN
             IF(KREB3 .EQ. 99) THEN
               WRITE(LUN,126)
@@ -166,7 +171,8 @@ C--------- endif SR loss ----------------------------------
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
-          CALL CNTNRR(NRJ)
+          CALL CNTNRR(
+     >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
         ENDIF
  
@@ -180,6 +186,12 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
           ENDIF
         ENDIF
  
+        JJJ = 0
+        DO III = 1, IMAX
+           IF(IEX(III).LT.0) JJJ = JJJ+1
+        ENDDO
+           WRITE(LUN,*) '    SUM OVER IEX : ',JJJ
+
         IPASS=IPASS+1
         NOEL=0 
 C        REWIND(NDAT)
@@ -198,7 +210,12 @@ C--------- reactive WRITE
           CALL CNTMXR(
      >                IMX)
           WRITE(LUN,103) IMX
-          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX, NNDES
+          IF(KREB3.NE.99) THEN
+            KNDES = NNDES
+          ELSE
+            KNDES = NDES
+          ENDIF
+          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
           IF(KSPN .EQ. 1) THEN
             IF(KREB3 .EQ. 99) THEN
               WRITE(LUN,126)
@@ -208,7 +225,8 @@ C--------- reactive WRITE
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
-          CALL CNTNRR(NRJ)
+          CALL CNTNRR(
+     >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
  
           WRITE(LUN,104)
@@ -239,10 +257,15 @@ C------- Last pass through REBELOTE
           WRITE(LUN,103) IMX
  103      FORMAT(20X,' Total of ',I10,' particles have been launched')
  
-          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX, NNDES
+          IF(KREB3.NE.99) THEN
+            KNDES = NNDES
+          ELSE
+            KNDES = NDES
+          ENDIF
+          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/NRBLT, KNDES
  105      FORMAT(20X,
      >    ' Average  life  distance  from  Monte Carlo :',F10.3,' m',/,
-     >    20X,' Number  of  decays  in  flight  :',I10)
+     >    20X,' Number  of  decays  in  flight  :',3I10)
 C 105      FORMAT(20X,' LIBRE   TEMPS   DE   VOL   MOYEN      :',F10.3
 C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  
@@ -261,10 +284,10 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT,IMX
  107      FORMAT(/,5X,' *** # of particles out of acceptance  :',
      >          I10,'/',I10)
-          CALL CNTNRR(NRJ)
+          CALL CNTNRR(
+     >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ,IMX
- 108      FORMAT(/,5X,' *** # of particles stopped in field :',
-     >          I10,'/',I10)
+ 108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
         ENDIF
 
         READAT = .TRUE.
@@ -273,7 +296,8 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
 
       RETURN
 
-      ENTRY REBELR(KREB3O,KREB31O)
+      ENTRY REBELR(
+     >             KREB3O,KREB31O)
       KREB3O = KREB3
       KREB31O = KREB31
       RETURN

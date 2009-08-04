@@ -117,7 +117,8 @@ C----- Average orbit----------------------------------------
  107      FORMAT(/,5X,'     # of particles stopped by collimation :',
      >          I10,'/',I10)
 
-          CALL CNTNRR(NRJ)
+          CALL CNTNRR(
+     >                NRJ)
           IF(NRJ .GT. 0) WRITE(NRES,108) NRJ,IMX
  108      FORMAT(/,5X,'     # of particles stopped during ',
      >      'integration in field :', I10,'/',I10) 

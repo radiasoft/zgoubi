@@ -61,7 +61,7 @@ C             * If B non zero, test on time of flight is performed after each
 C             integration step, and no corrective interpolation is 
 C             performed (XAR=0) : hence an error on position of decay point < step. 
 C             Save  coordinates of decay point.
- 
+
            DSAR=DSAR*XAR
            FDES(6,IT) = SAR + DSAR
 C           IF(IEX(IT).EQ.-4) THEN
@@ -113,31 +113,27 @@ CC-----------------------------------------//
 
 C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
            TET = ATAN( SIN(TET) / GAMAP / (COS(TET) + BETAP/BSTAR) )
-C            write(86,*) tet,tet
-                        
-C           TETSQ = TETSQ + TET*TET
-C           NSQ = NSQ+1
 
            IF(KINFO .EQ. 1) THEN
-             IF(NRES.GT.0) THEN
+               WRITE(ABS(NRES),102) IT,T*1.D3, P*1.D3, DP0 ,BETAP
+     >           , GAMAP, IT, FDES(6,IT), SAR
+102            FORMAT(1P
+     >         ,/,10X,'Decay  of  parent  particle  M1,  # ',I6
+     >         ,',      with  following  parameters : '
+     >         ,/,15X,'- current  direction     T = ',G12.4
+     >         ,' mrd ,     P = ',G12.4,5X,' mrd '
+     >         ,/,15X,'- relative  momentum  1.+dp/p = '
+     >         ,G12.4,',     beta = ',G12.4,',    gamma = ',G12.4
+     >         ,/,15X,'- native  life  flight  distance  of  #',I6
+     >         ,'  is ',G12.4
+     >         ,' cm,     current  path  length  is  ',G12.4,' cm')
  
-               WRITE(NRES,102) IT,T*1.D3, P*1.D3, DP0 ,BETAP
-     >           ,GAMAP,FDES(6,IT), SAR
-102            FORMAT(/,10X,' **** Decay of primary particle # ',I3,1P,
-     >         /,15X,'  with  parameters : ',
-     >         /,15X,'  - current  direction     T = ',G12.4,
-     >         ' mrd ,    P = ',G12.4,5X,' mrd ',
-     >         /,16X,'  - relative momentum  1.+dp/p = ',
-     >         G12.4,/,16X,'   beta =',G12.4,'    gamma =',G12.4,
-     >         /,20X,'( - limit TOF =',G12.4,
-     >           ',  current TOF =',G12.4,')')
- 
-               WRITE(NRES,100) TET*1.D3, PHI*1.D3, DP
-100            FORMAT(/,10X,' Secondary particle :',/,15X,
-     >         '  Lab  angle :  theta =',F10.4,' mrad ,   phi =',F10.4,
-     >         5X,' mrad ,',/,16X,
-     >         '  relative momentum  p/p_ref = ',F11.5,/,10X,10(1H*) )
-             ENDIF
+               WRITE(ABS(NRES),100) TET*1.D3, PHI*1.D3, DP
+100            FORMAT(1P
+     >         ,/,10X,'Native  parameters  of  daugther  particle  M2 :'
+     >         ,/,15X,'Lab  angles :  theta = ',G12.4
+     >         ,' mrad ,     phi = ',G12.4,' mrad ,'
+     >         ,/,15X,'Relative momentum  p/p_ref = ',F11.5)
            ENDIF
  
            CTET = COS(TET)
@@ -189,6 +185,15 @@ C---------- FDES(7,IT) contains com life time (s) of S particle
            ENDIF 
 C---------- Decay counter
            NDES=NDES+1
+
+           IF(KINFO .EQ. 1) THEN
+             WRITE(ABS(NRES),FMT='(1P,/,10X
+     >       ,''Parameters of daugther particle M2 in Zgoubi frame :''
+     >       ,/,5X,''#, nDes, Y, T, Z, P, SAR, decay absissa :''
+     >       ,2I6,2X,6G12.4,/)')
+     >       IT, NDES, Y, T, Z, P, SAR, FDES(6,IT)
+           ENDIF
+ 
 C-----------------------
  
          ENDIF

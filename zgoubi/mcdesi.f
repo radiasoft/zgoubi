@@ -42,12 +42,12 @@ C     --------------------------------------------
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IMAXD,IMAXT
-      COMMON/PTICUL/ AM,Q,G,TO
+C      COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,BR
       COMMON/UNITS/ UNIT(MXJ)
  
-      SAVE CTOLAB,E3STAR,B3STAR
+      SAVE VTOLAB,E3STAR,B3STAR
  
 C----- Mass of secondary particle to be tracked
       AMS= A(NOEL,1)
@@ -65,6 +65,9 @@ C       *** Initialisation at 1st pass only
         IRSAR =(IRSAR /2)*2+1
         IRTET =(IRTET /2)*2+1
         IRPHI =(IRPHI /2)*2+1
+      ELSE
+        CALL REBELR(KREB3,KREB31)
+        IF(KREB3.EQ.99) RETURN
       ENDIF 
 
       IF(AMS.LT.0.D0) THEN
@@ -84,7 +87,7 @@ C      in a law   N/N0 = EXP(-S/S0) , S=fligth distance in cm
       SE = 0.D0
       SB  = 0.D0
       STO = 0.D0
-      SCTO = 0.D0
+      SVTO = 0.D0
       IT = 0
       DO 1 I=1,IMAX
         IF(IEX(I).LT.-1) GOTO 1
@@ -108,9 +111,9 @@ C------- Life time (s) of secondary particle
         SE = SE + ENSTAR
         SB  = SB + BSTAR
         STO = STO + TO
-        CTOLAB = 1.D-7*CEL*CEL * BORO * TO / AMP
-        SCTO = SCTO + CTOLAB
-        FDES(6,I) = -CTOLAB*F(1,I)* LOG(U)
+        VTOLAB = 1.D-7*CEL*CEL * BORO * TO / AMP
+        SVTO = SVTO + VTOLAB
+        FDES(6,I) = -VTOLAB*F(1,I)* LOG(U)
         TETPHI(1,I) = ACOS(1.D0 - 2.D0*RNDM())
         TETPHI(2,I) = 2.D0*PI* RNDM()
         TDVM=TDVM+FDES(6,I)
@@ -130,49 +133,61 @@ CC-----------------------------------------//
       ENSTAR = SE/IT
       BSTAR  = SB/IT
       TO = STO/IT
-      CTOLAB =SCTO/IT
+      VTOLAB =SVTO/IT
       NDES=0
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,100)
- 100    FORMAT(20X,'            IN  FLIGHT  DECAY  SET ',
-     >  //,20X,' Mean life path, Theta & phi sorted at random',/)
+ 100    FORMAT(20X,'            IN-FLIGHT  DECAY  SWITCHED ON ! ',/)
  
         IF(KOBJ .EQ. 1) WRITE(NRES,104)
- 104    FORMAT(20X,' !! ATTENTION,  OBJET/KOBJ=1 :  Po<0',2X,
-     >  '&  Zo<0  are  obtained by symmetry, not  computed  !!',/)
+ 104    FORMAT(20X,'!! ATTENTION, if using OBJET/KOBJ=1 :'
+     >  ,/,20X,'trajectories with initial  Po<0'
+     >  ,'&  Zo<0  are derived by symmetry, not from  ray-tracing  !!')
  
         E3STAR = .5D0*(AMP2+AM32-AMS2)/AMP
         B3STAR = SQRT(1.D0-AM32/E3STAR/E3STAR)
-        WRITE(NRES,101) AMP, TO*CEL, CTOLAB*UNIT(5), AMS, ENSTAR ,BSTAR
-     >  ,AM3, E3STAR, B3STAR
- 101    FORMAT(/,10X,
-     >  '  Parent  particle,  theoretical  data :  ',/,
-     >  15X,1P,'(#1)   M1 =',
-     >  G12.4,' MeV/c2 ;  Average life dist. in com  = ',G12.4,' m',
-     >  25X,'i.e.,  average life dist. in lab  =  ',G12.4,' m  ',/,
-     >  10X,'  Secondary  particles,  theoretical  data :',
-     >  /,15X,'(#2)   M2 =',G12.4,' MeV/c2',6X,'E* =',G12.4,' MEV',
-     >  6X,'BETA* =',G12.5,
-     >  /,15X,'(#3)   M3 =',G12.4,' MeV/c2',6X,'E* =',G12.4,' MEV',
-     >  6X,'BETA* =',G12.5)
-C
-        WRITE(NRES,102) IT,TDVM*UNIT(5)
-102     FORMAT(/,10X,'  Monte Carlo  data :  ',/,
-     >  15X,1P,'Average  mean  life  time  of  ',I5,
-     >  '  parent  particles : ',G12.4,'  m',/)
-C
+        WRITE(NRES,101) AMP, TO, VTOLAB*UNIT(5)
+     >  , AMS, ENSTAR ,BSTAR, TOS, AM3, E3STAR, B3STAR
+ 101    FORMAT(1P,//,10X,' Parent  particle,  theoretical  data :  '
+     >  ,/,15X,' M1 =',G12.4,' MeV/c2 '
+     >  ,/,15X,' theoretical life time at rest, tau = ',G12.4,' s'
+     >  ,/,15X,' i.e.,  life  distance  in  lab,  v*tau  = ',G12.4,' m'
+     >  ,/,10X,' Daughter  particle,  theoretical  data :'
+     >  ,/,15X,' M2 =',G12.4,' MeV/c2, ',6X,'E* =',G12.4,' MeV'
+     >  ,            6X,'beta* =',G12.5
+     >  ,/,15X,' theoretical life time at rest, tau_2 = ',G12.4,' s'
+     >  ,/,15X,' M3 =',G12.4,' MeV/c2, ',6X,'E* =',G12.4,' MeV'
+     >  ,'      beta* =',G12.5)
+
+        WRITE(NRES,102) IT,TDVM*UNIT(5), TDVM/VTOLAB
+102     FORMAT(/,10X,'  Monte Carlo  outcome  :  '
+     >  ,/,15X,1P,'Average  distance  of  the ',I5,
+     >  '  parent  particles : ',G12.4,' (m)     / theor. life dist. ->'
+     >  ,G12.4,/)
+
         IF(KINFO .EQ. 1) THEN
+          SFD6 = 0.D0
+          II = 0
+          DO I = 1, IMAX
+            IF(IEX(I).GE.1) THEN
+              II = II+1
+              SFD6 = SFD6 + FDES(6,I)
+            ENDIF
+          ENDDO
+          SFD6 = SFD6 * UNIT(5) / II 
           WRITE(NRES,103) IT
-103       FORMAT(/,' Mean  life  time  of  the  ',I5,
+103       FORMAT(/,'  Individual  life  distances  of  the  ',I5,
      >                           '  particles  (m) :',/)
-          WRITE(NRES,105) (FDES(6,I)*UNIT(5),I=1,IMAX)
-105       FORMAT(5X,1P,10G12.4)
+          WRITE(NRES,105) (I,FDES(6,I)*UNIT(5),I=1,IMAX)
+105       FORMAT(5(2X,I6,'/',2X,F13.4))
+          WRITE(NRES,FMT='(1P,''   Average : '',G12.4,'' m'')') SFD6
         ENDIF
 
-        IF(TOS.NE.0.D0) WRITE(NRES, FMT='(/,10X,
-     >  ''  Secondary  particles have limited life-time,  '',1P,G12.4,
-     >  '' s (com) ;   they wiil be subject to decay process'')') TOS
+        WRITE(NRES, FMT='(/
+     >  ,/,10X,'' Daughter particle M2 will be tracked and subject to''
+     >  ,         '' decay process, ''
+     >  ,/,10X,'' Daughter particle M3 will be abandonned. '')')
 
       ENDIF
 C

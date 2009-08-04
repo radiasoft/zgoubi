@@ -59,7 +59,7 @@ C     ----------------
         CALL VECTPL(X,Y,2)
         SYDX = SYDX + Y*DB
         IF(LIS .EQ. 2) CALL IMPV(NLOG,NB,X,Y,Y*DB,SYDX,IDUM)
-        if(ib.gt.1) write(78,*) x,-BINS(IB)+BINS(IB-1), '   sbr plthis '
+C        if(ib.gt.1) write(78,*) x,-BINS(IB)+BINS(IB-1), '   sbr plthis '
         X=X+DB
         CALL VECTPL(X,Y,2)
         IF(Y.GT.YMAX) THEN
