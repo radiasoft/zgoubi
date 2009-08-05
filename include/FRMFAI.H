@@ -31,7 +31,7 @@ C data (  Takeichiro Yokoi)16/11/2006
  110     FORMAT(1X,
 
 C1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     1           A1,I2,1P,7E16.8,
+     1           A1,1X,I2,1P,7E16.8,
 
 C2        XXX,Y,T*1.D3,
      2         /,3E24.16,
