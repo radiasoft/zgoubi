@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ELMIRF(XX,Z,BR,
+      SUBROUTINE ELMIRF(XX,Z,BRI,
      >                           E,DE,DDE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
@@ -40,7 +40,7 @@ C----- D=gap   AL=plate lengths, V=potentials
      >      CHDX(7),CHDX2(7),CHDX3(7),SHDX(7),SHDX2(7),SHDX3(7)
 
       DO 20 I=2, NP
- 20     DV(I) = (V(I)-V(I-1))/BR
+ 20     DV(I) = (V(I)-V(I-1))*BRI
 
 C------- 3-plate electrical mirror potential. For checks : 
 C      VR =      

@@ -29,14 +29,14 @@ C     ----------------------------
 C     CALCUL D'UN PAS EN CARTESIEN
 C     ----------------------------
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/DEPL/ XF(3),DXF(3),DBRO,DTAR
+      COMMON/DEPL/ XF(3),DXF(3),DQBRO,DTAR
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
-      COMMON/VITES/ U(18),DBR(6),DDT(6)
+      COMMON/VITES/ U(18),DQBR(6),DDT(6)
 
       PARAMETER (IMX=6)
 
@@ -68,12 +68,12 @@ CALCUL VECTEURS dR ET dU RESULTANT DE DS
       IF(KFLD .GE. LC) THEN
 C------ Electric or elctro-mag lmnt
 
-        DBRO=0.D0
+        DQBRO=0.D0
         DTAR = 0.D0
         V=1.D0
         DO 31 I=1,IDS
            V=V*DS/DBLE(I)
-           DBRO = DBRO+DBR(I)*V
+           DQBRO = DQBRO+DQBR(I)*V
            DTAR = DTAR+DDT(I)*V
  31     CONTINUE
 
@@ -86,7 +86,7 @@ C          CALL ENRGY(Error)
      >     ( (DXF(1)-U(1))*(DXF(1)-U(1)) +
      >        (DXF(2)-U(7))*(DXF(2)-U(7)) +
      >        (DXF(3)-U(13))*(DXF(3)-U(13)) )
-          IF(DBRO*DBRO .GT. PREC
+          IF(DQBRO*DQBRO .GT. PREC
      >        .OR.  DANG2 .GT. PREC
      >                                       ) THEN
               JJ = JJ+1
@@ -97,10 +97,8 @@ C          CALL ENRGY(Error)
         ENDIF
 
       ELSE
-        IF(QT*AMT .NE. 0.D0) THEN 
-          QBRO = BR*CL9*QT
-          DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) 
-        ENDIF
+         QBRO = QBR*CL9
+         DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) 
       ENDIF
 
       RETURN

@@ -34,7 +34,7 @@ C  France
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
 C------- Extent of Entrance/Exit fringe field region
       EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0)
@@ -42,7 +42,7 @@ C------- Extent of Entrance/Exit fringe field region
       LOGICAL CHFE, CHU, CHFS
       PARAMETER (I0=0, I1=1)
  
-      VN = V0/BR
+      VN = V0*BRI
 
 C----- LambdaE,LambdaS
       QLE = QLEM(1)
@@ -121,7 +121,7 @@ C     >                                   D7GS,D8GS,D9GS,D10GS)
           IF(G.LT.0D0) CALL ENDJOB(
      >      ' SBR CHAMC :  problem  with  Gradient  ->  GE+GS-1 < ',I0)
  
-          DG  = (DGE  * QE(1,1)*DSEA + DGS*QS(1,1)*DSSA)  /BR
+          DG  = (DGE  * QE(1,1)*DSEA + DGS*QS(1,1)*DSSA)  *BRI
 
 C--------- Er 
           ER = - G * VN / RR

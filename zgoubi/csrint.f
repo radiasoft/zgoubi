@@ -32,7 +32,7 @@ C  France
 C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       COMMON/UNITS/ UNIT(MXJ)
 
@@ -47,7 +47,7 @@ C IT=1 is the front particle in the bunch. Cannot be victim of its own CSR
       STP = DS * UNIT(5)
 
 C----- Velocity of observer
-      P0 = BR*CL9*QT
+      P0 = QBR*CL9
       BTA = P0 / SQRT( P0*P0 + AMT*AMT )  
       CP = COS(P)
       BET(1) = BTA * COS(T) * CP

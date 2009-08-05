@@ -33,7 +33,7 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,BBR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
 C      REAL*8 C2,CP2
       DOUBLE PRECISION K2L,KP2L,K2LR,KL
@@ -65,7 +65,7 @@ C      REAL*8 BR,BRL,BRR,BXR,BXL
       KP2L=1.D0-K2L
       KP2R=1.D0-K2R
 C            write(*,*) ' solenf bo',bo 
-      BBC  =BO/(4.D0*PI)/BBR
+      BBC  =BO/(4.D0*PI)*BRI
  
 CCCCCCC Modified because the approximation (GOTO 1000) causes dirac 
 C pics (in an apparently stochastic maner...) in the field values in 

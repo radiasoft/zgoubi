@@ -36,9 +36,10 @@ C  France
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
-      COMMON/VITES/ U(6,3),DBR(6),DDT(6)
+      COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
  
 C------- CONDITIONS DE MAXWELL
         XSTP = XSTP + 1
@@ -54,27 +55,27 @@ C------- CONDITIONS DE MAXWELL
         IF(LST .EQ. 1) THEN
 C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
 C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
-          WRITE(NRES,105) IT,BR/BORO,Y,T,Z,P,X,SAR
+          WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
  105      FORMAT(/,' SPGM   IMPDEV',5X,'TRAJ ',I3
      >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E16.8)
  
-          IF(KFLD .EQ. LC .OR. KFLD .EQ. ML) THEN
+          IF((KFLD .EQ. LC .OR. KFLD .EQ. ML).AND.BRI.NE.0D0) THEN
  
-            WRITE(NRES,104) BR*E(1,1),BR*E(1,2),BR*E(1,3)
-     >      ,BR*DE(1,1),BR*DE(2,1),BR*DE(3,1),BR*DE(2,2),BR*DE(3,2)
-     >      ,BR*DDE(1,1,1),BR*DDE(2,1,1),BR*DDE(3,1,1)
-     >      ,BR*DDE(2,2,1),BR*DDE(3,2,1),BR*DDE(3,3,1)
+            WRITE(NRES,104) E(1,1)/BRI,E(1,2)/BRI,E(1,3)/BRI
+     >      ,DE(1,1)/BRI,DE(2,1)/BRI,DE(3,1)/BRI,DE(2,2)/BRI,DE(3,2)/BRI
+     >      ,DDE(1,1,1)/BRI,DDE(2,1,1)/BRI,DDE(3,1,1)/BRI
+     >      ,DDE(2,2,1)/BRI,DDE(3,2,1)/BRI,DDE(3,3,1)/BRI
  104        FORMAT(' EX, EY, EZ (MV/cm):',1P,3E16.8
      >          ,/,' E'' :',5E16.8
      >          ,/,' E'''':',6E16.8)
           ENDIF
  
-          IF(KFLD .EQ. MG .OR. KFLD .EQ. ML) THEN
+          IF((KFLD .EQ. MG .OR. KFLD .EQ. ML).AND.BRI.NE.0D0) THEN
  
-            WRITE(NRES,106) BR*B(1,1),BR*B(1,2),BR*B(1,3)
-     >      ,BR*DB(1,1),BR*DB(2,1),BR*DB(3,1),BR*DB(2,2),BR*DB(3,2)
-     >      ,BR*DDB(1,1,1),BR*DDB(2,1,1),BR*DDB(3,1,1)
-     >      ,BR*DDB(2,2,1),BR*DDB(3,2,1),BR*DDB(3,3,1)
+            WRITE(NRES,106) B(1,1)/BRI,B(1,2)/BRI,B(1,3)/BRI
+     >      ,DB(1,1)/BRI,DB(2,1)/BRI,DB(3,1)/BRI,DB(2,2)/BRI,DB(3,2)/BRI
+     >      ,DDB(1,1,1)/BRI,DDB(2,1,1)/BRI,DDB(3,1,1)/BRI
+     >      ,DDB(2,2,1)/BRI,DDB(3,2,1)/BRI,DDB(3,3,1)/BRI
  106        FORMAT(' BX, BY, BZ (kG)   :',1P,3E16.8
      >          ,/,' B'' :',5E16.8
      >          ,/,' B'''':',6E16.8)
@@ -82,7 +83,7 @@ C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
  
         ELSEIF(LST .EQ. 7) THEN
           WRITE(NRES,*)
-          WRITE(NRES,105) IT,BR/BORO,Y,T,Z,P,X,SAR
+          WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
           WRITE(NRES,109) ( J,  B(1,J),J=1,3)
  109      FORMAT('    B(J) ',3(1X,I1,1X,1P,E11.3))
           WRITE(NRES,100) (( I,J,  DB(I,J)  ,I=1,3),J=1,3)

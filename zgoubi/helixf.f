@@ -23,11 +23,11 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE HELIXF(X,Y,Z,BR,AK,BO,
+      SUBROUTINE HELIXF(X,Y,Z,BRI,AK,BO,
      >                                      B)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3)
-      BN = BO/BR
+      BN = BO*BRI
       AK2 = AK*AK
       AK24 = AK2/4.D0
       AK28 = AK24/2.D0

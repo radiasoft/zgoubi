@@ -52,7 +52,7 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION A000(3),A100(3),A010(3),A001(3),A200(3),A020(3),
      >A002(3),A110(3),A101(3),A011(3)
@@ -191,12 +191,12 @@ C BB/FM/ 18/08 to be thought of......
       BZX2Y2= 0.D0
       BZY4  = 0.D0
 
-      BZXY=C6/(4.D0*DA*DR)                /BR
-      BZX=C2/(6.D0*DA)                    /BR
-      BZY=C3/(6.D0*DR)                    /BR
-      BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36.D0   /BR
-      BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) /BR
-      BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) /BR
+      BZXY=C6/(4.D0*DA*DR)                *BRI
+      BZX=C2/(6.D0*DA)                    *BRI
+      BZY=C3/(6.D0*DR)                    *BRI
+      BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36.D0   *BRI
+      BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) *BRI
+      BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) *BRI
 
       GOTO 30
  
@@ -264,31 +264,31 @@ C     *** CALCUL DE BZ ET SES DERIVEES AU POINT DE MAILLAGE (IAC,IRC)
       DR13 =DR12*DR1
       BZXXX = (-3.4D0 *SI + SI3  )*F1S12
       BZXYY = (-2.D0  *SI + SIJ2 )*F1S70
-      BZX   = (.02D0 *SI - 3.4D0*BZXXX*F1S6 - BZXYY) *DA1        /BR
-      BZXXX = BZXXX                                  *DA13       /BR
-      BZXYY = BZXYY                                  *DA1 *DR12  /BR
+      BZX   = (.02D0 *SI - 3.4D0*BZXXX*F1S6 - BZXYY) *DA1        *BRI
+      BZXXX = BZXXX                                  *DA13       *BRI
+      BZXYY = BZXYY                                  *DA1 *DR12  *BRI
       BZXXY = (-2.D0  *SJ + SI2J )*F1S70
       BZYYY = (-3.4D0 *SJ + SJ3  )*F1S12
-      BZY   = (.02D0 *SJ - BZXXY - 3.4D0*BZYYY*F1S6)      *DR1   /BR
-      BZXXY = BZXXY                                  *DA12*DR1   /BR
-      BZYYY = BZYYY                                       *DR13  /BR
+      BZY   = (.02D0 *SJ - BZXXY - 3.4D0*BZYYY*F1S6)      *DR1   *BRI
+      BZXXY = BZXXY                                  *DA12*DR1   *BRI
+      BZYYY = BZYYY                                       *DR13  *BRI
       BZX3Y = (-3.4D0 *SIJ+ SI3J )*F1S24
       BZXY3 = (-3.4D0 *SIJ+ SIJ3 )*F1S24
-      BZXY  = (.01D0*SIJ- 3.4D0*(BZX3Y + BZXY3)*F1S6)*DA1 *DR1   /BR
-      BZX3Y = BZX3Y                                  *DA13*DR1   /BR
-      BZXY3 = BZXY3                                  *DA1 *DR13  /BR
+      BZXY  = (.01D0*SIJ- 3.4D0*(BZX3Y + BZXY3)*F1S6)*DA1 *DR1   *BRI
+      BZX3Y = BZX3Y                                  *DA13*DR1   *BRI
+      BZXY3 = BZXY3                                  *DA1 *DR13  *BRI
       BZX2Y2= (    SI2J2-2.D0*(SI2+SJ2)+ 4.D0 *S1)*F1S49
       BZY4  = (7.D0 *SJ4  -31.D0 *SJ2    +14.4D0 *S1)*F1S12
       BZYY  = ((SJ2-2.D0*S1-310.D0*F1S24*BZY4)*F1S35-BZX2Y2)
       BZX4  = (7.D0 *SI4  -31.D0 *SI2    +14.4D0 *S1)*F1S12
       BZXX  = (SI2-2.D0*S1-155.D0*BZX4*F1S12)*F1S35-BZX2Y2
       BZ =(.01D0*SI2J2 - 1.7D0*(BZXX+BZYY)-13.D0*(BZX4+BZY4)*F1S24 - 
-     >2.89D0*BZX2Y2) / BR
-      BZXX  = BZXX   *DA12       /BR
-      BZYY  = BZYY   *DR12       /BR
-      BZX4  = BZX4   *DA13*DA1   /BR
-      BZX2Y2= BZX2Y2 *DA12*DR12  /BR
-      BZY4  = BZY4   *DR13*DR1   /BR
+     >2.89D0*BZX2Y2) * BRI
+      BZXX  = BZXX   *DA12       *BRI
+      BZYY  = BZYY   *DR12       *BRI
+      BZX4  = BZX4   *DA13*DA1   *BRI
+      BZX2Y2= BZX2Y2 *DA12*DR12  *BRI
+      BZY4  = BZY4   *DR13*DR1   *BRI
  
 C  CALCUL DE BZ ET SES DERIVEES AU POINT COURANT A1,R1
       A2=A *A
@@ -397,12 +397,12 @@ C  CALCUL DE BZ ET SES DERIVEES AU POINT DE MAILLAGE IAC,IRC
       BZX4  = 0.D0
       BZX2Y2= 0.D0
       BZY4  = 0.D0
-      BZXX=2.D0*A20/(DA*DA   *BR)
-      BZXY=   A21/(DA*DR   *BR)
-      BZYY=2.D0*A22/(DR*DR   *BR)
-      BZX=A10    /(DA      *BR)
-      BZY=A11    /(DR      *BR)
-      BZ=A0                /BR
+      BZXX=2.D0*A20/(DA*DA)*BRI
+      BZXY=   A21/(DA*DR)  *BRI
+      BZYY=2.D0*A22/(DR*DR)*BRI
+      BZX=A10    /DA       *BRI
+      BZY=A11    /DR       *BRI
+      BZ=A0                *BRI
 C
  
  30   CONTINUE
@@ -489,16 +489,16 @@ C              A002(L)=A002(L) +  (3.D0*KZ*KZ-2.D0)   *BIJK
 
         CALL MAPLIM(*999, 27, BMESH3)
 
-        A000(L)=A000(L)/( 9.D0        *BR)
-        A100(L)=A100(L)/(18.D0*DA     *BR)
-        A010(L)=A010(L)/(18.D0*DR     *BR)
-        A001(L)=A001(L)/(18.D0*DZ     *BR)
-        A200(L)=A200(L)/(18.D0*DA*DA  *BR)
-        A020(L)=A020(L)/(18.D0*DR*DR  *BR)
-        A002(L)=A002(L)/(18.D0*DZ*DZ  *BR)
-        A110(L)=A110(L)/(12.D0*DA*DR  *BR)
-        A101(L)=A101(L)/(12.D0*DA*DZ  *BR)
-        A011(L)=A011(L)/(12.D0*DR*DZ  *BR)
+        A000(L)=A000(L)/( 9.D0      )*BRI
+        A100(L)=A100(L)/(18.D0*DA   )*BRI
+        A010(L)=A010(L)/(18.D0*DR   )*BRI
+        A001(L)=A001(L)/(18.D0*DZ   )*BRI
+        A200(L)=A200(L)/(18.D0*DA*DA)*BRI
+        A020(L)=A020(L)/(18.D0*DR*DR)*BRI
+        A002(L)=A002(L)/(18.D0*DZ*DZ)*BRI
+        A110(L)=A110(L)/(12.D0*DA*DR)*BRI
+        A101(L)=A101(L)/(12.D0*DA*DZ)*BRI
+        A011(L)=A011(L)/(12.D0*DR*DZ)*BRI
  415  CONTINUE
 C
 C  CALCUL BZ ET SES DERIVEES AU POINT COURANT A1,R1,Z1

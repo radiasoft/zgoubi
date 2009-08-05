@@ -34,11 +34,13 @@ C     **************************
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IMAXD,IMAXT
+      COMMON/PTICUL/ AAM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION CENTRE(MXJ)
       PARAMETER (MXJ1=MXJ-1)
@@ -47,6 +49,9 @@ C     **************************
       LOGICAL CINE
       CHARACTER*80 TXT
  
+      AMQLU = .FALSE.
+      PABSLU = .FALSE.
+
 C----- Magnetic rigidity  (Kg*cm)
       BORO = A(NOEL,1)
 
@@ -161,6 +166,8 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
           CALL OBJERR(ABS(NRES),1,MXT,TXT)
           CALL ENDJOB('*** Error, SBR MCOBJ -> momentum  cannot  be ',0)
         ENDIF
+        AMQ(1,I) = AAM
+        AMQ(2,I) = Q
  991  CONTINUE 
       IF(IPASS .EQ. 1) CALL CNTMXW(IMAX)
       RETURN

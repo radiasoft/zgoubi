@@ -30,11 +30,12 @@ C  France
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXLD.H'
       INCLUDE 'MXFS.H'
       CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      COMMON/TRAJ/ YT,T,Z,PT,XT,SAR,TAR,KEX,ITT,AMT,QT
 
       INCLUDE "MAXTRA.H"
       DIMENSION TPHOT(MXT),TLOSS(MXT)
@@ -82,16 +83,14 @@ C----- Curvature (/m)
       CURV=SQRT(B(1,1)*B(1,1)+B(1,2)*B(1,2)+B(1,3)*B(1,3)) / UNIT
 C----- Momentum (MeV/c), energy (MeV) 
 C         BR=Brho (kG.cm)
-      BRHO=BR
-      IF(BRHO.LT.0.D0) BRHO=-BRHO
-      P = BRHO*CQ
-      BFIELD=(BRHO*1.D-3)*CURV
+      P = QBR*CL9
+      QBFIELD=(ABS(QBR)*1.D-3)*CURV
       EN2 = P*P+AM2
       EN=SQRT(EN2)
       BTA=P/EN
       G3=EN*EN2/(AM*AM2)
 C----- Parameter of Poisson law (step DS is in cm)
-      A=FAC*BTA*BTA*BFIELD*(DS*UNIT)
+      A=FAC*BTA*BTA*QBFIELD*(DS*UNIT)
 C         K= INT(APDPO(A))
          K= INT(POIDEV(A))
          TPHOT(IT)=TPHOT(IT)+K
@@ -119,7 +118,8 @@ C          X2=X(1)+DXSPLI*R1
       TL2=TL2+DTI*DTI
 C----- Correction to particle rigidity
       EN = EN-DTI
-      BR = SQRT(EN*EN-AM2)/CQ
+      QBR = SQRT(EN*EN-AM2)/CL9
+      BRI = QT/QBR
 
       RETURN
 

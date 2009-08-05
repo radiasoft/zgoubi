@@ -37,8 +37,9 @@ C         Post-processing of stored data possible with zpop.
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
@@ -47,7 +48,7 @@ C         Post-processing of stored data possible with zpop.
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
@@ -67,13 +68,13 @@ C----- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)
       ENTRY IMPPLA(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
 
 C------- Bx,y,z (kG)
-      BX=B(1,1)  *BR 
-      BY=B(1,2)  *BR
-      BZ=B(1,3)  *BR
+      BX=B(1,1)  /BRI
+      BY=B(1,2)  /BRI
+      BZ=B(1,3)  /BRI
 
-      EX=E(1,1)  *BR
-      EY=E(1,2)  *BR
-      EZ=E(1,3)  *BR
+      EX=E(1,1)  /BRI
+      EY=E(1,2)  /BRI
+      EZ=E(1,3)  /BRI
 
 C-----------------------------------------------
 C  Assign XXX
@@ -83,7 +84,7 @@ C       w=sqrt(p0*p0+am*am) -am
 C       XXX=W
 
 C      XXX=BR/BORO
-      XXX= -1.D0 + BR/BORO
+      XXX= -1.D0 + QBR/(Q*BORO)
       XXXO=-1.D0 + FO(1,IT)
 C----- Tests installation miroirs elec
 C      CALL ENRGY(XXX)

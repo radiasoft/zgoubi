@@ -36,10 +36,12 @@ C     *******************************
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/UNITS/ UNIT(MXJ)
  
 C      DO 3 IT=1,IMAX
@@ -55,17 +57,17 @@ C------- IEX<-1<=> PARTICULE STOPPEE
         SAR= F(6,IT)
         TAR= F(7,IT)
         DP= F(1,IT)
-        BR=BORO*DP
+        QBR=Q*BORO*DP
         AMT = AMQ(1,IT)
         QT = AMQ(2,IT)
-        CALL MCDES(DL,IEX(IT),Y,T,Z,P,DL,BR,SAR,TAR,IT,AMT,QT,BORO,UN,1)
+        CALL MCDES(DL,IEX(IT),Y,T,Z,P,DL,QBR,SAR,TAR,IT,AMT,Q,BORO,UN,1)
         F(2,IT) = Y
         F(3,IT) = T / UNIT(2)
         F(4,IT) = Z
         F(5,IT) = P / UNIT(4)
         F(6,IT) = SAR
-        IF(QT*AMT .NE. 0.D0) F(7,IT) = TAR
-        DP=BR/BORO
+        F(7,IT) = TAR
+        DP=QBR/(Q*BORO)
         F(1,IT) = DP
         AMQ(1,IT) = AMT
         AMQ(2,IT) = QT

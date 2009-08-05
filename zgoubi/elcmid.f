@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE ELCMID(R,BR,
+      SUBROUTINE ELCMID(R,BRI,
      >                           ER0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C--------------------------------------------------------------
@@ -35,8 +35,8 @@ C--------------------------------------------------------------
 
       SAVE D, D2, D3, D4, R1, R2, V21D, V32D
 
-      V21 = V21D / BR
-      V32 = V32D / BR
+      V21 = V21D * BRI
+      V32 = V32D * BRI
       PIV21 = PI * V21
       PIV32 = PI * V32 
       PI2V21 = PI*PIV21

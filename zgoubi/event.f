@@ -23,8 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE EVENT(DL,Y,T,Z,P,X,XAR,BR,SAR,TAR,KEX,IT,
-     > AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
+      SUBROUTINE EVENT(DL,Y,T,Z,P,X,XAR,QBR,SAR,TAR,KEX,IT,
+     > AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "MAXTRA.H"
@@ -33,13 +33,13 @@ C  France
 
 C----- in-flight decay
       IF(IFDES .EQ. 1)
-     >  CALL MCDES(DL,KEX,Y,T,Z,P,X,BR,SAR,TAR,IT,AMT,QT,BORO,XAR,KART)
+     >  CALL MCDES(DL,KEX,Y,T,Z,P,X,QBR,SAR,TAR,IT,AMT,Q,BORO,XAR,KART)
 C     >  CALL MCDES(DL,KEX,Y,T,Z,P,RZ,BR,SAR,TAR,IT,AMT,QT,BORO,XAR,KART)
 
 C----- gas-scattering
-      BR0 = BR
-      IF(KGA .EQ. 1) CALL GASCAT(DL,BR0,IT,
-     >                                     BR,*99)
+      QBR0 = QBR
+      IF(KGA .EQ. 1) CALL GASCAT(DL,QBR0,IT,
+     >                                     QBR,*99)
 
 C------- Walls (chamber) 
       IF(LIMIT .EQ. 1) CALL CHMBRE(IT,Y,Z,SAR,

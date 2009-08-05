@@ -42,10 +42,9 @@ C     -----------------------------------------
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-C      COMMON/RIGID/ BORO,DPREF,DPP,BR
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ R1,T1,Z1,P1,A1,SAR,TAR,KEX,IT,AMT,QT
-      COMMON/VITES/ U(6,3),DBR(6),DDT(6)
+      COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
  
       DIMENSION EU(5)
  
@@ -323,16 +322,15 @@ C----- E=e/Bro
  2    CONTINUE
  
       AM2 = AMT*AMT
-      CQ = CL9*QT
-      BRC = BR*CQ
+      BRCQ = QBR*CL9
 C----- Wt=sqrt(p2+m2), p=beta.Wt/c
-      CSV = SQRT(1.D0 + AM2/(BRC*BRC))
+      CSV = SQRT(1.D0 + AM2/(BRCQ*BRCQ))
 Calcul (e.u)/Bro, Bro'
-      EU(1)=( ( E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3) ) *QT)
+      EU(1)= E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3)
       VL=CL9/CSV
       DDT(1) = 1.D0/VL
       DBSB=EU(1)/VL
-      DBR(1)=DBSB*BR
+      DQBR(1)=DBSB*QBR
 Calcul u'=E/v + uxB - uBro'/Bro
       DO 21 K=1,3
  21     U(2,K)=E(1,K)/VL  - U(1,K)*DBSB
@@ -353,13 +351,13 @@ Calcul e'/Bro = (e/Bro)'|Bro=cste = E'|Bro=cste
         E(2,K)=TP
  23   CONTINUE
 Calcul (e.u)'/Bro, Bro''
-      EU(2)= ( E(2,1)*U(1,1)+E(2,2)*U(1,2)+E(2,3)*U(1,3)
-     >+ E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3) ) *QT
-      DCSV=EU(1)/BRC-CSV*DBSB
+      EU(2)= E(2,1)*U(1,1)+E(2,2)*U(1,2)+E(2,3)*U(1,3)
+     >+ E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3)
+      DCSV=QT*EU(1)/BRCQ-CSV*DBSB
       D1SV=DCSV/CL9
       DDT(2) =D1SV
       D2BSB=D1SV*EU(1)+EU(2)/VL
-      DBR(2)=D2BSB*BR
+      DQBR(2)=D2BSB*QBR
 Calcul u''=(1/v)'E + (e'/Bro)/v - 2Bro'/Brou' - Bro''/Brou
       DO 26 K=1,3
         U(3,K)=E(1,K)*D1SV + E(2,K)/VL
@@ -399,14 +397,14 @@ C
         E(3,K)=TP
  25   CONTINUE
 Calcul (e.u)''/Bro, Bro'''
-      EU(3)=(( E(3,1)*U(1,1)+E(3,2)*U(1,2)+E(3,3)*U(1,3)
+      EU(3)= E(3,1)*U(1,1)+E(3,2)*U(1,2)+E(3,3)*U(1,3)
      >+ 2.D0*  ( E(2,1)*U(2,1)+E(2,2)*U(2,2)+E(2,3)*U(2,3))
-     >+        E(1,1)*U(3,1)+E(1,2)*U(3,2)+E(1,3)*U(3,3) ) *QT)
-      D2CSV= EU(2)/BRC - 2.D0*DBSB*DCSV - D2BSB*CSV
+     >+        E(1,1)*U(3,1)+E(1,2)*U(3,2)+E(1,3)*U(3,3)
+      D2CSV= QT*EU(2)/BRCQ - 2.D0*DBSB*DCSV - D2BSB*CSV
       D21SV=D2CSV/CL9
       DDT(3) = D21SV
       D3BSB=D21SV*EU(1)+2.D0*D1SV*EU(2)+EU(3)/VL
-      DBR(3)=D3BSB*BR
+      DQBR(3)=D3BSB*QBR
 Calcul u'''=(1/v)''E + 2(1/v)'(e'/Bro) + (e''/Bro)/v
 C           - 3Bro'/Brou'' - 3Bro''/Brou' - Bro'''/Brou
       DO 27 K=1,3
@@ -471,15 +469,15 @@ C
         E(4,K)=TP
  28   CONTINUE
 Calcul (e.u)'''/Bro, Bro''''
-      EU(4)=(( E(4,1)*U(1,1)+E(4,2)*U(1,2)+E(4,3)*U(1,3)
+      EU(4)= E(4,1)*U(1,1)+E(4,2)*U(1,2)+E(4,3)*U(1,3)
      >+ 3.D0* (  E(3,1)*U(2,1)+E(3,2)*U(2,2)+E(3,3)*U(2,3))
      >+ 3.D0* (  E(2,1)*U(3,1)+E(2,2)*U(3,2)+E(2,3)*U(3,3))
-     >+        E(1,1)*U(4,1)+E(1,2)*U(4,2)+E(1,3)*U(4,3) ) *QT)
-      D3CSV= EU(3)/BRC-3.D0*(DBSB*D2CSV + D2BSB*DCSV) - D3BSB*CSV
+     >+        E(1,1)*U(4,1)+E(1,2)*U(4,2)+E(1,3)*U(4,3)
+      D3CSV= QT*EU(3)/BRCQ-3.D0*(DBSB*D2CSV + D2BSB*DCSV) - D3BSB*CSV
       D31SV=D3CSV/CL9
       DDT(4) =D31SV
       D4BSB=D31SV*EU(1)+3.D0*(D21SV*EU(2)+D1SV*EU(3))+EU(4)/VL
-      DBR(4)=D4BSB*BR
+      DQBR(4)=D4BSB*QBR
 Calcul u''''=(1/v)'''E+3(1/v)''(e'/Bro)+3(1/v)'(e''/Bro)+(1/v)E'''/Bro
 C           - 4Bro'/Brou''' - 6Bro''/Brou'' - 4Bro'''/Brou' - Bro''''/Brou
       DO 240 K=1,3
@@ -576,18 +574,18 @@ Calcul e''''/Bro = E''''|Bro=cste
         E(5,K)=TP
  828  CONTINUE
 Calcul (e.u)''''/Bro, Bro'''''
-      EU(5)=((   E(5,1)*U(1,1)+E(5,2)*U(1,2)+E(5,3)*U(1,3)
+      EU(5)=     E(5,1)*U(1,1)+E(5,2)*U(1,2)+E(5,3)*U(1,3)
      >+ 4.D0* (  E(4,1)*U(2,1)+E(4,2)*U(2,2)+E(4,3)*U(2,3))
      >+ 6.D0* (  E(3,1)*U(3,1)+E(3,2)*U(3,2)+E(3,3)*U(3,3))
      >+ 4.D0* (  E(2,1)*U(4,1)+E(2,2)*U(4,2)+E(2,3)*U(4,3))
-     >+          E(1,1)*U(5,1)+E(1,2)*U(5,2)+E(1,3)*U(5,3) ) *QT)
-      D4CSV= EU(4)/BRC-(4.D0*DBSB*D3CSV + 6.D0*D2BSB*D2CSV +4.D0*
+     >+          E(1,1)*U(5,1)+E(1,2)*U(5,2)+E(1,3)*U(5,3)
+      D4CSV= QT*EU(4)/BRCQ-(4.D0*DBSB*D3CSV + 6.D0*D2BSB*D2CSV +4.D0*
      >   D3BSB*DCSV + D4BSB *CSV)
       D41SV=D4CSV/CL9
       DDT(5) = D41SV
       D5BSB=D41SV*EU(1)+4.D0*D31SV*EU(2)+6.D0*D21SV*EU(3)+
      >       4.D0*D1SV*EU(4) + EU(5)/VL
-      DBR(5)=D5BSB*BR
+      DQBR(5)=D5BSB*QBR
 Calcul u'''''
       DO 840 K=1,3
         U(6,K)=E(1,K)*D41SV + 4.D0*E(2,K)*D31SV + 6.D0*E(3,K)*D21SV +
@@ -603,17 +601,16 @@ C----- B=b/Bro, E=e/Bro
  3    CONTINUE
 
       AM2 = AMT*AMT
-      CQ = CL9*QT
-      BRC = BR*CQ
+      BRCQ = QBR*CL9
 C----- Wt=sqrt(p2+m2), p=beta.Wt/c
-      CSV = SQRT(1.D0 + AM2/(BRC*BRC))
+      CSV = SQRT(1.D0 + AM2/(BRCQ*BRCQ))
  
 Calcul (e.u)/Bro, Bro'
-      EU(1)=( ( E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3) ) *QT)
+      EU(1)= E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3)
       VL=CL9/CSV
       DDT(1) = 1.D0/VL
       DBSB=EU(1)/VL
-      DBR(1)=DBSB*BR
+      DQBR(1)=DBSB*QBR
 CALCUL u'=uxB
       CALL PVECT(1,1,1)
 Calcul u'=E/v + uxB - uBro'/Bro
@@ -636,13 +633,13 @@ Calcul e'/Bro = (e/Bro)'|Bro=cste = E'|Bro=cste
         E(2,K)=TP
  33   CONTINUE
 Calcul (e.u)'/Bro, Bro''
-      EU(2)= ( E(2,1)*U(1,1)+E(2,2)*U(1,2)+E(2,3)*U(1,3)
-     >+ E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3) ) *QT
-      DCSV=EU(1)/BRC-CSV*DBSB
+      EU(2)= E(2,1)*U(1,1)+E(2,2)*U(1,2)+E(2,3)*U(1,3)
+     >+ E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3)
+      DCSV=QT*EU(1)/BRCQ-CSV*DBSB
       D1SV=DCSV/CL9
       DDT(2) = D1SV
       D2BSB=D1SV*EU(1)+EU(2)/VL
-      DBR(2)=D2BSB*BR
+      DQBR(2)=D2BSB*QBR
 C      b'/Bro = B'|Bro=cste
       KIM = -IMAX
       DO 312 K=1,3
@@ -698,14 +695,14 @@ C
         E(3,K)=TP
  35   CONTINUE
 Calcul (e.u)''/Bro, Bro'''
-      EU(3)=(( E(3,1)*U(1,1)+E(3,2)*U(1,2)+E(3,3)*U(1,3)
+      EU(3)= E(3,1)*U(1,1)+E(3,2)*U(1,2)+E(3,3)*U(1,3)
      >+ 2.D0*  ( E(2,1)*U(2,1)+E(2,2)*U(2,2)+E(2,3)*U(2,3))
-     >+        E(1,1)*U(3,1)+E(1,2)*U(3,2)+E(1,3)*U(3,3) ) *QT)
-      D2CSV= EU(2)/BRC - 2.D0*DBSB*DCSV - D2BSB*CSV
+     >+        E(1,1)*U(3,1)+E(1,2)*U(3,2)+E(1,3)*U(3,3)
+      D2CSV= QT*EU(2)/BRCQ - 2.D0*DBSB*DCSV - D2BSB*CSV
       D21SV=D2CSV/CL9
       DDT(3) = D21SV
       D3BSB=D21SV*EU(1)+2.D0*D1SV*EU(2)+EU(3)/VL
-      DBR(3)=D3BSB*BR
+      DQBR(3)=D3BSB*QBR
 CALCUL b''/Bro = B''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -805,15 +802,15 @@ C
         E(4,K)=TP
  38   CONTINUE
 Calcul (e.u)'''/Bro, Bro''''
-      EU(4)=(( E(4,1)*U(1,1)+E(4,2)*U(1,2)+E(4,3)*U(1,3)
+      EU(4)= E(4,1)*U(1,1)+E(4,2)*U(1,2)+E(4,3)*U(1,3)
      >+ 3.D0* (  E(3,1)*U(2,1)+E(3,2)*U(2,2)+E(3,3)*U(2,3))
      >+ 3.D0* (  E(2,1)*U(3,1)+E(2,2)*U(3,2)+E(2,3)*U(3,3))
-     >+        E(1,1)*U(4,1)+E(1,2)*U(4,2)+E(1,3)*U(4,3) ) *QT)
-      D3CSV= EU(3)/BRC-3.D0*(DBSB*D2CSV + D2BSB*DCSV) - D3BSB*CSV
+     >+        E(1,1)*U(4,1)+E(1,2)*U(4,2)+E(1,3)*U(4,3)
+      D3CSV= QT*EU(3)/BRCQ-3.D0*(DBSB*D2CSV + D2BSB*DCSV) - D3BSB*CSV
       D31SV=D3CSV/CL9
       DDT(4) = D31SV
       D4BSB=D31SV*EU(1)+3.D0*(D21SV*EU(2)+D1SV*EU(3))+EU(4)/VL
-      DBR(4)=D4BSB*BR
+      DQBR(4)=D4BSB*QBR
 CALCUL b'''/Bro = B'''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX

@@ -40,15 +40,16 @@ C     **********************************************
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       CHARACTER  KAR(41)
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION B(3),B4(3),PX1(5),PX2(5),P3(5),P4(5)
       DIMENSION FP(6,MXT)
@@ -60,6 +61,9 @@ C     **********************************************
 
       DATA KTIR /'Uniform', 'Gaussian'/
       DATA BODY /'M3' , 'M5' , 'M6' /
+
+      AMQLU = .FALSE.
+      PABSLU = .FALSE.
 
 C  .... MAGNETIC  RIGIDITY (KG*CM), MASSE (MeV/c/2)
 C  .... Magnetic rigidity (Kg*cm), Mass (MeV/c/2)
@@ -326,6 +330,20 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
       ENDIF
  
  99   CONTINUE
+      IF (IBODY.EQ.1) THEN
+         AM = AM3
+      ELSE IF (IBODY.EQ.2) THEN
+         AM = AM5
+      ELSE IF (IBODY.EQ.3) THEN
+         AM = AM6
+      ELSE
+         CALL ENDJOB('OBJETA: INVALID VALUE FOR IBODY: ',IBODY)
+         AM = AAM
+      ENDIF
+      DO 993 I=1,IMAX
+         AMQ(1,I) = AM
+ 993     AMQ(2,I) = Q
+      
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
       RETURN
       END

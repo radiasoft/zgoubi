@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE EL2TU(XX,Y,Z,BR)
+      SUBROUTINE EL2TU(XX,Y,Z,BRI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z) 
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
@@ -38,7 +38,7 @@ C----- D=DISTANCE ENTRE TUBES, V21=(V2-V1), OM=Omega/Rayon, X0=refX
       DIMENSION EX(MDX)
       DIMENSION ER(2),DER(2,2),DDER(2,2,2)
  
-      CALL EAXIAL(OM,OM*(XX-X0),V21/BR,D,EX)
+      CALL EAXIAL(OM,OM*(XX-X0),V21*BRI,D,EX)
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,ER,DER,DDER)

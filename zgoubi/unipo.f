@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE UNIPO(XX,Y,Z,BR)
+      SUBROUTINE UNIPO(XX,Y,Z,BRI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
@@ -38,7 +38,7 @@ C----- D=DISTANCE TUBES, VDR=(V2-V1)/(D.RO), OR=Omega/RO, X0=refX
       DIMENSION EX(MDX)
       DIMENSION ER(2),DER(2,2),DDER(2,2,2)
  
-      CALL EAX3TU(OR,XX-X0,VDR/BR,D,X22,EX) 
+      CALL EAX3TU(OR,XX-X0,VDR*BRI,D,X22,EX) 
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,

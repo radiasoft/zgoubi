@@ -44,7 +44,7 @@ C  France
      > ,YCH,ZCH
       COMMON/CONST2/ ZERO, UN
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       LOGICAL CHFE, CHFS, CHU
       PARAMETER (Q7=3.038194444D-4)
@@ -65,7 +65,7 @@ C----- DIPOLE
  1    CONTINUE
  
       IP=1
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -159,12 +159,12 @@ C            CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
 C         *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C             SES DERIVEES
           G   =  G*GN
-          DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  /BR
-          D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  /BR
-          D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  /BR
-          D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  /BR
-          D5G = (D5GE * DE(IP,5) + D5GS * DS(IP,5))  /BR
-          D6G = (D6GE * DE(IP,6) + D6GS * DS(IP,6))  /BR
+          DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+          D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+          D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+          D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
+          D5G = (D5GE * DE(IP,5) + D5GS * DS(IP,5))  *BRI
+          D6G = (D6GE * DE(IP,6) + D6GS * DS(IP,6))  *BRI
 
           Y2 = Y  * Y
           Y4 = Y2 * Y2
@@ -249,7 +249,7 @@ C----- QUADRUPOLE
  2    CONTINUE
  
       IP=2
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -350,12 +350,12 @@ C          CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
 C       *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C           SES DERIVEES
       G   =  G*GN
-      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  /BR
-      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  /BR
-      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  /BR
-      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  /BR
-      D5G = (D5GE * DE(IP,5) + D5GS * DS(IP,5))  /BR
-      D6G = (D6GE * DE(IP,6) + D6GS * DS(IP,6))  /BR
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
+      D5G = (D5GE * DE(IP,5) + D5GS * DS(IP,5))  *BRI
+      D6G = (D6GE * DE(IP,6) + D6GS * DS(IP,6))  *BRI
  
       Y2 = Y  * Y
       Y3 = Y2 * Y
@@ -482,7 +482,7 @@ C----- Champ SEXTUPOLAIRE
  3    CONTINUE
  
       IP=3
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -582,10 +582,10 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
 C     *** CACULE LE GRADIENT DE Champ DE FUITE RESULTANT G=GE+GS-1,
 C         ET  SES DERIVEES
       G   =  G*GN
-      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  /BR
-      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  /BR
-      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  /BR
-      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  /BR
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
  
       Y2 = Y  * Y
       Y3 = Y2 * Y
@@ -697,7 +697,7 @@ C----- OCTUPOLE
  4    CONTINUE
  
       IP=4
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -805,10 +805,10 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
 C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C         SES DERIVEES
       G   =  G*GN
-      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  /BR
-      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  /BR
-      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  /BR
-      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  /BR
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
  
       Y2 = Y  * Y
       Y3 = Y2 * Y
@@ -915,7 +915,7 @@ C----- DECAPOLE
  5    CONTINUE
  
       IP=5
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -975,7 +975,7 @@ C----- DODECAPOLE
  6    CONTINUE
  
       IP=6
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -1038,7 +1038,7 @@ C----- 14-POLE
  7    CONTINUE
  
       IP=7
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -1082,7 +1082,7 @@ C----- 16-POLE
  8    CONTINUE
  
       IP=8
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       IF(GN.NE.0.D0) 
      >  stop ' *** 16-POLE lens not installed, please set B7=0 ***     '
 
@@ -1124,7 +1124,7 @@ C----- 18-POLE
  9    CONTINUE
  
       IP=9
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       IF(GN.NE.0.D0) 
      >  stop ' *** 18-POLE lens not installed, please set B7=0 ***'
 
@@ -1166,7 +1166,7 @@ C----- 20-POLE
  10   CONTINUE
  
       IP=10
-      GN = BM(IP)/BR
+      GN = BM(IP)*BRI
       DLE = DLEM(IP)
       DLS = DLSM(IP)
       Y=Y0
@@ -1299,9 +1299,9 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
 C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C         SES DERIVEES
       G   =  G*GN
-      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  /BR
-      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  /BR
-      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  /BR
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
  
       G   =  G  /10.D0
       DG  = DG  /10.D0

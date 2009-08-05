@@ -42,8 +42,9 @@ C     > ,YCH,ZCH
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
 C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles 
@@ -52,8 +53,9 @@ C            as resulting from decay (keyword 'MCDESINT')
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
+      COMMON/PTICUL/ AAM,Q,G,TO
  
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER (NTM=41)
@@ -64,6 +66,9 @@ C            as resulting from decay (keyword 'MCDESINT')
      > (JDE(5),IP   ),(JDE(1),ID)
  
       DIMENSION REF(MXJ)
+
+      AMQLU = .FALSE.
+      PABSLU = .FALSE.
 
 C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c/2)
       BORO = A(NOEL,1)
@@ -421,6 +426,11 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
 
  99   CONTINUE
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
+      IF (KOBJ.NE.3) THEN
+         DO 993 I=1,IMAX
+            AMQ(1,I) = AAM
+ 993        AMQ(2,I) = Q
+      ENDIF
       LUN = NRES
       IF(NRES.LE.0) LUN=6
       DO 991 I=1,IMAX

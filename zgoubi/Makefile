@@ -83,7 +83,6 @@ OBJ=\
  end.o\
  endfit.o\
  endjob.o\
- enrgy.o\
  ererz.o\
  erexyz.o\
  esl.o\

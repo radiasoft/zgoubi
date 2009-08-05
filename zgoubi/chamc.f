@@ -57,7 +57,7 @@ C     --------------------------------------------------------------
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION BT(5,15),ET(5,15)
       SAVE BT,ET
@@ -143,11 +143,11 @@ C          CALL BENDF(BM(1),MPOL,DLE,DLS,DI,DS,RTB,X,Y0,
  
         ELSEIF(KUASEX .EQ. 22) THEN
 C--------- EL2TUB. ELECTROSTATIQ 2-TUBE
-          CALL EL2TU(X,Y,Z,BR)
+          CALL EL2TU(X,Y,Z,BRI)
  
         ELSEIF(KUASEX .EQ. 23) THEN
 C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
-          CALL UNIPO(X,Y,Z,BR)
+          CALL UNIPO(X,Y,Z,BRI)
 
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
@@ -159,19 +159,19 @@ C--------- ELMIR
           Y0=Y
           Z0=Z
           IF(EM(6).NE.0.D0) CALL ROTX(EM(6),Y0,Z0)
-          CALL ELMIRF(X,Z0,BR,
+          CALL ELMIRF(X,Z0,BRI,
      >                           E,DE,DDE)
           IF(EM(6).NE.0.D0)
      >      CALL XROTB(EM(6),E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 
         ELSEIF(KUASEX .EQ. 26 ) THEN
 C--------- ELCMIR 
-          CALL ELCMIF(Y,Z,BR,
+          CALL ELCMIF(Y,Z,BRI,
      >                         E,DE,DDE)
               
         ELSEIF(KUASEX .EQ. 28 ) THEN
 C--------- HELIX
-          CALL HELIXF(X,Y,Z,BR,RO,BO,
+          CALL HELIXF(X,Y,Z,BRI,RO,BO,
      >                                  B)
         ELSEIF(KUASEX .EQ. 29) THEN
 C--------- COILS
@@ -189,7 +189,7 @@ C--------- UNDULATOR
 C------ Various fields B(X,Y,0), assuming median plane symmetry, 
 C       extrapolation at Z performed from mid-plane field by Taylor exp.
 
-        BN=BO/BR
+        BN=BO*BRI
  
         IF(KUASEX .EQ. 1) THEN
 C         *** Champ QUADRUPOLAIRE A ETENDUE RADIALE DIPOLAIRE
@@ -247,7 +247,7 @@ C------------ Simulation of a short bend (RS in LHC ring, 06/1995)
 C             Lorentzien within +/-X(BSEUIL) such that B(+/-X(BSEUIL))=0. 
 
              U = X / RO                         
-             BZ    = (BO / ( 1.D0 + U * U ) - EB1)/BR
+             BZ    = (BO / ( 1.D0 + U * U ) - EB1)*BRI
 
 CC             Parabolic
 C             U = (X - XLIM) / XLIM

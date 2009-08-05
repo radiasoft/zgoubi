@@ -35,7 +35,7 @@ C  France
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
 C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DPPP,BR
+      COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
   
       DIMENSION FTAB(5,5)
 
@@ -1904,12 +1904,12 @@ C         write(*,*) ' anal itypf 0 '
       B2TTA  =  FAC2TA*HRC
       BRTA   =  FACTTA*DHRC  +   FACRTA*HRC
 
-      BZ     = B     / BR
-      BZX    = BTTA  / BR
-      BZY    = BRO   / BR
-      BZXX   = B2TTA / BR
-      BZYY   = B2RO  / BR
-      BZXY   = BRTA  / BR
+      BZ     = B     * BRI
+      BZX    = BTTA  * BRI
+      BZY    = BRO   * BRI
+      BZXX   = B2TTA * BRI
+      BZYY   = B2RO  * BRI
+      BZXY   = BRTA  * BRI
 
       BZX   =   BZX*R11
       BZXX  = ( BZXX*R11+BZY)*R11
@@ -2006,15 +2006,15 @@ C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL)
          BR3TA  =  FAC3TA*DHRC  +   FACR3T*HRC
          B2R2TA =  FAC2TA*D2HRC + 2*FACR2T*DHRC+  FA2R2TA*HRC
 
-         BZXXX  = B3TTA  / BR
-         BZX4   = B4TTA  / BR
-         BZYYY  = B3RO   / BR
-         BZY4   = B4RO   / BR
-         BZXXY  = BR2TA  / BR
-         BZXYY  = B2RTA  / BR
-         BZX3Y  = BR3TA  / BR
-         BZXY3  = B3RTA  / BR
-         BZX2Y2 = B2R2TA / BR
+         BZXXX  = B3TTA  * BRI
+         BZX4   = B4TTA  * BRI
+         BZYYY  = B3RO   * BRI
+         BZY4   = B4RO   * BRI
+         BZXXY  = BR2TA  * BRI
+         BZXYY  = B2RTA  * BRI
+         BZX3Y  = BR3TA  * BRI
+         BZXY3  = B3RTA  * BRI
+         BZX2Y2 = B2R2TA * BRI
 
          BZX4  =(((BZX4 -8.D0*BZXX)*R11+6.D0*BZXXY-3.D0*BZY)*R11+
      >    3.D0*BZYY)*R12

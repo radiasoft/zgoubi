@@ -31,7 +31,7 @@ C  France
 C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
 C      REAL*8 C(6),F(5)
       DIMENSION C(6),F(5)
@@ -51,11 +51,11 @@ C... GRILLE 1-D A 5 POINTS OU 2-D A 5*5 POINTS
 C.... DX == X/COURANT - X/CENTREGRILLE  LE TOUT /DX
       A=(X1-XH(IAC))/DX
  
-      F(1)=HC(ID,IAC-2,1,1)/BR
-      F(2)=HC(ID,IAC-1,1,1)/BR
-      F(3)=HC(ID,IAC  ,1,1)/BR
-      F(4)=HC(ID,IAC+1,1,1)/BR
-      F(5)=HC(ID,IAC+2,1,1)/BR
+      F(1)=HC(ID,IAC-2,1,1)*BRI
+      F(2)=HC(ID,IAC-1,1,1)*BRI
+      F(3)=HC(ID,IAC  ,1,1)*BRI
+      F(4)=HC(ID,IAC+1,1,1)*BRI
+      F(5)=HC(ID,IAC+2,1,1)*BRI
  
       E1 =     F(1)+F(2)+F(3)+F(4)+    F(5)
       E2 = -2.D0*F(1)-F(2)     +F(4)+ 2.D0*F(5)

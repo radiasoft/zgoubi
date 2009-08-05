@@ -29,10 +29,10 @@ C  France
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "MAXTRA.H"
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
-      COMMON/VITES/ U(6,3),DBR(6),DDT(6)
+      COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
  
 Correction, FM, 02/98 
 CCC   DIMENSION BU(4,3), BP(4,3), O(4,3), S(5,3)
@@ -40,7 +40,7 @@ CCC   DIMENSION BU(4,3), BP(4,3), O(4,3), S(5,3)
  
 C      PM = BR*CL*1D-9/AM *(Q/QE)
 C      PM = BR*CL*1D-9/AM *Q
-      PM = BR*CL9/AM *Q
+      PM = QBR*CL9/AM
       GG = G * SQRT( 1.D0+PM*PM )
       GP = 1.D0+ GG
       GM = G-GG

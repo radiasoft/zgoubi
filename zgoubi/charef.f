@@ -37,12 +37,13 @@ C     -----------------------------------------------
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/GASC/ AI, DEN, KGA
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       PARAMETER(I0=0)
@@ -56,11 +57,9 @@ C     -----------------------------------------------
       DS = DL/COS(P)
       SAR= SAR+DS
       Z=Z+DL*TAN(P)
-      IF(QT*AMT .NE. 0.D0) THEN 
-        QBRO = BR*CL9*QT
-        DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
-        TAR = TAR + DTAR
-      ENDIF
+      QBRO = QBR*CL9
+      DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
+      TAR = TAR + DTAR
       IF(EVNT) THEN
 C------- spin tracking
         IF(KSPN .EQ. 1 ) THEN
@@ -76,7 +75,7 @@ C--------- Cylindrical coordinates
 C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be 
 C either y or y+rm  depending when it is called
 C            write(*,*) ' sbr charef ',it,y,rm,y+rm
-C        CALL EVENT(DL,YY,T,Z,P,XX,UN,BR,SAR,TAR,KEX,IT,
+C        CALL EVENT(DL,YY,T,Z,P,XX,UN,QBR,SAR,TAR,KEX,IT,
 C     >  AMT,QT,BORO,KART,IFDES,KGA,I0,IMAX,*99)
       ENDIF
 C 99   RETURN 

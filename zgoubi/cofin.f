@@ -41,12 +41,13 @@ C     ----------------------------------
       INCLUDE 'MXSTEP.H'
       INCLUDE 'CSR.H'
 C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
-      COMMON/DEPL/ XF(3),DXF(3),DBRO,DTAR
+      COMMON/DEPL/ XF(3),DXF(3),DQBRO,DTAR
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/GASC/ AI, DEN, KGA
@@ -56,7 +57,7 @@ C      COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNRA/ KSYN
 
@@ -76,9 +77,12 @@ C             z = .1d0
       T=ATAN2(DXF(2),DXF(1))
       P=ATAN( DXF(3)/SQRT(DXF(1)*DXF(1)+DXF(2)*DXF(2)) )
 C      P=ATAN2( DXF(3),SQRT(DXF(1)*DXF(1)+DXF(2)*DXF(2)) )
-      IF(QT*AMT .NE. 0.D0)      TAR = TAR + DTAR
+      TAR = TAR + DTAR
 
-      IF(KFLD.GE.LC) BR=BR + DBRO
+      IF(KFLD.GE.LC) THEN
+         QBR=QBR + DQBRO
+         BRI = QT/QBR
+      ENDIF
 
       IF(KART .EQ. 2) THEN
 C-------- Polar coordinates
@@ -109,8 +113,8 @@ C----------- Compute interaction undergone by current particle, due to all earli
           ENDIF
         ELSE        
           CALL EVENT(
-     >    DS,Y,T,Z,P,X,ZERO,BR,SAR,TAR,KEX,IT,
-     >    AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*99)
+     >    DS,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,
+     >    AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*99)
         ENDIF
       ENDIF
       RETURN

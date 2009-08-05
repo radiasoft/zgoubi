@@ -36,7 +36,7 @@ C      SUBROUTINE BENDF(BN,MPOL,DLE,DLS,DE,DS,RTB,X,Y,
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST2/ ZERO, UN
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       SAVE IOPIN, IOPOU, DISTE, DISTS
              
@@ -55,10 +55,10 @@ C-----  dSS/dx=-cosTS=-CTS , dSS/dy = +sinTS =+STS
           SE=SE/DLE(1)
           CALL DRVG(4,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
 C     >                                   D7GE,D8GE,D9GE,D10GE)
-          DGE  = DGE  * DE(1,1)/BR 
-          D2GE = D2GE * DE(1,2)/BR 
-          D3GE = D3GE * DE(1,3)/BR 
-          D4GE = D4GE * DE(1,4)/BR 
+          DGE  = DGE  * DE(1,1)*BRI 
+          D2GE = D2GE * DE(1,2)*BRI 
+          D3GE = D3GE * DE(1,3)*BRI 
+          D4GE = D4GE * DE(1,4)*BRI 
           IF(IOPIN.LT.0) THEN
             IF(SE.LT.0.D0) THEN
               SE = -SE*DLE(1)
@@ -105,10 +105,10 @@ C--------- DLE=0. => XE=0.
           SS = SS/DLS(1)
           CALL DRVG(4,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
 C     >                                   D7GS,D8GS,D9GS,D10GS)
-          DGS  = DGS  * DS(1,1)/BR 
-          D2GS = D2GS * DS(1,2)/BR 
-          D3GS = D3GS * DS(1,3)/BR 
-          D4GS = D4GS * DS(1,4)/BR 
+          DGS  = DGS  * DS(1,1)*BRI 
+          D2GS = D2GS * DS(1,2)*BRI 
+          D3GS = D3GS * DS(1,3)*BRI 
+          D4GS = D4GS * DS(1,4)*BRI 
           IF(IOPOU.LT.0) THEN
             IF(SS.LT.0.D0) THEN
               SS = -SS*DLS(1)
@@ -150,7 +150,7 @@ C--------- DLS=0. => XS=0.
       CTS2=CTS*CTS
       STS2=STS*STS
 
-      BZ = ( GE+GS-1.D0 )*BN/BR
+      BZ = ( GE+GS-1.D0 )*BN*BRI
  
       BZX=  DGE*CTE - DGS*CTS
       BZY=  DGE*STE + DGS*STS

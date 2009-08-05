@@ -31,10 +31,12 @@ C     -------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
 C      DO 3 IT=1,IMAX
       DO 3 IT=I1,I2
@@ -47,15 +49,15 @@ C------- IEX<-1<=> PARTICULE STOPPEE
         P = F(5,IT)*.001D0
         SAR= F(6,IT)
         DP= F(1,IT)
-        BR0=BORO*DP
-        CALL GASCAT(DL,BR0,IT,
-     >                        BR,*3)
+        QBR0=Q*BORO*DP
+        CALL GASCAT(DL,QBR0,IT,
+     >                        QBR,*3)
         F(2,IT) = Y
         F(3,IT) = T*1.D3
         F(4,IT) = Z
         F(5,IT) = P*1.D3
         F(6,IT) = SAR
-        DP=BR/BORO
+        DP=QBR/(Q*BORO)
         F(1,IT) = DP
  
  3    CONTINUE

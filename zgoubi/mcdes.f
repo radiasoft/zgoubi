@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE MCDES(
-     >   DS,KEX,Y,T,Z,P,DA,BR,SAR,TAR,IT,AMT,QT,BORO,XAR,KART)
+     >   DS,KEX,Y,T,Z,P,DA,QBR,SAR,TAR,IT,AMT,Q,BORO,XAR,KART)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -32,8 +32,9 @@ C  France
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/UNITS/ UNIT(MXJ)
@@ -46,7 +47,7 @@ C  France
 
       IF(KEX .LT. -1) GOTO 99
 
-      DP=BR/BORO
+      DP=QBR/(Q*BORO)
       DL = DS * COS(T)
       IF( LET(IT) .NE. 'S' .AND. DL .GT. 0D0 ) THEN
          DSAR = FDES(6,IT)-SAR
@@ -88,7 +89,7 @@ C--- It is necessary to catch TET, PHI from fixed sets if is FIT to be used
 C--------------------------------------------------------------------------
  
 C---------- Ref. lab :
-           BETAP = 1.D0/SQRT( 1.D0 +  (AMP/(CL9*BR))**2  )
+           BETAP = 1.D0/SQRT( 1.D0 +  (AMP/(CL9*QBR))**2  )
            GAMAP = 1.D0/SQRT(1.D0-BETAP*BETAP)
 
            AMP2 = AMP*AMP
@@ -159,16 +160,14 @@ C---------- COTES EN FIN DE DL
            SAR= FDES(6,IT)-DSAR
  
 C----------- Calculate M1 TOF upstream of decay point
-           IF(QT*AMT .NE. 0.D0) THEN 
-             QBRO = BR*CL9*QT
-             DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
-             TAR= TAR + DTAR
-           ENDIF
+           QBRO = QBR*CL9
+           DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
+           TAR= TAR + DTAR
 C---------- Assigns  mass 
            AMT = AMS
 C----------- Calculate M2 TOF downstream of decay point
-           IF(QT*AMT .NE. 0.D0) THEN 
-             QBRO = BORO*DP*CL9*QT
+           IF(AMT .NE. 0.D0) THEN 
+             QBRO = BORO*DP*CL9*Q
              DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
              TAR= TAR - DTAR
            ENDIF
@@ -255,7 +254,7 @@ C--------- FDES(7,IT) contains com life time (s) of S(econdary) particle
         ENDIF
  
       ENDIF
-      BR=BORO*DP
+      QBR=Q*BORO*DP
 C-------- Test NuFact
 CCCCCCCCCc         IF(BR.LT.666) DP=-999
  99   RETURN

@@ -38,13 +38,15 @@ C     **************************************
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       CHARACTER  KAR(41)
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/PTICUL/ AAM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
 
@@ -58,9 +60,6 @@ C     **************************************
 
       CHARACTER LETI, LETAG
       CHARACTER*130 TXT
-
-      Q = 1.D0
-      P0 = BORO*CL9*Q
 
 C----- Reset particle counter
       IF(IPASS.EQ.1) CALL CNTRST
@@ -121,7 +120,8 @@ C----- Traj. counter
       IPASSR = 0
       IEND = 0
 
-      AMQLU = KOBJ2.EQ.0
+      AMQLU = (BINARY.OR.KOBJ2.EQ.0.OR.KOBJ2.EQ.3)
+      PABSLU = KOBJ2.EQ.2
 
   17  CONTINUE
         IPASS1 = IPASSR
@@ -132,7 +132,7 @@ C----- Traj. counter
  222      CONTINUE
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
-     >     LETI,IEXI,DPO,YO,TO,ZO,PO,SO,TIMO, 
+     >     LETI,IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
      >     DP,Y,T,Z,P,S,TIM,EKIN, 
      >     IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,
      >     BRO, IPASSR, TDUM8,TDUM8,TDUM8,IDUM
@@ -158,7 +158,7 @@ C----- Traj. counter
 
           IF  (KOBJ2.EQ.0) THEN           
             READ(NL,110,ERR=97,END=95)
-     >      LETI,IEXI,DPO,YO,TO,ZO,PO,SO,TIMO, 
+     >      LETI,IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
      >      DP,Y,T,Z,P,S,TIM,EKIN, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,
      >      BRO, IPASSR, TDUM8,TDUM8,TDUM8,IDUM
@@ -177,7 +177,7 @@ C------------ Was installed for reading pion data at NuFact target
             IPASSR =  KP1    
             BRO = BORO
             YO= 0.D0
-            TO= 0.D0
+            TTO= 0.D0
             ZO= 0.D0
             PO= 0.D0
             SO= 0.D0
@@ -191,7 +191,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             READ(NL,*,ERR=97,END=95) X,Y,Z,PX,PY,PZ
             BRO = BORO
             PT = SQRT(PX*PX+PY*PY+PZ*PZ)
-            DP = PT/P0
+            DP = PT/(BORO*CL9)
             T = ATAN(PY/PX)*1000.D0
             P = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
             TIM = 0.D0
@@ -201,7 +201,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             IREPI = IT
             IPASSR =  KP1    
             YO= 0.D0
-            TO= 0.D0
+            TTO= 0.D0
             ZO= 0.D0
             PO= 0.D0
             SO= 0.D0
@@ -221,7 +221,7 @@ C            TIM = 0.D0
             IPASSR =  KP1    
             BRO = BORO
             YO= 0.D0
-            TO= 0.D0
+            TTO= 0.D0
             ZO= 0.D0
             PO= 0.D0
             SO= 0.D0
@@ -256,12 +256,17 @@ C        FO(1,IT1)=1.D0 + DPO
 C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
         FO(1,IT1)= DPO * BRO/BORO
         FO(2,IT1)=YO
-        FO(3,IT1)=TO
+        FO(3,IT1)=TTO
         FO(4,IT1)=ZO
         FO(5,IT1)=PO
         FO(6,IT1)=SO
         FO(7,IT1)=TIMO
-        F(1,IT1)=(DP*DPFAC + DPREF) * BRO/BORO
+        IF (PABSLU) THEN
+           DP0(IT1)=(DP*DPFAC + DPREF) * BRO/BORO
+           F(1,IT1)= DP0(IT1)*Q
+        ELSE
+           F(1,IT1)=(DP*DPFAC + DPREF) * BRO/BORO
+        ENDIF
         F(2,IT1)=  Y*YFAC  + YREF
         F(3,IT1)=  T*TFAC  + TREF
         F(4,IT1)=  Z*ZFAC  + ZREF
@@ -269,7 +274,7 @@ C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
         IREP(IT1) = IT1
-        IF (KOBJ2.EQ.0) THEN
+        IF (AMQLU) THEN
            RET(IT1)=RETI
            DPR(IT1)=DPRI
 C        IREP(IT1) = IREPI
@@ -279,6 +284,9 @@ C        IREP(IT1) = IREPI
            AMQ(3,IT1) = AMQ3
            AMQ(4,IT1) = AMQ4
            AMQ(5,IT1) = AMQ5
+        ELSE
+           AMQ(1,IT1) = AAM
+           AMQ(2,IT1) = Q
         ENDIF
 
 C TESTS COOLING NUFACT--------------------

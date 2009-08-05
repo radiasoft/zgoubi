@@ -33,8 +33,9 @@ C     -------------------------------------------------
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
  
       CALL RAZ(R,6*6)
       R(5,5) = 1.D0

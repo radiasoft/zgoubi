@@ -28,21 +28,22 @@ C  France
 C  Update coordinates of trajectory # I
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU
+      LOGICAL AMQLU,PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
       F(2,I)=Y
       F(3,I)=T*1000.D0
       F(4,I)=Z
       F(5,I)=P*1000.D0
-      DP=BR/BORO
+      DP=QBR/(Q*BORO)
       F(1,I)=DP
       IEX(I)=KEX
       F(6,I)= SAR
-      IF(QT*AMT .NE. 0.D0) F(7,I)= TAR    *1.D-5
+      F(7,I)= TAR    *1.D-5
       AMQ(1,I) = AMT
       AMQ(2,I) = QT
       RETURN

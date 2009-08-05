@@ -37,7 +37,7 @@ C     -------------------------------------------------------------
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
@@ -45,7 +45,8 @@ C     -------------------------------------------------------------
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/STEP/ TPAS(3), KPAS
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
  
@@ -191,11 +192,11 @@ C------- DROITE(S) DE COUPURE EN SORTIE
 
         IF( KART .EQ. 1) THEN
 C--------- COORDONNEES CARTESIENNES
-          D = ABS(AM(KDR)*X + BM(KDR)*Y + CM(KDR))
+          D = ABS(CA(KDR)*X + SA(KDR)*Y + CM(KDR))
 
           IF(D .LT. DXI) THEN
-            AL = AM(KDR)
-            BL = BM(KDR)
+            AL = CA(KDR)
+            BL = SA(KDR)
             CL = -D
             ST = SIN(T)
             CT = COS(T)
@@ -358,7 +359,7 @@ C---------------------------
                     xxx = nstep*dxi
                     x = xxx
            write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
-     >          b(1,1),b(1,3)*br,b(1,2),'    sbr integr'
+     >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
          endif
 
 
@@ -406,11 +407,9 @@ C        write(89,*)  x, dxi, dx, xlim, ' 3  sbr integr'
         Z=Z+(DX*TAN(P))*(1.D0/CT)
         PAF = DX/(CT*COS(P))
         SAR= SAR+PAF
-        IF(QT*AMT .NE. 0.D0) THEN 
-          QBRO = BR*CL9*QT
-          DTAR = PAF / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
-          TAR = TAR + DTAR
-        ENDIF
+        QBRO = QBR*CL9
+        DTAR = PAF / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
+        TAR = TAR + DTAR
         IF(EVNT) THEN
           IF(KSPN .EQ. 1) THEN
 C----------- Spin tracking
@@ -418,8 +417,8 @@ C----------- Spin tracking
             CALL SPNTRK(IT,PAF)
           ELSE         
             CALL EVENT(
-     >      PAF,Y,T,Z,P,X,ZERO,BR,SAR,TAR,KEX,IT,
-     >      AMT,QT,BORO,KART,IFDES,KGA,KSYN,IMAX,*97)
+     >      PAF,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,
+     >      AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*97)
           ENDIF
         ENDIF
       ENDIF
@@ -430,7 +429,7 @@ C        write(89,*)  x, dxi, dx, xlim, ' 4  sbr integr'
                     xxx = nstep*dxi
                     x = xxx
            write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
-     >          b(1,1),b(1,3)*br,b(1,2),'    sbr integr'
+     >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
          endif
 
 

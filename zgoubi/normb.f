@@ -26,14 +26,14 @@ C  France
       SUBROUTINE NORMB(B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
-      COMMON/RIGID/ BORO,DPREF,DP,BR
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DO 1 I=1,3
-        B(1,I)=B(1,I)/BR
+        B(1,I)=B(1,I)*BRI
         DO 1 J=1,3
-          DB(I,J)=DB(I,J)/BR
+          DB(I,J)=DB(I,J)*BRI
           DO 1 K=1,3
-            DDB(I,J,K)=DDB(I,J,K)/BR
+            DDB(I,J,K)=DDB(I,J,K)*BRI
  1    CONTINUE
       RETURN
       END
