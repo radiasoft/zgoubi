@@ -1,5 +1,3 @@
-LIBS     = -ldl -lcurses
-
 # Ne rien modifier au delà de cette ligne
 DIRLIBS  = -L.
 

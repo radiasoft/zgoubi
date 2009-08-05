@@ -175,7 +175,7 @@ LNSLIBS = liblns/libfminigraf.a
 	$(FC) $(FFLAGS) -I$(INC) -c $<
 
 zpop  : $(OBJECTS) build_liblns
-	$(FC) $(LDFLAGS) $(OBJECTS) $(LNSLIBS) -L../common -lzg -lm -lcurses -o $@
+	$(FC) $(LDFLAGS) $(OBJECTS) $(LNSLIBS) -L../common -lzg -lm -o $@
 
 build_liblns :
 	cd liblns ; $(MAKE)
