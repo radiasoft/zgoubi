@@ -64,10 +64,11 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
  
       PARAMETER (MDR3= 3*MDR)
     
-      DATA LF,LST / 2 * 0 /
-      DATA KCO / 0 /
       DOUBLE PRECISION QE0
       PARAMETER (QE0=1.602176487D-19)
+
+      DATA LF,LST / 2 * 0 /
+      DATA KCO / 0 /
       DATA CL, QE, AMPROT / 2.99792458D8, QE0, 938.27203D0 /
       DATA XF,DXF,DQBRO / 3*0.D0, 3*0.D0, 0.D0 /
       DATA ZERO, UN / 0.D0, 1.D0 /

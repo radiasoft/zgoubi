@@ -27,8 +27,8 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL IDLUNI
       character fnam*132, txt4*4
-      data fnam /'zpop.out_PRDIP'/
       save fnam
+      data fnam /'zpop.out_PRDIP'/
 
       IF (IDLUNI(IUN)) THEN
         OPEN(UNIT=IUN,FILE=FNAM,ERR=997)

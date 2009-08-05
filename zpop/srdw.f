@@ -39,9 +39,9 @@ C  France
       DIMENSION DW(MSAM,6), SDW(6), SYDX(4)
 
       CHARACTER XVA(3)*10, YVA(3)*15
+      CHARACTER XDI(3)*10, YDI(3)*15, SY(3)*12
       DATA XVA / 'omga',    'WaveL.' , 'omga'/
       DATA YVA / 'dW/dNu.dO', 'dW/dWaveL.dO', 'dN/dt.(do/o).dO' /
-      CHARACTER XDI(3)*10, YDI(3)*15, SY(3)*12
       DATA XDI / '(keV)',    '(Mu-m)' , '(keV)'/
       DATA YDI / '(J/Hz.srd)', '(J/m.srd)' , '(Phot/s.BW.srd)' /
       DATA SY / ' (J/srd)' ,' (J/srd)', ' (Phot/srd)'/

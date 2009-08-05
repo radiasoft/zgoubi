@@ -47,9 +47,9 @@ C  France
       CHARACTER*80 TXT
       CHARACTER LOGOT*18, TEMP*80
 
+      SAVE KARSIZ 
 
       DATA KARSIZ / 3 /
-      SAVE KARSIZ 
 
 C----- Histograms 
       IF(KX .EQ. 28) THEN

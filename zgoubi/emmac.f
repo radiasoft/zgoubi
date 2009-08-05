@@ -51,12 +51,11 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR, NEWFIC
       CHARACTER TITL*80 , NOMFIC(2)*80, NAMFIC(2)*80
-      DATA NOMFIC / 2*'               '/ 
+
       SAVE NOMFIC, NAMFIC
 
       INTEGER DEBSTR,FINSTR
 
-      DATA NHDF / 8 /
       SAVE NHDF
 
       LOGICAL STRCON 
@@ -64,12 +63,20 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       DIMENSION HC1(ID,MXX,MXY,IZ), HC2(ID,MXX,MXY,IZ)
       DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       SAVE HC1, HC2, HCA, HCB
-      DIMENSION HCU(ID,MXX,MXY,IZ)
-      SAVE HCU
+
+C      DIMENSION HCU(ID,MXX,MXY,IZ)
+C      SAVE HCU
+
       parameter (idmx=ID*MXX*MXY*IZ)
-          data hcu /  IDMX * 0.d0 /
 
       CHARACTER*20 FMTYP
+
+      DATA NOMFIC / 2*'               '/ 
+
+      DATA NHDF / 8 /
+
+C          data hcu /  IDMX * 0.d0 /
+
       DATA FMTYP / ' regular' / 
 
       BNORM = A(NOEL,10)*SCAL

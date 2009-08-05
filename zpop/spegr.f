@@ -28,11 +28,11 @@ C  France
       DIMENSION YNU(*), PMAX(*)
 
       CHARACTER TIT(3)*5, TXT*80
-      DATA TIT/'NuY =','NuZ =','NUX ='/
       PARAMETER (PTXT0=21.D0)
-      DATA PTXT / PTXT0 /
       SAVE PTXT
       CHARACTER TXTP*5,TXTL*14
+      DATA TIT/'NuY =','NuZ =','NUX ='/
+      DATA PTXT / PTXT0 /
 
       CALL LOGO
 

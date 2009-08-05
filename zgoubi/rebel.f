@@ -55,9 +55,10 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       CHARACTER*95 TXTBUF
 
       SAVE KREB3, KREB31
-      DATA KREB3, KREB31 / 0, 0 /
 
       SAVE KWRI6 
+
+      DATA KREB3, KREB31 / 0, 0 /
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :

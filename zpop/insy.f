@@ -33,15 +33,16 @@ C  France
       SAVE PLAN 
 
       CHARACTER*80 NOMFIC, NAMFIC
+      SAVE NOMFIC
+      SAVE AMAG
+      LOGICAL OKOPN, CHANGE
+
       DATA NOMFIC / 'zgoubi.dat' /
       DATA PLAN /'Horizontal','Vertical  '/
-      SAVE NOMFIC
       
       DATA IPLAN0, XB00, YB00, TETA00 / 1, 0.D0, 0.D0, 0.D0 /
       DATA AMAG / 2.D0 /
-      SAVE AMAG
 
-      LOGICAL OKOPN, CHANGE
       DATA OKOPN, CHANGE / .FALSE., .FALSE./
 
       DATA D00,DQ00,DS00,DM00,DSS00,DPU00 /

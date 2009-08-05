@@ -52,9 +52,9 @@ C      CHARACTER*9   HMS
       SAVE UYREF, UYP
 
       SAVE IORD
+      SAVE KWRI6
        
       DATA KWRI6 / 1 /
-      SAVE KWRI6
 
       KTWISS = A(NOEL,1)
       FACP = A(NOEL,2)

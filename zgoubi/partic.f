@@ -41,11 +41,13 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
 
       CHARACTER CODE*11, CODEI*(*)
       SAVE CODE 
-      DATA CODE / 'NONE' /
 
       LOGICAL FIRST 
-      DATA FIRST / .TRUE. /
       SAVE FIRST 
+
+      DATA CODE / 'NONE' /
+
+      DATA FIRST / .TRUE. /
 
       IF(.NOT. FIRST) RETURN
       FIRST = .FALSE.

@@ -60,7 +60,6 @@ C      PARAMETER (MXSTEP=90000,MSAM=1000)
       DATA XDI / '(keV)',    '(Mu-m)' , '(keV)', 2*'(rad)'/
       DATA YDI / '(J/Hz)', '(J/m)', '(Phot/s.BW.srd)', 2*'(J/rad)'/
       DATA SY / 2*'(J in wndow)',  '(phot./wndw)', 2*'(J in wndow)' /
-      DATA ONE / 1.D0 /
 
       WRITE(6,*) ' SBR SRINC    Busy, calculating power over window'
       

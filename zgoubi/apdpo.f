@@ -27,8 +27,8 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (N=500)
       DIMENSION FP(N)
-      DATA EPS / 1.D-6 /
       SAVE EPS
+      DATA EPS / 1.D-6 /
       IA = INT(A)
       IF(4*IA.GE.N) THEN
         WRITE(6,FMT='(/,5X,

@@ -60,6 +60,8 @@ C      PARAMETER (MXJ=7)
       SAVE KKEX, KLET
 
       SAVE MOD, RFR, RFR2 
+      save noel1, noc
+
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
@@ -69,7 +71,6 @@ C      PARAMETER (MXJ=7)
       DATA KKEX, KLET / 1, '*' / 
 
       data noel1, noc / -1, 0 /
-      save noel1, noc
 
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file

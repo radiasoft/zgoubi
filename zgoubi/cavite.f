@@ -44,26 +44,26 @@ C  France
       COMMON/UNITS/ UNIT(MXJ)
  
       DIMENSION WF1(MXT), PHAS(MXT)
-      DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       SAVE WF1, PHAS
 
       CHARACTER*9 SKAV(8)
-      DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
-     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', ' Isochro.' /
-
-C      SAVE TISO
-C      DATA TISO / 0.D0 /
-
       dimension dti0(mxt)
       save dti0
-      data dti0 / mxt*0.D0 /
 
       LOGICAL OKOPEN, OKIMP, IDLUNI
       SAVE LUN, OKOPEN, OKIMP
+
+      SAVE TIOLD, PHIOLD
+
+      DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
+      DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
+     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', ' Isochro.' /
+
+      data dti0 / mxt*0.D0 /
+
       DATA LUN / 99 /
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
-      SAVE TIOLD, PHIOLD
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
 
       KCAV = NINT(A(NOEL,1))

@@ -47,8 +47,9 @@ C-----------------------------------
       PARAMETER (MRD=9)
       DIMENSION AM(MRD),BM(MRD),CM(MRD)
 
-      DATA NOMFIC/ 'zgoubi.map'/
       LOGICAL BINARY
+
+      DATA NOMFIC/ 'zgoubi.map'/
       DATA REP / 'Y' /
 
  4    CONTINUE

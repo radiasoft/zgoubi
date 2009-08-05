@@ -42,9 +42,6 @@ C  France
       CHARACTER LTD(MXT)
       SAVE LTD
 
-      DATA IRSEED / 347539 /
-      SAVE IRSEED 
-
       IF(KEX .LT. -1) GOTO 99
 
       DP=QBR/(Q*BORO)
@@ -98,7 +95,7 @@ C---------- Ref. lab :
            ENSTAR = .5D0*(AMP2+AMS2-AM32)/AMP
            BSTAR  = SQRT(1.D0-AMS2/ENSTAR/ENSTAR)
 
-           DP0=DP
+           DP00=DP
 C ERROR, corrctn FM Feb. 2002
 C           DP=ENSTAR*GAMAP*(1.D0+BSTAR*BETAP*COS(TET))/(BORO*CL9)
            DP=SQRT((ENSTAR*GAMAP*(1.D0+BSTAR*BETAP*COS(TET)))**2 - 
@@ -116,7 +113,7 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
            TET = ATAN( SIN(TET) / GAMAP / (COS(TET) + BETAP/BSTAR) )
 
            IF(KINFO .EQ. 1) THEN
-               WRITE(ABS(NRES),102) IT,T*1.D3, P*1.D3, DP0 ,BETAP
+               WRITE(ABS(NRES),102) IT,T*1.D3, P*1.D3, DP00 ,BETAP
      >           , GAMAP, IT, FDES(6,IT), SAR
 102            FORMAT(1P
      >         ,/,10X,'Decay  of  parent  particle  M1,  # ',I6

@@ -32,7 +32,7 @@ C  France
       COMMON/LUN/NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
       DIMENSION NF(3)
-      CHARACTER  TYPFIC(3)*3, NDNAM*4
+      CHARACTER  NDNAM*4
       INTEGER DEBSTR,FINSTR
       LOGICAL BINARY,EMPTY
 
@@ -44,9 +44,9 @@ C  France
 
       CHARACTER*11 FRMT
 
-      DATA TYPFIC / 'plt','fai','spn'/
-      DATA OTHER, KTYP/ '...',2 /
       PARAMETER (I4=4)
+
+      DATA OTHER, KTYP/ '...',2 /
 
       NF(1)=NPLT
       NF(2)=NFAI

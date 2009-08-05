@@ -48,7 +48,6 @@ C----- Synchrotron radiation
 
       DATA STORE / .FALSE. /
       DATA GNUFIL / 'gnuplot.SR' /
-      DATA IP / 0 /
       DATA IT /1/
       DATA KPL / 23 /
 

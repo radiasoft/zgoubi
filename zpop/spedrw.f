@@ -35,8 +35,6 @@ C      CALL TXTFBG
       CHARACTER REP
       INTEGER FINSTR
 
-      CHARACTER HVL(3)*12
-      DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
       DATA ISCA / 1 /
 
       KX0=KX

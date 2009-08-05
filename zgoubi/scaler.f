@@ -39,10 +39,8 @@ C  France
       LOGICAL EMPTY
 
       SAVE TIME, ICTIM
-      DATA TIME, ICTIM / 0.D0 , 0/
       SAVE ARGDP, FACDP, PSYN
            SAVE TEMP
-      DATA TEMP / 1.D0 /
 
       PARAMETER (ND=200000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
@@ -50,6 +48,10 @@ C  France
      >          dat1i(ND),dat2i(ND),dat3i(ND)
       SAVE XM, YM, NFRQ, dat1, dat2, dat3
       SAVE OCLOCK, ekin
+
+      DATA TIME, ICTIM / 0.D0 , 0/
+      DATA TEMP / 1.D0 /
+
       DATA XM, YM / ND*0.D0, ND*0.D0/
 
       SCALER = 1.D0

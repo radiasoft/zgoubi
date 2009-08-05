@@ -50,9 +50,9 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       CHARACTER TXTT*39, TXTS*39, TXTA*39, TXTEMP*11
       SAVE IPREC
 
-      DATA DTA1 / 0.D0 /
-
       INCLUDE 'FILPLT.H'
+
+      DATA DTA1 / 0.D0 /
 
       ZSYM=.TRUE.
 

@@ -43,9 +43,9 @@ C  France
       LOGICAL EXS2, OPN2
       INTEGER DEBSTR
       LOGICAL EMPTY
-      DATA IFIVE /5/
       SAVE LUO
       LOGICAL TYLAB
+      DATA IFIVE /5/
 
       ENTRY SRINIT(GNUFIL,TXTK,
      >                         PART,R0,Q,AM,OX,WF,WO,FNR,STORE)
@@ -140,7 +140,7 @@ C--------- Marker/line type
           LINE = LINE+1
           CALL LINTYW(MARK)
 C--------- Trajectories data file (default is zgoubi.plt)
-          FILE2O = ''
+          FILE2O = ' '
           READ(LN,*,ERR=57,END=57) FILE2O
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KP1, KP2
@@ -148,7 +148,7 @@ C--------- Trajectories data file (default is zgoubi.plt)
           READ(LN,*,ERR=57,END=57) KT1, KT2
           LINE = LINE+1
 C--------- Optical structure data file (default is zgoubi.dat)
-          FILE3O = ''
+          FILE3O = ' '
           READ(LN,*,ERR=57,END=57) FILE3O  !!!!!, LMNT1, LMNT2
           LINE = LINE+1
 C--------- Options, menu 7.3.14

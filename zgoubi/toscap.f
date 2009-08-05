@@ -50,17 +50,17 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
-      DATA NOMFIC / IZ*'               '/ 
       SAVE NOMFIC, NAMFIC
-
       INTEGER DEBSTR,FINSTR
-
-      DATA NHDF / 8 /
       SAVE NHDF
 
       LOGICAL STRCON
- 
       CHARACTER*20 FMTYP
+ 
+      DATA NOMFIC / IZ*'               '/ 
+
+      DATA NHDF / 8 /
+
       DATA FMTYP / ' regular' / 
 
       BNORM = A(NOEL,10)*SCAL

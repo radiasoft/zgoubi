@@ -31,8 +31,9 @@ C  France
       INCLUDE "MAXCOO.H"
       COMMON/UNITS/ UNIT(MXJ)
 
-      DATA XL, SCUM, TCUM / 0.D0, 0.D0, 0.D0 / 
       SAVE XL, SCUM, TCUM
+
+      DATA XL, SCUM, TCUM / 0.D0, 0.D0, 0.D0 / 
 
       ENTRY SCUMW(XLI)
       XL=XLI

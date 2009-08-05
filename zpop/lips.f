@@ -36,13 +36,14 @@ CDECK LIPS
 
       DIMENSION YM(3), YPM(3), U(3), A(3), B(3)
       DIMENSION YMX(6), YPMX(6)
-      DATA KPS / 1 /
       LOGICAL BINARY, BINARF
       INCLUDE 'FILFAI.H'
-
       DIMENSION XSIGU(3)
-      DATA XSIGU / 3*1.D0 /
       SAVE XSIGU
+
+      DATA KPS / 1 /
+
+      DATA XSIGU / 3*1.D0 /
 
       MODSTO = 2
 

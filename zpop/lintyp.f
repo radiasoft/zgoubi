@@ -26,8 +26,8 @@ C  France
       SUBROUTINE LINTYP(LTIN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C----- Symbol Heigth in screen units :
-      DATA IHG / 5 /
       SAVE LTS
+      DATA IHG / 5 /
       LT = LTIN
       IF(LT .EQ. -1) LT = LTS
       IF(LT .GE. 9) THEN

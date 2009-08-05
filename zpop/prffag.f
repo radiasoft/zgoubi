@@ -27,9 +27,9 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL IDLUNI
       character fnam*132, txt4*4
-      data fnam /'zpop.out_PRFFAG'/
       logical first
       save fnam, iun, first, noc
+      data fnam /'zpop.out_PRFFAG'/
       data first /.true./
 
       if(first) then

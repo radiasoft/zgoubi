@@ -49,11 +49,12 @@ C------         R_ref    +dp/p     -dp/p
 
       LOGICAL PRBEAM
       SAVE PRBEAM
-      DATA PRBEAM / .FALSE. /
 
 C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
       DIMENSION F0P(6,6)
+
+      DATA PRBEAM / .FALSE. /
 
       IF(NRES.LE.0) RETURN
 

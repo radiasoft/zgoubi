@@ -41,10 +41,11 @@ C      LOGICAL IDLUNI, BINARI
       CHARACTER*120 TITL
       CHARACTER*20 FMTYP
       CHARACTER BE(2)
+      SAVE MOD, MOD2
+
       DATA BE /'B','E'/
 
       DATA MOD, MOD2 / 0, 0 /
-      SAVE MOD, MOD2
 
       IF(LF .EQ. 1) THEN
 C------- Print field map in zgoubi.res

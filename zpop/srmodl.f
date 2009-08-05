@@ -26,11 +26,8 @@ C  France
       SUBROUTINE SRMODL(NLOG)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION GPH(10), GPS(10)
-      CHARACTER REP*1, TC(2)*5
-      DATA TC / 'Sigma', 'Pi' /
+      CHARACTER REP*1
       DATA KC / 1 /
-      CHARACTER TP(2)*9
-      DATA TP / 'Gamma.Phi', 'Gamma.Psi' /
       DATA KP, NPH, NPS / 1, 1, 1 /
       DATA GPH / 100.D0, 100.D0, 4.D0, 7 * 0.D0 /
       DATA GPS / 10 * 0.D0 / 

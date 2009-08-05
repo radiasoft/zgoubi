@@ -38,25 +38,26 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       DIMENSION CO1(6),CO2(6),COM(6)      
 
       CHARACTER TAXV(8)*11, TAXH(2)*9, TXT*80
-      DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.',
-     >  'dp/p', '# particles', 'PU posit.' /
       SAVE TAXV
-
-      DATA TAXH / 'path  (m)', 'pick-up  ' /
       SAVE TAXH
-
       LOGICAL IDLUNI
 
       CHARACTER REP, NOMFIC*80
-      DATA NOMFIC /'none'/
       SAVE NOMFIC
+      SAVE KAXV, KAXH, KPU
+      LOGICAL OKOPN, CHANGE
+      SAVE OKOPN
+
+      DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.',
+     >  'dp/p', '# particles', 'PU posit.' /
+
+      DATA TAXH / 'path  (m)', 'pick-up  ' /
+
+      DATA NOMFIC /'none'/
 
       DATA KAXV, KAXH, KPU / 1, 1, -1 /
-      SAVE KAXV, KAXH, KPU
 
-      LOGICAL OKOPN, CHANGE
       DATA OKOPN, CHANGE / .FALSE., .FALSE. /
-      SAVE OKOPN
 
       GOTO 21
 

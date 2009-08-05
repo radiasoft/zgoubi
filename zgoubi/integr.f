@@ -63,21 +63,18 @@ C     -------------------------------------------------------------
       DIMENSION  AREG(2),BREG(2),CREG(2), AREGI(2),BREGI(2),CREGI(2)
       SAVE AREG,BREG,CREG,KREG
 
-      DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
-      DATA WDGE, WDGS, FFXTE, FFXTS / 0.D0, 0.D0, 0.D0, 0.D0 /
       SAVE WDGE, WDGS, FFXTE, FFXTS
 
-       LOGICAL FITTST
-       DATA FITTST / .FALSE. /
-       SAVE FITTST
+      LOGICAL FITTST
+      SAVE FITTST
 
       logical consty
       parameter(consty=.false.)
-C      parameter(consty=.true.)
 
-C rustine RACCAM
-c      logical first
-c      data first / .true. /
+      DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
+      DATA WDGE, WDGS, FFXTE, FFXTS / 0.D0, 0.D0, 0.D0, 0.D0 /
+
+      DATA FITTST / .FALSE. /
 
       KDR = 2
       ISORT=1

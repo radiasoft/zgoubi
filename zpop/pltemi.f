@@ -48,9 +48,9 @@ C     ---------------------------
       LOGICAL CHANGE,NEWP,NEWL, BINARY,EMPTY
       INCLUDE 'FILFAI.H'
       CHARACTER*20 FNAME, FNAM
-      DATA FNAME / FILFAI /
       SAVE FNAME, BINARY
       INTEGER DEBSTR,FINSTR
+      DATA FNAME / FILFAI /
       DATA MXPAS0, MXLM0 / 99999 , 99999/
 
  79     WRITE(6,FMT='(/,''  New calculation (N/Y) ?'')')

@@ -34,7 +34,6 @@ C  France
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       PARAMETER (MXB=1000)
-      CHARACTER KAX(2)*14, KLIS(2)*3
 
       LOGICAL  OKXAV, OKYAV
       SAVE   OKXAV, OKYAV
@@ -47,8 +46,6 @@ C  France
 
       LOGICAL IDLUNI
 
-      DATA KAX/ 'Full  scale   ',  'Proportionnal ' /
-      DATA KLIS / 'No ', 'Yes'/
       DATA OKXAV,OKYAV / .FALSE., .FALSE./
       DATA OKX12,OKY12 / .FALSE., .FALSE./
       DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /

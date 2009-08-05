@@ -47,15 +47,10 @@ C     ------------------------------
       INCLUDE "MAXTRA.H"
       DIMENSION XYLAST(2,MXT)
       LOGICAL CNECT
-      DATA CNECT / .TRUE. /
-
       CHARACTER*3 TXT
       DIMENSION OKT(MXT)
       LOGICAL OKTAG
-C------ Entering negative value for X  will cancel tagging
-      DATA TAGX, TAGY, OKTAG / -0.7D0, 1.D-2, .FALSE. /
       SAVE TAGX, TAGY, OKTAG
-
       SAVE PPA
 
       LOGICAL OKS0, OKS
@@ -71,21 +66,29 @@ C------ Entering negative value for X  will cancel tagging
 
       LOGICAL  OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
       SAVE     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
-      DATA     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY /6*.FALSE./
 
       LOGICAL BINM
 
 C----- For possible storing of coordinates in , if ellipse plot
       LOGICAL KLIPS, KLIPSI                   
       SAVE KLIPS
+
+      LOGICAL IDLUNI
+      LOGICAL READBX, READBY
+
+      DATA CNECT / .TRUE. /
+
+C------ Entering negative value for X  will cancel tagging
+      DATA TAGX, TAGY, OKTAG / -0.7D0, 1.D-2, .FALSE. /
+
+      DATA     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY /6*.FALSE./
+
       DATA KLIPS / .FALSE. /
 
       DATA OKS / .FALSE./
       DATA PPA / 0.D0 /
       DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /
 
-      LOGICAL IDLUNI
-      LOGICAL READBX, READBY
       DATA READBX, READBY / .FALSE., .FALSE. /
 
       IF(LIS .EQ. 2) THEN 

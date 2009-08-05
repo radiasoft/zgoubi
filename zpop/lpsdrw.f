@@ -40,12 +40,13 @@ C  France
       CHARACTER REP
         
       CHARACTER HVL(3)*12, TXT*80
-      DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
-
       SAVE JJ
       SAVE BET,ALP,EPS,CLIP,CLIPP
 
       LOGICAL AGAIN
+
+      DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
+
       DATA AGAIN / .FALSE. /
 
       GOTO 21

@@ -83,5 +83,6 @@ C------ Conversion from MVolts to Volts
  97   CALL ENDJOB('ERROR : max number of QV data is ',MXDAT)
       RETURN
  98   CALL ENDJOB('ERROR upon read from file '//OLDFIL,-99)
+      VALQV = 0D0
       RETURN
       END

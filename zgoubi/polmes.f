@@ -48,14 +48,12 @@ C     > ,YCH,ZCH
 
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
-      DATA NOMFIC / IZ*'               '/ 
       SAVE NOMFIC, NAMFIC
-      DATA NEWFIC / .TRUE. /
 
-C      DIMENSION CBM(MXX)
       INTEGER DEBSTR,FINSTR
 
-C      DATA ACN / 0.D0 /
+      DATA NOMFIC / IZ*'               '/ 
+      DATA NEWFIC / .TRUE. /
 
       IF(KUASEX .EQ. 22) NDIM=2
 

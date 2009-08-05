@@ -65,17 +65,29 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       DIMENSION BZ0(5,5)
 
       CHARACTER TYPCAL(2)*14
-      DATA TYPCAL / ' analytic', ' interpolation'/
+
       SAVE TYPCAL
 
       PARAMETER (PLIM=80.D0)
       LOGICAL SHARPE, SHARPS
 
+      SAVE FFXTE, FFXTS
+
+      SAVE AD20, AD22, AD24, AD26, AD28 
+     >   , AD30, AD32, AD34, AD36, AD38 
+     >   , AD40, AD42, AD44, AD46, AD48 
+     >   , AD50, AD52, AD54, AD56, AD58 
+      SAVE AF20, AF22, AF24, AF26, AF28 
+     >   , AF30, AF32, AF34, AF36, AF38 
+     >   , AF40, AF42, AF44, AF46, AF48 
+     >   , AF50, AF52, AF54, AF56, AF58 
+
+      DATA TYPCAL / ' analytic', ' interpolation'/
+
 C  Isochronous e-model, Rees    
       DATA FFXTE, FFXTS / 0.025D0, 0.025D0 /
 C  Isochronous muon FFAG, Rees    
 C      DATA FFXTE, FFXTS / 0.4D0, 0.4D0 /
-      SAVE FFXTE, FFXTS
 
 C Sandro's ffag field
       DATA AD20, AD22, AD24, AD26, AD28 /
@@ -94,10 +106,6 @@ C Sandro's ffag field
      >-2.022113627491819D10, 2.718621791696837D8, 
      >-859226.1506962734D0   , 893.6985655822829D0, 
      >-0.28514145252461576D0 / 
-      SAVE AD20, AD22, AD24, AD26, AD28 
-     >   , AD30, AD32, AD34, AD36, AD38 
-     >   , AD40, AD42, AD44, AD46, AD48 
-     >   , AD50, AD52, AD54, AD56, AD58 
 
       DATA AF20, AF22, AF24, AF26, AF28 /
      >784.862D0, 34.9238D0, -0.873452D0,  0.0056483D0, -0.0000105406D0/
@@ -109,10 +117,6 @@ C Sandro's ffag field
       DATA AF50, AF52, AF54, AF56, AF58 /
      >-7.99910758615139D7, 9.16588708380287D6, 
      >-186561.6360278200D0, 1156.849173782191D0,-2.1235545491928156D0/
-      SAVE AF20, AF22, AF24, AF26, AF28 
-     >   , AF30, AF32, AF34, AF36, AF38 
-     >   , AF40, AF42, AF44, AF46, AF48 
-     >   , AF50, AF52, AF54, AF56, AF58 
 
 C  NBMAG=number of magnets.  AT=total extent angle of field 
       NP = 2

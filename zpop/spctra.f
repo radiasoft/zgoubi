@@ -44,16 +44,17 @@ C----- PLOT SPECTRUM
       CHARACTER HVL(3)*12
 
       SAVE NT
-      DATA NT / -1 /
-
       LOGICAL OPN
-      DATA OPN / .FALSE. /
+
       LOGICAL IDLUNI, OKKT5
 
       INCLUDE 'FILFAI.H'
 
       SAVE NPASS
 
+      DATA NT / -1 /
+
+      DATA OPN / .FALSE. /
       DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
     
       IF(.NOT.OKOPN) 

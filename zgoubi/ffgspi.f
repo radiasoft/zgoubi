@@ -81,13 +81,14 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       DIMENSION BZ0(5,5)
 
       CHARACTER TYPCAL(2)*14, TYPGAP(2)*12
-      DATA TYPCAL / ' analytic', ' interpolation'/
-      DATA TYPGAP / ' constant', ' g_0(r0/r)^' /
       SAVE TYPCAL, TYPGAP
 
       PARAMETER (PLIM=40.D0)
 
       LOGICAL SHARPE, SHARPS
+
+      DATA TYPCAL / ' analytic', ' interpolation'/
+      DATA TYPGAP / ' constant', ' g_0(r0/r)^' /
 
 C  NBMAG=number of magnets.  AT=total extent angle of field 
       NP = 2
