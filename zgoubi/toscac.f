@@ -181,6 +181,10 @@ C--------- A single data file contains the all 3D volume
      >          .OR. STRCON(NOMFIC(NFIC),'gsi',IS)) THEN
                   NHD = 0
                   FMTYP = 'GSI'
+             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'bw6',IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
              ENDIF
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))

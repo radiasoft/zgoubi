@@ -247,7 +247,7 @@ C          ENDIF
 
         ELSE
 C--------- FDES(7,IT) contains com life time (s) of S(econdary) particle
-          IF(FDES(7,IT).NE.0.D0) THEN
+          IF(FDES(7,IT).GE.0.D0) THEN
             DSAR = FDES(6,IT)-SAR
             IF( DSAR .LE. 0D0 ) CALL KSTOP(10,IT,KEX,*99)
           ENDIF

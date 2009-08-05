@@ -162,7 +162,7 @@ CC-----------------------------------------//
 
         WRITE(NRES,102) IT,TDVM*UNIT(5), TDVM/VTOLAB
 102     FORMAT(/,10X,'  Monte Carlo  outcome  :  '
-     >  ,/,15X,1P,'Average  distance  of  the ',I5,
+     >  ,/,15X,1P,'Average  life  distance  of  the ',I5,
      >  '  parent  particles : ',G12.4,' (m)     / theor. life dist. ->'
      >  ,G12.4,/)
 

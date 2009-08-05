@@ -33,6 +33,7 @@ C  France
       READ(NDAT,FMT='(A)') TXT
 C----- Read M1, M2
       READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,2)
+
 C----- Attempts reading M1, M2 and M1 life-time
       READ(TXT,*,ERR=10,END=10) (A(NOEL,I),I=1,3)
       GOTO 11

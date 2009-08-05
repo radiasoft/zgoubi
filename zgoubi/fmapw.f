@@ -541,6 +541,9 @@ C-------------------- Default MOD, also case MOD=0
                      IF(FMTYP.EQ.'GSI') THEN
                        READ(LUN,fmt='(1x,6e11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
+                     ELSEIF(FMTYP.EQ.'LESB3') THEN
+                       READ(LUN,fmt='(1x,6e11.2)') YH(J),ZH(I),XH(K),  
+     >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
                        READ(LUN,*) YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
