@@ -83,14 +83,8 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
          IF (.NOT.AMQLU(2)) AMQ(2,I) = Q
          IF (.NOT.AMQLU(3)) AMQ(3,I) = G
          IF (.NOT.AMQLU(4)) AMQ(4,I) = TO
+         IF (PABSLU) F(1,I) = DP0(I)/Q
  10   CONTINUE
-
-      IF (PABSLU) THEN
-         DO 20 I=1,IMAX
-            F(1,I) = DP0(IT1)*Q
- 20      CONTINUE
-      ENDIF
-      
 
 C----- Set time at OBJET
       DO 11 I=1,IMAX

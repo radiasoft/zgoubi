@@ -267,7 +267,9 @@ C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
         FO(7,IT1)=TIMO
         IF (PABSLU) THEN
            DP0(IT1)=(DP*DPFAC + DPREF) * BRO/BORO
-           F(1,IT1)= DP0(IT1)*Q
+C          THIS WILL NOT WORK RIGHT IF DPREF.NE.0D0 AND Q IS CHANGED IN A 
+C          SUBSEQUENT PARTICUL
+           F(1,IT1)= DP0(IT1)/Q
         ELSE
            F(1,IT1)=(DP*DPFAC + DPREF) * BRO/BORO
         ENDIF
