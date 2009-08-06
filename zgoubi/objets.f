@@ -42,7 +42,7 @@ C     > ,YCH,ZCH
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
@@ -67,7 +67,11 @@ C            as resulting from decay (keyword 'MCDESINT')
  
       DIMENSION REF(MXJ)
 
-      AMQLU = .FALSE.
+      AMQLU(1) = .FALSE.
+      AMQLU(2) = .FALSE.
+      AMQLU(3) = .FALSE.
+      AMQLU(4) = .FALSE.
+      AMQLU(5) = .FALSE.
       PABSLU = .FALSE.
 
 C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c/2)

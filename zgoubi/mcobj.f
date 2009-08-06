@@ -34,7 +34,7 @@ C     **************************
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IMAXD,IMAXT
@@ -49,7 +49,11 @@ C     **************************
       LOGICAL CINE
       CHARACTER*80 TXT
  
-      AMQLU = .FALSE.
+      AMQLU(1) = .FALSE.
+      AMQLU(2) = .FALSE.
+      AMQLU(3) = .FALSE.
+      AMQLU(4) = .FALSE.
+      AMQLU(5) = .FALSE.
       PABSLU = .FALSE.
 
 C----- Magnetic rigidity  (Kg*cm)

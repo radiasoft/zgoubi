@@ -35,7 +35,7 @@ C     *******************************************
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET

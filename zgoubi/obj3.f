@@ -38,7 +38,7 @@ C     **************************************
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
@@ -120,7 +120,11 @@ C----- Traj. counter
       IPASSR = 0
       IEND = 0
 
-      AMQLU = (BINARY.OR.KOBJ2.EQ.0.OR.KOBJ2.EQ.3)
+      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
+      AMQLU(4) = AMQLU(3)
+      AMQLU(5) = AMQLU(3)
+      AMQLU(1) = (AMQLU(3).OR.KOBJ2.EQ.3)
+      AMQLU(2) = AMQLU(1)
       PABSLU = KOBJ2.EQ.2
 
   17  CONTINUE
@@ -274,16 +278,18 @@ C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
         IREP(IT1) = IT1
-        IF (AMQLU) THEN
+        IF (AMQLU(3)) THEN
            RET(IT1)=RETI
            DPR(IT1)=DPRI
 C        IREP(IT1) = IREPI
            SORT(IT1) = SORTI
-           AMQ(1,IT1) = AMQ1
-           AMQ(2,IT1) = AMQ2
            AMQ(3,IT1) = AMQ3
            AMQ(4,IT1) = AMQ4
            AMQ(5,IT1) = AMQ5
+        ENDIF
+        IF (AMQLU(1)) THEN
+           AMQ(1,IT1) = AMQ1
+           AMQ(2,IT1) = AMQ2
         ELSE
            AMQ(1,IT1) = AAM
            AMQ(2,IT1) = Q

@@ -40,7 +40,7 @@ C     **********************************************
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
@@ -62,7 +62,11 @@ C     **********************************************
       DATA KTIR /'Uniform', 'Gaussian'/
       DATA BODY /'M3' , 'M5' , 'M6' /
 
-      AMQLU = .FALSE.
+      AMQLU(1) = .FALSE.
+      AMQLU(2) = .FALSE.
+      AMQLU(3) = .FALSE.
+      AMQLU(4) = .FALSE.
+      AMQLU(5) = .FALSE.
       PABSLU = .FALSE.
 
 C  .... MAGNETIC  RIGIDITY (KG*CM), MASSE (MeV/c/2)
@@ -343,6 +347,7 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
       DO 993 I=1,IMAX
          AMQ(1,I) = AM
  993     AMQ(2,I) = Q
+      AMQLU(1) = .TRUE.
       
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
       RETURN

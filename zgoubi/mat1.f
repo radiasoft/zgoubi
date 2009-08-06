@@ -33,7 +33,7 @@ C     -------------------------------------------------
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
  

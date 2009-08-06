@@ -40,7 +40,7 @@ C--------
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER  KAR(41)
@@ -74,7 +74,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       DATA ZERO, UN / 0.D0, 1.D0 /
       DATA IDRT, AM, BM, CM / 0, MDR3*0.D0 /
       DATA IFB / 0 /
-      DATA AMQLU,PABSLU/.FALSE.,.FALSE./
+      DATA AMQLU,PABSLU/6*.FALSE./
       DATA (KAR(I),I=1,41) /
      > 'O','A','B','C','D','E','F','G','H','I','J','K','L','M','N'
      >,'P','Q','R','U','V','W','X','Y','Z','2','3','4','5','6'

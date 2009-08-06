@@ -31,7 +31,7 @@ C  France
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
-      LOGICAL AMQLU,PABSLU
+      LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
 C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
@@ -68,22 +68,22 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
  
-      IF (.NOT.AMQLU) THEN
-        DO 10 I=1,IMAX
-          IF(NM.EQ.1) THEN
-            AMQ(1,I) = AM
-          ELSEIF(NM.EQ.2) THEN
-            IF(I .LT. IMAX/2) THEN
-              AMQ(1,I) = AM
-            ELSE
-              AMQ(1,I) = AM2
+      DO 10 I=1,IMAX
+         IF (.NOT.AMQLU(1)) THEN
+            IF(NM.EQ.1) THEN
+               AMQ(1,I) = AM
+            ELSEIF(NM.EQ.2) THEN
+               IF(I .LT. IMAX/2) THEN
+                  AMQ(1,I) = AM
+               ELSE
+                  AMQ(1,I) = AM2
+               ENDIF
             ENDIF
-          ENDIF
-          AMQ(2,I) = Q
-          AMQ(3,I) = G
-          AMQ(4,I) = TO
- 10     CONTINUE
-      ENDIF
+         ENDIF
+         IF (.NOT.AMQLU(2)) AMQ(2,I) = Q
+         IF (.NOT.AMQLU(3)) AMQ(3,I) = G
+         IF (.NOT.AMQLU(4)) AMQ(4,I) = TO
+ 10   CONTINUE
 
       IF (PABSLU) THEN
          DO 20 I=1,IMAX
