@@ -38,19 +38,10 @@ C------------------------------------------------------
 
       DIMENSION BMESH(5,5)
 
-
-c               do jjj=1,JYMA
-c                 do iii=1,IXMA
-c                   do iid = 1, id    
-c                     HCB(iid,iii,jjj,1) = HC(iid,iii,jjj,1)
-c                   enddo
-c                 enddo
-c               enddo
-c            return
+          call raz(hcb,ID*MXX*MXY*IZ)
 
 
       DA=XH(2)-XH(1)
-
       DO IA1=1,IXMA
         A1 = XH(IA1)+DX
         IAC = IA1
@@ -72,12 +63,12 @@ C---------  2-D  5*5 points
 C           write(88,*) dy,yh(1),yh(jyma),dr
         DO IR1 = 1,JYMA
           R1 = YH(IR1)+DY
-          IRC=IR1
-          JRC=(R1-YH(1))/DR+1.5D0
+          IRC=(R1-YH(1))/DR+1.5D0
+          JRC=IR1
 
           IF    (IRC.LT.1 .OR. IRC.GT.JYMA) THEN
 C            ... POINT HORS CARTE DE Champ
-             write(*,*) ' POINT HORS CARTE DE Champ'
+C             write(*,*) ' POINT HORS CARTE DE Champ'
              KERK=1
           ELSE
 C            ... Particle is inside field map
@@ -93,6 +84,7 @@ C          +++  2-D grid,  5*5 points
             IRC=MAX0(IRC,3)
             IRC=MIN0(IRC,JYMA-2)
           ENDIF
+
           R=R1-YH(IRC)
             
 C         .... 2-D mid-plane field maps
@@ -117,6 +109,8 @@ C          WRITE(*,*) ' .... ORDRE 2 ,  3*3 points grid'
           C5=F1+F2+F3+F7+F8+F9
 
           BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36.D0   
+
+C         write(88,*) ' mapshf  r,r1,irc,jrc,bz : ',irc, jrc
 
           GOTO 30
  
@@ -259,16 +253,27 @@ C  CALCUL DE BZ
  
  30       CONTINUE
 C  +++ CALCUL DE BZ ET SES DERIVEES AU POINT COURANT A1,R1
+              bzav = bz
+c              write(88,*) ' bz avant ',bz
           BZ=BZ+BZX*A+BZY*R+0.5D0*BZXX*A*A+0.5D0*BZYY*R*R+BZXY*A*R
+              write(88,*) ' irc,jrc,bzav-bz   ',irc,jrc,a,r,bz-bzav
  
  99       CONTINUE
 
-C          write(*,*)'dy,jrc,irc,f5,bz: ',dy,jrc,irc,f5,bz
           HCB(ID,jAC,jRC,1) = BZ
 
         ENDDO ! R1 
       ENDDO ! A1 
 
+               do jjj=1,JYMA
+                 write(89,*) ' y ',yh(jjj)
+                 do iii=1,IXMA
+                   write(89,*) ' xh  ',xh(iii)
+                     write(89,*) ' bz av/ap         '
+     >          ,irc,jrc,HCB(id,iii,jjj,1)-HC(id,iii,jjj,1)
+                 enddo
+               enddo
+              stop
       RETURN
       END
 

@@ -58,7 +58,7 @@ C Implemented by Scott Berg, LPSC, April 2007
          ENDIF
          CALL IMPAJU(F)
       ENDIF
-      CALL ENDFIT(F)
+      CALL ENDFIT
       RETURN
  99   RETURN 1
       ENTRY FITNU2(MTHDI) 

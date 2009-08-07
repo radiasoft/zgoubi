@@ -110,6 +110,10 @@ C          data hcu /  IDMX * 0.d0 /
       DIST = A(NOEL,32)
       DIST2 = A(NOEL,33)
 
+C           write(*,*) ' dist, dist2 ',  dist, dist2 
+
+
+
       IF    (NDIM.EQ.2 ) THEN
         IF(MOD .EQ. 0) THEN
 C--------- Rectangular mesh
@@ -198,7 +202,7 @@ C and used for tracking.
         ENDIF
       ENDIF 
 
-C      IF(NEWFIC) THEN
+      IF(NEWFIC) THEN
 
         IF(MOD .EQ. 0) THEN
 C------- Rectangular mesh
@@ -226,7 +230,7 @@ C and used for tracking.
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
@@ -257,7 +261,7 @@ C and used for tracking.
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
@@ -291,11 +295,11 @@ C  QD_new is interpolated from QD with dr=xD.
 C A single map superimposition of both is built prior to tracking
 C and used for tracking. 
 
-             IRD = NINT(A(NOEL,50))
-             KZ = 1
-             I1=1
+           IRD = NINT(A(NOEL,50))
+           KZ = 1
+           I1=1
 
-            IF(NEWFIC) THEN
+           IF(NEWFIC) THEN
 
              NFIC = 1
              IF(IDLUNI(
@@ -311,9 +315,9 @@ C and used for tracking.
                GOTO 96
              ENDIF
 
-             LNGTH=len(
+             LNGTH=LEN(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
@@ -329,12 +333,12 @@ C and used for tracking.
              ENDDO
              CLOSE(UNIT=LUN)
 
-            ENDIF ! NEWFIC
+           ENDIF ! NEWFIC
 
-             CALL MAPSHF(HCA,XH,YH,DIST,IXMA,JYMA,
-     >                                            HC1)
+           CALL MAPSHF(HCA,XH,YH,DIST,IXMA,JYMA,
+     >                                           HC1)
 
-            IF(NEWFIC) THEN
+           IF(NEWFIC) THEN
 
              NFIC = 2
              IF(IDLUNI(
@@ -352,13 +356,12 @@ C and used for tracking.
 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
 
              DO JJJ=1,JYMA
                DO III=1,IXMA
@@ -369,10 +372,14 @@ C and used for tracking.
              ENDDO
              CLOSE(UNIT=LUN)
 
-            ENDIF ! NEWFIC
+           ENDIF ! NEWFIC
 
-             CALL MAPSHF(HCB,XH,YH,DIST2,IXMA,JYMA,
-     >                                             HC2)
+           CALL MAPSHF(HCB,XH,YH,DIST2,IXMA,JYMA,
+     >                                           HC2)
+
+C              write(*,*)  '  dist,  dist2 ', dist,  dist2
+
+
 
 C Superimpose the two field maps into a single one
 C          zer1 = 0.d0
@@ -381,28 +388,14 @@ C          zer1 = 0.d0
               do iid = 1, id    
                 HC(iid,iii,jjj,KZ) = AF * HC1(iid,iii,jjj,KZ) 
      >                         + AD * HC2(iid,iii,jjj,KZ)
-C                zer1 = zer1 + HC(iid,iii,jjj,KZ)
+c                zerA = HCA(iid,iii,jjj,KZ) - HC1(iid,iii,jjj,KZ)
+c                zerB = HCB(iid,iii,jjj,KZ) - HC2(iid,iii,jjj,KZ)
               enddo
             enddo
           enddo
 
-C          zero = 0.d0
-C          do jjj=1,JYMA
-C            do iii=1,IXMA
-C              do iid = 1, id    
-C                zero = zero + (HCU(iid,iii,jjj,KZ) - HC(iid,iii,jjj,KZ))
-C              enddo
-C            enddo
-C          enddo
-C             write(87,*) dist,dist2,zero,zer1,' emmac '
-C          do jjj=1,JYMA
-C            do iii=1,IXMA
-C              do iid = 1, id    
-C                HCU(iid,iii,jjj,KZ) = AF * HC1(iid,iii,jjj,KZ) 
-C     >                         + AD * HC2(iid,iii,jjj,KZ)
-C              enddo
-C            enddo
-C          enddo
+C              write(*,*)  '  zera, zerb ', zera, zerb
+
 
         ELSE
 
@@ -410,7 +403,7 @@ C          enddo
 
         ENDIF
 
-C      ENDIF
+      ENDIF
 
 C Make sure this is ok given that field map is in cartesian frame
         AT=XH(IAMA)-XH(1)

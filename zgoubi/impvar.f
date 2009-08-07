@@ -39,10 +39,10 @@ C  France
 200     FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,')')
         WRITE(IUNIT,300)
 300     FORMAT(
-     >  ' LMNT  VAR  PARAM  MINIMUM     INITIAL        FINAL        ',
-C------   IR(I)  I   IS(I)   X(K)        XI(I)         X(I)  
-     >  'MAXIMUM     STEP' )
-C----     X(J)        P(I)
+     >  ' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',
+C------   IR(I)  I   IS(I)   X(K)        XI(I)          X(I)  
+     >  ' MAXIMUM      STEP' )
+C----      X(J)        P(I)
  
       DO 1 I=1,NV
         K=I+NV
@@ -50,7 +50,7 @@ C----     X(J)        P(I)
         WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I)
  400    FORMAT(1P, 
-     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G15.8,2(1X,G10.3))
+     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3))
         IF(XCOU(I).NE.0.D0) THEN
           KL=XCOU(I)
           KP=NINT((100.D0*XCOU(I)-100.D0*KL))

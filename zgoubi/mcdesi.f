@@ -51,11 +51,13 @@ C      COMMON/PTICUL/ AM,Q,G,TO
       SAVE VTOLAB,E3STAR,B3STAR
  
 C----- Mass of secondary particle to be tracked
-      AMS= A(NOEL,1)
+      AMS= A(NOEL,1) 
+      IF(AMS.LE.0.D0) CALL ENDJOB('Wrong M2 value :  should be > 0',-99)
 C----- Mass of secondary particle to be abandonned
       AM3= A(NOEL,2)
-C----- Life time (s) of secondary particle. Unused if zero
+C----- Life time (s) of secondary particle. Zero if to be abandonned. 
       TOS= A(NOEL,3)
+      KINFO = NINT(A(NOEL,4))
 
       IF(IPASS .EQ. 1) THEN
 C       *** Initialisation at 1st pass only
@@ -71,14 +73,6 @@ C       *** Initialisation at 1st pass only
         IF(KREB3.EQ.99) RETURN
       ENDIF 
 
-      IF(AMS.LT.0.D0) THEN
-C       ** To WRITE decay related info
-        KINFO = 1
-        AMS = -AMS
-      ELSE
-        KINFO=0
-      ENDIF
- 
       AMS2 = AMS*AMS
       AM32 = AM3*AM3
  

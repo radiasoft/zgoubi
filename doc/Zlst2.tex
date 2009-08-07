@@ -2051,7 +2051,7 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
      \> M1 $\rightarrow$ M2 + M3    \>     \> \\
   \\
   \\
- $M2$, $M3$       \>Masses of the two decay products \>2*MeV/$ c^2 $ \>2*E\\
+$[$INFO,$]$\footnotemark[2] $M2$, $M3$   \> $[$Switch,$]$ ; masses of the two decay products \> 2*MeV/$ c^2 $ \> $[$A4,$]$ 2*E\\
  \\
  $I1$, $I2$, $I3$    \>Seeds for random number generators \>3*$\simeq 10^6 $ \>3*I 
 \end{tabbing}
@@ -2059,6 +2059,10 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
 
 \footnotetext[1]{\textsl{MCDESINT} must be preceded by \textsl{PARTICUL}\index{PARTICUL}, 
 for the definition of the mass and lifetime of the incoming particle M1. } 
+\footnotetext[2]{Presence of 'INFO' will cause more info on 
+decay kinematics parameters to be  printed into zgoubi.res  at each decay.}
+
+
 
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 \begin{figure}[H]

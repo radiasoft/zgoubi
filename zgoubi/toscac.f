@@ -211,7 +211,7 @@ c voir si ok avec cartésien
         XF = XH(IAMA)
  
       RETURN
- 96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
+ 96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
       RETURN
 

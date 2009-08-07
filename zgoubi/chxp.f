@@ -222,7 +222,7 @@ C TOSCA keyword with MOD.ge.20.
 C EMMA. Polar -> MOD.ge.20. 
 
         IF(KUASEX .EQ. 34) THEN
-C            write(*,*) ' EMMA. Polar ndim=2 '
+
           NDIM = 2
           CALL EMMAP(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,
@@ -237,9 +237,6 @@ C            write(*,*) ' EMMA. Polar ndim=2 '
         ENDIF
 
         RFR = RM
-
-C            write(*,*) ' EMMA. Polar ndim=2  rfr=',RFR
-
 
       ELSEIF(KUASEX .EQ. 20) THEN
 C AIMANT keyword

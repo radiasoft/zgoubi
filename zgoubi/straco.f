@@ -28,11 +28,11 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STRACO
       CHARACTER STRA(*)*(*), STR*(*)     
-C     ------------------------------------------------
+C     -----------------------------------------------------------
 C     .TRUE. if the array STRA contains the string STR
-C     NST = MAX NUMBER OF STRINGS IN STRA
-C     IS = position of STR in STRA (i.e.,STRA(IS)=STR)
-C     ------------------------------------------------
+C     NST = max number of indices considered : STRA(1->NST)
+C     IS = index corresponding to STR in STRA (i.e.,STRA(IS)=STR)
+C     -----------------------------------------------------------
       DO 1 I = 1, NST
         IF( STRA(I) .EQ. STR ) THEN
           IS = I

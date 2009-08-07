@@ -30,10 +30,19 @@ C  France
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*132 TXT
 
+      INTEGER DEBSTR
+
       READ(NDAT,FMT='(A)') TXT
+      TXT = TXT(DEBSTR(TXT):LEN(TXT))
+      IF(TXT(1:4).EQ.'INFO') THEN
+        A(NOEL,4)=1.D0
+        TXT = TXT(5:(LEN(TXT)-4))
+      ELSE
+        A(NOEL,4)=0.D0
+      ENDIF
+
 C----- Read M1, M2
       READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,2)
-
 C----- Attempts reading M1, M2 and M1 life-time
       READ(TXT,*,ERR=10,END=10) (A(NOEL,I),I=1,3)
       GOTO 11

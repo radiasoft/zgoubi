@@ -24,15 +24,14 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE STRGET(STR,MSS,
-     >                               NST,STRA)
+     >                          NST,STRA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C      CHARACTER STR*(ICHA), STRA(MSS)*(*)
       CHARACTER STR*(*), STRA(MSS)*(*)
 C     ------------------------------------------------------
 C     Extract substrings #1 up to #MSS, out of string STR. 
 C     Strings are assumed spaced by (at least) one blank. 
-C     They are stored in  array STRA, and their total number 
-C     (possibly < mss !) is stored in NST.
+C     They are saved in  array STRA, and their total number 
+C     (possibly < mss) is NST.
 C     ------------------------------------------------------
       INTEGER FINSTR
 
@@ -54,7 +53,6 @@ C     ------------------------------------------------------
           I2 = I2 + 1
           IF(I2 .LE. IE) THEN
             IF(STR(I2:I2) .EQ. ' ') THEN
-C              IF(NST .LE. MSS) THEN
               IF(NST .LT. MSS) THEN
                 NST = NST + 1
                 STRA(NST) = STR(I1:I2-1)
@@ -66,7 +64,6 @@ C              IF(NST .LE. MSS) THEN
             ENDIF
           ELSE
             IF(STR(I2-1:I2-1) .NE. ' ') THEN
-C              IF(NST .LE. MSS) THEN
               IF(NST .LT. MSS) THEN
                 NST = NST + 1
                 STRA(NST) = STR(I1:I2-1)

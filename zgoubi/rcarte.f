@@ -112,10 +112,9 @@ C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single 
 C----- MAP FILE NAME(S)
       IF(NFIC.GT.1) THEN 
         DO 37 IFIC=1,NFIC
-C          READ(NDAT,200) TA(NOEL,1+IFIC)
           READ(NDAT,FMT='(A)') TXT
           CALL STRGET(TXT,1,
-     >                         IDUM,STRA) 
+     >                      IDUM,STRA) 
           TA(NOEL,1+IFIC) = STRA(1)
  37     CONTINUE
       ELSEIF(NFIC.EQ.1) THEN

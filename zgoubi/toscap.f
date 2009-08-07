@@ -182,7 +182,7 @@ C          write(*,*) 'toscap  at, xi, xf : ', at,xi,xf
 
  
       RETURN
- 96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
+ 96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
       RETURN
       END

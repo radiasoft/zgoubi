@@ -33,7 +33,6 @@ C     TOSCA keyword with MOD.ge.20.
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -158,10 +157,8 @@ C A pair comprises one QF & one QD map  such that total B is a linear superimpos
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) : ')
            IF(MOD.EQ.24) THEN 
-C             WRITE(6   ,208) NOMFIC(MXFIC1),' (field map file list)'
              WRITE(NRES,208) NOMFIC(MXFIC1),' (field map file list)'
            ELSE
-C             WRITE(6   ,208) (NOMFIC(I),' (field map)',I=1,NFIC)
              WRITE(NRES,208) (NOMFIC(I),' (field map)',I=1,NFIC)
  208         FORMAT(10X,2A)
            ENDIF
@@ -176,19 +173,19 @@ C             WRITE(6   ,208) (NOMFIC(I),' (field map)',I=1,NFIC)
           ENDIF
         ENDIF
 
-        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4,/)') 
+        WRITE(NRES,FMT='(/,5X,A,1P,2E14.6,/)') 
      >  ' Value of multiplying coefficients AF, AD are : ', AF, AD
-        WRITE(NRES,FMT='(/,5X,A,1P,E12.4,A,/)') 
+        WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A,/)') 
      >  ' Distance between axis of quads is : ', DIST,' cm'
         IF    (MOD .EQ. 22) THEN
-          write(nres,*) ' Two 2D maps used, one for'
+          WRITE(NRES,*) ' Two 2D maps used, one for'
      >    ,' QF, one for QD. '
      >    ,' Total B is a linear superimposition of BF and BD '
         ELSEIF(MOD .EQ. 24) THEN
-          write(nres,*) ' NFMP pairs of 2D maps (a pair is of type '
+          WRITE(NRES,*) ' NFMP pairs of 2D maps (a pair is of type '
      >    ,' "QFon, QDon"). Total B is a linear superimposition of '
      >    ,' both. '
-          write(nres,*) 
+          WRITE(NRES,*) 
      >    ' The names of the 2*NFMP field maps together with related'
      >    ,' DSTP pair-distance are in the above data file. '
         ENDIF 
@@ -294,9 +291,10 @@ C Open file that contains list of field map file names
 C Put file names into NOMFIC
              CALL GETNAM(LUN,MXDST, 
      >                             NOMFIC,NBDST)
+             CLOSE(UNIT=LUN)
              IF(NRES.GT.0) THEN
                WRITE(NRES,FMT='(/,5X,A,I3,A,/)') 
-     >            ' EMMAP subroutine, GETNAM read  ',2*NBDST,' files : '
+     >         'EMMAP subroutine,  GETNAM found ',2*NBDST,' filenames :'
                WRITE(NRES,FMT='(A)') (NOMFIC(I),I=1,2*NBDST)
              ENDIF
 C Put corresponding quads' axis distances into DISTL
@@ -312,23 +310,17 @@ C Put corresponding quads' axis distances into DISTL
 C From the value of DIST, determines which two values in DISTL to use for interpolation
              IF    (DIST .LE. DISTL(1)) THEN
                KFIC = 1
-C               WRITE(*,*) ' 1  DIST, DISTL(I): ',DIST, DISTL(1),KFIC
              ELSEIF(DIST .GE. DISTL(NBDST)) THEN
                KFIC = 2*NBDST-3
-C               WRITE(*,*) ' 2  DIST, DISTL(I): ',DIST, DISTL(NBDST),KFIC
              ELSE
                DO I = 2, NBDST
                  IF(DIST .LE. DISTL(I)) THEN
                    KFIC = 2*I-3
-C                   WRITE(*,*) ' 3  DIST, DISTL(I): ',DIST, DISTL(I),KFIC
                    GOTO 14
                  ENDIF
                ENDDO
              ENDIF
  14          CONTINUE
-
-C                   WRITE(*,*) '****** DIST, AF, AD ',DIST, AF, AD 
-
 
              IF(NRES.GT.0) THEN
                WRITE(NRES,FMT='(/,5X,A,F7.2,A,I2)') 'Given that DIST=',
@@ -338,21 +330,8 @@ C                   WRITE(*,*) '****** DIST, AF, AD ',DIST, AF, AD
              ENDIF
 
 C Open field map files one after the other and store field in HCA-B  tables
-C             KFIC = 6           ! for test
-
-C             CALL FITSTA(I5,
-C     >                      FITING)
-C                  write(*,*) ' +++++++++++ emmap fiting : ',fiting
-C             IF(FITING) THEN
-C               JFICA = 1
-C               JFICB = 2*NBDST-1
-C                  write(*,*) ' emmap jifca, jifcb 1 ', jfica, jficb 
-C             ELSE
                JFICA = KFIC
                JFICB = JFICA+2
-C                  write(*,*) ' emmap jifca, jifcb 2 ', jfica, jficb 
-C                  write(*,*) ' kfic,kfic0 ', kfic,kfic0
-C             ENDIF
 
            IF(KFIC.NE.KFIC0) THEN
 
@@ -377,15 +356,13 @@ C             ENDIF
                ENDIF
 
              LNGTH=len(
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+     >         NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):FINSTR(NOMFIC(JFIC))))
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-C               IF(NRES.GT.0) 
-C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                CLOSE(UNIT=LUN)
                DO JJJ=1,JYMA
                  DO III=1,IXMA
@@ -396,7 +373,7 @@ C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                ENDDO
 
                JFIC = JFIC+1
-C               write(*,*) '  emmap, nomfic 1 : ',NOMFIC(JFIC)
+
                IF(IDLUNI(
      >                   LUN)) THEN
                  BINAR=BINARI(NOMFIC(JFIC),IB)
@@ -411,15 +388,13 @@ C               write(*,*) '  emmap, nomfic 1 : ',NOMFIC(JFIC)
                ENDIF
 
              LNGTH=len(
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+     >         NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):FINSTR(NOMFIC(JFIC))))
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >         NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
                CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                        BMIN,BMAX,
      >                        XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-C               IF(NRES.GT.0) 
-C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                CLOSE(UNIT=LUN)
                DO JJJ=1,JYMA
                  DO III=1,IXMA
@@ -430,21 +405,21 @@ C     >           WRITE(NRES,FMT='(5X,A,2I3)') nomfic(JFIC),KDST,JFIC
                ENDDO
 
                JFIC = JFIC + 1
-C            WRITE(*,*) '+++JFIC,JFCA/B,KDST ',JFIC,JFICA,JFICB,KDST,dist
 
-               IF(JFIC.LE.JFICB) GOTO 10
-C-------------- 10 continue
+             IF(JFIC.LE.JFICB) GOTO 10
+C------------------------------- 10 continue
 
            ELSE
 
-             JFIC = JFICA
+             JFIC = JFICA+1
              KDST = JFIC/2+1
 
            ENDIF  ! KFIC  
 
 C--------- Sum both QF and QD contributions into HCC
-C           for both lower and upper DIST bounds
+C          for both lower (kdst1) and upper (kdst) DIST bounds
              KDST1 = KDST-1
+
              DO JJJ=1,JYMA
               DO III=1,IXMA
                DO IID = 1, ID    
@@ -477,8 +452,6 @@ C--------- Interpolate the new field map that corresponds to actual DIST
         CALL ENDJOB('*** Error, SBR EMMAC -> No  such  MOD= ',MOD)
 
       ENDIF  ! MOD
-
-C      ENDIF  ! NEWFIC
 
       CALL MAPLI1(BMAX-BMIN)
       AT=XH(IXMA)-XH(1)

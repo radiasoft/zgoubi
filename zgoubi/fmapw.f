@@ -381,23 +381,13 @@ C------- symmetrise 3D map wrt mid-plane= bend-plane
 C------- Mesh coordinates
           DO 137 J=1,JYMA
  137         YH(J) =  R0 + DBLE(J-1) *DR 
-          DO 138 K= -KZMA/2,KZMA/2   
- 138        ZH(K+KZMA/2+1) = DBLE(K) * DZ
+          DO K= -KZMA/2,KZMA/2   
+C               write(*,*)  '  fmapw  zhav',ZH(K+KZMA/2+1) 
+            ZH(K+KZMA/2+1) = DBLE(K) * DZ
+C               write(*,*)  '  fmapw  zhap',ZH(K+KZMA/2+1),K,DZ 
+          ENDDO
           DO 136 I=-IXMA/2,IXMA/2
  136        XH(I+IXMA/2+1) =  DBLE(I) * DTTA
-
-C        write(89,fmt='(a,3i4)') ' itta, jr, kz =',ixma,jyma,kzma 
-C        do  kk=1,kzMA
-C          do jj=1,jyma 
-C            do  i=1,ixMA
-C             write(89,fmt='(6E14.6,3i4)') 
-C     >        HC(1,i,jj,kkzma),HC(2,i,jj,kkzma),
-C     >        HC(3,i,jj,kkzma)
-C     >        ,xh(i),yh(jj),zh(kk),i,jj,kk
-C            enddo
-C          enddo
-C          write(89,*) ' ' 
-C        enddo
 
       ENDIF  ! MOD
       RETURN
