@@ -183,7 +183,7 @@ C Exit Fringe Field
       NCOEF3 = NINT(A(NOEL,NP))
       DO 229 I=1,6
         NP=NP+1 
- 229    C3(KMAG,I) = A(NOEL,49+I)
+ 229    C3(KMAG,I) = A(NOEL,NP)
       NP=NP+1 
       SHIFT3 = A(NOEL,NP)
       SHIFT3=0D0
