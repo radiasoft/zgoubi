@@ -73,7 +73,7 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
             IF(NM.EQ.1) THEN
                AMQ(1,I) = AM
             ELSEIF(NM.EQ.2) THEN
-               IF(I .LT. IMAX/2) THEN
+               IF(I .LE. IMAX/2) THEN
                   AMQ(1,I) = AM
                ELSE
                   AMQ(1,I) = AM2
