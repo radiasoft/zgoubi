@@ -2095,6 +2095,11 @@ particle $ I $ by simple symmetry.  This results in gain of computing time.
 If more than \imax\ particles are to be read from a file, use 
 \IMAX\index{IMAX@{\IMAX}}$\leq \imax$  in conjunction with \textsl{REBELOTE\index{REBELOTE}}.   
 
+\bigskip\noindent
+In this case (but not \textbf{KOBJ = 3.01} or \textbf{KOBJ = 3.02}),
+particles will not have the reference
+charge and PARTICUL will not assign a mass or charge.
+
 \bigskip
 
 \noindent\textbf{KOBJ = 3.01:} Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
@@ -2109,8 +2114,25 @@ data in  \textsl{FNAME} which is much simpler, namely, according to the followin
    99    CALL ERREAD
 \end{alltt} 
 
+\bigskip
 
+\noindent\textbf{KOBJ = 3.02:} As for \textbf{KOBJ=3.01}, except the format
+is 
+\begin{alltt}
+         READ(NL,*) X,Y,Z,PX,PY,PZ
+\end{alltt}
+where \texttt{PX}, \texttt{PY}, and \texttt{PZ}, are the momenta in
+MeV/$c$.  Note that DPR will be ignored in this case.
+\bigskip
 
+\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except the format
+is 
+\begin{alltt}
+         READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE
+\end{alltt}
+where \texttt{MASS} is the mass in MeV/$c$ and \texttt{CHARGE} is the
+charge divided by $e$.  In this case, particles will not have the reference
+charge and \textsl{PARTICUL} will not assign a mass or charge.
 \bigskip
 
 
@@ -2273,6 +2295,9 @@ coordinate
 \noindent The random sequences involved may be initialized with different
 values of the 
 two integer seeds $ IR_1 $ and $ IR_2 $ ($\simeq 10^6 $). 
+
+\bigskip\noindent \textsl{PARTICUL\index{PARTICUL}} will not change the masses
+that are assigned by \textsl{OBJETA}.
 
 \newpage
 
@@ -2997,9 +3022,28 @@ center of mass), that are needed in various  procedures as,
 
 \noindent The declaration of \textsl{PARTICUL} must \textbf{precede} these keywords. 
 
-\noindent Note that, in the case of electric or electro-magnetic 
-optical elements, the mass and charge are needed in order to compute 
-the particle velocity $v$, as involved in eq.~\ref{eq2-2-3}.
+\noindent
+The charge is needed for computing energy gain in electric fields.
+The mass is needed for computing time of flight.  If \textsl{PARTICUL} is not
+used, the charge defaults to $+e$ and the mass defaults to zero.
+
+\noindent
+\textsl{PARTICUL} sets a reference charge annd mass, but individual paritles
+have charges and masses as well.  The reference charge relates $B\rho$
+to the particle momentum ($B\rho=p/q$); the particle charge relates
+the fields ($\vec b$ and $\vec e$) to the scaled fields
+($\vec B=\vec b/(B\rho)$ and $\vec E=\vec e/(B\rho)$).
+
+\noindent
+Most object definitions assign each particle the reference charge and
+mass (cases where they do not are documented).  In cases where the
+reference charge and mass have been assigned to a particle, \textsl{PARTICUL}
+will change the particle charge and mass to the new reference charge
+and mass.  For the few objects where each particle was assigned its
+own mass and charge, \textsl{PARTICUL} will not affect those values.  In most
+cases (where all particles have the reference charge), the charge
+assigned by \textsl{PARTICUL} will not affect the results for systems having
+only magnetic fields.
 
  \newpage
 
@@ -6975,14 +7019,10 @@ the two parameters $ RS $ (radius) and $ TS $ (angle) (see Fig.~\ref{fig9}A.).
 
 In several optical elements (e.g., all multipoles, \textsl{BEND}) the 
 integration step (in general noted \textsl{XPAS}) can be coded under the 
-form \textsl{XPAS} = b.fffE10 in order to allow two different step sizes 
-in the uniform part of the field (the optical element  body) and in the field fall-off 
-regions. b is an arbitrary integer and fff is a 3-digit integer~; they give the 
-number of steps respectively in the body and fringe field regions. For instance 
-120.012E10 requests 120 steps in the body and 12 in the fringe field regions. The 
-maximum allowed value for fff is 999 steps.
-
-
+form \textsl{XPAS} = \texttt{\#E|C|S}, where \texttt{E} is the number of
+steps taken in the entrance fringe field, \texttt{C} is the number of
+steps in the magnet body, and \texttt{S} is the number of steps in the 
+exit fringe field.
 
 \subsubsection{Ray-tracing of an arbitrarily large number of particles} %
       \label{sec4.6.4}

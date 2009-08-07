@@ -2310,9 +2310,11 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \>is not calculated \>\>\\
  \\
 \textbf{If KOBJ=3[.NN,}\\
-\hskip1em\textbf{NN=00,01]}      \>Reads coordinates from a storage file \> \> \\
+\hskip1em\textbf{NN=00\ldots 03]}      \>Reads coordinates from a storage file \> \> \\
                      \> NN=00 : zgoubi.fai like data file FORMAT  \> \> \\
-                     \> NN=01 : read FORMAT is \texttt{\small``READ(NL,*,ERR=97,END=95) Y,T,Z,P,S,DP''}   \> \> \\
+                     \> NN=01 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
+                     \> NN=02 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
+                     \> NN=03 : read FORMAT is \texttt{\small``READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE''}   \> \> \\
  \\
  \textsl{IT1, IT2, ITStep}     \> Read particles numbered IT1 to IT2, step ITStep
               \> $\geq 1$, $\geq IT1$, $\geq 1$ \>3*I\\
@@ -2334,7 +2336,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
                 \> 1 to force new starting coordinates to old final ones \\
  \\
  \textsl{FNAME}        \>File name (e.g., zgoubi.fai\index{zgoubi.fai})  \> \>A80 \\
-                       \> (KOBJ=3 or KOBJ=3.1 determines storage FORMAT)
+                       \> (NN in KOBJ=3.NN determines storage FORMAT)
 \end{tabbing}
 
 
@@ -2441,7 +2443,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
  \IMAX\         \>Number of particles to be generated (use  \> $\leq \imax$ \>I \\
  \>`\textsl{REBELOTE}' for more) \>\>\\
  \\
-$ M_1-M_5 $        \>Rest masses of the bodies           \> 5*GeV/c$ ^2 $\>5*E\\
+$ M_1-M_6 $        \>Rest masses of the bodies           \> 6*GeV/c$ ^2 $\>6*E\\
  \\
 $ T_1 $           \>Kinetic energy of incident body      \> GeV \> E \\
  \\
@@ -2536,6 +2538,11 @@ $M$, $Q$, $G$, $\tau$, $X$  \quad \= $ B=\mathcal{F}\,B_0 \left(1+N \left(\frac{
  \>COM life-time ; unusued \> \> 
 \end{tabbing}
 \bigskip 
+
+\noindent If $M$ is of the form \texttt{\{M1 M2\}}, then when masses are
+assigned to particles from a previously defined object, the first half of
+the particles are given the mass \texttt{M1}, and the second half are given
+the mass \texttt{M2}.
 
 \noindent NOTE : Only the parameters of concern need their value be specified (for 
 instance $M$, $Q$ when electric lenses are used) ; others can be set to zero. 
