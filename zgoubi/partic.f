@@ -64,7 +64,7 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
         GOTO 99
       ENDIF
 
-      Q  = A(NOEL,NM+1) / QE
+      IF (A(NOEL,NM+1).NE.0D0) Q  = A(NOEL,NM+1) / QE
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
  
