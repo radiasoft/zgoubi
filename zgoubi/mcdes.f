@@ -252,6 +252,7 @@ C--------- FDES(7,IT) contains com life time (s) of S(econdary) particle
  
       ENDIF
       QBR=Q*BORO*DP
+      BRI = QT/QBR
 C-------- Test NuFact
 CCCCCCCCCc         IF(BR.LT.666) DP=-999
  99   RETURN
