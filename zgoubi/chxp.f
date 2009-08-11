@@ -247,7 +247,6 @@ C AIMANT keyword
         NDIM = 2
 
       ELSEIF(KUASEX .EQ. 21) THEN
-C DIPOLE-M keyword
 
         CALL DIPOLM(SCAL,
      >                          BMIN,BMAX,BNORM,

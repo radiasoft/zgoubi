@@ -71,7 +71,7 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
      >        ,F9.5,' deg  ( =',F9.6,' rad )',/)
       ENDIF
       IF(NRES .GT. 0)WRITE(NRES,FMT='(/,1P,''Path length of particle '',
-     >       I2,'' :'',G14.6,'' cm'')') IT1, F(6,IT1)
+     >       I2,'' :'',G16.8,'' cm'')') IT1, F(6,IT1)
  
       RETURN
  

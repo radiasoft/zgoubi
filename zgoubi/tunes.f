@@ -60,6 +60,7 @@ C        WRITE(NRES,102) 'Y','NU_Y'
         F0(2,2)=0.D0
         F0(1,6)=0.D0
         F0(2,6)=0.D0
+        YNU = 0.D0
       ELSE
 
 CBETA 
@@ -96,6 +97,7 @@ C        WRITE(NRES,102) 'Z', 'NU_Z'
         F0(4,4)=0.D0
         F0(3,6)=0.D0
         F0(4,6)=0.D0
+        ZNU = 0.D0
       ELSE
 CBETA 
         COSMU = CMUZ
