@@ -52,7 +52,7 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       DIMENSION SSP(4,MXT)
       SAVE SSP
       CHARACTER*9 HMS
-      CHARACTER*95 TXTBUF
+      CHARACTER*104 TXTBUF
 
       SAVE KREB3, KREB31
 
@@ -77,8 +77,8 @@ C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
         IF(II*(IPASS/II).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(TXTBUF,FMT='(A19,I6,A1,I6,A34,I5,A1,I5,A9,A9)') 
-     >    ' Pass #/Requested :',IPASS,'/', NRBLT+1,
+          WRITE(TXTBUF,FMT='(A20,I8,A1,I8,A34,I7,A1,I7,2A9)') 
+     >    ' Pass #/Requested : ',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS
           CALL ARRIER(TXTBUF)

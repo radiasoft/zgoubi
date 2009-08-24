@@ -52,12 +52,12 @@ C  France
       IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,TA(NOEL,1))
  
       DO 10 I=1,IMAX
-C        P = BORO*CL*1D-9 *F(1,I) * AMQ(2,I)
         P = BORO*CL9 *F(1,I) * AMQ(2,I)
         GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-        WRITE(NSPN,100) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >  ,GA,I,IMAX,IPASS,NOEL
- 100    FORMAT(1X,A1,I2,1P,8G15.7,/,G15.7,2I3,I6,I5)
+        WRITE(NSPN,101) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+     >  ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
+ 101    FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
+     >  ,/,E15.7,3(1X,I7),1X,I5)
  10   CONTINUE
  
       RETURN

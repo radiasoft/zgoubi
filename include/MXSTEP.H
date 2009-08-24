@@ -24,5 +24,5 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C-- Max integration steps in an lmnt
-C      PARAMETER (MXSTEP = 10000)
-      PARAMETER (MXSTEP = 1000000)
+      PARAMETER (MXSTEP = 10000)
+C      PARAMETER (MXSTEP = 1000000)

@@ -104,6 +104,27 @@ C     >            DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
  1        CONTINUE
 
         ELSEIF(KTI .EQ. -1) THEN
+
+            call cavit1(
+     >                  PP0)
+            scaler = SCL(KF,1) * pp0
+
+        ELSEIF(KTI .EQ. -2) THEN
+C--------- Field law for scaling FFAG, LPSC, Sept. 2007
+c          xv = ipass
+c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
+          xv = OCLOCK
+C                         time   phase
+          scaler = CUBSPL(xm,    ym,    xv,nd,nfrq)
+C                         
+          xv = ekin
+C                          ekin freq
+          coTime1 = CUBSPL(dat3,dat2,xv,nd,nfrq)
+          coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
+          D1 = coTime
+C        write(*,*) ' scaler ',xv, cotime1, coTime
+
+        ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000
           IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN
             BRMI = SCL(KF,1)
@@ -126,20 +147,6 @@ C            WRITE(NLOG,*) TIME, SCALER, p/p0, IPASS, NOEL,
 C     >            ' SBR SCALER :   TIME, SCALER, p/p0, IPASS, NOEL'
           ENDIF
 
-        ELSEIF(KTI .EQ. -2) THEN
-C--------- Field law for scaling FFAG, LPSC, Sept. 2007
-c          xv = ipass
-c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
-          xv = OCLOCK
-C                         time   phase
-          scaler = CUBSPL(xm,    ym,    xv,nd,nfrq)
-C                         
-          xv = ekin
-C                          ekin freq
-          coTime1 = CUBSPL(dat3,dat2,xv,nd,nfrq)
-          coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
-          D1 = coTime
-C        write(*,*) ' scaler ',xv, cotime1, coTime
         ELSE
           STOP 'FCTN SCALER :  invalid input data NTIM(1)'
         ENDIF

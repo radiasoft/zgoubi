@@ -68,17 +68,17 @@ C  France
 
           IF( EMPTY(LBF(IF,1)) ) THEN
              WRITE(NRES,FMT='(15X,
-     >       '' Family not labeled; this scaling will be apply'',
-     >       '' all elements  "'',A,''"'')') FAM(IF)
+     >       ''Family not labeled ;  this scaling will be apply'',
+     >       '' to all elements  "'',A,''"'')') FAM(IF)
           ENDIF
         ENDIF
 
         IF(NTIM(IF) .GE. 0) THEN
 
-          DO 2 IT = 1, NTIM(IF) 
+          DO IT = 1, NTIM(IF) 
             SCL(IF,IT) = A(NOEL,10*IF+IT-1)
             TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
- 2        CONTINUE
+          ENDDO
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
@@ -89,18 +89,15 @@ C  France
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -1) THEN
-C--------- Field law proton driver, FNAL, Nov.2000
+C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
+C          Starting value is SCL(IF,1)
           SCL(IF,1) = A(NOEL,10*IF)
-          SCL(IF,2) = A(NOEL,10*IF+1)
-          SCL(IF,3) = A(NOEL,10*IF+2)
-          SCL(IF,4) = A(NOEL,10*IF+3)
-          TIM(IF,1) = A(NOEL,10*IF+4)
-          TIM(IF,2) = A(NOEL,10*IF+5)
+
           IF(NRES .GT. 0) THEN
-            WRITE(NRES,112) (SCL(IF,IC) ,IC=1,4)
- 112        FORMAT(20X,' Brho-min, -max, -ref,  Frep  : ', 4(F17.8,1X))
-            WRITE(NRES,113) ( INT(TIM(IF,IT)), IT=1,2)
- 113        FORMAT(20X,' TURN #    : ',I8,'  TO  ',I8)
+            WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
+     >      ,''increase of rigidity taken from CAVITE'')')
+            WRITE(NRES,FMT='(15X,''Starting scaling value is ''
+     >      ,1P,E14.6)') SCL(IF,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -2) THEN
@@ -146,6 +143,22 @@ c     >                   '  sbr scalin turn freq phase oclock '
              DUM = SCALE6(XM,YM,turn,freq,ekin,N)           
 
           ENDIF
+
+        ELSEIF(NTIM(IF) .EQ. -77) THEN
+C--------- Field law proton driver, FNAL, Nov.2000
+          SCL(IF,1) = A(NOEL,10*IF)
+          SCL(IF,2) = A(NOEL,10*IF+1)
+          SCL(IF,3) = A(NOEL,10*IF+2)
+          SCL(IF,4) = A(NOEL,10*IF+3)
+          TIM(IF,1) = A(NOEL,10*IF+4)
+          TIM(IF,2) = A(NOEL,10*IF+5)
+          IF(NRES .GT. 0) THEN
+            WRITE(NRES,112) (SCL(IF,IC) ,IC=1,4)
+ 112        FORMAT(20X,' Brho-min, -max, -ref,  Frep  : ', 4(F17.8,1X))
+            WRITE(NRES,113) ( INT(TIM(IF,IT)), IT=1,2)
+ 113        FORMAT(20X,' TURN #    : ',I8,'  TO  ',I8)
+          ENDIF
+
         ENDIF
 
  1    CONTINUE

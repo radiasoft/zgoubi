@@ -2884,13 +2884,14 @@ X_S $ translations.}
  \> \> \> \\
  \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (i.e., keyword of concern), up to 2 labels \> \>A8 [,A8[,A8]] \\
  \\
- $NT$          \>Number of timings   \>1-10 \>I \\
+ $NT$          \>$NT>0$~: number of timings   \>-2, -1 or 1-10 \>I \\
+           \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}   \> \> \\
+           \>$NT=-2$~:  \textsl{CAVITE} RF law read from external data file  \> \> \\
  \\
- $SCL(I)$, $I=1$, $NT$ \>Scaling values     \>relative \>NT*E\\
+ $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single one if $NT=-1$).    \>relative \>NT*E\\
  \\
- $TIM(I)$, $I=1$, $NT$ \>Corresponding timings. Out of this range, \>turn 
-number \>NT*I \\
- \>  the scaling factor is 1.
+ $TIM(I)$, $I=1$, $NT$ \>Corresponding timings, in units of turns (1 if $NT=-1$).  \>turn number \>NT*I \\
+% \>  Out of this range, the scaling factor is 1.
 \end{tabbing} 
 
 

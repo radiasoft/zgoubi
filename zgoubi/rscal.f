@@ -92,9 +92,8 @@ C        CPRM(IF) = 0.D0
 
         ELSEIF(NTIM(IF) .LT. 0) THEN
           IF    (NTIM(IF) .EQ. -1) THEN
-C---------- Field law protn driver, FNAL, Nov.2000 :
-            NDSCL=4
-            NDTIM=2
+            NDSCL=1
+            NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
 
@@ -104,6 +103,13 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
             NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
+          ELSEIF(NTIM(IF) .EQ. -77) THEN
+C---------- Field law protn driver, FNAL, Nov.2000 :
+            NDSCL=4
+            NDTIM=2
+C               max = max(NDSCL,NDTIM)
+            MAX=NDSCL  
+
           ENDIF
         ENDIF
 

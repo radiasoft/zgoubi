@@ -48,13 +48,6 @@ C      CHARACTER * 9   HMS
 C----- Coherent synchrotron radiation
       IF(KCSR.EQ.1) THEN
         IF(IPASS .EQ. 1) THEN
-C          CALL TIME2(HMS)
-C          WRITE(6,FMT='(1H+,A31,I7,A2,I7,A1,A11,A9)') 
-C     >    ' # of pass achieved/Requested :',IPASS,' /', NRBLT+1,
-C     >         ',','  at time :', HMS
-C          IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
-C          CALL FLUSH(6)
- 
           IF(NRES.GT.0) WRITE(NRES,100) IPASS, NRBLT+1
  100      FORMAT(/,30X,'  -----  CSR procedure  -----',//,5X,
      >     'End of pass # ',I1,'/',I1,

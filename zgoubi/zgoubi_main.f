@@ -118,6 +118,8 @@ C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
 
  10   CONTINUE
 
+      WRITE(NRES,103) DMY,HMS
+      WRITE(6   ,103) DMY,HMS
       CALL DATE2(DMY)
       CALL TIME2(HMS)
       WRITE(NRES,107) DMY,HMS

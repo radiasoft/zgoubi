@@ -76,12 +76,11 @@ C      PARAMETER (MXJ=7)
 C--------- read in zgoubi.spn type storage file
 
  1      READ(NL,101,ERR=99,END=10) LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >  ,GA,IT,IMAX,IPASS,NOEL
- 101    FORMAT(1X,A1,I2,8E15.7,/,E15.7,2I3,I6,I5)
+     >  ,ENERG,IT,IMAX,IPASS,NOEL
+ 101    FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
+     >  ,/,E15.7,3(1X,I7),1X,I5)
+C 101    FORMAT(1X,A1,I2,8E15.7,/,E15.7,2I3,I6,I5)
 
-C        IF(LM .NE. -1) THEN
-C          IF(LM .NE. NOEL) GOTO 1
-C        ENDIF
         IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                           IEND)) GOTO 1
         
@@ -104,8 +103,6 @@ C        ENDIF
         YZXB(23) = SF(3)
         YZXB(24) = SF(4)
 
-C               write(*,*) ' readco ',SF(3)
-
         IF(IPASS.EQ. 1) THEN
           SX(IT) = 0.D0
           SY(IT) = 0.D0
@@ -117,6 +114,10 @@ C               write(*,*) ' readco ',SF(3)
         YZXB(25) = SX(IT)/IPASS
         YZXB(26) = SY(IT)/IPASS
         YZXB(27) = SZ(IT)/IPASS
+
+        YZXB(20) = ENERG
+        YZXB(39) = IPASS 
+        YZXB(57) = NOEL
 
       ELSE
         IF(NL .EQ. NFAI) THEN

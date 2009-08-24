@@ -3155,8 +3155,8 @@ and adding the corresponding \LABEL('s)\index{LABEL@{\LABEL}}
 in the \textsl{SCALING} declarations (two \LABEL's maximum). The family name of concern, 
 as well as the field versus timing scaling law of that 
 family (or frequency versus timing in the case of \textsl{CAVITE\index{CAVITE}}) are given as
-input data to the keyword \textsl{SCALING\index{SCALING}}. Up to 9 families can be declared
-as subject to a scaling law~; a scaling law can be made of up to 10~successive timings~; 
+input data to the keyword \textsl{SCALING\index{SCALING}}. Up to $NF = 9$ families can be declared
+as subject to a scaling law~; a scaling law can be made of up to $NT = 10$~successive timings~; 
 between two successive timings, the variation law is linear.  
 \bigskip
 
@@ -3167,9 +3167,9 @@ between two successive timings, the variation law is linear.
 {\renewcommand{\arraystretch}{1}
 \noindent\begin{tabular}{lll}
   \textsl{SCALING}    &          & - Scaling \\
-  1    ~~~~ 4         &          &  Active. 4 families of elements are concerned, as listed below \\
+  1    ~~~~ 4         &          &  Active. $NF = 4$ families of elements are concerned, as listed below \\
   \textsl{QUADRUPO} \textsl{QFA} \textsl{QFB}&          & - Quadrupoles labeled 'QFA' and Quadrupoles labeled 'QFB' \\
-  2                   &          & 2 timings  \\
+  2                   &          & $NT = 2$ timings  \\
   18131.E-3           & 24176.E-3 \qquad 
                                  &   The field increases (linearly) from 18131E-3$\ast B_0 $ 
                                  to 24176E-3$\ast B_0 $  \\
@@ -3225,8 +3225,23 @@ from which value the calculations of $ f_{RF}(N) $ follow.
 
 \bigskip
 
-{\bf Note~:} It may happen that some optical elements won't scale, for source code developement reasons. 
+ \noindent $NT$ can take negative values, then acting as an option switch (rather than giving number of timings), as follows~: 
+
+$\bullet ~ NT = -1$~: this is convenient for synchrotron acceleration using trivial RF law $f_{RF} = h/T_{rev}$. In this case 
+the next two lines both contain a single data (as for $NT=1$), respectively the starting scaling factor value, and 1.  
+The current field scaling factor can then be updated (computed) 
+ from the energy kick by the cavity if for instance \textsl{CAVITE/IOPT=2} is used. 
+
+$\bullet ~ NT = -2$~: this is convenient for reading an RF law for \textsl{CAVITE} from an external data file, 
+including usage for acceleration in fixed field accelerators. To be documented. 
+
+
+\bigskip
+
+\noindent {\bf Note~:} It may happen that some optical elements won't scale, for source code developement reasons. 
 This should be paid attention to. 
+
+
 
 \newpage
 

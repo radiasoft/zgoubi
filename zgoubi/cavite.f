@@ -47,13 +47,15 @@ C  France
       SAVE WF1, PHAS
 
       CHARACTER*9 SKAV(8)
-      dimension dti0(mxt)
-      save dti0
+      DIMENSION DTI0(MXT)
+      SAVE DTI0
 
       LOGICAL OKOPEN, OKIMP, IDLUNI
       SAVE LUN, OKOPEN, OKIMP
 
       SAVE TIOLD, PHIOLD
+
+      SAVE PP0
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -65,6 +67,7 @@ C  France
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
+      DATA PP0 / 1.D0 / 
 
       KCAV = NINT(A(NOEL,1))
       OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KCAV) .EQ. 1
@@ -114,9 +117,7 @@ C----- P0, AM  are  in  MEV/c, /c^2
   
 
  10   CONTINUE
-C Regular synchrotron cavity. Ok for stationary or accelerating 
-C            bucket, e.g. SATURNE, scaling FFAG, etc.
-C In pulsed synchro Ph_s is computed from rigidity law as specified using SCALING/CAVITE
+C Ph_s is computed from rigidity law as specified using SCALING/CAVITE
       ORBL = AN10
       HARM = AN11
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
@@ -128,7 +129,9 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       FREV = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       PS = P0*SCALER(IPASS+1,NOEL,DTA1)
+      PP0 = PS / P0
       DWS = SQRT(PS*PS+AM2) - WS
+      WS = WS + DWS
       PHS=ASIN(DWS/QV)
       GOTO 1
  
@@ -143,9 +146,12 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       WKS = PS/BTS - AM
       FREV = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
-      WKS = WKS + QV*SIN(PHS)
+      DWS = QV*SIN(PHS)
+      WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
-      WS = SQRT(PS*PS+AM2)
+      PP0 = PS / P0
+      WS = WKS + AM
+!      WS = SQRT(PS*PS+AM2)
       GOTO 1
  
  30   CONTINUE
@@ -339,10 +345,10 @@ c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
 
         IF(OKIMP) THEN
-          scalo = SCALER(IPASS,NOEL,DTA1)
+          scala = SCALER(IPASS,NOEL,DTA1)
           WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
      >            ipass, omrf/(2.*pi),
-C     >            scalo, 
+C     >            scala, 
 C     >            PHI-PHS,
      >            PHI,
      >            TI,
@@ -619,8 +625,8 @@ C        DPR(I)=P-PS
         F(6,I)=0.D0 
 
         IF(OKIMP) 
-     >          WRITE(LUN,FMT='(1P,4G14.6,2I6)') PH(I),P-PS,
-     >            TI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >    WRITE(LUN,FMT='(1P,6(E14.6,1X),2(I6,1X))') PH(I),PHS,P-PS,
+     >    OMRF,TI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  3    CONTINUE
       GOTO 88
@@ -632,4 +638,8 @@ C        DPR(I)=P-PS
      >                          ' OPEN zgoubi.CAVITE.Out'
  101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
       RETURN
+
+      ENTRY CAVIT1(
+     >             SCALO)
+      SCALO = PP0
       END
