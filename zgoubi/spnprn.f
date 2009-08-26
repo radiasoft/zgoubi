@@ -42,7 +42,10 @@ C  France
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+      LOGICAL BINARY, BINARI
+
+      SAVE BINARY
+
       IF(KPR .GT. 1) THEN
         IF(IPASS.GT.1) THEN
           IF(KPR*(IPASS/KPR) .NE. IPASS) RETURN
@@ -51,14 +54,29 @@ C  France
  
       IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,TA(NOEL,1))
  
-      DO 10 I=1,IMAX
-        P = BORO*CL9 *F(1,I) * AMQ(2,I)
-        GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-        WRITE(NSPN,101) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >  ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
- 101    FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
-     >  ,/,E15.7,3(1X,I7),1X,I5)
- 10   CONTINUE
- 
+      IF(BINARY) THEN
+        DO I=1,IMAX
+          P = BORO*CL9 *F(1,I) * AMQ(2,I)
+          GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
+          WRITE(NSPN) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
+        ENDDO
+      ELSE
+        DO I=1,IMAX
+          P = BORO*CL9 *F(1,I) * AMQ(2,I)
+          GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
+          WRITE(NSPN,101) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
+ 101      FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
+     >    ,/,E15.7,3(1X,I7),1X,I5)
+        ENDDO
+      ENDIF
+
+      CALL FLUSH2(NSPN,BINARY)
+
+      RETURN
+
+      ENTRY SPNPR2(BINARI)
+      BINARY = BINARI
       RETURN
       END

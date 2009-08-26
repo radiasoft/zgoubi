@@ -39,6 +39,7 @@ C  France
       CHARACTER*80 OTHER
       SAVE OTHER, KTYP
      
+      INCLUDE 'FILSPN.H'
       INCLUDE 'FILPLT.H'
       INCLUDE 'FILFAI.H'
 
@@ -62,11 +63,11 @@ C  France
  21   CONTINUE
       CALL HOMCLR
 
-      WRITE(6,100) FILPLT, FILFAI, OTHER
+      WRITE(6,100) FILPLT, FILFAI, FILSPN, OTHER
  100  FORMAT(//,3X,60(1H*),//,20X,' FILE  TO  OPEN:' ,//
      > /,8X,' 1: ',A,                     
      > /,8X,' 2: ',A,                    
-     > /,8X,' 3: zgoubi.spn ',                     
+     > /,8X,' 3: ',A,                    
      > /,8X,' 4: ',A,
      > /,8X,' 5: other...',                     
      > /,8X,' 9: EXIT',
@@ -102,7 +103,7 @@ C  France
 
  3      CONTINUE
           KTYP = IOPT
-          NOMFIC='zgoubi.spn'
+          NOMFIC=FILSPN
         GOTO 40
 
  4      CONTINUE

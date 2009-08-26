@@ -77,8 +77,8 @@ C------- Dummies
      1      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      2      -1.D0+F(1,I),F(2,I),F(3,I),
      3      (F(J,I),J=4,MXJ),ENEKI,
-     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),
-     5                          BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
+     5      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
@@ -89,8 +89,8 @@ C------- Dummies
      1      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      2      -1.D0+F(1,I),F(2,I),F(3,I),
      3      (F(J,I),J=4,MXJ),ENEKI,
-     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),
-     5                          BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
+     5      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF

@@ -88,13 +88,13 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
  100  FORMAT(2A,'vs. ',2A) 
       WRITE(6,197) XMI,XMA,YMI,YMA,(XMI+XMA)/2.D0,(YMI+YMA)/2.D0,
      > KDX,KDY,(XMI+XMA)/2.D0/UX,(YMI+YMA)/2.D0/UY
- 197  FORMAT(' min.-max. ',T14,'Hor.:',1P,2G16.8,/,T14,' Ver.:',2G16.8,
+ 197  FORMAT('min.-max. ',T14,'Hor.:',1P,2G16.8,/,T14,' Ver.:',2G16.8,
      >   /,' (min+max)/2 Hor. & ver.:',2G16.8,'  ',A,'/',A,
      >   /,'                         ',2G16.8,'  (zgoubi units)')
- 107  FORMAT(' Min-max. Hor.:',1P,2G13.5,'; Ver.:',2G13.5)
+ 107  FORMAT('Min-max. Hor.:',1P,2G13.5,'; Ver.:',2G13.5)
       WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
- 101  FORMAT(' Part#',I5,'-',I5,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
-     >    I5,'-',I5,'; ',I5,' points') 
+ 101  FORMAT('Part#',I3,'-',I7,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
+     >    I3,'-',I7,'; ',I7,' points') 
 
       RETURN
 

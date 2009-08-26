@@ -64,11 +64,11 @@ C  France
      >,//,'   PLOT OPTIONS:'
      >, /,8X,' 2: List X & Y ( No <-> Yes     - FLIP-FLOP (',I1,') )'
      >, /,8X,' 3: Axes  ( Full <-> Proportional - FLIP-FLOP (',I1,') )'
-     >, /,8X,' 4: Histogram with ',I4,'  bins '
+     >, /,8X,' 4: Histogram with ',I5,'  bins '
      >, /,8X,' 5: Select particle category * KEX/KTag =',I3,'/',A1
-     >, /,8X,' 6: Select  pass  #.  Now : ',I6,'  -  ',I6
-     >, /,8X,' 7: Select  optical  element  #  (-1 = all).  Now : ',I5
-     >, /,8X,' 8: Select  trajectory  #.  Now : ',I6,'  -  ',I6
+     >, /,8X,' 6: Select  pass  #.  Now : ',I9,'  -  ',I9
+     >, /,8X,' 7: Select  optical  element  #  (-1 = all).  Now : ',I6
+     >, /,8X,' 8: Select  trajectory  #.  Now : ',I9,'  -  ',I9
      >, /,8X,' 9: EXIT' 
      >, /,8X,'10: Line/marker  style         ' 
      >, /,8X,'11: Reset S coordinate at each pass '

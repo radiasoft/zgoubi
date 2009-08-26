@@ -23,23 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-C Storage format advocated in
-C      SUBROUTINE IMP
-
- 100     FORMAT(1X,
-
-C1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     1           A1,1X,I2,1P,7E16.8,
-
-C2   XXX,Y,T*1.D3,
-     2         /,3E24.16,
-
-C3   Z,P*1.D3,SAR,     TAR,     DS,
-     3         /,4E24.16,E16.8,
-
-C4   KART,  IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
-     4         /,I1,2I6,8E16.8,
-
-C5        EX,EY,EZ, BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
-     5  /,4E16.8,          I6,1X,  A8,1X,  2A8,                I5)
-
+C------ Name of storage file for postprocessing by zpop
+C           normally b_zgoubi.spn ; zgoubi.spn for non-binary storage
+      CHARACTER*20 FILSPN
+C      PARAMETER (FILSPN='zgoubi.spn')
+      PARAMETER (FILSPN='b_zgoubi.spn')

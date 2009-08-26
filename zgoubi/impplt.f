@@ -115,7 +115,7 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
      2   XXX,Y-DY,T*1.D3,
      3   Z,P*1.D3,SAR,     TAR,     DY, 
 C     3   Z,P*1.D3,SAR,     TAR,     DS, 
-     4   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT),
+     4   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
      5   EX,EY,EZ,  BORO,  IPASS, KLEY,(LABEL(NOEL,I),I=1,2),NOEL
       ELSE
         WRITE(LN,100)
@@ -128,14 +128,14 @@ C     3   Z,P*1.D3,SAR,     TAR,     DS,
 C     current coordinates  time    Step 
 C                          mu_s    size 
 
-     4   KART,  IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT),
+     4   KART,  IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
 C        Cart.              Path out     - kG -     (S)   dp/p_Synchro
 C         or                 CHAMBR                Synchrotron
 C        Polar                                       motion
 
-     5   EX,EY,EZ,   BORO,  IPASS, KLEY,(LABEL(NOEL,I),I=1,2),NOEL
-C        - eV/cm -  reference         
-C                 rigidity(kG.cm)
+     5   EX,EY,EZ,   BORO,  IPASS,   KLEY,  (LABEL(NOEL,I),I=1,2), NOEL
+C        - eV/cm -  refrnce         keywrd   2 labels at keyword  lmntt#
+C                  rigdty(kG.cm)
 
         INCLUDE "FRMPLT.H"
       ENDIF 

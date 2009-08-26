@@ -75,28 +75,46 @@ C      PARAMETER (MXJ=7)
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file
 
- 1      READ(NL,101,ERR=99,END=10) LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >  ,ENERG,IT,IMAX,IPASS,NOEL
- 101    FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
-     >  ,/,E15.7,3(1X,I7),1X,I5)
-C 101    FORMAT(1X,A1,I2,8E15.7,/,E15.7,2I3,I6,I5)
+          IMAX = 0
+          IF(BINARY) THEN
+ 111         CONTINUE
+            READ(NL,ERR=99,END=10) 
+     >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      ,ENERG,IT,IMAX,IPASS,NOEL
 
-        IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                           IEND)) GOTO 1
-        
-        IF(.NOT. OKKP(KP1,KP2,IPASS,
-     >                              IEND)) THEN
+            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+     >                                       IEND)) GOTO 111
+            IF(.NOT. OKKP(KP1,KP2,IPASS,
+     >                                  IEND)) THEN
+              IF(IEND.EQ.0) THEN
+                GOTO 111
+              ELSEIF(IEND.EQ.1) THEN
+                GOTO 91
+              ENDIF
+            ENDIF
+            IF(.NOT. OKKL(KL1,KL2,NOEL,
+     >                                 IEND)) GOTO 111
 
-          IF(IEND.EQ.0) THEN
-            GOTO 1
-          ELSEIF(IEND.EQ.1) THEN
-            GOTO 91
+          ELSE
+ 1          READ(NL,101,ERR=99,END=10) 
+     >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      ,ENERG,IT,IMAX,IPASS,NOEL
+            INCLUDE "FRMSPN.H"
+
+            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+     >                                       IEND)) GOTO 1        
+            IF(.NOT. OKKP(KP1,KP2,IPASS,
+     >                                  IEND)) THEN
+              IF(IEND.EQ.0) THEN
+                GOTO 1
+              ELSEIF(IEND.EQ.1) THEN
+                GOTO 91
+              ENDIF
+            ENDIF
+            IF(.NOT. OKKL(KL1,KL2,NOEL,
+     >                                 IEND)) GOTO 1
+
           ENDIF
-
-        ENDIF
-
-        IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                           IEND)) GOTO 1
         
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)
@@ -129,48 +147,31 @@ C--------- read in zgoubi.fai type storage file
             READ(NL,ERR=99,END=10) 
      >      LET, KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), ENERG, 
-     >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, 
+     >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
-C            IF(LM .NE. -1) THEN
-C              IF(LM .NE. NOEL) GOTO 222
-C            ENDIF
-
-c              write(*,*) 'in zgoubi.fai type storage file A',
-c     >          ipass,' toto ',kley,lbl1,lbl2,noel
-c                 pause
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                             IEND)) GOTO 222
-
             IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 222
-
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 222
-
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
  21         READ(NL,110,ERR=99,END=10)
      >      LET, KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), ENERG, 
-     >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, 
+     >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR,  PS,
      >      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
             INCLUDE "FRMFAI.H"
-CCCCCCCCCCC           if(it.eq.1) yref = f(2)
-C            IF(LM .NE. -1) THEN
-C              IF(LM .NE. NOEL) GOTO 21
-C            ENDIF
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                             IEND)) GOTO 21
-
             IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 21
-
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                           IEND)) GOTO 21
-
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
@@ -185,7 +186,7 @@ C--------- read in zgoubi.plt type storage file
      >      LET, KEX,(FO(J),J=1,7),
 C     >      (F(J),J=1,7), DS, 
      >      (F(J),J=1,7), DY, 
-     >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, 
+     >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
@@ -195,10 +196,8 @@ C            ENDIF
      >                             IEND)) GOTO 232
             IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 232
-
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                           IEND)) GOTO 232
-
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
@@ -206,7 +205,7 @@ C            ENDIF
      >      LET, KEX,(FO(J),J=1,MXJ),
 C     >      (F(J),J=1,MXJ), DS,
      >      (F(J),J=1,MXJ), DY,
-     >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR,
+     >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
             INCLUDE "FRMPLT.H"
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
@@ -217,13 +216,10 @@ C            ENDIF
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                             IEND)) GOTO 31
-
             IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 31
-
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                           IEND)) GOTO 31
-
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
