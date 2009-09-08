@@ -57,8 +57,8 @@ C  France
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
       CHARACTER*10 LBL(MLB)
-      LOGICAL PRLB
-      SAVE IALB, PRLB
+      LOGICAL PRLB, PRSPLB
+      SAVE KPRT, PRLB, KPRTSP, PRSPLB
 
 C----- Average orbit
       PARAMETER (MXPUD=9,MXPU=1000)
@@ -105,6 +105,7 @@ C----- Switch for calculation, transport and print of Twiss functions :
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
         PRLB = .FALSE.
+        PRSPLB = .FALSE.
       ENDIF
 
 C----- Get FIT status
@@ -133,7 +134,15 @@ C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
         IF( STRACO(NLB,LBL,LABEL(NOEL,1),
      >                                   IL) ) 
-     >    CALL IMPFAI(IALB,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
+     >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
+     >                                              LABEL(NOEL,2)) 
+      ENDIF
+      IF(PRSPLB) THEN
+C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
+C        LBL contains the LABEL['s] after which print shall occur
+        IF( STRACO(NLB,LBL,LABEL(NOEL,1),
+     >                                   IL) ) 
+     >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
       ENDIF
       IF(KCO .EQ. 1) THEN
@@ -244,11 +253,11 @@ C----- SEXTUPOL - B SEXTUPOLAIRE  ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
-C----- RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
+C----- IMAGE. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
 C----- FAISCEAU MONOCHROMATIQUE
  5    CALL FOCALE(1)
       GOTO 998
-C----- RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
+C----- IMAGES. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
 C----- FAISCEAU POLYCHROME
  6    CALL FOCALE(2)
       GOTO 998
@@ -258,8 +267,8 @@ C----- FAISCEAU. Print current beam in zgoubi.res
 C----- FAISCNL. Stores beam at current position (in .fai type file)
  8    CONTINUE
       IF(READAT) CALL RFAIST(0,
-     >                         PRLB,IALB,LBL,NLB)
-      IF(TA(NOEL,1).NE.'dummy') THEN
+     >                         PRLB,KPRT,LBL,NLB)
+      IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0
         TXTEMP = TA(NOEL,1)
         TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
@@ -274,7 +283,7 @@ C----- TRAVERSEE D'UNE CIBLE
       IF(FITGET) CALL FITGT1
       CALL CIBLE
       GOTO 998
-C----- DIMENSIONS DU FAISCEAU @ XI
+C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
 10    CONTINUE
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(FITGET) CALL FITGT1
@@ -490,14 +499,14 @@ C----- DIPOLE-M. 2-D mid plane fabricated dipole map. Polar coordinates.
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
-C----- RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE VERTICAUX
+C----- IMAGEZ. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE VERTICAUX
  41   CALL FOCALE(-1)
       GOTO 998
-C----- RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE VERTICAUX
+C----- IMAGESZ. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE VERTICAUX
 C----- FAISCEAU DISPERSE EN V
  42   CALL FOCALE(-2)
       GOTO 998
-C----- DIMENSIONS ET POSITION VERTICALES DU FAISCEAU @ XI
+C----- FOCALEZ. DIMENSIONS ET POSITION VERTICALES DU FAISCEAU @ XI
  43   CONTINUE
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(FITGET) CALL FITGT1
@@ -586,9 +595,19 @@ C----- Plot transverse coordinates (for use on a workstation)
       GOTO 998
 C----- SPNPRNL. Store  state of spins in logical unit
  54   CONTINUE
-      IF(READAT) READ(NDAT,503) TA(NOEL,1)
-      IF(FITGET) CALL FITGT1
-      CALL SPNPRN(0)
+C      IF(READAT) READ(NDAT,503) TA(NOEL,1)
+C      IF(FITGET) CALL FITGT1
+C      CALL SPNPRN(0)
+      IF(READAT) CALL RSPNST(0,
+     >                         PRSPLB,KPRTSP,LBL,NLB)
+      IF(TA(NOEL,1).NE.'none') THEN
+        NLB = 0
+        TXTEMP = TA(NOEL,1)
+        TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
+        CALL SPNPRW(TXTEMP,LBL,NLB)
+        CALL SPNPRN(I0,NOEL-1,KLE(IQ(NOEL-1)),LABEL(NOEL-1,1),
+     >                                             LABEL(NOEL-1,2))
+      ENDIF
       GOTO 998
 C----- CAVITE ACCELERATRICE
  55   CONTINUE
@@ -697,23 +716,32 @@ C        - Print after LABEL'ed elements
 C        - Print every other IPASS = mutltiple of IA
  66   CONTINUE
       IF(READAT) CALL RFAIST(MLB,
-     >                           PRLB,IALB,LBL,NLB)
+     >                           PRLB,KPRT,LBL,NLB)
       TXTEMP = TA(NOEL,1)
       TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
-      IF(TXTEMP.NE.'dummy') THEN
-        CALL IMPFAW(TXTEMP,LBL,NLB)
-        IF(.NOT. PRLB) CALL IMPFAI(IALB,NOEL-1,KLE(IQ(NOEL-1)),
+      IF(TXTEMP.NE.'none') THEN
+        IF(TA(NOEL,2).NE.'none') THEN
+          CALL IMPFAW(TXTEMP,LBL,NLB)
+          IF(.NOT. PRLB) CALL IMPFAI(KPRT,NOEL-1,KLE(IQ(NOEL-1)),
      >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
+        ENDIF
       ENDIF
       GOTO 998
-C----- SPNPRNLA - PRINT SPINS ON FILE, EACH IPASS=MULTIPL OF IA
+C----- SPNSTORE - Similar to SPNPRNL, with additional options:
+C        - Print after LABEL'ed elements
+C        - Print every other IPASS = mutltiple of IA
  67   CONTINUE
-      IF(READAT) THEN
-        READ(NDAT,503) TA(NOEL,1)
-        READ(NDAT,*) A(NOEL,1)
-        IA=A(NOEL,1)
+      IF(READAT) CALL RSPNST(MLB,
+     >                           PRSPLB,KPRTSP,LBL,NLB)
+      TXTEMP = TA(NOEL,1)
+      TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
+      IF(TXTEMP.NE.'none') THEN
+        IF(TA(NOEL,2).NE.'none') THEN
+          CALL SPNPRW(TXTEMP,LBL,NLB)
+          IF(.NOT. PRSPLB) CALL SPNPRN(KPRTSP,NOEL-1,KLE(IQ(NOEL-1)),
+     >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
+        ENDIF
       ENDIF
-      CALL SPNPRN(IA)
       GOTO 998
 C----- EL2TUB - LENTILLE ELECTROSTATIQ A 2 TUBES OU DIAPHRAG.
  69   CONTINUE
@@ -973,7 +1001,7 @@ C----- FFAG-SPI. FFAG, spiral.
       KALC = 1
       KUASEX = 33
       IF(READAT) THEN
-        CALL RFFAGS(ND(NOEL))
+        CALL RFFAG(ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF

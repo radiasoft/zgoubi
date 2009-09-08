@@ -28,12 +28,26 @@ C  France
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
+      CHARACTER TXT*132
+
       READ(NDAT,*) IA
       A(NOEL,1) = IA
 C----- Length (cm), Twist-pitch=distance for 2pi B rotation (cm), BO (kG), initial angle of \vecB wrt vertical axis (rad)
       READ(NDAT,*) (A(NOEL,I),I=10,13)
-      ND = 20
+
+C IRD2= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+C mesh size= XPAS/RESOL
+C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
+      READ(NDAT,FMT='(A132)') TXT
+      READ(TXT,*) AA
+      IF(INT(AA).NE.0) THEN
+        READ(TXT,*) A(NOEL,20),A(NOEL,21)
+      ELSE
+        A(NOEL,20) = AA
+      ENDIF
+ 
+C----- Step size
+      ND = 30
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 C----- KP,XCE, YCE, ALE

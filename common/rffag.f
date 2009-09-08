@@ -25,13 +25,15 @@ C  38026 Grenoble Cedex
 C  France
       SUBROUTINE RFFAG(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     -------------------
-C     READS DATA FOR FFAG
-C     -------------------
+C     --------------------------
+C     READS DATA FOR SPIRAL FFAG
+C     --------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
+      CHARACTER TXT*132
+
       READ(NDAT,*) A(NOEL,1)               ! IL      
       NP = 1                 
       READ(NDAT,*) (A(NOEL,NP+I),I=1,3)    ! NMAG, AT, R0
@@ -47,14 +49,14 @@ C       ... Entrance face
         NP=NP+2                                    !    .eq.0/.ne.0 for constant/g_0(R0/r)^k
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
         NP=NP+6
 C         ... Exit face 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
         NP=NP+2 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
         NP=NP+6
 C         ... Lateral face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
@@ -66,9 +68,18 @@ C         ... Lateral face
 
  1    CONTINUE
 
-C     ... IRD2(=0/1 for deriv. anal/interpol), RESOL -> mesh size= XPAS/RESOL
-      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
-      NP=NP+2
+C IRD2= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+C mesh size= XPAS/RESOL
+C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
+      READ(NDAT,FMT='(A132)') TXT
+      READ(TXT,*) AA
+      IF(INT(AA).NE.0) THEN
+        READ(TXT,*) A(NOEL,NP+1),A(NOEL,NP+2)
+        NP=NP+2
+      ELSE
+        A(NOEL,NP+1) = AA
+        NP=NP+1        
+      ENDIF
 C     ... XPAS
       NP=NP+1
       ND=NP

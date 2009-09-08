@@ -63,6 +63,7 @@ C     --------------------------------------------------------------
       SAVE BT,ET
 
       DIMENSION FTAB(5,5)
+      DIMENSION FTAB3(3,3,3,3)
 
       SAVE IRD2
  
@@ -152,7 +153,7 @@ C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
           CALL ELCYL(MPOL,QLE,QLS,QE,QS,X,Y, 
-     >                                                    E)
+     >                                      E)
  
         ELSEIF(KUASEX.EQ.25) THEN
 C--------- ELMIR
@@ -160,7 +161,7 @@ C--------- ELMIR
           Z0=Z
           IF(EM(6).NE.0.D0) CALL ROTX(EM(6),Y0,Z0)
           CALL ELMIRF(X,Z0,BRI,
-     >                           E,DE,DDE)
+     >                         E,DE,DDE)
           IF(EM(6).NE.0.D0)
      >      CALL XROTB(EM(6),E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 
@@ -171,8 +172,21 @@ C--------- ELCMIR
               
         ELSEIF(KUASEX .EQ. 28 ) THEN
 C--------- HELIX
-          CALL HELIXF(X,Y,Z,BRI,RO,BO,
-     >                                  B)
+          IF    (IRD2.EQ.0) THEN 
+C  Compute FFAG field and derivatives from analytical model
+            CALL HELIXA(X,Y,Z,
+     >                        B,DB,DDB)
+          ELSE
+
+C  Compute HELIX field  and derivatives from 3D (*(*( points flying field-mesh
+C  centered on particle position. 
+            CALL HELIXF(X,Y,Z,
+     >                        XX,YY,ZZ,DX,DY,DZ,FTAB3)
+            CALL INTPL3(XX,YY,ZZ,DX,DY,DZ,FTAB3,
+     >                                          B,DB,DDB)
+
+          ENDIF
+
         ELSEIF(KUASEX .EQ. 29) THEN
 C--------- COILS
           CALL COILSF(X,Y,Z)
@@ -295,7 +309,7 @@ C  Equivalence (X,ANGLE), (Y,RADIUS)
 C  Compute FFAG field and derivatives from analytical model
             CALL FFAGFA(IDB,X,Y,
      >                          BZ0)
-          ELSEIF(IRD2.EQ.1) THEN
+          ELSE
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFAGF(X,Y,
      >                     DA,DR,FTAB)
@@ -303,8 +317,6 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             RRR = ZERO
             CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
-          ELSE
-            STOP '*** SBR CHAMC. No such field case'
           ENDIF
 
 
@@ -325,7 +337,7 @@ C  Equivalence (X,ANGLE), (Y,RADIUS)
           IF    (IRD2.EQ.0) THEN 
               CALL DIPSFA(IDB,X,Y,
      >                            BZ0)
-          ELSEIF(IRD2.EQ.1) THEN
+          ELSE
             CALL DIPSF(X,Y,
      >                     DA,DR,FTAB)
 C     >                     AAA,RRR,DA,DR,FTAB)
@@ -340,7 +352,7 @@ C  Equivalence (X,ANGLE), (Y,RADIUS)
 C  Compute FFAG field and derivatives from analytical model
             CALL FFGSPA(IDB,X,Y,
      >                          BZ0)
-          ELSEIF(IRD2.EQ.1) THEN
+          ELSE
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFGSPF(X,Y,
      >                      DA,DR,FTAB)
@@ -348,8 +360,6 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             RRR = ZERO
             CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
-          ELSE
-            STOP '*** SBR CHAMC. No such field case' 
           ENDIF
 
         ENDIF

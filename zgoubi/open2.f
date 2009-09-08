@@ -100,7 +100,6 @@ C------------- Write down a 4-line header
           ENDIF
 
           IF(TXT.EQ.'TRAJECTORIES') CALL IMPPL2(BINARY)
-          IF(TXT.EQ.'SPIN DATA') CALL SPNPR2(BINARY)
 
         ENDIF
 C------- OPN

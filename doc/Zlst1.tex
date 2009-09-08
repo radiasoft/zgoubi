@@ -2604,6 +2604,7 @@ $\sigma_{16}=D_Y$, $\sigma_{26}=D'_Y$,  $\sigma_{36}=D_Z, \sigma_{46}=D'_Z$, all
     {\renewcommand{\arraystretch}{1}
 			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|c|c|c|p{\LL}|}
 			\hline
+			\hline
 			 \multirow{3}{\LL}{\textbf{Type of constraint}}
 			    & \multicolumn{8}{c|}{\rule{0cm}{5mm} \textbf{Parameters defining the constraints}} 
                             &\multirow{3}{\LL}{\textbf{Object definition (recommended) }}  \\[-2mm]
@@ -2671,40 +2672,16 @@ $\sigma_{16}=D_Y$, $\sigma_{26}=D'_Y$,  $\sigma_{36}=D_Z, \sigma_{46}=D'_Z$, all
                 & $N_{through~\epsilon_{Y,Z,X}}/ N_{survived}$ 
          & & & & & \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
+%
+			\multicolumn{1}{|c|}{\textbf{Spin}}
+			    & 10 & $1 - \IMAX$ & $1 - 3$  & $  S(J,I) $  
+         & & & & & \textsl{[MC]OBJET}   \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 10.1 & $1 - \IMAX$ & $1 - 3$  &$|S(J,I) - S_{initial}(J,I)|$ 
+         & & & & & \textsl{+SPNTRK}   \\
+			\hline
 			\hline
 		\end{tabular}  }
-%			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|}
-%			\hline
-%			 \multirow{2}{\LL}{\textbf{Type of constraint}}
-%			    & \multicolumn{4}{c|}{\rule{0cm}{5mm}
-%			    \textbf{Parameters defining the constraint}}  \\[-2mm]
-%			\cline{2-5}
-%			    & \rule{0cm}{5mm}$\mathbf{\IC}$ 
-%			    & $\mathbf{I}$ & $\mathbf{J}$ & \textbf{Constraint}  \\
-%			\hline
-%			 Beam matrix\footnotemark[2] & \rule{0cm}{5mm}0 & 1 - 4 & 1 - 4 & $\sigma_{IJ}$   \\
-%			  &  &  &  &   \\
-%			\multicolumn{1}{|c|}{\textbf{First order}}  
-%			    &   & 1 - 6 & 1 - 6 & $  R_{IJ} $  \\
-%			\multicolumn{1}{|c|}{\textbf{transfer}} & 1 & 7 & any & Y-determinant  \\
-%			\multicolumn{1}{|c|}{\textbf{coefficients\footnotemark[2]}}  
-%			            &    &  8 & any  & Z-determinant  \\
-%			  &  &  &  &   \\
-%			\multicolumn{1}{|c|}{\textbf{Second order}}  
-%			    & 2  & 1 - 6 & 11 - 66 & $  T_{I,j,k} $  \\
-%			 \multicolumn{1}{|c|}{\textbf{transfer}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  \\
-%			 \multicolumn{1}{|c|}{\textbf{coefficients\footnotemark[3]}}
-%			            &  &  &  &   \\
-%			&  &  &  &   \\
-%			Trajectory coordinate\footnotemark[4] 
-%			    & 3 & 1 - \IMAX\ & 1 - 6\footnotemark[5] & $  F(J,I) $  \\
-%			&  &  &  &   \\
-%			\multicolumn{1}{|c|}{\textbf{Periodic }}
-%			    & 4 & 1 - 6 & 1 - 6 & $\sigma_{IJ}$\footnotemark[6]    \\
-%			\multicolumn{1}{|c|}{\textbf{coefficients\footnotemark[2]}} &  & 7 & any & Y-tune  \\
-%			\multicolumn{1}{|c|}{ } &  & 8 & any & Z-tune  \\
-%			\hline
-%		\end{tabular}  }
 	\end{center}
 \normalsize
 
@@ -2720,12 +2697,24 @@ sampled as described in \textsl{MATRIX\index{MATRIX}} (these particles are norma
 \textsl{OBJET\index{OBJET}}, \mbox{\textsl{KOBJ} = 5 or 6}). The same is true for the $ T_{ijk} $
 second order coefficients (Initial coordinates normally defined with \textsl{OBJET}, 
 \mbox{\textsl{KOBJ} = 6}).  
-\smallskip
 
+\smallskip
 
 \noindent  {\it IC=3~: } If $1<I<\IMAX$ then the value of coordinate type $J$ ($J=1,6$ for respectively 
  $D,~Y,~T,~Z,~P,~S$) of particle number $I$ ($1<I<\IMAX$) 
-is constrained.  If $I=-1$ the constraint is the mean value of coordinate of type $J$. 
+is constrained.  
+
+Case $I=-1$~:  the constraint is the mean value of coordinate of type $J$. 
+
+Case $I=-1$~:  the constraint is the max. value of coordinate of type $J$. 
+
+Case $I=-1$~:  the constraint is the $J$-distance for two different particles. 
+
+\smallskip
+
+\noindent  {\it IC=3.1~: } Difference between final and initial $J$-coordinate of particle $I$ (convenient 
+e.g. for closed orbit search). 
+
 \smallskip
 
 
@@ -2745,6 +2734,15 @@ adequate emittance.
 If $I\ge 1$ then the constraint value is the ratio of  particles encompassed within a given $I$-type 
 ($I=1-3$ for respectively $Y,~Z,~D$) phase-space surface. 
 
+\smallskip
+
+\noindent  {\it IC=10~: } If $1<I<\IMAX$ then the value of coordinate type $J$ ($J=1,3$ for respectively 
+ $S_X, S_Y, S_Z$) of particle number $I$ ($1<I<\IMAX$) is constrained.  
+
+\smallskip
+
+\noindent  {\it IC=10.1~: } Difference between final and initial $J$-spin coordinate  of particle $I$ (convenient 
+e.g. for closed orbit search). 
 
 
 
@@ -3262,6 +3260,10 @@ transverse horizontal (0,1,0), vertical (0,0,1)).
 
 \noindent\textbf{KSO = 4~:} initial spin components are entered explicitly for
 each one of the \IMAX\index{IMAX@{\IMAX}} particles of the beam.  
+\medskip
+
+\noindent\textbf{KSO = 4.1~:} three initial spin components $S_X, S_Yn S_Z$ are entered explicitly just once, 
+they are then assigned to  each one of the \IMAX\index{IMAX@{\IMAX}} particles of the beam.  
 \medskip
 
 \noindent\textbf{KSO = 5~:} random generation of \IMAX\index{IMAX@{\IMAX}} initial spin
@@ -4684,7 +4686,7 @@ following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M
 
 \bigskip
 
-\paragraph{Calculation of the Field Due to a Single Dipole} 
+\paragraph{Calculation of the field from a single dipole} 
 
  \noindent The magnetic field is calculated in  polar
 coordinates.  At all $(R,\theta)$ in the median plane ($z=0$), the 
@@ -4716,7 +4718,7 @@ Definition of a dipole triplet using  the \textsl{DIPOLES} or  \textsl{FFAG}  pr
 
 
 
-\paragraph{Calculation of the Fringe Field Coefficient} 
+\paragraph{Calculation of the fringe field coefficient} 
 
 \noindent In a dipole, with  each EFB a realistic extent of the fringe field, $g $, 
 is associated and a fringe field coefficient $ F $ is calculated. 
@@ -4761,7 +4763,7 @@ trajectory the resulting value of the fringe field coefficient is taken to be
 
 
 
-\paragraph{Full field at arbitrary position \label{FFatAP}}
+\paragraph{Calculation of the full field from all $N$ dipoles \label{FFatAP}}
 
  
 \noindent Now, accounting for   $N$ neighboring dipoles in an $N$-tuple,  the mid-plane field  and field derivatives  
@@ -4853,7 +4855,7 @@ $$	A_{kl} = \frac{1 }{ k!l!}\,  \frac{\partial^{ k+l}B }{ \partial \theta^k\part
 
 \noindent Note that, the source code contains the explicit analytical 
 expressions of the coefficients $A_{kl}$ solutions of the normal 
-equations, so that the operation is not so  CPU time consuming. 
+equations, so that the operation {\it is not}   CPU time consuming. 
 
 \begin{figure}[h]
  \begin{center}
@@ -5359,7 +5361,9 @@ are integrated in the field may be defined, in the same way as in  \textsl{CARTE
 \medskip
 
 \noindent \textsl{FFAG} works much like \textsl{DIPOLES} 
-as to the field modelling, apart from the (so-called ``scaling'') radial dependence of the field. 
+as to the field modelling, apart from the  radial dependence of the field (so-called ``scaling'', 
+$B=B_0(r/r_0)^k$. Note that \textsl{DIPOLES} could do the same job by using a 
+multipole expansion of $B_0(r/r_0)^k$). 
 
 \bigskip
 
@@ -5381,7 +5385,7 @@ or triplet. This is done in the way described below.
 \bigskip
 
 \noindent For each one of the $N=1$ to (maximum) $5$ dipoles of the  $N$-tuple, 
-the 2  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
+the two  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
 defined from geometric boundaries, the shape and position of which are determined by the 
 following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M})
  (see Fig.~\ref{fig9}-A page~\pageref{fig9}, and Fig.~\ref{figFFAG}) 
@@ -5406,7 +5410,7 @@ Definition of a dipole $N$-tuple ($N=3$, a triplet here) using  the \textsl{DIPO
 \end{figure}
 
 
-\paragraph{Calculation of the Field Due to a Single Dipole} 
+\paragraph{Calculation of the field from a single dipole} 
 
  \noindent The magnetic field is calculated in  polar
 coordinates.  At all $(R,\theta)$ in the median plane ($z=0$), the 
@@ -5437,9 +5441,9 @@ all radial extent of a scaling FFAG dipole (with normally - but not in practice 
 
 \bigskip
 
-\paragraph{Full field at arbitrary position }
+\paragraph{Calculation of the full field from all $N$ dipoles}
 
-For the rest, namely, calculation of the full field at arbitrary position, 
+For the rest, namely, calculation of the full field at particle position from the $N$ dipoles, 
 analytical   calculation or numerical interpolation of the  mid-plane field derivatives, 
 extrapolation off median plane, etc., things are performed exactly as in the case of the 
  \textsl{DIPOLES} procedure (see page~\pageref{FFatAP}). 
@@ -5459,11 +5463,6 @@ $\omega^+= ACENT$ (resp. $\omega^- = -(AT-ACENT)$),
 together with $\theta=0$ at entrance (resp. exit) EFBs), 
 
 - analytical method for calculation of the  mid-plane field derivatives is used. 
-
-
-
-
-
 
 
 
@@ -5500,7 +5499,7 @@ or triplet (Fig.~\ref{figFFAGSPI}). This is done in the way described below.
 \bigskip
 
 \noindent For each one of the $N=1$ to (maximum) $5$ dipoles of the  $N$-tuple, 
-the 2  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
+the two  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
 defined from geometric boundaries, the shape and position of which are determined by the 
 following parameters 
 
@@ -5515,7 +5514,7 @@ following parameters
 \bigskip
 
 \noindent with $ACN_i$ and $\omega$ as defined in Fig.~\ref{figFFAGSPI} 
-(similar to what is found in Figs.~\ref{figFFAG} and \ref{fig9}-A). 
+(similar to what can be found in Figs.~\ref{figFFAG} and \ref{fig9}-A). 
 
 \begin{figure}[h]
  \begin{center}
@@ -5531,7 +5530,7 @@ entrance and exit side of a central dipole).
 \bigskip
 
 
-\paragraph{Calculation of the Field Due to a Single Dipole} 
+\paragraph{Calculation of the field from a single dipole} 
 
  \noindent The magnetic field is calculated in  polar
 coordinates.  At all $(R,\theta)$ in the median plane ($z=0$), the 
@@ -5561,9 +5560,9 @@ all radial extent of a scaling FFAG dipole (with normally - but not in practice 
 
 \bigskip
 
-\paragraph{Full field at arbitrary position }
+\paragraph{Calculation of the full field from all $N$ dipoles}
 
-For the rest, namely, calculation of the full field at arbitrary position, 
+For the rest, namely, calculation of the full field at particle position from the $N$ dipoles,  
 analytical   calculation or numerical interpolation of the  mid-plane field derivatives, 
 extrapolation off median plane, etc., things are performed exactly as in the case of the 
  \textsl{DIPOLES} procedure (see page~\pageref{FFatAP}). 
@@ -6399,36 +6398,51 @@ histograms, spin coordinates\index{spin tracking}, etc. They may be called for a
  \label{FAISTORE}\index{FAISCEAU|textbf} \index{FAISCNL|textbf}\index{FAISTORE|textbf}
 
 
-\textsl{FAISCEAU}  can be introduced anywhere in a structure.  It produces a print 
-of  initial and actual coordinates of the particles at the location where it stands, together with their 
-tagging indices and letters, following the same format as for \textsl{FAISCNL} (except 
-for \textsl{SORT(I)}   which is not printed) .  
+\textsl{FAISCEAU}  can be introduced anywhere in a structure.  It produces a print  (into zgoubi.res) 
+of  initial and actual coordinates of the  \IMAX\index{IMAX@{\IMAX}} particles at the location where it stands, 
+together with their tagging indices and letters, following the same format as for \textsl{FAISCNL} (except 
+for \textsl{SORT(I)}  which is not printed) .  
+
 \bigskip
 
 \noindent\textsl{FAISCNL} has a similar effect, except that the information is stored in a 
-dedicated file \textsl{FNAME} (standard name is \textsl{FNAME} = `zgoubi.fai' \index{zgoubi.fai}
-for post-processing with \textbf{zpop}\index{zpop}).  This file may further on be read by means of  \textsl{OBJET}, 
-option \mbox{\KOBJ= 3}, or used for other purposes such as graphics (see Part~D of the Guide).  The data written to that file are formatted and  ordered 
-according to the \FORTRAN sequence below
+dedicated file \textsl{FNAME} (advised name is \textsl{FNAME} = `zgoubi.fai' 
+(formatted write) or `b\_zgoubi.fai' (binary write) \index{zgoubi.fai}
+if post-processing with \textbf{zpop}\index{zpop} should follow).  This file may further on be read by means of  \textsl{OBJET}, 
+option \mbox{\KOBJ= 3}, or used for other purposes such as graphics (see Part~D of the Guide).  
+The data written to that file are formatted and  ordered according to the \FORTRAN sequence 
+in the subroutine \textsl{impfai.f}, a copy of which as of Sept.~2009 is as follows~:  
 
 {\footnotesize
 \begin{verbatim}
     OPEN (UNIT = NL, FILE = FNAME, STATUS = `NEW')
-    DO  1  I=1, IMAX
-      WRITE(NL,110) LET(I),IEX(I),(FO(J,I),J=1,7),(F(J,I),J=1,7),KineticE,
-   >  I(I),IREP(I),SORT(I),Mass,Charge,G-Factor,com-Life-time,unused,RET(I), DPR(I),
-   >                                      BORO,IPASS,KLEY,LBL1,LBL2,NOEL
- 110     FORMAT(1X,A1,I2,1P,7E16.8,
-     2         /,3E24.16,
+        DO 1 I=1,IMAX
+            P = BORO*CL9 *F(1,I) * AMQ(2,I)
+            ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
+            ENEKI = ENERG - AMQ(1,I)
+            WRITE(NFAI,110)
+     1      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
+     2      -1.D0+F(1,I),F(2,I),F(3,I),
+     3      (F(J,I),J=4,MXJ),ENEKI,
+     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
+     5      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+        ENDDO
+ 110    FORMAT(1X,1P, 
+C1      LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
+     1  A1, 1X, I2,       7E16.8,
+C2        XXX, Y, T*1.D3,
+     2  /,3E24.16,
+C3      Z,P*1.D3,SAR,     TAR,  ENEKI,
      3         /,4E24.16,E16.8,
-     4         /,2I6,8E16.8,
-     5         /,E16.8,   I6,  A8,  2A10, I5)
+C4      IT,IREP(IT), SORT(IT), (AMQ(J,I),J=1,5), RET(IT), DPR(IT), PS,
+     4  /,2I6,       9E16.8,
+C5      BORO,    IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
+     5  /,E16.8, I6,1X,  A8,1X,  2A8,                 I5)
 \end{verbatim}}
 \medskip
 
-\noindent The meaning of main data is the following (see the keyword \textsl{OBJET})
+\noindent The meaning of the main data is the following (see the keyword \textsl{OBJET})
 \bigskip
-
 
 {\renewcommand{\arraystretch}{1}
  \begin{tabular}{>{\sl}l!{~:}l}
@@ -6446,16 +6460,21 @@ according to the \FORTRAN sequence below
      \end{tabular}}
 \bigskip
 
-\noindent\textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with two 
-more features. On the first data line, \textsl{FNAME} may be followed 
+\noindent\textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with two more features. 
+
+- On the first data line, \textsl{FNAME} may be followed 
 by a series of up to 10 \LABEL's\index{LABEL@{\LABEL}} proper to the elements of the data 
 file at the exit of which the print should occur~; if there is no 
 label, the print occurs by default at the location of \textsl{FAISTORE}~; if there are labels the 
 print occurs right downstream of all optical elements wearing those labels
- (and no longer at the \textsl{FAISTORE} location). The next data line 
-gives a parameter $IP$~: printing will occur every $IP$ other pass, if 
-using \REBELOTE\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $ \geq IP-1$. For 
-instance the data list
+ (and no longer at the \textsl{FAISTORE} location). 
+
+- The next data line 
+gives a parameter, $IP$~: printing will occur every $IP$ other pass, if 
+using \REBELOTE\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $ \geq IP-1$. 
+
+For instance the following data input in zgoubi.dat~: 
+
 \medskip
 
 {\renewcommand{\arraystretch}{1}
@@ -6484,6 +6503,9 @@ is the same as in the \textsl{FORMATTED} case above.
 
 This is compatible with the \textsl{READ} statements in \textbf{zpop} that will recognize binary storage 
 from that very radical 'b\_' or 'B\_'. 
+
+
+
 \newpage
 
 \subsubsection*{FOCALE, IMAGE[S]~: Particle coordinates and beam size~;  localization and
@@ -6724,29 +6746,24 @@ the periodic structure.
 
 \newpage
 
-\subsubsection*{SPNPRNL, SPNPRNLA, SPNPRT~: Print/Store spin coordinates 
-  }\label{SPNPRT}\label{SPNPRNL} \label{SPNPRNLA}
-\index{SPNPRT}\index{SPNPRNL}\index{SPNPRNLA}
+\subsubsection*{SPNPRNL, SPNSTORE, SPNPRT~: Print/Store spin coordinates 
+  }\label{SPNPRT}\label{SPNPRNL} \label{SPNSTORE}
+\index{SPNPRT}\index{SPNPRNL}\index{SPNSTORE}
 
-\textsl{SPNPRNL} has the same effect as \textsl{SPNPRT} (see 
-below), except that the information is
-stored in a  dedicated file \textsl{FNAME} (standard is \textsl{FNAME} = 
-`zgoubi.spn' \index{zgoubi.spn}
-for post-processing with \textbf{zpop}\index{zpop}). The data are formatted and ordered 
-according to the  \FORTRAN sequence below
+\noindent\textsl{SPNPRT} can be introduced anywhere in a structure. It produces
+a listing (into zgoubi.res) of the initial and actual coordinates and modulus of the spin of the \IMAX\index{IMAX@{\IMAX}}
+particles, at the location where it stands, together with their Lorentz factor $\gamma$, etc. 
+The mean values of the spin components are also printed. 
 
-{\footnotesize
-\begin{verbatim}
-	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `NEW')
-	      DO  1  I=1, IMAX
-	          WRITE (NL,100) LET(I), IEX(I), (SI(J,I)J=1,4), (SF(J,I),J=1,4), GAMMA, I
-       100	  FORMAT(1X, A1, I2, 1P, 8E15.7, /, E15.7, 2I3, I6)
-        1     CONTINUE
-\end{verbatim}}
-\medskip
-
-\noindent The meaning of these parameters is the following 
 \bigskip
+
+\textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
+stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
+advised name is \textsl{FNAME} = `zgoubi.spn' (formatted write) or `b\_zgoubi.spn' (binary write) \index{zgoubi.spn}). 
+The data are formatted and ordered according to the  \FORTRAN sequence found in the subroutine \textsl{spnprn.f}, 
+with meaning of printed quantities as follows~: 
+
+\medskip
 
  \begin{tabular}{>{\sl}l!{~:}l}
 	 LET(I),IEX(I)\index{IEX@{\IEX}}  &  tagging character and flag (see \textsl{OBJET}) \\
@@ -6757,18 +6774,54 @@ according to the  \FORTRAN sequence below
 	 IMAX &  total number of particles ray-traced (see  \textsl{OBJET})\\
 	 IPASS &  turn number (see \textsl{REBELOTE})\\
  \end{tabular}
+
 \bigskip
 
-\noindent\textsl{SPNPRNLA} has an effect similar to \textsl{SPNPRNL}, with 
-one more feature. The  line next to  \textsl{FNAME}  gives a parameter $IP$ 
-printing will occur every $IP$ other pass, when 
+\noindent\textsl{SPNSTORE} has an effect similar to \textsl{SPNPRNL}, with two more features. 
+
+- On the first data line, \textsl{FNAME} may be followed 
+by a series of up to 10 \LABEL's\index{LABEL@{\LABEL}} proper to the elements of the zgoubi.dat data 
+file at the exit of which the print should occur~; if no label is given, 
+the print occurs by default at the very location of \textsl{SPNSTORE}~; 
+if there  label(s) is (are) given
+print occurs right downstream of all optical elements wearing those labels
+ (and no longer at the \textsl{SPNSTORE} location). 
+
+- The next data line 
+gives a parameter, $IP$~: printing will occur every $IP$ other pass, when 
 using \REBELOTE\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $ \geq IP-1$. 
+
+For instance the following data input in zgoubi.dat~: 
+
+\medskip
+
+{\renewcommand{\arraystretch}{1}
+\begin{tabular}{lll}
+	\textsl{SPNSTORE} &  &   \\
+	zgoubi.spn \index{zgoubi.fai} & \textsl{HPCKUP} & \textsl{VPCKUP}  \\
+	12 &  & 
+\end{tabular}}
+\medskip
+
+\noindent will result in output prints into zgoubi.spn, every 12~other 
+pass, each time elements of the zgoubi.dat \index{zgoubi.dat} data list labeled either \textsl{HPCKUP}
+or \textsl{VPCKUP} are encountered.
+
 \bigskip
 
-\noindent\textsl{SPNPRT} can be introduced anywhere in a structure. It produces
-a listing (into zgoubi.res) of the initial and actual coordinates and modulus of the spin of the \IMAX\index{IMAX@{\IMAX}}
-particles, at the location where it stands, together with their Lorentz factor $\gamma$, following the format detailed above. 
-The mean values of the spin components are also printed. 
+\noindent\underline{Note}
+
+\noindent Binary storage can be obtained from \textsl{SPNPRNL} and \textsl{SPNSTORE}. This for 
+the sake of compactness and I/O access speed by zgoubi  or zpop, for instance  in case  voluminous amounts of 
+data should be manipulated. 
+
+This is achieved by giving the storage file a name of the form \textsl{b\_FNAME} 
+or \textsl{B\_FNAME}  (e.g., `b\_zgoubi.spn'). The FORTRAN \textsl{WRITE} ouput list 
+is the same as in the \textsl{FORMATTED} case above.  
+
+
+
+
 
 \newpage
 

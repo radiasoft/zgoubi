@@ -1005,11 +1005,15 @@ C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
           ENDIF
 C           Motion in this lmnt has no z-symm. 
           ZSYM=.FALSE.
+
         ELSEIF(KUASEX .EQ. 28 ) THEN
+
 C--------- HELIX
           CALL HELIX(SCAL,
      >                    XL)
+
         ELSEIF(KUASEX .EQ. 29 )   THEN
+
 C--------- COILS
           CALL COILS(SCAL,  
      >                            XL)

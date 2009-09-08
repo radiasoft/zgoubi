@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C Storage format advocated in
-C      SUBROUTINE IMP
+C      SUBROUTINE IMPPLT
 
  100     FORMAT(1X,
 

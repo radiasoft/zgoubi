@@ -51,14 +51,24 @@ C     > ,YCH,ZCH
       SAVE NOMFIC, NAMFIC
 
       INTEGER DEBSTR,FINSTR
+      SAVE NHDF
+
+      LOGICAL STRCON
 
       DATA NOMFIC / IZ*'               '/ 
       DATA NEWFIC / .TRUE. /
+      DATA NHDF / 4 /
 
       IF(KUASEX .EQ. 22) NDIM=2
 
       BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'HEADER',
+     >                            IS) ) THEN
+        READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
+      ELSE
+        NHD = NHDF
+      ENDIF
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
@@ -118,6 +128,7 @@ C         ... No symm
 C------ POLARMES
 C------ CARTE POLAIRE 2-D 
 
+        IRD = NINT(A(NOEL,40))
         IF(NEWFIC) THEN
           IF(IDLUNI(
      >              LUN)) THEN
@@ -134,10 +145,9 @@ C------ CARTE POLAIRE 2-D
 
           BMIN =  1.D10
           BMAX = -1.D10
-          IRD = NINT(A(NOEL,40))
- 
-          CALL FMAPR(BINAR,LUN,
-     >                         RM)
+
+          CALL FMAPR(BINAR,LUN,NHD,
+     >                             RM)
   
           DO 222 J=1,JYMA
             DO  222  I = 1,IXMA

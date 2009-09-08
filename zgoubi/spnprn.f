@@ -23,14 +23,17 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SPNPRN(KPR)
+      SUBROUTINE SPNPRN(KPR,NOEL,KLEY,LBL1,LBL2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER KLEY*10
+      CHARACTER*10 LBL1,LBL2
+      PARAMETER(MLB=10)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+C      CHARACTER*80 TA
+C      COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -39,44 +42,64 @@ C  France
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
-      LOGICAL BINARY, BINARI
 
+      CHARACTER*10 LBL(MLB)
+
+      CHARACTER FNAME*80
+      LOGICAL BINARY, FITING
       SAVE BINARY
 
-      IF(KPR .GT. 1) THEN
-        IF(IPASS.GT.1) THEN
-          IF(KPR*(IPASS/KPR) .NE. IPASS) RETURN
+      CALL FITSTA(5,FITING)
+      IF(FITING) RETURN
+
+      IF    (KPR .GE. 1) THEN
+C------- store at ipass=1 & every ipass=multiple of KPR
+        IF(IPASS .GT. 1) THEN
+          IF(IPASS .LT. NPASS) THEN
+            IF(KPR*(IPASS/KPR) .NE. IPASS) RETURN
+          ENDIF
         ENDIF
       ENDIF
  
-      IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,TA(NOEL,1))
- 
       IF(BINARY) THEN
+
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
           WRITE(NSPN) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL 
         ENDDO
+
       ELSE
+
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
           WRITE(NSPN,101) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL            
- 101      FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
-     >    ,/,E15.7,3(1X,I7),1X,I5)
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
+
         ENDDO
+
+        INCLUDE "FRMSPN.H"
+
       ENDIF
 
       CALL FLUSH2(NSPN,BINARY)
 
       RETURN
 
-      ENTRY SPNPR2(BINARI)
-      BINARY = BINARI
+      ENTRY SPNPRW(FNAME,LBL,NLB)
+
+      IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,FNAME)
+      BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,FMT='(15X,
+     >    ''Print of spin info will occur at element[s] labeled : '')') 
+        WRITE(NRES,FMT='(20X,A)') (LBL(I),I=1,NLB)
+      ENDIF
+
       RETURN
       END

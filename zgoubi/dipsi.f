@@ -64,7 +64,7 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       DIMENSION BZ0(5,5)
 
-      CHARACTER TYPCAL(2)*14
+      CHARACTER TYPCAL(2)*24
 
       SAVE TYPCAL
 
@@ -82,7 +82,7 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
      >   , AF40, AF42, AF44, AF46, AF48 
      >   , AF50, AF52, AF54, AF56, AF58 
 
-      DATA TYPCAL / ' analytic', ' interpolation'/
+      DATA TYPCAL / ' analytic', ' numerical interpolation'/
 
 C  Isochronous e-model, Rees    
       DATA FFXTE, FFXTS / 0.025D0, 0.025D0 /
@@ -321,14 +321,15 @@ C------- Correction for entrance wedge
       IF(SHARPE) CALL INTEG1(ZERO,FFXTE)
       IF(SHARPS) CALL INTEG2(ZERO,FFXTS)
 
-C Get type of field & deriv. calculation 
+C Choice of the type of field & deriv. calculation 
+C IRD2= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+
       NP=NP+1 
       IRD2 = NINT(A(NOEL,NP))
-C Get resol, or idb
-      NP=NP+1 
-      RESOL=A(NOEL,NP)
       IF    (IRD2.NE.0) THEN
 C        interpolation method
+        NP=NP+1 
+        RESOL=A(NOEL,NP)
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
         IRD = IRD2
@@ -340,12 +341,11 @@ C        interpolation method
         ELSEIF(IRD.EQ.4) THEN
           NN=5
         ELSE
-          STOP ' *** ERROR - SBR DIP2, WRONG VALUE IRD'
+          STOP ' *** ERROR - SBR DIP2, no such option IRD'
         ENDIF
       ELSEIF(IRD2.EQ.0) THEN
-C        analytic
-C        IDB = NINT(10*A(NOEL,NP))
-        IDB = NINT(RESOL)
+C    analytic. A(NOEL,NP) has the form 0.j, j=2 or 4. 
+        IDB = NINT(10*A(NOEL,NP))
         IF(IDB.NE.4) IDB=2
       ENDIF
       CALL CHAMC6(IRD2)
@@ -389,18 +389,24 @@ C Formula to be revisited...
      >         TAN(AT - ACN(KMAG) + UMEGAS(KMAG)* RAD) )
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
-     >  TYPCAL(IRD2+1)
+        WRITE(NRES,FMT='(/,5X,'' Field & derivatives calculation''
+     >  ,'' method :'',A)') TYPCAL(IRD2+1)
         IF    (IRD2.NE.0) THEN
           IF(IRD .EQ. 2) THEN
-            WRITE(NRES,121) '3*3', RESOL
- 121        FORMAT(20X,A3,
-     >        '-point  interpolation, size of flying mesh :  ',
-     >        'integration step /',1P,G12.4)
+            WRITE(NRES,FMT='(20X
+     >        ,''3*3-point  interpolation, 2nd degree polynomial'')')
           ELSEIF(IRD .GE. 4) THEN
-C----------- IRD= 4 OR 25
-            WRITE(NRES,121) '5*5', RESOL
+            IF    (IRD .EQ. 25) THEN
+              WRITE(NRES,FMT='(20X
+     >        ,''5*5-point  interpolation, 2nd degree polynomial'')')
+            ELSEIF(IRD .GE.  4) THEN
+              WRITE(NRES,FMT='(20X
+     >        ,''5*5-point  interpolation, 4th degree polynomial'')')
+            ENDIF
           ENDIF
+          WRITE(NRES,121) RESOL
+ 121      FORMAT(1P,20X
+     >     ,'Size of flying mesh is :   integration step /',G12.4)
         ELSEIF(IRD2.EQ.0) THEN
           WRITE(NRES,FMT='(20X,
      >    ''Derivatives computed to order '',I1)') IDB

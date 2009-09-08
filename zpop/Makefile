@@ -97,7 +97,7 @@ MODULEF =\
  relcyl.f\
  relmir.f\
  rewin2.f\
- rffags.f\
+ rffag.f\
  rfit.f\
  rfitgt.f\
  rfmtch.f\
@@ -223,7 +223,7 @@ rel2tu.o: $(INC)/MXLD.H
 relcmi.o: $(INC)/MXLD.H
 relcyl.o: $(INC)/MXLD.H
 relmir.o: $(INC)/MXLD.H
-rffags.o: $(INC)/MXLD.H
+rffag.o: $(INC)/MXLD.H
 rfit.o: $(INC)/MXLD.H
 rfitgt.o: $(INC)/MXLD.H
 rgasca.o: $(INC)/MXLD.H

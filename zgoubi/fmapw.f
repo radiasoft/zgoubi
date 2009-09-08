@@ -104,29 +104,32 @@ C     >  ,((HC(ID,I,J,K),I=1,IXMA),J=1,JYMA)
       ENDIF
       RETURN
 
-      ENTRY FMAPR(BINAR,LUN,
-     >                      RM)
+      ENTRY FMAPR(BINAR,LUN,NHD,
+     >                          RM)
 
       MOD = 0 
       MOD2 = 0 
 
-      IF(BINAR) THEN
+C Map data file starts with NHD-line header (normally 4)
+      IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
 
-C Map data file starts with 4-line header
-C        DO 21 II=1, 4
-        DO 21 II=1, 3
- 21       READ(LUN) TITL
-        READ(LUN) IXM,JYM,ACENT,RM,KRT,MD
+      IF(BINAR) THEN
+        DO II=1, NHD-1
+          READ(LUN) TITL
+          IF(NRES.GT.0) WRITE(NRES,FMT='(A)') TITL
+        ENDDO
+        READ(TITL) IXM,JYM,ACENT,RM,KRT,MD
   
         READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
      >    ,((HC(ID,I,J,1),I=1,IXMA),J=1,JYMA)
 
       ELSE
-C Map data file starts with 4-line header
-C        DO 22 II=1, 4
-        DO 22 II=1, 3
- 22       READ(LUN,FMT='(A)') TITL
-        READ(LUN,*) IXM,JYM,ACENT,RM,KRT,MD
+        DO II=1, NHD
+          READ(LUN,FMT='(A)') TITL
+          IF(NRES.GT.0) WRITE(NRES,FMT='(A)') TITL
+        ENDDO
+        READ(TITL,*) IXM,JYM,ACENT,RM,KRT,MD
 
         IF(NRES.GT.0) THEN
           IF(IXM .NE. IXMA) THEN
@@ -162,8 +165,9 @@ C Read and interprete field maps in polar frame (MOD >= 20)
       BMIN =  1.D10
       BMAX = -1.D10
 
+C Map data file starts with NHD-line header
       IF(NRES.GT.0) 
-     >   WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
+     >  WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
 
       IF(BINAR) THEN
 C Map data file starts with 1-line header

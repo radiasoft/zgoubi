@@ -41,7 +41,7 @@ C           1           2            3            4            5
      >     'BEND' , 'SOLENOID' ,  'PLTLPS'  , 'SPNPRNL'  ,  'CAVITE'  ,
      6 'PARTICUL' ,  'SCALING' ,  'BREVOL'  , 'POISSON'  , 'DIPOLE'  ,
      >  'DANFGSI' ,   'MAP2D'  , 'DECAPOLE' , 'DODECAPO' , 'WIENFILT' ,
-     7 'FAISTORE' , 'SPNPRNLA' ,  'ELREVOL' ,  'EL2TUB'  ,  'UNIPOT'  ,
+     7 'FAISTORE' , 'SPNSTORE' ,  'ELREVOL' ,  'EL2TUB'  ,  'UNIPOT'  ,
      >   'ELMULT' ,  'EBMULT'  ,  'ESLVIR'  , 'TROBJET'  , 'TRANSLAT' ,
      8 'POLARMES' ,  'TRAROT'  ,  'SRLOSS'  , 'PICKUPS'  ,  'OPTICS'  ,
      >   'GASCAT' ,'UNDULATOR' , 'ELCYLDEF' ,  'ELMIR'   ,  'ELCMIR'  ,

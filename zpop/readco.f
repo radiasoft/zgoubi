@@ -80,7 +80,7 @@ C--------- read in zgoubi.spn type storage file
  111         CONTINUE
             READ(NL,ERR=99,END=10) 
      >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >      ,ENERG,IT,IMAX,IPASS,NOEL
+     >      ,ENERG,IT,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                       IEND)) GOTO 111
@@ -98,7 +98,7 @@ C--------- read in zgoubi.spn type storage file
           ELSE
  1          READ(NL,101,ERR=99,END=10) 
      >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >      ,ENERG,IT,IMAX,IPASS,NOEL
+     >      ,ENERG,IT,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
             INCLUDE "FRMSPN.H"
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
@@ -270,6 +270,8 @@ C         r = sqrt(y^2+z^2) :
         YZXB(18) = RET
 C------- (p_ps)/ps
         YZXB(19) = DPR            
+        YZXB(29) = DPR * PS
+        YZXB(50) = PS            
 C-------- momentum
 C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0   
         YZXB(20) = ENERG

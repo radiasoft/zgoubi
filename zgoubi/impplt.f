@@ -151,6 +151,7 @@ C      CALL FLUSH2(LN,.FALSE.)
       ENTRY IMPPL2(BINARI)
       BINARY=BINARI
       RETURN
+
       ENTRY IMPPL3(LST2I)
       LST2=LST2I
       if(lst2.gt.0) then
@@ -158,8 +159,6 @@ C      CALL FLUSH2(LN,.FALSE.)
         if(.not.opn) then
           IF(IDLUNI(
      >              LUN)) THEN
-c              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
-c              CLOSE(UNIT=LUN,STATUS='DELETE')
               OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
  99     write(*,*) '**** SBR impplt : '
         write(*,*) '         error upon open zgoubi.impplt'
@@ -167,4 +166,5 @@ c              CLOSE(UNIT=LUN,STATUS='DELETE')
         ENDIF
       ENDIF
       RETURN
+
       END

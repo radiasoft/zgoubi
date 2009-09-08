@@ -57,12 +57,12 @@ C  France
      >, /,8X,'         In polar frames, Y=Radius and X=Angle'
      >, /,8X,' 9 :   Step size (cm)  -  with .plt type files      '                    
      >, /,8X,'10 :   r = sqrt(y^2+z^2)      '                    
-     >, /,8X,'20 :   Kinetic E (MeV)  -  with .fai type files '                    
+     >, /,8X,'20 :   Kinetic E (MeV) '                    
      >,//,'   INITIAL COORDINATES :'
      >, /,8X,'11,12,13,14,15,16,17  : dp/p, Y,  T,  Z,  P,  S,  time'  
      >, /,8X,'                              m  rd   m  rd   m   mu-s'
      >, /,'   SYNCHROTRON MOTION:'
-     >, /,8X,'18, 19 :   phi-phi_s (rad),  dp/p  '                    
+     >, /,8X,'18, 19, 29, 50 : phi-phi_s (rad), (p-p_s)/p_s, p-p_s, p_s'                    
      >,//,'   SPIN:'
      >, /,8X,'21,22,23,24:    Sx, Sy, Sz, <S>'
      >, /,8X,'25,26,27,:      SumSx/#turn, SumSy/#turn SumSz/#turn')
@@ -140,11 +140,6 @@ C------  COORDINATES IN LABORATORY
           WRITE(6,FMT='(/,A/)')
      >     '*** Sorry, X and Y must both be lab variables  '
           GOTO 20
-c        ELSEIF(KX.EQ.68 .AND. KY.EQ.62) THEN
-c          MOD = 0
-c          RM = 3.482590E2 
-c          CM2M = 0.01
-c          CALL READCC(MOD,RM*CM2M,RM*CM2M)
         ENDIF
 
       ELSE

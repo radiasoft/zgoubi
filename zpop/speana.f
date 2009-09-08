@@ -40,25 +40,28 @@ C  France
         ANUF = BORNE(INU+1)
         DELNU=(ANUF - ANUI) / NC0(JNU)
         PAS=DEUXPI * DELNU
-        VAL=DEUXPI *(ANUI - 0.5d0 * DELNU)
+        VAL=DEUXPI *(ANUI - 0.5D0 * DELNU)
         PMAX(JNU)=0.D0
         PMIN=1.D12
         DO 20 NC=1,NC0(JNU)
           VAL=VAL+PAS
           SR=0.D0
           SI=0.D0
-          SNPT = 0
+          SNPT = 0.D0
           DO 10 NT=1,NPTS
 C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
               FF = COOR(NT,INU)  - YM(JNU)
               SR=SR + FF * COS(NT*VAL)
               SI=SI + FF * SIN(NT*VAL)
-              SNPT = SNPT + 1
+              SNPT = SNPT + 1.D0
  10       CONTINUE
           PP=SR*SR+SI*SI
-          IF(PP.GT. PMAX(JNU)) PMAX(JNU)=PP
+          IF(PP.GT. PMAX(JNU)) THEN
+            PMAX(JNU)=PP
+            KMAX=NC
+          ENDIF
           IF(PP.LT. PMIN) PMIN=PP
-          IF(PP.EQ. PMAX(JNU)) KMAX=NC
+C          IF(PP.EQ. PMAX(JNU)) KMAX=NC
 
           SPEC(NC,JNU)=PP
  20     CONTINUE
@@ -72,7 +75,8 @@ C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
            ENDIF
            YNU(JNU)= ANUI + (FLOAT(KMAX)+DEC-0.5D0) * DELNU
 C si j'enlève le write de SPEC(KMAX,JNU) ici, les nu_XYS affiché par SPEPR sont faux  !!!!
-           write(*,*)  SPEC(KMAX,JNU),YNU(JNU) , NINT(SNPT)
+C           write(*,*)  ' SBR SPEANA - ',
+C     >        SPEC(KMAX,JNU),YNU(JNU),NINT(SNPT),KMAX
         ELSE
            YNU(JNU) = 0.D0
         ENDIF

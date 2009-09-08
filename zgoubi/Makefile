@@ -16,6 +16,8 @@ OBJ=\
  beamat.o\
  bendf.o\
  bendi.o\
+ bi1.o\
+ bi1p.o\
  binari.o\
  binary.o\
  block.o\
@@ -121,7 +123,6 @@ OBJ=\
  gg.o\
  header.o\
  helix.o\
- helixf.o\
  histab.o\
  hist.o\
  icentr.o\
@@ -141,6 +142,7 @@ OBJ=\
  integr.o\
  interm.o\
  interv.o\
+ intpl3.o\
  intplf.o\
  itavan.o\
  iter.o\
@@ -227,7 +229,7 @@ OBJ=\
  rempli.o\
  reset.o\
  rfaist.o\
- rffags.o\
+ rffag.o\
  rfit.o\
  rfitgt.o\
  rgasca.o\
@@ -247,6 +249,7 @@ OBJ=\
  rsimb.o\
  rsolen.o\
  rspn.o\
+ rspnst.o\
  rsrlos.o\
  rtnewt.o\
  rtrans.o\
@@ -399,6 +402,7 @@ impvar.o: $(INC)/MXLD.H
 inidrt.o: $(INC)/MXLD.H
 initra.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 integr.o: $(INC)/MXSTEP.H
+intpl3.o: $(INC)/MAXTRA.H
 intplf.o: $(INC)/MAXTRA.H
 jcentr.o: PARIZ.H
 krtax.o: PARIZ.H
@@ -459,7 +463,7 @@ relmir.o: $(INC)/MXLD.H
 rempli.o: $(INC)/MXLD.H
 reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 rfaist.o: $(INC)/MXLD.H
-rffags.o: $(INC)/MXLD.H
+rffag.o: $(INC)/MXLD.H
 rfit.o: $(INC)/MXLD.H
 rfitgt.o: $(INC)/MXLD.H
 rgasca.o: $(INC)/MXLD.H
@@ -474,6 +478,7 @@ rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H
 rsepar.o: $(INC)/MXLD.H
 rsimb.o: $(INC)/MXLD.H
 rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+rspnst.o: $(INC)/MXLD.H
 rsrlos.o: $(INC)/MXLD.H
 rtrans.o: $(INC)/MXLD.H
 rundul.o: $(INC)/MXLD.H

@@ -68,6 +68,7 @@ C positionning of TXT is in screen units (x384/y256 Pix)
       WRITE(TXT,100) KVY,KDY,KVX,KDX
       CALL TRTXT(110.D0,248.D0,TXT,0)
       WRITE(TXT,107) XMI,XMA,YMI,YMA
+ 107  FORMAT('Min-max. Hor.:',1P,2E11.3,'; Ver.:',2E11.3)
 C      CALL TRTXT(10.D0,18.D0,TXT,80,0)
       CALL TRTXT(10.D0,10.D0,TXT,0)
       CALL READC1(KP1,KP2)
@@ -91,7 +92,6 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
  197  FORMAT('min.-max. ',T14,'Hor.:',1P,2G16.8,/,T14,' Ver.:',2G16.8,
      >   /,' (min+max)/2 Hor. & ver.:',2G16.8,'  ',A,'/',A,
      >   /,'                         ',2G16.8,'  (zgoubi units)')
- 107  FORMAT('Min-max. Hor.:',1P,2G13.5,'; Ver.:',2G13.5)
       WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
  101  FORMAT('Part#',I3,'-',I7,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
      >    I3,'-',I7,'; ',I7,' points') 
