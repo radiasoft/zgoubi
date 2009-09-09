@@ -56,9 +56,9 @@ C  France
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
-      CHARACTER*10 LBL(MLB)
-      LOGICAL PRLB, PRSPLB
-      SAVE KPRT, PRLB, KPRTSP, PRSPLB
+      CHARACTER*10 LBL(MLB), LBLSP(MLB)
+      LOGICAL PRLB, PRLBSP
+      SAVE KPRT, PRLB, KPRTSP, PRLBSP
 
 C----- Average orbit
       PARAMETER (MXPUD=9,MXPU=1000)
@@ -88,7 +88,7 @@ C----- To get values into A(), from earlier FIT
 C This INCLUDE must stay located right before the first statement
       INCLUDE 'LSTKEY.H'
 
-      DATA LBL / MLB * ' ' / 
+      DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
 C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
  
@@ -105,7 +105,7 @@ C----- Switch for calculation, transport and print of Twiss functions :
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
         PRLB = .FALSE.
-        PRSPLB = .FALSE.
+        PRLBSP = .FALSE.
       ENDIF
 
 C----- Get FIT status
@@ -137,10 +137,10 @@ C        LBL contains the LABEL['s] after which print shall occur
      >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
       ENDIF
-      IF(PRSPLB) THEN
+      IF(PRLBSP) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
-C        LBL contains the LABEL['s] after which print shall occur
-        IF( STRACO(NLB,LBL,LABEL(NOEL,1),
+C        LBLSP contains the LABEL['s] after which print shall occur
+        IF( STRACO(NLB,LBLSP,LABEL(NOEL,1),
      >                                   IL) ) 
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
@@ -599,12 +599,12 @@ C      IF(READAT) READ(NDAT,503) TA(NOEL,1)
 C      IF(FITGET) CALL FITGT1
 C      CALL SPNPRN(0)
       IF(READAT) CALL RSPNST(0,
-     >                         PRSPLB,KPRTSP,LBL,NLB)
+     >                         PRLBSP,KPRTSP,LBLSP,NLB)
       IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0
         TXTEMP = TA(NOEL,1)
         TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
-        CALL SPNPRW(TXTEMP,LBL,NLB)
+        CALL SPNPRW(TXTEMP,LBLSP,NLB)
         CALL SPNPRN(I0,NOEL-1,KLE(IQ(NOEL-1)),LABEL(NOEL-1,1),
      >                                             LABEL(NOEL-1,2))
       ENDIF
@@ -732,13 +732,13 @@ C        - Print after LABEL'ed elements
 C        - Print every other IPASS = mutltiple of IA
  67   CONTINUE
       IF(READAT) CALL RSPNST(MLB,
-     >                           PRSPLB,KPRTSP,LBL,NLB)
+     >                           PRLBSP,KPRTSP,LBLSP,NLB)
       TXTEMP = TA(NOEL,1)
       TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
       IF(TXTEMP.NE.'none') THEN
         IF(TA(NOEL,2).NE.'none') THEN
-          CALL SPNPRW(TXTEMP,LBL,NLB)
-          IF(.NOT. PRSPLB) CALL SPNPRN(KPRTSP,NOEL-1,KLE(IQ(NOEL-1)),
+          CALL SPNPRW(TXTEMP,LBLSP,NLB)
+          IF(.NOT. PRLBSP) CALL SPNPRN(KPRTSP,NOEL-1,KLE(IQ(NOEL-1)),
      >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
         ENDIF
       ENDIF
@@ -991,9 +991,9 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
       GOTO 998
 C----- TRACKING. 
  100  CONTINUE
-        READ(NDAT,*) NLA, NLB 
-        write(nres,*) ' Tracking,  nla  ->  nlb :  ',nla,' -> ',nlb
-        CALL TRACK(NLA,NLB)
+        READ(NDAT,*) NLMA, NLMB 
+        write(nres,*) ' Tracking,  nlma  ->  nlmb :  ',nlma,' -> ',nlmb
+        CALL TRACK(NLMA,NLMB)
         CALL ENDJOB(' End of job after TRACKING',-99)
       GOTO 998
 C----- FFAG-SPI. FFAG, spiral. 

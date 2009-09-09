@@ -343,7 +343,7 @@ carshi.o: PARIZ.H $(INC)/MXLD.H
 cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
 chamb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 chamc.o: $(INC)/MAXTRA.H
-chamk.o: PARIZ.H $(INC)/MAXTRA.H
+chamk.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
 charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 chmbre.o: $(INC)/MAXTRA.H
 chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -368,6 +368,8 @@ el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H
 elcyld.o: $(INC)/MXLD.H
 elmiri.o: $(INC)/MXLD.H
+emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 endfit.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
