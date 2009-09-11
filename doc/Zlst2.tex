@@ -1993,13 +1993,13 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
 
 \begin{tabbing}
 \mestab
-\textbf{MATRIX}         \label{MATRIX-B} \index{MATRIX}
+\textbf{MATRIX}         \label{MATRIX-B} \index{MATRIX|textbf}
              \> \textbf{\MATRIXTitl} \> \> \\
   \\
   \\
- \textsl{IORD, IFOC} \>Options :             \>0-2, 0-1 or \>2*I \\
- \>\textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
- \>     1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer    \> \> \\
+ \textsl{IORD, IFOC [, zgoubi.MATRIX.out]} \>Options :                                            \>0-2, 0-1 or \>2*I \\
+                                           \>\textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
+                                           \> 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
 % FM, Nov. 2008
 % \>    tune numbers if \textsl{IFOC} $> 0$ \> \> \\
  \>    matrix~; if \textsl{IFOC} $> 10$ : periodic beam matrix tune numbers  \> \> \\
@@ -2008,6 +2008,7 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
 % FM, Nov. 2008
 % \>coefficients~;  periodic parameters, chromaticities\index{Cromaticity}, etc.   if \textsl{IFOC} $> 0$ \>\>\\
  \>  coefficients~; if \textsl{IFOC} $> 10$ : periodic parameters,     \>\>\\
+ \>  Addition of 'zgoubi.MATRIX.out' will cause output stacking into   zgoubi.MATRIX.out file   \>\>\\
  \\
  \>\textsl{IFOC} = 0 : matrix at actual location, \>\>\\
  \>        reference $\equiv$ particle \# 1 \>\>\\

@@ -233,9 +233,10 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
-     >                      BMIN,BMAX,
-     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                                    BMIN,BMAX,
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
                do jjj=1,JYMA
                  do iii=1,IXMA
@@ -264,9 +265,10 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
-     >                      BMIN,BMAX,
-     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                             BMIN,BMAX,
+     >                             XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
                do jjj=1,JYMA
                  do iii=1,IXMA
@@ -320,9 +322,10 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
-     >                      BMIN,BMAX,
-     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                                 BMIN,BMAX,
+     >                                 XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
              DO JJJ=1,JYMA
                DO III=1,IXMA
@@ -359,9 +362,10 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
-     >                      BMIN,BMAX,
-     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                               BMIN,BMAX,
+     >                               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
              DO JJJ=1,JYMA
                DO III=1,IXMA

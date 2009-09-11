@@ -52,6 +52,7 @@ C         Post-processing of stored data possible with zpop.
       INCLUDE 'MXFS.H'
       CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
  
       LOGICAL BINARY,BINARI
@@ -116,7 +117,8 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
      3   Z,P*1.D3,SAR,     TAR,     DY, 
 C     3   Z,P*1.D3,SAR,     TAR,     DS, 
      4   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
-     5   EX,EY,EZ,  BORO,  IPASS, KLEY,(LABEL(NOEL,I),I=1,2),NOEL
+     5   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
+     6   EX,EY,EZ,  BORO,  IPASS, KLEY,(LABEL(NOEL,I),I=1,2),NOEL
       ELSE
         WRITE(LN,100)
      1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
@@ -133,7 +135,10 @@ C        Cart.              Path out     - kG -     (S)   dp/p_Synchro
 C         or                 CHAMBR                Synchrotron
 C        Polar                                       motion
 
-     5   EX,EY,EZ,   BORO,  IPASS,   KLEY,  (LABEL(NOEL,I),I=1,2), NOEL
+     5   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
+C        spin
+
+     6   EX,EY,EZ,   BORO,  IPASS,   KLEY,  (LABEL(NOEL,I),I=1,2), NOEL
 C        - eV/cm -  refrnce         keywrd   2 labels at keyword  lmntt#
 C                  rigdty(kG.cm)
 
@@ -151,7 +156,6 @@ C      CALL FLUSH2(LN,.FALSE.)
       ENTRY IMPPL2(BINARI)
       BINARY=BINARI
       RETURN
-
       ENTRY IMPPL3(LST2I)
       LST2=LST2I
       if(lst2.gt.0) then
@@ -159,6 +163,8 @@ C      CALL FLUSH2(LN,.FALSE.)
         if(.not.opn) then
           IF(IDLUNI(
      >              LUN)) THEN
+c              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
+c              CLOSE(UNIT=LUN,STATUS='DELETE')
               OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
  99     write(*,*) '**** SBR impplt : '
         write(*,*) '         error upon open zgoubi.impplt'
@@ -166,5 +172,4 @@ C      CALL FLUSH2(LN,.FALSE.)
         ENDIF
       ENDIF
       RETURN
-
       END

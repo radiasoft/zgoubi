@@ -164,6 +164,7 @@ C--------- another option for symmetrization by FMAPR2
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
         IRD = NINT(A(NOEL,40))
+C        NHD = NHDF
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

@@ -36,7 +36,6 @@ C     --------------------------------------------------
       INCLUDE 'PARIZ.H'
 C      PARAMETER (MXX=400, MXY=200)
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
@@ -91,7 +90,13 @@ C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
 
       LOGICAL SUMAP
 
+      SAVE NHDF
+
+      LOGICAL STRCON 
+
       SAVE YSHFT
+
+      DATA NHDF / 4 /
 
       DATA SUMAP /.FALSE./
 
@@ -103,6 +108,7 @@ C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       DATA KTOR /  'CLAMPEES', 'PARALLELES' /
 
       DATA DTA1 / 0.D0 /
+      DATA FMTYP / ' regular' / 
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
@@ -320,17 +326,19 @@ C-------- KALC = 2: READS FIELD MAP
             IF(KUASEX .EQ. 2) THEN
 C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
               NDIM = 2
-C              CALL TOSCAC(SCAL,NDIM, 
-C     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-C     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
             ELSEIF(KUASEX.EQ.7) THEN
 C---------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
               NDIM = 3
             ENDIF
             CALL TOSCAC(SCAL,NDIM, 
-     >                        BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >             XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                            BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >                            XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+C Because it's done down after the endif...
+           XBMA = XBMA/XNORM
+           XBMI = XBMI/XNORM
+           BMAX = BMAX/BNORM
+           BMIN = BMIN/BNORM
 
          ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
 C----------- EMMA 
@@ -343,8 +351,8 @@ C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format.
               NDIM = 3
             ENDIF
             CALL EMMAC(SCAL,NDIM, 
-     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                           BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
 
          ELSE
@@ -357,9 +365,17 @@ C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format.
  
            BNORM = A(NOEL,10)*SCAL
            XNORM = A(NOEL,11)
-           YNORM = 0.D0
+           YNORM = A(NOEL,12)
            ZNORM = 0.D0
+
            TITL = TA(NOEL,1)
+           IF    (STRCON(TITL,'HEADER',
+     >                                 IS) ) THEN
+           READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
+           ELSE
+             NHD = NHDF
+           ENDIF
+
            IDEB = DEBSTR(TITL)
            FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
            IXMA = A(NOEL,20)
@@ -641,17 +657,16 @@ C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
            ELSEIF(KUASEX.EQ.9) THEN
 C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
 C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
-             CLOSE(LUN)
-C             IF(KUASEX .EQ. 9) THEN
-C-------------- No 2nd-order 25-point interpolation available with MAP2D[_E]
-               IF(IRD.EQ.25) IRD=2
-               INDEX=0
-               NT = 1
-               CALL PAVELW(INDEX,NT)
-C             ENDIF
+
+C------------ No 2nd-order 25-point interpolation available with MAP2D[_E]
+             IF(IRD.EQ.25) IRD=2
+             INDEX=0
+             NT = 1
+             CALL PAVELW(INDEX,NT)
 
              NFIC = 0
 
+             CLOSE(LUN)
              DO 12 I=I1,KZMA
                NFIC = NFIC+1
                IF(IDLUNI(
@@ -667,24 +682,27 @@ C             ENDIF
                  GOTO 96
                ENDIF
 
-C Map data file starts with 8-line header
-        IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' HEADER : '
-        READ(LUN,FMT='(A120)') TITL
-        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-        READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
-        GOTO 50
- 49     CONTINUE
-        IF(NRES.GT.0) WRITE(NRES,*) 
-     >         ' Error upon readinng R0, DR, DX, DZ'
- 50     CONTINUE
-        READ(LUN,FMT='(A120)') TITL
-        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-        FMTYP = TITL(DEBSTR(TITL):FINSTR(TITL))
-        DO 32 II=1, 6
-          READ(LUN,FMT='(A120)') TITL
- 32       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-        IF(NRES.GT.0) WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
-        IF(NRES.GT.0) WRITE(NRES,*) ' FORMAT type : ', FMTYP
+C Map data file starts with 4-line header unless otherwise specified using HEADER_X
+             IF(NRES.GT.0) 
+     >         WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
+        
+             IF(NHD .GE.1) THEN
+               READ(LUN,FMT='(A120)') TITL
+               IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+               READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
+               GOTO 50
+ 49            CONTINUE
+               IF(NRES.GT.0) WRITE(NRES,*) 
+     >         'Could not read R0, DR, DTTA, DZ on line 1 of HEADER...'
+ 50            CONTINUE
+               DO II=1, NHD-1
+                 READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
+                 IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+               ENDDO
+               IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
+             ENDIF
+             IF(NRES.GT.0) WRITE(NRES,*) 'R0, DR, DX, DZ : ',R0,DR,DX,DZ
+             IF(NRES.GT.0) WRITE(NRES,*) 'FORMAT type : ', FMTYP
 
                DO 10 J=1,JYMA
                  DO  10  K = 1,IXMA
@@ -697,7 +715,8 @@ C Map data file starts with 8-line header
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
 C-------  Manip VAMOS ganil, oct 2001
-                       READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
+C                       READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
+                       READ(LUN,*) YH(J),ZH(I),XH(K), 
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
 CC----  Manip VAMOS ganil, oct 2001 
@@ -727,6 +746,10 @@ C FM 11/03
                      DO 187 LHC=1,ID
  187                    HC(LHC,K,J,I) = BREAD(LHC) * BNORM
                    ENDIF
+                   YH(J) = YH(J) * YNORM
+                   ZH(I) = ZH(I) * ZNORM
+                   XH(K) = XH(K) * XNORM
+
                    IF(I1 .GT. 1) THEN
 C--------------------- Symmetrize 3D map wrt XY plane (IZ>1)
                      IF( I .GT. I1 ) THEN
@@ -745,7 +768,16 @@ C 188                     HC(LHC,K,J,2*I1-I) =  FAC * BREAD(LHC)* BNORM
  10            CONTINUE
                CLOSE(UNIT=LUN)
  12          CONTINUE
-CCCC               close(lll) 
+
+c             BMIN = BMIN * BNORM
+c             BMAX = BMAX * BNORM
+c                   XBMA = XBMA * XNORM
+                   YBMA = YBMA * YNORM
+                   ZBMA = ZBMA * ZNORM
+c                   XBMI = XBMI * XNORM
+                   YBMI = YBMI * YNORM
+                   ZBMI = ZBMI * ZNORM
+
 
            ELSEIF(KUASEX .EQ. 8 ) THEN
 C---------- BREVOL AND ELREVOL
@@ -840,7 +872,7 @@ C            write(*,*) ' unit = ', lun
      >                               1P,G12.4,T64,'/ ',G12.4
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
      >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4G12.4
-     >     , /,5X,'Min/max normalised fields   :', 2(G12.4,20X)
+     >     , /,5X,'Min/max normalised fields (kG)  :', 2(G12.4,20X)
      >     ,//,5X,'Nber of steps in X =',I4,';  nber of steps in Y =',I5
      >     , /,5X,'Step in X =',G12.4,' cm ;  step in Y =',G12.4,' cm')
            IF(NDIM .EQ. 3) WRITE(NRES,FMT='(5X,
@@ -1005,15 +1037,11 @@ C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
           ENDIF
 C           Motion in this lmnt has no z-symm. 
           ZSYM=.FALSE.
-
         ELSEIF(KUASEX .EQ. 28 ) THEN
-
 C--------- HELIX
           CALL HELIX(SCAL,
      >                    XL)
-
         ELSEIF(KUASEX .EQ. 29 )   THEN
-
 C--------- COILS
           CALL COILS(SCAL,  
      >                            XL)
@@ -1133,6 +1161,17 @@ C        STP3 = A(NOEL,ND)
      > '(//,''  Error  in  data  list'',
      >        /,''    * See zgoubi.res'',//)')
       CALL ENDJOB('Execution stopped, data list error ',-99)
+      RETURN
+
+ 98   CONTINUE
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,*) ' WARNING !  Field map may be uncomplete'
+        WRITE(NRES,*) '   Error encountered during map reading'
+        WRITE(NRES,*) '   Check map data file'
+        WRITE(6,*) ' WARNING !  Field map may be uncomplete'
+        WRITE(6,*) '   Error encountered during map reading'
+        WRITE(6,*) '   Check map data file'
+      ENDIF
  
   200 FORMAT(2A)
  400   FORMAT(10E8.1)

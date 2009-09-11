@@ -121,6 +121,7 @@ OBJ=\
  getnam.o\
  getdst.o\
  gg.o\
+ go2end.o\
  header.o\
  helix.o\
  histab.o\
@@ -234,6 +235,7 @@ OBJ=\
  rfitgt.o\
  rgasca.o\
  rhelix.o\
+ rmatrx.o\
  rmcdes.o\
  rmcobj.o\
  rmulti.o\
@@ -412,6 +414,7 @@ kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 majtra.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+mapshf.o: PARIZ.H
 mat1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 mat2.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 matimp.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -470,6 +473,7 @@ rfit.o: $(INC)/MXLD.H
 rfitgt.o: $(INC)/MXLD.H
 rgasca.o: $(INC)/MXLD.H
 rhelix.o: $(INC)/MXLD.H
+rmatrx.o: $(INC)/MXLD.H
 rmcdes.o: $(INC)/MXLD.H
 rmcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 rnorma.o: $(INC)/MXLD.H
@@ -498,7 +502,7 @@ serv5.o: PARIZ.H
 settim.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 soleno.o: $(INC)/MXLD.H
 spn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMSPN.H
 spnprt.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spnrot.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spntrk.o: $(INC)/MAXTRA.H

@@ -97,13 +97,14 @@ MODULEF =\
  relcyl.f\
  relmir.f\
  rewin2.f\
- rffag.f\
+ rffags.f\
  rfit.f\
  rfitgt.f\
  rfmtch.f\
  rgasca.f\
  rhelix.f\
  rhmtch.f\
+ rmatrx.f\
  rmcdes.f\
  rmcobj.f\
  rmulti.f\
@@ -217,18 +218,19 @@ rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H
 rdips.o: $(INC)/MXLD.H
-readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H
+readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H $(INC)/FRMSPN.H
 rebmul.o: $(INC)/MXLD.H
 rel2tu.o: $(INC)/MXLD.H
 relcmi.o: $(INC)/MXLD.H
 relcyl.o: $(INC)/MXLD.H
 relmir.o: $(INC)/MXLD.H
-rffag.o: $(INC)/MXLD.H
+rffags.o: $(INC)/MXLD.H
 rfit.o: $(INC)/MXLD.H
 rfitgt.o: $(INC)/MXLD.H
 rgasca.o: $(INC)/MXLD.H
 rhelix.o: $(INC)/MXLD.H
 rmcdes.o: $(INC)/MXLD.H
+rmatrx.o: $(INC)/MXLD.H
 rmcobj.o: $(INC)/MXLD.H
 rnorma.o: $(INC)/MXLD.H
 robjet.o: $(INC)/MXLD.H

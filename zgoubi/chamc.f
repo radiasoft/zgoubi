@@ -63,9 +63,8 @@ C     --------------------------------------------------------------
       SAVE BT,ET
 
       DIMENSION FTAB(5,5)
-      DIMENSION FTAB3(3,3,3,3)
 
-      SAVE IRD2
+      SAVE KAN
  
 CC     ** SI ON UTILISE CHAMBR ( => CALCUL ACCEPTANCE ) :
 C      IF(LIMIT .EQ. 1) THEN
@@ -153,7 +152,7 @@ C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
           CALL ELCYL(MPOL,QLE,QLS,QE,QS,X,Y, 
-     >                                      E)
+     >                                                    E)
  
         ELSEIF(KUASEX.EQ.25) THEN
 C--------- ELMIR
@@ -161,7 +160,7 @@ C--------- ELMIR
           Z0=Z
           IF(EM(6).NE.0.D0) CALL ROTX(EM(6),Y0,Z0)
           CALL ELMIRF(X,Z0,BRI,
-     >                         E,DE,DDE)
+     >                           E,DE,DDE)
           IF(EM(6).NE.0.D0)
      >      CALL XROTB(EM(6),E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 
@@ -172,19 +171,20 @@ C--------- ELCMIR
               
         ELSEIF(KUASEX .EQ. 28 ) THEN
 C--------- HELIX
-          IF    (IRD2.EQ.0) THEN 
+
+          IF    (KAN.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
             CALL HELIXA(X,Y,Z,
      >                        B,DB,DDB)
-          ELSE
-
+          ELSEIF(KAN.EQ.1) THEN 
 C  Compute HELIX field  and derivatives from 3D (*(*( points flying field-mesh
 C  centered on particle position. 
             CALL HELIXF(X,Y,Z,
      >                        XX,YY,ZZ,DX,DY,DZ,FTAB3)
             CALL INTPL3(XX,YY,ZZ,DX,DY,DZ,FTAB3,
      >                                          B,DB,DDB)
-
+          ELSE
+            STOP '*** SBR CHAMC. No such IRD option in HELIX'
           ENDIF
 
         ELSEIF(KUASEX .EQ. 29) THEN
@@ -305,11 +305,11 @@ C--------- BEND
         ELSEIF(KUASEX .EQ. 27) THEN
 C--------- FFAG
 C  Equivalence (X,ANGLE), (Y,RADIUS)
-          IF    (IRD2.EQ.0) THEN 
+          IF    (KAN.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
             CALL FFAGFA(IDB,X,Y,
      >                          BZ0)
-          ELSE
+          ELSEIF(KAN.EQ.1) THEN
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFAGF(X,Y,
      >                     DA,DR,FTAB)
@@ -317,6 +317,8 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             RRR = ZERO
             CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
+          ELSE
+            STOP '*** SBR CHAMC. No such field case'
           ENDIF
 
 
@@ -334,10 +336,10 @@ C  Equivalence (X,ANGLE), (Y,RADIUS)
         ELSEIF(KUASEX .EQ. 32) THEN
 C--------- DIPOLES
 C  Equivalence (X,ANGLE), (Y,RADIUS)
-          IF    (IRD2.EQ.0) THEN 
+          IF    (KAN.EQ.0) THEN 
               CALL DIPSFA(IDB,X,Y,
      >                            BZ0)
-          ELSE
+          ELSEIF(KAN.EQ.1) THEN
             CALL DIPSF(X,Y,
      >                     DA,DR,FTAB)
 C     >                     AAA,RRR,DA,DR,FTAB)
@@ -348,11 +350,11 @@ C     >                     AAA,RRR,DA,DR,FTAB)
         ELSEIF(KUASEX .EQ. 33) THEN
 C--------- FFAG-SPI
 C  Equivalence (X,ANGLE), (Y,RADIUS)
-          IF    (IRD2.EQ.0) THEN 
+          IF    (KAN.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
             CALL FFGSPA(IDB,X,Y,
      >                          BZ0)
-          ELSE
+          ELSEIF(KAN.EQ.1) THEN
 C  Compute FFAG field  and derivatives from flying field-mesh
             CALL FFGSPF(X,Y,
      >                      DA,DR,FTAB)
@@ -360,6 +362,8 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             RRR = ZERO
             CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
+          ELSE
+            STOP '*** SBR CHAMC. No such field case' 
           ENDIF
 
         ENDIF
@@ -387,7 +391,7 @@ C---------- ENDIF KALC
       ENDIF
       RETURN
 
-      ENTRY CHAMC6(IRD2I)
-      IRD2 = IRD2I
+      ENTRY CHAMC6(KANI)
+      KAN = KANI
       RETURN
       END

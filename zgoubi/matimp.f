@@ -34,6 +34,13 @@ C  France
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
+
+      LOGICAL KWRI, KWRMAT, IDLUNI
+      CHARACTER FNAME*17
+      LOGICAL EXS, OPN
+      SAVE KWRMAT
+
+      DATA FNAME / 'zgoubi.MATRIX.out' /
   
       DETY=R(1,1)*R(2,2)-R(1,2)*R(2,1)
       DETZ=R(3,3)*R(4,4)-R(3,4)*R(4,3)
@@ -55,6 +62,32 @@ C  France
      >                       ''R34=0 at '',G12.4,'' m'')') SFH,SFZ
 
       CALL SYMPL(R)
+
+      IF(KWRMAT) THEN
+        IF(IDLUNI(
+     >            LNWRT)) THEN
+          INQUIRE(FILE=FNAME,EXIST=EXS,OPENED=OPN,IOSTAT=I)
+          IF(OPN) THEN
+            CLOSE(LNWRT)
+          ENDIF
+          IF(EXS) THEN
+            OPEN(UNIT=LNWRT, FILE=FNAME, status='OLD',ERR=96)
+            CALL GO2END(LNWRT)
+          ELSE
+            OPEN(UNIT=LNWRT, FILE=FNAME, status='NEW',ERR=96)
+            WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
+            WRITE(LNWRT,*) '%  '
+          ENDIF
+c          write(lnwrt,*)'%  transport coefficients',
+c     >              ' ((R(IA,IB),IB=1,4),IA=1,4)'
+C This will stack results from stacked jobs, or will stack with earlier results
+        ELSE
+          GOTO 95
+        ENDIF
+        WRITE(LNWRT,FMT='(1P,16(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4)
+        CLOSE(LNWRT)
+        KWRMAT = .FALSE.
+      ENDIF
 
       RETURN
 
@@ -111,5 +144,15 @@ C MODIFIED, FM, 04/97
       CONTINUE
       WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
   101 FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+      RETURN
+
+
+      ENTRY MATIM6(KWRI)
+      KWRMAT = KWRI
+      RETURN
+
+ 95   CALL ENDJOB('ERROR : no free unit # for '//FNAME,-99)
+ 96   KWRMAT = .FALSE.
+      CALL ENDJOB('ERROR upon open  old  file '//FNAME,-99)
       RETURN
       END

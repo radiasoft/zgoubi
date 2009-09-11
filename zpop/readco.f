@@ -99,7 +99,7 @@ C--------- read in zgoubi.spn type storage file
  1          READ(NL,101,ERR=99,END=10) 
      >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
      >      ,ENERG,IT,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
-            INCLUDE "FRMSPN.H"
+            INCLUDE 'FRMSPN.H'
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                       IEND)) GOTO 1        
@@ -187,6 +187,7 @@ C--------- read in zgoubi.plt type storage file
 C     >      (F(J),J=1,7), DS, 
      >      (F(J),J=1,7), DY, 
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
+     >      (SI(J),J=1,4),(SF(J),J=1,4),
      >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
@@ -206,6 +207,7 @@ C            ENDIF
 C     >      (F(J),J=1,MXJ), DS,
      >      (F(J),J=1,MXJ), DY,
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
+     >      (SI(J),J=1,4),(SF(J),J=1,4),
      >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
             INCLUDE "FRMPLT.H"
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
@@ -270,11 +272,14 @@ C         r = sqrt(y^2+z^2) :
         YZXB(18) = RET
 C------- (p_ps)/ps
         YZXB(19) = DPR            
-        YZXB(29) = DPR * PS
-        YZXB(50) = PS            
 C-------- momentum
 C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0   
         YZXB(20) = ENERG
+C         convert B from kG to T
+        YZXB(21) = SF(1)
+        YZXB(22) = SF(2)    
+        YZXB(23) = SF(3)    
+        YZXB(24) = SF(4)
 C         convert B from kG to T
         YZXB(30) = BX      * .1D0
         YZXB(31) = BY      * .1D0

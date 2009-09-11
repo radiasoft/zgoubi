@@ -52,6 +52,10 @@ C------         R_ref    +dp/p     -dp/p
 
 C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
+
+      LOGICAL KWRMAT
+      DATA KWRMAT / .FALSE. /
+
       DIMENSION F0P(6,6)
 
       DATA PRBEAM / .FALSE. /
@@ -78,6 +82,9 @@ C------        Beam_ref    +dp/p     -dp/p
       IFOC = A(NOEL,2) 
       PRDIC = IFOC .GT. 10
  
+      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
+      IF(KWRMAT) CALL MATIM6(KWRMAT)
+
       IF    (IORD .EQ. 1) THEN
         CALL OBJ51(NBREF)
         IREF = 0

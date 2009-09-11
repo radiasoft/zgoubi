@@ -539,11 +539,8 @@ C Kin. energy, MeV
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
-        DE = QV*SIN(PHS)
-        ALFA = G * DE/AM/(2.D0*PI)
-        RBDOT = DE *1D6 / ORBL
         WRITE(NRES,120) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
-     >    DE, COS(PHS),   GTRNUS, ACCDP, ALFA, RBDOT
+     >       QV*SIN(PHS),COS(PHS),   GTRNUS, ACCDP
  120    FORMAT(1P, 
      >       /,20X,'Orbit  length         =',G15.4,' m',
      >       /,20X,'RF  harmonic          =',G15.4,
@@ -554,10 +551,7 @@ C Kin. energy, MeV
      >       /,20X,'qV.SIN(Phi_s)         =',G15.4,' MeV',
      >       /,20X,'cos(Phi_s)            =',G15.4,' ',
      >       /,20X,'Nu_s/sqrt(alpha)      =',G15.4,'  ',
-     >       /,20X,'dp-acc*sqrt(alpha)    =',G15.4,'  '
-     >      //,10X,'Spin stuff : ',
-     >       /,20X,'alpha = G*dgamma/dtta =',G15.4,'  ',
-     >       /,20X,'B-dot *rho(m)         =',G15.4,' T/s ')
+     >       /,20X,'dp-acc*sqrt(alpha)    =',G15.4,'  ')
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)

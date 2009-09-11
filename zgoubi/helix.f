@@ -68,21 +68,22 @@ C  France
 
           ENDIF
 
-      IRD2 = NINT(A(NOEL,20))
-      IF    (IRD2.EQ.3) THEN
-C 3D interpolation from 3D 3*3*3 points flying grid with mesh size integration step/Resol. 
-        RESOL=A(NOEL,21)
-        IRD = IRD2
-        IRD2 = 1
-        NN=3
-      ELSEIF(IRD2.EQ.0) THEN
+      IRDA = NINT(A(NOEL,20))
+      IF    (IRDA.EQ.0) THEN
 C    analytic. A(NOEL,ND) has the form 0.j, j=2 or 4. 
         IDB = NINT(10*A(NOEL,ND))
         IF(IDB.NE.4) IDB=2
+        KAN = 0
+        IRD = 3
+      ELSEIF(IRDA.EQ.3) THEN
+C 3D interpolation from 3D 3*3*3 points flying grid with mesh size integration step/Resol. 
+        RESOL=A(NOEL,21)
+        KAN = 1   
+        NN=3
       ELSE
         CALL ENDJOB('ERROR - SBR HELIX, wrong value IRD',-99)
       ENDIF
-      CALL CHAMC6(IRD2)
+      CALL CHAMC6(KAN)
     
           XI = 0.D0
           XLIM = XL
@@ -91,17 +92,19 @@ C    analytic. A(NOEL,ND) has the form 0.j, j=2 or 4.
           IF(BO .EQ. 0.D0) KFLD=0
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,'' Field & derivatives calculation''
-     >  ,'' method :'',A)') TYPCAL(IRD2+1)
-        IF(IRD .EQ. 3) THEN
+        IF(IRDA .EQ. 0) THEN
+          WRITE(NRES,FMT='(/,5X,'' Field & derivatives calculation''
+     >    ,'' method :'',A)') TYPCAL(1)
+          WRITE(NRES,FMT='(20X,
+     >    ''Derivatives computed to order '',I1)') IDB
+        ELSEIF(IRDA.EQ.3) THEN
+          WRITE(NRES,FMT='(/,5X,'' Field & derivatives calculation''
+     >    ,'' method :'',A)') TYPCAL(2)
           WRITE(NRES,FMT='(20X
      >        ,''3*3*3-point  interpolation, 2nd degree polynomial'')')
           WRITE(NRES,121) RESOL
  121      FORMAT(1P,20X
      >     ,'Size of flying mesh is :   integration step /',G12.4)
-        ELSEIF(IRD2.EQ.0) THEN
-          WRITE(NRES,FMT='(20X,
-     >    ''Derivatives computed to order '',I1)') IDB
         ENDIF
       ENDIF
 

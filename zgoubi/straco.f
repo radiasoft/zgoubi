@@ -37,9 +37,9 @@ C     -----------------------------------------------------------
         IF( STRA(I) .EQ. STR ) THEN
           IS = I
           STRACO = .TRUE.
-          RETURN
+          GOTO 99
         ENDIF
  1    CONTINUE
       STRACO = .FALSE.
-      RETURN
+ 99   RETURN
       END

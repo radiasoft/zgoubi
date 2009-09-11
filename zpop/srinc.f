@@ -165,7 +165,7 @@ C                    energy at prsnt Psi -> D3W_8,9(Psi) = dW_x,y/dPsi (J/rad)
      >      IW, XO(2),XO(3)
 C----------- On HP stations only :
             WRITE( *,*) JY,KZ,' Py =',SDW(2),';  Pz =',SDW(3),' (J)'
-            CALL FLUSH2(6,.FALSE.)
+C            CALL FLUSH(6)
 
             WRITE(NLOG,*) '---------------------------------------'
             WRITE(NLOG,FMT='(A9,2X,A9)') DMY, HMS

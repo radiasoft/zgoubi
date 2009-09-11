@@ -1020,7 +1020,10 @@ C----- FFAG. FFAG Sector multi-dipole.
  91   CONTINUE
       KALC = 1
       KUASEX = 27
-      IF(READAT) CALL RFFAG(ND(NOEL))
+      IF(READAT) THEN
+        CALL RFFAG(ND(NOEL))
+      ELSE
+      ENDIF
       GOTO 998
 C----- HELIX. Helical field (twisted dipole)
  92   CONTINUE
@@ -1084,7 +1087,8 @@ C----- TRACKING.
       GOTO 998
 C----- FFAG-SPI. FFAG, spiral. 
  101  CONTINUE
-      IF(READAT) CALL RFFAG(ND(NOEL))
+      IF(READAT) CALL RFFAGS(ND(NOEL),NDAT,
+     >    NMAG,AT,RM,ACN,OP,QSIE,OM,QSIS,RE,TE,RS,TS)
        mod = 0
       CALL READCC(MOD,RM*CM2M,RM*CM2M)
       IF(READAT) GOTO 998

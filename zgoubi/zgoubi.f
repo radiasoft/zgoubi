@@ -105,6 +105,7 @@ C----- Switch for calculation, transport and print of Twiss functions :
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
         PRLB = .FALSE.
+C------- Print after defined labels. Switched on by SPNSTORE.
         PRLBSP = .FALSE.
       ENDIF
 
@@ -141,7 +142,7 @@ C        LBL contains the LABEL['s] after which print shall occur
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
 C        LBLSP contains the LABEL['s] after which print shall occur
         IF( STRACO(NLB,LBLSP,LABEL(NOEL,1),
-     >                                   IL) ) 
+     >                                     IL) ) 
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
       ENDIF
@@ -266,7 +267,7 @@ C----- FAISCEAU. Print current beam in zgoubi.res
       GOTO 998
 C----- FAISCNL. Stores beam at current position (in .fai type file)
  8    CONTINUE
-      IF(READAT) CALL RFAIST(0,
+      IF(READAT) CALL RFAIST(I0,
      >                         PRLB,KPRT,LBL,NLB)
       IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0
@@ -333,7 +334,7 @@ C          ( D'APRES B. MAYER , FEVRIER 1990 )
       GOTO 998
 C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
-      IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2)
+      IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
       CALL MATRIC
       GOTO 998
@@ -598,7 +599,7 @@ C----- SPNPRNL. Store  state of spins in logical unit
 C      IF(READAT) READ(NDAT,503) TA(NOEL,1)
 C      IF(FITGET) CALL FITGT1
 C      CALL SPNPRN(0)
-      IF(READAT) CALL RSPNST(0,
+      IF(READAT) CALL RSPNST(I0,
      >                         PRLBSP,KPRTSP,LBLSP,NLB)
       IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0

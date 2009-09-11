@@ -74,14 +74,14 @@ C---------------------------------------------------------
 
       DIMENSION BZ0(5,5)
 
-      CHARACTER TYPCAL(2)*24, TYPGAP(2)*12
+      CHARACTER TYPCAL(2)*14, TYPGAP(2)*12
       SAVE TYPCAL, TYPGAP
 
       PARAMETER (PLIM=80.D0)
 
       LOGICAL SHARPE, SHARPS
 
-      DATA TYPCAL / ' analytic', ' numerical interpolation'/
+      DATA TYPCAL / ' analytic', ' interpolation'/
       DATA TYPGAP / ' constant', ' g_0(r0/r)^K' /
 
 C  NBMAG=number of magnets.  AT=total extent angle of field 
@@ -262,18 +262,20 @@ C Exit Fringe Field
  
       IF(KMAG.LT.NBMAG) GOTO 10
 
+C-----------------------------
+      
 C Choice of the type of field & deriv. calculation 
-C IRD2= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+C                (0/1 : analytic/interpolation): 
       NP=NP+1 
-      IRD2 = NINT(A(NOEL,NP))
-      IF    (IRD2.NE.0) THEN
+      IRDA = NINT(A(NOEL,NP))
+      NP=NP+1 
+      RESOL=A(NOEL,NP)
+      IF    (IRDA.NE.0) THEN
 C        interpolation method
-        NP=NP+1 
-        RESOL=A(NOEL,NP)
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
-        IRD = IRD2
-        IRD2 = 1
+        IRD = IRDA
+        IRDA = 1
         IF    (IRD.EQ.2) THEN 
           NN=3
         ELSEIF(IRD.EQ.25) THEN
@@ -283,12 +285,17 @@ C        interpolation method
         ELSE
           STOP ' *** ERROR - SBR FFAGI, WRONG VALUE IRD'
         ENDIF
-      ELSEIF(IRD2.EQ.0) THEN
-C    analytic. A(NOEL,NP) has the form 0.j, j=2 or 4. 
-        IDB = NINT(10*A(NOEL,NP))
+      ELSEIF(IRDA.EQ.0) THEN
+C        IDB = NINT(10*A(NOEL,NP))
+C        NP=NP+1 
+C        IDB=A(NOEL,NP)
+        IDB=NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
-      CALL CHAMC6(IRD2)
+      CALL CHAMC6(IRDA)
+
+C      NP=NP+1 
+C      RESOL=A(NOEL,NP)
 
       AE=0.D0
       AS=0.D0
@@ -304,25 +311,19 @@ C--- Formule à revoir...
 C--------------------
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,'' Field & derivatives calculation''
-     >  ,'' method :'',A)') TYPCAL(IRD2+1)
-        IF    (IRD2.NE.0) THEN
+        WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
+     >  TYPCAL(IRDA+1)
+        IF    (IRDA.NE.0) THEN
           IF(IRD .EQ. 2) THEN
-            WRITE(NRES,FMT='(20X
-     >        ,''3*3-point  interpolation, 2nd degree polynomial'')')
+            WRITE(NRES,121) '3*3', RESOL
+ 121        FORMAT(20X,A3,
+     >        '-point  interpolation, size of flying mesh :  ',
+     >        'integration step /',1P,G12.4)
           ELSEIF(IRD .GE. 4) THEN
-            IF    (IRD .EQ. 25) THEN
-              WRITE(NRES,FMT='(20X
-     >        ,''5*5-point  interpolation, 2nd degree polynomial'')')
-            ELSEIF(IRD .GE.  4) THEN
-              WRITE(NRES,FMT='(20X
-     >        ,''5*5-point  interpolation, 4th degree polynomial'')')
-            ENDIF
+C----------- IRD= 4 OR 25
+            WRITE(NRES,121) '5*5', RESOL
           ENDIF
-          WRITE(NRES,121) RESOL
- 121      FORMAT(1P,20X
-     >     ,'Size of flying mesh is :   integration step /',G12.4)
-        ELSEIF(IRD2.EQ.0) THEN
+        ELSEIF(IRDA.EQ.0) THEN
           WRITE(NRES,FMT='(20X,
      >    ''Derivatives computed to order '',I1)') IDB
         ENDIF

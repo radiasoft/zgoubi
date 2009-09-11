@@ -159,15 +159,15 @@ C  France
       RETURN
 
       ENTRY OPNMN1(KX,KY,*)
-      IF((KX .GE. 21 .AND. KX .LE. 27) .OR.
-     >         (KY .GE. 21 .AND. KY .LE. 27)) THEN
-        IF(KTYP .NE. 3) THEN
-           WRITE(6,FMT='(/,A)') 
-     >            ' In order to plot spins, you need to open a'
-           WRITE(6,*) '         .spn  type file'
-           RETURN 1
-        ENDIF
-      ENDIF
+C      IF((KX .GE. 21 .AND. KX .LE. 27) .OR.
+C     >         (KY .GE. 21 .AND. KY .LE. 27)) THEN
+C        IF(KTYP .NE. 3) THEN
+C           WRITE(6,FMT='(/,A)') 
+C     >            ' In order to plot spins, you need to open a'
+C           WRITE(6,*) '         .spn  type file'
+C           RETURN 1
+C        ENDIF
+C      ENDIF
 
       RETURN
       END

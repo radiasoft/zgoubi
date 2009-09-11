@@ -58,7 +58,7 @@ C  France
      >       /,'          - y+z -           =',   E16.8, A)
 
 C--------- On HP stations only :
-          CALL FLUSH2(NLOG,.FALSE.)
+          CALL FLUSH(NLOG)
 
       RETURN
       END

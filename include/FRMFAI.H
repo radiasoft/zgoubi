@@ -42,6 +42,6 @@ C3       Z,P*1.D3,SAR,     TAR,  ENEKI,
 C4       IT,IREP(IT),SORT(IT), (AMQ(J,I),J=1,5), RET(IT), DPR(IT), PS,
      4         /,2I6,9E16.8,
 
-C5        BORO,    IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
-     5  /,E16.8,   I6,1X,  A8,1X,  2A8,                 I5)
+C5        BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
+     5  /,E16.8,   I6,1X,  A8, 1X , 2A8,                I5)
 

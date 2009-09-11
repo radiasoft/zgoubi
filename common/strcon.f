@@ -24,10 +24,10 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       FUNCTION STRCON(STR,STR2,
-     >                        IS)
+     >                         IS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STRCON
-      CHARACTER STR*(*), STR2*1
+      CHARACTER STR*(*), STR2*(*)
 C     ---------------------------------------------------------------
 C     .TRUE. if the string STR contains the string STR2 at least once
 C     IS = position of first occurence of STR2 in STR 
@@ -35,14 +35,13 @@ C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
 C     ---------------------------------------------------------------
 
       INTEGER DEBSTR,FINSTR
-
+ 
       LNG = LEN(STR2)
 
       II = 0
       DO 1 I = DEBSTR(STR), FINSTR(STR)
         II = II+1
         IF( STR(I:I+LNG-1) .EQ. STR2 ) THEN
-C          IS = II
           IS = I 
           STRCON = .TRUE.
           RETURN

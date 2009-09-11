@@ -35,7 +35,6 @@ C  France
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/FINIT/ FINI
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/UT/ U(6,6), T(6,6,6)
       COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
@@ -276,18 +275,6 @@ C    constraint rms  emittance
             CALL LPSFIT(K, 
      >                              EMIT,ALP,BET,XM,XPM)
             VAL=EMIT
-
-         ELSE IF(ICONT .EQ. 10) THEN
-C-----------Contraints on spin
-
-           IF(ICONT2.EQ.1) THEN
-C------------ Constraint on closed orbit : 
-C             e.g., equal spin values  (L=2,4 or other)
-C                 at ends of cell 
-C                   (hence expected constraint value in zgoubi.dat is 0)
-             VAL=ABS(SF(L,K) - SI(L,K))
-C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
-           ENDIF
 
          ENDIF
          Z=Z+((VAL-V(I))/W(I))**2

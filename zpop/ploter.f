@@ -96,10 +96,11 @@ C------ Entering negative value for X  will cancel tagging
           OPEN(UNIT=JUN,FILE='zpop.log_IMPV')
           CALL IMPV2(JUN)
           write(*,*)  ' sbr ploter jun =', jun
+C           pause
         ELSE
-          WRITE(6,*) ' *** sbr PLOTER : No free unit # for opening '
-          WRITE(6,*) '                                zpop.log_IMPV'
+          WRITE(6,*) ' *** sbr PLOTER, Problem : No idle unit number ! '
           CALL IMPV2(0)
+C           pause
         ENDIF
       ENDIF
 

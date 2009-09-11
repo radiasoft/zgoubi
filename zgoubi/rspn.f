@@ -38,50 +38,16 @@ C     ****************************
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
-      INTEGER DEBSTR, FINSTR
-      CHARACTER TXT20*20
-
 C     ... INITIAL SPIN DISTRIBUTION OPTION
-      READ(NDAT,*) TXT20
-      READ(TXT20,*) A(NOEL,1)
-      TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
-      READ(TXT20(1:1),FMT='(I1)') KSO
-      READ(TXT20(3:20),*,END=10,ERR=10) KSO2
-
- 10   CONTINUE
-
-      IF    (KSO .LE. 4) THEN
-        IF     (KSO .EQ. 1) THEN
-        ELSEIF (KSO .EQ. 4) THEN
-          IF     (KSO2 .EQ. 0) THEN
-            DO I=1,IMAX
-              READ(NDAT,*) (SI(J,I),J=1,3)
-            ENDDO
-          ELSEIF(KSO2 .EQ. 1) THEN
-            READ(NDAT,*) SX, SY, SZ
-            DO I=1,IMAX
-              SI(1,I) = SX
-              SI(2,I) = SY
-              SI(3,I) = SZ
-            ENDDO
-          ENDIF
-        ENDIF
-        IA = 0
-        DO I=1,IMAX
-          IA = IA + 10
-          IF(IA.LE.MXD/10) THEN
-            A(NOEL,IA)   = SI(1,I)
-            A(NOEL,IA+1) = SI(2,I)
-            A(NOEL,IA+2) = SI(3,I)
-          ELSE
-            IA = IA-10
-            GOTO 11
-          ENDIF
-        ENDDO
- 11     CONTINUE
-        A(NOEL,9) = IA
+      READ(NDAT,*) KSO
+      A(NOEL,1) = KSO
+ 
+      IF     (KSO .EQ. 4) THEN
+        DO 1 I=1,IMAX
+          READ(NDAT,*) (SI(J,I),J=1,3)
+ 1      CONTINUE
       ELSEIF(KSO .EQ. 5) THEN
-C        ... TO, PO = MEAN INITIAL PRCESSION DIRECTION
+C       ... TO, PO = MEAN INITIAL PRCESSION DIRECTION
         READ(NDAT,*) A(NOEL,10), A(NOEL,11)
 C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
         READ(NDAT,*) A(NOEL,20), A(NOEL,21)

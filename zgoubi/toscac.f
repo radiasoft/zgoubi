@@ -33,7 +33,6 @@ C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -74,7 +73,6 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       IF    (STRCON(TITL,'HEADER',
      >                              IS) ) THEN
         READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
-C             write(*,*) '  header, nhd, is ', TITL(IS:IS+7),nhd,is
       ELSE
         NHD = NHDF
       ENDIF
@@ -106,10 +104,6 @@ C             write(*,*) '  header, nhd, is ', TITL(IS:IS+7),nhd,is
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-!          write(*,*) 
-!          write(*,*) NEWFIC 
-!          write(*,*) NAMFIC 
-!          write(*,*) NOMFIC(NFIC),nfic
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
@@ -149,7 +143,6 @@ C--------- A single data file contains the all 3D volume
  209       FORMAT(/,10X  
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) are : ')
-!           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -178,24 +171,29 @@ C--------- A single data file contains the all 3D volume
                GOTO 96
              ENDIF
 
-             IF(     STRCON(NOMFIC(NFIC),'GSI',IS)
-     >          .OR. STRCON(NOMFIC(NFIC),'gsi',IS)) THEN
+             IF(     STRCON(NOMFIC(NFIC),'GSI',
+     >                                         IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'gsi',
+     >                                         IS)) THEN
                   NHD = 0
                   FMTYP = 'GSI'
-             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',IS)
-     >          .OR. STRCON(NOMFIC(NFIC),'bw6',IS)) THEN
+             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',
+     >                                             IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'bw6',
+     >                                         IS)) THEN
                   NHD = 0
                   FMTYP = 'GSI'
              ENDIF
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
+             WRITE(NRES,FMT='(/,3A,/)') 
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
      >         ' map,  FORMAT type : ', FMTYP             
              IRD = NINT(A(NOEL,40))
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,BNORM,I1,KZ,FMTYP,
-     >                      BMIN,BMAX,
-     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                                    BMIN,BMAX,
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
  12        CONTINUE
 

@@ -50,8 +50,10 @@ C           right after any occurence of element label[s] TA(noel,2)
       TA(NOEL,1) = STRA(1)
 
       IF(MLB .NE. 0) THEN
+        ITXT = finstr(txt)
+        txt = txt(debstr(txt):itxt)
         LENG = 1+FINSTR(STRA(1))-DEBSTR(STRA(1))
-        TXT = TXT(LENG+2:FINSTR(TXT))
+        TXT = TXT(LENG+2:itxt)
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                       NLB,LBL)

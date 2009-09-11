@@ -29,6 +29,7 @@ C------- Called by keyword FAISTORE
       CHARACTER KLEY*10
       CHARACTER*10 LBL1,LBL2
       PARAMETER(MLB=10)
+      CHARACTER*10 LBL(MLB)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
@@ -47,8 +48,6 @@ C------- Called by keyword FAISTORE
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
  
-      CHARACTER*10 LBL(MLB)
-
       CHARACTER FNAME*80
       LOGICAL BINARY, FITING
       SAVE BINARY
@@ -111,7 +110,6 @@ CC---------------------------------------------------------------------
       ENTRY IMPFAW(FNAME,LBL,NLB)
 
       IF(IPASS .EQ. 1) CALL OPEN2('FAISCN',NFAI,FNAME)
-C            write(*,*) ' impfaw ',NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,

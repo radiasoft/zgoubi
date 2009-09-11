@@ -44,26 +44,24 @@ C----- Will print into file TA(NOEL,1),
 C           right after any occurence of element label[s] TA(noel,2)
 
       READ(NDAT,FMT='(A)') TXT
-      TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
       CALL STRGET(TXT,1,
      >                  IDUM,STRA) 
       TA(NOEL,1) = STRA(1)
 
       IF(MLB .NE. 0) THEN
+        ITXT = finstr(txt)
+        TXT = TXT(DEBSTR(TXT):ITXT)
         LENG = 1+FINSTR(STRA(1))-DEBSTR(STRA(1))
-        TXT = TXT(LENG+2:FINSTR(TXT))
+        TXT = TXT(LENG+2:itxt)
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                      NLB,LBL)
-
-        PRLB = (NLB .GE. 1) 
-     >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
-
-C        IF(NLB .GE. 1) PRLB = .TRUE.
+        IF(NLB .GE. 1) PRLB = .TRUE.
 
         READ(NDAT,*) A(NOEL,1)
 C------- Will print every IA turn
         IA=A(NOEL,1)
       ENDIF
+
       RETURN
       END

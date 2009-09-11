@@ -6712,6 +6712,11 @@ matrices as obtained in the way described above, and by identification with the 
 
  
 
+\bigskip
+
+\noindent  Addition of \textsl{zgoubi.MATRIX.out} next to \textsl{IORD, IFOC} will cause 
+stacking of \textsl{MATRIX} output data 
+into   zgoubi.MATRIX.out file (convenient for use with e.g. gnuplot type of data treatment software). 
 
 
 \newpage
@@ -6750,14 +6755,14 @@ the periodic structure.
   }\label{SPNPRT}\label{SPNPRNL} \label{SPNSTORE}
 \index{SPNPRT}\index{SPNPRNL}\index{SPNSTORE}
 
-\noindent\textsl{SPNPRT} can be introduced anywhere in a structure. It produces
+\noindent \textsl{SPNPRT} can be introduced anywhere in a structure. It produces
 a listing (into zgoubi.res) of the initial and actual coordinates and modulus of the spin of the \IMAX\index{IMAX@{\IMAX}}
 particles, at the location where it stands, together with their Lorentz factor $\gamma$, etc. 
 The mean values of the spin components are also printed. 
 
 \bigskip
 
-\textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
+\noindent \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
 stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
 advised name is \textsl{FNAME} = `zgoubi.spn' (formatted write) or `b\_zgoubi.spn' (binary write) \index{zgoubi.spn}). 
 The data are formatted and ordered according to the  \FORTRAN sequence found in the subroutine \textsl{spnprn.f}, 
