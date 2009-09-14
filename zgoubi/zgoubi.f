@@ -114,7 +114,6 @@ C----- Get FIT status
      >               FITING)
       IF(FITING) CALL RESET2
 
- 997  CONTINUE
       IF(READAT) READ(NDAT,503) TITRE
  503  FORMAT(A)
       TITRE = TITRE(1:50)//'       Zgoubi Version 5.0.0.' 
@@ -125,7 +124,6 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
  105  FORMAT(/,1X,A80,//)
 
       TOMANY = .FALSE.
-C      NOEL = 0
       NOEL = NL1-1
 
  998  CONTINUE
@@ -294,7 +292,7 @@ C----- REBELOTE. Passe NRBLT+1 fois dans la structure
 11    CONTINUE
       IF(READAT) READ(NDAT,*) (A(NOEL,I),I=1,3)
       IF(FITGET) CALL FITGT1
-      CALL REBEL(READAT,*998,*997)
+      CALL REBEL(READAT)
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE

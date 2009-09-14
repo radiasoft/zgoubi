@@ -47,10 +47,11 @@ C  France
  
       CALL REBELR(KREB3,KREB31)
       IF(KREB3 .EQ. 99) THEN
-C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
+C       ... Set to 99 in SBR REBELOTE - for periodic tracking
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(//,15X,
-     >  'FINAL  SPINS  OF  LAST  RUN  TAKEN  AS  INITIAL  SPINS')
+     >  'Final  spin coord. at last run taken  as initial')
+
         RETURN
       ENDIF
  
@@ -85,8 +86,6 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
             RETURN
          ENDIF
  
-C          P = BORO*CL*1D-9*(Q/QE)
-C          P = BORO*CL*1D-9*Q
           P = BORO*CL9*Q
           BE = P/SQRT(P*P + AM*AM)
           GG = G/SQRT(1.D0-BE*BE)
@@ -185,5 +184,8 @@ C          P = BORO*CL*1D-9*Q
      >  ,/,30X,' <S>  = ',F10.4)
       ENDIF
  
+C      Initialize min/max spin coord. arrays
+      CALL SPNTR2(IMAX)
+
       RETURN
       END

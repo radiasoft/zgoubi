@@ -61,7 +61,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
  251    CONTINUE
         DO 4 I = 1, IPU
           NT = NINT(FPU(8,I))
-          WRITE(LUN,FMT= '(1P,2X,I4,8(1X,E15.7),2(1X,I6))' )
+          WRITE(LUN,FMT= '(1P,2X,I4,8(1X,E12.4),2(1X,I6))' )
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
  4      CONTINUE

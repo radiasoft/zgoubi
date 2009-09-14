@@ -91,7 +91,7 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
  197  FORMAT('min.-max. ',T14,'Hor.:',1P,2G16.8,/,T14,' Ver.:',2G16.8,
      >   /,' (min+max)/2 Hor. & ver.:',2G16.8,'  ',A,'/',A,
      >   /,'                         ',2G16.8,'  (zgoubi units)')
- 107  FORMAT('Min max H | V :',1P,2G11.3,' | ',2G11.3)
+ 107  FORMAT('Mi-ma H/V: ',1P,2(1X,G10.3),'/',2(1X,G10.3))
       WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
  101  FORMAT('Part#',I3,'-',I6,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
      >    I3,'-',I5,'; ',I7,' points') 

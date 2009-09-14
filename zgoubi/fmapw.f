@@ -37,12 +37,14 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       DIMENSION BREAD(3)
 C----- at entry FMAPR :
 C      LOGICAL IDLUNI, BINARI
-      LOGICAL BINAR
+      LOGICAL BINAR, EMPTY
       CHARACTER*120 TITL
       CHARACTER*20 FMTYP
+      CHARACTER*132 TXT132
       CHARACTER BE(2)
+      INTEGER DEBSTR
       SAVE MOD, MOD2
-
+      
       DATA BE /'B','E'/
 
       DATA MOD, MOD2 / 0, 0 /
@@ -61,13 +63,16 @@ C------- Print field map in zgoubi.res
 
           CALL RAZ(BREAD,3)
 
-             DO 14 J=1,JYMA
-              DO  14  I = 1,IXMA
-               DO 15 JD=1, ID
- 15              BREAD(JD) = HC(JD,I,J,K)
-                 WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
+             DO J=1,JYMA
+               DO I = 1,IXMA
+                 DO JD=1, ID
+                   BREAD(JD) = HC(JD,I,J,K)
+                 ENDDO
+                   WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
      >                                  BREAD(2), BREAD(3), BREAD(1)
- 14           CONTINUE
+               ENDDO
+             ENDDO
+
         ENDIF
          
       ELSEIF(LF .EQ. 2) THEN
@@ -511,26 +516,34 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
 
              DO 10 J=1,JYMA
                DO  10  K = 1,IXMA
+
                  IF( BINAR ) THEN
                    READ(LUN)YH(J),ZH(I),XH(K),BREAD(2),BREAD(3),BREAD(1)
+
                  ELSE
 
-C----  Manip VAMOS ganil, oct 2001
-C                   READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
+ 14                CONTINUE
+                   READ(LUN,FMT='(A)') TXT132
+                   TXT132 = TXT132(DEBSTR(TXT132):132)
+                   IF    (EMPTY(TXT132)) THEN
+                     GOTO 14
+                   ELSEIF(TXT132(1:1).EQ.'%'.OR.TXT132(1:1).EQ.'#') THEN
+                     GOTO 14
+                   ENDIF
 
                    IF    (MOD2.EQ.1) THEN 
-                     READ(LUN,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
-     >                                      BREAD(2),BREAD(3),BREAD(1)
+                     READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
+     >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSE
 C-------------------- Default MOD, also case MOD=0
                      IF(FMTYP.EQ.'GSI') THEN
-                       READ(LUN,fmt='(1x,6e11.2)') YH(J),ZH(I),XH(K),  
+                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSEIF(FMTYP.EQ.'LESB3') THEN
-                       READ(LUN,fmt='(1x,6e11.2)') YH(J),ZH(I),XH(K),  
+                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
-                       READ(LUN,*) YH(J),ZH(I),XH(K),  
+                       READ(TXT132,*) YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF

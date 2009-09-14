@@ -87,6 +87,8 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       DATA DPREF / 1.D0 /
       DATA KPAS / 0 /
       DATA CPAR / 280* 0.D0 /
+      DATA IDMAX / 1 /
+
 C----- To yield MKSA units : 
 C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time

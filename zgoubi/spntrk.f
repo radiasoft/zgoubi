@@ -38,8 +38,13 @@ Correction, FM, 02/98
 CCC   DIMENSION BU(4,3), BP(4,3), O(4,3), S(5,3)
       DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
  
-C      PM = BR*CL*1D-9/AM *(Q/QE)
-C      PM = BR*CL*1D-9/AM *Q
+      DIMENSION SPMIO(4,MXT), SPMAO(4,MXT)
+      DIMENSION SMI(4,MXT), SMA(4,MXT)
+
+      SAVE SMI, SMA
+      PARAMETER (ICMXT=4*MXT)
+      DATA SMI, SMA / ICMXT*1D10, ICMXT* -1D10 /
+
       PM = QBR*CL9/AM
       GG = G * SQRT( 1.D0+PM*PM )
       GP = 1.D0+ GG
@@ -118,22 +123,51 @@ CALCUL S''''=S'''xO + 3*S''xO' + 3*S'xO'' + SxO'''
  
 C                                       2             3              4
 CALCUL S(s+ds) = S(s) +S'(s)ds +S''(s)ds /2 +S'''(s)ds /6 +S''''(s)ds /24
-      SF(1,IT)=S(1,1)+(S(2,1)+(S(3,1)/2.D0+(S(4,1)/6.D0+S(5,1)/24.D0*DS)
+      SF1IT=S(1,1)+(S(2,1)+(S(3,1)/2.D0+(S(4,1)/6.D0+S(5,1)/24.D0*DS)
      >*DS)*DS)*DS
-      SF(2,IT)=S(1,2)+(S(2,2)+(S(3,2)/2.D0+(S(4,2)/6.D0+S(5,2)/24.D0*DS)
+      SF2IT=S(1,2)+(S(2,2)+(S(3,2)/2.D0+(S(4,2)/6.D0+S(5,2)/24.D0*DS)
      >*DS)*DS)*DS
 C ERROR, corrctn DT Jan 2005
-C     SF(3,IT)=S(1,3)+(S(2,3)+(S(3,3)/2.D0+(S(4,3)/6.D0+S(5,2)/24.D0*DS)
-      SF(3,IT)=S(1,3)+(S(2,3)+(S(3,3)/2.D0+(S(4,3)/6.D0+S(5,3)/24.D0*DS)
+C     SF3IT=S(1,3)+(S(2,3)+(S(3,3)/2.D0+(S(4,3)/6.D0+S(5,2)/24.D0*DS)
+      SF3IT=S(1,3)+(S(2,3)+(S(3,3)/2.D0+(S(4,3)/6.D0+S(5,3)/24.D0*DS)
      >*DS)*DS)*DS
-      AN=SQRT(SF(1,IT)*SF(1,IT)+SF(2,IT)*SF(2,IT)+SF(3,IT)*SF(3,IT))
-      SF(4,IT) = AN
+      AN=SQRT(SF1IT*SF1IT+SF2IT*SF2IT+SF3IT*SF3IT)
+      SF4IT = AN
  
-C----- NORMALISATION
-      SF(1,IT)=SF(1,IT)/AN
-      SF(2,IT)=SF(2,IT)/AN
-      SF(3,IT)=SF(3,IT)/AN
-      SF(4,IT) = 1D0
- 
+C----- NORMALISATION (normally useless... check step size instead...)
+C      SF1IT=SF1IT/AN
+C      SF2IT=SF2IT/AN
+C      SF3IT=SF3IT/AN
+C      SF4IT = 1.D0
+
+      SF(1,IT) = SF1IT
+      SF(2,IT) = SF2IT
+      SF(3,IT) = SF3IT
+      SF(4,IT) = SF4IT
+
+      DO ICOO = 1, 4
+        IF(SMI(ICOO,IT).GT.SF(ICOO,IT)) SMI(ICOO,IT) = SF(ICOO,IT)
+        IF(SMA(ICOO,IT).LT.SF(ICOO,IT)) SMA(ICOO,IT) = SF(ICOO,IT)
+      ENDDO
+
       RETURN
+
+      ENTRY SPNTR2(IMAX)
+      DO IIT = 1, IMAX
+        DO ICOO = 1, 4
+          SMI(ICOO,IIT) = +1.D10
+          SMA(ICOO,IIT) = -1.D10
+        ENDDO
+      ENDDO
+      RETURN      
+
+      ENTRY SPNTR3(IMAX,
+     >                  SPMIO,SPMAO)
+      DO IIT = 1, IMAX
+        DO ICOO = 1, 4
+          SPMIO(ICOO,IIT) = SMI(ICOO,IIT)
+          SPMAO(ICOO,IIT) = SMA(ICOO,IIT)
+        ENDDO
+      ENDDO
+      RETURN      
       END

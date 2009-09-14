@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE REBEL(READAT,*,*)
+      SUBROUTINE REBEL(READAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
 
@@ -196,8 +196,8 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
 
         IPASS=IPASS+1
         NOEL=0 
-C        REWIND(NDAT)
-        RETURN 1
+
+        RETURN
  
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last pass through structure will occur
@@ -240,10 +240,7 @@ C--------- reactive WRITE
  
         IPASS=IPASS+1
         NOEL=0 
-        RETURN 1
-C        REWIND(NDAT)
-C        READAT = .TRUE.
-C        RETURN 2
+        RETURN
  
       ELSEIF(IPASS .GT. NRBLT) THEN
 C------- Last pass through REBELOTE 

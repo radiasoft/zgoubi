@@ -165,31 +165,30 @@ J   1   0.2939   287.177   277.201     0.000     0.000   180.000       0.2939  2
             Total angular extent of the magnet :  39.53 Degres
             Reference geometrical radius R0  :     346.00 cm
 
-     Dipole # 1 of  1  -------------------
+     Dipole # 1
             Positionning  angle ACENT :    8.594     degrees
             Positionning  wrt.  R0  :    0.0     cm
             B0 =   17.00     kGauss,       K =   5.1500    
 
-       Entrance  EFB
+     Entrance  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =   6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Exit      EFB
+         Exit  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =  -6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Lateral EFB :  not used
+         Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    3*3-point  interpolation, 2nd degree polynomial
-                    Size of flying mesh is :   integration step /   10.00    
+      Field & deriv. calculation : interpolation
+                    3*3-point  interpolation, size of flying mesh :  integration step /   10.00    
 
                     Integration step :  0.4150     cm   (i.e.,   1.1994E-03 rad  at mean radius RM =    346.0    )
 
@@ -493,31 +492,30 @@ J   1   0.2939   287.177   277.201     0.000     0.000   180.000       0.2939  2
             Total angular extent of the magnet :  39.53 Degres
             Reference geometrical radius R0  :     346.00 cm
 
-     Dipole # 1 of  1  -------------------
+     Dipole # 1
             Positionning  angle ACENT :    8.594     degrees
             Positionning  wrt.  R0  :    0.0     cm
             B0 =   17.00     kGauss,       K =   5.1500    
 
-       Entrance  EFB
+     Entrance  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =   6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Exit      EFB
+         Exit  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =  -6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Lateral EFB :  not used
+         Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    5*5-point  interpolation, 2nd degree polynomial
-                    Size of flying mesh is :   integration step /   10.00    
+      Field & deriv. calculation : interpolation
+                    5*5-point  interpolation, size of flying mesh :  integration step /   10.00    
 
                     Integration step :  0.4150     cm   (i.e.,   1.1994E-03 rad  at mean radius RM =    346.0    )
 
@@ -821,31 +819,30 @@ J   1   0.2939   287.177   277.201     0.000     0.000   180.000       0.2939  2
             Total angular extent of the magnet :  39.53 Degres
             Reference geometrical radius R0  :     346.00 cm
 
-     Dipole # 1 of  1  -------------------
+     Dipole # 1
             Positionning  angle ACENT :    8.594     degrees
             Positionning  wrt.  R0  :    0.0     cm
             B0 =   17.00     kGauss,       K =   5.1500    
 
-       Entrance  EFB
+     Entrance  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =   6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Exit      EFB
+         Exit  EFB
           Fringe  field  :  gap at R0 is   8.30 cm,    type is :  g_0(r0/r)^ -1.00
            COEFFICIENTS :  6   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
            Shift  of  EFB  is    0.000     cm
 
           OMEGA =  -6.12 deg.     Spiral  angle  =  53.50 deg.
 
-       Lateral EFB :  not used
+         Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    5*5-point  interpolation, 4th degree polynomial
-                    Size of flying mesh is :   integration step /   10.00    
+      Field & deriv. calculation : interpolation
+                    5*5-point  interpolation, size of flying mesh :  integration step /   10.00    
 
                     Integration step :  0.4150     cm   (i.e.,   1.1994E-03 rad  at mean radius RM =    346.0    )
 
@@ -1085,7 +1082,7 @@ J   1   0.2939   287.177   277.201     0.000     0.000   180.000       0.2939  2
 ********************************************************************************************************************************
 
   Zgoubi, version 5.0.0.
-  Job  started  on  06-Sep-09,  at  17:39:51 
-  Job  ended  on  06-Sep-09,  at  17:39:54 
+  Job  started  on  13-Sep-09,  at  14:20:33 
+  Job  ended  on  13-Sep-09,  at  14:20:39 
 
-   CPU time, total :     2.59616200000000     
+   CPU time, total :     6.20438700000000     

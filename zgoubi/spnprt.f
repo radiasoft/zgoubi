@@ -38,17 +38,23 @@ C  France
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
+      DIMENSION SMI(4,MXT), SMA(4,MXT)
+      LOGICAL IDLUNI
+
       JDMAX=IDMAX
-      JMAXT=IMAXT
-      IF(JDMAX .GT. 1) WRITE(NRES,121)JDMAX
+      JMAXT=IMAX/IDMAX
+      IF(JDMAX .GT. 1) WRITE(NRES,121) JDMAX
  121  FORMAT(/,25X,' .... ',I3
-     >,'  GROUPS  OF  MOMENTA  FOLLOW    ....')
+     >,'  Groups  of  momenta  follow    ....')
  
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1
+             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
+
         SX = 0D0
         SY = 0D0
         SZ = 0D0
@@ -84,20 +90,65 @@ C  France
      >    ,I5,'  PARTICLES :',//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'S'
      >    ,T61,'SX',T71,'SY',T81,'SZ',T91,'S',T99,'GAMMA',/)
+          DO I=IMAX1,IMAX2
+            IF( IEX(I) .GE. -1 ) THEN
+              P = BORO*CL9 *F(1,I) *Q
+              GAMA = SQRT(P*P + AM*AM)/AM
+              WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
+     X        ,(SF(J,I),J=1,4),GAMA,I
+ 101          FORMAT(1X,A1,1X,I2,4F10.4,10X,4F10.4,F10.6,I4)
+            ENDIF
+          ENDDO
  
-          DO 10 I=IMAX1,IMAX2
-            IF( IEX(I) .LT. -1 ) GOTO 10
-C            P = BORO*CL*1D-9 *F(1,I) *(Q/QE)
-C            P = BORO*CL*1D-9 *F(1,I) *Q
-            P = BORO*CL9 *F(1,I) *Q
-            GAMA = SQRT(P*P + AM*AM)/AM
-            WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
-     X      ,(SF(J,I),J=1,4),GAMA,I
- 101        FORMAT(1X,A1,1X,I2,4F10.4,10X,4F10.4,F10.6,I4)
- 10       CONTINUE
+          CALL SPNTR3(IMAX,
+     >                     SMI, SMA)
+          WRITE(NRES,130) JMAXT
+ 130      FORMAT(///,15X,' Min/Max  components  of  each  of  the '
+     >    ,I5,'  particles :'
+     >    ,//,T3,'SX_mi',T15,'SX_ma',T27,'SY_mi',T39,'SY_ma'
+     >    ,T51,'SZ_mi',T63,'SZ_ma',T75,'|S|_mi',T87,'|S|_ma'
+     >    ,T99,'p/p_0',T111,'GAMMA',T125,'I  IEX',/)
+          DO I=IMAX1,IMAX2
+            IF( IEX(I) .GE. -1 ) THEN
+              P = BORO*CL9 *F(1,I) *Q
+              GAMA = SQRT(P*P + AM*AM)/AM
+              WRITE(NRES,131) (SMI(J,I),SMA(J,I),J=1,4),F(1,I)
+     >           ,GAMA,I,IEX(I)
+ 131          FORMAT(1P,8E12.4,2E13.5,I5,I3)
+            ENDIF
+          ENDDO
  
+          IF(IPASS.EQ.NRBLT+1) THEN 
+
+            IF(IDLUNI(
+     >                LUN)) THEN
+              OPEN(UNIT=LUN,FILE='zgoubi.SPNPRT.out',ERR=96)
+            ELSE
+              GOTO 96
+            ENDIF
+
+            WRITE(LUN,130) JMAXT
+            DO I=IMAX1,IMAX2
+              IF( IEX(I) .GE. -1 ) THEN
+                P = BORO*CL9 *F(1,I) *Q
+                GAMA = SQRT(P*P + AM*AM)/AM
+                WRITE(LUN,131) (SMI(J,I),SMA(J,I),J=1,4),F(1,I)
+     >             ,GAMA,I,IEX(I)
+              ENDIF
+            ENDDO
+            CLOSE(LUN)
+
+          ENDIF 
         ENDIF
  3    CONTINUE
  
+      RETURN
+
+ 96       CONTINUE
+          WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
+     >               ''Error open file zgoubi.SPNPRT.out'')')
+          WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
+     >               ''Error open file zgoubi.SPNPRT.out'')')
+
       RETURN
       END
