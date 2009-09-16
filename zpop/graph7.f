@@ -211,8 +211,6 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
  799          CONTINUE
           ENDIF
         ENDIF
-        CALL OPNMN1(KX,KY,
-     >                    *920)
 
         IF(OKOPN) THEN
 

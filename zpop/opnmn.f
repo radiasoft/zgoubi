@@ -158,16 +158,5 @@ C  France
       NOMFIC = 'none'
       RETURN
 
-      ENTRY OPNMN1(KX,KY,*)
-C      IF((KX .GE. 21 .AND. KX .LE. 27) .OR.
-C     >         (KY .GE. 21 .AND. KY .LE. 27)) THEN
-C        IF(KTYP .NE. 3) THEN
-C           WRITE(6,FMT='(/,A)') 
-C     >            ' In order to plot spins, you need to open a'
-C           WRITE(6,*) '         .spn  type file'
-C           RETURN 1
-C        ENDIF
-C      ENDIF
-
       RETURN
       END
