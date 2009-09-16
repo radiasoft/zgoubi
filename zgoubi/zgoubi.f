@@ -116,7 +116,6 @@ C----- Get FIT status
 
       IF(READAT) READ(NDAT,503) TITRE
  503  FORMAT(A)
-      TITRE = TITRE(1:50)//'       Zgoubi Version 5.0.0.' 
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
