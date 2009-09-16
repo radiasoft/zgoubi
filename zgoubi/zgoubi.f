@@ -442,7 +442,6 @@ C        KZMA > 1, 3-D map
      >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
       ENDIF
       IF(FITGET) CALL FITGT1
-C      write(*,*) 'zgoubi  ND(NOEL),noel ',ND(NOEL),noel,a(noel,ND(NOEL))
       IF    (KART.EQ.1) THEN 
         CALL QUASEX(ND(NOEL))
       ELSEIF(KART.EQ.2) THEN 
@@ -668,8 +667,8 @@ C----- CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
       GOTO 998
 C----- MAP2D. 2D B-FIELD MAP, NO SPECIAL SYMMETRY (P. Akishin, 07/1992)
  62   CONTINUE
-      IF(IZ.EQ.1)
-     >   CALL ENDJOB('Use of MAP2D :  you need IZ>1 in PARIZ.H',-99)
+      IF(ID.LT.3)
+     >   CALL ENDJOB('Use of MAP2D :  you need ID=3 in PARIZ.H',-99)
       KALC =2
       KUASEX = 9
       IF(READAT) CALL RCARTE(I1,I2,
