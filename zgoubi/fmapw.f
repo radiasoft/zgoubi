@@ -109,6 +109,7 @@ C     >  ,((HC(ID,I,J,K),I=1,IXMA),J=1,JYMA)
       ENDIF
       RETURN
 
+C Called by POLMES
       ENTRY FMAPR(BINAR,LUN,
      >                      RM)
 
@@ -524,10 +525,11 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
 
  14                CONTINUE
                    READ(LUN,FMT='(A)') TXT132
-                   TXT132 = TXT132(DEBSTR(TXT132):132)
+                   IDSTR = DEBSTR(TXT132)
                    IF    (EMPTY(TXT132)) THEN
                      GOTO 14
-                   ELSEIF(TXT132(1:1).EQ.'%'.OR.TXT132(1:1).EQ.'#') THEN
+                   ELSEIF(TXT132(IDSTR:IDSTR+1) .EQ. '%'
+     >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
                      GOTO 14
                    ENDIF
 
