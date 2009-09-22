@@ -70,13 +70,10 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       COMMON/VITES/ U(6,3),DQBR(6),DDT(6) 
 
       LOGICAL BINAR,BINARI,IDLUNI
-C      CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       CHARACTER TITL*120 , NOMFIC(20)*80, NAMFIC*80
       DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
       INTEGER DEBSTR,FINSTR
  
-      DIMENSION BREAD(3)
-
       CHARACTER LMNT(22)*10
       CHARACTER KTOR(2)*10
  
@@ -339,6 +336,24 @@ C Because it's done down after the endif...
            XBMI = XBMI/XNORM
            BMAX = BMAX/BNORM
            BMIN = BMIN/BNORM
+
+
+         ELSEIF(KUASEX.EQ.9) THEN
+C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
+C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
+C------------ No 2nd-order 25-point interpolation available with MAP2D[_E]
+           IF(IRD.EQ.25) IRD=2
+
+           CALL MAP2D(SCAL,
+     >                     BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+     >                     XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+C   Because it's done down after the endif...
+             XBMA = XBMA/XNORM
+             XBMI = XBMI/XNORM
+             BMAX = BMAX/BNORM
+             BMIN = BMIN/BNORM
+
 
          ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
 C----------- EMMA 
@@ -654,131 +669,6 @@ C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  625           CONTINUE
  622         CONTINUE
  
-           ELSEIF(KUASEX.EQ.9) THEN
-C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
-C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
-
-C------------ No 2nd-order 25-point interpolation available with MAP2D[_E]
-             IF(IRD.EQ.25) IRD=2
-             INDEX=0
-             NT = 1
-             CALL PAVELW(INDEX,NT)
-
-             NFIC = 0
-
-             CLOSE(LUN)
-             DO 12 I=I1,KZMA
-               NFIC = NFIC+1
-               IF(IDLUNI(
-     >                   LUN)) THEN
-                 BINAR=BINARI(NOMFIC(NFIC),IB)
-                 IF(BINAR) THEN
-                   OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
-     >             ,STATUS='OLD',ERR=96)
-                 ELSE
-                   OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
-                 ENDIF
-               ELSE
-                 GOTO 96
-               ENDIF
-
-C Map data file starts with 4-line header unless otherwise specified using HEADER_X
-             IF(NRES.GT.0) 
-     >         WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
-        
-             IF(NHD .GE.1) THEN
-               READ(LUN,FMT='(A120)') TITL
-               IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-               READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
-               GOTO 50
- 49            CONTINUE
-               IF(NRES.GT.0) WRITE(NRES,*) 
-     >         'Could not read R0, DR, DTTA, DZ on line 1 of HEADER...'
- 50            CONTINUE
-               DO II=1, NHD-1
-                 READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
-                 IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-               ENDDO
-               IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
-             ENDIF
-             IF(NRES.GT.0) WRITE(NRES,*) 'R0, DR, DX, DZ : ',R0,DR,DX,DZ
-             IF(NRES.GT.0) WRITE(NRES,*) 'FORMAT type : ', FMTYP
-
-               DO 10 J=1,JYMA
-                 DO  10  K = 1,IXMA
-                   IF( BINAR ) THEN
-                     READ(LUN)
-     >               YH(J),ZH(I),XH(K),BREAD(2),BREAD(3),BREAD(1)
-                   ELSE
-                     IF(FMTYP.EQ.'GSI') THEN
-                       READ(LUN,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
-     >                                      BREAD(2),BREAD(3),BREAD(1)
-                     ELSE
-C-------  Manip VAMOS ganil, oct 2001
-C                       READ(LUN,FMT='(1X,6G12.2)') YH(J),ZH(I),XH(K), 
-                       READ(LUN,*) YH(J),ZH(I),XH(K), 
-     >                                      BREAD(2),BREAD(3),BREAD(1)
-                     ENDIF
-CC----  Manip VAMOS ganil, oct 2001 
-C                     YH(J) = YH(J) * 1.D2
-C                     zH(i) = zH(i) * 1.D2
-C                     xH(k) = xH(k) * 1.D2
-
-                   ENDIF
-                   BMAX0 = BMAX
-                   BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
-                   IF(BMAX.NE.BMAX0) THEN
-                     XBMA = XH(K)
-                     YBMA = YH(J)
-                     ZBMA = ZH(I)
-                   ENDIF
-                   BMIN0 = BMIN
-                   BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
-                   IF(BMIN.NE.BMIN0) THEN
-                     XBMI = XH(K)
-                     YBMI = YH(J)
-                     ZBMI = ZH(I)
-                   ENDIF
-C FM 11/03 
-                   IF(ID.EQ.1) THEN
-                     HC(ID,K,J,I) =  BREAD(3) * BNORM
-                   ELSE
-                     DO 187 LHC=1,ID
- 187                    HC(LHC,K,J,I) = BREAD(LHC) * BNORM
-                   ENDIF
-                   YH(J) = YH(J) * YNORM
-                   ZH(I) = ZH(I) * ZNORM
-                   XH(K) = XH(K) * XNORM
-
-                   IF(I1 .GT. 1) THEN
-C--------------------- Symmetrize 3D map wrt XY plane (IZ>1)
-                     IF( I .GT. I1 ) THEN
-                       ZH(2*I1-I) = -ZH(I)
-                       FAC = -1.D0
-C                       DO 188 LHC=1,ID
-C                         IF(LHC .EQ. 3) FAC=1.D0
-C 188                     HC(LHC,K,J,2*I1-I) =  FAC * BREAD(LHC)* BNORM
-                       HC(1,K,J,2*I1-I) =   -BREAD(1)* BNORM
-                       II=2
-                       HC(II,K,J,2*I1-I) =   -BREAD(2)* BNORM
-                       II=3
-                       HC(II,K,J,2*I1-I) =   BREAD(3)* BNORM
-                     ENDIF
-                   ENDIF
- 10            CONTINUE
-               CLOSE(UNIT=LUN)
- 12          CONTINUE
-
-c             BMIN = BMIN * BNORM
-c             BMAX = BMAX * BNORM
-c                   XBMA = XBMA * XNORM
-                   YBMA = YBMA * YNORM
-                   ZBMA = ZBMA * ZNORM
-c                   XBMI = XBMI * XNORM
-                   YBMI = YBMI * YNORM
-                   ZBMI = ZBMI * ZNORM
-
-
            ELSEIF(KUASEX .EQ. 8 ) THEN
 C---------- BREVOL AND ELREVOL
 C           Read a 1-D X-map of  Bx(R=0,X)-field,
@@ -840,7 +730,6 @@ C        ... ENDIF KUASEX
 
          CLOSE(UNIT=LUN)
 C close does not idle lun => makes problem with FIT !!   
-C            write(*,*) ' unit = ', lun 
 
          XBMA = XBMA*XNORM
          XBMI = XBMI*XNORM
@@ -875,16 +764,20 @@ C            write(*,*) ' unit = ', lun
      >     , /,5X,'Min/max normalised fields (kG)  :', 2(G12.4,20X)
      >     ,//,5X,'Nber of steps in X =',I4,';  nber of steps in Y =',I5
      >     , /,5X,'Step in X =',G12.4,' cm ;  step in Y =',G12.4,' cm')
-           IF(NDIM .EQ. 3) WRITE(NRES,FMT='(5X,
-     >     ''nber of steps in Z ='',I5,'' ; Step in Z ='',G12.4,
-     >                                   '' cm'')') 2*KZMA-1,ZH(2)-ZH(1)
+           IF(NDIM .EQ. 3) THEN
+C             I2=2 introduced to avoid compiler complainig when IZ=1...
+             I2=2
+             WRITE(NRES,FMT='(5X,
+     >       ''nber of steps in Z ='',I5,'' ; Step in Z ='',G12.4,
+     >                                  '' cm'')') 2*KZMA-1,ZH(I2)-ZH(1)
 C     >      //,5X,'Champ MIN/MAX CARTE       : ', 
 C     >                               1P,G12.4,T64,'/ ',G12.4
-C     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
-C     >     , /,5X,'COEFF. DE NORMALISATION   :', G12.4
-C     >     , /,5X,'Champ MIN/MAX NORMALISE   :', 2(G12.4,20X)
-C     >     ,//,5X,'NBRE DE PAS EN X =',I4,'  NBRE DE PAS EN Y =',I5
-C     >     , /,5X,'PAS EN X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+C     >       , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
+C     >       , /,5X,'COEFF. DE NORMALISATION   :', G12.4
+C     >       , /,5X,'Champ MIN/MAX NORMALISE   :', 2(G12.4,20X)
+C     >       ,//,5X,'NBRE DE PAS EN X =',I4,'  NBRE DE PAS EN Y =',I5
+C     >       , /,5X,'PAS EN X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+           ENDIF
            IF(IDRT .NE. 0) THEN
              IF    (IDRT .EQ. -1) THEN
                WRITE(NRES,403)
@@ -962,7 +855,6 @@ C------------ Electric & Magnetic
            KP = NINT(A(NOEL,ND+NND))
            IF( KP .EQ. 3 ) THEN
 CC             Stop if XCE .ne. 0. To be provisionned...
-C            write(*,*) 'KPOS=3 does not su', nd,nnd, 
 C     > A(NOEL,ND+NND),A(NOEL,ND+NND+1),A(NOEL,ND+NND+2),A(NOEL,ND+NND+3)  
 C             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
 C     >                   STOP ' KPOS=3 does not support XCE.ne.0'
@@ -983,8 +875,6 @@ CC             Calculate XCE, YCE for entrance change of referential
 C             YSHFT = A(NOEL,ND+NND+2)
 C             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
 C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
-C            write(*,*) 'KPOS=3 does not su', nd,nnd, 
-C     > A(NOEL,ND+NND),A(NOEL,ND+NND+1),A(NOEL,ND+NND+2),A(NOEL,ND+NND+3)  
            ENDIF
 
         ELSEIF(KUASEX .EQ. 20 )   THEN
@@ -1163,16 +1053,6 @@ C        STP3 = A(NOEL,ND)
       CALL ENDJOB('Execution stopped, data list error ',-99)
       RETURN
 
- 98   CONTINUE
-      IF(NRES.GT.0) THEN
-        WRITE(NRES,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(NRES,*) '   Error encountered during map reading'
-        WRITE(NRES,*) '   Check map data file'
-        WRITE(6,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(6,*) '   Error encountered during map reading'
-        WRITE(6,*) '   Check map data file'
-      ENDIF
- 
   200 FORMAT(2A)
  400   FORMAT(10E8.1)
  401   FORMAT(10E8.1)

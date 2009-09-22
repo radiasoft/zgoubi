@@ -142,7 +142,7 @@ C--------- A single data file contains the all 3D volume
            WRITE(NRES,209) 
  209       FORMAT(/,10X  
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
-     >     ,/,10X,' name(s) of map data file(s) are : ')
+     >     ,/,10X,' name(s) of map data file(s) : ')
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -201,12 +201,12 @@ C--------- A single data file contains the all 3D volume
 
 c voir si ok avec cartésien
         CALL MAPLI1(BMAX-BMIN)
-        AT=XH(IAMA)-XH(1)
-        ATO = 0.D0
-        ATOS = 0.D0
-        RM=.5D0*(YH(JRMA)+YH(1))
-        XI = XH(1)
-        XF = XH(IAMA)
+C        AT=XH(IAMA)-XH(1)
+C        ATO = 0.D0
+C        ATOS = 0.D0
+C        RM=.5D0*(YH(JRMA)+YH(1))
+C        XI = XH(1)
+C        XF = XH(IAMA)
  
       RETURN
  96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)

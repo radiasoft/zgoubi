@@ -23,6 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C-- Max mesh nodes in Z direction, # of field coordinates
 C      PARAMETER (IZ=9 , ID=3)
 C      PARAMETER (IZ=5 , ID=3)
@@ -34,26 +36,35 @@ C      PARAMETER (MXX=3202, MXY=200)
 C      PARAMETER (MXX=601, MXY=200)
 C      PARAMETER (MXX=2000, MXY=600)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- KEK/TOSCA.  Masamitsu Aiba
 C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=301, MXY=121)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC----- PRISM.  Yasutoshi Kuriyama
 C      PARAMETER (IZ=35 , ID=3)
 C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=361, MXY=171)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC----- RACCAM spiral field maps
 C       PARAMETER (IZ=21 , ID=3)
 C       PARAMETER (MXX=671, MXY=53)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=1000, MXY=500)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA 
-C      PARAMETER (IZ=1 , ID=3)
-C      PARAMETER (MXX=400, MXY=230)
+C      PARAMETER (IZ=5 , ID=3)
+C      PARAMETER (MXX=400, MXY=300)
 
-CC---- 
-      PARAMETER (IZ=5 , ID=3)
-      PARAMETER (MXX=400, MXY=200)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- IZ : # of mesh nodes in Z direction. ID : # of field coordinates (3 if IZ>1, or with MAP2...)
+C AGS CSnake maps
+      PARAMETER (IZ=1 , ID=3)
+      PARAMETER (MXX=3001, MXY=201)
+      
+ 

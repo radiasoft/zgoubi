@@ -135,8 +135,10 @@ C      +++  2-D grid,  5*5 points
       IF(KUASEX .EQ. 7) THEN
 C--------  KUASEX = 7: CARTE 3-D   
         IF(IZ.EQ.1) 
-     >        STOP 'SBR CHAMK, 3D map, give IZ>1 in PARIZ.H' 
-        DZ=ZH(2)-ZH(1)
+     >    CALL ENDJOB('SBR CHAMK, 3D map, give IZ>1 in PARIZ.H',-99)
+C        I2=2 introduced to avoid compiler complainig when IZ=1...
+        I2 = 2
+        DZ=ZH(I2)-ZH(1)
         IZC=(Z1-ZH(1))/DZ+1.5D0
         IZC=MAX0(IZC,2)
         IZC=MIN0(IZC,KZMA-1)

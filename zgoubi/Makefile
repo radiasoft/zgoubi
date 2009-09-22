@@ -159,6 +159,7 @@ OBJ=\
  lstins.o\
  lstset.o\
  majtra.o\
+ map2d.o\
  mapshf.o\
  maplim.o\
  mat1.o\
@@ -414,6 +415,7 @@ kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 majtra.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+map2d.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 mapshf.o: PARIZ.H
 mat1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 mat2.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H

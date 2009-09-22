@@ -46,7 +46,7 @@ C  France
       DIMENSION FTAB3(3,3,3,3)
  
       LOGICAL OKX, LTXI, GTXF
-      SAVE PITCHB, ANG0, AK
+      SAVE PITCHB, XROT, AK
 
       DATA OKX, LTXI, GTXF / .TRUE., .FALSE.   , .FALSE.   /
 
@@ -55,23 +55,22 @@ C  France
           XL =A(NOEL,10)
           PITCHB =A(NOEL,11)
           BO =A(NOEL,12)*SCAL
-          ANG0 = A(NOEL,13)
+          XROT = A(NOEL,13) * RAD
  
           AK = 2.D0 * PI / PITCHB
           IF(NRES.GT.0) THEN
-            WRITE(NRES,100) 'Helical  magnet',XL,PITCHB,BO,ANG0
+            WRITE(NRES,100)'Helical magnet',XL,PITCHB,BO,XROT/RAD
  100        FORMAT(/,1P, 5X,' -----  ',A15,'  : '
      >      ,/,15X,' Length  of  element     : ',G12.4,'  cm'
      >      ,/,15X,' Twist  pitch            : ',G12.4,'  cm'
      >      ,/,15X,' Field                   : ',G12.4,'  kG'
-     >      ,/,15X,' Initial  field  angle   : ',G12.4,'  rad')
-
+     >      ,/,15X,' Initial  field  angle   : ',G12.4,'  deg')
           ENDIF
 
       IRDA = NINT(A(NOEL,20))
       IF    (IRDA.EQ.0) THEN
-C    analytic. A(NOEL,ND) has the form 0.j, j=2 or 4. 
-        IDB = NINT(10*A(NOEL,ND))
+C    analytic. A(NOEL,21) = 2 or 4 = order of derivatives (not necessarily operational...)
+        IDB = NINT(A(NOEL,21))
         IF(IDB.NE.4) IDB=2
         KAN = 0
         IRD = 3
@@ -110,11 +109,12 @@ C 3D interpolation from 3D 3*3*3 points flying grid with mesh size integration s
 
       RETURN
 
-C----------------------------------------------------------------
-C  Compute helix field  and derivatives from flying 3D field-mesh
+C-----------------------------------------------------------
+C  Compute helix field derivatives from flying 3D field-mesh
       ENTRY HELIXF(X,Y,Z,
-     >                   XX,YY,ZZ,DX,DY,DZ,FTAB3)
+     >                   XX,YY,ZZ,DX,DY,DZ,FTAB3,XROTO)
 
+      XROTO = XROT
       CALL INTEG5(
      >            STEP)
 
@@ -180,65 +180,110 @@ c          bxo = -2.d0*ak * fx * (y*CKX + z*SKX)                * BO
 
             BX= -BO*AK*(YJ*CKX+ZK*SKX)*(1.D0 + AK28*Y2Z2)
             BY= -BO*((1.D0 + AK28*Z23Y2)*SKX - AK24*YZ*CKX)
-            BZ=  BO*((1.D0 + AK28*Y23Z2)*CKX - AK24*YZ*SKX)
-
-c             write(88,*) x,r,bx-bxo,by-byo,bz-bzo,' x,r, ...'
+            BZ=  BO*((1.D0 + AK28*Y23Z2)*CXX - AK24*YZ*SKX)
 
             FTAB3(1,IX,JY,KZ) = BX
             FTAB3(2,IX,JY,KZ) = BY
             FTAB3(3,IX,JY,KZ) = BZ
-C           write(90,*) ' helix b1L, L F :  1',ix,jy,kz,bx,xi,yj,zk
-C           write(90,*) ' helix b1L, L F :  2',ix,jy,kz,by,xi,yj,zk
-C           write(90,*) ' helix b1L, L F :  3',ix,jy,kz,bz,xi,yj,zk
           
  1    CONTINUE
 C--------- end loop on   NN x DX,  NN x DY, NN x DZ
 
-c      DO  lL = 1,3
-c        DO  K=1,3
-c          Kk=K-2
-c          DO  J=1,3
-c            Jj=2-J
-c            DO  I=1,3
-c              Ii=I-2
-c                 write(89,*) FTAB3(lL,Ii,Jj,Kk), lL,Ii,Jj,Kk
-c        enddo
-c        enddo
-c        enddo
-c        enddo
-
       RETURN
 
-C----------------------------
+C---------------------------
 C 3D analytic model of field
       ENTRY HELIXA(X,Y,Z,
-     >                   B,DB,DDB)
+     >                   B,DB,DDB,XROTO)
 
 C      CALL ENDJOB
 C     >    ('SBR HELIX : analytical  model not implemented. ',-99)
+
+      XROTO = XROT
 
       BN = BO*BRI
       AK2 = AK*AK
       AK24 = AK2/4.D0
       AK28 = AK24/2.D0
       XK = X * AK
-      CKX = COS(XK)
-      SKX = SIN(XK)
+      CX = COS(XK)
+      SX = SIN(XK)
       Y2 = Y*Y
       Z2 = Z*Z
       YZ = Y*Z
       Y2Z2 = Y2+Z2
       Y23Z2 = Y2Z2 + 2.D0*Z2
       Z23Y2 = 2.D0*Y2 + Y2Z2
-
+      ay2z2 = AK28*Y2Z2
+      AZ23Y2 = AK28*Z23Y2
+      AY23Z2 = AK28*Y23Z2
 C--------- Components Bx, By, Bz of field
-          B(1,1)= -BN*AK*(Y*CKX+Z*SKX)*(1.D0 + AK28*Y2Z2)
-          B(1,2)= -BN*((1.D0 + AK28*Z23Y2)*SKX - AK24*YZ*CKX)
-          B(1,3)=  BN*((1.D0 + AK28*Y23Z2)*CKX - AK24*YZ*SKX)
+          B(1,1)= -BN*AK*( Y*CX + Z*SX ) * ( 1.D0 + AY2Z2 )
+          B(1,2)= -BN*((1.D0 + AZ23Y2)*SX - AK24*YZ*CX)
+          B(1,3)=  BN*((1.D0 + AY23Z2)*CX - AK24*YZ*SX)
 
-C Just to calm down the compiler
-          DB(1,1) = 0.D0
-          DDB(1,1,1) = 0.D0
+          cp = -ak * sx
+          sp =  ak * cx
+          cpp = -ak * sp 
+          spp =  ak * cp          
+          ay = AK28*Y 
+          az = AK28*Z 
+          uay2z2 = 1.D0 + ay2z2
+          yczs =  (y*cx + z*sx)
+          ycpzsp =  (y*cp + z*sp)
+          day = 2.D0 * ay
+          daz = 2.D0 * az
+          u2ay = 1.D0 + day
+          u2az = 1.D0 + daz
+
+C         ... dBx/dX
+c          uuu = -(ycpzsp * uay2z2                )* BN*AK
+          DB(1,1) = ak * (y*cp+z*sp) * uay2z2  * (-bn)
+c             write(*,*) ' uuu : ',uuu-DB(1,1),DB(1,1)
+cC         ... dBx/dY = dBy/dX
+c          uuu = -(cx * uay2z2 + yczs * day       )* BN*AK
+          DB(2,1) = ak*(cx*(1.d0+ak28*Z23Y2) + ak24*yz*sx )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-DB(2,1),DB(2,1)
+cC         ... dBy/dY
+c          uuu = -(3.d0*day *sx - 2.d0*az * cx              )* BN  ********
+          DB(2,2) = ak24 * (3.d0 *y *sx - z *cx )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-DB(2,2),DB(2,2)
+cC         .. dBx/dZ = dBz/dX
+c          uuu = -(sx * uay2z2 + yczs * daz       )* BN*AK
+          DB(3,1) = ak * ( sx*(1.d0+ak28*Y23Z2) + ak24*yz*cx )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-DB(3,1),DB(3,1)
+cC         .. dBy/dZ = dBZ/dY
+c          uuu = -(2.D0 * az * sx - 2.*ay * cx       )* BN   ******
+          DB(3,2) = ak24 * (z *sx - y *cx )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-DB(3,2),DB(3,2)
+cC         ... d2Bx/dX2
+c          uuu = -((y*cpp + z*spp) * uay2z2  )* BN*AK
+          DDB(1,1,1) = ak * (y*cpp+z*spp) * uay2z2  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(1,1,1),DdB(1,1,1)
+cC         ... d2Bx/dXdY = d2By/dX2
+c          uuu = -(cp * uay2z2 + ycpzsp*day   )* BN*AK
+          DDB(2,1,1) = ak*(cp*(1.d0+ak28*Z23Y2) + ak24*yz*sp )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(2,1,1),DdB(2,1,1)
+cC         ... d2Bx/dY2
+c          uuu = - (2.D0 *cx* day  + yczs*2.D0 *AK28) * BN*AK  *******
+          DDB(2,2,1) = ak * ak24 * (3.d0 *y *cx + z *sx)  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(2,2,1),DdB(2,2,1)
+cC         ... d2By/dY2
+c          uuu = -(2.D0 * AK28 * sx     *3.d0       )* BN    ********
+          DDB(2,2,2) = 3.d0 * ak24 * sx  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(2,2,2),DdB(2,2,2)
+cC         .. d2Bx/dXdZ = d2Bz/dX2
+c          uuu = -(sp * uay2z2 + ycpzsp * daz )* BN*AK
+          DDB(3,1,1) = ak * (sp*(1.d0+ak28*Y23Z2) + ak24*yz*cp )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(3,1,1),DdB(3,1,1)
+cC         .. d2By/dXdZ = d2Bz/dXdY = d2Bx/dYdZ
+c          uuu = -(2.D0* az * sp - 2.d0*ay * cp )* BN  *********
+          DDB(3,2,1) = ak24 * (z *sp - y *cp )  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(3,2,1),DdB(3,2,1)
+cC         .. d2By/dYdZ = d2Bz/dY2
+c          uuu = -(- AK28 * cx *2.D0           )* BN
+          DDB(3,2,2) = -ak24 * cx  *(-bn)
+c             write(*,*) ' uuu : ',uuu-dDB(3,2,2),DdB(3,2,2)
 
       RETURN
       END

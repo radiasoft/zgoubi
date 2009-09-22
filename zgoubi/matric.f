@@ -54,9 +54,9 @@ C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
 
       LOGICAL KWRMAT
-      DATA KWRMAT / .FALSE. /
-
       DIMENSION F0P(6,6)
+
+      DATA KWRMAT / .FALSE. /
 
       DATA PRBEAM / .FALSE. /
 

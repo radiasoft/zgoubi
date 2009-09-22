@@ -175,17 +175,19 @@ C--------- HELIX
           IF    (KAN.EQ.0) THEN 
 C  Compute FFAG field and derivatives from analytical model
             CALL HELIXA(X,Y,Z,
-     >                        B,DB,DDB)
+     >                        B,DB,DDB,XROT)
           ELSEIF(KAN.EQ.1) THEN 
 C  Compute HELIX field  and derivatives from 3D (*(*( points flying field-mesh
 C  centered on particle position. 
             CALL HELIXF(X,Y,Z,
-     >                        XX,YY,ZZ,DX,DY,DZ,FTAB3)
+     >                        XX,YY,ZZ,DX,DY,DZ,FTAB3,XROT)
             CALL INTPL3(XX,YY,ZZ,DX,DY,DZ,FTAB3,
      >                                          B,DB,DDB)
           ELSE
             STOP '*** SBR CHAMC. No such IRD option in HELIX'
           ENDIF
+          IF(XROT .NE. ZERO)
+     >       CALL XROTB(XROT,B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
 
         ELSEIF(KUASEX .EQ. 29) THEN
 C--------- COILS

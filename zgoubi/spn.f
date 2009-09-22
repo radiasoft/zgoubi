@@ -40,24 +40,23 @@ C  France
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       CHARACTER KAX(3)
- 
+
       SAVE SXM,SYM,SZM
  
       DATA KAX / 'X' , 'Y' , 'Z' /
  
       CALL REBELR(KREB3,KREB31)
       IF(KREB3 .EQ. 99) THEN
-C       ... Set to 99 in SBR REBELOTE - for periodic tracking
+C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(//,15X,
-     >  'Final  spin coord. at last run taken  as initial')
-
+     >  'Final  spins  of  last  run  taken  as  initial  spins')
         RETURN
       ENDIF
  
       KSPN = 1
-      KSO= A(NOEL,1)
- 
+      KSO = NINT(A(NOEL,1))
+
       IF(NRES.GT.0) THEN
  
         IF(KSO .EQ. 0) THEN
@@ -77,8 +76,11 @@ C       ... Set to 99 in SBR REBELOTE - for periodic tracking
  101        FORMAT(30X,' ALL PARTICLES HAVE SPIN PARALLEL TO  ',A1
      >      ,'  AXIS')
           ELSEIF(KSO .EQ. 4) THEN
-            WRITE(NRES,104)
- 104        FORMAT(30X,' ALL SPINS ENTERED PARTICLE BY PARTICLE')
+            WRITE(NRES,104) NINT(A(NOEL,9))
+ 104        FORMAT(
+     >         30X,'All spins entered particle by particle'
+     >      ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
+     >      ,      'matching using FIT procedure') 
           ELSEIF(KSO .EQ. 5) THEN
             WRITE(NRES,108)
  108        FORMAT(15X,' OPTION 5 UNAVAILABLE IN THIS VERSION',/)
@@ -86,6 +88,8 @@ C       ... Set to 99 in SBR REBELOTE - for periodic tracking
             RETURN
          ENDIF
  
+C          P = BORO*CL*1D-9*(Q/QE)
+C          P = BORO*CL*1D-9*Q
           P = BORO*CL9*Q
           BE = P/SQRT(P*P + AM*AM)
           GG = G/SQRT(1.D0-BE*BE)
@@ -128,7 +132,14 @@ C       ... Set to 99 in SBR REBELOTE - for periodic tracking
       GOTO 98
  
  4    CONTINUE
-      DO 14 I=1,IMAX
+      IM = IMAX
+      IF(IM.GT.MXD/10) IM=MXD/10
+      IA = 0
+      DO I=1,IM
+        IA = IA+10
+        SI(1,I) = A(NOEL,IA)
+        SI(2,I) = A(NOEL,IA+1)
+        SI(3,I) = A(NOEL,IA+2)
         SX = SI(1,I)
         SY = SI(2,I)
         SZ = SI(3,I)
@@ -137,7 +148,17 @@ C       ... Set to 99 in SBR REBELOTE - for periodic tracking
         SF(2,I) = SY
         SF(3,I) = SZ
         SF(4,I) = SI(4,I)
- 14   CONTINUE
+      ENDDO
+      DO I=IM+1,IMAX
+        SX = SI(1,I)
+        SY = SI(2,I)
+        SZ = SI(3,I)
+        SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
+        SF(1,I) = SX
+        SF(2,I) = SY
+        SF(3,I) = SZ
+        SF(4,I) = SI(4,I)
+      ENDDO
       GOTO 98
  
  5    CONTINUE
@@ -184,8 +205,5 @@ C       ... Set to 99 in SBR REBELOTE - for periodic tracking
      >  ,/,30X,' <S>  = ',F10.4)
       ENDIF
  
-C      Initialize min/max spin coord. arrays
-      CALL SPNTR2(IMAX)
-
       RETURN
       END

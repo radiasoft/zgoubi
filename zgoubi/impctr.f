@@ -35,16 +35,16 @@ C  France
 500     FORMAT(' STATUS OF CONSTRAINTS')
         WRITE(IUNIT,600)
 600     FORMAT(
-     >  ' TYPE  I   J  LMNT#      DESIRED         WEIGHT        ',
+     >  ' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',
      >  '  REACHED         KI2         *  Parameter(s) ')
         DO 2 I=1,NC
           XI2=((VAT(I)-V(I))/W(I))**2/F
           NPRM1 = NINT(CPAR(I,1)) + 1
           WRITE(IUNIT,700) IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
      >    NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
-700       FORMAT(3I4,I6,5X,1P,G12.5,4X,G11.4,3X,G14.7,2X,G11.4,2X,
-     >    '   * ',I2,' : ',6(G9.1,'/'))
+700       FORMAT(1P,3I4,I6,5X,E14.7,4X,E11.4,3X,E14.7,2X,E11.4,2X,
+     >    '   * ',I2,' : ',6(E9.1,'/'))
 2      CONTINUE
- 
+      CALL FLUSH2(IUNIT,.FALSE.) 
       RETURN
       END

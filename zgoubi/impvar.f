@@ -58,5 +58,6 @@ C----      X(J)        P(I)
      >            A(IR(I),IS(I)),XI(I),X(I),X(J),P(I)
         ENDIF
  1    CONTINUE
+      CALL FLUSH2(IUNIT,.FALSE.)
       RETURN
       END

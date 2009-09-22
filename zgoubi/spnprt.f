@@ -53,7 +53,7 @@ C  France
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1
-             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
+C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
 
         SX = 0D0
         SY = 0D0
@@ -88,15 +88,17 @@ C  France
           WRITE(NRES,110) JMAXT
  110      FORMAT(///,15X,' SPIN  COMPONENTS  OF  EACH  OF  THE '
      >    ,I5,'  PARTICLES :',//,T20,'INITIAL',T70,'FINAL'
-     >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'S'
-     >    ,T61,'SX',T71,'SY',T81,'SZ',T91,'S',T99,'GAMMA',/)
+     >    ,//,T15,'SX',T25,'SY',T35,'SZ',T45,'S'
+     >    ,T67,'SX',T77,'SY',T87,'SZ',T97,'S',T106,'GAMMA',/)
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
               GAMA = SQRT(P*P + AM*AM)/AM
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
      X        ,(SF(J,I),J=1,4),GAMA,I
- 101          FORMAT(1X,A1,1X,I2,4F10.4,10X,4F10.4,F10.6,I4)
+ 101          FORMAT(1X,A1,1X,I2,4(1X,F10.6),9X,4(1X,F10.6),
+     >                                         1X,F12.6,1X,I4)
+C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
           ENDDO
  

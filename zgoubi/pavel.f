@@ -81,10 +81,12 @@ C      NT=1
       A22=0.D0
       A13=0.D0
       A04=0.D0
+C        I3=3 introduced to avoid compiler complainig when IZ=1...
+      I3 = 3
       DO 500 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(3,IX,IY,NT)
+        TEMP = HC(I3,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -200,10 +202,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       A22=0.D0
       A13=0.D0
       A04=0.D0
+C        I2=2 introduced to avoid compiler complainig when IZ=1...
+      I2 = 2
       DO 502 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(2,IX,IY,NT)
+        TEMP = HC(I2,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -346,10 +350,12 @@ C          write(*,*) ' pavel, x0,y0,z0  : ',x0,y0,z0
       A20=0.D0
       A11=0.D0
       A02=0.D0
+C        I3=3 introduced to avoid compiler complainig when IZ=1...
+      I3 = 3
       DO 600 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(3,IX,IY,NT)
+        TEMP = HC(I3,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -395,10 +401,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       A20=0.D0
       A11=0.D0
       A02=0.D0
+C        I2=2 introduced to avoid compiler complainig when IZ=1...
+      I2 = 2
       DO 602 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(2,IX,IY,NT)
+        TEMP = HC(I2,IX,IY,NT)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP

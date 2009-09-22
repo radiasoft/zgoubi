@@ -267,10 +267,12 @@ C POLARMES keyword
       ENDIF
 
       IF(NRES.GT.0) THEN
+C        I2=2 introduced to avoid compiler complainig when IZ=1...
+        I2 = 2
         WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
      >      ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA, 
      >      BNORM,BMIN,BMAX,IXMA,JYMA,KZMA,
-     >      XH(2)-XH(1),YH(2)-YH(1),ZH(2)-ZH(1)
+     >      XH(2)-XH(1),YH(2)-YH(1),ZH(I2)-ZH(1)
   203   FORMAT(
      >    //,5X,' Min / max  fields  drawn  from  map  data : ', 
      >                           1P,G11.3,T80,' / ',G11.3,

@@ -27,13 +27,16 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL 
+
       READ(NDAT,*) IA
       A(NOEL,1) = IA
 C----- Length (cm), Twist-pitch=distance for 2pi B rotation (cm), BO (kG), initial angle of \vecB wrt vertical axis (rad)
       READ(NDAT,*) (A(NOEL,I),I=10,13)
-      ND = 20
+C----- Kird, resol. Anal :  kird=0,  resol= 2(default) or 4.   Num :  kird=3, resol = xpas/meshSize    
+      READ(NDAT,*) A(NOEL,20), A(NOEL,21)
+
+      ND = 30
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
