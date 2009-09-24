@@ -118,9 +118,6 @@
 #define XTERM		( !strcmp(getenv("TERM"),"xterm") ||\
 			((getenv("DISPLAY") &&\
 				 !strcmp(getenv("TERM"),"vt100"))) )
-#define FALCO(s)	((s = getenv("FALCO")) && !strcmp(s,"true"))
-
-extern int tfalco();
 
 static int v_init,v_ix,v_iy;
 static int v_ix1,v_ix2,v_iy1,v_iy2;
@@ -1356,8 +1353,6 @@ void FBGTXT()
 	if(g_mode) {
 		if(XTERM)
 			printf("\033\003");
-                else if(FALCO(s))
-                        printf("\030");
 		else
 			printf("\033[?38l");
 		g_mode = FALSE;
@@ -1369,16 +1364,9 @@ void TXTFBG()
 {
         char *s;
 
-	if(!getenv("FALCO")) {
-		if(tfalco()) putenv("FALCO=true");
-		else         putenv("FALCO=false");
-	}
-
 	if(!g_mode) {
 		if(XTERM)
 			printf("\033[?38h");
-		else if(FALCO(s))
-			printf("\035");
 		else
 			printf("\033[?38h");
 		g_mode = TRUE;

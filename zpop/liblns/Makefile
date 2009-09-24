@@ -1,7 +1,7 @@
 # Ne rien modifier au delà de cette ligne
 DIRLIBS  = -L.
 
-FMINIGRAF = fminigraf.o tfalco.o
+FMINIGRAF = fminigraf.o
 
 .POSIX:
 
