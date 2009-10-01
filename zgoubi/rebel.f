@@ -85,7 +85,6 @@ C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
         ENDIF
         IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
         IF(IPASS.EQ.NRBLT) WRITE(6,FMT='(/)')
-        CALL FLUSH(6)
       ENDIF
  
 C-----  structure length ------------
