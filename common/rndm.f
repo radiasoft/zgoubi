@@ -26,19 +26,10 @@ C  France
       FUNCTION RNDM()
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
-C--------- Sun, FNAL
-C      REAL*4 RAN
-      REAL RAND
+      REAL R
 
-C------- Random generator HP Saclay
-C      RNDM=RAN(IR)
- 
-C------- Random generator SUN
-C      RNDM=RANF(0) 
-
-C------- Random generator CERN 
-C                       & Portable PC/Linux
-      RNDM=RAND()
+      CALL RANDOM_NUMBER(R)
+      RNDM=R
 
       RETURN
       END
