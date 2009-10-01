@@ -36,7 +36,7 @@ C  France
       LONG = LEN(DMY)
       IF(LONG.GE.9) THEN
          CALL DATE_AND_TIME(DD,TT,ZZ,VV)
-         WRITE(DMY,'(I2.2,1H-,A3,1H-,I2.2)')
+         WRITE(DMY,'(I2.2,''-'',A3,''-'',I2.2)')
      $        VV(3),MM(VV(2)),MOD(VV(1),100)
       ENDIF
       IF(LONG.GT.9) DMY=DMY(1:9)//' '      
