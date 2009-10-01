@@ -31,13 +31,11 @@ C DES OUTPUT DE ZGOUBI
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN    
       COMMON/LUN/                        L1  ,L2  ,L3  ,L4  ,L5  ,L6  
 
-      CHARACTER * 9   DMY,HMSI,HMSF  
+      CHARACTER * 9   DMY,HMSF  
       CHARACTER * 80  NOMFIC
       LOGICAL FIRST
       SAVE FIRST
                                  
-      CHARACTER * 27 COMMND
-
       DATA FIRST / .TRUE. /
 
       CALL INIGR(
@@ -73,37 +71,13 @@ C DES OUTPUT DE ZGOUBI
       GOTO (21,21,21,21,21,21, 7, 8,21,99,21) IOPT  
       GOTO 21
 
- 897     OPEN(UNIT=NRES,FILE='zgoubi.res' ,STATUS='NEW',ERR=997
-     >   ,IOSTAT=IOS)
-         IF(IOS.NE.0) THEN 
-           CLOSE(NRES,STATUS='DELETE')
-           GOTO 897
-         ENDIF
-
-         CALL DATE2(DMY)                     
-         CALL TIME2(HMSI) 
-         WRITE(NRES,103) DMY,HMSI 
-         WRITE(6   ,103) DMY,HMSI
- 103     FORMAT(/,'  Job  started  on  ',A9,',  at  ',A9,/)
-
-C         CALL ZGOUBI(200,.TRUE.)
-         COMMND = '~/meot/zgoubi/source/zgoubi'
-         CALL SYSTEM(COMMND)
-         GOTO 10
-
- 997     I=I+1
-         OPEN(UNIT=NRES,FILE= 'zgoubi.res' ,STATUS='OLD')
-         CLOSE(UNIT=NRES,STATUS='DELETE')
-         IF(I.LT. 10) GOTO 897
-         WRITE(6,*) ' SBR ZGOUBI : ERREUR  OPEN FICHIER  zgoubi.res '
-         GOTO 10
  998     I=I+1
          OPEN(UNIT=NLOG,FILE= 'zpop.log' ,STATUS='OLD')
          CLOSE(UNIT=NLOG,STATUS='DELETE')
          IF(I.LT. 10) GOTO 898
          WRITE(6,*) ' SBR ZGOUBI : ERREUR  OPEN FICHIER  zpop.log'
 
- 10      CONTINUE
+         CONTINUE
          CLOSE(NDAT) 
          CLOSE(NRES) 
          CLOSE(NFAI) 
