@@ -30,7 +30,7 @@ C  France
       DO 1 I=1,N
         XI(I)=X(I)
         IF((X(I) .EQ. XMIN(I)).OR.(X(I) .EQ. XMAX(I))) WRITE(6,100) I
- 100    FORMAT(/,10(1H*), ' ALARM ! VARIABLE N0',I3,' AT LIMIT ')
+ 100    FORMAT(/,10('*'), ' ALARM ! VARIABLE N0',I3,' AT LIMIT ')
 1     CONTINUE
       RETURN
       END

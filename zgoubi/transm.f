@@ -77,8 +77,8 @@ C      ENDIF
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,105) IORD,XL
- 105    FORMAT(/,20X,8(1H+),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
-     >  I1,3X,8(1H+), 1P,
+ 105    FORMAT(/,20X,8('+'),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
+     >  I1,3X,8('+'), 1P,
      >  /,20X,'Length  of  element  :',G12.4,' m',/)
         I=1
         WRITE(NRES,100) I

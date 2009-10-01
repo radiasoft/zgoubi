@@ -36,9 +36,9 @@ C  France
       SAVE TTYMODE,ANSI_CR,ANSI_CUU_1
 
       IF (TTYMODE.EQ.1) THEN
-         WRITE(6,'(1H+,A,A)') ANSI_CUU_1//ANSI_CR,S
+         WRITE(6,'(''+'',A,A)') ANSI_CUU_1//ANSI_CR,S
       ELSE
-         WRITE(6,'(1H+,A)') S
+         WRITE(6,'(''+'',A)') S
       ENDIF
       
       RETURN

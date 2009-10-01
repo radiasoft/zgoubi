@@ -55,7 +55,8 @@ C------- Print field map in zgoubi.res
 
           K = KZMA/2+1
           WRITE(NRES,
-     >    FMT='(/,1X,20(1H-),/,10X,'' FIELD  MAP  (NORMALISED) :'',/)')
+     >    FMT='(/,1X,20(''-''),/,10X,'' FIELD  MAP  (NORMALISED) :'',/)'
+     $         )
           WRITE(NRES,FMT='(/,A,3I2,/)') '  IXMA,JYMA,KZMA ',IXMA,JYMA,K
           WRITE(NRES,FMT='(
      >    5X,''Y'',4X,''Z'',4X,''X'',4X,A,''y'',4X,A,''z'',4X,A,''x'')') 

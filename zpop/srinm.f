@@ -75,7 +75,7 @@ C      CALL HOMCLR
 
       WRITE(6,100) WF(1), WF(2), INT(WF(3)), (OX(I),I=1,3),
      >WO(2), WO(3), INT(WO(5)), INT(WO(6))
- 100  FORMAT(//,3X,60(1H-),//,20X,' Integrals. MENU:' ,//
+ 100  FORMAT(//,3X,60('-'),//,20X,' Integrals. MENU:' ,//
      1,/,5X,' 1   Frequency range and sampling:'
      >,/,5X,'       Frq1, Frq2:',1P,2G12.4,' (keV),  Nfreq =',I6
      2,/,5X,' 21  Observation window:'
@@ -93,7 +93,7 @@ C      CALL HOMCLR
      8,/,5X,' 8   Print screen'
      9,/,5X,' 9   EXIT  THIS  MENU'
      2,/,5X,'12   ERASE  DISPLAY'
-     >,/,3X,60(1H-),//)
+     >,/,3X,60('-'),//)
 
       WRITE(6,FMT='(''$  Option  number : '')')
       READ(5,FMT='(I2)',ERR=21) IOPT

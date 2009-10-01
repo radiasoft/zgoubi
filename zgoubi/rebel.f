@@ -231,7 +231,7 @@ C--------- reactive WRITE
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
  
           WRITE(LUN,104)
- 104      FORMAT(/,128(1H*),//,128(1H*),//,128(1H*))
+ 104      FORMAT(/,128('*'),//,128('*'),//,128('*'))
           WRITE(LUN,102) NRBLT+1
  102      FORMAT(//,5X,' Next  pass  is  #',I6
      >    ,' and  last  pass  through  the  optical  structure',/)

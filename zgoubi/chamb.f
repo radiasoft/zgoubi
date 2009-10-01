@@ -137,9 +137,9 @@ C     >                       YC*UNIT(1),ZC*UNIT(3)
 C------------ TRI DES VALEURS P0MAX(T0)
             IF(IFORM .EQ. 10) THEN
               WRITE(NRES,105)
-105           FORMAT(//,10X,10(1H+)
+105           FORMAT(//,10X,10('+')
      >        ,' Max.  P0  values  accepted  as  a  function  of  T0 :'
-     >        ,10(1H+),/)
+     >        ,10('+'),/)
               DO 6 K=1,MXT
 6               T(K)=1.D10
               KTRA=1

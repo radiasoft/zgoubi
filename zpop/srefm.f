@@ -65,7 +65,7 @@ C      CALL LINTYP(1)
 C      CALL HOMCLR
 
       WRITE(6,100) IX, IY, (OX(I),I=1,3)
- 100  FORMAT(//,3X,60(1H-),//,20X,' Electric field. MENU:' ,//
+ 100  FORMAT(//,3X,60('-'),//,20X,' Electric field. MENU:' ,//
      1,/,5X,' 1    X-Y coordinates to plot'
      >,/,5X,'       X: time    Obs - Part '
      >,/,5X,'                 ( 1  -   2 )                  - Now : ',I1
@@ -88,7 +88,7 @@ C     >,/,5X,'                    ( 1 2 3 -  4 5 6 )'
      9,/,5X,' 9    Exit this menu'
      X,/,5X,'10    Line style'
      2,/,5X,'12    Erase display'
-     >,/,3X,60(1H-),//)
+     >,/,3X,60('-'),//)
 
       WRITE(6,FMT='(''$  Option  number : '')')
       READ(5,FMT='(I2)',ERR=21) IOPT

@@ -178,7 +178,7 @@ C          WRITE(NRES,*) '            ( PAS DE Champ DE FUITE ) '
         ENDIF
         WRITE(NRES,103) UMEGA,THETA,R1,U1,U2,R2
         IF(R1*R2 .EQ. 0.D0) WRITE(NRES,123)
- 123    FORMAT(10(1H*),' ATTENTION !    R1 or R2 is zero',10(1H*))
+ 123    FORMAT(10('*'),' ATTENTION !    R1 or R2 is zero',10('*'))
       ENDIF
 C
       UMEG = UMEGA * RAD
@@ -451,7 +451,7 @@ C        REGION DE COURBURE R2
       ELSE
 C        ERREUR  DE  DONNEES  FACE  ENTREE
          IF(NRES.GT.0) WRITE(NRES,104)
-104      FORMAT(/,5X,10(1H*),' ERROR  on  parameters  entrance  face',/)
+104      FORMAT(/,5X,10('*'),' ERROR  on  parameters  entrance  face',/)
          GOTO  15
       ENDIF
 C
@@ -490,7 +490,7 @@ C           REGION DE COURBURE R2
             IF(DPS*RRS .GT. 0.D0) IFACES = 2
          ELSE
             IF(NRES.GT.0) WRITE(NRES,114)
-114         FORMAT(/,5X,10(1H*),' ERROR  on  parameters  exit  face',/)
+114         FORMAT(/,5X,10('*'),' ERROR  on  parameters  exit  face',/)
             GOTO  15
          ENDIF
 C
@@ -822,19 +822,19 @@ C           ****PERTURBATION LINEAIRE EN RAYON
  
 15    CONTINUE
  
-  100 FORMAT(20X,17HAIMANT  PRINCIPAL,///,
-     1 11X,18HANGLES : A.TOTAL =,F6.2,8H degrees,5X,11HA.CENTRAL =,
-     2 F6.2,8H degrees,// ,11X,4HRM =,F7.2,3H cm,5X,6HRMIN =,F7.2,3H cm,
-     3 5X,6HRMAX =,F7.2,3H cm,//,
-     5 11X,7HHNORM =,F8.4,7H kGauss,5X,8HCOEF.N =,F9.5,5X,8HCOEF.B =,
-     6 F9.5,5X,7HCOEF.G=,F9.5)
+  100 FORMAT(20X,'AIMANT  PRINCIPAL',///,
+     1 11X,'ANGLES : A.TOTAL =',F6.2,' degrees',5X,'A.CENTRAL =',
+     2 F6.2,' degrees',// ,11X,'RM =',F7.2,' cm',5X,'RMIN =',F7.2,' cm',
+     3 5X,'RMAX =',F7.2,' cm',//,
+     5 11X,'HNORM =',F8.4,' kGauss',5X,'COEF.N =',F9.5,5X,'COEF.B =',
+     6 F9.5,5X,'COEF.G=',F9.5)
 C  103 FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,// ,
- 103  FORMAT(10X,7HOMEGA =,F7.2,5H deg.,
-     > 5X,15HWedge  angle  =,F7.2,5H deg.,/,
-     1 11X,10HRadius 1 =,1P,G10.2,3H cm,// ,
-     2 11X,21HStraight  segment 1 =,G10.2,3H cm,// ,
-     3 11X,21HStraight  segment 2 =,G10.2,3H cm,// ,
-     4 11X,10HRadius 2 =,G10.2,3H cm)
+ 103  FORMAT(10X,'OMEGA =',F7.2,' deg.',
+     > 5X,'Wedge  angle  =',F7.2,' deg.',/,
+     1 11X,'Radius 1 =',1P,G10.2,' cm,'// ,
+     2 11X,'Straight  segment 1 =',G10.2,' cm',// ,
+     3 11X,'Straight  segment 2 =',G10.2,' cm',// ,
+     4 11X,'Radius 2 =',G10.2,' cm')
 
       BMIN = -1.1D8
       BMAX = 1.1D8

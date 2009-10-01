@@ -33,7 +33,7 @@ C  France
       LONG = LEN(HMS)
       IF(LONG.GE.8) THEN
          CALL DATE_AND_TIME(DD,TT,ZZ,VV)
-         WRITE(HMS,'(I2.2,1H:,I2.2,1H:,I2.2)') VV(5),VV(6),VV(7)
+         WRITE(HMS,'(I2.2,'':'',I2.2,'':'',I2.2)') VV(5),VV(6),VV(7)
       ENDIF
       IF(LONG.GT.8) HMS=HMS(1:8)//' '
       RETURN

@@ -53,7 +53,7 @@ CDECK GRAPH2
       CALL HOMCLR
 
       WRITE(6,100) NOMFIC
- 100  FORMAT(//,3X,60(1H*),//,20X,' MENU - Analysis/Graphic :' ,//
+ 100  FORMAT(//,3X,60('*'),//,20X,' MENU - Analysis/Graphic :' ,//
      > ,9X,'        ' ,/
      1 ,9X,'  1    Open  file - current is ',A ,/
      3 ,9X,'  3    Plot  options',/
@@ -74,7 +74,7 @@ C     5 ,9X,'  5    Automatic  scales ',/
      5 ,9X,' 19    Transverse  beam  density  matching',/
      5 ,9X,' 20    Superpose a curve',/
      5 ,9X,' 88    HELP',/
-     2 ,3X,60(1H*),/)
+     2 ,3X,60('*'),/)
 
 C      IF(.NOT. OKOPN) CALL OPNWRN(1)
 

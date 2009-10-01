@@ -170,8 +170,8 @@ C-----  a list of NBMAG.LE.NM magnets
      2  ,/,10X,' Shift  of  EFB  is ',G12.4,' cm',/)
         WRITE(NRES,103) UMEGA(KMAG),ASPIE(KMAG)
 C 103    FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
- 103    FORMAT(10X,7HOMEGA =,F7.2,5H deg.,
-     >   5X,16HSpiral  angle  =,F7.2,5H deg.)
+ 103    FORMAT(10X,'OMEGA =',F7.2,' deg.',
+     >   5X,'Spiral  angle  =',F7.2,' deg.')
       ENDIF
 
 C Exit Fringe Field

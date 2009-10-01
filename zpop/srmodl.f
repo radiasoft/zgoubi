@@ -44,14 +44,14 @@ C  France
 C      CALL HOMCLR
 
       WRITE(6,104) 
- 104  FORMAT(//,3X,60(1H-)
+ 104  FORMAT(//,3X,60('-')
      >,//,10X,' Synchrotron Radiation, E-field Models',/
      1,/,5X,' 1  Chose  sigma  or  pi  component '
      2,/,5X,' 2  Give  Gamma.Phi  and  Gamma.Psi '
      3,/,5X,' 3  Give  physical  parameters'
      7,/,5X,' 7  ** Plot **'
      9,/,5X,' 9  Exit  this  menu '
-     >,/,3X,60(1H-),//)
+     >,/,3X,60('-'),//)
 
       WRITE(6,100)
  100  FORMAT('$  YOUR  CHOICE : ')

@@ -64,14 +64,14 @@ C  France
       CALL HOMCLR
 
       WRITE(6,100) FILPLT, FILFAI, FILSPN, OTHER
- 100  FORMAT(//,3X,60(1H*),//,20X,' FILE  TO  OPEN:' ,//
+ 100  FORMAT(//,3X,60('*'),//,20X,' FILE  TO  OPEN:' ,//
      > /,8X,' 1: ',A,                     
      > /,8X,' 2: ',A,                    
      > /,8X,' 3: ',A,                    
      > /,8X,' 4: ',A,
      > /,8X,' 5: other...',                     
      > /,8X,' 9: EXIT',
-     > /,3X,60(1H*),/)
+     > /,3X,60('*'),/)
 
       WRITE(6,101) ' * Option  number : '
  101  FORMAT(A20)

@@ -96,7 +96,7 @@ C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
         CALL ZGOUBI(NL1,NL2,READAT)
         WRITE(6,201)
         WRITE(NRES,201)
- 201    FORMAT(/,128(1H*))
+ 201    FORMAT(/,128('*'))
       ENDIF
 
       GOTO 10
@@ -112,7 +112,7 @@ C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
         WRITE(NRES,103) DMY,HMS
         WRITE(6   ,103) DMY,HMS
         WRITE(NRES,101)
- 101    FORMAT(/,128(1H*))
+ 101    FORMAT(/,128('*'))
         WRITE(NRES,FMT='(/,10X,
      >          '' Main program : stopped upon key  FIT'')')
 

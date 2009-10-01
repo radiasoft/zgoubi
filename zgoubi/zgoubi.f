@@ -185,7 +185,7 @@ C------- Steps here in case of "FIT"
       
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
- 201    FORMAT(/,128(1H*))
+ 201    FORMAT(/,128('*'))
         WRITE(NRES,334) NOEL,KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
  334    FORMAT(2X,I5,3(2X,A))
         CALL FLUSH2(NRES,.FALSE.)

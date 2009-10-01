@@ -35,7 +35,7 @@ C     ---------
       CALL HOMCLR
       
       WRITE(6,100) LTYP
- 100  FORMAT(//,3X,60(1H*),//,20X,' LINE  TYPE :',//
+ 100  FORMAT(//,3X,60('*'),//,20X,' LINE  TYPE :',//
      X,20X,' ( Now =  ',I2,' )',//
      1 ,9X,'  1     solid         ',/ 
      2 ,9X,'  2    -.-.-.-        ',/ 

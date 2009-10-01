@@ -72,7 +72,7 @@ C      CHARACTER CMND*70
       CALL HOMCLR
 
       WRITE(6,100) NOMFIC,KVAR(KX),KX,KVAR(KY),KY
- 100  FORMAT(//,3X,60(1H*),//,20X,' MENU - Graphic processing :' ,//
+ 100  FORMAT(//,3X,60('*'),//,20X,' MENU - Graphic processing :' ,//
      > ,9X,'        ' ,/
      1 ,9X,'  1    OPEN  FILE - current is ',A ,/
      2 ,9X,'  2    VARIABLES  TO  PLOT ' ,/
@@ -88,7 +88,7 @@ C      CHARACTER CMND*70
      5 ,9X,' 15    KILL/CREATE  GRAPHIC  SUB-PROCESS      ',/
      5 ,9X,' 20    Superpose a curve',/
      5 ,9X,' 88    HELP',/
-     2 ,3X,60(1H*),/)
+     2 ,3X,60('*'),/)
 
       IF(FIRST) THEN
         CALL PLINIT('////MENU07////',

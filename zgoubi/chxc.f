@@ -210,11 +210,11 @@ C--------------- SEXQUAD
  
              WRITE(NRES,110) XLIM,RO,BO
              WRITE(NRES,116) EN,EB1,EB2,EG1,EG2
- 116         FORMAT(55X,4HN = ,F10.6,' POUR  Y  POSITIF '
-     >           ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
-     >           ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
-     >           ,/,55X,4HG = ,F10.8,' POUR  Y  POSITIF'
-     >           ,/,55X,4HG = ,F10.8,' POUR  Y  NEGATIF')
+ 116         FORMAT(55X,'N = ',F10.6,' POUR  Y  POSITIF '
+     >           ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
+     >           ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
+     >           ,/,55X,'G = ',F10.8,' POUR  Y  POSITIF'
+     >           ,/,55X,'G = ',F10.8,' POUR  Y  NEGATIF')
            ENDIF
  
            EN = EN / RO

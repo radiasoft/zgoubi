@@ -84,7 +84,7 @@ C      QM = Q*CL*CL/(QE*AM*1.D6)                    ! q/m, MKSA units
       YNRM = FNR(1) / FNR(2) * FNR(3)
 
       WRITE(6,104) NOMFIC,IT,PART
- 104  FORMAT(//,3X,60(1H-),//,20X,' SYNCHROTRON RADIATION MENU:',/,
+ 104  FORMAT(//,3X,60('-'),//,20X,' SYNCHROTRON RADIATION MENU:',/,
      1/,5X,' 1  Open input data file - current is ',A,
      2/,5X,' 2  PARTICLE # AND TYPE ( ',
      >                          I3,', ',A1,' )',
@@ -96,7 +96,7 @@ C      QM = Q*CL*CL/(QE*AM*1.D6)                    ! q/m, MKSA units
      9/,5X,' 9  Exit  this  menu ',
      2/,5X,'12  Erase  display ',
      2/,5X,'13  Analytical models ',
-     >/,3X,60(1H-),//)
+     >/,3X,60('-'),//)
 
       IF(.NOT. OKOPN) CALL OPNWRN(1)
 

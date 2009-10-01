@@ -130,7 +130,7 @@ C106     FORMAT (/,5X,'FACE  D''ENTREE',/,10X,
      2  ,/,10X,' DECALAGE  FACE  MAGNETIQUE = ',G12.4,' CM',/)
         WRITE(NRES,103) UMEGA,THETA,R1,U1,U2,R2
         IF(R1*R2 .EQ. 0.D0) WRITE(NRES,123)
- 123    FORMAT(10(1H*),' ATTENTION |    R1 OU R2 = 0 |',10(1H*))
+ 123    FORMAT(10('*'),' ATTENTION |    R1 OU R2 = 0 |',10('*'))
       ENDIF
  
       UMEG = UMEGA * RAD
@@ -327,7 +327,7 @@ C           REGION DE COURBURE R2
           ELSE
 C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES.GT.0) WRITE(NRES,104)
- 104        FORMAT(/,5X,10(1H*),' ERREUR PARAMETRES FACE ENTREE',/)
+ 104        FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE ENTREE',/)
             GOTO  15
           ENDIF
  
@@ -376,7 +376,7 @@ C           ... REGION DE COURBURE R2
             D=( D * RRS/R + SHIFTS )
           ELSE
             IF(NRES.GT.0) WRITE(NRES,114)
-114         FORMAT(/,5X,10(1H*),' ERREUR PARAMETRES FACE SORTIE',/)
+114         FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE SORTIE',/)
             GOTO  15
           ENDIF
  
@@ -427,7 +427,7 @@ C             ... REGION DE COURBURE R2
             ELSE
               IF(NRES.GT.0) THEN
                 WRITE(NRES,124)
-124             FORMAT(/,5X,9(1H*),'ERREUR PARAMETRES FACE LATERALE',/)
+124             FORMAT(/,5X,9('*'),'ERREUR PARAMETRES FACE LATERALE',/)
                 WRITE(NRES,134) X,AX3,CX3,XA3,YA3,XC3,YC3
 134             FORMAT(/,5X,7G12.4)
               ENDIF
@@ -540,18 +540,18 @@ C           ****PERTURBATION LINEAIRE EN RAYON
  
 15    CONTINUE
  
-  100 FORMAT(20X,17HAIMANT  PRINCIPAL,//,
-     1 11X,18HANGLES : A.TOTAL =,F6.2,8H degrees,5X,11HA.CENTRAL =,
-     2 F6.2,8H degrees,/ ,11X,4HRM =,F7.2,3H cm,5X,6HRMIN =,F7.2,3H cm,
-     3 5X,6HRMAX =,F7.2,3H cm,/,
-     5 11X,7HHNORM =,F8.4,7H kGauss,5X,8HCOEF.N =,F9.5,5X,8HCOEF.B =,
-     6F9.5,5X,7HCOEF.G=,F9.5)
+  100 FORMAT(20X,'AIMANT  PRINCIPAL',//,
+     1 11X,'ANGLES : A.TOTAL =',F6.2,' degrees',5X,'A.CENTRAL =',
+     2 F6.2,' degrees',/ ,11X,'RM =',F7.2,' cm',5X,'RMIN =',F7.2,' cm',
+     3 5X,'RMAX =',F7.2,' cm',/,
+     5 11X,'HNORM =',F8.4,' kGauss',5X,'COEF.N =',F9.5,5X,'COEF.B =',
+     6F9.5,5X,'COEF.G=',F9.5)
 C  103 FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
- 103  FORMAT(10X,7HOMEGA =,F7.2,5H deg.,
-     > 5X,15HWedge  angle  =,F7.2,5H deg.,/,
-     1 11X,10HRadius 1 =,1P,G10.2,3H cm,/ ,
-     2 11X,21HStraight  segment 1 =,G10.2,3H cm,/ ,
-     3 11X,21HStraight  segment 2 =,G10.2,3H cm,/ ,
-     4 11X,10HRadius 2 =,G10.2,3H cm)
+ 103  FORMAT(10X,'OMEGA =',F7.2,' deg.',
+     > 5X,'Wedge  angle  =',F7.2,' deg.',/,
+     1 11X,'Radius 1 =',1P,G10.2,' cm',/ ,
+     2 11X,'Straight  segment 1 =',G10.2,' cm',/ ,
+     3 11X,'Straight  segment 2 =',G10.2,' cm',/ ,
+     4 11X,'Radius 2 =',G10.2,' cm')
       RETURN
       END

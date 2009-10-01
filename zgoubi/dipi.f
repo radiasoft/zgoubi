@@ -132,14 +132,14 @@ C     2 G12.4,' degrees',/,11X,'RM+DRM =',G12.4,' cm',/,
      2  ,/,10X,' Shift  of  EFB  = ',G12.4,' CM',/)
         WRITE(NRES,103) UMEGA,THETA,R1,U1,U2,R2
 C 103    FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
- 103    FORMAT(10X,7HOMEGA =,F7.2,5H deg.,
-     >   5X,15HWedge  angle  =,F7.2,5H deg.,/,
-     1   11X,10HRadius 1 =,1P,G10.2,3H CM,/ ,
-     2   11X,21HStraight  segment 1 =,G10.2,3H CM,/ ,
-     3   11X,21HStraight  segment 2 =,G10.2,3H CM,/ ,
-     4   11X,10HRadius 2 =,G10.2,3H CM)
+ 103    FORMAT(10X,'OMEGA =',F7.2,' deg.',
+     >   5X,'Wedge  angle  =',F7.2,' deg.',/,
+     1   11X,'Radius 1 =',1P,G10.2,' CM',/ ,
+     2   11X,'Straight  segment 1 =',G10.2,' CM',/ ,
+     3   11X,'Straight  segment 2 =',G10.2,' CM',/ ,
+     4   11X,'Radius 2 =',G10.2,' CM')
         IF(R1*R2 .EQ. 0.D0) WRITE(NRES,123)
- 123    FORMAT(10(1H*),' ATTENTION |    R1 OU R2 = 0 |',10(1H*))
+ 123    FORMAT(10('*'),' ATTENTION |    R1 OU R2 = 0 |',10('*'))
       ENDIF
 
 C Exit Fringe Field
@@ -439,7 +439,7 @@ C           REGION DE COURBURE R2
           ELSE
 C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES.GT.0) WRITE(NRES,104)
- 104        FORMAT(/,5X,10(1H*),' ERREUR PARAMETRES FACE ENTREE',/)
+ 104        FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE ENTREE',/)
             IF(NRES .GT. 0) WRITE(NRES,134) X,AX,CX,XA,YA,XC,YC
             GOTO  99
           ENDIF
@@ -490,7 +490,7 @@ C           ... REGION DE COURBURE R2
             D=( D * RRS/R + SHIFTS )
           ELSE
             IF(NRES.GT.0) WRITE(NRES,114)
-114         FORMAT(/,5X,10(1H*),' ERREUR PARAMETRES FACE SORTIE',/)
+114         FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE SORTIE',/)
             IF(NRES .GT. 0) WRITE(NRES,134) X,AXS,CXS,XAS,YAS,XCS,YCS
             GOTO  99
           ENDIF
@@ -543,7 +543,7 @@ C             ... REGION DE COURBURE R2
             ELSE
               IF(NRES.GT.0) THEN
                 WRITE(NRES,124)
-124             FORMAT(/,5X,9(1H*),'ERREUR PARAMETRES FACE LATERALE',/)
+124             FORMAT(/,5X,9('*'),'ERREUR PARAMETRES FACE LATERALE',/)
                 WRITE(NRES,134) X,AX3,CX3,XA3,YA3,XC3,YC3
 134             FORMAT(/,5X,7G12.4)
               ENDIF

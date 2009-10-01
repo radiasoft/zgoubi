@@ -72,7 +72,7 @@ C         LE PGM CONVERTIT LES DONNES EN GEV
        T2=T2/1.D3
        P0=SQRT(T2*T2+2.D0*T2*M2)
       IF(NRES .GT. 0) WRITE(NRES,100)
- 100   FORMAT('1',10(1H*),' CIBLE ',/)
+ 100   FORMAT('1',10('*'),' CIBLE ',/)
       IF(NRES .GT. 0) WRITE(NRES,1000) M1,M2,M3,Q,T2
  1000  FORMAT(5X,' DIFFUSION ',/,5X,' M1= ',G15.8,' GEV',3X
      1,' M2= ',G15.8,' GEV',3X,' M3= ',G15.8,' GEV',/,5X,' Q = ',

@@ -75,7 +75,7 @@ C       optionnally followed by  SIG, NV
 C      CALL HOMCLR
 
       WRITE(*,104) NV-1,EPS, SIG
- 104  FORMAT(//,3X,60(1H-),//,15X
+ 104  FORMAT(//,3X,60('-'),//,15X
      X,' MENU  FOR FRINGE-FIELD  MATCHING:',/
      1,/,5X,' 1  Open data file (Default = hmatch.dat)'
      2,/,5X,' 2  Degree  of  the Hermit series'
@@ -86,7 +86,7 @@ C      CALL HOMCLR
      8,/,5X,' 8  Print screen'
      9,/,5X,' 9  EXIT  THIS  MENU '
      2,/,5X,'12  ERASE  DISPLAY '
-     >,/,3X,60(1H-),//)
+     >,/,3X,60('-'),//)
 
       WRITE(*,100)
  100  FORMAT('$  YOUR  CHOICE : ')

@@ -43,7 +43,7 @@ C  France
       DO 1000 I=1,N
          IF (X(I).LE.X(I+N).OR.X(I+2*N).LE.X(I)) THEN
             WRITE(6,1100) I
- 1100       FORMAT(/,10(1H*), ' ALARM ! VARIABLE N0',I3,' AT LIMIT ')
+ 1100       FORMAT(/,10('*'), ' ALARM ! VARIABLE N0',I3,' AT LIMIT ')
             NMFONC=3.40282347D+38
             RETURN
          ENDIF

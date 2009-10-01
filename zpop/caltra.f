@@ -141,7 +141,7 @@ C---------------------------------------------------
      > T70,A,T82,A)')  'NAME','S_in','Y_in',
      >  'S_out','Y_out','Theta_in','Theta_out','Width'
       WRITE(6,200) KLEY
- 200  FORMAT(/,10X,' Data list :  stopped upon key  ',A8,//,90(1H*))
+ 200  FORMAT(/,10X,' Data list :  stopped upon key  ',A8,//,90('*'))
       RETURN
  
 C-----  DRIFT, ESL. ESPACE LIBRE

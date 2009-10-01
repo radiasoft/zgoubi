@@ -30,7 +30,7 @@ C  France
       CALL HOMCLR
 
       WRITE(6,100) 
- 100  FORMAT(//,3X,60(1H*),//,20X,' MENU :',///
+ 100  FORMAT(//,3X,60('*'),//,20X,' MENU :',///
      1 ,9X,'  1    RUN   ZGOUBI   ',/
 C     2 ,9X,'  2    BATCH ZGOUBI   ',/
 C     3 ,9X,'  3    FILES ( .dat, .res, .plt, .fai, .spn ) ',/
@@ -42,7 +42,7 @@ C     3 ,9X,'  3    FILES ( .dat, .res, .plt, .fai, .spn ) ',/
      X ,9X,' 10    Exit  zpop  ',/
      > ,9X,'  ',/
 C     1 ,9X,' 11    SHOW QUEUE '
-     >,///,3X,60(1H*),/)
+     >,///,3X,60('*'),/)
 
       WRITE(6,105) ' * Option  number : '
  105  FORMAT(A20)
