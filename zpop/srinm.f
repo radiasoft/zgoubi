@@ -40,7 +40,6 @@ C     -------------------------------------------------------
       COMMON/INPVR/ KVAR, KPOL, KDIM
       COMMON/LUN/NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
-      COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
       PARAMETER (MSAM=1000)
 
       LOGICAL INPECH

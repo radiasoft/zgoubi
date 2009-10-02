@@ -36,7 +36,6 @@ C      The matching method uses a Fletcher-Reeves alternated
 C      gradient algorithm.
 
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
-      COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       PARAMETER(MXV=10)
       PARAMETER(MXC=400)

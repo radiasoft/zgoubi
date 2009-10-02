@@ -37,7 +37,6 @@ C      gradient algorithm.
 C         Longitudinal coordinate should be Meters
 
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
-      COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       PARAMETER(MXV=10)
       DIMENSION V(MXV), VMI(MXV), VMA(MXV)
