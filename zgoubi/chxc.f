@@ -92,6 +92,8 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       LOGICAL STRCON 
 
       SAVE YSHFT
+ 
+      DATA IMAP / 1 /
 
       DATA NHDF / 4 /
 
@@ -110,6 +112,9 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
   
+      CALL KSMAP(
+     >           IMAP)
+
       ZSYM=.TRUE.
       SUMAP = .FALSE.
 
@@ -162,132 +167,132 @@ C----- Default values of upper order for mid-plane extrapolation
 C        ... KALC = 1: defines a magnetic field in the median plane
 C            with median plane symmetry
  
-         XL=A(NOEL,10)
-         DSREF = XL
-         RO  =A(NOEL,11)
-         BO  =A(NOEL,12)*SCAL
-         IF(BO .EQ. 0.D0) KFLD=0
-         XI=0D0
-         XLIM=XL
-         XF=XLIM
+        XL=A(NOEL,10)
+        DSREF = XL
+        RO  =A(NOEL,11)
+        BO  =A(NOEL,12)*SCAL
+        IF(BO .EQ. 0.D0) KFLD=0
+        XI=0.D0
+        XLIM=XL
+        XF=XLIM
 
-         IDZ=3
-         IDB=3
-         IRD=2
+        IDZ=3
+        IDB=3
+        IRD=2
  
-         IF    (KUASEX .EQ. 1 )   THEN
-           IF(NRES.GT.0) THEN
-             WRITE(NRES,108)
- 108         FORMAT(/, 9X,' QUADRUPOLE  SPECIAL  POUR  LE  SPES2 ',/)
-             WRITE(NRES,110) XL,RO,BO
- 110         FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
-     >             ,/,15X,' 1/2width  :',   G12.4,' cm'
-     >             ,/,15X,'       BO  :',   G12.4,' kG',/)
-           ENDIF
-           BO=BO/RO
+        IF    (KUASEX .EQ. 1 )   THEN
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,108)
+ 108        FORMAT(/, 9X,' QUADRUPOLE  SPECIAL  POUR  LE  SPES2 ',/)
+            WRITE(NRES,110) XL,RO,BO
+ 110        FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
+     >            ,/,15X,' 1/2width  :',   G12.4,' cm'
+     >            ,/,15X,'       BO  :',   G12.4,' kG',/)
+          ENDIF
+          BO=BO/RO
  
-         ELSEIF(KUASEX .EQ. 3  .OR. KUASEX .EQ. 4) THEN
-C          ****  QUADISEX & SEXQUAD. Champ DIPOLAIRE AVEC INDICES N, N' OU N''
+        ELSEIF(KUASEX .EQ. 3  .OR. KUASEX .EQ. 4) THEN
+C         ****  QUADISEX & SEXQUAD. Champ DIPOLAIRE AVEC INDICES N, N' OU N''
  
-           EN  =A(NOEL,20)
-           EB1 =A(NOEL,21)
-           EB2 =A(NOEL,22)
-           EG1 =A(NOEL,23)
-           EG2 =A(NOEL,24)
- 
-           IF(NRES.GT.0) THEN
-             IF(KUASEX .EQ. 3) THEN
-C--------------- QUADISEX
-                WRITE(NRES,112)
- 112            FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
-     >          2X,'BO(1+N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
-             ELSE
-C--------------- SEXQUAD
-                WRITE(NRES,114)
- 114            FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
-     >          2X,'BO(N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
-             ENDIF
- 
-             WRITE(NRES,110) XLIM,RO,BO
-             WRITE(NRES,116) EN,EB1,EB2,EG1,EG2
- 116         FORMAT(55X,'N = ',F10.6,' POUR  Y  POSITIF '
-     >           ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
-     >           ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
-     >           ,/,55X,'G = ',F10.8,' POUR  Y  POSITIF'
-     >           ,/,55X,'G = ',F10.8,' POUR  Y  NEGATIF')
-           ENDIF
- 
-           EN = EN / RO
-           ROO = RO * RO
-           EB1 = EB1 / ROO
-           EB2 = EB2 / ROO
-           ROOO = ROO * RO
-           EG1 = EG1 / ROOO
-           EG2 = EG2 / ROOO
+          EN  =A(NOEL,20)
+          EB1 =A(NOEL,21)
+          EB2 =A(NOEL,22)
+          EG1 =A(NOEL,23)
+          EG2 =A(NOEL,24)
 
-         ELSEIF(KUASEX .EQ. 5 )   THEN
-C---------- VENUS
-           XL2 = XL / 2.D0
-           XL2RO = XL2 / RO
-           EB1 = 1.D0 / (1.D0 + XL2RO * XL2RO)
-           XLMAG = 2.D0 * RO * ATAN(XL2RO) - XL2 * EB1
-           EB1 = EB1 * BO
+          IF(NRES.GT.0) THEN
+            IF(KUASEX .EQ. 3) THEN
+C-------------- QUADISEX
+               WRITE(NRES,112)
+ 112           FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
+     >         2X,'BO(1+N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
+            ELSE
+C-------------- SEXQUAD
+               WRITE(NRES,114)
+ 114           FORMAT(/,9X,'AIMANT  DE  Champ  CALCULE  B =',
+     >         2X,'BO(N.Y/RO+B.Y2/RO2+G.Y3/RO3)')
+            ENDIF
+ 
+            WRITE(NRES,110) XLIM,RO,BO
+            WRITE(NRES,116) EN,EB1,EB2,EG1,EG2
+ 116        FORMAT(55X,4HN = ,F10.6,' POUR  Y  POSITIF '
+     >          ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
+     >          ,/,55X,4HB = ,F10.6,' POUR  Y  NEGATIF'
+     >          ,/,55X,4HG = ,F10.8,' POUR  Y  POSITIF'
+     >          ,/,55X,4HG = ,F10.8,' POUR  Y  NEGATIF')
+          ENDIF
+ 
+          EN = EN / RO
+          ROO = RO * RO
+          EB1 = EB1 / ROO
+          EB2 = EB2 / ROO
+          ROOO = ROO * RO
+          EG1 = EG1 / ROOO
+          EG2 = EG2 / ROOO
 
-           XI=-XL / 2.D0
-           XLIM=XL / 2.D0
-           XF=XLIM
-           IF(NRES.GT.0) THEN
-             WRITE(NRES,118) 
- 118         FORMAT(/, 9X,' Champ CONSTANT DANS UN RECTANGLE ',/)
-             WRITE(NRES,124) XL,RO,BO
-           ENDIF
-           IF( KP .EQ. 3 ) THEN
+        ELSEIF(KUASEX .EQ. 5 )   THEN
+C--------- VENUS
+          XL2 = XL / 2.D0
+          XL2RO = XL2 / RO
+          EB1 = 1.D0 / (1.D0 + XL2RO * XL2RO)
+          XLMAG = 2.D0 * RO * ATAN(XL2RO) - XL2 * EB1
+          EB1 = EB1 * BO
+
+          XI=-XL / 2.D0
+          XLIM=XL / 2.D0
+          XF=XLIM
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,118) 
+ 118        FORMAT(/, 9X,' Champ CONSTANT DANS UN RECTANGLE ',/)
+            WRITE(NRES,124) XL,RO,BO
+          ENDIF
+          IF( KP .EQ. 3 ) THEN
 
 C             Stop if XCE .ne. 0. To be provisionned...
-             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
-     >                   STOP ' KPOS=3 does not support XCE.ne.0'
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >                  STOP ' KPOS=3 does not support XCE.ne.0'
 
-C             Calculate ALE as half BL/BRho. BL_arc???
-             IF(A(NOEL,ND+NND+3) .EQ. 0.D0)   
-     >         A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/BORO)
+C            Calculate ALE as half BL/BRho. BL_arc???
+            IF(A(NOEL,ND+NND+3) .EQ. 0.D0)   
+     >        A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/BORO)
 C Modified, FM, Dec 05 :
-C             Calculate XCE, YCE for entrance change of referential    
-             YSHFT = A(NOEL,ND+NND+2)
-             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
-             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+C            Calculate XCE, YCE for entrance change of referential    
+            YSHFT = A(NOEL,ND+NND+2)
+            A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+            A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
 
-           ENDIF
-           DSREF = ABS(XLMAG)
+          ENDIF
+          DSREF = ABS(XLMAG)
 
-         ELSEIF(KUASEX .EQ. 6 )   THEN
-C---------- PS170
-           IF(NRES.GT.0) THEN
-             WRITE(NRES,122)
- 122         FORMAT(/, 9X,' Champ CONSTANT DANS UN CERCLE ',/)
-             WRITE(NRES,124) XLIM,RO,BO
- 124         FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
+        ELSEIF(KUASEX .EQ. 6 )   THEN
+C--------- PS170
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,122)
+ 122        FORMAT(/, 9X,' Champ CONSTANT DANS UN CERCLE ',/)
+            WRITE(NRES,124) XLIM,RO,BO
+ 124        FORMAT(/,15X,'   Length  :',1P,G12.4,' cm'
      >             ,/,15X,'   radius  :',   G12.4,' cm'
      >             ,/,15X,'       BO  :',   G12.4,' kG',/)
-           ENDIF
+          ENDIF
  
-         ELSEIF(KUASEX .EQ. 7 )   THEN
+        ELSEIF(KUASEX .EQ. 7 )   THEN
 C---------- Toroidal spectro for LNS
-           EN  =A(NOEL,20)
-           EB1 =A(NOEL,21)
-           EB2 =A(NOEL,22)
-           EG1 =A(NOEL,23)
-           EG2 =A(NOEL,24)
-           IF(NRES.GT.0) THEN
-             WRITE(NRES,173)
- 173         FORMAT(/, 9X,' Champ TOROIDAL DANS UN RECTANGLE ',/)
-             WRITE(NRES,110) XLIM,RO,BO
-             WRITE(NRES,174) KTOR(NINT(EN)),EB1,EB2,EG1,EG2
- 174         FORMAT(/, 15X,' GAP  A  FACES  ',A
-     >             ,/, 15X,' R1-4 = ',4F8.3,' CM',/)
-           ENDIF
+          EN  =A(NOEL,20)
+          EB1 =A(NOEL,21)
+          EB2 =A(NOEL,22)
+          EG1 =A(NOEL,23)
+          EG2 =A(NOEL,24)
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,173)
+ 173        FORMAT(/, 9X,' Champ TOROIDAL DANS UN RECTANGLE ',/)
+            WRITE(NRES,110) XLIM,RO,BO
+            WRITE(NRES,174) KTOR(NINT(EN)),EB1,EB2,EG1,EG2
+ 174        FORMAT(/, 15X,' GAP  A  FACES  ',A
+     >            ,/, 15X,' R1-4 = ',4F8.3,' CM',/)
+          ENDIF
  
-         ELSEIF(KUASEX .EQ. 8 )   THEN
-C--------- BENDING MAGNET
+        ELSEIF(KUASEX .EQ. 8 )   THEN
+C-------- BENDING MAGNET
 
           CALL BENDI(SCAL,
      >                    XL,DEV)
@@ -300,6 +305,25 @@ C             Calculate ALE as half deviation.
             IF(A(NOEL,ND+NND+3).EQ.0.D0) 
      >                      A(NOEL,ND+NND+3)=-DEV/2.D0
 C Modified, FM, Dec 05 :
+C             Calculate XCE, YCE for entrance change of referential    
+             YSHFT = A(NOEL,ND+NND+2)
+             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
+             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+          ENDIF
+          DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
+
+        ELSEIF(KUASEX .EQ. 36 )   THEN
+C--------- DIPOLEC
+
+          CALL DIPCI(SCAL,
+     >                    XL,DEV)
+          KP = NINT(A(NOEL,ND+NND))
+          IF( KP .EQ. 3 ) THEN
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >                  STOP ' KPOS=3 does not support XCE.ne.0'
+C             Calculate ALE as half deviation. 
+            IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+     >                      A(NOEL,ND+NND+3)=-DEV/2.D0
 C             Calculate XCE, YCE for entrance change of referential    
              YSHFT = A(NOEL,ND+NND+2)
              A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
@@ -327,7 +351,7 @@ C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
 C---------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
               NDIM = 3
             ENDIF
-            CALL TOSCAC(SCAL,NDIM, 
+            CALL TOSCAC(SCAL,NDIM,
      >                            BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >                            XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -353,7 +377,6 @@ C   Because it's done down after the endif...
              XBMI = XBMI/XNORM
              BMAX = BMAX/BNORM
              BMIN = BMIN/BNORM
-
 
          ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
 C----------- EMMA 
@@ -510,7 +533,7 @@ C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
                    XBMI = XH(I)
                    YBMI = YH(J)
                  ENDIF
-                 HC(ID,I,J,1) = CBM(J) * BNORM
+                 HC(ID,I,J,1,IMAP) = CBM(J) * BNORM
  212         CONTINUE
  
            ELSEIF(KUASEX .EQ. 3 ) THEN
@@ -569,7 +592,7 @@ C     inversion of x-axis and from G to kG
                  XBMI = XH(281-J)
                  YBMI = YH(I)
                ENDIF
-               HC(ID,J,I,1) = HH
+               HC(ID,J,I,1,IMAP) = HH
 8800         CONTINUE
 C    +++++++++++++++++++++++++++
  
@@ -577,12 +600,12 @@ C     set magnetic field before target position to 0.
  
              do 8820 i = 1,MXY
               do 8820 j = 1,18
-8820            hc(id,j,i,1) = 0D0
+8820            hc(id,j,i,1,IMAP) = 0D0
              IRCHA = 1
  
              DO 232 I=1,IXMA
                DO  232  J = 1,JYMA
-                 HC(ID,I,J,1) = HC(ID,I,J,1) * BNORM
+                 HC(ID,I,J,1,IMAP) = HC(ID,I,J,1,IMAP) * BNORM
  232         CONTINUE
  
            ELSEIF(KUASEX .EQ. 4 ) THEN
@@ -615,7 +638,7 @@ C------------ CARTE CARTESIENNE 2-D DE CHALUT
                    XBMI = XH(I)
                    YBMI = YH(J)
                  ENDIF
-                 HC(ID,I,J,1) = CBM(J) * BNORM
+                 HC(ID,I,J,1,IMAP) = CBM(J) * BNORM
  242          CONTINUE
  
            ELSEIF(KUASEX .EQ. 5 ) THEN
@@ -633,7 +656,7 @@ C------------ CARTE CARTESIENNE 2-D POISSON
                    XBMI = XH(I)
                    YBMI = YH(J)
                  ENDIF
-                 HC(ID,I,J,1) = CBM(I) * BNORM
+                 HC(ID,I,J,1,IMAP) = CBM(I) * BNORM
  252         CONTINUE
   
            ELSEIF(KUASEX .EQ. 6 ) THEN
@@ -665,7 +688,7 @@ C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
                    XBMI = XH(I)
                    YBMI = YH(J)
                  ENDIF
-                 HC(ID,I,J,1) = CBM(J) * BNORM
+                 HC(ID,I,J,1,IMAP) = CBM(J) * BNORM
  625           CONTINUE
  622         CONTINUE
  
@@ -709,9 +732,9 @@ C Rustine pb FIT
 C---------------------- Rustine collecte e+ / Jab
                    fac=1.D0
 CCCCCCCCCCCCCCCCCCCC   if(jfic.eq.2) fac = 3.5d0    ! pour obtenir le meme champ que Jab dans le 2eme soleno
-               HC(ID,I,1,1) = HC(ID,I,1,1) + BMES * BNORM*FAC
+               HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES * BNORM*FAC
 C---------------------------------------------------------
-C               HC(ID,I,1,1) = HC(ID,I,1,1) + BMES * BNORM
+C               HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES * BNORM
                  XH(I) = XH(I) * XNORM
  552         CONTINUE
              CLOSE(LUN)
@@ -755,13 +778,19 @@ C close does not idle lun => makes problem with FIT !!
            WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
      >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
      >      BNORM,XNORM,YNORM,ZNORM,
-     >      BMIN,BMAX,IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
+     >      BMIN,BMAX,
+     >      XL, XI, XF, 
+     >      IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
   203 FORMAT(
      >      //,5X,'Min/max fields in map       : ', 
-     >                               1P,G12.4,T64,'/ ',G12.4
-     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
-     >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4G12.4
+     >                               1P,G12.4,T68,'/ ',G12.4
+     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68
+     >                                      ,'/ ',3(G10.3,1X)
+     >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4(G12.4,1X)
      >     , /,5X,'Min/max normalised fields (kG)  :', 2(G12.4,20X)
+     >     ,//,5X,'Length of element,  XL =',G12.4,' cm '
+     >     , /,5X,'        from  XI = ',G12.4,' cm '
+     >     , /,5X,'        to    XF = ',G12.4,' cm '
      >     ,//,5X,'Nber of steps in X =',I4,';  nber of steps in Y =',I5
      >     , /,5X,'Step in X =',G12.4,' cm ;  step in Y =',G12.4,' cm')
            IF(NDIM .EQ. 3) THEN
@@ -1031,6 +1060,7 @@ C        STP3 = A(NOEL,ND)
      >             KPASO)
       KPASO = KPAS
       RETURN
+
       ENTRY CHXC1W(KPASI,IPRECI)
       KPAS = KPASI
       IPREC = IPRECI
@@ -1056,6 +1086,4 @@ C        STP3 = A(NOEL,ND)
   200 FORMAT(2A)
  400   FORMAT(10E8.1)
  401   FORMAT(10E8.1)
-C 400    FORMAT(10F8.2)
-C 401   FORMAT(10F8.1)
       END
