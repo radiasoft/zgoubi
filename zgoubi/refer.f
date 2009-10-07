@@ -70,8 +70,9 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
      >        ,/,10X,'  XC =',F9.3,' cm , YC =',F9.3,' cm ,   A ='
      >        ,F9.5,' deg  ( =',F9.6,' rad )',/)
       ENDIF
-      IF(NRES .GT. 0)WRITE(NRES,FMT='(/,1P,''Path length of particle '',
-     >       I2,'' :'',G16.8,'' cm'')') IT1, F(6,IT1)
+      IF(NRES .GT. 0)WRITE(NRES,FMT='(/,1P,''Reference particle '',
+     >''(#'',I2,''), path length :'',G16.8,'' cm'', 
+     >''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
  
       RETURN
  

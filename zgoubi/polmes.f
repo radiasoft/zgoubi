@@ -29,7 +29,7 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE "MAXTRA.H"
@@ -54,6 +54,10 @@ C     > ,YCH,ZCH
 
       DATA NOMFIC / IZ*'               '/ 
       DATA NEWFIC / .TRUE. /
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
 
       IF(KUASEX .EQ. 22) NDIM=2
 
@@ -141,7 +145,7 @@ C------ CARTE POLAIRE 2-D
   
           DO 222 J=1,JYMA
             DO  222  I = 1,IXMA
-              BFLD = HC(ID,I,J,1)
+              BFLD = HC(ID,I,J,1,IMAP)
               IF    (BFLD .GT. BMAX) THEN
                 BMAX = BFLD
                 XBMA = XH(I)
@@ -153,7 +157,7 @@ C------ CARTE POLAIRE 2-D
                 YBMI = YH(J)
                 ZBMI = 0D0
               ENDIF
-              HC(ID,I,J,1) = BFLD * BNORM
+              HC(ID,I,J,1,IMAP) = BFLD * BNORM
  222      CONTINUE
         ENDIF
 

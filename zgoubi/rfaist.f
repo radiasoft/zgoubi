@@ -48,7 +48,12 @@ C           right after any occurence of element label[s] TA(noel,2)
      >                  IDUM,STRA) 
       TA(NOEL,1) = STRA(1)
 
-      IF(MLB .NE. 0) THEN
+      IF(MLB .EQ. 0) THEN
+        NLB = 0
+        LBL(1) = ''
+        LBL(2) = ''
+        PRLB = .FALSE.
+      ELSE
         ITXT = finstr(txt)
         TXT = TXT(DEBSTR(TXT):ITXT)
         LENG = 1+FINSTR(STRA(1))-DEBSTR(STRA(1))
@@ -56,7 +61,8 @@ C           right after any occurence of element label[s] TA(noel,2)
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                      NLB,LBL)
-        IF(NLB .GE. 1) PRLB = .TRUE.
+        PRLB = (NLB .GE. 1) 
+     >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
 
         READ(NDAT,*) A(NOEL,1)
 C------- Will print every IA turn

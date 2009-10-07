@@ -173,7 +173,8 @@ C               YP = YP /2.D0
  107      FORMAT(' Min-max - Hor.: ',1P,2G13.5,'; Ver.: ',2G13.5)
           WRITE(*,105) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ)
  105      FORMAT(' Eps/pi, Beta, Alpha, center : ',1P,
-     >                                G12.4,4G11.3,' (MKSA)')
+     >                                5E12.4,' (MKSA)')
+C     >                                G12.4,4G11.3,' (MKSA)')
 
           WRITE(TXT,108) KVAR(KY),KVAR(KX)
           CALL TRTXT(10D0,26.D0,TXT,0)
@@ -241,7 +242,7 @@ C            NPOINT=5000
  6    CONTINUE
         WRITE(*,FMT='(''Give ellipse parameters and center'')')
         WRITE(*,61) EPS,BET,ALP,CLIP,CLIPP
- 61     FORMAT('  (Now  EPS/pi BET ALP x xp = ',1P,5G12.4,')   : ')
+ 61     FORMAT('  (Now  EPS/pi BET ALP x xp = ',1P,5E12.4,')   : ')
 C        READ(*,*,ERR=6) EPS,BET,ALP,CLIP,CLIPP
         READ(*,*,ERR=62) EPS,BET,ALP,CLIP,CLIPP
         AGAIN = .FALSE.

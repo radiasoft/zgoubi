@@ -108,5 +108,8 @@ C     .... OPTION CHAMBRE => LIMIT=1
 C     .... FIELD MAP FILE NAMES
       CALL TOSCA1
 
+C Field map counter reset to 0
+      CALL KSMAP0
+
       RETURN
       END

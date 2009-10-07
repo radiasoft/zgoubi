@@ -781,10 +781,10 @@ C Second type F-type dipole
      >        ROI5*(AF50 +AF52*TTA2 +AF54*TTA4 +AF56*TTA6 +AF58*TTA8)
               IF(IND(KMAG).LT.0)  SF = -SF
 
-           ENDIF
+            ENDIF
 
-           FTAB(ITTA,JRO) = FTAB(ITTA,JRO) + F * SF
-        ENDIF
+            FTAB(ITTA,JRO) = FTAB(ITTA,JRO) + F * SF
+          ENDIF
 
  1    CONTINUE
 C--------- end loop on   NN x tta  &  NN x ro

@@ -60,6 +60,7 @@ OBJ=\
  depla.o\
  desbin.o\
  devtra.o\
+ dipci.o\
  dipi.o\
  dipolm.o\
  dipsi.o\
@@ -150,6 +151,7 @@ OBJ=\
  itsens.o\
  jcentr.o\
  krtax.o\
+ ksmap.o\
  kstop.o\
  lign.o\
  lingua.o\
@@ -217,6 +219,7 @@ OBJ=\
  rcoils.o\
  rcolli.o\
  rcsr.o\
+ rdipc.o\
  rdip.o\
  rdips.o\
  rdpois.o\
@@ -362,6 +365,7 @@ collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dipc.o: $(INC)/MXLD.H
 dipi.o: $(INC)/MXLD.H
 dipolm.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 dipsi.o: $(INC)/MXLD.H
@@ -411,6 +415,7 @@ intpl3.o: $(INC)/MAXTRA.H
 intplf.o: $(INC)/MAXTRA.H
 jcentr.o: PARIZ.H
 krtax.o: PARIZ.H
+ksmap.o: PARIZ.H
 kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -458,6 +463,7 @@ rcavit.o: $(INC)/MXLD.H
 rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H
+rdipc.o: $(INC)/MXLD.H
 rdip.o: $(INC)/MXLD.H
 rdips.o: $(INC)/MXLD.H
 rebel.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H

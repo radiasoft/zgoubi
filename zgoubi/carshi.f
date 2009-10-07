@@ -123,7 +123,7 @@ C           ELSEIF(RANG     .GT. APLAT) THEN
 C              FA=EXP(- ((RANG-APLAT)/LAMBDA) **4)
 C           ENDIF
 C
-            HC(ID,IA,IR,1)=HC(ID,IA,IR,1)*(1.D0+FA*FR*DBSB)
+            HC(ID,IA,IR,1,1)=HC(ID,IA,IR,1,1)*(1.D0+FA*FR*DBSB)
 C
 1        CONTINUE
 2     CONTINUE

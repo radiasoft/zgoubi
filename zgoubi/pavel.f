@@ -29,7 +29,7 @@ C  France
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
 C      COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
 C      COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
  
@@ -38,6 +38,10 @@ C      COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
  
       SAVE INDEX, NT
 C      DATA INDEX/0/
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
 
       IF(IORDE .EQ. 2) GOTO 3001
 
@@ -86,7 +90,7 @@ C        I3=3 introduced to avoid compiler complainig when IZ=1...
       DO 500 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(I3,IX,IY,NT)
+        TEMP = HC(I3,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -148,7 +152,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 501 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(1,IX,IY,NT)
+        TEMP = HC(1,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -207,7 +211,7 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
       DO 502 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(I2,IX,IY,NT)
+        TEMP = HC(I2,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -355,7 +359,7 @@ C        I3=3 introduced to avoid compiler complainig when IZ=1...
       DO 600 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(I3,IX,IY,NT)
+        TEMP = HC(I3,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -379,7 +383,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DO 601 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(1,IX,IY,NT)
+        TEMP = HC(1,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP
@@ -406,7 +410,7 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
       DO 602 M=1,NN
         IX=ICX+JX(M)
         IY=ICY+JY(M)
-        TEMP = HC(I2,IX,IY,NT)
+        TEMP = HC(I2,IX,IY,NT,IMAP)
         A00=A00+EE(1,M)*TEMP
         A10=A10+EE(2,M)*TEMP
         A01=A01+EE(3,M)*TEMP

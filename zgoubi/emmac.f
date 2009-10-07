@@ -33,7 +33,6 @@ C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -78,6 +77,10 @@ C      SAVE HCU
 C          data hcu /  IDMX * 0.d0 /
 
       DATA FMTYP / ' regular' / 
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
@@ -241,7 +244,7 @@ C and used for tracking.
                do jjj=1,JYMA
                  do iii=1,IXMA
                    do iid = 1, id    
-                     HC1(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ)
+                     HC1(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ,IMAP)
                    enddo
                  enddo
                enddo
@@ -273,7 +276,7 @@ C and used for tracking.
                do jjj=1,JYMA
                  do iii=1,IXMA
                    do iid = 1, id    
-                     HC2(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ)
+                     HC2(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ,IMAP)
                    enddo
                  enddo
                enddo
@@ -282,7 +285,7 @@ C and used for tracking.
           do jjj=1,JYMA
             do iii=1,IXMA
               do iid = 1, id    
-                HC(iid,iii,jjj,KZ) = AF * HC1(iid,iii,jjj,KZ) 
+                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ) 
      >                         + AD * HC2(iid,iii,jjj,KZ)
               enddo
             enddo
@@ -330,7 +333,7 @@ C and used for tracking.
              DO JJJ=1,JYMA
                DO III=1,IXMA
                  DO IID = 1, ID    
-                   HCA(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ)
+                   HCA(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
@@ -370,7 +373,7 @@ C and used for tracking.
              DO JJJ=1,JYMA
                DO III=1,IXMA
                  DO IID = 1, ID    
-                   HCB(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ)
+                   HCB(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
@@ -390,7 +393,7 @@ C          zer1 = 0.d0
           do jjj=1,JYMA
             do iii=1,IXMA
               do iid = 1, id    
-                HC(iid,iii,jjj,KZ) = AF * HC1(iid,iii,jjj,KZ) 
+                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ) 
      >                         + AD * HC2(iid,iii,jjj,KZ)
 c                zerA = HCA(iid,iii,jjj,KZ) - HC1(iid,iii,jjj,KZ)
 c                zerB = HCB(iid,iii,jjj,KZ) - HC2(iid,iii,jjj,KZ)

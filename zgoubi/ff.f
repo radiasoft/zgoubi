@@ -280,7 +280,10 @@ C    constraint rms  emittance
          ELSE IF(ICONT .EQ. 10) THEN
 C-----------Contraints on spin
 
-           IF(ICONT2.EQ.1) THEN
+           IF    (ICONT2.EQ.0) THEN
+             VAL=SF(4,K)
+
+           ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on closed orbit : 
 C             e.g., equal spin values  (L=2,4 or other)
 C                 at ends of cell 

@@ -44,7 +44,7 @@ C      P = P - Z*1.D-2 * TAN(WEDG) * (B(1,3) / UNIT(1))
 C      write(*,*) P, Z*1.D-2*( -TAN(WEDG))/rho, 
 C     >          (FFXT/(6.D0*RHO*COS(WEDG)))/RHO
       P = P + Z*1.D-2*( -TAN(WEDG) + FFXT / (6.D0*RHO*COS(WEDG)) ) / RHO
-C It would be better to correct wedg rather than tan(wedg), it would work better 
-C for small rho. 
+C It would be better to correct wedg rather than tan(wedg), following Endge/Septier, 
+C it would be better approximation (and so work for small rho). 
       RETURN
       END

@@ -244,7 +244,7 @@ C---------- Emittance/4
               BETA(JJ,IEL) =2.D0* SC2(JC,IEL)  /SQ
               GAMMA(JJ,IEL)=2.D0* SC2(JC+1,IEL)/SQ
               ALPHA(JJ,IEL)=2.D0* SC2(JJ+6,IEL)/SQ
-              WRITE(6,FMT='(A,I4,A,I3,A,1P,2G11.3,2G12.4)') ' Lmnt # ',
+              WRITE(6,FMT='(A,I4,A,I3,A,1P,4E12.4)') ' Lmnt # ',
      >         JEL(IEL),'  ',JJ,'  Beta, Alpha, Eps/pi = ',BETA(JJ,IEL),
      >              ALPHA(JJ,IEL),EsPi(JJ,IEL),EsPi(JJ,IEL)-EsPi(JJ,1)
 C     >                ALPHA(JJ,IEL),EsPi(JJ,IEL),EsPi(JJ,IEL)-EsPi0(JJ)

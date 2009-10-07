@@ -34,7 +34,6 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION LAMBDS,LAMBDE,LAMBD3
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CARSH/ ATS,RMS
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -50,7 +49,10 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION CI(6),CS(6),C3(6)
- 
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
 C----- NBFACE=2(3) :DIPOLE LIMITE PAR (2)3 FACES.
       NBFACE = A(NOEL,1)
  
@@ -473,7 +475,7 @@ C
             XBMI = XH(NN)
             YBMI = YH(I)
           ENDIF
-          HC(ID,NN,I,1) = BFLD
+          HC(ID,NN,I,1,IMAP) = BFLD
 C
 C       ... FIN DE BOUCLES SUR ANGLES ET RAYONS
     2   CONTINUE
@@ -507,8 +509,8 @@ C           ****PERTURBATION LINEAIRE EN ANGLE
             DBSB=DBSB /IXMA
             P=1.D0-DBSB*DZETA/ATS
             DO 3 J=1,IXMA
-               DO 3 I=1,JYMA
-                  HC(ID,J ,I,1 )=HC(ID,J ,I,1 )*(P+DBSB*(J-J0))
+              DO 3 I=1,JYMA
+                HC(ID,J ,I,1 ,IMAP)=HC(ID,J ,I,1 ,IMAP)*(P+DBSB*(J-J0))
 3           CONTINUE
          ELSEIF(NBSHIM .EQ. -2) THEN
 C           ****PERTURBATION LINEAIRE EN RAYON
@@ -523,8 +525,8 @@ C           ****PERTURBATION LINEAIRE EN RAYON
             DBSB=DBSB /JYMA
             P=1.D0-DBSB*DRR  /RMS
             DO 4 J=1,IXMA
-               DO 4 I=1,JYMA
-                  HC(ID,J ,I,1 )=HC(ID,J ,I,1 )*(P+DBSB*(I-J0))
+              DO 4 I=1,JYMA
+                HC(ID,J ,I,1 ,IMAP)=HC(ID,J ,I,1 ,IMAP)*(P+DBSB*(I-J0))
 4           CONTINUE
          ENDIF
       ENDIF

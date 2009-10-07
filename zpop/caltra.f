@@ -1162,10 +1162,8 @@ C----- EMMA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code),
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  103  CONTINUE
       GOTO 998
-
-c      MOD = 33
-c      CALL READCC(MOD,RM*CM2M,RM*CM2M)
-c      CALL PRFFAG(NOEL,NMAG,AT,RM,ACN,OP,QSIE,OM,QSIS,RE,TE,RS,TS)
-
+C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
+ 104  CONTINUE
       GOTO 998
+
       END

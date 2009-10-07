@@ -28,15 +28,19 @@ C  France
       DIMENSION BX(*)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
 C      REAL*8 C(6),F(5)
       DIMENSION C(6),F(5)
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
  
-C... B(X) ==  HC(ID,IX,1,1),  X(IX) == XH(IX)
+C... B(X) ==  HC(ID,IX,1,1,IMAP),  X(IX) == XH(IX)
 C... X(2)- X(1) == LONG. D'UNE MAILLE
       DX=XH(2)-XH(1)
       DX2=DX*DX
@@ -51,11 +55,11 @@ C... GRILLE 1-D A 5 POINTS OU 2-D A 5*5 POINTS
 C.... DX == X/COURANT - X/CENTREGRILLE  LE TOUT /DX
       A=(X1-XH(IAC))/DX
  
-      F(1)=HC(ID,IAC-2,1,1)*BRI
-      F(2)=HC(ID,IAC-1,1,1)*BRI
-      F(3)=HC(ID,IAC  ,1,1)*BRI
-      F(4)=HC(ID,IAC+1,1,1)*BRI
-      F(5)=HC(ID,IAC+2,1,1)*BRI
+      F(1)=HC(ID,IAC-2,1,1,IMAP)*BRI
+      F(2)=HC(ID,IAC-1,1,1,IMAP)*BRI
+      F(3)=HC(ID,IAC  ,1,1,IMAP)*BRI
+      F(4)=HC(ID,IAC+1,1,1,IMAP)*BRI
+      F(5)=HC(ID,IAC+2,1,1,IMAP)*BRI
  
       E1 =     F(1)+F(2)+F(3)+F(4)+    F(5)
       E2 = -2.D0*F(1)-F(2)     +F(4)+ 2.D0*F(5)

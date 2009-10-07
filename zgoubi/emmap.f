@@ -77,6 +77,10 @@ C      LOGICAL FITING
       DATA KFIC0 / -99 /
 
       DATA FMTYP / ' regular' / 
+      DATA IMAP / 1 /
+
+      CALL KSMAP(
+     >           IMAP) 
 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
@@ -225,7 +229,7 @@ C such that total B is a linear superimposition of both
              DO JJJ=1,JYMA
                DO III=1,IXMA
                  DO IID = 1, ID    
-                   HCA(IID,III,JJJ,KZ,1) = HC(IID,III,JJJ,KZ)
+                   HCA(IID,III,JJJ,KZ,1) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
@@ -256,7 +260,7 @@ C such that total B is a linear superimposition of both
              DO JJJ=1,JYMA
                DO III=1,IXMA
                  DO IID = 1, ID    
-                   HCB(IID,III,JJJ,KZ,1) = HC(IID,III,JJJ,KZ)
+                   HCB(IID,III,JJJ,KZ,1) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
@@ -266,7 +270,7 @@ C--------- Sum both !
              DO JJJ=1,JYMA
                DO III=1,IXMA
                  DO IID = 1, ID    
-                   HC(IID,III,JJJ,KZ) = AF * HCA(IID,III,JJJ,KZ,1) 
+                   HC(IID,III,JJJ,KZ,IMAP) = AF * HCA(IID,III,JJJ,KZ,1) 
      >                                + AD * HCB(IID,III,JJJ,KZ,1)
                  ENDDO
                ENDDO
@@ -367,7 +371,7 @@ C Open field map files one after the other and store field in HCA-B  tables
                DO JJJ=1,JYMA
                  DO III=1,IXMA
                    DO IID = 1, ID    
-                     HCA(IID,III,JJJ,KZ,KDST) = HC(IID,III,JJJ,KZ)
+                     HCA(IID,III,JJJ,KZ,KDST) = HC(IID,III,JJJ,KZ,IMAP)
                    ENDDO
                  ENDDO
                ENDDO
@@ -399,7 +403,7 @@ C Open field map files one after the other and store field in HCA-B  tables
                DO JJJ=1,JYMA
                  DO III=1,IXMA
                    DO IID = 1, ID    
-                     HCB(IID,III,JJJ,KZ,KDST) = HC(IID,III,JJJ,KZ)
+                     HCB(IID,III,JJJ,KZ,KDST) = HC(IID,III,JJJ,KZ,IMAP)
                    ENDDO
                  ENDDO
                ENDDO
@@ -440,7 +444,7 @@ C--------- Interpolate the new field map that corresponds to actual DIST
              DO JJJ=1,JYMA
               DO III=1,IXMA
                DO IID = 1, ID    
-                HC(IID,III,JJJ,KZ) = HCC(IID,III,JJJ,KZ,KDST1) + 
+                HC(IID,III,JJJ,KZ,IMAP) = HCC(IID,III,JJJ,KZ,KDST1) + 
      >          (HCC(IID,III,JJJ,KZ,KDST)-HCC(IID,III,JJJ,KZ,KDST1)) / 
      >          (DISTL(KDST) - DISTL(KDST1)) * (DIST - DISTL(KDST1))
                ENDDO

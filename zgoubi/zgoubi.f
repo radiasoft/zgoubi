@@ -292,6 +292,7 @@ C----- REBELOTE. Passe NRBLT+1 fois dans la structure
       IF(READAT) READ(NDAT,*) (A(NOEL,I),I=1,3)
       IF(FITGET) CALL FITGT1
       CALL REBEL(READAT)
+      CALL KSMAP0
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
@@ -1027,6 +1028,14 @@ C------- 3-D map, KZMA > 1
       ELSEIF(KART.EQ.2) THEN 
         CALL AIMANT(ND(NOEL))
       ENDIF
+      GOTO 998
+C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
+ 104  CONTINUE
+      KALC =1
+      KUASEX = 36
+      IF(READAT) CALL RDIPC(ND(NOEL))
+      IF(FITGET) CALL FITGT1
+      CALL QUASEX(ND(NOEL))
       GOTO 998
 
 C------------------------------------------------------------------------

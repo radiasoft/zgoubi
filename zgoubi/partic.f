@@ -130,6 +130,8 @@ C          P = BORO*CL9*AMQ(2,I)
      >    /,T15,''      gamma                 :'',G18.10,
      >    /,T15,''      beta*gamma            :'',G18.10
      >       )') BORO,AM,PREF, ENRG, ENRG-AM, BTA, GAM, BTA*GAM
+          IF(G.NE.0.D0) WRITE(NRES,FMT='(1P,
+     >      T15,''      gamma*G               :'',G18.10)') GAM*G
         ENDIF
       ENDIF
 

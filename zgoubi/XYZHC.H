@@ -24,5 +24,6 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 
-      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
+      COMMON//
+     >XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,MMAP),IXMA,JYMA,KZMA
              

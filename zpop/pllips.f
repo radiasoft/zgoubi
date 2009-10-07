@@ -81,7 +81,7 @@ C  France
           WRITE(*,106) YM(J),YPM(J)
  106      FORMAT(' Centering,  H/V : ',1P,G11.3,' / ',G11.3)
           WRITE(*,105) U(JJ),B(JJ),A(JJ)
- 105      FORMAT(' Eps/pi, Beta, Alpha: ',1P,G12.4,2G11.3)
+ 105      FORMAT(' Eps/pi, Beta, Alpha: ',1P,3E12.4)
 
           WRITE(TXT,105) U(JJ),B(JJ),A(JJ)
           CALL TRTXT(10.D0,18.D0,TXT,0)

@@ -757,7 +757,7 @@ C     X WRITE(NRES,8001) FHE,FHS,FH3,FH,X,Y,J,I
 C 8001 FORMAT(' .....FHE,FHS,FH3,FH  ,X,Y, ANG,RAY :',6G12.4,2I5)
 C
       YHI= (YH(I)-RM)/RM
-      HC(ID,NN,I,1)=FH*HNORM*(1.D0+(COEFN+(COEFB+COEFG*YHI)*YHI)*YHI)
+      HC(ID,NN,I,1,1)=FH*HNORM*(1.D0+(COEFN+(COEFB+COEFG*YHI)*YHI)*YHI)
 C
 C     ****FIN DE BOUCLES SUR ANGLES ET RAYONS
     2 CONTINUE
@@ -790,7 +790,7 @@ C           ****PERTURBATION LINEAIRE EN ANGLE
             PH=1.D0-DBSB*DZETA/ATS
             DO 3 J=1,IXMA
                DO 3 I=1,JYMA
-                  HC(ID,J ,I ,1)=HC(ID,J ,I, 1)*(PH+DBSB*(J-J0))
+                  HC(ID,J ,I ,1, 1)=HC(ID,J ,I, 1, 1)*(PH+DBSB*(J-J0))
 3           CONTINUE
          ELSEIF(NBSHIM .EQ. -2) THEN
 C           ****PERTURBATION LINEAIRE EN RAYON
@@ -806,7 +806,7 @@ C           ****PERTURBATION LINEAIRE EN RAYON
             PH=1.D0-DBSB*DRR  /RMS
             DO 4 J=1,IXMA
                DO 4 I=1,JYMA
-                  HC(ID,J ,I,1 )=HC(ID,J ,I,1 )*(PH+DBSB*(I-J0))
+                  HC(ID,J ,I, 1, 1)=HC(ID,J ,I, 1, 1)*(PH+DBSB*(I-J0))
 4           CONTINUE
          ENDIF
       ENDIF

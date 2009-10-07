@@ -120,9 +120,9 @@ C-------- COMPTAGE / LIMITES CHAMBRE
       ENDIF
  
       IF(IOPT .EQ. 1)THEN
-        IF(NRES.GT.0) 
-     >    WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
-  101     FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+       IF(NRES.GT.0) 
+     > WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+  101  FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,G19.7,G17.5)
       ENDIF
 
       IF(NRES .GT. 0)

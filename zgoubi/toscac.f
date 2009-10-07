@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE TOSCAC(SCAL,NDIM, 
+      SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -48,7 +48,7 @@ C-------------------------------------------------
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       LOGICAL BINARI,IDLUNI
-      LOGICAL BINAR, NEWFIC
+      LOGICAL BINAR, NEWFIC, NEWF
       LOGICAL FLIP
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       SAVE NOMFIC, NAMFIC
@@ -58,11 +58,14 @@ C-------------------------------------------------
       LOGICAL STRCON 
 
       CHARACTER*20 FMTYP
+      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
+      SAVE XXH, YYH, ZZH
+      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
+      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
+      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 
       DATA NOMFIC / IZ*'               '/ 
-
       DATA NHDF / 8 /
-
       DATA FMTYP / ' regular' / 
 
       BNORM = A(NOEL,10)*SCAL
@@ -103,8 +106,11 @@ C-------------------------------------------------
         NFIC=1
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+        CALL KSMAP4(NAMFIC,NFIC,
+     >                          NEWFIC,IMAP)
+C        NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
+C        NEWFIC = NEWFIC .AND. IPASS.EQ.1   
+        NOMFIC(NFIC) = NAMFIC
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
@@ -129,20 +135,26 @@ C--------- A single data file contains the all 3D volume
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
           NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-          NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
-          NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+          CALL KSMAP4(NAMFIC,NFIC,
+     >                            NEWF,IMAP)
+          NEWFIC = NEWFIC .AND. NEWF
+C          NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
+          NOMFIC(NFIC) = NAMFIC
  129    CONTINUE
+C        NEWFIC = NEWFIC .AND. IPASS.EQ.1 
       ENDIF
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 
-     >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
-     >'Number of field data files used is ',NFIC
 
       IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(/,5X,A,I1,A,I3,A1,I1,2(2A,I3),/)') 
+     >  'NDIM = ',NDIM,' ;   Value of MOD.I is ', MOD,'.',MOD2,' ;  ' 
+     >  ,'Number of field data files used is ',NFIC,' ;  ' 
+     >  ,'Stored in field array # IMAP =  ',IMAP
+    
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
  209       FORMAT(/,10X  
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
-     >     ,/,10X,' name(s) of map data file(s) : ')
+     >     ,/,10X,' name(s) of map data file(s) : ',/)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -151,6 +163,7 @@ C--------- A single data file contains the all 3D volume
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
         ENDIF
+        CALL FLUSH2(NRES,.FALSE.)
       ENDIF 
 
       IF(NEWFIC) THEN
@@ -186,9 +199,14 @@ C--------- A single data file contains the all 3D volume
              ENDIF
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A,/)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+
+             IF(NRES.GT.0) THEN
+               WRITE(NRES,FMT='(/,3A,/)') 
+     >           NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >           ' map,  FORMAT type : ', FMTYP             
+                CALL FLUSH2(NRES,.FALSE.)
+             ENDIF
+
              IRD = NINT(A(NOEL,40))
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
@@ -197,7 +215,50 @@ C--------- A single data file contains the all 3D volume
 
  12        CONTINUE
 
-      ENDIF
+C------- Store mesh coordinates
+           DO I=1,IXMA
+             XXH(I,imap) =  XH(I)
+           ENDDO
+           DO J=1,JYMA
+             YYH(J,imap) =  YH(J)
+           ENDDO
+           DO K= 2, KZMA
+             ZZH(K,imap) = ZH(K)
+           ENDDO
+           bBMI(imap) = BMIN
+           bBMA(imap) = BMAX
+           XBbMI(imap) = XBMI
+           YbBMI(imap) = YBMI
+           ZbBMI(imap) = ZBMI
+           XbBMA(imap) = XBMA
+           YBBMA(imap) = YBMA
+           ZBBMA(imap) = ZBMA
+
+      ELSE
+
+C------- Restore mesh coordinates
+           DO I=1,IXMA
+             XH(I) = XXH(I,imap)
+           ENDDO
+           DO J=1,JYMA
+             YH(J) = YYH(J,imap) 
+           ENDDO
+           DO K= 1, KZMA
+             ZH(K) = ZZH(K,imap)
+           ENDDO
+           BMIN = bBMI(imap) 
+           BMAX = bBMA(imap)  
+           XBMI = XBbMI(imap)  
+           YBMI = YbBMI(imap)  
+           ZBMI = ZbBMI(imap)  
+           XBMA = XbBMA(imap)  
+           YBMA = YBBMA(imap) 
+           ZBMA = ZBBMA(imap)  
+
+           IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
+     >     ' restored mesh coordinates for field map # ',imap
+
+      ENDIF ! NEWFIC
 
 c voir si ok avec cartésien
         CALL MAPLI1(BMAX-BMIN)

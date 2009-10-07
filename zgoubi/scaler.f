@@ -56,7 +56,7 @@ C  France
 
       SCALER = 1.D0
 
-C----- Looks wether current kley is registered for scaling (in FAM(KF)). 
+C----- Looks whether current kley is registered for scaling (in FAM(KF)). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
       DO 10 KF = 1, MXF
 
@@ -146,7 +146,10 @@ C------------ PSYN(MeV/c) = mom. of synchronous particle
 C            WRITE(NLOG,*) TIME, SCALER, p/p0, IPASS, NOEL,
 C     >            ' SBR SCALER :   TIME, SCALER, p/p0, IPASS, NOEL'
           ENDIF
-
+        ELSEIF(KTI .EQ. -88) THEN
+C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
+          IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN
+          ENDIF
         ELSE
           STOP 'FCTN SCALER :  invalid input data NTIM(1)'
         ENDIF

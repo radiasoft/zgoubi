@@ -412,7 +412,7 @@ C---------- Multipole and non-zero dipole component
             IF(NRES.GT.0) 
      >        WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
      >      ''model entails vertical wedge focusing approximated with'',
-     >        '' first order kick  ***'',1P,2G12.4)') 
+     >        '' first order kick, field lengths : '',1P,2G12.4)') 
      >         FFXTE/CM2M, FFXTS/CM2M
           ENDIF
         ENDIF

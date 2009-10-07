@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE MAP2D(SCAL, 
+      SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -58,11 +58,14 @@ C-------------------------------------------------
       LOGICAL STRCON 
 
       CHARACTER*20 FMTYP
+      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
+      SAVE XXH, YYH, ZZH
+      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
+      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
+      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 
-      DATA NOMFIC / IZ*'               '/ 
-
+      DATA NOMFIC / IZ*' '/ 
       DATA NHDF / 8 /
-
       DATA FMTYP / ' regular' / 
 
       BNORM = A(NOEL,10)*SCAL
@@ -85,11 +88,17 @@ C-------------------------------------------------
       IF(JYMA.GT.MXY ) 
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
 
-        NFIC = 1
-        NAMFIC = TA(NOEL,2)
-        NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-        NOMFIC(NFIC) = NAMFIC
+      NFIC = 1
+      NAMFIC = TA(NOEL,2)
+      NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+      CALL KSMAP4(NAMFIC,
+     >                   NEWFIC,IMAP)
+      NOMFIC(NFIC) = NAMFIC
+
+c              write(*,*) ' '
+c              write(*,*) ' map2d ', newfic,ipass, imap, noel
+c              write(*,*) ' ',NOMFIC(NFIC),namfic
+c              write(*,*) ' '
 
        IF(NRES.GT.0) THEN
         IF(NEWFIC) THEN
@@ -107,11 +116,11 @@ C-------------------------------------------------
         ENDIF
       ENDIF 
 
-      IF(NEWFIC) THEN
-            INDEX=0
-             NT = 1
-             CALL PAVELW(INDEX,NT)
+      INDEX=0
+      NT = 1
+      CALL PAVELW(INDEX,NT)
 
+      IF(NEWFIC) THEN
                NFIC = 1
                IF(IDLUNI(
      >                   LUN)) THEN
@@ -134,6 +143,59 @@ C-------------------------------------------------
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
+c     >         ,HC(3,1,1,1,iMAP)
+c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
+c     >         ,HC(3,1,1,1,iMAP)
+c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
+c     >         ,HC(3,1,1,1,iMAP)
+
+C------- Store mesh coordinates
+           DO I=1,IXMA
+             XXH(I,imap) =  XH(I)
+           ENDDO
+           DO J=1,JYMA
+             YYH(J,imap) =  YH(J)
+           ENDDO
+           DO K= 2, KZMA
+             ZZH(K,imap) = ZH(K)
+           ENDDO
+           bBMI(imap) = BMIN
+           bBMA(imap) = BMAX
+           XBbMI(imap) = XBMI
+           YbBMI(imap) = YBMI
+           ZbBMI(imap) = ZBMI
+           XbBMA(imap) = XBMA
+           YBBMA(imap) = YBMA
+           ZBBMA(imap) = ZBMA
+
+      ELSE
+
+c           write(*,*) ' oldfic imap ', xxh(1,imap),xxh(ixma,imap),imap
+c     >         ,HC(3,1,1,1,iMAP)
+
+C------- Restore mesh coordinates
+           DO I=1,IXMA
+             XH(I) = XXH(I,imap)
+           ENDDO
+           DO J=1,JYMA
+             YH(J) = YYH(J,imap) 
+           ENDDO
+           DO K= 1, KZMA
+             ZH(K) = ZZH(K,imap)
+           ENDDO
+           BMIN = bBMI(imap) 
+           BMAX = bBMA(imap)  
+           XBMI = XBbMI(imap)  
+           YBMI = YbBMI(imap)  
+           ZBMI = ZbBMI(imap)  
+           XBMA = XbBMA(imap)  
+           YBMA = YBBMA(imap) 
+           ZBMA = ZBBMA(imap)  
+
+           IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
+     >     ' restored mesh coordinates for field map # ',imap
 
       ENDIF
 

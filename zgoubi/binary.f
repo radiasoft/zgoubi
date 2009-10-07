@@ -32,29 +32,38 @@ C  France
       COMMON/DONT/ TA(MXL,20)
  
       CHARACTER*80 OLDFIL, NEWFIL
+      CHARACTER*132 HEADER
       LOGICAL BINARI, IDLUNI
       INTEGER DEBSTR,FINSTR
       DIMENSION X7(7)
       PARAMETER (I20=20)
 
       NFIC = INT(A(NOEL,1))
-      NCOL = NINT(10.D0*A(NOEL,1)) - 10*NFIC
-
-      IF(NCOL.LE.0) NCOL = 6
-
       IF(NFIC.GT.I20) 
      >   CALL ENDJOB('SBR  BINARY:  too  many  files,  max  is',I20)
+      NCOL = NINT(10.D0*A(NOEL,1)) - 10*NFIC
+      IF(NCOL.LE.0) NCOL = 6
+C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
+      NHEAD = NINT(A(NOEL,2))
  
       DO 1 IFIC=1,NFIC
         OLDFIL=TA(NOEL,IFIC)
+        OLDFIL=OLDFIL(DEBSTR(OLDFIL):FINSTR(OLDFIL))
 C 200    FORMAT(A)
-        IDEB = DEBSTR(OLDFIL)
+        IDEB = 1
         IFIN = FINSTR(OLDFIL)
  
         IF( BINARI(OLDFIL,IB) ) THEN
  
-C          NEWFIL=OLDFIL(IDEB:IB-1)//OLDFIL(IB+2:IFIN)
           NEWFIL=OLDFIL(IB+2:IFIN)
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL, NHEAD
+ 100        FORMAT(10X,' Translate  from  binary  file  : ',A
+     >          ,/,10X,' to  formatted  file            : ',A,/
+     >          ,/,10X,' Number of data columns  : ',I4
+     >          ,/,10X,' Number of header lines  : ',I4)
+          ENDIF
+ 
           IF(IDLUNI(
      >              LNR)) THEN
             OPEN( UNIT=LNR, FILE=OLDFIL, FORM='UNFORMATTED'
@@ -65,63 +74,64 @@ C          NEWFIL=OLDFIL(IDEB:IB-1)//OLDFIL(IB+2:IFIN)
 
           IF(IDLUNI(
      >              LNW)) THEN
-C            OPEN( UNIT=LNW, FILE=NEWFIL, STATUS='NEW', ERR=97)
             OPEN( UNIT=LNW, FILE=NEWFIL, ERR=97)
           ELSE
             GOTO 97
           ENDIF
 
-          IF(NRES.GT.0) THEN
-            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL
- 100        FORMAT(10X,' Translate  from  binary  file  : ',A
-     >          ,/,10X,' to  formatted  file            : ',A,/
-     >          ,/,10X,' Number of data columns  : ',I4)
-C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
-          ENDIF
- 
           line = 0
+          do nh = 1, nhead
+            READ (LNR, ERR=90, END= 1 ) header
+            line = line + 1
+            WRITE(LNW,fmt='(a132)') header
+          enddo
  10       CONTINUE
             READ (LNR, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             line = line + 1
-            WRITE(LNW,405) (X7(I),I=1,7)
+            WRITE(LNW,405) (X7(I),I=1,ncol)
  405        FORMAT(1X,1P,7E11.4)
           GOTO 10
  
         ELSE
  
-C          NEWFIL=OLDFIL(IDEB:IB-1)//'B_'//OLDFIL(IB+2:IFIN)
-          NEWFIL='B_'//OLDFIL(IB:IFIN)
+          NEWFIL='b_'//OLDFIL(IB:IFIN)
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL, NHEAD
+ 101        FORMAT(10X,' TRANSLATE  FROM  FORMATTED  FILE  : ',A
+     >          ,/,10X,' TO  BINARY  FILE                  : ',A,/
+     >          ,/,10X,' Number of data columns  : ',I4
+     >          ,/,10X,' Number of header lines  : ',I4)
+C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
+          ENDIF
+ 
           IF(IDLUNI(
      >              LNR)) THEN
-            OPEN( UNIT=LNR, FILE=OLDFIL, STATUS='OLD', ERR=96)
+c               write(*,*) ' sbr binary, try open ',oldfil,lnr
+            OPEN( UNIT=LNR, FILE=OLDFIL, ERR=96)
           ELSE
+            WRITE(ABS(NRES),*) ' SBR BINARY, no idle unit for'
+     >            ,' opening file ',oldfil
             GOTO 96
           ENDIF
           IF(IDLUNI(
      >              LNW)) THEN
-C            OPEN( UNIT=LNW, FILE=NEWFIL, FORM='UNFORMATTED'
-C     >      , STATUS='NEW', ERR=97)
             OPEN( UNIT=LNW, FILE=NEWFIL, FORM='UNFORMATTED', ERR=97)
           ELSE
             GOTO 97
           ENDIF
-
- 
-          IF(NRES.GT.0) THEN
-            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL
- 101        FORMAT(10X,' TRANSLATE  FROM  FORMATTED  FILE  : ',A
-     >          ,/,10X,' TO  BINARY  FILE                  : ',A,/
-     >          ,/,10X,' Number of data columns  : ',I4)
-C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
-          ENDIF
  
           line = 0
+          do nh = 1, nhead
+            READ (LNR,fmt='(a132)', ERR=90, END= 1 ) header
+            line = line + 1
+            WRITE(LNW) header
+          enddo
  11       CONTINUE
 C            READ (LNR,404, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             line = line + 1
 C 404        FORMAT(1X,7E11.2)
-            WRITE(LNW) (X7(I),I=1,7)
+            WRITE(LNW) (X7(I),I=1,ncol)
           GOTO 11
         ENDIF
  

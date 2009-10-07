@@ -192,9 +192,10 @@ C        WRITE(NRES,104) 'DE  SORTIE'
         IF( .NOT. SHARPS ) WRITE(NRES,132) (CS(I),I=1,6)
 
         IF( SHARPE .OR. SHARPS ) 
-     >     WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
-     >     ''model entails simulation of vertical wedge focusing by'',
-     >     /,17X,'' first order individual kicks on particles  ***'')')
+     >        WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
+     >      ''model entails vertical wedge focusing approximated with'',
+     >        '' first order kick, field lengths : '',1P,2G12.4)') 
+     >         FFXTE/CM2M, FFXTS/CM2M
 
       ENDIF
       RETURN

@@ -34,7 +34,6 @@ C      SI ID=3 ALORS IZ >= NOMBRE DE CARTES EN Z= IMPAIR > 2
 C     --------------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
@@ -69,6 +68,11 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       EQUIVALENCE (BMESH1(1),F1),(BMESH1(2),F2),(BMESH1(3),F3),
      > (BMESH1(4),F4),(BMESH1(5),F5),(BMESH1(6),F6),(BMESH1(7),F7),
      >(BMESH1(8),F8),(BMESH1(9),F9)
+
+      DATA IMAP / 1 / 
+      
+      CALL KSMAP(
+     >           IMAP)
 
       IF(KUASEX .EQ. 9) THEN
 C------- MAP2D, MAP2D_E.  Tracking in symmetryless 2D map
@@ -154,15 +158,15 @@ C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
       CONTINUE
 C       .... ORDRE 2 ,  3*3 points grid
  
-      F1= HC(ID,IAC-1,IRC-1,1)
-      F2= HC(ID,IAC  ,IRC-1,1)
-      F3= HC(ID,IAC+1,IRC-1,1)
-      F4= HC(ID,IAC-1,IRC  ,1)
-      F5= HC(ID,IAC  ,IRC  ,1)
-      F6= HC(ID,IAC+1,IRC  ,1)
-      F7= HC(ID,IAC-1,IRC+1,1)
-      F8= HC(ID,IAC  ,IRC+1,1)
-      F9= HC(ID,IAC+1,IRC+1,1)
+      F1= HC(ID,IAC-1,IRC-1,1,IMAP)
+      F2= HC(ID,IAC  ,IRC-1,1,IMAP)
+      F3= HC(ID,IAC+1,IRC-1,1,IMAP)
+      F4= HC(ID,IAC-1,IRC  ,1,IMAP)
+      F5= HC(ID,IAC  ,IRC  ,1,IMAP)
+      F6= HC(ID,IAC+1,IRC  ,1,IMAP)
+      F7= HC(ID,IAC-1,IRC+1,1,IMAP)
+      F8= HC(ID,IAC  ,IRC+1,1,IMAP)
+      F9= HC(ID,IAC+1,IRC+1,1,IMAP)
 
 C BB/FM/ 18/08 to be thought of......
       CALL MAPLIM(*999, 9, BMESH1)
@@ -230,7 +234,7 @@ C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
          IRCJR=IRC+JR
          DO 2 I=1,5
             IA=I-3
-            BIAJR= HC(ID,IAC+IA,IRCJR,1)
+            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP)
             BMESH(I,J) = BIAJR
             AI=DBLE(IA)
             AI2=AI*AI*BIAJR
@@ -360,7 +364,7 @@ C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
             IA=I-3
             AI=DBLE(IA)
             AI2=AI*AI
-            BIAJR= HC(ID,IAC+IA,IRCJR,1)
+            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP)
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
             A11=A11+             RJ   *BIAJR
@@ -416,9 +420,9 @@ C       dum = BZ
 
 C         aamm = XH(iac)*180.d0/(4.d0*atan(1.d0))
 C        write(88,*) bz*br,dum*br,a,r,iac,aamm,
-C     >              HC(ID,IAC  ,IRC  ,1),' chamk'
+C     >              HC(ID,IAC  ,IRC  ,1),' chamk,IMAP'
 C        write( *,*) bz*br,dum*br,a1,a,r,iac,aamm,
-C     >              HC(ID,IAC  ,IRC  ,1),' chamk'
+C     >              HC(ID,IAC  ,IRC  ,1),' chamk,IMAP'
 
 
 CC     ** PASSAGE DE LA FACE MAGNETIQUE (FMAG>.45) ,
@@ -465,7 +469,7 @@ C                        isum =0
             IA=I-2
             DO 416 K=1,3
               KZ=K-2
-              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ)
+              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP)
               BMESH3(K,I,J) = BIJK
               A000(L)=A000(L) + 
      >             DBLE(7-3*(IA*IA+JR*JR+KZ*KZ))/3.D0 *BIJK
