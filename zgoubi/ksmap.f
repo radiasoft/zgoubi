@@ -30,11 +30,12 @@ C------------------------------
 C     Monitors field map number
 C------------------------------
       INCLUDE 'PARIZ.H'
-      SAVE IMAP
-      CHARACTER*(*) NAMFIC
       CHARACTER*(80) NAMSAV(MMAP,IZ)
-      LOGICAL NEWFIC
+      CHARACTER*(*) NOMFIC(*)
+      LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
+
+      SAVE IMAP
 
       DATA IMAP / 0 /
       DATA NAMSAV / MIZ*' ' /
@@ -43,35 +44,41 @@ C Read
       IMAPO = IMAP
       RETURN
 
-      ENTRY KSMAP0
 C Reset
+      ENTRY KSMAP0
       IMAP = 0
       RETURN
 
+C Increment
       ENTRY KSMAP2(
      >             IMAPO)
       IF(IMAP.EQ.MMAP) THEN 
         WRITE(NRES,*) ' SBR ksmap : too many different field maps'
-        CALL ENDJOB(' Increase MMAP in PARIZ.H',-99)
+        CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
       ENDIF
-C Increment
       IMAP = IMAP + 1
       IMAPO = IMAP
       RETURN
 
-      ENTRY KSMAP4(NAMFIC,NFIC,
+      ENTRY KSMAP4(NOMFIC,NFIC,
      >                         NEWFIC,IMAPO)
       IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
-      NEWFIC = .TRUE.
       DO I = 1, MMAP
-        IF(NAMFIC.EQ.NAMSAV(I,NFIC)) THEN
-          NEWFIC = .FALSE.
-          IMAP = I
-        ENDIF
+        OLDFIC = .TRUE.
+        DO IFIC = 1, NFIC
+          OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
+        ENDDO
+        IF(OLDFIC) GOTO 1
       ENDDO
+ 1    CONTINUE
+      NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
         IMAP = IMAP+1
-        NAMSAV(IMAP,NFIC) = NAMFIC
+        DO IFIC = 1, NFIC
+          NAMSAV(IMAP,IFIC) = NOMFIC(IFIC)
+        ENDDO
+      ELSE
+        IMAP = I
       ENDIF
       IMAPO = IMAP
       RETURN

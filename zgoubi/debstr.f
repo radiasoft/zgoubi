@@ -36,11 +36,8 @@ C     --------------------------------------
 
       DEBSTR=0
       LENGTH=LEN(STRING)
-C      LENGTH=LEN(STRING)+1
 1     CONTINUE
         DEBSTR=DEBSTR+1
-C        IF(DEBSTR .EQ. LENGTH) RETURN
-C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
         IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
           IF(DEBSTR .EQ. LENGTH) THEN
             DEBSTR = 0

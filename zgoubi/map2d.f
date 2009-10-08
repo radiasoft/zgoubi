@@ -90,24 +90,26 @@ C-------------------------------------------------
 
       NFIC = 1
       NAMFIC = TA(NOEL,2)
-      NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-      CALL KSMAP4(NAMFIC,
-     >                   NEWFIC,IMAP)
-      NOMFIC(NFIC) = NAMFIC
+      NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+      CALL KSMAP4(NOMFIC,NFIC,
+     >                        NEWFIC,IMAP)
 
 c              write(*,*) ' '
 c              write(*,*) ' map2d ', newfic,ipass, imap, noel
 c              write(*,*) ' ',NOMFIC(NFIC),namfic
 c              write(*,*) ' '
 
-       IF(NRES.GT.0) THEN
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)') 
+     >  'Number of field data files used is ',NFIC,' ;  ' 
+     >  ,'Stored in field array # IMAP =  ',IMAP,' '
         IF(NEWFIC) THEN
-           WRITE(NRES,209) 
- 209       FORMAT(/,10X  
-     >     ,' New field map now used, cartesian mesh (MOD.le.19) ; '
-     >     ,/,10X,' name of map data file : ')
-           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
- 208       FORMAT(10X,A)
+          WRITE(NRES,209) 
+ 209      FORMAT(/,10X  
+     >    ,' New field map now used, cartesian mesh (MOD.le.19) ; '
+     >    ,/,10X,' name of map data file : ')
+          WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+ 208      FORMAT(10X,A)
         ELSE
           WRITE(NRES,210) (NOMFIC(I),I=1,NFIC)
  210      FORMAT(
@@ -136,8 +138,6 @@ c              write(*,*) ' '
                ENDIF
 
              I1 = 1
-             MOD = 0
-             MOD2 = 0
              KZ = 1
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,

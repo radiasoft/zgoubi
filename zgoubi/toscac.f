@@ -48,7 +48,7 @@ C-------------------------------------------------
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       LOGICAL BINARI,IDLUNI
-      LOGICAL BINAR, NEWFIC, NEWF
+      LOGICAL BINAR, NEWFIC
       LOGICAL FLIP
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       SAVE NOMFIC, NAMFIC
@@ -105,12 +105,9 @@ C-------------------------------------------------
         I2 = 1
         NFIC=1
         NAMFIC = TA(NOEL,2)
-        NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        CALL KSMAP4(NAMFIC,NFIC,
+        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+        CALL KSMAP4(NOMFIC,NFIC,
      >                          NEWFIC,IMAP)
-C        NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-C        NEWFIC = NEWFIC .AND. IPASS.EQ.1   
-        NOMFIC(NFIC) = NAMFIC
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
@@ -130,18 +127,13 @@ C--------- A single data file contains the all 3D volume
           STOP ' *** Error. SBR TOSCAC. No such MOD value '
         ENDIF
         NFIC=0
-        NEWFIC = .TRUE.
         DO 129 I=I1, I2
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
-          NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-          CALL KSMAP4(NAMFIC,NFIC,
-     >                            NEWF,IMAP)
-          NEWFIC = NEWFIC .AND. NEWF
-C          NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
-          NOMFIC(NFIC) = NAMFIC
+          NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-C        NEWFIC = NEWFIC .AND. IPASS.EQ.1 
+        CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,IMAP)
       ENDIF
 
       IF(NRES.GT.0) THEN
@@ -203,7 +195,7 @@ C        NEWFIC = NEWFIC .AND. IPASS.EQ.1
              IF(NRES.GT.0) THEN
                WRITE(NRES,FMT='(/,3A,/)') 
      >           NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >           ' map,  FORMAT type : ', FMTYP             
+     >           ' map,  FORMAT type : ', FMTYP    
                 CALL FLUSH2(NRES,.FALSE.)
              ENDIF
 
