@@ -369,6 +369,7 @@ C and used for tracking.
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                               BMIN,BMAX,
      >                               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+             CLOSE(UNIT=LUN)
 
              DO JJJ=1,JYMA
                DO III=1,IXMA
@@ -377,8 +378,7 @@ C and used for tracking.
                  ENDDO
                ENDDO
              ENDDO
-             CLOSE(UNIT=LUN)
-
+ 
            ENDIF ! NEWFIC
 
            CALL MAPSHF(HCB,XH,YH,DIST2,IXMA,JYMA,

@@ -53,6 +53,7 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       SAVE SSP
       CHARACTER*9 HMS
       CHARACTER*104 TXTBUF
+      LOGICAL FITING
 
       SAVE KREB3, KREB31
 
@@ -199,7 +200,7 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
         RETURN
  
       ELSEIF(IPASS .EQ. NRBLT) THEN
-C------- Last pass through structure will occur
+C------- Last but one pass through structure
         IF(KWRT .EQ. 0) THEN
 C--------- reactive WRITE
           IF(NRES.LT.0) NRES=-NRES
@@ -241,14 +242,14 @@ C--------- reactive WRITE
         NOEL=0 
         RETURN
  
-      ELSEIF(IPASS .GT. NRBLT) THEN
-C------- Last pass through REBELOTE 
+      ELSEIF(IPASS .EQ. NRBLT+1) THEN
+C------- Last pass through REBELOTE will be performed
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
           WRITE(LUN,101) IPASS
  101      FORMAT(/,25X,'****  End  of  ''REBELOTE''  procedure  ****',//
      >     ,5X,' There  has  been ',I10,
-     >              '  pass  through  the  optical  structure ',/)
+     >              '  passes  through  the  optical  structure ',/)
  
           CALL CNTMXR(
      >                IMX)
@@ -288,7 +289,14 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
         ENDIF
 
+cC----- Get FIT status
+c        CALL FITSTA(I5,
+c     >                 FITING)      
+c        IF(.NOT.FITING) 
         READAT = .TRUE.
+
+C Necessary if REBELOTE used within FIT
+          IPASS = 1
 
       ENDIF
 

@@ -637,7 +637,7 @@ C------- Mesh coordinates
         ENDIF ! MOD2=0, 1
 
       ELSEIF(MOD.EQ.0 .OR. MOD.EQ.1) THEN
-C------- GSI spectro for instance. 
+C------- EMMAC, GSI spectro for instance. 
 C------- MAP2D
 C        Keyword EMMA with two 2D maps 
 C        MOD=0 : # of files is NF=1+|IZ/2|, from z=0 to z_max, symmetrizing wrt median plane
@@ -748,7 +748,6 @@ C 12        CONTINUE
                    XBMI = XBMI * XNORM
                    YBMI = YBMI * YNORM
                    ZBMI = ZBMI * ZNORM
-
       ENDIF  
 
       IF(NRES.GT.0) THEN

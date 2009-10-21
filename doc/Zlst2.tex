@@ -1689,18 +1689,21 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
          & & & & & \textsl{MCOBJET/{\footnotesize KOBJ=3}}  \\
                            & & & & & & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{Number of}} 
-			    & 5 & $-1$ & any &  Ratio $N_{survived}/\IMAX$  
+			    & 5 & $-1$ & any &  $N_{survived}/\IMAX$  
          & & & & & \textsl{OBJET} \\
 			\multicolumn{1}{|c|}{\textbf{particles}} &  & $1 - 3$ & any 
-                & $N_{through~\epsilon_{Y,Z,X}}/ N_{survived}$ 
-         & & & & & \textsl{MCOBJET}   \\
+                & $N_{in~\epsilon_{Y,Z,X}}/ N_{survived}$ 
+         & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
+			    &  & $4 - 6$ & any 
+                & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
+         & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
-			    & 10 & $1 - \IMAX$ & $1 - 4$  & $  S(J,I=1,3), ~ |\vec S(I)| $  
+			    & 10 & $1 - \IMAX$ & $1 - 4$  & $  S_{X,Y,Z}(I), ~ |\vec S(I)| $  
          & & & & & \textsl{[MC]OBJET}   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 10.1 & $1 -\IMAX$ & $1 -3$  &$|S(J,I) -S_{initial}(J,I)|_{I=1,3}$
+			    & 10.1 & $1 -\IMAX$ & $1 -3$  &$|S_{X,Y,Z}(I) -SO_{X,Y,Z}(I)|$
          & & & & & \textsl{+SPNTRK}   \\
 			\hline
 			\hline
@@ -1997,8 +2000,8 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
              \> \textbf{\MATRIXTitl} \> \> \\
   \\
   \\
- \textsl{IORD, IFOC [, zgoubi.MATRIX.out]} \>Options :                                            \>0-2, 0-1 or \>2*I \\
-                                           \>\textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
+ \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or \>2*I \\
+ \textsl{[, zgoubi.MATRIX.out]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
                                            \> 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
 % FM, Nov. 2008
 % \>    tune numbers if \textsl{IFOC} $> 0$ \> \> \\

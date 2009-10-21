@@ -159,6 +159,22 @@ C--------- Field law proton driver, FNAL, Nov.2000
  113        FORMAT(20X,' TURN #    : ',I8,'  TO  ',I8)
           ENDIF
 
+        ELSEIF(NTIM(IF) .EQ. -88) THEN
+C--------- AC dipole at BNL
+          SCL(IF,1) = A(NOEL,10*IF)       ! C
+          SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
+          SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2
+          SCL(IF,4) = A(NOEL,10*IF+3)     ! P
+          TIM(IF,1) = A(NOEL,10*IF+4)     ! Nramp
+          TIM(IF,2) = A(NOEL,10*IF+5)     ! Nflat
+          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
+          IF(NRES .GT. 0) THEN
+            WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))') 
+     >          (SCL(IF,IC) ,IC=1,4)
+            WRITE(NRES,FMT='(5X,'' N-ramp, -flat, -down : '',3I8)') 
+     >          (NINT(TIM(IF,IT)), IT=1,3)
+          ENDIF
+
         ENDIF
 
  1    CONTINUE

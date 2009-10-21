@@ -121,14 +121,16 @@ C Ph_s is computed from rigidity law as specified using SCALING/CAVITE
       ORBL = AN10
       HARM = AN11
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
-      PS = P0*SCALER(IPASS,NOEL,DTA1)
+      PS = P0*SCALER(IPASS,NOEL,
+     >                          DTA1)
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
       WS = PS/BTS
       FREV = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
-      PS = P0*SCALER(IPASS+1,NOEL,DTA1)
+      PS = P0*SCALER(IPASS+1,NOEL,
+     >                            DTA1)
       PP0 = PS / P0
       DWS = SQRT(PS*PS+AM2) - WS
       WS = WS + DWS
@@ -345,7 +347,8 @@ c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
 
         IF(OKIMP) THEN
-          scala = SCALER(IPASS,NOEL,DTA1)
+          scala = SCALER(IPASS,NOEL,
+     >                              DTA1)
           WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
      >            ipass, omrf/(2.*pi),
 C     >            scala, 

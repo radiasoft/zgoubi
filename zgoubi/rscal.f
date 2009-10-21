@@ -39,8 +39,8 @@ C     ----------------------------------------------
       PARAMETER (MXLBF=2)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MXLBF),KLEY,LABEL(MXL,2)
  
-      PARAMETER(MST=MXLF+1)
-      CHARACTER*10 STRA(MST)
+      PARAMETER(MLBL=MXLF+1)
+      CHARACTER*10 STRA(MLBL)
 
       INTEGER DEBSTR, FINSTR
 
@@ -59,20 +59,20 @@ C------- Store name of family and label(s)
  100    FORMAT(A80)
         TA(NOEL,IF) = 
      >    TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
-        CALL STRGET(TA(NOEL,IF),MST,
-     >                                 NST,STRA)
-        IF(NST-1 .GT. MXLBF) 
+        CALL STRGET(TA(NOEL,IF),MLBL,
+     >                               NLBL,STRA)
+        IF(NLBL-1 .GT. MXLBF) 
      >     CALL ENDJOB('SBR RSCAL - Too many labels per family, max is '
      >     ,MXLBF)
 
         FAM(IF) = STRA(1)(1:8)
 
-        IF(NST .GE. 2) THEN
-          DO 11 KL=2,NST
+        IF(NLBL .GE. 2) THEN
+          DO 11 KL=2,NLBL
  11         LBF(IF,KL-1) =  STRA(KL)(1:8)
         ENDIF
 
-        DO 12 KL=NST+1, MST
+        DO 12 KL=NLBL+1, MLBL
  12       LBF(IF,KL-1) = ' '
 
 C CPRM tells which parameter in the element (IF) the scaling is to be applied to
@@ -110,6 +110,13 @@ C---------- Field law protn driver, FNAL, Nov.2000 :
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
 
+          ELSEIF(NTIM(IF) .EQ. -88) THEN
+C--------- AC dipole at BNL
+            NDSCL=4
+            NDTIM=3
+C               max = max(NDSCL,NDTIM)
+            MAX=NDSCL  
+
           ENDIF
         ENDIF
 
@@ -121,7 +128,7 @@ C------- SCL(IF,IT)
         READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
 C------- TIM(IF,IT)
         READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)
-        A(NOEL,10*IF+2*MAX) = NST
+        A(NOEL,10*IF+2*MAX) = NLBL
  1    CONTINUE
  
       RETURN

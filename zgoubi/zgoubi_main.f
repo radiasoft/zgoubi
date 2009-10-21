@@ -83,8 +83,7 @@ C  France
         READAT = .FALSE.
         CALL FITNU(*99)
         FITING = .FALSE.
-        CALL FITSTA(I6,
-     >                 FITING)
+        CALL FITSTA(I6,FITING)
         NL2 = NOELMX-2   ! FIT keyword is at position NOELMX
 C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
         WRITE(6,201)

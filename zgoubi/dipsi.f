@@ -1908,6 +1908,15 @@ C         write(*,*) ' anal itypf 0 '
       B2TTA  =  FAC2TA*HRC
       BRTA   =  FACTTA*DHRC  +   FACRTA*HRC
 
+
+c       iunit=88
+c       if(ipass.GT.2000 .and. ipass.lt.2500)  
+c     > write(iunit,*) ' dipsi 1/qbr bri before :',1.d0/qbr,bri,ipass
+           bri = 1.d0/qbr
+c       if(ipass.GT.2000 .and. ipass.lt.2500)  
+c     >     write(iunit,*) ' dipsi bri after  :',1.d0/qbr,bri,ipass
+c        call flush2(iunit,.false.)
+
       BZ     = B     * BRI
       BZX    = BTTA  * BRI
       BZY    = BRO   * BRI

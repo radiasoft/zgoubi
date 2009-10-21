@@ -83,6 +83,7 @@ C------------ ...or it has no label at all
       IF(KTI .NE. 0) THEN
 
         IF(KTI .GT. 0) THEN
+
           DO 1 I=1,KTI
             IT1=TIM(KF,I)
             IF(I .LT. KTI ) THEN
@@ -146,10 +147,34 @@ C------------ PSYN(MeV/c) = mom. of synchronous particle
 C            WRITE(NLOG,*) TIME, SCALER, p/p0, IPASS, NOEL,
 C     >            ' SBR SCALER :   TIME, SCALER, p/p0, IPASS, NOEL'
           ENDIF
+
         ELSEIF(KTI .EQ. -88) THEN
 C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
-          IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN
+          PHAS = SCL(KF,1)
+          Q1   = SCL(KF,2)
+          Q2   = SCL(KF,3)
+          PP   = SCL(KF,4)
+          RAMPN = TIM(KF,1)
+          FLATN = TIM(KF,2)
+          DOWNN = TIM(KF,3)
+          DBLIP = DBLE(IPASS)
+          IF    (IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+            IF    (IPASS .LE. RAMPN) THEN
+              SCALER = DBLIP/RAMPN
+              QN = Q1
+            ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
+              SCALER = 1.D0
+              QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
+            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
+     >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+              SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
+              QN = Q2
+            ENDIF
+            SCALER = SCALER * COS(2.D0*PP*DBLIP*QN + PHAS)
+          ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
+            SCALER = 1.D0
           ENDIF
+          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
         ELSE
           STOP 'FCTN SCALER :  invalid input data NTIM(1)'
         ENDIF

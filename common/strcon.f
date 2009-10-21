@@ -33,19 +33,16 @@ C     .TRUE. if the string STR contains the string STR2 at least once
 C     IS = position of first occurence of STR2 in STR 
 C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
 C     ---------------------------------------------------------------
-
       INTEGER DEBSTR,FINSTR
- 
-      LNG = LEN(STR2)
-
-      II = 0
-      DO 1 I = DEBSTR(STR), FINSTR(STR)
-        II = II+1
-        IF( STR(I:I+LNG-1) .EQ. STR2 ) THEN
+      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
+      IF(LEN(STR).LT.LNG2) GOTO 1
+      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
+        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
           IS = I 
           STRCON = .TRUE.
           RETURN
         ENDIF
+      ENDDO
  1    CONTINUE
       STRCON = .FALSE.
       RETURN

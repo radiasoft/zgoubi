@@ -166,7 +166,6 @@ C------- Transport and print Twiss functns at MULTIPOL's
      >                                                       ,MXL,').'
               WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
               CALL ENDJOB(' Increase  MXL  in   MXLD.H',-99)
-C              NOEL=1
             ENDIF
             IQ(NOEL) =  IKLE
             GOTO 187
@@ -593,9 +592,6 @@ C----- Plot transverse coordinates (for use on a workstation)
       GOTO 998
 C----- SPNPRNL. Store  state of spins in logical unit
  54   CONTINUE
-C      IF(READAT) READ(NDAT,503) TA(NOEL,1)
-C      IF(FITGET) CALL FITGT1
-C      CALL SPNPRN(0)
       IF(READAT) CALL RSPNST(I0,
      >                         PRLBSP,KPRTSP,LBLSP,NLB)
       IF(TA(NOEL,1).NE.'none') THEN

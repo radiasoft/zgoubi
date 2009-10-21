@@ -273,7 +273,7 @@ c              write(88,*) ' bz avant ',bz
      >          ,irc,jrc,HCB(id,iii,jjj,1)-HC(id,iii,jjj,1)
                  enddo
                enddo
-              stop
+c              stop
       RETURN
       END
 
