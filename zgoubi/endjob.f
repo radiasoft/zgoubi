@@ -32,8 +32,8 @@ C  France
         WRITE(   6,FMT='(/,A)') TXT
         WRITE(NRES,FMT='(/,A)') TXT
       ELSE
-        WRITE(   6,FMT='(/,A,1X,I3)') TXT,II
-        WRITE(NRES,FMT='(/,A,1X,I3)') TXT,II
+        WRITE(   6,FMT='(/,A,1X,I8)') TXT,II
+        WRITE(NRES,FMT='(/,A,1X,I8)') TXT,II
       ENDIF
       WRITE(NRES,FMT='(/,''End of job !'',//,''  '')')
       STOP

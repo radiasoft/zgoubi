@@ -42,7 +42,10 @@ C     -----------------------------------------------------
       CHARACTER*80 TITRE
       COMMON/TITR/ TITRE 
        
-      LOGICAL IDLUNI
+      LOGICAL IDLUNI, OPN
+      SAVE OPN
+
+      DATA OPN / .FALSE. /
 
       IF(KCO .EQ. 0) GOTO 98
 
@@ -63,12 +66,22 @@ C     -----------------------------------------------------
 
       IF(IPASS .EQ. 1) THEN
         CALL RAZ(FPU,MXPUD*MXPU)
-        IF(IDLUNI(
-     >            NFPU)) THEN
-          OPEN(UNIT=NFPU,FILE='zgoubi.co',ERR=99)
+ 10     CONTINUE
+        IF(OPN) THEN
+          INQUIRE(FILE='zgoubi.co',ERR=11,NUMBER=LN)
+          WRITE(NRES,*) ' Pick-up storage file zgoubi.co already open'
+     >      ,' under logical unit number ', LN
         ELSE
-          GOTO 99
+          INQUIRE(FILE='zgoubi.co',ERR=11,OPENED=OPN,NUMBER=LN)
+          IF(OPN) GOTO 10
+          IF(IDLUNI(
+     >              NFPU)) THEN
+            OPEN(UNIT=NFPU,FILE='zgoubi.co',ERR=99)
+          ELSE
+            GOTO 99
+          ENDIF 
         ENDIF 
+ 11     CONTINUE
       ENDIF
 
       IF(IPASS .EQ. 1) THEN

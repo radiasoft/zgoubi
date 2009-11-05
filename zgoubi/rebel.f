@@ -53,7 +53,7 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       SAVE SSP
       CHARACTER*9 HMS
       CHARACTER*104 TXTBUF
-      LOGICAL FITING
+C      LOGICAL FITING
 
       SAVE KREB3, KREB31
 
@@ -289,10 +289,10 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
         ENDIF
 
-cC----- Get FIT status
-c        CALL FITSTA(I5,
-c     >                 FITING)      
-c        IF(.NOT.FITING) 
+CC----- Get FIT status
+C        CALL FITSTA(I5,
+C     >                 FITING)      
+C        IF(.NOT.FITING) 
         READAT = .TRUE.
 
 C Necessary if REBELOTE used within FIT
