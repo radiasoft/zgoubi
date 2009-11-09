@@ -39,7 +39,7 @@ CDECK GRAPH1
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
 C      CHARACTER CMND*70
-      LOGICAL OKOPN, INPECH, CHANGE, KLIPS, KHIST
+      LOGICAL OKOPN, INPECH, CHANGE, KLIPS, KHIST, K24, K23
       LOGICAL TYLAB,TYLABR
       CHARACTER*14 TXTL
       LOGICAL FIRST
@@ -265,27 +265,31 @@ C              CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,2)
               IF(KY.EQ. 28) THEN
                 CALL PLTHIS(NLOG,NL,NOC,OKBIN,OKECH)
               ELSE
-                KLIPS=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
-C                      xxp phase-space
-     >                 (KX.EQ.12 .AND. KY.EQ.13) .OR.
-C                      xxp initial phase-space
-     >                 (KX.EQ.4  .AND. KY.EQ.5)  .OR.
-C                      zzp initial phase-space
-     >                 (KX.EQ.14 .AND. KY.EQ.15) .OR.    
-C                      xxp initial phase-space
-     >                ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
-     >                                 (KY.EQ.1  .OR. KY.EQ.20)) .OR.     
-C                     s/time/phase-dp/Ekin  phase-space
-     >                ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
-     >                                 (KY.EQ.11 .OR. KY.EQ.20)))
-C                     s/time/phase-dp/Ekin initial phase-space
+                K23=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
+C                    xxp phase-space
+     >               (KX.EQ.12 .AND. KY.EQ.13) .OR.
+C                    xxp initial phase-space
+     >               (KX.EQ.4  .AND. KY.EQ.5)  .OR.
+C                    zzp initial phase-space
+     >               (KX.EQ.14 .AND. KY.EQ.15) .OR.    
+C                    xxp initial phase-space
+     >              ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
+     >                               (KY.EQ.1  .OR. KY.EQ.20)) .OR.     
+C                   s/time/phase-dp/Ekin  phase-space
+     >              ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
+     >                               (KY.EQ.11 .OR. KY.EQ.20)))
+C                   s/time/phase-dp/Ekin initial phase-space
+                K24=((KX.EQ.2  .AND. KY.EQ.4)  .OR.
+C                      YZ cross section
+     >               (KX.EQ.12 .AND. KY.EQ.14))
+C                      Y_oZ_o cross section
                 IF(KX.LT.10) THEN
                   KPS=1
                 ELSE
                   KPS=0
                 ENDIF
  
-                IF(KLIPS) THEN
+                IF(K23 .OR. K24) THEN
                   RLIPS0=RLIPS
  710              CONTINUE      
                   WRITE(6,FMT='(/,
@@ -303,7 +307,8 @@ C                     s/time/phase-dp/Ekin initial phase-space
                       RLIPS2='Y'
                     ENDIF
                   ENDIF
-                  KLIPS = (KLIPS .AND. (RLIPS.EQ.'Y')) 
+                  KLIPS = ( (K23 .AND. (RLIPS.EQ.'Y')) 
+     >                .OR.  (K24   .AND. (RLIPS.EQ.'Y'))  )
                   RHIST0=RHIST
  711              CONTINUE      
                   WRITE(6,FMT='(/,
@@ -321,7 +326,11 @@ C                     s/time/phase-dp/Ekin initial phase-space
                       RHIST2='Y'
                     ENDIF
                   ENDIF
-                  KHIST = (KLIPS .AND. (RHIST.EQ.'Y')) 
+                  KHIST = (  (K23    .AND. (RHIST.EQ.'Y'))
+     >                 .OR.  (K24      .AND. (RHIST.EQ.'Y'))  )
+                ELSE
+                  KLIPS = .FALSE.
+                  KHIST = .FALSE.
                 ENDIF
 
                 CALL PLOT6(KLIPS)
@@ -329,6 +338,7 @@ C                     s/time/phase-dp/Ekin initial phase-space
                 CALL PLOTER(NLOG,NL,KPS,NPTS,NPTR)
 
                 IF(KLIPS) CALL PLLIPS(NLOG,LM,KX,KY,*921)  
+
                 IF(KHIST) CALL PLHIST(NL)
 
               ENDIF

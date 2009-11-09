@@ -72,7 +72,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       CALL RAZ(BM,MPOL)
 
       IF(KUASEX .LE. MPOL) THEN
-C------- Single-pole, from Magnetic QUAD up to 20-POLE
+C------- Single-pole, from Magnetic QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
 
         XL =A(NOEL,10)
         RO =A(NOEL,11)
@@ -228,22 +228,23 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',
      >    /,10X,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
         ELSE
-          RETURN
+          GOTO 98
         ENDIF
       ENDIF
  
       DL0=0.D0
       SUM=0.D0
-      DO 8 IM=NM0,NM
+
+      DO IM=NM0,NM
         DL0=DL0+DLE(IM)+DLS(IM)
         SUM=SUM+BM(IM)*BM(IM)
 C------- E converti en MeV/cm
         IF(KFL .EQ. LC) THEN
-          BM(IM)=2.D0*BM(IM)/RO*1.D-6
-          RT(IM)=RT(IM)+.5D0*PI/DBLE(IM)
+          BM(IM) = 2.D0*BM(IM)/RO*1.D-6
+          RT(IM) = RT(IM) + .5D0*PI/DBLE(IM)
         ENDIF
         BM(IM) = BM(IM)/RO**(IM-1)
- 8    CONTINUE
+      ENDDO
 
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
       IF(DL0 .EQ. 0.D0) THEN
@@ -328,18 +329,17 @@ C            WRITE(NRES,132) (CE(I),I=1,6)
           DO 45 IM=NM0,NM
             IF(DLE(IM) .NE. 0.D0) THEN
               DE(IM,1)= -BM(IM)/DLE(IM)
-C              WRITE(*,*) ' SBR MULTPO IPOL, ICOEFF,DE ',IM,' 1',DE(IM,1)
-              DO 44 I=2, 10 !MCOEF
+C Error - Corrctn FM Nov. 2009
+C              DO 44 I=2, 10 !MCOEF
+              DO 44 I=2, MCOEF
                 DE(IM,I)=-DE(IM,I-1)/DLE(IM)
-C                DE(IM,I)=0.D0
-C                WRITE(*,*) ' SBR MULTPO IPOL, ICOEFF,DE ',IM,I,DE(IM,I)
  44           CONTINUE
             ENDIF
  45       CONTINUE
         ENDIF
  
 C--------- Let's see exit, next
-        IF(NRES.GT.0)WRITE(NRES,107)
+        IF(NRES.GT.0) WRITE(NRES,107)
  107    FORMAT(/,15X,' Exit  face  ')
 C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
  
@@ -388,10 +388,10 @@ C            ENDIF
           DO 46 IM=NM0,NM
             IF(DLS(IM) .NE. 0.D0) THEN
               DS(IM,1)=  BM(IM)/DLS(IM)
-              DO 461 I=2,10  !MCOEF
+C Error - Corrctn FM Nov. 2009
+C              DO 461 I=2, 10 !MCOEF
+              DO 461 I=2,MCOEF
                 DS(IM,I)= DS(IM,I-1)/DLS(IM)
-C                     stop '  ben dis donc '
-C                DS(IM,I)= 0.d0
  461          CONTINUE
             ENDIF
  46       CONTINUE
@@ -400,7 +400,6 @@ C                DS(IM,I)= 0.d0
       ENDIF
 C---------- end of test DLE or DLS=0
  
-
 C----- Some more actions about Magnetic Dipole components :
       IF( KUASEX .EQ. MPOL+1 .AND. KFL .EQ. MG ) THEN
 C----- MULTIPOL
@@ -477,12 +476,7 @@ C-----------------------------------------
 
       IF(IER.NE.0) GOTO 99
 
-c        im =      1
-c          write(*,*) ' sbr multpo ', 
-c     > DE(IM,1), Ds(IM,1), DE(IM,2) , Ds(IM,2)
-    
-
-      RETURN
+ 98   RETURN
 
  99   CONTINUE
       LUN=NRES
