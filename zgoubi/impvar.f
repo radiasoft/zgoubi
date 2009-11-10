@@ -54,8 +54,10 @@ C----      X(J)        P(I)
         IF(XCOU(I).NE.0.D0) THEN
           KL=XCOU(I)
           KP=NINT((100.D0*XCOU(I)-100.D0*KL))
-          WRITE(IUNIT,400) KL,I,KP,
-     >            A(IR(I),IS(I)),XI(I),X(I),X(J),P(I)
+          SGN = KL/ABS(KL)
+          ISGN = NINT(SGN)
+          WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,
+     >            A(IR(I),IS(I)),XI(I),SGN*X(I),X(J),P(I)
         ENDIF
  1    CONTINUE
       CALL FLUSH2(IUNIT,.FALSE.)

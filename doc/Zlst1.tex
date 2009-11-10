@@ -1175,7 +1175,7 @@ needed in eq.~(\ref{eq2-2-12}).
 \subsubsection{2-D Analytical E-Field Models and Extrapolation} 
 
 Several optical elements such as \textsl{WIENFILT\index{WIENFILT}} (that 
-uses the \textsl{BEND} procedures) 
+uses the \textsl{BEND} fortran routines) 
 have their field defined from the  expression of the field and derivatives in the median plane. 
 3-D extrapolation of these off the median is drawn from Taylor expansions. 
 
@@ -3647,6 +3647,7 @@ $$ \text{\textsl{CHANGREF}} \lbrack XCE=0, YCE=Y(1), ALE=T(1)\rbrack $$
 \index{CHANGREF}%
  so that the new reference frame is at the exit of the last element,
 with particle~1 at the origin with its horizontal angle set to $ T=0$.   
+
 \bigskip
 
 \noindent\textbf{If} $\mathbf{I=2}$, it is equivalent to
@@ -3658,6 +3659,7 @@ the waist (calculated automatically in the same way as for
 \textsl{IMAGE\index{IMAGE}}) of the three rays number 1, 4 and 5 (compatible for instance
 with \textsl{OBJET\index{OBJET}, KOBJ}  =  5, 6 together with the 
 use of \textsl{MATRIX})\index{MATRIX} while $T(1)$ is set to zero.  
+
 \bigskip
 
 \noindent\textbf{If} $\mathbf{I=3}$,  it is equivalent to 
@@ -3679,21 +3681,40 @@ simulation of dipole magnets. It presents the interest of easy handling, and is 
 the simulation of synchrotron dipoles and such other regular dipoles as sector magnets with wedge 
 angles. 
 
+\bigskip
+
+\noindent The field in \textsl{BEND}  is defined in a Cartesian coordinate frame (unlike for instance \textsl{DIPOLE[S]} 
+that uses a polar frame).  As a consequence, having particle coordinates at entrance  or exit of the magnet 
+referring to the  curved  main direction of motion may 
+require using \textsl{KPOS}, in particular \textsl{KPOS=3}  (in a circular machine cell for instance). 
+
+\bigskip
+
 \noindent The dipole simulation is performed from the magnet geometrical length $ \XL $, from
  the skew angle (rotation \wrt\ the X axis, useful for obtaining vertical deviation magnet), and from the 
 field $ B1 $  such that   in absence of fringe field the deviation $\theta$ satisfies 
 $ \XL = 2 \frac{\BORO}{B1} \sin(\frac{\theta}{2})$. 
 
+\bigskip
+
 \noindent Then follows the description of the entrance and exit EFB's and
-fringe fields. The model is the same as for \textsl{DIPOLE\index{DIPOLE}}.   
-The wedge angles $W_E $ 
-(entrance) and $W_S $ (exit) are defined with respect to the sector magnet, 
-with the signs described in Fig.~\ref{fig14}.  
+fringe fields.       The wedge angles $W_E $ 
+(entrance) and $W_S $ (exit) are defined with respect to the sector angle, 
+with the signs as described in Fig.~\ref{fig14}.  
 Within a distance $ \pm X_E(\pm X_S) $ on both sides of the entrance (exit) EFB, 
 the fringe field model is used~; elsewhere, the field is supposed to be uniform. 
 
-\noindent If $\lambda_{E} $ (resp. $\lambda_{S} $) is zero sharp edge field model is assumed at entrance (resp. exit) of the magnet and $X_E$ (resp. $X_S$) is set to zero.  In this case, the wedge angle vertical first order focusing effect (if $\vec  B1$ is non zero) is simulated at magnet entrance and exit by a kick $P_2 = P_1 - Z_1 \tan (\epsilon / \rho)$ applied to each particle ($P_1$, $P_2$ are the vertical angles upstream and downstream the EFB, $Z_1$ the vertical particle position at the EFB, $\rho$ the local horizontal bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\epsilon$ depends on the horizontal angle T).
+\bigskip
 
+\noindent If $\lambda_{E} $ (resp. $\lambda_{S} $) is zero sharp edge field model is assumed at entrance 
+(resp. exit) of the magnet and $X_E$ (resp. $X_S$) is set to zero.  In this case, the wedge angle vertical first order 
+focusing effect (if $\vec  B1$ is non zero) is simulated at magnet entrance and exit by a kick 
+$P_2 = P_1 - Z_1 \tan (\epsilon / \rho)$ applied to each particle ($P_1$, $P_2$ are the vertical angles 
+upstream and downstream the EFB, $Z_1$ the vertical particle position at the EFB, $\rho$ the local horizontal 
+bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\epsilon$ depends on the horizontal angle T).
+
+
+\bigskip
 
 \noindent Magnet (mis-)alignement is assured by \textsl{KPOS}. 
 \textsl{KPOS} also  allows some degrees of automatic alignement useful for periodic structures (section~\ref{sec4.6.2}).
@@ -3704,7 +3725,7 @@ the fringe field model is used~; elsewhere, the field is supposed to be uniform.
   %\vspace{12 truecm}
   %%%Figure 14
 %  \centerline{\includegraphics[height=12cm,angle=-90]{Fig14.ps}}
-  \centerline{\includegraphics[height=12cm,angle=-90]{Fig14.eps}}
+  \centerline{\includegraphics[height=8cm]{Fig14.eps}}
   {\setlength{\captionwidth}{12cm}
 	\hangcaption[Fig14]{\label{fig14}
                \CapBEND
