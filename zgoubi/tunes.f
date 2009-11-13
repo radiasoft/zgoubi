@@ -131,38 +131,15 @@ C        ZNU = ATAN2( SINMU , COSMU ) * NMAIL / (2.D0 * PI)
         WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
  104    FORMAT(6X,6F13.6)
         WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
+        WRITE(TXTYNU,FMT='(A14)') 'undefined'
+        WRITE(TXTZNU,FMT='(A14)') 'undefined'
 
        IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
-
-C        WRITE(NRES,103)
-C 103    FORMAT(/,6X,
-C     >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
-C     >    ' and  periodic  dispersion  (MKSA units)',/)
-C        WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
-C 104    FORMAT(6X,6F13.6)
-C        WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-
          WRITE(TXTYNU,FMT='(G14.8)') YNU
          WRITE(TXTZNU,FMT='(G14.8)') ZNU
-
        ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
-
-C        WRITE(NRES,103)
-C        WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
-C        WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-
-         IF(CMUY*CMUY .LT. 1.D0) THEN
-           WRITE(TXTYNU,FMT='(G14.8)') YNU
-C          WRITE(NRES,100) 'NU_Y', YNU
-C 100      FORMAT(35X,A,' = ',G14.8)
-         ELSE
-           WRITE(TXTYNU,FMT='(A14)') 'undefined'
-         ENDIF
-         IF(CMUZ*CMUZ .LT. 1.D0) THEN
-           WRITE(TXTZNU,FMT='(G14.8)') ZNU
-         ELSE
-           WRITE(TXTZNU,FMT='(A14)') 'undefined'
-         ENDIF
+         IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G14.8)') YNU
+         IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G14.8)') ZNU
        ENDIF
 
        WRITE(NRES,FMT='(15X,2(5X,A,A14))') 
