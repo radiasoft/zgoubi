@@ -128,7 +128,7 @@ static double g_x1,g_x2,g_y1,g_y2,g_dx,g_dy,g_cx,g_cy,g_div;
 static double g_sincr[10];
 
 static FILE *g_pps, *g_ppsc;
-static g_ps = FALSE;
+static int g_ps = FALSE;
 
 static int g_tcar = 2, g_pscar = 2;
 /* static int g_hcar[4] = {12,14,19,21}; */
@@ -1125,7 +1125,7 @@ void _vectf(ix,iy,mode)
 	if(mode == 0) {
 		/* Mise a l'origine, effacement de l'ecran */
 		if(g_ps) {
-			close(g_pps);
+			fclose(g_pps);
 			inipost();
 		}
 		printf("\035\033\014");
@@ -1423,7 +1423,6 @@ void SAVECR(savfic,nsavfic)
 	fprintf(g_ppsc,"%%%%Title: %s\n",namfic);
 	fprintf(g_ppsc,"%%%%Titre: %s\n",namfic);
 	fputs("%%Creator: Fminigraf Library\n",g_ppsc);
-	fputs("%%Créé par: Librairie Fminigraf\n",g_ppsc);
 	fputs("%%BoundingBox: 20 40 567 457\n",g_ppsc);
 	fputs("%%EndComments\n",g_ppsc);
 	fputs("/offx 20 def\n",g_ppsc);
