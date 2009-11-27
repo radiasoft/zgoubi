@@ -23,8 +23,9 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-C Maximum number of coordinates to be stored for analysis 
+
+C Maximum number of turns to be stored for analysis 
 C  (e.g., in view of ellipse fit). 
-C      same as MXT, see "MAXTRA.H"
+C  Given (just a trick for zpop purposes) the same value as MXT, see "MAXTRA.H"
       INCLUDE 'MAXTRA.H'
       PARAMETER (NTRMAX=MXT)

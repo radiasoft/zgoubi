@@ -42,7 +42,7 @@ C      conditions equivalent to T(R).S.R = S
       
       WRITE(NRES,100) (S(J),J=1,6)
  100  FORMAT(/,5X,
-     >' First order sympletic conditions (expected values = 0) :',
+     >' First order symplectic conditions (expected values = 0) :',
      >/,5X,1P,6G14.4)
       RETURN
 
@@ -95,7 +95,7 @@ C FM 07/97       S(11)= 2.D0*R(1,2)*(T(2,3,4)+T(2,4,3))+ R(2,1)*(T(3,2,4)+T(3,4,
 
       WRITE(NRES,101) (S(J),J=1,14)
  101  FORMAT(/,5X,
-     >' Second order sympletic conditions (expected values = 0) :',
+     >' Second order symplectic conditions (expected values = 0) :',
      >/,1P,2(/,5X,7G14.4) )
 
       RETURN

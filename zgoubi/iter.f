@@ -51,10 +51,6 @@ C Etienne F. 25 Oct. 05
         CALL DEPLA(DS)
  1    CONTINUE
 
-C      WRITE(        6,*)' WARNING, SBR ITER, # of iterations reached is'
-C     >  , ITMAX,' ;  ABS(D)=',absd
-C      WRITE(ABS(NRES),*)' WARNING, SBR ITER, # of iterations reached is'
-C     >  , ITMAX,' ;  ABS(D)=',absd
       CALL KSTOP(5,IT,KEX,*99) 
 
  99   CONTINUE

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE IMPPLT(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+      SUBROUTINE IMPPLT(LN,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------- Store into zgoubi.plt. 
 C         Post-processing of stored data possible with zpop. 
@@ -66,7 +66,7 @@ C         Post-processing of stored data possible with zpop.
 C----- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)
       IF(1+K*((NSTEP-1)/K) .NE. NSTEP) RETURN
 
-      ENTRY IMPPLA(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+      ENTRY IMPPLA(LN,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
 
 C------- Bx,y,z (kG)
       BX=B(1,1)  /BRI
@@ -85,7 +85,7 @@ C       w=sqrt(p0*p0+am*am) -am
 C       XXX=W
 
 C      XXX=BR/BORO
-      XXX= -1.D0 + QBR/(Q*BORO)
+      XXX= -1.D0 + QBR/(QT*BORO)
       XXXO=-1.D0 + FO(1,IT)
 C----- Tests installation miroirs elec
 C      CALL ENRGY(XXX)
@@ -96,7 +96,7 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
    
       GOTO 10
 
-      ENTRY IMPPLB(LN,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+      ENTRY IMPPLB(LN,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
 
       BX=0.D0
       BY=0.D0
@@ -110,11 +110,16 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
 
  10   CONTINUE
 
+          PPI = BORO*CL9*QT
+          EI = SQRT(PPI*PPI+AMT*AMT)
+          BTI = PPI / EI
+
       IF(BINARY) THEN
         WRITE(LN)
      1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
      2   XXX,Y-DY,T*1.D3,
-     3   Z,P*1.D3,SAR,     TAR,     DY, 
+     3   Z,P*1.D3,SAR,     TAR,     BTI, 
+C     3   Z,P*1.D3,SAR,     TAR,     DY, 
 C     3   Z,P*1.D3,SAR,     TAR,     DS, 
      4   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
      5   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
@@ -125,7 +130,8 @@ C     3   Z,P*1.D3,SAR,     TAR,     DS,
 C       Initial coordinates: D,  Y,T,Z,P,X,Time
 
      2   XXX,Y-DY,T*1.D3,
-     3   Z,P*1.D3,SAR,     TAR,     DY, 
+     3   Z,P*1.D3,SAR,     TAR,     BTI, 
+C     3   Z,P*1.D3,SAR,     TAR,     DY, 
 C     3   Z,P*1.D3,SAR,     TAR,     DS, 
 C     current coordinates  time    Step 
 C                          mu_s    size 

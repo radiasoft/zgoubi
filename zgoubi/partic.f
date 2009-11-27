@@ -34,7 +34,7 @@ C  France
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/UNITS/ UNIT(MXJ)
@@ -64,6 +64,9 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
         GOTO 99
       ENDIF
 
+c         write(*,*) ' partic.f  am, am2 : ', am, am2
+c           stop
+
       IF (A(NOEL,NM+1).NE.0D0) Q  = A(NOEL,NM+1) / QE
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
@@ -86,17 +89,26 @@ C      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
          IF (PABSLU) F(1,I) = DP0(I)/Q
  10   CONTINUE
 
+c         write(*,*) ' partic.f  am, am2 : ', am, am2
+c           stop
+
+
 C----- Set time at OBJET
       DO 11 I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
-C Err. Franck, Nov. 05
+C Err. Corr. Franck, Nov. 05
 C          P = BORO*CL9*AMQ(2,I)
-          P = BORO*CL9*AMQ(2,I) * F(1,I)
-          AM2 = AMQ(1,I) * AMQ(1,I)
-          BTA = P / SQRT(P*P + AM2)
+          P = BORO*CL9*Q * F(1,I)
+          BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
           TIM = F(6,I)*UNIT(5) / (BTA * CL)
-          F(7,I) = TIM / UNIT(7)
+          F(7,I) = TIM / UNIT(7)          
         ENDIF
+C        IF(CODE(1:11) .EQ. 'MASS_CODE_1') THEN
+C          IF(I .LE. IMAX/2) THEN
+C          ELSE
+CC            F(1,I) = F(1,I) * AM2/AM
+C          ENDIF
+C        ENDIF        
  11   CONTINUE
 
       IF(NRES .GT. 0) THEN
@@ -133,6 +145,19 @@ C          P = BORO*CL9*AMQ(2,I)
           IF(G.NE.0.D0) WRITE(NRES,FMT='(1P,
      >      T15,''      gamma*G               :'',G18.10)') GAM*G
         ENDIF
+
+      WRITE(NRES,*) ' '
+      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I), P/Pref, v/c, time :'
+      WRITE(NRES,*) ' '
+      DO I=1,IMAX
+        IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
+          P = BORO*CL9*Q * F(1,I)
+          BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
+          WRITE(NRES,FMT='(I6,1X,1P,5E14.6)') 
+     >       I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I)
+        ENDIF
+      ENDDO
+
       ENDIF
 
 C Set time of flight now that mass and charge are known      

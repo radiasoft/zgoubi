@@ -130,10 +130,6 @@ C----- DXI = step angle in polar frame
 C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
       CALL INTEG3
 
-CC----- Unset variable step
-C      CALL CHXP2(I0,I0)
-C      CALL DEPLAW(.FALSE.,IZERO)
-
       IF(NRES .GT. 0)
      >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >1P,G14.6,

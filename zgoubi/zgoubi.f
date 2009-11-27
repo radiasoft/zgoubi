@@ -972,7 +972,7 @@ C----- MARKER.
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO 981 IT = 1, IMAX
  981      CALL IMPPLB(NPLT,F(2,IT),F(3,IT),F(4,IT),F(5,IT),0.D0, 
-     >    F(6,IT),F(7,IT),IEX(IT),IT)
+     >    F(6,IT),F(7,IT),AMQ(1,IT),AMQ(2,IT),IEX(IT),IT)
       ENDIF
       GOTO 998
 C----- DIPOLES. A set of neiboring or overlapping dipoles. 

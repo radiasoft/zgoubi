@@ -54,9 +54,6 @@ C--------- Old method for entrance|body|exit number of steps -> convert to new m
      >       '#'//TXT(IS+1:IS+3)//'|'//TXT(1:IS-1)//'|'//TXT(IS+1:IS+3)
           TXT = TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
           IFIN = FINSTR(TXT)
-C          BACKSPACE(NDAT) 
-C          WRITE(NDAT,FMT='(A)') TXT(DEBSTR(TXT):FINSTR(TXT))
-C          READ(NDAT,FMT='(A15)') TXT
         ENDIF
       ELSEIF(STRCON(TXT,'V',IS) .OR. STRCON(TXT,'v',IS)) THEN
 C------- Variable number of steps in entrance|body|exit regions

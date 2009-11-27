@@ -171,7 +171,7 @@ C
         ELSEIF(LIMIT .EQ. 0) THEN
          IF(NRES .GT. 0) THEN
           WRITE(NRES,100)
- 100      FORMAT(/,20X,' +++++++  ELEMENT  CHAMBR  INACTIF  +++++++',/)
+ 100      FORMAT(/,20X,' ++++  CHAMBR command is inactive  ++++',/)
           RETURN
          ENDIF
         ENDIF

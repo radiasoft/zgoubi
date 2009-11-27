@@ -47,7 +47,11 @@ C     -----------------------------------------------------
 
       DATA OPN / .FALSE. /
 
-      IF(KCO .EQ. 0) GOTO 98
+      IF(KCO .EQ. 0) THEN
+        IF(NRES .GT. 0) WRITE(NRES,100)
+ 100      FORMAT(/,20X,' ++++  PICKUPS command is inactive  ++++',/)
+        GOTO 98
+      ENDIF
 
       IF(NRES .GT. 0) THEN
         IF(KCO .EQ. 1) THEN

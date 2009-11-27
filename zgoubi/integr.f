@@ -212,9 +212,9 @@ C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*99)
      >           *97)
 C     >           *99)
               IF(LST .EQ. 2) THEN 
-                CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+                CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
               ELSEIF(LST .EQ. 3) THEN 
-                CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+                CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
               ENDIF
 
 C FM 08/99              IF    (KDR .EQ. IDRT) THEN
@@ -240,9 +240,9 @@ C                                    de detecteurs)
      >             *97)
 C     >             *99)
                 IF(LST .EQ. 2) THEN 
-                  CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+                  CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
                 ELSEIF(LST .EQ. 3) THEN 
-                  CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+                  CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
                 ENDIF
                 XFINAL = -CM(IDRT)
                 GOTO 6
@@ -309,9 +309,6 @@ C---------- kart .eq. 1
 C-------- ifb .ne. 0
 
       DX=XLIM-X
-C        write(*,*)  x*180.d0/(4.d0*atan(1.d0)), 
-C     >  dxi*180.d0/(4.d0*atan(1.d0)), xlim,pas,
-C     > 'sbr integr' 
       IF(DX/DXI .LT. 1.D0) THEN
         IF(.NOT.MIRROR) THEN
           GOTO 2
@@ -325,32 +322,13 @@ C     > 'sbr integr'
       CALL COFIN
      >  (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >   *97)
-C     >   *99)
 
-C       write(*,*) ' integr call fitmm  '
-      IF(FITTST) THEN
-        CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
-C        WRITE(*,*) ' INTEGR   FITTST : ',FITTST
-      ENDIF
-
-C rustine RACCAM -----------
-c        call zgnoel(
-c     >              noel)
-c        if(it.eq.1.and.noel.eq.8) then
-c          if(x.gt.-.0046) then 
-c            if(first) then
-c              write(*,*) ' *****it,x,t,noel,first : ', it,x,t,noel,first
-c              t = T - 15.7e-3
-c              first = .false. 
-c              write(*,*) ' *****it,x,t,noel,first : ', it,x,t,noel,first
-c            endif
-c          endif
-c        endif
-C---------------------------
+      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
 
       CT=COS(T)
       ST=SIN(T)
 
+C  A trick for tests at constant coordinate -----------------
          if(consty) then 
                         y = fo(2,it)
                     xxx = nstep*dxi
@@ -358,7 +336,7 @@ C---------------------------
            write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
      >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
          endif
-
+C------------------------------------------------------------
 
       X2 = X
       Y2 = Y
@@ -370,7 +348,6 @@ C           End loop on DXI
  
  2    CONTINUE
 
-C        write(89,*)  x, dxi, dx, xlim, ' 2  sbr integr' 
       IF(KART .EQ. 1) THEN
         AL=1.D0
         BL=0.D0
@@ -389,7 +366,6 @@ C        write(89,*)  x, dxi, dx, xlim, ' 2  sbr integr'
       CALL COFIN
      >  (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
      >   *97)
-C        write(89,*)  x, dxi, dx, xlim, ' 3  sbr integr' 
 
       XFINAL = XLIM
 
@@ -419,8 +395,8 @@ C----------- Spin tracking
           ENDIF
         ENDIF
       ENDIF
-C        write(89,*)  x, dxi, dx, xlim, ' 4  sbr integr' 
 
+C  A trick for tests at constant coordinate -----------------
          if(consty) then 
                         y = fo(2,it)
                     xxx = nstep*dxi
@@ -428,32 +404,31 @@ C        write(89,*)  x, dxi, dx, xlim, ' 4  sbr integr'
            write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
      >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
          endif
+C------------------------------------------------------------
 
 
  99   CONTINUE
-      IF(KALC .EQ. 2 ) THEN
-        CALL CHAMK(X,Y,Z,*97)
-      ELSE
-
+c      IF(KALC .EQ. 2 ) THEN
+c        CALL CHAMK(X,Y,Z,*97)
+c      ELSE
 CCCCCCCCCCCCC FM, rustine Synchrotron Radiation LHC / Zpop  CCCC
-C *.99999D0 introduced to avoid that B be set to zero 
+C *.999999999D0 introduced to avoid that B be set to zero 
 C in SBR BEND due to the  test X.LT.XS in sharp edge magnet case
-        CALL CHAMC(X*.99999D0,Y,Z)
+C        CALL CHAMC(X*.999999999D0,Y,Z)
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C        CALL CHAMC(X,Y,Z)
+c        CALL CHAMC(X,Y,Z)
 CCCCCCCCCCCCCC
-
-      ENDIF
+c      ENDIF
 
 C-------- Wedge correction in BEND, in MULTIPOL with non zero B1, etc.
       IF(WEDGS) CALL WEDGKI(2,T,Z,P,WDGS,FFXTS)
 
  97   CONTINUE
 
-C----- Print last step if requested
+C----- Print last step
       IF(LST .GE. 1) THEN
         IF(LST .EQ. 2) THEN
-          CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,KEX,IT)
+          CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
         ELSE
           CALL IMPDEV
         ENDIF

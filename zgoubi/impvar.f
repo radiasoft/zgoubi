@@ -58,6 +58,8 @@ C----      X(J)        P(I)
           ISGN = NINT(SGN)
           WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,
      >            A(IR(I),IS(I)),XI(I),SGN*X(I),X(J),P(I)
+C          WRITE(IUNIT,400) KL,I,KP,
+C     >            A(IR(I),IS(I)),XI(I),X(I),X(J),P(I)
         ENDIF
  1    CONTINUE
       CALL FLUSH2(IUNIT,.FALSE.)

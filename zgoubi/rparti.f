@@ -29,13 +29,13 @@ C  France
       INCLUDE 'MXLD.H'
       DIMENSION A(MXL,*)
       CHARACTER*132 TXT
-      CHARACTER STRA(1)*132
+      CHARACTER STRA(6)*20
       INTEGER DEBSTR, FINSTR
 
       READ(NDAT,FMT='(A)') TXT
       IFT = FINSTR(TXT)
       TXT = TXT(DEBSTR(TXT):IFT)
-      CALL STRGET(TXT,1,
+      CALL STRGET(TXT,6,
      >                      IDUM,STRA)
       IFIN = FINSTR(STRA(1))
       IDT = IFIN+1
@@ -43,23 +43,28 @@ C  France
 C------- Read 2 masses
         CALL PARTII('MASS_CODE_1')
         STRA(1)=STRA(1)(2:IFIN) 
-        IFIN = FINSTR(STRA(1))
-        IF(STRA(1)(IFIN:IFIN) .EQ. '}') THEN
-          STRA(1)=STRA(1)(1:IFIN-1) 
-        ELSEIF(STRA(1)(IFIN-1:IFIN) .EQ. '},') THEN
-          STRA(1)=STRA(1)(1:IFIN-2) 
-        ELSE
-          GOTO 99
-        ENDIF
+c        IFIN = FINSTR(STRA(1))
+c        IF(STRA(1)(IFIN:IFIN) .EQ. '}') THEN
+c          STRA(1)=STRA(1)(1:IFIN-1) 
+c        ELSEIF(STRA(1)(IFIN-1:IFIN) .EQ. '},') THEN
+c          STRA(1)=STRA(1)(1:IFIN-2) 
+c        ELSE
+c          GOTO 99
+c        ENDIF
+        STRA(2)=STRA(2)(1:IFIN-1) 
 
-        READ(STRA(1),*) A(NOEL,1), A(NOEL,2)
+        READ(STRA(1),*) A(NOEL,1)
+        READ(STRA(2),*) A(NOEL,2)
 
         TXT = TXT(IDT:IFT)
         IFT = FINSTR(TXT)
         IF(TXT(1:1) .EQ. ',') TXT = TXT(2:IFT)
         
 C------- Read Q, G, tau, dum
-        READ(TXT,*) A(NOEL,3),A(NOEL,4),A(NOEL,5),A(NOEL,6)
+        READ(stra(3),*) A(NOEL,3)
+c          write(*,*) stra(1), stra(2), a(noel,1),a(noel,2),a(noel,3)
+c             stop
+C        READ(TXT,*) A(NOEL,3),A(NOEL,4),A(NOEL,5),A(NOEL,6)
       ELSE
 C------- Old method 
         CALL PARTII('NONE')

@@ -34,11 +34,11 @@ C  France
       IF    (IOPT .EQ. 1) THEN
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT(/,T5,'Brute record at pick-ups :',/,
-     >  T5,'PU#',T14,'Pos',T26,'Yco',T39,'Tco',T50,'Zco',T63,
-     >  'Pco',T74,'L',T86,'D',T98,'t',
-     >  /,T14,'(cm)',T25,'(cm)',T38,'(mrad)',T49,'(cm)',T61,'(mrad)',
-     >  T72,'(cm)',T85,'(1+dp/p)',T97,'(mu_s)',T109,
-     >  ' #part ',T117,'Pass#')
+     >  T5,'PU#',T14,'Pos',T26,'Yco',T39,'Tco',T52,'Zco',T65,
+     >  'Pco',T78,'L',T90,'D',T102,'t',
+     >  /,T14,'(cm)',T25,'(cm)',T38,'(mrad)',T51,'(cm)',T63,'(mrad)',
+     >  T78,'(cm)',T89,'(1+dp/p)',T101,'(mu_s)',T113,
+     >  ' #part ',T121,'Pass#')
         CALL PCKUP1
       ELSEIF(IOPT .EQ. 2) THEN
         WRITE(LUN,100) 
@@ -61,7 +61,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
  251    CONTINUE
         DO 4 I = 1, IPU
           NT = NINT(FPU(8,I))
-          WRITE(LUN,FMT= '(1P,2X,I4,8(1X,E12.4),2(1X,I6))' )
+          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E12.4),2(1X,E15.7),2(1X,I6))')
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
  4      CONTINUE
