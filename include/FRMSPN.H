@@ -27,6 +27,6 @@ C Storage format advocated in
 C        SUBROUTINE SPNPRN 
 C  (keywords SPNPRNL, SPNSTORE)
 
- 101      FORMAT(1X,A1,1X,I2,1X,1P,8(1X,E15.7)
-     >      ,/,E15.7,3(1X,I7),3(1X,A8),1X,I5)
+ 101      FORMAT(1P,1X,I2,9(1X,E15.7)
+     >      ,4(1X,I7),3(1X,A1,A8,A1),3A1)
 

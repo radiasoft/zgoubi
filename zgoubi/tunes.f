@@ -39,14 +39,14 @@ C  France
       CALL RAZ(F0, 6*6)
 
       IF(OKPR) THEN
-      IF(NMAIL.LE.0) THEN
-        WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
-        RETURN
-      ELSE
-        WRITE(NRES,106) NMAIL
- 106    FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
-     >         I4,'  is  assumed :')
-      ENDIF
+        IF(NMAIL.LE.0) THEN
+          WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
+          RETURN
+        ELSE
+          WRITE(NRES,106) NMAIL
+ 106      FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
+     >           I4,'  is  assumed :')
+        ENDIF
       ENDIF
  
 C  HORIZONTAL

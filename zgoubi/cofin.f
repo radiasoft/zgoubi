@@ -64,7 +64,7 @@ C      COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
  
 C----- Write position M0, field at M0,  etc.
-      IF(LST .EQ. 2) CALL IMPPLT(NL,Y,T,Z,P,X,SAR,TAR,AMT,QT,KEX,IT)
+      IF(LST .EQ. 2) CALL IMPPLT(NL,Y,T,Z,P,X,SAR,TAR,DS,AMT,QT,KEX,IT)
 
       SAR=SAR+DS
       Y=Y+XF(2)

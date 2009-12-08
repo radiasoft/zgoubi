@@ -24,26 +24,23 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
 C Storage format advocated in
-C      SUBROUTINE IMP
+C      SUBROUTINE IMPPLT
 
  100     FORMAT(1X,
 
-C1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     1           A1,1X,I2,1P,7E16.8,
+C1                     KEX,     XXXO, (FO(J,IT),J=2,MXJ),
+     >    1P,          1X,I2,   7(1X,E16.8)
 
-C2   XXX,Y,T*1.D3,
-     2         /,3E24.16,
+C2              XXX,Y,T*1.D3,Z,P*1.D3,SAR,TAR,  BTI, DS
+     >         ,7(1X,E24.16),                   2(1X,E16.8)
 
-C3   Z,P*1.D3,SAR,     TAR,     DS
-     3         /,4E24.16,E16.8,
+C4          KART,  IT,IREP(IT),    SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS
+     >  ,1X,I1,    2(1X,I6),       8(1X,E16.8)
 
-C4   KART,  IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS
-     4         /,I1,2I6,8E16.8,
+C5        (SI(J,IT),J=1,4),(SF(J,IT),J=1,4)
+     >     ,8(1X,E16.8)
 
-C        (SI(J,IT),J=1,4),(SF(J,IT),J=1,4)
-     5       8E16.8,
-
-C6        EX,EY,EZ, BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
-     6    /,4E16.8,          I6,1X,  A8,1X,  2A8,               I5)
+C6      EX,EY,EZ, BORO,   IPASS,NOEL,  KLEY, (LABEL(NOEL,I),I=1,2), LET(IT)
+     >  ,4(1X,E16.8),     2(1X,I6),    3(1X,A1,A8,A1),          1X, 3A1)
 
 

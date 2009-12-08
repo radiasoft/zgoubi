@@ -44,6 +44,7 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),    CS(6),    QCE(6),    QCS(6)
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
      > ,YCH,ZCH
+      COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
@@ -841,7 +842,7 @@ C              .... IRD=4 OU 25
      X       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
            ENDIF
  
-           IF(LF .NE. 0) CALL FMAPW(0.D0,RFR,1)
+           IF(LF .NE. 0) CALL FMAPW(ZERO,RFR,1)
  
          ENDIF
 C         ... endif NRES>0

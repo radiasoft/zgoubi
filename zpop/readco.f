@@ -49,6 +49,7 @@ C      PARAMETER (MXJ=7)
       
       CHARACTER*10 LBL1, LBL2
       CHARACTER KLEY*10
+      CHARACTER TX1*1
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
 
@@ -79,8 +80,8 @@ C--------- read in zgoubi.spn type storage file
           IF(BINARY) THEN
  111         CONTINUE
             READ(NL,ERR=99,END=10) 
-     >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >      ,ENERG,IT,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
+     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      ,ENERG,IT,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                       IEND)) GOTO 111
@@ -97,8 +98,9 @@ C--------- read in zgoubi.spn type storage file
 
           ELSE
  1          READ(NL,101,ERR=99,END=10) 
-     >      LET,KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >      ,ENERG,IT,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
+     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      ,ENERG,IT,IMAX,IPASS,NOEL,
+     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE 'FRMSPN.H'
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
@@ -145,10 +147,10 @@ C--------- read in zgoubi.fai type storage file
           IF(BINARY) THEN
  222        CONTINUE
             READ(NL,ERR=99,END=10) 
-     >      LET, KEX,(FO(J),J=1,7),
-     >      (F(J),J=1,7), ENERG, 
+     >      KEX,(FO(J),J=1,7),
+     >      (F(J),J=1,7), ENEKI, ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
-     >      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                             IEND)) GOTO 222
@@ -160,10 +162,12 @@ C--------- read in zgoubi.fai type storage file
 
           ELSE
  21         READ(NL,110,ERR=99,END=10)
-     >      LET, KEX,(FO(J),J=1,7),
-     >      (F(J),J=1,7), ENERG, 
+     >      KEX,(FO(J),J=1,7),
+     >      (F(J),J=1,7), ENEKI,ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR,  PS,
-     >      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     >      BORO, IPASS,NOEL, 
+     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
+
             INCLUDE "FRMFAI.H"
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
@@ -183,12 +187,12 @@ C--------- read in zgoubi.plt type storage file
           IF(BINARY) THEN
  232         CONTINUE
             READ(NL,ERR=99,END=10) 
-     >      LET, KEX,(FO(J),J=1,7),
-C     >      (F(J),J=1,7), DS, 
-     >      (F(J),J=1,7), DY, 
+     >      KEX,(FO(J),J=1,7),
+     >      (F(J),J=1,7), BTI, DS, 
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      (SI(J),J=1,4),(SF(J),J=1,4),
-     >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     >      EX, EY, EZ, BORO, IPASS, NOEL, 
+     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
@@ -203,12 +207,12 @@ C            ENDIF
 
           ELSE
  31         READ(NL,100,ERR=99,END=10)
-     >      LET, KEX,(FO(J),J=1,MXJ),
-C     >      (F(J),J=1,MXJ), DS,
-     >      (F(J),J=1,MXJ), DY,
+     >      KEX,(FO(J),J=1,MXJ),
+     >      (F(J),J=1,MXJ), BTI, DS,
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      (SI(J),J=1,4),(SF(J),J=1,4),
-     >      EX, EY, EZ, BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     >      EX, EY, EZ, BORO, IPASS, NOEL
+     >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE "FRMPLT.H"
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
 

@@ -33,6 +33,7 @@ C  France
      > ,YCH,ZCH
       PARAMETER (MXPUD=9,MXPU=1000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      COMMON/CONST2/ ZERO, UN
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
@@ -89,7 +90,7 @@ C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
       ENDIF
  
 C-----  structure length ------------
-      CALL SCUMS(0.D0)
+      CALL SCUMS(ZERO)
 C------------------------------------------------
 
 C-----  Count # of particles last gone through optical structure ------------

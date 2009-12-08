@@ -151,7 +151,7 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
 
       IF(.NOT. PRDIC) THEN
         IF(PRBEAM) THEN
-C------- Transported beam matrix. Initial beam input with OBJET, Kobj=5.1 or 6.1
+C------- Transported beam matrix. Initial beam input with OBJET, Kobj=5.ij or 6.ij
           CALL BEAMAT(R, 
      >                  F0P)
           SUM=0.D0

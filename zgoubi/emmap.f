@@ -451,6 +451,9 @@ C--------- Interpolate the new field map that corresponds to actual DIST
               ENDDO
              ENDDO
 
+                write(77,*) ' sbr emmap ', af, ad, DISTL(KDST),
+     >                      DISTL(KDST1),dist
+                       call flush2(77,.false.)
       ELSE
 
         CALL ENDJOB('*** Error, SBR EMMAC -> No  such  MOD= ',MOD)

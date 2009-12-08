@@ -30,6 +30,7 @@ C  France
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
@@ -306,7 +307,7 @@ C           .... IRD=4 OU 25
      >    '  3*3*3  points,   interpolation  at  ordre ',I2)
         ENDIF
  
-        IF(LF .NE. 0) CALL FMAPW(0.D0,RFR,2)
+        IF(LF .NE. 0) CALL FMAPW(ZERO,RFR,2)
  
       ENDIF
 C     ... endif NRES>0

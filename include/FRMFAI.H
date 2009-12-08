@@ -30,18 +30,20 @@ C data (  Takeichiro Yokoi)16/11/2006
 
  110     FORMAT(1X,
 
-C1   LET(IT),KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     1           A1,1X,I2,1P,7E16.8,
+C1               KEX,      XXXO,(FO(J,IT),J=2,MXJ)
+     >  1P,      1X,I2,    7(1X,E16.8)
 
-C2        XXX,Y,T*1.D3,
-     2         /,3E24.16,
+C2              XXX,Y,T*1.D3,
+     >         ,3(1X,E24.16)
 
-C3       Z,P*1.D3,SAR,     TAR,  ENEKI,
-     3         /,4E24.16,E16.8,
+C3       Z,P*1.D3,SAR,TAR,      ENEKI,ENERG
+     >   ,4(1X,E24.16),        2(1X,E16.8)
 
-C4       IT,IREP(IT),SORT(IT), (AMQ(J,I),J=1,5), RET(IT), DPR(IT), PS,
-     4         /,2I6,9E16.8,
+C4       IT,IREP(IT),   SORT(IT), (AMQ(J,I),J=1,5), RET(IT), DPR(IT), PS
+     >   ,2(1X,I6),   9(1X,E16.8)
 
-C5        BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
-     5  /,E16.8,   I6,1X,  A8, 1X , 2A8,                I5)
+C5         BORO,   IPASS, NOEL,    
+     > ,1X,E16.8,  2(1X,I6)
 
+C6          'KLEY', ('LABEL(NOEL,I)',I=1,2), 'LET(IT)'
+     >    , 3(1X,A1,A8,A1),                   1X,3A1)

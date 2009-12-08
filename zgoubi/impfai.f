@@ -50,6 +50,9 @@ C------- Called by keyword FAISTORE
  
       CHARACTER FNAME*80
       LOGICAL BINARY, FITING
+
+      CHARACTER TX1*1
+      PARAMETER (TX1='''')
       SAVE BINARY
 
       CALL FITSTA(5,FITING)
@@ -74,23 +77,24 @@ C------- Dummies
             ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
             ENEKI = ENERG - AMQ(1,I)
             WRITE(NFAI)
-     1      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
+     1      IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      2      -1.D0+F(1,I),F(2,I),F(3,I),
-     3      (F(J,I),J=4,MXJ),ENEKI,
+     3      (F(J,I),J=4,MXJ),ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
-     5      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I)
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
-            P = BORO*CL9 *F(1,I) * AMQ(2,I)
-            ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
-            ENEKI = ENERG - AMQ(1,I)
-            WRITE(NFAI,110)
-     1      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
-     2      -1.D0+F(1,I),F(2,I),F(3,I),
-     3      (F(J,I),J=4,MXJ),ENEKI,
-     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
-     5      BORO, IPASS, KLEY,LBL1,LBL2,NOEL
+          P = BORO*CL9 *F(1,I) * AMQ(2,I)
+          ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
+          ENEKI = ENERG - AMQ(1,I)
+          WRITE(NFAI,110)
+     1    IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
+     2    -1.D0+F(1,I),F(2,I),F(3,I),
+     3    (F(J,I),J=4,MXJ),ENEKI,ENERG,
+     4    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
+     5    BORO, IPASS, NOEL, 
+     6    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF

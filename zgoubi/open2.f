@@ -35,6 +35,7 @@ C  France
       INTEGER DEBSTR,FINSTR
       LOGICAL OPN, IDLUNI, BINARY
       CHARACTER  TXT*12,TXT80*80
+      CHARACTER TXTA80*260, TXTB80*260
       CHARACTER * 9   DMY,HMS
       SAVE BINARY
 C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
@@ -81,20 +82,48 @@ C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
 
             IF(IPASS .EQ. 1) THEN
 C------------- Write down a 4-line header
-              WRITE(TXT80,FMT='(A,'' - STORAGE FILE, '',A,1X,A)')
+              WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
      >                                                  TXT,DMY,HMS
+              IF    (TXT.EQ.'TRAJECTORIES') THEN
+                TXTA80 = 
+     >            'KEX, -1.D0+FO(1), (FO(J),J=2,MXJ), -1.D0+F(1), Y-DY,'
+     >          //' T*1.D3, Z, P*1.D3, SAR, TAR, beta, DS,'
+     >          //' KART, IT,IREP, SORT, X, BX,BY,BZ, RET,'
+     >          //' DPR, PS,(SI(J),J=1,4),(SF(J),J=1,4),'
+     >          //' EX, EY, EZ, BORO, IPASS, NOEL,'
+     >          //' KLEY, LABEL1, LABEL2, LET'
+                TXTB80 = 
+     >            ' -,  -, cm, mrd, cm, mrd, cm, mu_s, -, cm,'
+     >          //'  mrd, cm, mrd, cm, mu_s, v/c, cm, '
+     >          //' -,  -,  -, cm, cm, kG, kG, kG,   , '
+     >          //'   ,   , , , , , , , , , '
+     >          //' V/m, V/m, V/m, kG.cm '
+              ELSEIF(TXT.EQ.'COORDINATES') THEN
+                TXTA80 = 
+     >            'KEX, -1.D0+FO(1), (FO(J),J=2,MXJ),'
+     >          //' -1.D0+F(1), F(2), F(3), (F(J),J=4,MXJ), ENEKI,'
+     >          //' ENERG, IT, IREP, SORT, (AMQ(J),J=1,5), RET, DPR,'
+     >          //' PS, BORO, IPASS, NOEL, KLEY, LBL1, LBL2, LET'
+                TXTB80 = 
+     >            ' -,  -, cm, mrd, cm, mrd, cm, mu_s, -, cm,'
+     >          //'  mrd, cm, mrd, cm, mu_s, MeV, MeV, '
+     >          //' -,  -,  cm, MeV, C, -, -, -, -, -,'
+     >          //' -, kG.cm '
+              ELSE
+                TXTA80 = '# ...'
+                TXTB80 = '# ...'
+              ENDIF
+
               IF(.NOT.BINARY) THEN
                 WRITE(LUN,FMT='(A80)') TXT80
-                WRITE(LUN,FMT='(A80)') TITRE
-                TXT80='...'
-                WRITE(LUN,FMT='(A80)') TXT80
-                WRITE(LUN,FMT='(A80)') TXT80
+                WRITE(LUN,FMT='(A80)') '# '//TITRE
+                WRITE(LUN,FMT='(A)') TXTA80
+                WRITE(LUN,FMT='(A)') TXTB80
               ELSE
                 WRITE(LUN) TXT80
                 WRITE(LUN) TITRE
-                TXT80='...'
-                WRITE(LUN) TXT80
-                WRITE(LUN) TXT80
+                WRITE(LUN) TXTA80
+                WRITE(LUN) TXTB80
               ENDIF
             ENDIF
           ENDIF

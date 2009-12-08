@@ -30,6 +30,7 @@ C  France
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXPUD=9,MXPU=1000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXSTEP.H'
       INCLUDE "MAXTRA.H"
       INCLUDE 'CSR.H'
@@ -55,7 +56,7 @@ C----- Coherent synchrotron radiation
           READAT = .FALSE.
           IPASS=IPASS+1
           NOEL=0 
-          CALL SCUMS(0.D0)
+          CALL SCUMS(ZERO)
           RETURN 1
         ELSEIF(IPASS .EQ. 2) THEN
 C--------- CSR calculations done
