@@ -147,7 +147,7 @@ C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  mode
 
       IF(NSTEP .EQ. 1) THEN
 C-------- Entrance wedge correction in BEND, in MULTIPOL(if non zero B1), 
-        IF(WEDGE) CALL WEDGKI(1,T,Z,P,WGDE,FFXTE)
+        IF(WEDGE) CALL WEDGKI(1,T,Z,P,WDGE,FFXTE)
       ENDIF
 
       CALL DEVTRA
