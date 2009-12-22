@@ -35,6 +35,8 @@ C  France
       INCLUDE 'MXLD.H'
       CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      INCLUDE "MAXTRA.H"
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       LOGICAL EMPTY
 
@@ -107,7 +109,7 @@ C     >            DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
         ELSEIF(KTI .EQ. -1) THEN
 
             call cavit1(
-     >                  PP0)
+     >                  PP0,GAMMA,dWs)
             scaler = SCL(KF,1) * pp0
 
         ELSEIF(KTI .EQ. -2) THEN
@@ -175,6 +177,56 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
             SCALER = 1.D0
           ENDIF
           write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
+
+        ELSEIF(KTI .EQ. -87) THEN
+
+            call cavit1(
+     >                  PP0,GAMMA,dWs)
+            gg = G*GAMMA
+            if(GG .GT. TIM(KF,1)) THEN
+C             Q-jump started 
+              switch=1.d0
+              dN = TIM(KF,2)
+              dTrn = TIM(KF,3)
+              dgg = G * dWs/AM
+              dint = G*GAMMA - INT(G*GAMMA)
+              trmp1 = dN - (0.5d0*dTrn)*dgg
+              if    (dint .le. trmp1) then
+                fac=0.d0
+              else
+                trmp2 = dN + (0.5d0*dTrn)*dgg
+                if(dint.gt.trmp1 .and. dint .lt. trmp2) then
+                  fac = (dint-trmp1) / (trmp2-trmp1)
+                else
+                  trmp3 = (1.d0-dN) - (0.5d0*dTrn)*dgg
+                  if(dint.lt.trmp3) then
+                    fac = 1.d0
+                  else
+                    trmp4 = (1.d0-dN) + (0.5d0*dTrn)*dgg
+                    if(dint.lt.trmp4) then
+                      fac = (trmp4-dint) / (trmp4-trmp3)
+                    else
+                      fac = 0.d0  
+                    endif
+                  endif
+                endif
+              endif
+            else
+              switch=0.d0
+            endif           
+            
+            if(switch.ne.0.d0) then
+              scaler = fac * SCL(KF,1) * pp0
+            else
+              scaler = 0.d0
+            endif
+
+C             write(77,fmt='(i6,8(1x,F10.4),a)')
+C     >       ipass,fac,gg,dint,trmp1,trmp2,trmp3,trmp4,dws,' scaler'
+             SZ = SF(3,1)
+c             write(77,fmt='(i6,8(1x,F10.4),a)')
+c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
+
         ELSE
           STOP 'FCTN SCALER :  invalid input data NTIM(1)'
         ENDIF

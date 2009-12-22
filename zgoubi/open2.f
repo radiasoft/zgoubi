@@ -122,8 +122,10 @@ C------------- Write down a 4-line header
               ELSE
                 WRITE(LUN) TXT80
                 WRITE(LUN) TITRE
-                WRITE(LUN) TXTA80
-                WRITE(LUN) TXTB80
+                TXT80 = TXTA80(1:80)
+                WRITE(LUN) TXT80
+                TXT80 = TXTB80(1:80)
+                WRITE(LUN) TXT80
               ENDIF
             ENDIF
           ENDIF

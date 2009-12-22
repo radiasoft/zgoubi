@@ -74,7 +74,7 @@ C            as resulting from decay (keyword 'MCDESINT')
       AMQLU(5) = .FALSE.
       PABSLU = .FALSE.
 
-C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c/2)
+C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c2)
       BORO = A(NOEL,1)
       IF(NRES.GT.0) WRITE(NRES,103) BORO
  103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
@@ -107,7 +107,7 @@ C----- Was necessary for FIT procedure when time is constrained :
       KOBJ = A(NOEL,10)
       KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
 
-      GOTO( 1, 2,16,97,50,60,1 ,80),KOBJ
+      GOTO( 1, 2,16,97,50,60,1 ,80,90),KOBJ
 
       IF(NRES.GT.0) WRITE(NRES,FMT=
      >'(10X,''SBR OBJETS:    NO  SUCH  OBJECT  KOBJ='',I2)') KOBJ
@@ -180,7 +180,11 @@ C---------- Initial conditions on an ellipsoid
        CALL OBJ8(KREB31)
       GOTO 99
  
-
+C---------- Initial conditions = 32 particles simulating Gaussian beam (Ref. Thesis M Bai)
+ 90   CONTINUE
+       CALL OBJ9
+      GOTO 99
+ 
 C---------- OBJET AUTOMATIQUE SYMETRIQUE
  1    CONTINUE
       IYMAX = A(NOEL,20)

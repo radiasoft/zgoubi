@@ -44,7 +44,8 @@ C     ------------------------------------------------------
 
  1    CONTINUE
 
-        IF(STR(I2:I2) .EQ. ' ') THEN
+        IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >     STR(I2:I2) .EQ. ',') THEN
           I2 = I2 + 1
           IF(I2 .LE. IE) GOTO 1
         ELSE
@@ -52,7 +53,8 @@ C     ------------------------------------------------------
  2        CONTINUE
           I2 = I2 + 1
           IF(I2 .LE. IE) THEN
-            IF(STR(I2:I2) .EQ. ' ') THEN
+            IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >         STR(I2:I2) .EQ. ',') THEN
               IF(NST .LT. MSS) THEN
                 NST = NST + 1
                 STRA(NST) = STR(I1:I2-1)
@@ -63,7 +65,8 @@ C     ------------------------------------------------------
               GOTO 2
             ENDIF
           ELSE
-            IF(STR(I2-1:I2-1) .NE. ' ') THEN
+            IF(STR(I2-1:I2-1) .NE. ' ' .AND.
+     >         STR(I2-1:I2-1) .NE. ',') THEN
               IF(NST .LT. MSS) THEN
                 NST = NST + 1
                 STRA(NST) = STR(I1:I2-1)

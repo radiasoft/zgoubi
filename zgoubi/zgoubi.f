@@ -303,9 +303,9 @@ C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
       GOTO 998
 C----- CHANGREF. Translation X,Y et rotation du referentiel courant
  13   CONTINUE
-      IF(READAT) READ(NDAT,*) (A(NOEL,II),II=1,3)
+      IF(READAT) CALL RCHANG
       IF(FITGET) CALL FITGT1
-      CALL CHREFE(1,NRES,A(NOEL,1),A(NOEL,2),A(NOEL,3)*RAD)
+      CALL CHREFE
       GOTO 998
 C----- SEXQUAD. Champ CRENEAU B = B0(N.Y+B.Y2+G.Y3) PLAN MEDIAN
  14   CONTINUE

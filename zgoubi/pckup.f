@@ -80,9 +80,11 @@ C------- Record pick-up position (cm)
       ENTRY PCKUP1
       DO 4 I = 1, IPU
         NT = NINT(FPUL(8,I))
-        WRITE(NFPU,FMT= '(1P,2X,I4,1X,G15.7,7G12.4,I9,I7)' )
+        WRITE(NFPU,FMT= 
+     >    '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4))')
      >  I,FPU(9,I),(FPUL(J,I),J=2,7),FPUL(1,I),NT,IPASS
-        WRITE(NFPU,FMT= '(22X,7G12.4)') (FPUL2(J,I),J=2,7),FPUL2(1,I)
+     >  , (FPUL2(J,I),J=2,7), FPUL2(1,I)
+C        WRITE(NFPU,FMT= '(22X,7G12.4)') (FPUL2(J,I),J=2,7),FPUL2(1,I)
  4    CONTINUE
 
       RETURN

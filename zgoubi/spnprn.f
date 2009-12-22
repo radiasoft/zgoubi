@@ -50,6 +50,10 @@ C      COMMON/DONT/ TA(MXL,20)
 
       CHARACTER FNAME*80
       LOGICAL BINARY, FITING
+
+      CHARACTER TX1*1
+      PARAMETER (TX1='''')
+
       SAVE BINARY
 
       CALL FITSTA(5,FITING)
@@ -69,8 +73,8 @@ C------- store at ipass=1 & every ipass=multiple of KPR
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-          WRITE(NSPN) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL 
+          WRITE(NSPN) IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET(I)
         ENDDO
 
       ELSE
@@ -78,8 +82,9 @@ C------- store at ipass=1 & every ipass=multiple of KPR
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-          WRITE(NSPN,101) LET(I),IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
-     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,KLEY,LBL1,LBL2,NOEL
+          WRITE(NSPN,101) IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+     >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL
+     >    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
 
         ENDDO
 

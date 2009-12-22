@@ -23,11 +23,12 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE CHREFE(IOP,NRES,XC,YC,AA)
+      SUBROUTINE CHREFE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -------------------------------------------------
 C     CHANGEMENT DE REFERENCE DE L'ENSEMBLE DU FAISCEAU
 C     -------------------------------------------------
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YL2,ZL2,SORT(MXT),FMAG,BMAX
      > ,YCH,ZCH
@@ -49,34 +50,95 @@ C     -------------------------------------------------
       COMMON/SYNRA/ KSYN
  
       LOGICAL EVNT
+      PARAMETER (MSR=9)
+      CHARACTER QSHRO(MSR)*(2),QSHROI(MSR)*(2)
+      DIMENSION VSHRO(MSR)
+      SAVE QSHRO, NSR
  
       EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
      >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
 
-      DO 1 IT=1,IMAX
-C------- IEX<-1<=> PARTICULE STOPPEE
-        IF( IEX(IT) .LT. -1) GOTO 1
- 
-        IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
-          CALL INITRA(IT)
-          CALL CHAREF(EVNT,XC,YC,AA)
-          CALL MAJTRA(IT)
-        ELSE
-          CALL DEJACA(IT)
-        ENDIF
- 
-   1  CONTINUE
- 
-      IF(IOP .EQ. 1) THEN
+      IF( QSHRO(4) .EQ. 'OL') THEN
+C Old style
+        XC  = A(NOEL,1)
+        YC  = A(NOEL,2)
+        AA  = A(NOEL,3)*RAD
+          VSHRO(1) = XC
+          VSHRO(2) = YC
+          VSHRO(3) = AA
+
         IF(NRES.GT.0) THEN
           WRITE(NRES,100) XC,YC,AA*DEG,AA
- 100      FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC ='
-     >    ,F10.3,' CM , YC ='
-     >    ,F10.3,'  CM ,   A =',F12.5,' DEG  (i.e.,',F10.6,' rad)',/)
-          WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
-  101     FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+ 100      FORMAT(/,' CHANGE  OF  REFERENCE,   XC ='
+     >    ,F10.3,' cm , YC ='
+     >    ,F10.3,'  cm ,   A =',F12.5,' deg  (',F10.6,' rad)',/)
         ENDIF
-      ENDIF
+
+        DO IT=1,IMAX
+C--------- IEX<-1<=> PARTICULE STOPPEE
+          IF( IEX(IT) .GE. -1) THEN
  
+            IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
+              CALL INITRA(IT)
+              CALL CHAREF(EVNT,XC,YC,AA)
+              CALL MAJTRA(IT)
+            ELSE
+              CALL DEJACA(IT)
+            ENDIF
+          ENDIF
+        ENDDO
+
+      ELSE      
+C New style
+
+        DO I=1, NSR
+          VSHRO(I) = A(NOEL,I)
+          IF(QSHRO(I)(2:2).EQ.'R') VSHRO(I) = VSHRO(I)*RAD
+        ENDDO
+ 
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,FMT='(/,5X,''Change  of  reference, '',
+     >    I2,''  transformations :'',/)') NSR
+          DO I=1, NSR
+            IF(QSHRO(I)(2:2).EQ.'S') 
+     >        WRITE(NRES,110) QSHRO(I)(1:1),VSHRO(I)
+ 110          FORMAT(10X,
+     >         'type : ',A1,'-shift,        value : ',1P,E14.6,' cm')
+            IF(QSHRO(I)(2:2).EQ.'R')
+     >        WRITE(NRES,111) QSHRO(I)(1:1),VSHRO(I)/RAD
+ 111        FORMAT(10X,
+     >         'type : ',A1,'-rotation,     value : ',1P,E14.6,' deg')
+          ENDDO
+        ENDIF
+
+        DO IT=1,IMAX
+C--------- IEX<-1<=> PARTICULE STOPPEE
+          IF( IEX(IT) .GE. -1) THEN
+ 
+            IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
+              CALL INITRA(IT)
+              CALL CHANRF(NSR,EVNT,QSHRO,VSHRO)
+              CALL MAJTRA(IT)
+            ELSE
+              CALL DEJACA(IT)
+            ENDIF
+          ENDIF
+        ENDDO
+
+      ENDIF
+
+      IF(NRES.GT.0) WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+ 101  FORMAT(/,' Traj #1,  IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+
       RETURN
+
+      ENTRY CHREF2(NSRI,QSHROI)
+      NSR = NSRI
+      DO I = 1, NSR
+        QSHRO(I) = QSHROI(I)
+      ENDDO
+C To allow for old style
+      IF(NSR.EQ.3) QSHRO(4) = QSHROI(4)
+      RETURN
+
       END

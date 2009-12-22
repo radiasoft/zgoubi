@@ -65,7 +65,7 @@ C  France
  
  10     CONTINUE
         KL=NINT(XCOU(I))
-        KP=NINT((100.D0*XCOU(I)-100.D0*KL))
+        KP=NINT((1D3*XCOU(I)-1D3*KL))
         IF (KL.LT.0) GOTO 2
         IF (KL.GT.0) GOTO 6
         IF(M .EQ. 0)   X(I)=A(K,L)

@@ -53,7 +53,7 @@ C----      X(J)        P(I)
      >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3))
         IF(XCOU(I).NE.0.D0) THEN
           KL=XCOU(I)
-          KP=NINT((100.D0*XCOU(I)-100.D0*KL))
+          KP=NINT((1D3*XCOU(I)-1D3*KL))
           SGN = KL/ABS(KL)
           ISGN = NINT(SGN)
           WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,

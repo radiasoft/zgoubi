@@ -72,9 +72,6 @@ C------- COUPLAGE AVEC LMNT #KL, PRMTR #KP
         KL=XCOU(I)
         IF(KL .NE. 0) THEN
           KP=NINT((1D3*XCOU(I)-1D3*KL))
-C          IF(KL.GT.0) KP=(NINT(100.D0*XCOU(I) + 1.D-6) - 100*KL)
-C          IF(KL.LT.0) KP=(NINT(100.D0*XCOU(I) - 1.D-6) - 100*KL)
-C          CALL VRBLE(*99,I,KL,KP)
           CALL VRBLE(IER,I,KL,KP)
 C--------- # LMNT COUPLE
           IF(KL.GE.NOEL) THEN

@@ -31,6 +31,7 @@ OBJ=\
  chamb.o\
  chamc.o\
  chamk.o\
+ chanrf.o\
  charef.o\
  chmbre.o\
  chmbr.o\
@@ -190,6 +191,7 @@ OBJ=\
  obj5.o\
  obj6.o\
  obj8.o\
+ obj9.o\
  objerr.o\
  objeta.o\
  objets.o\
@@ -215,6 +217,7 @@ OBJ=\
  rbinar.o\
  rcarte.o\
  rcavit.o\
+ rchang.o\
  rcible.o\
  rcoils.o\
  rcolli.o\
@@ -350,6 +353,7 @@ cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
 chamb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 chamc.o: $(INC)/MAXTRA.H
 chamk.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
+chanrf.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 chmbre.o: $(INC)/MAXTRA.H
 chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -442,6 +446,7 @@ obj3.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
 obj5.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 obj6.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 obj8.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+obj9.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
@@ -460,6 +465,7 @@ rbend.o: $(INC)/MXLD.H
 rbinar.o: $(INC)/MXLD.H
 rcarte.o: $(INC)/MXLD.H
 rcavit.o: $(INC)/MXLD.H
+rchang.o: $(INC)/MXLD.H
 rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H

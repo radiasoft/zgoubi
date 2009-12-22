@@ -655,6 +655,7 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
 
  14                CONTINUE
                    READ(LUN,FMT='(A)') TXT132
+
                    IDSTR = DEBSTR(TXT132)
                    IF    (EMPTY(TXT132)) THEN
                      GOTO 14

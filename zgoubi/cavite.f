@@ -55,7 +55,7 @@ C  France
 
       SAVE TIOLD, PHIOLD
 
-      SAVE PP0
+      SAVE PP0,DWS
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -643,6 +643,11 @@ C        DPR(I)=P-PS
       RETURN
 
       ENTRY CAVIT1(
-     >             SCALO)
+     >             SCALO,GAMO,DWSO)
       SCALO = PP0
+      P = PP0 * BORO*CL9*Q
+      GAMO = sqrt(p*p + am*am)/am
+      DWSO = DWS
+      RETURN
+
       END

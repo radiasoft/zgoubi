@@ -31,7 +31,7 @@ C  France
 
       WRITE(6,100) 
  100  FORMAT(//,3X,60('*'),//,20X,' MENU :',///
-     1 ,9X,'  1    RUN   ZGOUBI   ',/
+C     1 ,9X,'  1    RUN   ZGOUBI   ',/
 C     2 ,9X,'  2    BATCH ZGOUBI   ',/
 C     3 ,9X,'  3    FILES ( .dat, .res, .plt, .fai, .spn ) ',/
      7 ,9X,'  7    Menu  for  direct  plots  from',/

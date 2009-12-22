@@ -117,6 +117,13 @@ C--------- AC dipole at BNL
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
 
+          ELSEIF(NTIM(IF) .EQ. -87) THEN
+C--------- AGS, Q-jump quads with snales
+            NDSCL=1
+            NDTIM=3
+C               max = max(NDSCL,NDTIM)
+            MAX=NDTIM
+
           ENDIF
         ENDIF
 

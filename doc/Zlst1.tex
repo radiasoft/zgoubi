@@ -2522,18 +2522,18 @@ following way
 \paragraph{Coupled variables  ($XC$)} 
 
 \noindent  Coupling a variable parameter to any other parameter in the
-structure is possible. This is done by giving $XC$ a value of the form $ r \cdot pp $ where
+structure is possible. This is done by giving $XC$ a value of the form $ r \cdot ppp $ where
 the integer part $ r $ is the number of the coupled element in the structure 
-(equivalent to $ IR$, see above), and the decimal part $ pp $ is the number of its 
+(equivalent to $ IR$, see above), and the decimal part $ ppp $ is the number of its 
 parameter of concern (equivalent to $ IP$,  see above) (if the parameter
-number is in the range 1,...,9, then $ pp $ 
-must take the form $ 0p $). For example, $ XC=20 \cdot 01 $ is a request for coupling with the
-parameter number~1 of element number~20 of the structure, while $ XC=20 \cdot 10 $
-is a request for coupling with the parameter number~10 of element~20.  
+number is in the range 1, 2, ... ,9 (resp. 10, 11, ... 19 or 100, ...), then $ ppp $ 
+must take the form $ 00p$ (resp. $0pp$, $ppp$)). For example, $ XC=20 \cdot 010 $ is a request for coupling with the
+parameter number~10 of element number~20 of the structure, while $ XC=20 \cdot 100 $
+is a request for coupling with the parameter number~100 of element~20.  
 
 \bigskip
 
-\noindent An element of the structure which is coupled (by means of $ XC\not=0) $ to a 
+\noindent An element of the structure which is coupled (by means of $ XC\not= 0) $ to a 
 variable declared in the data list of the \textsl{FIT\index{FIT}} keyword, needs not appear 
 as one of the $ \NV $ variables in that data list (this would be redundant information).  
 

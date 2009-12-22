@@ -57,7 +57,7 @@ C----- KOBJ may be of the form "K.K2"
       
       IF(K .LT. 0) K=-K
 
-      GOTO (1,2,3,1,5,5,7,8) K
+      GOTO (1,2,3,1,5,5,7,8,9) K
       CALL ENDJOB('*** Error, SBR ROBJET -> No  such  object  KOBJ= ',K)
  
  1    CONTINUE
@@ -136,6 +136,17 @@ C              write(*,*) ' sbr robjet KK',kk,k2,k
 C----- IY, IZ, IX
       READ(NDAT,*,ERR=99) (A(NOEL,19+I),I=1,3)
 C----- Center of ellipsoid (Y, T, Z, P, X, D
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
+C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,42)
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,52)
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
+      RETURN
+ 
+ 9    CONTINUE
+C----- IY, IZ, IX = number of phase angles in Y, Z, X 
+      READ(NDAT,*,ERR=99) (A(NOEL,19+I),I=1,3)
+C----- Centers of ellipses (Y, T, Z, P, X, D
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
 C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,42)

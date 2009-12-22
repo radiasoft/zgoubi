@@ -175,6 +175,30 @@ C--------- AC dipole at BNL
      >          (NINT(TIM(IF,IT)), IT=1,3)
           ENDIF
 
+        ELSEIF(NTIM(IF) .EQ. -87) THEN
+C--------- Scaling is taken from CAVITE (ENTRY CAVIT1), as for NTIM=-1. 
+C          Starting value is SCL(IF,1). 
+C          Switch-on is triggered by G.gamma value : trigger is at G.gamma=Integer+dN (dN=0.75-frac(Qx), 
+C                with normally frac(Qx)~0.73 hence dN~0.25)
+          SCL(IF,1) = A(NOEL,10*IF)
+          TIM(IF,1) = A(NOEL,10*IF+1)     ! G.gamma value at start of jump 
+          TIM(IF,2) = A(NOEL,10*IF+2)     ! dN
+          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps (~40)
+
+          IF(NRES .GT. 0) THEN
+            WRITE(NRES,FMT='(15X,''Scaling of field in Q-jump quads ''
+     >      ,''follows increase of rigidity taken from CAVITE'')')
+            WRITE(NRES,FMT='(15X,''Starting scaling value is ''
+     >      ,1P,E14.6)') SCL(IF,1)
+            WRITE(NRES,FMT='(5X,
+     >      ''Quad jump series is started at G.gamma = N + dN ='',
+     >      F10.4,'' + '',F10.4)') TIM(IF,1),TIM(IF,2)
+            WRITE(NRES,FMT=
+     >      '(5X,''Number of turns of up- and down-ramps is : '',I4)') 
+     >      NINT(TIM(IF,3))
+
+          ENDIF
+
         ENDIF
 
  1    CONTINUE

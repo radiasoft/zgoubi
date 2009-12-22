@@ -41,8 +41,12 @@ C  France
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      DIMENSION SMI(4,MXT), SMA(4,MXT)
+C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       LOGICAL IDLUNI
+
+      DIMENSION SPMI(4,MXT), SPMA(4,MXT)
+      PARAMETER (ICMXT=4*MXT)
+      DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
 
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
@@ -71,6 +75,15 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
           SXF = SXF + SF(1,I)
           SYF = SYF + SF(2,I)
           SZF = SZF + SF(3,I)
+
+          IF(SF(1,I).LT.SPMI(1,I)) SPMI(1,I) = SF(1,I)          
+          IF(SF(2,I).LT.SPMI(2,I)) SPMI(2,I) = SF(2,I)          
+          IF(SF(3,I).LT.SPMI(3,I)) SPMI(3,I) = SF(3,I)          
+          IF(SF(4,I).LT.SPMI(4,I)) SPMI(4,I) = SF(4,I)          
+          IF(SF(1,I).GT.SPMA(1,I)) SPMA(1,I) = SF(1,I)          
+          IF(SF(2,I).GT.SPMA(2,I)) SPMA(2,I) = SF(2,I)          
+          IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)          
+          IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)          
  1      CONTINUE
  
         IF(NRES.GT.0) THEN
@@ -102,8 +115,9 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
           ENDDO
  
-          CALL SPNTR3(IMAX,
-     >                     SMI, SMA)
+          CALL SPNTR4(IMAX,SPMI,SPMA)
+C          CALL SPNTR3(IMAX,
+C     >                     SMI, SMA)
           WRITE(NRES,130) JMAXT
  130      FORMAT(///,15X,' Min/Max  components  of  each  of  the '
      >    ,I5,'  particles :'
@@ -114,7 +128,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
               GAMA = SQRT(P*P + AM*AM)/AM
-              WRITE(NRES,131) (SMI(J,I),SMA(J,I),J=1,4),F(1,I)
+              WRITE(NRES,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
      >           ,GAMA,I,IEX(I)
  131          FORMAT(1P,8E12.4,2E13.5,I5,I3)
             ENDIF
@@ -134,7 +148,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
               IF( IEX(I) .GE. -1 ) THEN
                 P = BORO*CL9 *F(1,I) *Q
                 GAMA = SQRT(P*P + AM*AM)/AM
-                WRITE(LUN,131) (SMI(J,I),SMA(J,I),J=1,4),F(1,I)
+                WRITE(LUN,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
      >             ,GAMA,I,IEX(I)
               ENDIF
             ENDDO

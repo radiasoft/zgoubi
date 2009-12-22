@@ -38,7 +38,7 @@ Correction, FM, 02/98
 CCC   DIMENSION BU(4,3), BP(4,3), O(4,3), S(5,3)
       DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
  
-      DIMENSION SPMIO(4,MXT), SPMAO(4,MXT)
+      DIMENSION SPMI(4,MXT), SPMA(4,MXT)
       DIMENSION SMI(4,MXT), SMA(4,MXT)
 
       SAVE SMI, SMA
@@ -162,12 +162,22 @@ C      SF4IT = 1.D0
       RETURN      
 
       ENTRY SPNTR3(IMAX,
-     >                  SPMIO,SPMAO)
+     >                  SPMI,SPMA)
       DO IIT = 1, IMAX
         DO ICOO = 1, 4
-          SPMIO(ICOO,IIT) = SMI(ICOO,IIT)
-          SPMAO(ICOO,IIT) = SMA(ICOO,IIT)
+          SPMI(ICOO,IIT) = SMI(ICOO,IIT)
+          SPMA(ICOO,IIT) = SMA(ICOO,IIT)
         ENDDO
       ENDDO
       RETURN      
+
+      ENTRY SPNTR4(IMAX,SPMI,SPMA)
+      DO IIT = 1, IMAX
+        DO ICOO = 1, 4
+          SMI(ICOO,IIT) = SPMI(ICOO,IIT)
+          SMA(ICOO,IIT) = SPMA(ICOO,IIT)
+        ENDDO
+      ENDDO
+      RETURN      
+
       END

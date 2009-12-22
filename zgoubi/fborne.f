@@ -49,7 +49,7 @@ C---------------------------
             J=K+NV
             KL=XCOU(I)
             IF(KL .NE. 0) THEN
-               KP=NINT((100.D0*XCOU(I)-100.D0*KL))
+               KP=NINT((1D3*XCOU(I)-1D3*KL))
                IF(KL.LT.0) THEN
 C-------------- MINIMA
                  X(K)=0.D0
