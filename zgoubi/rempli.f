@@ -64,23 +64,13 @@ C  France
         GOTO 1
  
  10     CONTINUE
-        KL=NINT(XCOU(I))
+        KL=XCOU(I)
         KP=NINT((1D3*XCOU(I)-1D3*KL))
         IF (KL.LT.0) GOTO 2
         IF (KL.GT.0) GOTO 6
         IF(M .EQ. 0)   X(I)=A(K,L)
         IF(M .EQ. 1)      A(K,L)=X(I)
         GOTO 1
-C 2      CONTINUE
-C        ICOUP=ICOU(I)
-C        CC=A(K,1)+A(ICOUP,1)
-C        IF(M) 3,3,4
-C 3      CONTINUE
-C        X(I)=A(K,1)
-C        GOTO 1
-C 4      CONTINUE
-C        A(K,1) = X(I)
-C        A(ICOUP,1) = CC-A(K,1)
  2      CONTINUE
         KL=-KL
         KP=-KP

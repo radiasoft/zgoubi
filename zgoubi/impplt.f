@@ -168,18 +168,18 @@ C      CALL FLUSH2(LN,.FALSE.)
       RETURN
       ENTRY IMPPL3(LST2I)
       LST2=LST2I
-      if(lst2.gt.0) then
+      IF(LST2.GT.0) THEN
         INQUIRE(FILE='zgoubi.impplt',OPENED=OPN)
-        if(.not.opn) then
+        IF(.NOT.OPN) THEN
           IF(IDLUNI(
      >              LUN)) THEN
 c              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
 c              CLOSE(UNIT=LUN,STATUS='DELETE')
               OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
- 99     write(*,*) '**** SBR impplt : '
-        write(*,*) '         error upon open zgoubi.impplt'
           ENDIF
         ENDIF
+ 99     WRITE(*,*) '**** SBR impplt : '
+        WRITE(*,*) '         error upon open zgoubi.impplt'
       ENDIF
       RETURN
       END

@@ -51,10 +51,13 @@ C---------------------------
             IF(KL .NE. 0) THEN
                KP=NINT((1D3*XCOU(I)-1D3*KL))
                IF(KL.LT.0) THEN
-C-------------- MINIMA
-                 X(K)=0.D0
-C-------------- MAXIMA
-                 X(J)=X(I)+A(-KL,-KP)
+cC-------------- MINIMA
+c                 X(K)=0.D0
+cC-------------- MAXIMA
+c                 X(J)=X(I)+A(-KL,-KP)
+c test
+                 X(K)=-(X(I)+ABS(X(I))*DX(I))
+                 X(J)=-(X(I)-ABS(X(I))*DX(I))
                ELSE
                  X(K)=X(I)-ABS(X(I))*DX(I)
                  X(J)=X(I)+ABS(X(I))*DX(I)
