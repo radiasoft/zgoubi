@@ -133,11 +133,11 @@ C        ENDIF
           GAM =  ENRG / AM
           WRITE(NRES,FMT='(/,1P,
      >    T15,''Reference  data :'',
-     >    /,T15,''      rigidity (kG.cm)      :'',G14.6,
-     >    /,T15,''      mass (MeV/c2)         :'',G14.6,
-     >    /,T15,''      momentum (MeV/c)      :'',G14.6,
-     >    /,T15,''      energy, total (MeV)   :'',G14.6,
-     >    /,T15,''      energy, kinetic (MeV) :'',G14.6,
+     >    /,T15,''      rigidity (kG.cm)      :'',G16.8,
+     >    /,T15,''      mass (MeV/c2)         :'',G16.8,
+     >    /,T15,''      momentum (MeV/c)      :'',G16.8,
+     >    /,T15,''      energy, total (MeV)   :'',G16.8,
+     >    /,T15,''      energy, kinetic (MeV) :'',G16.8,
      >    /,T15,''      beta = v/c            :'',G18.10,
      >    /,T15,''      gamma                 :'',G18.10,
      >    /,T15,''      beta*gamma            :'',G18.10
@@ -153,7 +153,7 @@ C        ENDIF
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
           P = BORO*CL9*Q * F(1,I)
           BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
-          WRITE(NRES,FMT='(I6,1X,1P,5E14.6)') 
+          WRITE(NRES,FMT='(I6,1X,1P,5E16.8)') 
      >       I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I)
         ENDIF
       ENDDO

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE WEDGKI(IO,T,Z,P,WDGA,FFXT)
+      SUBROUTINE WEDGKI(IO,T,Z,P,WDGA,FINT,GAP)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "MAXCOO.H"
@@ -37,14 +37,11 @@ C-------- Exit
       ENDIF
 C Rho corresponds to the total field seen by the particle, i.e. contribution 
 C         of all Bi components in case of combined function (e.g., 'MULTIPOL' with dip+quad+...)
-      RHO = 1/B(1,3)  * UNIT(1)
-C FM Feb. 2004
-C      P = P - Z*1.D-2 * TAN(WEDG * B(1,3)*1.D2)
-C      P = P - Z*1.D-2 * TAN(WEDG) * (B(1,3) / UNIT(1))
-C      write(*,*) P, Z*1.D-2*( -TAN(WEDG))/rho, 
-C     >          (FFXT/(6.D0*RHO*COS(WEDG)))/RHO
-      P = P + Z*1.D-2*( -TAN(WEDG) + FFXT / (6.D0*RHO*COS(WEDG)) ) / RHO
-C It would be better to correct wedg rather than tan(wedg), following Endge/Septier, 
-C it would be better approximation (and so work for small rho). 
+      RHO = 1/B(1,3) 
+      PSI = FINT * GAP/RHO * (1.D0 + SIN(WEDG)**2)/COS(WEDG)
+      P = P - Z * TAN(WEDG -PSI) / RHO 
+C      P = P + Z*1.D-2*( -TAN(WEDG) + FINT / (6.D0*RHO*COS(WEDG)) ) / RHO
+C Better correct wedg rather than tan(wedg), following Endge/Septier, 
+C  better approximation and works for small rho. 
       RETURN
       END

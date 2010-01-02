@@ -71,7 +71,10 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       PARAMETER (PLIM=80.D0)
       LOGICAL SHARPE, SHARPS
 
+      SAVE FINTE, FINTS
+
       DATA TYPCAL / ' analytic', ' interpolation'/
+      DATA FINTE, FINTS / 0.2D0, 0.2D0 /
 
 C  NBMAG=number of magnets.  AT=total extent angle of field 
       NP = 2
@@ -168,7 +171,7 @@ C Entrance EFB
         WRITE(NRES,127) NCOEFE(KMAG),(CE(KMAG,I),I=1,6),SHIFTE(KMAG)
 127     FORMAT (10X,' COEFFICIENTS :',I3,6F10.5
      2  ,/,10X,' Shift  of  EFB  = ',G12.4,' CM',/)
-        IF(LAMBDE(KMAG) .EQ. 0.D0)  WRITE(NRES,FMT='(/,
+        IF(LAMBDE(KMAG) .LE. 0.D0)  WRITE(NRES,FMT='(/,
      >      ''  ***  Warning : sharp edge '',
      >      ''model entails vertical wedge focusing approximated with'',
      >        '' first order kick  ***'')')
@@ -212,7 +215,7 @@ C Exit EFB
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) 'Exit    ',LAMBDS(KMAG),QSIS(KMAG)
         WRITE(NRES,127) NCOEFS(KMAG),(CS(KMAG,I),I=1,6),SHIFTS(KMAG)
-        IF(LAMBDS(KMAG) .EQ. 0.D0)  WRITE(NRES,FMT='(/,
+        IF(LAMBDS(KMAG) .LE. 0.D0)  WRITE(NRES,FMT='(/,
      >      ''  ***  Warning : sharp edge '',
      >      ''model entails vertical wedge focusing approximated with'',
      >        '' first order kick  ***'')')
@@ -272,15 +275,25 @@ C-----------------------------
       SHARPE = .TRUE.
       SHARPS = .TRUE.
       DO 57 KMAG = 1, NBMAG
-        SHARPE = SHARPE .AND. (LAMBDE(KMAG).EQ.0.D0)
-        SHARPS = SHARPS .AND. (LAMBDS(KMAG).EQ.0.D0)
+        SHARPE = SHARPE .AND. (LAMBDE(KMAG).LE.0.D0)
+        SHARPS = SHARPS .AND. (LAMBDS(KMAG).LE.0.D0)
  57   CONTINUE
-C------- Correction for entrance wedge
+C------- Correction for wedge
       IF(NRES.GT.0) WRITE(NRES,*) ' WARNING, SBR DIPCI : ',
      >' Make sure you want hard edge correction with ',
-     >' FF lenghts entrance / exit = ', QSIE(1), QSIS(1)
-      IF(SHARPE) CALL INTEG1(ZERO,QSIE(1))
-      IF(SHARPS) CALL INTEG2(ZERO,QSIS(1))
+     >' FINT at entrance / exit = ', QSIE(1), QSIS(1)
+      IF(SHARPE) THEN
+        GAPE = -LAMBDE(1)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
+        CALL INTEG1(ZERO,FINTE,GAPE)
+      ENDIF
+      IF(SHARPS) THEN
+        GAPS = -LAMBDS(1)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
+        CALL INTEG2(ZERO,FINTS,GAPS)
+      ENDIF
 
 C Get type of field & deriv. calculation 
       NP=NP+1 

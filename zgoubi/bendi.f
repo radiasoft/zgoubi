@@ -95,15 +95,17 @@ C------- BEND is tilted
       CALL  BENDFI(IOPIN,DISTE,IOPOU,DISTS)
 
 C----------- Champ DE FUITE
-      SHARPE=DLE(1) .EQ. 0.D0
-      SHARPS=DLS(1) .EQ. 0.D0
+      SHARPE=DLE(1) .LE. 0.D0
+      SHARPS=DLS(1) .LE. 0.D0
       IF(SHARPE) THEN 
-        FFXTE = XE * CM2M
+        FINTE = XE
         XE=0.D0
+        GAPE = -DLE(1)
       ENDIF
       IF(SHARPS) THEN
-        FFXTS = XLS * CM2M
+        FINTS = XLS
         XLS=0.D0
+        GAPS = -DLS(1)
       ENDIF
       XI = 0.D0
       XLIM = XL + XE + XLS
@@ -117,7 +119,7 @@ C----------- Champ DE FUITE
 C----- SHARP EDGE => INTEGR STOPPE SUR DR. DE COUPURE
       IF(SHARPE) THEN
 C------- Correction for entrance wedge
-        CALL INTEG1(-TE,FFXTE)
+        CALL INTEG1(-TE,FINTE,GAPE)
 
         IDRT = -1
         CA(1)=CTE
@@ -132,7 +134,7 @@ C------- Correction for entrance wedge
 
       IF(SHARPS) THEN
 C------- Correction for exit wedge
-        CALL INTEG2(-TS,FFXTS)
+        CALL INTEG2(-TS,FINTS,GAPS)
 
         IF(IDRT .EQ. -1) THEN
           IDRT = 2
@@ -194,10 +196,10 @@ C        WRITE(NRES,104) 'DE  SORTIE'
         IF( .NOT. SHARPS ) WRITE(NRES,132) (CS(I),I=1,6)
 
         IF( SHARPE .OR. SHARPS ) 
-     >        WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
-     >      ''model entails vertical wedge focusing approximated with'',
-     >        '' first order kick, field lengths : '',1P,2G12.4)') 
-     >         FFXTE/CM2M, FFXTS/CM2M
+     >    WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
+     >    ''entails vertical wedge focusing approximated with'',
+     >    '' first order kick, FINT values entr/exit : '',1P,2G12.4)') 
+     >         FINTE, FINTS
 
       ENDIF
       RETURN

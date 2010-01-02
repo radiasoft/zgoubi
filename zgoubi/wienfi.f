@@ -86,23 +86,31 @@ C      COMMON/DROITE/ IDRT,CA(9),SA(9),CM(9)
       STSQ=SIN(TSQ)
  
 C----------- Champ DE FUITE
-      SHARPE=XE*QLE(1)*DLE(1) .EQ. 0.D0
-      SHARPS=XLS*QLS(1)*DLS(1) .EQ. 0.D0
+      SHARPE=QLE(1)*DLE(1) .LE. 0.D0
+      SHARPS=QLS(1)*DLS(1) .LE. 0.D0
       IF(SHARPE) THEN
 C------- Correction for entrance wedge
-          CALL INTEG1(-TE,ZERO)
-
+        FINTE = XE
         XE=0D0
-        QLE(1)=0.D0
-        DLE(1)=0.D0
+        GAPE = -DLE(1)
+C        GAPE = -AMAX1(QLE(1),DLE(1))
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
+        CALL INTEG1(-TE,FINTE,GAPE)
+C        QLE(1)=0.D0
+C        DLE(1)=0.D0
       ENDIF
       IF(SHARPS) THEN
 C------- Correction for exit wedge
-          CALL INTEG2(-TS,ZERO)
-
+        FINTS = XLS
         XLS=0D0
-        QLS(1)=0.D0
-        DLS(1)=0.D0
+C        GAPS = -AMAX1(QLS(1),DLS(1))
+        GAPS = -DLS(1)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
+        CALL INTEG2(-TS,FINTS,GAPS)
+C        QLS(1)=0.D0
+C        DLS(1)=0.D0
       ENDIF
  
 C---------------------------------------------------

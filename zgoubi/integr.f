@@ -63,7 +63,7 @@ C     -------------------------------------------------------------
       DIMENSION  AREG(2),BREG(2),CREG(2), AREGI(2),BREGI(2),CREGI(2)
       SAVE AREG,BREG,CREG,KREG
 
-      SAVE WDGE, WDGS, FFXTE, FFXTS
+      SAVE WDGE, WDGS, FINTE, FINTS, GAPE, GAPS
 
       LOGICAL FITTST
       SAVE FITTST
@@ -72,7 +72,7 @@ C     -------------------------------------------------------------
       parameter(consty=.false.)
 
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
-      DATA WDGE, WDGS, FFXTE, FFXTS / 0.D0, 0.D0, 0.D0, 0.D0 /
+      DATA WDGE, WDGS, FINTE, FINTS, GAPE, GAPS / 6*0.D0 /
 
       DATA FITTST / .FALSE. /
 
@@ -147,7 +147,7 @@ C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  mode
 
       IF(NSTEP .EQ. 1) THEN
 C-------- Entrance wedge correction in BEND, in MULTIPOL(if non zero B1), 
-        IF(WEDGE) CALL WEDGKI(1,T,Z,P,WDGE,FFXTE)
+        IF(WEDGE) CALL WEDGKI(1,T,Z,P,WDGE,FINTE,GAPE)
       ENDIF
 
       CALL DEVTRA
@@ -421,7 +421,7 @@ CCCCCCCCCCCCCC
 c      ENDIF
 
 C-------- Wedge correction in BEND, in MULTIPOL with non zero B1, etc.
-      IF(WEDGS) CALL WEDGKI(2,T,Z,P,WDGS,FFXTS)
+      IF(WEDGS) CALL WEDGKI(2,T,Z,P,WDGS,FINTS,GAPS)
 
  97   CONTINUE
 
@@ -436,20 +436,23 @@ C----- Print last step
 
       RETURN
 
-      ENTRY INTEG1(WDGI,FFXTEI)
+      ENTRY INTEG1(WDGI,FINTEI,GAPEI)
       WEDGE = .TRUE.
       WDGE=WDGI
-      FFXTE = FFXTEI
+      FINTE = FINTEI
+      GAPE = GAPEI
       RETURN
-      ENTRY INTEG2(WDGI,FFXTSI)
+      ENTRY INTEG2(WDGI,FINTSI,GAPSI)
       WEDGS = .TRUE.
       WDGS = WDGI
-      FFXTS = FFXTSI
+      FINTS = FINTSI
+      GAPS = GAPSI
       RETURN
       ENTRY INTEG3
       WEDGE = .FALSE.
       WEDGS = .FALSE.
       RETURN
+
       ENTRY INTEG4(NSTP)
       NSTP = NSTEP
       RETURN

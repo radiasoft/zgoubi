@@ -33,12 +33,12 @@ C  France
       
       IF    (IOPT .EQ. 1) THEN
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
- 100    FORMAT(/,T5,'Brute record at pick-ups :',/,
-     >  T5,'PU#',T14,'Pos',T28,'Yco',T41,'Tco',T54,'Zco',T67,
-     >  'Pco',T80,'L',T93,'D',T105,'t',
-     >  /,T14,'(cm)',T27,'(cm)',T40,'(mrad)',T53,'(cm)',T65,'(mrad)',
-     >  T80,'(cm)',T92,'(1+dp/p)',T104,'(mu_s)',T116,
-     >  ' #part ',T124,'Pass#')
+ 100    FORMAT(/,1X,'Brute record at pick-ups :',/,
+     >  2X,'PU#',T16,'Pos',T32,'Yco',T47,'Tco',T62,'Zco',T77,
+     >  'Pco',T92,'L',T107,'D',T121,'t',
+     >  /,T16,'(cm)',T31,'(cm)',T46,'(mrad)',T61,'(cm)',T75,'(mrad)',
+     >  T92,'(cm)',T106,'(1+dp/p)',T120,'(mu_s)',T134,
+     >  ' #part ',T144,'Pass#')
         CALL PCKUP1
       ELSEIF(IOPT .EQ. 2) THEN
         WRITE(LUN,100) 
@@ -61,24 +61,24 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
  251    CONTINUE
         DO 4 I = 1, IPU
           NT = NINT(FPU(8,I))
-          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E12.4),2(1X,E15.7),2(1X,I6))')
+          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E14.6),2(1X,E17.9),2(1X,I6))')
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
  4      CONTINUE
 C Careful before changing output format : there may be processor needing high prec.!
-        WRITE(LUN,FMT= '(/,T5,''PU_average (over partcl and pass) : '',
-     >  /,T14,''Y'',T26,''T'',T39,''Z'',T50,''P'',
-     >  T60,''path-L'',T74,''D'',T85,''time'', 
-     >  /,7X,1P,7E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
+        WRITE(LUN,FMT= '(/,1X,''PU_average (over partcl and pass) : '',
+     >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
+     >  T74,''path-L'',T90,''D'',T105,''time'', 
+     >  /,2X,1P,7E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
 C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
-        WRITE(LUN,FMT= '(/,T5,''Sigma  '',
-     >  /,7X,1P,2E16.8,4E12.4,E16.8)' )
+        WRITE(LUN,FMT= '(/,1X,''Sigma  '',
+     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
      >  (CO2(J),J=2,6 ), CO2(1), CO2(7)
-        WRITE(LUN,FMT= '(  T5,''Max-PUSignal  '',
-     >  /,7X,1P,2E16.8,4E12.4,E16.8)' )
+        WRITE(LUN,FMT= '(  1X,''Max-PUSignal  '',
+     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
      >  (COMA(J),J=2,6 ), COMA(1), COMA(7)
-        WRITE(LUN,FMT= '(  T5,''Min-PUSignal  '',
-     >  /,7X,1P,2E16.8,4E12.4,E16.8)' )
+        WRITE(LUN,FMT= '(  1X,''Min-PUSignal  '',
+     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
      >  (COMI(J),J=2,6 ), COMI(1), COMI(7)
       ENDIF
       RETURN

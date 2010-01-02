@@ -71,11 +71,13 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       SKEW=.FALSE.
       CALL RAZ(BM,MPOL)
 
+      GAP = 0.D0
       IF(KUASEX .LE. MPOL) THEN
 C------- Single-pole, from Magnetic QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
 
         XL =A(NOEL,10)
         RO =A(NOEL,11)
+        GAP = RO/KUASEX
         BM(KUASEX) =A(NOEL,12)*SCAL
         XE =A(NOEL,20)
         DLE(KUASEX) =A(NOEL,21)
@@ -131,9 +133,13 @@ C--------- ... or magnetic part of EBMULT
             IF(IM .GE. 2) THEN 
               IF(BM(IM) .NE. 0.D0) THEN
                 IER = IER+1
-                TXT(IER) = 'Give non zero RO value please '
+                TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
+                CALL ENDJOB(TXT(IER),-99)
               ENDIF
             ENDIF
+          ENDIF
+          IF(GAP.EQ.0.D0) THEN
+            IF(BM(IM).NE.0.D0) GAP = RO/IM
           ENDIF
  30     CONTINUE
 
@@ -249,19 +255,23 @@ C------- E converti en MeV/cm
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
       IF(DL0 .EQ. 0.D0) THEN
 C-------- Sharp edge at entrance and exit
-        IF(NRES.GT.0) WRITE(NRES,105) 'Lens field model is '
- 105    FORMAT(/,15X,A,'sharp edge')
-        FFXTE = XE * CM2M
+        FINTE = XE
         XE=0.D0
-        FFXTS = XLS * CM2M
+        FINTS = XLS
         XLS=0.D0
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,105) 'Entrance/exit field models are '
+ 105      FORMAT(/,15X,A,'sharp edge')
+          WRITE(NRES,FMT='(15X,''FINTE, FINTS, gap : '',
+     >    1P,3(1X,E12.4))') FINTE,FINTS,GAP
+        ENDIF
         IF(KFL .EQ. MG) THEN
 C          IF(KUASEX .EQ. MPOL+1) THEN
 C------------- Set entrance & exit wedge correction in SBR INTEGR
 C            IF(BM(1) .NE. 0.D0) THEN
 C FM, 2006
-              CALL INTEG1(ZERO,FFXTE)
-              CALL INTEG2(ZERO,FFXTS)
+              CALL INTEG1(ZERO,FINTE,GAP)
+              CALL INTEG2(ZERO,FINTS,GAP)
 C              CALL INTEG1(ZERO,ZERO)
 C              CALL INTEG2(ZERO,ZERO)
 C            ENDIF
@@ -279,15 +289,19 @@ C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
  5        DL0 = DL0+DLE(IM)
 
         IF(DL0 .EQ. 0.D0) THEN
-          IF(NRES.GT.0) WRITE(NRES,105) ' '
-          FFXTE = XE * CM2M
+          FINTE = XE
           XE=0.D0
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,105) 'Entrance field model is '
+            WRITE(NRES,FMT='(15X,''FINTE, gap : '',
+     >      1P,2(1X,E12.4))') FINTE,GAP
+          ENDIF
           IF(KFL .EQ. MG) THEN
 C            IF(KUASEX .EQ. MPOL+1) THEN
 C              IF(BM(1) .NE. 0.D0) THEN
 C----------- Set entrance wedge correction in  SBR INTEGR
 C FM, 2006
-                CALL INTEG1(ZERO,FFXTE)
+                CALL INTEG1(ZERO,FINTE,GAP)
 C                CALL INTEG1(ZERO,ZERO)
 C              ENDIF
 C            ENDIF
@@ -347,15 +361,19 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
         DO 6 IM=NM0,NM
  6        DL0 = DL0+DLS(IM)
         IF(DL0 .EQ. 0.D0) THEN
-          IF(NRES.GT.0) WRITE(NRES,105) ' '
-          FFXTS = XLS * CM2M
+          FINTS = XLS
           XLS=0.D0
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,105) 'Exit field model is '
+            WRITE(NRES,FMT='(15X,''FINTS, gap : '',
+     >      1P,2(1X,E12.4))') FINTS,GAP
+          ENDIF
           IF(KFL .EQ. MG) THEN
 C            IF(KUASEX .EQ. MPOL+1) THEN
 C------------- Set exit wedge correction in SBR INTEGR
 C              IF(BM(1) .NE. 0.D0) THEN
 C FM, 2006
-                CALL INTEG2(ZERO,FFXTS)
+                CALL INTEG2(ZERO,FINTS,GAP)
 C                CALL INTEG2(ZERO,ZERO)
 C              ENDIF
 C            ENDIF
@@ -409,10 +427,10 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
           IF(BM(1) .NE. 0.D0) THEN
 C---------- Multipole and non-zero dipole component
             IF(NRES.GT.0) 
-     >        WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
-     >      ''model entails vertical wedge focusing approximated with'',
-     >        '' first order kick, field lengths : '',1P,2G12.4)') 
-     >         FFXTE/CM2M, FFXTS/CM2M
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
+     >      ''entails vertical wedge focusing approximated with '',
+     >      ''first order kick, FINT values entr/exit : '',1P,2G12.4)') 
+     >         FINTE, FINTS
           ENDIF
         ENDIF
       ENDIF

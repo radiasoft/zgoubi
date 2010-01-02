@@ -71,7 +71,7 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       PARAMETER (PLIM=80.D0)
       LOGICAL SHARPE, SHARPS
 
-      SAVE FFXTE, FFXTS
+      SAVE FINTE, FINTS
 
       SAVE AD20, AD22, AD24, AD26, AD28 
      >   , AD30, AD32, AD34, AD36, AD38 
@@ -85,9 +85,10 @@ C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       DATA TYPCAL / ' analytic', ' interpolation'/
 
 C  Isochronous e-model, Rees    
-      DATA FFXTE, FFXTS / 0.025D0, 0.025D0 /
+C      DATA FINTE, FINTS / 0.025D0, 0.025D0 /
 C  Isochronous muon FFAG, Rees    
-C      DATA FFXTE, FFXTS / 0.4D0, 0.4D0 /
+C      DATA FINTE, FINTS / 0.4D0, 0.4D0 /
+      DATA FINTE, FINTS / 0.2D0, 0.2D0 /
 
 C Sandro's ffag field
       DATA AD20, AD22, AD24, AD26, AD28 /
@@ -317,9 +318,21 @@ C-----------------------------
         SHARPE = SHARPE .AND. (LAMBDE(KMAG).EQ.0.D0)
         SHARPS = SHARPS .AND. (LAMBDS(KMAG).EQ.0.D0)
  57   CONTINUE
-C------- Correction for entrance wedge
-      IF(SHARPE) CALL INTEG1(ZERO,FFXTE)
-      IF(SHARPS) CALL INTEG2(ZERO,FFXTS)
+      IF(NRES.GT.0) WRITE(NRES,*) ' WARNING, SBR DIPSI : ',
+     >' Make sure you want hard edge correction with ',
+     >' FINT at entrance / exit = ', FINTE,FINTS
+      IF(SHARPE) THEN
+        GAPE = -LAMBDE(1)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
+        CALL INTEG1(ZERO,FINTE,GAPE)
+      ENDIF
+      IF(SHARPS) THEN
+        GAPS = -LAMBDS(1)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
+        CALL INTEG2(ZERO,FINTS,GAPS)
+      ENDIF
 
 C Get type of field & deriv. calculation 
       NP=NP+1 

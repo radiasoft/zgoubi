@@ -136,8 +136,13 @@ C-----  a list of NBMAG.LE.NM magnets
       LAMBDE(KMAG) = A(NOEL,NP)
       NP=NP+1 
       QAPPAE(KMAG) = A(NOEL,NP)
-      SHARPE=LAMBDE(KMAG) .EQ. 0.D0
-      IF(SHARPE) CALL INTEG1(ZERO,ZERO)
+      SHARPE=LAMBDE(KMAG) .LE. 0.D0
+      IF(SHARPE) THEN
+        GPE = -LAMBDE(KMAG)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
+        CALL INTEG1(ZERO,ZERO,GPE)
+      ENDIF
       NP=NP+1 
       NCOEFE(KMAG) = NINT(A(NOEL,NP))
       DO 227 I=1,6
@@ -179,8 +184,13 @@ C Exit Fringe Field
       LAMBDS(KMAG) = A(NOEL,NP)
       NP=NP+1 
       QAPPAS(KMAG)   = A(NOEL,NP)
-      SHARPS=LAMBDS(KMAG) .EQ. 0.D0
-      IF(SHARPS) CALL INTEG2(ZERO,ZERO)
+      SHARPS=LAMBDS(KMAG) .LE. 0.D0
+      IF(SHARPS) THEN
+        GPS = -LAMBDS(KMAG)
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
+        CALL INTEG2(ZERO,ZERO,GPS)
+      ENDIF
       NP=NP+1 
       NCOEFS(KMAG) = NINT(A(NOEL,NP))
       DO 228 I=1,6
