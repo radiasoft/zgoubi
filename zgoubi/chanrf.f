@@ -50,14 +50,9 @@ C     -----------------------------------------------
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       PARAMETER(I0=0)
 
-C        WRITE(*,FMT='(A)') ' SBR CHANRF ',(qshro(I),I=1,NSR),NSR
-C              STOP
-
-      ksr = 1
- 1    continue
-        if    (qshro(ksr).eq.'XS') then
-c          write(77,*) 'chanrf noel,ksr,qshro(ksr): ',
-c     >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr
+      KSR = 1
+ 1    CONTINUE
+        IF    (QSHRO(KSR).EQ.'XS') THEN
           XS = VSHRO(ksr) 
           YS=0.D0
           ZR = 0.D0

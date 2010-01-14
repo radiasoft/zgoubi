@@ -28,14 +28,14 @@ C  France
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER*80 TA
+      COMMON/DONT/ TA(MXL,20)
+
       CHARACTER TXT*132, TXT1*1
 
       INTEGER DEBSTR
-      PARAMETER (MSR=9,MSR2=2*MSR)
-      CHARACTER QSHRO(MSR)*(2), SSHRO(MSR2)*(30)
-
-      LOGICAL OLD
-      DATA OLD / .TRUE. /
+      PARAMETER (MSR=8,MSR2=2*MSR)
+      CHARACTER SSHRO(MSR2)*(30)
 
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
@@ -47,24 +47,24 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         CALL STRGET(TXT,MSR2,
      >                       NSR2,SSHRO)
         NSR = NSR2/2
+        IF(NSR2.GT.8) CALL ENDJOB(' SBR RCHANG. Max transforms is ',MSR)
+        A(NOEL,9) = NSR
         DO I=1,NSR
-          QSHRO(I) = SSHRO(2*I-1)(1:2)
+          TA(NOEL,I) = SSHRO(2*I-1)(1:2)
           READ(SSHRO(2*I),*) A(NOEL,I)
         ENDDO
-        OLD = .FALSE.
+C To allow for old style
+        IF(NSR.EQ.3) TA(NOEL,4) = ' '
       ELSE
 C old style, x- and y-shift followed by z-rotation
         NSR = 3
         READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,NSR)
-        QSHRO(1) = 'XS'
-        QSHRO(2) = 'YS'
-        QSHRO(3) = 'ZR'
-        OLD = .TRUE.
+        TA(NOEL,1) = 'XS'
+        TA(NOEL,2) = 'YS'
+        TA(NOEL,3) = 'ZR'
+        TA(NOEL,4) = 'OL'
       ENDIF
 
-      IF(OLD) QSHRO(4) = 'OL'
-
-      CALL CHREF2(NSR,QSHRO)
       RETURN
 
  99   CONTINUE

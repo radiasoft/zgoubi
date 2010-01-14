@@ -71,5 +71,5 @@ C------- Old method
         READ(TXT,*) (A(NOEL,I),I=1,5)
       ENDIF
       RETURN
- 99   STOP ' *** DATA ERROR : in PARTICUL, while reading M1, M2 ***'
+C 99   STOP ' *** DATA ERROR : in PARTICUL, while reading M1, M2 ***'
       END

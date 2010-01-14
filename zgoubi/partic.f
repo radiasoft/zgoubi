@@ -133,17 +133,20 @@ C        ENDIF
           GAM =  ENRG / AM
           WRITE(NRES,FMT='(/,1P,
      >    T15,''Reference  data :'',
-     >    /,T15,''      rigidity (kG.cm)      :'',G16.8,
-     >    /,T15,''      mass (MeV/c2)         :'',G16.8,
-     >    /,T15,''      momentum (MeV/c)      :'',G16.8,
-     >    /,T15,''      energy, total (MeV)   :'',G16.8,
-     >    /,T15,''      energy, kinetic (MeV) :'',G16.8,
-     >    /,T15,''      beta = v/c            :'',G18.10,
-     >    /,T15,''      gamma                 :'',G18.10,
-     >    /,T15,''      beta*gamma            :'',G18.10
+     >    /,T15,''      rigidity (kG.cm)        :'',G16.8,
+     >    /,T15,''      mass (MeV/c2)           :'',G16.8,
+     >    /,T15,''      momentum (MeV/c)        :'',G16.8,
+     >    /,T15,''      energy, total (MeV)     :'',G16.8,
+     >    /,T15,''      energy, kinetic (MeV)   :'',G16.8,
+     >    /,T15,''      beta = v/c              :'',G18.10,
+     >    /,T15,''      gamma                   :'',G18.10,
+     >    /,T15,''      beta*gamma              :'',G18.10
      >       )') BORO,AM,PREF, ENRG, ENRG-AM, BTA, GAM, BTA*GAM
           IF(G.NE.0.D0) WRITE(NRES,FMT='(1P,
-     >      T15,''      gamma*G               :'',G18.10)') GAM*G
+     >      T15,''      gamma*G                 :'',G18.10)') GAM*G
+          WRITE(NRES,FMT='(1P,
+     >      T15,''      electric rigidity (MeV) :'',G18.10)') 
+     >      (GAM+1.D0)/GAM * Q * (ENRG-AM)
         ENDIF
 
       WRITE(NRES,*) ' '

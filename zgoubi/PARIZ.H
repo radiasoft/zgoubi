@@ -58,7 +58,7 @@ C      PARAMETER (MXX=1000, MXY=500)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA 
-C      PARAMETER (IZ=5 , ID=3)
+C      PARAMETER (IZ=5 , ID=3, MMAP=1)
 C      PARAMETER (MXX=400, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
@@ -68,4 +68,3 @@ C AGS CSnake maps
       PARAMETER (IZ=3 , ID=3, MMAP=2)
       PARAMETER (MXX=801, MXY=29)
       
- 

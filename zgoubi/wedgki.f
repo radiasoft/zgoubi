@@ -37,11 +37,9 @@ C-------- Exit
       ENDIF
 C Rho corresponds to the total field seen by the particle, i.e. contribution 
 C         of all Bi components in case of combined function (e.g., 'MULTIPOL' with dip+quad+...)
-      RHO = 1/B(1,3) 
+      RHO = 1.D0/B(1,3) 
       PSI = FINT * GAP/RHO * (1.D0 + SIN(WEDG)**2)/COS(WEDG)
       P = P - Z * TAN(WEDG -PSI) / RHO 
 C      P = P + Z*1.D-2*( -TAN(WEDG) + FINT / (6.D0*RHO*COS(WEDG)) ) / RHO
-C Better correct wedg rather than tan(wedg), following Endge/Septier, 
-C  better approximation and works for small rho. 
       RETURN
       END

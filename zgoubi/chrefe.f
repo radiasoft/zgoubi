@@ -39,6 +39,8 @@ C     -------------------------------------------------
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER*80 TA
+      COMMON/DONT/ TA(MXL,20)
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
@@ -50,11 +52,18 @@ C     -------------------------------------------------
       COMMON/SYNRA/ KSYN
  
       LOGICAL EVNT
-      PARAMETER (MSR=9)
-      CHARACTER QSHRO(MSR)*(2),QSHROI(MSR)*(2)
+      PARAMETER (MSR=8)
+      CHARACTER QSHRO(MSR)*(2)
       DIMENSION VSHRO(MSR)
-      SAVE QSHRO, NSR
  
+      NSR = A(NOEL,9)
+      DO I = 1, NSR
+        QSHRO(I) = TA(NOEL,I)(1:2)
+            write(nres,*) TA(NOEL,I)(1:2),i,noel
+      ENDDO
+C To allow for old style
+      IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)
+
       EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
      >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
 
@@ -131,14 +140,4 @@ C--------- IEX<-1<=> PARTICULE STOPPEE
  101  FORMAT(/,' Traj #1,  IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
 
       RETURN
-
-      ENTRY CHREF2(NSRI,QSHROI)
-      NSR = NSRI
-      DO I = 1, NSR
-        QSHRO(I) = QSHROI(I)
-      ENDDO
-C To allow for old style
-      IF(NSR.EQ.3) QSHRO(4) = QSHROI(4)
-      RETURN
-
       END

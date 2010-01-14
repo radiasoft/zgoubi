@@ -275,7 +275,6 @@ OBJ=\
  serv34.o\
  serv4.o\
  serv5.o\
- settim.o\
  solenf.o\
  soleno.o\
  solv.o\
@@ -513,7 +512,6 @@ serv32.o: PARIZ.H
 serv34.o: PARIZ.H
 serv4.o: PARIZ.H
 serv5.o: PARIZ.H
-settim.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 soleno.o: $(INC)/MXLD.H
 spn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMSPN.H
