@@ -50,7 +50,6 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         NSR = NSR2/2
         IF(NSR.GT.8) CALL ENDJOB(' SBR RCHANG. Max transforms is ',MSR)
         IF(NSR.GT.MXTA) CALL ENDJOB(' SBR RCHANG. MXTA  .le. ',MXTA)
-        A(NOEL,9) = NSR
         DO I=1,NSR
           TA(NOEL,I) = SSHRO(2*I-1)(1:2)
           READ(SSHRO(2*I),*) A(NOEL,I)
@@ -66,6 +65,7 @@ C old style, x- and y-shift followed by z-rotation
         TA(NOEL,3) = 'ZR'
         TA(NOEL,4) = 'OL'
       ENDIF
+      A(NOEL,9) = NSR
 
       RETURN
 
