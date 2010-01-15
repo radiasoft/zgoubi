@@ -95,8 +95,8 @@ c    >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr
         elseif(qshro(ksr).eq.'YR') then
           YR = VSHRO(ksr) 
         elseif(qshro(ksr).eq.'ZR') then
-          write(77,*) 'chanrf noel,ksr,qshro(ksr): ',
-     >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr 
+c          write(77,*) 'chanrf noel,ksr,qshro(ksr): ',
+c     >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr 
           XS = 0.D0
           YS = 0.D0
           ZR = VSHRO(ksr) 

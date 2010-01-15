@@ -59,7 +59,6 @@ C     -------------------------------------------------
       NSR = A(NOEL,9)
       DO I = 1, NSR
         QSHRO(I) = TA(NOEL,I)(1:2)
-            write(nres,*) TA(NOEL,I)(1:2),i,noel
       ENDDO
 C To allow for old style
       IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)

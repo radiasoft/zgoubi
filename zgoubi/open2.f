@@ -86,10 +86,10 @@ C------------- Write down a 4-line header
      >                                                  TXT,DMY,HMS
               IF    (TXT.EQ.'TRAJECTORIES') THEN
                 TXTA80 = 
-     >            'KEX, -1.D0+FO(1), (FO(J),J=2,MXJ), -1.D0+F(1), Y-DY,'
-     >          //' T*1.D3, Z, P*1.D3, SAR, TAR, beta, DS,'
+     >            'KEX, Do-1, Yo, To, Zo, Po, So, to, D-1, Y-DY,'
+     >          //' T, Z, P, S, time, beta, DS,'
      >          //' KART, IT,IREP, SORT, X, BX,BY,BZ, RET,'
-     >          //' DPR, PS,(SI(J),J=1,4),(SF(J),J=1,4),'
+     >          //' DPR, PS, (Sx,Sy,Sz,|S|)_initial/current,'
      >          //' EX, EY, EZ, BORO, IPASS, NOEL,'
      >          //' KLEY, LABEL1, LABEL2, LET'
                 TXTB80 = 
@@ -100,9 +100,9 @@ C------------- Write down a 4-line header
      >          //' V/m, V/m, V/m, kG.cm '
               ELSEIF(TXT.EQ.'COORDINATES') THEN
                 TXTA80 = 
-     >            'KEX, -1.D0+FO(1), (FO(J),J=2,MXJ),'
-     >          //' -1.D0+F(1), F(2), F(3), (F(J),J=4,MXJ), ENEKI,'
-     >          //' ENERG, IT, IREP, SORT, (AMQ(J),J=1,5), RET, DPR,'
+     >            'KEX, Do-1, Yo, To, Zo, Po, So, to,'
+     >          //' D-1, Y, T, Z, P, S, time,  ENEKI,'
+     >          //' ENERG, IT, IREP, SORT, M, Q, G, tau, -, RET, DPR,'
      >          //' PS, BORO, IPASS, NOEL, KLEY, LBL1, LBL2, LET'
                 TXTB80 = 
      >            ' -,  -, cm, mrd, cm, mrd, cm, mu_s, -, cm,'

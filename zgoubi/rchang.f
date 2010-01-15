@@ -29,7 +29,8 @@ C  France
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      PARAMETER (MXTA=20)
+      COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER TXT*132, TXT1*1
 
@@ -47,7 +48,8 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         CALL STRGET(TXT,MSR2,
      >                       NSR2,SSHRO)
         NSR = NSR2/2
-        IF(NSR2.GT.8) CALL ENDJOB(' SBR RCHANG. Max transforms is ',MSR)
+        IF(NSR.GT.8) CALL ENDJOB(' SBR RCHANG. Max transforms is ',MSR)
+        IF(NSR.GT.MXTA) CALL ENDJOB(' SBR RCHANG. MXTA  .le. ',MXTA)
         A(NOEL,9) = NSR
         DO I=1,NSR
           TA(NOEL,I) = SSHRO(2*I-1)(1:2)
