@@ -35,7 +35,7 @@ C  France
       INTEGER DEBSTR,FINSTR
       LOGICAL OPN, IDLUNI, BINARY
       CHARACTER  TXT*12,TXT80*80
-      CHARACTER TXTA80*260, TXTB80*260
+      CHARACTER TXTA80*270, TXTB80*270
       CHARACTER * 9   DMY,HMS
       SAVE BINARY
 C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
@@ -86,32 +86,34 @@ C------------- Write down a 4-line header
      >                                                  TXT,DMY,HMS
               IF    (TXT.EQ.'TRAJECTORIES') THEN
                 TXTA80 = 
-     >            'KEX, Do-1, Yo, To, Zo, Po, So, to, D-1, Y-DY,'
-     >          //' T, Z, P, S, time, beta, DS,'
-     >          //' KART, IT,IREP, SORT, X, BX,BY,BZ, RET, DPR, PS,'
-     >          //' (Sx,Sy,Sz,|S|)_initial, (Sx,Sy,Sz,|S|)_current,'
-     >          //' EX, EY, EZ, BORO, IPASS, NOEL,'
-     >          //' KLEY, LABEL1, LABEL2, LET'
+     >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
+     >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
+     >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
+     >          //'  (Sx,Sy,Sz,|S|)_initial,  (Sx,Sy,Sz,|S|)_current,'
+     >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
+     >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
-     >            ' int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
-     >          //' mrd, cm, mrd, cm, mu_s, v/c, cm,'
-     >          //' int, int, int, cm, cm, kG, kG, kG, float, float,'
-     >          //' float, float, float, float, float, float, float,'
-     >          //' float, float,'
-     >          //' V/m, V/m, V/m, kG.cm, int, int,'
+     >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
+     >          //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
+     >          //'  int,   cm, cm, kG, kG, kG, float, float, float,'
+     >          //' float,float,float,float, float,float,float,float,'
+     >          //' V/m, V/m, V/m, kG.cm,   int,  int,'
      >          //' string, string, string, string'
 
               ELSEIF(TXT.EQ.'COORDINATES') THEN
                 TXTA80 = 
-     >            'KEX, Do-1, Yo, To, Zo, Po, So, to,'
-     >          //' D-1, Y, T, Z, P, S, time,  ENEKI, ENERG,'
-     >          //' IT, IREP, SORT, M, Q, G, tau, unused, RET, DPR,'
-     >          //' PS, BORO, IPASS, NOEL, KLEY, LBL1, LBL2, LET'
+     >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
+     >          //'   T,  Z,   P,  S, time,  ENEKI, ENERG,'
+     >          //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
+     >          //'   RET,   DPR,'
+     >          //'    PS,  BORO, IPASS, NOEL,   KLEY,'
+     >          //'  LABEL1, LABEL2,   LET '
                 TXTB80 = 
-     >            ' int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
-     >          //'  mrd, cm, mrd, cm, mu_s, MeV, MeV, '
-     >          //' int,  int,  cm, MeV/c2, C, float, float, float,'
-     >          //' float, float, float, kG.cm, int, int, string,'
+     >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
+     >          //' mrd, cm, mrd, cm, mu_s,    MeV,   MeV,'
+     >          //' int,  int,   cm, MeV/c2, C, float, float,  float,'
+     >          //' float, float,'
+     >          //' float, kG.cm,   int,  int, string,'
      >          //'  string, string, string '
               ELSE
                 TXTA80 = '# ...'

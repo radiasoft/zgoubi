@@ -52,7 +52,6 @@ C  France
            WRITE(6,FMT='(A)') TXT80
  2      CONTINUE
       ENDIF
-C      WRITE(6,*) ' Header has been read,  ok'
       RETURN
  89   CONTINUE
       WRITE(6,*) 'END of file reached while reading data file header'
