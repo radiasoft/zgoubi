@@ -140,6 +140,7 @@ C--------- read in zgoubi.spn type storage file
         YZXB(57) = NOEL
 
       ELSE
+
         IF(NL .EQ. NFAI) THEN
 C--------- read in zgoubi.fai type storage file
 
@@ -309,10 +310,8 @@ C--------- Plot from tracking in polar frame
           XINL = XX
           X = XINL
           Y = YINL
-          IF( (KX .EQ. 48 .AND. KY .EQ. 42) .OR. 
-     >      (KX .EQ. 42 .AND. KY .EQ. 48) ) THEN
+          IF( (KX .EQ. 48 .AND. KY .EQ. 42) ) THEN
 C----------- Plot in Lab X-Y
-C               write(*,*) ' mod mod mod ', mod
             IF    (MOD.NE.0) THEN
 C             mod=22 for 150MeV FFAG field map
 C             mod=20 for RACCAM spiral field map
@@ -324,7 +323,7 @@ C             write(*,*) mod,rfr,'  ploter'
                 Y = Y * COS(TEMP) - RFR2
               ENDIF
             ELSEIF(MOD.EQ.0) THEN
-C Example : SPES3 using DIPOLE-M, with KX=48, KY=42
+C Example : SPES3 using DIPOLE-M
 C           FFAG-SPI
               Y = Y + RFR
               TEMP = X 
@@ -353,9 +352,7 @@ C-------------------------
         YZXB(48) = ( XINL*CT - YINL*ST) + ORIG(NOEL,1)
         YZXB(42) = ( XINL*ST + YINL*CT) + ORIG(NOEL,2)
 
-C        write(*,*) ' sbr readco xx,yzxb(8)', xx,yzxb(8)
-
-        continue
+        CONTINUE
 
       ENDIF ! NL = NPLT
 

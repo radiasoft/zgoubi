@@ -63,7 +63,7 @@ C  France
         TXT = 'hit aperture limits'
       ELSEIF(IK .EQ. 5 ) THEN
         CALL CNTNRJ
-        TXT = 'Too many iterations in  SBR ITER'
+        TXT = 'Iter>itmax, or dist>1d5 in  SBR ITER'
       ELSEIF(IK .EQ. 6 ) THEN
         CALL CNTNRJ
         TXT = 'enrgy loss > partcle enrgy (SBR GASCAT)'

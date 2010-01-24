@@ -54,10 +54,10 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
       IL =   A(NOEL,1)
       IFRM = A(NOEL,10)
       JFRM = NINT(10.D0*A(NOEL,10)) - 10*IFRM
-      YL = A(NOEL,11)
-      ZL = A(NOEL,12)
-      YC = A(NOEL,13)
-      ZC = A(NOEL,14)
+      A1 = A(NOEL,11)
+      A2 = A(NOEL,12)
+      A3 = A(NOEL,13)
+      A4 = A(NOEL,14)
       XM = A(NOEL,15)
       XPM = A(NOEL,16)
 
@@ -69,15 +69,32 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
         RETURN
       ENDIF
 
-      IF(IFRM .GE. 11) THEN
-C------- Phase-space (acceptance) collimator
-        EPSPI = YC
-        CUTOFF = ZC
-
-        IF(IFRM .LE. 13) THEN
-          ALP = YL
-          BET = ZL
+      IF(IFRM .LE. 2) THEN
+        IF(JFRM.EQ.1) THEN
+          YL=.5D0*(A2-A1)
+          ZL=.5D0*(A4-A3)
+          YC=.5D0*(A1+A2)
+          ZC=.5D0*(A3+A4)
         ELSE
+          YL=A1
+          ZL=A2
+          YC=A3
+          ZC=A4
+        ENDIF
+      ELSE
+        A1 = YL  
+        A2 = ZL
+        A3 = YC  
+        A4 = ZC  
+        IF(IFRM .GE. 11) THEN
+C--------- Phase-space (acceptance) collimator
+          EPSPI = YC
+          CUTOFF = ZC
+
+          IF(IFRM .LE. 13) THEN
+            ALP = YL
+            BET = ZL
+          ELSE
               IF(IFRM .EQ. 14) THEN
 C--------------- Compute H matched llips
                 JJ = 1
@@ -94,7 +111,8 @@ C---------------Compute LONGITUDINAL matched llips
                 CALL LPSFIT(JJ, 
      >                                   EMIT,ALP,BET,XM,XPM)
               ENDIF
-        ENDIF  
+          ENDIF  
+        ENDIF
       ENDIF
 
         IF(NRES .GT. 0) THEN

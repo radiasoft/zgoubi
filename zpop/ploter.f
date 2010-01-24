@@ -176,8 +176,8 @@ C----- File type zgoubi.spn
 
       ENDIF  
 
-      X = YZXB(KX)
-      Y = YZXB(KY)
+      X = YZXB(KX) 
+      Y = YZXB(KY) 
 
       IF(OKXAV) X=X-XMOY
       IF(OKYAV) Y=Y-YMOY

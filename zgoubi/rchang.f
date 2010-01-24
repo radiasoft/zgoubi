@@ -32,7 +32,7 @@ C  France
       PARAMETER (MXTA=20)
       COMMON/DONT/ TA(MXL,MXTA)
 
-      CHARACTER TXT*132, TXT1*1
+      CHARACTER TXT*132, TXT1*1, TXT2*2
 
       INTEGER DEBSTR
       PARAMETER (MSR=8,MSR2=2*MSR)
@@ -47,24 +47,48 @@ C  France
 C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         CALL STRGET(TXT,MSR2,
      >                       NSR2,SSHRO)
-        NSR = NSR2/2
-        IF(NSR.GT.8) CALL ENDJOB(' SBR RCHANG. Max transforms is ',MSR)
-        IF(NSR.GT.MXTA) CALL ENDJOB(' SBR RCHANG. MXTA  .le. ',MXTA)
-        DO I=1,NSR
-          TA(NOEL,I) = SSHRO(2*I-1)(1:2)
-          READ(SSHRO(2*I),*) A(NOEL,I)
+        II = NSR2/2
+        DO I=1,II
+          TXT2 = SSHRO(2*I-1)(1:2)
+          IF(TXT2(1:1).EQ.'X' .OR.
+     >       TXT2(1:1).EQ.'Y' .OR.
+     >       TXT2(1:1).EQ.'Z' ) THEN
+            IF(TXT2(2:2).EQ.'S' .OR.
+     >         TXT2(2:2).EQ.'R' ) THEN
+              TA(NOEL,I) = TXT2
+              READ(SSHRO(2*I),*) A(NOEL,I)
+            ELSE
+              NSR = II-1
+              GOTO 10
+            ENDIF
+          ELSE
+            NSR = II-1
+            GOTO 10
+          ENDIF
+          IF(I.EQ.8 .OR. I.EQ.MXTA) THEN
+            NSR = II
+            GOTO 10
+          ENDIF
         ENDDO
+        NSR = II
+
+ 10     CONTINUE
+
 C To allow for old style
         IF(NSR.EQ.3) TA(NOEL,4) = ' '
+
       ELSE
 C old style, x- and y-shift followed by z-rotation
+
         NSR = 3
         READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,NSR)
         TA(NOEL,1) = 'XS'
         TA(NOEL,2) = 'YS'
         TA(NOEL,3) = 'ZR'
         TA(NOEL,4) = 'OL'
+
       ENDIF
+
       A(NOEL,9) = NSR
 
       RETURN

@@ -88,27 +88,31 @@ C------------- Write down a 4-line header
                 TXTA80 = 
      >            'KEX, Do-1, Yo, To, Zo, Po, So, to, D-1, Y-DY,'
      >          //' T, Z, P, S, time, beta, DS,'
-     >          //' KART, IT,IREP, SORT, X, BX,BY,BZ, RET,'
-     >          //' DPR, PS, (Sx,Sy,Sz,|S|)_initial/current,'
+     >          //' KART, IT,IREP, SORT, X, BX,BY,BZ, RET, DPR, PS,'
+     >          //' (Sx,Sy,Sz,|S|)_initial, (Sx,Sy,Sz,|S|)_current,'
      >          //' EX, EY, EZ, BORO, IPASS, NOEL,'
      >          //' KLEY, LABEL1, LABEL2, LET'
                 TXTB80 = 
-     >            ' -,  -, cm, mrd, cm, mrd, cm, mu_s, -, cm,'
-     >          //'  mrd, cm, mrd, cm, mu_s, v/c, cm, '
-     >          //' -,  -,  -, cm, cm, kG, kG, kG,   , '
-     >          //'   ,   , , , , , , , , , '
-     >          //' V/m, V/m, V/m, kG.cm '
+     >            ' int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
+     >          //' mrd, cm, mrd, cm, mu_s, v/c, cm,'
+     >          //' int, int, int, cm, cm, kG, kG, kG, float, float,'
+     >          //' float, float, float, float, float, float, float,'
+     >          //' float, float,'
+     >          //' V/m, V/m, V/m, kG.cm, int, int,'
+     >          //' string, string, string, string'
+
               ELSEIF(TXT.EQ.'COORDINATES') THEN
                 TXTA80 = 
      >            'KEX, Do-1, Yo, To, Zo, Po, So, to,'
-     >          //' D-1, Y, T, Z, P, S, time,  ENEKI,'
-     >          //' ENERG, IT, IREP, SORT, M, Q, G, tau, -, RET, DPR,'
+     >          //' D-1, Y, T, Z, P, S, time,  ENEKI, ENERG,'
+     >          //' IT, IREP, SORT, M, Q, G, tau, unused, RET, DPR,'
      >          //' PS, BORO, IPASS, NOEL, KLEY, LBL1, LBL2, LET'
                 TXTB80 = 
-     >            ' -,  -, cm, mrd, cm, mrd, cm, mu_s, -, cm,'
+     >            ' int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >          //'  mrd, cm, mrd, cm, mu_s, MeV, MeV, '
-     >          //' -,  -,  cm, MeV, C, -, -, -, -, -,'
-     >          //' -, kG.cm '
+     >          //' int,  int,  cm, MeV/c2, C, float, float, float,'
+     >          //' float, float, float, kG.cm, int, int, string,'
+     >          //'  string, string, string '
               ELSE
                 TXTA80 = '# ...'
                 TXTB80 = '# ...'

@@ -68,12 +68,13 @@ C To allow for old style
 
       IF( QSHRO(4) .EQ. 'OL') THEN
 C Old style
+
         XC  = A(NOEL,1)
         YC  = A(NOEL,2)
         AA  = A(NOEL,3)*RAD
-          VSHRO(1) = XC
-          VSHRO(2) = YC
-          VSHRO(3) = AA
+        VSHRO(1) = XC
+        VSHRO(2) = YC
+        VSHRO(3) = AA
 
         IF(NRES.GT.0) THEN
           WRITE(NRES,100) XC,YC,AA*DEG,AA
@@ -113,9 +114,10 @@ C New style
  110          FORMAT(10X,
      >         'type : ',A1,'-shift,        value : ',1P,E14.6,' cm')
             IF(QSHRO(I)(2:2).EQ.'R')
-     >        WRITE(NRES,111) QSHRO(I)(1:1),VSHRO(I)/RAD
+     >        WRITE(NRES,111) QSHRO(I)(1:1),VSHRO(I)/RAD,VSHRO(I)
  111        FORMAT(10X,
-     >         'type : ',A1,'-rotation,     value : ',1P,E14.6,' deg')
+     >         'type : ',A1,'-rotation,     value : ',1P,E14.6,' deg  ('
+     >         ,E14.6,' rad)')
           ENDDO
         ENDIF
 

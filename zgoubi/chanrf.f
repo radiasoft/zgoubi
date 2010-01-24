@@ -53,15 +53,11 @@ C     -----------------------------------------------
       KSR = 1
  1    CONTINUE
         IF    (QSHRO(KSR).EQ.'XS') THEN
-          XS = VSHRO(ksr) 
-          YS=0.D0
-          ZR = 0.D0
-
+          XS = VSHRO(KSR) 
           YO=Y
-          Y=((Y-YS)*COS(T)+XS*SIN(T))/COS(T-ZR)
-          T=T-ZR 
-          XL=XS-Y*SIN(ZR)
-          YL=YS-YO+Y*COS(ZR)
+          Y=(Y*COS(T)+XS*SIN(T))/COS(T)
+          XL=XS
+          YL=-YO+Y
           DL=SQRT(XL*XL+YL*YL)
           DL=SIGN(DL,XL)
           DS = DL/COS(P)
@@ -70,37 +66,20 @@ C     -----------------------------------------------
           QBRO = QBR*CL9
           DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
           TAR = TAR + DTAR
-c          YO=Y
-c          XL=XC
-c          DL=SQRT(XL*XL)
-c          DL=SIGN(DL,XL)
-c          DS = DL/COS(P)
-c          SAR= SAR+DS
-c          Z=Z+DL*TAN(P)
-c          QBRO = QBR*CL9
-c          DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
-c          TAR = TAR + DTAR
-        elseif(qshro(ksr).eq.'YS') then
-c          write(77,*) 'chanrf noel,ksr,qshro(ksr): ',
-c    >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr
-          XS = 0.D0
-          YS = VSHRO(ksr) 
-          ZR = 0.D0
+        ELSEIF(QSHRO(KSR).EQ.'YS') THEN
+          YS = VSHRO(KSR) 
           Y = Y-YS
-        elseif(qshro(ksr).eq.'ZS') then
-          ZC = VSHRO(ksr) 
+        ELSEIF(QSHRO(KSR).EQ.'ZS') THEN
+          ZC = VSHRO(KSR) 
           Z = Z-ZC
-        elseif(qshro(ksr).eq.'XR') then
-          XR = VSHRO(ksr) 
-        elseif(qshro(ksr).eq.'YR') then
-          YR = VSHRO(ksr) 
-        elseif(qshro(ksr).eq.'ZR') then
-c          write(77,*) 'chanrf noel,ksr,qshro(ksr): ',
-c     >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr 
-          XS = 0.D0
-          YS = 0.D0
-          ZR = VSHRO(ksr) 
-
+        ELSEIF(QSHRO(KSR).EQ.'XR') THEN
+          XR = VSHRO(KSR) 
+          CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
+        ELSEIF(QSHRO(KSR).EQ.'YR') THEN
+          YR = VSHRO(KSR) 
+          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
+        ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
+          ZR = VSHRO(KSR) 
           YO=Y
           Y=Y*COS(T)/COS(T-ZR)
           T=T-ZR 
@@ -114,7 +93,7 @@ c     >       noel,ksr,qshro(ksr),VSHRO(ksr),nsr
           QBRO = QBR*CL9
           DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
           TAR = TAR + DTAR
-        endif
+        ENDIF
 
         KSR = KSR+1
         IF(KSR.LE.NSR) GOTO 1

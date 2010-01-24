@@ -189,8 +189,6 @@ C      shift of origin (due to upstream fringe field extent) :
       IF(A(NOEL,21).LE.0.D0) XI = 0.D0
 
       PHI=0.D0
-C       call fbgtxt
-C         write(*,*) ' quadru  S,Y,Z,TETA1,XI ',S,Y,Z,TETA1,XI
       CALL STORIG(NOEL,S1,Y1,Z,TETA1,XI,PHI)
       CALL SYNBOX(N,TETA1,S1,Y1,TETA,S,Y,AL,WIDTH)
       IF(N.EQ.1) THEN
@@ -620,12 +618,6 @@ C      shift of origin (due to upstream fringe field extent) :
         COIN2 = A42-TETREF
       ENDIF
          
-C       call fbgtxt
-C         write(*,*) ' bend  S,Y,Z,TETA1,XI ',S,Y,Z,TETA1,XI
-
-C      IDIP=1
-C         CR1 = DR
-C         CR2 = DR
          AL3=WIDTH*TAN(PHI2-COIN1)
          AL4=WIDTH*TAN(PHI2-COIN2)
          TETA1=TETA1-PHI2

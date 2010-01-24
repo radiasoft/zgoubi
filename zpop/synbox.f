@@ -23,36 +23,36 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE SYNBOX(N,TETA1,S1,Y1,TETA,S,Y,AL,DS)
+      SUBROUTINE SYNBOX(N,TTA1,S1,Y1,TTA,S,Y,AL,W)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARCST.H'
 
-      TETA=TETA1+PISUR2
-      S=S1+DS*COS(TETA)
-      Y=Y1+DS*SIN(TETA)
+      TTA=TTA1+PISUR2
+      S=S1+W*COS(TTA)
+      Y=Y1+W*SIN(TTA)
       CALL CALTRI(N,S,Y)
 
-      TETA=TETA1
-      S=S+AL*COS(TETA)
-      Y=Y+AL*SIN(TETA)
+      TTA=TTA1
+      S=S+AL*COS(TTA)
+      Y=Y+AL*SIN(TTA)
       CALL CALTRI(N,S,Y)
 
-      TETA=TETA1-PISUR2
-      S=S+2.*DS*COS(TETA)
-      Y=Y+2.*DS*SIN(TETA)
+      TTA=TTA1-PISUR2
+      S=S+2.*W*COS(TTA)
+      Y=Y+2.*W*SIN(TTA)
       CALL CALTRI(N,S,Y)
 
-      TETA=TETA1-PI
-      S=S+AL*COS(TETA)
-      Y=Y+AL*SIN(TETA)
+      TTA=TTA1-PI
+      S=S+AL*COS(TTA)
+      Y=Y+AL*SIN(TTA)
       CALL CALTRI(N,S,Y)
  
-      TETA=TETA1-3.*PISUR2
-      S=S+DS*COS(TETA)
-      Y=Y+DS*SIN(TETA)
+      TTA=TTA1-3.*PISUR2
+      S=S+W*COS(TTA)
+      Y=Y+W*SIN(TTA)
       CALL CALTRI(N,S,Y)
 
-      CALL SYNAXE(N,TETA1,S,Y,TETA,S,Y,AL)
+      CALL SYNAXE(N,TTA1,S,Y,TTA,S,Y,AL)
 
       RETURN
       END

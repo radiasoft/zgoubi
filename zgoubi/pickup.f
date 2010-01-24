@@ -73,8 +73,8 @@ C     -----------------------------------------------------
  10     CONTINUE
         IF(OPN) THEN
           INQUIRE(FILE='zgoubi.co',ERR=11,NUMBER=LN)
-          WRITE(NRES,*) ' Pick-up storage file zgoubi.co already open'
-     >      ,' under logical unit number ', LN
+          IF(NRES.GT.0) WRITE(NRES,*) ' Pick-up storage file zgoubi.co '
+     >       ,' already open under logical unit number ', LN
         ELSE
           INQUIRE(FILE='zgoubi.co',ERR=11,OPENED=OPN,NUMBER=LN)
           IF(OPN) GOTO 10

@@ -34,6 +34,7 @@ C-----------------------------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
 C      CHARACTER   TEXT*80
+      PARAMETER (I110=110)
       CHARACTER   TEXT*110
       INTEGER DEBSTR
       LOGICAL EMPTY
@@ -60,29 +61,28 @@ C----- Read zgoubi.dat title (1st data line)
 
  2        CONTINUE
 
-            IF( .NOT. EMPTY(TEXT((I+1):110)) ) THEN
-              CALL STRGET(TEXT((I+1):110),2,
-     >                                              NST,LAB2)
-              LABEL(NOEL,1) = LAB2(1)
-              IF(NST.EQ.2) THEN 
-                LABEL(NOEL,2) = LAB2(2)
-              ELSE
-                LABEL(NOEL,2) = '        '
-               ENDIF
-            ELSE       
-              LABEL(NOEL,1) = '        '
-              LABEL(NOEL,2) = '        '
+            LABEL(NOEL,1) = '        '
+            LABEL(NOEL,2) = '        '
+            IF( .NOT. EMPTY(TEXT((I+1):I110)) ) THEN
+              CALL STRGET(TEXT((I+1):I110),2,
+     >                                       NST,LAB2)
+              IF(LAB2(1)(1:1).NE.'!') THEN
+                LABEL(NOEL,1) = LAB2(1)
+                IF(NST.EQ.2) THEN 
+                  IF(LAB2(2)(1:1).NE.'!') LABEL(NOEL,2) = LAB2(2)
+                ENDIF
+              ENDIF
             ENDIF
 
           
 C          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,T110,I6)') TEXT, NOEL
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,I6)') TEXT, NOEL
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(A,I6)') TEXT, NOEL
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
      >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
 
         ELSE
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110)')  TEXT
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(A)')  TEXT
 
         ENDIF
 
