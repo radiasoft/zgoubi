@@ -119,8 +119,8 @@ C----- Get FIT status
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
-      IF(NRES .GT. 0) WRITE(6,105) TITRE
- 105  FORMAT(/,1X,A80,//)
+      IF(NRES .GT. 0) WRITE(6,905) TITRE
+ 905  FORMAT(/,1X,A80,//)
 
       TOMANY = .FALSE.
       NOEL = NL1-1
@@ -1032,6 +1032,10 @@ C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
       IF(READAT) CALL RDIPC(ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
+      GOTO 998
+C----- REVERSE. 
+ 105  CONTINUE
+      CALL REVERS
       GOTO 998
 
 C------------------------------------------------------------------------

@@ -8,6 +8,7 @@ OBJ=\
  apdpo1.o\
  apdpo.o\
  apherf.o\
+ appen.o\
  arrier.o\
  autorf.o\
  avorpr.o\
@@ -236,6 +237,7 @@ OBJ=\
  remma.o\
  rempli.o\
  reset.o\
+ revers.o\
  rfaist.o\
  rffag.o\
  rfit.o\

@@ -89,7 +89,7 @@ C------------- Write down a 4-line header
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
      >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
-     >          //'  (Sx,Sy,Sz,|S|)_initial,  (Sx,Sy,Sz,|S|)_current,'
+     >          //'   SXo,  Syo,  Szo,   So,    SX,   SY,   SZ,    S,'
      >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
@@ -107,14 +107,27 @@ C------------- Write down a 4-line header
      >          //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
      >          //'   RET,   DPR,'
      >          //'    PS,  BORO, IPASS, NOEL,   KLEY,'
-     >          //'  LABEL1, LABEL2,   LET '
+     >          //'  LABEL1, LABEL2,    LET'
                 TXTB80 = 
      >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >          //' mrd, cm, mrd, cm, mu_s,    MeV,   MeV,'
      >          //' int,  int,   cm, MeV/c2, C, float, float,  float,'
      >          //' float, float,'
      >          //' float, kG.cm,   int,  int, string,'
-     >          //'  string, string, string '
+     >          //'  string, string, string'
+
+              ELSEIF(TXT.EQ.'SPIN DATA') THEN
+                TXTA80 = 
+     >            'KEX,'
+     >          //'   SXo,  Syo,  Szo,   So,    SX,   SY,   SZ,    S,'
+     >          //' Ekin, Itraj, IMAX, IPASS, NOEL,'
+     >          //'   KLEY, LABEL1, LABEL2,    LET'
+                TXTB80 = 
+     >            'int,'
+     >          //' float,float,float,float, float,float,float,float,'
+     >          //'  MeV,   int,  int,   int,  int,'
+     >          //' string, string, string, string'
+
               ELSE
                 TXTA80 = '# ...'
                 TXTB80 = '# ...'

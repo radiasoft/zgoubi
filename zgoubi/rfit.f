@@ -30,16 +30,42 @@ C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXV=40) 
-      COMMON/MIMA/ DX(MXV)
+      COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
 
+      CHARACTER TXT132*132
+      LOGICAL STRCON
+
       READ(NDAT,*) NV
       IF(NV.LT.1) RETURN
-      DO 3 I=1,NV
- 3      READ(NDAT,*) IR(I),IS(I),XCOU(I),DX(I)
+
+      DO I=1,NV
+        READ(NDAT,FMT='(A)') TXT132
+        IF(STRCON(TXT132,'[',
+     >                       II)) THEN
+C--------- New method
+          READ(TXT132(1:II-1),*) IR(I),IS(I),XCOU(I)
+          IF(STRCON(TXT132,']',
+     >                      II2)) THEN
+            READ(TXT132(II+1:II2-1),*) XMI(I),XMA(I)
+          ELSE
+            CALL ENDJOB(' SBR RFIT, wrong input data / variables',-99)
+          ENDIF
+
+        ELSE
+C--------- Old method
+ 
+           READ(TXT132,*) IR(I),IS(I),XCOU(I),DX(I)
+           XI = A(IR(I),IS(I))
+           XMI(I)=XI-ABS(XI)*DX(I)
+           XMA(I)=XI+ABS(XI)*DX(I)
+
+        ENDIF
+      ENDDO
+
 
       READ(NDAT,*) NC
       IF(NC.LT.1) RETURN

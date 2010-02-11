@@ -56,6 +56,8 @@ C  France
       SAVE TIOLD, PHIOLD
 
       SAVE PP0,DWS
+!     SR loss
+      LOGICAL SRLOSS
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -150,10 +152,19 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
+C--- Case SR loss
+      CALL SRLOS3(
+     >            SRLOSS)
+      IF(SRLOSS) THEN
+c        CALL SYNPA1(
+c     >              SMELPP)
+c        WKS = WKS - SMELPP
+         WKS = WKS - DWS
+C        WRITE(*,*) ' CAVITE SRLOSS ',SMELPP,dws*ipass,ipass,dts
+      ENDIF
       PS = SQRT(WKS*(WKS+2.D0*AM))
       PP0 = PS / P0
       WS = WKS + AM
-!      WS = SQRT(PS*PS+AM2)
       GOTO 1
  
  30   CONTINUE
@@ -268,9 +279,6 @@ C     ... Synchronous conditions at cavity exit
       WS = WS0 + DBLE(IPASS) * DWS
       PS = SQRT((WS+AM)**2 - AM2)
       BTS = PS/SQRT(PS*PS+AM2)
-
-c        write(*,*) ' sbr cavite  goto 1 '
-c         goto 1
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
@@ -602,17 +610,9 @@ C rajouté en juin 05, pour tenir compte de s à l'origine:
            dti = dti + dti0(i)
 
         PHAS(I) = PHAS(I) + (DTI-DTS)*OMRF
-CCC        PHAS(I) = PHAS(I) + PHS
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
         WF = WF1(I) + QV*SIN(PHAS(I))
-
-C          write(*,fmt='(/,1p,3e12.4,2i5)') 
-C     >             dti,F(7,I),F(6,I),i,ipass
-C          write(*,fmt='(/,1p,4e12.4,2i5)') 
-C     >             dti*ipass,, F(7,I),F(6,I),i,ipass
-
-CCC        WF = WF1(I) + QV*(SIN(PHAS(I)) - SIN(PHS))
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
@@ -646,7 +646,7 @@ C        DPR(I)=P-PS
      >             SCALO,GAMO,DWSO)
       SCALO = PP0
       P = PP0 * BORO*CL9*Q
-      GAMO = sqrt(p*p + am*am)/am
+      GAMO = SQRT(P*P + AM*AM)/AM
       DWSO = DWS
       RETURN
 

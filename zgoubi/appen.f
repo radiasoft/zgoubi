@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,31 +17,26 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
+C  FranÃ§ois MÃ©ot <meot@lpsc.in2p3.fr>
+C  Service AccÃ©lerateurs
 C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE RSRLOS
+      SUBROUTINE APPEN(LFROM, LTO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
-      CHARACTER*8 STRA(2)
-      READ(NDAT,*,ERR=99) A(NOEL,1)
-      READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)
-      CALL STRGET(TA(NOEL,1),2,
-     >                             NOUT,STRA)
-      TA(NOEL,1)=' '
-      TA(NOEL,2)=' '
-      IF(NOUT.GE.1) TA(NOEL,1)=STRA(1)
-      IF(NOUT.GE.2) TA(NOEL,2)=STRA(2)
-      READ(NDAT,*,ERR=99) A(NOEL,10), A(NOEL,11)
+      CHARACTER   TXT132*132
+
+      REWIND(LFROM)
+ 1    CONTINUE
+        READ(LFROM,FMT='(A)',ERR=89,END=88) TXT132
+        WRITE(LTO,FMT='(A)') TXT132
+      GOTO 1
+
       RETURN
- 99   CONTINUE
-      WRITE(6,*) ' Input data error at keyword SRLOSS'
-      STOP
+
+ 88   WRITE(*,*) ' SBR APPEN, REACHED EOF '
+      RETURN
+ 89   WRITE(*,*) ' SBR APPEN, READ ERROR '
+      RETURN
       END

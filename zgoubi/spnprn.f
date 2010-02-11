@@ -82,9 +82,10 @@ C------- store at ipass=1 & every ipass=multiple of KPR
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-          WRITE(NSPN,101) IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
+          WRITE(NSPN,101) 
+     >    IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4)
      >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL
-     >    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
+     >    ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
 
         ENDDO
 

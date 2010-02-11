@@ -68,7 +68,7 @@ C  France
 
           IF( EMPTY(LBF(IF,1)) ) THEN
              WRITE(NRES,FMT='(15X,
-     >       ''Family not labeled ;  this scaling will be apply'',
+     >       ''Family not labeled ;  this scaling will apply'',
      >       '' to all elements  "'',A,''"'')') FAM(IF)
           ENDIF
         ENDIF

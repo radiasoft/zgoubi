@@ -29,46 +29,33 @@ C  France
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER * 81 TAMP
       COMMON/EDIT/TAMP
-      COMMON/MIMA/ DX(40)
       PARAMETER (MXV=40) 
+      COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       COMMON /VAR/ X(3*MXV),P(MXV)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
- 
-      IBEA=0
-      DO 1 I=1,NV
-         IF(IR(I) .EQ. 0) THEN
-            IBEA=IBEA+1
-         ELSE
+      DO I=1,NV
 C FM, Dec.2002, for fit of longitudinal ellipses out of pi-collect channel
 C            P(I)=ABS(DX(I)*X(I)/10.D0) +.01  replaced by
 C            P(I)=ABS(DX(I)*X(I)/10.D0) 
 C---------------------------
-            P(I)=ABS(DX(I)*X(I)/10.D0) +.01D0  
-            K=I+NV
-            J=K+NV
-            KL=XCOU(I)
-            IF(KL .NE. 0) THEN
-               KP=NINT((1D3*XCOU(I)-1D3*KL))
-               IF(KL.LT.0) THEN
-cC-------------- MINIMA
-c                 X(K)=0.D0
-cC-------------- MAXIMA
-c                 X(J)=X(I)+A(-KL,-KP)
-c test
-                 X(K)=-(X(I)+ABS(X(I))*DX(I))
-                 X(J)=-(X(I)-ABS(X(I))*DX(I))
-               ELSE
-                 X(K)=X(I)-ABS(X(I))*DX(I)
-                 X(J)=X(I)+ABS(X(I))*DX(I)
-               ENDIF
-            ELSE
-C-------------- MINIMA
-               X(K)=X(I)-ABS(X(I))*DX(I)
-C-------------- MAXIMA
-               X(J)=X(I)+ABS(X(I))*DX(I)
-            ENDIF
-         ENDIF
- 1    CONTINUE
+C           P(I)=ABS(DX(I)*X(I)/10.D0) +.01D0  
+           P(I)=(XMA(I)-XMI(I))/100.D0  
+           K=I+NV
+           J=K+NV
+           KL=XCOU(I)
+           IF(KL .EQ. 0) THEN
+             X(K)=XMI(I)
+             X(J)=XMA(I)
+           ELSE
+             IF(KL.LT.0) THEN
+               X(K)=-XMA(I)
+               X(J)=-XMI(I)
+             ELSE
+               X(K)=XMI(I)
+               X(J)=XMA(I)
+             ENDIF
+           ENDIF
+      ENDDO
       RETURN
       END

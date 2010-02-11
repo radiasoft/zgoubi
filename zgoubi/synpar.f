@@ -62,33 +62,30 @@ C      SRMSE2=SRMSE2 + (6.72d-14*GAMMA**2.5/RHO)**2
       IF(NRES.LE.0) RETURN
       WRITE(NRES,FMT='(/,2X,
      >'' * Theoretical S.R. parameters in the *dipole* field :'',/)')
-      WRITE(NRES,FMT='(5X,'' Deviation Ang. :'',1P,G12.4,
-     > ''rad.    Bending radius :'',G12.4,''m'')') ANG,RHO
+      WRITE(NRES,FMT='(5X,'' Deviation Ang. :'',1P,G16.8,
+     > ''rad.    Bending radius :'',G16.8,''m'')') ANG,RHO
       WRITE(NRES,FMT='(5X,'' Mean energy loss per particle :'',
-     >'' Eloss = (2/3).r0.c.gamma^3.B/1000 .Ang ='',1P,T80,G12.4,
+     >'' Eloss = (2/3).r0.c.gamma^3.B/1000 .Ang ='',1P,T80,G16.8,
      >'' keV'')') EKEV *ABS(ANG)/(2.D0*PI)
       WRITE(NRES,FMT='(5X,'' Critical energy :'',
-     >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G12.4,
+     >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G16.8,
      >'' keV'')') EC
       WRITE(NRES,FMT='(5X,'' Mean energy of radiated photons :'',
-     >'' <Eph> = 8/(15.sqrt(3)).Ec ='',1P,T80,G12.4,'' keV'')') EPHOT
+     >'' <Eph> = 8/(15.sqrt(3)).Ec ='',1P,T80,G16.8,'' keV'')') EPHOT
       WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',
-C     >'' Eph_rms = 0.5591.Ec ='',1P,T80,G12.4,'' keV'')') .5591D0*EC
-     >'' Eph_rms = 0.6383.Ec ='',1P,T80,G12.4,'' keV'')') .6383D0*EC
+     >'' Eph_rms = 0.6383.Ec ='',1P,T80,G16.8,'' keV'')') .6383D0*EC
       WRITE(NRES,FMT='(5X,'' Number of mean photons per particle'',
-     >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G12.4)') 
+     >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
       WRITE(NRES,FMT='(//,5X,'' Mean energy loss per particle, summed'',
-     >'' UP TO THIS MAGNET :'',1P,G12.4,'' keV'',6X,
-     >''Relative to initial energy :'',G12.4)') SMELPP, SMELPP*1.D-3/E
+     >'' UP TO THIS MAGNET :'',1P,G16.8,'' keV'',6X,
+     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       WRITE(NRES,FMT='(5X,'' # of mean photons per particle, summed'',
-     >'' UP TO THIS MAGNET :'',1P,G12.4)') SNMPP
+     >'' UP TO THIS MAGNET :'',1P,G16.8)') SNMPP
       WRITE(NRES,FMT='(5X,'' rms energy of radiated photons'',
-     > 1P,G12.4)') sqrt(SRMSE2)
+     > 1P,G16.8)') sqrt(SRMSE2)
 
-C      write(30,fmt='(2I5,1P,3G12.4)') 
-C     >  noel,occur,SMELPP,SNMPP,sqrt(SRMSE2)
 
       RETURN
 
@@ -99,8 +96,9 @@ C     >  noel,occur,SMELPP,SNMPP,sqrt(SRMSE2)
         OCCUR=0
       RETURN
 
-C      ENTRY SYNPAI(SCLIN)
-C      SCL=SCLIN
-C      RETURN
+      ENTRY SYNPA1(
+     >             SMELPO)
+      SMELPO = SMELPP*1.D-3
+      RETURN
 
       END

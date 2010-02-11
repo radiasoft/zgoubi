@@ -52,7 +52,7 @@ C      IF(AM*Q .EQ. 0.D0) THEN
       IF(Q*AM.EQ.0D0) THEN
         WRITE(NRES,106)
  106    FORMAT(//,15X,' PLEASE GIVE MASS OF FLYING PARTICLES !'
-     >         ,/,15X,' - USE KEWORD ''PARTICUL''',/)
+     >         ,/,15X,' - USE KEYWORD ''PARTICUL''',/)
         RETURN 1
       ENDIF
  

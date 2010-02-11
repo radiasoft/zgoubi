@@ -109,6 +109,7 @@ C        tilted by (normally) half the deviation.
 C Modified, FM, Dec 05
 C        YCS = -YCE
 C        YCE = 0.D0
+        XCS = 0.D0
         YCS = -YCE/COS(ALE)
         ALS=ALE
         CALL TRANSR(MIRROR,LDUM)

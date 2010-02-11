@@ -38,9 +38,13 @@ C  France
       SAVE SCALE
       CHARACTER*80 TXT
       INTEGER DEBSTR, FINSTR
+      LOGICAL OKSR, OKSRO
+      DATA OKSR / .FALSE. /
+
       KSYN= A(NOEL,1)
       IF(KSYN.EQ.0) THEN
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''S.R. TRACKING IS OFF'')')
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''S.R. LOSS IS OFF'')')
+        OKSR = .FALSE.
         RETURN
       ENDIF
 
@@ -77,24 +81,29 @@ C          P=BORO*CL*1.D-9*Q
      >    /,30X,' Kinetic  energy =  ',G15.7,' MeV') 
       ENDIF
  
-C      IF(AM*Q .EQ. 0.D0) THEN
       IF(Q*AM.EQ.0D0) THEN
         WRITE(NRES,106)
  106    FORMAT(//,15X,' PLEASE GIVE MASS AND CHARGE OF PARTICLES !'
-     >         ,/,15X,' - USE KEWORD ''PARTICUL''',/)
+     >         ,/,15X,' - USE KEYWORD ''PARTICUL''',/)
         RETURN 1
       ENDIF
 
-C      TXT = TA(NOEL,2)
-C      TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
-C      SCALE=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
+      OKSR = .TRUE.
+
       IRA=1+(NINT(A(NOEL,11))/2)*2    
       IF(IPASS.EQ.1) THEN 
         CALL RAYSY1(IMAX,IRA)
         CALL RAYSY3(TA(NOEL,1))
       ENDIF
       RETURN
+
       ENTRY SRLOSR(SCALO)
       SCALO=SCALE
       RETURN
+
+      ENTRY SRLOS3(
+     >             OKSRO)
+      OKSRO = OKSR
+      RETURN
+
       END
