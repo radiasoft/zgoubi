@@ -31,6 +31,8 @@ C  France
 
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
+      COMMON/VEN/Y1,S1,D,DQ,DS,DM,DSS,DPU,TETA1,
+     >           SMIN,SMAX,YMIN,YMAX,SB0,YB0
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       CHARACTER*(*) PART, GNUFIL
@@ -102,6 +104,7 @@ C---------- Main menu
 C--------- Lab coordinate types
           LINE = 0
           READ(LN,*,ERR=57,END=57) KX,KY
+          WRITE(*,*) KX,KY
           LINE = LINE+1
           OKVAR = .TRUE.
           IF( TYLAB(KX,KY) ) THEN
@@ -121,6 +124,7 @@ C--------- Axis range
           YMI0 = YMI
           YMA0 = YMA
           READ(LN,*,ERR=57,END=57) XMI,XMA,YMI,YMA
+          WRITE(*,*) XMI,XMA,YMI,YMA
           LINE = LINE+1
           IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN
             CALL TRAXES(XMI,XMA,YMI,YMA,2)
@@ -134,25 +138,32 @@ C--------- Axis range
           ENDIF
 C--------- LIST option and histogram bins number
           READ(LN,*,ERR=57,END=57) LIS, NB
+          WRITE(*,*) LIS, NB
           LINE = LINE+1
 C--------- Marker/line type
           READ(LN,*,ERR=57,END=57) MARK
+          WRITE(*,*) MARK
           LINE = LINE+1
           CALL LINTYW(MARK)
 C--------- Trajectories data file (default is zgoubi.plt)
           FILE2O = ' '
           READ(LN,*,ERR=57,END=57) FILE2O
+          WRITE(*,*) FILE2O
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KP1, KP2
+          WRITE(*,*) KP1, KP2
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KT1, KT2
+          WRITE(*,*) KT1, KT2
           LINE = LINE+1
 C--------- Optical structure data file (default is zgoubi.dat)
           FILE3O = ' '
           READ(LN,*,ERR=57,END=57) FILE3O  !!!!!, LMNT1, LMNT2
+          WRITE(*,*) FILE3O  !!!!!, LMNT1, LMNT2
           LINE = LINE+1
 C--------- Options, menu 7.3.14
           READ(LN,*,ERR=57,END=57) AX,PX,BX
+          WRITE(*,*) AX,PX,BX
           IBXY = 0
           IF(BX.EQ.-99.D0) IBXY = 1
           IF(IBXY.NE.0) THEN
@@ -179,6 +190,7 @@ C--------- Options, menu 7.3.14
           CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) AY,PY,BY
+          WRITE(*,*) AY,PY,BY
           IBXY = 0
           IF(BY.EQ.-99.D0) IBXY = 2
           IF(IBXY.NE.0) THEN
@@ -203,6 +215,11 @@ C--------- Options, menu 7.3.14
           ENDIF
           CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
           CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
+          LINE = LINE+1
+C--------- Options, menu 7.7(LabCoord).5. Initial coordinates of synoptic
+          READ(LN,*,ERR=57,END=57) SB0, YB0, TETA1   ! (m, m, rad)
+          WRITE(*,*) SB0, YB0, TETA1
+          CALL INSY4(SB0,YB0,TETA1)
           LINE = LINE+1
           
  57       WRITE(6,FMT='(I2,2A)') LINE,' lines of initialisation ',  

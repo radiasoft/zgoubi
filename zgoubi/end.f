@@ -76,7 +76,7 @@ C----- Average orbit----------------------------------------
         IF(NRES .GT. 0) CALL AVORPR(NRES,2)
       ENDIF
 
-        IF(IPASS.EQ.1) THEN
+      IF(IPASS.EQ.1) THEN
           CALL CNTMXR(
      >                IMX)
           WRITE(NRES,103) IMX
@@ -117,6 +117,6 @@ C----- Average orbit----------------------------------------
           IF(NRJ .GT. 0) WRITE(NRES,108) NRJ,IMX
  108      FORMAT(/,5X,'     # of particles stopped during ',
      >      'integration in field :', I10,'/',I10) 
-        ENDIF
+      ENDIF
       RETURN
       END

@@ -2823,16 +2823,19 @@ X_S $ translations.}
      \>\textbf{Jump to the beginning of \zgoubi input data file}\>\>\\
  \\
  \\
- \textsl{NPASS}\index{NPASS}, \textsl{KWRIT}, $K$ 
-        \>Number of runs~; \textsl{KWRIT} = 0.0 inhibits  \>arbitrary, \>3*I\\
-        \>\textsl{FORTRAN WRITE} statements onto both .res and screen~; $K$ = option \>0-1, 0 or 99 \> \\
+ \textsl{NPASS}\index{NPASS}, \textsl{KWRIT}, $K$\textsl{[.n]}, 
+                                       \>Number of runs~; \textsl{KWRIT} = 1.1 (resp. 0.0) switches   \>arbitrary, \>3*I\\
+ \textsl{[, Label1 [, Label2]]}        \>(resp. inhibits) \textsl{FORTRAN WRITE}s to both .res and screen~; \> \\
+        \> $K$ = option \>0-1, 0 or 99 \> \\
  \>$K=0$ : initial conditions (coordinates and spins\index{spin tracking}) \>\>\\
  \>are generated following the regular functioning \>\>\\
  \>of object definitions. If random generators are \>\>\\
  \>used (e.g. in \textsl{MCOBJET}\index{MCOBJET}) their seeds will not be reset \>\>\\
  \>$K=99$ : the coordinates resulting from the previous \>\>\\
- \>run are used as initial coordinates for the \>\>\\
- \>next run~; idem for spin components.  
+ \>pass are used as initial coordinates for the \>\>\\
+ \>next one~; idem for spin components.   \>\>\\
+ \>$K=99.1$ : Label1 is expected, subsequent passes will start from Label1~; \>\>\\
+ \>$K=99.2$ : Label1 and Label2 are expected, last pass (\# IPASS+1) will end at Label2. 
 \end{tabbing}
 
 \newpage

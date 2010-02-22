@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PCKUP
+      SUBROUTINE PCKUP(NOEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
 C     Average orbit (multiturn AND multiparticle summmation)
@@ -42,13 +42,18 @@ C     -----------------------------------------------------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
-      DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU)
-      SAVE FPUL, FPUL2
+      DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU), NOELPU(MXPU)
+      SAVE FPUL, FPUL2, NOELPU
+
+      DATA NOELPU / MXPU*0 /
 
 C----- Pick-up number. Reset to 0 in SBR PICKUP
       IPU = IPU + 1
+
+      IF(IPASS.EQ.1) NOELPU(IPU) = NOEL
+
       IF(IPU .GT. MXPU) 
-     >CALL ENDJOB('Too  many  c.o.  pick-ups,  max  is ',MXPU)
+     >CALL ENDJOB('SBR PCKUP.  Too many c.o. pick-ups,  max is ',MXPU)
 
       NT = 0
       DO 2 I = 1, IMAX
@@ -84,15 +89,36 @@ C------- Record pick-up position (cm)
      >    '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4))')
      >  I,FPU(9,I),(FPUL(J,I),J=2,7),FPUL(1,I),NT,IPASS
      >  , (FPUL2(J,I),J=2,7), FPUL2(1,I)
-C        WRITE(NFPU,FMT= '(22X,7G12.4)') (FPUL2(J,I),J=2,7),FPUL2(1,I)
  4    CONTINUE
-
       RETURN
 
       ENTRY PCKUP2
+      IPU = 0
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
+      RETURN
 
+      ENTRY PCKUP3(NOELI)
+      IPU1 = 1
+      DO IL = 1, NOELI
+        IF(IPU1.LE.MXPU) THEN
+          IF(NOELPU(IPU1).EQ.0) THEN
+            GOTO 10
+          ELSE 
+            IF(NOELPU(IPU1).LT.NOELI) IPU1= IPU1+1
+          ENDIF
+        ELSE
+          CALL ENDJOB('SBR PCKUP. Problem : IPU should be <= ',MXPU)
+        ENDIF
+      ENDDO
+ 10   CONTINUE
+      IPU = IPU1-1            
+      CALL RAZ(FPUL,MXPUD*MXPU)
+      CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
+      WRITE(ABS(NRES),*) 
+     > ' Found ',IPU,' pick-ups prior to element #',NOELI,'.'
+      IF(IPU.GT.0) WRITE(ABS(NRES),*) ' Of which last PU is # ',
+     > IPU,' (located at  element NOEL = ',NOELPU(IPU),')'
       RETURN
 
       END

@@ -255,6 +255,7 @@ OBJ=\
  rparti.o\
  rpckup.o\
  rqsod.o\
+ rrebel.o\
  rscal.o\
  rsepar.o\
  rsimb.o\
@@ -495,6 +496,7 @@ rnorma.o: $(INC)/MXLD.H
 robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H
+rrebel.o: $(INC)/MXLD.H
 rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H
 rsepar.o: $(INC)/MXLD.H
 rsimb.o: $(INC)/MXLD.H

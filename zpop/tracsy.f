@@ -37,7 +37,7 @@ C----------------------------------------------------------------------------
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       CALL INSY(IPLAN,SB0,YB0,TETA0,D,DQ,DS,DM,DSS,DPU,*99)
-      CALL CALTRA(0)
+      CALL CALTRA(0,0)
 C      CALL DEFCAR(1,0,0) 
          YMIN=0.D0
          YMAX=0.D0
@@ -72,7 +72,7 @@ C            CALL TRAXES(XMI,XMA,YMI,YMA,3)
 
         TETA1=TETA0
         CALL CALTRI(N,0.D0,0.D0)
-        CALL CALTRA(N)
+        CALL CALTRA(N,IPLAN)
 
         IF(N.EQ.2) THEN
 C           CALL TRAXPJ                                

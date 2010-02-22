@@ -99,8 +99,8 @@ C--------- read in zgoubi.spn type storage file
           ELSE
  1          READ(NL,101,ERR=99,END=10) 
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4)
-     >      ,ENERG,IT,IMAX,IPASS,NOEL,
-     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
+     >      ,ENERG,IT,IMAX,IPASS,NOEL
+     >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE 'FRMSPN.H'
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
@@ -212,8 +212,8 @@ C            ENDIF
      >      (F(J),J=1,MXJ), BTI, DS,
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      (SI(J),J=1,4),(SF(J),J=1,4),
-     >      EX, EY, EZ, BORO, IPASS, NOEL
-     >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
+     >      EX, EY, EZ, BORO, IPASS, NOEL,
+     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE "FRMPLT.H"
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
 

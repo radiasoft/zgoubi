@@ -76,10 +76,12 @@ C This INCLUDE must stay located right before the first statement
 
       TOMANY = .FALSE.
       NOEL = 0
-      S=0.D0
-      Y=0.D0
+C      CALL TRACS1(
+C     >            SB,YB,TETA)
+C      S=SB  ! 0.D0
+C      Y=YB  ! 0.D0
       Z=0.D0
-      TETA1=0.D0
+C      TETA1=TETA
       TETAZ=0.D0
       TETREF = 0.D0
 
@@ -394,6 +396,7 @@ C----- MULTIPOLE
       IF(READAT) GOTO 998
       XL=A(NOEL,2)
       AL = XL*COEF  * CM2M 
+          
       REDUC=AL/2.D0
       WIDTH=DQ*  REDUC
 
@@ -414,38 +417,39 @@ C            write(*,*) ' caltra mult ND ',ND(NOEL),kpos
           ALE=A(NOEL,6+ND(NOEL)) 
           XIRF = 0.D0
           PHI2RF = -ALE 
-          CALL STORIG(NOEL,S,Y,Z,TETA1-PHI2RF,XI,PHI2RF)
+          CALL STORIG(NOEL,S,Y,Z,TETA1-PHI2RF,XIRF,PHI2RF)
           ALSHFT = COEF * SQRT(XCE*XCE + YCE*YCE) 
-CCCCCCCC        ALSHFT =  SQRT(XCE*XCE + YCE*YCE) 
           TETA=TETA1 + ATAN2(YCE,XCE)
           S=S1+ALSHFT*COS(TETA)
           Y=Y1+ALSHFT*SIN(TETA)
           CALL CALTRI(N,S,Y)
           TETA1 = TETA1 - PHI2RF
 
-C         call fbgtxt
-C         write(*,*) ' caltra mult ',xce,yce,ale,ATAN2(YCE,XCE),s1,s,y1,y
-
         ELSEIF(KPOS.EQ.2) THEN
+          XCE=A(NOEL,4+ND(NOEL)) * CM2M
+          YCE=A(NOEL,5+ND(NOEL)) * CM2M
+          ALE=A(NOEL,6+ND(NOEL)) 
+          XIRF = 0.D0
+          PHI2RF = -ALE 
+          CALL STORIG(NOEL,S,Y,Z,TETA1-PHI2RF,XIRF,PHI2RF)
+          ALSHFT = COEF * SQRT(XCE*XCE + YCE*YCE) 
+          TETA=TETA1 + ATAN2(YCE,XCE)
+          S=S1+ALSHFT*COS(TETA)
+          Y=Y1+ALSHFT*SIN(TETA)
+          CALL CALTRI(N,S,Y)
+          TETA1 = TETA1 - PHI2RF
 
         ELSE
 c-------- KPOS=1
 
-C         call fbgtxt
-C         write(*,*) ' mult  S,Y,Z,TETA1,XI ',S,Y,Z,TETA1,XI
-
         ENDIF
-C        DO II=4,10
-C          IF(A(NOEL,II).NE.0.D0) AK=A(NOEL,II)/A(NOEL,3)/BORO *1.D4
-C        ENDDO
-C        DL=AL/2.D0
 
         PHI=0.D0
         CALL STORIG(NOEL,S,Y,Z,TETA1,XI,PHI)
 
         CALL SYNBOX(N,TETA1,S1,Y1,TETA,S,Y,AL,WIDTH)
 
-        IF(KPOS.EQ.3) THEN
+        IF    (KPOS.EQ.3) THEN
           XCE=0.D0
           YCE=0.D0
           ALE=A(NOEL,6+ND(NOEL)) 
@@ -457,7 +461,7 @@ C        DL=AL/2.D0
           CALL CALTRI(N,S,Y)
           TETA1 = TETA1 - PHI2RF
 
-          XCE=0.D0   !!A(NOEL,4+ND(NOEL)) * CM2M
+          XCE=0.D0  
           YCE= A(NOEL,5+ND(NOEL)) * CM2M
           ALE= 0.D0
           XIRF = 0.D0
@@ -469,8 +473,22 @@ C        DL=AL/2.D0
           CALL CALTRI(N,S,Y)
           TETA1 = TETA1 - PHI2RF
 
-C         call fbgtxt
-C         write(*,*) ' caltra mult ',xce,yce,ale,ATAN2(YCE,XCE),s1,s,y1,y
+        ELSEIF(KPOS.EQ.2) THEN
+          CL=COS(ALE)
+          SL=SIN(ALE)
+          XTEMP=XCE-XL* CM2M *(1.D0-CL)
+          YTEMP=YCE+XL* CM2M *SL
+
+          XCS=-XTEMP*CL-YTEMP*SL
+          YCS=XTEMP*SL-YTEMP*CL
+          XIRF = 0.D0
+          PHI2RF = ALE
+          ALSHFT = COEF * SQRT(XCS*XCS + YCS*YCS) 
+          TETA=TETA1 + ATAN2(YCS,XCS)
+          S=S1+ALSHFT*COS(TETA)
+          Y=Y1+ALSHFT*SIN(TETA)
+          CALL CALTRI(N,S,Y)
+          TETA1 = TETA1 - PHI2RF
 
         ENDIF
 
@@ -1156,6 +1174,9 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       GOTO 998
 C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
  104  CONTINUE
+      GOTO 998
+C----- REVERSE. 
+ 105  CONTINUE
       GOTO 998
 
       END

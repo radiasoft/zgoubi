@@ -96,7 +96,7 @@ C     -----------------------------------------------------
 
 C----- some reset actions at start of each new pass
 C      Total pick-up number
-      IPU = 0
+C      IPU = 0
       CALL PCKUP2
 
  98   RETURN

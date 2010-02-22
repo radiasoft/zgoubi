@@ -41,10 +41,8 @@ C  France
       DATA PLAN /'Horizontal','Vertical  '/
       
       DATA IPLAN0, XB00, YB00, TETA00 / 1, 0.D0, 0.D0, 0.D0 /
-      DATA AMAG / 2.D0 /
-
+      DATA AMAG / 6.D0 /
       DATA OKOPN, CHANGE / .FALSE., .FALSE./
-
       DATA D00,DQ00,DS00,DM00,DSS00,DPU00 /
      >   .4D0, .4D0, .2D0, .2D0, .02D0, .2D0 /
 
@@ -65,7 +63,6 @@ C  France
       DM = DM00   * AMAG
       DSS = DSS00   * AMAG
       DPU = DPU00  * AMAG
-
 
       GOTO 21
 
@@ -132,11 +129,11 @@ C  France
  5    CONTINUE
       WRITE(6,FMT='(A,2G13.6)') 'Initial coordinates (m) : ',XB0,YB0
       READ(5,FMT='(2E12.4)',ERR=5) XB0,YB0
-      XB00 = XB0
-      YB00 = YB0
+C      XB00 = XB0
+C      YB00 = YB0
  51   WRITE(6,FMT='(''Initial angle (rd) : '',G13.6)') TETA0
       READ(5,FMT='(E12.4)',ERR=51) TETA0
-      TETA00 = TETA0
+C      TETA00 = TETA0
       WRITE(6,FMT='(''Initial angle is now  '',G13.6,'' rad'')') TETA0
       GOTO 21
  
@@ -161,21 +158,27 @@ C  France
 
  601  WRITE(6,FMT='(A,G13.6)') 'Dipole width :',D
       READ(5,*,ERR=601) D
+      DOO = D
       GOTO 20
  602  WRITE(6,FMT='(A,G13.6)') 'Quadrupole width :',DQ
       READ(5,*,ERR=602) DQ
+      DQOO = DQ
       GOTO 20
  603  WRITE(6,FMT='(A,G13.6)') 'Sextupole width :',DS
       READ(5,*,ERR=603) DS
+      DSOO = DS
       GOTO 20
  604  WRITE(6,FMT='(A,G13.6)') 'Multipole width :',DM
       READ(5,*,ERR=604) DM
+      DMOO = DM
       GOTO 20
  605  WRITE(6,FMT='(A,G13.6)') 'Box width for drift :',DSS
       READ(5,*,ERR=605) DSS
+      DSSOO = DSS
       GOTO 20
  606  WRITE(6,FMT='(A,G13.6)') 'Pick-Up width :',DPU
       READ(5,*,ERR=606) DPU
+      DPUOO = DPU
       GOTO 20
  607  WRITE(6,FMT='(''Geom. magnification factor : '',G13.6)') AMAG
       READ(5,*,ERR=607) AMAG
@@ -201,12 +204,19 @@ C        CALL MENVCF
       WRITE(6,*) '   Check existence of ',NOMFIC
       RETURN 1
 
-      ENTRY INSY2(NAMFIC)
-      NOMFIC=NAMFIC
-      RETURN
       ENTRY INSY1(
      >            AMAGO)
       AMAGO = AMAG
+      RETURN
+
+      ENTRY INSY2(NAMFIC)
+      NOMFIC=NAMFIC
+      RETURN
+
+      ENTRY INSY4(XB0I,YB0I,TETA0I)
+      XB00 = XB0I
+      YB00 = YB0I
+      TETA00 = TETA0I
       RETURN
 
       END

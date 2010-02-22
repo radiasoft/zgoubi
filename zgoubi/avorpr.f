@@ -57,7 +57,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
             IF( DU .LT. COMI(J) ) COMI(J) = DU
  261      CONTINUE
           CO1(J) = CO1(J) / IPU
-          CO2(J) = SQRT( CO2(J) / IPU - CO1(J) * CO1(J) )
+          IF(IPU.GT.1) CO2(J) = SQRT( CO2(J) / IPU - CO1(J) * CO1(J) )
  251    CONTINUE
         DO 4 I = 1, IPU
           NT = NINT(FPU(8,I))
@@ -69,9 +69,9 @@ C Careful before changing output format : there may be processor needing high pr
         WRITE(LUN,FMT= '(/,1X,''PU_average (over partcl and pass) : '',
      >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
      >  T74,''path-L'',T90,''D'',T105,''time'', 
-     >  /,2X,1P,7E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
+     >  /,2X,1P,7E16.8,/)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
 C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
-        WRITE(LUN,FMT= '(/,1X,''Sigma  '',
+        IF(IPU.GT.1) WRITE(LUN,FMT= '(  1X,''Sigma  '',
      >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
      >  (CO2(J),J=2,6 ), CO2(1), CO2(7)
         WRITE(LUN,FMT= '(  1X,''Max-PUSignal  '',

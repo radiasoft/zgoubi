@@ -73,7 +73,7 @@ recent version of \zgou, which is far from being a ``finished product''.
 \clearemptydoublepage
 
 \section{NUMERICAL CALCULATION OF MOTION AND FIELDS}\label{sec2} %%2
-\subsection{\zgoubi Frame} \label{sec2.1}   %%2.1
+\subsection{\zgoubi\ Frame} \label{sec2.1}   %%2.1
 
 The reference frame of \zgou\  is presented in Fig~\ref{fig1}.  
 Its origin is in the median plane on a reference curve which coincides with the optical 
@@ -1349,7 +1349,7 @@ as involved in these equations are picked up from eqs.~(\ref{eq2-2-6}, \ref{eq2-
 \@addtoreset{equation}{subsection}
 \makeatother
 
-\zgoubi allows the simulation of two types of synchrotron radiation (SR) related effects 
+\zgoubi\ allows the simulation of two types of synchrotron radiation (SR) related effects 
  namely, on the one hand 
 energy loss by stochastic emission of photon and the ensuing perturbation 
 on particle dynamics  and, on the other hand calculation of the 
@@ -1358,7 +1358,7 @@ radiated spectral-angular energy densities as observed in the lab.
 \subsection{Energy loss and related dynamical effects~\protect\cite{FMSEA-00-01}}\label{secSRLoss}
 
 Given a particle wandering in the magnetic field of an arbitrary optical element or field 
-map, \zgoubi computes the energy loss undergone, and its 
+map, \zgoubi\ computes the energy loss undergone, and its 
 effect on the particle motion. The energy loss is calculated  in a  classical manner, by calling upon 
 two random processes that accompany the emission of a photon  namely, \\
 \indent - the probability of emission, \\
@@ -1439,7 +1439,7 @@ In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated
 
  About $40$ values of $\mathcal{P}(\epsilon/\epsilon_c)$ computed from eq.~\ref{EqSK53}~\cite{VOKostroun}, 
 honnestly spread  over a range $\epsilon/\epsilon_c \leq 10$ are  tabulated 
-in \zgoubi source file (see figure). In 
+in \zgoubi\ source file (see figure). In 
 order to get $\epsilon/\epsilon_c$, first a random value $0<\mathcal{P}<1$ is generated uniformly, 
 then  $\epsilon/\epsilon_c$ is drawn either  by simple inverse linear interpolation 
  of the tabulated values if $\mathcal{P}>0.26$ (corresponding to 
@@ -3052,23 +3052,34 @@ only magnetic fields.
 \index{REBELOTE}\index{multiparticle}\index{multiturn\index{multiturn} tracking}\index{acceleration}
 \index{synchrotron motion}
 
-As soon as \REBELOTE is encountered in the input data file,
-the code execution jumps back to the beginning of the data file and then  a new
-run starts, and so on up to \textsl{NPASS}\index{NPASS} times. When the following random procedures 
+When \REBELOTE\ is encountered in the input data file, the code execution jumps, 
+
+- either back to the beginning of the data file - the default behavior,  
+
+- or back to a particular \LABEL\ - upon request, 
+
+\noindent and then  a new pass starts, and so on  \textsl{NPASS+1}\index{NPASS} times. 
+
+\noindent The last pass normally ends, as the previous ones, at \REBELOTE, however it may be ended, 
+upon request,  at a particular 
+\LABEL\ placed at arbitrary location upstream of \REBELOTE. In both cases, the execution 
+ is carried on from the keyword which follows \REBELOTE. 
+
+\bigskip
+
+\noindent \REBELOTE\ can be used for Monte Carlo\index{Monte Carlo} simulations when more 
+than \IMAX\ particles\index{IMAX@{\IMAX}} are to be tracked. 
+In this case, when the following random procedures 
 are used~: \textsl{MCOBJET\index{MCOBJET}, OBJETA\index{OBJETA}, MCDESINT\index{MCDESINT}, 
-SPNTRK\index{SPNTRK}}
-\mbox{(\textsl{KSO} = 5)},
-their random seeds are not reset, and therefore independent statistics 
-will add up. \REBELOTE is dedicated either to Monte Carlo\index{Monte Carlo} calculations when more 
-than \imax\~particles are to be tracked (due to \mbox{\IMAX$\leq \imax$}\index{IMAX@{\IMAX}}, 
-see \textsl{MCOBJET\index{MCOBJET}}), 
-or to the tracking in circular machines (e.g.~Synchrotron 
-accelerators). The option index $ K $ is then used to either generate new 
-initial coordinates ($ K=0 $ see section~\ref{sec4.6.4}), when using \textsl{MCOBJET\index{MCOBJET}}
- or
-any other generator of random initial coordinates, or in order that the 
-final coordinates at the last run be taken as the initial 
-coordinates of the next  ($K=99 $ --- see section~\ref{sec4.6.5}).  
+SPNTRK\index{SPNTRK}} \mbox{(\textsl{KSO} = 5)},
+their random seeds are not reset and  independent statistics will add up. 
+
+\bigskip
+
+\noindent \REBELOTE\ can be used for  multi-turn tracking in circular machines (e.g.~Synchrotron 
+accelerators, FFAGs, etc.).  
+
+
 \bigskip
 
 \noindent\textbf{Monte Carlo simulations}~: normally $ K=0$.  \textsl{NPASS}\index{NPASS} runs
@@ -3077,24 +3088,28 @@ $(1+\text{\textsl{NPASS}})  \ast  \text{\IMAX}$ trajectories.
 \bigskip
 
 \noindent\textbf{Circular machines}~: normally $ K=99$.  \textsl{NPASS} turns in
-the same structure will follow, resulting in the tracking of \IMAX 
+the same structure will follow, resulting in the tracking of \IMAX\ 
 particles over $1+\text{\textsl{NPASS}}$ turns (Note~: for the simulation of 
 accelerators and synchrotron motion, see \textsl{SCALING}). 
 \bigskip
 
 \noindent Output prints over \textsl{NPASS} runs might result in a
-prohibitively big zgoubi.res file. They may be swithched on/off  by means of the option 
+prohibitively big zgoubi.res file. They may be switched on/off  by means of the option 
 \mbox{\textsl{KWRIT}$= i.j$}, with $i=1/0$ respectively. The $j$ flag commands printing 
-pass number counts  onto the video output, very $10^{j-1}$ turns if $j>0$~; output is switched  
+pass numbers  onto the video output, every $10^{j-1}$ turns if $j>0$~; output is switched  
 off if $j=0$. 
 
   
 \bigskip
 
-\noindent\REBELOTE provides statistical calculations and related 
-informations on particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking\index{spin tracking}  
+\noindent\REBELOTE\ also provides informations~: statistical calculations and related 
+data on particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking\index{spin tracking}  
 \textsl{(SPNTRK\index{SPNTRK})}, stopped particles\index{stopped particles} (\textsl{CHAMBR\index{CHAMBR},
- COLLIMA\index{COLLIMA}}). 
+ COLLIMA\index{COLLIMA}}), etc.  
+
+
+
+
  \newpage
 
 \subsubsection*{RESET~: \RESETTitl}  \label{RESET} \index{RESET}
@@ -3180,7 +3195,7 @@ between two successive timings, the variation law is linear.
   18131.E-3           &24176.E-3 &  Fields  increase from 18131E-3$\ast {B_i} $ to 
                                   24176E-3$\ast  {B_i} $  ($\forall i=1,\,10$ poles) \\
   1                   & 6379     & from turn 1 to turn 6379\\
-  \textsl{BEND}       &          &- All \textsl{BEND}'s (regardless of any LABEL) \\
+  \textsl{BEND}       &          &- All \textsl{BEND}'s (regardless of any \LABEL) \\
   2    \\
   18131.E-3           &24176.E-3 &  Same scaling \\
   1                   & 6379  \\
@@ -5693,7 +5708,8 @@ exit integration boundaries may be defined, in the same way as for \textsl{CARTE
 \textsl{MARKER} does nothing. Just a marker. No data. 
 
 As any other keyword, \textsl{MARKER} is allowed two \LABEL s. Using 
- '.plt' as a second \LABEL\ will cause storage of current coordinates into zgoubi.plt\index{LABEL@{\LABEL}}\index{zgoubi.plt} 
+ '.plt' as a second \LABEL\ will cause storage of current coordinates into 
+zgoubi.plt\index{LABEL@{\LABEL}}\index{zgoubi.plt} 
 
 
 

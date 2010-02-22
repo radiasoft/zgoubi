@@ -23,8 +23,12 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE REBEL(READAT)
+      SUBROUTINE REBEL(READAT,KLE,LABEL,
+     >                                  REBFLG,NOELB,NOELRB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER KLE(*)*(*)
+      INCLUDE 'MXLD.H'
+      CHARACTER LABEL(MXL,2)*(*)
       LOGICAL READAT
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -37,7 +41,6 @@ C  France
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
-      INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -59,6 +62,7 @@ C      LOGICAL FITING
       SAVE KREB3, KREB31
 
       SAVE KWRI6 
+      LOGICAL REBFLG
 
       DATA KREB3, KREB31 / 0, 0 /
 
@@ -72,6 +76,12 @@ C----- For multiturn injection
       KREB3 = NINT(A(NOEL,3))
 C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
+C REBELOTE will apply from lmnt #NOELA 
+      NOELA = NINT(A(NOEL,4))
+      NOELB = NINT(A(NOEL,5))
+
+C Will stop at element #NOELB when in last turn
+      REBFLG = NOELB.LT.NOEL
 
       IF(KWRI6 .NE. 0) THEN
         CALL TIME2(HMS)
@@ -180,6 +190,17 @@ C--------- endif SR loss ----------------------------------
         ENDIF
  
         IF(IPASS .EQ. 1) THEN
+          WRITE(NRES,FMT='(/,5X,
+     >    ''Multiple pass, '', /, 
+     >    10X,''from element # '',I5,'' : '',
+     >    A,''/'',A,''/'',A,'' to REBELOTE '',/, 
+     >    10X,''ending at pass # '',I5,'' at element # '',I5,'' : '',
+     >    A,''/'',A,''/'',A,/, 
+     >    /)') 
+     >    NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
+     >    NOELB,KLE(IQ(NOELB)),LABEL(NOELB,1),LABEL(NOELB,2)
+C          WRITE(NRES,FMT='(/,5X,
+C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
           IF(NRBLT.GT.1) THEN
             IF(KWRT .EQ. 0) THEN
 C------------- inihibit WRITE if KWRT=0 and more than 1 pass
@@ -187,6 +208,7 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
             ENDIF
             READAT = .FALSE.
           ENDIF
+          IF(REBFLG) NOELRB = NOEL
         ENDIF
  
         JJJ = 0
@@ -196,10 +218,9 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
            WRITE(LUN,*) '    SUM OVER IEX : ',JJJ
 
         IPASS=IPASS+1
-        NOEL=0 
+        NOEL=NOELA-1
+        CALL PCKUP3(NOELA)
 
-        RETURN
- 
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
         IF(KWRT .EQ. 0) THEN
@@ -237,14 +258,15 @@ C--------- reactive WRITE
           WRITE(LUN,102) NRBLT+1
  102      FORMAT(//,5X,' Next  pass  is  #',I6
      >    ,' and  last  pass  through  the  optical  structure',/)
+
         ENDIF
  
         IPASS=IPASS+1
-        NOEL=0 
-        RETURN
+        NOEL=NOELA-1
+        CALL PCKUP3(NOELA)
  
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
-C------- Last pass through REBELOTE will be performed
+C------- Last pass through REBELOTE has been performed
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
           WRITE(LUN,101) IPASS
@@ -296,8 +318,10 @@ C     >                 FITING)
 C        IF(.NOT.FITING) 
         READAT = .TRUE.
 
-C Necessary if REBELOTE used within FIT
-          IPASS = 1
+C REBELOTE should be usable within FIT -> under developement. 
+        IPASS = 1
+        NOEL=NOELB-1
+        CALL PCKUP3(NOELB)
 
       ENDIF
 

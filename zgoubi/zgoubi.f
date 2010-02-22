@@ -67,6 +67,10 @@ C----- Average orbit
       CHARACTER*10 PULAB
       COMMON/COT/ PULAB(MPULAB)
 
+C----- Set to true by REBELOTE if last turn to be stopped at NOELB<MAX_NOEL
+      LOGICAL REBFLG
+      SAVE REBFLG, NOELRB
+
 C----- Tells whether FIT is active or not
       LOGICAL FITING
 C----- To get values into A(), from earlier FIT
@@ -91,7 +95,8 @@ C This INCLUDE must stay located right before the first statement
       DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
 C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
- 
+      DATA REBFLG, NOELRB / .FALSE., MXL / 
+
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
@@ -147,11 +152,26 @@ C        LBLSP contains the LABEL['s] after which print shall occur
 C------- Calculate average orbit
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
-     >                                  IL) ) CALL PCKUP
+     >                                  IL) ) 
+     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
+
       ENDIF
       IF(KOPTCS .EQ. 1) THEN
 C------- Transport and print Twiss functns at MULTIPOL's
         CALL TRBEAM
+      ENDIF
+
+      IF(REBFLG) THEN
+C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
+        IF(IPASS.EQ.NRBLT+1) THEN
+          IF(NOEL.EQ.NOELB) THEN
+            IKLE = 11  
+            KLEY = KLE(IKLE)   ! 'REBELOTE'
+            NOEL = NOELRB
+            IQ(NOEL) = IKLE
+            GOTO 187
+          ENDIF
+        ENDIF
       ENDIF
  
       IF(READAT) THEN
@@ -162,7 +182,7 @@ C------- Transport and print Twiss functns at MULTIPOL's
             IF( NOEL .EQ. MXL+1) THEN
               TOMANY=.TRUE.
               WRITE(NRES,*) ' PROCEDURE STOPPED: too many elements'
-              WRITE(NRES,*) ' (numbers of elements should not exceed '
+              WRITE(NRES,*) ' (number of elements should not exceed '
      >                                                       ,MXL,').'
               WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
               CALL ENDJOB(' Increase  MXL  in   MXLD.H',-99)
@@ -288,9 +308,10 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       GOTO 998
 C----- REBELOTE. Passe NRBLT+1 fois dans la structure
 11    CONTINUE
-      IF(READAT) READ(NDAT,*) (A(NOEL,I),I=1,3)
+      IF(READAT) CALL RREBEL(LABEL)
       IF(FITGET) CALL FITGT1
-      CALL REBEL(READAT)
+      CALL REBEL(READAT,KLE,LABEL,
+     >                            REBFLG,NOELB,NOELRB)
       CALL KSMAP0
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
