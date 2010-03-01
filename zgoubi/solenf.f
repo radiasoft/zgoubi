@@ -28,21 +28,27 @@ C  France
       COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
-C      REAL*8 C2,CP2
       DOUBLE PRECISION K2L,KP2L,K2LR,KL
       DOUBLE PRECISION K2R,KP2R,K2RR,KR
-C      REAL*8 R,RL,RR,XL,XR
-C      REAL*8 BR,BRL,BRR,BXR,BXL
  
       DIMENSION BC(2),DBC(2,2),DDBC(2,2,2)
- 
+      PARAMETER (MDX=6)
+      DIMENSION BX(MDX)
+
+      DATA MODL / 1 / 
+      SAVE MODL, BOSQ, RO2
+
+      GOTO(1,2) MODL
+      CALL ENDJOB('SBR SOLENF. No such model # ',MODL)
+
+ 1    CONTINUE
+
       X=XX-(XS-XE)/2.D0-XE
  
       XL  =-((XS-XE)/2.D0 +X)
@@ -197,6 +203,30 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
  2000 CONTINUE
  
-      CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,B,DB,DDB)
+      CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
+     >                                B,DB,DDB)
+      RETURN      
+
+C Axial field model
+ 2    CONTINUE
+
+      XL = XS - XE
+      X = XX - XE
+      CALL SOLBAX(XL,BOSQ*BRI,RO2,X,
+     >                              BX)
+      R2  =Y*Y + Z*Z
+      R   =SQRT(R2)
+      CALL BAXBXR(BX,R,R2,
+     >                    BC,DBC,DDBC)
+      CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
+     >                                B,DB,DDB)
+
       RETURN
+
+      ENTRY SOLEN2(MODLI,BOSQI,RO2I)
+      MODL = MODLI 
+      BOSQ = BOSQI
+      RO2 = RO2I
+      RETURN
+
       END

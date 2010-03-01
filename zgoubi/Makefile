@@ -278,6 +278,7 @@ OBJ=\
  serv34.o\
  serv4.o\
  serv5.o\
+ solbax.o\
  solenf.o\
  soleno.o\
  solv.o\

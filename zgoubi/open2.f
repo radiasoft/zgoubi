@@ -34,7 +34,8 @@ C  France
       CHARACTER*80 NAMFIC
       INTEGER DEBSTR,FINSTR
       LOGICAL OPN, IDLUNI, BINARY
-      CHARACTER  TXT*12,TXT80*80
+C      CHARACTER  TXT*12,TXT80*80
+      CHARACTER  TXT*12,TXT80*270
       CHARACTER TXTA80*270, TXTB80*270
       CHARACTER * 9   DMY,HMS
       SAVE BINARY
@@ -134,17 +135,19 @@ C------------- Write down a 4-line header
               ENDIF
 
               IF(.NOT.BINARY) THEN
-                WRITE(LUN,FMT='(A80)') TXT80
-                WRITE(LUN,FMT='(A80)') '# '//TITRE
+C                WRITE(LUN,FMT='(A80)') TXT80
+C                WRITE(LUN,FMT='(A80)') '# '//TITRE
+                WRITE(LUN,FMT='(A)') TXT80
+                WRITE(LUN,FMT='(A)') '# '//TITRE
                 WRITE(LUN,FMT='(A)') TXTA80
                 WRITE(LUN,FMT='(A)') TXTB80
               ELSE
                 WRITE(LUN) TXT80
                 WRITE(LUN) TITRE
-                TXT80 = TXTA80(1:80)
-                WRITE(LUN) TXT80
-                TXT80 = TXTB80(1:80)
-                WRITE(LUN) TXT80
+C                TXT80 = TXTA80(1:80)
+                WRITE(LUN) TXTA80
+C                TXT80 = TXTB80(1:80)
+                WRITE(LUN) TXTB80
               ENDIF
             ENDIF
           ENDIF

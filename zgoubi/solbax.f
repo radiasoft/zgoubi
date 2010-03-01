@@ -23,6 +23,32 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-C-- Max integration steps in an lmnt
-C      PARAMETER (MXSTEP = 100000)
-      PARAMETER (MXSTEP = 1000000)
+      SUBROUTINE SOLBAX(XL,BOSQ,RO2,X,
+     >                                BX)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION BX(*)
+      
+      X2 = X*X
+      U = X2 + RO2
+      U2 = U*U
+      U3 = U2*U
+      SQU = SQRT(U)
+      DU = 2.D0 * X
+      XL2 = (X-XL)*(X-XL)
+      V = XL2 + RO2
+      V2 = V*V
+      V3 = V2*V
+      SQV = SQRT(V)
+      DV = 2.D0 * (X-XL)
+C------- BX(n)=-d(n-1)B/dX^(n-1)
+        BX(1)=BOSQ * ( X/SQU - (X-XL)/SQV )
+C           write(88,*) x,bx(1),' solbax'
+        BX(2)=BOSQ * ( (U-X2)/(U*SQU) - (V-XL2)/(V*SQV)  )
+        BX(3)=BOSQ*( (-4.D0*X*U2 +3.D0*X2*DU*U -U2*DU )/(2.D0*U3*SQU)
+     >   - (-4.D0*(XL-X)*V2 +3.D0*XL2*DV*V -V2*DV )/(2.D0*V3*SQV) )
+        BX(4)=0.D0
+        BX(5)=0.D0
+        BX(6)=0.D0
+ 
+      RETURN
+      END

@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-       SUBROUTINE BAXBXR(BX,R,R2,B,DB,DDB)
+      SUBROUTINE BAXBXR(BX,R,R2,B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*),B(*),DB(2,*),DDB(2,2,*)
 C     -------------------------------------------------

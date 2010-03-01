@@ -30,11 +30,29 @@ C     -----------------------
 C     READS DATA FOR SOLENOID
 C     -----------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
+
+      CHARACTER TXT132*132, XRBM(4)*30
  
+
 C----- IL
       READ(NDAT,*) A(NOEL,1)
+
 C----- XL, RO, BO
-      READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+C      READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+      READ(NDAT,FMT='(A)') TXT132
+      I4 = 4
+      CALL STRGET(TXT132,I4,
+     >                      I34,XRBM)
+      READ(XRBM(1),*,ERR=98,END=98) A(NOEL,10)
+      READ(XRBM(2),*,ERR=98,END=98) A(NOEL,11)
+      READ(XRBM(3),*,ERR=98,END=98) A(NOEL,12)
+      IF    (I34.EQ.3) THEN 
+         A(NOEL,13) = 1
+      ELSEIF(I34.EQ.4) THEN 
+         READ(XRBM(4),*) A(NOEL,13)
+      ELSE
+         GOTO 98
+      ENDIF
 C----- XE, XS
       READ(NDAT,*) A(NOEL,20),A(NOEL,21)
 
@@ -46,5 +64,9 @@ C----- Integr. step
       READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
       A(NOEL,ND+10) = IA
  
+      RETURN
+
+ 98   CONTINUE
+      CALL ENDJOB('SBR RSOLEN. Input data error at line #',2)
       RETURN
       END

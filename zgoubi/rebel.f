@@ -266,7 +266,8 @@ C--------- reactive WRITE
         CALL PCKUP3(NOELA)
  
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
-C------- Last pass through REBELOTE has been performed
+C------- Last pass through structure has been completed
+C Now last occurence of REBELOTE => carry on beyond REBELOTE
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
           WRITE(LUN,101) IPASS
@@ -320,8 +321,9 @@ C        IF(.NOT.FITING)
 
 C REBELOTE should be usable within FIT -> under developement. 
         IPASS = 1
-        NOEL=NOELB-1
-        CALL PCKUP3(NOELB)
+C        NOEL=NOELB-1
+C        CALL PCKUP3(NOELB)
+        CALL PCKUP3(NOEL)
 
       ENDIF
 

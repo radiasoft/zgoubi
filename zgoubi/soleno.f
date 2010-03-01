@@ -47,13 +47,20 @@ C      COMMON/DROITE/ IDRT,CA(9),SA(9),CM(9)
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
- 
+      CHARACTER TYP(2)*20
+      DATA TYP / 'elliptic integrals', 'axial field model' /
+
           XL =A(NOEL,10)
           RO =A(NOEL,11)
           BO =A(NOEL,12)*SCAL
+          MODL = NINT(A(NOEL,13))
           XE = A(NOEL,20)
           XLS= A(NOEL,21)
  
+      RO2 = RO*RO
+      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
+      CALL SOLEN2(MODL,BOSQ,RO2)
+
           IF(NRES.GT.0) THEN
             WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100        FORMAT(/,5X,' -----  ',A10,'  : ', 1P
@@ -63,8 +70,11 @@ C      COMMON/DROITE/ IDRT,CA(9),SA(9),CM(9)
  103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A6)
             WRITE(NRES,145) XE,XLS
  145        FORMAT(20X,' XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
+            WRITE(NRES,FMT='(15X,'' MODL = '',I2,
+     >      '' -> Solenoid model is '',A)') MODL,TYP(MODL)
           ENDIF
 
+      
           XI = 0.D0
           XLIM = XL + XE + XLS
           XF = XLIM

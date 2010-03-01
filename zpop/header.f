@@ -26,30 +26,31 @@ C  France
       SUBROUTINE HEADER(NL,N,BINARY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      CHARACTER*80 TXT80
+      CHARACTER*80 TITL
+      CHARACTER*270 TXT
       WRITE(6,FMT='(/,A)') ' File header : '
       IF(.NOT.BINARY) THEN
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-        WRITE(6,FMT='(A)') TXT80
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-        WRITE(6,FMT='(A)') TXT80
+        READ(NL,FMT='(A)',ERR=99,END=99) TXT
+        WRITE(6,FMT='(A)') TXT
+        READ(NL,FMT='(A)',ERR=99,END=99) TITL
+        WRITE(6,FMT='(A)') TITL
       ELSE
-        READ(NL,ERR=99,END=89) TXT80
-        WRITE(6,FMT='(A)') TXT80
-        READ(NL,ERR=99,END=89) TXT80
-        WRITE(6,FMT='(A)') TXT80
+        READ(NL,ERR=99,END=89) TXT
+        WRITE(6,FMT='(A)') TXT
+        READ(NL,ERR=99,END=89) TITL
+        WRITE(6,FMT='(A)') TITL
       ENDIF
-      CALL TRKVA2(TXT80)
-      CALL LOGO2(TXT80)
+      CALL TRKVA2(TXT)
+      CALL LOGO2(TXT)
       IF(.NOT.BINARY) THEN
         DO 1 I=3, N
-           READ(NL,FMT='(A)',ERR=99,END=89) TXT80
-           WRITE(6,FMT='(A)') TXT80
+           READ(NL,FMT='(A)',ERR=99,END=89) TXT
+           WRITE(6,FMT='(A)') TXT
  1      CONTINUE
       ELSE
         DO 2 I=3, N
-           READ(NL,          ERR=99,END=89) TXT80
-           WRITE(6,FMT='(A)') TXT80
+           READ(NL,          ERR=99,END=89) TXT
+           WRITE(6,FMT='(A)') TXT
  2      CONTINUE
       ENDIF
       RETURN

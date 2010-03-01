@@ -23,7 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE EAXIAL(OM,OX,V21,D,EX)
+      SUBROUTINE EAXIAL(OM,OX,V21,D,
+     >                              EX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION EX(*)
  
