@@ -90,7 +90,7 @@ C------------- Write down a 4-line header
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
      >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
-     >          //'   SXo,  Syo,  Szo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
      >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
@@ -104,14 +104,18 @@ C------------- Write down a 4-line header
               ELSEIF(TXT.EQ.'COORDINATES') THEN
                 TXTA80 = 
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
-     >          //'   T,  Z,   P,  S, time,  ENEKI, ENERG,'
+     >          //'   T,  Z,   P,  S, time,'
+     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   ENEKI, ENERG,'
      >          //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
      >          //'   RET,   DPR,'
      >          //'    PS,  BORO, IPASS, NOEL,   KLEY,'
      >          //'  LABEL1, LABEL2,    LET'
                 TXTB80 = 
      >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
-     >          //' mrd, cm, mrd, cm, mu_s,    MeV,   MeV,'
+     >          //' mrd, cm, mrd, cm, mu_s,'
+     >          //' float,float,float,float, float,float,float,float,'
+     >          //'     MeV,   MeV,'
      >          //' int,  int,   cm, MeV/c2, C, float, float,  float,'
      >          //' float, float,'
      >          //' float, kG.cm,   int,  int, string,'
@@ -120,7 +124,7 @@ C------------- Write down a 4-line header
               ELSEIF(TXT.EQ.'SPIN DATA') THEN
                 TXTA80 = 
      >            'KEX,'
-     >          //'   SXo,  Syo,  Szo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
      >          //' Ekin, Itraj, IMAX, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 

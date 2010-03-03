@@ -29,7 +29,7 @@ C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
       INCLUDE 'MXLD.H'
-      CHARACTER LABEL(MXL,2)*8
+      CHARACTER LABEL(MXL,2)*(*)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 

@@ -47,8 +47,10 @@ C      PARAMETER (MXJ=7)
       DIMENSION FO(MXJ),F(MXJ),SI(MXS),SF(MXS)
       DIMENSION SX(MXT),SY(MXT),SZ(MXT)
       
-      CHARACTER*10 LBL1, LBL2
-      CHARACTER KLEY*10
+      PARAMETER (LBLSIZ=8)
+      CHARACTER*(LBLSIZ) LBL1, LBL2
+
+      CHARACTER KLEY*10 
       CHARACTER TX1*1
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
@@ -61,7 +63,7 @@ C      PARAMETER (MXJ=7)
       SAVE KKEX, KLET
 
       SAVE MOD, RFR, RFR2 
-      save noel1, noc
+      SAVE NOEL1, NOC
 
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
@@ -71,7 +73,7 @@ C      PARAMETER (MXJ=7)
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
 
-      data noel1, noc / -1, 0 /
+      DATA NOEL1, NOC / -1, 0 /
 
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file
@@ -149,7 +151,9 @@ C--------- read in zgoubi.fai type storage file
  222        CONTINUE
             READ(NL,ERR=99,END=10) 
      >      KEX,(FO(J),J=1,7),
-     >      (F(J),J=1,7), ENEKI, ENERG, 
+     >      (F(J),J=1,7), 
+     >      (SI(J),J=1,4),(SF(J),J=1,4),
+     >      ENEKI, ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
@@ -164,7 +168,9 @@ C--------- read in zgoubi.fai type storage file
           ELSE
  21         READ(NL,110,ERR=99,END=10)
      >      KEX,(FO(J),J=1,7),
-     >      (F(J),J=1,7), ENEKI,ENERG, 
+     >      (F(J),J=1,7), 
+     >      (SI(J),J=1,4),(SF(J),J=1,4),
+     >      ENEKI, ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR,  PS,
      >      BORO, IPASS,NOEL, 
      >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
@@ -192,8 +198,7 @@ C--------- read in zgoubi.plt type storage file
      >      (F(J),J=1,7), BTI, DS, 
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
      >      (SI(J),J=1,4),(SF(J),J=1,4),
-     >      EX, EY, EZ, BORO, IPASS, NOEL, 
-     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
+     >      EX, EY, EZ, BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF

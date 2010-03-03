@@ -35,7 +35,8 @@ C     ----------------------------------------------
       COMMON/DONT/ TA(MXL,20)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
+      PARAMETER (LBLSIZ=8)
+      CHARACTER FAM*8,LBF*(LBLSIZ),KLEY*10,LABEL*(LBLSIZ)
       PARAMETER (MXLBF=2)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MXLBF),KLEY,LABEL(MXL,2)
  
@@ -69,7 +70,7 @@ C------- Store name of family and label(s)
 
         IF(NLBL .GE. 2) THEN
           DO 11 KL=2,NLBL
- 11         LBF(IF,KL-1) =  STRA(KL)(1:8)
+ 11         LBF(IF,KL-1) =  STRA(KL)(1:LBLSIZ)
         ENDIF
 
         DO 12 KL=NLBL+1, MLBL

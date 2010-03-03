@@ -26,10 +26,11 @@ C  France
       SUBROUTINE IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2)
 C------- Called by keyword FAISTORE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER KLEY*10
-      CHARACTER*10 LBL1,LBL2
+      CHARACTER KLEY*(*)
+      CHARACTER*(*) LBL1,LBL2
       PARAMETER(MLB=10)
-      CHARACTER*10 LBL(MLB)
+      PARAMETER (LBLSIZ=8)
+      CHARACTER*(LBLSIZ) LBL(MLB)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
@@ -46,6 +47,7 @@ C------- Called by keyword FAISTORE
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
  
       CHARACTER FNAME*80
@@ -79,7 +81,9 @@ C------- Dummies
             WRITE(NFAI)
      1      IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      2      -1.D0+F(1,I),F(2,I),F(3,I),
-     3      (F(J,I),J=4,MXJ),ENEKI,ENERG,
+     3      (F(J,I),J=4,MXJ),
+     >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
+     >      ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
      5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I)
  2      CONTINUE
@@ -91,10 +95,12 @@ C------- Dummies
           WRITE(NFAI,110)
      1    IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      2    -1.D0+F(1,I),F(2,I),F(3,I),
-     3    (F(J,I),J=4,MXJ),ENEKI,ENERG,
-     4    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
-     5    BORO, IPASS, NOEL, 
-     6    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
+     3    (F(J,I),J=4,MXJ),
+     4    (SI(J,I),J=1,4),(SF(J,I),J=1,4),
+     5    ENEKI,ENERG,
+     6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,
+     7    BORO, IPASS, NOEL, 
+     8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF

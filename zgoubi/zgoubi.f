@@ -45,7 +45,8 @@ C  France
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
+      PARAMETER (LBLSIZ=8)
+      CHARACTER FAM*8,LBF*(LBLSIZ),KLEY*10,LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
       CHARACTER*80 TITRE
       COMMON/TITR/ TITRE 
@@ -56,7 +57,7 @@ C  France
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
-      CHARACTER*10 LBL(MLB), LBLSP(MLB)
+      CHARACTER*(LBLSIZ) LBL(MLB), LBLSP(MLB)
       LOGICAL PRLB, PRLBSP
       SAVE KPRT, PRLB, KPRTSP, PRLBSP
 
@@ -153,7 +154,8 @@ C------- Calculate average orbit
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
      >                                  IL) ) 
-     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
+     >    CALL PCKUP(NOEL)
+C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
       ENDIF
       IF(KOPTCS .EQ. 1) THEN

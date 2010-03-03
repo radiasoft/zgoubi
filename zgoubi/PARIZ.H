@@ -58,13 +58,13 @@ C      PARAMETER (MXX=1000, MXY=500)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA 
-      PARAMETER (IZ=5 , ID=3, MMAP=1)
-      PARAMETER (MXX=400, MXY=300)
+C      PARAMETER (IZ=5 , ID=3, MMAP=1)
+C      PARAMETER (MXX=400, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- IZ : # of mesh nodes in Z direction. ID : # of field coordinates (3 if IZ>1, or with MAP2)
 C-- MMAP : maximum number of maps in a problem
 C AGS CSnake maps
-C      PARAMETER (IZ=3 , ID=3, MMAP=2)
-C      PARAMETER (MXX=801, MXY=29)
+      PARAMETER (IZ=3 , ID=3, MMAP=2)
+      PARAMETER (MXX=801, MXY=29)
       

@@ -49,8 +49,9 @@ C         Post-processing of stored data possible with zpop.
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      PARAMETER (LBLSIZ=8)
       INCLUDE 'MXFS.H'
-      CHARACTER FAM*8,LBF*8,KLEY*10,LABEL*8
+      CHARACTER FAM*8,LBF*(LBLSIZ),KLEY*10,LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
@@ -119,12 +120,11 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
 
       IF(BINARY) THEN
         WRITE(LN)
-     1   KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     2   XXX,Y-DY,T*1.D3,
-     3   Z,P*1.D3,SAR,     TAR,     BTI, DS, 
-     4   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
-     5   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
-     6   EX,EY,EZ, BORO, IPASS,NOEL,KLEY,(LABEL(NOEL,I),I=1,2),LET(IT)
+     >   KEX,      XXXO,(FO(J,IT),J=2,MXJ),
+     >   XXX,Y-DY,T*1.D3, Z,P*1.D3,SAR, TAR, BTI, DS, 
+     >   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
+     >   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
+     >   EX,EY,EZ, BORO, IPASS,NOEL,KLEY,(LABEL(NOEL,I),I=1,2),LET(IT)
       ELSE
         WRITE(LN,100)
      1   KEX,      XXXO,(FO(J,IT),J=2,MXJ),
