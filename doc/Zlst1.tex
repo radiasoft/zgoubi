@@ -3056,14 +3056,15 @@ When \REBELOTE\ is encountered in the input data file, the code execution jumps,
 
 - either back to the beginning of the data file - the default behavior,  
 
-- or back to a particular \LABEL\ - upon request, 
+- or (option \textsl{K=99.1} or \textsl{K=99.2}) back to a particular \LABEL\ - upon request, 
 
-\noindent and then  a new pass starts, and so on  \textsl{NPASS+1}\index{NPASS} times. 
+\noindent and then  a new pass starts, and so on untill \textsl{NPASS+1}\index{NPASS} passes have been performed. 
 
 \noindent The last pass normally ends, as the previous ones, at \REBELOTE, however it may be ended, 
-upon request,  at a particular 
-\LABEL\ placed at arbitrary location upstream of \REBELOTE. In both cases, the execution 
- is carried on from the keyword which follows \REBELOTE. 
+upon request (option \textsl{K=99.2}),  at a particular second dedicated \LABEL\ placed at arbitrary location between 
+the first, above mentionned, \LABEL\ and \REBELOTE. 
+In both cases, following the end of this ``multiple-pass'' procedure, 
+the execution  continues from the keyword which follows \REBELOTE. 
 
 \bigskip
 
@@ -3090,13 +3091,20 @@ $(1+\text{\textsl{NPASS}})  \ast  \text{\IMAX}$ trajectories.
 \noindent\textbf{Circular machines}~: normally $ K=99$.  \textsl{NPASS} turns in
 the same structure will follow, resulting in the tracking of \IMAX\ 
 particles over $1+\text{\textsl{NPASS}}$ turns (Note~: for the simulation of 
-accelerators and synchrotron motion, see \textsl{SCALING}). 
+pulsed power supplies, synchrotron motion, and other Q-jump manipulation, see \textsl{SCALING}). 
+
+\noindent Using the double-\LABEL\ method discussed above with option \textsl{K=99.2}, it is possible to encompass the ring between 
+an injection line section (namely, with the element sequence of the latter extending from \OBJET to the first \LABEL), 
+and an extraction line (its description will then follow \REBELOTE), 
+whereas the ring description extends  from  to the first \LABEL\ to \REBELOTE, 
+with possible extraction, at the last pass, at the location of the second \LABEL.  
+
 \bigskip
 
-\noindent Output prints over \textsl{NPASS} runs might result in a
+\noindent Output prints over \textsl{NPASS+1} runs might result in a
 prohibitively big zgoubi.res file. They may be switched on/off  by means of the option 
 \mbox{\textsl{KWRIT}$= i.j$}, with $i=1/0$ respectively. The $j$ flag commands printing 
-pass numbers  onto the video output, every $10^{j-1}$ turns if $j>0$~; output is switched  
+pass number and some other information onto the video output, every $10^{j-1}$ turns if $j>0$~; output is switched  
 off if $j=0$. 
 
   

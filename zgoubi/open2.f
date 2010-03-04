@@ -90,14 +90,14 @@ C------------- Write down a 4-line header
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
      >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
-     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
      >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
      >          //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
      >          //'  int,   cm, cm, kG, kG, kG, float, float, float,'
-     >          //' float,float,float,float, float,float,float,float,'
+     >          //' float,float,float, float, float,float,float,float,'
      >          //' V/m, V/m, V/m, kG.cm,   int,  int,'
      >          //' string, string, string, string'
 
@@ -105,7 +105,7 @@ C------------- Write down a 4-line header
                 TXTA80 = 
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >          //'   T,  Z,   P,  S, time,'
-     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //'   ENEKI, ENERG,'
      >          //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
      >          //'   RET,   DPR,'
@@ -114,7 +114,7 @@ C------------- Write down a 4-line header
                 TXTB80 = 
      >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >          //' mrd, cm, mrd, cm, mu_s,'
-     >          //' float,float,float,float, float,float,float,float,'
+     >          //' float,float,float, float, float,float,float,float,'
      >          //'     MeV,   MeV,'
      >          //' int,  int,   cm, MeV/c2, C, float, float,  float,'
      >          //' float, float,'
@@ -124,12 +124,12 @@ C------------- Write down a 4-line header
               ELSEIF(TXT.EQ.'SPIN DATA') THEN
                 TXTA80 = 
      >            'KEX,'
-     >          //'   SXo,  SYo,  SZo,   So,    SX,   SY,   SZ,    S,'
+     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //' Ekin, Itraj, IMAX, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
      >            'int,'
-     >          //' float,float,float,float, float,float,float,float,'
+     >          //' float,float,float, float, float,float,float,float,'
      >          //'  MeV,   int,  int,   int,  int,'
      >          //' string, string, string, string'
 

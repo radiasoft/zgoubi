@@ -36,7 +36,8 @@ C     ----------------------------------------------
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),KTI(MXF),KSCL
       PARAMETER (LBLSIZ=8)
-      CHARACTER FAM*8,LBF*(LBLSIZ),KLEY*10,LABEL*(LBLSIZ)
+      PARAMETER (KSIZ=10)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
  
       PARAMETER(MST=MXLF+1)
@@ -71,7 +72,7 @@ C------- Store name of family and label(s)
           STOP
         ENDIF
 
-        FAM(IF) = STRA(1)(1:8)
+        FAM(IF) = STRA(1)(1:KSIZ)
             
         IF(NST .GE. 2) THEN
           DO 11 KL=2,NST

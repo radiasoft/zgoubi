@@ -36,7 +36,8 @@ C     ----------------------------------------------
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=8)
-      CHARACTER FAM*8,LBF*(LBLSIZ),KLEY*10,LABEL*(LBLSIZ)
+      PARAMETER (KSIZ=10)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       PARAMETER (MXLBF=2)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MXLBF),KLEY,LABEL(MXL,2)
  
@@ -66,7 +67,7 @@ C------- Store name of family and label(s)
      >     CALL ENDJOB('SBR RSCAL - Too many labels per family, max is '
      >     ,MXLBF)
 
-        FAM(IF) = STRA(1)(1:8)
+        FAM(IF) = STRA(1)(1:KSIZ)
 
         IF(NLBL .GE. 2) THEN
           DO 11 KL=2,NLBL

@@ -26,5 +26,5 @@ C  France
 C------ Name of storage file for postprocessing by zpop
 C           normally zgoubi.plt ; b_zgoubi.plt for binary storage
       CHARACTER*20 FILPLT
-C      PARAMETER (FILPLT='zgoubi.plt')
-      PARAMETER (FILPLT='b_zgoubi.plt')
+      PARAMETER (FILPLT='zgoubi.plt')
+C      PARAMETER (FILPLT='b_zgoubi.plt')

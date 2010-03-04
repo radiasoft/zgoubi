@@ -27,7 +27,7 @@ C  France
      >                                BX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*)
-      
+                
       X2 = X*X
       U = X2 + RO2
       U2 = U*U
@@ -41,14 +41,39 @@ C  France
       SQV = SQRT(V)
       DV = 2.D0 * (X-XL)
 C------- BX(n)=-d(n-1)B/dX^(n-1)
-        BX(1)=BOSQ * ( X/SQU - (X-XL)/SQV )
-C           write(88,*) x,bx(1),' solbax'
-        BX(2)=BOSQ * ( (U-X2)/(U*SQU) - (V-XL2)/(V*SQV)  )
-        BX(3)=BOSQ*( (-4.D0*X*U2 +3.D0*X2*DU*U -U2*DU )/(2.D0*U3*SQU)
-     >   - (-4.D0*(XL-X)*V2 +3.D0*XL2*DV*V -V2*DV )/(2.D0*V3*SQV) )
-        BX(4)=0.D0
-        BX(5)=0.D0
-        BX(6)=0.D0
- 
+C        BX(1)=BOSQ * ( X/SQU - (X-XL)/SQV )
+        BX(1)=BOSQ * (
+     >x/Sqrt(ro2 + x**2) + (-x + xl)/Sqrt(ro2 + (x - xl)**2)
+     > )
+
+        BX(2)=BOSQ * (
+     >ro2*((ro2 + x**2)**(-1.5) - (ro2 + (x - xl)**2)**(-1.5))
+     > )
+
+        BX(3)=BOSQ * (
+     >ro2*((-3*x)/(ro2 + x**2)**2.5 + 
+     >(3*(x - xl))/(ro2 + (x - xl)**2)**2.5)
+     > )
+
+        BX(4)=BOSQ * (
+     >  3*ro2*(4/(ro2 + x**2)**2.5 + 
+     >5*ro2*(-(ro2 + x**2)**(-3.5) + (ro2 + (x - xl)**2)**(-3.5)) - 
+     >4/(ro2 + (x - xl)**2)**2.5)
+     > )
+
+        BX(5)=BOSQ * (
+     >   3*ro2*((-20*x)/(ro2 + x**2)**3.5 + 
+     >    (20*(x - xl))/(ro2 + (x - xl)**2)**3.5 + 
+     >    5*ro2*((7*x)/(ro2 + x**2)**4.5 + 
+     >       (-7*x + 7*xl)/(ro2 + (x - xl)**2)**4.5))
+     > )
+
+        BX(6)= BOSQ * (
+     >45*ro2*(8/(ro2 + x**2)**3.5 + 
+     >21*ro2**2*((ro2 + x**2)**(-5.5) - (ro2 + (x - xl)**2)**(-5.5)) + 
+     >28*ro2*(-(ro2 + x**2)**(-4.5) + (ro2 + (x - xl)**2)**(-4.5)) - 
+     >8/(ro2 + (x - xl)**2)**3.5)
+     > )
+
       RETURN
       END
