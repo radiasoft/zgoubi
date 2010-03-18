@@ -66,11 +66,9 @@ C--------- Old method
         ENDIF
       ENDDO
 
-
       READ(NDAT,*) NC
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
-C         READ(NDAT,*)          IC(I),I1(I),I2(I),I3(I),V(I),W(I)
         READ(NDAT,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
  41     CONTINUE

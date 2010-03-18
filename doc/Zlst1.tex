@@ -2029,9 +2029,10 @@ involving  the keyword \textsl{REBELOTE}.
 
 \smallskip 
 
-\noindent YF, TF, ZF, PF, SF, DPF, TiF are references added to the  values of respectively Y, T, Z, P, S, DP as read 
-from \textsl{FNAME}, whereas 
- YR, TR, ZR, PR, SR, DPR, TiR are scaling factors, so that any coordinate $C=Y,T,Z...$ is chenged into CF*C + CR. 
+\noindent YF, TF, ZF, PF, SF, DPF, TiF are scaling factors whereas 
+ YR, TR, ZR, PR, SR, DPR, TiR are  references added to the  values of respectively Y, T, Z, P, S, DP as read 
+from \textsl{FNAME}, 
+ so that any coordinate $C=Y,T,Z...$ is changed into CF*C + CR. 
 In addition a flag character TAG allows retaining only particles with identical tagging letter LET, unless 
 TAG='*' in which case it has no selection effect - for instance TAG='S' can be used to retain only secondary 
 particles following in-flight decay simulations. 
@@ -2410,8 +2411,21 @@ $J=\left( \begin{array}{cc} \alpha & \beta \\ -\gamma& -\alpha \end{array} \righ
 $ IR = $ &number of the varied element in the structure \\
 $ IP =  $ &number of the physical parameter to be varied in this element \\
 $ XC =  $ &coupling parameter. Normally $ XC=0$.  If $ XC\not= 0$, coupling will occur (see below).\\
-$ DV = $ &allowed relative range of variation of the physical parameter $ IP $.
+\end{tabular} 
+\\
+followed by, either 
+
+\begin{tabular}{ll}
+$ DV = $ &allowed relative range of variation of the physical parameter $ IP $
 \end{tabular}
+\\
+or 
+
+\begin{tabular}{ll}
+$ [Vmin,Vmax] = $ &allowed interval of variation of the physical parameter $ IP $
+\end{tabular}
+
+
 
 \paragraph{Numbering of the elements (\textsl{IR})~: } 
 

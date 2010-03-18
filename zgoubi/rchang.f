@@ -75,7 +75,8 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
  10     CONTINUE
 
 C To allow for old style
-        IF(NSR.EQ.3) TA(NOEL,4) = ' '
+C        IF(NSR.EQ.3) TA(NOEL,4) = ' '
+        TA(NOEL,4) = ' '
 
       ELSE
 C old style, x- and y-shift followed by z-rotation

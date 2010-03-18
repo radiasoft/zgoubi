@@ -61,11 +61,11 @@ C     -------------------------------------------------
         QSHRO(I) = TA(NOEL,I)(1:2)
       ENDDO
 C To allow for old style
-      IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)
+C      IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)
+      QSHRO(4) = TA(NOEL,4)(1:2)
 
       EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
      >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
-
       IF( QSHRO(4) .EQ. 'OL') THEN
 C Old style
 
@@ -104,7 +104,7 @@ C New style
           VSHRO(I) = A(NOEL,I)
           IF(QSHRO(I)(2:2).EQ.'R') VSHRO(I) = VSHRO(I)*RAD
         ENDDO
- 
+
         IF(NRES.GT.0) THEN
           WRITE(NRES,FMT='(/,5X,''Change  of  reference, '',
      >    I2,''  transformations :'',/)') NSR
