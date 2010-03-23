@@ -1355,7 +1355,7 @@ energy loss by stochastic emission of photon and the ensuing perturbation
 on particle dynamics  and, on the other hand calculation of the 
 radiated spectral-angular energy densities as observed in the lab. 
 
-\subsection{Energy loss and related dynamical effects~\protect\cite{FMSEA-00-01}}\label{secSRLoss}
+\subsection{Energy loss and related dynamical effects~\protect\cite{FMSEA-00-01}\label{SRLoss}}\label{secSRLoss}
 
 Given a particle wandering in the magnetic field of an arbitrary optical element or field 
 map, \zgoubi\ computes the energy loss undergone, and its 
@@ -1363,6 +1363,15 @@ effect on the particle motion. The energy loss is calculated  in a  classical ma
 two random processes that accompany the emission of a photon  namely, \\
 \indent - the probability of emission, \\
 \indent - the energy of the photon. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{G.eps}
+
+\vspace{14mm} 
+\caption{\small
+       Cumulative distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
+\end{figure}
 
 The effects on the dynamic of the emitting particle 
  is either limited to the alteration of the energy, or extended to angular kick effect, 
@@ -1373,6 +1382,7 @@ position is supposed not to  change upon emission of a photon. These calculation
 means every centimer or tens of centimers in smoothly varying magnetic fields. 
 
 Main aspects of the method are developped in the following. 
+
 
 \paragraph{Probability of emission of a photon}
 
@@ -1422,20 +1432,6 @@ In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated
 \mathcal{P}(\epsilon/\epsilon_c) = \frac{12 \sqrt{3}}{5\, 2^{1/3} \Gamma(\frac{1}{3})}  
 (\frac{\epsilon}{\epsilon_c})^{1/3}
 \end{equation}
-
-
-\begin{wrapfigure}{r}{8cm}
-
-\vspace{5mm}  \centerline{\includegraphics[width=6cm]{G.eps}}
-
-\vspace{4mm}
-  \begin{center} 
- {\footnotesize 
-       Cumulative distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
-  \end{center} 
-
-\vspace{-6mm}
-\end{wrapfigure}
 
  About $40$ values of $\mathcal{P}(\epsilon/\epsilon_c)$ computed from eq.~\ref{EqSK53}~\cite{VOKostroun}, 
 honnestly spread  over a range $\epsilon/\epsilon_c \leq 10$ are  tabulated 
@@ -3347,20 +3343,22 @@ $A = \pi /2$,	and	$\delta	A =	0$.} }
  \end{figure}
 \newpage
 
-\subsubsection*{SRLOSS~: \SRLOSSTitl\ } \index{SRLOSS|textbf}\label{SRLOSS}
-\index{synchrotron radiation loss}\cite{FMSEA-00-01}
+\subsubsection*{SRLOSS~: \SRLOSSTitl\ \cite{FMSEA-00-01} } \index{SRLOSS|textbf}\label{SRLOSS}
+\index{synchrotron radiation loss}
 
 \noindent The keyword \textsl{SRLOSS} allows activating or stopping (option $KSR=1,0$ respectively) 
  stepwise tracking  of energy loss by emission of 
-photons in magnetic fields and the ensuing particle energy perturbation. It must be
-preceded by \textsl{PARTICUL}\index{PARTICUL} for defining  mass and charge values as they enter in the 
+photons in magnetic fields and the ensuing particle energy perturbation, following the 
+method described in section~\ref{SRLoss}.  
+
+\textsl{SRLOSS}  must be preceded by \textsl{PARTICUL}\index{PARTICUL} for defining  mass and charge values as they enter in the 
 definition of SR parameters. 
 
 
 \bigskip
 
 Statistics on SR parameters are perform while tracking, results of which can be obtained by means of keyword 
- SRPRNL. 
+ SRPRNT. 
 
 
 \newpage

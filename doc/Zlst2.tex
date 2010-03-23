@@ -3101,7 +3101,13 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
      \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
  \\
-\textsl{KSR}, IR \> Switch~; seed \> $0-1$, $>10^5$\> 2*I \\
+\textsl{KSR}     \> Switch~; seed \> $0-1$  \> 2*I \\
+\\
+\textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL' or a particular magnet KEYWORD }~;  \> 2*A \\
+                    \> \textsl{STR2 = 'scale' }             \>  \\
+ \\
+\textsl{Option}, seed \>  1 : loss entails dp only  \> $1-3$, , $>10^5$ \> I \\
+                \>  1 : loss entails dp and kick angle  \> \\
 
   \end{tabbing}
   
@@ -3112,8 +3118,7 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \begin{tabbing}
 \mestab
  \textbf{SRPRNT}        \label{SRPRNT-B} \index{SRPRNT|textbf}\index{SRLOSS}
-     \> \textbf{\SRPRNTTitl} \> \>  \\
-   \> ~~~~~~~into zgoubi.res
+     \> \textbf{\SRPRNTTitl}   ~~ into zgoubi.res
 
 \end{tabbing}
 
