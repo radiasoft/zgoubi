@@ -66,8 +66,6 @@ C----- Set SR loss tracking
           ENDIF 
           IF(A(NOEL,10).NE.1) WRITE(NRES,FMT='(20X,
      >      '' Loss entails dp only, no angle kick installed!! '')') 
-C          P=BORO*CL*1.D-9*Q/QE
-C          P=BORO*CL*1.D-9*Q
           P=BORO*CL9*Q
           E=SQRT(P*P + AM*AM)
           BTA = P/E

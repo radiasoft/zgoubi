@@ -47,7 +47,7 @@ C  France
       GOTO(1,2) MODL
       CALL ENDJOB('SBR SOLENF. No such model # ',MODL)
 
- 1    CONTINUE
+ 2    CONTINUE
 
       X=XX-(XS-XE)/2.D0-XE
  
@@ -208,7 +208,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       RETURN      
 
 C Axial field model
- 2    CONTINUE
+ 1    CONTINUE
 
       XL = XS - XE
       X = XX - XE

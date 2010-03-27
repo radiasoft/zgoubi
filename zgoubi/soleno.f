@@ -48,11 +48,12 @@ C      COMMON/DROITE/ IDRT,CA(9),SA(9),CM(9)
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
       CHARACTER TYP(2)*20
-      DATA TYP / 'elliptic integrals', 'axial field model' /
+      DATA TYP / 'axial field model', 'elliptic integrals' /
 
           XL =A(NOEL,10)
           RO =A(NOEL,11)
           BO =A(NOEL,12)*SCAL
+C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
           MODL = NINT(A(NOEL,13))
           XE = A(NOEL,20)
           XLS= A(NOEL,21)

@@ -285,7 +285,7 @@ C------- (p_ps)/ps
         YZXB(19) = DPR            
 C-------- momentum
 C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0   
-        YZXB(20) = ENERG
+        YZXB(20) = ENEKI
 C         convert B from kG to T
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)    
