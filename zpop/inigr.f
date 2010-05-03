@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE INIGR(
-     >                 NLOG, LM, NOMFIC)
+     >                 LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*) NOMFIC
 
@@ -47,7 +47,7 @@ C  France
       CHARACTER*80 TXT
       CHARACTER LOGOT*18, TEMP*80
 
-      SAVE KARSIZ 
+      SAVE KARSIZ, NLOG
 
       DATA KARSIZ / 3 /
 
@@ -107,7 +107,12 @@ C----- Graphic character size
 
       ENTRY LOGO2(TEMP)
       LOGOT = TEMP(51:69)
-      LOGOT = 'Zgoubi'
-            
+      LOGOT = 'Zgoubi'            
       RETURN
+
+      ENTRY INIGR1(
+     >             NLOGO)
+      NLOGO = NLOG
+      RETURN
+
       END

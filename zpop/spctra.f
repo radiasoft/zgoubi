@@ -163,6 +163,7 @@ C----- PLOT SPECTRUM
       IF(NPTR.LE. 0 .OR. NPTR.GT. NTRMAX) GOTO 3
       IF(NPTR.GT. NPTR0) CHANGE=.TRUE.
       IF(NPTS.GT. NPTR) NPTS=NPTR
+      IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
 
  31   WRITE(*,131) NPTS
  131  FORMAT(/,'  NUMBER OF PHASE-SPACE COORDINATES'
@@ -170,6 +171,7 @@ C----- PLOT SPECTRUM
       READ(5,*,ERR=31) NPTS
       IF(NPTS.LE. 0) NPTS=NPTR
       IF(NPTS.GT. NPTR) NPTS=NPTR
+      IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
       GOTO 21
 
  5    CONTINUE
@@ -219,6 +221,7 @@ C----- PLOT SPECTRUM
           IF(CHANGE) THEN
             NPTR = NTRMAX
             NPTS=NPTR
+            IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
             CALL STORCO(MODSTO,NL,1  ,
      >                                          NPASS)
 c            write(*,*) ' spctra  npass : ', npass
@@ -226,6 +229,7 @@ c            write(*,*) ' spctra  npass : ', npass
             CHANGE=.FALSE.
             IF(NPTR.GT.0) THEN
               IF(NPTS.GT. NPTR) NPTS=NPTR
+              IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
             ELSE
               NPTR = NPTS
               IF(NT.EQ.-1) KT = 1 

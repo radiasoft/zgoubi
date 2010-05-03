@@ -43,6 +43,8 @@ C     ---------------------------------------------
       CHARACTER LET, TXT*80, REP
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
+
+      INCLUDE 'MAXNTR.H'
 C      DOUBLE PRECISION SYDX
 
 C-----          Part.   Part.-Obs.                           Normalized
@@ -396,8 +398,10 @@ C     ------------------------------------------
 
       IF ( NOC .LE. MXSTEP ) THEN
         NPTS = NOC
+        IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
       ELSE 
         NPTS = MXSTEP
+        IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
         GOTO 97
       ENDIF
      

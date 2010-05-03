@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE STORCO(MODSTO,NL,KPS,
-     >                                          NPASS)
+     >                                NPASS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
 C     Read coordinates from zgoubi output file, and store  

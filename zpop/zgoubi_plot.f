@@ -39,7 +39,9 @@ C DES OUTPUT DE ZGOUBI
       DATA FIRST / .TRUE. /
 
       CALL INIGR(
-     >           NLOG, LM, NOMFIC)
+     >           LM, NOMFIC)
+      CALL INIGR1(
+     >            NLOG)
       
       L1 = NDAT
       L2 = NRES

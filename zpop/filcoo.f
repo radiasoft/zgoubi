@@ -27,7 +27,7 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YZXB(*)
       INCLUDE 'MAXNTR.H'
-      PARAMETER (NTR=NTRMAX*9)
+C      PARAMETER (NTR=NTRMAX*9)
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
 
       DIMENSION KXYL(6)
@@ -35,6 +35,8 @@ C  France
       DATA KXYL / 2,3,4,5,7,20 /
 C      DATA KXYL / 2,3,4,5,6,1 /
 C      DATA KXYL / 2,3,4,5,18,19 /
+
+      IF(NOC.LE.NTRMAX) THEN
 
 C----------- Current coordinates
           II = 0
@@ -50,5 +52,13 @@ C then :               x  x' z  z' t  E
           COOR(NOC,4)=YZXB(KXYL(4)+II )
           COOR(NOC,5)=YZXB(KXYL(5)+II )
           COOR(NOC,6)=YZXB(KXYL(6) )
+      ELSE
+        CALL INIGR1(
+     >              NLOG)
+        WRITE(NLOG,*) ' SBR FILCOO : now point # ',NOC,', NOT STORED !'
+     >  ,' Storage for ellipse matching stopped after '
+     >  ,'NTRMAX =',NTRMAX,' points (change in MAXNTR.H for more)'
+      ENDIF
+
       RETURN
       END

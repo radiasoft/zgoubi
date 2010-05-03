@@ -38,24 +38,29 @@ C  France
       CHARACTER TXT*80
 
       IF(NPTR .GT. 0) THEN
+
         IF(NPTS.GT. NPTR) NPTS=NPTR
+        IF(NPTS.GT. NTRMAX) NPTS=NTRMAX
 
-      KWRIT=0
-      CALL LPSFIT(NLOG,KWRIT,LM,
+        CALL LPSFIT(NLOG,KWRIT,LM,
      >                          YM,YPM,YMX,YPMX,U,A,B,*60,*60)
- 60   CONTINUE
+ 60     CONTINUE
 
-      DO 1 I=1,3
- 1      XSIGU(I)=1.D0
-      CALL LPSCNT(YM,YPM,U,A,B,XSIGU,NLOG,
-     >                                    NCOUNT)
-      IF    (KX.EQ.2 .OR. KX.EQ.12) THEN
-        JJ=1
-      ELSEIF(KX.EQ.4 .OR. KX.EQ.14) THEN
-        JJ=2
-      ELSE
-        JJ=3
-      ENDIF
+        DO 1 I=1,3
+ 1        XSIGU(I)=1.D0
+        CALL LPSCNT(YM,YPM,U,A,B,XSIGU,NLOG,
+     >                                      NCOUNT)
+        IF    (KX.EQ.2 .OR. KX.EQ.12) THEN
+          JJ=1
+        ELSEIF(KX.EQ.4 .OR. KX.EQ.14) THEN
+          JJ=2
+        ELSE
+          JJ=3
+        ENDIF
+
+c           call fbgtxt
+c          write(*,*) ' pllips u(jj), a(jj), b(jj) ',jj,u, a, b 
+c             stop
 
           CALL LINTYP(1)
           R= SQRT(XSIGU(JJ) * U(JJ) * B(JJ)) 

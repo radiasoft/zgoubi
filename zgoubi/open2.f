@@ -125,12 +125,12 @@ C------------- Write down a 4-line header
                 TXTA80 = 
      >            'KEX,'
      >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
-     >          //' Ekin, Itraj, IMAX, IPASS, NOEL,'
+     >          //'  s, Ekin, Itraj, IMAX, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
      >            'int,'
      >          //' float,float,float, float, float,float,float,float,'
-     >          //'  MeV,   int,  int,   int,  int,'
+     >          //' cm,  MeV,   int,  int,   int,  int,'
      >          //' string, string, string, string'
 
               ELSE

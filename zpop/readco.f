@@ -83,7 +83,7 @@ C--------- read in zgoubi.spn type storage file
           IF(BINARY) THEN
  111         CONTINUE
             READ(NL,ERR=99,END=10) 
-     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
@@ -101,7 +101,7 @@ C--------- read in zgoubi.spn type storage file
 
           ELSE
  1          READ(NL,101,ERR=99,END=10) 
-     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4)
+     >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL
      >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE 'FRMSPN.H'
@@ -121,6 +121,8 @@ C--------- read in zgoubi.spn type storage file
 
           ENDIF
         
+        YZXB(6) = F6I* UNIT(5)     
+
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)
         YZXB(23) = SF(3)

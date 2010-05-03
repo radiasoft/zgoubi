@@ -126,6 +126,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
       IF(NPTR.LE. 0 .OR. NPTR.GT. NTRMAX) GOTO 3
       IF(NPTR.GT. NPTR0) CHANGE=.TRUE.
       IF(NPTS.GT. NPTR) NPTS=NPTR
+      IF(NPTS.GT. NTRMAX) NPTS=NTRMAX
 
  31   WRITE(*,140) NPTS
  140  FORMAT(/,'  Number of phase-space coordinates'
@@ -133,6 +134,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
       READ(5,*,ERR=31) NPTS
       IF(NPTS.LE. 0) GOTO 31
       IF(NPTS.GT. NPTR) NPTS=NPTR
+      IF(NPTS.GT. NTRMAX) NPTS=NTRMAX
       GOTO 21
 
  5    CONTINUE
@@ -152,6 +154,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
           ENDIF
           IF(NPTR .GT. 0) THEN
             IF(NPTS.GT. NPTR) NPTS=NPTR
+            IF(NPTS.GT. NTRMAX) NPTS=NTRMAX
             CALL LPSFIT(NLOG,1,LM,
      >                            YM,YPM,YMX,YPMX,U,A,B,*60,*60)
  60         CONTINUE

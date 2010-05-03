@@ -221,6 +221,21 @@ C------------- inihibit WRITE if KWRT=0 and more than 1 pass
         NOEL=NOELA-1
         CALL PCKUP3(NOELA)
 
+C--------- SR loss ----------------------------------
+      IF(KSYN .EQ. 1) THEN
+        WRITE(LUN,FMT='(/,2X,
+     >  '' * Theoretical S.R. parameters in BEND and MULTIPOL *dipole*''
+     >  ,'' field :'')')
+        CALL SYNPA3(LUN,
+     >                  SMELPP,EE)
+        WRITE(LUN,FMT='(5X,
+     >  '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
+     >  '' Corresponding time : '',G16.8,'' mu_sec'')') 
+     >  EE/SMELPP,EE/SMELPP*F(7,1)
+
+      ENDIF
+C--------- endif SR loss ----------------------------
+
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
         IF(KWRT .EQ. 0) THEN

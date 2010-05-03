@@ -32,9 +32,12 @@ C  France
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       LOGICAL SCALE
+      SAVE SMELPP,E
       DATA UNITB / 1.D-1/
-      DATA OCCUR, SMELPP, SNMPP, SRMSE2
-     >                      / 0.D0, 0.D0, 0.D0 , 0.D0/
+      DATA SMELPP, SNMPP, SRMSE2
+     >                      / 0.D0, 0.D0, 0.D0 /
+C      DATA OCCUR / 0.D0/
+
       E0=SQRT((BORO*CL*1.D-9*Q/Q)**2+AM*AM)
       BRO=BORO * SCAL0()
 C      P = BRO*CL*1.D-9*Q/QE  
@@ -58,14 +61,16 @@ C      P = BRO*CL*1.D-9*Q
 C      SRMSE2=SRMSE2 + 11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
       SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
 C      SRMSE2=SRMSE2 + (6.72d-14*GAMMA**2.5/RHO)**2
-      OCCUR=OCCUR+1
+C      OCCUR=OCCUR+1
+
       IF(NRES.LE.0) RETURN
       WRITE(NRES,FMT='(/,2X,
-     >'' * Theoretical S.R. parameters in the *dipole* field :'',/)')
+     >'' * Theoretical S.R. parameters in BEND and MULTIPOL *dipole* fie
+     >ld :'',/)')
       WRITE(NRES,FMT='(5X,'' Deviation Ang. :'',1P,G16.8,
      > ''rad.    Bending radius :'',G16.8,''m'')') ANG,RHO
       WRITE(NRES,FMT='(5X,'' Mean energy loss per particle :'',
-     >'' Eloss = (2/3).r0.c.gamma^3.B/1000 .Ang ='',1P,T80,G16.8,
+     >'' Eloss = (2/3).r0.c.gamma^3.B.Ang/1000  ='',1P,T80,G16.8,
      >'' keV'')') EKEV *ABS(ANG)/(2.D0*PI)
       WRITE(NRES,FMT='(5X,'' Critical energy :'',
      >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G16.8,
@@ -79,21 +84,29 @@ C      SRMSE2=SRMSE2 + (6.72d-14*GAMMA**2.5/RHO)**2
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
       WRITE(NRES,FMT='(//,5X,'' Mean energy loss per particle, summed'',
-     >'' UP TO THIS MAGNET :'',1P,G16.8,'' keV'',6X,
+     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
      >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       WRITE(NRES,FMT='(5X,'' # of mean photons per particle, summed'',
-     >'' UP TO THIS MAGNET :'',1P,G16.8)') SNMPP
+     >'' UP TO THIS POINT :'',1P,G16.8)') SNMPP
       WRITE(NRES,FMT='(5X,'' rms energy of radiated photons'',
-     > 1P,G16.8)') sqrt(SRMSE2)
+     > 1P,G16.8,'' keV'')') SQRT(SRMSE2)
 
+      RETURN
 
+      ENTRY SYNPA3(LUN,
+     >                SMELPO,EO)
+      WRITE(LUN,FMT='(//,5X,'' Mean energy loss per particle, summed'',
+     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
+     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
+      SMELPO = SMELPP*1.D-3
+      EO = E
       RETURN
 
       ENTRY SYNPA0
         SMELPP=0.D0
         SNMPP=0.D0
         SRMSE2=0.D0
-        OCCUR=0
+C        OCCUR=0
       RETURN
 
       ENTRY SYNPA1(

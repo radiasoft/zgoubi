@@ -41,8 +41,9 @@ C  France
       PARAMETER (MDX=6)
       DIMENSION BX(MDX)
 
-      DATA MODL / 1 / 
       SAVE MODL, BOSQ, RO2
+
+      DATA MODL / 1 / 
 
       GOTO(1,2) MODL
       CALL ENDJOB('SBR SOLENF. No such model # ',MODL)

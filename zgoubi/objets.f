@@ -59,7 +59,8 @@ C            as resulting from decay (keyword 'MCDESINT')
  
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER (NTM=41)
-      DIMENSION DE(5,NTM),IDE(5),JDE(5),P(MXJ)
+C      DIMENSION DE(5,NTM),IDE(5),JDE(5),P(MXJ)
+      DIMENSION DE(5,MXT),IDE(5),JDE(5),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
      > (IDE(5),IPMAX),(IDE(1),IMAXD)
       EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
@@ -193,10 +194,11 @@ C---------- OBJET AUTOMATIQUE SYMETRIQUE
       IPMAX = A(NOEL,23)
       IXMAX = A(NOEL,24)
       IDMAX = A(NOEL,25)
-      IF(    IYMAX .GT. NTM .OR. ITMAX .GT. NTM .OR. IZMAX .GT. NTM
-     > .OR. IPMAX .GT. NTM .OR. IXMAX .GT. NTM .OR. IDMAX .GT. NTM) THEN
-        CALL ENDJOB('Too many trajectories, max is ',MXT)
-      ENDIF
+C      IF(    IYMAX .GT. NTM .OR. ITMAX .GT. NTM .OR. IZMAX .GT. NTM
+C     > .OR. IPMAX .GT. NTM .OR. IXMAX .GT. NTM .OR. IDMAX .GT. NTM) THEN
+      IF(IYMAX*ITMAX*IZMAX*IPMAX*IXMAX*IDMAX .GT. MXT) 
+     >   CALL ENDJOB('Too many trajectories, max is ',MXT)
+
       IMAXD=IDMAX
       P(2) = A(NOEL,30)
       P(3) = A(NOEL,31)

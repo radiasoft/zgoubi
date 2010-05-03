@@ -201,7 +201,7 @@ C------- Select particle number
      >/,8X,' 6:  vertic. axis :   Y -> c*(Y-d)^m ', 
      >/,8X,' 7:  vertic. axis :   Y -> c*|Y|^m + d   ', 
      >/,8X,' 8:  vertic. axis :   Y -> c*|Y-d|^m   ', 
-     >/,8X,'88:  RESET ', 
+     >/,8X,'88:  Reset to X, Y', 
      >/)
       WRITE(6,148) ' * Option  number : '
  148  FORMAT(A20)

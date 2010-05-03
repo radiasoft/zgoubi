@@ -44,7 +44,8 @@ C     ------------------------------
       DIMENSION YZXB(MXVAR),NDX(5)
       LOGICAL INRANG
 
-      INCLUDE "MAXTRA.H"
+      INCLUDE 'MAXNTR.H'
+
       DIMENSION XYLAST(2,MXT)
       LOGICAL CNECT
       CHARACTER*3 TXT
@@ -95,7 +96,7 @@ C------ Entering negative value for X  will cancel tagging
         IF (IDLUNI(JUN)) THEN
           OPEN(UNIT=JUN,FILE='zpop.log_IMPV')
           CALL IMPV2(JUN)
-          write(*,*)  ' sbr ploter jun =', jun
+C          write(*,*)  ' sbr ploter jun =', jun
 C           pause
         ELSE
           WRITE(6,*) ' *** sbr PLOTER, Problem : No idle unit number ! '
@@ -108,6 +109,7 @@ C           pause
 
       DO 1 I = 1, MXT
  1      OKT(I) = 0
+
       NOC = 0
       NRD=0
       D0=0.D0
@@ -124,7 +126,7 @@ C           pause
       Y2M = 0.D0
       XYM = 0.D0
 
-      IF(KLIPS) CALL RAZ(BINS,NTR)
+      IF(KLIPS) CALL RAZ(BINS,NB)
 
 C----- BOUCLE SUR READ FICHIER NL 
  44   CONTINUE                 
@@ -254,30 +256,30 @@ C----- File type zgoubi.plt
           SYDX = SYDX + YDX
           X0=X
             
-            CALL VECTPL(X,Y,2) 
+          CALL VECTPL(X,Y,2) 
 
-            IF(LIS .EQ. 2) THEN 
-C              CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
-              CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2))
-            ENDIF
+          IF(LIS .EQ. 2) THEN 
+C            CALL IMPV(NLOG,NPT,X,Y,YDX,SYDX,NDX(2),NDX(1),KX,KY)
+            CALL IMPV(NLOG,NOC,X,Y,YDX,SYDX,NDX(2))
+          ENDIF
 
-            IF(OKTAG) THEN
-              IF(OKT(NDX(2)) .EQ. 0) THEN
-                IF(X .GT. XMI+TAGX*(XMA-XMI)) THEN
-                  OKT(NDX(2)) = 1
-                  WRITE(TXT,FMT='(A)') LET 
-                  CALL TRTXT(X,Y+TAGY*(YMA - YMI),TXT,1)
-                ENDIF
+          IF(OKTAG) THEN
+            IF(OKT(NDX(2)) .EQ. 0) THEN
+              IF(X .GT. XMI+TAGX*(XMA-XMI)) THEN
+                OKT(NDX(2)) = 1
+                WRITE(TXT,FMT='(A)') LET 
+                CALL TRTXT(X,Y+TAGY*(YMA - YMI),TXT,1)
               ENDIF
             ENDIF
+          ENDIF
 
-            XYLAST(1,NDX(2)) = X
-            XYLAST(2,NDX(2)) = Y
-            XM = XM + X
-            YM = YM + Y
-            X2M = X2M + X*X
-            Y2M = Y2M + Y*Y
-            XYM = XYM + X*Y
+          XYLAST(1,NDX(2)) = X
+          XYLAST(2,NDX(2)) = Y
+          XM = XM + X
+          YM = YM + Y
+          X2M = X2M + X*X
+          Y2M = Y2M + Y*Y
+          XYM = XYM + X*Y
 
         ELSEIF(NPT .EQ. 0) THEN
 C--------- Beginning of next optical lmnt or next pass
@@ -329,11 +331,13 @@ C     ------------------------------------
  10   CONTINUE
       NPTR = NRD
       NPTS = NOC
+      IF(NPTS.GT.NTRMAX) NPTS=NTRMAX
       CALL VECTPL(X,Y,4)
       IF(IT0 .NE. 0) THEN
         IF(KX.EQ. 7.AND.KY.EQ. 2..AND.PPA.NE.0.D0)
      >           CALL PPAR(PPA,X,Y,T0,KART)
       ENDIF
+
       CALL TRKVAR(NOC,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
       WRITE(6,FMT='(/,'' SUM(Y)dX [XMI->XMA] ='',1P,E16.8,/)') SYDX 
       WRITE(6,*) ' PLOTTED ',NOC,' POINTS,  OVER',NRD-1,' READ IN FILE'
