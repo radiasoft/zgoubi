@@ -723,12 +723,9 @@ C             ... REGION DE COURBURE R2
           F = FE * FS
           IF(NBFACE(KMAG) .EQ. 3) F = F * F3
  
-C          ROI= (ROJ-RM)/RM
-C          ROI= ROJ-RM
           ROI= ROJ-RRM(KMAG)
 
           IF    (ITYPF.EQ.0) THEN
-C            ROI= ROI/RM
             ROI= ROI/RRM(KMAG)
             SF = 1.D0
             IF(IND(KMAG).NE.0) THEN

@@ -25,7 +25,7 @@ C  38026 Grenoble Cedex
 C  France
 
 C Max lmnts in a structure, max data (in zgoubi data list) per lmnt
-       PARAMETER (MXL=3500 , MXD=400)
-C       PARAMETER (MXL=7000 , MXD=400)
+C       PARAMETER (MXL=3500 , MXD=400)
+       PARAMETER (MXL=7000 , MXD=400)
 C-- For LHC
 C       PARAMETER (MXL=25000 , MXD=300)

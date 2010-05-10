@@ -56,6 +56,7 @@ C     **************************************
       LOGICAL BINARI, BINARY
       CHARACTER*11 FRMT
       LOGICAL OKKT, OKKP
+      CHARACTER TDUMX*10
       CHARACTER TDUM8*8
 
       CHARACTER LETI, LETAG
@@ -111,7 +112,7 @@ C----- Reset particle counter
         ENDIF
       ENDIF
 
-C----- Flag for lmnt number - not used
+C----- Flag for lmnt number - not used (for the moment...)
       LM = -1
 C----- Traj. counter
       I = 0
@@ -136,10 +137,12 @@ C----- Traj. counter
  222      CONTINUE
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
-     >     LETI,IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
-     >     DP,Y,T,Z,P,S,TIM,EKIN, 
-     >     IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,
-     >     BRO, IPASSR, TDUM8,TDUM8,TDUM8,IDUM
+     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
+     >      DP,Y,T,Z,P,S,TIM,
+     >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
+     >      EKIN,ENERG, 
+     >      ITR,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
 
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 222
@@ -154,18 +157,24 @@ C----- Traj. counter
             ENDIF
             GOTO 222
           ENDIF
-          IF(.NOT. OKKT(KT1,KT2,IT1,
-     >                             IEND)) GOTO 222
-        ELSE
+
+          IF(.NOT. OKKT(KT1,KT2,ITR,
+     >                              IEND)) THEN
+            GOTO 222
+          ENDIF
+
+        ELSEIF(.NOT.BINARY) THEN
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
           IF  (KOBJ2.EQ.0) THEN           
             READ(NL,110,ERR=97,END=95)
-     >      LETI,IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
-     >      DP,Y,T,Z,P,S,TIM,EKIN, 
-     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,
-     >      BRO, IPASSR, TDUM8,TDUM8,TDUM8,IDUM
+     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
+     >      DP,Y,T,Z,P,S,TIM,
+     >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
+     >      EKIN,ENERG, 
+     >      ITR,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
             INCLUDE "FRMFAI.H"
 
           ELSEIF(KOBJ2.EQ.1) THEN 
@@ -235,7 +244,7 @@ C            TIM = 0.D0
           ENDIF 
 
           IF(LM .NE. -1) THEN
-            IF(LM .NE. NOEL) GOTO 221
+            IF(LM .NE. NOELR) GOTO 221
           ENDIF
           IF(.NOT. OKKP(KP1,KP2,IPASSR,
      >                                 IEND)) THEN
@@ -246,8 +255,12 @@ C            TIM = 0.D0
             ENDIF
             GOTO 221
           ENDIF
-          IF(.NOT. OKKT(KT1,KT2,IT1,
-     >                             IEND)) GOTO 221
+
+          IF(.NOT. OKKT(KT1,KT2,ITR,
+     >                              IEND)) THEN
+            GOTO 221 
+          ENDIF
+
         ENDIF
 
         IF(LETAG.NE.'*') THEN
@@ -257,8 +270,8 @@ C            TIM = 0.D0
         LET(IT1)=LETI
         IEX(IT1)=IEXI
 C        FO(1,IT1)=1.D0 + DPO
-C        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
-        FO(1,IT1)= DPO * BRO/BORO
+        FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
+C        FO(1,IT1)= DPO * BRO/BORO
         FO(2,IT1)=YO
         FO(3,IT1)=TTO
         FO(4,IT1)=ZO
@@ -297,26 +310,6 @@ C        IREP(IT1) = IREPI
            AMQ(2,IT1) = Q
         ENDIF
 
-C TESTS COOLING NUFACT--------------------
-C        AM2 = AMQ(1,IT)*AMQ(1,IT)
-C        P0 = BORO*CL9*AMQ(2,IT)
-C        P = P0*F(1,IT)        
-C        ENRG = SQRT(P*P+AM2)-AMQ(1,IT)
-C        IF(ENRG.LT.100)  iex(it) = -9
-C        IF(ENRG.GT.300)  iex(it) = -9
-C------------------------------------------
-
-
-CC------- If a series of particle numbers have not been found :
-C        IF(IT1.LT.IT) THEN 
-C          DO 117 II=IT1,IT-1
-C            IEX(II)=-9
-C            LET(I)='*'            
-C 117      CONTINUE
-C          IT1=IT
-C          IPASS1=IPASSR
-C        ENDIF
-
         IF(OKINIT) THEN
            DO 116 J=1,MXJ
  116         FO(J,IT1)=F(J,IT1)
@@ -324,7 +317,6 @@ C        ENDIF
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
-C         write(*,*) ' sbr obj3  ',it,it1,ipassr
       GOTO  17
  
  96   WRITE(TXT,FMT='(
@@ -335,14 +327,11 @@ C         write(*,*) ' sbr obj3  ',it,it1,ipassr
  97   WRITE(NRES,FMT='(/,
      > '' SBR OBJ3 -> error in  reading  file '',
      >  A,'' at  event/traj #  '',I6,''/'')') NOMFIC,IT1
+
  95   CONTINUE
  169  CONTINUE
-C Changed for linear FFAG sudies
-C      IMAX=IT
 
-C         write(*,*) ' sbr obj3  ',it,it1,ipassr
-
-      IMAX=IT1
+      IMAX=IT1-1
 C-----
       CALL CNTMXT(IMAX)
 
@@ -357,10 +346,10 @@ C-----
  1    CONTINUE
 
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,FMT='(/,T5,''  Reading  in  file  '',A,
-     >    ''  ended  after  gathering '',I6,''  particles'')') 
-     >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)), IMAX
-        WRITE(NRES,*) '  in  requested  range :  [',KT1,',',KT2,'].'
+        WRITE(NRES,FMT='(/,T5,''  Reading  in  file  '',A
+     >    ,/,''   ended  after  gathering '',I6,''  particles''
+     >    ,''  in  requested  range :  ['',I6,'', '',I6,'']'')')
+     >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),IMAX,KT1,KT2
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,
      >    ''  particles  are  of  secondary  type  (LET="S")'')') IS
         IF(II.GT.0) WRITE(NRES,

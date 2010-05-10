@@ -281,8 +281,7 @@ C    constraint rms  emittance
 C-----------Contraints on spin
 
            IF    (ICONT2.EQ.0) THEN
-             VAL=SF(4,K)
-
+             VAL=SF(L,K)
            ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on closed orbit : 
 C             e.g., equal spin values  (L=2,4 or other)

@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       PARAMETER (MXKLE=105)
-      CHARACTER*10  KLE(MXKLE)
+      CHARACTER*(KSIZ)  KLE(MXKLE)
 C           1           2            3            4            5
       DATA (KLE(I),I=1,50)/
      >     'ESL'  ,   'AIMANT' , 'QUADRUPO' , 'SEXTUPOL' ,   'IMAGE'  ,

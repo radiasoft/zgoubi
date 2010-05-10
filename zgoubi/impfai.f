@@ -80,8 +80,7 @@ C------- Dummies
             ENEKI = ENERG - AMQ(1,I)
             WRITE(NFAI)
      1      IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
-     2      -1.D0+F(1,I),F(2,I),F(3,I),
-     3      (F(J,I),J=4,MXJ),
+     2      -1.D0+F(1,I),F(2,I),F(3,I),(F(J,I),J=4,MXJ),
      >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
      >      ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),RET(I),DPR(I),PS,

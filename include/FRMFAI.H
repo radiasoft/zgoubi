@@ -49,7 +49,7 @@ C6       IT,IREP(IT),   SORT(IT), (AMQ(J,I),J=1,5), RET(IT), DPR(IT), PS
      >   ,2(1X,I6),   9(1X,E16.8)
 
 C7         BORO,   IPASS, NOEL,    
-     > ,1X,E16.8,  2(1X,I6)
+     >   ,1X,E16.8,  2(1X,I6)
 
-C8          'KLEY', ('LABEL(NOEL,I)',I=1,2), 'LET(IT)'
-     >    , 3(1X,A1,A8,A1),                   1X,3A1)
+C8            'KLEY',    ('LABEL(NOEL,I)',I=1,2),           'LET(IT)'
+     >    ,1X,A1,A10,A1,   2(1X,A1,A8,A1),                   1X,3A1)

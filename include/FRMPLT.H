@@ -40,7 +40,7 @@ C4          KART,  IT,IREP(IT),    SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS
 C5        (SI(J,IT),J=1,4),(SF(J,IT),J=1,4)
      >     ,8(1X,E16.8)
 
-C6      EX,EY,EZ, BORO,   IPASS,NOEL,  KLEY, (LABEL(NOEL,I),I=1,2), LET(IT)
-     >  ,4(1X,E16.8),     2(1X,I6),    3(1X,A1,A8,A1),          1X, 3A1)
+C6    EX,EY,EZ, BORO,IPASS,NOEL,KLEY,     (LABEL(NOEL,I),I=1,2),LET(IT)
+     >,4(1X,E16.8),  2(1X,I6),1X,A1,A10,A1, 2(1X,A1,A8,A1),     1X,3A1)
 
 
