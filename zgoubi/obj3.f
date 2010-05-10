@@ -310,7 +310,7 @@ C        IREP(IT1) = IREPI
            AMQ(2,IT1) = Q
         ENDIF
 
-        IF(OKINIT) THEN
+        IF(.NOT.OKINIT) THEN
            DO 116 J=1,MXJ
  116         FO(J,IT1)=F(J,IT1)
         ENDIF
@@ -331,7 +331,11 @@ C        IREP(IT1) = IREPI
  95   CONTINUE
  169  CONTINUE
 
-      IMAX=IT1-1
+      IF(KT1.GT.1) THEN
+        IMAX=IT1-1
+      ELSE
+        IMAX=IT1
+      ENDIF
 C-----
       CALL CNTMXT(IMAX)
 
