@@ -1032,7 +1032,6 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       KALC = 2
       IF(READAT) CALL REMMA(KART,I3,
      >                              ND(NOEL))
-
       IF    (A(NOEL,22) .EQ. 1) THEN
 C------- 2-D map, KZMA = 1
         KUASEX = 34

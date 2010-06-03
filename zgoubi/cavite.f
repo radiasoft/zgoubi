@@ -72,19 +72,22 @@ C  France
       DATA PP0 / 1.D0 / 
 
       KCAV = NINT(A(NOEL,1))
-      OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KCAV) .EQ. 1
-      IF(OKIMP) THEN 
+      IF(IPASS .EQ. 1) THEN 
+       OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KCAV) .EQ. 1
+       IF(OKIMP) THEN 
         IF(.NOT.OKOPEN) THEN
           IF(IDLUNI(
      >              LUN)) THEN
             OPEN(UNIT=LUN,FILE='zgoubi.CAVITE.Out',
      >                     FORM='FORMATTED',ERR=99, IOSTAT=IOS)
           ELSE
+            OKIMP = .FALSE.
             GOTO 99
           ENDIF
           IF(IOS.NE.0) GOTO 99
           OKOPEN = .TRUE.
         ENDIF
+       ENDIF
       ENDIF
 
       IF(NRES.GT.0) WRITE(NRES,100) SKAV(KCAV+1)

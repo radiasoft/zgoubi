@@ -39,13 +39,36 @@ C  France
       CHARACTER*80 TXT
       INTEGER DEBSTR, FINSTR
       LOGICAL OKSR, OKSRO
+
+      LOGICAL OKOPEN, OKIMP, IDLUNI
+      SAVE LUN, OKOPEN, OKIMP
+
       DATA OKSR / .FALSE. /
+      DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
       KSYN= A(NOEL,1)
       IF(KSYN.EQ.0) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''S.R. LOSS IS OFF'')')
         OKSR = .FALSE.
         RETURN
+      ENDIF
+
+      IF(IPASS .EQ. 1) THEN 
+       OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KSYN) .EQ. 1
+       IF(OKIMP) THEN 
+        IF(.NOT.OKOPEN) THEN
+          IF(IDLUNI(
+     >              LUN)) THEN
+            OPEN(UNIT=LUN,FILE='zgoubi.SRLOSS.Out',
+     >                     FORM='FORMATTED',ERR=99, IOSTAT=IOS)
+          ELSE
+            OKIMP = .FALSE.
+            GOTO 99
+          ENDIF
+          IF(IOS.NE.0) GOTO 99
+          OKOPEN = .TRUE.
+        ENDIF
+       ENDIF
       ENDIF
 
       TXT = TA(NOEL,2)
@@ -93,6 +116,9 @@ C----- Set SR loss tracking
         CALL RAYSY1(IMAX,IRA)
         CALL RAYSY3(TA(NOEL,1))
       ENDIF
+
+      IF(OKIMP) CALL SRPRN(I0,LUN,IMAX)
+
       RETURN
 
       ENTRY SRLOSR(SCALO)
@@ -104,4 +130,8 @@ C----- Set SR loss tracking
       OKSRO = OKSR
       RETURN
 
+ 99   IF(NRES .GT. 0) WRITE(NRES,101) 'SRLOSS',
+     >                          ' OPEN zgoubi.SRLOSS.Out'
+ 101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
+      RETURN
       END

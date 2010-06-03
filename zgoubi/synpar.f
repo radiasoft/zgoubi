@@ -36,12 +36,9 @@ C  France
       DATA UNITB / 1.D-1/
       DATA SMELPP, SNMPP, SRMSE2
      >                      / 0.D0, 0.D0, 0.D0 /
-C      DATA OCCUR / 0.D0/
 
       E0=SQRT((BORO*CL*1.D-9*Q/Q)**2+AM*AM)
       BRO=BORO * SCAL0()
-C      P = BRO*CL*1.D-9*Q/QE  
-C      P = BRO*CL*1.D-9*Q 
       P = BRO*CL9*Q 
       E = SQRT(P*P+AM*AM)
       BTA = P/E
@@ -58,44 +55,40 @@ C      P = BRO*CL*1.D-9*Q
       CALL SRLOSR(SCALE)
       IF(SCALE) SCL=SCAL0W(1.D0-SMELPP*1.D-3/E0)
       SNMPP=SNMPP+EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
-C      SRMSE2=SRMSE2 + 11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
       SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
-C      SRMSE2=SRMSE2 + (6.72d-14*GAMMA**2.5/RHO)**2
-C      OCCUR=OCCUR+1
 
       IF(NRES.LE.0) RETURN
       WRITE(NRES,FMT='(/,2X,
-     >'' * Theoretical S.R. parameters in BEND and MULTIPOL *dipole* fie
-     >ld :'',/)')
-      WRITE(NRES,FMT='(5X,'' Deviation Ang. :'',1P,G16.8,
-     > ''rad.    Bending radius :'',G16.8,''m'')') ANG,RHO
-      WRITE(NRES,FMT='(5X,'' Mean energy loss per particle :'',
+     >'' * Theoretical S.R. parameters in local *dipole* field :'',//)')
+      WRITE(NRES,FMT='(5X,''Local bending radius :'',1P,G16.8,
+     > ''m,   deviation angle :'',G16.8,''rad'')') RHO, ANG
+      WRITE(NRES,FMT='(5X,''Mean energy loss per particle :'',
      >'' Eloss = (2/3).r0.c.gamma^3.B.Ang/1000  ='',1P,T80,G16.8,
      >'' keV'')') EKEV *ABS(ANG)/(2.D0*PI)
-      WRITE(NRES,FMT='(5X,'' Critical energy :'',
+      WRITE(NRES,FMT='(5X,''Critical energy :'',
      >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G16.8,
      >'' keV'')') EC
-      WRITE(NRES,FMT='(5X,'' Mean energy of radiated photons :'',
+      WRITE(NRES,FMT='(5X,''Mean energy of radiated photons :'',
      >'' <Eph> = 8/(15.sqrt(3)).Ec ='',1P,T80,G16.8,'' keV'')') EPHOT
-      WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',
+      WRITE(NRES,FMT='(5X,''rms energy of radiated photons :'',
      >'' Eph_rms = 0.6383.Ec ='',1P,T80,G16.8,'' keV'')') .6383D0*EC
-      WRITE(NRES,FMT='(5X,'' Number of mean photons per particle'',
+      WRITE(NRES,FMT='(5X,''Number of mean photons per particle'',
      >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
-      WRITE(NRES,FMT='(//,5X,'' Mean energy loss per particle, summed'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
+      WRITE(NRES,FMT='(/,5X,''Mean energy loss, summed over magnets'',
+     >'' UP TO THIS POINT :'',1P,G16.8,'' keV/particle'',6X,
      >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
-      WRITE(NRES,FMT='(5X,'' # of mean photons per particle, summed'',
-     >'' UP TO THIS POINT :'',1P,G16.8)') SNMPP
-      WRITE(NRES,FMT='(5X,'' rms energy of radiated photons'',
+      WRITE(NRES,FMT='(5X,''# of mean photons, summed over magnets'',
+     >'' UP TO THIS POINT :'',1P,G16.8,'' /particle'')') SNMPP
+      WRITE(NRES,FMT='(5X,''rms energy of radiated photons'',
      > 1P,G16.8,'' keV'')') SQRT(SRMSE2)
 
       RETURN
 
       ENTRY SYNPA3(LUN,
      >                SMELPO,EO)
-      WRITE(LUN,FMT='(//,5X,'' Mean energy loss per particle, summed'',
+      WRITE(LUN,FMT='(//,5X,''Mean energy loss per particle, summed'',
      >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
      >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       SMELPO = SMELPP*1.D-3
@@ -106,7 +99,6 @@ C      OCCUR=OCCUR+1
         SMELPP=0.D0
         SNMPP=0.D0
         SRMSE2=0.D0
-C        OCCUR=0
       RETURN
 
       ENTRY SYNPA1(

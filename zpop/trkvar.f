@@ -94,7 +94,7 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
  107  FORMAT('Mi-ma H/V: ',1P,2(1X,G10.3),'/',2(1X,G10.3))
       WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
  101  FORMAT('Part#',I3,'-',I6,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
-     >    I3,'-',I5,'; ',I7,' points') 
+     >    I6,'-',I6,'; ',I7,' points') 
 
       RETURN
 

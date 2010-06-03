@@ -64,7 +64,6 @@ C------- JJ = 1 , 2 or 3  for  Y-T, Z-P or T-P(time-momentum) planes
             XP = COOR(I,J2)
             XM = XM + X
             XPM = XPM + XP
-c              write(*,fmt='(a,2g12.4,3i4)') 'blibli ',x,xp,i,npts,jj
 C----------- Min-max of the distribution
             IF(YMX(J1) .GT. X) YMX(J1) = X
             IF(YMX(J2) .LT. X) YMX(J2) = X
@@ -213,8 +212,8 @@ C        IF(U(JJ).LE. 1.D-30) THEN
  5    CONTINUE
 
       IF(KPR.EQ.1) THEN   
- 20     WRITE(*,*)
-        WRITE(*,*) '  PRINT IN zpop.log (Y/N)?' 
+ 20     WRITE(6,*)
+        WRITE(6,*) '  PRINT IN zpop.log (Y/N)?' 
         READ(*,FMT='(A1)',ERR=20) REP        
         IF(REP .NE. 'N' .AND. REP .NE. 'n') REP = 'y'
       ELSEIF(KPR.EQ.2) THEN
@@ -224,7 +223,7 @@ C        IF(U(JJ).LE. 1.D-30) THEN
       IF(REP.EQ. 'y') THEN
 
 C----- Twiss parameters and emittance
-        WRITE(*,*) '  Ellipse parameter calculated will'
+        WRITE(6,*) '  Ellipse parameter calculated will'
      >  ,' be printed in zpop.log'
 
         CALL READC9(KKEX,KLET)

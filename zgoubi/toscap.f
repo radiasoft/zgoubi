@@ -157,7 +157,6 @@ C--------- another option for symmetrization by FMAPR2
           GOTO 96
         ENDIF
 
-
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
              WRITE(NRES,FMT='(/,3A)') 
@@ -168,6 +167,7 @@ C        NHD = NHDF
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
       ENDIF
 
         CALL MAPLI1(BMAX-BMIN)

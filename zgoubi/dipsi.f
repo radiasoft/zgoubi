@@ -726,6 +726,7 @@ C             ... REGION DE COURBURE R2
           ROI= ROJ-RRM(KMAG)
 
           IF    (ITYPF.EQ.0) THEN
+C Default
             ROI= ROI/RRM(KMAG)
             SF = 1.D0
             IF(IND(KMAG).NE.0) THEN
@@ -737,6 +738,7 @@ C             ... REGION DE COURBURE R2
             ENDIF
             FTAB(ITTA,JRO) = FTAB(ITTA,JRO) + F*HNORM(KMAG) * SF
           ELSEIF(ITYPF.EQ.1) THEN
+C B0 can be zero
             SF = HNORM(KMAG)
             IF(IND(KMAG).NE.0) THEN
               PROI = 1.D-1 ! convert CIND from T/m^* to kG/cm^*

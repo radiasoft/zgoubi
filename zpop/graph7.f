@@ -273,16 +273,16 @@ C                    zzp initial phase-space
      >               (KX.EQ.14 .AND. KY.EQ.15) .OR.    
 C                    xxp initial phase-space
      >              ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
-     >                               (KY.EQ.1  .OR. KY.EQ.20)) .OR.     
+     >                     (KY.EQ.1 .OR. KY.EQ.19 .OR. KY.EQ.20)) .OR.     
 C                   s/time/phase-dp/Ekin  phase-space
      >              ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
-     >                               (KY.EQ.11 .OR. KY.EQ.20)))
+     >                     (KY.EQ.11 .OR. KY.EQ.19 .OR. KY.EQ.20 )))
 C                   s/time/phase-dp/Ekin initial phase-space
                 K24=((KX.EQ.2  .AND. KY.EQ.4)  .OR.
 C                      YZ cross section
      >               (KX.EQ.12 .AND. KY.EQ.14))
 C                      Y_oZ_o cross section
-                IF(KX.LT.10) THEN
+                IF(KX.LT.10 .OR. KX.EQ.18) THEN
                   KPS=1
                 ELSE
                   KPS=0

@@ -38,10 +38,10 @@ C  France
         ENDIF
       ENDIF
  
-      IF(LUN.NE.NRES) THEN
-        IF(IPASS .EQ. 1) CALL OPEN2('SRPRN',
-     >                                      NSYN,TA(NOEL,1))
-      ENDIF
+C      IF(LUN.NE.NRES) THEN
+C        IF(IPASS .EQ. 1) CALL OPEN2('SRPRN',
+C     >                                      NSYN,TA(NOEL,1))
+C      ENDIF
 
       CALL RAYSY2(IMAX,LUN)
       RETURN

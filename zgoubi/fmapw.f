@@ -170,6 +170,7 @@ C Read and interprete field maps in polar frame (MOD >= 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
+
       CALL KSMAP(
      >           IMAP) 
       MOD = MODI
@@ -327,6 +328,7 @@ C------- Mesh coordinates
  36         XH(I+IXMA/2+1) =  DBLE(I) * DTTA
 
       ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 24) THEN
+
 
            IRMA = JYMA
            JTMA = IXMA

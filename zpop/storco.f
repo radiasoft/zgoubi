@@ -83,7 +83,6 @@ C         ----------------------------------
 C----- BOUCLE SUR READ FICHIER NL 
  44   CONTINUE
               
-c             write(*,*) ' storco  nl,lm : ',nl,lm
         CALL READCO(NL,
      >                    KART,LET,YZXB,NDX,*10,*79)
 
@@ -93,7 +92,6 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
 
              nrbltav = nrblt
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
-c             write(*,*) ' nrbltav, nrbltap ',nrbltav, nrblt
 
         IF(MODSTO.EQ.2) THEN
 C------- Case call by ellipse fit
@@ -123,14 +121,13 @@ C     ----------------------------------
       NPASS = NRBLT + 1
       NPTR=NOC
       CALL READC5(KT1,KT2)
-C        write(*,*) 'RRRRRRRRRRRRRRR  ',kt1, kt2
       IF(KT1 .EQ. -1 .OR. KT2 .GT. KT1) THEN
         WRITE(6,*) '  Analysis of particles from a set '
         IF(KPS.EQ. 0) WRITE(6,*) '  Initial  phase-space'
-        IF(KPS.EQ. 1) WRITE(6,*) '  Final  phase-space'
+        IF(KPS.EQ. 1) WRITE(6,*) '  Current  phase-space'
         WRITE(6,*) '  # of turns  in the structure :',NPASS
       ELSEIF(KT1 .EQ. KT2) THEN
-        WRITE(6,*) '  A single  particle  analized          :',KT1
+        WRITE(6,*) '  A single  particle  analysed          :',KT1
         WRITE(6,*) '  # of turns in the structure   :',NPASS
       ENDIF
 

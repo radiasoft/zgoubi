@@ -32,9 +32,9 @@ C      PARAMETER (NTR=NTRMAX*9)
 
       DIMENSION KXYL(6)
       SAVE KXYL
-      DATA KXYL / 2,3,4,5,7,20 /
+C      DATA KXYL / 2,3,4,5,7,20 /
 C      DATA KXYL / 2,3,4,5,6,1 /
-C      DATA KXYL / 2,3,4,5,18,19 /
+      DATA KXYL / 2,3,4,5,18,19 /
 
       IF(NOC.LE.NTRMAX) THEN
 

@@ -56,6 +56,7 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
 c         open(unit=88,file='fort.88')
 
+
       ZSYM=.TRUE.
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)

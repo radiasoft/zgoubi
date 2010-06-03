@@ -27,8 +27,7 @@ C  France
      >                            ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
-C     READS B-FIELD FOR CARTEMES, TOSCA, BREVOL,
-C       AND E(R=0,X)-FIELD FOR ELREVOL
+C     READS B-FIELD FOR EMMA FFAG,
 C     ---------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
@@ -50,12 +49,11 @@ C----- BNORM & X-,Y-,Z-NORM
       STOP 
  81   CONTINUE
  
-C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to 
-C                       be completed for others)
+C----- TITLE - Start TITLE with FLIP to get map flipped 
       READ(NDAT,200) TA(NOEL,1)
  200  FORMAT(A)
 
-C----- TOSCA, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
+C----- Either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
       READ(NDAT,*,ERR=50) A(NOEL,20),A(NOEL,21),KZMA,A(NOEL,23)
 C      write(*,*) 'remma ',A(NOEL,20),A(NOEL,21),KZMA,A(NOEL,23)
       GOTO 51

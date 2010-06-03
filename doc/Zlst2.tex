@@ -461,7 +461,7 @@ extrapolated linearly to the exit face of the map.}
  \> $ \Delta W=qVsin(2\pi hf\Delta t+\varphi_ s) $    \> \> \\
  \\
  \\
- \textsl{IOPT}       \> Option                 \>0-3 \>I \\
+ \textsl{IOPT[.i]}       \> Option. $i=1$ causes info output into \texttt{zgoubi.CAVITE.out}    \>0-3 \>I \\
  \\
 \textbf{If IOPT=0}  \>Element inactive \>\>\\
 \\
@@ -890,8 +890,10 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
 \mestab
 \textbf{DIPOLES}         \label{DIPOLES-B} \index{DIPOLES}
            \>\textbf{\DIPOLESTitl}\> \>\\
- \>$ B_Z= \sum_{i=1}^N  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
+ \>(i) $ B_Z= \sum_{i=1}^N  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
 \left(  1  +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)$ \> \> \\
+ \>(ii) $ B_Z=  \Bz_{0,i} \, + \, \sum_{i=1}^N  \mathcal{F}_i(R,\theta) \, 
+\left( b_{1_i} (R-RM_{i}) + b_{2_i} (R-RM_{i})^2 +... \right)$ \> \> \\
  \\
  $\IL$    \>$\IL=1,2$ : print field and coordinates along trajectories\> $0-2$ \>  I  \\
  \\
@@ -3101,7 +3103,7 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
      \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
  \\
-\textsl{KSR}     \> Switch~; seed \> $0-1$  \> 2*I \\
+\textsl{KSR[.i]}     \> Switch. . $i=1$ causes info output into \texttt{zgoubi.SRLOSS.out}    \> $0-1$  \> 2*I \\
 \\
 \textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL' or a particular magnet KEYWORD }~;  \> 2*A \\
                     \> \textsl{STR2 = 'scale' }             \>  \\

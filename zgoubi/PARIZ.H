@@ -38,7 +38,7 @@ C      PARAMETER (MXX=2000, MXY=600)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- KEK/TOSCA.  Masamitsu Aiba
-C      PARAMETER (IZ=41 , ID=3)
+C      PARAMETER (IZ=41 , ID=3, MMAP=1)
 C      PARAMETER (MXX=301, MXY=121)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
@@ -49,8 +49,8 @@ C      PARAMETER (MXX=361, MXY=171)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC----- RACCAM spiral field maps
-C       PARAMETER (IZ=21 , ID=3)
-C       PARAMETER (MXX=671, MXY=53)
+       PARAMETER (IZ=21 , ID=3, MMAP=1)
+       PARAMETER (MXX=671, MXY=53)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C      PARAMETER (IZ=41 , ID=3)
@@ -59,12 +59,12 @@ C      PARAMETER (MXX=1000, MXY=500)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA 
 C      PARAMETER (IZ=5 , ID=3, MMAP=1)
-C      PARAMETER (MXX=400, MXY=300)
+C      PARAMETER (MXX=401, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- IZ : # of mesh nodes in Z direction. ID : # of field coordinates (3 if IZ>1, or with MAP2)
 C-- MMAP : maximum number of maps in a problem
 C AGS CSnake maps
-      PARAMETER (IZ=3 , ID=3, MMAP=1)
-      PARAMETER (MXX=401, MXY=29)
+C      PARAMETER (IZ=3 , ID=3, MMAP=1)
+C      PARAMETER (MXX=401, MXY=29)
       
