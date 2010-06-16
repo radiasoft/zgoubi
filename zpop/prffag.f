@@ -59,7 +59,7 @@ C  France
       rme = rm * cm2m
           DEV =  at*deg2rd + te - ts
       ttrf = -(2.d0 * ACN -AT/2.d0) * deg2rd 
-     >      + dev * float(noc-1)
+     >      + dev * DBLE(noc-1)
 
       sign = 1.d0
 c reference line (acn direction)

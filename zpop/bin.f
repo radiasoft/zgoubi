@@ -113,7 +113,7 @@ C-----------------------------------------------
       CALL RAZ(BINS,NB)
       IF (XMA.LE. XMI) GOTO 97
       BINS(MXB+1)=XMI
-      DB=(XMA-XMI)/FLOAT(NB-1)
+      DB=(XMA-XMI)/DBLE(NB-1)
       BINS(MXB+2)=DB
 
 C----- Fills up  the histogram

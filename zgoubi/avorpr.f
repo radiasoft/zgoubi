@@ -34,11 +34,11 @@ C  France
       IF    (IOPT .EQ. 1) THEN
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT(/,1X,'Brute record at pick-ups :',/,
-     >  2X,'PU#',T16,'Pos',T32,'Yco',T47,'Tco',T62,'Zco',T77,
-     >  'Pco',T92,'L',T107,'D',T121,'t',
-     >  /,T16,'(cm)',T31,'(cm)',T46,'(mrad)',T61,'(cm)',T75,'(mrad)',
-     >  T92,'(cm)',T106,'(1+dp/p)',T120,'(mu_s)',T134,
-     >  ' #part ',T144,'Pass#')
+     >  2X,'PU#',T15,'Pos',T30,'Yco',T44,'Tco',T58,'Zco',T72,
+     >  'Pco',T86,'L',T100,'D',T113,'t',
+     >  /,T15,'(cm)',T29,'(cm)',T43,'(mrad)',T57,'(cm)',T70,'(mrad)',
+     >  T86,'(cm)',T99,'(1+dp/p)',T112,'(mu_s)',T125,
+     >  ' #part ',T134,'Pass#.       Rest of line : squares')
         CALL PCKUP1
       ELSEIF(IOPT .EQ. 2) THEN
         WRITE(LUN,100) 
@@ -65,7 +65,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
  4      CONTINUE
-C Careful before changing output format : there may be processor needing high prec.!
+C Careful before changing output format : some post-processor may need high prec.!
         WRITE(LUN,FMT= '(/,1X,''PU_average (over partcl and pass) : '',
      >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
      >  T74,''path-L'',T90,''D'',T105,''time'', 

@@ -272,7 +272,7 @@ C Rustine  RACCAM pour plot avec ffag-spi
             noel1 = noel
           endif
           nbCell = 10
-          pnCell = 4.d0 * atan(1.d0) / float(nbCell)
+          pnCell = 4.d0 * atan(1.d0) / DBLE(nbCell)
 c            write(*,*) '  noc, yzxb(8) ', noc, yzxb(8)
           YZXB(8) = YZXB(8) + pnCell * (2.d0*noc -1.d0) 
 C          YZXB(2) = YZXB(2) +   DY * UNIT(5) 
@@ -342,7 +342,7 @@ C Rustine  RACCAM pour plot avec ffag-spi
                 noel1 = noel
               endif
               nbCell = 10
-              pnCell = 4.d0 * atan(1.d0) / float(nbCell)
+              pnCell = 4.d0 * atan(1.d0) / DBLE(nbCell)
 C               write(*,*) '  noc, yzxb(8) ', noc, yzxb(8)
               temp = temp + pnCell * (2.d0*noc -1.d0) 
 C-------------------------
@@ -372,8 +372,8 @@ C      Location about where particle was lost
 c       nCell = 8
 c        pi = 4.d0 *atan(1.d0)
 c      if(noel.ne.noel1) noc = noc+1
-c      YZXB(62) = (Y+RFR) * SIN(XX + 2.d0 * pi / nCell * float(noc-1))
-c      YZXB(68) = (Y+RFR) * COS(XX + 2.d0 * pi / nCell * float(noc-1))
+c      YZXB(62) = (Y+RFR) * SIN(XX + 2.d0 * pi / nCell * DBLE(noc-1))
+c      YZXB(68) = (Y+RFR) * COS(XX + 2.d0 * pi / nCell * DBLE(noc-1))
 
       NDX(1)=KEX
       NDX(2)=IT

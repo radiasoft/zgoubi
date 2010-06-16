@@ -27,7 +27,7 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       write(iun,*) 'LTYP  9'
       ndu = 30
-      du = dtt / float(ndu)
+      du = dtt / DBLE(ndu)
       u = tt1
       do i = 1, ndu+1
         x = xa + r * cos(u)

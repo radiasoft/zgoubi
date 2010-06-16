@@ -27,7 +27,7 @@ C  France
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKECH
 
-C----- Plot the closed orbit as read from file zgoubi.averageOrbit
+C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
 
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN    
       COMMON/UNITS/ UNIT(6)
@@ -55,7 +55,7 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
 
       DATA NOMFIC /'none'/
 
-      DATA KAXV, KAXH, KPU / 1, 1, -1 /
+      DATA KAXV, KAXH, KPU / 1, 2, -1 /
 
       DATA OKOPN, CHANGE / .FALSE., .FALSE. /
 
@@ -72,11 +72,11 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       CALL HOMCLR
 
       WRITE(*,104) NOMFIC,TAXV(KAXV),TAXH(KAXH), KPU
- 104  FORMAT(5X,' MENU  -  Average orbit, closed orbit : ',/, 
+ 104  FORMAT(5X,
+     >     ' MENU  -  Average and sigma of PU signals, at PUs : ',/, 
      1/,5X,' 1  OPEN  FILE     -  current is ',A,
-     3/,5X,' 3  To be plotted -    now,  ',A, 
-     4/,5X,' 4  Horizontal axis :  path length / pick-up occurence',
-     >                                                  '   - now,  ',A, 
+     3/,5X,' 3  Vertical  axis  -    now,  ',A, 
+     4/,5X,' 4  Horizontal  axis  - now,  ',A,                              '   
      5/,5X,' 5  Observation pick-up #  - now (-1 is all),  ',I6, 
      7/,5X,' 7  **  PLOT  ** '             ,  
      8/,5X,' 8  Print screen',
@@ -97,26 +97,33 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       ENDIF
 
  1    CONTINUE    
-        NOMFIC = 'zgoubi.averageOrbit'
+        NOMFIC = 'zgoubi.pickup'
         IF (IDLUNI(IUN)) CALL OPNMNL(IUN,
      >                                   NFCO,NOMFIC,OKOPN,CHANGE)
       GOTO 20
 
  3    CONTINUE
       KAXV0 = KAXV
-      WRITE(6,FMT=
-     >'('' To be plotted : X_co, X`_co, Z_co, Z`_co, dist.,'', 
-     >''dp/p, # particles, PU posit.  (1-8) : '',T92,I1,A2)')
-     > KAXV,'  '
+      WRITE(6,FMT='('' To be plotted : '' 
+     >,/,'' 1  X_co''
+     >,/,'' 2  X`_co''
+     >,/,'' 3  Z_co''
+     >,/,'' 4  Z`_co''
+     >,/,'' 5  distance''
+     >,/,'' 6  dp/p''
+     >,/,'' 7  # particles''
+     >,/,'' 8  PU position''
+     >)')
+      WRITE(6,FMT='(/,'' Your  choice  : '')') 
       READ(5,FMT='(I1)',ERR=31) KAXV
       IF(KAXV .GE. 1 .AND. KAXV .LE. 8) GOTO 21
  31   KAXV = KAXV0
-      GOTO 21
+      GOTO 3
 
  4    CONTINUE
       KAXH0 = KAXH
       WRITE(*,FMT=
-     > '(''  Horizontal axis :  path length / PU occur.  (1/2) : '')')
+     > '(''  Horizontal axis :  path length / PU occurence (1/2) : '')')
       READ(5,FMT='(I1)',ERR=41) KAXH
       IF(KAXH .GE. 1 .AND. KAXH .LE. 2) GOTO 21
  41   KAXH = KAXH0
@@ -142,21 +149,20 @@ C----- Plot the closed orbit as read from file zgoubi.averageOrbit
       ENDIF
 
       REWIND(NFCO)
-      CALL HEADER(NFCO,4,.FALSE.,*20)
+      CALL HEADER(NFCO,6,.FALSE.,*20)
       IP = 1
  71   CONTINUE
         READ(NFCO,FMT=*,END=77,ERR=77)
-     >    IPU,PUPOS,(FCO(J,IP),J=1,7),IPASS
+     >  IPU,PUPOS,(FCO(J,IP),J=1,7),NBT,IPASS,(FCO2(J,IP),J=1,7)
         FCO(8,IP) = PUPOS
-        READ(NFCO,FMT=*,END=77,ERR=77) (FCO2(J,IP),J=1,6)
 
         IF(KPU.GT.0) THEN
           IF(IPU.NE.KPU) GOTO 71
         ENDIF
 
           DO 721 I=1,6
-            FCO(I,IP) = FCO(I,IP) * UNIT(I)/ FCO(7,IP)
-            FCO2(I,IP) = FCO2(I,IP) * UNIT(I)*UNIT(I)/ FCO(7,IP)
+            FCO(I,IP) = FCO(I,IP) * UNIT(I)/ DBLE(NBT)
+            FCO2(I,IP) = FCO2(I,IP) * UNIT(I)*UNIT(I)/ DBLE(NBT)
  721      CONTINUE
           FCO(8,IP) = FCO(8,IP) *  1.D-2
 
@@ -224,7 +230,7 @@ C--------------------
         IF(KAXH.EQ.1) THEN 
           X2 = FCO(5,I)
         ELSE
-          X2 = FLOAT(I)
+          X2 = DBLE(I)
         ENDIF
         YM2 = FCO(KAXV,I) 
         SIGY = SQRT(FCO2(KAXV,I) - YM2*YM2)
@@ -250,20 +256,19 @@ C        CALL VECTPL(X2,SIG2,2)
  771  CONTINUE
 
       CALL LOGO
-      WRITE(TXT,109) TAXV(KAXV),' S (m)'
- 109  FORMAT(1X,A,' v.s. ',A) 
-      CALL TRTXT(120.D0,245.D0,TXT,80,0)
-      WRITE(TXT,103) TAXV(KAXV),NPU
-      CALL TRTXT(10.D0,21.D0,TXT,50,0)
+      WRITE(TXT,109) TAXV(KAXV),TAXV(KAXV),TAXH(KAXH)
+      CALL TRTXT(80.D0,245.D0,TXT,0)
+      WRITE(TXT,103) TAXV(KAXV),NPU,NBT
+      CALL TRTXT(10.D0,21.D0,TXT,0)
       WRITE(TXT,*) '   '
-      CALL TRTXT(.2D0,1.1D0,TXT,50,0)
+      CALL TRTXT(.2D0,1.1D0,TXT,0)
 
       CALL FBGTXT
 
-      WRITE(*,103) TAXV(KAXV),NPU
- 103  FORMAT(1X,A,' mean orbit, ',I4,' pickups') 
-      WRITE(*,101) TAXV(KAXV),TAXH(KAXH)
- 101  FORMAT(A,' v.s. ',A) 
+      WRITE(*,103) TAXV(KAXV),NPU,NBT
+ 103  FORMAT(1X,A,' mean orbit, ',I4,' pickups',I6,'particles') 
+      WRITE(*,109) TAXV(KAXV),TAXV(KAXV),TAXH(KAXH)
+ 109  FORMAT(1X,A,'and ',A,'+/-sigma   v.s. ',A) 
       WRITE(*,102) CO1(KAXV),CO2(KAXV),COM(KAXV)
  102  FORMAT(' Mean, Sigma, Extrem (m)',1P,3E12.4) 
 

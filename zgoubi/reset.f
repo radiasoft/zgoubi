@@ -49,7 +49,7 @@ C  France
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
-C----- Average orbit calculation switched off
+C----- Pick-up signal calculation switched off
       KCO = 0
 
 C     ....  Defaults: ORDRE=2 when KALC=3; 

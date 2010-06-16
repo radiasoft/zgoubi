@@ -26,7 +26,7 @@ C  France
       SUBROUTINE PICKUP
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
-C     Average orbit (multiturn AND multiparticle summmation)
+C     Pick-up signal (multiturn AND multiparticle summmation)
 C     at labeled elements.
 C     MPULAB = max number of LABEL's. MPX = max number of 
 C     pick-ups (virtual pick-ups, positionned at indicated 
@@ -56,7 +56,7 @@ C     -----------------------------------------------------
       IF(NRES .GT. 0) THEN
         IF(KCO .EQ. 1) THEN
           WRITE(NRES,110) 
- 110      FORMAT(/,10X,' Average  orbit  calculation  requested')
+ 110      FORMAT(/,10X,' Pick-up  signal  calculation  requested')
 
           WRITE(NRES,111) 
  111      FORMAT(/,15X,' Particle coordinates will be averaged',
@@ -64,7 +64,7 @@ C     -----------------------------------------------------
           WRITE(NRES,112) (PULAB(I), I=1,NPU) 
  112      FORMAT(20X,A)
         ELSE
-          WRITE(NRES,FMT='(/,10X,'' Average orbit calculation *OFF*'')')
+          WRITE(NRES,FMT='(/,10X,''Pick-up signal calculation *OFF*'')')
         ENDIF
       ENDIF
 
@@ -72,15 +72,16 @@ C     -----------------------------------------------------
         CALL RAZ(FPU,MXPUD*MXPU)
  10     CONTINUE
         IF(OPN) THEN
-          INQUIRE(FILE='zgoubi.co',ERR=11,NUMBER=LN)
-          IF(NRES.GT.0) WRITE(NRES,*) ' Pick-up storage file zgoubi.co '
+          INQUIRE(FILE='zgoubi.pickup',ERR=11,NUMBER=LN)
+          IF(NRES.GT.0) WRITE(NRES,*) 
+     >        ' Pick-up storage file zgoubi.pickup '
      >       ,' already open under logical unit number ', LN
         ELSE
-          INQUIRE(FILE='zgoubi.co',ERR=11,OPENED=OPN,NUMBER=LN)
+          INQUIRE(FILE='zgoubi.pickup',ERR=11,OPENED=OPN,NUMBER=LN)
           IF(OPN) GOTO 10
           IF(IDLUNI(
      >              NFPU)) THEN
-            OPEN(UNIT=NFPU,FILE='zgoubi.co',ERR=99)
+            OPEN(UNIT=NFPU,FILE='zgoubi.pickup',ERR=99)
           ELSE
             GOTO 99
           ENDIF 
@@ -89,7 +90,7 @@ C     -----------------------------------------------------
       ENDIF
 
       IF(IPASS .EQ. 1) THEN
-        WRITE(NFPU,FMT='(A15,A40,5(1X,A10))') ' Average  orbit',
+        WRITE(NFPU,FMT='(A15,A40,5(1X,A10))') ' Pick-ups',
      >  ' - storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
         WRITE(NFPU,FMT='(A80)') TITRE
       ENDIF

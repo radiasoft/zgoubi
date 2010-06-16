@@ -64,7 +64,7 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
       IF(IL .EQ. 0) THEN
 
         IF(NRES .GT. 0) WRITE(NRES,100)
- 100    FORMAT(/,20X,' +++++++  COLLIMATEUR  INACTIF  +++++++',/)
+ 100    FORMAT(/,20X,' +++++++  Collimator  is  inactive  +++++++',/)
 
         RETURN
       ENDIF
@@ -82,10 +82,10 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
           ZC=A4
         ENDIF
       ELSE
-        A1 = YL  
-        A2 = ZL
-        A3 = YC  
-        A4 = ZC  
+        YL = A1
+        ZL = A2
+        YC = A3
+        ZC = A4
         IF(IFRM .GE. 11) THEN
 C--------- Phase-space (acceptance) collimator
           EPSPI = YC

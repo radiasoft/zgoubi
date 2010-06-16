@@ -342,7 +342,7 @@ C     ------------------------------------
       WRITE(6,FMT='(/,'' SUM(Y)dX [XMI->XMA] ='',1P,E16.8,/)') SYDX 
       WRITE(6,*) ' PLOTTED ',NOC,' POINTS,  OVER',NRD-1,' READ IN FILE'
 
-      AN = FLOAT(NOC)
+      AN = DBLE(NOC)
       XM = XM / AN
       YM = YM / AN
       X2M = X2M / AN

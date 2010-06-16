@@ -141,7 +141,7 @@ C     ----------------------------------------------
       WRITE(6,*) '         Data reading ended, at pass # ',NPASS
       WRITE(6,*) '                        now computing means' 
       DO 51 IEL=1, NEL
-          XPART=FLOAT(NPART(IEL))
+          XPART=DBLE(NPART(IEL))
           DO 51 JC=1,MSC
             SC(JC,IEL)=SC(JC,IEL)/XPART
  51   CONTINUE

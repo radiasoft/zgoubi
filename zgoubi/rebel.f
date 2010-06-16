@@ -114,7 +114,7 @@ C------- If not multiturn tracking :
       ENDIF
 C-----  endif particle count ------------
 
-C----- Average orbit---------------------------------------- 
+C----- Pick-up signal ---------------------------------------- 
       IF(KCO .EQ. 1) THEN
         CALL AVORPR(NFPU,1)
         IF(NRES .GT. 0) CALL AVORPR(NRES,2)

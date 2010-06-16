@@ -26,7 +26,7 @@ C  France
       SUBROUTINE PCKUP(NOEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
-C     Average orbit (multiturn AND multiparticle summmation)
+C     Pick-up signal (multiturn AND multiparticle summmation)
 C     at labeled elements.
 C     MPULAB = max number of LABEL's. MXPU = max number of 
 C     pick-ups (virtual pick-ups, positionned at indicated 

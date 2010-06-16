@@ -66,62 +66,81 @@ C     IFORM = 2 : CHAMBRE ELLIPTIQUE
 C
       LIMIT = A(NOEL,1)
       IFORM = A(NOEL,10)
-      YL = A(NOEL,11)
-      ZL = A(NOEL,12)
-      YC = A(NOEL,13)
-      ZC = A(NOEL,14)
+      JFRM = NINT(10.D0*A(NOEL,10)) - 10*IFORM
+      A1 = A(NOEL,11)
+      A2 = A(NOEL,12)
+      A3 = A(NOEL,13)
+      A4 = A(NOEL,14)
  
+      IF(JFRM.EQ.1) THEN
+        YL=.5D0*(A2-A1)
+        ZL=.5D0*(A4-A3)
+        YC=.5D0*(A1+A2)
+        ZC=.5D0*(A3+A4)
+      ELSE
+        YL=A1
+        ZL=A2
+        YC=A3
+        ZC=A4
+      ENDIF
+
       YLIM2=YL*YL
       ZLIM2=ZL*ZL
- 
- 
-        IF( LIMIT .EQ. 1 ) THEN
-          CALL CNTOUR(
+  
+      IF    (LIMIT .EQ. 0) THEN
+        IF(NRES .GT. 0) THEN
+          WRITE(NRES,100)
+ 100      FORMAT(/,20X,' ++++  CHAMBR command is inactive  ++++',/)
+          RETURN
+        ENDIF
+
+      ELSEIF( LIMIT .EQ. 1 ) THEN
+        CALL CNTOUR(
      >                N1)
-          IF(NRES .GT. 0) THEN
-           IF    (IFORM .EQ. 1) THEN
-             WRITE(NRES,101)
- 101         FORMAT(
-     >       /,20X,' Start  of  rectangular  chamber  with  size :')
-             WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3)
+        IF(NRES .GT. 0) THEN
+          IF    (IFORM .EQ. 1) THEN
+            WRITE(NRES,101)
+ 101        FORMAT(
+     >      /,20X,' Start  of  rectangular  chamber  with  size :')
+            WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3)
      >                      ,YC*UNIT(1),ZC*UNIT(3)
- 103         FORMAT(25X,' YL = +/-',1P,G12.4,' m'
+ 103        FORMAT(25X,' YL = +/-',1P,G12.4,' m'
      >            ,5X,' ZL = +/-',   G12.4,' m'
-     >       ,/,20X,' centered  on :',/
+     >      ,/,20X,' centered  on :',/
      >           ,25X,' YC =    ',   G12.4,' m'
      >            ,5X,' ZC =    ',   G12.4,' m')
-             WRITE(NRES,107)  (YC-YL)*UNIT(1),(YC+YL)*UNIT(1), 
+            WRITE(NRES,107)  (YC-YL)*UNIT(1),(YC+YL)*UNIT(1), 
      >                        (ZC-ZL)*UNIT(3),(ZC+ZL)*UNIT(3)
- 107         FORMAT(/,20X,
+ 107        FORMAT(/,20X,
      >       ' => Max.  accepted  coordinates  Y,  Z  such  that :',1P,
      >       /,44X,G12.4,' < Y < ',G12.4,'  m',
      >       /,44X,G12.4,' < Z < ',G12.4,'  m')
-           ELSEIF(IFORM .EQ. 2) THEN
-             WRITE(NRES,102)
- 102         FORMAT(/,20X,
+          ELSEIF(IFORM .EQ. 2) THEN
+            WRITE(NRES,102)
+ 102        FORMAT(/,20X,
      >               ' Start  of  elliptical  chamber  with  axes :')
-             WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3),
+            WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3),
      >                       YC*UNIT(1),ZC*UNIT(3)
-C             WRITE(NRES,108) YL*UNIT(1),ZL*UNIT(3),
+C            WRITE(NRES,108) YL*UNIT(1),ZL*UNIT(3),
 C     >                       YC*UNIT(1),ZC*UNIT(3)
-             WRITE(NRES,108) YC*UNIT(1),YL*UNIT(1)
+            WRITE(NRES,108) YC*UNIT(1),YL*UNIT(1)
      >                      ,ZC*UNIT(3),ZL*UNIT(3)
- 108         FORMAT(/,20X,
+ 108        FORMAT(/,20X,
      >       ' => Max.  accepted  coordinates  Y,  Z  such  that :',1P,
      >       /,25X,'((Y-',G10.3,')/',G10.3,')^2 + ((Z-',G10.3,')/',
      >       G10.3,')^2 < 1')
-           ENDIF
           ENDIF
+        ENDIF
  
-        ELSEIF( LIMIT .EQ. 2 ) THEN
+      ELSEIF( LIMIT .EQ. 2 ) THEN
  
-         CALL CNTOUR(
-     >               NOUT)
-         CALL CNTMXR(
-     >               IMX) 
-         CALL CNTSTO(
-     >               NTOT) 
-         IF(NRES .GT. 0) THEN
+        CALL CNTOUR(
+     >              NOUT)
+        CALL CNTMXR(
+     >              IMX) 
+        CALL CNTSTO(
+     >              NTOT) 
+        IF(NRES .GT. 0) THEN
           WRITE(NRES,106)
  106      FORMAT(/,15X,' End  of  CHAMBRE  option ')
           WRITE(NRES,109) NOUT-N1, NOUT, IMX-NTOT, IMX, 
@@ -167,14 +186,8 @@ C                     ** PARTICULE NON STOPPEES PAR CHAMBRE
             ENDIF
 C
           ENDIF
-         ENDIF
-        ELSEIF(LIMIT .EQ. 0) THEN
-         IF(NRES .GT. 0) THEN
-          WRITE(NRES,100)
- 100      FORMAT(/,20X,' ++++  CHAMBR command is inactive  ++++',/)
-          RETURN
-         ENDIF
         ENDIF
+      ENDIF
  
       RETURN
       END

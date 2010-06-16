@@ -70,7 +70,7 @@ C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
            ELSE
              DEC=0.5D0 
            ENDIF
-           YNU(JNU)= ANUI + (FLOAT(KMAX)+DEC-0.5D0) * DELNU
+           YNU(JNU)= ANUI + (DBLE(KMAX)+DEC-0.5D0) * DELNU
 C si j'enlève le write de SPEC(KMAX,JNU) ici, les nu_XYS affiché par SPEPR sont faux  !!!!
            write(*,*)  SPEC(KMAX,JNU),YNU(JNU) , NINT(SNPT)
         ELSE

@@ -504,14 +504,20 @@ $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. }
  \>2 : stop testing and reset counters, print \> \> \\
  \>information on stopped particles\index{stopped particles}. \> \> \\
  \\
- \textsl{IFORM, YL$\footnotemark[2]$, ZL, YC, ZC} \>Taken into account only if $IA=1$.
-      \>1-2, 4*cm \>I, 4*E \\
- \>\textsl{IFORM} = 1 : rectangular chamber~; horizontal\> \> \\
- \>(vertical) dimension $\pm YL$ ($\pm ZL$)~; \> \> \\
- \>centered at $YC$, $ZC$. \> \> \\
- \>\textsl{IFORM} = 2 : elliptical chamber~; horizontal \>\>\\
- \>(vertical) axis $\pm YL$($\pm ZL$)~; \>\>\\
- \>centered at $YC$, $ZC$.  
+ \textsl{IFORM[.J]}, $C1$, $C2$,\>\textsl{IFORM} = 1 : rectangular aperture~;  \>1-2[.0-1] \> I[.I], 4*E \\
+                   $C3$, $C4$   \>\textsl{IFORM} = 2 : elliptical aperture. \>\>\\
+                                \>\textsl{J} = 0, default : opening is $\pm \YL=\pm C1$, $\pm \ZL=\pm C2$,  \>\>\\
+                                \> centered at $\YC=C3$, $\ZC=C4$. \>\>\\
+                                \>\textsl{J} = 1 : opening is, in Y~: $[C1,C2]$, in Z~: $[C3,C4]$ \>\>\\
+\\
+% \textsl{IFORM, YL$\footnotemark[2]$, ZL, YC, ZC} \>Taken into account only if $IA=1$.
+%      \>1-2, 4*cm \>I, 4*E \\
+% \>\textsl{IFORM} = 1 : rectangular chamber~; horizontal\> \> \\
+% \>(vertical) dimension $\pm YL$ ($\pm ZL$)~; \> \> \\
+% \>centered at $YC$, $ZC$. \> \> \\
+% \>\textsl{IFORM} = 2 : elliptical chamber~; horizontal \>\>\\
+% \>(vertical) axis $\pm YL$($\pm ZL$)~; \>\>\\
+% \>centered at $YC$, $ZC$.  
 \end{tabbing}
 
 \footnotetext[1]{Any particle out of limits is stopped\index{stopped particles}. }
@@ -595,15 +601,15 @@ $\beta$   =   tilt angle of the target
  \\
  \>particles\index{stopped particles} \>\>\\
  \\
-\textbf{Physical-space collimator} 
+\textbf{Physical-space collimation} 
 \\
 % \textsl{IFORM}, $\YL$, $\ZL$,  \>\textsl{IFORM} = 1 : rectangular collimator~; horizontal \>1-2, 4*cm \> I, 4*E \\
 %$\YC$, $\ZC$  \>(vertical) dimension $\pm \YL$ ($\pm \ZL$)~; \>\>\\
- \textsl{IFORM[.J]}, $C1$, $C2$,\>\textsl{IFORM} = 1 : rectangular collimator~;  \>1-2[.0-1] \> I, 4*E \\
-                   $C3$, $C4$   \>\textsl{IFORM} = 2 : elliptical collimator. \>\>\\
+ \textsl{IFORM[.J]}, $C1$, $C2$,\>\textsl{IFORM} = 1 : rectangular aperture~;  \>1-2[.0-1] \> I[.I], 4*E \\
+                   $C3$, $C4$   \>\textsl{IFORM} = 2 : elliptical aperture. \>\>\\
                                 \>\textsl{J} = 0, default : opening is $\pm \YL=\pm C1$, $\pm \ZL=\pm C2$,  \>\>\\
                                 \> centered at $\YC=C3$, $\ZC=C4$. \>\>\\
-                                \>\textsl{J} = 1 : opening is,  Y~: $[C1,C2]$, Z~: $[C3,C4]$ \>\>\\
+                                \>\textsl{J} = 1 : opening is, in Y~: $[C1,C2]$, in Z~: $[C3,C4]$ \>\>\\
 \\
 \textbf{Longitudinal  collimation} 
 \\
@@ -612,7 +618,7 @@ $\beta$   =   tilt angle of the target
 $V_{min}$, $V_{max}$  \> J=1 or 2 for vertical variable resp$^\textrm{ly}$ 1+dp/p, kinetic-E (MeV)~;   \> 2*no.dim or 2*MeV\>\\
                 \> horizontal and vertical   limits \>\>\\
 \\
-\textbf{Phase-space collimator} 
+\textbf{Phase-space collimation} 
 \\
 \textsl{IFORM}, $\alpha$, $\beta$, $\epsilon/\pi$, $N_{\sigma}$ \>\textsl{IFORM} = 11, 14 : horizontal collimation~; 
                                                  horizontal \>11-16, no.dim,   \>I, 4*E \\

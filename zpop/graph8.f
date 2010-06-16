@@ -69,7 +69,7 @@ C     5 ,9X,'  5    Automatic  scales ',/
      4 ,9X,' 14    Ellipse  fit - multiturn or multiparticle  ',/
      5 ,9X,' 15    Kill/create  graphic  sub-process      ',/
      5 ,9X,' 16    Synchrotron  radiation distributions ',/
-     5 ,9X,' 17    Mean  orbit - multiturn c.o., or multiparticle  ',/
+     5 ,9X,' 17    Pick-up signals  ',/
      5 ,9X,' 18    Fringe  field  matching',/
      5 ,9X,' 19    Transverse  beam  density  matching',/
      5 ,9X,' 20    Superpose a curve',/

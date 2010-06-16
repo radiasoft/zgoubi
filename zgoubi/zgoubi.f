@@ -62,7 +62,7 @@ C----- For printing after occurence of pre-defined labels
       LOGICAL PRLB, PRLBSP
       SAVE KPRT, PRLB, KPRTSP, PRLBSP
 
-C----- Average orbit
+C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=1000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
@@ -151,7 +151,7 @@ C        LBLSP contains the LABEL['s] after which print shall occur
      >                                              LABEL(NOEL,2)) 
       ENDIF
       IF(KCO .EQ. 1) THEN
-C------- Calculate average orbit
+C------- Calculate pick-up signal
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
      >                                  IL) ) 
