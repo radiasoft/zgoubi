@@ -23,13 +23,17 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLHIST(NL)
+      SUBROUTINE PLHIST(NLOG,NL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXB=1000)
       COMMON/B/BINS(MXB+2)
+      INCLUDE 'MXVAR.H'
+      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      COMMON/INPVR/ KVAR, KPOL, KDIM
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       LOGICAL OKBIN,OKECH,OKXAV,OKYAV
+      CHARACTER TXT*80
 
       OKECH = .TRUE.
       CALL BIN3W(0,0)
@@ -130,6 +134,18 @@ C      FB = (XMA - XMI)/10.D0
       CALL VECTPL(XMA,Y,2)
       CALL FBGTXT
       CALL LINTYP(-1)
+
+      CALL TRKVAR(NB,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
+
+      WRITE(6,100)
+ 100  FORMAT(' Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
+      WRITE(6,101) XMOY,SIG,XYMAX,NOC
+ 101  FORMAT(1P,3G16.9,I7)
+      WRITE(TXT,102) XMOY,SIG,XYMAX,NOC
+ 102  FORMAT(' Mean:',1P,G12.5,'; Sigma:',G12.5,'; X(max):',G12.5,
+     >       '; Counts:',I7)
+      CALL TRTXT(10.D0,18.D0,TXT,0)
+
       RETURN
  98   WRITE(6,*)' *** In SBR PLHIST : Error Xmi-max while binning histo'
       RETURN

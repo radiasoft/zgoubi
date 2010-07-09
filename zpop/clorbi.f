@@ -33,7 +33,7 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
       COMMON/UNITS/ UNIT(6)
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
-      PARAMETER (MXPU=10000)
+      PARAMETER (MXPU=30000)
       DIMENSION FCO(8,MXPU), FCO2(7,MXPU)
       DIMENSION CO1(6),CO2(6),COM(6)      
 
@@ -49,7 +49,7 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
       SAVE OKOPN
 
       DATA TAXV / 'X_co', 'X`_co', 'Z_co', 'Z`_co', ' dist.',
-     >  'dp/p', '# particles', 'PU posit.' /
+     >  'time', 'dp/p', 'PU posit.' /
 
       DATA TAXH / 'path  (m)', 'pick-up  ' /
 
@@ -92,7 +92,7 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
         CALL OPNWRN(1)           
         GOTO 20
       ELSE
-        GOTO ( 1, 21, 3, 4, 21, 21, 7, 8,99,21,21,12) IOPT  
+        GOTO ( 1, 21, 3, 4, 5, 21, 7, 8,99,21,21,12) IOPT  
         GOTO 21
       ENDIF
 
@@ -111,7 +111,7 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
      >,/,'' 4  Z`_co''
      >,/,'' 5  distance''
      >,/,'' 6  dp/p''
-     >,/,'' 7  # particles''
+     >,/,'' 7  time''
      >,/,'' 8  PU position''
      >)')
       WRITE(6,FMT='(/,'' Your  choice  : '')') 
@@ -151,6 +151,7 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
       REWIND(NFCO)
       CALL HEADER(NFCO,6,.FALSE.,*20)
       IP = 1
+
  71   CONTINUE
         READ(NFCO,FMT=*,END=77,ERR=77)
      >  IPU,PUPOS,(FCO(J,IP),J=1,7),NBT,IPASS,(FCO2(J,IP),J=1,7)
@@ -160,13 +161,18 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
           IF(IPU.NE.KPU) GOTO 71
         ENDIF
 
-          DO 721 I=1,6
-            FCO(I,IP) = FCO(I,IP) * UNIT(I)/ DBLE(NBT)
-            FCO2(I,IP) = FCO2(I,IP) * UNIT(I)*UNIT(I)/ DBLE(NBT)
+          DO 721 J=1,7
+            FCO(J,IP) = FCO(J,IP) * UNIT(J)/ DBLE(NBT)
+            FCO2(J,IP) = FCO2(J,IP) * UNIT(J)*UNIT(J)/ DBLE(NBT)
  721      CONTINUE
           FCO(8,IP) = FCO(8,IP) *  1.D-2
-
+        
         IP = IP + 1
+        IF(IP .GT. MXPU) THEN
+          WRITE(*,*) ' Max number of PUs has been reached '
+          WRITE(*,*) '       -> PU data treatment ends...'
+          GOTO 77
+        ENDIF
 
         GOTO 71
 
@@ -185,11 +191,11 @@ C----- Plot averages and sigmas from PU signals in file zgoubi.pickup
           IF(YM .GT. YMA) YMA = YM
           IF(SIGY .GT. SIGMA) SIGMA=SIGY
  75     CONTINUE
-        IF(KAXV.EQ.7) THEN
-        ELSE
+C        IF(KAXV.EQ.7) THEN
+C        ELSE
           YMI = YMI - 1.05D0 * SIGMA
           YMA = YMA + 1.05D0 * SIGMA
-        ENDIF
+C        ENDIF
         IF(KAXH.EQ.1) THEN 
           XMI = FCO(5,1)
           XMA = FCO(5,NPU)
@@ -217,13 +223,13 @@ C--------------------
       ENDIF
       YM1 = FCO(KAXV,1)
       SIGY =  SQRT(FCO2(KAXV,1) - YM1*YM1)
-      IF(KAXV.EQ.7) THEN
-        YA1 = YM1 
-        YB1 = YM1 
-      ELSE
+C      IF(KAXV.EQ.7) THEN
+C        YA1 = YM1 
+C        YB1 = YM1 
+C      ELSE
         YA1 = YM1 - SIGY
         YB1 = YM1 + SIGY
-      ENDIF
+C      ENDIF
       SIG1 = SIGY
       CALL LINTYP(2)
       DO 771 I = 2, NPU
@@ -237,7 +243,8 @@ C--------------------
         YA2 = YM2 - SIGY
         YB2 = YM2 + SIGY
         SIG2 = SIGY
-        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM,IDUM)
+C        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,YM1,DUM,DUM,IDUM,IDUM)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,I,X1,SIGY,DUM,DUM,IDUM,IDUM)
         CALL VECTPL(X1,YA1,4)
         CALL VECTPL(X2,YA2,2)
         CALL LINTYP(1)
@@ -266,7 +273,7 @@ C        CALL VECTPL(X2,SIG2,2)
       CALL FBGTXT
 
       WRITE(*,103) TAXV(KAXV),NPU,NBT
- 103  FORMAT(1X,A,' mean orbit, ',I4,' pickups',I6,'particles') 
+ 103  FORMAT(1X,A,' mean orbit, ',I9,' pickups',I9,'particles') 
       WRITE(*,109) TAXV(KAXV),TAXV(KAXV),TAXH(KAXH)
  109  FORMAT(1X,A,'and ',A,'+/-sigma   v.s. ',A) 
       WRITE(*,102) CO1(KAXV),CO2(KAXV),COM(KAXV)

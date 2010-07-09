@@ -23,7 +23,7 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLLIPS(NLOG,LM,KX,KY,*)
+      SUBROUTINE PLLIPS(NLOG,NLIPS,LM,IPASS,KX,KY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL,PI,DPI,RAD,DEG,QE,AH
       INCLUDE 'MXVAR.H'
@@ -46,8 +46,10 @@ C  France
      >                          YM,YPM,YMX,YPMX,U,A,B,*60,*60)
  60     CONTINUE
 
-        DO 1 I=1,3
- 1        XSIGU(I)=1.D0
+        DO I=1,3
+          XSIGU(I)=1.D0
+        ENDDO
+
         CALL LPSCNT(YM,YPM,U,A,B,XSIGU,NLOG,
      >                                      NCOUNT)
         IF    (KX.EQ.2 .OR. KX.EQ.12) THEN
@@ -57,10 +59,6 @@ C  France
         ELSE
           JJ=3
         ENDIF
-
-c           call fbgtxt
-c          write(*,*) ' pllips u(jj), a(jj), b(jj) ',jj,u, a, b 
-c             stop
 
           CALL LINTYP(1)
           R= SQRT(XSIGU(JJ) * U(JJ) * B(JJ)) 
@@ -92,7 +90,11 @@ c             stop
           CALL TRTXT(10.D0,18.D0,TXT,0)
           CALL LINTYP(-1)
 
+          WRITE(NLIPS,111) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ),IPASS,LM
+ 111      FORMAT(1P,5(1X,E13.5),2(1X,I8),
+     >    '  Eps/pi, Beta, Alpha, <y>, <y''>, ipass, lmnt  ')
+          CALL FLUSH2(NLIPS,.FALSE.)
+
       ENDIF
       RETURN 
-C      RETURN 1
       END

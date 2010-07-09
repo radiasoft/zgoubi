@@ -50,29 +50,18 @@ C     -----------------------------------------
       DIMENSION CENTRE(MXJ)
       PARAMETER(MXJ1=MXJ-1)
       CHARACTER*80 TXT
-      DIMENSION ISAM(3)
+      PARAMETER(NDIM = 3)
+      DIMENSION ISAM(NDIM)
+
+      DIMENSION NVRNTS(NDIM), NVRNT(NDIM) 
 
 C----- IX, IY, IZ
-      DO I= 1, 3
-        ISAM(I) = A(NOEL,20+I-1)
+      DO I= 1, NDIM
+        ISAM(I) = INT(A(NOEL,20+I-1))
+        NVRNTS(I) = NINT(1D2*A(NOEL,20+I-1)) - 100*ISAM(I)
+        NVRNT(I) = NVRNTS(I)
+        IF(NVRNT(I) .EQ. 0) NVRNT(I) = 1
       ENDDO
-      IMAX = 1
-      DO  I= 1, 3
-        IF(ISAM(I).NE.0) IMAX = IMAX * ISAM(I)
-      ENDDO
-      IF(IMAX .GT. MXT) GOTO 98
-      IF(KREB31 .EQ. 0) THEN
-C------- Normal case
-        IMI  = 1
-        IMA = IMAX
-        IF(IMAX .GT. MXT) GOTO 98
-      ELSE
-C------- Multiturn injection
-        IF(IMAX*(KREB31+1) .GT. MXT) GOTO 98
-        IMI  = 1 + IMAX*(IPASS-1)
-        IMA = IMAX*IPASS
-        IMAX=IMA
-      ENDIF
 
 C----- CENTRE ELLIPSES
 C       2-Y, 3-T, 4-Z, 5-Z, 6-X, 1-D
@@ -92,13 +81,36 @@ C----- PARAMETRE ELLIPSES
       EPS(2)=A(NOEL,42)
       EPS(4)=A(NOEL,52)
       EPS(6)=A(NOEL,62)
+      DO I= 1, NDIM
+        IF(EPS(2*I) .EQ. 0) NVRNT(I) = 1
+      ENDDO
  
+      IMAX = 1
+      DO  I= 1, 3
+        IF(ISAM(I).NE.0) IMAX = IMAX * ISAM(I)*NVRNT(I)
+      ENDDO
+      IF(IMAX .GT. MXT) GOTO 98
+
+      IF(KREB31 .EQ. 0) THEN
+C------- Normal case
+        IMI  = 1
+        IMA = IMAX
+        IF(IMAX .GT. MXT) GOTO 98
+      ELSE
+C------- Multiturn injection
+        IF(IMAX*(KREB31+1) .GT. MXT) GOTO 98
+        IMI  = 1 + IMAX*(IPASS-1)
+        IMA = IMAX*IPASS
+        IMAX=IMA
+      ENDIF
+
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100)
-100     FORMAT(/,15X,' Distribution  on  ellipses',/)
+        WRITE(NRES,100) IMAX
+100     FORMAT(/,15X,' Object  comprised  of ',I6,'  particles, '  
+     >  ,'distributed  on  ellipses,  as  follows :',/)
  
         WRITE(NRES,123) (CENTRE(J),J=2,MXJ1),CENTRE(1)
- 123    FORMAT(15X,'  Ellipse centres (m-rad): '
+ 123    FORMAT(15X,' Ellipse centres (m-rad): '
      >  ,/,11X,' HORIZONTAL    ( Yo, To ):',T50,1P,2G12.4
      >  ,/,11X,' VERTICAL      ( Zo, Po ):',T50,   2G12.4
      >  ,/,11X,' LONGITUDINAL  ( Xo, Do ):',T50,   2G12.4,/)
@@ -110,14 +122,18 @@ C----- PARAMETRE ELLIPSES
      >  ,/,11X,' VERTICAL      :',T35,   3G12.4
      >  ,/,11X,' LONGITUDINAL  :',T35,   3G12.4,/)
 
-        WRITE(NRES,FMT='(15X,''  SAMPLING  IX/IY/IZ : '', 
+        WRITE(NRES,FMT='(15X,''  SAMPLING,  IX/IY/IZ : '',
      >             3(I5,''/''))') (ISAM(I),I=1,3)
+
+        WRITE(NRES,FMT='(15X,''  Number of invariants,  IX/IY/IZ : '',
+     >             3(I5,''/''))') (NVRNT(I),I=1,3)
       ENDIF
 
 C----- CONSTITUTION DU FAISCEAU
       DO 1 J=2,MXJ1,2
         J1=J+1
         J2=J/2
+        NVRNT2 = NVRNT(J2)
         IF(J1.EQ.MXJ) J1=1 
         IF(EPS(J).EQ.0.D0) THEN
           DO 11 I=IMI,IMA
@@ -132,15 +148,25 @@ C----- CONSTITUTION DU FAISCEAU
             REB=0.D0
             DA = 0.D0
           ENDIF
-C          DA = 2.D0*PI/IMAX
-C          DA = 2.D0*PI/(IMA-IMI+1)
-          ANG = 0.D0
-          DO 12 I=IMI,IMA
-            X = REB*COS(ANG)
-            FO(J ,I) = X/UNIT(J-1)
-            FO(J1,I) = (REB*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
-            ANG = ANG + DA
- 12       CONTINUE         
+          DREB = REB / DBLE(NVRNT2)
+          JIM = IMAX / NVRNT2
+          IMI1 = IMI -  JIM
+          IMA1 = IMI1 + JIM - 1
+          REBIV = 0.D0
+          DO IVRNT = 1, NVRNT2
+            IMI1 = IMI1 + JIM            
+            IMA1 = IMA1 + JIM            
+            REBIV = REBIV + DREB
+            ANG = 0.D0
+            DO 12 I=IMI1,IMA1
+              X = REBIV*COS(ANG)
+              IF(I.GT.MXT) 
+     >          CALL ENDJOB('ERROR, SBR OBJ8 : max  MXT is ',MXT)
+              FO(J ,I) = X/UNIT(J-1)
+              FO(J1,I) = (REBIV*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
+              ANG = ANG + DA
+ 12         CONTINUE         
+          ENDDO
         ENDIF
  1    CONTINUE      
  

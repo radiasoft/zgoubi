@@ -81,7 +81,8 @@ C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c2)
  103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
 
 C----- Get data from possible REBELOTE keyword, then some action
-      CALL REBELR(KREB3,KREB31)
+      CALL REBELR(
+     >            KREB3,KREB31)
       IF(KREB3 .EQ. 99) THEN
 C------- Set to 99 by REBELOTE
 C------- For simulation of multiturn injection
@@ -117,7 +118,7 @@ C----- Was necessary for FIT procedure when time is constrained :
 C---------- OBJET with 11 traj. for 1st order matrix calculation
  50   CONTINUE
       CALL RAZ(FO,MXJ*MXT)
-C      CALL OBJ52(KOBJ2)
+      CALL OBJ52(KOBJ2)
       CALL OBJ5
       CALL MATRI2(KOBJ2)
       GOTO 99
@@ -178,7 +179,7 @@ C        FO(7,I) = FO(6,I)/(BTA*CL)
  
 C---------- Initial conditions on an ellipsoid
  80   CONTINUE
-       CALL OBJ8(KREB31)
+      CALL OBJ8(KREB31)
       GOTO 99
  
 C---------- Initial conditions = 32 particles simulating Gaussian beam (Ref. Thesis M Bai)

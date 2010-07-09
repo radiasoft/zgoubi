@@ -55,18 +55,22 @@ C  France
       CALL HOMCLR
 
       
-      CALL READC1(KP1,KP2)
-      CALL READC5(KT1,KT2)
-      CALL READC9(KKEX,KLET)
-      WRITE(6,116) LIS,IAX,NB,KKEX,KLET,KP1,KP2,LM,KT1,KT2,OKXAV,OKYAV,
-     > OKX12,OKY12
+      CALL READC1(
+     >            KP1,KP2,KP3)
+      CALL READC5(
+     >            KT1,KT2)
+      CALL READC9(
+     >            KKEX,KLET)
+      WRITE(6,116) LIS,IAX,NB,KKEX,KLET,KP1,KP2,KP3
+     >,LM,KT1,KT2,OKXAV,OKYAV,OKX12,OKY12
  116  FORMAT(/,5X,' PLOT OPTIONS: '
      >,//,'   PLOT OPTIONS:'
      >, /,8X,' 2: List X & Y ( No <-> Yes     - FLIP-FLOP (',I1,') )'
      >, /,8X,' 3: Axes  ( Full <-> Proportional - FLIP-FLOP (',I1,') )'
      >, /,8X,' 4: Histogram with ',I5,'  bins '
      >, /,8X,' 5: Select particle category * KEX/KTag =',I3,'/',A1
-     >, /,8X,' 6: Select  pass  #.  Now : ',I9,'  -  ',I9
+     >, /,8X,' 6: Select pass #.  Now : ',I9,' -',I9
+     >                                      ,', ipass-modulo ',I9
      >, /,8X,' 7: Select  optical  element  #  (-1 = all).  Now : ',I6
      >, /,8X,' 8: Select  trajectory  #.  Now : ',I9,'  -  ',I9
      >, /,8X,' 9: EXIT' 
@@ -78,7 +82,7 @@ C  France
      >, /,8X,'15: Plot dx :', L1,'   dy :', L1
 C     >, /,8X,'16: Plot <y> +/- sig_y vs. x (e.g., Env. vs. Ipass) :', L1
      >, /,8X,'26: Path extrapolation in field maps'
-     >, /,8X,'88: more...' 
+     >, /,8X,'88: HELP' 
      >,/)
 
       WRITE(6,100) ' * Option  number : '
@@ -144,7 +148,8 @@ C     >       /,'   (-1 for all)')
 C        READ(5,*,ERR=71) LM
 C        IF(LM .NE. LM0) OKECH = .FALSE.
         CALL READC4(5)
-        CALL READC3(KL1,KL2)
+        CALL READC3(
+     >              KL1,KL2)
         LM = KL1
       GOTO 98
 

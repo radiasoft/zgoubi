@@ -107,7 +107,7 @@ C----- Name of trajectory data storage file
       RETURN
  
  5    CONTINUE
-      CALL OBJ52(K2)
+C      CALL OBJ52(K2)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       IF(K2.EQ.1) THEN

@@ -83,7 +83,7 @@ C  France
 
       KX0 = KX
       KY0 = KY
-      WRITE(6,100) ' * Give desired variables  (KX=KY to quit) : '
+      WRITE(6,100) ' * Give desired variables  (0 0 to quit) : '
  100  FORMAT(A45)
       READ(5,*,ERR=20) KX, KY
 
@@ -149,8 +149,13 @@ c          CALL READCC(MOD,RM*CM2M,RM*CM2M)
 
       ELSE
 
-        KX = KX0
-        KY = KY0
+        IF    (KX*KY .EQ. 0) THEN
+          KX = KX0
+          KY = KY0
+        ELSEIF(KX .EQ. KY) THEN
+          KX = KX0
+          KY = KY0
+        ENDIF
 
       ENDIF
 

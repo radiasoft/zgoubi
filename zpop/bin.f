@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE BIN(NL,OKECH,KX,NB,
-     >                               NOC,OKBIN,XMOY,SIG,XMI,XMA,*)
+     >                              NOC,OKBIN,XMOY,SIG,XMI,XMA,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKBIN, OKECH
 C     --------------------------  
@@ -78,7 +78,7 @@ C--------- Loop over NL file
  45       CONTINUE
           NRD=NRD+1                 
           CALL READCO(NL,
-     >                      KART,LET,YZXB,NDX,*11,*89) 
+     >                   KART,LET,YZXB,NDX,*11,*89) 
           IPASS=YZXB(39)
           NOC=NOC+1
 
@@ -252,12 +252,12 @@ C        OKABDY = OKABDY .OR. IOPT.EQ.8
  51       CONTINUE
 C Units in BTAB should be m, as delivered by READCO
             READ(IUN,*,ERR=519,END=518) DUM,BTAB(ISTEP,IBXY)
-c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
+c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr BIN, test plot5'
             ISTEP=ISTEP+1
             GOTO 51
- 518        WRITE(6,*) ' SBR PLOTER : end read BTAB upon EOF'
+ 518        WRITE(6,*) ' SBR BIN : end read BTAB upon EOF'
             GOTO 510
- 519        WRITE(6,*) ' SBR PLOTER : end read BTAB upon error'
+ 519        WRITE(6,*) ' SBR BIN : end read BTAB upon error'
  510        CONTINUE
             WRITE(6,*) '  ->  ',ISTEP-1,' data have been read'
         ENDIF

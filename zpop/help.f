@@ -53,7 +53,7 @@ C      END
       WRITE(6,*) '------------------- HELP ------------------------'
       WRITE(6,*) '      '
 
-      IF(SHELP .EQ. '1/07') THEN
+      IF(SHELP .EQ. '1/7') THEN
         WRITE(6,FMT='(A,/)') 
      > ' In order to get a plot rightaway it is sufficient to :',
      >'      - first, select option 1 and open a zgoubi output file,',

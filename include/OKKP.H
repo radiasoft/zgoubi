@@ -25,18 +25,24 @@ C  38026 Grenoble Cedex
 C  France
       OKKP=.FALSE.
       IEND=0
-        IF(KP1 .GE. 0) THEN
-          IF(IPASS.GE.KP1  .AND. IPASS.LE.KP2) THEN   
-C----------- Read if  KP1 < IPASS < KP2
+      IF(KP1 .GE. 0) THEN
+        IF    (IPASS.EQ.KP1  .OR. IPASS.EQ.KP2) THEN   
+C--------- Always read extremes, KP1 and KP2
             OKKP=.TRUE.
-          ELSEIF(IPASS.GT.KP2) THEN
-C----------- Data reading will end
-C            OKKP=.TRUE.
-            IEND=1
-          ENDIF
-        ELSEIF(KP1 .EQ. -1)  THEN
-C----------- Plot every KP2 other pass
-          IF((IPASS/KP2)*KP2 .EQ. IPASS) THEN
+        ELSEIF(IPASS.GT.KP1  .AND. IPASS.LT.KP2) THEN   
+C--------- Read if  KP1 < IPASS < KP2, [KP3]-ipass
+          IF((IPASS/KP3)*KP3 .EQ. IPASS) THEN
             OKKP=.TRUE.
           ENDIF
+        ELSEIF(IPASS.GT.KP2) THEN
+C--------- Data reading will end
+          IEND=1
         ENDIF
+      ELSEIF(KP1 .EQ. -1)  THEN
+C--------- Plot at [KP2]-ipass
+        IF((IPASS/KP2)*KP2 .EQ. IPASS) THEN
+          OKKP=.TRUE.
+        ENDIF
+      ENDIF
+
+

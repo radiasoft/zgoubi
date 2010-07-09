@@ -70,7 +70,7 @@ C----- Reset particle counter
       KTSTP = A(NOEL,22)
       KP1 = NINT(A(NOEL,30))
       KP2 = NINT(A(NOEL,31)) 
-      KPSTP = NINT(A(NOEL,32))
+      KP3 = NINT(A(NOEL,32))
       YFAC = A(NOEL,40)
       TFAC = A(NOEL,41)
       ZFAC = A(NOEL,42)
@@ -148,7 +148,7 @@ C----- Traj. counter
             IF(LM .NE. NOELR) GOTO 222
           ENDIF
           
-          IF(.NOT. OKKP(KP1,KP2,IPASSR,
+          IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
      >                                 IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
@@ -246,7 +246,7 @@ C            TIM = 0.D0
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 221
           ENDIF
-          IF(.NOT. OKKP(KP1,KP2,IPASSR,
+          IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
      >                                 IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
@@ -359,8 +359,8 @@ C-----
         IF(II.GT.0) WRITE(NRES,
      >    FMT='(/,T5,I6,''/'',I6,'' particles  have  IEX < 0,  hence'',
      >    I6,''  only  left  to  be  ray-traced. '')') II,IMAX,IMAX-II
-        WRITE(NRES,*) '  Last  pass  number  read  :  ',IPASSR, 
-     >    '   in requested range  :   [',KP1,',',KP2,'].'
+        WRITE(NRES,*) '  Last  pass  number  read  :  ',IPASSR,'  in  ' 
+     >  ,'requested range :  [',KP1,',',KP2,'], ipass-modulo=',KP3,'.'
       ENDIF
       IDMAX = 1
       IMAXT=IMAX

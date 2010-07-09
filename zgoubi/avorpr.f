@@ -34,11 +34,12 @@ C  France
       IF    (IOPT .EQ. 1) THEN
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT(/,1X,'Brute record at pick-ups :',/,
-     >  2X,'PU#',T15,'Pos',T30,'Yco',T44,'Tco',T58,'Zco',T72,
-     >  'Pco',T86,'L',T100,'D',T113,'t',
-     >  /,T15,'(cm)',T29,'(cm)',T43,'(mrad)',T57,'(cm)',T70,'(mrad)',
-     >  T86,'(cm)',T99,'(1+dp/p)',T112,'(mu_s)',T125,
-     >  ' #part ',T134,'Pass#.       Rest of line : squares')
+     >  2X,'PU#',T15,'Pos',T30,'Yco',T45,'Tco',T60,'Zco',T75,
+     >  'Pco',T90,'L',T105,'D',T122,'t',
+     >  T132,' #part ',T142,'Pass#'
+     >  /,T15,'(cm)',T29,'(cm)',T44,'(mrad)',T59,'(cm)',T73,'(mrad)',
+     >  T88,'(cm)',T103,'(dp/p)',T120,'(mu_s)'
+     >  )
         CALL PCKUP1
       ELSEIF(IOPT .EQ. 2) THEN
         WRITE(LUN,100) 

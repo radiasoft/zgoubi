@@ -150,8 +150,14 @@ C--------- Trajectories data file (default is zgoubi.plt)
           READ(LN,*,ERR=57,END=57) FILE2O
           WRITE(*,*) FILE2O
           LINE = LINE+1
-          READ(LN,*,ERR=57,END=57) KP1, KP2
-          WRITE(*,*) KP1, KP2
+          READ(LN,*,ERR=57,END=57) KP1, KP2, KP3
+          WRITE(*,*) ' Old style KP1-3 : ',KP1, KP2, KP3
+          IF(KP1.EQ.-1) THEN
+            KP1 = 1
+            KP3 = KP2
+            KP2 = 999999
+          ENDIF
+          WRITE(*,*) ' converted to new style KP1-3 : ',KP1, KP2, KP3
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KT1, KT2
           WRITE(*,*) KT1, KT2
@@ -232,7 +238,7 @@ C--------- Options, menu 7.7(LabCoord).5. Initial coordinates of synoptic
             WRITE(6,FMT='(A,/)')' for reading coordinates to be plotted'
           ENDIF
           IF(.NOT.EMPTY(FILE3O)) CALL INSY2(FILE3O)
-          CALL READC2B(KP1,KP2)
+          CALL READC2B(KP1,KP2,KP3)
           CALL READC6B(KT1,KT2)
         ENDIF
 

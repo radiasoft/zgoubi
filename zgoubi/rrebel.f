@@ -39,7 +39,7 @@ C     ***************************************
       CHARACTER STRA(3)*30
 
       READ(NDAT,FMT='(A)') TXT132
-      TXT132 = TXT132(DEBSTR(TXT132):FINSTR(132))
+      TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
       I3 = 3
       CALL STRGET(TXT132,I3,
      >                      NSR,STRA)

@@ -43,39 +43,10 @@ C     ---------------------------------------------------
 
       IF(MODSTO.EQ.2) THEN
 C----- Case call by ellipse fit
-        CALL READC1(KP1,KP2)
-        IF(KP1.EQ.-2) THEN
-C------- Only last pass wanted, hence first search value of NPASS
-          CALL REWIN2(NL,*96)
-          WRITE(6,*) '  Reading coordinates, looking for NPASS, wait...'
-          NOC=0
-          NRBLT = -1 
-C--------- BOUCLE SUR READ FICHIER NL 
- 45       CONTINUE
-            CALL READCO(NL,
-     >                        KART,LET,YZXB,NDX,*12,*78)
-
-C--------- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
-
-            NOC=NOC+1
-
-            IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
-            IF(NOC.EQ. NPTR) GOTO 13
-
-          GOTO 45
-C         ----------------------------------
- 78       CONTINUE
-          WRITE(6,*) ' *** Coordinates reading stopped : error during',
-     >     ' read of event # ',NOC+1
-          GOTO 13
-
- 12       CONTINUE
-          WRITE(6,*) ' READ  OK; END  OF  FILE  ENCOUNTERED'
-
- 13       CONTINUE
-          NPASS = NRBLT + 1
-          WRITE(6,*) ' Found NPASS = ',NPASS
-        ENDIF
+        CALL READC1(
+     >              KP1,KP2,KP3)
+        CALL LASTP(NL,
+     >                NPASS)
       ENDIF
 
       NOC=0
@@ -84,7 +55,7 @@ C----- BOUCLE SUR READ FICHIER NL
  44   CONTINUE
               
         CALL READCO(NL,
-     >                    KART,LET,YZXB,NDX,*10,*79)
+     >                 KART,LET,YZXB,NDX,*10,*79)
 
 C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
 
@@ -120,7 +91,8 @@ C     ----------------------------------
  11   CONTINUE
       NPASS = NRBLT + 1
       NPTR=NOC
-      CALL READC5(KT1,KT2)
+      CALL READC5(
+     >            KT1,KT2)
       IF(KT1 .EQ. -1 .OR. KT2 .GT. KT1) THEN
         WRITE(6,*) '  Analysis of particles from a set '
         IF(KPS.EQ. 0) WRITE(6,*) '  Initial  phase-space'

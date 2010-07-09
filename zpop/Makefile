@@ -1,5 +1,5 @@
 INC=../include
-
+ 
 MODULEF =\
  amini.f\
  asinh.f\
@@ -47,6 +47,7 @@ MODULEF =\
  inrang.f\
  insy.f\
  isofld.f\
+ lastp.f\
  lintyp.f\
  lips.f\
  lpscnt.f\
@@ -194,6 +195,7 @@ graph8.o: MXVAR.H
 inigr.o: MXVAR.H MAXNTR.H
 inpvar.o: MXVAR.H
 isofld.o: MXVAR.H
+lastp.o: MXVAR.H
 lips.o: MAXNTR.H FILFAI.H
 lpscnt.o: MAXNTR.H
 lpsdrw.o: MXVAR.H MAXNTR.H

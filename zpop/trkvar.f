@@ -32,7 +32,7 @@ C  France
       COMMON/UNITS/ UNIT(MXJ-1) 
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
-      CHARACTER*80 TXT, TEMP
+      CHARACTER*130 TXT, TEMP
       CHARACTER*80 TITL
       SAVE TITL
       CHARACTER*14 TXTL
@@ -42,7 +42,8 @@ C  France
       WRITE(TXT,FMT='(A54)') '* '//TITL(1:50)//' *'
       CALL TRTXT(60.D0,28.D0,TXT,0)
 
-      CALL READC3(KL1,KL2)
+      CALL READC3(
+     >            KL1,KL2)
       IF(KL1.EQ.-1) THEN
         WRITE(TXTL,FMT='(A5)') '* all'
       ELSE
@@ -70,10 +71,13 @@ C positionning of TXT is in screen units (x384/y256 Pix)
       WRITE(TXT,107) XMI,XMA,YMI,YMA
 C      CALL TRTXT(10.D0,18.D0,TXT,80,0)
       CALL TRTXT(10.D0,10.D0,TXT,0)
-      CALL READC1(KP1,KP2)
-      CALL READC5(KT1,KT2)
-      CALL READC9(KEX,KLET)
-      WRITE(TXT,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
+      CALL READC1(
+     >            KP1,KP2,KP3)
+      CALL READC5(
+     >            KT1,KT2)
+      CALL READC9(
+     >            KEX,KLET)
+      WRITE(TXT,101) KT1,KT2,KLET,TXTL,KP1,IPASS,KP3,NOC
       CALL TRTXT(10.D0,2.D0,TXT,0)
 
       CALL FBGTXT
@@ -92,9 +96,10 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
      >   /,' (min+max)/2 Hor. & ver.:',2G16.8,'  ',A,'/',A,
      >   /,'                         ',2G16.8,'  (zgoubi units)')
  107  FORMAT('Mi-ma H/V: ',1P,2(1X,G10.3),'/',2(1X,G10.3))
-      WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,NOC
- 101  FORMAT('Part#',I3,'-',I6,' (',A1,') ; Lmnt# ',A5,'; pass# ', 
-     >    I6,'-',I6,'; ',I7,' points') 
+      WRITE(6,*) ' ' 
+      WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,KP3,NOC
+ 101  FORMAT('Part#',I3,'-',I6,' (',A1,'); Lmnt# ',A5,'; pass# ', 
+     >    I6,'-',I6,', [ipass]=[',I4,'];',I7,' points') 
 
       RETURN
 

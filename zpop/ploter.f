@@ -23,11 +23,12 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      SUBROUTINE PLOTER(NLOG,NL,KPS,NPTS,NPTR)
+      SUBROUTINE PLOTER(NLOG,NL,KPS,NPTS,NPTR,OKREW)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------
 C     TRACE LES VARIABLES KY V.S. KX 
 C     ------------------------------
+      LOGICAL OKREW
       PARAMETER (MXB=1000)
       COMMON/B/BINS(MXB+2)
       LOGICAL OKECH, OKVAR, OKBIN
@@ -42,6 +43,7 @@ C     ------------------------------
       CHARACTER LET0
       CHARACTER LET
       DIMENSION YZXB(MXVAR),NDX(5)
+      SAVE YZXB
       LOGICAL INRANG
 
       INCLUDE 'MAXNTR.H'
@@ -92,20 +94,25 @@ C------ Entering negative value for X  will cancel tagging
 
       DATA READBX, READBY / .FALSE., .FALSE. /
 
+C      IUNIT = NLOG
+C      WRITE(IUNIT,*) '%% <X>, Sig_X, <Y>, Sig_Y, Correlation, IPASS'
+C      CALL FLUSH2(IUNIT,.FALSE.)      
+
       IF(LIS .EQ. 2) THEN 
         IF (IDLUNI(JUN)) THEN
           OPEN(UNIT=JUN,FILE='zpop.log_IMPV')
           CALL IMPV2(JUN)
-C          write(*,*)  ' sbr ploter jun =', jun
-C           pause
         ELSE
+          WRITE(6,*) '    '
           WRITE(6,*) ' *** sbr PLOTER, Problem : No idle unit number ! '
-          CALL IMPV2(0)
-C           pause
+          WRITE(6,*) '     Forced to 99 '
+          WRITE(6,*) '    '
+          JUN = 99
+          CALL IMPV2(99)
         ENDIF
       ENDIF
 
-      CALL REWIN2(NL,*99)
+      IF(OKREW) CALL REWIN2(NL,*99)
 
       DO 1 I = 1, MXT
  1      OKT(I) = 0
@@ -134,9 +141,11 @@ C----- BOUCLE SUR READ FICHIER NL
 
 C----- Read next coordinate 
       CALL READCO(NL,
-     >                  KART,LET,YZXB,NDX,*10,*19)
+     >               KART,LET,YZXB,NDX,*10,*19)
       IPASS=NINT(YZXB(39))
       IF(IPASS .NE. IPASS0) NPT = 0
+
+            write(99,*) ipass, ' ploter '
 
 C----- File type zgoubi.plt
       IF    (NL .EQ. NPLT) THEN
@@ -220,8 +229,6 @@ C----- File type zgoubi.spn
         Y = AY*Y**PY + BB
       ENDIF
       
-C      WRITE(*,*) x,y,npt, ' sbr ploter '
-
       ITAB = ITAB + 1
 
       IF    (NL .EQ. NPLT
@@ -354,12 +361,17 @@ C     ------------------------------------
       COV = XYM - XM*YM
       COR = COV / SX / SY
 
-      WRITE(6,*)
-      WRITE(6,*) ' Means : <X>, SigmaX, <Y>, SigmaY, Correlation'
-      WRITE(6,FMT='(1P,5G14.6)') XM,SX,YM,SY,COR
-      WRITE(6,FMT=
+      IUNIT = 6
+      WRITE(IUNIT,*) ' '
+      WRITE(IUNIT,*) ' Means : <X>, SigmaX, <Y>, SigmaY, Correlation'
+      WRITE(IUNIT,FMT='(1P,5G14.6)') XM,SX,YM,SY,COR
+      WRITE(IUNIT,FMT=
      >'(''Linear regression :   Y ='',1P,E16.8,'' + '',E16.8,'' * X'')') 
      >YM-COR*SY/SX*XM, COR*SY/SX
+      WRITE(IUNIT,*) ' '
+C      IUNIT = NLOG
+C      WRITE(IUNIT,FMT='(1P,5(1X,G14.6),1X,I7)') XM,SX,YM,SY,COR,IPASS
+C      CALL FLUSH2(IUNIT,.FALSE.)      
 
       IF(LIS .EQ. 2) CLOSE(JUN)
 
@@ -402,7 +414,8 @@ C     ------------------------------------
       ENTRY PLOT41(OKYAVI)
         OKYAV=OKYAVI
       RETURN
-      ENTRY PLOT4R(OKXAVO,OKYAVO)
+      ENTRY PLOT4R(
+     >             OKXAVO,OKYAVO)
         OKXAVO=OKXAV
         OKYAVO=OKYAV
       RETURN
@@ -470,14 +483,20 @@ c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
       ENTRY PLOT71(OKY12I)
         OKY12=OKY12I
       RETURN
-      ENTRY PLOT7R(OKX12O,OKY12O)
+      ENTRY PLOT7R(
+     >             OKX12O,OKY12O)
         OKX12O=OKX12
         OKY12O=OKY12
       RETURN
 
+      ENTRY PLOT9(
+     >            JPASS)
+        JPASS = IPASS
+      RETURN
+
 C----- Scale computer
       ENTRY CALECH(NL,
-     >                   NOCE)
+     >                NOCE,NPASS)
       IF(KY.EQ. 28) THEN
 C------- Histogram
         IF(.NOT.OKBIN) CALL BIN(NL,OKECH,KX,NB,
@@ -617,6 +636,8 @@ c        Y = AY*Y**PY + BY
 
 C       -----------------------------------
  110    CONTINUE
+
+        NPASS = NINT(YZXB(39))
 
         XMOY = XMOY/NOCE
         YMOY = YMOY/NOCE

@@ -23,8 +23,8 @@ C  LPSC Grenoble
 C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
-      FUNCTION OKKP(KP1,KP2,IPASS,
-     >                         IEND)
+      FUNCTION OKKP(KP1,KP2,KP3,IPASS,
+     >                                IEND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKKP
       INCLUDE "OKKP.H"

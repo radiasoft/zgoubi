@@ -61,6 +61,7 @@ C----- Pick-up number. Reset to 0 in SBR PICKUP
           NT = NT+1
           DO 1 J = 1, 7
             FJI =  F(J,I)
+            IF(J.EQ.1)  FJI = FJI -1.D0
             FPUL(J,IPU) = FPUL(J,IPU) + FJI
             FPUL2(J,IPU) = FPUL2(J,IPU) + FJI*FJI
  1        CONTINUE
@@ -87,7 +88,7 @@ C------- Record pick-up position (cm)
         NT = NINT(FPUL(8,I))
         WRITE(NFPU,FMT= 
      >    '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4))')
-     >  I,FPU(9,I),(FPUL(J,I),J=2,7),FPUL(1,I),NT,IPASS
+     >  I,FPU(9,I),(FPUL(J,I),J=2,6),FPUL(1,I),FPUL(7,I),NT,IPASS
      >  , (FPUL2(J,I),J=2,7), FPUL2(1,I)
  4    CONTINUE
       RETURN

@@ -24,7 +24,7 @@ C  53 Avenue des Martyrs
 C  38026 Grenoble Cedex
 C  France
       SUBROUTINE READCO(NL,
-     >                        KART,LET,YZXB,NDX,*,*)
+     >                     KART,LET,YZXB,NDX,*,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------------
 C     Look for and read coordinates, etc. of particle # NT
@@ -58,7 +58,7 @@ C      PARAMETER (MXJ=7)
 
       CHARACTER*1 KLET, KLETO, KLETI
 
-      SAVE KP1, KP2, BINARY
+      SAVE KP1, KP2, KP3, BINARY
       SAVE KL1, KL2
       SAVE KT1, KT2
       SAVE KKEX, KLET
@@ -69,7 +69,7 @@ C      PARAMETER (MXJ=7)
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
-      DATA KP1, KP2 / 1, 999999 /
+      DATA KP1, KP2, KP3 / 1, 999999, 1 /
       DATA KT1, KT2 / 1, MXT /
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
@@ -88,8 +88,8 @@ C--------- read in zgoubi.spn type storage file
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                       IEND)) GOTO 111
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
-     >                                  IEND)) THEN
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                       IEND)) THEN
               IF(IEND.EQ.0) THEN
                 GOTO 111
               ELSEIF(IEND.EQ.1) THEN
@@ -97,7 +97,7 @@ C--------- read in zgoubi.spn type storage file
               ENDIF
             ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                                 IEND)) GOTO 111
+     >                                       IEND)) GOTO 111
 
           ELSE
  1          READ(NL,101,ERR=99,END=10) 
@@ -108,8 +108,8 @@ C--------- read in zgoubi.spn type storage file
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                       IEND)) GOTO 1        
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
-     >                                  IEND)) THEN
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                       IEND)) THEN
               IF(IEND.EQ.0) THEN
                 GOTO 1
               ELSEIF(IEND.EQ.1) THEN
@@ -117,7 +117,7 @@ C--------- read in zgoubi.spn type storage file
               ENDIF
             ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                                 IEND)) GOTO 1
+     >                                       IEND)) GOTO 1
 
           ENDIF
         
@@ -161,9 +161,15 @@ C--------- read in zgoubi.fai type storage file
      >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                             IEND)) GOTO 222
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 222
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                IEND))  THEN
+C              IF(IEND.EQ.0) THEN
+                                             GOTO 222
+C              ELSEIF(IEND.EQ.1) THEN
+C                GOTO 91
+C              ENDIF
+            ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 222
             IF(IEND.EQ.1) GOTO 91
@@ -181,11 +187,17 @@ C--------- read in zgoubi.fai type storage file
             INCLUDE "FRMFAI.H"
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                             IEND)) GOTO 21
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 21
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                IEND))  THEN
+C              IF(IEND.EQ.0) THEN
+                                             GOTO 21
+C              ELSEIF(IEND.EQ.1) THEN
+C                GOTO 91
+C              ENDIF
+            ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                           IEND)) GOTO 21
+     >                                IEND)) GOTO 21
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
@@ -207,11 +219,17 @@ C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                             IEND)) GOTO 232
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 232
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                IEND))  THEN
+C              IF(IEND.EQ.0) THEN
+                                             GOTO 232
+C              ELSEIF(IEND.EQ.1) THEN
+C                GOTO 91
+C              ENDIF
+            ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                           IEND)) GOTO 232
+     >                                IEND)) GOTO 232
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
@@ -230,17 +248,24 @@ C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF
 
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                             IEND)) GOTO 31
-            IF(.NOT. OKKP(KP1,KP2,IPASS,
      >                                IEND)) GOTO 31
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+     >                                IEND))  THEN
+C              IF(IEND.EQ.0) THEN
+                                             GOTO 31
+C              ELSEIF(IEND.EQ.1) THEN
+C                GOTO 91
+C              ENDIF
+            ENDIF
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                           IEND)) GOTO 31
+     >                                IEND)) GOTO 31
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
         ENDIF        
 
-        IF(KP1.GE.0.AND.IPASS.GT.KP2) RETURN 1
+C           write(*,*) ipass, kp2, ' readco '
+C        IF(IPASS.GT.KP2) RETURN 1
 
 C------- dp/p
         J = 1
@@ -369,61 +394,83 @@ C      Location about where particle was lost
       YZXB(39) = IPASS 
       YZXB(57) = NOEL
 
+C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
+
+
+C- For RACCAM design --------------------------
 c       nCell = 8
 c        pi = 4.d0 *atan(1.d0)
 c      if(noel.ne.noel1) noc = noc+1
 c      YZXB(62) = (Y+RFR) * SIN(XX + 2.d0 * pi / nCell * DBLE(noc-1))
 c      YZXB(68) = (Y+RFR) * COS(XX + 2.d0 * pi / nCell * DBLE(noc-1))
+C-----------------------------------------------
 
       NDX(1)=KEX
       NDX(2)=IT
       NDX(3)=IREP
       NDX(4)=IMAX
       NDX(5)=NOEL
+
       RETURN
 
- 91   RETURN 1
+ 91   CONTINUE
+      write(*,*) ipass,' AT 91,   readco'
+      write(*,*) ipass,' AT 91,   readco'
+      write(*,*) ipass,' AT 91,   readco'
+      write(*,*) ipass,' AT 91,   readco'
+      write(*,*) ipass,' AT 91,   readco'
+      write(*,*) ipass,' AT 91,   readco'
+      RETURN 1
 
-C------------------ Pass #, KP1 to KP2
-      ENTRY READC1(KP1O,KP2O)
+C------------------ Pass # KP1 to KP2, ipass-modulo KP3
+      ENTRY READC1(
+     >              KP1O,KP2O,KP3O)
 C------- Read pass #,  KP1 to KP2
       KP1O=KP1
       KP2O=KP2
+      KP3O=KP3
       RETURN
 C--
       ENTRY READC2(LN)
-C------- Write pass #,  KP1 to KP2
- 12   WRITE(6,FMT='(''  Option status is now : KP1='',I6,
-     >   '',   KP2='',I6)') KP1, KP2
-        WRITE(6,FMT='(''     Available options are : '',
-     >   /,10X,'' KP1, KP2 > 0 : will plot within range [KP1,KP2]'', 
-     >   /,10X,'' KP1=-1, KP2 > 0 : will plot every KP2 other pass '')')
-        WRITE(6,FMT='(/,
-     >        '' Enter desired values KP1, KP2  ( 0 0 to exit ) : '')')
-        READ(LN,*,ERR=12) KP1NEW, KP2NEW
+C------- Write pass #,  KP1 to KP2, ipass-modulo KP3
+ 12   WRITE(6,FMT='(''  Option status is now : KP1='',I6
+     >  ,'',   KP2='',I6,'', ipass-modulo ='',I6)') KP1, KP2, KP3
+        WRITE(6,FMT='(''    Expected data : '',
+     >  /,10X,'' KP1>0,  KP2>=KP1 : will plot in range [KP1,KP2]''
+     >  ,'',  ipass-modulo  KP3>0''
+C     >  /,10X,''(ii) KP1=-1, KP2 > 0 : will plot all ipass-modulo KP2 ''
+     >  )')
+        WRITE(6,FMT='(/
+     >  ,'' Enter desired values KP1>0, KP2>KP1, modulo-KP3>0''
+     >  )')
+        READ(LN,*,ERR=12) KP1NEW, KP2NEW, KP3NEW
+        IF(KP1NEW.LE.0 .OR. KP2NEW.LE.0 .OR. KP3NEW.LE.0) GOTO 12
       GOTO 11
 C--
-      ENTRY READC2B(KP1W,KP2W)
-C------- Pass KP1 to pass KP2
+      ENTRY READC2B(KP1W,KP2W,KP3W)
+C------- Pass KP1 to pass KP2, KP-modulo
         KP1NEW=KP1W
         KP2NEW=KP2W
+        KP3NEW=KP3W
  11     CONTINUE
         IF(KP1NEW.NE.0) KP1=KP1NEW
         IF(KP2NEW.NE.0) KP2=KP2NEW
-          IF(KP1.NE.-1) THEN
+        IF(KP3NEW.NE.0) KP3=KP3NEW
+C          IF(KP1.NE.-1) THEN
             CALL PLOT31        ! OKS set to .FALSE.
             WRITE(6,*)
             WRITE(6,FMT='(
      >      '' Warning : although possibly requested (Menu-7/3/11),'')')
             WRITE(6,FMT='(''      reset of S coordinate upon '')')
             WRITE(6,FMT='(''      multiturn plot is NOW inhibited'')')
-            WRITE(6,FMT='(''      (only compatible with KP1=-1) '')')
-          ENDIF
+C            WRITE(6,FMT='(''      (only compatible with KP1=-1) '')')
+C          ENDIF
       RETURN
 C----------------------------
 
 C------------------ Element #, KL1 to KL2
-      ENTRY READC3(KL1O,KL2O)
+      ENTRY READC3(
+     >             KL1O,KL2O)
 C------- Read lmnt #,  KL1 to KL2
       KL1O=KL1
       KL2O=KL2
@@ -440,7 +487,7 @@ C------- Write lmnt #,  KL1 to KL2
      >   /,10X,'' KL1=-1, KL2 > 0 : will plot every KL2 other pass '')')
         WRITE(6,FMT='(/,
      >        '' Enter desired values KL1, KL2  : '')')
-        READ(LN,fmt='(2I3)',ERR=33) KL1NEW, KL2NEW
+        READ(LN,fmt='(2I9)',ERR=33) KL1NEW, KL2NEW
       GOTO 32
  33     KL1NEW = KLA
         KL2NEW = KLB
@@ -457,7 +504,8 @@ C------- Lmnt  KL1 to lmnt KL2
 C----------------------------
 
 C------------------ Traj #, KT1 to traj KT2
-      ENTRY READC5(KT1O,KT2O)
+      ENTRY READC5(
+     >             KT1O,KT2O)
 C------- Read traj.,  KT1 to KT2
         KT1O=KT1
         KT2O=KT2
@@ -503,7 +551,8 @@ C----------------------------
       BINARY=BINAR
       RETURN
 
-      ENTRY READC9(KKEXO,KLETO)
+      ENTRY READC9(
+     >             KKEXO,KLETO)
         KKEXO=KKEX
         KLETO=KLET
       RETURN
@@ -527,4 +576,5 @@ C----------------------------
         noc = 0
         noel1 = 0
         RETURN 2      
+
       END
