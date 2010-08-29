@@ -145,8 +145,6 @@ C----- Read next coordinate
       IPASS=NINT(YZXB(39))
       IF(IPASS .NE. IPASS0) NPT = 0
 
-            write(99,*) ipass, ' ploter '
-
 C----- File type zgoubi.plt
       IF    (NL .EQ. NPLT) THEN
 
@@ -447,7 +445,6 @@ C        OKABDY = OKABDY .OR. IOPT.EQ.8
  51       CONTINUE
 C Units in BTAB should be m, as delivered by READCO
             READ(IUN,*,ERR=519,END=518) DUM,BTAB(ISTEP,IBXY)
-c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr ploter, test plot5'
             ISTEP=ISTEP+1
             GOTO 51
  518        WRITE(6,*) ' SBR PLOTER : end read BTAB upon EOF'
@@ -536,7 +533,7 @@ C       ******** BOUCLE SUR READ FICHIER NL
  144    CONTINUE                 
         NRD=NRD+1
         CALL READCO(NL,
-     >                    KART,LET,YZXB,NDX,*110,*96) 
+     >                 KART,LET,YZXB,NDX,*110,*96) 
 C        IF(NDX(1).LT. -1) GOTO 144
 
         IPASS=NINT(YZXB(39))

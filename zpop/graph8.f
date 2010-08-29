@@ -38,7 +38,6 @@ CDECK GRAPH2
 
       LOGICAL OKOPN, INPECH, CHANGE
       SAVE NL
-      DATA IZERO /0/
       DATA  OKOPN / .FALSE. /
       DATA CHANGE / .TRUE./
  
@@ -88,9 +87,9 @@ C      IF(.NOT. OKOPN) CALL OPNWRN(1)
       GOTO 921
 
  1    CONTINUE    
-        IZERO=0
-        CALL OPNMN(IZERO,
-     >               NL,OKOPN,CHANGE,NOMFIC)
+        IOP=0
+        CALL OPNMN(IOP,
+     >                 NL,OKOPN,CHANGE,NOMFIC)
         IF(CHANGE) THEN
           IF(KY .EQ. 28) OKBIN=.FALSE.
         ENDIF

@@ -38,7 +38,6 @@ C     ----------------------------------------------------
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       INCLUDE 'MAXNTR.H'          
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
-C      PARAMETER (MXJ=7)
       INCLUDE 'MAXCOO.H'
       COMMON/UNITS/ UNIT(MXJ-1) 
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
@@ -264,9 +263,6 @@ C              ENDIF
           ENDIF
         ENDIF        
 
-C           write(*,*) ipass, kp2, ' readco '
-C        IF(IPASS.GT.KP2) RETURN 1
-
 C------- dp/p
         J = 1
         JU = 6
@@ -274,12 +270,14 @@ C------- dp/p
 C        YZXB(J)   =   1.D0 + F(J)  
         YZXB(J+10) =  FO(J)   * UNIT(JU)        ! dp/p_initial
 
-C------- Y, T, Z, P, S, Time
-        DO 20 J=2,MXJ
+        DO J=2,MXJ
           JU = J-1
+C------- J=2,7 : Y, T, Z, P, S, Time
           YZXB(J)   =  F(J)   * UNIT(JU)     
 CCCCCCC          if(j.eq.2) YZXB(J) = (f(j)-yref) * UNIT(JU)
- 20       YZXB(J+10) = FO(J)  * UNIT(JU) 
+C------- J=2,7 : Y_0, ..., Time_0
+          YZXB(J+10) = FO(J)  * UNIT(JU) 
+         ENDDO
 
 C------- KART=1 : Cartesian coordinates, X is current x-coordinate (normally 
 C        ranging in [XI,XF] as defined in quasex.f)

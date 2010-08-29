@@ -90,9 +90,11 @@ C  France
           CALL TRTXT(10.D0,18.D0,TXT,0)
           CALL LINTYP(-1)
 
-          WRITE(NLIPS,111) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ),IPASS,LM
- 111      FORMAT(1P,5(1X,E13.5),2(1X,I8),
-     >    '  Eps/pi, Beta, Alpha, <y>, <y''>, ipass, lmnt  ')
+          WRITE(NLIPS,111) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ)
+     >    ,IPASS,LM,SQRT(U(JJ)*B(JJ)),SQRT(U(JJ)*(1.D0+A(JJ)**2)/B(JJ))
+     >    ,'  Eps/pi, Beta, Alpha, <y>, <y''>, '
+     >    ,'ipass, lmnt, sqrt(Eps*bta), sqrt(Eps*gamma)'
+ 111      FORMAT(1P,5(1X,E11.3),2(1X,I8),2(1X,E11.3),2A)
           CALL FLUSH2(NLIPS,.FALSE.)
 
       ENDIF

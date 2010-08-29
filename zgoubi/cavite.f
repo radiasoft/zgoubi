@@ -46,6 +46,8 @@ C  France
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
+      DIMENSION RLNGTH(MXT)
+
       CHARACTER*9 SKAV(8)
       DIMENSION DTI0(MXT)
       SAVE DTI0
@@ -573,21 +575,11 @@ C            write(33,*) time, QV/(Q/QE *1.D-6)/1.6D6, QV*SIN(PHS)/1.3,
 C     >        ps/16, AN11/DTS/(53e6), GTRNUS/40/0.11
       ENDIF
 
-C----- Initial conditions of  the IMAX particles
+cC----- Initial conditions of  the IMAX particles
       IF(IPASS .EQ. 1) THEN
-
-        DO 2 I=1,IMAX
-          F(6,I)=F(6,I)-FO(6,I)
-          P = P0*F(1,I)
-          AM2 = AMQ(1,I)*AMQ(1,I)
-          WF1(I) = SQRT(P*P+AM2)-AMQ(1,I)
+        DO I=1,IMAX
           PHAS(I) = PHS
-C Introduction dti0 juin 05 pour tenir compte de la phase initiale
-C A verifier...
-C          bta = p / sqrt(p*p + am2*am2)
-C          dti0(i) = -fo(6,I)*.01D0/(bta * cl)
- 2      CONTINUE
-
+        ENDDO
       ENDIF
  
       DO 3 I=1,IMAX 
@@ -606,12 +598,9 @@ C          dti0(i) = -fo(6,I)*.01D0/(bta * cl)
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
-C At all pass#,  F6i is the previous-turn path length, DTI is the time it 
-C   took since the last passage in CAVITE 
+C At all pass#,  F6i is the previous-turn path length (see below : F(6,I)=0.D0), 
+C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
-C rajouté en juin 05, pour tenir compte de s à l'origine:
-           dti = dti + dti0(i)
-
         PHAS(I) = PHAS(I) + (DTI-DTS)*OMRF
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
@@ -622,7 +611,8 @@ C rajouté en juin 05, pour tenir compte de s à l'origine:
  
 C        DPR(I)=P-PS
         DPR(I)=(P-PS)/PS
-        PH(I)=PHAS(I)
+        PH(I)=PHAS(I) 
+        RLNGTH(I)=PHAS(I)/OMRF*(BTA*CL)
 
         F(1,I) = P/P0
         F(3,I) = ATAN(PY/PX)*1000.D0

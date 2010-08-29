@@ -68,7 +68,6 @@ CDECK GRAPH1
       DATA RSNPT,RSNPT2 / 'N','Y' /
       DATA RLIPS,RLIPS2 / 'Y','N' /
       DATA RHIST,RHIST2 / 'Y','N' /
-      DATA IZERO / 0 /
       DATA OKREW / .TRUE. /
 
       DATA FNAM /'zpop.lips'/
@@ -135,8 +134,9 @@ CDECK GRAPH1
       GOTO 921
 
  1    CONTINUE  
-        CALL OPNMN(IZERO,
-     >                   NL,OKOPN,CHANGE,NOMFIC)
+        IOP = 0
+        CALL OPNMN(IOP,
+     >                 NL,OKOPN,CHANGE,NOMFIC)
         IF(CHANGE) THEN
           IF(KY .EQ. 28) OKBIN=.FALSE.
         ENDIF
@@ -410,12 +410,6 @@ C Superpose a curve
 
  77   CONTINUE 
 
-        IF(NOMFIC.EQ.'none') THEN
-          IOP=1
-        ELSE
-          IOP=5
-        ENDIF
-
         IF(OKOPN) THEN
 
           IF(.NOT.OKVAR) THEN          
@@ -596,7 +590,7 @@ C      CALL CLMITV
       ENDIF
       RETURN 
 
- 997  WRITE(6,*) ' Error upon OPEN zpop.lips '
+ 997  WRITE(6,*) ' Error upon OPEN ',FNAM
       RETURN 
 
       END

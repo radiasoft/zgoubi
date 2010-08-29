@@ -99,7 +99,7 @@ C      I=IDLG('('' Plot ended, press RETURN for more :'')','    ',1)
       WRITE(6,*) ' ' 
       WRITE(6,101) KT1,KT2,KLET,TXTL,KP1,IPASS,KP3,NOC
  101  FORMAT('Part#',I3,'-',I6,' (',A1,'); Lmnt# ',A5,'; pass# ', 
-     >    I6,'-',I6,', [ipass]=[',I4,'];',I7,' points') 
+     >    I6,'-',I6,', [',I4,'];',I7,' pnts') 
 
       RETURN
 

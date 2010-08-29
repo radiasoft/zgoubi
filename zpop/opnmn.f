@@ -72,9 +72,9 @@ C  France
      > /,8X,' 5: other...',                     
      > /,8X,' 9: EXIT',
      > /,3X,60('*'),/)
-
+    
       WRITE(6,101) ' * Option  number : '
- 101  FORMAT(A20)
+ 101  FORMAT(A)
       READ(5,201,ERR=21) IOPT
  201  FORMAT(I2)
 

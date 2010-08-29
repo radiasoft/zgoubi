@@ -104,19 +104,21 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
       ENDIF
    
 C----- Constitution of the beam
+C MXJ1=6 ; J : 2,4,6 -> Y,Z,s 
       DO 1 J=2,MXJ1,2
+C       J1 : 3,5,7(1) -> T,P,D
         J1=J+1
         IF(J1.EQ.MXJ) J1=1 
         IF(EPS(J).EQ.0.D0) THEN
-          DO 11 I=IMI,IMA
+          DO I=IMI,IMA
             FO(J ,I)=0.D0
-        FO(J1,I)=0.D0
- 11       CONTINUE
+            FO(J1,I)=0.D0
+          ENDDO
         ELSE
           REB=SQRT(EPS(J)*BET(J))
           REBM=SQRT(RMA(J)*EPS(J)*BET(J))
 C          RM = RMA(J)*REB
-          DO 12 I=IMI,IMA
+          DO I=IMI,IMA
             IF    (KTIR(J) .EQ. 'Uniform') THEN
 C       Tirage uniforme en r2 = uniforme en surface, elliptique en y et y'
               IF(J.LE.4) THEN
@@ -189,7 +191,7 @@ C            ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
 C            X = R*COS(ANG)
 C            FO(J ,I) = X/UNIT(J-1)
 C            FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
- 12       CONTINUE         
+          ENDDO
         ENDIF
  1    CONTINUE      
                   
@@ -202,17 +204,18 @@ C           if(j.eq.6) FO(J,I)=0.
  
       ENTRY MCOBJA
 
-      DO 51 I=1,IMAX
+      DO I=1,IMAX
         F(1,I)=FO(1,I)
-        DO 41 J=2,MXJ1+1
+C        DO 41 J=2,MXJ1+1
+        DO J=2,MXJ
           F(J,I)=FO(J,I)
- 41     CONTINUE
+        ENDDO
         IKAR=IKAR+1
         IF(IKAR.GT.41) IKAR=1
         LET(I)= KAR(IKAR)
         IREP(I)=I
         IEX(I)=1
- 51   CONTINUE
+      ENDDO
 
       RETURN
       END

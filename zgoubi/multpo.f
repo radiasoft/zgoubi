@@ -106,12 +106,6 @@ C------- Multipole rotation
         NM0 = KUASEX
         NM = KUASEX        
 
-C        IF(KSYN.GE.1) THEN
-CC          CALL SYNPAO(SCLRS)
-C          SCLRS = SCAL0()
-C          BM(KUASEX) = BM(KUASEX) * SCLRS
-C        ENDIF
-
       ELSEIF(KUASEX .EQ. MPOL+1) THEN
 C-------  Mag MULTIPOLE, Elec Multipole ELMULT, Elec & Mag Multipole EBMULT
  
@@ -148,11 +142,6 @@ C------- If SR-loss switched on by procedure SRLOSS
           IF(KFL .EQ. MG) THEN
             IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
           ENDIF
-CC          CALL SYNPAO(SCLRS)
-C          SCLRS = SCAL0()
-C          DO 27 IM=1,MPOL
-C            BM(IM) = BM(IM) * SCLRS
-C 27       CONTINUE
         ENDIF
 
         IA = IA + 1

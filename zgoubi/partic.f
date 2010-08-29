@@ -89,10 +89,6 @@ c           stop
          IF (PABSLU) F(1,I) = DP0(I)/Q
  10   CONTINUE
 
-c         write(*,*) ' partic.f  am, am2 : ', am, am2
-c           stop
-
-
 C----- Set time at OBJET
       DO 11 I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
@@ -102,6 +98,7 @@ C          P = BORO*CL9*AMQ(2,I)
           BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
           TIM = F(6,I)*UNIT(5) / (BTA * CL)
           F(7,I) = TIM / UNIT(7)          
+          FO(7,I) = F(7,I) 
         ENDIF
 C        IF(CODE(1:11) .EQ. 'MASS_CODE_1') THEN
 C          IF(I .LE. IMAX/2) THEN

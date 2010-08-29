@@ -135,9 +135,9 @@ C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
 
       IF(NRES .GT. 0)
      >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
-     >1P,G14.6,
+     >1P,G17.9,
      >'' m ;   corresponding Time  (for ref. rigidity & particle) = '', 
-     >1P,G12.4,'' s '')')  SCUM*UNIT(5), TCUM
+     >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN
 C100   FORMAT(/,5X,'ELEMENT  DECENTRE  PAR  RAPPORT  A  L''AXE  OPTIQUE'

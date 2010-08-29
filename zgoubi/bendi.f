@@ -166,12 +166,12 @@ C------- Correction for exit wedge
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' BEND',XL,BORO/BBM(1)*DEV,DEV*DEG
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
-     >       //,15X, ' Length    = ',E12.4,'  cm'
-     >       ,/,15X, ' Arc length    = ',E12.4,'  cm'
-     >       ,/,15X, ' Deviation    = ',E12.4,'  deg.',/)
+     >       //,15X, ' Length    = ',E14.6,'  cm'
+     >       ,/,15X, ' Arc length    = ',E14.6,'  cm'
+     >       ,/,15X, ' Deviation    = ',E14.6,'  deg.',/)
         WRITE(NRES,103) BBM(1),BORO/BBM(1)
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
-     >        /,15X, ' Reference  radius  (BRo/B)  = ',E12.4,'  cm')
+     >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')
         WRITE(NRES,105) BBM(6)
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
         IF(BBM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 
