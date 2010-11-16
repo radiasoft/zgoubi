@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE TUNES(R,F0,NMAIL,IERY,IERZ,OKPR,
      >                                           YNU,ZNU,CMUY,CMUZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -53,7 +53,6 @@ C  HORIZONTAL
       CMUY = .5D0 * (R(1,1)+R(2,2))
       IF(CMUY*CMUY .GE. 1.D0) THEN
         IERY=-1
-C        WRITE(NRES,102) 'Y','NU_Y'
         F0(1,1)=0.D0
         F0(1,2)=0.D0
         F0(2,1)=0.D0
@@ -63,16 +62,18 @@ C        WRITE(NRES,102) 'Y','NU_Y'
         YNU = 0.D0
       ELSE
 
-CBETA 
-         COSMU=CMUY
-            YNU=ACOS(COSMU)*NMAIL/(2.D0 * PI) 
-            IF (R(1,2) .LT. 0.0D0) YNU=NMAIL-YNU
-            YNU=YNU-AINT(YNU)
-            SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(1,2) )
-
-CC        SINMU=SQRT(-R(1,2)*R(2,1)-.25D0*(R(1,1)-R(2,2))*(R(1,1)-R(2,2)))
-CC        IF(R(1,2) .LT. 0.D0) SINMU = - SINMU
-CC        YNU = ATAN2( SINMU , COSMU ) * NMAIL / (2.D0 * PI)  
+        COSMU=CMUY
+CBETA style
+        SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(1,2) )
+        YNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI) 
+        IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)-YNU
+        YNU=YNU-AINT(YNU)
+C         write(*,*) ' beta style, sinmu, ynu = ',sinmu,ynu,nmail
+CMAD style. Optimized precisison close to 1/2 ? 
+        SINMU=SIGN(SQRT(-R(1,2)*R(2,1)-.25D0*(R(1,1)-R(2,2))**2),R(1,2))
+        YNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(1,2))
+        IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)+YNU
+C         write(*,*) ' mad style, sinmu, ynu = ',sinmu,ynu
 
         BX0=R(1,2) / SINMU
         AX0=(R(1,1) - R(2,2)) / (2.D0*SINMU)
@@ -90,7 +91,6 @@ C  VERTICAL
       CMUZ = .5D0 * (R(3,3)+R(4,4))
       IF(CMUZ*CMUZ .GE. 1.D0) THEN
         IERZ=-1
-C        WRITE(NRES,102) 'Z', 'NU_Z'
         F0(3,3)=0.D0
         F0(3,4)=0.D0
         F0(4,3)=0.D0
@@ -99,16 +99,19 @@ C        WRITE(NRES,102) 'Z', 'NU_Z'
         F0(4,6)=0.D0
         ZNU = 0.D0
       ELSE
-CBETA 
         COSMU = CMUZ
+CBETA style
             ZNU=ACOS(COSMU)*NMAIL/(2.D0 * PI) 
             IF (R(3,4) .LT. 0.0D0) ZNU=NMAIL-ZNU
             ZNU=ZNU-AINT(ZNU)
             SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(3,4) )
-
-C        SINMU=SQRT(-R(3,4)*R(4,3)-.25D0*(R(3,3)-R(4,4))*(R(3,3)-R(4,4)))
-C        IF(R(3,4) .LT. 0.D0) SINMU = - SINMU
-C        ZNU = ATAN2( SINMU , COSMU ) * NMAIL / (2.D0 * PI)  
+C         write(*,*) ' beta style, sinmu, znu = ',sinmu,znu,nmail
+CMAD style. Optimized precisison close to 1/2 ? 
+        SINMU=SIGN(SQRT(-R(3,4)*R(4,3)-.25D0*(R(3,3)-R(4,4))**2),R(3,4))
+        ZNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(3,4))
+        IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)+ZNU
+C         write(*,*) ' mad style, sinmu, znu = ',sinmu,znu
+C         write(*,*) '                                tunes...' 
 
         BZ0=R(3,4)/SINMU
         AZ0=(R(3,3)-R(4,4))/2.D0/SINMU

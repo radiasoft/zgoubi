@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  François Mot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Mot <fmeot@bnl.gov>
+C  BNL
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -91,15 +91,13 @@ C-------------------------------------------------
       NFIC = 1
       NAMFIC = TA(NOEL,2)
       NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+
       CALL KSMAP4(NOMFIC,NFIC,
      >                        NEWFIC,IMAP)
 
-c              write(*,*) ' '
-c              write(*,*) ' map2d ', newfic,ipass, imap, noel
-c              write(*,*) ' ',NOMFIC(NFIC),namfic
-c              write(*,*) ' '
-
       IF(NRES.GT.0) THEN
+          WRITE(NRES,*) ' map2d *****', NAMFIC
+          WRITE(NRES,*) ' map2d *****', NOMFIC(nfic),nfic
         WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)') 
      >  'Number of field data files used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP,' '

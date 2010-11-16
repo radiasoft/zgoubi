@@ -955,7 +955,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 \textsl{ End of repeat} \rule{80mm}{.1mm} \> \> \> \\
 \end{tabbing}
 
-\footnotetext[1]{Non-zero $\delta R\!M$ requires KIRD$>$0.} 
+\footnotetext[1]{Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
 
 \newpage 
 
@@ -963,9 +963,9 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 \begin{tabbing}
 \mestab
 \textsl{KIRD,~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives~;  \>2, 4 or 25~; no dim. \>I, E\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; no dim. \>I, E\\
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \>  \\ 
- \>  KIRD$>$0 :  numerical interpolation of field derivatives~; \>  \>\\
+ \>  KIRD$2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
  \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
@@ -1494,10 +1494,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 \begin{tabbing}
 \mestab
 \textsl{KIRD,~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives~;  \>2, 4 or 25~; no dim. \>I, E\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; no dim. \>I, E\\
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \>  \\ 
- \>  KIRD$>$0 :  numerical interpolation of field derivatives, mesh \>  \>\\
- \>  size is \textsl{XPAS/Resol}  \>  \>\\
+ \>  KIRD$2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
+ \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
  \\
@@ -1567,10 +1567,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 \begin{tabbing}
 \mestab
 \textsl{KIRD,~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives, Resol  \>$>0$~; no dim.\>I, E\\ 
- \>   is unused \>  \\ 
- \>  KIRD$>$0 :  numerical interpolation of field derivatives, mesh \>  \>\\
- \>  size is \textsl{XPAS/Resol}  \>  \>\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; no dim. \>I, E\\
+ \>   Resol = 2/4 for 2nd/4th order field derivatives computation \>  \\ 
+ \>  KIRD$2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
+ \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
  \\
@@ -2000,25 +2000,25 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
   \\
  \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or \>2*I \\
  \textsl{[, zgoubi.MATRIX.out]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
-                                           \> 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
-% FM, Nov. 2008
-% \>    tune numbers if \textsl{IFOC} $> 0$ \> \> \\
- \>    matrix~; if \textsl{IFOC} $> 10$ : periodic beam matrix tune numbers  \> \> \\
- \>     2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
+ \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
+ \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.01~; \> \> \\
+ \> if \textsl{IFOC} $> 10$ : periodic beam matrix, tune numbers  \> \> \\
+ \> \textsl{IORD} = 2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
  \>  matrix $[ R_{ij}] $, second order array $ [T_{ijk} ]$ and higher order transfer   \>\>\\
 % FM, Nov. 2008
 % \>coefficients~;  periodic parameters, chromaticities\index{Cromaticity}, etc.   if \textsl{IFOC} $> 0$ \>\>\\
  \>  coefficients~; if \textsl{IFOC} $> 10$ : periodic parameters,     \>\>\\
- \>  Addition of 'zgoubi.MATRIX.out' will cause output stacking into   zgoubi.MATRIX.out file   \>\>\\
  \\
  \>\textsl{IFOC} = 0 : matrix at actual location, \>\>\\
  \>        reference $\equiv$ particle \# 1 \>\>\\
- \>     1 : matrix at the closest first order horizontal focus,\>\>\\
+ \>\textsl{IFOC} = 1 : matrix at the closest first order horizontal focus,\>\>\\
  \>        reference $\equiv$ particle \# 1 \>\>\\
- \>     10 + NPER : same as \textsl{IFOC} = 0, and also calculates\>\>\\
+ \>\textsl{IFOC} = 10 + NPER : same as \textsl{IFOC} = 0, and also calculates\>\>\\
  \>      the twiss parameters, tune numbers, etc.\>\>\\
  \>  (assuming that  the DATA file describes one period of a \>\>\\
- \> NPER-period structure).  
+ \> NPER-period structure).  \>\>\\
+\\
+ \>  Including 'zgoubi.MATRIX.out' will cause output printout to  zgoubi.MATRIX.out file   \>\>\\
 \end{tabbing}
 
 

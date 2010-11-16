@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE STORCO(MODSTO,NL,KPS,
      >                                NPASS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -86,13 +86,14 @@ C     ----------------------------------
       GOTO 11
 
  10   CONTINUE
-      WRITE(6,*) ' READ  OK; END  OF  FILE  ENCOUNTERED'
+      WRITE(6,*) ' END OF FILE encountered, read ',NOC,' points'
 
  11   CONTINUE
       NPASS = NRBLT + 1
       NPTR=NOC
       CALL READC5(
      >            KT1,KT2)
+      write(*,*) ' Pgm storco, particles kt1:kt2 : ',kt1,':',kt2
       IF(KT1 .EQ. -1 .OR. KT2 .GT. KT1) THEN
         WRITE(6,*) '  Analysis of particles from a set '
         IF(KPS.EQ. 0) WRITE(6,*) '  Initial  phase-space'

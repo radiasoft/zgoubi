@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE LPSFIT(NLOG,KPR,LM,
      >                              YM,YPM,YMX,YPMX,U,A,B,*,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -201,7 +201,6 @@ C----- Smear
 
       DO 5 JJ=1,3
         I=2*JJ-1
-C        IF(U(JJ).LE. 1.D-30) THEN
         IF(U(JJ).EQ. 0.D0) THEN
           WRITE(*,131) TXT(JJ),U(JJ)
  131      FORMAT(A,T13,1P,G12.4,'      *** UNDETERMINED ***')
@@ -235,7 +234,6 @@ C----- Twiss parameters and emittance
         DO 4 JJ=1,3
           IF(U(JJ).LE. 1.D-15) THEN
             WRITE(NLOG,121) TXT(JJ),U(JJ) 
-C           WRITE(*,121) TXT(JJ),U(JJ) 
           ELSE
             WRITE(NLOG,120) 
      >         TXT(JJ),B(JJ),A(JJ),G(JJ),U(JJ),YM(JJ),YPM(JJ)
@@ -245,8 +243,12 @@ C           WRITE(*,121) TXT(JJ),U(JJ)
 C------- Smear
         WRITE(NLOG,130) 
         DO 51 JJ=1,3
-          I=2*JJ-1
-          WRITE(NLOG,131) TXT(JJ),U(JJ),SMEAR(JJ),UMI(JJ),UMA(JJ)
+         I=2*JJ-1
+         IF(U(JJ).EQ. 0.D0) THEN
+           WRITE(NLOG,131) TXT(JJ),U(JJ)
+         ELSE
+           WRITE(NLOG,132) TXT(JJ),U(JJ),SMEAR(JJ)/U(JJ),UMI(JJ),UMA(JJ)
+         ENDIF
  51     CONTINUE
 
         RETURN 1

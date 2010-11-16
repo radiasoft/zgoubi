@@ -17,13 +17,13 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
-      SUBROUTINE SPEPR(NLOG,KPR,LM,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
+      SUBROUTINE SPEPR(NLOG,KPR,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YM(*), YPM(*), YNU(*), PMAX(*), NC0(*)
 
@@ -75,7 +75,7 @@ C  France
         WRITE(*,*) '  Tunes will be printed in zpop.log'
         WRITE(*,*) '---------------------------------------------------'
         WRITE(*,*) 
-        WRITE(NLOG,101) NT,LM,NPTS 
+        WRITE(NLOG,101) TXTP,TXTL,NPTS 
 
         DO 10 JNU = 1, 3
           WRITE(NLOG,FMT='(A,''  motion :'')') HVL(JNU)

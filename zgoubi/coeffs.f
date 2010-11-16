@@ -17,13 +17,14 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
-      SUBROUTINE COEFFS(IOPT,IORD,R,T,F0,IREF)
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
+      SUBROUTINE COEFFS(IOPT,IORD,R,T,IREF,
+     >                                     F0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),T(6,6,*),F0(6,*)
 C     ---------------------------
@@ -60,7 +61,7 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       CALL MKSA(IORD,R,T,TX3,TX4)
 
       IF(IOPT.EQ.1) CALL BEAMAT(R,
-     >                            F0)
+     >                            F0,PHY,PHZ)
  
       RETURN
       END

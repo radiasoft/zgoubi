@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C-- Max mesh nodes in Z direction, # of field coordinates
@@ -37,11 +37,6 @@ C      PARAMETER (MXX=601, MXY=200)
 C      PARAMETER (MXX=2000, MXY=600)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
-C----- KEK/TOSCA.  Masamitsu Aiba
-C      PARAMETER (IZ=41 , ID=3, MMAP=1)
-C      PARAMETER (MXX=301, MXY=121)
-
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC----- PRISM.  Yasutoshi Kuriyama
 C      PARAMETER (IZ=35 , ID=3)
 C      PARAMETER (IZ=41 , ID=3)
@@ -49,12 +44,12 @@ C      PARAMETER (MXX=361, MXY=171)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC----- RACCAM spiral field maps
-       PARAMETER (IZ=21 , ID=3, MMAP=1)
-       PARAMETER (MXX=671, MXY=53)
+C       PARAMETER (IZ=21 , ID=3, MMAP=1)
+C       PARAMETER (MXX=671, MXY=53)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C      PARAMETER (IZ=41 , ID=3)
-C      PARAMETER (MXX=1000, MXY=500)
+C      PARAMETER (MXX=1000, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA 
@@ -62,9 +57,38 @@ C      PARAMETER (IZ=5 , ID=3, MMAP=1)
 C      PARAMETER (MXX=401, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
-C-- IZ : # of mesh nodes in Z direction. ID : # of field coordinates (3 if IZ>1, or with MAP2)
+C-- IZ : # of mesh nodes in Z direction or 3 with MAP2. ID : # of field coordinates (3 if IZ>1)
 C-- MMAP : maximum number of maps in a problem
-C AGS CSnake maps
-C      PARAMETER (IZ=3 , ID=3, MMAP=1)
-C      PARAMETER (MXX=401, MXY=29)
+C      PARAMETER (IZ=3 , ID=3, MMAP=2)
+C      PARAMETER (MXX=801, MXY=29)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC----- RACCAM spiral field maps
+c       PARAMETER (IZ=1 , ID=3, MMAP=1)
+c       PARAMETER (MXX=361, MXY=221)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC----- RACCAM spiral field maps
+C       PARAMETER (IZ=21 , ID=3, MMAP=1)
+C       PARAMETER (MXX=671, MXY=53)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C----- KEK/TOSCA.  Masamitsu Aiba
+c      PARAMETER (IZ=41 , ID=3, MMAP=1)
+c      PARAMETER (MXX=301, MXY=121)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C----- Jaroslaw problem, Oct 2010
+c      PARAMETER (IZ=1 , ID=3, MMAP=1)
+c      PARAMETER (MXX=1271, MXY=97)
+
+C AGS with 2 (=mmap) snake maps
+C Using MAP2D
+C      PARAMETER (IZ=1 , ID=3, MMAP=2)
+C      PARAMETER (MXX=801, MXY=29)
+      
+C AGS Magnet maps
+C Using TOSCA
+      PARAMETER (IZ=1 , ID=3, MMAP=2)
+      PARAMETER (MXX=185, MXY=281)
       

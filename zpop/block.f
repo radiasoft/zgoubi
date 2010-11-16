@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
 C1       2         3         4         5         6         7
 C2345678901234567890123456789012345678901234567890123456789012
       BLOCK DATA BLOCK

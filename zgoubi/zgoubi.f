@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
@@ -85,6 +85,8 @@ C----- To get values into A(), from earlier FIT
 
       CHARACTER*40 TXTELT, TXTELO
       SAVE TXTELT
+
+      CHARACTER SYSCMD*200
 
       INCLUDE 'PARIZ.H'
       INCLUDE 'FILPLT.H'
@@ -454,7 +456,6 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       KALC = 2
       IF(READAT) CALL RCARTE(KART,I3,
      >                               ND(NOEL))
-
       IF    (A(NOEL,22) .EQ. 1) THEN
 C        KZMA = 1, 2-D map
         KUASEX = 2
@@ -1059,6 +1060,16 @@ C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
 C----- REVERSE. 
  105  CONTINUE
       CALL REVERS
+      GOTO 998
+C----- SYSTEM. System call
+ 106  CONTINUE
+      IF(READAT) READ(NDAT,*) A(NOEL,1)
+      NCMD = NINT(A(NOEL,1))
+      DO I = 1, NCMD
+        READ(NDAT,FMT='(A)') SYSCMD
+        SYSCMD = SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))//' &'
+        CALL SYSTEM(SYSCMD)
+      ENDDO 
       GOTO 998
 
 C------------------------------------------------------------------------

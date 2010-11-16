@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE FFGSPI(SCAL,
      >                      DSREF,IRD,IDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -271,15 +271,18 @@ C Exit Fringe Field
 
 C-----------------------------
       
-C Choice of the type of field & deriv. calculation 
+C Get type of field & deriv. calculation 
       NP=NP+1 
-      IRDA = NINT(A(NOEL,NP))
-      IF    (IRDA.NE.0) THEN
+      KIRD = NINT(A(NOEL,NP))
+C Get resol, or idb
+      NP=NP+1 
+      RESOL=A(NOEL,NP)
+      IF    (KIRD.NE.0) THEN
 C    interpolation 
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
-        IRD = IRDA
-        IRDA = 1
+        IRD = KIRD
+        KIRD = 1
         IF    (IRD.EQ.2) THEN 
           NN=3
         ELSEIF(IRD.EQ.25) THEN
@@ -289,16 +292,12 @@ C    interpolation
         ELSE
           STOP ' *** ERROR - SBR FFAGI, WRONG VALUE IRD'
         ENDIF
-        NP=NP+1 
-        RESOL=A(NOEL,NP)
-      ELSEIF(IRDA.EQ.0) THEN
+      ELSEIF(KIRD.EQ.0) THEN
 C    analytic
-C        IDB = NINT(10*A(NOEL,NP))
-        NP=NP+1 
-        IDB=A(NOEL,NP)
+        IDB=NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
-      CALL CHAMC6(IRDA)
+      CALL CHAMC6(KIRD)
     
       AE=0.D0
       AS=0.D0
@@ -319,8 +318,8 @@ C--------------------
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
-     >  TYPCAL(IRDA+1)
-        IF    (IRDA.NE.0) THEN
+     >  TYPCAL(KIRD+1)
+        IF    (KIRD.NE.0) THEN
           IF(IRD .EQ. 2) THEN
             WRITE(NRES,121) '3*3', RESOL
  121        FORMAT(20X,A3,
@@ -330,7 +329,7 @@ C--------------------
 C----------- IRD= 4 OR 25
             WRITE(NRES,121) '5*5', RESOL
           ENDIF
-        ELSEIF(IRDA.EQ.0) THEN
+        ELSEIF(KIRD.EQ.0) THEN
           WRITE(NRES,FMT='(20X,
      >    ''Derivatives computed to order '',I1)') IDB
         ENDIF

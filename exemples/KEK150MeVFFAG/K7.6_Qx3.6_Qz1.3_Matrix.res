@@ -37,7 +37,7 @@ FFAG triplet. 150MeV KEK machine.
  0. -1                                   EFB 3                                                                
  0  0.      0.      0.      0.      0. 0.  0.                                                                 
  0.  0.   0.    0.    0. 0.                                                                                   
-  0.2                    KIRD anal/num =0.2,0.4 or 2,25,4 & resol [flying mesh size =step/resol]              
+ 0  2                    KIRD anal / num : 0 & resol=2, 4 / 2, 25 or 4 & resol [flying mesh size =step/resol] 
  .25                     integration step size (cm)                                                           
  2   0.  0. 0. 0.        (comp anal/num yield best num prec for resol=1e3*step)                               
 'DRIFT'                                                                                                            3
@@ -82,7 +82,7 @@ FFAG triplet. 150MeV KEK machine.
  0. -1                                   EFB 3                                                                
  0  0.      0.      0.      0.      0. 0.  0.                                                                 
  0.  0.   0.    0.    0. 0.                                                                                   
-  0.4                    KIRD anal/num =0.2,0.4 or 2,25,4 & resol [flying mesh size =step/resol]              
+ 0  4                    KIRD anal / num : 0 & resol=2, 4 / 2, 25 or 4 & resol [flying mesh size =step/resol] 
  .25                     integration step size (cm)                                                           
  2   0.  0. 0. 0.        (comp anal/num yield best num prec for resol=1e3*step)                               
 'DRIFT'                                                                                                            7
@@ -335,7 +335,9 @@ FFAG triplet. 150MeV KEK machine.
          Lateral face :  unused
 
 
-      Field & derivatives calculation method : analytic               
+      KIRD, resol, IDB :  0  2  2
+
+      Field & deriv. calculation : analytic     
                     Derivatives computed to order 2
 
                     Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
@@ -345,16 +347,16 @@ FFAG triplet. 150MeV KEK machine.
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
 
- Cumulative length of optical axis =    2.93401     m ;   corresponding Time  (for ref. rigidity & particle) =   1.9318E-08 s 
+ Cumulative length of optical axis =    2.93400800     m ;   corresponding Time  (for ref. rigidity & particle) =   1.931765E-08 s 
 
 ********************************************************************************************************************************
       3  DRIFT                         
 
                               Drift,  length =     0.00000  cm
 
- TRAJ 1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.90          8.66946E-03
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.9039          8.66946E-03
 
- Cumulative length of optical axis =    2.93401     m ;   corresponding Time  (for ref. rigidity & particle) =   1.9318E-08 s 
+ Cumulative length of optical axis =    2.93400800     m ;   corresponding Time  (for ref. rigidity & particle) =   1.931765E-08 s 
 
 ********************************************************************************************************************************
       4  MATRIX                        
@@ -363,7 +365,7 @@ FFAG triplet. 150MeV KEK machine.
             XC =    0.000 cm , YC =  479.701 cm ,   A =  0.00039 deg  ( = 0.000007 rad )
 
 
-Path length of particle  1 :   259.90391     cm
+Reference particle (# 1), path length :   259.90391     cm  relative momentum :   0.520000    
 
 
                   TRANSFER  MATRIX  ORDRE  1  (MKSA units)
@@ -375,12 +377,12 @@ Path length of particle  1 :   259.90391     cm
           0.645626        0.774520         0.00000         0.00000         1.00000       -5.691068E-02
            0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-          DetY-1 =       0.0000000054,    DetZ-1 =       0.0000000447
+          DetY-1 =       0.0000000051,    DetZ-1 =       0.0000000447
 
           R12=0 at    1.851     m,        R34=0 at   -3.545     m
 
-      First order sympletic conditions (expected values = 0) :
-         5.4377E-09    4.4661E-08     0.000         0.000         0.000         0.000    
+      First order symplectic conditions (expected values = 0) :
+         5.1220E-09    4.4661E-08     0.000         0.000         0.000         0.000    
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed :
@@ -388,7 +390,7 @@ Path length of particle  1 :   259.90391     cm
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
            0.791652    -0.000002     0.000000     0.000000     0.000000     0.555903
-          -0.000002     1.263182     0.000000     0.000000     0.000000     0.000000
+          -0.000002     1.263182     0.000000     0.000000     0.000000    -0.000000
            0.000000     0.000000     4.302980     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.232397     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
@@ -396,7 +398,7 @@ Path length of particle  1 :   259.90391     cm
 
                                    Betatron  tunes
 
-                    NU_Y = 0.31432737         NU_Z = 0.10968143    
+                    NU_Y = 0.31432737         NU_Z = 0.10968144    
 
 ********************************************************************************************************************************
       5  OBJET                         
@@ -507,7 +509,9 @@ Path length of particle  1 :   259.90391     cm
          Lateral face :  unused
 
 
-      Field & derivatives calculation method : analytic               
+      KIRD, resol, IDB :  0  4  4
+
+      Field & deriv. calculation : analytic     
                     Derivatives computed to order 4
 
                     Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
@@ -517,16 +521,16 @@ Path length of particle  1 :   259.90391     cm
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
 
- Cumulative length of optical axis =    5.86802     m ;   corresponding Time  (for ref. rigidity & particle) =   3.8635E-08 s 
+ Cumulative length of optical axis =    5.86801600     m ;   corresponding Time  (for ref. rigidity & particle) =   3.863531E-08 s 
 
 ********************************************************************************************************************************
       7  DRIFT                         
 
                               Drift,  length =     0.00000  cm
 
- TRAJ 1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.90          8.66946E-03
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.9039          8.66946E-03
 
- Cumulative length of optical axis =    5.86802     m ;   corresponding Time  (for ref. rigidity & particle) =   3.8635E-08 s 
+ Cumulative length of optical axis =    5.86801600     m ;   corresponding Time  (for ref. rigidity & particle) =   3.863531E-08 s 
 
 ********************************************************************************************************************************
       8  MATRIX                        
@@ -535,7 +539,7 @@ Path length of particle  1 :   259.90391     cm
             XC =    0.000 cm , YC =  479.701 cm ,   A =  0.00039 deg  ( = 0.000007 rad )
 
 
-Path length of particle  1 :   259.90391     cm
+Reference particle (# 1), path length :   259.90391     cm  relative momentum :   0.520000    
 
 
                   TRANSFER  MATRIX  ORDRE  1  (MKSA units)
@@ -547,12 +551,12 @@ Path length of particle  1 :   259.90391     cm
           0.645626        0.774520         0.00000         0.00000         1.00000       -5.691068E-02
            0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-          DetY-1 =       0.0000000054,    DetZ-1 =      -0.0000046083
+          DetY-1 =       0.0000000051,    DetZ-1 =      -0.0000046083
 
           R12=0 at    1.851     m,        R34=0 at   -3.537     m
 
-      First order sympletic conditions (expected values = 0) :
-         5.4377E-09   -4.6083E-06     0.000         0.000         0.000         0.000    
+      First order symplectic conditions (expected values = 0) :
+         5.1220E-09   -4.6083E-06     0.000         0.000         0.000         0.000    
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed :
@@ -560,15 +564,15 @@ Path length of particle  1 :   259.90391     cm
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
            0.791652    -0.000002     0.000000     0.000000     0.000000     0.555903
-          -0.000002     1.263182     0.000000     0.000000     0.000000     0.000000
-           0.000000     0.000000     4.333234    -0.000002     0.000000     0.000000
-           0.000000     0.000000    -0.000002     0.230775     0.000000     0.000000
+          -0.000002     1.263182     0.000000     0.000000     0.000000    -0.000000
+           0.000000     0.000000     4.333259    -0.000002     0.000000     0.000000
+           0.000000     0.000000    -0.000002     0.230773     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
                                    Betatron  tunes
 
-                    NU_Y = 0.31432737         NU_Z = 0.10894837    
+                    NU_Y = 0.31432737         NU_Z = 0.10894792    
 
 ********************************************************************************************************************************
       9  OBJET                         
@@ -679,9 +683,10 @@ Path length of particle  1 :   259.90391     cm
          Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    3*3-point  interpolation, 2nd degree polynomial
-                    Size of flying mesh is :   integration step /   125.0    
+      KIRD, resol :  2   125.000
+
+      Field & deriv. calculation : interpolation
+                    Order 2, 3*3-point  interpolation, size of flying mesh :  integration step /   125.0    
 
                     Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
 
@@ -690,16 +695,16 @@ Path length of particle  1 :   259.90391     cm
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
 
- Cumulative length of optical axis =    8.80202     m ;   corresponding Time  (for ref. rigidity & particle) =   5.7953E-08 s 
+ Cumulative length of optical axis =    8.80202400     m ;   corresponding Time  (for ref. rigidity & particle) =   5.795296E-08 s 
 
 ********************************************************************************************************************************
      11  DRIFT                         
 
                               Drift,  length =     0.00000  cm
 
- TRAJ 1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.90          8.66946E-03
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.9039          8.66946E-03
 
- Cumulative length of optical axis =    8.80202     m ;   corresponding Time  (for ref. rigidity & particle) =   5.7953E-08 s 
+ Cumulative length of optical axis =    8.80202400     m ;   corresponding Time  (for ref. rigidity & particle) =   5.795296E-08 s 
 
 ********************************************************************************************************************************
      12  MATRIX                        
@@ -708,7 +713,7 @@ Path length of particle  1 :   259.90391     cm
             XC =    0.000 cm , YC =  479.701 cm ,   A =  0.00039 deg  ( = 0.000007 rad )
 
 
-Path length of particle  1 :   259.90391     cm
+Reference particle (# 1), path length :   259.90391     cm  relative momentum :   0.520000    
 
 
                   TRANSFER  MATRIX  ORDRE  1  (MKSA units)
@@ -720,12 +725,12 @@ Path length of particle  1 :   259.90391     cm
           0.645626        0.774520         0.00000         0.00000         1.00000       -5.691068E-02
            0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-          DetY-1 =      -0.0000000092,    DetZ-1 =       0.0000000447
+          DetY-1 =      -0.0000000179,    DetZ-1 =       0.0000000447
 
           R12=0 at    1.851     m,        R34=0 at   -3.545     m
 
-      First order sympletic conditions (expected values = 0) :
-        -9.1942E-09    4.4675E-08     0.000         0.000         0.000         0.000    
+      First order symplectic conditions (expected values = 0) :
+        -1.7877E-08    4.4655E-08     0.000         0.000         0.000         0.000    
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed :
@@ -733,7 +738,7 @@ Path length of particle  1 :   259.90391     cm
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
            0.791652    -0.000002     0.000000     0.000000     0.000000     0.555903
-          -0.000002     1.263182     0.000000     0.000000     0.000000     0.000000
+          -0.000002     1.263182     0.000000     0.000000     0.000000    -0.000000
            0.000000     0.000000     4.302980     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.232397     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
@@ -741,7 +746,7 @@ Path length of particle  1 :   259.90391     cm
 
                                    Betatron  tunes
 
-                    NU_Y = 0.31432737         NU_Z = 0.10968143    
+                    NU_Y = 0.31432737         NU_Z = 0.10968144    
 
 ********************************************************************************************************************************
      13  OBJET                         
@@ -852,9 +857,10 @@ Path length of particle  1 :   259.90391     cm
          Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    5*5-point  interpolation, 2nd degree polynomial
-                    Size of flying mesh is :   integration step /   125.0    
+      KIRD, resol : 25   125.000
+
+      Field & deriv. calculation : interpolation
+                    Order 2, 5*5-point  interpolation, size of flying mesh :  integration step /   125.0    
 
                     Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
 
@@ -863,16 +869,16 @@ Path length of particle  1 :   259.90391     cm
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
 
- Cumulative length of optical axis =    11.7360     m ;   corresponding Time  (for ref. rigidity & particle) =   7.7271E-08 s 
+ Cumulative length of optical axis =    11.7360320     m ;   corresponding Time  (for ref. rigidity & particle) =   7.727061E-08 s 
 
 ********************************************************************************************************************************
      15  DRIFT                         
 
                               Drift,  length =     0.00000  cm
 
- TRAJ 1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.90          8.66946E-03
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.9039          8.66946E-03
 
- Cumulative length of optical axis =    11.7360     m ;   corresponding Time  (for ref. rigidity & particle) =   7.7271E-08 s 
+ Cumulative length of optical axis =    11.7360320     m ;   corresponding Time  (for ref. rigidity & particle) =   7.727061E-08 s 
 
 ********************************************************************************************************************************
      16  MATRIX                        
@@ -881,7 +887,7 @@ Path length of particle  1 :   259.90391     cm
             XC =    0.000 cm , YC =  479.701 cm ,   A =  0.00039 deg  ( = 0.000007 rad )
 
 
-Path length of particle  1 :   259.90391     cm
+Reference particle (# 1), path length :   259.90391     cm  relative momentum :   0.520000    
 
 
                   TRANSFER  MATRIX  ORDRE  1  (MKSA units)
@@ -893,12 +899,12 @@ Path length of particle  1 :   259.90391     cm
           0.645626        0.774520         0.00000         0.00000         1.00000       -5.691068E-02
            0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-          DetY-1 =       0.0000000070,    DetZ-1 =       0.0000000447
+          DetY-1 =       0.0000000050,    DetZ-1 =       0.0000000447
 
           R12=0 at    1.851     m,        R34=0 at   -3.545     m
 
-      First order sympletic conditions (expected values = 0) :
-         6.9676E-09    4.4662E-08     0.000         0.000         0.000         0.000    
+      First order symplectic conditions (expected values = 0) :
+         5.0369E-09    4.4663E-08     0.000         0.000         0.000         0.000    
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed :
@@ -906,7 +912,7 @@ Path length of particle  1 :   259.90391     cm
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
            0.791652    -0.000002     0.000000     0.000000     0.000000     0.555903
-          -0.000002     1.263182     0.000000     0.000000     0.000000     0.000000
+          -0.000002     1.263182     0.000000     0.000000     0.000000    -0.000000
            0.000000     0.000000     4.302980     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.232397     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
@@ -914,7 +920,7 @@ Path length of particle  1 :   259.90391     cm
 
                                    Betatron  tunes
 
-                    NU_Y = 0.31432737         NU_Z = 0.10968143    
+                    NU_Y = 0.31432737         NU_Z = 0.10968144    
 
 ********************************************************************************************************************************
      17  OBJET                         
@@ -1025,9 +1031,10 @@ Path length of particle  1 :   259.90391     cm
          Lateral face :  unused
 
 
-      Field & derivatives calculation method : numerical interpolation
-                    5*5-point  interpolation, 4th degree polynomial
-                    Size of flying mesh is :   integration step /   125.0    
+      KIRD, resol :  4   125.000
+
+      Field & deriv. calculation : interpolation
+                    Order 4, 5*5-point  interpolation, size of flying mesh :  integration step /   125.0    
 
                     Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
 
@@ -1036,16 +1043,16 @@ Path length of particle  1 :   259.90391     cm
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
 
- Cumulative length of optical axis =    14.6700     m ;   corresponding Time  (for ref. rigidity & particle) =   9.6588E-08 s 
+ Cumulative length of optical axis =    14.6700400     m ;   corresponding Time  (for ref. rigidity & particle) =   9.658826E-08 s 
 
 ********************************************************************************************************************************
      19  DRIFT                         
 
                               Drift,  length =     0.00000  cm
 
- TRAJ 1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.90          8.66946E-03
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.5200       479.7      6.8901E-03   0.000       0.000           259.9039          8.66946E-03
 
- Cumulative length of optical axis =    14.6700     m ;   corresponding Time  (for ref. rigidity & particle) =   9.6588E-08 s 
+ Cumulative length of optical axis =    14.6700400     m ;   corresponding Time  (for ref. rigidity & particle) =   9.658826E-08 s 
 
 ********************************************************************************************************************************
      20  MATRIX                        
@@ -1054,32 +1061,32 @@ Path length of particle  1 :   259.90391     cm
             XC =    0.000 cm , YC =  479.701 cm ,   A =  0.00039 deg  ( = 0.000007 rad )
 
 
-Path length of particle  1 :   259.90391     cm
+Reference particle (# 1), path length :   259.90391     cm  relative momentum :   0.520000    
 
 
                   TRANSFER  MATRIX  ORDRE  1  (MKSA units)
 
-         -0.393264        0.727866         0.00000         0.00000         0.00000        0.774519    
-          -1.16140       -0.393265         0.00000         0.00000         0.00000        0.645625    
+         -0.393264        0.727863         0.00000         0.00000         0.00000        0.774519    
+          -1.16140       -0.393267         0.00000         0.00000         0.00000        0.645625    
            0.00000         0.00000        0.771817         2.73622         0.00000         0.00000    
            0.00000         0.00000       -0.147758        0.771817         0.00000         0.00000    
           0.645626        0.774520         0.00000         0.00000         1.00000       -5.691068E-02
            0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-          DetY-1 =       0.0000012928,    DetZ-1 =       0.0000000090
+          DetY-1 =      -0.0000007424,    DetZ-1 =       0.0000000112
 
           R12=0 at    1.851     m,        R34=0 at   -3.545     m
 
-      First order sympletic conditions (expected values = 0) :
-         1.2928E-06    9.0470E-09     0.000         0.000         0.000         0.000    
+      First order symplectic conditions (expected values = 0) :
+        -7.4241E-07    1.1201E-08     0.000         0.000         0.000         0.000    
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed :
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
-           0.791653    -0.000001     0.000000     0.000000     0.000000     0.555903
-          -0.000001     1.263179     0.000000     0.000000     0.000000     0.000000
+           0.791651    -0.000002     0.000000     0.000000     0.000000     0.555902
+          -0.000002     1.263183     0.000000     0.000000     0.000000    -0.000000
            0.000000     0.000000     4.303275     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.232381     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
@@ -1087,7 +1094,7 @@ Path length of particle  1 :   259.90391     cm
 
                                    Betatron  tunes
 
-                    NU_Y = 0.31432721         NU_Z = 0.10967410    
+                    NU_Y = 0.31432742         NU_Z = 0.10967410    
 
 ********************************************************************************************************************************
      21  END                           
@@ -1101,8 +1108,8 @@ Path length of particle  1 :   259.90391     cm
 
 ********************************************************************************************************************************
 
-  Zgoubi, version 5.0.0.
-  Job  started  on  06-Sep-09,  at  19:58:58 
-  Job  ended  on  06-Sep-09,  at  19:59:00 
+  Zgoubi, version 5.1.0.
+  Job  started  on  17-Oct-10,  at  21:04:49 
+  Job  ended  on  17-Oct-10,  at  21:04:51 
 
-   CPU time, total :     1.81211300000000     
+   CPU time, total :     1.7521089999999999     

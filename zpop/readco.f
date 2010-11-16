@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE READCO(NL,
      >                     KART,LET,YZXB,NDX,*,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -311,7 +311,6 @@ C------- (p_ps)/ps
 C-------- momentum
 C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0   
         YZXB(20) = ENEKI
-C         convert B from kG to T
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)    
         YZXB(23) = SF(3)    
@@ -391,6 +390,7 @@ C      Location about where particle was lost
       YZXB(38) = SORT * 1.D-2
       YZXB(39) = IPASS 
       YZXB(57) = NOEL
+      YZXB(58) = IT
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 
@@ -423,7 +423,7 @@ C-----------------------------------------------
 C------------------ Pass # KP1 to KP2, ipass-modulo KP3
       ENTRY READC1(
      >              KP1O,KP2O,KP3O)
-C------- Read pass #,  KP1 to KP2
+C------- Read pass #  KP1 to KP2 step KP3
       KP1O=KP1
       KP2O=KP2
       KP3O=KP3

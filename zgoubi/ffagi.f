@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE FFAGI(SCAL,
      >                      DSREF,IRD,IDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -274,18 +274,18 @@ C Exit Fringe Field
 
 C-----------------------------
       
-C Choice of the type of field & deriv. calculation 
-C                (0/1 : analytic/interpolation): 
+C Get type of field & deriv. calculation 
       NP=NP+1 
-      IRDA = NINT(A(NOEL,NP))
+      KIRD = NINT(A(NOEL,NP))
+C Get resol, or idb
       NP=NP+1 
       RESOL=A(NOEL,NP)
-      IF    (IRDA.NE.0) THEN
+      IF    (KIRD.NE.0) THEN
 C        interpolation method
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
-        IRD = IRDA
-        IRDA = 1
+        IRD = KIRD
+        KIRD = 1
         IF    (IRD.EQ.2) THEN 
           NN=3
         ELSEIF(IRD.EQ.25) THEN
@@ -295,14 +295,11 @@ C        interpolation method
         ELSE
           STOP ' *** ERROR - SBR FFAGI, WRONG VALUE IRD'
         ENDIF
-      ELSEIF(IRDA.EQ.0) THEN
-C        IDB = NINT(10*A(NOEL,NP))
-C        NP=NP+1 
-C        IDB=A(NOEL,NP)
+      ELSEIF(KIRD.EQ.0) THEN
         IDB=NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
-      CALL CHAMC6(IRDA)
+      CALL CHAMC6(KIRD)
 
 C      NP=NP+1 
 C      RESOL=A(NOEL,NP)
@@ -321,19 +318,29 @@ C--- Formule à revoir...
 C--------------------
 
       IF(NRES.GT.0) THEN
+        IF(KIRD.EQ.0) THEN
+          WRITE(NRES,FMT='(/,5X,'' KIRD, resol, IDB : '',3(I2,1X))') 
+     >              KIRD,NINT(RESOL),IDB
+        ELSE
+          WRITE(NRES,FMT='(/,5X,'' KIRD, resol : '',I2,1X,F9.3))') 
+     >              IRD,RESOL
+        ENDIF
         WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
-     >  TYPCAL(IRDA+1)
-        IF    (IRDA.NE.0) THEN
+     >  TYPCAL(KIRD+1)
+        IF    (KIRD.NE.0) THEN
           IF(IRD .EQ. 2) THEN
-            WRITE(NRES,121) '3*3', RESOL
- 121        FORMAT(20X,A3,
+            WRITE(NRES,121) 'Order 2, 3*3', RESOL
+ 121        FORMAT(20X,A12,
      >        '-point  interpolation, size of flying mesh :  ',
      >        'integration step /',1P,G12.4)
-          ELSEIF(IRD .GE. 4) THEN
-C----------- IRD= 4 OR 25
-            WRITE(NRES,121) '5*5', RESOL
+          ELSEIF(IRD .EQ. 25) THEN
+            WRITE(NRES,121) 'Order 2, 5*5', RESOL
+          ELSEIF(IRD .EQ. 4) THEN
+            WRITE(NRES,121) 'Order 4, 5*5', RESOL
+          ELSE
+            CALL ENDJOB('ERROR, SBR ffagi : no such option KIRD= ',KIRD)
           ENDIF
-        ELSEIF(IRDA.EQ.0) THEN
+        ELSEIF(KIRD.EQ.0) THEN
           WRITE(NRES,FMT='(20X,
      >    ''Derivatives computed to order '',I1)') IDB
         ENDIF

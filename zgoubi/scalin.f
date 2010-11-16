@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE SCALIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
@@ -162,7 +162,7 @@ C--------- Field law proton driver, FNAL, Nov.2000
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -88) THEN
-C--------- AC dipole at BNL
+C--------- AC dipole at  BNL
           SCL(IF,1) = A(NOEL,10*IF)       ! C
           SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
           SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2

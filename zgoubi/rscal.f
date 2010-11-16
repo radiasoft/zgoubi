@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE RSCAL
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------
@@ -113,7 +113,7 @@ C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
 
           ELSEIF(NTIM(IF) .EQ. -88) THEN
-C--------- AC dipole at BNL
+C--------- AC dipole at  BNL
             NDSCL=4
             NDTIM=3
 C               max = max(NDSCL,NDTIM)

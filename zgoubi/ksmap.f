@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  François Mot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Mot <fmeot@bnl.gov>
+C  BNL
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE KSMAP(
-     >                 IMAPO)
+     >                 NMAPO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C------------------------------
 C     Monitors field map number
@@ -35,33 +35,44 @@ C------------------------------
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
 
-      SAVE IMAP
+      SAVE NMAP
 
-      DATA IMAP / 0 /
+      DATA NMAP / 0 /
       DATA NAMSAV / MIZ*' ' /
 
 C Read
-      IMAPO = IMAP
+      IF    (NMAP.GT.MMAP) THEN 
+        WRITE(NRES,*) ' SBR ksmap : too many different field maps'
+        CALL ENDJOB
+     >  ('SBR KSMAP(a). In PARIZ.H :  have  MMAP .ge. NMAP.  Now, MMAP='
+     >  ,MMAP)
+      ELSEIF(NMAP.LT.0) THEN 
+        WRITE(NRES,*) 
+     >  ' SBR ksmap : number of stored maps NMAP should be .ge.0'
+        CALL ENDJOB(' SBR KSMAP(b). In PARIZ.H : have NMAP .ge. 0.',-99)
+      ELSE
+        NMAPO = NMAP
+      ENDIF
       RETURN
 
 C Reset
       ENTRY KSMAP0
-      IMAP = 0
+        NMAP = 0
       RETURN
 
 C Increment
       ENTRY KSMAP2(
-     >             IMAPO)
-      IF(IMAP.EQ.MMAP) THEN 
-        WRITE(NRES,*) ' SBR ksmap : too many different field maps'
+     >             NMAPO)
+      IF(NMAP.GE.MMAP) THEN 
+        WRITE(NRES,*) ' SBR ksmap(a) : too many different field maps'
         CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
       ENDIF
-      IMAP = IMAP + 1
-      IMAPO = IMAP
+      NMAP = NMAP + 1
+      NMAPO = NMAP
       RETURN
 
       ENTRY KSMAP4(NOMFIC,NFIC,
-     >                         NEWFIC,IMAPO)
+     >                         NEWFIC,NMAPO)
       IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
       DO I = 1, MMAP
         OLDFIC = .TRUE.
@@ -73,14 +84,18 @@ C Increment
  1    CONTINUE
       NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
-        IMAP = IMAP+1
+        IF(NMAP.GE.MMAP) THEN 
+          WRITE(NRES,*) ' SBR ksmap(b) : too many different field maps'
+          CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
+        ENDIF
+        NMAP = NMAP+1
         DO IFIC = 1, NFIC
-          NAMSAV(IMAP,IFIC) = NOMFIC(IFIC)
+          NAMSAV(NMAP,IFIC) = NOMFIC(IFIC)
         ENDDO
       ELSE
-        IMAP = I
+        NMAP = I
       ENDIF
-      IMAPO = IMAP
+      NMAPO = NMAP
       RETURN
 
       END

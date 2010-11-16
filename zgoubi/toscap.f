@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE TOSCAP(SCAL,NDIM,
      >                           BMIN,BMAX,BNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -93,6 +93,8 @@ C      ENDIF
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+        CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
 C        IF(MOD .GE. 20) THEN
         IF(MOD .EQ. 20) THEN
@@ -120,6 +122,8 @@ C--------- another option for symmetrization by FMAPR2
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
+        CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,IMAP)
       ENDIF
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 
      >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
@@ -129,7 +133,7 @@ C--------- another option for symmetrization by FMAPR2
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
  209       FORMAT(/,10X  
-     >     ,' New field map(s) now used, cartesian mesh (MOD.ge.20) ; '
+     >     ,'New field map(s) now used, polar mesh (MOD .ge. 20) ; '
      >     ,/,10X,' name(s) of map data file(s) are : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
@@ -164,23 +168,21 @@ C--------- another option for symmetrization by FMAPR2
      >         ' map,  FORMAT type : ', FMTYP             
         IRD = NINT(A(NOEL,40))
 C        NHD = NHDF
+
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
       ENDIF
 
-        CALL MAPLI1(BMAX-BMIN)
-        AT=XH(IXMA)-XH(1)
-        ATO = 0.D0
-        ATOS = 0.D0
-        RM=.5D0*(YH(JYMA)+YH(1))
-        XI = XH(1)
-        XF = XH(IXMA)
+       CALL MAPLI1(BMAX-BMIN)
+       AT=XH(IXMA)-XH(1)
+       ATO = 0.D0
+       ATOS = 0.D0
+       RM=.5D0*(YH(JYMA)+YH(1))
+       XI = XH(1)
+       XF = XH(IXMA)
 
-C          write(*,*) 'toscap  at, xi, xf : ', at,xi,xf
-
- 
       RETURN
  96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)

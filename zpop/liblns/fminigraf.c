@@ -18,11 +18,11 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA  02110-1301  USA
 
-  François Méot <meot@lpsc.in2p3.fr>
-  Service Accélerateurs
-  LPSC Grenoble
-  53 Avenue des Martyrs
-  38026 Grenoble Cedex
+  François Méot <fmeot@bnl.gov>
+  Brookhaven National Laboratory                               és
+  C-AD, Bldg 911
+  Upton, NY, 11973
+  USA
   France
 */
 /*                                                                 */

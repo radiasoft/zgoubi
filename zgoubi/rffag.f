@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE RFFAG(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------
@@ -68,18 +68,22 @@ C         ... Lateral face
 
  1    CONTINUE
 
-C IRD2= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+C KIRD= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
 C mesh size= XPAS/RESOL
 C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
       READ(NDAT,FMT='(A132)') TXT
-      READ(TXT,*) AA
-      IF(INT(AA).NE.0) THEN
-        READ(TXT,*) A(NOEL,NP+1),A(NOEL,NP+2)
-        NP=NP+2
+      READ(TXT,*) IA
+      IF(IA.NE.0) THEN
+C KIRD=2,25 OR 4 AND RESOL
+        READ(TXT,*) IA,A(NOEL,NP+2)
+        A(NOEL,NP+1) = IA
       ELSE
-        A(NOEL,NP+1) = AA
-        NP=NP+1        
+C KIRD=2,25 OR 4 AND IRD==RESOL
+        READ(TXT,*) IA,IB
+        A(NOEL,NP+1) = IA
+        A(NOEL,NP+2) = IB
       ENDIF
+      NP=NP+2
 C     ... XPAS
       NP=NP+1
       ND=NP

@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE MATRIC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
@@ -153,12 +153,12 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
         IF(PRBEAM) THEN
 C------- Transported beam matrix. Initial beam input with OBJET, Kobj=5.ij or 6.ij
           CALL BEAMAT(R, 
-     >                  F0P)
+     >                  F0P,PHY,PHZ)
           SUM=0.D0
           DO 2 J=1,6
             DO 2 I=1,6
  2            SUM = SUM + F0P(I,J)
-          IF(SUM.NE.0.D0) CALL BEAIMP(F0P)
+          IF(SUM.NE.0.D0) CALL BEAIMP(F0P,PHY,PHZ)
         ENDIF
       ENDIF
 

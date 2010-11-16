@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE DIPSI(SCAL, 
      >                      DSREF,IRD,IDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -336,16 +336,16 @@ C-----------------------------
 
 C Get type of field & deriv. calculation 
       NP=NP+1 
-      IRDA = NINT(A(NOEL,NP))
+      KIRD = NINT(A(NOEL,NP))
 C Get resol, or idb
       NP=NP+1 
       RESOL=A(NOEL,NP)
-      IF    (IRDA.NE.0) THEN
+      IF    (KIRD.NE.0) THEN
 C        interpolation method
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
-        IRD = IRDA
-        IRDA = 1
+        IRD = KIRD
+        KIRD = 1
         IF    (IRD.EQ.2) THEN 
           NN=3
         ELSEIF(IRD.EQ.25) THEN
@@ -355,13 +355,13 @@ C        interpolation method
         ELSE
           STOP ' *** ERROR - SBR DIP2, WRONG VALUE IRD'
         ENDIF
-      ELSEIF(IRDA.EQ.0) THEN
+      ELSEIF(KIRD.EQ.0) THEN
 C        analytic
 C        IDB = NINT(10*A(NOEL,NP))
         IDB = NINT(RESOL)
         IF(IDB.NE.4) IDB=2
       ENDIF
-      CALL CHAMC6(IRDA)
+      CALL CHAMC6(KIRD)
 
 C Get flag field type. iord.option has the form xx.yy, iord=2, 25 or 4 and yy=01-99
 C      ITYPF = NINT(100.D0* (A(NOEL,NP-1)-DBLE(IRD)) )
@@ -403,8 +403,8 @@ C Formula to be revisited...
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
-     >  TYPCAL(IRDA+1)
-        IF    (IRDA.NE.0) THEN
+     >  TYPCAL(KIRD+1)
+        IF    (KIRD.NE.0) THEN
           IF(IRD .EQ. 2) THEN
             WRITE(NRES,121) '3*3', RESOL
  121        FORMAT(20X,A3,
@@ -414,7 +414,7 @@ C Formula to be revisited...
 C----------- IRD= 4 OR 25
             WRITE(NRES,121) '5*5', RESOL
           ENDIF
-        ELSEIF(IRDA.EQ.0) THEN
+        ELSEIF(KIRD.EQ.0) THEN
           WRITE(NRES,FMT='(20X,
      >    ''Derivatives computed to order '',I1)') IDB
         ENDIF
@@ -1065,7 +1065,7 @@ C**************** CALCUL DES DERIVEES POUR LA FACE D'ENTREE *************
          ENDIF
        ENDIF
        
-C       IF (IRDA.EQ.1) THEN
+C       IF (KIRD.EQ.1) THEN
        IF (IDB.GE.4) THEN
           X3RO   =  0.D0
           X4RO   =  0.D0
@@ -1542,7 +1542,7 @@ C*********************** CALCUL DES DERIVEES POUR LA FACE DE SORTIE ********
         ENDIF
       ENDIF
 
-C      IF (IRDA.EQ.1) THEN 
+C      IF (KIRD.EQ.1) THEN 
       IF (IDB.GE.4) THEN
          XO3ROS   = SICOS*Y3RO    + COS2S*X3RO
          XO4ROS   = SICOS*Y4RO    + COS2S*X4RO
@@ -1940,7 +1940,7 @@ c        call flush2(iunit,.false.)
       BZXX  = ( BZXX*R11+BZY)*R11
       BZXY  = ( BZXY-BZX)*R11
 
-C      IF (IRDA.EQ.1) THEN
+C      IF (KIRD.EQ.1) THEN
       IF (IDB.GE.4) THEN
          
         IF    (ITYPF.EQ.0) THEN

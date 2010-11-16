@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       FUNCTION FF()
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -82,7 +82,8 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
            IF(KOBJ .EQ. 6) IORD=2
 
            IF    (ICONT2 .EQ. 0) THEN
-             CALL COEFFS(1,IORD,U,T,F0P,1)
+             CALL COEFFS(1,IORD,U,T,1,
+     >                                F0P)
              VAL= F0P(K,L)
 
            ELSEIF(ICONT2 .GE. 1) THEN
@@ -90,7 +91,8 @@ C------------ Periodic case :  Twiss coefficients or tunes
 C  16=periodic dispersion D_y, 26= its derivative D'_y ; 36=D_z, 46=D'_z
 C ICONT2 refers to the reference of concern when using OBJET/KOBJ=5.2-6
 
-             CALL COEFFS(0,IORD,U,T,F0P,ICONT2)
+             CALL COEFFS(0,IORD,U,T,ICONT2,
+     >                                     F0P)
              CALL TUNES(U,F0P,NMAIL,IERY,IERZ,.FALSE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
@@ -113,7 +115,8 @@ C-----------Contraints are first order transport coeffs
 
             IORD=1
             IF(KOBJ .EQ. 6) IORD=2
-            CALL COEFFS(0,IORD,U,T,F0P,1)
+            CALL COEFFS(0,IORD,U,T,1,
+     >                               F0P)
             IF(K .LE. 6 .AND. L .LE. 6 ) THEN
               VAL= U(K,L)
             ELSEIF( K .EQ. 7 ) THEN
@@ -129,12 +132,14 @@ C-----------Contraints are second order transport coeffs
 
            IORD=2
            IF    (ICONT2 .EQ. 0) THEN
-             CALL COEFFS(0,IORD,U,T,F0P,1)
+             CALL COEFFS(0,IORD,U,T,1,
+     >                                F0P)
              L1=L/10
              L2=L-10*L1
              VAL= T(K,L1,L2)
            ELSEIF(ICONT2 .EQ. 1) THEN
-             CALL COEFFS(0,IORD,U,T,F0P,1)
+             CALL COEFFS(0,IORD,U,T,1,
+     >                                F0P)
              CALL MAT2P(RPD,DP)
              CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
      >                                             YNUP,ZNUP,CMUY,CMUZ) 

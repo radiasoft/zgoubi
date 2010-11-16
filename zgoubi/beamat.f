@@ -17,17 +17,18 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE BEAMAT(R,
-     >                    F0)
+     >                    F0,PHY,PHZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),F0(6,*)
       COMMON/BEAM/ FI(6,6)
+      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
       DIMENSION FIIN(6,6)
 
@@ -55,14 +56,23 @@ C  France
      >  R(3,4)*FI(4,6) +R(3,5)*FI(5,6) +R(3,6)*FI(6,6) 
       F0(4,6) = R(4,1)*FI(1,6) +R(4,2)*FI(2,6) +R(4,3)*FI(3,6) + 
      >  R(4,4)*FI(4,6) +R(4,5)*FI(5,6) +R(4,6)*FI(6,6) 
+
+C Betatron phase advance
+c        PHY = atan2(R(1,2) , ( R(1,1)*F0(1,1) - R(1,2)*F0(1,2)))
+c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
+      PHY = atan2(R(1,2) , ( R(1,1)*FI(1,1) - R(1,2)*FI(1,2)))
+       IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
+      PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
+       IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+
+      call SCUMR(
+     >            XL,SCUM,TCUM)
+      write(88,*) '# beamat alp,bet,ph_y/2pi, alp,bet,ph_z/2pip, s : '
+      write(88,*) f0(1,2),f0(1,1),phy/(2.d0*pi), 
+     >            f0(3,4),f0(3,3),phz/(2.d0*pi), scum
       RETURN
 
       ENTRY BEAMA1(FIIN)
-C      DO 2 J=0,4,2
-C        DO 2 I=1+J,2+J
-C          FI(I,J+1) = FIIN(I,J+1)
-C          FI(I,J+2) = FIIN(I,J+2)
-C 2    CONTINUE
       DO 2 J=1,6
         DO 2 I=1,6 
           FI(I,J) = FIIN(I,J)

@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
@@ -128,8 +128,9 @@ C Called by POLMES
 
 C Map data file starts with 4-line header
 C        DO 21 II=1, 4
-        DO 21 II=1, 3
- 21       READ(LUN) TITL
+        DO II=1, 3
+          READ(LUN) TITL
+        ENDDO
         READ(LUN) IXM,JYM,ACENT,RM,KRT,MD
   
         READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
@@ -138,8 +139,9 @@ C        DO 21 II=1, 4
       ELSE
 C Map data file starts with 4-line header
 C        DO 22 II=1, 4
-        DO 22 II=1, 3
- 22       READ(LUN,FMT='(A)') TITL
+        DO II=1, 3
+          READ(LUN,FMT='(A)') TITL
+        ENDDO
         READ(LUN,*) IXM,JYM,ACENT,RM,KRT,MD
 
         IF(NRES.GT.0) THEN
@@ -158,8 +160,8 @@ C        DO 22 II=1, 4
         READ(LUN,*,END=229,ERR=98) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
      >             ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
- 229    continue 
-        goto 97
+ 229    CONTINUE 
+        GOTO 97
 
       ENDIF
       RETURN
@@ -170,9 +172,11 @@ C Read and interprete field maps in polar frame (MOD >= 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
-
       CALL KSMAP(
      >           IMAP) 
+
+      IF(NRES.GT.0) WRITE(NRES,*)'IMAP : ',IMAP
+C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
       MOD = MODI
       MOD2 = MODI2
         NHD = NHDI
@@ -242,6 +246,7 @@ C----------- Read the bare map data
 
            DO 33 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
+C             WRITE(*,*)'fmapw R0, radius : ',R0,radius
              DO 33  K = 1,KKZMA      
                KZC = KKZMA-1+K
                Z = DBLE(K-1) * DZ
@@ -258,7 +263,7 @@ C----------- Read the bare map data
                  ELSE
                    READ(LUN,*,END=97,ERR=98) DUM1,DUM2,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
-C                   write(33) DUM1,DUM2,DUM3,BREAD(1),BREAD(2),BREAD(3)
+C                   write(33,*) DUM1,DUM2,DUM3,BREAD(1),BREAD(2),BREAD(3)
                  ENDIF
 
                  BMAX0 = BMAX
@@ -293,7 +298,9 @@ C---------------- Polar components at positon (r,tta) in cyl. frame
 C------- symmetrise 3D map wrt magnet vertical symm plane
         DO 34  K=1,KKZMA    
           KZC = KKZMA-1+K
+          if(kzc.gt.iz) call endjob(' FMAPW, K should be <',IZ+1)
           DO 34 I=1,IRMA      
+            if(i.gt.mxy) call endjob(' FMAPW, I should be <',mxy+1)
             DO 34 J=1,JTMA-1    
               IF    (MOD.EQ.20) THEN
                 JTC = J
@@ -302,10 +309,11 @@ C------- symmetrise 3D map wrt magnet vertical symm plane
                 JTC = JTMA+J
                 JTS = JTMA-J
               ENDIF
-C              HC(1,JTS,I,KZC,IMAP) = HC(1,JTC,I,KZC,IMAP)
+              if(jts.gt.mxx) call endjob(' FMAPW, J should be <',mxx+1)
+              if(jtc.gt.mxx) call endjob(' FMAPW, J should be <',mxx+1)
               HC(1,JTS,I,KZC,IMAP) = -HC(1,JTC,I,KZC,IMAP)
-              HC(2,JTS,I,KZC,IMAP) = HC(2,JTC,I,KZC,IMAP) 
-              HC(3,JTS,I,KZC,IMAP) = HC(3,JTC,I,KZC,IMAP) 
+              HC(2,JTS,I,KZC,IMAP) =  HC(2,JTC,I,KZC,IMAP) 
+              HC(3,JTS,I,KZC,IMAP) =  HC(3,JTC,I,KZC,IMAP) 
  34     CONTINUE
 
 C------- symmetrise 3D map wrt mid-plane= bend-plane
@@ -317,35 +325,38 @@ C------- symmetrise 3D map wrt mid-plane= bend-plane
               HC(1,J,I,KZS,IMAP) = -HC(1,J,I,KZC,IMAP)
               HC(2,J,I,KZS,IMAP) = -HC(2,J,I,KZC,IMAP) 
               HC(3,J,I,KZS,IMAP) = HC(3,J,I,KZC,IMAP) 
+C              WRITE(*,*)'fmapw j,i,kzs,kzc : ',j,i,kzs,kzc 
  35     CONTINUE
 
 C------- Mesh coordinates
-          DO 37 J=1,JYMA
- 37          YH(J) =  R0 + DBLE(J-1) *DR 
-          DO 38 K= -KZMA/2,KZMA/2   
- 38         ZH(K+KZMA/2+1) = DBLE(K) * DZ
-          DO 36 I=-IXMA/2,IXMA/2
- 36         XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+        DO J=1,JYMA
+          YH(J) =  R0 + DBLE(J-1) *DR 
+        ENDDO
+        DO K= -KZMA/2,KZMA/2   
+          ZH(K+KZMA/2+1) = DBLE(K) * DZ
+        ENDDO
+        DO I=-IXMA/2,IXMA/2
+          XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+        ENDDO
+
 
       ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 24) THEN
-
 
            IRMA = JYMA
            JTMA = IXMA
            KKZMA = KZMA/2+1
 
-           jtcnt=0
            ircnt = 0
-           kzcnt=0       
-
            DO 133 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
              ircnt = ircnt+1
+             kzcnt=0       
              DO 133  K = 1,KKZMA      
                KZC = KKZMA-1+K
                Z = DBLE(K-1) * DZ
                kzcnt = kzcnt+1
-               DO 133 J=1,JTMA        
+              jtcnt=0
+              DO 133 J=1,JTMA        
                    JTC = J
                  TTA =  DBLE(J-1) * DTTA
                  jtcnt = jtcnt + 1
@@ -356,8 +367,6 @@ C------- Mesh coordinates
                    READ(LUN,*,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
                  ENDIF
-C                 write(33,*) DUM1,zzz,DUM3,BREAD(1),BREAD(2),BREAD(3)
-
                  BMAX0 = BMAX
                  BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
                  IF(BMAX.NE.BMAX0) THEN
@@ -376,9 +385,6 @@ C                 write(33,*) DUM1,zzz,DUM3,BREAD(1),BREAD(2),BREAD(3)
 C---------------- Horizontal component of field                 
                  BH = SQRT(BREAD(1)*BREAD(1) + BREAD(3)*BREAD(3))
                  ALP = ATAN2(BREAD(3),BREAD(1)) - TTA
-c                    write(88,*) sqrt(dum1*dum1 + dum3*dum3 ), BREAD(2), 
-c     >                 tta*180/(4.*atan(1.)), alp*180/(4.*atan(1.)), 
-c     >                         ' fmapr'
 C---------------- Polar components at positon (r,tta) in cyl. frame
                  BRAD = BH * COS(ALP)
                  BTTA = BH * SIN(ALP)
@@ -386,12 +392,11 @@ C---------------- Watch the sign !! Bx and By multiplied by (-1)
                  HC(1,JTC,I,KZC,IMAP) =   -  BTTA * BNORM
                  HC(2,JTC,I,KZC,IMAP) =   -  BRAD * BNORM
                  HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
-
 C---------------- In case that non-zero Bx, By in median plane would be prohibitive
                  IF(ZZZ.EQ.0.D0) THEN
                     HC(1,JTC,I,KZC,IMAP) = 0.D0
                     HC(2,JTC,I,KZC,IMAP) = 0.D0
-                 ENDIF   
+                ENDIF   
 
 C----------------  TEST RACCAM
 C     >          HC(1,JTC,I,KZC,IMAP) = HC(1,JTC,I,KZC,IMAP)  *(RADIUS/348.)**(-.2)
@@ -442,7 +447,8 @@ Check current number of field map, IMAP in HC(*,*,*,*,IMAP)
       KZ = KZI
       BMIN =  1.D10
       BMAX = -1.D10
-
+      ZBMA = 0.D0
+      ZBMI = 0.D0
 C Map data file starts with NHD-line header
       IF(NRES.GT.0) 
      >  WRITE(NRES,FMT='(A,I1,A)') ' HEADER  (',NHD,' lines) : '
@@ -629,7 +635,12 @@ C------- Mesh coordinates
            DO J=2,JYMA
              YH(J) =  YH(J-1) + DY
            ENDDO
-           DZ = (ZH(2) - ZH(1))*Znorm
+           IF(IZ.EQ.1) THEN 
+             IZ1 = 1
+           ELSE
+             IZ1 = 2
+           ENDIF
+           DZ = (ZH(IZ1) - ZH(1))*Znorm
            ZH(1) = ZH(1)*Znorm
            DO K= 2, KZMA
              ZH(K) = ZH(K-1) + DZ
@@ -640,7 +651,7 @@ C------- Mesh coordinates
 
       ELSEIF(MOD.EQ.0 .OR. MOD.EQ.1) THEN
 C------- EMMAC, GSI spectro for instance. 
-C------- MAP2D
+C------- MAP2D (2D map)
 C        Keyword EMMA with two 2D maps 
 C        MOD=0 : # of files is NF=1+|IZ/2|, from z=0 to z_max, symmetrizing wrt median plane
 C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
@@ -686,8 +697,9 @@ C-------------------- Default MOD, also case MOD=0
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF
-c                   write(89,fmt='(1p,6e12.4,3i4)') YH(J),ZH(I),XH(K), 
-c     >                BREAD(2),BREAD(3),BREAD(1),j,i,k
+c                   write(89,fmt='(1p,6e12.4,6i8)') YH(J),ZH(I),XH(K), 
+c     >                BREAD(2),BREAD(3),BREAD(1),j,i,k,kz,jyma,ixma
+c        write(89,*) j,i,k,jyma,KZ,ixma,imap,' J,I,k,jyma,KZ,ixma,imap'
 
 CC----  Manip VAMOS ganil, oct 2001 
 C                     YH(J) = YH(J) * 1.D2
@@ -720,18 +732,11 @@ C FM 11/03
                  ZH(I) = ZH(I) * ZNORM
                  XH(K) = XH(K) * XNORM
                     
-c                write(89,fmt='(1p,10e12.4,3(1x,i3))') YH(J),ZH(I),XH(K), 
-c     >   HC(1,K,J,I,IMAP), HC(1,K,J,I,IMAP), HC(1,K,J,I,IMAP),xnorm,ynorm,znorm,bnorm,
-c     >       j,i,k
-
                  IF(I1 .GT. 1) THEN
 C------------------- Symmetrize 3D map wrt XY plane (IZ>1)
                    IF( I .GT. I1 ) THEN
                      ZH(2*I1-I) = -ZH(I)
                      FAC = -1.D0
-C                     DO 188 LHC=1,ID
-C                       IF(LHC .EQ. 3) FAC=1.D0
-C 188                   HC(LHC,K,J,2*I1-I,IMAP) =  FAC * BREAD(LHC)* BNORM
                      HC(1,K,J,2*I1-I,IMAP) =   -BREAD(1)* BNORM
                      II=2
                      HC(II,K,J,2*I1-I,IMAP) =   -BREAD(2)* BNORM
@@ -740,6 +745,71 @@ C 188                   HC(LHC,K,J,2*I1-I,IMAP) =  FAC * BREAD(LHC)* BNORM
                    ENDIF
                  ENDIF
  10          CONTINUE
+             CLOSE(UNIT=LUN)
+C 12        CONTINUE
+ 
+             BMIN = BMIN * BNORM
+             BMAX = BMAX * BNORM
+                   XBMA = XBMA * XNORM
+                   YBMA = YBMA * YNORM
+                   ZBMA = ZBMA * ZNORM
+                   XBMI = XBMI * XNORM
+                   YBMI = YBMI * YNORM
+                   ZBMI = ZBMI * ZNORM
+
+      ELSEIF(MOD.EQ.3) THEN
+C------- AGS magnet maps (2D map, half-magnet, 2b symmetrized wrt YZ plane at 45inches)
+
+           K = 1
+           
+           READ(LUN,*) JYMA
+           READ(LUN,*) (YH(J),J=1,JYMA)
+           DO J=1,JYMA
+             YH(J) = YH(J) * YNORM
+           ENDDO
+
+           READ(LUN,*) IXMA2
+           IXMA = 2*IXMA2 - 1
+           READ(LUN,*) (XH(I),I=1,IXMA2)
+           DO I=1,IXMA2
+             XH(I) = XH(I) * XNORM
+           ENDDO
+           DX = XH(2) - XH(1)
+           DO I=IXMA2+1,IXMA
+             XH(I) = DBLE(I)*DX
+           ENDDO
+
+           DO I=1,IXMA
+                write(*,*) ' fmapw i, xh(i) : ',i, xh(i)  
+           ENDDO
+
+           READ(LUN,*) NTOT  
+
+           DO I = 1, IXMA2
+             READ(LUN,FMT='(A132)') TXT132
+C             IF(NRES.GT.0) WRITE(NRES,*) 'Read from field map : ',TXT132
+             READ(LUN,*) (HC(1,I,J,1,IMAP), J=1,JYMA)
+             DO J = 1, JYMA
+               BREAD(3) = HC(1,I,J,1,IMAP)
+               BMAX0 = BMAX
+               BMAX = DMAX1(BMAX,BREAD(3))
+               IF(BMAX.NE.BMAX0) THEN
+                 XBMA = XH(I)
+                 YBMA = YH(J)
+               ENDIF
+               BMIN0 = BMIN
+               BMIN = DMIN1(BMIN,BREAD(3))
+               IF(BMIN.NE.BMIN0) THEN
+                 XBMI = XH(I)
+                 YBMI = YH(J)
+               ENDIF
+               TEMP =  BREAD(3) * BNORM
+               HC(1,       I,J,K,IMAP) = TEMP
+C-------------- Set the other X-half of magnet
+               HC(1,IXMA+1-I,J,K,IMAP) = TEMP
+             ENDDO
+           ENDDO
+
              CLOSE(UNIT=LUN)
 C 12        CONTINUE
  

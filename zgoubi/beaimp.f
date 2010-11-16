@@ -17,15 +17,16 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
-      SUBROUTINE BEAIMP(F0) 
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
+      SUBROUTINE BEAIMP(F0,PHY,PHZ) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/BEAM/ FI(6,6)
+      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       DIMENSION F0(6,*)
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -37,5 +38,8 @@ C  France
  104  FORMAT(6X,1P,6G16.6)
       WRITE(NRES,103) 'FINAL' 
       WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
+      WRITE(NRES,FMT='(/,18X,''Betatron phase advances (fractional),  ''
+     >,''phi_y/2pi,'',''  phi_z/2pi :''
+     >,//,18X,1P,2(5X,E14.6))') PHY/(2.D0*PI), PHZ/(2.D0*PI)
       RETURN
       END

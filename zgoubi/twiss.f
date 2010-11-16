@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE TWISS(READAT,*) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
@@ -72,9 +72,8 @@ C          1 other run to get matrices with +/-dZ amplitude
         LUN=ABS(NRES) 
         IF(LUN.GT.0) 
      >     WRITE(LUN,100) IPASS, NRBLT+1
- 100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,
-     >     'End of pass # ',I1,'/',I1,
-     >     ' through the optical structure',/)
+ 100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,'End '
+     >     ,'of pass # ',I1,'/',I1,' through the optical structure',/)
  
         IF(IPASS .EQ. 1) THEN
 C--------- 2nd pass through structure will follow

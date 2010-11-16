@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,
      >                                    XL,DSREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -94,8 +94,6 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
       SAVE YSHFT
  
-      DATA IMAP / 1 /
-
       DATA NHDF / 4 /
 
       DATA SUMAP /.FALSE./
@@ -762,7 +760,8 @@ C close does not idle lun => makes problem with FIT !!
          XI =XH(1)
          XF =XH(IXMA)
          XL = XF - XI
-
+            write(*,*) ' chc xi, xf, ixma, xl : ',xi, xf, ixma, xl
+            write(*,*) ' chc xi, xf, ixma, xl : ',xi, xf, ixma, xl
          CALL INIDRT(TITL,ND,XI,
      >                          RCS)
 
@@ -787,7 +786,8 @@ C close does not idle lun => makes problem with FIT !!
      >                               1P,G12.4,T68,'/ ',G12.4
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68
      >                                      ,'/ ',3(G10.3,1X)
-     >     , /,5X,'Normalisation coeffs on B, x, y, z   :', 4(G12.4,1X)
+     >     , /,5X,'  accounting for ormalisation coeffs on B, x, y, z'
+     >     ,'   :', 4(G12.4,1X)
      >     , /,5X,'Min/max normalised fields (kG)  :', 2(G12.4,20X)
      >     ,//,5X,'Length of element,  XL =',G12.4,' cm '
      >     , /,5X,'        from  XI = ',G12.4,' cm '

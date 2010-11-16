@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE BENDI(SCAL,
      >                      XL,DEV)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -164,11 +164,11 @@ C------- Correction for exit wedge
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) ' BEND',XL,BORO/BBM(1)*DEV,DEV*DEG
+        WRITE(NRES,100) ' BEND',XL,BORO/BBM(1)*DEV,DEV*DEG,DEV
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
-     >       //,15X, ' Length    = ',E14.6,'  cm'
-     >       ,/,15X, ' Arc length    = ',E14.6,'  cm'
-     >       ,/,15X, ' Deviation    = ',E14.6,'  deg.',/)
+     >       //,15X, ' Length    = ',E14.6,' cm'
+     >       ,/,15X, ' Arc length    = ',E14.6,' cm'
+     >       ,/,15X, ' Deviation    = ',E14.6,' deg.,  ',E14.6,' rad',/)
         WRITE(NRES,103) BBM(1),BORO/BBM(1)
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
      >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')

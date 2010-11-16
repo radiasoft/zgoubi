@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE ENDJOB(TXT,II)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*) TXT
@@ -32,8 +32,10 @@ C  France
         WRITE(   6,FMT='(/,A)') TXT
         WRITE(NRES,FMT='(/,A)') TXT
       ELSE
-        WRITE(   6,FMT='(/,A,1X,I8)') TXT,II
-        WRITE(NRES,FMT='(/,A,1X,I8)') TXT,II
+C        WRITE(   6,FMT='(/,A,1X,I8)') TXT,II
+C        WRITE(NRES,FMT='(/,A,1X,I8)') TXT,II
+        WRITE(   6,*) TXT,II
+        WRITE(NRES,*) TXT,II
       ENDIF
       WRITE(NRES,FMT='(/,''End of job !'',//,''  '')')
       STOP

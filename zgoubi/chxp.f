@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE CHXP(ND,KALC,KUASEX,
      >                               XL,DSREF,NDD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -255,7 +255,6 @@ C AIMANT keyword
      >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
         NDIM = 2
-C           write(*,*) ' sbr chxp ',A(NOEL,ND+3),A(NOEL,ND+4)
         IF(NINT(A(NOEL,ND+3)) .EQ. 2) RFR = A(NOEL,ND+4)
 
       ELSEIF(KUASEX .EQ. 22) THEN

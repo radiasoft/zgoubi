@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE SPEDRW(NT,BORNE,YNU,PMAX,SPEC,NC0,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKECH
@@ -101,7 +101,7 @@ C------- Vertical scale normalized to 1
         CALL VECTPL(Z,0.D0,4)
         CALL VECTPL(Z,SPEC(K,JNU) * FAC,2)
         call fbgtxt 
-        write(77,*) ' spedrw, Z,SPEC(K,JNU) : ',Z,SPEC(K,JNU) 
+C        write(77,*) ' spedrw, Z,SPEC(K,JNU) : ',Z,SPEC(K,JNU) 
  15   CONTINUE
 
       CALL SPEGR(NT,JNU,YNU,PMAX)

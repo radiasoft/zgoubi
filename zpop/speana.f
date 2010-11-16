@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE SPEANA(YM,BORNE,NC0,
      >                               YNU,SPEC,PMAX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -47,21 +47,23 @@ C  France
           VAL=VAL+PAS
           SR=0.D0
           SI=0.D0
-          SNPT = 0
           DO 10 NT=1,NPTS
 C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
               FF = COOR(NT,INU)  - YM(JNU)
               SR=SR + FF * COS(NT*VAL)
               SI=SI + FF * SIN(NT*VAL)
-              SNPT = SNPT + 1
  10       CONTINUE
           PP=SR*SR+SI*SI
-          IF(PP.GT. PMAX(JNU)) PMAX(JNU)=PP
-          IF(PP.LT. PMIN) PMIN=PP
-          IF(PP.EQ. PMAX(JNU)) KMAX=NC
-
+          IF(PP.GT. PMAX(JNU)) THEN
+            PMAX(JNU)=PP
+            KMAX=NC
+          ELSEIF(PP.LT. PMIN) THEN
+            PMIN=PP
+          ENDIF
           SPEC(NC,JNU)=PP
  20     CONTINUE
+
+c           write(88,*) ' speana spec(nc,jnu) -  kmax : ',kmax
 
         IF (PMAX(JNU) .GT. PMIN) THEN
            IF (KMAX .LT. NCANAL) THEN
@@ -71,8 +73,6 @@ C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
              DEC=0.5D0 
            ENDIF
            YNU(JNU)= ANUI + (DBLE(KMAX)+DEC-0.5D0) * DELNU
-C si j'enlève le write de SPEC(KMAX,JNU) ici, les nu_XYS affiché par SPEPR sont faux  !!!!
-           write(*,*)  SPEC(KMAX,JNU),YNU(JNU) , NINT(SNPT)
         ELSE
            YNU(JNU) = 0.D0
         ENDIF

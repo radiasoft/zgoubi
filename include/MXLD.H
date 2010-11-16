@@ -17,15 +17,15 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory            és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
 
 C Max lmnts in a structure, max data (in zgoubi data list) per lmnt
 C       PARAMETER (MXL=3500 , MXD=400)
-       PARAMETER (MXL=7000 , MXD=400)
+       PARAMETER (MXL=7800 , MXD=400)
 C-- For LHC
 C       PARAMETER (MXL=25000 , MXD=300)

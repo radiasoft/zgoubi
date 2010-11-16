@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                                               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
 C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
       SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE)
@@ -243,7 +243,7 @@ c            write(*,*) ' spctra  npass : ', npass
             WRITE(*,FMT='(/,A,/)') '  Busy, computing tunes...'
             CALL SPEANA(YM,BORNE,NC0,
      >                               YNU,SPEC,PMAX)
-            CALL SPEPR(NLOG,KPR,LM,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
+            CALL SPEPR(NLOG,KPR,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
             IF(OKKT5(KT)) THEN
               IF(KPR.EQ.2) CALL SPEIMP(IUN,YNU,BORNE,U,KT)
             ENDIF

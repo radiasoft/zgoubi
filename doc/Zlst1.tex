@@ -2612,7 +2612,6 @@ $\sigma_{16}=D_Y$, $\sigma_{26}=D'_Y$,  $\sigma_{36}=D_Z, \sigma_{46}=D'_Z$, all
  periodic structure and identifying the first order transfer matrix to its Twiss form. 
 
 
-
 %  \newlength{\LL}
 \settowidth{\LL}{\textbf{Beam matrix\ }}
 \footnotesize
@@ -6688,13 +6687,14 @@ runs in the structure will add up.
 \subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}
 \medskip
 
-\textsl{MATRIX}  causes the calculation of the transfer coefficients of the 
-structure, at the spot where it is introduced in the structure, or at the closest horizontal 
-focus.  In this last case the position of 
+\textsl{MATRIX}  causes the calculation of the transfer coefficients through the optical 
+structure, from the \textsl{OBJET} up to the location where \textsl{MATRIX}  is introduced in the structure, or, 
+upon option, up to the horizontal focus closest to that location.  
+In this last case the position of 
 the focus is calculated automatically in the same way as the position of the 
 waist in \textsl{IMAGE}. Depending on option \textsl{IFOC},  \textsl{MATRIX} also
-delivers the Twiss\index{TWISS} functions, tune numbers, chromaticities\index{Cromaticity|textbf} 
- and other perturbation parameters in the hypothesis of a periodic structure.  
+delivers the beam matrix and betatron phase advances or (periodic structure) Twiss\index{TWISS} matrix and tunes, 
+chromaticities\index{Cromaticity|textbf}  and other global parameters. 
 
 
 \bigskip
@@ -6718,6 +6718,44 @@ $$  Y^+    =   \left( \dfrac{Y}{T_0} \right)\, T_0
 \noindent will yield, neglecting third order terms, 
 $$          R_{11} = \left(\dfrac{Y }{ T_0} \right) = \dfrac{Y^+-Y^- }{ 2T_0} $$
 
+\smallskip 
+
+In addition, if \textsl{OBJET}, \textsl{KOBJ} = 5.01 is used (hence introducing initial optical function values, 
+$\alpha_{Y,Z}$, $\alpha_{Y,Z}$, $D_{Y,Z}$, $D'_{Y,Z}$), 
+then, using the $R_{ij}$ above,  \textsl{MATRIX} will transport  the  optical functions and phase advances 
+$\phi_Y$, $\phi_Z$, following
+\begin{equation}
+\left(
+\begin{array}{c}
+\beta \\
+\alpha \\
+\gamma \\
+\end{array}
+\right)_{at~\textsl{MATRIX}}
+=
+\left(
+\begin{array}{ccc}
+R_{11}^2      &  -2R_{11}R_{12} &  R_{12}^2 \\
+-R_{11}R_{21} &  R_{12}R_{21} &  R_{11}R_{12} \\
+R_{21}^2      &  -2R_{21}R_{22} &  R_{22}^2 \\
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+\beta \\
+\alpha \\
+\gamma \\
+\end{array}
+\right)_{at~\textsl{OBJET}}       \nonumber
+\end{equation}
+
+\begin{eqnarray}
+\Delta \phi_Y =  A\!\tan \frac{R_{12}}{(R_{11}\beta_{Y,\textsl{objet}} - R_{12}\alpha_{Y,\textsl{objet}})}, ~ ~ \Delta \phi_Z =  A\!\tan\frac{R_{34}}{(R_{33}\beta_{Z,\textsl{objet}} - R_{34}\alpha_{Z,\textsl{objet}})} , \\
+~ ~ ~   \phi_{Y, Z} \rightarrow \phi_{Y,Z} + 2 \pi ~ ~ ~ 
+\textrm{if} ~ \phi_{Y,Z} < 0, \textrm{given} ~ ~ [0,\pi] \textrm{Atan determination}   \nonumber
+\end{eqnarray}
+
+\noindent and print these out. 
 
 \item[$\bullet$] If \textsl{IORD} = 2, fifth order Taylor expansions are used for the 
 calculation of the first order transfer matrix $ [R_{ij}] $ and of 

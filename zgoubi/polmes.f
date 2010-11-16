@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory               és
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -82,6 +82,8 @@ C     > ,YCH,ZCH
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+        CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
         MOD = NINT(A(NOEL,23))
         IF    (MOD .EQ. 0) THEN
@@ -100,6 +102,8 @@ C         ... No symm
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))          
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
+        CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,IMAP)
       ENDIF
 
       IF(NRES.GT.0) THEN

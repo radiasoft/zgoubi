@@ -34,6 +34,7 @@ OBJ=\
  chamk.o\
  chanrf.o\
  charef.o\
+ checks.o\
  chmbre.o\
  chmbr.o\
  chrefe.o\
@@ -358,6 +359,7 @@ chamc.o: $(INC)/MAXTRA.H
 chamk.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
 chanrf.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+checks.o: PARIZ.H 
 chmbre.o: $(INC)/MAXTRA.H
 chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 chrefe.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
