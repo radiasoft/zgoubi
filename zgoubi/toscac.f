@@ -63,6 +63,7 @@ C-------------------------------------------------
       DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
       DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+      SAVE IIXMA, JJYMA, KKZMA
 
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
@@ -141,6 +142,8 @@ C--------- A single data file contains the all 3D volume
      >  'NDIM = ',NDIM,' ;   Value of MOD.I is ', MOD,'.',MOD2,' ;  ' 
      >  ,'Number of field data files used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP
+
+C              write(88,*) '  newfic  : ', newfic,imap
     
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
@@ -208,12 +211,15 @@ C--------- A single data file contains the all 3D volume
  12        CONTINUE
 
 C------- Store mesh coordinates
+           IIXMA = IXMA
            DO I=1,IXMA
              XXH(I,imap) =  XH(I)
            ENDDO
+           JJYMA = JYMA
            DO J=1,JYMA
              YYH(J,imap) =  YH(J)
            ENDDO
+           KKZMA = KZMA
            DO K= 2, KZMA
              ZZH(K,imap) = ZH(K)
            ENDDO
@@ -225,16 +231,20 @@ C------- Store mesh coordinates
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
-
+C        write(88,*) ' newfic  ixma, jyma, xh, yh : ',
+C     >       newfic,ixma,jyma,xh(ixma),yh(jyma)
       ELSE
 
 C------- Restore mesh coordinates
+           IXMA = IIXMA
            DO I=1,IXMA
              XH(I) = XXH(I,imap)
            ENDDO
+           JYMA = JJYMA
            DO J=1,JYMA
              YH(J) = YYH(J,imap) 
            ENDDO
+           KZMA = KKZMA
            DO K= 1, KZMA
              ZH(K) = ZZH(K,imap)
            ENDDO
@@ -246,6 +256,9 @@ C------- Restore mesh coordinates
            XBMA = XbBMA(imap)  
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
+
+C        write(88,*) ' newfic  ixma, jyma, xh, yh : ',
+C     >       newfic,ixma,jyma,xh(ixma),yh(jyma)
 
            IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
      >     ' restored mesh coordinates for field map # ',imap

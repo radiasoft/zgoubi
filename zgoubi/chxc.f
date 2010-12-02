@@ -783,22 +783,22 @@ C close does not idle lun => makes problem with FIT !!
      >      IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
   203 FORMAT(
      >      //,5X,'Min/max fields in map       : ', 
-     >                               1P,G12.4,T68,'/ ',G12.4
+     >                               1P,E14.6,T68,'/ ',E14.6
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68
      >                                      ,'/ ',3(G10.3,1X)
      >     , /,5X,'  accounting for ormalisation coeffs on B, x, y, z'
-     >     ,'   :', 4(G12.4,1X)
-     >     , /,5X,'Min/max normalised fields (kG)  :', 2(G12.4,20X)
-     >     ,//,5X,'Length of element,  XL =',G12.4,' cm '
-     >     , /,5X,'        from  XI = ',G12.4,' cm '
-     >     , /,5X,'        to    XF = ',G12.4,' cm '
-     >     ,//,5X,'Nber of steps in X =',I4,';  nber of steps in Y =',I5
-     >     , /,5X,'Step in X =',G12.4,' cm ;  step in Y =',G12.4,' cm')
+     >     ,'   :', 4(E14.6,1X)
+     >     , /,5X,'Min/max normalised fields (kG)  :', 2(E14.6,20X)
+     >     ,//,5X,'Length of element,  XL =',E14.6,' cm '
+     >     , /,T48,'from  XI = ',E14.6,' cm '
+     >     , /,T48,'to    XF = ',E14.6,' cm '
+     >     ,//,5X,'Nbre of steps in X =',I4,';  nbre of steps in Y =',I5
+     >     , /,5X,'Step in X =',E14.6,' cm ;  step in Y =',E14.6,' cm')
            IF(NDIM .EQ. 3) THEN
 C             I2=2 introduced to avoid compiler complainig when IZ=1...
              I2=2
              WRITE(NRES,FMT='(5X,
-     >       ''nber of steps in Z ='',I5,'' ; Step in Z ='',G12.4,
+     >       ''nber of steps in Z ='',I5,'' ; Step in Z ='',E14.6,
      >                                  '' cm'')') 2*KZMA-1,ZH(I2)-ZH(1)
 C     >      //,5X,'Champ MIN/MAX CARTE       : ', 
 C     >                               1P,G12.4,T64,'/ ',G12.4
@@ -871,6 +871,8 @@ C           IF(KUASEX .EQ. MPOL+1) NND = 1
 C------------ Magnetic
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
      >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+                  DSREF = XL
+
            ELSEIF(KFLD .EQ. LC) THEN
 C------------ Electric
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
@@ -977,7 +979,6 @@ C--------- UNDULATOR
         ENDIF
 
         DSREF = XL
-
 C--------------------- ENDIF KUASEX
 C-------- End 2003
 

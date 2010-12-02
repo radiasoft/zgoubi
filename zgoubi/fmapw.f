@@ -763,6 +763,8 @@ C------- AGS magnet maps (2D map, half-magnet, 2b symmetrized wrt YZ plane at 45
            K = 1
            
            READ(LUN,*) JYMA
+           IF(JYMA.GT.MXY) CALL 
+     >       ENDJOB(' SBR fmapw. In PARIZ.H need MXY .ge. ',JYMA)
            READ(LUN,*) (YH(J),J=1,JYMA)
            DO J=1,JYMA
              YH(J) = YH(J) * YNORM
@@ -770,27 +772,33 @@ C------- AGS magnet maps (2D map, half-magnet, 2b symmetrized wrt YZ plane at 45
 
            READ(LUN,*) IXMA2
            IXMA = 2*IXMA2 - 1
+           IF(IXMA.GT.MXX) CALL 
+     >       ENDJOB(' SBR fmapw. In PARIZ.H need MXX .ge. ',IXMA)
            READ(LUN,*) (XH(I),I=1,IXMA2)
            DO I=1,IXMA2
              XH(I) = XH(I) * XNORM
+C                write(*,*) ' fmapw i, xh : ', i,xh(i)
            ENDDO
            DX = XH(2) - XH(1)
            DO I=IXMA2+1,IXMA
-             XH(I) = DBLE(I)*DX
+             XH(I) = XH(IXMA2) + DBLE(I-IXMA2)*DX
+C                write(*,*) ' fmapw i, xh : ', i,xh(i)
            ENDDO
 
-           DO I=1,IXMA
-                write(*,*) ' fmapw i, xh(i) : ',i, xh(i)  
-           ENDDO
+C           DO I=1,IXMA
+C                write(*,*) ' fmapw i, xh(i) : ',i, xh(i)  
+C           ENDDO
 
            READ(LUN,*) NTOT  
 
            DO I = 1, IXMA2
              READ(LUN,FMT='(A132)') TXT132
 C             IF(NRES.GT.0) WRITE(NRES,*) 'Read from field map : ',TXT132
-             READ(LUN,*) (HC(1,I,J,1,IMAP), J=1,JYMA)
+             READ(LUN,*) (HC(ID,I,J,K,IMAP), J=1,JYMA)
+C             write(*,*) (HC(ID,I,J,K,IMAP), J=1,JYMA)
+C                 stop
              DO J = 1, JYMA
-               BREAD(3) = HC(1,I,J,1,IMAP)
+               BREAD(3) = HC(ID,I,J,K,IMAP)
                BMAX0 = BMAX
                BMAX = DMAX1(BMAX,BREAD(3))
                IF(BMAX.NE.BMAX0) THEN
@@ -804,9 +812,9 @@ C             IF(NRES.GT.0) WRITE(NRES,*) 'Read from field map : ',TXT132
                  YBMI = YH(J)
                ENDIF
                TEMP =  BREAD(3) * BNORM
-               HC(1,       I,J,K,IMAP) = TEMP
+               HC(ID,       I,J,K,IMAP) = TEMP
 C-------------- Set the other X-half of magnet
-               HC(1,IXMA+1-I,J,K,IMAP) = TEMP
+               HC(ID,IXMA+1-I,J,K,IMAP) = TEMP
              ENDDO
            ENDDO
 

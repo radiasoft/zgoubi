@@ -52,6 +52,7 @@ C------ Fields defined in polar coordinates - Champs definis en coordonnees pola
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
 
       IF ( BONUL(XL,PAS) ) RETURN
+
       CALL SCUMW(DSREF)
       CALL SCUMR(
      >            DUM,SCUM,TCUM) 

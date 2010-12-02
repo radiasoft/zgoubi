@@ -294,6 +294,8 @@ C                 at ends of cell
 C                   (hence expected constraint value in zgoubi.dat is 0)
              VAL=ABS(SF(L,K) - SI(L,K))
 C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
+           ELSEIF(ICONT2.EQ.1) THEN
+             CALL ENDJOB(' SBR ff.f : no such FIT option 10.',ICONT2)
            ENDIF
 
          ENDIF

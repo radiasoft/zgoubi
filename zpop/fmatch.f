@@ -76,11 +76,14 @@ C      DATA NV / 6 /
 C      DATA V/ .15D0, 3.87D0, -2.36D0, 2.98D0, 12.6D0, 15.D0, 4 * 0.D0 / 
 C      DATA XLAMB / 10.d-2 /
 C----- Fringe field musr bends (~ GSI quad)
-      DATA NV / 6 /
-      DATA V/ .015527D0, 3.875D0,-2.362D0,2.9782D0,
-     >          12.6044D0,15.0257D0 , 4 * 0.D0 / 
-      DATA XLAMB / 11.2d-2 /
-
+C      DATA NV / 6 /
+C      DATA V/ .015527D0, 3.875D0,-2.362D0,2.9782D0,
+C     >          12.6044D0,15.0257D0 , 4 * 0.D0 / 
+C      DATA XLAMB / 11.2d-2 /
+C----- AGS magnets
+      DATA NV / 2 /
+      DATA V/ .15d0, 2.3d0, 8*0.d0 /
+      DATA XLAMB / 15.d-2 /
 C----- LHC Quadrupole
 C      DATA NV / 6 /
 C      DATA V/-.01D0, 5.46D0, .997D0, 1.57D0,-5.67D0,18.5D0, 4 * 0.D0 / 
@@ -109,7 +112,7 @@ C      CALL HOMCLR
  104  FORMAT(//,3X,60('-'),//,15X
      X,' MENU  FOR FRINGE-FIELD  MATCHING:',/
      1,/,5X,' 1  Open data file (Default = fmatch.dat)'
-     2,/,5X,' 2  Degree  of  P(X) = Co + C1*X...+ C5*X5'
+     2,/,5X,' 2  Degree  of  P(X) = Co + C1*X...+ C5*X^5'
      X,/,5X,'                           (present = ',I1,')'
      3,/,5X,' 3  Precision   (Present = ',E10.2,')'
      4,/,5X,' 4  Lambda  (', F15.4 , ')'
@@ -165,7 +168,8 @@ CC   6       P(X) of degree 5
         READ(*,*,ERR=2) IDEG
         NV = IDEG + 1
         IF(NV.GT.6) GOTO 2
-      GOTO 21
+        write(6,*) ' Got degree = ',ideg
+      GOTO 20
 
  3    CONTINUE
       GOTO 21
@@ -173,6 +177,7 @@ CC   6       P(X) of degree 5
  4    CONTINUE
         WRITE(*,*) '  Give  Lambda (Presently : ',XLAMB,' m) :'
         READ(*,*,ERR=4) XLAMB
+        write(6,*) ' Got Lambda  = ',xlamb
       GOTO 21
 
  5    CONTINUE
@@ -180,7 +185,7 @@ CC   6       P(X) of degree 5
         READ(*,*,ERR=4) REP
         IF(EMPTY(REP)) REP='y'
         NORM = REP .EQ. 'Y' .OR. REP .EQ. 'y'
-      GOTO 21
+      GOTO 20
 
  7    CONTINUE
         IF(.NOT.OKOPN) THEN
@@ -196,6 +201,7 @@ CC   6       P(X) of degree 5
           ENDIF
         ENDIF
         IF(OKOPN) THEN
+          REWIND(NL)
           IF ( RFMTCH(NL,MXC,NORM,
      >                       NC,CX,CY,XLAMB,NV) ) THEN
 
@@ -210,6 +216,7 @@ C             parameter Lambda of the Zgoubi Fringe field
             CX(MXC) = XLAMB
 
             WRITE(*,*) '  Busy,  matching...'
+
             CALL MATCH(FRINGE,DFRING,NV,V,VMI,VMA,NC,CX,CY,.TRUE.)
             CALL FMTCGR(FRINGE,NLOG,NV,V,NC,CX,CY,CX(MXC-1),XLAMB)
 

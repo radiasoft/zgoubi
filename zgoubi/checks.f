@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois Mot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,22 +17,20 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  FranÃ§ois Mot <fmeot@bnl.gov>
+C  BNL
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE FUNK(FNCT,C,XFB,XLA,MXY,NV,X,Y)
+      SUBROUTINE CHECKS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION C(*),X(*),Y(*)
-      PARAMETER(MXV=10)
-      EXTERNAL FNCT
+      INCLUDE 'PARIZ.H'
 
-      DO I =1,MXY
-        T = ( X(I) - XFB ) / XLA
-        Y(I) = FNCT(C,NV,T)
-      ENDDO
+      IF(IZ.LT.1) CALL ENDJOB('SBR CHECKS. In PARIZ, set IZ to .ge. ',1)
+      IF(ID.LT.3) CALL ENDJOB('SBR CHECKS. In PARIZ, set ID to .ge. ',3)
+      IF(MMAP.LT.1) 
+     >      CALL ENDJOB(' SBR CHECKS. In PARIZ, set MMAP to .ge. ',1)
 
-      RETURN                                          
+      RETURN
       END

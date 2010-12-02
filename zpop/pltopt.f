@@ -218,9 +218,9 @@ C------- Select particle number
 
  141    WRITE(6,FMT='('' H axis, give your choice for   a, n, b : '', 
      >   /,''    (b=-99 if read from zpop_7.3.14.in)'', 
-     >   /,'' present values : '',1P,3G12.4,'' : '')') AX,PX,BX
+     >   /,'' present values : '',1P,3G17.9,'' : '')') AX,PX,BX
         READ(5,*,ERR=141)  AX,PX,BX
-        WRITE(6,FMT='('' a, n, b : '', 1P,3G12.4,'') : '')') 
+        WRITE(6,FMT='('' a, n, b : '', 1P,3G17.9,'') : '')') 
      >        AX,PX,BX
         IBXY = 0
         IF(BX.EQ.-99.D0) IBXY = 1
@@ -228,9 +228,9 @@ C------- Select particle number
 
  142    WRITE(6,FMT='('' V axis, give your choice for   c, m, d : '', 
      >   /,''    (b=-99 if read from zpop_7.3.14.in)'', 
-     >   /,'' present values : '',1P,3G12.4,'' : '')') AY,PY,BY
+     >   /,'' present values : '',1P,3G17.9,'' : '')') AY,PY,BY
         READ(5,*,ERR=142)  AY,PY,BY
-        WRITE(6,FMT='('' c, m, d : '', 1P,3G12.4,'') : '')') 
+        WRITE(6,FMT='('' c, m, d : '', 1P,3G17.9,'') : '')') 
      >        AY,PY,BY
         IBXY = 0
         IF(BY.EQ.-99.D0) IBXY = 2

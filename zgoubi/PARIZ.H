@@ -87,8 +87,15 @@ C Using MAP2D
 C      PARAMETER (IZ=1 , ID=3, MMAP=2)
 C      PARAMETER (MXX=801, MXY=29)
       
+
 C AGS Magnet maps
 C Using TOSCA
+C      PARAMETER (IZ=1 , ID=3, MMAP=2)
+C      PARAMETER (MXX=498, MXY=161)
+      
+C AGS with 2 (=mmap) snake maps
+C or using magnet maps
+C Using MAP2D
       PARAMETER (IZ=1 , ID=3, MMAP=2)
-      PARAMETER (MXX=185, MXY=281)
+      PARAMETER (MXX=801, MXY=161)
       

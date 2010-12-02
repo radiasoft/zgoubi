@@ -26,7 +26,7 @@ C  -------
       FUNCTION FRINGE(C,NV,T)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION C(*)
-      IF (NV.NE.6) STOP
+C      IF (NV.NE.6) STOP
       U = -T
       EP = EXP(C(1)+(C(2)+(C(3)+(C(4)+(C(5)+C(6)*U)*U)*U)*U)*U)
       FRINGE = 1.D0 / (1.D0 + EP )

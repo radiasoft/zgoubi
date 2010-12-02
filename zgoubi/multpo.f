@@ -212,8 +212,8 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
-     >  ,/,15X,' Length  of  element  = ',G12.4,'  cm'
-     >  ,/,15X,' Bore  radius      RO = ',G12.4,'  cm')
+     >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
+     >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
         WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,G14.6,1X,A)
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
@@ -261,8 +261,6 @@ C            IF(BM(1) .NE. 0.D0) THEN
 C FM, 2006
               CALL INTEG1(ZERO,FINTE,GAP)
               CALL INTEG2(ZERO,FINTS,GAP)
-C              CALL INTEG1(ZERO,ZERO)
-C              CALL INTEG2(ZERO,ZERO)
 C            ENDIF
 C          ENDIF
         ENDIF
@@ -291,7 +289,6 @@ C              IF(BM(1) .NE. 0.D0) THEN
 C----------- Set entrance wedge correction in  SBR INTEGR
 C FM, 2006
                 CALL INTEG1(ZERO,FINTE,GAP)
-C                CALL INTEG1(ZERO,ZERO)
 C              ENDIF
 C            ENDIF
           ENDIF
@@ -363,7 +360,6 @@ C------------- Set exit wedge correction in SBR INTEGR
 C              IF(BM(1) .NE. 0.D0) THEN
 C FM, 2006
                 CALL INTEG2(ZERO,FINTS,GAP)
-C                CALL INTEG2(ZERO,ZERO)
 C              ENDIF
 C            ENDIF
           ENDIF
@@ -410,17 +406,27 @@ C---------- end of test DLE or DLS=0
 C----- Some more actions about Magnetic Dipole components :
       IF( KUASEX .EQ. MPOL+1 .AND. KFL .EQ. MG ) THEN
 C----- MULTIPOL
-        IF(XE*XLS .EQ. 0.D0) THEN
-C------- Entrance and/or exit sharp edge field model
+        IF(XE .EQ. 0.D0) THEN
+C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
-          IF(BM(1) .NE. 0.D0) THEN
-C---------- Multipole and non-zero dipole component
+C          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
      >      ''entails vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT values entr/exit : '',1P,2G12.4)') 
-     >         FINTE, FINTS
-          ENDIF
+     >      ''first order kick, FINT value at entrance : '',1P,2G12.4)') 
+     >      FINTE
+C          ENDIF
+        ENDIF
+        IF(XLS .EQ. 0.D0) THEN
+C------- Exit sharp edge field model
+C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
+C          IF(BM(1) .NE. 0.D0) THEN
+            IF(NRES.GT.0) 
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
+     >      ''entails vertical wedge focusing approximated with '',
+     >      ''first order kick, FINT value at exit : '',1P,2G12.4)') 
+     >      FINTS
+C          ENDIF
         ENDIF
       ENDIF
 

@@ -76,7 +76,8 @@ C          cumulated path length
           FPU(6,IPU) = FPUL(6,IPU)
 C          cumulated time
           FPU(7,IPU) = FPUL(7,IPU)
-          FPU(8,IPU) = FPU(7,IPU) + NT
+C          cumulate turn #
+          FPU(8,IPU) = FPU(8,IPU) + NT
 
 C------- Record pick-up position (cm)
       IF(IPASS .EQ. 1) FPU(9,IPU) = F(6,1)

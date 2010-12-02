@@ -110,6 +110,10 @@ C      ENDIF
         SUM = SUM + CY(I) * DX
  4    CONTINUE
       SUM = SUM - ( CY(1)+CY(NC) ) * DX/2.D0
+
+C Hyp. : Y extends from A to B ; field boundary is at X. 
+C sum_A^X(fdx) = sum\X^B(dx) - sum\X^B(fdx) =>  
+C  C sum_A^B(fdx) = B-X => X = B - sum    
       XFB = CX(NC) - SUM
 
       RETURN

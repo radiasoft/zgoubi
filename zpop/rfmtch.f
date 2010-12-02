@@ -67,14 +67,15 @@ COSY        READ(NL,*,ERR=97,END=98) DUM,DUM,CX(NC),DUM, CY(NC)
         RFMTCH = .TRUE.
         YMA = -1.D10
         YMI =  1.D10
-        DO 2 I=1, NC
+        DO I=1, NC
           IF(CY(I) .GT. YMA) YMA = CY(I) 
           IF(CY(I) .LT. YMI) YMI = CY(I) 
- 2      CONTINUE
+          ENDDO
         IF(ABS(YMI) .GT. YMA) YMA = -YMI
         IF(NORM) THEN
-          DO 3 I=1, NC
- 3          CY(I) = CY(I)/YMA
+          DO I=1, NC
+            CY(I) = CY(I)/YMA
+          ENDDO
         ENDIF
       ELSE
 

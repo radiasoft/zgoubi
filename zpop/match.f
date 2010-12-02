@@ -38,13 +38,12 @@ C  -------
 C------- INITIALISATION DE L'ALGORYTHME
         CALL FUNK(FNCT,V,CX(MXC-1),CX(MXC),NC,NV,CX,FCT)
         CALL GRAD(FNCT,DFNCT,V,CX,CY,NC,NV,FCT,RO)
-        DO 11 I=1,NV
+        DO I=1,NV
           RNU(I)=-RO(I)
- 11     CONTINUE
+        ENDDO
 
 C------- ALGORYTHME DE FLETCHER-REEVES
         DO 50 K=1,NV
-
           RLAMDA=AMINI(FNCT,CX,CY,V,VMI,VMA,NC,NV,RNU)      
 
           DO 52 I=1,NV
