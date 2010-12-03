@@ -117,7 +117,7 @@ C------- Print after defined labels. Switched on by FAISTORE.
 C------- Print after defined labels. Switched on by SPNSTORE.
         PRLBSP = .FALSE.
       ENDIF
-
+        
 C----- Get FIT status
       CALL FITSTA(I5,
      >               FITING)
