@@ -261,7 +261,7 @@ C              ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
-        ENDIF        
+        ENDIF        !NL = NFAI, NPLT
 
 C------- dp/p
         J = 1
@@ -384,13 +384,14 @@ C-------------------------
 
         CONTINUE
 
-      ENDIF ! NL = NPLT
+      ENDIF ! NL = NSPN, NFAI, NPLT
 
 C      Location about where particle was lost
       YZXB(38) = SORT * 1.D-2
       YZXB(39) = IPASS 
       YZXB(57) = NOEL
       YZXB(58) = IT
+      YZXB(59) = ENERG / AMQ1 *AMQ3   ! G.gamma
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

@@ -1182,4 +1182,7 @@ C----- REVERSE.
 C----- SYSTEM. 
  106  CONTINUE
       GOTO 998
+C----- SPINR.  Spin rotator. 
+ 107  CONTINUE
+      GOTO 998
       END

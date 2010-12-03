@@ -1071,13 +1071,18 @@ C----- SYSTEM. System call
         CALL SYSTEM(SYSCMD)
       ENDDO 
       GOTO 998
+C----- SPINR. Spin rotator 
+ 107  CONTINUE
+      IF(READAT) CALL RSPINR
+      IF(FITGET) CALL FITGT1
+      CALL SPINR
+      GOTO 998
 
 C------------------------------------------------------------------------
       ENTRY ZGLMNT(
      >             TXTELO)
       TXTELO = TXTELT
       RETURN
-
       ENTRY ZGNOEL(
      >             NOELO)
       NOELO = NOEL

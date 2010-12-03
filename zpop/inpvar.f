@@ -81,6 +81,7 @@ C  -------
      >, /,8X,'39 :  IPASS      = Pass (or Turn) #  '    
      >, /,8X,'57 :  NOEL       = Element #  '
      >, /,8X,'58 :  Particle #  '
+     >, /,8X,'59 :  G.gamma  '
      >,/)
 
       KX0 = KX
@@ -91,8 +92,8 @@ C  -------
 
       IF(KX .NE. KY) THEN
 
-C------- Histogram
         IF(KX.EQ. 28) THEN
+C------- Histogram
 C--------- COUNTS
           KX=KY
           KY=28

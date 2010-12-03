@@ -261,6 +261,7 @@ OBJ=\
  rsepar.o\
  rsimb.o\
  rsolen.o\
+ rspinr.o\
  rspn.o\
  rspnst.o\
  rsrlos.o\
@@ -283,6 +284,8 @@ OBJ=\
  solenf.o\
  soleno.o\
  solv.o\
+ spinr.o\
+ spinro.o\
  splint.o\
  spn.o\
  spnprn.o\
@@ -503,6 +506,7 @@ rrebel.o: $(INC)/MXLD.H
 rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H
 rsepar.o: $(INC)/MXLD.H
 rsimb.o: $(INC)/MXLD.H
+rspinr.o: $(INC)/MXLD.H
 rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rspnst.o: $(INC)/MXLD.H
 rsrlos.o: $(INC)/MXLD.H
@@ -520,6 +524,7 @@ serv34.o: PARIZ.H
 serv4.o: PARIZ.H
 serv5.o: PARIZ.H
 soleno.o: $(INC)/MXLD.H
+spinr.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMSPN.H
 spnprt.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
