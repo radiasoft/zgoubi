@@ -760,8 +760,6 @@ C close does not idle lun => makes problem with FIT !!
          XI =XH(1)
          XF =XH(IXMA)
          XL = XF - XI
-            write(*,*) ' chc xi, xf, ixma, xl : ',xi, xf, ixma, xl
-            write(*,*) ' chc xi, xf, ixma, xl : ',xi, xf, ixma, xl
          CALL INIDRT(TITL,ND,XI,
      >                          RCS)
 

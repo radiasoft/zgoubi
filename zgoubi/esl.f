@@ -44,6 +44,7 @@ C     ------------------
       COMMON/GASC/ AI, DEN, KGA
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       COMMON/UNITS/ UNIT(MXJ)
   
@@ -120,16 +121,20 @@ C-------- COMPTAGE / LIMITES CHAMBRE
       ENDIF
  
       IF(IOPT .EQ. 1)THEN
-       IF(NRES.GT.0) 
-     > WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
-  101  FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,G19.7,G17.5)
+       IF(NRES.GT.0) THEN
+         WRITE(NRES,101) IEX(1),-1.D0+F(1,1),(F(J,1),J=2,7)
+ 101     FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',
+     >   I3,1P,5E14.6,1X,E15.7,1X,E13.5)
+         IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
+ 102     FORMAT('TRAJ #1 Spin components :',1X,I2,2X,1P,4(E14.6,1X))
+        ENDIF
       ENDIF
 
       IF(NRES .GT. 0)
-     >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
-     >1P,G17.9,
-     >'' m ;   corresponding Time  (for ref. rigidity & particle) = '', 
-     >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
+     >  WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
+     >  1P,G17.9,
+     >  '' m ;  relating time  (for ref. rigidity & particle) = '', 
+     >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN
       END

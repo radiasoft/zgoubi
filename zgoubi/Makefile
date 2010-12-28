@@ -22,6 +22,8 @@ OBJ=\
  binari.o\
  binary.o\
  block.o\
+ bndth.o\
+ bndthi.o\
  bonul.o\
  boost.o\
  butee.o\
@@ -217,6 +219,7 @@ OBJ=\
  razdrv.o\
  rbend.o\
  rbinar.o\
+ rbndth.o\
  rcarte.o\
  rcavit.o\
  rchang.o\
@@ -253,6 +256,7 @@ OBJ=\
  robjet.o\
  robjta.o\
  rotx.o\
+ rotz.o\
  rparti.o\
  rpckup.o\
  rqsod.o\
@@ -353,6 +357,8 @@ autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bendi.o: $(INC)/MXLD.H
 binary.o: $(INC)/MXLD.H
 block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+bndth.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+bndthi.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
 bonul.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 carla.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 carshi.o: PARIZ.H $(INC)/MXLD.H
@@ -471,6 +477,7 @@ rautor.o: $(INC)/MXLD.H
 raysyn.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MAXTRA.H
 rbend.o: $(INC)/MXLD.H
 rbinar.o: $(INC)/MXLD.H
+rbndth.o: $(INC)/MXLD.H
 rcarte.o: $(INC)/MXLD.H
 rcavit.o: $(INC)/MXLD.H
 rchang.o: $(INC)/MXLD.H

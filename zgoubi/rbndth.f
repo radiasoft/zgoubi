@@ -23,41 +23,36 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE DRTENT
+      SUBROUTINE RBNDTH(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C-----------------------------
-C     Droite de coupure entree
-C-----------------------------
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-      COMMON/MARK/ KART,KALC,KERK,KUASEX
-      COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+C     ****************************
+C     READS DATA FOR BEND
+C     ****************************
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-
-      CT=COS(T)
-      ST=SIN(T)
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
-        DEN = AM(1)*CT+BM(1)*ST
+      READ(NDAT,*) IA
+      A(NOEL,1) = IA
+C     ... XL, skew angle, BO
+      READ(NDAT,*) (A(NOEL,I),I=10,12)
+C     ... XE, LE, WE
+      READ(NDAT,*) (A(NOEL,I),I=20,22)
+C      READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
+C      A(NOEL,30) = IA
+      READ(NDAT,*) A(NOEL,30),(A(NOEL,I),I=31,36)
+C     ... XS, LS, WS
+      READ(NDAT,*) (A(NOEL,I),I=40,42)
+C      READ(NDAT,*) IA,(A(NOEL,I),I=51,56)
+C      A(NOEL,50) = IA
+      READ(NDAT,*) A(NOEL,50),(A(NOEL,I),I=51,56)
+ 
+      ND = 60
+      CALL STPSIZ(NDAT,NOEL,ND,
+     >                         A)
 
-        IF    (KART .EQ. 1) THEN
-C         ... CARTESIEN
-          XN = (-CM(1)*CT+X*BM(1)*ST-Y*BM(1)*CT)/DEN
-          Y  = (-CM(1)*ST-X*AM(1)*ST+Y*AM(1)*CT)/DEN
-          DL = (XN-X)/CT
-          SAR = SAR + DL/COS(P)
-          Z = Z + DL*TAN(P)
-          X = XN
-c          WRITE(NRES,*) ' SBR DRTENT, DR. ENTREE , X,Y=',X,Y
-        ELSEIF(KART .EQ. 2) THEN
-C         ... POLAIRE
-C ****************  NEVER BEEN USED! CHECK FORMULAE FIRST !!! *************8
-          XN = (-CM(1)*ST+Y*AM(1)*CT)/DEN
-          YN = (-CM(1)*CT-Y*BM(1)*CT)/DEN
-          SAR = SAR + XN/CT*COS(P)
-          Z = Z + XN/CT*TAN(P)
-          X = ATAN(XN/YN)
-          Y = YN/COS(X)
-          T = T+X
-        ENDIF
+      READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
+      A(NOEL,ND+10) = IA
  
       RETURN
       END

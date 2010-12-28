@@ -100,6 +100,7 @@ C This INCLUDE must stay located right before the first statement
 C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
       DATA REBFLG, NOELRB / .FALSE., MXL / 
+      DATA DUM / 0.D0 /
 
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
@@ -500,7 +501,11 @@ C----- SEPARATEUR ELECTROSTATIQUE ANALYTIQUE
  35   CONTINUE
       IF(READAT) CALL RSEPAR
       IF(FITGET) CALL FITGT1
-      CALL SEPARA(*999)
+C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
+      SCAL = SCAL0()
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 DUM)
+      CALL SEPARA(SCAL,*999)
       GOTO 998
 C----- RAZ LES COMPTEURS ( PEUT S'INTERCALER ENTRE PB CONSECUTIFS)
  36   CONTINUE
@@ -1077,8 +1082,16 @@ C----- SPINR. Spin rotator
       IF(FITGET) CALL FITGT1
       CALL SPINR
       GOTO 998
+C----- BENDTH. Pure dipole field, analytical push. 
+ 108  CONTINUE
+      IF(READAT) CALL RBNDTH(
+     >                       ND(NOEL))
+      IF(FITGET) CALL FITGT1
+      CALL BNDTHI(ND(NOEL))
+      GOTO 998
 
-C------------------------------------------------------------------------
+C-------------------------
+C-------------------------
       ENTRY ZGLMNT(
      >             TXTELO)
       TXTELO = TXTELT

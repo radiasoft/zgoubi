@@ -18,33 +18,18 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE SPINRO(ANGLE,V,X)
+      SUBROUTINE ROTZ(A,X,Y)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      dimension x(4), v(3)
-      parameter(pi=4.d0*atan(1.d0))
-      parameter(dtr=pi/180.d0)
-      V0=dsqrt(V(1)**2 + V(2)**2 + V(3)**2)
-      angle_tmp=V0*ANGLE/2.d0
-      if(angle_tmp .ge. 360.d0) then
-         angle_tmp=angle-INT(angle_tmp/360.d0)*360d0
-      endif
-      if(V0 .gt. 0.d0) then
-         X(1)=cos(dtr*angle_tmp)
-         SA=sin(dtr*angle_tmp)/V0
-         X(2)=V(1)*SA
-         X(3)=V(2)*SA
-         X(4)=V(3)*SA
-      else
-         X(1)=1.d0
-         X(2)=0.d0
-         X(3)=0.d0
-         X(4)=0.d0
-      endif
-c      write(101,*) angle, V0, angle_tmp,X(1),X(2),X(3),X(4)
-      return
-      end
+C----- Rotation sens trigo
+        C=COS(A)
+        S=SIN(A)
+        XX= X*C + Y*S
+        Y=-X*S + Y*C
+      X=XX
+      RETURN
+      END

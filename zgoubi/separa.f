@@ -42,6 +42,7 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       CHARACTER*10 TYP(2)
       DATA TYP / 'HORIZONTAL',' VERTICAL ' /
@@ -75,7 +76,7 @@ C        P0 = BORO*CL*1.D-9 *Q
      >        ,/,/,30X,' Charge  of  particles     = ',G12.5,' C'
      >          ,/,30X,' Reference  beta           = ',G12.5)
           IF(B .NE. 0.D0) WRITE(NRES,111) E/(-B*CL)
- 111      FORMAT(30X,' BETA  WANTED = -E/v.B =',1P,G12.5,//)
+ 111      FORMAT(30X,' Beta  wanted = -E/v.B =',1P,G12.5,//)
         ENDIF 
  
 C        IF(AM*Q .EQ. 0.D0) THEN
@@ -95,7 +96,7 @@ C        IF(ABS(Q/QE) .GE. 2.D0) THEN
       ELSEIF(IJ .EQ. 0.D0) THEN
  
         IF(NRES.GT.0) WRITE(NRES,109) DL
- 109    FORMAT(//,25X,' +++++++++++ SEPARATEUR OFF ++++++++++++'
+ 109    FORMAT(//,25X,' +++++++++++ SEPARATOR OFF ++++++++++++'
      >  ,//,22X,' Equivalent  to  drift  with  length ',F12.5,' m',//)
 C     >  ,//,22X,' EQUIVALENT A UN ESPACE  LIBRE  DE',F12.5,' M',//)
  
@@ -192,13 +193,25 @@ C           ** VERTICAL  SEPARATION
             F(5,I) = THET*1.D3
           ENDIF
           F(6,I) = F(6,I) + V*T*1.D2
-C          IREP(I) = I
+          F(7,I) = F(7,I) + T   *1.D+6
  
  10     CONTINUE
  
 C----- CASSURE DE Z-SYMETRIE EVENTUELLE
-      ZSYM=.FALSE.
+        ZSYM=.FALSE.
  
+        IF( KSPN .EQ. 1 ) THEN
+          IF    (IJ .EQ. 1) THEN
+            DO I=1,IMAX
+              SX = SF(1,I)
+              SY = SF(2,I)
+              CALL ROTZ(-G/G1*OME*T,SX,SY)        
+              SF(1,I) = SX
+              SF(2,I) = SY
+            ENDDO
+          ENDIF
+        ENDIF
+
       ELSEIF(IJ .EQ. 0) THEN
 C------- SEPARATEUR OFF 
         CALL ESL(0,XL,1,IMAX)

@@ -71,7 +71,7 @@ C----- SR-loss switched on by procedure SRLOSS
       ENDIF
 
       IF(BBM(6) .NE. 0.D0) THEN
-C------- BEND is tilted
+C------- BEND is skewed
         DEVH=ATAN(TAN(DEV)*COS(BBM(6)))
         DEVV=ATAN(TAN(DEV)*SIN(BBM(6)))
       ENDIF
@@ -99,12 +99,18 @@ C----------- Champ DE FUITE
       SHARPS=DLS(1) .LE. 0.D0
       IF(SHARPE) THEN 
         FINTE = XE
-        XE=0.D0
+C        XE=0.D0
+C        Introduced so to be consistent with xls below, yet actually not necessary...
+C        if (xe.lt.1d-10) xe = 5.d0*tan(abs(te))
         GAPE = -DLE(1)
       ENDIF
       IF(SHARPS) THEN
         FINTS = XLS
         XLS=0.D0
+C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
+C        be > XLIM), hence introducing some additional integration distance beyond XLIM
+C        so to encompass "Droite". 
+        if (xls.lt.1d-10) xls = 5.d0*tan(abs(ts))
         GAPS = -DLS(1)
       ENDIF
       XI = 0.D0

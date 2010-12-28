@@ -93,8 +93,11 @@ C      CHGRFS= ( KP .GE. 1 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
       CHGRFS= ( KP .GE. 2 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
  
 C----- Champ DE FUITE ENTREE OU SORTIE
-      CHPFE = ( KART .EQ. 1 .AND. XE .NE. ZERO )
-      CHPFS = ( KART .EQ. 1 .AND. XS .NE. ZERO )
+C FM Dec. 2010
+C      CHPFE = ( KART .EQ. 1 .AND. XE .NE. ZERO )
+C      CHPFS = ( KART .EQ. 1 .AND. XS .NE. ZERO )
+      CHPFE = ( KART .EQ. 1 .AND. XFE .NE. ZERO )
+      CHPFS = ( KART .EQ. 1 .AND. XFS .NE. ZERO )
  
 C----- Trajectory deviations T > Pi/2 are allowed in the field map of SPES3
 C      BACKW = ( KALC .EQ. 2 .AND. KUASEX .EQ. 3 )

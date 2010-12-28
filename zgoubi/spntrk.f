@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -75,7 +75,7 @@ CALCUL d B-parallele/ds  = d ((B.U)U)/ds
         BP(4,I)  =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
      >      DBU*U(3,I) ) +  BU(1,1)*U(4,I)
         D4BU =    BU(5,1) + 4.D0*  BU(4,2) + 6.D0* BU(3,3) +  
-     >     4.d0 * BU(2,4) + BU(1,5)
+     >     4.D0 * BU(2,4) + BU(1,5)
         BP(5,I)  =  D4BU*U(1,I) +    4.D0*D3BU*U(2,I)  + 
      >   6.D0*D2BU*U(3,I)   + 4.D0*DBU*U(4,I)  + BU(1,1)*U(5,I)
       ENDDO

@@ -44,9 +44,6 @@ C     ------------------
       IOPT = NINT(A(NOEL,1))
       ANG = A(NOEL,10)
 
-      IF(NRES.GT.0) WRITE(NRES,109) ANG
- 109  FORMAT(/,30X,'Spin rotator. Angle =',F12.5,' deg.',/)
-
       IF(IOPT .NE. 1)THEN
         IF(NRES.GT.0) THEN 
           WRITE(NRES,FMT='(35X,''+++++ OFF +++++'')') 
@@ -59,26 +56,6 @@ C     ------------------
              S1 = SF(1,i)
              S2 = SF(2,i)
              S3 = SF(3,i)
-c             if(ANG .eq. -180.9d0) then
-c               SF(1,i) = -S1
-c               SF(2,i) = S2
-c               SF(3,i) = -S3
-c             endif
-c             if(ANG .eq. -180.d0) then
-c               SF(1,i) = S1
-c               SF(2,i) = -S2
-c               SF(3,i) = -S3
-c             endif
-c             if(ANG .eq. -3.d0) then
-c               SF(1,i) = S2*sin(PI/4.d0)+S1*cos(PI/4.d0)
-c               SF(2,i) = S2*cos(PI/4.d0)-S1*sin(PI/4.d0)
-c               SF(3,i) = S3               
-c             endif
-c             if(ANG .eq. -4.d0) then
-c               SF(1,i) = -S2*sin(PI/4.d0)+S1*cos(PI/4.d0)
-c               SF(2,i) = S2*cos(PI/4.d0)+S1*sin(PI/4.d0)
-c               SF(3,i) = S3               
-c             endif
               dtr=PI/180.d0
               ANGLE=int(ANG)
               phi=(ANG-int(ANG))*100.d0
@@ -86,16 +63,6 @@ c             endif
               VEC(2)=sin(dtr*phi)
               VEC(3)=0.d0
               Call SPINRO(ANGLE,VEC,OT)
-c              write(101,*) ANGLE, phi, OT(1), OT(2), OT(3), OT(4)
-c              SF(1,i) = S1*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2)+
-c     +           S2*2.d0*(OT(2)*OT(3)+OT(1)*OT(4))+
-c     +           S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
-c               SF(2,i) = S2*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2)+
-c     +           S1*2.d0*(OT(2)*OT(3)-OT(1)*OT(4))+
-c     +           S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
-c              SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2)+
-c     +           S1*2.d0*(OT(3)*OT(4)+OT(1)*OT(2))+
-c     +           S2*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
             SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2)+
      +              S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4))+
      +              S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
@@ -105,9 +72,13 @@ c     +           S2*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
             SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2)+
      +              S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2))+
      +              S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
-c            write(102,*) ANGLE, phi, SF(1,i), SF(2,i), SF(3,i)
            endif
          enddo
+
+      IF(NRES.GT.0) WRITE(NRES,109) ANGLE, PHI
+ 109  FORMAT(/,30X,'Spin rotator. Angle = ',F12.5,' deg., ',
+     >       /,30X,'              axes at ',F12.5,' deg. ',/)
+
 
       RETURN
       END

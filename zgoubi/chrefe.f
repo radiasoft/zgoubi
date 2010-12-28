@@ -66,6 +66,7 @@ C      IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)
 
       EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
      >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
+
       IF( QSHRO(4) .EQ. 'OL') THEN
 C Old style
 

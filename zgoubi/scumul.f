@@ -61,6 +61,9 @@ C----- XL is in centimeters, TCUM is seconds
 
       ENTRY SCUMS(SETS)
       SCUM = SETS
-C      TCUM = SETT
+      RETURN
+
+      ENTRY SCUMT(SETT)
+      TCUM = SETT
       RETURN
       END

@@ -111,5 +111,10 @@ C     .... FIELD MAP FILE NAMES
 C Field map counter reset to 0
       CALL KSMAP0
 
+C-----  structure length ------------
+      CALL SCUMS(ZERO)
+      CALL SCUMT(ZERO)
+C------------------------------------------------
+
       RETURN
       END

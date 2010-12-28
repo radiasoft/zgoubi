@@ -54,15 +54,16 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         RETURN
       ENDIF
  
-      KSPN = 1
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
 
-      IF(NRES.GT.0) THEN
- 
-        IF(KSO .EQ. 0) THEN
+      IF(NRES.GT.0) THEN 
+        IF    (KSO .EQ. 0) THEN
           WRITE(NRES,107)
- 107      FORMAT(/,15X,' SPIN  TRACKING  OFF ',/)
+ 107      FORMAT(/,15X,' KSO=0 :  SPIN  TRACKING  OFF ',/)
+        ELSEIF(KSO .EQ. -1) THEN
+          WRITE(NRES,FMT=
+     >    '(/,15X,''  KSO=-1 :  SPIN  TRACKING  RESUMES '',/)')
         ELSE
           WRITE(NRES,110) AM, G
  110      FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
@@ -110,6 +111,12 @@ C          P = BORO*CL*1D-9*Q
         RETURN 1
       ENDIF
  
+      IF    (KSO.NE.0) THEN
+        KSPN = 1
+      ELSE
+        KSPN = 0
+      ENDIF
+
       GOTO(1,1,1,4,5) KSO
       RETURN
  

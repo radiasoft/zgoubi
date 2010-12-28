@@ -45,13 +45,20 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
       READ(NDAT,*) TXT20
       READ(TXT20,*) A(NOEL,1)
       TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
-      READ(TXT20(1:1),FMT='(I1)') KSO
-      READ(TXT20(3:20),*,END=10,ERR=10) KSO2
+      IF    (A(NOEL,1).GE.0) THEN
+        READ(TXT20(1:1),FMT='(I1)') KSO
+        READ(TXT20(3:20),*,END=10,ERR=10) KSO2
+      ELSE
+        READ(TXT20(1:2),FMT='(I2)') KSO
+        READ(TXT20(4:20),*,END=10,ERR=10) KSO2
+      ENDIF
 
  10   CONTINUE
 
       IF    (KSO .LE. 4) THEN
-        IF     (KSO .EQ. 1) THEN
+        IF     (KSO .EQ. -1) THEN
+        ELSEIF(KSO .EQ. 0) THEN
+        ELSEIF(KSO .EQ. 1) THEN
         ELSEIF (KSO .EQ. 4) THEN
           IF     (KSO2 .EQ. 0) THEN
             DO I=1,IMAX

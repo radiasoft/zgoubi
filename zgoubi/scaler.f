@@ -63,7 +63,6 @@ C  -------
 C----- Looks whether current kley is registered for scaling (in FAM(KF)). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
       DO 10 KF = 1, MXF
-
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
 

@@ -47,6 +47,8 @@ C     -------------------------------------------------------------
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+C FM Dec.2010, KSPN needed at PAF
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/STEP/ TPAS(3), KPAS
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
  
@@ -186,6 +188,8 @@ C                   or in case of sharp edge exit in BEND, WIENF, UNDUL, ELMIR..
 C FM 08/99      IF(IDRT .GE. 2) THEN
       IF(IDRT .GE. 1) THEN
 C------- DROITE(S) DE COUPURE EN SORTIE
+C        "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
+C        be > XLIM)
 
         IF( KART .EQ. 1) THEN
 C--------- COORDONNEES CARTESIENNES
@@ -241,6 +245,7 @@ C                                    de detecteurs)
 C     >             *99)
                 IF(LST .EQ. 2) THEN 
                   CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
+                  CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
                 ELSEIF(LST .EQ. 3) THEN 
                   CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
                 ENDIF

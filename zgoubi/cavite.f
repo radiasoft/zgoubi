@@ -622,7 +622,7 @@ C        DPR(I)=P-PS
 
         IF(OKIMP) 
      >    WRITE(LUN,FMT='(1P,6(E14.6,1X),2(I6,1X))') PH(I),PHS,P-PS,
-     >    OMRF,TI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >    OMRF,DTI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  3    CONTINUE
       GOTO 88
