@@ -399,7 +399,11 @@ C----- MULTIPOLE
       AL = XL*COEF  * CM2M 
           
       REDUC=AL/2.D0
-      WIDTH=DQ*  REDUC
+      WIDTH=DQ*  REDUC 
+
+      IF    (LABEL(NOEL,1).EQ.'HKIC') THEN         
+              width = width*.2d0
+      ENDIF
 
 C      shift of origin (due to upstream fringe field extent) : 
       XI = -A(NOEL,14)  * CM2M  
@@ -1184,5 +1188,8 @@ C----- SYSTEM.
       GOTO 998
 C----- SPINR.  Spin rotator. 
  107  CONTINUE
+      GOTO 998
+C----- BENDTH. Pure dipole field, analytical push. 
+ 108  CONTINUE
       GOTO 998
       END
