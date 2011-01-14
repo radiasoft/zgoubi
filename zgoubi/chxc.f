@@ -142,6 +142,7 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
 
       XE = 0.D0
       XS = 0.D0
+      XLIM = 0.D0
       IDRT = 0
       IFB = 0
       NND = 10
@@ -174,6 +175,8 @@ C            with median plane symmetry
         XI=0.D0
         XLIM=XL
         XF=XLIM
+C FM, Dec 2011  
+        XS = XLIM      
 
         IDZ=3
         IDB=3
@@ -240,6 +243,8 @@ C--------- VENUS
           XI=-XL / 2.D0
           XLIM=XL / 2.D0
           XF=XLIM
+C FM, Dec 2011  
+          XS = XLIM      
           IF(NRES.GT.0) THEN
             WRITE(NRES,118) 
  118        FORMAT(/, 9X,' Champ CONSTANT DANS UN RECTANGLE ',/)
@@ -751,7 +756,7 @@ C        ... ENDIF KUASEX
 
 
          CLOSE(UNIT=LUN)
-C close does not idle lun => makes problem with FIT !!   
+C close does not seem to idle lun => makes problem with FIT !!   
 
          XBMA = XBMA*XNORM
          XBMI = XBMI*XNORM
@@ -760,6 +765,7 @@ C close does not idle lun => makes problem with FIT !!
          XI =XH(1)
          XF =XH(IXMA)
          XL = XF - XI
+         DSREF = XL
          CALL INIDRT(TITL,ND,XI,
      >                          RCS)
 

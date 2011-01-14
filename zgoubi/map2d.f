@@ -96,8 +96,10 @@ C-------------------------------------------------
      >                        NEWFIC,IMAP)
 
       IF(NRES.GT.0) THEN
-          WRITE(NRES,*) ' map2d *****', NAMFIC
-          WRITE(NRES,*) ' map2d *****', NOMFIC(nfic),nfic
+C        WRITE(NRES,*) ' '
+C        WRITE(NRES,*) ' map2d ', 
+C     >       NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC)),
+C     >       '       file #',nfic
         WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)') 
      >  'Number of field data files used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP,' '

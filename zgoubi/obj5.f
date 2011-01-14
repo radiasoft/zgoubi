@@ -109,7 +109,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
 
       IF(IREF.LT.NBREF) GOTO 1
 
-C----- Alpha_yzd, beta_yzd
+C----- Alpha_y, beta_y, *_z, *_d
       FI(1,1) = A(NOEL,41)  
       IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0    
       FI(2,1) = A(NOEL,40)      

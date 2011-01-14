@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -318,7 +318,7 @@ C     ... Synchronous conditions at cavity exit
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
-C F(7,I) is time in mu_s. of course, TI is in s
+C F(7,I) is time in mu_s. Of course, TI is in s
         TI = F(7,I) * UNIT(7) 
 C        PHI = OMRF * TI + PHS
         DUM = SCALE4(F(7,I),WF1(I))
@@ -598,7 +598,7 @@ cC----- Initial conditions of  the IMAX particles
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
-C At all pass#,  F6i is the previous-turn path length (see below : F(6,I)=0.D0), 
+C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0), 
 C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
         PHAS(I) = PHAS(I) + (DTI-DTS)*OMRF

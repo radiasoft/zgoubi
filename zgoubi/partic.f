@@ -147,7 +147,7 @@ C        ENDIF
         ENDIF
 
       WRITE(NRES,*) ' '
-      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I), P/Pref, v/c, time :'
+      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time :'
       WRITE(NRES,*) ' '
       DO I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN

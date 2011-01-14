@@ -438,9 +438,10 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
  99   CONTINUE
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
       IF (KOBJ.NE.3) THEN
-         DO 993 I=1,IMAX
+         DO I=1,IMAX
             AMQ(1,I) = AAM
- 993        AMQ(2,I) = Q
+            AMQ(2,I) = Q
+         ENDDO
       ENDIF
       LUN = NRES
       IF(NRES.LE.0) LUN=6

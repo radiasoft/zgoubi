@@ -41,7 +41,7 @@ C      CHARACTER*9   HMS
       DIMENSION TX3(5,6) , TX4(5,6)
       SAVE      TX3,       TX4
 
-      DIMENSION REF(6)
+      DIMENSION REF(6), PATHL(3)
       SAVE REF
       DIMENSION RREF(6,6), RPLUS(6,6), RMINUS(6,6) 
       SAVE RREF, RPLUS, RMINUS
@@ -109,7 +109,9 @@ C            IF(NRES .GT. 0) NRES =-NRES
           CALL MATIMP(RREF)
           CALL TUNES(RREF,F0REF,1,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
- 
+          CALL REFER1(
+     >                PATHL(1)) 
+
           NUML = 1
           REF(1) = A(NUML,30)
           REF(2) = A(NUML,31)
@@ -151,6 +153,8 @@ C------- 3rd pass through structure will follow
           CALL MATIMP(RMINUS)
           CALL TUNES(RMINUS,F0M,1,IERY,IERZ,.TRUE.,
      >                                             YNUM,ZNUM,CMUY,CMUZ)
+          CALL REFER1(
+     >                PATHL(2)) 
  
 C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
           NUML = 1
@@ -185,6 +189,11 @@ C--------- reactivate WRITE for printing results
           CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
+          CALL REFER1(
+     >                PATHL(3)) 
+
+C Momentum compaction
+          ALPHA = ( (PATHL(3)-PATHL(2))/PATHL(1) ) / (2.D0 * A(NUML,25))
 
 C Momentum detuning
           NUML = 1
@@ -307,11 +316,22 @@ C Amplitude detuning, dZ effects
         DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
         DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
         
-        WRITE(NRES,FMT='(/,34X,'' Chromaticities : '',//, 
+        WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
+     >  30X,''dL/L / dp/p = '',G14.8)') ALPHA
+        WRITE(NRES,FMT='(5X,1P,''(dp = '',G12.6,5X  
+     >  ,'' L(0)   = '',G14.4,'' cm, ''
+     >  ,'' L(0)-L(-dp) = '',G14.4,'' cm, ''
+     >  ,'' L(0)-L(+dp) = '',G14.4,'' cm) '' 
+     >  )') 
+     >  A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
+        WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma : '',//, 
+     >  30X,''dL/L / dp/p = '',G14.8)') 1.d0/SQRT(ALPHA)
+
+        WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
      >  30X,''dNu_y / dp/p = '',G14.8,/, 
      >  30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
 
-        WRITE(NRES,FMT='(/,38X,'' Amplitude  detunings : '',//, 
+        WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
      >  42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
      >  30X,''dNu_y'',7X,2(G14.8,3X),/, 
      >  30X,''dNu_z'',7X,2(G14.8,3X), //, 
