@@ -30,43 +30,40 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       CHARACTER*80 TXT80
 
-C      IF(NRES.GT.0) WRITE(6,FMT='(/,A)') ' File header : '
-      IF(NRES.GT.0) WRITE(NW,FMT='(/,A)') ' File header : '
+      IF(NRES.GT.0) WRITE(NW,FMT='(10X,''File header  ('',I1,
+     >'' lines) : '')') N
+
       IF(.NOT.BINARY) THEN
         READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-C        IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
         IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
         READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-C        IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
         IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
       ELSE
         READ(NL,ERR=99,END=89) TXT80
-C        IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
         IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
         READ(NL,ERR=99,END=89) TXT80
-C        IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
         IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
       ENDIF
       IF(.NOT.BINARY) THEN
         DO 1 I=3, N
            READ(NL,FMT='(A)',ERR=99,END=89) TXT80
-C           IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
            IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
  1      CONTINUE
       ELSE
         DO 2 I=3, N
            READ(NL,ERR=99,END=89) TXT80
-C           IF(NRES.GT.0) WRITE(6 ,FMT='(A)') TXT80
            IF(NRES.GT.0) WRITE(NW,FMT='(A)') TXT80
  2      CONTINUE
       ENDIF
       RETURN
+
  89   CONTINUE
       WRITE(6 ,*) 
      >'SBR HEADER : END of file reached while reading data file header'
       IF(NRES.GT.0) WRITE(NW,*) 
      >'SBR HEADER : END of file reached while reading data file header'
       RETURN 1
+
  99   CONTINUE
       WRITE(6,*) 
      >'*** SBR HEADER : READ-error while reading data file header'

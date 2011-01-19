@@ -38,7 +38,7 @@ C     --------------------------------
 
       READ(NDAT,FMT='(A)') TXT
       CALL STRGET(TXT,1,
-     >                     IDUM,STRA) 
+     >                  IDUM,STRA) 
       TA(NOEL,1) = STRA(1)
       RETURN
       END

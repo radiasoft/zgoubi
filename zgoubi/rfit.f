@@ -37,15 +37,22 @@ C     ***************************************
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
 
       CHARACTER TXT132*132
-      LOGICAL STRCON
+      LOGICAL STRCON, CMMNT
 
       READ(NDAT,*) NV
       IF(NV.LT.1) RETURN
 
       DO I=1,NV
         READ(NDAT,FMT='(A)') TXT132
-        IF(STRCON(TXT132,'[',
-     >                       II)) THEN
+        CMMNT = STRCON(TXT132,'!',
+     >                            III) 
+        IF(CMMNT) THEN
+          III = III - 1
+        ELSE
+          III = 132
+        ENDIF
+        IF(STRCON(TXT132(1:III),'[',
+     >                              II)) THEN
 C--------- New method
           READ(TXT132(1:II-1),*) IR(I),IS(I),XCOU(I)
           IF(STRCON(TXT132,']',
@@ -54,7 +61,6 @@ C--------- New method
           ELSE
             CALL ENDJOB(' SBR RFIT, wrong input data / variables',-99)
           ENDIF
-
         ELSE
 C--------- Old method
  

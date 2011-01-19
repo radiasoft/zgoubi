@@ -43,10 +43,27 @@ C  -------
       INTEGER DEBSTR,FINSTR
 
       LOGICAL OPN, IDLUNI
-      DIMENSION AFIT(MXL,MXD), NEWVAL(MXL,MXD)
-      SAVE AFIT, NMI, NMA, NEWVAL
-      PARAMETER (NNEWVAL=MXL*MXD)
-      DATA NEWVAL / NNEWVAL*0/
+
+C      PARAMETER (NNEWV=MXL*MXD)
+      CHARACTER TXT132*132, TXT1*1
+
+      INCLUDE 'MXFS.H'
+      PARAMETER (LBLSIZ=8)
+      PARAMETER (KSIZ=10)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+
+      DIMENSION AFIT(MXL), IPRM(MXL)
+C      DIMENSION AFIT(MXL,MXD), NEWVAL(MXL,MXD)
+C      SAVE AFIT, NMI, NMA, NEWVAL
+      SAVE AFIT
+C      SAVE AFIT, NEWVAL
+      CHARACTER KLE*(KSIZ),LBL1*(LBLSIZ),LBL2*(LBLSIZ)
+      CHARACTER KLEFIT(MXL)*(KSIZ)
+      CHARACTER LB1FIT(MXL)*(LBLSIZ),LB2FIT(MXL)*(LBLSIZ)
+      SAVE KLEFIT, LB1FIT, LB2FIT, KREAD
+
+C      DATA NEWVAL / NNEWV*0/
 
       FITGET = .FALSE.
 
@@ -67,24 +84,35 @@ C  -------
       WRITE(NRES,101) NAMFIC
  101  FORMAT(/,10X,' Ok, opened storgae file ',A,/)
 
-      CALL HEADER(LUN,NRES,4,.FALSE.,
+C      CALL HEADER(LUN,NRES,4,.FALSE.,
+      CALL HEADER(LUN,NRES,2,.FALSE.,
      >                              *999)
+      WRITE(NRES,*) ' ' 
       
-      NMI = 999999
-      NMA = -999999
+C      NMI = 999999
+C      NMA = -999999
       KREAD = 0
  1    CONTINUE
-        READ(LUN,401,ERR=10,END=10) NUML,I,ISI,XK,XII,XI,XJ,PI
- 401    FORMAT( 
-     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G15.8,2(1X,G10.3))
-C        WRITE(6,400) NUML,I,ISI,XK,XII,XI,XJ,PI
-C 400    FORMAT(1P, 
-C     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G15.8,2(1X,G10.3))
-        IF(NUML.LT.NMI) NMI=NUML
-        IF(NUML.GT.NMA) NMA=NUML
-        AFIT(NUML,ISI) = XI
-        NEWVAL(NUML,ISI) = 1
+        READ(LUN,FMT='(A)',ERR=10,END=10) TXT132
+        TXT1 = TXT132(DEBSTR(TXT132):DEBSTR(TXT132))
+        IF(TXT1 .EQ. '%' .OR. TXT1 .EQ. '#' .OR. TXT1 .EQ. '!') GOTO 1
+        READ(TXT132,*,end=10) NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
+C        write(*,*) 'fitgtv ',NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
+        IPRM(I) = ISI
+        AFIT(I) = XI
+        KLEFIT(I) = KLE
+        LB1FIT(I) = LBL1
+        LB2FIT(I) = LBL2
+C        NEWVAL(NUML,ISI) = 1
         KREAD = KREAD+1
+
+        K=I+NV
+        J=K+NV
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,400) NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
+400     FORMAT(1P, 
+     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
+
         GOTO 1
 
  10   CONTINUE
@@ -111,14 +139,22 @@ C To be completed
       RETURN 
 
       ENTRY FITGT1
-        DO 2 ID = 1, MXD
-          IF(NEWVAL(NOEL,ID) .EQ. 1) THEN
-            TEMP = A(NOEL,ID) 
-            A(NOEL,ID) = AFIT(NOEL,ID)
-            IF(NRES .GT. 0) WRITE(NRES,
-     >      FMT='('' GETFITVAL procedure.  Former  A('',I3,
-     >      '','',I3,'') = '',1P,G12.4,''   changed  to  new value '', 
-     >      G12.4)') NOEL,ID,TEMP,A(NOEL,ID)
+        DO 2 IV = 1, KREAD
+C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
+          IF(KLEFIT(IV) .EQ. KLEY) THEN
+            IF(
+     >        (LB1FIT(IV) .EQ. '*' 
+     >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
+     >        .AND.
+     >        (LB2FIT(IV) .EQ. '*' 
+     >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
+                 TEMP = A(NOEL,IPRM(IV)) 
+                 A(NOEL,IPRM(IV)) = AFIT(IV)
+                 IF(NRES .GT. 0) WRITE(NRES,
+     >           FMT='('' GETFITVAL procedure.  Former  A('',I3,
+     >           '','',I3,'') = '',1P,G12.4,'' changed to new value '', 
+     >           G12.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+            ENDIF
           ENDIF
  2      CONTINUE
       RETURN

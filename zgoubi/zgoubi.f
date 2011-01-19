@@ -94,8 +94,9 @@ C----- To get values into A(), from earlier FIT
       PARAMETER (I1=1, I2=2, I3=3, I5=5, I6=6)
 
 C This INCLUDE must stay located right before the first statement
+      CHARACTER*(KSIZ) KLEO
       INCLUDE 'LSTKEY.H'
-
+      
       DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
 C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
@@ -1099,6 +1100,10 @@ C-------------------------
       ENTRY ZGNOEL(
      >             NOELO)
       NOELO = NOEL
+      RETURN
+      ENTRY ZGKLE(
+     >             KLEO,IKL)
+      KLEO = KLE(IKL)
       RETURN
 
       END
