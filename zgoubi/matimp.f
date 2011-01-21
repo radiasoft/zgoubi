@@ -52,14 +52,16 @@ C  -------
       SFZ = - R(3,4)/RIJ
  
       I=1
-      WRITE(NRES,103) I
- 103  FORMAT(//,18X,'TRANSFER  MATRIX  ORDRE',I3,'  (MKSA units)',/)
-      WRITE(NRES,104) (( R(IA,IB) , IB=1,6) , IA=1,6)
- 104  FORMAT(6X,1P,6G16.6)
-      WRITE(NRES,112) DETY-1.D0,DETZ-1.D0
-112   FORMAT(/,10X,'DetY-1 = ',F18.10,',',4X,'DetZ-1 = ',F18.10)
-      WRITE(NRES,FMT='(/,10X,''R12=0 at '',G12.4,'' m, '',7X, 
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,103) I
+ 103    FORMAT(//,18X,'TRANSFER  MATRIX  ORDRE',I3,'  (MKSA units)',/)
+        WRITE(NRES,104) (( R(IA,IB) , IB=1,6) , IA=1,6)
+ 104    FORMAT(6X,1P,6G16.6)
+        WRITE(NRES,112) DETY-1.D0,DETZ-1.D0
+112     FORMAT(/,10X,'DetY-1 = ',F18.10,',',4X,'DetZ-1 = ',F18.10)
+        WRITE(NRES,FMT='(/,10X,''R12=0 at '',G12.4,'' m, '',7X, 
      >                       ''R34=0 at '',G12.4,'' m'')') SFH,SFZ
+      ENDIF
 
       CALL SYMPL(R)
 
@@ -103,47 +105,51 @@ C       ** CHANGE MATRICE TRIANGULAIRE EN CARREE SYMMETRIQUE/DIAG
  11     CONTINUE
 
       I=2
-      WRITE(NRES,103) I
-      DO 16 IA=1,6
-        IF(IA.GT.1) WRITE(NRES,107)
- 107    FORMAT(/)
-        DO 16 IB=1,6
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,103) I
+        DO 16 IA=1,6
+          IF(IA.GT.1) WRITE(NRES,107)
+ 107      FORMAT(/)
+          DO 16 IB=1,6
 C          WRITE(NRES,108) ( IA,IC,IB, T(IA,IC,IB)  , IC=1,IB )
 C MODIFIED, FM, 04/97
-          WRITE(NRES,108) ( IA,IC,IB, T(IA,IC,IB)  , IC=1,6 )
- 108      FORMAT( 6(I4,I2,I1,1P,G11.3) )
- 16   CONTINUE
- 
+            WRITE(NRES,108) ( IA,IC,IB, T(IA,IC,IB)  , IC=1,6 )
+ 108        FORMAT( 6(I4,I2,I1,1P,G11.3) )
+ 16     CONTINUE
+      ENDIF
+
       CALL SYMPL2(R,T)
  
-      WRITE(NRES,123) T3(1,1),T3(1,2),T3(1,3),T3(1,4)
- 123  FORMAT(//,15X,'COEFFICIENTS  D''ORDRE  SUPERIEUR  ( MKSA ):'
-     >,//,10X,' Y/Y3   ',5X,1P,G14.5
-     > ,/,10X,' Y/T3   ',5X,   G14.5
-     > ,/,10X,' Y/Z3   ',5X,   G14.5
-     > ,/,10X,' Y/P3   ',5X,   G14.5,/)
-      WRITE(NRES,124) T3(2,1),T3(2,2),T3(2,3),T3(2,4)
- 124  FORMAT(
-     >    10X,' T/Y3   ',5X,1P,G14.5
-     > ,/,10X,' T/T3   ',5X,   G14.5
-     > ,/,10X,' T/Z3   ',5X,   G14.5
-     > ,/,10X,' T/P3   ',5X,   G14.5,/)
-      WRITE(NRES,125) T3(3,1),T3(3,2),T3(3,3),T3(3,4)
- 125  FORMAT(
-     >    10X,' Z/Y3   ',5X,1P,G14.5
-     > ,/,10X,' Z/T3   ',5X,   G14.5
-     > ,/,10X,' Z/Z3   ',5X,   G14.5
-     > ,/,10X,' Z/P3   ',5X,   G14.5,/)
-      WRITE(NRES,126) T3(4,1),T3(4,2),T3(4,3),T3(4,4)
- 126  FORMAT(
-     >    10X,' P/Y3   ',5X,1P,G14.5
-     > ,/,10X,' P/T3   ',5X,   G14.5
-     > ,/,10X,' P/Z3   ',5X,   G14.5
-     > ,/,10X,' P/P3   ',5X,   G14.5)
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,123) T3(1,1),T3(1,2),T3(1,3),T3(1,4)
+ 123    FORMAT(//,15X,'COEFFICIENTS  D''ORDRE  SUPERIEUR  ( MKSA ):'
+     >  ,//,10X,' Y/Y3   ',5X,1P,G14.5
+     >  , /,10X,' Y/T3   ',5X,   G14.5
+     >  , /,10X,' Y/Z3   ',5X,   G14.5
+     >  , /,10X,' Y/P3   ',5X,   G14.5,/)
+        WRITE(NRES,124) T3(2,1),T3(2,2),T3(2,3),T3(2,4)
+ 124    FORMAT(
+     >     10X,' T/Y3   ',5X,1P,G14.5
+     >  ,/,10X,' T/T3   ',5X,   G14.5
+     >  ,/,10X,' T/Z3   ',5X,   G14.5
+     >  ,/,10X,' T/P3   ',5X,   G14.5,/)
+        WRITE(NRES,125) T3(3,1),T3(3,2),T3(3,3),T3(3,4)
+ 125    FORMAT(
+     >     10X,' Z/Y3   ',5X,1P,G14.5
+     >  ,/,10X,' Z/T3   ',5X,   G14.5
+     >  ,/,10X,' Z/Z3   ',5X,   G14.5
+     >  ,/,10X,' Z/P3   ',5X,   G14.5,/)
+        WRITE(NRES,126) T3(4,1),T3(4,2),T3(4,3),T3(4,4)
+ 126    FORMAT(
+     >     10X,' P/Y3   ',5X,1P,G14.5
+     >  ,/,10X,' P/T3   ',5X,   G14.5
+     >  ,/,10X,' P/Z3   ',5X,   G14.5
+     >  ,/,10X,' P/P3   ',5X,   G14.5)
  
-      CONTINUE
-      WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
-  101 FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+        WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+  101   FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+      ENDIF
+
       RETURN
 
 

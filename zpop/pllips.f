@@ -84,10 +84,10 @@ C  -------
           WRITE(*,106) YM(J),YPM(J)
  106      FORMAT(' Centering,  H/V : ',1P,G11.3,' / ',G11.3)
           WRITE(*,105) U(JJ),B(JJ),A(JJ)
- 105      FORMAT(' Eps/pi, Beta, Alpha: ',1P,3E12.4)
+ 105      FORMAT('Eps/pi, Beta, Alpha : ',1P,3E12.4)
 
           WRITE(TXT,105) U(JJ),B(JJ),A(JJ)
-          CALL TRTXT(10.D0,18.D0,TXT,0)
+          CALL TRTXT(10.D0,21.D0,TXT,0)
           CALL LINTYP(-1)
 
           WRITE(NLIPS,111) U(JJ),B(JJ),A(JJ),YM(JJ),YPM(JJ)

@@ -106,7 +106,7 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
 C----- Constitution of the beam
 C MXJ1=6 ; J : 2,4,6 -> Y,Z,s 
       DO 1 J=2,MXJ1,2
-C       J1 : 3,5,7(1) -> T,P,D
+C------- J1 : 3,5,7(1) -> T,P,D
         J1=J+1
         IF(J1.EQ.MXJ) J1=1 
         IF(EPS(J).EQ.0.D0) THEN
@@ -119,8 +119,10 @@ C       J1 : 3,5,7(1) -> T,P,D
           REBM=SQRT(RMA(J)*EPS(J)*BET(J))
 C          RM = RMA(J)*REB
           DO I=IMI,IMA
+
             IF    (KTIR(J) .EQ. 'Uniform') THEN
 C       Tirage uniforme en r2 = uniforme en surface, elliptique en y et y'
+
               IF(J.LE.4) THEN
 C                TRANSVERSE COORDINATES
                 R=SQRT(RNDM())*REBM
@@ -142,13 +144,15 @@ C                DP/P, X
                 X = R*SIGN
                 FO(J1,I) = X/UNIT(J)
               ENDIF
-              ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
+
+            ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
 C-------------  Tirage uniforme en exp(-r2) = gaussien en y et y'
+
               SM=EXP(-RMA(J)*RMA(J)/2.D0)
 C              SM=EXP(-RMA(J)/2.D0)
               IF(RMB(J) .EQ. 0.D0) THEN
 C---------------- Sorting in [0,SMA]
-C                R=RNDM(IR1)*(1.D0-SM)+SM
+C                R=RNDM()*(1.D0-SM)+SM
                 R=1.D0 + RNDM()*(SM-1.D0)
               ELSE
 C---------------    Sorting in [SMA,SMB]
@@ -171,6 +175,7 @@ C-------------- Leads to sigma_x=sqrt( beta_x epsilon_x/pi) :
 
             ELSEIF(KTIR(J) .EQ. 'Parabolic') THEN
 C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
+
  7            R = RNDM()
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
               X = - REBM * COS ( A3 + PI/3.D0 )
@@ -187,10 +192,6 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
               X = XM - DXM * COS ( A3 + PI/3.D0 )
               FO(J1,I) = X/UNIT(J)
             ENDIF
-C            ANG = 2.D0*(RNDM(IR1)-.5D0)*PI
-C            X = R*COS(ANG)
-C            FO(J ,I) = X/UNIT(J-1)
-C            FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
           ENDDO
         ENDIF
  1    CONTINUE      
@@ -199,14 +200,12 @@ C            FO(J1,I) = (R*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
         FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
         DO 4 J=2,MXJ1
           FO(J,I)=FO(J,I) + CENTRE(J)/UNIT(J-1)
-C           if(j.eq.6) FO(J,I)=0.
  4      CONTINUE
  
       ENTRY MCOBJA
 
       DO I=1,IMAX
         F(1,I)=FO(1,I)
-C        DO 41 J=2,MXJ1+1
         DO J=2,MXJ
           F(J,I)=FO(J,I)
         ENDDO

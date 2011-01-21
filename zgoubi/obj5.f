@@ -157,7 +157,8 @@ C Dy, Dy', Dz, Dz'
 
       RETURN
 
-      ENTRY OBJ51(NBREFO)
+      ENTRY OBJ51(
+     >            NBREFO)
       NBREFO = NBREF
       RETURN
 

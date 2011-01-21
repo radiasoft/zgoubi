@@ -40,10 +40,11 @@ C  -------
 
       IF(OKPR) THEN
         IF(NMAIL.LE.0) THEN
-          WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
+          IF(NRES.GT.0) 
+     >    WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
           RETURN
         ELSE
-          WRITE(NRES,106) NMAIL
+          IF(NRES.GT.0) WRITE(NRES,106) NMAIL
  106      FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
      >           I4,'  is  assumed :')
         ENDIF
@@ -127,27 +128,29 @@ C         write(*,*) '                                tunes...'
 
       IF(OKPR) THEN
 
-        WRITE(NRES,103)
- 103    FORMAT(/,6X,
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,103)
+ 103      FORMAT(/,6X,
      >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
      >    ' and  periodic  dispersion  (MKSA units)',/)
-        WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
- 104    FORMAT(6X,6F13.6)
-        WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-        WRITE(TXTYNU,FMT='(A14)') 'undefined'
-        WRITE(TXTZNU,FMT='(A14)') 'undefined'
+          WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
+ 104      FORMAT(6X,6F13.6)
+          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
+          WRITE(TXTYNU,FMT='(A14)') 'undefined'
+          WRITE(TXTZNU,FMT='(A14)') 'undefined'
 
-       IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
-         WRITE(TXTYNU,FMT='(G14.8)') YNU
-         WRITE(TXTZNU,FMT='(G14.8)') ZNU
-       ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
-         IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G14.8)') YNU
-         IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G14.8)') ZNU
-       ENDIF
+         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
+           WRITE(TXTYNU,FMT='(G14.8)') YNU
+           WRITE(TXTZNU,FMT='(G14.8)') ZNU
+         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
+           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G14.8)') YNU
+           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G14.8)') ZNU
+         ENDIF
 
-       WRITE(NRES,FMT='(15X,2(5X,A,A14))') 
+         WRITE(NRES,FMT='(15X,2(5X,A,A14))') 
      >              'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
 
+        ENDIF
       ENDIF
       RETURN
       END

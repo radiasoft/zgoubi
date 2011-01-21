@@ -40,7 +40,7 @@ C      conditions equivalent to T(R).S.R = S
       S(5)=-R(2,3)*R(1,1)+R(1,3)*R(2,1) - R(4,3)*R(3,1)+R(3,3)*R(4,1)
       S(6)=-R(2,3)*R(1,2)+R(1,3)*R(2,2) - R(4,3)*R(3,2)+R(3,3)*R(4,2)
       
-      WRITE(NRES,100) (S(J),J=1,6)
+      IF(NRES.GT.0) WRITE(NRES,100) (S(J),J=1,6)
  100  FORMAT(/,5X,
      >' First order symplectic conditions (expected values = 0) :',
      >/,5X,1P,6G14.4)
@@ -93,7 +93,7 @@ C FM 07/97       S(11)= 2.D0*R(1,2)*(T(2,3,4)+T(2,4,3))+ R(2,1)*(T(3,2,4)+T(3,4,
       S(14)=    R(3,3)*(T(4,4,6)+T(4,6,4)) +  R(4,4)*(T(3,3,6)+T(3,6,3)) 
      > -    R(3,4)*(T(4,3,6)+T(4,6,3)) -    R(4,3)*(T(3,4,6)+T(3,6,4))
 
-      WRITE(NRES,101) (S(J),J=1,14)
+      IF(NRES.GT.0) WRITE(NRES,101) (S(J),J=1,14)
  101  FORMAT(/,5X,
      >' Second order symplectic conditions (expected values = 0) :',
      >/,1P,2(/,5X,7G14.4) )

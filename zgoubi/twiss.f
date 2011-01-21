@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE TWISS(READAT,*) 
+      SUBROUTINE TWISS(
+     >                 READAT,*) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -33,8 +34,6 @@ C  -------
       INCLUDE "MAXTRA.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-
-C      CHARACTER*9   HMS
       
       DIMENSION T(6,6,6)
       SAVE      T
@@ -53,8 +52,12 @@ C      CHARACTER*9   HMS
 
       SAVE IORD
       SAVE KWRI6
-       
+
+      SAVE ALPHA
+  
       DATA KWRI6 / 1 /
+
+         WRITE(*,*) ' TWISS ',ipass, nrblt
 
       KTWISS = A(NOEL,1)
       FACP = A(NOEL,2)
@@ -72,6 +75,7 @@ C          1 other run to get matrices with +/-dZ amplitude
         LUN=ABS(NRES) 
         IF(LUN.GT.0) 
      >     WRITE(LUN,100) IPASS, NRBLT+1
+C          WRITE(*,100) IPASS, NRBLT+1
  100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,'End '
      >     ,'of pass # ',I1,'/',I1,' through the optical structure',/)
  
@@ -80,7 +84,7 @@ C--------- 2nd pass through structure will follow
 
 C--------- Switch off print into zgoubi.res : 
           ANOEL2 = 0.1D0
-          KWRIT = NINT(ANOEL2)
+C          KWRIT = NINT(ANOEL2)
 C--------- Switch on print to standard output :
           KWRI6=NINT(ANOEL2-KWRIT)*10
 
@@ -124,10 +128,10 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p-dp
           NUML = 1
           FAP25 = FACP * A(NUML,25)
           A(NUML,35) =  REF(6) -  FAP25
-          A(NUML,30) =  REF(1) -  F0REF(1,6) * FAP25
-          A(NUML,31) =  REF(2) -  F0REF(2,6) * FAP25
-          A(NUML,32) =  REF(3) -  F0REF(3,6) * FAP25
-          A(NUML,33) =  REF(4) -  F0REF(4,6) * FAP25
+          A(NUML,30) =  REF(1) -  1.D2*F0REF(1,6) * FAP25
+          A(NUML,31) =  REF(2) -  1.D3*F0REF(2,6) * FAP25
+          A(NUML,32) =  REF(3) -  1.D2*F0REF(3,6) * FAP25
+          A(NUML,33) =  REF(4) -  1.D3*F0REF(4,6) * FAP25
           
           IPASS=IPASS+1
           NOEL=0 
@@ -160,10 +164,10 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
           NUML = 1
           FAP25 = FACP * A(NUML,25)
           A(NUML,35) =  REF(6) +  FAP25
-          A(NUML,30) =  REF(1) +  F0REF(1,6) * FAP25
-          A(NUML,31) =  REF(2) +  F0REF(2,6) * FAP25
-          A(NUML,32) =  REF(3) +  F0REF(3,6) * FAP25
-          A(NUML,33) =  REF(4) +  F0REF(4,6) * FAP25
+          A(NUML,30) =  REF(1) +  1.D2*F0REF(1,6) * FAP25
+          A(NUML,31) =  REF(2) +  1.D3*F0REF(2,6) * FAP25
+          A(NUML,32) =  REF(3) +  1.D2*F0REF(3,6) * FAP25
+          A(NUML,33) =  REF(4) +  1.D3*F0REF(4,6) * FAP25
           
           IPASS=IPASS+1
           NOEL=0 
@@ -171,7 +175,7 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
           RETURN 1
  
         ELSEIF(IPASS .EQ. 3) THEN
-C------- Chromatic calculations done
+C------- Chromatic tracking completed
 
 C--------- reactivate WRITE for printing results 
           IF(NRES.LT.0) NRES=-NRES
@@ -200,7 +204,7 @@ C Momentum detuning
           DNUYDP = (YNUP-YNUM)/2.D0/A(NUML,25)
           DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
         
-C--------- Amplitude detuning calculations follow
+C--------- Amplitude detuning tracking & calculations follow
           NUML = 1
           A(NUML,35) =  REF(6)
           A(NUML,30) =  REF(1)
@@ -246,14 +250,16 @@ C  Amplitude detuning, dY effects
           YP2 = FAC1*A(NUML,21)-A(NUML,31)
           YYP = YYP*YP2
           YP2 = YP2*YP2 
-          UYREF = F0REF(2,2)*Y2+2.D0*(-F0REF(2,1))*YYP+F0REF(1,1)*YP2 
+          UYREF = F0REF(2,2)/1.D2*Y2+2.D0*(-F0REF(2,1))*YYP+
+     >             F0REF(1,1)*1.D2*YP2 
           YY2 = A(NUML,20)-A(NUML,30)
           YYYP = YY2
           YY2 = YY2*YY2 
           YYP2 = A(NUML,21)-A(NUML,31)
           YYYP = YYYP*YYP2
           YYP2 = YYP2*YYP2 
-          UYP = F0P(2,2)*YY2 + 2.D0*(-F0P(2,1))*YYYP + F0P(1,1)*YYP2 
+          UYP = F0P(2,2)/1.D2*YY2 + 2.D0*(-F0P(2,1))*YYYP + 
+     >             F0P(1,1)*1.D2*YYP2 
           DNUYDY=(YNUP-YNUREF)/(UYP-UYREF)
           DNUZDY=(ZNUP-ZNUREF)/(UYP-UYREF)
         
@@ -270,11 +276,13 @@ C--------- Reset reference coordinates for OBJECT sampling : z -> z+dz
           RETURN 1
 
       ELSEIF(IPASS .GT. NRBLT) THEN
-C------- Amplitude calculations done
+C------- Amplitude tracking completed
 
 C------- reactivate WRITE
+        READAT = .TRUE.
         IF(NRES.LT.0) NRES=-NRES
         IF(NRES.GT.0) THEN
+          WRITE(*,101) IPASS
           WRITE(NRES,101) IPASS
  101      FORMAT(/,25X,' ****  End  of  ''TWISS''  procedure  ****',//
      >     ,5X,' There  has  been ',I10,
@@ -304,14 +312,16 @@ C Amplitude detuning, dZ effects
           ZP2 = FAC1*A(NUML,23)-A(NUML,33)
           ZZP = ZZP*ZP2
           ZP2 = ZP2*ZP2 
-          UZREF = F0REF(4,4)*Z2+2.D0*(-F0REF(4,3))*ZZP+F0REF(3,3)*ZP2 
+          UZREF = F0REF(4,4)/1.D2*Z2+2.D0*(-F0REF(4,3))*ZZP+
+     >         F0REF(3,3)*1.D2*ZP2 
           ZZ2 = A(NUML,22)-A(NUML,32)
           ZZZP = ZZ2
           ZZ2 = ZZ2*ZZ2 
           ZZP2 = A(NUML,23)-A(NUML,33)
           ZZZP = ZZZP*ZZP2
           ZZP2 = ZZP2*ZZP2 
-          UZP = F0P(4,4)*ZZ2 + 2.D0*(-F0P(4,3))*ZZZP + F0P(3,3)*ZZP2 
+          UZP = F0P(4,4)/1.D2*ZZ2 + 2.D0*(-F0P(4,3))*ZZZP + 
+     >          F0P(3,3)*1.D2*ZZP2 
 
         DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
         DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
@@ -344,6 +354,9 @@ C Amplitude detuning, dZ effects
      >      YNUP,  ZNUP,
      >      UYREF, UZREF,
      >      UYP,   UZP
+
+        ipass = 1
+        nrblt = 0
 
       ENDIF
       RETURN

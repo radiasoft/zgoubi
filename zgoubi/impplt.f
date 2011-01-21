@@ -121,9 +121,9 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
 
       IF(BINARY) THEN
         WRITE(LN)
-     >   KEX,      XXXO,(FO(J,IT),J=2,MXJ),
-     >   XXX,Y-DY,T*1.D3, Z,P*1.D3,SAR, TAR, BTI, DS, 
-     >   KART, IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
+     >   KEX,      XXXO, (FO(J,IT),J=2,MXJ),
+     >   XXX, Y-DY, T*1.D3, Z, P*1.D3, SAR, TAR, BTI, DS, 
+     >   KART, IT, IREP(IT), SORT(IT), X, BX,BY,BZ, RET(IT),DPR(IT), PS,
      >   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
      >   EX,EY,EZ, BORO, IPASS,NOEL,KLEY,(LABEL(NOEL,I),I=1,2),LET(IT)
       ELSE
@@ -175,8 +175,6 @@ C      CALL FLUSH2(LN,.FALSE.)
         IF(.NOT.OPN) THEN
           IF(IDLUNI(
      >              LUN)) THEN
-c              OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
-c              CLOSE(UNIT=LUN,STATUS='DELETE')
               OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
           ENDIF
         ENDIF

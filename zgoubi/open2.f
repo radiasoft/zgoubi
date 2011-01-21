@@ -70,7 +70,7 @@ C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
             IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
             IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
             IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
-            IF(SBR .EQ. 'MAIN') TXT='COORDINATES'
+            IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
             IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
             IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
             TXT80 = ' ' 
@@ -139,8 +139,6 @@ C------------- Write down a 4-line header
               ENDIF
 
               IF(.NOT.BINARY) THEN
-C                WRITE(LUN,FMT='(A80)') TXT80
-C                WRITE(LUN,FMT='(A80)') '# '//TITRE
                 WRITE(LUN,FMT='(A)') TXT80
                 WRITE(LUN,FMT='(A)') '# '//TITRE
                 WRITE(LUN,FMT='(A)') TXTA80
@@ -148,9 +146,7 @@ C                WRITE(LUN,FMT='(A80)') '# '//TITRE
               ELSE
                 WRITE(LUN) TXT80
                 WRITE(LUN) TITRE
-C                TXT80 = TXTA80(1:80)
                 WRITE(LUN) TXTA80
-C                TXT80 = TXTB80(1:80)
                 WRITE(LUN) TXTB80
               ENDIF
             ENDIF

@@ -47,6 +47,8 @@ C      PARAMETER (AST  ='*')
       PARAMETER (NMAIL  = 1)
 
       DIMENSION F0P(6,6), F0PD(6,6), F0MD(6,6)
+      PARAMETER (MXRF = 7)
+      DIMENSION YNUI(MXRF), ZNUI(MXRF)
 
 C      DIMENSION IC2(MXV)
 C      SAVE IC2
@@ -110,34 +112,90 @@ C--------------Constraint  cos(muY) = trace/2
              ENDIF
            ENDIF
 
-         ELSE IF(ICONT .EQ. 1) THEN
+         ELSEIF(ICONT .EQ. 1) THEN
+
+           IORD=1
+
+           IF    (ICONT2 .EQ. 0) THEN
 C-----------Contraints are first order transport coeffs
 
-            IORD=1
-            IF(KOBJ .EQ. 6) IORD=2
-            CALL COEFFS(0,IORD,U,T,1,
-     >                               F0P)
-            IF(K .LE. 6 .AND. L .LE. 6 ) THEN
-              VAL= U(K,L)
-            ELSEIF( K .EQ. 7 ) THEN
+             IF(KOBJ .EQ. 6) IORD=2
+             CALL COEFFS(0,IORD,U,T,1,
+     >                                F0P)
+             IF(K .LE. 6 .AND. L .LE. 6 ) THEN
+               VAL= U(K,L)
+             ELSEIF( K .EQ. 7 ) THEN
 C-------------Contraint determinant H
-              VAL= U(1,1)*U(2,2)-U(1,2)*U(2,1)
-            ELSEIF( K .EQ. 8 ) THEN
+               VAL= U(1,1)*U(2,2)-U(1,2)*U(2,1)
+             ELSEIF( K .EQ. 8 ) THEN
 C-------------Contraint determinant V
-              VAL= U(3,3)*U(4,4)-U(3,4)*U(4,3)
-            ENDIF
+               VAL= U(3,3)*U(4,4)-U(3,4)*U(4,3)
+             ENDIF
+
+           ELSEIF(ICONT2 .EQ. 1) THEN
+C-----------Chromaticity
+
+             CALL OBJ51(
+     >                  NBREF)
+             IREF = 0
+ 1           CONTINUE
+               IREF = IREF + 1
+               IF(IREF.GT.MXRF) STOP ' SBR FF '
+               IT1 = 1 + 11 * (IREF-1)
+               IT2 = IT1+3
+               IT3 = IT1+4
+               IFC = 0
+               CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
+               CALL MAT1(U,T,IT1)
+               CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
+               CALL TUNES(U,F0P,NMAIL,IERY,IERZ,.FALSE.,
+     >                                                YNU,ZNU,CMUY,CMUZ)
+               YNUI(IREF) = YNU
+               ZNUI(IREF) = ZNU
+
+             IF(IREF.LT.NBREF) GOTO 1 
+
+             IF    (NBREF .EQ. 1) THEN
+               STOP ' SBR FF : not enough MATRIX blocks  '
+             ELSEIF(NBREF .EQ. 2) THEN
+               DP1 =  F(1,1)
+               DP2 =  F(1,12)
+               DNUYDP = (YNUI(2) - YNUI(1)) / (DP2-DP1)
+               DNUZDP = (ZNUI(2) - ZNUI(1)) / (DP2-DP1)
+C               write(*,*)
+C               write(*,*) 'sbr ff dp1,dp2,dnuy,dnyz ; '
+C     >              ,dp1,dp2,dnuydp,dnyzdp
+C               write(*,*)
+             ELSEIF(NBREF .EQ. 3) THEN
+               STOP ' SBR FF : too many MATRIX blocks  '
+             ELSE
+               STOP ' SBR FF : too many MATRIX blocks  '
+             ENDIF
+             IF( K .EQ. 7 ) THEN
+C-------------Contraint dNu_Y/dpp
+               VAL= DNUYDP
+             ELSEIF( K .EQ. 8 ) THEN
+C-------------Contraint dNu_Z/dpp
+               VAL= DNUZDP
+             ENDIF
+
+           ENDIF
 
          ELSE IF(ICONT .EQ. 2) THEN
 C-----------Contraints are second order transport coeffs
 
            IORD=2
+
            IF    (ICONT2 .EQ. 0) THEN
+
              CALL COEFFS(0,IORD,U,T,1,
      >                                F0P)
              L1=L/10
              L2=L-10*L1
              VAL= T(K,L1,L2)
+
            ELSEIF(ICONT2 .EQ. 1) THEN
+
              CALL COEFFS(0,IORD,U,T,1,
      >                                F0P)
              CALL MAT2P(RPD,DP)
@@ -148,11 +206,20 @@ C-----------Contraints are second order transport coeffs
      >                                             YNUM,ZNUM,CMUY,CMUZ) 
              DNUYDP = (YNUP-YNUM)/2.D0/DP
              DNUZDP = (ZNUP-ZNUM)/2.D0/DP
-             WRITE(*,FMT='(/,34X,''Chromaticities:'',
-     >      //,30X,''dNu_y / dp/p = '',G14.8,/, 
-     >         30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
+C             WRITE(*,FMT='(/,34X,''Chromaticities:'',
+C     >      //,30X,''dNu_y / dp/p = '',G14.8,/, 
+C     >         30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
+             IF( K .EQ. 7 ) THEN
+C-------------Contraint dNu_Y/dpp
+               VAL= DNUYDP
+             ELSEIF( K .EQ. 8 ) THEN
+C-------------Contraint dNu_Z/dpp
+               VAL= DNUZDP
+             ENDIF
+             
            ENDIF
-         ELSE IF(ICONT .EQ. 3) THEN
+ 
+        ELSE IF(ICONT .EQ. 3) THEN
 C----------- Constraints on particle coordinates or bundle
            IF    (ICONT2.EQ.0) THEN
              IF(K .GT. 0) THEN

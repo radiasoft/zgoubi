@@ -70,7 +70,7 @@ C positionning of TXT is in screen units (x384/y256 Pix)
       CALL TRTXT(110.D0,248.D0,TXT,0)
       WRITE(TXT,107) XMI,XMA,YMI,YMA
 C      CALL TRTXT(10.D0,18.D0,TXT,80,0)
-      CALL TRTXT(10.D0,10.D0,TXT,0)
+      CALL TRTXT(10.D0,14.D0,TXT,0)
       CALL READC1(
      >            KP1,KP2,KP3)
       CALL READC5(
@@ -78,7 +78,7 @@ C      CALL TRTXT(10.D0,18.D0,TXT,80,0)
       CALL READC9(
      >            KEX,KLET)
       WRITE(TXT,101) KT1,KT2,KLET,TXTL,KP1,IPASS,KP3,NOC
-      CALL TRTXT(10.D0,2.D0,TXT,0)
+      CALL TRTXT(10.D0,7.D0,TXT,0)
 
       CALL FBGTXT
 C      WRITE(6,*)

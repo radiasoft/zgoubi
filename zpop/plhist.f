@@ -138,13 +138,12 @@ C      FB = (XMA - XMI)/10.D0
       CALL TRKVAR(NB,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
 
       WRITE(6,100)
- 100  FORMAT(' Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
-      WRITE(6,101) XMOY,SIG,XYMAX,NOC
+ 100  FORMAT('Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
+      WRITE(6,101) XMOY,SIG,XYMAX,NOCE
  101  FORMAT(1P,3G16.9,I7)
-      WRITE(TXT,102) XMOY,SIG,XYMAX,NOC
- 102  FORMAT(' Mean:',1P,G12.5,'; Sigma:',G12.5,'; X(max):',G12.5,
-     >       '; Counts:',I7)
-      CALL TRTXT(10.D0,18.D0,TXT,0)
+      WRITE(TXT,102) XMOY,SIG,XYMAX
+ 102  FORMAT('Mean:',1P,G12.5,'; Sigma:',G12.5,'; X(max):',G12.5)
+      CALL TRTXT(10.D0,0.D0,TXT,0)
 
       RETURN
  98   WRITE(6,*)' *** In SBR PLHIST : Error Xmi-max while binning histo'

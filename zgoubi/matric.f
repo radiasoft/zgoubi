@@ -86,7 +86,8 @@ C------        Beam_ref    +dp/p     -dp/p
       IF(KWRMAT) CALL MATIM6(KWRMAT)
 
       IF    (IORD .EQ. 1) THEN
-        CALL OBJ51(NBREF)
+        CALL OBJ51(
+     >             NBREF)
         IREF = 0
  1      CONTINUE
           IREF = IREF + 1
@@ -108,6 +109,7 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
 C FM, Nov. 2008
 C          CALL REFER(2,IORD,IFOC,IT1,IT2,IT3)
           CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
+
           IF(IREF.LT.NBREF) GOTO 1
           
       ELSEIF(IORD .EQ. 2) THEN
