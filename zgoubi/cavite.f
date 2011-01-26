@@ -46,8 +46,6 @@ C  -------
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
-      DIMENSION RLNGTH(MXT)
-
       CHARACTER*9 SKAV(8)
       DIMENSION DTI0(MXT)
       SAVE DTI0
@@ -609,10 +607,13 @@ C DTI is the time it took since the last passage in CAVITE
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
  
-C        DPR(I)=P-PS
-        DPR(I)=(P-PS)/PS
-        PH(I)=PHAS(I) 
-        RLNGTH(I)=PHAS(I)/OMRF*(BTA*CL)
+        DPR(I)=P-PS
+C        DPR(I)=(P-PS)/PS
+C        PH(I)=PHAS(I) 
+        BLAG=(PHAS(I)-PHS)/OMRF
+        BLNG=BLAG*(BTA*CL)
+        PH(I)=BLAG
+     
 
         F(1,I) = P/P0
         F(3,I) = ATAN(PY/PX)*1000.D0

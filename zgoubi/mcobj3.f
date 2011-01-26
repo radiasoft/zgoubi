@@ -115,7 +115,7 @@ C------- J1 : 3,5,7(1) -> T,P,D
             FO(J1,I)=0.D0
           ENDDO
         ELSE
-          REB=SQRT(EPS(J)*BET(J))
+          REB=SQRT( EPS(J)*BET(J) )
           REBM=SQRT(RMA(J)*EPS(J)*BET(J))
 C          RM = RMA(J)*REB
           DO I=IMI,IMA
@@ -148,17 +148,13 @@ C                DP/P, X
             ELSEIF(KTIR(J) .EQ. 'Gaussian') THEN
 C-------------  Tirage uniforme en exp(-r2) = gaussien en y et y'
 
-              SM=EXP(-RMA(J)*RMA(J)/2.D0)
-C              SM=EXP(-RMA(J)/2.D0)
+              SM = EXP(-RMA(J)*RMA(J)/2.D0)
               IF(RMB(J) .EQ. 0.D0) THEN
 C---------------- Sorting in [0,SMA]
-C                R=RNDM()*(1.D0-SM)+SM
                 R=1.D0 + RNDM()*(SM-1.D0)
               ELSE
 C---------------    Sorting in [SMA,SMB]
-CCCCC                SMB = EXP(-RMB(J)/2.D0)
                 SMB = EXP(-RMB(J)*RMB(J)/2.D0)
-                SM  = EXP(-RMA(J)*RMA(J)/2.D0)
                 R=SM + RNDM()*(SMB-SM)
               ENDIF
 
