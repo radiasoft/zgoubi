@@ -25,7 +25,7 @@ C  USA
 C  -------
       SUBROUTINE POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
-     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
@@ -39,7 +39,7 @@ C     > ,YCH,ZCH
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
@@ -53,7 +53,6 @@ C     > ,YCH,ZCH
       INTEGER DEBSTR,FINSTR
 
       DATA NOMFIC / IZ*'               '/ 
-      DATA NEWFIC / .TRUE. /
       DATA IMAP / 1 /
 
       CALL KSMAP(
@@ -83,7 +82,7 @@ C     > ,YCH,ZCH
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,IMAP)
+     >                          NEWFIC,NBMAPS,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
         MOD = NINT(A(NOEL,23))
         IF    (MOD .EQ. 0) THEN
@@ -103,7 +102,7 @@ C         ... No symm
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
         CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,IMAP)
+     >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
 
       IF(NRES.GT.0) THEN

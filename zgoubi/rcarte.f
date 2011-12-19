@@ -34,7 +34,7 @@ C     ---------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
 
       CHARACTER TXT*80, STRA(2)*80
 
@@ -131,7 +131,7 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
           IFIC = IFIC + 1
           READ(NDAT,FMT='(A)') TXT
           CALL STRGET(TXT,2,
-     >                         IDUM,STRA) 
+     >                      IDUM,STRA) 
           TA(NOEL,1+IFIC) = STRA(1)
           IF(STRA(2).EQ.'SUM') THEN
             TA(NOEL,1+IFIC) = '+'//TA(NOEL,1+IFIC)(1:79)
@@ -155,6 +155,7 @@ C     ... IRD
 C     ... XPAS
       READ(NDAT,*) A(NOEL,50)
       ND = 50 
+
       IF(KART .EQ. 1) THEN
 C       ... Cartesian map frame
 C           KP, XCE, YCE, ALE

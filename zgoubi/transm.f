@@ -130,6 +130,9 @@ C            DO 3 IC=1,IB
         F(5,I)=FC(4)
 C       ... Path length :
         F(6,I)=F(6,I) + FC(5) + XL/UNIT(5)
+C       ... Time of flight update ????
+C        F(7,I)= ??
+
  1    CONTINUE
  
       RETURN

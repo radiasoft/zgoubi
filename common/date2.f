@@ -25,20 +25,29 @@ C  USA
 C  -------
       SUBROUTINE DATE2(DMY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER * (*)   DMY
-      CHARACTER*3 MM(12)
-      CHARACTER*8 DD
-      CHARACTER*10 TT
-      CHARACTER*5 ZZ
-      INTEGER VV(8)
-      DATA MM/'Jan','Feb','Mar','Apr','May','Jun',
-     $     'Jul','Aug','Sep','Oct','Nov','Dec'/
-      LONG = LEN(DMY)
-      IF(LONG.GE.9) THEN
-         CALL DATE_AND_TIME(DD,TT,ZZ,VV)
-         WRITE(DMY,'(I2.2,''-'',A3,''-'',I2.2)')
-     $        VV(3),MM(VV(2)),MOD(VV(1),100)
-      ENDIF
-      IF(LONG.GT.9) DMY=DMY(1:9)//' '      
+      CHARACTER * 9   DMY
+
+C This works :   ------------------------------- 
+C      CHARACTER*3 MM(12)
+C      CHARACTER*8 DD
+C      CHARACTER*10 TT
+C      CHARACTER*5 ZZ
+C      INTEGER VV(8)
+C      DATA MM/'Jan','Feb','Mar','Apr','May','Jun',
+C     $     'Jul','Aug','Sep','Oct','Nov','Dec'/
+C      LONG = LEN(DMY)
+C      IF(LONG.GE.9) THEN
+C         CALL DATE_AND_TIME(DD,TT,ZZ,VV)
+C         WRITE(DMY,'(I2.2,''-'',A3,''-'',I2.2)')
+C     $        VV(3),MM(VV(2)),MOD(VV(1),100)
+C      ENDIF
+C      IF(LONG.GT.9) DMY=DMY(1:9)//' '      
+C-------------------------------------------------
+
+C This uses built-in idate, hence transportable
+      INTEGER TODAY(3)
+      call idate(today)  ! today(1)=day, today(2)=month, today(3)=year
+      write(dmy,fmt='(2(i2.2,a1),i2.2)') 
+     > today(1),'/',today(2),'/',today(3) !-2000
       RETURN
       END

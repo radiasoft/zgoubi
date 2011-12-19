@@ -447,12 +447,14 @@ C----- Print last step
       FINTE = FINTEI
       GAPE = GAPEI
       RETURN
+
       ENTRY INTEG2(WDGI,FINTSI,GAPSI)
       WEDGS = .TRUE.
       WDGS = WDGI
       FINTS = FINTSI
       GAPS = GAPSI
       RETURN
+
       ENTRY INTEG3
       WEDGE = .FALSE.
       WEDGS = .FALSE.
@@ -461,10 +463,12 @@ C----- Print last step
       ENTRY INTEG4(NSTP)
       NSTP = NSTEP
       RETURN
+
       ENTRY INTEG5(
      >             PASO)
       PASO=PAS
       RETURN
+
       ENTRY INTEG6(AREGI,BREGI,CREGI)
       AREG(1)=AREGI(1)
       BREG(1)=BREGI(1)
@@ -473,7 +477,9 @@ C----- Print last step
       BREG(2)=BREGI(2)
       CREG(2)=CREGI(2)
       RETURN
+
       ENTRY INTEG8(KFIT)
       FITTST = KFIT.EQ.1
       RETURN
+
       END

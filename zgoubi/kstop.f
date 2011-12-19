@@ -95,19 +95,6 @@ C  -------
       ELSEIF( IK .EQ. 4 ) THEN
       ELSEIF( IK .EQ. 5 ) THEN
         CALL FITSTA(5,FITING)
-        IF(.NOT.FITING) THEN 
-          WRITE(6,100) 
-     >    'Lmnt # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
-     >    II,' stopped (IK=',IK,') : ',
-     >    TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
-     >      IMX-NSTOP,'/',IMX
- 100      FORMAT(A,I6,A,I4,3A,I6,A1,I6)
-          WRITE(ABS(NRES),100) 
-     >    'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
-     >    II,' stopped (IK=',IK,') : ',
-     >    TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
-     >      IMX-NSTOP,'/',IMX
-        ENDIF
       ELSEIF( IK .EQ. 6 ) THEN
       ELSEIF( IK .EQ. 7 ) THEN
       ELSEIF( IK .EQ. 8 ) THEN
@@ -115,9 +102,25 @@ C  -------
       ELSEIF( IK .EQ. 10) THEN
       ENDIF
  
+      IF(.NOT.FITING) THEN 
+C        WRITE(6,100) 
+C     >  'Lmnt # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
+C     >  II,' stopped (IK=',IK,') : ',
+C     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
+C     >    IMX-NSTOP,'/',IMX
+        WRITE(ABS(NRES),100) 
+     >  'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
+     >  II,' stopped (IK=',IK,') : ',
+     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
+     >    IMX-NSTOP,'/',IMX
+ 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
+        call flush2(abs(nres),.false.) 
+      ENDIF
+
       IF(NSTOP.GE.IMX) THEN
         CALL FITSTA(5,FITING)
         IF(.NOT.FITING) THEN 
+          WRITE(ABS(NRES),*) ' SBR KSTOP,  IK = ', IK 
           CALL ENDJOB
      >    ('SBR KSTOP : execution stopped, all particles lost !!',-99)
         ENDIF

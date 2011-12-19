@@ -29,19 +29,21 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER * 9   DMY,HMS
-      LOGICAL IDLUNI, READAT, FITING
+      LOGICAL IDLUNI, READAT, FITING, ENDFIT
       CHARACTER*10 FNAME
 
       PARAMETER (I5=5, I6=6)
 
-      CALL INIDAT
-      CALL RESET
-      CALL CHECKS
+      PARAMETER (KSIZ=10)
+      CHARACTER*(KSIZ) KLE
+
+      DATA ENDFIT / .FALSE. /
 
       IF(IDLUNI(
      >          NDAT)) THEN
         FNAME = 'zgoubi.dat'
         OPEN(UNIT=NDAT,FILE=FNAME,STATUS='OLD',ERR=996)
+c          write(*,*) ' zgoubi.dat is unit # ',ndat
       ELSE
         GOTO 996
       ENDIF
@@ -50,6 +52,7 @@ C  -------
      >          NRES)) THEN
         FNAME = 'zgoubi.res'
         OPEN(UNIT=NRES,FILE=FNAME,ERR=997)
+c          write(*,*) ' zgoubi.res is unit # ',nres
       ELSE
         GOTO 997
       ENDIF
@@ -70,33 +73,72 @@ C  -------
  103  FORMAT(/,'  Zgoubi, version 5.1.0.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
+ 1    CONTINUE
+
+      CALL INIDAT
+      CALL RESET
+      CALL CHECKS
+
       READAT = .TRUE.
       FITING = .FALSE.
       CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
-      CALL ZGOUBI(NL1,NL2,READAT)
-      NOELMX=NL2
+      ENDFIT = .FALSE.
+      CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
 
       CALL FITSTA(I5,
      >               FITING)
       IF(FITING) THEN
         READAT = .FALSE.
-        CALL FITNU(*99)
+        CALL FITNU(NRES,*99)
         FITING = .FALSE.
         CALL FITSTA(I6,FITING)
-        NL2 = NOELMX-2   ! FIT keyword is at position NOELMX
-C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
+        CALL FITST1(
+     >              NUMKLE)
+        NL2 = NUMKLE-1   ! FIT keyword is at position NUMKLE
         WRITE(6,201)
         WRITE(NRES,201)
         WRITE(6,200) 
         WRITE(NRES,200) 
  200    FORMAT(/,10X,
      >   ' MAIN PROGRAM :  now final run using FIT values ',A10)
-        CALL ZGOUBI(NL1,NL2,READAT)
+        ENDFIT = .FALSE.
+        CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
+c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle
+c        write(*,*) 
         WRITE(6,201)
         WRITE(NRES,201)
  201    FORMAT(/,128('*'))
+
+C Proceeds until the end of zgoubi.dat list
+        READAT = .TRUE.
+        FITING = .FALSE.
+        CALL FITSTA(I6,FITING)
+        NOEL = NUMKLE
+        NL1 = NUMKLE + 1
+C        call go2key('FIT')
+        CALL ZGKLE(IQ(NL1-1),
+     >                     KLE)   ! KLE = FIT !!
+        call go2key(NL1)
+        NL2 = NBEL
+        CALL REBEL6(NL1, NBEL)
+        ENDFIT = .TRUE.
+        CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
+c        IF(IDLUNI(
+c     >          LUN)) THEN
+c          OPEN(UNIT=LUN,FILE='zgoubi.fitSave',ERR=462)
+c          CALL IMPAJU(LUN,F)          
+c        ELSE
+c          GOTO 462
+c        ENDIF
+ 462    CONTINUE
+
+C For use of REBELOTE (REBELOTE encompasses FIT)
+        IF(.NOT. ENDFIT) THEN
+          REWIND(NDAT)
+          GOTO 1 
+        ENDIF
       ENDIF
 
       GOTO 10
@@ -117,6 +159,9 @@ C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
      >          '' Main program : stopped upon key  FIT'')')
 
  10   CONTINUE
+      
+      WRITE(NRES,fmt='(A)')  '   '
+      WRITE(NRES,fmt='(A)')  '            Zgoubi run completed. '
 
       WRITE(NRES,103) DMY,HMS
       WRITE(6   ,103) DMY,HMS
@@ -124,7 +169,7 @@ C        write(*,*) ' zgoubi_main 2 fiting :',nres,nl1,nl2
       CALL TIME2(HMS)
       WRITE(NRES,107) DMY,HMS
       WRITE(6   ,107) DMY,HMS
- 107  FORMAT('  Job  ended  on  ',A,',  at  ',A,/)
+ 107  FORMAT('  Job  ended  on    ',A,',  at  ',A,/)
 
       TEMP = TIMSEC
       CALL CPU_TIME(TIMSEC)

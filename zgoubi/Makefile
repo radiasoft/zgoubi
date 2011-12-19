@@ -4,6 +4,10 @@ OBJ=\
  accen.o\
  accep.o\
  adpol.o\
+ agsks.o\
+ agsk12.o\
+ agsmm.o\
+ agsmmf.o\
  aimant.o\
  apdpo1.o\
  apdpo.o\
@@ -70,6 +74,7 @@ OBJ=\
  dipolm.o\
  dipsi.o\
  dist2.o\
+ dlgau.o\
  dpkick.o\
  drtent.o\
  drvg.o\
@@ -128,6 +133,7 @@ OBJ=\
  getdst.o\
  gg.o\
  go2end.o\
+ go2key.o\
  header.o\
  helix.o\
  histab.o\
@@ -213,6 +219,7 @@ OBJ=\
  pscal.o\
  pvect.o\
  quasex.o\
+ ragsmm.o\
  raiman.o\
  rautor.o\
  raysyn.o\
@@ -314,7 +321,6 @@ OBJ=\
  transm.o\
  traobj.o\
  trarot.o\
- trbeam.o\
  tridi.o\
  trobj.o\
  trrote.o\
@@ -352,6 +358,9 @@ clean :
 
 accen.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 accep.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+agsk12.o: $(INC)/MXLD.H $(INC)/MXFS.H
+agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+agsmmf.o: $(INC)/MAXTRA.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bendi.o: $(INC)/MXLD.H
@@ -551,7 +560,6 @@ transf.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(
 transm.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 traobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 trarot.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
-trbeam.o: $(INC)/MXLD.H $(INC)/MXFS.H
 trobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 trrote.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 twiss.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -564,3 +572,4 @@ wienfi.o: $(INC)/MXLD.H
 ymoiny.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H
 zgoubi_main.o: $(INC)/MXLD.H
+ 

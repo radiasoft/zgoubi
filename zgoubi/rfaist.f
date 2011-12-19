@@ -35,7 +35,7 @@ C     ---------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
 
       INTEGER DEBSTR,FINSTR
       CHARACTER TXT*80, STRA(1)*80
@@ -46,12 +46,13 @@ C           right after any occurence of element label[s] TA(noel,2)
       READ(NDAT,FMT='(A)') TXT
       CALL STRGET(TXT,1,
      >                  IDUM,STRA) 
+C File name
       TA(NOEL,1) = STRA(1)
 
       IF(MLB .EQ. 0) THEN
         NLB = 0
-        LBL(1) = ''
-        LBL(2) = ''
+        LBL(1) = ' '
+        LBL(2) = ' '
         PRLB = .FALSE.
       ELSE
         ITXT = finstr(txt)
@@ -61,12 +62,14 @@ C           right after any occurence of element label[s] TA(noel,2)
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                      NLB,LBL)
-        PRLB = (NLB .GE. 1) 
+        PRLB = ((NLB .GE. 1) 
      >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
+     >  .OR. LBL(1).EQ.'all' 
+     >  .OR. LBL(1).EQ.'ALL' )
 
         READ(NDAT,*) A(NOEL,1)
 C------- Will print every IA turn
-        IA=A(NOEL,1)
+        IA=NINT(A(NOEL,1))
       ENDIF
 
       RETURN

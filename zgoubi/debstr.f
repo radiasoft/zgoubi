@@ -36,10 +36,13 @@ C     --------------------------------------
 
       DEBSTR=0
       LENGTH=LEN(STRING)
+
+      IF(LENGTH.EQ.0) RETURN
+
 1     CONTINUE
         DEBSTR=DEBSTR+1
         IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
-          IF(DEBSTR .EQ. LENGTH) THEN
+          IF(DEBSTR .GE. LENGTH) THEN
             DEBSTR = 0
             RETURN
           ELSE

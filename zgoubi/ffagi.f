@@ -322,7 +322,7 @@ C--------------------
           WRITE(NRES,FMT='(/,5X,'' KIRD, resol, IDB : '',3(I2,1X))') 
      >              KIRD,NINT(RESOL),IDB
         ELSE
-          WRITE(NRES,FMT='(/,5X,'' KIRD, resol : '',I2,1X,F9.3))') 
+          WRITE(NRES,FMT='(/,5X,'' KIRD, resol : '',I2,1X,F9.3)') 
      >              IRD,RESOL
         ENDIF
         WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 

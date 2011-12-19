@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,
      >                                    XL,DSREF)
@@ -48,7 +47,7 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),    CS(6),    QCE(6),    QCS(6)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       PARAMETER (MDR=9)
       COMMON/DROITE/ CA(MDR),SA(MDR),CM(MDR),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
@@ -83,17 +82,23 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       SAVE IPREC
       INCLUDE 'FILPLT.H'
 
-      PARAMETER (I0=0)
+      PARAMETER (I0=0,I2=2,I3=3)
       CHARACTER*120 FMTYP
 
       LOGICAL SUMAP
 
       SAVE NHDF
 
-      LOGICAL STRCON 
+      LOGICAL STRCON, FITING
+
+      LOGICAL AGS, NEWFIC
 
       SAVE YSHFT
  
+      DATA AGS / .FALSE. /
+
+      DATA NEWFIC / .TRUE. /
+
       DATA NHDF / 4 /
 
       DATA SUMAP /.FALSE./
@@ -117,20 +122,27 @@ C   &  CARTE (2)
       ZSYM=.TRUE.
       SUMAP = .FALSE.
 
-      IF(KALC .EQ. 2 ) THEN
-C------- Field is defined by maps
+      CALL FITSTA(5,FITING)
+      IF(.NOT. FITING) THEN 
+        IF(KALC .EQ. 2 ) THEN
+C--------- Field is defined by maps
 
-        LF =NINT(A(NOEL,1))
+          LF =NINT(A(NOEL,1))
 C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
-        LST = LSTSET(NINT(A(NOEL,2)))
+          LST = LSTSET(NINT(A(NOEL,2)))
 
+        ELSE
+C          Field is defined by analytical models
+
+          LST =LSTSET(NINT(A(NOEL,1)))
+          LST2 = INT(10 * (A(NOEL,1) - NINT(A(NOEL,1))))
+          CALL IMPPL3(LST2)
+        ENDIF
       ELSE
-C        Field is defined by analytical models
-
-        LST =LSTSET(NINT(A(NOEL,1)))
-        LST2 = 10 * (A(NOEL,1) - NINT(A(NOEL,1)))
+        LF = 0
+        LST = 0
+        LST2 = 0
         CALL IMPPL3(LST2)
-
       ENDIF
 
       IF(LST.EQ.2 .OR. LST.GE.4) CALL OPEN2('CHXC',NPLT,FILPLT)
@@ -220,8 +232,8 @@ C-------------- SEXQUAD
  116        FORMAT(55X,'N = ',F10.6,' POUR  Y  POSITIF '
      >          ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
      >          ,/,55X,'B = ',F10.6,' POUR  Y  NEGATIF'
-     >          ,/,55X,'G = ',F10.8,' POUR  Y  POSITIF'
-     >          ,/,55X,'G = ',F10.8,' POUR  Y  NEGATIF')
+     >          ,/,55X,'G = ',F11.8,' POUR  Y  POSITIF'
+     >          ,/,55X,'G = ',F11.8,' POUR  Y  NEGATIF')
           ENDIF
  
           EN = EN / RO
@@ -296,7 +308,7 @@ C---------- Toroidal spectro for LNS
           ENDIF
  
         ELSEIF(KUASEX .EQ. 8 )   THEN
-C-------- BENDING MAGNET
+C-------- BEND MAGNET
 
           CALL BENDI(SCAL,
      >                    XL,DEV)
@@ -347,17 +359,20 @@ C-------- KALC = 2: READS FIELD MAP
          RFR = 0.D0
  
          IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
+C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
 
             IF(KUASEX .EQ. 2) THEN
 C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
               NDIM = 2
+
             ELSEIF(KUASEX.EQ.7) THEN
 C---------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
               NDIM = 3
+
             ENDIF
             CALL TOSCAC(SCAL,NDIM,
      >                            BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >                            XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                            XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
 
 C Because it's done down after the endif...
            XBMA = XBMA/XNORM
@@ -367,14 +382,14 @@ C Because it's done down after the endif...
 
 
          ELSEIF(KUASEX.EQ.9) THEN
-C------------ 9 : MAP2D, MAP2D_E. READS A 2D FIELD MAP, 
+C------------ 9 : MAP2D, MAP2D-E. READS A 2D FIELD MAP, 
 C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
 C------------ No 2nd-order 25-point interpolation available with MAP2D[_E]
            IF(IRD.EQ.25) IRD=2
 
            CALL MAP2D(SCAL,
      >                     BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >                     XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                     XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
 
 C   Because it's done down after the endif...
              XBMA = XBMA/XNORM
@@ -386,10 +401,10 @@ C   Because it's done down after the endif...
 C----------- EMMA 
 
             IF(KUASEX .EQ. 34) THEN
-C---------- 2 : TOSCA. Reads a 2-D field map, assumes Bx=By=0
+C----------- Reads a 2-D field map, assumes Bx=By=0
               NDIM = 2
             ELSEIF(KUASEX.EQ.35) THEN
-C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format. 
+C----------- Reads a 3-D field map, TOSCA type data output format. 
               NDIM = 3
             ENDIF
             CALL EMMAC(SCAL,NDIM, 
@@ -420,17 +435,17 @@ C---------- 7 : TOSCA. Reads a 3-D field map, TOSCA data output format.
 
            IDEB = DEBSTR(TITL)
            FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
-           IXMA = A(NOEL,20)
+           IXMA = NINT(A(NOEL,20))
            IF(IXMA.GT.MXX) 
      >        CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
            IF(NDIM .EQ. 1) THEN
              JYMA=1
            ELSE
-             JYMA = A(NOEL,21)
+             JYMA = NINT(A(NOEL,21))
              IF(JYMA.GT.MXY ) 
      >          CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
              IF(NDIM .EQ. 3) THEN
-               KZMA =A(NOEL,22)
+               KZMA = NINT(A(NOEL,22))
                IF(KZMA.GT.IZ ) 
      >            CALL ENDJOB('Z-dim of map is too large,  max  is ',IZ)
              ENDIF
@@ -454,7 +469,6 @@ C--------- Will sum (superimpose) 1D or 2D field maps if map file name is follow
                  SUMAP = .FALSE.
                ENDIF
                NOMFIC(NFIC) = NAMFIC
-
                IF(SUMAP) GOTO 267
 
                  JFIC = 1
@@ -680,7 +694,7 @@ C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
                  READ(LUN,ERR=97) (CBM(J),J=1,JYMA)
                ELSE
                  READ(LUN,602,ERR=97) (CBM(J),J=1,JYMA)
- 602             FORMAT(6E13.5,/,E11.5,3E13.5)
+ 602             FORMAT(6E13.5,/,E12.5,3E13.5)
                ENDIF
                DO 625 J=1,JYMA
                  IF(CBM(J) .GT. BMAX) THEN
@@ -790,19 +804,18 @@ C close does not seem to idle lun => makes problem with FIT !!
      >                               1P,E14.6,T68,'/ ',E14.6
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68
      >                                      ,'/ ',3(G10.3,1X)
-     >     , /,5X,'  accounting for ormalisation coeffs on B, x, y, z'
-     >     ,'   :', 4(E14.6,1X)
+     >     , /,5X,' given normalisation coeffs on field, x, y, z'
+     >     ,' : ', 4(E14.6,1X)
      >     , /,5X,'Min/max normalised fields (kG)  :', 2(E14.6,20X)
      >     ,//,5X,'Length of element,  XL =',E14.6,' cm '
      >     , /,T48,'from  XI = ',E14.6,' cm '
      >     , /,T48,'to    XF = ',E14.6,' cm '
-     >     ,//,5X,'Nbre of steps in X =',I4,';  nbre of steps in Y =',I5
-     >     , /,5X,'Step in X =',E14.6,' cm ;  step in Y =',E14.6,' cm')
+     >     ,//,5X,'Nbr of nodes in X =',I4,';  nbr of nodes in Y =',I5
+     >     , /,5X,'X-size of mesh =',E14.6,' cm ; Y-size =',E14.6,' cm')
            IF(NDIM .EQ. 3) THEN
 C             I2=2 introduced to avoid compiler complainig when IZ=1...
-             I2=2
              WRITE(NRES,FMT='(5X,
-     >       ''nber of steps in Z ='',I5,'' ; Step in Z ='',E14.6,
+     >       ''nber of nodes in Z ='',I5,'' ; Step in Z ='',E14.6,
      >                                  '' cm'')') 2*KZMA-1,ZH(I2)-ZH(1)
 C     >      //,5X,'Champ MIN/MAX CARTE       : ', 
 C     >                               1P,G12.4,T64,'/ ',G12.4
@@ -876,7 +889,6 @@ C------------ Magnetic
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
      >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
                   DSREF = XL
-
            ELSEIF(KFLD .EQ. LC) THEN
 C------------ Electric
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
@@ -905,12 +917,9 @@ C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
 c Test, Dec. 06 :
              XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
              YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
+
              GOTO 92
-CC Modified, FM, Dec 05 :
-CC             Calculate XCE, YCE for entrance change of referential    
-C             YSHFT = A(NOEL,ND+NND+2)
-C             A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
-C             A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
+
            ENDIF
 
         ELSEIF(KUASEX .EQ. 20 )   THEN
@@ -980,10 +989,37 @@ C--------- UNDULATOR
           CALL UNDULI(SCAL,
      >                     XL)
 
+        ELSEIF(KUASEX .EQ. 37 )   THEN
+C--------- AGS MAIN MAGNET
+ 
+          IRD = KORD
+          IF(IRD .EQ. 4) IDB=4
+
+          NND = 10
+          
+          CALL AGSMM(LMNT,MG,MPOL,I3,SCAL,
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+
+          DSREF = XL
+          KP = NINT(A(NOEL,ND+NND))
+
+          IF( KP .EQ. 3 ) THEN
+            IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+     >                              A(NOEL,ND+NND+3)=-DEV/2.D0
+            CALL AGSK11(
+     >                  YSHFT)
+c Test, Dec. 06 :
+            XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
+            YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
+
+            GOTO 92
+
+          ENDIF
+
         ENDIF
+C--------------------- ENDIF KUASEX
 
         DSREF = XL
-C--------------------- ENDIF KUASEX
 C-------- End 2003
 
 C------- END KALC=1-3
@@ -1003,10 +1039,19 @@ C------ Cavity
      >  .OR. KSYN.EQ.1) THEN
 C------------SR Loss
 
-        IF(NRES .GT. 0)  WRITE(NRES,199) SCAL
- 199    FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8)
+        IF(NRES .GT. 0) THEN
+          IF(KUASEX .EQ. 37 )   THEN
+            WRITE(NRES,FMT='(
+     >      /,10X,''AGS dipole. K1 and K2 computed from '',
+     >      ''momentum-dependent law''
+     >      )')
+          ENDIF
+          WRITE(NRES,199) SCAL
+ 199      FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8)
+        ENDIF
 
       ENDIF
+
       IF(KFLD.GE.LC) THEN
         IF(Q*AM .EQ. 0.D0) 
      >  CALL ENDJOB('Give  mass  and  charge - keyword PARTICUL',-99)
@@ -1060,18 +1105,7 @@ C        STP3 = A(NOEL,ND)
 
       ENDIF
 
-      RETURN
-
-      ENTRY CHXC1R(
-     >             KPASO)
-      KPASO = KPAS
-      RETURN
-
-      ENTRY CHXC1W(KPASI,IPRECI)
-      KPAS = KPASI
-      IPREC = IPRECI
-      IF(KPAS .EQ. 2) CALL DEPLAW(.TRUE.,IPREC)
-      RETURN
+      GOTO 99
 
  97   NRES = ABS(NRES)
       WRITE(NRES,200) '  ERROR DURING READ IN ',NOMFIC(NFIC)
@@ -1087,6 +1121,21 @@ C        STP3 = A(NOEL,ND)
      > '(//,''  Error  in  data  list'',
      >        /,''    * See zgoubi.res'',//)')
       CALL ENDJOB('Execution stopped, data list error ',-99)
+
+ 99   CONTINUE
+
+
+      RETURN
+
+      ENTRY CHXC1R(
+     >             KPASO)
+      KPASO = KPAS
+      RETURN
+
+      ENTRY CHXC1W(KPASI,IPRECI)
+      KPAS = KPASI
+      IPREC = IPRECI
+      IF(KPAS .EQ. 2) CALL DEPLAW(.TRUE.,IPREC)
       RETURN
 
   200 FORMAT(2A)

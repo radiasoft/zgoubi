@@ -29,17 +29,22 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       CHARACTER*8 STRA(2)
+
       READ(NDAT,*,ERR=99) A(NOEL,1)
       READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)
+
       CALL STRGET(TA(NOEL,1),2,
-     >                             NOUT,STRA)
+     >                         NOUT,STRA)
+
       TA(NOEL,1)=' '
       TA(NOEL,2)=' '
       IF(NOUT.GE.1) TA(NOEL,1)=STRA(1)
       IF(NOUT.GE.2) TA(NOEL,2)=STRA(2)
+
       READ(NDAT,*,ERR=99) A(NOEL,10), A(NOEL,11)
+
       RETURN
  99   CONTINUE
       WRITE(6,*) ' Input data error at keyword SRLOSS'

@@ -443,7 +443,7 @@ Check current number of field map, IMAP in HC(*,*,*,*,IMAP)
      >           IMAP) 
       MOD = MODI
       MOD2 = MODI2
-        NHD = NHDI
+      NHD = NHDI
       KZ = KZI
       BMIN =  1.D10
       BMAX = -1.D10
@@ -555,7 +555,6 @@ C Read 3D field map contained in a single file
 
           BMIN = BMIN * BNORM
           BMAX = BMAX * BNORM
-
 
 C------- symmetrise 3D map wrt mid-plane= bend-plane
           DO 122  K=2,KZMA      
@@ -684,8 +683,14 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
                    IF    (MOD2.EQ.1) THEN 
                      READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
+                   ELSEIF(MOD2.EQ.2) THEN 
+                     READ(TXT132,FMT='(1X,6E12.2)') YH(J),ZH(I),XH(K), 
+     >                                        BREAD(2),BREAD(3),BREAD(1)
+                   ELSEIF(MOD2.EQ.3) THEN 
+                     READ(TXT132,*) YH(J),ZH(I),XH(K), 
+     >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSE
-C-------------------- Default MOD, also case MOD=0
+C-------------------- Default MOD2
                      IF(FMTYP.EQ.'GSI') THEN
                        READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
@@ -694,6 +699,7 @@ C-------------------- Default MOD, also case MOD=0
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
                        READ(TXT132,*) YH(J),ZH(I),XH(K),  
+C                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF

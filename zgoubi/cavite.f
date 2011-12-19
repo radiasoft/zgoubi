@@ -69,7 +69,7 @@ C  -------
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
-      DATA PP0 / 1.D0 / 
+      DATA PP0, DWS / 1.D0, 0.D0 / 
 
       KCAV = NINT(A(NOEL,1))
       IF(IPASS .EQ. 1) THEN 
@@ -163,7 +163,7 @@ c        CALL SYNPA1(
 c     >              SMELPP)
 c        WKS = WKS - SMELPP
          WKS = WKS - DWS
-C        WRITE(*,*) ' CAVITE SRLOSS ',SMELPP,dws*ipass,ipass,dts
+c        WRITE(*,*) ' CAVITE SRLOSS ',SMELPP,dws*ipass,ipass,dts
       ENDIF
       PS = SQRT(WKS*(WKS+2.D0*AM))
       PP0 = PS / P0
@@ -290,14 +290,14 @@ C     ... Synchronous conditions at cavity exit
         WRITE(NRES,126) HN, QV/(Q *1.D-6), PHS, OMRF/(2.D0*PI),  
      >       QV*SIN(PHS),COS(PHS),   GTRNUS, ACCDP
  126    FORMAT(1P, 
-     >       /,20X,'RF  harmonic          =',G15.4,
-     >       /,20X,'Peak  voltage         =',G15.4,' V',
-     >       /,20X,'Synchronous  phase    =',G15.4,' rd',
-     >       /,20X,'RF  frequency         =',G15.4,' Hz',
-     >       /,20X,'qV.SIN(Phi_s)         =',G15.4,' MeV',
-     >       /,20X,'cos(Phi_s)            =',G15.4,' ',
-     >       /,20X,'Nu_s/sqrt(alpha)      =',G15.4,'  ',
-     >       /,20X,'dp-acc*sqrt(alpha)    =',G15.4,'  ')
+     >       /,20X,'RF  harmonic          =',E15.4,
+     >       /,20X,'Peak  voltage         =',E15.4,' V',
+     >       /,20X,'Synchronous  phase    =',E15.4,' rd',
+     >       /,20X,'RF  frequency         =',E15.4,' Hz',
+     >       /,20X,'qV.SIN(Phi_s)         =',E15.4,' MeV',
+     >       /,20X,'cos(Phi_s)            =',E15.4,' ',
+     >       /,20X,'Nu_s/sqrt(alpha)      =',E15.4,'  ',
+     >       /,20X,'dp-acc*sqrt(alpha)    =',E15.4,'  ')
       ENDIF
 
       DO 63 I=1,IMAX 
@@ -322,7 +322,6 @@ C        PHI = OMRF * TI + PHS
         DUM = SCALE4(F(7,I),WF1(I))
         PHI = SCALER(IPASS,NOEL,
      >                          coTime) + PHS
-
 c        ekbef = sqrt(p*p + am*am) -am
 c        zero = 0.
 c          write(88,*) ipass, zero, phi, ti, ekbef
@@ -397,16 +396,16 @@ C      TS = TS + DTS
         WRITE(NRES,170) FCAV,HARM,QV,BORO,DTS,
      >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
  170    FORMAT(
-     >  /,20X,'Cavity  frequency                 =',1P,G15.6,' Hz',
-     >  /,20X,'Harmonic                          =',   G15.6,' ',
-     >  /,20X,'Max energy  gain                  =',   G15.6,' MeV',
-     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       G15.6,' s',
-     >  /,20X,'Cumulated distance since origin   =',   G15.6,' m',
-     >  /,20X,'Cumulated   TOF      "     "      =',   G15.6,' s',
-     >  /,20X,'Particle mass                     =',   G15.6,' MeV/c2',
-     >  /,20X,'         charge                   =',   G15.6,' C')
+     >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
+     >  /,20X,'Harmonic                          =',   E15.6,' ',
+     >  /,20X,'Max energy  gain                  =',   E15.6,' MeV',
+     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       E15.6,' s',
+     >  /,20X,'Cumulated distance since origin   =',   E15.6,' m',
+     >  /,20X,'Cumulated   TOF      "     "      =',   E15.6,' s',
+     >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
+     >  /,20X,'         charge                   =',   E15.6,' C')
       ENDIF
- 
+
       DO 71 I=1,IMAX
         IF(IEX(I) .LT. -1) GOTO 71
         TTA = F(3,I)*.001D0
@@ -424,7 +423,6 @@ C      TS = TS + DTS
 C F(7,I) is time in mu_s. of course, TI is in s
         TI = F(7,I) * UNIT(7) 
         PHI = OMRF * TI + PH0
-          
 C Phase, in [-pi,pi] interval
         PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
         IF    (PHI .GT.  PI) THEN
@@ -452,8 +450,8 @@ C Kin. energy, MeV
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
 
         IF(OKIMP) 
-     >          WRITE(LUN,FMT='(1P,4G14.6,2I6)') PH(I),DPR(I),
-     >            TI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >     WRITE(LUN,FMT='(1P,5e14.6,2I6)') PH(I),DPR(I),
+     >     TI,ti-dble(ipass)*dts,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  71   CONTINUE
 
@@ -481,14 +479,14 @@ C      TS = TS + DTS
         WRITE(NRES,180) FCAV,HARM,QV,BORO,DTS,
      >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
  180    FORMAT(
-     >  /,20X,'Cavity  frequency                 =',1P,G15.6,' Hz',
-     >  /,20X,'Harmonic                          =',   G15.6,' ',
-     >  /,20X,'Max energy  gain                  =',   G15.6,' MeV',
-     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       G15.6,' s',
-     >  /,20X,'Cumulated distance since origin   =',   G15.6,' m',
-     >  /,20X,'Cumulated   TOF      "     "      =',   G15.6,' s',
-     >  /,20X,'Particle mass                     =',   G15.6,' MeV/c2',
-     >  /,20X,'         charge                   =',   G15.6,' C')
+     >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
+     >  /,20X,'Harmonic                          =',   E15.6,' ',
+     >  /,20X,'Max energy  gain                  =',   E15.6,' MeV',
+     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       E15.6,' s',
+     >  /,20X,'Cumulated distance since origin   =',   E15.6,' m',
+     >  /,20X,'Cumulated   TOF      "     "      =',   E15.6,' s',
+     >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
+     >  /,20X,'         charge                   =',   E15.6,' C')
       ENDIF
  
       DO 81 I=1,IMAX
@@ -553,19 +551,24 @@ C Kin. energy, MeV
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
+        DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
         WRITE(NRES,120) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
-     >       QV*SIN(PHS),COS(PHS),   GTRNUS, ACCDP
+     >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
+     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
  120    FORMAT(1P, 
-     >       /,20X,'Orbit  length         =',G15.4,' m',
-     >       /,20X,'RF  harmonic          =',G15.4,
-     >       /,20X,'Peak  voltage         =',G15.4,' V',
-     >       /,20X,'RF  frequency         =',G15.4,' Hz',
-     >       /,20X,'Synchronous  phase    =',G15.4,' rd',
-     >       /,20X,'Isochronous  time     =',  G15.4,' s',
-     >       /,20X,'qV.SIN(Phi_s)         =',G15.4,' MeV',
-     >       /,20X,'cos(Phi_s)            =',G15.4,' ',
-     >       /,20X,'Nu_s/sqrt(alpha)      =',G15.4,'  ',
-     >       /,20X,'dp-acc*sqrt(alpha)    =',G15.4,'  ')
+     >       /,20X,'Orbit  length           =',E15.4,' m',
+     >       /,20X,'RF  harmonic            =',E15.4,
+     >       /,20X,'Peak  voltage           =',E15.4,' V',
+     >       /,20X,'RF  frequency           =',E15.4,' Hz',
+     >       /,20X,'Synchronous  phase      =',E15.4,' rd',
+     >       /,20X,'Isochronous  time       =',  E15.4,' s',
+     >       /,20X,'qV.SIN(Phi_s)           =',E15.4,' MeV',
+     >       /,20X,'cos(Phi_s)              =',E15.4,' ',
+     >       /,20X,'Nu_s/sqrt(alpha)        =',E15.4,'  ',
+     >       /,20X,'dp-acc*sqrt(alpha)      =',E15.4,'  '
+     >       /,20X,'dgamma/dt               =',E15.4,' /s '
+     >       /,20X,'rho*dB/dt               =',E15.4,' T.m/s '
+     >       )
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)
@@ -607,12 +610,12 @@ C DTI is the time it took since the last passage in CAVITE
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
  
-        DPR(I)=P-PS
-C        DPR(I)=(P-PS)/PS
-C        PH(I)=PHAS(I) 
-        BLAG=(PHAS(I)-PHS)/OMRF
-        BLNG=BLAG*(BTA*CL)
-        PH(I)=BLAG
+C        DPR(I)=P-PS
+        DPR(I)=(P-PS)/PS
+        PH(I)=PHAS(I) 
+C        BLAG=(PHAS(I)-PHS)/OMRF
+C        BLNG=BLAG*(BTA*CL)
+C        PH(I)=BLAG
      
 
         F(1,I) = P/P0

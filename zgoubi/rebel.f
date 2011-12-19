@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE REBEL(READAT,KLE,LABEL,
-     >                                  REBFLG,NOELB,NOELRB)
+     >                                  REBFLG,NOELRB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER KLE(*)*(*)
       INCLUDE 'MXLD.H'
@@ -64,7 +64,23 @@ C      LOGICAL FITING
       SAVE KWRI6 
       LOGICAL REBFLG
 
+      LOGICAL OKPCKP
+      SAVE OKPCKP
+
+      PARAMETER (MXPRM=100)
+      DIMENSION PARAM(MXPRM)
+      SAVE PARAM
+
+      save noela, noelb
+
       DATA KREB3, KREB31 / 0, 0 /
+      DATA OKPCKP / .FALSE. /
+      DATA PARAM / MXPRM*0.D0 /
+      data noela, noelb / 1, mxl  /
+
+c      if(nres.gt.0)
+c       write(abs(nres),*) ' rebel noela, noelb ',noela,noelb
+
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
@@ -74,11 +90,21 @@ C----- Switch for print to standard output :
 
 C----- For multiturn injection
       KREB3 = NINT(A(NOEL,3))
+      IF(KREB3 .EQ. 22) THEN
+        KLM = A(NOEL,4)
+        KPRM = A(NOEL,5)
+        DO I = 1, NRBLT
+          J = 10 + 10*((I-1)/10)
+          PARAM(I) = A(NOEL,J +I-1)
+          IF(I .GT. MXPRM) STOP ' SBR REBEL : Too many parameters under 
+     >''REBELOTE''. Reduce it or increase MXPRM.'
+        ENDDO
+      ENDIF
 C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
-C REBELOTE will apply from lmnt #NOELA 
-      NOELA = NINT(A(NOEL,4))
-      NOELB = NINT(A(NOEL,5))
+CC REBELOTE will apply from lmnt #NOELA 
+C      NOELA = NINT(A(NOEL,MXD-1))
+C      NOELB = NINT(A(NOEL,MXD))
 
 C Will stop at element #NOELB when in last turn
       REBFLG = NOELB.LT.NOEL
@@ -138,15 +164,17 @@ C--------- spin tracking ----------------------------------
 C--------- multiturn
           IF(IPASS .EQ. 1) THEN
 C----------- 1-er pass at REBELOTE
-            DO 21 J=1,4
-              DO 21 I=1,IMAX
+            DO J=1,4
+              DO I=1,IMAX
                 SSP(J,I) = 0D0
- 21         CONTINUE
+              ENDDO
+            ENDDO
           ENDIF
-          DO 22 J=1,4
-            DO 22 I=1,IMAX
+          DO J=1,4
+            DO I=1,IMAX
               SSP(J,I)  = SSP(J,I) +SF(J,I)
- 22       CONTINUE
+            ENDDO
+          ENDDO
         ENDIF
       ENDIF
 C--------- endif spin tracking ----------------------------------
@@ -160,9 +188,12 @@ C--------- SR loss ----------------------------------
       ENDIF
 C--------- endif SR loss ----------------------------------
 
+C        write(*,*) ' rebel ipass, nrblt ',ipass, nrblt 
+
       IF( IPASS .LT. NRBLT ) THEN
+
         LUN=ABS(NRES) 
-        IF(LUN.GT.0) THEN
+        IF(LUN.GT.0 .AND. KWRT.EQ.2) THEN
           WRITE(LUN,100) IPASS
  100      FORMAT(/,30X,'  -----  REBELOTE  -----',//
      >    ,5X,'End of pass # ',I8,' through the optical structure ',/)
@@ -190,55 +221,67 @@ C--------- endif SR loss ----------------------------------
         ENDIF
  
         IF(IPASS .EQ. 1) THEN
-          WRITE(NRES,FMT='(/,5X,
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(/,5X,
      >    ''Multiple pass, '', /, 
      >    10X,''from element # '',I5,'' : '',
-     >    A,''/'',A,''/'',A,'' to REBELOTE '',/, 
-     >    10X,''ending at pass # '',I5,'' at element # '',I5,'' : '',
-     >    A,''/'',A,''/'',A,/, 
-     >    /)') 
-     >    NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
+     >    A,''/label1='',A,''/label2='',A,
+     >    '' to REBELOTE '',''/label1='',A,''/label2='',A,/, 
+     >    10X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
+     >    A,''/label1='',A,''/label2='',A,/)') 
+     >    NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2),
+     >    LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
      >    NOELB,KLE(IQ(NOELB)),LABEL(NOELB,1),LABEL(NOELB,2)
 C          WRITE(NRES,FMT='(/,5X,
 C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
+
+          IF(NRES .GT. 0)  THEN
+            IF(KREB3 .EQ. 22) THEN
+              WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 'Parameter #',KPRM
+     >        ,' in element #',KLM,' will be modified at each pass. '
+              WRITE(NRES,FMT='(/,5X,A)') 'List of parameter values :'
+              WRITE(NRES,FMT='(15X,i3,1p,e17.8)')(i,param(i),i=1, nrblt)            
+            ENDIF
+          ENDIF
+
           IF(NRBLT.GT.1) THEN
-            IF(KWRT .EQ. 0) THEN
-C------------- inihibit WRITE if KWRT=0 and more than 1 pass
+            IF(KWRT .NE. 1) THEN
+C------------- inihibit WRITE if KWRT.NE.1 and more than 1 pass
               IF(NRES .GT. 0) NRES =-NRES
             ENDIF
-            READAT = .FALSE.
+            IF(KREB3.EQ.99) READAT = .FALSE.
           ENDIF
           IF(REBFLG) NOELRB = NOEL
         ENDIF
  
-        JJJ = 0
-        DO III = 1, IMAX
-           IF(IEX(III).LT.0) JJJ = JJJ+1
-        ENDDO
-           WRITE(LUN,*) '    SUM OVER IEX : ',JJJ
+C        JJJ = 0
+C        DO III = 1, IMAX
+C           IF(IEX(III).LT.0) JJJ = JJJ+1
+C        ENDDO
+C           WRITE(LUN,*) '    SUM OVER IEX : ',JJJ
 
         IPASS=IPASS+1
         NOEL=NOELA-1
-        CALL PCKUP3(NOELA)
+        IF(OKPCKP) CALL PCKUP3(NOELA)
+
+C        write(*,*) ' rebel ipass, nrblt noel ',ipass, nrblt,noel 
 
 C--------- SR loss ----------------------------------
-      IF(KSYN .EQ. 1) THEN
-        WRITE(LUN,FMT='(/,2X,
-     >  '' * Theoretical S.R. parameters in BEND and MULTIPOL *dipole*''
-     >  ,'' field :'')')
-        CALL SYNPA3(LUN,
+        IF(KSYN .EQ. 1) THEN
+          WRITE(LUN,FMT='(/,2X,
+     >    '' * Theoretical S.R. parameters in BEND and MULTIPOL ''
+     >    ,''*dipole*  field :'')')
+          CALL SYNPA3(LUN,
      >                  SMELPP,EE)
-        WRITE(LUN,FMT='(5X,
-     >  '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
-     >  '' Corresponding time : '',G16.8,'' mu_sec'')') 
-     >  EE/SMELPP,EE/SMELPP*F(7,1)
-
-      ENDIF
+          WRITE(LUN,FMT='(5X,
+     >    '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
+     >    '',   time : '',G16.8,'' mu_sec'')') 
+     >    EE/SMELPP,EE/SMELPP*F(7,1)
+        ENDIF
 C--------- endif SR loss ----------------------------
 
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
-        IF(KWRT .EQ. 0) THEN
+        IF(KWRT .NE. 1) THEN
 C--------- reactive WRITE
           IF(NRES.LT.0) NRES=-NRES
         ENDIF
@@ -278,10 +321,10 @@ C--------- reactive WRITE
  
         IPASS=IPASS+1
         NOEL=NOELA-1
-        CALL PCKUP3(NOELA)
+        IF(OKPCKP) CALL PCKUP3(NOELA)
  
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
-C------- Last pass through structure has been completed
+C------- Last pass has been completed
 C Now last occurence of REBELOTE => carry on beyond REBELOTE
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
@@ -328,19 +371,15 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
         ENDIF
 
-CC----- Get FIT status
-C        CALL FITSTA(I5,
-C     >                 FITING)      
-C        IF(.NOT.FITING) 
         READAT = .TRUE.
 
 C REBELOTE should be usable within FIT -> under developement. 
         IPASS = 1
-C        NOEL=NOELB-1
-C        CALL PCKUP3(NOELB)
-        CALL PCKUP3(NOEL)
+        IF(OKPCKP) CALL PCKUP3(NOEL)
 
       ENDIF
+
+            IF(KREB3.EQ.22) READAT = .FALSE.
 
       RETURN
 
@@ -348,6 +387,28 @@ C        CALL PCKUP3(NOELB)
      >             KREB3O,KREB31O)
       KREB3O = KREB3
       KREB31O = KREB31
+      RETURN
+
+      ENTRY REBEL2(KPCKUP)
+      OKPCKP = KPCKUP .EQ. 1
+      RETURN
+
+      ENTRY REBEL5(
+     >             PARAMO)
+      PARAMO = PARAM(IPASS-1)
+      if(nres.gt.0)  write(nres,*) ipass, param
+      RETURN
+
+      ENTRY REBEL6(NLAI, NLBI)
+      NOELA = NLAI
+      NOELB = NLBI
+C      if(nres.gt.0)
+C     >  write(nres,*) ' rebel6 noela, noelb ',noela,noelb
+      RETURN
+
+      ENTRY REBEL7(
+     >             NLBO)
+      NLBO = NOELB 
       RETURN
 
       END

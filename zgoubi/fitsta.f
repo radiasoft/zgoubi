@@ -27,14 +27,25 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL FITIN, FITING
       SAVE FITING
+      SAVE NUMKLE
       DATA FITING / .FALSE. /
+      DATA NUMKLE / 0 /
 C FITIN set to .true. (in zgoubi.f) when FIT procedure run
       IF(IO.EQ.5) THEN
 C-------- read status
          FITIN = FITING
       ELSEIF(IO.EQ.6) THEN
-C-------- write status
+C-------- save status
          FITING = FITIN
       ENDIF         
+      RETURN
+
+      ENTRY FITST1(
+     >             NUMKL)
+         NUMKL = NUMKLE
+      RETURN
+
+      ENTRY FITST2(NUMKL)
+         NUMKLE = NUMKL
       RETURN
       END

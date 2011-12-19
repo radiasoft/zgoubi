@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE FITNU(*)
+      SUBROUTINE FITNU(LUN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXV=40) 
       COMMON/CONTR/ VAT(MXV),XI(MXV)
@@ -43,9 +43,10 @@ C  -------
       SAVE MTHD
       DATA MTHD / 2 / 
 
-      CALL FITEST(*99,IER)
+      CALL FITEST(
+     >            IER)
+      IF(IER .NE. 0) CALL ENDJOB('End of upon FITEST procedure',-99)
       CALL FITSET
-      IF(IER .NE. 0) CALL ENDJOB('End of upon FIT test procedure',-99)
       CALL FITARR(IER)
       IF(IER .NE. 1) THEN
          CALL REMPLI(0)
@@ -56,11 +57,11 @@ C Implemented by Scott Berg, LPSC, April 2007
          ELSE
            CALL MINO1(FF,NV,X,P,VI,Y,XI,F,FINI)
          ENDIF
-         CALL IMPAJU(F)
+         CALL IMPAJU(LUN,F)
       ENDIF
       CALL ENDFIT
       RETURN
- 99   RETURN 1
       ENTRY FITNU2(MTHDI) 
       MTHD = MTHDI
+      RETURN
       END

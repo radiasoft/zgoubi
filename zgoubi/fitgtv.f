@@ -39,13 +39,14 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
  
-      CHARACTER*60 NAMFIC
+      CHARACTER(60) NAMFIC
       INTEGER DEBSTR,FINSTR
 
-      LOGICAL OPN, IDLUNI
+      LOGICAL OPN, IDLUNI, EMPTY
 
 C      PARAMETER (NNEWV=MXL*MXD)
-      CHARACTER TXT132*132, TXT1*1
+      CHARACTER(200) TXT200
+      CHARACTER(1) TXT1
 
       INCLUDE 'MXFS.H'
       PARAMETER (LBLSIZ=8)
@@ -69,7 +70,8 @@ C      DATA NEWVAL / NNEWV*0/
 
       NAMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
 
-      IF(NRES .GT. 0) WRITE(NRES,100) NAMFIC
+      IF(NRES .GT. 0) WRITE(NRES,100) 
+     >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
  100  FORMAT(/,10X, 
      >'Parameter values to be refreshed from FIT storage file : ',A,/)
 
@@ -79,35 +81,33 @@ C      DATA NEWVAL / NNEWV*0/
       IF(OPN) CLOSE(UNIT=LUN)
         
       IF(IDLUNI(
-     >          LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,ERR=99)
+     >    LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,status='OLD',ERR=99)
 
       WRITE(NRES,101) NAMFIC
  101  FORMAT(/,10X,' Ok, opened storgae file ',A,/)
 
-C      CALL HEADER(LUN,NRES,4,.FALSE.,
-      CALL HEADER(LUN,NRES,2,.FALSE.,
-     >                              *999)
-      WRITE(NRES,*) ' ' 
-      
-C      NMI = 999999
-C      NMA = -999999
       KREAD = 0
  1    CONTINUE
-        READ(LUN,FMT='(A)',ERR=10,END=10) TXT132
-        TXT1 = TXT132(DEBSTR(TXT132):DEBSTR(TXT132))
-        IF(TXT1 .EQ. '%' .OR. TXT1 .EQ. '#' .OR. TXT1 .EQ. '!') GOTO 1
-        READ(TXT132,*,end=10) NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
-C        write(*,*) 'fitgtv ',NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
-        IPRM(I) = ISI
-        AFIT(I) = XI
-        KLEFIT(I) = KLE
-        LB1FIT(I) = LBL1
-        LB2FIT(I) = LBL2
-C        NEWVAL(NUML,ISI) = 1
-        KREAD = KREAD+1
+        READ(LUN,FMT='(A)',ERR=1,END=10) TXT200
+        IF(EMPTY(TXT200)) GOTO 1
+        TXT1 = TXT200(DEBSTR(TXT200):DEBSTR(TXT200))
+        IF(TXT1 .EQ. '%' .OR. TXT1 .EQ. '#' .OR. TXT1 .EQ. '!') THEN
+          WRITE(NRES,FMT='(A)')  TXT200(DEBSTR(TXT200):132)
+          GOTO 1
+        ENDIF
+        READ(TXT200,*,end=10,err=1) 
+     >      NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
 
-        K=I+NV
-        J=K+NV
+        KREAD = KREAD + 1
+        IPRM(KREAD) = ISI
+        AFIT(KREAD) = XI
+        KLEFIT(KREAD) = KLE
+        LB1FIT(KREAD) = LBL1
+        LB2FIT(KREAD) = LBL2
+C        NEWVAL(NUML,ISI) = 1
+
+C        K=KREAD+NV
+C        J=K+NV
         IF(NRES.GT.0) 
      >  WRITE(NRES,400) NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
 400     FORMAT(1P, 
@@ -117,10 +117,15 @@ C        NEWVAL(NUML,ISI) = 1
 
  10   CONTINUE
       IF(KREAD.GE.1) FITGET = .TRUE.
-      IF(NRES .GT. 0) WRITE(NRES,103) KREAD,NAMFIC
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,103) KREAD,NAMFIC
  103  FORMAT(/,10X, I3, 
-     >  ' variables have been read from FIT storage file ',A,/)
-
+     >  ' variables have been read from FIT storage file ',A,' :',/)
+        do i = 1, kread
+          WRITE(NRES,409)I,IPRM(I),AFIT(I),KLEFIT(I),LB1FIT(I),LB2FIT(I)
+ 409      FORMAT(1P,2(2X,I3),3X,G10.3,2X,3(1X,A))
+        enddo
+      ENDIF
 C----- OBJECT coordinates are redefined according to FIT variables, if any
 C To be completed
 
@@ -132,28 +137,40 @@ C To be completed
       CALL ENDJOB('*** Error, SBR FITGTV -> at INQUIRE ',-99)
       RETURN 
  99   CONTINUE
-      CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
+C      CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
+      WRITE(NRES,FMT='(3A)') ' Could not open '
+     >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+     >  ,', will proceed without.  '
       RETURN 
- 999  CONTINUE
-      CALL ENDJOB('*** Error, SBR FITGTV ->  Read error at header',-99)
+
+      WRITE(NRES,FMT='(3A)') ' Could not read in '
+     >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+     >  ,', will proceed without.  '
+          stop ' SBR fitgtv, could not read data. '
       RETURN 
 
       ENTRY FITGT1
         DO 2 IV = 1, KREAD
 C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
           IF(KLEFIT(IV) .EQ. KLEY) THEN
-            IF(
+            IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
+              IF(
      >        (LB1FIT(IV) .EQ. '*' 
      >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
      >        .AND.
-     >        (LB2FIT(IV) .EQ. '*' 
+     >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
      >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
-                 TEMP = A(NOEL,IPRM(IV)) 
-                 A(NOEL,IPRM(IV)) = AFIT(IV)
-                 IF(NRES .GT. 0) WRITE(NRES,
-     >           FMT='('' GETFITVAL procedure.  Former  A('',I3,
-     >           '','',I3,'') = '',1P,G12.4,'' changed to new value '', 
-     >           G12.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+                TEMP = A(NOEL,IPRM(IV)) 
+                A(NOEL,IPRM(IV)) = AFIT(IV)
+                IF(NRES .GT. 0) WRITE(NRES,
+     >          FMT='('' GETFITVAL procedure.  Former  value A(NOEL=''
+     >          ,I3,'','',I3,'') = '',1P,G12.4,'' changed to '', 
+     >          G13.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+              ENDIF
+            ELSE
+               IF(NRES .GT. 0) WRITE(NRES,
+     >         FMT='('' GETFITVAL procedure, cannot be applied : ''
+     >         ,'' Elements need be labeled. Provide label #1 '')')
             ENDIF
           ENDIF
  2      CONTINUE

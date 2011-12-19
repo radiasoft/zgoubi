@@ -25,12 +25,13 @@ C  USA
 C  -------
       SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates. 
 C     TOSCA keyword with MOD.le.19. 
 C-------------------------------------------------
+      LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
@@ -40,7 +41,7 @@ C-------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
@@ -48,7 +49,7 @@ C-------------------------------------------------
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       LOGICAL BINARI,IDLUNI
-      LOGICAL BINAR, NEWFIC
+      LOGICAL BINAR
       LOGICAL FLIP
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       SAVE NOMFIC, NAMFIC
@@ -63,6 +64,9 @@ C-------------------------------------------------
       DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
       DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+
+      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
+      SAVE IIXMA, JJYMA, KKZMA
 
       DATA NOMFIC / IZ*' '/ 
       DATA NHDF / 8 /
@@ -88,12 +92,13 @@ C-------------------------------------------------
       IF(JYMA.GT.MXY ) 
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
 
+      KZMA = 1
       NFIC = 1
       NAMFIC = TA(NOEL,2)
       NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
       CALL KSMAP4(NOMFIC,NFIC,
-     >                        NEWFIC,IMAP)
+     >                        NEWFIC,NBMAPS,IMAP)
 
       IF(NRES.GT.0) THEN
 C        WRITE(NRES,*) ' '
@@ -101,7 +106,7 @@ C        WRITE(NRES,*) ' map2d ',
 C     >       NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC)),
 C     >       '       file #',nfic
         WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)') 
-     >  'Number of field data files used is ',NFIC,' ;  ' 
+     >  'Number of data file sets used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP,' '
         IF(NEWFIC) THEN
           WRITE(NRES,209) 
@@ -137,28 +142,29 @@ C     >       '       file #',nfic
                  GOTO 96
                ENDIF
 
+             MOD = 0
+             MOD2 = 3
              I1 = 1
              KZ = 1
+             IRD = NINT(A(NOEL,40))
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
-c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
-c     >         ,HC(3,1,1,1,iMAP)
-c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
-c     >         ,HC(3,1,1,1,iMAP)
-c           write(*,*) ' newfic imap ', xh(1),xh(ixma),imap
-c     >         ,HC(3,1,1,1,iMAP)
-
 C------- Store mesh coordinates
+           IIXMA(IMAP) = IXMA
            DO I=1,IXMA
              XXH(I,imap) =  XH(I)
            ENDDO
+           JJYMA(IMAP) = JYMA
            DO J=1,JYMA
              YYH(J,imap) =  YH(J)
            ENDDO
-           DO K= 2, KZMA
+           KKZMA(IMAP) = KZMA
+C FM Nov 2011   DO K= 2, KZMA
+           DO K= 1, KZMA
              ZZH(K,imap) = ZH(K)
            ENDDO
            bBMI(imap) = BMIN
@@ -176,12 +182,15 @@ c           write(*,*) ' oldfic imap ', xxh(1,imap),xxh(ixma,imap),imap
 c     >         ,HC(3,1,1,1,iMAP)
 
 C------- Restore mesh coordinates
+           IXMA = IIXMA(IMAP)
            DO I=1,IXMA
              XH(I) = XXH(I,imap)
            ENDDO
+           JYMA = JJYMA(IMAP)
            DO J=1,JYMA
              YH(J) = YYH(J,imap) 
            ENDDO
+           KZMA = KKZMA(IMAP)
            DO K= 1, KZMA
              ZH(K) = ZZH(K,imap)
            ENDDO

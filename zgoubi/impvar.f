@@ -55,8 +55,8 @@ C----      X(J)        P(I)
       DO 1 I=1,NV
         K=I+NV
         J=K+NV
-        CALL ZGKLE(
-     >             KLE,IQ(IR(I)))
+        CALL ZGKLE(IQ(IR(I))
+     >                      ,KLE)
         LBL1 = LABEL(IR(I),1)
         LBL2 = LABEL(IR(I),2)
         IF(EMPTY(LBL1)) LBL1 = '*'

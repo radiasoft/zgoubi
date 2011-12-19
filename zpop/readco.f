@@ -44,6 +44,7 @@ C     ----------------------------------------------------
 
       PARAMETER (MXS=4)
       DIMENSION FO(MXJ),F(MXJ),SI(MXS),SF(MXS)
+      INCLUDE 'MAXTRA.H'
       DIMENSION SX(MXT),SY(MXT),SZ(MXT)
       
       PARAMETER (LBLSIZ=8)
@@ -314,7 +315,8 @@ C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)    
         YZXB(23) = SF(3)    
-        YZXB(24) = SF(4)
+        YZXB(24) = SQRT(SF(1)**2 + SF(2)**2 + SF(3)**2)
+C        YZXB(24) = SF(4)
 C         convert B from kG to T
         YZXB(30) = BX      * .1D0
         YZXB(31) = BY      * .1D0

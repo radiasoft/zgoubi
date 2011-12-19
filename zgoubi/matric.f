@@ -23,14 +23,14 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE MATRIC
+      SUBROUTINE MATRIC(JORD,JFOC,KWR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
 C     Compute transfer matrix coefficients
 C     ------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
@@ -60,6 +60,7 @@ C------        Beam_ref    +dp/p     -dp/p
 
       DATA PRBEAM / .FALSE. /
 
+
       IF(NRES.LE.0) RETURN
 
       IF(.NOT. (KOBJ.EQ.5 .OR. KOBJ.EQ.6)) THEN
@@ -68,8 +69,10 @@ C------        Beam_ref    +dp/p     -dp/p
         RETURN
       ENDIF
 
-      IORD = A(NOEL,1)
+C      IORD = A(NOEL,1)
+      IORD = JORD
       IF(IORD .EQ. 0) THEN
+        WRITE(NRES,FMT='(/,9X,'' Matrix  not  computed : IORD = 0'',/)')
         CALL IMPTRA(1,IMAX,NRES)
         RETURN
       ENDIF
@@ -79,10 +82,12 @@ C------        Beam_ref    +dp/p     -dp/p
         IORD=2
       ENDIF 
 
-      IFOC = A(NOEL,2) 
+C      IFOC = A(NOEL,2) 
+      IFOC = JFOC
       PRDIC = IFOC .GT. 10
  
-      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
+C      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
+      KWRMAT = KWR .EQ. 1
       IF(KWRMAT) CALL MATIM6(KWRMAT)
 
       IF    (IORD .EQ. 1) THEN
@@ -143,8 +148,8 @@ C          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
           DNUYDP = (YNUP-YNUM)/2.D0/DP
           DNUZDP = (ZNUP-ZNUM)/2.D0/DP
           IF(NRES .GT. 0) WRITE(NRES,FMT='(/,34X,'' Chromaticities : '',
-     >      //,30X,''dNu_y / dp/p = '',G14.8,/, 
-     >         30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
+     >      //,30X,''dNu_y / dp/p = '',G15.8,/, 
+     >         30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
 C             write(nres,*) dp, a(numl,25)
         ENDIF
 C        CALL REFER(2,IORD,IFOC,1,6,7)

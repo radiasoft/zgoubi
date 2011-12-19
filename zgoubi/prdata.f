@@ -35,11 +35,12 @@ C-----------------------------------------------------------------------
 
 C      CHARACTER   TEXT*80
       PARAMETER (I110=110)
-      CHARACTER   TEXT*110
-      INTEGER DEBSTR
+      CHARACTER   TEXT*110, txt6*6
+      INTEGER DEBSTR, FINSTR
       LOGICAL EMPTY
 
       CHARACTER LAB2(2)*8
+      PARAMETER (KSIZ=10)
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'
@@ -51,11 +52,16 @@ C----- Read zgoubi.dat title (1st data line)
       NOEL=0
  10   CONTINUE
         READ (NDAT,FMT='(A)',ERR=10,END=95) TEXT
-        IDEB=DEBSTR(TEXT)
+        IF( .NOT. EMPTY(TEXT) ) THEN
+          TEXT = TEXT(DEBSTR(TEXT):FINSTR(TEXT))
+        ELSE
+          TEXT = ' '
+        ENDIF
+        IDEB = 1
         IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN
           NOEL=NOEL+1
 
-          DO 1 I=IDEB+1,IDEB+9
+          DO 1 I=IDEB+1,IDEB+KSIZ+1
             IF(TEXT(I:I) .EQ. '''') GOTO 2
  1        CONTINUE
 
@@ -74,9 +80,11 @@ C----- Read zgoubi.dat title (1st data line)
               ENDIF
             ENDIF
 
-          
-C          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,T110,I6)') TEXT, NOEL
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(A,I6)') TEXT, NOEL
+          write(txt6,fmt='(i6)') noel
+          TEXT = TEXT(1:104)//txt6
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A)') text
+c          IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A110,T111,I6)') 
+c     >                 TEXT(1:110),NOEL
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
      >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
@@ -90,5 +98,7 @@ C          IF(NRES .GT. 0) WRITE(NRES,FMT='(A110,T110,I6)') TEXT, NOEL
 
  95   CONTINUE
       REWIND(NDAT)
+c          write(*,*) ' prdata noel',noel
+c             stop
       RETURN
       END

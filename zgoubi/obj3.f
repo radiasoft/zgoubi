@@ -36,7 +36,7 @@ C     **************************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
@@ -52,7 +52,7 @@ C     **************************************
 
       CHARACTER*80 NOMFIC
       INTEGER DEBSTR,FINSTR
-      LOGICAL OKINIT, IDLUNI
+      LOGICAL IDLUNI
       LOGICAL BINARI, BINARY
       CHARACTER*11 FRMT
       LOGICAL OKKT, OKKP
@@ -87,13 +87,11 @@ C----- Reset particle counter
       DPREF= A(NOEL,55)
       TIREF= A(NOEL,56)
       IF(KOBJ2.EQ.0) DPREF=1.D0
-      OKINIT = NINT(A(NOEL,60)) .EQ. 0
+      INITC = NINT(A(NOEL,60))
       NOMFIC=TA(NOEL,2)
       
 
       NOMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Reading  initial'',2X
-     >,''conditions  in  '',A)') NOMFIC
 
       BINARY=BINARI(NOMFIC,
      >                     IDUM)
@@ -102,9 +100,14 @@ C----- Reset particle counter
       IF(IPASS .EQ. 1) THEN
         IF(IDLUNI(
      >            NL)) THEN
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Opening input file  '',
+     >    A,''  Unit # : '',I3)') 
+     >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),NL
           OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',FORM=FRMT,ERR=96, 
      >                                          IOSTAT=IOS)
-            IF(IOS.NE.0) GOTO 97
+            IF(IOS.NE.0) GOTO 96
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Reading  initial'',2X
+     >      ,''conditions  in  '',A)') NOMFIC
             CALL HEADER(NL,NRES,4,BINARY,
      >                                   *999)
         ELSE
@@ -131,7 +134,6 @@ C----- Traj. counter
   17  CONTINUE
         IPASS1 = IPASSR
         I = I + 1
-        IT1 = IT1 + 1
 
         IF(BINARY) THEN
  222      CONTINUE
@@ -152,7 +154,6 @@ C----- Traj. counter
      >                                 IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
-              IT1 = IT1-1
               GOTO 95
             ENDIF
             GOTO 222
@@ -250,7 +251,6 @@ C            TIM = 0.D0
      >                                 IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
-              IT1 = IT1-1
               GOTO 95
             ENDIF
             GOTO 221
@@ -266,6 +266,10 @@ C            TIM = 0.D0
         IF(LETAG.NE.'*') THEN
           IF(LETI.NE.LETAG) IEXI=-9
         ENDIF
+
+        IF(IEXI.LE.0) GOTO 17
+
+        IT1 = IT1 + 1
 
         LET(IT1)=LETI
         IEX(IT1)=IEXI
@@ -310,9 +314,16 @@ C        IREP(IT1) = IREPI
            AMQ(2,IT1) = Q
         ENDIF
 
-        IF(.NOT.OKINIT) THEN
-           DO 116 J=1,MXJ
- 116         FO(J,IT1)=F(J,IT1)
+        IF    (INITC .EQ. 1) THEN
+          DO J=1,MXJ
+            FO(J,IT1) = F(J,IT1)
+          ENDDO
+        ELSEIF(INITC .EQ. 2) THEN
+          DO J=1,MXJ
+            TEMP = F(J,IT1)
+            F(J,IT1) = FO(J,IT1)
+            FO(J,IT1) = TEMP
+          ENDDO        
         ENDIF
 
         IF(IT1 .EQ. MXT) GOTO 169
@@ -320,8 +331,8 @@ C        IREP(IT1) = IREPI
       GOTO  17
  
  96   WRITE(TXT,FMT='(
-     >'' *** SBR OBJ3 : ERROR  at  OPEN  file  '',A)') NOMFIC
-      IF(NRES.GT.0) WRITE(NRES,FMT='(A130)') TXT
+     >'' *** SBR OBJ3 : ERROR  at  OPEN  file  "'',A,''"'')') 
+     >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       CALL ENDJOB(TXT,-99)
  
  97   WRITE(NRES,FMT='(/,
@@ -329,13 +340,14 @@ C        IREP(IT1) = IREPI
      >  A,'' at  event/traj #  '',I6,''/'')') NOMFIC,IT1
 
  95   CONTINUE
+      IT1 = IT1-1
  169  CONTINUE
 
-      IF(KT1.GT.1) THEN
-        IMAX=IT1-1
-      ELSE
+C      IF(KT1.GT.1) THEN
+C        IMAX=IT1-1
+C      ELSE
         IMAX=IT1
-      ENDIF
+C      ENDIF
 C-----
       CALL CNTMXT(IMAX)
 
@@ -356,11 +368,26 @@ C-----
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),IMAX,KT1,KT2
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,
      >    ''  particles  are  of  secondary  type  (LET="S")'')') IS
-        IF(II.GT.0) WRITE(NRES,
+        IF(II.GT.0) THEN 
+          WRITE(NRES,
      >    FMT='(/,T5,I6,''/'',I6,'' particles  have  IEX < 0,  hence'',
      >    I6,''  only  left  to  be  ray-traced. '')') II,IMAX,IMAX-II
-        WRITE(NRES,*) '  Last  pass  number  read  :  ',IPASSR,'  in  ' 
-     >  ,'requested range :  [',KP1,',',KP2,'], ipass-modulo=',KP3,'.'
+          WRITE(NRES,*) ' Last  pass  number  read :  ',IPASSR,'  in  ' 
+     >    ,'requested range :  [',KP1,',',KP2,'], ipass-modulo=',KP3,'.'
+          IF    (INITC.LT.2)  THEN
+            WRITE(NRES,FMT='(/,T5,''InitC = '',I1
+     >      ,'' :  The  starting  coordinates  of  this  run  are  ''
+     >      ,''the  final  coordinates  read  in '',A)')
+     >      INITC,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+          ELSEIF(INITC.EQ.2)  THEN
+            WRITE(NRES,FMT='(/,T5,''InitC = '',I1
+     >      ,'' :  The  starting  coordinates  of  this  run  are  ''
+     >      ,''the  initial  coordinates  read  in '',A)')
+     >      INITC,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+          ELSE
+            STOP ' SBR obj3 : No such option InitC '
+          ENDIF
+        ENDIF
       ENDIF
       IDMAX = 1
       IMAXT=IMAX

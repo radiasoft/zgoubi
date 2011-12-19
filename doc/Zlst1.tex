@@ -367,7 +367,7 @@ Considering that
 
 \begin{equation}
 	\dfrac{dp^2 }{dt} = \dfrac{d\vec  p^{2} }{ dt}
-	\quad \text{\emph{i.e.,}} \quad 
+	\quad \text{\emph{i.e.},} \quad 
 	\dfrac{dp}{dt}\, p = \dfrac{d\vec  p}{dt} \vec  p
 	\label{eq2-2-13}
 \end{equation}
@@ -2138,8 +2138,8 @@ charge and \textsl{PARTICUL} will not assign a mass or charge.
 
 
 \noindent\textbf{KOBJ = 5~:} Mostly dedicated to the calculation of first order
-transfer matrix and various other  optical parameters 
- in conjunction with \textsl{MATRIX\index{MATRIX}} or with \textsl{TWISS\index{TWISS}}.  
+transfer matrix and various other  optical parameters, 
+ using for instance \textsl{MATRIX\index{MATRIX}} or \textsl{TWISS\index{TWISS}}.  
 The input data are the stepsizes 
 \smallskip
 $$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
@@ -2172,7 +2172,7 @@ of initial coordinates.  For example, to have 6 sets of initial coordinates,
 
 \noindent\textbf{KOBJ = 6:}  Mostly dedicated to the calculation of first, second
 and other higher order transfer coefficients and various other  optical parameters, 
-in conjunction with \textsl{MATRIX\index{MATRIX}} or with \textsl{TWISS\index{TWISS}}. 
+using for instance \textsl{MATRIX\index{MATRIX}} or \textsl{TWISS\index{TWISS}}. 
 The input data are the step sizes 
 
 $$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
@@ -2371,11 +2371,14 @@ the data file, should be stated by means of the keywords \textsl{FIN} or
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
 variables\index{variable (FIT)}, for fitting up to 20 constraints\index{constraint (FIT)}. 
 
-\noindent \textsl{FIT} has been implemented  recently~\cite{NedlerMead} and has various advantages over the original method, 
-as converging speed. The  older \textsl{FIT2} 
-was drawn from  the matrix transport code BETA~\cite{Biblio10}. 
+\noindent They are compatible with the use of (\emph{i.e.}, can be encompassed in)  \textsl{REBELOTE} \index{REBELOTE} for successive FIT 
+trials using various sets of parameters (option $K=22$ in \textsl{REBELOTE}). 
 
-\noindent Any physical parameter of any element (\emph{i.e.}~keyword) may 
+\noindent \textsl{FIT} has been implemented  recently~\cite{NedlerMead} and may have some advantages over the original method. 
+The  earlier \textsl{FIT2} was drawn from  the matrix transport code BETA~\cite{Biblio10}. One or the other may converge 
+faster depending on the problem. 
+
+\noindent Any physical parameter of any element (\emph{i.e.},~keyword) may 
 be varied. Available constraints  are, amongst others~:  any of the $6 \times 6$
 coefficients of the first order transfer matrix $ \lbrack R_{ij}\rbrack $ as defined in the
 keyword \textsl{MATRIX\index{MATRIX}}, and its horizontal $ (R_{11 }R_{22} -R_{12} R_{21}) $ and
@@ -2577,7 +2580,7 @@ allowed to explore the range $ p(1\pm DV)$.
 \begin{center}
 	\begin{tabular}{lcp{10cm}}
 	$\IC$        &  = &  type of  constraint (see table below).\\
-	$I$, $J$    & =  &  constraint (\emph{i.e.}~$R_{ij}$, determinant, tune~; 
+	$I$, $J$    & =  &  constraint (\emph{i.e.},~$R_{ij}$, determinant, tune~; 
 	                    $T_{ijk}$~; $\sigma_{ ij}$~; trajectory $\#I$ and coordinate $\#J$)\\
 	$IR$       &  =  &  number of the element in the \zgou\ input data file, right after which 
 	                    the constraint applies   \\
@@ -3064,6 +3067,8 @@ only magnetic fields.
  \newpage
 
 \subsubsection*{REBELOTE~: \REBELOTETitl} \label{REBELOTE} 
+\medskip
+
 \index{REBELOTE}\index{multiparticle}\index{multiturn\index{multiturn} tracking}\index{acceleration}
 \index{synchrotron motion}
 
@@ -3071,15 +3076,19 @@ When \REBELOTE\ is encountered in the input data file, the code execution jumps,
 
 - either back to the beginning of the data file - the default behavior,  
 
-- or (option \textsl{K=99.1} or \textsl{K=99.2}) back to a particular \LABEL\ - upon request, 
+- or (option \textsl{K=99.1} or \textsl{K=99.2}) back to a particular \LABEL. 
 
-\noindent and then  a new pass starts, and so on untill \textsl{NPASS+1}\index{NPASS} passes have been performed. 
+\noindent  Then  \textsl{NPASS-1}\index{NPASS} passes (from \LABEL\ to  \REBELOTE) follow.  
 
-\noindent The last pass normally ends, as the previous ones, at \REBELOTE, however it may be ended, 
-upon request (option \textsl{K=99.2}),  at a particular second dedicated \LABEL\ placed at arbitrary location between 
-the first, above mentionned, \LABEL\ and \REBELOTE. 
+\noindent As to the last pass, number  \textsl{NPASS+1}, there are two possibilities~: 
+
+- either it also encompasses the whole \LABEL\ to  \REBELOTE\ range, 
+
+- or, upon request (option \textsl{K=99.2}),  execution may exit that pass at a particular second 
+    dedicated \LABEL\ placed at arbitrary location between 
+the first above mentionned \LABEL, and \REBELOTE. 
 In both cases, following the end of this ``multiple-pass'' procedure, 
-the execution  continues from the keyword which follows \REBELOTE. 
+the execution  continues from the keyword which follows \REBELOTE, until \textsl{'END'} is encountered. 
 
 \bigskip
 
@@ -3094,6 +3103,9 @@ their random seeds are not reset and  independent statistics will add up.
 
 \noindent \REBELOTE\ can be used for  multi-turn tracking in circular machines (e.g.~Synchrotron 
 accelerators, FFAGs, etc.).  
+
+\noindent For instance, using option described \textsl{K=99.2} above, a full ``injection line + ring + extraction line'' installation 
+can be simulated - kicker firing  and other magnet ramping can be simulated using \textsl{SCALING}. 
 
 
 \bigskip
@@ -4070,7 +4082,7 @@ where $ \hat  V $ and $ \phi_ s $ are input data.
 \noindent NOTE~: Calculation of the closed orbit. \\
 Due to the fringe fields, the horizontal closed orbit may not 
 coincide with the ideal axis of the optical elements. One way to 
-calculate it at the beginning of the structure (\emph{i.e.}\ where the 
+calculate it at the beginning of the structure (\emph{i.e.}, where the 
 initial particle coordinates have to be defined) is to ray-trace 
 a single particle over a sufficiently large number of turns, 
 starting with the initial condition $ (Y_0=T_0=Z_0=P_0=0)$,  and so as to 
@@ -5132,7 +5144,7 @@ described in section~\ref{sec2.5.3}~(page~\pageref{sec2.5.3}).
 
 \noindent The total X-extent of the mirror/lens is $L = \sum_{i=1}^N L\!i$.
 
-\noindent In the mirror mode ({\it i.e.}, option flag $MT=11$ for vertical mid-plane  or $12$ 
+\noindent In the mirror mode (\emph{i.e.}, option flag $MT=11$ for vertical mid-plane  or $12$ 
 for horizontal mid-plane) stepwise integration starts 
 at $X=-L\!1$ (entrance of the first electrode) and terminates either when back to   $X=-L\!1$  
 or when  reaching $ X=L-L\!1$ (end of the $N-th$ electrode). 
@@ -5141,7 +5153,7 @@ In the latter case particles  are stopped  with their index
 Normally $X\!1$ should   exceed  $3D$ (possibly sensibly, 
 so that $V(X<X\!1)$   have negligible effect in terms of trajectory behavior).  
 
-\noindent In the lens mode ({\it i.e.}, option flag $MT=21$ for vertical mid-plane  or $22$
+\noindent In the lens mode (\emph{i.e.}, option flag $MT=21$ for vertical mid-plane  or $22$
 for horizontal mid-plane) stepwise integration starts
 at $X=-L\!1$ (entrance of the first electrode) and terminates either when reaching $ X=L-L\!1$ (end of the $N-th$ electrode) 
 or when the particle deflection exceeds $\pi/2$. In the latter case the particle is stopped  with their index
@@ -5740,10 +5752,10 @@ zgoubi.plt\index{LABEL@{\LABEL}}\index{zgoubi.plt}
 
 \newpage
 
-\subsubsection*{MATPROD~:  \MATPRODTitl}\label{MATPROD}\index{MATPROD|textbf}
+\subsubsection*{TRANSMAT~:  \TRANSMATTitl}\label{TRANSMAT}\index{TRANSMAT|textbf}
 \medskip
 
-\textsl{MATPROD} performs a matrix transfer of the particle coordinates 
+\textsl{TRANSMAT} performs a matrix transfer of the particle coordinates 
 in the following way 
 
 $$ X_i = \sum_j R_{ij}X^0_j + \sum_{j,k} T_{ijk}X^0_jX^0_k $$
@@ -5755,7 +5767,7 @@ Second order transfer is optional.  The length of the element represented by
 the matrix may be introduced for the purpose of path length updating.  
 \medskip
 Note~: \textsl{MATRIX\index{MATRIX}} delivers $[R_{ij}]$ and $[T_{ijk}]$ matrices in a format 
-suitable for straightforward use with \textsl{MATPROD}.
+suitable for straightforward use with \textsl{TRANSMAT}.
 
 \newpage
 
@@ -6142,7 +6154,7 @@ its derivatives up to fourth order are derived from the scalar potential approxi
 \subsubsection*{SOLENOID~: \SOLENOIDTitl\ (Fig.~\protect\ref{fig30}) } \label{SOLENOID} \index{SOLENOID} 
 
  The solenoidal magnet has an effective length $ \XL$,  a mean radius
-$ R_0 $ and an asymptotic field  $ B_0=\mu_0 N I / \XL$ (i.e., $\int_{-\infty}^\infty 
+$ R_0 $ and an asymptotic field  $ B_0=\mu_0 N I / \XL$ (\emph{i.e.}, $\int_{-\infty}^\infty 
 B_X(X,r) dX = \mu_0 N I, ~\forall r<R_0$), wherein $B_X$=longitudinal field component, 
 $ NI $  = number of Ampere-Turns, $\mu_0=4\pi  10^{-7} $. 
 \medskip
@@ -6409,7 +6421,7 @@ fields outside the uniform field region, following the model~\cite{Biblio12} %% 
 \end{gather*}
 %
 and $ s $ is the distance to the EFB.  When fringe fields overlap
-inside the element (\emph{i.e.} $ \XL\leq X_E+X_S$),  the field fall-off is expressed as
+inside the element (\emph{i.e.}, $ \XL\leq X_E+X_S$),  the field fall-off is expressed as
 
 $$ F = F_E + F_S -1 $$
 %
@@ -6948,8 +6960,10 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
 
 \textsl{TWISS}  
 causes the calculation of 
-  transfer coefficients and various other parameters, in particular 
+  transport coefficients and various other parameters, in particular 
 periodical quantities  such as tunes, chromaticies\index{Cromaticity}, etc. 
+
+\bigskip 
 
 \noindent If \textsl{KTWISS} = 1, the object necessary for these calculations 
     can be generated automatically by means of \textsl{OBJET\index{OBJET}}  with
@@ -6958,7 +6972,25 @@ When using
 \textsl{KTWISS} = 2, the object can be generated automatically with \textsl{OBJET}  and 
  \mbox{\KOBJ=  6}. 
 
- 
+ \bigskip 
+
+\noindent The way  \textsl{KTWISS} works is the following: 
+
+\medskip
+
+- It assumes that the reference particle (e.g., particle \#1 of 11, when using \textsl{OBJET}, \mbox{\KOBJ= 5}) is located on 
+the closed orbit. \textsl{This condition has to be satisfied for TWISS to work correctly. }
+
+- A first pass through the structure allows computing the Twiss and beam matrices from the  rays, including the periodic 
+dispersions. 
+
+- The periodic dispersions are used to define chromatic closed orbits at $\pm \delta p / p$. A second and a third pass with 
+chromatic objects centered respectively  on $\pm \delta p / p$ chromatic orbits will compute the chromatic 
+first order transport matrices. From these the chromaticities are deduced. 
+
+
+
+
 \newpage
 
 
@@ -7112,7 +7144,7 @@ Both incoming and outgoing refernce frames are  tilted w.r.t. the magnet
 %\textsl{CHANGREF(0,-YCE,-$\theta$/2)}.
 
 \noindent Next, the optical element is  shifted by \textsl{Y-shift=YCE} (\textsl{XCE} is not used) in a 
-direction orthogonal to the new magnet axis (i.e., at an angle $ALE+\pi/2$ wrt. the incoming 
+direction orthogonal to the new magnet axis (\emph{i.e.}, at an angle $ALE+\pi/2$ wrt. the incoming 
 reference frame $X$-axis). 
 
 

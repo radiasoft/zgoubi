@@ -32,7 +32,7 @@ C     ***************************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -216,10 +216,10 @@ C     ** TRAJECTOIRES AVEC COUPLAGE  ./PD
         WRITE(NRES,100) KOBJ,IMAX
         WRITE(NRES,102) (P(J),J=1,MXJ1)
         WRITE(NRES,FMT='(/,19X,'' Reference trajectory : '',
-     >    4X,F6.4,6(4X,F6.2),/)') (REF(I), I=1, MXJ1)
+     >    4X,F7.4,6(4X,F6.2),/)') (REF(I), I=1, MXJ1)
       ENDIF
   100 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
      1')  FORME  DE ',I6,' POINTS ',//)
-  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F6.4,5(4X,F6.2),/)
+  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
       RETURN
       END

@@ -55,7 +55,6 @@ C--------
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/STEP/ TPAS(3), KPAS
-C      COMMON/STEP/ KPAS, TPAS(3) 
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       COMMON/UNITS/ UNIT(MXJ)
       PARAMETER (MXV=40) 
@@ -94,4 +93,5 @@ C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time
 C                                m     rad    m    rad    m    1     s
       DATA (UNIT(I),I=1,MXJ) / 1.D-2,1.D-3,1.D-2,1.D-3,1.D-2,1.D0,1.D-6/
+      DATA (NTIM(I),I=1,MXF) / MXF * 0 /
       END

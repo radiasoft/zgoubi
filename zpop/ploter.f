@@ -47,6 +47,7 @@ C     ------------------------------
       LOGICAL INRANG
 
       INCLUDE 'MAXNTR.H'
+      INCLUDE 'MAXTRA.H'
 
       DIMENSION XYLAST(2,MXT)
       LOGICAL CNECT

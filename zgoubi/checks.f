@@ -26,11 +26,20 @@ C  -------
       SUBROUTINE CHECKS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
+      INCLUDE 'MXLD.H'
+      INCLUDE 'MXFS.H'
 
-      IF(IZ.LT.1) CALL ENDJOB('SBR CHECKS. In PARIZ, set IZ to .ge. ',1)
-      IF(ID.LT.3) CALL ENDJOB('SBR CHECKS. In PARIZ, set ID to .ge. ',3)
+      IF(MXS.GT.MXD) CALL ENDJOB
+     >('SBR CHECKS ** In MXFS, MXLD, set 10*MXF+MXS-3 .le. MXD',-99)
+
+      IF(IZ.LT.1) 
+     >CALL ENDJOB('SBR CHECKS ** In PARIZ, set IZ to .ge. ',1)
+
+      IF(ID.LT.3) CALL ENDJOB
+     >('SBR CHECKS ** In PARIZ, set ID to .ge. ',3)
+
       IF(MMAP.LT.1) 
-     >      CALL ENDJOB(' SBR CHECKS. In PARIZ, set MMAP to .ge. ',1)
+     >CALL ENDJOB(' SBR CHECKS. In PARIZ, set MMAP to .ge. ',1)
 
       RETURN
       END

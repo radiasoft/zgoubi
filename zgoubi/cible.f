@@ -206,6 +206,6 @@ C       ***************************************************************
  199   CONTINUE
        F(1,1)=1D0
       RETURN
-  101  FORMAT(/,5X,I4,' ANGLES EN THETA , PAS = ',G4.1,' MRAD',/
-     > ,5X,I5,' ANGLES EN PHI , PAS = ',G4.1,' MRAD',/)
+  101  FORMAT(/,5X,I4,' ANGLES EN THETA , PAS = ',G8.1,' MRAD',/
+     > ,5X,I5,' ANGLES EN PHI , PAS = ',G8.1,' MRAD',/)
       END

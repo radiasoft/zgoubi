@@ -32,7 +32,7 @@ C     *********************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      PARAMETER (MXTA=20)
+      PARAMETER (MXTA=40)
       COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER*132 TXT132

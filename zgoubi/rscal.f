@@ -32,7 +32,7 @@ C     ----------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=8)
@@ -105,6 +105,12 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
             NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
+          ELSEIF(NTIM(IF) .EQ. -60) THEN
+C--------- K1, K2 laws for AGS dipoles, FM, BNL, Jan. 2011
+            NDSCL=1
+            NDTIM=1
+C               max = max(NDSCL,NDTIM)
+            MAX=NDSCL  
           ELSEIF(NTIM(IF) .EQ. -77) THEN
 C---------- Field law protn driver, FNAL, Nov.2000 :
             NDSCL=4
@@ -132,8 +138,9 @@ C               max = max(NDSCL,NDTIM)
 C------- SCL(IF,IT)
         IT = MXS-2
         IF(10*IF+IT-1 .GT. MXD) 
-     >     CALL ENDJOB('SBR RSCAL - Too many data for A, max is '
-     >     ,MXD)
+     >  CALL ENDJOB(
+     >  'SBR RSCAL: Too many data in A, make sure 10*MXF+MXS-3 .le. MXD'
+     >  ,-99)
         READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
 C------- TIM(IF,IT)
         READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)

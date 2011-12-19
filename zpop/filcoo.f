@@ -55,7 +55,7 @@ C then :               x  x' z  z' t  E
       ELSE
         CALL INIGR1(
      >              NLOG)
-        WRITE(NLOG,*) ' SBR FILCOO : now point # ',NOC,', NOT STORED !'
+        WRITE(NLOG,*) ' SBR FILCOO :  point # ',NOC,', NOT STORED !'
      >  ,' Storage for ellipse matching stopped after '
      >  ,'NTRMAX =',NTRMAX,' points (change in MAXNTR.H for more)'
       ENDIF

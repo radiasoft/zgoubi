@@ -50,10 +50,13 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       CHARACTER TXTT*39, TXTS*39, TXTA*39, TXTEMP*11
       SAVE IPREC
 
+      LOGICAL FITING
+      LOGICAL NEWFIC
+
       INCLUDE 'FILPLT.H'
 
       DATA DTA1 / 0.D0 /
-
+      DATA NEWFIC / .TRUE. /
 c         open(unit=88,file='fort.88')
 
 
@@ -66,15 +69,10 @@ C------- Field is defined by maps
 
         IF(KUASEX .EQ. 22) THEN
 C--------- POLARMES keyword
-          LF = NINT(A(NOEL,1))
-C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
-          LST =LSTSET(NINT(A(NOEL,2)))
           KP = NINT(A(NOEL,ND+10))
           NDD = ND+20
         ELSEIF(KUASEX .EQ. 20 .OR. KUASEX .EQ. 21) THEN
 C--------- AIMANT, DIPOLE-M keywords
-          LF =  NINT(A(NOEL,2))
-          LST = LSTSET(NINT(A(NOEL,3)))
 C Modif, FM, Dec. 05
 C          KP = NINT(A(NOEL,ND+1))
 C          NDD = ND+2
@@ -82,14 +80,10 @@ C          NDD = ND+2
           NDD = ND+4
         ELSEIF(KUASEX .EQ. 7 .OR. KUASEX .EQ. 2) THEN
 C--------- TOSCA keyword using cylindrical mesh (MOD.ge.20)
-          LF =  NINT(A(NOEL,1))
-          LST =LSTSET(NINT(A(NOEL,2)))
           KP = NINT(A(NOEL,ND+10))
           NDD = ND+20
         ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
 C--------- EMMA keyword using cylindrical mesh (MOD.ge.20)
-          LF =  NINT(A(NOEL,1))
-          LST =LSTSET(NINT(A(NOEL,2)))
           KP = NINT(A(NOEL,ND+10))
           NDD = ND+20
         ENDIF
@@ -98,8 +92,6 @@ C--------- EMMA keyword using cylindrical mesh (MOD.ge.20)
 C        KALC = 1 or 3
 C        Field is defined by analytical models, mid plane (1) or 3D (3). 
 
-        LF = 0
-        LST =LSTSET(NINT(A(NOEL,1)))
         IF(KUASEX .EQ. 30) THEN
 C--------- EMPTY
 
@@ -109,6 +101,42 @@ C--------- EMPTY
           NDD = ND+11
         ENDIF
 
+      ENDIF
+
+      CALL FITSTA(5,FITING)
+      IF(.NOT. FITING) THEN        
+        IF    (KALC.EQ.2 ) THEN
+C--------- Field is defined by maps
+          IF(KUASEX .EQ. 22) THEN
+C----------- POLARMES keyword
+            LF = NINT(A(NOEL,1))
+C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
+            LST =LSTSET(NINT(A(NOEL,2)))
+          ELSEIF(KUASEX .EQ. 20 .OR. KUASEX .EQ. 21) THEN
+C----------- AIMANT, DIPOLE-M keywords
+            LF =  NINT(A(NOEL,2))
+            LST = LSTSET(NINT(A(NOEL,3)))
+C Modif, FM, Dec. 05
+C          KP = NINT(A(NOEL,ND+1))
+C          NDD = ND+2
+          ELSEIF(KUASEX .EQ. 7 .OR. KUASEX .EQ. 2) THEN
+C----------- TOSCA keyword using cylindrical mesh (MOD.ge.20)
+            LF =  NINT(A(NOEL,1))
+            LST =LSTSET(NINT(A(NOEL,2)))
+          ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
+C----------- EMMA keyword using cylindrical mesh (MOD.ge.20)
+            LF =  NINT(A(NOEL,1))
+            LST =LSTSET(NINT(A(NOEL,2)))
+          ENDIF
+        ELSE
+C          KALC = 1 or 3
+C          Field is defined by analytical models, mid plane (1) or 3D (3). 
+          LF = 0
+          LST =LSTSET(NINT(A(NOEL,1)))
+        ENDIF
+      ELSE
+        LF = 0
+        LST = 0
       ENDIF
 
       IF(LST.EQ.2 .OR. LST.GE.4) CALL OPEN2('CHXP',NPLT,FILPLT)
@@ -209,13 +237,13 @@ C TOSCA keyword with MOD.ge.20.
           NDIM = 2
           CALL TOSCAP(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,
-     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,NEWFIC)
 
         ELSEIF(KUASEX .EQ. 7) THEN
           NDIM = 3
           CALL TOSCAP(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,
-     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,NEWFIC)
 
         ENDIF
 
@@ -262,7 +290,7 @@ C POLARMES keyword
 
         CALL POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
-     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+     >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,NEWFIC)
         NDIM = 2
         RFR = RM
 

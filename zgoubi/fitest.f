@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE FITEST(*,IER)
+      SUBROUTINE FITEST(
+     >                  IER)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXCOO.H"
@@ -125,7 +126,6 @@ C             reset min-max storage table'
  
       IF(IER .EQ. 1) THEN
         WRITE(NRES,FMT='(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
-        RETURN 1
       ELSE
         WRITE(NRES,FMT='(/,20X,'' FIT  variables  in  good  order,'',  
      >              ''  FIT  will proceed. '')')

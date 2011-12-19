@@ -32,7 +32,7 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      CHARACTER*14 TXTYNU, TXTZNU
+      CHARACTER*15 TXTYNU, TXTZNU
 
       IERY=0
       IERZ=0
@@ -136,18 +136,18 @@ C         write(*,*) '                                tunes...'
           WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
  104      FORMAT(6X,6F13.6)
           WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-          WRITE(TXTYNU,FMT='(A14)') 'undefined'
-          WRITE(TXTZNU,FMT='(A14)') 'undefined'
+          WRITE(TXTYNU,FMT='(A)') 'undefined'
+          WRITE(TXTZNU,FMT='(A)') 'undefined'
 
          IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
-           WRITE(TXTYNU,FMT='(G14.8)') YNU
-           WRITE(TXTZNU,FMT='(G14.8)') ZNU
+           WRITE(TXTYNU,FMT='(G15.8)') YNU
+           WRITE(TXTZNU,FMT='(G15.8)') ZNU
          ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
-           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G14.8)') YNU
-           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G14.8)') ZNU
+           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G15.8)') YNU
+           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G15.8)') ZNU
          ENDIF
 
-         WRITE(NRES,FMT='(15X,2(5X,A,A14))') 
+         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
      >              'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
 
         ENDIF

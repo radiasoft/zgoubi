@@ -41,7 +41,7 @@ C  -------
 **
       do 10 i = 1,j
          DM(i) = 2.d0* (XM(i+2) - XM(i))
-         CM(i) = 6.d0* (YM(i+2) - YM(i+1)) / (XM(i+2) - XM(i+1)) + 6.d0* 
+         CM(i) = 6.d0* (YM(i+2) - YM(i+1)) / (XM(i+2) - XM(i+1)) +6.d0*
      $                         (YM(i) - YM(i+1)) / (XM(i+1) - XM(i))
 10    continue
       do 20 i = 2,j

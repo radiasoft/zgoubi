@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
@@ -93,9 +92,18 @@ C Using TOSCA
 C      PARAMETER (IZ=1 , ID=3, MMAP=2)
 C      PARAMETER (MXX=498, MXY=161)
       
-C AGS with 2 (=mmap) snake maps
-C or using magnet maps
-C Using MAP2D
-      PARAMETER (IZ=1 , ID=3, MMAP=2)
-      PARAMETER (MXX=801, MXY=161)
-      
+C AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
+C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
+C      PARAMETER (IZ=1 , ID=3, MMAP=8)
+C      PARAMETER (MXX=1000, MXY=201)
+
+C AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
+C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
+      PARAMETER (IZ=30 , ID=3, MMAP=8)
+      PARAMETER (MXX=1000, MXY=201)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC---- GSI KAOS
+C      PARAMETER (IZ=5 , ID=3, MMAP=2)
+C      PARAMETER (MXX=401, MXY=300)
+

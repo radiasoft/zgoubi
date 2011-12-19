@@ -59,7 +59,7 @@ C                     fields have z-symmetry when KALC=1
  
 C     ....  REBELOTE
       KOBJ = 0
-      IPASS = 1
+C      IPASS = 1
 C     .... COMPTEUR DE PASSAGE PAR 'REBELOTE'
       NRBLT = 0
  

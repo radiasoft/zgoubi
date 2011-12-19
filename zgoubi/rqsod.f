@@ -32,9 +32,6 @@ C     -------------------------------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
  
-C      LOGICAL STRCON
-C      CHARACTER TXT*80, STRA(1)*80
-
 C----- IL
       READ(NDAT,*) IA
       A(NOEL,1) = IA

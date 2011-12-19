@@ -32,6 +32,9 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
+      LOGICAL AMQLU(5),PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       
@@ -54,6 +57,10 @@ C  -------
       SAVE KWRI6
 
       SAVE ALPHA
+
+C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(7,*))
+      DIMENSION F2(7,6), XYS(6,12), KAUX(6)   !!, SM(6,6)
+      SAVE F2
   
       DATA KWRI6 / 1 /
 
@@ -69,8 +76,12 @@ C          1 other run to get matrices with +/-dY amplitude
 C          1 other run to get matrices with +/-dZ amplitude 
           NRBLT = 4
 
-      IF(KTWISS .EQ. 0) RETURN
- 
+      GOTO(10,20) KTWISS
+      RETURN
+
+ 10   CONTINUE
+Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
+C of 11 particles (based on MATRIX)
       IF( IPASS .LT. NRBLT ) THEN
         LUN=ABS(NRES) 
         IF(LUN.GT.0) 
@@ -327,28 +338,28 @@ C Amplitude detuning, dZ effects
         DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
         
         WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
-     >  30X,''dL/L / dp/p = '',G14.8)') ALPHA
-        WRITE(NRES,FMT='(5X,1P,''(dp = '',G12.6,5X  
+     >  30X,''dL/L / dp/p = '',G15.8)') ALPHA
+        WRITE(NRES,FMT='(5X,1P,''(dp = '',G13.6,5X  
      >  ,'' L(0)   = '',G14.4,'' cm, ''
      >  ,'' L(0)-L(-dp) = '',G14.4,'' cm, ''
      >  ,'' L(0)-L(+dp) = '',G14.4,'' cm) '' 
      >  )') 
      >  A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
         WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma : '',//, 
-     >  30X,''dL/L / dp/p = '',G14.8)') 1.d0/SQRT(ALPHA)
+     >  30X,''dL/L / dp/p = '',G15.8)') 1.d0/SQRT(ALPHA)
 
         WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
-     >  30X,''dNu_y / dp/p = '',G14.8,/, 
-     >  30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
+     >  30X,''dNu_y / dp/p = '',G15.8,/, 
+     >  30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
 
         WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
      >  42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
-     >  30X,''dNu_y'',7X,2(G14.8,3X),/, 
-     >  30X,''dNu_z'',7X,2(G14.8,3X), //, 
-     >  20X,''Nu_yRef = '',G14.8,'', Nu_zRef = '',G14.8, / 
-     >  20X,''Nu_yP = '',G14.8,'',   Nu_zP = '',G14.8, / 
-     >  20X,''Eps_yRef/pi = '',G14.8,'',   Eps_zRef/pi = '',G14.8, / 
-     >  20X,''Eps_y+/pi = '',G14.8,'',   Eps_z+ = '',G14.8)')
+     >  30X,''dNu_y'',7X,2(G15.8,3X),/, 
+     >  30X,''dNu_z'',7X,2(G15.8,3X), //, 
+     >  20X,''Nu_y_Ref = '',G15.8,'', Nu_z_Ref = '',G15.8, / 
+     >  20X,''Nu_y_+dp = '',G15.8,'',   Nu_z_+dp = '',G15.8, / 
+     >  20X,''Eps_y_Ref/pi = '',G15.8,'',   Eps_z_Ref/pi = '',G15.8, / 
+     >  20X,''Eps_y_+dA/pi = '',G15.8,'',   Eps_z_+dA = '',G15.8)')
      >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
      >      YNUREF,ZNUREF,
      >      YNUP,  ZNUP,
@@ -359,5 +370,64 @@ C Amplitude detuning, dZ effects
         nrblt = 0
 
       ENDIF
+
+      RETURN
+
+ 20   CONTINUE
+Compute linear functions, from multiturn tracking. Number of the particle used for that is given by user. 
+c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier
+      KPM = MIN(IPASS,8)
+      IF(KPM.LE.7) THEN
+        DO IC = 1, 6
+          iic1 = ic
+          if(ic.eq.1) then
+            iic = 6
+          else
+            iic = ic-1
+          endif
+          F2(KPM,IIC) = F(IIC1,NINT(A(NOEL,2)))
+        ENDDO
+      ELSE
+        DO IC = 1, 6
+          iic1 = ic
+          if(ic.eq.1) then
+            iic = 6
+          else
+            iic = ic-1
+          endif
+          DO KP = 1, KPM-1
+            F2(KP,IIC) = F2(KP+1,IIC)
+          ENDDO
+          F2(7,IIC) = F(IIC1,NINT(A(NOEL,2)))
+        ENDDO
+      ENDIF
+
+C      write(88,*) ' IPASS = ',IPASS
+C      write(88,fmt='(1p,6e12.4,a)') ((f2(i,j),j=1,6),' twiss',i=7,1,-1)
+C      write(88,fmt='(1p,10X,6e12.4)') (f(i,1),i=1,6)
+C      write(88,*) ' -------------------- '
+      
+      IF(IPASS.LT.7) RETURN       
+
+      do ic=1,6
+        do i=1,6
+          xys(i,ic) = f2(7-i,ic)
+C          sm(i,ic) = f2(8-i,ic)
+          XYS(I,IC+6) = f2(8-i,ic)
+        enddo
+      enddo
+
+      write(88,*) ' IPASS = ',IPASS
+      write(88,fmt='(1p,12e12.4)') ((xys(i,ic),ic=1,12),i=1,6)
+C      write(88,fmt='(1p,10X,6e12.4)') ((sm(i,ic),ic=1,6),i=1,6)
+      write(88,*) ' -------------------- '
+      
+      IER = 0
+      call dlgau(6,6,6,XYS,KAUX,ier)
+
+      write(88,*) ' IPASS = ',IPASS,IER
+      write(88,fmt='(1p,6e12.4)') ((xys(i,ic),i=1,6),iC=1,6)
+      write(88,*) ' +++++++++++++-------------------- '
+
       RETURN
       END

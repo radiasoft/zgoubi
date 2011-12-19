@@ -39,7 +39,7 @@ C     > ,YCH,ZCH
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -52,10 +52,12 @@ C            as resulting from decay (keyword 'MCDESINT')
       CHARACTER KAR(41)
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/PTICUL/ AAM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
-      COMMON/PTICUL/ AAM,Q,G,TO
+C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
+      COMMON/UNITS/ UNIT(MXJ)
  
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER (NTM=41)
@@ -77,13 +79,11 @@ C      DIMENSION DE(5,NTM),IDE(5),JDE(5),P(MXJ)
 
 C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c2)
       BORO = A(NOEL,1)
-      IF(NRES.GT.0) WRITE(NRES,103) BORO
- 103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
 
 C----- Get data from possible REBELOTE keyword, then some action
       CALL REBELR(
      >            KREB3,KREB31)
-      IF(KREB3 .EQ. 99) THEN
+      IF    (KREB3 .EQ. 99) THEN
 C------- Set to 99 by REBELOTE
 C------- For simulation of multiturn injection
         IF(NRES.GT.0) WRITE(NRES,133) IMAX
@@ -100,7 +100,18 @@ C--------- add new beamlet next to the previous one(s), e.g. for multiturn injec
         ELSE
           GOTO 99
         ENDIF
+      ELSEIF(KREB3 .EQ. 22) THEN
+C------- Set possibly to 22 when executing REBELOTE
+C------- To change any data A(NOEL,I)
+        CALL REBEL5(
+     >              BORO)
+        A(NOEL,1) = BORO
+c      if(nres.gt.0)write(nres,*) 'objets boro, kreb3 aa',boro,kreb3
       ENDIF
+
+c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
+c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
+c      if(nres.gt.0)write(nres,*) 'objets boro, kreb3 ',boro,kreb3
 
 C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 
@@ -108,6 +119,9 @@ C----- Was necessary for FIT procedure when time is constrained :
 
       KOBJ = A(NOEL,10)
       KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
+
+      IF(NRES.GT.0) WRITE(NRES,103) BORO
+ 103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
 
       GOTO( 1, 2,16,97,50,60,1 ,80,90),KOBJ
 
@@ -153,25 +167,39 @@ C       Time=FO(7,I) further initialized by 'PARTICUL' if used.
 
       LUN = NRES
       IF(NRES.LE.0) LUN=6
+
+      IF(KOBJ2 .EQ. 1) THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,
+     >  ''KOBJ2 = '',I2,'' => particles coordinated converted from'',
+     >  '' SI units to Zgoubi units (cm, mrad)'')') KOBJ2
+        DO I=1,IMAX
+          DO J=1,5
+            J1 = J+1
+            FO(J1,I) = FO(J1,I)/UNIT(J)
+          ENDDO
+          FO(1,I) = FO(1,I)/UNIT(6)
+          FO(7,I) = FO(7,I)/UNIT(7)
+        ENDDO
+      ENDIF
  
-      DO 3 I=1,IMAX
+      DO I=1,IMAX
         IF(FO(1,I) .EQ. 0.D0) THEN
           IEX(I) = -6
-            WRITE(LUN,*) ' Momentum value 0 found, ', 
+          WRITE(LUN,*) ' Momentum value 0 found, ', 
      >          ' particle of concern  is  # ',I,' ; ', 
      >          ' its KEX will be forced to -6 ; will not be tracked'
-            WRITE(LUN,*) 'Y T Z P S D Time : ',(F(J,I),J=1,7),
+          WRITE(LUN,*) 'Y T Z P S D Time : ',(F(J,I),J=1,7),
      >                                            ' KEX=',IEX(I)
         ENDIF
 C Time of flight is initialized in subroutine PARTIC
 C        P0 = BORO*CL9*FO(1,I)
 C        BTA = P0 / SQRT( P0*P0 + 0.511**2 )  
 C        FO(7,I) = FO(6,I)/(BTA*CL)
-        DO 4 J=1,MXJ
+        DO J=1,MXJ
           F(J,I)=FO(J,I)
- 4      CONTINUE
+        ENDDO
         IREP(I)=I
-    3 CONTINUE
+      ENDDO
 
       IMAXT=IMAX/IDMAX
       IF(NRES.GT.0) WRITE(NRES,106) KOBJ,IMAX
@@ -179,7 +207,7 @@ C        FO(7,I) = FO(6,I)/(BTA*CL)
  
 C---------- Initial conditions on an ellipsoid
  80   CONTINUE
-      CALL OBJ8(KREB31)
+        CALL OBJ8(KREB31)
       GOTO 99
  
 C---------- Initial conditions = 32 particles simulating Gaussian beam (Ref. Thesis M Bai)
@@ -465,5 +493,5 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
      1')  FORME  DE ',I6,' POINTS ',//)
   101 FORMAT(/,42X,'D',7X,'Y(cm)',5X,'T(mrd)',4X,'Z(cm)',5X,'P(mrd)',4X,
      >'X(cm)',//,30X,'NOMBRE',5(5X,I3,2X),/)
-  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F6.4,5(4X,F6.2),/)
+  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
       END

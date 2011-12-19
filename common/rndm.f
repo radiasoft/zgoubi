@@ -23,13 +23,32 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      FUNCTION RNDM()
+      FUNCTION RNDM(IR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+c      CHARACTER TXT*16
+c      INTEGER DEBSTR
+c      REAL R
+      logical first 
+      save first
+      data first / .true. /
 
-      REAL R
+C year month day time-utc hour min secon ms
+      dimension ival(8)
 
-      CALL RANDOM_NUMBER(R)
-      RNDM=R
+      if(first) then
+        first = .false.
+        call date_and_time(VALUES=ival)
+        ir = (1+ival(5))*100000 + ival(6)*1000 + ival(7)*10 +ival(8)
+        rndm = rand(ir) 
+c        call srand(ir)
+c        write(*,*) ' rndm ',ival(5),ival(6),ival(7),ival(8),ir,rndm
+      endif
+      rndm = rand(0) 
 
+c      CALL RANDOM_NUMBER(R)
+c      RNDM=R
+c      WRITE(TXT,FMT='(E14.6)') RNDM
+c      READ(TXT(DEBSTR(TXT)+2:DEBSTR(TXT)+8),FMT='(I6)') IR      
+      
       RETURN
       END

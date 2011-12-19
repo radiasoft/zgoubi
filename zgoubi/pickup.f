@@ -47,7 +47,10 @@ C     -----------------------------------------------------
 
       DATA OPN / .FALSE. /
 
+      KPCKUP = 1
+
       IF(KCO .EQ. 0) THEN
+        KPCKUP = 0
         IF(NRES .GT. 0) WRITE(NRES,100)
  100      FORMAT(/,20X,' ++++  PICKUPS command is inactive  ++++',/)
         GOTO 98
@@ -99,8 +102,12 @@ C----- some reset actions at start of each new pass
 C      Total pick-up number
 C      IPU = 0
       CALL PCKUP2
+      GOTO 98
 
- 98   RETURN
- 99   CALL ENDJOB('*** Error, SBR PICKUP -> can`t open strage file',-99)
+ 99   CONTINUE
+      KPCKUP = 0
+      CALL ENDJOB('*** Error, SBR PICKUP -> can`t open strage file',-99)
+ 98   CONTINUE
+      CALL REBEL2(KPCKUP)
       RETURN
       END

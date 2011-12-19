@@ -32,7 +32,7 @@ C     **************************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU

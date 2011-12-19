@@ -73,7 +73,6 @@ C     1,AMS  ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
       LOGICAL CHGRFE,CHGRFS,CHPFE,CHPFS,EVNT,BACKW,DRT
      
       PARAMETER(MPOL=10)
-      PARAMETER(I0=0)
       
       LOGICAL MIRROR, MIRRIN, BACKIN, MIRROU, BACKOU
 
@@ -154,11 +153,6 @@ C-------- IEX<-1 <=> Particle stopped
  
       MIRROR = .FALSE.
       BACKW = .FALSE.
-
-C----- Unset coded step
-      CALL CHXC1W(I0,I0)
-      CALL DEPLAW(.FALSE.,I0)
-
       RETURN
 
       ENTRY TRANSW(MIRRIN,BACKIN)

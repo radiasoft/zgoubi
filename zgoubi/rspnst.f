@@ -35,7 +35,7 @@ C     ------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
 
       INTEGER DEBSTR,FINSTR
       CHARACTER TXT*80, STRA(1)*80
@@ -51,8 +51,8 @@ C           right after any occurence of element label[s] TA(noel,2)
 
       IF(MLB .EQ. 0) THEN
         NLB = 0
-        LBL(1) = ''
-        LBL(2) = ''
+        LBL(1) = ' '
+        LBL(2) = ' '
         PRLB = .FALSE.
       ELSE
         ITXT = finstr(txt)

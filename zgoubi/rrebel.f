@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RREBEL(LABEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -33,15 +32,17 @@ C     ***************************************
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
-      CHARACTER TXT132*132, TXTA*8, TXTB*8
+      CHARACTER TXT300*300, TXTA*8, TXTB*8
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       CHARACTER STRA(3)*30
+      DIMENSION PARAM(mxd)
 
-      READ(NDAT,FMT='(A)') TXT132
-      TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+      READ(NDAT,FMT='(A)') TXT300
+
+      TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
       I3 = 3
-      CALL STRGET(TXT132,I3,
+      CALL STRGET(TXT300,I3,
      >                      NSR,STRA)
 
       READ(STRA(1),*,ERR=98) A(NOEL,1)
@@ -50,53 +51,66 @@ C     ***************************************
       IA3 = NINT(A(NOEL,3))
       A(NOEL,3) = IA3
 
-      IF(STRCON(STRA(3),'.',
+      IF    (IA3 .EQ. 22) THEN
+C Will 'rebelote' using new value for parameter #KPRM in element #KLM
+        READ(TXT300,*) nrblt,DUM,DUM,klm,kprm,(param(i),i=1,nrblt)
+        a(noel,4) = klm
+        a(noel,5) = kprm
+        do i = 1, nrblt
+          J = 10 + 10*((I-1)/10)
+          A(NOEL,J +I-1) = PARAM(I) 
+        enddo   
+        NOELA = 1
+        NOELB = NOEL
+      ELSEIF(STRCON(STRA(3),'.',
      >                      II)) THEN
         READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
         IF(IOP .GE. 1) THEN
           IF(IOP .EQ. 1) THEN
 C Get Label, deduce related NOEL : multi-pass tracking will loop over NOEL-REBELOTE   
-            READ(TXT132,*) DUM,DUM,DUM,TXTA
+            READ(TXT300,*) DUM,DUM,DUM,TXTA
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
-                A(NOEL,4) = JJ
+                NOELA = JJ
                 GOTO 12
               ENDIF
             ENDDO           
-            A(NOEL,4) = 1
+            NOELA = 1
  12         CONTINUE
-            A(NOEL,5) = NOEL
+            NOELB = NOEL
           ELSEIF(IOP .EQ. 2) THEN
 C Get 2 Labels, deduce related NOELs : multi-pass tracking will loop over NOEL1-NOEL2
-            READ(TXT132,*) DUM,DUM,DUM,TXTA,TXTB
+            READ(TXT300,*) DUM,DUM,DUM,TXTA,TXTB
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
-                A(NOEL,4) = JJ
+                NOELA = JJ
                 GOTO 11
               ENDIF
             ENDDO           
-            A(NOEL,4) = 1
+            NOELA = 1
  11         CONTINUE
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTB) THEN
-                A(NOEL,5) = JJ
+                NOELB = JJ
                 GOTO 10
               ENDIF
             ENDDO           
-            A(NOEL,5) = NOEL
+            NOELB = NOEL
+ 10         CONTINUE
           ELSE
             CALL ENDJOB(' SBR RREBEL, no such option IOP=',IOP)
           ENDIF
         ELSE
-          A(NOEL,4) = 1
-          A(NOEL,5) = NOEL
+          NOELA = 1
+          NOELB = NOEL
         ENDIF
       ELSE
-        A(NOEL,4) = 1
-        A(NOEL,5) = NOEL
+        NOELA = 1
+        NOELB = NOEL
       ENDIF
 
- 10   CONTINUE
+      CALL REBEL6(NOELA, NOELB)
+
       RETURN
 
  98   CONTINUE

@@ -40,7 +40,7 @@ C-------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
@@ -170,7 +170,7 @@ C and used for tracking.
 
         WRITE(NRES,FMT='(/,5X,2(A,I3),A,A,I3)') 
      >  'NDIM = ',NDIM,' ;   value of MOD is ', MOD,' ;  '
-     >  ,'Number of field data files used is ',NFIC
+     >  ,'Number of data file sets used is ',NFIC
 
         IF(NEWFIC) THEN
            WRITE(NRES,209) 

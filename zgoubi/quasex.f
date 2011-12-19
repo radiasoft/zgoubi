@@ -50,7 +50,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       LOGICAL BONUL, LNUL
       LOGICAL MIRROR, LDUM
 
-      PARAMETER(I0=0, ZERO=0.D0, IZERO=0)
+      PARAMETER(I0=0, ZERO=0.D0)
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
@@ -58,8 +58,8 @@ C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
      >                              XL,DSREF)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
  
-      IF ( LNUL(XL) ) RETURN
-      IF ( BONUL(XL,PAS) ) RETURN
+      IF ( LNUL(XL) ) GOTO 99
+      IF ( BONUL(XL,PAS) ) GOTO 99
 
       CALL SCUMW(DSREF)
       CALL SCUMR(
@@ -131,14 +131,18 @@ C        YCE = 0.D0
  
       CALL TRANSF
 
-C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
-      CALL INTEG3
-
       IF(NRES .GT. 0)
      >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >1P,G17.9,
-     >'' m ;   corresponding Time  (for ref. rigidity & particle) = '', 
+     >'' m ;  Time  (for ref. rigidity & particle) = '', 
      >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
+
+ 99   CONTINUE
+C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
+      CALL INTEG3
+C----- Unset coded step
+      CALL CHXC1W(I0,I0)
+      CALL DEPLAW(.FALSE.,I0)
 
       RETURN
 C100   FORMAT(/,5X,'ELEMENT  DECENTRE  PAR  RAPPORT  A  L''AXE  OPTIQUE'

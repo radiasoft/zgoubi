@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, LI, NY, 11973
 C  -------
       FUNCTION SCALER(IPASS,NOEL, 
      >                           D1)
@@ -30,6 +29,7 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       INCLUDE 'MXLD.H'
@@ -40,11 +40,11 @@ C  -------
       INCLUDE "MAXTRA.H"
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      LOGICAL EMPTY
+      LOGICAL EMPTY, STRCON
 
       SAVE TIME, ICTIM
       SAVE ARGDP, FACDP, PSYN
-           SAVE TEMP
+      SAVE TEMP
 
       PARAMETER (ND=200000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
@@ -67,9 +67,17 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
 C--------- Current KLEY recorded for scaling 
 
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
-C------------ Current KLEY will undergo scaling if either it as the right label...
-            DO 11 KL=1,MXLF
- 11           IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) GOTO 2
+C------------ Current KLEY will undergo scaling...
+            DO  KL=1,MXLF
+              IF(STRCON(LBF(KF,KL),'*',
+     >                                 IS)) THEN
+C               if either ...
+                IF(LABEL(NOEL,1)(1:IS-1) .EQ. LBF(KF,KL)(1:IS-1)) GOTO 2
+              ELSE
+C               ... or it as the right label...
+                IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) GOTO 2
+              ENDIF
+            ENDDO
           ELSE
 C------------ ...or it has no label at all
             GOTO 2
@@ -82,7 +90,7 @@ C------------ ...or it has no label at all
  2    CONTINUE
 
       KTI = NTIM(KF)
-
+C         print*, kti, ' scaler '
       IF(KTI .NE. 0) THEN
 
         IF(KTI .GT. 0) THEN
@@ -109,9 +117,9 @@ C     >            DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
 
         ELSEIF(KTI .EQ. -1) THEN
 
-            call cavit1(
-     >                  PP0,GAMMA,dWs)
-            scaler = SCL(KF,1) * pp0
+          call cavit1(
+     >                PP0,GAMMA,dWs)
+          scaler = SCL(KF,1) * pp0
 
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -127,6 +135,16 @@ C                          ekin freq
           coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
           D1 = coTime
 C        write(*,*) ' scaler ',xv, cotime1, coTime
+
+C        ELSEIF(KTI .EQ. -60) THEN
+CC--------- AGS dipoles, K1 and K2 laws
+C          CALL MULTP2(.TRUE.)
+C          CALL CAVIT1(
+C     >                PP0,GAMMA,DWS)
+CC          print *, PP0,GAMMA,DWS
+CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3 
+C          CALL AGSKS(PP0*BORO*CL9/1.D3)
+C          scaler = SCL(KF,1) * pp0
 
         ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000
@@ -180,7 +198,7 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
           write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
 
         ELSEIF(KTI .EQ. -87) THEN
-
+C AGS Q-Jump quads
             call cavit1(
      >                  PP0,GAMMA,dWs)
             gg = G*GAMMA
@@ -242,9 +260,8 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
       TIME = TIME + DTIM
       TIMOUT = TIME
       ICTIM=ICTIM+1
-      DP = FACDP * SIN(ARGDP*TIME) * DTIM
-      PSYN = PSYN + DP
-        TEMP = (PSYN)/( BRMI * CONV)
+      PSYN = PSYN + FACDP * SIN(ARGDP*TIME) * DTIM
+      TEMP = (PSYN)/( BRMI * CONV)
       SCALDP = PSYN
       RETURN
 

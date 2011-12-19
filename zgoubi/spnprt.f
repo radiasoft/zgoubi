@@ -31,6 +31,8 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
@@ -46,6 +48,13 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
       DIMENSION SPMI(4,MXT), SPMA(4,MXT)
       PARAMETER (ICMXT=4*MXT)
+
+      DIMENSION AA(3),BB(3),XX(3)
+
+      SAVE SXMF, SYMF, SZMF
+
+      DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
+
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
 
       JDMAX=IDMAX
@@ -62,12 +71,21 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
         SX = 0D0
         SY = 0D0
         SZ = 0D0
-        SXF = 0D0
-        SYF = 0D0
-        SZF = 0D0
+        SXM = 0D0
+        SYM = 0D0
+        SZM = 0D0
+        SXMF = 0D0
+        SYMF = 0D0
+        SZMF = 0D0
+        IF(IPASS.EQ.1) THEN
+          SXMT = 0D0
+          SYMT = 0D0
+          SZMT = 0D0
+        ENDIF
+
         II=0
-        DO 1 I=IMAX1,IMAX2
-          IF( IEX(I) .LT. -1 ) GOTO 1
+        DO I=IMAX1,IMAX2
+         IF( IEX(I) .GT. 0 ) THEN
           II=II+1
           SX = SX + SI(1,I)
           SY = SY + SI(2,I)
@@ -75,6 +93,9 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
           SXF = SXF + SF(1,I)
           SYF = SYF + SF(2,I)
           SZF = SZF + SF(3,I)
+          SXMF = SXMF + SXF
+          SYMF = SYMF + SYF
+          SZMF = SZMF + SZF
 
           IF(SF(1,I).LT.SPMI(1,I)) SPMI(1,I) = SF(1,I)          
           IF(SF(2,I).LT.SPMI(2,I)) SPMI(2,I) = SF(2,I)          
@@ -84,33 +105,63 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
           IF(SF(2,I).GT.SPMA(2,I)) SPMA(2,I) = SF(2,I)          
           IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)          
           IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)          
- 1      CONTINUE
+         ENDIF
+        ENDDO
  
         IF(NRES.GT.0) THEN
           SM = SQRT(SX*SX+SY*SY+SZ*SZ)/II
           SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/II
           WRITE(NRES,120) II,SX/II,SY/II,SZ/II,SM
      >    ,SXF/II,SYF/II,SZF/II,SMF
- 120      FORMAT(//,25X,' POLARISATION  MOYENNE  DU'
-     >    ,2X,'FAISCEAU  DE  ',I3,'  PARTICULES :'
-     >    ,//,T20,'INITIALE',T70,'FINALE'
+ 120      FORMAT(//,25X,' Average  over  particles at this pass ; '
+     >    ,2X,'beam with  ',I3,'  particles :'
+     >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T12,'<SX>',T22,'<SY>',T32,'<SZ>',T42,'<S>'
      >    ,T61,'<SX>',T71,'<SY>',T81,'<SZ>',T91,'<S>'
      >    ,/,5X,4F10.4,10X,4F10.4)
  
+          WRITE(NRES,140) II,SX/II,SY/II,SZ/II,SM
+     >    ,SXF/II,SYF/II,SZF/II,SMF
+ 140      FORMAT(//,25X,' Average  over  particles and pass, '
+     >    'at this pass ;  beam with  ',I3,'  particles :'
+     >    ,//,T20,'FINAL'
+     >    ,//,T12,'<SX>',T22,'<SY>',T32,'<SZ>'
+     >    ,/,5X,4(1X,F10.4))
+ 
           WRITE(NRES,110) JMAXT
- 110      FORMAT(///,15X,' SPIN  COMPONENTS  OF  EACH  OF  THE '
-     >    ,I5,'  PARTICLES :',//,T20,'INITIAL',T70,'FINAL'
+ 110      FORMAT(///,15X,' Spin  components  of  each  of  the '
+     >    ,I5,'  particles,  and  rotation  angle :'
+     >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T15,'SX',T25,'SY',T35,'SZ',T45,'S'
-     >    ,T67,'SX',T77,'SY',T87,'SZ',T97,'S',T106,'GAMMA',/)
+     >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'S',T100,'GAMMA'
+     >    ,T108,'(Si,Sf)',T119,'(Si,Sf_x)')
+          WRITE(NRES,FMT='(
+     >    T106,'' (deg.)'',T119,''  (deg.)'')')
+          WRITE(NRES,fmt='(t87,a,/)') 
+     >           '(Sf_x - projection of Sf on plane x=0)'
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
               GAMA = SQRT(P*P + AM*AM)/AM
+              aa(1) = si(1,i)
+              aa(2) = si(2,i)
+              aa(3) = si(3,i)
+              bb(1) = sf(1,i)
+              bb(2) = sf(2,i)
+              bb(3) = sf(3,i)
+              cphi = vscal(aa,bb,3)
+c                write(*,*) ' spnprt cphi ',cphi
+              phi = acos(cphi) * deg
+C              call vvect(aa,bb,xx)
+C              sphi = xnorm(xx)
+C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)
+              bb(1)= 0.d0
+              cphix = vscal(aa,bb,3)/xnorm(bb,3)
+c                write(*,*) ' spnprt cphix ',cphix
+              phix = acos(cphix) * deg 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
-     X        ,(SF(J,I),J=1,4),GAMA,I
- 101          FORMAT(1X,A1,1X,I2,4(1X,F10.6),9X,4(1X,F10.6),
-     >                                         1X,F12.6,1X,I4)
+     X        ,(SF(J,I),J=1,4),GAMA,phi,phix,I
+ 101          FORMAT(1X,A1,1X,I2,4(1X,F9.3),9X,7(1X,F9.3),1X,I4)
 C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
           ENDDO
@@ -143,21 +194,28 @@ C     >                     SMI, SMA)
               GOTO 96
             ENDIF
 
-            WRITE(LUN,130) JMAXT
+C            WRITE(LUN,130) JMAXT
             DO I=IMAX1,IMAX2
               IF( IEX(I) .GE. -1 ) THEN
                 P = BORO*CL9 *F(1,I) *Q
                 GAMA = SQRT(P*P + AM*AM)/AM
-                WRITE(LUN,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
-     >             ,GAMA,I,IEX(I)
+C                WRITE(LUN,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
+C     >             ,GAMA,I,IEX(I)
+                WRITE(lun,107) LET(I),IEX(I),(SI(J,I),J=1,4)
+     >          ,(SF(J,I),J=1,4),GAMA,phi,phix,(F(J,I),J=1,6),I,ipass
+     >          ,'      LET(I),IEX(I),(SI(J,I),J=1,4),'
+     >          ,'(SF(J,I),J=1,4),GAMA,phi,phix,(F(J,I),J=1,4),I,ipass'
+ 107            FORMAT(1X,A1,1X,I2,17(1X,F10.4),2(1x,I4),2A)
               ENDIF
             ENDDO
-            CLOSE(LUN)
+ 
+           CLOSE(LUN)
 
           ENDIF 
         ENDIF
  3    CONTINUE
  
+
       RETURN
 
  96       CONTINUE

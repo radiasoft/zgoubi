@@ -32,7 +32,7 @@ C     *******************************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -45,6 +45,10 @@ C     *******************************************
 
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER(MXREF=99)
+
+      CHARACTER TXT132*132, STRA(3)*132
+      LOGICAL STRCON
+      INTEGER FINSTR
 
 C----- BORO
       READ(NDAT,*,ERR=99) A(NOEL,1)
@@ -134,7 +138,16 @@ C              write(*,*) ' sbr robjet KK',kk,k2,k
  
  8    CONTINUE
 C----- IY, IZ, IX
-      READ(NDAT,*,ERR=99) (A(NOEL,19+I),I=1,3)
+      READ(NDAT,fmt='(a)',ERR=99) txt132
+      READ(TXT132,*,ERR=99) (A(NOEL,19+I),I=1,3)
+      CALL STRGET(TXT132,3,
+     >                     IDUM,STRA) 
+C Get number of digits after '.' in IX, IY, IZ      
+      DO I = 1, 3
+        IF(STRCON(STRA(I),'.',IS)) THEN 
+          A(NOEL,22+I) = FINSTR(STRA(I)(IS:132))-IS
+        ENDIF
+      ENDDO
 C----- Center of ellipsoid (Y, T, Z, P, X, D
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
 C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces

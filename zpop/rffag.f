@@ -17,18 +17,18 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  François Méot <meot@lpsc.in2p3.fr>
+C  Brookhaven National Laboratory                és
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE RFFAG(ND,NDAT,
-     >    NMAG,AT,RM,ACN,OP,XIE,OM,XIS,RE,TE,RS,TS)
+      SUBROUTINE RFFAG(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     --------------------------
-C     READS DATA FOR SPIRAL FFAG
-C     --------------------------
+C     -------------------
+C     READS DATA FOR FFAG
+C     -------------------
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
@@ -36,32 +36,25 @@ C     --------------------------
       NP = 1                 
       READ(NDAT,*) (A(NOEL,NP+I),I=1,3)    ! NMAG, AT, R0
       NMAG = NINT(A(NOEL,NP+1))                                
-      AT = A(NOEL,NP+2)
-      RM = A(NOEL,NP+3)
       NP=NP+3
 
       DO 1 IMAG = 1, NMAG
 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,4)          ! ACENT, DR0, HNORM, K
-        ACN = A(NOEL,NP+1)
         NP=NP+4
 C       ... Entrance face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
         NP=NP+2                                    !    .eq.0/.ne.0 for constant/g_0(R0/r)^k
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
-        OP = A(NOEL,NP+1)
-        XIE = A(NOEL,NP+2)
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
 C         ... Exit face 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
         NP=NP+2 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
-        OM = A(NOEL,NP+1)
-        XIS = A(NOEL,NP+2)
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
 C         ... Lateral face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
@@ -81,12 +74,9 @@ C     ... XPAS
       ND=NP
       READ(NDAT,*) A(NOEL,ND)
 C     ... KP, RE, TE, RS, TS
+C Modif, FM, Dec. 05
+C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
-      RE = A(NOEL,NP+4)
-      TE = A(NOEL,NP+5)
-      RS = A(NOEL,NP+6)
-      TS = A(NOEL,NP+7)
-      WRITE(*,*) ' AT,RM,RE,TE,RS,TS : ',AT,RM,RE,TE,RS,TS
 
       RETURN
       END

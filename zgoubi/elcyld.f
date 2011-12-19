@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE ELCYLD(SCAL,
-     >                       ORB)
+     >                       ORBL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
@@ -52,11 +52,9 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       RM =A(NOEL,11)*1.D2
       EM(1)  = A(NOEL,12)*SCAL
 
-      ORB = RM * DEV
+      ORBL = RM * DEV
       IF (EM(1) .EQ. 0.D0) KFLD=0
 
-C      P0 = BORO*CL*1.D-9 *Q/QEL
-C      P0 = BORO*CL*1.D-9 *Q
       P0 = BORO*CL9 *Q
       EK = SQRT(P0*P0+AM*AM) - AM
       ETA = EK / 2.D0 / AM
@@ -82,11 +80,11 @@ C      P0 = BORO*CL*1.D-9 *Q
       
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' Electrical Cyl Deflector',
-     >    DEV, RM/1.D2,EM(1),P0/SQRT(P0*P0+AM*AM), 
+     >    DEV, RM,EM(1),P0/SQRT(P0*P0+AM*AM), 
      >    EM(1)*AM*RM/1.D2/P0/P0*1.D-6, ETA
  100    FORMAT(/,5X,' +++++  ', A30
      >        ,//,15X,' Deviation                 = ',F10.5 ,' rad'
-     >        ,/ ,15X,' Layout  radius  R         = ',F10.5 ,' m'
+     >        ,/ ,15X,' Layout  radius  R         = ',F10.5 ,' cm'
      >        ,/ ,15X,' E-field                   = ',G12.4,' V/m'
      >        ,//,15X,' v/c                       = ',G12.4
      >        ,/ ,15X,' Balance (E.Mass.R/p^2, normally 1)  = ',F12.6

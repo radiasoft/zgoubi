@@ -29,7 +29,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
  
       CHARACTER*80 OLDFIL, NEWFIL
       CHARACTER*132 HEADER
@@ -39,12 +39,12 @@ C  -------
       PARAMETER (I20=20)
 
       NFIC = INT(A(NOEL,1))
+      NCOL = INT(A(NOEL,2))
+      NHEAD = NINT(A(NOEL,3))
       IF(NFIC.GT.I20) 
      >   CALL ENDJOB('SBR  BINARY:  too  many  files,  max  is',I20)
-      NCOL = NINT(10.D0*A(NOEL,1)) - 10*NFIC
       IF(NCOL.LE.0) NCOL = 6
 C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
-      NHEAD = NINT(A(NOEL,2))
  
       DO 1 IFIC=1,NFIC
         OLDFIL=TA(NOEL,IFIC)

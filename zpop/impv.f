@@ -32,10 +32,10 @@ C  -------
       WRITE(6   ,FMT='(1P,4G13.5,3(1X,I6))') X,Y,YDX,SYDX,NPT,IT,IPASS
       WRITE(NLOG,FMT='(1P,4E20.12,3(1X,I6),A)') 
      >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
-     >                                 '  X,Y,YDX,SYDX,NP,IT,ipass 2'
+     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass# 2'
       WRITE( JUN,FMT='(1P,4E20.12,3(1X,I6),A)') 
      >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
-     >                                 '  X,Y,YDX,SYDX,NP,IT,ipass 1'
+     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass# 1'
       CALL FLUSH2(NLOG,.FALSE.)
       CALL TXTFBG
       RETURN

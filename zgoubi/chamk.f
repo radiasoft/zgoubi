@@ -75,7 +75,7 @@ C     --------------------------------------------------------
      >           IMAP)
 
       IF(KUASEX .EQ. 9) THEN
-C------- MAP2D, MAP2D_E.  Tracking in symmetryless 2D map
+C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
         IF    (KFLD .EQ. MG) THEN
           CALL PAVEL(IRD,A1,R1,Z1,
      >                            B,DB,DDB,KERK)

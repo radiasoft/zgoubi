@@ -33,9 +33,9 @@ C  -------
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
    
-      IF(KLEY .EQ. 'MULTIPOL') THEN
+c      IF(KLEY .EQ. 'MULTIPOL') THEN
         
-      ENDIF
+c      ENDIF
 
       RETURN
       END

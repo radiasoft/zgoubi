@@ -54,7 +54,7 @@ C  -------
       IF(KL1.EQ.-1) THEN
         WRITE(TXTL,FMT='(A5)') '* all'
       ELSE
-        WRITE(TXTL,FMT='(I5,A5,I5)') KL1,' to ',KL2
+        WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
       ENDIF
       WRITE(TXT,101) TXTP,TXTL
  101  FORMAT(' Part',A,'  at Lmnt ',A) 

@@ -117,10 +117,12 @@ C------- Record pick-up position (cm)
       IPU = IPU1-1            
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
-      WRITE(ABS(NRES),*) 
-     > ' Found ',IPU,' pick-ups prior to element #',NOELI,'.'
-      IF(IPU.GT.0) WRITE(ABS(NRES),*) ' Of which last PU is # ',
-     > IPU,' (located at  element NOEL = ',NOELPU(IPU),')'
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,*) 
+     >   ' Found ',IPU,' pick-ups prior to element #',NOELI,'.'
+        IF(IPU.GT.0) WRITE(NRES,*) ' Of which last PU is # ',
+     >  IPU,' (located at  element NOEL = ',NOELPU(IPU),')'
+      ENDIF
       RETURN
 
       END

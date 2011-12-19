@@ -91,7 +91,6 @@ C--------- DIP, QUAD, SEXTU, etc. up to 20-POLE ; MULTIPOL ; ELMULT ; EBMULT
 
           IF(KFLD .EQ. MG) THEN
 C----------- Magnetic
-c        write(*,*) ' sbr chamc di ds ',di(1,1),di(1,2),di(1,3),di(1,4)
             CALL MULTIP(IDB,MG,KUASEX,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS,CE, CS,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
@@ -151,8 +150,8 @@ C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
 
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
-          CALL ELCYL(MPOL,QLE,QLS,QE,QS,X,Y, 
-     >                                                    E)
+          CALL ELCYL(MPOL,EM,QLE,QLS,QE,QS,X,Y, 
+     >                                         E,DE,DDE)
  
         ELSEIF(KUASEX.EQ.25) THEN
 C--------- ELMIR
@@ -197,6 +196,13 @@ C--------- COILS
 C--------- UNDULATOR
           CALL UNDULF(BM(1),X,Z,
      >                            B,DB,DDB)
+        ELSEIF(KUASEX .EQ. 37) THEN
+C--------- AGSMM = AGS dipole. 
+
+            CALL AGSMMF(IDB,MG,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
+     >               XE,XS,CE, CS,
+     >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
+       
         ELSE
           STOP ' SBR CHAMC :  No such field  installed !'
         ENDIF

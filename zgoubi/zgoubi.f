@@ -23,9 +23,9 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE ZGOUBI(NL1,NL2,READAT)
+      SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL READAT
+      LOGICAL READAT, ENDFIT
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -33,7 +33,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -53,7 +53,6 @@ C  -------
       COMMON/TITR/ TITRE 
 
       PARAMETER(MPOL=10)
-      PARAMETER (I0=0) 
       DIMENSION ND(MXL)
 
 C----- For printing after occurence of pre-defined labels
@@ -86,12 +85,12 @@ C----- To get values into A(), from earlier FIT
       CHARACTER*40 TXTELT, TXTELO
       SAVE TXTELT
 
-      CHARACTER SYSCMD*200
+      CHARACTER SYSCMD*300
 
       INCLUDE 'PARIZ.H'
       INCLUDE 'FILPLT.H'
 
-      PARAMETER (I1=1, I2=2, I3=3, I5=5, I6=6)
+      PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
 C This INCLUDE must stay located right before the first statement
       CHARACTER*(KSIZ) KLEO
@@ -103,15 +102,18 @@ C----- Switch for calculation, transport and print of Twiss functions :
       DATA REBFLG, NOELRB / .FALSE., MXL / 
       DATA DUM / 0.D0 /
 
+      IF(ENDFIT) GOTO 998 
+
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
       IF(READAT) THEN
         CALL PRDATA(
-     >              LABEL,NOELMX)
+     >              LABEL,NBEL)
         CALL FITSTA(I5,
      >                 FITING)
-        IF(.NOT.FITING) NL2=NOELMX
+        CALL FITST2(NBEL)
+        IF(.NOT.FITING) NL2=NBEL
         CALL LINGUA(LNG)
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
@@ -142,7 +144,8 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
         IF( STRACO(NLB,LBL,LABEL(NOEL,1),
-     >                                   IL) ) 
+     >                                   IL) 
+     >    .OR. LBL(1).EQ.'all' .OR. LBL(1).EQ.'ALL') 
      >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
       ENDIF
@@ -164,13 +167,15 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
       ENDIF
       IF(KOPTCS .EQ. 1) THEN
-C------- Transport and print Twiss functns at MULTIPOL's
-        CALL TRBEAM
+C------- Transport beam matrix and print at element ends
+        CALL MATRIC(I1,I0,I0)
       ENDIF
 
       IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         IF(IPASS.EQ.NRBLT+1) THEN
+          call rebel7(
+     >                noelb)
           IF(NOEL.EQ.NOELB) THEN
             IKLE = 11  
             KLEY = KLE(IKLE)   ! 'REBELOTE'
@@ -182,25 +187,32 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
       ENDIF
  
       IF(READAT) THEN
-        READ(NDAT,*,ERR=999) KLEY
-        DO 188 IKLE=1,MXKLE
+c          write(21,*) ' zgoubi  1 READAT : ', readat, noel
+c          write(21,*)
+ 188    READ(NDAT,*,ERR=999) KLEY
+        IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
+        DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
             NOEL = NOEL+1
             IF( NOEL .EQ. MXL+1) THEN
               TOMANY=.TRUE.
-              WRITE(NRES,*) ' PROCEDURE STOPPED: too many elements'
-              WRITE(NRES,*) ' (number of elements should not exceed '
+              IF(NRES .GT. 0) THEN
+                WRITE(NRES,*) ' PROCEDURE STOPPED: too many elements'
+                WRITE(NRES,*) ' (number of elements should not exceed '
      >                                                       ,MXL,').'
-              WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
+                WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
+              ENDIF
               CALL ENDJOB(' Increase  MXL  in   MXLD.H',-99)
             ENDIF
             IQ(NOEL) =  IKLE
             GOTO 187
           ENDIF
- 188    CONTINUE
+        ENDDO
         GOTO 999
       ELSE
 C------- Steps here in case of "FIT"
+c          write(21,*) ' zgoubi  2 '
+c          write(21,*)
         IF (NOEL .EQ. NL2 ) RETURN
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
@@ -216,7 +228,7 @@ C------- Steps here in case of "FIT"
  334    FORMAT(2X,I5,2X,A10,2(2X,A8))
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A8))') 
-     >    NOEL,'/',NOELMX,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
+     >    NOEL,'/',NBEL,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
  
@@ -313,13 +325,19 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       IF(FITGET) CALL FITGT1
       CALL FOCALE(3)
       GOTO 998
-C----- REBELOTE. Passe NRBLT+1 fois dans la structure
+C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
+C      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT.
+C      write(ABS(nres),*) '(READAT) CALL RREBEL(LABEL)',noel, readat
       IF(READAT) CALL RREBEL(LABEL)
       IF(FITGET) CALL FITGT1
       CALL REBEL(READAT,KLE,LABEL,
-     >                            REBFLG,NOELB,NOELRB)
+     >                            REBFLG,NOELRB)
       CALL KSMAP0
+c        write(*,*) ' zgoubi ipass, REBFLG,NOELRB noel '
+c     >         ,ipass, REBFLG,NOELRB,noel 
+      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT.
+        
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
@@ -361,7 +379,7 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
       IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
-      CALL MATRIC
+      CALL MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)))
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE
@@ -459,10 +477,10 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       IF(READAT) CALL RCARTE(KART,I3,
      >                               ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
-C        KZMA = 1, 2-D map
+C        KZMA = 1 ; 2-D map
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN
-C        KZMA > 1, 3-D map
+C        KZMA > 1 ; 3-D map
         KUASEX = 7
         IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, need
      >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
@@ -560,9 +578,10 @@ C----- FIT, FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
-      CALL RFIT
+      IF(READAT) CALL RFIT
       FITING = .TRUE.
       CALL FITSTA(I6,FITING)
+      CALL FITST2(NOEL)
       FITGET = .FALSE.
       RETURN
 C----- SPES3. CARTE DE Champ CARTESIENNE MESUREE DU SPES3
@@ -855,8 +874,8 @@ C----- PICKUPS.
       IF(FITGET) CALL FITGT1
       CALL PICKUP
       GOTO 998
-C----- OPTICS. Calculate Twiss functns, transport and print at
-C                 MULTIPOLs' exit ends, over one turn, into zgoubi.twiss
+C----- OPTICS. Transport the beam matrix and print at
+C      element exit ends, into zgoubi.optics
  80   CONTINUE
       IF(READAT) READ(NDAT,*) KOPTCS
       IF (KOPTCS .NE. 1) KOPTCS = 0
@@ -910,7 +929,7 @@ C----- ELCMIR
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
-C----- MAP2D_E: 2D E-FIELD MAP
+C----- MAP2D-E: 2D E-FIELD MAP
  86   CONTINUE
       KFLD=LC
       GOTO 62
@@ -926,7 +945,8 @@ C----- BETATRON. Betatron core
       GOTO 998
 C----- TWISS. Compute linear lattice functions, chromaticity, etc. 
  89   CONTINUE
-C                                        Fac_dp   Fac-ampl
+C                            ktwiss=1 :  Fac_dp   Fac-ampl
+C                            ktwiss=2 :  Prtcl#   unsued
       IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
       CALL TWISS(
      >           READAT,*998)
@@ -1074,10 +1094,11 @@ C----- SYSTEM. System call
  106  CONTINUE
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))
+      IF(NRES.GT.0) WRITE(NRES,*) ' Number of commands : ',NCMD
       DO I = 1, NCMD
         READ(NDAT,FMT='(A)') SYSCMD
-        SYSCMD = SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))//' &'
-        CALL SYSTEM(SYSCMD)
+        CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
+        IF(NRES.GT.0)WRITE(NRES,*) SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
       ENDDO 
       GOTO 998
 C----- SPINR. Spin rotator 
@@ -1093,6 +1114,18 @@ C----- BENDTH. Pure dipole field, analytical push.
       IF(FITGET) CALL FITGT1
       CALL BNDTHI(ND(NOEL))
       GOTO 998
+C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or specificities. 
+ 109  CONTINUE
+      KALC = 3
+      KUASEX = 37
+      IF(READAT) THEN
+        CALL RAGSMM(NDAT,NOEL,MXL,A,ND(NOEL))
+      ELSE
+        CALL STPSI1(NOEL)
+      ENDIF
+      IF(FITGET) CALL FITGT1
+      CALL QUASEX(ND(NOEL))
+      GOTO 998
 
 C-------------------------
 C-------------------------
@@ -1104,8 +1137,8 @@ C-------------------------
      >             NOELO)
       NOELO = NOEL
       RETURN
-      ENTRY ZGKLE(
-     >             KLEO,IKL)
+      ENTRY ZGKLE(IKL, 
+     >                KLEO)
       KLEO = KLE(IKL)
       RETURN
 

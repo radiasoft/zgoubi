@@ -1,5 +1,5 @@
 INC=../include
- 
+
 MODULEF =\
  amini.f\
  asinh.f\

@@ -25,12 +25,13 @@ C  USA
 C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates. 
 C     TOSCA keyword with MOD.le.19. 
 C-------------------------------------------------
+      LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
       COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
@@ -40,7 +41,7 @@ C-------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
@@ -48,7 +49,7 @@ C-------------------------------------------------
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       LOGICAL BINARI,IDLUNI
-      LOGICAL BINAR, NEWFIC
+      LOGICAL BINAR
       LOGICAL FLIP
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       SAVE NOMFIC, NAMFIC
@@ -63,6 +64,7 @@ C-------------------------------------------------
       DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
       DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
 
       DATA NOMFIC / IZ*'               '/ 
@@ -75,7 +77,7 @@ C-------------------------------------------------
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
-     >                              IS) ) THEN
+     >                            IS) ) THEN
         READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
       ELSE
         NHD = NHDF
@@ -87,6 +89,7 @@ C-------------------------------------------------
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
       IF(NDIM .EQ. 1) THEN
         JYMA=1
+        KZMA=1
       ELSE
         JYMA = A(NOEL,21)
         IF(JYMA.GT.MXY ) 
@@ -95,6 +98,8 @@ C-------------------------------------------------
           KZMA =A(NOEL,22)
           IF(KZMA.GT.IZ ) 
      >       CALL ENDJOB('Z-dim of map is too large,  max  is ',IZ)
+        ELSE
+          KZMA=1
         ENDIF
       ENDIF
 
@@ -107,8 +112,9 @@ C-------------------------------------------------
         NFIC=1
         NAMFIC = TA(NOEL,2)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+
         CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,IMAP)
+     >                          NEWFIC,NBMAPS,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
@@ -134,17 +140,15 @@ C--------- A single data file contains the all 3D volume
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
         CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,IMAP)
+     >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,A,I1,A,I3,A1,I1,2(2A,I3),/)') 
      >  'NDIM = ',NDIM,' ;   Value of MOD.I is ', MOD,'.',MOD2,' ;  ' 
-     >  ,'Number of field data files used is ',NFIC,' ;  ' 
+     >  ,'Number of data file sets used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP
 
-C              write(88,*) '  newfic  : ', newfic,imap
-    
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
  209       FORMAT(/,10X  
@@ -203,6 +207,7 @@ C              write(88,*) '  newfic  : ', newfic,imap
              ENDIF
 
              IRD = NINT(A(NOEL,40))
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
@@ -211,16 +216,17 @@ C              write(88,*) '  newfic  : ', newfic,imap
  12        CONTINUE
 
 C------- Store mesh coordinates
-           IIXMA = IXMA
+           IIXMA(IMAP) = IXMA
            DO I=1,IXMA
              XXH(I,imap) =  XH(I)
            ENDDO
-           JJYMA = JYMA
+           JJYMA(IMAP) = JYMA
            DO J=1,JYMA
              YYH(J,imap) =  YH(J)
            ENDDO
-           KKZMA = KZMA
-           DO K= 2, KZMA
+           KKZMA(IMAP) = KZMA
+C FM Nov 2011           DO K= 2, KZMA
+           DO K= 1, KZMA
              ZZH(K,imap) = ZH(K)
            ENDDO
            bBMI(imap) = BMIN
@@ -231,20 +237,21 @@ C------- Store mesh coordinates
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
-C        write(88,*) ' newfic  ixma, jyma, xh, yh : ',
-C     >       newfic,ixma,jyma,xh(ixma),yh(jyma)
+
       ELSE
 
+           IRD = NINT(A(NOEL,40))
+
 C------- Restore mesh coordinates
-           IXMA = IIXMA
+           IXMA = IIXMA(IMAP)
            DO I=1,IXMA
              XH(I) = XXH(I,imap)
            ENDDO
-           JYMA = JJYMA
+           JYMA = JJYMA(IMAP)
            DO J=1,JYMA
              YH(J) = YYH(J,imap) 
            ENDDO
-           KZMA = KKZMA
+           KZMA = KKZMA(IMAP)
            DO K= 1, KZMA
              ZH(K) = ZZH(K,imap)
            ENDDO
@@ -257,11 +264,10 @@ C------- Restore mesh coordinates
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
 
-C        write(88,*) ' newfic  ixma, jyma, xh, yh : ',
-C     >       newfic,ixma,jyma,xh(ixma),yh(jyma)
-
            IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
-     >     ' restored mesh coordinates for field map # ',imap
+     >     ' restored mesh coordinates for field map # ',imap,
+     >     ',  name : ',
+     >     NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
 
       ENDIF ! NEWFIC
 

@@ -40,6 +40,6 @@ C         of all Bi components in case of combined function (e.g., 'MULTIPOL' wi
       RHO = 1.D0/B(1,3) 
       PSI = FINT * GAP/RHO * (1.D0 + SIN(WEDG)**2)/COS(WEDG)
       P = P - Z * TAN(WEDG -PSI) / RHO 
-C      P = P + Z*1.D-2*( -TAN(WEDG) + FINT / (6.D0*RHO*COS(WEDG)) ) / RHO
+CCCCCC      P = P + Z*1.D-2*( -TAN(WEDG) + FINT / (6.D0*RHO*COS(WEDG)) ) / RHO
       RETURN
       END

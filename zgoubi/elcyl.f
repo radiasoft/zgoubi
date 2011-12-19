@@ -11,6 +11,7 @@ C  This program is distributed in the hope that it will be useful,
 C  but WITHOUT ANY WARRANTY; without even the implied warranty of
 C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 C  GNU General Public License for more details.
+
 C
 C  You should have received a copy of the GNU General Public License
 C  along with this program; if not, write to the Free Software
@@ -23,12 +24,13 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE ELCYL(MPOL,QLEM,QLSM,QE,QS,A,R, 
-     >                                                     E)
+      SUBROUTINE ELCYL(MPOL,EM,QLEM,QLSM,QE,QS,A,R, 
+     >                                          E,DE,DDE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER(MCOEF=6)
       DIMENSION QLEM(MPOL),QLSM(MPOL),QE(MPOL,MCOEF),QS(MPOL,MCOEF)
-      DIMENSION E(5,3)
+      DIMENSION EM(*)
+      DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
 
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -37,7 +39,7 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
 C------- Extent of Entrance/Exit fringe field region
-      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0)
+      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (RM,rho) !AUL:110215
 
       LOGICAL CHFE, CHU, CHFS
       PARAMETER (I0=0, I1=1)
@@ -50,13 +52,31 @@ C----- LambdaE,LambdaS
 
       AA = A 
       RR = R
+
+      print*, qle,qls,AA, AE, at,  rr
+ 
       IF(QLE+QLS .EQ. 0D0) THEN
-C------- Sharp edges  !!! test !!!  non physical -> dp/p altered
+C------- Sharp edges approximation
  
         IF ( AA .GE. AE .AND. AA .LE. AE+AT ) THEN
-C         Inside the deflector
+C         Uniform region
 
-          E(1,2) = - VN / RR
+CCCCCCCC          E(1,2) = - VN / RR
+      ! in Zgoubi y is radial, x longitudinal, z vertical               !AUL:110214
+c          print*,'E0,rho,E0/rho,y=',EM(1),rho,EM(1)/rho,y;stop
+
+          c = 0.d0   ! cylindrical
+c          c = 1.d0   ! spherical
+          u = (rr-rm)/rm
+          v = z/rm  !!!!! z is not known
+
+C Er
+          E(1,2) =  V0 *( 1.d0 - u * (1.d0 + c)) 
+C Ez
+          E(1,3) =  V0 * v * c 
+      
+          DE(2,2) =  -EM(1)*BRI * (1.d0 + c) 
+          DE(3,3) =  EM(1)*BRI * c 
 
         ENDIF
 
@@ -133,14 +153,11 @@ C--------- Ea, from Maxwell's equation
      >       - 50.D0/6.D0 * RRM) * RRM) * RRM)  ! Check that !!
           EA = DRA - RR * DAR  ! Spherical ?? Check that !!
 
-          E(1,1) = EA*VN
+          E(1,1) = EA*VN*0.d0                  !AUL:110214 
           E(1,2) = ER
 
         ENDIF
       ENDIF
-
-C             write(*,*) ' rr, rm, rrm : ',rr,rm,rrm
-C             write(*,*) ' se, ss, ea, er : ',se,ss,ea, er
 
       RETURN
       END

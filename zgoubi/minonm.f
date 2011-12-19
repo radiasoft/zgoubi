@@ -48,5 +48,5 @@ C      CALL NMMIN(NMFONC,V,P,N)
          X(I)=V(I)
  2000 CONTINUE
       F0 = NMFONC(V)
-
+      RETURN
       END

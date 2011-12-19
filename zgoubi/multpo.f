@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MULTPO(KUASEX,LMNT,KFL,MPOL,SCAL,
      >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
@@ -41,7 +40,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -120,22 +119,22 @@ C--------- ... or magnetic part of EBMULT
         XL =A(NOEL,IA)
         IA = IA + 1
         RO =A(NOEL,IA)
-        DO 30 IM=1,MPOL
-          IA = IA + 1
-          BM(IM) =A(NOEL,IA)*SCAL
-          IF(RO .EQ. 0.D0) THEN
-            IF(IM .GE. 2) THEN 
-              IF(BM(IM) .NE. 0.D0) THEN
-                IER = IER+1
-                TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
-                CALL ENDJOB(TXT(IER),-99)
+          DO IM=1,MPOL
+            IA = IA + 1
+            BM(IM) =A(NOEL,IA)*SCAL
+            IF(RO .EQ. 0.D0) THEN
+              IF(IM .GE. 2) THEN 
+                IF(BM(IM) .NE. 0.D0) THEN
+                  IER = IER+1
+                  TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
+                  CALL ENDJOB(TXT(IER),-99)
+                ENDIF
               ENDIF
             ENDIF
-          ENDIF
-          IF(GAP.EQ.0.D0) THEN
-            IF(BM(IM).NE.0.D0) GAP = RO/IM
-          ENDIF
- 30     CONTINUE
+            IF(GAP.EQ.0.D0) THEN
+              IF(BM(IM).NE.0.D0) GAP = RO/IM
+            ENDIF
+          ENDDO
 
 C------- If SR-loss switched on by procedure SRLOSS
         IF(KSYN.GE.1) THEN
@@ -189,7 +188,7 @@ C----- Multipole rotation
         IA = IA + MCOEF - NCS 
         DO 35 IM=1,MPOL
           IA = IA + 1
-          RT(IM)=A(NOEL,IA)
+          RT(IM)=A(NOEL,IA) 
           SKEW=SKEW .OR. RT(IM) .NE. ZERO
  35     CONTINUE
  
@@ -235,10 +234,10 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
         SUM=SUM+BM(IM)*BM(IM)
 C------- E converti en MeV/cm
         IF(KFL .EQ. LC) THEN
-          BM(IM) = 2.D0*BM(IM)/RO*1.D-6
+          IF(BM(IM).NE.0.D0) BM(IM) = 2.D0*BM(IM)/RO*1.D-6
           RT(IM) = RT(IM) + .5D0*PI/DBLE(IM)
         ENDIF
-        BM(IM) = BM(IM)/RO**(IM-1)
+        IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
       ENDDO
 
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
@@ -258,10 +257,13 @@ C-------- Sharp edge at entrance and exit
 C          IF(KUASEX .EQ. MPOL+1) THEN
 C------------- Set entrance & exit wedge correction in SBR INTEGR
 C            IF(BM(1) .NE. 0.D0) THEN
+C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
+            IF(XL .GT. 2.D0) THEN            
 C FM, 2006
               CALL INTEG1(ZERO,FINTE,GAP)
               CALL INTEG2(ZERO,FINTS,GAP)
-C            ENDIF
+            ENDIF
+c            ENDIF
 C          ENDIF
         ENDIF
         
@@ -288,7 +290,8 @@ C            IF(KUASEX .EQ. MPOL+1) THEN
 C              IF(BM(1) .NE. 0.D0) THEN
 C----------- Set entrance wedge correction in  SBR INTEGR
 C FM, 2006
-                CALL INTEG1(ZERO,FINTE,GAP)
+C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
+            IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
 C              ENDIF
 C            ENDIF
           ENDIF
@@ -358,8 +361,9 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
 C            IF(KUASEX .EQ. MPOL+1) THEN
 C------------- Set exit wedge correction in SBR INTEGR
 C              IF(BM(1) .NE. 0.D0) THEN
+C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
 C FM, 2006
-                CALL INTEG2(ZERO,FINTS,GAP)
+            IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
 C              ENDIF
 C            ENDIF
           ENDIF
@@ -499,4 +503,5 @@ C-----------------------------------------
      >               ('*** ERROR #',I,TXT(I),I=1,IER)
 C----- Execution stopped :
       RETURN 1
+
       END

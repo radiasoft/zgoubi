@@ -132,8 +132,8 @@ C-------- COMPTAGE / LIMITES CHAMBRE
 
       IF(NRES .GT. 0)
      >  WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
-     >  1P,G17.9,
-     >  '' m ;  relating time  (for ref. rigidity & particle) = '', 
+     >  1P,G17.9,'' m  at '',
+     >  '' ;  Time  (for ref. rigidity & particle) = '', 
      >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN

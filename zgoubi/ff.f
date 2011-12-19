@@ -55,7 +55,7 @@ C      SAVE IC2
 
       DIMENSION RPD(6,6), RMD(6,6) 
 
-      LOGICAL READAT
+      LOGICAL READAT, ENDFIT
 
       M=1
       CALL REMPLI(M)
@@ -72,7 +72,8 @@ C----------- Compute present value of constraint
 C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
-            CALL ZGOUBI(1,KK,READAT)
+            ENDFIT = .FALSE.
+            CALL ZGOUBI(1,KK,READAT,NBEL,ENDFIT)
 C           write(*,*) ' kk ',kk,i3(i)
 C             stop
          ENDIF
@@ -207,8 +208,8 @@ C-----------Contraints are second order transport coeffs
              DNUYDP = (YNUP-YNUM)/2.D0/DP
              DNUZDP = (ZNUP-ZNUM)/2.D0/DP
 C             WRITE(*,FMT='(/,34X,''Chromaticities:'',
-C     >      //,30X,''dNu_y / dp/p = '',G14.8,/, 
-C     >         30X,''dNu_z / dp/p = '',G14.8)') DNUYDP, DNUZDP
+C     >      //,30X,''dNu_y / dp/p = '',G15.8,/, 
+C     >         30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
              IF( K .EQ. 7 ) THEN
 C-------------Contraint dNu_Y/dpp
                VAL= DNUYDP
@@ -255,7 +256,13 @@ C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
 C------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached inside optical element KK
              MIMA = NINT(CPAR(I,2))
              CALL FITMM1(L,KK,MIMA,
-     >                             VAL)
+     >                             VAL1)
+             if(mima .eq. 1) mima=2
+             if(mima .eq. 2) mima=1
+             CALL FITMM1(L,KK,MIMA,
+     >                             VAL2)
+             val = val1 + val2
+              write(*,*) 'ff val1,val2,val1+val2 ',val1,val2, val1+val2
 C             CALL FITMM2            
      
            ELSEIF(ICONT2.EQ.4) THEN

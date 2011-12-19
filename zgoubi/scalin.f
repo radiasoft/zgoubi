@@ -30,7 +30,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
@@ -144,6 +144,18 @@ c     >                   '  sbr scalin turn freq phase oclock '
 
              DUM = SCALE6(XM,YM,turn,freq,ekin,N)           
 
+          ENDIF
+
+        ELSEIF(NTIM(IF) .EQ. -60) THEN
+C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
+C          Starting value is SCL(IF,1)
+          SCL(IF,1) = A(NOEL,10*IF)
+
+          IF(NRES .GT. 0) THEN
+            WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
+     >      ,''increase of rigidity taken from CAVITE'')')
+            WRITE(NRES,FMT='(15X,''Starting scaling value is ''
+     >      ,1P,E14.6)') SCL(IF,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -77) THEN

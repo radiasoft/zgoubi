@@ -182,7 +182,7 @@ C------- Correction for exit wedge
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
         IF(BBM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 
      >       '' Projected  deviations  in H/V  planes  = '',
-     >               1P,G12.6,''/'',G12.6,''  (rad)'')') DEVH, DEVV
+     >               1P,G13.6,''/'',G13.6,''  (rad)'')') DEVH, DEVV
  
 C        WRITE(NRES,104) 'D''ENTREE'
 C 104    FORMAT(/,15X,' FACE  ',A)

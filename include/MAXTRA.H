@@ -26,6 +26,6 @@ C  -------
 C If you change here, make sure you also re-compile zpop...
 
 C Max number of particles
-C      PARAMETER (MXT=1000)
-      PARAMETER (MXT=5000)
+      PARAMETER (MXT=10000)
+C      PARAMETER (MXT=5000)
 C      PARAMETER (MXT=1000)

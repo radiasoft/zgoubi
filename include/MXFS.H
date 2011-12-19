@@ -24,10 +24,14 @@ C  Upton, NY, 11973
 C  USA
 C  -------
 C------ MXF=max number of families that can be declared in SCALING
-C       MXS=max number of timings
+C       MXS=max number of timings. *** Attention : make sure MXS .le. MXD
 
-      PARAMETER (MXF=9,MXS=300)
+C      PARAMETER (MXF=9,MXS=100)
+
+C AGS modeling requires 18 scaling factors (XQH, XQV, XSH, XSV, a16_19_blw_I  etc.). 
+C AGS model including acceleration observed to require up to 2617 timings
+C *** Attention : MXS .le. MXD
+      PARAMETER (MXF=45,MXS=20)
 
 C------ MXLF=max number of labels following a family name in SCALING
-
       PARAMETER(MXLF=2)

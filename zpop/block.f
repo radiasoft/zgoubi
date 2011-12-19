@@ -130,7 +130,7 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
       DATA KPOL/ 'cartesian' , 'cylindr.' /
 
 C      DATA BORNE/ .01D0, .99D0, .01D0, .99D0, .001D0, .999D0 /
-      DATA BORNE/ .0D0, .5D0, .0D0, .5D0, .001D0, .999D0 /
+      DATA BORNE/ .65D0, .7D0, .65D0, .7D0, .001D0, .999D0 /
       DATA NC0/ 2000, 2000, 2000 /
 
       DATA NPTS / NTRMAX /

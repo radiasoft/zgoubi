@@ -25,11 +25,11 @@
       FMI(6,NOEL) = MIN(SAR,FMI(6,NOEL))
       FMI(7,NOEL) = MIN(TAR,FMI(7,NOEL))
           
-      DO 1 JJ = 1, MXJ
+      DO JJ = 1, MXJ
           FMIO(JJ,NOEL) = FMI(JJ,NOEL) 
           FMAO(JJ,NOEL) = FMA(JJ,NOEL)
 C         write(*,*) jj,noel,FMIO(JJ,NOEL),FMaO(JJ,NOEL)
- 1    ENDDO
+      ENDDO
 
 C        write(*,*) ' fitmm y,t,noel ',y,t,noel
 C        write(*,*) ' fitmm y,t,noel ',FMAO(2,NOEL),FMAO(3,NOEL),noel
@@ -48,11 +48,12 @@ C         stop
       RETURN
 
       ENTRY FITMM2
-      DO 11 LL = 1, MXL
-        DO 11 JJ = 1, MXJ
+      DO  LL = 1, MXL
+        DO  JJ = 1, MXJ
           FMI(JJ,LL) = 1.D99
           FMA(JJ,LL) = -1.D99
- 11   ENDDO
+        ENDDO
+      ENDDO
       RETURN
 
       END      

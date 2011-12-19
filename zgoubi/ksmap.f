@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE KSMAP(
-     >                 NMAPO)
+     >                 KMAPO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C------------------------------
 C     Monitors field map number
@@ -35,46 +35,27 @@ C------------------------------
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
 
-      SAVE NMAP
+      SAVE NBMAPS, KMAP
 
-      DATA NMAP / 0 /
+      DATA NBMAPS, KMAP / 0, 0 /
       DATA NAMSAV / MIZ*' ' /
 
 C Read
-      IF    (NMAP.GT.MMAP) THEN 
-        WRITE(NRES,*) ' SBR ksmap : too many different field maps'
-        CALL ENDJOB
-     >  ('SBR KSMAP(a). In PARIZ.H :  have  MMAP .ge. NMAP.  Now, MMAP='
-     >  ,MMAP)
-      ELSEIF(NMAP.LT.0) THEN 
-        WRITE(NRES,*) 
-     >  ' SBR ksmap : number of stored maps NMAP should be .ge.0'
-        CALL ENDJOB(' SBR KSMAP(b). In PARIZ.H : have NMAP .ge. 0.',-99)
-      ELSE
-        NMAPO = NMAP
-      ENDIF
+      KMAPO = KMAP
       RETURN
 
 C Reset
       ENTRY KSMAP0
-        NMAP = 0
+        NBMAPS = 0
       RETURN
 
-C Increment
-      ENTRY KSMAP2(
-     >             NMAPO)
-      IF(NMAP.GE.MMAP) THEN 
-        WRITE(NRES,*) ' SBR ksmap(a) : too many different field maps'
-        CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
-      ENDIF
-      NMAP = NMAP + 1
-      NMAPO = NMAP
-      RETURN
-
+C Stack, count 
       ENTRY KSMAP4(NOMFIC,NFIC,
-     >                         NEWFIC,NMAPO)
+     >                         NEWFIC,NBMAPO,KMAPO)
       IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
+      II = 0
       DO I = 1, MMAP
+        II = II+1
         OLDFIC = .TRUE.
         DO IFIC = 1, NFIC
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
@@ -84,18 +65,20 @@ C Increment
  1    CONTINUE
       NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
-        IF(NMAP.GE.MMAP) THEN 
+        IF(NBMAPS.GE.MMAP) THEN 
           WRITE(NRES,*) ' SBR ksmap(b) : too many different field maps'
           CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
         ENDIF
-        NMAP = NMAP+1
+        NBMAPS = NBMAPS+1
+        KMAP = NBMAPS
         DO IFIC = 1, NFIC
-          NAMSAV(NMAP,IFIC) = NOMFIC(IFIC)
+          NAMSAV(NBMAPS,IFIC) = NOMFIC(IFIC)
         ENDDO
       ELSE
-        NMAP = I
+        KMAP = II
       ENDIF
-      NMAPO = NMAP
+      NBMAPO = NBMAPS
+      KMAPO = KMAP
       RETURN
 
       END

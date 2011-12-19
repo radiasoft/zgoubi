@@ -53,14 +53,26 @@ C     -----------------------------------------
       PARAMETER(NDIM = 3)
       DIMENSION ISAM(NDIM)
 
-      DIMENSION NVRNTS(NDIM), NVRNT(NDIM) 
+      DIMENSION NVRNT(NDIM) 
+      LOGICAL STRCON
+      CHARACTER TXT80*80, STRA(2)*40
+
 
 C----- IX, IY, IZ
       DO I= 1, NDIM
         ISAM(I) = INT(A(NOEL,20+I-1))
-        NVRNTS(I) = NINT(1D2*A(NOEL,20+I-1)) - 100*ISAM(I)
-        NVRNT(I) = NVRNTS(I)
-        IF(NVRNT(I) .EQ. 0) NVRNT(I) = 1
+        NVRNT(I) = 1
+        WRITE(TXT80,*) A(NOEL,20+I-1)
+        IF(STRCON(TXT80,'.',
+     >                      IS)) THEN
+          IF(IS.LE.80-2) THEN
+            ln = nint(a(noel,22+i))
+            if(ln.gt.0) then
+              READ(TXT80(IS+1:is+ln),*) ITMP
+            endif
+            IF(ITMP .GT. 0) NVRNT(I) = ITMP
+          ENDIF
+        ENDIF
       ENDDO
 
 C----- CENTRE ELLIPSES
@@ -122,10 +134,10 @@ C------- Multiturn injection
      >  ,/,11X,' VERTICAL      :',T35,   3G12.4
      >  ,/,11X,' LONGITUDINAL  :',T35,   3G12.4,/)
 
-        WRITE(NRES,FMT='(15X,''  SAMPLING,  IX/IY/IZ : '',
+        WRITE(NRES,FMT='(15X,'' Sampling on an invariant, IX/IY/IZ : '',
      >             3(I5,''/''))') (ISAM(I),I=1,3)
 
-        WRITE(NRES,FMT='(15X,''  Number of invariants,  IX/IY/IZ : '',
+        WRITE(NRES,FMT='(15X,'' Number of invariants in X/Y/Z : '',
      >             3(I5,''/''))') (NVRNT(I),I=1,3)
       ENDIF
 
