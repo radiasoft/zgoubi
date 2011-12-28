@@ -1192,7 +1192,10 @@ C----- SPINR.  Spin rotator.
 C----- BENDTH. Pure dipole field, analytical push. 
  108  CONTINUE
       GOTO 998
-C----- AGSDIPOLE. 
+C----- AGSMM.  AGS main dipole.
  109  CONTINUE
+      GOTO 998
+C----- BEAMBEAM. 
+ 110  CONTINUE
       GOTO 998
       END

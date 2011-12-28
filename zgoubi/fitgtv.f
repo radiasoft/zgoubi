@@ -44,7 +44,6 @@ C  -------
 
       LOGICAL OPN, IDLUNI, EMPTY
 
-C      PARAMETER (NNEWV=MXL*MXD)
       CHARACTER(200) TXT200
       CHARACTER(1) TXT1
 
@@ -55,16 +54,11 @@ C      PARAMETER (NNEWV=MXL*MXD)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
 
       DIMENSION AFIT(MXL), IPRM(MXL)
-C      DIMENSION AFIT(MXL,MXD), NEWVAL(MXL,MXD)
-C      SAVE AFIT, NMI, NMA, NEWVAL
       SAVE AFIT
-C      SAVE AFIT, NEWVAL
       CHARACTER KLE*(KSIZ),LBL1*(LBLSIZ),LBL2*(LBLSIZ)
       CHARACTER KLEFIT(MXL)*(KSIZ)
       CHARACTER LB1FIT(MXL)*(LBLSIZ),LB2FIT(MXL)*(LBLSIZ)
       SAVE KLEFIT, LB1FIT, LB2FIT, KREAD
-
-C      DATA NEWVAL / NNEWV*0/
 
       FITGET = .FALSE.
 
@@ -137,10 +131,10 @@ C To be completed
       CALL ENDJOB('*** Error, SBR FITGTV -> at INQUIRE ',-99)
       RETURN 
  99   CONTINUE
-C      CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
       WRITE(NRES,FMT='(3A)') ' Could not open '
      >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-     >  ,', will proceed without.  '
+     >  ,', give ''none'' as name so to allow proceeding.  '
+      CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
       RETURN 
 
       WRITE(NRES,FMT='(3A)') ' Could not read in '

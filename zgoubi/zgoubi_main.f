@@ -98,17 +98,19 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
      >              NUMKLE)
         NL2 = NUMKLE-1   ! FIT keyword is at position NUMKLE
         WRITE(6,201)
-        WRITE(NRES,201)
         WRITE(6,200) 
-        WRITE(NRES,200) 
- 200    FORMAT(/,10X,
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,201)
+          WRITE(NRES,200) 
+ 200      FORMAT(/,10X,
      >   ' MAIN PROGRAM :  now final run using FIT values ',A10)
+        ENDIF
         ENDFIT = .FALSE.
         CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
 c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle
 c        write(*,*) 
         WRITE(6,201)
-        WRITE(NRES,201)
+        IF(NRES.GT.0) WRITE(NRES,201)
  201    FORMAT(/,128('*'))
 
 C Proceeds until the end of zgoubi.dat list
@@ -151,29 +153,33 @@ C For use of REBELOTE (REBELOTE encompasses FIT)
       GOTO 10 
 
  99     CONTINUE
-        WRITE(NRES,103) DMY,HMS
         WRITE(6   ,103) DMY,HMS
-        WRITE(NRES,101)
- 101    FORMAT(/,128('*'))
-        WRITE(NRES,FMT='(/,10X,
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,103) DMY,HMS
+          WRITE(NRES,101)
+ 101      FORMAT(/,128('*'))
+          WRITE(NRES,FMT='(/,10X,
      >          '' Main program : stopped upon key  FIT'')')
+        ENDIF
 
  10   CONTINUE
       
-      WRITE(NRES,fmt='(A)')  '   '
-      WRITE(NRES,fmt='(A)')  '            Zgoubi run completed. '
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,fmt='(A)')  '   '
+        WRITE(NRES,fmt='(A)')  '            Zgoubi run completed. '
+        WRITE(NRES,103) DMY,HMS
+      ENDIF
 
-      WRITE(NRES,103) DMY,HMS
       WRITE(6   ,103) DMY,HMS
       CALL DATE2(DMY)
       CALL TIME2(HMS)
-      WRITE(NRES,107) DMY,HMS
+      IF(NRES.GT.0) WRITE(NRES,107) DMY,HMS
       WRITE(6   ,107) DMY,HMS
  107  FORMAT('  Job  ended  on    ',A,',  at  ',A,/)
 
       TEMP = TIMSEC
       CALL CPU_TIME(TIMSEC)
-      WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
+      IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
 
       STOP

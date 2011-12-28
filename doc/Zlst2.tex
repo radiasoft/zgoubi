@@ -1628,10 +1628,11 @@ $ NC$           \>Number of constraints   \> $\leq 20$ \> I \\
  \\[-2ex]
  $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[3], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
                  \>0-5, 3*($>$0), \>4*I, 2*E, \\
-$N\!P$, $p_i(i=1,NP)$  \>
+$N\!P$ ~$[,~ p_i(i=1,NP)]$  \>
 $I\!R$ : number of the element after which the constraint applies~; \>current unit,  \>  I, $N\!P*$E \\
  \> $V$ : value~; $W$ : weight (the stronger the lower $WV$)\> 2*no~dim., curr.~units \> \\
- \> $N\!P$ : number of parameters, $p_i(i=1,N\!P)$ : parameter values \> \\
+ \> $N\!P$ : number of parameters~; if $NP\ge 1$, $p_i(i=1,N\!P)$ :  \> \\
+ \>  parameter values. \> \\
 \end{tabbing}
 
 \vfill
@@ -1643,6 +1644,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 \newpage
 
 
+%\include{ZgoubiFITTable}
 %  \newlength{\LL}
 \settowidth{\LL}{\textbf{Beam matrix\ }}
 \footnotesize
@@ -1676,10 +1678,10 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
 	 & & & & & \textsl{OBJET/KOBJ=5} \\
-			\multicolumn{1}{|c|}{\textbf{parameters}} &   & 7 & any & Y-determinant  & & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{ }}  &    & 8 & any  & Z-determinant  &  & & & & \\
-                            & & & & & & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{Second order}}  
+		\multicolumn{1}{|c|}{\textbf{parameters}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
+		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & & & &  \\
+                           & & & & & & & & &  \\
+		\multicolumn{1}{|c|}{\textbf{Second order}}  
 			    & 2  & $1 - 6$ & 1$1 - 6$6 & Transport coeff.  $T_{I,j,k} $  
 	 & & & & & \textsl{OBJET/KOBJ=6} \\
 			 \multicolumn{1}{|c|}{\textbf{parameters}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
@@ -1728,6 +1730,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 10.1 & $1 -\IMAX$ & $1 -3$  &$|S_{X,Y,Z}(I) -SO_{X,Y,Z}(I)|$
          & & & & & \textsl{+SPNTRK}   \\
+                            & & & & & & & & &  \\
 			\hline
 			\hline
 		\end{tabular}  }
@@ -2796,7 +2799,7 @@ X_S $ translations.}
  \>are generated following the regular functioning \>\>\\
  \>of object definitions. If random generators are \>\>\\
  \>used (e.g. in \textsl{MCOBJET}\index{MCOBJET}) their seeds will not be reset. \>\>\\
- \>$K=22$ :  next run will account for new paraameters in \>\>\\
+ \>$K=22$ :  next run will account for new parameters in \>\>\\
  \>zgoubi.dat data list. \>\>\\
  \>$K=99$ :  coordinates at end of previous pass are used as initial  \>\>\\
  \>coordinates for the next pass~; idem for spin components.   \>\>\\

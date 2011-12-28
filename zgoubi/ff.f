@@ -126,11 +126,21 @@ C-----------Contraints are first order transport coeffs
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
                VAL= U(K,L)
              ELSEIF( K .EQ. 7 ) THEN
-C-------------Contraint determinant H
-               VAL= U(1,1)*U(2,2)-U(1,2)*U(2,1)
+               IF(.NOT. L .EQ. 8 ) THEN
+C---------------Contraint determinant H
+                 VAL= U(1,1)*U(2,2)-U(1,2)*U(2,1)
+               ELSE
+C---------------Contraint determinant HV
+                 VAL= U(1,3)*U(2,4)-U(1,4)*U(2,3)
+               ENDIF
              ELSEIF( K .EQ. 8 ) THEN
-C-------------Contraint determinant V
-               VAL= U(3,3)*U(4,4)-U(3,4)*U(4,3)
+               IF(.NOT. L .EQ. 7 ) THEN
+C---------------Contraint determinant V
+                 VAL= U(3,3)*U(4,4)-U(3,4)*U(4,3)
+               ELSE
+C---------------Contraint determinant VH
+                 VAL= U(3,1)*U(4,2)-U(3,2)*U(4,1)
+               ENDIF
              ENDIF
 
            ELSEIF(ICONT2 .EQ. 1) THEN

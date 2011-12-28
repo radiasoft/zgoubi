@@ -174,8 +174,8 @@ C------- Transport beam matrix and print at element ends
       IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         IF(IPASS.EQ.NRBLT+1) THEN
-          call rebel7(
-     >                noelb)
+          CALL REBEL7(
+     >                NOELB)
           IF(NOEL.EQ.NOELB) THEN
             IKLE = 11  
             KLEY = KLE(IKLE)   ! 'REBELOTE'
@@ -186,9 +186,10 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         ENDIF
       ENDIF
  
+c          write(*,*) ' zgoubi  1 READAT, noel, nl2 : ', readat, noel,nl2
+c          write(*,*)
+
       IF(READAT) THEN
-c          write(21,*) ' zgoubi  1 READAT : ', readat, noel
-c          write(21,*)
  188    READ(NDAT,*,ERR=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
         DO IKLE=1,MXKLE
@@ -210,7 +211,7 @@ c          write(21,*)
         ENDDO
         GOTO 999
       ELSE
-C------- Steps here in case of "FIT"
+C------- Gets in case of "FIT"
 c          write(21,*) ' zgoubi  2 '
 c          write(21,*)
         IF (NOEL .EQ. NL2 ) RETURN
@@ -243,12 +244,14 @@ C Go to "GOTO(...) IKLE" ---------------------------
   999 CONTINUE
 C---------------------------------------------------
 
-      WRITE(NRES,201)
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,201)
 
-      WRITE(NRES,200) KLEY
- 200  FORMAT(/,10X,' MAIN PROGRAM : Execution ended upon key  ',A)
-      WRITE(NRES,201) 
- 
+        WRITE(NRES,200) KLEY
+ 200    FORMAT(/,10X,' MAIN PROGRAM : Execution ended upon key  ',A)
+        WRITE(NRES,201) 
+      ENDIF
+
       RETURN 
  
 C----- DRIFT, ESL. Free space. 
@@ -334,10 +337,7 @@ C      write(ABS(nres),*) '(READAT) CALL RREBEL(LABEL)',noel, readat
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
       CALL KSMAP0
-c        write(*,*) ' zgoubi ipass, REBFLG,NOELRB noel '
-c     >         ,ipass, REBFLG,NOELRB,noel 
       ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT.
-        
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
@@ -1125,6 +1125,12 @@ C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or spec
       ENDIF
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
+      GOTO 998
+C----- BEAMBEAM.
+ 110  CONTINUE
+      IF(READAT) CALL RBB
+      IF(FITGET) CALL FITGT1
+      CALL BB
       GOTO 998
 
 C-------------------------

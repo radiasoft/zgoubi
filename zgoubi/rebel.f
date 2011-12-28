@@ -100,14 +100,15 @@ C----- For multiturn injection
      >''REBELOTE''. Reduce it or increase MXPRM.'
         ENDDO
       ENDIF
+
 C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
 CC REBELOTE will apply from lmnt #NOELA 
 C      NOELA = NINT(A(NOEL,MXD-1))
 C      NOELB = NINT(A(NOEL,MXD))
 
-C Will stop at element #NOELB when in last turn
-      REBFLG = NOELB.LT.NOEL
+C Will stop at element # NOELB when doing last turn
+      REBFLG = NOELB .LT. NOEL
 
       IF(KWRI6 .NE. 0) THEN
         CALL TIME2(HMS)
@@ -188,8 +189,6 @@ C--------- SR loss ----------------------------------
       ENDIF
 C--------- endif SR loss ----------------------------------
 
-C        write(*,*) ' rebel ipass, nrblt ',ipass, nrblt 
-
       IF( IPASS .LT. NRBLT ) THEN
 
         LUN=ABS(NRES) 
@@ -248,7 +247,9 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
 C------------- inihibit WRITE if KWRT.NE.1 and more than 1 pass
               IF(NRES .GT. 0) NRES =-NRES
             ENDIF
-            IF(KREB3.EQ.99) READAT = .FALSE.
+CC----------- If not FIT :
+C            IF(KREB3.NE.22) READAT = .FALSE.
+            READAT = .FALSE.
           ENDIF
           IF(REBFLG) NOELRB = NOEL
         ENDIF
@@ -261,9 +262,8 @@ C           WRITE(LUN,*) '    SUM OVER IEX : ',JJJ
 
         IPASS=IPASS+1
         NOEL=NOELA-1
-        IF(OKPCKP) CALL PCKUP3(NOELA)
 
-C        write(*,*) ' rebel ipass, nrblt noel ',ipass, nrblt,noel 
+        IF(OKPCKP) CALL PCKUP3(NOELA)
 
 C--------- SR loss ----------------------------------
         IF(KSYN .EQ. 1) THEN
@@ -379,7 +379,7 @@ C REBELOTE should be usable within FIT -> under developement.
 
       ENDIF
 
-            IF(KREB3.EQ.22) READAT = .FALSE.
+      IF(KREB3.EQ.22) READAT = .FALSE.
 
       RETURN
 

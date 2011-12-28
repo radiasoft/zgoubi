@@ -44,9 +44,9 @@ C----- CONTROLE VARIABLES
       IF(NV.LT.1) IER=1
       IF(NV.GT.MXV)IER=1
       IF(IER .EQ. 1) THEN
-        WRITE(NRES,102) '''NV''','VARIABLES'
+        WRITE(NRES,102) '''NV''',NV,'VARIABLES'
  102    FORMAT(/,5X,' SBR  FITEST - WARNING *  DATA  ',A,
-     >  '  IN ',A,'  IS  OUT  OF  RANGE')
+     >  '=',I3,'  IN ',A,'  IS  OUT  OF  RANGE')
       ENDIF
       DO 1 I=1,NV
 C------- LMNT VARIABLE
@@ -95,7 +95,7 @@ C--------- # PARAMETR COUPLE
  
 C----- CONTROLE CONTRAINTES
       IF(NC.LT.1 .OR. NC.GT.MXV) THEN
-        WRITE(NRES,102) '''NC''','CONSTRAINTS'
+        WRITE(NRES,102) '''NC''',NC,'CONSTRAINTS'
         IER = 1
       ENDIF
  

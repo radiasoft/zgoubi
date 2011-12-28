@@ -16,6 +16,12 @@ OBJ=\
  arrier.o\
  autorf.o\
  avorpr.o\
+ bb.o\
+ bb4g.o\
+ bbkck.o\
+ bbklm.o\
+ bblmap.o\
+ bbrsp.o\
  baxbxr.o\
  beaimp.o\
  beamat.o\
@@ -224,6 +230,7 @@ OBJ=\
  rautor.o\
  raysyn.o\
  razdrv.o\
+ rbb.o\
  rbend.o\
  rbinar.o\
  rbndth.o\
@@ -363,6 +370,7 @@ agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
 agsmmf.o: $(INC)/MAXTRA.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 bendi.o: $(INC)/MXLD.H
 binary.o: $(INC)/MXLD.H
 block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
@@ -484,6 +492,7 @@ prdata.o: $(INC)/MXLD.H
 quasex.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 rautor.o: $(INC)/MXLD.H
 raysyn.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MAXTRA.H
+rbb.o: $(INC)/MXLD.H
 rbend.o: $(INC)/MXLD.H
 rbinar.o: $(INC)/MXLD.H
 rbndth.o: $(INC)/MXLD.H
