@@ -5,7 +5,7 @@ c        implicit none
         double precision pieni,x,const,xxyy,expfac,bbfx,bbfy,
      >                  sepx,sepy,sigxx,sigyy,bbgx,bbgy,comfac,comfac2
 
-        pieni = 1e-38
+        pieni = 1.d-38
         
         x=sepx**2+sepy**2
         xxyy=sigxx+sigyy
@@ -21,8 +21,8 @@ c        implicit none
           bbfy=2.0d0*sepy*(1.0d0-expfac)/x
           comfac=-sepx*bbfx+sepy*bbfy
           comfac2=(abs(sigxx)+abs(sigyy))**2
-          bbgx=(comfac+4.0*sepx**2*const/x*expfac)/(2*x)
-          bbgy=(-comfac+4.0*sepy**2*const/x*expfac)/(2*x)
+          bbgx=(comfac+4.0d0*sepx**2*const/x*expfac)/(2.d0*x)
+          bbgy=(-comfac+4.0d0*sepy**2*const/x*expfac)/(2.d0*x)
         endif
         return
         end 

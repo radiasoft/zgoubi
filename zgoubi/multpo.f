@@ -415,9 +415,9 @@ C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
-     >      ''entails vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT value at entrance : '',1P,2G12.4)') 
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
+     >      ''vertical wedge focusing approximated with '',
+     >      ''first order kick. FINT at entrance = '',1P,2G12.4)') 
      >      FINTE
 C          ENDIF
         ENDIF
@@ -426,9 +426,9 @@ C------- Exit sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
-     >      ''entails vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT value at exit : '',1P,2G12.4)') 
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
+     >      '' vertical wedge focusing approximated with '',
+     >      ''first order kick. FINT at exit = '',1P,2G12.4)') 
      >      FINTS
 C          ENDIF
         ENDIF

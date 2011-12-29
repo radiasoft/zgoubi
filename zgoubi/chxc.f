@@ -991,14 +991,15 @@ C--------- UNDULATOR
 
         ELSEIF(KUASEX .EQ. 37 )   THEN
 C--------- AGS MAIN MAGNET
- 
+
           IRD = KORD
           IF(IRD .EQ. 4) IDB=4
 
           NND = 10
-          
-          CALL AGSMM(LMNT,MG,MPOL,I3,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+          NPOL = I3
+
+          CALL AGSMM(LMNT,MG,MPOL,NPOL,SCAL,
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO)
 
           DSREF = XL
           KP = NINT(A(NOEL,ND+NND))

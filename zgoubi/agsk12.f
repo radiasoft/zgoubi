@@ -35,7 +35,7 @@ C  -------
       SAVE YSHFT
       INTEGER FINSTR
       CHARACTER(LBLSIZ) LBL1
-      PARAMETER (M2CM=1.D2)
+      PARAMETER (CM2M=1.D-2)
 
       lbl1 = label(noel,1)
         last = finstr(lbl1)
@@ -157,7 +157,7 @@ c            b2 = bk1(6)
 c          endif
 c          b1 = b1 + b2*yce/100.d0 - b3 * yce*yce/1.d4
 c          yce = -yce
-        elseif(MOD .eq. 3) then
+        else
 C short-shifted dipole model
           fyce = 1.d0
           sgn = -1.d0
@@ -194,12 +194,12 @@ C short-shifted dipole model
             yce = fyce * (-0.5539271156d0)
             b2 = bk1(6) 
           endif
-        else
-          write(*,*) ' No such option  MOD = ',MOD
-          stop
+C        else
+C          write(*,*) ' No such option  MOD = ',MOD
+C          stop
         endif
 
-        XL = XLMAG * M2CM
+        XL = XLMAG / CM2M
         if    (lbl1(last-1:last) .eq. 'BF') then
           ANG = -0.02350230d0
         elseif(lbl1(last-1:last) .eq. 'BD') then  

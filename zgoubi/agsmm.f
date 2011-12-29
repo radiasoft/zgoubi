@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AGSMM(LMNT,KFL,MPOL,NPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER LMNT(*)*(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -63,39 +63,41 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
       DIMENSION AK1(6), AK2(6)
-      DIMENSION NW(2), AW(2)
+      DIMENSION WN(2), WA(2)
+      PARAMETER (I3=3)
+
+      CHARACTER TXT30*80
 
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/
  
       DATA AK1, AK2 / 6*1.D0, 6*1.D0 /
 
-      IER = 0
       SKEW=.FALSE.
       CALL RAZ(BM,NPOL)
-
+         
       GAP = 0.D0
       RO = 10.d0
 
-        MOD = NINT(A(NOEL,10))
-        DLL =A(NOEL,11)
-        GAP =A(NOEL,12)
-        IF(GAP.EQ.0) GAP = RO
-        DII =A(NOEL,13)
-        NBLW = NINT(A(NOEL,14))
-        IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
-        DO I = 1, NBLW
-          NW(I) = A(NOEL,14+(2*I-1))
-          AW(I) = A(NOEL,14+ 2*I)
-        ENDDO
+      MOD = NINT(A(NOEL,10))
+      MOD2 = 10*A(NOEL,10) - 10*MOD
+      DLL =A(NOEL,11)
+      GAP =A(NOEL,12)
+      IF(GAP.EQ.0) GAP = RO
+      DII =A(NOEL,13)
+      NBLW = NINT(A(NOEL,14))
+      IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
+      DO I = 1, NBLW
+        WN(I) = A(NOEL,14+(2*I-1))
+        WA(I) = A(NOEL,14+ 2*I)
+      ENDDO
 
-        CALL AGSKS(BORO*CL9/1.D3,
-     >                           AK1,AK2)
-        CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
-     >                                  XL,BM)
-        DO I = 1, 3
-          BM(I) = BM(I)*SCAL
-        ENDDO
+      CALL AGSKS(BORO*CL9/1.D3,
+     >                         AK1,AK2)
+      CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
+     >                                XL,BM)
+      CALL AGSBLW(MOD2,NOEL,NBLW,WN,WA,SCAL,
+     >                                      BM,I3)
 
         XE =A(NOEL,20)
         DO IM=1,3
@@ -153,6 +155,16 @@ C-------
      >  ,/,15X,' Bore  radius          RO = ',G13.5,'  cm')
         WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A)
+
+        IF    (MOD.EQ.1) THEN 
+          TXT30=' centered multipol model'
+        ELSEIF(MOD.EQ.2) THEN 
+          TXT30=' long-shifted dipole model'
+        ELSE
+          TXT30=' short-shifted dipole model'
+        ENDIF
+        WRITE(NRES,FMT='(/,15X,'' Mode  = '',I2,'',   '',A)') MOD,TXT30
+
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,G17.8,' RAD')
         IF(XL .NE. 0.D0) THEN
@@ -164,7 +176,7 @@ C-------
  108    FORMAT(/,15X,' Nbr of backleg windings : ',I1,/)
         IF(NBLW .GE.1) THEN
           DO IBLW = 1, NBLW
-            WRITE(NRES,109) IBLW, NW(IBLW), AW(IBLW)
+            WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
  109        FORMAT(15X,' Backleg winding # ',I1',  Nbr of windings : '
      >      ,I1,',  intensity in that winding : ',1p,e15.6,' A')      
           ENDDO
@@ -327,9 +339,9 @@ C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
-     >      ''entails vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT value at entrance : '',1P,2G12.4)') 
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model,'',
+     >      '' vertical wedge focusing approximated with '',
+     >      ''first order kick, FINT at entrance ='',1P,2G12.4)') 
      >      FINTE
 C          ENDIF
         ENDIF
@@ -338,9 +350,9 @@ C------- Exit sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model '',
-     >      ''entails vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT value at exit : '',1P,2G12.4)') 
+     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model,'',
+     >      '' vertical wedge focusing approximated with '',
+     >      ''first order kick, FINT at exit ='',1P,2G12.4)') 
      >      FINTS
 C          ENDIF
         ENDIF
@@ -384,17 +396,5 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
         CALL INTEG6(AREG,BREG,CREG)
       ENDIF
 
-      IF(IER.NE.0) GOTO 99
-
  98   RETURN
-
- 99   CONTINUE
-      LUN=NRES
-      IF(LUN.LE.0) LUN = 6
-      WRITE(LUN,FMT='(//)')
-      WRITE(LUN,FMT='(10X,A11,I2,3X,A)')
-     >               ('*** ERROR #',I,TXT(I),I=1,IER)
-C----- Execution stopped :
-      RETURN 1
-
       END

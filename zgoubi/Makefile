@@ -4,6 +4,7 @@ OBJ=\
  accen.o\
  accep.o\
  adpol.o\
+ agsblw.o\
  agsks.o\
  agsk12.o\
  agsmm.o\
@@ -365,6 +366,7 @@ clean :
 
 accen.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 accep.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+agsblw.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsk12.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
 agsmmf.o: $(INC)/MAXTRA.H
