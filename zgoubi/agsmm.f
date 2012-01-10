@@ -80,43 +80,46 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       RO = 10.d0
 
       MOD = NINT(A(NOEL,10))
-      MOD2 = 10*A(NOEL,10) - 10*MOD
+      MOD2 = NINT(10.D0*A(NOEL,10)) - 10*MOD
       DLL =A(NOEL,11)
       GAP =A(NOEL,12)
       IF(GAP.EQ.0) GAP = RO
-      DII =A(NOEL,13)
-      NBLW = NINT(A(NOEL,14))
+      DB0 =A(NOEL,13)
+      DB1 =A(NOEL,14)
+      DB2 =A(NOEL,15)
+      NBLW = NINT(A(NOEL,20))
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
       DO I = 1, NBLW
-        WN(I) = A(NOEL,14+(2*I-1))
-        WA(I) = A(NOEL,14+ 2*I)
+        WN(I) = A(NOEL,20+(2*I-1))
+        WA(I) = A(NOEL,20+ 2*I)
       ENDDO
 
       CALL AGSKS(BORO*CL9/1.D3,
      >                         AK1,AK2)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
-     >                                XL,BM)
-      CALL AGSBLW(MOD2,NOEL,NBLW,WN,WA,SCAL,
-     >                                      BM,I3)
+     >                                XL,BM,ANGMM)
+      CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,SCAL,
+     >                                          BM,I3)
+      DEV = ANGMM
 
-        XE =A(NOEL,20)
+        XE =A(NOEL,30)
         DO IM=1,3
-          DLE(IM) =A(NOEL,20+IM)
+          DLE(IM) =A(NOEL,30+IM)
         ENDDO
         CALL RAZ(CE,MCOEF)
-        NCE = NINT(A(NOEL,30))
+        NCE = NINT(A(NOEL,40))
         DO I=1, NCE
-          CE(I) =A(NOEL,30+I)
+          CE(I) =A(NOEL,40+I)
         ENDDO
 
-        XLS =A(NOEL,40)
+        XLS =A(NOEL,50)
         DO IM = 1,3
-          DLS(IM) =A(NOEL,40+IM)
+          DLS(IM) =A(NOEL,50+IM)
         ENDDO
         CALL RAZ(CS,MCOEF)
-        NCS = NINT(A(NOEL,50))
+        NCS = NINT(A(NOEL,60))
          DO I=1,NCS
-          CS(I) =A(NOEL,50+I)
+          CS(I) =A(NOEL,60+I)
         ENDDO
 C------- FRINGE FIELD NOT INSTALLED FOR
 C        DECA, DODECA, ... 18-POLE
@@ -135,7 +138,7 @@ C        DECA, DODECA, ... 18-POLE
   
 C----- Pole rotation
         DO 35 IM=1,3
-          RT(IM)=A(NOEL,60+IM-1)
+          RT(IM)=A(NOEL,70+IM-1)
           SKEW=SKEW .OR. RT(IM) .NE. ZERO
  35     CONTINUE
  
@@ -149,10 +152,12 @@ C-------
         ENDDO
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) 'AGS Dipole',XL,RO
+        WRITE(NRES,100) 'AGS Dipole',XL,DEV,DEV*DEG,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
-     >  ,/,15X,' Length  of  element      = ',G16.8,'  cm'
-     >  ,/,15X,' Bore  radius          RO = ',G13.5,'  cm')
+     >  ,/,15X,' Length  of  element         = ',G17.8,'  cm'
+     >  ,/,15X,' Deviation                   = ',G17.8,'  rad'
+     >  ,5X,                                ' (',G17.8,' deg)'
+     >  ,/,15X,' Reference  pole  radius RO  = ',G14.5,'  cm')
         WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A)
 
@@ -381,8 +386,6 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
         BFB(2) = 0.D0
         CFB(2) = -XS       
       ENDIF
-
-          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
 
       CALL CHXC1R(
      >            KPAS)

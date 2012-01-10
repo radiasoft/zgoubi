@@ -1,5 +1,5 @@
-      subroutine agsblw(MOD2,NOEL,NBLW,WN,WA,SCAL,
-     >                                       BM,NB)
+      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,WN,WA,SCAL,
+     >                                                BM,NB)
 C     ----------------------------------------------
 C     NBLW : # of blwg ; WN(i=1,nblw) : # of turns ; 
 C     WA(i=1,nblw) : amperes.   
@@ -13,40 +13,37 @@ C     ----------------------------------------------
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
 
-      CHARACTER devNm*(LBLSIZ)
+      CHARACTER MMNM*(LBLSIZ)
       parameter(turnMM=16.d0)
       integer debstr, finstr
 
-      DEVNM = LABEL(NOEL,1)
-      DEVNM = DEVNM(DEBSTR(DEVNM):FINSTR(DEVNM))
+      MMNM = LABEL(NOEL,1)
+      MMNM = MMNM(DEBSTR(MMNM):FINSTR(MMNM))
 
       IF(MOD2 .EQ.1) THEN
 C Default values are taken
- 
-C Intensity in main magnet coil should be taken from p(I) law, E.J.Bleser, AGS/AD/Tech.Note430, Tab.1, p4.
-        AMMT = 0.d0 !AGSMMA()
 
 c/========================================================================
 c/ Cold Snake a16-19_blw bump.  Backlegs on A16, A17, -A18, -A19 in series.
 c/========================================================================
-        IF    (DEVNM .EQ. 'MM_A16AD') THEN
+        IF    (MMNM .EQ. 'MM_A16AD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 10
           WN(1) = DBLE(NWL) * SIGN
-        ELSEIF(DEVNM .EQ. 'MM_A17CF') THEN
+        ELSEIF(MMNM .EQ. 'MM_A17CF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 10
           WN(1) = DBLE(NWL) * SIGN
 C          WRITE(LUNOUT,*) FACTOR(SCALFACT, 1.D0,10.D0,BLI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A18CF') THEN
+        ELSEIF(MMNM .EQ. 'MM_A18CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
           WN(1) = DBLE(NWL) * SIGN
 C          WRITE(LUNOUT,*) FACTOR(SCALFACT,-1.D0,10.D0,BLI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A19BD') THEN
+        ELSEIF(MMNM .EQ. 'MM_A19BD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 12
@@ -60,7 +57,7 @@ c/	Note: There are three power supplies wired on A20, but the controls
 c/	      system (currently) combines them into one total current which
 c/	      we use here.
 c/================================================================
-        ELSEIF(DEVNM .EQ. 'MM_A20BD') THEN
+        ELSEIF(MMNM .EQ. 'MM_A20BD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 12
@@ -76,7 +73,7 @@ C     write(lunout,*) '-1'
 C     write(lunout,*) factor(scalfact, 1.d0,12.d0,blI,AMM)
 C     write(lunout,*) '1'
 c B02 magnet has 2 windings
-        ELSEIF(DEVNM .EQ. ' MM_B02BF') THEN
+        ELSEIF(MMNM .EQ. ' MM_B02BF') THEN
           NBLW = 2
           SIGN = 1.D0
           NWL = 12
@@ -86,17 +83,17 @@ c B02 magnet has 2 windings
           WN(2) = DBLE(NWL) * SIGN
 c         write(lunout,*) factor(scalfact, 1.,12.,blIB2,MMI)*
 c     >    factor(scalfact, 1.,06.,blIL20,MMI)/scalfact
-        ELSEIF(DEVNM .EQ. 'MM_B03CD') THEN
+        ELSEIF(MMNM .EQ. 'MM_B03CD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 10
 C          write(lunout,*) factor(scalfact, 1.d0,10.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_B04CD ') THEN
+        ELSEIF(MMNM .EQ. 'MM_B04CD ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
 C          write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_B05AF') THEN
+        ELSEIF(MMNM .EQ. 'MM_B05AF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
@@ -107,43 +104,43 @@ c/  L20 Position Bump
 c/   BLWs on K19, K20, L13, L14, A7, A8, B1, B2
 c/   with      6,   6,  -5,  -5, -5, -5,  6,  6 turns respectively.
 c/====================================================================
-        ELSEIF(DEVNM .EQ. 'MM_K19BD ') THEN
+        ELSEIF(MMNM .EQ. 'MM_K19BD ') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,6.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_K20BD') THEN
+        ELSEIF(MMNM .EQ. 'MM_K20BD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,6.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_L13CF ') THEN
+        ELSEIF(MMNM .EQ. 'MM_L13CF ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_L14CF') THEN
+        ELSEIF(MMNM .EQ. 'MM_L14CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A07CD ') THEN
+        ELSEIF(MMNM .EQ. 'MM_A07CD ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A08CD') THEN
+        ELSEIF(MMNM .EQ. 'MM_A08CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_B01BF') THEN
+        ELSEIF(MMNM .EQ. 'MM_B01BF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
@@ -156,25 +153,25 @@ c/ L20 Angle Bump (1 lambda)
 c/  BLW windings around L6, L7, A14, A15
 c/               with    5,  5,  -5,  -5 turns, respectively.
 c/===============================================================
-        ELSEIF(DEVNM .EQ. 'MM_L06AF') THEN
+        ELSEIF(MMNM .EQ. 'MM_L06AF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_L07CD') THEN
+        ELSEIF(MMNM .EQ. 'MM_L07CD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A14CF') THEN
+        ELSEIF(MMNM .EQ. 'MM_A14CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_A15AD') THEN
+        ELSEIF(MMNM .EQ. 'MM_A15AD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
@@ -186,49 +183,49 @@ c/ F10 BLW Bump
 c/  Windings around E6, E7, E20, F1, F14, F15, G8, G9
 c/           with   -5, -5,  6,   6,   5,   5, -6, -6 turns, respectively.
 c/================================================================
-        ELSEIF(DEVNM .EQ. 'MM_E06AF') THEN
+        ELSEIF(MMNM .EQ. 'MM_E06AF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_E07CD') THEN
+        ELSEIF(MMNM .EQ. 'MM_E07CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_E20BD') THEN
+        ELSEIF(MMNM .EQ. 'MM_E20BD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_F01BF') THEN
+        ELSEIF(MMNM .EQ. 'MM_F01BF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_F14CF') THEN
+        ELSEIF(MMNM .EQ. 'MM_F14CF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_F15AD') THEN
+        ELSEIF(MMNM .EQ. 'MM_F15AD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_G08CD') THEN
+        ELSEIF(MMNM .EQ. 'MM_G08CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
 C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-        ELSEIF(DEVNM .EQ. 'MM_G09BF') THEN
+        ELSEIF(MMNM .EQ. 'MM_G09BF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 6
@@ -277,13 +274,12 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
         ENDIF
       ENDIF
 
-        AMMT = 1.d30 !AGSMMA()
       BLWI = 0.D0
       DO I = 1, NBLW
         BLWI = BLWI + WA(I)*WN(I)
       ENDDO
       DO I = 1, NB
-        BM(I) = SCAL * BM(I) * ( 1.D0 + BLWI/ AMMT )
+        BM(I) = SCAL * BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
       ENDDO
 
       RETURN

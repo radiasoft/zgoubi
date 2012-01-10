@@ -8,6 +8,7 @@ OBJ=\
  agsks.o\
  agsk12.o\
  agsmm.o\
+ agsmma.o\
  agsmmf.o\
  aimant.o\
  apdpo1.o\

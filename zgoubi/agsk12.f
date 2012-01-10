@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AGSK12(NOEL,X10,BK1,BK2,MOD,
-     >                                       XL,BM)
+     >                                       XL,BM,ANGMM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BK1(*),BK2(*),BM(*)
       INCLUDE 'MXFS.H'
@@ -201,15 +201,15 @@ C          stop
 
         XL = XLMAG / CM2M
         if    (lbl1(last-1:last) .eq. 'BF') then
-          ANG = -0.02350230d0
+          ANGMM = 0.02350230d0
         elseif(lbl1(last-1:last) .eq. 'BD') then  
-          ANG = -0.02350230d0
+          ANGMM = 0.02350230d0
         else
-          ANG = -0.02796503d0
+          ANGMM = 0.02796503d0
         endif
-        BM(1) = -1.d3 / (xl / (2.d0*sin(ang/2.d0)))
-        BM(2) = fb2*b2
-        BM(3) = b3*10.d0*sgn
+        BM(1) = -1.D3 / (XL / (2.D0*SIN(ANGMM/2.D0)))
+        BM(2) = FB2*B2
+        BM(3) = B3*10.D0*SGN
         YSHFT = YCE
                
       RETURN
