@@ -32,9 +32,6 @@ C-----------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
-C FM, Oct 2001      
-Ccccc COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -51,6 +48,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       LOGICAL MIRROR, LDUM
 
       PARAMETER(I0=0, ZERO=0.D0)
+      SAVE dtta, zce, phi
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
@@ -112,11 +110,26 @@ C        YCS = -YCE
 C        YCE = 0.D0
         XCS = 0.D0
         YCS = -YCE/COS(ALE)
-        ALS=ALE
-        CALL TRANSR(MIRROR,LDUM)
+        ALS = ALE
+        CALL TRANSR(
+     >              MIRROR,LDUM)
         IF(MIRROR) THEN 
           ALS = -(PI - ALE)
         ENDIF
+      ELSEIF(KP .EQ. 4)  THEN
+C------- Implemented for AGSMM. 
+C        ALE is a delta wrt. DEV/2 
+        tta = ale - dtta
+        ALS = tta - dtta
+        dtta2 = dtta / 2.d0
+        XCS = -xl * sin(dtta2) * sin(dtta2 + tta)
+        YCS = -YCE/COS(ALE) - xl * sin(dtta) * cos(dtta2 + tta)
+ 
+c        if(zce.ne.0.d0) then
+c          xcs = xcs - ZSHFT * SIN(PHI)
+c          zcs = -zce/cos(phi)
+c        endif
+
       ENDIF
 
       IF(PAS.GT.0.D0)  GOTO 3
@@ -145,6 +158,13 @@ C----- Unset coded step
       CALL DEPLAW(.FALSE.,I0)
 
       RETURN
+
+      ENTRY QUASE2(dttaI,zcei,phii)
+      dtta = dttaI
+      zce = zcei
+      phi = phii
+      RETURN
+
 C100   FORMAT(/,5X,'ELEMENT  DECENTRE  PAR  RAPPORT  A  L''AXE  OPTIQUE'
 C     1,/,10X,'CENTRE  DE  LA  FACE  D''ENTREE  EN  X =',1P,G10.2
 C     2,' CM   Y =',G10.2,' CM   INCLINAISON =',G12.4,' RAD',/)

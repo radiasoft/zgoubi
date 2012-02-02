@@ -345,8 +345,8 @@ C Amplitude detuning, dZ effects
      >  ,'' L(0)-L(+dp) = '',G14.4,'' cm) '' 
      >  )') 
      >  A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
-        WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma : '',//, 
-     >  30X,''dL/L / dp/p = '',G15.8)') 1.d0/SQRT(ALPHA)
+        WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma  = '',
+     >  G15.8)') 1.d0/SQRT(ALPHA)
 
         WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
      >  30X,''dNu_y / dp/p = '',G15.8,/, 

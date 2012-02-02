@@ -3417,7 +3417,7 @@ $\Delta s = $ step size in the magnet (fig. 2)\\
 $NS=$ step number\\
 $I=$ particle number\\
 $LET(I)=$ tagging letter\\
-$IEX(I)\index{IEX@{\IEX}}=$ stop flag (see section~\ref{sec4.6.6}) 
+$\IEX(I)\index{IEX@{\IEX}}=$ stop flag (see section~\ref{sec4.6.6}) 
 \end{tabular}
 \bigskip
 
@@ -6529,7 +6529,7 @@ C5      BORO,    IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
 {\renewcommand{\arraystretch}{1}
  \begin{tabular}{>{\sl}l!{~:}l}
 	$LET(I) $  & one-character string, for tagging particle number $I$  \\
-	$IEX\index{IEX@{\IEX}}$, $I$, $IREP(I)$   &  flag, particle number, index  \\
+	$\IEX\index{IEX@{\IEX}}$, $I$, $IREP(I)$   &  flag, particle number, index  \\
 	 $FO(1-6, I)$  &  coordinates $D$, $Y$, $T$, $Z$, $P$ and path
 	                 length at the origin of the structure\\
 	 $F(1-6, I)$  &  idem, at the current position\\
@@ -7261,7 +7261,7 @@ etc. that stack the information from pass to pass.
 
 As described in \textsl{OBJET\index{OBJET}}, each particle $I=1$, \IMAX\
  is attached a
-value $IEX(I)$ of the \IEX\ flag. Normally, $IEX(I)=1$. Under certain 
+value $\IEX(I)$ of the \IEX\ flag. Normally, $\IEX(I)=1$. Under certain 
 circumstances, \IEX\ may take negative values, as follows
 
 \begin{itemize}
@@ -7276,7 +7276,7 @@ circumstances, \IEX\ may take negative values, as follows
 \end{itemize}
 
 
-\noindent Only in the case $IEX=-1$ will the integration not be stopped since in this case 
+\noindent Only in the case $\IEX=-1$ will the integration not be stopped since in this case 
 the field outside the map is extrapolated from the map data, and the particle may possibly get 
 back into the map (see section~\ref{sec2.4.2} on page~\pageref{sec2.4.2}).  In all other cases 
   the particle of concern will be stopped. 

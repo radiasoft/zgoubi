@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE AUTORF
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -42,11 +41,11 @@ C     ------------------------------------------------
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
  
-      IOP = A(NOEL,1)
+      IOP = NINT(A(NOEL,1))
       IF(IOP .EQ. 3) THEN
-        IRF=A(NOEL,10)
-        MX1=A(NOEL,11)
-        MX2=A(NOEL,12)
+        IRF=NINT(A(NOEL,10))
+        MX1=NINT(A(NOEL,11))
+        MX2=NINT(A(NOEL,12))
       ELSE
         IRF=1
       ENDIF
@@ -78,8 +77,8 @@ C       +++ IEX<-1 <=> Particule stoppee
  
       IF(NRES .GT. 0) THEN
         WRITE(NRES,100) XC,YC,AA*DEG,AA
- 100    FORMAT(/,' Change  of  reference   XC =',F9.3,' cm , YC =',
-     >   F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
+ 100    FORMAT(/,' Change  of  reference   XC =',F15.8,' cm , YC =',
+     >   F15.8,' cm ,   A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
 C 100    FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
 C     >   F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
         WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)

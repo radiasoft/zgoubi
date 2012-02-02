@@ -74,8 +74,7 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
 
  10     CONTINUE
 
-C To allow for old style
-C        IF(NSR.EQ.3) TA(NOEL,4) = ' '
+C To allow for old style. 
         TA(NOEL,4) = ' '
 
       ELSE

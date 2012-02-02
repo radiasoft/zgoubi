@@ -17,11 +17,10 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <meot@lpsc.in2p3.fr>
-C  Brookhaven National Laboratory                és
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       FUNCTION RNDM(IR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -30,10 +29,9 @@ c      INTEGER DEBSTR
 c      REAL R
       logical first 
       save first
-      data first / .true. /
-
 C year month day time-utc hour min secon ms
       dimension ival(8)
+      data first / .true. /
 
       if(first) then
         first = .false.

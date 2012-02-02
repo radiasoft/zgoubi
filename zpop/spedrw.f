@@ -101,7 +101,8 @@ C------- Vertical scale normalized to 1
         CALL VECTPL(Z,0.D0,4)
         CALL VECTPL(Z,SPEC(K,JNU) * FAC,2)
         call fbgtxt 
-C        write(77,*) ' spedrw, Z,SPEC(K,JNU) : ',Z,SPEC(K,JNU) 
+        write(77,*) ' spedrw, Z,SPEC(K,JNU) : ',Z,SPEC(K,JNU),JNU,K
+     >      ,'  nu,SPEC(K,JNU),JNU,iocc. '
  15   CONTINUE
 
       CALL SPEGR(NT,JNU,YNU,PMAX)

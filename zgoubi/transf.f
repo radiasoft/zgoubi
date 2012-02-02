@@ -160,7 +160,8 @@ C-------- IEX<-1 <=> Particle stopped
       BACKW = BACKIN
       RETURN
 
-      ENTRY TRANSR(MIRROU,BACKOU)
+      ENTRY TRANSR(
+     >             MIRROU,BACKOU)
       MIRROU=MIRROR
       BACKOU=BACKW
       RETURN

@@ -61,15 +61,13 @@ C     -------------------------------------------------
         QSHRO(I) = TA(NOEL,I)(1:2)
       ENDDO
 C To allow for old style
-C      IF(NSR.EQ.3) QSHRO(4) = TA(NOEL,4)(1:2)
       QSHRO(4) = TA(NOEL,4)(1:2)
 
       EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
      >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
 
       IF( QSHRO(4) .EQ. 'OL') THEN
-C Old style
-
+C Old style. TA(NOEL,4)(1:2) was set to 4 in rchang.f
         XC  = A(NOEL,1)
         YC  = A(NOEL,2)
         AA  = A(NOEL,3)*RAD

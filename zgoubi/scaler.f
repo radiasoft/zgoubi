@@ -53,12 +53,16 @@ C  -------
       SAVE XM, YM, NFRQ, dat1, dat2, dat3
       SAVE OCLOCK, ekin
 
+      DIMENSION MODSCAL(MXF)
+
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
 
       DATA XM, YM / ND*0.D0, ND*0.D0/
 
       SCALER = 1.D0
+      call scali5(
+     >            modscal)
 
 C----- Looks whether current kley is registered for scaling (in FAM(KF)). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
@@ -105,13 +109,24 @@ C         print*, kti, ' scaler '
               IT2=IT1
             ENDIF  
  
-            IF( IPASS .GE. IT1 .AND. IPASS .LE. IT2 ) THEN
-              SCALER = SCL(KF,I)
-              IF(IT2 .NE. IT1) SCALER = SCALER + (SCL(KF,I2) - SCALER )*
-     >           DBLE( IPASS - IT1 ) / DBLE(IT2 - IT1)
+            IF(MODSCAL(KF) .EQ. 10) THEN
+              BRO = BORO * DPREF
+              IF( BRO .GE. IT1 .AND. BRO .LE. IT2 ) THEN
+                  SCALER = SCL(KF,I)
+                IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER)*
+     >                 DBLE( BRO - IT1 ) / DBLE(IT2 - IT1)
+                RETURN
+              ENDIF
+               
+            ELSE
+              IF( IPASS .GE. IT1 .AND. IPASS .LE. IT2 ) THEN
+                SCALER = SCL(KF,I)
+                IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER )*
+     >             DBLE( IPASS - IT1 ) / DBLE(IT2 - IT1)
 C FM 08/99
-C     >            DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
-              RETURN
+C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
+                RETURN
+              ENDIF
             ENDIF
  1        CONTINUE
 

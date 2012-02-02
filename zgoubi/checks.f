@@ -29,8 +29,8 @@ C  -------
       INCLUDE 'MXLD.H'
       INCLUDE 'MXFS.H'
 
-      IF(MXS.GT.MXD) CALL ENDJOB
-     >('SBR CHECKS ** In MXFS, MXLD, set 10*MXF+MXS-3 .le. MXD',-99)
+C      IF(MXS.GT.MXD) CALL ENDJOB
+C     >('SBR CHECKS ** In MXFS, MXLD, set 10*MXF+MXS-3 .le. MXD',-99)
 
       IF(IZ.LT.1) 
      >CALL ENDJOB('SBR CHECKS ** In PARIZ, set IZ to .ge. ',1)

@@ -394,6 +394,7 @@ C      CALL COLLIM
 C----- MULTIPOLE
  34   CONTINUE
       IF(READAT) CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,ND(NOEL))
+ 341  CONTINUE
       IF(READAT) GOTO 998
       XL=A(NOEL,2)
       AL = XL*COEF  * CM2M 
@@ -1194,7 +1195,8 @@ C----- BENDTH. Pure dipole field, analytical push.
       GOTO 998
 C----- AGSMM.  AGS main dipole.
  109  CONTINUE
-      GOTO 998
+      IF(READAT) CALL RAGSMM(NDAT,NOEL,MXL,A,ND(NOEL))
+      GOTO 341
 C----- BEAMBEAM. 
  110  CONTINUE
       GOTO 998

@@ -39,7 +39,6 @@ C      PARAMETER (MXX=400, MXY=200)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-C      COMMON/CHAFUI/ XE,XS,CE(6),    CS(6),    QCE(6),    QCS(6)
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
      > ,YCH,ZCH
@@ -81,6 +80,8 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       LOGICAL FLIP 
       SAVE IPREC
       INCLUDE 'FILPLT.H'
+
+      PARAMETER (PI = 4.d0 * ATAN(1.D0))
 
       PARAMETER (I0=0,I2=2,I3=3)
       CHARACTER*120 FMTYP
@@ -162,6 +163,7 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       XCE = 0.D0
       YCE = 0.D0
       ALE = 0.D0
+      TTA = 0.D0
       XCS = 0.D0
       YCS = 0.D0
       ALS = 0.D0
@@ -874,7 +876,7 @@ C------- KALC = 3: DIP,QUAD, ... DODECA, MULTPL, SOLENOID, WIENFILTER, COILS
 C          EL2TUB, UNIPOT
 
         IF(KUASEX .LE. MPOL+1 )   THEN
-C---------- DIP,QUAD, ... DODECA, MULTPL
+C---------- QUAD, ... DODECA, MULTPL
 C          B (KFLD=MG) or E (KFLD=LC) or EB (KFLD=ML)
  
            IRD = KORD
@@ -1015,6 +1017,31 @@ c Test, Dec. 06 :
 
             GOTO 92
 
+          ELSEIF( KP .EQ. 4 ) THEN
+
+            TTA = +DEV/2.D0 
+            dtta = A(NOEL,ND+NND+3)
+            dtta2 = dtta/2.d0
+            CALL AGSK11(
+     >                  YSHFT1)
+
+            YSHFT = A(NOEL,ND+NND+2) + YSHFT1
+C            ang = 0.5d0*(pi-dtta) - tta
+C            XCE = - YSHFT * SIN(TTA) + xl * sin(0.5d0*dtta) * cos(ang)
+C            YCE =   YSHFT * COS(TTA) + xl * sin(0.5d0*dtta) * sin(ang)
+            XCE = - YSHFT * SIN(TTA) - xl* sin(dtta2) * sin(tta+dtta2)
+            YCE =   YSHFT * COS(TTA) + xl* sin(dtta2) * cos(tta+dtta2)
+C Z-shift
+            ZSHFT = A(NOEL,ND+NND+4)
+C Y-rotation
+            PHI = A(NOEL,ND+NND+5)
+            XCE = XCE  -  ZSHFT * SIN(PHI)
+            ZCE = ZSHFT * COS(PHI) 
+
+            CALL QUASE2(dtta,zce,phi)    
+
+            GOTO 92
+
           ENDIF
 
         ENDIF
@@ -1031,7 +1058,7 @@ C-------------------------------------------------------------------
       XCE  = A(NOEL,ND+NND+1)
       YCE  = A(NOEL,ND+NND+2)
  92   CONTINUE
-      ALE  = A(NOEL,ND+NND+3)
+      ALE  = A(NOEL,ND+NND+3) + TTA
       PAS = A(NOEL,ND)
       KP = NINT(A(NOEL,ND+NND))
 
@@ -1062,7 +1089,7 @@ C----- Some more actions on Magnetic Multipoles, BEND, etc.  :
 C          - automatic positioning in SBR TRANSF,
 C          - warning on z-foc. if sharp edge dipole field
 
-      IF( KP .EQ. 3 )  THEN
+      IF( KP .EQ. 3 .OR. KP .EQ. 4)  THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
      >     ''Automatic positioning of element, XCE, YCE, ALE  ='',
      >                 1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE

@@ -18,18 +18,40 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE RHIST(NDAT,NOEL,MXL,A,TA)
+      SUBROUTINE RAGSMM(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
-      CHARACTER*(*) TA(MXL,*)
- 
-      READ(NDAT,*) (A(NOEL,I),I=1,5)
-      READ(NDAT,*) A(NOEL,10),TA(NOEL,1),A(NOEL,11),TA(NOEL,2)
- 
-      RETURN
+      CHARACTER*130 TXT
+C     -------------------------
+C     READS DATA FOR AGS DIPOLE
+C     -------------------------
+C                  IL
+      READ(NDAT,*) A(NOEL,1)
+
+c mod = option flag (for K1, K2 method)
+C                  MOD, dL/L, gap, db0/b0, db1/b1, db2/b2
+      READ(NDAT,*) (A(NOEL,10+I-1),I=1,6)
+C       # of turns and I for each winding   
+      READ(NDAT,*) NBLWG,(A(NOEL,20+I),I=1,2*NBLWG)
+      IF(NBLWG.GT.2) STOP ' SBR ragsmm. # of blwg cannot exceed 2'
+      A(NOEL,20) = NBLWG
+C----- CHP FUITE ENTREE
+C        XE, LambdaE, ff2,ff3
+      READ(NDAT,*) (A(NOEL,I),I=30,33)
+      READ(NDAT,*) II,(A(NOEL,40+I),I=1,II)
+      A(NOEL,40) = II
+C----- CHP FUITE SORTIE
+      READ(NDAT,*) (A(NOEL,I),I=50,53)
+      READ(NDAT,*) II,(A(NOEL,60+I),I=1,II)
+      A(NOEL,60) = II
+C----- Rotation of multipole components
+      READ(NDAT,*) (A(NOEL,70+I-1),I=1,3)
+
+      READ(NDAT,*,err=99) II,(A(NOEL,I),I=91,93)
+
+ 99   RETURN
       END

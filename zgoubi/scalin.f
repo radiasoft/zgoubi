@@ -46,6 +46,8 @@ C  -------
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
 
       CHARACTER*9 OPT(2)
+      DIMENSION MODSCI(MXF),MODSCAL(MXF)
+      SAVE MODSCAL
 
       DATA OPT/ '++ OFF ++','         ' /
  
@@ -77,17 +79,31 @@ C  -------
 
         IF(NTIM(IF) .GE. 0) THEN
 
-          DO IT = 1, NTIM(IF) 
-            SCL(IF,IT) = A(NOEL,10*IF+IT-1)
-            TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
-          ENDDO
+           IF(MODSCAL(IF) .NE. 10) THEN
+              DO IT = 1, NTIM(IF) 
+                 SCL(IF,IT) = A(NOEL,10*IF+IT-1)
+                 TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
+              ENDDO
+           ENDIF
 
           IF(NRES .GT. 0) THEN
-            WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
- 102        FORMAT(20X,' # TIMINGS :', I2
+            IF(MODSCAL(IF) .EQ. 10) THEN
+              WRITE(NRES,104) 
+     >        TA(NOEL,IF),
+     >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
+     >        SCL(IF,1), SCL(IF,NTIM(IF))
+ 104          FORMAT(15X,'Scaling of field follows the law'
+     >        ,' function of Rigidity within the file : ', A
+     >        ,/,20X,' # TIMINGS : ' I5
+     >        ,/,20X,' From :      ', ES9.2, ' To ', ES9.2, ' kG.cm'
+     >        ,/,20X,' Scal from : ', ES9.2, ' To ', ES9.2)
+              ELSE
+              WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
+ 102          FORMAT(20X,' # TIMINGS :', I2
      >          ,/,20X,' SCALING   : ',10(F11.4,1X))
-            WRITE(NRES,103) ( INT(TIM(IF,IT)), IT=1,NTIM(IF))
- 103        FORMAT(20X,' TURN #    : ',10(I8,1X))
+              WRITE(NRES,103) ( INT(TIM(IF,IT)), IT=1,NTIM(IF))
+ 103          FORMAT(20X,' TURN #    : ',10(I8,1X))
+            ENDIF
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -1) THEN
@@ -226,4 +242,18 @@ C                with normally frac(Qx)~0.73 hence dN~0.25)
  596  CONTINUE
       STOP ' SBR SCALIN :  IDLE  UNIT  PROBLEM  AT  OPEN  FILE '
       RETURN
+
+      entry scali6(modsci)
+      do i = 1, mxf 
+        modscal(i) = modsci(i)
+      enddo
+      return
+
+      entry scali5(
+     >              modsci)
+      do i = 1, mxf 
+        modsci(i) = modscal(i)
+      enddo
+      return
+
       END

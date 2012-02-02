@@ -46,6 +46,12 @@ C     ----------------------------------------------
 
       INTEGER DEBSTR, FINSTR
 
+      LOGICAL STRCON, IDLUNI
+      CHARACTER TXT132*132
+      DIMENSION MODSCAL(MXF)
+
+      DATA MODSCAL / MXF*0  /
+
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       READ(NDAT,*) A(NOEL,1),A(NOEL,2) 
 
@@ -79,13 +85,24 @@ C------- Store name of family and label(s)
 
 C CPRM tells which parameter in the element (IF) the scaling is to be applied to
 C Case ERR accounts for older versions of zgoubi, w/o CPRM
-        READ(NDAT,*,ERR=121) NTIM(IF)  !!, CPRM(IF)
-        GOTO 122
- 121    CONTINUE
+C        READ(NDAT,*,ERR=121) NTIM(IF)  !!, CPRM(IF)
+C        GOTO 122
+C 121    CONTINUE
 C        CPRM(IF) = 0.D0
- 122    CONTINUE
-        IF(NTIM(IF) .GT. MXS-2) 
+c 122    CONTINUE
+         READ(NDAT,*) txt132
+        if( strcon(txt132,'.', 
+     >       IS)) then
+           READ(TXT132(DEBSTR(TXT132):IS-1),*) NTIM(IF)
+           READ(TXT132(IS+1:FINSTR(TXT132)),*) MODSCAL(IF)
+           
+           IF(NTIM(IF) .GT. MXS-2) 
      >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+        else
+           READ(TXT132,*) NTIM(IF)
+           IF(NTIM(IF) .GT. MXD-2) 
+     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
+        endif        
 
         IF(NTIM(IF) .GE. 0) THEN
           NDSCL=NTIM(IF)
@@ -135,17 +152,61 @@ C               max = max(NDSCL,NDTIM)
           ENDIF
         ENDIF
 
-C------- SCL(IF,IT)
-        IT = MXS-2
-        IF(10*IF+IT-1 .GT. MXD) 
-     >  CALL ENDJOB(
-     >  'SBR RSCAL: Too many data in A, make sure 10*MXF+MXS-3 .le. MXD'
-     >  ,-99)
-        READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
-C------- TIM(IF,IT)
-        READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)
-        A(NOEL,10*IF+2*MAX) = NLBL
+
+c     if MODSCAL=10 then no numbers in the two next lines
+c     just the name of the file in the next line
+        IF( MODSCAL(IF) .EQ. 10) then             
+           READ(NDAT,100) TA(NOEL,IF)
+           READ(NDAT,*) NTIMCOL, NSCALCOL
+  
+           IF(IDLUNI(
+     >                 LUN)) THEN
+              OPEN(UNIT=LUN,FILE=TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):
+     >        FINSTR(TA(NOEL,IF))),STATUS='OLD',ERR=96)
+           ELSE
+              GOTO 96
+           ENDIF
+           NTIM(IF) = 1 !number of timing is determined during lecture
+ 55        CONTINUE
+           READ(LUN,*,ERR=55,END=56)
+     >          (ANONE,ICOL=1,NTIMCOL-1),
+     >          TIM(IF,NTIM(IF)),
+     >          (ANONE,ICOL=1,NSCALCOL-NTIMCOL-1),
+     >          SCL(IF,NTIM(IF))
+           NTIM(IF) = NTIM(IF)+1
+           IF(NTIM(IF) .GT. MXS) 
+     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS)
+           GOTO 55
+ 56        CONTINUE
+           CLOSE(LUN)
+           NTIM(IF) = NTIM(IF)-1
+        ELSE
+C--------- SCL(IF,IT)
+          IT = NDSCL
+          IF(10*IF+IT-1 .GT. MXD) 
+     >    CALL ENDJOB(
+     >    'SBR RSCAL: Too many data in A, make sure 10*IF+MXD-3.le.MXD'
+     >    ,-99)
+          READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
+C--------- TIM(IF,IT)
+          IT = NDTIM
+          IF(10*IF+IT-1 .GT. MXD) 
+     >    CALL ENDJOB(
+     >    'SBR RSCAL: Too many data in A, make sure 10*IF+MXD-3.le.MXD'
+     >    ,-99)
+          READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)
+          A(NOEL,10*IF+2*MAX) = NLBL
+        ENDIF
+
  1    CONTINUE
  
+      call scali6(modscal)
+
+      RETURN
+
+ 96   CONTINUE
+      WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ', TA(NOEL,IF)
+     >     (DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
+      CALL ENDJOB('ERROR  OPEN  FILE  ',-99)
       RETURN
       END
