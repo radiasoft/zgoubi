@@ -4151,13 +4151,15 @@ section~\ref{sec4.6.6}) is set to the value -4, and its actual path length is st
 \newpage
 
 \subsubsection*{CHANGREF~: \CHANGREFTitl} \label{CHANGREF}\index{CHANGREF|textbf}
+
 \medskip
 
-\CHANGREF {it transports} the particles to a new reference frame.  It can be used anywhere 
-in a structure.  The new coordinates of the particles  $ Y_2$,  $ T_2$,  $ Z_2$ and 
-$ P_2 $ and the path length $ S_2 $ are deduced from the old ones  $ Y_1$,   
+The ``old style'' \CHANGREF\    \label{CHANGREFOld}  \index{CHANGREF ``Old Style''}
+transports the particles to a new $(O,Y,Z)$ reference plane.  It can be used anywhere 
+in a structure.  The new particle coordinates  $ Y_2$,  $ T_2$,  $ Z_2$ and 
+$ P_2 $  path length $ S_2 $  are deduced from the old ones  $ Y_1$,   
 $ T_1$,  $ Z_1$,  $ P_1 $ and $ S_1 $ by
-%
+
 \begin{figure}[h]
 \begin{minipage}{.4\linewidth}
 \begin{align*}
@@ -4175,7 +4177,7 @@ $ T_1$,  $ Z_1$,  $ P_1 $ and $ S_1 $ by
 \hangcaption{\label{FigCHAREFa}Scheme of the \CHANGREF procedure. }
 \end{minipage}
 \end{figure}
-%
+
 \noindent where, $ XCE $ and $ YCE $ are shifts in the horizontal plane along,respectively, 
 $ X$- and $ Y$-axis, and \textsl{ALE}  is a rotation around the $ Z$-axis. $ DL $
 is given the sign of $ XCE-Y_2 \sin(\text{\textsl{ALE}})$.  
@@ -4197,7 +4199,7 @@ particle decay and gas-scattering are taken into account (but not on synchrotron
 \bigskip
 
 \noindent The example below shows the use of  \CHANGREF\ for the symmetric positioning of 
-a dipole+quadrupole  magnet in a drift-bend-drift geometry with 
+a combined function dipole+quadrupole  magnet in a drift-bend-drift geometry with 
 12.691~degrees deviation (obtained upon combined effect of  a dipole component and 
 of quadrupole axis shifted 1~cm off optical axis). 
 
@@ -4221,7 +4223,7 @@ Using CHANGREF
 'DRIFT'                                             10 cm drift.
 10.
 'CHANGREF'  
-0. 0. -6.34165                              First half z-rotate.
+0. 0. -6.34165                              First half Z-rotate.
 'CHANGREF'  
 0. 1. 0.                                           Next Y-shift.
 'MULTIPOL'     Combined function multipole, dipole + quadrupole.
@@ -4235,7 +4237,7 @@ Using CHANGREF
 .1   step size
 1  0. 0.  0.
 'CHANGREF'
-0. -1. -6.34165          First Y-shift back, next half z-rotate.
+0. -1. -6.34165          First Y-shift back, next half Z-rotate.
 'DRIFT'                                             10 cm drift.
 10.
 'MARKER'    END    .plt                -> list  into zgoubi.plt.
@@ -4253,7 +4255,17 @@ extent upstream and downstream of the 5~cm long multipole.
 \end{center}
 
 
-\vfill
+
+\medskip
+
+The ``new style'' \CHANGREF\  \label{CHANGREFNew}  \index{CHANGREF ``New Style''} transports  particles as well to a new 
+$(O,Y,Z)$ reference plane, 
+   in a similar manner, however it allows all 6 degrees of 
+freedom, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation. 
+
+\CHANGREF\  ``new style''  allows up to 9 successive such elementary transformations, of arbitrary nature, in arbitrary order. 
+
+
 
 
 
@@ -7123,6 +7135,8 @@ Cartesian $ (X, Y, Z) $ coordinates (e.g., \textsl{QUADRUPO\index{QUADRUPO}, TOS
 \textsl{ALE}) with respect to the incoming reference frame. Trajectory coordinates after traversal of the 
 element refer the element frame. 
 
+\medskip
+
 \noindent If  \textsl{KPOS} $=2 $, the shifts   \textsl{XCE}\index{XCE}   
 and   \textsl{YCE}\index{YCE}, and the tilt angle \textsl{ALE}\index{ALE@{\it ALE}}   are taken into 
 account, for mis-aligning  the element with respect to the incoming 
@@ -7131,61 +7145,78 @@ The effect is equivalent to  a \textsl{CHANGREF(XCE,YCE,ALE)}  upstream of the
 optical element, followed by   \textsl{CHANGREF(XCS,YCS,ALS=-ALE)} downstream of it, with 
  computed \textsl{XCS, YCS} values as schemed in Fig.~\ref{fig34}.  
 
+\medskip
+
 \noindent \textsl{KPOS} $=3 $ option is available for some 
- magnets  (e.g., \textsl{BEND}, \textsl{MULTIPOL})~; 
+ magnets  (e.g., \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM, AGS Main Magnet} 
+(AGS main magnet))~; 
 it is effective only if a non zero dipole component $B1$ is present, or if  \textsl{ALE} is non-zero. 
-It positions automatically the 
-device in the  following way, convenient for periodic structures (Fig~\ref{figKPOS3}).
+It positions automatically the magnet in a symmetric manner with respect to the incoming and outgoing reference 
+axis, convenient for periodic structures, as follows (Fig~\ref{figKPOS3}).
  
 Both incoming and outgoing refernce frames are  tilted w.r.t. the magnet 
 
  $\bullet$ either,  by an angle \textsl{ALE}  if ALE$\not =$0, 
 
- $\bullet$ or, if ALE=0  by  half the deviation $\theta/2$ (such that $ L = 
-2 \frac{\BORO}{B1} \sin({\theta}/{2})$ wherein L = geometrical length, 
+ $\bullet$ or, if ALE=0  by  half the \textsl{Z}-rotation $\theta_Z/2$ (such that $ L = 
+2 \frac{\BORO}{B1} \sin({\theta_Z}/{2})$ wherein L = geometrical length, 
 \BORO  = reference rigidity as defined in \textsl{OBJET\index{OBJET}}).
 %\noindent This is equivalent to the sequence \textsl{CHANGREF(0,0,-$\theta$/2)},
 %  \textsl{CHANGREF(0,YCE,0)} right upstream the magnet, followed  by 
 %\textsl{CHANGREF(0,-YCE,-$\theta$/2)}.
 
-\noindent Next, the optical element is  shifted by \textsl{Y-shift=YCE} (\textsl{XCE} is not used) in a 
-direction orthogonal to the new magnet axis (\emph{i.e.}, at an angle $ALE+\pi/2$ wrt. the incoming 
-reference frame $X$-axis). 
+\noindent Next, the optical element is  Y-shifted by \textsl{YCE} (\textsl{XCE} is not used) in a 
+direction orthogonal to the new magnet axis (\emph{i.e.}, at an angle $ALE+\pi/2$ \wrt\ the $X$ axis of the incoming 
+reference frame).
 
+
+\medskip
+
+\noindent \textsl{KPOS} $=4 $ applies to \textsl{AGSMM} (AGS main magnet). \index{AGSMM, AGS Main Magnet} 
+By default, it aligns the magnet in a way similar 
+to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
+2 \frac{\BORO}{B1} \sin({\theta_Z}/{2}$. However magnet mis-alignement (alignement errors) are handled in a different way, 
+as follows. 
+
+All 6 types of misalignements, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation, can be accounted for, in an arbitrary order. 
+They are specified using the \textsl{CHANGREF} technic document in page~\pageref{CHANGREFNew}. All three rotations  are 
+taken \wrt\ the center of the magnet. 
+ 
 
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\vfill
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 %\begin{minipage}{.45\linewidth}
 %\begin{center}
 
 \mbox{
-\includegraphics[height=4cm]{Fig34A.eps}
-\includegraphics[height=3.5cm]{Fig34.eps}
+\includegraphics[height=4cm]{Fig34A.eps} \hspace{.02\linewidth}
+\includegraphics[height=3.7cm]{Fig34.eps}
 }
 \hangcaption{\label{fig34} 
-  Left~: moving an optical element using  \textsl{KPOS}$=1 $. 
-Right~: Mis-aligning  an optical element using  \textsl{KPOS}$=2 $.  
 \textsl{$(X_E,Y_E)$} and \textsl{$(X_S, Y_S)$} are respectively the incoming 
  and outgoing  reference frames.
+  Left~: moving an optical element using  \textsl{KPOS}$=1 $. 
+Right~: Mis-aligning  an optical element using  \textsl{KPOS}$=2 $.  
 }
 %\end{center}
 %\end{minipage}  %\hspace{.05\linewidth}
 %\begin{minipage}{.45\linewidth}
 %\begin{center}
+\end{center}
+\end{figure}
 
-~
 
-~
-
+\begin{figure}[h]
+\begin{center}
 \includegraphics[height=5cm]{FigKPOS3.eps}
 
 \hangcaption{\label{figKPOS3} 
-Half-deviation alignement of a Cartesian coordinate bending element, 
-using  \textsl{KPOS}$=3 $.  \textsl{$(X_E,Y_E)$} and \textsl{$(X_S, Y_S)$} are respectively the incoming 
+\textsl{$(X_E,Y_E)$} and \textsl{$(X_S, Y_S)$} are respectively the incoming 
  and outgoing  reference frames.
+Half-deviation alignement of a Cartesian coordinate bending element, 
+using  \textsl{KPOS}$=3 $.  
 }
 %\end{center}
 %\end{minipage}
@@ -7195,13 +7226,22 @@ using  \textsl{KPOS}$=3 $.  \textsl{$(X_E,Y_E)$} and \textsl{$(X_S, Y_S)$} are r
 %\begin{figure}
 %\vspace{12 truecm}
 %%%Figure 35
+\end{center}
+\end{figure}
 
-~
 
-~
-
+\begin{figure}[h]
+\begin{center}
 \includegraphics[height=6cm]{Fig35.eps}
 \hangcaption{\label{fig35}Positioning of a polar field map, using \textsl{KPOS}$=1 $.}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[height=9cm]{FigPitch.eps}
+\hangcaption{\label{figPitch}Pitch rotation, using \textsl{KPOS}$=4 $.}
 \end{center}
 \end{figure}
 

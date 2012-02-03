@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE AIMANT(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -43,6 +42,10 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       LOGICAL BONUL
 
       PARAMETER (I0=0, ZERO=0.D0)
+
+      PARAMETER (MSR=10)
+      CHARACTER QSHROE(MSR)*(2),QSHROS(MSR)*(2)
+      DIMENSION VSHROE(MSR),    VSHROS(MSR)
 
 C------ Fields defined in polar coordinates - Champs definis en coordonnees polaires
       KART = 2
@@ -71,7 +74,8 @@ C------ Fields defined in polar coordinates - Champs definis en coordonnees pola
 C----- DXI = step angle in polar frame
       DXI=PAS/RM
 
-      IF(KP .NE. 2)  THEN
+C      IF(KP .NE. 2)  THEN
+      IF(KP .EQ. 1)  THEN
         DP = A(NOEL,ND+20)
         IF(DP.LE.0.D0)  CALL INITRA(1)
         IF(NRES.GT.0) WRITE(NRES,100) DP
@@ -98,24 +102,27 @@ C----- DXI = step angle in polar frame
         CALL CHAREF(.FALSE.,ZERO,ZERO,AS)
         RS=Y
         TS=T
-        GOTO 3
+C        GOTO 3
+C      ENDIF
+      ELSEIF(KP .EQ. 2) THEN
+        RE = A(NOEL,NDD)
+        TE = A(NOEL,NDD+1)
+        RS = A(NOEL,NDD+2)
+        TS = A(NOEL,NDD+3)
+
+        IF(PAS .LT. 0.D0) THEN
+          TEMP=TE
+          TE=TS
+          TS=TEMP
+          TEMP=RE
+          RE=RS
+          RS=TEMP
+        ENDIF
       ENDIF
 
-      RE = A(NOEL,NDD)
-      TE = A(NOEL,NDD+1)
-      RS = A(NOEL,NDD+2)
-      TS = A(NOEL,NDD+3)
+C3     CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,101)RE,TE,RS,TS
 
-      IF(PAS .LT. 0.D0) THEN
-        TEMP=TE
-        TE=TS
-        TS=TEMP
-        TEMP=RE
-        RE=RS
-        RS=TEMP
-      ENDIF
-
-3     IF(NRES.GT.0) WRITE(NRES,101)RE,TE,RS,TS
       ALE=AE-TE
       XCE=-RE*SIN(TE)
       YCE=-RE*COS(TE)
@@ -126,7 +133,22 @@ C----- DXI = step angle in polar frame
       XLIM=XF
       KP=2
 
-      CALL TRANSF
+      qshroE(1) = 'XS'
+      VSHROE(1) = XCE
+      qshroE(2) = 'YS'
+      VSHROE(2) = YCE
+      qshroE(3) = 'ZR'
+      VSHROE(3) = ALE
+      VSHROE(MSR) = 3
+      qshroS(1) = 'XS'
+      VSHROS(1) = XCS
+      qshroS(2) = 'YS'
+      VSHROS(2) = YCS
+      qshroS(3) = 'ZR'
+      VSHROS(3) = ALS
+      VSHROS(MSR) = 3
+
+      CALL TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
 
  99   CONTINUE
 C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.

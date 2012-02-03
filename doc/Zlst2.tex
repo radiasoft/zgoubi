@@ -531,9 +531,16 @@ $YC$ stands for the reference radius (normally, $YC  \simeq RM$).}
 \mestab
 \textbf{CHANGREF}  \label{CHANGREF-B} \index{CHANGREF|textbf}      \> \textbf{\CHANGREFTitl}\\
  \\
- \\
+ \textbf{``Old Style''} (Figure below)~: \index{CHANGREF ``Old Style''}  \\
+\\
  \textsl{XCE, YCE, ALE} \>Longitudinal and transverse shifts, \>2*cm, deg \>3*E \\
- \>followed by $Z$-axis rotation  
+ \>followed by $Z$-axis rotation  \\
+\\
+\\
+ \textbf{``New Style'' (example below). \index{CHANGREF ``New Style''}  In an arbitrary order, up to 9  occurences of~:  }\\
+\\
+ \textsl{XS 'val', YS 'val', ZS 'val',} \> \>cm or deg \>up to 9*(A2,E) \\
+ \textsl{XR 'val', YR 'val', ZR 'val'} \> \>\>\\
 \end{tabbing}
 \vfill
 
@@ -542,10 +549,61 @@ $YC$ stands for the reference radius (normally, $YC  \simeq RM$).}
 \begin{figure}[H]
 %\vspace{10.5 truecm}
 %%%Figure 16
-\centerline{\includegraphics[height=15cm,angle=-90]{FigCHAREFa.eps}}
-\unnumberedcaption{Parameters in the \CHANGREF procedure. }
+\centerline{\includegraphics[height=12cm,angle=-90]{FigCHAREFa.eps}}
+\unnumberedcaption{Parameters in the \CHANGREF\ procedure. }
 \end{figure}
+
+
+\medskip
+
+\begin{center}
+\begin{minipage}{.38\linewidth}
+
+ Zgoubi data file~: 
+
+\tiny
+\begin{verbatim}
+Using CHANGREF "New Style
+'OBJET'
+51.71103865921708                          Electron, Ekin=15MeV.
+2
+1 1                                           One particle, with
+2. 0.  0.0 0.0 0.0 1. 'R'      Y_0=2 cm, other coordinates zero.
+1 1 1 1 1 1 1 
+'MARKER'    BEG    .plt                -> list  into zgoubi.plt.
+'DRIFT'                                             10 cm drift.
+10.
+'CHANGREF'  
+ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
+'CHANGREF'  
+0. 1. 0.                                           
+'MULTIPOL'     Combined function multipole, dipole + quadrupole.
+   2                                   -> list  into zgoubi.plt.
+5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
+ 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
+0 0 0 0 0 0 0 0 0 0
+.1   step size
+1  0. 0.  0.
+'CHANGREF'
+YS -1. ZR -6.341         First Y-shift back, next half Z-rotate.
+'DRIFT'                                             10 cm drift.
+10.
+'FAISCEAU'
+'END'
+\end{verbatim}
+\normalsize
+\end{minipage}\hspace{.05\linewidth}
+\end{center}
+
+
+
 \vfill
+
+
+
 \newpage
 
 \begin{tabbing}

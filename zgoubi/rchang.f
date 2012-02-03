@@ -35,7 +35,7 @@ C  -------
       CHARACTER TXT*132, TXT1*1, TXT2*2
 
       INTEGER DEBSTR
-      PARAMETER (MSR=8,MSR2=2*MSR)
+      PARAMETER (MSR=10,MSR2=2*MSR)
       CHARACTER SSHRO(MSR2)*(30)
 
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
@@ -89,6 +89,8 @@ C old style, x- and y-shift followed by z-rotation
 
       ENDIF
 
+      IF(NSR .GE. MSR)
+     >CALL ENDJOB('SBR RCHANG. Max. nmbr of transforms must be < ',MSR)
       A(NOEL,9) = NSR
 
       RETURN

@@ -50,10 +50,14 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       PARAMETER(I0=0, ZERO=0.D0)
       SAVE dtta, zce, phi
 
+      PARAMETER (MSR=10)
+      CHARACTER QSHROE(MSR)*(2),QSHROS(MSR)*(2)
+      DIMENSION VSHROE(MSR),    VSHROS(MSR)
+
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
       CALL CHXC(ND,KALC,KUASEX,BORO,
-     >                              XL,DSREF)
+     >                              XL,DSREF,QSHROE,VSHROE)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
  
       IF ( LNUL(XL) ) GOTO 99
@@ -74,6 +78,22 @@ C        reference frame. No exit CHANGREF needed
         XCS = 0.D0
         YCS = 0.D0
         ALS = 0.D0
+
+        qshroE(1) = 'XS'
+        VSHROE(1) = XCE
+        qshroE(2) = 'YS'
+        VSHROE(2) = YCE
+        qshroE(3) = 'ZR'
+        VSHROE(3) = ALE
+        VSHROE(MSR) = 3
+        qshroS(1) = 'XS'
+        VSHROS(1) = XCS
+        qshroS(2) = 'YS'
+        VSHROS(2) = YCS
+        qshroS(3) = 'ZR'
+        VSHROS(3) = ALS
+        VSHROS(MSR) = 3
+
       ELSEIF(KP .EQ. 2)  THEN
 C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic 
 C        re-positionning of the exit frame to old position:
@@ -90,18 +110,35 @@ C         WRITE(*,*) ' QUASEX ',XE,XS,XLIM
         XTEMP=XCE-XLM*(1.D0-CL)
         YTEMP=YCE+XLM*SL
 
-        IF(PAS.GT.0.D0)  GOTO 1
-        TEMP=XCE
-        XCE=XTEMP
-        XTEMP=TEMP
-        TEMP=YCE
-        YCE=YTEMP
-        YTEMP=TEMP
- 1      CONTINUE
+        IF(PAS.LE.0.D0) THEN
+          TEMP=XCE
+          XCE=XTEMP
+          XTEMP=TEMP
+          TEMP=YCE
+          YCE=YTEMP
+          YTEMP=TEMP
+        ENDIF
         XCS=-XTEMP*CL-YTEMP*SL
         YCS=XTEMP*SL-YTEMP*CL
         ALS=-ALE
+
+        qshroE(1) = 'XS'
+        VSHROE(1) = XCE
+        qshroE(2) = 'YS'
+        VSHROE(2) = YCE
+        qshroE(3) = 'ZR'
+        VSHROE(3) = ALE
+        VSHROE(MSR) = 3
+        qshroS(1) = 'XS'
+        VSHROS(1) = XCS
+        qshroS(2) = 'YS'
+        VSHROS(2) = YCS
+        qshroS(3) = 'ZR'
+        VSHROS(3) = ALS
+        VSHROS(MSR) = 3
+
         IF(NRES.GT.0) WRITE(NRES,100) XCE,YCE,ALE
+
       ELSEIF(KP .EQ. 3)  THEN
 C------- Optical elmnt is Z-rotated. Entrance and exit frames are 
 C        tilted by (normally) half the deviation. 
@@ -116,6 +153,22 @@ C        YCE = 0.D0
         IF(MIRROR) THEN 
           ALS = -(PI - ALE)
         ENDIF
+
+        qshroE(1) = 'XS'
+        VSHROE(1) = XCE
+        qshroE(2) = 'YS'
+        VSHROE(2) = YCE
+        qshroE(3) = 'ZR'
+        VSHROE(3) = ALE
+        VSHROE(MSR) = 3
+        qshroS(1) = 'XS'
+        VSHROS(1) = XCS
+        qshroS(2) = 'YS'
+        VSHROS(2) = YCS
+        qshroS(3) = 'ZR'
+        VSHROS(3) = ALS
+        VSHROS(MSR) = 3
+
       ELSEIF(KP .EQ. 4)  THEN
 C------- Implemented for AGSMM. 
 C        ALE is a delta wrt. DEV/2 
@@ -125,24 +178,45 @@ C        ALE is a delta wrt. DEV/2
         XCS = -xl * sin(dtta2) * sin(dtta2 + tta)
         YCS = -YCE/COS(ALE) - xl * sin(dtta) * cos(dtta2 + tta)
  
-c        if(zce.ne.0.d0) then
-c          xcs = xcs - ZSHFT * SIN(PHI)
-c          zcs = -zce/cos(phi)
-c        endif
+C ZCE
+        zcsb = -Vshroe(4)
+C PHE
+        if(Vshroe(6).ne.0.d0) then
+          XCsb = Vshroe(5) 
+          zcsb = -Vshroe(6)
+        endif
+
+C X-rot (Yaw)
+c        qshroS(1) = 'YR'
+c        VSHROS(1) = Vshroe(7) 
+        qshroS(1) = 'ZS'
+        VSHROS(1) = -Vshroe(6)
+        qshroS(2) = 'XS'
+        VSHROS(2) = -Vshroe(5)
+C Z-shift
+        qshroS(3) = 'ZS'
+        VSHROS(3) = -Vshroe(4)
+C Z-rot (Pitch)
+        qshroS(4) = 'YS'
+        VSHROS(4) = YCS
+        qshroS(5) = 'ZR'
+        VSHROS(5) = ALS
+C        VSHROS(MSR) = 6
+        VSHROS(MSR) = 5
 
       ENDIF
 
-      IF(PAS.GT.0.D0)  GOTO 3
-      TEMP=XI
-      XI=XF
-      XF=TEMP
-      XFE=XLIM-XS
-      XFS=XE
-3     CONTINUE
+      IF(PAS.LE.0.D0) THEN
+        TEMP=XI
+        XI=XF
+        XF=TEMP
+        XFE=XLIM-XS
+        XFS=XE
+      ENDIF
       X=XI
       XLIM=XF
  
-      CALL TRANSF
+      CALL TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
 
       IF(NRES .GT. 0)
      >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',

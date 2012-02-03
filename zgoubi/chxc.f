@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,
-     >                                    XL,DSREF)
+     >                                    XL,DSREF,QSHROE,VSHROE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
 C     DEFINES THE FIELD:
@@ -32,6 +32,10 @@ C                 PLANE + ASSUMES MID PLANE SYM
 C       KALC = 2: READS A FIELD MAP
 C       KALC = 3: DEFINES QUAD , SEXTU , ... , MULTPL...
 C     --------------------------------------------------
+      PARAMETER (MSR=10)
+      CHARACTER QSHROE(MSR)*(2)
+      DIMENSION VSHROE(MSR)
+
       INCLUDE 'PARIZ.H'
 C      PARAMETER (MXX=400, MXY=200)
       INCLUDE "XYZHC.H"
@@ -163,10 +167,14 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       XCE = 0.D0
       YCE = 0.D0
       ALE = 0.D0
+      ZCE = 0.D0
+      PHE = 0.D0
       TTA = 0.D0
       XCS = 0.D0
       YCS = 0.D0
       ALS = 0.D0
+      ZCS = 0.D0
+      PHS = 0.D0
 
 C----- Default values of upper order of field derivative 
       IDE=2
@@ -1026,21 +1034,39 @@ c Test, Dec. 06 :
      >                  YSHFT1)
 
             YSHFT = A(NOEL,ND+NND+2) + YSHFT1
-C            ang = 0.5d0*(pi-dtta) - tta
-C            XCE = - YSHFT * SIN(TTA) + xl * sin(0.5d0*dtta) * cos(ang)
-C            YCE =   YSHFT * COS(TTA) + xl * sin(0.5d0*dtta) * sin(ang)
             XCE = - YSHFT * SIN(TTA) - xl* sin(dtta2) * sin(tta+dtta2)
             YCE =   YSHFT * COS(TTA) + xl* sin(dtta2) * cos(tta+dtta2)
 C Z-shift
             ZSHFT = A(NOEL,ND+NND+4)
 C Y-rotation
-            PHI = A(NOEL,ND+NND+5)
-            XCE = XCE  -  ZSHFT * SIN(PHI)
-            ZCE = ZSHFT * COS(PHI) 
+            PHE = A(NOEL,ND+NND+5)
+            XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
+            ZCE = 0.5D0*XL * SIN(PHE) 
 
-            CALL QUASE2(dtta,zce,phi)    
+            CALL QUASE2(dtta,zce,PHE)    
 
-            GOTO 92
+            ALE  = A(NOEL,ND+NND+3) + TTA
+
+            qshroe(1) = 'XS'
+            Vshroe(1) = XCE
+            qshroe(2) = 'YS'
+            Vshroe(2) = YCE
+            qshroe(3) = 'ZR'
+            Vshroe(3) = ALE
+C Z-shift
+            qshroe(4) = 'ZS'
+            Vshroe(4) = ZSHFT
+C Y-rotation 
+            qshroe(5) = 'XS'
+            Vshroe(5) = XCEB
+            qshroe(6) = 'ZS'
+            Vshroe(6) = ZCE
+            qshroe(7) = 'YR'
+            Vshroe(7) = PHE
+            Vshroe(MSR) = 7
+C            Vshroe(MSR) = 6
+
+            GOTO 93
 
           ENDIF
 
@@ -1058,7 +1084,9 @@ C-------------------------------------------------------------------
       XCE  = A(NOEL,ND+NND+1)
       YCE  = A(NOEL,ND+NND+2)
  92   CONTINUE
-      ALE  = A(NOEL,ND+NND+3) + TTA
+      ALE  = A(NOEL,ND+NND+3)
+ 93   CONTINUE
+
       PAS = A(NOEL,ND)
       KP = NINT(A(NOEL,ND+NND))
 
@@ -1091,8 +1119,8 @@ C          - warning on z-foc. if sharp edge dipole field
 
       IF( KP .EQ. 3 .OR. KP .EQ. 4)  THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
-     >     ''Automatic positioning of element, XCE, YCE, ALE  ='',
-     >                 1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE
+     >  ''Automatic positioning of element, XCE, YCE, ALE, ZCE, YAW ='',
+     >          1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE, ZCE, PHE
       ENDIF
 
       IF( KPAS .GT. 0 ) THEN

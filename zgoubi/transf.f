@@ -18,21 +18,23 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE TRANSF
+      SUBROUTINE TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------------------------
 C     APPELE PAR AIMANT ET QUASEX .
 C     APPELLE INTEGR POUR LE CALCUL DES IMAX TRAJECTOIRES DU FAISCEAU.
 C     ----------------------------------------------------------------
+      PARAMETER (MSR=10)
+      CHARACTER QSHROE(MSR)*(2),QSHROS(MSR)*(2)
+      DIMENSION VSHROE(MSR),    VSHROS(MSR)
+
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YL2,ZL2,SORT(MXT),FMAG,BMAX
      > ,YCH,ZCH
@@ -40,10 +42,8 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXSTEP.H'
       INCLUDE 'CSR.H'
-C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
-C     1,AMS  ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
@@ -54,7 +54,6 @@ C     1,AMS  ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/GASC/ AI, DEN, KGA
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL ZSYM
@@ -82,19 +81,9 @@ C     1,AMS  ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
 
       IF(LST .GE. 1 ) CALL CTRLB(1)
 
-C----- Change ref. at entrance or exit 
-C-----   (Including Automatic positionning, i.e. case KPOS=3 : MULTIPOL with non 
-C                                       zero B(1), BEND, etc.)
-C Tests, Jan 06, FM
-C      CHGRFE= ( KP .GE. 1 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
-C      CHGRFS= ( KP .GE. 1 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
-      CHGRFE= ( KP .GE. 2 .AND. XCE*XCE + YCE*YCE + ALE*ALE .GT. ZERO )
-      CHGRFS= ( KP .GE. 2 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
+      CHGRFE= NINT(VSHROE(MSR)).NE.0
+      CHGRFS= NINT(VSHROS(MSR)).NE.0
  
-C----- Champ DE FUITE ENTREE OU SORTIE
-C FM Dec. 2010
-C      CHPFE = ( KART .EQ. 1 .AND. XE .NE. ZERO )
-C      CHPFS = ( KART .EQ. 1 .AND. XS .NE. ZERO )
       CHPFE = ( KART .EQ. 1 .AND. XFE .NE. ZERO )
       CHPFS = ( KART .EQ. 1 .AND. XFS .NE. ZERO )
  
@@ -124,7 +113,7 @@ C-------- IEX<-1 <=> Particle stopped
           CALL INITRA(IT)
           X=XO
 
-          IF( CHGRFE ) CALL CHAREF(EVNT,XCE,YCE,ALE)
+          IF( CHGRFE ) CALL CHANRF(EVNT,QSHROE,VSHROE)
           IF( CHPFE  ) CALL CHAREF(EVNT,XFE,ZERO,ZERO)
 
           IF( DRT  ) CALL DRTENT
@@ -136,7 +125,7 @@ C-------- IEX<-1 <=> Particle stopped
             IF(NRES.GT.0)
      >        WRITE(NRES,100)LET(IT),KEX,(FO(J,IT),J=1,5),X ,Y,T,Z,P,IT
  100        FORMAT(2X,A1,2X,I2,F8.4,4F10.3,8X,F9.3,4F10.3,8X,I4)
-            CALL CHAREF(EVNT,XCS,YCS,ALS)
+             CALL CHANRF(EVNT,QSHROS,VSHROS)
           ENDIF
 
           CALL MAJTRA(IT)

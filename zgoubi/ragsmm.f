@@ -56,8 +56,8 @@ C----- Step
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
-      READ(NDAT,*) II,(A(NOEL,I),I=91,93)
-      A(NOEL,90) = II 
+      READ(NDAT,*,ERR=66) II,(A(NOEL,I),I=91,95)
+ 66   A(NOEL,90) = II 
 
       RETURN
       END

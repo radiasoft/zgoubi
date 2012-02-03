@@ -52,11 +52,14 @@ C     -------------------------------------------------
       COMMON/SYNRA/ KSYN
  
       LOGICAL EVNT
-      PARAMETER (MSR=8)
+      PARAMETER (MSR=10)
       CHARACTER QSHRO(MSR)*(2)
       DIMENSION VSHRO(MSR)
  
-      NSR = A(NOEL,9)
+      NSR = NINT(A(NOEL,9))
+      IF(NSR .GE. MSR)
+     >CALL ENDJOB('SBR CHREFE. Max. nmbr of transforms must be < ',MSR)
+      VSHRO(MSR) = NSR
       DO I = 1, NSR
         QSHRO(I) = TA(NOEL,I)(1:2)
       ENDDO
@@ -77,7 +80,7 @@ C Old style. TA(NOEL,4)(1:2) was set to 4 in rchang.f
 
         IF(NRES.GT.0) THEN
           WRITE(NRES,100) XC,YC,AA*DEG,AA
- 100      FORMAT(/,' CHANGE  OF  REFERENCE,   XC ='
+ 100      FORMAT(/,' CHANGE  OF  REFERENCE  FRAME,   XC ='
      >    ,F10.3,' cm , YC ='
      >    ,F10.3,'  cm ,   A =',F12.5,' deg  (',F10.6,' rad)',/)
         ENDIF
@@ -126,7 +129,8 @@ C--------- IEX<-1<=> PARTICULE STOPPEE
  
             IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
               CALL INITRA(IT)
-              CALL CHANRF(NSR,EVNT,QSHRO,VSHRO)
+C              CALL CHANRF(NSR,EVNT,QSHRO,VSHRO)
+              CALL CHANRF(EVNT,QSHRO,VSHRO)
               CALL MAJTRA(IT)
             ELSE
               CALL DEJACA(IT)

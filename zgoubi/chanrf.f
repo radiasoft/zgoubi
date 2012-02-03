@@ -22,11 +22,13 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE CHANRF(NSR,EVNT,QSHRO,VSHRO)
+C      SUBROUTINE CHANRF(NSR,EVNT,QSHRO,VSHRO)
+      SUBROUTINE CHANRF(EVNT,QSHRO,VSHRO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL EVNT
-      CHARACTER QSHRO(*)*(*)
-      DIMENSION VSHRO(*)
+      PARAMETER (MSR=10)
+      CHARACTER QSHRO(MSR)*(2)
+      DIMENSION VSHRO(MSR)
 C     -----------------------------------------------
 C     CHANGEMENT DE REFERENCE PARTICULE PAR PARTICULE
 C     -----------------------------------------------
@@ -49,6 +51,8 @@ C     -----------------------------------------------
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       PARAMETER(I0=0)
 
+      NSR = NINT(VSHRO(MSR))
+
       KSR = 1
  1    CONTINUE
         IF    (QSHRO(KSR).EQ.'XS') THEN
@@ -69,14 +73,33 @@ C     -----------------------------------------------
           YS = VSHRO(KSR) 
           Y = Y-YS
         ELSEIF(QSHRO(KSR).EQ.'ZS') THEN
-          ZC = VSHRO(KSR) 
-          Z = Z-ZC
+          ZS = VSHRO(KSR) 
+          Z = Z-ZS
         ELSEIF(QSHRO(KSR).EQ.'XR') THEN
           XR = VSHRO(KSR) 
           CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
+C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'YR') THEN
           YR = VSHRO(KSR) 
-          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
+          ZO=Z
+C          pp = atan2(tan(P),cos(T))
+          pp = atan(tan(P)/cos(T))
+          Z=Z*COS(pp)/COS(pp-YR)
+C          pp=pp-YR 
+C          P =  atan2(tan(pp),1.d0/cos(T))
+          XL = -Z *SIN(YR)
+          ZL = -ZO + Z*COS(YR)
+          DL=SQRT(XL*XL+ZL*ZL)
+          DL=SIGN(DL,XL)
+C          DS = DL/sin(pp)/SIN(P)
+          DS = DL/COS(T)/COS(P)
+          SAR= SAR+DS
+          Y=Y+DS*COS(P)*SIN(T)
+          QBRO = QBR*CL9
+          DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
+          TAR = TAR + DTAR
+C          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
+C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,+-YR,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
           ZR = VSHRO(KSR) 
           YO=Y
@@ -92,6 +115,7 @@ C     -----------------------------------------------
           QBRO = QBR*CL9
           DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
           TAR = TAR + DTAR
+          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,ZERO,ZR)
         ENDIF
 
         KSR = KSR+1
@@ -99,10 +123,10 @@ C     -----------------------------------------------
 
       IF(EVNT) THEN
 
-C------- spin tracking
-        IF(KSPN .EQ. 1 ) THEN
-          IF(ZR .NE. 0.D0) CALL SPNROT(IT,ZERO,ZERO,ZR)
-        ENDIF
+CC------- spin tracking
+C        IF(KSPN .EQ. 1 ) THEN
+C          IF(ZR .NE. 0.D0) CALL SPNROT(IT,ZERO,ZERO,ZR)
+C        ENDIF
         YY = Y
         XX = X
         IF(KART.EQ.2) THEN
