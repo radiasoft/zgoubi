@@ -18,17 +18,17 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      DOUBLE PRECISION FUNCTION NMMIN1(F,X,DX,N)
+      DOUBLE PRECISION FUNCTION NMMIN1(F,X,DX,N,iarr)
 
       IMPLICIT NONE
       DOUBLE PRECISION F
       EXTERNAL F
       INTEGER N
+      INTEGER iarr
       DOUBLE PRECISION X(N),DX(N)
 
       INTEGER NMAX
@@ -42,6 +42,10 @@ C  -------
 
       DOUBLE PRECISION DR,DE,DOC,DIC
       PARAMETER (DR=1D0,DE=2D0,DOC=0.5D0,DIC=-0.5D0)
+
+      DOUBLE PRECISION nmmin2, pnlty, pnlti
+      save pnlty
+      data pnlty / 1d-10 /
 
       P(1) = 1
       DO 1000 I=1,N
@@ -76,6 +80,7 @@ C  -------
 
       K=0
  3000 IF (K.GT.N.OR.FF(P(N+1)).LE.FF(P(1))) GOTO 4000
+
       DO 3100 I=1,N
          XA(I) = 0D0
          DO 3110 J=1,N
@@ -153,5 +158,18 @@ C  -------
          X(I) = XX(I,P(1))
  4100 CONTINUE
       NMMIN1 = FF(P(1))
+
+         write(*,*) ' nmmin1 ',fmin,fmax,NMMIN1
+         write(*,*) ' nmmin1 ',fmin,fmax,NMMIN1 
+             if(fmax .lt. pnlty) then
+                 iarr =1
+             endif
+
+      RETURN
+
+      ENTRY NMMIN2(
+     >             PNLTI)
+      PNLTY = PNLTI
+      RETURN
 
       END

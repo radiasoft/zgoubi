@@ -84,9 +84,9 @@ C----- Reset particle counter
       ZREF = A(NOEL,52)
       PREF = A(NOEL,53)
       SREF = A(NOEL,54)
-      DPREF= A(NOEL,55)
+      DREF= A(NOEL,55)
       TIREF= A(NOEL,56)
-      IF(KOBJ2.EQ.0) DPREF=1.D0
+      IF(KOBJ2.EQ.0) DREF=1.D0
       INITC = NINT(A(NOEL,60))
       NOMFIC=TA(NOEL,2)
       
@@ -284,11 +284,11 @@ C        FO(1,IT1)= DPO * BRO/BORO
         FO(7,IT1)=TIMO
         IF (PABSLU) THEN
            DP0(IT1)=DP*DPFAC * BRO/BORO
-C          THIS WILL NOT WORK RIGHT IF DPREF.NE.0D0 AND Q IS CHANGED IN A 
+C          THIS WILL NOT WORK RIGHT IF DREF.NE.0D0 AND Q IS CHANGED IN A 
 C          SUBSEQUENT PARTICUL
            F(1,IT1)= DP0(IT1)/Q
         ELSE
-           F(1,IT1)=(DP*DPFAC + DPREF) * BRO/BORO
+           F(1,IT1)=(DP*DPFAC + DREF) * BRO/BORO
         ENDIF
         F(2,IT1)=  Y*YFAC  + YREF
         F(3,IT1)=  T*TFAC  + TREF

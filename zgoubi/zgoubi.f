@@ -578,8 +578,12 @@ C----- FIT, FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
-      IF(READAT) CALL RFIT
+      IF(READAT) CALL RFIT(pnlty)
       FITING = .TRUE.
+      if(MTHOD.eq.1) call MINO12(
+     >                           pnlty)
+      if(MTHOD.eq.2) call NMMIN2(
+     >                           pnlty)
       CALL FITSTA(I6,FITING)
       CALL FITST2(NOEL)
       FITGET = .FALSE.

@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE RFIT
+      SUBROUTINE RFIT(PNLTY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -72,7 +72,15 @@ C--------- Old method
         ENDIF
       ENDDO
 
-      READ(NDAT,*) NC
+C      READ(NDAT,*) NC
+      READ(NDAT,FMT='(A)') TXT132
+      READ(txt132,*,err=44,end=44) NC, pnlty
+      goto 45
+ 44   continue
+      READ(txt132,*,err=98,end=98) NC    
+      pnlty = 0.d0
+ 45   continue
+
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
         READ(NDAT,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
@@ -101,5 +109,8 @@ C--------- Numb. particls
         ENDIF
  5    CONTINUE  
 
+      RETURN
+
+ 98   CALL ENDJOB('SBR rfit, error input data after NV,'-99)
       RETURN
       END

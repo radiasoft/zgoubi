@@ -14,6 +14,8 @@ MODULEF =\
  clscr.f\
  debstr.f\
  dfring.f\
+ diagnu.f\
+ diagq.f\
  doree.f\
  drawspi.f\
  drctry.f\
@@ -265,4 +267,3 @@ storig.o: $(INC)/MXLD.H
 synaxe.o: PARCST.H
 synbox.o: PARCST.H
 xyzbr.o: MXVAR.H $(INC)/MXSTEP.H
-zpop_diagQ.o: LMKDIM.H

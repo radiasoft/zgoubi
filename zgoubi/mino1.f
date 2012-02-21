@@ -35,6 +35,9 @@ C  -------
       PARAMETER (D=3.0D0)
       EXTERNAL FONC
 
+      save pnlty
+      data pnlty / 1d-10 /
+
       CALL CPTINI
       NI=0
       FINI=VALMAX
@@ -48,6 +51,34 @@ C  -------
       WRITE(6,1040) FINI
 1040  FORMAT(/,' Xi2 =',1P,G20.5,'   Busy...',/)
 C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
+
+      IF(FINI .LT. PNLTY) THEN
+         IVAR=0
+         DO I=1,N
+            IF(XI(I) .EQ. X(I)) THEN
+               P(I)=P(I)/D
+               IVAR=IVAR+1
+            ENDIF
+         ENDDO
+         IF(IVAR .NE. 0) THEN
+            IF(NI.LE.3) THEN
+               DO I=1,N
+                  X(I)=XI(I)
+               ENDDO
+               FINI=VALMAX
+            ENDIF
+         ELSE
+            DO I=1,N
+               P(I)=P(I)/D
+            ENDDO
+         ENDIF
+         CALL CPTFCT(FONC,F0)
+         CALL IMPVAR(6,NI)
+         CALL IMPCTR(6,F0)
+         CALL CPTWRT(I)
+        RETURN
+      ENDIF
+
       IF(ITSENS(FONC,N,X,X(N+1),X(2*N+1),P,V,F0,D)) THEN
          CALL ITAVAN(FONC,N,X,X(N+1),X(2*N+1),Y,V,F0)
          GOTO 1
@@ -76,6 +107,15 @@ C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
          CALL IMPCTR(6,F0)
          CALL CPTWRT(I)
          IF(NI.LE.NITER) GOTO 1
+C         WRITE(ABS(NRES),*) 
+         WRITE(*,*) 
+     >     ' SBR mino1 : Out of mino1 upon NITER = ',NI
       ENDIF
       RETURN
+
+      ENTRY MINO12(
+     >             PNLTI)
+      PNLTY = PNLTI
+      RETURN
+
       END

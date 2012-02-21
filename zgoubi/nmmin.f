@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       DOUBLE PRECISION FUNCTION NMMIN(F,X,DX,N)
 C     MINIMIZE F(X), LEAVING X THAT MINIMIZES IN X
@@ -40,11 +39,14 @@ C     N (INT,IN): The dimension of X
       PARAMETER (NMAX=100)
       DOUBLE PRECISION NMMIN1,S(NMAX),Y0,Y1
       INTEGER I
+      INTEGER iarr
 
       DOUBLE PRECISION EPS
       PARAMETER (EPS=1.220703125D-4)
 
       Y1 = 3.40282347D+38
+      iarr = 0
+
       DO 1000 I=1,N
          S(I) = X(I)
  1000 CONTINUE
@@ -54,9 +56,9 @@ C     N (INT,IN): The dimension of X
          X(I) = S(I)
          IF (ABS(DX(I)).LT.EPS*ABS(X(I))) DX(I)=EPS*ABS(X(I))
  2100 CONTINUE
-      Y1 = NMMIN1(F,S,DX,N)
-      
-      IF (Y1.LT.Y0) GOTO 2000
+      Y1 = NMMIN1(F,S,DX,N,IARR)
+
+      IF (Y1.LT.Y0 .and. iarr.eq.0) GOTO 2000
       NMMIN=Y0
 
       END

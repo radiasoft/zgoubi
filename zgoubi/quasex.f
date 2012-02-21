@@ -56,7 +56,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
-      CALL CHXC(ND,KALC,KUASEX,BORO,
+      CALL CHXC(ND,KALC,KUASEX,BORO,DPREF,
      >                              XL,DSREF,QSHROE,VSHROE)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
  

@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,
+      SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,
      >                                    XL,DSREF,QSHROE,VSHROE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
@@ -154,9 +154,10 @@ C          Field is defined by analytical models
  
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
+C           write(*,*) ' chxc scal0 ',scal0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
-
+C           write(*,*) ' chxc kscl, scal ',KSCL, scal
       XE = 0.D0
       XS = 0.D0
       XLIM = 0.D0
@@ -1009,7 +1010,7 @@ C--------- AGS MAIN MAGNET
           NPOL = I3
 
           CALL AGSMM(LMNT,MG,MPOL,NPOL,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO)
+     >      DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
 
           DSREF = XL
           KP = NINT(A(NOEL,ND+NND))
@@ -1117,10 +1118,14 @@ C----- Some more actions on Magnetic Multipoles, BEND, etc.  :
 C          - automatic positioning in SBR TRANSF,
 C          - warning on z-foc. if sharp edge dipole field
 
-      IF( KP .EQ. 3 .OR. KP .EQ. 4)  THEN
+      IF( KP .EQ. 3)  THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
-     >  ''Automatic positioning of element, XCE, YCE, ALE, ZCE, YAW ='',
-     >          1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE, ZCE, PHE
+     >  ''Automatic positioning of element, XCE, YCE, ALE ='',
+     >          1P,3G16.8,'' cm/cm/rad'' : )') XCE, YCE, ALE
+      ELSEIF( KP .EQ. 4)  THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
+     >  ''Automatic positioning of element, XCE,YCE,Z-rot,ZCE,Y-rot =''
+     >  ,1P,5G16.8,'' cm/cm/rad/cm/rad'' : )') XCE, YCE, ALE, ZCE, PHE
       ENDIF
 
       IF( KPAS .GT. 0 ) THEN

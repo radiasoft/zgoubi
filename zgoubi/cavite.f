@@ -55,7 +55,7 @@ C  -------
 
       SAVE TIOLD, PHIOLD
 
-      SAVE PP0,DWS
+      SAVE DWS
 !     SR loss
       LOGICAL SRLOSS
 
@@ -69,7 +69,7 @@ C  -------
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
-      DATA PP0, DWS / 1.D0, 0.D0 / 
+      DATA DWS / 0.D0 / 
 
       KCAV = NINT(A(NOEL,1))
       IF(IPASS .EQ. 1) THEN 
@@ -120,7 +120,7 @@ C----- P0, AM  are  in  MEV/c, /c^2
      >         WRITE(NRES,*) ' SBR  CAVITE:  ERRONEOUS  INPUT  DATA'
       RETURN 1
   
-
+C------------------------------------------- 
  10   CONTINUE
 C Ph_s is computed from rigidity law as specified using SCALING/CAVITE
       ORBL = AN10
@@ -136,12 +136,12 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       PS = P0*SCALER(IPASS+1,NOEL,
      >                            DTA1)
-      PP0 = PS / P0
       DWS = SQRT(PS*PS+AM2) - WS
       WS = WS + DWS
       PHS=ASIN(DWS/QV)
       GOTO 1
  
+C------------------------------------------- 
  20   CONTINUE
       ORBL = AN10
       HARM = AN11
@@ -158,24 +158,29 @@ C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C--- Case SR loss
       CALL SRLOS3(
      >            SRLOSS)
-      IF(SRLOSS) THEN
-c        CALL SYNPA1(
-c     >              SMELPP)
-c        WKS = WKS - SMELPP
-         WKS = WKS - DWS
-c        WRITE(*,*) ' CAVITE SRLOSS ',SMELPP,dws*ipass,ipass,dts
-      ENDIF
+      IF(SRLOSS) WKS = WKS - DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
-      PP0 = PS / P0
       WS = WKS + AM
       GOTO 1
- 
+
+C------------------------------------------- 
  30   CONTINUE
       HARM = AN11
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
       OMRF = 2.D0*PI*HARM 
       DWS = QV*SIN(PHS)
+C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
+      IF(IPASS .EQ. 1) PS = P0
+      BTS = PS/SQRT(PS*PS+AM2)
+      WKS = PS/BTS - AM
+C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
+      WKS = WKS + DWS
+C--- Case SR loss
+      CALL SRLOS3(
+     >            SRLOSS)
+      IF(SRLOSS) WKS = WKS - DWS
+      PS = SQRT(WKS*(WKS+2.D0*AM))
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,130) 
@@ -223,6 +228,7 @@ c        IF(DPHI .LT. -PI) DPHI =DPHI +2.D0*PI
  31   CONTINUE
       GOTO 88
  
+C------------------------------------------- 
  40   CONTINUE
       ORBL = AN10
       HARM = AN11
@@ -243,6 +249,7 @@ C-------- Watch out ! This DTS calcul. assumes CAVITE IS THE LAST optical lmnt i
       PHS=ASIN(DWS/QV)
       GOTO 1
  
+C------------------------------------------- 
  50   CONTINUE
       ORBL = AN10
       HARM = AN11
@@ -264,6 +271,7 @@ C-------- Watch out ! This DTS calcul. assumes CAVITE is at the end of THE LAST 
       PHS=ASIN(DWS/QV)
       GOTO 1
  
+C------------------------------------------- 
  60   CONTINUE
 C----- FFAG acceleration. 
 C      Single cavity, assumed located at end of zgoubi.dat     
@@ -324,7 +332,6 @@ C        PHI = OMRF * TI + PHS
      >                          coTime) + PHS
 c        ekbef = sqrt(p*p + am*am) -am
 c        zero = 0.
-c          write(88,*) ipass, zero, phi, ti, ekbef
 
 C Phase, in [-pi,pi] interval
         PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
@@ -509,7 +516,6 @@ C        PHI = OMRF * (TI - TS)
         alpha = an10
         ddphi = omrf * ti * alpha * (p-p0)/p0
         PHI = OMRF * TI + PH0  - ddphi
-C         write(*,*) ' sbr cav phi, dphi ',phi,  ddphi
 
 C Phase, in [-pi,pi] interval
         PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
@@ -632,18 +638,17 @@ C        PH(I)=BLAG
       GOTO 88
  
  88   CONTINUE
+      DPREF = PS / P0
       RETURN
 
- 99   IF(NRES .GT. 0) WRITE(NRES,101) 'CAVITE',
+ 99   CONTINUE
+      IF(NRES .GT. 0) WRITE(NRES,101) 'CAVITE',
      >                          ' OPEN zgoubi.CAVITE.Out'
  101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
       RETURN
 
       ENTRY CAVIT1(
-     >             SCALO,GAMO,DWSO)
-      SCALO = PP0
-      P = PP0 * BORO*CL9*Q
-      GAMO = SQRT(P*P + AM*AM)/AM
+     >             DWSO)
       DWSO = DWS
       RETURN
 

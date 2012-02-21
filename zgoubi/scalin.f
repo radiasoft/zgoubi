@@ -32,6 +32,7 @@ C  -------
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,40)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=8)
@@ -46,13 +47,16 @@ C  -------
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
 
       CHARACTER*9 OPT(2)
-      DIMENSION MODSCI(MXF),MODSCAL(MXF)
-      SAVE MODSCAL
+      DIMENSION MODSCI(MXF),MODSCL(MXF)
+      SAVE MODSCL
+
+      DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
+      SAVE NTIM2
 
       DATA OPT/ '++ OFF ++','         ' /
  
-      IOPT = A(NOEL,1)
-      NFAM = A(NOEL,2)
+      IOPT = NINT(A(NOEL,1))
+      NFAM = NINT(A(NOEL,2))
 
       KSCL=0
       IF(IOPT*NFAM.NE.0)  KSCL=1
@@ -79,37 +83,82 @@ C  -------
 
         IF(NTIM(IF) .GE. 0) THEN
 
-           IF(MODSCAL(IF) .NE. 10) THEN
+          IF    (MODSCL(IF) .LT. 10) THEN
+
+            DO IT = 1, NTIM(IF) 
+               SCL(IF,IT) = A(NOEL,10*IF+IT-1)
+               TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
+            ENDDO
+
+          ELSEIF(MODSCL(IF) .EQ. 10) THEN
+
+            IF(IPASS.EQ.1) THEN
+
               DO IT = 1, NTIM(IF) 
-                 SCL(IF,IT) = A(NOEL,10*IF+IT-1)
-                 TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
+                SCL(IF,IT) = SCL(IF,IT) * SCL(IF,MXS) 
               ENDDO
-           ENDIF
+
+            ENDIF
+
+          ELSEIF(MODSCL(IF) .EQ. 11) THEN
+
+            IF(IPASS.EQ.1) THEN
+
+              IIT = NTIM2(IF) 
+              DO IT = 1, IIT
+                 SCL2(IF,IT) = A(NOEL,10*IF+IT-1)
+                 TIM2(IF,IT) = A(NOEL,10*IF+IIT+IT-1)
+C        write(66,*) ' scalin ',scl2(iF,it),if,it
+              ENDDO
+
+              call scale2(
+     >                    SCL2,TIM2,NTIM2,IF)
+            ENDIF
+
+          ENDIF
 
           IF(NRES .GT. 0) THEN
-            IF(MODSCAL(IF) .EQ. 10) THEN
-              WRITE(NRES,104) 
-     >        TA(NOEL,IF),
-     >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
-     >        SCL(IF,1), SCL(IF,NTIM(IF))
- 104          FORMAT(15X,'Scaling of field follows the law'
-     >        ,' function of Rigidity within the file : ', A
-     >        ,/,20X,' # TIMINGS : ' I5
-     >        ,/,20X,' From :      ', ES9.2, ' To ', ES9.2, ' kG.cm'
-     >        ,/,20X,' Scal from : ', ES9.2, ' To ', ES9.2)
-              ELSE
+
+            IF(MODSCL(IF) .LT. 10) THEN
+
               WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
  102          FORMAT(20X,' # TIMINGS :', I2
      >          ,/,20X,' SCALING   : ',10(F11.4,1X))
               WRITE(NRES,103) ( INT(TIM(IF,IT)), IT=1,NTIM(IF))
- 103          FORMAT(20X,' TURN #    : ',10(I8,1X))
+ 103          FORMAT(20X,' TURN #    : ',10(I12,1X))
+
+            ELSE
+
+              WRITE(NRES,104) 
+     >        TA(NOEL,IF)(1:LEN(TA(NOEL,IF))),
+     >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
+     >        SCL(IF,1), SCL(IF,NTIM(IF))
+ 104          FORMAT(15X,'Scaling of field follows the law'
+     >        ,' function of Rigidity taken from file : ', A
+     >        ,/,20X,' # TIMINGS : ', I5
+     >        ,/,20X,' From :      ', ES9.2, ' To ', ES9.2, ' kG.cm'
+     >        ,/,20X,' Scal from : ', ES9.2, ' To ', ES9.2)
+
+              IF    (MODSCL(IF) .EQ. 10) THEN
+                WRITE(NRES,FMT='(10X,
+     >          ''Scaling law from file is further multiplied by ''
+     >          ,''constant factor = '',1P,E15.6)') SCL(IF,MXS) 
+
+              ELSEIF(MODSCL(IF) .EQ. 11) THEN
+                WRITE(NRES,FMT='(10X,
+     >          ''Scaling law from file is further multiplied by ''
+     >          ,''Brho-dependent scaling SCL2'')')
+              ENDIF
+
             ENDIF
+
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -1) THEN
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
-C          Starting value is SCL(IF,1)
-          SCL(IF,1) = A(NOEL,10*IF)
+C          Starting value is either SCL(IF,1) or BORO
+          SCL(IF,1) = A(NOEL,10*IF) 
+          IF(SCL(IF,1) .EQ. 0.D0)  SCL(IF,1) =  BORO * 1.D-3
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
@@ -186,7 +235,7 @@ C--------- Field law proton driver, FNAL, Nov.2000
             WRITE(NRES,112) (SCL(IF,IC) ,IC=1,4)
  112        FORMAT(20X,' Brho-min, -max, -ref,  Frep  : ', 4(F17.8,1X))
             WRITE(NRES,113) ( INT(TIM(IF,IT)), IT=1,2)
- 113        FORMAT(20X,' TURN #    : ',I8,'  TO  ',I8)
+ 113        FORMAT(20X,' TURN #    : ',I12,'  TO  ',I12)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -88) THEN
@@ -243,17 +292,22 @@ C                with normally frac(Qx)~0.73 hence dN~0.25)
       STOP ' SBR SCALIN :  IDLE  UNIT  PROBLEM  AT  OPEN  FILE '
       RETURN
 
-      entry scali6(modsci)
-      do i = 1, mxf 
-        modscal(i) = modsci(i)
-      enddo
-      return
+      ENTRY SCALI4(
+     >             NTIM2I,JF)
+      NTIM2(JF) = NTIM2I
+      RETURN
 
-      entry scali5(
-     >              modsci)
-      do i = 1, mxf 
-        modsci(i) = modscal(i)
-      enddo
-      return
+      ENTRY SCALI6(MODSCI)
+      DO I = 1, MXF 
+        MODSCL(i) = modsci(i)
+      ENDDO
+      RETURN
+
+      ENTRY SCALI5(
+     >              MODSCI)
+      DO I = 1, MXF 
+        MODSCI(I) = MODSCL(I)
+      ENDDO
+      RETURN
 
       END

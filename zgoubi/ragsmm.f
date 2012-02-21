@@ -56,6 +56,7 @@ C----- Step
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
+C X-shft, Y-shft, Z-rot, Z-shft, Y-rot
       READ(NDAT,*,ERR=66) II,(A(NOEL,I),I=91,95)
  66   A(NOEL,90) = II 
 

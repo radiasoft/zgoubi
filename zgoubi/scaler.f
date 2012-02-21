@@ -53,7 +53,11 @@ C  -------
       SAVE XM, YM, NFRQ, dat1, dat2, dat3
       SAVE OCLOCK, ekin
 
-      DIMENSION MODSCAL(MXF)
+      DIMENSION MODSCL(MXF)
+
+      DIMENSION SCL2I(MXF,MXD),TIM2I(MXF,MXD),NTIM2I(MXF)
+      DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
+      SAVE SCL2, TIM2, NTIM2
 
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
@@ -61,12 +65,13 @@ C  -------
       DATA XM, YM / ND*0.D0, ND*0.D0/
 
       SCALER = 1.D0
-      call scali5(
-     >            modscal)
+      CALL SCALI5(
+     >            MODSCL)
 
 C----- Looks whether current kley is registered for scaling (in FAM(KF)). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
-      DO 10 KF = 1, MXF
+      DO KF = 1, MXF
+
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
 
@@ -87,54 +92,112 @@ C------------ ...or it has no label at all
             GOTO 2
           ENDIF
         ENDIF
- 10   CONTINUE
 
-      RETURN
+      ENDDO
+
+      GOTO 99
 
  2    CONTINUE
 
       KTI = NTIM(KF)
-C         print*, kti, ' scaler '
       IF(KTI .NE. 0) THEN
 
         IF(KTI .GT. 0) THEN
 
           DO 1 I=1,KTI
-            IT1=TIM(KF,I)
-            IF(I .LT. KTI ) THEN
-              I2 = I+1
-              IT2 = TIM(KF,I2)
-            ELSE
-              I2 = I
-              IT2=IT1
-            ENDIF  
  
-            IF(MODSCAL(KF) .EQ. 10) THEN
-              BRO = BORO * DPREF
-              IF( BRO .GE. IT1 .AND. BRO .LE. IT2 ) THEN
-                  SCALER = SCL(KF,I)
-                IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER)*
-     >                 DBLE( BRO - IT1 ) / DBLE(IT2 - IT1)
-                RETURN
-              ENDIF
-               
-            ELSE
+            IF    (MODSCL(KF) .LT. 10) THEN
+
+              IT1=NINT(TIM(KF,I))
+              IF(I .LT. KTI ) THEN
+                I2 = I+1
+                IT2 = NINT(TIM(KF,I2))
+              ELSE
+                I2 = I
+                IT2=IT1
+              ENDIF  
+
               IF( IPASS .GE. IT1 .AND. IPASS .LE. IT2 ) THEN
                 SCALER = SCL(KF,I)
                 IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER )*
      >             DBLE( IPASS - IT1 ) / DBLE(IT2 - IT1)
 C FM 08/99
 C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
-                RETURN
+                GOTO 99
+
               ENDIF
+
+            ELSEIF(MODSCL(KF) .GE. 10) THEN
+
+              XT1=TIM(KF,I)
+              IF(I .LT. KTI ) THEN
+                I2 = I+1
+                XT2 = TIM(KF,I2)
+              ELSE
+                I2 = I
+                XT2=XT1
+              ENDIF  
+              BRO = BORO * DPREF
+
+C              write(66,*) kf, bro, dpref, xt1,xt2
+              IF( BRO .GE. XT1 .AND. BRO .LE. XT2 ) THEN
+                SCALER = SCL(KF,I)
+                IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER)*
+     >                 ( BRO - XT1 ) / (XT2 - XT1)
+               
+                IF    (MODSCL(KF) .EQ. 10) THEN
+
+                  SCAL2 = 1.D0
+
+                ELSEIF(MODSCL(KF) .EQ. 11) THEN
+
+                  IIT = NTIM2(KF)
+                  DO IT = 1, IIT
+
+                    YT1=TIM2(KF,IT)
+                    IF(IT .LT. IIT ) THEN
+                      I2 = IT+1
+                      YT2 = TIM2(KF,I2)
+                    ELSE
+                      I2 = IT
+                      YT2=YT1
+                    ENDIF  
+                    BRO = BORO * DPREF
+
+                    IF( BRO .GE. YT1 .AND. BRO .LE. YT2 ) THEN
+                      SCAL2 = SCL2(KF,IT)
+                      IF(YT2 .NE. YT1) SCAL2= SCAL2+ 
+     >                  (SCL2(KF,I2)- SCAL2) * (BRO - YT1) / (YT2 - YT1)
+c                 if(kf.eq.1)
+c     >            write(66,*) ' scaler ',scaler, scal2,BRO, YT1,YT2
+c                     stop
+
+                      GOTO 11
+                    ENDIF
+
+                  ENDDO
+ 11               CONTINUE
+
+                ELSE
+
+                  CALL ENDJOB('SBR RSCALER : No such option MODSCL = '
+     >            ,MODSCL(KF))
+                ENDIF
+
+                SCALER = SCALER * SCAL2
+                GOTO 99
+              ENDIF
+               
             ENDIF
+
  1        CONTINUE
 
         ELSEIF(KTI .EQ. -1) THEN
 
-          call cavit1(
-     >                PP0,GAMMA,dWs)
-          scaler = SCL(KF,1) * pp0
+c          call cavit1(
+c     >                PP0,GAMMA,dWs)
+c          scaler = SCL(KF,1) * pp0
+          scaler = SCL(KF,1) * dpref
 
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -210,12 +273,17 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
           ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
             SCALER = 1.D0
           ENDIF
-          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
+C          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
 
         ELSEIF(KTI .EQ. -87) THEN
 C AGS Q-Jump quads
+c            call cavit1(
+c     >                  PP0,GAMMA,dWs)
             call cavit1(
-     >                  PP0,GAMMA,dWs)
+     >                  dWs)
+            if(am.le.0.d0) call endjob(' SBR scaler : need mass >',0)
+            P2 = dpref * BORO*CL9*Q
+            GAMMA = SQRT(P2 + AM*AM)/AM
             gg = G*GAMMA
             if(GG .GT. TIM(KF,1)) THEN
 C             Q-jump started 
@@ -250,7 +318,8 @@ C             Q-jump started
             endif           
             
             if(switch.ne.0.d0) then
-              scaler = fac * SCL(KF,1) * pp0
+C              scaler = fac * SCL(KF,1) * pp0
+              scaler = fac * SCL(KF,1) * dpref
             else
               scaler = 0.d0
             endif
@@ -268,6 +337,7 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
         IF(NRES .GT. 0) WRITE(NRES,*) ' FCT SCALER : timing is empty'
       ENDIF
 
+ 99   CONTINUE
       RETURN
 
       ENTRY SCALDP(DTIM,
@@ -282,6 +352,16 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
 
       ENTRY SCALPS()
       SCALPS = PSYN
+      RETURN
+
+      ENTRY SCALE2(SCL2I,TIM2I,NTIM2I,JF)
+      NTIM2(JF) = NTIM2I(JF)
+      do JD = 1, MXD
+         SCL2(JF,JD) = SCL2I(JF,JD) 
+         TIM2(JF,JD) = TIM2I(JF,JD) 
+c      write(66,*) ' scale2 scl2 ',scl2(JF,JD),jf,jd
+c      write(66,*) ' scale2 tim2 ',tim2(JF,JD),jf,jd
+      enddo
       RETURN
 
       ENTRY SCALE4(OCLOCI,ekinI)

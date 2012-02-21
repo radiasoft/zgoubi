@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE MINONM(N,X,P,V,XI,F0,FINI)
 
@@ -37,16 +36,17 @@ C  -------
       T = NMFINI(N)
       CALL CPTINI
       FINI = 3.40282347D+38
-      DO 1000 I=1,N
+      DO I=1,N
          V(I)=X(I)
          XI(I)=X(I)
          P(I)=1D-3*(X(I+2*N)-X(I+N))
- 1000 CONTINUE
+      ENDDO
 C      CALL NMMIN(NMFONC,V,P,N)
       KO = NMMIN(NMFONC,V,P,N)
-      DO 2000 I=1,N
+      DO I=1,N
          X(I)=V(I)
- 2000 CONTINUE
+      ENDDO
       F0 = NMFONC(V)
+
       RETURN
       END

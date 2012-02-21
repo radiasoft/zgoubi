@@ -72,6 +72,7 @@ C     5 ,9X,'  5    Automatic  scales ',/
      5 ,9X,' 18    Fringe  field  matching',/
      5 ,9X,' 19    Transverse  beam  density  matching',/
      5 ,9X,' 20    Superpose a curve',/
+     > ,9X,' 21    Tune diagram',/
      5 ,9X,' 88    HELP',/
      2 ,3X,60('*'),/)
 
@@ -83,7 +84,7 @@ C      IF(.NOT. OKOPN) CALL OPNWRN(1)
  201  FORMAT(I2)
       IF(IOPT.EQ.88) GOTO 88
       GOTO ( 1,921, 3, 4,921, 6,921, 8,99,10,
-     > 11,12,13,14,15,16,17,18,19,20 ) IOPT  
+     > 11,12,13,14,15,16,17,18,19,20,21 ) IOPT  
       GOTO 921
 
  1    CONTINUE    
@@ -166,6 +167,11 @@ C      GOTO 920
  20   CONTINUE 
 C Superpose a curve
         CALL SUPERP(OKECH,NLOG,*920)
+      GOTO 921
+
+ 21   CONTINUE 
+C Plot tune diagram
+        CALL DIAGNU(OKECH,NLOG)
       GOTO 921
 
  88   CONTINUE 

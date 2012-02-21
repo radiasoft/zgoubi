@@ -20,10 +20,10 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973, USA
+C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSMM(LMNT,KFL,MPOL,NPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO)
+     >  DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER LMNT(*)*(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -66,6 +66,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DIMENSION WN(2), WA(2)
       PARAMETER (I3=3)
 
+      DIMENSION DB(3)
+
       CHARACTER TXT30*80
 
       DATA DIM / 'kG ', 'V/m'/
@@ -84,9 +86,6 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DLL =A(NOEL,11)
       GAP =A(NOEL,12)
       IF(GAP.EQ.0) GAP = RO
-      DB0 =A(NOEL,13)
-      DB1 =A(NOEL,14)
-      DB2 =A(NOEL,15)
       NBLW = NINT(A(NOEL,20))
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
       DO I = 1, NBLW
@@ -94,13 +93,19 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
         WA(I) = A(NOEL,20+ 2*I)
       ENDDO
 
-      CALL AGSKS(BORO*CL9/1.D3,
+      CALL AGSKS(BORO*DPREF*CL9/1.D3,
      >                         AK1,AK2)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
      >                                XL,BM,ANGMM)
-      CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,SCAL,
-     >                                          BM,I3)
+      CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
+     >                                       BM,I3)
       DEV = ANGMM
+      DO I = 1, I3
+        DB(I) = A(NOEL,12+I)
+        BM(I) = SCAL * BM(I) * (1.D0 + DB(I))
+      ENDDO
+
+C            write(*,*) ' agsmm scal ',scal
 
         XE =A(NOEL,30)
         DO IM=1,3

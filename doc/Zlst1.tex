@@ -75,7 +75,7 @@ recent version of \zgou, which is far from being a ``finished product''.
 \section{NUMERICAL CALCULATION OF MOTION AND FIELDS}\label{sec2} %%2
 \subsection{\zgoubi\ Frame} \label{sec2.1}   %%2.1
 
-The reference frame of \zgou\  is presented in Fig~\ref{fig1}.  
+The reference frame of \zgou\  is presented in Fig.~\ref{fig1}.  
 Its origin is in the median plane on a reference curve which coincides with the optical 
 axis of optical elements. 
 
@@ -4263,7 +4263,54 @@ $(O,Y,Z)$ reference plane,
    in a similar manner, however it allows all 6 degrees of 
 freedom, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation. 
 
-\CHANGREF\  ``new style''  allows up to 9 successive such elementary transformations, of arbitrary nature, in arbitrary order. 
+\CHANGREF\  ``new style''  allows up to 9 successive such elementary transformations,  in arbitrary order. 
+The previous example is transposed into  ``new style'',  below.
+
+\medskip
+
+\begin{center}
+\begin{minipage}{.38\linewidth}
+
+ Zgoubi data file~: 
+
+\tiny
+\begin{verbatim}
+Using CHANGREF "New Style
+'OBJET'
+51.71103865921708                          Electron, Ekin=15MeV.
+2
+1 1                                           One particle, with
+2. 0.  0.0 0.0 0.0 1. 'R'      Y_0=2 cm, other coordinates zero.
+1 1 1 1 1 1 1 
+'MARKER'    BEG    .plt                -> list  into zgoubi.plt.
+'DRIFT'                                             10 cm drift.
+10.
+'CHANGREF'  
+ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
+'CHANGREF'  
+0. 1. 0.                                           
+'MULTIPOL'     Combined function multipole, dipole + quadrupole.
+   2                                   -> list  into zgoubi.plt.
+5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
+ 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
+0 0 0 0 0 0 0 0 0 0
+.1   step size
+1  0. 0.  0.
+'CHANGREF'
+YS -1. ZR -6.341         First Y-shift back, next half Z-rotate.
+'DRIFT'                                             10 cm drift.
+10.
+'FAISCEAU'
+'END'
+\end{verbatim}
+\normalsize
+\end{minipage}\hspace{.05\linewidth}
+\end{center}
+
+
 
 
 
@@ -6799,7 +6846,7 @@ by means
 \noindent - if  \textsl{IORD} = 1, of the procedure 
 \textsl{OBJET}(KOBJ = 5[.I, I=1,9])~(pages~\pageref{OBJET},~\pageref{OBJET-B}),  
 that generates sets of up to 9*11 trajectories. In this case, up to nine matrices 
-may be calculated, each one wrt. to the reference trajectory of concern as 
+may be calculated, each one \wrt\ to the reference trajectory of concern as 
 indicated using I in KOBJ = 5[.I, I=1,9]~;  
 
 \noindent - if  \textsl{IORD} = 2, of the procedure \textsl{OBJET}(KOBJ = 6)  that generates 
@@ -7170,19 +7217,6 @@ direction orthogonal to the new magnet axis (\emph{i.e.}, at an angle $ALE+\pi/2
 reference frame).
 
 
-\medskip
-
-\noindent \textsl{KPOS} $=4 $ applies to \textsl{AGSMM} (AGS main magnet). \index{AGSMM, AGS Main Magnet} 
-By default, it aligns the magnet in a way similar 
-to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
-2 \frac{\BORO}{B1} \sin({\theta_Z}/{2}$. However magnet mis-alignement (alignement errors) are handled in a different way, 
-as follows. 
-
-All 6 types of misalignements, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation, can be accounted for, in an arbitrary order. 
-They are specified using the \textsl{CHANGREF} technic document in page~\pageref{CHANGREFNew}. All three rotations  are 
-taken \wrt\ the center of the magnet. 
- 
-
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 
 \begin{figure}[h]
@@ -7238,10 +7272,44 @@ using  \textsl{KPOS}$=3 $.
 \end{figure}
 
 
+\medskip
+
+\noindent \textsl{KPOS} $=4 $ applies to \textsl{AGSMM} (AGS main magnet). \index{AGSMM, AGS Main Magnet} 
+By default, it aligns the magnet in a way similar 
+to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
+2 \frac{\BORO}{B1} \sin({\theta_Z}/{2}$. However magnet mis-alignement (alignement errors) are handled in a 
+specific way, as follows. 
+
+All 6 types of misalignements, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation, can be accounted for, in an arbitrary order. 
+They are specified using the ``new style'' \textsl{CHANGREF} method as described in page~\pageref{CHANGREFNew}. 
+Longitudinal rotation ``XR'' is taken \wrt\ the logitudinal axis, whereas radial and axial rotations, ``YR'' and ``ZR'', 
+ are taken around an axis going through the center of the magnet. 
+ Transformations are as follows, see Fig.~\ref{figPitch}~: 
+
+\medskip
+
+{\small $\bullet$} Y-rotation (pitch) by an angle $\varphi$~:  new coordinates (at $M$) as well as path 
+lengthening, etc, derive  from old ones (at $M_0$) following\\
+$X_{new} = 0$ by definition, \\
+$Y_{new} = Y_{old} + dS \cos P \sin T$, $dS$ is the path lengthening, given below, \\
+$Z_{new} = Z_{old} \cos p/\cos (p-\varphi)$, ensuing from $\varphi = \frac{\pi}{2} - p $, and $\tan p = \tan P / \cos T$ (since
+$om\, \cos p= OM\cos P \cos T $ as well as $om\, \sin p= OM \sin P$), \\
+$dS = dL/\cos P / \cos T$ with $d L = sign(dL, -Z_{new} \varphi) \sqrt{Z_{new}^2 \sin^2 \varphi + (Z_{new} \cos \varphi -Z_{old})^2}$. 
+
+{\small $\bullet$} etc.
+
+
+
+
 \begin{figure}[h]
 \begin{center}
 \includegraphics[height=9cm]{FigPitch.eps}
-\hangcaption{\label{figPitch}Pitch rotation, using \textsl{KPOS}$=4 $.}
+\hangcaption{\label{figPitch}Pitch angle, $\varphi$, in the``YR'' type of rotation, using \textsl{KPOS}$=4 $. 
+$M$ is the new position, in the rotated plane $(Y,Z_{new})$, of a particle with velocity $\vec v // \vec{M_oM}$ located  
+at former position $M_o$ in the old, $(Y,Z_{old})$, plane. $M'$, $m$, $m'$ are projections of $M$, $m''$ is projection of $M'$. 
+$T$ and $P$ are the  horizontal and vertical angles as defined in Fig.~\ref{fig1}. 
+$p$ is the projection of $P$. 
+}
 \end{center}
 \end{figure}
 

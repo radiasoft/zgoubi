@@ -20,17 +20,42 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973, USA
+C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSKS(P,
      >                   AK1,AK2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       dimension ak1(*), ak2(*)
+      dimension ap(50), adbd(50), adbf(50)
       parameter (bdot=0.d0)
       parameter(conv = 0.0254d0)
       parameter(ALA = 94d0*CONV)        !length in meters
       parameter(ALB = 79d0*CONV)
       parameter(ALC = 94d0*CONV)
+      SAVE sak11, sak12, sak13, sak14, sak15, sak16 
+      SAVE sak21, sak22, sak23, sak24, sak25, sak26
+      SAVE Pnow
+      data Pnow / -1d10 /
+
+      if(Pnow .EQ. P) then
+         ak1(1)=sak11
+         ak1(2)=sak12
+         ak1(3)=sak13
+         ak1(4)=sak14
+         ak1(5)=sak15
+         ak1(6)=sak16
+         ak2(1)=sak21
+         ak2(2)=sak22
+         ak2(3)=sak23
+         ak2(4)=sak24
+         ak2(5)=sak25
+         ak2(6)=sak26
+         goto 695
+      endif
+
+      Pnow = P
+c      write(*,*)'agsks.f', p
+c      read(*,*)
 
       UKAFM3 =  0.0D0
       UKAFM2 = -9.9628200D-6
@@ -99,35 +124,119 @@ C  -------
 
       UKCD6 =   3.4569950D-11
 
-C  K1BF :
-       AK1(1)= UKBFM3/(p*p*p)+ UKBFM2/(p*p)+ UKBFM1/p + UKBF0+UKBF1*p 
-     >  +UKBF2*p*p+UKBF3*p*p*p+UKBF4*p*p*p*p+UKBF5*p*p*p*p*p 
-     >  +UKBF6*p*p*p*p*p*p 
+
+      ap(1) =    2.1633d0 !170
+      adbd(1) =  -0.1d-3
+      adbf(1) =   1.0d-3
+
+      ap(2) =    2.3083d0 !190
+      adbd(2) =  -1.2d-3
+      adbf(2) =   0.6d-3
+
+      ap(3) =    2.6140d0 !210
+      adbd(3) =  -1.2d-3
+      adbf(3) =   0.9d-3
+
+      ap(4) =    3.9661d0 !250
+      adbd(4) =  -1.0d-3
+      adbf(4) =   1.2d-3
+
+      ap(5) =    4.4980d0 !260,matched with interpolated tunes
+      adbd(5) =  -0.9d-3
+      adbf(5) =   1.8d-3
+
+      ap(6) =    5.1099d0 !270
+      adbd(6) =  -0.4d-3
+      adbf(6) =   1.5d-3
+
+      ap(7) =    7.6973d0 !310
+      adbd(7) =  -0.7d-3
+      adbf(7) =   0.2d-3
+
+      ap(8) =    10.231d0 !350
+      adbd(8) =   0.4d-3
+      adbf(8) =   1.6d-3
+
+      ap(9) =    15.180d0 !430
+      adbd(9) =   0.5d-3
+      adbf(9) =   1.7d-3
+
+      ap(10) =    23.732d0 !590
+      adbd(10) =   1.1d-3
+      adbf(10) =   2.7d-3
+      
+
+
+      isclMAX = 10
+
+      if( p .LT. ap(1) ) then
+         db1d = adbd(1)
+         db1f = adbf(1)
+      elseif( p .GT. ap(isclMAX)) then 
+         db1d = adbd(isclMAX)
+         db1f = adbf(isclMAX)
+      else
+         do i=1, isclMAX-1
+            if( p .GE. ap(i) .AND. p .LE. ap(i+1)) then
+               db1d = adbd(i) + 
+     > ((adbd(i) - adbd(i+1))/(ap(i) - ap(i+1)))*(p-ap(i))
+               db1f = adbf(i) + 
+     > ((adbf(i) - adbf(i+1))/(ap(i) - ap(i+1)))*(p-ap(i))
+               goto 865
+            endif
+         enddo
+ 865     continue
+      endif
+
+c     db1d = 0.d0
+c     db1f = 0.d0
+
 
 C  K1CD :
        AK1(2)= UKCDM3/(p*p*p)+ UKCDM2/(p*p)+ UKCDM1/p + UKCD0+UKCD1*p 
      >  +UKCD2*p*p+UKCD3*p*p*p+UKCD4*p*p*p*p+UKCD5*p*p*p*p*p 
      >  +UKCD6*p*p*p*p*p*p 
 
-C  K1AF :
-       AK1(3)= UKAFM3/(p*p*p)+ UKAFM2/(p*p)+ UKAFM1/p + UKAF0+UKAF1*p 
-     >  +UKAF2*p*p+UKAF3*p*p*p+UKAF4*p*p*p*p+UKAF5*p*p*p*p*p 
-     >  +UKAF6*p*p*p*p*p*p 
 
 C  K1BD :
        AK1(4)= UKBDM3/(p*p*p)+ UKBDM2/(p*p)+ UKBDM1/p + UKBD0+UKBD1*p 
      >  +UKBD2*p*p+UKBD3*p*p*p+UKBD4*p*p*p*p+UKBD5*p*p*p*p*p 
      >  +UKBD6*p*p*p*p*p*p 
 
-C  K1CF :
-       AK1(5)= UKCFM3/(p*p*p)+ UKCFM2/(p*p)+ UKCFM1/p + UKCF0+UKCF1*p 
-     >  +UKCF2*p*p+UKCF3*p*p*p+UKCF4*p*p*p*p+UKCF5*p*p*p*p*p 
-     >  +UKCF6*p*p*p*p*p*p 
 
 C  K1AD :
        AK1(6)= UKADM3/(p*p*p)+ UKADM2/(p*p)+ UKADM1/p + UKAD0+UKAD1*p 
      >  +UKAD2*p*p+UKAD3*p*p*p+UKAD4*p*p*p*p+UKAD5*p*p*p*p*p  
      >  +UKAD6*p*p*p*p*p*p   
+
+       AK1(2) = AK1(2)*(db1d + 1.d0)
+       AK1(4) = AK1(4)*(db1d + 1.d0)
+       AK1(6) = AK1(6)*(db1d + 1.d0)
+
+
+
+
+C  K1BF :
+       AK1(1)= UKBFM3/(p*p*p)+ UKBFM2/(p*p)+ UKBFM1/p + UKBF0+UKBF1*p 
+     >  +UKBF2*p*p+UKBF3*p*p*p+UKBF4*p*p*p*p+UKBF5*p*p*p*p*p 
+     >  +UKBF6*p*p*p*p*p*p 
+
+
+C  K1AF :
+       AK1(3)= UKAFM3/(p*p*p)+ UKAFM2/(p*p)+ UKAFM1/p + UKAF0+UKAF1*p 
+     >  +UKAF2*p*p+UKAF3*p*p*p+UKAF4*p*p*p*p+UKAF5*p*p*p*p*p 
+     >  +UKAF6*p*p*p*p*p*p 
+
+
+C  K1CF :
+       AK1(5)= UKCFM3/(p*p*p)+ UKCFM2/(p*p)+ UKCFM1/p + UKCF0+UKCF1*p 
+     >  +UKCF2*p*p+UKCF3*p*p*p+UKCF4*p*p*p*p+UKCF5*p*p*p*p*p 
+     >  +UKCF6*p*p*p*p*p*p 
+
+       AK1(1) = AK1(1)*(db1f + 1.d0)
+       AK1(3) = AK1(3)*(db1f + 1.d0)
+       AK1(5) = AK1(5)*(db1f + 1.d0)
+
 
  
 c         print *, p, ak1
@@ -234,6 +343,23 @@ C  K2CF :
       AK2(5)= TKCFM3/(p*p*p)+ TKCFM2/(p*p)+ TKCFM1/p + TKCF0+TKCF1*p 
      >  +TKCF2*p*p+TKCF3*p*p*p+TKCF4*p*p*p*p+TKCF5*p*p*p*p*p  
      >  +TKCF6*p*p*p*p*p*p - TKFBDCOEF*BDOT*ALC/ALA
+
+
+      sak11=ak1(1)
+      sak12=ak1(2)
+      sak13=ak1(3)
+      sak14=ak1(4)
+      sak15=ak1(5)
+      sak16=ak1(6)
+      sak21=ak2(1)
+      sak22=ak2(2)
+      sak23=ak2(3)
+      sak24=ak2(4)
+      sak25=ak2(5)
+      sak26=ak2(6)
+         
+
+ 695  continue
 
       RETURN
       END

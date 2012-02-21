@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RSCAL
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -48,9 +47,13 @@ C     ----------------------------------------------
 
       LOGICAL STRCON, IDLUNI
       CHARACTER TXT132*132
-      DIMENSION MODSCAL(MXF)
+      DIMENSION MODSCL(MXF)
+      SAVE MODSCL
 
-      DATA MODSCAL / MXF*0  /
+      DIMENSION NTIM2(MXF)
+
+      DATA MODSCL / MXF*0  /
+      DATA FAC / 1.d0  /
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       READ(NDAT,*) A(NOEL,1),A(NOEL,2) 
@@ -76,12 +79,14 @@ C------- Store name of family and label(s)
         FAM(IF) = STRA(1)(1:KSIZ)
 
         IF(NLBL .GE. 2) THEN
-          DO 11 KL=2,NLBL
- 11         LBF(IF,KL-1) =  STRA(KL)(1:LBLSIZ)
+          DO  KL=2,NLBL
+            LBF(IF,KL-1) =  STRA(KL)(1:LBLSIZ)
+          ENDDO
         ENDIF
 
-        DO 12 KL=NLBL+1, MLBL
- 12       LBF(IF,KL-1) = ' '
+        DO KL=NLBL+1, MLBL
+          LBF(IF,KL-1) = ' '
+        ENDDO
 
 C CPRM tells which parameter in the element (IF) the scaling is to be applied to
 C Case ERR accounts for older versions of zgoubi, w/o CPRM
@@ -90,19 +95,29 @@ C        GOTO 122
 C 121    CONTINUE
 C        CPRM(IF) = 0.D0
 c 122    CONTINUE
-         READ(NDAT,*) txt132
-        if( strcon(txt132,'.', 
-     >       IS)) then
-           READ(TXT132(DEBSTR(TXT132):IS-1),*) NTIM(IF)
-           READ(TXT132(IS+1:FINSTR(TXT132)),*) MODSCAL(IF)
-           
-           IF(NTIM(IF) .GT. MXS-2) 
-     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
-        else
-           READ(TXT132,*) NTIM(IF)
-           IF(NTIM(IF) .GT. MXD-2) 
-     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
-        endif        
+        READ(NDAT,FMT='(A)') TXT132
+
+        IF( STRCON(TXT132,'.', 
+     >                        IS)) THEN
+
+          READ(TXT132(DEBSTR(TXT132):IS-1),*) NTIM(IF)
+          READ(TXT132(IS+1:FINSTR(TXT132)),*) MODSCL(IF)
+c Possible additional scaling factor : 
+          IF(MODSCL(IF) .EQ. 10)
+     >      READ(TXT132(IS+3:FINSTR(TXT132)),*,err=44,end=44) fac
+          goto 45
+
+ 44       continue
+          fac = 1.d0
+ 45       continue
+
+          IF(NTIM(IF) .GT. MXS-2) 
+     >       CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+        ELSE
+          READ(TXT132,*) NTIM(IF)
+          IF(NTIM(IF) .GT. MXD-2) 
+     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
+        ENDIF        
 
         IF(NTIM(IF) .GE. 0) THEN
           NDSCL=NTIM(IF)
@@ -152,35 +167,7 @@ C               max = max(NDSCL,NDTIM)
           ENDIF
         ENDIF
 
-
-c     if MODSCAL=10 then no numbers in the two next lines
-c     just the name of the file in the next line
-        IF( MODSCAL(IF) .EQ. 10) then             
-           READ(NDAT,100) TA(NOEL,IF)
-           READ(NDAT,*) NTIMCOL, NSCALCOL
-  
-           IF(IDLUNI(
-     >                 LUN)) THEN
-              OPEN(UNIT=LUN,FILE=TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):
-     >        FINSTR(TA(NOEL,IF))),STATUS='OLD',ERR=96)
-           ELSE
-              GOTO 96
-           ENDIF
-           NTIM(IF) = 1 !number of timing is determined during lecture
- 55        CONTINUE
-           READ(LUN,*,ERR=55,END=56)
-     >          (ANONE,ICOL=1,NTIMCOL-1),
-     >          TIM(IF,NTIM(IF)),
-     >          (ANONE,ICOL=1,NSCALCOL-NTIMCOL-1),
-     >          SCL(IF,NTIM(IF))
-           NTIM(IF) = NTIM(IF)+1
-           IF(NTIM(IF) .GT. MXS) 
-     >     CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS)
-           GOTO 55
- 56        CONTINUE
-           CLOSE(LUN)
-           NTIM(IF) = NTIM(IF)-1
-        ELSE
+        IF    ( MODSCL(IF) .LT. 10) then             
 C--------- SCL(IF,IT)
           IT = NDSCL
           IF(10*IF+IT-1 .GT. MXD) 
@@ -196,17 +183,82 @@ C--------- TIM(IF,IT)
      >    ,-99)
           READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)
           A(NOEL,10*IF+2*MAX) = NLBL
+
+        ELSEIF( MODSCL(IF) .GE. 10) then             
+C          Name of the storage file in the next line
+
+          READ(NDAT,100) TA(NOEL,IF)
+          READ(NDAT,*) NTIMCOL, NSCALCOL
+  
+          IF(IDLUNI(
+     >              LUN)) THEN
+            OPEN(UNIT=LUN,FILE=TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):
+     >      FINSTR(TA(NOEL,IF))),STATUS='OLD',ERR=96)
+          ELSE
+            GOTO 97
+          ENDIF
+
+          NTIM(IF) = 1 !number of timing is determined during lecture
+ 55       CONTINUE
+          READ(LUN,*,ERR=55,END=56)
+     >         (ANONE,ICOL=1,NTIMCOL-1),
+     >         TIM(IF,NTIM(IF)),
+     >         (ANONE,ICOL=1,NSCALCOL-NTIMCOL-1),
+     >         SCL(IF,NTIM(IF))
+          NTIM(IF) = NTIM(IF)+1
+          IF(NTIM(IF) .GT. MXS-2) 
+     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS)
+          GOTO 55
+
+ 56       CONTINUE
+          CLOSE(LUN)
+          NTIM(IF) = NTIM(IF)-1
+          SCL(IF,MXS) = fac
+
+          IF( MODSCL(IF) .EQ. 11) THEN             
+            READ(NDAT,* ) NTIM2(IF)
+            IIT = NTIM2(IF)
+            IF(10*IF+IIT-1 .GT. MXD-2) 
+     >      CALL ENDJOB(
+     >      'SBR RSCAL / SCL2: Too many data, make 10*IF+MXD-3.le.MXD'
+     >      ,-99)
+C----------- SCL2(IF,IT)
+            READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,IIT)
+
+C----------- TIM2(IF,IT)
+            READ(NDAT,*) (A(NOEL,10*IF+IT+IIT-1),IT=1,IIT)
+            A(NOEL,10*IF+2*IIT) = NLBL
+
+c        write(66,*) ' scaler ',(A(NOEL,10*IF+IT-1),if,it,IT=1,IIT)
+c        write(66,*) ' scaler ',(A(NOEL,10*IF+IT+IIT-1),IT=1,IIT)
+            CALL SCALI4(
+     >                  IIT,IF)
+
+          ENDIF
+
+        ELSE
+
+          CALL ENDJOB('SBR RSCAL: No such option MODSCL = '
+     >    ,MODSCL(IF))
+
         ENDIF
 
  1    CONTINUE
  
-      call scali6(modscal)
+      close(lun)
+      CALL SCALI6(MODSCL)
 
       RETURN
 
  96   CONTINUE
-      WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ', TA(NOEL,IF)
-     >     (DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
-      CALL ENDJOB('ERROR  OPEN  FILE  ',-99)
+      WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ', 
+     > TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
+      WRITE(ABS(NRES),*) ' NOEL, IF : ',NOEL,IF
+      CALL ENDJOB('SBR rscal. End job upon ERROR  OPEN  FILE.',-99)
+      RETURN
+
+ 97   CONTINUE
+      WRITE(ABS(NRES),*) 'SBR rscal. No idle unit  '
+      CALL ENDJOB('SBR rscal. End job upon NO IDLE UNIT.',-99)
       RETURN
       END

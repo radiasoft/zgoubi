@@ -1,5 +1,29 @@
-      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,WN,WA,SCAL,
-     >                                                BM,NB)
+C  ZGOUBI, a program for computing the trajectories of charged particles
+C  in electric and magnetic fields
+C  Copyright (C) 1988-2007  François Méot
+C
+C  This program is free software; you can redistribute it and/or modify
+C  it under the terms of the GNU General Public License as published by
+C  the Free Software Foundation; either version 2 of the License, or
+C  (at your option) any later version.
+C
+C  This program is distributed in the hope that it will be useful,
+C  but WITHOUT ANY WARRANTY; without even the implied warranty of
+C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C  GNU General Public License for more details.
+C
+C  You should have received a copy of the GNU General Public License
+C  along with this program; if not, write to the Free Software
+C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
+C  Boston, MA  02110-1301  USA
+C
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory  
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  -------
+      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,WN,WA,
+     >                                           BM,NB)
 C     ----------------------------------------------
 C     NBLW : # of blwg ; WN(i=1,nblw) : # of turns ; 
 C     WA(i=1,nblw) : amperes.   
@@ -36,19 +60,16 @@ c/========================================================================
           SIGN = 1.D0
           NWL = 10
           WN(1) = DBLE(NWL) * SIGN
-C          WRITE(LUNOUT,*) FACTOR(SCALFACT, 1.D0,10.D0,BLI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A18CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
           WN(1) = DBLE(NWL) * SIGN
-C          WRITE(LUNOUT,*) FACTOR(SCALFACT,-1.D0,10.D0,BLI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A19BD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 12
           WN(1) = DBLE(NWL) * SIGN
-C          WRITE(LUNOUT,*) FACTOR(SCALFACT,-1.D0,12.D0,BLI,AMM)
 
 
 C/================================================================
@@ -62,16 +83,11 @@ c/================================================================
           SIGN = 1.D0
           NWL = 12
           WN(1) = DBLE(NWL) * SIGN
-C        write(lunout,*) factor(scalfact, 1.d0,12.d0,blI,AMM)
 
 c/====================================================================
 c/ Cold Snake b2-5_blw bump. Backlegs wired on  B2, B3, -B4, -B5 in series
 c/====================================================================
 
-C     write(lunout,*) 'MULTIPOL MM_B02BF' 2Blws
-C     write(lunout,*) '-1'
-C     write(lunout,*) factor(scalfact, 1.d0,12.d0,blI,AMM)
-C     write(lunout,*) '1'
 c B02 magnet has 2 windings
         ELSEIF(MMNM .EQ. ' MM_B02BF') THEN
           NBLW = 2
@@ -81,23 +97,18 @@ c B02 magnet has 2 windings
           SIGN = 1.D0
           NWL = 6
           WN(2) = DBLE(NWL) * SIGN
-c         write(lunout,*) factor(scalfact, 1.,12.,blIB2,MMI)*
-c     >    factor(scalfact, 1.,06.,blIL20,MMI)/scalfact
         ELSEIF(MMNM .EQ. 'MM_B03CD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 10
-C          write(lunout,*) factor(scalfact, 1.d0,10.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_B04CD ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
-C          write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_B05AF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 10
-C         write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
 
 c/====================================================================
 c/  L20 Position Bump
@@ -109,43 +120,36 @@ c/====================================================================
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,6.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_K20BD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,6.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_L13CF ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_L14CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A07CD ') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A08CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_B01BF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
           BLIL20=BLI
 
 c/===============================================================
@@ -158,25 +162,21 @@ c/===============================================================
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_L07CD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A14CF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_A15AD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
 
 c/================================================================
 c/ F10 BLW Bump
@@ -188,49 +188,41 @@ c/================================================================
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_E07CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_E20BD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_F01BF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_F14CF') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_F15AD') THEN
           NBLW = 1
           SIGN = 1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_G08CD') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 5
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
         ELSEIF(MMNM .EQ. 'MM_G09BF') THEN
           NBLW = 1
           SIGN = -1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-C          write(lunout,*) factor(scalfact,-1.d0,06.d0,blI,AMM)
 
 c/============================================================
 c/ J10 Dump Bump
@@ -279,7 +271,7 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
         BLWI = BLWI + WA(I)*WN(I)
       ENDDO
       DO I = 1, NB
-        BM(I) = SCAL * BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
+        BM(I) = BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
       ENDDO
 
       RETURN
