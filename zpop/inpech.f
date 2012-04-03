@@ -30,6 +30,8 @@ C  -------
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       CHARACTER REP
+      save ityp
+      data ityp / 2 /
 
  30   CONTINUE
       CALL HOMCLR
@@ -46,7 +48,7 @@ C  -------
 
       IF(REP.EQ. 'N' .OR. REP.EQ. 'n') THEN
         IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN
-          CALL TRAXES(XMI,XMA,YMI,YMA,2)
+          CALL TRAXES(XMI,XMA,YMI,YMA,ityp)
           OKECH=.TRUE.
         ELSE
           OKECH = .FALSE.
@@ -55,8 +57,10 @@ C  -------
  40     CONTINUE
         WRITE(6,*)
         WRITE(6,101) 
- 101    FORMAT('  Give  XMI, XMA, YMI, YMA, Mode(1-3) : ')
+ 101    FORMAT('  Give  XMI, XMA, YMI, YMA, no grid / grid / no axes (1'
+     >     '-3) : ')
         READ(5,*,ERR=40) XMI,XMA,YMI,YMA, ITYP
+        if(ityp.lt.1 .or. ityp.gt.3 ) ityp = 2
         IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN 
 C          CALL TXTFBG
           CALL TRAXES(XMI,XMA,YMI,YMA,ITYP) 

@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE SPEDRW(NT,BORNE,YNU,PMAX,SPEC,NC0,OKECH)
+      SUBROUTINE SPEDRW(NLOG,NT,BORNE,YNU,PMAX,SPEC,NC0,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKECH
       PARAMETER (NCANAL=2500)
@@ -34,7 +34,7 @@ C  -------
 C      CALL TXTFBG
       CHARACTER REP
       INTEGER FINSTR
-
+      parameter (z0=0.d0, i0=0)
       DATA ISCA / 1 /
 
       KX0=KX
@@ -88,7 +88,7 @@ C------- Vertical scale normalized to 1
       ANUF = BORNE(2*JNU)
 
       IF( .NOT. OKECH ) THEN
-        CALL TRAXES(ANUI,ANUF,0.D0,YMAX,1)
+        CALL TRAXES(ANUI,ANUF,Z0,YMAX,1)
         OKECH = .TRUE.
       ENDIF
 
@@ -98,8 +98,10 @@ C------- Vertical scale normalized to 1
       CALL LINTYP(1)
       DO 15 K=1,NC0(JNU)
         Z=Z+DELNU
-        CALL VECTPL(Z,0.D0,4)
+        CALL VECTPL(Z,Z0,4)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,Z,Z0,Z0,Z0,4)
         CALL VECTPL(Z,SPEC(K,JNU) * FAC,2)
+        IF(LIS .EQ. 2) CALL IMPV(NLOG,NOC,Z,SPEC(K,JNU)*FAC,Z0,Z0,2)
         call fbgtxt 
         write(77,*) ' spedrw, Z,SPEC(K,JNU) : ',Z,SPEC(K,JNU),JNU,K
      >      ,'  nu,SPEC(K,JNU),JNU,iocc. '

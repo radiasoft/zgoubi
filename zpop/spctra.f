@@ -269,7 +269,7 @@ c            write(*,*) ' spctra  npass : ', npass
       GOTO 20
 
  7    CONTINUE
-          CALL SPEDRW(NT,BORNE,YNU,PMAX,SPEC,NC0,OKECH)
+          CALL SPEDRW(NLOG,NT,BORNE,YNU,PMAX,SPEC,NC0,OKECH)
           GOTO 21
 
  8    CONTINUE
