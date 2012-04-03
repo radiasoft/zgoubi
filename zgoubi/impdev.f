@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE IMPDEV
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -40,6 +39,11 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
+
+      LOGICAL FIRST
+      LOGICAL IDLUNI, OKIMP
+
+      DATA FIRST, OKIMP / .TRUE., .FALSE. /
  
 C------- CONDITIONS DE MAXWELL
         XSTP = XSTP + 1
@@ -82,29 +86,81 @@ C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
           ENDIF
  
         ELSEIF(LST .EQ. 7) THEN
-          WRITE(NRES,*)
-          WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
-          WRITE(NRES,109) ( J,  B(1,J),J=1,3)
- 109      FORMAT('    B(J) ',3(1X,I1,1X,1P,E11.3))
-          WRITE(NRES,100) (( I,J,  DB(I,J)  ,I=1,3),J=1,3)
- 100      FORMAT('     DB(I,J) ',6(1X,2I1,1X,1P,E11.3))
-          WRITE(NRES,101) ((( I,J,K,DDB(I,J,K) ,I=1,3),J=1,3),K=1,3)
- 101      FORMAT('  DDB(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
-          WRITE(NRES,102)((( I,J,K,D3BX(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
-          WRITE(NRES,102)((( I,J,K,D3BY(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
-          WRITE(NRES,102)((( I,J,K,D3BZ(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
- 102      FORMAT('  D3B(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
-          WRITE(NRES,103) ((((D4BX(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
-          WRITE(NRES,103) ((((D4BY(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
-          WRITE(NRES,103) ((((D4BZ(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
- 103      FORMAT('  D4B(I,J,K,L) ',1P,9E11.3)
 
-          WRITE(NRES,113) ( J,  E(1,J),J=1,3)
- 113      FORMAT('    E(J) ',3(1X,I1,1X,1P,E11.3))
-          WRITE(NRES,107) (( I,J,  DE(I,J)  ,I=1,3),J=1,3)
- 107      FORMAT('     DE(I,J) ',6(1X,2I1,1X,1P,E11.3))
-          WRITE(NRES,108) ((( I,J,K,DDE(I,J,K) ,I=1,3),J=1,3),K=1,3)
- 108      FORMAT('  DDE(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
+          IF(FIRST) THEN
+
+            FIRST = .FALSE. 
+            IF(IDLUNI(
+     >                LUN)) THEN
+              OPEN(UNIT=LUN,FILE='zgoubi.impdev.Out')
+              OKIMP = .TRUE.
+            ELSE
+              OKIMP = .FALSE.
+              write(*,*) ' Could not opem zgoubi.impdev.Out.'
+            ENDIF
+          
+            IF(OKIMP) WRITE(LUN,FMT='(A,/,A)')
+     >     '#1, 2, 3, 4, 5, 6, 7, 8-10,11-19, 20-46  , 47-127 , 128-370  
+     >     ,371-373, 374-382, 383-409,  410,  411   ',
+     >     '#D, Y, T, Z, P, X, S, B_J, DB_IJ, DDB_IJK, D3B_IJK, D4B_IJKL
+     >     , E_J  ,  DE_IJ,   DDE_IJK,  IT,   BRho(kG.cm)  '
+          ENDIF
+ 
+          IF(OKIMP) THEN
+            WRITE(LUN,109) QBR/(Q*BORO), Y, T, Z, P, X, SAR
+     >      ,( B(1,J),J=1,3)
+     >      ,(( DB(I,J)  ,I=1,3),J=1,3)
+     >      ,((( DDB(I,J,K)  ,I=1,3), J=1,3), K=1,3)
+     >      ,((( D3BX(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((( D3BY(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((( D3BZ(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((((D4BX(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,((((D4BY(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,((((D4BZ(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,( E(1,J),J=1,3)
+     >      ,(( DE(I,J)  ,I=1,3),J=1,3)
+     >      ,((( DDE(I,J,K) ,I=1,3),J=1,3),K=1,3)
+     >      ,IT,QBR/Q
+ 109        FORMAT( 1P,7E17.8
+     >      , 3(1X,E13.4)
+     >      , 9(1X,E13.4)
+     >      ,27(1X,E13.4)
+     >      ,27(1X,E13.4)
+     >      ,27(1X,E13.4)
+     >      ,27(1X,E13.4)
+     >      ,81(1X,E13.4)
+     >      ,81(1X,E13.4)
+     >      ,81(1X,E13.4)
+     >      , 3(1X,E13.4)
+     >      , 9(1X,E13.4)
+     >      ,27(1X,E13.4)
+     >      ,   1X,I6
+     >      ,  (1X,E13.4)
+     >      )
+          ENDIF
+C          WRITE(NRES,*)
+C          WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
+C          WRITE(NRES,109) ( J,  B(1,J),J=1,3)
+C 109      FORMAT('    B(J) ',3(1X,I1,1X,1P,E11.3))
+C          WRITE(NRES,100) (( I,J,  DB(I,J)  ,I=1,3),J=1,3)
+C 100      FORMAT('     DB(I,J) ',6(1X,2I1,1X,1P,E11.3))
+C          WRITE(NRES,101) ((( I,J,K,DDB(I,J,K) ,I=1,3),J=1,3),K=1,3)
+C 101      FORMAT('  DDB(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
+C          WRITE(NRES,102)((( I,J,K,D3BX(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+C          WRITE(NRES,102)((( I,J,K,D3BY(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+C          WRITE(NRES,102)((( I,J,K,D3BZ(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
+C 102      FORMAT('  D3B(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
+C          WRITE(NRES,103) ((((D4BX(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
+C          WRITE(NRES,103) ((((D4BY(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
+C          WRITE(NRES,103) ((((D4BZ(I,J,K,L),I=1,3),J=1,3),K=1,3),L=1,3)
+C 103      FORMAT('  D4B(I,J,K,L) ',1P,9E11.3)
+
+C          WRITE(NRES,113) ( J,  E(1,J),J=1,3)
+C 113      FORMAT('    E(J) ',3(1X,I1,1X,1P,E11.3))
+C          WRITE(NRES,107) (( I,J,  DE(I,J)  ,I=1,3),J=1,3)
+C 107      FORMAT('     DE(I,J) ',6(1X,2I1,1X,1P,E11.3))
+C          WRITE(NRES,108) ((( I,J,K,DDE(I,J,K) ,I=1,3),J=1,3),K=1,3)
+C 108      FORMAT('  DDE(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
 
         ELSEIF(LST .EQ. 8) THEN
           WRITE(NRES,110) ((U(I,J),I=1,6),J=1,3)

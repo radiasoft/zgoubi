@@ -26,13 +26,14 @@ C  -------
 
       IMPLICIT NONE
 
-      INTEGER N
+      INTEGER N, iii
       DOUBLE PRECISION X(*),P(*),V(*),XI(*),F0,FINI
       INTEGER I
       DOUBLE PRECISION NMFINI,T
       DOUBLE PRECISION NMFONC
       EXTERNAL NMFONC
       DOUBLE PRECISION NMMIN, KO
+      INTEGER IARR
       T = NMFINI(N)
       CALL CPTINI
       FINI = 3.40282347D+38
@@ -41,8 +42,10 @@ C  -------
          XI(I)=X(I)
          P(I)=1D-3*(X(I+2*N)-X(I+N))
       ENDDO
-C      CALL NMMIN(NMFONC,V,P,N)
-      KO = NMMIN(NMFONC,V,P,N)
+      KO = NMMIN(NMFONC,V,P,N,IARR)
+
+      IF(IARR.EQ.1) RETURN
+
       DO I=1,N
          X(I)=V(I)
       ENDDO

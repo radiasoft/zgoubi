@@ -141,19 +141,17 @@ C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
 
 C              write(66,*) kf, bro, dpref, xt1,xt2
               IF( BRO .GE. XT1 .AND. BRO .LE. XT2 ) THEN
+
                 SCALER = SCL(KF,I)
                 IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER)*
      >                 ( BRO - XT1 ) / (XT2 - XT1)
                
-                IF    (MODSCL(KF) .EQ. 10) THEN
+                IF(MODSCL(KF) .EQ. 11) THEN
 
                   SCAL2 = 1.D0
 
-                ELSEIF(MODSCL(KF) .EQ. 11) THEN
-
                   IIT = NTIM2(KF)
                   DO IT = 1, IIT
-
                     YT1=TIM2(KF,IT)
                     IF(IT .LT. IIT ) THEN
                       I2 = IT+1
@@ -164,27 +162,30 @@ C              write(66,*) kf, bro, dpref, xt1,xt2
                     ENDIF  
                     BRO = BORO * DPREF
 
+c                      write(66,*) ' scaler SCL2(KF,IT) ',SCL2(KF,IT)
+c                      write(66,*) ' scaler ',BRO,YT1 ,YT2 
+
                     IF( BRO .GE. YT1 .AND. BRO .LE. YT2 ) THEN
                       SCAL2 = SCL2(KF,IT)
                       IF(YT2 .NE. YT1) SCAL2= SCAL2+ 
      >                  (SCL2(KF,I2)- SCAL2) * (BRO - YT1) / (YT2 - YT1)
-c                 if(kf.eq.1)
-c     >            write(66,*) ' scaler ',scaler, scal2,BRO, YT1,YT2
-c                     stop
 
                       GOTO 11
                     ENDIF
-
                   ENDDO
+
  11               CONTINUE
 
-                ELSE
+                  SCALER = SCALER * SCAL2
 
-                  CALL ENDJOB('SBR RSCALER : No such option MODSCL = '
-     >            ,MODSCL(KF))
                 ENDIF
 
-                SCALER = SCALER * SCAL2
+c                    if(kf.eq.1)
+cC                     if(noel.eq.17)
+c     >               write(66,*) ' scaler ',scaler, 
+c     >               scal2,scaler*scal2, BRO,yt1,yt2,kf,it
+c                     stop ' SBR scaler -  TESTS'
+
                 GOTO 99
               ENDIF
                
@@ -356,12 +357,21 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
 
       ENTRY SCALE2(SCL2I,TIM2I,NTIM2I,JF)
       NTIM2(JF) = NTIM2I(JF)
-      do JD = 1, MXD
-         SCL2(JF,JD) = SCL2I(JF,JD) 
-         TIM2(JF,JD) = TIM2I(JF,JD) 
-c      write(66,*) ' scale2 scl2 ',scl2(JF,JD),jf,jd
-c      write(66,*) ' scale2 tim2 ',tim2(JF,JD),jf,jd
+      do JT = 1, NTIM2(JF)
+         SCL2(JF,JT) = SCL2I(JF,JT) 
+         TIM2(JF,JT) = TIM2I(JF,JT) 
       enddo
+
+c               if(jf.eq.1 .or. jf.eq.2)   then
+cc               if(jf.eq.1 )   then
+c                 write(*,*) ' SCALE2 / if,iit : ',Jf,iit
+c                 write(*,*) '  (SCL2(jF,IT),it=1,iit) : '
+c                 write(*,*) (SCL2(jF,IT),it=1,iit)
+c                 write(*,*) ' (TIM2(jF,IT),it=1,iit) : '
+c                 write(*,*) (TIM2(jF,IT),it=1,iit)
+c                 write(*,*) ' '
+c              endif
+
       RETURN
 
       ENTRY SCALE4(OCLOCI,ekinI)

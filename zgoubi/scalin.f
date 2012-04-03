@@ -51,7 +51,8 @@ C  -------
       SAVE MODSCL
 
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
-      SAVE NTIM2
+      DIMENSION SCL2I(MXF,MXD), TIM2I(MXF,MXD), NTIM2I(MXF)
+      SAVE NTIM2, SCL2, TIM2
 
       DATA OPT/ '++ OFF ++','         ' /
  
@@ -105,14 +106,31 @@ C  -------
             IF(IPASS.EQ.1) THEN
 
               IIT = NTIM2(IF) 
-              DO IT = 1, IIT
-                 SCL2(IF,IT) = A(NOEL,10*IF+IT-1)
-                 TIM2(IF,IT) = A(NOEL,10*IF+IIT+IT-1)
+              DO IT = 1, 10
+                 SCL2(IF,IT) = A(NOEL,10*(2*IF-1)+IT-1)
+                 TIM2(IF,IT) = A(NOEL,10*(2*IF  )+IT-1)
 C        write(66,*) ' scalin ',scl2(iF,it),if,it
               ENDDO
 
+              if(iit.eq.1 .and. TIM2(IF,1).eq.0.d0) 
+     >                         TIM2(IF,1) =  BORO 
+
+cC               if(if.eq.1 .or. if.eq.2)   then
+c               if(if.eq.1 .or. if.eq.2)   then
+c                  write(*,*) ' scalin '
+c                  write(*,*) ' A(10*if / scl2) /  IF :  ',if,noel
+c                  write(*,*)   10*(2*IF-1),'-',10*(2*IF-1)+IIT-1
+c                  write(*,*)  (A(NOEL,10*(2*IF-1)+IT-1),IT=1,IIT)
+c                  write(*,*) ' A(10*if... / tim2) : '
+c                  write(*,*)   10*(2*IF  ),'-',10*(2*IF  )+IIT-1
+c                  write(*,*)  (A(NOEL,10*(2*IF  )+IT-1),IT=1,IIT)
+c                   write(*,*) ' '
+c                endif
+
               call scale2(
      >                    SCL2,TIM2,NTIM2,IF)
+
+
             ENDIF
 
           ENDIF
@@ -158,7 +176,7 @@ C        write(66,*) ' scalin ',scl2(iF,it),if,it
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
           SCL(IF,1) = A(NOEL,10*IF) 
-          IF(SCL(IF,1) .EQ. 0.D0)  SCL(IF,1) =  BORO * 1.D-3
+CCCCCCCCCCCCCCC          IF(SCL(IF,1) .EQ. 0.D0)  SCL(IF,1) =  BORO * 1.D-3
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
@@ -292,9 +310,18 @@ C                with normally frac(Qx)~0.73 hence dN~0.25)
       STOP ' SBR SCALIN :  IDLE  UNIT  PROBLEM  AT  OPEN  FILE '
       RETURN
 
+C      ENTRY SCALI4(
+C     >             NTIM2I,JF)
+C      NTIM2(JF) = NTIM2I(JF)
+C      RETURN
+
       ENTRY SCALI4(
-     >             NTIM2I,JF)
-      NTIM2(JF) = NTIM2I
+     >             SCL2I,TIM2I,NTIM2I,JF)
+      NTIM2(JF) = NTIM2I(JF)
+      DO IT = 1, NTIM2(JF)
+        SCL2(JF,IT) = SCL2I(JF,IT)
+        TIM2(JF,IT) = TIM2I(JF,IT)
+      ENDDO
       RETURN
 
       ENTRY SCALI6(MODSCI)

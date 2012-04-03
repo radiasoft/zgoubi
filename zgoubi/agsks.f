@@ -36,6 +36,7 @@ C  -------
       SAVE sak21, sak22, sak23, sak24, sak25, sak26
       SAVE Pnow
       data Pnow / -1d10 /
+      data db1d, db1f / 2*0.d0 /
 
       if(Pnow .EQ. P) then
          ak1(1)=sak11
@@ -169,6 +170,7 @@ c      read(*,*)
 
       isclMAX = 10
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       if( p .LT. ap(1) ) then
          db1d = adbd(1)
          db1f = adbf(1)
@@ -187,10 +189,10 @@ c      read(*,*)
          enddo
  865     continue
       endif
-
-c     db1d = 0.d0
-c     db1f = 0.d0
-
+!!!!!!!!!
+      db1d = 0.d0
+      db1f = 0.d0
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 C  K1CD :
        AK1(2)= UKCDM3/(p*p*p)+ UKCDM2/(p*p)+ UKCDM1/p + UKCD0+UKCD1*p 

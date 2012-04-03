@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -161,7 +160,7 @@ C        DO 22 II=1, 4
      >             ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
  229    CONTINUE 
-        GOTO 97
+        GOTO 99
 
       ENDIF
       RETURN
@@ -866,4 +865,8 @@ C 12        CONTINUE
         WRITE(6,*) '   Check map data file'
       ENDIF
       RETURN
+
+ 99   CONTINUE
+      RETURN
+
       END

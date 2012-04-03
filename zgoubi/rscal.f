@@ -50,7 +50,7 @@ C     ----------------------------------------------
       DIMENSION MODSCL(MXF)
       SAVE MODSCL
 
-      DIMENSION NTIM2(MXF)
+      DIMENSION NTIM2(MXF),SCL2(MXF,MXS),TIM2(MXF,MXS)
 
       DATA MODSCL / MXF*0  /
       DATA FAC / 1.d0  /
@@ -120,11 +120,13 @@ c Possible additional scaling factor :
         ENDIF        
 
         IF(NTIM(IF) .GE. 0) THEN
+
           NDSCL=NTIM(IF)
           NDTIM=NTIM(IF)
           MAX=NTIM(IF)
 
         ELSEIF(NTIM(IF) .LT. 0) THEN
+
           IF    (NTIM(IF) .EQ. -1) THEN
             NDSCL=1
             NDTIM=1
@@ -168,20 +170,22 @@ C               max = max(NDSCL,NDTIM)
         ENDIF
 
         IF    ( MODSCL(IF) .LT. 10) then             
+
+          IF(IF .GT. MXD/10 -1) CALL ENDJOB(
+     >    'SBR RSCAL: Too many families to scale. Max is',MXD/10-1)
+
 C--------- SCL(IF,IT)
           IT = NDSCL
-          IF(10*IF+IT-1 .GT. MXD) 
-     >    CALL ENDJOB(
-     >    'SBR RSCAL: Too many data in A, make sure 10*IF+MXD-3.le.MXD'
-     >    ,-99)
+          IF(IT.GT.10) CALL ENDJOB(
+     >    'SBR RSCAL: Number of scaling factors cannot exceed',10)
           READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,NDSCL)
 C--------- TIM(IF,IT)
           IT = NDTIM
-          IF(10*IF+IT-1 .GT. MXD) 
-     >    CALL ENDJOB(
-     >    'SBR RSCAL: Too many data in A, make sure 10*IF+MXD-3.le.MXD'
-     >    ,-99)
+          IF(IT.GT.10) CALL ENDJOB(
+     >    'SBR RSCAL: Number of timings cannot exceed',10)
           READ(NDAT,*) (A(NOEL,10*IF+NDSCL+IT-1),IT=1,NDTIM)
+          IF(10*IF+2*MAX.GT.MXD) CALL ENDJOB(
+     >    'SBR RSCAL: Too maniy families or too many timings',-99)
           A(NOEL,10*IF+2*MAX) = NLBL
 
         ELSEIF( MODSCL(IF) .GE. 10) then             
@@ -207,7 +211,7 @@ C          Name of the storage file in the next line
      >         SCL(IF,NTIM(IF))
           NTIM(IF) = NTIM(IF)+1
           IF(NTIM(IF) .GT. MXS-2) 
-     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS)
+     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
           GOTO 55
 
  56       CONTINUE
@@ -218,21 +222,39 @@ C          Name of the storage file in the next line
           IF( MODSCL(IF) .EQ. 11) THEN             
             READ(NDAT,* ) NTIM2(IF)
             IIT = NTIM2(IF)
-            IF(10*IF+IIT-1 .GT. MXD-2) 
-     >      CALL ENDJOB(
-     >      'SBR RSCAL / SCL2: Too many data, make 10*IF+MXD-3.le.MXD'
-     >      ,-99)
+          IF(IIT .GT. MXS-2) 
+     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+C            IF(IIT.GT.10) CALL ENDJOB(
+C     >      'SBR RSCAL: Number of scaling factors cannot exceed',10)
+C            IF(10*IF+2*IIT-1.GT.MXD-1) CALL ENDJOB(
+C     >      'SBR RSCAL: Too maniy families or too many timings',-99)
 C----------- SCL2(IF,IT)
-            READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,IIT)
-
+            READ(NDAT,*) (SCL2(IF,IT),IT=1,IIT)
+C            READ(NDAT,*) (A(NOEL,10*(2*IF-1)+IT-1),IT=1,IIT)
 C----------- TIM2(IF,IT)
-            READ(NDAT,*) (A(NOEL,10*IF+IT+IIT-1),IT=1,IIT)
-            A(NOEL,10*IF+2*IIT) = NLBL
+            READ(NDAT,*) (TIM2(IF,IT),IT=1,IIT)
+C            READ(NDAT,*) (A(NOEL,10*(2*IF  )+IT-1),IT=1,IIT)
 
-c        write(66,*) ' scaler ',(A(NOEL,10*IF+IT-1),if,it,IT=1,IIT)
-c        write(66,*) ' scaler ',(A(NOEL,10*IF+IT+IIT-1),IT=1,IIT)
+            do it = 1, 10
+              A(NOEL,10*(2*IF-1)+IT-1) = SCL2(IF,IT)
+              A(NOEL,10*(2*IF  )+IT-1) = TIM2(IF,IT)
+            enddo
+            A(NOEL,10*(2*IF  )+IIT) = NLBL
+
+cC               if(if.eq.1 .or. if.eq.2)   then
+c               if(if.eq.1 .or. if.eq.2)   then
+c                  write(*,*) ' rscal '
+c                  write(*,*) ' A(10*if / scl2) /  IF :  ',if,noel
+c                  write(*,*)   10*(2*IF-1),'-',10*(2*IF-1)+IIT-1
+c                  write(*,*)  (A(NOEL,10*(2*IF-1)+IT-1),IT=1,IIT)
+c                  write(*,*) ' A(10*if... / tim2) : '
+c                  write(*,*)   10*(2*IF  ),'-',10*(2*IF  )+IIT-1
+c                  write(*,*)  (A(NOEL,10*(2*IF  )+IT-1),IT=1,IIT)
+c                   write(*,*) ' '
+c                endif
+
             CALL SCALI4(
-     >                  IIT,IF)
+     >                  SCL2,TIM2,NTIM2,IF)
 
           ENDIF
 

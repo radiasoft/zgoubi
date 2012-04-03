@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
@@ -61,6 +60,8 @@ C     > ,YCH,ZCH
       IF(KUASEX .EQ. 22) NDIM=2
 
       BNORM = A(NOEL,10)*SCAL
+      XNORM = A(NOEL,11)
+      YNORM = A(NOEL,12)
       TITL = TA(NOEL,1)
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
@@ -163,6 +164,13 @@ C------ CARTE POLAIRE 2-D
               HC(ID,I,J,1,IMAP) = BFLD * BNORM
  222      CONTINUE
         ENDIF
+
+        DO I = 1,IXMA
+          XH(I)= XH(I) * XNORM
+        ENDDO
+        DO J=1,JYMA * YNORM
+        ENDDO
+
 
       ENDIF
 C----- KUASEX

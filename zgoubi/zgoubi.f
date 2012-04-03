@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -879,7 +878,7 @@ C----- PICKUPS.
       CALL PICKUP
       GOTO 998
 C----- OPTICS. Transport the beam matrix and print at
-C      element exit ends, into zgoubi.optics
+C      exit end of optical elements, into zgoubi.optics
  80   CONTINUE
       IF(READAT) READ(NDAT,*) KOPTCS
       IF (KOPTCS .NE. 1) KOPTCS = 0

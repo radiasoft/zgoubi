@@ -27,8 +27,8 @@ C  -------
       IMPLICIT NONE
       DOUBLE PRECISION F
       EXTERNAL F
-      INTEGER N
-      INTEGER iarr
+      INTEGER N, ii,iii
+      INTEGER IARR
       DOUBLE PRECISION X(N),DX(N)
 
       INTEGER NMAX
@@ -45,7 +45,7 @@ C  -------
 
       DOUBLE PRECISION nmmin2, pnlty, pnlti
       save pnlty
-      data pnlty / 1d-10 /
+      data pnlty / -1d10 /
 
       P(1) = 1
       DO 1000 I=1,N
@@ -80,6 +80,23 @@ C  -------
 
       K=0
  3000 IF (K.GT.N.OR.FF(P(N+1)).LE.FF(P(1))) GOTO 4000
+
+c         write(*,*) ' nmmin1 ',fmin,fmax,FF(P(1))
+c         write(*,*) ' nmmin1 ', (x(iii),iii=1, 5)
+
+             if(fmin .lt. pnlty) then
+               do i = 1, N
+                 XX(I,P(1)) = XMIN(I)
+               enddo
+                 iarr =1
+c        write(*,*) ' nmmin1 '
+c First 4 variables, final state : 
+c        write(*,*) ((xx(ii,p(iii)),ii,iii,ii=1,n),iii=1,n)
+c        write(*,*) ' nmmin1 '
+c        write(*,*) ' nmmin1 '
+c           stop
+                 goto 4000
+             endif
 
       DO 3100 I=1,N
          XA(I) = 0D0
@@ -158,13 +175,6 @@ C  -------
          X(I) = XX(I,P(1))
  4100 CONTINUE
       NMMIN1 = FF(P(1))
-
-         write(*,*) ' nmmin1 ',fmin,fmax,NMMIN1
-         write(*,*) ' nmmin1 ',fmin,fmax,NMMIN1 
-             if(fmax .lt. pnlty) then
-                 iarr =1
-             endif
-
       RETURN
 
       ENTRY NMMIN2(

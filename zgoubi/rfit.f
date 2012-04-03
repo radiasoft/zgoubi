@@ -78,7 +78,7 @@ C      READ(NDAT,*) NC
       goto 45
  44   continue
       READ(txt132,*,err=98,end=98) NC    
-      pnlty = 0.d0
+      pnlty = -1.d10
  45   continue
 
       IF(NC.LT.1) RETURN
@@ -111,6 +111,6 @@ C--------- Numb. particls
 
       RETURN
 
- 98   CALL ENDJOB('SBR rfit, error input data after NV,'-99)
+ 98   CALL ENDJOB('SBR rfit, error input data after NV',-99)
       RETURN
       END

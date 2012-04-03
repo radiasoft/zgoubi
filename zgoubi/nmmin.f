@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      DOUBLE PRECISION FUNCTION NMMIN(F,X,DX,N)
+      DOUBLE PRECISION FUNCTION NMMIN(F,X,DX,N,IARR)
 C     MINIMIZE F(X), LEAVING X THAT MINIMIZES IN X
 C     F (DP,IN): The function to be minimized, takes one argument X(N)
 C     X (DP(N),IN/OUT): Arguments to F, initial conditions on input,
@@ -39,7 +39,7 @@ C     N (INT,IN): The dimension of X
       PARAMETER (NMAX=100)
       DOUBLE PRECISION NMMIN1,S(NMAX),Y0,Y1
       INTEGER I
-      INTEGER iarr
+      INTEGER IARR
 
       DOUBLE PRECISION EPS
       PARAMETER (EPS=1.220703125D-4)
@@ -58,7 +58,10 @@ C     N (INT,IN): The dimension of X
  2100 CONTINUE
       Y1 = NMMIN1(F,S,DX,N,IARR)
 
-      IF (Y1.LT.Y0 .and. iarr.eq.0) GOTO 2000
+      IF(IARR.EQ.1) RETURN
+
+      IF (Y1.LT.Y0) GOTO 2000
       NMMIN=Y0
 
+      RETURN
       END

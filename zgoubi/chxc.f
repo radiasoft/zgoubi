@@ -385,7 +385,7 @@ C---------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format.
      >                            BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >                            XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
 
-C Because it's done down after the endif...
+C Steps back because this is settled after the endif...
            XBMA = XBMA/XNORM
            XBMI = XBMI/XNORM
            BMAX = BMAX/BNORM
