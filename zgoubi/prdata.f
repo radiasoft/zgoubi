@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PRDATA(
      >                  LABEL,NOEL)
@@ -61,9 +60,9 @@ C----- Read zgoubi.dat title (1st data line)
         IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN
           NOEL=NOEL+1
 
-          DO 1 I=IDEB+1,IDEB+KSIZ+1
+          DO I=IDEB+1,IDEB+KSIZ+1
             IF(TEXT(I:I) .EQ. '''') GOTO 2
- 1        CONTINUE
+          ENDDO
 
  2        CONTINUE
 
@@ -80,11 +79,9 @@ C----- Read zgoubi.dat title (1st data line)
               ENDIF
             ENDIF
 
-          write(txt6,fmt='(i6)') noel
-          TEXT = TEXT(1:104)//txt6
+          WRITE(TXT6,FMT='(I6)') NOEL
+          TEXT = TEXT(1:104)//TXT6
           IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A)') text
-c          IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A110,T111,I6)') 
-c     >                 TEXT(1:110),NOEL
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
      >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
@@ -98,7 +95,6 @@ c     >                 TEXT(1:110),NOEL
 
  95   CONTINUE
       REWIND(NDAT)
-c          write(*,*) ' prdata noel',noel
-c             stop
+
       RETURN
       END

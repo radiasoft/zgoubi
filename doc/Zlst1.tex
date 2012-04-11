@@ -2466,6 +2466,9 @@ right one the corresponding numbering to be used for the \textsl{FIT\index{FIT}}
 	\end{tabular}   }
 \end{center}
 
+
+
+
 \newpage %%%
 
 \noindent Parameters in \textsl{SCALING\index{SCALING}} also have a specific numbering, as follows. 
@@ -2958,6 +2961,44 @@ particles (in array \textsl{FDES}$(J,I)$) each  time  a  decay  occurs.
 
 \noindent Negative steps\index{integration step size!negative}\index{XPAS!negative} (\textsl{XPAS}$<0$) in
 optical elements are not compatible with  \textsl{MCDESINT\index{MCDESINT}}.  
+
+
+
+
+
+
+
+\newpage
+
+\subsubsection*{OPTICS~: \OPTICSTitl} \label{OPTICS} \index{OPTICS|textbf}
+
+\medskip
+
+\textsl{OPTICS}  causes a write out in zgoubi.res of optical functions, following options \textsl{KOPT} and 'label'~: 
+
+~
+
+IF \textsl{KOPT=0}~: Off
+
+IF \textsl{KOPT=1}~: Will transport the optical functions with initial values as specified in OBJET, option 
+ \textsl{KOBJ=5.01}. 
+
+IF \textsl{KOPT=11}~: Will deliver the Twiss matrix as computed by identification with the local transport matrix. 
+This normally means  such 'label' (see below) that the 
+calculation  be performed at the end of the presumably periodic structure described in zgoubi.dat. 
+
+
+~
+
+An optional argument, 'label',  allows print out after all elements in the zgoubi.dat structure (if 'label' is 
+not specified or if label='all'), or at the particular element at location \#NOEL in the structure (if label 
+is an existing, first,  \LABEL(NOEL) - 
+see section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}, as to  elements' labels). 
+
+
+
+
+
  \newpage
 
 \subsubsection*{ORDRE~: \ORDRETitl } \label{ORDRE} \index{ORDRE}
@@ -6757,7 +6798,12 @@ runs in the structure will add up.
 \subsubsection*{IMAGE[S][Z]~: \IMAGESZTitl}
 
 \noindent See FOCALE[Z]. 
+
+
 \vfill
+
+
+
 \newpage
 
 \subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}

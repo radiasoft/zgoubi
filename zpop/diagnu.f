@@ -33,11 +33,14 @@ C----------------------------------------------------------------------------
       logical TRDROI, TRTOUR,xtrace
       logical SYSTEM, ALEAT
 
-      DATA QXMI,XXMA,QYMI,YYMA/0.5d0,1.d0,0.5d0,1.d0/
-C nmail = number of superperiods = 12 in AGS
-C iqx, iqy = integer part of tune = 8 in AGS
+C nmail = number of superperiods 
+C iqx, iqy = integer part of tune 
+C AGS
       data nmail, iqx, iqy /  12, 8, 8  /
-C      data nmail, iqx, iqy /  12, 0, 0  /
+      DATA QXMI,XXMA,QYMI,YYMA/0.5d0,1.d0,0.5d0,1.d0/
+C Luciano's cyclo
+C      data nmail, iqx, iqy /  8, 0, 0  /
+C      DATA QXMI,XXMA,QYMI,YYMA/1.0499d0,2.05001d0,0.299d0,1.03001d0/
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /
       save ires, irot, MM, nharm

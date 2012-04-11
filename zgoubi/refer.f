@@ -72,7 +72,7 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
       ENDIF
       PATHL = F(6,IT1)
       IF(NRES .GT. 0)WRITE(NRES,FMT='(/,1P,''Reference particle '',
-     >''(#'',I2,''), path length :'',G16.8,'' cm'', 
+     >''(#'',I4,''), path length :'',G16.8,'' cm'', 
      >''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
  
       RETURN

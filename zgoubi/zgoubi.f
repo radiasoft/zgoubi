@@ -91,6 +91,10 @@ C----- To get values into A(), from earlier FIT
 
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
+      CHARACTER LBLOPT*(LBLSIZ)
+      SAVE KOPTCS, LBLOPT
+      LOGICAL EMPTY
+
 C This INCLUDE must stay located right before the first statement
       CHARACTER*(KSIZ) KLEO
       INCLUDE 'LSTKEY.H'
@@ -100,6 +104,7 @@ C----- Switch for calculation, transport and print of Twiss functions :
       DATA KOPTCS / 0 / 
       DATA REBFLG, NOELRB / .FALSE., MXL / 
       DATA DUM / 0.D0 /
+      DATA LBLOPT / ' ' /
 
       IF(ENDFIT) GOTO 998 
 
@@ -165,9 +170,21 @@ C        PULAB contains the NPU LABEL's at which CO is calculated
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
       ENDIF
-      IF(KOPTCS .EQ. 1) THEN
+      IF(KOPTCS .GE. 1) THEN
 C------- Transport beam matrix and print at element ends
-        CALL MATRIC(I1,I0,I0)
+        IF(EMPTY(LBLOPT) .OR. 
+     >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
+     >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
+c              write(*,*)koptcs,LEN(lblopt), '!',LBLOPT,'!',empty(lblopt)
+c     >      ,'1',LBLOPT(debstr(lblopt):debstr(lblopt)+1),'1',koptcs
+c           stop
+          IF(KOPTCS .EQ. 11) THEN
+            II = 11
+          ELSE
+            II = 0
+          ENDIF
+          CALL MATRIC(I1,II,I0)
+        ENDIF
       ENDIF
 
       IF(REBFLG) THEN
@@ -225,9 +242,9 @@ c          write(21,*)
         WRITE(NRES,201)
  201    FORMAT(/,128('*'))
         WRITE(NRES,334) NOEL,KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
- 334    FORMAT(2X,I5,2X,A10,2(2X,A8))
+ 334    FORMAT(2X,I5,2X,A10,2(2X,A))
         CALL FLUSH2(NRES,.FALSE.)
-        WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A8))') 
+        WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))') 
      >    NOEL,'/',NBEL,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
@@ -880,8 +897,20 @@ C----- PICKUPS.
 C----- OPTICS. Transport the beam matrix and print at
 C      exit end of optical elements, into zgoubi.optics
  80   CONTINUE
-      IF(READAT) READ(NDAT,*) KOPTCS
-      IF (KOPTCS .NE. 1) KOPTCS = 0
+      IF(READAT) THEN
+        READ(NDAT,fmt='(A)') TXTEMP
+        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
+     >  *,ERR=801,END=801) 
+     >                          KOPTCS, LBLOPT
+        goto 802
+      ENDIF
+ 801  CONTINUE
+        write(*,*)    'a ',  KOPTCS, '*',LBLOPT,'*'
+C      LBLOPT = LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))      
+ 802  CONTINUE
+c        write(*,*)       'b ',        KOPTCS, LBLOPT
+c           stop 
+      IF (KOPTCS .NE. 1 .AND. KOPTCS .NE. 11) KOPTCS = 0
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE
