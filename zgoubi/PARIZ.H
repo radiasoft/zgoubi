@@ -89,8 +89,8 @@ C      PARAMETER (MXX=801, MXY=29)
 
 C AGS Magnet maps
 C Using TOSCA
-C      PARAMETER (IZ=1 , ID=3, MMAP=2)
-C      PARAMETER (MXX=498, MXY=161)
+      PARAMETER (IZ=1 , ID=3, MMAP=6)
+      PARAMETER (MXX=498, MXY=161)
       
 C AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
 C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -99,8 +99,8 @@ C      PARAMETER (MXX=1000, MXY=201)
 
 C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=1000, MXY=201)
+C      PARAMETER (IZ=30 , ID=3, MMAP=8)
+C      PARAMETER (MXX=1000, MXY=201)
 
 CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
@@ -70,6 +69,7 @@ C-------------------------------------------------
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
+      DATA ONE / 1.D0 / 
 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
@@ -238,6 +238,8 @@ C FM Nov 2011           DO K= 2, KZMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
 
+           call chamk2(ONE)
+
       ELSE
 
            IRD = NINT(A(NOEL,40))
@@ -264,12 +266,20 @@ C------- Restore mesh coordinates
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
 
-           IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
-     >     ' restored mesh coordinates for field map # ',imap,
-     >     ',  name : ',
-     >     NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+           call chamk2(scal)
+
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,*) ' SBR TOSCAC, ',
+     >       ' restored mesh coordinates for field map # ',imap,
+     >       ',  name : ',
+     >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+             WRITE(NRES,*) ' '
+             WRITE(NRES,*) ' SBR TOSCAC, applied scaling factor scal= '
+     >             ,scal
+           ENDIF
 
       ENDIF ! NEWFIC
+
 
 c voir si ok avec cartésien
         CALL MAPLI1(BMAX-BMIN)

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory               és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE TUNES(R,F0,NMAIL,IERY,IERZ,OKPR,
      >                                           YNU,ZNU,CMUY,CMUZ)
@@ -102,8 +101,8 @@ C  VERTICAL
       ELSE
         COSMU = CMUZ
 CBETA style
-            ZNU=ACOS(COSMU)*NMAIL/(2.D0 * PI) 
-            IF (R(3,4) .LT. 0.0D0) ZNU=NMAIL-ZNU
+            ZNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI) 
+            IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)-ZNU
             ZNU=ZNU-AINT(ZNU)
             SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(3,4) )
 C         write(*,*) ' beta style, sinmu, znu = ',sinmu,znu,nmail

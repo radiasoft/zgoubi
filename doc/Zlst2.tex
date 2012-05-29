@@ -348,7 +348,7 @@ The next $N\!F$ lines : \> \> \\
 
 
 \begin{alltt}
-\footnotetext[1]{\textsl{FNAME} (\emph{e.g.}, solenoid.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :}  
+\footnotetext[1]{~ \textsl{FNAME} (\emph{e.g.}, solenoid.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :}  
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      DO 1 I = 1, IX
@@ -364,7 +364,7 @@ The next $N\!F$ lines : \> \> \\
 
 \index{maps, summing} 
 \begin{alltt}
-\footnotetext[2]{Sumperimposing (summing) field maps is possible. To do so, pile up file names with 'SUM' following each name but the last one. \emph{e.g.}, in the following example, 3 field maps are read and summed : 
+\footnotetext[2]{~ Sumperimposing (summing) field maps is possible. To do so, pile up file names with 'SUM' following each name but the last one. \emph{e.g.}, in the following example, 3 field maps are read and summed : 
 
 myMapFile1  SUM
 myMapFile2  SUM
@@ -414,7 +414,7 @@ $B''$,etc., if $\left. ID\geq 2\right]$\>entrance boundary defined by $AX+BY+C=0
 
 
 \begin{alltt}
-\footnotetext[2]{\textsl{FNAME} (\emph{e.g.}, spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
+\footnotetext[2]{~ \textsl{FNAME} (\emph{e.g.}, spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      IF (BINARY) THEN 
@@ -472,13 +472,13 @@ $ X$, $X $        \> unused \>\>\\
  \\
 $\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number \>m, no dim.$                  $\>2*E\\
 \\
-$ \hat  V, X $       \> R.F. peak voltage~; unused  \>V, unused\>2*E\\
+$ \hat  V, ~ X $       \> R.F. peak voltage~; unused  \>V, unused\>2*E\\
  \\
 \textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $
  \\
 $\mathcal{L}$, $h $      \> Reference closed orbit length~; harmonic number \>m, no dim.\>2*E\\
 \\
-$ \hat  V$,$\phi_ s $       \> R.F. peak voltage~; synchronous phase \>V, rad \>2*E\\
+$ \hat  V$, $\phi_ s $       \> R.F. peak voltage~; synchronous phase \>V, rad \>2*E\\
  \\
 \textbf{If IOPT=3}  \> No synchrotron motion : $ \Delta W=q\hat  Vsin\phi_ s $ \> \> \\
 \\
@@ -487,8 +487,8 @@ $ X$, $X$       \> unused~; unused   \> 2*unused \> 2*E\\
 $ \hat  V$, $\phi_ s $       \>R.F. peak voltage~; synchronous phase \>V, rad \>2*E \\
 \end{tabbing}
 
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge. }
-\footnotetext[2]{For ramping the R.F. frequency following 
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge. }
+\footnotetext[2]{~ For ramping the R.F. frequency following 
 $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. } 
 
 \newpage
@@ -520,8 +520,8 @@ $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. }
 % \>centered at $YC$, $ZC$.  
 \end{tabbing}
 
-\footnotetext[1]{Any particle out of limits is stopped\index{stopped particles}. }
-\footnotetext[2]{When used with an optical element 
+\footnotetext[1]{~ Any particle out of limits is stopped\index{stopped particles}. }
+\footnotetext[2]{~ When used with an optical element 
 defined in polar coordinates (\emph{e.g.}, \textsl{DIPOLE}) $YL$ is the radius and  
 $YC$ stands for the reference radius (normally, $YC  \simeq RM$).} 
 
@@ -687,7 +687,7 @@ $V_{min}$, $V_{max}$  \> J=1 or 2 for vertical variable resp$^\textrm{ly}$ 1+dp/
  \> \textsl{implemented}
 \end{tabbing}
 
-\footnotetext[1]{Any particle out of limits is stopped\index{stopped particles}.} 
+\footnotetext[1]{~ Any particle out of limits is stopped\index{stopped particles}.} 
 
 
 \newpage
@@ -1013,7 +1013,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 \textsl{ End of repeat} \rule{80mm}{.1mm} \> \> \> \\
 \end{tabbing}
 
-\footnotetext[1]{Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
+\footnotetext[1]{~ Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
 
 \newpage 
 
@@ -1161,7 +1161,7 @@ $ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $
 \\
  \textsl{NCE},$ C_0-C_5 $            \>same as \textsl{QUADRUPO}  \>0-6, 6*no dim. \>I,6*E\\
 \end{tabbing}
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge.} 
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.} 
 
 
 \newpage %%%
@@ -1217,7 +1217,7 @@ $ V_1$, $V_2 $       \>Potentials \>2*V \>2*E \\
  \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  \>rad
 \end{tabbing}
 
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge.} 
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.} 
 \vfill
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 \begin{figure}[H]
@@ -1335,7 +1335,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \end{tabbing}
 
 \vspace{-1cm}
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge.
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.
 \includegraphics[height=8.5cm]{Fig21bis.ps}} 
 
 
@@ -1375,9 +1375,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \end{tabbing}
 
 \vspace{-2.cm}
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge.} 
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.} 
 \begin{alltt}
-\footnotetext[2]{\textrm{\textsl{FNAME} (\emph{e.g.}, e-lens.map) contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence : }
+\footnotetext[2]{~ \textrm{\textsl{FNAME} (\emph{e.g.}, e-lens.map) contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence : }
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      DO 1 I = 1, IX
@@ -1439,7 +1439,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  \end{tabbing}
 
 
-\footnotetext[1]{\textrm{\textsl{FNAME} normally contains  the field map data. If \textsl{MOD}=24 \textsl{FNAME(K)} contains the names of the QF maps and QD maps, as well as the QF-QD distance attached to each one of these pairs.}}
+\footnotetext[1]{~ \textrm{\textsl{FNAME} normally contains  the field map data. If \textsl{MOD}=24 \textsl{FNAME(K)} contains the names of the QF maps and QD maps, as well as the QF-QD distance attached to each one of these pairs.}}
 
 
 
@@ -1485,9 +1485,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \end{tabbing}
 
 
-\footnotetext[1]{Stored data can be read again using \textsl{OBJET}, \textsl{KOBJ} = 3.}
-\footnotetext[2]{\textsl{FNAME} = 'none' will inhibit printing.}
-\footnotetext[3]{If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
+\footnotetext[1]{~ Stored data can be read again using \textsl{OBJET}, \textsl{KOBJ} = 3.}
+\footnotetext[2]{~ \textsl{FNAME} = 'none' will inhibit printing.}
+\footnotetext[3]{~ If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
 
 
 
@@ -1680,11 +1680,11 @@ or :     \>    \>    \> \\
  $IR$, $IP$, $XC$, $[Vmin,Vmax]$  \>
              \>$\leq${\small  MXL}, $\leq ${\small MXD}, \>2*I, 3*E\\
   \\[2ex]
-$ NC$           \>Number of constraints   \> $\leq 20$ \> I \\
+$ NC$ ~ \textsl{[, penalty~\footnotemark[3]]}          \>Number of constraints [, penalty].   \> $\leq 20$ [, $\sim 10^{-n}$]\> I ~ [, E] \\
  \\[-2ex]
 \textbf{For I = 1, NC}  \> \it repeat NC times the following sequence \>\>\\
  \\[-2ex]
- $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[3], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
+ $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[4], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
                  \>0-5, 3*($>$0), \>4*I, 2*E, \\
 $N\!P$ ~$[,~ p_i(i=1,NP)]$  \>
 $I\!R$ : number of the element after which the constraint applies~; \>current unit,  \>  I, $N\!P*$E \\
@@ -1695,9 +1695,10 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \vfill
 
-\footnotetext[1]{MXL is set in include file \textsl{MXLD.H}. }
-\footnotetext[2]{MXD is set in include file \textsl{MXLD.H}. Data is of the form ``integer.iii'' with i a 1-digit integer. }
-\footnotetext[3]{$V$ is in current \zgou\ units. }
+\footnotetext[1]{~  MXL is set in include file \textsl{MXLD.H}. }
+\footnotetext[2]{~  MXD is set in include file \textsl{MXLD.H}. Data is of the form ``integer.iii'' with i a 1-digit integer. }
+\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$\textsl{penalty}. }
+\footnotetext[4]{~  $V$ is in current \zgou\ units. }
 
 \newpage
 
@@ -1921,7 +1922,7 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 
 
 \begin{alltt}
-\footnotetext[1]{\textrm{\textsl{FNAME} (\emph{e.g.},  magnet.map) contains the field map data. These must be formatted according to the following \textsl{FORTRAN} read sequence (normally compatible with \textsl{TOSCA} code \textsl{OUTPUTS}) :} 
+\footnotetext[1]{~ \textrm{\textsl{FNAME} (\emph{e.g.},  magnet.map) contains the field map data. These must be formatted according to the following \textsl{FORTRAN} read sequence (normally compatible with \textsl{TOSCA} code \textsl{OUTPUTS}) :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
 	      DO 1 J = 1, JY 
@@ -1976,7 +1977,7 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \end{tabbing}
 
 \begin{alltt}
-\footnotetext[1]{\textrm{\textsl{FNAME} (\emph{e.g.},  mirror.map)  contains the field map data. These must be formatted 
+\footnotetext[1]{~ \textrm{\textsl{FNAME} (\emph{e.g.},  mirror.map)  contains the field map data. These must be formatted 
 according to the following \textsl{FORTRAN} read sequence :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
@@ -2072,9 +2073,9 @@ is set to zero (it decays immediately).
 
 \vfill
 
-\footnotetext[1]{\textsl{MCDESINT} must be preceded by \textsl{PARTICUL}\index{PARTICUL}, 
+\footnotetext[1]{~ \textsl{MCDESINT} must be preceded by \textsl{PARTICUL}\index{PARTICUL}, 
 for the definition of the mass and lifetime of the incoming particle M1. } 
-\footnotetext[2]{Presence of 'INFO' will cause more info on 
+\footnotetext[2]{~ Presence of 'INFO' will cause more info on 
 decay kinematics parameters to be  printed into zgoubi.res  at each decay.}
 
 
@@ -2136,7 +2137,7 @@ dim. \>5*E \\
  $IR1$, $IR2$, $IR3$    \>Random sequence seeds \>3*$\simeq 10^6 $  \>3*I 
 \end{tabbing}
 
-\footnotetext[1]{Let $x= Y, T, Z, P \text{ or } X$. $KY$, $KT$, $KZ$, 
+\footnotetext[1]{~ Let $x= Y, T, Z, P \text{ or } X$. $KY$, $KT$, $KZ$, 
 $KP$ and $KX$ can take the values
 \begin{itemize}
 \item[1 :] uniform, $p(x)=1/2\delta x$ if $-\delta x \leq x \leq \delta x$
@@ -2201,9 +2202,9 @@ $ \alpha_ X$, $\beta_ X$, $\varepsilon_ X/\pi $, $ N_{\sigma_{\epsilon_X}} $
  $IR1$, $IR2$, $IR3$       \>Random sequence seeds    \>3*$\simeq 10^6 $\>3*I\\ 
 \end{tabbing}
 
-\footnotetext[1]{Similar possibilities, non-random, are offered with \textsl{OBJET}, KOBJ=8 
+\footnotetext[1]{~ Similar possibilities, non-random, are offered with \textsl{OBJET}, KOBJ=8 
 (p.~\pageref{pageOBJ8})} 
-\footnotetext[2]{\begin{minipage}[t]{8cm}
+\footnotetext[2]{~ \begin{minipage}[t]{8cm}
 Works with Gaussian density type only : sorting within the ellipse frontier
 $$ \frac{1+\sigma^2_Y}{\beta^2_Y} Y^2 + 2 \alpha_Y YT + \beta_Y 
 T^2 = \frac{\varepsilon_Y}{\pi}$$ 
@@ -2431,8 +2432,8 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 
 \end{tabbing}
 
-\footnotetext[1]{They can be transported by using MATRIX}
-\footnotetext[2]{Similar possibilities, random, are offered with \textsl{MCOBJET}, KOBJ=3 
+\footnotetext[1]{~ They can be transported by using MATRIX}
+\footnotetext[2]{~ Similar possibilities, random, are offered with \textsl{MCOBJET}, KOBJ=3 
 (p.~\pageref{pageMCOBJ3})} 
 %%%
 
@@ -2675,7 +2676,7 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B
  \end{tabbing} 
 
 \begin{alltt}
-\footnotetext[1]{\textrm{\textsl{FNAME} (normally, outpoi.lis)  contains the field map data. These must be formatted according to the following \textsl{FORTRAN} 
+\footnotetext[1]{~ \textrm{\textsl{FNAME} (normally, outpoi.lis)  contains the field map data. These must be formatted according to the following \textsl{FORTRAN} 
 read sequence :} 
 
        I = 0
@@ -2727,7 +2728,7 @@ read sequence :}
 \end{tabbing}
 
 \begin{alltt}
-\footnotetext[1]{\textsl{FNAME} (\emph{e.g.},  spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
+\footnotetext[1]{~ \textsl{FNAME} (\emph{e.g.},  spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      IF (BINARY) THEN 
@@ -2902,7 +2903,7 @@ X_S $ translations.}
          \> last value is maintained over remaining passes).
 \end{tabbing}
 
-\footnotetext[1]{K=22 is compatible with use of the \textsl{FIT} \index{FIT} procedure~: \emph{e.g.},  allows successive  \textsl{FIT}s 
+\footnotetext[1]{~ K=22 is compatible with use of the \textsl{FIT} \index{FIT} procedure~: \emph{e.g.},  allows successive  \textsl{FIT}s 
 in a run, with 
 successive sets of optical parameters.} 
 
@@ -2962,7 +2963,7 @@ successive sets of optical parameters.}
  \>Length of the separator~; electric field~; magnetic field.   
 \end{tabbing} 
 
-\footnotetext[1]{\textsl{SEPARA} must be preceded by \textsl{PARTICUL} for the definition of
+\footnotetext[1]{~ \textsl{SEPARA} must be preceded by \textsl{PARTICUL} for the definition of
 mass and charge of the particles.} 
 \vfill
 
@@ -3128,8 +3129,8 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
   \end{tabbing}
  
 \begin{alltt}
-\footnotetext[1]{\textsl{FNAME} = 'none' will inhibit printing.}
-\footnotetext[2]{If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
+\footnotetext[1]{~ \textsl{FNAME} = 'none' will inhibit printing.}
+\footnotetext[2]{~ If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
 \end{alltt}
 
 
@@ -3167,7 +3168,7 @@ $TO$, $PO$, $A$, $\delta A$ \> Angles of average polarization : \> 4*rad \> 4*E 
 $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I              
   \end{tabbing}
   
-\footnotetext[1]{\textsl{SPNTRK} must be preceded by \textsl{PARTICUL} for
+\footnotetext[1]{~ \textsl{SPNTRK} must be preceded by \textsl{PARTICUL} for
  the definition of $G$ and mass.}
 
 
@@ -3284,7 +3285,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 
 \begin{alltt}
-\footnotetext[1]{\textrm{\small Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS}) :  }}
+\footnotetext[1]{~ \textrm{\small Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS}) :  }}
 {\tiny
    DO K = 1, NF
      OPEN (UNIT = NL, FILE = FNAME(K), STATUS = `OLD' [,FORM='UNFORMATTED'])
@@ -3528,7 +3529,7 @@ $C_{B0}$--$C_{B5}$       \>   \> 6*no dim.\>  6*E \\
  \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  
 \end{tabbing}
  
-\footnotetext[1]{Use \textsl{PARTICUL} to declare mass and charge.}
+\footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.}
  
   \newpage
 

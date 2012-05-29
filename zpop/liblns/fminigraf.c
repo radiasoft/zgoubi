@@ -18,12 +18,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA  02110-1301  USA
 
-  François Méot <fmeot@bnl.gov>
-  Brookhaven National Laboratory                               és
+  François Meot <fmeot@bnl.gov>
+  Brookhaven National Laboratory      
   C-AD, Bldg 911
   Upton, NY, 11973
-  USA
-  France
 */
 /*                                                                 */
 /* AUTEUR : J.L.HAMEL                                              */
