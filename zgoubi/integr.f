@@ -136,7 +136,7 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
         IF(ISORT .EQ. 1)  GOTO 7
         IF(NRES.GT.0) WRITE(NRES,100) Y,X,T,IT,' REVENUE DANS'
         ISORT=1
- 
+
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
 

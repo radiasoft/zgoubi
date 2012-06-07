@@ -87,20 +87,23 @@ C      PARAMETER (IZ=1 , ID=3, MMAP=2)
 C      PARAMETER (MXX=801, MXY=29)
       
 
-C AGS Magnet maps
-C Using TOSCA
-      PARAMETER (IZ=1 , ID=3, MMAP=6)
-      PARAMETER (MXX=498, MXY=161)
+C AGS Magnet maps, using TOSCA
+c      PARAMETER (IZ=1 , ID=3, MMAP=6)
+c      PARAMETER (MXX=498, MXY=161)
       
 C AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
 C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
-C      PARAMETER (MXX=1000, MXY=201)
+C      PARAMETER (MXX=801, MXY=161)
+
+C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
+c      PARAMETER (IZ=30 , ID=3, MMAP=2)
+c      PARAMETER (MXX=801, MXY=29)
 
 C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-C      PARAMETER (IZ=30 , ID=3, MMAP=8)
-C      PARAMETER (MXX=1000, MXY=201)
+c      PARAMETER (IZ=30 , ID=3, MMAP=8)
+c      PARAMETER (MXX=1000, MXY=201)
 
 CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
@@ -111,3 +114,7 @@ CC---- GSI KAOS
 C      PARAMETER (IZ=5 , ID=3, MMAP=2)
 C      PARAMETER (MXX=401, MXY=300)
 
+C Laurent, DESIR, tmag field maps
+C Using TOSCA
+      PARAMETER (IZ=1 , ID=3, MMAP=1)
+      PARAMETER (MXX=651, MXY=361)

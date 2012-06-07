@@ -1088,7 +1088,7 @@ C----- FFAG-SPI. FFAG, spiral.
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
-C----- EMMA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
+C----- EMMA. Read  2-D or 3-D field map, 
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  103  CONTINUE
       KALC = 2

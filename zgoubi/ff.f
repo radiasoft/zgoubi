@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       FUNCTION FF()
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -236,6 +235,8 @@ C----------- Constraints on particle coordinates or bundle
              IF(K .GT. 0) THEN
 C-------------- Constraint is value of coordinate L of particle K
                VAL=F(L,K)
+C             write(*,*) ' val  : ',F(L,K)
+C                   read(*,*)
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
                VAL=FITLAV(L)
@@ -250,11 +251,12 @@ C             List of particles concerned is entered via parameter list
              ENDIF
            ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on closed orbit : 
-C             e.g., equal position values  (L=2,4 or other)
+C             e.g., particle #K has equal values for coordinate L, 
 C                 at ends of cell 
-C                   (hence expected constraint value in zgoubi.dat is 0)
+C                   (hence expected constraint value in zgoubi.dat is 0).
              VAL=ABS(F(L,K) - FO(L,K))
-C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
+C             write(*,*) ' val   : ',F(L,K),FO(L,K),val,L
+C                   read(*,*)
            ELSEIF(ICONT2.EQ.2) THEN
 C------------ Constraint on closed orbit : 
 C             or opposite angle values (L=3,5)
@@ -272,7 +274,7 @@ C------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached ins
              CALL FITMM1(L,KK,MIMA,
      >                             VAL2)
              val = val1 + val2
-              write(*,*) 'ff val1,val2,val1+val2 ',val1,val2, val1+val2
+C              write(*,*) 'ff val1,val2,val1+val2 ',val1,val2, val1+val2
 C             CALL FITMM2            
      
            ELSEIF(ICONT2.EQ.4) THEN

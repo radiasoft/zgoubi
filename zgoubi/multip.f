@@ -1124,7 +1124,7 @@ C----- 18-POLE
       IP=9
       GN = BM(IP)*BRI
       IF(GN.NE.0.D0) 
-     >  stop ' *** 18-POLE lens not installed, please set B7=0 ***'
+     >  stop ' *** 18-POLE not installed, please set B7=0 ***'
 
       DLE = DLEM(IP)
       DLS = DLSM(IP)

@@ -548,7 +548,11 @@ T(M_1) =   T(M_0) +  \Delta s/v
  \end{equation}
 
 
-\subsection{Calculation of  $ \vec B $ and its Derivatives}\label{sec2.3}    %%%%%  2.3.
+\subsection{Calculation of  $ \vec E$ and $ \vec B $ fields and their Derivatives}\label{sec2.3}    %%%%%  2.3.
+
+\noindent In this section, unless otherwise stated, $ \vec  B = (B_X(X,Y,Z),B_Y(X,Y,Z),B_Z(X,Y,Z)) $ stands 
+indifferently for electric field $\vec E$  or magnetic field $\vec B$. 
+
 
 \noindent $ \vec  B(X,Y,Z) $ and 
 derivatives are calculated in various ways, depending  whether field maps or analytic
@@ -559,7 +563,7 @@ derivatives are calculated in various ways, depending  whether field maps or ana
        \label{sec2.3.1} %%%%%  2.3.1.  [3]
 
 
- A cylindrically symmetric field (e.g., using \textsl{BREVOL}\index{BREVOL}) can be described
+ A cylindrically symmetric field (e.g., using \textsl{BREVOL}\index{BREVOL}, \textsl{ELREVOL}\index{ELREVOL}) can be described
 by an axial 1-D field map of its longitudinal component $ B_X(X,r=0) $
  $(r=(Y^2+Z^2)^{1/2})$,  
 while the radial component on axis $ B_r(X,r=0) $ is assumed to be zero. $ B_X(X,r=0) $ is obtained 
@@ -582,17 +586,18 @@ assuming cylindrical symmetry
 	 \end{aligned}
  	\label{eq2-3-1}
  \end{equation}
-By differentiation with respect to $ X $ and $ r$,  up to the second
+
+\noindent Then, by differentiation with respect to $ X $ and $ r$,  up to the second
 order, these expressions provide the derivatives of $ \vec  B(X,r)$.  Finally a conversion
 from the $ (X,r) $ coordinates to the $ (X,Y,Z) $ Cartesian coordinates of \zgou\ is 
 performed, thus providing the expressions 
 $ \dfrac{ \partial^{i+j+k} \vec  B }{\partial X^i\partial Y^j\partial Z^k} $ needed in the 
 eq.~(\ref{eq2-2-7}). 
 
-\subsubsection{Extrapolation from Median Plane Fields} \label{sec2.3.2} %%%%%%  2.3.2.  
+\subsubsection{Extrapolation From Analytical Models of Median Plane Fields} \label{sec2.3.2} %%%%%%  2.3.2.  
 
-In the median plane, $ B_Z(X,Y,0)$, and its 
-derivatives with respect to $ X $ or $ Y$, may be calculated  from analytical
+In the median plane, $ B_Z(X,Y,0)$ and its 
+derivatives with respect to $ X $ or $ Y$ may be deriveded  from analytical
 models (e.g.\ in Venus magnet - \textsl{VENUS\index{VENUS}}, and sharp edge 
 multipoles  \textsl{SEXQUAD\index{SEXQUAD}}   and \textsl{QUADISEX\index{QUADISEX}}) or numerically by
 polynomial interpolation from 2-D field maps (e.g.\ \textsl{CARTEMES\index{CARTEMES}, 
@@ -748,7 +753,26 @@ In particular a skewed $2n$-pole component is created  by taking $A_n = \pi/2n$.
 
 
 
-\subsection{Calculation of $ \vec B $ from Field Maps}  \label{seq2.4}
+
+\paragraph{A Note on Electrostatic Multipoles}
+
+\noindent A right electric multipole has the same field equations as a 
+as the like-order skewed magnetic multipole. Therefore, 
+calculation of  right or skew electric or electro-magnetic multipoles 
+(\textsl{ELMULT\index{ELMULT}, EBMULT\index{EBMULT}, ELMULT\index{EBMULT}})   uses the 
+same eq.~(\ref{eq2-3-5}) together with the rotation process as described in 
+section~\ref{sec2.3.5}. The same method is used, for arbitrary rotation of 
+arbitrary multipole component around the $ X $-axis. 
+
+
+
+
+
+\subsection{Calculation of   $ \vec E$ and $ \vec B $ from Field Maps}  \label{seq2.4}
+
+\noindent In this section, unless otherwise stated, $ \vec  B = (B_X(X,Y,Z),B_Y(X,Y,Z),B_Z(X,Y,Z)) $ stands 
+indifferently for electric field $\vec E$  or magnetic field $\vec B$. 
+
 
 \subsubsection{1-D Axial Map, with Cylindrical Symmetry}  \label{sec2.4.1}
 
@@ -1043,7 +1067,7 @@ arbitrary field distribution.
 the method above based on eq.~(\ref{eq2-4-10} developped up to fourth order in $X$ and $Y$. 
 
 
-\subsubsection{Calculation of $\vec B $ from  3-D Field Map} \label{sec2.4.4}
+\subsubsection{3-D Field Map} \label{sec2.4.4}
 
 The vector field $ \vec  B(X,Y,Z) $ and its derivatives necessary
 for the calculation of position and velocity of the particle are now defined by means 
@@ -1109,113 +1133,8 @@ derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
 at the closest vicinity of the actual position of the particle.} 
 \end{figure}
 
-\subsection{Calculation of  $ \vec E $ and its derivatives} \label{sec2.5}
-
-\zgou\ calculates $ \vec  E(X,Y,Z) $ and its derivatives in
- various ways, depending  whether field maps or analytical 
-representations of optical elements are used. The  basic 
-means are the following~\cite{Biblio6}.     %%% [6]. 
-
-\subsubsection{Extrapolation from  1-D axial field map} \label{sec2.5.1}
-
- A cylindrically symmetric field can be described by an 
-axial 1-D field map of its longitudinal component $ E_X(X,r=0)$ 
-$(r=(Y^2+Z^2)^{1/2})$,  
-while the radial component $ E_r(X,r=0) $ is assumed to be zero 
-(e.g.~in \textsl{ELREVOL\index{ELREVOL}}). $ E_X(X,r=0) $ is obtained at any point along the $ X$-axis by
-a polynomial interpolation from the map mesh (see section~\ref{sec2.4.1}). Then the 
-field components $ E_X(X,r)$,  $ E_r(X,r) $ at the position of the particle, 
-$(X,r) $ are obtained from Taylor expansions to the fifth order in $ r $ (hence, up to 
-the fifth order derivative 
-$  \dfrac{ \partial^5 E_X }{ \partial X^5}\, (X,0)$),  assuming cylindrical symmetry 
-% 
- \begin{equation}
-	 \begin{aligned}
-		 E_X (X,r)
-		   &  =    E_X (X,0) - \dfrac{r^2 }{ 4} \dfrac{\partial^2 E_X }{ \partial X^2} \,(X,0)
-		      + \dfrac{r^4 }{64} \dfrac{\partial^4 E_X }{ \partial X^4} \,(X,0)\\
-		E_r(X,r)
-		   & =   - \dfrac{r }{ 2} \dfrac{\partial E_X }{ \partial X}\, (X,0) 
-		     + \dfrac{r^3 }{ 16} \dfrac{\partial^3 E_X }{ \partial X^3} \,(X,0)
-		     - \dfrac{r^5 }{ 384} \dfrac{\partial^5 E_X }{ \partial X^5} \,(X,0)
-	 \end{aligned}
- 	\label{eq2-5-1}
- \end{equation}
-\newpage %%%%
-
-\noindent By differentiation with respect to $ X $ and $ r$,  up to the second
-order, these expressions provide the derivatives of $ \vec  E(X,r)$.  Finally a conversion
-from the $ (X,r) $ coordinates to the $ (X,Y,Z) $ Cartesian coordinates of 
-\zgou\ is performed, thus providing the expressions 
-$  \dfrac{ \partial^{i+j+k} \vec  E }{ \partial X^i\partial Y^j\partial Z^k} $ 
-needed in the eqs.~(\ref{eq2-2-12}). 
 
 
-
-\subsubsection{1-D (Axial) Analytical E-Field Models and Extrapolation} \label{sec2.5.2}
-
-
-This procedure assumes cylindrical symmetry with respect to the $ X$-axis.
- The longitudinal field component $ E_X(X,r=0) $ $ (r=(Y^2+Z^2)^{1/2}) $,
-along this axis are derived from differentiation of an adequate 
-model of the electrostatic potential $ V(X) $ (e.g.~in \textsl{EL2TUB\index{EL2TUB}, 
-UNIPOT\index{UNIPOT}}). 
-The longitudinal and radial field components $ E_X(X,r)$,  $ E_r(X,r) $ and 
-their derivatives off-axis 
-$  \dfrac{ \partial^{i+j}E_X }{ \partial X^i\partial r^j} $ and 
-$  \dfrac{ \partial^{ i+j} E_r }{ \partial X^i\partial r^j} $  are obtained by 
-Taylor expansions to the fifth order in $ r $ assuming cylindrical 
-symmetry (see eq.~(\ref{eq2-5-1})), and then transformed to the $ (X,Y,Z) $ 
-Cartesian frame of \zgou\ in order to provide the derivatives 
-$ \dfrac{ \partial^{i+j+k} \vec  E }{ \partial X^i\partial Y^j\partial Z^k} $ 
-needed in eq.~(\ref{eq2-2-12}).
-
-
-
-\subsubsection{2-D Analytical E-Field Models and Extrapolation} 
-
-Several optical elements such as \textsl{WIENFILT\index{WIENFILT}} (that 
-uses the \textsl{BEND} fortran routines) 
-have their field defined from the  expression of the field and derivatives in the median plane. 
-3-D extrapolation of these off the median is drawn from Taylor expansions. 
-
-
-
-
-
-\subsubsection{3-D Analytical models of fields} \label{sec2.5.3}
-
- Various electrostatic or magneto-electrostatic  elements, e.g.,   \textsl{ELMULT\index{ELMULT}},
-  \textsl{EBMULT\index{EBMULT}}), have their $ \vec  E$ field 
-components,  namely $ E_X $, $ E_Y $, $ E_Z $, as well as the 
-derivatives with respect to $ X$, $Y $ or $ Z $,  derived 
-from  analytical expressions  drawn from  models of the potential $ V(X,Y,Z)$. 
-
-
-
-
-
-%\vfill\eject
-
-\paragraph{Multipoles And Skewed Multipoles}
-
-\noindent A right electric multipole is considered to have the same effect 
-as the equivalent skewed magnetic multipole. Therefore, 
-calculation of the right electric or electro-magnetic multipoles 
-(\textsl{ELMULT\index{ELMULT}, EBMULT\index{EBMULT}})   uses the 
-same eq.~(\ref{eq2-3-5}) together with the rotation process as described in 
-section~\ref{sec2.3.5}. The same method is used, for arbitrary rotation of 
-arbitrary multipole component around the $ X $-axis. 
-
-
-
-\subsection{Calculation Of  $ \vec E$ From Field Maps} \label{sec2.6}
-
-\paragraph{1-D axial map, with cylindrical symmetry} 
-
-\noindent The only type of field map treated in the actual version is the 
-1-D axial map, with cylindrical symmetry. The same procedure as 
-for the case of magnetic fields is involved (see section~\ref{sec2.4.1}). 
 
 
 \clearemptydoublepage
@@ -5836,9 +5755,17 @@ ENORM, prior to ray-tracing.  As well the coordinates  X, Y re normalized with
 \bigskip
 
 \noindent At each step of the trajectory of a particle, the field and its 
-derivatives are calculated by a polynomial interpolation followed 
-by a $ Z $ extrapolation (see sections~\ref{sec2.3.3},~\ref{sec2.4.3}). Entrance and/or 
+derivatives are calculated by a second or fourth degree polynomial interpolation followed 
+by a $ Z $ extrapolation (see sections~\ref{sec2.3.3} page~\pageref{sec2.3.3},~\ref{sec2.4.3} page ~\pageref{sec2.4.3}). 
+
+\noindent Interpolation grid is 3*3 for 2nd order (option \textsl{IORDRE = 2\index{IORDRE}}) or 5*5 
+for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}). 
+
+\bigskip
+
+\noindent Entrance and/or 
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
+
 
 
 

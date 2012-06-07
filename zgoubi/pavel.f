@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PAVEL(IORDE,A1,R1,Z1,
      >                                B,DB,DDB,KERK)
@@ -45,7 +44,8 @@ C      DATA INDEX/0/
 
       IF(IORDE .EQ. 2) GOTO 3001
 
-CC EXTRAPOLATION IS DONE FROM THE NT PLANE 
+C EXTRAPOLATION TO 4th ORDER IN COORDINATES
+C EXTRAPOLATION IS DONE FROM THE NT PLANE 
 C      NT=1
 
       IF(INDEX .EQ. 1) GOTO 102

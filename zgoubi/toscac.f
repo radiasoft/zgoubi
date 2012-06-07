@@ -66,12 +66,23 @@ C-------------------------------------------------
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
 
+      DIMENSION A10INI(MXL)
+      LOGICAL FRSTRD(MXL)
+      SAVE A10INI, FRSTRD
+
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
       DATA ONE / 1.D0 / 
+      DATA FRSTRD / MXL * .TRUE. / 
 
+C Possible SCAL change is by CAVITE
+C Possible A(noel,10) change by FIT
       BNORM = A(NOEL,10)*SCAL
+      IF(FRSTRD(NOEL)) THEN
+        A10INI(NOEL) = A(NOEL,10)
+        FRSTRD(NOEL) = .FALSE.
+      ENDIF
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
@@ -238,7 +249,7 @@ C FM Nov 2011           DO K= 2, KZMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
 
-           call chamk2(ONE)
+           CALL CHAMK2(ONE)
 
       ELSE
 
@@ -266,7 +277,7 @@ C------- Restore mesh coordinates
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
 
-           call chamk2(scal)
+           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
 
            IF(NRES.GT.0) THEN
              WRITE(NRES,*) ' SBR TOSCAC, ',

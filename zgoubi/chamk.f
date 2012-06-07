@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE CHAMK(A1,R1,Z1,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -115,7 +114,6 @@ C-------  2-D  5*5 points
  
       DR=YH(2)-YH(1)           
       IRC=(R1-YH(1))/DR+1.5D0
-C        write(*,*) dr,YH(2),YH(1),irc,r1,YH(irc),' chamk'
 
 C      IF    (IRC.LE.1 .OR. IRC.GE.JYMA) THEN
 CC        ... POINT en limite ou HORS CARTE DE Champ
@@ -159,7 +157,7 @@ C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
  
       CONTINUE
 C       .... ORDRE 2 ,  3*3 points grid
- 
+
       F1= HC(ID,IAC-1,IRC-1,1,IMAP) * scal
       F2= HC(ID,IAC  ,IRC-1,1,IMAP) * scal
       F3= HC(ID,IAC+1,IRC-1,1,IMAP) * scal

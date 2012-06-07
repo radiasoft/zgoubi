@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973, USA
+C  Upton, NY, 11973
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,
      >                                    XL,DSREF,QSHROE,VSHROE)
@@ -154,10 +154,9 @@ C          Field is defined by analytical models
  
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
-C           write(*,*) ' chxc scal0 ',scal0()
+
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
-C           write(*,*) ' chxc kscl, scal ',KSCL, scal
       XE = 0.D0
       XS = 0.D0
       XLIM = 0.D0
