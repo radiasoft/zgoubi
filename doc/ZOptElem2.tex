@@ -5,38 +5,42 @@
 \bigskip
 
 
-This glossary gives a list of keywords suitable for the 
+\noindent This glossary gives a list of keywords suitable for the 
 simulation of  common optical elements. These are classified in 
-three categories: magnetic, electric and electromagnetic elements.
+three categories: magnetic, electric and combined electro-magnetic elements.
 
-Field map procedures are also cataloged; they provide a mean for ray-tracing through 
-measured fields, or as well through field maps obtained from numerical simulations of 
-arbitrary geometries with such tools as POISSON, TOSCA, etc.
+\medskip 
+
+\noindent Field map procedures are also listed; they provide a means for ray-tracing through 
+measured  or  simulated electric and/or magnetic fields. 
 
 \bigskip
 
 
 \noindent\textbf{MAGNETIC ELEMENTS} 
-\smallskip
+%\smallskip
 
 \begin{tabbing}
 \hspace*{7cm} \= \kill
+  AGS main magnet   \> AGSMM \\
   Decapole          \> DECAPOLE, MULTIPOL \\
-  Dipole            \> AIMANT, BEND, DIPOLE, DIPOLE-M, MULTIPOL, QUADISEX \\
+  Dipole[s]            \> AIMANT, BEND, DIPOLE[S], DIPOLE-M, MULTIPOL, QUADISEX \\
   Dodecapole        \> DODECAPO, MULTIPOL \\
-  FFAG magnets      \> DIPOLES, FFAG, FFAG-SPI, MULTIPOL \\
+  FFAG magnets      \> DIPOLES, FFAG, FFAG-SPI, MULTIPOL, EMMA \\
+  Helical dipole    \> HELIX \\
   Multipole         \> MULTIPOL, QUADISEX, SEXQUAD \\
   Octupole          \> OCTUPOLE, MULTIPOL, QUADISEX, SEXQUAD \\
   Quadrupole        \> QUADRUPO, MULTIPOL, SEXQUAD \\
   Sextupole         \> SEXTUPOL, MULTIPOL, QUADISEX, SEXQUAD \\
-  Skewed multipoles \> MULTIPOL \\
+  Skew multipoles \> MULTIPOL \\
   Solenoid          \> SOLENOID  \\
   Undulator         \> UNDULATOR 
 \end{tabbing}
-\bigskip
 
-\noindent\textbf{Field maps}  
 \smallskip
+
+\noindent\textbf{Using field maps}  
+%\smallskip
 
 \begin{tabbing}
 \hspace*{7cm} \= \kill
@@ -46,10 +50,13 @@ arbitrary geometries with such tools as POISSON, TOSCA, etc.
   2-D, polar mesh, mid-plane symmetry          \> POLARMES \\
   3-D, no symmetry          \> TOSCA
 \end{tabbing}
+
+\bigskip
+
 \bigskip
 
 \noindent\textbf{ELECTRIC ELEMENTS}  
-\smallskip
+%\smallskip
 
 \begin{tabbing}
 \hspace*{7cm} \= \kill
@@ -65,27 +72,27 @@ arbitrary geometries with such tools as POISSON, TOSCA, etc.
   Quadrupole              \> ELMULT \\
   R.F. (kick) cavity             \> CAVITE \\
   Sextupole               \> ELMULT \\
-  Skewed multipoles       \> ELMULT 
+  Skew multipoles       \> ELMULT 
 \end{tabbing}
-\bigskip
 
-
-\newpage
-
-
-\noindent\textbf{Field maps} 
 \smallskip
+
+\noindent\textbf{Using field maps} 
+%\smallskip
 
 \begin{tabbing}
 \hspace*{7cm} \= \kill
  1D, cylindrical symmetry  \> ELREVOL  \\
-  2-D, no symmetry          \> MAP2D\_E 
+  2-D, no symmetry          \> MAP2D-E 
 \end{tabbing}
-%\bigskip
 
 
-\noindent\textbf{ELECTROMAGNETIC ELEMENTS}  
-\smallskip
+\bigskip
+
+\bigskip
+
+\noindent\textbf{ELECTRO-MAGNETIC ELEMENTS}  
+%\smallskip
 
 \begin{tabbing}
 \hspace*{7cm} \= \kill
@@ -96,7 +103,7 @@ arbitrary geometries with such tools as POISSON, TOSCA, etc.
   Octupole                \> EBMULT \\
   Quadrupole              \> EBMULT \\
   Sextupole               \> EBMULT \\
-  Skewed multipoles       \> EBMULT \\
+  Skew multipoles       \> EBMULT \\
   Wien filter             \> SEPARA, WIENFILT 
 \end{tabbing} 
 

@@ -348,7 +348,7 @@ The next $N\!F$ lines : \> \> \\
 
 
 \begin{alltt}
-\footnotetext[1]{~ \textsl{FNAME} (\emph{e.g.}, solenoid.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :}  
+\footnotetext[1]{ \textsl{FNAME} (\emph{e.g.}, solenoid.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :}  
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      DO 1 I = 1, IX
@@ -364,7 +364,7 @@ The next $N\!F$ lines : \> \> \\
 
 \index{maps, summing} 
 \begin{alltt}
-\footnotetext[2]{~ Sumperimposing (summing) field maps is possible. To do so, pile up file names with 'SUM' following each name but the last one. \emph{e.g.}, in the following example, 3 field maps are read and summed : 
+\footnotetext[2]{ Sumperimposing (summing) field maps is possible. To do so, pile up file names with 'SUM' following each name but the last one. \emph{e.g.}, in the following example, 3 field maps are read and summed : 
 
 myMapFile1  SUM
 myMapFile2  SUM
@@ -414,7 +414,7 @@ $B''$,etc., if $\left. ID\geq 2\right]$\>entrance boundary defined by $AX+BY+C=0
 
 
 \begin{alltt}
-\footnotetext[2]{~ \textsl{FNAME} (\emph{e.g.}, spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
+\footnotetext[2]{ \textsl{FNAME} (\emph{e.g.}, spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      IF (BINARY) THEN 
@@ -1377,7 +1377,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \vspace{-2.cm}
 \footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge.} 
 \begin{alltt}
-\footnotetext[2]{~ \textrm{\textsl{FNAME} (\emph{e.g.}, e-lens.map) contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence : }
+\footnotetext[2]{ \textrm{\textsl{FNAME} (\emph{e.g.}, e-lens.map) contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence : }
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      DO 1 I = 1, IX
@@ -1474,7 +1474,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
    \\
    \\
  \textsl{FNAME}~~\footnotemark[1]$^,$~\footnotemark[2] 
-       \>Name of storage file (e.g.~zgoubi.fai) [~; label(s) of the element(s)  at the exit  \> \>A80, [, 10*A10] \\ %%
+       \>Name of storage file (\emph{e.g.}~zgoubi.fai) [~; label(s) of the element(s)  at the exit  \> \>A80, [, 10*A10] \\ %%
 {[,}\textsl{\LABEL(s)}{]}~~\footnotemark[3]  \index{LABEL@{\LABEL}}   \> of which the store occurs (10 labels maximum)]. If either \textsl{FNAME} or first \textsl{LABEL} \> \>  \\ 
      \> is 'none' then store only occurs at location of \textsl{FAISTORE}. Store occurs at \> \> \\
      \> all elements if  first \textsl{LABEL} is 'all' \> \> \\
@@ -1921,8 +1921,11 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \end{tabbing}
 
 
+
 \begin{alltt}
-\footnotetext[1]{~ \textrm{\textsl{FNAME} (\emph{e.g.},  magnet.map) contains the field map data. These must be formatted according to the following \textsl{FORTRAN} read sequence (normally compatible with \textsl{TOSCA} code \textsl{OUTPUTS}) :} 
+\footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.},  magnet.map) contains the field map data. 
+These must be formatted according to the following \textsl{FORTRAN} read sequence (normally compatible with \textsl{TOSCA} code \textsl{OUTPUTS} - details 
+and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
 	      DO 1 J = 1, JY 
@@ -1976,9 +1979,11 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
  \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  
 \end{tabbing}
 
+
 \begin{alltt}
-\footnotetext[1]{~ \textrm{\textsl{FNAME} (\emph{e.g.},  mirror.map)  contains the field map data. These must be formatted 
-according to the following \textsl{FORTRAN} read sequence :} 
+\footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.},  ``mirror.map'')  contains the field map data. 
+These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
+and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
 	      DO 1 J = 1, JY 
@@ -1997,8 +2002,6 @@ are the components of the field.}
 
 \textrm{For binary files, \textsl{FNAME} must begin with  'B\(\sb{_}\)' or 'b\(\sb{_}\)'~;   a logical flag 'Binary' will then automatically be set to '.TRUE.'}} 
 \end{alltt}
-
-
 
 
 \newpage
@@ -2675,9 +2678,11 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B
  \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  
  \end{tabbing} 
 
+
 \begin{alltt}
-\footnotetext[1]{~ \textrm{\textsl{FNAME} (normally, outpoi.lis)  contains the field map data. These must be formatted according to the following \textsl{FORTRAN} 
-read sequence :} 
+\footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.}, ``outpoi.lis'')  contains the field map data. 
+These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
+and possible updates are to be found in the source  file \textsl{'fmapw.f'} :} 
 
        I = 0
    11  CONTINUE
@@ -2691,7 +2696,10 @@ read sequence :}
 \(K\)'s and \(R\)'s are variables appearing in the \textsl{POISSON} output file outpoi.lis, not used here.} } 
 \end{alltt}
 
+
+
 \newpage
+
 \begin{tabbing}  
 \mestab
 \textbf{POLARMES} \label{POLARMES-B} \index{POLARMES}
@@ -2727,8 +2735,12 @@ read sequence :}
  $DP$ \> \> no dim. \> E 
 \end{tabbing}
 
+ 
+
 \begin{alltt}
-\footnotetext[1]{~ \textsl{FNAME} (\emph{e.g.},  spes2.map) \textrm{contains the field data. These must be formatted according to the following \textsl{FORTRAN} sequence :} 
+\footnotetext[1]{ \textrm{ \textsl{FNAME} (\emph{e.g.},  spes2.map) contains the field data. 
+These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
+and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      IF (BINARY) THEN 
@@ -2747,7 +2759,8 @@ read sequence :}
         1     CONTINUE
 
 \textrm{where \(X(I)\) and \(Y(J)\) are the longitudinal and transverse coordinates and \textsl{BMES} is the \(Z\) field component  at a node \((I,J)\) 
-of the mesh. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'. `Binary' will then automatically be set to `.TRUE.'}} 
+of the mesh. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'. `Binary' will then automatically be set to `.TRUE.'}
+}
 \end{alltt}
 \newpage
 
@@ -2883,7 +2896,7 @@ X_S $ translations.}
  \>$K=0$ : initial conditions (coordinates and spins\index{spin tracking}) \>\>\\
  \>are generated following the regular functioning \>\>\\
  \>of object definitions. If random generators are \>\>\\
- \>used (e.g. in \textsl{MCOBJET}\index{MCOBJET}) their seeds will not be reset. \>\>\\
+ \>used (\emph{e.g.} in \textsl{MCOBJET}\index{MCOBJET}) their seeds will not be reset. \>\>\\
  \>$K=22$ :  next run will account for new parameters in \>\>\\
  \>zgoubi.dat data list. \>\>\\
  \>$K=99$ :  coordinates at end of previous pass are used as initial  \>\>\\
@@ -3129,8 +3142,8 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
   \end{tabbing}
  
 \begin{alltt}
-\footnotetext[1]{~ \textsl{FNAME} = 'none' will inhibit printing.}
-\footnotetext[2]{~ If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
+\footnotetext[1]{ \textsl{FNAME} = 'none' will inhibit printing.}
+\footnotetext[2]{ If first \textsl{\LABEL} = 'none' then  printing will be inhibited.}
 \end{alltt}
 
 
@@ -3285,8 +3298,10 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 
 \begin{alltt}
-\footnotetext[1]{~ \textrm{\small Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS}) :  }}
-{\tiny
+\footnotetext[1]{ \textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details 
+and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :}
+
+{
    DO K = 1, NF
      OPEN (UNIT = NL, FILE = FNAME(K), STATUS = `OLD' [,FORM='UNFORMATTED'])
      DO J = 1,  JY  
@@ -3298,14 +3313,12 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
          ENDIF
        ENDDO
      ENDDO
-         NL = NL + 1
+     NL = NL + 1
    ENDDO
 }
 \textrm{\small Note : for 2-D maps  BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I), BY(J,1,I) values. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'.  `Binary' will then automatically be set to `.TRUE.'}
+}
 \end{alltt}
-
-
-
 
 
 

@@ -3,32 +3,61 @@
 
 	% \part{Description of software contents}{Description of software contents}
 
-\section*{INTRODUCTION} 
-\addcontentsline{toc}{section}{\numberline{}INTRODUCTION}
+ \section*{PREFACE TO THE BNL EDITION (2012)} 
+\addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2012)} 
 
-The computer code \zgou\  calculates trajectories of
-charged particles in magnetic and electric fields.  At the origin specially adapted to the definition and adjustment of 
-beam lines and magnetic spectrometers, it has so evolved that it allows the study of systems including complex
- sequences of optical elements such as dipoles, quadrupoles, 
- arbitrary multipoles, FFAG magnets and other magnetic or electric
- devices, and is able as well to handle periodic structures.  Compared to other codes, it presents several peculiarities~: 
-\begin{itemize}
-\item a numerical method for integrating the Lorentz equation, based on Taylor series,
-	which optimizes computing time and provides high accuracy and strong symplecticity,
-\item spin tracking, using the same numerical method as for the Lorentz equation,
-\item calculation of the synchrotron radiation electric field and 
-spectra in arbitrary magnetic fields, from the ray-tracing outcomes,
-\item the possibility of using a mesh, which allows ray-tracing from
-	simulated or measured (1-D, 2-D or 3-D) field maps, 
-\item numerous Monte Carlo procedures~: unlimited number of trajectories, in-flight decay, 
-photon emission, etc. 
-\item a built-in fitting procedure including arbitrary variables and a large variety of 
-constraints, 
-\item multiturn tracking in circular accelerators including  features proper to machine 
-parameter calculation and survey,  simulation of time-varying power  supplies. 
-\end{itemize}
+The previous release of the Zgoubi Users' Guide as a Lab. report dates from 1997, making the present one  the last in 
+a series of~five~\cite{Biblio1}-\cite{Biblio2c}. 
 
-\noindent The initial  version of the Code, dedicated to  ray-tracing in magnetic fields,
+\bigskip
+
+\noindent The Introductory section of the Guide deserved updating, since so  much developments have been 
+accomplished these last years in the frame of a number of 
+project design and beam dynamics studies, as the neutrino factory, lepton and hadron colliders, 
+spin studies at AGS and RHIC, etc. 
+
+So did it go 
+with the list of optical elements and the compendium of numerical methods, 
+so-called ``Glossary of keywords'' list, pp.~\pageref{GOK1A} and~\pageref{GOK1B},
+ that has stretched with new 
+simulation and computing procedures, ranging from fitting to overlapping magnetic fields capabilities  via 
+spin  and other radiation damping tools. 
+
+
+\bigskip
+
+\noindent The code has been installed and made fully, and freely, available on SourceForge with the collaboration of J.~S.~Berg, 
+on Sep 17, 2007~\cite{SFZ}. The SourceForge package evolves with the various projects dealt with and is continuously maintained.  
+It includes the sources, 
+the postprocessor progam \zpop, as well as many examples with template input data files (``zgoubi.dat'') and reference output result 
+files (``zgoubi.res''). 
+
+
+\bigskip
+
+\noindent A series of computing tools have been developped in addition, planned to be made available on \zgou\ SourceForge 
+site in near future, 
+that render the designer's life easier, as, 
+ search for closed orbits in periodic machines, computation of optical functions and parameters, 
+tune scans, dynamic aperture scans,  gnuplot graphic scripts, etc. , including dedicated ones regarding, \emph{e.g.}, FFAG R/D, 
+AGS R/D, spin dynamics. 
+In the same spirit, ``python'' interfaces are being developped, some made browsable on web by their authors. 
+
+\bigskip
+
+\noindent  Worth stressing, this manual is intended  to describe the contents of the most
+recent version of \zgou. Both the code and its Guide are  far from being  ``finished products'', though. 
+
+
+
+
+\newpage
+\clearemptydoublepage
+
+\section*{INTRODUCTION TO THE 4th  EDITION (1997), EXCERPT}
+\addcontentsline{toc}{section}{\numberline{}INTRODUCTION TO THE 4th  EDITION (1997), EXCERPT}
+
+The initial  version of \zgoubi, dedicated to  ray-tracing in magnetic fields,
  was developed  by D.~Garreta and J.C.~Faivre  at CEN-Saclay in the early 1970's.
  It was perfected for the purpose of studying the four spectrometers SPES I, II, III, IV  
 at the  Laboratoire National Saturne (CEA-Saclay, France), and SPEG at Ganil 
@@ -36,24 +65,24 @@ at the  Laboratoire National Saturne (CEA-Saclay, France), and SPEG at Ganil
 \\
 \\
 \noindent The first manual was in French~\cite{Biblio1}. %%%%biblio  [1]
- Since then many improvements have been implemented.  In order to facilitate access to 
+ Accounting for  many developments and improvements, and in order to facilitate access to 
 the program an English version of the manual was written at TRIUMF with the assistance of 
-J.~Doornbos. P.~Stewart prepared the manuscript for publication~\cite{Biblio2}%biblio[2]
+J.~Doornbos. P.~Stewart prepared the manuscript for publication~\cite{Biblio2}%biblio[2].
 \\
 \\
-\noindent  An updating was necessary for accompanying the third version of the code which featured 
- spin tracking and ray-tracing in combined electric and magnetic fields~; 
+\noindent  An updating was necessary for accompanying the third version of the code which included 
+ developments regarding  spin tracking and ray-tracing in combined electric and magnetic fields~; 
  this was done with the help of 
 D.~Bunel (SATURNE Laboratory, Saclay) for the preparation of the document and lead to the third 
 release~\cite{Biblio2b}.
 \\
 \\
-\noindent Lately,  the computation of 
+\noindent In the mid-1990s,  the computation of 
 synchrotron radiation electromagnetic impulse and spectra was introduced. In the mean 
 time, several new optical elements were added, such as 
 electro-magnetic and other electrostatic lenses. Used since several years for special studies in periodic
-machines (e.g., SATURNE at Saclay, COSY at Julich, LEP and LHC at Cern),  
-\zgou\  has also benefited from extensive development of storage ring related features.
+machines (\emph{e.g.}, SATURNE at Saclay, COSY at Julich, LEP and LHC at CERN),  
+\zgou\  has also undergone extensive developments regarding storage ring related features.
 \\
 \\
 \noindent These  developments of \zgou\ 
@@ -62,14 +91,90 @@ Laboratoire National SATURNE, CEA/DSM-Saclay.
 \\
 \\
 The graphic  interface to \zgou\ (addressed in Part D) has also undergone concomitent extensive  
-developments, which make it a performant tool for post-processing \zgou\  outputs.
+developments, which make it a performing tool for the post-processing of \zgou\  outputs.
 \\
 \\
 \noindent  This manual is intended only to describe the details of the most
 recent version of \zgou, which is far from being a ``finished product''.
 
-\newpage
 
+
+
+\newpage
+\clearemptydoublepage
+
+\section*{INTRODUCTION} 
+\addcontentsline{toc}{section}{\numberline{}INTRODUCTION}
+
+The computer code \zgou\  calculates trajectories of
+charged particles in magnetic and electric fields.  At the origin specially adapted to the definition and adjustment of 
+beam lines and magnetic spectrometers, it has so evolved that it allows the study of systems including complex
+ sequences of optical elements such as dipoles, quadrupoles, 
+ arbitrary multipoles, FFAG magnets and other magnetic or electric
+ devices, and is able as well to handle periodic structures.  Compared to other codes, 
+it presents several peculiarities, as follows - a non-exhaustive list~: 
+\begin{itemize}
+\item a numerical method for integrating the Lorentz equation, based on Taylor series,
+	which optimizes computing time and provides high accuracy and strong symplecticity,
+\item spin tracking, using the same numerical method as for the Lorentz equation,
+\item full account of stochastic photon emission, and its effects on particle dynamics, 
+\item calculation of the synchrotron radiation electric field and 
+spectra in arbitrary magnetic fields, from the ray-tracing outcomes,
+\item the possibility of using a mesh, which allows ray-tracing from
+	simulated or measured (1-D, 2-D or 3-D) electric and magnetic field maps, 
+\item numerous Monte Carlo procedures~: unlimited number of trajectories, in-flight decay, 
+stochastic radiation, etc. 
+\item built-in fitting procedures allowing arbitrary variables and a large variety of 
+constraints, easily expandable, 
+\item multiturn tracking in circular accelerators including  features proper to machine 
+parameter calculation and survey,  
+\item simulation of time-varying power  supplies, 
+\item simulation of arbitrary radio-frequency programs.
+\end{itemize}
+
+\medskip
+
+\noindent The initial  version of \zgoubi\ was dedicated to  ray-tracing in magnetic elements, beam lines, spectrometers. 
+ It was perfected for the purpose of studying, and operating, the four spectrometers SPES I, II, III, IV  
+at the  Laboratoire National Saturne (CEA-Saclay, France), and, later,  SPEG at Ganil 
+(Caen, France). 
+
+\medskip
+
+\noindent Developments regarding  spin tracking and ray-tracing in combined electric and magnetic fields
+were implemented, in the late 1980s and early 1990s respectively.  
+
+\medskip
+
+\noindent In the mid-1990s,  the computation of 
+synchrotron radiation electromagnetic impulse and spectra was introduced, 
+for the purpose of synchrotron radiation diagnostic R\&D at LEP, and further applied to the 
+design of the SR diagnostics installations at LHC in the early 2000s. 
+In the mean time, several new optical elements were added, such as 
+electro-magnetic and other electrostatic lenses. Used since several years for special studies in periodic
+machines (\emph{e.g.}, SATURNE at Saclay, COSY at Julich, LEP and LHC at CERN),  
+\zgou\  has also undergone extensive developments regarding storage ring related features.
+
+\medskip
+
+\noindent Many developments have been accomplished since the early 2000s in the frame of a number of 
+project design and beam dynamics studies, as the neutrino factory, lepton and hadron colliders, 
+spin studies at AGS and RHIC, etc. 
+As a consequence the list of optical elements and the compendium of numerical methods, 
+so-called ``Glossary of Keywords'' list, pp.~\pageref{GOK1A} and~\pageref{GOK1B},
+  has stretched with new 
+simulation and computing procedures, ranging from fitting to overlapping magnetic fields capabilities  via 
+spin  and other radiation damping tools. 
+
+\medskip
+
+\noindent The graphic  interface to \zgou\ (\zpop, Part~D) has also been subject to  extensive  developments, making it 
+a convenient companion tool to the use of \zgoubi. 
+
+
+
+
+\newpage
 \clearemptydoublepage
 
 \section{NUMERICAL CALCULATION OF MOTION AND FIELDS}\label{sec2} %%2
@@ -563,7 +668,7 @@ derivatives are calculated in various ways, depending  whether field maps or ana
        \label{sec2.3.1} %%%%%  2.3.1.  [3]
 
 
- A cylindrically symmetric field (e.g., using \textsl{BREVOL}\index{BREVOL}, \textsl{ELREVOL}\index{ELREVOL}) can be described
+ A cylindrically symmetric field (\emph{e.g.}, using \textsl{BREVOL}\index{BREVOL}, \textsl{ELREVOL}\index{ELREVOL}) can be described
 by an axial 1-D field map of its longitudinal component $ B_X(X,r=0) $
  $(r=(Y^2+Z^2)^{1/2})$,  
 while the radial component on axis $ B_r(X,r=0) $ is assumed to be zero. $ B_X(X,r=0) $ is obtained 
@@ -598,9 +703,9 @@ eq.~(\ref{eq2-2-7}).
 
 In the median plane, $ B_Z(X,Y,0)$ and its 
 derivatives with respect to $ X $ or $ Y$ may be deriveded  from analytical
-models (e.g.\ in Venus magnet - \textsl{VENUS\index{VENUS}}, and sharp edge 
+models (\emph{e.g.}, in Venus magnet - \textsl{VENUS\index{VENUS}}, and sharp edge 
 multipoles  \textsl{SEXQUAD\index{SEXQUAD}}   and \textsl{QUADISEX\index{QUADISEX}}) or numerically by
-polynomial interpolation from 2-D field maps (e.g.\ \textsl{CARTEMES\index{CARTEMES}, 
+polynomial interpolation from 2-D field maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}, 
 TOSCA\index{TOSCA}}).  
 
 \smallskip
@@ -737,7 +842,7 @@ $$ P(s) = C_0
 	       + C_5 \left(\dfrac{s }{ \lambda} \right)^5 $$ 
 and $s$ is the distance to the EFB.
  
-\paragraph{Skewed multipoles}
+\paragraph{Skew multipoles}
 
 \noindent A multipole component with arbitrary order $n$ can be tilted independently of 
 the others by an arbitrary 
@@ -749,7 +854,7 @@ its derivatives at $ (X,Y_R,Z_R) $ in the $ (X,Y,Z) $ frame are transformed
 to the rotated $ (X,Y_R,Z_R) $ frame by a rotation of the same angle 
 $A_n$. 
 
-In particular a skewed $2n$-pole component is created  by taking $A_n = \pi/2n$.
+In particular a skew $2n$-pole component is created  by taking $A_n = \pi/2n$.
 
 
 
@@ -757,7 +862,7 @@ In particular a skewed $2n$-pole component is created  by taking $A_n = \pi/2n$.
 \paragraph{A Note on Electrostatic Multipoles}
 
 \noindent A right electric multipole has the same field equations as a 
-as the like-order skewed magnetic multipole. Therefore, 
+as the like-order skew magnetic multipole. Therefore, 
 calculation of  right or skew electric or electro-magnetic multipoles 
 (\textsl{ELMULT\index{ELMULT}, EBMULT\index{EBMULT}, ELMULT\index{EBMULT}})   uses the 
 same eq.~(\ref{eq2-3-5}) together with the rotation process as described in 
@@ -892,7 +997,7 @@ $B(X,Y,0) $ at the central node of the grid
 \noindent The derivatives of $ B(X,Y,0) $ with respect to $ X $ and $ Y$, at
 the actual point 
 $ (X,Y,0) $ are obtained by differentiation of the interpolation polynomial, 
-which gives (e.g.~from (\ref{eq2-4-4}) in the case of second order interpolation)
+which gives (\emph{e.g.},~from (\ref{eq2-4-4}) in the case of second order interpolation)
 
 \begin{equation}
 	\begin{aligned}
@@ -1023,17 +1128,20 @@ C~: Mesh in the $ (X,Y) $ plane in polar coordinates. }
 
 \subsubsection{Arbitrary 2-D Map, no Symmetry} \label{sec2.4.3}
 
-The map is supposed to describe the field $ \vec  B(B_X,B_Y,B_Z) $
-in the $ (X,Y) $ 
+The map is assumed to describe the field $ \vec  B(B_X,B_Y,B_Z) $ in the $ (X,Y) $ 
 plane at elevation $ Z_0 $. It provides the components $ B_{X,ij}$, $
 B_{Y,ij}$,  $ B_{Z,ij} $ at 
 each node $ (i,j) $ of a 2-D mesh. 
 
 \noindent The value of $ \vec  B $ and its derivatives at the projection $
 (X,Y,Z_0) $ of the actual position $ (X,Y,Z) $ 
-of a particle is obtained by means of a polynomial interpolation from a  
-$3 \times 3$~points grid centered at the node $(i,j) $
-which is closest to the position $ (X,Y)$
+of a particle is obtained by means of  
+ (parameter \textsl{IORDRE} in  keyword data list - see for instance \textsl{MAP2D,~MAP2D-E})
+either a second degree polynomial interpolation from a $3 \times 3$~points grid (\textsl{IORDRE}=2),  
+or a fourth degree polynomial interpolation from a $5 \times 5$~points grid (\textsl{IORDRE}=4),  
+centered at the node $(i,j) $  closest to the position $ (X,Y)$. 
+
+\noindent To second order for instance 
 
  \begin{equation}
 	 B_{\ell} (X,Y,Z_0)=A_{00} +A_{10} X +A_{01} Y +A_{20} X^2 +A_{11} X Y +A_{02} Y^2
@@ -1060,18 +1168,15 @@ Differentiating then gives the derivatives
 the actual position $ (X,Y,Z)$. 
 
 \noindent No special symmetry is assumed, which allows the treatment of 
-arbitrary field distribution. 
+arbitrary field distribution (\emph{e.g.}, solenoid, helical snake). 
 
-\noindent Fourth order polynomial interpolation is available upon request (parameter 
-\textsl{IORDRE} in  keyword data list - see \textsl{MAP2D,~MAP2D-E}), using 
-the method above based on eq.~(\ref{eq2-4-10} developped up to fourth order in $X$ and $Y$. 
 
 
 \subsubsection{3-D Field Map} \label{sec2.4.4}
 
 The vector field $ \vec  B(X,Y,Z) $ and its derivatives necessary
-for the calculation of position and velocity of the particle are now defined by means 
-of a 3-D field map, through second degree  polynomial interpolation
+for the calculation of position and velocity of the particle are now defined 
+using a 3-D field map, through second degree  polynomial interpolation
 
 \begin{equation}
 \!\!	B_{\ell} (X,Y,Z) = A_{000} + A_{100} X + A_{010} Y + A_{001} Z + 
@@ -1130,7 +1235,7 @@ equations $\partial S / \partial A_{ijk} = 0$.
 \hangcaption{\label{fig4}A 3-D 27-point  grid is used for
 interpolation of $ \vec  B $ and its 
 derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
-at the closest vicinity of the actual position of the particle.} 
+ the closest to the actual position of the particle.} 
 \end{figure}
 
 
@@ -1274,9 +1379,13 @@ energy loss by stochastic emission of photon and the ensuing perturbation
 on particle dynamics  and, on the other hand calculation of the 
 radiated spectral-angular energy densities as observed in the lab. 
 
-\subsection{Energy loss and related dynamical effects~\protect\cite{FMSEA-00-01}\label{SRLoss}}\label{secSRLoss}
+\subsection{Energy loss and related dynamical effects}\label{secSRLoss}
 
-Given a particle wandering in the magnetic field of an arbitrary optical element or field 
+Most of the content in the present section is drawn from Refs.~\protect\cite{FMSEA-00-01}\label{SRLoss}.
+
+\medskip
+
+\noindent Given a particle wandering in the magnetic field of an arbitrary optical element or field 
 map, \zgoubi\ computes the energy loss undergone, and its 
 effect on the particle motion. The energy loss is calculated  in a  classical manner, by calling upon 
 two random processes that accompany the emission of a photon  namely, \\
@@ -1285,14 +1394,14 @@ two random processes that accompany the emission of a photon  namely, \\
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=7cm]{G.eps}
+\includegraphics[width=6cm]{G.eps}
 
 \vspace{14mm} 
 \caption{\small
        Cumulative distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
 \end{figure}
 
-The effects on the dynamic of the emitting particle 
+\noindent The effects on the dynamic of the emitting particle 
  is either limited to the alteration of the energy, or extended to angular kick effect, 
 following user requested working options~; particle 
 position is supposed not to  change upon emission of a photon. These calculations 
@@ -1300,8 +1409,10 @@ position is supposed not to  change upon emission of a photon. These calculation
  each integration step. In a practical manner, this 
 means every centimer or tens of centimers in smoothly varying magnetic fields. 
 
-Main aspects of the method are developped in the following. 
+\noindent Main aspects of the method are developped in the following. 
 
+
+\newpage 
 
 \paragraph{Probability of emission of a photon}
 
@@ -1352,7 +1463,7 @@ In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated
 (\frac{\epsilon}{\epsilon_c})^{1/3}
 \end{equation}
 
- About $40$ values of $\mathcal{P}(\epsilon/\epsilon_c)$ computed from eq.~\ref{EqSK53}~\cite{VOKostroun}, 
+\noindent  About $40$ values of $\mathcal{P}(\epsilon/\epsilon_c)$ computed from eq.~\ref{EqSK53}~\cite{VOKostroun}, 
 honnestly spread  over a range $\epsilon/\epsilon_c \leq 10$ are  tabulated 
 in \zgoubi\ source file (see figure). In 
 order to get $\epsilon/\epsilon_c$, first a random value $0<\mathcal{P}<1$ is generated uniformly, 
@@ -1366,21 +1477,21 @@ or, if $\mathcal{P}<0.26$ from eq.~\ref{EqSK53Low} that directly gives
 \bigskip
 
 
-Upon request of SR loss tracking, several optical elements that contain dipole 
-magnetic field component (e.g., \textsl{MULTIPOL}) provide a printouot of various 
+\noindent Upon request of SR loss tracking, several optical elements that contain dipole 
+magnetic field component (\emph{e.g.}, \textsl{MULTIPOL}) provide a printouot of various 
  quantities related to SR emission, as drawn from classical theoretical 
 expressions, such as for instance, \\
 - energy loss per particle $\Delta E(eV)= \frac{2}{3}r_0 c \gamma^3 B(T) \Delta \theta$,   ($B$ 
 is the dipole field, exclusive of any other multipole component or non-linearity 
 in the magnet~; $\Delta \theta$ is the total deviation as calculated from $B$, the 
-magnet length, and the reference rigidity \BORO (as defined with, e.g., \textsl{OBJET}) \\
+magnet length, and the reference rigidity \BORO (as defined with, \emph{e.g.}, \textsl{OBJET}) \\
 - energy $\epsilon_c(eV)=\frac{3 \gamma^3 c}{2 \rho} \frac{\bar{h}}{e}$, with 
 $\rho =$\BORO$/B$ \\
 - energy of radiated photons $<\epsilon> = \frac{8}{15 \sqrt{3}} \epsilon_c$, \\ 
 - r.m.s. energy of radiated photons $\epsilon_{rms} = 0.5591 \epsilon_c$, \\
 - number of radiated photons per particle  $N = \Delta E /<\epsilon>$.  
 
-This is done in order to facilitate verifications, since on the other hand statistics 
+\noindent This is done in order to facilitate verifications, since on the other hand statistics 
 regarding those values are drawn from the tracking and printed upon use of the dedicated 
 keyword \textsl{SYNPRNL}. 
 
@@ -1388,15 +1499,18 @@ keyword \textsl{SYNPRNL}.
 
 \bigskip
 
-Finally, upon user's request as well,  SR loss can be limited to particular classes of optical 
+\noindent Finally, upon user's request as well,  SR loss can be limited to particular classes of optical 
 elements, for instance dipole fields alone, or dipole + quadrupole magnets, etc. These tricks 
 are made available in order to permit deeper insight, or easier comparison with other codes, 
 for instance. 
 
-\subsection{Spectral-angular radiated densities~\protect\cite{FMSL/94-22,FMLPYellow}}\label{secSRSpec}
+\subsection{Spectral-angular radiated densities}\label{secSRSpec}
 
+Most of the content in the present section is drawn from Refs.~\protect\cite{FMSL/94-22,FMLPYellow}.
 
-The ray-tracing procedures provide the ingredients necessary 
+\medskip
+
+\noindent The ray-tracing procedures provide the ingredients necessary 
 for the determination of the electric field radiated by the particle subject to
 acceleration, as shown in Fig.~\ref{newfig5} (section~\ref{secN4.1}). This allows 
 calculation\footnote{These procedures are for the moment  implemented in the 
@@ -1431,7 +1545,7 @@ $\vec{n}(t)$ = (normalized) direction of observation = $\vec{r}(t)/|\vec{r}(t)|$
 \subsubsection{Calculation of the radiated  electric field  \label{secN4.1}}
 
 
-The expression for  the radiated  electric field $\vec \Ecal (\vec{n}, \tau)$ 
+\noindent The expression for  the radiated  electric field $\vec \Ecal (\vec{n}, \tau)$ 
 as seen by the observer in the long
 distance approximation is~\cite{JDJ}
 \begin{equation}
@@ -1699,7 +1813,7 @@ $$ N_0,\quad C_0,\quad C_1,\quad C_2,\quad C_3 $$
 
 \noindent All particles generated by \textsl{MCOBJET\index{MCOBJET}}  are tagged with
 a (non-S) character, for further statistic purposes 
-(e.g., with \textsl{HISTO\index{HISTO}} and \textsl{MCDESINT\index{MCDESINT}}).  
+(\emph{e.g.}, with \textsl{HISTO\index{HISTO}} and \textsl{MCDESINT\index{MCDESINT}}).  
 \medskip
 
 \noindent\textbf{KOBJ  =  2}~: Random  generation of 
@@ -1858,7 +1972,7 @@ indicating a symmetry with respect to the ($ X$,$Y$) plane, as explained in opti
 \mbox{\KOBJ= 3}. If two trajectories have mid-plane symmetry, only one  will be 
 ray-traced, while the other will be deduced using the mid-plane 
 symmetries. This is done for the purpose of saving computing time. It may 
-be incompatible with the use of some procedures (e.g.~\textsl{MCDESINT\index{MCDESINT}}, which 
+be incompatible with the use of some procedures (\emph{e.g.}~\textsl{MCDESINT\index{MCDESINT}}, which 
 involves random processes). 
 
 \noindent The last datum is the reference of the problem ($YR,TR,ZR,PR,XR,DR$). 
@@ -1942,7 +2056,7 @@ InitC
 \smallskip 
 
 \noindent IP1, IP2, IPStep  tell the code to read coordinates belonging in the sole pass   IP1 through  IP2 by step IPStep. 
-Indeed, IP2 $>$ IP1 assumes prior filling of \textsl{FNAME} in the course of a run (e.g., multiturn tracking) 
+Indeed, IP2 $>$ IP1 assumes prior filling of \textsl{FNAME} in the course of a run (\emph{e.g.}, multiturn tracking) 
 involving  the keyword \textsl{REBELOTE}. 
 
 \smallskip 
@@ -1964,7 +2078,9 @@ if \mbox{InitC$=0$}  ray-tracing starts from the initial coordinates $ FO(J,I)$ 
 \smallskip 
 
 
-The  file \textsl{FNAME} must be formatted so as to fit the following \FORTRAN sequence 
+\noindent The  file \textsl{FNAME} must be formatted in the appropriate manner. 
+The following \FORTRAN\ sequence is an instance, details and possible updates are to be found in the source  
+file \textsl{'obj3.f'}~:  
 \begin{alltt}
 \footnotesize
          OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
@@ -2022,7 +2138,7 @@ charge and PARTICUL will not assign a mass or charge.
 \bigskip
 
 \noindent\textbf{KOBJ = 3.01:} Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
-data in  \textsl{FNAME} which is much simpler, namely, according to the following \FORTRAN sequence 
+data in  \textsl{FNAME} which is much simpler, namely, according to the following \FORTRAN\ sequence 
 \begin{alltt}
 \footnotesize
          OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
@@ -2044,8 +2160,7 @@ where \texttt{PX}, \texttt{PY}, and \texttt{PZ}, are the momenta in
 MeV/$c$.  Note that DPR will be ignored in this case.
 \bigskip
 
-\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except the format
-is 
+\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except for the format~: 
 \begin{alltt}
          READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE
 \end{alltt}
@@ -2227,9 +2342,9 @@ that are assigned by \textsl{OBJETA}.
 
 These options allow the control of procedures that affect certain 
 functions of the code. Some options are normally declared right after 
-the object definition (e.g.~\textsl{SPNTRK\index{SPNTRK}} - spin tracking, 
+the object definition (\emph{e.g.}~\textsl{SPNTRK\index{SPNTRK}} - spin tracking, 
 \textsl{MCDESINT\index{MCDESINT}} -
-in-flight decay),  others are normally declared at the end of the data pile (e.g. 
+in-flight decay),  others are normally declared at the end of the data pile (\emph{e.g.} 
 \textsl{END\index{END}} -- end of a problem, 
 \REBELOTE\index{REBELOTE} -- for tracking more than \imax\~particles  or for 
 multi-turn tracking, 
@@ -2241,17 +2356,17 @@ multi-turn tracking,
 \medskip
 
 This procedure translates field map data files from ``BINARY'' to 
-``FORMATTED'' -- in the \FORTRAN sense, or the other way.
+``FORMATTED'' -- in the \FORTRAN\ sense, or the other way.
 \bigskip
 
 \noindent The keyword is followed, next line, by NF.NCOL ($NF\leq9$, $NCOL\leq9$), the number of files to be translated and 
-of data columns in the file.  NCOL should be consistant with the following FORTRAN READ statement~: 
+of data columns in the file.  NCOL should be consistant with the following \FORTRAN\ READ statement~: 
 
        {\tt     READ (unit=ln,*) (X7(I),I=1,NCOL)}
 
 \noindent The first data line in a field map file is a header, 
 and contains $NCOL$ reals as reference X coordinate, mesh step $\delta X$, 
-reference Y coordinate, mesh step $\delta Y$, and three others (see the FMAPW FORTRAN procedure for 
+reference Y coordinate, mesh step $\delta Y$, and three others (see the FMAPW \FORTRAN\ procedure for 
 more datails).
  
 \noindent Then follow, line per line, the NF names of the files to be translated.
@@ -2266,7 +2381,7 @@ given the same name after addition of the prefix ``B\_''.
 \medskip
 
 \noindent In its present state, the procedure \textsl{BINARY} 
-only supports a limited number of output formatting, e.g. from  \textsl{TOSCA}\index{TOSCA} magnet code 
+only supports a limited number of output formatting, \emph{e.g.} from  \textsl{TOSCA}\index{TOSCA} magnet code 
  (see keyword \textsl{TOSCA}\index{TOSCA}). 
 
 
@@ -2661,7 +2776,7 @@ Case $I=-1$~:  the constraint is the $J$-distance for two different particles.
 \smallskip
 
 \noindent  {\it IC=3.1~: } Difference between final and initial $J$-coordinate of particle $I$ (convenient 
-e.g. for closed orbit search). 
+\emph{e.g.} for closed orbit search). 
 
 \smallskip
 
@@ -2690,7 +2805,7 @@ If $I\ge 1$ then the constraint value is the ratio of  particles encompassed wit
 \smallskip
 
 \noindent  {\it IC=10.1~: } Difference between final and initial $J$-spin coordinate  of particle $I$ (convenient 
-e.g. for closed orbit search). 
+\emph{e.g.} for closed orbit search). 
 
 
 
@@ -2853,7 +2968,7 @@ at $ s $ are recalculated by translation.
 
 \noindent The limit path length of all particles  ($I=1$, \IMAX\index{IMAX@{\IMAX}})   is stored in
 the array  \textsl{FDES}$(6,I)$, for further statistical purposes. For the same purpose 
-(e.g., use of \textsl{HISTO\index{HISTO}}), any particle of type~2 (resulting from decay of~1) 
+(\emph{e.g.}, use of \textsl{HISTO\index{HISTO}}), any particle of type~2 (resulting from decay of~1) 
 will be tagged with an $ S $ standing for ``secondary''. When a particle decays, 
 its coordinates $ D$, $Y$, $T$, $Z$, $P $ at the decay point are stored in  
 \textsl{FDES}$(J,I)$, \mbox{$ J=1,\, 5$}.  
@@ -3066,7 +3181,7 @@ their random seeds are not reset and  independent statistics will add up.
 
 \bigskip
 
-\noindent \REBELOTE\ can be used for  multi-turn tracking in circular machines (e.g.~Synchrotron 
+\noindent \REBELOTE\ can be used for  multi-turn tracking in circular machines (\emph{e.g.}~Synchrotron 
 accelerators, FFAGs, etc.).  
 
 \noindent For instance, using option described \textsl{K=99.2} above, a full ``injection line + ring + extraction line'' installation 
@@ -3757,7 +3872,7 @@ bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\ep
 \medskip
 
 \textsl{BREVOL}  reads a 1-D axial field map from a storage data file,
-whose content must fit the following \FORTRAN reading sequence   
+whose content must fit the following \FORTRAN\ reading sequence   
 \bigskip
 
 
@@ -3802,7 +3917,7 @@ $A$, $B$, $C$, etc.
 and processing of
 the measured median plane field maps of the QDD spectrometer  SPES2 at Saclay.  However, it can be
 used for the reading of any other 2-D median plane maps, provided that the format of the
-field data storage file fits the following \FORTRAN sequence 
+field data storage file fits the following \FORTRAN\ sequence 
 
 
 {\footnotesize
@@ -4093,7 +4208,7 @@ soon as the \textsl{EXIT} or \textsl{LATERAL EFB}'s are passed.
 \bigskip
 
 \noindent In polar coordinate optical elements $ Y $  stands for the radial
-coordinate (e.g. with \textsl{DIPOLE\index{DIPOLE}}, see Figs.~\ref{fig3}C and~\ref{fig9}).  
+coordinate (\emph{e.g.} with \textsl{DIPOLE\index{DIPOLE}}, see Figs.~\ref{fig3}C and~\ref{fig9}).  
  Therefore, centering \textsl{CHAMBR\index{CHAMBR}} at $ YC=RM $ simulates a chamber curved with radius 
  $ RM $, and having a radial acceptance $ RM\pm YL $.  The testing  is done in  \textsl{ESL}  
  (\textsl{DRIFT}) at the beginning and the end, and only for positive drifts.  There 
@@ -4407,7 +4522,7 @@ matching of the particle population, only $\epsilon_{Y,Z}/\pi$ need be specified
 
 \noindent When a particle is stopped, its index \IEX\index{IEX@{\IEX}} (see \textsl{OBJET}
 and section~\ref{sec4.6.6}) is set to the value -4, and its actual path length is stored in 
-the array \textsl{SORT}  for possible further statistical purposes (e.g.~with 
+the array \textsl{SORT}  for possible further statistical purposes (\emph{e.g.}~with 
 \textsl{HISTO\index{HISTO}}). 
 
 
@@ -4745,7 +4860,7 @@ in section~\ref{sec2.3.2}.
 
 \newpage
 
-\subsubsection*{DIPOLES~: \DIPOLESTitl~\cite{reportNIMFFAG}} \label{DIPOLES} \index{DIPOLES|textbf}
+\subsubsection*{DIPOLES~: \DIPOLESTitl~\cite{reportNIMFFAG,reportICFAFFAG}} \label{DIPOLES} \index{DIPOLES|textbf}
 \medskip
 
 \noindent \textsl{DIPOLES} works much like \textsl{DIPOLE\index{DIPOLE}} 
@@ -5325,7 +5440,7 @@ separately for each component, in the way described in \textsl{QUADRUPO\index{QU
 
 \noindent Moreover, any multipole component $ \vec  Ei $ can be rotated
 independently by an angle $ RXi $ around the longitudinal $ X$-axis, for the simulation of 
-positioning defects, as well as skewed lenses. 
+positioning defects, as well as skew lenses. 
 
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{ELMULT}, for the
  definition of particle mass and charge.
@@ -5359,7 +5474,7 @@ skew-octupole $ (\vec  E4 \ne \vec 0,~ \vec R4 = \pi/8) $ components
 \medskip
 
 \textsl{ELREVOL}  reads a 1-D axial field map from a storage data file,
-whose content must fit the following \FORTRAN reading sequence  
+whose content must fit the following \FORTRAN\ reading sequence  
 
 
 {\footnotesize
@@ -5419,7 +5534,7 @@ That part of the manual to be provisionned...
 FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}, a flag  `BINARY' will thus be set to `.TRUE.'.  
 
 A flag \textsl{MOD} determines wether Cartesian or Z-axis cylindrical mesh is used. \textsl{MOD} can 
-take various values depending also on the map data file formatting. (To be documented - see FORTRAN 
+take various values depending also on the map data file formatting. (To be documented - see \FORTRAN\ 
 subroutine FMAPW and its entries FMAPR, FMAPR2.)
 
 \bigskip
@@ -5457,7 +5572,7 @@ are integrated in the field may be defined, in the same way as in  \textsl{CARTE
 \newpage
 
 
-\subsubsection*{FFAG~: \FFAGTitl~\cite{reportNIMFFAG}} \label{FFAG} \index{FFAG magnet, radial|textbf}
+\subsubsection*{FFAG~: \FFAGTitl~\cite{reportNIMFFAG,reportICFAFFAG}} \label{FFAG} \index{FFAG magnet, radial|textbf}
 \medskip
 
 \noindent \textsl{FFAG} works much like \textsl{DIPOLES} 
@@ -5573,7 +5688,7 @@ together with $\theta=0$ at entrance (resp. exit) EFBs),
 \newpage
 
 
-\subsubsection*{FFAG-SPI~: \FFAGSPITitl} \label{FFAG-SPI} \index{FFAG magnet, spiral|textbf}
+\subsubsection*{FFAG-SPI~: \FFAGSPITitl~\cite{reportICFAFFAG,reportNIMFFAGSPI}} \label{FFAG-SPI} \index{FFAG magnet, spiral|textbf}
 \medskip
 
 \noindent \textsl{FFAG-SPI} works much like \textsl{FFAG} 
@@ -5680,10 +5795,14 @@ extrapolation off median plane, etc., things are performed exactly as in the cas
 components $ B_X$, $ B_Y $, $ B_Z $ of the magnetic field at all nodes of a 2-D Cartesian 
 uniform mesh in an $(X,Y)$ plane. 
 No particular symmetry is assumed, which allows the 
-treatment of any type of field (e.g., dipole field  with arbitrary $Z$ elevation 
-- the map needs not be a mid-plane map, solenoidal field, etc.). The data file should be filed with a 
-format that fits the following \FORTRAN reading sequence (presumably compatible 
-with \textsl{TOSCA} code outputs) 
+treatment of any type of field (\emph{e.g.}, dipole field  with arbitrary $Z$ elevation 
+- the map needs not be a mid-plane map, solenoidal field, etc.). 
+
+\noindent The field map data file has to be be filled with a 
+format that fits the  \FORTRAN\ reading sequence (presumably compatible 
+with \textsl{TOSCA} code outputs).  
+The following is an instance, details and possible updates are to be found in the source  
+file \textsl{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -5725,9 +5844,13 @@ exit integration boundaries may be defined, in the same way as for \textsl{CARTE
 components $ E_X$, $ E_Y $, $ E_Z $ of the electric field at all nodes of a 2-D Cartesian 
 uniform mesh in an $(X,Y)$ plane. 
 No particular symmetry is assumed, which allows the 
-treatment of any type of field (e.g.,  field of a parallel-plate mirror with arbitrary $Z$ elevation 
-- the map needs not be a mid-plane map). The data file should be filed with a 
-format that fits the following \FORTRAN reading sequence 
+treatment of any type of field (\emph{e.g.},  field of a parallel-plate mirror with arbitrary $Z$ elevation 
+- the map needs not be a mid-plane map). 
+
+\noindent The field map data file has to be be filled with a 
+format that fits the  \FORTRAN\ reading sequence. 
+The following is an instance, details and possible updates are to be found in the source  
+file \textsl{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -5861,7 +5984,7 @@ for each component, in the way described in \textsl{QUADRUPO\index{QUADRUPO}}.
 
 \noindent Any multipole component $ \vec  Bi $ can be rotated independently
 by an angle $ RXi $ around the longitudinal $ X$-axis, for the simulation of positioning defects,
-as well as skewed lenses. 
+as well as skew lenses. 
 
 \bigskip
 
@@ -5911,7 +6034,7 @@ approximated to the 8-th order in $ Y $ and $ Z $
 This keyword allows reading a field profile $ B(X) $ from  \textsl{POISSON} output. 
 Let \textsl{FNAME} be the name of this output file (normally,
 \textsl{FNAME} = outpoi.lis\index{outpoi.lis})~; 
-the data are read following the \FORTRAN statements hereunder 
+the data are read following the \FORTRAN\ statements hereunder 
 
 {\footnotesize
 \begin{verbatim}
@@ -6258,8 +6381,10 @@ mid-plane symmetry assumption), following \textsl{MOD} value, see below,
 is $IZ$, and  map number $[IZ/2]+1$ is the $Z = 0$ one.
 \bigskip
 
-\noindent The field map data files should be formatted following the \FORTRAN reading 
-sequence below.
+\noindent The field map data file has to be be filled with a 
+format that fits the  \FORTRAN\ reading sequence. 
+The following is an instance, details and possible updates are to be found in the source  
+file \textsl{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -6282,7 +6407,7 @@ sequence below.
 FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}, a flag  `BINARY' will thus be set to `.TRUE.'.  
 
 A flag \textsl{MOD} determines wether Cartesian or Z-axis cylindrical mesh is used. \textsl{MOD} can 
-take various values depending also on the map data file formatting. (To be documented - see FORTRAN 
+take various values depending also on the map data file formatting. (To be documented - see the \FORTRAN\ 
 subroutine FMAPW and its entries FMAPR, FMAPR2.)
 
 \bigskip
@@ -6519,8 +6644,10 @@ dedicated file \textsl{FNAME} (advised name is \textsl{FNAME} = `zgoubi.fai'
 (formatted write) or `b\_zgoubi.fai' (binary write) \index{zgoubi.fai}
 if post-processing with \textbf{zpop}\index{zpop} should follow).  This file may further on be read by means of  \textsl{OBJET}, 
 option \mbox{\KOBJ= 3}, or used for other purposes such as graphics (see Part~D of the Guide).  
-The data written to that file are formatted and  ordered according to the \FORTRAN sequence 
-in the subroutine \textsl{impfai.f}, a copy of which as of Sept.~2009 is as follows~:  
+
+\noindent The data written to that file are formatted and  ordered according to the \FORTRAN\ sequence 
+in the subroutine \textsl{impfai.f}, where details and possible updates are to found. 
+The following is an instance~: 
 
 {\footnotesize
 \begin{verbatim}
@@ -6607,7 +6734,7 @@ the sake of compactness and access speed, for instance  in case  voluminous amou
 data would have to be manipulated. 
 
 This is achieved by giving the storage file a name of the form \textsl{b\_FNAME} 
-or \textsl{B\_FNAME}  (e.g., `b\_zgoubi.fai'). The FORTRAN \textsl{WRITE} list 
+or \textsl{B\_FNAME}  (\emph{e.g.}, `b\_zgoubi.fai'). The \FORTRAN\ \textsl{WRITE} list 
 is the same as in the \textsl{FORMATTED} case above.  
 
 This is compatible with the \textsl{READ} statements in \textbf{zpop} that will recognize binary storage 
@@ -6869,7 +6996,7 @@ matrices as obtained in the way described above, and by identification with the 
 
 \noindent  Addition of \textsl{zgoubi.MATRIX.out} next to \textsl{IORD, IFOC} will cause 
 stacking of \textsl{MATRIX} output data 
-into   zgoubi.MATRIX.out file (convenient for use with e.g. gnuplot type of data treatment software). 
+into   zgoubi.MATRIX.out file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
 
 
 \newpage
@@ -6918,7 +7045,7 @@ The mean values of the spin components are also printed.
 \noindent \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
 stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
 advised name is \textsl{FNAME} = `zgoubi.spn' (formatted write) or `b\_zgoubi.spn' (binary write) \index{zgoubi.spn}). 
-The data are formatted and ordered according to the  \FORTRAN sequence found in the subroutine \textsl{spnprn.f}, 
+The data are formatted and ordered according to the  \FORTRAN\ sequence found in the subroutine \textsl{spnprn.f}, 
 with meaning of printed quantities as follows~: 
 
 \medskip
@@ -6974,7 +7101,7 @@ the sake of compactness and I/O access speed by zgoubi  or zpop, for instance  i
 data should be manipulated. 
 
 This is achieved by giving the storage file a name of the form \textsl{b\_FNAME} 
-or \textsl{B\_FNAME}  (e.g., `b\_zgoubi.spn'). The FORTRAN \textsl{WRITE} ouput list 
+or \textsl{B\_FNAME}  (\emph{e.g.}, `b\_zgoubi.spn'). The \FORTRAN\ \textsl{WRITE} ouput list 
 is the same as in the \textsl{FORMATTED} case above.  
 
 
@@ -7015,7 +7142,7 @@ When using
 
 \medskip
 
-- It assumes that the reference particle (e.g., particle \#1 of 11, when using \textsl{OBJET}, \mbox{\KOBJ= 5}) is located on 
+- It assumes that the reference particle (\emph{e.g.}, particle \#1 of 11, when using \textsl{OBJET}, \mbox{\KOBJ= 5}) is located on 
 the closed orbit. \textsl{This condition has to be satisfied for TWISS to work correctly. }
 
 - A first pass through the structure allows computing the Twiss and beam matrices from the  rays, including the periodic 
@@ -7081,7 +7208,7 @@ to print out  every other $10^n$ integration step by taking $ \IL=2 \times 10^n 
  $ \IL=200 $ would cause output into zgoubi.plt every $100$ other step). 
 \bigskip
 
-\noindent When dealing with maps (e.g., \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
+\noindent When dealing with maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
 \index{ELREVOL}}), another option index $ \IC $\index{IC@{\IC}} is available.
   It is normally set to 0 and in this case has no effect.
  
@@ -7129,7 +7256,7 @@ means of \textsl{SCALING\index{SCALING}}, family \textsl{CAVITE}
 \end{itemize}
 
 \noindent Eventually some families of magnets may be given a law which does 
-not follow $ \Br (T)$,  for the simulation of special processes (e.g.\ 
+not follow $ \Br (T)$,  for the simulation of special processes (\emph{e.g.}, 
 fast crossing of spin resonances with independent families of 
 quadrupoles). 
 
@@ -7145,7 +7272,7 @@ The last record in most optical elements and field maps is the positioning flag
 \textsl{KPOS}\index{KPOS|textbf}, followed by the parameterss \textsl{XCE}, \textsl{YCE} 
 for translation and \textsl{ALE} for rotation. The positioning works in two different ways, 
 depending  whether they are defined in 
-Cartesian $ (X, Y, Z) $ coordinates (e.g., \textsl{QUADRUPO\index{QUADRUPO}, TOSCA\index{TOSCA}}),
+Cartesian $ (X, Y, Z) $ coordinates (\emph{e.g.}, \textsl{QUADRUPO\index{QUADRUPO}, TOSCA\index{TOSCA}}),
  or polar 
  ($R$, $\theta$, $Z$)  coordinates (\textsl{DIPOLE\index{DIPOLE}}). 
  
@@ -7168,7 +7295,7 @@ optical element, followed by   \textsl{CHANGREF(XCS,YCS,ALS=-ALE)} downstream of
 \medskip
 
 \noindent \textsl{KPOS} $=3 $ option is available for some 
- magnets  (e.g., \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM, AGS Main Magnet} 
+ magnets  (\emph{e.g.}, \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM, AGS Main Magnet} 
 (AGS main magnet))~; 
 it is effective only if a non zero dipole component $B1$ is present, or if  \textsl{ALE} is non-zero. 
 It positions automatically the magnet in a symmetric manner with respect to the incoming and outgoing reference 
@@ -7312,7 +7439,7 @@ the two parameters $ RS $ (radius) and $ TS $ (angle) (see Fig.~\ref{fig9}A.).
 
  \subsubsection{Coded integration step\index{XPAS, coded}\index{integration step size!coded}} 
 
-In several optical elements (e.g., all multipoles, \textsl{BEND}) the 
+In several optical elements (\emph{e.g.}, all multipoles, \textsl{BEND}) the 
 integration step (in general noted \textsl{XPAS}) can be coded under the 
 form \textsl{XPAS} = \texttt{\#E|C|S}, where \texttt{E} is the number of
 steps taken in the entrance fringe field, \texttt{C} is the number of

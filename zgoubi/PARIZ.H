@@ -86,22 +86,21 @@ C Using MAP2D
 C      PARAMETER (IZ=1 , ID=3, MMAP=2)
 C      PARAMETER (MXX=801, MXY=29)
       
-
-C AGS Magnet maps, using TOSCA
-c      PARAMETER (IZ=1 , ID=3, MMAP=6)
-c      PARAMETER (MXX=498, MXY=161)
+CC AGS Magnet maps, using TOSCA
+C      PARAMETER (IZ=1 , ID=3, MMAP=6)
+C      PARAMETER (MXX=498, MXY=161)
       
-C AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
-C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
+CC AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
+CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
 C      PARAMETER (MXX=801, MXY=161)
 
-C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
-c      PARAMETER (IZ=30 , ID=3, MMAP=2)
-c      PARAMETER (MXX=801, MXY=29)
+CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
+      PARAMETER (IZ=30 , ID=3, MMAP=2)
+      PARAMETER (MXX=801, MXY=29)
 
-C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
-C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
+CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
+CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
 c      PARAMETER (IZ=30 , ID=3, MMAP=8)
 c      PARAMETER (MXX=1000, MXY=201)
 
@@ -109,12 +108,12 @@ CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
 C      PARAMETER (MXX=91, MXY=471)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- GSI KAOS
 C      PARAMETER (IZ=5 , ID=3, MMAP=2)
 C      PARAMETER (MXX=401, MXY=300)
 
-C Laurent, DESIR, tmag field maps
+CC Laurent, DESIR, tmag field maps
 C Using TOSCA
-      PARAMETER (IZ=1 , ID=3, MMAP=1)
-      PARAMETER (MXX=651, MXY=361)
+C      PARAMETER (IZ=1 , ID=3, MMAP=8)
+C      PARAMETER (MXX=651, MXY=361)
