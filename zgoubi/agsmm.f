@@ -59,7 +59,7 @@ C  -------
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
      
-      CHARACTER DIM(2)*3, BE(2)*2, TXT(10)*80
+      CHARACTER DIM(2)*3, BE(2)*2
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
       DIMENSION AK1(6), AK2(6)
@@ -187,7 +187,7 @@ C-------
         IF(NBLW .GE.1) THEN
           DO IBLW = 1, NBLW
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
- 109        FORMAT(15X,' Backleg winding # ',I1',  Nbr of windings : '
+ 109        FORMAT(15X,' Backleg winding # ',I1,',  Nbr of windings : '
      >      ,I1,',  intensity in that winding : ',1p,e15.6,' A')      
           ENDDO
         ENDIF

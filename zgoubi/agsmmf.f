@@ -48,9 +48,6 @@ C  -------
       LOGICAL CHFE, CHFS, CHU
       PARAMETER (Q7=3.038194444D-4)
 
-      LOGICAL CASPI, LTEMP
-      SAVE CASPI
-
       XLS=XLIM-XS 
       IOP=1
 
@@ -58,8 +55,6 @@ C  -------
       IF( BM(1) .EQ. ZERO) GOTO 82
  
 C----- DIPOLE
- 1    CONTINUE
- 
       IP=1
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -228,8 +223,6 @@ C         endif CHU
       ENDIF
 C     **  endif test DLE+DLS
  
-C 999  CONTINUE
- 
       IF(RT(IP) .NE. ZERO)
      >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
 C-----  END DIP
@@ -242,8 +235,6 @@ C-----  END DIP
  
 C--------------------------------------------------------------------
 C----- QUADRUPOLE
- 2    CONTINUE
- 
       IP=2
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -473,8 +464,6 @@ C-----  END QUAD
  
 C--------------------------------------------------------------------
 C----- Champ SEXTUPOLAIRE
- 3    CONTINUE
- 
       IP=3
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -687,8 +676,6 @@ C------ END  SEXTU
  
 C--------------------------------------------------------------------
 C----- OCTUPOLE
- 4    CONTINUE
- 
       IP=4
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -904,8 +891,6 @@ C-----  END OCTUPOLE
  
 C--------------------------------------------------------------------
 C----- DECAPOLE
- 5    CONTINUE
- 
       IP=5
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -963,8 +948,6 @@ C-----  END DECAPOLE
  
 C--------------------------------------------------------------------
 C----- DODECAPOLE
- 6    CONTINUE
- 
       IP=6
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -1025,8 +1008,6 @@ C-----  END DODECAPOLE
  
 C--------------------------------------------------------------------
 C----- 14-POLE
- 7    CONTINUE
- 
       IP=7
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -1068,8 +1049,6 @@ C-----  END 14-POLE
  
 C--------------------------------------------------------------------
 C----- 16-POLE
- 8    CONTINUE
- 
       IP=8
       GN = BM(IP)*BRI
       IF(GN.NE.0.D0) 
@@ -1109,8 +1088,6 @@ C-----  END 16-POLE
  
 C--------------------------------------------------------------------
 C----- 18-POLE
- 9    CONTINUE
- 
       IP=9
       GN = BM(IP)*BRI
       IF(GN.NE.0.D0) 
@@ -1150,8 +1127,6 @@ C-----  END DECAPOLE
  
 C--------------------------------------------------------------------
 C----- 20-POLE
- 10   CONTINUE
- 
       IP=10
       GN = BM(IP)*BRI
       DLE = DLEM(IP)
@@ -1208,8 +1183,6 @@ C     DISTANCE A LA FACE DE SORTIE :
       IF(CHU) THEN
 C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
  
-        IF(.NOT. CASPI) THEN
-
           Y2=Y*Y
           Y4 = Y2*Y2
           Y6 = Y4*Y2
@@ -1227,17 +1200,6 @@ C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
  
           B(1,2) =GN*Z*(9.D0*Y8-84.D0*Y6*Z2+126.D0*Y4*Z4-36.D0*Y2*Z6+Z8)
           B(1,3) =GN*Y*(Y8-36.D0*Y6*Z2+126.D0*Y4*Z4-84.D0*Y2*Z6+9.D0*Z8)
-
-        ELSE
-          DDB(2,2,2)=0
- 
-          DB(3,2)=GN*0.D0
-          DB(2,2)=GN*0.D0
-          DDB(3,2,2)=0.D0
-          B(1,2) =GN*0.D0
-          B(1,3) =GN*0.D0
-
-        ENDIF
 
       ELSE
 C     *** POINT DANS ZONE DE Champ DE FUITE D'ENTRE ET/OU DE SORTIE
@@ -1307,8 +1269,6 @@ C         SES DERIVEES
  
       YZ   = Y  * Z
  
-      IF(.NOT. CASPI) THEN
-
       U = G - D2G/44.D0
       V = 10.D0*Y8-120.D0*Y6*Z2+252.D0*Y4*Z4-120.D0*Y2*Z6+10.D0*Z8
       DUX = G - D3G/44.D0*(Y2+Z2)
@@ -1370,17 +1330,6 @@ C     .. d2By/dYdZ = d2Bz/dY2
      >  DVZ*Z + V) + DUZ*DVYY*YZ + U*(DVYYZ*YZ + DVYY*Y + 2D0*(DVYZ*Z
      >  +DVY)) + 2D0*DUZ*DVY*Z
  
-
-      ELSEIF(CASPI) THEN
-C------------ For DA studies on LHC low-beta quads
-        GN = GN / (2.D0*(XE + XLS)) * (XS-XE)
-        B(1,2) =GN*Z*(9.D0*Y8-84.D0*Y6*Z2+126.D0*Y4*Z4-36.D0*Y2*Z6+Z8)
-        B(1,3) =GN*Y*(Y8-36.D0*Y6*Z2+126.D0*Y4*Z4-84.D0*Y2*Z6+9.D0*Z8)
-
-      ENDIF
-C---------- CASPI
-
-
       ENDIF
 C---------- CHU
 

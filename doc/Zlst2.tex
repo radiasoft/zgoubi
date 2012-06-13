@@ -50,6 +50,113 @@ entered.
             IY*IT*IZ*IP*IT*IZ*IP*   \quad \= \kill}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\begin{tabbing}
+\mestab
+\textbf{AGSMM}         \label{AGSMM-B} \index{AGSMM|textbf}
+           \>\textbf{\AGSMMTitl}\> \>\\
+\\
+\\
+ $\IL$   \>$\IL=1,2$ : print field and coordinates along \>0-2 \>I\\
+ \>trajectories \>\>\\
+ \\
+ $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
+\>2*cm,10*kG \>12*E\\     
+ \>field at pole tip for dipole, quadrupole, \>\>\\
+ \>..., dodecapole components \>\>\\
+ \\
+ \>\textbf{Entrance face} \>\>\\
+$ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : 
+\>2*cm,9*no dim.\> 11*E\\
+ \>dipole fringe field extent = $ \lambda_ E $~; \>\>\\
+ \>quadrupole fringe field extent = $ \lambda_ E\ast E_2 $~;\>\>\\
+ \>...\>\>\\
+ \>20-pole fringe field extent = $ \lambda_ E\ast E_{10} $ \>\>\\
+ \>(sharp edge if field extent is zero) \>\>\\
+ \\
+ \textsl{NCE}, $ C_0-C_5 $            \>same as \textsl{QUADRUPO} 
+ 					\>0-6, 6*no dim. \>I, 6*E\\
+ \\
+ \>\textbf{Exit face} \>\>\\
+$ X_S$, $\lambda_S$, $S_2$, ..., $S_{10} $ \>Integration zone~; as for entrance
+         \>2*cm, 9*no dim. \> 11*E\\
+ \\
+ \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \\
+ \\
+$ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>10*E \\
+\\
+ \textsl{XPAS}                 \>Integration step    \>cm \>E \\
+ \\
+ \textsl{KPOS}, \textsl{XCE},     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; 
+           \>1-2, 2*cm, rad \>I, 3*E \\
+ \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  \> \> \\
+\> for \textsl{QUADRUPO}. \> \> \\
+\> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
+\> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
+\> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
+\> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
+\> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
+
+\end{tabbing}
+
+
+\newpage
+
+
+\begin{tabbing}
+ \mestab
+ \textbf{AGSQUAD}        \label{AGSQUAD-B} \index{AGSQUAD|textbf}
+           \>\textbf{\AGSQUADTitl}\> \>\\
+\\
+\\
+ $\IL$   \>$\IL=1,2$ : print field and coordinates along \>0-2 \>I\\
+ \>trajectories \>\>\\
+ \\
+ $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
+\>2*cm,10*kG \>12*E\\     
+ \>field at pole tip for dipole, quadrupole, \>\>\\
+ \>..., dodecapole components \>\>\\
+ \\
+ \>\textbf{Entrance face} \>\>\\
+$ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : 
+\>2*cm,9*no dim.\> 11*E\\
+ \>dipole fringe field extent = $ \lambda_ E $~; \>\>\\
+ \>quadrupole fringe field extent = $ \lambda_ E\ast E_2 $~;\>\>\\
+ \>...\>\>\\
+ \>20-pole fringe field extent = $ \lambda_ E\ast E_{10} $ \>\>\\
+ \>(sharp edge if field extent is zero) \>\>\\
+ \\
+ \textsl{NCE}, $ C_0-C_5 $            \>same as \textsl{QUADRUPO} 
+ 					\>0-6, 6*no dim. \>I, 6*E\\
+ \\
+ \>\textbf{Exit face} \>\>\\
+$ X_S$, $\lambda_S$, $S_2$, ..., $S_{10} $ \>Integration zone~; as for entrance
+         \>2*cm, 9*no dim. \> 11*E\\
+ \\
+ \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \\
+ \\
+$ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>10*E \\
+\\
+ \textsl{XPAS}                 \>Integration step    \>cm \>E \\
+ \\
+ \textsl{KPOS}, \textsl{XCE},     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; 
+           \>1-2, 2*cm, rad \>I, 3*E \\
+ \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  \> \> \\
+\> for \textsl{QUADRUPO}. \> \> \\
+\> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
+\> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
+\> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
+\> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
+\> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
+
+\end{tabbing}
+
+
+
+
+\newpage
+
+
 \begin{tabbing}
 \mestab
 \textbf{AIMANT}  \label{AIMANT-B} \index{AIMANT}
@@ -622,7 +729,7 @@ $ T_2$, $\theta$, $\beta $            \>$ Q $ of the reaction~; incident particl
  \\
  $TS$, $PS$, $DT$          \>Sample step sizes~; tilt angle \>3*mrad \>3*E \\
  \\
- \BORO\index{BORO}              \>New reference rigidity after  \textsl{CIBLE}  \>kG.cm \>E
+ \BORO\index{BORO@{\BORO}}              \>New reference rigidity after  \textsl{CIBLE}  \>kG.cm \>E
 \end{tabbing}
 \vfill
 
@@ -1885,6 +1992,8 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
              \> \textbf{Localization and size of vertical waist} 
 \end{tabbing}
 
+
+
 \newpage
 
 \begin{tabbing}
@@ -2104,7 +2213,7 @@ particle 1. They transform to $ T_2 $ and $ P_2 $ in  Zgoubi  frame.}
    \index{negative charge}\index{negative momentum} \> \> \\
  \\
  \\
- \textsl{BORO}\index{BORO}      \>Reference rigidity \> kG.cm \>E\\
+ \textsl{BORO}\index{BORO@{\BORO}|textbf}      \>Reference rigidity \> kG.cm \>E\\
  \\
  \KOBJ      \>Type of support of the random distribution \>1-3 \>I \\
  \>\KOBJ = 1 :  window \> \> \\
@@ -2291,7 +2400,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
           \>\textbf{Generation of an object} \> \> \\
  \\
  \\
- \BORO\index{BORO}           \>Reference rigidity      \>kG.cm  \>E \\
+ \BORO\index{BORO@{\BORO}|textbf}           \>Reference rigidity      \>kG.cm  \>E \\
  \\
  \KOBJ           \>Option index            \>1-6    \>I \\
  \\
@@ -2450,7 +2559,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 \\
  \> $M1+M2  \longrightarrow   M3+M4$ and $M4   \longrightarrow  M5+M6 $   \> \> \\
  \\
- \BORO\index{BORO}            \>Reference rigidity                \>kG.cm \>E \\
+ \BORO\index{BORO@{\BORO}|textbf}            \>Reference rigidity                \>kG.cm \>E \\
  \>\>\>\\
  \textsl{IBODY, KOBJ}   \>Body to be tracked : $M3$ (\textsl{IBODY}=1), 
                $M5$ (\textsl{IBODY}=2) \>1-3,1-2 \>2*I\\
@@ -3162,7 +3271,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
       \> longitudinal [respectively (0,1,0) -- horizontal \\
       \> and (0,0,1) -- vertical] \\
 \\
-\textbf{If KSO = 4}    \>  Repeat \IMAX times (corresponding to the \IMAX \\
+\textbf{If KSO = 4}    \>  Repeat \IMAX\ times (corresponding to the \IMAX \\
       \> particles in `\textsl{OBJET}') the following sequence : \\
 \\
 $S_X$, $S_Y$, $S_Z$   \> $X$, $Y$ and $Z$ initial components of the initial spin. \> 3*no dim. \> 3*E \\

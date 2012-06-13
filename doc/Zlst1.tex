@@ -1748,7 +1748,7 @@ which  moreover allows generating an arbitrarily high number of initial conditio
 
 \noindent The first datum is the reference rigidity (negative value 
 allowed)
-$$ BORO = \dfrac{p_0 }{ q} \text{ (kG.cm)} $$\index{BORO@{\BORO}}
+$$ BORO = \dfrac{p_0 }{ q} \text{ (kG.cm)} $$\index{BORO@{\BORO}|textbf}
 
 \noindent Depending on the value of the next datum, \textsl{KOBJ}, the 
 \IMAX\index{IMAX@{\IMAX}|textbf} ($\leq \imax$) particles have their initial random 
@@ -1926,7 +1926,7 @@ coordinates, in several ways.
 \noindent The first datum is the reference rigidity (a negative value is 
 allowed)
  
-$$ \BORO = \dfrac{p_0 }{ q}  $$\index{BORO@{\BORO}}
+$$ \BORO = \dfrac{p_0 }{ q}  $$\index{BORO@{\BORO}|textbf}
 
 \noindent At the object, the beam is defined by a set of particles (maximum~\imax) with 
 the initial conditions ($ Y$, $T$, $Z$, $P$, $X$, $D$)  where $ D $ 
@@ -2289,7 +2289,7 @@ decaying body~; $ M_5 $ and $ M_6 $ are decay products. Example~:
    
 \noindent The first input data are the reference rigidity 
 
-$$ \BORO = \dfrac{p_0 }{ q} $$\index{BORO@{\BORO}}
+$$ \BORO = \dfrac{p_0 }{ q} $$\index{BORO@{\BORO}|textbf}
 
 \noindent an index \textsl{IBODY} which specifies the particle to be ray-traced, namely
 M3 (\textsl{IBODY} = 1),  M5 (\textsl{IBODY} = 2) or M6 (\textsl{IBODY} = 3).  In this last case, 
@@ -2403,7 +2403,7 @@ the data file, should be stated by means of the keywords \textsl{FIN} or
 \medskip
 
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
-variables\index{variable (FIT)}, for fitting up to 20 constraints\index{constraint (FIT)}. 
+variables\index{variable (FIT, FIT2)}, for fitting up to 20 constraints\index{constraint (FIT, FIT2)}. 
 
 \noindent They are compatible with the use of (\emph{i.e.}, can be encompassed in)  \textsl{REBELOTE} \index{REBELOTE} for successive FIT 
 trials using various sets of parameters (option $K=22$ in \textsl{REBELOTE}). 
@@ -2441,7 +2441,7 @@ $  \lbrack R_{ij}\rbrack $  with the Twiss matrix, following
   $\lbrack R_{ij}\rbrack = I cos(2 \pi \nu_{Y,Z}) + J sin (2 \pi \nu_{Y,Z}) $ wherein 
 $J=\left( \begin{array}{cc} \alpha & \beta \\ -\gamma& -\alpha \end{array} \right) $.  
 
-\paragraph{\textit{VARIABLES}}\index{variable (FIT)|textbf}
+\paragraph{\textit{VARIABLES}}\index{variable (FIT, FIT2)|textbf}
 
 \noindent The first input data in \textsl{FIT\index{FIT}} are the number of variables
 \textsl{\NV}, and for each one of them, the following parameters  
@@ -2630,7 +2630,7 @@ allowed to explore the range $ p(1\pm DV)$.
 
 \smallskip
 
-\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT)|textbf}
+\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf}
 
 \noindent The next input data in \textsl{FIT\index{FIT}} are the number of constraints,
 \textsl{\NC}, and for each one of them the following parameters.
@@ -3510,9 +3510,61 @@ next to \textsl{KSR}.
 \noindent Note that \textsl{KSR} = 0 followed by a dummy line of 
 data allows temporary inhibition of SR~procedures.
 
+\subsection{Optical Elements and related numerical procedures} \label{sec4.4}
+
+
+
+
+
 \newpage
 
-\subsection{Optical Elements and related numerical procedures} \label{sec4.4}
+\subsubsection*{AGSMM~:  \AGSMMTitl} \label{AGSMM}\index{AGSMM|textbf}
+\medskip 
+
+
+The AGS main magnet is a combined function dipole with straight axis (curves of constant field are straight lines).  
+
+\noindent The simulation of  \textsl{AGSMM}  works like \textsl{MULTIPOL}, with the following three particularities~: 
+
+\begin{itemize}
+  \item the dipole field $B_0$ in \textsl{AGSMM} is drawn for the reference rigidity, $B\rho_{ref}$ so to preserve 
+$\rho = B\rho_{ref} / B_0$  and the orbit deviation  $L/\rho$. In particular, 
+  \begin{itemize}
+     \item in the absence of acceleration, $B\rho_{ref} \equiv BORO$, with $BORO$ the quantity appearing  in the object definition 
+using \textsl{OBJET}, \textsl{MCOBJET}, 
+     \item in pessence of acceleration using \textsl{CAVITE}, $B\rho_{ref} \equiv BORO(1+D)$, with $D$ the relative momentum 
+increase, a quantity that \zgou\ updates at cavity traversal.
+  \end{itemize}
+  \item the field indices, quadrupole $K1$ and sextupole $K2$, are derived from  the reference rigidity, $B\rho_{ref}$, via 
+so-called ``transfer functions'' momentum-dependent polynomials.  
+
+  \noindent A consequence of the previous two items is that  no field value is required in defining the AGS main magnets in zgoubi data list ``zgoubi.dat''.
+%
+  \item the AGS main dipole has backleg windings, used for instance for injection and extraction orbit bumps. 
+Windings turn number and Ampere-turns are part of the data in tthe input data list. The intensity in the windings is  accounted for in the calculation of the transfer function from coil current to magnetic field in \textsl{AGSMM}. 
+\end{itemize}
+
+
+
+\newpage
+
+\subsubsection*{AGSQUAD~:  \AGSQUADTitl} \label{AGSQUAD}\index{AGSQUAD|textbf}
+\medskip 
+
+The AGS quadrupoles are regular quadrupoles. 
+The simulation of  \textsl{AGSQUAD}  works like \textsl{MULTIPOL}. 
+However some of the AGS quadrupoles  have two superimposed coil circuits, with separate power supplies. 
+It has been dealt with this 
+particularity by allowing  for an additional set of multipole data in \textsl{AGSQUAD}, compared to \textsl{MULTIPOL}. 
+
+\noindent The field in \textsl{AGSQUAD} is computed using transfer functions from the intensity in the coils to 
+the magneitc field,  accounting for non-linearities. 
+
+
+
+\newpage
+
+
 
 \subsubsection*{AIMANT~:  \AIMANTTitl}\label{AIMANT}\index{AIMANT|textbf}
 \medskip
@@ -3520,7 +3572,7 @@ data allows temporary inhibition of SR~procedures.
 The keyword \textsl{AIMANT} provides an automatic
 generation of a dipole median plane field map in polar coordinates. A more recent and improved version will be 
 found in \textsl{DIPOLE-M\index{DIPOLE-M}}. The extent of the map is defined by the 
-following parameters, as shown in Figs.~\ref{fig9}A and~\ref{fig9}B. 
+following parameters, as shown in Figs.~\ref{fig9}A and~\ref{fig9}B, 
 
  \begin{tabular}{>{\sl}l!{~:}l}
 	 AT &  total angular aperture\\
@@ -3532,7 +3584,7 @@ following parameters, as shown in Figs.~\ref{fig9}A and~\ref{fig9}B.
 
 \noindent The 2 or 3 effective field boundaries (EFB) inside the map are
 defined from  geometric boundaries, the shape and position of which are determined by the 
-following parameters.  
+following parameters, 
 
 
 \begin{tabular}{l!{~:}l}
@@ -5924,6 +5976,8 @@ the matrix may be introduced for the purpose of path length updating.
 Note~: \textsl{MATRIX\index{MATRIX}} delivers $[R_{ij}]$ and $[T_{ijk}]$ matrices in a format 
 suitable for straightforward use with \textsl{TRANSMAT}.
 
+
+
 \newpage
 
 \subsubsection*{MULTIPOL~:  \MULTIPOLTitl} \label{MULTIPOL}\index{MULTIPOL}
@@ -6870,7 +6924,7 @@ In this last case the position of
 the focus is calculated automatically in the same way as the position of the 
 waist in \textsl{IMAGE}. Depending on option \textsl{IFOC},  \textsl{MATRIX} also
 delivers the beam matrix and betatron phase advances or (periodic structure) Twiss\index{TWISS} matrix and tunes, 
-chromaticities\index{Cromaticity|textbf}  and other global parameters. 
+chromaticities\index{chromaticity|textbf}  and other global parameters. 
 
 
 \bigskip
@@ -6982,7 +7036,7 @@ such as Twiss\index{TWISS} functions and tune numbers, assuming that it is \text
 % FM, Nov. 2008
 %If  \textsl{IFOC} = 2 additional 
 If  \textsl{IORD} = 2 additional 
-periodic parameters are computed such as chromaticities\index{Cromaticity}, beta-function momentum dependence, 
+periodic parameters are computed such as chromaticities\index{chromaticity}, beta-function momentum dependence, 
  etc. 
 
 These quantities are derived from the first order perturbed and unperturbed transfer 
@@ -7125,7 +7179,7 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
 \textsl{TWISS}  
 causes the calculation of 
   transport coefficients and various other parameters, in particular 
-periodical quantities  such as tunes, chromaticies\index{Cromaticity}, etc. 
+periodical quantities  such as tunes, chromaticies\index{chromaticity}, etc. 
 
 \bigskip 
 
@@ -7294,14 +7348,13 @@ optical element, followed by   \textsl{CHANGREF(XCS,YCS,ALS=-ALE)} downstream of
 
 \medskip
 
-\noindent \textsl{KPOS} $=3 $ option is available for some 
- magnets  (\emph{e.g.}, \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM, AGS Main Magnet} 
-(AGS main magnet))~; 
+\noindent \textsl{KPOS} $=3 $ option is available for a number of  
+ magnets  (\emph{e.g.}, \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM} (AGS main magnet))~; 
 it is effective only if a non zero dipole component $B1$ is present, or if  \textsl{ALE} is non-zero. 
 It positions automatically the magnet in a symmetric manner with respect to the incoming and outgoing reference 
 axis, convenient for periodic structures, as follows (Fig~\ref{figKPOS3}).
  
-Both incoming and outgoing refernce frames are  tilted w.r.t. the magnet 
+Both incoming and outgoing refernce frames are  tilted w.r.t. the magnet,  
 
  $\bullet$ either,  by an angle \textsl{ALE}  if ALE$\not =$0, 
 
@@ -7374,7 +7427,7 @@ using  \textsl{KPOS}$=3 $.
 
 \medskip
 
-\noindent \textsl{KPOS} $=4 $ applies to \textsl{AGSMM} (AGS main magnet). \index{AGSMM, AGS Main Magnet} 
+\noindent \textsl{KPOS} $=4 $ applies to \textsl{AGSMM} (AGS main magnet). \index{AGSMM} 
 By default, it aligns the magnet in a way similar 
 to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
 2 \frac{\BORO}{B1} \sin({\theta_Z}/{2}$. However magnet mis-alignement (alignement errors) are handled in a 
