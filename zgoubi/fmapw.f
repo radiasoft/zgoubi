@@ -697,8 +697,8 @@ C-------------------- Default MOD2
                        READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
-CCCCCCCCCCCc                       READ(TXT132,*) YH(J),ZH(I),XH(K),  
-                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
+                       READ(TXT132,*) YH(J),ZH(I),XH(K),  
+CCCCCCCCCCCCC                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF
