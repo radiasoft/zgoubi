@@ -18,31 +18,27 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION STRCON(STR,STR2,
-     >                         IS)
+      SUBROUTINE OPTICC(LNOPTI,NOEL,KOPTIP)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL STRCON
-      CHARACTER STR*(*), STR2*(*)
-C     ---------------------------------------------------------------
-C     .TRUE. if the string STR contains the string STR2 at least once
-C     IS = position of first occurence of STR2 in STR 
-C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
-C     ---------------------------------------------------------------
-      INTEGER DEBSTR,FINSTR
-      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
-      IF(LEN(STR).LT.LNG2) GOTO 1
-      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
-        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
-          IS = I 
-          STRCON = .TRUE.
-          RETURN
-        ENDIF
-      ENDDO
- 1    CONTINUE
-      STRCON = .FALSE.
+      DIMENSION R(6,6),F0(6,6)
+
+      IORD = 1
+      IFOC = 0
+      KWR = 0
+
+      CALL MATRIC(IORD,IFOC,KWR)
+      CALL MATRI1(
+     >            R)
+      CALL BEAMAT(R, 
+     >              F0,PHY,PHZ)
+      CALL BEAIMP(F0,PHY,PHZ)
+
+c Store in zgoubi.OPTICS.out
+      IF(KOPTIP.EQ.1) CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ)
+
       RETURN
       END

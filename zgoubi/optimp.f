@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,32 +17,23 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION STRCON(STR,STR2,
-     >                         IS)
+      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL STRCON
-      CHARACTER STR*(*), STR2*(*)
-C     ---------------------------------------------------------------
-C     .TRUE. if the string STR contains the string STR2 at least once
-C     IS = position of first occurence of STR2 in STR 
-C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
-C     ---------------------------------------------------------------
-      INTEGER DEBSTR,FINSTR
-      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
-      IF(LEN(STR).LT.LNG2) GOTO 1
-      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
-        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
-          IS = I 
-          STRCON = .TRUE.
-          RETURN
-        ENDIF
-      ENDDO
- 1    CONTINUE
-      STRCON = .FALSE.
+      DIMENSION F0(6,6)
+      PARAMETER (PI = 4.D0*ATAN(1.D0))
+
+      CALL SCUMR(
+     >            XL,SCUM,TCUM)
+
+ 104  FORMAT(1P,13(E13.5,1X),1X,I5)
+      WRITE(LUN,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
+     >, F0(5,6), F0(5,5)
+     >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
+     >, PHY/(2.D0*PI), PHZ/(2.D0*PI),SCUM,NOEL
       RETURN
       END

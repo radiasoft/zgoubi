@@ -10,6 +10,7 @@ OBJ=\
  agsmm.o\
  agsmma.o\
  agsmmf.o\
+ agsqua.o\
  aimant.o\
  apdpo1.o\
  apdpo.o\
@@ -215,6 +216,8 @@ OBJ=\
  objets.o\
  okkt.o\
  open2.o\
+ opticc.o\
+ optimp.o\
  partic.o\
  path.o\
  pavel.o\
@@ -228,6 +231,7 @@ OBJ=\
  pvect.o\
  quasex.o\
  ragsmm.o\
+ ragsqu.o\
  raiman.o\
  rautor.o\
  raysyn.o\
@@ -371,6 +375,7 @@ agsblw.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsk12.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
 agsmmf.o: $(INC)/MAXTRA.H
+agsqua.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H

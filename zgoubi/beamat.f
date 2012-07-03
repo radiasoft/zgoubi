@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE BEAMAT(R,
      >                    F0,PHY,PHZ)
@@ -30,7 +29,7 @@ C  -------
       COMMON/BEAM/ FI(6,6)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      DIMENSION FIIN(6,6)
+      DIMENSION FII(6,6)
 
       F0(1,1) = R(1,1)*R(1,1)*FI(1,1)-2.D0*R(1,1)*R(1,2)*FI(2,1) +
      >  R(1,2)*R(1,2)*FI(2,2)
@@ -65,17 +64,12 @@ c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
       PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
        IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
-      call SCUMR(
-     >            XL,SCUM,TCUM)
-      write(88,*) '# beamat alp,bet,ph_y/2pi, alp,bet,ph_z/2pip, s : '
-      write(88,*) f0(1,2),f0(1,1),phy/(2.d0*pi), 
-     >            f0(3,4),f0(3,3),phz/(2.d0*pi), scum
       RETURN
 
-      ENTRY BEAMA1(FIIN)
+      ENTRY BEAMA1(FII)
       DO 2 J=1,6
         DO 2 I=1,6 
-          FI(I,J) = FIIN(I,J)
+          FI(I,J) = FII(I,J)
  2    CONTINUE
       RETURN
       END

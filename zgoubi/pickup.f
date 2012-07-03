@@ -75,16 +75,16 @@ C     -----------------------------------------------------
         CALL RAZ(FPU,MXPUD*MXPU)
  10     CONTINUE
         IF(OPN) THEN
-          INQUIRE(FILE='zgoubi.pickup',ERR=11,NUMBER=LN)
+          INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,NUMBER=LN)
           IF(NRES.GT.0) WRITE(NRES,*) 
-     >        ' Pick-up storage file zgoubi.pickup '
+     >        ' Pick-up storage file zgoubi.PICKUP.out '
      >       ,' already open under logical unit number ', LN
         ELSE
-          INQUIRE(FILE='zgoubi.pickup',ERR=11,OPENED=OPN,NUMBER=LN)
+          INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,OPENED=OPN,NUMBER=LN)
           IF(OPN) GOTO 10
           IF(IDLUNI(
      >              NFPU)) THEN
-            OPEN(UNIT=NFPU,FILE='zgoubi.pickup',ERR=99)
+            OPEN(UNIT=NFPU,FILE='zgoubi.PICKUP.out',ERR=99)
           ELSE
             GOTO 99
           ENDIF 

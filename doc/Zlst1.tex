@@ -2435,10 +2435,9 @@ $$
 ($ I $  =  particle number, $ J $  = coordinate number = 1 to 6 for 
 respectively $ D$, $Y$, $T$, $Z$,$ P $ or $ S= $path length). 
 
-\noindent Tunes $\nu_{Y,Z}$ and Twiss\index{TWISS} periodic functions $\beta_{Y,Z}, \alpha_{Y,Z}, \gamma_{Y,Z}$ are adjustable 
-as well~; they are defined by identification of the full optical structure transfer matrix  
-$  \lbrack R_{ij}\rbrack $  with the Twiss matrix, following 
-  $\lbrack R_{ij}\rbrack = I cos(2 \pi \nu_{Y,Z}) + J sin (2 \pi \nu_{Y,Z}) $ wherein 
+\noindent Tunes $\nu_{Y,Z}$ and  periodic betatron functions $\beta_{Y,Z}, \alpha_{Y,Z}, \gamma_{Y,Z}$ are adjustable 
+as well~; they are defined by identification of the transfer matrix  of the full optical structure,  
+$  \lbrack R_{ij}\rbrack $,   with the form   $I cos(2 \pi \nu_{Y,Z}) + J sin (2 \pi \nu_{Y,Z}) $, wherein 
 $J=\left( \begin{array}{cc} \alpha & \beta \\ -\gamma& -\alpha \end{array} \right) $.  
 
 \paragraph{\textit{VARIABLES}}\index{variable (FIT, FIT2)|textbf}
@@ -2646,10 +2645,11 @@ are obtained by transport of their initial values at line start as introduced us
 
 \smallskip
 
-\noindent  {\it IC=0.1~: } Twiss\index{TWISS} functions~: $\sigma_{11}=\beta_Y, \sigma_{12}=\sigma_{21}=-\alpha_Y, 
+\noindent  {\it IC=0.1~: } Periodic optical functions~: $\sigma_{11}=\beta_Y, \sigma_{12}=\sigma_{21}=-\alpha_Y, 
 \sigma_{22}=\gamma_Y$, $\sigma_{33}=\beta_Z, \sigma_{34}=\sigma_{43}=-\alpha_Z, \sigma_{44}=\gamma_Z$~; periodic dispersion~: 
 $\sigma_{16}=D_Y$, $\sigma_{26}=D'_Y$,  $\sigma_{36}=D_Z, \sigma_{46}=D'_Z$, all quantities derived by assuming 
- periodic structure and identifying the first order transfer matrix to its Twiss form. 
+ periodic structure and identifying the first order transfer matrix 
+with the form   $I cos \mu + J sin \mu $. 
 
 
 \newpage
@@ -3008,26 +3008,38 @@ optical elements are not compatible with  \textsl{MCDESINT\index{MCDESINT}}.
 
 \medskip
 
-\textsl{OPTICS}  causes a write out in zgoubi.res of optical functions, following options \textsl{KOPT} and 'label'~: 
+\textsl{OPTICS}  normally appears next to object definition, it normally works in conjunction with 
+element label(s). 
+
+\noindent \textsl{OPTICS}  causes the transport and  write out, in zgoubi.res, of the 6$\times$6 beam matrix, 
+following options \textsl{KOPT} and '\textsl{label}', below. 
 
 ~
 
-IF \textsl{KOPT=0}~: Off
+\noindent IF \textsl{KOPT=0}~: Off
 
-IF \textsl{KOPT=1}~: Will transport the optical functions with initial values as specified in OBJET, option 
+\noindent IF \textsl{KOPT=1}~: Will transport the optical functions with initial values as specified in \textsl{OBJET}, option 
  \textsl{KOBJ=5.01}. 
 
-IF \textsl{KOPT=11}~: Will deliver the Twiss matrix as computed by identification with the local transport matrix. 
-This normally means  such 'label' (see below) that the 
-calculation  be performed at the end of the presumably periodic structure described in zgoubi.dat. 
+\medskip
+
+\noindent  Note~:  The initial values  in \textsl{OBJET[KOBJ=5.01]} may be the periodic ones, as obtained, for instance, from a first run using \textsl{MATRIX[IFOC=11]}. 
+
+\bigskip
+
+\noindent A second argument,  '\textsl{label}',  allows 
+
+- if \textsl{label~=~all}~: printing out, into zgoubi.res, after all keywords of the zgoubi.dat structure, 
+
+- otherwise, printing out at all keyword featuring 
+\textsl{LABEL}~$\equiv$~\textsl{label} as a first label  (see section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}, regarding  
+the labelling of keywords).
 
 
-~
+\bigskip
 
-An optional argument, 'label',  allows print out after all elements in the zgoubi.dat structure (if 'label' is 
-not specified or if label='all'), or at the particular element at location \#NOEL in the structure (if label 
-is an existing, first,  \LABEL(NOEL) - 
-see section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}, as to  elements' labels). 
+\noindent A third argument, \textsl{IMP=1}, will cause saving of the transported beta functions into 
+file zgoubi.OPTICS.out.
 
 
 
@@ -6923,7 +6935,7 @@ upon option, up to the horizontal focus closest to that location.
 In this last case the position of 
 the focus is calculated automatically in the same way as the position of the 
 waist in \textsl{IMAGE}. Depending on option \textsl{IFOC},  \textsl{MATRIX} also
-delivers the beam matrix and betatron phase advances or (periodic structure) Twiss\index{TWISS} matrix and tunes, 
+delivers the beam matrix and betatron phase advances or (case of periodic structure) periodic beam matrix and tunes, 
 chromaticities\index{chromaticity|textbf}  and other global parameters. 
 
 
@@ -7031,7 +7043,7 @@ $ T^+=T^+(i)$,  etc. \
 
 \item[$\bullet$] If \textsl{IFOC} = 10  +  \textsl{NPeriod}, \textsl{MATRIX\index{MATRIX}} calculates
  periodic parameters characteristic  of the structure 
-such as Twiss\index{TWISS} functions and tune numbers, assuming that it is \textsl{NPeriod}-periodic~; 
+such as  optical functions and tune numbers, assuming that it is \textsl{NPeriod}-periodic~; 
  no change of reference is performed for these calculations. 
 % FM, Nov. 2008
 %If  \textsl{IFOC} = 2 additional 
@@ -7040,8 +7052,8 @@ periodic parameters are computed such as chromaticities\index{chromaticity}, bet
  etc. 
 
 These quantities are derived from the first order perturbed and unperturbed transfer 
-matrices as obtained in the way described above, and by identification with the Twiss form $ [R_{ij}] 
-= I \cos(\mu) + J \sin(\mu)$. 
+matrices as obtained in the way described above, and by identification  $ [R_{ij}] 
+= I \cos \mu + J \sin \mu$. 
 \end{itemize}
 
  
@@ -7183,23 +7195,20 @@ periodical quantities  such as tunes, chromaticies\index{chromaticity}, etc.
 
 \bigskip 
 
-\noindent If \textsl{KTWISS} = 1, the object necessary for these calculations 
-    can be generated automatically by means of \textsl{OBJET\index{OBJET}}  with
+\noindent  the object necessary for these calculations 
+  will be generated automatically if one uses \textsl{OBJET\index{OBJET}}  with
 option \mbox{\KOBJ= 5}.   
-When using 
-\textsl{KTWISS} = 2, the object can be generated automatically with \textsl{OBJET}  and 
- \mbox{\KOBJ=  6}. 
 
  \bigskip 
 
-\noindent The way  \textsl{KTWISS} works is the following: 
+\noindent The way  \textsl{KTW} works is the following: 
 
 \medskip
 
 - It assumes that the reference particle (\emph{e.g.}, particle \#1 of 11, when using \textsl{OBJET}, \mbox{\KOBJ= 5}) is located on 
-the closed orbit. \textsl{This condition has to be satisfied for TWISS to work correctly. }
+the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently. }
 
-- A first pass through the structure allows computing the Twiss and beam matrices from the  rays, including the periodic 
+- A first pass through the structure allows computing the periodic beam matrix from the  rays, including the periodic 
 dispersions. 
 
 - The periodic dispersions are used to define chromatic closed orbits at $\pm \delta p / p$. A second and a third pass with 

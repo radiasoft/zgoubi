@@ -18,17 +18,16 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RQSOD(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
-C     -------------------------------------------
-C     READS DATA FOR QUAD, SEXTU, OCTU, ...DODECA
-C     -------------------------------------------
+C     -----------------------
+C     READS DATA FOR AGS QUAD
+C     -----------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
  
@@ -36,7 +35,9 @@ C----- IL
       READ(NDAT,*) IA
       A(NOEL,1) = IA
 
+C XL, R0, B0
       READ(NDAT,*) (A(NOEL,I),I=10,12)
+
 C     ... CHP FUITE ENTREE
       READ(NDAT,*) (A(NOEL,I),I=20,21)
       READ(NDAT,*) IA,(A(NOEL,I),I=31,36)

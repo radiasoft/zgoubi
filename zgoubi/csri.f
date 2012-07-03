@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE CSRI
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -45,8 +44,8 @@ C      CHARACTER*9   HMS
 C      DATA LUN / 20 /
 C      SAVE LUN
       
-      KCSR = A(NOEL,1)
-      KTRA = A(NOEL,2)
+      KCSR = NINT(A(NOEL,1))
+      KTRA = NINT(A(NOEL,2))
 C Number of macro-particles in the bunch, evenly distributed in x 
       NPART = IMAX
  
@@ -88,9 +87,9 @@ C Number of macro-particles in the bunch, evenly distributed in x
         NRBLT = 1
 C------- Switch on print into zgoubi.res : 
         ANOEL2 = 1.1D0
-        KWRIT = ANOEL2
+        KWRIT = INT(ANOEL2)
 C------- Switch on print to standard output :
-        KWRI6=(ANOEL2-KWRIT)*10
+        KWRI6=INT((ANOEL2-KWRIT)*10)
 C------- Set value of macro-charge that radiates
 C The model assumes NPART particles uniformely spread along the bunch, 
 C e.g., OBJET, KOBJ=2, DX: -Dxmin -> Dxmax, DXstep

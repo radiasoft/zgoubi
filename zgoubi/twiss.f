@@ -18,13 +18,12 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE TWISS(
-     >                 READAT,*) 
+     >                 READAT) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -66,23 +65,26 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
 
          WRITE(*,*) ' TWISS ',ipass, nrblt
 
-      KTWISS = A(NOEL,1)
+      KTW = NINT(A(NOEL,1))
       FACP = A(NOEL,2)
       FACA = A(NOEL,3)
       FAC1 = 1.D0/FACA
 
-C--------- 2 more runs to get matrices around +/-dp/p chromatic closed orbits;
-C          1 other run to get matrices with +/-dY amplitude 
-C          1 other run to get matrices with +/-dZ amplitude 
+C KTW=1 : 2 runs are performed, first one gets 1-turn map, second one transports periodic beam matrix.
+C KTW=2 : 2 more runs to get matrices around +/-dp/p chromatic closed orbits;
+C KTW=3 : 1 other run to get matrices with +/-dY amplitude 
+C KTW=4 : 1 other run to get matrices with +/-dZ amplitude 
+
           NRBLT = 4
 
-      GOTO(10,20) KTWISS
+      IF(KTW.GE.99) GOTO 20
+      IF(KTW.GE.1) GOTO 10
       RETURN
 
  10   CONTINUE
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
-      IF( IPASS .LT. NRBLT ) THEN
+      IF(IPASS .LT. NRBLT ) THEN
         LUN=ABS(NRES) 
         IF(LUN.GT.0) 
      >     WRITE(LUN,100) IPASS, NRBLT+1
@@ -147,7 +149,7 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p-dp
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(0.D0)
-          RETURN 1
+          RETURN
  
         ELSEIF(IPASS .EQ. 2) THEN
 C------- 3rd pass through structure will follow
@@ -183,7 +185,7 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(0.D0)
-          RETURN 1
+          RETURN
  
         ELSEIF(IPASS .EQ. 3) THEN
 C------- Chromatic tracking completed
@@ -230,7 +232,7 @@ C--------- Reset reference coordinates for OBJECT sampling : y -> y+dy
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(0.D0)
-          RETURN 1
+          RETURN
  
         ENDIF
 
@@ -284,7 +286,7 @@ C--------- Reset reference coordinates for OBJECT sampling : z -> z+dz
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(0.D0)
-          RETURN 1
+          RETURN 
 
       ELSEIF(IPASS .GT. NRBLT) THEN
 C------- Amplitude tracking completed

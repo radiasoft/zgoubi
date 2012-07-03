@@ -1070,6 +1070,19 @@ C            Vshroe(MSR) = 6
 
           ENDIF
 
+        ELSEIF(KUASEX .EQ. 38)   THEN
+C---------- AGSQUAD
+ 
+           IRD = KORD
+           IF(IRD .EQ. 4) IDB=4
+
+           CALL AGSQUA(LMNT,MG,MPOL,SCAL,
+     >     DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+
+           DSREF = XL
+
+           KP = NINT(A(NOEL,ND+NND))
+
         ENDIF
 C--------------------- ENDIF KUASEX
 

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE OBJETS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -38,7 +37,7 @@ C     > ,YCH,ZCH
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
@@ -106,7 +105,7 @@ C------- To change any data A(NOEL,I)
         CALL REBEL5(
      >              BORO)
         A(NOEL,1) = BORO
-c      if(nres.gt.0)write(nres,*) 'objets boro, kreb3 aa',boro,kreb3
+
       ENDIF
 
 c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
@@ -117,7 +116,7 @@ C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 
       CALL RAZ(F,MXJ*MXT)
 
-      KOBJ = A(NOEL,10)
+      KOBJ = NINT(A(NOEL,10))
       KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
 
       IF(NRES.GT.0) WRITE(NRES,103) BORO
@@ -134,7 +133,7 @@ C---------- OBJET with 11 traj. for 1st order matrix calculation
       CALL RAZ(FO,MXJ*MXT)
       CALL OBJ52(KOBJ2)
       CALL OBJ5
-      CALL MATRI2(KOBJ2)
+C      CALL MATRI2(KOBJ2)
       GOTO 99
 
 C---------- OBJET with 61 traj. for 1st, 2nd, and higher coeff. computation
@@ -150,9 +149,9 @@ C---------- Read OBJET from file
 
 C---------- Initial conditions particle by particle
  2    CONTINUE
-      IMAX = A(NOEL,20)
+      IMAX = NINT(A(NOEL,20))
       IF(IMAX .GT. MXT) GOTO 98
-      IDMAX= A(NOEL,21)
+      IDMAX= NINT(A(NOEL,21))
 
 C----- For allowing the use of the first 7 traj with FIT
       II = 20
@@ -217,12 +216,12 @@ C---------- Initial conditions = 32 particles simulating Gaussian beam (Ref. The
  
 C---------- OBJET AUTOMATIQUE SYMETRIQUE
  1    CONTINUE
-      IYMAX = A(NOEL,20)
-      ITMAX = A(NOEL,21)
-      IZMAX = A(NOEL,22)
-      IPMAX = A(NOEL,23)
-      IXMAX = A(NOEL,24)
-      IDMAX = A(NOEL,25)
+      IYMAX = NINT(A(NOEL,20))
+      ITMAX = NINT(A(NOEL,21))
+      IZMAX = NINT(A(NOEL,22))
+      IPMAX = NINT(A(NOEL,23))
+      IXMAX = NINT(A(NOEL,24))
+      IDMAX = NINT(A(NOEL,25))
 C      IF(    IYMAX .GT. NTM .OR. ITMAX .GT. NTM .OR. IZMAX .GT. NTM
 C     > .OR. IPMAX .GT. NTM .OR. IXMAX .GT. NTM .OR. IDMAX .GT. NTM) THEN
       IF(IYMAX*ITMAX*IZMAX*IPMAX*IXMAX*IDMAX .GT. MXT) 

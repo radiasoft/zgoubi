@@ -81,6 +81,7 @@ MODULEF =\
  prffag.f\
  prtime.f\
  ragsmm.f\
+ ragsqu.f\
  raiman.f\
  rautor.f\
  ravorb.f\

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE MATRIC(JORD,JFOC,KWR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -39,27 +38,22 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
  
-      LOGICAL PRDIC
-
 C------         R_ref    +dp/p     -dp/p
       DIMENSION R(6,6), RPD(6,6), RMD(6,6) 
       DIMENSION T(6,6,6)
       DIMENSION T3(5,6) , T4(5,6)
       SAVE R,T, T3,       T4
 
-      LOGICAL PRBEAM
-      SAVE PRBEAM
-
 C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
 
       LOGICAL KWRMAT
-      DIMENSION F0P(6,6)
+
+      LOGICAL PRDIC
+
+      DIMENSION RO(6,6)
 
       DATA KWRMAT / .FALSE. /
-
-      DATA PRBEAM / .FALSE. /
-
 
       IF(NRES.LE.0) RETURN
 
@@ -156,23 +150,14 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
         CALL REFER(2,IORD,IFC,1,6,7)
       ENDIF
 
-      IF(.NOT. PRDIC) THEN
-        IF(PRBEAM) THEN
-C------- Transported beam matrix. Initial beam input with OBJET, Kobj=5.ij or 6.ij
-          CALL BEAMAT(R, 
-     >                  F0P,PHY,PHZ)
-          SUM=0.D0
-          DO 2 J=1,6
-            DO 2 I=1,6
- 2            SUM = SUM + F0P(I,J)
-          IF(SUM.NE.0.D0) CALL BEAIMP(F0P,PHY,PHZ)
-        ENDIF
-      ENDIF
-
       RETURN
 
-      ENTRY MATRI2(KOBJ2)
-      PRBEAM = KOBJ2.EQ.1
+      ENTRY MATRI1(
+     >             RO)
+      DO IB = 1, 6
+        DO IA = 1, 6
+          RO(IA,IB)  = R(IA,IB)
+        ENDDO
+      ENDDO
       RETURN
-
       END

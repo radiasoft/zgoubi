@@ -22,10 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MULTPO(KUASEX,LMNT,KFL,MPOL,SCAL,
+      SUBROUTINE AGSQUA(LMNT,KFL,MPOL,SCAL,
      >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER LMNT(*)*(*)
+      CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
@@ -39,7 +39,7 @@ C  -------
       COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
@@ -55,170 +55,71 @@ C  -------
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
      
-C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
-      LOGICAL CASPI 
-
-      CHARACTER DIM(2)*3, BE(2)*2, TXT(10)*80
+      CHARACTER(3) DIM(2)
+      CHARACTER(2) BE(2)
+      CHARACTER(80) TXT(10)
       DIMENSION  AREG(2),BREG(2),CREG(2)
+      PARAMETER (I2 = 2, I3 = 3)
 
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/
  
-      DATA CASPI / .TRUE. /
-
       IER = 0
-      SKEW=.FALSE.
       CALL RAZ(BM,MPOL)
 
       GAP = 0.D0
-      IF(KUASEX .LE. MPOL) THEN
-C------- Single-pole, from Magnetic QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
 
         XL =A(NOEL,10)
         RO =A(NOEL,11)
-        GAP = RO/KUASEX
-        BM(KUASEX) =A(NOEL,12)*SCAL
+        RT(I2) =A(NOEL,12)
+        SKEW = RT(I2) .NE. 0.D0
+        GAP = RO/I2
+        A1 =A(NOEL,12)*SCAL
+        A2 =A(NOEL,13)*SCAL
+
+c        CALL AGSQUF(A1,A2,
+c     >                    BM(I2))
+
         XE =A(NOEL,20)
-        DLE(KUASEX) =A(NOEL,21)
+        DLE(I2) =A(NOEL,21)
 
         CALL RAZ(CE,MCOEF)
         NCE = NINT(A(NOEL,30))
-        DO 22 I=1, NCE
+        DO I=1, NCE
           CE(I) =A(NOEL,30+I)
- 22     CONTINUE
+        ENDDO
 
         XLS =A(NOEL,40)
-        DLS(KUASEX) =A(NOEL,41)
+        DLS(I2) =A(NOEL,41)
 
 C        IF(XE+XLS.GE.XL) 
 C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
 
         CALL RAZ(CS,MCOEF)
         NCS = NINT(A(NOEL,50))
-        DO 24 I=1,NCS
+        DO I=1,NCS
           CS(I) =A(NOEL,50+I)
- 24     CONTINUE
+        ENDDO
 
 C------- Multipole rotation
-        RT(KUASEX)=ZERO
+        RT(I2)=ZERO
  
-        NM0 = KUASEX
-        NM = KUASEX        
-
-      ELSEIF(KUASEX .EQ. MPOL+1) THEN
-C-------  Mag MULTIPOLE, Elec Multipole ELMULT, Elec & Mag Multipole EBMULT
- 
-        IF    (KFLD .EQ. MG .OR. KFL .EQ. LC) THEN
-C--------- Mag MULTIPOLE or electr ELMULT or Electric part of EBMULT...
-          IA = 2
-        ELSEIF(KFL .EQ. MG) THEN
-C--------- ... or magnetic part of EBMULT
-          IA = 60
-        ENDIF
- 
-        XL =A(NOEL,IA)
-        IA = IA + 1
-        RO =A(NOEL,IA)
-          DO IM=1,MPOL
-            IA = IA + 1
-            BM(IM) =A(NOEL,IA)*SCAL
-            IF(RO .EQ. 0.D0) THEN
-              IF(IM .GE. 2) THEN 
-                IF(BM(IM) .NE. 0.D0) THEN
-                  IER = IER+1
-                  TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
-                  CALL ENDJOB(TXT(IER),-99)
-                ENDIF
-              ENDIF
-            ENDIF
-            IF(GAP.EQ.0.D0) THEN
-              IF(BM(IM).NE.0.D0) GAP = RO/IM
-            ENDIF
-          ENDDO
-
-C------- If SR-loss switched on by procedure SRLOSS
-        IF(KSYN.GE.1) THEN
-          IF(KFL .EQ. MG) THEN
-            IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
-          ENDIF
-        ENDIF
-
-        IA = IA + 1
-        XE =A(NOEL,IA)
-        DO 31 IM=1,MPOL
-          IA = IA + 1
-          DLE(IM) =A(NOEL,IA)
- 31     CONTINUE
-        IA = IA + 1
-        CALL RAZ(CE,MCOEF)
-        NCE = NINT(A(NOEL,IA))
-C        DO 32 I=1,6
-        DO 32 I=1, NCE
-          IA = IA + 1
-          CE(I) =A(NOEL,IA)
- 32     CONTINUE
-
-        IA = IA + MCOEF - NCE + 1
-        XLS =A(NOEL,IA)
-        DO 33 IM = 1,MPOL
-          IA = IA + 1
-          DLS(IM) =A(NOEL,IA)
- 33     CONTINUE
-        IA = IA + 1
-        CALL RAZ(CS,MCOEF)
-        NCS = NINT(A(NOEL,IA))
-         DO 34 I=1,NCS
-          IA = IA + 1
-          CS(I) =A(NOEL,IA)
- 34     CONTINUE
-C------- FRINGE FIELD NOT INSTALLED FOR
-C        DECA, DODECA, ... 18-POLE
-        DLE(5)=ZERO
-        DLS(5)=ZERO
-        DLE(6)=ZERO
-        DLS(6)=ZERO
-        DLE(7)=ZERO
-        DLS(7)=ZERO
-        DLE(8)=ZERO
-        DLS(8)=ZERO
-        DLE(9)=ZERO
-        DLS(9)=ZERO
-  
-C----- Multipole rotation
-        IA = IA + MCOEF - NCS 
-        DO 35 IM=1,MPOL
-          IA = IA + 1
-          RT(IM)=A(NOEL,IA) 
-          SKEW=SKEW .OR. RT(IM) .NE. ZERO
- 35     CONTINUE
- 
-        NM0 = 1
-        NM = MPOL
- 
-C------- FM, LHC purpose, Fermilab, 1996
-        IF(NCE .EQ. 999 .OR .NCS .EQ. 999) CALL MULTI1(CASPI)
-
-      ENDIF
-C------------ KUASEX
- 
-C------- MULTIPOLE
-        DO 7 IM = NM0+1,NM
-          DLE(IM)  = DLE(NM0)*DLE(IM)
- 7        DLS(IM)  = DLS(NM0)*DLS(IM)
+        DLE(I2)  = DLE(I2)*DLE(I2)
+        DLS(I2)  = DLS(I2)*DLS(I2)
  
 C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) LMNT(KUASEX),XL,RO
+        WRITE(NRES,100) LMNT(I2),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
      >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
-        WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
+        WRITE(NRES,103) BE(KFL),LMNT(I2),BM(I2),DIM(KFL)
  103    FORMAT(15X,2A,'  =',1P,G14.6,1X,A)
-        IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
+        IF(SKEW) WRITE(NRES,101) LMNT(I2),RT(I2)
  101    FORMAT(15X,A,'  Skew  angle =',1P,G14.6,' RAD')
         IF(XL .NE. 0.D0) THEN
-          IF( (XL-DLE(NM)-DLS(NM)) .LT. 0.D0) WRITE(NRES,102)
+          IF( (XL-DLE(I2)-DLS(I2)) .LT. 0.D0) WRITE(NRES,102)
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',
      >    /,10X,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
         ELSE
@@ -229,16 +130,9 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
       DL0=0.D0
       SUM=0.D0
 
-      DO IM=NM0,NM
-        DL0=DL0+DLE(IM)+DLS(IM)
-        SUM=SUM+BM(IM)*BM(IM)
-C------- E converti en MeV/cm
-        IF(KFL .EQ. LC) THEN
-          IF(BM(IM).NE.0.D0) BM(IM) = 2.D0*BM(IM)/RO*1.D-6
-          RT(IM) = RT(IM) + .5D0*PI/DBLE(IM)
-        ENDIF
-        IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
-      ENDDO
+        DL0=DL0+DLE(I2)+DLS(I2)
+        SUM=SUM+BM(I2)*BM(I2)
+        IF(BM(I2).NE.0.D0) BM(I2) = BM(I2)/RO**(I2-1)
 
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
       IF(DL0 .EQ. 0.D0) THEN
@@ -253,19 +147,12 @@ C-------- Sharp edge at entrance and exit
           WRITE(NRES,FMT='(15X,''FINTE, FINTS, gap : '',
      >    1P,3(1X,E12.4))') FINTE,FINTS,GAP
         ENDIF
-        IF(KFL .EQ. MG) THEN
-C          IF(KUASEX .EQ. MPOL+1) THEN
-C------------- Set entrance & exit wedge correction in SBR INTEGR
-C            IF(BM(1) .NE. 0.D0) THEN
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
+
             IF(XL .GT. 2.D0) THEN            
 C FM, 2006
               CALL INTEG1(ZERO,FINTE,GAP)
               CALL INTEG2(ZERO,FINTS,GAP)
             ENDIF
-c            ENDIF
-C          ENDIF
-        ENDIF
         
       ELSE
 C-------- Gradient G(s) at entrance or exit
@@ -274,8 +161,7 @@ C-----    Let's see entrance first
  104    FORMAT(/,15X,' Entrance  face  ')
 C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
         DL0 = 0.D0
-        DO 5 IM=NM0,NM
- 5        DL0 = DL0+DLE(IM)
+        DL0 = DL0+DLE(I2)
 
         IF(DL0 .EQ. 0.D0) THEN
           FINTE = XE
@@ -285,16 +171,8 @@ C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
             WRITE(NRES,FMT='(15X,''FINTE, gap : '',
      >      1P,2(1X,E12.4))') FINTE,GAP
           ENDIF
-          IF(KFL .EQ. MG) THEN
-C            IF(KUASEX .EQ. MPOL+1) THEN
-C              IF(BM(1) .NE. 0.D0) THEN
-C----------- Set entrance wedge correction in  SBR INTEGR
-C FM, 2006
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
-            IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
-C              ENDIF
-C            ENDIF
-          ENDIF
+          IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
+
         ELSE
 C---------- IFB = 0 if no mixff
 C----------     set to -1 if mixff at entrance
@@ -302,13 +180,12 @@ C----------     set to  1 if mixff at exit
 C----------     set to  2 if mixff at entrance & exit
           IF( IFB .EQ. 0 .OR. IFB .EQ. 1 ) THEN
             MIXFF = .FALSE.
-            DO 51 IM = NM0,NM
               IF(.NOT. MIXFF) THEN
 C--------------- MIXFF = true if combined sharp edge multpole + fringe field multpole
-                IF(DLE(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0)
+                IF(DLE(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0)
      >            MIXFF= .TRUE.
               ENDIF
- 51         CONTINUE
+
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
                 IFB = -1
@@ -323,22 +200,22 @@ C--------------- MIXFF = true if combined sharp edge multpole + fringe field mul
  130        FORMAT(20X,' with  fringe  field :'
 C 130        FORMAT(20X,' AVEC  Champ  DE  FUITE  :'
      >      ,/,20X,' DX  = ',F7.3,'  CM ')
-            WRITE(NRES,131) ( LMNT(IM),DLE(IM) ,IM=NM0,NM)
+            WRITE(NRES,131) LMNT(I2),DLE(I2) 
  131        FORMAT(20X,' LAMBDA-',A,' =',F7.3,'  CM')
 C            WRITE(NRES,132) (CE(I),I=1,6)
             WRITE(NRES,132) NCE, (CE(I),I=1,NCE)
  132        FORMAT(20X,I1,' COEFFICIENTS :',6F9.5)
           ENDIF
-          DO 45 IM=NM0,NM
-            IF(DLE(IM) .NE. 0.D0) THEN
-              DE(IM,1)= -BM(IM)/DLE(IM)
+
+            IF(DLE(I2) .NE. 0.D0) THEN
+              DE(I2,1)= -BM(I2)/DLE(I2)
 C Error - Corrctn FM Nov. 2009
 C              DO 44 I=2, 10 !MCOEF
-              DO 44 I=2, MCOEF
-                DE(IM,I)=-DE(IM,I-1)/DLE(IM)
- 44           CONTINUE
+              DO I=2, MCOEF
+                DE(I2,I)=-DE(I2,I-1)/DLE(I2)
+              ENDDO
             ENDIF
- 45       CONTINUE
+
         ENDIF
  
 C--------- Let's see exit, next
@@ -347,8 +224,7 @@ C--------- Let's see exit, next
 C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
  
         DL0 = 0.D0
-        DO 6 IM=NM0,NM
- 6        DL0 = DL0+DLS(IM)
+        DL0 = DL0+DLS(I2)
         IF(DL0 .EQ. 0.D0) THEN
           FINTS = XLS
           XLS=0.D0
@@ -357,25 +233,15 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
             WRITE(NRES,FMT='(15X,''FINTS, gap : '',
      >      1P,2(1X,E12.4))') FINTS,GAP
           ENDIF
-          IF(KFL .EQ. MG) THEN
-C            IF(KUASEX .EQ. MPOL+1) THEN
-C------------- Set exit wedge correction in SBR INTEGR
-C              IF(BM(1) .NE. 0.D0) THEN
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
-C FM, 2006
-            IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
-C              ENDIF
-C            ENDIF
-          ENDIF
+          IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
+
         ELSE
           IF( IFB .EQ. 0 .OR. IFB .EQ. -1 ) THEN
             MIXFF = .FALSE.
-            DO 61 IM = NM0,NM
               IF(.NOT. MIXFF) THEN
-                IF(DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0) 
+                IF(DLS(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0) 
      >           MIXFF= .TRUE.
               ENDIF
- 61         CONTINUE
 
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
@@ -389,51 +255,24 @@ C            ENDIF
           ENDIF
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XLS
-            WRITE(NRES,131) ( LMNT(IM),DLS(IM) ,IM=NM0,NM)
+            WRITE(NRES,131) LMNT(I2),DLS(I2)
             WRITE(NRES,132) NCS,(CS(I),I=1,NCS)
           ENDIF
-          DO 46 IM=NM0,NM
-            IF(DLS(IM) .NE. 0.D0) THEN
-              DS(IM,1)=  BM(IM)/DLS(IM)
+
+            IF(DLS(I2) .NE. 0.D0) THEN
+              DS(I2,1)=  BM(I2)/DLS(I2)
 C Error - Corrctn FM Nov. 2009
 C              DO 461 I=2, 10 !MCOEF
-              DO 461 I=2,MCOEF
-                DS(IM,I)= DS(IM,I-1)/DLS(IM)
- 461          CONTINUE
+              DO I=2,MCOEF
+                DS(I2,I)= DS(I2,I-1)/DLS(I2)
+              ENDDO
             ENDIF
- 46       CONTINUE
+
         ENDIF
  
       ENDIF
 C---------- end of test DLE or DLS=0
  
-C----- Some more actions about Magnetic Dipole components :
-      IF( KUASEX .EQ. MPOL+1 .AND. KFL .EQ. MG ) THEN
-C----- MULTIPOL
-        IF(XE .EQ. 0.D0) THEN
-C------- Entrance sharp edge field model
-C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
-C          IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
-     >      ''vertical wedge focusing approximated with '',
-     >      ''first order kick. FINT at entrance = '',1P,2G12.4)') 
-     >      FINTE
-C          ENDIF
-        ENDIF
-        IF(XLS .EQ. 0.D0) THEN
-C------- Exit sharp edge field model
-C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
-C          IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
-     >      '' vertical wedge focusing approximated with '',
-     >      ''first order kick. FINT at exit = '',1P,2G12.4)') 
-     >      FINTS
-C          ENDIF
-        ENDIF
-      ENDIF
-
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM

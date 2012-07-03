@@ -2140,8 +2140,8 @@ are the components of the field.}
              \> \textbf{\MATRIXTitl} \> \> \\
   \\
   \\
- \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or \>2*I \\
- \textsl{[, zgoubi.MATRIX.out]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>$>10$ \> \\
+ \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or $>10$  \>2*I [,A] \\
+ \textsl{[, zgoubi.MATRIX.out]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>  \> \\
  \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
  \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.01~; \> \> \\
  \> if \textsl{IFOC} $> 10$ : periodic beam matrix, tune numbers  \> \> \\
@@ -2160,7 +2160,7 @@ are the components of the field.}
  \>  (assuming that  the DATA file describes one period of a \>\>\\
  \> NPER-period structure).  \>\>\\
 \\
- \>  Including 'zgoubi.MATRIX.out' will cause output printout to  zgoubi.MATRIX.out file   \>\>\\
+ \>  Including 'zgoubi.MATRIX.out' will cause printout to  zgoubi.MATRIX.out file   \>\>\\
 \end{tabbing}
 
 
@@ -2649,9 +2649,9 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- $IOPT$, label        \> 0/1/11~: Off / transported beam matrix / local Twiss matrix~;   \>  \>I, A \\
-      \> 'label'~: If specified, 'label' can be  'all' or 'LABEL(NOEL)'   \>  \> \\
-      \> (default (i.e., if 'label' is not specified) is  label='all'. )\>  \> \\
+ $IOPT$, label, $IMP$        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
+      \> 'label'~:  Can be  'all' or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
+      \> $IMP=1$ causes storage of optical functions in zgoubi.OPTICS.out.   \>  \> \\
 
 \end{tabbing}
 
@@ -3493,10 +3493,9 @@ $RX$, $RY$, $RZ$
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTWISS} \>Options :             \>0-2 \>2*I \\
- \>     0 : No effect  \> \> \\
- \>     1 : First and second order periodic quantities are computed \> \> \\
-% \>     2 : Higher orders  \>\>\\
+ \textsl{KTW}, FacD, FacA \> $KTW=0/1$ :  Off/On~;            \>0-1, any, any \>I,2*E \\
+                          \> $FacD \times D = \delta p/p$ applied, with $D$ the momentum sampling in OBJET~;             \> \>\\
+                          \> $FacA$~: unused.             \> \>
 \end{tabbing}
 
 

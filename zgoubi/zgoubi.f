@@ -31,7 +31,7 @@ C  -------
       COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
@@ -46,9 +46,10 @@ C  -------
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=8)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
+      CHARACTER(KSIZ) FAM, KLEY
+      CHARACTER(LBLSIZ) LBF, LABEL
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
-      CHARACTER*80 TITRE
+      CHARACTER(80) TITRE
       COMMON/TITR/ TITRE 
 
       PARAMETER(MPOL=10)
@@ -56,7 +57,7 @@ C  -------
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
-      CHARACTER*(LBLSIZ) LBL(MLB), LBLSP(MLB)
+      CHARACTER(LBLSIZ) LBL(MLB), LBLSP(MLB)
       LOGICAL PRLB, PRLBSP
       SAVE KPRT, PRLB, KPRTSP, PRLBSP
 
@@ -64,7 +65,7 @@ C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=1000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
-      CHARACTER*10 PULAB
+      CHARACTER(10) PULAB
       COMMON/COT/ PULAB(MPULAB)
 
 C----- Set to true by REBELOTE if last turn to be stopped at NOELB<MAX_NOEL
@@ -78,30 +79,37 @@ C----- To get values into A(), from earlier FIT
       SAVE FITGET
 
       LOGICAL TOMANY, STRACO
-      CHARACTER TXTEMP*80
+      CHARACTER(80) TXTEMP
       INTEGER DEBSTR,FINSTR
 
-      CHARACTER*40 TXTELT, TXTELO
+      CHARACTER(40) TXTELT, TXTELO
       SAVE TXTELT
 
-      CHARACTER SYSCMD*300
+      CHARACTER(300) SYSCMD
 
       INCLUDE 'PARIZ.H'
       INCLUDE 'FILPLT.H'
 
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
-      CHARACTER LBLOPT*(LBLSIZ)
+      CHARACTER(LBLSIZ) LBLOPT
       SAVE KOPTCS, LBLOPT
-      LOGICAL EMPTY
+      LOGICAL OKLNO
+
+      LOGICAL EMPTY, IDLUNI
+
+      SAVE LNOPTI
 
 C This INCLUDE must stay located right before the first statement
-      CHARACTER*(KSIZ) KLEO
+      CHARACTER(KSIZ) KLEO
+
       INCLUDE 'LSTKEY.H'
       
       DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
-C----- Switch for calculation, transport and print of Twiss functions :
-      DATA KOPTCS / 0 / 
+C----- Switch for calculation, transport and print of optical functions :
+      DATA KOPTCS, KOPTIP / 0, 0 / 
+      DATA OKLNO / .FALSE. / 
+
       DATA REBFLG, NOELRB / .FALSE., MXL / 
       DATA DUM / 0.D0 /
       DATA LBLOPT / ' ' /
@@ -161,6 +169,7 @@ C        LBLSP contains the LABEL['s] after which print shall occur
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
       ENDIF
+
       IF(KCO .EQ. 1) THEN
 C------- Calculate pick-up signal
 C        PULAB contains the NPU LABEL's at which CO is calculated 
@@ -170,20 +179,15 @@ C        PULAB contains the NPU LABEL's at which CO is calculated
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
       ENDIF
-      IF(KOPTCS .GE. 1) THEN
-C------- Transport beam matrix and print at element ends
+
+      IF(KOPTCS .EQ. 1) THEN
+C------- Transport beam matrix and print at element ends. Due to OPTICS keyword.
         IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
-c              write(*,*)koptcs,LEN(lblopt), '!',LBLOPT,'!',empty(lblopt)
-c     >      ,'1',LBLOPT(debstr(lblopt):debstr(lblopt)+1),'1',koptcs
-c           stop
-          IF(KOPTCS .EQ. 11) THEN
-            II = 11
-          ELSE
-            II = 0
-          ENDIF
-          CALL MATRIC(I1,II,I0)
+
+          CALL OPTICC(LNOPTI,NOEL,KOPTIP)
+
         ENDIF
       ENDIF
 
@@ -894,23 +898,38 @@ C----- PICKUPS.
       IF(FITGET) CALL FITGT1
       CALL PICKUP
       GOTO 998
-C----- OPTICS. Transport the beam matrix and print at
-C      exit end of optical elements, into zgoubi.optics
+C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
  80   CONTINUE
       IF(READAT) THEN
         READ(NDAT,fmt='(A)') TXTEMP
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-     >  *,ERR=801,END=801) 
-     >                          KOPTCS, LBLOPT
-        goto 802
+     >  *,ERR=801,END=801) KOPTCS, LBLOPT, KOPTIP
+        GOTO 802
       ENDIF
  801  CONTINUE
-        write(*,*)    'a ',  KOPTCS, '*',LBLOPT,'*'
-C      LBLOPT = LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))      
+      WRITE(NRES,*)  ' '
+      WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
+     >,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 
+      LBLOPT = 'none'
+      KOPTIP = 0 
  802  CONTINUE
-c        write(*,*)       'b ',        KOPTCS, LBLOPT
-c           stop 
-      IF (KOPTCS .NE. 1 .AND. KOPTCS .NE. 11) KOPTCS = 0
+      IF (KOPTCS .NE. 1) KOPTCS = 0
+      WRITE(NRES,*)  ' '
+      WRITE(NRES,*)  ' KOPTCS=',KOPTCS,',   LBLOPT = '
+     >,LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT)),',   KOPTIP=',KOPTIP
+      OKLNO = .FALSE. 
+      IF(KOPTIP.EQ.1) THEN
+        IF(IDLUNI(
+     >            LNOPTI)) THEN
+          OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
+          OKLNO = .TRUE.
+          WRITE(LNOPTI,*) 
+     >    '# alfx,btx,alfy,bty,alfl,btl,phix,phiy,sum_s,#lmnt'
+        ENDIF                          
+      ENDIF
+      GOTO 998
+ 899  CONTINUE
+      WRITE(NRES,*) ' KEYWORD OPTICS. Error open zgoubi.OPTICS.out . ' 
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE
@@ -981,7 +1000,7 @@ C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unsued
       IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
       CALL TWISS(
-     >           READAT,*998)
+     >           READAT)
       GOTO 998
 C----- END. End of run, except for some options that may need more
  90   CONTINUE
@@ -1163,6 +1182,18 @@ C----- BEAMBEAM.
       IF(READAT) CALL RBB
       IF(FITGET) CALL FITGT1
       CALL BB
+      GOTO 998
+C----- AGSQUAD. AGS quadrupole. It has 2 windings, works otherwise like QUADRUPO.
+ 111  CONTINUE
+      KALC = 3
+      KUASEX = 38
+      IF(READAT) THEN
+        CALL RAGSQU(NDAT,NOEL,MXL,A,ND(NOEL))
+      ELSE
+        CALL STPSI1(NOEL)
+      ENDIF
+      IF(FITGET) CALL FITGT1
+      CALL QUASEX(ND(NOEL))
       GOTO 998
 
 C-------------------------

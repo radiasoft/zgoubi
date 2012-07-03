@@ -18,31 +18,41 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION STRCON(STR,STR2,
-     >                         IS)
+      SUBROUTINE RAGSQU(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL STRCON
-      CHARACTER STR*(*), STR2*(*)
-C     ---------------------------------------------------------------
-C     .TRUE. if the string STR contains the string STR2 at least once
-C     IS = position of first occurence of STR2 in STR 
-C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
-C     ---------------------------------------------------------------
-      INTEGER DEBSTR,FINSTR
-      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
-      IF(LEN(STR).LT.LNG2) GOTO 1
-      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
-        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
-          IS = I 
-          STRCON = .TRUE.
-          RETURN
-        ENDIF
-      ENDDO
- 1    CONTINUE
-      STRCON = .FALSE.
+      DIMENSION A(MXL,*)
+C     -----------------------
+C     READS DATA FOR AGS QUAD
+C     -----------------------
+      COMMON/MARK/ KART,KALC,KERK,KUASEX
+      PARAMETER(MPOL=10)
+ 
+C----- IL
+      READ(NDAT,*) IA
+      A(NOEL,1) = IA
+
+C XL, R0, roll angle, I_winding 1, I_winding 2
+      READ(NDAT,*) (A(NOEL,I),I=10,14)
+
+C     ... CHP FUITE ENTREE
+      READ(NDAT,*) (A(NOEL,I),I=20,21)
+      READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
+      A(NOEL,30) = IA
+C     ... CHP FUITE SORTIE
+      READ(NDAT,*) (A(NOEL,I),I=40,41)
+      READ(NDAT,*) IA,(A(NOEL,I),I=51,56)
+      A(NOEL,50) = IA
+ 
+      ND=60
+      CALL STPSIZ(NDAT,NOEL,ND,
+     >                         A)
+
+      READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
+      A(NOEL,ND+10) = IA
+ 
       RETURN
       END

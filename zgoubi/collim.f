@@ -51,8 +51,8 @@ C     -------------------------------------------------------
 C      DIMENSION YM(MXJ), YPM(MXJ), U(MXJ), ALPHA(MXJ), BETA(MXJ)
 C      DIMENSION YMX(MXJ), YPMX(MXJ)
 
-      IL =   A(NOEL,1)
-      IFRM = A(NOEL,10)
+      IL =   NINT(A(NOEL,1))
+      IFRM = NINT(A(NOEL,10))
       JFRM = NINT(10.D0*A(NOEL,10)) - 10*IFRM
       A1 = A(NOEL,11)
       A2 = A(NOEL,12)

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       PROGRAM ZGOUBI_MAIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -134,7 +133,7 @@ c          CALL IMPAJU(LUN,F)
 c        ELSE
 c          GOTO 462
 c        ENDIF
- 462    CONTINUE
+c 462    CONTINUE
 
 C For use of REBELOTE (REBELOTE encompasses FIT)
         IF(.NOT. ENDFIT) THEN

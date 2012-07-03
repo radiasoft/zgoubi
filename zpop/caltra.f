@@ -1200,4 +1200,8 @@ C----- AGSMM.  AGS main dipole.
 C----- BEAMBEAM. 
  110  CONTINUE
       GOTO 998
+C----- AGSQUAD.  AGS quad with 2 windings.
+ 111  CONTINUE
+      IF(READAT) CALL RAGSQU(NDAT,NOEL,MXL,A,ND(NOEL))
+      GOTO 341
       END
