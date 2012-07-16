@@ -18,19 +18,18 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2)
 C------- Called by keyword FAISTORE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER KLEY*(*)
-      CHARACTER*(*) LBL1,LBL2
+      CHARACTER(*) KLEY
+      CHARACTER(*) LBL1,LBL2
       PARAMETER(MLB=10)
-      PARAMETER (LBLSIZ=8)
-      CHARACTER*(LBLSIZ) LBL(MLB)
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LBL(MLB)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
+C  Copyright (C) 1988-2007  François Méot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,351 +17,1155 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE AGSQUF(A1,A2,
-     >                        BM)
+      SUBROUTINE AGSQUF(ID,KFL,X,Y0,Z0,BM,DLEM,DLSM,DE,DS,RT
+     >,XE,XS,CE,CS
+     >,B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      dimension ak1(*), ak2(*)
-      dimension ap(50), adbd(50), adbf(50)
-      parameter (bdot=0.d0)
-      parameter(conv = 0.0254d0)
-      parameter(ALA = 94d0*CONV)        !length in meters
-      parameter(ALB = 79d0*CONV)
-      parameter(ALC = 94d0*CONV)
-      SAVE sak11, sak12, sak13, sak14, sak15, sak16 
-      SAVE sak21, sak22, sak23, sak24, sak25, sak26
-      SAVE Pnow
-      data Pnow / -1d10 /
-      data db1d, db1f / 2*0.d0 /
-
-      if(Pnow .EQ. P) then
-         ak1(1)=sak11
-         ak1(2)=sak12
-         ak1(3)=sak13
-         ak1(4)=sak14
-         ak1(5)=sak15
-         ak1(6)=sak16
-         ak2(1)=sak21
-         ak2(2)=sak22
-         ak2(3)=sak23
-         ak2(4)=sak24
-         ak2(5)=sak25
-         ak2(6)=sak26
-         goto 695
-      endif
-
-      Pnow = P
-c      write(*,*)'agsks.f', p
-c      read(*,*)
-
-      UKAFM3 =  0.0D0
-      UKAFM2 = -9.9628200D-6
-      UKAFM1 = -2.7124400D-4
-      UKAF0 =   0.0487709D0
-      UKAF1 =   4.2519700D-5
-      UKAF2 =  -1.5027310D-5 
-      UKAF3 =   1.9900440D-6
-      UKAF4 =  -1.2474890D-7
-      UKAF5 =   3.7239700D-9
-      UKAF6 =  -4.3303320D-11
-
-      UKADM3 =  0.0D0
-      UKADM2 =  1.0494200D-5
-      UKADM1 =  2.7764700D-4
-      UKAD0 =  -0.0487187D0
-      UKAD1 =  -4.4223160D-5
-      UKAD2 =   1.5432060D-5
-      UKAD3 =  -2.0235660D-6
-      UKAD4 =   1.2581210D-7
-      UKAD5 =  -3.7265440D-9
-      UKAD6 =   4.3053950D-11
-
-      UKBFM3 =  0.0D0
-      UKBFM2 = -1.0370300D-5
-      UKBFM1 = -2.7908700D-4
-      UKBF0 =   0.0485774D0
-      UKBF1 =   4.1807340D-5
-      UKBF2 =  -1.4546960D-5
-      UKBF3 =   1.9047810D-6
-      UKBF4 =  -1.1846940D-7
-      UKBF5 =   3.5161530D-9
-      UKBF6 =  -4.0853520D-11
-
-      UKBDM3 =  0.0D0
-      UKBDM2 =  1.0855000D-5
-      UKBDM1 =  2.8391800D-4
-      UKBD0 =  -0.048532D0
-      UKBD1 =  -4.3289400D-5
-      UKBD2 =   1.4902690D-5
-      UKBD3 =  -1.9351350D-6
-      UKBD4 =   1.1951780D-7
-      UKBD5 =  -3.5235550D-9
-      UKBD6 =   4.0708920D-11
-
-      UKCFM3 =  0.0D0
-      UKCFM2 =  1.9389200D-5
-      UKCFM1 =  3.7263000D-4
-      UKCF0 =   0.0485356D0
-      UKCF1 =   1.5650290D-5
-      UKCF2 =  -7.0134400D-6
-      UKCF3 =   1.1275010D-6
-      UKCF4 =  -8.2173200D-8
-      UKCF5 =   2.7713320D-9
-      UKCF6 =  -3.5625590D-11
-
-      UKCDM3 =  0.0D0
-      UKCDM2 = -1.8159700D-5
-      UKCDM1 = -3.6821400D-4
-      UKCD0 =  -0.0484683D0
-      UKCD1 =  -1.4804670D-5
-      UKCD2 =   6.8025790D-6
-      UKCD3 =  -1.1017970D-6
-      UKCD4 =   8.0248420D-8
-      UKCD5 =  -2.6963500D-9
-
-      UKCD6 =   3.4569950D-11
-
-
-      ap(1) =    2.1633d0 !170
-      adbd(1) =  -0.1d-3
-      adbf(1) =   1.0d-3
-
-      ap(2) =    2.3083d0 !190
-      adbd(2) =  -1.2d-3
-      adbf(2) =   0.6d-3
-
-      ap(3) =    2.6140d0 !210
-      adbd(3) =  -1.2d-3
-      adbf(3) =   0.9d-3
-
-      ap(4) =    3.9661d0 !250
-      adbd(4) =  -1.0d-3
-      adbf(4) =   1.2d-3
-
-      ap(5) =    4.4980d0 !260,matched with interpolated tunes
-      adbd(5) =  -0.9d-3
-      adbf(5) =   1.8d-3
-
-      ap(6) =    5.1099d0 !270
-      adbd(6) =  -0.4d-3
-      adbf(6) =   1.5d-3
-
-      ap(7) =    7.6973d0 !310
-      adbd(7) =  -0.7d-3
-      adbf(7) =   0.2d-3
-
-      ap(8) =    10.231d0 !350
-      adbd(8) =   0.4d-3
-      adbf(8) =   1.6d-3
-
-      ap(9) =    15.180d0 !430
-      adbd(9) =   0.5d-3
-      adbf(9) =   1.7d-3
-
-      ap(10) =    23.732d0 !590
-      adbd(10) =   1.1d-3
-      adbf(10) =   2.7d-3
-      
-
-
-      isclMAX = 10
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-      if( p .LT. ap(1) ) then
-         db1d = adbd(1)
-         db1f = adbf(1)
-      elseif( p .GT. ap(isclMAX)) then 
-         db1d = adbd(isclMAX)
-         db1f = adbf(isclMAX)
-      else
-         do i=1, isclMAX-1
-            if( p .GE. ap(i) .AND. p .LE. ap(i+1)) then
-               db1d = adbd(i) + 
-     > ((adbd(i) - adbd(i+1))/(ap(i) - ap(i+1)))*(p-ap(i))
-               db1f = adbf(i) + 
-     > ((adbf(i) - adbf(i+1))/(ap(i) - ap(i+1)))*(p-ap(i))
-               goto 865
-            endif
-         enddo
- 865     continue
-      endif
-!!!!!!!!!
-      db1d = 0.d0
-      db1f = 0.d0
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-C  K1CD :
-       AK1(2)= UKCDM3/(p*p*p)+ UKCDM2/(p*p)+ UKCDM1/p + UKCD0+UKCD1*p 
-     >  +UKCD2*p*p+UKCD3*p*p*p+UKCD4*p*p*p*p+UKCD5*p*p*p*p*p 
-     >  +UKCD6*p*p*p*p*p*p 
-
-
-C  K1BD :
-       AK1(4)= UKBDM3/(p*p*p)+ UKBDM2/(p*p)+ UKBDM1/p + UKBD0+UKBD1*p 
-     >  +UKBD2*p*p+UKBD3*p*p*p+UKBD4*p*p*p*p+UKBD5*p*p*p*p*p 
-     >  +UKBD6*p*p*p*p*p*p 
-
-
-C  K1AD :
-       AK1(6)= UKADM3/(p*p*p)+ UKADM2/(p*p)+ UKADM1/p + UKAD0+UKAD1*p 
-     >  +UKAD2*p*p+UKAD3*p*p*p+UKAD4*p*p*p*p+UKAD5*p*p*p*p*p  
-     >  +UKAD6*p*p*p*p*p*p   
-
-       AK1(2) = AK1(2)*(db1d + 1.d0)
-       AK1(4) = AK1(4)*(db1d + 1.d0)
-       AK1(6) = AK1(6)*(db1d + 1.d0)
-
-
-
-
-C  K1BF :
-       AK1(1)= UKBFM3/(p*p*p)+ UKBFM2/(p*p)+ UKBFM1/p + UKBF0+UKBF1*p 
-     >  +UKBF2*p*p+UKBF3*p*p*p+UKBF4*p*p*p*p+UKBF5*p*p*p*p*p 
-     >  +UKBF6*p*p*p*p*p*p 
-
-
-C  K1AF :
-       AK1(3)= UKAFM3/(p*p*p)+ UKAFM2/(p*p)+ UKAFM1/p + UKAF0+UKAF1*p 
-     >  +UKAF2*p*p+UKAF3*p*p*p+UKAF4*p*p*p*p+UKAF5*p*p*p*p*p 
-     >  +UKAF6*p*p*p*p*p*p 
-
-
-C  K1CF :
-       AK1(5)= UKCFM3/(p*p*p)+ UKCFM2/(p*p)+ UKCFM1/p + UKCF0+UKCF1*p 
-     >  +UKCF2*p*p+UKCF3*p*p*p+UKCF4*p*p*p*p+UKCF5*p*p*p*p*p 
-     >  +UKCF6*p*p*p*p*p*p 
-
-       AK1(1) = AK1(1)*(db1f + 1.d0)
-       AK1(3) = AK1(3)*(db1f + 1.d0)
-       AK1(5) = AK1(5)*(db1f + 1.d0)
-
-
+      PARAMETER(MPOL=10)
+      PARAMETER(MCOEF=6)
+      DIMENSION BM(MPOL),DLEM(MPOL),DLSM(MPOL)
+     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RT(MPOL)
+      DIMENSION CE(MCOEF),CS(MCOEF)
+      DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
+      DIMENSION D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
+      DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
+      DIMENSION BT(5, *)
  
-c         print *, p, ak1
-c         stop
-!!4.2 Main Magnet Sextupole strength vs momentum
-!===========================
+      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "MAXTRA.H"
+      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
+     > ,YCH,ZCH
+      COMMON/CONST2/ ZERO, UN
+      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
-      TKADM3 = -4.54103D-5
-      TKADM2 =  3.86648D-4
-      TKADM1 =  -5.15221D-3
-      TKAD0  = -6.23676D-3
-      TKAD1  =  -8.21074D-5
-      TKAD2  =  2.94841D-5
-      TKAD3  =  -2.63597D-6  
-      TKAD4  =  2.17817D-9
-      TKAD5  =  6.02362D-9
-      TKAD6  = -1.60702D-10
+      LOGICAL CHFE, CHFS, CHU
+      PARAMETER (Q7=3.038194444D-4)
 
-      TKAFM3 =  -2.11163D-5
-      TKAFM2 =  2.31252D-4
-      TKAFM1 =  -4.98909D-3
-      TKAF0  =  -6.35613D-3
-      TKAF1  =  -1.3545D-4
-      TKAF2  =  5.20196D-5
-      TKAF3  =  -5.93495D-6
-      TKAF4  =  2.12422D-7
-      TKAF5  =  6.36497D-11
-      TKAF6  =  -9.88187D-11
+      XLS=XLIM-XS 
+      IOP=1
 
-      TKBDM3 =  -5.33308D-5  
-      TKBDM2 =  4.61419D-4
-      TKBDM1 =  -5.36794D-3
-      TKBD0  =  -7.54801D-3
-      TKBD1  =  -8.46257D-5
-      TKBD2  =  3.25779D-5
-      TKBD3  =  -3.46201D-6
-      TKBD4  =  7.60854D-8
-      TKBD5  =  3.2396D-9
-      TKBD6  =  -1.24659D-10
+      IF( BM(2) .EQ. ZERO) GOTO 83
+ 
+C--------------------------------------------------------------------
+C----- QUADRUPOLE
+      IP=2
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
 
-      TKBFM3 =  -3.35980D-5
-      TKBFM2 =  3.42004D-4
-      TKBFM1 =  -5.26172D-3
-      TKBF0  =  -7.65876D-3
-      TKBF1  =  -1.20210D-4
-      TKBF2  =  4.83680D-5
-      TKBF3  =  -5.85176D-6
-      TKBF4  =  2.31758D-7
-      TKBF5  =  -1.23709D-9
-      TKBF6  =  -7.77011D-11
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
 
-      TKCDM3 =  5.46173D-5
-      TKCDM2 =  -3.1184D-4
-      TKCDM1 =  4.53022D-3
-      TKCD0  =  -1.03323D-2
-      TKCD1  =  -5.10398D-4
-      TKCD2  =  1.74831D-4
-      TKCD3  =  -1.90748D-5
-      TKCD4  =  9.02456D-7
-      TKCD5  =  -1.75112D-8
-      TKCD6  =  7.24016D-11
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** Q-POLE CRENEAU : PAS DE Champ DE FUITE
+ 
+C                          X.LT.XS rather than X.LE.XS ensures that
+C                          the pole contributes zero beyond exit EFB in mixed Sharp Edge + FF
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
 
-      TKCFM3 =  3.24138D-5
-      TKCFM2 =  -1.49126D-4
-      TKCFM1 =  4.2301D-3
-      TKCF0  =  -1.03626D-2
-      TKCF1  =  -4.55906D-4
-      TKCF2  =  1.55926D-4
-      TKCF3  =  -1.70233D-5
-      TKCF4  =  7.91965D-7
-      TKCF5  =  -1.44494D-8
-      TKCF6  =  3.8317D-11
+          B(1,2)  = GN * Z
+          B(1,3)  = GN * Y
 
-!! Correction for B-dot effects is added in here.  K.Brown (8/31/98)
-      TKDBDCOEF = -0.0025d0
-      TKFBDCOEF = -0.0025d0
+          DB(3,2) = GN
 
-C  K2AD :
-      AK2(6)= TKADM3/(p*p*p)+ TKADM2/(p*p)+ TKADM1/p + TKAD0+TKAD1*p 
-     >  +TKAD2*p*p+TKAD3*p*p*p+TKAD4*p*p*p*p+TKAD5*p*p*p*p*p  
-     >  +TKAD6*p*p*p*p*p*p - TKDBDCOEF*BDOT*ALA/ALA
-      
-C  K2AF :
-      AK2(3)= TKAFM3/(p*p*p)+ TKAFM2/(p*p)+ TKAFM1/p + TKAF0+TKAF1*p 
-     >  +TKAF2*p*p+TKAF3*p*p*p+TKAF4*p*p*p*p+TKAF5*p*p*p*p*p  
-     >  +TKAF6*p*p*p*p*p*p - TKFBDCOEF*BDOT*ALA/ALA
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** QUADRUPOLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+C     DISTANCE A LA FACE D'ENTREE :
+      SE=XE-X
+C     DISTANCE A LA FACE DE SORTIE :
+      SS=X-XS
 
-C  K2BD :
-      AK2(4)= TKBDM3/(p*p*p)+ TKBDM2/(p*p)+ TKBDM1/p + TKBD0+TKBD1*p 
-     >  +TKBD2*p*p+TKBD3*p*p*p+TKBD4*p*p*p*p+TKBD5*p*p*p*p*p  
-     >  +TKBD6*p*p*p*p*p*p - TKDBDCOEF*BDOT*ALB/ALA
+      ABSE=SE
+      IF(ABSE.LT.ZERO) ABSE=-ABSE
+      ABSS=SS
+      IF(ABSS.LT.ZERO) ABSS=-ABSS
+ 
+      CHFE=ABSE.LE.XE .AND. DLE .NE. ZERO
+      CHU= ABSE.GT.XE .AND. ABSS.GT.XLS
+      CHFS=ABSS.LE.XLS .AND. DLS .NE. ZERO
 
-C  K2BF :
-      AK2(1)= TKBFM3/(p*p*p)+ TKBFM2/(p*p)+ TKBFM1/p + TKBF0+TKBF1*p 
-     >  +TKBF2*p*p+TKBF3*p*p*p+TKBF4*p*p*p*p+TKBF5*p*p*p*p*p  
-     >  +TKBF6*p*p*p*p*p*p - TKFBDCOEF*BDOT*ALB/ALA
+      IF(CHU) THEN
+C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
+ 
+          B(1,2)  = GN * Z
+          B(1,3)  = GN * Y
+ 
+          DB(3,2) = GN
+      ELSE
+C     *** POINT DANS ZONE DE Champ DE FUITE D'ENTRE ET/OU DE SORTIE
+ 
+        IF(.NOT. CHFE) THEN
+C         *** HORS D'EFFET DU Champ DE FUITE D'ENTREE
+C             OU GRADIENT CRENEAU
+ 
+          GE  =UN
+          DGE =ZERO
+          D2GE=ZERO
+          D3GE=ZERO
+          D4GE=ZERO
+          D5GE=ZERO
+          D6GE=ZERO
+ 
+        ELSE
+C         *** EFFET DU Champ DE FUITE D'ENTREE
+ 
+          SE=SE/DLE
+          CALL DRVG(4,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+C          CALL DRVG(6,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+ 
+        ENDIF
+ 
+        IF(.NOT. CHFS) THEN
+C         *** HORS D'EFFET DU Champ DE FUITE DE SORTIE
+C             OU GRADIENT CRENEAU
+ 
+          GS  =UN
+          DGS =ZERO
+          D2GS=ZERO
+          D3GS=ZERO
+          D4GS=ZERO
+          D5GS=ZERO
+          D6GS=ZERO
+ 
+        ELSE
+C         *** EFFET DU Champ DE FUITE DE SORTIE
+ 
+          SS=SS/DLS
+          CALL DRVG(4,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+C          CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+ 
+        ENDIF
+ 
+        G= GE+GS-UN
+ 
+        IF(G.LT.ZERO) CALL ENDJOB(
+     >    'SBR CHAMC : gradient  is  wrong  G (=GE+GS-1) < ',0)
+ 
+C       *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
+C           SES DERIVEES
+      G   =  G*GN
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
+      D5G = (D5GE * DE(IP,5) + D5GS * DS(IP,5))  *BRI
+      D6G = (D6GE * DE(IP,6) + D6GS * DS(IP,6))  *BRI
+ 
+      Y2 = Y  * Y
+      Y3 = Y2 * Y
+      Y4 = Y3 * Y
+      Y5 = Y4 * Y
+      Y6 = Y5 * Y
+ 
+      Z2 = Z  * Z
+      Z3 = Z2 * Z
+      Z4 = Z3 * Z
+      Z5 = Z4 * Z
+      Z6 = Z5 * Z
+ 
+      YZ   = Y  * Z
+      YZ2  = Y  * Z2
+      YZ3  = Y  * Z3
+      YZ4  = Y  * Z4
+      YZ5  = Y  * Z5
+ 
+      Y2Z2 = Y2 * Z2
+      Y2Z3 = Y2 * Z3
+ 
+      Y3Z  = Y3 * Z
+      Y3Z2 = Y3 * Z2
+      Y3Z3 = Y3 * Z3
+ 
+C     *** Bx, By, Bz field components
+      B(1,1)= 
+     > YZ*(DG -D3G/12.D0*(Y2+ Z2)+D5G/384.D0*(Y4+2.D0*Y2Z2+Z4))
+      B(1,2)= 
+     > Z*(G - D2G/12.D0*(Z2+3.D0*Y2) + D4G/384.D0*(Z4+6.D0*Y2Z2+
+     > 5.D0*Y4) - D6G/23040.D0*(Z6+9.D0*Y2*Z4+15.D0*Z2*Y4+7.D0*Y6))
+      B(1,3)= 
+     > Y*(G - D2G/12.D0*(Y2+3.D0*Z2) + D4G/384.D0*(Y4+6.D0*Y2Z2+
+     > 5.D0*Z4) - D6G/23040.D0*(Y6+9.D0*Y4*Z2+15.D0*Y2*Z4+7.D0*Z6))
 
-C  K2CD :
-      AK2(2)= TKCDM3/(p*p*p)+ TKCDM2/(p*p)+ TKCDM1/p + TKCD0+TKCD1*p 
-     >  +TKCD2*p*p+TKCD3*p*p*p+TKCD4*p*p*p*p+TKCD5*p*p*p*p*p  
-     >  +TKCD6*p*p*p*p*p*p - TKDBDCOEF*BDOT*ALC/ALA
+C     *** DERIVEES DANS LE PLAN MEDIAN
+      BZX   =  DG*Y - D3G*Y3/12.D0  +   D5G*Y5/384.D0
+      BZY   = (  G   - D2G*Y2*.25D0 +   D4G*Y4/76.8D0   -  D6G*Y6*Q7 )
+      BZXX  = D2G*Y - D4G*Y3/12.D0  +   D6G*Y5/384.D0
+      BZXY  =  DG   - D3G*Y2*.25D0 +   D5G*Y4/76.8D0
+      BZYY  =   
+     >  - D2G*Y *.5D0 +4.D0*D4G*Y3/76.8D0  - 6.D0*D6G*Y5*Q7
+      D3BX(3,1,1)= D3G*Y - D5G*Y3/12.D0
+      D3BX(3,2,1)= D2G   - D4G*Y2*.25D0 +   D6G*Y4/76.8D0
+      D3BX(3,2,2)=       - D3G*Y *.5D0  +4.D0*D5G*Y3/76.8D0
+      D3BY(3,2,2)=  - D2G*.5D0 + D4G*Y2*.15625D0 - 30.D0*D6G*Y4*Q7
+ 
+C     ... d2Bx/dXdY = d2By/dX2
+      DDB(2,1,1)=
+     > Z*D3BX(3,2,1) - D4G/12.D0*Z3 +  D6G/384.D0*(6.D0*Y2Z3 + Z5)
+C     ... d2Bx/dY2
+      DDB(2,2,1) = Z*D3BX(3,2,2) + D5G/32.D0*YZ3
+C     ... d2Bx/dX2
+      DDB(1,1,1) = Z*D3BX(3,1,1) - D5G/12.D0*YZ3
+C     ... d2By/dY2
+      DDB(2,2,2) =
+     > Z*D3BY(3,2,2) + D4G/32.D0*Z3- D6G/128.D0*(Y2Z3 + 0.1D0*Z5)
+ 
+C     .. dBx/dZ = dBz/dX
+      DB(3,1)  = BZX - D3G/4.D0*YZ2 + D5G/76.8D0*(1.2D0*Y3Z2 + YZ4)
+C     .. dBy/dZ = dBZ/dY
+      DB(3,2)  = BZY - D2G/4.D0*Z2  + D4G/76.8D0*(3.6D0*Y2Z2 + Z4)
+     >       + D6G/23040.D0*(45.D0*(Y2Z2+Z4) + 7.D0*Z6)
+ 
+C     ... dBx/dX
+      DB(1,1) = Z*BZXX - D4G/12.D0*YZ3 + D6G/384.D0*(2.D0*Y3Z3 + YZ5)
+C     ... dBx/dY = dBy/dX
+      DB(2,1) = Z*BZXY - D3G/12.D0*Z3  + D5G/384.D0*(6.D0*Y2Z3 + Z5)
+C     ... dBy/dY
+      DB(2,2) = Z*BZYY + D4G/32.D0*YZ3 - D6G/384.D0*(Y3Z3 + 0.3D0*YZ5)
+ 
+C     .. d2By/dXdZ = d2Bz/dXdY = d2Bx/dYdZ
+C   correction FM 7/12/94
+C      DDB(3,2,1) = BZXY - D3G/4.D0*D0Z2  + D5G/76.8D0*(3.6D0*Y2Z2 + Z4)
+      DDB(3,2,1) = BZXY - D3G/4.D0*Z2  + D5G/76.8D0*(3.6D0*Y2Z2 + Z4)
+C     .. d2Bx/dXdZ = d2Bz/dX2
+      DDB(3,1,1) = BZXX - D4G/4.D0*YZ2 + D6G/76.8D0*(1.2D0*Y3Z2 + YZ4)
+C     .. d2By/dYdZ = d2Bz/dY2
+      DDB(3,2,2) = 
+     > BZYY + D4G/32.D0*3.D0*YZ2 - D6G/256.D0*(2.D0*Y3Z2 + YZ4)
+ 
+      IF(ID .GE. 3) THEN
+        D4BX(3,1,1,1) =                D4G*Y       -    D6G*Y3/12.D0
+        D4BX(3,2,1,1) = D3G             -   D5G*Y2*.25D0
+        D4BX(3,2,2,1)=    -   D4G*Y*.5D0      + 4.D0*D6G*Y3/76.8D0
+        D4BX(3,2,2,2)=    -   D3G  *.5D0     +12.D0*D5G*Y2/76.8D0
+        D4BY(3,2,2,2)=         D4G*Y*.3125D0 - 14.D0*D6G*Y3/384.D0
+        D4BX(3,3,3,1)=-(D4BX(3,1,1,1)  +D4BX(3,2,2,1))
+        D4BX(3,3,3,2)=-(D4BX(3,2,1,1) +D4BX(3,2,2,2) )
+        D4BY(3,3,3,2)=-(D4BX(3,2,2,1)+D4BY(3,2,2,2)  )
+C       ... D3Bx/dX3
+        D3BX(1,1,1) = Z*D4BX(3,1,1,1)   - D6G/12.D0 * YZ3
+C       ... D3Bx/dX2DY
+        D3BX(2,1,1) = Z*D4BX(3,2,1,1)  - D5G/12.D0 * Z3
+C       ... D3Bx/dXdY2
+        D3BX(2,2,1) = Z*D4BX(3,2,2,1) + D4G/32.D0 * YZ3
+C       ... D3Bx/dY3
+        D3BX(2,2,2) = Z*D4BX(3,2,2,2)  + D5G/32.D0 * Z3
+C       ... D3By/dY3
+        D3BY(2,2,2) = Z*D4BY(3,2,2,2)   - D6G/64.D0 * YZ3
+ 
+      ENDIF
+C     ... ENDIF ID>=3
 
-C  K2CF :
-      AK2(5)= TKCFM3/(p*p*p)+ TKCFM2/(p*p)+ TKCFM1/p + TKCF0+TKCF1*p 
-     >  +TKCF2*p*p+TKCF3*p*p*p+TKCF4*p*p*p*p+TKCF5*p*p*p*p*p  
-     >  +TKCF6*p*p*p*p*p*p - TKFBDCOEF*BDOT*ALC/ALA
+      ENDIF
+ 
+      ENDIF
+C     **  TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END QUAD
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+ 83   CONTINUE
+      IF( BM(3) .EQ. ZERO) GOTO 84
+ 
+C--------------------------------------------------------------------
+C----- Champ SEXTUPOLAIRE
+      IP=3
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** SEXTUPOLE CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+          BZYY= 2.D0*GN
+          DDB(3,2,2) = BZYY
+ 
+          BZY = BZYY*Y
+          DB(3,2) = BZY
+          DB(2,2)= Z * BZYY
+ 
+          B(1,2) = BZY*Z
+          B(1,3) = GN*(Y+Z)*(Y-Z)
+ 
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** SEXTUPOLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+C     DISTANCE A LA FACE D'ENTREE :
+      SE=XE-X
+C     DISTANCE A LA FACE DE SORTIE :
+      SS=X-XS
+ 
+      ABSE=SE
+      IF(ABSE.LT.ZERO) ABSE=-ABSE
+      ABSS=SS
+      IF(ABSS.LT.ZERO) ABSS=-ABSS
+ 
+      CHFE=ABSE.LE.XE .AND. DLE .NE. ZERO
+      CHFS=ABSS.LE.XLS .AND. DLS .NE. ZERO
+      CHU=ABSE.GT.XE .AND. ABSS.GT.XLS
+ 
+      IF(CHU) THEN
+C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
+ 
+          BZYY= 2.D0*GN
+          DDB(3,2,2) = BZYY
+ 
+          BZY = BZYY*Y
+          DB(3,2) = BZY
+          DB(2,2)= Z * BZYY
+ 
+          B(1,2) = BZY*Z
+          B(1,3) = GN*(Y+Z)*(Y-Z)
+      ELSE
+C     *** POINT DANS ZONE DE Champ DE FUITE D'ENTRE ET/OU DE SORTIE
+ 
+      IF(.NOT. CHFE) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE D'ENTREE
+ 
+        GE  =UN
+        DGE =ZERO
+        D2GE=ZERO
+        D3GE=ZERO
+        D4GE=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE D'ENTREE
+ 
+        SE=SE/DLE
+        CALL DRVG(4,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+ 
+      ENDIF
+ 
+      IF(.NOT. CHFS) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE DE SORTIE
+ 
+        GS  =UN
+        DGS =ZERO
+        D2GS=ZERO
+        D3GS=ZERO
+        D4GS=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE DE SORTIE
+ 
+        SS=SS/DLS
+        CALL DRVG(4,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+ 
+      ENDIF
+ 
+      G= GE+GS-UN
+ 
+      IF(G.LT.ZERO) CALL ENDJOB(
+     >  'SBR CHAMC : gradient  is  wrong,  G (=GE+GS-1) < ',0)
+ 
+C     *** CACULE LE GRADIENT DE Champ DE FUITE RESULTANT G=GE+GS-1,
+C         ET  SES DERIVEES
+      G   =  G*GN
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
+ 
+      Y2 = Y  * Y
+      Y3 = Y2 * Y
+      Y4 = Y3 * Y
+ 
+      Z2 = Z  * Z
+      Z3 = Z2 * Z
+      Z4 = Z3 * Z
+ 
+      YZ   = Y  * Z
+      YZ2  = Y  * Z2
+      YZ3  = Y  * Z3
+ 
+      Y2Z2 = Y2 * Z2
+ 
+C----- FM, 03/93, ERROR CORRECTION
+C      D4G=D4G*60.
+ 
+C     *** Bx, By, Bz field components
+      B(1,1) =Z*(DG*(Y2-Z2/3.D0) - D3G/48.D0*(3.D0*Y4 + 2.D0*Y2Z2 - Z4))
+      B(1,2)  = YZ*(2.D0*G - D2G/12.D0*(3.D0*Y2 + Z2)
+     >     + D4G/960.D0* (9.D0*Y4 + 10.D0*Y2Z2 + Z4))
+      B(1,3)  =  G*(Y2 - Z2) - D2G/48.D0*(.6D0*Y4 + 1.2D0*Y2Z2 - Z4)
+     >     + D4G/384.D0*(.6D0*Y4*Y2 + (3.D0*Y4 + Y2Z2 - 1.2D0*Z4)*Z2 )
+ 
+C     *** DERIVEES DANS LE PLAN MEDIAN
+      BZX   =   DG*Y2 - D3G*Y4 *.0625D0
+      BZY   =  2.D0*G*Y - D2G*Y3 *.25D0
+      BZXX  =  D2G*Y2 - D4G*Y4 *.0625D0
+      BZXY  = 2.D0*DG*Y - D3G*Y3 *.25D0
+      BZYY  =    2.D0*G - D2G*Y2 *.75D0
+      D3BX(3,1,1) =  D3G*Y2
+      D3BX(3,2,1) = 2.D0*D2G*Y - D4G*Y3 *.25D0
+      D3BX(3,2,2) = 2.D0*DG    - D3G*Y2 *.75D0
+      D3BY(3,2,2) =  - D2G*Y *1.5D0
+ 
+C     ... d2Bx/dXdY = d2By/dX2
+      DDB(2,1,1) = Z*D3BX(3,2,1) - D4G/12.D0*YZ3
+C     ... d2Bx/dY2
+      DDB(2,2,1) = Z*D3BX(3,2,2) - D3G/12.D0*Z3
+C     ... d2Bx/dX2
+      DDB(1,1,1) = Z*D3BX(3,1,1) - D3G/3.D0 *Z3
+C     ... d2By/dY2
+      DDB(2,2,2) = Z*D3BY(3,2,2)
+ 
+C     .. dBx/dZ = dBz/dX
+C      DB(3,1)  = BZX - DG*Z2 + D3G/9.6*(1.4*Y2Z2 - Z4)
+      DB(3,1)  = BZX - DG*Z2 - D3G/9.6D0*(1.4D0*Y2Z3 - Z4)
+C     .. dBy/dZ = dBz/dY
+      DB(3,2)  = BZY - D2G*.25D0*YZ2
+ 
+C     ... dBx/dX
+C      DB(1,1) = Z*BZXX - D2G/3.D0*Z3 -D4G/48.D0*(2.D0*Y2Z2-Z*Z4)
+C   correction FM 26/3/93
+      DB(1,1) = Z*(BZXX - D2G/3.D0*Z2 -D4G/48.D0*(2.D0*Y2Z2-Z4))
+C     ... dBx/dY = dBy/dX
+      DB(2,1) = Z*BZXY - D3G/12.D0*YZ3
+C     ... dBy/dY
+      DB(2,2) = Z*(BZYY -D2G/12.D0*Z2+D4G/960.D0*(45.D0*Y4+
+     > 30.D0*Y2Z2+Z4))
+ 
+C     .. d2Bx/dXdZ = d2Bz/dX2
+      DDB(3,1,1) = BZXX - D2G*Z2 - D4G*0.125D0*(Y2Z2 - Z4/1.2D0)
+C     .. d2By/dXdZ = d2BZ/dXdY = d2Bx/dYdZ
+      DDB(3,2,1) = BZXY - D3G*YZ2*.25D0
+C     .. d2By/dYdZ = d2BZ/dY2
+      DDB(3,2,2) = BZYY - .25D0*D2G*Z2
+
+      IF(ID .GE. 3) THEN
+        D4BX(3,1,1,1)  =    D4G*Y2
+        D4BX(3,2,1,1) = 2.D0*D3G*Y
+        D4BX(3,2,2,1)=   2.D0*D2G - D4G*Y2 *.75D0
+        D4BX(3,2,2,2) =       - D3G*Y  *1.5D0
+        D4BY(3,2,2,2)  =  -1.5D0*D2G
+        D4BX(3,3,3,1)=-(D4BX(3,1,1,1)+  D4BX(3,2,2,1))
+        D4BX(3,3,3,2)=-(D4BX(3,2,1,1)+ D4BX(3,2,2,2) )
+        D4BY(3,3,3,2)=-(D4BX(3,2,2,1)+D4BY(3,2,2,2)  )
+ 
+C       ... D3Bx/dX3
+        D3BX(1,1,1) = Z*D4BX(3,1,1,1) - D4G * Z3/3D0
+C       ... D3Bx/dX2DY
+        D3BX(2,1,1) = Z*D4BX(3,2,1,1)
+C       ... D3Bx/dXdY2
+        D3BX(2,2,1) = Z*D4BX(3,2,2,1) - D4G *Z3/12.D0
+C       ... D3Bx/dY3
+        D3BX(2,2,2) = Z*D4BX(3,2,2,2)
+C       ... D3By/dY3
+        D3BY(2,2,2) = Z*D4BY(3,2,2,2)
+      ENDIF
+C     ... ENDIF ID>=3
+ 
+      ENDIF
+ 
+      ENDIF
+C--------- TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C------ END  SEXTU
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 84   CONTINUE
+      IF( BM(4) .EQ. ZERO) GOTO 85
+ 
+C--------------------------------------------------------------------
+C----- OCTUPOLE
+      IP=4
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** OCTUPOLE CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+          D3BY(3,2,2) = 6.D0*GN
+ 
+          BZYY= Y * D3BY(3,2,2)
+          DDB(3,2,2) = BZYY
+          DDB(2,2,2) = Z * D3BY(3,2,2)
+ 
+          BZY = BZYY*Y*.5D0
+          DB(2,2) = Z * BZYY
+          DB(3,2) = BZY - 3.D0*Z*Z*GN
+ 
+          B(1,2) = Z *(BZY - GN*Z*Z)
+          B(1,3) = GN * Y * (Y*Y - 3.D0*Z*Z)
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** OCTUPOLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+C     DISTANCE A LA FACE D'ENTREE :
+      SE=XE-X
+C     DISTANCE A LA FACE DE SORTIE :
+      SS=X-XS
+ 
+      ABSE=SE
+      IF(ABSE.LT.ZERO) ABSE=-ABSE
+      ABSS=SS
+      IF(ABSS.LT.ZERO) ABSS=-ABSS
+ 
+      CHFE=ABSE.LE.XE .AND. DLE .NE. ZERO
+      CHFS=ABSS.LE.XLS .AND. DLS .NE. ZERO
+      CHU= ABSE.GT.XE .AND. ABSS.GT.XLS
+ 
+      IF(CHU) THEN
+C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
+ 
+          D3BY(3,2,2) = 6.D0*GN
+C          D3BY(3,3,3)  = - BYYY
+ 
+          BZYY= Y * D3BY(3,2,2)
+          DDB(3,2,2) = BZYY
+          DDB(2,2,2) = Z * D3BY(3,2,2)
+ 
+          BZY = BZYY*Y*.5D0
+          DB(2,2) = Z * BZYY
+          DB(3,2) = BZY - 3.D0*Z*Z*GN
+ 
+          B(1,2) = Z *(BZY - GN*Z*Z)
+          B(1,3) = GN * Y * (Y*Y - 3.D0*Z*Z)
+      ELSE
+C     *** POINT DANS ZONE DE Champ DE FUITE D'ENTRE ET/OU DE SORTIE
+ 
+      IF(.NOT. CHFE) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE D'ENTREE
+C           OU GRADIENT CRENEAU
+ 
+        GE  =UN
+        DGE =ZERO
+        D2GE=ZERO
+        D3GE=ZERO
+        D4GE=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE D'ENTREE
+ 
+        SE=SE/DLE
+        CALL DRVG(6,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+ 
+      ENDIF
+ 
+      IF(.NOT. CHFS) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE DE SORTIE
+C           OU GRADIENT CRENEAU
+ 
+        GS  =UN
+        DGS =ZERO
+        D2GS=ZERO
+        D3GS=ZERO
+        D4GS=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE DE SORTIE
+ 
+        SS=SS/DLS
+        CALL DRVG(4,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+ 
+      ENDIF
+ 
+      G= GE+GS-UN
+ 
+      IF(G.LT.ZERO) CALL ENDJOB(
+     >  'SBR CHAMC : gradient is  wrong,  G (=GE+GS-1) < ',0)
+ 
+C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
+C         SES DERIVEES
+      G   =  G*GN
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+      D4G = (D4GE * DE(IP,4) + D4GS * DS(IP,4))  *BRI
+ 
+      Y2 = Y  * Y
+      Y3 = Y2 * Y
+      Y4 = Y3 * Y
+      Y5 = Y4 * Y
+ 
+      Z2 = Z  * Z
+      Z3 = Z2 * Z
+      Z4 = Z3 * Z
+ 
+      YZ   = Y  * Z
+      YZ2  = Y  * Z2
+      YZ3  = Y  * Z3
+      YZ4  = Y  * Z4
+ 
+      Y2Z2 = Y2 * Z2
+ 
+C     *** COMPOSANTES Bx, By, Bz DU Champ
+      B(1,1)  =  YZ*(DG*(Y2-Z2) - D3G*.05D0*(Y4 - Z4))
+      B(1,2)  =  Z*(G*(3.D0*Y2 - Z2) - D2G*.05D0*(5.D0*Y4 - Z4)
+     >     + D4G/960.D0*( (7.D0*Y4 + 5.D0*Y2Z2 - 3.D0*Z4)*Y2 - Z3*Z3 ))
+      B(1,3)  =  G*(Y3 - 3.D0*YZ2) - D2G*.05D0*(Y5 - YZ4)
+     >     + D4G/960.D0*( Y4*Y3 + (3.D0*Y4 - 5.D0*Y2Z2 - 7.D0*Z4) *YZ2 )
+ 
+C     *** DERIVEES DANS LE PLAN MEDIAN
+      BZX   =   DG*Y3 - D3G*Y5 *.05D0
+      BZY   =  3.D0*G*Y2- D2G*Y4 *.25D0
+      BZXX  =  D2G*Y3 - D4G*Y5 *.05D0
+      BZXY  = 3.D0*DG*Y2- D3G*Y4 *.25D0
+      BZYY  = 6.D0* G*Y - D2G*Y3
+      D3BX(3,1,1) =  D3G*Y3
+      D3BX(3,2,1) = 3.D0*D2G*Y2- D4G*Y4 *.25D0
+      D3BX(3,2,2) = 6.D0*DG *Y - D3G*Y3
+      D3BY(3,2,2) = 6.D0* G    - D2G*Y2 *3D0
+ 
+C     ... d2Bx/dXdY = d2By/dX2
+      DDB(2,1,1) = Z*D3BX(3,2,1) - D2G*Z3
+C     ... d2Bx/dY2
+      DDB(2,2,1) = Z*D3BX(3,2,2)
+C     ... d2Bx/dX2
+      DDB(1,1,1) = Z*D3BX(3,1,1) - D3G *YZ3
+C     ... d2By/dY2
+      DDB(2,2,2) = Z*D3BY(3,2,2)
+ 
+C     .. dBx/dZ = dBz/dX
+      DB(3,1)  = BZX - 3.D0*DG*YZ2 + D3G*.25D0*YZ4
+C     .. dBy/dZ = dBz/dY
+      DB(3,2)  = BZY - 3.D0*G*Z2   + 1.25D0*D2G*Z4
+ 
+C     ... dBx/dX
+      DB(1,1) = Z*BZXX - D2G*YZ3
+C     ... dBx/dY = dBy/dX
+      DB(2,1) = Z*(BZXY  + D3G*Z4*.05D0) - DG*Z3
+C     ... dBy/dY
+      DB(2,2) = Z*BZYY
+ 
+C     .. d2Bx/dXdZ = d2Bz/dX2
+      DDB(3,1,1) = BZXX - 3.D0*D2G*YZ2 + .25D0*D4G*YZ4
+C     .. d2By/dXdZ = d2Bz/dXdY = d2Bx/dYdZ
+      DDB(3,2,1) = BZXY - 3.D0*DG*Z2 + D3G*Z4*.25D0
+C     .. d2By/dYdZ = d2Bz/dY2
+      DDB(3,2,2) = BZYY
+
+      IF(ID .GE. 3) THEN
+        D4BX(3,1,1,1)  =    D4G*Y3
+        D4BX(3,2,1,1) = 3.D0*D3G*Y2
+        D4BX(3,2,2,1)=   6.D0*D2G*Y - D4G*Y3
+        D4BX(3,2,2,2) = 6.D0*DG - 3.D0*D3G*Y2
+        D4BY(3,2,2,2)  =  -6.D0*D2G*Y
+        D4BX(3,3,3,1)=-(D4BX(3,1,1,1)+D4BX(3,2,2,1))
+        D4BX(3,3,3,2)=-(D4BX(3,2,1,1)+D4BX(3,2,2,2))
+        D4BY(3,3,3,2)=-(D4BX(3,2,2,1)+D4BY(3,2,2,2))
+ 
+C       ... D3Bx/dX3
+        D3BX(1,1,1) = Z*D4BX(3,1,1,1) - D4G*YZ3
+C       ... D3Bx/dX2DY
+        D3BX(2,1,1) = Z*D4BX(3,2,1,1)
+C       ... D3Bx/dXdY2
+        D3BX(2,2,1) = Z*D4BX(3,2,2,1)
+C       ... D3Bx/dY3
+        D3BX(2,2,2) = Z*D4BX(3,2,2,2)
+C       ... D3By/dY3
+        D3BY(2,2,2) = Z*D4BY(3,2,2,2)
+      ENDIF
+C     ... ENDIF ID>=3
+ 
+      ENDIF
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END OCTUPOLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 85   CONTINUE
+      IF( BM(5) .EQ. ZERO) GOTO 86
+ 
+C--------------------------------------------------------------------
+C----- DECAPOLE
+      IP=5
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** DECAPOLE CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+          D4BY(3,2,2,2) = 24.D0*GN
+          D3BY(3,2,2) = Y*D4BY(3,2,2,2)
+          BZYY = .5D0*Y*D3BY(3,2,2)
+          BZY = Y*BZYY/3D0
+ 
+          DDB(2,2,2) = Z * D3BY(3,2,2)
+ 
+          Z2=Z*Z
+          DB(3,2) = BZY - 12.D0*Y*Z2*GN
+          DB(2,2) = Z * (BZYY - 4.D0*GN*Z2)
+ 
+          DDB(3,2,2) = BZYY - 12.D0*GN*Z2
+ 
+          B(1,2) = Z *(BZY - 4.D0*GN*Y*Z2)
+          B(1,3) = GN*(Y*Y*(Y*Y-6.D0*Z2) + Z2*Z2)
+
+          IF(ID.GE.3) THEN
+            D4BY(3,3,3,2)=-D4BY(3,2,2,2)
+            D3BY(2,2,2) = Z*D4BY(3,2,2,2)
+          ENDIF
+
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** DECAPOLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+        CALL ENDJOB('Decapole fringe field not installed ',-99)
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END DECAPOLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 86   CONTINUE
+      IF( BM(6) .EQ. ZERO) GOTO 87
+ 
+C--------------------------------------------------------------------
+C----- DODECAPOLE
+      IP=6
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** DODECAPOLE CRENEAU 
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+          D4BY(3,2,2,2) = 120.D0*GN*Y
+          D3BY(3,2,2) = .5D0*Y*D4BY(3,2,2,2)
+          BZYY = Y*D3BY(3,2,2)/3D0
+          BZY = .25D0*Y*BZYY
+ 
+          Z2=Z*Z
+          SGZ2=60.D0*GN*Z2
+ 
+          DDB(2,2,2) = Z * D3BY(3,2,2) - 20.D0*GN*Z2*Z
+ 
+          Y2=Y*Y
+          DB(3,2) = BZY + 5.D0*Z2*GN*(-6.D0*Y2+Z2)
+          DB(2,2) = 20.D0*GN*Y*Z*(Y2-Z2)
+ 
+          DDB(3,2,2) = BZYY - 60.D0*GN*Y*Z2
+ 
+          B(1,2) = Z *(BZY + (-10.D0*Y2 + Z2)*GN*Z2)
+          B(1,3) = GN*Y*(Y2*(Y2-10.D0*Z2) + 5.D0*Z2*Z2 )
+
+          IF(ID.GE.3) THEN
+            D4BY(3,3,3,2)=-D4BY(3,2,2,2)
+            D3BY(2,2,2) = Z*D4BY(3,2,2,2)
+          ENDIF
+
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** DODECAPOLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+        CALL ENDJOB('Dodecapole fringe field not installed ',-99)
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END DODECAPOLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+ 87   CONTINUE
+      IF( BM(7) .EQ. ZERO) GOTO 88
+ 
+C--------------------------------------------------------------------
+C----- 14-POLE
+      IP=7
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** 14-POLE CRENEAU 
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+
+          CALL ENDJOB('14-pole not installed ',-99)
+ 
+          IF(ID.GE.3) THEN
+          ENDIF
+
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** 14-POLE AVEC ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+        CALL ENDJOB('14-pole fringe field not installed ',-99)
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END 14-POLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+ 88   CONTINUE
+      IF( BM(8) .EQ. ZERO) GOTO 89
+ 
+C--------------------------------------------------------------------
+C----- 16-POLE
+      IP=8
+      GN = BM(IP)*BRI
+      IF(GN.NE.0.D0) 
+     >  stop ' *** 16-POLE lens not installed, please set B7=0 ***     '
+
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+        CALL ENDJOB('SBR MULTIP:  fringe field not installed ',-99)
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END 16-POLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 89   CONTINUE
+      IF( BM(9) .EQ. ZERO) GOTO 90
+ 
+C--------------------------------------------------------------------
+C----- 18-POLE
+      IP=9
+      GN = BM(IP)*BRI
+      IF(GN.NE.0.D0) 
+     >  stop ' *** 18-POLE lens not installed, please set B7=0 ***'
+
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+        CALL ENDJOB('SBR MULTIP:  fringe field not installed ',-99)
+ 
+      ENDIF
+C     ** TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END DECAPOLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 90   CONTINUE
+      IF( BM(10) .EQ. ZERO) GOTO 91
+ 
+C--------------------------------------------------------------------
+C----- 20-POLE
+      IP=10
+      GN = BM(IP)*BRI
+      DLE = DLEM(IP)
+      DLS = DLSM(IP)
+      Y=Y0
+      Z=Z0
+      IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
+ 
+      IF(DLE+DLS .EQ. ZERO) THEN
+C       *** CRENEAU : PAS DE Champ DE FUITE
+ 
+C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
+        IF ( X.GE.XE .AND. X.LE.XS ) THEN
+C         *** A L'INTERIEUR DE L'AIMANT
+ 
+          
+          Y2=Y*Y
+          Y4 = Y2*Y2
+          Y6 = Y4*Y2
+          Y8 = Y4*Y4
+          Z2=Z*Z
+          Z4 = Z2*Z2
+          Z6 = Z4*Z2
+          Z8 = Z4*Z4
+          DDB(2,2,2)=GN*Z*(504.D0*Y6-420.D0*Y4*Z2+1512.D0*Y2*Z4-72D0*Z6)
+ 
+          DB(3,2)=GN*(9.D0*Y8-252.D0*Y6*Z2+630.D0*Y4*Z4-252.D0*Y2*Z6+Z8)
+          DB(2,2)=GN*Z*Y*(72.D0*Y6-84.D0*Y4*Z2+504.D0*Y2*Z4-72.D0*Z6)
+ 
+          DDB(3,2,2)=GN*Y*(72.D0*Y6-1512.D0*Y4*Z2+2520D0*Y2*Z4-504D0*Z6)
+ 
+          B(1,2) =GN*Z*(9.D0*Y8-84.D0*Y6*Z2+126.D0*Y4*Z4-36.D0*Y2*Z6+Z8)
+          B(1,3) =GN*Y*(Y8-36.D0*Y6*Z2+126.D0*Y4*Z4-84.D0*Y2*Z6+9.D0*Z8)
+
+        ENDIF
+ 
+      ELSEIF(DLE+DLS .NE. ZERO) THEN
+C     *** ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
+ 
+C     DISTANCE A LA FACE D'ENTREE :
+      SE=XE-X
+C     DISTANCE A LA FACE DE SORTIE :
+      SS=X-XS
+ 
+      ABSE=SE
+      IF(ABSE.LT.ZERO) ABSE=-ABSE
+      ABSS=SS
+      IF(ABSS.LT.ZERO) ABSS=-ABSS
+ 
+      CHFE=ABSE.LE.XE .AND. DLE .NE. ZERO
+      CHFS=ABSS.LE.XLS .AND. DLS .NE. ZERO
+      CHU= ABSE.GT.XE .AND. ABSS.GT.XLS
+ 
+      IF(CHU) THEN
+C       *** POINT DANS ZONE DE Champ Uniforme ( G(X)=0 )
+ 
+          Y2=Y*Y
+          Y4 = Y2*Y2
+          Y6 = Y4*Y2
+          Y8 = Y4*Y4
+          Z2=Z*Z
+          Z4 = Z2*Z2
+          Z6 = Z4*Z2
+          Z8 = Z4*Z4
+          DDB(2,2,2)=GN*Z*(504.D0*Y6-420.D0*Y4*Z2+1512.D0*Y2*Z4-72D0*Z6)
+ 
+          DB(3,2)=GN*(9.D0*Y8-252.D0*Y6*Z2+630.D0*Y4*Z4-252.D0*Y2*Z6+Z8)
+          DB(2,2)=GN*Z*Y*(72.D0*Y6-84.D0*Y4*Z2+504.D0*Y2*Z4-72.D0*Z6)
+ 
+          DDB(3,2,2)=GN*Y*(72.D0*Y6-1512.D0*Y4*Z2+2520D0*Y2*Z4-504D0*Z6)
+ 
+          B(1,2) =GN*Z*(9.D0*Y8-84.D0*Y6*Z2+126.D0*Y4*Z4-36.D0*Y2*Z6+Z8)
+          B(1,3) =GN*Y*(Y8-36.D0*Y6*Z2+126.D0*Y4*Z4-84.D0*Y2*Z6+9.D0*Z8)
+
+      ELSE
+C     *** POINT DANS ZONE DE Champ DE FUITE D'ENTRE ET/OU DE SORTIE
+ 
 
 
-      sak11=ak1(1)
-      sak12=ak1(2)
-      sak13=ak1(3)
-      sak14=ak1(4)
-      sak15=ak1(5)
-      sak16=ak1(6)
-      sak21=ak2(1)
-      sak22=ak2(2)
-      sak23=ak2(3)
-      sak24=ak2(4)
-      sak25=ak2(5)
-      sak26=ak2(6)
-         
+      IF(.NOT. CHFE) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE D'ENTREE
+C           OU GRADIENT CRENEAU
+ 
+        GE  =UN
+        DGE =ZERO
+        D2GE=ZERO
+        D3GE=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE D'ENTREE
+ 
+        SE=SE/DLE
+        CALL DRVG(6,CE,SE,GE,DGE,D2GE,D3GE,D4GE,D5GE,D6GE)
+ 
+      ENDIF
+ 
+      IF(.NOT. CHFS) THEN
+C       *** HORS D'EFFET DU Champ DE FUITE DE SORTIE
+C           OU GRADIENT CRENEAU
+ 
+        GS  =UN
+        DGS =ZERO
+        D2GS=ZERO
+        D3GS=ZERO
+ 
+      ELSE
+C       *** EFFET DU Champ DE FUITE DE SORTIE
+ 
+        SS=SS/DLS
+        CALL DRVG(4,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
+ 
+      ENDIF
+ 
+      G= GE+GS-UN
+ 
+      IF(G.LT.ZERO) CALL ENDJOB(
+     >  'SBR CHAMC : GRADIENT ERRONNE  G (=GE+GS-1) < ',0)
+ 
+C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
+C         SES DERIVEES
+      G   =  G*GN
+      DG  = (DGE  * DE(IP,1) + DGS  * DS(IP,1))  *BRI
+      D2G = (D2GE * DE(IP,2) + D2GS * DS(IP,2))  *BRI
+      D3G = (D3GE * DE(IP,3) + D3GS * DS(IP,3))  *BRI
+ 
+      G   =  G  /10.D0
+      DG  = DG  /10.D0
+      D2G = D2G /10.D0
+      D3G = D3G /10.D0
+ 
+      Y2 = Y  * Y
+      Y4 = Y2 * Y2
+      Y6 = Y4 * Y2
+      Y8 = Y4 * Y4
+ 
+      Z2 = Z  * Z
+      Z4 = Z2 * Z2
+      Z6 = Z4 * Z2
+      Z8 = Z4 * Z4
+ 
+      YZ   = Y  * Z
+ 
+      U = G - D2G/44.D0
+      V = 10.D0*Y8-120.D0*Y6*Z2+252.D0*Y4*Z4-120.D0*Y2*Z6+10.D0*Z8
+      DUX = G - D3G/44.D0*(Y2+Z2)
+      DUY = -D2G/22.D0*Y
+      DUZ = -D2G/22.D0*Z
+C     *** COMPOSANTES Bx, By, Bz DU Champ
+      B(1,1)  =  DUX*V*YZ
+      B(1,2)  =  DUY*V*YZ + U*DVY*YZ + U*V*Z
+      B(1,3)  =  DUZ*V*YZ + U*DVZ*YZ + U*V*Y
+ 
+C     Derivees
+      DUXX = D2G
+      DUXY = -D3G/22.D0*Y
+      DUXZ = -D3G/22.D0*Z
+      DUYY = -D2G/22.D0
+      DUZZ = -D2G/22.D0
+      DUYZ = 0.D0
+      DUXXX = D3G
+      DUXYY = -D3G/22.D0
+      DVY = (80.D0*Y6-720.D0*Y4*Z2+1008.D0*Y2*Z4-240.D0*Z6)*Y
+      DVZ = (80.D0*Z6-720.D0*Z4*Y2+1008.D0*Z2*Y4-240.D0*Y6)*Z
+      DVYY = 560.D0*Y6 -3600.D0*Y4*Z2 + 3024.D0*Y2*Z4 - 240.D0*Z6
+      DVZZ = 560.D0*Z6 -3600.D0*Z4*Y2 + 3024.D0*Z2*Y4 - 240.D0*Y6
+      DVYZ = (-1440.D0*Y4 + 4032.D0*Y2*Z2 - 1440.D0*Z4)*YZ
+      DVYYZ = (-7200.D0*Y4 + 12096.D0*Y2*Z2 - 1440.D0*Z4)*Z
+      DVYYY = (3360.D0*Y4 - 14400.D0*Y2*Z2 + 6048.D0*Z4)*Y
 
- 695  continue
+C     ... d2Bx/dXdY = d2By/dX2
+      DDB(2,1,1) = DUXX*(DVY*YZ + V*Z)
+C     ... d2Bx/dY2
+      DDB(2,2,1) = DUXYY*V*YZ + 2D0*DUXY*DVY*YZ + 2D0*DUXY*V*Z +
+     >   DUX*DVYY*YZ
+C     ... d2Bx/dX2
+      DDB(1,1,1) = DUXXX*V*YZ
+C     ... d2By/dY2
+      DDB(2,2,2) = DUYY*V*Z + 3D0*DUYY*DVY*YZ + 6D0*DUY*DVY*Z +
+     >   2D0*DUYY*V*Z + 3D0*DUY*DVYY*YZ + U*DVYYY*YZ + 3D0*U*DVYY*Z
+ 
+C     .. dBx/dZ = dBz/dX
+      DB(3,1)  = DUXZ*V*YZ + DUX*DVZ*YZ + DUX*V*Y
+C     .. dBy/dZ = dBz/dY
+      DB(3,2)  = DUY*DVZ*YZ + DUY*V*Y + DUZ*DVY*YZ+ U*DVYZ*YZ+ U*DVY*Y+
+     >   DUZ*V*Z + U*DVZ*Z + U*V
+C     ... dBx/dX
+      DB(1,1) = DUXX*V*YZ
+C     ... dBx/dY = dBy/dX
+      DB(2,1) = DUXY*V*YZ + DUX*DVY*YZ + DUX*V*Z
+C     ... dBy/dY
+      DB(2,2) = DUYY*V*YZ + 2D0*DUY*DVY*YZ + 2D0*DUY*V*Z + U*DVYY*YZ +
+     >  2D0*U*DVY*Z
+ 
+C     .. d2Bx/dXdZ = d2Bz/dX2
+      DDB(3,1,1) = DUXX*(DVZ*YZ + V*Y)
+C     .. d2By/dXdZ = d2Bz/dXdY = d2Bx/dYdZ
+      DDB(3,2,1) = DUXZ*DVY*YZ + DUXZ*V*Z + DUXY*DVZ*YZ + DUX*DVYZ*YZ +
+     >   DUX*DVZ*Z + DUXY*V*Y + DUX*DVY*Y + DUX*V
+C     .. d2By/dYdZ = d2Bz/dY2
+      DDB(3,2,2) = DUYY*DVZ*YZ + DUYY*V*Y + 2D0*DUY*(DVYZ*YZ + DVY*Y + 
+     >  DVZ*Z + V) + DUZ*DVYY*YZ + U*(DVYYZ*YZ + DVYY*Y + 2D0*(DVYZ*Z
+     >  +DVY)) + 2D0*DUZ*DVY*Z
+ 
+      ENDIF
+C---------- CHU
 
+
+      ENDIF
+C---------- TEST DLE+DLS
+ 
+      IF(RT(IP) .NE. ZERO)
+     >  CALL XROTB(RT(IP),B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+C-----  END 20-POLE
+ 
+      CALL ADPOL(ID,IOP,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
+ 91   CONTINUE
+      I3 = 3
+      CALL ADPOL(ID,I3,KFL,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+ 
       RETURN
       END

@@ -44,7 +44,7 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM, KLEY
       CHARACTER(LBLSIZ) LBF, LABEL
@@ -80,9 +80,10 @@ C----- To get values into A(), from earlier FIT
 
       LOGICAL TOMANY, STRACO
       CHARACTER(80) TXTEMP
+      CHARACTER(1) TXT1
       INTEGER DEBSTR,FINSTR
 
-      CHARACTER(40) TXTELT, TXTELO
+      CHARACTER(80) TXTELT, TXTELO
       SAVE TXTELT
 
       CHARACTER(300) SYSCMD
@@ -903,10 +904,15 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
       IF(READAT) THEN
         READ(NDAT,fmt='(A)') TXTEMP
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-     >  *,ERR=801,END=801) KOPTCS, LBLOPT, KOPTIP
+     >  *,ERR=801,END=801) KOPTCS, LBLOPT
+        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
+     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPTIP
         GOTO 802
       ENDIF
  801  CONTINUE
+      LBLOPT = 'all'
+ 803  CONTINUE
+      KOPTIP = 0
       WRITE(NRES,*)  ' '
       WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
      >,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 

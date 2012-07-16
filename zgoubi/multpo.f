@@ -214,9 +214,9 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
      >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
         WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
- 103    FORMAT(15X,2A,'  =',1P,G14.6,1X,A)
+ 103    FORMAT(15X,2A,'  =',1P,E15.7,1X,A)
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
- 101    FORMAT(15X,A,'  Skew  angle =',1P,G14.6,' RAD')
+ 101    FORMAT(15X,A,'  Skew  angle =',1P,E15.7,' rd')
         IF(XL .NE. 0.D0) THEN
           IF( (XL-DLE(NM)-DLS(NM)) .LT. 0.D0) WRITE(NRES,102)
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',

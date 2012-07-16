@@ -18,16 +18,16 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       FUNCTION STRACO(NST,STRA,STR,
      >                             IS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STRACO
-      CHARACTER STRA(*)*(*), STR*(*)     
+      CHARACTER(*) STR
+      CHARACTER(*) STRA(*)
 C     -----------------------------------------------------------
 C     .TRUE. if the array STRA contains the string STR
 C     NST = max number of indices considered : STRA(1->NST)

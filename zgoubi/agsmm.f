@@ -50,7 +50,7 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
@@ -93,8 +93,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
         WA(I) = A(NOEL,20+ 2*I)
       ENDDO
 
-      CALL AGSKS(BORO*DPREF*CL9/1.D3,
-     >                         AK1,AK2)
+      CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
+     >                                    AK1,AK2)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
      >                                XL,BM,ANGMM)
       CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
@@ -102,7 +102,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DEV = ANGMM
       DO I = 1, I3
         DB(I) = A(NOEL,12+I)
-        BM(I) = SCAL * BM(I) * (1.D0 + DB(I))
+C        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
+        BM(I) = SCAL * (BORO*1.D-3) * BM(I) * (1.D0 + DB(I))
       ENDDO
 
 C            write(*,*) ' agsmm scal ',scal

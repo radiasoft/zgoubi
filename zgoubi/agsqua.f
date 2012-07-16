@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE AGSQUA(LMNT,KFL,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
+      SUBROUTINE AGSQUA(LMNT,MPOL,SCAL,
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -44,41 +44,40 @@ C  -------
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
-      COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE 'MXFS.H'
-      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
      
-      CHARACTER(3) DIM(2)
-      CHARACTER(2) BE(2)
-      CHARACTER(80) TXT(10)
       DIMENSION  AREG(2),BREG(2),CREG(2)
       PARAMETER (I2 = 2, I3 = 3)
 
-      DATA DIM / 'kG ', 'V/m'/
-      DATA BE / 'B-', 'E-'/
- 
-      IER = 0
-      CALL RAZ(BM,MPOL)
+      DATA MIXFF / .FALSE.  /
 
-      GAP = 0.D0
+      CALL RAZ(BM,MPOL)
 
         XL =A(NOEL,10)
         RO =A(NOEL,11)
-        RT(I2) =A(NOEL,12)
-        SKEW = RT(I2) .NE. 0.D0
         GAP = RO/I2
-        A1 =A(NOEL,12)*SCAL
-        A2 =A(NOEL,13)*SCAL
+        CUR1 =A(NOEL,12)
+        CUR2 =A(NOEL,13)
+        CUR3 =A(NOEL,14)
+        DC1 =A(NOEL,15)
+        DC2 =A(NOEL,16)
+        DC3 =A(NOEL,17)
 
-c        CALL AGSQUF(A1,A2,
-c     >                    BM(I2))
+C------- Roll angle.  To be implemented
+        RT(I2) =A(NOEL,60)
+        SKEW = RT(I2) .NE. 0.D0
+        RT(I2)=ZERO
+
+        CALL AGSQKS(NOEL,CUR1,CUR2,CUR3,XL*CM2M,
+     >                                          BBM)
+
+        BM(I2) = BBM * SCAL
+
+c           write(*,*) ' agsqua ',bbm, scal
+c                read(*,*) 
 
         XE =A(NOEL,20)
         DLE(I2) =A(NOEL,21)
@@ -100,9 +99,6 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
         DO I=1,NCS
           CS(I) =A(NOEL,50+I)
         ENDDO
-
-C------- Multipole rotation
-        RT(I2)=ZERO
  
         DLE(I2)  = DLE(I2)*DLE(I2)
         DLS(I2)  = DLS(I2)*DLS(I2)
@@ -111,13 +107,15 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(I2),XL,RO
- 100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
-     >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
-     >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
-        WRITE(NRES,103) BE(KFL),LMNT(I2),BM(I2),DIM(KFL)
- 103    FORMAT(15X,2A,'  =',1P,G14.6,1X,A)
-        IF(SKEW) WRITE(NRES,101) LMNT(I2),RT(I2)
- 101    FORMAT(15X,A,'  Skew  angle =',1P,G14.6,' RAD')
+ 100    FORMAT(/,5X,' -----  AGS ',A10,'  : ', 1P
+     >  ,//,15X,' Length  of  element  = ',G16.8,'  cm'
+     >  , /,15X,' Bore  radius      RO = ',G13.5,'  cm')
+        WRITE(NRES,103) BM(I2)
+ 103    FORMAT(15X,' Field at pole tip  =',1P,G15.7,' kG')
+        write(nres,fmt='(15X,3(A,1P,E13.5))') 
+     >   ' Wind 1, I=',cur1,' ;   Wind 2, I=',cur2,' ;  Wind 3, I=',cur3
+        IF(SKEW) WRITE(NRES,101) RT(I2)
+ 101    FORMAT(15X,' Skew  angle =',1P,G15.7,' rd')
         IF(XL .NE. 0.D0) THEN
           IF( (XL-DLE(I2)-DLS(I2)) .LT. 0.D0) WRITE(NRES,102)
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',
@@ -180,11 +178,11 @@ C----------     set to  1 if mixff at exit
 C----------     set to  2 if mixff at entrance & exit
           IF( IFB .EQ. 0 .OR. IFB .EQ. 1 ) THEN
             MIXFF = .FALSE.
-              IF(.NOT. MIXFF) THEN
-C--------------- MIXFF = true if combined sharp edge multpole + fringe field multpole
-                IF(DLE(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0)
-     >            MIXFF= .TRUE.
-              ENDIF
+            IF(.NOT. MIXFF) THEN
+C------------- MIXFF = true if combined sharp edge multpole + fringe field multpole
+              IF(DLE(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0)
+     >          MIXFF= .TRUE.
+            ENDIF
 
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
@@ -200,8 +198,8 @@ C--------------- MIXFF = true if combined sharp edge multpole + fringe field mul
  130        FORMAT(20X,' with  fringe  field :'
 C 130        FORMAT(20X,' AVEC  Champ  DE  FUITE  :'
      >      ,/,20X,' DX  = ',F7.3,'  CM ')
-            WRITE(NRES,131) LMNT(I2),DLE(I2) 
- 131        FORMAT(20X,' LAMBDA-',A,' =',F7.3,'  CM')
+            WRITE(NRES,131) DLE(I2) 
+ 131        FORMAT(20X,' LAMBDA  =',F7.3,'  CM')
 C            WRITE(NRES,132) (CE(I),I=1,6)
             WRITE(NRES,132) NCE, (CE(I),I=1,NCE)
  132        FORMAT(20X,I1,' COEFFICIENTS :',6F9.5)
@@ -238,10 +236,10 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
         ELSE
           IF( IFB .EQ. 0 .OR. IFB .EQ. -1 ) THEN
             MIXFF = .FALSE.
-              IF(.NOT. MIXFF) THEN
-                IF(DLS(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0) 
-     >           MIXFF= .TRUE.
-              ENDIF
+            IF(.NOT. MIXFF) THEN
+              IF(DLS(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0) 
+     >         MIXFF= .TRUE.
+            ENDIF
 
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
@@ -255,7 +253,7 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
           ENDIF
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XLS
-            WRITE(NRES,131) LMNT(I2),DLS(I2)
+            WRITE(NRES,131) DLS(I2)
             WRITE(NRES,132) NCS,(CS(I),I=1,NCS)
           ENDIF
 
@@ -330,17 +328,5 @@ C-----------------------------------------
         CALL INTEG6(AREG,BREG,CREG)
       ENDIF
 
-      IF(IER.NE.0) GOTO 99
-
  98   RETURN
-
- 99   CONTINUE
-      LUN=NRES
-      IF(LUN.LE.0) LUN = 6
-      WRITE(LUN,FMT='(//)')
-      WRITE(LUN,FMT='(10X,A11,I2,3X,A)')
-     >               ('*** ERROR #',I,TXT(I),I=1,IER)
-C----- Execution stopped :
-      RETURN 1
-
       END

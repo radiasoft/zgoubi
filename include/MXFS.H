@@ -18,13 +18,15 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory            és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
+
 C------ MXF=max number of families that can be declared in SCALING
 C       MXS=max number of timings. *** Attention : make sure MXS .le. MXD
+
+      INTEGER MXF, MXS, MXLF
 
 C      PARAMETER (MXF=9,MXS=100)
 

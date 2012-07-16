@@ -202,6 +202,13 @@ C--------- AGSMM = AGS dipole.
      >               XE,XS,CE, CS,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
        
+        ELSEIF(KUASEX .EQ. 38) THEN
+C--------- AGSQUAD = AGS quadrupole. 
+
+            CALL AGSQUF(IDB,MG,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
+     >               XE,XS,CE,CS,
+     >                  B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
+       
         ELSE
           STOP ' SBR CHAMC :  No such field  installed !'
         ENDIF

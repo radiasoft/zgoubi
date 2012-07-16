@@ -35,24 +35,26 @@ C----- IL
       READ(NDAT,*) IA
       A(NOEL,1) = IA
 
-C XL, R0, roll angle, I_winding 1, I_winding 2
-      READ(NDAT,*) (A(NOEL,I),I=10,14)
+C XL, R0, I_winding_1, I_winding_2, I_winding_3, dI1, dI2, dI3
+      READ(NDAT,*) (A(NOEL,I),I=10,17)
 
-C     ... CHP FUITE ENTREE
+C     ... Entrance fringe field
       READ(NDAT,*) (A(NOEL,I),I=20,21)
       READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
       A(NOEL,30) = IA
-C     ... CHP FUITE SORTIE
+C     ... Exit fringe field 
       READ(NDAT,*) (A(NOEL,I),I=40,41)
       READ(NDAT,*) IA,(A(NOEL,I),I=51,56)
       A(NOEL,50) = IA
+C     ... Roll angle
+      READ(NDAT,*) A(NOEL,60)
  
-      ND=60
+      ND=70
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
       READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
       A(NOEL,ND+10) = IA
- 
+
       RETURN
       END

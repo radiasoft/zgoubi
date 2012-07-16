@@ -26,7 +26,7 @@ C  -------
      >                  LABEL,NOEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'MXLD.H'
-      CHARACTER LABEL(MXL,*)*8
+      CHARACTER(*) LABEL(MXL,*)
 C-----------------------------------------------------------------------
 C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
@@ -38,7 +38,8 @@ C      CHARACTER   TEXT*80
       INTEGER DEBSTR, FINSTR
       LOGICAL EMPTY
 
-      CHARACTER LAB2(2)*8
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
@@ -66,8 +67,8 @@ C----- Read zgoubi.dat title (1st data line)
 
  2        CONTINUE
 
-            LABEL(NOEL,1) = '        '
-            LABEL(NOEL,2) = '        '
+            LABEL(NOEL,1) = ' '
+            LABEL(NOEL,2) = ' '
             IF( .NOT. EMPTY(TEXT((I+1):I110)) ) THEN
               CALL STRGET(TEXT((I+1):I110),2,
      >                                       NST,LAB2)

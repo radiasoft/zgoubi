@@ -61,7 +61,7 @@ C     ----------------------------------------------------------------
       COMMON/PTICUL/ AAM,Q,G,TO
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE 'MXFS.H'
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)

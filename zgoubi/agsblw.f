@@ -32,7 +32,7 @@ C     ----------------------------------------------
       DIMENSION WN(*),WA(*),BM(NB)
       INCLUDE 'MXFS.H'
       INCLUDE 'MXLD.H'
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)

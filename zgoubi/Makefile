@@ -11,6 +11,8 @@ OBJ=\
  agsmma.o\
  agsmmf.o\
  agsqua.o\
+ agsqks.o\
+ agsquf.o\
  aimant.o\
  apdpo1.o\
  apdpo.o\
@@ -376,6 +378,7 @@ agsk12.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
 agsmmf.o: $(INC)/MAXTRA.H
 agsqua.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+agsqks.o: $(INC)/MXFS.H $(INC)/MXLD.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H

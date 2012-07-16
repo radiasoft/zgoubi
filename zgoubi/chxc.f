@@ -1076,8 +1076,8 @@ C---------- AGSQUAD
            IRD = KORD
            IF(IRD .EQ. 4) IDB=4
 
-           CALL AGSQUA(LMNT,MG,MPOL,SCAL,
-     >     DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+           CALL AGSQUA(LMNT,MPOL,SCAL,
+     >     DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
 
            DSREF = XL
 

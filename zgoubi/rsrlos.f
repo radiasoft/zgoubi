@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RSRLOS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -30,7 +29,7 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,40)
-      CHARACTER*8 STRA(2)
+      CHARACTER*10 STRA(2)
 
       READ(NDAT,*,ERR=99) A(NOEL,1)
       READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)

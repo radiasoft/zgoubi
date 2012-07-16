@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory                    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE IMPTRA(IMAX1,IMAX2,NRES)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -58,7 +57,7 @@ C     2,4X,'Z(CM)',4X,'P(MR)',3X,'S(CM)'),/)
         WRITE(NRES,101) LET(I),IEX(I),(FO(J,I),J=1,6)
      >  ,(F(J,I),J=1,6),I
 C 101    FORMAT(' ',A1,1X,I2,1X,F8.4,5F10.3,6X,F8.4,4F9.3,1X,F10.3,1X,I6)
- 101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F11.3,1X,I6)
+ 101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.3,1X,I5)
         IF(AM .NE. 0D0) THEN
           IF(IFDES.EQ.1) THEN
             WRITE(NRES,FMT='(15X,''Time of flight (mus) :'',
@@ -102,30 +101,6 @@ Compute 4-D sigma matrix
      >                  sig(3,4)/sqZ, sig(3,3)/sqx
       WRITE(NRES,120) ((SIG(I,J),J=1,4),I=1,4)
  120  FORMAT(/,1P,4E14.6)
-
-CC----------- Rustine talk hpcpast 2002
-C         x=f(2,1)/100.D0
-C         xp=f(3,1)/1000.D0
-CC         x=f(2,2)/100.D0
-CC         xp=f(3,2)/1000.D0
-C           x2=x*x
-C          xp2=xp*xp
-C         z=f(4,1)/100.D0
-C         zp=f(5,1)/1000.D0
-C            z2=z*z
-C            zp2=zp*zp
-C            betx=15.081055
-C            gamx=1/betx
-C            betz=87.064262
-C            gamz=1/betz
-C         if (ipass.eq.1) then
-C          epsx1 = gamz*fo(2,1)*fo(2,1)/1.D4
-C          epsz1 = gamz*fo(4,1)*fo(4,1)/1.D4
-C               write(6,*) epsx1,epsz1
-C         endif
-CC          epsx = gamz*x2+betz*xp2
-C          epsx = gamx*x2+betx*xp2
-C          epsz = gamz*z2+betz*zp2
 
       RETURN
       END
