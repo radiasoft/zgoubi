@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE FITGTV(NOMFIC,
      >                         FITGET)
@@ -37,7 +36,14 @@ C  -------
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE 'MXFS.H'
+      PARAMETER (KSIZ=10)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
  
       CHARACTER(60) NAMFIC
       INTEGER DEBSTR,FINSTR
@@ -47,18 +53,14 @@ C  -------
       CHARACTER(200) TXT200
       CHARACTER(1) TXT1
 
-      INCLUDE 'MXFS.H'
-      PARAMETER (LBLSIZ=10)
-      PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
-
       DIMENSION AFIT(MXL), IPRM(MXL)
       SAVE AFIT
       CHARACTER KLE*(KSIZ),LBL1*(LBLSIZ),LBL2*(LBLSIZ)
       CHARACTER KLEFIT(MXL)*(KSIZ)
       CHARACTER LB1FIT(MXL)*(LBLSIZ),LB2FIT(MXL)*(LBLSIZ)
       SAVE KLEFIT, LB1FIT, LB2FIT, KREAD
+
+      CHARACTER(KSIZ) KLEY
 
       FITGET = .FALSE.
 
@@ -144,6 +146,8 @@ C To be completed
       RETURN 
 
       ENTRY FITGT1
+      CALL ZGKLEY(
+     >            KLEY)
         DO 2 IV = 1, KREAD
 C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
           IF(KLEFIT(IV) .EQ. KLEY) THEN

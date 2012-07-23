@@ -28,17 +28,22 @@ C  -------
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      PARAMETER (LBLSIZ=10)
+      INCLUDE 'MXLD.H'
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      INCLUDE 'MXLD.H'
-      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER(KSIZ) FAM
+      CHARACTER(LBLSIZ) LBF
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       INCLUDE "MAXTRA.H"
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
+
+      CHARACTER(KSIZ) KLEY
 
       LOGICAL EMPTY, STRCON
 
@@ -66,18 +71,19 @@ C  -------
 
       SCALER = 1.D0
       CALL SCALI5(
-     >            MODSCL)
-
-C----- Looks whether current kley is registered for scaling (in FAM(KF)). 
+     >            MODSCL,NFAM)
+      CALL ZGKLEY(
+     >            KLEY)
+C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
-      DO KF = 1, MXF
+      DO KF = 1, NFAM
 
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
 
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ Current KLEY will undergo scaling...
-            DO  KL=1,MXLF
+            DO  KL=1,2
               IF(STRCON(LBF(KF,KL),'*',
      >                                 IS)) THEN
 C               ... if either LBF ends with '*' ...

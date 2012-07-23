@@ -33,7 +33,7 @@ C  -------
       INTEGER DEBSTR
       LOGICAL EMPTY
 
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       CHARACTER LAB2(2)*(LBLSIZ)
 
       WRITE(6,*) '  Wait... reading .dat file'

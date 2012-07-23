@@ -37,18 +37,20 @@ C  -------
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+     >     IREP(MXT),AMQLU,PABSLU
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
-      CHARACTER(KSIZ) FAM, KLEY
-      CHARACTER(LBLSIZ) LBF, LABEL
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER(KSIZ) KLEY, KLEYO
+      SAVE KLEY
+C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       CHARACTER(80) TITRE
       COMMON/TITR/ TITRE 
 
@@ -106,15 +108,6 @@ C This INCLUDE must stay located right before the first statement
 
       INCLUDE 'LSTKEY.H'
       
-      DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
-C----- Switch for calculation, transport and print of optical functions :
-      DATA KOPTCS, KOPTIP / 0, 0 / 
-      DATA OKLNO / .FALSE. / 
-
-      DATA REBFLG, NOELRB / .FALSE., MXL / 
-      DATA DUM / 0.D0 /
-      DATA LBLOPT / ' ' /
-
       IF(ENDFIT) GOTO 998 
 
       IF(NL2 .GT. MXL) CALL ENDJOB(
@@ -541,11 +534,7 @@ C----- SEPARATEUR ELECTROSTATIQUE ANALYTIQUE
  35   CONTINUE
       IF(READAT) CALL RSEPAR
       IF(FITGET) CALL FITGT1
-C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
-      SCAL = SCAL0()
-      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
-     >                                                 DUM)
-      CALL SEPARA(SCAL,*999)
+      CALL SEPARA(*999)
       GOTO 998
 C----- RAZ LES COMPTEURS ( PEUT S'INTERCALER ENTRE PB CONSECUTIFS)
  36   CONTINUE
@@ -1215,6 +1204,10 @@ C-------------------------
       ENTRY ZGKLE(IKL, 
      >                KLEO)
       KLEO = KLE(IKL)
+      RETURN
+      ENTRY ZGKLEY( 
+     >             KLEYO)
+      KLEYO = KLEY
       RETURN
 
       END

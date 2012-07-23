@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
 C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
@@ -94,7 +93,8 @@ C----- PLOT SPECTRUM
      5,/,5X,' 5  Define Nu-min / Nu-max   '                
      5,/,5X,'          and  number  of  channels   '
      6,/,5X,' 6  **  Compute  tunes, beta, etc.  ** '                          
-     7,/,5X,' 7  **  Plot  ** '                          
+     7,/,5X,' 7  **  Plot spectrum ** '                          
+     7,/,5X,' 71 **  Plot tunediagram ** '                          
      8,/,5X,' 8  Print screen'
      9,/,5X,' 9  EXIT  THIS  MENU '
      2,/,5X,'12  ERASE  DISPLAY    '
@@ -107,6 +107,10 @@ C----- PLOT SPECTRUM
       BINARY=BINARF(NL)
       IF(.NOT. OKOPN .AND. (IOPT.EQ.6 .OR. IOPT.EQ.7)) THEN
         CALL OPNWRN(1)           
+        GOTO 20
+      ELSEIF(IOPT.EQ.71) THEN
+        WRITE(*,FMT='(''$  Option  not  implemented ! '')')
+        READ(*,108,ERR=20) IOPT
         GOTO 20
       ELSE
         GOTO ( 1, 2, 3,21, 5, 6, 7, 8, 9,21,21,12) IOPT  

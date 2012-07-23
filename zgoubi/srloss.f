@@ -104,8 +104,8 @@ C----- Set SR loss tracking
  
       IF(Q*AM.EQ.0D0) THEN
         WRITE(NRES,106)
- 106    FORMAT(//,15X,' PLEASE GIVE MASS AND CHARGE OF PARTICLES !'
-     >         ,/,15X,' - USE KEYWORD ''PARTICUL''',/)
+ 106    FORMAT(//,15X,' Please provide mass and charge of particles !'
+     >         ,/,15X,' - use keyword ''PARTICUL''',/)
         RETURN 1
       ENDIF
 

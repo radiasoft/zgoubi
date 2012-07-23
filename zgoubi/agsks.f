@@ -23,15 +23,17 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSKS(NOEL,P,
-     >                        AK1,AK2)
+     >                        AK1,AK2,AKS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION AK1(*), AK2(*)
+      DIMENSION AK1(*), AK2(*), AKS(*)
       INCLUDE 'MXFS.H'
       INCLUDE 'MXLD.H'
       PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
 
       DIMENSION AP(50), ADBD(50), ADBF(50)
 
@@ -46,8 +48,8 @@ C  -------
       PARAMETER(ALB = 79D0*CONV)
       PARAMETER(ALC = 94D0*CONV)
 
-      SAVE SAK11, SAK12, SAK13, SAK14, SAK15, SAK16 
-      SAVE SAK21, SAK22, SAK23, SAK24, SAK25, SAK26
+      DIMENSION SAK1(6), SAK2(6)
+      SAVE SAK1, SAK2
 
       PARAMETER(   UKAFM3 =  0.0D0)
       PARAMETER(   UKAFM2 = -9.9628200D-6)
@@ -222,11 +224,11 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
       LBL1 = LABEL(NOEL,1)
       LAST = FINSTR(LBL1)
 
-
       IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
+        IMM = 1
         IF(PNOW(1) .EQ. P) THEN
-          AK1(1)=SAK11
-          AK2(1)=SAK21
+          AK1(1)=SAK1(1)
+          AK2(1)=SAK2(1)
         ELSE
           PNOW(1) = P
           IF( P .LT. AP(1) ) THEN
@@ -260,15 +262,16 @@ C  K2BF :
      >    +TKBF2*P2+TKBF3*P3+TKBF4*P4+TKBF5*P5  
      >    +TKBF6*P6 - TKFBDCOEF*BDOT*ALB/ALA
   
-          SAK11=AK1(1)
-          SAK21=AK2(1)
+          SAK1(1)=AK1(1)
+          SAK2(1)=AK2(1)
 
         ENDIF
 
       ELSEIF(LBL1(LAST-1:LAST) .EQ. 'CD') THEN
+        IMM = 2
         IF(PNOW(2) .EQ. P) THEN
-          AK1(2)=SAK12
-          AK2(2)=SAK22
+          AK1(2)=SAK1(2)
+          AK2(2)=SAK2(2)
         ELSE
           PNOW(2) = P
           IF( P .LT. AP(1) ) THEN
@@ -302,14 +305,15 @@ C  K2CD :
      >    +TKCD2*P2+TKCD3*P3+TKCD4*P4+TKCD5*P5  
      >    +TKCD6*P6 - TKDBDCOEF*BDOT*ALC/ALA
 
-          SAK12=AK1(2)
-          SAK22=AK2(2)
+          SAK1(2)=AK1(2)
+          SAK2(2)=AK2(2)
 
         ENDIF
       ELSEIF(LBL1(LAST-1:LAST) .EQ. 'AF') THEN
+        IMM = 3
         IF(PNOW(3) .EQ. P) THEN
-          AK1(3)=SAK13
-          AK2(3)=SAK23
+          AK1(3)=SAK1(3)
+          AK2(3)=SAK2(3)
         ELSE
           PNOW(3) = P
           IF( P .LT. AP(1) ) THEN
@@ -343,14 +347,15 @@ C  K2AF :
      >    +TKAF2*P2+TKAF3*P3+TKAF4*P4+TKAF5*P5  
      >    +TKAF6*P6 - TKFBDCOEF*BDOT*ALA/ALA
 
-          SAK13=AK1(3)
-          SAK23=AK2(3)
+          SAK1(3)=AK1(3)
+          SAK2(3)=AK2(3)
 
         ENDIF
       ELSEIF(LBL1(LAST-1:LAST) .EQ. 'BD') THEN
+        IMM = 4
         IF(PNOW(4) .EQ. P) THEN
-          AK1(4)=SAK14
-          AK2(4)=SAK24
+          AK1(4)=SAK1(4)
+          AK2(4)=SAK2(4)
         ELSE
           PNOW(4) = P
           IF( P .LT. AP(1) ) THEN
@@ -384,14 +389,15 @@ C  K2BD :
      >    +TKBD2*P2+TKBD3*P3+TKBD4*P4+TKBD5*P5  
      >    +TKBD6*P6 - TKDBDCOEF*BDOT*ALB/ALA
 
-          SAK14=AK1(4)
-          SAK24=AK2(4)
+          SAK1(4)=AK1(4)
+          SAK2(4)=AK2(4)
 
         ENDIF
       ELSEIF(LBL1(LAST-1:LAST) .EQ. 'CF') THEN
+        IMM = 5
         IF(PNOW(5) .EQ. P) THEN
-          AK1(5)=SAK15
-          AK2(5)=SAK25
+          AK1(5)=SAK1(5)
+          AK2(5)=SAK2(5)
         ELSE
           PNOW(5) = P
           IF( P .LT. AP(1) ) THEN
@@ -425,14 +431,15 @@ C  K2CF :
      >    +TKCF2*P2+TKCF3*P3+TKCF4*P4+TKCF5*P5  
      >    +TKCF6*P6 - TKFBDCOEF*BDOT*ALC/ALA
 
-          SAK15=AK1(5)
-          SAK25=AK2(5)
+          SAK1(5)=AK1(5)
+          SAK2(5)=AK2(5)
 
         ENDIF
       ELSEIF(LBL1(LAST-1:LAST) .EQ. 'AD') THEN
+        IMM = 6
         IF(PNOW(6) .EQ. P) THEN
-          AK1(6)=SAK16
-          AK2(6)=SAK26
+          AK1(6)=SAK1(6)
+          AK2(6)=SAK2(6)
         ELSE
           PNOW(6) = P
           IF( P .LT. AP(1) ) THEN
@@ -466,11 +473,13 @@ C  K2AD :
      >    +TKAD2*P2+TKAD3*P3+TKAD4*P4+TKAD5*P5  
      >    +TKAD6*P6 - TKDBDCOEF*BDOT*ALA/ALA
 
-          SAK16=AK1(6)
-          SAK26=AK2(6)
+          SAK1(6)=AK1(6)
+          SAK2(6)=AK2(6)
 
         ENDIF
       ENDIF
 
+      AKS(2) = AK1(IMM) 
+      AKS(3) = AK2(IMM) 
       RETURN
       END

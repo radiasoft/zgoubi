@@ -18,23 +18,22 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE BOOST(B,P)
+      SUBROUTINE BOOST(B,P,N)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(*),P(*)
  
-      BETA2=PSCAL(B,B)
+      BETA2=VSCAL(B,B,N)
       GAMA=1.D0/SQRT(1.D0-BETA2)
-      SC=PSCAL(P,B)
+      SC=VSCAL(P,B,N)
       TR=GAMA*P(4)+(GAMA-1.D0)*SC/BETA2
       DO 10 I=1,3
  10     P(I)=P(I)+TR*B(I)
       P(4)=GAMA*(P(4)+SC)
-      P(5)=SQRT(PSCAL(P,P))
+      P(5)=SQRT(VSCAL(P,P,N))
  
       RETURN
       END

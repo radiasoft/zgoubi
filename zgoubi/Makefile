@@ -229,7 +229,6 @@ OBJ=\
  poidev.o\
  polmes.o\
  prdata.o\
- pscal.o\
  pvect.o\
  quasex.o\
  ragsmm.o\

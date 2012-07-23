@@ -18,20 +18,22 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory             
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE STORIG(NOEL,S,Y,Z,TETA1,XI,PHI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'MXLD.H'
       COMMON/LABCO/ ORIG(MXL,6)     
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
+      CHARACTER(KSIZ) KLEY
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       INCLUDE 'MXFS.H'
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       ORIG(NOEL,1)=S
       ORIG(NOEL,2)=Y
       ORIG(NOEL,3)=Z

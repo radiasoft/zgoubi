@@ -23,17 +23,22 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
 
+      INTEGER MXF, MXS, MLF, MXP
+
 C------ MXF=max number of families that can be declared in SCALING
 C       MXS=max number of timings. *** Attention : make sure MXS .le. MXD
-
-      INTEGER MXF, MXS, MXLF
 
 C      PARAMETER (MXF=9,MXS=100)
 
 C AGS modeling requires 18 scaling factors (XQH, XQV, XSH, XSV, a16_19_blw_I  etc.). 
 C AGS model including acceleration observed to require up to 2617 timings
 C *** Attention : MXS .le. MXD
+
       PARAMETER (MXF=45,MXS=2000)
 
-C------ MXLF=max number of labels following a family name in SCALING
-      PARAMETER(MXLF=2)
+C------ MLF=max number of labels following a family name in SCALING
+      PARAMETER(MLF=5)
+
+C------ MXP=1+max number of parameters in elements with ad hoc labeled 
+C e.g., 10 parameters, from # 4 to # 13, for the 10 pole field values in MULTIPOL 
+      PARAMETER(MXP=11)

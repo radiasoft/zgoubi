@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RSCALE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -32,23 +31,25 @@ C     ----------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),KTI(MXF),KSCL
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
  
-      PARAMETER(MST=MXLF+1)
-      CHARACTER*10 STRA(MST)
+      PARAMETER(MSTR=MLF+1)
+      CHARACTER*10 STRA(MSTR)
  
       INTEGER DEBSTR, FINSTR
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)
 
-      NFAM = A(NOEL,2)
+      NFAM = NINT(A(NOEL,2))
       IF(NFAM .GT. MXF) THEN
         WRITE(NRES,FMT=
      $ '('' To many families (maximum number allowed is '',I2,'')'')'
@@ -63,7 +64,7 @@ C------- Store name of family and label(s)
  100    FORMAT(A80)
         TA(NOEL,IF) = 
      >    TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF)))
-        CALL STRGET(TA(NOEL,IF),MST,
+        CALL STRGET(TA(NOEL,IF),MSTR,
      >                                 NST,STRA)
         IF(NST-1 .GT. MXLF) THEN
           WRITE(NRES,FMT='
@@ -78,7 +79,7 @@ C------- Store name of family and label(s)
           DO 11 KL=2,NST
  11         LBF(IF,KL-1) =  STRA(KL)(1:LBLSIZ)
         ENDIF
-        DO 12 KL=NST+1, MST
+        DO 12 KL=NST+1, MSTR
  12       LBF(IF,KL-1) = ' '
 
         READ(NDAT,*) KTI(IF)

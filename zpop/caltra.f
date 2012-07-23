@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory              
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE CALTRA(N)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -30,16 +29,19 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,20)
+      COMMON/DONT/ TA(MXL,40)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/REBELO/ NRBLT,IPASS,KWRI,NNDES,STDVM
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
+      CHARACTER(KSIZ) KLEY
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       INCLUDE 'MXFS.H'
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       CHARACTER*80 TITRE
       COMMON/TITR/ TITRE 
 
@@ -57,6 +59,11 @@ C  -------
       CHARACTER*32 TXT
 
       PARAMETER (ZERO = 0.D0)
+
+      LOGICAL OKLNO, REBFLG
+      PARAMETER(MLB=10)
+      CHARACTER(LBLSIZ) LBL(MLB), LBLSP(MLB)
+      CHARACTER(LBLSIZ) LBLOPT
 
 C This INCLUDE must stay located right before the first statement
       INCLUDE 'LSTKEY.H'
@@ -411,7 +418,7 @@ C      shift of origin (due to upstream fringe field extent) :
       IF(A(NOEL,15).LE.0.D0) XI = 0.D0
 
       B1  =A(NOEL,4)
-      KPOS = A(NOEL,3+ND(NOEL))
+      KPOS = NINT(A(NOEL,3+ND(NOEL)))
       TXT = 'MULT'
 
 C            call fbgtxt
@@ -600,7 +607,7 @@ C      shift of origin (due to upstream fringe field extent) :
       ENDIF
       B1  =A(NOEL,12)
       DR  =BORO/B1    * CM2M 
-      KPOS = A(NOEL,70)
+      KPOS = NINT(A(NOEL,70))
       TXT = 'BEND'
       A22 = A(NOEL,22)
       A42 = A(NOEL,42)
@@ -813,7 +820,7 @@ C----- SPNPRNLA - PRINT SPINS ON FILE, EACH IPASS=MULTIPL OF IA
       IF(READAT) THEN
         READ(NDAT,FMT='(A)') TA(NOEL,1)
         READ(NDAT,*) A(NOEL,1)
-        IA=A(NOEL,1)
+        IA=NINT(A(NOEL,1))
       ENDIF
       GOTO 998
 C----- EL2TUB - LENTILLE ELECTROSTATIQ A 2 TUBES OU DIAPHRAG.
@@ -923,7 +930,7 @@ C------- Mirror
       ELSE
 C------- Transmission lens
         XL = 0.D0
-        NPLATE=INT(A(NOEL,10))
+        NPLATE=NINT(A(NOEL,10))
         DO 840 I=1,NPLATE
  840      XL = XL + A(NOEL,10+I)
         AL = XL*COEF  
@@ -946,7 +953,7 @@ C        AK = A(NOEL,21) - A(NOEL,20)
         GOTO 998
       ENDIF
       TXT = 'ELMI'
-      KPOS=A(NOEL,40)
+      KPOS=NINT(A(NOEL,40))
       IF(KPOS.EQ.3) THEN
 CCCCCCCCCCC        DEV2 = -A(NOEL,43)
         DEV2 = A(NOEL,43)

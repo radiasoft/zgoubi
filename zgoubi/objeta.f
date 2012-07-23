@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE OBJETA
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -202,7 +201,7 @@ C
         IF(IBODY .EQ. 1) THEN
  
 C         ... M3 IN LAB
-          CALL BOOST(B,P3)
+          CALL BOOST(B,P3,3)
  
           T=GANG(1,P3,KAXE)
           IF( T .LT. TMIN .OR. T .GT. TMAX ) GOTO 11
@@ -219,8 +218,8 @@ C         ... M5
  
 C         PX1 = 4-VECTEUR QdM DE M5 : PX1(1,2,3)=PX,Y,Z ,
 C         PX1(4)=Etot=T+Masse ,  PX1(5)=P=SQRT(PX**2+PY**2+PZ**2) .
-          CALL BOOST(B4,PX1)
-          CALL BOOST(B,PX1)
+          CALL BOOST(B4,PX1,3)
+          CALL BOOST(B,PX1,3)
  
           T=GANG(1,PX1,KAXE)
           IF( T .LT. TMIN .OR. T .GT. TMAX ) GOTO 11
@@ -264,8 +263,8 @@ C          FO(6,I)= - AL/(COS(FO(3,I)*1.D-3)*COS(FO(5,I)*1.D-3))
 C         ... STORE M6 = PARTNER OF M5, FOR FURTHER USE OF IBODY=3
 C        .... PX2 = 4-VECTEUR QdM DE M6
  
-          CALL BOOST(B4,PX2)
-          CALL BOOST(B,PX2)
+          CALL BOOST(B4,PX2,3)
+          CALL BOOST(B,PX2,3)
  
           FP(3,I)=GANG(1,PX2,KAXE)
           FP(5,I)=GANG(2,PX2,KAXE)

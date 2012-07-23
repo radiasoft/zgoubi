@@ -41,6 +41,9 @@ C         Post-processing of stored data possible with zpop.
      $     IREP(MXT),AMQLU,PABSLU
       CHARACTER LET
       COMMON/FAISCT/ LET(MXT)
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL ZSYM
@@ -48,14 +51,15 @@ C         Post-processing of stored data possible with zpop.
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       INCLUDE 'MXFS.H'
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
  
+      CHARACTER(KSIZ) KLEY
+
       CHARACTER TX1*1
       PARAMETER (TX1='''')
 
@@ -117,6 +121,9 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
           PPI = BORO*CL9*QT
           EI = SQRT(PPI*PPI+AMT*AMT)
           BTI = PPI / EI
+
+      CALL ZGKLEY(
+     >            KLEY)
 
       IF(BINARY) THEN
         WRITE(LN)

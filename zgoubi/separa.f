@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SEPARA(*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -42,11 +41,17 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE 'MXFS.H'
+      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       CHARACTER*10 TYP(2)
       DATA TYP / 'HORIZONTAL',' VERTICAL ' /
  
+C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
+      SCAL = SCAL0()
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 ZERO)
 C     ...........................................................
 C        IJ = 0 ( DRIFT SPACE) , 1 (H SEPARATION) OR 2 ( V SEP.)
 C        DL = LONGUEUR ( M )

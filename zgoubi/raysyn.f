@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RAYSYN(DS,IT,IMAX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,9 +34,11 @@ C  -------
       INCLUDE 'MXFS.H'
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       COMMON/TRAJ/ YT,T,Z,PT,XT,SAR,TAR,KEX,ITT,AMT,QT
+
+      CHARACTER(KSIZ) KLEY
 
       INCLUDE "MAXTRA.H"
       DIMENSION TPHOT(MXT),TLOSS(MXT)
@@ -75,7 +76,9 @@ C Y      2.       2.5       3.       4.       5.5        7        10.
       DATA UNIT,UNITE / 1.D-2, 1.D-6/
 
       IF(TYPMAG.NE.'ALL') THEN
-          IF(KLEY.NE.TYPMAG) RETURN
+        CALL ZGKLEY(
+     >              KLEY)
+        IF(KLEY.NE.TYPMAG) RETURN
       ENDIF
 
 C      N is the maximum value of k with non-zero proba of Poisson law

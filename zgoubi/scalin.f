@@ -17,11 +17,10 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Francois Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SCALIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -37,22 +36,24 @@ C  -------
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
  
-      PARAMETER(MST=MXLF+1)
       LOGICAL EMPTY, IDLUNI
 
       PARAMETER (ND=200000)
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
 
       CHARACTER*9 OPT(2)
-      DIMENSION MODSCI(MXF),MODSCL(MXF)
+      DIMENSION MODSCV(MXF),MODSCL(MXF)
       SAVE MODSCL
 
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
       DIMENSION SCL2I(MXF,MXD), TIM2I(MXF,MXD), NTIM2I(MXF)
       SAVE NTIM2, SCL2, TIM2
+
+      INTEGER DEBSTR, FINSTR
+      SAVE NFAM
 
       DATA OPT/ '++ OFF ++','         ' /
  
@@ -71,15 +72,25 @@ C  -------
       DO 1 IF=1,NFAM
 
         IF(NRES .GT. 0) THEN
-          WRITE(NRES,101) FAM(IF),(LBF(IF,KL),KL=1,MXLF)
- 101      FORMAT(/,10X,'Element [/label] to be scaled :',/,
-     >                                   15X,A,5X,2('/',A))
-
+          NLF = 0
+          DO WHILE ( .NOT. EMPTY(LBF(IF,NLF+1)) ) 
+              NLF = NLF+1
+          ENDDO
+          WRITE(NRES,101) NLF,FAM(IF)(DEBSTR(FAM(IF)):FINSTR(FAM(IF)))
+ 101      FORMAT(/,10X,'Element [/label(s) (',I2,')] to be scaled :'
+     >    ,T60,A)
           IF( EMPTY(LBF(IF,1)) ) THEN
              WRITE(NRES,FMT='(15X,
      >       ''Family not labeled ;  this scaling will apply'',
      >       '' to all elements  "'',A,''"'')') FAM(IF)
+          ELSE
+            WRITE(NRES,FMT='(T60,''/'',A)') 
+     >      (LBF(IF,KL)(DEBSTR(LBF(IF,KL)):FINSTR(LBF(IF,KL))),KL=1,NLF)
+
           ENDIF
+          IF(JPA(IF,MXP).GT.0) WRITE(NRES,FMT='(15X,''List of the '',I2
+     >    ,'' parameters to be scaled in these elements :''
+     >    ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
         ENDIF
 
         IF(NTIM(IF) .GE. 0) THEN
@@ -112,10 +123,10 @@ C  -------
 C        write(66,*) ' scalin ',scl2(iF,it),if,it
               ENDDO
 
-              if(iit.eq.1 .and. TIM2(IF,1).eq.0.d0) 
+              IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0) 
      >                         TIM2(IF,1) =  BORO 
 
-cC               if(if.eq.1 .or. if.eq.2)   then
+CC               if(if.eq.1 .or. if.eq.2)   then
 c               if(if.eq.1 .or. if.eq.2)   then
 c                  write(*,*) ' scalin '
 c                  write(*,*) ' A(10*if / scl2) /  IF :  ',if,noel
@@ -148,7 +159,7 @@ c                endif
             ELSE
 
               WRITE(NRES,104) 
-     >        TA(NOEL,IF)(1:LEN(TA(NOEL,IF))),
+     >        TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF))),
      >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
      >        SCL(IF,1), SCL(IF,NTIM(IF))
  104          FORMAT(15X,'Scaling of field follows the law'
@@ -324,16 +335,17 @@ C      RETURN
       ENDDO
       RETURN
 
-      ENTRY SCALI6(MODSCI)
+      ENTRY SCALI6(MODSCV)
       DO I = 1, MXF 
-        MODSCL(i) = modsci(i)
+        MODSCL(I) = MODSCV(I)
       ENDDO
       RETURN
 
       ENTRY SCALI5(
-     >              MODSCI)
+     >              MODSCV,NFAMO)
+      NFAMO = NFAM
       DO I = 1, MXF 
-        MODSCI(I) = MODSCL(I)
+        MODSCV(I) = MODSCL(I)
       ENDDO
       RETURN
 

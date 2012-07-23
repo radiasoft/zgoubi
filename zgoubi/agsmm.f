@@ -52,8 +52,8 @@ C  -------
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ),KLEY*(KSIZ),LABEL*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,2),KLEY,LABEL(MXL,2)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
       COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
@@ -62,7 +62,7 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       CHARACTER DIM(2)*3, BE(2)*2
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
-      DIMENSION AK1(6), AK2(6)
+      DIMENSION AK1(6), AK2(6), AKS(6)
       DIMENSION WN(2), WA(2)
       PARAMETER (I3=3)
 
@@ -94,11 +94,12 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       ENDDO
 
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
-     >                                    AK1,AK2)
+     >                                    AK1,AK2,AKS)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
      >                                XL,BM,ANGMM)
       CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
+      AKS(1) = BM(1)/BORO
       DEV = ANGMM
       DO I = 1, I3
         DB(I) = A(NOEL,12+I)
@@ -164,8 +165,9 @@ C-------
      >  ,/,15X,' Deviation                   = ',G17.8,'  rad'
      >  ,5X,                                ' (',G17.8,' deg)'
      >  ,/,15X,' Reference  pole  radius RO  = ',G14.5,'  cm')
-        WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
- 103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A)
+        WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL)
+     >  ,AKS(IM),IM=NM0,NM)
+ 103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A,'  (K= ',G17.8,')')
 
         IF    (MOD.EQ.1) THEN 
           TXT30=' centered multipol model'

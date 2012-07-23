@@ -446,7 +446,7 @@ C        STP3 = A(NOEL,ND)
 
       IF(KFLD.GE.LC) THEN
         IF(Q*AM.EQ.0D0) 
-     >  CALL ENDJOB('Give  mass  and  charge - keyword PARTICUL',-99)
+     >  CALL ENDJOB('Provide  mass  and  charge - using PARTICUL',-99)
       ENDIF
 
       RETURN

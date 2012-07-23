@@ -47,7 +47,7 @@ C     ----------------------------------------------------
       INCLUDE 'MAXTRA.H'
       DIMENSION SX(MXT),SY(MXT),SZ(MXT)
       
-      PARAMETER (LBLSIZ=8)
+      PARAMETER (LBLSIZ=10)
       CHARACTER*(LBLSIZ) LBL1, LBL2
 
       PARAMETER (KSIZ=10)
