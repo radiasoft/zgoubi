@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION RNDM(IR)
+      FUNCTION RNDM()
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 c      CHARACTER TXT*16
 c      INTEGER DEBSTR
@@ -31,7 +31,9 @@ c      REAL R
       save first
 C year month day time-utc hour min secon ms
       dimension ival(8)
+      save ir
       data first / .true. /
+      data ir / 0 /
 
       if(first) then
         first = .false.

@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSQUA(LMNT,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -45,6 +45,10 @@ C  -------
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE 'MXFS.H'
+      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
@@ -62,9 +66,9 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
         CUR1 =A(NOEL,12)
         CUR2 =A(NOEL,13)
         CUR3 =A(NOEL,14)
-        DC1 =A(NOEL,15)
-        DC2 =A(NOEL,16)
-        DC3 =A(NOEL,17)
+        DCUR1 =A(NOEL,15)
+        DCUR2 =A(NOEL,16)
+        DCUR3 =A(NOEL,17)
 
 C------- Roll angle.  To be implemented
         RT(I2) =A(NOEL,60)
@@ -301,21 +305,9 @@ C        TXT(IER) =
 C     >   'Overlapping of fringe fields is too large. Check XE, XS < XL'
 C      ENDIF
 
-C----- Magnetic MULTIPOL with non-zero dipole
-C--------- Automatic positionning in SBR TRANSF
-C           Dev normally identifies with the deviation
-C             that would occur in a sharp edge dipole magnet.
-        IF(BM(1) .NE. 0.D0) THEN
-          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
-        ELSE
-          DEV= 0.D0
-        ENDIF
-C------------------------  TESTS for COSY
-C         DEV = 2.D0 * PI /24.D0  
-CC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
-C         DEV = ALE
-C-----------------------------------------
 
+          DEV= 0.D0
+ 
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN

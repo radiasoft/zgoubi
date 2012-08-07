@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,28 +17,17 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
+      DATA LBL, LBLSP / MLB * ' ',   MLB * ' ' /
+C----- Switch for calculation, transport and print of optical functions :
+      DATA KOPTCS, KOPTIP / 0, 0 / 
+      DATA OKLNO / .FALSE. / 
 
-      INTEGER MXF, MXS, MLF, MXP
+      DATA REBFLG, NOELRB / .FALSE., MXL / 
+      DATA LBLOPT / ' ' /
 
-C------ MXF=max number of families that can be declared in SCALING
-C       MXS=max number of timings. *** Attention : make sure MXS .le. MXD
 
-C      PARAMETER (MXF=9,MXS=100)
-
-C AGS modeling requires 18 scaling factors (XQH, XQV, XSH, XSV, a16_19_blw_I  etc.). 
-C AGS model including acceleration observed to require up to 2617 timings
-C *** Attention : MXS .le. MXD
-
-      PARAMETER (MXF=45,MXS=2000)
-
-C------ MLF=max number of labels following a family name in SCALING
-      PARAMETER(MLF=5)
-
-C------ MXP=1+max number of parameters in elements with ad hoc label, 
-C e.g., 10 parameters, from # 4 to # 13, for the 10 pole field values in MULTIPOL 
-      PARAMETER(MXP=11)

@@ -32,12 +32,12 @@ C     -------------------------
 C                  IL
       READ(NDAT,*) A(NOEL,1)
 
-c mod = option flag (for K1, K2 method)
+C mod = option flag (for K1, K2 method)
 C                  MOD, dL/L, gap, db0/b0, db1/b1, db2/b2
       READ(NDAT,*) (A(NOEL,10+I-1),I=1,6)
 C # of backleg windings, # of turns and I for each winding   
       READ(NDAT,*) NBLWG,(A(NOEL,20+I),I=1,2*NBLWG)
-      IF(NBLWG.GT.2) STOP ' SBR ragsmm. # of blwg cannot exceed 2'
+      IF(NBLWG.GT.2) STOP ' SBR RAGSMM. # of blwg cannot exceed 2'
       A(NOEL,20) = NBLWG
 C----- CHP FUITE ENTREE
 C        XE, LambdaE, ff2,ff3

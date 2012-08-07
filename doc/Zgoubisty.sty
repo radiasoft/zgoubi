@@ -11,22 +11,31 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Dimensions du papier, a	utiliser avec Vmargin.sty	%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setpapersize{A4}
-\setmargins{2cm}% leftmargin
-%        {1in}%%% topmargin
+\setpapersize{USletter}
+\setmargins{15mm}% leftmargin
+           {10mm}%%% topmargin
+           {18cm}%%%textwidth
+           {26cm}%%%textheight
+           {1mm}%\headheight
+           {13mm}  %%\headsep
+           {\footheight}{\footskip}  %% unchanged
+%--------- Modified July 2012
+%\setpapersize{A4}
+%\setmargins{20mm}% leftmargin
+%%        {1in}%%% topmargin
+%%        {17cm}%%%textwidth
+%%        {23cm}%%%textheight
+%%        {0pt}%\headheight
+%%        {0pt}  %%\headsep
+%%        {\footheight}{\footskip}  %% unchanged
+%%%% modifie pour passage a pagestyle{headings
+%        {20mm}%%% topmargin
 %        {17cm}%%%textwidth
 %        {23cm}%%%textheight
-%        {0pt}%\headheight
-%        {0pt}  %%\headsep
+%        {1mm}%\headheight
+%        {13mm}  %%\headsep
 %        {\footheight}{\footskip}  %% unchanged
-%%% modifie pour passage a pagestyle{headings
-        {20mm}%%% topmargin
-        {17cm}%%%textwidth
-        {23cm}%%%textheight
-        {1mm}%\headheight
-        {13mm}  %%\headsep
-        {\footheight}{\footskip}  %% unchanged
-% anciennes commandes
+%-------- anciennes commandes
 %\textheight=23cm
 %\textwidth=17cm
 %\evensidemargin=2cm

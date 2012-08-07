@@ -35,11 +35,12 @@ C  -------
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "MAXTRA.H"
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
@@ -64,6 +65,9 @@ C  -------
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
       SAVE SCL2, TIM2, NTIM2
 
+      SAVE KFM 
+      INTEGER DEBSTR, FINSTR
+
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
 
@@ -80,21 +84,37 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
 
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
-
+          
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
-C------------ Current KLEY will undergo scaling...
-            DO  KL=1,2
+C------------ Current KLEY will undergo scaling if...
+
+            DO  KL=1,MLF
               IF(STRCON(LBF(KF,KL),'*',
      >                                 IS)) THEN
+                LBFA = DEBSTR(LBF(KF,KL))
+                LBFB = FINSTR(LBF(KF,KL))
+                LLBF = LBFB-LBFA+1
+                LABA = DEBSTR(LABEL(NOEL,1))
+                LABB = FINSTR(LABEL(NOEL,1))
+                LLAB = LABB-LABA+1
+C                write(*,*) 'scaler  ',IS,
+C     >        LABEL(NOEL,1)(1:LLBF-1),' ' , LBF(KF,KL)(1:LLBF-1)
+C                write(*,*) 'scaler  ',IS,
+C     >        LABEL(NOEL,1)(LLAB-LLBF+2:LLAB),' ', LBF(KF,KL)(2:LBFB)
+C                    read(*,*)
+
 C               ... if either LBF ends with '*' ...
-                IF(LABEL(NOEL,1)(1:IS-1) .EQ. LBF(KF,KL)(1:IS-1)) GOTO 2
+                IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1)
+C               ... or LBF begins with '*' ...
+     >        .OR. LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB)
+     >          ) GOTO 2
               ELSE
 C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) GOTO 2
               ENDIF
             ENDDO
           ELSE
-C------------ ...or it has no label at all
+C------------ ...or if it has no label at all
             GOTO 2
           ENDIF
         ENDIF
@@ -104,6 +124,7 @@ C------------ ...or it has no label at all
       GOTO 99
 
  2    CONTINUE
+      KFM = KF
 
       KTI = NTIM(KF)
       IF(KTI .NE. 0) THEN
@@ -405,6 +426,11 @@ C          write(*,*) i, dat2(i), dat3(i)
       E0 = E0I
       AK = AKI
       SCALE8 = 0.D0 
+      RETURN
+
+      ENTRY SCALE9(
+     >             KFMO)
+      KFMO = KFM
       RETURN
 
       END

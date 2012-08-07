@@ -47,10 +47,11 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY, KLEYO
       SAVE KLEY
-C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       CHARACTER(80) TITRE
       COMMON/TITR/ TITRE 
 
@@ -102,6 +103,7 @@ C----- To get values into A(), from earlier FIT
       LOGICAL EMPTY, IDLUNI
 
       SAVE LNOPTI
+      SAVE PNLTGT
 
 C This INCLUDE must stay located right before the first statement
       CHARACTER(KSIZ) KLEO
@@ -588,17 +590,16 @@ C----- FIT, FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
-      IF(READAT) CALL RFIT(pnlty)
+      IF(READAT) CALL RFIT(
+     >                     PNLTGT)
       FITING = .TRUE.
-      if(MTHOD.eq.1) call MINO12(
-     >                           pnlty)
-      if(MTHOD.eq.2) call NMMIN2(
-     >                           pnlty)
+      IF(MTHOD.EQ.1) CALL MINO12(PNLTGT)
+      IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT)
       CALL FITSTA(I6,FITING)
       CALL FITST2(NOEL)
       FITGET = .FALSE.
       RETURN
-C----- SPES3. CARTE DE Champ CARTESIENNE MESUREE DU SPES3
+C----- SPES3. CARTE DE CHAMP CARTESIENNE MESUREE DU SPES3
 C          D'APRES W. ROSCH, 1991
  47   CONTINUE
       KALC =2
@@ -1208,6 +1209,10 @@ C-------------------------
       ENTRY ZGKLEY( 
      >             KLEYO)
       KLEYO = KLEY
+      RETURN
+      ENTRY ZGPNLT( 
+     >             PNLTGO)
+      PNLTGO = PNLTGT
       RETURN
 
       END

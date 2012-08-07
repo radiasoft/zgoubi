@@ -178,6 +178,8 @@ a convenient companion tool to the use of \zgoubi.
 \clearemptydoublepage
 
 \section{NUMERICAL CALCULATION OF MOTION AND FIELDS}\label{sec2} %%2
+
+
 \subsection{\zgoubi\ Frame} \label{sec2.1}   %%2.1
 
 The reference frame of \zgou\  is presented in Fig.~\ref{fig1}.  
@@ -188,12 +190,12 @@ axis of optical elements.
 
 The Lorentz equation, which governs the motion of a particle of charge $q$,  relativistic 
 mass $m$ and velocity $\vec  v$ in electric and magnetic fields $\vec  e$ and $\vec  b$, is written 
+
 \begin{equation}
 \frac{d(m\vec  v)}{dt} = q\, (\vec  e + \vec  v \times  \vec  b)  \label{eq2-2-1}
 \end{equation}
-
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\vspace{.5cm}
+\vspace{0cm}
 \begin{figure}[H]
 %\vspace{11 truecm}
 %%%Figure 1
@@ -209,9 +211,8 @@ $ P$  =	 angle between $\vec{W}$ and $	\vec  v	$. }
 \end{figure}
 \vspace{.3cm}
 
-
-
-Taking
+\noindent Taking
+%
 \begin{equation}
 \vec  u = \frac{\vec  v }{v},\quad
     	ds = v\,dt,\quad
@@ -219,17 +220,17 @@ Taking
 			 m\vec  v = mv\vec  u = q\, \Br \, \vec  u \label{eq2-2-2}
 \end{equation}
  where $ \Br $ is the rigidity of the particle, this equation can be rewritten 
-
+%
 \begin{equation}
 (\Br )^\prime  \vec  u+\Br \,\vec  u^{\,\prime}  
 	=  \frac{\vec  e }{v}  + \vec  u  \times   \vec  b   \label{eq2-2-3}
 \end{equation}
-
+%
 \noindent From position $ \vec  R(M_0) $ and unit velocity $ \vec  u(M_0) $ at
 point $ M_0 $, position $ \vec  R(M_1) $ and unit velocity $ \vec  u(M_1) $ 
 at point $ M_1 $ following a 
 displacement  $ \Delta s $, are obtained from truncated Taylor expansions (Fig.~\ref{fig2})  
-
+%
 \begin{equation}
 \begin{aligned}
 \vec  R(M_1)  &  \approx  \vec  R(M_0) + \vec  u(M_0)\, \Delta s+ \vec  u^{\,\prime} (M_0)\,
@@ -240,13 +241,13 @@ displacement  $ \Delta s $, are obtained from truncated Taylor expansions (Fig.~
 	\dfrac{\Delta s^5 }{5!} 
 \end{aligned}\label{eq2-2-4}
 \end{equation}
-
+%
 \noindent The rigidity at $ M_1 $ is obtained in the same way from
 \begin{equation}
  (\Br )(M_1) \approx (\Br )(M_0)+(\Br )^\prime (M_0)\Delta s+...+
 	(\Br)^{\quaprime} (M_0) \frac{\Delta s^4 }{4!}   	\label{eq2-2-5}
 \end{equation}
-
+%
 \noindent The equation of time of flight is written in a similar manner 
 \begin{equation}
  T(M_1) \approx   T(M_0) +   \frac{dT}{ds}(M_0)\, \Delta s+ \frac{d^2T}{ds^2} (M_0)\,\frac{\Delta s^2}{2} + 
@@ -330,7 +331,6 @@ and by successive differentiation, we get
 		           X_k\partial X_l} \,u_i u_j u_k u_l 
 		           + 6 \sum_{ijk}  \dfrac{\partial^ 3\vec  B}{\partial X_i\partial X_j\partial X_k} \,
 		           u^{\prime}_i u_j u_k \\
-		 %
 		        &
 		        +  4 \sum_{ij} \dfrac{\partial^ 2\vec  B}{\partial X_i\partial X_j}\,
 		         u^{\prime\prime}_i u_j
@@ -340,13 +340,14 @@ and by successive differentiation, we get
 	 \end{aligned}
  	\label{eq2-2-7}
  \end{equation} 
- 
+ %
  \noindent From the knowledge of $ \vec  u(M_0) $ and $ \vec  B(M_0) $ at point
 $ M_0 $ of the 
 trajectory, we calculate alternately the derivatives of $ \vec  u(M_0) $ and 
 $ \vec  B(M_0) $, by means of eqs.~(\ref{eq2-2-6}) and (\ref{eq2-2-7}), and inject it in 
 eq.~(\ref{eq2-2-4}) to get 
 $ \vec  R(M_1) $ and $ \vec  u(M_1) $.
+
 
 \subsubsection[Integration in electric fields]%
        {Integration in electric fields~\protect\cite{Biblio6}}
@@ -389,7 +390,7 @@ which, by successive differentiations, gives the recursive relations
 %
 that provide the derivatives $ \dfrac{d^n\vec  u}{ds^n}$ needed in the Taylor 
 expansions~(eq.~\ref{eq2-2-4})
-
+%
 \begin{equation}
 	\begin{aligned}
 		\vec  u^{\,\prime} 
@@ -463,13 +464,13 @@ derivative
 	\end{aligned}
 	\label{eq2-2-12}
 \end{equation}
-
+%
 \noindent etc. as in eq.~\ref{eq2-2-7}. 
 These eqs.~(\ref{eq2-2-10}), as well as the calculation of the rigidity, following 
 eq.~(\ref{eq2-2-5}), involve 
 derivatives $ (\Br)^{(n)} =  \dfrac{ d^n(\Br )}{ds^n} $, which are obtained in the following way. 
 Considering that 
-
+%
 \begin{equation}
 	\dfrac{dp^2 }{dt} = \dfrac{d\vec  p^{2} }{ dt}
 	\quad \text{\emph{i.e.},} \quad 
@@ -488,7 +489,7 @@ with $ \dfrac{ d\vec  p }{ dt} = q\,(\vec  e +\vec v\times\vec  b) $
 since $ (\vec  v\times\vec  b) \cdot \vec  p=0$.  Normalizing as
 previously with $ \vec  p=p\vec  u=q\Br\vec  u $ and $ ds=vdt$,  and 
 by successive differentiations, eq.~(\ref{eq2-2-14}) leads to the $ (\Br )^{(n)} $
-
+%
 \begin{equation}
 	\begin{aligned}
 		(\Br )^\prime 
@@ -514,7 +515,7 @@ by successive differentiations, eq.~(\ref{eq2-2-14}) leads to the $ (\Br )^{(n)}
 \dfrac{ d^n(\vec e\cdot\vec  u) }{ ds^n} $ can be related to the derivatives of the 
 kinetic energy $ W $ by $dW = \dfrac{d\vec  p }{ dt} \cdot\vec  v\, dt = q\vec  e\cdot\vec  v\, dt $
 which leads to
-
+%
 \begin{equation}
 	\dfrac{ d^{n+1}W }{ds^{n+1}} = q \dfrac{ d^n (\vec  e\cdot\vec  u) }{ ds^n}
 	\label{eq2-2-16}
@@ -526,7 +527,7 @@ which leads to
 eqs.~(\ref{eq2-2-10},\ref{eq2-2-15}) are 
 obtained from $ p=\dfrac{ v }{ c} \dfrac{ W+m_0 c^2 }{ c} $,
  ($m_0$ is the rest mass) by successive differentiations, that give the recursive relations
-
+%
 \begin{equation}
 	\begin{aligned}
 		 \left(\dfrac{1}{ v}\right) 
@@ -626,13 +627,14 @@ be considered. Recursive differentiations give the following relations
 where $ \vec  E =  \dfrac{\vec  e }{ \Br} $, 
 $ \vec  B =\dfrac{\vec  b }{ \Br} $, and $^{(n)}\mid_{ \Br} $ denotes
 differentiation at constant $ \Br$ 
+
  \begin{equation}
 	 \vec  E^{(n)}\mid_{ \Br} = \dfrac{1 }{ \Br}  \dfrac{d^n\vec  e }{ ds^n}
 	 \quad \text{and} \quad 
 	 (\vec  u\times\vec  B)^{(n)}\mid_{ \Br} = \dfrac{1}{\Br}  (\vec  u\times\vec  b)^{(n)}.
  	\label{eq2-2-20}
  \end{equation}
-
+%
 \noindent These derivatives $ \vec  E^{(n)} $ and $ \vec  B^{(n)} $ of the
 electric and magnetic fields are 
 calculated from the vector fields $ \vec  E(X,Y,Z)$,  $ \vec  B(X,Y,Z) $ and
@@ -648,6 +650,7 @@ following eqs.~(\ref{eq2-2-7}) and (\ref{eq2-2-12}).
 The time of flight  eq.~(\ref{eq2-2-Time}) involves the derivatives 
 $dT/ds=1/v$, $d^2T/ds^2=d(1/v)/ds$, etc. that are obtained from eq.~(\ref{eq2-2-17}). In the absence of 
 electric field   eq.~(\ref{eq2-2-6}) however reduces to the simple form 
+
  \begin{equation}
 T(M_1) =   T(M_0) +  \Delta s/v  
  \end{equation}
@@ -655,7 +658,7 @@ T(M_1) =   T(M_0) +  \Delta s/v
 
 \subsection{Calculation of  $ \vec E$ and $ \vec B $ fields and their Derivatives}\label{sec2.3}    %%%%%  2.3.
 
-\noindent In this section, unless otherwise stated, $ \vec  B = (B_X(X,Y,Z),B_Y(X,Y,Z),B_Z(X,Y,Z)) $ stands 
+In this section, unless otherwise stated, $ \vec  B = (B_X(X,Y,Z),B_Y(X,Y,Z),B_Z(X,Y,Z)) $ stands 
 indifferently for electric field $\vec E$  or magnetic field $\vec B$. 
 
 
@@ -678,6 +681,7 @@ Then the field components $ B_X(X,r)$,  $ B_r(X,r) $ at the position of the part
 $(X,r) $ are obtained from Taylor expansions truncated at  the fifth order in $ r $ (hence, up to 
 the fifth order derivative $ \dfrac{ \partial^ 5B_X }{ \partial X^5} \,(X,0)$),  
 assuming cylindrical symmetry 
+
  \begin{equation}
 	 \begin{aligned}
 		 B_X(X,r) 
@@ -691,7 +695,7 @@ assuming cylindrical symmetry
 	 \end{aligned}
  	\label{eq2-3-1}
  \end{equation}
-
+%
 \noindent Then, by differentiation with respect to $ X $ and $ r$,  up to the second
 order, these expressions provide the derivatives of $ \vec  B(X,r)$.  Finally a conversion
 from the $ (X,r) $ coordinates to the $ (X,Y,Z) $ Cartesian coordinates of \zgou\ is 
@@ -711,6 +715,7 @@ TOSCA\index{TOSCA}}).
 \smallskip
 
 \noindent Median plane antisymmetry is assumed, which results in 
+
 \begin{equation}
 	\begin{aligned}
 		B_X(X,Y,0)  &  =   0 \\
@@ -721,9 +726,11 @@ TOSCA\index{TOSCA}}).
 	\end{aligned}
 	\label{eq2-3-2}
 \end{equation}
+%
 Accomodated with Maxwell's equations, this results 
  in  Taylor expansions below,  for the three components of $ \vec  B $ (here, 
 $ B $ stands for $ B_Z(X,Y,0)$) 
+
 \begin{equation}
 	\begin{aligned}
 		B_X(X,Y,Z) 
@@ -745,6 +752,7 @@ $ B $ stands for $ B_Z(X,Y,0)$)
 	\end{aligned}
 	\label{eq2-3-3}
 \end{equation}
+%
  which are then differentiated one by one with respect to $ X$, $Y$, 
 or $ Z$, up to second or fourth order (depending on optical element or 
 \textsl{IORDRE\index{IORDRE}} option, see section \ref{sec2.4.2}) so as to get the expressions
@@ -898,12 +906,14 @@ to the actual coordinate $ X $ of the particle.
  %
 and the coefficients $ A_i $ are calculated by expressions that
 minimize the quadratic sum
+
 \medskip
+
  \begin{equation}
      S = \sum_i \left(B(X,0)-B_i \right)^2  
  	\label{eq2-4-2}
  \end{equation}
-
+%
 \noindent Namely, the source code contains the explicit analytical 
 expressions of the coefficients $A_i$ solutions of the normal 
 equations $\partial S / \partial A_i = 0$.
@@ -935,6 +945,19 @@ are assumed to be zero.  Such a map may have been built or measured
 in either Cartesian or polar coordinates.  Whenever polar coordinates are used, a
 change to Cartesian coordinates (described below) provides the expression of 
 $ \vec  B $ and its derivatives as involved in eq.~(\ref{eq2-2-7}). 
+
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\begin{figure}[h] %%[H]  %% [H]
+%\vspace{17 truecm}
+%%%Figure 3
+\centerline{\includegraphics[width=15.5cm]{Fig3.ps}}
+\hangcaption[Fig3]{\label{fig3}Mesh in the $ (X,Y) $ plane in Cartesian coordinates.
+The grid is centered \\
+on the node which is closest to the actual position of the particle.\\
+A~: 9-point interpolation  grid.\\
+B~: 25-point interpolation grid.\\ 
+C~: Mesh in the $ (X,Y) $ plane in polar coordinates. }
+	\end{figure}
 
 \noindent\zgou\ provides three types of polynomial
 interpolation from the mesh (option \textsl{IORDRE\index{IORDRE}})~; namely, a second order interpolation, 
@@ -993,12 +1016,12 @@ $B(X,Y,0) $ at the central node of the grid
 	A_{ij} = \dfrac{1 }{ i!j!}\, \dfrac{\partial^{ i+j}B }{ \partial X^i\partial Y^j} \,(0,0,0) 
 	\label{eq2-4-6}
 \end{equation}
-
+%
 \noindent The derivatives of $ B(X,Y,0) $ with respect to $ X $ and $ Y$, at
 the actual point 
 $ (X,Y,0) $ are obtained by differentiation of the interpolation polynomial, 
 which gives (\emph{e.g.},~from (\ref{eq2-4-4}) in the case of second order interpolation)
-
+%
 \begin{equation}
 	\begin{aligned}
 		\dfrac{ \partial B }{ \partial X} \,(X,Y,0)  
@@ -1009,9 +1032,8 @@ which gives (\emph{e.g.},~from (\ref{eq2-4-4}) in the case of second order inter
 	\end{aligned}
 	\label{eq2-4-7}
 \end{equation}
-
-
-\noindent This allows stepping to the calculation of $ \vec  B(X,Y,Z) $ and its derivatives
+%
+This allows stepping to the calculation of $ \vec  B(X,Y,Z) $ and its derivatives
 as described in subsection~\ref{sec2.3.2} (eq.~\ref{eq2-3-3}).
 
 \paragraph{The special case of polar maps} 
@@ -1113,18 +1135,6 @@ from the border grid which is the closest to the actual position of the
 particle. Its flag \IEX\index{IEX@{\IEX}} is given the value $-1$ (see section~\ref{sec4.6.6}). 
 
 
-%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\begin{figure}[H]  %% [H]
-%\vspace{17 truecm}
-%%%Figure 3
-\centerline{\includegraphics[width=15.5cm]{Fig3.ps}}
-\hangcaption[Fig3]{\label{fig3}Mesh in the $ (X,Y) $ plane in Cartesian coordinates.
-The grid is centered \\
-on the node which is closest to the actual position of the particle.\\
-A~: 9-point interpolation  grid.\\
-B~: 25-point interpolation grid.\\ 
-C~: Mesh in the $ (X,Y) $ plane in polar coordinates. }
-	\end{figure}
 
 \subsubsection{Arbitrary 2-D Map, no Symmetry} \label{sec2.4.3}
 
@@ -1169,6 +1179,19 @@ the actual position $ (X,Y,Z)$.
 
 \noindent No special symmetry is assumed, which allows the treatment of 
 arbitrary field distribution (\emph{e.g.}, solenoid, helical snake). 
+
+
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\begin{figure}[h]   %%[H]
+%\vspace{11 truecm}
+%%%Figure 4
+\centerline{\includegraphics[width=14cm]{Fig4.ps}}
+\hangcaption{\label{fig4}A 3-D 27-point  grid is used for
+interpolation of $ \vec  B $ and its 
+derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
+ the closest to the actual position of the particle.} 
+\end{figure}
+
 
 
 
@@ -1225,18 +1248,6 @@ means of expressions that minimize, with respect to $ A_i $, the sum
 to sweep the 3-D grid. The source code contains the explicit analytical 
 expressions of the coefficients $A_{ijk}$ solutions of the normal 
 equations $\partial S / \partial A_{ijk} = 0$.
-
-
-%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\begin{figure}[H]
-%\vspace{11 truecm}
-%%%Figure 4
-\centerline{\includegraphics[width=14cm]{Fig4.ps}}
-\hangcaption{\label{fig4}A 3-D 27-point  grid is used for
-interpolation of $ \vec  B $ and its 
-derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
- the closest to the actual position of the particle.} 
-\end{figure}
 
 
 
@@ -1412,7 +1423,7 @@ means every centimer or tens of centimers in smoothly varying magnetic fields.
 \noindent Main aspects of the method are developped in the following. 
 
 
-\newpage 
+%\newpage 
 
 \paragraph{Probability of emission of a photon}
 
@@ -1420,6 +1431,7 @@ Given that the number of photons emitted within a step $\Delta s$ can be very lo
 of unit)\footnote{For instance, a $1\,$GeV electron will emit about $20.6$ photons per radian~; an 
  integration step size $\Delta s =0.1\,$m upon $\rho=10\,$m bending radius results in 0.2 photons 
 per step.} a Poisson probability law 
+
 \begin{equation}
 	\label{EqPoiss}
  p(k) = \frac{\lambda^{-k}}{k!} \exp(-k)
@@ -1428,6 +1440,7 @@ is considered. $k$ is the number of photons emitted over a $\Delta \theta$ (circ
 trajectory  such that, the mean number of photons per radian expresses as\footnote{This leads for 
 instance, in the case of electrons, to the classical formula $\lambda/\Delta \theta \approx
 129.5$E(GeV)$/2\pi\approx \gamma/94.9$.}
+
 \begin{equation}
         \label{EqPoissMean}
  \lambda = \frac{20 e r_0 }{8 \bar{h} \sqrt{3}  } \beta^2 \Br  \Delta s
@@ -1443,6 +1456,7 @@ and $\Delta s$,  then a value of $k$ is drawn by a rejection method~\cite[routin
 
 These k photons are assigned energies $\epsilon=h\nu$ at random, in the following way. The cumulative 
 distribution of the energy probability law $p(\epsilon/\epsilon_c)d\epsilon/\epsilon_c$  writes 
+
 \begin{equation}
 \label{EqSK53}
 \mathcal{P}(\epsilon/\epsilon_c) = \frac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} 
@@ -1457,6 +1471,7 @@ a practical viewpoint, note that the value of the magnetic field first computed 
 one-step push of the particle  (eqs.~\ref{eq2-2-4},\ref{eq2-2-6}) is next used to  obtain  
 $\rho$ and perform SR loss corrections afterwards.}  over the trajectory arc $\Delta s$. 
 In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated by 
+
 \begin{equation}
 \label{EqSK53Low}
 \mathcal{P}(\epsilon/\epsilon_c) = \frac{12 \sqrt{3}}{5\, 2^{1/3} \Gamma(\frac{1}{3})}  
@@ -1548,6 +1563,7 @@ $\vec{n}(t)$ = (normalized) direction of observation = $\vec{r}(t)/|\vec{r}(t)|$
 \noindent The expression for  the radiated  electric field $\vec \Ecal (\vec{n}, \tau)$ 
 as seen by the observer in the long
 distance approximation is~\cite{JDJ}
+
 \begin{equation}
 \vec \Ecal (\vec{n}, \tau) = 
 	\frac{q}{4\pi\varepsilon_0c}\, 
@@ -1571,14 +1587,16 @@ emission point to the observer, which also leads by differentiation to the well-
 d\tau/dt = 1 - \vec{n}(t) \cdot \vec{\beta}(t)  \label{eqN4.2}
 \end{equation} 
 %\end{equation} \label{eqN4.2}
-
+%
 \noindent The vectors $\vec{R}(t)$ and $\vec{\beta}(t) = \frac{v}{c} \vec u$ (eq.~\ref{eq2-2-2}) that describe the motion are obtained from the ray-tracing (eqs.~\ref{eq2-2-4}). The acceleration is calculated  from~(eq.~\ref{eq2-2-1})
+
 \begin{equation}
 d\vec{\beta}/dt = (q/m)~\vec{\beta}(t) \times \vec{b}(t) \label{eqN4.3}
 \end{equation} %\label{eqN4.3}
-
+%
 \noindent Then, given the observer position $\vec{X}$ in the fixed frame, it is possible
 to calculate
+
 \begin{equation}
 \vec{r}(t) = \vec{X} - R(t) \text{ and } \vec{n}(t) = \vec{r}(t)/ |\vec{r}(t)| \label{eqN4.4}
 \end{equation} %\label{eqN4.4}
@@ -1669,6 +1687,7 @@ $$
 	FT_\omega  [ \vec \Ecal (\tau)] = \int \vec \Ecal  (\tau) e^{-i\omega\tau} d\tau~$$
 of the $\sigma$ and $\pi$ electric field components provide the spectral angular
  energy density 
+
 \begin{equation}
 	\partial^3 W/\partial\phi\, \partial\psi\, \partial\omega 
 		= 2 r^2 \left| FT_\omega \left(\vec  \Ecal (\tau) \right)  \label{eqN4.10}
@@ -2677,9 +2696,9 @@ with the form   $I cos \mu + J sin \mu $.
 	 & 0& 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
 	 & & & & & \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
-			   \multicolumn{1}{|c|}{\textbf{Beam matrix }} 
+			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \textsl{OBJET/KOBJ=5,6} \\
+	 & & & & & \textsl{OBJET/KOBJ=5.0N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -2688,13 +2707,13 @@ with the form   $I cos \mu + J sin \mu $.
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
 	 & & & & & \textsl{OBJET/KOBJ=5} \\
-		\multicolumn{1}{|c|}{\textbf{parameters}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
+	\multicolumn{1}{|c|}{\textbf{transport coeffs.}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & & & &  \\
                            & & & & & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{Second order}}  
 			    & 2  & $1 - 6$ & 1$1 - 6$6 & Transport coeff.  $T_{I,j,k} $  
 	 & & & & & \textsl{OBJET/KOBJ=6} \\
-			 \multicolumn{1}{|c|}{\textbf{parameters}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
+			 \multicolumn{1}{|c|}{\textbf{transport coeffs.}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
 			 \multicolumn{1}{|c|}{\textbf{ }}  &  &  &  &  &  & & & &  \\
                             & & & & & & & & &  \\
 %
@@ -3534,27 +3553,33 @@ data allows temporary inhibition of SR~procedures.
 \medskip 
 
 
-The AGS main magnet is a combined function dipole with straight axis (curves of constant field are straight lines).  
+The AGS main magnet is a combined function dipole with straight axis (lines of constant field are straight lines).  
 
-\noindent The simulation of  \textsl{AGSMM}  works like \textsl{MULTIPOL}, with the following three particularities~: 
+\noindent The field in  \textsl{AGSMM}  is the same as in \textsl{MULTIPOL} 
+(details in section~\ref{sec2.3.5} page~\pageref{sec2.3.5}), 
+however  \textsl{AGSMM}  has  the following four particularities~: 
 
 \begin{itemize}
-  \item the dipole field $B_0$ in \textsl{AGSMM} is drawn for the reference rigidity, $B\rho_{ref}$ so to preserve 
+  \item There are only three multipole components present in \textsl{AGSMM}~: dipole, quadrupole and sextupole. 
+  \item The dipole field $B_0$ is drawn for the reference rigidity, $B\rho_{ref}$ so to preserve 
 $\rho = B\rho_{ref} / B_0$  and the orbit deviation  $L/\rho$. In particular, 
   \begin{itemize}
-     \item in the absence of acceleration, $B\rho_{ref} \equiv BORO$, with $BORO$ the quantity appearing  in the object definition 
+     \item In the absence of acceleration, $B\rho_{ref} \equiv BORO$, with $BORO$ the quantity appearing  in the object definition 
 using \textsl{OBJET}, \textsl{MCOBJET}, 
-     \item in pessence of acceleration using \textsl{CAVITE}, $B\rho_{ref} \equiv BORO(1+D)$, with $D$ the relative momentum 
-increase, a quantity that \zgou\ updates at cavity traversal.
+     \item in pessence of acceleration using \textsl{CAVITE}, $B\rho_{ref} \equiv BORO(1+D_{ref})$, with $D_{ref}$ 
+the relative synchronous momentum increase, a quantity that \zgou\ updates at cavity traversal.
   \end{itemize}
-  \item the field indices, quadrupole $K1$ and sextupole $K2$, are derived from  the reference rigidity, $B\rho_{ref}$, via 
+  \item The field indices, quadrupole $K1$ and sextupole $K2$, are derived from  the reference rigidity, $B\rho_{ref}$, via 
 so-called ``transfer functions'' momentum-dependent polynomials.  
 
-  \noindent A consequence of the previous two items is that  no field value is required in defining the AGS main magnets in zgoubi data list ``zgoubi.dat''.
-%
-  \item the AGS main dipole has backleg windings, used for instance for injection and extraction orbit bumps. 
+  \item The AGS main dipole has backleg windings, used for instance for injection and extraction orbit bumps. 
 Windings turn number and Ampere-turns are part of the data in tthe input data list. The intensity in the windings is  accounted for in the calculation of the transfer function from coil current to magnetic field in \textsl{AGSMM}. 
 \end{itemize}
+
+\bigskip
+
+  \noindent Note~: A consequence of  items 2 and 3 is that  no field value is required in defining the AGS main magnets in zgoubi data list ``zgoubi.dat''.
+
 
 
 
@@ -4680,6 +4705,7 @@ following parameters.
  \noindent The magnetic field is calculated in  polar
 coordinates. At  any position $(R,\theta)$ along the  particle trajectory 
 the value of the vertical component of the mid-plane field is calculated by 
+
  \begin{equation}
 	 B =  \mathcal{F(R,\theta)} \ast  B_0 \ast  
 	      \left(1+N \ast  
@@ -4798,6 +4824,7 @@ following parameters.
 
 
 \noindent At  any node  of the map mesh, the value of the field is calculated as 
+
  \begin{equation}
 	 B =  \mathcal{F} \ast  B_0 \ast  
 	      \left(1+N \ast  
@@ -4977,7 +5004,7 @@ magnetic field  due  a single one (index $i$) of the  dipoles  of a $N$-tuple   
 %\left(   b_{0_i}  +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)
 \label{EqFieldDipoles}
 \end{equation}
-
+%
 \noindent wherein $\Bz_{0,i}$  is a reference field, at reference radius  $RM_{i}$, 
  and $ \mathcal{F}(R,\theta)$ is the fringe field coefficient, see below. 
 This field model is proper to simulate for instance chicane dipoles, isochronous 
@@ -5584,47 +5611,13 @@ $A$, $B$, $C$, $A'$, $B'$, $C'$.
 \medskip
 
  \textsl{EMMA} is dedicated to the reading and treatment of 2-D or 
-3-D Cartesian or cylindrical mesh field maps as  delivered by the
-\textsl{TOSCA}  magnet computer code standard output.
+3-D Cartesian  mesh field maps representing the EMMA FFAG cell quadrupole doublet. 
 
 \bigskip
 
-That part of the manual to be provisionned...
+ \textsl{EMMA}    works much like  \textsl{TOSCA}.  Refer to that keyword, and to the fortran file 
+EMMAC, for details. 
 
-\medskip
-
-\noindent where, $IX$ ($JY$, $KZ$)  is   the number of longitudinal 
-(transverse horizontal, vertical) nodes of the 3-D uniform mesh. For binary files, 
-FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}, a flag  `BINARY' will thus be set to `.TRUE.'.  
-
-A flag \textsl{MOD} determines wether Cartesian or Z-axis cylindrical mesh is used. \textsl{MOD} can 
-take various values depending also on the map data file formatting. (To be documented - see \FORTRAN\ 
-subroutine FMAPW and its entries FMAPR, FMAPR2.)
-
-\bigskip
-
-\noindent The field $ \vec  B=(B_X,B_Y,B_Z) $ is normalized by means of 
-\textsl{BNORM} in a similar way as in \textsl{CARTEMES\index{CARTEMES}}.  
- As well the  coordinates  X (and Y, Z with 3-D field maps) is normalized with 
-a  \textsl{X-[Y-,Z-]NORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
-
-
-\bigskip
-
-\noindent At each step of the trajectory of a particle inside the map, the
-field and its derivatives are calculated 
-
- - in the case of 2-D map,  by means of a second or fourth order polynomial interpolation, 
-depending on \textsl{IORDRE\index{IORDRE}} (\textsl{IORDRE} = 2, 25 or 4), as for 
-\textsl{CARTEMES\index{CARTEMES}}, 
-
- - in the case of 3-D map, by means of a second order polynomial interpolation with a 
-$3  \times   3   \times   3$-point parallelipipedic grid, as described in 
-section~\ref{sec2.4.4}. 
-\bigskip
-
-\noindent Entrance and/or exit integration boundaries between which the trajectories
-are integrated in the field may be defined, in the same way as in  \textsl{CARTEMES\index{CARTEMES}}. 
 
 
 
@@ -5712,7 +5705,7 @@ used, to zero order if the analytic method is used)  radial dependence of the ga
 \label{EqggvsR}
 g(R) = g_0 \, (RM/R)^{\kappa}
 \end{equation}
-
+%
 \noindent  so to simulate the effect of gap shaping of $ \Bz_i(R,\theta)$ on 
 field fall-off,  over the 
 all radial extent of a scaling FFAG dipole (with normally - but not in practice - $\kappa = K_i$). 
@@ -5831,7 +5824,7 @@ procedure  \textsl{DIPOLES} (eq.~\ref{EqFFdips}), including  radial dependence o
 %\label{EqggvsR}
 g(R) = g_0 \, (RM/R)^{\kappa}
 \end{equation}
-
+%
 \noindent  so to simulate the effect of gap shaping of $ \Bz_i(R,\theta)$ on 
 field fall-off,  over the 
 all radial extent of a scaling FFAG dipole (with normally - but not in practice - $\kappa = K_i$). 
@@ -5859,13 +5852,14 @@ extrapolation off median plane, etc., things are performed exactly as in the cas
 components $ B_X$, $ B_Y $, $ B_Z $ of the magnetic field at all nodes of a 2-D Cartesian 
 uniform mesh in an $(X,Y)$ plane. 
 No particular symmetry is assumed, which allows the 
-treatment of any type of field (\emph{e.g.}, dipole field  with arbitrary $Z$ elevation 
-- the map needs not be a mid-plane map, solenoidal field, etc.). 
+treatment of any type of field (\emph{e.g.}, solenoidal field, or dipole field,  at  arbitrary $Z$ elevation 
+- the map needs not be a mid-plane map). 
+
+\bigskip
 
 \noindent The field map data file has to be be filled with a 
-format that fits the  \FORTRAN\ reading sequence (presumably compatible 
-with \textsl{TOSCA} code outputs).  
-The following is an instance, details and possible updates are to be found in the source  
+format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
+with \textsl{TOSCA} code outputs), details and possible updates are to be found in the source  
 file \textsl{'fmapw.f'}~:  
 
 {\footnotesize
@@ -5883,7 +5877,7 @@ file \textsl{'fmapw.f'}~:
 \end{verbatim}}
 \medskip
 
-\noindent where $IX$ ($JY$) is the number of longitudinal (transverse horizontal) nodes of 
+\noindent $IX$ ($JY$) is the number of longitudinal (transverse horizontal) nodes of 
 the 2-D uniform mesh, $Z(1) $ is the considered $Z$-elevation of the map. For 
 binary files, FNAME must begin with \mbox{`B\_ '} or  \mbox{`b\_'}, a flag `BINARY' will thus be 
 set to `.TRUE.'. The field $ \vec  B=(B_X,B_Y,B_Z )$ is next normalized with 
@@ -5894,9 +5888,18 @@ BNORM, prior to ray-tracing.  As well the  coordinates  X, Y are normalized with
 \bigskip
 
 \noindent At each step of the trajectory of a particle, the field and its 
-derivatives are calculated by a polynomial interpolation followed 
-by a $ Z $ extrapolation (see sections~\ref{sec2.3.3}, \ref{sec2.4.3}). Entrance and/or 
+derivatives are calculated by a second or fourth degree polynomial interpolation followed 
+by a $ Z $ extrapolation (see sections~\ref{sec2.3.3} page~\pageref{sec2.3.3},~\ref{sec2.4.3} page ~\pageref{sec2.4.3}). 
+
+\noindent Interpolation grid is 3*3 for 2nd order (option \textsl{IORDRE = 2\index{IORDRE}}) or 5*5 
+for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}). 
+
+\bigskip
+
+\noindent Entrance and/or 
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
+
+
 
 
 \newpage
@@ -5911,9 +5914,11 @@ No particular symmetry is assumed, which allows the
 treatment of any type of field (\emph{e.g.},  field of a parallel-plate mirror with arbitrary $Z$ elevation 
 - the map needs not be a mid-plane map). 
 
+\bigskip
+
 \noindent The field map data file has to be be filled with a 
-format that fits the  \FORTRAN\ reading sequence. 
-The following is an instance, details and possible updates are to be found in the source  
+format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
+with \textsl{TOSCA} code outputs), details and possible updates are to be found in the source  
 file \textsl{'fmapw.f'}~:  
 
 {\footnotesize
@@ -5931,7 +5936,7 @@ file \textsl{'fmapw.f'}~:
 \end{verbatim}}
 \medskip
 
-\noindent where $IX$ ($JY$) is the number of longitudinal (transverse horizontal) nodes of 
+\noindent $IX$ ($JY$) is the number of longitudinal (transverse horizontal) nodes of 
 the 2-D uniform mesh, $Z(1) $ is the considered $Z$-elevation of the map.   For 
 binary files, FNAME must begin with \mbox{`E\_ '} or  \mbox{`b\_'}, a flag  `BINARY' will thus be 
 set to `.TRUE.'. The field $ \vec  E=(E_X,E_Y,E_Z )$ is next normalized with 
@@ -6423,7 +6428,7 @@ $$B_X(\textrm{center}) \equiv B_X(x=r=0) =
 
 \newpage
 
-\subsubsection*{TOSCA~: \TOSCATitl} \label{TOSCA} \index{TOSCA}
+\subsubsection*{TOSCA~: \TOSCATitl} \label{TOSCA} \index{TOSCA|textbf}
 \medskip
 
  \textsl{TOSCA} is dedicated to the reading and treatment of 2-D or 
@@ -6431,20 +6436,20 @@ $$B_X(\textrm{center}) \equiv B_X(x=r=0) =
 \textsl{TOSCA}  magnet computer code standard output.
 \bigskip
 
-\noindent The total number of field data files to be read is given by the 
-parameter $IZ$ that appears in the data list following the keyword. 
-Each file contains the field components $B_X$, $B_Y$, $B_Z$ on an 
-($X$, $Y$) mesh at a given $Z$ coordinate. $IZ = 1$ for 2-D~maps, and 
+\noindent The total number of field data files to be read is determined by the \textsl{MOD} flag 
+(see below) and by the parameter $IZ$ that appears in the data list following the keyword. 
+Each of these files contains the field components $B_X$, $B_Y$, $B_Z$ on an 
+\mbox{($X$, $Y$)} mesh at a given $Z$ coordinate. $IZ = 1$ for a 2-D~map, and 
 in this case $B_X$ and $B_Y$ are assumed  zero all over the map\footnote{Use 
 \textsl{MAP2D}\index{MAP2D} in case non-zero $B_X$, $B_Y$ are to be taken into account in a 2-D map.}. 
-For 3-D~maps with mid-plane symmetry, $IZ\ge 2$, and thus, the first 
+For a 3-D~map with mid-plane symmetry, then  \textsl{MOD=0} and  $IZ\ge 2$, and thus, the first 
 data file whose name follows in the data list is supposed to contain the median 
-plane field (assuming $ Z=0 $ and  $ B_X=B_Y=0$), while the next 
-file(s) contain the next maps in increasing Z order. For arbitrary 3-D~maps 
-(and in particular, contrary to what precedes without 
-mid-plane symmetry assumption), following \textsl{MOD} value, see below, 
+plane field (assuming $ Z=0 $ and  $ B_X=B_Y=0$), while the remaining  $IZ-1$ 
+file(s) contain the $IZ-1$ additional  planes in increasing $Z$ order. For arbitrary 3-D~maps, 
+ no  symmetry assumed, then  \textsl{MOD=1} and  
  the total number of maps (whose names follow in the data list) 
-is $IZ$, and  map number $[IZ/2]+1$ is the $Z = 0$ one.
+is $IZ$, such that  map number $[IZ/2]+1$ is the $Z = 0$ elevation one.
+
 \bigskip
 
 \noindent The field map data file has to be be filled with a 
@@ -6468,21 +6473,45 @@ file \textsl{'fmapw.f'}~:
 \end{verbatim}}
 \medskip
 
-\noindent where, $IX$ ($JY$, $KZ$)  is   the number of longitudinal 
-(transverse horizontal, vertical) nodes of the 3-D uniform mesh. For binary files, 
-FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}, a flag  `BINARY' will thus be set to `.TRUE.'.  
-
-A flag \textsl{MOD} determines wether Cartesian or Z-axis cylindrical mesh is used. \textsl{MOD} can 
-take various values depending also on the map data file formatting. (To be documented - see the \FORTRAN\ 
-subroutine FMAPW and its entries FMAPR, FMAPR2.)
+\noindent $IX$ ($JY$, $KZ$)  is   the number of longitudinal 
+(transverse horizontal, vertical) nodes of the 3-D uniform mesh. For letting \zgou\ know that these are binary files, 
+FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}.  
 
 \bigskip
 
+\noindent A pair of flags, \textsl{MOD}, \textsl{MOD2}, determine wether Cartesian or Z-axis cylindrical mesh is used. 
+In addition to the \textsl{MOD=1, 2} cases above, one can have \textsl{MOD=12} and in that case a single file 
+contains the all 3-D field map. 
+See  table below and the \FORTRAN\  subroutine FMAPW and its entries FMAPR, FMAPR2, for more details, in particular 
+the  formatting of the field map data file(s). 
+
+\medskip
+
+{\renewcommand{\arraystretch}{1}
+\begin{tabular}{llll}
+\bf         MOD   &\bf      MOD2 &   & \multicolumn{1}{c}{\bf \multirow{2}{30mm}{\centering Fortran reading format} }\\[1ex]
+ \multicolumn{3}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[0.5ex]
+ 0 and $IZ=1$ &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry} \\[3ex]
+0  and $IZ>1$ &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry} \\[3ex]
+        0     &    1, 2, 3              &  As previous case, just a different reading format \\
+        1     &  none                   &  \multirow{2}{80mm}{2- or 3-D map, IZ data files, one per (X,Y) plane, no symmetry assumed} \\[3ex]
+        1     &    1, 2, 3              &  As previous case, just a different reading format \\
+        12    &              0          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane} \\[3ex]
+        12    &              1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet, no symmetry assumed}  \\[3ex]
+        12    &              2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes}  \\[3ex]
+        3     &     none                &  \multirow{2}{80mm}{AGS main magnet field map, 2-D, mid-plane symmetry assumed} \\[3ex]
+ \multicolumn{2}{l}{\underline{MOD $\geq$ 20   : Cylindrical mesh}}   \\[0.5ex]
+       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane} \\[3ex]
+       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (X,Y)  mid-plane} \\[3ex]
+\end{tabular}}
+
+\bigskip
+
+
 \noindent The field $ \vec  B=(B_X,B_Y,B_Z) $ is normalized by means of 
 \textsl{BNORM} in a similar way as in \textsl{CARTEMES\index{CARTEMES}}.  
- As well the  coordinates  X (and Y, Z with 3-D field maps) is normalized with 
-a  \textsl{X-[Y-,Z-]NORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
-
+ As well the  coordinates  X and Y (and Z in the case of a 3-D field map) are normalized by  the
+  \textsl{X-[Y-,Z-]NORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
 
 \bigskip
 
@@ -6966,6 +6995,7 @@ In addition, if \textsl{OBJET}, \textsl{KOBJ} = 5.01 is used (hence introducing 
 $\alpha_{Y,Z}$, $\alpha_{Y,Z}$, $D_{Y,Z}$, $D'_{Y,Z}$), 
 then, using the $R_{ij}$ above,  \textsl{MATRIX} will transport  the  optical functions and phase advances 
 $\phi_Y$, $\phi_Z$, following
+
 \begin{equation}
 \left(
 \begin{array}{c}
@@ -7152,6 +7182,7 @@ For instance the following data input in zgoubi.dat~:
 	zgoubi.spn \index{zgoubi.fai} & \textsl{HPCKUP} & \textsl{VPCKUP}  \\
 	12 &  & 
 \end{tabular}}
+
 \medskip
 
 \noindent will result in output prints into zgoubi.spn, every 12~other 
@@ -7188,33 +7219,38 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
 \subsubsection*{TWISS~: \TWISSTitl}\label{TWISS} \index{TWISS|textbf}
 \medskip
 
-\textsl{TWISS}  
-causes the calculation of 
+\textsl{TWISS}   causes the calculation of 
   transport coefficients and various other parameters, in particular 
 periodical quantities  such as tunes, chromaticies\index{chromaticity}, etc. 
 
 \bigskip 
 
-\noindent  the object necessary for these calculations 
+\noindent  The object necessary for these calculations 
   will be generated automatically if one uses \textsl{OBJET\index{OBJET}}  with
 option \mbox{\KOBJ= 5}.   
 
  \bigskip 
 
-\noindent The way  \textsl{TWISS} works is the following: 
+\noindent \textsl{TWISS} works in a way similar to \textsl{MATRIX}, iterating the \textsl{MATRIX} process whereever necessary, 
+changing for instance the reference trajectory in \textsl{OBJET} for dp/p related computations. 
+\noindent In particular~: 
 
 \medskip
 
 - It assumes that the reference particle (particle \#1 of 11, when using \textsl{OBJET[\KOBJ= 5]}) is located on 
 the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently. }
 
-- A first pass through the structure allows computing the periodic beam matrix from the  rays, including the periodic 
+- A first pass (the only one if \textsl{KTW=1}) through the structure allows computing the periodic beam matrix from the  rays, including the periodic 
 dispersions. 
 
-- The periodic dispersions are used to define chromatic closed orbits at $\pm \delta p / p$. A second and a third pass with 
-chromatic objects centered respectively  on $\pm \delta p / p$ chromatic orbits will compute the chromatic 
+- The periodic dispersions are used to define chromatic closed orbits at $\pm \delta p / p$. A second and a third pass 
+(which terminate the process if \textsl{KTW=2}) with 
+chromatic objects centered respectively  on $\pm \delta p / p$ chromatic orbits will then compute the chromatic 
 first order transport matrices. From these the chromaticities are deduced. 
 
+- Anharmonicities need two additional passes (which terminate the process if \textsl{KTW=3}). 
+They are deduced from the difference in tunes for particles 
+tracked on different transverse invariants, horizontal or vertical. 
 
 
 
@@ -7223,7 +7259,15 @@ first order transport matrices. From these the chromaticities are deduced.
 
 
 
-\subsection{Complementary Features} \label{sec4.6}  
+\subsection{Complements regarding various functionalities} \label{sec4.6}  
+
+
+\subsubsection{Time varyinf fields} \label{sec4.6.TimeVFields} 
+\index{time varying fields} 
+
+Fields can be varied as a function of time  (in some cases this may mean as a function of turn number, 
+see section~\ref{sec4.6.5}), by means of the  \textsl{SCALING} keyword. 
+
 
 \subsubsection{Backward Ray-tracing} \label{sec4.6.3} 
 \index{backward ray-tracing} \index{XPAS, negative}\index{integration step size!negative}
@@ -7288,14 +7332,14 @@ which can further be processed with \textbf{zpop}.
 Keywords in \zgou\ data file zgoubi.dat can be \LABEL'ed, for the purpose of 
 the execution of such procedures as  \textsl{PICKUPS}\index{PICKUPS}, \textsl{FAISCNL}, \textsl{FAISTORE}
 \index{FAISCNL}\index{FAISTORE}, \textsl{SCALING}\index{SCALING}, and also for the purpose of 
-particle coordinate storage into zgoubi.plt\index{zgoubi.plt} (see Sections~\ref{sec4.6.1} 
+particle coordinate storage into zgoubi.plt\index{zgoubi.plt} (see sections~\ref{sec4.6.1} 
 and \ref{secD-3}). 
 
 \noindent Each keyword accepts two \LABEL's, of which the first one is used for the 
 above mentioned purposes. The keyword and related \LABEL['s] should fit within a 80-character 
 long string on a single line. 
 
-\subsubsection{Multiturn tracking in circular machines} \label{sec4.6.5}
+\subsubsection{Multiturn tracking in circular machines \label{sec4.6.5} }
 
 Multiturn\index{multiturn} tracking  in circular machines can be performed by
 means of the keyword \textsl{REBELOTE\index{REBELOTE}}, put at the end of the optical structure 
@@ -7328,7 +7372,8 @@ quadrupoles).
 
 
 
-\subsubsection{Positioning\index{Positioning|textbf}, (mis-)alignement\index{Misalignement|textbf}, 
+\subsubsection{Positioning\index{positioning of optical elements|textbf}\index{alignement (mis-) of optical elements|textbf}, 
+(mis-)alignement\index{Misalignement|textbf}, 
 of optical elements  and field maps} \label{sec4.6.2} 
 
 The last record in most optical elements and field maps is the positioning flag 

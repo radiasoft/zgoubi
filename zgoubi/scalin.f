@@ -33,11 +33,13 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
  
       LOGICAL EMPTY, IDLUNI
 
@@ -56,9 +58,13 @@ C  -------
       SAVE NFAM
 
       DATA OPT/ '++ OFF ++','         ' /
+
+C         write(89,*) vpa
  
-      IOPT = NINT(A(NOEL,1))
-      NFAM = NINT(A(NOEL,2))
+      NP = 1
+      IOPT = NINT(A(NOEL,NP))
+      NP = NP + 1
+      NFAM = NINT(A(NOEL,NP))
 
       KSCL=0
       IF(IOPT*NFAM.NE.0)  KSCL=1
@@ -76,9 +82,12 @@ C  -------
           DO WHILE ( .NOT. EMPTY(LBF(IF,NLF+1)) ) 
               NLF = NLF+1
           ENDDO
+
+          WRITE(NRES,FMT='(/,5X,''Family number  '',I2)') IF
           WRITE(NRES,101) NLF,FAM(IF)(DEBSTR(FAM(IF)):FINSTR(FAM(IF)))
- 101      FORMAT(/,10X,'Element [/label(s) (',I2,')] to be scaled :'
+ 101      FORMAT(10X,'Element [/label(s) (',I2,')] to be scaled :'
      >    ,T60,A)
+
           IF( EMPTY(LBF(IF,1)) ) THEN
              WRITE(NRES,FMT='(15X,
      >       ''Family not labeled ;  this scaling will apply'',
@@ -88,21 +97,38 @@ C  -------
      >      (LBF(IF,KL)(DEBSTR(LBF(IF,KL)):FINSTR(LBF(IF,KL))),KL=1,NLF)
 
           ENDIF
-          IF(JPA(IF,MXP).GT.0) WRITE(NRES,FMT='(15X,''List of the '',I2
-     >    ,'' parameters to be scaled in these elements :''
-     >    ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
+              
+          IF(JPA(IF,MXP).GT.0) THEN
+            WRITE(NRES,FMT='(15X,''List of the '',I2
+     >      ,'' parameters to be scaled in these elements : ''
+     >      ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
+            WRITE(NRES,FMT='(15X,''There scaling factor : '', 1P 
+     >      ,20(E12.4,'','',1X))') (A(NOEL,NP+I),I=1,JPA(IF,MXP))
+          ENDIF
+
         ENDIF
 
         IF(NTIM(IF) .GE. 0) THEN
 
           IF    (MODSCL(IF) .LT. 10) THEN
 
-            DO IT = 1, NTIM(IF) 
-               SCL(IF,IT) = A(NOEL,10*IF+IT-1)
-               TIM(IF,IT) = A(NOEL,10*IF+NTIM(IF)+IT-1)
-            ENDDO
+C            WRITE(*,*) ' IF, NTIM(IF)  = ',if,NTIM(IF) 
+c            DO IT = 1, NTIM(IF) 
+C               WRITE(*,*) ' SCL = ',A(NOEL,NP+IT)
+C               WRITE(*,*) ' TIM = ',A(NOEL,NP+NTIM(IF)+IT)
+c            ENDDO
+c               READ(*,*)
 
-          ELSEIF(MODSCL(IF) .EQ. 10) THEN
+            DO IT = 1, NTIM(IF) 
+               SCL(IF,IT) = A(NOEL,NP+IT)
+               TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT)
+            ENDDO
+            NP = NP +  2 * NTIM(IF) 
+
+c            NSTR = A(NOEL,NP)
+c            NP = NP + 1
+
+          ELSEIF(MODSCL(IF) .GE. 10) THEN
 
             IF(IPASS.EQ.1) THEN
 
@@ -112,36 +138,34 @@ C  -------
 
             ENDIF
 
-          ELSEIF(MODSCL(IF) .EQ. 11) THEN
+            IF(MODSCL(IF) .EQ. 11) THEN
 
-            IF(IPASS.EQ.1) THEN
+              IF(IPASS.EQ.1) THEN
 
-              IIT = NTIM2(IF) 
-              DO IT = 1, 10
-                 SCL2(IF,IT) = A(NOEL,10*(2*IF-1)+IT-1)
-                 TIM2(IF,IT) = A(NOEL,10*(2*IF  )+IT-1)
-C        write(66,*) ' scalin ',scl2(iF,it),if,it
-              ENDDO
+C                WRITE(*,*) ' IF, NTIM2(IF)  = ',if,NTIM2(IF) 
+c                DO IT = 1, NTIM2(IF) 
+C                   WRITE(*,*) ' SCL2 = ',A(NOEL,NP+IT)
+C                   WRITE(*,*) ' TIM2 = ',A(NOEL,NP+NTIM2(IF)+IT)
+c                ENDDO
+c                 READ(*,*)
 
-              IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0) 
+                IIT = NTIM2(IF) 
+                DO IT = 1, IIT
+                   SCL2(IF,IT) = A(NOEL,NP+IT)
+                   TIM2(IF,IT) = A(NOEL,NP+NTIM2(IF)+IT)
+                ENDDO
+                NP = NP +  2 * IIT
+
+c                NSTR = A(NOEL,NP)
+c                NP = NP + 1
+
+                IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0) 
      >                         TIM2(IF,1) =  BORO 
 
-CC               if(if.eq.1 .or. if.eq.2)   then
-c               if(if.eq.1 .or. if.eq.2)   then
-c                  write(*,*) ' scalin '
-c                  write(*,*) ' A(10*if / scl2) /  IF :  ',if,noel
-c                  write(*,*)   10*(2*IF-1),'-',10*(2*IF-1)+IIT-1
-c                  write(*,*)  (A(NOEL,10*(2*IF-1)+IT-1),IT=1,IIT)
-c                  write(*,*) ' A(10*if... / tim2) : '
-c                  write(*,*)   10*(2*IF  ),'-',10*(2*IF  )+IIT-1
-c                  write(*,*)  (A(NOEL,10*(2*IF  )+IT-1),IT=1,IIT)
-c                   write(*,*) ' '
-c                endif
-
-              call scale2(
+                call scale2(
      >                    SCL2,TIM2,NTIM2,IF)
-
-
+    
+              ENDIF
             ENDIF
 
           ENDIF
@@ -153,7 +177,7 @@ c                endif
               WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
  102          FORMAT(20X,' # TIMINGS :', I2
      >          ,/,20X,' SCALING   : ',10(F11.4,1X))
-              WRITE(NRES,103) ( INT(TIM(IF,IT)), IT=1,NTIM(IF))
+              WRITE(NRES,103) (NINT(TIM(IF,IT)), IT=1,NTIM(IF))
  103          FORMAT(20X,' TURN #    : ',10(I12,1X))
 
             ELSE
@@ -186,8 +210,33 @@ c                endif
         ELSEIF(NTIM(IF) .EQ. -1) THEN
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
-          SCL(IF,1) = A(NOEL,10*IF) 
-CCCCCCCCCCCCCCC          IF(SCL(IF,1) .EQ. 0.D0)  SCL(IF,1) =  BORO * 1.D-3
+
+          NPA = JPA(IF,MXP)
+C            WRITE(*,*) 'scalin  IF, NPA, noel :  ',if,NPA,noel
+          DO J = 1, NPA
+            NP = NP+1
+            VPA(IF,J) = A(NOEL,NP)
+c         WRITE(*,*)   'scalin j, if, npa, np :  ',j,if,npa,np
+c         WRITE(*,*) ' JPA(If,j), vpA(if,J), A(noel,j) '
+c         WRITE(*,*) 
+c     >     JPA(If,j), vpA(if,J), A(noel,np)
+c                  read(*,*)
+C            WRITE(*,*) if, JPA(IF,J), VPA(IF,J), A(NOEL,JPA(IF,J))
+          ENDDO
+C                  read(*,*)
+
+          NP = NP + 1
+          SCL(IF,1) = A(NOEL,NP) 
+C            WRITE(*,*) ' NP, A.SCL = ', NP, A(NOEL,NP)
+          NP = NP + 1
+          IDUM = A(NOEL,NP)  ! TIM
+C            WRITE(*,*) ' NP, A.TIM = ', NP, A(NOEL,NP)
+c          NP = NP + 1
+c          NSTR = A(NOEL,NP)
+C            WRITE(*,*) ' NP, A.NSTR = ', NP, A(NOEL,NP)
+
+c               READ(*,*)
+
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
@@ -198,6 +247,8 @@ CCCCCCCCCCCCCCC          IF(SCL(IF,1) .EQ. 0.D0)  SCL(IF,1) =  BORO * 1.D-3
 
         ELSEIF(NTIM(IF) .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
+            NDSCL=1
+            NDTIM=1
 
           IF(IPASS.EQ.1) THEN
             IF(IDLUNI(
@@ -243,7 +294,11 @@ c     >                   '  sbr scalin turn freq phase oclock '
         ELSEIF(NTIM(IF) .EQ. -60) THEN
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is SCL(IF,1)
-          SCL(IF,1) = A(NOEL,10*IF)
+            NDSCL=1
+            NDTIM=1
+
+          NP = NP + 1
+          SCL(IF,1) = A(NOEL,NP)
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
@@ -254,12 +309,26 @@ C          Starting value is SCL(IF,1)
 
         ELSEIF(NTIM(IF) .EQ. -77) THEN
 C--------- Field law proton driver, FNAL, Nov.2000
-          SCL(IF,1) = A(NOEL,10*IF)
-          SCL(IF,2) = A(NOEL,10*IF+1)
-          SCL(IF,3) = A(NOEL,10*IF+2)
-          SCL(IF,4) = A(NOEL,10*IF+3)
-          TIM(IF,1) = A(NOEL,10*IF+4)
-          TIM(IF,2) = A(NOEL,10*IF+5)
+C          SCL(IF,1) = A(NOEL,10*IF)
+C          SCL(IF,2) = A(NOEL,10*IF+1)
+C          SCL(IF,3) = A(NOEL,10*IF+2)
+C          SCL(IF,4) = A(NOEL,10*IF+3)
+C          TIM(IF,1) = A(NOEL,10*IF+4)
+C          TIM(IF,2) = A(NOEL,10*IF+5)
+            NDSCL=4
+            NDTIM=2
+          NP = NP + 1
+          SCL(IF,1) = A(NOEL,NP)
+          NP = NP + 1
+          SCL(IF,2) = A(NOEL,NP)
+          NP = NP + 1
+          SCL(IF,3) = A(NOEL,NP)
+          NP = NP + 1
+          SCL(IF,4) = A(NOEL,NP)
+          NP = NP + 1
+          TIM(IF,1) = A(NOEL,NP)
+          NP = NP + 1
+          TIM(IF,2) = A(NOEL,NP)
           IF(NRES .GT. 0) THEN
             WRITE(NRES,112) (SCL(IF,IC) ,IC=1,4)
  112        FORMAT(20X,' Brho-min, -max, -ref,  Frep  : ', 4(F17.8,1X))
@@ -269,13 +338,29 @@ C--------- Field law proton driver, FNAL, Nov.2000
 
         ELSEIF(NTIM(IF) .EQ. -88) THEN
 C--------- AC dipole at  BNL
-          SCL(IF,1) = A(NOEL,10*IF)       ! C
-          SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
-          SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2
-          SCL(IF,4) = A(NOEL,10*IF+3)     ! P
-          TIM(IF,1) = A(NOEL,10*IF+4)     ! Nramp
-          TIM(IF,2) = A(NOEL,10*IF+5)     ! Nflat
-          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
+C          SCL(IF,1) = A(NOEL,10*IF)       ! C
+C          SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
+C          SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2
+C          SCL(IF,4) = A(NOEL,10*IF+3)     ! P
+C          TIM(IF,1) = A(NOEL,10*IF+4)     ! Nramp
+C          TIM(IF,2) = A(NOEL,10*IF+5)     ! Nflat
+C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
+            NDSCL=4
+            NDTIM=3
+          NP = NP + 1
+          SCL(IF,1) = A(NOEL,NP)      ! C
+          NP = NP + 1
+          SCL(IF,2) = A(NOEL,NP)     ! Q1
+          NP = NP + 1
+          SCL(IF,3) = A(NOEL,NP)     ! Q2
+          NP = NP + 1
+          SCL(IF,4) = A(NOEL,NP)     ! P
+          NP = NP + 1
+          TIM(IF,1) = A(NOEL,NP)     ! Nramp
+          NP = NP + 1
+          TIM(IF,2) = A(NOEL,NP)     ! Nflat
+          NP = NP + 1
+          TIM(IF,3) = A(NOEL,NP)     ! Ndown
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))') 
      >          (SCL(IF,IC) ,IC=1,4)
@@ -288,10 +373,20 @@ C--------- Scaling is taken from CAVITE (ENTRY CAVIT1), as for NTIM=-1.
 C          Starting value is SCL(IF,1). 
 C          Switch-on is triggered by G.gamma value : trigger is at G.gamma=Integer+dN (dN=0.75-frac(Qx), 
 C                with normally frac(Qx)~0.73 hence dN~0.25)
-          SCL(IF,1) = A(NOEL,10*IF)
-          TIM(IF,1) = A(NOEL,10*IF+1)     ! G.gamma value at start of jump 
-          TIM(IF,2) = A(NOEL,10*IF+2)     ! dN
-          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps (~40)
+C          SCL(IF,1) = A(NOEL,10*IF)
+C          TIM(IF,1) = A(NOEL,10*IF+1)     ! G.gamma value at start of jump 
+C          TIM(IF,2) = A(NOEL,10*IF+2)     ! dN
+C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps (~40)
+            NDSCL=1
+            NDTIM=3
+          NP = NP + 1
+          SCL(IF,1) = A(NOEL,NP)
+          NP = NP + 1
+          TIM(IF,1) = A(NOEL,NP)     ! G.gamma value at start of jump 
+          NP = NP + 1
+          TIM(IF,2) = A(NOEL,NP)     ! dN
+          NP = NP + 1
+          TIM(IF,3) = A(NOEL,NP)     ! # of turns on up and on down ramps (~40)
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of field in Q-jump quads ''
@@ -310,7 +405,10 @@ C                with normally frac(Qx)~0.73 hence dN~0.25)
         ENDIF
 
  1    CONTINUE
+
  
+c         write(90,*) vpa
+C                  stop
       RETURN
 
  597  CONTINUE

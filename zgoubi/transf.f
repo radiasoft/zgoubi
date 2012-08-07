@@ -64,7 +64,7 @@ C     ----------------------------------------------------------------
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       COMMON/SYNRA/ KSYN
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       COMMON/TRNSF/ XFE,XFS

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE MINO1(FONC,N,X,P,V,Y,XI,F0,FINI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,8 +34,8 @@ C  -------
       PARAMETER (D=3.0D0)
       EXTERNAL FONC
 
-      save pnlty
-      data pnlty / 1d-10 /
+      SAVE PNLTY
+      DATA PNLTY / 1D-10 /
 
       CALL CPTINI
       NI=0
@@ -76,7 +75,9 @@ C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
          CALL CPTWRT(I)
+
         RETURN
+
       ENDIF
 
       IF(ITSENS(FONC,N,X,X(N+1),X(2*N+1),P,V,F0,D)) THEN
@@ -106,15 +107,17 @@ C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
          CALL CPTWRT(I)
+
          IF(NI.LE.NITER) GOTO 1
 C         WRITE(ABS(NRES),*) 
          WRITE(*,*) 
      >     ' SBR mino1 : Out of mino1 upon NITER = ',NI
+
       ENDIF
+
       RETURN
 
-      ENTRY MINO12(
-     >             PNLTI)
+      ENTRY MINO12(PNLTI)
       PNLTY = PNLTI
       RETURN
 

@@ -94,7 +94,11 @@ C Possible A(noel,10) change by FIT
         NHD = NHDF
       ENDIF
       IDEB = DEBSTR(TITL)
-      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
+C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
+      FLIP = STRCON(TITL,'FLIP',
+     >                          IS)
+      IF(FLIP) 
+     >  CALL ENDJOB('SBR TOSCAC. FLIP option not implemented.',-99)
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
@@ -251,6 +255,9 @@ C FM Nov 2011           DO K= 2, KZMA
 
            CALL CHAMK2(ONE)
 
+C           write(*,*) 'toscac 1 ',A(NOEL,10),A10INI(NOEL), scal
+C                            read(*,*)
+
       ELSE
 
            IRD = NINT(A(NOEL,40))
@@ -277,7 +284,12 @@ C------- Restore mesh coordinates
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
 
-           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
+C july 2012           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
+           CALL CHAMK2(A(NOEL,10)/ABS(A10INI(NOEL)) * scal)
+
+C           write(*,*) ' toscac 2 ',A(NOEL,10)/A10INI(NOEL) * scal
+C           write(*,*) ' toscac 2 ',A(NOEL,10),A10INI(NOEL), scal
+C                            read(*,*)
 
            IF(NRES.GT.0) THEN
              WRITE(NRES,*) ' SBR TOSCAC, ',

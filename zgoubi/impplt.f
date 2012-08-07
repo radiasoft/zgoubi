@@ -54,7 +54,7 @@ C         Post-processing of stored data possible with zpop.
       PARAMETER (KSIZ=10)
       INCLUDE 'MXFS.H'
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
  

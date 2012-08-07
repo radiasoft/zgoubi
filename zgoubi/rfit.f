@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RFIT(PNLTY)
+      SUBROUTINE RFIT(
+     >                PNLTY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -77,7 +78,7 @@ C      READ(NDAT,*) NC
       goto 45
  44   continue
       READ(txt132,*,err=98,end=98) NC    
-      pnlty = -1.d10
+      pnlty = 1.d-10
  45   continue
 
       IF(NC.LT.1) RETURN

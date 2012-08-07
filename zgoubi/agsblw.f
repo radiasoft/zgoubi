@@ -38,7 +38,7 @@ C     ----------------------------------------------
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
       CHARACTER MMNM*(LBLSIZ)
       parameter(turnMM=16.d0)
@@ -47,12 +47,18 @@ C     ----------------------------------------------
       MMNM = LABEL(NOEL,1)
       MMNM = MMNM(DEBSTR(MMNM):FINSTR(MMNM))
 
-      IF(MOD2 .EQ.1) THEN
-C Default values are taken
+      IF    (MOD2 .EQ.0) THEN
+C User defined values. 
+
+      ELSEIF(MOD2 .EQ.1) THEN
+C Actual AGS values
 
 c/========================================================================
 c/ Cold Snake a16-19_blw bump.  Backlegs on A16, A17, -A18, -A19 in series.
 c/========================================================================
+
+C        WN(2) = 0.D0
+
         IF    (MMNM .EQ. 'MM_A16AD') THEN
           NBLW = 1
           SIGN = 1.D0
@@ -266,7 +272,17 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
 c$$$      write(lunout,*) 'MULTIPOL MM_G17CF'
 c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
 
+        ELSE
+          NBLW = 0
+          SIGN = 0.d0
+          NWL = 0
+          WN(1) = 0.D0
+          WN(2) = 0.D0
         ENDIF
+
+      ELSE
+
+        CALL ENDJOB('SBR AGSBLW. No such possibility MOD2',-99)
       ENDIF
 
       BLWI = 0.D0

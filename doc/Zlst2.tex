@@ -44,7 +44,7 @@ entered.
 \newcommand{\mestab}{~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $     \quad \= 2*cm, 2*deg, cm ~ \quad  \= \kill}
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ \quad  \= \kill}
 \newcommand{\mestabOBJ}{$PY$, $PT$, $PZ$, $PP$, $PD$  \quad \= 
         total number of particles~; numbr of distinct momenta~; more... \quad \=
             IY*IT*IZ*IP*IT*IZ*IP*   \quad \= \kill}
@@ -57,40 +57,38 @@ entered.
            \>\textbf{\AGSMMTitl}\> \>\\
 \\
 \\
- $\IL$   \>$\IL=1,2$ : print field and coordinates along \>0-2 \>I\\
- \>trajectories \>\>\\
+ $\IL$   \>$\IL=1,2$ : print field and coordinates along trajectories \>0-2 \>I\\
  \\
- $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
-\>2*cm,10*kG \>12*E\\     
- \>field at pole tip for dipole, quadrupole, \>\>\\
- \>..., dodecapole components \>\>\\
+\textsl{MOD[.MOD2]},  $\XL$,   \> Type of magnet model~\footnotemark[1]~[type of back-leg winding model~\footnotemark[2]]~; \>no dim., cm, 3*no dim. \>I[.I], 5*E\\     
+\textsl{Gap}, $dB1$, $dB2$, $dB3$ \> length of element~; gap (fringe extent)~; relative  \> \>\\     
+ \>error on dipole, quadrupole, sextupole component. \>\>\\
+ \\
+ NBLW,    \>Number of back-leg windings~; for each back-leg winding~:   \> $\leq$2, \textsl{NBLW}$\times$(any, Amp.) \> \\     
+\textsl{NBLW times~:}  NW, I    \> number of windings, current.   \>  \>  I, \textsl{NBLW}$\times$(I, E)  \\     
  \\
  \>\textbf{Entrance face} \>\>\\
-$ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : 
-\>2*cm,9*no dim.\> 11*E\\
+$ X_E$, $\lambda_E$, $E_2$,  $E_3 $ \>Integration zone~; fringe field extent : \>2*cm, 2*no dim.\> 4*E\\
  \>dipole fringe field extent = $ \lambda_ E $~; \>\>\\
  \>quadrupole fringe field extent = $ \lambda_ E\ast E_2 $~;\>\>\\
- \>...\>\>\\
- \>20-pole fringe field extent = $ \lambda_ E\ast E_{10} $ \>\>\\
+ \>sextuppole fringe field extent = $ \lambda_ E\ast E_3 $ \>\>\\
  \>(sharp edge if field extent is zero) \>\>\\
  \\
  \textsl{NCE}, $ C_0-C_5 $            \>same as \textsl{QUADRUPO} 
  					\>0-6, 6*no dim. \>I, 6*E\\
  \\
  \>\textbf{Exit face} \>\>\\
-$ X_S$, $\lambda_S$, $S_2$, ..., $S_{10} $ \>Integration zone~; as for entrance
-         \>2*cm, 9*no dim. \> 11*E\\
+$ X_S$, $\lambda_S$, $S_2$,  $S_3 $ \>Integration zone~; as for entrance
+         \>2*cm, 2*no dim. \> 4*E\\
  \\
  \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \\
  \\
-$ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>10*E \\
+$ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 \\
  \textsl{XPAS}                 \>Integration step    \>cm \>E \\
  \\
  \textsl{KPOS}, \textsl{XCE},     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; 
            \>1-4, 2*cm, rad \>I, 3*E \\
- \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  \> \> \\
-\> for \textsl{QUADRUPO}. \> \> \\
+ \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1). \> \> \\
 \> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
 \> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
 \> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
@@ -101,6 +99,132 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \> (under development)  \> \> \\ 
 \end{tabbing}
 
+
+%\begin{alltt}
+\footnotetext[1]{ 
+}
+\footnotetext[2]{ 
+\textsl{MOD2 = 0} (default)~:  actual AGS data are taken, namely~: 
+
+MM\_A16AD~: 
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 10~;
+MM\_A17CF~: 
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 10~;
+MM\_A18CF~: 
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 10~;
+MM\_A19BD~: 
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 12~;
+MM\_A20BD~: 
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 12~;
+MM\_B02BF~: 
+          NBLW = 2, 
+          SIGN = 1.D0, 
+          NW1 = 12,
+          SIGN = 1.D0,
+          NW2 = 6~;
+MM\_B03CD~: 
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 10~;
+MM\_B04CD~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 10~;
+MM\_B05A~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 10~;
+MM\_K19BD~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 6~;
+MM\_K20B~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 6~;
+MM\_L13CF~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_L14C~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_A07CD~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_A08C~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_B01B~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 6~;
+MM\_L06A~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 5~;
+MM\_L07C~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 5~;
+MM\_A14C~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_A15A~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_E06A~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_E07CD~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_E20BD~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 6~;
+MM\_F01BF~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 6~;
+MM\_F14CF~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 5~;
+MM\_F15AD~:
+          NBLW = 1, 
+          SIGN = 1.D0, 
+          NW = 5~;
+MM\_G08CD~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 5~;
+MM\_G09BF~:
+          NBLW = 1, 
+          SIGN = -1.D0, 
+          NW = 6.
+
+
+  \textsl{MOD2 = 1}~: User defined - implementaton to be completed.  
+}
+%\end{alltt}  
 
 
 
@@ -113,13 +237,11 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
            \>\textbf{\AGSQUADTitl}\> \>\\
 \\
 \\
- $\IL$   \>$\IL=1,2$ : print field and coordinates along \>0-2 \>I\\
- \>trajectories \>\>\\
+ $\IL$   \>$\IL=1,2$ : print field and coordinates along trajectories \>0-2 \>I\\
  \\
- $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
+ $\XL$, $R_0$, $dB1$, $dB2$, ..., $dB{10}$,  \>Length of element~; radius at pole tip~;
 \>2*cm,10*kG \>12*E\\     
- \>field at pole tip for dipole, quadrupole, \>\>\\
- \>..., dodecapole components \>\>\\
+ \>relative error for dipole, quadrupole, sextupole components \>\>\\
  \\
  \>\textbf{Entrance face} \>\>\\
 $ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : 
@@ -145,8 +267,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \textsl{KPOS}, \textsl{XCE},     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; 
            \>1-2, 2*cm, rad \>I, 3*E \\
- \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1)  \> \> \\
-\> for \textsl{QUADRUPO}. \> \> \\
+ \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1). \> \> \\
 
 
 \end{tabbing}
@@ -159,7 +280,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 
 \begin{tabbing}
 \mestab
-\textbf{AIMANT}  \label{AIMANT-B} \index{AIMANT}
+\textbf{AIMANT}  \label{AIMANT-B} \index{AIMANT|textbf}
         \>\textbf{\AIMANTTitl}\\
  \>$ B_Z=\mathcal{F}B_0 \left(1-N \left(\frac{R-RM }{ RM} \right) 
     +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM} \right)^3 \right) $ \> \> \\
@@ -314,7 +435,7 @@ B : Parameters used to define the field map and fringe fields.
 \textbf{AUTOREF} ~ ~ \quad \=   
 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$, 
 		$YCE=Y(1)$, $ALE=T(1)$) \quad  \=  ~ ~  3*(1-\imax)\quad  \=\kill
-\textbf{AUTOREF}  \label{AUTOREF-B} \index{AUTOREF}
+\textbf{AUTOREF}  \label{AUTOREF-B} \index{AUTOREF|textbf}
   \> \textbf{\AUTOREFTitl} \\
  \\
  \\
@@ -352,7 +473,7 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
 \newpage
 \begin{tabbing}
 \mestab
-\textbf{BEND}  \label{BEND-B} \index{BEND} \>  \textbf{\BENDTitl} \> \> \\
+\textbf{BEND}  \label{BEND-B} \index{BEND|textbf} \>  \textbf{\BENDTitl} \> \> \\
  \\
  \\
  $\IL$            \>$\IL=1,2$ : print field and coordinates \>0-2 \> I  \\
@@ -403,7 +524,7 @@ extent~; fringe field extent (normally \>cm, cm, rad \>3*E  \\
 \newpage
 \begin{tabbing}
 \mestab
-\textbf{BINARY} \label{BINARY-B}\index{BINARY}
+\textbf{BINARY} \label{BINARY-B}\index{BINARY|textbf}
       \>\textbf{\BINARYTitl}\> \>    \\
 \\
 \\
@@ -422,7 +543,7 @@ The next $N\!F$ lines : \> \> \\
 
 \begin{tabbing}
 \mestab
-\textbf{BREVOL} \label{BREVOL-B}\index{BREVOL}
+\textbf{BREVOL} \label{BREVOL-B}\index{BREVOL|textbf}
       \>\textbf{\BREVOLTitl}\> \>    \\
  \>$X$-axis cylindrical symmetry is assumed \>\>\\
  \\
@@ -483,7 +604,7 @@ myMapFile3
 \newpage
 \begin{tabbing}  
 \mestab
-\textbf{CARTEMES} \label{CARTEMES-B} \index{CARTEMES}
+\textbf{CARTEMES} \label{CARTEMES-B} \index{CARTEMES|textbf}
         \>\textbf{\CARTEMESTitl}\> \> \\  
 \>mid-plane symmetry is assumed \>\>\\
  \\
@@ -563,7 +684,7 @@ extrapolated linearly to the exit face of the map.}
 
 \begin{tabbing}
 \mestab
-\textbf{CAVITE~\footnotemark[1]} \label{CAVITE-B} \index{CAVITE}\index{acceleration}\index{synchrotron motion}
+\textbf{CAVITE~\footnotemark[1]} \label{CAVITE-B} \index{CAVITE|textbf}\index{acceleration}\index{synchrotron motion}
      \> \textbf{\CAVITETitl}   \> \> \\
  \> $ \Delta W=qVsin(2\pi hf\Delta t+\varphi_ s) $    \> \> \\
  \\
@@ -602,7 +723,7 @@ $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. }
 
 \begin{tabbing}
 \mestab
-\textbf{CHAMBR}  \label{CHAMBR-B} \index{CHAMBR}  
+\textbf{CHAMBR}  \label{CHAMBR-B} \index{CHAMBR|textbf} 
         \> \textbf{\CHAMBRTitl~\footnotemark[1]}
 \\
 \\
@@ -715,7 +836,7 @@ YS -1. ZR -6.341         First Y-shift back, next half Z-rotate.
 
 \begin{tabbing}
 \mestab
-\textbf{CIBLE, TARGET}         \label{CIBLE-B} \index{CIBLE} \label{TARGET-B} \index{TARGET}
+\textbf{CIBLE, TARGET}         \label{CIBLE-B} \index{CIBLE|textbf} \label{TARGET-B} \index{TARGET|textbf}
      \> \textbf{\CIBLETitl} \>\>\\
  \\
  \\
@@ -756,7 +877,7 @@ $\beta$   =   tilt angle of the target
 
 \begin{tabbing}
 \mestab
-\textbf{COLLIMA}         \label{COLLIMA-B} \index{COLLIMA}
+\textbf{COLLIMA}         \label{COLLIMA-B} \index{COLLIMA|textbf}
          \> \textbf{\COLLIMATitl}~\footnotemark[1]   \> \> \\
  \\
  \\
@@ -801,7 +922,7 @@ $V_{min}$, $V_{max}$  \> J=1 or 2 for vertical variable resp$^\textrm{ly}$ 1+dp/
 
 \begin{tabbing}
 \mestab
-\textbf{DECAPOLE}         \label{DECAPOLE-B} \index{DECAPOLE} 
+\textbf{DECAPOLE}         \label{DECAPOLE-B} \index{DECAPOLE}|textbf 
   \> \textbf{\DECAPOLETitl}   \> \> \\
   \\
   \\
@@ -844,7 +965,7 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
 
 \begin{tabbing}
 \mestab
-\textbf{DIPOLE}         \label{DIPOLE-B} \index{DIPOLE}
+\textbf{DIPOLE}         \label{DIPOLE-B} \index{DIPOLE|textbf}
            \>\textbf{\DIPOLETitl}\> \>\\
  \>$ B_Z= \mathcal{F} B_0 \left(1 + N \left(\frac{R-RM}{RM} \right) +B 
  \left(\frac{R-RM}{RM} \right)^2+G \left(\frac{R-RM}{RM} \right)^3 \right) $ \> \> \\
@@ -936,7 +1057,7 @@ $ RM3$   \> \> \> \\
 
 \begin{tabbing}
 \mestab
-\textbf{DIPOLE-M}         \label{DIPOLE-M-B} \index{DIPOLE-M}
+\textbf{DIPOLE-M}         \label{DIPOLE-M-B} \index{DIPOLE-M|textbf}
            \>\textbf{\DIPOLEMTitl}\> \>\\
  \>$ B_Z= \mathcal{F} B_0 \left(1  + N \left(\frac{R-RM}{RM} \right) +B 
  \left(\frac{R-RM}{RM} \right)^2+G \left(\frac{R-RM}{RM} \right)^3 \right) $ \> \> \\
@@ -1059,7 +1180,7 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
 
 \begin{tabbing}
 \mestab
-\textbf{DIPOLES}         \label{DIPOLES-B} \index{DIPOLES}
+\textbf{DIPOLES}         \label{DIPOLES-B} \index{DIPOLES|textbf}
            \>\textbf{\DIPOLESTitl}\> \>\\
  \>(i) $ B_Z= \sum_{i=1}^N  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
 \left(  1  +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)$ \> \> \\
@@ -1157,7 +1278,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 
 \begin{tabbing}
 \mestab
-\textbf{DODECAPO}    \label{DODECAPO-B} \index{DODECAPO}
+\textbf{DODECAPO}    \label{DODECAPO-B} \index{DODECAPO|textbf}
 \> \textbf{\DODECAPOTitl}   \> \> \\
  \\
  \\
@@ -1197,7 +1318,7 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
 \newpage
 \begin{tabbing}  %% nouveaux tab
 \mestab
-\textbf{DRIFT, ESL}         \label{ESL-B} \index{ESL} \label{DRIFT-B} \index{DRIFT}
+\textbf{DRIFT, ESL}         \label{ESL-B} \index{ESL|textbf} \label{DRIFT-B} \index{DRIFT|textbf}
        \> \textbf{\ESLTitl}   \> \> \\
   \\
   \\
@@ -1305,7 +1426,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$
 
 \begin{tabbing}
 \mestab
-\textbf{EL2TUB~\footnotemark[1]}         \label{EL2TUB-B} \index{EL2TUB}
+\textbf{EL2TUB~\footnotemark[1]}         \label{EL2TUB-B} \index{EL2TUB|textbf}
           \>\textbf{\ELTwoTUBTitl}\ \>\>\\
  \\
  \\
@@ -1337,7 +1458,7 @@ $ V_1$, $V_2 $       \>Potentials \>2*V \>2*E \\
 
 \begin{tabbing}
 \mestab
- \textbf{ELMIR}        \label{ELMIR-B} \index{ELMIR}
+ \textbf{ELMIR}        \label{ELMIR-B} \index{ELMIR|textbf}
      \> \textbf{\ELMIRTitl} \> \> \\
   \\
 \\
@@ -1371,7 +1492,7 @@ $V\!1$, ..., $V\!N$ \> Electrode potentials (normally $V\!1=0$)  \> N*V \> N*E \
 
 \begin{tabbing}
 \mestab
- \textbf{ELMIRC}        \label{ELMIRC-B} \index{ELMIRC}
+ \textbf{ELMIRC}        \label{ELMIRC-B} \index{ELMIRC|textbf}
      \> \textbf{\ELMIRCTitl} \> \> \\
   \\
 \\
@@ -1403,7 +1524,7 @@ $V-V\!A$, $V\!B-V$ \> Potential difference \> 2*V \> 2*E \\
 
 \begin{tabbing}
 \mestab
-\textbf{ELMULT~\footnotemark[1]}         \label{ELMULT-B} \index{ELMULT} 
+\textbf{ELMULT~\footnotemark[1]}         \label{ELMULT-B} \index{ELMULT|textbf}
            \> \textbf{\ELMULTTitl }\> \> \\
  \\
  \\
@@ -1451,7 +1572,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 \begin{tabbing}
 \mestab
-\textbf{ELREVOL~\footnotemark[1]} \label{ELREVOL-B} \index{ELREVOL}
+\textbf{ELREVOL~\footnotemark[1]} \label{ELREVOL-B} \index{ELREVOL|textbf}
          \>\textbf{\ELREVOLTitl  }\> \>    \\
  \>$X$-axis cylindrical symmetry is assumed \>\>\\
  \\
@@ -1507,7 +1628,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 \begin{tabbing}
 \mestab
- \textbf{EMMA}        \label{EMMA-B} \index{EMMA}
+ \textbf{EMMA}        \label{EMMA-B} \index{EMMA|textbf}
      \> \textbf{\EMMATitl} \> \> \\
  \\
  \\
@@ -1558,7 +1679,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 \begin{tabbing}
 \mestab
-\textbf{FAISCEAU}         \label{FAISCEAU-B} \index{FAISCEAU}
+\textbf{FAISCEAU}         \label{FAISCEAU-B} \index{FAISCEAU|textbf}
   \> \textbf{\FAISCEAUTitl }   \> \> \\
   \\
   \\
@@ -1566,7 +1687,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  \> keyword is introduced in the structure.\\[60pt]
 %
 %
-\textbf{FAISCNL}  \label{FAISCNL-B} \index{FAISCNL} 
+\textbf{FAISCNL}  \label{FAISCNL-B} \index{FAISCNL}|textbf 
             \> \textbf{Store particle coordinates in file FNAME}   \> \> \\
    \\
    \\
@@ -1575,7 +1696,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
        \>(\emph{e.g.},~zgoubi.fai\index{zgoubi.fai}, or b\_zgoubi.fai for binary storage). \> \> \\[60pt] 
 %
 %
-\textbf{FAISTORE}  \label{FAISTORE-B} \index{FAISTORE} 
+\textbf{FAISTORE}  \label{FAISTORE-B} \index{FAISTORE|textbf}
           \> \textbf{Store coordinates every $I\!P$ other pass [, at 
           elements with appropriate label]}   \> \> \\
    \\
@@ -1607,7 +1728,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 \begin{tabbing}
 \mestab
-\textbf{FFAG}         \label{FFAG-B} \index{FFAG magnet, radial}
+\textbf{FFAG}         \label{FFAG-B} \index{FFAG magnet, radial|textbf}
            \>\textbf{\FFAGTitl}   \> \>   \\
 \> {\bf UNDER DEVELOPEMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
@@ -1687,7 +1808,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
-\textbf{FFAG-SPI}         \label{FFAGSPI-B} \index{FFAG magnet, spiral}
+\textbf{FFAG-SPI}         \label{FFAGSPI-B} \index{FFAG magnet, spiral|textbf}
            \>\textbf{\FFAGSPITitl}   \> \>   \\
 \> {\bf UNDER DEVELOPEMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
@@ -1758,7 +1879,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
-\textbf{FIN, END}       \label{FIN-B} \index{FIN}   \label{END-B} \index{END} 
+\textbf{FIN, END}       \label{FIN-B} \index{FIN|textbf}   \label{END-B} \index{END|textbf}
    \> \textbf{\FINTitl }   \> \> \\
   \\
   \\
@@ -1771,7 +1892,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
- \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT} \index{FIT2}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
+ \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT|textbf} \index{FIT2|textbf}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
  $NV$           \>Number of physical parameters to be varied  \>$\leq 20$ \>I \\
@@ -1833,9 +1954,9 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 	 & 0& 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
 	 & & & & & \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
-			   \multicolumn{1}{|c|}{\textbf{Beam matrix }} 
+			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \textsl{OBJET/KOBJ=5,6} \\
+	 & & & & & \textsl{OBJET/KOBJ=5.0N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -1844,13 +1965,13 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
 	 & & & & & \textsl{OBJET/KOBJ=5} \\
-		\multicolumn{1}{|c|}{\textbf{parameters}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
+	\multicolumn{1}{|c|}{\textbf{transport coeffs.}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & & & &  \\
                            & & & & & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{Second order}}  
 			    & 2  & $1 - 6$ & 1$1 - 6$6 & Transport coeff.  $T_{I,j,k} $  
 	 & & & & & \textsl{OBJET/KOBJ=6} \\
-			 \multicolumn{1}{|c|}{\textbf{parameters}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
+			 \multicolumn{1}{|c|}{\textbf{transport coeffs.}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
 			 \multicolumn{1}{|c|}{\textbf{ }}  &  &  &  &  &  & & & &  \\
                             & & & & & & & & &  \\
 %
@@ -1912,12 +2033,12 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \begin{tabbing}
 \mestab
-\textbf{FOCALE}         \label{FOCALE-B} \index{FOCALE}
+\textbf{FOCALE}         \label{FOCALE-B} \index{FOCALE|textbf}
         \> \textbf{\FOCALETitl }\>\>\\
  \\
  \\
  $\XL$      \>Distance from the location of the keyword \> cm \> E \\[60pt] 
-\textbf{FOCALEZ}    \label{FOCALEZ-B} \index{FOCALEZ} 
+\textbf{FOCALEZ}    \label{FOCALEZ-B} \index{FOCALEZ|textbf} 
   \> \textbf{Particle coordinates and vertical beam dimension at distance \XL} \>\>\\
  \\
  \\
@@ -1927,7 +2048,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \begin{tabbing}
 \mestab
-\textbf{GASCAT}         \label{GASCAT-B} \index{GASCAT}
+\textbf{GASCAT}         \label{GASCAT-B} \index{GASCAT|textbf}
         \> \textbf{\GASCATTitl}\>\>\\
  \\
  \\
@@ -1940,7 +2061,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \begin{tabbing}
 \mestab
-\textbf{HISTO}  \label{HISTO-B} \index{HISTO}  \> 
+\textbf{HISTO}  \label{HISTO-B} \index{HISTO|textbf}  \> 
 \textbf{\HISTOTitl} \> \> \\
   \\
   \\
@@ -1973,22 +2094,22 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 
 \begin{tabbing}
 \mestab
-\textbf{IMAGE}         \label{IMAGE-B} \index{IMAGE}   
+\textbf{IMAGE}         \label{IMAGE-B} \index{IMAGE|textbf} 
          \> \textbf{\IMAGETitl} \\[60pt]
 %
-\textbf{IMAGES}   \label{IMAGES-B} \index{IMAGES} 
+\textbf{IMAGES}   \label{IMAGES-B} \index{IMAGES|textbf}
          \> \textbf{Localization and size of horizontal waists} \> \> \\
  \\
  \> For each momentum group, as classified by \> \> \\
  \> means of \textsl{OBJET}, \textsl{KOBJ} = 1, 2 or 4 \\[60pt]
 %
-\textbf{IMAGESZ}   \label{IMAGESZ-B} \index{IMAGESZ} 
+\textbf{IMAGESZ}   \label{IMAGESZ-B} \index{IMAGESZ|textbf} 
           \> \textbf{Localization and size of vertical waists} \> \> \\
  \\
  \> For each momentum group, as classified by \> \> \\
  \> means of \textsl{OBJET}, \textsl{KOBJ} = 1, 2 or 4   \\[60pt]
 %
-\textbf{IMAGEZ}   \label{IMAGEZ-B} \index{IMAGEZ} 
+\textbf{IMAGEZ}   \label{IMAGEZ-B} \index{IMAGEZ|textbf} 
              \> \textbf{Localization and size of vertical waist} 
 \end{tabbing}
 
@@ -2118,7 +2239,7 @@ are the components of the field.}
 
 \begin{tabbing}
 \mestab
-\textbf{MARKER}         \label{MARKER-B} \index{MARKER}
+\textbf{MARKER}         \label{MARKER-B} \index{MARKER|textbf}
   \> \textbf{\MARKERTitl }   \> \> \\
   \\
   \\
@@ -2168,7 +2289,7 @@ are the components of the field.}
 
 \begin{tabbing}
 \mestab
- \textbf{MCDESINT~\footnotemark[1]}        \label{MCDESINT-B} \index{MCDESINT}
+ \textbf{MCDESINT~\footnotemark[1]}        \label{MCDESINT-B} \index{MCDESINT|textbf}
                        \> \textbf{\MCDESINTTitl} \> \> \\
      \> M1 $\rightarrow$ M2 + M3    \>     \> \\
   \\
@@ -2208,7 +2329,7 @@ particle 1. They transform to $ T_2 $ and $ P_2 $ in  Zgoubi  frame.}
 
 \begin{tabbing}
 \mestab
-\textbf{MCOBJET}         \label{MCOBJET-B} \index{MCOBJET}
+\textbf{MCOBJET}         \label{MCOBJET-B} \index{MCOBJET|textbf}
    \> \textbf{\MCOBJETTitl}\index{Monte Carlo}
    \index{negative charge}\index{negative momentum} \> \> \\
  \\
@@ -2346,7 +2467,7 @@ B : 2-D grid in ($ Y, Z $) space.
 
 \begin{tabbing}
  \mestab
- \textbf{MULTIPOL}        \label{MULTIPOL-B} \index{MULTIPOL}
+ \textbf{MULTIPOL}        \label{MULTIPOL-B} \index{MULTIPOL|textbf}
            \> \textbf{Magnetic Multipole}  \> \> \\
  \\
  \\
@@ -2396,13 +2517,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 
 \begin{tabbing}
  \mestabOBJ
-\textbf{OBJET}         \label{OBJET-B} \index{OBJET} \index{negative charge}\index{negative momentum}
+\textbf{OBJET}         \label{OBJET-B} \index{OBJET|textbf} \index{negative charge}\index{negative momentum}
           \>\textbf{Generation of an object} \> \> \\
  \\
  \\
  \BORO\index{BORO@{\BORO}|textbf}           \>Reference rigidity      \>kG.cm  \>E \\
  \\
- \KOBJ           \>Option index            \>1-6    \>I \\
+ \textsl{KOBJ[.K2]}           \>Option index [.More options]            \>1-6    \>I \\
  \\
 \textbf{if KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
 \\
@@ -2553,7 +2674,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 
 \begin{tabbing}
  \mestabOBJ
-\textbf{OBJETA}         \label{OBJETA-B} \index{OBJETA}
+\textbf{OBJETA}         \label{OBJETA-B} \index{OBJETA|textbf}
  \> \textbf{\OBJETATitl}\index{Monte Carlo} \> \>
 \\
 \\
@@ -2593,7 +2714,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$ \> \>2(cm,mrad),   \>
 
 \begin{tabbing}
 \mestab
-\textbf{OCTUPOLE}         \label{OCTUPOLE-B} \index{OCTUPOLE}
+\textbf{OCTUPOLE}         \label{OCTUPOLE-B} \index{OCTUPOLE|textbf}
         \> \textbf{\OCTUPOLETitl}    \> \> \\
  \\
  $\IL$  \>$\IL=1,2$ : print field and coordinates along trajectories \>0-2\>I\\
@@ -2642,7 +2763,7 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
 
 \begin{tabbing}
 \mestab
-\textbf{OPTICS}         \label{OPTICS-B} \index{OPTICS}
+\textbf{OPTICS}         \label{OPTICS-B} \index{OPTICS|textbf}
   \> \textbf{\OPTICSTitl }   \> \> \\
   \\
   \\
@@ -2664,7 +2785,7 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
 $ \omega^+$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $ \quad \=
 $IO=4$ : (default option) expansions of $ \vec  R $ and $ \vec  u $ up to $ \vec u^{(4)} $ \qquad \= 2*cm, 2*deg, cm\quad  \= \kill
  %%%%
-\textbf{ORDRE}         \label{ORDRE-B} \index{ORDRE}     
+\textbf{ORDRE}         \label{ORDRE-B} \index{ORDRE|textbf} 
        \> \textbf{\ORDRETitl} \> \> \\
  \\
  \\
@@ -2681,7 +2802,7 @@ $M$, $Q$, $G$, $\tau$, $X$  \quad \= $ B=\mathcal{F}\,B_0 \left(1+N \left(\frac{
 		+B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}				    
 		\right)^3 \right) $	\quad \=  MeV/c$^2$, C,no dim.,s      \quad  \= \kill
 %%%
-\textbf{PARTICUL} \label{PARTICUL-B} \index{PARTICUL}   
+\textbf{PARTICUL} \label{PARTICUL-B} \index{PARTICUL|textbf} 
 \>\textbf{\PARTICULTitl } \> \> \\
   \\
   \\
@@ -2710,7 +2831,7 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 
 \begin{tabbing}
 \mestab
-\textbf{PICKUPS}         \label{PICKUPS-B} \index{PICKUPS}         \> \textbf{\PICKUPSTitl}  \> \> \\
+\textbf{PICKUPS}         \label{PICKUPS-B} \index{PICKUPS|textbf}         \> \textbf{\PICKUPSTitl}  \> \> \\
  \\
  \\
  $N$       \> 0 : inactive \> \> \\
@@ -2737,7 +2858,7 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 
 \begin{tabbing}
 \mestab
-\textbf{PLOTDATA}\label{PLOTDATA-B} \index{PLOTDATA}
+\textbf{PLOTDATA}\label{PLOTDATA-B} \index{PLOTDATA|textbf}
  \> \textbf{\PLOTDATATitl} \protect\cite{BiblioPlot} \\
  \\
  \\
@@ -2755,7 +2876,7 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B',C'$) integration
         \quad \=  -1-2*no dim., cm\quad \= \kill
 %%%
-\textbf{POISSON}         \label{POISSON-B} \index{POISSON}
+\textbf{POISSON}         \label{POISSON-B} \index{POISSON|textbf}
       \>\textbf{\POISSONTitl} \>\>\\
  \\
  \\
@@ -2811,7 +2932,7 @@ and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
 
 \begin{tabbing}  
 \mestab
-\textbf{POLARMES} \label{POLARMES-B} \index{POLARMES}
+\textbf{POLARMES} \label{POLARMES-B} \index{POLARMES|textbf}
         \>\textbf{\POLARMESTitl }\> \> \\  
 \>mid-plane symmetry is assumed \>\>\\
  \\
@@ -2875,7 +2996,7 @@ of the mesh. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or '
 
 \begin{tabbing}
 \mestab
- \textbf{PS170}        \label{PS170-B} \index{PS170}
+ \textbf{PS170}        \label{PS170-B} \index{PS170|textbf}
           \>\textbf{\PSusoTitl} \>\>\\
  \\
  \\
@@ -2909,7 +3030,7 @@ $ N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
     $\IL=1,2$ : print field and coordinates along trajectories\quad \=
         1-2, 2*cm, rad\quad \= \kill
 %%%
-\textbf{QUADISEX}         \label{QUADISEX-B} \index{QUADISEX}
+\textbf{QUADISEX}         \label{QUADISEX-B} \index{QUADISEX|textbf}
       \>\textbf{\QUADISEXTitl}  \> \> \\
  \>$ B_Z\mid_{ Z=0}=B_0 \left(1+\frac{N}{R_0} Y + \frac{B}{R^2_0} Y^2 + 
               \frac{G}{R^3_0} Y^3 \right) $  \> \> \\
@@ -2933,7 +3054,7 @@ $ N$, $EB1$, $EB2$, $EG1$, $EG2$ \>Coefficients for the calculation of B. \>5*no
 
 \begin{tabbing}
 \mestab
- \textbf{QUADRUPO}        \label{QUADRUPO-B} \index{QUADRUPO}
+ \textbf{QUADRUPO}        \label{QUADRUPO-B} \index{QUADRUPO|textbf}
   \> \textbf{\QUADRUPOTitl }  \> \> \\
  \\
   \\
@@ -2993,7 +3114,7 @@ X_S $ translations.}
 
 \begin{tabbing}
 \mestab
-\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE} \index{multiparticle}\index{multiturn}
+\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE|textbf} \index{multiparticle}\index{multiturn}
 		\index{acceleration}\index{synchrotron motion}
      \>\textbf{Jump to the beginning of \zgoubi input data file}\>\>\\
  \\
@@ -3033,7 +3154,7 @@ successive sets of optical parameters.}
 
 \begin{tabbing}
 \mestab
-\textbf{RESET} \label{RESET-B} \index{RESET}  \> \textbf{\RESETTitl} \>\>\\
+\textbf{RESET} \label{RESET-B} \index{RESET|textbf}  \> \textbf{\RESETTitl} \>\>\\
  \\
  \\
  \>Resets counters involved  in \textsl{CHAMBR}\index{CHAMBR}, \textsl{COLLIMA}\index{COLLIMA}  \>\>\\
@@ -3047,7 +3168,7 @@ successive sets of optical parameters.}
 
 \begin{tabbing}
 \mestab
-\textbf{SCALING} \label{SCALING-B} \index{SCALING}  \index{acceleration}
+\textbf{SCALING} \label{SCALING-B} \index{SCALING|textbf}  \index{acceleration}
 \index{synchrotron motion}
       \>\textbf{\SCALINGTitl } \> \> \\
  \\
@@ -3075,7 +3196,7 @@ successive sets of optical parameters.}
 
 \begin{tabbing}
 \mestab
-\textbf{SEPARA~\footnotemark[1]}         \label{SEPARA-B} \index{SEPARA}
+\textbf{SEPARA~\footnotemark[1]}         \label{SEPARA-B} \index{SEPARA|textbf}
                 \> \textbf{Wien Filter - analytical simulation} \> \> \\
   \\
 \\
@@ -3115,7 +3236,7 @@ $N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
          $\IL=1,2$ : print field and coordinates along trajectories\quad \=
              1-2, 2*cm, rad\quad \= \kill
 %%%             
-\textbf{SEXQUAD}         \label{SEXQUAD-B} \index{SEXQUAD}        
+\textbf{SEXQUAD}         \label{SEXQUAD-B} \index{SEXQUAD|textbf} 
             \> \textbf{Sharp edge magnetic multipole} \> \> \\
  \> $ B_Z\mid_{ Z=0}=B_0 \left(\frac{N}{R_0} Y + 
       \frac{B}{R^2_0} Y^2 + \frac{G}{R^3_0} Y^3 \right)$ \> \> \\
@@ -3142,7 +3263,7 @@ $ \XL$, $R_0 $, $B_0 $ \>Length of the element~; normalization distance~; field 
 
 \begin{tabbing}
 \mestab
-\textbf{SEXTUPOL }           \label{SEXTUPOL-B} \index{SEXTUPOL}
+\textbf{SEXTUPOL }           \label{SEXTUPOL-B} \index{SEXTUPOL|textbf}
           \> \textbf{Sextupole Magnet }  \> \> \\
  \\
  $\IL$        \>$\IL=1,2$ : print field and coordinates along trajectories \>0-2 \>I \\
@@ -3185,7 +3306,7 @@ $ X_S$, $\lambda_ S $    \>Parameters for the exit fringe field~; see entrance \
 
 \begin{tabbing}
 \mestab
- \textbf{SOLENOID}        \label{SOLENOID-B} \index{SOLENOID}
+ \textbf{SOLENOID}        \label{SOLENOID-B} \index{SOLENOID|textbf}
      \> \textbf{Solenoid} \> \> \\
  \\
  \\
@@ -3222,14 +3343,14 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
 %\\
 % \> Print spin coordinates at the location where this \\
 % \> keyword is introduced in the structure. \\[60pt]
- \textbf{SPNPRNL}        \label{SPNPRNL-B} \index{SPNPRNL}
+ \textbf{SPNPRNL}        \label{SPNPRNL-B} \index{SPNPRNL|textbf}
      \> \textbf{Store spin coordinates in file \textsl{FNAME}} \> \> \\
  \\
  \\
 \textsl{FNAME~~\footnotemark[1]} \> Name of storage file (\emph{e.g.}, zgoubi.spn\index{zgoubi.spn}) \>\> A80 \\[60pt]
 %
 %
- \textbf{SPNSTORE}        \label{SPNSTORE-B} \index{SPNSTORE}
+ \textbf{SPNSTORE}        \label{SPNSTORE-B} \index{SPNSTORE|textbf}
      \> \textbf{Store spin coordinates every $IP$ other pass} \> \> \\
 \\
  \\
@@ -3243,7 +3364,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \> with \textsl{NPASS}\index{NPASS} $\geq IP-1$).  \\[60pt]
 %
 %
- \textbf{SPNPRT}        \label{SPNPRT-B} \index{SPNPRT}
+ \textbf{SPNPRT}        \label{SPNPRT-B} \index{SPNPRT|textbf}
      \> \textbf{Print spin coordinates} \>  \\
 \\
  \> Print spin coordinates at the location where this \\
@@ -3261,7 +3382,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
 
 \begin{tabbing}
 \mestab
- \textbf{SPNTRK~\footnotemark[1]}        \label{SPNTRK-B} \index{SPNTRK}\index{spin tracking}
+ \textbf{SPNTRK~\footnotemark[1]}        \label{SPNTRK-B} \index{SPNTRK|textbf}\index{spin tracking}
      \> \textbf{Spin tracking} \> \> \\
  \\
 \textsl{KSO} \> Initial conditions options \> 1-5 \> I \\
@@ -3361,22 +3482,23 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 \begin{tabbing}
 \mestab
- \textbf{TOSCA}        \label{TOSCA-B} \index{TOSCA}
-     \> \textbf{\TOSCATitl} \> \> \\
+ \textbf{TOSCA}        \label{TOSCA-B} \index{TOSCA|textbf}
+     \> \textbf{\TOSCATitl} \> \> 
  \\
  \\
  $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2 \>2*I\\
  \\
  \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients \> 4*no dim. \> 4*E \\
  \\
- \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped  \> \>A80 \\
+ \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped. Include \> \>A80 \\
+                      \>``HEADER n'' in case \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
  \\
- $IX$, $IY$, $IZ$, \textsl{MOD[.i]}      \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq 400$, $\leq 200$, \>3*I \\
-                              \> and $Z$ directions,  $IZ=1$ for single 2-D map~;     \>  $\ge 1$, $\ge 0$[.1-9] \> \\
-                              \> \textsl{MOD} : operational and map \textsl{FORMAT} reading mode~\footnotemark[1] \> \> \\
-                              \> \textsl{MOD}$\le$19 : Cartesian mesh~; \> \> \\
-                              \> \textsl{MOD}$\ge$20 : cylindrical mesh~; \> \> \\
-                              \> \textsl{.i}, optional, tells the reading \textsl{FORMAT}, default is '*'. \> \> \\
+ $IX$, $IY$, $IZ$,     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}\footnotemark[1], $\leq$\textsl{MXY}, \>3*I \\
+  \textsl{MOD[.MOD2]}  \> and $Z$ directions,  $IZ=1$ for single 2-D map~;     \>  $\leq$\textsl{IZ}, $\ge 0$[.1-9] \> \\
+                       \> \textsl{MOD} : operational and map \textsl{FORMAT} reading mode~\footnotemark[2] \> \> \\
+                       \> \textsl{MOD}$\le$19 : Cartesian mesh~; \> \> \\
+                       \> \textsl{MOD}$\ge$20 : cylindrical mesh.  \> \> \\
+                       \> \textsl{MOD2}, optional, tells the reading \textsl{FORMAT}, default is '*'. \> \> \\
  \\
 \textsl{FNAME}~\footnotemark[1] \>   Names of the $NF$ files that contain the 2-D maps,   \> \>A80 \\
 ($K=1$, $NF$) \> ordered from $Z(1)$ to $Z(NF)$. \\
@@ -3387,12 +3509,10 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
        \> If \textsl{MOD}=12 : a single \textsl{FNAME}  file contains the all 3-D volume.  \\ 
        \> If \textsl{MOD}=20-22 : other symmetry options, see \textsl{toscap.f} routine...  \\ 
  \\
- $ID$, $A$, $B$, $C$   \>Integration boundary. Ineffective when $ID=0$.      \>$\geq -1$, 2*no dim., \>I,3*E  \\
- {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
- $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
+$ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$, 2*no dim., cm\>I,3*E  \\
+$A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>{[},2*no dim., cm, etc.]\>[,3*E,etc.]\\
  \\
- \textsl{IORDRE}     \>If $IZ=1$ : as in \textsl{CARTEMES\index{CARTEMES}}  \>2, 4 or 25 \>I\\
-                     \>If $IZ \not =1$ : unused  \>  \>\\
+ \textsl{IORDRE}     \>If $IZ=1$ : 3, 4, 25, as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 4 or 25 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -3407,25 +3527,23 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 
 \begin{alltt}
-\footnotetext[1]{ \textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details 
-and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :}
-
-{
+\footnotetext[1]{\textsl{MXX, MXY, IZ} may be changed, they are stated in the include file PARIZ.H. 
+}
+\footnotetext[2]{\textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :} 
+{\tiny
    DO K = 1, NF
      OPEN (UNIT = NL, FILE = FNAME(K), STATUS = `OLD' [,FORM='UNFORMATTED'])
-     DO J = 1,  JY  
-       DO I = 1, IX
+     DO J = 1,  JY ;       DO I = 1, IX
          IF (BINARY) THEN
            READ(NL) Y(J), Z(K), X(I), BY(J,K,I), BZ(J,K,I), BX(J,K,I)        \hfill   {\footnotesize node coordinates, field components at node}
          ELSE
            READ(NL,*) Y(J), Z(K), X(I), BY(J,K,I), BZ(J,K,I), BX(J,K,I)    \hfill      {\footnotesize node coordinates, field components at node}
          ENDIF
-       ENDDO
-     ENDDO
+       ENDDO ;     ENDDO
      NL = NL + 1
    ENDDO
-}
-\textrm{\small Note : for 2-D maps  BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I), BY(J,1,I) values. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'.  `Binary' will then automatically be set to `.TRUE.'}
+} 
+For 2-D maps  BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I), BY(J,1,I) values. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'.
 }
 \end{alltt}
 
@@ -3470,7 +3588,7 @@ $T(\IA, \IB, \IC)$,  \> Second order matrix, six 6*6 blocks  \>  m, rad \> 36 li
 
 \begin{tabbing}
 \mestab
- \textbf{TRAROT}        \label{TRAROT-B} \index{TRAROT}
+ \textbf{TRAROT}        \label{TRAROT-B} \index{TRAROT|textbf}
      \> \textbf{Translation-Rotation} \> \> \\
  \\
  \\
@@ -3489,12 +3607,13 @@ $RX$, $RY$, $RZ$
 
 \begin{tabbing}
 \mestab
-\textbf{TWISS}         \label{TWISS-B} \index{TWISS}
+\textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf}
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTW}, FacD, FacA \> $KTW=0/1$ :  Off/On~;            \>0-1, any, any \>I,2*E \\
-                          \> $FacD \times D = \delta p/p$ applied, with $D$ the momentum sampling             \> \>\\
+ \textsl{KTW}, FacD, FacA \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / computation  of \>0-3, 2*any    \>I,2*E \\
+                          \> chromaticities / computation of anharmonicities.            \> \>\\
+                          \> $FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
                           \> in OBJET~; $FacA$~: unused.             \> \>
 \end{tabbing}
 
@@ -3507,7 +3626,7 @@ $RX$, $RY$, $RZ$
 
 \begin{tabbing}
 \mestab
-\textbf{UNDULATOR}  \label{UNDULATOR-B} \index{UNDULATOR} \>\textbf{Undulator magnet} \> \> \\
+\textbf{UNDULATOR}  \label{UNDULATOR-B} \index{UNDULATOR|textbf} \>\textbf{Undulator magnet} \> \> \\
  \\
  \\
 \textsl{To be documented}
@@ -3557,7 +3676,7 @@ $RX$, $RY$, $RZ$
 
 \begin{tabbing}
 \mestab
- \textbf{UNIPOT}        \label{UNIPOT-B} \index{UNIPOT}
+ \textbf{UNIPOT}        \label{UNIPOT-B} \index{UNIPOT|textbf}
      \> \textbf{Unipotential electrostatic lens} \> \> \\
   \\
 \\
@@ -3590,7 +3709,7 @@ $V_1$, $V_2$ \> Potentials \> 2*V \> 2*E \\
 
 \begin{tabbing}
 \mestab
- \textbf{VENUS}        \label{VENUS-B} \index{VENUS}
+ \textbf{VENUS}        \label{VENUS-B} \index{VENUS|textbf}
      \> \textbf{Simulation of a rectangular dipole magnet} \> \> \\
  \\
  \\
@@ -3618,7 +3737,7 @@ $ \XL$, $YL$, $B_0 $      \>Length~; width = $ \pm YL $~; field \>2*cm, kG \>3*E
 
 \begin{tabbing}
 \mestab
- \textbf{WIENFILT~\footnotemark[1]}        \label{WIENFILT-B} \index{WIENFILT}
+ \textbf{WIENFILT~\footnotemark[1]}        \label{WIENFILT-B} \index{WIENFILT|textbf}
      \> \textbf{Wien filter} \> \> \\
  \\
  \\
@@ -3656,7 +3775,7 @@ $C_{B0}$--$C_{B5}$       \>   \> 6*no dim.\>  6*E \\
 
 \begin{tabbing}
 \mestab
- \textbf{YMY}        \label{YMY-B} \index{YMY}
+ \textbf{YMY}        \label{YMY-B} \index{YMY|textbf}
      \> \textbf{Reverse signs of $Y$ and $Z$ axes} \> \> \\
   \\
 \\

@@ -51,7 +51,6 @@ C  -------
       XLS=XLIM-XS 
       IOP=1
 
- 11   CONTINUE
       IF( BM(1) .EQ. ZERO) GOTO 82
  
 C----- DIPOLE

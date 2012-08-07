@@ -509,9 +509,10 @@ C Map data file starts with NHD-line header (NORMALLY 8)
       ENDIF
 
       IF(MOD .EQ. 12) THEN
-C Read 3D field map contained in a single file
+C Read 3D field map of (part or total of) magnet, contained in a single file
 
-        IF(MOD2 .EQ. 0) THEN         ! Default
+        IF(MOD2 .EQ. 0) THEN    
+C------- Default : upper half of magnet, symmetrise 3D map wrt (X,Y)=mid-plane=bend-plane
            jtcnt=0
            ircnt = 0
            kzcnt=0       
@@ -555,7 +556,7 @@ C Read 3D field map contained in a single file
           BMIN = BMIN * BNORM
           BMAX = BMAX * BNORM
 
-C------- symmetrise 3D map wrt mid-plane= bend-plane
+C------- symmetrise 3D map wrt (X,Y) plane
           DO 122  K=2,KZMA      
             KZC = KZMA-1+K
             KZS = KZMA-K+1
@@ -575,8 +576,8 @@ C------- Mesh coordinates
  128         ZH(K) = ZH(1) + DZ
 
         ELSEIF(MOD2 .EQ. 1) THEN
-C Differs from MOD2=0 by just READ format and absence of symmetrization
-C Used for AGS snakes maps
+C Full map of magnet. Differs from MOD2=0 by absence of symmetrization
+C Used for AGS helical snake maps
            jtcnt=0
            ircnt = 0
            kzcnt=0       
@@ -644,8 +645,107 @@ C------- Mesh coordinates
              ZH(K) = ZH(K-1) + DZ
            ENDDO
 
+        ELSEIF(MOD2 .EQ. 2) THEN
+C Upper right bottom 1/8th of magnet. Symmetrization wrt (i) (X,Y) plane, (ii) (Y,Z) plane, 
+C (iii) (X,Z) plane. Used for D5 IPM magnet in AGS.
+           jtcnt=0
+           ircnt = 0
+           kzcnt=0       
+           DO J = JYMA/2+1, JYMA
+             jtcnt = jtcnt + 1
+             DO  K = KZMA/2+1, KZMA
+               kzcnt = kzcnt+1
+               DO I = IXMA/2+1, IXMA
+                 ircnt = ircnt+1
 
-        ENDIF ! MOD2=0, 1
+                 IF(BINAR) THEN
+                   READ(LUN)YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
+                 ELSE
+                   READ(LUN,*) YH(J),ZH(K),XH(I), 
+     >                                    BREAD(2),BREAD(3),BREAD(1)
+                 ENDIF
+
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                   ZBMA = ZH(K)
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                   ZBMI = ZH(K)
+                 ENDIF
+
+                 HC(1,I,J,K,IMAP) = BREAD(1) * BNORM
+                 HC(2,I,J,K,IMAP) = BREAD(2) * BNORM
+                 HC(3,I,J,K,IMAP) = BREAD(3) * BNORM
+
+               ENDDO
+             ENDDO
+           ENDDO
+
+        BMIN = BMIN * BNORM
+        BMAX = BMAX * BNORM
+
+C------- symmetrise 3D map wrt (Y,Z) plane= longitudinal plane
+        DO I = 1, IXMA/2   
+          IXC = IXMA/2+1+I
+          IXS = IXMA/2+1-I
+          DO  K = KZMA/2+1, KZMA
+            DO J = JYMA/2+1, JYMA
+              HC(1,IXS,J,K,IMAP) = - HC(1,IXC,J,K,IMAP)
+              HC(2,IXS,J,K,IMAP) =   HC(2,IXC,J,K,IMAP) 
+              HC(3,IXS,J,K,IMAP) =   HC(3,IXC,J,K,IMAP) 
+            ENDDO
+          ENDDO
+        ENDDO
+C------- symmetrise 3D map wrt (X,Z) plane= longitudinal plane
+        DO J = 1, JYMA/2
+          JYC = JYMA/2+1+J
+          JYS = JYMA/2+1-J
+          DO  K = KZMA/2+1, KZMA
+            DO I = 1, IXMA
+              HC(1,I,JYS,K,IMAP) =   HC(1,I,JYC,K,IMAP)
+              HC(2,I,JYS,K,IMAP) = - HC(2,I,JYC,K,IMAP) 
+              HC(3,I,JYS,K,IMAP) =   HC(3,I,JYC,K,IMAP) 
+            ENDDO
+          ENDDO
+        ENDDO
+C------- symmetrise 3D map wrt (X,Y) plane= longitudinal plane
+        DO K = 1, KZMA/2
+          KZC = KZMA/2+1+K
+          KZS = KZMA/2+1-K
+          DO  J = 1, JYMA     
+            DO I = 1, IXMA 
+              HC(1,I,J,KZS,IMAP) = - HC(1,I,J,KZC,IMAP)
+              HC(2,I,J,KZS,IMAP) = - HC(2,I,J,KZC,IMAP) 
+              HC(3,I,J,KZS,IMAP) =   HC(3,I,J,KZC,IMAP) 
+            ENDDO
+          ENDDO
+        ENDDO
+
+C------- Mesh coordinates
+           DX = (XH(IXMA) - XH(IXMA-1))*XNORM
+           XH(1) = -XH(IXMA)*XNORM
+           DO I=2, IXMA
+             XH(I) = XH(I-1) + DX
+           ENDDO
+           DY = (YH(JYMA) - YH(JYMA-1))*YNORM
+           YH(1) = -YH(JYMA)*YNORM
+           DO J=2, JYMA
+             YH(J) = YH(J-1) + DY
+           ENDDO
+           DZ = (ZH(KZMA) - ZH(KZMA-1))*ZNORM
+           ZH(1) = -ZH(KZMA)*ZNORM
+           DO K= 2, KZMA
+             ZH(K) = ZH(K-1) + DZ
+           ENDDO
+
+        ENDIF ! MOD2=0, 1, 2
 
       ELSEIF(MOD.EQ.0 .OR. MOD.EQ.1) THEN
 C------- EMMAC, GSI spectro for instance. 
@@ -763,7 +863,7 @@ C 12        CONTINUE
                    ZBMI = ZBMI * ZNORM
 
       ELSEIF(MOD.EQ.3) THEN
-C------- AGS magnet maps (2D map, half-magnet, 2b symmetrized wrt YZ plane at 45inches)
+C------- AGS magnet maps (2D map, half-magnet, symmetrized wrt YZ plane at 45inches)
 
            K = 1
            

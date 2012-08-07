@@ -18,33 +18,37 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE IMPCTR(IUNIT,F)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXV=40) 
       COMMON/CONTR/VAT(MXV),XI(MXV)
+      COMMON/FINIT/ FINI
       COMMON /VAR/ X(3*MXV),P(MXV)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
  
-        WRITE(IUNIT,500)
-500     FORMAT(' STATUS OF CONSTRAINTS')
-        WRITE(IUNIT,600)
-600     FORMAT(
-     >  ' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',
-     >  '  REACHED         KI2         *  Parameter(s) ')
-        DO 2 I=1,NC
-          XI2=((VAT(I)-V(I))/W(I))**2/F
-          NPRM1 = NINT(CPAR(I,1)) + 1
-          WRITE(IUNIT,700) IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
-     >    NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
-700       FORMAT(1P,3I4,I6,5X,E14.7,4X,E11.4,3X,E14.7,2X,E11.4,2X,
-     >    '   * ',I2,' : ',6(E9.1,'/'))
-2      CONTINUE
+      CALL ZGPNLT( 
+     >            PNLTGT)
+
+      WRITE(IUNIT,500) PNLTGT
+500   FORMAT(' STATUS OF CONSTRAINTS (Target penalty = ',1P,E12.4')')
+      WRITE(IUNIT,600)
+600   FORMAT(
+     >' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',
+     >'  REACHED         KI2         *  Parameter(s) ')
+      DO I=1,NC
+        XI2=((VAT(I)-V(I))/W(I))**2/F
+        NPRM1 = NINT(CPAR(I,1)) + 1
+        WRITE(IUNIT,700) IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
+     >  NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
+700     FORMAT(1P,3I4,I6,5X,E14.7,4X,E11.4,3X,E14.7,2X,E11.4,2X,
+     >  '   * ',I2,' : ',6(E9.1,'/'))
+      ENDDO
+      WRITE(IUNIT,FMT='('' Fit reached penalty value '',1P,E12.4)') FINI
       CALL FLUSH2(IUNIT,.FALSE.) 
       RETURN
       END

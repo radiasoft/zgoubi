@@ -49,11 +49,11 @@ C  -------
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
@@ -68,6 +68,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       DIMENSION DB(3)
 
+      DIMENSION AA(MXD)
+
       CHARACTER TXT30*80
 
       DATA DIM / 'kG ', 'V/m'/
@@ -78,19 +80,39 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       SKEW=.FALSE.
       CALL RAZ(BM,NPOL)
          
-      GAP = 0.D0
       RO = 10.d0
 
       MOD = NINT(A(NOEL,10))
       MOD2 = NINT(10.D0*A(NOEL,10)) - 10*MOD
-      DLL =A(NOEL,11)
       GAP =A(NOEL,12)
       IF(GAP.EQ.0) GAP = RO
+      DO I = 1, I3
+C dB1, dB2, dB3
+        AA(12+I) = A(NOEL,12+I)
+c        write(*,*) ' agsmm ', I, 12+I, AA(12+I) 
+      ENDDO
+c                 read(*,*)
+
       NBLW = NINT(A(NOEL,20))
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
       DO I = 1, NBLW
-        WN(I) = A(NOEL,20+(2*I-1))
-        WA(I) = A(NOEL,20+ 2*I)
+C Bcklg winding currents
+        AA(21+(2*I-1)) = A(NOEL,21+(2*I-1))
+      ENDDO
+
+      CALL SCALE9(
+     >            KFM)
+
+      DO I = 1, JPA(KFM,MXP)
+C Apply scaling to all parameters concerned
+c        write(*,*) ' agsmm ', 
+c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
+        AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
+      ENDDO
+
+      DO I = 1, NBLW
+        WN(I) = A(NOEL,20+2*I-1)
+        WA(I) = AA(20+2*I)
       ENDDO
 
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
@@ -102,10 +124,12 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       AKS(1) = BM(1)/BORO
       DEV = ANGMM
       DO I = 1, I3
-        DB(I) = A(NOEL,12+I)
+        DB(I) = AA(12+I)
 C        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
         BM(I) = SCAL * (BORO*1.D-3) * BM(I) * (1.D0 + DB(I))
+c          write(*,*) ' agsmm i, db(i) ',i, db(i)
       ENDDO
+c                 read(*,*)
 
 C            write(*,*) ' agsmm scal ',scal
 
@@ -165,9 +189,10 @@ C-------
      >  ,/,15X,' Deviation                   = ',G17.8,'  rad'
      >  ,5X,                                ' (',G17.8,' deg)'
      >  ,/,15X,' Reference  pole  radius RO  = ',G14.5,'  cm')
-        WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL)
-     >  ,AKS(IM),IM=NM0,NM)
- 103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A,'  (K= ',G17.8,')')
+        WRITE(NRES,103) (BE(KFL), LMNT(IM), BM(IM), DIM(KFL)
+     >  ,IM-1, AKS(IM), IM, IM-1, IM-1, DB(IM), IM=NM0,NM)
+ 103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A,'  (K',I1,' = ',G17.8,' /m'
+     >  ,I1,'),  dB',I1,'/B',I1,' = ',G17.8)
 
         IF    (MOD.EQ.1) THEN 
           TXT30=' centered multipol model'
@@ -176,7 +201,13 @@ C-------
         ELSE
           TXT30=' short-shifted dipole model'
         ENDIF
-        WRITE(NRES,FMT='(/,15X,'' Mode  = '',I2,'',   '',A)') MOD,TXT30
+        WRITE(NRES,FMT='(/,15X,'' Mode  = '',I2,'',  '',A)') MOD,TXT30
+        IF    (MOD2.EQ.0) THEN 
+          TXT30=' user defined back-leg windings'
+        ELSEIF(MOD2.EQ.1) THEN 
+          TXT30=' actual AGS back-leg windings'
+        ENDIF
+        WRITE(NRES,FMT='(15X,'' Mode 2 = '',I2,'',  '',A)') MOD2,TXT30
 
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,G17.8,' RAD')

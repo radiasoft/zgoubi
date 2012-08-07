@@ -88,10 +88,10 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
      >                                F0P)
              VAL= F0P(K,L)
 
-           ELSEIF(ICONT2 .GE. 1) THEN
+           ELSEIF(ICONT2 .GE. 1 .AND. ICONT2 .LE. 9) THEN
 C------------ Periodic case :  Twiss coefficients or tunes
-C  16=periodic dispersion D_y, 26= its derivative D'_y ; 36=D_z, 46=D'_z
-C ICONT2 refers to the reference of concern when using OBJET/KOBJ=5.2-6
+C  R16=periodic dispersion D_y, R26= its derivative D'_y ; 36=D_z, 46=D'_z
+C ICONT2 uses the reference trajectory as defined in OBJET/KOBJ=5.2-6
 
              CALL COEFFS(0,IORD,U,T,ICONT2,
      >                                     F0P)
@@ -162,7 +162,7 @@ C-----------Chromaticity
      >                                                YNU,ZNU,CMUY,CMUZ)
                YNUI(IREF) = YNU
                ZNUI(IREF) = ZNU
-
+C                  write(*,*) ' iref nux nuy : ',iref, ynu, znu 
              IF(IREF.LT.NBREF) GOTO 1 
 
              IF    (NBREF .EQ. 1) THEN

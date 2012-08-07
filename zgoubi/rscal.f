@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -33,19 +33,21 @@ C     ----------------------------------------------
       CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
  
-      PARAMETER(MSTR=MLF+1)
+      PARAMETER (MSTR=MLF+1, MPA = MXP-1)
       CHARACTER*10 STRA(MSTR)
 
       INTEGER DEBSTR, FINSTR
 
-      LOGICAL STRCON, IDLUNI
-      CHARACTER(132) TXT132
+      LOGICAL STRCON, IDLUNI, OK
+      CHARACTER(132) TXT132, TXT
       DIMENSION MODSCL(MXF)
       SAVE MODSCL
 
@@ -55,20 +57,28 @@ C     ----------------------------------------------
       DATA FAC / 1.d0  /
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
-      READ(NDAT,*) A(NOEL,1),A(NOEL,2) 
+      NP = 1
+      READ(NDAT,*) A(NOEL,NP),NFAM 
+      NP = NP + 1
+      A(NOEL,NP) = NFAM
 
-      NFAM = A(NOEL,2)
       IF(NFAM .GT. MXF) 
      >  CALL ENDJOB('SBR RSCAL - Too many families, maximum allowed is '
      >  ,MXF)
 
       DO 1 IFM=1,NFAM
 
+        IF(NP .GT. MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+
 C------- Store name of family and label(s)
         READ(NDAT,FMT='(A)')  TXT132
+C Remove possible comment trailer
+        IF( STRCON(TXT132,'!', 
+     >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
 
-       I =   0
+        I =   0
 
+        CALL RAZ(STRA,MSTR)
         CALL STRGET(TXT132,MSTR,
      >                          NSTR,STRA)
 
@@ -88,21 +98,23 @@ C------- Store name of family and label(s)
           LBF(IFM,KL) = ' '
         ENDDO
 
-C JPA tells which parameter in the element (IFM) the scaling is to be applied to
-C Case ERR accounts for older versions of zgoubi, w/o JPA
-C        READ(NDAT,*,ERR=121) NTIM(IFM)  !!, JPA(IFM)
-C        GOTO 122
-C 121    CONTINUE
-C        JPA(IFM) = 0.D0
-c 122    CONTINUE
+C For the current family, get the number of timings or working mode and possible parameters
+C (input data is of the form NT[.MODSCL]. 
         READ(NDAT,FMT='(A)') TXT132
+C Remove possible comment trailer
+        IF( STRCON(TXT132,'!', 
+     >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
 
-        IF( STRCON(TXT132,'.', 
-     >                        IS)) THEN
+        READ(TXT132,*) TXT
 
+        IF( STRCON(TXT,'.', 
+     >                     IS)) THEN
+
+          OK = STRCON(TXT132,'.', 
+     >                           IS)
           READ(TXT132(DEBSTR(TXT132):IS-1),*) NTIM(IFM)
           READ(TXT132(IS+1:FINSTR(TXT132)),*) MODSCL(IFM)
-c Possible additional scaling factor : 
+C Possible additional scaling factor : 
           IF(MODSCL(IFM) .EQ. 10)
      >      READ(TXT132(IS+3:FINSTR(TXT132)),*,ERR=44,END=44) FAC
           GOTO 45
@@ -114,14 +126,41 @@ c Possible additional scaling factor :
           IF(NTIM(IFM) .GT. MXS-2) 
      >       CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
         ELSE
-          READ(TXT132,*) NTIM(IFM)
+
+          CALL RAZ(STRA,MSTR)
+          CALL STRGET(TXT132,2*MPA+2,
+     >                            KSTR,STRA)
+
+          IF(KSTR.GE.1) READ(STRA(1),*) NTIM(IFM)
           IF(NTIM(IFM) .GT. MXD-2) 
-     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
-          DO J = 1, MXP-1
-            READ(TXT132,*,ERR=46,END=46) DUM, (JPA(IFM,K), K=1, J)
+     >        CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
+
+          IF(KSTR.GE.2) THEN
+            READ(STRA(2),*) NPA
+            IF(NPA.GT.MXP-1) CALL 
+     >         ENDJOB('SBR RSCAL - Too many parameterss, max is ',MXP-1)
+          ELSE
+            NPA = 0
+          ENDIF
+          JPA(IFM,MXP) = NPA
+
+          DO J = 1, NPA
+            READ(STRA(2*J+1),*) JPA(IFM,J)
+            READ(STRA(2*J+2),*) VPA(IFM,J)
+            IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            np = np + 1
+            A(NOEL,NP) = VPA(IFM,J)
+c         WRITE(*,*)   'rscal j, if, npa, np :  ',j,ifm,npa,np
+c         WRITE(*,*) ' JPA(IFm,j), vpA(ifm,J), A(noel,j) '
+c         WRITE(*,*) 
+c     >     JPA(IFm,j), vpA(ifm,J), A(noel,np)
+c                  read(*,*)
           ENDDO
- 46       CONTINUE
-          JPA(IFM,MXP) = J-1
+
+
+
+
+           
         ENDIF        
 
         IF(NTIM(IFM) .GE. 0) THEN
@@ -176,25 +215,22 @@ C               max = max(NDSCL,NDTIM)
 
         IF    ( MODSCL(IFM) .LT. 10) then             
 
-          IF(IFM .GT. MXD/10 -1) CALL ENDJOB(
-     >    'SBR RSCAL: Too many families to scale. Max is',MXD/10-1)
-
 C--------- SCL(IFM,IT)
-          IT = NDSCL
-          IF(IT.GT.10) CALL ENDJOB(
-     >    'SBR RSCAL: Number of scaling factors cannot exceed',10)
-          READ(NDAT,*) (A(NOEL,10*IFM+IT-1),IT=1,NDSCL)
+          NP = NP + NDSCL
+          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+          READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDSCL)
+
 C--------- TIM(IFM,IT)
-          IT = NDTIM
-          IF(IT.GT.10) CALL ENDJOB(
-     >    'SBR RSCAL: Number of timings cannot exceed',10)
-          READ(NDAT,*) (A(NOEL,10*IFM+NDSCL+IT-1),IT=1,NDTIM)
-          IF(10*IFM+2*MAX.GT.MXD) CALL ENDJOB(
-     >    'SBR RSCAL: Too maniy families or too many timings',-99)
-          A(NOEL,10*IFM+2*MAX) = NSTR
+          NP = NP + NDTIM
+          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+          READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
+
+c          NP = NP + 1
+c          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+c          A(NOEL,NP) = NSTR
 
         ELSEIF( MODSCL(IFM) .GE. 10) then             
-C          Name of the storage file in the next line
+C--------- Name of the storage file in the next line
 
           READ(NDAT,FMT='(A)') TA(NOEL,IFM)
           READ(NDAT,*) NTIMCOL, NSCALCOL
@@ -227,36 +263,33 @@ C          Name of the storage file in the next line
           IF( MODSCL(IFM) .EQ. 11) THEN             
             READ(NDAT,* ) NTIM2(IFM)
             IIT = NTIM2(IFM)
-          IF(IIT .GT. MXS-2) 
-     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+            IF(IIT .GT. MXS-2) 
+     >      CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
 C            IF(IIT.GT.10) CALL ENDJOB(
 C     >      'SBR RSCAL: Number of scaling factors cannot exceed',10)
 C            IF(10*IFM+2*IIT-1.GT.MXD-1) CALL ENDJOB(
 C     >      'SBR RSCAL: Too maniy families or too many timings',-99)
 C----------- SCL2(IFM,IT)
             READ(NDAT,*) (SCL2(IFM,IT),IT=1,IIT)
-C            READ(NDAT,*) (A(NOEL,10*(2*IFM-1)+IT-1),IT=1,IIT)
+            NP = NP + IIT
+            IF(NP.GT.MXD-2) 
+     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            DO IT = 1, IIT
+              A(NOEL,NP+IT-1) =     SCL2(IFM,IT)        
+            ENDDO
 C----------- TIM2(IFM,IT)
             READ(NDAT,*) (TIM2(IFM,IT),IT=1,IIT)
-C            READ(NDAT,*) (A(NOEL,10*(2*IFM  )+IT-1),IT=1,IIT)
+            NP = NP + IIT
+            IF(NP.GT.MXD-2) 
+     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            DO IT = 1, IIT
+              A(NOEL,NP+IT-1) =  TIM2(IFM,IT)
+            ENDDO
 
-            do it = 1, 10
-              A(NOEL,10*(2*IFM-1)+IT-1) = SCL2(IFM,IT)
-              A(NOEL,10*(2*IFM  )+IT-1) = TIM2(IFM,IT)
-            enddo
-            A(NOEL,10*(2*IFM  )+IIT) = NSTR
-
-cC               if(IFM.eq.1 .or. IFM.eq.2)   then
-c               if(IFM.eq.1 .or. IFM.eq.2)   then
-c                  write(*,*) ' rscal '
-c                  write(*,*) ' A(10*IFM / scl2) /  IFM :  ',IFM,noel
-c                  write(*,*)   10*(2*IFM-1),'-',10*(2*IFM-1)+IIT-1
-c                  write(*,*)  (A(NOEL,10*(2*IFM-1)+IT-1),IT=1,IIT)
-c                  write(*,*) ' A(10*IFM... / tim2) : '
-c                  write(*,*)   10*(2*IFM  ),'-',10*(2*IFM  )+IIT-1
-c                  write(*,*)  (A(NOEL,10*(2*IFM  )+IT-1),IT=1,IIT)
-c                   write(*,*) ' '
-c                endif
+c            NP = NP + 1
+c            IF(NP.GT.MXD-2) 
+c     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+c            A(NOEL,NP) = NSTR
 
             CALL SCALI4(
      >                  SCL2,TIM2,NTIM2,IFM)
@@ -272,8 +305,9 @@ c                endif
 
  1    CONTINUE
  
-      close(lun)
+      CLOSE(lun)
       CALL SCALI6(MODSCL)
+c         write(88,*) vpa
 
       RETURN
 

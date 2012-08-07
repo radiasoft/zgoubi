@@ -637,8 +637,8 @@ C Due to reminicences from ancient times
       RETURN
  999  RETURN 1
 
-      entry chamk2(scali)
-      scal = scali
-      return
+      ENTRY CHAMK2(SCALI)
+      SCAL = SCALI
+      RETURN
 
       END

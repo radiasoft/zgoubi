@@ -45,7 +45,7 @@ C     N (INT,IN): The dimension of X
       PARAMETER (EPS=1.220703125D-4)
 
       Y1 = 3.40282347D+38
-      iarr = 0
+      IARR = 0
 
       DO 1000 I=1,N
          S(I) = X(I)
