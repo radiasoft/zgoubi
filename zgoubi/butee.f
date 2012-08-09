@@ -18,15 +18,13 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE BUTEE(N,X,XMIN,XMAX,XI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION X(*),XMIN(*),XMAX(*),XI(*)
-
       DO 1 I=1,N
         XI(I)=X(I)
         IF((X(I) .EQ. XMIN(I)).OR.(X(I) .EQ. XMAX(I))) WRITE(6,100) I

@@ -3,7 +3,7 @@
 
 	% \part{Description of software contents}{Description of software contents}
 
- \section*{PREFACE TO THE BNL EDITION (2012)} 
+ \section*{PREFACE TO THE BNL EDITION, 2012} 
 \addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2012)} 
 
 The previous release of the Zgoubi Users' Guide as a Lab. report dates from 1997, making the present one  the last in 
@@ -11,23 +11,21 @@ a series of~five~\cite{Biblio1}-\cite{Biblio2c}.
 
 \bigskip
 
-\noindent The Introductory section of the Guide deserved updating, since so  much developments have been 
-accomplished these last years in the frame of a number of 
-project design and beam dynamics studies, as the neutrino factory, lepton and hadron colliders, 
-spin studies at AGS and RHIC, etc. 
-
-So did it go 
-with the list of optical elements and the compendium of numerical methods, 
-so-called ``Glossary of keywords'' list, pp.~\pageref{GOK1A} and~\pageref{GOK1B},
- that has stretched with new 
-simulation and computing procedures, ranging from fitting to overlapping magnetic fields capabilities  via 
-spin  and other radiation damping tools. 
+\noindent \zgoubi\ has undergone substantial developments since the 
+4th edition of the Users' Guide,  in the frame of a number of 
+project design and beam dynamics studies, as the Neutrino Factory, lepton and hadron colliders, 
+spin dynamics studies, etc. 
+As well  the list of optical elements has grown, 
+and so did the  ``Glossary of keywords'' list, pp.~\pageref{GOK1A} and~\pageref{GOK1B}, including  new 
+simulation and computing procedures, which range from constraint-matching to overlapping magnetic fields capabilities to 
+spin manipulations  and other synchrotron radiation damping receipes. 
 
 
 \bigskip
 
 \noindent The code has been installed and made fully, and freely, available on SourceForge with the collaboration of J.~S.~Berg, 
-on Sep 17, 2007~\cite{SFZ}. The SourceForge package evolves with the various projects dealt with and is continuously maintained.  
+on Sep 17, 2007~\cite{SFZ}. The SourceForge package evolves and is maintained at the 
+pace of on-going project design studies. 
 It includes the sources, 
 the postprocessor progam \zpop, as well as many examples with template input data files (``zgoubi.dat'') and reference output result 
 files (``zgoubi.res''). 
@@ -35,18 +33,19 @@ files (``zgoubi.res'').
 
 \bigskip
 
-\noindent A series of computing tools have been developped in addition, planned to be made available on \zgou\ SourceForge 
-site in near future, 
-that render the designer's life easier, as, 
+\noindent A series of auxiliary computing tools have been developped in addition, 
+ aimed at making the designer's life easier, as, 
  search for closed orbits in periodic machines, computation of optical functions and parameters, 
-tune scans, dynamic aperture scans,  gnuplot graphic scripts, etc. , including dedicated ones regarding, \emph{e.g.}, FFAG R/D, 
-AGS R/D, spin dynamics. 
-In the same spirit, ``python'' interfaces are being developped, some made browsable on web by their authors. 
+tune scans, dynamic aperture scans,   spin dynamics data treatment, 
+ graphic scripts, etc., and including dedicated ones regarding, \emph{e.g.}, FFAG and cyclotron design, 
+AGS and RHIC studies, synchrotron radiation losses and their effects. 
+In addition ``python'' interfaces are being developped by several users,  possibly made available on web 
+by their authors. 
 
 \bigskip
 
-\noindent  Worth stressing, this manual is intended  to describe the contents of the most
-recent version of \zgou. Both the code and its Guide are  far from being  ``finished products'', though. 
+\noindent  The Users' Guide is intended  to describe the contents of the most
+recent version of \zgou. The code and its Guide are  both far from being  ``finished products''. 
 
 
 
@@ -54,7 +53,8 @@ recent version of \zgou. Both the code and its Guide are  far from being  ``fini
 \newpage
 \clearemptydoublepage
 
-\section*{INTRODUCTION TO THE 4th  EDITION (1997), EXCERPT}
+\section*{INTRODUCTION TO THE 4th  EDITION, 1997}
+
 \addcontentsline{toc}{section}{\numberline{}INTRODUCTION TO THE 4th  EDITION (1997), EXCERPT}
 
 The initial  version of \zgoubi, dedicated to  ray-tracing in magnetic fields,
@@ -81,20 +81,20 @@ release~\cite{Biblio2b}.
 synchrotron radiation electromagnetic impulse and spectra was introduced. In the mean 
 time, several new optical elements were added, such as 
 electro-magnetic and other electrostatic lenses. Used since several years for special studies in periodic
-machines (\emph{e.g.}, SATURNE at Saclay, COSY at Julich, LEP and LHC at CERN),  
+machines (\emph{e.g.}, SATURNE at Saclay, COSY at Julich, LEP and LHC at CERN, Neutrino Factory rings),  
 \zgou\  has also undergone extensive developments regarding storage ring related features.
 \\
 \\
 \noindent These  developments of \zgou\ 
  have strongly benefited of the environment of the Groupe Th\'eorie, 
-Laboratoire National SATURNE, CEA/DSM-Saclay. 
+Laboratoire National SATURNE, CEA/DSM-Saclay, in the years 1985-1995. 
 \\
 \\
 The graphic  interface to \zgou\ (addressed in Part D) has also undergone concomitent extensive  
 developments, which make it a performing tool for the post-processing of \zgou\  outputs.
 \\
 \\
-\noindent  This manual is intended only to describe the details of the most
+\noindent  The Users' Guide is intended  to describe the contents of the most
 recent version of \zgou, which is far from being a ``finished product''.
 
 
@@ -656,7 +656,7 @@ T(M_1) =   T(M_0) +  \Delta s/v
  \end{equation}
 
 
-\subsection{Calculation of  $ \vec E$ and $ \vec B $ fields and their Derivatives}\label{sec2.3}    %%%%%  2.3.
+\subsection{Calculation of  $ \vec E$ and $ \vec B $ Fields and their Derivatives}\label{sec2.3}    %%%%%  2.3.
 
 In this section, unless otherwise stated, $ \vec  B = (B_X(X,Y,Z),B_Y(X,Y,Z),B_Z(X,Y,Z)) $ stands 
 indifferently for electric field $\vec E$  or magnetic field $\vec B$. 
@@ -703,7 +703,7 @@ performed, thus providing the expressions
 $ \dfrac{ \partial^{i+j+k} \vec  B }{\partial X^i\partial Y^j\partial Z^k} $ needed in the 
 eq.~(\ref{eq2-2-7}). 
 
-\subsubsection{Extrapolation From Analytical Models of Median Plane Fields} \label{sec2.3.2} %%%%%%  2.3.2.  
+\subsubsection{Extrapolation From  Median Plane Field Models} \label{sec2.3.2} %%%%%%  2.3.2.  
 
 In the median plane, $ B_Z(X,Y,0)$ and its 
 derivatives with respect to $ X $ or $ Y$ may be deriveded  from analytical
@@ -1390,7 +1390,7 @@ energy loss by stochastic emission of photon and the ensuing perturbation
 on particle dynamics  and, on the other hand calculation of the 
 radiated spectral-angular energy densities as observed in the lab. 
 
-\subsection{Energy loss and related dynamical effects}\label{secSRLoss}
+\subsection{Energy Loss and Related Dynamical Effects}\label{secSRLoss}
 
 Most of the content in the present section is drawn from Refs.~\protect\cite{FMSEA-00-01}\label{SRLoss}.
 
@@ -1519,7 +1519,7 @@ elements, for instance dipole fields alone, or dipole + quadrupole magnets, etc.
 are made available in order to permit deeper insight, or easier comparison with other codes, 
 for instance. 
 
-\subsection{Spectral-angular radiated densities}\label{secSRSpec}
+\subsection{Spectral-Angular Radiated Densities}\label{secSRSpec}
 
 Most of the content in the present section is drawn from Refs.~\protect\cite{FMSL/94-22,FMLPYellow}.
 
@@ -2357,17 +2357,38 @@ that are assigned by \textsl{OBJETA}.
 
 \newpage
 
-\subsection{Declaration of options} \label{sec4.3}
+\subsection{Declaring  Options} \label{sec4.3}
 
-These options allow the control of procedures that affect certain 
-functions of the code. Some options are normally declared right after 
-the object definition (\emph{e.g.}~\textsl{SPNTRK\index{SPNTRK}} - spin tracking, 
-\textsl{MCDESINT\index{MCDESINT}} -
-in-flight decay),  others are normally declared at the end of the data pile (\emph{e.g.} 
-\textsl{END\index{END}} -- end of a problem, 
-\REBELOTE\index{REBELOTE} -- for tracking more than \imax\~particles  or for 
+Various options are available and allow the control of procedures that affect certain 
+functions of the code. 
+
+\medskip
+
+\noindent Some of these options are normally declared right after 
+the object definition, for instance 
+
+- \textsl{SPNTRK\index{SPNTRK}}~:  switch-on spin tracking, 
+
+ - \textsl{GETFITVAL\index{GETFITVAL}}~: collect parameter values from earlier fitting, 
+  
+\medskip 
+
+\noindent  some may appear further down in the struture (in zgoubi.dat), for instance 
+
+- \textsl{MCDESINT\index{MCDESINT}}~: switch-on in-flight decay, could be after a target, 
+
+\medskip
+
+\noindent others may  normally be declared at the end of the data pile, for instance
+
+- \textsl{END\index{END}}~:  end of a problem, 
+
+- \REBELOTE\index{REBELOTE}~: for tracking more than \textsl{IMAX}  particles  or for 
 multi-turn tracking, 
-\textsl{FIT\index{FIT}} -- fitting procedure). 
+
+- \textsl{FIT\index{FIT}}~: fitting procedure. 
+
+
 
 \newpage
 
@@ -2865,6 +2886,8 @@ is determined for each one of the $\NV$ variables. Then follows an iterative
 global variation of all $\NV$ variables, until the minimization fails which results in a
 next iteration on the optimization of the step sizes. 
 
+
+
 \newpage
 
 \subsubsection*{GASCAT~: \GASCATTitl} \label{GASCAT}\index{GASCAT|textbf}
@@ -2876,6 +2899,49 @@ under the effect of scattering by residual gas.
 \bigskip
 
 \noindent {\it To be documented}
+
+
+
+\newpage
+
+\subsubsection*{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf}
+\medskip
+
+This keyword allows reading, 
+from a file whose name needs be specified,  parameter values to be assigned to optical elements in zgoubi.dat. 
+
+\bigskip
+
+That file is expected to contain a copy-paste of the data under the \textsl{FIT} procedure as 
+displayed in zgoubi.res, normally under the form \\
+{\small
+\begin{verbatim}
+#STATUS OF VARIABLES  (Iteration #    95)
+# LMNT  VAR PARAM  MINIMUM    INITIAL    FINAL      MAXIMUM     STEP    NAME       LBL1 LBL2
+  145    1   4    -3.000E+03    762.   761.9484791 3.000E+03  1.254E-05 MULTIPOL   HKIC DHCB02  
+  182    2   4    -1.000E+03   -231.  -230.9846875 1.000E+03  4.182E-06 MULTIPOL   HKIC DHCB08  
+  146    3   4    -1.000E+03   -320.  -319.8554171 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCB02  
+  183    4   4    -1.000E+03    528.   527.7249064 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCB08  
+  615    5   4    -3.000E+03    308.   307.6860565 3.000E+03  1.254E-05 MULTIPOL   HKIC DHCF02  
+  651    6   4    -1.000E+03   -114.  -113.8490362 1.000E+03  4.182E-06 MULTIPOL   HKIC DHCF08  
+  616    7   4    -1.000E+03   -78.9  -78.88730937 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCF02  
+  652    8   4    -1.000E+03    212.   211.8789183 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCF08  
+# STATUS OF CONSTRAINTS
+# TYPE  I   J  LMNT#     DESIRED       WEIGHT         REACHED         KI2     *  Parameter(s) 
+#   3   1   2   127   0.0000000E+00  1.0000E+00    1.0068088E-08   6.0335E-01 *  0 : 
+#   3   1   3   127   0.0000000E+00  1.0000E+00    7.0101405E-09   2.9250E-01 *  0 : 
+#   3   1   4   127   0.0000000E+00  1.0000E+00    2.9184383E-10   5.0696E-04 *  0 : 
+#   3   1   5   127   0.0000000E+00  1.0000E+00    3.1142381E-10   5.7727E-04 *  0 : 
+#   3   1   2   436   0.0000000E+00  1.0000E+00    3.8438378E-09   8.7944E-02 *  0 : 
+#   3   1   3   436   0.0000000E+00  1.0000E+00    1.5773011E-09   1.4808E-02 *  0 : 
+#   3   1   4   436   0.0000000E+00  1.0000E+00    2.2081272E-10   2.9022E-04 *  0 : 
+#   3   1   5   436   0.0000000E+00  1.0000E+00    5.7930552E-11   1.9975E-05 *  0 : 
+#   Function  called   1859 times
+# Xi2 =    1.68006E-16   Busy...
+\end{verbatim}
+}
+
+\noindent Lines beginning with '\#' are commented and not taken into account, in this procedure. 
 
 
 
@@ -3541,7 +3607,7 @@ next to \textsl{KSR}.
 \noindent Note that \textsl{KSR} = 0 followed by a dummy line of 
 data allows temporary inhibition of SR~procedures.
 
-\subsection{Optical Elements and related numerical procedures} \label{sec4.4}
+\subsection{Optical Elements and Related Numerical Procedures} \label{sec4.4}
 
 
 
@@ -6375,9 +6441,11 @@ its derivatives up to fourth order are derived from the scalar potential approxi
 \end{figure}
 \vfill
 
+
+
 \newpage
 
-\subsubsection*{SOLENOID~: \SOLENOIDTitl\ (Fig.~\protect\ref{fig30}) } \label{SOLENOID} \index{SOLENOID} 
+\subsubsection*{SOLENOID~: \SOLENOIDTitl\ (Fig.~\protect\ref{fig30}) } \label{SOLENOID} \index{SOLENOID|textbf} 
 
  The solenoidal magnet has an effective length $ \XL$,  a mean radius
 $ R_0 $ and an asymptotic field  $ B_0=\mu_0 N I / \XL$ (\emph{i.e.}, $\int_{-\infty}^\infty 
@@ -6424,6 +6492,13 @@ $$B_X(\textrm{center}) \equiv B_X(x=r=0) =
 \vfill
 
 
+
+
+\newpage
+
+\subsubsection*{SPINR~: \SPINRTitl\  } \label{SPINR} \index{SPINR|textbf} 
+
+Spin rotation. 
 
 
 \newpage
@@ -7259,7 +7334,7 @@ tracked on different transverse invariants, horizontal or vertical.
 
 
 
-\subsection{Complements regarding various functionalities} \label{sec4.6}  
+\subsection{Complements Regarding Various Functionalities} \label{sec4.6}  
 
 
 \subsubsection{Time varyinf fields} \label{sec4.6.TimeVFields} 

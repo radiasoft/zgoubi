@@ -51,7 +51,9 @@ C  -------
 1040  FORMAT(/,' Xi2 =',1P,G20.5,'   Busy...',/)
 C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
 
-      IF(FINI .LT. PNLTY) THEN
+C Modif Aug 2012      IF(FINI .LT. PNLTY) THEN
+      IF(FINI .LT. PNLTY
+     >.OR. NI .GT. NITER) THEN
          IVAR=0
          DO I=1,N
             IF(XI(I) .EQ. X(I)) THEN

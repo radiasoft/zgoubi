@@ -2044,6 +2044,8 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
  \\
  $\XL$         \>Distance from the location of the keyword \> cm \> E  
 \end{tabbing}
+
+
 \newpage
 
 \begin{tabbing}
@@ -2055,6 +2057,19 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
  $KGA$      \> Off/On switch \> 0, 1 \> I\\
  \\
  $AI$, $DEN$ \> Atomic number~; density\> \> 2*E
+ \end{tabbing}
+ 
+
+
+\newpage
+
+\begin{tabbing}
+\mestab
+\textbf{GETFITVAL}         \label{GETFITVAL-B} \index{GETFITVAL|textbf}
+        \> \textbf{\GETFITVALTitl}\>\>\\
+ \\
+ \\
+ \textsl{FNAME}      \> Name of storage file. Zgoubi will proceed silently if not found. \>  \>  A \\
  \end{tabbing}
  
  \newpage
@@ -3302,12 +3317,39 @@ $ X_S$, $\lambda_ S $    \>Parameters for the exit fringe field~; see entrance \
 \vfill
 \end{figure}
 
+
+\newpage
+
+\begin{tabbing}
+\mestab
+ \textbf{SPINR}        \label{SPINR-B} \index{SPINR|textbf}
+     \> \textbf{SPINRTitl} \> \> \\
+ \\
+ \\
+     \>Rotation axis angles. \>3*rad \>3*E \\
+ \\
+     \>Rotation  angle. \>rad \>E \\
+ \\
+\end{tabbing}
+ 
+\vfill
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\begin{figure}[H]
+%\vspace{14 truecm}
+%%%Figure 30
+\centerline{\includegraphics[height=15cm,angle=-90]{Fig30.ps}}
+\end{figure}
+\vfill
+
+
+
+
 \newpage
 
 \begin{tabbing}
 \mestab
  \textbf{SOLENOID}        \label{SOLENOID-B} \index{SOLENOID|textbf}
-     \> \textbf{Solenoid} \> \> \\
+     \> \textbf{SOLENOIDTitl} \> \> \\
  \\
  \\
  $\IL$  \> $\IL=1,2$ : print field and coordinates along trajectories \>0-2\>I\\
@@ -3332,6 +3374,11 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
 \centerline{\includegraphics[height=15cm,angle=-90]{Fig30.ps}}
 \end{figure}
 \vfill
+
+
+
+
+
 
 \newpage
 

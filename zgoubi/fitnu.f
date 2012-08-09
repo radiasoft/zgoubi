@@ -50,11 +50,13 @@ C  -------
       IF(IER .NE. 1) THEN
          CALL REMPLI(0)
          CALL FBORNE
-         IF(MTHD .EQ. 2) THEN
+         IF    (MTHD .EQ. 1) THEN
+           CALL MINO1(FF,NV,X,P,VI,Y,XI,F,FINI)
+         ELSEIF(MTHD .EQ. 2) THEN
 C Implemented by Scott Berg, LPSC, April 2007
            CALL MINONM(NV,X,P,VI,XI,F,FINI)
          ELSE
-            CALL MINO1(FF,NV,X,P,VI,Y,XI,F,FINI)
+           CALL ENDJOB('SBR fitnu, Error : no such FIT method.',-99)
          ENDIF
          CALL IMPAJU(LUN,F)
       ENDIF

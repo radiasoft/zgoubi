@@ -24,5 +24,5 @@ all : $(OBJS)
 clean:
 	$(RM) libzg.a *.o *~
 
-libsg.a(okkp.o) : $(INC)/OKKP.H
-libsg.a(rffag.o) : $(INC)/MXLD.H
+libzg.a(okkp.o) : $(INC)/OKKP.H
+libzg.a(rffag.o) : $(INC)/MXLD.H

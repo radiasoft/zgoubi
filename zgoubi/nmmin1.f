@@ -27,7 +27,7 @@ C  -------
       IMPLICIT NONE
       DOUBLE PRECISION F
       EXTERNAL F
-      INTEGER N, ii,iii
+      INTEGER N
       INTEGER IARR
       DOUBLE PRECISION X(N),DX(N)
 
