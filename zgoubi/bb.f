@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
         subroutine bb
+C S. White & F. Meot, Jan. 2012
         implicit double precision (a-h,o-z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -57,6 +58,8 @@ C        dimension  spincoord(3)
 
         save Npt,coef,sigma,Ptsl,ga
         save linearmap
+
+        logical ok, idluni
 
 c        open(1,file="zgoubbi.in",status="old")
 c        read(1,*)Nturns
@@ -133,26 +136,30 @@ c        close(1)
           call bbkck(Npt,coef/2.0d0,sigma,Ptsl,ga,Gs)
           call bbkLm(Ptsl,Npt,linearmap)
         
-        open(unit=2,file='zgoubbi.out')
+        ok = idluni(
+     >              luna)
+        open(unit=luna,file='zgoubbi.out')
         do i = 1, Npt
-           write(2,fmt='(2i6,6(1x,e15.6))') npt,i,(Ptsl(j,i),j=1,6)
+           write(luna,fmt='(2i6,6(1x,e15.6))') npt,i,(Ptsl(j,i),j=1,6)
         enddo
         close(2)
 
 
-        open(9,file="ptcl.out",status="unknown",position="append",
+        ok = idluni(
+     >              lunb)
+        open(lunb,file="ptcl.out",status="unknown",position="append",
      >                                        form="formatted")
    
         if(iturn.eq.1) then
-          write(9,*)Npt
+          write(lunb,*)Npt
         endif
-        write(9,*)iturn
+        write(lunb,*)iturn
         do i =1, Npt
           snorm = sqrt(Ptsl(7,i)**2+Ptsl(8,i)**2+Ptsl(9,i)**2)
-          write(9,222) Ptsl(1:9,i),snorm,i,iturn
+          write(lunb,222) Ptsl(1:9,i),snorm,i,iturn
         enddo
 
-        close(9)
+        close(lunb)
 222     format(10(1x,e17.9),2(1x,i6))
         return
         end

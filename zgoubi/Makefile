@@ -237,6 +237,7 @@ OBJ=\
  rautor.o\
  raysyn.o\
  razdrv.o\
+ razs.o\
  rbb.o\
  rbend.o\
  rbinar.o\

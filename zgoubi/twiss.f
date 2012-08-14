@@ -355,41 +355,41 @@ C----- reactivate READ in zgoubi.dat
  101    FORMAT(/,25X,' ****  End  of  ''TWISS''  procedure  ****',//
      >   ,5X,' There  has  been ',I10,
      >        '  pass  through  the  optical  structure ',/)
-      ENDIF
 
-      WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
-     >30X,''dL/L / dp/p = '',G15.8)') ALPHA
-      WRITE(NRES,FMT='(5X,1P,''(dp = '',G13.6,5X  
-     >,'' L(0)   = '',G14.4,'' cm, ''
-     >,'' L(0)-L(-dp) = '',G14.4,'' cm, ''
-     >,'' L(0)-L(+dp) = '',G14.4,'' cm) '' )') 
-     >A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
-      WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma  = '',
-     >G15.8)') 1.d0/SQRT(ALPHA)
+        WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
+     >  30X,''dL/L / dp/p = '',G15.8)') ALPHA
+        WRITE(NRES,FMT='(5X,1P,''(dp = '',G13.6,5X  
+     >  ,'' L(0)   = '',G14.4,'' cm, ''
+     >  ,'' L(0)-L(-dp) = '',G14.4,'' cm, ''
+     >  ,'' L(0)-L(+dp) = '',G14.4,'' cm) '' )') 
+     >  A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
+        WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma  = '',
+     >  G15.8)') 1.d0/SQRT(ALPHA)
 
-      WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
-     >30X,''dNu_y / dp/p = '',G15.8,/, 
-     >30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
+        WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
+     >  30X,''dNu_y / dp/p = '',G15.8,/, 
+     >  30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
 
 
-      IF(KTW .GE.3) THEN
-        DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
-        DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
+        IF(KTW .GE.3) THEN
+          DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
+          DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
         
-        WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
-     >  42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
-     >  30X,''dNu_y'',7X,2(G15.8,3X),/, 
-     >  30X,''dNu_z'',7X,2(G15.8,3X), //, 
-     >  20X,''Nu_y_Ref = '',G15.8,'', Nu_z_Ref = '',G15.8, / 
-     >  20X,''Nu_y_+dp = '',G15.8,'',   Nu_z_+dp = '',G15.8, / 
-     >  20X,''Eps_y_Ref/pi = '',G15.8,'',   Eps_z_Ref/pi = '',G15.8, / 
-     >  20X,''Eps_y_+dA/pi = '',G15.8,'',   Eps_z_+dA = '',G15.8)')
-     >  DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
-     >  YNUREF,ZNUREF,
-     >  YNUP,  ZNUP,
-     >  UYREF, UZREF,
-     >  UYP,   UZP
+          WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
+     >    42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
+     >    30X,''dNu_y'',7X,2(G15.8,3X),/, 
+     >    30X,''dNu_z'',7X,2(G15.8,3X), //, 
+     >    20X,''Nu_y_Ref = '',G15.8,'', Nu_z_Ref = '',G15.8, / 
+     >    20X,''Nu_y_+dp = '',G15.8,'',   Nu_z_+dp = '',G15.8, / 
+     >    20X,''Eps_y_Ref/pi = '',G15.8,'',   Eps_z_Ref/pi = '',G15.8, / 
+     >    20X,''Eps_y_+dA/pi = '',G15.8,'',   Eps_z_+dA = '',G15.8)')
+     >    DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
+     >    YNUREF,ZNUREF,
+     >    YNUP,  ZNUP,
+     >    UYREF, UZREF,
+     >    UYP,   UZP
 
+        ENDIF
       ENDIF
 
       IPASS = 1

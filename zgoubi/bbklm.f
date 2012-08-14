@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
         subroutine bbkLm(Ptsl,npt,linearmap)
         implicit double precision (a-h,o-z)
+C S. White & F. Meot, Jan. 2012
         parameter (mxpt=10000)
         dimension Ptsl(9,mxpt)
         double precision  linearmap(6,6) 

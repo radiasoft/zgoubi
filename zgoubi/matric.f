@@ -55,6 +55,14 @@ C------        Beam_ref    +dp/p     -dp/p
 
       DATA KWRMAT / .FALSE. /
 
+c----------------------------------------------
+c Exportation of the matrix coefficients (Fred)
+c----------------------------------------------
+c      CALL SYSTEM('cp transfertM.dat transfertM_save.dat')
+c      OPEN(11,FILE='transfertM_save.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
+      OPEN(12,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
+c----------------------------------------------
+
       IF(NRES.LE.0) RETURN
 
       IF(.NOT. (KOBJ.EQ.5 .OR. KOBJ.EQ.6)) THEN
@@ -149,6 +157,34 @@ C             write(nres,*) dp, a(numl,25)
 C        CALL REFER(2,IORD,IFOC,1,6,7)
         CALL REFER(2,IORD,IFC,1,6,7)
       ENDIF
+
+c---------------------------------------------------------------------------------
+c                 Exportation of the matrix coefficients (Fred)
+c---------------------------------------------------------------------------------
+c 3    CONTINUE
+           
+c     Reading of 1turnM.dat
+c      READ(11,FMT='(a)',END=99,ERR=98) BUFFER
+c     Writing of the new transfertM.dat
+c      WRITE(12,FMT='(a)') BUFFER(DEBSTR(BUFFER):FINSTR(BUFFER))
+c      GOTO 3
+c 98   CONTINUE
+     
+c      WRITE(*,FMT='(/,/,''ERROR IN READING OF TRANSFERTM.DAT'',/,/)')
+c 99   CONTINUE
+
+      WRITE(12,FMT='(/,/)')
+      WRITE(12,FMT='(''TRANSFERT MATRIX:'')')
+      DO I=1,4
+         WRITE(12,FMT='(4(F15.8,X))') (R(I,J),J=1,4)
+      ENDDO
+
+c      CLOSE(11,IOSTAT=IOS1)
+      CLOSE(12,IOSTAT=IOS2)
+c----------------------------------------------
+
+
+      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
 
       RETURN
 

@@ -41,8 +41,11 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
  
-      PARAMETER (MSTR=MLF+1, MPA = MXP-1)
-      CHARACTER*10 STRA(MSTR)
+      PARAMETER (MSTR=MLF+1)
+      CHARACTER(LBLSIZ) STRA(MSTR)
+
+      PARAMETER (MPA = MXP-1, MSTRD=2*MXP, KSTRA=40)
+      CHARACTER(KSTRA) STRAD(MSTRD)
 
       INTEGER DEBSTR, FINSTR
 
@@ -54,7 +57,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DIMENSION NTIM2(MXF),SCL2(MXF,MXS),TIM2(MXF,MXS)
 
       DATA MODSCL / MXF*0  /
-      DATA FAC / 1.d0  /
+      DATA FAC / 1.D0  /
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1
@@ -78,7 +81,7 @@ C Remove possible comment trailer
 
         I =   0
 
-        CALL RAZ(STRA,MSTR)
+        CALL RAZS(STRA,MSTR)
         CALL STRGET(TXT132,MSTR,
      >                          NSTR,STRA)
 
@@ -86,10 +89,12 @@ C Remove possible comment trailer
      >     CALL ENDJOB('SBR RSCAL - Too many labels per family, max is '
      >     ,MLF)
 
+        IF(KSIZ .GT. LBLSIZ) STOP ' Pgm rscal, ERR : KSIZ > LBLSIZ.' 
         FAM(IFM) = STRA(1)(1:KSIZ)
 
         IF(NSTR .GE. 2) THEN
           DO  KL=1,NSTR-1
+            IF(KL+1 .GT. MSTR) STOP ' Pgm rscal, ERR : KL+1 > MSTR.' 
             LBF(IFM,KL) =  STRA(KL+1)(1:LBLSIZ)
           ENDDO
         ENDIF
@@ -127,40 +132,35 @@ C Possible additional scaling factor :
      >       CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
         ELSE
 
-          CALL RAZ(STRA,MSTR)
-          CALL STRGET(TXT132,2*MPA+2,
-     >                            KSTR,STRA)
+          CALL RAZS(STRAD,MSTRD)
+          CALL STRGET(TXT132,MSTRD,
+     >                            KSTR,STRAD)
 
-          IF(KSTR.GE.1) READ(STRA(1),*) NTIM(IFM)
+          IF(KSTR.GE.1) READ(STRAD(1),*) NTIM(IFM)
           IF(NTIM(IFM) .GT. MXD-2) 
      >        CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
 
           IF(KSTR.GE.2) THEN
-            READ(STRA(2),*) NPA
-            IF(NPA.GT.MXP-1) CALL 
-     >         ENDJOB('SBR RSCAL - Too many parameterss, max is ',MXP-1)
+            READ(STRAD(2),*) NPA
+            IF(NPA.GT.MPA) CALL 
+     >         ENDJOB('SBR RSCAL - Too many parameterss, max is ',MPA)
           ELSE
             NPA = 0
           ENDIF
           JPA(IFM,MXP) = NPA
 
           DO J = 1, NPA
-            READ(STRA(2*J+1),*) JPA(IFM,J)
-            READ(STRA(2*J+2),*) VPA(IFM,J)
-            IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-            np = np + 1
+C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.' 
+            IF(2*J+1 .GT. MSTRD) STOP ' SBR rscal, ERR : 2J+1 > MSTRD.' 
+            READ(STRAD(2*J+1),*) JPA(IFM,J)
+            READ(STRAD(2*J+2),*) VPA(IFM,J)
+            IF(NP.GT.MXD-2) CALL ENDJOB('SBR rscal. Too many data.',-99)
+            NP = NP + 1
+            IF(NP.GT.MXD) CALL ENDJOB('SBR rscal. NP >',MXD)
             A(NOEL,NP) = VPA(IFM,J)
-c         WRITE(*,*)   'rscal j, if, npa, np :  ',j,ifm,npa,np
-c         WRITE(*,*) ' JPA(IFm,j), vpA(ifm,J), A(noel,j) '
-c         WRITE(*,*) 
-c     >     JPA(IFm,j), vpA(ifm,J), A(noel,np)
-c                  read(*,*)
+
           ENDDO
 
-
-
-
-           
         ENDIF        
 
         IF(NTIM(IFM) .GE. 0) THEN
@@ -307,7 +307,6 @@ c            A(NOEL,NP) = NSTR
  
       CLOSE(lun)
       CALL SCALI6(MODSCL)
-c         write(88,*) vpa
 
       RETURN
 

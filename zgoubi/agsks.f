@@ -26,6 +26,7 @@ C  -------
      >                        AK1,AK2,AKS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION AK1(*), AK2(*), AKS(*)
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXFS.H'
       INCLUDE 'MXLD.H'
       PARAMETER (LBLSIZ=10)
@@ -227,10 +228,24 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
       IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
         IMM = 1
         IF(PNOW(1) .EQ. P) THEN
+
           AK1(1)=SAK1(1)
           AK2(1)=SAK2(1)
+
+C With FIT2, pmom is "NaN" at first pass here (a01bf magnet), and in addition ak1 is NaN. pnow(1)=NaN can be seen if
+C the write statements below are active... in addition that corrects the content of ak1(1) so that the computation 
+c goes on silently...
+
+c                 write(*,*) 'agsks PNOW(1).eq.P ', PNOW(1),P
+c              write(abs(NRES),*) ak1(1), sak1(1)
+c                  read(*,*)
+
+
         ELSE
+
           PNOW(1) = P
+c              write(*,*) 'agsks PNOW(1).ne.P ', PNOW(1),P
+c                         read(*,*)
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -257,6 +272,7 @@ C  K1BF :
      >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
      >    +UKBF6*P6 
           AK1(1) = AK1(1)*(DB1F + 1.D0)
+
 C  K2BF :
           AK2(1)= TKBFM3/(P3)+ TKBFM2/(P2)+ TKBFM1/P + TKBF0+TKBF1*P 
      >    +TKBF2*P2+TKBF3*P3+TKBF4*P4+TKBF5*P5  

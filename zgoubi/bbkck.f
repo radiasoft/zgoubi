@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
        subroutine bbkck(Npt,coef,sigma,Ptsl,ga,Gs)
        implicit double precision (a-h,o-z)
+C S. White & F. Meot, Jan. 2012
        double precision  coef,sepx,sepy,bbfx,bbfy,bbgx,bbgy
        dimension  sigma (6)
        parameter (mxpt=10000)
@@ -51,7 +52,7 @@ C  -------
 
            a = pxdz/phi
            b = pydz/phi
-           c = 0
+           c = 0.d0
            sa = 1 - cos(phi)
            sb = sin(phi)
  

@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
       subroutine bbrsp(Ptsl,thispart,a,b,c,sa,sb)
 C      subroutine bbrsp(Ptsl,thispart,a,b,c,sa,sb,npt)
+C S. White & F. Meot, Jan. 2012
       implicit double precision (a-h,o-z)
       parameter (mxpt=10000)
       dimension  Ptsl(9,mxpt) 

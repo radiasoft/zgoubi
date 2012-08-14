@@ -18,35 +18,39 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE DATE2(DMY)
+      SUBROUTINE RAGSQU(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER * 9   DMY
+      DIMENSION A(MXL,*)
+C     -----------------------
+C     READS DATA FOR AGS QUAD
+C     -----------------------
+      COMMON/MARK/ KART,KALC,KERK,KUASEX
+      PARAMETER(MPOL=10)
+ 
+C----- IL
+      READ(NDAT,*) IA
+      A(NOEL,1) = IA
 
-C This works :   ------------------------------- 
-C      CHARACTER*3 MM(12)
-C      CHARACTER*8 DD
-C      CHARACTER*10 TT
-C      CHARACTER*5 ZZ
-C      INTEGER VV(8)
-C      DATA MM/'Jan','Feb','Mar','Apr','May','Jun',
-C     $     'Jul','Aug','Sep','Oct','Nov','Dec'/
-C      LONG = LEN(DMY)
-C      IF(LONG.GE.9) THEN
-C         CALL DATE_AND_TIME(DD,TT,ZZ,VV)
-C         WRITE(DMY,'(I2.2,''-'',A3,''-'',I2.2)')
-C     $        VV(3),MM(VV(2)),MOD(VV(1),100)
-C      ENDIF
-C      IF(LONG.GT.9) DMY=DMY(1:9)//' '      
-C-------------------------------------------------
+C XL, R0, roll angle, I_winding 1, I_winding 2
+      READ(NDAT,*) (A(NOEL,I),I=10,14)
 
-C This uses built-in idate, hence transportable
-      INTEGER*4 TODAY(3)
-      call idate(today)  ! today(1)=day, today(2)=month, today(3)=year
-      write(dmy,fmt='(2(i2.2,a1),i2.2)') 
-     > today(1),'/',today(2),'/',today(3) !-2000
+C     ... CHP FUITE ENTREE
+      READ(NDAT,*) (A(NOEL,I),I=20,21)
+      READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
+      A(NOEL,30) = IA
+C     ... CHP FUITE SORTIE
+      READ(NDAT,*) (A(NOEL,I),I=40,41)
+      READ(NDAT,*) IA,(A(NOEL,I),I=51,56)
+      A(NOEL,50) = IA
+ 
+      ND=60
+
+      READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
+      A(NOEL,ND+10) = IA
+ 
       RETURN
       END

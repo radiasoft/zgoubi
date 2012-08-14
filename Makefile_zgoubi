@@ -1,0 +1,15 @@
+CFLAGS=
+FC=ifort
+FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save
+
+.POSIX:
+
+all :
+	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+
+clean :
+	$(RM) *~
+	cd common ; ($MAKE) clean
+	cd zgoubi ; ($MAKE) clean
+

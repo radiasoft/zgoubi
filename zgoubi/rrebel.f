@@ -35,7 +35,7 @@ C     ***************************************
       CHARACTER TXT300*300, TXTA*8, TXTB*8
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
-      CHARACTER STRA(3)*30
+      CHARACTER(80) STRA(3)
       DIMENSION PARAM(mxd)
 
       READ(NDAT,FMT='(A)') TXT300

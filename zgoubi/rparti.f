@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RPARTI(NDAT,NOEL,
      >                            A)
@@ -29,7 +28,7 @@ C  -------
       INCLUDE 'MXLD.H'
       DIMENSION A(MXL,*)
       CHARACTER*132 TXT
-      CHARACTER STRA(6)*20
+      CHARACTER(80) STRA(6)
       INTEGER DEBSTR, FINSTR
 
       READ(NDAT,FMT='(A)') TXT

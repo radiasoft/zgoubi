@@ -901,13 +901,12 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
       ENDIF
  801  CONTINUE
       LBLOPT = 'all'
+      GOTO 802
  803  CONTINUE
       KOPTIP = 0
       WRITE(NRES,*)  ' '
       WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
      >,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 
-      LBLOPT = 'none'
-      KOPTIP = 0 
  802  CONTINUE
       IF (KOPTCS .NE. 1) KOPTCS = 0
       WRITE(NRES,*)  ' '

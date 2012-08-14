@@ -1,13 +1,9 @@
-CFLAGS=-g -DGFORTRAN4
-FC=gfortran
-FFLAGS=-O -Wall -fno-automatic -pedantic
 
 .POSIX:
 
 all :
-	cd common ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd zgoubi ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd zpop ; $(MAKE) CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	$(MAKE) -f Makefile_zgoubi
+	$(MAKE) -f Makefile_zpop
 
 clean :
 	$(RM) *~

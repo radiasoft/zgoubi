@@ -40,8 +40,11 @@ C      data nmail, iqx, iqy /  12, 8, 8  /
 C      DATA QXMI,XXMA,QYMI,YYMA/0.68d0,1.d0,0.68d0,1.d0/
 C      DATA QXMI,XXMA,QYMI,YYMA/0.5d0,1.d0,0.5d0,1.d0/
 C Luciano's cyclo
-      data nmail, iqx, iqy /  8, 0, 0  /
-      DATA QXMI,XXMA,QYMI,YYMA/1.0499d0,2.05001d0,0.299d0,1.03001d0/
+c      data nmail, iqx, iqy /  8, 0, 0  /
+c      DATA QXMI,XXMA,QYMI,YYMA/1.0499d0,2.05001d0,0.299d0,1.03001d0/
+C Fred's ETparam
+      data nmail, iqx, iqy /  1, 0, 0  /
+      DATA QXMI,XXMA,QYMI,YYMA/ 0.6 , 1., 0.8, 1. /
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /
       save ires, irot, MM, nharm

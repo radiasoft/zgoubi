@@ -459,18 +459,37 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
  $I1$, $I2$, $I3$      \>Three particle numbers \> 3*(1-\imax) \>3*I  
 \end{tabbing}
 
-% %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-% \begin{figure}[H]
-% %\vspace{10 truecm}
-% %%%Figure 12
-% \centerline{\includegraphics{Fig12.ps}}
-% \unnumberedcaption{Effective value of $\mathcal{F}$ for overlapping fringe
-% fields $ F_1 $ and $ F_2 $ centered at $ O_1 $ and $ O_2 $. }
-% \end{figure}
+
+
+\newpage
+
+\begin{tabbing}
+\mestab
+\textbf{BEAMBEAM} \label{BEAMBEAM-B} \index{BEAMBEAM|textbf} \index{beam-beam spin kick} \index{spin kick, beam-beam}
+      \>\textbf{\BEAMBEAMTitl}\> \>    \\
+\\
+\\
+SW, I   \> 0/1/2~: off/on/on including spin kick~; beam intensity \> 0-2, Amp   \> I, E  \\
+\\
+$\alpha_Y, ~ \beta_Y, ~ \epsilon_Y/\pi$   \> Beam parameters, horizontal.  \>  - , m, m.rad \> 3*E  \\
+\\
+$\alpha_Z, ~ \beta_Z, ~ \epsilon_Z/\pi$   \> Beam parameters, vertical.  \>  - , m, m.rad \> 3*E  \\
+\\
+$\sigma_X, ~ \sigma_{dp/p}$   \> rms bunch length~; rms momentum spread.  \> m,  - \> 2*E  \\
+\\
+$\mathcal{C}, ~ \alpha$   \> Ring circumference~; momentum compaction. \> m, -  \>  2*E \\
+\\
+$Q_Y, ~ Q_Z, ~ Q_s$   \> Tunes, horizontal, vertical, synchrotron. \> -, -, -  \>  3*E  \\
+\\
+$A_Y, ~ A_Z, ~ A_X$   \> Amplitudes, horizontal, vertical, longitudinal. \>  -, -, -  \>  3*E  \\
+\\
+ \end{tabbing}
+
 
 
 
 \newpage
+
 \begin{tabbing}
 \mestab
 \textbf{BEND}  \label{BEND-B} \index{BEND|textbf} \>  \textbf{\BENDTitl} \> \> \\
@@ -2785,10 +2804,9 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- $IOPT$, label, $IMP$        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
+ \textsl{IOPT}, label, \textsl{IMP}        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
       \> 'label'~:  Can be  'all' or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
       \> $IMP=1$ causes storage of optical functions in zgoubi.OPTICS.out.   \>  \> \\
-
 \end{tabbing}
 
 
