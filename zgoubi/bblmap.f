@@ -27,13 +27,9 @@ C  -------
 C S. White & F. Meot, Jan. 2012
         implicit double precision (a-h,o-z)
         double precision linearmap(6,6) 
-        double precision  tunex,tuney,tunez,alphax,betax,
-     >                                   alphay,betay
-        double precision  twopi,cx,sx,gx,cy,sy,gy,cz,sz
-        double precision  alfmom,ga,clight,circ,szspz,bet
 
-        twopi = 4*dasin(1.0d0)
-        gx = (1+alphax*alphax)/betax
+        twopi = 4.d0*dasin(1.0d0)
+        gx = (1.d0+alphax*alphax)/betax
 	cx=dcos(twopi*tunex)
 	sx=dsin(twopi*tunex)
         linearmap(1,1) = cx + alphax*sx
@@ -58,32 +54,32 @@ C S. White & F. Meot, Jan. 2012
 
 !         Set coupling terms to 0
 
-        linearmap(1,3)=0
-        linearmap(1,4)=0
-        linearmap(1,5)=0
-        linearmap(1,6)=0
-        linearmap(2,3)=0
-        linearmap(2,4)=0
-        linearmap(2,5)=0
-        linearmap(2,6)=0
+        linearmap(1,3)=0.d0
+        linearmap(1,4)=0.d0
+        linearmap(1,5)=0.d0
+        linearmap(1,6)=0.d0
+        linearmap(2,3)=0.d0
+        linearmap(2,4)=0.d0
+        linearmap(2,5)=0.d0
+        linearmap(2,6)=0.d0
 
-        linearmap(3,1)=0
-        linearmap(3,2)=0
-        linearmap(3,5)=0
-        linearmap(3,6)=0
-        linearmap(4,1)=0
-        linearmap(4,2)=0
-        linearmap(4,5)=0
-        linearmap(4,6)=0
+        linearmap(3,1)=0.d0
+        linearmap(3,2)=0.d0
+        linearmap(3,5)=0.d0
+        linearmap(3,6)=0.d0
+        linearmap(4,1)=0.d0
+        linearmap(4,2)=0.d0
+        linearmap(4,5)=0.d0
+        linearmap(4,6)=0.d0
 
-        linearmap(5,1)=0
-        linearmap(5,2)=0
-        linearmap(5,3)=0
-        linearmap(5,4)=0
-        linearmap(6,1)=0
-        linearmap(6,2)=0
-        linearmap(6,3)=0
-        linearmap(6,4)=0
+        linearmap(5,1)=0.d0
+        linearmap(5,2)=0.d0
+        linearmap(5,3)=0.d0
+        linearmap(5,4)=0.d0
+        linearmap(6,1)=0.d0
+        linearmap(6,2)=0.d0
+        linearmap(6,3)=0.d0
+        linearmap(6,4)=0.d0
 
         return
         end

@@ -335,7 +335,7 @@ exit EFB \>2*deg, 4*cm \>6*E\\
 
 \begin{tabbing}
 \mestab
-\textbf{if NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
+\textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
  \>(See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
 $\lambda$, $\xi$                  \>Fringe field parameters \>cm, (cm) \>2*E \\
@@ -346,20 +346,20 @@ lateral EFB~; \> 2*deg, 5*cm \>7*E \\
  \\
  \textsl{NBS} \>Option index for perturbations to the field map \>normally 0 \>I \\
  \\
-\textbf{if NBS = 0}            \>Normal value. No other record required \>\>\\
+\textbf{If NBS = 0}            \>Normal value. No other record required \>\>\\
  \\
-\textbf{if NBS = -2}           \>The map is modified as follows : \>\>\\
+\textbf{If NBS = -2}           \>The map is modified as follows : \>\>\\
  \\
 $ R_0$, $\Delta B/B_0 $              \>$ B $ transforms to 
            $ B\ast\left(1+\frac{\Delta B}{B_0} \frac{R-R_0}{RMAX-RMIN} \right) $ 
                       \>cm, no dim. \> 2*E \\
  \\
-\textbf{if NBS = -1}           \>the map is modified as follows : \>\>\\
+\textbf{If NBS = -1}           \>the map is modified as follows : \>\>\\
  \\
 $ \theta_ 0$,  $\Delta B/B_0 $              \>$ B $ transforms to $ B\ast
 \left(1+\frac{\Delta B}{B_0} \frac{\theta -\theta_ 0}{AT} \right) $ \>deg, no dim. \>2*E \\
  \\
-\textbf{if NBS $\geq 1$}          \>Introduction of NBS shims \>\>\\
+\textbf{If NBS $\geq 1$}          \>Introduction of NBS shims \>\>\\
  \\
 \textbf{For I = 1, NBS}       \>The following 2 records must be repeated NBS times \>\>\\
  \> \\
@@ -378,11 +378,11 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  \\
  \textsl{KPOS}            \>Positioning of the map, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  RE, TE, RS, TS     \>Radius and angle of reference, respectively, \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the map. \>\>\\
  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
  \end{tabbing}
 
@@ -455,7 +455,7 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
  \>that intersect at the first order 
  focus) \>\>\\
  \\
-\textbf{if $I=3$}        \>Next record only if $I=3$ \>\>\\
+\textbf{If $I=3$}        \>Next record only if $I=3$ \>\>\\
  $I1$, $I2$, $I3$      \>Three particle numbers \> 3*(1-\imax) \>3*I  
 \end{tabbing}
 
@@ -469,11 +469,12 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
       \>\textbf{\BEAMBEAMTitl}\> \>    \\
 \\
 \\
-SW, I   \> 0/1/2~: off/on/on including spin kick~; beam intensity \> 0-2, Amp   \> I, E  \\
+SW, I   \> 0/1~: off/on~; beam intensity. \> 0-2, Amp   \> I, E  \\
+  \>     Use \textsl{SPNTRK} to activate spin kicks.  \>  \>  \\
 \\
-$\alpha_Y, ~ \beta_Y, ~ \epsilon_Y/\pi$   \> Beam parameters, horizontal.  \>  - , m, m.rad \> 3*E  \\
+$\alpha_Y, ~ \beta_Y, ~ \epsilon_{Y,norm}/\pi$   \> Beam parameters, horizontal.  \>  - , m, m.rad \> 3*E  \\
 \\
-$\alpha_Z, ~ \beta_Z, ~ \epsilon_Z/\pi$   \> Beam parameters, vertical.  \>  - , m, m.rad \> 3*E  \\
+$\alpha_Z, ~ \beta_Z, ~ \epsilon_{Z,norm}/\pi$   \> Beam parameters, vertical.  \>  - , m, m.rad \> 3*E  \\
 \\
 $\sigma_X, ~ \sigma_{dp/p}$   \> rms bunch length~; rms momentum spread.  \> m,  - \> 2*E  \\
 \\
@@ -547,12 +548,22 @@ extent~; fringe field extent (normally \>cm, cm, rad \>3*E  \\
       \>\textbf{\BINARYTitl}\> \>    \\
 \\
 \\
-$N\!F, ~ N\!Col, ~ N\!H\!D\!R$	\> Number of files to convert, of data columns, of header lines. \> 3*$\leq 9$  \> 3*I1 \\
+$N\!F[.J], ~ N\!Col, ~ N\!H\!D\!R$	\> Number of files to convert [\texttt{READ} format type, see below],   \> $\leq20$, $\geq 1$ , $0-9$
+                                                \> 3*I1 \\
+                                        \>     of data columns,  of header lines.         \\
 \\
-The next $N\!F$ lines : \> \> \\
-\textsl{FNAME} \> Name of the file to be converted. File content  \> \> A80 \\
-	\> is assumed binary \textsl{iff} name begins with ``B$_{\_}$'' or ``b$_{\_}$'',  \> \> \\
-	\> assumed formatted otherwise. 
+\bf The next $N\!F$ lines : \> \> \\
+\textsl{FNAME} \> Name of the file to be converted. File content  is assumed binary  \> \> A80 \\
+	\> \textsl{iff} name begins with ``B$_{\_}$'' or ``b$_{\_}$'', assumed formatted otherwise.  \> \> \\
+\\
+\\
+\\
+\\
+\\
+\texttt{READ} format  : \\
+\\
+If FRM not given     \>   Format is '*' \\
+If FRM=1             \>   Format is '1X,7E11.*' \\
  \end{tabbing}
 
 
@@ -1057,11 +1068,11 @@ $ RM3$   \> \> \> \\
  \\
  \textsl{KPOS}            \>Positioning of the map, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  RE, TE, RS, TS     \>Radius and angle of reference, respectively, \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the map. \>\>\\
  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
 
@@ -1135,7 +1146,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of 
 
 \begin{tabbing}
 \mestab
-\textbf{if NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
+\textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
  \>(See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
 $\lambda$, $\xi$                  \> \>cm, (cm) \>2*E \\
@@ -1148,20 +1159,20 @@ lateral EFB~; \> 2*deg, 5*cm \>7*E \\
  \\
  \textsl{NBS} \>Option index for perturbations to the field map \>normally 0 \>I \\
  \\
-\textbf{if NBS = 0}            \>Normal value. No other record required \>\>\\
+\textbf{If NBS = 0}            \>Normal value. No other record required \>\>\\
  \\
-\textbf{if NBS = -2}           \>The map is modified as follows : \>\>\\
+\textbf{If NBS = -2}           \>The map is modified as follows : \>\>\\
  \\
 $ R_0$, $\Delta B/B_0 $              \>$ B $ transforms to 
            $ B\ast\left(1+\frac{\Delta B}{B_0} \frac{R-R_0}{RMAX-RMIN} \right) $ 
                       \>cm, no dim. \> 2*E \\
  \\
-\textbf{if NBS = -1}           \>the map is modified as follows : \>\>\\
+\textbf{If NBS = -1}           \>the map is modified as follows : \>\>\\
  \\
 $ \theta_ 0$,  $\Delta B/B_0 $              \>$ B $ transforms to $ B\ast
 \left(1+\frac{\Delta B}{B_0} \frac{\theta -\theta_ 0}{AT} \right) $ \>deg, no dim. \>2*E \\
  \\
-\textbf{if NBS $\geq 1$}          \>Introduction of NBS shims \>\>\\
+\textbf{If NBS $\geq 1$}          \>Introduction of NBS shims \>\>\\
  \\
 \textbf{For I = 1, NBS}       \>The following 2 records must be repeated NBS times \>\>\\
  \> \\
@@ -1180,11 +1191,11 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  \\
  \textsl{KPOS}            \>Positioning of the map, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  RE, TE, RS, TS     \>Radius and angle of reference, respectively, \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the map. \>\>\\
  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the map, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
  \end{tabbing}
 
@@ -1279,11 +1290,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
  \\
  \textsl{KPOS}            \>Positioning of the magnet, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  $RE$, $TE$, $RS$, $TS$  \>Radius and angle of reference, respectively, 
                \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the magnet  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
 
@@ -1811,11 +1822,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \\
  \textsl{KPOS}            \>Positioning of the magnet, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  $RE$, $TE$, $RS$, $TS$  \>Radius and angle of reference, respectively, 
                \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the magnet  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
 
@@ -1884,11 +1895,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \\
  \textsl{KPOS}            \>Positioning of the magnet, normally 2. Two options : \>1-2 \>I\\
  \\
-\textbf{if KPOS = 2}     \>Positioning as follows : \>\>\\
+\textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  $RE$, $TE$, $RS$, $TS$  \>Radius and angle of reference, respectively, 
                \>cm, rad, cm, rad \>4*E \\
  \>at entrance and exit of the magnet  \\
-\textbf{if KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
+\textbf{If KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
 
@@ -1953,7 +1964,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 %\include{ZgoubiFITTable}
 %  \newlength{\LL}
 \settowidth{\LL}{\textbf{Beam matrix\ }}
-\footnotesize
+{\footnotesize
 	\begin{center}
     {\renewcommand{\arraystretch}{1}
 			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|c|c|c|p{\LL}|}
@@ -2027,7 +2038,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
          & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
 			    &  & $4 - 6$ & any 
                 & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
-         & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
+         &  & & & & \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
@@ -2041,7 +2052,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\hline
 		\end{tabular}  }
 	\end{center}
-\normalsize
+}%\normalsize
 
 %\vfill
 
@@ -2189,7 +2200,7 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \begin{alltt}
 \footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.},  magnet.map) contains the field map data. 
 These must be formatted according to the following \textsl{FORTRAN} read sequence (normally compatible with \textsl{TOSCA} code \textsl{OUTPUTS} - details 
-and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :} 
+and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :} 
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
 	      DO 1 J = 1, JY 
@@ -2247,7 +2258,7 @@ and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :}
 \begin{alltt}
 \footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.},  ``mirror.map'')  contains the field map data. 
 These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
-and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
+and possible updates are to be found in the source  file \texttt{'fmapw.f'} :}
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
 	      DO 1 J = 1, JY 
@@ -2385,7 +2396,7 @@ $ Y_0$, $T_0$, $Z_0$, $P_0$,  \>Mean value of coordinates  ($D_0=B\rho /\text{\B
          \>m, rad, m,\> 6*E\\
  $X_0$, $D_0 $       \> \>rad, m, no dim. \> \\
  \\
-\textbf{if KOBJ = 1} \> \textbf{In a window} \> \> \\
+\textbf{If KOBJ = 1} \> \textbf{In a window} \> \> \\
 \\
 $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, 
 		\>Distribution widths, depending on $KY$, $KT$ 
@@ -2449,7 +2460,7 @@ dim.   \>5*E\\
 $ IR1$, $IR2$, $IR3$       \>Random sequence seeds \> 3*$\simeq 10^6 $ 
 \>3*I\\
 \\
-\textbf{if KOBJ = 3} \label{pageMCOBJ3} \>\textbf{On a phase-space ellipse~\footnotemark[1]} \> \> \\
+\textbf{If KOBJ = 3} \label{pageMCOBJ3} \>\textbf{On a phase-space ellipse~\footnotemark[1]} \> \> \\
  \\
 $ \alpha_ Y$, $\beta_ Y$, $\varepsilon_Y/\pi$, $N_{\sigma_{\epsilon_Y}} $   
 		\>Ellipse parameters and    \>no dim., m/rad, \>4*E [,E] \\ 
@@ -2559,7 +2570,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \textsl{KOBJ[.K2]}           \>Option index [.More options]            \>1-6    \>I \\
  \\
-\textbf{if KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
+\textbf{If KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
 \\
  \textsl{IY, IT, IZ, IP, IX, ID}  
  \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP*IX*ID $\leq \imax$ } \> 6*1  \\
@@ -2573,7 +2584,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
 \textsl{YR, TR, ZR, PR, XR, DR}    \>Reference  ($DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
  \\
-\textbf{if KOBJ = 2}      \>All the initial coordinates must be entered explicitly\>\>\\
+\textbf{If KOBJ = 2[.01]}      \>All the initial coordinates must be entered explicitly\>\>\\
 \\
  \IMAX, \textsl{IDMAX}     \>total number of particles~; number of distinct momenta  
             \>\IMAX\ $\leq \imax$ \>2*I\\
@@ -2582,13 +2593,12 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \textbf{For I = 1, IMAX}  \>Repeat \IMAX\ times the following line  \> \>\\
 \\
  \textsl{Y, T, Z, P, X, D, LET} 
-           \>Coordinates and tagging character of the \>2(cm,mrad), cm, no dim.,   \>6*E, A1\\
-             \>\IMAX\ particles ($D =  B \rho /\text{\BORO}$)      \>  char \>\\
+           \>Coordinates and tagging  of the \IMAX\ particles~; 
+                                                         \>2(cm,mrad), cm, no dim.,   \>6*E, A1\\
+            \> \textsl{If KOBJ = 2.01} input units are different~:  \>2(m,rad), m, no dim.,   \>\\
  \\
- \IEX($I=1$, \IMAX)  \>\IMAX\ times 1 or -2. If $IEX(I)=1$, 
-             trajectory \>1 or -9  \>\IMAX\*I\\
- \>number $I$ is calculated. If $IEX(I)=-9$, it    \> \> \\
- \>is not calculated \>\>\\
+ \IEX($I=1$, \IMAX)  \>\IMAX\ times 1 or -9. If $\IEX(I)=1$ trajectory $I$ is   \>1 or -9  \>\IMAX\*I\\
+                     \>   ray-traced, it is not if $\IEX(I)=-9$.   \> \> \\
  \\
 \textbf{If KOBJ=3[.NN,}\\
 \hskip1em\textbf{NN=00\ldots 03]}      \>Reads coordinates from a storage file \> \> \\
@@ -2662,8 +2672,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{PY, PT, PZ, PP, PX, PD} \>Step sizes in $Y$, $T$, $Z$, $P$, $X$ and $D$
      \>2(cm,mrad),  cm, no dim.  \>6*E \\
  \\
- \textsl{YR, TR, ZR, PR, XR, DR} \> Reference trajectory~; \> 2(cm,mrad),  cm, no dim. \>   6*E\\
-              \>$DR= B \rho /\text{\BORO}$  \> \> \\
+ \textsl{YR, TR, ZR, PR, XR, DR} \> Reference trajectory~; $DR= B \rho /\text{\BORO}$  \> 2(cm,mrad),  cm, no dim. \>   6*E\\
  \\
 \textbf{If KOBJ = 7}      \>\textbf{Object with kinematics} \>\>\\
 \\
@@ -2945,7 +2954,7 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B
 \begin{alltt}
 \footnotetext[1]{ \textrm{\textsl{FNAME} (\emph{e.g.}, ``outpoi.lis'')  contains the field map data. 
 These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
-and possible updates are to be found in the source  file \textsl{'fmapw.f'} :} 
+and possible updates are to be found in the source  file \texttt{'fmapw.f'} :} 
 
        I = 0
    11  CONTINUE
@@ -3003,7 +3012,7 @@ and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
 \begin{alltt}
 \footnotetext[1]{ \textrm{ \textsl{FNAME} (\emph{e.g.},  spes2.map) contains the field data. 
 These must be formatted according to the following \textsl{FORTRAN} read sequence  - details 
-and possible updates are to be found in the source  file \textsl{'fmapw.f'} :}
+and possible updates are to be found in the source  file \texttt{'fmapw.f'} :}
 
 	      OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD' [,FORM='UNFORMATTED'])
 	      IF (BINARY) THEN 
@@ -3170,7 +3179,7 @@ X_S $ translations.}
  \> will end at Label2 whereupon execution will jump to the keyword \>\>\\
  \> next to \textsl{REBELOTE}  and will be carried out down to \textsl{'END'}. \>\>\\
 \\
-\textbf{if K = 22~\footnotemark[1]}          \>   \>         \>    \\
+\textbf{If K = 22~\footnotemark[1]}          \>   \>         \>    \\
 \textsl{NPRM}   \>  Number of parameters to be changed for next runs  \>        \>  I  \\
 \textsl{\bf Repeat $NPR$ times the following sequence (tells parameters concerned, and for each its successive values)~:} \\
 \textsl{LMNT}, \textsl{PRM}, NV*Val
@@ -3572,7 +3581,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
        \> If \textsl{MOD}=1 : $NF = IZ$, no symmetry assumed~; $Z(1) = Z_{max}$,  \\ 
        \> $Z(1+ [IZ/2])=0$ and $Z(NF) = -Z_{max}$ .\\ 
        \> If \textsl{MOD}=12 : a single \textsl{FNAME}  file contains the all 3-D volume.  \\ 
-       \> If \textsl{MOD}=20-22 : other symmetry options, see \textsl{toscap.f} routine...  \\ 
+       \> If \textsl{MOD}=20-22 : other symmetry options, see \texttt{toscap.f} routine...  \\ 
  \\
 $ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$, 2*no dim., cm\>I,3*E  \\
 $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>{[},2*no dim., cm, etc.]\>[,3*E,etc.]\\
@@ -3594,7 +3603,7 @@ $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \tex
 \begin{alltt}
 \footnotetext[1]{\textsl{MXX, MXY, IZ} may be changed, they are stated in the include file PARIZ.H. 
 }
-\footnotetext[2]{\textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details and possible updates are to be found in the source  file \textsl{'fmapw.f'}) :} 
+\footnotetext[2]{\textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :} 
 {\tiny
    DO K = 1, NF
      OPEN (UNIT = NL, FILE = FNAME(K), STATUS = `OLD' [,FORM='UNFORMATTED'])

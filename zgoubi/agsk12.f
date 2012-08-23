@@ -221,4 +221,85 @@ C          stop
       YSHFTO = YSHFT
       RETURN
 
+      ENTRY AGSK13(MODI,NOEL,
+     >                       YSHFTO)
+      lbl1 = label(noel,1)
+        last = finstr(lbl1)
+
+        if(MODI .eq. 1) then
+C centered dipole model
+          yce = 0.d0
+        elseif(MODI .eq. 2) then
+C long-shifted dipole model
+          fyce = 1.d0
+          if    (lbl1(last-1:last) .eq. 'BF') then
+            yce = fyce * (23.17d0 )
+          elseif(lbl1(last-1:last) .eq. 'CD') then  
+            yce = fyce * (-24.07d0 )
+          elseif(lbl1(last-1:last) .eq. 'AF') then  
+            yce = fyce * (23.d0 )
+          elseif(lbl1(last-1:last) .eq. 'BD') then  
+            yce = fyce * (-23.93d0 )
+          elseif(lbl1(last-1:last) .eq. 'CF') then  
+            yce = fyce * (23.d0 )
+          elseif(lbl1(last-1:last) .eq. 'AD') then  
+            yce = fyce * (-24.07d0 )
+          endif
+c          fyce = 1.d0
+c          sgn = 1.d0
+c          fb1 = 1.d0
+c          fb2 = 1.d0
+c          if    (lbl1(last-1:last) .eq. 'BF') then
+c            xlmag = 79.d0 * 0.0254d0
+c            b3 = -bk2(1) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (23.17d0 )
+c            b2 = bk1(1) 
+c          elseif(lbl1(last-1:last) .eq. 'CD') then  
+c            xlmag = 94.d0 * 0.0254d0
+c            b3 = -bk2(2) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (-24.07d0 )
+c            b2 = bk1(2) 
+c          elseif(lbl1(last-1:last) .eq. 'AF') then  
+c            xlmag = 94.d0 * 0.0254d0
+c            b3 = -bk2(3) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (23.d0 )
+c            b2 = bk1(3) 
+c          elseif(lbl1(last-1:last) .eq. 'BD') then  
+c            xlmag = 79.d0 * 0.0254d0
+c            b3 = -bk2(4) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (-23.93d0 )
+c            b2 = bk1(4) 
+c          elseif(lbl1(last-1:last) .eq. 'CF') then  
+c            xlmag = 94.d0 * 0.0254d0
+c            b3 = -bk2(5) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (23.d0 )
+c            b2 = bk1(5) 
+c          elseif(lbl1(last-1:last) .eq. 'AD') then  
+c            xlmag = 94.d0 * 0.0254d0
+c            b3 = -bk2(6) *(x10/100.d0)**2 / 2.d0
+c            yce = fyce * (-24.07d0 )
+c            b2 = bk1(6) 
+c          endif
+c          b1 = b1 + b2*yce/100.d0 - b3 * yce*yce/1.d4
+c          yce = -yce
+        else
+C short-shifted dipole model
+          fyce = 1.d0
+          if    (lbl1(last-1:last) .eq. 'BF') then
+            yce = fyce * (-0.3942767240d0)
+          elseif(lbl1(last-1:last) .eq. 'CD') then  
+            yce = fyce * (-0.5539466648d0)
+          elseif(lbl1(last-1:last) .eq. 'AF') then  
+            yce = fyce * (-0.5589609130d0)
+          elseif(lbl1(last-1:last) .eq. 'BD') then  
+            yce = fyce * (-0.3917462578d0)
+          elseif(lbl1(last-1:last) .eq. 'CF') then  
+            yce = fyce * (-0.5589406517d0)
+          elseif(lbl1(last-1:last) .eq. 'AD') then  
+            yce = fyce * (-0.5539271156d0)
+          endif
+        endif
+        YSHFTO = YCE
+      RETURN
+
       END

@@ -39,19 +39,10 @@ C     *********************
 
       DATA MXFIL / 9 /
 
-      READ(NDAT,fmt='(a132)') txt132
-      MSS = 2
-      CALL STRGET(TXT132,MSS,
-     >                       NST,STRA)
-
-C nf.ncol : # OF FILES TO TRANSLATE, # OF DATA COLUMNS IN FILE
-      READ(txt132,*) A(NOEL,1)
-      NF = NINT(A(NOEL,1))
-      IF(NF.GT.9) CALL ENDJOB('Too many files, max is ',MXFIL)
-
-C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
-      IF(NST.GE.2) READ(STRA(2),*,ERR=10) A(NOEL,2)
- 10   CONTINUE
+C nf, ncol, NHdr : # of files to translate, # of data columns in file, # of header lines
+      READ(NDAT,*) A(NOEL,1), A(NOEL,2), A(NOEL,3)
+      NF = INT(A(NOEL,1))
+      IF(NF.GT.20) CALL ENDJOB('Too many files, max is ',MXFIL)
 
 C     ... FILE NAMES
       DO 1 I=1,NF

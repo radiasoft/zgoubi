@@ -59,8 +59,6 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       COMMON/UNITS/ UNIT(MXJ)
  
       PARAMETER(MXJ1=MXJ-1)
-      PARAMETER (NTM=41)
-C      DIMENSION DE(5,NTM),IDE(5),JDE(5),P(MXJ)
       DIMENSION DE(5,MXT),IDE(5),JDE(5),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
      > (IDE(5),IPMAX),(IDE(1),IMAXD)
@@ -169,7 +167,7 @@ C       Time=FO(7,I) further initialized by 'PARTICUL' if used.
 
       IF(KOBJ2 .EQ. 1) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,
-     >  ''KOBJ2 = '',I2,'' => particles coordinated converted from'',
+     >  ''KOBJ2 = '',I2,'' => particle coordinates converted from'',
      >  '' SI units to Zgoubi units (cm, mrad)'')') KOBJ2
         DO I=1,IMAX
           DO J=1,5
@@ -222,8 +220,6 @@ C---------- OBJET AUTOMATIQUE SYMETRIQUE
       IPMAX = NINT(A(NOEL,23))
       IXMAX = NINT(A(NOEL,24))
       IDMAX = NINT(A(NOEL,25))
-C      IF(    IYMAX .GT. NTM .OR. ITMAX .GT. NTM .OR. IZMAX .GT. NTM
-C     > .OR. IPMAX .GT. NTM .OR. IXMAX .GT. NTM .OR. IDMAX .GT. NTM) THEN
       IF(IYMAX*ITMAX*IZMAX*IPMAX*IXMAX*IDMAX .GT. MXT) 
      >   CALL ENDJOB('Too many trajectories, max is ',MXT)
 

@@ -48,7 +48,7 @@ C  -------
       CHARACTER(60) NAMFIC
       INTEGER DEBSTR,FINSTR
 
-      LOGICAL OPN, IDLUNI, EMPTY
+      LOGICAL OPN, IDLUNI, EMPTY, EXS
 
       CHARACTER(200) TXT200
       CHARACTER(1) TXT1
@@ -73,9 +73,16 @@ C  -------
 
       IF(NAMFIC.EQ.'NONE' .OR. NAMFIC.EQ.'none') GOTO 97
 
-      INQUIRE(FILE=NAMFIC,ERR=98,OPENED=OPN,NUMBER=LUN)
+      INQUIRE(FILE=NAMFIC,ERR=2,OPENED=OPN,NUMBER=LUN,EXIST=EXS)
+      IF(.NOT. EXS) GOTO 2
       IF(OPN) CLOSE(UNIT=LUN)
-        
+      GOTO 3
+ 2    IF(NRES .GT. 0) WRITE(NRES,FMT='(3A)')     
+     >'    Could not find file ',NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),
+     >' ;  proceeding without it ... '
+      RETURN
+
+ 3    CONTINUE        
       IF(IDLUNI(
      >    LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,status='OLD',ERR=99)
 
@@ -115,11 +122,13 @@ C        J=K+NV
       IF(KREAD.GE.1) FITGET = .TRUE.
       IF(NRES .GT. 0) THEN
         WRITE(NRES,103) KREAD,NAMFIC
- 103  FORMAT(/,10X, I3, 
+ 103    FORMAT(/,10X, I3, 
      >  ' variables have been read from FIT storage file ',A,' :',/)
-        do i = 1, kread
+        WRITE(NRES,FMT='(A)')
+     >  ' Lmnt  Param       Val     Kley      Lbl1   Lbl2 '
+        DO I = 1, KREAD
           WRITE(NRES,409)I,IPRM(I),AFIT(I),KLEFIT(I),LB1FIT(I),LB2FIT(I)
- 409      FORMAT(1P,2(2X,I3),3X,G10.3,2X,3(1X,A))
+ 409      FORMAT(1P,2(2X,I3),3X,E13.4,2X,3(1X,A))
         enddo
       ENDIF
 C----- OBJECT coordinates are redefined according to FIT variables, if any
@@ -129,9 +138,7 @@ C To be completed
 
  97   CONTINUE
       RETURN 
- 98   CONTINUE
-      CALL ENDJOB('*** Error, SBR FITGTV -> at INQUIRE ',-99)
-      RETURN 
+
  99   CONTINUE
       WRITE(NRES,FMT='(3A)') ' Could not open '
      >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
@@ -148,29 +155,29 @@ C To be completed
       ENTRY FITGT1
       CALL ZGKLEY(
      >            KLEY)
-        DO 2 IV = 1, KREAD
-C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
-          IF(KLEFIT(IV) .EQ. KLEY) THEN
-            IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
-              IF(
-     >        (LB1FIT(IV) .EQ. '*' 
-     >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
-     >        .AND.
-     >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
-     >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
-                TEMP = A(NOEL,IPRM(IV)) 
-                A(NOEL,IPRM(IV)) = AFIT(IV)
-                IF(NRES .GT. 0) WRITE(NRES,
-     >          FMT='('' GETFITVAL procedure.  Former  value A(NOEL=''
-     >          ,I3,'','',I3,'') = '',1P,G12.4,'' changed to '', 
-     >          G13.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
-              ENDIF
-            ELSE
-               IF(NRES .GT. 0) WRITE(NRES,
-     >         FMT='('' GETFITVAL procedure, cannot be applied : ''
-     >         ,'' Elements need be labeled. Provide label #1 '')')
+      DO IV = 1, KREAD
+C        IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
+        IF(KLEFIT(IV) .EQ. KLEY) THEN
+          IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
+            IF(
+     >      (LB1FIT(IV) .EQ. '*' 
+     >      .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
+     >      .AND.
+     >      (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
+     >      .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
+              TEMP = A(NOEL,IPRM(IV)) 
+              A(NOEL,IPRM(IV)) = AFIT(IV)
+              IF(NRES .GT. 0) WRITE(NRES,
+     >        FMT='('' GETFITVAL procedure.  Former  value A(NOEL=''
+     >        ,I3,'','',I3,'') = '',1P,G12.4,'' changed to '', 
+     >        G13.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
             ENDIF
+          ELSE
+            IF(NRES .GT. 0) WRITE(NRES,
+     >      FMT='('' GETFITVAL procedure, cannot be applied : ''
+     >      ,'' Elements need be labeled. Provide label #1 '')')
           ENDIF
- 2      CONTINUE
+        ENDIF
+      ENDDO
       RETURN
       END

@@ -931,6 +931,50 @@ c Test, Dec. 06 :
 
              GOTO 92
 
+          ELSEIF( KP .EQ. 4 ) THEN  ! Only for AGS Main Magnet
+
+            TTA = -DEV/2.D0 
+            dtta = A(NOEL,ND+NND+3)
+            dtta2 = dtta/2.d0
+            CALL AGSK13(NINT(A(NOEL,1)),NOEL,
+     >                                      YSHFT1)
+
+            YSHFT = A(NOEL,ND+NND+2) + YSHFT1
+            XCE = - YSHFT * SIN(TTA) - xl* sin(dtta2) * sin(tta+dtta2)
+            YCE =   YSHFT * COS(TTA) + xl* sin(dtta2) * cos(tta+dtta2)
+C Z-shift
+            ZSHFT = A(NOEL,ND+NND+4)
+C Y-rotation
+            PHE = A(NOEL,ND+NND+5)
+            XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
+            ZCE = 0.5D0*XL * SIN(PHE) 
+
+            CALL QUASE2(dtta,zce,PHE)    
+
+            ALE  = A(NOEL,ND+NND+3) + TTA
+
+            qshroe(1) = 'XS'
+            Vshroe(1) = XCE
+            qshroe(2) = 'YS'
+            Vshroe(2) = YCE
+            qshroe(3) = 'ZR'
+            Vshroe(3) = ALE
+C Z-shift
+            qshroe(4) = 'ZS'
+            Vshroe(4) = ZSHFT
+C Y-rotation 
+            qshroe(5) = 'XS'
+            Vshroe(5) = XCEB
+            qshroe(6) = 'ZS'
+            Vshroe(6) = ZCE
+            qshroe(7) = 'YR'
+            Vshroe(7) = PHE
+            Vshroe(MSR) = 7
+C            Vshroe(MSR) = 6
+
+            GOTO 93
+
+
            ENDIF
 
         ELSEIF(KUASEX .EQ. 20 )   THEN

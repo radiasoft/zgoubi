@@ -57,10 +57,36 @@ C Fred's ETparam
       MM0 = MM
       nharm0 = nharm
 
+c      qxmin = qxmi + dble(iqx) 
+c      xxmax = xxma + dble(iqx )
+c      qymin = qymi + dble(iqy )
+c      yymax = yyma + dble(iqy )
+
+      WRITE(*,*) ' Scales (QX_min/max, Qy_min/max)       : '
+     > , qxmi + dble(iqx), xxma + dble(iqx )
+     > , qymi + dble(iqy ), yyma + dble(iqy ) 
+      read(*,*,err=5,end=5) QXMIi,XXMAi,QYMIi,YYMAi
+      goto 51
+ 5    continue
+      QXMIi = QXMI
+      XXMAi = XXMA
+      QYMIi = QYMI
+      YYMAi = YYMA
       qxmin = qxmi + dble(iqx) 
       xxmax = xxma + dble(iqx )
       qymin = qymi + dble(iqy )
       yymax = yyma + dble(iqy )
+51    continue
+      QXMI = QXMIi
+      XXMA = XXMAi
+      QYMI = QYMIi
+      YYMA = YYMAi
+      QXMIN = QXMI
+      XXMAX = XXMA
+      QYMIN = QYMI
+      YYMAX = YYMA
+       write(*,*) ' diagnu ',okech,qXMIn,xXMAx,qYMIn,yYMAx
+                   read(*,*)
 
       DY=YYMAX-QYMIN
       DX=XXMAX-QXMIN
@@ -74,20 +100,22 @@ C Fred's ETparam
       XXMAX=QXMAX
       YYMAX=QYMAX
 
-      if(.not. okech) then 
+c      if(.not. okech) then 
         xmi = QXMIN
         xma = QXMAX
         ymi = QYMIN
         yma = QYMAX
         CALL TRAXES(XMI,XMA,YMI,YMA,1)
         okech = .true.
-      else
-        QXMIN = xmi
-        QXMAX = xma
-        QYMIN = ymi
-        QYMAX = yma
-      endif
-C       write(*,*) ' diagnu ',okech,XMI,XMA,YMI,YMA
+c      else
+c        QXMIN = xmi
+c        QXMAX = xma
+c        QYMIN = ymi
+c        QYMAX = yma
+c        CALL TRAXES(XMI,XMA,YMI,YMA,1)
+c      endif
+       write(*,*) ' diagnu ',okech,XMI,XMA,YMI,YMA
+                   read(*,*)
 
       CALL FBGTXT
 
@@ -140,7 +168,6 @@ C
       nharm=nharm0
  41   continue
       nharm0=nharm
-
 
 c          write(*,*) ires,irot,MM1,MM2,nharm
 c              stop

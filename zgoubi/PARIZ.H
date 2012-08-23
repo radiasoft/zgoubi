@@ -99,13 +99,13 @@ CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)
 C      PARAMETER (IZ=30 , ID=3, MMAP=2)
 C      PARAMETER (MXX=801, MXY=29)
 CC D5 IPM magnet in AGS.
-      PARAMETER (IZ=41 , ID=3, MMAP=2)
-      PARAMETER (MXX=1801, MXY=41)
+C      PARAMETER (IZ=41 , ID=3, MMAP=2)
+C      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-c      PARAMETER (IZ=30 , ID=3, MMAP=8)
-c      PARAMETER (MXX=1000, MXY=201)
+      PARAMETER (IZ=30 , ID=3, MMAP=8)
+      PARAMETER (MXX=1000, MXY=201)
 
 CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)

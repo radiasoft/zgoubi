@@ -25,6 +25,8 @@ C  -------
        subroutine bbkck(Npt,coef,sigma,Ptsl,ga,Gs)
        implicit double precision (a-h,o-z)
 C S. White & F. Meot, Jan. 2012
+      INCLUDE "MAXTRA.H"
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
        double precision  coef,sepx,sepy,bbfx,bbfy,bbgx,bbgy
        dimension  sigma (6)
        parameter (mxpt=10000)
@@ -62,7 +64,8 @@ C S. White & F. Meot, Jan. 2012
      >      bbfy*(Ptsl(4,i)-bbfy*0.5))*0.5
            Ptsl(2,i)=Ptsl(2,i)-bbfx
            Ptsl(4,i)=Ptsl(4,i)-bbfy
-           call bbrsp(Ptsl,i,a,b,c,sa,sb)
+
+           if(kspn.eq.1) call bbrsp(Ptsl,i,a,b,c,sa,sb)
 C           call bbrsp(Ptsl,i,a,b,c,sa,sb,npt)
 
          enddo

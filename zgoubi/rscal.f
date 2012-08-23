@@ -216,14 +216,23 @@ C               max = max(NDSCL,NDTIM)
         IF    ( MODSCL(IFM) .LT. 10) then             
 
 C--------- SCL(IFM,IT)
-          NP = NP + NDSCL
+          NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDSCL)
+c           write(*,*) 
+c     >    'rscal ',IFM, ndscl, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
+          NP = NP + NDSCL -1
+
+
 
 C--------- TIM(IFM,IT)
-          NP = NP + NDTIM
+          NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
+c           write(*,*) 
+c     >      'rscal ',IFM, ndtim, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDTIM)
+c                   read(*,*)
+          NP = NP + NDTIM - 1 
 
 c          NP = NP + 1
 c          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)

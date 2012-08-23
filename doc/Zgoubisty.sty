@@ -47,6 +47,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\newcommand{\zgou}{\textbf{Zgoubi}}
+\newcommand{\If}{\textsl{Iff}}
+\newcommand{\Iff}{\textsl{iff}}
+\newcommand{\rms}{\textsl{rms}}
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\ie}{\emph{i.e.}}
 \newcommand{\zgou}{\textbf{zgoubi}}
 \newcommand{\zgoubi}{\textbf{zgoubi}}
 \newcommand{\zpop}{\textbf{zpop}}
@@ -68,54 +73,74 @@
 \newcommand{\IB}{ \ensuremath{I\!B}} %%
 \newcommand{\IC}{ \ensuremath{I\!C}} %%
 \newcommand{\IL}{ \ensuremath{I\!L}} %%
-\newcommand{\IEX}{\ensuremath{\textsl{I\!E\!X}}} %%
-\newcommand{\IMAX}{\ensuremath{\textsl{I\!M\!A\!X}}} %%%
+\newcommand{\IEX}{\ensuremath{\textsl{IEX}}} %%
+\newcommand{\IMAX}{\ensuremath{\textsl{IMAX}}} %%%
 \newcommand{\imax}{\ensuremath{10^4}} %%%
-\newcommand{\IDMAX}{\textsl{I\!D\!M\!A\!X}} %%
-\newcommand{\IAMAX}{\textsl{I\!A\!M\!A\!X}}  %%
-\newcommand{\IRMAX}{\textsl{I\!R\!M\!A\!X}}%%
+\newcommand{\IDMAX}{\textsl{IDMAX}} %%
+\newcommand{\IAMAX}{\textsl{IAMAX}}  %%
+\newcommand{\IPASS}{\textsl{IPASS}}%%
+\newcommand{\IRMAX}{\textsl{IRMAX}}%%
+\newcommand{\IMAGE}{\textsl{IMAGE}}%%
 \newcommand{\IMAGES}{\textsl{IMAGES}}%%
 % \newcommand{\IREP}{\textsl{IREP}}
 \newcommand{\KOBJ}{\textsl{KOBJ}}%%
 \newcommand{\LABEL}{ \ensuremath{L\!A\!B\!E\!L}} %%
-\newcommand{\NC}{\textsl{N\!C}}%%
-\newcommand{\NCE}{\textsl{N\!C\!E}}%%
-\newcommand{\NCS}{\textsl{N\!C\!S}}%%
+\newcommand{\NC}{\textsl{NC}}%%
+\newcommand{\NCE}{\textsl{NCE}}%%
+\newcommand{\NCS}{\textsl{NCS}}%%
 \newcommand{\ntm}{\ensuremath{41}} %%%
-\newcommand{\NH}{ \ensuremath{N\!H}} %%
-\newcommand{\NV}{\textsl{N\!V}}%%
+\newcommand{\NH}{ \ensuremath{NH}} %%
+\newcommand{\NP}{ \ensuremath{NP}} %%
+\newcommand{\NV}{\textsl{NV}}%%
 \newcommand{\OBJET}{\textsl{OBJET}} %%
 \newcommand{\REBELOTE}{\textsl{REBELOTE}} %%
-\newcommand{\RMAX}{\textsl{R\!M\!A\!X}} %%
-\newcommand{\RMIN}{\textsl{R\!M\!I\!N}} %%
+\newcommand{\RMAX}{\textsl{RMAX}} %%
+\newcommand{\RMIN}{\textsl{RMIN}} %%
 
 \newcommand{\wrt}{{\textsl{wrt.}}} %%
-\newcommand{\IX}{ \ensuremath{I\!X}} %%
-\newcommand{\IY}{ \ensuremath{I\!Y}} %%
-\newcommand{\IZ}{ \ensuremath{I\!Z}} %%
-\newcommand{\IT}{ \ensuremath{I\!T}} %%
-\newcommand{\ID}{ \ensuremath{I\!D}} %%
-\newcommand{\IP}{ \ensuremath{I\!P}} %%
-\newcommand{\PX}{ \ensuremath{P\!X}} %%
-\newcommand{\PY}{ \ensuremath{P\!Y}} %%
-\newcommand{\PZ}{ \ensuremath{P\!Z}} %%
-\newcommand{\PT}{ \ensuremath{P\!T}} %%
-\newcommand{\PD}{ \ensuremath{P\!D}} %%
-\newcommand{\PP}{ \ensuremath{P\!P}} %%
-\newcommand{\PR}{ \ensuremath{P\!R}} %%
-\newcommand{\TC}{ \ensuremath{T\!C}} %%
-\newcommand{\TL}{ \ensuremath{T\!L}} %%
-\newcommand{\TR}{ \ensuremath{T\!R}} %%
-\newcommand{\XC}{ \ensuremath{X\!C}} %%
-\newcommand{\XL}{ \ensuremath{X\!L}} %%
-\newcommand{\XR}{ \ensuremath{X\!R}} %%
-\newcommand{\YC}{ \ensuremath{Y\!C}} %%
-\newcommand{\YL}{ \ensuremath{Y\!L}} %%
-\newcommand{\YR}{ \ensuremath{Y\!R}} %%
-\newcommand{\ZC}{ \ensuremath{Z\!C}} %%
-\newcommand{\ZL}{ \ensuremath{Z\!L}} %%
-\newcommand{\ZR}{ \ensuremath{Z\!R}} %%
-\newcommand{\DR}{ \ensuremath{D\!R}} %%
+\newcommand{\IR}{ \ensuremath{\textsl{IR}}} %%
+\newcommand{\IX}{ \ensuremath{\textsl{IX}}} %%
+\newcommand{\IY}{ \ensuremath{\textsl{IY}}} %%
+\newcommand{\IZ}{ \ensuremath{\textsl{IZ}}} %%
+\newcommand{\ITone}{\ensuremath{\textsl{IT1}}} %%
+\newcommand{\ITtwo}{\ensuremath{\textsl{IT2}}} %%
+\newcommand{\ITStep}{\ensuremath{\textsl{ITStep}}} %%
+\newcommand{\ID}{ \ensuremath{\textsl{ID}}} %%
+\newcommand{\IP}{ \ensuremath{\textsl{IP}}} %%
+\newcommand{\IPone}{ \ensuremath{\textsl{IP1}}} %%
+\newcommand{\IPtwo}{ \ensuremath{\textsl{IP2}}} %%
+\newcommand{\IPStep}{ \ensuremath{\textsl{IPStep}}} %%
+\newcommand{\PX}{ \ensuremath{\textsl{PX}}} %%
+\newcommand{\PY}{ \ensuremath{\textsl{PY}}} %%
+\newcommand{\PZ}{ \ensuremath{\textsl{PZ}}} %%
+\newcommand{\PT}{ \ensuremath{\textsl{PT}}} %%
+\newcommand{\PD}{ \ensuremath{\textsl{PD}}} %%
+\newcommand{\PP}{ \ensuremath{\textsl{PP}}} %%
+\newcommand{\PR}{ \ensuremath{\textsl{PR}}} %%
+\newcommand{\TC}{ \ensuremath{\textsl{TC}}} %%
+\newcommand{\TL}{ \ensuremath{\textsl{TL}}} %%
+\newcommand{\TR}{ \ensuremath{\textsl{TR}}} %%
+\newcommand{\XC}{ \ensuremath{\textsl{XC}}} %%
+\newcommand{\XL}{ \ensuremath{\textsl{XL}}} %%
+\newcommand{\XR}{ \ensuremath{\textsl{XR}}} %%
+\newcommand{\YC}{ \ensuremath{\textsl{YC}}} %%
+\newcommand{\YF}{ \ensuremath{\textsl{YF}}} %%
+\newcommand{\TF}{ \ensuremath{\textsl{TF}}} %%
+\newcommand{\ZF}{ \ensuremath{\textsl{ZF}}} %%
+\newcommand{\PF}{ \ensuremath{\textsl{PF}}} %%
+\newcommand{\SF}{ \ensuremath{\textsl{SF}}} %%
+\newcommand{\DPF}{ \ensuremath{\textsl{DPF}}} %%
+\newcommand{\TiF}{ \ensuremath{\textsl{TiF}}} %%
+\newcommand{\TAG}{ \ensuremath{\textsl{TAG}}} %%
+\newcommand{\YL}{ \ensuremath{\textsl{YL}}} %%
+\newcommand{\YR}{ \ensuremath{\textsl{YR}}} %%
+\newcommand{\ZC}{ \ensuremath{\textsl{ZC}}} %%
+\newcommand{\ZL}{ \ensuremath{\textsl{ZL}}} %%
+\newcommand{\ZR}{ \ensuremath{\textsl{ZR}}} %%
+\newcommand{\DR}{ \ensuremath{\textsl{DR}}} %%
+\newcommand{\DPR}{ \ensuremath{\textsl{DPR}}} %%
+\newcommand{\TiR}{ \ensuremath{\textsl{TiR}}} %%
+\newcommand{\SR}{ \ensuremath{\textsl{SR}}} %%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %          Commandes spéciales à ne pas retirer           %

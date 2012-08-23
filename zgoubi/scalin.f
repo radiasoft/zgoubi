@@ -119,11 +119,16 @@ C               WRITE(*,*) ' TIM = ',A(NOEL,NP+NTIM(IF)+IT)
 c            ENDDO
 c               READ(*,*)
 
+            NP = NP + 1
             DO IT = 1, NTIM(IF) 
-               SCL(IF,IT) = A(NOEL,NP+IT)
-               TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT)
+               SCL(IF,IT) = A(NOEL,NP+IT-1)
+               TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
+c                write(*,*) 
+c     >       ' scalin ',IT, IF, NTIM(IF),
+c     >         NP+IT-1,  SCL(IF,IT), NP+NTIM(IF)+IT-1,TIM(IF,IT)
             ENDDO
             NP = NP +  2 * NTIM(IF) 
+c                  read(*,*)
 
 c            NSTR = A(NOEL,NP)
 c            NP = NP + 1

@@ -33,7 +33,9 @@ C S. White & F. Meot, Jan. 2012
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+     >     IREP(MXT),AMQLU,PABSLU
+      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/UNITS/ UNIT(MXJ)
 
         parameter (epsilon0 = 8.854187817d-12)
@@ -75,17 +77,34 @@ c        read(1,*)spincoord(1:3)
 c        read(1,*)ampx,ampy,ampz
 c        close(1)
 
-        if(nint(a(noel,1)).eq.0) then
+      if(nint(a(noel,1)).eq.0) then
           write(nres,*) ' BEAM-BEAM is OFF'
          
-        else
-         if(ipass.eq.1) then
+      else
+        if(ipass.eq.1) then
+
+       write(nres,*) '   intensity= ',a(noel,2)
+       write(nres,*)  ' alfx= ',a(noel,10)
+       write(nres,*)  ' betx= ',a(noel,11)
+       write(nres,*)  ' epsnx= ',a(noel,12)
+       write(nres,*)  ' alfy= ',a(noel,20)
+       write(nres,*)  ' bety= ',a(noel,21)
+       write(nres,*)  ' epsny= ',a(noel,22)
+       write(nres,*)  ' sigz= ',a(noel,30)
+       write(nres,*)  ' dpp= ',a(noel,31)
+       write(nres,*)  ' circ= ',a(noel,40)
+       write(nres,*)  ' alfmom= ',a(noel,41)
+       write(nres,*)  ' tunex= ',a(noel,50)
+       write(nres,*)  ' tuney= ',a(noel,51)
+       write(nres,*)  ' tunez= ',a(noel,52)
+       write(nres,*)  ' ampx= ',a(noel,60)
+       write(nres,*)  ' ampy= ',a(noel,61)
+       write(nres,*)  ' ampz= ',a(noel,62)
 
           mass=amq(1,1)
           charge=amq(2,1)
-          P0 = BORO*CL9*Q
+          P0 = BORO*CL9*charge
           energev=.001d0 * sqrt(p0*p0 + mass*mass)
-
           intensity=a(noel,2)
           alfx=a(noel,10)
           betx=a(noel,11)
@@ -126,40 +145,47 @@ c        close(1)
           call bblmap(linearmap,tunex,tuney,tunez,
      >              alfx,betx,alfy,bety,alfmom,ga,bet,cl,circ)
 
-          endif
         endif
+      endif
 
-        return
+      return
 
-        entry bbkick
+      entry bbkick
 
-          call bbkck(Npt,coef/2.0d0,sigma,Ptsl,ga,Gs)
-          call bbkLm(Ptsl,Npt,linearmap)
+      call bbkck(Npt,coef/2.0d0,sigma,Ptsl,ga,Gs)
+      call bbkLm(Ptsl,Npt,linearmap)
         
-        ok = idluni(
-     >              luna)
-        open(unit=luna,file='zgoubbi.out')
-        do i = 1, Npt
-           write(luna,fmt='(2i6,6(1x,e15.6))') npt,i,(Ptsl(j,i),j=1,6)
-        enddo
-        close(2)
-
+      if(ipass.eq.1) then
+c        ok = idluni(
+c     >              luna)
+c        open(unit=luna,file='zgoubbi.out')
 
         ok = idluni(
      >              lunb)
         open(lunb,file="ptcl.out",status="unknown",position="append",
      >                                        form="formatted")
-   
-        if(iturn.eq.1) then
           write(lunb,*)Npt
-        endif
-        write(lunb,*)iturn
+      endif
+
+        do i = 1, Npt
+c           write(luna,fmt='(2i6,6(1x,e15.6))') npt,i,(Ptsl(j,i),j=1,6)
+          f(1,i) = Ptsl(6,i)
+          f(2,i) = Ptsl(1,i)*1d2
+          f(3,i) = Ptsl(2,i)*1d3
+          f(4,i) = Ptsl(3,i)*1d2
+          f(5,i) = Ptsl(4,i)*1d3
+ccccccc          f(6,i) = Ptsl(5,i)*1d6
+        enddo
+c        close(luna)
+
+
+        write(lunb,*) ipass
         do i =1, Npt
           snorm = sqrt(Ptsl(7,i)**2+Ptsl(8,i)**2+Ptsl(9,i)**2)
-          write(lunb,222) Ptsl(1:9,i),snorm,i,iturn
+          write(lunb,222) Ptsl(1:9,i),snorm,i,ipass
         enddo
 
-        close(lunb)
+c        close(lunb)
 222     format(10(1x,e17.9),2(1x,i6))
         return
         end

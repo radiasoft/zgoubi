@@ -35,7 +35,7 @@ files (``zgoubi.res'').
 
 \noindent A series of auxiliary computing tools have been developped in addition, 
  aimed at making the designer's life easier, as, 
- search for closed orbits in periodic machines, computation of optical functions and parameters, 
+ search for closed orbits \index{closed orbit}  in periodic machines, computation of optical functions and parameters, 
 tune scans, dynamic aperture scans,   spin dynamics data treatment, 
  graphic scripts, etc., and including dedicated ones regarding, \emph{e.g.}, FFAG and cyclotron design, 
 AGS and RHIC studies, synchrotron radiation losses and their effects. 
@@ -652,6 +652,7 @@ following eqs.~(\ref{eq2-2-11},~\ref{eq2-2-12}) and eqs.~(\ref{eq2-2-7a},~\ref{e
 The time of flight  eq.~(\ref{eq2-2-Time}) involves the derivatives 
 $dT/ds=1/v$, $d^2T/ds^2=d(1/v)/ds$, etc. that are obtained from eq.~(\ref{eq2-2-17}). In the absence of 
 electric field   eq.~(\ref{eq2-2-6}) however reduces to the simple form 
+
  \begin{equation}
 T(M_1) =   T(M_0) +  \Delta s/v  
  \end{equation}
@@ -704,6 +705,8 @@ performed, thus providing the expressions
 $ \dfrac{ \partial^{i+j+k} \vec  B }{\partial X^i\partial Y^j\partial Z^k} $ needed in the 
 eq.~(\ref{eq2-2-7}). 
 
+
+
 \subsubsection{Extrapolation From  Median Plane Field Models} \label{sec2.3.2} %%%%%%  2.3.2.  
 
 In the median plane, $ B_Z(X,Y,0)$ and its 
@@ -713,9 +716,9 @@ multipoles  \textsl{SEXQUAD\index{SEXQUAD}}   and \textsl{QUADISEX\index{QUADISE
 polynomial interpolation from 2-D field maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}, 
 TOSCA\index{TOSCA}}).  
 
-\smallskip
 
 \noindent Median plane antisymmetry is assumed, which results in 
+
 
 \begin{equation}
 	\begin{aligned}
@@ -728,7 +731,7 @@ TOSCA\index{TOSCA}}).
 	\label{eq2-3-2}
 \end{equation}
 
-Accomodated with Maxwell's equations, this results 
+\noindent Accomodated with Maxwell's equations, this results 
  in  Taylor expansions below,  for the three components of $ \vec  B $ (here, 
 $ B $ stands for $ B_Z(X,Y,0)$) 
 
@@ -754,7 +757,7 @@ $ B $ stands for $ B_Z(X,Y,0)$)
 	\label{eq2-3-3}
 \end{equation}
 
- which are then differentiated one by one with respect to $ X$, $Y$, 
+\noindent  which are then differentiated one by one with respect to $ X$, $Y$, 
 or $ Z$, up to second or fourth order (depending on optical element or 
 \textsl{IORDRE\index{IORDRE}} option, see section \ref{sec2.4.2}) so as to get the expressions
  involved in eq.~(\ref{eq2-2-7}). 
@@ -776,7 +779,7 @@ without any hypothesis of symmetries (see section~\ref{sec2.4.3} and keywords
            \label{sec2.3.4} %%%% 2.3.4.  [4]
 
 In 3-D field maps $ \vec  B $ and its derivatives up to the second
-order with respect to $ X$, $Y$,  or $ Z $ are calculated by means of a second order polynomial 
+order with respect to $ X$, $Y$  or $ Z $ are calculated by means of a second order polynomial 
 interpolation,  from  3-D  $ 3  \times  3 
  \times $ 3-point grid (see section~\ref{sec2.4.4}). 
 
@@ -788,7 +791,7 @@ interpolation,  from  3-D  $ 3  \times  3
 Several optical elements such as \textsl{BEND\index{BEND}}, \textsl{WIENFILT\index{WIENFILT}} (that 
 uses the \textsl{BEND} procedures), \textsl{QUADISEX\index{QUADISEX}}, \textsl{VENUS\index{VENUS}}, etc., 
 are defined from the  expression of the field and derivatives in the median plane. 
-3-D extrapolation of these off the median is drawn from Taylor expansions. 
+3-D extrapolation of these off the median palne is drawn from Taylor expansions and Maxwell's equations. 
 
 
 
@@ -799,9 +802,9 @@ are defined from the  expression of the field and derivatives in the median plan
 
 In many optical elements such as \textsl{QUADRUPO\index{QUADRUPO}, SEXTUPOL\index{SEXTUPOL}, 
 MULTIPOL\index{MULTIPOL}, EBMULT\index{EBMULT}},  etc.,  the three 
-components of $ \vec  B $  and their derivatives with respect to $ X$, $Y $ 
-or $ Z $ are obtained at any step along trajectories from analytical 
-expression drawn from the scalar potential $ V(X,Y,Z) $ following 
+components of $ \vec  B$  and their derivatives with respect to $ X$, $Y $ 
+or $ Z $  are obtained at any step along trajectories from analytical 
+expression drawn from the scalar potential $ V(X,Y,Z) $, namely  
 
  \begin{equation}
 %	 \begin{alignedat}{3}
@@ -815,6 +818,9 @@ expression drawn from the scalar potential $ V(X,Y,Z) $ following
 %	 \end{alignedat}
  	\label{eq2-3-4}
  \end{equation}
+
+\noindent  and similarly for $ \vec  E $ with opposit sign for the gradients. 
+
 
 \paragraph{Multipoles}
 
@@ -858,10 +864,9 @@ the others by an arbitrary
 angle $A_n$ around the $X$-axis. If so, the calculation of the field and derivatives in the 
 rotated axis $ (X,Y_R,Z_R) $ is done in two steps. First, they are 
 calculated at the rotated position $ (X,Y_R,Z_R)$,  in the $ (X,Y,Z) $ 
-frame, as derived from  expression (\ref{eq2-3-5}) above. Second, $ \vec  B $ and 
+frame, using the  expression (\ref{eq2-3-5}) above. Second, $ \vec  B $ and 
 its derivatives at $ (X,Y_R,Z_R) $ in the $ (X,Y,Z) $ frame are transformed 
-to the rotated $ (X,Y_R,Z_R) $ frame by a rotation of the same angle 
-$A_n$. 
+into the new,  $ (X,Y_R,Z_R) $ frame,  by a rotation with angle  $A_n$. 
 
 In particular a skew $2n$-pole component is created  by taking $A_n = \pi/2n$.
 
@@ -870,13 +875,13 @@ In particular a skew $2n$-pole component is created  by taking $A_n = \pi/2n$.
 
 \paragraph{A Note on Electrostatic Multipoles}
 
-\noindent A right electric multipole has the same field equations as a 
+\noindent A right electric multipole has the same field equations 
 as the like-order skew magnetic multipole. Therefore, 
 calculation of  right or skew electric or electro-magnetic multipoles 
 (\textsl{ELMULT\index{ELMULT}, EBMULT\index{EBMULT}, ELMULT\index{EBMULT}})   uses the 
 same eq.~(\ref{eq2-3-5}) together with the rotation process as described in 
-section~\ref{sec2.3.5}. The same method is used, for arbitrary rotation of 
-arbitrary multipole component around the $ X $-axis. 
+section~\ref{sec2.3.5}. The same method is used  for arbitrary rotation of 
+any multipole component around the $ X $-axis. 
 
 
 
@@ -952,12 +957,11 @@ $ \vec  B $ and its derivatives as involved in eq.~(\ref{eq2-2-7}).
 %\vspace{17 truecm}
 %%%Figure 3
 \centerline{\includegraphics[width=15.5cm]{Fig3.ps}}
-\hangcaption[Fig3]{\label{fig3}Mesh in the $ (X,Y) $ plane in Cartesian coordinates.
-The grid is centered \\
+\hangcaption[Fig3]{\label{fig3}Mesh in the $ (X,Y) $ plane. The grid is centered 
 on the node which is closest to the actual position of the particle.\\
-A~: 9-point interpolation  grid.\\
-B~: 25-point interpolation grid.\\ 
-C~: Mesh in the $ (X,Y) $ plane in polar coordinates. }
+A~: Cartesian mesh, 9-point interpolation  grid.\\
+B~: Cartesian mesh, 25-point interpolation grid.\\ 
+C~: Polar mesh and moving Cartesian frame. }
 	\end{figure}
 
 \noindent\zgou\ provides three types of polynomial
@@ -965,13 +969,14 @@ interpolation from the mesh (option \textsl{IORDRE\index{IORDRE}})~; namely, a s
 with either a 9- or a 25-point grid, or a fourth 
 order interpolation with a 25-point  grid (Fig.~\ref{fig3}).  
 
-\noindent If the 2-D field map is built up from  simulation, the grid simply
-aims at interpolating the field at a given point from its 9 or 25~neighbors.  If 
-the map results from measurements, the grid also smoothes field measurement 
+\noindent If the 2-D field map is built up from  computer simulation, the grid in principle simply
+aims at interpolating the field  and derivatives at a given point from its 9 or 25~neighbors.  
+On the other hand if 
+the map results from field measurements, the grid also has the virtue of  smoothing field 
 fluctuations. 
 
 \noindent The mesh may be defined in Cartesian coordinates, 
-(Figs.~3A and 3B) or in polar coordinates (Fig.~~\ref{fig3}C).   
+(Figs.~\ref{fig3}A and~\ref{fig3}B) or in polar coordinates (Fig.~\ref{fig3}C).   
 
 \noindent The interpolation grid is centered on the node which is closest to
 the projection in  the ($ X,Y) $ plane of the actual point of the trajectory. 
@@ -983,7 +988,7 @@ the projection in  the ($ X,Y) $ plane of the actual point of the trajectory.
  	\label{eq2-4-4}
  \end{equation}
  %
- in second order, or 
+ to the second order, or 
 
  \begin{equation}
 	 \begin{aligned}
@@ -996,8 +1001,8 @@ the projection in  the ($ X,Y) $ plane of the actual point of the trajectory.
 	 \end{aligned}
  	\label{eq2-4-5}
  \end{equation}
-%
-in fourth order.  The coefficients $ A_{ij} $ are calculated by
+
+to the  fourth order.  The coefficients $ A_{ij} $ are calculated by
 expressions that 
 minimize, with respect to $ A_{ij}$, the quadratic sum 
 
@@ -1005,7 +1010,7 @@ minimize, with respect to $ A_{ij}$, the quadratic sum
 	S = \sum_{ij}(B(X,Y,0)-B_{ij})^2 
 	\label{eq2-4-5b} %% 2-4-6
 \end{equation}
-%
+
 The source code contains the explicit analytical 
 expressions of the coefficients $A_{ij}$ solutions of the normal 
 equations $\partial S / \partial A_{ij} = 0$.
@@ -1039,9 +1044,9 @@ as described in subsection~\ref{sec2.3.2} (eq.~\ref{eq2-3-3}).
 
 \paragraph{The special case of polar maps} 
  
- \noindent It is necessary to change from polar map frame ($R,\alpha,Z$) to the Cartesian 
-moving frame ($X,Y,Z$).  This
-is done as  follows. 
+ \noindent In some optical elements (\eg, \textsl{POLARMES, DIPOLE[S]})
+ the field is given in polar coordinates. It is thus necessary to transform the field and derivatives from the polar frame 
+of the map, ($R,\alpha,Z$) to the Cartesian moving frame ($X,Y,Z$), Fig.~\ref{fig3}C.  This is done as  follows. 
 
 \noindent In second order calculations the correspondence is (we note $B \equiv B_Z(Z=0)$)
 
@@ -1078,8 +1083,8 @@ is done as  follows.
  
 
 %\newpage
-  \noindent In fourth order calculations the relations are the same up to second
-order, and then  
+  \noindent In fourth order calculations the relations above are pushed to fourth order in $X, ~ Y$  
+ whereas 
 
 {\renewcommand{\arraystretch}{2}
  \begin{equation}
@@ -1129,11 +1134,16 @@ order, and then
 	\label{eq2-4-9}
 \end{equation}  }
  
+\medskip 
 
-\noindent \textbf{NOTE~:} If a particle goes beyond the limits of the 
- field map, the field and its derivatives will be extrapolated by means of the same calculations, 
-from the border grid which is the closest to the actual position of the 
-particle. Its flag \IEX\index{IEX@{\IEX}} is given the value $-1$ (see section~\ref{sec4.6.6}). 
+
+\noindent \textbf{NOTE~:} In case  a particle goes beyond the limits of the 
+ field map, the field and its derivatives are extrapolated 
+using  a grid at the border of the map,  which is the closest to the actual position of the 
+particle.         
+The flag \IEX\index{IEX@{\IEX}} attached to the particle (section~\ref{sec4.6.6}, p.~\pageref{sec4.6.6}) 
+is then given the value $-1$. 
+
 
 
 
@@ -1175,8 +1185,8 @@ Differentiating then gives the derivatives
 \end{equation}
 
 
-\noindent Then follows the procedure of extrapolation from $ (X,Y,Z_0) $ to
-the actual position $ (X,Y,Z)$. 
+\noindent Then follows a procedure of extrapolation from $ (X,Y,Z_0) $ to
+the actual position $ (X,Y,Z)$, based on Taylor series development. 
 
 \noindent No special symmetry is assumed, which allows the treatment of 
 arbitrary field distribution (\emph{e.g.}, solenoid, helical snake). 
@@ -1188,7 +1198,7 @@ arbitrary field distribution (\emph{e.g.}, solenoid, helical snake).
 %%%Figure 4
 \centerline{\includegraphics[width=14cm]{Fig4.ps}}
 \hangcaption{\label{fig4}A 3-D 27-point  grid is used for
-interpolation of $ \vec  B $ and its 
+interpolation of magnetic or electric fields and  
 derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
  the closest to the actual position of the particle.} 
 \end{figure}
@@ -1198,9 +1208,9 @@ derivatives up to second order.  The central node of the grid $ (i=j=k=0) $ is
 
 \subsubsection{3-D Field Map} \label{sec2.4.4}
 
-The vector field $ \vec  B(X,Y,Z) $ and its derivatives necessary
-for the calculation of position and velocity of the particle are now defined 
-using a 3-D field map, through second degree  polynomial interpolation
+When using a 3-D field map, the vector field $ \vec  B(X,Y,Z) $ and its derivatives necessary
+for the calculation of position and velocity of the particle are obtained 
+via  second degree  polynomial interpolation, 
 
 \begin{equation}
 \!\!	B_{\ell} (X,Y,Z) = A_{000} + A_{100} X + A_{010} Y + A_{001} Z + 
@@ -1223,8 +1233,7 @@ differentiation of $ B_{\ell} $ one gets
 	\label{eq2-4-13}
 \end{equation}
 %
- and so on for first and second order derivatives with respect to 
- $X$, $ Y $ or $ Z $. 
+ and so on up to  second order derivatives with respect to  $X$, $ Y $ or $ Z $. 
  
 \noindent The interpolation involves a $ 3  \times   3  \times   3$-point 
 parallelipipedic grid (Fig.~\ref{fig4}),   
@@ -1266,11 +1275,9 @@ equations $\partial S / \partial A_{ijk} = 0$.
 \makeatother
 %%%
 
-The depolarization of a particle beam travelling in a 
-magnetic field $ \vec  b $ takes its origin in the spin  
-precession undergone by each particle. This motion of the spin $ \vec  S $ 
-is governed by the Thomas-BMT first order differential equation~\cite{Biblio8}       %%%%[8] 
 
+The precession motion of the spin $ \vec  S $ of a charged particle in a magnetic field $\vec b$ 
+is governed by the Thomas-BMT first order differential equation~\cite{Biblio8}       %%%%[8] 
 
 \begin{gather}
 	\dfrac{d\vec  S }{ dt} = \dfrac{q }{  m} \, \vec  S\times\vec  \Omega
@@ -1281,7 +1288,7 @@ is governed by the Thomas-BMT first order differential equation~\cite{Biblio8}  
 
 \noindent$ q$, $m$, $\gamma$ and $ G $ are respectively the charge, 
 mass, Lorentz relativistic factor, and anomalous magnetic moment of the 
-particle. $ \vec  b_{\paral} $ is the component of $ \vec  b $ which is
+particle. $ \vec  b_{\paral} $ is the component of $ \vec  b $ 
 parallel to the velocity $ \vec  v $ of the particle. 
 
 \noindent These equations are normalized by introducing the same notation 
@@ -1370,8 +1377,13 @@ then,
 \end{equation}
 
 
-\noindent The quantities $ \vec  u$,  $ \vec  B $ and their n-th derivatives
-as involved in these equations are picked up from eqs.~(\ref{eq2-2-6}, \ref{eq2-2-7}).
+\noindent The quantities $ \vec  u$,  $ \vec  B $ and their  derivatives
+as involved in these equations are picked up while solving the equation of motion of the 
+particle, eqs.~(\ref{eq2-2-6}, \ref{eq2-2-7}, p.~\pageref{eq2-2-6}).
+
+
+
+
 
 
 
@@ -1385,41 +1397,35 @@ as involved in these equations are picked up from eqs.~(\ref{eq2-2-6}, \ref{eq2-
 \@addtoreset{equation}{subsection}
 \makeatother
 
-\zgoubi\ allows the simulation of two types of synchrotron radiation (SR) related effects 
- namely, on the one hand 
+\zgoubi\ provides the  simulation of two distinct types of synchrotron radiation (SR) related effects 
+ namely, on the one hand the 
 energy loss by stochastic emission of photon and the ensuing perturbation 
-on particle dynamics  and, on the other hand calculation of the 
+on particle dynamics  and, on the other hand the 
 radiated spectral-angular energy densities as observed in the lab. 
 
-\subsection{Energy Loss and Related Dynamical Effects}\label{secSRLoss}
+\subsection{Energy Loss and  Dynamical Effects}\label{secSRLoss}
 
-Most of the content in the present section is drawn from Refs.~\protect\cite{FMSEA-00-01}\label{SRLoss}.
+Most of the content in the present section is drawn from Ref.~\protect\cite{FMSEA-00-01}\label{SRLoss}.
 
 \medskip
 
 \noindent Given a particle wandering in the magnetic field of an arbitrary optical element or field 
 map, \zgoubi\ computes the energy loss undergone, and its 
-effect on the particle motion. The energy loss is calculated  in a  classical manner, by calling upon 
+effect on the particle motion. The energy loss is calculated  in a  classical manner, by invoking 
 two random processes that accompany the emission of a photon  namely, \\
 \indent - the probability of emission, \\
 \indent - the energy of the photon. 
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=6cm]{G.eps}
-
-\vspace{14mm} 
-\caption{\small
-       Cumulative distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
-\end{figure}
-
 \noindent The effects on the dynamic of the emitting particle 
- is either limited to the alteration of the energy, or extended to angular kick effect, 
-following user requested working options~; particle 
-position is supposed not to  change upon emission of a photon. These calculations 
- and ensuing dynamics corrections are performed after 
- each integration step. In a practical manner, this 
-means every centimer or tens of centimers in smoothly varying magnetic fields. 
+ either account for the sole  alteration of its  energy, or, if requested, include the angle kick.
+Particle position is supposed not to  change upon emission of a photon. These calculations 
+ and ensuing dynamics corrections are performed at 
+ each integration step. In a practical manner, this requires 
+ centimers  to tens of centimers steps in smoothly varying magnetic fields (a quantity to 
+be determined before any simulation, from convergence trials). 
+
+\medskip 
+
 
 \noindent Main aspects of the method are developped in the following. 
 
@@ -1428,8 +1434,8 @@ means every centimer or tens of centimers in smoothly varying magnetic fields.
 
 \paragraph{Probability of emission of a photon}
 
-Given that the number of photons emitted within a step $\Delta s$ can be very low (units or fractions 
-of unit)\footnote{For instance, a $1\,$GeV electron will emit about $20.6$ photons per radian~; an 
+Given that the number of photons emitted within a step $\Delta s$ can be very small  (units or fractions 
+of a unit)\footnote{For instance, a $1\,$GeV electron will emit about $20.6$ photons per radian~; an 
  integration step size $\Delta s =0.1\,$m upon $\rho=10\,$m bending radius results in 0.2 photons 
 per step.} a Poisson probability law 
 
@@ -1456,20 +1462,30 @@ and $\Delta s$,  then a value of $k$ is drawn by a rejection method~\cite[routin
 \paragraph{Energy of the photons}
 
 These k photons are assigned energies $\epsilon=h\nu$ at random, in the following way. The cumulative 
-distribution of the energy probability law $p(\epsilon/\epsilon_c)d\epsilon/\epsilon_c$  writes 
+distribution of the energy probability law $p(\epsilon/\epsilon_c)d\epsilon/\epsilon_c$  
+(\ie, the probability of emission of a photon with  energy in  $[0,\epsilon]$) writes 
 
 \begin{equation}
 \label{EqSK53}
-\mathcal{P}(\epsilon/\epsilon_c) = \frac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} 
-\int_{\epsilon/\epsilon_c}^\infty K_{5/3}(x) dx
+\mathcal{P}(\epsilon/\epsilon_c) = \frac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} K_{5/3}(x) dx
 \end{equation}
+\begin{wrapfigure}{r}{9cm}
+  \begin{center} 
+\vspace{-2mm}
+\includegraphics*[bbllx=20,bblly=100,bburx=550,bbury=450,width=6cm]{G.ps}
+\vspace{-0mm}
+
+ {\small \centering 
+       Cumulative energy distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
+  \end{center}
+\end{wrapfigure}
 where $K_5/3$ is a modified Bessel function and, $\epsilon_c= \bar{h} \omega_c$
 with $\omega_c=2 \pi 3 \gamma^3 c / 2 \rho$ being the critical frequency  of the radiation in 
 constant field with bending radius $\rho$~;  $\omega_c$ is evaluated at each integration step from 
 the current values $\gamma$ and $\rho$, in other words, this energy loss calculation 
 assumes constant  magnetic field~\footnote{From 
-a practical viewpoint, note that the value of the magnetic field first computed for a 
-one-step push of the particle  (eqs.~\ref{eq2-2-4},\ref{eq2-2-6}) is next used to  obtain  
+a practical viewpoint, the value of the magnetic field first computed for a 
+one-step push of the particle  (eqs.~\ref{eq2-2-4},~\ref{eq2-2-6}) is next used to  obtain  
 $\rho$ and perform SR loss corrections afterwards.}  over the trajectory arc $\Delta s$. 
 In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated by 
 
@@ -1493,32 +1509,33 @@ or, if $\mathcal{P}<0.26$ from eq.~\ref{EqSK53Low} that directly gives
 \bigskip
 
 
-\noindent Upon request of SR loss tracking, several optical elements that contain dipole 
-magnetic field component (\emph{e.g.}, \textsl{MULTIPOL}) provide a printouot of various 
+\noindent When SR loss tracking is requested, several optical elements that contain a dipole 
+magnetic field component (\emph{e.g.}, \textsl{MULTIPOL}, \textsl{BEND}) provide a printout of various 
  quantities related to SR emission, as drawn from classical theoretical 
 expressions, such as for instance, \\
-- energy loss per particle $\Delta E(eV)= \frac{2}{3}r_0 c \gamma^3 B(T) \Delta \theta$,   ($B$ 
-is the dipole field, exclusive of any other multipole component or non-linearity 
-in the magnet~; $\Delta \theta$ is the total deviation as calculated from $B$, the 
-magnet length, and the reference rigidity \BORO (as defined with, \emph{e.g.}, \textsl{OBJET}) \\
-- energy $\epsilon_c(eV)=\frac{3 \gamma^3 c}{2 \rho} \frac{\bar{h}}{e}$, with 
+- energy loss per particle $\Delta E(eV)= \frac{2}{3}r_0 c \gamma^3 B(T) \Delta \theta$,   with $B$ 
+the dipole field  exclusive of any other multipole component 
+in the magnet, $\Delta \theta$  the total deviation as calculated from $B$, from the 
+magnet length, and from the reference rigidity \BORO\ (as defined with, \eg, \textsl{OBJET}) \\
+-  critical energy $\epsilon_c(eV)=\frac{3 \gamma^3 c}{2 \rho} \frac{\bar{h}}{e}$, with 
 $\rho =$\BORO$/B$ \\
-- energy of radiated photons $<\epsilon> = \frac{8}{15 \sqrt{3}} \epsilon_c$, \\ 
-- r.m.s. energy of radiated photons $\epsilon_{rms} = 0.5591 \epsilon_c$, \\
+- average energy of the photons radiated $<\epsilon> = \frac{8}{15 \sqrt{3}} \epsilon_c$, \\ 
+- \rms\ energy of radiated photons $\epsilon_{rms} = 0.5591 \epsilon_c$, \\
 - number of radiated photons per particle  $N = \Delta E /<\epsilon>$.  
 
 \noindent This is done in order to facilitate verifications, since on the other hand statistics 
-regarding those values are drawn from the tracking and printed upon use of the dedicated 
-keyword \textsl{SYNPRNL}. 
+regarding those values are drawn from the tracking and may be printed using  the dedicated 
+keyword \textsl{SRPRNT}. 
 
 
 
 \bigskip
 
 \noindent Finally, upon user's request as well,  SR loss can be limited to particular classes of optical 
-elements, for instance dipole fields alone, or dipole + quadrupole magnets, etc. These tricks 
-are made available in order to permit deeper insight, or easier comparison with other codes, 
-for instance. 
+elements, for instance dipole magnets alone, or dipole + quadrupole magnets, etc. This option 
+is made available in order to allow inspection, or easier comparison with other codes, for instance. 
+
+
 
 \subsection{Spectral-Angular Radiated Densities}\label{secSRSpec}
 
@@ -1528,10 +1545,10 @@ Most of the content in the present section is drawn from Refs.~\protect\cite{FMS
 
 \noindent The ray-tracing procedures provide the ingredients necessary 
 for the determination of the electric field radiated by the particle subject to
-acceleration, as shown in Fig.~\ref{newfig5} (section~\ref{secN4.1}). This allows 
-calculation\footnote{These procedures are for the moment  implemented in the 
-post-processor  \textbf{zpop} \index{zpop}}   
-of spectral-angular densities radiated by particles in magnetic fields (section~\ref{secN4.2}). 
+acceleration, as shown in Fig.~\ref{newfig5}, this is developped in section~\ref{secN4.1}. 
+These ingredients also allow calculating the spectral-angular densities radiated by particles in magnetic 
+fields\footnote{These calculations have been installed in the 
+post-processor  \textbf{zpop}. \index{zpop}},   this is developped in section~\ref{secN4.2}. 
 
 
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
@@ -1610,7 +1627,7 @@ $$
 	\vec{n} - \vec{\beta} = 0 \text{ and } 1 - \vec{n}\cdot \vec{\beta} = 0
 $$
 since the preferred direction of observation is generally almost parallel to
-$\vec{\beta}$ (exactly parallel in the sense of computer precision), while $\beta
+$\vec{\beta}$ (in that case, parallel in the sense of computer precision), while $\beta
 \approx$ 1 as soon as particle energies of a few hundred times the rest mass are
 concerned.
 
@@ -1679,7 +1696,7 @@ directly related to the order at which the series
 $$
 	\xi_x = a/2 - a^2/8 + a^3/16 +... \qquad(a = 1/\gamma^2 + \beta_y^2 +\beta^2_z)
 	$$
-is pushed, however the convergence is   fast since $ a \sim 1/\gamma^2 \ll 1$.
+is pushed, however the convergence is   fast since $ a \sim 1/\gamma^2 \ll 1$ in situations of concern. 
 
 \subsubsection{Calculation of the Fourier Transform of the Electric Field}\label{secN4.2}
 
@@ -1709,9 +1726,11 @@ $\Delta t_k = \Delta s/ \beta c$ which results in the observer differential time
 element $ \Delta \tau_k$, which is
 also the differential element of the Fourier transform, being non-constant, since both
 are related by eq.~\ref{eqN4.2} in which $\vec{\beta}$ and $\vec{n}$ 
-vary as a function of the  integration step number $k$.
+vary as a function of the  integration step number~$k$.
 
-\noindent Another major point is that  $ \Delta \tau_k$ may reach drastically small values 
+\medskip
+
+\noindent An additional issue is that  $ \Delta \tau_k$ may reach drastically small values 
 in the region of the central peak of the electric impulse emitted in 
 a dipole ($1 - \vec{n}(t) \cdot \vec{\beta} (t) \to
 1/2\gamma^2$), whereas the total integrated time $\sum_{k=1}^{N} \Delta \tau_k$ may be several
@@ -1723,11 +1742,12 @@ entrance of the magnet from photons emitted at the exit, but the significant  pa
 $ 2\, \tau_c = \dfrac{2(1 +\gamma^2\psi^2)^{3/2}~2\rho }{ 3\gamma^3~c}$ of the  
 radiation peak~\cite{after}, is a very small fraction of $ \sum_{k=1}^{N} \Delta \tau_k$.
 
-\noindent The consequence is that, once again in relation with computer precision, the
+\noindent The consequence is that, again in relation to computer precision, the
 differential  element $\Delta \tau_k$ involved in the computation of 
 eq.~\ref{eqN4.11} cannot be derived from such relation as 
  $\Delta\tau_k = \sum_{k=1}^{n} \Delta\tau_k - \sum_{k=1}^{n-1} \Delta \tau_k$ 
-but instead must be stored as such beforehand in the couorse of the ray-tracing process. 
+but instead must be stored as is,  in the course of the ray-tracing process, for 
+subsequent data treatment. 
 
 
 %%%%%%%%%%%%%%%%% previous part 4 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1738,41 +1758,83 @@ but instead must be stored as such beforehand in the couorse of the ray-tracing 
 \subsection{Introduction} \label{4.1} 
 
 
-This chapter gives a detailed description of how the \zgou\ 
-procedures work, and their associated keywords. It has been 
+This chapter gives an inventory of the  procedures available in \zgoubi, 
+ their associated ``keyword'',  and a brief  description  of the way  they function. 
+
+\medskip 
+ 
+\noindent The chapter  has been 
 split into several sections. Sections~\ref{sec4.2} to~\ref{sec4.5} explain the 
-underlying content and functioning of all available keywords. 
-Section~\ref{sec4.6} is dedicated to the description of some general 
-procedures that may be accessed by means of special data or flags 
-(such as negative integration steps), or through the available 
-keywords (such as multiturn\index{multiturn} tracking with \textsl{REBELOTE\index{REBELOTE}}). 
+underlying content - physics and numerical  methods -  behind the  keywords, they are organized by topics~: 
+
+- How to defined an object (a set of initial coordinates), 
+
+- Available options, 
+
+- Optical elements and procedures,
+
+- Output procedures.
+
+\medskip 
+ 
+\noindent Section~\ref{sec4.6} addresses further a series of 
+functionalities that may be accessed  by means of special input data or flags. 
+
+
+%%%%%%%%%%%%%%%%% previous part 4 %%%%%%%%%%%%%%%%%%%%%%%%%
+\clearemptydoublepage
+
 
 \subsection{Definition of an Object} \label{sec4.2}
 
-The description of the object, \emph{i.e.}, initial coordinates of the 
-beam, must be the first element of the input data to \zgou. 
+The description of the object, \emph{i.e.}, initial coordinates of the ensemble of  
+particles, must be the first procedure in the  \zgoubi\ inpuet data file, zgoubi.dat.  
+
  \bigskip
 
 \noindent Several types of automatically generated objects are available, 
-as described in the following pages.
+they are described in the following pages and include, 
 
-\newpage
+- Non-random object, with various geometries~: 6-D window, grids, ellipses, etc.
+
+- Monte Carlo distribution, with various geometries~: 6-D window, grids, ellipses, etc.
+
+ \bigskip
+
+\noindent A recurrent quantity appearing in these procedures is \IMAX, the  number of particules to be ray-traced. 
+The maximum value allowed for \IMAX\  can be changed at leisure in the include file \texttt{'MAXTRA.H'} 
+where it is defined (that requires re-compiling \zgoubi). 
+
+
+
+
+
+
+
+\clearpage
 
 \subsubsection*{MCOBJET~:  \MCOBJETTitl} \label{MCOBJET} \index{MCOBJET}
 \index{Monte Carlo}\index{negative charge}\index{negative momentum}
 
-\noindent \textsl{MCOBJET} generates a set of up to \imax\ random 6-D initial
-conditions. It can be used in conjunction with the keyword \textsl{REBELOTE\index{REBELOTE}},
-which  moreover allows generating an arbitrarily high number of initial conditions. 
+
+
+\noindent \textsl{MCOBJET} generates a set of \IMAX\ random 6-D initial
+conditions (the maximum value for \IMAX\ is defined in the include file \texttt{'MAXTRA.H'}). 
+It can be used in conjunction with the keyword \textsl{REBELOTE\index{REBELOTE}}
+which   either allows generating an arbitrarily high number of initial conditions, or, in the 
+hypothesis of a periodic structure, 
+ allows multiturn tracking with initial conditions at pass number $\IPASS$ 
+identified with conditions at end of pass number $\IPASS-1$.  
+
  \bigskip
 
 \noindent The first datum is the reference rigidity (negative value 
 allowed)
-$$ BORO = \dfrac{p_0 }{ q} \text{ (kG.cm)} $$\index{BORO@{\BORO}|textbf}
+$$ \BORO = \dfrac{p_0 }{ q} \text{ (kG.cm)} $$\index{BORO@{\BORO}|textbf}
 
 \noindent Depending on the value of the next datum, \textsl{KOBJ}, the 
-\IMAX\index{IMAX@{\IMAX}|textbf} ($\leq \imax$) particles have their initial random 
-conditions $ Y$, $T$, $Z$, $P$, $X$ and $ D $ (relative momentum)  generated 
+\IMAX\index{IMAX@{\IMAX}|textbf} particles have their initial random 
+conditions $ Y$, $T$, $Z$, $P$, $X$ and $ D $ (relative rigidity, $B\rho/\BORO$)  generated 
 on 3~different types of supports, as described below. 
 
 \noindent Next come the data
@@ -1833,12 +1895,12 @@ $$ N_0,\quad C_0,\quad C_1,\quad C_2,\quad C_3 $$
 
 \noindent All particles generated by \textsl{MCOBJET\index{MCOBJET}}  are tagged with
 a (non-S) character, for further statistic purposes 
-(\emph{e.g.}, with \textsl{HISTO\index{HISTO}} and \textsl{MCDESINT\index{MCDESINT}}).  
+(\emph{e.g.}, with \textsl{HISTO\index{HISTO}}, \textsl{MCDESINT\index{MCDESINT}}).  
 \medskip
 
 \noindent\textbf{KOBJ  =  2}~: Random  generation of 
 $ IY \ast   IT  \ast IZ \ast  IP  \ast  IX  \ast  ID $ particles    
-(maximum \imax) in a  hyper-grid.  The input data are the number of bars    in 
+(maximum \IMAX) in a  hyper-grid.  The input data are the number of bars    in 
 each coordinate
 
  \begin{gather*}
@@ -1899,7 +1961,7 @@ $$
 $$            
 %
 where $\alpha$, $\beta$ are the ellipse parameters and $\varepsilon/ 
-\pi$ the emittance, corresponding to an elliptical  frontier 
+\pi$ the \rms\ emittance, corresponding to an elliptical  frontier 
 $\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = 
 \varepsilon_Y / \pi$ (idem for the ($Z, P$) 
 or ($X, D$) planes). $N_{\varepsilon_ Y}$, $N_{\varepsilon_ Z}$ and 
@@ -1912,65 +1974,66 @@ above. A uniform sorting has the ellipse above for support. A
 Gaussian sorting has the ellipse above for r.m.s.~frontier, leading 
 to $\sigma_Y = \sqrt {\beta_Y \varepsilon_Y / \pi}$, 
 $\sigma_T = \sqrt {\dfrac{(1+\alpha_Y^2)}{\beta_Y} \varepsilon_Y / \pi}$, 
-and similar relations for $\sigma_Z$, $\sigma_X$.
+and similar relations for $\sigma_Z$, $\sigma_P, \sigma_X$, $\sigma_D$.
 
 \noindent If $N_\varepsilon$ is negative, thus the sorting fills the 
 elliptical ring that extends from $\left| N_\varepsilon \right|$ to 
 $N'_\varepsilon$ (rather than the inner region determined by the $N_\varepsilon$ 
-cut-off, as addressed above).
+cut-off as discussed above).
 
-%\newpage
 
 \vfill
 %%%%%%%%%%%%%%figure %%%%%%%%%%%%%
  \begin{figure}[H]
   % \vspace*{19 truecm}
 \centerline{\includegraphics[width=15cm,angle=-90]{Fig5.ps}}  %% now 6
-	\hangcaption[Fig5]{\label{fig5}Scheme of the input parameters to \textsl{MCOBJET} 
-	when \KOBJ = 3, 4\\
-   A~: A distribution of the $ Y $ coordinate\\ 
-B~: A 2-D grid in ($ Y, Z $) space.} 
+	\hangcaption[Fig5]{\label{fig5}A scheme of  input parameters to \textsl{MCOBJET} when \KOBJ = 2. \\
+   Top~: Possible  distributions  of the $ Y $ coordinate\\ 
+Bottom~: A 2-D grid in ($ Y, Z $) space.} 
  \end{figure}
  \vfill 
 
-%\newpage
+
+
+
+
+\clearpage
 
  
 \subsubsection*{OBJET~:   \OBJETTitl} \label{OBJET} \index{OBJET}
 \index{negative charge}\index{negative momentum}
 
+
+
 \textsl{OBJET} is dedicated to the determination of the initial
 coordinates, in several ways.  
 \medskip
 
-\noindent The first datum is the reference rigidity (a negative value is 
-allowed)
+\noindent The first datum is the reference rigidity (a negative value is allowed)
  
 $$ \BORO = \dfrac{p_0 }{ q}  $$\index{BORO@{\BORO}|textbf}
 
-\noindent At the object, the beam is defined by a set of particles (maximum~\imax) with 
-the initial conditions ($ Y$, $T$, $Z$, $P$, $X$, $D$)  where $ D $ 
-is the relative momentum. 
+\noindent At the object, the beam is defined by a set of \IMAX\ particles 
+(the maximum value for \IMAX\ is defined in the include file \texttt{'MAXTRA.H'}) with 
+the initial conditions ($ Y$, $T$, $Z$, $P$, $X$, $D$)  with $ D =B\rho/\BORO$ 
+ the relative rigidity. 
 
 \noindent Depending on the value of the next datum \textsl{KOBJ}, these initial
 conditions may be generated   in six different ways~:   
 \bigskip
 
 \noindent\textbf{KOBJ  =  1}~:  Defines a grid in the $ Y$, $T$, $Z$, $P$, $X$, $D$
- space. One gives the number of points desired,
- 
- \begin{gather*}
-	 IY,\quad IT,\quad IZ,\quad IP, \quad IX, \quad ID\\
-\intertext{(maximum \ntm\ in each coordinate~: $ IY\leq \ntm\ \ldots ID\leq \ntm$ and 
-such that $ IY * IT * ... * ID\leq \imax$) and the
-		sampling size} 
-	 PY,\quad PT,\quad PZ,\quad PP,\quad PX, \quad PD  
- \end{gather*}
+ space. One gives the number of points desired 
+% \begin{gather*}
+$$	 IY,\quad IT,\quad IZ,\quad IP, \quad IX, \quad ID\\$$
+with  $ IY\leq n_Y \ldots ID\leq n_D$ such that $ n_Y \times n_T \times ... \times n_D \leq \textsl{max}(\IMAX)$. 
+ One defines the sampling range in each coordinate
+$$	 PY,\quad PT,\quad PZ,\quad PP,\quad PX, \quad PD  $$
+% \end{gather*}
 
 
 \noindent\zgou\  then generates 
-$ IY  \ast  IT  \ast  IZ \ast   IP \ast IX \ast  ID $ ($\leq  \imax$) initial conditions with the 
-following coordinates
+$ IY  \ast  IT  \ast  IZ \ast   IP \ast IX \ast  ID $ particles with  initial coordinates 
 
 $$
   \begin{array}{*{5}{r<{,}}}
@@ -1983,8 +2046,10 @@ $$
  \end{array}
  $$
 
-\noindent In this option relative momenta will be classified automatically for
-the purpose of the use of \IMAGES\index{IMAGES} for momentum analysis.
+\medskip
+
+\noindent In this option relative rigidities  will be classified automatically in view of possible 
+further  use of $\IMAGES[Z]$\index{IMAGES} for momentum analysis and image formation. 
 
 
 \noindent The particles are tagged with an index \textsl{IREP} possibly
@@ -1995,7 +2060,7 @@ symmetries. This is done for the purpose of saving computing time. It may
 be incompatible with the use of some procedures (\emph{e.g.}~\textsl{MCDESINT\index{MCDESINT}}, which 
 involves random processes). 
 
-\noindent The last datum is the reference of the problem ($YR,TR,ZR,PR,XR,DR$). 
+\noindent The last datum is a reference in each coordinate, $\YR,\TR,\ZR,\PR,\XR,\DR$. 
 For instance the reference rigidity is $ DR \ast$ \BORO, resulting 
  in the rigidity of a particle of initial condition $ I\ast PD $ to be 
 $ (DR+I\ast PD)\ast \BORO$. 
@@ -2003,13 +2068,12 @@ $ (DR+I\ast PD)\ast \BORO$.
 \bigskip
 
 \noindent\textbf{KOBJ = 1.01}: Same as \KOBJ = 1    except for the $ Z $
-symmetry.  The initial 
-$ Z $ and $ P $ conditions are the following 
+symmetry.  The initial $ Z $ and $ P $ conditions are the following 
 
 $$
   \begin{array}{*{5}{r<{,}}}
-	  0  &  \pm PZ &   \pm 2  \ast   PZ & \ldots & \pm (IZ-1)   \ast   PZ \\
-	  0  &  \pm PP &   \pm 2 \ast   PP  & \ldots &  \pm (IP-1)  \ast   PP 
+	  0  &  PZ &   2  \ast   PZ & \ldots & (IZ-1)   \ast   PZ \\
+	  0  &  PP &   2 \ast   PP  & \ldots & (IP-1)   \ast   PP 
   \end{array}
  $$
 
@@ -2021,9 +2085,9 @@ $$
 \noindent\textbf{KOBJ = 2~:}  Next data~: \IMAX\index{IMAX@{\IMAX}|textbf},  
 \IDMAX\index{IDMAX@{\IDMAX}|textbf}. Initial coordinates
 are entered explicitly for each 
-trajectory.  \IMAX\  is the total number of particles (\IMAX$\leq \imax$).  
+trajectory.  \IMAX\  is the total number of particles.  
 These may be classified in groups of equal number for each value of momentum, in order to 
-fulfill the requirements of image calculations by \textsl{IMAGES\index{IMAGES}}. 
+fulfill the requirements of image calculations by \textsl{IMAGES$[\textsl{Z}]$\index{IMAGES}}. 
  \IDMAX\index{IDMAX@{\IDMAX}} is the 
 number of groups of momenta.  The  following initial 
 conditions defining a particle are specified for each one of the \IMAX\  
@@ -2036,11 +2100,20 @@ conditions defining a particle are specified for each one of the \IMAX\
 
 
 \noindent The last record \IEX\index{IEX@{\IEX}|textbf} (I=1, \IMAX)  contains 
-\IMAX\  times either the string ``1'' (which indicates that the particle will be
-tracked) or the string ``\mbox{-9}''  (indicates that the particle should not be tracked).  
+\IMAX\  times either the character  ``1'' to indicates that the particle has to  be
+tracked,  or ``-9''  to indicates that the particle should not be tracked.  
 
 \noindent This option \mbox{\KOBJ= 2}   may be be useful for the
 definition of objects including kinematic  effects.  
+
+
+
+\bigskip
+
+\noindent\textbf{KOBJ = 1.01}: Same as \KOBJ = 2    except for the units, meter and radian in that case. 
+
+
+
 
 \bigskip
 
@@ -2055,15 +2128,15 @@ external input file \textsl{FNAME}.
 
 \smallskip 
 
-IT1, IT2, ITStep
+\ITone, \ITtwo, \ITStep
 
-IP1, IP2, IPStep
+\IPone, \IPtwo, \IPStep
 
-YF,TF,ZF,PF,SF,DPF,TiF,TAG
+\YF, \TF, \ZF, \PF, \SF, \DPF, \TiF, \TAG
 
-YR,TR,ZR,PR,SR,DPR,TiR
+\YR, \TR, \ZR, \PR, \SR, \DPR, \TiR
 
-InitC
+\textsl{InitC}
 
 \smallskip 
 
@@ -2071,19 +2144,20 @@ InitC
 
 \smallskip 
 
-\noindent IT1, IT2, ITStep tell the code to read coordinates of particles number IT1 through  IT2 by step ITStep. 
+\noindent \ITone, \ITtwo, ITStep\ cause the code to read coordinates of particles number \ITone\ through  \ITtwo\ by step \ITStep. 
 
 \smallskip 
 
-\noindent IP1, IP2, IPStep  tell the code to read coordinates belonging in the sole pass   IP1 through  IP2 by step IPStep. 
-Indeed, IP2 $>$ IP1 assumes prior filling of \textsl{FNAME} in the course of a run (\emph{e.g.}, multiturn tracking) 
+\noindent \IPone, \IPtwo, \IPStep\  cause the code to read coordinates belonging in the sole pass  
+ \IPone\ through  \IPtwo,  step \IPStep. 
+Indeed, \IPtwo $>$ \IPone\ assumes prior filling of \textsl{FNAME} in the course of a run (\emph{e.g.}, multiturn tracking) 
 involving  the keyword \textsl{REBELOTE}. 
 
 \smallskip 
 
-\noindent YF, TF, ZF, PF, SF, DPF, TiF are scaling factors whereas 
- YR, TR, ZR, PR, SR, DPR, TiR are  references added to the  values of respectively Y, T, Z, P, S, DP as read 
-from \textsl{FNAME}, 
+\noindent \YF, \TF, \ZF, \PF, \SF, \DPF, \TiF\ are scaling factors whereas 
+ \YR, \TR, \ZR, \PR, \SR, \DPR, \TiR\ are  references added to the  values of respectively Y, T, Z, P, S, DP as read 
+in  file \textsl{FNAME}, 
  so that any coordinate $C=Y,T,Z...$ is changed into CF*C + CR. 
 In addition a flag character TAG allows retaining only particles with identical tagging letter LET, unless 
 TAG='*' in which case it has no selection effect - for instance TAG='S' can be used to retain only secondary 
@@ -2093,18 +2167,19 @@ particles following in-flight decay simulations.
 
 \noindent 
 If \mbox{InitC$=1$} ray-tracing starts from the current coordinates$ F(J,I)$, \\
-if \mbox{InitC$=0$}  ray-tracing starts from the initial coordinates $ FO(J,I)$ as read from \textsl{FNAME}. 
+if \mbox{InitC$=0$}  ray-tracing starts from the initial coordinates $ FO(J,I)$ as read from file \textsl{FNAME}. 
 
 \smallskip 
 
 
 \noindent The  file \textsl{FNAME} must be formatted in the appropriate manner. 
 The following \FORTRAN\ sequence is an instance, details and possible updates are to be found in the source  
-file \textsl{'obj3.f'}~:  
+file \texttt{'obj3.f'}~:  
 \begin{alltt}
 \footnotesize
+
          OPEN (UNIT = NL, FILE = FNAME, STATUS = `OLD')
-	 DO 1 I = 1, IMAX
+	 DO I = 1, IMAX
 	    READ (NL,100) LET (I), IEX(I), (FO(J,I),J=1,6), (F(J,I),J=1,6), I, IREP(I),
      >      LET(I),IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
      >      -1.D0+F(1,I),F(2,I),F(3,I),
@@ -2122,7 +2197,7 @@ C4   KART,  IT,IREP(IT),SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT),
      4         /,I1,2I6,7E16.8,
 C5        EX,EY,EZ, BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
      5  /,4E16.8,          I6,1X,  A8,1X,  2A10,                I5)
-    1    CONTINUE
+  ENDDO
 \end{alltt} 
 
 \noindent where the meaning of the parameters (apart from D=dummy real, ID=dummy integer) is the following   
@@ -2130,8 +2205,8 @@ C5        EX,EY,EZ, BORO,  IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
  
 \begin{tabular}{>{\sl}l!{:}p{10cm}}
 LET(I) & one-character string (for tagging)  \\
- IEX(I)\index{IEX@{\IEX}} &  flag, see \KOBJ = 2  \\
- FO(1-6,I) &  coordinates $ D$, $Y$, $T$, $Z$, $P $ and path length of the 
+ IEX(I)\index{IEX@{\IEX}} &  flag, see \KOBJ = 2 and page~\pageref{sec4.6.6} \\
+ FO(1-6,I) &  coordinates $ D$, $Y$, $T$, $Z$, $P $ and path length of 
 particle number $I$,  at the origin. $ D\ast \BORO $ = rigidity \\
 F(1-6,I) & idem, at the current position.
 \end{tabular}
@@ -2141,19 +2216,18 @@ F(1-6,I) & idem, at the current position.
 respect to median plane.  For instance, if $ Z(I+1)=-Z(I), $ then normally 
 \textsl{IREP}$(I+1)=$ \textsl{IREP}$(I)$.
 Consequently the coordinates of particle $ I+1 $ will not be obtained from 
-ray-tracing but instead deduced without ray-tracing  from those of 
-particle $ I $ by simple symmetry.  This results in gain of computing time.
+ray-tracing but instead deduced  from those of 
+particle $ I $ by simple symmetry.  This saves on computing time.
 
 \bigskip
 
 \noindent\KOBJ $= 3 $    can be used directly for reading files filled by \textsl{FAISCNL}, \textsl{FAISTORE}.\\
-If more than \imax\ particles are to be read from a file, use 
-\IMAX\index{IMAX@{\IMAX}}$\leq \imax$  in conjunction with \textsl{REBELOTE\index{REBELOTE}}.   
+If more than \IMAX\ particles are to be read from a file, use  \textsl{REBELOTE\index{REBELOTE}}.   
 
-\bigskip\noindent
-In this case (but not \textbf{KOBJ = 3.01} or \textbf{KOBJ = 3.02}),
-particles will not have the reference
-charge and PARTICUL will not assign a mass or charge.
+\bigskip
+
+\noindent Note~: In this option, one has to make sure that input data do not conflict with possible use of 
+the keyword \textsl{PARTICUL} that  assigns   mass and charge.
 
 \bigskip
 
@@ -2171,22 +2245,31 @@ data in  \textsl{FNAME} which is much simpler, namely, according to the followin
 
 \bigskip
 
-\noindent\textbf{KOBJ = 3.02:} As for \textbf{KOBJ=3.01}, except the format
-is 
+\noindent\textbf{KOBJ = 3.02:} As for \textbf{KOBJ=3.01}, except for the different format
 \begin{alltt}
          READ(NL,*) X,Y,Z,PX,PY,PZ
 \end{alltt}
 where \texttt{PX}, \texttt{PY}, and \texttt{PZ}, are the momenta in
 MeV/$c$.  Note that DPR will be ignored in this case.
+
 \bigskip
 
-\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except for the format~: 
+\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except for the different format~: 
 \begin{alltt}
          READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE
 \end{alltt}
 where \texttt{MASS} is the mass in MeV/$c$ and \texttt{CHARGE} is the
-charge divided by $e$.  In this case, particles will not have the reference
-charge and \textsl{PARTICUL} will not assign a mass or charge.
+charge in units of the elementary charge.  
+
+%In this case, particles will not have the reference
+%charge and \textsl{PARTICUL} will not assign a mass or charge.
+
+
+\bigskip
+
+\noindent \textbf{Note~:}  For details and possible updates in the formatted read of concern in the\FORTRAN, 
+regarding options 3.01-3.03, see the source file \texttt{'obj3.f'}.
+
 
 \bigskip
 
@@ -2194,47 +2277,54 @@ charge and \textsl{PARTICUL} will not assign a mass or charge.
 \noindent\textbf{KOBJ = 5~:} Mostly dedicated to the calculation of first order
 transfer matrix and various other  optical parameters, 
  using for instance \textsl{MATRIX\index{MATRIX}} or \textsl{TWISS\index{TWISS}}.  
-The input data are the stepsizes 
+The input data are the coordinate sampling 
 \smallskip
 $$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
 
-\noindent The code generates  11 particles 
+\noindent The code generates  11 particles,  with initial coordinates 
 $$ 0,\quad \pm PY,\quad \pm PT,\quad \pm PZ,\quad \pm PP, \quad \pm PX, \quad \pm PD $$
 
 \noindent These values should be small enough, so that the paraxial ray
 approximation be valid. 
+ The last data line gives  the reference 
+$$YR, \quad TR, \quad ZR, \quad PR, \quad XR, \quad DR $$
+(with $ DR\ast \BORO$  the reference rigidity - negative value allowed), which adds to the previous 
+coordinate  values.
 
-\noindent The last data are the initial coordinates of the reference 
-trajectory [normally $(YR, TR, ZR, PR, XR, DR) = (0, 0, 0, 0, 0, 1)$]. 
-The reference rigidity  is $ DR\ast \BORO$ 
-(negative value allowed).  
 
 \bigskip
 
-\noindent\textbf{KOBJ = 5.01:} Same as \textbf{KOBJ = 5}, except for an additional data line giving 
+\noindent\textbf{KOBJ = 5.01:} Same as \textsl{KOBJ = 5}, except for an additional data line giving 
 initial beam ellipse parameters $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$,  
  for further transport of these using \textsl{MATRIX}, or for  possible use by the \textsl{FIT}\index{FIT} procedure. 
 
 \bigskip
 
-\noindent\textbf{KOBJ = 5.NN:} Like \textbf{KOBJ = 5}, except that instead of
-just one set of initial coordinates, the input file contains \textbf{NN} sets
-of initial coordinates.  For example, to have 6 sets of initial coordinates,
-\textbf{KOBJ} should be \textbf{5.06}.
+\noindent\textbf{KOBJ = 5.NN:} Like \textsl{KOBJ = 5}, except for  $NN = 00 - 99$ references needed now
+(thus \textsl{NN} additional input data lines), rather than just one. 
+Zgoubi will generate  \textsl{NN} sets of 11 particles with initial  coordinates in each set taken \wrt\ one 
+of the  \textsl{NN} reference. 
+
+\medskip 
+
+\noindent A subsequent use of \textsl{MATRIX} for instance, would then cause the computation of \textsl{NN} transport matrices. 
+
 
 \bigskip
 
 \noindent\textbf{KOBJ = 6:}  Mostly dedicated to the calculation of first, second
 and other higher order transfer coefficients and various other  optical parameters, 
-using for instance \textsl{MATRIX\index{MATRIX}} or \textsl{TWISS\index{TWISS}}. 
-The input data are the step sizes 
+using for instance \textsl{MATRIX\index{MATRIX}}. 
+The input data are the coordinate sampling (normally taken paraxial)  
 
 $$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
  
- \noindent to allow the building up of an object containing 61 particles.  The
-last data are the initial coordinates of the reference 
-trajectory [normally $(YR, TR, ZR, PR, XR, DR) = (0, 0, 0, 0, 0, 1)$]. 
-The reference rigidity of the beam  is $ DR\ast \BORO$.  
+ \noindent to allow the building up of an object containing 61 particles (note~: their coordinates can be 
+checked by printing out into zgoubi.res using \textsl{FAISCEAU}), whereas   a last data line gives  the reference 
+$$YR, \quad TR, \quad ZR, \quad PR, \quad XR, \quad DR $$
+(with $ DR\ast \BORO$  the reference rigidity - negative value allowed), which adds to the previous 
+ coordinate values.
+
 
 \bigskip
 
@@ -2246,7 +2336,7 @@ following
 \begin{itemize}
 \item[$\bullet$]  $ ID $ is not used,  
 \item[$\bullet$]  $ PD $ is the kinematic coefficient, such that for particle
-number $ I$,  the initial relative momentum $ D_I $ is calculated from the initial angle 
+number $ I$,  the initial relative rigidity $ D_I $ is calculated from the initial angle 
 $T_I $ following
 $$ D_I = DR+ PD \ast  T_I $$
  while $ T_I $ is in the range
@@ -2273,12 +2363,16 @@ $$
 \end{array}           
 $$            
 %
-where $\alpha$, $\beta$ are the ellipse parameters and $\varepsilon/ 
-\pi$ is the emittance encompassed, corresponding to an ellipse with equation 
-$\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = 
-\varepsilon_Y / \pi$ (idem for the ($Z, P$) or ($X, D$) planes). 
+where $\alpha$, $\beta$ are the ellipse parameters  and $\varepsilon/$ is the 
+ellipse surface, corresponding to an ellipse with equation 
+$$\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = \varepsilon_Y / \pi$$ 
+\noindent (idem for the ($Z, P$) or ($X, D$) planes). 
+
+\medskip
 
 \noindent The ellipses are centered respectively on $(Y_0, T_0)$, $(Z_0, P_0)$, $(X_0, D_0)$.  
+
+\medskip
 
 \noindent The number of samples per plane is respectively $IX, IY, IZ$.  If that value is zero, 
 the central value above is assigned. 
@@ -2291,7 +2385,7 @@ the central value above is assigned.
  \label{OBJETA} \index{OBJETA}\index{Monte Carlo}
  
 This generator simulates the reactions 
-
+%
 \begin{gather*}
      M_1+M_2 \longrightarrow  M_3+M_4  \\
 \intertext{and then} 
@@ -2308,8 +2402,7 @@ decaying body~; $ M_5 $ and $ M_6 $ are decay products. Example~:
   \end{gather*}
    
 \noindent The first input data are the reference rigidity 
-
-$$ \BORO = \dfrac{p_0 }{ q} $$\index{BORO@{\BORO}|textbf}
+$$ \BORO = p_0 /  q $$\index{BORO@{\BORO}|textbf}
 
 \noindent an index \textsl{IBODY} which specifies the particle to be ray-traced, namely
 M3 (\textsl{IBODY} = 1),  M5 (\textsl{IBODY} = 2) or M6 (\textsl{IBODY} = 3).  In this last case, 
@@ -2319,7 +2412,7 @@ at the next occurrence of \textsl{OBJETA\index{OBJETA}} with \mbox{\textsl{IBODY
 \zgou\ by default assumes positively charged particles.  
 \bigskip
 
-\noindent Another index, \KOBJ specifies the type of
+\noindent Another index, \KOBJ\ specifies the type of
 distribution for the initial transverse coordinates $ Y$, $Z $~;   
 namely either uniform (\KOBJ = 1) or Gaussian 
 (\KOBJ = 2).  The other three coordinates $ T$, $P$ and $ D $ are 
@@ -2327,16 +2420,15 @@ deduced from the kinematic of the reactions.
 \bigskip
 
 \noindent The next data are the number of particles to be generated, 
-\IMAX\index{IMAX@{\IMAX}}, and the masses involved  in the two previous
+\IMAX\index{IMAX@{\IMAX}},  the masses involved  in the two previous
 reactions. 
- 
  $$ M_1,\quad M_2,\quad M_3,\quad M_4,\quad M_5,\quad M_6 $$
-%
- and the kinetic energy $ T_1 $ of the incoming body ($M_1$). 
+
+\noindent  and the kinetic energy $ T_1 $ of the incoming body ($M_1$). 
  
 \noindent Then one gives the central value of the distribution for each
 coordinate 
-
+%
 \begin{gather*}
 	Y_0,\quad T_0,\quad Z_0,\quad P_0,\quad D_0    \\
 \intertext{and the width of the distribution around the central value }
@@ -2353,15 +2445,18 @@ coordinate
 values of the 
 two integer seeds $ IR_1 $ and $ IR_2 $ ($\simeq 10^6 $). 
 
-\bigskip\noindent \textsl{PARTICUL\index{PARTICUL}} will not change the masses
-that are assigned by \textsl{OBJETA}.
+\bigskip
+
+\noindent Possible use of \textsl{PARTICUL\index{PARTICUL}} will have no effect~: it will not change the mass
+ and charge assumptiuons as set  by \textsl{OBJETA}.
+
 
 \newpage
 
 \subsection{Declaring  Options} \label{sec4.3}
 
-Various options are available and allow the control of procedures that affect certain 
-functions of the code. 
+A series of options are available which allow the control of various of the procedures and 
+functionalities of the code. 
 
 \medskip
 
@@ -2370,7 +2465,7 @@ the object definition, for instance
 
 - \textsl{SPNTRK\index{SPNTRK}}~:  switch-on spin tracking, 
 
- - \textsl{GETFITVAL\index{GETFITVAL}}~: collect parameter values from earlier fitting, 
+ - \textsl{GETFITVAL\index{GETFITVAL}}~: get parameter values as saved by earlier run of \textsl{FIT[2]}, 
   
 \medskip 
 
@@ -2378,18 +2473,18 @@ the object definition, for instance
 
 - \textsl{MCDESINT\index{MCDESINT}}~: switch-on in-flight decay, could be after a target, 
 
+- \REBELOTE\index{REBELOTE}~: for multi-turn tracking, including  an extraction line section for instance, 
+
 \medskip
 
-\noindent others may  normally be declared at the end of the data pile, for instance
+\noindent others may  normally be declared at the end of zgoubi.dat  data pile, for instance
 
 - \textsl{END\index{END}}~:  end of a problem, 
 
-- \REBELOTE\index{REBELOTE}~: for tracking more than \textsl{IMAX}  particles  or for 
-multi-turn tracking, 
-
 - \textsl{FIT\index{FIT}}~: fitting procedure. 
 
-
+- \REBELOTE\index{REBELOTE}~: for tracking more than \textsl{IMAX}  particles 
+(the maximum value for \IMAX\ is defined in the include file \texttt{'MAXTRA.H'}).
 
 \newpage
 
@@ -2398,32 +2493,46 @@ multi-turn tracking,
 
 This procedure translates field map data files from ``BINARY'' to 
 ``FORMATTED'' -- in the \FORTRAN\ sense, or the other way.
+
 \bigskip
 
-\noindent The keyword is followed, next line, by NF.NCOL ($NF\leq9$, $NCOL\leq9$), the number of files to be translated and 
-of data columns in the file.  NCOL should be consistant with the following \FORTRAN\ READ statement~: 
+\noindent The keyword is followed by, next data line,  
+
+$$NF[.J], NCOL, NHDR $$
+
+\noindent  the number of files to be translated [\texttt{READ} format, a single digit integer, optional],  
+number of data columns in the file, 
+number of header lines in the file.  
+
+\medskip
+
+\noindent If $J$ is not given, the $NCOL$ arrangement should be consistent with the following \FORTRAN\ READ statement~: 
 
        {\tt     READ (unit=ln,*) (X7(I),I=1,NCOL)}
 
-\noindent The first data line in a field map file is a header, 
-and contains $NCOL$ reals as reference X coordinate, mesh step $\delta X$, 
-reference Y coordinate, mesh step $\delta Y$, and three others (see the FMAPW \FORTRAN\ procedure for 
-more datails).
+\noindent If $J=1$, NCOL should be consistent with the following \FORTRAN\ READ statement~: 
+
+       {\tt     READ (unit=ln,fmt='(1x,ncol*E11.2)') (X7(I),I=1,NCOL)}
+
  
-\noindent Then follow, line per line, the NF names of the files to be translated.
 \medskip
 
-\noindent Iff a file name begins with the prefix ``B\_'' or ``b\_'', it is 
-presumed ``binary'', and hence converted to ``formatted'', and given 
+\noindent Then follow, line by line, the NF names of the files to be translated.
+
+\medskip
+
+\noindent \If\ a file name begins with the prefix ``B\_'' or ``b\_'', it is 
+assumed ``binary'', and hence converted to ``formatted'', and given 
 the same name after suppression of the prefix ``B\_'' or ``b\_''. Conversely, 
-{\it iff} the file name does not begin with ``B\_'' or ``b\_'', the file is 
+\Iff\ the file name does not begin with ``B\_'' or ``b\_'', the file is 
 presumed ``formatted'' and hence translated to ``binary'', and is 
-given the same name after addition of the prefix ``B\_''.
+given the same name after addition of the prefix ``b\_''.
+
 \medskip
 
 \noindent In its present state, the procedure \textsl{BINARY} 
-only supports a limited number of output formatting, \emph{e.g.} from  \textsl{TOSCA}\index{TOSCA} magnet code 
- (see keyword \textsl{TOSCA}\index{TOSCA}). 
+only supports a limited number of read/write formats. Details concerning I/O formatting can be found 
+in the \FORTRAN\ file \texttt{'binary.f'}.
 
 
 \newpage
@@ -2434,9 +2543,15 @@ only supports a limited number of output formatting, \emph{e.g.} from  \textsl{T
 The end of a problem, or of a set of several problems stacked in 
 the data file, should be stated by means of the keywords \textsl{FIN} or
 \textsl{END}.  
+
 \bigskip
 
 \noindent Any information following these keywords will be ignored. 
+
+\bigskip
+
+\noindent In some cases, these keywords may cause some information to be  printed in zgoubi.res, for instance when the 
+keyword \textsl{PICKUPS} is used. 
 
 \newpage
 
@@ -2449,12 +2564,12 @@ variables\index{variable (FIT, FIT2)}, for fitting up to 20 constraints\index{co
 \noindent They are compatible with the use of (\emph{i.e.}, can be encompassed in)  \textsl{REBELOTE} \index{REBELOTE} for successive FIT 
 trials using various sets of parameters (option $K=22$ in \textsl{REBELOTE}). 
 
-\noindent \textsl{FIT} has been implemented  recently~\cite{NedlerMead} and may have some advantages over the original method. 
-The  earlier \textsl{FIT2} was drawn from  the matrix transport code BETA~\cite{Biblio10}. One or the other may converge 
-faster depending on the problem. 
+\noindent \textsl{FIT2} has been implemented  recently~\cite{NedlerMead}>  
+The  earlier \textsl{FIT} was drawn from  the matrix transport code BETA~\cite{Biblio10}. One or the other may converge 
+faster, or and may have some advantages/disadvantages,  depending on the problem. 
 
 \noindent Any physical parameter of any element (\emph{i.e.},~keyword) may 
-be varied. Available constraints  are, amongst others~:  any of the $6 \times 6$
+be varied. Examples of available constraints  are, amongst others~:  any of the $6 \times 6$
 coefficients of the first order transfer matrix $ \lbrack R_{ij}\rbrack $ as defined in the
 keyword \textsl{MATRIX\index{MATRIX}}, and its horizontal $ (R_{11 }R_{22} -R_{12} R_{21}) $ and
 vertical $ (R_{33} R_{44}- R_{34} R_{43}) $ determinants~; horizontal and vertical tunes (if 
@@ -2462,7 +2577,6 @@ periodical structure)~;  any of the
 $6\times 6 \times6 $ coefficients of the second order array $ \lbrack T_{ijk}\rbrack $ 
 as defined in \textsl{MATRIX\index{MATRIX}}~; any of the $ 2 \times 4 $ coefficients of the 
 \mbox{$\sigma$-matrix} as defined by
-%
 $$ \lbrack \sigma_{ ij}\rbrack  = 
 \begin{pmatrix}
 	\sigma_{11} &  \sigma_{12} &   &  \\
@@ -2471,34 +2585,40 @@ $$ \lbrack \sigma_{ ij}\rbrack  =
 	             &               & \sigma_{43} & \sigma_{44} 
 \end{pmatrix}
 $$
-%
- and any trajectory coordinates $ F(J,I) $ as defined in \textsl{OBJET} 
+\noindent and any trajectory coordinates $ F(J,I) $ as defined in \textsl{OBJET} 
 ($ I $  =  particle number, $ J $  = coordinate number = 1 to 6 for 
-respectively $ D$, $Y$, $T$, $Z$,$ P $ or $ S= $path length). 
+respectively $ D$, $Y$, $T$, $Z$,$ P $ or $ S= $path length)~;
+spin coordinates~;
+transmission efficiency of an optical channel. 
+A full list of the constraints available is given in the table~page~\pageref{TabFIT}. 
 
 \noindent Tunes $\nu_{Y,Z}$ and  periodic betatron functions $\beta_{Y,Z}, \alpha_{Y,Z}, \gamma_{Y,Z}$ are adjustable 
 as well~; they are defined by identification of the transfer matrix  of the full optical structure,  
 $  \lbrack R_{ij}\rbrack $,   with the form   $I cos(2 \pi \nu_{Y,Z}) + J sin (2 \pi \nu_{Y,Z}) $, wherein 
 $J=\left( \begin{array}{cc} \alpha & \beta \\ -\gamma& -\alpha \end{array} \right) $.  
 
+
+
 \paragraph{\textit{VARIABLES}}\index{variable (FIT, FIT2)|textbf}
 
-\noindent The first input data in \textsl{FIT\index{FIT}} are the number of variables
-\textsl{\NV}, and for each one of them, the following parameters  
+\noindent The first input data in \textsl{FIT\index{FIT}} is the number of variables
+\textsl{\NV}. A variable is defined by a line of data comprised of 
+
+\smallskip
 
 \begin{tabular}{ll}
 $ IR = $ &number of the varied element in the structure \\
 $ IP =  $ &number of the physical parameter to be varied in this element \\
 $ XC =  $ &coupling parameter. Normally $ XC=0$.  If $ XC\not= 0$, coupling will occur (see below).\\
 \end{tabular} 
-\\
-followed by, either 
+
+\noindent followed by, either 
 
 \begin{tabular}{ll}
 $ DV = $ &allowed relative range of variation of the physical parameter $ IP $
 \end{tabular}
-\\
-or 
+
+\noindent or 
 
 \begin{tabular}{ll}
 $ [Vmin,Vmax] = $ &allowed interval of variation of the physical parameter $ IP $
@@ -2508,65 +2628,19 @@ $ [Vmin,Vmax] = $ &allowed interval of variation of the physical parameter $ IP 
 
 \paragraph{Numbering of the elements (\textsl{IR})~: } 
 
-\noindent The elements (\textsl{DIPOLE\index{DIPOLE}, QUADRUPO\index{QUADRUPO},} etc.) are numbered
-following their sequence in the \zgou\ input data file, for the purpose of 
-the \textsl{FIT\index{FIT}} procedure. The number of any element just identifies with 
-its position in the data sequence. However, a simple way to get $ IR $ is to make a preliminary run~: \zgou\ will then
-print the whole structure into the file  zgoubi.res with all elements numbered.  
+\noindent The elements (\ie, keywords \textsl{DIPOLE\index{DIPOLE}, QUADRUPO\index{QUADRUPO},} etc.) 
+as read by \zgoubi\ in the zgoubi.dat sequence are assigned a number.  which follows 
+ their sequence in the  data file.  It  is that very number, \IR, that 
+the \textsl{FIT[2]\index{FIT}}\index{FIT2} procedure uses. 
+A simple way to get $ IR $ once the zgoubi.dat file has been built, is to do a preliminary run~: \zgou\ will then
+copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all elements numbered.  
 %\bigskip
 
 \paragraph{Numbering of the physical parameters (\textsl{IP})~: }
 
-\noindent In the elements  \textsl{DIPOLE\index{DIPOLE}}, \textsl{AIMANT\index{AIMANT}} 
-and \textsl{EBMULT\index{EBMULT}}, \textsl{ELMULT\index{ELMULT}}, \textsl{MULTIPOL\index{MULTIPOL}}, the
-numbering of the physical parameters just follows their sequence, as it is shown here after 
-for \textsl{DIPOLE-M}~: the left column below represents the input data, the 
-right one the corresponding numbering to be used for the \textsl{FIT\index{FIT}} procedure. 
-\begin{center}
-{\renewcommand{\arraystretch}{1}
-	\begin{tabular}{lcl}
-	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
-      \textsl{DIPOLE-M}                      \\
-	\textsl{NFACE,  \IC,  \IL}     &  &  1, 2, 3 \\
-	\textsl{IAMAX,  IRMAX}         &&  4, 5    \\
-	$B_0$, $N$, $B$, $G$  &&  6, 7, 8, 9\\
-	\textsl{AT, ACENT, RM, RMIN, RMAX} &&  10, 11, 12, 13, 14 \\
-	$\lambda$ , $\xi$     &&  15,16    \\
-	$\NC$, $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$ shift
-	                      &&  17, 18, 19, 20, 21, 22, 23, 24\\
-	$\omega$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2$ 
-	                      && 25, 26, 27, 28, 29, 30 \\
-	etc.                 && etc.
-	\end{tabular}   }
-\end{center}
+\noindent All the data that follow a keyword are numbered -  except for \textsl{SCALING}. 
 
-
-
-
-\newpage %%%
-
-\noindent Parameters in \textsl{SCALING\index{SCALING}} also have a specific numbering, as follows. 
-\begin{center}
-{\renewcommand{\arraystretch}{1}
-	\begin{tabular}{lcl}
-	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
-      \textsl{SCALING}                      \\
-	\textsl{IOPT, NFAM }      & &  \\
-	\textsl{NAMEF}         &&    \\
-	$NT_1$    &      &            \\
-	$SCL(I)$, $I=1$, $NT_1$ &&  10 $[,...,~10+NT_1]$ \\
-	$TIM(I)$, $I=1$, $NT_1$ &&  10 $[,...,~10+2*NT_1]$ \\
-	\textsl{NAMEF}        & &    \\
-	$NT_2$    &               &   \\
-	$SCL(I)$, $I=1$, $NT_2$ &&  20 $[,...,~20+NT_2]$ \\
-	$TIM(I)$, $I=1$, $NT_2$ &&  20 $[,...,~20+2*NT_2]$ \\
-          {\Large...}   \\
-	etc.  up to \textsl{NFAM}       &        & etc.
-	\end{tabular}   }
-\end{center}
-
-\noindent For all other keywords, the parameters are numbered in the 
-following way 
+\noindent In most of the keywords, the numbering follows the principle hereafter~: 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lcl}
@@ -2580,9 +2654,8 @@ following way
 	\end{tabular}    }
 \end{center}
 
-
 \noindent The examples of \textsl{QUADRUPO\index{QUADRUPO}} (quadrupole) and 
-\textsl{TOSCA\index{TOSCA}} (Cartesian or cylindrical mesh field map) are given below.
+\textsl{TOSCA\index{TOSCA}} (Cartesian or cylindrical mesh field map) are as follows. 
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
@@ -2612,9 +2685,104 @@ following way
              && 60,61,62,63
 \end{tabular}  }
 \end{center}             
-             
+
+\bigskip
+
+\noindent A different numbering,  fully sequential, has been adopted in the following elements~: \\
+\\
+ \textsl{AIMANT\index{AIMANT}},   \textsl{DIPOLE\index{DIPOLE}}, 
+ \textsl{EBMULT\index{EBMULT}}, \textsl{ELMULT\index{ELMULT}}, \textsl{MULTIPOL\index{MULTIPOL}}, \\
+\\
+It is  illustrated  here after 
+in the case of \textsl{DIPOLE-M} (the left column below represents the input data, the 
+right one the corresponding numbering to be used for the \textsl{FIT[2]\index{FIT}}\index{FIT2} procedure)~: 
+
+\begin{center}
+{\renewcommand{\arraystretch}{1}
+	\begin{tabular}{lcl}
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
+      \textsl{DIPOLE-M}                      \\
+	\textsl{NFACE,  \IC,  \IL}     &  &  1, 2, 3 \\
+	\textsl{IAMAX,  IRMAX}         &&  4, 5    \\
+	$B_0$, $N$, $B$, $G$  &&  6, 7, 8, 9\\
+	\textsl{AT, ACENT, RM, RMIN, RMAX} &&  10, 11, 12, 13, 14 \\
+	$\lambda$ , $\xi$     &&  15,16    \\
+	$\NC$, $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$ shift
+	                      &&  17, 18, 19, 20, 21, 22, 23, 24\\
+	$\omega$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2$ 
+	                      && 25, 26, 27, 28, 29, 30 \\
+	etc.                 && etc.
+	\end{tabular}   }
+\end{center}
+
 \newpage
 
+\noindent Parameters in \textsl{SCALING\index{SCALING}} also have a sequential numbering, yet some positions 
+are skipped, this is illustrated in the example hereafter which covers all possible working modes of \textsl{SCALING} 
+ (all details regarding the numbering can be found in the \FORTRAN\ routine \texttt{rscal.f})~: 
+
+\begin{center}
+%\small
+{\renewcommand{\arraystretch}{1}
+	\begin{tabular}{lclcl}
+	\textbf{Input  data}  &~~~~&  \textbf{Numbering  for  FIT}  &~~~~& \textbf{Quantities to be varied}  \\
+                             &         &                                &         & (see  \text{SCALING} for details) \\
+      \textsl{SCALING}                      \\
+   \fbox{1} ~   \fbox{9}     & &                        1 ~ 2          && Non relevant    \\
+AGSMM *AF *BF              &&                                        && Keywords concerned, their labels \\
+-1 ~  3 ~   12 ~  \fbox{1.} ~  13 ~ \fbox{1.} ~  14 ~ \fbox{1.} &&     3 ~ 4 ~ 5 && dB1, dB2, dB3 parameters in AGSMM    \\
+\fbox{7.2135 }              &&                                     6         & & Field factor          \\
+\fbox{1 }                          &&                                     7         & & Timing          \\
+AGSMM *AD *BD \\   
+-1 ~  3 ~   12 ~  \fbox{1.} ~  13 ~ \fbox{1.} ~  14 ~ \fbox{1.} &&     8 ~ 9 ~ 10    \\
+\fbox{7.2135}                &&                                     11         &           \\
+\fbox{1}                             &&                                     12        &           \\
+AGSMM *CF   \\  
+-1  ~  3  ~  12  ~ \fbox{1.} ~  13 ~ \fbox{1.} ~  14 ~ \fbox{1.} &&     13 ~ 14 ~ 15    \\
+\fbox{7.2135}                &&                                     16         &           \\
+\fbox{1 }                             &&                                    17         &           \\
+AGSQUAD  QH\_*  \\
+3  \\
+\fbox{0.605} ~   \fbox{0.77} ~   \fbox{0.879} &&  18 ~ 19 ~ 20   & & Field factor   \\
+\fbox{1   } ~       \fbox{    2000} ~  \fbox{  10000} && 21 ~ 22 ~ 23 & &  Timing  \\
+AGSQUAD  QV\_*  \\
+3  \\
+\fbox{0.587} ~   \fbox{0.83} ~   \fbox{0.83} && 24 ~ 25 ~ 26\\
+\fbox{1   } ~       \fbox{    2000} ~  \fbox{  10000} && 27 ~ 28 ~ 29  \\
+MULTIPOL COH1  \\
+1.10    &&           &&     No numbering with 1.* type of option  \\
+./Csnk3D/bump\_centered.scal  \\
+1 2  \\
+MULTIPOL COH2  \\
+1.10  \\
+./Csnk3D/bump\_centered.scal  \\
+1 4  \\
+MULTIPOL  KICKH  KICV  \\
+2          \\
+0.1     0.3  &&  30 ~ 31             & & Field factor  \\
+1       10     &&  32 ~  33   && Timing\\
+MULTIPOL  \\
+-1  \\
+0.72135154291E+0  && 34  \\
+1              && 35
+	\end{tabular}   }
+\end{center}
+
+%	$NT_1$    &      &            \\
+%	$SCL(I)$, $I=1$, $NT_1$ &&  10 $[,...,~10+NT_1]$ \\
+%	$TIM(I)$, $I=1$, $NT_1$ &&  10 $[,...,~10+2*NT_1]$ \\
+%	\textsl{NAMEF}        & &    \\
+%	$NT_2$    &               &   \\
+%	$SCL(I)$, $I=1$, $NT_2$ &&  20 $[,...,~20+NT_2]$ \\
+%	$TIM(I)$, $I=1$, $NT_2$ &&  20 $[,...,~20+2*NT_2]$ \\
+ %         {\Large...}   \\
+%	etc.  up to \textsl{NFAM}       &        & etc.
+%	\end{tabular}   }
+
+
+
+\clearpage
+             
 \paragraph{Coupled variables  ($XC$)} 
 
 \noindent  Coupling a variable parameter to any other parameter in the
@@ -2630,12 +2798,12 @@ is a request for coupling with the parameter number~100 of element~20.
 \bigskip
 
 \noindent An element of the structure which is coupled (by means of $ XC\not= 0) $ to a 
-variable declared in the data list of the \textsl{FIT\index{FIT}} keyword, needs not appear 
+variable declared in the data list of the \textsl{FIT[2]\index{FIT}}\index{FIT2} keyword, needs not appear 
 as one of the $ \NV $ variables in that data list (this would be redundant information).  
 
 \smallskip
 
-\noindent$ XC $ can be either positive or negative. If $ XC>0$,  then the
+\noindent $ XC $ can be either positive or negative. If $ XC>0$,  then the
 coupled parameter will be given the same value as the variable parameter  
 (for example, symmetric 
 quadrupoles in a lens triplet will be given the same field). If $ XC<0$, 
@@ -2644,61 +2812,76 @@ variable, so that the sum of the two parameters stays constant (for example, an 
 element can be shifted while preserving the length of the structure, by coupling 
 together its upstream and downstream drift spaces).  
 
-
-\smallskip
  
-\paragraph{Variation range  ($DV$)} 
+\paragraph{Variation range  \index{fit, variable range}} 
 
-\noindent For a parameter $ IP $ of initial value $ p $, the \textsl{FIT}\index{FIT} procedure is
-allowed to explore the range $ p(1\pm DV)$.   
+\noindent There are two ways to define the allowed range for a variable, as follows. 
+
+\medskip
+
+\noindent (i) DV~: For a variable (parameter number $ IP $ under some keyword) 
+ with initial value $ v $, the \textsl{FIT[2]} procedure is
+allowed to explore the range $ v\times(1\pm DV)$.   
 
 \smallskip
+
+\noindent (i) $[v_{min}, v_{max}]$~: This specifies the allowed interval of variation. 
+
+
+\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit, constraint}
+
+\noindent The next input data in \textsl{FIT} is the number of constraints,
+\textsl{\NC}. Each constraint is defined by the following list of data~: 
 
 \begin{center}
-	\begin{tabular}{lcp{10cm}}
-	$\IC$        &  = &  type of  constraint (see table below).\\
+	\begin{tabular}{lcp{15cm}}
+	$\IC$        &  = &  type of  constraint (see table p.~\pageref{TabFITZlst1}).\\
 	$I$, $J$    & =  &  constraint (\emph{i.e.},~$R_{ij}$, determinant, tune~; 
 	                    $T_{ijk}$~; $\sigma_{ ij}$~; trajectory $\#I$ and coordinate $\#J$)\\
-	$IR$       &  =  &  number of the element in the \zgou\ input data file, right after which 
-	                    the constraint applies   \\
+	$IR$       &  =  &  number of the keyword at the exit of which the constraint applies   \\
 	$V$        &  =  &  desired value of the constraint\\
-	$W$        &  =  &  weight of the constraint (smaller $W$ for higher weight)
+	$W$        &  =  &  weight of the constraint (smaller $W$ for higher weight)  \\
+        $\NP$       &    &   $\NP$ values follow 
 	\end{tabular}
 \end{center}
 
-
-
-\smallskip
-
-\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf}
-
-\noindent The next input data in \textsl{FIT\index{FIT}} are the number of constraints,
-\textsl{\NC}, and for each one of them the following parameters.
-
-\smallskip
 
 
 \noindent {\it IC=0~: } The coefficients 
 $ \sigma_{11}~(\sigma_{ 33}) = $ horizontal (vertical) beta values and 
 $ \sigma_{ 22}~(\sigma_{ 44}) = $ horizontal (vertical) derivatives ($\alpha = -\beta'/2$) 
 are obtained by transport of their initial values at line start as introduced using for instance  
-\textsl{OBJET\index{OBJET}, KOBJ=5.1}.\\
+\textsl{OBJET\index{OBJET}, KOBJ=5.1}.
 
 \smallskip
 
-\noindent  {\it IC=0.1~: } Periodic optical functions~: $\sigma_{11}=\beta_Y, \sigma_{12}=\sigma_{21}=-\alpha_Y, 
+\noindent  {\it IC=0.1~: } Beam parameters~: $\sigma_{11}=\beta_Y, \sigma_{12}=\sigma_{21}=-\alpha_Y, 
 \sigma_{22}=\gamma_Y$, $\sigma_{33}=\beta_Z, \sigma_{34}=\sigma_{43}=-\alpha_Z, \sigma_{44}=\gamma_Z$~; periodic dispersion~: 
 $\sigma_{16}=D_Y$, $\sigma_{26}=D'_Y$,  $\sigma_{36}=D_Z, \sigma_{46}=D'_Z$, all quantities derived by assuming 
  periodic structure and identifying the first order transfer matrix 
 with the form   $I cos \mu + J sin \mu $. 
 
+\smallskip
+
+\noindent  {\it IC=1, 2~: }  The coefficients $ R_{ij} $ and $ T_{ijk} $ are calculated following
+the procedures described in \textsl{MATRIX\index{MATRIX}}, option \mbox{\textsl{IFOC} = 0}. 
+The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients or
+determinants supposes the tracking of particles having initial coordinates 
+sampled as described in \textsl{MATRIX\index{MATRIX}} (these particles are normally defined with 
+\textsl{OBJET\index{OBJET}}, \mbox{\textsl{KOBJ} = 5 or 6}). The same is true for the $ T_{ijk} $
+second order coefficients (initial coordinates normally defined with \textsl{OBJET}, 
+\mbox{\textsl{KOBJ} = 6}).  
+
 
 \newpage
 
+\label{TabFITZlst1}
+
+
 %\include{ZgoubiFITTable}
 %  \newlength{\LL}
-\settowidth{\LL}{\textbf{Beam matrix\ }}
-\footnotesize
+\settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint}
+{\footnotesize
 	\begin{center}
     {\renewcommand{\arraystretch}{1}
 			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|c|c|c|p{\LL}|}
@@ -2772,7 +2955,7 @@ with the form   $I cos \mu + J sin \mu $.
          & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
 			    &  & $4 - 6$ & any 
                 & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
-         & 1 & $\epsilon/ \pi $& & & \textsl{MCOBJET}   \\
+         &  &  & & & \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
@@ -2786,41 +2969,37 @@ with the form   $I cos \mu + J sin \mu $.
 			\hline
 		\end{tabular}  }
 	\end{center}
-\normalsize
+} %\normalsize
 
 
-\newpage
-\smallskip
+%\newpage
 
-
-\noindent  {\it IC=1, 2~: }  The coefficients $ R_{ij} $ and $ T_{ijk} $ are calculated following
-the procedures described in \textsl{MATRIX\index{MATRIX}}, option \mbox{\textsl{IFOC} = 0}. 
-The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients or
-determinants supposes the tracking of particles having initial coordinates 
-sampled as described in \textsl{MATRIX\index{MATRIX}} (these particles are normally defined with 
-\textsl{OBJET\index{OBJET}}, \mbox{\textsl{KOBJ} = 5 or 6}). The same is true for the $ T_{ijk} $
-second order coefficients (Initial coordinates normally defined with \textsl{OBJET}, 
-\mbox{\textsl{KOBJ} = 6}).  
 
 \smallskip
 
 \noindent  {\it IC=3~: } If $1<I<\IMAX$ then the value of coordinate type $J$ ($J=1,6$ for respectively 
- $D,~Y,~T,~Z,~P,~S$) of particle number $I$ ($1<I<\IMAX$) 
-is constrained.  
+ $D,~Y,~T,~Z,~P,~S$) of particle number $I$ ($1<I<\IMAX$) is constrained.  However $I$ can take 
+special meaning, sa follows. 
 
-Case $I=-1$~:  the constraint is the mean value of coordinate of type $J$. 
+$I=-1$~:  the constraint is the mean value of coordinate of type $J$, 
 
-Case $I=-1$~:  the constraint is the max. value of coordinate of type $J$. 
+$I=-2$~:  the constraint is the maximum  value of coordinate of type $J$, 
 
-Case $I=-1$~:  the constraint is the $J$-distance for two different particles. 
-
-\smallskip
-
-\noindent  {\it IC=3.1~: } Difference between final and initial $J$-coordinate of particle $I$ (convenient 
-\emph{e.g.} for closed orbit search). 
+$I=-3$~:  the constraint is the distance between two different particles. 
 
 \smallskip
 
+\noindent  {\it IC=3.1~: } Absolute value of the difference between local and initial $J$-coordinate of particle $I$ (convenient 
+\emph{e.g.} for closed orbit search). \index{closed orbit}.
+
+\noindent  {\it IC=3.2~: } Absolute value of the sum of the local and initial $J$-coordinate of particle $I$.
+
+\noindent  {\it IC=3.3~: } Minimum (\NP=1) or maximum value (\NP=2) of the local $J$-coordinate of particle $I$.
+
+\noindent  {\it IC=3.4~: } Absolute value of the difference between local $J$-coordinates of particles respectively 
+ $J$ and $K$.
+
+\smallskip
 
 \noindent {\it IC=4~: } The coefficients 
 $ \sigma_{11}~(\sigma_{ 33}) = $ horizontal (vertical) beta values and 
@@ -2834,19 +3013,28 @@ adequate emittance.
 
 \smallskip
 
-\noindent  {\it IC=5~: } If $I=-1$ then  the constraint value is the ratio of particles still on the run. 
-If $I\ge 1$ then the constraint value is the ratio of  particles encompassed within a given $I$-type 
-($I=1-3$ for respectively $Y,~Z,~D$) phase-space surface. 
+\noindent  {\it IC=5~: } The constraint value  is the ratio of particles (over \IMAX). Three cases possible~: 
+
+     $I=-1$,  ratio of particles still on the run. 
+
+    $I =1, ~ 2, ~ 3$,   \textsl{maximization} of the number of particles 
+ encompassed within a given $I$-type 
+(for respectively $Y,~Z,~D$) phase-space emittance value. Then, \NP=1 and followed by the emittance value. 
+The center and shape of the ellipse are  
+ determined by a  matching to  the position and shape of the particle distribution. 
+
+     $I =4, ~ 5, ~ 6$,  same as previous case, except for the ellipse, taken to be the \rms\ matched ellipse 
+to the distribution. Thus \NP=0.
 
 \smallskip
 
 \noindent  {\it IC=10~: } If $1<I<\IMAX$ then the value of coordinate type $J$ ($J=1,3$ for respectively 
- $S_X, S_Y, S_Z$) of particle number $I$ ($1<I<\IMAX$) is constrained.  
+ $S_X, S_Y, S_Z$) of particle number $I$ is constrained.  
 
 \smallskip
 
 \noindent  {\it IC=10.1~: } Difference between final and initial $J$-spin coordinate  of particle $I$ (convenient 
-\emph{e.g.} for closed orbit search). 
+\emph{e.g.} for $\vec n_0$ spin vector search). \index{spin, $\vec n_0$ vector}  
 
 
 
@@ -2855,10 +3043,10 @@ If $I\ge 1$ then the constraint value is the ratio of  particles encompassed wit
 \paragraph{\textit{OBJECT DEFINITION}}
 
 
-Depending on the type of constraint (see Table), constraint calculations are performed either from 
-transport coefficient calculation and in such case need  \textsl{OBJET} with either \KOBJ~=~5  
+\noindent Depending on the type of constraint (see table p.~\pageref{TabFITZlst1}), constraint calculations are performed either from 
+transport coefficient calculation and in such case require  \textsl{OBJET} with either \KOBJ~=~5  
 or  \KOBJ~=~6, or from particle distributions and in this case need  object definition using for 
-instance \textsl{OBJET} with \KOBJ~=~8,    \textsl{MCOBJET} with either \KOBJ~=~3. 
+instance \textsl{OBJET} with \KOBJ~=~8,    \textsl{MCOBJET} with  \KOBJ~=~3. 
 
 %\noindent Note that,  for constraint type $\IC = 3$, the object is normally defined 
 %with keyword \textsl{OBJET}. If \KOBJ~$\not=~1$, any of the 1 to 
@@ -2868,15 +3056,12 @@ instance \textsl{OBJET} with \KOBJ~=~8,    \textsl{MCOBJET} with either \KOBJ~=~
 
 \smallskip
 
-\paragraph{\textit{THE FITTING METHODS \protect\cite{NedlerMead,Biblio10}}}    %%%%[10]
+\paragraph{\textit{THE FITTING METHODS \protect\cite{Biblio10,NedlerMead}}}    %%%%[10]
 
 
-\noindent The \textsl{FIT} procedure has been implemented  recently~\cite{NedlerMead} and 
-has various advantages over the original method, as converging speed. 
-
-\noindent The  older \textsl{FIT2} was drawn from  the matrix transport code BETA~\cite{Biblio10}. 
- The numerical procedure is a direct sequential minimization of the quadratic
-sum of all errors (\emph{i.e.}, differences between desired and actual values of the $\NC$ 
+\noindent The   \textsl{FIT} procedure was drawn from  the matrix transport code BETA~\cite{Biblio10}. 
+ It is a direct sequential minimization of the quadratic
+sum of all errors (\emph{i.e.}, differences between desired and actual values for the $\NC$ 
 constraints), each normalized by its specified weight $ W $ (the smaller $ W$,
 the stronger the constraint). 
 
@@ -2887,6 +3072,17 @@ is determined for each one of the $\NV$ variables. Then follows an iterative
 global variation of all $\NV$ variables, until the minimization fails which results in a
 next iteration on the optimization of the step sizes. 
 
+\medskip
+
+\noindent The \textsl{FIT2} procedure is based on the  Nedler-Mead method, it has various specificities, 
+details can be found in Ref.~\cite{NedlerMead}.
+
+
+\medskip
+
+\noindent  The optimization process may be stopped by means of a penalty value. Otherwise, \textsl{FIT} stops after a 
+maximum number of iterations on the step size (of the order of 15, see \texttt{mino1.f} routine). 
+\textsl{FIT2} stops when a lower step size value is reached. 
 
 
 \newpage
@@ -2899,7 +3095,7 @@ under the effect of scattering by residual gas.
 
 \bigskip
 
-\noindent {\it To be documented}
+\noindent {\it Installation is to be completed.}
 
 
 
@@ -2915,11 +3111,12 @@ from a file whose name needs be specified,  parameter values to be assigned to o
 
 That file is expected to contain a copy-paste of the data under the \textsl{FIT} procedure as 
 displayed in zgoubi.res, normally under the form \\
-{\small
+\begin{center}
+{\footnotesize
 \begin{verbatim}
 #STATUS OF VARIABLES  (Iteration #    95)
 # LMNT  VAR PARAM  MINIMUM    INITIAL    FINAL      MAXIMUM     STEP    NAME       LBL1 LBL2
-  145    1   4    -3.000E+03    762.   761.9484791 3.000E+03  1.254E-05 MULTIPOL   HKIC DHCB02  
+  145    1   4    -3.000E+03    762.   761.9484791 3.000E+03  1.254E-05 MULTIPOL   HKIC DHCB02
   182    2   4    -1.000E+03   -231.  -230.9846875 1.000E+03  4.182E-06 MULTIPOL   HKIC DHCB08  
   146    3   4    -1.000E+03   -320.  -319.8554171 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCB02  
   183    4   4    -1.000E+03    528.   527.7249064 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCB08  
@@ -2941,6 +3138,7 @@ displayed in zgoubi.res, normally under the form \\
 # Xi2 =    1.68006E-16   Busy...
 \end{verbatim}
 }
+\end{center}
 
 \noindent Lines beginning with '\#' are commented and not taken into account, in this procedure. 
 
@@ -2966,7 +3164,7 @@ lifetime $\tau_1$.
 \noindent The decay is isotropic in the center of mass. 
 1~is the incoming particle, with mass $ M_1 $, momentum $ p_1=\gamma_1 M_1\beta_ 1c $ (relative 
 momentum $ D_1= \dfrac{p_1 }{ q} \dfrac{1 }{\BORO} $ with \BORO   = reference
-rigidity, see \textsl{OBJET\index{OBJET}}),  and position $ Y_1,Z_1 $ in the \zgou\ frame. 
+rigidity, defined in \textsl{[MC]OBJET\index{OBJET}\index{MCOBJET}}),  and position $ Y_1,Z_1 $ in the \zgou\ frame. 
 2~and 3 are decay products with respective masses and momenta $ M_2, $ $ M_3 $ and 
 $ p_2=\gamma_ 2M_2\beta_2c$,  $ p_3=\gamma_ 3M_3\beta_ 3c$.  
 
@@ -2992,7 +3190,10 @@ $R_2$ and $ R_3$.
 % \end{alignat*}
 %
 
-$\phi$ is a relativistic invariant, and $\theta$ in the laboratory
+\smallskip
+
+
+\noindent $\phi$ is a relativistic invariant, and $\theta$ in the laboratory
 frame (Fig.~\ref{fig6}) is given by    
 
 $$ \tan \theta = \dfrac{1 }{ \gamma_1}\, 
@@ -3017,17 +3218,19 @@ $$ \tan \theta = \dfrac{1 }{ \gamma_1}\,
 and $ P_2 $ in the \zgou\ frame, and the relative momentum takes the value 
 $ D_2= \dfrac{p_2 }{ q} \dfrac{1}{\BORO} $ (where \BORO   
 is the reference rigidity, see \textsl{OBJET\index{OBJET}}), while the starting position of 
-$M_2 $ is $ Y_2=Y_1 $ and $ Z_2=Z_1 $.   
+$M_2 $ is $ (Y_1 , Z_1, s_1) $.   
+
 \bigskip
 
-\noindent The decay simulation by \zgou\ obeys the following procedures.
+\noindent The decay simulation by \zgou\  satisfies  the following procedures.
 In optical elements and field maps, after each integration step \textsl{XPAS}, the actual 
 path length of the particle, $ F(6,I) $, is compared to its limit path length $ s$. 
  If $s $ is passed, then the particle is considered as having decayed at 
  $ F(6,I) - \dfrac{\text{\textsl{XPAS}} }{ 2} $, 
 at a position obtained by a linear translation from the position at $ F(6,I)$.
-[Presumably, the smaller \textsl{XPAS},  the smaller the error on position
-and angles at the decay point].  
+Presumably, the smaller \textsl{XPAS},  the smaller the error on position
+and angles at the decay point.  
+
 \bigskip
  %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 \begin{figure}[H]
@@ -3038,7 +3241,8 @@ and angles at the decay point].
 }
 {\setlength{\captionwidth}{15cm}
 \hangcaption[Fig6]{\label{fig6}%
-At position $ M(X_1,Y_1,Z_1) $, particle~1 decays into 2 and 3~; \zgou\ then calculates the trajectory of~2, while 
+At position $ M(X_1,Y_1,Z_1) $, particle~1 decays into 2 and 3~; \zgou\ then 
+proceeds with the computation of the trajectory of~2, while 
 3 is discarded. \\ 
 $\theta$ and $\phi$ are the scattering angles of particle 2 relative to the 
 direction of  the incoming particle 1~; they transform to $ T_2 $ and $ P_2 $ 
@@ -3048,35 +3252,36 @@ in \zgou\ frame.}       }
 \noindent In   \textsl{ESL\index{ESL}}   and  \textsl{CHANGREF\index{CHANGREF}},  
 $ F(6,I) $ is compared to $ s $ at the
 end of the element. If the decay occurs inside the element, the particle is considered as having 
-decayed at its actual limit path length $ s$,  and its coordinates 
+decayed at its actual limit path length $ s$,  thus its coordinates 
 at $ s $ are recalculated by translation.  
 \bigskip
 
 \noindent The limit path length of all particles  ($I=1$, \IMAX\index{IMAX@{\IMAX}})   is stored in
-the array  \textsl{FDES}$(6,I)$, for further statistical purposes. For the same purpose 
-(\emph{e.g.}, use of \textsl{HISTO\index{HISTO}}), any particle of type~2 (resulting from decay of~1) 
-will be tagged with an $ S $ standing for ``secondary''. When a particle decays, 
-its coordinates $ D$, $Y$, $T$, $Z$, $P $ at the decay point are stored in  
-\textsl{FDES}$(J,I)$, \mbox{$ J=1,\, 5$}.  
+the array  \textsl{FDES}$(6,I)$.  
+For further statistical purposes
+(\emph{e.g.}, use of \textsl{HISTO\index{HISTO}}) the daughter  particle~2 
+is tagged with an $ 'S' $ standing for ``secondary''. When a particle decays, 
+its coordinates $ D$, $Y$, $T$, $Z$, $P $, $s$, \textsl{time} at the decay point are stored in  
+\textsl{FDES}$(J,I)$, \mbox{$ J=1,\, 7$}.  
 \bigskip
 
-\noindent  NOTE on negative drifts~: \\
+\noindent \textsl {A  note}  on negative drifts~: \\
 The use  of  negative  drifts  with  \textsl{MCDESINT\index{MCDESINT}}  is  allowed 
 and correct. 
 For instance,  negative drifts  may  occur  in  a  structure   for 
 some  of  the  particles  when  using  \CHANGREF\index{CHANGREF} (due to  the  $ Z$-axis 
-rotation  or  negative  \textsl{XCE)},  or  when  using  \textsl{DRIFT}  with 
+rotation  or  a negative  \textsl{XCE)},  or  when  using  \textsl{DRIFT}  with 
 $\XL<0$. 
 Provision  has  been  made  to  take  it  into  account during  the \textsl{MCDESINT\index{MCDESINT}}
  procedure,  as follows. 
 
 \noindent If, due   to  a  negative  drift,   a  secondary  particle  reaches 
-back the  decay spot of the  primary  particle  from which it originated, then 
-that  primary  particle  is  regenerated  with its original coordinates 
-at  that  spot. Then   the   secondary   particle   is   discarded   while 
-ray-tracing  resumes  in  a  regular way  for the primary  particle which  
-is again susceptible of decay  at  the  same  time-of-flight. This  procedure  is made 
-possible  by  prior storage  of  the  coordinates of the primary 
+back the  decay location of its parent particle, then 
+the parent  particle  is  ``resurected `` with its original coordinates 
+at  that  location, the   secondary   particle   is   discarded, and 
+ray-tracing  resumes  in  a  regular way  for the parent  particle which  
+is again allowed to decay,  after  the  same path length. This  procedure  is made 
+possible  by  prior storage  of  the  coordinates of the parent  
 particles (in array \textsl{FDES}$(J,I)$) each  time  a  decay  occurs. 
 
 \noindent Negative steps\index{integration step size!negative}\index{XPAS!negative} (\textsl{XPAS}$<0$) in
@@ -3163,7 +3368,7 @@ However  $ \vec  B^{\,\prime\prime\prime} $,
 or $ \vec  E^{\,\prime\prime\prime} $, and higher order derivatives  may be zero in second order type
 optical elements, for instance in a sharp edge quadrupole. Also, in 
 several elements, no more than  first and second order field 
-derivatives  are implemented in the code.  One may also wish to fasten calculations by 
+derivatives  are implemented in the code.  One may also wish to save on computation time by 
 limiting the time-consuming calculation of lengthy (while possibly ineffective in terms 
 of accuracy) Taylor expansions. 
 
@@ -3177,37 +3382,43 @@ is $IO=4$.
 
 \noindent Note the following~: 
 
-As concerns the optical elements
+\noindent As concerns the optical elements
 \begin{center}
-	\textsl{QUADRUPO, SEXTUPOL, OCTUPOLE, DECAPOLE, DODECAPO,
-	MULTIPOL, ELMULT, EBMULT}\index{QUADRUPO}\index{SEXTUPOL}\index{OCTUPOLE}
+	\textsl{
+   DECAPOLE, DODECAPO,  EBMULT, ELMULT, 
+	MULTIPOL, OCTUPOLE,   \\
+              QUADRUPO, SEXTUPOL}\index{QUADRUPO}\index{SEXTUPOL}\index{OCTUPOLE}
 	\index{DECAPOLE}\index{DODECAPO}\index{MULTIPOL}\index{ELMULT}\index{EBMULT} 
 \end{center}
- magnetic field derivatives (see eq.~\ref{eq2-2-7}) have been installed in the code according 
-to $ \vec  u^{(5)}_0$ developement order~; it may not 
-be as complete for some other optical elements, as well as for the 
- possible electric field  component whose field derivatives may not be provided 
- to more than second order. 
-
-In electric optical elements field  derivatives (eq.~\ref{eq2-2-12}) are usually provided to no more than second 
-order, which justifies saving computing time by not pushing Taylor expansions as high as  
-$ \vec  u^{(5)}_0$. 
+field derivatives (see eq.~\ref{eq2-2-7} p.~\pageref{eq2-2-7}, eq.~\ref{eq2-2-12} p.~\pageref{eq2-2-12},) 
+have been installed in the code according 
+to $ \vec  u^{(5)}_0$ Taylor developement order~; it may not 
+be as complete for  other optical elements. In particular, 
+in electric optical elements field  derivatives (eq.~\ref{eq2-2-12}) are usually provided to no more than second 
+order, which justifies saving on computing time by means of \textsl{ORDRE}, 
+so to avoid pushing Taylor expansions as high as  $ \vec  u^{(5)}_0$. 
 
 
 \bigskip
 
 \noindent\textbf{NOTE}~: see also the option \textsl{IORDRE\index{IORDRE}} in field map
 declarations (\textsl{DIPOLE-M, TOSCA\index{TOSCA}}, etc.).  
+
+
+
  \newpage
 
 \subsubsection*{PARTICUL~: \PARTICULTitl}  \label{PARTICUL} \index{PARTICUL}
 
-\textsl{PARTICUL} allows the definition of several characteristics of the particles 
-(mass, charge, gyromagnetic factor and life-time in the 
-center of mass), that are needed in various  procedures as, 
+\textsl{PARTICUL} only needs  be introduced (normally close to the top of the input data file, zgoubi.dat) 
+ when  the definition of some characteristics of the particles 
+(mass, charge, gyromagnetic factor, life-time in the 
+center of mass)  is needed, as is the case when using the following procedures~: 
+
 \bigskip           
 
 \begin{tabular}{>{\sl}l!{~:}l}
+  CAVITE    & mass,  charge \\
   MCDESINT  & mass,  COM  life-time\\
   SPNTRK    & mass,  gyromagnetic factor \\
   SRLOSS    & mass, charge \\
@@ -3219,28 +3430,14 @@ center of mass), that are needed in various  procedures as,
 
 \noindent The declaration of \textsl{PARTICUL} must \textbf{precede} these keywords. 
 
-\noindent
-The charge is needed for computing energy gain in electric fields.
-The mass is needed for computing time of flight.  If \textsl{PARTICUL} is not
-used, the charge defaults to $+e$ and the mass defaults to zero.
+\medskip
 
 \noindent
-\textsl{PARTICUL} sets a reference charge annd mass, but individual paritles
-have charges and masses as well.  The reference charge relates $B\rho$
-to the particle momentum ($B\rho=p/q$); the particle charge relates
-the fields ($\vec b$ and $\vec e$) to the scaled fields
-($\vec B=\vec b/(B\rho)$ and $\vec E=\vec e/(B\rho)$).
+If \textsl{PARTICUL} is ommited, which is in general the case when ray-tracing ions
+in purely magnetic optical assemblies, then \zgoubi\ only knows the rigidity 
+(from \textsl{[MC]OBJET}) and will thus proceed quietly,  ignoring such quantities as the time of flight. 
 
-\noindent
-Most object definitions assign each particle the reference charge and
-mass (cases where they do not are documented).  In cases where the
-reference charge and mass have been assigned to a particle, \textsl{PARTICUL}
-will change the particle charge and mass to the new reference charge
-and mass.  For the few objects where each particle was assigned its
-own mass and charge, \textsl{PARTICUL} will not affect those values.  In most
-cases (where all particles have the reference charge), the charge
-assigned by \textsl{PARTICUL} will not affect the results for systems having
-only magnetic fields.
+
 
  \newpage
 
@@ -3262,51 +3459,49 @@ When \REBELOTE\ is encountered in the input data file, the code execution jumps,
 
 - either it also encompasses the whole \LABEL\ to  \REBELOTE\ range, 
 
-- or, upon request (option \textsl{K=99.2}),  execution may exit that pass at a particular second 
-    dedicated \LABEL\ placed at arbitrary location between 
+- or, upon request (option \textsl{K=99.2}),  execution may exit that final  pass upstream of 
+\textsl{REBELOTE}, at a location defined by a second   dedicated \LABEL\ placed  between 
 the first above mentionned \LABEL, and \REBELOTE. 
 In both cases, following the end of this ``multiple-pass'' procedure, 
 the execution  continues from the keyword which follows \REBELOTE, until \textsl{'END'} is encountered. 
 
 \bigskip
 
-\noindent \REBELOTE\ can be used for Monte Carlo\index{Monte Carlo} simulations when more 
-than \IMAX\ particles\index{IMAX@{\IMAX}} are to be tracked. 
-In this case, when the following random procedures 
+The two functionalities of \textsl{REBELOTE} are the following~: 
+
+\smallskip
+
+\noindent {\small $\bullet$} \REBELOTE\ can be used for Monte Carlo\index{Monte Carlo} simulations when more 
+than Max(\IMAX) particles  \index{IMAX@{\IMAX}} are to be tracked. 
+Thus, when the following random procedures 
 are used~: \textsl{MCOBJET\index{MCOBJET}, OBJETA\index{OBJETA}, MCDESINT\index{MCDESINT}, 
 SPNTRK\index{SPNTRK}} \mbox{(\textsl{KSO} = 5)},
 their random seeds are not reset and  independent statistics will add up. 
 
+\noindent This includes  \textbf{Monte Carlo simulations}, in beam lines~: normally $ K=0$.  \textsl{NPASS}\index{NPASS} runs
+through the same structure, from \textsl{MCOBJET} to \textsl{REBELOTE} will follow, resulting in the calculation of 
+$(1+\text{\textsl{NPASS}})  \ast  \text{\IMAX}$ trajectories, with as many random initial coordinates. 
+
 \bigskip
 
-\noindent \REBELOTE\ can be used for  multi-turn tracking in circular machines (\emph{e.g.}~Synchrotron 
-accelerators, FFAGs, etc.).  
+\noindent {\small $\bullet$} \REBELOTE\ can be used for  multi-turn ray-tracing 
+in circular machines \textbf{circular machines}~: normally $ K=99$ in that case.  \textsl{NPASS} turns in
+the same structure will follow, resulting in the tracking of \IMAX\ 
+particles over $1+\text{\textsl{NPASS}}$ turns. For the simulation of 
+pulsed power supplies, synchrotron motion, and other Q-jump manipulation, see \textsl{SCALING}. 
 
 \noindent For instance, using option described \textsl{K=99.2} above, a full ``injection line + ring + extraction line'' installation 
 can be simulated - kicker firing  and other magnet ramping can be simulated using \textsl{SCALING}. 
 
-
-\bigskip
-
-\noindent\textbf{Monte Carlo simulations}~: normally $ K=0$.  \textsl{NPASS}\index{NPASS} runs
-through the same structure will follow, resulting in the calculation of 
-$(1+\text{\textsl{NPASS}})  \ast  \text{\IMAX}$ trajectories.  
-\bigskip
-
-\noindent\textbf{Circular machines}~: normally $ K=99$.  \textsl{NPASS} turns in
-the same structure will follow, resulting in the tracking of \IMAX\ 
-particles over $1+\text{\textsl{NPASS}}$ turns (Note~: for the simulation of 
-pulsed power supplies, synchrotron motion, and other Q-jump manipulation, see \textsl{SCALING}). 
-
 \noindent Using the double-\LABEL\ method discussed above with option \textsl{K=99.2}, it is possible to encompass the ring between 
-an injection line section (namely, with the element sequence of the latter extending from \OBJET to the first \LABEL), 
+an injection line section (namely, with the element sequence of the latter extending from \OBJET\ to the first \LABEL), 
 and an extraction line (its description will then follow \REBELOTE), 
 whereas the ring description extends  from  to the first \LABEL\ to \REBELOTE, 
-with possible extraction, at the last pass, at the location of the second \LABEL.  
+with possible extraction, at the last pass, at the location of the second \LABEL, located between the first one and \REBELOTE, 
 
 \bigskip
 
-\noindent Output prints over \textsl{NPASS+1} runs might result in a
+\noindent Output prints over \textsl{NPASS+1} passes  might result in a
 prohibitively big zgoubi.res file. They may be switched on/off  by means of the option 
 \mbox{\textsl{KWRIT}$= i.j$}, with $i=1/0$ respectively. The $j$ flag commands printing 
 pass number and some other information onto the video output, every $10^{j-1}$ turns if $j>0$~; output is switched  
@@ -3315,8 +3510,8 @@ off if $j=0$.
   
 \bigskip
 
-\noindent\REBELOTE\ also provides informations~: statistical calculations and related 
-data on particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking\index{spin tracking}  
+\noindent\REBELOTE\ also provides information~: statistical calculations and related 
+data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking\index{spin tracking}  
 \textsl{(SPNTRK\index{SPNTRK})}, stopped particles\index{stopped particles} (\textsl{CHAMBR\index{CHAMBR},
  COLLIMA\index{COLLIMA}}), etc.  
 
@@ -3329,8 +3524,8 @@ data on particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking\index{
 
  Piling up problems in \zgou\ input data file is allowed, with 
 normally no particular precaution, except that each new problem 
-must begin with a new object definition (with \textsl{MCOBJET\index{MCOBJET}, OBJET\index{OBJET}}, 
-etc.). Nevertheless, when calling upon certain keywords, flags, 
+must begin with a new object definition (using \textsl{MCOBJET\index{MCOBJET}, OBJET\index{OBJET}}). 
+Nevertheless, when calling upon certain keywords, flags, 
 counters or integrating procedures are involved. 
 It may therefore be necessary to reset them. This is the purpose 
 of \textsl{RESET\index{RESET}} which normally appears right after the object definition 
@@ -3971,7 +4166,8 @@ the waist (calculated automatically in the same way as for
 
 \medskip 
 
-\noindent Upon option, it includes spin kicks, after  modelling described in Ref.~\cite{YKBatyginSpin}. 
+\noindent Upon option using \textsl{SPNTRK}, 
+\textsl{BEAMBEAM} will include spin kicks, after  modelling as described in Ref.~\cite{YKBatyginSpin}. 
 
 
 
@@ -4216,7 +4412,7 @@ $$ \left\{
 	\phi        &  R.F. phase~; $\phi_ 2-\phi_ 1=$ variation  of $\phi$ between two  traversals\\
 	W           &   kinetic  energy~;  $W_2-W_1=$ energy  gain  at  a traversal  of \textsl{CAVITE}\\
 	\mathcal{L} & length  of  the  synchronous  closed orbit  (to  be  calculated  by  prior 
-	              ray-tracing,\\
+	              ray-tracing,   \index{closed orbit}    \\
 	 \multicolumn{1}{c}{  }           & see  the  bottom  NOTE) \\
 	\ell        &  orbit length  of  the  particle  between  two  traversals\\
 	\beta_ sc   &  velocity  of  the (virtual)  synchronous  particle\\
@@ -4332,7 +4528,7 @@ $$ \Delta W = q\hat  V\, \sin\phi_ s $$
 where $ \hat  V $ and $ \phi_ s $ are input data.  
 \bigskip
 
-\noindent NOTE~: Calculation of the closed orbit. \\
+\noindent NOTE~: Calculation of the closed orbit.     \index{closed orbit}  \\
 Due to the fringe fields, the horizontal closed orbit may not 
 coincide with the ideal axis of the optical elements. One way to 
 calculate it at the beginning of the structure (\emph{i.e.}, where the 
@@ -5699,7 +5895,7 @@ $A$, $B$, $C$, $A'$, $B'$, $C'$.
 
 \bigskip
 
- \textsl{EMMA}    works much like  \textsl{TOSCA}.  Refer to that keyword, and to the fortran file 
+ \textsl{EMMA}    works much like  \textsl{TOSCA}.  Refer to that keyword, and to the \FORTRAN\ file 
 EMMAC, for details. 
 
 
@@ -5944,7 +6140,7 @@ treatment of any type of field (\emph{e.g.}, solenoidal field, or dipole field, 
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
 with \textsl{TOSCA} code outputs), details and possible updates are to be found in the source  
-file \textsl{'fmapw.f'}~:  
+file \texttt{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -6003,7 +6199,7 @@ treatment of any type of field (\emph{e.g.},  field of a parallel-plate mirror w
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
 with \textsl{TOSCA} code outputs), details and possible updates are to be found in the source  
-file \textsl{'fmapw.f'}~:  
+file \texttt{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -6548,7 +6744,7 @@ is $IZ$, such that  map number $[IZ/2]+1$ is the $Z = 0$ elevation one.
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence. 
 The following is an instance, details and possible updates are to be found in the source  
-file \textsl{'fmapw.f'}~:  
+file \texttt{'fmapw.f'}~:  
 
 {\footnotesize
 \begin{verbatim}
@@ -6582,7 +6778,7 @@ the  formatting of the field map data file(s).
 
 {\renewcommand{\arraystretch}{1}
 \begin{tabular}{llll}
-\bf         MOD   &\bf      MOD2 &   & \multicolumn{1}{c}{\bf \multirow{2}{30mm}{\centering Fortran reading format} }\\[1ex]
+\bf         MOD   &\bf      MOD2 &   & \multicolumn{1}{c}{\bf \multirow{2}{30mm}{\centering \FORTRAN\ reading format} }\\[1ex]
  \multicolumn{3}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[0.5ex]
  0 and $IZ=1$ &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry} \\[3ex]
 0  and $IZ>1$ &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry} \\[3ex]
@@ -7018,7 +7214,7 @@ modulus $ S_X$, $ S_Y$,  $ S_Z $ and $ \left\Vert\vec  S \right\Vert   $.
 \textsl{MCDESINT\index{MCDESINT}}, for statistics 
 on the decay process, by means of \textsl{TYP}.  \textsl{TYP} is a one-character 
 variable.  If it is set equal to `S', only secondary particles will be 
-histogrammed.  If it is set equal to `P', then only  primary particles will be histogrammed.  
+histogrammed.  If it is set equal to `P', then only  parent particles will be histogrammed.  
 For no discrimination  between S-econdary and P-rimary particles,  \textsl{TYP} = `Q'  must be
 used.  
 \bigskip
@@ -7199,7 +7395,7 @@ coordinates as observed at \LABEL'ed\index{LABEL@{\LABEL}} keywords.
 
 \medskip
 \noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE}, this procedure computes by the same method the closed orbit in 
-the periodic structure. 
+the periodic structure.      \index{closed orbit} 
 
 \medskip
 \noindent The \LABEL\ list of concern follows the keyword  \textsl{PICKUPS}.
@@ -7234,7 +7430,7 @@ The mean values of the spin components are also printed.
 \noindent \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
 stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
 advised name is \textsl{FNAME} = `zgoubi.spn' (formatted write) or `b\_zgoubi.spn' (binary write) \index{zgoubi.spn}). 
-The data are formatted and ordered according to the  \FORTRAN\ sequence found in the subroutine \textsl{spnprn.f}, 
+The data are formatted and ordered according to the  \FORTRAN\ sequence found in the subroutine \texttt{spnprn.f}, 
 with meaning of printed quantities as follows~: 
 
 \medskip
@@ -7331,7 +7527,7 @@ changing for instance the reference trajectory in \textsl{OBJET} for dp/p relate
 \medskip
 
 - It assumes that the reference particle (particle \#1 of 11, when using \textsl{OBJET[\KOBJ= 5]}) is located on 
-the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently. }
+the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently. }  \index{closed orbit} 
 
 - A first pass (the only one if \textsl{KTW=1}) through the structure allows computing the periodic beam matrix from the  rays, including the periodic 
 dispersions. 
@@ -7621,7 +7817,7 @@ $p$ is the projection of $P$.
  If  \textsl{KPOS} $=1$,  the element is positioned automatically in such a way
 that a particle entering with zero initial coordinates and 
 $ 1+DP=\Br /\BORO $ 
-relative momentum will reach position ($ RM$, $\frac{AT }{ 2} $) in 
+relative rigidity will reach position ($ RM$, $\frac{AT }{ 2} $) in 
 the element with $ T=0 $ angle with respect to the moving frame in the polar 
 coordinates system of the element (Fig.~\ref{fig35}~; 
 see \textsl{DIPOLE-M\index{DIPOLE-M}} and \textsl{POLARMES\index{POLARMES}}).

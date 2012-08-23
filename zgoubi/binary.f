@@ -18,28 +18,28 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE BINARY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
  
-      CHARACTER*80 OLDFIL, NEWFIL
-      CHARACTER*132 HEADER
+      CHARACTER(80) OLDFIL, NEWFIL
+      CHARACTER(132) HEADER
       LOGICAL BINARI, IDLUNI
       INTEGER DEBSTR,FINSTR
       DIMENSION X7(7)
       PARAMETER (I20=20)
 
       NFIC = INT(A(NOEL,1))
-      NCOL = INT(A(NOEL,2))
+      NFRM =NINT( 10*(A(NOEL,1) - INT(A(NOEL,1))))
+      NCOL = NINT(A(NOEL,2))
       NHEAD = NINT(A(NOEL,3))
       IF(NFIC.GT.I20) 
      >   CALL ENDJOB('SBR  BINARY:  too  many  files,  max  is',I20)
@@ -57,11 +57,12 @@ C 200    FORMAT(A)
  
           NEWFIL=OLDFIL(IB+2:IFIN)
           IF(NRES.GT.0) THEN
-            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL, NHEAD
+            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL, NHEAD, NFRM
  100        FORMAT(10X,' Translate  from  binary  file  : ',A
      >          ,/,10X,' to  formatted  file            : ',A,/
      >          ,/,10X,' Number of data columns  : ',I4
-     >          ,/,10X,' Number of header lines  : ',I4)
+     >          ,/,10X,' Number of header lines  : ',I4
+     >          ,/,10X,' Format type  : ',I4)
           ENDIF
  
           IF(IDLUNI(
@@ -79,28 +80,34 @@ C 200    FORMAT(A)
             GOTO 97
           ENDIF
 
-          line = 0
-          do nh = 1, nhead
-            READ (LNR, ERR=90, END= 1 ) header
-            line = line + 1
-            WRITE(LNW,fmt='(a132)') header
-          enddo
+          LINE = 0
+          DO NH = 1, NHEAD
+            READ (LNR, ERR=90, END= 1 ) HEADER
+            LINE = LINE + 1
+            WRITE(LNW,FMT='(A132)') HEADER
+          ENDDO
  10       CONTINUE
             READ (LNR, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
-            line = line + 1
-            WRITE(LNW,405) (X7(I),I=1,ncol)
- 405        FORMAT(1X,1P,7E11.4)
+            LINE = LINE + 1
+            IF    (NFRM.EQ.0) THEN
+              WRITE(LNW,405) (X7(I),I=1,NCOL)
+ 405          FORMAT(1X,1P,7E11.4)
+            ELSEIF(NFRM.EQ.1) THEN
+              WRITE(LNW,405) (X7(I),I=1,NCOL)
+            ENDIF
+
           GOTO 10
  
         ELSE
  
           NEWFIL='b_'//OLDFIL(IB:IFIN)
           IF(NRES.GT.0) THEN
-            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL, NHEAD
+            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL, NHEAD, NFRM
  101        FORMAT(10X,' TRANSLATE  FROM  FORMATTED  FILE  : ',A
      >          ,/,10X,' TO  BINARY  FILE                  : ',A,/
      >          ,/,10X,' Number of data columns  : ',I4
-     >          ,/,10X,' Number of header lines  : ',I4)
+     >          ,/,10X,' Number of header lines  : ',I4
+     >          ,/,10X,' Format type  : ',I4)
 C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
           ENDIF
  
@@ -120,18 +127,23 @@ c               write(*,*) ' sbr binary, try open ',oldfil,lnr
             GOTO 97
           ENDIF
  
-          line = 0
-          do nh = 1, nhead
-            READ (LNR,fmt='(a132)', ERR=90, END= 1 ) header
-            line = line + 1
-            WRITE(LNW) header
-          enddo
+          LINE = 0
+          DO NH = 1, NHEAD
+            READ (LNR,FMT='(A132)', ERR=90, END= 1 ) HEADER
+            LINE = LINE + 1
+            WRITE(LNW) HEADER
+          ENDDO
  11       CONTINUE
-C            READ (LNR,404, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
-            READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
-            line = line + 1
-C 404        FORMAT(1X,7E11.2)
-            WRITE(LNW) (X7(I),I=1,ncol)
+            IF    (NFRM.EQ.0) THEN
+              READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
+            ELSEIF(NFRM.EQ.1) THEN
+              READ (LNR,404, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
+ 404          FORMAT(1X,7E11.2)
+            ENDIF
+            LINE = LINE + 1
+            WRITE(LNW) (X7(I),I=1,NCOL)
+c              write(*,*) line,(X7(I),I=1,NCOL)
+c                  read(*,*)
           GOTO 11
         ENDIF
  
@@ -146,8 +158,8 @@ C 404        FORMAT(1X,7E11.2)
  96   CALL ENDJOB('ERROR  OPEN  OLD  FILE '//OLDFIL,-99)
  97   CALL ENDJOB('ERROR  OPEN  NEW  FILE '//NEWFIL,-99)
  90   CONTINUE
+      WRITE(NRES,*) ' '
       WRITE(NRES,*) ' Number of last line read is : ',line
-      WRITE(6,*) ' Number of last line read is : ',line
       CALL ENDJOB('ERROR  DURING  READ  IN  '//OLDFIL,-99)
       RETURN
       END
