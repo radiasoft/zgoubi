@@ -46,6 +46,8 @@ C-------------------------------------------------
       LOGICAL ZSYM
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
+      INCLUDE 'MXFS.H'
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
 
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
@@ -70,15 +72,18 @@ C-------------------------------------------------
       LOGICAL FRSTRD(MXL)
       SAVE A10INI, FRSTRD
 
+      DIMENSION DBDX(3)
+      DIMENSION AA(29)
+
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
-      DATA ONE / 1.D0 / 
       DATA FRSTRD / MXL * .TRUE. / 
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
-      BNORM = A(NOEL,10)*SCAL
+C Aug 2012      BNORM = A(NOEL,10)*SCAL
+      BNORM = A(NOEL,10)
       IF(FRSTRD(NOEL)) THEN
         A10INI(NOEL) = A(NOEL,10)
         FRSTRD(NOEL) = .FALSE.
@@ -130,6 +135,27 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
 
         CALL KSMAP4(NOMFIC,NFIC,
      >                          NEWFIC,NBMAPS,IMAP)
+
+        IF(MOD2 .EQ. 1) THEN
+C TOSCA 2D map for the AGS main magnet 
+C dB1, dB2, dB3
+          AA(24) = A(NOEL,24)
+          AA(25) = A(NOEL,25)
+          AA(26) = 0.D0
+          CALL SCALE9(
+     >                KFM)
+          DO I = 1, JPA(KFM,MXP)
+C Apply scaling to all parameters concerned
+c            write(*,*) ' toscac ', 
+c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
+c                read(*,*)
+            AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
+          ENDDO
+          DBDX(1) = AA(24)
+          DBDX(2) = AA(25)
+          DBDX(3) = AA(26)
+          CALL CHAMK4(DBDX,3)
+        ENDIF
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
@@ -159,10 +185,14 @@ C--------- A single data file contains the all 3D volume
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,A,I1,A,I3,A1,I1,2(2A,I3),/)') 
-     >  'NDIM = ',NDIM,' ;   Value of MOD.I is ', MOD,'.',MOD2,' ;  ' 
+        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,2(A,I1),/)') 
+     >  'NDIM = ',NDIM,' ;  ' 
      >  ,'Number of data file sets used is ',NFIC,' ;  ' 
-     >  ,'Stored in field array # IMAP =  ',IMAP
+     >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
+     >  ,'Value of MOD.I is ', MOD,'.',MOD2
+        IF(MOD2.GE.1) WRITE(NRES,FMT='(/,5X,A,I1,2A,1P2E15.6,/)') 
+     >  'MOD2 = ',MOD2,' ->  map will be perturbed using '
+     >  ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
 
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
@@ -253,7 +283,7 @@ C FM Nov 2011           DO K= 2, KZMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
 
-           CALL CHAMK2(ONE)
+           CALL CHAMK2(scal)
 
 C           write(*,*) 'toscac 1 ',A(NOEL,10),A10INI(NOEL), scal
 C                            read(*,*)
@@ -285,20 +315,21 @@ C------- Restore mesh coordinates
            ZBMA = ZBBMA(imap)  
 
 C july 2012           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
-           CALL CHAMK2(A(NOEL,10)/ABS(A10INI(NOEL)) * scal)
+C Aug 2012           CALL CHAMK2(A(NOEL,10)/ABS(A10INI(NOEL)) * scal)
+           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
 
-C           write(*,*) ' toscac 2 ',A(NOEL,10)/A10INI(NOEL) * scal
-C           write(*,*) ' toscac 2 ',A(NOEL,10),A10INI(NOEL), scal
-C                            read(*,*)
+c           write(*,fmt='(a,1p,3(1x,e12.4))') 
+c     >          ' toscac 2 ',A(NOEL,10),A10INI(NOEL), scal
+c                            read(*,*)
 
            IF(NRES.GT.0) THEN
-             WRITE(NRES,*) ' SBR TOSCAC, ',
+             WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
      >       ' restored mesh coordinates for field map # ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
-             WRITE(NRES,*) ' '
-             WRITE(NRES,*) ' SBR TOSCAC, applied scaling factor scal= '
-     >             ,scal
+c             WRITE(NRES,*) ' '
+c             WRITE(NRES,*) ' SBR TOSCAC, applied scaling factor scal= '
+c     >             ,scal
            ENDIF
 
       ENDIF ! NEWFIC

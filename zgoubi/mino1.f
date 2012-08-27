@@ -28,7 +28,7 @@ C  -------
 
       LOGICAL ITSENS
 
-      PARAMETER (NITER=15)
+      PARAMETER (NITER=30)
 
       PARAMETER (VALMAX=1.D38)
       PARAMETER (D=3.0D0)

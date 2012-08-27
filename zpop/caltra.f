@@ -1211,4 +1211,7 @@ C----- AGSQUAD.  AGS quad with 2 windings.
  111  CONTINUE
       IF(READAT) CALL RAGSQU(NDAT,NOEL,MXL,A,ND(NOEL))
       GOTO 341
+C----- SYNRAD.
+ 112  CONTINUE
+      GOTO 341
       END

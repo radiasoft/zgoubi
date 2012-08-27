@@ -3539,19 +3539,19 @@ independent one.
 
 \begin{tabular}{>{\sl}l!{~:}p{13cm}}
   CHAMBR 
-       & \textsl{NOUT} = number of stopped particles\index{stopped particles} = 0~;  \textsl{CHAMBR} option  switched  off \\
+       & number of stopped particles\index{stopped particles} reset to 0~;  \textsl{CHAMBR} option  switched  off \\
   COLLIMA 
-       & \textsl{NOUT} = number of stopped particles\index{stopped particles} = 0\\
+       & number of stopped particles\index{stopped particles} reset to 0\\
   HISTO 
        &  Histograms are emptied\\
   INTEG 
-       & \textsl{NRJ} = number of particles out of range = 0 (\textsl{INTEG} is the numerical 
-           integration subroutine~; \textsl{NRJ} is incremented when a particle 
-            goes out of a field map)\\
+       & number of particles out of field map boundaries reset to 0 \\
    MCDESINT 
-       & Decay in flight option switched off \\
+       & Decay in flight option switched off, counter reset \\
+  PICKUPS & 
+               Pick-up signal calculation switched off\\
   SCALING 
-       &  Scaling options disabled\\
+       &  Scaling functions disabled\\
   SPNTRK 
        & Spin tracking option switched off
 \end{tabular}
@@ -3561,8 +3561,8 @@ independent one.
 \index{synchrotron motion}
 
 \textsl{SCALING} acts as a function generator dedicated to varying 
-fields in optical elements, or potentials in 
-electrostatic devices, or  frequency in \textsl{CAVITE\index{CAVITE}}. It is normally intended
+fields in optical elements, potentials in 
+electrostatic devices, RF parameters in \textsl{CAVITE\index{CAVITE}}. It is normally intended
 to be declared right after the object definition, and used in conjunction 
 with \textsl{REBELOTE\index{REBELOTE}}, for the simulation of multiturn\index{multiturn} tracking - possibly including  acceleration
 \index{acceleration} cycles.  
@@ -3577,17 +3577,21 @@ as to be varied will result in the same timing law being applied to all
 labeling keywords in the data file (section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}) 
 and adding the corresponding \LABEL('s)\index{LABEL@{\LABEL}} 
 in the \textsl{SCALING} declarations (two \LABEL's maximum). The family name of concern, 
-as well as the field versus timing scaling law of that 
-family (or frequency versus timing in the case of \textsl{CAVITE\index{CAVITE}}) are given as
-input data to the keyword \textsl{SCALING\index{SCALING}}. Up to $NF = 9$ families can be declared
-as subject to a scaling law~; a scaling law can be made of up to $NT = 10$~successive timings~; 
-between two successive timings, the variation law is linear.  
-\bigskip
-
-\noindent An example of data formatting is given in the following. 
+as well as the scaling function for  that  family,  are given as
+input data to the keyword \textsl{SCALING\index{SCALING}}. There is an upper limit, \textsl{NFMAX}, to the number  $NF$ 
+of families that can be declared
+as subject to a scaling law,  \textsl{NFMAX} can be changed in the \FORTRAN\ include file \texttt{MXFS>H}. 
+A scaling law can be comprised  of up to $NT$~successive timings,  
+between two successive timings, a linear interpolation law is used to determine the scaling factor. 
 
 \bigskip
 
+\noindent An example of data formatting for the simualtion of an acceleration cycle in a circular 
+machine is given in the following. 
+
+\bigskip
+
+{\small
 {\renewcommand{\arraystretch}{1}
 \noindent\begin{tabular}{lll}
   \textsl{SCALING}    &          & - Scaling \\
@@ -3599,24 +3603,26 @@ between two successive timings, the variation law is linear.
                                  to 24176E-3$\ast B_0 $  \\
   1                   & 6379     &  from turn 1 to turn 6379\\
   \textsl{MULTIPOL} \textsl{QDA} \textsl{QDB}&          &- Multipoles labeled 'QDA' and Multipoles labeled 'QDB'\\
-  2   \\                      
+  2                      &       &      $NT = 2$ timings  \\
   18131.E-3           &24176.E-3 &  Fields  increase from 18131E-3$\ast {B_i} $ to 
                                   24176E-3$\ast  {B_i} $  ($\forall i=1,\,10$ poles) \\
   1                   & 6379     & from turn 1 to turn 6379\\
   \textsl{BEND}       &          &- All \textsl{BEND}'s (regardless of any \LABEL) \\
-  2    \\
-  18131.E-3           &24176.E-3 &  Same scaling \\
+  2                  &               &           $NT = 2$ timings  \\
+  18131.E-3           &24176.E-3 & As above \\
   1                   & 6379  \\
   \textsl{CAVITE}     &          &- Accelerating cavity \\
-  2  \\
+  3                      &           &         $NT = 3$ timings  \\
   1 ~~~~~ 1.22        &1.33352   &The synchronous rigidity $(\Br )_s $ increases, \\
   1 ~~~~~   1200      & 6379     &from $ (\Br )_{s_o} $ to 1.22 $\ast (\Br)_{s_o} $ from turn 1 to 1200, and \\
                       &          &from 1.22 $\ast (\Br)_{s_o} $ to 1.33352 $ (\Br )_{s_o} $ from turn 1200 to 6379 
 \end{tabular} }                   
+}
+
  \bigskip
 
 \noindent The timing is in unit of turns. In this example, TIMING = 1 to 6379 
-(turns). Therefore, at turn number $ N$, $B $ and $ B_i $ are updated in the 
+(turns). Therefore, at turn number $ N, ~ B $ and $ B_i $ are updated in the 
 following way. Let \textsl{SCALE}(\textsl{TIMING} $ = N$) be the updating scale factor
 
 \begin{align*}
@@ -3651,14 +3657,30 @@ from which value the calculations of $ f_{RF}(N) $ follow.
 
  \noindent $NT$ can take negative values, then acting as an option switch (rather than giving number of timings), as follows~: 
 
-$\bullet ~ NT = -1$~: this is convenient for synchrotron acceleration using trivial RF law $f_{RF} = h/T_{rev}$. In this case 
+$\bullet ~ NT = -1$~: this is convenient for synchrotron acceleration. In this case 
 the next two lines both contain a single data (as for $NT=1$), respectively the starting scaling factor value, and 1.  
-The current field scaling factor can then be updated (computed) 
- from the energy kick by the cavity if for instance \textsl{CAVITE/IOPT=2} is used. 
+The current field scaling factor will  then be  updated 
+ from the energy kick by the cavity if for instance \textsl{CAVITE/IOPT=2} is used, namely, 
+\begin{align*}
+   \text{SCALE}(N) & = \text{SCALE}(N-1) * \dfrac{B\rho(N)}{B\rho(N-1)}  \\
+\end{align*}
+
 
 $\bullet ~ NT = -2$~: this is convenient for reading an RF law for \textsl{CAVITE} from an external data file, 
-including usage for acceleration in fixed field accelerators. To be documented. 
+including usage for acceleration in fixed field accelerators. 
 
+
+$\bullet ~ NT = 1.10$~: allows taking the scaling law from an external data file, as in the following example~:
+
+\bigskip
+
+{\renewcommand{\arraystretch}{1}
+	\begin{tabular}{lclcl}
+MULTIPOL COH1  \\
+1.10    &&          \\
+./Csnk3D/bump\_centered.scal  \\
+1 2  \\
+	\end{tabular}   }
 
 \bigskip
 
@@ -3680,7 +3702,7 @@ the definition of  mass and gyromagnetic factor.
 \medskip
 
 \noindent\textbf{KSO = 1  (respectively 2, 3)~:} the \IMAX\ particles
-of the beam are given a longitudinal (1,0,0) spin component (respectively 
+ defined with \textsl{[MC]OBJET} are given a longitudinal (1,0,0) spin component (respectively 
 transverse horizontal (0,1,0), vertical (0,0,1)).  
 \medskip
 
@@ -3737,18 +3759,24 @@ $A = \pi /2$,	and	$\delta	A =	0$.} }
 \index{synchrotron radiation loss}
 
 \noindent The keyword \textsl{SRLOSS} allows activating or stopping (option $KSR=1,0$ respectively) 
- stepwise tracking  of energy loss by emission of 
-photons in magnetic fields and the ensuing particle energy perturbation, following the 
-method described in section~\ref{SRLoss}.  
+ stepwise tracking  of energy loss by stochastic emission of 
+photons in magnetic fields, following the method described in section~\ref{SRLoss}.  
 
-\textsl{SRLOSS}  must be preceded by \textsl{PARTICUL}\index{PARTICUL} for defining  mass and charge values as they enter in the 
-definition of SR parameters. 
+\bigskip
+
+\noindent  It can be chosen to allow radiation in the sole dipole fields, or in all types of fields regardless of 
+their multipole composition.  It can also be chosen to allow for the radiation induced transverse kick. 
+
+\bigskip
+
+\noindent  \textsl{SRLOSS}  must be preceded by \textsl{PARTICUL}\index{PARTICUL} for defining  mass and charge 
+values as they enter in the definition of SR parameters. 
 
 
 \bigskip
 
-Statistics on SR parameters are perform while tracking, results of which can be obtained by means of keyword 
- SRPRNT. 
+\noindent  Statistics on SR parameters are  computed and updated while tracking, the results of which can be obtained by means of 
+the keyword  \textsl{SRPRNT}\index{SPNPRT}. 
 
 
 \newpage
@@ -3763,11 +3791,12 @@ in the definition of SR parameters.
 \bigskip
 
 \noindent\textsl{SYNRAD} is supposed to appear a first time at the 
-location where SR~calculations should start, with the first data \textsl{KSR} set 
+location where SR should start being taken into account, with the first data \textsl{KSR} set 
 to~1. It results in on-line storage of the electric field vector and 
 other relevant quantities in zgoubi.sre\index{zgoubi.sre}, as step by step integration 
 proceeds. The observer position ($XO$, $YO$, $ZO$) is specified next 
 to \textsl{KSR}.
+
 \bigskip
 
 \noindent Data stored in zgoubi.sre~:
@@ -3800,16 +3829,18 @@ interest and frequency sampling ($\nu_1$, $\nu_2$, $N$) are specified
 next to \textsl{KSR}.
 \bigskip
 
-\noindent Note that \textsl{KSR} = 0 followed by a dummy line of 
-data allows temporary inhibition of SR~procedures.
+
+
+
+
+
+
+
+\clearemptydoublepage
+
 
 \subsection{Optical Elements and Related Numerical Procedures} \label{sec4.4}
 
-
-
-
-
-\newpage
 
 \subsubsection*{AGSMM~:  \AGSMMTitl} \label{AGSMM}\index{AGSMM|textbf}
 \medskip 
@@ -3817,30 +3848,34 @@ data allows temporary inhibition of SR~procedures.
 
 The AGS main magnet is a combined function dipole with straight axis (lines of constant field are straight lines).  
 
-\noindent The field in  \textsl{AGSMM}  is the same as in \textsl{MULTIPOL} 
-(details in section~\ref{sec2.3.5} page~\pageref{sec2.3.5}), 
+\noindent The field computation routines for   \textsl{AGSMM}  are the same as for \textsl{MULTIPOL} 
+(details in section~\ref{sec2.3.5}, page~\pageref{sec2.3.5}), 
 however  \textsl{AGSMM}  has  the following four particularities~: 
 
 \begin{itemize}
   \item There are only three multipole components present in \textsl{AGSMM}~: dipole, quadrupole and sextupole. 
-  \item The dipole field $B_0$ is drawn for the reference rigidity, $B\rho_{ref}$ so to preserve 
+  \item The dipole field $B_0$ is drawn from the reference rigidity, $B\rho_{ref}$, and  preserves
 $\rho = B\rho_{ref} / B_0$  and the orbit deviation  $L/\rho$. In particular, 
   \begin{itemize}
-     \item In the absence of acceleration, $B\rho_{ref} \equiv BORO$, with $BORO$ the quantity appearing  in the object definition 
-using \textsl{OBJET}, \textsl{MCOBJET}, 
-     \item in pessence of acceleration using \textsl{CAVITE}, $B\rho_{ref} \equiv BORO(1+D_{ref})$, with $D_{ref}$ 
+     \item in the absence of acceleration, $B\rho_{ref} \equiv BORO$, with $BORO$ the quantity appearing  in the object definition 
+using  \textsl{[MC]OBJET}, 
+     \item in pessence of acceleration using \textsl{CAVITE}, $B\rho_{ref} $ is changed 
+to $ BORO\times (1+D_{ref})$ at each passage in the cavity, with $D_{ref}$ 
 the relative synchronous momentum increase, a quantity that \zgou\ updates at cavity traversal.
   \end{itemize}
   \item The field indices, quadrupole $K1$ and sextupole $K2$, are derived from  the reference rigidity, $B\rho_{ref}$, via 
-so-called ``transfer functions'' momentum-dependent polynomials.  
+ momentum-dependent polynomials, taken from Ref.~\cite{EJBleser}.  
 
   \item The AGS main dipole has backleg windings, used for instance for injection and extraction orbit bumps. 
-Windings turn number and Ampere-turns are part of the data in tthe input data list. The intensity in the windings is  accounted for in the calculation of the transfer function from coil current to magnetic field in \textsl{AGSMM}. 
+The number of winding turns and the  number of Ampere-turns 
+are part of the data in tthe input data list. The intensity in the windings is  accounted for in the conversion 
+ from total ampere-turns in the magnet  to momentum and then to magnetic field. 
 \end{itemize}
 
 \bigskip
 
-  \noindent Note~: A consequence of  items 2 and 3 is that  no field value is required in defining the AGS main magnets in zgoubi data list ``zgoubi.dat''.
+  \noindent Note~: A consequence of  items~2 and~3 is that  no field value is required in defining the AGS main magnets in 
+the  zgoubi.dat input data list. 
 
 
 
@@ -3851,13 +3886,17 @@ Windings turn number and Ampere-turns are part of the data in tthe input data li
 \medskip 
 
 The AGS quadrupoles are regular quadrupoles. 
-The simulation of  \textsl{AGSQUAD}  works like \textsl{MULTIPOL}. 
-However some of the AGS quadrupoles  have two superimposed coil circuits, with separate power supplies. 
+The simulation of  \textsl{AGSQUAD}  uses the same field modelling as \textsl{MULTIPOL}, 
+section~\ref{sec2.3.5}, page~\pageref{sec2.3.5}.  However amperes are provided as input to 
+ \textsl{AGSQUAD} rather than fields, the reason being that 
+ some of the AGS quadrupoles  have two superimposed coil circuits, with separate power supplies. 
 It has been dealt with this 
 particularity by allowing  for an additional set of multipole data in \textsl{AGSQUAD}, compared to \textsl{MULTIPOL}. 
 
-\noindent The field in \textsl{AGSQUAD} is computed using transfer functions from the intensity in the coils to 
-the magneitc field,  accounting for non-linearities. 
+\bigskip
+
+\noindent The field in \textsl{AGSQUAD} is computed using transfer functions from the ampere-turns in the coils to 
+magneitc field that  account for the non-linearity of the magnetic permeability~\cite{MADXAGSModel}. 
 
 
 
@@ -3869,8 +3908,15 @@ the magneitc field,  accounting for non-linearities.
 \medskip
 
 The keyword \textsl{AIMANT} provides an automatic
-generation of a dipole median plane field map in polar coordinates. A more recent and improved version will be 
-found in \textsl{DIPOLE-M\index{DIPOLE-M}}. The extent of the map is defined by the 
+generation of a dipole median plane field map in polar coordinates. 
+
+\medskip
+\noindent A more recent and improved version will be 
+found in \textsl{DIPOLE-M\index{DIPOLE-M}}. In addition, a similar modelling, that however skips 
+the stage of an intermediate mid-plane field map, can be found in  \textsl{DIPOLE[S]\index{DIPOLE}}\index{DIPOLES}.
+
+\medskip
+\noindent The extent of the map is defined by the 
 following parameters, as shown in Figs.~\ref{fig9}A and~\ref{fig9}B, 
 
  \begin{tabular}{>{\sl}l!{~:}l}
@@ -3900,7 +3946,7 @@ following parameters,
 component of the field is calculated as 
 
  \begin{equation}
-	 B_Z =  \mathcal{F} \ast  B_0 \ast  
+	 B_Z =  \mathcal{F}(R,\theta) \ast  B_0 \ast  
 	      \left(1+N \ast  
 	           \left( \frac{R-RM }{ RM}\right) 
 	           + B \ast  \left(\frac{R-RM }{ RM} \right)^2 
@@ -3910,8 +3956,8 @@ component of the field is calculated as
  \end{equation}
 %
  where  $ N$, $B $ and $ G $ are  respectively  the first, second and
-third order field indices and $ \mathcal{F}$ is the fringe field 
-coefficient. 
+third order field indices and $ \mathcal{F}(R,\theta)$ is the fringe field 
+coefficient  (it determines the ``flutter''  in periodic structures).  
 
 
 \subsubsection*{Calculation of the Fringe Field Coefficient} 
@@ -3923,12 +3969,15 @@ calculated. In the following $\lambda$ stands for either $ \lambda_ E $
 (Entrance), $ \lambda_ S $ (Exit) or $ \lambda_ L $ (Lateral EFB). 
  
 \noindent If a node of the map mesh is at a distance of the EFB larger than
-$\lambda$, then $ F=0 $ outside the field map and $ \mathcal{F}=1 $ inside.  
+$\lambda$, then $  F=0 $ outside the field map and $ F=1 $ inside.  
 If a node is inside the fringe field zone, then $  F$   is calculated as follows. 
+
+\bigskip 
 
 \noindent Two options are available, for the calculation of $ F$, depending
 on the value of $\xi$. 
 
+\medskip
 \noindent\textbf{If } $\mathbf{\xi  \geq 0}$, $ F $ is a  second
 order type fringe field (Fig.~\ref{fig11}) given by 
 
@@ -3949,8 +3998,8 @@ where $ s $ is the distance to the EFB, and
  
 \noindent This simple model allows a rapid calculation of the fringe field,
 but may lead to erratic behavior of the field when extrapolating out of the median plane, 
-due to the discontinuity of $ d^2B/ds^2 $ at $ s=\pm \xi $ and $ s=\pm \lambda $. 
-For more accuracy it is better to use the next option. 
+due to the discontinuity of $ d^2B/ds^2 $,  at $ s=\pm \xi $ and $ s=\pm \lambda $. 
+For better  accuracy it is advised to use the next option. 
 
 \newpage
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
@@ -3984,8 +4033,8 @@ fringe field (Fig.~\ref{fig11}) given by~\cite{Biblio12}  %%%   [12]
 %
 The values of the coefficients $ C_0 $ to $ C_5 $ should be such that the 
 derivatives of $ B_Z$ with respect to $ s $ be negligible at $ s=\pm \lambda $, so as not
-to perturb the extrapolation of $ \vec B $ out of the median plane  (this restriction 
-no longer holds in the improved version \textsl{DIPOLE-M\index{DIPOLE-M}}).  
+to perturb the extrapolation of $ \vec B $ out of the median plane.
+%  (this restriction no longer holds in the improved version \textsl{DIPOLE-M\index{DIPOLE-M}}).  
 
 \noindent It is also possible to simulate a shift of the EFB, by giving a non
 zero value to the parameter \textsl{SHIFT}.  $ s $ is then changed to $ s  -$~\textsl{SHIFT} in the 
@@ -3993,13 +4042,13 @@ previous equation.   This allows small variations of the total
 magnetic length. 
 
 \noindent Let $ F_E $ (respectively $ F_S$, $F_L$)   be the fringe field
-coefficient attached to the entrance (respectively exit, lateral) EFB following eqs.\ above. At any
+coefficient attached to the entrance (respectively exit, lateral) EFB following  the equations\ above. At any
 node of the map mesh, the resulting value of the fringe field coefficient (eq.~\ref{eq4-4-1}) is 
 (Fig.~\ref{fig12})  
 
-$$ \mathcal{F}= F_E \ast  F_S \ast  F_L $$
+$$ \mathcal{F}(R,\theta)= F_E \ast  F_S \ast  F_L $$
 %
- ($F_L=1 $ if no lateral EFB is requested). 
+ In particular, $F_L\equiv 1 $ if no lateral EFB is requested. 
 
 \subsubsection*{The Mesh of the Field Map} 
 
@@ -4059,7 +4108,7 @@ and exponential type fringe field (lower plot).}}
 %%%Figure 12
 \centerline{\includegraphics[width=12cm]{Fig12.ps}}
 {\setlength{\captionwidth}{15cm}
-\hangcaption[Fig12]{\label{fig12} Effective value of $\mathcal{F}$ for overlapping fringe
+\hangcaption[Fig12]{\label{fig12} Effective value of $\mathcal{F}(R,\theta)$ for overlapping fringe
 fields $ F_1 $ and $ F_2 $ centered at $ O_1 $ and $ O_2 $. }}
 \end{figure}
 
@@ -4091,13 +4140,13 @@ $$
 
 \subsubsection*{Extrapolation Off Median Plane} 
 
-The vector field $ \vec  B $ and its derivatives in the median plane are 
+The vertical field $ \vec  B $ and its derivatives in the median plane are 
 calculated by means of a second or fourth order polynomial 
 interpolation, depending 
 on the value of the parameter \textsl{IORDRE\index{IORDRE}} (\textsl{IORDRE}=2, 25 or 4, 
 see section~\ref{sec2.4.2}). 
 The transformation from polar to Cartesian coordinates is performed 
-following eqs.~(\ref{eq2-4-8} or \ref{eq2-4-9}). Extrapolation off median phase is then performed 
+following eqs.~(\ref{eq2-4-8} or \ref{eq2-4-9}). Extrapolation off median plane is then performed 
 by means of Taylor expansions following the procedure described in section~\ref{sec2.3.2}.  
 
 
@@ -4140,7 +4189,7 @@ $$ \text{\textsl{CHANGREF}} \lbrack XW, YW, T(1)\rbrack $$
  so that the new reference frame is at the position $ (XW, YW) $ of
 the waist (calculated automatically in the same way as for 
 \textsl{IMAGE\index{IMAGE}}) of the three rays number 1, 4 and 5 (compatible for instance
-with \textsl{OBJET\index{OBJET}, KOBJ}  =  5, 6 together with the 
+with \textsl{OBJET\index{OBJET}}, \textsl{KOBJ}  =  5, 6,  together with the 
 use of \textsl{MATRIX})\index{MATRIX} while $T(1)$ is set to zero.  
 
 \bigskip
@@ -4151,7 +4200,7 @@ $$\text{\textsl{CHANGREF}} \lbrack XW,YW,T(I1)\rbrack $$
 %
  so that the new reference frame is at the position $ (XW, YW) $ of
 the waist (calculated automatically in the same way as for 
-\textsl{IMAGE}) of the three rays number I1, I2 and I3 specified as data,  while $T(1)$ is set to zero.
+\textsl{IMAGE}) of the three rays number I1, I2 and I3 specified as data,  while $T(I1)$ is set to zero.
  
 
 
@@ -4177,7 +4226,7 @@ the waist (calculated automatically in the same way as for
 \subsubsection*{BEND~: \BENDTitl}\label{BEND}  \index{BEND|textbf}
 \medskip
 
-\textsl{BEND}  is one of the several keywords available for the
+\textsl{BEND}  is one of  several keywords available for the
 simulation of dipole magnets. It presents the interest of easy handling, and is well adapted for 
 the simulation of synchrotron dipoles and such other regular dipoles as sector magnets with wedge 
 angles. 
@@ -4187,14 +4236,15 @@ angles.
 \noindent The field in \textsl{BEND}  is defined in a Cartesian coordinate frame (unlike for instance \textsl{DIPOLE[S]} 
 that uses a polar frame).  As a consequence, having particle coordinates at entrance  or exit of the magnet 
 referring to the  curved  main direction of motion may 
-require using \textsl{KPOS}, in particular \textsl{KPOS=3}  (in a circular machine cell for instance). 
+require using \textsl{KPOS}, in particular \textsl{KPOS=3}  (in a circular machine cell for instance, 
+see section~\ref{sec4.6.2}, p.~\pageref{sec4.6.2}). 
 
 \bigskip
 
-\noindent The dipole simulation is performed from the magnet geometrical length $ \XL $, from
- the skew angle (rotation \wrt\ the X axis, useful for obtaining vertical deviation magnet), and from the 
+\noindent The dipole simulation accounts for the magnet geometrical length $ \XL $, for a possible 
+ skew angle (X-rotation, useful for obtaining vertical deviation magnet), and for the 
 field $ B1 $  such that   in absence of fringe field the deviation $\theta$ satisfies 
-$ \XL = 2 \frac{\BORO}{B1} \sin(\frac{\theta}{2})$. 
+$ \XL = 2 \frac{\BORO}{B1} \sin \theta/2$. 
 
 \bigskip
 
@@ -4203,7 +4253,8 @@ fringe fields.       The wedge angles $W_E $
 (entrance) and $W_S $ (exit) are defined with respect to the sector angle, 
 with the signs as described in Fig.~\ref{fig14}.  
 Within a distance $ \pm X_E(\pm X_S) $ on both sides of the entrance (exit) EFB, 
-the fringe field model is used~; elsewhere, the field is supposed to be uniform. 
+the fringe field model is used (same as for \textsl{QUADRUPO}, 
+Fig.~\ref{fig27}, p.~\pageref{fig27})~; elsewhere, the field is supposed to be uniform. 
 
 \bigskip
 
@@ -4241,7 +4292,8 @@ bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\ep
 \medskip
 
 \textsl{BREVOL}  reads a 1-D axial field map from a storage data file,
-whose content must fit the following \FORTRAN\ reading sequence   
+whose content must fit the following \FORTRAN\ reading sequence (possible FORMAT updates are to be found in \texttt{fmapw.f}).   
+
 \bigskip
 
 
@@ -4259,18 +4311,18 @@ whose content must fit the following \FORTRAN\ reading sequence
 \medskip
 
 \noindent where $IX$ is the number of nodes along the (symmetry) $X$-axis, $X(I)$
-their coordinates, and $BX(I)$ the values of the $X$ component of the field. $BX$ is 
+their coordinates, and $BX(I)$ are the values of the $X$ component of the field. $BX$ is 
 normalized with \textsl{BNORM} factor prior to ray-tracing, as well  X is normalized with 
-a  \textsl{XNORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi). 
+ the coefficient  \textsl{XNORM}  (usefull to convert to centimeters, the working units in  \zgoubi). 
 For binary files, \textsl{FNAME} must begin with \mbox{`B\_ '} or  \mbox{`b\_ '}, 
-a flag `BINARY' will thus be set to `.TRUE.'. 
+a flag `BINARY' will thus be set to `.TRUE.' by the \FORTRAN.  
 
 \bigskip
 
 \noindent $X$-cylindrical symmetry is assumed, resulting in $BY$ and $BZ$ taken to 
 be zero on axis. $ \vec {B} {(X,Y,Z)} $ and its derivatives along a
-particle trajectory are calculated by means of a 5-point polynomial fit followed by second 
-order off-axis Taylor series extrapolation (see sections~\ref{sec2.3.1}, \ref{sec2.4.1}).  
+particle trajectory are calculated by means of a 5-point polynomial interpolation followed by second 
+order off-axis  extrapolation (see sections~\ref{sec2.3.1}, \ref{sec2.4.1}).  
 \bigskip
 
 \noindent Entrance and/or exit integration boundaries may be defined in the same way 
@@ -4285,7 +4337,7 @@ $A$, $B$, $C$, etc.
 \textsl{CARTEMES}  was originally dedicated to the reading 
 and processing of
 the measured median plane field maps of the QDD spectrometer  SPES2 at Saclay.  However, it can be
-used for the reading of any other 2-D median plane maps, provided that the format of the
+used for the reading of any 2-D median plane maps, provided that the format of the
 field data storage file fits the following \FORTRAN\ sequence 
 
 
@@ -4309,8 +4361,8 @@ field data storage file fits the following \FORTRAN\ sequence
 \noindent where, $IX$  and $JY$  are the number of longitudinal
 and transverse horizontal nodes of the uniform mesh, and $X(I)$, $Y(J)$ their coordinates.  
 \textsl{FNAME} 
- is the file containing the field data. For binary files, \textsl{FNAME} must begin with
-\mbox{`B\_ '} or \mbox{`b\_'},  a flag `BINARY' will thus be set to `.TRUE.'.  
+ is the name of the file containing the field data. For binary files, \textsl{FNAME} must begin with
+\mbox{`B\_ '} or \mbox{`b\_'},  a flag `BINARY' will thus be set to `.TRUE.' by the \FORTRAN.  
 \bigskip
 
 \noindent The measured field \textsl{BMES} is normalized with \textsl{BNORM},
@@ -4318,7 +4370,7 @@ and transverse horizontal nodes of the uniform mesh, and $X(I)$, $Y(J)$ their co
 $$ B(I,J) = \text{\textsl{BMES}}(I,J) \times  \text{\textsl{BNORM}} $$
 
 \noindent As well the longitudinal coordinate  X is normalized with 
-a  \textsl{XNORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
+a  \textsl{XNORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi). 
 
 \noindent The vector field, $ \vec  B $, and its derivatives out of the median
 plane are calculated by means of a second or fourth order polynomial 
@@ -4327,9 +4379,9 @@ the value of the parameter \textsl{IORDRE\index{IORDRE}} (\textsl{IORDRE} = 2, 2
 see section~\ref{sec2.4.2}). 
 \bigskip
 
-\noindent In case a particle  exits the mesh, its \IEX\index{IEX@{\IEX}} flag is set to $-1$ (see section~\ref{sec4.6.6} on 
-page~\pageref{sec4.6.6}), however it is still tracked with the field being {\it extrapolated} from 
-the closest mesh nodes of the map. Note that such extrapolation process may induce eratic behavior if the distance from the mesh gets 
+\noindent In case a particle  exits the mesh, its \IEX\index{IEX@{\IEX}} flag is set to $-1$ (see section~\ref{sec4.6.6}, 
+p.~\pageref{sec4.6.6}), however it is still tracked with the field being {\it extrapolated} from 
+the closest  nodes of the mesh. Note that such extrapolation process may induce eratic behavior if the distance from the mesh gets 
 too large. 
 
 \bigskip
@@ -4340,20 +4392,21 @@ the flag $ID$\index{ID@{\textsl{ID}}|textbf}, as follows (Fig.~\ref{fig15}).
 
 \noindent \textbf{If  $\mathbf{ID = 1}$~:} the integration in the field 
 is terminated on a boundary with equation $A'X + B'Y + C'=0 $, and 
-then the trajectories are extrapolated linearly onto the exit end of the 
-map.
+then the trajectories are extrapolated linearly onto the exit border of the map.
+
 \medskip
 
 \noindent \textbf{If  $\mathbf{ID = -1}$~:} an entrance boundary is 
 defined, with equation $A'X + B'Y + C'=0 $, up to which  trajectories are 
-first extrapolated linearly from the map entrance end, prior to being 
+first extrapolated linearly from the map entrance border, prior to being 
 integrated in the field.
+
 \medskip
 
 \noindent \textbf{If  $\mathbf{ID \geq 2}$~:} one entrance boundary, and 
 $ID-1$~exit boundaries are defined, as above. The integration in the 
 field terminates on the last ($ID - 1$) exit boundary. No extrapolation onto 
-the map exit end is performed in this case.
+the map exit  border is performed in this case.
 
 \newpage
 
@@ -4987,7 +5040,7 @@ coordinates. At  any position $(R,\theta)$ along the  particle trajectory
 the value of the vertical component of the mid-plane field is calculated by 
 
  \begin{equation}
-	 B =  \mathcal{F(R,\theta)} \ast  B_0 \ast  
+	 B =  \mathcal{F}(R,\theta) \ast  B_0 \ast  
 	      \left(1+N \ast  
 	           \left( \frac{R-RM }{ RM}\right) 
 	           + B \ast  \left(\frac{R-RM }{ RM} \right)^2 
@@ -4996,7 +5049,8 @@ the value of the vertical component of the mid-plane field is calculated by
  	%\label{eq3-3-1}
  \end{equation}
  where  $ N$, $B $ and $ G $ are  respectively  the first, second and
-third order field indices and $ \mathcal{F}(R,\theta)$ is the fringe field coefficient. 
+third order field indices and $ \mathcal{F}(R,\theta)$ is the fringe field coefficient (it determines the ``flutter'' 
+in periodic structures). 
 
 
 \paragraph{Calculation of the Fringe Field Coefficient} 
@@ -5035,7 +5089,7 @@ trajectory the resulting value of the fringe field coefficient (eq.~\ref{eq3-3-1
 
 $$  \mathcal{F}(R,\theta) = F_E  \ast  F_S \ast   F_L $$
 %
-($F_L=1 $ if no lateral EFB is requested). 
+In particular, $F_L\equiv 1 $  if no lateral EFB is requested. 
 
 
 
@@ -5151,9 +5205,9 @@ previous equation.   This allows small variations of the total magnetic length.
 coefficient attached to the entrance (respectively exit, lateral) EFB. At any node of the map 
 mesh, the resulting value of the fringe field coefficient (eq.~\ref{eq3-3-1}) is
 
-$$  \mathcal{F} = F_E  \ast  F_S \ast   F_L $$
+$$  \mathcal{F}(R,\theta) = F_E  \ast  F_S \ast   F_L $$
 %
-($F_L=1 $ if no lateral EFB is requested). 
+In particular, $F_L\equiv 1 $  if no lateral EFB is requested. 
 
 \paragraph{The Mesh of the Field Map} 
 
@@ -7673,7 +7727,7 @@ Cartesian $ (X, Y, Z) $ coordinates (\emph{e.g.}, \textsl{QUADRUPO\index{QUADRUP
  or polar 
  ($R$, $\theta$, $Z$)  coordinates (\textsl{DIPOLE\index{DIPOLE}}). 
  
- \subsubsection*{Cartesian Coordinates~:} 
+ \subsubsection*{Cartesian Coordinates~: } 
  
  If \textsl{KPOS} $ =1$, the optical element is moved (shifted by \textsl{XCE, YCE} and Z-rotated by 
 \textsl{ALE}) with respect to the incoming reference frame. Trajectory coordinates after traversal of the 

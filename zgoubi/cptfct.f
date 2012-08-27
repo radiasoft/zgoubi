@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE CPTFCT(FONC,F)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -45,5 +44,11 @@ C  -------
 C1000  FORMAT(/,1X,I10,' APPELS A LA FONCTION')
 1000  FORMAT(/,1X,'  Function  called  ',I10,' times')
       N=ICPTF
+      RETURN
+
+
+      ENTRY CPTFRD(
+     >             ICPTFO)
+      ICPTFO = ICPTF
       RETURN
       END

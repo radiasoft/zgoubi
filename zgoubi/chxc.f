@@ -101,6 +101,8 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
       SAVE YSHFT
  
+      DIMENSION DBDX(3)
+
       DATA AGS / .FALSE. /
 
       DATA NEWFIC / .TRUE. /
@@ -122,11 +124,16 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
   
+C----- Some initializations and resets
       CALL KSMAP(
      >           IMAP)
 
       ZSYM=.TRUE.
       SUMAP = .FALSE.
+      CALL CHAMK2(UN)
+      CALL RAZ(DBDX,3)
+      CALL CHAMK4(DBDX,3)
+
 
       CALL FITSTA(5,FITING)
       IF(.NOT. FITING) THEN 

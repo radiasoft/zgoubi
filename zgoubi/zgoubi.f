@@ -1190,6 +1190,11 @@ C----- AGSQUAD. AGS quadrupole. It has 2 windings, works otherwise like QUADRUPO
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
+C----- SYNRAD.
+ 112  CONTINUE
+      CALL SYNTRK
+      GOTO 998
+
 
 C-------------------------
 C-------------------------

@@ -69,9 +69,12 @@ C     --------------------------------------------------------
      >(BMESH1(8),F8),(BMESH1(9),F9)
 
       SAVE SCAL
+      DIMENSION DBDX(3), DBDXI(3)
+      SAVE DBDX
 
-      DATA IMAP / 1 / 
-      
+      DATA IMAP / 1 /       
+      DATA DBDX / 3* 0.D0 /
+
       CALL KSMAP(
      >           IMAP)
 
@@ -349,6 +352,9 @@ C--------- ORDRE 2 , GRILLE A 5*5 POINTS
  
 C     --- CALCUL DES 6 COEFFS DU POLYNOME DE DEGRE 2 :
 C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
+
+c          write(*,*) ' chamk '
+c          write(*,*) ' chamk  scal : ',scal,DBDX(1),DBDX(2)
       A0 =0D0
       A10=0D0
       A11=0D0
@@ -365,6 +371,7 @@ C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
             AI=DBLE(IA)
             AI2=AI*AI
             BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * scal
+     >        * (1.D0 + (DBDX(1) + RJ * DBDX(2)) * RJ ) 
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
             A11=A11+             RJ   *BIAJR
@@ -639,6 +646,12 @@ C Due to reminicences from ancient times
 
       ENTRY CHAMK2(SCALI)
       SCAL = SCALI
+      RETURN
+
+      ENTRY CHAMK4(DBDXI,IND)
+      DO I = 1, IND
+        DBDX(I) = DBDXI(I)
+      ENDDO
       RETURN
 
       END

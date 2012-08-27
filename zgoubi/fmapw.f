@@ -577,7 +577,7 @@ C------- Mesh coordinates
 
         ELSEIF(MOD2 .EQ. 1) THEN
 C Full map of magnet. Differs from MOD2=0 by absence of symmetrization
-C Used for AGS helical snake maps
+C Used for instance for AGS helical snake maps
            jtcnt=0
            ircnt = 0
            kzcnt=0       

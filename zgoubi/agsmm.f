@@ -110,17 +110,17 @@ c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
         AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
       ENDDO
 
-      DO I = 1, NBLW
-        WN(I) = A(NOEL,20+2*I-1)
-        WA(I) = AA(20+2*I)
-      ENDDO
-
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
      >                                    AK1,AK2,AKS)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
      >                                XL,BM,ANGMM)
+      DO I = 1, NBLW
+        WN(I) = A(NOEL,20+2*I-1)
+        WA(I) = AA(20+2*I)
+      ENDDO
       CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
+
       AKS(1) = BM(1)/BORO
       DEV = ANGMM
       DO I = 1, I3

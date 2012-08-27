@@ -44,9 +44,14 @@ C  -------
       PARAMETER (DR=1D0,DE=2D0,DOC=0.5D0,DIC=-0.5D0)
 
       DOUBLE PRECISION NMMIN2, PNLTY, PNLTI
+
+C Max number of function calls
+      INTEGER ICPTMA, ICPTF
+      PARAMETER (ICPTMA=1000)
+
       SAVE PNLTY
       DATA PNLTY / 1D-10 /
-
+      
       P(1) = 1
       DO 1000 I=1,N
          XN = -1D0/I
@@ -81,7 +86,10 @@ C  -------
       K=0
  3000 IF (K.GT.N.OR.FF(P(N+1)).LE.FF(P(1))) GOTO 4000
 
-             IF(FMIN .LT. PNLTY) THEN
+      CALL CPTFRD(
+     >             ICPTF)
+
+             IF(FMIN .LT. PNLTY .OR. ICPTF.GT.ICPTMA) THEN
                DO I = 1, N
                  XX(I,P(1)) = XMIN(I)
                ENDDO
