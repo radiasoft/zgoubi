@@ -52,7 +52,8 @@ C------        Beam_ref    +dp/p     -dp/p
       LOGICAL PRDIC
 
       DIMENSION RO(6,6)
-
+      character(140) BUFFER
+      integer DEBSTR, finstr
       DATA KWRMAT / .FALSE. /
 
 c----------------------------------------------
@@ -161,17 +162,17 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
 c---------------------------------------------------------------------------------
 c                 Exportation of the matrix coefficients (Fred)
 c---------------------------------------------------------------------------------
-c 3    CONTINUE
+ 3    CONTINUE
            
 c     Reading of 1turnM.dat
-c      READ(11,FMT='(a)',END=99,ERR=98) BUFFER
+      READ(11,FMT='(a)',END=99,ERR=98) BUFFER
 c     Writing of the new transfertM.dat
-c      WRITE(12,FMT='(a)') BUFFER(DEBSTR(BUFFER):FINSTR(BUFFER))
-c      GOTO 3
-c 98   CONTINUE
+      WRITE(12,FMT='(a)') BUFFER(DEBSTR(BUFFER):FINSTR(BUFFER))
+      GOTO 3
+ 98   CONTINUE
      
-c      WRITE(*,FMT='(/,/,''ERROR IN READING OF TRANSFERTM.DAT'',/,/)')
-c 99   CONTINUE
+      WRITE(*,FMT='(/,/,''ERROR IN READING OF TRANSFERTM.DAT'',/,/)')
+ 99   CONTINUE
 
       WRITE(12,FMT='(/,/)')
       WRITE(12,FMT='(''TRANSFERT MATRIX:'')')
@@ -179,7 +180,7 @@ c 99   CONTINUE
          WRITE(12,FMT='(4(F15.8,X))') (R(I,J),J=1,4)
       ENDDO
 
-c      CLOSE(11,IOSTAT=IOS1)
+      CLOSE(11,IOSTAT=IOS1)
       CLOSE(12,IOSTAT=IOS2)
 c----------------------------------------------
 

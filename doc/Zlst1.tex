@@ -35,7 +35,7 @@ files (``zgoubi.res'').
 
 \noindent A series of auxiliary computing tools have been developped in addition, 
  aimed at making the designer's life easier, as, 
- search for closed orbits \index{closed orbit}  in periodic machines, computation of optical functions and parameters, 
+ search for closed orbits\index{closed orbit}  in periodic machines, computation of optical functions and parameters, 
 tune scans, dynamic aperture scans,   spin dynamics data treatment, 
  graphic scripts, etc., and including dedicated ones regarding, \emph{e.g.}, FFAG and cyclotron design, 
 AGS and RHIC studies, synchrotron radiation losses and their effects. 
@@ -3163,7 +3163,7 @@ lifetime $\tau_1$.
 
 \noindent The decay is isotropic in the center of mass. 
 1~is the incoming particle, with mass $ M_1 $, momentum $ p_1=\gamma_1 M_1\beta_ 1c $ (relative 
-momentum $ D_1= \dfrac{p_1 }{ q} \dfrac{1 }{\BORO} $ with \BORO   = reference
+momentum $ D_1= \dfrac{p_1 }{ q} \dfrac{1 }{\BORO} $ with \BORO\   = reference
 rigidity, defined in \textsl{[MC]OBJET\index{OBJET}\index{MCOBJET}}),  and position $ Y_1,Z_1 $ in the \zgou\ frame. 
 2~and 3 are decay products with respective masses and momenta $ M_2, $ $ M_3 $ and 
 $ p_2=\gamma_ 2M_2\beta_2c$,  $ p_3=\gamma_ 3M_3\beta_ 3c$.  
@@ -3216,7 +3216,7 @@ $$ \tan \theta = \dfrac{1 }{ \gamma_1}\,
  
 \noindent Finally, $\theta$ and $\phi$ are transformed into the angles $ T_2 $
 and $ P_2 $ in the \zgou\ frame, and the relative momentum takes the value 
-$ D_2= \dfrac{p_2 }{ q} \dfrac{1}{\BORO} $ (where \BORO   
+$ D_2= \dfrac{p_2 }{ q} \dfrac{1}{\BORO} $ (where \BORO\   
 is the reference rigidity, see \textsl{OBJET\index{OBJET}}), while the starting position of 
 $M_2 $ is $ (Y_1 , Z_1, s_1) $.   
 
@@ -3636,7 +3636,7 @@ following way. Let \textsl{SCALE}(\textsl{TIMING} $ = N$) be the updating scale 
 \end{align*}
 %
 where the rigidity is updated in the following way. Let $ (\Br)_{s_o} $ be the 
-initial rigidity (namely, $ (\Br )_{s_o}= $ \BORO as defined in the keyword
+initial rigidity (namely, $ (\Br )_{s_o}= $ \BORO\ as defined in the keyword
 \textsl{OBJET} for instance). Then, at turn number $ N$,   
 
 \begin{alignat*}{2}
@@ -4430,25 +4430,44 @@ extrapolated linearly onto the exit face of the map if $ID=2$, or
 \index{acceleration}\index{synchrotron motion}
 \medskip
 
-\textsl{CAVITE}  provides an  simulation of a (zero length)
+\textsl{CAVITE}  provides a  simulation of a (zero length)
 accelerating cavity~; it can be used in conjunction with  keywords \REBELOTE\index{REBELOTE} 
 and \textsl{SCALING} for 
 the simulation of multiturn\index{multiturn} tracking with synchrotron acceleration (see section~\ref{sec4.6.4}). 
 It must be preceded by \textsl{PARTICUL} for the definition 
-of mass $ M $ and charge $ q$.   
+of mass ~$ M $ and charge~$ q$.   
+
+\bigskip
+
+A major feature of \textsl{CAVITE} is the following~:
+
+\medskip
+
+\noindent The reference rigidity of a problem, as used when computing optical strengths from field values, 
+sections~\ref{sec2.2.1}-\ref{sec2.2.3}, , 
+ is specified in the object definition by \textsl{[MC]OBJET}.  However, in many 
+cases -- options as described below -- that  reference rigidity will be updated upon crossing the cavity, 
+by the amount of the synchronous rigidity increase as induced by the cavity, namely, 
+$$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$
+Note as an illustration of the process, that, in this case, a simple way to have the 
+optical element have their \textsl{strengths} maintained constant is to 
+use \textsl{SCALING} with the option $\NTIM=-1$.
+
 \bigskip
 
 \noindent\textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
 \bigskip
 
 \noindent\textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the R.F.~cavity of a 
-synchrotron 
-accelerator. Normally the keyword \textsl{CAVITE} appears \textbf{at the end} of the optical 
-structure (the periodic motion over $IT  = 1$, \textsl{NPASS} + 1 \index{NPASS}
-turns is simulated by means of the keyword \textsl{REBELOTE\index{REBELOTE}}, option 
-\mbox{K  =  99} while  R.F.  and optical elements  timings are simulated by means of
-\textsl{SCALING} --- see section~\ref{sec4.6.4}). The synchrotron motion of any of the 
-\IMAX\index{IMAX@{\IMAX}} particles of a beam is obtained by solving the following mapping 
+synchrotron accelerator~: 
+the periodic motion over $IP  = 1$, \textsl{NPASS} + 1 \index{NPASS}
+turns (passes through the structure) is obtained using the keyword \textsl{REBELOTE\index{REBELOTE}}, option 
+\mbox{K  =  99},  while  R.F.  and optical elements  time dependent functions are simulated by means of
+\textsl{SCALING} -- see section~\ref{sec4.6.4}. 
+ \textsl{CAVITE} may conveniently be located  \textsl{at the end} of the optical 
+structure, otherwise its phasing has to be indicated. 
+The synchrotron motion of any of the 
+\IMAX\index{IMAX@{\IMAX}} particles of a beam is obtained from  the following mapping 
 
 $$ \left\{ 
 \begin{array}{l}
@@ -4464,7 +4483,7 @@ $$ \left\{
  \begin{tabular}{>{$}l<{$}!{=}l}
 	\phi        &  R.F. phase~; $\phi_ 2-\phi_ 1=$ variation  of $\phi$ between two  traversals\\
 	W           &   kinetic  energy~;  $W_2-W_1=$ energy  gain  at  a traversal  of \textsl{CAVITE}\\
-	\mathcal{L} & length  of  the  synchronous  closed orbit  (to  be  calculated  by  prior 
+	\mathcal{L} & length  of  the  synchronous  closed orbit\index{closed orbit}  (to  be  calculated  by  prior 
 	              ray-tracing,   \index{closed orbit}    \\
 	 \multicolumn{1}{c}{  }           & see  the  bottom  NOTE) \\
 	\ell        &  orbit length  of  the  particle  between  two  traversals\\
@@ -4489,13 +4508,13 @@ $$ f_{RF} = \frac{hc }{\mathcal{L}}\, \frac{q(\Br )_s }{ \sqrt{q^2(\Br)^2_s+(Mc)
   \end{tabular}
 \bigskip
 
-\noindent The current rigidity $ (\Br )_s $ of the synchronous particle is
+\noindent The current rigidity $ (\Br)_s $ of the synchronous particle is
 obtained from the timing law specified by means of \textsl{SCALING} following 
 $ (\Br)_s= \BORO\cdot \text{\textsl{SCALE(TIMING)}} $\index{BORO@{\BORO}} 
 (see  \textsl{SCALING}  for the meaning and calculation of the scale 
-factor \textsl{SCALE(TIMING)}). If \textsl{SCALING\index{SCALING}} is 
-not used, $ (\Br )_s $ is assumed to keep the constant value \BORO
-given in the object description (see \textsl{OBJET\index{OBJET}} for instance). \
+factor \textsl{SCALE(TIMING)}). \textsl{If \textsl{SCALING\index{SCALING}} is 
+not used, $ (\Br )_s $ is assumed to keep the constant value \BORO\
+} as given in the object description (see \textsl{OBJET\index{OBJET}} for instance). \
 
 \noindent The velocity $ \beta c $ of a particle is calculated from its
 current rigidity
@@ -4528,13 +4547,13 @@ turn, are the following
 	(\Br )_{1I} & =\BORO \ast  D_I
 \end{align*}
 %
-where the quantities \BORO and $ D_I $ are given in the object description. 
+\noindent where the quantities \BORO\ and $ D_I $ are given in the object description. 
 \end{itemize}
 
 \paragraph{Calculation of the coordinates} 
 
 \noindent Let   $ p_I= \left[p^2_{XI}+p^2_{YI}+p^2_{ZI} \right]^{1/2} $ be the momentum of particle 
-$ I $ at the exit of the cavity, while \\ %%%%% adjustment cesure peu satisfaisant !!
+$ I $ at the exit of the cavity, while   %%%%% adjustment cesure peu satisfaisant !!
 $ p_{I_0}= \left[p^2_{XI_0}+p^2_{YI_0} + p^2_{ZI_0}\right]^{1/2} $ is its 
 momentum at the entrance. The kick in momentum is assumed to be 
 fully longitudinal, resulting in the following relations between 
@@ -4570,7 +4589,7 @@ $$ \Delta W_s= q\hat  V \,\sin\phi_ s $$
 %
 where the synchronous phase $ \phi_ s $ is given in the input data.
 From this, the calculation of the law $ (\Br )_s $ and the R.F.\ frequency 
-$f_{RF} $ follows, according to the formulae given in \mbox{\textsl{IOPT}  =  1}. 
+$f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =  1} case. 
 \bigskip
 
 \noindent\textbf{If $\mathbf{IOPT  =  3}$~:} acceleration without synchrotron motion. 
@@ -4579,21 +4598,27 @@ Any particle will be given a kick
 $$ \Delta W = q\hat  V\, \sin\phi_ s $$
 %
 where $ \hat  V $ and $ \phi_ s $ are input data.  
+
 \bigskip
 
-\noindent NOTE~: Calculation of the closed orbit.     \index{closed orbit}  \\
-Due to the fringe fields, the horizontal closed orbit may not 
-coincide with the ideal axis of the optical elements. One way to 
+\noindent {\bf NOTE. Calculation of the closed orbit~:}     \index{closed orbit}  
+
+\medskip
+
+\noindent Due to possible dipole type of optical defects (\eg, fringe fields, straight axis 
+combined function dipoles), the closed orbit may not 
+coincide with the ideal axis of the optical elements (hence it will be almost everywhere non-zero). One way to 
 calculate it at the beginning of the structure (\emph{i.e.}, where the 
-initial particle coordinates have to be defined) is to ray-trace 
+initial particle coordinates are defined) is to ray-trace 
 a single particle over a sufficiently large number of turns, 
-starting with the initial condition $ (Y_0=T_0=Z_0=P_0=0)$,  and so as to 
-obtain a statistically well-defined phase-space ellipse. The 
-initial conditions of the closed orbit then correspond to the 
-coordinates $ Y_c $ and $ T_c $ of the center of this ellipse. Next, 
+starting with   initial conditions  taken near the reference orbit, so as to 
+obtain  statistically well-defined transverse phase-space ellipses. The 
+local closed orbit  coincides with the 
+coordinates $ Y_c $,  $ T_c $, $ Z_c $,  $ P_c $ of the center of the ellipses. 
+A few iterations are usually sufficient (avoid near-integer tunes) to ensure accuracy.  Next, 
 ray-tracing over one turn a particle starting with the initial condition 
-($Y_c $, $ T_c $, $ Z_0=P_0=0$)  will provide the length $\mathcal{L}$ 
-(namely, the $ F(6,1) $ coordinate) of the closed orbit. 
+($Y_c $, $ T_c $, $ Z_c$, $P_c$)  will provide the entire closed orbit, and as a sub-product its   length $\mathcal{L}$ 
+(the $ F(6,1) $ coordinate in the \FORTRAN). 
 
 \newpage
 
@@ -4629,11 +4654,12 @@ testing as long as the \textsl{ENTRANCE EFB} is not reached, and testing is stop
 soon as the \textsl{EXIT} or \textsl{LATERAL EFB}'s are passed.  
 \bigskip
 
-\noindent In polar coordinate optical elements $ Y $  stands for the radial
-coordinate (\emph{e.g.} with \textsl{DIPOLE\index{DIPOLE}}, see Figs.~\ref{fig3}C and~\ref{fig9}).  
- Therefore, centering \textsl{CHAMBR\index{CHAMBR}} at $ YC=RM $ simulates a chamber curved with radius 
- $ RM $, and having a radial acceptance $ RM\pm YL $.  The testing  is done in  \textsl{ESL}  
- (\textsl{DRIFT}) at the beginning and the end, and only for positive drifts.  There 
+\noindent In optical elements defined in polar coordinates,  $ Y $  stands for the radial
+coordinate (\emph{e.g.}, \textsl{DIPOLE\index{DIPOLE}}, see Figs.~\ref{fig3}C, p.~\pageref{fig3}, and~\ref{fig9}, 
+p.~\pageref{fig9}).  
+ Thus, centering \textsl{CHAMBR\index{CHAMBR}} at $ \YC=\RM $ simulates a chamber curved with radius 
+ $ \RM $, and having a radial acceptance $ \RM \pm \YL $.  In  \textsl{DRIFT}, the testing  is done 
+ at the beginning and at the end, and only for positive drifts.  There 
 is no testing in \textsl{CHANGREF\index{CHANGREF}}.  
 \bigskip
 
@@ -4649,13 +4675,31 @@ section~\ref{sec4.6.6}) is set to the value -4, and its actual path length is st
 
 \subsubsection*{CHANGREF~: \CHANGREFTitl} \label{CHANGREF}\index{CHANGREF|textbf}
 
+\noindent \CHANGREF\     \index{CHANGREF}   
+transports  particles from a reference plane  $(O,Y,Z)$  at path distance $S$, to a new one by a combination of 
+translations and/or rotations.  It essentially aims at positioning optical elements with respect 
+to one another, 
+as setting a reference frame at the entrance
+or exit of field maps, or to simulate misalignements (see also  \textsl{KPOS} option).  
+ \CHANGREF\      can be placed anywhere in a structure. 
+
 \medskip
 
-The ``old style'' \CHANGREF\    \label{CHANGREFOld}  \index{CHANGREF ``Old Style''}
-transports the particles to a new $(O,Y,Z)$ reference plane.  It can be used anywhere 
-in a structure.  The new particle coordinates  $ Y_2$,  $ T_2$,  $ Z_2$ and 
-$ P_2 $  path length $ S_2 $  are deduced from the old ones  $ Y_1$,   
-$ T_1$,  $ Z_1$,  $ P_1 $ and $ S_1 $ by
+\noindent  Effects of \CHANGREF\ on spin tracking\index{spin tracking}, 
+particle decay and gas-scattering are taken into account,  \textsl{except } 
+in the case  of energy loss by synchrotron radiation (\textsl{SRLOSS} keyword).
+
+\medskip
+
+\noindent There are two ``styles'' of \CHANGREF, as follows.
+
+\bigskip
+
+\noindent \textbf{ The ``old style'' \CHANGREF}~    \label{CHANGREFOld}  \index{CHANGREF\ ``Old Style''}
+requires the three data $\XCE, ~ \YCE, ~ \ALE$ and then 
+ gets the  new particle coordinates  $ Y_2$,  $ T_2$,  $ Z_2$, 
+$ P_2 $  and path length $ S_2 $  from the old ones  $ Y_1$,   
+$ T_1$,  $ Z_1$,  $ P_1 $ and $ S_1 $ using
 
 \begin{figure}[h]
 \begin{minipage}{.4\linewidth}
@@ -4671,29 +4715,25 @@ $ T_1$,  $ Z_1$,  $ P_1 $ and $ S_1 $ by
 \end{minipage}
 \begin{minipage}{.5\linewidth}
 \centerline{\includegraphics[height=8.5cm,angle=-90]{FigCHAREFa.eps}}
-\hangcaption{\label{FigCHAREFa}Scheme of the \CHANGREF procedure. }
+\hangcaption{\label{FigCHAREFa}Scheme of the \CHANGREF\ procedure. }
 \end{minipage}
 \end{figure}
 
-\noindent where, $ XCE $ and $ YCE $ are shifts in the horizontal plane along,respectively, 
+\noindent where, $ XCE $ and $ YCE $ are shifts in the horizontal plane along, respectively, 
 $ X$- and $ Y$-axis, and \textsl{ALE}  is a rotation around the $ Z$-axis. $ DL $
 is given the sign of $ XCE-Y_2 \sin(\text{\textsl{ALE}})$.  
 
-\noindent This keyword may for instance be used
-for positioning optical elements, or for setting a reference frame at the entrance
-or exit of field maps, or to simulate misalignements (see also  \textsl{KPOS}).  \\
-Effects of \CHANGREF on spin tracking\index{spin tracking}, 
-particle decay and gas-scattering are taken into account (but not on synchrotron radiation).
-\vfill
+
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 %\begin{figure}[H]
 %%\vspace{10.5 truecm}
 %%%%Figure 16
 %\centerline{\includegraphics[height=15cm,angle=-90]{Fig16.ps}}
-%\hangcaption{\label{fig16}Scheme of the \CHANGREF procedure. }
+%\hangcaption{\label{fig16}Scheme of the \CHANGREF\ procedure. }
 %\end{figure}
 
-\bigskip
+\medskip
+
 
 \noindent The example below shows the use of  \CHANGREF\ for the symmetric positioning of 
 a combined function dipole+quadrupole  magnet in a drift-bend-drift geometry with 
@@ -4709,22 +4749,22 @@ of quadrupole axis shifted 1~cm off optical axis).
 
 \tiny
 \begin{verbatim}
-Using CHANGREF
+Using CHANGREF, "Old style"
 'OBJET'
-51.71103865921708                          Electron, Ekin=15MeV.
+51.71103865921708                            Electron, Ekin=15MeV.
 2
-1 1                                           One particle, with
-2. 0.  0.0 0.0 0.0 1. 'R'      Y_0=2 cm, other coordinates zero.
+1 1                                             One particle, with
+2. 0.  0.0 0.0 0.0 1. 'R'        Y_0=2 cm, other coordinates zero.
 1 1 1 1 1 1 1 
-'MARKER'    BEG    .plt                -> list  into zgoubi.plt.
-'DRIFT'                                             10 cm drift.
+'MARKER'    BEG    .plt                  -> list  into zgoubi.plt.
+'DRIFT'                                               10 cm drift.
 10.
 'CHANGREF'  
-0. 0. -6.34165                              First half Z-rotate.
+0. 0. -6.34165                            First : half Z-rotation.
 'CHANGREF'  
-0. 1. 0.                                           Next Y-shift.
-'MULTIPOL'     Combined function multipole, dipole + quadrupole.
-   2                                   -> list  into zgoubi.plt.
+0. 1. 0.                                           Next : Y-shift.
+'MULTIPOL'       Combined function multipole, dipole + quadrupole.
+   2                                     -> list  into zgoubi.plt.
 5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
  0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
@@ -4734,10 +4774,10 @@ Using CHANGREF
 .1   step size
 1  0. 0.  0.
 'CHANGREF'
-0. -1. -6.34165          First Y-shift back, next half Z-rotate.
-'DRIFT'                                             10 cm drift.
+0. -1. -6.34165     First : Y-shift back ; next : half Z-rotation.
+'DRIFT'                                               10 cm drift.
 10.
-'MARKER'    END    .plt                -> list  into zgoubi.plt.
+'MARKER'    END    .plt           ".plt" => list  into zgoubi.plt.
 'FAISCEAU'
 'END'
 \end{verbatim}
@@ -4753,15 +4793,12 @@ extent upstream and downstream of the 5~cm long multipole.
 
 
 
-\medskip
+\bigskip
 
-The ``new style'' \CHANGREF\  \label{CHANGREFNew}  \index{CHANGREF ``New Style''} transports  particles as well to a new 
-$(O,Y,Z)$ reference plane, 
-   in a similar manner, however it allows all 6 degrees of 
-freedom, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation. 
-
-\CHANGREF\  ``new style''  allows up to 9 successive such elementary transformations,  in arbitrary order. 
-The previous example is transposed into  ``new style'',  below.
+\noindent \textbf{The ``new style'' \CHANGREF}~ \label{CHANGREFNew}  \index{CHANGREF\ ``New Style''} 
+    allows all 6 degrees of freedom rather than just 3, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation.  
+In addition, \CHANGREF\  ``new style''  allows up to 9 successive such elementary transformations,  in arbitrary order. 
+The ``old style'' example above is transposed into  ``new style'',  hereafter. 
 
 \medskip
 
@@ -4770,9 +4807,9 @@ The previous example is transposed into  ``new style'',  below.
 
  Zgoubi data file~: 
 
-\tiny
+\footnotesize
 \begin{verbatim}
-Using CHANGREF "New Style
+Using CHANGREF, "New Style"
 'OBJET'
 51.71103865921708                          Electron, Ekin=15MeV.
 2
@@ -4784,8 +4821,6 @@ Using CHANGREF "New Style
 10.
 'CHANGREF'  
 ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
-'CHANGREF'  
-0. 1. 0.                                           
 'MULTIPOL'     Combined function multipole, dipole + quadrupole.
    2                                   -> list  into zgoubi.plt.
 5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
@@ -4797,7 +4832,7 @@ ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
 .1   step size
 1  0. 0.  0.
 'CHANGREF'
-YS -1. ZR -6.341         First Y-shift back, next half Z-rotate.
+YS -1. ZR -6.34165       First Y-shift back, next half Z-rotate.
 'DRIFT'                                             10 cm drift.
 10.
 'FAISCEAU'
@@ -7757,7 +7792,7 @@ Both incoming and outgoing refernce frames are  tilted w.r.t. the magnet,
 
  $\bullet$ or, if ALE=0  by  half the \textsl{Z}-rotation $\theta_Z/2$ (such that $ L = 
 2 \frac{\BORO}{B1} \sin({\theta_Z}/{2})$ wherein L = geometrical length, 
-\BORO  = reference rigidity as defined in \textsl{OBJET\index{OBJET}}).
+\BORO\  = reference rigidity as defined in \textsl{OBJET\index{OBJET}}).
 %\noindent This is equivalent to the sequence \textsl{CHANGREF(0,0,-$\theta$/2)},
 %  \textsl{CHANGREF(0,YCE,0)} right upstream the magnet, followed  by 
 %\textsl{CHANGREF(0,-YCE,-$\theta$/2)}.
@@ -7948,6 +7983,6 @@ going particles ($p<0$), or virtually reversed fields (w.r.t.~the field sign
 that shows in the optical element data list).
 
 \noindent Negative rigidities may be specified in terms of 
-\BORO $<0$ or $D=\Br / \BORO < 0$ when 
+$\BORO <0$ or $D=\Br / \BORO < 0$ when 
 defining the initial coordinates with \textsl{OBJET}\index{OBJET} and 
 \textsl{MCOBJET}\index{MCOBJET}.
