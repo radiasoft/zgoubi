@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SPNROT(I,AX,AY,AZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -59,5 +58,10 @@ C     ---------------------------------------------------------
         SF(2,I) = -SA*SF1 + CA*SF(2,I)
       ENDIF
 
+c       write(*,fmt='(a,1p,3e12.4,1x,i3)') 
+c     >    'spnrot  spin ax,ay,az : ',ax,ay,az,i
+c       write(*,fmt='(a,1p,3e12.4,1x,i3)') 
+c     >    'spnrot  spin ',sf(1,i),sf(2,i),sf(3,i),i
+             
       RETURN
       END

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE REBEL(READAT,KLE,LABEL,
      >                                  REBFLG,NOELRB)
@@ -78,15 +77,14 @@ C      LOGICAL FITING
       DATA PARAM / MXPRM*0.D0 /
       data noela, noelb / 1, mxl  /
 
-c      if(nres.gt.0)
-c       write(abs(nres),*) ' rebel noela, noelb ',noela,noelb
-
-
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
 C----- Switch for print to standard output :
       KWRI6=NINT((A(NOEL,2)-KWRT)*10)
+
+c      write(*,*) ' rebel ',noela,noelb,ipass,nrblt,fiting
+c            read(*,*)
 
 C----- For multiturn injection
       KREB3 = NINT(A(NOEL,3))

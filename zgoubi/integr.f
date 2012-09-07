@@ -140,6 +140,9 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
 
+c        write(*,*) ' integr x, y ',x, y
+c              read(*,*)
+
         CALL CHAMC(X2,Y2,Z2)
 
       ENDIF
@@ -391,7 +394,8 @@ C           End loop on DXI
           IF(KSPN .EQ. 1) THEN
 C----------- Spin tracking
             IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
-            CALL SPNTRK(IT,PAF)
+C            CALL SPNTRK(IT,PAF)
+            CALL SPNTRK(PAF)
           ELSE         
             CALL EVENT(
      >      PAF,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,

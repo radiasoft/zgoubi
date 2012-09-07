@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE READCO(NL,
      >                     KART,LET,YZXB,NDX,*,*)
@@ -323,10 +322,10 @@ C         convert B from kG to T
         YZXB(32) = BZ      * .1D0
         YZXB(33) = SQRT(BX*BX + BY*BY +  BZ*BZ) * .1D0
 
-        YZXB(34) = EX
-        YZXB(35) = EY     !!!/YZXB(2)
-        YZXB(36) = EZ 
-        YZXB(37) = SQRT(EX*EX + EY*EY +  EZ*EZ)
+        YZXB(34) = EX * 1.d8    ! YZXB(34, 35, 36) in V/m
+        YZXB(35) = EY * 1.d8 
+        YZXB(36) = EZ * 1.d8
+        YZXB(37) = SQRT(EX*EX + EY*EY +  EZ*EZ) * 1.d8
 
 C AMAG is magnyfying factor for plotting of element synoptic and trajectories
 C        CALL INSY1(

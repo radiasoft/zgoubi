@@ -1,6 +1,6 @@
 CFLAGS=
 FC=ifort
-FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save
+FFLAGS=-save -xHOST -O3 -ip -static -save
 
 .POSIX:
 

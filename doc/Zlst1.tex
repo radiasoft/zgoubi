@@ -205,7 +205,7 @@ mass $m$ and velocity $\vec  v$ in electric and magnetic fields $\vec  e$ and $\
 \centerline{\includegraphics[width=14cm]{Fig1.ps}}
 \hangcaption[Fig 1]{\label{fig1}Reference frame and coordinates ($Y$, 
 $T$, $Z$, $P$) in \zgou.\\
-$ OX$~:   in the direction of motion,\\										  %
+$ OX$~:   in the direction of motion,\\
 $ OY$~:   normal to $OX$,\\
 $ OZ$~:  orthogonal to the $(X, Y)$ plane,\\				  
 $ \vec{W}$~:  projection of the velocity, $ \vec	v $, in	the	$(X, Y)$ plane,\\									  %
@@ -214,7 +214,7 @@ $ P$  =	 angle between $\vec{W}$ and $	\vec  v	$. }
 \end{figure}
 \vspace{.3cm}
 
-\noindent Noting $()' = \dfrac{d()}{ds} $, and taking
+\noindent Noting $()' = \dfrac{d()}{ds} $, and taking      
 %
 \begin{equation}
 \vec  u = \frac{\vec  v }{v},\quad
@@ -225,7 +225,7 @@ $ P$  =	 angle between $\vec{W}$ and $	\vec  v	$. }
  where $ \Br $ is the rigidity of the particle, this equation can be rewritten 
 %
 \begin{equation}
-(\Br )^\prime  \vec  u+\Br \,\vec  u^{\,\prime}  
+(\Br )^\prime \, \vec  u +\Br \,\vec  u^{\,\prime}  
 	=  \frac{\vec  e }{v}  + \vec  u  \times   \vec  b   \label{eq2-2-3}
 \end{equation}
 %
@@ -270,14 +270,13 @@ both non-zero.
 %\vspace{10 truecm}
 %%%Figure 2~: 
 \centerline{\includegraphics[width=14cm]{Fig2.ps}}
-\hangcaption{\label{fig2}Position and velocity of a particle in the reference frame.}
+\hangcaption{\label{fig2} Position and velocity of a particle in the reference frame.}
 \end{figure}
 
 \subsubsection{Integration in Magnetic Fields} \label{sec2.2.1}  %% 2.2.1.
 
-Admitting that $ \vec  e=0, $ and noting $ \vec B=\dfrac{\vec  b}{\Br} $, 
-eq.~(\ref{eq2-2-3}) 
-reduces to 
+Considering  $ \vec  e=0 $ and given  $ \vec B=\dfrac{\vec  b}{\Br} $, 
+eq.~(\ref{eq2-2-3}) reduces to 
 \begin{equation}
  \vec  u^{\,\prime}  = \vec  u  \times  \vec  B   	\label{eqBBrho}
 \end{equation}
@@ -516,16 +515,29 @@ by successive differentiations, eq.~(\ref{eq2-2-14}) leads to the $ (\Br )^{(n)}
 	\label{eq2-2-15}
 \end{equation}
 
-\noindent Note that the derivatives $ (\vec  e \cdot \vec  u)^{(n)} = 
-\dfrac{ d^n(\vec e\cdot\vec  u) }{ ds^n} $ can be related to the derivatives of the 
+\noindent The derivatives $ (\vec  e \cdot \vec  u)^{(n)} = 
+\dfrac{ d^n(\vec e\cdot\vec  u) }{ ds^n} $ are obtained by recursive differentiation
+\begin{equation}
+	\begin{aligned}
+	 (\vec e\cdot\vec  u)^{\,\prime}
+		         &   =   \vec  e^{\,\prime}   \cdot   \vec u  + \vec  e  \cdot \vec u^{\,\prime} \\
+	(\vec e\cdot\vec  u)^{\,\prime\prime}
+		        &   =   \vec  e^{\,\prime\prime}   \cdot   \vec u  + 
+		              2\, \vec  e^{\,\prime}   \cdot   \vec u^{\,\prime} +
+		            \vec  e  \cdot \vec u^{\,\prime\prime}   \\
+                ~  & \textrm{etc.}
+	\label{eqEscalu}
+	\end{aligned}
+\end{equation}
+
+\noindent Note that they can be related to the derivatives of the 
 kinetic energy $ W $ by $dW = \dfrac{d\vec  p }{ dt} \cdot\vec  v\, dt = q\vec  e\cdot\vec  v\, dt $
 which leads to
-%
+
 \begin{equation}
 	\dfrac{ d^{n+1}W }{ds^{n+1}} = q \dfrac{ d^n (\vec  e\cdot\vec  u) }{ ds^n}
 	\label{eq2-2-16}
 \end{equation}
-
 
 \noindent Finally, the derivatives $ \left(\dfrac{ 1 }{ v}\right)^{(n)} =
 \dfrac{ d^n \left(\dfrac{1 }{ v}\right) }{ ds^n} $ involved in 
@@ -668,7 +680,29 @@ indifferently for electric field $\vec E$  or magnetic field $\vec B$.
 derivatives are calculated in various ways, depending  whether field maps or analytic
  representations of optical elements are  used. The  basic means are the following. 
  
-\subsubsection[Extrapolation from  1-D axial field map]%
+
+\subsubsection{1-D (Axial) Analytical E-Field Models and Extrapolation} \label{sec2.5.2}
+
+
+This procedure assumes cylindrical symmetry with respect to the $ X$-axis.
+ The longitudinal field component $ E_X(X,r=0) $ $ (r=(Y^2+Z^2)^{1/2}) $,
+along this axis are derived from differentiation of an adequate 
+model of the electrostatic potential $ V(X) $ (e.g.~in \textsl{EL2TUB\index{EL2TUB}, 
+UNIPOT\index{UNIPOT}}). 
+The longitudinal and radial field components $ E_X(X,r)$,  $ E_r(X,r) $ and 
+their derivatives off-axis 
+$  \dfrac{ \partial^{i+j}E_X }{ \partial X^i\partial r^j} $ and 
+$  \dfrac{ \partial^{ i+j} E_r }{ \partial X^i\partial r^j} $  are obtained by 
+Taylor expansions to the fifth order in $ r $ assuming cylindrical 
+symmetry (see eq.~(\ref{eq2-5-1})), and then transformed to the $ (X,Y,Z) $ 
+Cartesian frame of \zgou\ in order to provide the derivatives 
+$ \dfrac{ \partial^{i+j+k} \vec  E }{ \partial X^i\partial Y^j\partial Z^k} $ 
+needed in eq.~(\ref{eq2-2-12}).
+
+
+
+
+\subsubsection[Extrapolation from  1-D axial field map]
       {Extrapolation from  1-D axial field map~\protect\cite{Biblio3}}  
        \label{sec2.3.1} %%%%%  2.3.1.  [3]
 
@@ -678,7 +712,7 @@ by an axial 1-D field map of its longitudinal component $ B_X(X,r=0) $
  $(r=(Y^2+Z^2)^{1/2})$,  
 while the radial component on axis $ B_r(X,r=0) $ is assumed to be zero. $ B_X(X,r=0) $ is obtained 
 at any point along the $ X$-axis by a 
-polynomial interpolation from the map mesh (see section \ref{sec2.4.1}).  %%% ref 
+polynomial interpolation from the map mesh (see section~\ref{sec2.4.1}).  %%% ref 
 Then the field components $ B_X(X,r)$,  $ B_r(X,r) $ at the position of the particle, 
 $(X,r) $ are obtained from Taylor expansions truncated at  the fifth order in $ r $ (hence, up to 
 the fifth order derivative $ \dfrac{ \partial^ 5B_X }{ \partial X^5} \,(X,0)$),  
@@ -704,6 +738,8 @@ from the $ (X,r) $ coordinates to the $ (X,Y,Z) $ Cartesian coordinates of \zgou
 performed, thus providing the expressions 
 $ \dfrac{ \partial^{i+j+k} \vec  B }{\partial X^i\partial Y^j\partial Z^k} $ needed in the 
 eq.~(\ref{eq2-2-7}). 
+
+
 
 
 
@@ -786,7 +822,7 @@ interpolation,  from  3-D  $ 3  \times  3
 
 
 
-\subsubsection{2-D Analytical Field Models and Extrapolation} 
+\subsubsection{2-D Analytical Field Models and Extrapolation \label{sec2DAnModels}} 
 
 Several optical elements such as \textsl{BEND\index{BEND}}, \textsl{WIENFILT\index{WIENFILT}} (that 
 uses the \textsl{BEND} procedures), \textsl{QUADISEX\index{QUADISEX}}, \textsl{VENUS\index{VENUS}}, etc., 
@@ -1269,57 +1305,60 @@ equations $\partial S / \partial A_{ijk} = 0$.
 
 %%% chgt de numerotation des equations pour ne pas avoir 3.0.1 %%%
 %% \renewcommand\theequation{\thesubsection.\arabic{equation}}
-\renewcommand\theequation{\thesection.\arabic{equation}}
-\makeatletter
-\@addtoreset{equation}{section}
-\makeatother
+%\renewcommand\theequation{\thesection.\arabic{equation}}
+%\makeatletter
+%\@addtoreset{equation}{section}
+%\makeatother
 %%%
 
+\subsection{Introduction}
 
-The precession motion of the spin $ \vec  S $ of a charged particle in a magnetic field $\vec b$ 
+The precession  of the spin $ \vec  S $ of a charged particle in electric and magnetic fields 
 is governed by the Thomas-BMT first order differential equation~\cite{Biblio8}       %%%%[8] 
 
 \begin{gather}
 	\dfrac{d\vec  S }{ dt} = \dfrac{q }{  m} \, \vec  S\times\vec  \Omega
-	     \label{eq3-1}  \\
+	     \label{eq3-1-S}  \\
 \intertext{where}
-	\vec  \Omega  = (1+\gamma G)\vec  b + G(1-\gamma )\vec  b_{\paral} \label{eq3-2} 
+	\vec  \Omega  = (1+\gamma G)\vec  b + G(1-\gamma )\vec  b_{\paral} + \gamma(G + \dfrac{1}{1+\gamma})  \dfrac{\vec e \times \vec v}{c^2}   \label{eq3-2-S}  
 \end{gather}
 
-\noindent$ q$, $m$, $\gamma$ and $ G $ are respectively the charge, 
-mass, Lorentz relativistic factor, and anomalous magnetic moment of the 
-particle. $ \vec  b_{\paral} $ is the component of $ \vec  b $ 
+\noindent$ q$, $m$, $c$, $\gamma$ and $ G $ are respectively the charge, 
+mass, speed of light, Lorentz relativistic factor  and anomalous magnetic moment of the 
+particle, $\vec b$ and $\vec e$ are the fields in the laboratory, $ \vec  b_{\paral} $ is the component of $ \vec  b $ 
 parallel to the velocity $ \vec  v $ of the particle. 
 
 \noindent These equations are normalized by introducing the same notation 
-as previously. Let $ b=\parallel\vec  b\parallel $ and $ v=\parallel\vec v\parallel$~;  
-$ ds=vdt $ is the differential path, $ \dfrac{\gamma mv }{ q} = \Br $ is the
-rigidity of the particle~; 
+as for the Lorentz equation, page~\pageref{eq2-2-2}. Let $ b=\parallel\vec  b\parallel $, $v=||\vec v||$, $ \vec v= v \vec u$, 
+$ ds=vdt $ the differential path, $ \dfrac{\gamma mv }{ q} = \Br $  the rigidity of the particle, 
 $ \vec  S^{\,\prime} = \dfrac{d\vec  S }{ ds} = \dfrac{1 }{ v}\dfrac{d\vec  S }{ dt} $ 
-is the derivative of the spin with respect to the path. 
+ the derivative of the spin with respect to the path. 
 
-\noindent Introducing also $ \vec  B= \dfrac{\vec  b }{ \Br} $, 
-$ \vec B_{\paral} = \dfrac{\vec  b_{\paral} }{ \Br} $  and
+\noindent Introducing in addition the normalized fields  $ \vec  B= \dfrac{\vec  b }{ \Br} $, 
+$ \vec B_{\paral} = \dfrac{\vec  b_{\paral} }{ \Br} $, $ \vec  E= \dfrac{\vec  e }{ \Br} $,  
+ eq.~(\ref{eq3-1-S}) can be re-written in the simpler form 
+
+ \begin{equation}
+   (B\rho)' \, \vec S +   (B\rho) \, S^{\,\prime}  = \vec  S \times  \vec  \omega
+ 	\label{eq3-4-S}
+ \end{equation}
+ 
+\noindent Note that  the precession vector as well may be re-written under a normalized  form 
 
 \begin{equation}
 	\vec  \omega  = \frac{\vec \Omega }{ \Br}  = (1+\gamma G)\vec  B +
-	G(1-\gamma )\vec  B_{\paral}
-	\label{eq3-3}
+	G(1-\gamma )\vec  B_{\paral} + \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma}) \vec E \times \vec u  
+	\label{eq3-3-S}
 \end{equation}
-%
-eq.~(\ref{eq3-1}) can be re-written in a normalized way
 
- \begin{equation}
-	 \vec  S^{\,\prime}  = \vec  S \times  \vec  \omega
- 	\label{eq3-4}
- \end{equation}
- 
-\noindent This equation is then solved in the same way as the reduced Lorentz 
-equation~(\ref{eq2-2-3}). 
+\noindent that will be used in the sequel. 
+
+
+\noindent This equation is then solved in the same way as the reduced Lorentz equation~(\ref{eq2-2-3}). 
 From the values of the magnetic factor $ \vec  \omega (M_0) $ and the spin 
 $\vec  S(M_0) $ 
-of the particle at position $ M_0 $ of its trajectory, the spin $ \vec  S(M_1)$ 
-at position $ M_1 $, following a displacement $ \Delta s$ (fig. 2), is obtained from truncated 
+of the particle at position $ M_0 $ on its trajectory, the spin $ \vec  S(M_1)$ 
+at position $ M_1 $, following a displacement $ \Delta s$ (fig.~\ref{fig2}), is obtained from truncated 
 Taylor expansion 
 
  \begin{equation}
@@ -1327,38 +1366,50 @@ Taylor expansion
 	 + \dfrac{d^2\vec  S }{ds^2} \,(M_0) \dfrac{\Delta s^2 }{ 2} 
 	 + \dfrac{d^3\vec  S }{ ds^3} \,(M_0) \dfrac{\Delta s^3 }{ 3!}
 	+ \dfrac{d^4\vec  S }{ ds^4}\, (M_0) \dfrac{\Delta s^4 }{ 4!}
- 	\label{eq3-5}
+ 	\label{eq3-5-S}
  \end{equation}
  
+
+
+\subsection{Integration in Magnetic Fields} \label{secSpin.2.1}  
+
+In purely magnetic fields  $ \vec  e=0 $ and 
+
+ \begin{equation}
+ \vec \omega \equiv \vec \omega_b = (1+\gamma G)\vec  B + G(1-\gamma )\vec  B_{\paral} 
+ \label{eq3-2-B}  
+\end{equation}
+
+\noindent thus  eq.~(\ref{eq3-4-S}) reduces to 
+\begin{equation}
+\vec   S^{\,\prime}  = \vec  S \times  \vec  \omega_b
+ 	\label{eq3-4-B}
+\end{equation}
+
 \noindent The derivatives $ \vec  S^{(n)} = \dfrac{d^n\vec  S }{ ds^n} $ of 
-$\vec  S $ at $ M_0 $ are obtained by differentiating eq.~(\ref{eq3-4})
+$\vec  S $ at $ M_0 $ are obtained by recursive differentiation
 
  \begin{equation}
 	 \begin{aligned}
-		 \vec  S^{\,\prime}  
-		      &  =\vec  S\times\vec  \omega \\
 		\vec  S^{\,\prime\prime} 
-		      &  =\vec  S^{\,\prime} \times\vec  \omega +\vec  S\times\vec  \omega ^\prime \\
+		      &  =\vec  S^{\,\prime} \times\vec  \omega_b +\vec  S\times\vec  \omega_b ^\prime \\
 		\vec  S^{\,\prime\prime\prime}
-		      &  =\vec  S^{\,\prime\prime} \times\vec  \omega +2\vec  S^{\,\prime} \times\vec  \omega ^\prime 
-		           +\vec S\times\vec  \omega^{\prime\prime} \\
-		\vec  S^{\quaprime} 
-		      & =\vec S^{\,\prime\prime\prime} \times\vec  \omega 
-		          +3\vec  S^{\,\prime\prime} \times\vec \omega^\prime 
-		          +3\vec  S^{\,\prime} \times\vec  \omega^{\prime\prime} 
-		          +\vec S\times\vec  \omega^{\prime\prime\prime}
+		      &  =\vec  S^{\,\prime\prime} \times\vec  \omega_b +2\vec  S^{\,\prime} \times\vec  \omega_b ^\prime 
+		           +\vec S\times\vec  \omega_b^{\prime\prime} \\
+                 &  \textrm{etc.}
+%		\vec  S^{\quaprime} 
+%		      & =\vec S^{\,\prime\prime\prime} \times\vec  \omega_b 
+%		          +3\vec  S^{\,\prime\prime} \times\vec \omega_b^\prime 
+%		          +3\vec  S^{\,\prime} \times\vec  \omega_b^{\prime\prime} 
+%		          +\vec S\times\vec  \omega_b^{\prime\prime\prime}
 	 \end{aligned}
- 	\label{eq3-6}
+ 	\label{eq3-6-S}
  \end{equation}
- %
-  where the derivatives $ \vec  \omega^{(n)} $ are obtained from eq.~(\ref{eq3-3}). 
+ 
+ \noindent  where the derivatives $ d^n \vec  \omega_b / ds^n $ are obtained from eq.~(\ref{eq3-3-S}) taken for $\vec b \equiv 0$. 
   
-\noindent The last point consists in getting $ \vec  B_{\paral} $ and its
-derivatives. 
-This can be done in the following way. 
-Let $ \vec  u=\dfrac{\vec  v }{ v} $ be the normalized velocity of the particle,
-then,
-
+\noindent The last point consists in getting $ \vec  B_{\paral} $ and its derivatives. 
+This is done in the following way, 
 \begin{equation}
 	\begin{aligned}
 		\vec  B_{\paral} 
@@ -1371,18 +1422,132 @@ then,
 		       +\vec  B\cdot\vec  u^{\,\prime\prime} )\, \vec  u
 		       +2(\vec B^{\,\prime} \cdot\vec  u+\vec  B\cdot\vec  u^{\,\prime} )\,\vec  u^{\,\prime} 
 		       +(\vec  B\cdot\vec u)\,\vec  u^{\,\prime\prime}\\
-		\text{etc.}
+		&\text{\textrm{etc.}}
 	\end{aligned}
-	\label{eq3-7}
+	\label{eq3-7-S}
 \end{equation}
-
-
 \noindent The quantities $ \vec  u$,  $ \vec  B $ and their  derivatives
-as involved in these equations are picked up while solving the equation of motion of the 
+as involved in these equations are picked while solving the equation of motion of the 
 particle, eqs.~(\ref{eq2-2-6}, \ref{eq2-2-7}, p.~\pageref{eq2-2-6}).
 
 
 
+
+\subsection[Integration in electric fields]{Integration in electric fields}
+
+        \label{sec2.2.2-E} %%%% 2.2.2.[3]
+
+In purely electric fields  $ \vec  b=0, $ and 
+\begin{gather}
+\vec  \omega \equiv \vec \omega_e = \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma}) \, \vec E\times \vec u  \label{eq3-2-E}  
+\end{gather}
+\noindent thus eq.~(\ref{eq3-4-S}) reduces to 
+\begin{equation}
+	(\Br )^\prime\vec  S + \Br \, \vec S^{\,\prime} = \vec  S \times \vec \omega_e
+	\label{eq3-4-E}
+\end{equation} 
+\noindent which, by successive differentiations, yields
+\begin{equation}
+	\begin{array}{ll}
+		 (\Br )^{\prime\prime}\vec  S + 2 (\Br)^\prime \vec  S^{\,\prime} 
+		     +\Br\vec  S^{\,\prime\prime}  & =  \vec S^{\,\prime}  \times \vec \omega_e + \vec  S \times \vec \omega_e'       \\
+		(\Br)^{\prime\prime\prime}\vec  S + 3(\Br)^{\prime\prime}\vec  S^{\,\prime}
+		      + 3(\Br)^\prime \vec  S^{\,\prime\prime} 
+		      +\Br\vec  S^{\prime\prime\prime}  & =
+   \vec  S^{\,\prime\prime}  \times \vec \omega_e + 2\vec S^{\,\prime}  \times \vec \omega_e^{\,\prime}  + \vec  S^{\,\prime}  \times \vec \omega_e''       \\
+          ~ ~  ~    \textrm{etc.}
+	\end{array}
+	\label{eq2-2-9-E}
+\end{equation} 
+\noindent that provide the derivatives $ d^n\vec  S / ds^n$ needed in the Taylor 
+expansion~(eq.~\ref{eq3-5-S}).  
+ The derivatives $ (\Br)^{(n)} =   d^n(\Br ) / ds^n $  above are obtained from the integration of the 
+Lorentz equation, eq.~(\ref{eq2-2-15}). The derivatives of $\omega_e$ (eq.~\ref{eq3-4-E}) are obtained 
+by recursive differentiation, 
+
+\begin{equation}
+	\begin{array}{l}
+ \vec \omega_e' = \left( \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma})\right)' \vec E \times \vec u   
+  +   \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma})\left( \vec E \times \vec u   \right)'  \\
+ \vec \omega_e'' = \left( \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma})\right)'' \vec E \times \vec u   
+  +  2 \left( \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma}) \right)' \left( \vec E \times \vec u   \right)'  
+  +   \dfrac{\beta \gamma}{c}(G + \dfrac{1}{1+\gamma})\left( \vec E \times \vec u   \right)''  \\
+          ~ ~ ~       \textrm{etc.}
+	\end{array}
+	\label{eqOmega-E}
+\end{equation} 
+
+\noindent  The quantities $ \left( \dfrac{1}{1+\gamma} \right)^{(n)}$  in the $(\omega_e)^{(n)}$ above 
+are obtained as follows. 
+
+\noindent From $\gamma^2 = 1/(1-\beta^2)$ it comes $(\gamma+1)(\gamma-1) \beta^2/(1-\beta^2)$ and then
+$$\dfrac{1}{1+\gamma} = \left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} +1 \right) (\gamma-1)$$
+which is easily differentiated, recursively, 
+\begin{equation}
+	\begin{array}{lcc}
+\left( \dfrac{1}{1+\gamma}\right)' &= &
+\left( \dfrac{1}{\beta} \right)' \left( \dfrac{1}{\beta} +1 \right) (\gamma-1)  +
+\left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} \right)' (\gamma-1) + 
+\left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} +1 \right) \gamma' \\
+\left( \dfrac{1}{1+\gamma}\right)'' &= &
+\left( \dfrac{1}{\beta} \right)'' \left( \dfrac{1}{\beta} +1 \right) (\gamma-1)  +
+\left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} \right)'' (\gamma-1) + 
+\left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} +1 \right) \gamma''  +\\
+&& 2 \left( \dfrac{1}{\beta} \right)' \left( \dfrac{1}{\beta}\right) (\gamma-1)  + 
+2 \left( \dfrac{1}{\beta}  \right)' \left( \dfrac{1}{\beta} \right)' (\gamma-1) + 
+ 2 \left( \dfrac{1}{\beta} -1 \right) \left( \dfrac{1}{\beta} \right)' \gamma' \\
+              &  \textrm{etc.}
+	\end{array}
+	\label{eqGamma-E}
+\end{equation} 
+
+\noindent the interest being that the $\left( \dfrac{1}{\beta} \right)^{(n)}$ are already known from the particle dynamics, eq.~(\ref{eq2-2-17}), 
+as well as the derivatives 
+$$	\dfrac{ d^{n+1} \gamma }{ds^{n+1}} = \dfrac{q}{m} \, \dfrac{ d^n (\vec  e\cdot\vec  u) }{ ds^n}$$
+
+\noindent following eq.~(\ref{eq2-2-16}), whereas the $d^n (\vec  e\cdot\vec  u)/ ds^n$ are given by eq.~(\ref{eqEscalu}).
+
+
+ \subsection{Integration in Combined Electric and Magnetic Fields} \label{sec2.2.3-S}%%%% 2.2.3.
+
+ When both $ \vec  e $ and $ \vec  b $ are non-zero, the complete 
+ eqs.~(\ref{eq3-4-S},~\ref{eq3-3-S}) must be considered. 
+
+\noindent The precession vector (eq.~\ref{eq3-3-S}) and its derivatives 
+can be split into independent, magnetic and electric parts, namely
+$$  \omega = \vec \omega_b + \vec \omega_e , ~ ~ \omega^{\,\prime} = \vec \omega_b^{\,\prime} + \vec \omega_e^{\,\prime}  , ~ ~ ~ \textrm{~ ~  ~ etc.}$$
+ As a consequnce, 
+the  spin vector $\vec S(s)$ and its derivatives  at location $M_0$ prior to a $\Delta s$  push to 
+location $M_1$ (fig.~\ref{fig2})
+can be  obtained by linear superposition of the separate solutions 
+for the magnetic case~(eq.~(\ref{eq3-6-S})) and for the electric case~(eq.~(\ref{eq2-2-9-E})), namely
+
+{%\small
+\begin{equation}
+	\begin{array}{lll}	 
+	 \multicolumn{3}{l}{\Br \, \vec S^{\,\prime} =}   \\
+ &  \vec  S \times \vec \omega_e  
+ & + \vec  S \times \vec \omega_e   - (\Br )^\prime\vec  S \\
+    	 \multicolumn{3}{l}{\Br\vec  S^{\,\prime\prime} =}  \\
+ &    \vec  S^{\,\prime}  \times \vec \omega_b + \vec  S \times \vec \omega_b^{\,\prime} 
+ &  +    \vec  S^{\,\prime}  \times \vec \omega_e + \vec  S \times \vec \omega_e^{\,\prime} 
+          -\left(  (\Br )^{\prime\prime}\vec  S + 2 (\Br)^\prime \vec  S^{\,\prime} \right)   \\
+   	 \multicolumn{3}{l}{\Br\vec  S^{\prime\prime\prime} =}  \\
+  & \underbrace{
+\vec  S^{\,\prime\prime}  \times \vec \omega_b + 2\vec  S^{\,\prime} \times \vec \omega_b^{\,\prime}   + \vec S \times \vec \omega_b^{\,\prime\prime} 
+              }_{\textrm{Magnetic field component, eq.~(\ref{eq3-6-3-S})}}  
+&   \underbrace{ 
+     + \vec  S^{\,\prime\prime}  \times \vec \omega_e + 2\vec  S^{\,\prime} \times \vec \omega_e^{\,\prime}   + \vec S \times \vec \omega_e^{\,\prime\prime}    
+    -\left(  (\Br)^{\prime\prime\prime}\vec  S + 3(\Br)^{\prime\prime}\vec  S^{\,\prime}
+		      + 3(\Br)^\prime \vec  S^{\,\prime\prime}  \right) 
+               }_{\textrm{Electric field component, eq.~(\ref{eq2-2-9-E})}}     \\
+          ~ ~  ~      \textrm{etc.}
+	\end{array}
+	\label{eq2-2-9-EB}
+\end{equation} 
+}%small
+
+\noindent The process is then completed by applying the $\Delta s$ push, eq.~(\ref{eq3-5-S}). 
 
 
 
@@ -3810,7 +3975,7 @@ $\Delta \tau =$ observer time increment (eq.~\ref{eqN4.2}) \\
 $t' = \tau  - r(t')/c = $ retarded (particle) time \\
 $(rtx, rty, rtz)~: \vec R(t)$, particle to observer vector (eq.~\ref{eqN4.4}) \\
 $(x, y, z) =$ particle coordinates\\
-$\Delta s = $ step size in the magnet (fig. 2)\\
+$\Delta s = $ step size in the magnet (fig.~\ref{fig2})\\
 $NS=$ step number\\
 $I=$ particle number\\
 $LET(I)=$ tagging letter\\
@@ -4322,7 +4487,7 @@ a flag `BINARY' will thus be set to `.TRUE.' by the \FORTRAN.
 \noindent $X$-cylindrical symmetry is assumed, resulting in $BY$ and $BZ$ taken to 
 be zero on axis. $ \vec {B} {(X,Y,Z)} $ and its derivatives along a
 particle trajectory are calculated by means of a 5-point polynomial interpolation followed by second 
-order off-axis  extrapolation (see sections~\ref{sec2.3.1}, \ref{sec2.4.1}).  
+order off-axis  extrapolation (see sections~\ref{sec2.3.1},~\ref{sec2.4.1}).  
 \bigskip
 
 \noindent Entrance and/or exit integration boundaries may be defined in the same way 
@@ -4935,7 +5100,7 @@ stopped\index{stopped particles} if its coordinates $Y$, $Z $ satisfy
 	  &   \quad \text{if}\quad  \text{\textsl{IFORM}}=2  
 \end{align*}
 
-\paragraph{Longitudinal collimation} 
+\paragraph{Longitudinal phase-space collimation} 
 
 \noindent \textsl{COLLIMA}  can act as a longitudinal phase-space aperture, coordinates acted on are 
 selected with  \textsl{IFORM.J}. 
@@ -4947,17 +5112,12 @@ wherein, $h$ is either path length $S$ if \textsl{IFORM}=6 or time  if \textsl{I
 $v$  is either 1+DP/P if \textsl{J}=1 or kinetic energy  if \textsl{J}=2 (provided mass and charge have 
 been defined using the keyword \textsl{PARTICUL\index{PARTICUL}}). 
 
-\noindent If \textsl{IFORM}=11 (respectively 12) then $\epsilon_Y/\pi$  (respectively $\epsilon_Z/\pi$) 
-is to be specified by the user as well as $\alpha_{Y,Z}$, $\beta_{Y,Z}$. 
-If \textsl{IFORM}=14 (respectively 15) then $\alpha_Y$ and  $\beta_Y$  (respectively $\alpha_Z$,  $\beta_Z$) 
-are computed by \zgoubi\ by prior 
-matching of the particle population, only $\epsilon_{Y,Z}/\pi$ need be specified by the user. 
 
 
 
-\paragraph{Phase-space collimation}
+\paragraph{Transverse phase-space collimation}
 
-\noindent \textsl{COLLIMA}  can act as a phase-space aperture. 
+\noindent \textsl{COLLIMA}  can act as a transverse phase-space aperture. 
 Any particle will be stopped\index{stopped particles} if its coordinates satisfy 
 \begin{align*}
 	\gamma_Y Y^2 + 2\alpha_Y Y T + \beta_Y T^2 \geq  \epsilon_Y/\pi 
@@ -4969,8 +5129,8 @@ Any particle will be stopped\index{stopped particles} if its coordinates satisfy
 \noindent If \textsl{IFORM}=11 (respectively 12) then $\epsilon_Y/\pi$  (respectively $\epsilon_Z/\pi$) 
 is to be specified by the user as well as $\alpha_{Y,Z}$, $\beta_{Y,Z}$. 
 If \textsl{IFORM}=14 (respectively 15) then $\alpha_Y$ and  $\beta_Y$  (respectively $\alpha_Z$,  $\beta_Z$) 
-are computed by \zgoubi\ by prior 
-matching of the particle population, only $\epsilon_{Y,Z}/\pi$ need be specified by the user. 
+are  determined by \zgoubi\ by prior computation of the 
+matched ellipse to particle population, so only $\epsilon_{Y,Z}/\pi$ need be specified by the user. 
 
 
 
@@ -4992,14 +5152,17 @@ The meaning of parameters for \textsl{DECAPOLE}  is the same as for \textsl{QUAD
 %\bigskip
 
 \noindent In fringe field regions the magnetic field $ \vec  B(X,Y,Z) $ and
-its derivatives up to fourth order are derived from the scalar potential approximated to 
+its derivatives up to fourth order are derived from the scalar potential expressed to 
 the 5th order in $ Y $ and $ Z $ 
 
 \begin{align*}
-	V(X,Y,Z) &   =    G \left(Y^4Z-2Y^2Z^3+ \dfrac{Z^5 }{ 5}\right)  \\
-	\text{with  } G_0 &   = \dfrac{ B_0 }{ R^4_0} 
+	V(X,Y,Z) &   =    G(X) \left(Y^4Z-2Y^2Z^3+ \dfrac{Z^5 }{ 5}\right)  \\
+	\text{with  } ~ G_0 &   = \dfrac{ B_0 }{ R^4_0} 
 \end{align*}
 
+\noindent The fringe  modelling for for $G(X)=G_0 \times$fall-off form factor  is addressed under \textsl{QUADRUPO}, p.~\pageref{QUADRUPO}. 
+
+\bigskip
 
 \noindent Outside fringe field regions, or everywhere in sharp edge decapole 
 ($ \lambda_ E=\lambda_ S=0$) , $ \vec  B(X,Y,Z) $ in the magnet is given by 
@@ -5034,14 +5197,19 @@ the 5th order in $ Y $ and $ Z $
 
 \noindent\textsl{DIPOLE} provides a model of a dipole field, possibly with transverse indices. 
  The field along a particle trajectory is computed as the 
-particle motion proceeds, straightforwardly from the dipole geometrical parametres. 
-To make it more precise, field simulation model in \textsl{DIPOLE}  is the same as used in \textsl{DIPOLE-M} and \textsl{AIMANT} 
-for computing a field map~; the main difference in \textsl{DIPOLE} is in its skipping that 
-intermediate step of field map generation found in \textsl{DIPOLE-M} and \textsl{AIMANT}. 
+particle motion proceeds, straightforwardly from the dipole geometrical boundaries. 
+Field simulation  in \textsl{DIPOLE}  is the same as used in \textsl{DIPOLE-M} and \textsl{AIMANT} 
+for computing a field map~; the essential difference in \textsl{DIPOLE} is in its skipping that 
+intermediate stage of field map generation found in \textsl{DIPOLE-M} and \textsl{AIMANT}. 
 
 \bigskip
 
-\noindent These are handled as follows. The dimensionning of the magnet is defined by
+\noindent \textsl{DIPOLE}  has a version, \textsl{DIPOLES}, that allows overlapping of fringe fields 
+in a configuration of neighboring magnets. 
+
+\bigskip
+
+\noindent The dimensionning of the magnet is defined by (Fig.~\ref{fig9}, p.~\pageref{fig9})
 
 \bigskip
 
@@ -5081,7 +5249,7 @@ the value of the vertical component of the mid-plane field is calculated by
 	           + B \ast  \left(\frac{R-RM }{ RM} \right)^2 
 	           + G \ast  \left(\frac{R-RM }{ RM} \right)^3 
 	      \right) 
- 	%\label{eq3-3-1}
+ 	\label{eqBDipole}
  \end{equation}
  where  $ N$, $B $ and $ G $ are  respectively  the first, second and
 third order field indices and $ \mathcal{F}(R,\theta)$ is the fringe field coefficient (it determines the ``flutter'' 
@@ -5098,7 +5266,7 @@ $ F $ is calculated. In the following $\lambda$ stands for either $ \lambda_ E $
 
 \bigskip
 
-\noindent$ F $ is an exponential type fringe field (Fig.~\ref{fig11}) 
+\noindent$ F $ is an exponential type fringe field (Fig.~\ref{fig11}, p.~\pageref{fig11}) 
 given by~\cite{Biblio12}     %%% [12]
 
 $$ F = \frac{1 }{ 1+ \exp P(s)} $$
@@ -5120,7 +5288,7 @@ previous equation.   This allows small variations of the magnetic length.
 
 \noindent Let $ F_E $ (respectively $ F_S$, $F_L$)  be the fringe field
 coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on  a 
-trajectory the resulting value of the fringe field coefficient (eq.~\ref{eq3-3-1}) is
+trajectory the resulting value of the fringe field coefficient (eq.~\ref{eqBDipole}) is
 
 $$  \mathcal{F}(R,\theta) = F_E  \ast  F_S \ast   F_L $$
 %
@@ -5128,23 +5296,19 @@ In particular, $F_L\equiv 1 $  if no lateral EFB is requested.
 
 
 
-\paragraph{Simulating Field Defects and Shims }
-
-\noindent Not provisionned in the present version. 
-
 \bigskip
 
 
 \paragraph{Calculation of the  mid-plane field derivatives }
 
 This is performed using the numerical interpolation method based on a flying grid as described in 
-the \textsl{DIPOLES} procedure (page~\pageref{CalcMidPlaneFieldInterpol}). 
+the \textsl{DIPOLES} procedure (``Interpolation method'', page~\pageref{CalcMidPlaneFieldInterpol}). 
 
 \bigskip
 
 \paragraph{Extrapolation Off Median Plane} 
 
-\noindent From the vector field $ \vec  B $ and  derivatives in the median plane, 
+\noindent From the vertical field $ \vec  B $ and  derivatives in the median plane, 
 first a transformation from polar to Cartesian coordinates is 
 performed, following eqs (\ref{eq2-4-8} or \ref{eq2-4-9}), then,  extrapolation off median plane is 
 performed by means of Taylor expansions, following the procedure described in section~\ref{sec2.3.2}. 
@@ -5195,7 +5359,7 @@ following parameters.
 \noindent At  any node  of the map mesh, the value of the field is calculated as 
 
  \begin{equation}
-	 B =  \mathcal{F} \ast  B_0 \ast  
+	 B =  \mathcal{F}(R,\theta)  \ast  B_0 \ast  
 	      \left(1+N \ast  
 	           \left( \frac{R-RM }{ RM}\right) 
 	           + B \ast  \left(\frac{R-RM }{ RM} \right)^2 
@@ -5326,7 +5490,7 @@ in section~\ref{sec2.3.2}.
 \noindent \textsl{DIPOLES} works much like \textsl{DIPOLE\index{DIPOLE}} 
 as to the field modelling, yet with the particularity that it allows positioning up to 5 such 
 dipoles within the angular sector with full aperture $AT$ thus allowing 
-accounting for overlapping fringe fields\index{fringe fields!overlapping}  
+accounting for overlapping fringe fields.\index{fringe fields!overlapping} 
 This is done in the following 
 way\footnote{\textsl{FFAG} can be referred to as another instance of a procedure based on such method.}. 
 
@@ -5344,10 +5508,11 @@ way\footnote{\textsl{FFAG} can be referred to as another instance of a procedure
 \bigskip
 
 \noindent For each one of the $N=1$ to $5$ dipoles of the  $N$-tuple, 
-the 2 effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn (eq.~\ref{EqFFdips}) are
-defined from geometric boundaries, the shape and position of which are determined by the 
+the 2 effective field boundaries (entrance and exit EFBs) from which  the dipole field  
+ (eqs.~\ref{EqFieldDipolesi},~\ref{EqFieldDipolesii})  is drawn are
+defined from geometrical  boundaries, the shape and position of which are determined by the 
 following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M})
- (see Fig.~\ref{fig9}-A pageé\pageref{fig9}, and Fig.~\ref{figDFD}) 
+ (see Fig.~\ref{fig9}-A, p.~\pageref{fig9}, and Fig.~\ref{figDFD}) 
 
 \bigskip
 
@@ -5364,15 +5529,18 @@ following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M
 \paragraph{Calculation of the field from a single dipole} 
 
  \noindent The magnetic field is calculated in  polar
-coordinates.  At all $(R,\theta)$ in the median plane ($z=0$), the 
-magnetic field  due  a single one (index $i$) of the  dipoles  of a $N$-tuple   magnet is written 
+coordinates.  At all $(R,\theta)$ in the median plane ($Z=0$), the 
+magnetic field  due  a single one (index $i$) of the  dipoles  of a $N$-tuple   magnet can 
+take either form, upon option, 
 
-\begin{equation}
-\Bz_i(R,\theta) =  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
-\left( 1 +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)
+\begin{eqnarray}{ll}
+(i) & ~ ~ \Bz_i(R,\theta) =  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
+\left( 1 +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)  \label{EqFieldDipolesi} \\
 %\left(   b_{0_i}  +  b_{1_i} (R-RM_{i})/RM_{i} + b_{2_i} (R-RM_{i})^2/RM_{i}^2 +... \right)
-\label{EqFieldDipoles}
-\end{equation}
+ (ii) & ~  ~ B_Z=  \Bz_{0,i} \, + \, \sum_{i=1}^N  \mathcal{F}_i(R,\theta) \, 
+\left( b_{1_i} (R-RM_{i}) + b_{2_i} (R-RM_{i})^2 +... \right)
+\label{EqFieldDipolesii}
+\end{eqnarray}
 %
 \noindent wherein $\Bz_{0,i}$  is a reference field, at reference radius  $RM_{i}$, 
  and $ \mathcal{F}(R,\theta)$ is the fringe field coefficient, see below. 
@@ -5395,8 +5563,8 @@ Definition of a dipole triplet using  the \textsl{DIPOLES} or  \textsl{FFAG}  pr
 
 \paragraph{Calculation of the fringe field coefficient} 
 
-\noindent In a dipole, with  each EFB a realistic extent of the fringe field, $g $, 
-is associated and a fringe field coefficient $ F $ is calculated. 
+\noindent In a dipole, a realistic extent of the fringe field, $g $, 
+is associated with  each EFB, and a fringe field coefficient $ F $ is calculated. 
 
 
 \bigskip
@@ -5417,13 +5585,13 @@ $$
        + C_5 \left(\dfrac{d }{ g } \right)^5 $$
 
 \noindent In addition,   $g$ is made dependent  of $R$ 
-(a way to simulate the effect of variable gap size on field fall-off), 
+(a way to simulate the effect of variable gap size on fringe field extent), 
 under the form 
 
 $$ g(R) = g_0 \, (RM/R)^{\kappa}  $$
 
-This dependence is accounted for rigorously if the interpolation method is 
-used, to zero order (derivatives of $g(R)$ are not considered) if the analytic method is used. 
+\noindent  This dependence is accounted for rigorously if the interpolation method (see below) is 
+used, or else to  order zero (derivatives of $g(R)$ are not considered) if the analytic method is used. 
 
 \smallskip
 
@@ -5438,7 +5606,7 @@ trajectory the resulting value of the fringe field coefficient is taken to be
 
 
 
-\paragraph{Calculation of the full field from all $N$ dipoles \label{FFatAP}}
+\paragraph{Calculation of the  field resulting from all $N$ dipoles \label{FFatAP}}
 
  
 \noindent Now, accounting for   $N$ neighboring dipoles in an $N$-tuple,  the mid-plane field  and field derivatives  
@@ -5456,7 +5624,7 @@ are  obtained by addition of  the  contributions of the $N$ dipoles taken separa
 Note that, in doing so it is not meant that field superposition  does apply 
 in reality, it is just meant to provide the possibility 
 of obtaining a realistic  field shape, that would for instance closely match (using appropriate $C_0-C_5$ sets 
-of coefficients) 3-D  field simulations obtained from magnet codes. 
+of coefficients) 3-D  field simulations obtained from magnet design codes. 
 
 
 \bigskip
@@ -5479,7 +5647,7 @@ or special $R, \theta$  field dependence need to be introduced.
 
 \bigskip
 
-\noindent {\it Analytical method~: }
+\noindent {\it Analytical method~: }\label{AnalMeth}
 
 \bigskip
 
@@ -5513,7 +5681,7 @@ $\:\:\frac{\partial^{ u+v}d(R,\theta)}{ \partial \theta^u\partial r^v}$.
 
 \bigskip
 
-\noindent { \it Interpolation method~:  \label{CalcMidPlaneFieldInterpol}}
+\noindent { \it Interpolation method~:  \label{CalcMidPlaneFieldInterpol}}\label{InterpMeth}
 
 \bigskip
 
@@ -5537,7 +5705,7 @@ equations, so that the operation {\it is not}   CPU time consuming.
 \includegraphics*[bbllx=30,bblly=150,bburx=590,bbury=400,width=8.2cm,height=4.3cm]{grid.eps}
   \caption{ \small     \label{FigGrid}
 Interpolation method.  
-$m_0$ and $m_1$ are the projections in the median plane of particle positions $M_0$ and $M_1$  separated 
+$m_0$ and $m_1$ are the projections in the median plane of particle positions $M_0$ and $M_1$  and separated 
 by one integration step $\delta s$. 
 }
   \end{center}
@@ -5548,7 +5716,7 @@ by one integration step $\delta s$.
 
 \paragraph{Extrapolation Off Median Plane} 
 
-\noindent From the vector field $ \vec  B $ and  derivatives in the median plane, 
+\noindent From the vertical field $ \vec  B $ and  derivatives in the median plane, 
 first a transformation from polar to Cartesian coordinates is 
 performed, following eqs (\ref{eq2-4-8} or \ref{eq2-4-9}), then,  extrapolation off median plane is 
 performed by means of Taylor expansions, following the procedure described in section~\ref{sec2.3.2}. 
@@ -5590,9 +5758,14 @@ its derivatives up to fourth order are derived from the scalar potential approxi
 the 6th order in $ Y $ and $ Z $ 
 
 \begin{align*}
-	V(X,Y,Z) &   = G \left(Y^4- \dfrac{10 }{ 3} Y^2Z^2+Z^4 \right) YZ  \\
-	\text{with } G_0 &   =  \dfrac{ B_0 }{ R^5_0} 
+	V(X,Y,Z) &   = G(X) \left(Y^4- \dfrac{10 }{ 3} Y^2Z^2+Z^4 \right) YZ  \\
+	\text{with } ~ G_0 &   =  \dfrac{ B_0 }{ R^5_0} 
 \end{align*}
+
+\noindent The fringe  modelling for for $G(X)=G_0 \times$fall-off form factor  is addressed under \textsl{QUADRUPO}, p.~\pageref{QUADRUPO}. 
+
+
+\bigskip
 
 \noindent Outside fringe field regions, or everywhere in sharp edge dodecapole
 ($ \lambda_ E=\lambda_ S=0$) , $ \vec  B(X,Y,Z) $ in the magnet is given by 
@@ -5647,16 +5820,19 @@ $\vec  E $ and its derivatives
 $ \dfrac{\partial^{ i+j+k} \vec  E }{ \partial X^i\partial Y^j\partial Z^k} $ 
 ($i+j+k \le 4$) are derived 
 from the general expression of the multipole scalar potential (eq.~\ref{eq2-3-5}), followed by a 
-$ \frac{\pi }{2n} $ rotation  ($n= $ pole order), 
-as described in section~\ref{sec2.5.3} (see also \textsl{ELMULT\index{ELMULT}}). $ \vec  B $ and its
+$ \frac{\pi }{2n} $ rotation  ($n= 1, 2, 3, ...$)  (see also \textsl{ELMULT\index{ELMULT}}). $ \vec  B $ and its
 derivatives are derived from the same general potential, as described in section~\ref{sec2.3.5} 
 (see also \textsl{MULTIPOL\index{MULTIPOL}}). 
+
+\bigskip
 
 \noindent The entrance and exit fringe fields of the $ \vec  E $ and $ \vec  B$ components are treated 
 separately, in the same way as described under \textsl{ELMULT\index{ELMULT}} 
  and \textsl{MULTIPOL\index{MULTIPOL}},
 for each one of these two fields. Wedge angle correction is applied in sharp edge field model if $ \vec  B1$ is non zero, as in \textsl{MULTIPOL}. Any of the $ \vec  E $ or $ \vec  B $ multipole field
 component can be rotated independently of the others. 
+
+\bigskip
 
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{EBMULT}, for the 
  definition of  particle mass and charge.
@@ -5666,7 +5842,7 @@ component can be rotated independently of the others.
 \begin{figure}[H]
 %\vspace{15 truecm}
 %%%Figure 20
-\centerline{\includegraphics[height=12cm,angle=-90]{Fig20.ps}}
+\centerline{\includegraphics[height=11cm,angle=-90]{Fig20.ps}}
 \hangcaption[Fig20]{\label{fig20}An example of $ \vec  E$, $\vec  B $ multipole~: 
            the achromatic quadrupole  \\  
           (known for its allowing null second order chromatic aberrations~\protect\cite{Biblio14}).}
@@ -5693,7 +5869,7 @@ along the axis is~\cite{Biblio16}     %% [16]
 	V(X) &  =  \dfrac{ V_2-V_1 }{ 2}\: \dfrac{1}{ 2\omega D/R_0} \: \ell n\,
 	           \dfrac{\text{ch}\, \omega\,    \dfrac{x+D }{ R_0} }%
 	           {\text{ch} \,\omega \,\dfrac{x-D }{ R_0}}
-	           \left[+ \dfrac{V_1+V_2 }{ 2} \right]
+	           \left[+ \dfrac{V_1+V_2 }{ 2} \right]   
 	            & \qquad \text{if }  D &  \not= 0 
  \end{alignat*}
 %
@@ -5739,26 +5915,31 @@ the incident beam energy),   $X\!i$ are the  locations of the slits, $ X $ is th
 from the origin taken at the first slit (located at $X\!1 \equiv 0$ between the first and 
 second electrodes).  
  From $V(X,Z) $ the field $ \vec  E(X,Y,Z) $ and derivatives are deduced following the procedure 
-described in section~\ref{sec2.5.3}~(page~\pageref{sec2.5.3}).  
+described in section~\ref{sec2.3.5}~(page~\pageref{sec2.3.5}).  
+
+\medskip
 
 \noindent The total X-extent of the mirror/lens is $L = \sum_{i=1}^N L\!i$.
 
-\noindent In the mirror mode (\emph{i.e.}, option flag $MT=11$ for vertical mid-plane  or $12$ 
+\medskip
+
+\noindent In the mirror mode (option  $\MT=11$ for vertical mid-plane  or $\MT12$ 
 for horizontal mid-plane) stepwise integration starts 
 at $X=-L\!1$ (entrance of the first electrode) and terminates either when back to   $X=-L\!1$  
 or when  reaching $ X=L-L\!1$ (end of the $N-th$ electrode). 
 In the latter case particles  are stopped  with their index
  $I\!E\!X$ set to $-8$ (see section~\ref{sec4.6.6} on page~\pageref{sec4.6.6}). 
-Normally $X\!1$ should   exceed  $3D$ (possibly sensibly, 
-so that $V(X<X\!1)$   have negligible effect in terms of trajectory behavior).  
+Normally $X\!1$ should   exceed  $3D$ (enough that $V(X<X\!1)$   have negligible effect in terms of trajectory behavior).  
 
-\noindent In the lens mode (\emph{i.e.}, option flag $MT=21$ for vertical mid-plane  or $22$
+\medskip
+
+\noindent In the lens mode (option flag $\MT=21$ for vertical mid-plane  or $\MT22$
 for horizontal mid-plane) stepwise integration starts
 at $X=-L\!1$ (entrance of the first electrode) and terminates either when reaching $ X=L-L\!1$ (end of the $N-th$ electrode) 
 or when the particle deflection exceeds $\pi/2$. In the latter case the particle is stopped  with their index
  $I\!E\!X$ set to $-3$. 
  
-\bigskip
+\medskip
 
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{ELMIR}, for the
  definition of particle mass and charge.
@@ -5783,7 +5964,8 @@ The device works as  mirror or lens, horizontal or vertical.
 It is made of $N$ 2-plate electrodes and has mid-plane 
 symmetry\footnote{NOTE~: in the present version of the code, the sole horizontal mirror mode 
  is operational, and $N$ is limited to 3.}. 
-\bigskip
+
+\medskip
 
 \noindent Electrode  slits are circular, concentric with  radii  $ R1 $, $ R2 $, ...,   
 $ R{\textrm{\footnotesize N-1}}$, 
@@ -5798,7 +5980,9 @@ $$
 where $V\!i$ are the potential at the $N$ electrodes (and normally $V\!1=0$ refers to
 the incident beam energy). $r$ is the current radius. 
 
- The mid-plane field $ \vec  E(r) $ and its $r$-derivatives are first derived by differentiation, then 
+\medskip
+
+\noindent  The mid-plane field $ \vec  E(r) $ and its $r$-derivatives are first derived by differentiation, then 
 $ \vec  E(r,Z) $ and  derivatives are obtained from Taylor expansions and Maxwell relations. 
 Eventually a transformation to the rotating frame provides $\vec  E(X,Y,Z)$ 
  and  derivatives as involved in eq.~\ref{eq2-2-12}. 
@@ -5806,12 +5990,14 @@ Eventually a transformation to the rotating frame provides $\vec  E(X,Y,Z)$
 
 \noindent Stepwise integration starts at entrance (defined by $R\!E, T\!E$) of the first electrode 
 and terminates when rotation of the reference  rotating frame  $(RM,X,Y)$ has reached the value AT. 
-Normally, $R1-R\!E$ and $R1-R\!S$ should both  exceed  $3D$ (possibly sensibly, 
-so that $V(r<R\!E)$ and $V(r<R\!S)$  have negligible effect in terms of trajectory tails).  
+Normally, $R1-R\!E$ and $R1-R\!S$ should both  exceed  $3D$ (enough  
+ that $V(r<R\!E)$ and $V(r<R\!S)$  have negligible effect in terms of trajectory tails).  
 
-Positioning of the element is performed by means of \textsl{KPOS} (see section~\ref{sec4.6.2}). 
+\medskip
 
-\bigskip
+\noindent Positioning of the element is performed by means of \textsl{KPOS} (see section~\ref{sec4.6.2}). 
+
+\medskip
 
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{ELMIRC}, for the
  definition of particle mass and charge.
@@ -5865,40 +6051,39 @@ $$ K_n = \dfrac{1 }{ 2}\, \dfrac{\gamma }{ \gamma^ 2-1}\, \dfrac{V_ n }{ R^n_0} 
 %
 $ (V_ n $ = potential at the electrode, $ R_0 $ = radius at pole tip, 
 $\gamma$  = relativistic Lorentz factor of the particle) has the same focusing effect 
-than the right magnetic multipole of order $ n $ and strength
+ as  the right magnetic multipole of order $ n $ and strength
  $ K_n= \dfrac{B_n }{ R^{n-1}_0 \Br} $ 
 $ (B_n $ = field at pole tip, $ \Br $ = particle rigidity, see \textsl{MULTIPOL\index{MULTIPOL}}). 
 
-\noindent Such $ \dfrac{\pi }{ 2n} $ rotation of the multipole components is
-obtained following the procedure described in section~\ref{sec2.5.3}.  
-\bigskip
+%\noindent Such $ \dfrac{\pi }{ 2n} $ rotation of the multipole components is
+%obtained following the procedure described in section~\ref{sec2.5.3}.  
+
+\medskip
 
 \noindent The entrance and exit fringe fields are treated separately.  They
 are characterized by the integration zone $ X_E $ at entrance and $ X_S $ at exit,
 as for \textsl{QUADRUPO\index{QUADRUPO}}, and by the extent $ \lambda_ E $ at entrance, $\lambda_ S $ 
 at exit. The fringe field extents for the dipole component are $ \lambda_ E $
-and $ \lambda_ S $. The fringe field for the quadrupolar (sextupolar,  ..., 
+and $ \lambda_ S $. The fringe field extent for the quadrupolar (sextupolar,  ..., 
  20-polar) component is given by a coefficient $ E_2 $ 
  ($E_3$, ..., $E_{10}$)   at entrance, and $ S_2 $ ($ S_3$, ..., $S_{10}$)   at exit, 
  such that the fringe field extent is $ \lambda_ E\ast E_2$  
  ($\lambda_ E\ast E_3$, ..., $\lambda_ E\ast E_{10}$)  at 
 entrance and $ \lambda_ S\ast S_2 $  ($\lambda_ S\ast S_3$, ..., $\lambda_ S\ast S_{10}$) 
  at exit.  
-\bigskip
+\medskip
 
 \noindent If $ \lambda_ E=0 $  ($\lambda_ S=0$)  the multipole lens is
 considered to have a sharp edge field at entrance (exit), and then, 
 $ X_E \ (X_S) $ is forced to zero (for the mere purpose of saving computing time).  
-\bigskip
+\medskip
 
 \noindent If $ E_i=0 $  ($S_i=0$) ($i=2,\, 10$), the entrance (exit) fringe field for
 multipole component $ i $ is considered as a sharp edge field.  
-\bigskip
 
-\noindent Overlapping of fringe fields inside the element is treated
-separately for each component, in the way described in \textsl{QUADRUPO\index{QUADRUPO}}. 
+\medskip
 
-\noindent Moreover, any multipole component $ \vec  Ei $ can be rotated
+\noindent Any multipole component $ \vec  Ei $ can be rotated
 independently by an angle $ RXi $ around the longitudinal $ X$-axis, for the simulation of 
 positioning defects, as well as skew lenses. 
 
@@ -5948,26 +6133,27 @@ whose content must fit the following \FORTRAN\ reading sequence
 	         ENDIF 
         1     CONTINUE
 \end{verbatim}}%% 
-\bigskip
-
+\medskip
+  
 \noindent where $IX$ is the number of nodes along the (symmetry) $X$-axis, $X(I)$ their 
 coordinates, and $EX(I)$ the values of the $X$ component of the field. $EX$ is 
 normalized with \textsl{ENORM} prior to ray-tracing. As well the longitudinal coordinate  X is normalized with 
-a  \textsl{XNORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
+a  \textsl{XNORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi). 
 
 
-\bigskip
+\medskip
 
 \noindent$X$-cylindrical symmetry is assumed, resulting in $EY$
 and $EZ$ taken to be zero on axis. $ \vec  E(X,Y,Z) $ and its derivatives along a particle
 trajectory are calculated by means of a 5-points polynomial fit followed by second 
-order off-axis Taylor series extrapolation (see sections~\ref{sec2.5.1} and \ref{sec2.6}).  
-\bigskip
+order off-axis Taylor series extrapolation (see sections~\ref{sec2.5.2} and~\ref{sec2.4.1}).  
+
+\medskip
 
 \noindent Entrance and/or exit integration boundaries may be defined in the same way 
 as in \textsl{CARTEMES\index{CARTEMES}} by means of the flag $ID$ and coefficients  
 $A$, $B$, $C$, $A'$, $B'$, $C'$.  
-\bigskip
+\medskip
 
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{ELREVOL}, for the
  definition of particle mass and charge.
@@ -5982,7 +6168,7 @@ $A$, $B$, $C$, $A'$, $B'$, $C'$.
  \textsl{EMMA} is dedicated to the reading and treatment of 2-D or 
 3-D Cartesian  mesh field maps representing the EMMA FFAG cell quadrupole doublet. 
 
-\bigskip
+\medskip
 
  \textsl{EMMA}    works much like  \textsl{TOSCA}.  Refer to that keyword, and to the \FORTRAN\ file 
 EMMAC, for details. 
@@ -6006,24 +6192,24 @@ as to the field modelling, apart from the  radial dependence of the field (so-ca
 $B=B_0(r/r_0)^k$. Note that \textsl{DIPOLES} could do the same job by using a 
 multipole expansion of $B_0(r/r_0)^k$). 
 
-\bigskip
+\medskip
 
 \noindent The \textsl{FFAG} procedure allows overlapping of fringe fields of neighboring dipoles, 
 thus simulating in some sort the field in a dipole $N$-tuple - as for instance in an FFAG doublet 
 or triplet. This is done in the way described below. 
 
-\bigskip
+\medskip
 
 \noindent  The dimensionning of the magnet is defined by
 
-\bigskip
+\medskip
 
  \begin{tabular}{>{\sl}l!{~:}l}
 	 AT &  total angular aperture \\
 	 RM & mean radius used for the positioning of field boundaries\\
  \end{tabular}
 
-\bigskip
+\medskip
 
 \noindent For each one of the $N=1$ to (maximum) $5$ dipoles of the  $N$-tuple, 
 the two  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
@@ -6031,7 +6217,7 @@ defined from geometric boundaries, the shape and position of which are determine
 following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M})
  (see Fig.~\ref{fig9}-A page~\pageref{fig9}, and Fig.~\ref{figFFAG}) 
 
-\bigskip
+\medskip
 
 \begin{tabular}{l!{~:}l}
 	$ACN_i$  & arbitrary inner angle, used for EFB's positioning  \\
@@ -6068,7 +6254,8 @@ $$ \Bz_i(R,\theta) =  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_M \ri
 
 \noindent The fringe field coefficient  $\mathcal{F}_i(R,\theta) $ associated with a  dipole is computed as in the 
 procedure  \textsl{DIPOLES} (eq.~\ref{EqFFdips}), including (rigorously if the interpolation method is 
-used, to zero order if the analytic method is used)  radial dependence of the gap size 
+used, see page~\pageref{AnalMeth}, or to  order zero if the analytic method is used, see page~\pageref{InterpMeth}) 
+ radial dependence of the gap size 
 
 \begin{equation}
 \label{EqggvsR}
@@ -6080,7 +6267,7 @@ field fall-off,  over the
 all radial extent of a scaling FFAG dipole (with normally - but not in practice - $\kappa = K_i$). 
  
 
-\bigskip
+\medskip
 
 \paragraph{Calculation of the full field from all $N$ dipoles}
 
@@ -6092,7 +6279,7 @@ extrapolation off median plane, etc., things are performed exactly as in the cas
 
 
 
-\bigskip
+\medskip
 
 \paragraph{Sharp edge} 
 
@@ -6120,31 +6307,31 @@ together with $\theta=0$ at entrance (resp. exit) EFBs),
 \noindent \textsl{FFAG-SPI} works much like \textsl{FFAG} 
 as to the field modelling, apart from the axial  dependence of the field. 
 
-\bigskip
+\medskip
 
 \noindent The \textsl{FFAG} procedure allows overlapping of fringe fields of neighboring dipoles, 
 thus simulating in some sort the field in a dipole $N$-tuple - as for instance in an FFAG doublet 
 or triplet (Fig.~\ref{figFFAGSPI}). This is done in the way described below. 
 
-\bigskip
+\medskip
 
 \noindent  The dimensionning of the magnet is defined by
 
-\bigskip
+\medskip
 
  \begin{tabular}{>{\sl}l!{~:}l}
 	 AT &  total angular aperture \\
 	 RM & mean radius used for the positioning of field boundaries\\
  \end{tabular}
 
-\bigskip
+\medskip
 
 \noindent For each one of the $N=1$ to (maximum) $5$ dipoles of the  $N$-tuple, 
 the two  effective field boundaries (entrance and exit EFBs) from which  the dipole field  is drawn are
 defined from geometric boundaries, the shape and position of which are determined by the 
 following parameters 
 
-\bigskip
+\medskip
 
 \begin{tabular}{l!{~:}l}
 	$ACN_i$  & arbitrary inner angle, used for EFB's positioning  \\
@@ -6152,7 +6339,7 @@ following parameters
 	$\xi$ & spiral angle \\
 \end{tabular}
 
-\bigskip
+\medskip
 
 \noindent with $ACN_i$ and $\omega$ as defined in Fig.~\ref{figFFAGSPI} 
 (similar to what can be found in Figs.~\ref{figFFAG} and \ref{fig9}-A). 
@@ -6168,7 +6355,7 @@ entrance and exit side of a central dipole).
 \end{figure}
 
 
-\bigskip
+\medskip
 
 
 \paragraph{Calculation of the field from a single dipole} 
@@ -6199,7 +6386,7 @@ field fall-off,  over the
 all radial extent of a scaling FFAG dipole (with normally - but not in practice - $\kappa = K_i$). 
  
 
-\bigskip
+\medskip
 
 \paragraph{Calculation of the full field from all $N$ dipoles}
 
@@ -6224,7 +6411,7 @@ No particular symmetry is assumed, which allows the
 treatment of any type of field (\emph{e.g.}, solenoidal field, or dipole field,  at  arbitrary $Z$ elevation 
 - the map needs not be a mid-plane map). 
 
-\bigskip
+\medskip
 
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
@@ -6254,7 +6441,7 @@ BNORM, prior to ray-tracing.  As well the  coordinates  X, Y are normalized with
   \textsl{X-,Y-NORM} coefficients (usefull to convert to centimeters, the working units in  \zgoubi. 
 
 
-\bigskip
+\medskip
 
 \noindent At each step of the trajectory of a particle, the field and its 
 derivatives are calculated by a second or fourth degree polynomial interpolation followed 
@@ -6263,7 +6450,7 @@ by a $ Z $ extrapolation (see sections~\ref{sec2.3.3} page~\pageref{sec2.3.3},~\
 \noindent Interpolation grid is 3*3 for 2nd order (option \textsl{IORDRE = 2\index{IORDRE}}) or 5*5 
 for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}). 
 
-\bigskip
+\medskip
 
 \noindent Entrance and/or 
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
@@ -6283,7 +6470,7 @@ No particular symmetry is assumed, which allows the
 treatment of any type of field (\emph{e.g.},  field of a parallel-plate mirror with arbitrary $Z$ elevation 
 - the map needs not be a mid-plane map). 
 
-\bigskip
+\medskip
 
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence below (in principle compatible 
@@ -6313,7 +6500,7 @@ ENORM, prior to ray-tracing.  As well the coordinates  X, Y re normalized with
   \textsl{X-,Y-NORM} coefficients (usefull to convert to centimeters, the working units in  \zgoubi. 
 
 
-\bigskip
+\medskip
 
 \noindent At each step of the trajectory of a particle, the field and its 
 derivatives are calculated by a second or fourth degree polynomial interpolation followed 
@@ -6322,7 +6509,7 @@ by a $ Z $ extrapolation (see sections~\ref{sec2.3.3} page~\pageref{sec2.3.3},~\
 \noindent Interpolation grid is 3*3 for 2nd order (option \textsl{IORDRE = 2\index{IORDRE}}) or 5*5 
 for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}). 
 
-\bigskip
+\medskip
 
 \noindent Entrance and/or 
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
@@ -6395,7 +6582,7 @@ components, and of their derivatives up to fourth order, following
 $ \vec  B10 $  and their derivatives up to the fourth order are calculated as described in 
  section~\ref{sec2.3.5}.  
 
-\bigskip
+\medskip
 
 \noindent The entrance and exit fringe fields are treated separately.  They
 are characterized by the integration zone $ X_E $ at entrance and $ X_S $ at exit,
@@ -6408,7 +6595,7 @@ $ S_2 $ ($ S_3$, ..., $S_{10}$)  at exit, such that the extent is $ \lambda_ E\a
  ($\lambda_ E\ast E_3$, ..., $\lambda_ E\ast E_{10}$)  at 
 entrance and $ \lambda_ S\ast S_2 $  ($\lambda_ S\ast S_3$, ..., $\lambda_ S\ast S_{10}$)  
 at exit. 
-\bigskip
+\medskip
 
 \noindent If $ \lambda_ E=0 $  ($\lambda_ S=0$)  the multipole lens is
 considered to have a sharp edge field at entrance (exit), and then, $ X_E \ (X_S) $ is forced to zero 
@@ -6416,17 +6603,17 @@ considered to have a sharp edge field at entrance (exit), and then, $ X_E \ (X_S
  the multipole component $ i $ is considered as a sharp edge field.  
 In sharp edge field model, the wedge angle vertical first order focusing effect (if $\vec  B1$ is non zero) is simulated at magnet entrance and exit  by a kick $P_2 = P_1 - Z_1 \tan (\epsilon / \rho)$ applied to each particle ($P_1$, $P_2$ are the vertical angles upstream and downstream the EFB, $Z_1$ the vertical particle position at the EFB, $\rho$ the local horizontal bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\epsilon$ depends on the horizontal angle T). 
 
-\bigskip
+\medskip
 
 \noindent Overlapping of fringe fields inside the optical element  is treated separately
 for each component, in the way described in \textsl{QUADRUPO\index{QUADRUPO}}.  
-\bigskip
+\medskip
 
 \noindent Any multipole component $ \vec  Bi $ can be rotated independently
 by an angle $ RXi $ around the longitudinal $ X$-axis, for the simulation of positioning defects,
 as well as skew lenses. 
 
-\bigskip
+\medskip
 
 \noindent Magnet (mis-)alignement is assured by \textsl{KPOS}. 
 \textsl{KPOS} also  allows some degrees of automatic alignement useful for periodic structures (section~\ref{sec4.6.2}).
@@ -6445,8 +6632,12 @@ approximated to the 8-th order in $ Y $ and $ Z $
 \begin{align*}
 	V(X,Y,Z) &   =   \left(G-\dfrac{G^{\prime\prime} }{ 20} \, (Y^2+Z^2)+
 	              \dfrac{G^{\quaprime} }{ 960}\, (Y^2+Z^2)^2 \right) (Y^3Z-YZ^3)   \\
-	\text{with } G_0 &   =  \dfrac{ B_0 }{ R^3_0} 
+	\text{with } ~ G_0 &   =  \dfrac{ B_0 }{ R^3_0} 
 \end{align*}
+
+\noindent The fringe  modelling for for $G(X)=G_0 \times$fall-off form factor  is addressed under \textsl{QUADRUPO}, p.~\pageref{QUADRUPO}. 
+
+\medskip
 
 \noindent Outside fringe field regions, or everywhere in sharp edge dodecapole
 ($ \lambda_ E=\lambda_ S=0$) , $ \vec  B(X,Y,Z) $ in the magnet is given by 
@@ -6493,13 +6684,13 @@ the data are read following the \FORTRAN\ statements hereunder
 component of the field at a node (I) of the mesh. K's and R's are dummy variables 
 appearing in the \textsl{POISSON} output file outpoi.lis
  but not used here. 
-\bigskip
+\medskip
 
 \noindent From this field profile, a 2-D median plane map is built up, with a 
 rectangular and uniform mesh~; mid-plane symmetry is assumed. The field at 
 each node $ (X_i,Y_j) $ of the map is $ B(X_i) $, independent of $ Y_j $
 (\emph{i.e.}, the distribution is uniform in the $ Y $ direction).  
-\bigskip
+\medskip
 
 \noindent For the rest, \textsl{POISSON} works in a way similar to \textsl{CARTEMES\index{CARTEMES}}. 
 
@@ -6518,11 +6709,11 @@ definition of the map in \textsl{DIPOLE-M}\index{DIPOLE-M}).
 
 \textsl{PS170} is dedicated to a `rough' simulation
 of CERN's \textsl{PS170} dipole.  
-\bigskip
+\medskip
 
 \noindent The field $ B_0 $ is constant inside the magnet, and zero outside. 
 The pole is a circle  of radius $ R_0 $, centered on $ X $ axis.  The output coordinates are
-generated at the distance \textsl{\XL} from the entrance (Fig.~25).  %%%
+generated at the distance \textsl{\XL} from the entrance (Fig.~\ref{fig25}).  %%%
 \vfill
 
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
@@ -6559,7 +6750,7 @@ calculated at each step from the following expressions
    %
     and then extrapolated out of the median plane by Taylor expansion in $ Z $ 
 (see section~\ref{sec2.3.2}).
-\bigskip
+\medskip
 
 \noindent With option \textsl{SEXQUAD}, $ U=0$,  while with \textsl{QUADISEX}, $U=1 $. 
 
@@ -6722,8 +6913,13 @@ its derivatives up to fourth order are derived from the scalar potential approxi
  	V(X,Y,Z)    & =   \left(G- \dfrac{G^{\prime\prime} }{ 16}\, (Y^2+Z^2)+
 	             \dfrac{G^{\quaprime} }{ 640}\, (Y^2+Z^2)^2\right) 
 	             \left(Y^2Z-\dfrac{Z^3 }{ 3} \right)   \\
-\text{with } G_0 &   =  \dfrac{ B_0}{ R^2_0}
+\text{with } ~ G_0 &   =  \dfrac{ B_0}{ R^2_0}
 \end{align*}
+
+\noindent The fringe  modelling for for $G(X)=G_0 \times$fall-off form factor  is addressed under \textsl{QUADRUPO}, p.~\pageref{QUADRUPO}. 
+
+\medskip
+
 
 \noindent Outside fringe field regions, or everywhere in sharp edge sextupole 
 ($ \lambda_E=\lambda_ S=0$),   $ \vec  B(X,Y,Z) $ in the magnet is given by 
@@ -6812,7 +7008,7 @@ Spin rotation.
  \textsl{TOSCA} is dedicated to the reading and treatment of 2-D or 
 3-D Cartesian or cylindrical mesh field maps as  delivered by the
 \textsl{TOSCA}  magnet computer code standard output.
-\bigskip
+\medskip
 
 \noindent The total number of field data files to be read is determined by the \textsl{MOD} flag 
 (see below) and by the parameter $IZ$ that appears in the data list following the keyword. 
@@ -6828,7 +7024,7 @@ file(s) contain the $IZ-1$ additional  planes in increasing $Z$ order. For arbit
  the total number of maps (whose names follow in the data list) 
 is $IZ$, such that  map number $[IZ/2]+1$ is the $Z = 0$ elevation one.
 
-\bigskip
+\medskip
 
 \noindent The field map data file has to be be filled with a 
 format that fits the  \FORTRAN\ reading sequence. 
@@ -6855,7 +7051,7 @@ file \texttt{'fmapw.f'}~:
 (transverse horizontal, vertical) nodes of the 3-D uniform mesh. For letting \zgou\ know that these are binary files, 
 FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}.  
 
-\bigskip
+\medskip
 
 \noindent A pair of flags, \textsl{MOD}, \textsl{MOD2}, determine wether Cartesian or Z-axis cylindrical mesh is used. 
 In addition to the \textsl{MOD=1, 2} cases above, one can have \textsl{MOD=12} and in that case a single file 
@@ -6883,7 +7079,7 @@ the  formatting of the field map data file(s).
        22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (X,Y)  mid-plane} \\[3ex]
 \end{tabular}}
 
-\bigskip
+\medskip
 
 
 \noindent The field $ \vec  B=(B_X,B_Y,B_Z) $ is normalized by means of 
@@ -6891,7 +7087,7 @@ the  formatting of the field map data file(s).
  As well the  coordinates  X and Y (and Z in the case of a 3-D field map) are normalized by  the
   \textsl{X-[Y-,Z-]NORM} coefficient (usefull to convert to centimeters, the working units in  \zgoubi. 
 
-\bigskip
+\medskip
 
 \noindent At each step of the trajectory of a particle inside the map, the
 field and its derivatives are calculated 
@@ -6903,7 +7099,7 @@ depending on \textsl{IORDRE\index{IORDRE}} (\textsl{IORDRE} = 2, 25 or 4), as fo
  - in the case of 3-D map, by means of a second order polynomial interpolation with a 
 $3  \times   3   \times   3$-point parallelipipedic grid, as described in 
 section~\ref{sec2.4.4}. 
-\bigskip
+\medskip
 
 \noindent Entrance and/or exit integration boundaries between which the trajectories
 are integrated in the field may be defined, in the same way as in  \textsl{CARTEMES\index{CARTEMES}}. 
@@ -6935,7 +7131,7 @@ particle decay and gas-scattering are taken into account (but not on synchrotron
 \textsl{UNDULATOR} 
 
 
-\bigskip
+\medskip
 
 \noindent {\it To be documented}
 
@@ -6957,7 +7153,7 @@ particle decay and gas-scattering are taken into account (but not on synchrotron
 \subsubsection*{UNIPOT~: \UNIPOTTitl} \label{UNIPOT} \index{UNIPOT}
 
 The lens is cylindrically symmetric about the $ X$-axis.  
-\bigskip
+\medskip
 
 \noindent The length of the first (resp. second, third) electrode is $ X1 $
 (resp. $ X2$, $X3$). The distance between the electrodes is $ D$.  
@@ -6980,7 +7176,7 @@ derivatives are deduced following the procedure described in section~\ref{sec2.5
 \noindent Use \textsl{PARTICUL\index{PARTICUL}} prior to \textsl{UNIPOT}, for the
  definition of particle mass and charge.
 
-\bigskip
+\medskip
 
 \noindent The total length of the lens is $X1+X2+X3+2\,D$~; stepwise integration starts 
 at entrance of the first electrode and terminates at exit of the third one. 
@@ -7025,7 +7221,7 @@ extent $ \XL $ and transverse extent $ \pm YL $~;  outside these limits, $ B_0=0
 orthogonal electric and magnetic fields $ \vec  E_Y$,  $ \vec  B_Z $ or $ \vec  E_Z$, 
  $ \vec  B_Y$ (Fig.~\ref{fig28}).
  It must be preceded by \textsl{PARTICUL\index{PARTICUL}} for the definition of particle mass and charge.  
-\bigskip
+\medskip
 
 \noindent The length $ \XL $ of the element is the distance between its
 entrance and exit EFB's. The electric and magnetic field intensities $ E_0 $ and $ B_0 $ in the 
@@ -7110,7 +7306,7 @@ of  initial and actual coordinates of the  \IMAX\index{IMAX@{\IMAX}} particles a
 together with their tagging indices and letters, following the same format as for \textsl{FAISCNL} (except 
 for \textsl{SORT(I)}  which is not printed) .  
 
-\bigskip
+\medskip
 
 \noindent\textsl{FAISCNL} has a similar effect, except that the information is stored in a 
 dedicated file \textsl{FNAME} (advised name is \textsl{FNAME} = `zgoubi.fai' 
@@ -7151,7 +7347,7 @@ C5      BORO,    IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
 \medskip
 
 \noindent The meaning of the main data is the following (see the keyword \textsl{OBJET})
-\bigskip
+\medskip
 
 {\renewcommand{\arraystretch}{1}
  \begin{tabular}{>{\sl}l!{~:}l}
@@ -7167,7 +7363,7 @@ C5      BORO,    IPASS,  KLEY,  (LABEL(NOEL,I),I=1,2),NOEL
     \textsl{IPASS}  &  turn number (see \textsl{REBELOTE\index{REBELOTE}}) \\
  etc.
      \end{tabular}}
-\bigskip
+\medskip
 
 \noindent\textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with two more features. 
 
@@ -7198,7 +7394,7 @@ For instance the following data input in zgoubi.dat~:
 pass, each time elements of the zgoubi.dat \index{zgoubi.dat} data list labeled either \textsl{HPCKUP}
 or \textsl{VPCKUP} are encountered.
 
-\bigskip
+\medskip
 
 \noindent\underline{Note}
 
@@ -7224,27 +7420,27 @@ size  of  horizontal waist}\label{FOCALE}\label{IMAGE}\label{IMAGES}
 \textsl{FOCALE}  calculates the dimensions of the beam and its mean 
 transverse position, at a longitudinal distance $ \XL $ from the position 
 corresponding to the keyword \textsl{FOCALE}.  
-\bigskip
+\medskip
 
 \noindent\textsl{IMAGE}  computes the location and size
 of the closest horizontal waist.  
-\bigskip
+\medskip
 
 \noindent\IMAGES\index{IMAGES}  has the same effect as \textsl{IMAGE\index{IMAGE}},
  but, in addition, for a 
 non-monochromatic beam it calculates as many waists as there are distinct momenta in 
 the beam, provided that the object has been defined with a classification of momenta 
 (see \textsl{OBJET\index{OBJET}}, \KOBJ = 1, 2  for instance).  
-\bigskip
+\medskip
 
 \noindent Optionally, for each of these three procedures, \zgou\ can
 list a trace of the coordinates in the $ X$, $Y $ and in the $ Y$, $Z $ planes.  
-\bigskip
+\medskip
 
 \noindent The following quantities are calculated for the $ N $ particles of
 the beam (\textsl{IMAGE,   FOCALE}) or of each group    of momenta 
 (\textsl{IMAGES\index{IMAGES}})  
-\bigskip
+\medskip
 
 \begin{itemize}
 \item[$\bullet$]Longitudinal position~: 
@@ -7297,7 +7493,7 @@ $ Y$, $T$, $Z$, $P$, $S$, $D$ particle coordinates ($ S=$ path length~;
 $ D $ may change  in decay process simulation with \textsl{MCDESINT\index{MCDESINT}}, 
 or when ray-tracing in $ \vec  E $ fields), and also spin coordinates\index{spin tracking} and
 modulus $ S_X$, $ S_Y$,  $ S_Z $ and $ \left\Vert\vec  S \right\Vert   $.  
-\bigskip
+\medskip
 
 \noindent\textsl{HISTO\index{HISTO}}  can be used in conjunction with 
 \textsl{MCDESINT\index{MCDESINT}}, for statistics 
@@ -7306,17 +7502,17 @@ variable.  If it is set equal to `S', only secondary particles will be
 histogrammed.  If it is set equal to `P', then only  parent particles will be histogrammed.  
 For no discrimination  between S-econdary and P-rimary particles,  \textsl{TYP} = `Q'  must be
 used.  
-\bigskip
+\medskip
 
 \noindent The dimensions of the histogram (number of lines and columns) may be
 modified. It can be normalized with \textsl{NORM} = 1, to avoid saturation.  
-\bigskip
+\medskip
 
 \noindent Histograms are indexed with the parameter  $NH$.  This allows making
 independent histograms of the same coordinate at several spots  
 in a structure.  This is also useful when piling up problems in an input data 
 file  (see also \textsl{RESET}). $NH$ is in the range 1-5.  
-\bigskip
+\medskip
 
 \noindent If \REBELOTE\index{REBELOTE} is used, the statistics on the $1+$\textsl{NPASS}\index{NPASS}
 runs in the structure will add up. 
@@ -7346,7 +7542,7 @@ delivers the beam matrix and betatron phase advances or (case of periodic struct
 chromaticities\index{chromaticity|textbf}  and other global parameters. 
 
 
-\bigskip
+\medskip
 
 \noindent Depending on the value of option \textsl{IORD}, different procedures follow   
 
@@ -7412,7 +7608,7 @@ calculation of the first order transfer matrix $ [R_{ij}] $ and of
 the second order matrix $[T_{ijk}]$.  Other higher order coefficients are also calculated. 
 \end{itemize}
 
-\bigskip
+\medskip
 
 \noindent An automatic generation of an appropriate object for the use of \textsl{MATRIX}  can be obtained 
 by means 
@@ -7427,7 +7623,7 @@ indicated using I in KOBJ = 5[.I, I=1,9]~;
  a set of 61 trajectories. 
 
 
-\bigskip
+\medskip
 
 \noindent The next option, \textsl{IFOC}, acts as follows \par
 
@@ -7466,7 +7662,7 @@ matrices as obtained in the way described above, and by identification  $ [R_{ij
 
  
 
-\bigskip
+\medskip
 
 \noindent  Addition of \textsl{zgoubi.MATRIX.out} next to \textsl{IORD, IFOC} will cause 
 stacking of \textsl{MATRIX} output data 
@@ -7499,7 +7695,7 @@ the periodic structure.      \index{closed orbit}
 \subsubsection*{PLOTDATA~: \PLOTDATATitl~\protect\cite{BiblioPlot}}%
 \label{PLOTDATA} \index{PLOTDATA}
 
-\bigskip
+\medskip
 
 \noindent {\it To be documented}
 
@@ -7514,7 +7710,7 @@ a listing (into zgoubi.res) of the initial and actual coordinates and modulus of
 particles, at the location where it stands, together with their Lorentz factor $\gamma$, etc. 
 The mean values of the spin components are also printed. 
 
-\bigskip
+\medskip
 
 \noindent \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
 stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
@@ -7534,7 +7730,7 @@ with meaning of printed quantities as follows~:
 	 IPASS &  turn number (see \textsl{REBELOTE})\\
  \end{tabular}
 
-\bigskip
+\medskip
 
 \noindent\textsl{SPNSTORE} has an effect similar to \textsl{SPNPRNL}, with two more features. 
 
@@ -7567,7 +7763,7 @@ For instance the following data input in zgoubi.dat~:
 pass, each time elements of the zgoubi.dat \index{zgoubi.dat} data list labeled either \textsl{HPCKUP}
 or \textsl{VPCKUP} are encountered.
 
-\bigskip
+\medskip
 
 \noindent\underline{Note}
 
@@ -7601,13 +7797,13 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
   transport coefficients and various other parameters, in particular 
 periodical quantities  such as tunes, chromaticies\index{chromaticity}, etc. 
 
-\bigskip 
+\medskip 
 
 \noindent  The object necessary for these calculations 
   will be generated automatically if one uses \textsl{OBJET\index{OBJET}}  with
 option \mbox{\KOBJ= 5}.   
 
- \bigskip 
+ \medskip 
 
 \noindent \textsl{TWISS} works in a way similar to \textsl{MATRIX}, iterating the \textsl{MATRIX} process whereever necessary, 
 changing for instance the reference trajectory in \textsl{OBJET} for dp/p related computations. 
@@ -7654,7 +7850,7 @@ For the purpose of parameterization for instance, it may be interesting to ray-t
 backward  from the image toward the object.  This can be performed by first 
 reversing the position of optical elements in the structure, and then 
 reversing the integration step sign in all the optical elements.  
-\bigskip
+\medskip
 
 \noindent An illustration of this feature is given in the following
 Figure~\ref{fig36}.    
@@ -7691,7 +7887,7 @@ informations in zgoubi.plt\index{zgoubi.plt} at each integration step~; this inf
 that storage file (when dealing with small step size, large number of particles, etc.) it is possible 
 to print out  every other $10^n$ integration step by taking $ \IL=2 \times 10^n $ (for instance, 
  $ \IL=200 $ would cause output into zgoubi.plt every $100$ other step). 
-\bigskip
+\medskip
 
 \noindent When dealing with maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
 \index{ELREVOL}}), another option index $ \IC $\index{IC@{\IC}} is available.
@@ -7725,7 +7921,7 @@ with its argument \textsl{NPASS}$+1$\index{NPASS} being the number of turns to b
 performed. In order that the \IMAX\index{IMAX@{\IMAX}} particles of the beam start a new 
 turn with the coordinates they have reached at the end of the 
 previous one, the option $ K=99 $ has to be specified in \textsl{REBELOTE\index{REBELOTE}}.
-\bigskip
+\medskip
 
 \noindent\textbf{Synchrotron acceleration} can be simulated, following the 
 procedure below  

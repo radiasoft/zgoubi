@@ -19,10 +19,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE ELCYL(MPOL,EM,QLEM,QLSM,QE,QS,A,R, 
      >                                          E,DE,DDE)
@@ -53,8 +52,6 @@ C----- LambdaE,LambdaS
       AA = A 
       RR = R
 
-      print*, qle,qls,AA, AE, at,  rr
- 
       IF(QLE+QLS .EQ. 0D0) THEN
 C------- Sharp edges approximation
  
@@ -65,18 +62,20 @@ CCCCCCCC          E(1,2) = - VN / RR
       ! in Zgoubi y is radial, x longitudinal, z vertical               !AUL:110214
 c          print*,'E0,rho,E0/rho,y=',EM(1),rho,EM(1)/rho,y;stop
 
-          c = 0.d0   ! cylindrical
-c          c = 1.d0   ! spherical
-          u = (rr-rm)/rm
-          v = z/rm  !!!!! z is not known
+c          c = 0.d0   ! cylindrical
+cc          c = 1.d0   ! spherical
+c          u = (rr-rm)/rm
+c          v = z/rm  !!!!! z is not known
 
 C Er
-          E(1,2) =  V0 *( 1.d0 - u * (1.d0 + c)) 
+c          E(1,2) =  V0 *( 1.d0 - u * (1.d0 + c)) 
 C Ez
-          E(1,3) =  V0 * v * c 
-      
-          DE(2,2) =  -EM(1)*BRI * (1.d0 + c) 
-          DE(3,3) =  EM(1)*BRI * c 
+c          E(1,3) =  V0 * v * c 
+c      
+c          DE(2,2) =  -EM(1)*BRI * (1.d0 + c) 
+c          DE(3,3) =  EM(1)*BRI * c 
+
+          E(1,2) = - VN / RR
 
         ENDIF
 
@@ -158,6 +157,13 @@ C--------- Ea, from Maxwell's equation
 
         ENDIF
       ENDIF
+
+c      write(*,fmt='(a,i2,1x,20e12.4)') 
+c     >  ' elcyl qle,qls,AA, AE, at,  rr :',
+c     >  qle,qls,AA, AE, at,  rr
+c      write(*,fmt='(a,i2,1x,20e12.4)') 
+c     > '  ex, ey, ez : ',e(1,1),e(1,2),e(1,3)
+ 
 
       RETURN
       END

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE DEVTRA
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -43,15 +42,16 @@ C     -----------------------------------------
       COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/SPTRK/ EU(5),CSV,DCSV,D2CSV,D3CSV,D4CSV
+     >,DBSB,D2BSB,D3BSB,D4BSB,D5BSB
       COMMON/TRAJ/ R1,T1,Z1,P1,A1,SAR,TAR,KEX,IT,AMT,QT
       COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
- 
-      DIMENSION EU(5)
- 
+  
       PARAMETER(IMAX=3, IJMAX=9, IJLMAX=27, IM2 = IMAX+IJMAX)
       PARAMETER(IM3 = IM2+IJLMAX)
 
-C      SAVE CL, CL9, CQ, AM2, QEV
+C      DIMENSION EU(5)
+
       SAVE CL, CL9
  
 C-------------------------------------------------------------
@@ -879,7 +879,18 @@ C           - 4Bro'/Brou''' - 6Bro''/Brou'' - 4Bro'''/Brou' - Bro''''/Brou
      >  -4.D0*(DBSB*U(4,K)+D3BSB*U(2,K))-6.D0*D2BSB*U(3,K)-D4BSB*U(1,K)
  40   CONTINUE
  
+C DNCSV is used by spntrk
+
+
+ 
  99   CONTINUE
+c       write(*,fmt='(1a,1x,2i3,1x,20e12.4)') 
+c     >' devtra kfld ids, dbsb : ',
+c     > kfld,ids,
+c     > eu
+c     > CSV,DCSV,D2CSV,D3CSV,D4CSV
+cc     > kfld,ids,dbsb,d2bsb,d3bsb,d4bsb,d5bsb
+
       IF(LST .GE. 1) CALL IMPDEV
       RETURN
 

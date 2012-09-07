@@ -23,6 +23,31 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       FUNCTION RNDM()
+CDescription:
+C    RAND(FLAG) returns a pseudo-random number from a uniform distribution between 0 and 1. 
+C  If FLAG is 0, the next number in the current sequence is returned; if FLAG is 1, the generator 
+C  is restarted by CALL SRAND(0); if FLAG has any other value, it is used as a new seed with SRAND.
+C    This intrinsic routine is provided for backwards compatibility with GNU Fortran 77. It implements 
+C  a simple modulo generator as provided by g77. For new code, one should consider the use of 
+C    RANDOM_NUMBER as it implements a superior algorithm.
+CStandard:
+C    GNU extension
+Class:
+C    Function
+CSyntax:
+C    RESULT = RAND(I)
+CArguments:
+C    I 	Shall be a scalar INTEGER of kind 4.
+CReturn value:
+C    The return value is of REAL type and the default kind.
+CExample:
+C          program test_rand
+C            integer,parameter :: seed = 86456         
+C            call srand(seed)
+C            print *, rand(), rand(), rand(), rand()
+C            print *, rand(seed), rand(), rand(), rand()
+C          end program test_rand
+
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 c      CHARACTER TXT*16
 c      INTEGER DEBSTR
@@ -37,10 +62,12 @@ C year month day time-utc hour min secon ms
 
       if(first) then
         first = .false.
-        call date_and_time(VALUES=ival)
-        ir = (1+ival(5))*100000 + ival(6)*1000 + ival(7)*10 +ival(8)
-        rndm = rand(ir) 
-c        call srand(ir)
+C--------------------------
+C Chose here between random seed or not
+c        call date_and_time(VALUES=ival)
+c        ir = (1+ival(5))*100000 + ival(6)*1000 + ival(7)*10 +ival(8)
+        call srand(ir)
+C--------------------------
 c        write(*,*) ' rndm ',ival(5),ival(6),ival(7),ival(8),ir,rndm
       endif
       rndm = rand(0) 

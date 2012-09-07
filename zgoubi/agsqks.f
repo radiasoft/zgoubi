@@ -38,7 +38,7 @@ C  -------
 
       CHARACTER(LBLSIZ) LBL1
       INTEGER INIL
-      LOGICAL DEBSTR, FINSTR
+      INTEGER DEBSTR, FINSTR
 
 C  In xags.madx :
       PARAMETER (PQH= 1.D0)

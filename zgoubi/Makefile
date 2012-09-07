@@ -347,6 +347,7 @@ OBJ=\
  unipot.o\
  valqv.o\
  vequal.o\
+ peu.o\
  vrble.o\
  vscal.o\
  vzero.o\

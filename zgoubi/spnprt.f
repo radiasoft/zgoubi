@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SPNPRT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -50,7 +49,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       PARAMETER (ICMXT=4*MXT)
 
       DIMENSION AA(3),BB(3),XX(3)
-
+      DIMENSION PHI(MXT), PHIX(MXT)
       SAVE SXMF, SYMF, SZMF
 
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
@@ -66,8 +65,6 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1
-C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
-
         SX = 0D0
         SY = 0D0
         SZ = 0D0
@@ -132,7 +129,7 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
  110      FORMAT(///,15X,' Spin  components  of  each  of  the '
      >    ,I5,'  particles,  and  rotation  angle :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
-     >    ,//,T15,'SX',T25,'SY',T35,'SZ',T45,'S'
+     >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'S'
      >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'S',T100,'GAMMA'
      >    ,T108,'(Si,Sf)',T119,'(Si,Sf_x)')
           WRITE(NRES,FMT='(
@@ -150,25 +147,29 @@ C             write(abs(nres),*) ' IMAX2,IMAX1,JMAXT  ',IMAX2,IMAX1,JMAXT
               bb(2) = sf(2,i)
               bb(3) = sf(3,i)
               cphi = vscal(aa,bb,3)
-c                write(*,*) ' spnprt cphi ',cphi
-              phi = acos(cphi) * deg
+
+              PHI(I) = acos(cphi) * deg
+C If initial spin is // Z
+              phizf = atan(sqrt(sf(1,i)**2+sf(2,i)**2)/sf(3,i)) * deg
+                  write(*,*) ' '
+                  write(*,*) ' spnprt it, phizf : ',i,phizf
 C              call vvect(aa,bb,xx)
 C              sphi = xnorm(xx)
 C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)
               bb(1)= 0.d0
               cphix = vscal(aa,bb,3)/xnorm(bb,3)
-c                write(*,*) ' spnprt cphix ',cphix
-              phix = acos(cphix) * deg 
+
+              PHIX(I) = acos(cphix) * deg 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
-     X        ,(SF(J,I),J=1,4),GAMA,phi,phix,I
- 101          FORMAT(1X,A1,1X,I2,4(1X,F9.3),9X,7(1X,F9.3),1X,I4)
+     >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),I
+ 101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),9X,5(1X,F9.6),
+     >        2(1X,F9.4),1X,I4)
 C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
           ENDDO
  
           CALL SPNTR4(IMAX,SPMI,SPMA)
-C          CALL SPNTR3(IMAX,
-C     >                     SMI, SMA)
+
           WRITE(NRES,130) JMAXT
  130      FORMAT(///,15X,' Min/Max  components  of  each  of  the '
      >    ,I5,'  particles :'
@@ -194,18 +195,16 @@ C     >                     SMI, SMA)
               GOTO 96
             ENDIF
 
-C            WRITE(LUN,130) JMAXT
             DO I=IMAX1,IMAX2
               IF( IEX(I) .GE. -1 ) THEN
                 P = BORO*CL9 *F(1,I) *Q
                 GAMA = SQRT(P*P + AM*AM)/AM
-C                WRITE(LUN,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
-C     >             ,GAMA,I,IEX(I)
-                WRITE(lun,107) LET(I),IEX(I),(SI(J,I),J=1,4)
-     >          ,(SF(J,I),J=1,4),GAMA,phi,phix,(F(J,I),J=1,6),I,ipass
+                WRITE(LUN,107) LET(I),IEX(I),(SI(J,I),J=1,4)
+     >          ,(SF(J,I),J=1,4),GAMA,PHI(I)
+     >          ,PHIX(I),(F(J,I),J=1,6),I,ipass
      >          ,'      LET(I),IEX(I),(SI(J,I),J=1,4),'
-     >          ,'(SF(J,I),J=1,4),GAMA,phi,phix,(F(J,I),J=1,4),I,ipass'
- 107            FORMAT(1X,A1,1X,I2,17(1X,F10.4),2(1x,I4),2A)
+     >          ,'(SF(J,I),J=1,4),GAMA,PHI,PHIX,(F(J,I),J=1,4),I,ipass'
+ 107            FORMAT(1X,A1,1X,I2,17(1X,F14.8),2(1X,I4),2A)
               ENDIF
             ENDDO
  
