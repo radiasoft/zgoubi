@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RELCYL(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,8 +34,8 @@ C     ----------------------------------
 
 C------ IL
       READ(NDAT,*) A(NOEL,1)
-C------ Angle (rad), Layout radius (m), E field (V/m)
-      READ(NDAT,*) (A(NOEL,I),I=10,12)
+C------ Angle (rad), Layout radius (m), E field (V/m) at layout radius, index
+      READ(NDAT,*) (A(NOEL,I),I=10,13)
 C     ... XE, LE (cm, cm) and entrance fringe field coeffs
       READ(NDAT,*) (A(NOEL,I),I=20,21)
       READ(NDAT,*) (A(NOEL,I),I=30,35)

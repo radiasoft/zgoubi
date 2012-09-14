@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PLTDAT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -39,7 +38,7 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
 
-      DIMENSION FF(MXT,19,8)
+      DIMENSION FF(MXT,20,8)
       LOGICAL  IDLUNI
       SAVE SSP
 
@@ -51,7 +50,7 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
  
       LOC = A(NOEL,1)       
 
-      IF(IPASS0 .EQ. 0) THEN
+      IF(IPASS0 .EQ. 1) THEN
         IF(IDLUNI(
      >            LUN)) THEN
           OPEN(UNIT=LUN,FILE=FNAME,ERR=99)
@@ -81,7 +80,7 @@ C     ... SLP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
       DO 1 I=1,IMAX
         IF(IEX(I) .LT. -1) GOTO 1
         SLP=SLP+1
-        FF(I,NLOC,1) = 0D0
+        FF(I,NLOC,1) = F(7,I)
         FF(I,NLOC,2) = F(2,I)
         FF(I,NLOC,3) = F(4,I)
         FF(I,NLOC,4) = NLOC

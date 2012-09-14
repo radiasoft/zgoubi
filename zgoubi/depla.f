@@ -48,9 +48,10 @@ C     ----------------------------
 
 CALCUL VECTEURS dR ET dU RESULTANT DE DS
  
-      DO 2 K=1,3
+      DO K=1,3
         XF(K)=0.D0
- 2      DXF(K)=0.D0
+        DXF(K)=0.D0
+      ENDDO
 
       DV=1.D0
       DO 3 I=1,IDS
@@ -82,17 +83,17 @@ C----- Tests implementation EL[T]MIR
 C          CALL VTHET(U(1))
 C          CALL ENRGY(Error)
           DANG2 = 
-     >     ( (DXF(1)-U(1))*(DXF(1)-U(1)) +
-     >        (DXF(2)-U(7))*(DXF(2)-U(7)) +
-     >        (DXF(3)-U(13))*(DXF(3)-U(13)) )
+     >    ( (DXF(1)-U(1))*(DXF(1)-U(1)) +
+     >    (DXF(2)-U(7))*(DXF(2)-U(7)) +
+     >    (DXF(3)-U(13))*(DXF(3)-U(13)) )
+
           IF(DQBRO*DQBRO .GT. PREC
-     >        .OR.  DANG2 .GT. PREC
-     >                                       ) THEN
-              JJ = JJ+1
+     >      .OR.  DANG2 .GT. PREC
+     >                             ) THEN
             DS = DS * 0.5D0
             GOTO 11
-
           ENDIF
+
         ENDIF
 
       ELSE

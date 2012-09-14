@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE GASINI(*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -36,12 +35,14 @@ C     --------------------------------------------
       COMMON/PTICUL/ AM,Q,G,TO
  
       KGA= A(NOEL,1)
+      KGA = 0
       AI= A(NOEL,10)
       DEN = A(NOEL,11)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100)
- 100    FORMAT(10X,' ***** Gas scattering *****')
+ 100    FORMAT(10X,' ***** Gas scattering *****',
+     >    //,  10X,'      NOT  IMPLEMENTED ')
 
         WRITE(NRES,101) AI, DEN, KGA
  101    FORMAT(/,10X,'  Switch :', I1,
@@ -55,6 +56,7 @@ C      IF(AM*Q .EQ. 0.D0) THEN
      >         ,/,15X,' - USE KEYWORD ''PARTICUL''',/)
         RETURN 1
       ENDIF
+
  
       RETURN
       END

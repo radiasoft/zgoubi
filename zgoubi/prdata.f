@@ -32,7 +32,6 @@ C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
-C      CHARACTER   TEXT*80
       PARAMETER (I110=110)
       CHARACTER   TEXT*110, txt6*6
       INTEGER DEBSTR, FINSTR

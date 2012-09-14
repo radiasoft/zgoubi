@@ -72,10 +72,11 @@ C                       be completed for others)
         NFIC = 1
       ELSEIF(IDIM .EQ. 3) THEN
 C------- TOSCA, 2-D or 3-D maps, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
-        READ(NDAT,FMT='(A)',ERR=50) TXT
-        READ(TXT,*,ERR=50) NX,NY,KZMA,AMOD
+        READ(NDAT,FMT='(A)') TXT
+        READ(TXT,*) NX,NY,KZMA
         A(NOEL,20)=NX
         A(NOEL,21)=NY
+        READ(TXT,*,END=50,ERR=50) IDUM,IDUM,IDUM,AMOD
         GOTO 51
 
 C------- To ensure compatibility with version 3 of Zgoubi

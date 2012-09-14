@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE ITER(A,B,C,DS,COSTA,KEX,IT,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -32,20 +31,20 @@ C  -------
       PARAMETER (EPS=1.D-6,ITMAX=1000)
       PARAMETER (EPS2=1.D-10)
 
-      dm=1.d30
+      DM=1.D30
 CALCUL INTERSECTION DE LA TRAJECTOIRE AVEC DROITE AX+BY+C=0
       DO 1 I=1,ITMAX
         D=A*XF(1)+B*XF(2)+C
-        absd = abs(d)
-        IF(ABSD .LE. EPS)  then
+        ABSD = ABS(D)
+        IF(ABSD .LE. EPS)  THEN
 C Etienne F. 25 Oct. 05
-          IF(ABSD .LE. EPS2)  then
-            return
-          elseif(d.gt.dm.or.d.eq.0.d0 ) then 
-            return
-          endif
-        endif
-        dm=absd
+          IF(ABSD .LE. EPS2)  THEN
+            RETURN
+          ELSEIF(D.GT.DM.OR.D.EQ.0.D0 ) THEN 
+            RETURN
+          ENDIF
+        ENDIF
+        DM=ABSD
         DS=DS-D/COSTA
         IF(DS*DS .GT. 1.D10) CALL KSTOP(5,IT,KEX,*99)
         CALL DEPLA(DS)

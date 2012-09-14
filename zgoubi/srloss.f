@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SRLOSS(IMAX,IPASS,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -78,7 +77,8 @@ C  -------
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 
           WRITE(NRES,FMT='(/,15X,'' S.R.  TRACKING  REQUESTED'')')
-          IF(TA(NOEL,1).NE.'ALL') WRITE(NRES,FMT='(20X,
+          IF(TA(NOEL,1).NE.'ALL' .AND. TA(NOEL,1).NE.'all') 
+     >                                    WRITE(NRES,FMT='(20X,
      >           '' Accounted for only in '',A)') TA(NOEL,1)
           IF(TA(NOEL,2).EQ.'SCALE') THEN
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will '',
@@ -121,7 +121,8 @@ C----- Set SR loss tracking
 
       RETURN
 
-      ENTRY SRLOSR(SCALO)
+      ENTRY SRLOSR(
+     >             SCALO)
       SCALO=SCALE
       RETURN
 

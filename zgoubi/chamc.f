@@ -149,7 +149,7 @@ C--------- UNIPOT. ELECTROSTATIQ 3-TUBE
 
         ELSEIF(KUASEX.EQ.24) THEN
 C--------- ELCYLDEF
-          CALL ELCYL(MPOL,EM,QLE,QLS,QE,QS,X,Y, 
+          CALL ELCYL(MPOL,EM,QLE,QLS,QE,QS,X,Y,Z,
      >                                         E,DE,DDE)
  
         ELSEIF(KUASEX.EQ.25) THEN
@@ -332,7 +332,7 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD, 
      >                                             BZ0)
           ELSE
-            STOP '*** SBR CHAMC. No such field case'
+            CALL ENDJOB('*** SBR CHAMC. No such field case :',KAN)
           ENDIF
 
 

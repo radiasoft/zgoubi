@@ -45,11 +45,12 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
-      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0)
+      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
  
       DEV =A(NOEL,10)
       RM =A(NOEL,11)*1.D2
       EM(1)  = A(NOEL,12)*SCAL
+      ANDX = A(NOEL,13)
 
       ORBL = RM * DEV
       IF (EM(1) .EQ. 0.D0) KFLD=0
@@ -79,12 +80,13 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' Electrical Cyl Deflector',
-     >    DEV, RM,EM(1),P0/SQRT(P0*P0+AM*AM), 
+     >    DEV, RM,EM(1),ANDX,P0/SQRT(P0*P0+AM*AM), 
      >    EM(1)*AM*RM/1.D2/P0/P0*1.D-6, ETA
  100    FORMAT(/,5X,' +++++  ', A30
      >        ,//,15X,' Deviation                 = ',F10.5 ,' rad'
      >        ,/ ,15X,' Layout  radius  R         = ',F10.5 ,' cm'
-     >        ,/ ,15X,' E-field                   = ',G12.4,' V/m'
+     >        ,/ ,15X,' E-field at R              = ',G12.4,' V/m'
+     >        ,/ ,15X,' Field index               = ',G12.4,' '
      >        ,//,15X,' v/c                       = ',G12.4
      >        ,/ ,15X,' Balance (E.Mass.R/p^2, normally 1)  = ',F12.6
      >        ,/ ,15X,' eta = Ekin / 2Mass                  = ',G12.4)

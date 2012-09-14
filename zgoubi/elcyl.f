@@ -23,7 +23,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ELCYL(MPOL,EM,QLEM,QLSM,QE,QS,A,R, 
+      SUBROUTINE ELCYL(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
      >                                          E,DE,DDE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER(MCOEF=6)
@@ -38,11 +38,11 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
 C------- Extent of Entrance/Exit fringe field region
-      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (RM,rho) !AUL:110215
+      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX), (RM,rho) 
 
       LOGICAL CHFE, CHU, CHFS
       PARAMETER (I0=0, I1=1)
- 
+
       VN = V0*BRI
 
 C----- LambdaE,LambdaS
@@ -51,6 +51,10 @@ C----- LambdaE,LambdaS
 
       AA = A 
       RR = R
+      R0R = RM/R
+      R0RA = R0R**ANDX
+      ZR = Z / R
+      ZR2 = ZR*ZR
 
       IF(QLE+QLS .EQ. 0D0) THEN
 C------- Sharp edges approximation
@@ -75,7 +79,26 @@ c
 c          DE(2,2) =  -EM(1)*BRI * (1.d0 + c) 
 c          DE(3,3) =  EM(1)*BRI * c 
 
-          E(1,2) = - VN / RR
+          E(1,2) = EM(1)*BRI * R0RA * (
+     >    1.d0 - 0.5d0*(andx*andx-1.d0) * zr2 + 
+     >    1.d0/24.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr2
+     >    )
+          E(1,3) = EM(1)*BRI * R0RA * (
+     >    (andx-1.d0) * zr -
+     >    1.d0/6.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr
+     >    )
+
+C          E(1,2) = EM(1)*BRI * R0R
+          E(1,2) = EM(1)*BRI 
+          E(1,3) = 0.d0
+
+c          e(2,2) = - e(1,2) / R
+c          e(3,2) = - e(2,2) * 2.d0/R
+c          e(4,2) = - e(3,2) * 3.d0/R
+c          e(5,2) = - e(4,2) * 4.d0/R
+
+c      write(*,fmt='(a,i2,1x,20e12.4)') 
+c     > '  ex, ey, ez : ',e(1,1),e(1,2),e(1,3)
 
         ENDIF
 
@@ -139,7 +162,7 @@ C     >                                   D7GS,D8GS,D9GS,D10GS)
 
           IF(G.LT.0D0) CALL ENDJOB(
      >      ' SBR CHAMC :  problem  with  Gradient  ->  GE+GS-1 < ',I0)
- 
+            stop
           DG  = (DGE  * QE(1,1)*DSEA + DGS*QS(1,1)*DSSA)  *BRI
 
 C--------- Er 

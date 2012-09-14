@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE MODORD
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,14 +34,17 @@ C  -------
       IDS=NINT(A(NOEL,1))
 
 C FM march 2000
-      IF( IDS .LT. 5) THEN
+      IF    ( IDS .LE. 4) THEN
         KORD=2
+      ELSEIF( IDS .GT. 6) THEN
+        CALL ENDJOB('SBR modord : no such possibility IDS =',IDS)
       ELSE
         KORD=4
       ENDIF
       
-      IF(NRES .GT. 0) WRITE(NRES,100) IDS
- 100  FORMAT(/,10X,' Taylor  expansions  up to ',I1,'-th  derivative',/)
+      IF(NRES .GT. 0) WRITE(NRES,100) IDS-1
+ 100  FORMAT(/,10X,' Taylor  expansion  of  velocity',
+     >'  is  up to ',I1,'-th  derivative',/)
  
       RETURN
       END

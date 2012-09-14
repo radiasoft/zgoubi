@@ -151,7 +151,7 @@ C Field scale factor. Used by  'SCALING'
       AS = 0.D0
       IDRT = 0
 
-        IDE=2
+        IDE=4
         IDB=2
         IDZ=2
 
@@ -353,7 +353,7 @@ C---------------------------------------------------------------
  2003 CONTINUE
 C------- KALC = 3 : Full 3D calculation from analytical model 
 C           ELCYLDEF
-
+        IDE = 4
         IRD = KORD
         IF(IRD.EQ.4) IDB=4
 
@@ -373,6 +373,7 @@ C           Motion in this lmnt has no z-symm.
 
         ENDIF
 
+C-----------------------------------------------------------------
  99   CONTINUE
 
       PAS = A(NOEL,ND)

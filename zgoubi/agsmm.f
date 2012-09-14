@@ -84,6 +84,7 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       MOD = NINT(A(NOEL,10))
       MOD2 = NINT(10.D0*A(NOEL,10)) - 10*MOD
+      DLL =A(NOEL,11)
       GAP =A(NOEL,12)
       IF(GAP.EQ.0) GAP = RO
       DO I = 1, I3

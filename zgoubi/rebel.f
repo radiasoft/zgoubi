@@ -55,7 +55,7 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       DIMENSION SSP(4,MXT)
       SAVE SSP
       CHARACTER*9 HMS
-      CHARACTER*104 TXTBUF
+      CHARACTER*108 TXTBUF
 C      LOGICAL FITING
 
       SAVE KREB3, KREB31
@@ -114,7 +114,7 @@ C Will stop at element # NOELB when doing last turn
         IF(II*(IPASS/II).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(TXTBUF,FMT='(A20,I8,A1,I8,A34,I7,A1,I7,2A9)') 
+          WRITE(TXTBUF,FMT='(A20,I10,A1,I10,A34,I7,A1,I7,2A9)') 
      >    ' Pass #/Requested : ',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS

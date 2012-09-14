@@ -79,12 +79,17 @@ accuracy of the ray-tracing (Figs.~\ref{figC71}).   %% ref
 \section{MONTE CARLO IMAGES IN SPES 2}
 %\centerline{\textbf{EXAMPLE 1: SPES 2}}
 %\addcontentsline{toc}{section}{\numberline{1}MONTE CARLO IMAGES IN SPES 2}
+
+\medskip
+
+Former Saclay/SATURNE and CERN QDD mass spectrometer~\cite{Spes2}. 
+
 \vfill
 
 \begin{figure}[H]
 %%%Figure C1-1
 \centerline{\includegraphics[height=17cm,angle=-90]{FigC1-1.eps}}
-\caption{\label{figC11}Design of SPES 2.}
+\caption{\label{figC11}SPES 2 Layout.}
 \end{figure}
 
 \vfill 
@@ -93,7 +98,7 @@ accuracy of the ray-tracing (Figs.~\ref{figC71}).   %% ref
 \begin{center}
 \twocolumn
 
-\noindent \textbf{\normalsize \zgoubi data file.}
+\noindent \textbf{\normalsize \zgoubi\ data file.}
 
 \begin{alltt}
 SPES2 QDD SPECTROMETER, USING FIELD MAPS; MONTE-CARLO OBJECT WITH MOMENTUM GRID.
@@ -171,7 +176,7 @@ SPES2 QDD SPECTROMETER, USING FIELD MAPS; MONTE-CARLO OBJECT WITH MOMENTUM GRID.
 \end{alltt}
 
 \newpage
-\noindent \textbf{\normalsize Excerpt from \zgoubi output : histograms of initial beam coordinates.}
+\noindent \textbf{\normalsize Excerpt from zgoubi.res  : histograms of initial beam coordinates.}
 
 \begin{alltt}
 **********************************************************************************************
@@ -321,7 +326,7 @@ SPES2 QDD SPECTROMETER, USING FIELD MAPS; MONTE-CARLO OBJECT WITH MOMENTUM GRID.
 \end{alltt}
 
 
-\noindent \textbf{\normalsize Excerpt from \zgoubi output~: 
+\noindent \textbf{\normalsize Excerpt from zgoubi.res~: 
 the final momentum resolution histogram at the spectrometer focal surface.}
 \begin{alltt}
 **********************************************************************************************
@@ -390,6 +395,11 @@ the final momentum resolution histogram at the spectrometer focal surface.}
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
 \section{TRANSFER MATRICES ALONG A TWO-STAGE SEPARATION KAON BEAM LINE}
 
+\medskip
+
+800 MeV/c kaon beam line at BNL Alternating Gradient Synchrotron~\cite{BNL}. The  line includes 
+two separation Wien filters.  
+
 \vfill
 
 \begin{figure}[H]
@@ -397,7 +407,7 @@ the final momentum resolution histogram at the spectrometer focal surface.}
 \centerline{\includegraphics[width=15cm]{FigC2-1.ps}}
 \vfill
 
-\caption{\label{figC21}Design of 800 MeV/c kaon beam line.}
+\caption{\label{figC21}800 MeV/c kaon beam line layout.}
 \end{figure}
 
 \vfill
@@ -406,7 +416,7 @@ the final momentum resolution histogram at the spectrometer focal surface.}
 \begin{tiny}
 
 \twocolumn
-\noindent \textbf{\normalsize  \zgoubi data file.}
+\noindent \textbf{\normalsize  \zgoubi\ data file.}
 \begin{alltt}
     800 MeV/c KAON BEAM LINE. CALCULATION OF TRANSFER COEFFICIENTS.             
    'OBJET'                                                                 1
@@ -647,7 +657,7 @@ the final momentum resolution histogram at the spectrometer focal surface.}
    'END'                                                                  46
 \end{alltt}
 
-\noindent \textbf{\normalsize Excerpt of \zgoubi output : first and second order transfer matrices and higher 
+\noindent \textbf{\normalsize Excerpt of zgoubi.res  : first and second order transfer matrices and higher 
 order coefficients at the end of the line}.
 
 \begin{alltt}
@@ -761,7 +771,7 @@ order coefficients at the end of the line}.
 \vfill
 \newpage
 
-\noindent {\textbf  \normalsize \zgoubi data file}
+\noindent {\textbf  \normalsize \zgoubi\ data file}
 \footnotesize
 \begin{alltt}
   SIMULATION  OF  PION  IN-FLIGHT  DECAY  IN  SPES3                             
@@ -829,7 +839,7 @@ order coefficients at the end of the line}.
 \clearpage
 \tiny
 \twocolumn
-\noindent \textbf{\normalsize Excerpt of \zgoubi output : histograms of primary and secondary particles at focal surface of SPES3.}
+\noindent \textbf{\normalsize Excerpt of zgoubi.res  : histograms of primary and secondary particles at focal surface of SPES3.}
 
 \begin{alltt}
 *******************************************************************************************
@@ -1081,7 +1091,7 @@ value of B.}  }
 \vfill 
 
 \begin{center}
-\noindent \textbf{ \zgoubi data file.}
+\noindent \textbf{ \zgoubi\ data file.}
 \begin{tiny}
 \begin{alltt}
                                                 MATCHING A SYMMETRIC QUADRUPOLE TRIPLET                          
@@ -1141,7 +1151,7 @@ value of B.}  }
 \clearpage
 
 \twocolumn
-\noindent \textbf{\normalsize Excerpt of \zgoubi output : 
+\noindent \textbf{\normalsize Excerpt of zgoubi.res  : 
  first order transfer matrices prior to and after fitting.
 }
 
@@ -1300,7 +1310,7 @@ $ 10^{-3} $.}
 
 \twocolumn
 
-\noindent \textbf{\normalsize  \zgoubi data file (begining and end).}
+\noindent \textbf{\normalsize  \zgoubi\ data file (begining and end).}
 \begin{tiny}
 \begin{alltt}
   SATURNE. CROSSING GammaG=7-NUz, NUz=3.60877(perturbed) 
@@ -1553,7 +1563,7 @@ of the ray-tracing which still reveals image structure of nanometric size.
 \vfill 
 
 \clearpage
-\noindent \textbf{\zgoubi data file.}
+\noindent \textbf{\zgoubi\ data file.}
 
 \begin{tiny}
 \begin{center}
@@ -1628,7 +1638,7 @@ of the ray-tracing which still reveals image structure of nanometric size.
 \end{alltt}
 \end{center}
 
-\noindent \textbf{\normalsize \zgoubi output file.}
+\noindent \textbf{\normalsize zgoubi.res  file.}
 
 \begin{center}
 \begin{alltt}
@@ -1915,7 +1925,7 @@ files. \textbf{zpop} is routinely used on DEC, HP and SUN stations.
 
 \section{GETTING TO RUN zgoubi AND zpop} %% D2
 
-\subsection{Making the Executable Files \zgoubi and \zpop}
+\subsection{Making the Executable Files \zgoubi\ and \zpop}
 
 \subsubsection{The transportable package zgoubi}
 

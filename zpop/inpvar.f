@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory                                           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE INPVAR
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -82,6 +81,7 @@ C  -------
      >, /,8X,'57 :  NOEL       = Element #  '
      >, /,8X,'58 :  Particle #  '
      >, /,8X,'59 :  G.gamma  '
+     >, /,8X,'60 :  sqrt(Y^2 + Z^2) '
      >,/)
 
       KX0 = KX

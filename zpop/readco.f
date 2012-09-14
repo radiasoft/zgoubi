@@ -393,6 +393,7 @@ C      Location about where particle was lost
       YZXB(57) = NOEL
       YZXB(58) = IT
       YZXB(59) = ENERG / AMQ1 *AMQ3   ! G.gamma
+      YZXB(60) = SQRT(YZXB(2)**2 + YZXB(4)**2)
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

@@ -183,7 +183,7 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       PHS = 0.D0
 
 C----- Default values of upper order of field derivative 
-      IDE=2
+      IDE=4
       IDB=2
 
 C----- Default values of upper order for mid-plane extrapolation

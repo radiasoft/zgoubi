@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SYNPAR(B,XL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -52,7 +51,8 @@ C  -------
       EC=3.D0*G3*CL/(2.D0*ABS(RHO))*HBAR/QE*1.D-3
       EPHOT=8.D0/(15.D0*SQRT(3.D0))*EC
       SMELPP=SMELPP+EKEV *ABS(ANG)/(2.D0*PI)
-      CALL SRLOSR(SCALE)
+      CALL SRLOSR(
+     >            SCALE)
       IF(SCALE) SCL=SCAL0W(1.D0-SMELPP*1.D-3/E0)
       SNMPP=SNMPP+EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
       SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)

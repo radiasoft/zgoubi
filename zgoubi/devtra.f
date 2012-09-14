@@ -50,8 +50,6 @@ C     -----------------------------------------
       PARAMETER(IMAX=3, IJMAX=9, IJLMAX=27, IM2 = IMAX+IJMAX)
       PARAMETER(IM3 = IM2+IJLMAX)
 
-C      DIMENSION EU(5)
-
       SAVE CL, CL9
  
 C-------------------------------------------------------------
@@ -320,13 +318,17 @@ C      umod6 = sqrt(U(6,1)*U(6,1) +U(6,2)*U(6,2) +U(6,3)*U(6,3))
 C----- ELECTRIC FIELD
 C----- E=e/Bro
  2    CONTINUE
- 
+         
+c        write(*,*)  ' devtra ids, ide = ',ids,ide
+
       AM2 = AMT*AMT
       BRCQ = QBR*CL9
 C----- Wt=sqrt(p2+m2), p=beta.Wt/c
       CSV = SQRT(1.D0 + AM2/(BRCQ*BRCQ))
 Calcul (e.u)/Bro, Bro'
-      EU(1)= E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3)
+      EU(1)= E(1,1)*U(1,1)
+     >      +E(1,2)*U(1,2)
+     >      +E(1,3)*U(1,3)
       VL=CL9/CSV
       DDT(1) = 1.D0/VL
       DBSB=EU(1)/VL
@@ -352,7 +354,7 @@ Calcul e'/Bro = (e/Bro)'|Bro=cste = E'|Bro=cste
  23   CONTINUE
 Calcul (e.u)'/Bro, Bro''
       EU(2)= E(2,1)*U(1,1)+E(2,2)*U(1,2)+E(2,3)*U(1,3)
-     >+ E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3)
+     >     + E(1,1)*U(2,1)+E(1,2)*U(2,2)+E(1,3)*U(2,3)
       DCSV=QT*EU(1)/BRCQ-CSV*DBSB
       D1SV=DCSV/CL9
       DDT(2) =D1SV
@@ -599,6 +601,7 @@ Calcul u'''''
 C----- MAGNETIC+ELECTRIC FIELD
 C----- B=b/Bro, E=e/Bro
  3    CONTINUE
+C       write(*,*) 'C----- MAGNETIC+ELECTRIC FIELD '
 
       AM2 = AMT*AMT
       BRCQ = QBR*CL9

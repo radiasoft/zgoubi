@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory          
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE TRAROT(TX,TY,TZ,RX,RY,RZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -66,10 +65,10 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
      >             ,/,15X,'   RZ =',G12.4,'  rad')
       ENDIF
 
-        WRITE(NRES,*) ' Not available. To be provisonned ' 
-        WRITE(6,*) ' Not available. To be provisonned ' 
+        WRITE(NRES,*) ' ' 
+        WRITE(NRES,*) '                  UNDER DEVELOPMENT, SORRY' 
 
-C      STOP '  ...Sorry !'
+      STOP 
 
 
       EVNT = KSPN .EQ. 1 .OR. IFDES .EQ. 1 .OR. KGA .EQ. 1 .OR.

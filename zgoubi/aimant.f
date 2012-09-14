@@ -105,10 +105,10 @@ C      IF(KP .NE. 2)  THEN
 C        GOTO 3
 C      ENDIF
       ELSEIF(KP .EQ. 2) THEN
-        RE = A(NOEL,NDD)
-        TE = A(NOEL,NDD+1)
-        RS = A(NOEL,NDD+2)
-        TS = A(NOEL,NDD+3)
+        RE = A(NOEL,NDD+9)
+        TE = A(NOEL,NDD+10)
+        RS = A(NOEL,NDD+11)
+        TS = A(NOEL,NDD+12)
 
         IF(PAS .LT. 0.D0) THEN
           TEMP=TE
