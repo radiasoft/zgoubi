@@ -102,8 +102,8 @@ C         write(89,*) vpa
             WRITE(NRES,FMT='(15X,''List of the '',I2
      >      ,'' parameters to be scaled in these elements : ''
      >      ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
-            WRITE(NRES,FMT='(15X,''There scaling factor : '', 1P 
-     >      ,20(E12.4,'','',1X))') (A(NOEL,NP+I),I=1,JPA(IF,MXP))
+            WRITE(NRES,FMT='(15X,''Their scaling factor : '', 1P 
+     >      ,20(E17.8,'','',1X))') (A(NOEL,NP+I),I=1,JPA(IF,MXP))
           ENDIF
 
         ENDIF
@@ -112,23 +112,12 @@ C         write(89,*) vpa
 
           IF    (MODSCL(IF) .LT. 10) THEN
 
-C            WRITE(*,*) ' IF, NTIM(IF)  = ',if,NTIM(IF) 
-c            DO IT = 1, NTIM(IF) 
-C               WRITE(*,*) ' SCL = ',A(NOEL,NP+IT)
-C               WRITE(*,*) ' TIM = ',A(NOEL,NP+NTIM(IF)+IT)
-c            ENDDO
-c               READ(*,*)
-
             NP = NP + 1
             DO IT = 1, NTIM(IF) 
                SCL(IF,IT) = A(NOEL,NP+IT-1)
                TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
-c                write(*,*) 
-c     >       ' scalin ',IT, IF, NTIM(IF),
-c     >         NP+IT-1,  SCL(IF,IT), NP+NTIM(IF)+IT-1,TIM(IF,IT)
             ENDDO
             NP = NP +  2 * NTIM(IF) 
-c                  read(*,*)
 
 c            NSTR = A(NOEL,NP)
 c            NP = NP + 1
@@ -146,13 +135,6 @@ c            NP = NP + 1
             IF(MODSCL(IF) .EQ. 11) THEN
 
               IF(IPASS.EQ.1) THEN
-
-C                WRITE(*,*) ' IF, NTIM2(IF)  = ',if,NTIM2(IF) 
-c                DO IT = 1, NTIM2(IF) 
-C                   WRITE(*,*) ' SCL2 = ',A(NOEL,NP+IT)
-C                   WRITE(*,*) ' TIM2 = ',A(NOEL,NP+NTIM2(IF)+IT)
-c                ENDDO
-c                 READ(*,*)
 
                 IIT = NTIM2(IF) 
                 DO IT = 1, IIT
@@ -181,7 +163,7 @@ c                NP = NP + 1
 
               WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
  102          FORMAT(20X,' # TIMINGS :', I2
-     >          ,/,20X,' SCALING   : ',10(F11.4,1X))
+     >          ,/,20X,' SCALING   : ',10(F16.8,1X))
               WRITE(NRES,103) (NINT(TIM(IF,IT)), IT=1,NTIM(IF))
  103          FORMAT(20X,' TURN #    : ',10(I12,1X))
 
@@ -200,7 +182,7 @@ c                NP = NP + 1
               IF    (MODSCL(IF) .EQ. 10) THEN
                 WRITE(NRES,FMT='(10X,
      >          ''Scaling law from file is further multiplied by ''
-     >          ,''constant factor = '',1P,E15.6)') SCL(IF,MXS) 
+     >          ,''constant factor = '',1P,E17.8)') SCL(IF,MXS) 
 
               ELSEIF(MODSCL(IF) .EQ. 11) THEN
                 WRITE(NRES,FMT='(10X,
@@ -217,37 +199,22 @@ C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
 
           NPA = JPA(IF,MXP)
-C            WRITE(*,*) 'scalin  IF, NPA, noel :  ',if,NPA,noel
           DO J = 1, NPA
-            NP = NP+1
+            NP = NP+1 
             VPA(IF,J) = A(NOEL,NP)
-c         WRITE(*,*)   'scalin j, if, npa, np :  ',j,if,npa,np
-c         WRITE(*,*) ' JPA(If,j), vpA(if,J), A(noel,j) '
-c         WRITE(*,*) 
-c     >     JPA(If,j), vpA(if,J), A(noel,np)
-c                  read(*,*)
-C            WRITE(*,*) if, JPA(IF,J), VPA(IF,J), A(NOEL,JPA(IF,J))
           ENDDO
-C                  read(*,*)
 
           NP = NP + 1
           SCL(IF,1) = A(NOEL,NP) 
-C            WRITE(*,*) ' NP, A.SCL = ', NP, A(NOEL,NP)
           NP = NP + 1
           IDUM = A(NOEL,NP)  ! TIM
-C            WRITE(*,*) ' NP, A.TIM = ', NP, A(NOEL,NP)
-c          NP = NP + 1
-c          NSTR = A(NOEL,NP)
-C            WRITE(*,*) ' NP, A.NSTR = ', NP, A(NOEL,NP)
-
-c               READ(*,*)
-
+          NP = NP + 1
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
      >      ,''increase of rigidity taken from CAVITE'')')
             WRITE(NRES,FMT='(15X,''Starting scaling value is ''
-     >      ,1P,E14.6)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -2) THEN
@@ -309,7 +276,7 @@ C          Starting value is SCL(IF,1)
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
      >      ,''increase of rigidity taken from CAVITE'')')
             WRITE(NRES,FMT='(15X,''Starting scaling value is ''
-     >      ,1P,E14.6)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -77) THEN
@@ -397,7 +364,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
             WRITE(NRES,FMT='(15X,''Scaling of field in Q-jump quads ''
      >      ,''follows increase of rigidity taken from CAVITE'')')
             WRITE(NRES,FMT='(15X,''Starting scaling value is ''
-     >      ,1P,E14.6)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1)
             WRITE(NRES,FMT='(5X,
      >      ''Quad jump series is started at G.gamma = N + dN ='',
      >      F10.4,'' + '',F10.4)') TIM(IF,1),TIM(IF,2)

@@ -202,9 +202,6 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         ENDIF
       ENDIF
  
-c          write(*,*) ' zgoubi  1 READAT, noel, nl2 : ', readat, noel,nl2
-c          write(*,*)
-
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
@@ -240,9 +237,10 @@ c          write(21,*)
       
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
- 201    FORMAT(/,128('*'))
-        WRITE(NRES,334) NOEL,KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
- 334    FORMAT(2X,I5,2X,A10,2(2X,A))
+ 201    FORMAT(/,132('*'))
+        WRITE(NRES,334)NOEL,'Keyword, label(s) :',
+     >  KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
+ 334    FORMAT(2X,I5,4(2X,A),/)
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))') 
      >    NOEL,'/',NBEL,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)

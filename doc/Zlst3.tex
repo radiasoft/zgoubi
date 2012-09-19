@@ -48,7 +48,7 @@ given in Fig.~\ref{figC31}.  %% ref
 
 \bigskip
 
-\noindent\textbf{Example 4:} illustrates the functioning of \emph{the fitting
+\noindent\textbf{Example 4:} illustrates the operation of \emph{the fitting
 procedure}: a quadrupole triplet is tuned from  -0.7/0.3 T to field values leading to
 transfer coefficients  R12=16.6  and R34=-.88  at the end of the beam line.  Other example 
 can be found in~\protect\cite{ZgCern}. 
@@ -57,19 +57,27 @@ can be found in~\protect\cite{ZgCern}.
 
 
 \noindent\textbf{Example 5:} shows the use of the 
-\emph{spin\index{spin tracking} and multiturn\index{multiturn} tracking procedures}, 
+\emph{spin\index{spin tracking} and multi-turn\index{multi-turn} tracking procedures}, 
 applied to the case of the SATURNE 3~GeV synchrotron~\protect\cite{Biblio3,Biblio7,Grorud}.
  Protons with initial vertical spin  ($\vec S\equiv\vec  S_Z $)  are 
 accelerated through the $ \gamma G=7-\nu_ Z $ depolarizing resonance. For 
 easier understanding, some results are summarized in Figs.~\ref{figC62}, \ref{figC64} %% ref
 (obtained with the graphic post-processor, see Part~D).
+
 \bigskip 
 
 \noindent\textbf{Example 6:} shows  \emph{ray-tracing through a micro-beam line}
-that involves \emph{electro-magnetic quadrupoles} for the suppression of 
+that involves \emph{magneto-electrostatic quadrupoles} for the suppression of 
 second order (chromatic) aberrations~\protect\cite{Biblio6}. The extremely small beam 
 spot sizes involved (less than 1 micrometer) reveal the high 
 accuracy of the ray-tracing (Figs.~\ref{figC71}).   %% ref
+
+
+\bigskip 
+
+\noindent More examples can be found on the \zgoubi\ development web site~\cite{sourceForgeZgoubi}.
+
+
 
  \cleardoublepage
 
@@ -105,7 +113,7 @@ SPES2 QDD SPECTROMETER, USING FIELD MAPS; MONTE-CARLO OBJECT WITH MOMENTUM GRID.
  'MCOBJET'                                                                    1
  2335.                                REFERENCE  RIGIDITY.                      
  2                                    DISTRIBUTION  IN  GRID.                   
- 10000                                NUMGER  OF  PARTICLES.                    
+ 10000                                NUMBER  OF  PARTICLES.                    
  1   1   1   1   1   1                UNIFORM DISTRIBUTIONS                     
  0.  0.  0.  0.  0.  1.               CENTRAL  VALUES  OF  BARS.                
  1   1   1   1   1   5                NUMBER  OF  BARS  IN  MOMENTUM.           
@@ -404,8 +412,11 @@ two separation Wien filters.
 
 \begin{figure}[H]
 %%%Figure C2-1
-\centerline{\includegraphics[width=15cm]{FigC2-1.ps}}
-\vfill
+\centerline{\includegraphics[width=12cm]{FigLESB3Lay.eps}}
+
+\centerline{\includegraphics[width=13cm]{FigC2-1.ps}}
+
+~
 
 \caption{\label{figC21}800 MeV/c kaon beam line layout.}
 \end{figure}
@@ -420,12 +431,12 @@ two separation Wien filters.
 \begin{alltt}
     800 MeV/c KAON BEAM LINE. CALCULATION OF TRANSFER COEFFICIENTS.             
    'OBJET'                                                                 1
-   2668.5100                             AUTOMATIC  GENERATION  OF              
-   6                                     AN  OBJECT  FOR  CALCULATION           
-   .1  .1  .1  .1 0.  .001      OF  THE  FIRST  ORDER  TRANSFER                 
-   0. 0. 0. 0. 0. 1.                     COEFFICIENTS  WITH  'MATRIX'           
+   2668.5100                           AUTOMATIC  GENERATION  OF              
+   6                                   AN  OBJECT  FOR  CALCULATION           
+   .1  .1  .1  .1 0.  .001             OF  THE  FIRST  ORDER  TRANSFER                 
+   0. 0. 0. 0. 0. 1.                   COEFFICIENTS  WITH  'MATRIX'           
    'PARTICUL'                                                              2
-    493.646 1.60217733E-19 0. 0. 0.      KAON M & Q, FOR USE IN WIEN FILTER     
+    493.646 1.60217733E-19 0. 0. 0.    KAON M & Q, FOR USE IN WIEN FILTER     
    'DRIFT'                                                                 3
     35.00000                                                                    
    'QUADRUPO'                            Q1                                4
@@ -451,10 +462,10 @@ two separation Wien filters.
    'DRIFT'                                                                 7
     -1.898                                                                      
    'TOSCA'                             3-D  MAP  THE  OF  FIRST            8
-    0  0                                                    BENDING  MAGNET     
-   1.0313E-3  1. 1. 1.                 B, X, Y, Z normalization coefficients    
+    0  0                                           BENDING  MAGNET     
+   1.0313E-3  1. 1. 1.                 B, X, Y, Z NORMALIZATION COEFFCNTS    
    1D map at z=0, from TOSCA                                                    
-   59  39  1                                                                    
+   59  39  1 0                                                                    
    bw6_0.map                                                                    
    0  0. 0. 0.                                                                  
    2                                                        
@@ -474,9 +485,9 @@ two separation Wien filters.
     4    0.2490   5.3630  -2.4100   0.9870   0.   0.                            
     .4                                                                          
     1  0. 0. 0.                                                                 
-   'SEXTUPOL'                            SX1, COMPENSATION                13
-   0                                     OF  THE  Theta.Phi  ABERRATION         
-   10.  15.24  2.4                       AT  VF1                                
+   'SEXTUPOL'                          SX1, COMPENSATION                  13
+   0                                   OF  THE  Theta.Phi  ABERRATION         
+   10.  15.24  2.4                     AT  VF1                                
     0.  0. 0. 0.                                                                
     4    0.2490   5.3630  -2.4100   0.9870   0.   0.                            
     0. 0.  0. 0.                                                                
@@ -485,7 +496,7 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                14
      50.0                                                                       
-    'WIENFILT'                           FIRST  VERTICAL  WIEN  FILTER    15
+    'WIENFILT'                         FIRST  VERTICAL  WIEN  FILTER      15
     0                                                       
    2.16  55.E5  -.0215576  2                                                    
    20. 10. 10.                                                                  
@@ -509,8 +520,8 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                18
     10.0                                                                        
-   'MULTIPOL'                            SX2 + OCTU, COMPENSATION         19
-   0                                     OF  THE  D.Phi  AND  D2.Phi            
+   'MULTIPOL'                          SX2 + OCTU, COMPENSATION           19
+   0                                   OF  THE  D.Phi  AND  D2.Phi            
    10.  15.24   0. 0. -8.  1.2  0. 0. 0. 0. 0. 0.    ABERRATIONS  AT  VF1       
     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                                         
     4    0.2490   5.3630  -2.4100   0.9870   0.   0.                            
@@ -521,13 +532,13 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                20
      90.0                                                                       
-   'MATRIX'                              TRANSFER  COEFFICIENTS           21
+   'MATRIX'                            TRANSFER  COEFFICIENTS             21
    2 0                                                                          
 \end{alltt}
 \newpage
 \begin{alltt}
-   'COLLIMA'                             FIRST  VERTICAL  FOCUS,          22
-    2                                    MASS  SLIT                             
+   'COLLIMA'                           FIRST  VERTICAL  FOCUS,            22
+    2                                  MASS  SLIT                             
    2  14.6  .15E10  0. 0.                                                       
    'DRIFT'                                                                23
      20.0                                                                       
@@ -542,8 +553,8 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                25
      10.0                                                                       
-   'MULTIPOL'                            COMPENSATION  OF                 26
-   0                                     ABERRATIONS  AT  VF2                   
+   'MULTIPOL'                          COMPENSATION  OF                   26
+   0                                   ABERRATIONS  AT  VF2                   
     10.  15.24  0. 0.  0.  1.  0. 0. 0. 0. 0. 0.                                
     0. 0.  0. 0. 0. 0. 0. 0. 0. 0. 0.                                           
     4    0.2490   5.3630  -2.4100   0.9870   0.   0.                            
@@ -565,7 +576,7 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                29
      50.0                                                                       
-    'WIENFILT'                           SECOND  VERTICAL  WIEN  FILTER   30
+    'WIENFILT'                         SECOND  VERTICAL  WIEN  FILTER     30
     0                                                       
    2.16  -55.E5  .0215576  2                                                    
    20. 10. 10.                                                                  
@@ -598,18 +609,19 @@ two separation Wien filters.
     4    0.2490   5.3630  -2.4100   0.9870   0.   0.                            
      1.1                                                                        
     1  0. 0. 0.                                                                 
-   'DRIFT'                                                               35
+   'DRIFT'                                                                35
      40.0                                                                       
-   'COLLIMA'                             SECOND  VERTICAL  FOCUS,        36
-    2                                    MASS  SLIT                             
+   'COLLIMA'                           SECOND  VERTICAL  FOCUS,           36
+    2                                  MASS  SLIT                             
    1  17.   .2E10   0. 0.                                                       
-   'MATRIX'                              TRANSFER  COEFFICIENTS          37
+   'MATRIX'                            TRANSFER  COEFFICIENTS             37
    2 0                                                                          
-   'DRIFT'                                                               38
+   'DRIFT'                                                                38
    -25.0                                                                        
-   'DIPOLE'                              SIMULATION  OF  THE  MAP        39
-    2                                    OF  THE  SECOND  BENDING  MAGNET       
-    150  60               (upgraded version of keyword 'AIMANT')
+   'DIPOLE-M'                          SIMULATION  OF  THE  MAP           39
+    3 0 0                              OF  THE  SECOND  BENDING  MAGNET       
+    150  60                            (UPGRADED VERSION OF 'AIMANT')
+    18.999   0. 0. 0.                                                                                             
      79.3329   17.7656  140.4480   110.  170.                                   
     15. -1.                                                                     
     4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                
@@ -620,7 +632,8 @@ two separation Wien filters.
     0. 0.                                                                     
     4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                
    -43.80  -21.90 -1.E6 -1.E6  1.E6 -1.E6 1E6
-    2 10.0
+    0                                  NO SHIMMING
+    2                                  SCD ORDER INTERPOLATION
      2.5                                                                        
     2                                                       
     147.48099   -0.31007  147.48099    0.31007                                  
@@ -652,8 +665,8 @@ two separation Wien filters.
     1  0. 0. 0.                                                                 
    'DRIFT'                                                                44
     200.0                                                                       
-   'MATRIX'                              TRANSFER  COEFFICIENTS           45
-   2 0                                   AT  THE  FINAL  FOCUS                  
+   'MATRIX'                            TRANSFER  COEFFICIENTS             45
+   2 0                                 AT  THE  FINAL  FOCUS                  
    'END'                                                                  46
 \end{alltt}
 
@@ -765,7 +778,7 @@ order coefficients at the end of the line}.
 \begin{figure}[H]
 %%%Figure C3-1
 \centerline{\includegraphics[height=17cm,angle=-90]{FigC3-1.eps}}
-\caption{\label{figC31}Design of SPES 3.}
+\caption{\label{figC31}Layout of SPES 3 spectrometer.}
 \end{figure}
 
 \vfill
@@ -774,7 +787,7 @@ order coefficients at the end of the line}.
 \noindent {\textbf  \normalsize \zgoubi\ data file}
 \footnotesize
 \begin{alltt}
-  SIMULATION  OF  PION  IN-FLIGHT  DECAY  IN  SPES3                             
+  SIMULATION  OF  PION  IN-FLIGHT  DECAY  IN  SPES3  SPECTROMETER
   'MCOBJET'                                                              1      
   3360.                                REFERENCE  RIGIDITY (PION).              
   1                                    DISTRIBUTION  IN  WINDOW.                
@@ -796,20 +809,20 @@ order coefficients at the end of the line}.
   1                                                                             
   1   100. 10. 245.  0.                                                         
   'DIPOLE'                                                               6      
-  2
-  180  130                                                                      
-  80.   33.     208.5  140.  350.                                               
-  46. -1.                                                                       
+  2                                                                   
+  80.   208.5                          TOTAL ANGLE AT, CENTRAL RADIUS RM
+  33.   30. 0. 0. 0.                   CENTRAL ANGLE, FIELD, INDICES
+  46. -1.                              ENTRANCE EFB            
   4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
    15.   0.      -65.  0.    0.  -65.                                           
-  46. -1.                                                                       
+  46. -1.                              EXIT EFB                             
   4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
   -15.  69.       85.  0.    1.E6  1.E6                                         
-  0. 0.
+  0. 0.                                LATERAL EFB (INHIBITED)  
   4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
   -15.  69.       85.  0.    1.E6  1.E6 1E6
-  2 10.0
-  4.                                                                            
+  2 10.0                               2ND DEGREE INTERP., MESH 0.4 CM 
+  4.                                   STEP SIZE                       
   2                                                                             
   164.755 .479966 233.554 -.057963                                              
   'CHAMBR'                                                               7      
@@ -842,37 +855,37 @@ order coefficients at the end of the line}.
 \noindent \textbf{\normalsize Excerpt of zgoubi.res  : histograms of primary and secondary particles at focal surface of SPES3.}
 
 \begin{alltt}
-*******************************************************************************************
+***************************************************************************************
       9  HISTO     TOTAL     SPECTRUM
 
-                              HISTOGRAMME  DE  LA  COORDONNEE  Y    
-                              PARTICULES  PRIMAIRES  ET  SECONDAIRES
-                              DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
-                              NORMALISE     
+                         HISTOGRAMME  DE  LA  COORDONNEE  Y    
+                         PARTICULES  PRIMAIRES  ET  SECONDAIRES
+                         DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
+                         NORMALISE     
 
-   20                                                                                      
-   19                                                                                      
-   18                                                                                      
-   17                                             Y     YY        Y  Y      Y              
-   16                                           Y YYYYY YY YYY  Y YY Y Y  YYYY             
-   15                                           Y YYYYY YYYYYYYYYYYYYY YYYYYYYY YY         
-   14                                         YYYYYYYYY YYYYYYYYYYYYYYYYYYYYYYYYYYY        
-   13                                         YYYYYYYYY YYYYYYYYYYYYYYYYYYYYYYYYYYY        
-   12                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-   11                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-   10                                         0000000000000000000000000000000000000        
-    9                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    8                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    7                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    6                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    5                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    4                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    3                                         YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    2                                        YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
-    1                                        YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY       
+   20                                                                            
+   19                                                                            
+   18                                                                            
+   17                                        Y     YY        Y  Y      Y              
+   16                                      Y YYYYY YY YYY  Y YY Y Y  YYYY             
+   15                                      Y YYYYY YYYYYYYYYYYYYY YYYYYYYY YY         
+   14                                    YYYYYYYYY YYYYYYYYYYYYYYYYYYYYYYYYYYY        
+   13                                    YYYYYYYYY YYYYYYYYYYYYYYYYYYYYYYYYYYY        
+   12                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+   11                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+   10                                    0000000000000000000000000000000000000        
+    9                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    8                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    7                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    6                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    5                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    4                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    3                                    YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    2                                   YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY        
+    1                                   YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY       
 
-                              1234567890123456789012345678901234567890123456789012345678901
-                                       3         4         5         6         7         8
+                         1234567890123456789012345678901234567890123456789012345678901
+                                  3         4         5         6         7         8
 
 
                 TOTAL  COMPTAGE                 :    9887  SUR  10000
@@ -882,42 +895,42 @@ order coefficients at the end of the line}.
                 RESOLUTION  PAR  CANAL          :  5.000E+00 (CM) 
 
                 PARAMETRES  PHYSIQUES  DE  LA  DISTRIBUTION :
-                              COMPTAGE =   9887  PARTICULES
-                              MIN = -1.6687E+02, MAX = 9.4131E+01, MAX-MIN = 2.6100E+02(CM) 
-                              MOYENNE = -9.2496E-01 (CM) 
-                              SIGMA =  5.3583E+01 (CM) 
+                         COMPTAGE =   9887  PARTICULES
+                         MIN = -1.6687E+02, MAX = 9.4131E+01, MAX-MIN = 2.6100E+02(CM) 
+                         MOYENNE = -9.2496E-01 (CM) 
+                         SIGMA =  5.3583E+01 (CM) 
 
-*******************************************************************************************
+***************************************************************************************
      10  HISTO     PION      SPATIAL 
 
-                              HISTOGRAMME  DE  LA  COORDONNEE  Y    
-                              PARTICULES  PRIMAIRES                 
-                              DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
-                              NORMALISE     
+                         HISTOGRAMME  DE  LA  COORDONNEE  Y    
+                         PARTICULES  PRIMAIRES                 
+                         DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
+                         NORMALISE     
 
-   20                                                                                      
-   19                                                                                      
-   18                                                   P                                  
-   17                                             P     PP        P  P      P              
-   16                                             PP    PP PPP  P PP P P  PPPPP            
-   15                                           P PPPPP PPPPPPPPPPPPPPPPPPPPPPP PP         
-   14                                         PPPPPPPPP PPPPPPPPPPPPPPPPPPPPPPPPPPP        
-   13                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-   12                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-   11                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-   10                                         0000000000000000000000000000000000000        
-    9                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    8                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    7                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    6                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    5                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    4                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    3                                         PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    2                                        PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
-    1                                        PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP       
+   20                                                                            
+   19                                                                            
+   18                                              P                             
+   17                                        P     PP        P  P      P              
+   16                                        PP    PP PPP  P PP P P  PPPPP            
+   15                                      P PPPPP PPPPPPPPPPPPPPPPPPPPPPP PP         
+   14                                    PPPPPPPPP PPPPPPPPPPPPPPPPPPPPPPPPPPP        
+   13                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+   12                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+   11                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+   10                                    0000000000000000000000000000000000000        
+    9                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    8                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    7                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    6                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    5                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    4                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    3                                    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    2                                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP        
+    1                                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP       
 
-                              1234567890123456789012345678901234567890123456789012345678901
-                                       3         4         5         6         7         8
+                         1234567890123456789012345678901234567890123456789012345678901
+                                  3         4         5         6         7         8
 
 
                 TOTAL  COMPTAGE                 :    9282  SUR  10000
@@ -927,12 +940,12 @@ order coefficients at the end of the line}.
                 RESOLUTION  PAR  CANAL          :  5.000E+00 (CM) 
 
                 PARAMETRES  PHYSIQUES  DE  LA  DISTRIBUTION :
-                              COMPTAGE =   9282  PARTICULES
-                              MIN= -9.5838E+01, MAX = 9.3504E+01, MAX-MIN = 1.8934E+02 (CM) 
-                              MOYENNE =  4.9971E-01 (CM) 
-                              SIGMA =  5.3215E+01 (CM) 
+                         COMPTAGE =   9282  PARTICULES
+                         MIN= -9.5838E+01, MAX = 9.3504E+01, MAX-MIN = 1.8934E+02 (CM) 
+                         MOYENNE =  4.9971E-01 (CM) 
+                         SIGMA =  5.3215E+01 (CM) 
 
-*******************************************************************************************
+**************************************************************************************
 
 \end{alltt}
 
@@ -945,37 +958,37 @@ order coefficients at the end of the line}.
 
 
 
-*******************************************************************************************
-     11  HISTO     MUON      SPATIAL 
+*************************************************************************************
+   11  HISTO     MUON      SPATIAL 
 
-                              HISTOGRAMME  DE  LA  COORDONNEE  Y    
-                              PARTICULES  SECONDAIRES               
-                              DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
-                              NORMALISE     
+                            HISTOGRAMME  DE  LA  COORDONNEE  Y    
+                            PARTICULES  SECONDAIRES               
+                            DANS  LA  FENETRE :  -1.7000E+02 /   1.3000E+02 (CM) 
+                            NORMALISE     
 
-   20                                                                                      
-   19                                                                                      
-   18                                               y                                      
-   17                                               y        yy                            
-   16                                               y        yy                            
-   15                                           y   y y     yyy   y                        
-   14                                           y   y y  y  yyyy  y                        
-   13                                           y   yyy  yy yyyy  y                        
-   12                                          yy y yyy yyy yyyyy y    y                   
-   11                                         yyy y yyy yyy yyyyy y    y   y               
-   10                                         000 0 000 000000000000   0   00              
-    9                                         yyyyy yyy yyyyyyyyyyyy y y   yy              
-    8                                        yyyyyyyyyy yyyyyyyyyyyyyy y   yy              
-    7                                      yyyyyyyyyyyyyyyyyyyyyyyyyyy y  yyy              
-    6                                      yyyyyyyyyyyyyyyyyyyyyyyyyyy y yyyy              
-    5                                   y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy yyy          
-    4                                   y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy          
-    3                                   y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy         
-    2                             yy   yy  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy         
-    1                             yy  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy        
+ 20                                                                            
+ 19                                                                            
+ 18                                          y                                 
+ 17                                          y        yy                            
+ 16                                          y        yy                            
+ 15                                      y   y y     yyy   y                        
+ 14                                      y   y y  y  yyyy  y                        
+ 13                                      y   yyy  yy yyyy  y                        
+ 12                                     yy y yyy yyy yyyyy y    y                   
+ 11                                    yyy y yyy yyy yyyyy y    y   y               
+ 10                                    000 0 000 000000000000   0   00              
+  9                                    yyyyy yyy yyyyyyyyyyyy y y   yy              
+  8                                   yyyyyyyyyy yyyyyyyyyyyyyy y   yy              
+  7                                 yyyyyyyyyyyyyyyyyyyyyyyyyyy y  yyy              
+  6                                 yyyyyyyyyyyyyyyyyyyyyyyyyyy y yyyy              
+  5                              y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy yyy          
+  4                              y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy          
+  3                              y  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy         
+  2                             yy   yy  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy         
+  1                             yy  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy        
 
-                              1234567890123456789012345678901234567890123456789012345678901
-                                       3         4         5         6         7         8
+                         123456789012345678901234567890123456789012345678901234567890
+                                3         4         5         6         7         8
 
 
                 TOTAL  COMPTAGE                 :     605  SUR  10000
@@ -985,42 +998,42 @@ order coefficients at the end of the line}.
                 RESOLUTION  PAR  CANAL          :  5.000E+00 (CM) 
 
                 PARAMETRES  PHYSIQUES  DE  LA  DISTRIBUTION :
-                              COMPTAGE =    605  PARTICULES
-                              MIN= -1.6687E+02, MAX = 9.4131E+01, MAX-MIN = 2.6100E+02 (CM) 
-                              MOYENNE = -2.2782E+01 (CM) 
-                              SIGMA =  5.4452E+01 (CM) 
+                         COMPTAGE =    605  PARTICULES
+                         MIN= -1.6687E+02, MAX = 9.4131E+01, MAX-MIN = 2.6100E+02 (CM) 
+                         MOYENNE = -2.2782E+01 (CM) 
+                         SIGMA =  5.4452E+01 (CM) 
 
-*******************************************************************************************
+**************************************************************************************
      12  HISTO     MUON      MOMENTUM
 
-                              HISTOGRAMME  DE  LA  COORDONNEE    D  
-                              PARTICULES  SECONDAIRES               
-                              DANS  LA  FENETRE :   2.0000E-01 /   1.7000E+00      
-                              NORMALISE     
+                         HISTOGRAMME  DE  LA  COORDONNEE    D  
+                         PARTICULES  SECONDAIRES               
+                         DANS  LA  FENETRE :   2.0000E-01 /   1.7000E+00      
+                         NORMALISE     
 
-   20                                                                                      
-   19                                                                                      
-   18                                           d   d                                      
-   17                                           d   d                                      
-   16                                           d   dd                                     
-   15                                          dd   dd                                     
-   14                                         ddd d dd                                     
-   13                                         ddd d dd     dd                              
-   12                                         ddd d dd     dd                              
-   11                                         ddd d ddd d  dd                              
-   10                                        0000 0 000 0  00                              
-    9                                       ddddd ddddd dd dd                              
-    8                                      ddddddddddddddd ddddd                           
-    7                                      dddddddddddddddddddddd                          
-    6                                     dddddddddddddddddddddddd ddd                     
-    5                                    dddddddddddddddddddddddddddddd                    
-    4                                  ddddddddddddddddddddddddddddddddd                   
-    3                                  ddddddddddddddddddddddddddddddddd  d                
-    2                                 ddddddddddddddddddddddddddddddddddd dddd             
-    1                                 dddddddddddddddddddddddddddddddddddddddd             
+ 20                                                                            
+ 19                                                                            
+ 18                                      d   d                                 
+ 17                                      d   d                                 
+ 16                                      d   dd                                
+ 15                                     dd   dd                                
+ 14                                    ddd d dd                                
+ 13                                    ddd d dd     dd                         
+ 12                                    ddd d dd     dd                         
+ 11                                    ddd d ddd d  dd                         
+ 10                                   0000 0 000 0  00                         
+  9                                  ddddd ddddd dd dd                         
+  8                                 ddddddddddddddd ddddd                           
+  7                                 dddddddddddddddddddddd                          
+  6                                dddddddddddddddddddddddd ddd                     
+  5                               dddddddddddddddddddddddddddddd                    
+  4                             ddddddddddddddddddddddddddddddddd                   
+  3                             ddddddddddddddddddddddddddddddddd  d                
+  2                            ddddddddddddddddddddddddddddddddddd dddd             
+  1                            dddddddddddddddddddddddddddddddddddddddd             
 
-                              1234567890123456789012345678901234567890123456789012345678901
-                                       3         4         5         6         7         8
+                         12345678901234567890123456789012345678901234567890123456789
+                                  3         4         5         6         7         
 
 
                 TOTAL  COMPTAGE                 :     605  SUR  10000
@@ -1030,12 +1043,12 @@ order coefficients at the end of the line}.
                 RESOLUTION  PAR  CANAL          :  2.500E-02      
 
                 PARAMETRES  PHYSIQUES  DE  LA  DISTRIBUTION :
-                              COMPTAGE =    605  PARTICULES
-                              MIN =  3.7184E-01, MAX =  1.3837E+00, MAX-MIN =  1.0119E+00      
-                              MOYENNE =  8.1693E-01      
-                              SIGMA =  2.2849E-01      
+                         COMPTAGE =    605  PARTICULES
+                         MIN =  3.7184E-01, MAX =  1.3837E+00, MAX-MIN =  1.0119E+00      
+                         MOYENNE =  8.1693E-01      
+                         SIGMA =  2.2849E-01      
 
-*******************************************************************************************
+************************************************************************************
 \end{alltt}
 \onecolumn
 
@@ -1065,19 +1078,20 @@ order coefficients at the end of the line}.
 % \clearpage
 
 %%%%%%%%%%%%%%%%%%%%
-%%				  %
-%%	backres.tex	  %
-%%				  %
+%%		  %
+%%  backres.tex	  %
+%%		  %
 %%%%%%%%%%%%%%%%%%%%
 %\addtocounter{page}{2}
 
 
  %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+
+
 \section{USE OF THE FITTING PROCEDURE}
 %\centerline{\textbf{EXAMPLE 4: THE FITTING PROCEDURE}}
 %\addcontentsline{toc}{section}{\numberline{4}USE OF THE FITTING PROCEDURE}
-\vfill
-
+        
 \begin{figure}[H]
 %%%Figure C5-1
 \centerline{\includegraphics[height=15cm,angle=-90]{FigC5-1.ps}}
@@ -1088,65 +1102,67 @@ first and last quadrupoles are coupled so as to present the same
 value of B.}  }
 \end{figure}
 
-\vfill 
 
 \begin{center}
 \noindent \textbf{ \zgoubi\ data file.}
-\begin{tiny}
+\begin{scriptsize}
 \begin{alltt}
-                                                MATCHING A SYMMETRIC QUADRUPOLE TRIPLET                          
-                                                'OBJET'                                                                1      
-                                                2501.73                        750MeV/c PROTONS                               
-                                                5                              11 PARTICLES FOR USE OF MATRIX                 
-                                                2.  2.  2.   2.  0. .001                                                      
-                                                0.  0.  0.   0.  0.  1.                                                       
-                                                'ESL   '                                                               2      
-                                                200.                                                                          
-                                                'QUADRUPO'    3                                                        3      
-                                                 0                                                                            
-                                                40.  15.  -7.                                                                 
-                                                0.  0.                                                                        
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                0.   0.                                                                       
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                5.                                                                            
-                                                1 0. 0. 0.                                                                    
-                                                'ESL'                                                                  4      
-                                                30.                                                                           
-                                                'QUADRUPO'     5                                                       5      
-                                                 0                                                                            
-                                                40.  15.  3.                                                                  
-                                                0.  0.                                                                        
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                0.   0.                                                                       
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                5.                                                                            
-                                                1 0. 0. 0.                                                                    
-                                                'ESL'                                                                  6      
-                                                30.                                                                           
-                                                'QUADRUPO'      7                                                      7      
-                                                 0                                                                            
-                                                40.  15.  -7.                                                                 
-                                                0.  0.                                                                        
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                0.   0.                                                                       
-                                                6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                  
-                                                5.                                                                            
-                                                1 0. 0. 0.                                                                                                                 
-                                                'ESL'                                                                  8      
-                                                200.                                                                          
-                                                'MATRIX'                                                               9      
-                                                1  0                                                                          
-                                               'FIT'               VARY B IN QUADS FOR FIT OF R12 AND R34             10      
-                                                2                  FIRST ORDER TRANSFER COEFFICIENTS                          
-                                                3  12 7.12  2.     SYMMETRIC TRIPLET => QUADS #1 AND #3 ARE COUPLED           
-                                                5  12  0.   2.     PARAMETER #12 OF ELEMENTS #3, 5 AND 7 IS FIELD VALUE       
-                                                2                                                                             
-                                                1  1 2 8 16.6 1.   FIRST CONSTRAINT: R12=16.6, AFTER ELEMENT #8 (LAST DRIF    
-                                                1  3 4 8 -.88 1.   SECOND CONSTRAINT: R34=-.88                                
-                                               'END'                                                                  11      
+MATCHING A SYMMETRIC QUADRUPOLE TRIPLET                            
+ 'OBJET'                                                                                                      1
+2501.73            RIGIDITY (kG.cm)
+5                  11 PARTICLES GENERATED FOR USE OF MATRIX                                                      
+2.  2.  2.   2.  0. .001                                                                                      
+0.  0.  0.   0.  0.  1.                                                                                       
+ 'ESL   '                                                                                                     2
+200.                                                                                                          
+ 'QUADRUPO'    3                                                                                              3
+0                                                                                                             
+40.  15.  -7.                                                                                                 
+0.  0.                                                                                                        
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+0.   0.                                                                                                       
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+5.                                                                                                            
+1 0. 0. 0.                                                                                                    
+ 'ESL'                                                                                                        4
+30.                                                                                                           
+ 'QUADRUPO'     5                                                                                             5
+0                                                                                                             
+40.  15.  3.                                                                                                  
+0.  0.                                                                                                        
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+0.   0.                                                                                                       
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+5.                                                                                                            
+1 0. 0. 0.                                                                                                    
+ 'ESL'                                                                                                        6
+30.                                                                                                           
+ 'QUADRUPO'      7                                                                                            7
+0                                                                                                             
+40.  15.  -7.                                                                                                 
+0.  0.                                                                                                        
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+0.   0.                                                                                                       
+6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                                                  
+5.                                                                                                            
+1 0. 0. 0.                                                                                                    
+ 'ESL'                                                                                                        8
+200.                                                                                                          
+ 'MATRIX'                                                                                                     9
+1  0                                                                                                          
+ 'FIT2'            VARY B IN QUADS FOR FIT OF R12 AND R34                                                    10
+2                  # OF VARIABLES
+3  12 7.12  2.     SYMMETRIC TRIPLET => QUADS #1 AND #3 ARE COUPLED                                           
+5  12  0.   2.     PRMTR #12 OF ELEMENTS #3, 5 AND 7 IS FIELD VALUE                                           
+2  1.E-10          # OF CONSTRAINTS, PENALTY 
+1  1 2 8 16.6 1.   CNSTRNT #1 : R12=16.6 AFTER LAST DRIFT (LMNT #8)                                           
+1  3 4 8 -.88 1.   CNSTRNT #2 : R34=-.88 AFTER LAST DRIFT
+ 'END'                                                                                                       11
 \end{alltt}
-\end{tiny}
+\end{scriptsize}
+
+
+
 
 \clearpage
 
@@ -1163,60 +1179,39 @@ value of B.}  }
 
                   MATRICE  DE  TRANSFERT  ORDRE  1  ( MKSA )
 
-         5.43642  17.02625   0.00000   0.00000   0.00000   0.00000
-         1.67617   5.43442   0.00000   0.00000   0.00000   0.00000
-         0.00000   0.00000  -1.27013  -0.97430   0.00000   0.00000
-         0.00000   0.00000  -0.62915  -1.27004   0.00000   0.00000
-         0.00000   0.00000   0.00000   0.00000   1.00000   0.00000
-         0.00000   0.00000   0.00000   0.00000   0.00000   1.00000
+    5.43427         17.0254         0.00000         0.00000         0.00000         0.00000    
+    1.67580         5.43425         0.00000         0.00000         0.00000         0.00000    
+    0.00000         0.00000        -1.27003       -0.974288         0.00000         0.00000    
+    0.00000         0.00000       -0.629171        -1.27004         0.00000         0.00000    
+    0.00000         0.00000         0.00000         0.00000         1.00000         0.00000    
+    0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
 
 *******************************************************************************************
 
 STATE OF VARIABLES  AFTER  MATCHING :
 
-
-          VARIABLE  ELEMENT    3,  PRMTR #12 :
-               COUPLED  WITH  ELEMENT    7,  PRMTR #12
-
- STATUS OF VARIABLES
- LMNT  VAR  PARAM  MINIMUM     INITIAL        FINAL        MAXIMUM     STEP
-   3    1    12  -8.384E+00  -6.986E+00  -6.98648097E+00 -5.590E+00  2.424E-16
-   5    2    12   2.585E+00   3.230E+00   3.22956371E+00  3.877E+00  1.208E-16
- STATUS OF CONSTRAINTS
- TYPE  I   J  LMNT#      DESIRED         WEIGHT        REACHED        KI2
-   1   1   2     8      1.6600E+01     1.0000E+00    1.6600000E+01   8.2185E-02
-   1   3   4     8     -8.8000E-01     1.0000E+00   -8.8000000E-01   9.1781E-01
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    3    1     12   -21.0       -7.00       -6.972765137       7.00      1.707E-04 QUADRUPO   3          *         
+    7    1    120   -6.97       -7.00       -6.972765137       7.00      1.707E-04
+    5    2     12   -3.00        3.00        3.229344585       9.00      1.266E-04 QUADRUPO   5          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2         *  Parameter(s) 
+   1   1   2     8      1.6600000E+01     1.0000E+00    1.6599981E+01                  *  0 : 
+   1   3   4     8     -8.8000000E-01     1.0000E+00   -8.8000964E-01                  *  0 : 
+ Fit reached penalty value   8.4374E-11
 
 *******************************************************************************************
 
-FINAL RUN, WITH NEW VARIABLES :
+MATRIX, WITH NEW VARIABLES :
 
-      9  MATRIX    9                 
+    5.27056         16.6000         0.00000         0.00000         0.00000         0.00000    
+    1.61443         5.27450         0.00000         0.00000         0.00000         0.00000    
+    0.00000         0.00000        -1.24205       -0.880010         0.00000         0.00000    
+    0.00000         0.00000       -0.622553        -1.24620         0.00000         0.00000    
+    0.00000         0.00000         0.00000         0.00000         1.00000         0.00000    
+    0.00000         0.00000         0.00000         0.00000         0.00000         1.00000    
 
-           Frame for MATRIX calculation moved by :
-            XC =    0.000 CM , YC =    0.000  CM ,   A =  0.00000 DEG  ( = 0.000000 RD )
-            Path length of particle #1 :    580.0000 m
-
-
-
-                  MATRICE  DE  TRANSFERT  ORDRE  1  ( MKSA )
-
-         5.272531  16.600000   0.000000   0.000000   0.000000   0.000000
-         1.614433   5.272531   0.000000   0.000000   0.000000   0.000000
-         0.000000   0.000000  -1.244124  -0.880000   0.000000   0.000000
-         0.000000   0.000000  -0.622552  -1.244124   0.000000   0.000000
-         0.000000   0.000000   0.000000   0.000000   1.000000   0.000000
-         0.000000   0.000000   0.000000   0.000000   0.000000   1.000000
-
-      Determinants  :        DetY-1 = -.0000011112
-                             DetZ-1 = -.0000000156
-
-       R12=0  at       -3.1484  meters
-       R34=0  at       -0.7073  meters
-
-      First order sympletic conditions (expected values = 0) :
-        -1.1112E-06   -1.5616E-08    0.0000E+00    0.0000E+00    0.0000E+00    0.0000E+00
 *******************************************************************************************
 \end{alltt}
 \end{scriptsize}
@@ -1263,7 +1258,7 @@ FINAL RUN, WITH NEW VARIABLES :
 \caption[FigC62]{\label{figC62} \small
 Tracking  over 3000 turns. These 
 simulations exhibit the first order parameters and 
-motions as produced by the multiturn\index{multiturn} ray-tracing. \\
+motions as produced by the multi turn\index{multi turn} ray-tracing. \\
 \textbf{(A)} Horizontal phase-space: the particle has been launched near to 
 the  closed orbit (the fine structure is due to $Y-Z$ coupling induced by bends fringe fields, also 
 responsible of the off-centering of the local closed orbit - at ellipse center). \\
@@ -1297,7 +1292,7 @@ momentum acceptance of 1.65~10$^{-3} $. }
 Crossing of	$ \gamma G=7-\nu_ Z	$, at $	\dot  B=2.1	$~T/s. \\
 \textbf{(A)}	$ \varepsilon_ Z/\pi =12.2\	10^{-6}	$~m.rad. The strength of the resonance is
 $\mid \varepsilon \mid =3.3~10^{-4}	$.
-As expected	from the Froissart-Stora formula the asymptotic	polarization is	about
+As expected	from the Froissart-Stora formula~\cite{Froissart} the asymptotic	polarization is	about
 0.44. \\
 \textbf{(B)}	The	emittance is now $ \varepsilon_	Z/\pi =1.2\	10^{-6}	$~m.rad;
 comparison with	(A)	shows that $\mid \varepsilon \mid$ is proportional to
@@ -1310,7 +1305,7 @@ $ 10^{-3} $.}
 
 \twocolumn
 
-\noindent \textbf{\normalsize  \zgoubi\ data file (begining and end).}
+\noindent \textbf{\normalsize  \zgoubi\ data file (beginning and end).}
 \begin{tiny}
 \begin{alltt}
   SATURNE. CROSSING GammaG=7-NUz, NUz=3.60877(perturbed) 
@@ -1339,7 +1334,7 @@ $ 10^{-3} $.}
    1            3442                                                             
    CAVITE                                                                        
    2                                                                             
-   1.           1.00378894              RELATIVE CHANGE OF SYNCRHONOUS RIGIDITY  
+   1.           1.00378894              RELATIVE CHANGE OF SYNCHRONOUS RIGIDITY  
    1            3442                                                             
  'PARTICUL'
   938.2723  1.6021892E-19  1.7928474 0. 0.  
@@ -1347,7 +1342,7 @@ $ 10^{-3} $.}
  3  
  'QUADRUPO'                 QP  1                                        5      
    0                                                                             
-  46.723  10.  .763695                             .763695  = FIELD FOR BORO=1 T.m          
+  46.723  10.  .763695                  .763695  = FIELD FOR BORO=1 T.m          
   0.  0.                                                                         
   6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                   
   0.  0.                                                                         
@@ -1369,9 +1364,9 @@ $ 10^{-3} $.}
   71.6256                                                                        
   'MULTIPOL'                 QP  5                                        9      
    0                                                                             
-  48.6273  10. 0. -.77319 0. 0. .0 .0   0. 0. 0. 0.      -.77319=-.765533+QUAD DEFECT    
-  0.  0. 0. 0. 0. .0 .0  0. 0. 0. 0.                     FOR EXCITING THE DEPOLARIZING   
-  6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723           RESONNANCE.                     
+  48.6273  10. 0. -.765533 0. 0. 0. 0.   0. 0. 0. 0.                                          
+  0.  0. 0. 0. 0. .0 .0  0. 0. 0. 0.               
+  6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723     
   0.  0. 0. 0. 0.  0. 0.   0. 0. 0. 0.                                                    
   6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723                                   
   0. 0. 0. 0. 0. 0.   0. 0. 0. 0.                                                               
@@ -1505,7 +1500,7 @@ $ 10^{-3} $.}
    #30|120|30   bend\                                                                         
    3 0. 0. 0. -.1963495408                                                                  
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
   'ESL'                                                                  84 
   392.148                                                                                 
@@ -1537,7 +1532,7 @@ $ 10^{-3} $.}
 %\addtocounter{page}{4}  %% 3 + empty page
 
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\section{MICRO-BEAM FOCUSING WITH ELECTRO-MAGNETIC QUADRUPOLES}
+\section{MICRO-BEAM FOCUSING WITH $\vec E \times \vec B$ QUADRUPOLES}
 %\centerline{\textbf{EXAMPLE 6: ACHROMATIC MICRO-BEAM LINE }}
 %\addcontentsline{toc}{section}{\numberline{6}MICRO-BEAM FOCUSING WITH 
 %ELECTROMAGNETIC QUADRUPOLES}
@@ -1554,7 +1549,7 @@ $Y_0 = Z_0 = 0$, angles $T_0$ and $P_0$ random uniform within $\pm0.2$~mrad, and
 dispersion $\delta p/p$ uniform in $\pm 3\, 10^{-4}$. \\ %%
 \textit{Lower plot}: \textbf{(D)} sub-micronic cross-section at the image plane of 
 a 4000-particle beam with initial conditions as above, obtained thanks to the second-order 
-achromatic electro-magnetic quadrupole doublet (the inage size would be $\Delta Y \approx 
+achromatic magneto-electrostatic quadrupole doublet (the image size would be $\Delta Y \approx 
 \Delta Z \approx \pm 50 \mu m$ with regular magnetic quadrupoles, due to 
 the momentum dispersion). Note the high resolution 
 of the ray-tracing which still reveals image structure of nanometric size.
@@ -1568,25 +1563,24 @@ of the ray-tracing which still reveals image structure of nanometric size.
 \begin{tiny}
 \begin{center}
 \begin{alltt}
-
-  MICROBEAM LINE, WITH AN ELECTRO-MAGNETIC QUADRUPOLE DOUBLET.                    
-  'MCOBJET'                                     RANDOM  OBJECT  DEFINITION   1      
-  20.435                                          RIGIDITY (20keV  PROTONS).     
-  1                                               DISTRIBUTION IN WINDOW.        
-  200                                             NUMBER  OF  PARTICLES.         
-  1    1     1    1     1    1                    UNIFORM DISTRIBUTION.          
-  0.   0.    0.   0.    0.   1.                   CENTRAL  VALUE,  AND           
-  0.  .2e-3  0.  .2e-3  0.   0.0003               HALF WIDTH OF DISTRIBUTION.    
-  10.  10.   10.  10.   10.  10.                  CUT-OFFS (UNUSED).             
-  9   9. 9. 9. 9.                                 FOR P(D) - UNUSED.             
-  186387 548728 472874                            SEEDS.                         
-   'PARTICUL'                                   PARTICLE MASS AND CHARGE   2      
+  MICROBEAM LINE, WITH A MAGNETO-ELECTROSTATIC QUADRUPOLE DOUBLET.                    
+  'MCOBJET'                                     RANDOM  OBJECT  DEFINITION      1      
+  20.435                                        RIGIDITY (20keV  PROTONS).     
+  1                                             DISTRIBUTION IN WINDOW.        
+  200                                           NUMBER  OF  PARTICLES.         
+  1    1     1    1     1    1                  UNIFORM DISTRIBUTION.          
+  0.   0.    0.   0.    0.   1.                 CENTRAL  VALUE,  AND           
+  0.  .2e-3  0.  .2e-3  0.   0.0003             HALF WIDTH OF DISTRIBUTION.    
+  10.  10.   10.  10.   10.  10.                CUT-OFFS (UNUSED).             
+  9   9. 9. 9. 9.                               FOR P(D) - UNUSED.             
+  186387 548728 472874                          SEEDS.                         
+   'PARTICUL'                                   PARTICLE MASS AND CHARGE        2      
     938.2723 1.60217733E-19 0. 0. 0.              FOR INTEGRATION IN E-FIELD.    
-  'DRIFT'                                       DRIFT.                    3      
+  'DRIFT'                                       DRIFT.                          3      
   500.                                                                           
-  'DRIFT'                                       DRIFT.                    4      
+  'DRIFT'                                       DRIFT.                          4      
   59.                                                                            
-  'EBMULT'                                      FIRST ELECTRO-MAGNETIC     5      
+  'EBMULT'                                      FIRST MAGNETO-ELECTROSTATIC     5      
    0                                                            QUADRUPOLE.      
   10.2  10. 0. -9272.986  0. 0. 0. 0. 0. 0. 0. 0.     ELECTRIC Q-POLE COMPONENT. 
    0.  0.  0.  0.  0.  0.  0.  0. 0. 0. 0.            ENTRANCE EFB, SHARP EDGE.  
@@ -1602,9 +1596,9 @@ of the ray-tracing which still reveals image structure of nanometric size.
   0.  0. 0. 0. 0. 0. 0. 0. 0. 0.                                                 
   .8                                                                             
   1 0. 0. 0.                                                                     
-  'DRIFT'                                       DRIFT.                    6      
+  'DRIFT'                                       DRIFT.                          6      
   4.9                                                                            
-  'EBMULT'                                      SECOND ELECTRO-MAGNETIC    7      
+  'EBMULT'                                      SECOND MAGNETO-ELECTROSTATIC    7      
    0                                                             QUADRUPOLE.     
   10.2  10. 0.  13779.90  0. 0. 0. 0. 0. 0. 0. 0.                                
    0.  0.  0.  0.  0.  0.  0. 0. 0. 0. 0.                                        
@@ -1620,21 +1614,19 @@ of the ray-tracing which still reveals image structure of nanometric size.
   0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                                                  
   .8                                                                             
   1 0. 0. 0.                                                                     
-  'DRIFT'                                       DRIFT.                    8      
+  'DRIFT'                                       DRIFT.                          8      
   25.                                                                            
-  'HISTO'                                       HISTOGRAM                 9      
-  2  -5E-6  5E-6     60  2                        OF THE Y COORDINATE.           
+  'HISTO'                                       HISTOGRAM                       9      
+  2  -5E-6  5E-6     60  2                      OF THE Y COORDINATE.           
   20  'Y'  1  'Q'                                                                
-  'HISTO'                                       HISTOGRAM                10      
-  4  -5E-6  5E-6     60  2                        OF THE Z COORDINATE.           
+  'HISTO'                                       HISTOGRAM                      10      
+  4  -5E-6  5E-6     60  2                      OF THE Z COORDINATE.           
   20  'Z'  1  'Q'                                                                
-  'FAISCNL'                                     RAYS ARE STORED IN RAYS  11      
-  rays.out                                               FOR FURTHER PLOTTING.   
-  'REBELOTE'                                    RUN AGAIN, FOR RAY-TRACING  12      
-  19  0.1 0                                       TOTAL OF 200*(19+1) PARTICLES. 
-  'END'                                                                          
-
-
+  'FAISCNL'                           RAYS ARE STORED IN rays.out              11      
+  rays.out                            FOR FURTHER PLOTTING.   
+  'REBELOTE'                          RUN AGAIN, FOR RAY-TRACING               12      
+  19  0.1 0                           A TOTAL OF 200*(19+1) PARTICLES. 
+  'END'                                                                        13 
 \end{alltt}
 \end{center}
 
@@ -1644,137 +1636,174 @@ of the ray-tracing which still reveals image structure of nanometric size.
 \begin{alltt}
 
 ********************************************************************************************************************************
+     12  REBELOTE    RUN         AGAIN     
 
+     Multiple pass, 
+          from element #     1 : MCOBJET   /label1=RANDOM    /label2=OBJECT     to REBELOTE /label1=RANDOM    /label2=OBJECT    
+          ending at pass #      20 at element #    12 : REBELOTE  /label1=RUN       /label2=AGAIN     
 
-      LE  PASSAGE  SUIVANT  EST  LE    20-EME  (ET  DERNIER)  PASSAGE  DANS  LA  STRUCTURE
+     End of pass #       19 through the optical structure 
 
+                     Total of       3800 particles have been launched
 
 ********************************************************************************************************************************
-      1  MCOBJET   RANDOM    OBJECT  
-                Reference  magnetic rigidity =         20.435 KG*CM
 
-                Object  built  up  of 200  particles
+      Next  pass  is  #    20 and  last  pass  through  the  optical  structure
+
+********************************************************************************************************************************
+      1  MCOBJET     RANDOM      OBJECT    
+                          Reference  magnetic rigidity =         20.435 KG*CM
+
+                          Object  built  up  of     200  particles
                 Distribution in a Window  
-
                 Central values (MKSA units): 
-            Yo, To, Zo, Po, Xo, BR/BORO  :         0.000E+00  0.000E+00  0.000E+00  0.000E+00  0.000E+00  1.0000E+00
-
+            Yo, To, Zo, Po, Xo, BR/BORO  :          0.000       0.000       0.000       0.000       0.000       1.000    
                 Width  (  +/- , MKSA units ) :
-            DY, DT, DZ, DP, DX, DBR/BORO :         0.000E+00  2.000E-04  0.000E+00  2.000E-04  0.000E+00  3.0000E-04
-
+            DY, DT, DZ, DP, DX, DBR/BORO :           0.00       2.000E-04    0.00       2.000E-04    0.00       3.000E-04
                 Cut-offs  ( * +/-Width ) :
-            NY, NT, NZ, NP, NX, NBR/BORO :              0.0       0.0       0.0       0.0       0.0       0.0
-
+            NY, NT, NZ, NP, NX, NBR/BORO :               1.00        1.00        1.00        1.00        1.00        1.00
+                Type  of  sorting :
+            Y, T, Z, P, X, D :                      Uniform     Uniform     Uniform     Uniform     Uniform     Uniform  
 
 ********************************************************************************************************************************
       2  PARTICUL  PARTICLE  MASS    
-     PARTICLE PROPERTIES :
-           Masse =     938.27230000000 MeV/c2
-          Charge =     1.6021773300000D-19 C
 
+     Particle  properties :
+
+                     Mass          =    938.272        MeV/c2
+                     Charge        =   1.602177E-19    C     
+
+              Reference  data :
+                    mag. rigidity (kG.cm)   :   20.435000      =p/q, such that dev.=B*L/rigidity
+                    mass (MeV/c2)           :   938.27230    
+                    momentum (MeV/c)        :   6.1262621    
+                    energy, total (MeV)     :   938.29230    
+                    energy, kinetic (MeV)   :  1.99998909E-02
+                    beta = v/c              :  6.5291616518E-03
+                    gamma                   :   1.000021316    
+                    beta*gamma              :  6.5293008252E-03
+                    electric rigidity (MeV) :  3.9999376635E-02  =T[eV]*(gamma+1)/gamma, such that dev.=E*L/rigidity
+  
 ********************************************************************************************************************************
 \end{alltt}
 \clearpage
 \begin{alltt}
-      3  DRIFT     DRIFT.            
+********************************************************************************************************************************
+      3  DRIFT       DRIFT.      3         
 
-                              ESPACE  LIBRE =   500.00000  CM
+                              Drift,  length =   500.00000  cm
 
-  TRAJ #1  D,Y,T,Z,P,S,IEX :  1.0002E+00  1.7062E-02  3.4124E-02 -2.6802E-02 -5.3603E-02      5.00000E+02  1
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  2.999865E-04 -2.027052E-02 -4.054104E-02 -9.359114E-02 -1.871823E-01   5.0000001E+02   2.55365E+00
+
+ Cumulative length of optical axis =    5.00000000     m  at  ;  Time  (for ref. rigidity & particle) =   2.554417E-06 s 
 
 ********************************************************************************************************************************
-      4  DRIFT     DRIFT.            
+      4  DRIFT       DRIFT.      4         
 
-                              ESPACE  LIBRE =    59.00000  CM
+                              Drift,  length =    59.00000  cm
 
-  TRAJ #1  D,Y,T,Z,P,S,IEX :  1.0002E+00  1.9075E-02  3.4124E-02 -2.9964E-02 -5.3603E-02      5.59000E+02  1
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  2.999865E-04 -2.266244E-02 -4.054104E-02 -1.046349E-01 -1.871823E-01   5.5900001E+02   2.85498E+00
+
+ Cumulative length of optical axis =    5.59000000     m  at  ;  Time  (for ref. rigidity & particle) =   2.855839E-06 s 
 
 ********************************************************************************************************************************
-      5  EBMULT    FIRST             
+      5  EBMULT      FIRST       ELECTRO-MA
 
       -----  MULTIPOLE   : 
-                LONGUEUR  DE  L'ELEMENT  :   10.200  CM
-                RAYON DE GORGE  RO =   10.00  CM
-               V-DIPOLE      =  0.000000E+00 V 
-               V-QUADRUPOLE  = -9.272986E+03 V 
-               V-SEXTUPOLE   =  0.000000E+00 V 
-               V-OCTUPOLE    =  0.000000E+00 V 
-               V-DECAPOLE    =  0.000000E+00 V 
-               V-DODECAPOLE  =  0.000000E+00 V 
-               V-14-POLE     =  0.000000E+00 V 
-               V-16-POLE     =  0.000000E+00 V 
-               V-18-POLE     =  0.000000E+00 V 
-               V-20-POLE     =  0.000000E+00 V 
-                LENTILLE  A  GRADIENT  CRENEAU 
+                Length  of  element  =    10.200000      cm
+                Bore  radius      RO =    10.000      cm
+               E-DIPOLE      =  0.0000000E+00 V/m
+               E-QUADRUPOLE  = -9.2729860E+03 V/m
+               E-SEXTUPOLE   =  0.0000000E+00 V/m
+               E-OCTUPOLE    =  0.0000000E+00 V/m
+               E-DECAPOLE    =  0.0000000E+00 V/m
+               E-DODECAPOLE  =  0.0000000E+00 V/m
+               E-14-POLE     =  0.0000000E+00 V/m
+               E-16-POLE     =  0.0000000E+00 V/m
+               E-18-POLE     =  0.0000000E+00 V/m
+               E-20-POLE     =  0.0000000E+00 V/m
+
+               Entrance/exit field models are sharp edge
+               FINTE, FINTS, gap :    0.0000E+00   0.0000E+00   5.0000E+00
 
       -----  MULTIPOLE   : 
-                LONGUEUR  DE  L'ELEMENT  :   10.200  CM
-                RAYON DE GORGE  RO =   10.00  CM
-               B-DIPOLE      =  0.000000E+00 kG
-               B-QUADRUPOLE  =  1.894930E+00 kG
-               B-SEXTUPOLE   =  0.000000E+00 kG
-               B-OCTUPOLE    =  0.000000E+00 kG
-               B-DECAPOLE    =  0.000000E+00 kG
-               B-DODECAPOLE  =  0.000000E+00 kG
-               B-14-POLE     =  0.000000E+00 kG
-               B-16-POLE     =  0.000000E+00 kG
-               B-18-POLE     =  0.000000E+00 kG
-               B-20-POLE     =  0.000000E+00 kG
-                LENTILLE  A  GRADIENT  CRENEAU 
+                Length  of  element  =    10.200000      cm
+                Bore  radius      RO =    10.000      cm
+               B-DIPOLE      =  0.0000000E+00 kG 
+               B-QUADRUPOLE  =  1.8949300E+00 kG 
+               B-SEXTUPOLE   =  0.0000000E+00 kG 
+               B-OCTUPOLE    =  0.0000000E+00 kG 
+               B-DECAPOLE    =  0.0000000E+00 kG 
+               B-DODECAPOLE  =  0.0000000E+00 kG 
+               B-14-POLE     =  0.0000000E+00 kG 
+               B-16-POLE     =  0.0000000E+00 kG 
+               B-18-POLE     =  0.0000000E+00 kG 
+               B-20-POLE     =  0.0000000E+00 kG 
 
-                    Integration step :      0.80 cm
+               Entrance/exit field models are sharp edge
+               FINTE, FINTS, gap :    0.0000E+00   0.0000E+00   5.0000E+00
 
+  ***  Warning : sharp edge model, vertical wedge focusing approximated with first order kick. FINT at entrance =    0.000    
+
+  ***  Warning : sharp edge model,  vertical wedge focusing approximated with first order kick. FINT at exit =    0.000    
+
+                    Integration step :  0.8000     cm
+
+ Cumulative length of optical axis =    5.69200000     m ;  Time  (for ref. rigidity & particle) =   2.907949E-06 s 
 
 ********************************************************************************************************************************
-      6  DRIFT     DRIFT.            
+      6  DRIFT       DRIFT.      6         
 
-                              ESPACE  LIBRE =     4.90000  CM
+                              Drift,  length =     4.90000  cm
 
-  TRAJ #1  D,Y,T,Z,P,S,IEX :  1.0002E+00  1.1032E-02 -8.0508E-01 -4.5922E-02 -1.6008E+00      5.74100E+02  1
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  2.839285E-04 -1.310701E-02  9.564949E-01 -1.603604E-01 -5.590035E+00   5.7410014E+02   2.93210E+00
+
+ Cumulative length of optical axis =    5.74100000     m  at  ;  Time  (for ref. rigidity & particle) =   2.932982E-06 s 
 
 ********************************************************************************************************************************
-      7  EBMULT    SECOND            
+      7  EBMULT      SECOND      ELECTRO-MA
 
       -----  MULTIPOLE   : 
-                LONGUEUR  DE  L'ELEMENT  :   10.200  CM
-                RAYON DE GORGE  RO =   10.00  CM
-               V-DIPOLE      =  0.000000E+00 V 
-               V-QUADRUPOLE  =  1.377990E+04 V 
-               V-SEXTUPOLE   =  0.000000E+00 V 
-               V-OCTUPOLE    =  0.000000E+00 V 
-               V-DECAPOLE    =  0.000000E+00 V 
-               V-DODECAPOLE  =  0.000000E+00 V 
-               V-14-POLE     =  0.000000E+00 V 
-               V-16-POLE     =  0.000000E+00 V 
-               V-18-POLE     =  0.000000E+00 V 
-               V-20-POLE     =  0.000000E+00 V 
-                LENTILLE  A  GRADIENT  CRENEAU 
+                Length  of  element  =    10.200000      cm
+                Bore  radius      RO =    10.000      cm
+               E-DIPOLE      =  0.0000000E+00 V/m
+               E-QUADRUPOLE  =  1.3779900E+04 V/m
+               E-SEXTUPOLE   =  0.0000000E+00 V/m
+               E-OCTUPOLE    =  0.0000000E+00 V/m
+               E-DECAPOLE    =  0.0000000E+00 V/m
+               E-DODECAPOLE  =  0.0000000E+00 V/m
+               E-14-POLE     =  0.0000000E+00 V/m
+               E-16-POLE     =  0.0000000E+00 V/m
+               E-18-POLE     =  0.0000000E+00 V/m
+               E-20-POLE     =  0.0000000E+00 V/m
+
+               Entrance/exit field models are sharp edge
+               FINTE, FINTS, gap :    0.0000E+00   0.0000E+00   5.0000E+00
 
       -----  MULTIPOLE   : 
-                LONGUEUR  DE  L'ELEMENT  :   10.200  CM
-                RAYON DE GORGE  RO =   10.00  CM
-               B-DIPOLE      =  0.000000E+00 kG
-               B-QUADRUPOLE  = -2.815920E+00 kG
-               B-SEXTUPOLE   =  0.000000E+00 kG
-               B-OCTUPOLE    =  0.000000E+00 kG
-               B-DECAPOLE    =  0.000000E+00 kG
-               B-DODECAPOLE  =  0.000000E+00 kG
-               B-14-POLE     =  0.000000E+00 kG
-               B-16-POLE     =  0.000000E+00 kG
-               B-18-POLE     =  0.000000E+00 kG
-               B-20-POLE     =  0.000000E+00 kG
-                LENTILLE  A  GRADIENT  CRENEAU 
+                Length  of  element  =    10.200000      cm
+                Bore  radius      RO =    10.000      cm
+               B-DIPOLE      =  0.0000000E+00 kG 
+               B-QUADRUPOLE  = -2.8159200E+00 kG 
+               B-SEXTUPOLE   =  0.0000000E+00 kG 
+               B-OCTUPOLE    =  0.0000000E+00 kG 
+               B-DECAPOLE    =  0.0000000E+00 kG 
+               B-DODECAPOLE  =  0.0000000E+00 kG 
+               B-14-POLE     =  0.0000000E+00 kG 
+               B-16-POLE     =  0.0000000E+00 kG 
+               B-18-POLE     =  0.0000000E+00 kG 
+               B-20-POLE     =  0.0000000E+00 kG 
 
-                    Integration step :      0.80 cm
+               Entrance/exit field models are sharp edge
+               FINTE, FINTS, gap :    0.0000E+00   0.0000E+00   5.0000E+00
 
+  ***  Warning : sharp edge model, vertical wedge focusing approximated with first order kick. FINT at entrance =    0.000    
 
-********************************************************************************************************************************
-      8  DRIFT     DRIFT.            
+  ***  Warning : sharp edge model,  vertical wedge focusing approximated with first order kick. FINT at exit =    0.000    
 
-                              ESPACE  LIBRE =    25.00000  CM
+                    Integration step :  0.8000     cm
 
-  TRAJ #1  D,Y,T,Z,P,S,IEX :  1.0002E+00  9.0257E-07 -2.3996E-01 -1.0770E-06  1.7947E+00      6.09300E+02  1
-
+ Cumulative length of optical axis =    5.84300000     m ;  Time  (for ref. rigidity & particle) =   2.985092E-06 s 
 
 ********************************************************************************************************************************
 \end{alltt}
@@ -1890,9 +1919,9 @@ of the ray-tracing which still reveals image structure of nanometric size.
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%
-%				   %
-%	achrores.tex   %
-%				   %
+%		   %
+%   achrores.tex   %
+%		   %
 %%%%%%%%%%%%%%%%%%%%
 %\addtocounter{page}{2}
 
@@ -1912,15 +1941,15 @@ zpop}
 \section*{INTRODUCTION} %% D1
 \addcontentsline{toc}{section}{\numberline{}INTRODUCTION}
 
-The basic \textbf{zgoubi}\index{zgoubi} \FORTRAN package is transportable; it has been
-compiled, linked and executed on several types of computers (e.g. 
-CDC, CRAY, IBM, DEC, HP, SUN, 
-VAX).  
+The  \textbf{zgoubi}\index{zgoubi} \FORTRAN\ package is transportable; it has been
+compiled, linked and executed over the years on several types of systems (e.g. 
+CDC, CRAY, IBM, DEC, HP, SUN, VAX, UNIX, LINUX).  
+
 \bigskip
 
-\noindent An additional \FORTRAN code, \textbf{zpop},\index{zpop}
+\noindent An additional \FORTRAN\ code, \textbf{zpop},\index{zpop}
 allows the post-processing and graphic treatment of \textbf{zgoubi} output 
-files. \textbf{zpop} is routinely used on DEC, HP and SUN stations.
+files. \textbf{zpop} has been routinely used on DEC, HP, SUN stations, and is now on UNIX and LINUX systems.
 \bigskip
 
 \section{GETTING TO RUN zgoubi AND zpop} %% D2
@@ -1929,22 +1958,22 @@ files. \textbf{zpop} is routinely used on DEC, HP and SUN stations.
 
 \subsubsection{The transportable package zgoubi}
 
-Compile and link the \FORTRAN source file zgoubi.f \index{zgoubi.f}, to create the 
+Compile and link the \FORTRAN\ source files \index{zgoubi.f} (normally, just run the Makefile), to create the 
 executable \textbf{zgoubi}.
 \bigskip
 
-\noindent zgoubi.f is  written in standard 
-\FORTRAN, therefore it is not necessary to link with any Library, 
-except maybe a local math. lib.  
+\noindent \zgoubi\ is  written in standard 
+\FORTRAN, mostly~77, therefore it does not require linking  to any library. 
+
 
 \subsubsection{The post-processor and graphic interface package zpop} 
 
-Compile  the  \FORTRAN source files zpop*.f. 
+Compile  the  \FORTRAN\ source files  (normally, just run the Makefile). 
 \bigskip
 
 
 \noindent Link \textbf{zpop} with the graphic library, libminigraf.a 
-\cite{HAMEL}. This will create the executable \textbf{zpop}, that can run on 
+\cite{HAMEL}. This will create the executable \textbf{zpop}, that is to be run on an 
 xterm type window. 
 \bigskip
 
@@ -1952,7 +1981,7 @@ xterm type window.
 
 The principles are the following:
 \begin{itemize}
-\item[$\bullet$] fill zgoubi.dat \index{zgoubi.dat}   with the input data that describe the 
+\item[$\bullet$] Fill up zgoubi.dat \index{zgoubi.dat}   with the input data that describe the 
 problem (see examples, Part~C). 
 \item[$\bullet$] Run  \textbf{zgoubi}. 
 \item[$\bullet$] Results of the execution will be printed into  
@@ -1967,10 +1996,11 @@ zgoubi.res \index{zgoubi.res} and, upon options appearing in zgoubi.dat\index{zg
 \item[$\bullet$] Run \textbf{zpop} on an xterm window. This will open a 
 graphic window. 
 \item[$\bullet$] Select options displayed on the menu.   
-\item[$\bullet$] To access the graphic sub-menu, select option 7. 
-\item[$\bullet$] An on-line Help provides all necessary informations 
-on the post-processors (Fourier transform, elliptical fit, synchrotron 
-radiation, field map contours, etc.).
+\item[$\bullet$] To access the data plotting sub-menu, select option~7. 
+\item[$\bullet$] To access the data treatment sub-menu, select option~8. 
+\item[$\bullet$] An on-line Help provides some information 
+regarding the available post-processing procedures (Fourier transform, elliptical fit, synchrotron 
+radiation, field map contours, tune diagram, etc.).
 \end{itemize}
 
 \section{STORAGE FILES} \label{secD-3}\index{storage files}
@@ -1979,7 +2009,7 @@ When explicitly requested by means of the adequate keywords,  options, or dedica
 \LABEL's, extra storage files are opened by \textbf{zgoubi} 
 (\textsl{FORTRAN ``OPEN''} statement) and filled. 
 
-Their content can be  afterwards  post-processed using the interactive program \textbf{zpop} and its dedicated graphic 
+Their content can be    post-processed using the interactive program \textbf{zpop} and its dedicated graphic 
 and analysis procedures. 
 
 \bigskip
@@ -1991,8 +2021,8 @@ guide):
 \begin{itemize}
   \item[$\bullet$] Keywords \textsl{FAISCNL}, \textsl{FAISTORE}:
   \index{FAISCNL}\index{FAISTORE} fill a `.fai' type file (normally 
-  named [b\_]zgoubi.fai)\index{zgoubi.fai} with particle 
-coordinates and other informations. 
+  named [b\_]zgoubi.fai)\index{zgoubi.fai} with particle and spin 
+coordinates and a lot of other informations. 
 
   \item[$\bullet$] Keywords \textsl{SPNPRNL, SPNSTORE}:
   \index{SPNPRNL}\index{SPNSTORE} fill  a `.spn' type file (normally 
@@ -2004,8 +2034,8 @@ coordinates and other informations.
 \textsl{TOSCA\index{TOSCA}}) : fill  zgoubi.map \index{zgoubi.map} with 2-D field map. 
 
   \item[$\bullet$] Option $IL=2$, with magnetic and electric element 
-keywords: fill zgoubi.plt\index{zgoubi.plt} with the particle coordinates, and 
-experienced field, step after step, all along the optical 
+keywords: fill zgoubi.plt\index{zgoubi.plt} with the particle coordinates and 
+experienced fields, step after step, all along the optical 
 element.
 
   \item[$\bullet$] Using the keyword \textsl{MARKER} \index{MARKER} 
@@ -2022,12 +2052,11 @@ are the following (see examples, Part~C):
 \item[$\bullet$] `.fai' type files 
   
   Phase-space plots (transverse and longitudinal), 
-aberration curves, at the position where \textsl{FAISCNL}\index{FAISCNL} 
+aberration curves, at the position where \textsl{FAISTORE}\index{FAISTORE}  or \textsl{FAISCNL}\index{FAISCNL} 
 appears in the 
 optical structure. Histograms of coordinates. Fourier analysis 
-(e.g.~tune numbers in multiturn\index{multiturn} tracking), calculation of Twiss parameters from 
-phase-space 
-ellipse matching.
+(e.g.~, spin motion, tunes, in case of multi turn\index{multi turn} tracking), 
+calculation of Twiss parameters from phase-space  ellipse matching.
 \item[$\bullet$] zgoubi.map \index{zgoubi.map}
   
   Isomagnetic field lines of  2-D map. Superimposing 
@@ -2037,12 +2066,12 @@ trajectories read from zgoubi.plt is possible.
 Trajectories inside magnets and other lenses (these can 
 be superimposed over field lines obtained from zgoubi.map). 
 Fields experienced by the particles at the traversal of optical 
-elements. Synchrotron radiation\index{synchrotron radiation}.
+elements. Spectral and angular distributions of synchrotron radiation\index{synchrotron radiation}.
 \item[$\bullet$] zgoubi.spn\index{zgoubi.spn}
   
 Spin coordinates and histograms, at the position where 
 \textsl{SPNPRNL}\index{SPNPRNL} appears in the structure. Resonance crossing when 
-performing multiturn\index{multiturn} tracking. 
+performing multi turn\index{multi turn} tracking. 
 \end{itemize}
 
 

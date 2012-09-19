@@ -64,6 +64,7 @@ c         open(unit=88,file='fort.88')
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
+
       IF    (KALC.EQ.2 ) THEN
 C------- Field is defined by maps
 
@@ -352,13 +353,14 @@ C     ... endif NRES>0
 C---------------------------------------------------------------
  2003 CONTINUE
 C------- KALC = 3 : Full 3D calculation from analytical model 
-C           ELCYLDEF
+C ELMIR,  ELCYLDEF
         IDE = 4
         IRD = KORD
-        IF(IRD.EQ.4) IDB=4
+        IF(IRD.EQ.4) IDE=4
 
         IF(KUASEX .EQ. 24)   THEN
 C--------- ELCYLDEF
+          IDE = 2
           CALL ELCYLD(SCAL,
      >                     XL)
 C           Motion in this lmnt has no z-symm. 
@@ -372,6 +374,10 @@ C           Motion in this lmnt has no z-symm.
           ZSYM=.FALSE.
 
         ENDIF
+
+      GOTO 99
+
+
 
 C-----------------------------------------------------------------
  99   CONTINUE

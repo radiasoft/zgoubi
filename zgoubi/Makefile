@@ -98,7 +98,8 @@ OBJ=\
  elcmif.o\
  elcmii.o\
  elcyld.o\
- elcyl.o\
+ elcylf.o\
+ elcylm.o\
  ellip.o\
  elmirf.o\
  elmiri.o\

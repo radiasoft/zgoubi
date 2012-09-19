@@ -39,12 +39,14 @@ integer (I), real (E) or text string (A). For example, ``I, 3*E''
 \clearemptydoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\mestab}{~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+\newcommand{\mestab}{
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~  \= \kill}
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~  \= \kill
+}
 \newcommand{\mestabOBJ}{$PY$, $PT$, $PZ$, $PP$, $PD$  \quad \= 
-        total number of particles~; numbr of distinct momenta~; more... \quad \=
+        total number of particles~; number of distinct momenta~; more... \quad \=
             IY*IT*IZ*IP*IT*IZ*IP*   \quad \= \kill}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,7 +94,7 @@ $ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 \> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
-\> \textsl{KPOS} = 4 : smae as \textsl{KPOS} = 3 however   \> \> \\ 
+\> \textsl{KPOS} = 4 : same as \textsl{KPOS} = 3 however   \> \> \\ 
 \>  with possible X- or Y- or Z-misalignment or -rotation  \> \> \\ 
 \> (under development)  \> \> \\ 
 \end{tabbing}
@@ -100,7 +102,7 @@ $ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 
 %\begin{alltt}
 \footnotetext[1]{ 
-\textsl{MOD=1}~:   centered multipol model~; \textsl{MOD=2}~: long-shifted dipole model~;
+\textsl{MOD=1}~:   centered multipole model~; \textsl{MOD=2}~: long-shifted dipole model~;
      \textsl{MOD=3}~: short-shifted dipole model.
 }
 \footnotetext[2]{ 
@@ -222,7 +224,7 @@ MM\_G09BF~:
           NW = 6.
 
 
-  \textsl{MOD2 = 1}~: User defined - implementaton to be completed.  
+  \textsl{MOD2 = 1}~: User defined - implementation to be completed.  
 }
 %\end{alltt}  
 
@@ -274,7 +276,11 @@ $ R1$  \>Roll angle \>10*rad \>10*E \\
 
 
 \begin{tabbing}
-\mestab
+$N$, $EB1$, $EB2$, $EG1$, \quad \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~ ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ ~ ~ \quad \= \kill
+%%%\mestab
+
 \textbf{AIMANT}  \label{AIMANT-B} \index{AIMANT|textbf}
         \>\textbf{\AIMANTTitl}\\
  \>$ B_Z=\mathcal{F}B_0 \left(1-N \left(\frac{R-RM }{ RM} \right) 
@@ -329,7 +335,10 @@ exit EFB \>2*deg, 4*cm \>6*E\\
 \newpage
 
 \begin{tabbing}
-\mestab
+$N$, $EB1$, $EB2$, $EG1$, \quad \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~ ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ ~ ~ \quad \= \kill
+%%%%%\mestab
 \textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
  \>(See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
@@ -337,9 +346,9 @@ $\lambda$, $\xi$                  \>Fringe field parameters \>cm, (cm) \>2*E \\
  \textsl{NC, $ C_0-C_5$, shift }       \> \>0-6, 6*no dim., cm \>I, 7*E \\
 $ \omega^ - $, $\theta$, $ R_1$, $U_1$, $U_2$, $R_2$,      \>Positioning and shape of the
 lateral EFB~; \> 2*deg, 5*cm \>7*E \\
- $RM3$                   \>RM3 is the radial position on azimut \textsl{ACENT} \>\>\\
+ $RM3$                   \>RM3 is the radial position on azimuth \textsl{ACENT} \>\>\\
  \\
- \textsl{NBS} \>Option index for perturbations to the field map \>normally 0 \>I \\
+ \textsl{NBS} \>Option index for perturbations to the field map \>-$2 - 0 \textrm{~or~} ~ \geq 1$  \>I \\
  \\
 \textbf{If NBS = 0}            \>Normal value. No other record required \>\>\\
  \\
@@ -395,7 +404,7 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
             \includegraphics[width=12cm]{Fig9b.eps}
 \medskip
 \begin{center}
-A : Parameters used to define the field map and geometric boundaries.\\
+A : Parameters used to define the field map and geometrical boundaries.\\
 B : Parameters used to define the field map and fringe fields.
 \end{center}
 \end{figure}
@@ -427,9 +436,10 @@ B : Parameters used to define the field map and fringe fields.
 \newpage
 
 \begin{tabbing}  %% nouveaux tabs
+\mestab
 \textbf{AUTOREF} ~ ~ \quad \=   
 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$, 
-		$YCE=Y(1)$, $ALE=T(1)$) \quad  \=  ~ ~  3*(1-\imax)\quad  \=\kill
+		$YCE=Y(1)$, $ALE=T(1)$) \quad   \quad \=  ~ ~  3*(1-\imax) \quad  \quad  \=\kill
 \textbf{AUTOREF}  \label{AUTOREF-B} \index{AUTOREF|textbf}
   \> \textbf{\AUTOREFTitl} \\
  \\
@@ -441,7 +451,7 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
  \> 2 : Equivalent to \textsl{CHANGREF} ($XW$, $YW$, $T(1)$), with ($XW$, $YW$) \> \> \\
  \> being the location of the intersection (waist) of particles   1, 4 and 5 \>\>\\
  \> (useful with \textsl{MATRIX}\index{MATRIX}, for automatic 
- positionning of the first order focus) \>\>\\
+ positioning of the first order focus) \>\>\\
  \\
  \> 3 : Equivalent to \textsl{CHANGREF} ($XW$, $YW$, $T(I1)$), with ($XW$, $YW$)  \\
  \> being the location of the intersection (waist) of particles $I1$, $I2$ and $I3$ \>\>\\
@@ -471,7 +481,7 @@ $\alpha_Y, ~ \beta_Y, ~ \epsilon_{Y,norm}/\pi$   \> Beam parameters, horizontal.
 \\
 $\alpha_Z, ~ \beta_Z, ~ \epsilon_{Z,norm}/\pi$   \> Beam parameters, vertical.  \>  - , m, m.rad \> 3*E  \\
 \\
-$\sigma_X, ~ \sigma_{dp/p}$   \> rms bunch length~; rms momentum spread.  \> m,  - \> 2*E  \\
+$\sigma_X, ~ \sigma_{dp/p}$   \> \rms\ bunch length~; \rms\ momentum spread.  \> m,  - \> 2*E  \\
 \\
 $\mathcal{C}, ~ \alpha$   \> Ring circumference~; momentum compaction. \> m, -  \>  2*E \\
 \\
@@ -567,6 +577,11 @@ If FRM=1             \>   Format is '1X,7E11.*' \\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~  \= \kill
+%%%%
 \textbf{BREVOL} \label{BREVOL-B}\index{BREVOL|textbf}
       \>\textbf{\BREVOLTitl}\> \>    \\
  \>$X$-axis cylindrical symmetry is assumed \>\>\\
@@ -707,6 +722,11 @@ extrapolated linearly to the exit face of the map.}
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \quad \= 2*cm, 2*deg, cm   \= \kill
+%%%%%
 \textbf{CAVITE~\footnotemark[1]} \label{CAVITE-B} \index{CAVITE|textbf}\index{acceleration}\index{synchrotron motion}
      \> \textbf{\CAVITETitl}   \> \> \\
  \> $ \Delta W=qVsin(2\pi hf\Delta t+\varphi_ s) $ and other voltage and frequency laws.   \> \> \\
@@ -748,6 +768,11 @@ $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. }
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm   \= \kill
+%%%%%
 \textbf{CHAMBR}  \label{CHAMBR-B} \index{CHAMBR|textbf} 
         \> \textbf{\CHAMBRTitl~\footnotemark[1]}
 \\
@@ -790,7 +815,7 @@ $YC$ stands for the reference radius (normally, $YC  \simeq RM$).}
  \>followed by $Z$-axis rotation  \\
 \\
 \\
- \textbf{``New Style'' (example below). \index{CHANGREF ``New Style''}  In an arbitrary order, up to 9  occurences of~:  }\\
+ \textbf{``New Style'' (example below). \index{CHANGREF ``New Style''}  In an arbitrary order, up to 9  occurrences of~:  }\\
 \\
  \textsl{XS 'val', YS 'val', ZS 'val',} \> \>cm or deg \>up to 9*(A2,E) \\
  \textsl{XR 'val', YR 'val', ZR 'val'} \> \>\>\\
@@ -901,6 +926,11 @@ $\beta$   =   tilt angle of the target
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad  \= \kill
+%%%%%
 \textbf{COLLIMA}         \label{COLLIMA-B} \index{COLLIMA|textbf}
          \> \textbf{\COLLIMATitl}~\footnotemark[1]   \> \> \\
  \\
@@ -991,6 +1021,11 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad   \= \kill
+%%%%%
 \textbf{DIPOLE}         \label{DIPOLE-B} \index{DIPOLE|textbf}
            \>\textbf{\DIPOLETitl}\> \>\\
  \>$ B_Z= \mathcal{F} B_0 \left(1 + N \left(\frac{R-RM}{RM} \right) +B 
@@ -1083,6 +1118,11 @@ $ RM3$   \> \> \> \\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad  \= \kill
+%%%%%
 \textbf{DIPOLE-M}         \label{DIPOLE-M-B} \index{DIPOLE-M|textbf}
            \>\textbf{\DIPOLEMTitl}\> \>\\
  \>$ B_Z= \mathcal{F} B_0 \left(1  + N \left(\frac{R-RM}{RM} \right) +B 
@@ -1142,6 +1182,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of 
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad  \= \kill
+%%%%%
 \textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY    \>         \>    \\
  \>(See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
@@ -1151,7 +1196,7 @@ $\lambda$, $\xi$                  \> \>cm, (cm) \>2*E \\
 % \> \>no dim., cm \> \\
 $ \omega^ - $, $\theta$, $ R_1$, $U_1$, $U_2$, $R_2$,      \>Positioning and shape of the
 lateral EFB~; \> 2*deg, 5*cm \>7*E \\
- $RM3$                   \>RM3 is the radial position on azimut \textsl{ACENT} \>\>\\
+ $RM3$                   \>RM3 is the radial position on azimuth \textsl{ACENT} \>\>\\
  \\
  \textsl{NBS} \>Option index for perturbations to the field map \>normally 0 \>I \\
  \\
@@ -1206,6 +1251,11 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textbf{DIPOLES}         \label{DIPOLES-B} \index{DIPOLES|textbf}
            \>\textbf{\DIPOLESTitl}\> \>\\
  \>(i) $ B_Z= \sum_{i=1}^N  \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, 
@@ -1221,8 +1271,8 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
  \\
  \textsl{ACN}, $\delta R\!M$~\footnotemark[1], $ B_0$, \> Positioning of EFBs : azimuth, $R\!M_{i} = R\!M + \delta R\!M$~; field~;
-                                                     \> deg., cm, kG, \> 3*E, I, $ind$*E\\
-$ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients     \> $(ind+1)$*no dim. \> \\
+                                                     \> deg., cm, kG, \> 3*E, I, \\
+$ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients     \> $(ind+1)$*no dim. \> $ind$*E\\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
  \\
@@ -1274,6 +1324,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textsl{KIRD[.n],~Resol}         
  \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; no dim. \>I, E\\
  \>    n=0~: default, $ B_Z$ formula (i) above, n=1~: $ B_Z$ formula (ii). \>  \\ 
@@ -1753,7 +1808,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \mestab
 \textbf{FFAG}         \label{FFAG-B} \index{FFAG magnet, radial|textbf}
            \>\textbf{\FFAGTitl}   \> \>   \\
-\> {\bf UNDER DEVELOPEMENT}\> \>   \\
+\> {\bf UNDER DEVELOPMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
  \\
  $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
@@ -1763,7 +1818,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  \\
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
  \\
- \textsl{ACN}, $\delta R\!M$,  \> Azimuth for dipole positionning~; $R_{M,i}=R\!M + \delta R\!M$~; 
+ \textsl{ACN}, $\delta R\!M$,  \> Azimuth for dipole positioning~; $R_{M,i}=R\!M + \delta R\!M$~; 
                                                      \> deg, cm, kG,  \> 4*E \\
  $ \Bz_{0}$, $K$ \>  field at $R_{M,i}$~; index 
                                                      \> no dim. \> \\
@@ -1831,9 +1886,14 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textbf{FFAG-SPI}         \label{FFAGSPI-B} \index{FFAG magnet, spiral|textbf}
            \>\textbf{\FFAGSPITitl}   \> \>   \\
-\> {\bf UNDER DEVELOPEMENT}\> \>   \\
+\> {\bf UNDER DEVELOPMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
  \\
  $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
@@ -1843,7 +1903,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \\
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
  \\
- \textsl{ACN}, $\delta R\!M$,  \> Azimuth for dipole positionning~; $R_{M,i}=R\!M + \delta R\!M$~; 
+ \textsl{ACN}, $\delta R\!M$,  \> Azimuth for dipole positioning~; $R_{M,i}=R\!M + \delta R\!M$~; 
                                                      \> deg, cm, kG,  \> 4*E \\
  $ \Bz_{0}$, $K$ \>  field at $R_{M,i}$~; index 
                                                      \> no dim. \> \\
@@ -1852,7 +1912,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \\
 $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)  \> cm, no dim. \>2*E\\
  $NC$, $ C_0-C_5 $, shift     \>Unused~; $ C_0 $ to $ C_5 $ : fringe field coefficients~; EFB shift \>0-6, 6*no dim, cm \>I,7*E \\
-$ \omega^ +$, $\xi$,  4 dummies   \>Azimuth of entrance EFB with respect  to \textsl{ACN}~; \>2*deg, 4*unsued   \>6*E\\
+$ \omega^ +$, $\xi$,  4 dummies   \>Azimuth of entrance EFB with respect  to \textsl{ACN}~; \>2*deg, 4*unused   \>6*E\\
  \>spiral angle~; 4 $\times$ unused \> \> \\
  \\
  \>EXIT FIELD BOUNDARY \>\> \\
@@ -1876,6 +1936,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textsl{KIRD,~Resol}         
  \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~;  \>I, E\\
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \> no dim. \> \\ 
@@ -1918,20 +1983,21 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT|textbf} \index{FIT2|textbf}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$           \>Number of physical parameters to be varied  \>$\leq 20$ \>I \\
+ $NV$           \>Number of physical parameters to be varied  \>$\leq 20$ \>I \\    \index{fit, variable range|textbf} 
   \\[-2ex]
 \textbf{For I = 1, NV}   \> \it repeat NV times the following sequence \> \> \\
   \\[-2ex]
 either :     \>    \>    \> \\
- $IR$, $IP$, $XC$, $DV$  \>Number of the element in the structure~; \> $\leq${\small MXL}~\footnotemark[1], 
+ $\IR$, $\IP$, $\XC$, $\DV$  \>Number of the element in the structure~; \> $\leq${\small MXL}~\footnotemark[1], 
 {\small $\leq$MXD}, \>2*I, 2*E\\
  \>number of the physical parameter in the element~;\>$\pm$ {\small MXD.MXD}~\footnotemark[2],  \> \\
  \>coupling switch (off = 0)~; variation range ($\pm$)\> relative \> \\
 or :     \>    \>    \> \\
- $IR$, $IP$, $XC$, $[Vmin,Vmax]$  \>
+ $\IR$, $\IP$, $\XC$, $[V_{min},V_{max}]$  \>
              \>$\leq${\small  MXL}, $\leq ${\small MXD}, \>2*I, 3*E\\
   \\[2ex]
-$ NC$ ~ \textsl{[, penalty~\footnotemark[3]]}          \>Number of constraints [, penalty].   \> $\leq 20$ [, $\sim 10^{-n}$]\> I ~ [, E] \\
+$ \NC$ ~ \textsl{[, penalty~\footnotemark[3]]}    \index{fit, penalty|textbf} 
+       \>Number of constraints [, penalty].   \> $\leq 20$ [, $\sim 10^{-n}$]\> I ~ [, E] \\
  \\[-2ex]
 \textbf{For I = 1, NC}  \> \it repeat NC times the following sequence \>\>\\
  \\[-2ex]
@@ -1939,8 +2005,8 @@ $ NC$ ~ \textsl{[, penalty~\footnotemark[3]]}          \>Number of constraints [
                  \>0-5, 3*($>$0), \>4*I, 2*E, \\
 $N\!P$ ~$[,~ p_i(i=1,NP)]$  \>
 $I\!R$ : number of the element after which the constraint applies~; \>current unit,  \>  I, $N\!P*$E \\
- \> $V$ : value~; $W$ : weight (the stronger the lower $WV$)\> 2*no~dim., curr.~units \> \\
- \> $N\!P$ : number of parameters~; if $NP\ge 1$, $p_i(i=1,N\!P)$ :  \> \\
+ \> $V$ : value~; $W$ : weight (the stronger the lower $WV$)\> 2*no~dim.,  \> \\
+ \> $N\!P$ : number of parameters~; if $NP\ge 1$, $p_i(i=1,N\!P)$ :  \> curr.~units  \> \\
  \>  parameter values. \> \\
 \end{tabbing}
 
@@ -1956,7 +2022,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 %\include{ZgoubiFITTable}
 %  \newlength{\LL}
-\settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint}
+\settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint|textbf}
 {\footnotesize
 	\begin{center}
     {\renewcommand{\arraystretch}{1}
@@ -2100,7 +2166,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 \textbf{\HISTOTitl} \> \> \\
   \\
   \\
-$ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be histogramed~; 
+$ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be histogrammed~; 
              \>1-24, 2*  \>I, 2*E, 2*I\\
 \textsl{NBK}, $\NH $     \>the following are available : \>current units,\>\\
  \> $\bullet$ current coordinates :\>$<120$, 1-5 \> \\
@@ -2112,14 +2178,14 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
  \>$X_{\text{min}}$, $X_{\text{max}}= $ limits of the histogram, in units \>\>\\
  \>of the coordinate of concern~; \textsl{NBK} = number of \>\>\\
  \>channels~; $\NH$ = number of the histogram (for \>\>\\
- \>independency of histograms of the same coordinate) \>\>\\
+ \>independence of histograms of the same coordinate) \>\>\\
  \\
  \textsl{NBL, KAR,}    \>Number of lines (= vertical amplitude)~; 
               \>normally 10-40, \>I, A1, I, A1\\
  \textsl{NORM, TYP}    \>alphanumeric character~; normalization if \>char., 
  1-2, P-S-Q \> \\
  \>\textsl{NORM} = 1, otherwise \textsl{NORM} = 0~; \textsl{TYP} = `P' : \>\> \\
- \>primary particles are histogramed, or `S' : \>\>\\
+ \>primary particles are histogrammed, or `S' : \>\>\\
  \>secondary, or Q : all particles - for use \>\>\\
  \>with \textsl{MCDESINT}  
 \end{tabbing}
@@ -2302,7 +2368,7 @@ are the components of the field.}
  \> \textsl{IORD} = 2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
  \>  matrix $[ R_{ij}] $, second order array $ [T_{ijk} ]$ and higher order transfer   \>\>\\
 % FM, Nov. 2008
-% \>coefficients~;  periodic parameters, chromaticities\index{Cromaticity}, etc.   if \textsl{IFOC} $> 0$ \>\>\\
+% \>coefficients~;  periodic parameters, chromaticities\index{chromaticity}, etc.   if \textsl{IFOC} $> 0$ \>\>\\
  \>  coefficients~; if \textsl{IFOC} $> 10$ : periodic parameters,     \>\>\\
  \\
  \>\textsl{IFOC} = 0 : matrix at actual location, \>\>\\
@@ -2310,7 +2376,7 @@ are the components of the field.}
  \>\textsl{IFOC} = 1 : matrix at the closest first order horizontal focus,\>\>\\
  \>        reference $\equiv$ particle \# 1 \>\>\\
  \>\textsl{IFOC} = 10 + NPER : same as \textsl{IFOC} = 0, and also calculates\>\>\\
- \>      the twiss parameters, tune numbers, etc.\>\>\\
+ \>      the Twiss parameters, tune numbers, etc.\>\>\\
  \>  (assuming that  the DATA file describes one period of a \>\>\\
  \> NPER-period structure).  \>\>\\
 \\
@@ -2364,6 +2430,11 @@ particle 1. They transform to $ T_2 $ and $ P_2 $ in  Zgoubi  frame.}
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%
 \textbf{MCOBJET}         \label{MCOBJET-B} \index{MCOBJET|textbf}
    \> \textbf{\MCOBJETTitl}\index{Monte Carlo}
    \index{negative charge}\index{negative momentum} \> \> \\
@@ -2427,6 +2498,11 @@ $KP$ and $KX$ can take the values
 \newpage
 \begin{tabbing}
  \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%
 \textbf{If KOBJ = 2 } \>\textbf{On a grid}  \> \> \\  
  \\
  $IY$, $IT$, $IZ$, $IP$,     \>Number of bars of the grid \> \> 6*I \\
@@ -2436,7 +2512,7 @@ $ PY$, $PT$, $PZ$, $PP$,    \>Distances between bars     \> m, rad, m \> 6*E\\
  $PX$, $PD$\>                           \> rad, m,  no dim.  \> \\
  \\
 $ \delta Y$, $\delta T$, $\delta Z$, $\delta P$,    
-		\>Width of the bars ($\pm$) if uniform, \>$ ibidem $ \>6*E\\
+		\>Width of the bars ($\pm$) if uniform, \> \ibidem  \>  6*E\\
 $\delta X$,	$\delta D $ \>Sigma value if Gaussian distribution\>\>\\
  \\
 $N_{\delta Y}$, $N_{\delta T}$, $N_{\delta Z}$, $N_{\delta P}$, 
@@ -2827,17 +2903,17 @@ $IO=4$ : (default option) expansions of $ \vec  R $ and $ \vec  u $ up to $ \vec
 \newpage
 
 \begin{tabbing}
-$M$, $Q$, $G$, $\tau$, $X$  \quad \= $ B=\mathcal{F}\,B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)					    
-		+B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}				    
-		\right)^3 \right) $	\quad \=  MeV/c$^2$, C,no dim.,s      \quad  \= \kill
-%%%
+ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$    \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $  \quad \quad \= 2*cm, 2*deg, cm ~ ~ \quad \quad \quad \= \kill
+%%%%%%%%
 \textbf{PARTICUL} \label{PARTICUL-B} \index{PARTICUL|textbf} 
 \>\textbf{\PARTICULTitl } \> \> \\
   \\
   \\
- $M$, $Q$, $G$, $\tau$, $X$  \>Mass~; charge~; gyromagnetic factor~; 
+ $M$, $Q$, $G$, $\tau$, $X$  \>Mass~; charge~; gyromagnetic factor~; COM life-time~; unused 
               \>MeV/c$^2$, C, no dim., s\>5*E\\
- \>COM life-time~; unusued \> \> 
 \end{tabbing}
 \bigskip 
 
@@ -2887,8 +2963,8 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 
 \begin{tabbing}
 \mestab
-\textbf{PLOTDATA}\label{PLOTDATA-B} \index{PLOTDATA|textbf}
- \> \textbf{\PLOTDATATitl} \protect\cite{BiblioPlot} \\
+\textbf{PLOTDATA}\label{PLOTDATA-B} \index{PLOTDATA|textbf} 
+ \> \textbf{\PLOTDATATitl} \\
  \\
  \\
  \>  \textsl{To be documented.}
@@ -2902,8 +2978,8 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 \newpage
 
 \begin{tabbing}
-$ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B',C'$) integration
-        \quad \=  -1-2*no dim., cm\quad \= \kill
+$ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \quad  \= $ID=2$ : entrance ($A,B,C$) and exit ($A',B',C'$) integration
+        \qquad \quad  \=  -1-2*no dim., cm \quad \quad \= \kill
 %%%
 \textbf{POISSON}         \label{POISSON-B} \index{POISSON|textbf}
       \>\textbf{\POISSONTitl} \>\>\\
@@ -3143,7 +3219,7 @@ X_S $ translations.}
 
 \begin{tabbing}
 \mestab
-\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE|textbf} \index{multiparticle}\index{multiturn}
+\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE|textbf} \index{multi-particle}\index{multi-turn}
 		\index{acceleration}\index{synchrotron motion}
      \>\textbf{Jump to the beginning of \zgoubi input data file}\>\>\\
  \\
@@ -3159,7 +3235,7 @@ X_S $ translations.}
  \>$K=22$ :  next run will account for new parameter values in \>\>\\
  \>zgoubi.dat data list, see below. \>\>\\
  \>$K=99$ :  coordinates at end of previous pass are used as initial  \>\>\\
- \>coordinates for the next pass~; idem for spin components.   \>\>\\
+ \>coordinates for the next pass~; \id\ for spin components.   \>\>\\
  \>$K=99.1$ : Label1 is expected, subsequent passes will start from  \>\>\\
  \> element with Label1  down to \textsl{REBELOTE}  and so forth~; \>\>\\
  \>$K=99.2$ : Label1 and Label2 are expected~; last pass (\# NPASS+1)  \\
@@ -3200,6 +3276,11 @@ X_S $ translations.}
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $,     \quad \= 2*cm, 2*deg, cm   \= \kill
+%%%%%%%%
 \textbf{SCALING} \label{SCALING-B} \index{SCALING|textbf}  \index{acceleration}
 \index{synchrotron motion}
       \>\textbf{\SCALINGTitl } \> \> \\
@@ -3212,7 +3293,7 @@ X_S $ translations.}
  \> \> \> \\
  \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern) [, up to 2 labels] \> \>A10 [,A10[,A10]] \\
  \\
- $NT$          \>$NT>0$~: number of timings~;   \>-2, -1 or 1-10 \>I \\
+ $NT$          \>$NT>0$~: number of timings~;   \>  -2, -1 or 1-10 \>I \\
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\
            \>$NT=-2$~:  RF law in \textsl{CAVITE} is  read from external data file.  \> \> \\
  \\
@@ -3265,9 +3346,9 @@ cycloidal motion.
 
 \begin{tabbing}
 $N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
-         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\quad \=
-             1-2, 2*cm, rad\quad \= \kill
-%%%             
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%%\mestab             
 \textbf{SEXQUAD}         \label{SEXQUAD-B} \index{SEXQUAD|textbf} 
             \> \textbf{Sharp edge magnetic multipole} \> \> \\
  \> $ B_Z\mid_{ Z=0}=B_0 \left(\frac{N}{R_0} Y + 
@@ -3440,7 +3521,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \textbf{SPNTRK~\footnotemark[1]}        \label{SPNTRK-B} \index{SPNTRK|textbf}\index{spin tracking}
      \> \textbf{Spin tracking} \> \> \\
  \\
-\textsl{KSO} \> Variuos options for nitial conditions \> 1-5 \> I \\
+\textsl{KSO} \> Various options for initial conditions \> 1-5 \> I \\
 \\
 \textbf{If KSO = 1 --  3} \> \textsl{KSO} = 1 (respectively 2, 3) : all particles \\
       \> have their spin automatically set to (1,0,0) -- \\
@@ -3564,7 +3645,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
        \> If \textsl{MOD}=20-22 : other symmetry options, see \texttt{toscap.f} routine...  \\ 
  \\
 $ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$,  cm, \>I,3*E  \\
-$A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,idem]\>[,3*E,etc.]\\
+$A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,\id]\>[,3*E,etc.]\\
  \\
  \textsl{IORDRE}     \>If $IZ=1$ : 3, 4, 25, as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 4 or 25 \>I\\
  \\

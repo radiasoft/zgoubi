@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -28,7 +28,7 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*132 TXT
+      CHARACTER(132) TXT, STRA(3)
 
       INTEGER DEBSTR
       LOGICAL STRCON
@@ -38,9 +38,14 @@ C  -------
 C----- Read IORD, IFOC
       READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,2)
 
-      A(NOEL,3)=0.D0
-      IF(STRCON(TXT,'zgoubi.MATRIX.out',
-     >                                  IS)) A(NOEL,3)=1.D0
+      CALL STRGET(TXT,3,
+     >                  IDUM,STRA) 
+      IF(STRCON(STRA(3),'zgoubi.MATRIX.out',
+     >                                      IS)) THEN
+        A(NOEL,3)=1.D0
+      ELSE
+        A(NOEL,3)=0.D0
+      ENDIF
 
       RETURN
  99   STOP

@@ -1,0 +1,58 @@
+  SIMULATION  OF  PION  IN-FLIGHT  DECAY  IN  SPES3                             
+  'MCOBJET'                                                              1      
+  3360.                                REFERENCE  RIGIDITY (PION).              
+  1                                    DISTRIBUTION  IN  WINDOW.                
+  200                                  BUNCHES  OF  200  PARTICLES.             
+  1     1       1     1      1    1    UNIFORM DISTRIBUTION                     
+  0.    0.      0.    0.     0.   1.   CENTRAL  VALUES  OF  BARS.               
+  .5e-2 50.e-3 .5e-2  50.e-3 0.  0.4   WIDTH  OF  BARS.                         
+  1     1       1     1      1    1    CUT-OFFS (UNUSED)                        
+  9   9. 9. 9. 9.                      UNUSED.                                  
+  186387 548728 472874                 SEEDS.                                   
+  'PARTICUL'                                                             2      
+  139.6000 0. 0. 26.03E-9 0.           PION MASS AND LIFE TIME                  
+  'MCDESINT'                                                             3      
+  105.66   0.                          PION -> MUON + NEUTRINODECAY             
+  136928 768370 548375                                                          
+  'ESL'                                                                  4      
+  77.3627                                                                       
+  'CHAMBR'                             STOPS  ABERRANT  MUONS.           5      
+  1                                                                             
+  1   100. 10. 245.  0.                                                         
+  'DIPOLE'                                                               6      
+  2                                                                   
+  80.   208.5                          Total angle AT, central radius RM
+  33.   30. 0. 0. 0.                   Central angle, Field, Indices
+  46. -1.                              ENTRANCE EFB            
+  4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
+   15.   0.      -65.  0.    0.  -65.                                           
+  46. -1.                              EXIT EFB                             
+  4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
+  -15.  69.       85.  0.    1.E6  1.E6                                         
+  0. 0.                                LATERAL EFB (INHIBITED)  
+  4. .14552 5.21405 -3.38307 14.0629 0. 0. 0.                                   
+  -15.  69.       85.  0.    1.E6  1.E6 1E6
+  2 10.0                               2ND DEGREE INTERP., MESH 0.4 CM 
+  4.                                   STEP SIZE                       
+  2                                                                             
+  164.755 .479966 233.554 -.057963                                              
+  'CHAMBR'                                                               7      
+  2                                                                             
+  1   100. 10. 245.  0.                                                         
+  'CHANGREF'                          TILT  ANGLE  OF                    8      
+  0.   0.   -49.                      FOCAL  PLANE.                             
+  'HISTO'                             TOTAL  SPECTRUM (PION + MUON).     9      
+  2  -170.  130.  60  1                                                         
+  20  'Y'  1  'Q'                                                               
+  'HISTO'                             PION  SPATIAL  SPECTRUM           10      
+  2  -170.  130.  60  2               AT  FOCAL  PLANE.                         
+  20  'P'  1  'P'                                                               
+  'HISTO'                             MUON  SPATIAL  SPECTRUM           11      
+  2  -170.  130.  60  3               AT  FOCAL  PLANE.                         
+  20  'y'  1  'S'                                                               
+  'HISTO'                             MUON  MOMENTUM  SPECTRUM          12      
+  1    .2   1.7   60  3               AT  FOCAL  PLANE.                         
+  20  'd'  1  'S'                                                               
+  'REBELOTE'                          (49+1)  RUNS =  CALCULATION  OF   13      
+  49  0.1  0                          (49+1)*200  TRAJECTORIES.                 
+  'END'                                                                 14      

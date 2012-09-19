@@ -23,8 +23,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ELCYL(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
+      SUBROUTINE ELCYLM(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
      >                                          E,DE,DDE)
+C Mid-plane field, cylindrical coordinates. 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER(MCOEF=6)
       DIMENSION QLEM(MPOL),QLSM(MPOL),QE(MPOL,MCOEF),QS(MPOL,MCOEF)
@@ -38,14 +39,15 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
 C------- Extent of Entrance/Exit fringe field region
-      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX), (RM,rho) 
+C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,u), (RM,rho) 
+      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,E0), (EG2,u), (RM,rho) 
 
       LOGICAL CHFE, CHU, CHFS
       PARAMETER (I0=0, I1=1)
 
       VN = V0*BRI
 
-C----- LambdaE,LambdaS
+C----- LambdaE,LambdaS 
       QLE = QLEM(1)
       QLS = QLSM(1)
 
@@ -79,18 +81,18 @@ c
 c          DE(2,2) =  -EM(1)*BRI * (1.d0 + c) 
 c          DE(3,3) =  EM(1)*BRI * c 
 
-          E(1,2) = EM(1)*BRI * R0RA * (
-     >    1.d0 - 0.5d0*(andx*andx-1.d0) * zr2 + 
-     >    1.d0/24.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr2
-     >    )
-          E(1,3) = EM(1)*BRI * R0RA * (
-     >    (andx-1.d0) * zr -
-     >    1.d0/6.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr
-     >    )
+c          E(1,2) = EM(1)*BRI * R0RA * (
+c     >    1.d0 - 0.5d0*(andx*andx-1.d0) * zr2 + 
+c     >    1.d0/24.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr2
+c     >    )
+c          E(1,3) = EM(1)*BRI * R0RA * (
+c     >    (andx-1.d0) * zr -
+c     >    1.d0/6.d0*(andx*andx-1.d0)*(andx+1.d0)*(andx+3.d0) * zr2*zr
+c     >    )
 
 C          E(1,2) = EM(1)*BRI * R0R
-          E(1,2) = EM(1)*BRI 
-          E(1,3) = 0.d0
+C          E(1,2) = EM(1)*BRI 
+c          E(1,3) = 0.d0
 
 c          e(2,2) = - e(1,2) / R
 c          e(3,2) = - e(2,2) * 2.d0/R
@@ -99,6 +101,39 @@ c          e(5,2) = - e(4,2) * 4.d0/R
 
 c      write(*,fmt='(a,i2,1x,20e12.4)') 
 c     > '  ex, ey, ez : ',e(1,1),e(1,2),e(1,3)
+
+      EI = E0 * BRI
+                    
+      E(1,2) = (EI*(1 - ((-1 + u**2)*z**2)/(2.*r**2) + 
+     -      ((1 + u)*(3 + u)*(-1 + u**2)*z**4)/(24.*r**4)))/r**u
+
+      E(1,3) = (EI*(((-1 + u)*z)/r - 
+     -      ((1 + u)*(-1 + u**2)*z**3)/(6.*r**3)))/r**u
+
+
+c      write(88,fmt='(a,1x,20e12.4)') 
+c     > ' elcylm  ex, ey, ez : ',a,r,e(1,1),e(1,2)
+C              read(*,*)
+C      dE2/dr
+      DE(2,2)=  (EI*r**(-5.d0 - u)*(-24.d0*r**4*u + 
+     -    12.d0*r**2*(-1.d0 + u)*(1.d0 + u)*(2.d0 + u)*z**2 - 
+     -    (-1.d0 + u)*(1.d0 + u)**2*(3.d0 + u)*(4.d0 + u)*z**4))/24.d0
+C      dEr/dz, dEz/dr
+      DE(3,2)=(EI*r**(-4 - u)*(-1 + u**2)
+     -   *z*(-6*r**2 + (1 + u)*(3 + u)*z**2))/6.
+
+C      d2Erdr2 
+      DDE(2,2,2)=  (EI*r**(-6.d0 - u)*(1.d0+ u)*
+     -  (24.D0*r**4*u - 12*r**2*(-1.d0+ u)*(2 + u)*(3.d0+ u)*z**2 + 
+     - (-1.d0+ u)*(1.d0+ u)*(3.d0+ u)*(4.d0+ u)*(5.D0 + u)*z**4))/24.D0
+C      d2Erdrdz
+      DDE(3,2,2) = (EI*r**(-5 - u)*(-1 + u)*(1 + u)*z*
+     -    (6*r**2*(2 + u) - (1 + u)*(3 + u)*(4 + u)*z**2))/6.
+
+C      d2Erdz2 
+      DDE(3,3,2)=(EI*r**(-4 - u)*(-1 + u**2)*
+     -  (-2*r**2 + (1 + u)*(3 + u)*z**2))/2.
+
 
         ENDIF
 

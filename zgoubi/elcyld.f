@@ -45,7 +45,8 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
-      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
+C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
+      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,E0), (EG2,ANDX)
  
       DEV =A(NOEL,10)
       RM =A(NOEL,11)*1.D2
@@ -107,6 +108,7 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
 C----- E:MeV/cm
       EM(1)=EM(1)*1.D-8
       V0=V0*1.D-8
+      E0 = EM(1) * RM**andx
 
       IF(QLE(1) .NE. 0D0) THEN
 C        QE(1,1)=-EM(1)/QLE(1)

@@ -18,21 +18,25 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE EREXYZ(ER0,Z,IDE,
-     >                              E,DE,DDE)
-C-------------------------------------------------
-C Derive derivatives d^(i+j)E/didj at (X,Y,Z) from 
-C ER|z=0 and its derivatives wrt R 
-C-------------------------------------------------
+      SUBROUTINE EREXYZ(IOP,ER0,Z,IDE,
+     >                            E,DE,DDE)
+C-------------------------------------------------------
+C Derive derivatives d^(i+j)E/didj at (X,Y,Z) in the 
+C rotating frame, from ER|z=0 and its derivatives wrt R
+C in the fixed frame of the plates. 
+C-------------------------------------------------------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION ER0(*)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
 
+      GOTO(10,20) IOP
+
+ 10   CONTINUE
+C ELMIRC
       Z2 = Z * Z
 
         E(1,2) = ER0(1) + Z2*( -ER0(3)/2.D0 + Z2/24.D0*ER0(5))
@@ -50,7 +54,9 @@ C        d2Ey/dydz, d2Ez/dy2
 C        d2Ey/dz2, d2Ez/dydz
         DDE(3,3,2) = -ER0(3) + Z2/2.D0*ER0(5)
 
-      IF(IDE .EQ. 2) RETURN
-
+ 20   CONTINUE
+C ELCYLDEF
+C              to be installed
+c at present all done in elcylm
       RETURN
       END

@@ -18,13 +18,13 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE ELMIRF(XX,Z,BRI,
      >                           E,DE,DDE)
+C Mirror, straight slits. Frame is Cartesian
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
 

@@ -91,12 +91,12 @@ C      ENDIF
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
 C      IF(IPASS .LT. NRBLT ) THEN
-        LUN=ABS(NRES) 
-        IF(LUN.GT.0) 
-     >     WRITE(LUN,100) IPASS  !, NRBLT+1
-C          WRITE(*,100) IPASS  !, NRBLT+1
- 100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,'End '
-     >     ,'of pass # ',I1,/)
+C        LUN=ABS(NRES) 
+C        IF(LUN.GT.0) 
+C     >     WRITE(LUN,100) IPASS  !, NRBLT+1
+C          WRITE(*,*) IPASS  ,' NRBLT+1'
+C 100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,'End '
+C     >     ,'of pass # ',I1,/)
 C     >     ,'of pass # ',I1,'/',I1,' through the optical structure',/)
  
         IF(IPASS .EQ. 1) THEN
@@ -109,10 +109,6 @@ C--------- Switch off print into zgoubi.res :
 C--------- Switch on print to standard output :
           KWRI6=NINT(ANOEL2-KWRIT)*10
 
-          IF(KWRIT .EQ. 0) THEN
-C---------- inihibe WRITE si KWRIT=0 et plus de 2 passages
-            IF(NRES .GT. 0) NRES =-NRES
-          ENDIF
           READAT = .FALSE.
 
           IF(KOBJ .EQ. 5) THEN
@@ -137,6 +133,8 @@ C---------- inihibe WRITE si KWRIT=0 et plus de 2 passages
 
           IF(KTW.GE.2) THEN
   
+            IF(NRES .GT. 0) NRES =-NRES
+
             CALL REFER1(
      >                  PATHL(1)) 
             NUML = 1
@@ -166,9 +164,6 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p-dp
         ELSEIF(IPASS .EQ. 2) THEN
 C------- 3rd pass through structure will follow
 
-          LUN=ABS(NRES)
-          IF(LUN.GT.0) WRITE(LUN,100) IPASS
- 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
             CALL MAT1(RMINUS,T,1)
@@ -204,7 +199,7 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
 C------- Chromatic tracking completed
 
 C--------- reactivate WRITE for printing results 
-          IF(NRES.LT.0) NRES=-NRES
+C          IF(NRES.LT.0) NRES=-NRES
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -256,9 +251,6 @@ C        ENDIF
 C      ELSEIF(IPASS .EQ. NRBLT) THEN
         ELSEIF(IPASS .EQ. 4) THEN
 
-          LUN=ABS(NRES)
-          IF(LUN.GT.0) WRITE(LUN,100) IPASS
- 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
             CALL MAT1(RPLUS,T,1)
@@ -345,6 +337,7 @@ C Amplitude detuning, dZ effects
 
       ENDIF
 
+      IF(NRES.LT.0) NRES=-NRES
 C----- reactivate READ in zgoubi.dat
       READAT = .TRUE.
 

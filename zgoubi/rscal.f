@@ -231,12 +231,15 @@ C--------- TIM(IFM,IT)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
 c           write(*,*) 
 c     >      'rscal ',IFM, ndtim, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDTIM)
-c                   read(*,*)
+                
           NP = NP + NDTIM - 1 
 
-c          NP = NP + 1
-c          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-c          A(NOEL,NP) = NSTR
+          NP = NP + 1
+          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+          A(NOEL,NP) = NSTR
+c           write(*,*) 
+c     >      'rscal nstr ',nstr
+c                   read(*,*)
 
         ELSEIF( MODSCL(IFM) .GE. 10) then             
 C--------- Name of the storage file in the next line

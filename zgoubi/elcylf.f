@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,14 +17,17 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ELCMIF(R,Z,BRI,
-     >                          E,DE,DDE)
+      SUBROUTINE ELCYLF(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
+     >                                          E,DE,DDE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      PARAMETER(MCOEF=6)
+      DIMENSION QLEM(MPOL),QLSM(MPOL),QE(MPOL,MCOEF),QS(MPOL,MCOEF)
+      DIMENSION EM(*)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
 
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
@@ -37,13 +40,12 @@ C------ ER0(n) = -d^nV/dR^n at Z=0
       DIMENSION ER0(MDR)
       DATA ER0 /  MDR*0.D0 /
 
-      CALL ELCMID(R,BRI,
-     >                  ER0)
-      IOP = 1
-      CALL EREXYZ(IOP,ER0,Z,IDE,
-     >                          E,DE,DDE)
-C No polar to Cartesian change here, since \vec E(Z=0) = \vec ER,  thus ER 
-C and derivatives identify with EY and derivatives (eqs.1.4.9 in the Guide)      
+c        write(*,*) ' elcylf ',A,R,Z
+      CALL ELCYLM(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
+     >                                        E,DE,DDE)
+c        write(*,*) ' elcylf E ',e
+c      CALL EREXYZ(ER0,Z,IDE,
+c     >                       E,DE,DDE)
       CALL DBDXYZ(IDE,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
 
       RETURN

@@ -1,3 +1,11 @@
+
+
+%\pagestyle{empty}
+%\part*{Bibliography}
+
+\pagestyle{myheadings}
+\markboth{REFERENCES}{REFERENCES}
+
 \begin{thebibliography}{99}  %%References 
 \addcontentsline{toc}{section}{\numberline{}REFERENCES}
 
@@ -25,7 +33,7 @@ Generalization of the Zgoubi method for ray-tracing to include electric
 fields}, NIM A 340 (1994) 594-604. 
 
 \bibitem{Biblio3} D.~Carvounas, \textsl{Suivi num\'erique de particules charg\'ees 
-dans un sol\'eno\"\i de}, report de stage, CEA/LNS/GT-1991. 
+dans un sol\'eno\"\i de}, rapport de stage, CEA/LNS/GT, 1991. 
 
 \bibitem{Biblio4} F.~M\'eot, \textsl{Raytracing in 3-D field maps with Zgoubi}, 
 report  DSM/LNS/GT/90-01, CEA Saclay, 1990.
@@ -68,16 +76,20 @@ Ed., J.~Wiley and Sons, New York, 1975.
  Particle Accelerators Vol~62, pp.~215-239  (1999). 
 
 \bibitem{Biblio9} B.~Mayer, personal communication,
-CEA Saclay, 1990. 
+CEA Saclay, Laboratoire National SATURNE, 1990. 
 
 \bibitem{Biblio10} L.~Farvacque \textsl{et al.}, \textsl{Beta user's guide}, Note 
 ESRF-COMP-87-01, 1987~; 
 J.~Payet, IRF/LNS, CEA Saclay, private communication~; see also J.M.~Lagniel, 
 \textsl{Recherche d'un optimum}, Note IRF/LNS/SM 87/48, CEA Saclay 1987.
 
-\bibitem{NedlerMead} Installed by J.~S.~Berg, BNL (2007). \emph{Cf.} \textsl{Detection and remediation of stagnation in the 
+\bibitem{NelderMead} Installed by J.~S.~Berg, BNL (2007). \emph{Cf.} \textsl{Detection and remediation of stagnation in the 
 Nelder-Mead algorithm using a sufficient decrease condition}, 
   C.~T.~Kelley, Siam J. Optim., Vol. 10, No. 1, pp. 43-55. 
+
+\bibitem{Coupling} F.~Desforges, 
+Implementation of a coupled treatment of the one-turn mapping in the ray-tracing code \zgoubi, 
+C-AD~Note C-A/AP/461, BNL, Sept~2012.
 
 \bibitem{Biblio11} F.~M\'eot and N.~Willis, \textsl{Raytrace computation with 
 Monte Carlo simulation of particle decay}, internal report CEA/LNS/88-18 
@@ -95,29 +107,16 @@ Press Inc., 1967.
 magn\'etique \`a haute r\'esolution pour ions lourds}, \textbf{Section IV} 
 p.62, Note CEA-N-2215, CEA Saclay, mai 1981.
 
-\bibitem{BBSW} Installed by Simon~White and F.~M\'eot, January 2012. 
-
-\bibitem{YKBatyginSpin} Y.~K.~Batygin,Spin depolarization due to beam-beam collisions
-Phys.~Rev.~E, Vol.~58,  1, July~1998. 
-
-\bibitem{Biblio14} V.~M.~Kel'man and S.~Ya.~Yavor, Achromatic
-quadrupole electron lenses, Soviet Physics - Technical Physics, vol.~6, No~12, June 1962~; \\
-S.~Ya.~Yavor \textsl{et als.}, \textsl{Achromatic quadrupole lenses}, NIM \textbf{26} (1964) 13-17. 
-
-\bibitem{Biblio15} A.~Septier et J.~van Acker, \textsl{Les lentilles quadrupolaires 
-\'electriques}, NIM \textbf{13} (1961) 335-355~; Y.~Fujita and H.~Matsuda, 
-\textsl{Third order transfer matrices for an electrostatic quadrupole lens,} 
-NIM \textbf{123} (1975) 495-504. 
-
-\bibitem{Biblio16} A.~Septier, Cours du DEA de physique des
-particules, optique corpusculaire, Universit\'e d'Orsay, 1966-67, pp.~38-39.  
 
 
 \newpage
 
-\bibitem{Karets} S.~P.~Karetskaya et als., 
-\textsl{Mirror-bank energy analyzers, in Advances in electronics and electron physics}, 
-Vol. 89, Acad. Press (1994) 391-491. 
+
+
+\bibitem{BBSW} Simon~White, January 2012. 
+
+\bibitem{YKBatyginSpin} Y.~K.~Batygin,Spin depolarization due to beam-beam collisions
+Phys.~Rev.~E, Vol.~58,  1, July~1998. 
 
 \bibitem{reportNIMFFAG} F.~Lemuet, F.~M\'eot, \textsl{Developements in the ray-tracing code Zgoubi for 
 6-D multiturn tracking in FFAG rings}, NIM~A \textbf{547} (2005) 638-651. 
@@ -126,16 +125,32 @@ Vol. 89, Acad. Press (1994) 391-491.
 \textsl{6-D beam dynamics simulations in FFAGs using the ray-tracing code Zgoubi}, 
 ICFA Beam Dyn.Newslett.43:44-50 (2007).
 
-\bibitem{reportNIMFFAGSPI} J.~Fourrier, F.~Martinache, F.~M\'eot, J.~Pasternak, 
-\textsl{Spiral FFAG lattice design tools,  application to 6-D tracking in a proton-therapy class lattice}, 
-NIM~A~589 (2008). 
+\bibitem{Biblio14} V.~M.~Kel'man and S.~Ya.~Yavor, Achromatic
+quadrupole electron lenses, Soviet Physics - Technical Physics, vol.~6, No~12, June 1962~; \\
+S.~Ya.~Yavor \textsl{et als.}, \textsl{Achromatic quadrupole lenses}, NIM \textbf{26} (1964) 13-17. 
+
+\bibitem{Biblio16} A.~Septier, Cours du DEA de physique des
+particules, optique corpusculaire, Universit\'e d'Orsay, 1966-67, pp.~38-39.  
+
+\bibitem{Karets} S.~P.~Karetskaya et als., 
+\textsl{Mirror-bank energy analyzers, in Advances in electronics and electron physics}, 
+Vol. 89, Acad. Press (1994) 391-491. 
+
+\bibitem{Biblio15} A.~Septier et J.~van Acker, \textsl{Les lentilles quadrupolaires 
+\'electriques}, NIM \textbf{13} (1961) 335-355~; Y.~Fujita and H.~Matsuda, 
+\textsl{Third order transfer matrices for an electrostatic quadrupole lens,} 
+NIM \textbf{123} (1975) 495-504. 
 
 \bibitem{EMMA} 
 S. Machida et al., 
 Acceleration in the linear non-scaling fixed-field alternating-gradient accelerator EMMA, 
 Nature Physics, vol.~8, March 2012.
 
-\bibitem{Pavel} P. Akishin, JINR, Dubna, 1992.
+\bibitem{reportNIMFFAGSPI} J.~Fourrier, F.~Martinache, F.~M\'eot, J.~Pasternak, 
+\textsl{Spiral FFAG lattice design tools,  application to 6-D tracking in a proton-therapy class lattice}, 
+NIM~A~589 (2008). 
+
+\bibitem{Pavel} Installed by Pavel~Akishin, JINR, Dubna, 1992.
 
 \bibitem{Biblio17} M.W.~Garrett, \textsl{Calculation of
 fields  [...] by elliptic integrals}, J.~Appl.~Phys., \textbf{34}, 9, sept.~1963.  
@@ -147,24 +162,13 @@ for engineers and scientists,} pp.~282-283, Springer-Verlag, Berlin, 1954.
 
 \bibitem{BiblioPlot} J.L.~Chuma, \textsl{PLOTDATA}, TRIUMF Design Note TRI-CO-87-03a.
 
-\bibitem{HAMEL} J.L.~Hamel, \textsl{mini graphic library LIBMINIGRAF}, CEA-DSM, Saclay, 1996.
-
-\bibitem{Grorud} E.~Grorud, J.L.~Laclare, G.~Leleux, 
-\textsl{R\'esonances de d\'epolarisation dans SATURNE~2}, 
-Int. report GOC-GERMA 75-48/TP-28, CEA Saclay (1975), 
-and, Home Computer Codes POLAR and POPOL, IRF/LNS/GT, CEA Saclay (1975).
-
-\bibitem{Froissart} M.~Froissart et R.~Stora, 
-\textsl{D\'epolarisation d'un faisceau de protons polaris\'es dans un synchrotron},
- NIM 7 (1960) 297-305.
-
 \bibitem{Spes2} J.~Thirion et P.~Birien, 
 \textsl{Le spectrom\`etre II, Internal Report DPh-N/ME}, 
-CEA Saclay, 23 D\'ec. 1975~; \\
-H.~Catz, \textsl{Le spectrom\`etre SPES~II}, Internal Report DPh-N/ME, CEA Saclay, 1980~; \\
- A.~Moalem, F.~M\'eot, G.~Leleux, J.P.~Penicaud, A.~Tkatchenko, P.~Birien,  \\
-A modified QDD spectrometer for $\eta$ meson decay measurements,  \\
-NIM A289 (1990) 168-175 \\[.9ex]
+CEA Saclay, 23 D\'ec. 1975~; 
+H.~Catz, \textsl{Le spectrom\`etre SPES~II}, Internal Report DPh-N/ME, CEA Saclay, 1980~; 
+ A.~Moalem, F.~M\'eot, G.~Leleux, J.P.~Penicaud, A.~Tkatchenko, P.~Birien,  
+A modified QDD spectrometer for $\eta$ meson decay measurements,  
+NIM A289 (1990) 168-175 
 
 \bibitem{BNL}  P.~Pile, I-H.~Chiang, K.~K.~Li, C.~J.~Kost, J.~Doornbos, F.~M\'eot et als., 
 \textsl{A two-stage separated 800-MeV/c Kaon beamline}, 
@@ -175,6 +179,19 @@ NIM A289 (1990) 168-175 \\[.9ex]
 3rd Intern. Workshop on Optimization and Inverse Problems 
 in Electromagnetism, CERN, Geneva, Switzerland, 19-21 Sept. 1994. 
 
+\bibitem{Grorud} E.~Grorud, J.L.~Laclare, G.~Leleux, 
+\textsl{R\'esonances de d\'epolarisation dans SATURNE~2}, 
+Int. report GOC-GERMA 75-48/TP-28, CEA Saclay (1975), 
+and, Home Computer Codes POLAR and POPOL, IRF/LNS/GT, CEA Saclay (1975).
+
+\bibitem{Froissart} M.~Froissart et R.~Stora, 
+\textsl{D\'epolarisation d'un faisceau de protons polaris\'es dans un synchrotron},
+ NIM 7 (1960) 297-305.
+
+\bibitem{HAMEL} J.L.~Hamel, \textsl{mini graphic library LIBMINIGRAF}, CEA-DSM, Saclay, 1996.
+
 
 \end{thebibliography}
+
+
 
