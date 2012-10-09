@@ -168,7 +168,7 @@ C      IF(IDB .EQ. 3) RETURN
 C------- DERIVEES 4-EMES
  
         D4BZ(3,3,3,3)=D4BX(3,1,1,1) + 2.D0*D4BX(3,2,2,1) + D4BY(3,2,2,2)
- 
+             
 C------- DERIVEES 4-EMES DE BX
         D4BX(1,3,1,1) = D4BX(3,1,1,1)
         D4BX(2,3,1,1) = D4BX(3,2,1,1)

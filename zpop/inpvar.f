@@ -69,7 +69,7 @@ C  -------
  117  FORMAT(
      >  /,'   HISTOGRAM :'
      >, /,8X,'28: Counts'
-     >,//,'   E and B FIELDS :'
+     >,//,'   B and E FIELDS :'
      >, /,8X,'30,31,32,33 :    Bx, By, Bz, sqrt(By^2+Bz^2)  (T)'
      >, /,8X,'34,35,36,37 :    Ex, Ey, Ez, sqrt(Ey^2+Ez^2)  (eV/m)'
      >,//,'   COORDINATES IN LABORATORY:'

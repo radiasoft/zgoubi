@@ -202,11 +202,12 @@ C      (=0 DEG. DANS CETTE VERSION)
           DS(1,I)=-DS(1,I-1)/DLS(1)
  11     CONTINUE
       ENDIF
-
-      IF( SHARPE .OR. SHARPS ) 
+      
+      IF(NRES.GT.0) THEN
+        IF( SHARPE .OR. SHARPS ) 
      >     WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
      >    ''model entails vertical wedge focusing simulated with'',
      >    /,17X,'' first order kick  ***'')')
-
+      ENDIF
       RETURN
       END

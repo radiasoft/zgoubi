@@ -35,11 +35,12 @@ C  -------
 
 C FM march 2000
       IF    ( IDS .LE. 4) THEN
-        KORD=2
-      ELSEIF( IDS .GT. 6) THEN
-        CALL ENDJOB('SBR modord : no such possibility IDS =',IDS)
-      ELSE
+C        KORD=2
+        KORD=IDS
+      ELSEIF( IDS .LE. 6) THEN
         KORD=4
+      ELSE
+        CALL ENDJOB('SBR modord : no such possibility IDS =',IDS)
       ENDIF
       
       IF(NRES .GT. 0) WRITE(NRES,100) IDS-1

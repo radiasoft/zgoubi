@@ -68,7 +68,7 @@ C     ----------------------------------------------------
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
-      DATA KP1, KP2, KP3 / 1, 999999, 1 /
+      DATA KP1, KP2, KP3 / 1, 99999999, 1 /
       DATA KT1, KT2 / 1, MXT /
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
@@ -434,8 +434,8 @@ C------- Read pass #  KP1 to KP2 step KP3
 C--
       ENTRY READC2(LN)
 C------- Write pass #,  KP1 to KP2, ipass-modulo KP3
- 12   WRITE(6,FMT='(''  Option status is now : KP1='',I6
-     >  ,'',   KP2='',I6,'', ipass-modulo ='',I6)') KP1, KP2, KP3
+ 12   WRITE(6,FMT='(''  Option status is now : KP1='',I9
+     >  ,'',   KP2='',I9,'', ipass-modulo ='',I9)') KP1, KP2, KP3
         WRITE(6,FMT='(''    Expected data : '',
      >  /,10X,'' KP1>0,  KP2>=KP1 : will plot in range [KP1,KP2]''
      >  ,'',  ipass-modulo  KP3>0''

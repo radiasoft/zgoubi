@@ -22,9 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE COFIN
-     >(KART,NL,LST,DS,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >                                                     *)
+      SUBROUTINE COFIN(KART,NL,LST,DS,KEX,IT,AMT,QT,EVNT,
+     >                                           Y,T,Z,P,X,SAR,TAR,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------
 C     COORDONNEES ABSOLUES EN FIN DE DS

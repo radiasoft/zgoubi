@@ -21,7 +21,7 @@ intended to help understanding some subtleties of the data definition.
 SPES~2 of SATURNE Laboratory~\protect\cite{Spes2}, by means of a \emph{Monte Carlo initial 
 object} and an \emph{analysis of images} at the focal plane with 
 histograms. The \emph{measured field maps} of the spectrometer are used 
-for that purpose. The design of SPES~2 is given in Fig.~\ref{figC11}. %%% ref
+for that purpose. The layout of SPES~2 is given in Fig.~\ref{figC11}. %%% ref
 \bigskip
 
 \noindent\textbf{Example 2:} calculates the \emph{first and second order transfer
@@ -31,7 +31,7 @@ intermediate momentum slit (horizontal focus), at the end of the
 second separation stage (vertical focus), and at the end of the 
 line (double focusing). The first bending is represented by 
 its \textsl{3-D map} previously calculated with the TOSCA\index{TOSCA} magnet 
-code. The second bending is simulated with \textsl{DIPOLE}\index{DIPOLE}. The design of the line 
+code. The second bending is simulated with \textsl{DIPOLE}\index{DIPOLE}. The  layout of the line 
 is given in Fig.~\ref{figC21}. %% ref
 \bigskip
 
@@ -43,8 +43,7 @@ $$ K \longrightarrow  \mu  + \nu $$
 acceptance of SPES~3 is $\pm 50$~mrd horizontally and $\pm 50$~mrd
 vertically; its momentum acceptance is $\pm 40$\%. The
 bending magnet is simulated with \textsl{DIPOLE}\index{DIPOLE}.
- The design of SPES~3 is
-given in Fig.~\ref{figC31}.  %% ref
+ The  layout of SPES~3 is given in Fig.~\ref{figC31}.  %% ref
 
 \bigskip
 
@@ -62,7 +61,7 @@ applied to the case of the SATURNE 3~GeV synchrotron~\protect\cite{Biblio3,Bibli
  Protons with initial vertical spin  ($\vec S\equiv\vec  S_Z $)  are 
 accelerated through the $ \gamma G=7-\nu_ Z $ depolarizing resonance. For 
 easier understanding, some results are summarized in Figs.~\ref{figC62}, \ref{figC64} %% ref
-(obtained with the graphic post-processor, see Part~D).
+(obtained with the graphic post-processor \zpop, see Part~D).
 
 \bigskip 
 
@@ -75,7 +74,7 @@ accuracy of the ray-tracing (Figs.~\ref{figC71}).   %% ref
 
 \bigskip 
 
-\noindent More examples can be found on the \zgoubi\ development web site~\cite{sourceForgeZgoubi}.
+\noindent Many more examples can be found on the \zgoubi\ development web site~\cite{SFZ}.
 
 
 
@@ -1244,21 +1243,21 @@ MATRIX, WITH NEW VARIABLES :
 \vspace{-5mm}
 
 \mbox{
-\includegraphics[height=5.8cm]{FigC6-2a.ps}
-\includegraphics[height=5.8cm]{FigC6-2b.ps} 
+\includegraphics[height=5.6cm]{FigC6-2a.ps}
+\includegraphics[height=5.6cm]{FigC6-2b.ps} 
 }
 
-\vspace{-10mm}
+\vspace{-5mm}
 \mbox{
-\includegraphics[height=5.8cm]{FigC6-2c.ps}
-\includegraphics[height=5.8cm]{FigC6-2d.ps}
+\includegraphics[height=5.6cm]{FigC6-2c.ps}
+\includegraphics[height=5.6cm]{FigC6-2d.ps}
 }
 
 \vspace{-15mm}
 \caption[FigC62]{\label{figC62} \small
 Tracking  over 3000 turns. These 
 simulations exhibit the first order parameters and 
-motions as produced by the multi turn\index{multi turn} ray-tracing. \\
+motions as produced by the multi-turn\index{multi-turn} ray-tracing. \\
 \textbf{(A)} Horizontal phase-space: the particle has been launched near to 
 the  closed orbit (the fine structure is due to $Y-Z$ coupling induced by bends fringe fields, also 
 responsible of the off-centering of the local closed orbit - at ellipse center). \\
@@ -1282,11 +1281,10 @@ momentum acceptance of 1.65~10$^{-3} $. }
 
 \vfill
 %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\vspace{-1cm}
 
 \begin{figure}[H]
 %%%FigureC6-4
-\centerline{\includegraphics[height=8cm,angle=-90]{FigC6-4.ps}}
+\centerline{\includegraphics[height=16cm,width=8cm,angle=-90]{FigC6-4.ps}}
 \vspace{-.2cm}
 \caption[FigC64]{\label{figC64} \small
 Crossing of	$ \gamma G=7-\nu_ Z	$, at $	\dot  B=2.1	$~T/s. \\
@@ -1941,6 +1939,9 @@ zpop}
 \section*{INTRODUCTION} %% D1
 \addcontentsline{toc}{section}{\numberline{}INTRODUCTION}
 
+The \zgoubi~package, including this guide, examples, the \zpop\ graphic/analysis post-processor, is available on 
+web~\cite{SFZ}. 
+
 The  \textbf{zgoubi}\index{zgoubi} \FORTRAN\ package is transportable; it has been
 compiled, linked and executed over the years on several types of systems (e.g. 
 CDC, CRAY, IBM, DEC, HP, SUN, VAX, UNIX, LINUX).  
@@ -1995,7 +1996,6 @@ zgoubi.res \index{zgoubi.res} and, upon options appearing in zgoubi.dat\index{zg
 \begin{itemize}
 \item[$\bullet$] Run \textbf{zpop} on an xterm window. This will open a 
 graphic window. 
-\item[$\bullet$] Select options displayed on the menu.   
 \item[$\bullet$] To access the data plotting sub-menu, select option~7. 
 \item[$\bullet$] To access the data treatment sub-menu, select option~8. 
 \item[$\bullet$] An on-line Help provides some information 
@@ -2009,7 +2009,9 @@ When explicitly requested by means of the adequate keywords,  options, or dedica
 \LABEL's, extra storage files are opened by \textbf{zgoubi} 
 (\textsl{FORTRAN ``OPEN''} statement) and filled. 
 
-Their content can be    post-processed using the interactive program \textbf{zpop} and its dedicated graphic 
+\medskip
+
+\noindent Their content can be    post-processed using the interactive program \textbf{zpop} and its dedicated graphic 
 and analysis procedures. 
 
 \bigskip
@@ -2055,7 +2057,7 @@ are the following (see examples, Part~C):
 aberration curves, at the position where \textsl{FAISTORE}\index{FAISTORE}  or \textsl{FAISCNL}\index{FAISCNL} 
 appears in the 
 optical structure. Histograms of coordinates. Fourier analysis 
-(e.g.~, spin motion, tunes, in case of multi turn\index{multi turn} tracking), 
+(e.g.~, spin motion, tunes, in case of multi-turn\index{multi-turn} tracking), 
 calculation of Twiss parameters from phase-space  ellipse matching.
 \item[$\bullet$] zgoubi.map \index{zgoubi.map}
   
@@ -2071,7 +2073,7 @@ elements. Spectral and angular distributions of synchrotron radiation\index{sync
   
 Spin coordinates and histograms, at the position where 
 \textsl{SPNPRNL}\index{SPNPRNL} appears in the structure. Resonance crossing when 
-performing multi turn\index{multi turn} tracking. 
+performing multi-turn\index{multi-turn} tracking. 
 \end{itemize}
 
 

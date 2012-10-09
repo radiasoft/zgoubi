@@ -38,12 +38,12 @@ C  -------
       ICPTF=0
       RETURN
 
-      ENTRY CPTWRT(N)
-
+      ENTRY CPTWRT(
+     >             N)
+      N=ICPTF
       WRITE(6,1000) ICPTF
 C1000  FORMAT(/,1X,I10,' APPELS A LA FONCTION')
 1000  FORMAT(/,1X,'  Function  called  ',I10,' times')
-      N=ICPTF
       RETURN
 
 

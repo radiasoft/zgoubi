@@ -171,9 +171,8 @@ C-------- CHREG is .true. if particle is going to next region
             CALL DEPLA(PAF)
             COSTA=AL*CT+BL*ST
             CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
-            CALL COFIN
-     >        (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >         *97)
+            CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
             CT=COS(T)
             ST=SIN(T)
             PAS = TPAS(KREG)
@@ -212,11 +211,8 @@ C------------- Step onto the exit 'DROITE'
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
               CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
-C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*99)
-              CALL COFIN
-     >          (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >           *97)
-C     >           *99)
+              CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
               IF(LST .EQ. 2) THEN 
                 CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
               ELSEIF(LST .EQ. 3) THEN 
@@ -241,10 +237,8 @@ C                                    de detecteurs)
               IF(BACK) THEN
                 PAF = -PAF
                 CALL DEPLA(PAF)
-                CALL COFIN
-     >          (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >             *97)
-C     >             *99)
+                CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
                 IF(LST .EQ. 2) THEN 
                   CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
                   CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
@@ -297,11 +291,8 @@ C----------- EFB sortie
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
               CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
-C              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*99)
-              CALL COFIN
-     >          (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >           *97)
-C     >           *99)
+              CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
               CT=COS(T)
               ST=SIN(T)
               IF(ABS(D) .GT. DLIM) GOTO 1
@@ -326,9 +317,8 @@ C-------- ifb .ne. 0
 
       PAF = PAS
       CALL DEPLA(PAF)
-      CALL COFIN
-     >  (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >   *97)
+      CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                        Y,T,Z,P,X,SAR,TAR,*97)
 
       IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
 
@@ -370,9 +360,8 @@ C           End loop on DXI
       CALL DEPLA(PAF)
       COSTA=AL*CT+BL*ST
       CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
-      CALL COFIN
-     >  (KART,NPLT,LST,PAF,Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT,EVNT,
-     >   *97)
+      CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
 
       XFINAL = XLIM
 

@@ -354,10 +354,7 @@ C---------------------------------------------------------------
  2003 CONTINUE
 C------- KALC = 3 : Full 3D calculation from analytical model 
 C ELMIR,  ELCYLDEF
-        IDE = 4
         IRD = KORD
-        IF(IRD.EQ.4) IDE=4
-
         IF(KUASEX .EQ. 24)   THEN
 C--------- ELCYLDEF
           IDE = 2
@@ -365,6 +362,9 @@ C--------- ELCYLDEF
      >                     XL)
 C           Motion in this lmnt has no z-symm. 
           ZSYM=.FALSE.
+
+          KP = NINT(A(NOEL,ND+10))
+          NDD = ND+20
 
         ELSEIF(KUASEX .EQ. 26 )   THEN
 C--------- ELCMIR

@@ -14,12 +14,15 @@ and units. All available keywords appear in alphabetical order.
 \bigskip
 
 \noindent Keywords are read from the input data file by an unformatted 
-\textsl{FORTRAN READ} statement. They may therefore need be enclosed between 
-quotes (\emph{e.g.}, `\textsl{DIPOLE}').  
+\textsl{FORTRAN READ} statement. They  be enclosed between quotes (\emph{e.g.}, `\textsl{DIPOLE}').  
 \bigskip
 
 \noindent Text string data such as comments or file names, are read by 
-formatted READ statements. Therefore no quotes are needed. Numerical variables 
+formatted READ statements, no quotes should be used in that case. 
+
+\bigskip
+
+Numerical variables 
 and indices are read by unformatted READ. It may therefore be necessary that 
 integer variables be assigned an integer value.  
 \bigskip
@@ -1980,6 +1983,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $ ~ ~   \= 2*cm, 2*deg, cm \quad \quad \= \kill
  \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT|textbf} \index{FIT2|textbf}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
@@ -1996,10 +2003,10 @@ or :     \>    \>    \> \\
  $\IR$, $\IP$, $\XC$, $[V_{min},V_{max}]$  \>
              \>$\leq${\small  MXL}, $\leq ${\small MXD}, \>2*I, 3*E\\
   \\[2ex]
-$ \NC$ ~ \textsl{[, penalty~\footnotemark[3]]}    \index{fit, penalty|textbf} 
-       \>Number of constraints [, penalty].   \> $\leq 20$ [, $\sim 10^{-n}$]\> I ~ [, E] \\
+$ \NC$ ~ \textsl{[, penalty~[,ITER]]~\footnotemark[3]}    \index{fit, penalty|textbf} \index{fit, ITER|textbf} 
+       \>Number of constraints [, penalty [, number of iterations]].   \> $\leq 20$ [,$10^{-n}$ [,$>0$]] \> I [, E [, I]] \\
  \\[-2ex]
-\textbf{For I = 1, NC}  \> \it repeat NC times the following sequence \>\>\\
+\textbf{For I = 1, NC}  \> \it repeat NC times the following sequence~: \>\>\\
  \\[-2ex]
  $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[4], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
                  \>0-5, 3*($>$0), \>4*I, 2*E, \\
@@ -2014,7 +2021,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \footnotetext[1]{~  MXL value is set in include file \texttt{MXLD.H}. }
 \footnotetext[2]{~  MXD value is set in include file \texttt{MXLD.H}. Data is of the form ``integer.iii'' with i a 1-digit integer. }
-\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$\textsl{penalty}. }
+\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$\textsl{penalty}, or when the maximum allowed number of iterations is reached. }
 \footnotetext[4]{~  $V$ is in current \zgou\ units in the case of particle coordinates (cm, mrad). It is in MKSA units 
 (m, rad) in the case of matrix coefficients.}
 
@@ -2083,10 +2090,10 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$ ~ ($K=1 - \IMAX$) & 1 & K & & &  \\
                             & & & & & & & & &  \\
 %
-			\multicolumn{1}{|c|}{\textbf{Matched ellipse}} 
+			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
 	 & 4 & $1 - 6$ & $1 - 6$ & $\sigma_{IJ}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
 	 & & & & & \textsl{OBJET/{\footnotesize KOBJ=8}~; }  \\
-                          \multicolumn{1}{|c|}{\textbf{parameters}} & & & & 
+                          \multicolumn{1}{|c|}{\textbf{   }} & & & & 
          & & & & & \textsl{MCOBJET/{\footnotesize KOBJ=3}}  \\
                            & & & & & & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{Number of}} 
@@ -2119,6 +2126,10 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 \textbf{FOCALE}         \label{FOCALE-B} \index{FOCALE|textbf}
         \> \textbf{\FOCALETitl }\>\>\\
  \\
@@ -3251,7 +3262,7 @@ X_S $ translations.}
          \>   $NV<NPASS$ then  last value is maintained over remaining passes).
 \end{tabbing}
 
-\footnotetext[1]{~ K=22 is compatible with use of the \textsl{FIT} \index{FIT} procedure~: \emph{e.g.},  allows successive  \textsl{FIT}s  in a run, with successive sets of optical parameters.} 
+\footnotetext[1]{~ K=22 is compatible with use of the \textsl{FIT[2]} \index{FIT} \index{FIT2} procedure~: \emph{e.g.},  allows successive  \textsl{FIT}s  in a run, with successive sets of optical parameters.} 
 
 \footnotetext[2]{~  $V$ is in current \zgou\ units in the case of particle coordinates (cm, mrad). It is in MKSA units 
 (m, rad) in the case of matrix coefficients.}

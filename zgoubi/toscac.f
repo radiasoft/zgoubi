@@ -37,6 +37,7 @@ C-------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      COMMON/CONST2/ ZRO, ONE
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
@@ -68,26 +69,17 @@ C-------------------------------------------------
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
 
-      DIMENSION A10INI(MXL)
-      LOGICAL FRSTRD(MXL)
-      SAVE A10INI, FRSTRD
-
       DIMENSION DBDX(3)
       DIMENSION AA(29)
 
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
-      DATA FRSTRD / MXL * .TRUE. / 
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
 C Aug 2012      BNORM = A(NOEL,10)*SCAL
       BNORM = A(NOEL,10)
-      IF(FRSTRD(NOEL)) THEN
-        A10INI(NOEL) = A(NOEL,10)
-        FRSTRD(NOEL) = .FALSE.
-      ENDIF
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
@@ -185,7 +177,7 @@ C--------- A single data file contains the all 3D volume
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,2(A,I1),/)') 
+        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,A,I1,A,I2,/)') 
      >  'NDIM = ',NDIM,' ;  ' 
      >  ,'Number of data file sets used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
@@ -254,7 +246,7 @@ C--------- A single data file contains the all 3D volume
              IRD = NINT(A(NOEL,40))
 
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
-     >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
+     >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
@@ -283,11 +275,6 @@ C FM Nov 2011           DO K= 2, KZMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
 
-           CALL CHAMK2(scal)
-
-C           write(*,*) 'toscac 1 ',A(NOEL,10),A10INI(NOEL), scal
-C                            read(*,*)
-
       ELSE
 
            IRD = NINT(A(NOEL,40))
@@ -314,28 +301,18 @@ C------- Restore mesh coordinates
            YBMA = YBBMA(imap) 
            ZBMA = ZBBMA(imap)  
 
-C july 2012           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
-C Aug 2012           CALL CHAMK2(A(NOEL,10)/ABS(A10INI(NOEL)) * scal)
-           CALL CHAMK2(A(NOEL,10)/A10INI(NOEL) * scal)
-
-c           write(*,fmt='(a,1p,3(1x,e12.4))') 
-c     >          ' toscac 2 ',A(NOEL,10),A10INI(NOEL), scal
-c                            read(*,*)
-
            IF(NRES.GT.0) THEN
              WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
      >       ' restored mesh coordinates for field map # ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
-c             WRITE(NRES,*) ' '
-c             WRITE(NRES,*) ' SBR TOSCAC, applied scaling factor scal= '
-c     >             ,scal
            ENDIF
 
       ENDIF ! NEWFIC
 
+      CALL CHAMK2(BNORM*SCAL)
 
-c voir si ok avec cartésien
+C Make sure this is ok with cartésien
         CALL MAPLI1(BMAX-BMIN)
 C        AT=XH(IAMA)-XH(1)
 C        ATO = 0.D0

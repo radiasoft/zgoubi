@@ -23,6 +23,11 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
 
+C MMAP : The total number of field maps declared in zgoubi.dat, whether repeatedly for some 
+C of them or not.
+C IZ : 
+C ID : 
+
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C-- Max mesh nodes in Z direction, # of field coordinates
 C      PARAMETER (IZ=9 , ID=3)
@@ -81,31 +86,22 @@ C----- Jaroslaw problem, Oct 2010
 c      PARAMETER (IZ=1 , ID=3, MMAP=1)
 c      PARAMETER (MXX=1271, MXY=97)
 
-C AGS with 2 (=mmap) snake maps
-C Using MAP2D
-C      PARAMETER (IZ=1 , ID=3, MMAP=2)
-C      PARAMETER (MXX=801, MXY=29)
-      
-CC AGS Magnet maps, using TOSCA
-C      PARAMETER (IZ=1 , ID=3, MMAP=6)
-C      PARAMETER (MXX=498, MXY=161)
-      
+C AGS ----------------------------------------------------
 CC AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
 C      PARAMETER (MXX=801, MXY=161)
 
-CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
-C      PARAMETER (IZ=30 , ID=3, MMAP=2)
-C      PARAMETER (MXX=801, MXY=29)
-CC D5 IPM magnet in AGS.
-C      PARAMETER (IZ=41 , ID=3, MMAP=2)
-C      PARAMETER (MXX=1801, MXY=41)
+CC D5 IPM magnet in bare AGS.
+      PARAMETER (IZ=41 , ID=3, MMAP=2)
+      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=1000, MXY=201)
+C      PARAMETER (IZ=30 , ID=3, MMAP=8)
+C      PARAMETER (MXX=1000, MXY=201)
+C AGS ----------------------------------------------------
+
 
 CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)

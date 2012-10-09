@@ -40,10 +40,8 @@ C------ ER0(n) = -d^nV/dR^n at Z=0
       DIMENSION ER0(MDR)
       DATA ER0 /  MDR*0.D0 /
 
-c        write(*,*) ' elcylf ',A,R,Z
       CALL ELCYLM(MPOL,EM,QLEM,QLSM,QE,QS,A,R,Z,
      >                                        E,DE,DDE)
-c        write(*,*) ' elcylf E ',e
 c      CALL EREXYZ(ER0,Z,IDE,
 c     >                       E,DE,DDE)
       CALL DBDXYZ(IDE,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)

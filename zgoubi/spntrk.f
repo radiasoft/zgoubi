@@ -177,19 +177,26 @@ CALCUL S'=SxO
       DSE(2,1) = DSE(1,2)*OE(1,3) - DSE(1,3)*OE(1,2)
       DSE(2,2) = DSE(1,3)*OE(1,1) - DSE(1,1)*OE(1,3)
       DSE(2,3) = DSE(1,1)*OE(1,2) - DSE(1,2)*OE(1,1)
-      DO I = 1, 3
-        DSE(2,I) = DSE(2,I) - DBSB * DSE(1,I)
-      ENDDO
+C      DO I = 1, 3
+C        DSE(2,I) = DSE(2,I) - DBSB * DSE(1,I)
+C      ENDDO
 CALCUL S''=S'xO + SxO'
       DSE(3,1) = DSE(2,2)*OE(1,3) - DSE(2,3)*OE(1,2) +       
-     >       DSE(1,2)*OE(2,3) - DSE(1,3)*OE(2,2)
+     >           DSE(1,2)*OE(2,3) - DSE(1,3)*OE(2,2)
       DSE(3,2) = DSE(2,3)*OE(1,1) - DSE(2,1)*OE(1,3) +       
-     >       DSE(1,3)*OE(2,1) - DSE(1,1)*OE(2,3)
+     >           DSE(1,3)*OE(2,1) - DSE(1,1)*OE(2,3)
       DSE(3,3) = DSE(2,1)*OE(1,2) - DSE(2,2)*OE(1,1) +       
-     >       DSE(1,1)*OE(2,2) - DSE(1,2)*OE(2,1)
+     >           DSE(1,1)*OE(2,2) - DSE(1,2)*OE(2,1)
       DO I = 1, 3
-        DSE(3,I) = DSE(3,I) - D2BSB * DSE(1,I) - 2.D0*DBSB * DSE(2,I)
+C        DSE(3,I) = DSE(3,I) - D2BSB * DSE(1,I) - 2.D0*DBSB * DSE(2,I)
+        DSE(3,I) = DSE(3,I) - DBSB * DSE(2,I)
       ENDDO
+
+
+          goto 222
+
+
+
 CALCUL S'''=S''xO + 2*S'xO' + SxO''
       DSE(4,1) = DSE(3,2)*OE(1,3) - DSE(3,3)*OE(1,2) + 
      >                                  2.D0*(DSE(2,2)*OE(2,3) 
@@ -201,8 +208,9 @@ CALCUL S'''=S''xO + 2*S'xO' + SxO''
      >                                  2.D0*(DSE(2,1)*OE(2,2) 
      >  - DSE(2,2)*OE(2,1)) +       DSE(1,1)*OE(3,2) - DSE(1,2)*OE(3,1)
       DO I = 1, 3
-        DSE(4,I) = DSE(4,I) - D3BSB * DSE(1,I) 
-     >             -  3.D0*( D2BSB * DSE(2,I)+ DBSB * DSE(3,I) )
+C        DSE(4,I) = DSE(4,I) - D3BSB * DSE(1,I) 
+C     >             -  3.D0*( D2BSB * DSE(2,I)+ DBSB * DSE(3,I) )
+        DSE(4,I) = DSE(4,I) - (D2BSB * DSE(2,I)+ 2.D0*DBSB * DSE(3,I) )
       ENDDO
 CALCUL S''''=S'''xO + 3*S''xO' + 3*S'xO'' + SxO'''
       DSE(5,1) = DSE(4,2)*OE(1,3) - DSE(4,3)*OE(1,2) + 
@@ -218,8 +226,10 @@ CALCUL S''''=S'''xO + 3*S''xO' + 3*S'xO'' + SxO'''
      >- DSE(3,2)*OE(2,1)) + 3.D0*(DSE(2,1)*OE(3,2) - DSE(2,2)*OE(3,1)) +    
      >DSE(1,1)*OE(4,2) - DSE(1,2)*OE(4,1)
       DO I = 1, 3
-        DSE(5,I) = DSE(5,I) - D4BSB * DSE(1,I) - 4.D0*D3BSB * DSE(2,I)
-     >               - 6.D0*D2BSB * DSE(3,I)   - 4.D0*DBSB * DSE(4,I) 
+C        DSE(5,I) = DSE(5,I) - D4BSB * DSE(1,I) - 4.D0*D3BSB * DSE(2,I)
+C     >               - 6.D0*D2BSB * DSE(3,I)   - 4.D0*DBSB * DSE(4,I) 
+        DSE(5,I) = DSE(5,I) - D4BSB * DSE(1,I) - (D3BSB * DSE(2,I)
+     >               + 3.D0*D2BSB * DSE(3,I) + 2.D0*DBSB * DSE(4,I)) 
       ENDDO
 CALCUL S'''''=S''''xO + 4*S'''xO' + 6*S''xO'' + 4*S'xO''' + SxO''''
       DSE(6,1) = DSE(5,2)*OE(1,3) - DSE(5,3)*OE(1,2) + 
@@ -238,8 +248,11 @@ CALCUL S'''''=S''''xO + 4*S'''xO' + 6*S''xO'' + 4*S'xO''' + SxO''''
      >4.D0*(DSE(2,1)*OE(4,2) -DSE(2,2)*OE(4,1)) + 
      >                                 DSE(1,1)*OE(5,2)-DSE(1,2)*OE(5,1)
       DO I = 1, 3
-        DSE(6,I) = DSE(6,I) - D5BSB * DSE(1,I) - 5.D0*D4BSB * DSE(2,I)
-     >  -10.D0*(D3BSB *DSE(3,I) + D2BSB* DSE(4,I))- 5.D0*DBSB * DSE(5,I) 
+C        DSE(6,I) = DSE(6,I) - D5BSB * DSE(1,I) - 5.D0*D4BSB * DSE(2,I)
+C     >  -10.D0*(D3BSB *DSE(3,I) + D2BSB* DSE(4,I))- 5.D0*DBSB * DSE(5,I) 
+        DSE(6,I) = DSE(6,I) - D5BSB * DSE(1,I) - (D4BSB * DSE(2,I)
+     >  +4.D0*D3BSB *DSE(3,I) + 2.D0*D2BSB* DSE(4,I)
+     >          + 2.D0*DBSB * DSE(5,I)) 
       ENDDO
 
 c        write(*,fmt='(1a,1x,2i3,1x,20e12.4)') 
@@ -249,6 +262,9 @@ c     > eu
 c     > CSV,DCSV,D2CSV,D3CSV,D4CSV
 c     > dbsb,d2bsb,d3bsb,d4bsb,d5bsb
 c           read(*,*)
+
+
+ 222  continue
 
 C Pure E field
       IF(KFLD.EQ.2) THEN

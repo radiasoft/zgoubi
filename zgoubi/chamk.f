@@ -161,15 +161,15 @@ C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
       CONTINUE
 C       .... ORDRE 2 ,  3*3 points grid
 
-      F1= HC(ID,IAC-1,IRC-1,1,IMAP) * scal
-      F2= HC(ID,IAC  ,IRC-1,1,IMAP) * scal
-      F3= HC(ID,IAC+1,IRC-1,1,IMAP) * scal
-      F4= HC(ID,IAC-1,IRC  ,1,IMAP) * scal
-      F5= HC(ID,IAC  ,IRC  ,1,IMAP) * scal
-      F6= HC(ID,IAC+1,IRC  ,1,IMAP) * scal
-      F7= HC(ID,IAC-1,IRC+1,1,IMAP) * scal
-      F8= HC(ID,IAC  ,IRC+1,1,IMAP) * scal
-      F9= HC(ID,IAC+1,IRC+1,1,IMAP) * scal
+      F1= HC(ID,IAC-1,IRC-1,1,IMAP) * SCAL
+      F2= HC(ID,IAC  ,IRC-1,1,IMAP) * SCAL
+      F3= HC(ID,IAC+1,IRC-1,1,IMAP) * SCAL
+      F4= HC(ID,IAC-1,IRC  ,1,IMAP) * SCAL
+      F5= HC(ID,IAC  ,IRC  ,1,IMAP) * SCAL
+      F6= HC(ID,IAC+1,IRC  ,1,IMAP) * SCAL
+      F7= HC(ID,IAC-1,IRC+1,1,IMAP) * SCAL
+      F8= HC(ID,IAC  ,IRC+1,1,IMAP) * SCAL
+      F9= HC(ID,IAC+1,IRC+1,1,IMAP) * SCAL
 
 C BB/FM/ 18/08 to be thought of......
       CALL MAPLIM(*999, 9, BMESH1)
@@ -237,7 +237,7 @@ C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
          IRCJR=IRC+JR
          DO 2 I=1,5
             IA=I-3
-            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * scal
+            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * SCAL
             BMESH(I,J) = BIAJR
             AI=DBLE(IA)
             AI2=AI*AI*BIAJR
@@ -354,7 +354,7 @@ C     --- CALCUL DES 6 COEFFS DU POLYNOME DE DEGRE 2 :
 C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
 
 c          write(*,*) ' chamk '
-c          write(*,*) ' chamk  scal : ',scal,DBDX(1),DBDX(2)
+c          write(*,*) ' chamk  SCAL : ',SCAL,DBDX(1),DBDX(2)
       A0 =0D0
       A10=0D0
       A11=0D0
@@ -370,7 +370,7 @@ c          write(*,*) ' chamk  scal : ',scal,DBDX(1),DBDX(2)
             IA=I-3
             AI=DBLE(IA)
             AI2=AI*AI
-            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * scal
+            BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * SCAL
      >        * (1.D0 + (DBDX(1) + RJ * DBDX(2)) * RJ ) 
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
@@ -476,7 +476,7 @@ C                        isum =0
             IA=I-2
             DO 416 K=1,3
               KZ=K-2
-              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP) * scal
+              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP) * SCAL
               BMESH3(K,I,J) = BIJK
               A000(L)=A000(L) + 
      >             DBLE(7-3*(IA*IA+JR*JR+KZ*KZ))/3.D0 *BIJK

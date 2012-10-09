@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory            
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
 C1       2         3         4         5         6         7
 C2345678901234567890123456789012345678901234567890123456789012
@@ -117,10 +116,10 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
      >'   X  ',' Step ','   r  ',
      >'dp/p|o',' Y_o  ',' Y''_o ',' Z_o  ',' Z''_o  ',' s_o  ','Time_0',
      >'Phase ',' dp/p ','KinEnr',
-     >'  Sx  ','  Sy  ','  Sz  ',' <S>  ',
-     >' <Sx> ',' <Sy> ',' <Sz> ','COUNT ','      ',
-     >'  Bx  ','  By  ','  Bz  ','  Br  ',
-     >'  Ex  ','  Ey  ','  Ez  ','  Er  ',
+     >'  SX  ','  SY  ','  SZ  ',' <S>  ',
+     >' <SX> ',' <SY> ',' <SZ> ','COUNT ','      ',
+     >'  BX  ','  BY  ','  BZ  ','  BR  ',
+     >'  EX  ','  EY  ','  EZ  ','  ER  ',
      >' S_out',' Pass#'  ,2*'      ',
      >' Y_Lab','      ',' Z_Lab','      ','      ','      ',' X_Lab',
      >8*' ',

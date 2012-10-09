@@ -71,7 +71,6 @@ OBJ=\
  csri.o\
  csrint.o\
  ctrlb.o\
- ctrlc.o\
  cubspl.o\
  dbdxyz.o\
  debstr.o\
