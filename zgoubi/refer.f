@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE REFER(IO,IORD,IFOC,IT1,IT2,IT3)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -44,6 +43,12 @@ C     **********************************************
  1    CONTINUE
 C----- GOES TO NEW REFERENCE FRAME + computes new coordinates there
  
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,FMT='(/,1P,''  Reference, absolute '',
+     >  ''(part #'',I4,'')  : '',
+     >   1P,6E13.5,1X,E13.5)') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
+      ENDIF 
+
       IF    (IFOC .EQ. 0) THEN
         XI=0.D0
         YI=F(2,IT1)
@@ -71,10 +76,11 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
      >        ,F9.5,' deg  ( =',F9.6,' rad )',/)
       ENDIF
       PATHL = F(6,IT1)
-      IF(NRES .GT. 0)WRITE(NRES,FMT='(/,1P,''Reference particle '',
-     >''(#'',I4,''), path length :'',G16.8,'' cm'', 
-     >''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
- 
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,FMT='(/,1P,''  Reference particle '',
+     >  ''(#'',I4,''), path length :'',G16.8,'' cm'', 
+     >  ''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
+      ENDIF 
       RETURN
  
  2    CONTINUE

@@ -42,6 +42,8 @@ C  -------
       CHARACTER*(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
 
+      IF(NI.NE.1 .AND. NI.NE.10*(NI)/10) RETURN
+
         IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
 100     FORMAT('1')
         WRITE(IUNIT,200) NI

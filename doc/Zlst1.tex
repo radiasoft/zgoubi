@@ -1309,7 +1309,7 @@ equations $\partial S / \partial A_{ijk} = 0$.
 
 \clearemptydoublepage
 
-\section[SPIN TRACKING]{SPIN TRACKING\index{spin tracking}~\protect\cite{Biblio7}}\label{sec3}   %%% [7]
+\section[SPIN TRACKING]{SPIN TRACKING\index{spin tracking}~\protect}\label{sec3}   %%% [7]
 
 %%% chgt de numerotation des equations pour ne pas avoir 3.0.1 %%%
 %% \renewcommand\theequation{\thesubsection.\arabic{equation}}
@@ -1318,6 +1318,15 @@ equations $\partial S / \partial A_{ijk} = 0$.
 %\@addtoreset{equation}{section}
 %\makeatother
 %%%
+
+Spin motion tracking was  implemented in \zgou\ in the SATURNE years~\cite{Biblio7}, 
+it has been since  used in a number of studies, including the transport of polarized muons 
+ in the Neutrino Factory~\cite{polarNuFact}, 
+polarization survival in the superB project~\cite{polarSuperB}, 
+studies on proton polarization with helical snakes
+at AGS~\cite{polarAGS} and RHIC~\cite{polarRHIC},  
+and in the magic-energy electrostatic ring of the proton-EDM project~\cite{polarPEDM}. 
+
 
 \subsection{Introduction}
 
@@ -1533,10 +1542,10 @@ for the magnetic case~(eq.~\ref{eq3-6-S}) and for the electric case~(eq.~\ref{eq
  &  +    \vec  S^{\,\prime}  \times \vec \omega_e + \vec  S \times \vec \omega_e^{\,\prime} 
           - (\Br)^\prime \vec  S^{\,\prime}    \\[1ex]
    	 \multicolumn{3}{l}{\Br\vec  S^{\prime\prime\prime} =}  \\
-  & \hspace{-8mm} \underbrace{\large
+  & \hspace{-8mm} \underbrace{
 \vec  S^{\,\prime\prime}  \times \vec \omega_b + 2\vec  S^{\,\prime} \times \vec \omega_b^{\,\prime}   + \vec S \times \vec \omega_b^{\,\prime\prime} 
               }_{\textrm{Magnetic field component, eq.~(\ref{eq3-6-S})}}  
-&   \underbrace{ \large
+&   \underbrace{ 
      + \vec  S^{\,\prime\prime}  \times \vec \omega_e + 2\vec  S^{\,\prime} \times \vec \omega_e^{\,\prime}   + \vec S \times \vec \omega_e^{\,\prime\prime}    
     -\left(  (\Br)^{\prime\prime}\vec  S^{\,\prime}
 		      + 2 (\Br)^\prime \vec  S^{\,\prime\prime}  \right) 
@@ -1561,15 +1570,31 @@ for the magnetic case~(eq.~\ref{eq3-6-S}) and for the electric case~(eq.~\ref{eq
 \@addtoreset{equation}{subsection}
 \makeatother
 
-\zgoubi\ provides the  simulation of two distinct types of synchrotron radiation (SR) manifestatons 
- namely, on the one hand the particle 
-energy loss by stochastic emission of a photon and the ensuing perturbation 
+\zgoubi\ provides the  simulation of two distinct types of synchrotron radiation (SR) manifestations 
+ namely, on the one hand energy loss by stochastic emission of photons and the ensuing perturbation 
 on particle dynamics  and, on the other hand the radiated electro-magnetic field impulse and 
-its spectral-angular energy density, as observed in the laboratory. 
+its spectral-angular energy density as observed in the laboratory. 
+
+\medskip
+
+\noindent {\bf SR loss simulation} was first installed in \zgou\ in view of beam dynamics studies in the beam delivery system of the 
+Next Linear Collider~\cite{FMSEA-00-01}, based on a  method developed in the frame 
+of the ELFE project (``EU Lab. For Electrons'')~\cite{SRLossGL,DYNAC,ELFE}. 
+It was next used for including damping effects in beam studies 
+regarding various electron-ring and recirculator projects~\cite{polarSuperB,SRLossBench}. 
+
+\medskip
+
+\noindent {\bf SR electromagneitc impulse and spectrum} computation was first installed in \zgou\ for the 
+study of interference effects at the LEP beam diagnostics miniwiggler~\cite{FMSL/94-22}. 
+These simulation tools were next used to design the LHC SR beam diagnostics systems, 
+located in the IR4 RF section~\cite{FMLPYellow}. 
+
+
 
 \subsection{Energy Loss and  Dynamical Effects}\label{secSRLoss}
 
-Most of the contents of the present section are drawn from Ref.~\protect\cite{FMSEA-00-01}\label{SRLoss}.
+Most of the contents of the present section are drawn from Ref.~\cite{FMSEA-00-01}\label{SRLoss}.
 
 \medskip
 
@@ -3855,7 +3880,7 @@ following way. Let \textsl{SCALE}(\textsl{TIMING} $ = N$) be the updating scale 
 \intertext{and then}
      B(N)   &  = \text{\textsl{SCALE}}(N)B_0 \\ 
      B_i(N) &  = \text{\textsl{SCALE}}(N){B_i}_0 \\
-\intertext{The  R.F. frequency is computed using}
+\intertext{The  RF frequency is computed using}
      f_{RF} & = \dfrac{hc }{\mathcal{L}} \, 
               \dfrac{q(\Br )_s }{ (q^2(\Br )^2_s + (Mc^2)^2)^{1/2}} 
 \end{align*}
@@ -4701,11 +4726,11 @@ use \textsl{SCALING} with the option $\NTIM=-1$.
 \noindent\textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
 \bigskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the R.F.~cavity of a 
+\noindent\textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the RF~cavity of a 
 synchrotron accelerator~: 
 the periodic motion over $IP  = 1$, \textsl{NPASS} + 1 \index{NPASS}
 turns (passes through the structure) is obtained using the keyword \textsl{REBELOTE\index{REBELOTE}}, option 
-\mbox{K  =  99},  while  R.F.  and optical elements  time dependent functions are simulated by means of
+\mbox{K  =  99},  while  RF  and optical elements  time dependent functions are simulated by means of
 \textsl{SCALING} -- see section~\ref{sec4.6.4}. 
  \textsl{CAVITE} may conveniently be located  \textsl{at the end} of the optical 
 structure, otherwise its phasing has to be indicated. 
@@ -4724,7 +4749,7 @@ $$ \left\{
   
 {\renewcommand{\arraystretch}{1}
  \begin{tabular}{>{$}l<{$}!{=}l}
-	\phi        &  R.F. phase~; $\phi_ 2-\phi_ 1=$ variation  of $\phi$ between two  traversals\\
+	\phi        &  RF phase~; $\phi_ 2-\phi_ 1=$ variation  of $\phi$ between two  traversals\\
 	W           &   kinetic  energy~;  $W_2-W_1=$ energy  gain  at  a traversal  of \textsl{CAVITE}\\
 	\mathcal{L} & length  of  the  synchronous  closed orbit\index{closed orbit}  (to  be  calculated  by  prior 
 	              ray-tracing,   \index{closed orbit}    \\
@@ -4732,12 +4757,12 @@ $$ \left\{
 	\ell        &  orbit length  of  the  particle  between  two  traversals\\
 	\beta_ sc   &  velocity  of  the (virtual)  synchronous  particle\\
 	\beta c     &  velocity  of  the  particle \\
-	\hat  V     &  peak R.F.\ voltage\\
+	\hat  V     &  peak RF voltage\\
 	q           &  particle  electric  charge.   
  \end{tabular}}
 \bigskip
 
-\noindent The R.F.\ frequency $ f_{RF} $ is a multiple of the synchronous 
+\noindent The RF frequency $ f_{RF} $ is a multiple of the synchronous 
 revolution frequency, and is obtained from the input data, following 
 
 $$ f_{RF} = \dfrac{hc }{\mathcal{L}}\, \dfrac{q(\Br )_s }{ \sqrt{q^2(\Br)^2_s+(Mc)^2}} $$
@@ -4822,8 +4847,8 @@ and for the angles (see Fig.~\ref{fig1})
 \end{equation*}  
 %\vfill\eject
 
-\noindent\textbf{If $\mathbf{IOPT  =  2~:}$} the same simulation of a synchrotron R.F.\ cavity, 
-as for $\mathbf{IOPT  =  1}$, is performed, except that the keyword 
+\noindent\textbf{If $\mathbf{IOPT  =  2~:}$} the same simulation of a synchrotron RF cavity 
+as for $\mathbf{IOPT  =  1}$ is performed, except that the keyword 
 \textsl{SCALING\index{SCALING}} (family \textsl{CAVITE\index{CAVITE}}) is not taken into 
 account in this option~: the increase in kinetic energy at each traversal, 
 for the synchronous particle, is
@@ -4831,12 +4856,12 @@ for the synchronous particle, is
 $$ \Delta W_s= q\hat  V \,\sin\phi_ s $$
 %
 where the synchronous phase $ \phi_ s $ is given in the input data.
-From this, the calculation of the law $ (\Br )_s $ and the R.F.\ frequency 
+From this, the calculation of the law $ (\Br )_s $ and the RF frequency 
 $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =  1} case. 
 
 \bigskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  3}$~:} acceleration without synchrotron motion. 
+\noindent\textbf{If $\mathbf{IOPT  =  3}$~:} sine RF law, acceleration without synchrotron motion. 
 Any particle will be given a kick
 
 $$ \Delta W = q\hat  V\, \sin\phi_ s $$
@@ -4845,13 +4870,19 @@ where $ \hat  V $ and $ \phi_ s $ are input data.
 
 \bigskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  6}$~:} scaling FFAG \index{FFAG} acceleration.  
+\noindent\textbf{If $\mathbf{IOPT  =  6}$~:}  
+allows reading the RF frequency and/or phase law from an external file (wih name normally ``zgoubi.freqLaw.In''). 
+See routines \texttt{cavite.f} and \texttt{scalin.f} for details
+Was first used for  acceleration  in scaling FFAG~\cite{reportNIMFFAGSPI}. \index{FFAG}  
 
 
 \bigskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  7}$~:} EMMA FFAG acceleration, quasi-isochronous acceleration, cyclotron 
-\index{cyclotron} acceleration. 
+\noindent\textbf{If $\mathbf{IOPT  =  7}$~:} fixed frequency RF, quasi- or isochronous acceleration. Was 
+first used for quasi-isochronous, fixed frequency acceleration in the EMMA prototype 
+linear FFAG~\cite{repDapniaEMMA}. 
+
+\noindent Can be used for  cyclotron \index{cyclotron} acceleration. 
 
 
 
@@ -5805,7 +5836,7 @@ $\:\:\dfrac{\partial^{ u+v}d(R,\theta)}{ \partial \theta^u\partial r^v}$.
 computed at  the $n\times n$ nodes  ($n=3$ or $5$ in practice)  
 of a ``flying'' interpolation grid in the median plane centered on the projection $m_0$ of 
 the actual particle position $M_0$ as schemed 
-in Fig.~\ref{FigGrid}. A polynomial interpolation is involved, of the form 
+in Fig.~\ref{FigGrid2}. A polynomial interpolation is involved, of the form 
 
 $$\Bz(R,\theta) = A_{00} + A_{10}\theta + A_{01}R + A_{20}\theta^2 + A_{11}\theta R + A_{02} R^2 $$
 
@@ -5820,7 +5851,7 @@ equations, so that the operation {\it is not}   CPU time consuming.
  \begin{center}
 \includegraphics*[bbllx=30,bblly=150,bburx=590,bbury=400,width=8.2cm,height=4.3cm]{grid.eps}
 {\setlength{\captionwidth}{12cm}
-  \hangcaption{ \small     \label{FigGrid}
+  \hangcaption{ \small     \label{FigGrid2}
 Interpolation method.  
 $m_0$ and $m_1$ are the projections in the median plane of particle positions $M_0$ and $M_1$  and separated 
 by $\delta s$, projection of the integration step. 
@@ -8219,7 +8250,7 @@ previous one, the option $ K=99 $ has to be specified in \textsl{REBELOTE\index{
 \item[-] \textsl{CAVITE\index{CAVITE}} appears in the zgoubi.dat data list (normally before
 \textsl{REBELOTE\index{REBELOTE}}), with option \textsl{IOPT}$\neq 0$, 
 
-\item[-] the R.F.\ frequency of the cavity may be given a timing law $f_{RF}(T)$ by 
+\item[-] the RF frequency of the cavity may be given a timing law $f_{RF}(T)$ by 
 means of \textsl{SCALING\index{SCALING}}, family \textsl{CAVITE}, 
 
 \item[-] the magnets are given a field  timing law $ B(T)$,  

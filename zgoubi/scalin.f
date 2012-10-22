@@ -175,9 +175,9 @@ c                NP = NP + 1
      >        SCL(IF,1), SCL(IF,NTIM(IF))
  104          FORMAT(15X,'Scaling of field follows the law'
      >        ,' function of Rigidity taken from file : ', A
-     >        ,/,20X,' # TIMINGS : ', I5
-     >        ,/,20X,' From :      ', ES9.2, ' To ', ES9.2, ' kG.cm'
-     >        ,/,20X,' Scal from : ', ES9.2, ' To ', ES9.2)
+     >        ,/,20X,' # TIMINGS : ', I5, 1P
+     >        ,/,20X,' From :      ', E14.6, ' To ', E14.6, ' kG.cm'
+     >        ,/,20X,' Scal from : ', E14.6, ' To ', E14.6)
 
               IF    (MODSCL(IF) .EQ. 10) THEN
                 WRITE(NRES,FMT='(10X,

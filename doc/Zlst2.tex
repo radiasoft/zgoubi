@@ -740,32 +740,42 @@ extrapolated linearly to the exit face of the map.}
 \textbf{If IOPT=0}  \>Element inactive \>\>\\
 \\
 $ X$, $X $        \> Unused \>\>\\
+$ X$, $X $        \> Unused \>\>\\
   \\
-\textbf{If IOPT=1}~\footnotemark[2]  \> $ f_{RF} $ follows the timing law given by 
-		\textsl{SCALING}\index{SCALING}\\
+\textbf{If IOPT=1}~\footnotemark[2]  \> $ f_{RF} $ follows the timing law given by \textsl{SCALING}\index{SCALING}\\
  \\
-$\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number \>m, no dim.$                  $\>2*E\\
-\\
+$\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number \>m, no dim.  \>2*E\\
 $ \hat  V, ~ X $       \> R.F. peak voltage~; unused  \>V, unused\>2*E\\
  \\
-\textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $
+\textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $ \\
  \\
 $\mathcal{L}$, $h $      \> Reference closed orbit length~; harmonic number \>m, no dim.\>2*E\\
-\\
 $ \hat  V$, $\phi_ s $       \> R.F. peak voltage~; synchronous phase \>V, rad \>2*E\\
  \\
 \textbf{If IOPT=3}  \> No synchrotron motion : $ \Delta W=q\hat  Vsin\phi_ s $ \> \> \\
 \\
 $ X$, $X$       \> Unused~; unused   \> 2*unused \> 2*E\\
-\\
 $ \hat  V$, $\phi_ s $       \>R.F. peak voltage~; synchronous phase \>V, rad \>2*E \\
  \\
-\textbf{If IOPT$\geq 4$}  \> Various acceleration modes~: FFAG, cyclotron, etc., see routine \texttt{cavite.f}.
+\textbf{If IOPT=6}  \> Read  RF frequency and/or phase law from  external file, ``zgoubi.freqLaw.In''.  \\
+\\
+$\mathcal{L}$, $E_k$       \> Orbit length and kinetic energy at start of acceleration.  \>  m, MeV  \>  2*E  \\
+$ \hat  V, ~ \Phi_s $       \> R.F. peak voltage~; synchronous phase. \> V, rad \> 2*E \\
+ \\
+\textbf{If IOPT=7}  \>   Quasi- or isochronous acceleration. \\
+\\
+$X$, $E_k$       \> Unused~; RF frequency~;   \>  - , Hz  \>  2*E  \\
+$ \hat  V, ~ \Phi_s $  \> R.F. peak voltage~; synchronous phase. \> V, rad \> 2*E \\
+
+
 \end{tabbing}
 
 \footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge. }
 \footnotetext[2]{~ For ramping the R.F. frequency following 
 $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. } 
+
+
+
 
 \newpage
 

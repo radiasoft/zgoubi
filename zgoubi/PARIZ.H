@@ -52,7 +52,7 @@ C       PARAMETER (IZ=21 , ID=3, MMAP=1)
 C       PARAMETER (MXX=671, MXY=53)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
-C      PARAMETER (IZ=41 , ID=3)
+C      PARAMETER (IZ=41 , ID=3, MMAP=1)
 C      PARAMETER (MXX=1000, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)

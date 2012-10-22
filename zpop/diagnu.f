@@ -33,6 +33,8 @@ C----------------------------------------------------------------------------
       logical TRDROI, TRTOUR,xtrace
       logical SYSTEM, ALEAT
 
+      save ires, irot, MM, nharm
+
 C nmail = number of superperiods 
 C iqx, iqy = integer part of tune 
 C AGS
@@ -47,7 +49,6 @@ C Fred's ETparam
       DATA QXMI,XXMA,QYMI,YYMA/ 0.6 , 1., 0.8, 1. /
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /
-      save ires, irot, MM, nharm
 
       write(*,*) ' ++ TUNE DIAGRAM MQx+NQy=P'
       write(*,*) ' '
