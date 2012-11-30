@@ -93,19 +93,22 @@ C      PARAMETER (IZ=1 , ID=3, MMAP=8)
 C      PARAMETER (MXX=801, MXY=161)
 
 CC D5 IPM magnet in bare AGS.
-      PARAMETER (IZ=41 , ID=3, MMAP=2)
-      PARAMETER (MXX=1801, MXY=41)
+c      PARAMETER (IZ=41 , ID=3, MMAP=2)
+c      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-C      PARAMETER (IZ=30 , ID=3, MMAP=8)
-C      PARAMETER (MXX=1000, MXY=201)
+      PARAMETER (IZ=30 , ID=3, MMAP=8)
+      PARAMETER (MXX=1000, MXY=201)
 C AGS ----------------------------------------------------
 
+CC Cyl. condenser end, pEDM, MAP2D-E
+c      PARAMETER (IZ=1 , ID=3, MMAP=1)
+c      PARAMETER (MXX=71, MXY=151)
 
 CC Daedalus cyclo
-C      PARAMETER (IZ=1 , ID=3, MMAP=8)
-C      PARAMETER (MXX=91, MXY=471)
+c      PARAMETER (IZ=1 , ID=3, MMAP=8)
+c      PARAMETER (MXX=91, MXY=471)
 
 CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- GSI KAOS

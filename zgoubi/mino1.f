@@ -34,8 +34,8 @@ C  -------
       PARAMETER (D=3.0D0)
       EXTERNAL FONC
 
-      SAVE PNLTY
-      DATA PNLTY / 1D-10 /
+      SAVE PNLTY, ICPTMA
+      DATA PNLTY, ICPTMA / 1D-10, 1000 /
 
       CALL CPTINI
       NI=0
@@ -45,15 +45,17 @@ C  -------
       CALL CPTFCT(FONC,F0)
       CALL IMPVAR(6,NI)
       CALL IMPCTR(6,F0)
-      CALL CPTWRT(I)
+      CALL CPTWRT(
+     >            I)
       CALL BUTEE(N,X,X(N+1),X(2*N+1),XI)
       WRITE(6,1040) FINI
 1040  FORMAT(/,' Xi2 =',1P,G20.5,'   Busy...',/)
 C1040  FORMAT(/,' TAPER Ctrl C POUR REPRENDRE LE CONTROLE ',/)
 
-C Modif Aug 2012      IF(FINI .LT. PNLTY) THEN
+C Stop test
       IF(FINI .LT. PNLTY
-     >.OR. NI .GT. NITER) THEN
+     >.OR. NI .GT. NITER
+     >.OR. I .GT. ICPTMA) THEN
          IVAR=0
          DO I=1,N
             IF(XI(I) .EQ. X(I)) THEN
@@ -76,7 +78,8 @@ C Modif Aug 2012      IF(FINI .LT. PNLTY) THEN
          CALL CPTFCT(FONC,F0)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
-         CALL CPTWRT(I)
+         CALL CPTWRT(
+     >               I)
 
         RETURN
 
@@ -108,7 +111,8 @@ C Modif Aug 2012      IF(FINI .LT. PNLTY) THEN
          CALL CPTFCT(FONC,F0)
          CALL IMPVAR(6,NI)
          CALL IMPCTR(6,F0)
-         CALL CPTWRT(I)
+         CALL CPTWRT(
+     >               I)
 
          IF(NI.LE.NITER) GOTO 1
 C         WRITE(ABS(NRES),*) 
@@ -119,8 +123,14 @@ C         WRITE(ABS(NRES),*)
 
       RETURN
 
-      ENTRY MINO12(PNLTI)
+      ENTRY MINO12(PNLTI,ICPTM)
       PNLTY = PNLTI
+      ICPTMA = ICPTM
+      RETURN
+
+      ENTRY MINO13(
+     >             NITERO)
+      NITERO = NITER
       RETURN
 
       END

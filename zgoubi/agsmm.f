@@ -45,7 +45,7 @@ C  -------
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
@@ -70,11 +70,12 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       DIMENSION AA(MXD)
 
-      CHARACTER TXT30*80
+      CHARACTER(80) TXT30
+
+      CHARACTER(132) TXT132
 
       DATA DIM / 'kG ', 'V/m'/
-      DATA BE / 'B-', 'E-'/
- 
+      DATA BE / 'B-', 'E-'/ 
       DATA AK1, AK2 / 6*1.D0, 6*1.D0 /
 
       SKEW=.FALSE.
@@ -89,15 +90,15 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       IF(GAP.EQ.0) GAP = RO
       DO I = 1, I3
 C dB1, dB2, dB3
+        IF(12+I .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
         AA(12+I) = A(NOEL,12+I)
-c        write(*,*) ' agsmm ', I, 12+I, AA(12+I) 
       ENDDO
-c                 read(*,*)
 
       NBLW = NINT(A(NOEL,20))
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
       DO I = 1, NBLW
 C Bcklg winding currents
+        IF(21+(2*I-1) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
         AA(21+(2*I-1)) = A(NOEL,21+(2*I-1))
       ENDDO
 
@@ -106,10 +107,22 @@ C Bcklg winding currents
 
       DO I = 1, JPA(KFM,MXP)
 C Apply scaling to all parameters concerned
-c        write(*,*) ' agsmm ', 
-c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
+        IF(JPA(KFM,I) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
         AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
       ENDDO
+
+
+
+
+C This is a remedy to otherwise  
+C FIT2 in presence of AGSMM variables in SCALING
+C The problem is only on  my laptop. Not on Yann's nor CAD computers...
+C        write(*,fmt='(a,4i4,1p,2e12.4)') ' agsmm ', 
+C     > NBLW,KFM, mxp, JPA(KFM,mxp), AA(JPA(KFM,I)), VPA(KFM,I)
+C The problem is cured as well by adding a dummy "MULTIPOL' right before the first 'AGSMM'...
+C------
+
+
 
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
      >                                    AK1,AK2,AKS)

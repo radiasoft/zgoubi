@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE DATE2(DMY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER * 9   DMY
+      CHARACTER(9)   DMY
 
 C This works :   ------------------------------- 
 C      CHARACTER*3 MM(12)
@@ -44,7 +44,8 @@ C      IF(LONG.GT.9) DMY=DMY(1:9)//' '
 C-------------------------------------------------
 
 C This uses built-in idate, hence transportable
-      INTEGER*4 TODAY(3)
+      INTEGER(4) TODAY(3)
+C      call idate(today(1),today(2),today(3))  ! today(1)=day, today(2)=month, today(3)=year
       call idate(today)  ! today(1)=day, today(2)=month, today(3)=year
       write(dmy,fmt='(2(i2.2,a1),i2.2)') 
      > today(1),'/',today(2),'/',today(3) !-2000

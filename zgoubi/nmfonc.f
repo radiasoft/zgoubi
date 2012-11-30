@@ -50,11 +50,13 @@ C  -------
  1000 CONTINUE
       NI = NI+1
       CALL CPTFCT(FF,FR)
-      CALL IMPVAR(6,NI)
-      CALL IMPCTR(6,FR)
-      CALL CPTWRT(I)
-      WRITE (6,2000) FR
- 2000 FORMAT(/,' Xi2 =',1P,E24.16,'   Busy...',/)
+      IF(NI.EQ.1 .OR. INT(NI/10)*10.EQ.NI) THEN
+        CALL IMPVAR(6,NI)
+        CALL IMPCTR(6,FR)
+        CALL CPTWRT(I)
+        WRITE (6,2000) FR
+ 2000   FORMAT(/,' Xi2 =',1P,E24.16,'   Busy...',/)
+      ENDIF
 
       NMFONC = FR
 

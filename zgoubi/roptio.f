@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
+C  Copyright (C) 1988-2007  François Méot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,24 +17,26 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ) 
+      SUBROUTINE ROPTIO
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION F0(6,6)
-C      PARAMETER (PI = 4.D0*ATAN(1.D0))
-      PARAMETER (PI = 3.1415926535898d0)
-
-      CALL SCUMR(
-     >            XL,SCUM,TCUM)
-
- 104  FORMAT(1P,13(E13.5,1X),1X,I5)
-      WRITE(LUN,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
-     >, F0(5,6), F0(5,5)
-     >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
-     >, PHY/(2.D0*PI), PHZ/(2.D0*PI),SCUM,NOEL
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER*80 TA
+      COMMON/DONT/ TA(MXL,40)
+C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
+      READ(NDAT,*) NY, NBOP
+      A(NOEL,1) = NY
+      A(NOEL,2) = NBOP
+      IF(NBOP.GT.40)
+     >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
+      DO I = 1, NBOP
+        READ(NDAT,FMT='(A)') TA(NOEL,I)
+      ENDDO
       RETURN
       END

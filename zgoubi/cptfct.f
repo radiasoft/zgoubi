@@ -27,7 +27,8 @@ C  -------
 
       EXTERNAL FONC
 
-      SAVE ICPTF
+      SAVE ICPTF, ICPTMA
+      data icptma / 1000 /
 
       ICPTF=ICPTF+1
       F=FONC()
@@ -41,14 +42,19 @@ C  -------
       ENTRY CPTWRT(
      >             N)
       N=ICPTF
-      WRITE(6,1000) ICPTF
+      WRITE(6,1000) ICPTF, ICPTMA
 C1000  FORMAT(/,1X,I10,' APPELS A LA FONCTION')
-1000  FORMAT(/,1X,'  Function  called  ',I10,' times')
+1000  FORMAT(/,1X,'  Function  called  ',I10,' times'
+     >,' / ',I10,' max.')
       RETURN
-
 
       ENTRY CPTFRD(
      >             ICPTFO)
       ICPTFO = ICPTF
       RETURN
+
+      ENTRY CPTFC1(ICPTM)
+      ICPTMA = ICPTM
+      RETURN
+
       END

@@ -22,12 +22,13 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RFIT(
-     >                PNLTY)
+      SUBROUTINE RFIT(KLEY,
+     >                     PNLTY,ICPTMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
+      CHARACTER(*) KLEY
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXV=40) 
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
@@ -38,6 +39,9 @@ C     ***************************************
 
       CHARACTER TXT132*132
       LOGICAL STRCON, CMMNT
+      CHARACTER(40) STRA(10)
+
+      PARAMETER (ICPTM1=1000, ICPTM2=1000)
 
       READ(NDAT,*) NV
       IF(NV.LT.1) RETURN
@@ -72,14 +76,36 @@ C--------- Old method
         ENDIF
       ENDDO
 
-C      READ(NDAT,*) NC
+C  READ NC [,PNLTY [,ICPTMA]]
       READ(NDAT,FMT='(A)') TXT132
-      READ(txt132,*,err=44,end=44) NC, pnlty
-      goto 45
- 44   continue
-      READ(txt132,*,err=98,end=98) NC    
-      pnlty = 1.d-10
- 45   continue
+      IF(STRCON(TXT132,'!',
+     >                     III)) TXT132 = TXT132(1:III-1) 
+      CALL STRGET(TXT132,3,
+     >                     NSTR,STRA)
+      IF(NSTR .GT. 3) NSTR = 3
+      IF(NSTR.GE.1) THEN
+        READ(STRA(1),*,ERR=97,END=97) NC
+        IF(NSTR.GE.2) THEN
+          READ(STRA(2),*,ERR=43,END=43) PNLTY
+          IF(NSTR.EQ.3) THEN
+            READ(STRA(3),*,ERR=44,END=44) ICPTMA
+          ELSE
+            GOTO 44
+          ENDIF
+        ELSE
+          GOTO 43
+        ENDIF
+      ENDIF
+      GOTO 45
+ 43   CONTINUE
+      PNLTY = 1.D-10
+ 44   CONTINUE
+      IF(KLEY .EQ. 'FIT') THEN
+        ICPTMA = ICPTM1
+      ELSEIF(KLEY .EQ. 'FIT2') THEN
+        ICPTMA = ICPTM2
+      ENDIF
+ 45   CONTINUE
 
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
@@ -111,6 +137,8 @@ C--------- Numb. particls
 
       RETURN
 
+ 97   CALL ENDJOB('SBR rfit, error input data at NC',-99)
+      RETURN
  98   CALL ENDJOB('SBR rfit, error input data after NV',-99)
       RETURN
       END

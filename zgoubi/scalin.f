@@ -149,8 +149,7 @@ c                NP = NP + 1
                 IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0) 
      >                         TIM2(IF,1) =  BORO 
 
-                call scale2(
-     >                    SCL2,TIM2,NTIM2,IF)
+                call scale2(SCL2,TIM2,NTIM2,IF)
     
               ENDIF
             ENDIF
@@ -199,9 +198,11 @@ C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
 
           NPA = JPA(IF,MXP)
+c             write(88,*) 'scalin npa',if,mxp,npa
           DO J = 1, NPA
             NP = NP+1 
             VPA(IF,J) = A(NOEL,NP)
+c             write(88,*) 'scalin mxf,mxp,if,ip ',mxf,mxp,if,j
           ENDDO
 
           NP = NP + 1
@@ -245,15 +246,15 @@ c     >                   '  sbr scalin turn freq phase oclock '
               I = I+1
             GOTO 11
 
- 598        WRITE(*,*) '  READ ended upon EOF, # data read is ',I-1
+ 598        WRITE(6,*) '  READ ended upon EOF, # data read is ',I-1
             GOTO 21
- 599        WRITE(*,*) '  READ ended upon ERROR, # data read is ',I-1
+ 599        WRITE(6,*) '  READ ended upon ERROR, # data read is ',I-1
             GOTO 21
 
  21         CONTINUE
          
               N = I-1
-              WRITE(*,*) ' # of data to be interpolated :  N= ',N
+              WRITE(6,*) ' # of data to be interpolated :  N= ',N
               IF(N.EQ.0) STOP ' SBR SCALIN, no data to be interpolated'
 
               IF(XM(2).LT.XM(1)) STOP 
@@ -378,9 +379,6 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
 
  1    CONTINUE
 
- 
-c         write(90,*) vpa
-C                  stop
       RETURN
 
  597  CONTINUE

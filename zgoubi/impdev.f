@@ -34,7 +34,7 @@ C  -------
       COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
@@ -58,7 +58,6 @@ C------- CONDITIONS DE MAXWELL
       IF(NRES .GT. 0) THEN
         IF(LST .EQ. 1) THEN
 C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
-C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
           WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
  105      FORMAT(/,' SPGM   IMPDEV',5X,'TRAJ ',I3
      >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E16.8)
@@ -96,7 +95,7 @@ C          WRITE(*,105) IT,BR/BORO,Y,T,Z,P,X,SAR
               OKIMP = .TRUE.
             ELSE
               OKIMP = .FALSE.
-              write(*,*) ' Could not opem zgoubi.impdev.Out.'
+              WRITE(6,*)' SBR impdev. Could not opem zgoubi.impdev.Out.'
             ENDIF
           
             IF(OKIMP) WRITE(LUN,FMT='(A,/,A)')

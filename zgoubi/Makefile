@@ -141,6 +141,7 @@ OBJ=\
  gasini.o\
  geneta.o\
  getnam.o\
+ getnol.o\
  getdst.o\
  gg.o\
  go2end.o\
@@ -220,6 +221,7 @@ OBJ=\
  open2.o\
  opticc.o\
  optimp.o\
+ option.o\
  partic.o\
  path.o\
  pavel.o\
@@ -277,6 +279,7 @@ OBJ=\
  rnorma.o\
  robjet.o\
  robjta.o\
+ roptio.o\
  rotx.o\
  rotz.o\
  rparti.o\
@@ -443,6 +446,7 @@ fitset.o: $(INC)/MXLD.H
 fmapw.o: PARIZ.H
 focal1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 focale.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+getnol.o: $(INC)/MXLD.H
 gascat.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 gasesl.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 gasini.o: $(INC)/MXLD.H
@@ -494,6 +498,7 @@ objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 okkt.o: $(INC)/OKKT.H
+option.o: $(INC)/MXLD.H
 partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 path.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 pavel.o: PARIZ.H
@@ -536,6 +541,7 @@ rmatrx.o: $(INC)/MXLD.H
 rmcdes.o: $(INC)/MXLD.H
 rmcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 rnorma.o: $(INC)/MXLD.H
+roptio.o: $(INC)/MXLD.H
 robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H

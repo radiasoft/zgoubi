@@ -154,7 +154,8 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
 c---------------------------------------------------------------------------------
 c                 Exportation of the matrix coefficients (Fred)
 c---------------------------------------------------------------------------------
-      if(.not. prdic) return
+       return
+C      if(.not. prdic) return
 
 c----------------------------------------------
 c Exportation of the matrix coefficients (Fred)
@@ -173,10 +174,10 @@ c     Writing of the new transfertM.dat
       GOTO 3
  98   CONTINUE
      
-      WRITE(*,FMT='(/,/,''ERROR while reading transfertm.dat'',/,/)')
+      WRITE(6,FMT='(//,''ERROR while reading transfertm.dat'',/,/)')
  99   CONTINUE
 
-      WRITE(12,FMT='(/,/)')
+      WRITE(12,FMT='(//)')
       WRITE(12,FMT='(''TRANSFERT MATRIX:'')')
       DO I=1,4
          WRITE(12,FMT='(4(F15.8,X))') (R(I,J),J=1,4)

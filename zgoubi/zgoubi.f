@@ -43,13 +43,13 @@ C  -------
       COMMON /LABEL/ LABEL(MXL,2)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (KSIZ=10)
-      CHARACTER(KSIZ) KLEY, KLEYO
+      CHARACTER(KSIZ) KLEY
       SAVE KLEY
 C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       CHARACTER(80) TITRE
@@ -202,6 +202,11 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         ENDIF
       ENDIF
  
+c         if(fiting) then
+c                write(*,*) ' zgoubi ', readat, noel,kley
+c                read(*,*)
+c             endif
+
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
@@ -438,6 +443,7 @@ C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 C----- OBJET. 
 24    CONTINUE
       IF(READAT) CALL ROBJET
+C      IF(FITGET) CALL FITGT1
       CALL OBJETS
       GOTO 998
 C----- MCOBJET. Object defined by Monte-Carlo
@@ -588,11 +594,13 @@ C----- FIT, FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
-      IF(READAT) CALL RFIT(
-     >                     PNLTGT)
+      IF(READAT) CALL RFIT(KLEY,
+     >                         PNLTGT,ICPTMA)
+      IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ICPTMA)
+      IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ICPTMA)
+      CALL CPTFC1(ICPTMA)
+C      CALL CPTFC2 (ICPTMA)
       FITING = .TRUE.
-      IF(MTHOD.EQ.1) CALL MINO12(PNLTGT)
-      IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT)
       CALL FITSTA(I6,FITING)
       CALL FITST2(NOEL)
       FITGET = .FALSE.
@@ -859,7 +867,7 @@ C----- TRANSLATION  F(2,n)=F(2,n)+A(,1) et F(4,n)=F(4,n)+A(,2)
       IF(FITGET) CALL FITGT1
       CALL TRAOBJ(1)
       GOTO 998
-C----- POLARMES. CARTE DE Champ POLAIRE MESUREE
+C----- POLARMES. CARTE DE Champ POLAIRE. Field map, cylindrical coordinates. 
  76   CONTINUE
       KALC =2
       KUASEX = 22
@@ -1166,6 +1174,8 @@ C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or spec
         CALL RAGSMM(NDAT,NOEL,MXL,A,ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
+c        write(*,*) ' zgoubi agsmm noel ',noel 
+c          read(*,*)
       ENDIF
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
@@ -1192,6 +1202,11 @@ C----- SYNRAD.
  112  CONTINUE
       CALL SYNTRK
       GOTO 998
+C----- OPTION.
+ 113  CONTINUE
+      IF(READAT) CALL ROPTIO
+      CALL OPTION
+      GOTO 998
 
 
 C-------------------------
@@ -1200,21 +1215,36 @@ C-------------------------
      >             TXTELO)
       TXTELO = TXTELT
       RETURN
+      ENTRY ZGKLEY( 
+     >             KLEO)
+C Current KLEY
+      KLEO = KLEY
+      RETURN
+      ENTRY ZGMXKL( 
+     >             MXKLEO)
+      MXKLEO = MXKLE
+      RETURN
       ENTRY ZGNOEL(
      >             NOELO)
+C Current elmnt #
       NOELO = NOEL
       RETURN
       ENTRY ZGKLE(IKL, 
      >                KLEO)
       KLEO = KLE(IKL)
       RETURN
-      ENTRY ZGKLEY( 
-     >             KLEYO)
-      KLEYO = KLEY
+      ENTRY ZGMXL( 
+     >            MXLO)
+      MXLO = MXL
       RETURN
       ENTRY ZGPNLT( 
      >             PNLTGO)
       PNLTGO = PNLTGT
+      RETURN
+      ENTRY ZGIPAS( 
+     >             IPASSO)
+C Current pass #
+      IPASSO = IPASS
       RETURN
 
       END

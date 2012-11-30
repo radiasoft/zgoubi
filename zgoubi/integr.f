@@ -140,9 +140,6 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
 
-c        write(*,*) ' integr x, y ',x, y
-c              read(*,*)
-
         CALL CHAMC(X2,Y2,Z2)
 
       ENDIF
@@ -318,7 +315,7 @@ C-------- ifb .ne. 0
       PAF = PAS
       CALL DEPLA(PAF)
       CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
-     >                                        Y,T,Z,P,X,SAR,TAR,*97)
+     >                                            Y,T,Z,P,X,SAR,TAR,*97)
 
       IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
 

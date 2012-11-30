@@ -25,7 +25,7 @@ spin manipulations  and other synchrotron radiation damping recipes.
 
 \noindent The code has been installed on SourceForge with the collaboration of J.~S.~Berg, in Sept.~2007, 
 there it is fully and freely available~\cite{SFZ}. The SourceForge package evolves and is maintained at the 
-pace of on-going project design studies.   It includes the source files, 
+pace of on-going projects and design studies.   It includes the source files, 
 the post-processor program \zpop, as well as many examples with their  input 
 data files (``zgoubi.dat'') and  output result files (``zgoubi.res''). 
 
@@ -46,7 +46,9 @@ by their authors.
 \noindent  The Users' Guide is intended  to describe the contents of the most
 recent version of \zgou. The code and its Guide are  both far from being  ``finished products''. 
 
+\bigskip
 
+\noindent J.~S.~Berg and N.~Tsoupas, BNL, have reviewed the final proof of the present document. 
 
 
 \newpage
@@ -3348,7 +3350,7 @@ under the effect of scattering by residual gas.
 
 \newpage
 
-\subsubsection*{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf}
+\subsubsection*{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf} \index{FIT}\index{FIT2} 
 \medskip
 
 This keyword allows reading, 
@@ -3356,13 +3358,13 @@ from a file whose name needs be specified,  parameter values to be assigned to o
 
 \bigskip
 
-\noindent That file is expected to contain a copy-paste of the data under the \textsl{FIT} procedure as 
+\noindent That file is expected to contain a copy-paste of the data under the \textsl{FIT[2]} procedure as 
 displayed in zgoubi.res, normally under the form \\
 \begin{center}
 {\footnotesize
 \begin{verbatim}
-#STATUS OF VARIABLES  (Iteration #    95)
-# LMNT  VAR PARAM  MINIMUM    INITIAL    FINAL      MAXIMUM     STEP    NAME       LBL1 LBL2
+STATUS OF VARIABLES  (Iteration #    95)
+ LMNT  VAR PARAM  MINIMUM    INITIAL    FINAL      MAXIMUM     STEP    NAME       LBL1 LBL2
   145    1   4    -3.000E+03    762.   761.9484791 3.000E+03  1.254E-05 MULTIPOL   HKIC DHCB02
   182    2   4    -1.000E+03   -231.  -230.9846875 1.000E+03  4.182E-06 MULTIPOL   HKIC DHCB08  
   146    3   4    -1.000E+03   -320.  -319.8554171 1.000E+03  4.182E-06 MULTIPOL   VKIC DVCB02  
@@ -3387,12 +3389,13 @@ displayed in zgoubi.res, normally under the form \\
 }
 \end{center}
 
-\noindent Lines beginning with '\#' are commented and not taken into account, in this procedure. 
+\noindent A '\#' at the beginning of a line means it is commented, thus it will not be taken into account. 
+However a copy-paste from zgoubi.res (which is the case in the present example) would not not need any commenting. 
 
 \medskip
 
 \noindent Since some of the \textsl{FIT[2]} variables may belong in \textsl{[MC]OBJET}, \textsl{GETFITVAL} may appear 
-rigth before  \textsl{[MC]OBJET} in zgoubi.dat, to allow for its updating. 
+right before  \textsl{[MC]OBJET} in zgoubi.dat, to allow for its updating. 
 
 
 
@@ -4880,7 +4883,7 @@ Was first used for  acceleration  in scaling FFAG~\cite{reportNIMFFAGSPI}. \inde
 
 \noindent\textbf{If $\mathbf{IOPT  =  7}$~:} fixed frequency RF, quasi- or isochronous acceleration. Was 
 first used for quasi-isochronous, fixed frequency acceleration in the EMMA prototype 
-linear FFAG~\cite{repDapniaEMMA}. 
+linear FFAG~\cite{repDapniaEMMA,EMMAIPAC10}. 
 
 \noindent Can be used for  cyclotron \index{cyclotron} acceleration. 
 
@@ -6316,7 +6319,8 @@ $A$, $B$, $C$, $A'$, $B'$, $C'$.
 
 \noindent  \textsl{EMMA} is dedicated to the reading and treatment of 2-D or 
 3-D Cartesian  mesh field maps representing the EMMA FFAG \index{FFAG} cell quadrupole 
-doublet~\cite{EMMA}. 
+doublet\footnote{The stepwise ray-tracing code Zgoubi is the on-line model 
+code for the world’s first non-scaling FFAG experiment.}~\cite{EMMAIPAC10,EMMA}. 
 
 \medskip
 
@@ -6335,15 +6339,22 @@ actual  \textsl{EMMA} quadrupoles. In particular,
 
 \medskip
 
-  \textsl{MOD}=0 : a single map,  including QF and QD, is read for tracking. 
+  \textsl{MOD}=0 : two 2D maps, one representing QF, one reprensenting QD. 
+ A single map, superimposition of both, is built prior to tracking
+ and used for tracking. 
 
-  \textsl{MOD}=1 : a single map, \textsl{interpolated} from  QF[$Y_F$] and QD[$Y_D$] ones, is built. 
 
-  \textsl{MOD}=22 : a single map, including QF and QD, is read. 
+  \textsl{MOD}=1 : two 2D maps, one representing QF, one reprensenting QD, 
+ a resulting single map is devised in the following way~: 
+  QF\_new is interpolated from QF with dr=xF, 
+  QD\_new is interpolated from QD with dr=xD. 
+ A single map, superimposition of both, is built prior to tracking
+ and used for tracking. 
 
-  \textsl{MOD}=24 : field at particle is interpolated from a (QF,QD) pair of maps, closest to  current $(Y_F,Y_D)$ 
-
-  value, taken from of set of (QF,QD) pairs registered in file FNAME. 
+%  \textsl{MOD}=22 : a single map, including QF and QD, is read. 
+%
+%  \textsl{MOD}=24 : field at particle is interpolated from a (QF,QD) pair of maps, closest to  current $(Y_F,Y_D)$ 
+%  value, taken from a set of (QF,QD) pairs registered in file FNAME. 
 
 
 \medskip
@@ -7272,19 +7283,22 @@ the  formatting of the field map data file(s).
 \renewcommand{\arraystretch}{1}
 \begin{tabular}{llll}
 \bf         MOD   &\bf      MOD2 &   & \\[1ex]
- \multicolumn{3}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[0.5ex]
- 0 and $IZ=1$ &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry} \\[3ex]
-0  and $IZ>1$ &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry} \\[5ex]
-        0     &    1, 2, 3              &  As previous case, just a different reading format \\
-        1     &  none                   &  \multirow{2}{80mm}{2- or 3-D map, IZ data files, one per (X,Y) plane, no symmetry assumed} \\[3ex]
-        1     &    1, 2, 3              &  As previous case, just a different reading format \\
-        12    &              0          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane} \\[3ex]
-        12    &              1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet, no symmetry assumed}  \\[3ex]
-        12    &              2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes}  \\[3ex]
-        3     &     none                &  \multirow{2}{80mm}{AGS main magnet field map, 2-D, mid-plane symmetry assumed} \\[3ex]
- \multicolumn{2}{l}{\underline{MOD $\geq$ 20   : Cylindrical mesh}}   \\[0.5ex]
-       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane} \\[3ex]
-       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (X,Y)  mid-plane} \\[3ex]
+ \multicolumn{3}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
+ 0 and $IZ=1$ &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
+0  and $IZ>1$ &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[6ex]
+        0     &    1, 2, 3              &  As previous case, just  different reading formats. \\[1ex]
+        1     &  none                   &  \multirow{2}{80mm}{2- or 3-D map, IZ data files, one per (X,Y) plane, no symmetry assumed.} \\[3ex]
+        1     &    1, 2, 3              &  As previous case, just  different reading formats. \\[1ex]
+        3     &     none, 1             &  \multirow{3}{80mm}{AGS main magnet field map, 2-D, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[9ex]
+        12    &           none          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+        12    &              1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
+        12    &              2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
+        15    &              1-6        &  \multirow{2}{80mm}{3-D map, whole magnet volume (thus no symmetry assumed), up to 6 maps 
+will be summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $.}  \\[5ex]
+ \multicolumn{2}{l}{\underline{MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
+       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane.} \\[4ex]
+       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+%       25      &                        &  \multirow{2}{80mm}{2-D mid-plane field map, single file, full magnet, symmetry with respect to mid-plane} \\[3ex]
 \end{tabular}
 \end{center}
 

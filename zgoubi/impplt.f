@@ -47,7 +47,7 @@ C         Post-processing of stored data possible with zpop.
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TOO
       COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
@@ -184,8 +184,8 @@ C      CALL FLUSH2(LN,.FALSE.)
               OPEN(UNIT=LUN,FILE='zgoubi.impplt',ERR=99)
           ENDIF
         ENDIF
- 99     WRITE(*,*) '**** SBR impplt : '
-        WRITE(*,*) '         error upon open zgoubi.impplt'
+ 99     WRITE(6,*) '**** SBR impplt : '
+        WRITE(6,*) '         error upon open zgoubi.impplt'
       ENDIF
       RETURN
       END

@@ -35,7 +35,7 @@ C  -------
      >            PNLTGT)
 
       WRITE(IUNIT,500) PNLTGT
-500   FORMAT(' STATUS OF CONSTRAINTS (Target penalty = ',1P,E12.4')')
+500   FORMAT(' STATUS OF CONSTRAINTS (Target penalty = ',1P,E12.4,')')
       WRITE(IUNIT,600)
 600   FORMAT(
      >' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',

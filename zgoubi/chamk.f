@@ -48,7 +48,7 @@ C     --------------------------------------------------------
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
@@ -371,7 +371,9 @@ c          write(*,*) ' chamk  SCAL : ',SCAL,DBDX(1),DBDX(2)
             AI=DBLE(IA)
             AI2=AI*AI
             BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * SCAL
-     >        * (1.D0 + (DBDX(1) + RJ * DBDX(2)) * RJ ) 
+     >      * (1.D0 + (DBDX(1) + (DBDX(2) + DBDX(3) * RJ) * RJ ) * RJ) 
+c                  write(*,*) ' chamk hc, scal, B : ', 
+c     >            HC(ID,IAC+IA,IRCJR,1,IMAP) ,scal,biajr
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
             A11=A11+             RJ   *BIAJR

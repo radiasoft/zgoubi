@@ -27,7 +27,7 @@ C  -------
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
-C     Read TOSCA map with cartesian coordinates. 
+C     Read field map with cartesian coordinates. 
 C     TOSCA keyword with MOD.le.19. 
 C-------------------------------------------------
       LOGICAL NEWFIC
@@ -45,7 +45,7 @@ C-------------------------------------------------
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE 'MXFS.H'
       COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
@@ -56,7 +56,7 @@ C-------------------------------------------------
       CHARACTER TITL*80 , NOMFIC(IZ)*80, NAMFIC*80
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
-      SAVE NHDF
+      PARAMETER (NHDF=8)
 
       LOGICAL STRCON 
 
@@ -72,9 +72,12 @@ C-------------------------------------------------
       DIMENSION DBDX(3)
       DIMENSION AA(29)
 
+C      LOGICAL NEWF
+
       DATA NOMFIC / IZ*'               '/ 
-      DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
+      DATA AA / 29 * 0.D0 /
+C      DATA NEWF / .TRUE. /
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
@@ -163,10 +166,17 @@ C--------  No symmetrization, map taken as is
 C--------- A single data file contains the all 3D volume
           I1=1
           I2 = 1
+        ELSEIF(MOD .EQ. 15) THEN
+C--------- The I2=MOD2 files are combined linearly into a single one after reading.
+C          Each one of these files should contain the all 3D volume.
+          I1=1
+          I2 = MOD2
         ELSE
           STOP ' *** Error. SBR TOSCAC. No such MOD value '
         ENDIF
+
         NFIC=0
+        NEWF = .TRUE.
         DO 129 I=I1, I2
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
@@ -174,17 +184,42 @@ C--------- A single data file contains the all 3D volume
  129    CONTINUE
         CALL KSMAP4(NOMFIC,NFIC,
      >                          NEWFIC,NBMAPS,IMAP)
+
+        IF(MOD .EQ. 15) THEN
+          IFAC = 24
+          IFIC = 1
+C          DO WHILE (NEWFIC .EQ. FALSE)
+          DO WHILE (IFIC.LE.I2 .OR. NEWFIC .EQ. FALSE)
+            IF(IFAC .GT. 29) 
+     >      CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
+            NEWFIC = NEWFIC .OR. AA(IFIC).NE.A(NOEL,IFAC)
+            IFAC = IFAC + 1
+            IFIC = IFIC + 1
+          ENDDO
+          IFAC = 24
+          DO IFIC = 1, I2
+            AA(IFIC) = A(NOEL,IFAC)
+            IFAC = IFAC + 1
+          ENDDO
+        ENDIF
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,A,I1,A,I2,/)') 
+        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,A,I2,A,I2,/)') 
      >  'NDIM = ',NDIM,' ;  ' 
      >  ,'Number of data file sets used is ',NFIC,' ;  ' 
      >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
      >  ,'Value of MOD.I is ', MOD,'.',MOD2
-        IF(MOD2.GE.1) WRITE(NRES,FMT='(/,5X,A,I1,2A,1P2E15.6,/)') 
-     >  'MOD2 = ',MOD2,' ->  map will be perturbed using '
-     >  ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
+        IF    (MOD.EQ.3) THEN
+          IF(MOD2.EQ.1) THEN
+            WRITE(NRES,FMT='(/,5X,A,I1,2A,1P,2E15.6,/)') 
+     >      'MOD2 = ',MOD2,' ->  map will be perturbed using '
+     >      ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
+          ENDIF
+        ELSEIF(MOD.EQ.15) THEN
+          WRITE(NRES,*) 
+     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
+        ENDIF
 
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
@@ -245,13 +280,16 @@ C--------- A single data file contains the all 3D volume
 
              IRD = NINT(A(NOEL,40))
 
+             IF(MOD .EQ. 15) CALL FMAPW2(NFIC,AA(NFIC))
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
  12        CONTINUE
-
+c               write(*,*) ' toscac imap = ',imap
+c                   read(*,*)
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA

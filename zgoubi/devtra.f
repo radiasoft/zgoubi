@@ -39,7 +39,7 @@ C     -----------------------------------------
       COMMON/DDBXYZ/ DB(9),DDB(27)
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPTRK/ EU(5),CSV,DCSV,D2CSV,D3CSV,D4CSV
@@ -51,6 +51,8 @@ C     -----------------------------------------
       PARAMETER(IM3 = IM2+IJLMAX)
 
       SAVE CL, CL9
+
+          logical fiting
  
 C-------------------------------------------------------------
 C     CALCUL D'ADRESSE : ADRESSE(I,J) = I + (J-1)*IMAX
@@ -76,6 +78,19 @@ C      umod1 = sqrt(U(1,1)*U(1,1) +U(1,2)*U(1,2) +U(1,3)*U(1,3))
 C----- MAGNETIC FIELD
  1    CONTINUE
  
+
+C------------------
+cc u is spoiled here. See comment in agsmm
+c       call zgnoel(noel)
+c       call fitsta(5,fiting)
+c       if(noel.eq.6 .and. fiting) then 
+c         write( *,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
+c         write(88,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
+ccc          read(*,*)
+c        endif
+
+
+
 CALCUL u'=uxB
       CALL PVECT(1,1,1)
       DO 10 K=1,3

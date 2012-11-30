@@ -45,7 +45,8 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
-      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,DTA1)
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 DTA1)
 
         IF(NRES.GT.0) THEN
           WRITE(NRES,109) DPKCK

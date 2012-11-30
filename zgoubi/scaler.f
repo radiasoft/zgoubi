@@ -36,7 +36,6 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
-C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
@@ -421,12 +420,12 @@ C          write(*,*) i, dat2(i), dat3(i)
       SCALE6 = 0.D0
       RETURN
 
-      ENTRY SCALE8(FREV0I,E0I,AKI)
-      FREV0 = FREV0I
-      E0 = E0I
-      AK = AKI
-      SCALE8 = 0.D0 
-      RETURN
+c      ENTRY SCALE8(FREV0I,E0I,AKI)
+c      FREV0 = FREV0I
+c      E0 = E0I
+c      AK = AKI
+c      SCALE8 = 0.D0 
+c      RETURN
 
       ENTRY SCALE9(
      >             KFMO)

@@ -61,6 +61,7 @@ C  -------
       SAVE KLEFIT, LB1FIT, LB2FIT, KREAD
 
       CHARACTER(KSIZ) KLEY
+      LOGICAL GTTEXT, OK, STRCON
 
       FITGET = .FALSE.
 
@@ -87,12 +88,18 @@ C  -------
      >    LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,status='OLD',ERR=99)
 
       WRITE(NRES,101) NAMFIC
- 101  FORMAT(/,10X,' Ok, opened storgae file ',A,/)
+ 101  FORMAT(/,10X,' Ok, opened storage file ',A,/)
+
+      OK = GTTEXT(NRES,LUN,'STATUS OF VARIABLES'
+     >                                         ,TXT200)
+      IF(.NOT. OK) GOTO 98
 
       KREAD = 0
  1    CONTINUE
         READ(LUN,FMT='(A)',ERR=1,END=10) TXT200
         IF(EMPTY(TXT200)) GOTO 1
+        IF(STRCON(TXT200,'STATUS OF CONSTRAINTS',
+     >                                           IS)) GOTO 10
         TXT1 = TXT200(DEBSTR(TXT200):DEBSTR(TXT200))
         IF(TXT1 .EQ. '%' .OR. TXT1 .EQ. '#' .OR. TXT1 .EQ. '!') THEN
           WRITE(NRES,FMT='(A)')  TXT200(DEBSTR(TXT200):132)
@@ -125,7 +132,7 @@ C        J=K+NV
  103    FORMAT(/,10X, I3, 
      >  ' variables have been read from FIT storage file ',A,' :',/)
         WRITE(NRES,FMT='(A)')
-     >  ' Lmnt  Param       Val     Kley      Lbl1   Lbl2 '
+     >  ' Var#  Param       Val     Kley      Lbl1   Lbl2 '
         DO I = 1, KREAD
           WRITE(NRES,409)I,IPRM(I),AFIT(I),KLEFIT(I),LB1FIT(I),LB2FIT(I)
  409      FORMAT(1P,2(2X,I3),3X,E13.4,2X,3(1X,A))
@@ -137,6 +144,21 @@ C To be completed
       RETURN
 
  97   CONTINUE
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(20X,''GETFITVAL :  file name is '''''',A
+     >  ,'''''''')')
+     >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+        WRITE(NRES,FMT='(20X,''Thus no updating requested, 
+     >  going on without that...'')') 
+      ENDIF
+      RETURN 
+
+ 98   CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,FMT='(20X,''GETFITVAL :  sorry, could not
+     > find string ''''STATUS OF VARIABLES'''' in file '',A)') 
+     >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+      IF(NRES.GT.0) WRITE(NRES,FMT='(20X,''Thus, no initialization of 
+     >variables performed,  going on without that...'')') 
       RETURN 
 
  99   CONTINUE
@@ -144,12 +166,6 @@ C To be completed
      >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
      >  ,', give ''none'' as name so to allow proceeding.  '
       CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
-      RETURN 
-
-      WRITE(NRES,FMT='(3A)') ' Could not read in '
-     >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-     >  ,', will proceed without.  '
-          stop ' SBR fitgtv, could not read data. '
       RETURN 
 
       ENTRY FITGT1
@@ -168,14 +184,14 @@ C        IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
               TEMP = A(NOEL,IPRM(IV)) 
               A(NOEL,IPRM(IV)) = AFIT(IV)
               IF(NRES .GT. 0) WRITE(NRES,
-     >        FMT='('' GETFITVAL procedure.  Former  value A(NOEL=''
-     >        ,I3,'','',I3,'') = '',1P,G12.4,'' changed to '', 
-     >        G13.4)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+     >        FMT='(/,'' GETFITVAL procedure.  Former  value A(NOEL=''
+     >        ,I3,'','',I3,'') = '',1P,G15.6,'',   changed to '', 
+     >        G15.6)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
             ENDIF
           ELSE
             IF(NRES .GT. 0) WRITE(NRES,
      >      FMT='('' GETFITVAL procedure, cannot be applied : ''
-     >      ,'' Elements need be labeled. Provide label #1 '')')
+     >      ,'' Elements need be labeled. Provide label #1.'')')
           ENDIF
         ENDIF
       ENDDO

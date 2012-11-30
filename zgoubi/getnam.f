@@ -40,7 +40,7 @@ C  -------
         GOTO 1
 
  9    CONTINUE
-      WRITE(*,*) ' SBR GETNAM. Reached max number of map files allowed'
+      WRITE(6,*) ' SBR GETNAM. Reached max number of map files allowed'
       NBDST = I/2
       RETURN
 

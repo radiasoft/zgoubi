@@ -57,7 +57,7 @@ C     ----------------------------------------------------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AAM,Q,G,TO
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE 'MXFS.H'

@@ -135,10 +135,10 @@ C If sample index is not zero
               seb = sqrt(bet(j))
        xn = FO(J,IT)/seb*UNIT(J-1)
        xpn = (alp(j)*FO(J,IT)*UNIT(J-1) + bet(j)*FO(J1,IT)*UNIT(J))/seb
-           write(88,*) xn, xpn
-     >         ,xn*xn+xpn*xpn
-C     >  ,(1+alp(j)*alp(j))/bet(j)*x*x+2.d0*alp(j)*x*xp+bet(j)*xp*xp
-     > ,ang, reb,i,it
+c           write(88,*) xn, xpn
+c     >         ,xn*xn+xpn*xpn
+cC     >  ,(1+alp(j)*alp(j))/bet(j)*x*x+2.d0*alp(j)*x*xp+bet(j)*xp*xp
+c     > ,ang, reb,i,it
                 ANG = ANG + DA 
               ENDDO
             ENDDO

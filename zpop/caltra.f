@@ -1214,4 +1214,7 @@ C----- AGSQUAD.  AGS quad with 2 windings.
 C----- SYNRAD.
  112  CONTINUE
       GOTO 341
+C----- OPTION.
+ 113  CONTINUE
+      GOTO 341
       END

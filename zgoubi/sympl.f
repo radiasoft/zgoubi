@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SYMPL(R)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -30,6 +29,11 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
       DIMENSION S(14)
+
+C Symplectic conditions (6 independent)
+C Hyp : T = [M & n \\ m & N]. 
+C |M|+|m|=1, |N|+|n|=1, inv_M n + inv_m N = 0  <=>  |M|+|n|=1, |N|+|m|=1, M inv_m + n inv_N = 0 
+C |M|=|N|, |m|=|n|
 
 C----- First order. Cours INSTN G. Leleux, p5-14.
 C      conditions equivalent to T(R).S.R = S

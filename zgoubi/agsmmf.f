@@ -48,6 +48,12 @@ C  -------
       LOGICAL CHFE, CHFS, CHU
       PARAMETER (Q7=3.038194444D-4)
 
+c       call zgnoel(noel)
+c       if(noel.eq.6) then 
+c          write(*,*) ' agsmmf... ',noel,x
+cc          read(*,*)
+c        endif
+
       XLS=XLIM-XS 
       IOP=1
 

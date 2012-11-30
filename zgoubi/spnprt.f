@@ -151,8 +151,8 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
               PHI(I) = acos(cphi) * deg
 C If initial spin is // Z
               phizf = atan(sqrt(sf(1,i)**2+sf(2,i)**2)/sf(3,i)) * deg
-                  write(*,*) ' '
-                  write(*,*) ' spnprt it, phizf : ',i,phizf
+c                  write(*,*) ' '
+c                  write(*,*) ' spnprt it, phizf : ',i,phizf
 C              call vvect(aa,bb,xx)
 C              sphi = xnorm(xx)
 C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)

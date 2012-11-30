@@ -86,18 +86,20 @@ c      yymax = yyma + dble(iqy )
       XXMAX = XXMA
       QYMIN = QYMI
       YYMAX = YYMA
-       write(*,*) ' diagnu ',okech,qXMIn,xXMAx,qYMIn,yYMAx
-                   read(*,*)
+c       write(*,*) ' diagnu ',okech,qXMIn,xXMAx,qYMIn,yYMAx
+c                   read(*,*)
 
       DY=YYMAX-QYMIN
       DX=XXMAX-QXMIN
-      IF((DX-DY).LE.0.) THEN
-         QXMAX=QXMIN+DY
-         QYMAX=QYMIN+DY
-      ELSE
+c      IF((DX-DY).LE.0.) THEN
+c         QXMAX=QXMIN+DY
+c         QYMAX=QYMIN+DY
+c      ELSE
+c         QXMAX=QXMIN+DX
+c         QYMAX=QYMIN+DX
+c      ENDIF
          QXMAX=QXMIN+DX
-         QYMAX=QYMIN+DX
-      ENDIF
+         QYMAX=QYMIN+DY
       XXMAX=QXMAX
       YYMAX=QYMAX
 
@@ -115,8 +117,8 @@ c        QYMIN = ymi
 c        QYMAX = yma
 c        CALL TRAXES(XMI,XMA,YMI,YMA,1)
 c      endif
-       write(*,*) ' diagnu ',okech,XMI,XMA,YMI,YMA
-                   read(*,*)
+c       write(*,*) ' diagnu ',okech,XMI,XMA,YMI,YMA
+c                   read(*,*)
 
       CALL FBGTXT
 

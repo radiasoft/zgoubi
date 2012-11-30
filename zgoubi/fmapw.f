@@ -31,7 +31,7 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 
       DIMENSION BREAD(3)
 C----- at entry FMAPR :
@@ -45,6 +45,13 @@ C      LOGICAL IDLUNI, BINARI
       INTEGER DEBSTR, FINSTR
       SAVE MOD, MOD2
       
+C 3D field maps, intermediate storage prior to summing
+      PARAMETER(MX3D=3)
+      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
+      SAVE HCTMP
+
+      save aa, ific
+
       DATA BE /'B','E'/
 
       DATA MOD, MOD2 / 0, 0 /
@@ -68,15 +75,15 @@ C------- Print field map in zgoubi.res
 
           CALL RAZ(BREAD,3)
 
-             DO J=1,JYMA
-               DO I = 1,IXMA
-                 DO JD=1, ID
-                   BREAD(JD) = HC(JD,I,J,K,IMAP)
-                 ENDDO
-                   WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
-     >                                  BREAD(2), BREAD(3), BREAD(1)
-               ENDDO
-             ENDDO
+          DO J=1,JYMA
+            DO I = 1,IXMA
+              DO JD=1, ID
+                BREAD(JD) = HC(JD,I,J,K,IMAP)
+              ENDDO
+                WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
+     >                               BREAD(2), BREAD(3), BREAD(1)
+            ENDDO
+          ENDDO
 
         ENDIF
          
@@ -115,54 +122,164 @@ C     >  ,((HC(ID,I,J,K,IMAP),I=1,IXMA),J=1,JYMA)
       RETURN
 
 C Called by POLMES
-      ENTRY FMAPR(BINAR,LUN,
-     >                      RM)
+      ENTRY FMAPR(BINAR,LUN,MODI,MODI2,NHDI,
+     >                                      RM)
+      MOD = MODI
+      MOD2 = MODI2
+      NHD = NHDI
 
       CALL KSMAP(
      >           IMAP) 
-      MOD = 0 
-      MOD2 = 0 
 
-      IF(BINAR) THEN
+      IF    (MOD2.EQ.0) THEN
+C Calabretta H2 field map.
 
-C Map data file starts with 4-line header
-C        DO 21 II=1, 4
-        DO II=1, 3
-          READ(LUN) TITL
-        ENDDO
-        READ(LUN) IXM,JYM,ACENT,RM,KRT,MD
-  
-        READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
+        IF(BINAR) THEN
+
+C Map data file starts with NHD-line header
+C Line NHD contains IXM,JYM,ACENT,RM,KRT,MD
+          DO II=1, NHD-1
+            READ(LUN) TITL
+          ENDDO
+
+          READ(LUN) IXM,JYM,ACENT,RM,KRT,MD
+   
+          READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
      >    ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
-      ELSE
-C Map data file starts with 4-line header
-C        DO 22 II=1, 4
-        DO II=1, 3
-          READ(LUN,FMT='(A)') TITL
-        ENDDO
-        READ(LUN,*) IXM,JYM,ACENT,RM,KRT,MD
+        ELSE 
 
-        IF(NRES.GT.0) THEN
-          IF(IXM .NE. IXMA) THEN
-            WRITE(6,100) 'IXM','IXMA'
-            WRITE(NRES,100) 'IXM','IXMA'
- 100        FORMAT('WARNING - info !! ',A, 
-     >       ' from map file .ne. ',A,' from .dat file.')
-          ENDIF
-          IF(JYM .NE. JYMA) THEN
-            WRITE(6,100) 'JYM','JYMA'
-            WRITE(NRES,100) 'JYM','JYMA'
-          ENDIF
-        ENDIF
+C Map data file starts with NHD-line header
+C Line NHD contains IXM,JYM,ACENT,RM,KRT,MD
+          DO II=1, NHD-1
+            READ(LUN,FMT='(A)') TITL
+          ENDDO
 
-        READ(LUN,*,END=229,ERR=98) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
+          READ(LUN,*) IXM,JYM,ACENT,RM,KRT,MD
+
+          IF(NRES.GT.0) THEN
+            IF(IXM .NE. IXMA) THEN
+              WRITE(6,100) 'IXMA',IXM,'IXMA',IXMA
+              WRITE(NRES,100) 'IXMA',IXM,'IXMA',IXMA
+ 100          FORMAT(/,'SBR fmapw. WARNING - info !! ',A,' = ',I6, 
+     >        ' as read in map data file .ne. ',A,' = ',I6,
+     >        ' given in zgoubi.dat file.',/)
+            ENDIF
+            IF(JYM .NE. JYMA) THEN
+              WRITE(6,100) 'JYMA','JYMA'
+              WRITE(NRES,100) 'JYMA','JYMA'
+            ENDIF
+          ENDIF
+
+          READ(LUN,*,END=229,ERR=98) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
      >             ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
- 229    CONTINUE 
-        GOTO 99
+c          write(88,*) ' id, imap = ', id, imap
+c          write(88,*)((XH(I),YH(J),HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
+ 229      CONTINUE 
+          GOTO 99
+
+        ENDIF
+
+      ELSEIF(MOD2.EQ.1) THEN
+C Input data formatting is that of MIT Megatron field map 
+C Map data file starts with NHD-line header
+C Line NHD contains IXM,JYM,ACENT,RM
+
+        IF(BINAR) THEN
+
+          DO II=1, NHD-1
+            READ(LUN) TITL
+          ENDDO
+   
+          READ(LUN,*) IXM,JYM,ACENT,RM
+
+          READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
+     >    ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
+
+        ELSE
+ 
+          DO II=1, NHD-1
+            READ(LUN,FMT='(A)') TITL
+          ENDDO
+
+          READ(LUN,*) IXM,JYM,ACENT,RM
+
+          ijma = IXMA*JYMA
+          ii = 1
+          i = 1
+          j = 1
+          do while (ii .le. ijma)
+            READ(LUN,*,END=230,ERR=98) dum,dum,dum,dum,dum,
+     >      HC(ID,I,J,1,IMAP),XH(I),YH(J)
+c            write(88,fmt='(2i4,1p,3e17.6,3i6)') 
+c     >        i,j,XH(I),YH(J),HC(ID,I,J,1,IMAP),ii,id,imap
+            if(i.lt.ixma) then
+              i = i+1
+            else
+              i = 1
+              j = j+1
+            endif
+            ii = ii+1
+          enddo
+
+ 230        CONTINUE 
+          GOTO 99
+
+        ENDIF
+
+      ELSEIF(MOD2.EQ.2) THEN
+C Input data formatting is that of Carol's FFAG - Sept. 2012
+C Map data file starts with NHD-line header
+C Line NHD contains IXM,JYM,ACENT,RM
+
+        IF(BINAR) THEN
+
+          DO II=1, NHD-1
+            READ(LUN) TITL
+          ENDDO
+   
+          READ(LUN,*) IXM,JYM,ACENT,RM
+
+          READ(LUN) (XH(I),I=1,IXMA),(YH(J),J=1,JYMA)
+     >    ,((HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
+
+        ELSE
+ 
+          DO II=1, NHD-1
+            READ(LUN,FMT='(A)') TITL
+          ENDDO
+
+          READ(LUN,*) IXM,JYM,ACENT,RM
+
+          ijma = IXMA*JYMA
+          ii = 1
+          i = 1
+          j = 1
+          do while (ii .le. ijma)
+            READ(LUN,*,END=231,ERR=98) dum,dum,dum,dum,dum,
+     >      HC(ID,I,J,1,IMAP),XH(I),YH(J)
+c            write(88,fmt='(2i4,1p,3e17.6,3i6)') 
+c     >        i,j,XH(I),YH(J),HC(ID,I,J,1,IMAP),ii,id,imap
+            if(i.lt.ixma) then
+              i = i+1
+            else
+              i = 1
+              j = j+1
+            endif
+            ii = ii+1
+          enddo
+
+ 231      CONTINUE 
+          GOTO 99
+
+        ENDIF
+
+      ELSE
+        CALL ENDJOB('SBR fmapw. No such option MOD2=',IMOD)   
       ENDIF
+
       RETURN
 
 C----------------------------------------------------------
@@ -178,7 +295,7 @@ C Read and interprete field maps in polar frame (MOD >= 20)
 C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
       MOD = MODI
       MOD2 = MODI2
-        NHD = NHDI
+      NHD = NHDI
 
       BMIN =  1.D10
       BMAX = -1.D10
@@ -470,9 +587,10 @@ C Map data file starts with NHD-line header (NORMALLY 8)
               DO II=1, NHD-2
                 READ(LUN) TITL
                 IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-              enddo
+              ENDDO
               IF(NRES.GT.0) THEN
-                WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
+                WRITE(NRES,FMT='(A,1P,4E17.8)') 
+     >          ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
                 CALL FLUSH2(NRES,.FALSE.)
               ENDIF
             ENDIF
@@ -688,47 +806,47 @@ C (iii) (X,Z) plane. Used for D5 IPM magnet in AGS.
              ENDDO
            ENDDO
 
-        BMIN = BMIN * BNORM
-        BMAX = BMAX * BNORM
+          BMIN = BMIN * BNORM
+          BMAX = BMAX * BNORM
 
-C------- symmetrise 3D map wrt (Y,Z) plane= longitudinal plane
-        DO I = 1, IXMA/2   
-          IXC = IXMA/2+1+I
-          IXS = IXMA/2+1-I
-          DO  K = KZMA/2+1, KZMA
-            DO J = JYMA/2+1, JYMA
-              HC(1,IXS,J,K,IMAP) = - HC(1,IXC,J,K,IMAP)
-              HC(2,IXS,J,K,IMAP) =   HC(2,IXC,J,K,IMAP) 
-              HC(3,IXS,J,K,IMAP) =   HC(3,IXC,J,K,IMAP) 
+C--------- symmetrise 3D map wrt (Y,Z) plane= longitudinal plane
+          DO I = 1, IXMA/2   
+            IXC = IXMA/2+1+I
+            IXS = IXMA/2+1-I
+            DO  K = KZMA/2+1, KZMA
+              DO J = JYMA/2+1, JYMA
+                HC(1,IXS,J,K,IMAP) = - HC(1,IXC,J,K,IMAP)
+                HC(2,IXS,J,K,IMAP) =   HC(2,IXC,J,K,IMAP) 
+                HC(3,IXS,J,K,IMAP) =   HC(3,IXC,J,K,IMAP) 
+              ENDDO
             ENDDO
           ENDDO
-        ENDDO
-C------- symmetrise 3D map wrt (X,Z) plane= longitudinal plane
-        DO J = 1, JYMA/2
-          JYC = JYMA/2+1+J
-          JYS = JYMA/2+1-J
-          DO  K = KZMA/2+1, KZMA
-            DO I = 1, IXMA
-              HC(1,I,JYS,K,IMAP) =   HC(1,I,JYC,K,IMAP)
-              HC(2,I,JYS,K,IMAP) = - HC(2,I,JYC,K,IMAP) 
-              HC(3,I,JYS,K,IMAP) =   HC(3,I,JYC,K,IMAP) 
+C--------- symmetrise 3D map wrt (X,Z) plane= longitudinal plane
+          DO J = 1, JYMA/2
+            JYC = JYMA/2+1+J
+            JYS = JYMA/2+1-J
+            DO  K = KZMA/2+1, KZMA
+              DO I = 1, IXMA
+                HC(1,I,JYS,K,IMAP) =   HC(1,I,JYC,K,IMAP)
+                HC(2,I,JYS,K,IMAP) = - HC(2,I,JYC,K,IMAP) 
+                HC(3,I,JYS,K,IMAP) =   HC(3,I,JYC,K,IMAP) 
+              ENDDO
             ENDDO
           ENDDO
-        ENDDO
-C------- symmetrise 3D map wrt (X,Y) plane= longitudinal plane
-        DO K = 1, KZMA/2
-          KZC = KZMA/2+1+K
-          KZS = KZMA/2+1-K
-          DO  J = 1, JYMA     
-            DO I = 1, IXMA 
-              HC(1,I,J,KZS,IMAP) = - HC(1,I,J,KZC,IMAP)
-              HC(2,I,J,KZS,IMAP) = - HC(2,I,J,KZC,IMAP) 
-              HC(3,I,J,KZS,IMAP) =   HC(3,I,J,KZC,IMAP) 
+C--------- symmetrise 3D map wrt (X,Y) plane= longitudinal plane
+          DO K = 1, KZMA/2
+            KZC = KZMA/2+1+K
+            KZS = KZMA/2+1-K
+            DO  J = 1, JYMA     
+              DO I = 1, IXMA 
+                HC(1,I,J,KZS,IMAP) = - HC(1,I,J,KZC,IMAP)
+                HC(2,I,J,KZS,IMAP) = - HC(2,I,J,KZC,IMAP) 
+                HC(3,I,J,KZS,IMAP) =   HC(3,I,J,KZC,IMAP) 
+              ENDDO
             ENDDO
           ENDDO
-        ENDDO
 
-C------- Mesh coordinates
+C--------- Mesh coordinates
            DX = (XH(IXMA) - XH(IXMA-1))*XNORM
            XH(1) = -XH(IXMA)*XNORM
            DO I=2, IXMA
@@ -934,6 +1052,122 @@ C 12        CONTINUE
                    XBMI = XBMI * XNORM
                    YBMI = YBMI * YNORM
                    ZBMI = ZBMI * ZNORM
+
+      ELSEIF(MOD.EQ.15) THEN
+
+C Full 3-D map of magnet as in MOD=12. However can sum up maps. 
+C Used for instance for AGS cold snake = helix+solenoid
+           jtcnt=0
+           ircnt = 0
+           kzcnt=0       
+
+           DO J=1,JYMA        
+             JTC = J
+             jtcnt = jtcnt + 1
+             DO  K = 1,KZMA      
+               kzc = k
+               kzcnt = kzcnt+1
+               DO I=1,IXMA            
+                 ircnt = ircnt+1
+
+                 IF(BINAR) THEN
+                   READ(LUN)YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
+                 ELSE
+                   READ(LUN,*) YH(J),ZH(K),XH(I), 
+     >                                    BREAD(2),BREAD(3),BREAD(1)
+                 ENDIF
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                   ZBMA = ZH(K)
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                   ZBMI = ZH(K)
+                 ENDIF
+
+                 HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
+                 HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+                 HC(3,I,JTC,KZC,IMAP) = BREAD(3) * BNORM
+
+               ENDDO
+             ENDDO
+           ENDDO
+
+           BMIN = BMIN * BNORM
+           BMAX = BMAX * BNORM
+
+C------- Mesh coordinates
+           DX = (XH(2) - XH(1))*Xnorm
+           XH(1) = XH(1)*Xnorm
+           DO J=2,IXMA
+             XH(J) =  XH(J-1) + DX
+           ENDDO
+           DY = (YH(2) - YH(1))*ynorm
+           YH(1) = YH(1)*ynorm
+           DO J=2,JYMA
+             YH(J) =  YH(J-1) + DY
+           ENDDO
+           IF(IZ.EQ.1) THEN 
+             IZ1 = 1
+           ELSE
+             IZ1 = 2
+           ENDIF
+           DZ = (ZH(IZ1) - ZH(1))*Znorm
+           ZH(1) = ZH(1)*Znorm
+           DO K= 2, KZMA
+             ZH(K) = ZH(K-1) + DZ
+           ENDDO
+
+
+               IF    (IFIC.EQ.1) THEN
+                 DO I = 1, IXMA
+                   DO J = 1, JYMA
+                     DO K = 1, KZMA
+                       HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+                       HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+                       HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+                     ENDDO
+                   ENDDO
+                 ENDDO
+               ELSE
+                 IF    (IFIC.LT.MOD2) THEN
+                   DO I = 1, IXMA
+                     DO J = 1, JYMA
+                       DO K = 1, KZMA
+                         HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+     >                     + HCTMP(1,I,J,K,IFIC) 
+                         HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+     >                     + HCTMP(2,I,J,K,IFIC) 
+                         HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+     >                     + HCTMP(3,I,J,K,IFIC) 
+                       ENDDO
+                     ENDDO
+                   ENDDO
+                 ELSEIF(IFIC.EQ.MOD2) THEN
+                   DO I = 1, IXMA
+                     DO J = 1, JYMA
+                       DO K = 1, KZMA
+                         HC(1,I,J,K,IMAP) = HC(1,I,J,K,IMAP) 
+     >                     + HCTMP(1,I,J,K,IFIC) 
+                         HC(2,I,J,K,IMAP) = HC(2,I,J,K,IMAP) 
+     >                     + HCTMP(2,I,J,K,IFIC) 
+                         HC(3,I,J,K,IMAP) = HC(3,I,J,K,IMAP) 
+     >                     + HCTMP(3,I,J,K,IFIC) 
+                       ENDDO
+                     ENDDO
+                   ENDDO
+                 ELSE
+                   CALL ENDJOB(
+     >              'SBR toscac. No such possibility IFIC=',IFIC)
+                 ENDIF
+               ENDIF
+
       ENDIF  
 
       IF(NRES.GT.0) THEN
@@ -969,4 +1203,8 @@ C 12        CONTINUE
  99   CONTINUE
       RETURN
 
+      ENTRY FMAPW2(IFICI,AAI)
+      IFIC = IFICI
+      AA = AAI
+      RETURN
       END

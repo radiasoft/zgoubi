@@ -45,8 +45,8 @@ C        last = finstr(label(noel,2))
 
         if(MOD .eq. 1) then
 C centered dipole model
-          sag = -0.  !21906d0 * 2.54d0   /16.d0*18.d0
-          sagS = -0.  !15472d0 * 2.54d0  /16.d0*18.d0
+          sag = -0.d0  !21906d0 * 2.54d0   /16.d0*18.d0
+          sagS = -0.d0  !15472d0 * 2.54d0  /16.d0*18.d0
           sgn = -1.d0
           fb1 = 1.d0   !/1.0028d0
           fb2 = 1.d0/fb1

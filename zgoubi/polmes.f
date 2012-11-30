@@ -42,7 +42,7 @@ C     > ,YCH,ZCH
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
 
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
@@ -50,6 +50,8 @@ C     > ,YCH,ZCH
       SAVE NOMFIC, NAMFIC
 
       INTEGER DEBSTR,FINSTR
+      PARAMETER (NHDF=4)
+      LOGICAL STRCON
 
       DATA NOMFIC / IZ*'               '/ 
       DATA IMAP / 1 /
@@ -64,6 +66,13 @@ C     > ,YCH,ZCH
       YNORM = A(NOEL,12)
       TITL = TA(NOEL,1)
       IXMA = A(NOEL,20)
+      IF    (STRCON(TITL,'HEADER',
+     >                            IS) ) THEN
+        READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
+      ELSE
+        NHD = NHDF
+      ENDIF
+
       IF(IXMA.GT.MXX) 
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
       JYMA = A(NOEL,21)
@@ -76,16 +85,18 @@ C     > ,YCH,ZCH
      >   CALL ENDJOB('Z-dim of map is too large, max is ',IZ)
       ENDIF
 
+      MOD = NINT(A(NOEL,22))
+      MOD2 = NINT(10.D0*A(NOEL,22)) - 10*MOD
+
       IF    (NDIM.LE.2 ) THEN
         NFIC=1
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,NBMAPS,IMAP)
+C        CALL KSMAP4(NOMFIC,NFIC,
+C     >                          NEWFIC,NBMAPS,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
-        MOD = NINT(A(NOEL,23))
         IF    (MOD .EQ. 0) THEN
 C         ... 3-D map will be symmetrized wrt horizontal plane using SYMMED
           I1 = (KZMA/2) + 1
@@ -102,16 +113,19 @@ C         ... No symm
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))          
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        CALL KSMAP4(NOMFIC,NFIC,
-     >                          NEWFIC,NBMAPS,IMAP)
+C        CALL KSMAP4(NOMFIC,NFIC,
+C     >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
+
+      CALL KSMAP4(NOMFIC,NFIC,
+     >                        NEWFIC,NBMAPS,IMAP)
 
       IF(NRES.GT.0) THEN
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
  209       FORMAT(/,10X,' A new field map is now used ; ', 
      >     ' Name(s) of map data file(s) are : ')
-           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
+C           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
@@ -125,7 +139,6 @@ C         ... No symm
       IF(KUASEX .EQ. 22 ) THEN
 C------ POLARMES
 C------ CARTE POLAIRE 2-D 
-
         IF(NEWFIC) THEN
           IF(IDLUNI(
      >              LUN)) THEN
@@ -144,8 +157,8 @@ C------ CARTE POLAIRE 2-D
           BMAX = -1.D10
           IRD = NINT(A(NOEL,40))
  
-          CALL FMAPR(BINAR,LUN,
-     >                         RM)
+          CALL FMAPR(BINAR,LUN,MOD,MOD2,NHD,
+     >                                 RM)
   
           DO 222 J=1,JYMA
             DO  222  I = 1,IXMA
@@ -162,15 +175,25 @@ C------ CARTE POLAIRE 2-D
                 ZBMI = 0D0
               ENDIF
               HC(ID,I,J,1,IMAP) = BFLD * BNORM
+c                 write(*,*) ' polmes ',BFLD, BNORM
  222      CONTINUE
+
+          BMIN = BMIN * BNORM
+          BMAX = BMAX * BNORM
+          XBMA = XBMA * XNORM
+          YBMA = YBMA * YNORM
+          XBMI = XBMI * XNORM
+          YBMI = YBMI * YNORM
+
+          DO I = 1,IXMA
+            XH(I)= XH(I) * XNORM
+          ENDDO
+          DO J=1,JYMA
+            YH(J)= YH(J) * YNORM
+          ENDDO
+
+
         ENDIF
-
-        DO I = 1,IXMA
-          XH(I)= XH(I) * XNORM
-        ENDDO
-        DO J=1,JYMA * YNORM
-        ENDDO
-
 
       ENDIF
 C----- KUASEX

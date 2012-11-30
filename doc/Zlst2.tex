@@ -376,7 +376,7 @@ the shim~; $\lambda$ is unused \>2*cm, 2*deg, cm \>5*E \\
 $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the shim \>2*deg, 2*no dim.  \>4*E \\
 % \> \>2*no dim. \> \\
   \\
- \textsl{IORDRE}  \> Degree of interpolation polynomial :        \>2,  4 or 25 \>I\\
+ \textsl{IORDRE}  \> Degree of interpolation polynomial :        \>2, 25 or 4 \>I\\
  \>\ 2 = second degree,  9-point grid \>\>\\
  \>25 = second degree,  25-point grid \>\>\\
  \> \ 4 = fourth degree, 25-point grid \>\>\\
@@ -607,7 +607,7 @@ If FRM=1             \>   Format is '1X,7E11.*' \\
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
   \\
- \textsl{IORDRE}     \> Unused \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \> Unused \>2, 25 or 4 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -672,7 +672,7 @@ $B''$,etc., if $\left. ID\geq 2\right]$\>entrance boundary defined by $AX+BY+C=0
                        \>$ID \geq 2$ : entrance ($A, B, C$) and up to $ID-1$ exit  \> \> \\
                        \>($A', B', C', A'', B'', etc.$) boundaries                \> \> \\
  \\
- \textsl{IORDRE}     \>  Degree of interpolation polynomial (see \textsl{DIPOLE-M})   \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \>  Degree of interpolation polynomial (see \textsl{DIPOLE-M})   \>2, 25 or 4 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -1102,7 +1102,7 @@ $ RM3$   \> \> \> \\
 % =0 $ for \> \> \\
 %\> \underbar{sharp edge}) \\
   \\
- \textsl{IORDRE, Resol}  \> Degree of interpolation polynomial :        \> 2, 4 or 25~; no dim. \>I, E\\
+ \textsl{IORDRE, Resol}  \> Degree of interpolation polynomial :        \> 2, 25 or 4~; no dim. \>I, E\\
  \>\ 2 = second degree,  9-point grid \>\>\\
  \>25 = second degree,  25-point grid \>\>\\
  \> \ 4 = fourth degree, 25-point grid~; \>\>\\
@@ -1236,7 +1236,7 @@ the shim~; $\lambda$ is unused \>2*cm, 2*deg, cm \>5*E \\
 $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the shim \>2*deg, 2*no dim.  \>4*E \\
 % \> \>2*no dim. \> \\
   \\
- \textsl{IORDRE}  \> Degree of interpolation polynomial :        \>2,  4 or 25 \>I\\
+ \textsl{IORDRE}  \> Degree of interpolation polynomial :        \>2, 25 or 4 \>I\\
  \>\ 2 = second degree,  9-point grid \>\>\\
  \>25 = second degree,  25-point grid \>\>\\
  \> \ 4 = fourth degree, 25-point grid \>\>\\
@@ -1343,10 +1343,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
                 \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 %%%%%%%%%
 \textsl{KIRD[.n],~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; no dim. \>I, E\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~; no dim. \>I, E\\
  \>    n=0~: default, $ B_Z$ formula (i) above, n=1~: $ B_Z$ formula (ii). \>  \\ 
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \>  \\ 
- \>  KIRD=2, 4 or 25~:  numerical interpolation of field derivatives~; \>  \>\\
+ \>  KIRD=2, 25 or 4~:  numerical interpolation of field derivatives~; \>  \>\\
  \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
@@ -1683,7 +1683,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
  \\
- \textsl{IORDRE}     \> Unused \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \> Unused \>2, 25 or 4 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -1748,7 +1748,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
  \\
- \textsl{IORDRE}     \>If $IZ=1$ : as in \textsl{CARTEMES\index{CARTEMES}}  \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \>If $IZ=1$ : as in \textsl{CARTEMES\index{CARTEMES}}  \>2, 25 or 4 \>I\\
                      \>If $IZ \not =1$ : unused  \>  \>\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
@@ -1872,7 +1872,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 \begin{tabbing}
 \mestab
 \textsl{KIRD,~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~; \>I, E\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~; \>I, E\\
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \>  no dim. \> \\ 
  \>  KIRD$2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
  \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
@@ -1955,7 +1955,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
                 \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 %%%%%%%%%
 \textsl{KIRD,~Resol}         
- \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 4 or 25~;  \>I, E\\
+ \>  KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~;  \>I, E\\
  \>   Resol = 2/4 for 2nd/4th order field derivatives computation \> no dim. \> \\ 
  \>  KIRD$2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
  \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
@@ -3024,7 +3024,7 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \quad  \= $ID=2$ : entrance ($A,B,C$) and exit
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
  \\
- \textsl{IORDRE}     \> Degree of interpolation polynomial  \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \> Degree of interpolation polynomial  \>2, 25 or 4 \>I\\
  \>as for \textsl{DIPOLE-M}\index{DIPOLE-M} \>\>\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
@@ -3079,7 +3079,7 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'} :}
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
  \\
- \textsl{IORDRE}     \> Degree of interpolation polynomial  \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \> Degree of interpolation polynomial  \>2, 25 or 4 \>I\\
  \>(see \textsl{DIPOLE-M}) \>\>\\
  \\
  \textsl{XPAS}       \>Integration step    \> cm \>E \\
@@ -3668,7 +3668,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 $ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$,  cm, \>I,3*E  \\
 $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,\id]\>[,3*E,etc.]\\
  \\
- \textsl{IORDRE}     \>If $IZ=1$ : 3, 4, 25, as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 4 or 25 \>I\\
+ \textsl{IORDRE}     \>If $IZ=1$ : 3, 4, 25, as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 25 or 4 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -3766,8 +3766,9 @@ $RX$, $RY$, $RZ$
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTW}, FacD, FacA \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / computation  of \>0-3, 2*any    \>I,2*E \\
-                          \> chromaticities / computation of anharmonicities.            \> \>\\
+ \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / and computation  of \>0-3[.1], 2*any    \>I,2*E \\
+         FacD, FacA    \> chromaticities / and computation of anharmonicities.    \> \>\\
+                          \> $KTW2=1$~: long write-up to zgoubi.res.            \> \>\\
                           \> $FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
                           \> in OBJET~; $FacA$~: unused.             \> \>
 \end{tabbing}

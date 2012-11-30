@@ -54,7 +54,7 @@ C     --------------------------------------------------------------
       COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL)
      >,DI(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  

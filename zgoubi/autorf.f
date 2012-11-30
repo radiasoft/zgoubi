@@ -39,7 +39,7 @@ C     ------------------------------------------------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       IOP = NINT(A(NOEL,1))
       IF(IOP .EQ. 3) THEN

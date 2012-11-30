@@ -61,27 +61,21 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
       DIMENSION F2(7,6), XYS(6,12), KAUX(6)   !!, SM(6,6)
       SAVE F2
   
+      PARAMETER (KSIZ=10)
+      CHARACTER*(KSIZ)  KLOBJ
+
       DATA KWRI6 / 1 /
 
-c         WRITE(*,*) ' TWISS ',ipass, nrblt
-
-      KTW = NINT(A(NOEL,1))
+      KTW = INT(A(NOEL,1))
+      KTW2 = INT( 10.D0*(A(NOEL,1) -KTW) )
       FACP = A(NOEL,2)
       FACA = A(NOEL,3)
       FAC1 = 1.D0/FACA
 
 C KTW=1 : 1 pass, equivalent to matrix[1,11]
 C KTW=2 : 2 more passes to get matrices around +/-dp/p chromatic closed orbits;
-C KTW=3 : 1 more pass to get matrices with +/-dY amplitude and an additional 
-C           one to get matrices with +/-dZ amplitude. 
-
-C      IF    (KTW .EQ. 1) THEN
-C        NRBLT = 0
-C      ELSEIF(KTW .EQ. 2) THEN
-C        NRBLT = 2
-C      ELSEIF(KTW .EQ. 3) THEN
-C        NRBLT = 4
-C      ENDIF
+C KTW=3 : 1 more pass to get matrices with +/-dY amplitude and 
+C         1 more to get matrices with +/-dZ amplitude. 
 
       IF(KTW.GE.99) GOTO 20
       IF(KTW.GE.1) GOTO 10
@@ -90,18 +84,20 @@ C      ENDIF
  10   CONTINUE
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
-C      IF(IPASS .LT. NRBLT ) THEN
-C        LUN=ABS(NRES) 
-C        IF(LUN.GT.0) 
-C     >     WRITE(LUN,100) IPASS  !, NRBLT+1
-C          WRITE(*,*) IPASS  ,' NRBLT+1'
-C 100       FORMAT(/,30X,'  -----  TWISS procedure  -----',//,5X,'End '
-C     >     ,'of pass # ',I1,/)
-C     >     ,'of pass # ',I1,'/',I1,' through the optical structure',/)
  
+        KLOBJ = 'OBJET'
+        CALL GETNOL(KLOBJ,
+     >                    NLOBJ)
+
         IF(IPASS .EQ. 1) THEN
 C Compute periodic beta from first pass.
 C 2nd pass through structure will follow iff KTW>1.
+
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
 
 C--------- Switch off print into zgoubi.res : 
           ANOEL2 = 0.1D0
@@ -126,32 +122,37 @@ C--------- Switch on print to standard output :
             CALL MAT2(RREF,T,TX3,TX4)
             CALL REFER(2,2,0,1,6,7)
           ENDIF
+
           CALL MKSA(IORD,RREF,T,TX3,TX4)
           CALL MATIMP(RREF)
           CALL TUNES(RREF,F0REF,1,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
 
+          NRES = ISIGN*NRES
+
           IF(KTW.GE.2) THEN
   
-            IF(NRES .GT. 0) NRES =-NRES
+            IF(KTW2 .EQ. 0) THEN
+              IF(NRES .GT. 0) NRES =-NRES
+            ENDIF
 
             CALL REFER1(
      >                  PATHL(1)) 
-            NUML = 1
-            REF(1) = A(NUML,30)
-            REF(2) = A(NUML,31)
-            REF(3) = A(NUML,32)
-            REF(4) = A(NUML,33)
-            REF(5) = A(NUML,34)
-            REF(6) = A(NUML,35)
+C            NLOBJ = 1
+            REF(1) = A(NLOBJ,30)
+            REF(2) = A(NLOBJ,31)
+            REF(3) = A(NLOBJ,32)
+            REF(4) = A(NLOBJ,33)
+            REF(5) = A(NLOBJ,34)
+            REF(6) = A(NLOBJ,35)
 C--------- Reset reference coordinates for OBJECT sampling : p -> p-dp
-            NUML = 1
-            FAP25 = FACP * A(NUML,25)
-            A(NUML,35) =  REF(6) -  FAP25
-            A(NUML,30) =  REF(1) -  1.D2*F0REF(1,6) * FAP25
-            A(NUML,31) =  REF(2) -  1.D3*F0REF(2,6) * FAP25
-            A(NUML,32) =  REF(3) -  1.D2*F0REF(3,6) * FAP25
-            A(NUML,33) =  REF(4) -  1.D3*F0REF(4,6) * FAP25
+C            NLOBJ = 1
+            FAP25 = FACP * A(NLOBJ,25)
+            A(NLOBJ,35) =  REF(6) -  FAP25
+            A(NLOBJ,30) =  REF(1) -  1.D2*F0REF(1,6) * FAP25
+            A(NLOBJ,31) =  REF(2) -  1.D3*F0REF(2,6) * FAP25
+            A(NLOBJ,32) =  REF(3) -  1.D2*F0REF(3,6) * FAP25
+            A(NLOBJ,33) =  REF(4) -  1.D3*F0REF(4,6) * FAP25
           
             IPASS=IPASS+1
             NOEL=0 
@@ -163,6 +164,12 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p-dp
  
         ELSEIF(IPASS .EQ. 2) THEN
 C------- 3rd pass through structure will follow
+
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -179,15 +186,17 @@ C------- 3rd pass through structure will follow
      >                                             YNUM,ZNUM,CMUY,CMUZ)
           CALL REFER1(
      >                PATHL(2)) 
+
+          NRES = ISIGN*NRES
  
 C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
-          NUML = 1
-          FAP25 = FACP * A(NUML,25)
-          A(NUML,35) =  REF(6) +  FAP25
-          A(NUML,30) =  REF(1) +  1.D2*F0REF(1,6) * FAP25
-          A(NUML,31) =  REF(2) +  1.D3*F0REF(2,6) * FAP25
-          A(NUML,32) =  REF(3) +  1.D2*F0REF(3,6) * FAP25
-          A(NUML,33) =  REF(4) +  1.D3*F0REF(4,6) * FAP25
+C          NLOBJ = 1
+          FAP25 = FACP * A(NLOBJ,25)
+          A(NLOBJ,35) =  REF(6) +  FAP25
+          A(NLOBJ,30) =  REF(1) +  1.D2*F0REF(1,6) * FAP25
+          A(NLOBJ,31) =  REF(2) +  1.D3*F0REF(2,6) * FAP25
+          A(NLOBJ,32) =  REF(3) +  1.D2*F0REF(3,6) * FAP25
+          A(NLOBJ,33) =  REF(4) +  1.D3*F0REF(4,6) * FAP25
           
           IPASS=IPASS+1
           NOEL=0 
@@ -198,8 +207,13 @@ C--------- Reset reference coordinates for OBJECT sampling : p -> p+dp
         ELSEIF(IPASS .EQ. 3) THEN
 C------- Chromatic tracking completed
 
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+
 C--------- reactivate WRITE for printing results 
-C          IF(NRES.LT.0) NRES=-NRES
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -217,26 +231,28 @@ C          IF(NRES.LT.0) NRES=-NRES
           CALL REFER1(
      >                PATHL(3)) 
 
+          NRES = ISIGN*NRES
+
 C Momentum compaction
-          ALPHA = ( (PATHL(3)-PATHL(2))/PATHL(1) ) / (2.D0 * A(NUML,25))
+          ALPHA=( (PATHL(3)-PATHL(2))/PATHL(1) ) / (2.D0 * A(NLOBJ,25))
 
 C Momentum detuning
-          NUML = 1
-          DNUYDP = (YNUP-YNUM)/2.D0/A(NUML,25)
-          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
+C          NLOBJ = 1
+          DNUYDP = (YNUP-YNUM)/2.D0/A(NLOBJ,25)
+          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NLOBJ,25)
         
           IF(KTW.GE.3) THEN
 C--------- Amplitude detuning tracking & calculations follow
-            NUML = 1
-            A(NUML,35) =  REF(6)
-            A(NUML,30) =  REF(1)
-            A(NUML,31) =  REF(2)
-            A(NUML,32) =  REF(3)
-            A(NUML,33) =  REF(4)
-            A(NUML,34) =  REF(5)
+C            NLOBJ = 1
+            A(NLOBJ,35) =  REF(6)
+            A(NLOBJ,30) =  REF(1)
+            A(NLOBJ,31) =  REF(2)
+            A(NLOBJ,32) =  REF(3)
+            A(NLOBJ,33) =  REF(4)
+            A(NLOBJ,34) =  REF(5)
 C--------- Reset reference coordinates for OBJECT sampling : y -> y+dy
-            A(NUML,20) =  FACA * A(NUML,20)    
-            A(NUML,21) =  FACA * A(NUML,21)    
+            A(NLOBJ,20) =  FACA * A(NLOBJ,20)    
+            A(NLOBJ,21) =  FACA * A(NLOBJ,21)    
 
             IPASS=IPASS+1
             NOEL=0 
@@ -248,8 +264,13 @@ C--------- Reset reference coordinates for OBJECT sampling : y -> y+dy
 
 C        ENDIF
 
-C      ELSEIF(IPASS .EQ. NRBLT) THEN
         ELSEIF(IPASS .EQ. 4) THEN
+
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -264,21 +285,23 @@ C      ELSEIF(IPASS .EQ. NRBLT) THEN
           CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
+
+          NRES = ISIGN*NRES
  
 C  Amplitude detuning, dY effects
-          NUML = 1
-          Y2 = FAC1*A(NUML,20)-A(NUML,30)
+C          NLOBJ = 1
+          Y2 = FAC1*A(NLOBJ,20)-A(NLOBJ,30)
           YYP = Y2
           Y2 = Y2*Y2 
-          YP2 = FAC1*A(NUML,21)-A(NUML,31)
+          YP2 = FAC1*A(NLOBJ,21)-A(NLOBJ,31)
           YYP = YYP*YP2
           YP2 = YP2*YP2 
           UYREF = F0REF(2,2)/1.D2*Y2+2.D0*(-F0REF(2,1))*YYP+
      >             F0REF(1,1)*1.D2*YP2 
-          YY2 = A(NUML,20)-A(NUML,30)
+          YY2 = A(NLOBJ,20)-A(NLOBJ,30)
           YYYP = YY2
           YY2 = YY2*YY2 
-          YYP2 = A(NUML,21)-A(NUML,31)
+          YYP2 = A(NLOBJ,21)-A(NLOBJ,31)
           YYYP = YYYP*YYP2
           YYP2 = YYP2*YYP2 
           UYP = F0P(2,2)/1.D2*YY2 + 2.D0*(-F0P(2,1))*YYYP + 
@@ -287,11 +310,11 @@ C  Amplitude detuning, dY effects
           DNUZDY=(ZNUP-ZNUREF)/(UYP-UYREF)
         
 C--------- Reset reference coordinates for OBJECT sampling : z -> z+dz
-          NUML = 1
-          A(NUML,20) =  FAC1 * A(NUML,20) 
-          A(NUML,21) =  FAC1 * A(NUML,21) 
-          A(NUML,22) =  FACA * A(NUML,22)
-          A(NUML,23) =  FACA * A(NUML,23)
+C          NLOBJ = 1
+          A(NLOBJ,20) =  FAC1 * A(NLOBJ,20) 
+          A(NLOBJ,21) =  FAC1 * A(NLOBJ,21) 
+          A(NLOBJ,22) =  FACA * A(NLOBJ,22)
+          A(NLOBJ,23) =  FACA * A(NLOBJ,23)
     
           IPASS=IPASS+1
           NOEL=0 
@@ -301,6 +324,12 @@ C--------- Reset reference coordinates for OBJECT sampling : z -> z+dz
 C      ELSEIF(IPASS .GT. NRBLT) THEN
         ELSEIF(IPASS .EQ. 5) THEN
 C------- Amplitude tracking completed
+
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -316,20 +345,22 @@ C------- Amplitude tracking completed
         CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
 
+          NRES = ISIGN*NRES
+
 C Amplitude detuning, dZ effects
-        NUML = 1
-        Z2 = FAC1*A(NUML,22)-A(NUML,32)
+C        NLOBJ = 1
+        Z2 = FAC1*A(NLOBJ,22)-A(NLOBJ,32)
         ZZP = Z2
         Z2 = Z2*Z2 
-        ZP2 = FAC1*A(NUML,23)-A(NUML,33)
+        ZP2 = FAC1*A(NLOBJ,23)-A(NLOBJ,33)
         ZZP = ZZP*ZP2
         ZP2 = ZP2*ZP2 
         UZREF = F0REF(4,4)/1.D2*Z2+2.D0*(-F0REF(4,3))*ZZP+
      >       F0REF(3,3)*1.D2*ZP2 
-        ZZ2 = A(NUML,22)-A(NUML,32)
+        ZZ2 = A(NLOBJ,22)-A(NLOBJ,32)
         ZZZP = ZZ2
         ZZ2 = ZZ2*ZZ2 
-        ZZP2 = A(NUML,23)-A(NUML,33)
+        ZZP2 = A(NLOBJ,23)-A(NLOBJ,33)
         ZZZP = ZZZP*ZZP2
         ZZP2 = ZZP2*ZZP2 
         UZP = F0P(4,4)/1.D2*ZZ2 + 2.D0*(-F0P(4,3))*ZZZP + 
@@ -341,11 +372,13 @@ C Amplitude detuning, dZ effects
 C----- reactivate READ in zgoubi.dat
       READAT = .TRUE.
 
-      IF(NRES.LT.0) NRES=-NRES
       IF(NRES.GT.0) THEN
-        WRITE(*,101) IPASS
+        WRITE(6,101) IPASS
         WRITE(NRES,101) IPASS
- 101    FORMAT(/,25X,' ****  End  of  ''TWISS''  procedure  ****',//
+ 101    FORMAT(/,T25,
+     >  ' *********************************************************',/
+     >  ,T25
+     >  ' **************  End  of  TWISS  procedure  **************',//
      >   ,5X,' There  has  been ',I10,
      >        '  pass  through  the  optical  structure ',/)
 

@@ -42,12 +42,14 @@ C  -------
       CHARACTER*(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
 
-      IF(NI.NE.1 .AND. NI.NE.10*(NI)/10) RETURN
+      CALL MINO13(
+     >            NITER)
 
         IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
 100     FORMAT('1')
-        WRITE(IUNIT,200) NI
-200     FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,')')
+        WRITE(IUNIT,200) NI, NITER
+200     FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,
+     >  ' / ',I6,' max.)')
         WRITE(IUNIT,300)
 300     FORMAT(
      >  ' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',

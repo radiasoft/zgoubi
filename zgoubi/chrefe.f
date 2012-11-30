@@ -46,7 +46,7 @@ C     -------------------------------------------------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/GASC/ AI, DEN, KGA
       LOGICAL ZSYM
-      COMMON/OPTION/ KFLD,MG,LC,ML,ZSYM
+      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNRA/ KSYN
  

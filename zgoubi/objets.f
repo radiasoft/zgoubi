@@ -114,7 +114,7 @@ C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 
       CALL RAZ(F,MXJ*MXT)
 
-      KOBJ = NINT(A(NOEL,10))
+      KOBJ = INT(A(NOEL,10))
       KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
 
       IF(NRES.GT.0) WRITE(NRES,103) BORO
@@ -484,9 +484,12 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
       RETURN
 
  
-  106 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
-     1')  FORME  DE ',I6,' POINTS ',//)
+C  106 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
+C     1')  FORME  DE ',I6,' POINTS ',//)
+  106 FORMAT(/,41X,'TRAJECTOIRY SETTING UP',//,30X,'OBJET  (',I1,
+     1')  BUILT  UP  FROM  ',I6,' POINTS ',//)
   101 FORMAT(/,42X,'D',7X,'Y(cm)',5X,'T(mrd)',4X,'Z(cm)',5X,'P(mrd)',4X,
-     >'X(cm)',//,30X,'NOMBRE',5(5X,I3,2X),/)
-  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
+     >'X(cm)',//,30X,'NUMBER',5(5X,I3,2X),/)
+  102 FORMAT(/,19X,' SAMPLING ',4X,F7.4,5(4X,F6.2),/)
+C  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
       END

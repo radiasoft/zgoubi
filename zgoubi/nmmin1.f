@@ -11,7 +11,7 @@ C  This program is distributed in the hope that it will be useful,
 C  but WITHOUT ANY WARRANTY; without even the implied warranty of
 C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 C  GNU General Public License for more details.
-C
+C  
 C  You should have received a copy of the GNU General Public License
 C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -44,13 +44,13 @@ C  -------
       PARAMETER (DR=1D0,DE=2D0,DOC=0.5D0,DIC=-0.5D0)
 
       DOUBLE PRECISION NMMIN2, PNLTY, PNLTI
-
 C Max number of function calls
-      INTEGER ICPTMA, ICPTF
-      PARAMETER (ICPTMA=1000)
-
+      INTEGER ICPTM, ICPTMA, ICPTF
       SAVE PNLTY
+      SAVE ICPTMA
+
       DATA PNLTY / 1D-10 /
+      DATA ICPTMA / 1000 /
       
       P(1) = 1
       DO 1000 I=1,N
@@ -87,7 +87,7 @@ C Max number of function calls
  3000 IF (K.GT.N.OR.FF(P(N+1)).LE.FF(P(1))) GOTO 4000
 
       CALL CPTFRD(
-     >             ICPTF)
+     >            ICPTF)
 
              IF(FMIN .LT. PNLTY .OR. ICPTF.GT.ICPTMA) THEN
                DO I = 1, N
@@ -176,8 +176,9 @@ C Max number of function calls
       NMMIN1 = FF(P(1))
       RETURN
 
-      ENTRY NMMIN2(PNLTI)
+      ENTRY NMMIN2(PNLTI,ICPTM)
       PNLTY = PNLTI
+      ICPTMA = ICPTM
       RETURN
 
       END

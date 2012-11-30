@@ -18,23 +18,26 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ) 
+      SUBROUTINE GETNOL(KLEY,
+     >                       NUML)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION F0(6,6)
-C      PARAMETER (PI = 4.D0*ATAN(1.D0))
-      PARAMETER (PI = 3.1415926535898d0)
-
-      CALL SCUMR(
-     >            XL,SCUM,TCUM)
-
- 104  FORMAT(1P,13(E13.5,1X),1X,I5)
-      WRITE(LUN,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
-     >, F0(5,6), F0(5,5)
-     >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
-     >, PHY/(2.D0*PI), PHZ/(2.D0*PI),SCUM,NOEL
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      PARAMETER (KSIZ=10)
+      CHARACTER*(KSIZ)  KLEY, KLE
+      KLE = '*******'
+      NUML = 0
+      DO WHILE ( KLEY .NE. KLE .AND. NUML.LE.MXL )
+        NUML = NUML+1
+        CALL ZGKLE(IQ(NUML)
+     >                     ,KLE)
+      ENDDO
+      IF(.NOT. (KLEY .EQ. KLE)) THEN
+        CALL ENDJOB('SBR getnol : no such key #',IQ(NUML))
+      ENDIF       
       RETURN
       END
