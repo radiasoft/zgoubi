@@ -74,12 +74,16 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
 
  1    CONTINUE
 
+      READAT = .TRUE.
+
+ 11   continue
+      FITING = .FALSE.
       CALL INIDAT
       CALL RESET
       CALL CHECKS
 
-      READAT = .TRUE.
-      FITING = .FALSE.
+c      READAT = .TRUE.
+c      FITING = .FALSE.
       CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
@@ -136,9 +140,11 @@ c        ENDIF
 c 462    CONTINUE
 
 C For use of REBELOTE (REBELOTE encompasses FIT)
+c         write(*,*) ' zgoubi_main ',endfit
+c             read(*,*)
         IF(.NOT. ENDFIT) THEN
           REWIND(NDAT)
-          GOTO 1 
+          GOTO 11 
         ENDIF
       ENDIF
 

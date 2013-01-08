@@ -25,7 +25,9 @@ C  -------
       SUBROUTINE RAGSMM(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
-      CHARACTER*130 TXT
+      CHARACTER(130) TXT
+      PARAMETER (MSS=6)
+      CHARACTER(80) STRA(MSS)
 C     -------------------------
 C     READS DATA FOR AGS DIPOLE
 C     -------------------------
@@ -56,9 +58,22 @@ C----- Step
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
-C X-shft, Y-shft, Z-rot, Z-shft, Y-rot
-      READ(NDAT,*,ERR=66) II,(A(NOEL,I),I=91,95)
- 66   A(NOEL,90) = II 
+C KPOS=3 : XCE, YCE, ALE
+C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
+      READ(NDAT,FMT='(A)') TXT
+      CALL STRGET(TXT,MSS,
+     >                    NS,STRA) 
+      
+      READ(STRA(1),*,ERR=66) II
+      A(NOEL,90) = II 
 
+      DO KK = 2, NS
+        READ(STRA(KK),*,ERR=66) TEMP
+        A(NOEL,91+KK-2) = TEMP
+      ENDDO
+
+      RETURN
+
+ 66   CONTINUE
       RETURN
       END

@@ -159,17 +159,19 @@ c            b2 = bk1(6)
 c          endif
 c          b1 = b1 + b2*yce/100.d0 - b3 * yce*yce/1.d4
 c          yce = -yce
-        else
+        elseif(MOD .eq. 3) then
 C short-shifted dipole model
           fyce = 1.d0
           sgn = -1.d0
           fb1 = 1.d0
           fb2 = 1.d0
+c              write(*,*) ' agsk12 b3 bk2 avant ',b3,bk2(1)
           if    (lbl1(last-1:last) .eq. 'BF') then
             xlmag = 79.d0 * 0.0254d0
             b3 = bk2(1) *(x10/100.d0)**2 / 2.d0
             yce = fyce * (-0.3942767240d0)
             b2 = bk1(1) 
+c              write(*,*) ' agsk12 b3 apres ',b3
           elseif(lbl1(last-1:last) .eq. 'CD') then  
             xlmag = 94.d0 * 0.0254d0
             b3 = bk2(2) *(x10/100.d0)**2 / 2.d0
@@ -196,9 +198,9 @@ C short-shifted dipole model
             yce = fyce * (-0.5539271156d0)
             b2 = bk1(6) 
           endif
-C        else
-C          write(*,*) ' No such option  MOD = ',MOD
-C          stop
+        else
+          write(*,*) ' No such option  MOD = ',MOD
+          stop
         endif
 
         XL = XLMAG / CM2M
@@ -211,7 +213,9 @@ C          stop
         endif
         BM(1) = -1.D3 / (XL / (2.D0*SIN(ANGMM/2.D0)))
         BM(2) = FB2*B2
+c         write(*,*) ' agsk12 bm b2,b3 ',(bm(i),i=1,3),b2,b3
         BM(3) = B3*10.D0*SGN
+c         write(*,*) ' agsk12 bm b2,b3 ',(bm(i),i=1,3),b2,b3
         YSHFT = YCE
                
       RETURN

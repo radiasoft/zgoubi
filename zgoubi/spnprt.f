@@ -22,9 +22,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE SPNPRT
+      SUBROUTINE SPNPRT(LABEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
+      CHARACTER(*) LABEL
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "MAXTRA.H"
@@ -34,12 +34,12 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      CHARACTER LET
+      CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
-      COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
 C      DIMENSION SMI(4,MXT), SMA(4,MXT)
@@ -52,9 +52,12 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DIMENSION PHI(MXT), PHIX(MXT)
       SAVE SXMF, SYMF, SZMF
 
-      DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
+      INTEGER DEBSTR, FINSTR
+      LOGICAL FIRST
 
+      DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
+      DATA FIRST / .TRUE. /
 
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
@@ -146,9 +149,10 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
               bb(1) = sf(1,i)
               bb(2) = sf(2,i)
               bb(3) = sf(3,i)
-              cphi = vscal(aa,bb,3)
 
+              cphi = vscal(aa,bb,3)
               PHI(I) = acos(cphi) * deg
+
 C If initial spin is // Z
               phizf = atan(sqrt(sf(1,i)**2+sf(2,i)**2)/sf(3,i)) * deg
 c                  write(*,*) ' '
@@ -157,9 +161,10 @@ C              call vvect(aa,bb,xx)
 C              sphi = xnorm(xx)
 C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)
               bb(1)= 0.d0
-              cphix = vscal(aa,bb,3)/xnorm(bb,3)
 
+              cphix = vscal(aa,bb,3)/xnorm(bb,3)
               PHIX(I) = acos(cphix) * deg 
+
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
      >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),I
  101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),9X,5(1X,F9.6),
@@ -186,42 +191,45 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
           ENDDO
  
-          IF(IPASS.EQ.NRBLT+1) THEN 
-
-            IF(IDLUNI(
-     >                LUN)) THEN
-              OPEN(UNIT=LUN,FILE='zgoubi.SPNPRT.out',ERR=96)
-            ELSE
-              GOTO 96
-            ENDIF
-
-            DO I=IMAX1,IMAX2
-              IF( IEX(I) .GE. -1 ) THEN
-                P = BORO*CL9 *F(1,I) *Q
-                GAMA = SQRT(P*P + AM*AM)/AM
-                WRITE(LUN,107) LET(I),IEX(I),(SI(J,I),J=1,4)
-     >          ,(SF(J,I),J=1,4),GAMA,PHI(I)
-     >          ,PHIX(I),(F(J,I),J=1,6),I,ipass
-     >          ,'      LET(I),IEX(I),(SI(J,I),J=1,4),'
-     >          ,'(SF(J,I),J=1,4),GAMA,PHI,PHIX,(F(J,I),J=1,4),I,ipass'
- 107            FORMAT(1X,A1,1X,I2,17(1X,F14.8),2(1X,I4),2A)
-              ENDIF
-            ENDDO
- 
-           CLOSE(LUN)
-
-          ENDIF 
         ENDIF
  3    CONTINUE
  
+      IF(LABEL(DEBSTR(LABEL):FINSTR(LABEL)) .EQ. 
+     >                                    'PRINT') THEN
+        IF(FIRST) THEN
+          FIRST = .FALSE.
+          IF(IDLUNI(
+     >              LUN)) THEN
+            OPEN(UNIT=LUN,FILE='zgoubi.SPNPRT.Out',ERR=96)
+          ELSE
+            GOTO 96
+          ENDIF
+          WRITE(LUN,fmt='(A)') 
+     >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4)
+     >    , (SF(J,I),J=1,4), gamma, G.gamma, PHI, 
+     >    , PHIX, ITRAJ, IPASS'
+        ENDIF
+        DO I=IMAX1,IMAX2
+          IF( IEX(I) .GE. -1 ) THEN
+            P = BORO*CL9 *F(1,I) *Q
+            GAMA = SQRT(P*P + AM*AM)/AM
+            WRITE(LUN,111) 
+     >      (F(J,I),J=2,6),F(1,I)
+     >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
+     >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,ipass,noel
+ 111        FORMAT(1X,1p,6(1X,E14.6),1X,3A1,1X,I2,12(1X,e14.6),3(1X,I4))
+          ENDIF
+        ENDDO
+C        CLOSE(LUN)
+      ENDIF 
 
       RETURN
 
  96       CONTINUE
           WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
-     >               ''Error open file zgoubi.SPNPRT.out'')')
+     >               ''Error open file zgoubi.SPNPRT.Out'')')
           WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
-     >               ''Error open file zgoubi.SPNPRT.out'')')
+     >               ''Error open file zgoubi.SPNPRT.Out'')')
 
       RETURN
       END

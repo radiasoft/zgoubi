@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE TRROTE(EVNT,TX,TY,TZ,RX,RY,RZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -68,6 +67,11 @@ C----- ROTATION
         UZ=-U1*SN+UZ*CO
         T=ATAN2(UY,UX)
         P=ATAN( UZ/SQRT(UX*UX+UY*UY) )
+c        if(kspn .eq. 1) then
+c          sf(2,it) =   sf(2,it) * co + sf(3,it) * sn
+c          sf(3,it) = - sf(2,it) * sn + sf(3,it) * co
+c        endif
+        IF(KSPN .EQ. 1 ) CALL SPNROT(IT,rx,ZERO,ZERO)
       ENDIF
       IF(RY .NE. 0.D0) THEN
         CP=COS(P)

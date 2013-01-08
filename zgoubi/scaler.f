@@ -241,16 +241,6 @@ C                          ekin freq
           D1 = coTime
 C        write(*,*) ' scaler ',xv, cotime1, coTime
 
-C        ELSEIF(KTI .EQ. -60) THEN
-CC--------- AGS dipoles, K1 and K2 laws
-C          CALL MULTP2(.TRUE.)
-C          CALL CAVIT1(
-C     >                PP0,GAMMA,DWS)
-CC          print *, PP0,GAMMA,DWS
-CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3 
-C          CALL AGSKS(PP0*BORO*CL9/1.D3)
-C          scaler = SCL(KF,1) * pp0
-
         ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000
           IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN

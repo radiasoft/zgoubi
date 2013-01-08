@@ -443,7 +443,7 @@ C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 C----- OBJET. 
 24    CONTINUE
       IF(READAT) CALL ROBJET
-C      IF(FITGET) CALL FITGT1
+      IF(FITGET) CALL FITGT1
       CALL OBJETS
       GOTO 998
 C----- MCOBJET. Object defined by Monte-Carlo
@@ -632,7 +632,7 @@ C-----  SPNTRK. Switch spin tracking
       GOTO 998
 C----- SPNPRT. PRINT SPIN STATES
  50   CONTINUE
-      CALL SPNPRT
+      CALL SPNPRT(LABEL(NOEL,1))
       GOTO 998
 C----- BEND. Dipole magnet
  51   CONTINUE

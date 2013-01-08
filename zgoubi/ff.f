@@ -264,18 +264,20 @@ C                 at ends of cell
 C                   (hence expected constraint value in zgoubi.dat is 0)
              VAL=ABS(F(L,K) + FO(L,K))
 C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
-           ELSEIF(ICONT2.EQ.3) THEN
-C------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached inside optical element KK
-             MIMA = NINT(CPAR(I,2))
-             CALL FITMM1(L,KK,MIMA,
-     >                             VAL1)
-             if(mima .eq. 1) mima=2
-             if(mima .eq. 2) mima=1
-             CALL FITMM1(L,KK,MIMA,
-     >                             VAL2)
-             val = val1 + val2
-C              write(*,*) 'ff val1,val2,val1+val2 ',val1,val2, val1+val2
-C             CALL FITMM2            
+
+c           ELSEIF(ICONT2.EQ.3) THEN
+cC------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached inside optical element KK
+cC             MIMA = 1
+c             MIMA = NINT(CPAR(I,2))
+c             CALL FITMM1(L,KK,MIMA,
+c     >                             VAL1)
+c             if(mima .eq. 1) mima=2
+c             if(mima .eq. 2) mima=1
+c             CALL FITMM1(L,KK,MIMA,
+c     >                             VAL2)
+c             val = val1 + val2
+cc              write(88,fmt='(a,1x,1p,3e14.6)') 
+cc     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
      
            ELSEIF(ICONT2.EQ.4) THEN
 C------------ Same coordinate L, two different particles K, K2 
@@ -367,6 +369,76 @@ C    constraint rms  emittance
             CALL LPSFIT(K, 
      >                              EMIT,ALP,BET,XM,XPM)
             VAL=EMIT
+
+        ELSE IF(ICONT .EQ. 7) THEN
+C----------- Constraints on coordinates and fields *inside* optical elements
+
+           IF(ICONT2.EQ.1) THEN
+C------------ Constraint on min or max value (MIMA=1 or 2) of coordinate L reached inside optical element KK
+             MIMA = NINT(CPAR(I,2))
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL)
+
+           ELSEIF(ICONT2.EQ.2) THEN
+C------------ Constraint on |min-max| value of coordinate L reached inside optical element KK
+             MIMA = 1
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL1)
+             mima=2
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL2)
+             val = abs(val1 - val2)
+c              write(88,fmt='(a,1x,1p,3e14.6)') 
+c     >          'ff val1,val2,|val1-val2| ',val1,val2, abs(val1-val2)
+     
+           ELSEIF(ICONT2.EQ.3) THEN
+C------------ Constraint on  min+max  value of coordinate L reached inside optical element KK
+             MIMA = 1
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL1)
+             mima=2
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL2)
+             val = val1 + val2
+c              write(88,fmt='(a,1x,1p,3e14.6)') 
+c     >          'ff val1,val2,|val1-val2| ',val1,val2, abs(val1-val2)
+     
+           ELSEIF(ICONT2.EQ.6) THEN
+C------------ Constraint on  min or max value of field L-component, across optical element KK
+             MIMA = 1
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL1)
+             MIMA = 2
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL2)
+             val = abs(val1 - val2)
+     
+           ELSEIF(ICONT2.EQ.7) THEN
+C------------ Constraint on  |min-max| value of field L-component, across optical element KK
+             MIMA = NINT(CPAR(I,2))
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL)
+     
+           ELSEIF(ICONT2.EQ.8) THEN
+C------------ Constraint on  min+max  value of field L-component, across optical element KK
+             MIMA = 1
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL1)
+             MIMA = 2
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL2)
+             val = val1 + val2
+     
+           ELSEIF(ICONT2.EQ.9) THEN
+C------------ Constraint on integral of L-component along optical element KK
+             mima = 0
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL)
+     
+           ELSE
+             CALL ENDJOB(' SBR ff.f : no such FIT option 7.',ICONT2)
+
+           ENDIF
 
          ELSE IF(ICONT .EQ. 10) THEN
 C-----------Contraints on spin

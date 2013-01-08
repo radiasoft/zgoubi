@@ -180,15 +180,16 @@ c     Writing of the new transfertM.dat
       WRITE(12,FMT='(//)')
       WRITE(12,FMT='(''TRANSFERT MATRIX:'')')
       DO I=1,4
-         WRITE(12,FMT='(4(F15.8,X))') (R(I,J),J=1,4)
+         WRITE(12,FMT='(4(F15.8,1X))') (R(I,J),J=1,4)
       ENDDO
 
       CLOSE(11,IOSTAT=IOS1)
       CLOSE(12,IOSTAT=IOS2)
 c----------------------------------------------
 
-      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
+c      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
 
+        call tunesc
       RETURN
 
       ENTRY MATRI1(

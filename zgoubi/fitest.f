@@ -114,12 +114,14 @@ C----- CONTROLE CONTRAINTES
             WRITE(NRES,*) '          constraint # ',I,
      >      '      I  = ',I1(I),',   ok.'
           ENDIF
-          IF(IC2(I) .EQ. 3) THEN
-C------------ Constraint on max value of coordinate in optical element, 
+        ENDIF
+        IF(IC(I) .EQ. 7) THEN
+C------------ Constraint on  coordinate or field in optical element, 
 C             reset min-max storage table'
+c                 write(*,*) ' fitest ic2 ',ic2(i)
+c                    read(*,*)
             CALL INTEG8(INT1)
-            CALL FITMM2            
-          ENDIF
+            CALL FITMM3(I3(I))
         ENDIF
  8    CONTINUE
  

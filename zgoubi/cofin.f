@@ -93,7 +93,6 @@ C-------- Polar coordinates
         IF(KSPN .EQ. 1) THEN
 C--------- Spin tracking
           IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
-C          CALL SPNTRK(IT,DS)
           CALL SPNTRK(DS)
 C----- Coherent synchrotron radiation
         ELSEIF(KCSR .EQ. 1) THEN

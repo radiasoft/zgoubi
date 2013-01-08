@@ -63,7 +63,9 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
       DIMENSION AK1(6), AK2(6), AKS(6)
-      DIMENSION WN(2), WA(2)
+      PARAMETER (MBLW=3)
+      DIMENSION WN(MBLW), WA(MBLW)
+
       PARAMETER (I3=3)
 
       DIMENSION DB(3)
@@ -77,6 +79,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/ 
       DATA AK1, AK2 / 6*1.D0, 6*1.D0 /
+      DATA WA / MBLW * 0.D0 /
+      DATA WN / MBLW * 0.D0 /
 
       SKEW=.FALSE.
       CALL RAZ(BM,NPOL)
@@ -111,9 +115,6 @@ C Apply scaling to all parameters concerned
         AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
       ENDDO
 
-
-
-
 C This is a remedy to otherwise  
 C FIT2 in presence of AGSMM variables in SCALING
 C The problem is only on  my laptop. Not on Yann's nor CAD computers...
@@ -121,8 +122,6 @@ C        write(*,fmt='(a,4i4,1p,2e12.4)') ' agsmm ',
 C     > NBLW,KFM, mxp, JPA(KFM,mxp), AA(JPA(KFM,I)), VPA(KFM,I)
 C The problem is cured as well by adding a dummy "MULTIPOL' right before the first 'AGSMM'...
 C------
-
-
 
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
      >                                    AK1,AK2,AKS)
@@ -132,6 +131,7 @@ C------
         WN(I) = A(NOEL,20+2*I-1)
         WA(I) = AA(20+2*I)
       ENDDO
+
       CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
 
@@ -141,9 +141,7 @@ C------
         DB(I) = AA(12+I)
 C        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
         BM(I) = SCAL * (BORO*1.D-3) * BM(I) * (1.D0 + DB(I))
-c          write(*,*) ' agsmm i, db(i) ',i, db(i)
       ENDDO
-c                 read(*,*)
 
 C            write(*,*) ' agsmm scal ',scal
 

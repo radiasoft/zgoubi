@@ -6,8 +6,8 @@
                                   \section*{PREFACE TO THE BNL EDITION, 2012} 
 \addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2012)} 
 
-The previous release of the Zgoubi Users' Guide as a Lab. report dates from 1997, making the present one  the last in 
-a series of~five~\cite{Biblio1}-\cite{Biblio2c}. 
+The previous release of the Zgoubi Users' Guide as a Lab. report dates from 1997, making the present one  the 
+latest in a series of~five~\cite{Biblio1}-\cite{Biblio2c}. 
 
 \bigskip
 
@@ -2690,8 +2690,9 @@ the object definition, for instance
 
 - \textsl{SPNTRK\index{SPNTRK}}~:  switch-on spin tracking, 
 
- - \textsl{GETFITVAL\index{GETFITVAL}}~: get parameter values as saved by earlier run of \textsl{FIT[2]}, 
-  
+- \textsl{PARTICUL\index{PARTICUL}} to declare particle mass and charge, if for instance tracking in electric fields, 
+or tracking spin, or in presence of synchrotron radiation energy loss simulations, 
+
 \medskip 
 
 \noindent  some may appear further down in the structure (in zgoubi.dat), for instance 
@@ -2706,10 +2707,21 @@ the object definition, for instance
 
 - \textsl{END\index{END}}~:  end of a problem, 
 
-- \textsl{FIT\index{FIT}}~: fitting procedure. 
+- \textsl{FIT\index{FIT}}~: fitting procedure - can also appear before \textsl{REBELOTE}
 
-- \REBELOTE\index{REBELOTE}~: for tracking more than \textsl{IMAX}  particles 
-(the maximum value for \IMAX\ is defined in the include file \texttt{'MAXTRA.H'}).
+
+\medskip
+
+\noindent \textsl{GETFITVAL\index{GETFITVAL}} is an exception  rule in that it may appear 
+\textsl{before} the object definition (thus becoming the first keyword in zgoubi.dat data list). This is 
+the case if  variables prior saved following a '\textsl{FIT[2]}' procedure 
+and then read using \textsl{GETFITVAL}, happen to belong in the object input data list. 
+
+\medskip
+
+\noindent \textsl{SYSTEM} as well,  is liable to appear anywhere in the data list.
+
+
 
 \newpage
 
@@ -2944,7 +2956,26 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
  \textsl{EBMULT\index{EBMULT}}, \textsl{ELMULT\index{ELMULT}}, \textsl{MULTIPOL\index{MULTIPOL}}. \\
 \\
 It is  illustrated  here after 
-in the case of \textsl{DIPOLE-M}~: 
+in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. 
+
+\begin{center}
+{\renewcommand{\arraystretch}{1}
+	\begin{tabular}{lcl}
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
+      \textsl{'MULTIPOL'}                      \\
+	\textsl{0 }     &  &  1 \\
+	\textsl{365.760 10.0 7.5739 1.4939 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0} &&  2, 3, 4, 5, ..., 13    \\
+	\textsl{10.0  4.0  0.80 0.0 0.0 0.0 0.0 0. 0. 0. 0. }     &&  14, 15, ..., 24       \\
+	$\NC$, $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$, shift &&  25, 26, 27, 28, 29, 30, 31, 32  \\
+	\textsl{10.0  4.0  0.80 0.0 0.0 0.0 0.0 0. 0. 0. 0. }     &&  33, 34, ..., 43       \\
+	$\NC$, $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$, shift &&  44, 45, 46, 47, ...,    51    \\
+	\textsl{0. 0. 0. 0. 0. 0. 0. 0. 0. 0.  }     &&  52, 53, 54, ..., 61   \\
+	\textsl{ step size }     && 62    \\
+	\textsl{ KPOS, XCE, YCE, ALE }     && 63, 64, 65, 66    \\
+	\end{tabular}   }
+\end{center}
+
+\newpage
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
@@ -2964,7 +2995,7 @@ in the case of \textsl{DIPOLE-M}~:
 	\end{tabular}   }
 \end{center}
 
-\newpage
+
 
 \noindent Parameters in \textsl{SCALING\index{SCALING}} also have a sequential numbering, yet some positions 
 are skipped, this is illustrated in the example hereafter which covers all possible working modes of \textsl{SCALING} 
@@ -3153,7 +3184,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \textsl{OBJET/KOBJ=5.0N} \\
+	 & & & & & \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -3185,10 +3216,12 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			    & 3.1 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - FO(J,I)|$  & & & & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & & & &  \\
+%			\multicolumn{1}{|c|}{\textbf{  }}
+%			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $F(J,I)$ & 1 & 1-2 & & &  \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 & $K\leq \IMAX$ & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$ ~ ($K=1 - \IMAX$) & 1 & K & & &  \\
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 & $K\leq \IMAX$ & & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
@@ -3197,6 +3230,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                           \multicolumn{1}{|c|}{\textbf{ }} & & & & 
          & & & & & \textsl{MCOBJET/{\footnotesize KOBJ=3}}  \\
                            & & & & & & & & &  \\
+%
 			\multicolumn{1}{|c|}{\textbf{Number of}} 
 			    & 5 & $-1$ & any &  $N_{survived}/\IMAX$  
          & & & & & \textsl{OBJET} \\
@@ -3207,6 +3241,21 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                 & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
          &  &  & & & \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
+%
+			\multicolumn{1}{|c|}{\textbf{Inside optical}}
+			    & 7.1 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $F(J,I)$ & 1 & 1-2 & &  
+         &  \textsl{[MC]OBJET}   \\
+			\multicolumn{1}{|c|}{\textbf{ elements }}
+			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)-max($F(J,I)$))/2 &  & & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 &  & & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 7.6 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 7.7 & $1 - \IMAX$ & $1 - 7$  & (min($B_J$)-max($B_J$))/2 &  & & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 7.8 & $1 - \IMAX$ & $1 - 7$  & (min($B_J$)+max($B_J$))/2 &  & & & &  \\
+                            & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
 			    & 10 & $1 - \IMAX$ & $1 - 4$  & $  S_{X,Y,Z}(I), ~ |\vec S(I)| $  
@@ -3332,6 +3381,103 @@ details can be found in Ref.~\cite{NelderMead}.
 
 \noindent  The optimization process may be stopped by means of a penalty value, or a maximum number of 
 iterations on the step size or on the call to the function. 
+
+
+
+\bigskip
+
+\paragraph{\textit{COMBINING FIT[2] AND REBELOTE } \index{FIT and REBELOTE, combined|textbf}}    %%%%[10]
+
+
+\noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows executing again 
+the same fit procedure,  after having changed the value of some parameter in zgoubi.dat data list. 
+That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and causes 
+the fit to be executed again with that different value. 
+
+\subsubsection*{An example~: \label{ExaFITREBELOTE}}
+
+In the example below, \textsl{FIT} requests that (i) the particle trajectory have identical coordinates at both ends of the snake 
+(varying $Y_0$, $T_0$, $Z_0$, $P_0$) initial coordinates in \textsl{OBJET}),   and (ii) the trajectory  - an helix - be centered 
+ along the snake axis, in both $Y$ and $Z$. 
+
+\medskip
+
+\noindent \textsl{FIT} is executed a first time for $B\rho_{ref}  = BORO=7205.1782956$~kG.cm,\index{BORO@{\BORO}$\times D_{ref}$}
+ namely the execution loops between \textsl{OBJET} and \textsl{FIT} 
+ untill the constraints are best fulfilled.  
+
+\medskip
+
+\noindent Once this is done, the execution pointer then points to 
+the next instruction in the data list, which is   \textsl{REBELOTE} and means 'do it again', which will have the 
+effect of sending the execution pointer back to the begining of zgoubi.dat data list. 
+However, prior to that, the '22' flag in \textsl{REBELOTE} requests a change of parameter number \textbf{35} in     
+element number \textbf{1} (that is, the 
+relative regidity of the particle, $D$, in \textsl{OBJET}) to a new value, namely the first one in the 
+\{1.3872739973  2.1368296674  4.8261190694  11.015241321\} list. And so on, \textbf{4} times, with that 
+\textbf{4} the first data in  \textsl{REBELOTE} data list. Spin data so computed (spin precession) are 
+stored using the keyword '\textsl{SPNPRT}' with label 'PRINT'. 
+
+
+\begin{minipage}[h]{.60\linewidth}
+{\footnotesize
+\begin{verbatim}
+Warm helical snake, using 3-D map. 
+ 'OBJET'             
+7.2051782956d3        
+2                         
+1 1            ! Initial coordinates : 
+-2.0239  -0.000658  -0.002224   0.146412   0.0  1. 'o'
+1 
+'PARTICUL'     ! proton : 
+9.3827203E+02 1.602176487E-19 1.7928474 0 0           
+ 'SPNTRK'                 
+  4.1          ! Initial spin is vertical                 
+0. 0. 1.                  
+ 'TOSCA'             
+0  2                      
+1.e1   100. 100. 100.     
+HEADER_0 wsnake           
+801 29 29 12.1               
+b_table55.map
+0 0 0 0                   
+2                         
+.1                        
+2  0.  .00  0.  0.        
+ 'FAISCEAU'          
+ 'FIT'               
+4               ! Variables :          
+1 30 0  [-3,3]                ! Vary Y_0
+1 31 0  [-3,3]                ! Vary T_0
+1 32 0  [-3,3]                ! Vary Z_0
+1 33 0  [-3,3]                ! Vary P_0
+6               ! Constraints : 
+3.1 1 2 5 0. 1. 0             ! Y_0=Y after 'FAISCEAU'
+3.1 1 3 5 0. 1. 0             ! T_0=T     "
+3.1 1 4 5 0. 1. 0             ! Z_0=Z     "
+3.1 1 5 5 0. 1. 0             ! P_0=P     "
+7.3 1 2 4 0. 100. 1 2         ! Y_min+Y_max=0 in 'TOSCA' element
+7.3 1 4 4 0. 100. 1 2         ! Z_min+Z_max=0 in 'TOSCA' element
+ 'SPNPRT'   PRINT       ! Store spin data in zgoubi.SPNPRT.Out
+ 'REBELOTE'       Gg=6          9                   20      45.5      
+4  0.1  22  1 35  1.3872739973  2.1368296674  4.8261190694  11.015241321                          
+ 'END'        
+\end{verbatim}
+}
+\end{minipage}
+\begin{minipage}[h]{.3\linewidth}
+
+\centering
+
+\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=6cm]{Fig-YZ_pwsnk.eps}}
+
+Five helical trajectories (projection into the vertical, $(Y,Z)$ plane), centered on the snake axis. 
+%/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
+
+\end{minipage}
+
+
+
 
 
 \newpage
@@ -3801,44 +3947,24 @@ data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking
 
 
 
- \newpage
-
-\subsubsection*{RESET~: \RESETTitl}  \label{RESET} \index{RESET}
-\medskip 
-
- Piling up problems in \zgou\ input data file is allowed, with 
-normally no particular precaution, except that each new problem 
-must begin with a new object definition (using \textsl{MCOBJET\index{MCOBJET}, OBJET\index{OBJET}}). 
-Nevertheless, when calling upon certain keywords, then, flags, 
-counters or other integrating procedures may be involved. 
-It may therefore be necessary to reset them. This is the purpose 
-of \textsl{RESET\index{RESET}} which normally appears right before the object definition 
-and causes each problem to be treated as a new and 
-independent one.  
 \bigskip
 
-\noindent The keywords or procedures of concern and the effect of 
-\textsl{RESET} are the following 
-\bigskip
+\paragraph{\textit{COMBINING REBELOTE AND FIT[2]} \index{REBELOTE and FIT, combined|textbf}}    %%%%[10]
 
-\begin{tabular}{>{\sl}l!{~:}p{13cm}}
-  CHAMBR 
-       & number of stopped particles\index{stopped particles} reset to 0~;  \textsl{CHAMBR} option  switched  off \\
-  COLLIMA 
-       & number of stopped particles\index{stopped particles} reset to 0\\
-  HISTO 
-       &  histograms are emptied\\
-  INTEG 
-       & number of particles out of field map boundaries reset to 0 \\
-   MCDESINT 
-       & decay in flight option switched off, counter reset \\
-  PICKUPS & 
-               pick-up signal calculation switched off\\
-  SCALING 
-       &  scaling functions disabled\\
-  SPNTRK 
-       & spin tracking option switched off
-\end{tabular}
+
+\noindent The keyword  \textsl{REBELOTE}  can follow   \textsl{FIT[2]}.  This allows executing again 
+the same fit procedure,  after having changed the value of some parameter in zgoubi.dat. 
+That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and then sends the 
+zgoubi execution pointer back to the top of zgoubi.dat for a new run. 
+
+\paragraph{An example~: } see page~\pageref{ExaFITREBELOTE}
+
+
+
+
+
+
+
  \newpage
 
 \subsubsection*{SCALING~: \SCALINGTitl} \label{SCALING} \index{SCALING} 
@@ -3992,8 +4118,9 @@ This should be paid attention to.
 \subsubsection*{SPNTRK~: \SPNTRKTitl} \label{SPNTRK} \index{SPNTRK|textbf}
 \medskip
 
-The keyword \textsl{SPNTRK} permits switching on the spin tracking\index{spin tracking} 
-option. It also permits the attribution of an initial spin component to each one of the 
+The keyword \textsl{SPNTRK} allows switching  spin tracking\index{spin tracking} on (index \textsl{KSO}=1) or off (\textsl{KSO}=0), 
+or resuming (index \textsl{KSO}=-1, following an occurence \textsl{KSO}=0). 
+ It also permits the attribution of an initial spin to each one of the 
 \IMAX\index{IMAX@{\IMAX}} particles of the beam, following a distribution that depends 
 on the option index \textsl{KSO}. It must be preceded by \textsl{PARTICUL\index{PARTICUL}} for
 the definition of  mass and gyromagnetic factor.  
@@ -4131,7 +4258,20 @@ next to \textsl{\KSR}.
 
 
 
+\newpage
 
+\subsubsection*{SYSTEM~: \SYSTEMTitl}\label{SYSTEM}\index{SYSTEM|textbf}\index{system call}
+\medskip 
+
+\noindent The keyword \textsl{SYSTEM} allows one or a series of system calls. 
+It can appear anywhere, an arbitrary number of times, 
+ in the zgoubi.dat data list. It is effective at the very location where it appears. 
+
+\medskip 
+
+\noindent  \textsl{SYSTEM} keyword is followed by the list of the desired system commands. That 
+can be saving zgoubi output files, calling again \zgou\ at the end of a run so allowing 
+dependent consecutive jobs, etc. 
 
 
 
@@ -8030,20 +8170,13 @@ see \FORTRAN\ subroutine \texttt{pltdat.f}.
 
 \newpage
 
-\subsubsection*{SPNPRNL, SPNSTORE, SPNPRT~: Print/Store spin coordinates 
-  }\label{SPNPRT}\label{SPNPRNL} \label{SPNSTORE}
-\index{SPNPRT}\index{SPNPRNL}\index{SPNSTORE}
+\subsubsection*{SPNPRNL, SPNSTORE~: Print/Store spin coordinates 
+  }\label{SPNPRNL} \label{SPNSTORE}\index{SPNPRNL|textbf}\index{SPNSTORE|textbf}
 
 \medskip 
 
-\noindent  $\bullet$  \textsl{SPNPRT} can be introduced anywhere in a structure. It produces
-a listing (into zgoubi.res) of the initial and actual coordinates and modulus of the spin of the \IMAX\index{IMAX@{\IMAX}}
-particles, at the location where it stands, together with their Lorentz factor $\gamma$ and other infos as 
-the mean values of the spin components. 
-
-\medskip
-
-\noindent  $\bullet$   \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT}, except that the information is
+\noindent  $\bullet$   \textsl{SPNPRNL} has similar effect to \textsl{SPNPRT} (page~\pageref{SPNPRT}), 
+except that the information is
 stored in a  dedicated file \textsl{FNAME} (should post-processing with \textbf{zpop}\index{zpop} follow, 
 advised name is \textsl{FNAME} = `zgoubi.spn' (formatted write) or `b\_zgoubi.spn' (binary write) \index{zgoubi.spn}). 
 The data are formatted and ordered according to the  \FORTRAN\ sequence found in the subroutine \texttt{spnprn.f}, 
@@ -8111,14 +8244,38 @@ is the same as in the \textsl{FORMATTED} case above.
 
 
 
+
+
+\newpage
+
+\subsubsection*{SPNPRT~: \SPNPRTTitl}\label{SPNPRT}\index{SPNPRT|textbf}
+\medskip 
+
+\noindent  \textsl{SPNPRT} can be introduced anywhere in a structure. It produces
+a print out (to zgoubi.res) of various informations such as 
+the initial and actual coordinates and modulus of the spin of the \IMAX\index{IMAX@{\IMAX}}
+particles, their Lorentz factor $\gamma$, 
+the mean values of the spin components, etc.,  at the location where it is placed in the zgoubi.dat data list.
+
+\medskip
+
+
+\noindent  If \textsl{SPNPRT} has ``PRINT'' as a label, then spin data will also be stored in 
+zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``PRINT''. 
+
+
+
 \newpage
 
 \subsubsection*{SRPRNT~: \SRPRNTTitl}\label{SRPRNT}\index{SRPRNT|textbf}\index{synchrotron radiation loss}
 \medskip 
 
-\noindent\textsl{SRPRNT} may be introduced anywhere in a structure. It produces
-a listing (into zgoubi.res) of current state of statistics on several parameters related to 
+\noindent\textsl{SRPRNT} may be introduced anywhere in a structure. It allows switching on 
+synchrotron radiation loss computation. It produces in addition 
+a print out (to zgoubi.res) of current state of statistics on several parameters related to 
 SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}. 
+
+
 
  \newpage
 

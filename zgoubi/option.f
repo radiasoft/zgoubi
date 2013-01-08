@@ -29,7 +29,7 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
       COMMON/DONT/ TA(MXL,40)
-      CHARACTER(40) TXT
+      CHARACTER(40) TXT1, TXT2
       INTEGER DEBSTR, FINSTR
       SAVE NRSAV
       DATA NRSAV / 23456 /
@@ -49,31 +49,26 @@ C Numb of options. NBOP lines should follow
       WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
      >nbop, ' option(s) expected.  Option(s) found :'
 
-      NRSIN = 12345
-
       DO I = 1, NBOP
-        READ(TA(NOEL,I),*) TXT
+        READ(TA(NOEL,I),*) TXT1
         WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
      >  'Option # ',I,' : ',
      >  TA(NOEL,I)(debstr(TA(NOEL,I)):finstr(TA(NOEL,I)))
-        IF(TXT(DEBSTR(TXT):FINSTR(TXT)) .EQ. 'NRES') 
-     >    READ(TA(NOEL,I),*) TXT, NRSIN
+        IF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'WRITE') 
+     >    READ(TA(NOEL,I),*) TXT1, TXT2
       ENDDO
-
 
       WRITE(ABS(NRES),FMT='(/,T25,A)') 
      > ' Action(s) taken :' 
 
-      IF(NRSIN .NE. 12345) THEN
-        IF(NRSIN .LT. 0) THEN
-          NRSAV = NRES
-          NRES = -ABS(NRES)
-          WRITE(ABS(NRES),FMT='(/,T5,A)') 'NRES < 0  ->  '//
+      IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
+        NRSAV = NRES
+        NRES = -ABS(NRES)
+        WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE OFF  ->  '//
      >    'A lot of (almost all) WRITE statements will be inhibited !'
-        ELSE
-          IF(NRSAV .NE. 23456) THEN 
-            NRES = ABS(NRES)
-          ENDIF
+      ELSE
+        IF(NRSAV .NE. 23456) THEN 
+          NRES = ABS(NRES)
         ENDIF
       ENDIF
 

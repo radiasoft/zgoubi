@@ -42,7 +42,7 @@ Correction, FM, 02/98
 CCC   DIMENSION BU(4,3), BP(4,3), O(4,3), S(5,3)
 C      DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
       DIMENSION BU(5,5), BP(5,3), O(5,3), S(6,3)
-      DIMENSION GA1(4), GAC(4), OE(5,3), DSE(6,3), VEU(5,3)
+      DIMENSION GA1(5), GAC(5), OE(5,3), DSE(6,3), VEU(5,3)
  
       DIMENSION SPMI(4,MXT), SPMA(4,MXT)
       DIMENSION SMI(4,MXT), SMA(4,MXT)
@@ -50,7 +50,6 @@ C      DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
       SAVE SMI, SMA
       PARAMETER (ICMXT=4*MXT)
       DATA SMI, SMA / ICMXT*1D10, ICMXT* -1D10 /
-
 
       PM = QBR*CL9/AMT
       GG = G * SQRT( 1.D0+PM*PM )
@@ -255,25 +254,10 @@ C     >  -10.D0*(D3BSB *DSE(3,I) + D2BSB* DSE(4,I))- 5.D0*DBSB * DSE(5,I)
      >          + 2.D0*DBSB * DSE(5,I)) 
       ENDDO
 
-c        write(*,fmt='(1a,1x,2i3,1x,20e12.4)') 
-c     >' spntrk kfld  dbsb     : ',
-c     > kfld,kfld,
-c     > eu
-c     > CSV,DCSV,D2CSV,D3CSV,D4CSV
-c     > dbsb,d2bsb,d3bsb,d4bsb,d5bsb
-c           read(*,*)
-
-
  222  continue
 
 C Pure E field
       IF(KFLD.EQ.2) THEN
-
-c        DO I = 1, 3
-c          DO ID = 1, 5
-c            O(ID,I) = OE(ID,I)
-c          ENDDO
-c        ENDDO
 
         DO I = 1, 3
           DO ID = 1, 6
@@ -286,24 +270,8 @@ c        ENDDO
       ENDIF
 
 
-c          write(*,fmt='(1a,1x,20e12.4)') ' spntrk oe : ',
-c     >        oe
-c          write(*,fmt='(1a,1x,20e12.4)') ' spntrk dse : ',
-c     >      dse
-
 C----- MAGNETIC+ELECTRIC FIELD
 C----- B=b/Bro, E=e/Bro
-
-
-c 3    CONTINUE
-c        DO I = 1, 3
-c          DO ID = 1, 5
-c            O(ID,I) = O(ID,I) + OE(ID,I)
-c          ENDDO
-c        ENDDO
-c      GOTO 10
-
-
 
 Compute s' = s x omega and derivatives
  10   CONTINUE
@@ -380,10 +348,6 @@ CALCUL S'''''=S''''xO + 4*S'''xO' + 6*S''xO'' + 4*S'xO''' + SxO''''
 
  20   CONTINUE
 
-c          write(*,fmt='(1a,1x,i2,1x,20e12.4)') ' spntrk kfld dS/ds : ',
-c     >      kfld, (s(2,i),i=1,3)
-
-
 C Now push the spin one step further.
 CALCUL S(s+ds) = S(s) +S'(s)ds +S''(s)ds^2/2 +S'''(s)ds^3/6 +S''''(s)ds4/24...
       SF1IT=S(1,1)+(S(2,1)+(S(3,1)/2.D0+(S(4,1)/6.D0+(S(5,1)/24.D0
@@ -407,11 +371,6 @@ C--------------------------------------------------------------------
       SF(2,IT) = SF2IT
       SF(3,IT) = SF3IT
       SF(4,IT) = SF4IT
-
-c          write(*,fmt='(1a,1x,20e12.4)') ' spntrk sf : ', 
-c     >        sf(1,it),sf(2,it),sf(3,it)
-c                 read(*,*)
-
 
       DO ICOO = 1, 4
         IF(SMI(ICOO,IT).GT.SF(ICOO,IT)) SMI(ICOO,IT) = SF(ICOO,IT)

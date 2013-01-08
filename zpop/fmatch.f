@@ -83,7 +83,7 @@ C      DATA XLAMB / 11.2d-2 /
 C----- AGS magnets
       DATA NV / 4 /
       DATA V/ .1455 ,  2.2670,  -.6395 , 1.1558,  6*0.d0 /
-      DATA XLAMB / 6.d-2 /
+      DATA XLAMB / 20.d-2 /
 C----- LHC Quadrupole
 C      DATA NV / 6 /
 C      DATA V/-.01D0, 5.46D0, .997D0, 1.57D0,-5.67D0,18.5D0, 4 * 0.D0 / 

@@ -100,10 +100,9 @@ C--------- add new beamlet next to the previous one(s), e.g. for multiturn injec
       ELSEIF(KREB3 .EQ. 22) THEN
 C------- Set possibly to 22 when executing REBELOTE
 C------- To change any data A(NOEL,I)
-        CALL REBEL5(
-     >              BORO)
-        A(NOEL,1) = BORO
-
+c        CALL REBEL5(
+c     >              BORO)
+c        A(NOEL,1) = BORO
       ENDIF
 
 c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
@@ -481,6 +480,11 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
      >                                            ' KEX=',IEX(I)
         ENDIF
  991  CONTINUE   
+
+
+c       write(*,*) ' objets f1 ',(f(1,i),i=1,imax)
+c           read(*,*)
+
       RETURN
 
  

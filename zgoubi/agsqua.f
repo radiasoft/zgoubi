@@ -46,40 +46,44 @@ C  -------
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+C      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
      
       DIMENSION  AREG(2),BREG(2),CREG(2)
+      DIMENSION CUR(3), DCUR(3)
       PARAMETER (I2 = 2, I3 = 3)
 
       DATA MIXFF / .FALSE.  /
 
-      CALL RAZ(BM,MPOL)
+      CALL SCALE9(
+     >     KFM )
+      DO I= 1 , JPA(KFM,MXP)
+         A(NOEL,JPA(KFM,I)) = VPA(KFM,I)
+      ENDDO
 
+      CALL RAZ(BM,MPOL)
+      
         XL =A(NOEL,10)
         RO =A(NOEL,11)
         GAP = RO/I2
-        CUR1 =A(NOEL,12)
-        CUR2 =A(NOEL,13)
-        CUR3 =A(NOEL,14)
-        DCUR1 =A(NOEL,15)
-        DCUR2 =A(NOEL,16)
-        DCUR3 =A(NOEL,17)
-
+        DO I=1, 3
+           CUR(I) = A(NOEL,11+I)
+           DCUR(I) = A(NOEL,14+I)
+C           write(*,fmt='(5ES15.5)') CUR(I), DCUR(I)
+           CUR(I) = CUR(I)*(DCUR(I)+1.d0)
+        ENDDO
 C------- Roll angle.  To be implemented
         RT(I2) =A(NOEL,60)
         SKEW = RT(I2) .NE. 0.D0
         RT(I2)=ZERO
-
-        CALL AGSQKS(NOEL,CUR1,CUR2,CUR3,XL*CM2M,
-     >                                          BBM)
-
+        CALL AGSQKS(NOEL,CUR(1),CUR(2),CUR(3),XL*CM2M,
+     >                                                BBM)
         BM(I2) = BBM * SCAL
-
-c           write(*,*) ' agsqua ',bbm, scal
-c                read(*,*) 
 
         XE =A(NOEL,20)
         DLE(I2) =A(NOEL,21)
@@ -114,8 +118,9 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
      >  , /,15X,' Bore  radius      RO = ',G13.5,'  cm')
         WRITE(NRES,103) BM(I2)
  103    FORMAT(15X,' Field at pole tip  =',1P,G15.7,' kG')
-        write(nres,fmt='(15X,3(A,1P,E13.5))') 
-     >   ' Wind 1, I=',cur1,' ;   Wind 2, I=',cur2,' ;  Wind 3, I=',cur3
+        WRITE(NRES,FMT='(15X,3(A,1P,E13.5))') 
+     >   ' Wind 1, I=',cur(1),' ;   Wind 2, I=',cur(2)
+     >   ,' ;  Wind 3, I=',cur(3)
         IF(SKEW) WRITE(NRES,101) RT(I2)
  101    FORMAT(15X,' Skew  angle =',1P,G15.7,' rd')
         IF(XL .NE. 0.D0) THEN

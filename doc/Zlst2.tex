@@ -2062,7 +2062,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{IJ}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \textsl{OBJET/KOBJ=5.0N} \\
+	 & & & & & \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -2095,9 +2095,11 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $F(J,I)$ & 1 & 1-2 & & &  \\
+			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & min. or max.  of $F(J,I)$ & 1 & 1 or 2 & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$ ~ ($K=1 - \IMAX$) & 1 & K & & &  \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 & $K\leq \IMAX$ & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  }}
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 & $K\leq \IMAX$ & & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
@@ -3567,12 +3569,13 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \textbf{SPNTRK~\footnotemark[1]}        \label{SPNTRK-B} \index{SPNTRK|textbf}\index{spin tracking}
      \> \textbf{Spin tracking} \> \> \\
  \\
-\textsl{KSO} \> Various options for initial conditions \> 1-5 \> I \\
+\textsl{KSO} \> \textsl{KSO=0}~: spin tracking [switched] off~; \textsl{KSO=-1}~: spin  tracking  \> -1 or 0 or  \> I \\
+             \>   resumes. Otherwise~: as stated below.                                        \> 1-3 0r 4[.1] or 5 \>  \\
 \\
 \textbf{If KSO = 1 --  3} \> \textsl{KSO} = 1 (respectively 2, 3) : all particles \\
-      \> have their spin automatically set to (1,0,0) -- \\
-      \> longitudinal [respectively (0,1,0) -- horizontal \\
-      \> and (0,0,1) -- vertical] \\
+      \> have their spin automatically set to (1,0,0), \\
+      \> longitudinal [respectively (0,1,0), horizontal \\
+      \> and (0,0,1), vertical] \\
 \\
 \textbf{If KSO = 4}    \>  Repeat \IMAX\ times (corresponding to the \IMAX \\
       \> particles in `\textsl{OBJET}') the following sequence : \\
@@ -3652,6 +3655,23 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 \textbf{If KSR = 2} \> \> \> \\
 \\
  $\nu_1$, $\nu_2$, $N$   \> Frequency range and sampling \> 2*eV, no dim. \> 2*E, I 
+  \end{tabbing}
+  
+
+
+
+\newpage
+
+\begin{tabbing}
+\mestab
+ \textbf{SYSTEM}        \label{SYSTEM-B} \index{SYSTEM|textbf}
+     \> \textbf{\SYSTEMTitl}\index{system call} \> \> \\
+ \\
+\textsl{NCMD} \> The number of calls to follow.  \> $\leq 0$ \> I \\
+\\
+\\
+\textsl{NCMD lines follow, one command per line. }
+ \\
   \end{tabbing}
   
 

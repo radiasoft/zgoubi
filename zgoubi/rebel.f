@@ -95,8 +95,45 @@ C----- For multiturn injection
           J = 10 + 10*((I-1)/10)
           PARAM(I) = A(NOEL,J +I-1)
           IF(I .GT. MXPRM) STOP ' SBR REBEL : Too many parameters under 
-     >''REBELOTE''. Reduce it or increase MXPRM.'
+     >    ''REBELOTE''. Reduce it or increase MXPRM.'
         ENDDO
+
+        A(KLM,KPRM) = PARAM(IPASS)
+
+c        write(*,*) ' rebel ',klm,kprm ,a(klm,kprm),ipass, NRBLT+1
+c               read(*,*)
+
+        IF(IPASS .EQ. NRBLT) THEN
+C------- Last but one pass through structure
+          IF(KWRT .NE. 1) THEN
+C--------- reactive WRITE
+            IF(NRES.LT.0) NRES=-NRES
+          ENDIF
+
+        ELSEIF(IPASS .EQ. NRBLT+1) THEN
+C------- Last pass has been completed
+C Now last occurence of REBELOTE => carry on beyond REBELOTE
+          LUN=ABS(NRES)
+          IF(LUN.GT.0) THEN
+            WRITE(LUN,101) IPASS
+ 
+            IF(KSPN .EQ. 1) THEN
+              IF(KREB3 .EQ. 99) THEN
+                WRITE(LUN,126)
+                WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
+              ENDIF
+            ENDIF
+ 
+            CALL CNTOUR(
+     >                NOUT)
+            IF(NOUT.GT. 0) WRITE(LUN,107) NOUT,IMX
+            CALL CNTNRR(
+     >                NRJ)
+            IF(NRJ .GT. 0) WRITE(LUN,108) NRJ,IMX
+          ENDIF
+          READAT = .TRUE.
+          stop
+        ENDIF
       ENDIF
 
 C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
@@ -243,7 +280,9 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
           IF(NRBLT.GT.1) THEN
             IF(KWRT .NE. 1) THEN
 C------------- inihibit WRITE if KWRT.NE.1 and more than 1 pass
-              IF(NRES .GT. 0) NRES =-NRES
+              IF(KREB3 .NE. 22) THEN 
+                IF(NRES .GT. 0) NRES =-NRES
+              ENDIF
             ENDIF
 CC----------- If not FIT :
 C            IF(KREB3.NE.22) READAT = .FALSE.

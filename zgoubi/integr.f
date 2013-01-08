@@ -317,7 +317,7 @@ C-------- ifb .ne. 0
       CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
 
-      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR)
+      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR,PAS)
 
       CT=COS(T)
       ST=SIN(T)
@@ -380,7 +380,6 @@ C           End loop on DXI
           IF(KSPN .EQ. 1) THEN
 C----------- Spin tracking
             IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
-C            CALL SPNTRK(IT,PAF)
             CALL SPNTRK(PAF)
           ELSE         
             CALL EVENT(
@@ -389,6 +388,8 @@ C            CALL SPNTRK(IT,PAF)
           ENDIF
         ENDIF
       ENDIF
+
+      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR,PAS)
 
 C  A trick for tests at constant coordinate -----------------
          if(consty) then 

@@ -82,11 +82,13 @@ C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'YR') THEN
           YR = VSHRO(KSR) 
           ZO=Z
-C          pp = atan2(tan(P),cos(T))
-          pp = atan(tan(P)/cos(T))
-          Z=Z*COS(pp)/COS(pp-YR)
-C          pp=pp-YR 
-C          P =  atan2(tan(pp),1.d0/cos(T))
+cC          pp = atan2(tan(P),cos(T))
+c          pp = atan(tan(P)/cos(T))
+c          Z=Z*COS(pp)/COS(pp-YR)
+cC          pp=pp-YR 
+cC          P =  atan2(tan(pp),1.d0/cos(T))
+          z=z*cos(p)/cos(p-YR)
+          p=p-YR 
           XL = -Z *SIN(YR)
           ZL = -ZO + Z*COS(YR)
           DL=SQRT(XL*XL+ZL*ZL)
@@ -99,7 +101,7 @@ C          DS = DL/sin(pp)/SIN(P)
           DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
           TAR = TAR + DTAR
 C          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
-C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,+-YR,ZERO)
+          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,-YR,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
           ZR = VSHRO(KSR) 
           YO=Y

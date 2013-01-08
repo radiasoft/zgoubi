@@ -127,7 +127,7 @@ C--------- The all 3D map is contained in a single file
 C--------- The MOD2 files are combined linearly
 C          Each single file contains the all 3D volume
             NFIC = MOD2
-            READ(TXT,*,ERR=99,END=99) IDUM1,IDUM2,IDUM3,DUM4,
+            READ(TXT,*,ERR=98,END=98) IDUM1,IDUM2,IDUM3,DUM4,
      >      (A(NOEL,23+J),J=1,NFIC)
           ELSE
             NFIC = 1
@@ -200,8 +200,12 @@ C       ... Polar map frame
 
       RETURN
 
+ 98   continue
+      WRITE(NRES,*) 'SBR rcarte, input data Error'
+      CALL ENDJOB('Expecting more data after MOD=15.*',-99)
+      STOP
  99   continue
       WRITE(NRES,*) 'SBR rcarte, input data Error'
-      CALL ENDJOB('Expexting db1,db2 after MOD=3.1',-99)
+      CALL ENDJOB('Expecting more data after MOD=3.*',-99)
       STOP
       END

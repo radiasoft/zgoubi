@@ -22,62 +22,114 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE FITMM(Y,T,Z,P,SAR,DP,TAR)
+      SUBROUTINE FITMM(Y,T,Z,P,SAR,DP,TAR,PAS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "MAXCOO.H"
-      INCLUDE "MXLD.H"
-      DIMENSION FMI(MXJ,MXL), FMA(MXJ,MXL)
+      PARAMETER (MXLOC=100)
+      DIMENSION FMI(MXJ,MXLOC), FMA(MXJ,MXLOC)
+      DIMENSION FLDMI(3,MXLOC), FLDMA(3,MXLOC)
+      DIMENSION SFLD(3,MXLOC)
 
-      DIMENSION FMIO(MXJ,MXL), FMAO(MXJ,MXL)
-      SAVE FMIO, FMAO
+      SAVE FMI, FMA, FLDMI, FLDMA, SFLD
+
+      INCLUDE "MXLD.H"
+      DIMENSION IQ(MXL)
+      SAVE IQ
+
+      SAVE NBL
+      DATA NBL / 0 /
 
       CALL ZGNOEL(
      >            NOEL)
+      NEL = IQ(NOEL)
 
-      FMA(1,NOEL) = MAX(DP,FMA(1,NOEL))
-      FMA(2,NOEL) = MAX(Y,FMA(2,NOEL))
-      FMA(3,NOEL) = MAX(T,FMA(3,NOEL))
-      FMA(4,NOEL) = MAX(Z,FMA(4,NOEL))
-      FMA(5,NOEL) = MAX(P,FMA(5,NOEL))
-      FMA(6,NOEL) = MAX(SAR,FMA(6,NOEL))
-      FMA(7,NOEL) = MAX(TAR,FMA(7,NOEL))
-      FMI(1,NOEL) = MIN(DP,FMI(1,NOEL))
-      FMI(2,NOEL) = MIN(Y,FMI(2,NOEL))
-      FMI(3,NOEL) = MIN(T,FMI(3,NOEL))
-      FMI(4,NOEL) = MIN(Z,FMI(4,NOEL))
-      FMI(5,NOEL) = MIN(P,FMI(5,NOEL))
-      FMI(6,NOEL) = MIN(SAR,FMI(6,NOEL))
-      FMI(7,NOEL) = MIN(TAR,FMI(7,NOEL))
+c        WRITE(*,*) IQ
+c          READ(*,*)
+
+c      write(88,*) 'fitmm 1 ',NOEL,NEL,Y, FMA(2,NEL), MAX(Y,FMA(2,NEL))
+c      write(*,*) 'fitmm 1 ',NOEL,NEL,Y, FMA(2,NEL), MAX(Y,FMA(2,NEL))
+      FMA(1,NEL) = MAX(DP,FMA(1,NEL))
+      FMA(2,NEL) = MAX(Y,FMA(2,NEL))
+      FMA(3,NEL) = MAX(T,FMA(3,NEL))
+      FMA(4,NEL) = MAX(Z,FMA(4,NEL))
+      FMA(5,NEL) = MAX(P,FMA(5,NEL))
+      FMA(6,NEL) = MAX(SAR,FMA(6,NEL))
+      FMA(7,NEL) = MAX(TAR,FMA(7,NEL))
+
+      FMI(1,NEL) = MIN(DP,FMI(1,NEL))
+      FMI(2,NEL) = MIN(Y,FMI(2,NEL))
+      FMI(3,NEL) = MIN(T,FMI(3,NEL))
+      FMI(4,NEL) = MIN(Z,FMI(4,NEL))
+      FMI(5,NEL) = MIN(P,FMI(5,NEL))
+      FMI(6,NEL) = MIN(SAR,FMI(6,NEL))
+      FMI(7,NEL) = MIN(TAR,FMI(7,NEL))
+
+      FLDMA(1,NEL) = MAX(B(1,1),FLDMA(1,NEL))
+      FLDMA(2,NEL) = MAX(B(1,2),FLDMA(2,NEL))
+      FLDMA(3,NEL) = MAX(B(1,3),FLDMA(3,NEL))
+
+      FLDMI(1,NEL) = MIN(B(1,1),FLDMI(1,NEL))
+      FLDMI(2,NEL) = MIN(B(1,2),FLDMI(2,NEL))
+      FLDMI(3,NEL) = MIN(B(1,3),FLDMI(3,NEL))
+
+      SFLD(1,nel)       = SFLD(1,nel) + B(1,1)*PAS
+      SFLD(2,nel)       = SFLD(2,nel) + B(1,2)*PAS
+      SFLD(3,nel)       = SFLD(3,nel) + B(1,3)*PAS
+
+c      write(88,fmt='(a,2(1x,i3),3(1x,1p,e12.4))') 'fitmm sfld ',NOEL,NEL
+c     > ,sfld(1,nel),sfld(2,nel),sfld(3,nel)
           
-      DO JJ = 1, MXJ
-          FMIO(JJ,NOEL) = FMI(JJ,NOEL) 
-          FMAO(JJ,NOEL) = FMA(JJ,NOEL)
-C         write(*,*) jj,noel,FMIO(JJ,NOEL),FMaO(JJ,NOEL)
-      ENDDO
-
-C        write(*,*) ' fitmm y,t,noel ',y,t,noel
-C        write(*,*) ' fitmm y,t,noel ',FMAO(2,NOEL),FMAO(3,NOEL),noel
-
       RETURN
 
-      ENTRY FITMM1(JI,LI,MIMA,
-     >                        VAL)
-      IF(MIMA.EQ.1) THEN
-        VAL = FMIO(JI,LI)
-      ELSEIF(MIMA.EQ.2) THEN
-        VAL = FMAO(JI,LI)
-      ENDIF
-C        write(*,*) ' fitmm ji,li,mima,val ',ji,li,mima,val
-C         stop
+      ENTRY FITMM1(JI,LI,MIMA,IC2,
+     >                            VAL)
+      NLI = IQ(LI)      
+      IF    (IC2.GE.1 .AND. IC2.LE.3) THEN
+        IF(MIMA.EQ.1) THEN
+          VAL = FMI(JI,NLI)
+        ELSEIF(MIMA.EQ.2) THEN
+          VAL = FMA(JI,NLI)
+        ENDIF
+      ELSEIF(IC2.GE.6 .AND. IC2.LE.8) THEN
+        IF(MIMA.EQ.1) THEN
+          VAL = FLDMI(JI,NLI)
+        ELSEIF(MIMA.EQ.2) THEN
+          VAL = FLDMA(JI,NLI)
+        ENDIF
+      ELSEIF(IC2.EQ.9) THEN
+        VAL = SFLD(JI,NLI)
+      ELSE
+        CALL ENDJOB('SBR FF. NO SUCH CONSTRAINT 3.',IC2)
+      ENDIF 
+
+c      write(*,fmt='(a,3i4,e14.6)') ' FITMM IC2,JI,LI,VAL ',IC2,JI,LI,VAL
+c         read(*,*)
+
       RETURN
 
       ENTRY FITMM2
-      DO  LL = 1, MXL
+c        write(*,*) ' fitmm2 ',mxloc, mxj
+c           read(*,*)
+      DO  LL = 1, MXLOC
         DO  JJ = 1, MXJ
           FMI(JJ,LL) = 1.D99
           FMA(JJ,LL) = -1.D99
+c        write(*,*) ' fitmm2 ',FMI(JJ,LL),FMa(JJ,LL) 
+        ENDDO
+        DO  I = 1, 3
+          SFLD(I,LL) = 0.d0
+          FLDMI(i,LL) = 1.D99
+          FLDMA(i,LL) = -1.D99
         ENDDO
       ENDDO
+      RETURN
+
+      ENTRY FITMM3(ic3)
+      NBL = NBL + 1
+      IQ(ic3) = nbl
+c        write(*,*) ' fitmm nbl, ic3, iq(ic3) ',nbl, ic3, iq(ic3)
+c         read(*,*)
       RETURN
 
       END      

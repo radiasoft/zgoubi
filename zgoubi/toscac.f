@@ -72,12 +72,12 @@ C-------------------------------------------------
       DIMENSION DBDX(3)
       DIMENSION AA(29)
 
-C      LOGICAL NEWF
+      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
+      SAVE HCA, HCB, HCC
 
       DATA NOMFIC / IZ*'               '/ 
       DATA FMTYP / ' regular' / 
       DATA AA / 29 * 0.D0 /
-C      DATA NEWF / .TRUE. /
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
@@ -167,8 +167,12 @@ C--------- A single data file contains the all 3D volume
           I1=1
           I2 = 1
         ELSEIF(MOD .EQ. 15) THEN
-C--------- The I2=MOD2 files are combined linearly into a single one after reading.
+C--------- The MOD2 files are combined linearly into a single one after reading.
 C          Each one of these files should contain the all 3D volume.
+          FACA = A(NOEL,24)
+          FACB = A(NOEL,25)
+          FACC = A(NOEL,26)
+          FACD = A(NOEL,27)
           I1=1
           I2 = MOD2
         ELSE
@@ -176,7 +180,6 @@ C          Each one of these files should contain the all 3D volume.
         ENDIF
 
         NFIC=0
-        NEWF = .TRUE.
         DO 129 I=I1, I2
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
@@ -189,10 +192,12 @@ C          Each one of these files should contain the all 3D volume.
           IFAC = 24
           IFIC = 1
 C          DO WHILE (NEWFIC .EQ. FALSE)
-          DO WHILE (IFIC.LE.I2 .OR. NEWFIC .EQ. FALSE)
+          DO WHILE (IFIC.LE.I2 .AND. (.NOT. NEWFIC))
             IF(IFAC .GT. 29) 
      >      CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
             NEWFIC = NEWFIC .OR. AA(IFIC).NE.A(NOEL,IFAC)
+c              write(*,*) ' toscac ific, i2, newfic ',ific, i2, newfic
+c                 read(*,*)
             IFAC = IFAC + 1
             IFIC = IFIC + 1
           ENDDO
@@ -239,6 +244,7 @@ C          DO WHILE (NEWFIC .EQ. FALSE)
 
       IF(NEWFIC) THEN
 
+         IF    (MOD .LT. 15) THEN
            NFIC = 0
            DO 12 KZ=I1,I2
              NFIC = NFIC+1
@@ -280,8 +286,6 @@ C          DO WHILE (NEWFIC .EQ. FALSE)
 
              IRD = NINT(A(NOEL,40))
 
-             IF(MOD .EQ. 15) CALL FMAPW2(NFIC,AA(NFIC))
-
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
@@ -312,6 +316,195 @@ C FM Nov 2011           DO K= 2, KZMA
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
+
+         ELSEIF(MOD .EQ. 15) THEN
+
+           NFIC = 0
+           DO KZ=I1,I2
+             NFIC = NFIC+1
+             IF(IDLUNI(
+     >                 LUN)) THEN
+               BINAR=BINARI(NOMFIC(NFIC),IB)
+               IF(BINAR) THEN
+                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
+     >           ,STATUS='OLD',ERR=96)
+               ELSE
+                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
+               ENDIF
+             ELSE
+               GOTO 96
+             ENDIF
+
+             IF(     STRCON(NOMFIC(NFIC),'GSI',
+     >                                         IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'gsi',
+     >                                         IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
+             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',
+     >                                             IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'bw6',
+     >                                         IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
+             ENDIF
+             LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+
+             IF(NRES.GT.0) THEN
+               WRITE(NRES,FMT='(/,3A,/)') 
+     >           NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
+     >           ' map,  FORMAT type : ', FMTYP    
+                CALL FLUSH2(NRES,.FALSE.)
+             ENDIF
+
+             IRD = NINT(A(NOEL,40))
+
+             CALL FMAPW2(NFIC,AA(NFIC))
+
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
+     >                                    BMIN,BMAX,
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+             if    (nfic.eq.1) then
+
+               if(mod2.eq.1) then
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HC(IID,III,JJJ,KKK,IMAP) = 
+     >                         FACA*HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+
+               else
+
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                    DO IID = 1, ID    
+                      HCA(IID,III,JJJ,KKK)=FACA*HC(IID,III,JJJ,KKK,IMAP)
+                    ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+
+               endif
+               CLOSE(UNIT=LUN)
+
+             elseif(nfic.eq.2) then
+
+               if(mod2.eq.2) then
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HC(IID,III,JJJ,KKK,IMAP) = HCA(IID,III,JJJ,KKK)
+     >                  +   FACB * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+
+               else
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HCB(IID,III,JJJ,KKK) = HCA(IID,III,JJJ,KKK)
+     >                  +   FACB * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+
+               endif
+               CLOSE(UNIT=LUN)
+
+             elseif(nfic.eq.3) then
+
+               if(mod2.eq.3) then
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HC(IID,III,JJJ,KKK,IMAP) = HCB(IID,III,JJJ,KKK)
+     >                  +   FACC * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+                 CLOSE(UNIT=LUN)
+
+               else
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HCC(IID,III,JJJ,KKK) = HCB(IID,III,JJJ,KKK)
+     >                  +   FACC * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+
+               endif
+               CLOSE(UNIT=LUN)
+
+             elseif(nfic.eq.4) then
+
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID    
+                       HC(IID,III,JJJ,KKK,IMAP) = HCC(IID,III,JJJ,KKK)
+     >                  +   FACD * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+                 CLOSE(UNIT=LUN)
+
+             endif
+             CLOSE(UNIT=LUN)
+c                  write(*,*) ' sbr toscac facb ',facb
+c                       read(*,*)
+
+           ENDDO
+c               write(*,*) ' toscac imap = ',imap
+c                   read(*,*)
+C------- Store mesh coordinates
+           IIXMA(IMAP) = IXMA
+           DO I=1,IXMA
+             XXH(I,imap) =  XH(I)
+           ENDDO
+           JJYMA(IMAP) = JYMA
+           DO J=1,JYMA
+             YYH(J,imap) =  YH(J)
+           ENDDO
+           KKZMA(IMAP) = KZMA
+C FM Nov 2011           DO K= 2, KZMA
+           DO K= 1, KZMA
+             ZZH(K,imap) = ZH(K)
+           ENDDO
+           bBMI(imap) = BMIN
+           bBMA(imap) = BMAX
+           XBbMI(imap) = XBMI
+           YbBMI(imap) = YBMI
+           ZbBMI(imap) = ZBMI
+           XbBMA(imap) = XBMA
+           YBBMA(imap) = YBMA
+           ZBBMA(imap) = ZBMA
+
+
+         ELSE
+           CALL ENDJOB('SBR toscac. No such value MOD = ',MOD)
+         ENDIF
+
 
       ELSE
 
