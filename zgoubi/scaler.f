@@ -79,6 +79,7 @@ C  -------
      >            KLEY)
 C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
+      KFM = -99
       DO KF = 1, NFAM
 
         IF(KLEY .EQ. FAM(KF)) THEN
@@ -96,11 +97,19 @@ C------------ Current KLEY will undergo scaling if...
                 LABA = DEBSTR(LABEL(NOEL,1))
                 LABB = FINSTR(LABEL(NOEL,1))
                 LLAB = LABB-LABA+1
-C                write(*,*) 'scaler  ',IS,
-C     >        LABEL(NOEL,1)(1:LLBF-1),' ' , LBF(KF,KL)(1:LLBF-1)
-C                write(*,*) 'scaler  ',IS,
-C     >        LABEL(NOEL,1)(LLAB-LLBF+2:LLAB),' ', LBF(KF,KL)(2:LBFB)
-C                    read(*,*)
+
+c               if(noel.eq.684 .or. noel .eq. 759 ) then
+c                write(*,*) 'scaler  NOEL, IS, ',NOEL,IS,
+c     >        LABEL(NOEL,1)(1:LLBF-1),' ' , LBF(KF,KL)(1:LLBF-1)
+c                write(*,*) 'scaler  ',IS,
+c     >        LABEL(NOEL,1)(LLAB-LLBF+2:LLAB),' ', LBF(KF,KL)(2:LBFB)
+c              write(*,*) 
+c     >        (LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1))
+c              write(*,*) 
+c     >        (LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB))
+c                    read(*,*)
+c                 endif
+
 
 C               ... if either LBF ends with '*' ...
                 IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1)
@@ -240,6 +249,16 @@ C                          ekin freq
           coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
           D1 = coTime
 C        write(*,*) ' scaler ',xv, cotime1, coTime
+
+C        ELSEIF(KTI .EQ. -60) THEN
+CC--------- AGS dipoles, K1 and K2 laws
+C          CALL MULTP2(.TRUE.)
+C          CALL CAVIT1(
+C     >                PP0,GAMMA,DWS)
+CC          print *, PP0,GAMMA,DWS
+CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3 
+C          CALL AGSKS(PP0*BORO*CL9/1.D3)
+C          scaler = SCL(KF,1) * pp0
 
         ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000

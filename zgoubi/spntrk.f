@@ -110,9 +110,9 @@ C----- Elc pure (KFLD=2) or Mag+Elc (KFLD=3)
       CSVP = CSV+1.D0
       QM = QT/AMT
 
-      GA1(1)= CSVM*CSVP*GM1                                              !   1/(1+gamma)
-      GA1(2)= DCSV*CSVP*GM1 + CSVM*DCSV*GM1 + CSVM*CSVP*QM*EU(1)         !  (1/(1+gamma))'
-      GA1(3)= D2CSV*CSVP*GM1 + CSVM*D2CSV*GM1+  CSVM*CSVP*QM*EU(2) +     !  (1/(1+gamma))''
+      GA1(1)= CSVM*CSVP*GM1                                             
+      GA1(2)= DCSV*CSVP*GM1 + CSVM*DCSV*GM1 + CSVM*CSVP*QM*EU(1)        
+      GA1(3)= D2CSV*CSVP*GM1 + CSVM*D2CSV*GM1+  CSVM*CSVP*QM*EU(2) +    
      >2.D0*(DCSV*DCSV*GM1 + DCSV*CSVP*QM*EU(1) + CSVM*DCSV*QM*EU(1)) 
       GA1(4)=                                                     
      >D3CSV*CSVP*GM1 + 

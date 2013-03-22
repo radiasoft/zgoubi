@@ -50,7 +50,8 @@ C      PARAMETER (MXX=400, MXY=200)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       PARAMETER (MDR=9)
       COMMON/DROITE/ CA(MDR),SA(MDR),CM(MDR),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
@@ -158,7 +159,7 @@ C          Field is defined by analytical models
  
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
-
+      
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
       XE = 0.D0
@@ -901,18 +902,18 @@ C           IF(KUASEX .EQ. MPOL+1) NND = 1
            IF(KFLD .EQ. MG) THEN
 C------------ Magnetic
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
                   DSREF = XL
            ELSEIF(KFLD .EQ. LC) THEN
 C------------ Electric
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
-     >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,*95)
+     >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
            ELSEIF(KFLD .EQ. ML) THEN
 C------------ Electric & Magnetic
              CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
-     >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,*95)
+     >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
              CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
-     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,*95)
+     >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
            ENDIF
            KP = NINT(A(NOEL,ND+NND))
            IF( KP .EQ. 3 ) THEN
@@ -1056,8 +1057,10 @@ C--------- AGS MAIN MAGNET
           NND = 10
           NPOL = I3
 
+
           CALL AGSMM(LMNT,MG,MPOL,NPOL,SCAL,
      >      DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+          
 
           DSREF = XL
           KP = NINT(A(NOEL,ND+NND))
@@ -1125,7 +1128,7 @@ C---------- AGSQUAD
            IF(IRD .EQ. 4) IDB=4
 
            CALL AGSQUA(LMNT,MPOL,SCAL,
-     >     DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS)
+     >     DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
 
            DSREF = XL
 

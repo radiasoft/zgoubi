@@ -29,7 +29,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
@@ -119,9 +120,6 @@ C         write(89,*) vpa
             ENDDO
             NP = NP +  2 * NTIM(IF) 
 
-c            NSTR = A(NOEL,NP)
-c            NP = NP + 1
-
           ELSEIF(MODSCL(IF) .GE. 10) THEN
 
             IF(IPASS.EQ.1) THEN
@@ -142,9 +140,6 @@ c            NP = NP + 1
                    TIM2(IF,IT) = A(NOEL,NP+NTIM2(IF)+IT)
                 ENDDO
                 NP = NP +  2 * IIT
-
-c                NSTR = A(NOEL,NP)
-c                NP = NP + 1
 
                 IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0) 
      >                         TIM2(IF,1) =  BORO 
@@ -198,11 +193,9 @@ C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
 
           NPA = JPA(IF,MXP)
-c             write(88,*) 'scalin npa',if,mxp,npa
           DO J = 1, NPA
             NP = NP+1 
             VPA(IF,J) = A(NOEL,NP)
-c             write(88,*) 'scalin mxf,mxp,if,ip ',mxf,mxp,if,j
           ENDDO
 
           NP = NP + 1
@@ -334,6 +327,8 @@ C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
           TIM(IF,2) = A(NOEL,NP)     ! Nflat
           NP = NP + 1
           TIM(IF,3) = A(NOEL,NP)     ! Ndown
+          NP = NP + 1
+
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))') 
      >          (SCL(IF,IC) ,IC=1,4)
@@ -342,6 +337,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -87) THEN
+C AGS Q-jump quads. 
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1), as for NTIM=-1. 
 C          Starting value is SCL(IF,1). 
 C          Switch-on is triggered by G.gamma value : trigger is at G.gamma=Integer+dN (dN=0.75-frac(Qx), 

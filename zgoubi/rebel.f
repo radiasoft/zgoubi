@@ -218,8 +218,8 @@ C--------- endif spin tracking ----------------------------------
 C--------- SR loss ----------------------------------
       IF(KSYN .EQ. 1) THEN
         IF(KREB3.NE.99) THEN
-          DUM=SCAL0W(1.D0)
-          CALL SYNPA0
+c          DUM=SCAL0W(1.D0)
+c          CALL SYNPA0
         ENDIF
       ENDIF
 C--------- endif SR loss ----------------------------------
@@ -273,7 +273,7 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
               WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 'Parameter #',KPRM
      >        ,' in element #',KLM,' will be modified at each pass. '
               WRITE(NRES,FMT='(/,5X,A)') 'List of parameter values :'
-              WRITE(NRES,FMT='(15X,i3,1p,e17.8)')(i,param(i),i=1, nrblt)            
+              WRITE(NRES,FMT='(15X,i3,1p,e17.8)')(i,param(i),i=1, nrblt)
             ENDIF
           ENDIF
 

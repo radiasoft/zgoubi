@@ -27,8 +27,12 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      CHARACTER(80) TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
+      LOGICAL STRCON
+      CHARACTER(80) TXT80
+      INTEGER DEBSTR, FINSTR
 C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       READ(NDAT,*) NY, NBOP
       A(NOEL,1) = NY
@@ -36,7 +40,11 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
       DO I = 1, NBOP
-        READ(NDAT,FMT='(A)') TA(NOEL,I)
+        READ(NDAT,FMT='(A)') TXT80
+        TXT80 = TXT80(DEBSTR(TXT80):FINSTR(TXT80))
+        IF(STRCON(TXT80,'!',
+     >                      IS)) TXT80 = TXT80(DEBSTR(TXT80):IS-1)
+        TA(NOEL,I) = TXT80
       ENDDO
       RETURN
       END

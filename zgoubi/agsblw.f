@@ -290,11 +290,8 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
         BLWI = BLWI + WA(I)*WN(I)
       ENDDO
       DO I = 1, NB
-c          write(*,*) ' agsblw i,  bm(i)',i, bm(i),dev,AGSMMA(DEV)
         BM(I) = BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
-c          write(*,*) ' agsblw i,  bm(i)',i, bm(i),AGSMMA(DEV)
       ENDDO
 
-c              read(*,*)
       RETURN
       END

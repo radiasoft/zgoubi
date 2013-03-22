@@ -244,6 +244,8 @@ c                  read(*,*)
         ELSE
 
           PNOW(1) = P
+c              write(*,*) 'agsks PNOW(1).ne.P ', PNOW(1),P
+c                         read(*,*)
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -267,46 +269,17 @@ c                  read(*,*)
           P6 = P*P5
 C  K1BF :
           AK1(1)= UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
-     >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 +UKBF6*P6 
-
-         
-c              write(*,*) ' agsks ak1 ',
-c     > UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
-c     >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 +UKBF6*P6 
-c              write(*,*) ' agsks ak1 ',
-c     >     UKBFM3/(P3), UKBFM2/(P2), UKBFM1/P, UKBF0+UKBF1*P 
-c              write(*,*) ' agsks ak1 ',
-c     >    UKBF2*P2,UKBF3*P3,UKBF4*P4,UKBF5*P5 ,UKBF6*P6 
-c                 write(*,*) '*************** ', PNOW(1),P
-c              write(*,*) ' ak1(1) ',ak1(1)
-c              write(*,*) ' ak2(1) ',ak2(1)
-
-
+     >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
+     >    +UKBF6*P6 
           AK1(1) = AK1(1)*(DB1F + 1.D0)
 
 C  K2BF :
           AK2(1)= TKBFM3/(P3)+ TKBFM2/(P2)+ TKBFM1/P + TKBF0+TKBF1*P 
      >    +TKBF2*P2+TKBF3*P3+TKBF4*P4+TKBF5*P5  
      >    +TKBF6*P6 - TKFBDCOEF*BDOT*ALB/ALA
-
-c              write(*,*) ' agsks ak2 ',
-c     >     TKBFM3/(P3), TKBFM2/(P2), TKBFM1/P, TKBF0,TKBF1*P 
-c              write(*,*) ' agsks ak2 ',
-c     >    TKBF2*P2,TKBF3*P3,TKBF4*P4,TKBF5*P5  
-c              write(*,*) ' agsks ak2 ',
-c     >    TKBF6*P6 , TKFBDCOEF*BDOT*ALB/ALA
-c                 write(*,*) 'agsks PNOW(1).eq.P ', PNOW(1),P
-c              write(*,*) ' ak1(1) ',ak1(1)
-c              write(*,*) ' ak2(1) ',ak2(1)
-
+  
           SAK1(1)=AK1(1)
           SAK2(1)=AK2(1)
-
-c                 write(*,*) 'agsks PNOW(1).eq.P ', PNOW(1),P
-c              write(*,*) ' ak1(1), sak1(1) ',ak1(1), sak1(1)
-c              write(*,*) ' ak2(1), sak2(1) ',ak2(1), sak2(1)
-c                  read(*,*)
-
 
         ENDIF
 
@@ -524,9 +497,5 @@ C  K2AD :
 
       AKS(2) = AK1(IMM) 
       AKS(3) = AK2(IMM) 
-
-
-c            write(*,*) ' agsks ak1 ',(ak1(ijk),ijk=1,6)
-c            write(*,*) ' agsks ak2 ',(ak2(ijk),ijk=1,6)
       RETURN
       END

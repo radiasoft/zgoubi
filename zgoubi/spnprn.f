@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE SPNPRN(KPR,NOEL,KLEY,LBL1,LBL2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -33,7 +32,8 @@ C  -------
       INCLUDE 'MXLD.H'
 C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      CHARACTER*80 TA
-C      COMMON/DONT/ TA(MXL,40)
+C      PARAMETER (MXTA=45)
+C      COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU

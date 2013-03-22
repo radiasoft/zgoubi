@@ -89,8 +89,6 @@ C Max number of function calls
       CALL CPTFRD(
      >            ICPTF)
 
-c            write(*,*)  n, P(1), P(N+1)
-c            write(*,*)  FMIN ,PNLTY , ICPTF
              IF(FMIN .LT. PNLTY .OR. ICPTF.GT.ICPTMA) THEN
                DO I = 1, N
                  XX(I,P(1)) = XMIN(I)

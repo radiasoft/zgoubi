@@ -32,7 +32,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -97,7 +98,7 @@ C----- To get values into A(), from earlier FIT
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
       CHARACTER(LBLSIZ) LBLOPT
-      SAVE KOPTCS, LBLOPT
+      SAVE KOPTIP, KOPTCS, LBLOPT
       LOGICAL OKLNO
 
       LOGICAL EMPTY, IDLUNI
@@ -147,7 +148,8 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
       NOEL = NL1-1
 
  998  CONTINUE
-
+c         write(*,*) ' boooooooooooooooonnnnnn ', noel
+c           read(*,*)
       IF(PRLB) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
@@ -177,7 +179,7 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
       ENDIF
 
       IF(KOPTCS .EQ. 1) THEN
-C------- Transport beam matrix and print at element ends. Due to OPTICS keyword.
+C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
         IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
@@ -587,7 +589,7 @@ C          OR RECIPROCAL.
       IF(READAT) CALL RBINAR
       CALL BINARY
       GOTO 998
-C----- FIT, FIT2. Two methods are available 
+C----- FIT. FIT2. Two methods are available 
  102  MTHOD = 2
       GOTO 461
  46   CONTINUE
@@ -628,7 +630,7 @@ C-----  SPNTRK. Switch spin tracking
  49   CONTINUE
       IF(READAT) CALL RSPN
       IF(FITGET) CALL FITGT1
-      CALL SPN(*999)
+      CALL SPN
       GOTO 998
 C----- SPNPRT. PRINT SPIN STATES
  50   CONTINUE
@@ -903,34 +905,60 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >  *,ERR=801,END=801) KOPTCS, LBLOPT
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
      >  *,ERR=803,END=803) KOPTCS, TXT1, KOPTIP
-        GOTO 802
       ENDIF
+      GOTO 802
  801  CONTINUE
       LBLOPT = 'all'
       GOTO 802
  803  CONTINUE
       KOPTIP = 0
-      WRITE(NRES,*)  ' '
-      WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
-     >,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,*)  ' '
+        WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
+     >  ,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 
+      ENDIF
  802  CONTINUE
       IF (KOPTCS .NE. 1) KOPTCS = 0
-      WRITE(NRES,*)  ' '
-      WRITE(NRES,*)  ' KOPTCS=',KOPTCS,',   LBLOPT = '
-     >,LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT)),',   KOPTIP=',KOPTIP
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,*)  ' '
+        WRITE(NRES,*)  ' KOPTCS =',KOPTCS,'  (off/on = 0/1)'
+        WRITE(NRES,*)  ' '
+        WRITE(NRES,*)  ' LBLOPT = ' //
+     >  LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))  //
+     >  '  (will print beam matrix into zgoubi.res at those labels)' 
+        WRITE(NRES,*)  ' '
+        WRITE(NRES,*)  ' KOPTIP=',KOPTIP,
+     >  '  (print betas into zgoubi.OPTICS.out, no/yes = 0/1)'
+        WRITE(NRES,*)  ' '
+      ENDIF
       OKLNO = .FALSE. 
       IF(KOPTIP.EQ.1) THEN
         IF(IDLUNI(
      >            LNOPTI)) THEN
           OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
           OKLNO = .TRUE.
-          WRITE(LNOPTI,*) 
-     >    '# alfx,btx,alfy,bty,alfl,btl,phix,phiy,sum_s,#lmnt'
+          WRITE(LNOPTI,fmt='(a)') 
+     >         '# alfx,         btx,          alfy,         bty, ' //
+     >         '         alfl,         btl,          Dx,         ' //
+     >         '  Dxp,          Dy,           Dyp,          phix,' //
+     >         '         phiy,         sum_s,        #lmnt, x,   ' //
+     >         '         xp,           y,            yp,         ' //
+     >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
+     >         'K0*L          K1*L          K2*L  '
+          WRITE(LNOPTI,fmt='(a)') 
+     >         '# 1             2             3             4    ' //
+     >         '         5             6             7           ' //
+     >         '  8             9             10            11   ' //
+     >         '         12            13            14     15   ' //
+     >         '         16            17            18          ' //
+     >         '19         20         21           22            ' //
+     >         '23            24            25      '
         ENDIF                          
       ENDIF
       GOTO 998
  899  CONTINUE
-      WRITE(NRES,*) ' KEYWORD OPTICS. Error open zgoubi.OPTICS.out . ' 
+      IF(NRES.GT.0) 
+     >WRITE(NRES,*) ' KEYWORD OPTICS. Error open zgoubi.OPTICS.out . ' 
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE
@@ -1207,7 +1235,18 @@ C----- OPTION.
       IF(READAT) CALL ROPTIO
       CALL OPTION
       GOTO 998
-
+C----- EPLATES. 
+ 114  CONTINUE
+      KALC = 3
+      KUASEX = 39
+      IF(READAT) THEN 
+        CALL REPLAT(ND(NOEL))
+      ELSE
+        CALL STPSI1(NOEL)
+      ENDIF
+      IF(FITGET) CALL FITGT1
+      CALL QUASEX(ND(NOEL))
+      GOTO 998
 
 C-------------------------
 C-------------------------
@@ -1215,9 +1254,9 @@ C-------------------------
      >             TXTELO)
       TXTELO = TXTELT
       RETURN
+C Current KLEY
       ENTRY ZGKLEY( 
      >             KLEO)
-C Current KLEY
       KLEO = KLEY
       RETURN
       ENTRY ZGMXKL( 
@@ -1229,6 +1268,7 @@ C Current KLEY
 C Current elmnt #
       NOELO = NOEL
       RETURN
+C KLEY[IKL]
       ENTRY ZGKLE(IKL, 
      >                KLEO)
       KLEO = KLE(IKL)

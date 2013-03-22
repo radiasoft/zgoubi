@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory          
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RGASCA
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -29,7 +28,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
 
 C----- Switch KGA
       READ(NDAT,*) A(NOEL,1)

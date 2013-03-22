@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE MULTPO(KUASEX,LMNT,KFL,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,*)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER LMNT(*)*(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -40,7 +40,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -66,6 +67,10 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       DATA BE / 'B-', 'E-'/
  
       DATA CASPI / .TRUE. /
+      
+      dimension AKS(6)
+      SAVE AKS, sXL
+      
 
       IER = 0
       SKEW=.FALSE.
@@ -209,6 +214,11 @@ C------- MULTIPOLE
  
 C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
 
+          sXL = XL
+
+          AKS(1) =  BM(1)/1.d0/(BORO*DPREF)*1.d2
+          AKS(2) =  BM(2)/(RO)/(BORO*DPREF)*1.d4
+          AKS(3) =  BM(3)/(RO**2)/(BORO*DPREF)*1.d6
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
@@ -504,5 +514,13 @@ C-----------------------------------------
      >               ('*** ERROR #',I,TXT(I),I=1,IER)
 C----- Execution stopped :
       RETURN 1
-
+      
+      ENTRY MULTKL(
+     >     aL, aK1, aK2, aK3)
+      aL = sXL
+      aK1 = AKS(1)
+      aK2 = AKS(2)
+      aK3 = AKS(3)
+      RETURN
+      
       END

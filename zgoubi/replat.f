@@ -18,39 +18,44 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE ITAVAN(FONC,N,X,XMIN,XMAX,Y,V,F0)
+      SUBROUTINE REPLAT(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION X(*),XMIN(*),XMAX(*),Y(*),V(*)
+C     ----------------------------------
+C     READS DATA FOR ELCYLDEF
+C     ----------------------------------
+ 
+      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
-      EXTERNAL FONC
-
-1     CONTINUE
-      DO 2 I=1,N
-         Y(I)=X(I)
-         IF(V(I) .NE. 0) THEN
-            X(I)=X(I)+V(I)
-            IF     (X(I).LE.XMIN(I)) THEN
-               V(I)=0.0
-               X(I)=XMIN(I)
-            ELSE IF(X(I).GE.XMAX(I)) THEN
-               V(I)=0.0
-               X(I)=XMAX(I)
-            ENDIF
-         ENDIF
- 2    CONTINUE
-      CALL CPTFCT(FONC,F1)
-      IF(F1.LT.F0) THEN
-         F0=F1
-         GOTO 1
+C------ IL
+      READ(NDAT,*) A(NOEL,1)
+C------ Angle (rad), Layout radius (m), E field (V/m) at layout radius, index
+      READ(NDAT,*) (A(NOEL,I),I=10,13)
+C     ... XE, LE (cm, cm) and entrance fringe field coeffs
+      READ(NDAT,*) (A(NOEL,I),I=20,21)
+      READ(NDAT,*) (A(NOEL,I),I=30,35)
+C     ... XS, LS and exit fringe field coeffs
+      READ(NDAT,*) (A(NOEL,I),I=40,41)
+      READ(NDAT,*) (A(NOEL,I),I=50,55)
+ 
+      ND = 60
+C     ... PAS
+      READ(NDAT,*) A(NOEL,60)
+C     ... KP
+      READ(NDAT,*) KP
+      A(NOEL,70) = KP
+      IF( KP .EQ. 2 ) THEN
+C       ... RE, TE, RS, TS
+        READ(NDAT,*) (A(NOEL,I),I=80,83)
       ELSE
-         DO 3 I=1,N
-            X(I)=Y(I)
- 3       CONTINUE
+C       ... DP
+        READ(NDAT,*) A(NOEL,80)
       ENDIF
+ 
       RETURN
       END

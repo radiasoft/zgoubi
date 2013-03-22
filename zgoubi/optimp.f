@@ -22,19 +22,47 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ) 
+      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION F0(6,6)
-C      PARAMETER (PI = 4.D0*ATAN(1.D0))
-      PARAMETER (PI = 3.1415926535898d0)
+      DIMENSION F0(6,6),AKL(3)
+
+      INCLUDE "MAXTRA.H"
+      INCLUDE "MAXCOO.H"
+      LOGICAL AMQLU(5),PABSLU
+      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE 'MXLD.H'
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
+
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
+
+      CHARACTER(LBLSIZ) LBL1, LBL2
+      LOGICAL EMPTY
+
+      PARAMETER (PI = 4.D0*ATAN(1.D0))
+C      PARAMETER (PI = 3.1415926535898d0)
 
       CALL SCUMR(
      >            XL,SCUM,TCUM)
 
- 104  FORMAT(1P,13(E13.5,1X),1X,I5)
+      CALL ZGKLEY( 
+     >            KLE)
+
+      lbl1 = label(noel,1)
+      IF(EMPTY(LBL1)) LBL1 = '.'
+      lbl2 = label(noel,2)
+      IF(EMPTY(LBL2)) LBL2 = '.'
+
+ 104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1x,a)
+     >,4(1X,E13.5))
       WRITE(LUN,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
      >, F0(5,6), F0(5,5)
      >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
-     >, PHY/(2.D0*PI), PHZ/(2.D0*PI),SCUM,NOEL
+     >, PHY/(2.D0*PI), PHZ/(2.D0*PI), SCUM, NOEL
+     >, F(2,1)*0.01D0, F(3,1), F(4,1)*0.01D0, F(5,1)
+     >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
       RETURN
       END

@@ -43,28 +43,28 @@ C----- CONTROLE VARIABLES
       IF(NV.LT.1) IER=1
       IF(NV.GT.MXV)IER=1
       IF(IER .EQ. 1) THEN
-        WRITE(NRES,102) '''NV''',NV,'VARIABLES'
+        IF(NRES.GT.0) WRITE(NRES,102) '''NV''',NV,'VARIABLES'
  102    FORMAT(/,5X,' SBR  FITEST - WARNING *  DATA  ',A,
      >  '=',I3,'  IN ',A,'  IS  OUT  OF  RANGE')
       ENDIF
       DO 1 I=1,NV
 C------- LMNT VARIABLE
         IF(IR(I).LT.1 .OR. IR(I).GE.NOEL) THEN
-          WRITE(NRES,101) '''IR''',IR(I),'VARIABLE',I
+          IF(NRES.GT.0) WRITE(NRES,101) '''IR''',IR(I),'VARIABLE',I
  101      FORMAT(/,5X,' SBR  FITEST - WARNING *  data  ',A,'=',
      >    I2,'  in ',A,' #',I3,'  is  out  of  range')
           IER = 1
         ELSE
-          WRITE(NRES,*) '          variable # ',I,
+          IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >    '      IR = ',IR(I),',   ok.'
         ENDIF
  
 C------- PARAMTRE VARIABLE DANS L'LMNT
         IF(IS(I).LT.1 .OR. IS(I).GT.MXD) THEN
-          WRITE(NRES,101) '''IP''',IS(I),'VARIABLE',I
+          IF(NRES.GT.0) WRITE(NRES,101) '''IP''',IS(I),'VARIABLE',I
           IER = 1
         ELSE
-          WRITE(NRES,*) '          variable # ',I,
+          IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >    '      IP = ',IS(I),',   ok.'
         ENDIF
  
@@ -75,18 +75,18 @@ C------- COUPLAGE AVEC LMNT #KL, PRMTR #KP
           CALL VRBLE(IER,I,KL,KP)
 C--------- # LMNT COUPLE
           IF(KL.GE.NOEL) THEN
-            WRITE(NRES,101) '''XC.''',KL,'VARIABLE',I
+            IF(NRES.GT.0) WRITE(NRES,101) '''XC.''',KL,'VARIABLE',I
             IER = 1
           ELSE
-            WRITE(NRES,*) '          variable # ',I,
+            IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >      '      XC.= ',KL,',   ok.'
           ENDIF
 C--------- # PARAMETR COUPLE
           IF(KP .LT. 1 .OR. KP .GT. MXD) THEN
-            WRITE(NRES,101) '''.XC''',KP,'VARIABLE',I
+            IF(NRES.GT.0) WRITE(NRES,101) '''.XC''',KP,'VARIABLE',I
             IER = 1
           ELSE
-            WRITE(NRES,*) '          variable # ',I,
+            IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >      '      .XC= ',KP,',   ok.'
           ENDIF
         ENDIF
@@ -94,24 +94,24 @@ C--------- # PARAMETR COUPLE
  
 C----- CONTROLE CONTRAINTES
       IF(NC.LT.1 .OR. NC.GT.MXV) THEN
-        WRITE(NRES,102) '''NC''',NC,'CONSTRAINTS'
+        IF(NRES.GT.0) WRITE(NRES,102) '''NC''',NC,'CONSTRAINTS'
         IER = 1
       ENDIF
  
       DO 8 I=1,NC
         IF(I3(I).LT. 1 .OR. I3(I).GE.NOEL ) THEN
-          WRITE(NRES,101) '''IR''',I3(I),'CONSTRAINT',I
+          IF(NRES.GT.0) WRITE(NRES,101) '''IR''',I3(I),'CONSTRAINT',I
           IER = 1
         ELSE
-          WRITE(NRES,*) '          constraint # ',I,
+          IF(NRES.GT.0) WRITE(NRES,*) '          constraint # ',I,
      >    '      IR = ',I3(I),',   ok.'
         ENDIF
         IF(IC(I) .EQ. 3) THEN
           IF(I1(I) .GT. IMAX ) THEN
-            WRITE(NRES,101) '''I''',I1(I),'CONSTRAINT',I
+            IF(NRES.GT.0) WRITE(NRES,101) '''I''',I1(I),'CONSTRAINT',I
             IER = 1
           ELSE
-            WRITE(NRES,*) '          constraint # ',I,
+            IF(NRES.GT.0) WRITE(NRES,*) '          constraint # ',I,
      >      '      I  = ',I1(I),',   ok.'
           ENDIF
         ENDIF
@@ -126,9 +126,11 @@ c                    read(*,*)
  8    CONTINUE
  
       IF(IER .EQ. 1) THEN
-        WRITE(NRES,FMT='(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
+        IF(NRES.GT.0) WRITE(NRES,FMT=
+     >  '(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
       ELSE
-        WRITE(NRES,FMT='(/,20X,'' FIT  variables  in  good  order,'',  
+        IF(NRES.GT.0) WRITE(NRES,FMT=
+     >  '(/,20X,'' FIT  variables  in  good  order,'',  
      >              ''  FIT  will proceed. '')')
       ENDIF
 

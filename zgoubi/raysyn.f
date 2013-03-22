@@ -46,12 +46,14 @@ C  -------
       PARAMETER (NSPLIN=43)
       DIMENSION X(NSPLIN), Y(NSPLIN)
       CHARACTER TYPMAG*8,TYPMAGI*8
-      PARAMETER(GAM13=2.6789385347D0,UT=1.D0/3.D0)
-      
+      PARAMETER(GAM13=2.67893853470774763365569D0)
+      PARAMETER(UT=1.D0/3.D0)
+                      
       SAVE TPHOT, TLOSS, TL2, NSTEP, ECMEAN
       SAVE X, Y
       SAVE CQ,AM2,UNIT,UNITE,IRA,DXSPLI,FEC,FAC,FACG
       SAVE TYPMAG
+
       DATA TYPMAG / 'ALL' /
       DATA X / .00123D0, .0123D0, .0265D0, .0571D0, .1228D0, .1544D0, 
 C Y                     .01    .0136   .02   .0292    
@@ -130,6 +132,7 @@ C----- Correction to particle rigidity
 
       ENTRY RAYSY1(IMAX,IRAI)
       IRA=IRAI
+      seed = rndm2(ira)
 C      DXSPLI=(X(NSPLIN)-X(1))
       DXSPLI=X(NSPLIN)
       CLQE=CL/QE
@@ -167,26 +170,36 @@ C        PP = BORO*CL*1.D-9*Q
         EE = SQRT(PP*PP+AM*AM)
         WRITE(NRES,FMT='(/,10X,
      >  '' S.R. statistics, from beginning of structure,'',/,15X,
-     >  '' on a total of '',1P,G12.4,'' integration steps :'',/)') NSTEP
+     >  '' on a total of '',1P,g15.7,'' integration steps :'',/)') NSTEP
         XEVNT=DBLE(IMAX*IPASS)
         XSTEP= NSTEP
-        WRITE(NRES,FMT='(5X,'' Mean energy loss per particle :'',1P,
-     >  T50,G12.4,'' keV.       Relative to initial energy :'',G12.4)') 
+        WRITE(NRES,FMT='(5X,'' Average energy loss per particle :'',1P,
+     >  T50,g15.7,'' keV.       Relative to initial energy :'',g15.7)') 
      >  TTLOSS/XEVNT *1.D3,TTLOSS/(XEVNT*EE)
-        WRITE(NRES,FMT='(5X,'' Critical energy of photons (mean) :'',1P,
-     >  T50,G12.4,'' keV'')') ECMEAN/XSTEP *1.D3
-        WRITE(NRES,FMT='(5X,'' Mean energy of radiated photons :'',1P,
-     >  T50,G12.4,'' keV'')') TTLOSS/TTPHOT *1.D3
+        WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :'',1P,
+     >  T50,g15.7,'' keV'')') ECMEAN/XSTEP *1.D3
+        WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :'',1P,
+     >  T50,g15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
-     >  T50,G12.4,'' keV'')') 
+     >  T50,g15.7,'' keV'')') 
      >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
         WRITE(NRES,FMT='(5X,'' Number of photons radiated - Total :'',
-     >  1P,T65,G12.4)') TTPHOT
+     >  1P,T65,g15.7)') TTPHOT
         WRITE(NRES,FMT='(5X,''                            - per'',
-     >  '' particle :'',1P,T65,G12.4)') TTPHOT/XEVNT
+     >  '' particle :'',1P,T65,g15.7)') TTPHOT/XEVNT
         WRITE(NRES,FMT='(5X,''                            - per'',
-     >  '' particle, per step :'',1P,T65,G12.4)') TTPHOT/XSTEP
+     >  '' particle, per step :'',1P,T65,g15.7)') TTPHOT/XSTEP
       ENDIF
+
+      if(ipass.eq.1 .or. 10*(ipass/10) .eq. ipass ) then 
+        WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
+     >  1P,I8,
+     >  T60, 4(g15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
+     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
+     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
+     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
+        call FLUSH2(88,.false.)
+      endif
       RETURN
 
       ENTRY RAYSY3(TYPMAGI)

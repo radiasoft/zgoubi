@@ -107,6 +107,8 @@ OBJ=\
  end.o\
  endfit.o\
  endjob.o\
+ eplate.o\
+ eplatf.o\
  ererz.o\
  erexyz.o\
  esl.o\
@@ -264,6 +266,7 @@ OBJ=\
  relmir.o\
  remma.o\
  rempli.o\
+ replat.o\
  reset.o\
  revers.o\
  rfaist.o\
@@ -276,6 +279,7 @@ OBJ=\
  rmcdes.o\
  rmcobj.o\
  rmulti.o\
+ rndm.o\
  rnorma.o\
  robjet.o\
  robjta.o\
@@ -429,6 +433,7 @@ emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 endfit.o: $(INC)/MXLD.H
+eplate.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
@@ -498,6 +503,7 @@ objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 okkt.o: $(INC)/OKKT.H
+opticc.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 option.o: $(INC)/MXLD.H
 partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 path.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
@@ -530,6 +536,7 @@ relcmi.o: $(INC)/MXLD.H
 relcyl.o: $(INC)/MXLD.H
 relmir.o: $(INC)/MXLD.H        
 rempli.o: $(INC)/MXLD.H
+replat.o: $(INC)/MXLD.H
 reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 rfaist.o: $(INC)/MXLD.H
 rffag.o: $(INC)/MXLD.H

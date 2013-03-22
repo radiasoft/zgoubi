@@ -28,49 +28,62 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       CHARACTER(40) TXT1, TXT2
       INTEGER DEBSTR, FINSTR
       SAVE NRSAV
-      DATA NRSAV / 23456 /
+      SAVE KWROFF
+      
+      DATA NRSAV / -11111 /
 C Numb of options. NBOP lines should follow
       NY = NINT(A(NOEL,1))
       NBOP = NINT(A(NOEL,2))
 
       IF(NY*NBOP.EQ.0) THEN
-        WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
-     >  ' ''OPTIONS''  inhibited,  thus  options  set.'
+        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
+     >  ' ''OPTIONS''  is  inhibited,  thus  no  options  set.'
         goto 99
       ENDIF
 
       IF(NBOP.GT.40)
-     >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
+     >CALL ENDJOB('SBR option : nmbr of options exceded ; max is ',40)
        
-      WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
+      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
      >nbop, ' option(s) expected.  Option(s) found :'
 
       DO I = 1, NBOP
         READ(TA(NOEL,I),*) TXT1
-        WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
+        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
      >  'Option # ',I,' : ',
      >  TA(NOEL,I)(debstr(TA(NOEL,I)):finstr(TA(NOEL,I)))
         IF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'WRITE') 
      >    READ(TA(NOEL,I),*) TXT1, TXT2
       ENDDO
 
-      WRITE(ABS(NRES),FMT='(/,T25,A)') 
+      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,A)') 
      > ' Action(s) taken :' 
 
       IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
         NRSAV = NRES
         NRES = -ABS(NRES)
-        WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE OFF  ->  '//
+        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T5,A)') 
+     >    'WRITE OFF -> '//
      >    'A lot of (almost all) WRITE statements will be inhibited !'
+        kwroff = 1
       ELSE
-        IF(NRSAV .NE. 23456) THEN 
+        IF(NRSAV .NE. -11111) THEN 
           NRES = ABS(NRES)
+          WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
+     >    'WRITE bit in OPTION set to 1.'
+          kwroff = 0
         ENDIF
       ENDIF
 
  99   RETURN
+
+      entry optio1(
+     >             kwrofo)
+      kwrofo = kwroff
+      return
       END

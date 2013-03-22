@@ -88,6 +88,8 @@ c        endif
         UZ= U1*SN+UZ*CO
         T=ATAN2(UY,UX)
         P=ATAN( UZ/SQRT(UX*UX+UY*UY) )
+        if(kspn .eq. 1) 
+     >  call endjob('SBR TRROTE. Spin rotation to be implemented. ',-99)
       ENDIF
       IF(RZ .NE. 0.D0) THEN
         CP=COS(P)
@@ -104,6 +106,8 @@ c        endif
         UY=-U1*SN+UY*CO
         T=ATAN2(UY,UX)
         P=ATAN( UZ/SQRT(UX*UX+UY*UY) )
+        if(kspn .eq. 1) 
+     >  call endjob('SBR TRROTE. Spin rotation to be implemented. ',-99)
       ENDIF
 
 C----- TRANSPORT TO NEW FRAME (=> X=0)

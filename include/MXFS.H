@@ -34,7 +34,8 @@ C AGS modeling requires 18 scaling factors (XQH, XQV, XSH, XSV, a16_19_blw_I  et
 C AGS model including acceleration observed to require up to 2617 timings
 C *** Attention : MXS .le. MXD
 
-      PARAMETER (MXF=45,MXS=2000)
+!!!!! If change MXF, then change MXTA to same value in "PARAMETER (MXTA=??)" in fortran files
+      PARAMETER (MXF=45,MXS=2000) 
 
 C------ MLF=max number of labels following a family name in SCALING
       PARAMETER(MLF=5)

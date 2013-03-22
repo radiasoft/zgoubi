@@ -139,6 +139,4 @@ C--------- Numb. particls
 
  97   CALL ENDJOB('SBR rfit, error input data at NC',-99)
       RETURN
- 98   CALL ENDJOB('SBR rfit, error input data after NV',-99)
-      RETURN
       END

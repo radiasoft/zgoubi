@@ -2988,21 +2988,37 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
  \\
  \\
  $N$       \> 0 : inactive \> \> \\
- \> $\geq 1$ : total number of \LABEL's\index{LABEL@{\LABEL}}  \>  $\geq 0$ \>I \\
- \> at which beam centroid is to be recorded
+ \> $\geq 1$ : number of \textsl{LABELs} \index{LABEL@{\LABEL}}  at which beam centroid is computed \>  $\geq 0$ \>I \\
+ \> 
  \\
   \\
-\textbf{For I = 1, N}       \>A list of N records follows \>\>\\
+\textbf{For I = 1, N}       \>A list of N keywords' labels follows \>\>\\
  \\
- \LABEL's
-          \> N labels at which beam centroid is to be recorded \> N string(s) \> N*A10 \\
+ \LABEL1 [,LABEL2, [...]]
+          \> The N labels at which beam centroid is to be computed/recorded. \> N string(s) \> N*A10 \\
+          \> In case a ``\textsl{LABELi}'' in the list does not exist, it is peacefully ignored. \>  \> \\
  \\
 \end{tabbing}
 
 
 
+\vfill
 
-
+{\noindent {\bf \textsl{Example}} 
+\\
+A trick~: 
+{\small
+\begin{verbatim}
+'PICKUPS'  
+1           
+none labelA labelB ...
+\end{verbatim}
+}
+\noindent This is a possible way to inhibited an earlier use of  \textsl{PICKUPS} with  ``labelA, labelB, ...'' 
+keyword list. 
+It is sufficient (and necessary) for that, that no keyword in zgoubi.dat data list has 
+``none'' as a its first \LABEL.  \index{LABEL}
+}
 
 
 
@@ -3614,8 +3630,8 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL'} or \textsl{'all'} or a particular  KEYWORD~;  \> 2*A \\
                     \> \textsl{STR2 = 'scale'} will scale fields with energy loss.              \>  \\
  \\
-\textsl{Option}, seed \>  1 : loss entails dp only  \> $1-3$, , $>10^5$ \> I \\
-                \>  2 : loss entails dp and kick angle  \> \\
+\textsl{Option}, seed \>  Option~: 0 / inhibited, 1 / photon entails dp only,   \> $1-3$,  $>10^5$ \> I \\
+                \>  2 / photon entails dp and angle kick.  \> \\
 
   \end{tabbing}
   
@@ -3811,13 +3827,45 @@ $RX$, $RY$, $RZ$
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / and computation  of \>0-3[.1], 2*any    \>I,2*E \\
-         FacD, FacA    \> chromaticities / and computation of anharmonicities.    \> \>\\
+ \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I,2*E \\
+         FacD, FacA    \> chromaticities / add computation of anharmonicities.    \> \>\\
                           \> $KTW2=1$~: long write-up to zgoubi.res.            \> \>\\
                           \> $FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
                           \> in OBJET~; $FacA$~: unused.             \> \>
 \end{tabbing}
 
+
+
+
+\vfill
+
+{\noindent {\bf \textsl{Example}} 
+{\small
+\begin{verbatim}
+'OBJET'
+20015.55                           ! 6 GeV electrons.
+5                                  ! Will generate 11 particles.
+ .001 .001 .001 .001 0. .0001      ! Coordinate sampling for matrix computation : $delta_Y, 
+0. 0. 0. 0. 0. 1.                  ! delta_T, delta_Z, delta_P, delta_S (unused), delta_D$.
+.................................
+zgoubi.dat optics list in between
+.................................
+ 'TWISS'
+ 2 1. 1.                           ! KTW = 3, FacD = 1
+ 'END'
+\end{verbatim}
+}
+\noindent ``\textsl{KTW=3}'' under \textsl{TWISS} will cause 3 successive executions of zgoubi.dat and will result in 
+delivery (print out to zgoubi.res) of 
+
+- the on-momentum matrix of the optical structure, 
+
+-  off-momentum matrices at $\frac{dp}{p} = \pm FacD*\delta D$, 
+
+- the Twiss parameters in the hypothesis of a stable periodic structure, 
+
+- the  momentum compaction, chromaticities, etc.  \index{chromaticity@{chromaticity}} \index{momentum compaction@{momentum compaction}}
+}
 
 
 

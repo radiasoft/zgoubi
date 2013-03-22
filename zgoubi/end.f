@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -60,12 +60,14 @@ C----- Coherent synchrotron radiation
         ELSEIF(IPASS .EQ. 2) THEN
 C--------- CSR calculations done
 
-          IF(NRES.GT.0) WRITE(NRES,101) IPASS          
- 101      FORMAT(/,25X,' ****  End  of  ''CSR''  procedure  ****',//
-     >     ,5X,' There  has  been ',I10,
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,101) IPASS          
+ 101        FORMAT(/,25X,' ****  End  of  ''CSR''  procedure  ****',//
+     >      ,5X,' There  has  been ',I10,
      >          '  pass  through  the  optical  structure ',/)
             write(nres,fmt='(i6,1p,g12.4)') (it,dwc(it),it=1,imax)
-            write(  88,fmt='(i6,1p,g12.4)') (it,dwc(it),it=1,imax)
+          ENDIF
+C          write(  88,fmt='(i6,1p,g12.4)') (it,dwc(it),it=1,imax)
         ENDIF
       ENDIF
 
@@ -78,7 +80,7 @@ C----- Pick-up signal ----------------------------------------
       IF(IPASS.EQ.1) THEN
           CALL CNTMXR(
      >                IMX)
-          WRITE(NRES,103) IMX
+          IF(NRES.GT.0) WRITE(NRES,103) IMX
  103      FORMAT(/,20X,I10,' particles have been launched')
           NP = 0
           NS = 0
@@ -95,27 +97,33 @@ C----- Pick-up signal ----------------------------------------
               IF(IEX(I).EQ.-1)  N1 = N1+1
             ENDIF
  10       CONTINUE
-          WRITE(NRES,FMT='(20X,'' Made  it  to  the  end : '',I6)')NSURV
-          IF(N1.NE.0) WRITE(NRES,FMT='(30X,
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,FMT=
+     >      '(20X,'' Made  it  to  the  end : '',I6)')NSURV
+            IF(N1.NE.0) WRITE(NRES,FMT='(30X,
      >             '' (including '',I6,'' with KEX=-1'')') N1
-          IF(IFDES .EQ. 1) THEN
-            WRITE(NRES,FMT='(/,20X,'' ditributed  as  follows  :  '',
-     >      I6,''  primaries,     '',I6,''  secondaries'')') NP,NS
-            WRITE(NRES,105) TDVM*UNIT(5), NDES
- 105        FORMAT(20X,' Average  life  distance  :',F10.3
-     >      ,' m,    yielded ',I7,'  decays  in  flight')
+            IF(IFDES .EQ. 1) THEN
+              WRITE(NRES,FMT='(/,20X,'' ditributed  as  follows  :  '',
+     >        I6,''  primaries,     '',I6,''  secondaries'')') NP,NS
+              WRITE(NRES,105) TDVM*UNIT(5), NDES
+ 105          FORMAT(20X,' Average  life  distance  :',F10.3
+     >        ,' m,    yielded ',I7,'  decays  in  flight')
+            ENDIF
           ENDIF
           CALL CNTOUR(
      >                NOUT)
-          IF(NOUT.GT. 0) WRITE(NRES,107) NOUT,IMX
- 107      FORMAT(/,5X,'     # of particles stopped by collimation :',
+          IF(NRES.GT.0) THEN
+            IF(NOUT.GT. 0) WRITE(NRES,107) NOUT,IMX
+ 107        FORMAT(/,5X,'     # of particles stopped by collimation :',
      >          I10,'/',I10)
-
+          ENDIF
           CALL CNTNRR(
      >                NRJ)
-          IF(NRJ .GT. 0) WRITE(NRES,108) NRJ,IMX
- 108      FORMAT(/,5X,'     # of particles stopped during ',
+          IF(NRES.GT.0) THEN
+            IF(NRJ .GT. 0) WRITE(NRES,108) NRJ,IMX
+ 108        FORMAT(/,5X,'     # of particles stopped during ',
      >      'integration in field :', I10,'/',I10) 
+          ENDIF
       ENDIF
       RETURN
       END

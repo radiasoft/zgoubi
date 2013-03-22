@@ -65,10 +65,10 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
      >             ,/,15X,'   RZ =',G12.4,'  rad')
       ENDIF
 
-c       WRITE(NRES,*) ' ' 
-c       WRITE(NRES,*) '                  UNDER DEVELOPMENT, SORRY' 
+        WRITE(NRES,*) ' ' 
+        WRITE(NRES,*) '                  UNDER DEVELOPMENT, SORRY' 
 
-c      STOP 
+      STOP 
 
 
       EVNT = KSPN .EQ. 1 .OR. IFDES .EQ. 1 .OR. KGA .EQ. 1 .OR.

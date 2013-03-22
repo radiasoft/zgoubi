@@ -47,6 +47,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\newcommand{\zgou}{\textbf{Zgoubi}}
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
 \newcommand{\If}{\textsl{Iff}}
 \newcommand{\Iff}{\textsl{iff}}
 \newcommand{\rms}{\textsl{rms}}

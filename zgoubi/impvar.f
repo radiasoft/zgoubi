@@ -47,10 +47,10 @@ C  -------
 
         IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
 100     FORMAT('1')
-        WRITE(IUNIT,200) NI, NITER
+        IF(IUNIT.GT.0) WRITE(IUNIT,200) NI, NITER
 200     FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,
      >  ' / ',I6,' max.)')
-        WRITE(IUNIT,300)
+        IF(IUNIT.GT.0) WRITE(IUNIT,300)
 300     FORMAT(
      >  ' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',
 C------   IR(I)  I   IS(I)   X(K)        XI(I)          X(I)  
@@ -66,7 +66,7 @@ C----      X(J)        P(I)
         LBL2 = LABEL(IR(I),2)
         IF(EMPTY(LBL1)) LBL1 = '*'
         IF(EMPTY(LBL2)) LBL2 = '*'
-        WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
+        IF(IUNIT.GT.0) WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I),KLE,LBL1,LBL2
  400    FORMAT(1P, 
      >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
@@ -75,10 +75,10 @@ C----      X(J)        P(I)
           KP=NINT((1D3*XCOU(I)-1D3*KL))
           SGN = KL/ABS(KL)
           ISGN = NINT(SGN)
-          WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,
+          IF(IUNIT.GT.0) WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,
      >            A(IR(I),IS(I)),XI(I),SGN*X(I),X(J),P(I)
         ENDIF
  1    CONTINUE
-      CALL FLUSH2(IUNIT,.FALSE.)
+      IF(IUNIT.GT.0) CALL FLUSH2(IUNIT,.FALSE.)
       RETURN
       END

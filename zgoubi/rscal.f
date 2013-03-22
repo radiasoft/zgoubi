@@ -31,7 +31,8 @@ C     ----------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
@@ -59,6 +60,9 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA MODSCL / MXF*0  /
       DATA FAC / 1.D0  /
 
+      if(mxta.lt.mxf) 
+     >call endjob('SBR RSCAL. Change MXTA to same value as MXF',-99)
+
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1
       READ(NDAT,*) A(NOEL,NP),NFAM 
@@ -66,12 +70,12 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       A(NOEL,NP) = NFAM
 
       IF(NFAM .GT. MXF) 
-     >  CALL ENDJOB('SBR RSCAL - Too many families, maximum allowed is '
-     >  ,MXF)
+     >CALL ENDJOB('SBR RSCAL - Too many families. Max allowed is ',MXF)
 
       DO 1 IFM=1,NFAM
 
-        IF(NP .GT. MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+        IF(NP .GT. MXD-2) 
+     >  CALL ENDJOB('SBR RSCAL - Too many data. Max allowed is ',MXD-2)
 
 C------- Store name of family and label(s)
         READ(NDAT,FMT='(A)')  TXT132
@@ -86,8 +90,8 @@ C Remove possible comment trailer
      >                          NSTR,STRA)
 
         IF(NSTR .GT. MSTR) 
-     >     CALL ENDJOB('SBR RSCAL - Too many labels per family, max is '
-     >     ,MLF)
+     >  CALL ENDJOB
+     >  ('SBR RSCAL - Too many labels in family. Max allowed is ',MLF)
 
         IF(KSIZ .GT. LBLSIZ) STOP ' Pgm rscal, ERR : KSIZ > LBLSIZ.' 
         FAM(IFM) = STRA(1)(1:KSIZ)
@@ -129,7 +133,7 @@ C Possible additional scaling factor :
  45       CONTINUE
 
           IF(NTIM(IFM) .GT. MXS-2) 
-     >       CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+     >       CALL ENDJOB('SBR RSCAL - Too many timings. Max is ',MXS-2)
         ELSE
 
           CALL RAZS(STRAD,MSTRD)
@@ -138,12 +142,12 @@ C Possible additional scaling factor :
 
           IF(KSTR.GE.1) READ(STRAD(1),*) NTIM(IFM)
           IF(NTIM(IFM) .GT. MXD-2) 
-     >        CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXD-2)
+     >        CALL ENDJOB('SBR RSCAL - Too many timings. Max is ',MXD-2)
 
           IF(KSTR.GE.2) THEN
             READ(STRAD(2),*) NPA
             IF(NPA.GT.MPA) CALL 
-     >         ENDJOB('SBR RSCAL - Too many parameterss, max is ',MPA)
+     >         ENDJOB('SBR RSCAL - Too many parameterss. Max is ',MPA)
           ELSE
             NPA = 0
           ENDIF
@@ -159,6 +163,9 @@ C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
             IF(NP.GT.MXD) CALL ENDJOB('SBR rscal. NP >',MXD)
             A(NOEL,NP) = VPA(IFM,J)
 
+c            write(*,*) ' rscal jpa, vpa ', IFM,J,JPA(IFM,J),VPA(IFM,J)
+c            write(*,*) 'rscal noel, np, A ',noelll, nppp, A(NOELll,NPpp)
+c                    read(*,*)
           ENDDO
 
         ENDIF        
@@ -229,17 +236,12 @@ C--------- TIM(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
-c           write(*,*) 
-c     >      'rscal ',IFM, ndtim, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDTIM)
                 
           NP = NP + NDTIM - 1 
 
           NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           A(NOEL,NP) = NSTR
-c           write(*,*) 
-c     >      'rscal nstr ',nstr
-c                   read(*,*)
 
         ELSEIF( MODSCL(IFM) .GE. 10) then             
 C--------- Name of the storage file in the next line
@@ -310,8 +312,8 @@ c            A(NOEL,NP) = NSTR
 
         ELSE
 
-          CALL ENDJOB('SBR RSCAL: No such option MODSCL = '
-     >    ,MODSCL(IFM))
+          CALL ENDJOB
+     >    ('SBR RSCAL: No such option MODSCL = ',MODSCL(IFM))
 
         ENDIF
 
@@ -319,6 +321,10 @@ c            A(NOEL,NP) = NSTR
  
       CLOSE(lun)
       CALL SCALI6(MODSCL)
+
+c      write(*,*) ' rscal 2   A(4,3), a(4,4), a(4,5) ', 
+c     > A(4,3), a(4,4), a(4,5)
+c                    read(*,*)
 
       RETURN
 

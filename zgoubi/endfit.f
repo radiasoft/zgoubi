@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -29,7 +29,11 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT0=0)
-      IF(NRES .LT. 0) NRES = -NRES
+      call optio1(
+     >            kwroff)
+      if(kwroff .ne. 1) then
+        IF(NRES .LT. 0) NRES = -NRES
+      endif
       CALL INTEG8(INT0)
       RETURN
       END

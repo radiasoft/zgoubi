@@ -116,7 +116,7 @@ C Stop test
 
          IF(NI.LE.NITER) GOTO 1
 C         WRITE(ABS(NRES),*) 
-         WRITE(*,*) 
+         WRITE(6,*) 
      >     ' SBR mino1 : Out of mino1 upon NITER = ',NI
 
       ENDIF

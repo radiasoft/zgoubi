@@ -1217,4 +1217,7 @@ C----- SYNRAD.
 C----- OPTION.
  113  CONTINUE
       GOTO 341
+C----- EPLATES.
+ 114  CONTINUE
+      GOTO 341
       END

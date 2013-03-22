@@ -52,7 +52,7 @@ C     -----------------------------------------
 
       SAVE CL, CL9
 
-          logical fiting
+c          logical fiting
  
 C-------------------------------------------------------------
 C     CALCUL D'ADRESSE : ADRESSE(I,J) = I + (J-1)*IMAX

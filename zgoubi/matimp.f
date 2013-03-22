@@ -85,6 +85,8 @@ C This will stack results from stacked jobs, or will stack with earlier results
         ELSE
           GOTO 95
         ENDIF
+        WRITE(LNWRT,*) ' '
+        WRITE(LNWRT,*) 'Last merged : '
         WRITE(LNWRT,FMT='(1P,16(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4)
         CLOSE(LNWRT)
         KWRMAT = .FALSE.

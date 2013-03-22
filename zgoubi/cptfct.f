@@ -42,7 +42,7 @@ C  -------
       ENTRY CPTWRT(
      >             N)
       N=ICPTF
-      WRITE(6,1000) ICPTF, ICPTMA
+      IF(NRES.GT.0) WRITE(6,1000) ICPTF, ICPTMA
 C1000  FORMAT(/,1X,I10,' APPELS A LA FONCTION')
 1000  FORMAT(/,1X,'  Function  called  ',I10,' times'
      >,' / ',I10,' max.')

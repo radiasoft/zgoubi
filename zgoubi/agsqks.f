@@ -38,7 +38,7 @@ C  -------
 
       CHARACTER(LBLSIZ) LBL1
       INTEGER INIL
-      INTEGER DEBSTR, FINSTR
+      INTEGER DEBSTR
 
 C  In xags.madx :
       PARAMETER (PQH= 1.D0)
@@ -192,8 +192,8 @@ c                   read(*,*)
       
         ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QH_E17') THEN
           E17_QUAD_I = A2      
-          XQH_E17 = ABS(XQH - E17_QUAD_I + 0.D0 * XSB_CEIK17) 
-          PQH_E17 =(XQH - E17_QUAD_I + 0.D0 * XSB_CEIK17) /(XQH_E17+EPS) 
+          XQH_E17 = ABS(XQH - E17_QUAD_I + 0.D0 * XSB_CEIK17)
+          PQH_E17 =(XQH - E17_QUAD_I + 0.D0 * XSB_CEIK17) /(XQH_E17+EPS)
           BQH_E17 =   Q6*XQH_E17**6 + Q5*XQH_E17**5 + Q4*XQH_E17**4 
      >            + Q3*XQH_E17**3 
      >            + Q2*XQH_E17**2 + Q1*XQH_E17**1 + Q0*XQH_E17**0 
@@ -400,7 +400,7 @@ c                   read(*,*)
       
         ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QV_L03') THEN
           XQV_L03 = ABS(XQV        - 0.D0 * XSB_FHLB03)    
-          PQV_L03 =    (XQV        - 0.D0 * XSB_FHLB03) / (XQV_L03+EPS)    
+          PQV_L03 =    (XQV        - 0.D0 * XSB_FHLB03) / (XQV_L03+EPS)
           BQV_L03 =   Q6*XQV_L03**6 + Q5*XQV_L03**5 + Q4*XQV_L03**4 
      >            + Q3*XQV_L03**3 
      >            + Q2*XQV_L03**2 + Q1*XQV_L03**1 + Q0*XQV_L03**0 

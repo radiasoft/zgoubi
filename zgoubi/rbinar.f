@@ -31,11 +31,8 @@ C     *********************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      PARAMETER (MXTA=40)
+      PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-
-      CHARACTER*132 TXT132
-      CHARACTER(80) STRA(2)
 
       DATA MXFIL / 9 /
 

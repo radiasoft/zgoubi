@@ -24,7 +24,11 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE OPTICC(LNOPTI,NOEL,KOPTIP)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION R(6,6),F0(6,6)
+      DIMENSION R(6,6), F0(6,6), AKL(3)
+
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
+
 
       IORD = 1
       IFOC = 0
@@ -36,9 +40,33 @@ C  -------
       CALL BEAMAT(R, 
      >              F0,PHY,PHZ)
       CALL BEAIMP(F0,PHY,PHZ)
+      
+      CALL ZGKLEY(KLE)
+      IF(KLE.EQ.'AGSMM') THEN
+         CALL AGSMKL(
+     >        AL, AK1, AK2, AK3)
+         AKL(1) = AK1 * AL *1.D-2
+         AKL(2) = AK2 * AL *1.D-2
+         AKL(3) = AK3 * AL *1.D-2
+      ELSEIF(KLE.EQ.'AGSQUAD') THEN
+         CALL AGSQKL(
+     >        AL, AK1)
+         AKL(1) = 0.D0
+         AKL(2) = AK1 * AL *1.D-1
+      ELSEIF(KLE.EQ.'MULTIPOL') THEN
+         CALL MULTKL(
+     >        AL, AK1, AK2, AK3)
+         AKL(1) = AK1 * AL *1.D-2
+         AKL(2) = AK2 * AL *1.D-2
+         AKL(3) = AK3 * AL *1.D-2
+      ELSE
+         AKL = 0.D0
+      ENDIF
 
 c Store in zgoubi.OPTICS.out
-      IF(KOPTIP.EQ.1) CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ)
+      IF(KOPTIP.EQ.1) CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL)
+      
+
 
       RETURN
       END

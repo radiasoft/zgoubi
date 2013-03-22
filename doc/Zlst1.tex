@@ -8003,7 +8003,8 @@ In this last case the position of
 the focus is calculated automatically in the same way as the position of the 
 waist in \textsl{IMAGE}. Depending on option \textsl{IFOC},  \textsl{MATRIX} also
 delivers the beam matrix and betatron phase advances or (case of a periodic structure) periodic beam matrix and tunes, 
-chromaticities\index{chromaticity|textbf}  and other global parameters. 
+chromaticities\index{chromaticity@{chromaticity}|textbf}  and other global parameters. 
+
 
 
 \medskip
@@ -8114,7 +8115,7 @@ such as  optical functions and tune numbers, assuming that it is \textsl{NPeriod
 and  in the coupled hypothesis, based on the Edwards-Teng method~\cite{Coupling}. \index{coupling|textbf}
 
 If  \textsl{IORD} = 2 additional 
-periodic parameters are computed such as chromaticities\index{chromaticity}, beta-function momentum dependence, 
+periodic parameters are computed such as chromaticities, \index{chromaticity@{chromaticity}} beta-function momentum dependence, 
  etc. 
 
 
@@ -8135,15 +8136,17 @@ into   zgoubi.MATRIX.out file (convenient for use with \emph{e.g.} gnuplot type 
 \subsubsection*{PICKUPS~: \PICKUPSTitl}\label{PICKUPS} \index{PICKUPS|textbf}
 \medskip
 
-\noindent \textsl{PICKUPS} computes the beam centroid location, from average value of particle 
-coordinates as observed at \LABEL'ed\index{LABEL@{\LABEL}} keywords.
+\noindent \textsl{PICKUPS} computes the coordinates of the beam centroid, 
+at one or more \LABEL'ed\index{LABEL@{\LABEL}} keyword(s). 
+ These coordinates are the average values of the coordinates of the  particles in a bunch. 
+That (list of) \LABEL(s) is specified by the user, as part of the arguments under the keyword  \textsl{PICKUPS}.
 
 \medskip
-\noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE}, this procedure computes by the same method the closed orbit in 
-the periodic structure.      \index{closed orbit} 
+\noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE} in the case of a periodic structure, 
+  \textsl{PICKUPS} thus effectively delivers the closed orbit coordinates.       \index{closed orbit} 
 
 \medskip
-\noindent The \LABEL\ list of concern follows the keyword  \textsl{PICKUPS}.
+
 
 
 

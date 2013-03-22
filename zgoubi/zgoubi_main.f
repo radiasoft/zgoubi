@@ -29,18 +29,34 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER * 9   DMY,HMS
       LOGICAL IDLUNI, READAT, FITING, ENDFIT
-      CHARACTER*10 FNAME
+      CHARACTER(80) FNAME
+      CHARACTER(80) FILEROOT
+      integer ierri, filerootlength
 
       PARAMETER (I5=5, I6=6)
 
       PARAMETER (KSIZ=10)
       CHARACTER*(KSIZ) KLE
+      integer debstr, finstr
 
       DATA ENDFIT / .FALSE. /
 
+      CALL GET_COMMAND_ARGUMENT(1, FILEROOT, filerootlength, ierr)
+      if(ierr .gt. 0) Then
+        FILEROOT = "zgoubi"
+        filerootlength=6
+      endif
+      
+      if(filerootlength.gt.4) then
+        if(FILEROOT(filerootlength-3:filerootlength) .eq. '.dat') then
+          FILEROOT = FILEROOT(1:filerootlength-4)
+          filerootlength = filerootlength -4 
+        endif
+      endif
+      CALL INIDAT
       IF(IDLUNI(
      >          NDAT)) THEN
-        FNAME = 'zgoubi.dat'
+        FNAME = FILEROOT(1:filerootlength)//'.dat'
         OPEN(UNIT=NDAT,FILE=FNAME,STATUS='OLD',ERR=996)
 c          write(*,*) ' zgoubi.dat is unit # ',ndat
       ELSE
@@ -49,7 +65,7 @@ c          write(*,*) ' zgoubi.dat is unit # ',ndat
 
       IF(IDLUNI(
      >          NRES)) THEN
-        FNAME = 'zgoubi.res'
+        FNAME = FILEROOT(1:filerootlength)//'.res'
         OPEN(UNIT=NRES,FILE=FNAME,ERR=997)
 c          write(*,*) ' zgoubi.res is unit # ',nres
       ELSE
@@ -58,7 +74,7 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
 
       IF(IDLUNI(
      >          NLOG)) THEN
-        FNAME = 'zgoubi.log'
+        FNAME = FILEROOT(1:filerootlength)//'.log'
         OPEN(UNIT=NLOG,FILE=FNAME,ERR=995)
       ELSE
         GOTO 995
@@ -74,16 +90,12 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
 
  1    CONTINUE
 
-      READAT = .TRUE.
-
- 11   continue
-      FITING = .FALSE.
       CALL INIDAT
       CALL RESET
       CALL CHECKS
 
-c      READAT = .TRUE.
-c      FITING = .FALSE.
+      READAT = .TRUE.
+      FITING = .FALSE.
       CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
@@ -140,11 +152,9 @@ c        ENDIF
 c 462    CONTINUE
 
 C For use of REBELOTE (REBELOTE encompasses FIT)
-c         write(*,*) ' zgoubi_main ',endfit
-c             read(*,*)
         IF(.NOT. ENDFIT) THEN
           REWIND(NDAT)
-          GOTO 11 
+          GOTO 1 
         ENDIF
       ENDIF
 
@@ -189,3 +199,4 @@ c             read(*,*)
 
       STOP
       END
+

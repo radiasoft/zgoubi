@@ -26,7 +26,7 @@ C  -------
 
       IMPLICIT NONE
 
-      INTEGER N, iii
+      INTEGER N
       DOUBLE PRECISION X(*),P(*),V(*),XI(*),F0,FINI
       INTEGER I
       DOUBLE PRECISION NMFINI,T

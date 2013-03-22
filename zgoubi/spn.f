@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE SPN(*)
+      SUBROUTINE SPN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -42,8 +42,12 @@ C  -------
 
       SAVE SXM,SYM,SZM
  
+      LOGICAL ONCE
+      SAVE ONCE
+  
       DATA KAX / 'X' , 'Y' , 'Z' /
- 
+      DATA ONCE / .FALSE. /
+
       CALL REBELR(KREB3,KREB31)
       IF(KREB3 .EQ. 99) THEN
 C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
@@ -56,13 +60,23 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
 
+      ONCE = KSO .GE. 1  .OR. ONCE 
+
       IF(NRES.GT.0) THEN 
         IF    (KSO .EQ. 0) THEN
           WRITE(NRES,107)
- 107      FORMAT(/,15X,' KSO=0 :  SPIN  TRACKING  OFF ',/)
+ 107      FORMAT(/,15X,' KSO=0 :  Spin  tracking  off. ',/)
         ELSEIF(KSO .EQ. -1) THEN
-          WRITE(NRES,FMT=
-     >    '(/,15X,''  KSO=-1 :  SPIN  TRACKING  RESUMES '',/)')
+          IF(ONCE) THEN
+            WRITE(NRES,FMT=
+     >     '(/,15X,''  KSO=-1 :  Spin  tracking  resumes. '',/)')
+          ELSE
+            WRITE(NRES,FMT=
+     >     '(/,15X,''  KSO=-1  is inoperant in this context.'',
+     >     '' It needs be preceded at least once by'',/,15X,
+     >     '' KSO .ge. 1. That is necessary for launching the spin '',
+     >     '' tracking machinery. '',/)')
+          ENDIF
         ELSE
           WRITE(NRES,110) AM, G
  110      FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
@@ -103,17 +117,22 @@ C          P = BORO*CL*1D-9*Q
         ENDIF
       ENDIF
  
-      IF(AM .EQ. 0.D0) THEN
-        WRITE(NRES,106)
- 106    FORMAT(//,15X,' SVP  INDIQUER  LA  MASSE  DES  PROJECTILES !'
-     >         ,/,15X,' - UTILISER  LE  MOT-CLE  ''PARTICUL''',/)
-        RETURN 1
-      ENDIF
- 
-      IF    (KSO.NE.0) THEN
-        KSPN = 1
-      ELSE
+      IF    (KSO.EQ.-1) THEN
+        IF(ONCE) THEN
+          KSPN = 1
+        ELSE
+          KSPN = 0
+        ENDIF
+      ELSEIF(KSO.EQ.0) THEN
         KSPN = 0
+      ELSEIF(KSO.GE.1) THEN
+        IF(AM .EQ. 0.D0) THEN
+          IF(NRES.GT.0) WRITE(NRES,106)
+ 106      FORMAT(//,15X,' SVP  INDIQUER  LA  MASSE  DES  PROJECTILES !'
+     >         ,/,15X,' - UTILISER  LE  MOT-CLE  ''PARTICUL''',/)
+          CALL ENDJOB('SBR SPN. Need to provide particle mass.',-99)
+        ENDIF 
+        KSPN = 1
       ENDIF
 
       GOTO(1,1,1,4,5) KSO

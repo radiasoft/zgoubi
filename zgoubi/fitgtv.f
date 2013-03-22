@@ -87,7 +87,7 @@ C  -------
       IF(IDLUNI(
      >    LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,status='OLD',ERR=99)
 
-      WRITE(NRES,101) NAMFIC
+      IF(NRES.GT.0) WRITE(NRES,101) NAMFIC
  101  FORMAT(/,10X,' Ok, opened storage file ',A,/)
 
       OK = GTTEXT(NRES,LUN,'STATUS OF VARIABLES'
@@ -102,7 +102,7 @@ C  -------
      >                                           IS)) GOTO 10
         TXT1 = TXT200(DEBSTR(TXT200):DEBSTR(TXT200))
         IF(TXT1 .EQ. '%' .OR. TXT1 .EQ. '#' .OR. TXT1 .EQ. '!') THEN
-          WRITE(NRES,FMT='(A)')  TXT200(DEBSTR(TXT200):132)
+          IF(NRES.GT.0) WRITE(NRES,FMT='(A)') TXT200(DEBSTR(TXT200):132)
           GOTO 1
         ENDIF
         READ(TXT200,*,end=10,err=1) 
@@ -154,15 +154,17 @@ C To be completed
       RETURN 
 
  98   CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,FMT='(20X,''GETFITVAL :  sorry, could not
-     > find string ''''STATUS OF VARIABLES'''' in file '',A)') 
-     >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-      IF(NRES.GT.0) WRITE(NRES,FMT='(20X,''Thus, no initialization of 
-     >variables performed,  going on without that...'')') 
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(20X,''GETFITVAL :  sorry, could not'',
+     >  '' find string ''''STATUS OF VARIABLES'''' in file '',A)') 
+     >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+        WRITE(NRES,FMT='(20X,''Thus, no initialization of'',
+     >  '' variables performed,  going on without that...'')') 
+      ENDIF
       RETURN 
 
  99   CONTINUE
-      WRITE(NRES,FMT='(3A)') ' Could not open '
+      IF(NRES.GT.0) WRITE(NRES,FMT='(3A)') ' Could not open '
      >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
      >  ,', give ''none'' as name so to allow proceeding.  '
       CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)

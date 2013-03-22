@@ -52,14 +52,19 @@ C------        Beam_ref    +dp/p     -dp/p
       LOGICAL PRDIC
 
       DIMENSION RO(6,6)
-      character(140) BUFFER
-      integer DEBSTR, finstr
+      CHARACTER(140) BUFFER
+      INTEGER DEBSTR, FINSTR
+      LOGICAL IDLUNI, OK
+
+      character(300) cmmnd
+
       DATA KWRMAT / .FALSE. /
 
-      IF(NRES.LE.0) RETURN
+C      IF(NRES.LE.0) RETURN
 
       IF(.NOT. (KOBJ.EQ.5 .OR. KOBJ.EQ.6)) THEN
-        WRITE(NRES,FMT='('' Matrix  cannot  be  computed :  need "OBJET" 
+        IF(NRES.GT.0)
+     >  WRITE(NRES,FMT='('' Matrix  cannot  be  computed :  need "OBJET" 
      >  with  KOBJ=5 or 6'')')
         RETURN
       ENDIF
@@ -67,8 +72,10 @@ C------        Beam_ref    +dp/p     -dp/p
 C      IORD = A(NOEL,1)
       IORD = JORD
       IF(IORD .EQ. 0) THEN
-        WRITE(NRES,FMT='(/,9X,'' Matrix  not  computed : IORD = 0'',/)')
-        CALL IMPTRA(1,IMAX,NRES)
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,FMT='(/,9X,'' Matrix not computed : IORD = 0'',/)')
+          CALL IMPTRA(1,IMAX,NRES)
+        ENDIF
         RETURN
       ENDIF
       IF(KOBJ .EQ. 5) THEN
@@ -152,44 +159,57 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
       ENDIF
 
 c---------------------------------------------------------------------------------
-c                 Exportation of the matrix coefficients (Fred)
+c            Exportation of the matrix coefficients (coupled formalism, Fred)
 c---------------------------------------------------------------------------------
        return
-C      if(.not. prdic) return
+      IF(.NOT. PRDIC) RETURN
 
-c----------------------------------------------
-c Exportation of the matrix coefficients (Fred)
-c----------------------------------------------
-c      CALL SYSTEM('cp transfertM.dat transfertM_save.dat')
-c      OPEN(11,FILE='transfertM_save.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
-      OPEN(12,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
+c      OK = IDLUNI(
+c     >            LUNR)
+c      IF(.NOT. OK) CALL ENDJOB(
+c     >'SBR MATRIC. Problem open idle unit for READ. ',-99)
+cC Just to spare former computation results
+c      cmmnd = 'cp transfertM.dat transfertM_save.dat'
+c      write(6,*) ' Pgm matric. Now doing ' 
+c     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
+c      CALL SYSTEM(cmmnd)
+c      OPEN(lunR,FILE='transfertM_save.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
+      OK = IDLUNI(
+     >            LUNW)
+      IF(.NOT. OK) CALL ENDJOB(
+     >'SBR MATRIC. Problem open idle unit for WRITE. ',-99)
+      OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
 c----------------------------------------------
 
- 3    CONTINUE
-           
-c     Reading of 1turnM.dat
-      READ(11,FMT='(a)',END=99,ERR=98) BUFFER
-c     Writing of the new transfertM.dat
-      WRITE(12,FMT='(a)') BUFFER(DEBSTR(BUFFER):FINSTR(BUFFER))
-      GOTO 3
- 98   CONTINUE
-     
-      WRITE(6,FMT='(//,''ERROR while reading transfertm.dat'',/,/)')
- 99   CONTINUE
+c 3    CONTINUE           
+c        Reading the 1-turnM.dat
+c        READ(lunR,FMT='(a)',END=39,ERR=38) BUFFER
+c        Writing the new transfertM.dat
+c        WRITE(lunW,FMT='(a)') BUFFER(DEBSTR(BUFFER):FINSTR(BUFFER))
+c      GOTO 3
 
-      WRITE(12,FMT='(//)')
-      WRITE(12,FMT='(''TRANSFERT MATRIX:'')')
+c 38   CONTINUE     
+c      WRITE(6,FMT='(//,''SBR matric. 
+c     >             ERROR while reading transfertm.dat.'',/,/)')
+c 39   CONTINUE
+
+      WRITE(lunW,FMT='(//)')
+      WRITE(lunW,FMT='(
+     >''TRANSPORT MATRIX (written by Zgoubi, for use by ETparam ):'')')
       DO I=1,4
-         WRITE(12,FMT='(4(F15.8,1X))') (R(I,J),J=1,4)
+         WRITE(lunW,FMT='(4(F15.8,1X))') (R(I,J),J=1,4)
       ENDDO
 
-      CLOSE(11,IOSTAT=IOS1)
-      CLOSE(12,IOSTAT=IOS2)
+      CLOSE(lunR,IOSTAT=IOS1)
+      CLOSE(lunW,IOSTAT=IOS2)
 c----------------------------------------------
 
-c      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
+C      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
+      cmmnd = '~/zgoubi/current/coupling/ETparam'
+      write(6,*) ' Pgm matric. Now doing ' 
+     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
+      CALL SYSTEM(cmmnd)
 
-        call tunesc
       RETURN
 
       ENTRY MATRI1(

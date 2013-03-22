@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSQUA(LMNT,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -40,7 +40,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -59,57 +60,60 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       PARAMETER (I2 = 2, I3 = 3)
 
       DATA MIXFF / .FALSE.  /
+      SAVE SXL, QuadK1
 
       CALL SCALE9(
-     >     KFM )
-      DO I= 1 , JPA(KFM,MXP)
-         A(NOEL,JPA(KFM,I)) = VPA(KFM,I)
-      ENDDO
-
+     >            KFM )
+      IF(KFM .GT. 0) THEN
+        DO I= 1 , JPA(KFM,MXP)
+           A(NOEL,JPA(KFM,I)) = VPA(KFM,I)
+        ENDDO
+      ENDIF
       CALL RAZ(BM,MPOL)
       
-        XL =A(NOEL,10)
-        RO =A(NOEL,11)
-        GAP = RO/I2
-        DO I=1, 3
-           CUR(I) = A(NOEL,11+I)
-           DCUR(I) = A(NOEL,14+I)
-C           write(*,fmt='(5ES15.5)') CUR(I), DCUR(I)
-           CUR(I) = CUR(I)*(DCUR(I)+1.d0)
-        ENDDO
-C------- Roll angle.  To be implemented
-        RT(I2) =A(NOEL,60)
-        SKEW = RT(I2) .NE. 0.D0
-        RT(I2)=ZERO
-        CALL AGSQKS(NOEL,CUR(1),CUR(2),CUR(3),XL*CM2M,
-     >                                                BBM)
-        BM(I2) = BBM * SCAL
+      XL =A(NOEL,10)
+      RO =A(NOEL,11)
+      GAP = RO/I2
+      DO I=1, 3
+         CUR(I) = A(NOEL,11+I)
+         DCUR(I) = A(NOEL,14+I)
+C         write(*,fmt='(5ES15.5)') CUR(I), DCUR(I)
+         CUR(I) = CUR(I)*(DCUR(I)+1.d0)
+      ENDDO
+C----- Roll angle.  To be implemented
+      RT(I2) =A(NOEL,60)
+      SKEW = RT(I2) .NE. 0.D0
+      RT(I2)=ZERO
+      CALL AGSQKS(NOEL,CUR(1),CUR(2),CUR(3),XL*CM2M,
+     >                                              BBM)
+      BM(I2) = BBM * SCAL
+      if(BM(I2) .eq. 0.d0) BM(I2) = 1.d-20  ! does not work if 0... to be fixed
 
-        XE =A(NOEL,20)
-        DLE(I2) =A(NOEL,21)
+      XE =A(NOEL,20)
+      DLE(I2) =A(NOEL,21)
 
-        CALL RAZ(CE,MCOEF)
-        NCE = NINT(A(NOEL,30))
-        DO I=1, NCE
-          CE(I) =A(NOEL,30+I)
-        ENDDO
+      CALL RAZ(CE,MCOEF)
+      NCE = NINT(A(NOEL,30))
+      DO I=1, NCE
+        CE(I) =A(NOEL,30+I)
+      ENDDO
 
-        XLS =A(NOEL,40)
-        DLS(I2) =A(NOEL,41)
+      XLS =A(NOEL,40)
+      DLS(I2) =A(NOEL,41)
 
-C        IF(XE+XLS.GE.XL) 
+C      IF(XE+XLS.GE.XL) 
 C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
 
-        CALL RAZ(CS,MCOEF)
-        NCS = NINT(A(NOEL,50))
-        DO I=1,NCS
-          CS(I) =A(NOEL,50+I)
-        ENDDO
+      CALL RAZ(CS,MCOEF)
+      NCS = NINT(A(NOEL,50))
+      DO I=1,NCS
+        CS(I) =A(NOEL,50+I)
+      ENDDO
  
-        DLE(I2)  = DLE(I2)*DLE(I2)
-        DLS(I2)  = DLS(I2)*DLS(I2)
+      DLE(I2)  = DLE(I2)*DLE(I2)
+      DLS(I2)  = DLS(I2)*DLS(I2)
  
-C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
+      QUADK1 = BM(I2)/RO/(BORO*DPREF)*1.D4
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(I2),XL,RO
@@ -117,10 +121,17 @@ C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
      >  ,//,15X,' Length  of  element  = ',G16.8,'  cm'
      >  , /,15X,' Bore  radius      RO = ',G13.5,'  cm')
         WRITE(NRES,103) BM(I2)
- 103    FORMAT(15X,' Field at pole tip  =',1P,G15.7,' kG')
-        WRITE(NRES,FMT='(15X,3(A,1P,E13.5))') 
-     >   ' Wind 1, I=',cur(1),' ;   Wind 2, I=',cur(2)
-     >   ,' ;  Wind 3, I=',cur(3)
+ 103    FORMAT(15X,' Field at pole tip  = ',1P,G15.7,' kG')
+        WRITE(NRES,FMT='(15X,'' Strength  = '',1P,G15.7
+     >  ,''    (dp_ref = '',G15.7'')'')') QUADK1,DPREF 
+        WRITE(NRES,FMT=
+     >  '(15X,A,/,15X,3(A,1P,E13.5),/,15X,A,/,15X,3(A,1P,E13.5))') 
+     >    ' Winding currents (Ampere) : '
+     >   ,'    wind. 1 : ',cur(1),' ;  wind. 2 : ',cur(2)
+     >   ,' ;  wind. 3 : ',cur(3)
+     >   ,'    delta-currents  (relative) : '
+     >   ,'       on wind. 1 : ',dcur(1),' ;  on wind 2 : ',dcur(2)
+     >   ,' ;  on wind 3 : ',dcur(3)
         IF(SKEW) WRITE(NRES,101) RT(I2)
  101    FORMAT(15X,' Skew  angle =',1P,G15.7,' rd')
         IF(XL .NE. 0.D0) THEN
@@ -324,4 +335,11 @@ C      ENDIF
       ENDIF
 
  98   RETURN
+
+      ENTRY AGSQKL(
+     >             AL, AK1)
+      AL  = SXL
+      AK1 = QUADK1
+      RETURN
+
       END

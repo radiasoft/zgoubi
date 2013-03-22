@@ -41,7 +41,8 @@ C-------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       LOGICAL ZSYM
@@ -139,13 +140,15 @@ C dB1, dB2, dB3
           AA(26) = 0.D0
           CALL SCALE9(
      >                KFM)
-          DO I = 1, JPA(KFM,MXP)
+          IF(KFM .GT. 0) THEN
+            DO I = 1, JPA(KFM,MXP)
 C Apply scaling to all parameters concerned
 c            write(*,*) ' toscac ', 
 c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
 c                read(*,*)
-            AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
-          ENDDO
+              AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
+            ENDDO
+          ENDIF
           DBDX(1) = AA(24)
           DBDX(2) = AA(25)
           DBDX(3) = AA(26)
@@ -180,6 +183,7 @@ C          Each one of these files should contain the all 3D volume.
         ENDIF
 
         NFIC=0
+C        NEWF = .TRUE.
         DO 129 I=I1, I2
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
@@ -192,7 +196,8 @@ C          Each one of these files should contain the all 3D volume.
           IFAC = 24
           IFIC = 1
 C          DO WHILE (NEWFIC .EQ. FALSE)
-          DO WHILE (IFIC.LE.I2 .AND. (.NOT. NEWFIC))
+C          DO WHILE (IFIC.LE.I2 .AND. NEWFIC .EQ. FALSE)
+          DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
             IF(IFAC .GT. 29) 
      >      CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
             NEWFIC = NEWFIC .OR. AA(IFIC).NE.A(NOEL,IFAC)

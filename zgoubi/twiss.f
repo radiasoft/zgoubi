@@ -27,6 +27,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
@@ -34,8 +35,13 @@ C  -------
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       
       DIMENSION T(6,6,6)
       SAVE      T
@@ -63,6 +69,8 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
   
       PARAMETER (KSIZ=10)
       CHARACTER*(KSIZ)  KLOBJ
+      LOGICAL IDLUNI
+      INTEGER DEBSTR, FINSTR
 
       DATA KWRI6 / 1 /
 
@@ -376,10 +384,10 @@ C----- reactivate READ in zgoubi.dat
         WRITE(6,101) IPASS
         WRITE(NRES,101) IPASS
  101    FORMAT(/,T25,
-     >  ' *********************************************************',/
+     >   ' *********************************************************',/
      >  ,T25
-     >  ' **************  End  of  TWISS  procedure  **************',//
-     >   ,5X,' There  has  been ',I10,
+     >  ,' **************  End  of  TWISS  procedure  **************',//
+     >  ,5X,' There  has  been ',I10,
      >        '  pass  through  the  optical  structure ',/)
 
         WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
@@ -417,6 +425,83 @@ C----- reactivate READ in zgoubi.dat
 
         ENDIF
       ENDIF
+
+      IF(LABEL(NOEL,1)(DEBSTR(LABEL(NOEL,1)):FINSTR(LABEL(NOEL,1))) .EQ. 
+     >                                    'PRINT') THEN
+          IF(IDLUNI(
+     >              LUN)) THEN
+            OPEN(UNIT=LUN,FILE='zgoubi.TWISS.Out',ERR=96)
+          ELSE
+            GOTO 96
+          ENDIF
+
+C--------- P0, AM  are  in  MEV/c, /c^2
+          PREF = BORO*CL9*Q*DPREF
+          if(am.le.1d-8) am = AMPROT
+          Energy = sqrt(PREF*PREF + AM*AM)
+          write(LUN,50)'@ NAME             %05s "TWISS"'
+          write(LUN,50)'@ TYPE             %05s "TWISS"'
+          write(LUN,50)'@ SEQUENCE         %04s "RING"'
+          write(LUN,50)'@ PARTICLE         %00s ""'
+          write(LUN,51)'@ MASS             %le', am/1.d3
+          write(LUN,52)'@ CHARGE           %le', int(q)
+          write(LUN,51)'@ ENERGY           %le', Energy/1.d3
+          write(LUN,53)'@ PC               %le', PREF/1.D3,' 
+     >                                             B.rho ',BORO/1.d3
+          write(LUN,51)'@ GAMMA            %le', Energy/am
+          write(LUN,50)'@ KBUNCH           %le                   1'
+          write(LUN,50)'@ BCURRENT         %le                   0'
+          write(LUN,50)'@ SIGE             %le                   0'
+          write(LUN,50)'@ SIGT             %le                   1'
+          write(LUN,50)'@ NPART            %le                   0'
+          write(LUN,50)'@ EX               %le                   1'
+          write(LUN,50)'@ EY               %le                   1'
+          write(LUN,50)'@ ET               %le                   1'
+          write(LUN,51)'@ LENGTH           %le', PathL(1)
+          write(LUN,51)'@ ALFA             %le', Alpha
+          write(LUN,50)'@ ORBIT5           %le                  -0'
+          write(LUN,51)'@ GAMMATR          %le', sqrt(1.d0/Alpha)
+          write(LUN,51)'@ Q1               %le', YNUREF + 8.d0
+          write(LUN,51)'@ Q2               %le', ZNUREF + 8.d0
+          write(LUN,51)'@ DQ1              %le', DNUYDP
+          write(LUN,51)'@ DQ2              %le', DNUZDP
+          write(LUN,51)'@ DXMAX            %le', 9999.
+          write(LUN,51)'@ DYMAX            %le', 9999.
+          write(LUN,50)'@ XCOMAX           %le                   0'
+          write(LUN,50)'@ YCOMAX           %le                   0'
+          write(LUN,51)'@ BETXMAX          %le', 9999.
+          write(LUN,51)'@ BETYMAX          %le', 9999.
+          write(LUN,50)'@ XCORMS           %le                   0'
+          write(LUN,50)'@ YCORMS           %le                   0'
+          write(LUN,51)'@ DXRMS            %le', 9999.
+          write(LUN,51)'@ DYRMS            %le', 9999.
+          write(LUN,50)'@ DELTAP           %le                   0'
+          write(LUN,50)'@ SYNCH_1          %le                   0'
+          write(LUN,50)'@ SYNCH_2          %le                   0'
+          write(LUN,50)'@ SYNCH_3          %le                   0'
+          write(LUN,50)'@ SYNCH_4          %le                   0'
+          write(LUN,50)'@ SYNCH_5          %le                   0'
+          write(LUN,50)'@ TITLE            %12s "Zgoubi model"'
+          write(LUN,50)'@ ORIGIN           %12s "Zgoubi model"'
+          write(LUN,50)'@ DATE             %08s "23/03/11"'
+          write(LUN,50)'@ TIME             %08s "17.28.23"'
+ 50       format(a)
+ 51       format(a,G18.10)
+ 53       format(2(a,G18.10,1x))
+ 52       format(a,i6)
+
+          CLOSE(LUN)
+      ENDIF 
+
+      goto 97
+
+ 96       CONTINUE
+          WRITE(ABS(NRES),FMT='(/,''SBR TWISS : '',
+     >               ''Error open file zgoubi.TWISS.Out'')')
+          WRITE(*        ,FMT='(/,''SBR TWISS : '',
+     >               ''Error open file zgoubi.TWISS.Out'')')
+
+ 97   continue
 
       IPASS = 1
 C      NRBLT = 0

@@ -40,7 +40,8 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER*80 TA
-      COMMON/DONT/ TA(MXL,40)
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -55,6 +56,7 @@ C  -------
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       COMMON/SYNRA/ KSYN
+
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
@@ -82,6 +84,9 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DATA WA / MBLW * 0.D0 /
       DATA WN / MBLW * 0.D0 /
 
+      SAVE AKS, SXL
+      
+
       SKEW=.FALSE.
       CALL RAZ(BM,NPOL)
          
@@ -108,13 +113,13 @@ C Bcklg winding currents
 
       CALL SCALE9(
      >            KFM)
-
-      DO I = 1, JPA(KFM,MXP)
+      IF(KFM .GT. 0) THEN
+        DO I = 1, JPA(KFM,MXP)
 C Apply scaling to all parameters concerned
-        IF(JPA(KFM,I) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
-        AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
-      ENDDO
-
+          IF(JPA(KFM,I) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
+          AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
+        ENDDO
+      ENDIF
 C This is a remedy to otherwise  
 C FIT2 in presence of AGSMM variables in SCALING
 C The problem is only on  my laptop. Not on Yann's nor CAD computers...
@@ -135,12 +140,11 @@ C------
       CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
 
-      AKS(1) = BM(1)/BORO
       DEV = ANGMM
       DO I = 1, I3
         DB(I) = AA(12+I)
-C        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
-        BM(I) = SCAL * (BORO*1.D-3) * BM(I) * (1.D0 + DB(I))
+c        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
+       BM(I) = SCAL * (BORO*1.D-3      ) * BM(I) * (1.D0 + DB(I))
       ENDDO
 
 C            write(*,*) ' agsmm scal ',scal
@@ -193,6 +197,11 @@ C-------
           DLE(IM)  = DLE(NM0)*DLE(IM)
           DLS(IM)  = DLS(NM0)*DLS(IM)
         ENDDO
+        
+        
+        AKS(1) = BM(1)/(BORO*DPREF)*1.d2
+        
+        SXL = XL
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) 'AGS Dipole',XL,DEV,DEV*DEG,RO
@@ -451,4 +460,13 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
       ENDIF
 
  98   RETURN
+      
+      ENTRY AGSMKL(
+     >             AL, AKL1, AKL2, AKL3)
+      AL  = SXL
+      AKL1 = AKS(1)
+      AKL2 = AKS(2)
+      AKL3 = AKS(3)
+      RETURN
+      
       END

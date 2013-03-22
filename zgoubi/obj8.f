@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE OBJ8(KREB31)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -55,7 +54,7 @@ C     -----------------------------------------
 
       DIMENSION NVRNT(NDIM) 
       LOGICAL STRCON
-      CHARACTER TXT80*80, STRA(2)*40
+      CHARACTER TXT80*80
 
 
 C----- IX, IY, IZ

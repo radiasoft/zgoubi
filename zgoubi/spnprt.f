@@ -48,7 +48,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DIMENSION SPMI(4,MXT), SPMA(4,MXT)
       PARAMETER (ICMXT=4*MXT)
 
-      DIMENSION AA(3),BB(3),XX(3)
+      DIMENSION AA(3),BB(3)  !,XX(3)
       DIMENSION PHI(MXT), PHIX(MXT)
       SAVE SXMF, SYMF, SZMF
 
@@ -123,7 +123,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
           WRITE(NRES,140) II,SX/II,SY/II,SZ/II,SM
      >    ,SXF/II,SYF/II,SZF/II,SMF
  140      FORMAT(//,25X,' Average  over  particles and pass, '
-     >    'at this pass ;  beam with  ',I3,'  particles :'
+     >    ,'at this pass ;  beam with  ',I3,'  particles :'
      >    ,//,T20,'FINAL'
      >    ,//,T12,'<SX>',T22,'<SY>',T32,'<SZ>'
      >    ,/,5X,4(1X,F10.4))
@@ -207,7 +207,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
           WRITE(LUN,fmt='(A)') 
      >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4)
      >    , (SF(J,I),J=1,4), gamma, G.gamma, PHI, 
-     >    , PHIX, ITRAJ, IPASS'
+     >    , PHIX, ITRAJ, IPASS, Yo, To, Zo, Po, So, Do'
         ENDIF
         DO I=IMAX1,IMAX2
           IF( IEX(I) .GE. -1 ) THEN
@@ -217,7 +217,9 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
      >      (F(J,I),J=2,6),F(1,I)
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,ipass,noel
- 111        FORMAT(1X,1p,6(1X,E14.6),1X,3A1,1X,I2,12(1X,e14.6),3(1X,I4))
+     >      ,(FO(J,I),J=2,6),FO(1,I)
+ 111        FORMAT(1X,1p,6(1X,E14.6),1X,3A1,1X,I2,12(1X,e14.6),3(1X,I4)
+     >      ,6(1X,E14.6))
           ENDIF
         ENDDO
 C        CLOSE(LUN)

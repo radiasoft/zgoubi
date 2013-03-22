@@ -380,6 +380,7 @@ C           End loop on DXI
           IF(KSPN .EQ. 1) THEN
 C----------- Spin tracking
             IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
+C            CALL SPNTRK(IT,PAF)
             CALL SPNTRK(PAF)
           ELSE         
             CALL EVENT(

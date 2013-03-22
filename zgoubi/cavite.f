@@ -216,7 +216,8 @@ C--- Case SR loss
         DPHI = DPHI - INT(DPHI/(2.D0*PI))*2.D0*PI-PI
 c        IF(DPHI .GT.  PI) DPHI =DPHI -2.D0*PI
 c        IF(DPHI .LT. -PI) DPHI =DPHI +2.D0*PI
-        PH(I)=DPHI-PHS
+C        PH(I)=DPHI-PHS
+        PH(I) = PHS
         WF = WF1(I) + QV*SIN(PH(I))
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
