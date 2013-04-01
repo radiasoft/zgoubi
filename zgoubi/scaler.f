@@ -64,6 +64,7 @@ C  -------
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
       SAVE SCL2, TIM2, NTIM2
 
+      dimension kfm(10), kfmo(10)
       SAVE KFM 
       INTEGER DEBSTR, FINSTR
 
@@ -79,8 +80,16 @@ C  -------
      >            KLEY)
 C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
-      KFM = -99
-      DO KF = 1, NFAM
+      do i = 1, 10
+        KFM(i) = -99
+      enddo
+
+      KF1 = 1
+      ifm = 0
+
+ 3    continue
+
+      DO KF = KF1, NFAM
 
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
@@ -111,7 +120,7 @@ c                    read(*,*)
 c                 endif
 
 
-C               ... if either LBF ends with '*' ...
+C               ... either LBF ends with '*' ...
                 IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1)
 C               ... or LBF begins with '*' ...
      >        .OR. LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB)
@@ -132,7 +141,8 @@ C------------ ...or if it has no label at all
       GOTO 99
 
  2    CONTINUE
-      KFM = KF
+      ifm = ifm + 1
+      KFM(ifm) = KF
 
       KTI = NTIM(KF)
       IF(KTI .NE. 0) THEN
@@ -373,6 +383,9 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
         IF(NRES .GT. 0) WRITE(NRES,*) ' FCT SCALER : timing is empty'
       ENDIF
 
+      KF1 = KFM(ifm) + 1
+      goto 3
+
  99   CONTINUE
       RETURN
 
@@ -438,7 +451,9 @@ c      RETURN
 
       ENTRY SCALE9(
      >             KFMO)
-      KFMO = KFM
+      do i = 1, 10
+        KFMO(i) = KFM(i)
+      enddo
       RETURN
 
       END

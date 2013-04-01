@@ -572,7 +572,7 @@ C Map data file starts with NHD-line header
       IF(BINAR) THEN
 
         IF(NHD .GE. 1) THEN
-C Map data file starts with NHD-line header (NORMALLY 8)
+C Map data file starts with NHD-line header
           READ(LUN,END=97,ERR=98) TITL
           READ(TITL,*,ERR=51,END=51) R0, DR, DTTA, DZ
           GOTO 52
@@ -920,8 +920,8 @@ CCCCCCCCCCCCC                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),X
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF
-c                   write(89,fmt='(1p,6e12.4,6i8)') YH(J),ZH(I),XH(K), 
-c     >                BREAD(2),BREAD(3),BREAD(1),j,i,k,kz,jyma,ixma
+                   write(89,fmt='(1p,6e12.4,6i8)') YH(J),ZH(I),XH(K), 
+     >                BREAD(2),BREAD(3),BREAD(1),j,jyma,i,kz,k,ixma
 c        write(89,*) j,i,k,jyma,KZ,ixma,imap,' J,I,k,jyma,KZ,ixma,imap'
 
 CC----  Manip VAMOS ganil, oct 2001 

@@ -60,8 +60,6 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
       DATA OPT/ '++ OFF ++','         ' /
 
-C         write(89,*) vpa
- 
       NP = 1
       IOPT = NINT(A(NOEL,NP))
       NP = NP + 1
@@ -104,7 +102,7 @@ C         write(89,*) vpa
      >      ,'' parameters to be scaled in these elements : ''
      >      ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
             WRITE(NRES,FMT='(15X,''Their scaling factor : '', 1P 
-     >      ,20(E17.8,'','',1X))') (A(NOEL,NP+I),I=1,JPA(IF,MXP))
+     >      ,20(E17.8,1X))') (A(NOEL,NP+I),I=1,JPA(IF,MXP))
           ENDIF
 
         ENDIF
@@ -192,7 +190,7 @@ C         write(89,*) vpa
 C--------- Scaling is taken from CAVITE (ENTRY CAVIT1)
 C          Starting value is either SCL(IF,1) or BORO
 
-          NPA = JPA(IF,MXP)
+          NPA = JPA(IF,MXP) 
           DO J = 1, NPA
             NP = NP+1 
             VPA(IF,J) = A(NOEL,NP)
@@ -206,8 +204,8 @@ C          Starting value is either SCL(IF,1) or BORO
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
-     >      ,''increase of rigidity taken from CAVITE'')')
-            WRITE(NRES,FMT='(15X,''Starting scaling value is ''
+     >      ,''increase of rigidity taken from CAVITE, ''
+     >      ,''starting scaling value ''
      >      ,1P,E17.8)') SCL(IF,1)
           ENDIF
 

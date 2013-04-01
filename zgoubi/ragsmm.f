@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -38,9 +38,9 @@ C mod = option flag (for K1, K2 method)
 C                  MOD, dL/L, gap, db0/b0, db1/b1, db2/b2
       READ(NDAT,*) (A(NOEL,10+I-1),I=1,6)
 C # of backleg windings, # of turns and I for each winding   
-      READ(NDAT,*) NBLWG,(A(NOEL,20+I),I=1,2*NBLWG)
-      IF(NBLWG.GT.2) STOP ' SBR RAGSMM. # of blwg cannot exceed 2'
-      A(NOEL,20) = NBLWG
+      READ(NDAT,*) ABLW,(A(NOEL,20+I),I=1,2*INT(ABLW))
+      IF(INT(ABLW) .GT. 2) STOP ' SBR RAGSMM. # of blwg cannot exceed 2'
+      A(NOEL,20) = ABLW
 C----- CHP FUITE ENTREE
 C        XE, LambdaE, ff2,ff3
       READ(NDAT,*) (A(NOEL,I),I=30,33)

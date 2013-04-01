@@ -76,6 +76,8 @@ C-------------------------------------------------
       DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
 
+      dimension kfm(10)
+
       DATA NOMFIC / IZ*'               '/ 
       DATA FMTYP / ' regular' / 
       DATA AA / 29 * 0.D0 /
@@ -123,38 +125,68 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
 
       IF    (NDIM.EQ.2 ) THEN
-        I1=1
-        I2 = 1
-        NFIC=1
-        NAMFIC = TA(NOEL,2)
-        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+        IF    (MOD .EQ. 0) THEN
+          I1=1
+          I2 = 1
+          NFIC=1
+          NAMFIC = TA(NOEL,2)
+          NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-        CALL KSMAP4(NOMFIC,NFIC,
+          CALL KSMAP4(NOMFIC,NFIC,
      >                          NEWFIC,NBMAPS,IMAP)
 
-        IF(MOD2 .EQ. 1) THEN
+          IF(MOD2 .EQ. 1) THEN
 C TOSCA 2D map for the AGS main magnet 
 C dB1, dB2, dB3
-          AA(24) = A(NOEL,24)
-          AA(25) = A(NOEL,25)
-          AA(26) = 0.D0
-          CALL SCALE9(
-     >                KFM)
-          IF(KFM .GT. 0) THEN
-            DO I = 1, JPA(KFM,MXP)
+            AA(24) = A(NOEL,24)
+            AA(25) = A(NOEL,25)
+            AA(26) = 0.D0
+            CALL SCALE9(
+     >                   KFM)
+            do ifm = 1, 10
+c            IF(KFM .GT. 0) THEN
+            IF(KFM(ifm) .le. 0) goto 20
+              DO I = 1, JPA(KFM(IFM),MXP)
 C Apply scaling to all parameters concerned
 c            write(*,*) ' toscac ', 
 c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
 c                read(*,*)
-              AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
-            ENDDO
+                AA(JPA(KFM(IFM),I))=AA(JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
+              ENDDO
+c            ENDIF
+            enddo
+
+ 20         continue
+
+            DBDX(1) = AA(24)
+            DBDX(2) = AA(25)
+            DBDX(3) = AA(26)
+            CALL CHAMK4(DBDX,3)
           ENDIF
-          DBDX(1) = AA(24)
-          DBDX(2) = AA(25)
-          DBDX(3) = AA(26)
-          CALL CHAMK4(DBDX,3)
+        ELSEIF(MOD.EQ.15) THEN
+C--------- MOD2 files are combined linearly into a single 2D map, after reading.
+          FACA = A(NOEL,24)
+          FACB = A(NOEL,25)
+          FACC = A(NOEL,26)
+          FACD = A(NOEL,27)
+          I1=1
+          I2 = MOD2
+
+          NFIC=0
+          DO I=I1, I2
+            NFIC = NFIC+1
+            NAMFIC = TA(NOEL,1+NFIC)
+            NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+            CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,NBMAPS,IMAP)
+          ENDDO       
+
+        ELSE
+          STOP ' *** Error. SBR TOSCAC. No such MOD value '
         ENDIF
+
       ELSEIF(NDIM .EQ. 3 ) THEN
+
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
 C          3-D map is  symmetrysed wrt horizontal plane
@@ -170,7 +202,7 @@ C--------- A single data file contains the all 3D volume
           I1=1
           I2 = 1
         ELSEIF(MOD .EQ. 15) THEN
-C--------- The MOD2 files are combined linearly into a single one after reading.
+C--------- MOD2 files are combined linearly into a single map after reading.
 C          Each one of these files should contain the all 3D volume.
           FACA = A(NOEL,24)
           FACB = A(NOEL,25)
@@ -195,8 +227,6 @@ C        NEWF = .TRUE.
         IF(MOD .EQ. 15) THEN
           IFAC = 24
           IFIC = 1
-C          DO WHILE (NEWFIC .EQ. FALSE)
-C          DO WHILE (IFIC.LE.I2 .AND. NEWFIC .EQ. FALSE)
           DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
             IF(IFAC .GT. 29) 
      >      CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
@@ -228,7 +258,10 @@ c                 read(*,*)
           ENDIF
         ELSEIF(MOD.EQ.15) THEN
           WRITE(NRES,*) 
-     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
+     >    ' MOD=15.   Will sum up ',I2,'  field maps.'
+          WRITE(NRES,*) 
+     >    ' Coefficient values : ',(a(noel,24+i-1),i=i1,i2) 
+C     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
         ENDIF
 
         IF(NEWFIC) THEN
@@ -330,6 +363,10 @@ C FM Nov 2011           DO K= 2, KZMA
              IF(IDLUNI(
      >                 LUN)) THEN
                BINAR=BINARI(NOMFIC(NFIC),IB)
+
+c                   write(*,*) ' toscac ',i1,i2,nfic,NOMFIC(NFIC)
+c                        read(*,*)
+
                IF(BINAR) THEN
                  OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
      >           ,STATUS='OLD',ERR=96)
@@ -398,6 +435,9 @@ C FM Nov 2011           DO K= 2, KZMA
                   ENDDO
                  ENDDO
 
+c                   write(*,*) ' toscac  faca : ',faca,kzma,jyma,ixma,id
+c                      read(*,*)
+
                endif
                CLOSE(UNIT=LUN)
 
@@ -415,7 +455,10 @@ C FM Nov 2011           DO K= 2, KZMA
                   ENDDO
                  ENDDO
 
+c                   write(*,*) ' toscac  facb : ',facb,kzma,jyma,ixma,id
+c                      read(*,*)
                else
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -558,8 +601,8 @@ C        XI = XH(1)
 C        XF = XH(IAMA)
  
       RETURN
- 96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
-      CALL ENDJOB('ERROR  OPEN  FILE ',-99)
+ 96   WRITE(ABS(NRES),*) 'Error  open  file ',NOMFIC(NFIC)
+      CALL ENDJOB('Leaving... ',-99)
       RETURN
 
       ENTRY TOSCA1

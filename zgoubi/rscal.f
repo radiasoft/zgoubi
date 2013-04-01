@@ -230,8 +230,6 @@ c           write(*,*)
 c     >    'rscal ',IFM, ndscl, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
           NP = NP + NDSCL -1
 
-
-
 C--------- TIM(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)

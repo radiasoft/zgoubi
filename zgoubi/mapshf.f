@@ -266,10 +266,10 @@ c              write(88,*) ' bz avant ',bz
       ENDDO ! A1 
 
                do jjj=1,JYMA
-                 write(89,*) ' y ',yh(jjj)
+                 write(87,*) ' y ',yh(jjj)
                  do iii=1,IXMA
-                   write(89,*) ' xh  ',xh(iii)
-                     write(89,*) ' bz av/ap         '
+                   write(87,*) ' xh  ',xh(iii)
+                     write(87,*) ' bz av/ap         '
      >          ,irc,jrc,HCB(id,iii,jjj,1)-HC(id,iii,jjj,1)
                  enddo
                enddo

@@ -70,6 +70,14 @@ C      SAVE HCU
 
       CHARACTER*20 FMTYP
 
+      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
+      SAVE XXH, YYH, ZZH
+      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
+      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
+      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
+      SAVE IIXMA, JJYMA, KKZMA
+
       DATA NOMFIC / 2*'               '/ 
 
       DATA NHDF / 8 /
@@ -79,8 +87,8 @@ C          data hcu /  IDMX * 0.d0 /
       DATA FMTYP / ' regular' / 
       DATA IMAP / 1 /
 
-      CALL KSMAP(
-     >           IMAP) 
+c      CALL KSMAP(
+c     >           IMAP) 
 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
@@ -113,11 +121,10 @@ C          data hcu /  IDMX * 0.d0 /
       DIST = A(NOEL,32)
       DIST2 = A(NOEL,33)
 
-C           write(*,*) ' dist, dist2 ',  dist, dist2 
-
-
+c           write(*,*) ' dist, dist2 ',  dist, dist2 
 
       IF    (NDIM.EQ.2 ) THEN
+
         IF(MOD .EQ. 0) THEN
 C--------- Rectangular mesh
 C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
@@ -126,9 +133,13 @@ C and used for tracking.
 
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
+          CALL KSMAP4(NAMFIC(1),NFIC-1,
+     >                          NEWFIC,NBMAPS,IMAP)
           NAMFIC(2) = TA(NOEL,1+NFIC)
           NAMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))
           NAMFIC(2) = NAMFIC(2)(DEBSTR(NAMFIC(2)):FINSTR(NAMFIC(2)))
+
+
 
           NEWFIC = (NAMFIC(1) .NE. NOMFIC(1))
           NEWFIC = NEWFIC .OR. (NAMFIC(2) .NE. NOMFIC(2))
@@ -170,7 +181,7 @@ C and used for tracking.
 
         WRITE(NRES,FMT='(/,5X,2(A,I3),A,A,I3)') 
      >  'NDIM = ',NDIM,' ;   value of MOD is ', MOD,' ;  '
-     >  ,'Number of data file sets used is ',NFIC
+     >  ,'Number of map files set used is ',NFIC
 
         IF(NEWFIC) THEN
            WRITE(NRES,209) 
@@ -245,6 +256,7 @@ C and used for tracking.
                  do iii=1,IXMA
                    do iid = 1, id    
                      HC1(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ,IMAP)
+c                      write(86,*) iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
                    enddo
                  enddo
                enddo
@@ -287,6 +299,7 @@ C and used for tracking.
               do iid = 1, id    
                 HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ) 
      >                         + AD * HC2(iid,iii,jjj,KZ)
+c                write(86,*) af,ad,iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
               enddo
             enddo
           enddo
@@ -410,16 +423,72 @@ C              write(*,*)  '  zera, zerb ', zera, zerb
 
         ENDIF
 
-      ENDIF
+C------- Store mesh coordinates
+           IIXMA(IMAP) = IXMA
+           DO I=1,IXMA
+             XXH(I,imap) =  XH(I)
+           ENDDO
+           JJYMA(IMAP) = JYMA
+           DO J=1,JYMA
+             YYH(J,imap) =  YH(J)
+           ENDDO
+           KKZMA(IMAP) = KZMA
+           DO K= 1, KZMA
+             ZZH(K,imap) = ZH(K)
+           ENDDO
+           bBMI(imap) = BMIN
+           bBMA(imap) = BMAX
+           XBbMI(imap) = XBMI
+           YbBMI(imap) = YBMI
+           ZbBMI(imap) = ZBMI
+           XbBMA(imap) = XBMA
+           YBBMA(imap) = YBMA
+           ZBBMA(imap) = ZBMA
 
-C Make sure this is ok given that field map is in cartesian frame
-        AT=XH(IAMA)-XH(1)
-        ATO = 0.D0
-        ATOS = 0.D0
-        RM=.5D0*(YH(JRMA)+YH(1))
-        XI = XH(1)
-        XF = XH(IAMA)
- 
+           write(*,*)'emmac x1,x2,y1,y2 : ',imap,XXH(1,imap),XXH(2,imap)
+     >         ,yyH(1,imap),yyH(2,imap)
+               stop
+
+      ELSE
+
+           IRD = NINT(A(NOEL,40))
+
+C------- Restore mesh coordinates
+           IXMA = IIXMA(IMAP)
+           DO I=1,IXMA
+             XH(I) = XXH(I,imap)
+           ENDDO
+           JYMA = JJYMA(IMAP)
+           DO J=1,JYMA
+             YH(J) = YYH(J,imap) 
+           ENDDO
+           KZMA = KKZMA(IMAP)
+           DO K= 1, KZMA
+             ZH(K) = ZZH(K,imap)
+           ENDDO
+           BMIN = bBMI(imap) 
+           BMAX = bBMA(imap)  
+           XBMI = XBbMI(imap)  
+           YBMI = YbBMI(imap)  
+           ZBMI = ZbBMI(imap)  
+           XBMA = XbBMA(imap)  
+           YBMA = YBBMA(imap) 
+           ZBMA = ZBBMA(imap)  
+
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
+     >       ' restored mesh coordinates for field map # ',imap,
+     >       ',  name : ',
+     >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+           ENDIF
+
+      ENDIF ! NEWFIC
+
+      CALL CHAMK2(BNORM*SCAL)
+
+C Make sure this is ok with cartésien
+        CALL MAPLI1(BMAX-BMIN)
+
       RETURN
  96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)

@@ -32,6 +32,7 @@ OBJ=\
  beamat.o\
  bendf.o\
  bendi.o\
+ besknu.o\
  bi1.o\
  bi1p.o\
  binari.o\
@@ -141,6 +142,7 @@ OBJ=\
  gascat.o\
  gasesl.o\
  gasini.o\
+ gaussq.o\
  geneta.o\
  getnam.o\
  getnol.o\

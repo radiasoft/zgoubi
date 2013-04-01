@@ -25,9 +25,9 @@ C  -------
       FUNCTION BESKNU(I,Q,X)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -------------------------------------------------------
-C     I=0 : Modified Bessel_k function with fractional index. 
-C     i = 1 : Its integral from x to infnty. 
-C     aFTER V. O. Kostroun, NIM 172 (1980) 371-374.
+C     I=0 : modified Bessel_k function with fractional index. 
+C     I = 1 : its integral from x to infnty. 
+C     After V. O. Kostroun, NIM 172 (1980) 371-374.
 C     -------------------------------------------------------
       PARAMETER (AH = 0.5D0)
       PARAMETER (EPSI = 1.D-5)

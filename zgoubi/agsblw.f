@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -255,29 +255,90 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,06.d0,blI,AMM)
 c$$$      write(lunout,*) 'MULTIPOL MM_K13CF'
 c$$$      write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
 
-c/=============================
-c/ G09 Backleg winding bump
-c/   Windings around F8  F9  -G2  -G3  -G16  -G17  
-c/==================================
-c$$$      write(lunout,*) 'MULTIPOL MM_F08CD'
+c/=================================================
+c/ "G9" Backleg winding xtractn bump for G10 kicker
+c/   Windings  F8  F9  -G2  -G3  -G16  -G17  
+c/=================================================
+        ELSEIF(MMNM .EQ. 'MM_F08CD') THEN
 c$$$      write(lunout,*) factor(scalfact, 1.d0,05.d0,blI,AMM)
-c$$$      write(lunout,*) 'MULTIPOL MM_F09BF'
+          NBLW = 1
+          SIGN = 1.D0
+          NWL = 5
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_F09BF') THEN
 c$$$      write(lunout,*) factor(scalfact, 1.d0,06.d0,blI,AMM)
-c$$$      write(lunout,*) 'MULTIPOL MM_G02BF'
+          NBLW = 1
+          SIGN = 1.D0
+          NWL = 19 ! ?????????????????????????
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_G02BF') THEN
 c$$$      write(lunout,*) factor(scalfact,-1.d0,06.d0,blI,AMM)
-c$$$      write(lunout,*) 'MULTIPOL MM_G03CD'
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 6
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_G03CD') THEN
 c$$$      write(lunout,*) factor(scalfact,-1.d0,05.d0,blI,AMM)
-c$$$      write(lunout,*) 'MULTIPOL MM_G16AD'
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 5
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_G16AD') THEN
 c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
-c$$$      write(lunout,*) 'MULTIPOL MM_G17CF'
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 10
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_G17CF') THEN
 c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 10
+          WN(1) = DBLE(NWL) * SIGN
+
+c/==================================================
+c/ "H11" Backleg winding xtractn bump for H10 septum
+c/   Windings  -H4 -H5 -H18 -H19 I12 I13
+c/==================================================
+        ELSEIF(MMNM .EQ. 'MM_H04CD') THEN
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 10
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_H05AF') THEN
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 10
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_H18CF') THEN
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 5
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_H19BD') THEN
+          NBLW = 1
+          SIGN = -1.D0
+          NWL = 6
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_I12BD') THEN
+          NBLW = 1
+          SIGN = 1.D0
+          NWL = 6
+          WN(1) = DBLE(NWL) * SIGN
+        ELSEIF(MMNM .EQ. 'MM_I13CF') THEN
+          NBLW = 1
+          SIGN = 1.D0
+          NWL = 5
+          WN(1) = DBLE(NWL) * SIGN
 
         ELSE
+
           NBLW = 0
           SIGN = 0.d0
           NWL = 0
           WN(1) = 0.D0
           WN(2) = 0.D0
+
         ENDIF
 
       ELSE
@@ -289,9 +350,23 @@ c$$$      write(lunout,*) factor(scalfact,-1.d0,10.d0,blI,AMM)
       DO I = 1, NBLW
         BLWI = BLWI + WA(I)*WN(I)
       ENDDO
+
+c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) ' MM_F08CD'
+c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) ' blwi  ',blwi
+
+c      if(blwi .gt. 1e-6) then
       DO I = 1, NB
         BM(I) = BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
+c        IF(I.EQ.1) THEN
+c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) ' MM_F08CD'
+c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) bm(i),blwi,AGSMMA(DEV),dev 
+cc         IF(MMNM .EQ. 'MM_F08CD') read(*,*)
+c         IF(MMNM .EQ. 'MM_F09BF') write(*,*) ' MM_F09BF'
+c         IF(MMNM .EQ. 'MM_F09BF') write(*,*) bm(i),blwi,AGSMMA(DEV),dev 
+cc         IF(MMNM .EQ. 'MM_F09BF') read(*,*)
+c        ENDIF
       ENDDO
-
+c      endif
+               
       RETURN
       END

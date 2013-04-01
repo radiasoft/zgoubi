@@ -1,8 +1,8 @@
 CFLAGS=
-FC=gfortran
-FFLAGS= -O3 -Wall -fno-automatic -pedantic
-#FC=ifort
-#FFLAGS=-save -xHOST -O3 -ip -static 
+#FC=gfortran
+#FFLAGS= -O3 -Wall -fno-automatic -pedantic
+FC=ifort
+FFLAGS=-save -xHOST -O3 -ip -static 
 
 .POSIX:
 

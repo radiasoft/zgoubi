@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -77,6 +77,7 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       CHARACTER(80) TXT30
 
       CHARACTER(132) TXT132
+      dimension kfm(10)
 
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/ 
@@ -93,7 +94,6 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       RO = 10.d0
 
       MOD = NINT(A(NOEL,10))
-      MOD2 = NINT(10.D0*A(NOEL,10)) - 10*MOD
       DLL =A(NOEL,11)
       GAP =A(NOEL,12)
       IF(GAP.EQ.0) GAP = RO
@@ -103,7 +103,8 @@ C dB1, dB2, dB3
         AA(12+I) = A(NOEL,12+I)
       ENDDO
 
-      NBLW = NINT(A(NOEL,20))
+      NBLW =  INT(       A(NOEL,20))
+      MODBW = NINT(10.D0*A(NOEL,20)) - 10*NBLW
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
       DO I = 1, NBLW
 C Bcklg winding currents
@@ -113,13 +114,18 @@ C Bcklg winding currents
 
       CALL SCALE9(
      >            KFM)
-      IF(KFM .GT. 0) THEN
-        DO I = 1, JPA(KFM,MXP)
+
+      do ifm = 1, 10
+        if(kfm(ifm) .le. 0) goto 20
+          DO I = 1, JPA(KFM(ifm),MXP)
 C Apply scaling to all parameters concerned
-          IF(JPA(KFM,I) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
-          AA(JPA(KFM,I)) = AA(JPA(KFM,I)) * VPA(KFM,I)
-        ENDDO
-      ENDIF
+            IF(JPA(KFM(IFM),I).GT.MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
+            AA(JPA(KFM(IFM),I)) = AA(JPA(KFM(IFM),I)) * VPA(KFM(IFM),I)
+          ENDDO
+      enddo
+
+ 20   continue
+
 C This is a remedy to otherwise  
 C FIT2 in presence of AGSMM variables in SCALING
 C The problem is only on  my laptop. Not on Yann's nor CAD computers...
@@ -135,9 +141,11 @@ C------
       DO I = 1, NBLW
         WN(I) = A(NOEL,20+2*I-1)
         WA(I) = AA(20+2*I)
+c       if(noel.eq.456)write(87,*) 
+c     >        write(87,*) ' agsmm iblw wn, i, wa ',wn(i),wa(i)
       ENDDO
 
-      CALL AGSBLW(MOD2,NOEL,ANGMM,NBLW,WN,WA,
+      CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
 
       DEV = ANGMM
@@ -147,61 +155,62 @@ c        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
        BM(I) = SCAL * (BORO*1.D-3      ) * BM(I) * (1.D0 + DB(I))
       ENDDO
 
-C            write(*,*) ' agsmm scal ',scal
+c           i = 1
+c       if(noel.eq.456)write(87,*) 
+c     >        ' agsmm bm(i) ',i,bm(i)*SCAL*(BORO*1.D-3),scal
 
-        XE =A(NOEL,30)
-        DO IM=1,3
-          DLE(IM) =A(NOEL,30+IM)
-        ENDDO
-        CALL RAZ(CE,MCOEF)
-        NCE = NINT(A(NOEL,40))
-        DO I=1, NCE
-          CE(I) =A(NOEL,40+I)
-        ENDDO
 
-        XLS =A(NOEL,50)
-        DO IM = 1,3
-          DLS(IM) =A(NOEL,50+IM)
-        ENDDO
-        CALL RAZ(CS,MCOEF)
-        NCS = NINT(A(NOEL,60))
-         DO I=1,NCS
-          CS(I) =A(NOEL,60+I)
-        ENDDO
+      XE =A(NOEL,30)
+      DO IM=1,3
+        DLE(IM) =A(NOEL,30+IM)
+      ENDDO
+      CALL RAZ(CE,MCOEF)
+      NCE = NINT(A(NOEL,40))
+      DO I=1, NCE
+        CE(I) =A(NOEL,40+I)
+      ENDDO
+       XLS =A(NOEL,50)
+      DO IM = 1,3
+        DLS(IM) =A(NOEL,50+IM)
+      ENDDO
+      CALL RAZ(CS,MCOEF)
+      NCS = NINT(A(NOEL,60))
+       DO I=1,NCS
+        CS(I) =A(NOEL,60+I)
+      ENDDO
 C------- FRINGE FIELD NOT INSTALLED FOR
 C        DECA, DODECA, ... 18-POLE
-        DLE(4)=ZERO
-        DLS(4)=ZERO
-        DLE(5)=ZERO
-        DLS(5)=ZERO
-        DLE(6)=ZERO
-        DLS(6)=ZERO
-        DLE(7)=ZERO
-        DLS(7)=ZERO
-        DLE(8)=ZERO
-        DLS(8)=ZERO
-        DLE(9)=ZERO
-        DLS(9)=ZERO
+      DLE(4)=ZERO
+      DLS(4)=ZERO
+      DLE(5)=ZERO
+      DLS(5)=ZERO
+      DLE(6)=ZERO
+      DLS(6)=ZERO
+      DLE(7)=ZERO
+      DLS(7)=ZERO
+      DLE(8)=ZERO
+      DLS(8)=ZERO
+      DLE(9)=ZERO
+      DLS(9)=ZERO
   
-C----- Pole rotation
-        DO 35 IM=1,3
-          RT(IM)=A(NOEL,70+IM-1)
+C--- Pole rotation
+      DO 35 IM=1,3
+        RT(IM)=A(NOEL,70+IM-1)
           SKEW=SKEW .OR. RT(IM) .NE. ZERO
- 35     CONTINUE
+ 35   CONTINUE
  
-        NM0 = 1
-        NM = NPOL
+      NM0 = 1
+      NM = NPOL
  
 C------- 
-        DO IM = NM0+1,NM
-          DLE(IM)  = DLE(NM0)*DLE(IM)
-          DLS(IM)  = DLS(NM0)*DLS(IM)
-        ENDDO
+      DO IM = NM0+1,NM
+        DLE(IM)  = DLE(NM0)*DLE(IM)
+        DLS(IM)  = DLS(NM0)*DLS(IM)
+      ENDDO
+             
+      AKS(1) = BM(1)/(BORO*DPREF)*1.d2
         
-        
-        AKS(1) = BM(1)/(BORO*DPREF)*1.d2
-        
-        SXL = XL
+      SXL = XL
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) 'AGS Dipole',XL,DEV,DEV*DEG,RO
@@ -222,13 +231,7 @@ C-------
         ELSE
           TXT30=' short-shifted dipole model'
         ENDIF
-        WRITE(NRES,FMT='(/,15X,'' Mode  = '',I2,'',  '',A)') MOD,TXT30
-        IF    (MOD2.EQ.0) THEN 
-          TXT30=' user defined back-leg windings'
-        ELSEIF(MOD2.EQ.1) THEN 
-          TXT30=' actual AGS back-leg windings'
-        ENDIF
-        WRITE(NRES,FMT='(15X,'' Mode 2 = '',I2,'',  '',A)') MOD2,TXT30
+        WRITE(NRES,FMT='(/,15X,''Mode  = '',I2,'',  '',A)') MOD,TXT30
 
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,G17.8,' RAD')
@@ -238,11 +241,18 @@ C-------
      >    /,10X,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
 
         WRITE(NRES,108) NBLW
- 108    FORMAT(/,15X,' Nbr of backleg windings : ',I1,/)
+ 108    FORMAT(/,15X,'Nbr of backleg windings : ',I1)
         IF(NBLW .GE.1) THEN
+          IF    (MODBW.EQ.0) THEN 
+            TXT30=' user defined back-leg windings'
+          ELSEIF(MODBW.EQ.1) THEN 
+            TXT30=' real AGS back-leg windings'
+          ENDIF
+          WRITE(NRES,FMT='(15X,''Mode 2 = '',I2,'',  '',A)') MODBW,TXT30
+
           DO IBLW = 1, NBLW
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
- 109        FORMAT(15X,' Backleg winding # ',I1,',  Nbr of windings : '
+ 109        FORMAT(18X,'Backleg winding # ',I1,',  Nbr of windings : '
      >      ,I1,',  intensity in that winding : ',1p,e15.6,' A')      
           ENDDO
         ENDIF

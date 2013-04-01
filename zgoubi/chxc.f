@@ -424,8 +424,13 @@ C----------- Reads a 3-D field map, TOSCA type data output format.
             ENDIF
             CALL EMMAC(SCAL,NDIM, 
      >                           BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+     >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
 
+C Steps back because this is settled after the endif...
+           XBMA = XBMA/XNORM
+           XBMI = XBMI/XNORM
+           BMAX = BMAX/BNORM
+           BMIN = BMIN/BNORM
 
          ELSE
  
@@ -795,6 +800,7 @@ C close does not seem to idle lun => makes problem with FIT !!
          XF =XH(IXMA)
          XL = XF - XI
          DSREF = XL
+
          CALL INIDRT(TITL,ND,XI,
      >                          RCS)
 
@@ -814,7 +820,7 @@ C close does not seem to idle lun => makes problem with FIT !!
      >      BMIN,BMAX,
      >      XL, XI, XF, 
      >      IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
-  203 FORMAT(
+  203      FORMAT(
      >      //,5X,'Min/max fields in map       : ', 
      >                               1P,E14.6,T68,'/ ',E14.6
      >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68

@@ -60,6 +60,11 @@ CC---- EMMA
 C      PARAMETER (IZ=5 , ID=3, MMAP=1)
 C      PARAMETER (MXX=401, MXY=300)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC---- EMMA. Two 2D maps, Ben, Feb 2013 
+cccccccccccc      PARAMETER (IZ=1 , ID=3, MMAP=1)
+cccccccccccc      PARAMETER (MXX=961, MXY=161)
+
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- IZ : # of mesh nodes in Z direction or 3 with MAP2. ID : # of field coordinates (3 if IZ>1)
 C-- MMAP : maximum number of maps in a problem
@@ -99,7 +104,8 @@ c      PARAMETER (MXX=1801, MXY=41)
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
       PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=801, MXY=161)
+C      PARAMETER (MXX=801, MXY=161)
+      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 
 CC Cyl. condenser end, pEDM, MAP2D-E
