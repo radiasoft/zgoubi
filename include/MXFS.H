@@ -38,7 +38,7 @@ C *** Attention : MXS .le. MXD
       PARAMETER (MXF=45,MXS=2000) 
 
 C------ MLF=max number of labels following a family name in SCALING
-      PARAMETER(MLF=5)
+      PARAMETER(MLF=9)
 
 C------ MXP=1+max number of parameters in elements with ad hoc label, 
 C e.g., 10 parameters, from # 4 to # 13, for the 10 pole field values in MULTIPOL 

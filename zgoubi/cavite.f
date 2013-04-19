@@ -460,7 +460,7 @@ C Kin. energy, MeV
 
         IF(OKIMP) 
      >     WRITE(LUN,FMT='(1P,5e14.6,2I6)') PH(I),DPR(I),
-     >     TI,ti-dble(ipass)*dts,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >     TI, ti-dble(ipass)*dts, QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  71   CONTINUE
 

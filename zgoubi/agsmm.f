@@ -76,7 +76,6 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       CHARACTER(80) TXT30
 
-      CHARACTER(132) TXT132
       dimension kfm(10)
 
       DATA DIM / 'kG ', 'V/m'/
@@ -115,16 +114,20 @@ C Bcklg winding currents
       CALL SCALE9(
      >            KFM)
 
-      do ifm = 1, 10
-        if(kfm(ifm) .le. 0) goto 20
-          DO I = 1, JPA(KFM(ifm),MXP)
+      DO IFM = 1, 10
+        IF(KFM(IFM) .LE. 0) GOTO 20
+        DO I = 1, JPA(KFM(ifm),MXP)
 C Apply scaling to all parameters concerned
-            IF(JPA(KFM(IFM),I).GT.MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
-            AA(JPA(KFM(IFM),I)) = AA(JPA(KFM(IFM),I)) * VPA(KFM(IFM),I)
-          ENDDO
-      enddo
+          IF(JPA(KFM(IFM),I).GT.MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
+          AA(JPA(KFM(IFM),I)) = AA(JPA(KFM(IFM),I)) * VPA(KFM(IFM),I)
+         if(noel.eq.456)
+     >     write(87,*) ' agsmm  i,ifm,mxp,JPA(KFM(ifm),MXP) ',
+     >  i,ifm,mxp,JPA(KFM(ifm),MXP), VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
+     >  , kfm(ifm)
+        ENDDO
+      ENDDO
 
- 20   continue
+ 20   CONTINUE
 
 C This is a remedy to otherwise  
 C FIT2 in presence of AGSMM variables in SCALING
@@ -141,12 +144,19 @@ C------
       DO I = 1, NBLW
         WN(I) = A(NOEL,20+2*I-1)
         WA(I) = AA(20+2*I)
-c       if(noel.eq.456)write(87,*) 
-c     >        write(87,*) ' agsmm iblw wn, i, wa ',wn(i),wa(i)
+c       if(noel.eq.456)
+c     >     write(87,*) ' agsmm i/nblw, wn,  wa ',i,'/',nblw,wn(i),wa(i)
       ENDDO
 
       CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
+
+c      DO I = 1, NBLW
+c       if(noel.eq.456)
+c     > write(87,*) ' agsmm i/nblw, wn,  wa (3) ',i,'/',nblw,wn(i),wa(i)
+c      ENDDO
+
+
 
       DEV = ANGMM
       DO I = 1, I3
@@ -252,8 +262,11 @@ C-------
 
           DO IBLW = 1, NBLW
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
- 109        FORMAT(18X,'Backleg winding # ',I1,',  Nbr of windings : '
-     >      ,I1,',  intensity in that winding : ',1p,e15.6,' A')      
+ 109        FORMAT(18X,'Backleg winding # ',I1,',  Nbr of turns : '
+     >      ,I2,',  current in that winding : ',1p,e15.6,' A')      
+       if(noel.eq.456)
+     >     write(87,*)
+     >     ' agsmm i/nbw, wn,  wa ',iblw,'/',nblw,wn(iblw),wa(iblw)
           ENDDO
         ENDIF
         ELSE
