@@ -371,7 +371,8 @@ C    constraint rms  emittance
             VAL=EMIT
 
         ELSE IF(ICONT .EQ. 7) THEN
-C----------- Constraints on coordinates and fields inside optical elements
+C----------- Constraints on coordinates and fields *inside* optical elements
+
            IF(ICONT2.EQ.1) THEN
 C------------ Constraint on min or max value (MIMA=1 or 2) of coordinate L reached inside optical element KK
              MIMA = NINT(CPAR(I,2))
@@ -399,17 +400,12 @@ C------------ Constraint on  min+max  value of coordinate L reached inside optic
              CALL FITMM1(L,KK,MIMA,icont2,
      >                                    VAL2)
              val = val1 + val2
-c              write(88,fmt='(a,1x,1p,3e14.6)') 
-c     >          'ff val1,val2,|val1-val2| ',val1,val2, abs(val1-val2)
+c              write(*,fmt='(a,1x,1p,3e14.6)') 
+c     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
+c                     read(*,*)
      
            ELSEIF(ICONT2.EQ.6) THEN
-C------------ Constraint on  |min-max| value of field L-component, across optical element KK
-             MIMA = NINT(CPAR(I,2))
-             CALL FITMM1(L,KK,MIMA,icont2,
-     >                                    VAL)
-     
-           ELSEIF(ICONT2.EQ.7) THEN
-C------------ Constraint on  |min-max| value of field L-component, across optical element KK
+C------------ Constraint on  min or max value of field L-component, across optical element KK
              MIMA = 1
              CALL FITMM1(L,KK,MIMA,icont2,
      >                                    VAL1)
@@ -417,6 +413,12 @@ C------------ Constraint on  |min-max| value of field L-component, across optica
              CALL FITMM1(L,KK,MIMA,icont2,
      >                                    VAL2)
              val = abs(val1 - val2)
+     
+           ELSEIF(ICONT2.EQ.7) THEN
+C------------ Constraint on  |min-max| value of field L-component, across optical element KK
+             MIMA = NINT(CPAR(I,2))
+             CALL FITMM1(L,KK,MIMA,icont2,
+     >                                    VAL)
      
            ELSEIF(ICONT2.EQ.8) THEN
 C------------ Constraint on  min+max  value of field L-component, across optical element KK

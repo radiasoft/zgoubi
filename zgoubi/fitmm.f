@@ -44,34 +44,34 @@ C  -------
      >            NOEL)
       NEL = IQ(NOEL)
 
-c        WRITE(*,*) IQ
+c      WRITE(*,*) noel,IQ(noel)
+c      write(88,*) 'fitmm#1 ',NOEL,NEL,Y, FMA(2,NEL), DMAX1(Y,FMA(2,NEL))
+c      write(*,*) 'fitmm#1 ',NOEL,NEL,Y, FMA(2,NEL), DMAX1(Y,FMA(2,NEL))
 c          READ(*,*)
 
-c      write(88,*) 'fitmm 1 ',NOEL,NEL,Y, FMA(2,NEL), MAX(Y,FMA(2,NEL))
-c      write(*,*) 'fitmm 1 ',NOEL,NEL,Y, FMA(2,NEL), MAX(Y,FMA(2,NEL))
-      FMA(1,NEL) = MAX(DP,FMA(1,NEL))
-      FMA(2,NEL) = MAX(Y,FMA(2,NEL))
-      FMA(3,NEL) = MAX(T,FMA(3,NEL))
-      FMA(4,NEL) = MAX(Z,FMA(4,NEL))
-      FMA(5,NEL) = MAX(P,FMA(5,NEL))
-      FMA(6,NEL) = MAX(SAR,FMA(6,NEL))
-      FMA(7,NEL) = MAX(TAR,FMA(7,NEL))
+      FMA(1,NEL) = DMAX1(DP,FMA(1,NEL))
+      FMA(2,NEL) = DMAX1(Y,FMA(2,NEL))
+      FMA(3,NEL) = DMAX1(T,FMA(3,NEL))
+      FMA(4,NEL) = DMAX1(Z,FMA(4,NEL))
+      FMA(5,NEL) = DMAX1(P,FMA(5,NEL))
+      FMA(6,NEL) = DMAX1(SAR,FMA(6,NEL))
+      FMA(7,NEL) = DMAX1(TAR,FMA(7,NEL))
 
-      FMI(1,NEL) = MIN(DP,FMI(1,NEL))
-      FMI(2,NEL) = MIN(Y,FMI(2,NEL))
-      FMI(3,NEL) = MIN(T,FMI(3,NEL))
-      FMI(4,NEL) = MIN(Z,FMI(4,NEL))
-      FMI(5,NEL) = MIN(P,FMI(5,NEL))
-      FMI(6,NEL) = MIN(SAR,FMI(6,NEL))
-      FMI(7,NEL) = MIN(TAR,FMI(7,NEL))
+      FMI(1,NEL) = DMIN1(DP,FMI(1,NEL))
+      FMI(2,NEL) = DMIN1(Y,FMI(2,NEL))
+      FMI(3,NEL) = DMIN1(T,FMI(3,NEL))
+      FMI(4,NEL) = DMIN1(Z,FMI(4,NEL))
+      FMI(5,NEL) = DMIN1(P,FMI(5,NEL))
+      FMI(6,NEL) = DMIN1(SAR,FMI(6,NEL))
+      FMI(7,NEL) = DMIN1(TAR,FMI(7,NEL))
 
-      FLDMA(1,NEL) = MAX(B(1,1),FLDMA(1,NEL))
-      FLDMA(2,NEL) = MAX(B(1,2),FLDMA(2,NEL))
-      FLDMA(3,NEL) = MAX(B(1,3),FLDMA(3,NEL))
+      FLDMA(1,NEL) = DMAX1(B(1,1),FLDMA(1,NEL))
+      FLDMA(2,NEL) = DMAX1(B(1,2),FLDMA(2,NEL))
+      FLDMA(3,NEL) = DMAX1(B(1,3),FLDMA(3,NEL))
 
-      FLDMI(1,NEL) = MIN(B(1,1),FLDMI(1,NEL))
-      FLDMI(2,NEL) = MIN(B(1,2),FLDMI(2,NEL))
-      FLDMI(3,NEL) = MIN(B(1,3),FLDMI(3,NEL))
+      FLDMI(1,NEL) = DMIN1(B(1,1),FLDMI(1,NEL))
+      FLDMI(2,NEL) = DMIN1(B(1,2),FLDMI(2,NEL))
+      FLDMI(3,NEL) = DMIN1(B(1,3),FLDMI(3,NEL))
 
       SFLD(1,nel)       = SFLD(1,nel) + B(1,1)*PAS
       SFLD(2,nel)       = SFLD(2,nel) + B(1,2)*PAS
@@ -115,7 +115,7 @@ c           read(*,*)
         DO  JJ = 1, MXJ
           FMI(JJ,LL) = 1.D99
           FMA(JJ,LL) = -1.D99
-c        write(*,*) ' fitmm2 ',FMI(JJ,LL),FMa(JJ,LL) 
+c        write(*,*) ' fitmm2 ',ll,jj,FMI(JJ,LL),FMa(JJ,LL) 
         ENDDO
         DO  I = 1, 3
           SFLD(I,LL) = 0.d0
@@ -128,7 +128,7 @@ c        write(*,*) ' fitmm2 ',FMI(JJ,LL),FMa(JJ,LL)
       ENTRY FITMM3(ic3)
       NBL = NBL + 1
       IQ(ic3) = nbl
-c        write(*,*) ' fitmm nbl, ic3, iq(ic3) ',nbl, ic3, iq(ic3)
+c        write(*,*) ' fitmm3 nbl, ic3, iq(ic3) ',nbl, ic3, iq(ic3)
 c         read(*,*)
       RETURN
 
