@@ -120,10 +120,10 @@ C Bcklg winding currents
 C Apply scaling to all parameters concerned
           IF(JPA(KFM(IFM),I).GT.MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
           AA(JPA(KFM(IFM),I)) = AA(JPA(KFM(IFM),I)) * VPA(KFM(IFM),I)
-         if(noel.eq.456)
-     >     write(87,*) ' agsmm  i,ifm,mxp,JPA(KFM(ifm),MXP) ',
-     >  i,ifm,mxp,JPA(KFM(ifm),MXP), VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
-     >  , kfm(ifm)
+c         if(noel.eq.457)
+c     >     write(87,*) ' agsmm  i,ifm,mxp,JPA(KFM(ifm),MXP) ',
+c     >  i,ifm,mxp,JPA(KFM(ifm),MXP), VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
+c     >  , kfm(ifm)
         ENDDO
       ENDDO
 

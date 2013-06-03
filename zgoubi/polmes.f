@@ -62,7 +62,10 @@ C     > ,YCH,ZCH
 
       IF(KUASEX .EQ. 22) NDIM=2
 
-      BNORM = A(NOEL,10)*SCAL
+C Possible SCAL change is by CAVITE
+C Possible A(noel,10) change by FIT
+C Apr 2013      BNORM = A(NOEL,10)*SCAL
+      BNORM = A(NOEL,10)
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       TITL = TA(NOEL,1)
@@ -140,7 +143,9 @@ C           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
       IF(KUASEX .EQ. 22 ) THEN
 C------ POLARMES
 C------ CARTE POLAIRE 2-D 
+
         IF(NEWFIC) THEN
+
           IF(IDLUNI(
      >              LUN)) THEN
             BINAR=BINARI(NOMFIC(NFIC),IB)
@@ -161,8 +166,8 @@ C------ CARTE POLAIRE 2-D
           CALL FMAPR(BINAR,LUN,MOD,MOD2,NHD,
      >                                 RM)
   
-          DO 222 J=1,JYMA
-            DO  222  I = 1,IXMA
+          DO J=1,JYMA
+            DO I = 1,IXMA
               BFLD = HC(ID,I,J,1,IMAP)
               IF    (BFLD .GT. BMAX) THEN
                 BMAX = BFLD
@@ -175,9 +180,10 @@ C------ CARTE POLAIRE 2-D
                 YBMI = YH(J)
                 ZBMI = 0D0
               ENDIF
-              HC(ID,I,J,1,IMAP) = BFLD * BNORM
+C              HC(ID,I,J,1,IMAP) = BFLD * BNORM
 c                 write(*,*) ' polmes ',BFLD, BNORM
- 222      CONTINUE
+            ENDDO
+          ENDDO
 
           BMIN = BMIN * BNORM
           BMAX = BMAX * BNORM
@@ -194,10 +200,12 @@ c                 write(*,*) ' polmes ',BFLD, BNORM
           ENDDO
 
 
-        ENDIF
+        ENDIF ! NEWFIC
 
       ENDIF
 C----- KUASEX
+
+      CALL CHAMK2(BNORM*SCAL)
 
       CALL MAPLI1(BMAX-BMIN)
 

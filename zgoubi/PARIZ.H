@@ -113,8 +113,8 @@ c      PARAMETER (IZ=1 , ID=3, MMAP=1)
 c      PARAMETER (MXX=71, MXY=151)
 
 CC Daedalus cyclo
-c      PARAMETER (IZ=1 , ID=3, MMAP=8)
-c      PARAMETER (MXX=91, MXY=471)
+c      PARAMETER (IZ=1 , ID=3, MMAP=6)
+c      PARAMETER (MXX=121, MXY=471)
 
 CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- GSI KAOS

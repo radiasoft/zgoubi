@@ -18,17 +18,37 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RSEPAR
+      SUBROUTINE RDAMPE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER*80 TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
+           integer debstr, finstr
  
-      READ(NDAT,*) IA,(A(NOEL,I),I=2,4)
-      A(NOEL,1) = IA
+      READ(NDAT,*) A(NOEL,1)
+C KHV, Gain, local btax, btay
+      READ(NDAT,*) A(NOEL,10), A(NOEL,11), A(NOEL,12), A(NOEL,13)
+C # of PUs, PU name(s)
+      READ(NDAT,fmt='(a)') TA(NOEL,1)
+      READ(TA(NOEL,1),*)  ia
+      A(NOEL,20)  = ia
+      do ipu = 1, ia
+        TA(NOEL,IPU) = 
+     >  TA(NOEL,IPU)(DEBSTR(TA(NOEL,IPU))+2:FINSTR(TA(NOEL,IPU)))
+        TA(NOEL,IPU) = 
+     >  TA(NOEL,IPU)(DEBSTR(TA(NOEL,IPU)):FINSTR(TA(NOEL,IPU)))
+      enddo
+
+C # btax, btay at PU (x IA)
+      IB = 2*IA + 29
+      READ(NDAT,*) (A(NOEL,I),i=30,ib)
+
       RETURN
       END

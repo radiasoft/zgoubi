@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PICKUP
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -43,8 +42,8 @@ C     -----------------------------------------------------
       COMMON/TITR/ TITRE 
        
       LOGICAL IDLUNI, OPN
-      SAVE OPN
-
+      SAVE OPN, KPCKUP
+ 
       DATA OPN / .FALSE. /
 
       KPCKUP = 1
@@ -109,5 +108,10 @@ C      IPU = 0
       CALL ENDJOB('*** Error, SBR PICKUP -> can`t open strage file',-99)
  98   CONTINUE
       CALL REBEL2(KPCKUP)
+      RETURN
+
+      ENTRY PICKU1(
+     >             KPU)
+      KPU = KPCKUP
       RETURN
       END

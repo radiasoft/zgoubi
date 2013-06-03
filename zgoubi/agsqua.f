@@ -131,7 +131,7 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
         WRITE(NRES,103) BM(I2)
  103    FORMAT(15X,' Field at pole tip  = ',1P,G15.7,' kG')
         WRITE(NRES,FMT='(15X,'' Strength  = '',1P,G15.7
-     >  ,''    (dp_ref = '',G15.7'')'')') QUADK1,DPREF 
+     >  ,''    (dp_ref = '',G15.7,'')'')') QUADK1,DPREF 
         WRITE(NRES,FMT=
      >  '(15X,A,/,15X,3(A,1P,E13.5),/,15X,A,/,15X,3(A,1P,E13.5))') 
      >    ' Winding currents (Ampere) : '

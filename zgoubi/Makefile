@@ -32,7 +32,6 @@ OBJ=\
  beamat.o\
  bendf.o\
  bendi.o\
- besknu.o\
  bi1.o\
  bi1p.o\
  binari.o\
@@ -73,6 +72,8 @@ OBJ=\
  csrint.o\
  ctrlb.o\
  cubspl.o\
+ damper.o\
+ dlain.o\
  dbdxyz.o\
  debstr.o\
  dejaca.o\
@@ -108,12 +109,11 @@ OBJ=\
  end.o\
  endfit.o\
  endjob.o\
- eplate.o\
- eplatf.o\
  ererz.o\
  erexyz.o\
  esl.o\
  eslvir.o\
+ et2res.o\
  event.o\
  fborne.o\
  ffagi.o\
@@ -142,7 +142,6 @@ OBJ=\
  gascat.o\
  gasesl.o\
  gasini.o\
- gaussq.o\
  geneta.o\
  getnam.o\
  getnol.o\
@@ -232,6 +231,7 @@ OBJ=\
  pckup.o\
  pickup.o\
  pltdat.o\
+ pmat.o\
  poidev.o\
  polmes.o\
  prdata.o\
@@ -255,6 +255,7 @@ OBJ=\
  rcoils.o\
  rcolli.o\
  rcsr.o\
+ rdampe.o\
  rdipc.o\
  rdip.o\
  rdips.o\
@@ -374,7 +375,7 @@ OBJ=\
 
 .f.o:
 	$(FC) $(FFLAGS) -I$(INC) -c $<
-
+ 
 zgoubi : $(OBJ)
 	$(FC) $(LDFLAGS) $(OBJ) -L../common -lzg -o $@
 
@@ -420,6 +421,7 @@ coils.o: $(INC)/MXLD.H
 collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
+damper.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dipc.o: $(INC)/MXLD.H
 dipi.o: $(INC)/MXLD.H
@@ -435,7 +437,6 @@ emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 endfit.o: $(INC)/MXLD.H
-eplate.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
@@ -505,8 +506,8 @@ objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 okkt.o: $(INC)/OKKT.H
-opticc.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 option.o: $(INC)/MXLD.H
+opticc.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 path.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 pavel.o: PARIZ.H
@@ -527,6 +528,7 @@ rchang.o: $(INC)/MXLD.H
 rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H
+rdampe.o: $(INC)/MXLD.H
 rdipc.o: $(INC)/MXLD.H
 rdip.o: $(INC)/MXLD.H
 rdips.o: $(INC)/MXLD.H

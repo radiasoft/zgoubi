@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -52,7 +52,7 @@ C------        Beam_ref    +dp/p     -dp/p
       LOGICAL PRDIC
 
       DIMENSION RO(6,6)
-      CHARACTER(140) BUFFER
+C      CHARACTER(140) BUFFER
       INTEGER DEBSTR, FINSTR
       LOGICAL IDLUNI, OK
 
@@ -159,9 +159,16 @@ C        CALL REFER(2,IORD,IFOC,1,6,7)
       ENDIF
 
 c---------------------------------------------------------------------------------
-c            Exportation of the matrix coefficients (coupled formalism, Fred)
+c      write(*,*)
+c     >'Exportation of the matrix coefficients (coupled formalism, Fred)'
+c            read(*,*)
 c---------------------------------------------------------------------------------
-       return
+
+
+C       RETURN
+
+
+
       IF(.NOT. PRDIC) RETURN
 
 c      OK = IDLUNI(
@@ -200,15 +207,38 @@ c 39   CONTINUE
          WRITE(lunW,FMT='(4(F15.8,1X))') (R(I,J),J=1,4)
       ENDDO
 
-      CLOSE(lunR,IOSTAT=IOS1)
+C      CLOSE(lunR,IOSTAT=IOS1)
       CLOSE(lunW,IOSTAT=IOS2)
 c----------------------------------------------
 
 C      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
       cmmnd = '~/zgoubi/current/coupling/ETparam'
-      write(6,*) ' Pgm matric. Now doing ' 
-     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
+c      write(6,*) ' Pgm matric. Now doing ' 
+c     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
       CALL SYSTEM(cmmnd)
+
+c            read(*,*)
+
+      IF(NRES .GT. 0) WRITE(NRES,FMT='(/,'' Pgm matric, '',
+     >'' now calling et2res.  '')')
+
+      call et2res(nres)
+      call et2re1(
+     >             F011,f012,f033,f034,phy,phz)
+      IF(NRES .GT. 0) then
+        WRITE(NRES,*)
+        WRITE(NRES,*) '--------------------------------------'
+        WRITE(NRES,*) ' Pgm matric. '
+        WRITE(NRES,*)
+        WRITE(NRES,*) ' Coupled modes : '
+        WRITE(NRES,*) ' bet1, alf1 : ',    F011,-f012
+        WRITE(NRES,*) ' bet2, alf2 : ',    f033,-f034
+        WRITE(NRES,*) ' Q1, Q2 :     ',    phy,phz  
+        WRITE(NRES,*)
+        WRITE(NRES,*) '--------------------------------------'
+        WRITE(NRES,*)
+
+      ENDIF
 
       RETURN
 

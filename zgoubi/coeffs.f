@@ -26,13 +26,12 @@ C  -------
      >                                     F0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),T(6,6,*),F0(6,*)
-C     ---------------------------
-C     TRANSFER  COEFFICIENTS
-C       called during FIT process
-C     ---------------------------
+C     ----------------------------------------------------------------------
+C     Transfer  coefficients
+C     Called by ff during FIT process. IOPT=1 if fitting beam matrix coeffs.
+C     ----------------------------------------------------------------------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -43,7 +42,9 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       COMMON/UNITS/ UNIT(MXJ)
  
       DIMENSION TX3(5,6) , TX4(5,6)
- 
+      logical prdic
+      data prdic / .false. /
+
       IF    (IORD .EQ. 1) THEN
         IT1 = 1 + 11 * (IREF-1)
         IT2 = IT1+3
@@ -59,7 +60,8 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
  
       CALL MKSA(IORD,R,T,TX3,TX4)
 
-      IF(IOPT.EQ.1) CALL BEAMAT(R,
+      prdic = .false.
+      IF(IOPT.EQ.1) CALL BEAMAT(R,prdic,
      >                            F0,PHY,PHZ)
  
       RETURN

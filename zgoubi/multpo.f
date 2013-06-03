@@ -207,18 +207,18 @@ C------- FM, LHC purpose, Fermilab, 1996
       ENDIF
 C------------ KUASEX
  
-C------- MULTIPOLE
-        DO 7 IM = NM0+1,NM
-          DLE(IM)  = DLE(NM0)*DLE(IM)
- 7        DLS(IM)  = DLS(NM0)*DLS(IM)
- 
-C              write(nlog,*) 'SBR MULTPO, ipass, bm(1)', ipass, bm(1)
+C----- MULTIPOLE
+      DO IM = NM0+1,NM
+        DLE(IM)  = DLE(NM0)*DLE(IM)
+        DLS(IM)  = DLS(NM0)*DLS(IM)
+      ENDDO
 
-          sXL = XL
+      SXL = XL
 
-          AKS(1) =  BM(1)/1.d0/(BORO*DPREF)*1.d2
-          AKS(2) =  BM(2)/(RO)/(BORO*DPREF)*1.d4
-          AKS(3) =  BM(3)/(RO**2)/(BORO*DPREF)*1.d6
+      AKS(1) =  BM(1)/1.D0/(BORO*DPREF)*1.D2
+      AKS(2) =  BM(2)/(RO)/(BORO*DPREF)*1.D4
+      AKS(3) =  BM(3)/(RO**2)/(BORO*DPREF)*1.D6
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
@@ -265,17 +265,17 @@ C-------- Sharp edge at entrance and exit
      >    1P,3(1X,E12.4))') FINTE,FINTS,GAP
         ENDIF
         IF(KFL .EQ. MG) THEN
-C          IF(KUASEX .EQ. MPOL+1) THEN
-C------------- Set entrance & exit wedge correction in SBR INTEGR
-C            IF(BM(1) .NE. 0.D0) THEN
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
-            IF(XL .GT. 2.D0) THEN            
+          IF(KUASEX .EQ. MPOL+1) THEN
+C------------- MULTIPOL case. Set entrance & exit wedge correction in SBR INTEGR
+            IF(BM(1) .NE. 0.D0) THEN
+C FM, Oct. 2011. Avoid wedge correction with short lens
+              IF(XL .GT. 2.D0) THEN            
 C FM, 2006
-              CALL INTEG1(ZERO,FINTE,GAP)
-              CALL INTEG2(ZERO,FINTS,GAP)
+                CALL INTEG1(ZERO,FINTE,GAP)
+                CALL INTEG2(ZERO,FINTS,GAP)
+              ENDIF
             ENDIF
-c            ENDIF
-C          ENDIF
+          ENDIF
         ENDIF
         
       ELSE
@@ -297,14 +297,14 @@ C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
      >      1P,2(1X,E12.4))') FINTE,GAP
           ENDIF
           IF(KFL .EQ. MG) THEN
-C            IF(KUASEX .EQ. MPOL+1) THEN
-C              IF(BM(1) .NE. 0.D0) THEN
+            IF(KUASEX .EQ. MPOL+1) THEN
+              IF(BM(1) .NE. 0.D0) THEN
 C----------- Set entrance wedge correction in  SBR INTEGR
 C FM, 2006
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
-            IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
-C              ENDIF
-C            ENDIF
+C FM, Oct. 2011. Avoid wedge correction with short lens
+                IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
+              ENDIF
+            ENDIF
           ENDIF
         ELSE
 C---------- IFB = 0 if no mixff
@@ -369,14 +369,14 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
      >      1P,2(1X,E12.4))') FINTS,GAP
           ENDIF
           IF(KFL .EQ. MG) THEN
-C            IF(KUASEX .EQ. MPOL+1) THEN
+            IF(KUASEX .EQ. MPOL+1) THEN
 C------------- Set exit wedge correction in SBR INTEGR
-C              IF(BM(1) .NE. 0.D0) THEN
-C FM, Oct. 2011. Avoid wedge correction with thin-lens like kick
+              IF(BM(1) .NE. 0.D0) THEN
+C FM, Oct. 2011. Avoid wedge correction with short lens
 C FM, 2006
-            IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
-C              ENDIF
-C            ENDIF
+                IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
+              ENDIF
+            ENDIF
           ENDIF
         ELSE
           IF( IFB .EQ. 0 .OR. IFB .EQ. -1 ) THEN
@@ -424,24 +424,24 @@ C----- MULTIPOL
         IF(XE .EQ. 0.D0) THEN
 C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
-C          IF(BM(1) .NE. 0.D0) THEN
+          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
      >      ''vertical wedge focusing approximated with '',
      >      ''first order kick. FINT at entrance = '',1P,2G12.4)') 
      >      FINTE
-C          ENDIF
+          ENDIF
         ENDIF
         IF(XLS .EQ. 0.D0) THEN
 C------- Exit sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
-C          IF(BM(1) .NE. 0.D0) THEN
+          IF(BM(1) .NE. 0.D0) THEN
             IF(NRES.GT.0) 
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
      >      '' vertical wedge focusing approximated with '',
      >      ''first order kick. FINT at exit = '',1P,2G12.4)') 
      >      FINTS
-C          ENDIF
+          ENDIF
         ENDIF
       ENDIF
 

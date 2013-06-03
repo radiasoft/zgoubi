@@ -176,10 +176,10 @@ C        PP = BORO*CL*1.D-9*Q
         WRITE(NRES,FMT='(5X,'' Average energy loss per particle :'',1P,
      >  T50,g15.7,'' keV.       Relative to initial energy :'',g15.7)') 
      >  TTLOSS/XEVNT *1.D3,TTLOSS/(XEVNT*EE)
-        WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :'',1P,
-     >  T50,g15.7,'' keV'')') ECMEAN/XSTEP *1.D3
-        WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :'',1P,
-     >  T50,g15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
+        WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :''
+     >  ,1P,T50,g15.7,'' keV'')') ECMEAN/XSTEP *1.D3
+        WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :''
+     >  ,1P,T50,g15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
      >  T50,g15.7,'' keV'')') 
      >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3

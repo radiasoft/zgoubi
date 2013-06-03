@@ -49,7 +49,7 @@ C Numb of options. NBOP lines should follow
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR option : nmbr of options exceded ; max is ',40)
        
-      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
+      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(T25,I2,A)') 
      >nbop, ' option(s) expected.  Option(s) found :'
 
       DO I = 1, NBOP
@@ -65,17 +65,25 @@ C Numb of options. NBOP lines should follow
      > ' Action(s) taken :' 
 
       IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
-        NRSAV = NRES
-        NRES = -ABS(NRES)
-        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T5,A)') 
+ 2      if(nrsav .eq. -11111) then
+          WRITE(ABS(NRES),FMT='(/,T5,A)') 
      >    'WRITE OFF -> '//
      >    'A lot of (almost all) WRITE statements will be inhibited !'
+          WRITE(abs(NRES),201)
+ 201      FORMAT(/,132('*'))
+        endif
         kwroff = 1
+        NRSAV = NRES
+        NRES = -ABS(NRES)
       ELSE
         IF(NRSAV .NE. -11111) THEN 
           NRES = ABS(NRES)
+          WRITE(abs(NRES),201)
+          WRITE(abs(NRES),*)  '  Keyword ''OPTIONS'' '
+          WRITE(ABS(NRES),FMT='(T25,I2,A,/)') 
+     >    nbop, ' option(s) expected.  Option(s) found :'
           WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
-     >    'WRITE bit in OPTION set to 1.'
+     >    'WRITE bit in ''OPTIONS'' set to 1.'
           kwroff = 0
         ENDIF
       ENDIF

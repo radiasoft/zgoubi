@@ -104,7 +104,7 @@ C  In xags.madx :
       PARAMETER (F1C2 =  5.948189D-6 )
       PARAMETER (F1C1 =  2.984878D-3 )
       PARAMETER (F1C0 =  1.025763D-3 *0D0)
-           
+
       LBL1 = LABEL(NOEL,1)
       INIL = DEBSTR(LBL1)
 

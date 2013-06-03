@@ -359,7 +359,8 @@ c      if(blwi .gt. 1e-6) then
         BM(I) = BM(I) * ( 1.D0 + BLWI/ AGSMMA(DEV) )
 c        IF(I.EQ.1) THEN
 c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) ' MM_F08CD'
-c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) bm(i),blwi,AGSMMA(DEV),dev 
+c        IF(MMNM.EQ.'MM_F08CD')write(*,*)bm(i),blwi,AGSMMA(DEV),dev,wa(1) 
+c         IF(MMNM .EQ. 'MM_F08CD') write(*,*) ' '
 cc         IF(MMNM .EQ. 'MM_F08CD') read(*,*)
 c         IF(MMNM .EQ. 'MM_F09BF') write(*,*) ' MM_F09BF'
 c         IF(MMNM .EQ. 'MM_F09BF') write(*,*) bm(i),blwi,AGSMMA(DEV),dev 

@@ -1220,4 +1220,7 @@ C----- OPTION.
 C----- EPLATES.
  114  CONTINUE
       GOTO 341
+C----- DAMPER. 
+ 115  CONTINUE
+      GOTO 341
       END

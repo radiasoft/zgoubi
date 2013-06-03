@@ -22,47 +22,150 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE BEAMAT(R,
+      SUBROUTINE BEAMAT(R,PRDIC,
      >                    F0,PHY,PHZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),F0(6,*)
+      LOGICAL PRDIC
       COMMON/BEAM/ FI(6,6)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
       DIMENSION FII(6,6)
+      LOGICAL OK, IDLUNI
+      INTEGER DEBSTR, FINSTR
+      CHARACTER(50) CMMND
+      PARAMETER (N4 = 4)
+      DIMENSION RTURN(N4,N4)
+      DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
+      DIMENSION N0(N4), B(N4)
 
-      F0(1,1) = R(1,1)*R(1,1)*FI(1,1)-2.D0*R(1,1)*R(1,2)*FI(2,1) +
+      IF(.NOT. PRDIC) THEN
+        F0(1,1) = R(1,1)*R(1,1)*FI(1,1)-2.D0*R(1,1)*R(1,2)*FI(2,1) +
      >  R(1,2)*R(1,2)*FI(2,2)
-      F0(1,2) = -(  R(1,1)*R(2,1)*FI(1,1) -
+        F0(1,2) = -(  R(1,1)*R(2,1)*FI(1,1) -
      >  ( 1.D0 + 2.D0*R(1,2)*R(2,1) )*FI(2,1) +
      >  R(1,2)*R(2,2)*FI(2,2)  )
-      F0(2,1) = F0(1,2) 
-      F0(2,2) = R(2,1)*R(2,1)*FI(1,1) - 2.D0*R(2,2)*R(2,1)*FI(2,1) +
+        F0(2,1) = F0(1,2) 
+        F0(2,2) = R(2,1)*R(2,1)*FI(1,1) - 2.D0*R(2,2)*R(2,1)*FI(2,1) +
      >  R(2,2)*R(2,2)*FI(2,2)
-      F0(3,3) = R(3,3)*R(3,3)*FI(3,3)-2.D0*R(3,3)*R(3,4)*FI(4,3) +
+        F0(3,3) = R(3,3)*R(3,3)*FI(3,3)-2.D0*R(3,3)*R(3,4)*FI(4,3) +
      >  R(3,4)*R(3,4)*FI(4,4)
-      F0(3,4) = -(  R(3,3)*R(4,3)*FI(3,3) -
+        F0(3,4) = -(  R(3,3)*R(4,3)*FI(3,3) -
      >  ( 1.D0 + 2.D0*R(3,4)*R(4,3) )*FI(4,3) +
      >  R(3,4)*R(4,4)*FI(4,4)  )
-      F0(4,3) = F0(3,4) 
-      F0(4,4) = R(4,3)*R(4,3)*FI(3,3) - 2.D0*R(4,4)*R(4,3)*FI(4,3) +
+        F0(4,3) = F0(3,4) 
+        F0(4,4) = R(4,3)*R(4,3)*FI(3,3) - 2.D0*R(4,4)*R(4,3)*FI(4,3) +
      >  R(4,4)*R(4,4)*FI(4,4)
-      F0(1,6) = R(1,1)*FI(1,6) +R(1,2)*FI(2,6) +R(1,3)*FI(3,6) +
+        F0(1,6) = R(1,1)*FI(1,6) +R(1,2)*FI(2,6) +R(1,3)*FI(3,6) +
      >  R(1,4)*FI(4,6) +R(1,5)*FI(5,6) +R(1,6)*FI(6,6) 
-      F0(2,6) = R(2,1)*FI(1,6) +R(2,2)*FI(2,6) +R(2,3)*FI(3,6) + 
+        F0(2,6) = R(2,1)*FI(1,6) +R(2,2)*FI(2,6) +R(2,3)*FI(3,6) + 
      >  R(2,4)*FI(4,6) +R(2,5)*FI(5,6) +R(2,6)*FI(6,6) 
-      F0(3,6) = R(3,1)*FI(1,6) +R(3,2)*FI(2,6) +R(3,3)*FI(3,6) + 
+        F0(3,6) = R(3,1)*FI(1,6) +R(3,2)*FI(2,6) +R(3,3)*FI(3,6) + 
      >  R(3,4)*FI(4,6) +R(3,5)*FI(5,6) +R(3,6)*FI(6,6) 
-      F0(4,6) = R(4,1)*FI(1,6) +R(4,2)*FI(2,6) +R(4,3)*FI(3,6) + 
+        F0(4,6) = R(4,1)*FI(1,6) +R(4,2)*FI(2,6) +R(4,3)*FI(3,6) + 
      >  R(4,4)*FI(4,6) +R(4,5)*FI(5,6) +R(4,6)*FI(6,6) 
 
 C Betatron phase advance
 c        PHY = atan2(R(1,2) , ( R(1,1)*F0(1,1) - R(1,2)*F0(1,2)))
 c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
-      PHY = atan2(R(1,2) , ( R(1,1)*FI(1,1) - R(1,2)*FI(1,2)))
-       IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
-      PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
-       IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+        PHY = atan2(R(1,2) , ( R(1,1)*FI(1,1) - R(1,2)*FI(1,2)))
+        IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
+        PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
+        IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+
+      ELSE
+
+C R is the matrix from OBJET down to here. Make it 4x4
+        DO J=1,4
+          DO I=1,4
+            R44(I,J) = R(I,J)
+            RINV(I,J) = R44(I,J)
+          ENDDO
+        ENDDO
+c        write(*,*)  ' beamat. R(here <- OBJET) :  '
+c        write(*,fmt='(1p,4e14.6)') ((r44(i,j),j=1,4),i=1,4)
+
+Compute the inverse of R
+        CALL DLAIN(N4,N4,RINV,N0,B,IER)
+
+C Get the 4x4 1-trun map, make it 4x4
+        call twiss1(
+     >              rturn)
+        call ZGNOEL(
+     >             NOEL)
+c        write(*,*)  ' Noel = ',noel, '   RTURN @ end :  '
+c        write(*,fmt='(1p,4e14.6)') ((rturn(i,j),j=1,4),i=1,4)
+            
+        call pmat(rturn,RINV,RINT,4,4,4)
+c        write(*,*)  ' rturn * R^-1 : '
+c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
+c        write(*,*)  ' R :  '
+c        write(*,fmt='(1p,4e14.6)') ((r44(i,j),j=1,4),i=1,4)
+
+        call pmat(R44,RINT,rturn,4,4,4)
+C RTURN now contains the local 1-turn map 
+
+c        write(*,*)  ' here : '
+c        write(*,fmt='(1p,4e14.6)') ((rturn(i,j),j=1,4),i=1,4)
+c        write(*,*) ' qx, qy : ',acos(.5d0*(rturn(1,1)+rturn(2,2)))
+c     >              ,acos(.5d0*(rturn(3,3)+rturn(4,4)))
+c              read(*,*)
+
+c        write(*,*)  ' R :  '
+c        write(*,fmt='(1p,4e14.6)') ((r(i,j),j=1,4),i=1,4)
+c        write(*,*)  ' R**-1 : '
+c        write(*,fmt='(1p,4e14.6)') ((rinv(i,j),j=1,4),i=1,4)
+c        write(*,*)  ' R * R**-1 : '
+c        call pmat(R44,RINV,RINT,4,4,4)
+c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
+c        write(*,*)  ' '
+c        write(*,*)  ' R**-1 * R : '
+c        call pmat(RINV,R44,RINT,4,4,4)
+c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
+c        write(*,*)  ' '
+
+
+        OK = IDLUNI(
+     >            LUNW)
+        IF(.NOT. OK) CALL ENDJOB(
+     >  'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
+
+        OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
+        WRITE(lunW,FMT='(//)')
+        WRITE(lunW,FMT='(
+     >  ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
+        DO I=1,4
+           WRITE(lunW,FMT='(4(F15.8,1X))') (rturn(I,J),J=1,4)
+        ENDDO
+
+        CLOSE(lunW,IOSTAT=IOS2)
+
+        cmmnd = '~/zgoubi/current/coupling/ETparam'
+c        write(6,*) ' Pgm beamat. Now doing ' 
+c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
+        CALL SYSTEM(cmmnd)
+
+        OK = IDLUNI(
+     >            LUNW)
+        call et2res(lunw)
+
+
+        call et2re1(
+     >             F011,f012,f033,f034,phy,phz)
+        F0(1,1) = F011
+        F0(1,2) = f012
+        F0(2,1) = F0(1,2) 
+        F0(2,2) = (1.d0 + f012*f012 ) / F011
+        F0(3,3) = f033
+        F0(3,4) = f034
+        F0(4,3) = F0(3,4) 
+        F0(4,4) = (1.d0 + f034*f034 ) / F033
+
+        IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
+        IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+
+         
+      endif
 
       RETURN
 

@@ -85,7 +85,7 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
       enddo
 
       KF1 = 1
-      ifm = 0
+      IFM = 0
 
  3    continue
 
@@ -141,8 +141,8 @@ C------------ ...or if it has no label at all
       GOTO 99
 
  2    CONTINUE
-      ifm = ifm + 1
-      KFM(ifm) = KF
+      IFM = IFM + 1
+      KFM(IFM) = KF
 
       KTI = NTIM(KF)
       IF(KTI .NE. 0) THEN

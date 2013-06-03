@@ -98,16 +98,22 @@ C----- To get values into A(), from earlier FIT
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
       CHARACTER(LBLSIZ) LBLOPT
-      SAVE KOPTIP, KOPTCS, LBLOPT
+      SAVE KOPIMP, KOPTCS, LBLOPT
       LOGICAL OKLNO
 
       LOGICAL EMPTY, IDLUNI
 
       SAVE LNOPTI
       SAVE PNLTGT
+      save oklno
 
 C This INCLUDE must stay located right before the first statement
       CHARACTER(KSIZ) KLEO
+ 
+      logical prdic
+
+      data prdic / .false. /
+      data oklno / .false. /
 
       INCLUDE 'LSTKEY.H'
       
@@ -148,8 +154,7 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
       NOEL = NL1-1
 
  998  CONTINUE
-c         write(*,*) ' boooooooooooooooonnnnnn ', noel
-c           read(*,*)
+  
       IF(PRLB) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
@@ -178,16 +183,27 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
       ENDIF
 
+
       IF(KOPTCS .EQ. 1) THEN
 C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
-        IF(EMPTY(LBLOPT) .OR. 
+
+C                               
+        IF(KUASEX .NE. -99) THEN
+C         Only if keyword is of optical element type or [MC]OBJET or END
+
+          IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
 
-          CALL OPTICC(LNOPTI,NOEL,KOPTIP)
+            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC)
 
+          ENDIF
         ENDIF
       ENDIF
+
+C This was introduced so to restrain OPTICS to optics-type keywords
+          KUASEX = -99
+
 
       IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
@@ -204,11 +220,6 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         ENDIF
       ENDIF
  
-c         if(fiting) then
-c                write(*,*) ' zgoubi ', readat, noel,kley
-c                read(*,*)
-c             endif
-
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
@@ -277,6 +288,7 @@ C---------------------------------------------------
  
 C----- DRIFT, ESL. Free space. 
  1    CONTINUE
+      KUASEX = 0
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(FITGET) CALL FITGT1
       CALL ESL(1,A(NOEL,1),1,IMAX)
@@ -444,12 +456,14 @@ C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       GOTO 998
 C----- OBJET. 
 24    CONTINUE
+      KUASEX = 0
       IF(READAT) CALL ROBJET
       IF(FITGET) CALL FITGT1
       CALL OBJETS
       GOTO 998
 C----- MCOBJET. Object defined by Monte-Carlo
  25   CONTINUE
+      KUASEX = 0
       IF(READAT) CALL RMCOBJ
       IF(.NOT. FITING) THEN
         CALL MCOBJ
@@ -904,18 +918,18 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
      >  *,ERR=801,END=801) KOPTCS, LBLOPT
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPTIP
+     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPIMP
       ENDIF
       GOTO 802
  801  CONTINUE
       LBLOPT = 'all'
       GOTO 802
  803  CONTINUE
-      KOPTIP = 0
+      KOPIMP = 0
       IF(NRES.GT.0) THEN
         WRITE(NRES,*)  ' '
         WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
-     >  ,'KOPTCS, LBLOPT, KOPTIP from  zgoubi.dat' 
+     >  ,'KOPTCS, LBLOPT, KOPIMP from  zgoubi.dat' 
       ENDIF
  802  CONTINUE
       IF (KOPTCS .NE. 1) KOPTCS = 0
@@ -927,17 +941,21 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >  LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))  //
      >  '  (will print beam matrix into zgoubi.res at those labels)' 
         WRITE(NRES,*)  ' '
-        WRITE(NRES,*)  ' KOPTIP=',KOPTIP,
+        WRITE(NRES,*)  ' KOPIMP=',KOPIMP,
      >  '  (print betas into zgoubi.OPTICS.out, no/yes = 0/1)'
         WRITE(NRES,*)  ' '
       ENDIF
-      OKLNO = .FALSE. 
-      IF(KOPTIP.EQ.1) THEN
-        IF(IDLUNI(
-     >            LNOPTI)) THEN
-          OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
-          OKLNO = .TRUE.
-          WRITE(LNOPTI,fmt='(a)') 
+C      OKLNO = .FALSE. 
+      IF(KOPIMP.EQ.1) THEN
+        if(.not. oklno) then
+          IF(IDLUNI(
+     >          LNOPTI)) THEN
+            OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
+            OKLNO = .TRUE.
+          endif
+          if(oklno) then
+            WRITE(LNOPTI,fmt='(a)') '# From OPTICS keyword'
+            WRITE(LNOPTI,fmt='(a)') 
      >         '# alfx,         btx,          alfy,         bty, ' //
      >         '         alfl,         btl,          Dx,         ' //
      >         '  Dxp,          Dy,           Dyp,          phix,' //
@@ -945,7 +963,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >         '         xp,           y,            yp,         ' //
      >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L  '
-          WRITE(LNOPTI,fmt='(a)') 
+            WRITE(LNOPTI,fmt='(a)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
      >         '  8             9             10            11   ' //
@@ -953,12 +971,13 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
      >         '23            24            25      '
-        ENDIF                          
+          endif
+        endif
       ENDIF
       GOTO 998
  899  CONTINUE
-      IF(NRES.GT.0) 
-     >WRITE(NRES,*) ' KEYWORD OPTICS. Error open zgoubi.OPTICS.out . ' 
+C      IF(NRES.GT.0) 
+      WRITE(abs(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE
@@ -1024,12 +1043,47 @@ C----- BETATRON. Betatron core
       CALL DPKICK(DPKCK)
       GOTO 998
 C----- TWISS. Compute linear lattice functions, chromaticity, etc. 
+C      Also prints periodic beta functions (sets KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unsued
       IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
-      CALL TWISS(
-     >           READAT)
+      IF(.NOT. OKLNO) THEN
+        IF(IDLUNI(
+     >            LNOPTI)) THEN
+          OPEN(UNIT=LNOPTI,FILE='zgoubi.TWISS.out',ERR=899)
+          OKLNO = .TRUE.
+        ENDIF
+      ENDIF
+      CALL TWISS(LNOPTI,
+     >           KOPTCS,READAT)
+      IF(KOPTCS .EQ. 1) THEN
+        KOPIMP = 2
+        LBLOPT = 'all'
+        PRDIC = .TRUE.
+          IF(OKLNO) THEN
+            WRITE(LNOPTI,fmt='(a)') '# From TWISS keyword'
+            WRITE(LNOPTI,fmt='(a)') 
+     >         '# alfx,         btx,          alfy,         bty, ' //
+     >         '         alfl,         btl,          Dx,         ' //
+     >         '  Dxp,          Dy,           Dyp,          phix,' //
+     >         '         phiy,         sum_s,        #lmnt, x,   ' //
+     >         '         xp,           y,            yp,         ' //
+     >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
+     >         'K0*L          K1*L          K2*L  '
+            WRITE(LNOPTI,fmt='(a)') 
+     >         '# 1             2             3             4    ' //
+     >         '         5             6             7           ' //
+     >         '  8             9             10            11   ' //
+     >         '         12            13            14     15   ' //
+     >         '         16            17            18          ' //
+     >         '19         20         21           22            ' //
+     >         '23            24            25      '
+          ENDIF
+      ELSE
+C        KOPIMP = 0
+C        OKLNO = .FALSE.
+      ENDIF
       GOTO 998
 C----- END. End of run, except for some options that may need more
  90   CONTINUE
@@ -1202,8 +1256,6 @@ C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or spec
         CALL RAGSMM(NDAT,NOEL,MXL,A,ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
-c        write(*,*) ' zgoubi agsmm noel ',noel 
-c          read(*,*)
       ENDIF
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
@@ -1246,6 +1298,12 @@ C----- EPLATES.
       ENDIF
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
+      GOTO 998
+C----- DAMPER. 
+ 115  CONTINUE
+      IF(READAT) CALL RDAMPE
+      IF(FITGET) CALL FITGT1
+      CALL DAMPER
       GOTO 998
 
 C-------------------------

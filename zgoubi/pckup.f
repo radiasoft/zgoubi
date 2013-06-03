@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PCKUP(NOEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -45,6 +44,9 @@ C     -----------------------------------------------------
       DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU), NOELPU(MXPU)
       SAVE FPUL, FPUL2, NOELPU
 
+      DIMENSION TBT(MXPUD,2)
+      SAVE TBT
+
       DATA NOELPU / MXPU*0 /
 
 C----- Pick-up number. Reset to 0 in SBR PICKUP
@@ -57,6 +59,8 @@ C----- Pick-up number. Reset to 0 in SBR PICKUP
 
       NT = 0
       DO 2 I = 1, IMAX
+        TBT(IPU,1) = TBT(IPU,1) + F(2,I)
+        TBT(IPU,2) = TBT(IPU,2) + F(4,I)
         IF( IEX(I) .GT. 0) THEN
           NT = NT+1
           DO 1 J = 1, 7
@@ -72,7 +76,7 @@ C----- Pick-up number. Reset to 0 in SBR PICKUP
           DO 3 J = 1, 5
             FPU(J,IPU) = FPU(J,IPU) + FPUL(J,IPU)
  3        CONTINUE
-C          cumulated path length
+C          CUMULATED PATH LENGTH
           FPU(6,IPU) = FPUL(6,IPU)
 C          cumulated time
           FPU(7,IPU) = FPUL(7,IPU)
@@ -96,6 +100,7 @@ C------- Record pick-up position (cm)
 
       ENTRY PCKUP2
       IPU = 0
+      CALL RAZ(TBT,MXPUD*2)
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       RETURN
@@ -123,6 +128,14 @@ C------- Record pick-up position (cm)
         IF(IPU.GT.0) WRITE(NRES,*) ' Of which last PU is # ',
      >  IPU,' (located at  element NOEL = ',NOELPU(IPU),')'
       ENDIF
+      RETURN
+
+      ENTRY PCKUP5(MPU
+     >                ,YCM,ZCM)
+      if(   FPUL(8,MPU) .le.0 )
+     >  call endjob(' SBR pckup. All particles fucked up !',-99)
+      YCM = TBT(MPU,1) /    FPUL(8,MPU) 
+      ZCM = TBT(MPU,2) /    FPUL(8,MPU) 
       RETURN
 
       END

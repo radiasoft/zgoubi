@@ -48,8 +48,16 @@ C  -------
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
 
+      KSO = NINT(A(NOEL,1))
+      KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
+
+      ONCE = KSO .GE. 1  .OR. ONCE 
+
       CALL REBELR(KREB3,KREB31)
-      IF(KREB3 .EQ. 99) THEN
+      IF(  KREB3 .EQ. 99
+     >.AND.  KSO .NE .0
+     >.AND.  KSO .NE. -1
+     >                   ) THEN
 C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(//,15X,
@@ -57,10 +65,6 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         RETURN
       ENDIF
  
-      KSO = NINT(A(NOEL,1))
-      KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
-
-      ONCE = KSO .GE. 1  .OR. ONCE 
 
       IF(NRES.GT.0) THEN 
         IF    (KSO .EQ. 0) THEN
