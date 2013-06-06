@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE BENDI(SCAL,
      >                      XL,DEV)
@@ -110,6 +109,7 @@ C        if (xe.lt.1d-10) xe = 5.d0*tan(abs(te))
 C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
 C        be > XLIM), hence introducing some additional integration distance beyond XLIM
 C        so to encompass "Droite". 
+C FM, 130605. Removed, causes problems (see zgoubi//folks/samTygier/problem...)
         if (xls.lt.1d-10) xls = 5.d0*tan(abs(ts))
         GAPS = -DLS(1)
       ENDIF
