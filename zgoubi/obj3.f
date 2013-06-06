@@ -124,7 +124,8 @@ C----- Traj. counter
       IPASSR = 0
       IEND = 0
 
-      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
+C      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
+      AMQLU(3) = (KOBJ2.EQ.0)
       AMQLU(4) = AMQLU(3)
       AMQLU(5) = AMQLU(3)
       AMQLU(1) = (AMQLU(3).OR.KOBJ2.EQ.3)
@@ -135,7 +136,8 @@ C----- Traj. counter
         IPASS1 = IPASSR
         I = I + 1
 
-        IF(BINARY) THEN
+C        IF(BINARY) THEN
+        IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
  222      CONTINUE
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
@@ -164,7 +166,9 @@ C----- Traj. counter
             GOTO 222
           ENDIF
 
-        ELSEIF(.NOT.BINARY) THEN
+C        ELSEIF(.NOT.BINARY) THEN
+        ELSE
+
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
@@ -182,7 +186,12 @@ C----- Traj. counter
 C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
-            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+            IF (BINARY) THEN
+              READ(NL,ERR=97,END=95) Y,T,Z,P,S, DP
+            ELSE
+              READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+            ENDIF
             TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
