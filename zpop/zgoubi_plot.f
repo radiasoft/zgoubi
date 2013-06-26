@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory         
+C  Brookhaven National Laboratory                         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -32,10 +32,23 @@ C DES OUTPUT DE ZGOUBI
 
       CHARACTER * 9   DMY,HMSF  
       CHARACTER * 80  NOMFIC
-      LOGICAL FIRST
-      SAVE FIRST
-                                 
-      DATA FIRST / .TRUE. /
+      LOGICAL FIRST, FIRST1, exs, ok, idluni
+      SAVE FIRST, FIRST1 
+      character(400) wrkDir
+      integer debstr, finstr
+                                      
+      DATA FIRST, first1 / .TRUE. , .TRUE. /
+
+      call system('rm -f echoDir ; pwd | cat > echoDir ')
+      ok = idluni(
+     >            ldir)
+      open(ldir,file='echoDir')
+      read(ldir,fmt='(a)') wrkDir
+      close(ldir)
+
+      write(*,*) 'Pgm zgoubi_plot.  Working directory : ', 
+     >   wrkDir(debstr(wrkDir):finstr(wrkDir))
+C      read(*,*)
 
       CALL INIGR(
      >           LM, NOMFIC)
@@ -50,13 +63,17 @@ C DES OUTPUT DE ZGOUBI
       L6 = NSPN
 
       I=0
- 898  OPEN(UNIT=NLOG,FILE='zpop.log',STATUS='NEW',ERR=998
-     >,IOSTAT=IOS)
-      IF(IOS.NE.0) THEN 
+      inquire(file='zpop.log',exist=exs)
+ 898  continue
+      if(exs) then
+        OPEN(UNIT=NLOG,FILE='zpop.log',STATUS='OLD',ERR=998
+     >  ,IOSTAT=IOS)
         CLOSE(NLOG,STATUS='DELETE')
-        GOTO 898
       ENDIF
-
+c         write(*,*) 'Pgm zgoubi_plot : exs=' ,exs
+c         read(*,*)
+      OPEN(UNIT=NLOG,FILE='zpop.log',ERR=998,IOSTAT=IOS)
+      
       GOTO 21
  
  20   CONTINUE      
@@ -68,17 +85,12 @@ C DES OUTPUT DE ZGOUBI
         FIRST = .FALSE.
       ENDIF
       CALL FBGTXT
-      CALL MNZGRA(IOPT) 
-      GOTO (21,21,21,21,21,21, 7, 8,21,99,21) IOPT  
+      CALL MNZGRA(IOPT,wrkDir) 
+      GOTO (21,21,21,21,21,21, 7, 8,21,99,11,12) IOPT  
       GOTO 21
 
- 998     I=I+1
-         OPEN(UNIT=NLOG,FILE= 'zpop.log' ,STATUS='OLD')
-         CLOSE(UNIT=NLOG,STATUS='DELETE')
-         IF(I.LT. 10) GOTO 898
-         WRITE(6,*) ' SBR ZGOUBI : ERREUR  OPEN FICHIER  zpop.log'
+ 998     continue
 
-         CONTINUE
          CLOSE(NDAT) 
          CLOSE(NRES) 
          CLOSE(NFAI) 
@@ -88,29 +100,37 @@ C DES OUTPUT DE ZGOUBI
 
          CALL DATE2(DMY)                     
          CALL TIME2(HMSF)                   
-         WRITE(6,100) DMY,HMSF
- 100     FORMAT(/,'  Job  ended  on  ',A9,',  at  ',A9,/)
-         GOTO 20      
+         
+         if(.not. first1) then
+           WRITE(6,100) DMY,HMSF
+ 100       FORMAT(/,'  Job  ended  on  ',A9,',  at  ',A9,/)
+           GOTO 20      
+         else
+           first1 = .false.
+           goto 21
+         endif
 
  7    CONTINUE                      
-         CALL GRAPH7(NLOG, LM, NOMFIC)
+c         write(*,*) 'Pgm zgoubi_plot : call graph7' 
+c         read(*,*)
+         CALL GRAPH7(NLOG, LM, NOMFIC,wrkDir)
          GOTO 21
 
  8    CONTINUE                      
-         CALL GRAPH8(NLOG, LM, NOMFIC)
+         CALL GRAPH8(NLOG, LM, NOMFIC,wrkDir)
+         GOTO 21
+
+ 11      CONTINUE                      
+         CALL agsmdl(NLOG, LM, NOMFIC)
+         GOTO 21
+
+ 12      CONTINUE                      
+         CALL agsddq(NLOG, LM, NOMFIC)
          GOTO 21
 
 99    CONTINUE
          CALL ENDVCF
-C         WRITE(6,102) 
-C 102     FORMAT('$ SCRATCH  zgoubi.plt .  CONFIRM (N/O) : ')
-C         READ(5,FMT='(A1)',ERR=99) REP
-C         IF    (REP.EQ. 'O' .OR. REP.EQ. 'o') THEN
-C            CMND= 'DELETE/NOCONFIRM zgoubi.plt;*'
-C            IOUPI=LIBSPA(CMND)
-C         ELSEIF(REP.EQ. 'N' .OR. REP.EQ. 'n') THEN
-C            WRITE(6,*) '    Well ...'
-C         ENDIF 
  
+
          STOP  
       END 

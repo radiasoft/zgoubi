@@ -33,7 +33,7 @@ C  -------
       CHARACTER TXTX*15, TXTY*15, TITL*70, FNAMI*120, FNAM*120, TXT*80, 
      >            TXT300*300,TXT4*4
       SAVE FNAM
-      PARAMETER (MTB=20)
+      PARAMETER (MTB=60)
       DIMENSION TAB(MTB)
       PARAMETER (PTXT0=14.D0)
       SAVE PTXT
@@ -157,11 +157,15 @@ C       OKECH=.false.
         NR = 1
 
 C        READ(LN,*,END=10,ERR=3) (TAB(I), I=1, MXTAB)
- 11     READ(LN,FMT='(A80)',END=10,ERR=3) TXT300
-        IF    (STRCON(TXT300,'%',
+ 11     READ(LN,FMT='(A)',END=10,ERR=3) TXT300
+        txt300 = txt300(debstr(txt300):finstr(txt300))
+        IF    (STRCON(TXT300(1:1),'%',
      >                       IS) ) THEN
           GOTO 11
-        ELSEIF(STRCON(TXT300,'&',
+        ELSEIF(STRCON(TXT300(1:1),'&',
+     >                       IS) ) THEN
+          GOTO 11
+        ELSEIF(STRCON(TXT300(1:2),'//',
      >                       IS) ) THEN
           GOTO 11
         ELSEIF(EMPTY(TXT300)) THEN
@@ -172,6 +176,7 @@ C        READ(LN,*,END=10,ERR=3) (TAB(I), I=1, MXTAB)
         ELSE
 C          BACKSPACE(LN)
 C          READ(LN,*,ERR=3) (TAB(I), I=1, MXTAB)
+C            write(*,*) mxtab, txt300
           READ(TXT300,*,ERR=11) (TAB(I), I=1, MXTAB)
         ENDIF
 
@@ -189,11 +194,15 @@ CCCCC           if(x.lt. 500) x = x+2.6659E+04
  1      CONTINUE
           NR = NR+1
 C          READ(LN,*,END=2,ERR=3) (TAB(I), I=1, MXTAB)
- 111      READ(LN,FMT='(A80)',END=2,ERR=3) TXT300
-          IF    (STRCON(TXT300,'%',
+ 111      READ(LN,FMT='(A)',END=2,ERR=3) TXT300
+          txt300 = txt300(debstr(txt300):finstr(txt300))
+          IF    (STRCON(TXT300(1:1),'%',
      >                         IS) ) THEN
             GOTO 1
-          ELSEIF(STRCON(TXT300,'&',
+          ELSEIF(STRCON(TXT300(1:1),'&',
+     >                       IS) ) THEN
+            GOTO 1
+          ELSEIF(STRCON(TXT300(1:2),'//',
      >                       IS) ) THEN
             GOTO 1
           ELSEIF(EMPTY(TXT300)) THEN
@@ -259,11 +268,15 @@ C----- NOW PLOT !
       NPT = 0
 
 C      READ(LN,*,END=10,ERR=33) (TAB(I), I=1, MXTAB)
- 12   READ(LN,FMT='(A80)',END=10,ERR=33) TXT300
-      IF    (STRCON(TXT300,'%',
+ 12   READ(LN,FMT='(A)',END=10,ERR=33) TXT300
+          txt300 = txt300(debstr(txt300):finstr(txt300))
+      IF    (STRCON(TXT300(1:1),'%',
      >                     IS) ) THEN
         GOTO 12
-      ELSEIF(STRCON(TXT300,'&',
+      ELSEIF(STRCON(TXT300(1:1),'&',
+     >                       IS) ) THEN
+        GOTO 12
+      ELSEIF(STRCON(TXT300(1:2),'//',
      >                       IS) ) THEN
         GOTO 12
       ELSEIF(EMPTY(TXT300)) THEN
@@ -304,12 +317,17 @@ C      X2 = X
 
  4    CONTINUE
         NR = NR+1
- 411    READ(LN,FMT='(A80)',END=10,ERR=33) TXT300
-        IF    (STRCON(TXT300,'%',
+ 411    READ(LN,FMT='(A)',END=10,ERR=33) TXT300
+          txt300 = txt300(debstr(txt300):finstr(txt300))
+        IF    (STRCON(TXT300(1:1),'%',
      >                      IS) ) THEN
           MODV=4
           GOTO 4
-        ELSEIF(STRCON(TXT300,'&',
+        ELSEIF(STRCON(TXT300(1:1),'&',
+     >                       IS) ) THEN
+          MODV=4
+          GOTO 4
+        ELSEIF(STRCON(TXT300(1:2),'//',
      >                       IS) ) THEN
           MODV=4
           GOTO 4

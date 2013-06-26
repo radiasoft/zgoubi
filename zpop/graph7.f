@@ -18,14 +18,15 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
 CDECK GRAPH1 
-      SUBROUTINE GRAPH7(NLOG,LM,NOMFIC)
+      SUBROUTINE GRAPH7(NLOG,LM,NOMFIC,wrkDir)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*) NOMFIC
+      character(*) wrkDir
       
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/ OKECH, OKVAR, OKBIN
@@ -61,6 +62,8 @@ CDECK GRAPH1
 
       PARAMETER (ITWO=2)
      
+      integer debstr, finstr
+
       DATA  OKOPN / .FALSE. /
       DATA CHANGE / .TRUE./
       DATA FIRST / .TRUE. /
@@ -72,11 +75,18 @@ CDECK GRAPH1
       DATA FNAM /'zpop.lips'/
       DATA FIRST2 /.TRUE./
 
+       nlips = 77
+         goto 921
+c         write(*,*) 'Pgm graph7 ' 
+c          read(*,*)
+
       IF(FIRST2) THEN
         IF (IDLUNI(NLIPS)) THEN
           OPEN(UNIT=NLIPS,FILE=FNAM,ERR=997)
           CLOSE(UNIT=NLIPS,STATUS='DELETE')
           OPEN(UNIT=NLIPS,FILE=FNAM,STATUS='NEW',ERR=997)
+          WRITE(6,*)
+     >      ' Pgm graph7. Opened ',FNAM(debstr(FNAM):finstr(FNAM))
         ELSE
           WRITE(6,*) ' *** Problem in graph7 : No idle unit number ! '
           WRITE(6,*) '     No idle unit number !  Forced to 77 '
@@ -95,8 +105,11 @@ CDECK GRAPH1
       CALL FBGTXT
       CALL HOMCLR
 
-      WRITE(6,100) NOMFIC,KVAR(KX),KX,KVAR(KY),KY
+      WRITE(6,100) '[...]'//wrkDir(finstr(wrkDir)-60:finstr(wrkDir))
+     >,NOMFIC,KVAR(KX),KX,KVAR(KY),KY
  100  FORMAT(//,3X,60('*'),//,20X,' MENU - Graphic processing :' ,//
+     > ,9X,'        ' ,/
+     > ,4x,' Working directory now : ',/,5x,A,  //
      > ,9X,'        ' ,/
      1 ,9X,'  1    OPEN  FILE - current is ',A ,/
      2 ,9X,'  2    VARIABLES  TO  PLOT ' ,/

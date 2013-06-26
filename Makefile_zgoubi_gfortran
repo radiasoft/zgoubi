@@ -1,0 +1,15 @@
+CFLAGS=-g -DGFORTRAN4
+FC=gfortran
+FFLAGS=-O4 -Wall -fno-automatic -pedantic
+
+.POSIX:
+
+all :
+	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+
+clean :
+	$(RM) *~
+	cd common ; ($MAKE) clean
+	cd zgoubi ; ($MAKE) clean
+

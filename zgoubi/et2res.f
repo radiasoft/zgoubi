@@ -22,72 +22,101 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ET2RES(lunw)
+      SUBROUTINE ET2RES(LUNW)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      logical idluni, ok, gttext, empty
-      integer debstr, finstr
-      character(200) txt200
+      LOGICAL IDLUNI, OK, GTTEXT, EMPTY
+      INTEGER DEBSTR, FINSTR
+      CHARACTER(200) TXT200
 
-      save alf1, alf2, bet1, bet2, phy, phz
+      SAVE ALF1, ALF2, BET1, BET2, PHY, PHZ, CSTRN
 
-      ok = idluni(
-     >            nl)
-      if(ok) then
-        open(unit=nl,file='ETparam.res',err=91)
-      else
-        goto 91
-      endif
+      OK = IDLUNI(
+     >            NL)
+      IF(OK) THEN
+        OPEN(UNIT=NL,FILE='ETparam.res',ERR=91)
+      ELSE
+        GOTO 91
+      ENDIF
 
-      write(nres,fmt='(a)') 
+C      WRITE(NRES,FMT='(A)') 
 
       M1 = -1
-      ok = GTTEXT(M1,nl,'###########',
-     >                              txt200)
+      OK = GTTEXT(M1,NL,'###########',
+     >                              TXT200)
 
-      ok = GTTEXT(M1,nl,'FRACTIONAL PART',
-     >                              txt200)
-      read(txt200(70: 89),*) phy
-      read(txt200(90:106),*) phz
+      OK = GTTEXT(M1,NL,'FRACTIONAL PART',
+     >                              TXT200)
+      READ(TXT200(70: 89),*,ERR=97,END=97) PHY
+      READ(TXT200(90:106),*,ERR=97,END=97) PHZ
 
-      ok = GTTEXT(M1,nl,'EDWARDS-TENG',
-     >                              txt200)      
-      read(nl,fmt='(a)',err=98,end=98) txt200
-      read(txt200(70: 89),*) alf1
-      read(txt200(90:106),*) alf2
-      read(nl,fmt='(a)',err=98,end=98) txt200
-      read(txt200(70: 89),*) bet1
-      read(txt200(90:106),*) bet2
+      OK = GTTEXT(M1,NL,'EDWARDS-TENG',
+     >                              TXT200)      
+      READ(NL,FMT='(A)',ERR=98,END=98) TXT200
+      READ(TXT200(70: 89),*,ERR=97,END=97) ALF1
+      READ(TXT200(90:106),*,ERR=97,END=97) ALF2
+      READ(NL,FMT='(A)',ERR=98,END=98) TXT200
+      READ(TXT200(70: 89),*,ERR=97,END=97) BET1
+      READ(TXT200(90:106),*,ERR=97,END=97) BET2
 
-c              write(*,*) ' et2res '
-c              write(*,*) ' alf 1, 2,  bet 1, 2 : '
-c              write(*,*)  alf1, alf2, bet1, bet2
-c                read(*,*)
+      OK = GTTEXT(M1,NL,'- COUPLING STRENG',
+     >                              TXT200)      
+      READ(TXT200(85:99),*,ERR=97,END=97) CSTRN
 
-      RETURN
+      GOTO 99
 
- 91   continue
-      write(nres,*)      
+ 91   CONTINUE
+      WRITE(NRES,*)      
      >'      ' //
-     >' SBR MATIMC , ' // 
-     >'could not open file "ETparam.res", proceeding without...'
-      RETURN
+     >' SBR ET2RES. ' // 
+     >'COULD NOT OPEN FILE "ETparam.res", PROCEEDING WITHOUT...'
+      PHY = 0.D0
+      PHZ = 0.D0
+      ALF1 = 0.D0
+      ALF2 = 0.D0
+      BET1 = 0.D0
+      BET2 = 0.D0
+      GOTO 99
 
- 98   continue
-      write(nres,*)      
-      write(nres,*)      
+ 98   CONTINUE
+      WRITE(NRES,*)      
+      WRITE(NRES,*)      
      >'      ' //
-     >' Finished copying from ETparam.res to zgoubi.res ' //
-     >'upon eor or eof. '
+     >' SBR ET2RES. FINISHED COPYING FROM ETparam.res TO ZGOUBI.RES ' //
+     >'UPON EOR OR EOF. '
+      PHY = 0.D0
+      PHZ = 0.D0
+      ALF1 = 0.D0
+      ALF2 = 0.D0
+      BET1 = 0.D0
+      BET2 = 0.D0
+      GOTO 99
+
+ 97   CONTINUE
+      WRITE(NRES,*)      
+      WRITE(NRES,*)      
+     >'      ' //
+     >' SBR ET2RES. EOR UPON BAD DATA IN TXT200. ' 
+      PHY = 0.D0
+      PHZ = 0.D0
+      ALF1 = 0.D0
+      ALF2 = 0.D0
+      BET1 = 0.D0
+      BET2 = 0.D0
+      GOTO 99
+
+ 99   CONTINUE
+      IF(OK) CLOSE(NL)
       RETURN
 
-      entry et2re1(
-     >             F011,f012,f033,f034,phyo,phzo)
-      f011 = bet1
-      f012 = -alf1
-      f033 = bet2
-      f034 = -alf2
-      phyo = phy
-      phzo = phz
-      return
+      ENTRY ET2RE1(
+     >             F011,F012,F033,F034,PHYO,PHZO,CSTRNO)
+      F011 = BET1
+      F012 = -ALF1
+      F033 = BET2
+      F034 = -ALF2
+      PHYO = PHY
+      PHZO = PHZ
+      CSTRNO = CSTRN
+      RETURN
 
       END

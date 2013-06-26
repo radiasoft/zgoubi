@@ -22,32 +22,44 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MNZGRA(IOPT)
+      SUBROUTINE MNZGRA(IOPT,wrkDir)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      character(*) wrkDir
+      integer debstr, finstr
+
+c      write(*,*) ' Working directory : ', 
+c     >   wrkDir(debstr(wrkDir):finstr(wrkDir))
+c      read(*,*)
 
  21   CONTINUE
       CALL HOMCLR
 
-      WRITE(6,100) 
- 100  FORMAT(//,3X,60('*'),//,20X,' MENU :',///
-C     1 ,9X,'  1    RUN   ZGOUBI   ',/
-C     2 ,9X,'  2    BATCH ZGOUBI   ',/
-C     3 ,9X,'  3    FILES ( .dat, .res, .plt, .fai, .spn ) ',/
+      WRITE(6,100) '[...]'//wrkDir(finstr(wrkDir)-60:finstr(wrkDir))
+ 100  FORMAT(//,3X,60('*'),//,20X,' MENU :', //
+     > ,4x,' Working directory now : ',/,5x,A,  //
+c     1 ,9X,'  1    Run   Zgoubi   ',/
+c     2 ,9X,'  2    Batch Zgoubi   ',/
+c     3 ,9X,'  3    List files ( .dat, .res, .plt, .fai, .spn ) ',/
      7 ,9X,'  7    Menu  for  direct  plots  from',/
      7 ,9X,'          .plt, .fai, .spn  type  zgoubi output files ',/
      > ,9X,'  ',/
-     8 ,9X,'  8    Menu  for other  Analysis/Plot  ',/
+     8 ,9X,'  8    Menu  for other  Analysis/Plot  on ',/
+     7 ,9X,'          .plt, .fai, .spn  type  zgoubi output files ',/
      > ,9X,'  ',/
      X ,9X,' 10    Exit  zpop  ',/
-     > ,9X,'  ',/
-C     1 ,9X,' 11    SHOW QUEUE '
+c     > ,9X,'  ',/
+c     > ,9X,'  --------',/
+c     > ,9X,'  AGS MODEL SPECIFIC : ',/
+c     > ,9X,'  ',/
+c     1 ,9X,' 11    ZgoubiFromSnaprampCmd ',/
+c     1 ,9X,' 12    Tune scan from sdds files '
      >,///,3X,60('*'),/)
 
       WRITE(6,105) ' * Option  number : '
  105  FORMAT(A20)
       READ(5,101,ERR=21) IOPT
  101  FORMAT(I2)
-      IF(IOPT.GE. 1 .OR. IOPT.LE. 11) THEN
+      IF(IOPT.GE. 7 .OR. IOPT.LE. 10) THEN
         RETURN 
       ELSE
         GOTO 21

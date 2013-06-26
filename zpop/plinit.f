@@ -192,8 +192,8 @@ C--------- Options, menu 7.3.14
      >        '*** SBR PLINIT : no such file to open, zpop_7.3.14.in'
             ENDIF
           ENDIF
-          CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
-          CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
+          CALL PLOT5(AX,PX,BX,DX,AY,PY,BY,DY,IO,IBXY,IUN)
+          CALL BIN4W(AX,PX,BX,DX,AY,PY,BY,DY,IO)
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) AY,PY,BY
           WRITE(*,*) AY,PY,BY
@@ -219,8 +219,8 @@ C--------- Options, menu 7.3.14
      >        '*** SBR PLINIT : no such file to open, zpop_7.3.14.in'
             ENDIF
           ENDIF
-          CALL PLOT5(AX,PX,BX,AY,PY,BY,IO,IBXY,IUN)
-          CALL BIN4W(AX,PX,BX,AY,PY,BY,IO)
+          CALL PLOT5(AX,PX,BX,DX,AY,PY,BY,DY,IO,IBXY,IUN)
+          CALL BIN4W(AX,PX,BX,DX,AY,PY,BY,DY,IO)
           LINE = LINE+1
 C--------- Options, menu 7.7(LabCoord).5. Initial coordinates of synoptic
           READ(LN,*,ERR=57,END=57) SB0, YB0, TETA1   ! (m, m, rad)

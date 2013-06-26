@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE COEFFS(IOPT,IORD,R,T,IREF,
-     >                                     F0)
+     >                                     F0,Cstrn)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),T(6,6,*),F0(6,*)
 C     ----------------------------------------------------------------------
@@ -61,8 +61,8 @@ C     ----------------------------------------------------------------------
       CALL MKSA(IORD,R,T,TX3,TX4)
 
       prdic = .false.
-      IF(IOPT.EQ.1) CALL BEAMAT(R,prdic,
-     >                            F0,PHY,PHZ)
+      IF(IOPT.EQ.1) CALL BEAMAT(R,prdic,.false.,
+     >                                          F0,PHY,PHZ,Cstrn)
  
       RETURN
       END

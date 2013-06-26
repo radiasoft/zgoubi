@@ -22,10 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE TWISS(LUN,
+      SUBROUTINE TWISS(LUN,OKCPLD,
      >                 KOPTCS, READAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL READAT
+      LOGICAL READAT, OKCPLD
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
@@ -76,9 +76,17 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
       save dolast
       
       dimension rturn(4,4)
+      logical prdic
+
+      DIMENSION F0(6,6) 
+
+      save q1, q2, cc
 
       DATA KWRI6 / 1 /
       DATA dolast / .true. /
+
+      NMAIL = 1
+      PRDIC = .TRUE.
 
       KTW = INT(A(NOEL,1))
       KTW2 = INT( 10.D0*(A(NOEL,1) -KTW) )
@@ -144,10 +152,16 @@ C------- Switch on print to standard output :
         ENDIF
 
         CALL MKSA(IORD,RREF,T,TX3,TX4)
-        CALL MATIMP(RREF)
-        CALL TUNES(RREF,F0REF,1,IERY,IERZ,.TRUE.,
+C        CALL MATIMP(RREF)
+        CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
+        CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC)
 
+        CALL BEAMAT(RREF,PRDIC,OKCPLD,
+     >                                 F0,Q1,Q2,CC)        
+            
+c             write(*,*) q1, q2, cc, f0
+c                read(*,*)
         NRES = ISIGN*NRES
 
         IF(KTW.GE.2) THEN
@@ -200,9 +214,10 @@ C----- 3rd pass through structure will follow
           CALL REFER(2,2,0,1,6,7)
         ENDIF
         CALL MKSA(IORD,RMINUS,T,TX3,TX4)
-        CALL MATIMP(RMINUS)
-        CALL TUNES(RMINUS,F0M,1,IERY,IERZ,.TRUE.,
-     >                                             YNUM,ZNUM,CMUY,CMUZ)
+C        CALL MATIMP(RMINUS)
+        CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
+     >                                           YNUM,ZNUM,CMUY,CMUZ)
+        CALL MATIMP(RMINUS,F0M,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC)
         CALL REFER1(
      >              PATHL(2)) 
 
@@ -244,9 +259,10 @@ C------- reactivate WRITE for printing results
           CALL REFER(2,2,0,1,6,7)
         ENDIF
         CALL MKSA(IORD,RPLUS,T,TX3,TX4)
-        CALL MATIMP(RPLUS)
-        CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
+C        CALL MATIMP(RPLUS)
+        CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
+        CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
         CALL REFER1(
      >              PATHL(3)) 
 
@@ -305,9 +321,10 @@ C        ENDIF
             CALL REFER(2,2,0,1,6,7)
           ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
-          CALL MATIMP(RPLUS)
-          CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
+C          CALL MATIMP(RPLUS)
+          CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
+          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
 
           NRES = ISIGN*NRES
  
@@ -364,9 +381,10 @@ C------- Amplitude tracking completed
             CALL REFER(2,2,0,1,6,7)
           ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
-          CALL MATIMP(RPLUS)
-          CALL TUNES(RPLUS,F0P,1,IERY,IERZ,.TRUE.,
+C          CALL MATIMP(RPLUS)
+          CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
+          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
 
           NRES = ISIGN*NRES
 
@@ -427,20 +445,11 @@ C        NLOBJ = 1
         NOEL=0 
         CALL SCUMS(0.D0)
 
-C        IF(LABEL(NOEL,1)(DEBSTR(LABEL(NOEL,1)):FINSTR(LABEL(NOEL,1))) 
-C     >                                   .EQ.  'PRINT') THEN
-C          IF(IDLUNI(
-C     >              LUN)) THEN
-C            OPEN(UNIT=LUN,FILE='zgoubi.TWISS.Out',ERR=96)
-C          ELSE
-C            GOTO 96
-C          ENDIF
-
 C--------- P0, AM  are  in  MEV/c, /c^2
           PREF = BORO*CL9*Q*DPREF
           if(am.le.1d-8) am = AMPROT
           Energy = sqrt(PREF*PREF + AM*AM)
-          write(LUN,50)'@ NAME             %05s "TWISS"'
+          write(LUN,50)'@ NAME             %05s "TWISS"' 
           write(LUN,50)'@ TYPE             %05s "TWISS"'
           write(LUN,50)'@ SEQUENCE         %04s "RING"'
           write(LUN,50)'@ PARTICLE         %00s ""'
@@ -477,15 +486,15 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           write(LUN,51)'@ DXRMS            %le', 9999.
           write(LUN,51)'@ DYRMS            %le', 9999.
           write(LUN,50)'@ DELTAP           %le                   0'
-          write(LUN,50)'@ SYNCH_1          %le                   0'
-          write(LUN,50)'@ SYNCH_2          %le                   0'
-          write(LUN,50)'@ SYNCH_3          %le                   0'
+          write(LUN,51)'@ |C|              %le', CC
+          write(LUN,51)'@ Q1               %le', Q1
+          write(LUN,51)'@ Q2               %le', Q2
           write(LUN,50)'@ SYNCH_4          %le                   0'
           write(LUN,50)'@ SYNCH_5          %le                   0'
           write(LUN,50)'@ TITLE            %12s "Zgoubi model"'
-          write(LUN,50)'@ ORIGIN           %12s "Zgoubi model"'
-          write(LUN,50)'@ DATE             %08s "23/03/11"'
-          write(LUN,50)'@ TIME             %08s "17.28.23"'
+          write(LUN,50)'@ ORIGIN           %12s "twiss.f"'
+          write(LUN,50)'@ DATE             %08s "  "'
+          write(LUN,50)'@ TIME             %08s "  "'
  50       format(a)
  51       format(a,G18.10)
  53       format(2(a,G18.10,1x))
@@ -595,11 +604,6 @@ c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier
         ENDDO
       ENDIF
 
-C      write(88,*) ' IPASS = ',IPASS
-C      write(88,fmt='(1p,6e12.4,a)') ((f2(i,j),j=1,6),' twiss',i=7,1,-1)
-C      write(88,fmt='(1p,10X,6e12.4)') (f(i,1),i=1,6)
-C      write(88,*) ' -------------------- '
-      
       IF(IPASS.LT.7) RETURN       
 
       do ic=1,6
@@ -610,17 +614,17 @@ C          sm(i,ic) = f2(8-i,ic)
         enddo
       enddo
 
-      write(88,*) ' IPASS = ',IPASS
-      write(88,fmt='(1p,12e12.4)') ((xys(i,ic),ic=1,12),i=1,6)
-C      write(88,fmt='(1p,10X,6e12.4)') ((sm(i,ic),ic=1,6),i=1,6)
-      write(88,*) ' -------------------- '
+c      write(88,*) ' IPASS = ',IPASS
+c      write(88,fmt='(1p,12e12.4)') ((xys(i,ic),ic=1,12),i=1,6)
+cC      write(88,fmt='(1p,10X,6e12.4)') ((sm(i,ic),ic=1,6),i=1,6)
+c      write(88,*) ' -------------------- '
       
       IER = 0
       call dlgau(6,6,6,XYS,KAUX,ier)
 
-      write(88,*) ' IPASS = ',IPASS,IER
-      write(88,fmt='(1p,6e12.4)') ((xys(i,ic),i=1,6),iC=1,6)
-      write(88,*) ' +++++++++++++-------------------- '
+c      write(88,*) ' IPASS = ',IPASS,IER
+c      write(88,fmt='(1p,6e12.4)') ((xys(i,ic),i=1,6),iC=1,6)
+c      write(88,*) ' +++++++++++++-------------------- '
 
       RETURN
 

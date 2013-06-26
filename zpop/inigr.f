@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory                                    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -46,6 +46,8 @@ C  -------
       CHARACTER * 9   DMY
       CHARACTER*80 TXT
       CHARACTER LOGOT*18, TEMP*80
+
+      logical ok, idluni
 
       SAVE KARSIZ, NLOG
 
@@ -79,8 +81,10 @@ C      otherwise (MBIN=1) can be mean value of any KY type coordinate
 C----- Number of the lmnt concerned by the plot (-1 for all)
       LM = -1
 
-C----- zpop log unit
-      NLOG = 30
+cC----- zpop log unit
+c      NLOG = 30
+      ok = idluni(
+     >            nlog)
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
       NOMFIC = 'none'

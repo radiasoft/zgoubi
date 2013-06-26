@@ -120,12 +120,12 @@ C----- Flag for lmnt number - not used (for the moment...)
 C----- Traj. counter
       I = 0
       IT1 = 0
+      ITR = 0
       IKAR = 0
       IPASSR = 0
       IEND = 0
 
-C      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
-      AMQLU(3) = (KOBJ2.EQ.0)
+      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
       AMQLU(4) = AMQLU(3)
       AMQLU(5) = AMQLU(3)
       AMQLU(1) = (AMQLU(3).OR.KOBJ2.EQ.3)
@@ -136,8 +136,7 @@ C      AMQLU(3) = (BINARY.OR.KOBJ2.EQ.0)
         IPASS1 = IPASSR
         I = I + 1
 
-C        IF(BINARY) THEN
-        IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
+        IF(BINARY) THEN
  222      CONTINUE
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
@@ -166,9 +165,7 @@ C        IF(BINARY) THEN
             GOTO 222
           ENDIF
 
-C        ELSEIF(.NOT.BINARY) THEN
-        ELSE
-
+        ELSEIF(.NOT.BINARY) THEN
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
@@ -186,12 +183,7 @@ C        ELSEIF(.NOT.BINARY) THEN
 C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
-C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
-            IF (BINARY) THEN
-              READ(NL,ERR=97,END=95) Y,T,Z,P,S, DP
-            ELSE
-              READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
-            ENDIF
+            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
@@ -206,6 +198,7 @@ C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
+            ITR = ITR + 1
 
           ELSEIF(KOBJ2.EQ.2) THEN 
 C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNIA/SPP March 03
@@ -230,6 +223,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
+            ITR = ITR + 1
 
           ELSEIF(KOBJ2.EQ.3) THEN 
 C------------ Was installed for RHS_DESIR
@@ -250,6 +244,7 @@ C            TIM = 0.D0
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
+            ITR = ITR + 1
 
           ENDIF 
 

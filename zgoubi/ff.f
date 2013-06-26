@@ -86,7 +86,7 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
 
            IF    (ICONT2 .EQ. 0) THEN
              CALL COEFFS(1,IORD,U,T,1,
-     >                                F0P)
+     >                                F0P,Cstrn)
              VAL= F0P(K,L)
 
            ELSEIF(ICONT2 .GE. 1 .AND. ICONT2 .LE. 9) THEN
@@ -95,7 +95,7 @@ C  R16=periodic dispersion D_y, R26= its derivative D'_y ; 36=D_z, 46=D'_z
 C ICONT2 uses the reference trajectory as defined in OBJET/KOBJ=5.2-6
 
              CALL COEFFS(0,IORD,U,T,ICONT2,
-     >                                     F0P)
+     >                                     F0P,Cstrn)
              CALL TUNES(U,F0P,NMAIL,IERY,IERZ,.FALSE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
@@ -122,7 +122,7 @@ C-----------Contraints are first order transport coeffs
 
              IF(KOBJ .EQ. 6) IORD=2
              CALL COEFFS(0,IORD,U,T,1,
-     >                                F0P)
+     >                                F0P,Cstrn)
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
                VAL= U(K,L)
              ELSEIF( K .EQ. 7 ) THEN
@@ -179,6 +179,8 @@ C     >              ,dp1,dp2,dnuydp,dnyzdp
 C               write(*,*)
              ELSEIF(NBREF .EQ. 3) THEN
                STOP ' SBR FF : too many MATRIX blocks  '
+C              q' = (q+ - q-) / 2dp
+C              q'' = (q+ + q- -2q0) / dp^2
              ELSE
                STOP ' SBR FF : too many MATRIX blocks  '
              ENDIF
@@ -192,7 +194,7 @@ C-------------Contraint dNu_Z/dpp
 
            ENDIF
 
-         ELSE IF(ICONT .EQ. 2) THEN
+         ELSEIF(ICONT .EQ. 2) THEN
 C-----------Contraints are second order transport coeffs
 
            IORD=2
@@ -200,7 +202,7 @@ C-----------Contraints are second order transport coeffs
            IF    (ICONT2 .EQ. 0) THEN
 
              CALL COEFFS(0,IORD,U,T,1,
-     >                                F0P)
+     >                                F0P,Cstrn)
              L1=L/10
              L2=L-10*L1
              VAL= T(K,L1,L2)
@@ -208,7 +210,7 @@ C-----------Contraints are second order transport coeffs
            ELSEIF(ICONT2 .EQ. 1) THEN
 
              CALL COEFFS(0,IORD,U,T,1,
-     >                                F0P)
+     >                                F0P,Cstrn)
              CALL MAT2P(RPD,DP)
              CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
      >                                             YNUP,ZNUP,CMUY,CMUZ) 
@@ -443,7 +445,7 @@ C------------ Constraint on  min+max  value of field L-component, across optical
 C------------ Constraint on integral of field L-component for particle K, along optical element KK
              MIMA = 0
              CALL FITMM1(K,L,KK,MIMA,ICONT2,
-     >                                    VAL)
+     >                                      VAL)
 
            ELSE
              CALL ENDJOB(' SBR ff.f : no such FIT option 7.',ICONT2)

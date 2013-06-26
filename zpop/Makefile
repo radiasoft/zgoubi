@@ -1,6 +1,8 @@
 INC=../include
 
 MODULEF =\
+ agsmdl.f\
+ agsddq.f\
  amini.f\
  asinh.f\
  begvcf.f\

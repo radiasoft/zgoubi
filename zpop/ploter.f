@@ -65,7 +65,7 @@ C     ------------------------------
 
       INCLUDE "MXSTEP.H"
       DIMENSION BTAB(MXSTEP,2)
-      SAVE AX,PX,BX,AY,PY,BY, BTAB
+      SAVE AX,PX,BX,DX,AY,PY,BY,DY, BTAB
 
       LOGICAL  OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
       SAVE     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY
@@ -187,6 +187,9 @@ C----- File type zgoubi.spn
 
       X = YZXB(KX) 
       Y = YZXB(KY) 
+
+      X = X -DX * YZXB(1)
+      Y = Y -DY * YZXB(1)
 
       IF(OKXAV) X=X-XMOY
       IF(OKYAV) Y=Y-YMOY
@@ -418,13 +421,15 @@ C      CALL FLUSH2(IUNIT,.FALSE.)
         OKYAVO=OKYAV
       RETURN
 
-      ENTRY PLOT5(AXI,PXI,BXI,AYI,PYI,BYI,IOPT,IBXY,IUN)
+      ENTRY PLOT5(AXI,PXI,BXI,DXI,AYI,PYI,BYI,DYI,IOPT,IBXY,IUN)
         AX = AXI
         BX = BXI
         PX = PXI
+        DX = DXI
         AY = AYI
         BY = BYI
         PY = PYI
+        DY = DYI
         OKDX = IOPT.EQ.2
         OKABSX = IOPT.EQ.3
         OKABDX = IOPT.EQ.4
@@ -455,13 +460,15 @@ C Units in BTAB should be m, as delivered by READCO
         ENDIF
       RETURN
 
-      ENTRY PLOT51(AXJ,PXJ,BXJ,AYJ,PYJ,BYJ)
+      ENTRY PLOT51(AXJ,PXJ,BXJ,DXJ,AYJ,PYJ,BYJ,DYJ)
         AX = AXJ
         BX = BXJ
         PX = PXJ
+        DX = DXJ
         AY = AYJ
         BY = BYJ
         PY = PYJ
+        DY = DYJ
         OKDX = .FALSE.
         OKABSX = .FALSE.
           READBX = .FALSE.
@@ -583,6 +590,9 @@ C----- File type zgoubi.spn
 
         X = YZXB(KX)
         Y = YZXB(KY)
+
+      X = X -DX * YZXB(1)
+      Y = Y -DY * YZXB(1)
 
         XMOY = XMOY+X
         YMOY = YMOY+Y

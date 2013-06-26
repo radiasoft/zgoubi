@@ -101,7 +101,7 @@ C----- To get values into A(), from earlier FIT
       SAVE KOPIMP, KOPTCS, LBLOPT
       LOGICAL OKLNO
 
-      LOGICAL EMPTY, IDLUNI
+      LOGICAL EMPTY, IDLUNI, OKCPLD
 
       SAVE LNOPTI
       SAVE PNLTGT
@@ -187,21 +187,20 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
       IF(KOPTCS .EQ. 1) THEN
 C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
 
-C                               
         IF(KUASEX .NE. -99) THEN
-C         Only if keyword is of optical element type or [MC]OBJET or END
+C         Only if keyword is of optical element type or [MC]OBJET or END or MARKER
 
           IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
-
-            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC)
+            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
 
           ENDIF
         ENDIF
       ENDIF
 
-C This was introduced so to restrain OPTICS to optics-type keywords
+C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired 
+C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
           KUASEX = -99
 
 
@@ -243,8 +242,6 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         GOTO 999
       ELSE
 C------- Gets in case of "FIT"
-c          write(21,*) ' zgoubi  2 '
-c          write(21,*)
         IF (NOEL .EQ. NL2 ) RETURN
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
@@ -363,8 +360,6 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       GOTO 998
 C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
-C      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT.
-C      write(ABS(nres),*) '(READAT) CALL RREBEL(LABEL)',noel, readat
       IF(READAT) CALL RREBEL(LABEL)
       IF(FITGET) CALL FITGT1
       CALL REBEL(READAT,KLE,LABEL,
@@ -412,7 +407,9 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
       IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
-      CALL MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)))
+      OKCPLD = NINT(A(NOEL,4)) .EQ. 1
+      CALL MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3))
+     >              ,OKCPLD)
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE
@@ -952,18 +949,18 @@ C      OKLNO = .FALSE.
      >          LNOPTI)) THEN
             OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
             OKLNO = .TRUE.
-          endif
-          if(oklno) then
-            WRITE(LNOPTI,fmt='(a)') '# From OPTICS keyword'
-            WRITE(LNOPTI,fmt='(a)') 
-     >         '# alfx,         btx,          alfy,         bty, ' //
-     >         '         alfl,         btl,          Dx,         ' //
-     >         '  Dxp,          Dy,           Dyp,          phix,' //
-     >         '         phiy,         sum_s,        #lmnt, x,   ' //
-     >         '         xp,           y,            yp,         ' //
-     >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
+          ENDIF
+          IF(OKLNO) THEN
+            WRITE(LNOPTI,FMT='(A)') '# FROM OPTICS KEYWORD'
+            WRITE(LNOPTI,FMT='(A)') 
+     >         '# ALFX,         BTX,          ALFY,         BTY, ' //
+     >         '         ALFL,         BTL,          DX,         ' //
+     >         '  DXP,          DY,           DYP,          PHIX/' //
+     >         '2PI,     PHIY/2PI,     SUM_S,        #LMNT, X,   ' //
+     >         '         XP,           Y,            YP,         ' //
+     >         'KEYWORD,   LABEL1,    LABEL2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L  '
-            WRITE(LNOPTI,fmt='(a)') 
+            WRITE(LNOPTI,FMT='(A)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
      >         '  8             9             10            11   ' //
@@ -1046,8 +1043,10 @@ C----- TWISS. Compute linear lattice functions, chromaticity, etc.
 C      Also prints periodic beta functions (sets KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
-C                            ktwiss=2 :  Prtcl#   unsued
-      IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
+C                            ktwiss=2 :  Prtcl#   unused    [coupled]
+      IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3),TA(NOEL,1)
+      OKCPLD = 
+     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
       IF(.NOT. OKLNO) THEN
         IF(IDLUNI(
      >            LNOPTI)) THEN
@@ -1055,8 +1054,9 @@ C                            ktwiss=2 :  Prtcl#   unsued
           OKLNO = .TRUE.
         ENDIF
       ENDIF
-      CALL TWISS(LNOPTI,
-     >           KOPTCS,READAT)
+
+      CALL TWISS(LNOPTI,OKCPLD,
+     >                  KOPTCS,READAT)
       IF(KOPTCS .EQ. 1) THEN
         KOPIMP = 2
         LBLOPT = 'all'
@@ -1066,11 +1066,11 @@ C                            ktwiss=2 :  Prtcl#   unsued
             WRITE(LNOPTI,fmt='(a)') 
      >         '# alfx,         btx,          alfy,         bty, ' //
      >         '         alfl,         btl,          Dx,         ' //
-     >         '  Dxp,          Dy,           Dyp,          phix,' //
-     >         '         phiy,         sum_s,        #lmnt, x,   ' //
+     >         '  Dxp,          Dy,           Dyp,          phix/' //
+     >         '2pi,     phiy/2pi,     sum_s,        #lmnt, x,   ' //
      >         '         xp,           y,            yp,         ' //
      >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
-     >         'K0*L          K1*L          K2*L  '
+     >         'K0*L          K1*L          K2*L          |C|    '
             WRITE(LNOPTI,fmt='(a)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
@@ -1078,7 +1078,7 @@ C                            ktwiss=2 :  Prtcl#   unsued
      >         '         12            13            14     15   ' //
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
-     >         '23            24            25      '
+     >         '23            24            25            26 '
           ENDIF
       ELSE
 C        KOPIMP = 0
@@ -1155,6 +1155,7 @@ C      CALL SUPERP
       GOTO 998
 C----- MARKER. 
  98   CONTINUE
+      KUASEX = 0  
       IF(LABEL(NOEL,2).EQ.'.plt' .OR. LABEL(NOEL,2).EQ.'.PLT') THEN
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO IT = 1, IMAX
@@ -1174,7 +1175,7 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
 C----- TRACKING. 
  100  CONTINUE
         READ(NDAT,*) NLMA, NLMB 
-        write(nres,*) ' Tracking,  nlma  ->  nlmb :  ',nlma,' -> ',nlmb
+        WRITE(NRES,*) ' Tracking,  NLM_A  ->  NLM_B : ',NLMA,' -> ',NLMB
         CALL TRACK(NLMA,NLMB)
         CALL ENDJOB(' End of job after TRACKING',-99)
       GOTO 998

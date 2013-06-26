@@ -34,6 +34,7 @@ C  -------
       INTEGER DEBSTR, FINSTR
       SAVE NRSAV
       SAVE KWROFF
+      LOGICAL FITING
       
       DATA NRSAV / -11111 /
 C Numb of options. NBOP lines should follow
@@ -76,7 +77,9 @@ C Numb of options. NBOP lines should follow
         NRSAV = NRES
         NRES = -ABS(NRES)
       ELSE
-        IF(NRSAV .NE. -11111) THEN 
+        CALL FITSTA(5,
+     >                FITING)
+        IF(NRSAV .NE. -11111 .AND. .NOT. FITING) THEN 
           NRES = ABS(NRES)
           WRITE(abs(NRES),201)
           WRITE(abs(NRES),*)  '  Keyword ''OPTIONS'' '

@@ -628,9 +628,158 @@ c                   read(*,*)
 
         ENDIF
 
+
+      ELSEIF(LBL1(INIL:INIL+2) .EQ. 'QS_') THEN
+C      !7.0   Skew Quads
+C      =============
+      
+C XQS = Skew Quads current
+C       Old skew quad definition (Cosmotron skew quads?)
+C       XQS := 0.004431*XQS/BRHO 
+      
+C       New skew quad definition (identical transfer function to other tune quads)
+        LENQ = XL
+     
+!!!!!!!!!!!! need  xqs 
+ 
+        IF    (LBL1(INIL:INIL+5) .EQ. 'QS_B17') THEN
+          XQS_B17 = ABS(XQS) 
+          PQS_B17 = (XQS)/(XQS_B17 + eps) 
+          BQS_B17 =   q6*XQS_B17**6 + q5*XQS_B17**5 + q4*XQS_B17**4
+     >           + q3*XQS_B17**3 
+     >                + q2*XQS_B17**2 + q1*XQS_B17**1 + q0*XQS_B17**0 
+          KQS_B17 = PQS_B17 * BQS_B17 / (BRHO * LENQ) 
+  
+        ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QS_D17') THEN
+          XQS_D17 = ABS(XQS) 
+          PQS_D17 = (XQS)/(XQS_D17 + eps) 
+          BQS_D17 =   q6*XQS_D17**6 + q5*XQS_D17**5 + q4*XQS_D17**4 
+     >          + q3*XQS_D17**3 
+     >                + q2*XQS_D17**2 + q1*XQS_D17**1 + q0*XQS_D17**0 
+          KQS_D17 = PQS_D17 * BQS_D17 / (BRHO * LENQ) 
+  
+        ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QS_F17') THEN
+          XQS_F17 = ABS(XQS) 
+          PQS_F17 = (XQS)/(XQS_F17 + eps) 
+          BQS_F17 =   q6*XQS_F17**6 + q5*XQS_F17**5 + q4*XQS_F17**4 
+     >          + q3*XQS_F17**3 
+     >                + q2*XQS_F17**2 + q1*XQS_F17**1 + q0*XQS_F17**0 
+          KQS_F17 = PQS_F17 * BQS_F17 / (BRHO * LENQ) 
+  
+        ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QS_H17') THEN
+          XQS_H17 = ABS(XQS) 
+          PQS_H17 = (XQS)/(XQS_H17 + eps) 
+          BQS_H17 =   q6*XQS_H17**6 + q5*XQS_H17**5 + q4*XQS_H17**4 
+     >          + q3*XQS_H17**3 
+     >                + q2*XQS_H17**2 + q1*XQS_H17**1 + q0*XQS_H17**0 
+          KQS_H17 = PQS_H17 * BQS_H17 / (BRHO * LENQ) 
+  
+        ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QS_J17') THEN
+          XQS_J17 = ABS(XQS) 
+          PQS_J17 = (XQS)/(XQS_J17 + eps) 
+          BQS_J17 =   q6*XQS_J17**6 + q5*XQS_J17**5 + q4*XQS_J17**4 
+     >          + q3*XQS_J17**3 
+     >                + q2*XQS_J17**2 + q1*XQS_J17**1 + q0*XQS_J17**0 
+          KQS_J17 = PQS_J17 * BQS_J17 / (BRHO * LENQ) 
+  
+        ELSEIF(LBL1(INIL:INIL+5) .EQ. 'QS_L17') THEN
+          XQS_L17 = ABS(XQS)         
+          PQS_L17 = (XQS)/(XQS_L17 + eps) 
+          BQS_L17 =   q6*XQS_L17**6 + q5*XQS_L17**5 + q4*XQS_L17**4 
+     >          + q3*XQS_L17**3 
+     >                + q2*XQS_L17**2 + q1*XQS_L17**1 + q0*XQS_L17**0 
+          KQS_L17 = PQS_L17 * BQS_L17 / (BRHO * LENQ) 
+        
+        ENDIF          
+
+                  
+      ELSEIF(LBL1(INIL:INIL+3) .EQ. 'QGTR') THEN
+C      !8.0 Gamma Transition Quads
+C      ===============
+        LENQ = XL
+
+        XGQHP2 = XGQHP*XGQHP 
+        XGQHP3 = XGQHP*XGQHP2 
+        XGQHP4 = XGQHP*XGQHP3 
+        XGQHP5 = XGQHP*XGQHP4 
+        XGQHP6 = XGQHP*XGQHP5 
+C      
+        XGQHP2n = XGQHN*XGQHN 
+        XGQHP3n = XGQHN*XGQHP2n 
+        XGQHP4n = XGQHN*XGQHP3n 
+        XGQHP5n = XGQHN*XGQHP4n 
+        XGQHP6n = XGQHN*XGQHP5n 
+        
+        
+C       The gamma quads used to use the same polynomial transfer function
+C        as the tune quads, but does not fit properly to the high currents
+C        of 1500 A or greater used in the gamma quads
+C        /*       
+C        B1GQHPold =kqhc6 * XGQHP6
+C     >             + kqhc5 * XGQHP5
+C     >             + kqhc4 * XGQHP4
+C     >             + kqhc3 * XGQHP3
+C     >             + kqhc2 * XGQHP2
+C     >             + kqhc1 * XGQHP 
+C     >             + kqhc0  
+        
+C        B1GQHNold =  kqhc6 * XGQHP6n
+C                 + kqhc5 * XGQHP5n 
+C                 + kqhc4 * XGQHP4n 
+C                 + kqhc3 * XGQHP3n
+C                 + kqhc2 * XGQHP2n
+C                 + kqhc1 * XGQHN 
+C                 + kqhc0 
+C        */
+        
+C      New polynomial as of 3/5/07, calc'd by KAB
+        
+        kgqc6 = -1.7772D-21 
+        kgqc5 =  5.2639D-18 
+        kgqc4 =  1.8256D-16 
+        kgqc3 = -1.6496D-11 
+        kgqc2 =  2.0786D-8 
+        kgqc1 =  8.5849D-4 
+        kgqc0 =  1.8530D-3 *0.d0
+        
+        
+        B1GQHP =   kgqc6 * XGQHP6
+     >             + kgqc5 * XGQHP5
+     >             + kgqc4 * XGQHP4
+     >             + kgqc3 * XGQHP3
+     >             + kgqc2 * XGQHP2
+     >             + kgqc1 * XGQHP 
+     >             + kgqc0  
+        
+        B1GQHN =  kgqc6 * XGQHP6n
+     >            + kgqc5 * XGQHP5n 
+     >            + kgqc4 * XGQHP4n 
+     >            + kgqc3 * XGQHP3n
+     >            + kgqc2 * XGQHP2n
+     >            + kgqc1 * XGQHN 
+     >            + kgqc0 
+        
+        KGQHPa = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
+        KGQHPe = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
+        KGQHPi = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
+        KGQHNc = B1GQHN/(2.0D0*BRHO*LENQ) 
+        KGQHNg = B1GQHN/(2.0D0*BRHO*LENQ) 
+        KGQHNk = B1GQHN/(2.0D0*BRHO*LENQ) 
+
+
+      ELSEIF(LBL1(INIL:INIL+3) .EQ. 'SXH_'
+     >  .OR. LBL1(INIL:INIL+3) .EQ. 'SXV_') THEN
+C !10.0 Chromaticity Sextupoles
+C ======================
+
+        PSH =      XSH / (abs(xsh+eps))   !   //CCbit in xags.lattice description determines clockwise or counter, +1 = clockwise
+        PSV =  -1.D0* XSV / (abs(xsv+eps)) 
+
+        SXHC = PSH*2.D0*0.1016D0*XSH/BRHO    !  //WRONGdEh=( 0.138*XSh - 0.071*XSv)/p
+        SXVC = PSV*2.D0*0.1016D0*XSV/BRHO    !  //WRONGdEv=(-0.064*XSh + 0.151*XSv)/p
+        
       ENDIF
 
-
-      RETURN
-      END
-
+              RETURN
+              END
+        

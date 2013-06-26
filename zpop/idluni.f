@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      FUNCTION IDLUNI(LN)
+      FUNCTION IDLUNI(
+     >                LN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL IDLUNI
 

@@ -1,0 +1,13 @@
+CFLAGS=-g -DGFORTRAN4
+FC=gfortran
+FFLAGS=-O4 -Wall -fno-automatic -pedantic
+
+.POSIX:
+
+all :
+	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+
+clean :
+	$(RM) *~
+	cd coupling ; ($MAKE) clean
+

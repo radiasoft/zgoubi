@@ -33,7 +33,7 @@ C----------------------------------------------------------------------------
       logical TRDROI, TRTOUR,xtrace
       logical SYSTEM, ALEAT
 
-      save ires, irot, MM, nharm
+      save ires, irot, MM, nharm 
 
 C nmail = number of superperiods 
 C iqx, iqy = integer part of tune 
@@ -46,7 +46,7 @@ c      data nmail, iqx, iqy /  8, 0, 0  /
 c      DATA QXMI,XXMA,QYMI,YYMA/1.0499d0,2.05001d0,0.299d0,1.03001d0/
 C Fred's ETparam
       data nmail, iqx, iqy /  1, 0, 0  /
-      DATA QXMI,XXMA,QYMI,YYMA/ 0.6 , 1., 0.8, 1. /
+      DATA QXMI,XXMA,QYMI,YYMA/ 0.65 , .85, 0.85, 1. /
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /
 
@@ -63,10 +63,11 @@ c      xxmax = xxma + dble(iqx )
 c      qymin = qymi + dble(iqy )
 c      yymax = yyma + dble(iqy )
 
-      WRITE(*,*) ' Scales (QX_min/max, Qy_min/max)       : '
+      WRITE(*,fmt='(a,1p,4e14.6)') 
+     >' Scales (QX_min/max, Qy_min/max)       : '
      > , qxmi + dble(iqx), xxma + dble(iqx )
      > , qymi + dble(iqy ), yyma + dble(iqy ) 
-      read(*,*,err=5,end=5) QXMIi,XXMAi,QYMIi,YYMAi
+      read(*,fmt=*,err=5,end=5) QXMIi,XXMAi,QYMIi,YYMAi
       goto 51
  5    continue
       QXMIi = QXMI
@@ -98,7 +99,7 @@ c      ELSE
 c         QXMAX=QXMIN+DX
 c         QYMAX=QYMIN+DX
 c      ENDIF
-         QXMAX=QXMIN+DX
+          QXMAX=QXMIN+DX
          QYMAX=QYMIN+DY
       XXMAX=QXMAX
       YYMAX=QYMAX

@@ -22,9 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTICC(LNOPTI,NOEL,KOPIMP,prdic)
+      SUBROUTINE OPTICC(LNOPTI,NOEL,KOPIMP,prdic,OKCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,6), F0(6,6), AKL(3)
+      logical OKCPLD
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
@@ -33,20 +34,14 @@ C  -------
       IORD = 1
       IFOC = 0
       KWR = 0
-
-      CALL MATRIC(IORD,IFOC,KWR)
+      CALL MATRIC(IORD,IFOC,KWR,OKCPLD)
       CALL MATRI1(
      >            R)
 
-C      PRDIC = IFOC .GT. 10
-      CALL BEAMAT(R,prdic,
-     >              F0,PHY,PHZ)
+      CALL BEAMAT(R,PRDIC,OKCPLD,
+     >                           F0,PHY,PHZ,Cstrn)
       CALL BEAIMP(F0,PHY,PHZ)
 
-          write(*,*) ' opticc '
-          write(*,*) f0
-           read(*,*)
-      
       CALL ZGKLEY(KLE)
       IF(KLE.EQ.'AGSMM') THEN
          CALL AGSMKL(
@@ -70,16 +65,14 @@ C      PRDIC = IFOC .GT. 10
       ENDIF
 
 c Print to zgoubi.OPTICS.out
-      IF(KOPIMP.EQ.1) THEN
+c      IF(KOPIMP.EQ.1) THEN
 
-        CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL)      
+      CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL,Cstrn)      
 
-c Store for further print by TWISS to zgoubi.TWISS.out
-      ELSEIF(KOPIMP.EQ.2) THEN
+c Store for later print by TWISS to zgoubi.TWISS.out
+c      ELSEIF(KOPIMP.EQ.2) THEN
 
-
-
-      ENDIF
+c      ENDIF
 
       RETURN
       END

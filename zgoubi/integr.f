@@ -317,7 +317,7 @@ C-------- ifb .ne. 0
       CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
 
-      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR,PAS)
+      IF(FITTST) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
 
       CT=COS(T)
       ST=SIN(T)
@@ -390,7 +390,7 @@ C            CALL SPNTRK(IT,PAF)
         ENDIF
       ENDIF
 
-      IF(FITTST) CALL FITMM(Y,T,Z,P,SAR,DP,TAR,PAS)
+      IF(FITTST) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
 
 C  A trick for tests at constant coordinate -----------------
          if(consty) then 

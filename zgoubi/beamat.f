@@ -22,11 +22,11 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE BEAMAT(R,PRDIC,
-     >                    F0,PHY,PHZ)
+      SUBROUTINE BEAMAT(R,PRDIC,OKCPLD,
+     >                                 F0,PHY,PHZ,Cstrn)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),F0(6,*)
-      LOGICAL PRDIC
+      LOGICAL PRDIC, OKCPLD
       COMMON/BEAM/ FI(6,6)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
@@ -35,7 +35,7 @@ C  -------
       INTEGER DEBSTR, FINSTR
       CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
-      DIMENSION RTURN(N4,N4)
+      DIMENSION RT(N4,N4)
       DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
       DIMENSION N0(N4), B(N4)
 
@@ -73,6 +73,8 @@ c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
         PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
         IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
+        Cstrn = 0.d0
+
       ELSE
 
 C R is the matrix from OBJET down to here. Make it 4x4
@@ -82,90 +84,245 @@ C R is the matrix from OBJET down to here. Make it 4x4
             RINV(I,J) = R44(I,J)
           ENDDO
         ENDDO
-c        write(*,*)  ' beamat. R(here <- OBJET) :  '
-c        write(*,fmt='(1p,4e14.6)') ((r44(i,j),j=1,4),i=1,4)
 
 Compute the inverse of R
         CALL DLAIN(N4,N4,RINV,N0,B,IER)
 
-C Get the 4x4 1-trun map, make it 4x4
+C Get the 4x4 1-turn map
         call twiss1(
-     >              rturn)
+     >                RT)
         call ZGNOEL(
-     >             NOEL)
-c        write(*,*)  ' Noel = ',noel, '   RTURN @ end :  '
-c        write(*,fmt='(1p,4e14.6)') ((rturn(i,j),j=1,4),i=1,4)
-            
-        call pmat(rturn,RINV,RINT,4,4,4)
-c        write(*,*)  ' rturn * R^-1 : '
-c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
-c        write(*,*)  ' R :  '
-c        write(*,fmt='(1p,4e14.6)') ((r44(i,j),j=1,4),i=1,4)
+     >               NOEL)
+        call pmat(RT,RINV,RINT,4,4,4)
+        call pmat(R44,RINT,RT,4,4,4)
+C RT now contains the local 1-turn map 
 
-        call pmat(R44,RINT,rturn,4,4,4)
-C RTURN now contains the local 1-turn map 
+        IF(OKCPLD) THEN
 
-c        write(*,*)  ' here : '
-c        write(*,fmt='(1p,4e14.6)') ((rturn(i,j),j=1,4),i=1,4)
-c        write(*,*) ' qx, qy : ',acos(.5d0*(rturn(1,1)+rturn(2,2)))
-c     >              ,acos(.5d0*(rturn(3,3)+rturn(4,4)))
-c              read(*,*)
+          OK = IDLUNI(
+     >              LUNW)
+          IF(.NOT. OK) CALL ENDJOB(
+     >    'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
 
-c        write(*,*)  ' R :  '
-c        write(*,fmt='(1p,4e14.6)') ((r(i,j),j=1,4),i=1,4)
-c        write(*,*)  ' R**-1 : '
-c        write(*,fmt='(1p,4e14.6)') ((rinv(i,j),j=1,4),i=1,4)
-c        write(*,*)  ' R * R**-1 : '
-c        call pmat(R44,RINV,RINT,4,4,4)
-c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
-c        write(*,*)  ' '
-c        write(*,*)  ' R**-1 * R : '
-c        call pmat(RINV,R44,RINT,4,4,4)
-c        write(*,fmt='(1p,4e14.6)') ((rint(i,j),j=1,4),i=1,4)
-c        write(*,*)  ' '
+          OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
+          WRITE(lunW,FMT='(//)')
+          WRITE(lunW,FMT='(
+     >    ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
+          DO I=1,4
+             WRITE(lunW,FMT='(4(F15.8,1X))') (RT(I,J),J=1,4)
+          ENDDO
+          WRITE(lunW,FMT='(/,a,i6)') ' Element # ',noel
 
+          CLOSE(lunW,IOSTAT=IOS2)
 
-        OK = IDLUNI(
-     >            LUNW)
-        IF(.NOT. OK) CALL ENDJOB(
-     >  'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
-
-        OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
-        WRITE(lunW,FMT='(//)')
-        WRITE(lunW,FMT='(
-     >  ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
-        DO I=1,4
-           WRITE(lunW,FMT='(4(F15.8,1X))') (rturn(I,J),J=1,4)
-        ENDDO
-
-        CLOSE(lunW,IOSTAT=IOS2)
-
-        cmmnd = '~/zgoubi/current/coupling/ETparam'
+Compute coupled optics
+          cmmnd = '~/zgoubi/current/coupling/ETparam'
 c        write(6,*) ' Pgm beamat. Now doing ' 
 c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
-        CALL SYSTEM(cmmnd)
+          CALL SYSTEM(cmmnd)
 
-        OK = IDLUNI(
-     >            LUNW)
-        call et2res(lunw)
+          OK = IDLUNI(
+     >                 LUNW)
+          call et2res(lunw)
+          CLOSE(lunW)
+   
+          call et2re1(
+     >             F011,f012,f033,f034,phy,phz,Cstrn)
 
+          F0(1,1) = F011
+          F0(1,2) = f012
+          F0(2,1) = F0(1,2) 
+          F0(2,2) = (1.d0 + f012*f012 ) / F011
+          F0(3,3) = f033
+          F0(3,4) = f034
+          F0(4,3) = F0(3,4) 
+          F0(4,4) = (1.d0 + f034*f034 ) / F033
 
-        call et2re1(
-     >             F011,f012,f033,f034,phy,phz)
-        F0(1,1) = F011
-        F0(1,2) = f012
-        F0(2,1) = F0(1,2) 
-        F0(2,2) = (1.d0 + f012*f012 ) / F011
-        F0(3,3) = f033
-        F0(3,4) = f034
-        F0(4,3) = F0(3,4) 
-        F0(4,4) = (1.d0 + f034*f034 ) / F033
+          IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
+          IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
-        IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
-        IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+          F0(1,6) = -((RT(1,4)*
+     -        (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) + 
+     -         RT(1,4)*(R(2,6) - R(2,6)*RT(3,3) + RT(2,3)*R(3,6)) + 
+     -                RT(1,3)*(R(2,6)*RT(3,4) - RT(2,4)*R(3,6)))*
+     -              ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                 (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -                (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                 (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -           ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -               (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -              (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -               (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -          (R(1,6)*(RT(2,4)*RT(4,3) - RT(2,3)*(-1 + RT(4,4))) + 
+     -             RT(1,4)*(-(R(2,6)*RT(4,3)) + RT(2,3)*R(4,6)) + 
+     -         RT(1,3)*(R(2,6)*(-1 + RT(4,4)) - RT(2,4)*R(4,6)))))/
+     -       (-(((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -               (RT(1,4)*RT(3,1) - (-1 + RT(1,1))*RT(3,4)) - 
+     -              (RT(1,4)*RT(2,1) - (-1 + RT(1,1))*RT(2,4))*
+     -               (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -            ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -               (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -              (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -               (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -         RT(1,4)*((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -             (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -            (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -             (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -          (RT(2,3)*(-1 + RT(1,1) + RT(1,4)*RT(4,1)) - 
+     -            RT(1,4)*RT(2,1)*RT(4,3) + 
+     -       RT(1,3)*(-(RT(2,4)*RT(4,1)) + RT(2,1)*(-1 + RT(4,4))) + 
+     -       (-1 + RT(1,1))*(RT(2,4)*RT(4,3) - RT(2,3)*RT(4,4)))))
 
-         
-      endif
+          F0(2,6) = ((-(R(1,6)*RT(2,4)) + RT(1,4)*R(2,6))*
+     -        (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)) - 
+     -       (RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -        (-(R(1,6)*RT(3,4)) + RT(1,4)*R(3,6)) + 
+     -       (RT(1,4)*((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -             (RT(1,4)*RT(3,1) - (-1 + RT(1,1))*RT(3,4)) - 
+     -            (RT(1,4)*RT(2,1) - (-1 + RT(1,1))*RT(2,4))*
+     -             (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -          (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) +
+     -       RT(1,4)*(R(2,6) - R(2,6)*RT(3,3) + RT(2,3)*R(3,6)) + 
+     -                 RT(1,3)*(R(2,6)*RT(3,4) - RT(2,4)*R(3,6)))*
+     -               ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                  (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -                 (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                  (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -            ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -               (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -             (R(1,6)*(RT(2,4)*RT(4,3) - RT(2,3)*(-1 + RT(4,4))) + 
+     -               RT(1,4)*(-(R(2,6)*RT(4,3)) + RT(2,3)*R(4,6)) + 
+     -          RT(1,3)*(R(2,6)*(-1 + RT(4,4)) - RT(2,4)*R(4,6)))))/
+     -        (-(((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(3,1) - (-1 + RT(1,1))*RT(3,4)) - 
+     -               (RT(1,4)*RT(2,1) - (-1 + RT(1,1))*RT(2,4))*
+     -                (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -             ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -               (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -          RT(1,4)*((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -              (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -             (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -              (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -           (RT(2,3)*(-1 + RT(1,1) + RT(1,4)*RT(4,1)) - 
+     -             RT(1,4)*RT(2,1)*RT(4,3) + 
+     -         RT(1,3)*(-(RT(2,4)*RT(4,1)) + RT(2,1)*(-1 + RT(4,4))) + 
+     -         (-1 + RT(1,1))*(RT(2,4)*RT(4,3) - RT(2,3)*RT(4,4)))))/
+     -     ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -        (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -       (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -        (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))
+
+       F0(3,6) = (R(1,6)*RT(2,4)*RT(3,2) - RT(1,4)*R(2,6)*RT(3,2) + 
+     - R(1,6)*RT(3,4) - R(1,6)*RT(2,2)*RT(3,4) 
+     -                           + RT(1,2)*R(2,6)*RT(3,4) - 
+     - RT(1,4)*R(3,6) + RT(1,4)*RT(2,2)*R(3,6) 
+     -                             - RT(1,2)*RT(2,4)*R(3,6) + 
+     - (RT(1,4)*(RT(1,4)*(-((-1 + RT(2,2))*RT(3,1)) + RT(2,1)*RT(3,2)) + 
+     -            RT(1,2)*(RT(2,4)*RT(3,1) - RT(2,1)*RT(3,4)) - 
+     -    (-1 + RT(1,1))*(RT(2,4)*RT(3,2) + RT(3,4) - RT(2,2)*RT(3,4)))*
+     -          (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) + 
+     -          RT(1,4)*(R(2,6) - R(2,6)*RT(3,3) + RT(2,3)*R(3,6)) + 
+     -                 RT(1,3)*(R(2,6)*RT(3,4) - RT(2,4)*R(3,6)))*
+     -               ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                  (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -                 (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                  (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -            ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -               (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -             (R(1,6)*(RT(2,4)*RT(4,3) - RT(2,3)*(-1 + RT(4,4))) + 
+     -               RT(1,4)*(-(R(2,6)*RT(4,3)) + RT(2,3)*R(4,6)) + 
+     -       RT(1,3)*(R(2,6)*(-1 + RT(4,4)) - RT(2,4)*R(4,6)))))/
+     -        (-(((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(3,1) - (-1 + RT(1,1))*RT(3,4)) - 
+     -               (RT(1,4)*RT(2,1) - (-1 + RT(1,1))*RT(2,4))*
+     -                (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -             ((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -                (RT(1,4)*RT(4,2) - RT(1,2)*(-1 + RT(4,4))) - 
+     -               (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -                (RT(1,4)*RT(4,3) - RT(1,3)*(-1 + RT(4,4))))) + 
+     -          RT(1,4)*((RT(1,4)*RT(2,3) - RT(1,3)*RT(2,4))*
+     -              (RT(1,4)*RT(3,2) - RT(1,2)*RT(3,4)) - 
+     -             (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
+     -              (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))*
+     -           (RT(2,3)*(-1 + RT(1,1) + RT(1,4)*RT(4,1)) - 
+     -             RT(1,4)*RT(2,1)*RT(4,3) + 
+     -          RT(1,3)*(-(RT(2,4)*RT(4,1)) + RT(2,1)*(-1 + RT(4,4))) + 
+     -           (-1 + RT(1,1))*(RT(2,4)*RT(4,3) - RT(2,3)*RT(4,4)))))/
+     -     (RT(2,4)*(-(RT(1,3)*RT(3,2)) + RT(1,2)*(-1 + RT(3,3))) + 
+     - RT(1,4)*(-1+ RT(2,3)*RT(3,2)- RT(2,2)*(-1 + RT(3,3)) + RT(3,3))+ 
+     -       (RT(1,3)*(-1 + RT(2,2)) - RT(1,2)*RT(2,3))*RT(3,4))
+
+       F0(4,6) = 
+     -  (-(RT(1,3)*R(2,6)*RT(3,2)*RT(4,1)) - RT(1,3)*R(3,6)*RT(4,1) + 
+     -       RT(1,3)*RT(2,2)*R(3,6)*RT(4,1) 
+     -               - R(2,6)*RT(4,2) + RT(1,1)*R(2,6)*RT(4,2) + 
+     -       RT(1,3)*R(2,6)*RT(3,1)*RT(4,2) + R(2,6)*RT(3,3)*RT(4,2) - 
+     -       RT(1,1)*R(2,6)*RT(3,3)*RT(4,2) 
+     -               - RT(1,3)*RT(2,1)*R(3,6)*RT(4,2) - 
+     -       RT(2,3)*R(3,6)*RT(4,2) + RT(1,1)*RT(2,3)*R(3,6)*RT(4,2) - 
+     -       R(2,6)*RT(3,2)*RT(4,3) 
+     -             + RT(1,1)*R(2,6)*RT(3,2)*RT(4,3) - R(3,6)*RT(4,3) + 
+     -       RT(1,1)*R(3,6)*RT(4,3) + RT(2,2)*R(3,6)*RT(4,3) - 
+     -       RT(1,1)*RT(2,2)*R(3,6)*RT(4,3) - 
+     -       R(1,6)*(-((-1 + RT(2,3)*RT(3,2) 
+     -               - RT(2,2)*(-1 + RT(3,3)) + RT(3,3))*RT(4,1)) + 
+     -          RT(3,1)*(RT(2,3)*RT(4,2) + RT(4,3) - RT(2,2)*RT(4,3)) + 
+     -          RT(2,1)*(RT(4,2) - RT(3,3)*RT(4,2) + RT(3,2)*RT(4,3))) + 
+     -       (-1 + RT(1,3)*RT(3,1) + (RT(1,3)*RT(2,1) 
+     -               + RT(2,3))*RT(3,2) + RT(3,3) - 
+     -          RT(2,2)*(-1 + RT(1,3)*RT(3,1) + RT(3,3)) - 
+     -          RT(1,1)*(-1 + RT(2,3)*RT(3,2) - RT(2,2)*(-1 
+     -               + RT(3,3)) + RT(3,3)))*R(4,6) + 
+     -     RT(1,2)*(R(2,6)*((-1 + RT(3,3))*RT(4,1) - RT(3,1)*RT(4,3)) + 
+     -          RT(2,3)*(-(R(3,6)*RT(4,1)) + RT(3,1)*R(4,6)) + 
+     -          RT(2,1)*(R(3,6)*RT(4,3) + R(4,6) - RT(3,3)*R(4,6))))/
+     -     (-1 + RT(1,3)*RT(3,1) + RT(2,2)*(1 - RT(1,3)*RT(3,1)) 
+     -               + RT(1,3)*RT(2,1)*RT(3,2) + 
+     -       RT(2,3)*RT(3,2) + RT(3,3) + RT(1,4)*RT(4,1) 
+     -               - RT(1,4)*RT(2,3)*RT(3,2)*RT(4,1) + 
+     -       RT(1,3)*RT(2,4)*RT(3,2)*RT(4,1) - RT(1,4)*RT(3,3)*RT(4,1) + 
+     -       RT(1,4)*RT(2,2)*RT(3,3)*RT(4,1) + RT(1,3)*RT(3,4)*RT(4,1) - 
+     -       RT(1,3)*RT(2,2)*RT(3,4)*RT(4,1) - RT(2,2)*(RT(3,3)
+     -                + RT(1,4)*RT(4,1)) + 
+     -       RT(1,4)*RT(2,1)*RT(4,2) + RT(2,4)*RT(4,2) 
+     -               + RT(1,4)*RT(2,3)*RT(3,1)*RT(4,2) - 
+     -       RT(1,3)*RT(2,4)*RT(3,1)*RT(4,2) 
+     -               - RT(1,4)*RT(2,1)*RT(3,3)*RT(4,2) - 
+     -       RT(2,4)*RT(3,3)*RT(4,2) + RT(1,3)*RT(2,1)*RT(3,4)*RT(4,2) + 
+     -       RT(2,3)*RT(3,4)*RT(4,2) + RT(1,4)*RT(3,1)*RT(4,3) - 
+     -       RT(1,4)*RT(2,2)*RT(3,1)*RT(4,3) 
+     -               + RT(1,4)*RT(2,1)*RT(3,2)*RT(4,3) + 
+     -       RT(2,4)*RT(3,2)*RT(4,3) + RT(3,4)*RT(4,3) 
+     -               - RT(2,2)*RT(3,4)*RT(4,3) + RT(4,4) - 
+     -       (RT(2,3)*RT(3,2) + RT(1,3)*(RT(3,1) 
+     -               + RT(2,1)*RT(3,2)) + RT(3,3) - 
+     -          RT(2,2)*(-1 + RT(1,3)*RT(3,1) + RT(3,3)))*RT(4,4) - 
+     -       RT(1,1)*(-((-1 + RT(3,3))*(-1 + RT(2,4)*RT(4,2))) + 
+     -          (RT(2,4)*RT(3,2) + RT(3,4))*RT(4,3) + 
+     -          RT(2,3)*(RT(3,4)*RT(4,2) - RT(3,2)*(-1 
+     -               + RT(4,4))) + RT(4,4) - 
+     -          RT(3,3)*RT(4,4) - RT(2,2)*
+     -           (-1 + RT(3,4)*RT(4,3) - RT(3,3)*(-1 
+     -               + RT(4,4)) + RT(4,4))) + 
+     -       RT(1,2)*(RT(2,4)*(RT(4,1) - RT(3,3)*RT(4,1) 
+     -               + RT(3,1)*RT(4,3)) - 
+     -          RT(2,1)*(-1 + RT(3,4)*RT(4,3) - RT(3,3)*(-1 
+     -               + RT(4,4)) + RT(4,4)) + 
+     -      RT(2,3)*(RT(3,1) + RT(3,4)*RT(4,1) - RT(3,1)*RT(4,4))))
+
+        ELSEIF(.NOT. OKCPLD) THEN
+
+          CALL TUNES(R,F0,1,IERY,IERZ,.FALSE.,
+     >                                       PHY,PHZ,CMUY,CMUZ)          
+
+        ENDIF
+      ENDIF
 
       RETURN
 

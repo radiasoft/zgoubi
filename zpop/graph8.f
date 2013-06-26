@@ -24,9 +24,10 @@ C  Upton, NY, 11973
 C  USA
 C  -------
 CDECK GRAPH2 
-      SUBROUTINE GRAPH8(NLOG, LM, NOMFIC)
+      SUBROUTINE GRAPH8(NLOG, LM, NOMFIC,wrkDir)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*(*)  NOMFIC 
+      character(*) wrkDir
       
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/ OKECH, OKVAR, OKBIN
@@ -38,6 +39,8 @@ CDECK GRAPH2
 
       LOGICAL OKOPN, INPECH, CHANGE
       SAVE NL
+      integer debstr, finstr
+
       DATA  OKOPN / .FALSE. /
       DATA CHANGE / .TRUE./
  
@@ -51,8 +54,11 @@ CDECK GRAPH2
       CALL FBGTXT
       CALL HOMCLR
 
-      WRITE(6,100) NOMFIC
+      WRITE(6,100)  '[...]'//wrkDir(finstr(wrkDir)-60:finstr(wrkDir))
+     >,NOMFIC
  100  FORMAT(//,3X,60('*'),//,20X,' MENU - Analysis/Graphic :' ,//
+     > ,9X,'        ' ,/
+     > ,4x,' Working directory now : ',/,5x,A,  //
      > ,9X,'        ' ,/
      1 ,9X,'  1    Open  file - current is ',A ,/
      3 ,9X,'  3    Plot  options',/

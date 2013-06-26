@@ -55,7 +55,7 @@ C     --------------------------
       LOGICAL READBX, READBY
       SAVE READBX, READBY
 
-      DATA AX,PX,BX,AY,PY,BY / 1.D0, 1.D0, 0.D0, 1.D0, 1.D0, 0.D0 /
+      DATA AX,PX,BX,DX,AY,PY,BY,DY / 2*1.D0, 2*0.D0, 2*1.D0, 2*0.D0 /
 
       DATA     OKDX, OKABSX, OKABDX, OKDY, OKABSY, OKABDY / 6*.FALSE. /
 
@@ -83,6 +83,7 @@ C--------- Loop over NL file
           NOC=NOC+1
 
           XX = YZXB(KX)
+          XX = XX -DX * YZXB(1)
           IF(OKABSX) XX = ABS(XX)
           IF(OKDX) THEN 
             BB = BX
@@ -135,6 +136,7 @@ C      IPASS=NINT(YZXB(20))
       IPASS=NINT(YZXB(39))
       NOC=NOC+1
           XX = YZXB(KX)
+          XX = XX -DX * YZXB(1)
           IF(OKABSX) XX = ABS(XX)
           IF(OKDX) THEN 
             BB = BX
@@ -160,6 +162,7 @@ C      IB=1+INT((YZXB(KX)-XMI)/DB)
       IF(BINM) THEN
 C------- Bin average value of KY
           YY = YZXB(KYB)
+          YY = YY -DY * YZXB(1)
           IF(OKABSY) YY = ABS(YY)
           IF(OKDY) THEN 
             BB = BY
@@ -225,13 +228,15 @@ C-----------------------------------------
       BINMO = BINM
       RETURN         
          
-      ENTRY BIN4W(AXI,PXI,BXI,AYI,PYI,BYI,IOPT,IBXY,IUN)
+      ENTRY BIN4W(AXI,PXI,BXI,DXI,AYI,PYI,BYI,DYI,IOPT,IBXY,IUN)
         AX = AXI
         BX = BXI
         PX = PXI
+        DX = DXI
         AY = AYI
         BY = BYI
         PY = PYI
+        DY = DYI
         OKDX = IOPT.EQ.2
         OKABSX = IOPT.EQ.3
         OKABDX = IOPT.EQ.4
@@ -263,13 +268,15 @@ c            write(99,*) DUM,BTAB(ISTEP,IBXY), ' sbr BIN, test plot5'
         ENDIF
       RETURN
 
-      ENTRY BIN41W(AXJ,PXJ,BXJ,AYJ,PYJ,BYJ)
+      ENTRY BIN41W(AXJ,PXJ,BXJ,DXJ,AYJ,PYJ,BYJ,DYJ)
         AX = AXJ
         BX = BXJ
         PX = PXJ
+        DX = DXJ
         AY = AYJ
         BY = BYJ
         PY = PYJ
+        DY = DYJ
         OKDX = .FALSE.
         OKABSX = .FALSE.
           READBX = .FALSE.

@@ -28,7 +28,7 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(132) TXT, STRA(3)
+      CHARACTER(132) TXT, STRA(4)
 
       INTEGER DEBSTR
       LOGICAL STRCON
@@ -38,13 +38,25 @@ C  -------
 C----- Read IORD, IFOC
       READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,2)
 
-      CALL STRGET(TXT,3,
+      CALL STRGET(TXT,4,
      >                  IDUM,STRA) 
-      IF(STRCON(STRA(3),'zgoubi.MATRIX.out',
-     >                                      IS)) THEN
+
+      IF    (STRCON(STRA(3),'zgoubi.MATRIX.out',
+     >                                          IS) 
+     > .OR.  STRCON(STRA(4),'zgoubi.MATRIX.out',
+     >                                          IS)) THEN
         A(NOEL,3)=1.D0
       ELSE
         A(NOEL,3)=0.D0
+      ENDIF
+
+      IF    (STRCON(STRA(3),'coupled',
+     >                                IS)
+     > .OR.  STRCON(STRA(4),'coupled',
+     >                                IS)) THEN
+        A(NOEL,4)=1.D0
+      ELSE
+        A(NOEL,4)=0.D0
       ENDIF
 
       RETURN

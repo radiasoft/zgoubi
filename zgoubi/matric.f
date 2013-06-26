@@ -87,10 +87,16 @@ C      IORD = A(NOEL,1)
 C      IFOC = A(NOEL,2) 
       IFOC = JFOC
       PRDIC = IFOC .GT. 10
- 
+      NMAIL = IFOC-10
+
 C      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
       KWRMAT = KWR .EQ. 1
       IF(KWRMAT) CALL MATIM6(KWRMAT)
+      IF(KWRMAT .and. nres .gt. 0) then
+        write(nres,*) 
+        write(nres,*)  ' Matrix coefficients are printed in '
+     >  // ' zgoubi.MATRIX.out.'
+      endif
 
       IF    (IORD .EQ. 1) THEN
         CALL OBJ51(
@@ -110,9 +116,11 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
           CALL MAT1(R,T,IT1)
           CALL MKSA(IORD,R,T,T3,T4)
-          CALL MATIMP(R)
-          IF(PRDIC) CALL TUNES(R,F0,IFOC-10,IERY,IERZ,.TRUE.,
+C          CALL MATIMP(R)
+          IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
+          CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
+
 C FM, Nov. 2008
 C          CALL REFER(2,IORD,IFOC,IT1,IT2,IT3)
           CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
@@ -128,21 +136,24 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         CALL REFER(1,IORD,IFC,1,6,7)
         CALL MAT2(R,T,T3,T4)
         CALL MKSA(IORD,R,T,T3,T4)
-        CALL MATIMP(R)
-        IF(PRDIC) CALL TUNES(R,F0,IFOC-10,IERY,IERZ,.TRUE.,
+C        CALL MATIMP(R)
+        IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
+        CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
         CALL MATIM2(R,T,T3)
         IF(PRDIC) THEN 
           CALL MAT2P(RPD,DP)
           CALL MKSA(IORD,RPD,T,T3,T4)
-          CALL MATIMP(RPD)
-          CALL TUNES(RPD,F0PD,IFOC-10,IERY,IERZ,.TRUE.,
+C          CALL MATIMP(RPD)
+          CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUP,ZNUP,CMUY,CMUZ)
+          CALL MATIMP(RPD,F0PD,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4)
-          CALL MATIMP(RMD)
-          CALL TUNES(RMD,F0MD,IFOC-10,IERY,IERZ,.TRUE.,
+C          CALL MATIMP(RMD)
+          CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUM,ZNUM,CMUY,CMUZ)
+          CALL MATIMP(RMD,F0MD,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC)
 C Momentum detuning
           NUML = 1
 C          DNUYDP = (YNUP-YNUM)/2.D0/A(NUML,25)
@@ -165,7 +176,7 @@ c            read(*,*)
 c---------------------------------------------------------------------------------
 
 
-       RETURN
+C       RETURN
 
 
 
@@ -212,7 +223,7 @@ C      CLOSE(lunR,IOSTAT=IOS1)
 c----------------------------------------------
 
 C      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
-      cmmnd = '~/zgoubi/current/coupling/ETparam'
+      cmmnd = '/home/owl/fmeot/zgoubi/current/coupling/ETparam'
 c      write(6,*) ' Pgm matric. Now doing ' 
 c     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
       CALL SYSTEM(cmmnd)
@@ -224,7 +235,7 @@ c            read(*,*)
 
       call et2res(nres)
       call et2re1(
-     >             F011,f012,f033,f034,phy,phz)
+     >             F011,f012,f033,f034,phy,phz,Cstrn)
       IF(NRES .GT. 0) then
         WRITE(NRES,*)
         WRITE(NRES,*) '--------------------------------------'
@@ -234,6 +245,7 @@ c            read(*,*)
         WRITE(NRES,*) ' bet1, alf1 : ',    F011,-f012
         WRITE(NRES,*) ' bet2, alf2 : ',    f033,-f034
         WRITE(NRES,*) ' Q1, Q2 :     ',    phy,phz  
+        WRITE(NRES,*) ' Coupling strength :     ',    Cstrn
         WRITE(NRES,*)
         WRITE(NRES,*) '--------------------------------------'
         WRITE(NRES,*)
@@ -241,7 +253,7 @@ c            read(*,*)
       ENDIF
 
       RETURN
-
+ 
       ENTRY MATRI1(
      >             RO)
       DO IB = 1, 6

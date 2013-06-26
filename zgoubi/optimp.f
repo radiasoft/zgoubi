@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL) 
+      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL,Cstrn) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION F0(6,6),AKL(3)
 
@@ -56,20 +56,16 @@ C      PARAMETER (PI = 3.1415926535898d0)
       lbl2 = label(noel,2)
       IF(EMPTY(LBL2)) LBL2 = '.'
 
-c      WRITE(*,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
-c     >, F0(5,6), F0(5,5)
-c     >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
-c     >, PHY/(2.D0*PI), PHZ/(2.D0*PI), SCUM, NOEL
-c     >, F(2,1)*0.01D0, F(3,1), F(4,1)*0.01D0, F(5,1)
-c     >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
-      WRITE(LUN,104) F0(1,2), F0(1,1), F0(3,4), F0(3,3) 
+      WRITE(LUN,104) -F0(1,2), F0(1,1), -F0(3,4), F0(3,3) 
      >, F0(5,6), F0(5,5)
      >, F0(1,6), F0(2,6), F0(3,6), F0(4,6)
-     >, PHY/(2.D0*PI), PHZ/(2.D0*PI), SCUM, NOEL
+C     >, PHY/(2.D0*PI), PHZ/(2.D0*PI), SCUM, NOEL
+     >, PHY, PHZ, SCUM, NOEL
      >, F(2,1)*0.01D0, F(3,1), F(4,1)*0.01D0, F(5,1)
      >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
+     >, Cstrn, '   ! otpimp.f'
  104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1x,a)
-     >,4(1X,E13.5))
+     >,5(1X,E13.5),a)
 
       RETURN
       END

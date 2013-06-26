@@ -1,0 +1,10 @@
+CFLAGS=-g -DGFORTRAN4
+FC=/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort
+FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save
+
+.POSIX:
+
+all :
+	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zpop ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+

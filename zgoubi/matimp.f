@@ -22,8 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MATIMP(R) 
+      SUBROUTINE MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL PRDIC
+      DIMENSION F0(6,6)
       DIMENSION R(6,*) , T(6,6,*)
       DIMENSION  T3(5,*)
 
@@ -38,6 +40,7 @@ C  -------
       CHARACTER FNAME*17
       LOGICAL EXS, OPN
       SAVE KWRMAT
+      CHARACTER*15 TXTYNU, TXTZNU
 
       DATA FNAME / 'zgoubi.MATRIX.out' /
   
@@ -64,6 +67,43 @@ C  -------
 
       CALL SYMPL(R)
 
+      IF(NMAIL.LE.0) THEN
+c        IF(NRES.GT.0) 
+c     >  WRITE(NRES,*) ' Pgm matimp. NUMBER OF PERIODS IS ERRONEOUS !'
+c        RETURN
+      ELSE
+        IF(NRES.GT.0) WRITE(NRES,106) NMAIL
+ 106    FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
+     >         I4,'  is  assumed ',/
+     >           ,35X,' - UNCOUPLED -')
+      ENDIF
+
+      IF(PRDIC) THEN
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,113)
+ 113      FORMAT(/,6X,
+     >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
+     >    ' and  periodic  dispersion  (MKSA units)',/)
+          WRITE(NRES,114) (( F0(IA,IB) , IB=1,6) , IA=1,6)
+ 114      FORMAT(6X,6F13.6)
+          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
+          WRITE(TXTYNU,FMT='(A)') 'undefined'
+          WRITE(TXTZNU,FMT='(A)') 'undefined'
+
+         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
+           WRITE(TXTYNU,FMT='(G15.8)') YNU
+           WRITE(TXTZNU,FMT='(G15.8)') ZNU
+         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
+           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G15.8)') YNU
+           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G15.8)') ZNU
+         ENDIF
+
+         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
+     >            'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
+
+        ENDIF
+      ENDIF
+
       IF(KWRMAT) THEN
         IF(IDLUNI(
      >            LNWRT)) THEN
@@ -77,6 +117,8 @@ C  -------
           ELSE
             OPEN(UNIT=LNWRT, FILE=FNAME, status='NEW',ERR=96)
             WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
+     >      // ' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
+     >      // ' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ'
             WRITE(LNWRT,*) '%  '
           ENDIF
 c          write(lnwrt,*)'%  transport coefficients',
@@ -87,10 +129,16 @@ C This will stack results from stacked jobs, or will stack with earlier results
         ENDIF
         WRITE(LNWRT,*) ' '
         WRITE(LNWRT,*) 'Last merged : '
-        WRITE(LNWRT,FMT='(1P,16(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4)
+        WRITE(LNWRT,FMT='(1P,36(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4), 
+     >  R(1,6), R(2,6), R(3,6), R(4,6), 
+     >  R(5,1), R(5,2), R(5,3), R(5,4), R(5,5), R(6,6), 
+     >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
+     >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU
         CLOSE(LNWRT)
         KWRMAT = .FALSE.
+
       ENDIF
+
 
       RETURN
 

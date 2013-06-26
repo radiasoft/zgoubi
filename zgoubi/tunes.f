@@ -31,23 +31,24 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      CHARACTER*15 TXTYNU, TXTZNU
+C      CHARACTER*15 TXTYNU, TXTZNU
 
       IERY=0
       IERZ=0
       CALL RAZ(F0, 6*6)
 
-      IF(OKPR) THEN
-        IF(NMAIL.LE.0) THEN
-          IF(NRES.GT.0) 
-     >    WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
-          RETURN
-        ELSE
-          IF(NRES.GT.0) WRITE(NRES,106) NMAIL
- 106      FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
-     >           I4,'  is  assumed :')
-        ENDIF
-      ENDIF
+C      IF(OKPR) THEN
+C        IF(NMAIL.LE.0) THEN
+C          IF(NRES.GT.0) 
+C     >    WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
+C          RETURN
+C        ELSE
+C          IF(NRES.GT.0) WRITE(NRES,106) NMAIL
+C 106      FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
+C     >           I4,'  is  assumed ',/
+C     >             ,35X,' - UNCOUPLED -')
+C        ENDIF
+C      ENDIF
  
 C  HORIZONTAL
       CMUY = .5D0 * (R(1,1)+R(2,2))
@@ -125,31 +126,30 @@ C         write(*,*) '                                tunes...'
 
       ENDIF
 
-      IF(OKPR) THEN
+C      IF(OKPR) THEN
+C        IF(NRES.GT.0) THEN
+C          WRITE(NRES,103)
+C 103      FORMAT(/,6X,
+C     >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
+C     >    ' and  periodic  dispersion  (MKSA units)',/)
+C          WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
+C 104      FORMAT(6X,6F13.6)
+C          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
+C          WRITE(TXTYNU,FMT='(A)') 'undefined'
+C          WRITE(TXTZNU,FMT='(A)') 'undefined'
 
-        IF(NRES.GT.0) THEN
-          WRITE(NRES,103)
- 103      FORMAT(/,6X,
-     >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
-     >    ' and  periodic  dispersion  (MKSA units)',/)
-          WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
- 104      FORMAT(6X,6F13.6)
-          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-          WRITE(TXTYNU,FMT='(A)') 'undefined'
-          WRITE(TXTZNU,FMT='(A)') 'undefined'
+C         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
+C           WRITE(TXTYNU,FMT='(G15.8)') YNU
+C           WRITE(TXTZNU,FMT='(G15.8)') ZNU
+C         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
+C           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G15.8)') YNU
+C           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G15.8)') ZNU
+C         ENDIF
 
-         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
-           WRITE(TXTYNU,FMT='(G15.8)') YNU
-           WRITE(TXTZNU,FMT='(G15.8)') ZNU
-         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
-           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G15.8)') YNU
-           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G15.8)') ZNU
-         ENDIF
+C         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
+C     >              'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
 
-         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
-     >              'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
-
-        ENDIF
-      ENDIF
+C        ENDIF
+C      ENDIF
       RETURN
       END

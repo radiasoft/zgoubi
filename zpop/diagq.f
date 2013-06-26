@@ -92,5 +92,10 @@ C                                     INTERS AVEC Y=QYMAX
       ENDIF
 C
    10 CONTINUE
+
+      call fbgtxt
+      write(*,*) ' ',M,'* QY + ',N,'* QZ = ',IP
+      IF(LIS .EQ. 2) write(nlog,*) ' ',M,'* QY + ',N,'* QZ = ',IP
+
       RETURN
       END

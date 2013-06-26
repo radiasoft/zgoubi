@@ -53,11 +53,16 @@ C     ***************************************
 
       IF    (IA3 .EQ. 22) THEN
 C Will 'rebelote' using new value for parameter #KPRM in element #KLM
-        READ(TXT300,*) nrblt,DUM,DUM,klm,kprm,(param(i),i=1,nrblt)
+        backspace(ndat)
+
+        READ(ndat,*) nrblt,DUM,DUM,klm,kprm,(param(i),i=1,nrblt)
         a(noel,4) = klm
         a(noel,5) = kprm
         do i = 1, nrblt
           J = 10 + 10*((I-1)/10)
+          if(J +I-1.gt.mxd) 
+     >      call endjob('SBR rrebel. Too many data, # must be .le. MXD='
+     >      ,mxd)
           A(NOEL,J +I-1) = PARAM(I) 
         enddo   
         NOELA = 1

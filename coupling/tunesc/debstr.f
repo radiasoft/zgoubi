@@ -1,0 +1,15 @@
+c finstr.f
+
+      FUNCTION FINSTR(STRING)
+      IMPLICIT DOUBLE PRECISION (a-h,o-z)
+      INTEGER FINSTR
+      CHARACTER * (*) STRING
+
+      FINSTR=LEN(STRING)+1
+1     CONTINUE
+        FINSTR=FINSTR-1
+        IF(FINSTR .EQ. 0) RETURN
+        IF (STRING(FINSTR:FINSTR) .EQ. ' ') GOTO 1
+
+      RETURN
+      END

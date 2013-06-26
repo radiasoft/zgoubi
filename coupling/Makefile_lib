@@ -1,0 +1,31 @@
+LD = gfortran
+LDFLAGS = -O4 -Wall -fno-automatic -pedantic
+
+OBJS = \
+ libcoupl.a(tunesc/positi.o)\
+ libcoupl.a(tunesc/tunesc.o)\
+ libcoupl.a(tunesc/extrac.o)\
+ libcoupl.a(tunesc/hamilt.o)\
+ libcoupl.a(tunesc/propag.o)\
+ libcoupl.a(tunesc/twss.o)\
+ libcoupl.a(libraries/libeis/balanc.o)\
+ libcoupl.a(libraries/libeis/balbak.o)\
+ libcoupl.a(libraries/libeis/cdiv.o)\
+ libcoupl.a(libraries/libeis/elmhes.o)\
+ libcoupl.a(libraries/libeis/eltran.o)\
+ libcoupl.a(libraries/libeis/hqr.o)\
+ libcoupl.a(libraries/libeis/hqr2.o)\
+ libcoupl.a(libraries/libeis/rg.o)\
+ libcoupl.a(libraries/libinv)\
+ libcoupl.a(libraries/libdet)
+
+.POSIX:
+
+.f.o:
+	$(LD) $(LDFLAGS) -c $<
+
+all : $(OBJS)
+
+clean:
+	$(RM) libcoupl.a *.o *~
+
