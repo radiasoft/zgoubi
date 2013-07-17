@@ -49,6 +49,8 @@ C Max number of function calls
       SAVE PNLTY
       SAVE ICPTMA
 
+      DOUBLE PRECISION UU(N)
+
       DATA PNLTY / 1D-10 /
       DATA ICPTMA / 1000 /
       

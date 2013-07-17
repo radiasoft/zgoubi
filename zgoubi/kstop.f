@@ -45,7 +45,7 @@ C  -------
 
       INTEGER DEBSTR, FINSTR
       CHARACTER*42 TXT
-      CHARACTER*40 TXTELT
+      CHARACTER*80 TXTELT
 
       LOGICAL FITING
 
@@ -87,7 +87,8 @@ C  -------
      >            IMX)
       CALL CNTSTO(
      >            NSTOP)
-      CALL ZGLMNT(TXTELT)
+      CALL ZGLMNT(
+     >            TXTELT)
 
       IF    ( IK .EQ. 2 ) THEN
       ELSEIF( IK .EQ. 3 ) THEN
@@ -114,7 +115,7 @@ C     >    IMX-NSTOP,'/',IMX
      >    IMX-NSTOP,'/',IMX
  100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
         call flush2(abs(nres),.false.) 
-      ENDIF
+      ENDIF 
 
       IF(NSTOP.GE.IMX) THEN
         CALL FITSTA(5,FITING)
