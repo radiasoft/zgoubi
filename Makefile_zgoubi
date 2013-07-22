@@ -1,5 +1,5 @@
 CFLAGS=-g -DGFORTRAN4
-FC=/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort
+FC=ifort
 FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save -shared-intel
 
 .POSIX:

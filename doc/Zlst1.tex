@@ -3066,13 +3066,13 @@ MULTIPOL  \\
 \paragraph{Coupled Variables  ($XC$)} 
 
 \noindent  Coupling a variable parameter to any other parameter in the
-structure is possible. This is done by giving $XC$ a value of the form $ r \cdot ppp $ where
+structure is possible. This is done by giving $XC$ a value of the form $ r.ppp $ where
 the integer part $ r $ is the number of the coupled element in the structure 
 (equivalent to $ IR$, see above), and the decimal part $ ppp $ is the number of its 
 parameter of concern (equivalent to $ IP$,  see above) (if the parameter
 number is in the range 1, 2, ... ,9 (resp. 10, 11, ... 19 or 100, ...), then $ ppp $ 
-must take the form $ 00p$ (resp. $0pp$, $ppp$)). For example, $ XC=20 \cdot 010 $ is a request for coupling with the
-parameter number~10 of element number~20 of the structure, while $ XC=20 \cdot 100 $
+must take the form $ 00p$ (resp. $0pp$, $ppp$)). For example, $ XC=20.010 $ is a request for coupling with the
+parameter number~10 of element number~20 of the structure, while $ XC=20.100 $
 is a request for coupling with the parameter number~100 of element~20.  
 
 \bigskip
