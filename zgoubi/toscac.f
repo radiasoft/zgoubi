@@ -324,6 +324,7 @@ C     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
 
              IRD = NINT(A(NOEL,40))
 
+C BNORM set to ONE, since sent to CHAMK below
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,

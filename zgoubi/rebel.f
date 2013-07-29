@@ -148,10 +148,10 @@ C Will stop at element # NOELB when doing last turn
       IF(KWRI6 .NE. 0) THEN
         CALL TIME2(HMS)
         II = 10**(KWRI6-1)
-        IF(II*(IPASS/II).EQ.IPASS) THEN
+        IF(IPASS .EQ. 1 .OR. II*(IPASS/II).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(TXTBUF,FMT='(A20,I10,A1,I10,A34,I7,A1,I7,2A9)') 
+          WRITE(TXTBUF,FMT='(A20,I8,A1,I8,A34,I7,A1,I7,2A9)') 
      >    ' Pass #/Requested : ',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS

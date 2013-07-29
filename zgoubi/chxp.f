@@ -241,13 +241,15 @@ C TOSCA keyword with MOD.ge.20.
         IF(KUASEX .EQ. 2) THEN
           NDIM = 2
           CALL TOSCAP(SCAL,NDIM,
-     >                          BMIN,BMAX,BNORM,
+     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+C     >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,NEWFIC)
 
         ELSEIF(KUASEX .EQ. 7) THEN
           NDIM = 3
           CALL TOSCAP(SCAL,NDIM,
-     >                          BMIN,BMAX,BNORM,
+     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
+C     >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,NEWFIC)
 
         ENDIF

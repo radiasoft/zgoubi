@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE TOSCAP(SCAL,NDIM,
-     >                           BMIN,BMAX,BNORM,
+C     >                           BMIN,BMAX,BNORM,
+     >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -63,7 +64,13 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       DATA FMTYP / ' regular' / 
 
-      BNORM = A(NOEL,10)*SCAL
+C Possible SCAL change is by CAVITE
+C Possible A(noel,10) change by FIT
+C July 2013      BNORM = A(NOEL,10)*SCAL
+      BNORM = A(NOEL,10)
+      XNORM = A(NOEL,11)
+      YNORM = A(NOEL,12)
+      ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                            IS) ) THEN
@@ -167,11 +174,17 @@ C--------- another option for symmetrization by FMAPR2
         IRD = NINT(A(NOEL,40))
 C        NHD = NHDF
 
-        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
+C BNORM set to ONE, since sent to CHAMK below
+C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
+          kz = 1
+        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
       ENDIF
+
+      CALL CHAMK2(BNORM*SCAL)
 
        CALL MAPLI1(BMAX-BMIN)
        AT=XH(IXMA)-XH(1)

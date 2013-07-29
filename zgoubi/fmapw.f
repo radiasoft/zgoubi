@@ -284,7 +284,9 @@ c     >        i,j,XH(I),YH(J),HC(ID,I,J,1,IMAP),ii,id,imap
 
 C----------------------------------------------------------
 C Read and interprete field maps in polar frame (MOD >= 20)
-      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, BNORM,
+C      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, BNORM,
+      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, 
+     >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
