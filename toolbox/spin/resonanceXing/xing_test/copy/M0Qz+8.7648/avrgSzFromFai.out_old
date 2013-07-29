@@ -1,0 +1,713 @@
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ Now opened file avrgSzFromFai.out
+ Now opened file avrgSzFromFai.out
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out          20
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out          20
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out          20
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out          20
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ Now opened file avrgSzFromFai.out          20
+ % X0,Z0,XNU,ZNU,1-XNU,1-ZNU,U(1-3),time(mus),E(MeV)
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+ %Spin components, average and peak values at start and end
+ %Spin components, average and peak values at start and end
+ %Spin components, average and peak values at start and end
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242  ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+ %Spin components, average and peak values at start and end
+           1         242         ip1 - ip2, analysis turn# range 
+   7.9613E-06   9.1026E-06  -6.0493E-03   5.8900E-03  -7.9662E-05   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   3.6535E-11   7.9613E-06  -5.6656E-03   5.6303E-03  -1.7655E-05   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.8679E-27   3.6535E-11    1.000        1.000        1.000       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.8679E-27    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 
+        4599        4842         ip1 - ip2, analysis turn# range 
+   0.2233       0.2241      -0.6691       0.6712       1.0782E-03   SX_M,_M2,_MI,_MA (_MI+_MA)/2 
+   2.2817E-06   0.2233      -0.6706       0.6696      -4.8345E-04   SY_M,_M2,_MI,_MA (_MI+_MA)/2 
+   1.3074E-23   2.2817E-06   0.7409       0.7458       0.7434       SZ_M,_M2,_MI,_MA (_MI+_MA)/2 
+    1.000       1.3074E-23    1.000        1.000        1.000      |S|_M,_M2,_MI,_MA (_MI+_MA)/2 

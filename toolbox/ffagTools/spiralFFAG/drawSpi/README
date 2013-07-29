@@ -1,0 +1,21 @@
+
+update 12/11/06
+-----------------
+
+scanKXi realises MAD8 execution including a double loop on xi and on K. 
+Given that MAD8 only acepts 1 do loop at a time the loop on xi is internal to the MAD file, whereas 
+the loop on K is obtained thanks to an external fortran call in a do loop. 
+
+executing scanKXi requires lattice.cmd that loops on xi, and scanKXi.data that tells 
+the K interval for loop wrt. K. 
+
+To run scanKXi : just "scanKXi", this is an alias of 
+/home/fmeot/mad/structure/ffag/tools/scanKXi/scanKXi,  defined in .Login_mad
+
+
+In principle the local directory needs to contain lattice.cmd, scanKXi.data, lattice.data and only that. 
+
+The scanKXi alias will create eps outputs, log.tex and log.ps files, scanKXi.res, and drawSpi.res. 
+
+
+

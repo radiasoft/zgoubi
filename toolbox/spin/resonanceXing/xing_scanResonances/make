@@ -1,0 +1,2 @@
+gfortran -o scanSpinResonances scanSpinResonances.f
+gfortran -o scanSpinResonances_launch scanSpinResonances_launch.f

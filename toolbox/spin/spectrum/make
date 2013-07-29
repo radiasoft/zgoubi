@@ -1,0 +1,1 @@
+ifort -o spectrumFromFai spectrumFromFai.f

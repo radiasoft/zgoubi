@@ -1,0 +1,2 @@
+ gfortran -o  spinN0FIT  spinN0FIT.f
+

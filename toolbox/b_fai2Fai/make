@@ -1,0 +1,1 @@
+gfortran -o fromBFai2Fai fromBFai2Fai.f

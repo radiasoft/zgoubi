@@ -1,0 +1,1 @@
+gfortran -o tunesFromMatrix tunesFromMatrix.f

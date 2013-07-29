@@ -1,0 +1,13 @@
+ancienne version, 300*100
+5.86813688
+-----------------
+adding atab, rtab
+2.77157903
+-----------------
+going to double precision
+3.11952494
+---------------
+adding xb, yb
+2.88
+---------------
+
