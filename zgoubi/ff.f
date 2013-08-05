@@ -73,7 +73,8 @@ C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
             ENDFIT = .FALSE.
-            CALL ZGOUBI(1,KK,READAT,NBEL,ENDFIT)
+            CALL ZGOUBI(1,KK,READAT,
+     >                              NBEL,ENDFIT)
 C           write(*,*) ' kk ',kk,i3(i)
 C             stop
          ENDIF
@@ -157,7 +158,8 @@ C-----------Chromaticity
                IT3 = IT1+4
                IFC = 0
                CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
-               CALL MAT1(U,T,IT1)
+               CALL MAT1(IT1,
+     >                       U,T)
                CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
                CALL TUNES(U,F0P,NMAIL,IERY,IERZ,.FALSE.,
      >                                                YNU,ZNU,CMUY,CMUZ)

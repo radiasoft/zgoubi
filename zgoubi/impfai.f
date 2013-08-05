@@ -69,8 +69,8 @@ C------- Keyword FAISTORE: store at ipass=1 & every ipass=multiple of KPR
       ENDIF
  
 C------- Dummies
-        D = 0.D0
-        ID = 0
+      D = 0.D0
+      ID = 0
 
       IF(BINARY) THEN
         DO 2 I=1,IMAX

@@ -76,11 +76,11 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
       save dolast
       
       dimension rturn(4,4)
-      logical prdic
+      logical prdic, okorbt
 
       DIMENSION F0(6,6) 
 
-      save q1, q2, cc
+      save q1, q2, cc, okorbt
 
       DATA KWRI6 / 1 /
       DATA dolast / .true. /
@@ -100,20 +100,41 @@ C KTW=2 : 2 more passes to get matrices around +/-dp/p chromatic closed orbits;
 C KTW=3 : 1 more pass to get matrices with +/-dY amplitude and 
 C        +1 more to get matrices with +/-dZ amplitude. 
 C KTW .ge. 99 : compute linear functions from multi-turn tracking - installation not completed.
+C KTW2 = 1 is a request for orbit search prior to attacking twiss procedure
 
-      IF(KTW.GE.99) GOTO 20
+      IF(KTW.GE.99) GOTO 20  ! To be completed and tested
       IF(KTW.GE.1) GOTO 10
       RETURN
 
  10   CONTINUE
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
+
+      okorbt = .not. ktw2 .eq. 1 
+      if(okorbt) Then
+        if(nres.gt.0) then
+          write(nres,*)
+          write(nres,*) ' Closed orbit search not requested '
+          write(nres,*) ' Particle 1 on will be assumed on orbit.'
+          write(nres,*)
+        endif
+      else
+        if(nres.gt.0) then
+          write(nres,*)
+          write(nres,*) ' Closed orbit search requested '
+          write(nres,*) ' Particle 1 on will be put on orbit.'
+          write(nres,*)
+        endif
+      endif
+
+      if(.not. okorbt) call tworbt
+
  
       if(ipass .eq. 4 .and. ktw .eq. 2) goto 222
 
       KLOBJ = 'OBJET'
       CALL GETNOL(KLOBJ,
-     >                  NLOBJ)
+     >                  NLOBJ)      
 
       IF(IPASS .EQ. 1) THEN
 C Compute periodic beta from first pass.
@@ -143,7 +164,8 @@ C------- Switch on print to standard output :
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(RREF,T,1)
+          CALL MAT1(1,
+     >                RREF,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
           CALL REFER(1,2,0,1,6,7)
@@ -166,9 +188,9 @@ c                read(*,*)
 
         IF(KTW.GE.2) THEN
   
-          IF(KTW2 .EQ. 0) THEN
-            IF(NRES .GT. 0) NRES =-NRES
-          ENDIF
+c          IF(KTW2 .EQ. 0) THEN
+c            IF(NRES .GT. 0) NRES =-NRES
+c          ENDIF
 
           CALL REFER1(
      >                PATHL(1)) 
@@ -206,7 +228,8 @@ C----- 3rd pass through structure will follow
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(RMINUS,T,1)
+          CALL MAT1(1,
+     >                RMINUS,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
           CALL REFER(1,2,0,1,6,7)
@@ -251,7 +274,8 @@ C------- reactivate WRITE for printing results
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(RPLUS,T,1)
+          CALL MAT1(1,
+     >                RPLUS,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
           CALL REFER(1,2,0,1,6,7)
@@ -313,7 +337,8 @@ C        ENDIF
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
-            CALL MAT1(RPLUS,T,1)
+            CALL MAT1(1,
+     >                  RPLUS,T)
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)
@@ -373,7 +398,8 @@ C------- Amplitude tracking completed
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
-            CALL MAT1(RPLUS,T,1)
+            CALL MAT1(1,
+     >                  RPLUS,T)
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
             CALL REFER(1,2,0,1,6,7)

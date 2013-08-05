@@ -193,27 +193,11 @@ axis of optical elements.
 
 The Lorentz equation, which governs the motion of a particle of charge $q$,  relativistic 
 mass $m$ and velocity $\vec  v$ in electric and magnetic fields $\vec  e$ and $\vec  b$, is written 
-
+%
 \begin{equation}
 \dfrac{d(m\vec  v)}{dt} = q\, (\vec  e + \vec  v \times  \vec  b)  \label{eq2-2-1}
 \end{equation}
-%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\vspace{0cm}
-\begin{figure}[H]
-%\vspace{11 truecm}
-%%%Figure 1
-\centerline{\includegraphics[width=14cm]{Fig1.ps}}
-\hangcaption[Fig 1]{\label{fig1}Reference frame and coordinates ($Y$, 
-$T$, $Z$, $P$) in \zgou.\\
-$ OX$~:   in the direction of motion,\\
-$ OY$~:   normal to $OX$,\\
-$ OZ$~:  orthogonal to the $(X, Y)$ plane,\\				  
-$ \vec{W}$~:  projection of the velocity, $ \vec	v $, in	the	$(X, Y)$ plane,\\									  %
-$ T$  =	 angle between $\vec{W}$ and the  $X$-axis,\\
-$ P$  =	 angle between $\vec{W}$ and $	\vec  v	$. } 
-\end{figure}
-\vspace{.3cm}
-
+%
 \noindent Noting $()' = \dfrac{d()}{ds} $ ~  and taking      
 %
 \begin{equation}
@@ -265,8 +249,24 @@ For the sake of computing speed, three distinct software procedures are involved
 whether $\vec e$ or $\vec  b$ is zero, or $ \vec e$ and $ \vec b$ are 
 both non-zero.
 
-%%%%%%%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\vspace{0cm}
 \begin{figure}[H]
+%\vspace{11 truecm}
+%%%Figure 1
+\centerline{\includegraphics[width=14cm]{Fig1.ps}}
+\hangcaption[Fig 1]{\label{fig1}Reference frame and coordinates ($Y$, 
+$T$, $Z$, $P$) in \zgou.\\
+$ OX$~:   in the direction of motion,\\
+$ OY$~:   normal to $OX$,\\
+$ OZ$~:  orthogonal to the $(X, Y)$ plane,\\				  
+$ \vec{W}$~:  projection of the velocity, $ \vec	v $, in	the	$(X, Y)$ plane,\\									  %
+$ T$  =	 angle between $\vec{W}$ and the  $X$-axis,\\
+$ P$  =	 angle between $\vec{W}$ and $	\vec  v	$. } 
+%\end{figure}
+\vspace{.3cm}
+%%%%%%%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}[H]
 %\vspace{10 truecm}
 %%%Figure 2~: 
 \centerline{\includegraphics[width=14cm]{Fig2.ps}}
@@ -647,7 +647,7 @@ be considered. Recursive differentiations give the following relations
 	\label{eq2-2-19}
 \end{equation}
 %
-where $ \vec  E =  \dfrac{\vec  e }{ \Br} $, 
+\noindent where $ \vec  E =  \dfrac{\vec  e }{ \Br} $, 
 $ \vec  B =\dfrac{\vec  b }{ \Br} $, and $^{(n)}\mid_{ \Br} $ denotes differentiation at constant $ \Br$ 
  \begin{equation}
 	 \vec  E^{(n)}\mid_{ \Br} = \dfrac{1 }{ \Br}  \dfrac{d^n\vec  e }{ ds^n}
@@ -670,7 +670,7 @@ following eqs.~(\ref{eq2-2-11},~\ref{eq2-2-12}) and eqs.~(\ref{eq2-2-7a},~\ref{e
 The time of flight  eq.~(\ref{eq2-2-Time}) involves the derivatives 
 $dT/ds=1/v$, $d^2T/ds^2=d(1/v)/ds$, etc. that are obtained from eq.~(\ref{eq2-2-17}). In the absence of 
 electric field   eq.~(\ref{eq2-2-6}) however reduces to the simple form 
-
+%
  \begin{equation}
 T(M_1) =   T(M_0) +  \Delta s/v  
  \end{equation}
@@ -887,7 +887,7 @@ Z^k}$ ($i+j+k= 0 \text{ to } 4$) in the case of
  or exit of the optical element by
 
  \begin{equation}
-	 G(s) = \dfrac{G_0 }{ 1+ \exp(P(s))} , \quad G_0 = \dfrac{B_0 }{R^n_0} 
+	 G(s) = \dfrac{G_0 }{ 1+ \exp(P(s))} , \quad G_0 = \dfrac{B_0 }{R^{n-1}_0} 
  	\label{eq2-3-6}
  \end{equation}
 wherein 

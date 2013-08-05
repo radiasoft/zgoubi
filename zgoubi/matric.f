@@ -114,7 +114,8 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           IFC = IFOC
           IF(PRDIC) IFC = 0
           CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
-          CALL MAT1(R,T,IT1)
+          CALL MAT1(IT1, 
+     >                  R,T)
           CALL MKSA(IORD,R,T,T3,T4)
 C          CALL MATIMP(R)
           IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,

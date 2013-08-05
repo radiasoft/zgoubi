@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MAT1(R,T,IT1)
+      SUBROUTINE MAT1(IT1,
+     >                    R,T)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*) , T(6,6,*)
 C     -------------------------------------------------

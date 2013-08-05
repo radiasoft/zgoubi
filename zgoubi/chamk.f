@@ -207,6 +207,8 @@ C BB/FM/ 18/08 to be thought of......
       BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) *BRI
       BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) *BRI
 
+C          write(*,*) ' chamk scal, f1, f2, f3 ',scal, f1, f2, f3 
+
       GOTO 30
  
  21   CONTINUE

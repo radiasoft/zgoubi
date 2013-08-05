@@ -50,11 +50,13 @@ C     ----------------------------------------------------------------------
         IT2 = IT1+3
         IT3 = IT1+4
         CALL REFER(1,1,0,IT1,IT2,IT3)
-        CALL MAT1(R,T,IT1)
+        CALL MAT1(IT1,
+     >                R,T)
         CALL REFER(2,1,0,IT1,IT2,IT3)
       ELSEIF(IORD .EQ. 2) THEN
         CALL REFER(1,2,0,1,6,7)
-        CALL MAT2(R,T,TX3,TX4)
+        CALL MAT2(
+     >            R,T,TX3,TX4)
         CALL REFER(2,2,0,1,6,7)
       ENDIF
  

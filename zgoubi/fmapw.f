@@ -289,7 +289,6 @@ C      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, BNORM,
      >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
       CALL KSMAP(
      >           IMAP) 
 
@@ -309,8 +308,8 @@ C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header (NORMALLY 8)
           READ(LUN,END=97,ERR=98) TITL
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           READ(TITL,*,ERR=41,END=41) R0, DR, DTTA, DZ
-          IF(NRES.GT.0) WRITE(NRES,*)'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
           GOTO 42
  41       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
@@ -321,13 +320,15 @@ C Map data file starts with NHD-line header (NORMALLY 8)
             IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
+          IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
+     >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
         ENDIF
       ELSE
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header (NORMALLY 8)
           READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           READ(TITL,*,ERR=39,END=39) R0, DR, DTTA, DZ
-          IF(NRES.GT.0) WRITE(NRES,*)'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
           GOTO 40
  39       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
@@ -338,6 +339,8 @@ C Map data file starts with NHD-line header (NORMALLY 8)
             IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
+          IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
+     >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
         ENDIF
       ENDIF
 
@@ -427,8 +430,8 @@ C------- symmetrise 3D map wrt magnet vertical symm plane
                 JTC = JTMA+J
                 JTS = JTMA-J
               ENDIF
-              if(jts.gt.mxx) call endjob(' FMAPW, J should be <',mxx+1)
-              if(jtc.gt.mxx) call endjob(' FMAPW, J should be <',mxx+1)
+              IF(JTS.GT.MXX) CALL ENDJOB(' FMAPW, J SHOULD BE <',MXX+1)
+              IF(JTC.GT.MXX) CALL ENDJOB(' FMAPW, J SHOULD BE <',MXX+1)
               HC(1,JTS,I,KZC,IMAP) = -HC(1,JTC,I,KZC,IMAP)
               HC(2,JTS,I,KZC,IMAP) =  HC(2,JTC,I,KZC,IMAP) 
               HC(3,JTS,I,KZC,IMAP) =  HC(3,JTC,I,KZC,IMAP) 
@@ -487,6 +490,7 @@ C------- Mesh coordinates
                  ENDIF
                  BMAX0 = BMAX
                  BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+C              write(*,*) ' fmapr2 ',BMAX,BREAD(1),BREAD(2),BREAD(3)
                  IF(BMAX.NE.BMAX0) THEN
                    XBMA = TTA
                    YBMA = RADIUS
@@ -510,6 +514,10 @@ C---------------- Watch the sign !! Bx and By multiplied by (-1)
                  HC(1,JTC,I,KZC,IMAP) =   -  BTTA * BNORM
                  HC(2,JTC,I,KZC,IMAP) =   -  BRAD * BNORM
                  HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
+
+c                 write(*,*) ' fmapr2 HC(3,JTC,I,KZC,IMAP) ',
+c     >               BREAD(2) ,    HC(3,JTC,I,KZC,IMAP) ,JTC,I,KZC,IMAP
+c                           stop
 C---------------- In case that non-zero Bx, By in median plane would be prohibitive
                  IF(ZZZ.EQ.0.D0) THEN
                     HC(1,JTC,I,KZC,IMAP) = 0.D0
@@ -525,6 +533,12 @@ C     >          HC(3,JTC,I,KZC,IMAP) = HC(3,JTC,I,KZC,IMAP)  *(RADIUS/348.)**(-
 
         BMIN = BMIN * BNORM
         BMAX = BMAX * BNORM
+                   XBMA = XBMA * XNORM
+                   YBMA = YBMA * YNORM
+                   ZBMA = ZBMA * ZNORM
+                   XBMI = XBMI * XNORM
+                   YBMI = YBMI * YNORM
+                   ZBMI = ZBMI * ZNORM
 
 C------- symmetrise 3D map wrt mid-plane= bend-plane
         DO 135  K=2,KKZMA      
@@ -576,6 +590,7 @@ C Map data file starts with NHD-line header
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header
           READ(LUN,END=97,ERR=98) TITL
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
           READ(TITL,*,ERR=51,END=51) R0, DR, DTTA, DZ
           GOTO 52
  51       CONTINUE
@@ -591,7 +606,7 @@ C Map data file starts with NHD-line header
                 IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
               ENDDO
               IF(NRES.GT.0) THEN
-                WRITE(NRES,FMT='(A,1P,4E17.8)') 
+                WRITE(NRES,FMT='(A,1P,4E17.8,/)') 
      >          ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
                 CALL FLUSH2(NRES,.FALSE.)
               ENDIF

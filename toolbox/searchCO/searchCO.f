@@ -981,20 +981,34 @@ C     ------------------------------------------------------------------------
       STRCON = .FALSE.
       RETURN
       END
-      FUNCTION DEBSTR(STR)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      FUNCTION DEBSTR(STRING)
+      implicit double precision (a-h,o-z)
       INTEGER DEBSTR
-      CHARACTER * (*) STR
-C     -----------------------------------
-C     Renvoie dans DEBSTR le rang du
-C     premier caractere non-blanc de STR.
-C     -----------------------------------
+      CHARACTER * (*) STRING
+
+C     --------------------------------------
+C     RENVOIE DANS DEBSTR LE RANG DU
+C     1-ER CHARACTER NON BLANC DE STRING,
+C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
+C     --------------------------------------
+
       DEBSTR=0
-      LENGTH=LEN(STR)+1
+      LENGTH=LEN(STRING)
+C      LENGTH=LEN(STRING)+1
 1     CONTINUE
-         DEBSTR=DEBSTR+1
-         IF(DEBSTR.GE. LENGTH) RETURN
-         IF (STR(DEBSTR:DEBSTR).EQ. ' ') GOTO 1
+        DEBSTR=DEBSTR+1
+C        IF(DEBSTR .EQ. LENGTH) RETURN
+C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
+        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
+          IF(DEBSTR .EQ. LENGTH) THEN            
+            string = ' ' 
+            DEBSTR = 1
+            RETURN
+          ELSE
+            GOTO 1
+          ENDIF
+        ENDIF
+
       RETURN
       END
       FUNCTION FINSTR(STRING)
@@ -1010,7 +1024,11 @@ C     --------------------------------------
       FINSTR=LEN(STRING)+1
 1     CONTINUE
         FINSTR=FINSTR-1
-        IF(FINSTR .EQ. 0) RETURN
+        IF(FINSTR .EQ. 0) then
+          string = ' '
+          finstr = 1
+          RETURN
+        endif
         IF (STRING(FINSTR:FINSTR) .EQ. ' ') GOTO 1
 
       RETURN

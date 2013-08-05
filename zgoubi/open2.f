@@ -35,7 +35,7 @@ C  -------
       LOGICAL OPN, IDLUNI, BINARY
 C      CHARACTER  TXT*12,TXT80*80
       CHARACTER  TXT*12,TXT80*270
-      CHARACTER TXTA80*270, TXTB80*270
+      CHARACTER TXTN80*270, TXTA80*270, TXTB80*270
       CHARACTER * 9   DMY,HMS
       SAVE BINARY
 C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
@@ -85,6 +85,13 @@ C------------- Write down a 4-line header
               WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
      >                                                  TXT,DMY,HMS
               IF    (TXT.EQ.'TRAJECTORIES') THEN
+                TXTN80 = 
+     >            ' 1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
+     >          //'  11, 12,  13, 14, 15  , 16  , 17,  18 , 19 ,'
+     >          //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
+     >          //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
+     >          //'  37, 38 , 39 ,  40  , 41   , 42  ,'
+     >          //'   43  , 44    , 45    ,   46  '
                 TXTA80 = 
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
@@ -101,6 +108,15 @@ C------------- Write down a 4-line header
      >          //' string, string, string, string'
 
               ELSEIF(TXT.EQ.'COORDINATES') THEN
+                TXTN80 = 
+     >            ' 1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
+     >          //'  11, 12,  13, 14, 15  ,'
+     >          //'   16 ,  17 ,  18 , 19   ,  20  ,  21 ,  22 ,  23 ,'
+     >          //'   24   ,  25  ,'
+     >          //'  26,  27 , 28  ,   29  ,30,  31  ,   32 , unused,'
+     >          //'   34 ,   35 ,'
+     >          //'    36,  37  , 38   , 39  ,  40   ,'
+     >          //'  41/lbl1, 42/lbl2,  43 '
                 TXTA80 = 
      >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >          //'   T,  Z,   P,  S, time,'
@@ -121,6 +137,11 @@ C------------- Write down a 4-line header
      >          //'  string, string, string'
 
               ELSEIF(TXT.EQ.'SPIN DATA') THEN
+                TXTN80 = 
+     >            ' 1 ,'
+     >          //'   2  ,  3  ,  4  ,  5   ,  6   ,  7  ,  8  ,  9  ,'
+     >          //' 10, 11  , 12   , 13  , 14   , 15  ,'
+     >          //'  16   ,  17   ,  18   ,   19  '
                 TXTA80 = 
      >            'KEX,'
      >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
@@ -133,18 +154,21 @@ C------------- Write down a 4-line header
      >          //' string, string, string, string'
 
               ELSE
+                TXTN80 = '# ...'
                 TXTA80 = '# ...'
                 TXTB80 = '# ...'
               ENDIF
 
               IF(.NOT.BINARY) THEN
-                WRITE(LUN,FMT='(A)') TXT80
-                WRITE(LUN,FMT='(A)') '# '//TITRE
+                WRITE(LUN,FMT='(A)') TXT80(debstr(TXT80):finstr(TXT80))
+     >                                   //'. '//TITRE
+                WRITE(LUN,FMT='(A)') TXTN80
                 WRITE(LUN,FMT='(A)') TXTA80
                 WRITE(LUN,FMT='(A)') TXTB80
               ELSE
-                WRITE(LUN) TXT80
-                WRITE(LUN) TITRE
+                WRITE(LUN,FMT='(A)') TXT80(debstr(TXT80):finstr(TXT80))
+     >                                   //'. '//TITRE
+                WRITE(LUN) TXTN80
                 WRITE(LUN) TXTA80
                 WRITE(LUN) TXTB80
               ENDIF

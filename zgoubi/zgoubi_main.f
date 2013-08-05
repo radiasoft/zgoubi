@@ -88,7 +88,8 @@ c      FITING = .FALSE.
       NL1 = 1
       NL2 = MXL
       ENDFIT = .FALSE.
-      CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
+      CALL ZGOUBI(NL1,NL2,READAT,
+     >                           NBEL,ENDFIT)
 
       CALL FITSTA(I5,
      >               FITING)
@@ -109,7 +110,8 @@ c      FITING = .FALSE.
      >   ' MAIN PROGRAM :  now final run using FIT values ',A10)
         ENDIF
         ENDFIT = .FALSE.
-        CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
+        CALL ZGOUBI(NL1,NL2,READAT,
+     >                             NBEL,ENDFIT)
 c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle
 c        write(*,*) 
         WRITE(6,201)
@@ -129,7 +131,8 @@ C        call go2key('FIT')
         NL2 = NBEL
         CALL REBEL6(NL1, NBEL)
         ENDFIT = .TRUE.
-        CALL ZGOUBI(NL1,NL2,READAT,NBEL,ENDFIT)
+        CALL ZGOUBI(NL1,NL2,READAT,
+     >                             NBEL,ENDFIT)
 c        IF(IDLUNI(
 c     >          LUN)) THEN
 c          OPEN(UNIT=LUN,FILE='zgoubi.fitSave',ERR=462)

@@ -331,8 +331,7 @@ C BNORM set to ONE, since sent to CHAMK below
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
  12        CONTINUE
-c               write(*,*) ' toscac imap = ',imap
-c                   read(*,*)
+
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA

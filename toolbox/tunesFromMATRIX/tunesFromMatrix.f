@@ -158,11 +158,13 @@ c            write(*,*) ' Path length of traj. # ',I,' is ',F6m,' cm'
               GOTO 698
             ENDIF
       WRITE(LUNW,fmt='(a)') 
-     >'% xco, xpco, XNU, ZNU, alfx, betx, alfz, betz, Dx, tof(s), '
-     >//'path(s), E-Kin, p/p0(co)'
+     >'# xco[m], xpco[rd], XNU, ZNU, alfx, betx,'
+     >//' alfz, betz, Dx, tof[mu_s], '
+     >//'path[cm], E-Kin[MeV], p/p0(co)'
       WRITE(LUNW,fmt='(a)') 
-     >'%  1     2    3    4    5     6      7     8   9    10     '
-     >// '  11     12      13    '
+     >'#   1        2        3   4     5     6  '
+     >//'  7     8     9     10     '
+     >// '    11        12          13    '
       WRITE(LUNW2,fmt='(a)') 'E_kin(eV) xco(m) xpco(rad) TOF(s) Qx Qy'
 
       do ico = 1, nco
@@ -189,7 +191,7 @@ C Long write-up
               GOTO 698
             ENDIF
       WRITE(LUNW,fmt='(a)') 
-     >'% xco, xpco, zco, zpco, path(s), dpco, tof(s), '//
+     >'# xco, xpco, zco, zpco, path(s), dpco, tof(s), '//
      >' alfx, betx, alfz, betz, alfl, betl, '//
      >' Dx, Dpx, Dy, Dpy, Dl, Dpl, xmu, zmu, smu, E-Kin'
 

@@ -56,7 +56,15 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       SAVE NHDF
 
       LOGICAL STRCON
+
       CHARACTER*20 FMTYP
+      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
+      SAVE XXH, YYH, ZZH
+      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
+      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
+      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
+      SAVE IIXMA, JJYMA, KKZMA
  
       DATA NOMFIC / IZ*'               '/ 
 
@@ -94,6 +102,8 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
 
       IF    (NDIM.EQ.2 ) THEN
         NFIC=1
+        I1 = 1
+        I2 = 1
         NAMFIC = TA(NOEL,2)
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
@@ -176,14 +186,39 @@ C        NHD = NHDF
 
 C BNORM set to ONE, since sent to CHAMK below
 C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
-          kz = 1
+        one = 1.d0
+        kz = 1
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
+C------- Store mesh coordinates
+           IIXMA(IMAP) = IXMA
+           DO I=1,IXMA
+             XXH(I,imap) =  XH(I)
+           ENDDO
+           JJYMA(IMAP) = JYMA
+           DO J=1,JYMA
+             YYH(J,imap) =  YH(J)
+           ENDDO
+           KKZMA(IMAP) = KZMA
+C FM Nov 2011           DO K= 2, KZMA
+           DO K= 1, KZMA
+             ZZH(K,imap) = ZH(K)
+           ENDDO
+           bBMI(imap) = BMIN
+           bBMA(imap) = BMAX
+           XBbMI(imap) = XBMI
+           YbBMI(imap) = YBMI
+           ZbBMI(imap) = ZBMI
+           XbBMA(imap) = XBMA
+           YBBMA(imap) = YBMA
+           ZBBMA(imap) = ZBMA
+
       ENDIF
 
+c          write(*,*)  ' toscap BNORM SCAL ',BNORM,SCAL
       CALL CHAMK2(BNORM*SCAL)
 
        CALL MAPLI1(BMAX-BMIN)
