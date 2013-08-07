@@ -166,8 +166,9 @@ C------------- Write down a 4-line header
                 WRITE(LUN,FMT='(A)') TXTA80
                 WRITE(LUN,FMT='(A)') TXTB80
               ELSE
-                WRITE(LUN,FMT='(A)') TXT80(debstr(TXT80):finstr(TXT80))
+                WRITE(TXT80,FMT='(A)')TXT80(debstr(TXT80):finstr(TXT80))
      >                                   //'. '//TITRE
+                WRITE(LUN) TXT80
                 WRITE(LUN) TXTN80
                 WRITE(LUN) TXTA80
                 WRITE(LUN) TXTB80

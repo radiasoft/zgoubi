@@ -186,7 +186,7 @@ a convenient companion tool to the use of \zgoubi.
 \subsection{\zgoubi\ Frame} \label{sec2.1}   %%2.1
 
 The reference frame of \zgou\  is presented in Fig.~\ref{fig1}.  
-Its origin is in the median plane on a reference curve which coincides with the optical 
+Its origin is in the median plane on a reference curve which generally (but not always) coincides with the optical 
 axis of optical elements. 
 
 \subsection{Integration of the Lorentz Equation} \label{sec2.2}%%%2.2
@@ -1636,7 +1636,7 @@ per step.} a Poisson probability law
 \end{equation}
 %
 is considered. $k$ is the number of photons emitted over a $\Delta \theta$ (circular) arc of 
-trajectory  such that, the mean number of photons per radian expresses as\footnote{This leads for 
+trajectory  such that, the average number of photons per radian expresses as\footnote{This leads for 
 instance, in the case of electrons, to the classical formula $\lambda/\Delta \theta \approx
 129.5$E(GeV)$/2\pi\approx \gamma/94.9$.}
 
@@ -1663,13 +1663,14 @@ $\rho$ and perform SR loss corrections afterwards.}
 
 \begin{equation}
 \label{EqSK53}
-\mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} K_{5/3}(x) dx
+ \mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} \int_{\epsilon/\epsilon_c}^\infty K_{5/3}(x) dx
+%\mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi}                           \int_0^{\epsilon/\epsilon_c} K_{5/3}(x) dx
 \end{equation}
 %
 \begin{wrapfigure}{r}{9cm}
   \begin{center} 
 \vspace{-2mm}
-\includegraphics*[bbllx=20,bblly=100,bburx=550,bbury=450,width=6cm]{G.ps}
+\includegraphics*[bbllx=20,bblly=100,bburx=550,bbury=450,width=6cm]{G.eps}
 \vspace{-0mm}
 
  {\small \centering 
@@ -1677,7 +1678,7 @@ $\rho$ and perform SR loss corrections afterwards.}
   \end{center}
 \end{wrapfigure}
 where $K_5/3$ is a modified Bessel function and, $\epsilon_c= \bar{h} \omega_c$, 
-$\omega_c=2 \pi 3 \gamma^3 c / 2 \rho$ being the critical frequency  in 
+$\omega_c=2 \pi \times 3 \gamma^3 c / 2 \rho$ being the critical frequency  in 
 the presence of bending radius $\rho$~;  $\omega_c$ is evaluated at each integration step from 
 the current values $\gamma$ and $\rho$, in other words, this energy loss calculation 
 assumes constant  magnetic field  over the trajectory arc $\Delta s$. 

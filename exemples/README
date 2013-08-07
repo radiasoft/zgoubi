@@ -1,3 +1,65 @@
 
 SPES2 is the example found in the Guide, part C.
 
+--------------------------------------------------------
+Aug. 2013. Checking exemples : 
+
+---
+~/zgoubi/current/exemples/EMMA-FFAG/trackLongitudinal : I cannot get the existing .eps when running accelerationX15Z0.res
+
+
+---
+/home/meot/zgoubi/current/exemples/spes2
+
+MCOBJ2 semble ne plus fonctionner. 
+
+
+---
+/home/meot/zgoubi/current/exemples/usersGuide_microBeamLine  
+
+Pb au passage suivant avec REBELOTE/multiparticule : 
+
+meot@meot-Latitude-E6510:~/zgoubi/current/exemples/usersGuide_microBeamLine$ rzg
+mv: cannot stat `zgoubi.res': No such file or directory
+
+  Zgoubi, version 5.1.0.
+  Job  started  on  07/08/13 ,  at  15:19:00 
+   Copying  zgoubi.dat  into  zgoubi.res,
+   numbering  and  labeling  elements...
+
+   MICROBEAM LINE, WITH AN ELECTRO-MAGNETIC QUADRUPOLE DOUBLET.                  
+
+ Pass #/Requested :        1/      20.  Particles remaining/launched =     200/    200.  Time :15:19:00     
++
+
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+
+Stack trace terminated abnormally.
+
+
+---
+meme pb que precedent, avec spes3 : 
+
+Pb au passage suivant avec REBELOTE/multiparticule : 
+
+
+meot@meot-Latitude-E6510:~/zgoubi/current/exemples/usersGuide_SPES3$ cp spes3.dat  zgoubi.dat  ; rzg
+
+  Zgoubi, version 5.1.0.
+  Job  started  on  07/08/13 ,  at  15:22:36 
+   Copying  zgoubi.dat  into  zgoubi.res,
+   numbering  and  labeling  elements...
+
+   SIMULATION  OF  PION  IN-FLIGHT  DECAY  IN  SPES3                             
+
+ Pass #/Requested :        1/      50.  Particles remaining/launched =     200/    200.  Time :15:22:36     
++
+
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+
+Stack trace terminated abnormally.
+
+
+---------
+
+

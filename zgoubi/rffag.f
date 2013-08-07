@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE RFFAG(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -72,14 +71,14 @@ C KIRD= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
 C mesh size= XPAS/RESOL
 C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
       READ(NDAT,FMT='(A132)') TXT
-      READ(TXT,*) IA
+      READ(TXT,*,ERR=999) IA
       IF(IA.NE.0) THEN
 C KIRD=2,25 OR 4 AND RESOL
-        READ(TXT,*) IA,A(NOEL,NP+2)
+        READ(TXT,*,ERR=999) IA,A(NOEL,NP+2)
         A(NOEL,NP+1) = IA
       ELSE
 C KIRD=2,25 OR 4 AND IRD==RESOL
-        READ(TXT,*) IA,IB
+        READ(TXT,*,ERR=999) IA,IB
         A(NOEL,NP+1) = IA
         A(NOEL,NP+2) = IB
       ENDIF
@@ -93,5 +92,9 @@ C Modif, FM, Dec. 05
 C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
 
+      RETURN
+
+ 999  CONTINUE
+      CALL ENDJOB('SBR rffag. Input data format error at KIRD.',-99)
       RETURN
       END

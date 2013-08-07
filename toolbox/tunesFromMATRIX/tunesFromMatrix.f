@@ -111,8 +111,10 @@ c  read path length of traj 1 (modulo 11)
             backspace(lunR)
             backspace(lunR)
             read(lunR,fmt='(a)',end=62) txt132
-            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+            read(txt132,*) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
      >      ,F1,F2,F3,F4,F5,F6,  I
+c            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+c     >      ,F1,F2,F3,F4,F5,F6,  I
  101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F11.3,1X,I6)
             path(jjco) = f6
 c  read tof of traj 1 (modulo 11)
@@ -126,13 +128,17 @@ c  jump to traj. 10 (modulo 11)
 
 c  read path length of traj 10 and 11 (modulo 11)
             read(lunR,fmt='(a)',end=62) txt132
-            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+C            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+C     >      ,F1p,F2,F3,F4,F5,F6p,  I
+            read(txt132,*) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
      >      ,F1p,F2,F3,F4,F5,F6p,  I
 c            write(*,*) ' Path length of traj. # ',I,' is ',F6p,' cm'
             read(lunR,fmt='(a)',end=62) txt132
             read(txt132(39:132),*) tofp
             read(lunR,fmt='(a)',end=62) txt132
-            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+C            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
+C     >      ,F1m,F2,F3,F4,F5,F6m,  I
+            read(txt132,*) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
      >      ,F1m,F2,F3,F4,F5,F6m,  I
 c            write(*,*) ' Path length of traj. # ',I,' is ',F6m,' cm'
             read(lunR,fmt='(a)',end=62) txt132
@@ -173,7 +179,7 @@ c            write(*,*) ' Path length of traj. # ',I,' is ',F6m,' cm'
         WRITE(LUNW,179) xco(ico)/1.d2, xpco(ico)/1.d3, 
      >  XNU(ico), ZNU(ico), alfx(ico), betx(ico), alfz(ico), betz(ico),
      >  Dx(ico), tof(ico), path(ico), EKin, dpco(ico) !!!!, xK, xiDeg
- 179    FORMAT(1P,13(E16.8,1X))
+ 179    FORMAT(1P,13(E16.7,1X))
         WRITE(LUNW2,180) EKin*1d6, xco(ico)*1.d-2, xpco(ico)*1.d-3, 
      >  tof(ico)*1d-6, XNU(ico),ZNU(ico)
  180    FORMAT(1P,6G16.8)
