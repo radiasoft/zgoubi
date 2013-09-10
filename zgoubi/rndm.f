@@ -49,20 +49,20 @@ C            print *, rand(seed), rand(), rand(), rand()
 C          end program test_rand
 
 C For ifort compiler. Comment otherwise
-CCCCCCCCCCCCCCCCCCCC         use ifport
+c        use ifport
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 c      CHARACTER TXT*16
 c      INTEGER DEBSTR
-c      REAL R
+      REAL R
       logical first 
       save first
 C year month day time-utc hour min secon ms
 c      dimension ival(8)
 c      save ir
+
       data first / .true. /
       data ir / 123456 /
-c      data ir / 345678 /
 
 C For ifort compiler. Can be commented otherwise. 
 
@@ -73,19 +73,19 @@ C Chose here between random seed or not
 c        call date_and_time(VALUES=ival)
 c        ir = (1+ival(5))*100000 + ival(6)*1000 + ival(7)*10 +ival(8)
 
-        call srand(ir)
+c        call srand(ir)
 c        CALL init_random_seed()
 
 C--------------------------
 c        write(*,*) ' rndm ',ival(5),ival(6),ival(7),ival(8),ir,rndm
       endif
 
-      rndm = rand()
+c      R = rand()
+      CALL RANDOM_NUMBER(R)
 
-c      CALL RANDOM_NUMBER(R)
-c      RNDM=R
+      RNDM=R
  
-c          write(*,*) ' rndm ',ir,rand(0)
+c          write(*,*) ' rndm ',r,ir,rndm
 c             read(*,*)
 
 c      WRITE(TXT,FMT='(E14.6)') RNDM
