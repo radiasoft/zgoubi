@@ -83,8 +83,8 @@ C       PARAMETER (MXX=671, MXY=53)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- KEK/TOSCA.  Masamitsu Aiba
-c      PARAMETER (IZ=41 , ID=3, MMAP=1)
-c      PARAMETER (MXX=301, MXY=121)
+      PARAMETER (IZ=41 , ID=3, MMAP=1)
+      PARAMETER (MXX=301, MXY=121)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- Jaroslaw problem, Oct 2010
@@ -103,8 +103,8 @@ c      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=801, MXY=201)
+c      PARAMETER (IZ=30 , ID=3, MMAP=8)
+c      PARAMETER (MXX=801, MXY=201)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 

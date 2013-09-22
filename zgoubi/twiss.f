@@ -552,17 +552,17 @@ C------- reactivate READ in zgoubi.dat
 
           WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
      >    30X,''dL/L / dp/p = '',G15.8)') ALPHA
-          WRITE(NRES,FMT='(5X,1P,''(dp = '',G13.6,5X  
-     >    ,'' L(0)   = '',G14.4,'' cm, ''
-     >    ,'' L(0)-L(-dp) = '',G14.4,'' cm, ''
-     >    ,'' L(0)-L(+dp) = '',G14.4,'' cm) '' )') 
+          WRITE(NRES,FMT='(5X,1P,''(dp = '',E13.6,5X  
+     >    ,'' L(0)   = '',E14.5,'' cm, ''
+     >    ,'' L(0)-L(-dp) = '',E14.5,'' cm, ''
+     >    ,'' L(0)-L(+dp) = '',E14.5,'' cm) '' )') 
      >    A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
           WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma  = '',
-     >    G15.8)') 1.d0/SQRT(ALPHA)
+     >    E15.8)') 1.d0/SQRT(ALPHA)
 
           WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
-     >    30X,''dNu_y / dp/p = '',G15.8,/, 
-     >    30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
+     >    30X,''dNu_y / dp/p = '',E15.8,/, 
+     >    30X,''dNu_z / dp/p = '',E15.8)') DNUYDP, DNUZDP
 
 
           IF(KTW .GE.3) THEN
@@ -571,12 +571,12 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
         
              WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
      >      42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
-     >      30X,''dNu_y'',7X,2(G15.8,3X),/, 
-     >      30X,''dNu_z'',7X,2(G15.8,3X), //, 
-     >      20X,''Nu_y_Ref = '',G15.8,'', Nu_z_Ref = '',G15.8, / 
-     >      20X,''Nu_y_+dp = '',G15.8,'',   Nu_z_+dp = '',G15.8, / 
-     >      20X,''Eps_y_Ref/pi = '',G15.8,'',   Eps_z_Ref/pi = '',G15.8, / 
-     >      20X,''Eps_y_+dA/pi = '',G15.8,'',   Eps_z_+dA = '',G15.8)')
+     >      30X,''dNu_y'',7X,2(E15.8,3X),/, 
+     >      30X,''dNu_z'',7X,2(E15.8,3X), //, 
+     >      20X,''Nu_y_Ref = '',E15.8,'', Nu_z_Ref = '',E15.8, / 
+     >      20X,''Nu_y_+dp = '',E15.8,'',   Nu_z_+dp = '',E15.8, / 
+     >      20X,''Eps_y_Ref/pi = '',E15.8,'',   Eps_z_Ref/pi = '',E15.8, / 
+     >      20X,''Eps_y_+dA/pi = '',E15.8,'',   Eps_z_+dA = '',E15.8)')
      >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
      >      YNUREF,ZNUREF,
      >      YNUP,  ZNUP,

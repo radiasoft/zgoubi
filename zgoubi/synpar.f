@@ -64,7 +64,9 @@ C  -------
      > ''m,   deviation angle :'',G16.8,''rad'')') RHO, ANG
       WRITE(NRES,FMT='(5X,''Mean energy loss per particle :'',
      >'' Eloss = (2/3).r0.c.gamma^3.B.Ang/1000  ='',1P,T80,G16.8,
-     >'' keV'')') EKEV *ABS(ANG)/(2.D0*PI)
+     >'' keV'',/,30X,
+     >''(elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))'')')
+     >EKEV *ABS(ANG)/(2.D0*PI)
       WRITE(NRES,FMT='(5X,''Critical energy :'',
      >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G16.8,
      >'' keV'')') EC
@@ -77,8 +79,8 @@ C  -------
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
       WRITE(NRES,FMT='(/,5X,''Mean energy loss, summed over magnets'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' keV/particle'',6X,
-     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
+     >'' UP TO THIS POINT :'',1P,G16.8,'' keV/particle'',6X,/,31X,
+     >''- relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       WRITE(NRES,FMT='(5X,''# of mean photons, summed over magnets'',
      >'' UP TO THIS POINT :'',1P,G16.8,'' /particle'')') SNMPP
       WRITE(NRES,FMT='(5X,''rms energy of radiated photons'',
