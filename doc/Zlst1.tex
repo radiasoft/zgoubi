@@ -8129,9 +8129,16 @@ periodic parameters are computed such as chromaticities, \index{chromaticity@{ch
 
 \medskip
 
-\noindent  Addition of \textsl{zgoubi.MATRIX.out} next to \textsl{IORD, IFOC} will cause 
+\noindent  Addition of \textsl{zgoubi.MATRIX.out} following \textsl{IORD, IFOC [, coupled]} will cause 
 stacking of \textsl{MATRIX} output data 
 into   zgoubi.MATRIX.out file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
+
+\medskip
+
+\noindent  Addition of \textsl{coupled} next to \textsl{IORD, IFOC [, zgoubi.MATRIX.out]}, in the case of 
+periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) will cause use of coupled formalism. 
+
+
 
 
 \newpage

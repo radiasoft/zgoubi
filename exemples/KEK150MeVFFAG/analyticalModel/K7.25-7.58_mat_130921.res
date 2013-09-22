@@ -6,10 +6,7 @@ FFAG triplet. 150MeV machine
 486.802    0.  0.0  0. 0.   0.562925     50MeV                                                                
  'PARTICUL'                                                                                                   2
 938.27231  1.602e-19 0. 0. 0.                                                                                 
- 'FAISTORE'                                                                                                   3
-b_zgoubi.fai #START                                                                                           
-1                                                                                                             
- 'FFAG'              #START                                                                                   4
+ 'FFAG'              #START                                                                                   3
 0                                                                                                             
 3   30.     540.  1          NMAG, AT=tetaF+2tetaD+2Atan(XFF/R0), R0, type calc                               
 6.465  0.  -14.308348  7.25 0. 0.     mag 1 : ACNT, dum, B0, K,dummies                                        
@@ -45,10 +42,10 @@ b_zgoubi.fai #START
 2  4.                            IRD(=2, 25 or 4), resol(=>step/*)                                            
 .5                                integration step size (cm)                                                  
 2   0.  0. 0. 0.                                                                                              
- 'FAISCEAU'    #START                                                                                         5
- 'MATRIX'                                                                                                     6
+ 'FAISCEAU'    #START                                                                                         4
+ 'MATRIX'                                                                                                     5
 1 11                                                                                                          
- 'END'                                                                                                        7
+ 'END'                                                                                                        6
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -100,17 +97,7 @@ b_zgoubi.fai #START
     11   9.38272310E+02  9.99889845E-01  5.62825000E-01  3.13967704E-01  0.00000000E+00
 
 ************************************************************************************************************************************
-      3  Keyword, label(s) :  FAISTORE                          
-
-
-                OPEN FILE b_zgoubi.fai                                                                    
-                FOR PRINTING COORDINATES 
-
-               Print will occur at element[s] labeled : 
-                    #START    
-
-************************************************************************************************************************************
-      4  Keyword, label(s) :  FFAG        #START                
+      3  Keyword, label(s) :  FFAG        #START                
 
                     FFAG  N-tuple,  number  of  dipoles,  N :  3
 
@@ -231,7 +218,7 @@ b_zgoubi.fai #START
  Cumulative length of optical axis =    2.93400800     m ;  Time  (for ref. rigidity & particle) =   1.931924E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FAISCEAU    #START                
+      4  Keyword, label(s) :  FAISCEAU    #START                
 
 0                                             TRACE DU FAISCEAU
 
@@ -287,7 +274,7 @@ J  1   0.5628   486.802     0.000     0.000     0.000     0.000       0.5628  48
   0.000000E+00  0.000000E+00 -2.166277E-12  2.699405E-12
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  MATRIX                            
+      5  Keyword, label(s) :  MATRIX                            
 
 
   Reference, absolute (part #   1)  :  -4.37075E-01  4.86159E+02 -5.32588E+00  0.00000E+00  0.00000E+00  2.65772E+02   2.82315E-02
@@ -332,22 +319,8 @@ J  1   0.5628   486.802     0.000     0.000     0.000     0.000       0.5628  48
 
                     NU_Y =  0.34607177         NU_Z =  0.19641682    
 
- Pgm matric,  now calling et2res.  
- 
- --------------------------------------
-  Pgm matric. 
- 
-  Coupled modes : 
-  bet1, alf1 :   0.633839020000000      -1.632640000000000E-003
-  bet2, alf2 :    2.45863540000000      -2.120000000000000E-005
-  Q1, Q2 :       0.346071760000000       0.196416810000000     
-  Coupling strength :       0.000000000000000E+000
- 
- --------------------------------------
- 
-
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  END                               
+      6  Keyword, label(s) :  END                               
 
 
                             11 particles have been launched
@@ -362,7 +335,7 @@ J  1   0.5628   486.802     0.000     0.000     0.000     0.000       0.5628  48
             Zgoubi run completed. 
 
   Zgoubi, version 5.1.0.
-  Job  started  on  22/09/13 ,  at  01:14:25 
-  Job  ended  on    22/09/13 ,  at  01:14:25 
+  Job  started  on  22/09/13 ,  at  10:57:11 
+  Job  ended  on    22/09/13 ,  at  10:57:11 
 
-   CPU time, total :    3.600100000000000E-002
+   CPU time, total :    3.200100000000000E-002

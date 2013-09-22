@@ -409,8 +409,8 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
       IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
       OKCPLD = NINT(A(NOEL,4)) .EQ. 1
-      CALL MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3))
-     >              ,OKCPLD)
+      CALL 
+     >MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),OKCPLD)
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE

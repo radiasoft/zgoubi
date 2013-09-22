@@ -6,11 +6,8 @@
 444.15  0.    0.0  0. 0.   0.273042677097 'o'   12MeV  Brho=502.1500877                                       
  'PARTICUL'                                                                                                   2
 938.2723 1.60217733D-19 0. 0. 0.                                                                              
- 'FAISTORE'                                                                                                   3
-b_zgoubi.fai #START                                                                                           
-1                                                                                                             
- 'TOSCA'    #START                                                                                            4
-0  20                                                                                                         
+ 'TOSCA'    #START                                                                                            3
+0  0                                                                                                          
 -1.e-3   1. 1. 1.     (so as to get B-kG, angle-rad, radius-cm, z-cm)                                         
 HEADER_8   FFAG 150MeV                                                                                        
 301 121 41   20       IX(angle) JY(radius) KZ  MOD(no symm)                                                   
@@ -20,12 +17,12 @@ k75v113my021f45500d2700.table
 .0125                                                                                                         
 2                                                                                                             
 0. 0. 0. 0.                                                                                                   
- 'DRIFT'                                                                                                      5
+ 'DRIFT'                                                                                                      4
 0.                                                                                                            
- 'FAISCEAU'   #END                                                                                            6
- 'MATRIX'                                                                                                     7
+ 'FAISCEAU'   #END                                                                                            5
+ 'MATRIX'                                                                                                     6
 1 11                                                                                                          
- 'END'                                                                                                        8
+ 'END'                                                                                                        7
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -77,21 +74,7 @@ k75v113my021f45500d2700.table
     11   9.38272300E+02  1.00000053E+00  2.72942677E-01  1.58362119E-01  0.00000000E+00
 
 ************************************************************************************************************************************
-      3  Keyword, label(s) :  FAISTORE                          
-
-
-                OPEN FILE b_zgoubi.fai                                                                    
-                FOR PRINTING COORDINATES 
-
-               Print will occur at element[s] labeled : 
-                    #START    
-
-************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA       #START                
-
-
-                OPEN FILE zgoubi.plt                                                                      
-                FOR PRINTING TRAJECTORIES
+      3  Keyword, label(s) :  TOSCA       #START                
 
 
      NDIM = 3 ;   Value of MOD is  20 ;  Number of data file sets used is   1
@@ -146,20 +129,10 @@ R0, DR, DTTA, DZ :   4.300000E+02  1.000000E+00  1.000000E-01  1.000000E-01
   I   1  0.2731   444.150     0.000     0.000     0.000            0.262   444.179     0.000    -0.001     0.000          10
   J   1  0.2729   444.150     0.000     0.000     0.000            0.262   444.126     0.000    -0.001     0.000          11
 
-
-                CONDITIONS  DE  MAXWELL  (   212190.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -5.3780E-14      -4.3164E-17        3.2307E-13
-                                      6.9619E-17        3.1967E-12
-                                      7.5482E-11        1.4569E-17
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
-
  Cumulative length of optical axis =    0.00000000     m ;  Time  (for ref. rigidity & particle) =    0.00000     s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  DRIFT                             
+      4  Keyword, label(s) :  DRIFT                             
 
 
                               Drift,  length =     0.00000  cm
@@ -169,7 +142,7 @@ TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1 -7.269573E-01  4.441524E+02  2.237394E-02 -6.4
  Cumulative length of optical axis =    0.00000000     m  at  ;  Time  (for ref. rigidity & particle) =    0.00000     s 
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  FAISCEAU    #END                  
+      5  Keyword, label(s) :  FAISCEAU    #END                  
 
 0                                             TRACE DU FAISCEAU
 
@@ -225,7 +198,7 @@ J  1   0.2729   444.150     0.000     0.000     0.000     0.000       0.2729  44
   2.632186E-13  2.439481E-13 -1.508481E-12  4.232270E-13
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  MATRIX                            
+      6  Keyword, label(s) :  MATRIX                            
 
 
   Reference, absolute (part #   1)  :  -7.26957E-01  4.44152E+02  2.23739E-02 -6.43430E-04 -4.34570E-03  2.41120E+02   5.07699E-02
@@ -270,22 +243,8 @@ J  1   0.2729   444.150     0.000     0.000     0.000     0.000       0.2729  44
 
                     NU_Y =  0.30726927         NU_Z =  0.10016177    
 
- Pgm matric,  now calling et2res.  
- 
- --------------------------------------
-  Pgm matric. 
- 
-  Coupled modes : 
-  bet1, alf1 :   0.748740920000000       4.514000000000000E-005
-  bet2, alf2 :    4.54897340000000       9.360000000000000E-005
-  Q1, Q2 :       0.307269260000000       0.100161770000000     
-  Coupling strength :       0.000000000000000E+000
- 
- --------------------------------------
- 
-
 ************************************************************************************************************************************
-      8  Keyword, label(s) :  END                               
+      7  Keyword, label(s) :  END                               
 
 
                             11 particles have been launched
@@ -300,7 +259,7 @@ J  1   0.2729   444.150     0.000     0.000     0.000     0.000       0.2729  44
             Zgoubi run completed. 
 
   Zgoubi, version 5.1.0.
-  Job  started  on  22/09/13 ,  at  01:34:54 
-  Job  ended  on    22/09/13 ,  at  01:34:56 
+  Job  started  on  22/09/13 ,  at  10:55:37 
+  Job  ended  on    22/09/13 ,  at  10:55:38 
 
-   CPU time, total :     1.24007700000000     
+   CPU time, total :    0.856052000000000     

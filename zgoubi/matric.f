@@ -22,11 +22,12 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MATRIC(JORD,JFOC,KWR)
+      SUBROUTINE MATRIC(JORD,JFOC,KWR,OKCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
 C     Compute transfer matrix coefficients
 C     ------------------------------------
+      LOGICAL OKCPLD
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
 C      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -182,6 +183,7 @@ C       RETURN
 
 
       IF(.NOT. PRDIC) RETURN
+      IF(.NOT. OKCPLD) RETURN
 
 c      OK = IDLUNI(
 c     >            LUNR)
