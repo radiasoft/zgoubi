@@ -95,8 +95,9 @@ C--------- Spin tracking
           IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
 C          CALL SPNTRK(IT,DS)
           CALL SPNTRK(DS)
+        ENDIF
 C----- Coherent synchrotron radiation
-        ELSEIF(KCSR .EQ. 1) THEN
+        IF(KCSR .EQ. 1) THEN
           IF    (IPASS.EQ.1) THEN
 C----------- Store reference trajectory
 C            IF(IT .EQ. KTRA) THEN

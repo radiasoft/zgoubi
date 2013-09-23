@@ -62,8 +62,8 @@ C      PARAMETER (MXX=401, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- EMMA. Two 2D maps, Ben, Feb 2013 
-cccccccccccc      PARAMETER (IZ=1 , ID=3, MMAP=1)
-cccccccccccc      PARAMETER (MXX=961, MXY=161)
+      PARAMETER (IZ=1 , ID=3, MMAP=2)
+      PARAMETER (MXX=961, MXY=161)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- IZ : # of mesh nodes in Z direction or 3 with MAP2. ID : # of field coordinates (3 if IZ>1)
@@ -83,8 +83,8 @@ C       PARAMETER (MXX=671, MXY=53)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- KEK/TOSCA.  Masamitsu Aiba
-      PARAMETER (IZ=41 , ID=3, MMAP=1)
-      PARAMETER (MXX=301, MXY=121)
+c      PARAMETER (IZ=41 , ID=3, MMAP=1)
+c      PARAMETER (MXX=301, MXY=121)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 C----- Jaroslaw problem, Oct 2010

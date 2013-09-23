@@ -52,7 +52,7 @@ C Reset
 C Stack, count 
       ENTRY KSMAP4(NOMFIC,NFIC,
      >                         NEWFIC,NBMAPO,KMAPO)
-      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
+C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
       II = 0
       DO I = 1, MMAP
         II = II+1

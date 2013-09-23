@@ -382,11 +382,12 @@ C----------- Spin tracking
             IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
 C            CALL SPNTRK(IT,PAF)
             CALL SPNTRK(PAF)
-          ELSE         
+          ENDIF 
+c          ELSE         
             CALL EVENT(
      >      PAF,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,
      >      AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*97)
-          ENDIF
+c          ENDIF
         ENDIF
       ENDIF
 
