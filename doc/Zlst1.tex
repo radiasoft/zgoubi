@@ -2795,7 +2795,7 @@ keyword \textsl{PICKUPS} is used.
 
 \newpage
 
-\subsubsection*{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT|textbf} \index{FIT2|textbf}
+\subsubsection*{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT |textbf} \index{FIT2 |textbf}
 \medskip
 
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
@@ -2804,8 +2804,8 @@ variables\index{variable (FIT, FIT2)}, for fitting up to 20 constraints\index{co
 \medskip 
 
  \noindent 
-\textsl{FIT} was drawn from  the matrix transport code BETA~\cite{Biblio10}. 
-\textsl{FIT2} is a simplex method (Nelder-Mead method), it has been implemented  next~\cite{NelderMead}.   
+\textsl{FIT} was implemented in 1985, drawn from  the matrix transport code BETA~\cite{Biblio10}. 
+\textsl{FIT2} is a simplex method (Nelder-Mead method), it has been implemented  in 2007~\cite{NelderMead}.   
 One or the other may converge 
 faster, or may have some advantages/disadvantages,  depending on the problem. 
 
@@ -3585,15 +3585,26 @@ $$ s = - s_1 \ell n R_1 $$
 \noindent After decay, particle~2  will  be ray-traced with assumed positive
 charge, while particle~3 is discarded.  Its scattering angles in the center of mass 
 $ \theta^\ast $ and $\phi$ are generated from two other random numbers 
-$R_2$ and $ R_3$. 
-%$0<R_2\leq 1 $ and $ 0<R_3\leq 1 $ by
+%Corr 2004 following Napoli's remark
+%$R_2$ and $ R_3$. 
+%%$0<R_2\leq 1 $ and $ 0<R_3\leq 1 $ by
+%%
+%% \begin{alignat*}{2}
+%%	 \theta^ \ast 
+%%	       & =   2\pi (R_2 - 0.5) & \qquad & (-\pi   <\theta^\ast \leq \pi ) \\
+%%	\phi 
+%%	       & =   2\pi R_3         & \qquad &  (0<\phi \leq 2\pi ) 
+%% \end{alignat*}
+%%
+% Re-establish text, corrected, 2013
+$0<R_2\leq 1 $ and $ 0<R_3\leq 1 $ by
 %
-% \begin{alignat*}{2}
-%	 \theta^ \ast 
-%	       & =   2\pi (R_2 - 0.5) & \qquad & (-\pi   <\theta^\ast \leq \pi ) \\
-%	\phi 
-%	       & =   2\pi R_3         & \qquad &  (0<\phi \leq 2\pi ) 
-% \end{alignat*}
+ \begin{alignat*}{2}
+	 \theta^ \ast 
+	       & =   \textrm{acos} (1 - 2R_2) & \qquad & (-\pi   <\theta^\ast \leq \pi ) \\
+	\phi 
+	       & =   2\pi R_3         & \qquad &  (0<\phi \leq 2\pi ) 
+ \end{alignat*}
 %
 
 \smallskip
@@ -3611,11 +3622,11 @@ $$ \tan \theta = \dfrac{1 }{ \gamma_1}\,
  \begin{align*}
 	 \gamma^\ast_ 2 
 	         & = \dfrac{M^2_1 + M^2_2 - M^2_3 }{ 2M_1M_2} \\
-	\beta^\ast_ 2 
-	         & =  \left( 1- \dfrac{1 }{ \gamma^ 2} \right)^{1/2} \\
 	\gamma_2
 	         & =   \gamma_1\gamma^ \ast_ 2 
 	         	\left(1+\beta_1 \beta^\ast_ 2 \cos \theta^ \ast \right) \\
+	\beta_ 2 
+	         & =  \left( 1- \dfrac{1 }{ \gamma^ 2} \right)^{1/2} \\
 	p_2 
 	         & = M_2 \sqrt{ \gamma^2_2 -1} 
  \end{align*}

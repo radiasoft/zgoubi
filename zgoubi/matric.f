@@ -92,12 +92,13 @@ C      IFOC = A(NOEL,2)
 
 C      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
       KWRMAT = KWR .EQ. 1
-      IF(KWRMAT) CALL MATIM6(KWRMAT)
-      IF(KWRMAT .and. nres .gt. 0) then
-        write(nres,*) 
-        write(nres,*)  ' Matrix coefficients are printed in '
+C      IF(KWRMAT) CALL MATIM6(KWRMAT)
+      CALL MATIM6(KWRMAT)
+      IF(KWRMAT .AND. NRES .GT. 0) THEN
+        WRITE(NRES,*) 
+        WRITE(NRES,*)  ' Matrix coefficients are printed in '
      >  // ' zgoubi.MATRIX.out.'
-      endif
+      ENDIF
 
       IF    (IORD .EQ. 1) THEN
         CALL OBJ51(
@@ -118,13 +119,11 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           CALL MAT1(IT1, 
      >                  R,T)
           CALL MKSA(IORD,R,T,T3,T4)
-C          CALL MATIMP(R)
           IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
           CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
 
 C FM, Nov. 2008
-C          CALL REFER(2,IORD,IFOC,IT1,IT2,IT3)
           CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
 
           IF(IREF.LT.NBREF) GOTO 1
@@ -138,7 +137,6 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         CALL REFER(1,IORD,IFC,1,6,7)
         CALL MAT2(R,T,T3,T4)
         CALL MKSA(IORD,R,T,T3,T4)
-C        CALL MATIMP(R)
         IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
         CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
@@ -146,13 +144,11 @@ C        CALL MATIMP(R)
         IF(PRDIC) THEN 
           CALL MAT2P(RPD,DP)
           CALL MKSA(IORD,RPD,T,T3,T4)
-C          CALL MATIMP(RPD)
           CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUP,ZNUP,CMUY,CMUZ)
           CALL MATIMP(RPD,F0PD,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4)
-C          CALL MATIMP(RMD)
           CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUM,ZNUM,CMUY,CMUZ)
           CALL MATIMP(RMD,F0MD,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC)

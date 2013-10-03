@@ -38,7 +38,7 @@ C  -------
 
       LOGICAL KWRI, KWRMAT, IDLUNI
       CHARACTER FNAME*17
-      LOGICAL EXS, OPN
+      LOGICAL EXS, OPN, OK
       SAVE KWRMAT
       CHARACTER*15 TXTYNU, TXTZNU
 
@@ -105,37 +105,48 @@ c        RETURN
       ENDIF
 
       IF(KWRMAT) THEN
-        IF(IDLUNI(
-     >            LNWRT)) THEN
+c        IF(IDLUNI(
+c     >            LNWRT)) THEN
           INQUIRE(FILE=FNAME,EXIST=EXS,OPENED=OPN,IOSTAT=I)
-          IF(OPN) THEN
-            CLOSE(LNWRT)
-          ENDIF
-          IF(EXS) THEN
-            OPEN(UNIT=LNWRT, FILE=FNAME, status='OLD',ERR=96)
-            CALL GO2END(LNWRT)
+c          IF(OPN) THEN
+c            CLOSE(LNWRT)
+c          ENDIF
+
+          IF(EXS) then
+            if(.not. opn) THEN
+              ok = IDLUNI(
+     >                    LNWRT)
+              OPEN(UNIT=LNWRT, FILE=FNAME, status='OLD',ERR=96)
+C              CALL GO2END(LNWRT)
+              WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
+     >        // ' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
+     >        // ' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ'
+            endif
           ELSE
+            ok = IDLUNI(
+     >                  LNWRT)
             OPEN(UNIT=LNWRT, FILE=FNAME, status='NEW',ERR=96)
             WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
      >      // ' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
      >      // ' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ'
-            WRITE(LNWRT,*) '%  '
+            WRITE(LNWRT,*) '%  '  
           ENDIF
+
 c          write(lnwrt,*)'%  transport coefficients',
 c     >              ' ((R(IA,IB),IB=1,4),IA=1,4)'
 C This will stack results from stacked jobs, or will stack with earlier results
-        ELSE
-          GOTO 95
-        ENDIF
-        WRITE(LNWRT,*) ' '
-        WRITE(LNWRT,*) 'Last merged : '
+c        ELSE
+c          GOTO 95
+c        ENDIF
+c        WRITE(LNWRT,*) ' '
+c        WRITE(LNWRT,*) 'Last merged : '
         WRITE(LNWRT,FMT='(1P,36(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4), 
      >  R(1,6), R(2,6), R(3,6), R(4,6), 
      >  R(5,1), R(5,2), R(5,3), R(5,4), R(5,5), R(6,6), 
      >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
      >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU
-        CLOSE(LNWRT)
-        KWRMAT = .FALSE.
+C        CLOSE(LNWRT)
+C        KWRMAT = .FALSE.
 
       ENDIF
 
@@ -205,7 +216,7 @@ C MODIFIED, FM, 04/97
       KWRMAT = KWRI
       RETURN
 
- 95   CALL ENDJOB('ERROR : no free unit # for '//FNAME,-99)
+c 95   CALL ENDJOB('ERROR : no free unit # for '//FNAME,-99)
  96   KWRMAT = .FALSE.
       CALL ENDJOB('ERROR upon open  old  file '//FNAME,-99)
       RETURN

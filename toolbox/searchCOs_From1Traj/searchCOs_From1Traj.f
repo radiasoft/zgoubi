@@ -746,7 +746,7 @@ C     --------------------------------------
  2    continue
 
 C Run zgoubi with single traj
-      call system('~/zgoubi/source/zgoubi_intel')
+      call system('~/zgoubi/current/zgoubi/zgoubi')
 
 C Get initial Traj coord, and average orbit, from zgoubi.res
       call getPUs_Av(

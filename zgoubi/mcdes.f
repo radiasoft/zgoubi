@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE MCDES(
      >   DS,KEX,Y,T,Z,P,DA,QBR,SAR,TAR,IT,AMT,Q,BORO,XAR,KART)
@@ -80,7 +79,7 @@ C           Angles wrt incoming direction,  COM frame :
 C            TET = ACOS(1.D0 - 2.D0*RNDM(IRTET))
 C            PHI = 2.D0*PI* RNDM(IRPHI)
 C--------------------------------------------------------------------------
-C--- It is necessary to catch TET, PHI from fixed sets if is FIT to be used
+C--- It is necessary to catch TET, PHI from fixed sets if FIT is to be used
            TET = TETPHI(1,IT)
            PHI = TETPHI(2,IT)
 C--------------------------------------------------------------------------
