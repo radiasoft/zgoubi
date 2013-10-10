@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory            
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE PLTHIS(NLOG,NL,NOC,OKBIN,OKECH)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -73,13 +72,13 @@ C        if(ib.gt.1) write(78,*) x,-BINS(IB)+BINS(IB-1), '   sbr plthis '
       CALL TRKVAR(NB,KVAR(KY),KDIM(KY),KVAR(KX),KDIM(KX)) 
 
       WRITE(6,100)
- 100  FORMAT(' Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
+ 100  FORMAT('Mean',12X,'Sigma',12X,'X(max)',12X,'Counts')
       WRITE(6,101) XMOY,SIG,XYMAX,NOC
  101  FORMAT(1P,3G16.9,I7)
       WRITE(TXT,102) XMOY,SIG,XYMAX,NOC
- 102  FORMAT(' Mean:',1P,G12.5,'; Sigma:',G12.5,'; X(max):',G12.5,
-     >       '; Counts:',I7)
-      CALL TRTXT(10.D0,18.D0,TXT,0)
+ 102  FORMAT('Avrg:',1P,G11.5,'; Sgma:',G11.5,'; X(max):',G11.5,
+     > '; Counts:',I7)
+      CALL TRTXT(10.D0,21.D0,TXT,0)
 
       RETURN
  99   WRITE(6,*) ' SBR PLTHIS   ERROR DURING BINING'

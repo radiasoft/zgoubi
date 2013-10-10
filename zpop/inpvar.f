@@ -27,7 +27,8 @@ C  -------
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
       INCLUDE 'MXVAR.H'
-      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      CHARACTER(7) KVAR(MXVAR), KDIM(MXVAR)
+      CHARACTER(9) KPOL(2)
       COMMON/INPVR/ KVAR, KPOL, KDIM
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
@@ -64,8 +65,9 @@ C  -------
      >, /,'   SYNCHROTRON MOTION:'
      >, /,8X,'18, 19 :   phi-phi_s (rad),  dp/p  '                    
      >,//,'   SPIN:'
-     >, /,8X,'21,22,23,24:    Sx, Sy, Sz, <S>'
-     >, /,8X,'25,26,27,:      SumSx/#turn, SumSy/#turn SumSz/#turn')
+     >, /,8X,'21,22,23,24 :    S_X, S_Y, S_Z, <S>'
+     >, /,8X,'25,26,27 :  .fai : (S_X,S_Y),*,* '//
+     >      '/ .spn : sumS_X,_Y,_Z/#turns ')
  117  FORMAT(
      >  /,'   HISTOGRAM :'
      >, /,8X,'28: Counts'

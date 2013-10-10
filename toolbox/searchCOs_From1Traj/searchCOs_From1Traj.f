@@ -16,25 +16,28 @@ C zgoubi.dat, look for nCO precise co's
       data ok, first / .false., .true./
       logical okpart, empty
       logical gtText
+      character(132) titl, titl0
+      character(1) rep
 
       data okpart / .false. /
  
 C Cyclo ADS H_2^+
-      data  kaseV, nCO, T1, T2 / 0, 10, 120879035d0, 1611720466.6d0 /
+      data  kaseV0,nCO0,T10,T20 / 0, 10, 120879035d0, 1611720466.6d0 /
 C RACCAM FFAG
-c      data  kaseV, nCO, T1, T2 / 0, 99, 12d6, 180d6 /
+c      data  kaseV0, nCO0, T10, T20 / 0, 99, 12d6, 180d6 /
 C EMMA
-c      data  kaseV, nCO, T1, T2 / 0, 3, 10d6, 20d6 /
-c      data am, q /  0.51099892, 1.602176487e-19  /
+c      data  kaseV0, nCO0, T10, T20 / 0, 3, 10d6, 20d6 /
+c      data am0, q0 /  0.51099892, 1.602176487e-19  /
 
 C Requested precision on co (cm, mrad)
 C Careful here :  PREC MUST BE COMPATIBLE with precision on x and xp as read in zgoubi.res
-      parameter (precX=.0001, precXp=.001)
+      data precX0, precXp0 /  0.001, 0.01 /
+      data titl0 / '! SearchCO.data not found. Created.  '/
       
 C ----------------- Input data
 C      call system('ln -sf lattice.data searchCO.data')
       call readat(lunIn,'searchCO.data', 
-     >                       kaseV,nCO,T1,T2,ierr)
+     >                 kaseV,nCO,T1,T2,precX,precXp,titl,ierr)
       if(ierr.eq.3) then
         write(*,*) '  Failed to open searchCO.data '
       elseif(ierr.eq.2) then
@@ -43,8 +46,13 @@ C      call system('ln -sf lattice.data searchCO.data')
         write(*,*) '  EOF reached in searchCO.data '
       endif
       if(ierr.gt.1) then 
-        open(unit=lunIn,file='searchCO.data')
-        write(*,*)  ' searchCO.data should exist and contain : '
+        titl = titl0
+        kaseV = kaseV0
+        nCO = nCO0
+        T1 = T10
+        T2 = T20
+        precX = precX0
+        precXp = precXp0
         write(*,*)  ' (beware : case dependent input) '
         write(*,*)  '  kaseV = 0 or 1 (w/ or w/o vertical motion)'
         write(*,*)  '  nCO = ',nCO,' a few units (nb of co-s)'
@@ -52,9 +60,25 @@ C      call system('ln -sf lattice.data searchCO.data')
         write(*,*)  '  T2 = ',T2,' final energy (eV)'
         write(*,*)  '  precX = ',precX
         write(*,*)  '  precXp = ',precXp
-C        stop
-        close(lunIn)
+        write(*,*) ' ok (y/n, default is "y") ? '
+        write(*,*) ' Otherwise edit and update the '//
+     >  'searchCO.data file just created' 
+        read(*,fmt='(a)',err=77,end=77) rep
+ 77     continue
       endif
+
+      open(unit=lunIn,file='searchCO.data')
+      write(lunIn,*) titl(debstr(titl):finstr(titl))
+      write(lunIn,*) '  kaseV = ',kaseV
+     >                  ,' ! 0 or 1 (w/ or w/o vertical motion)'
+      write(lunIn,*) '  nCO = ',nCO,' ! a few units (nb of co-s)'
+      write(lunIn,*) '  T1 = ',T1,' ! initial energy (eV)'
+      write(lunIn,*) '  T2 = ',T2,' ! final energy (eV)'
+      write(lunIn,*) '  precX = ',precX,' ! (cm) '
+      write(lunIn,*) '  precXp = ',precXp,' ! (mrad) '
+      close(lunIn)
+
+      if(rep .eq. 'n' .or. rep .eq. 'N') stop 
 C-----------------------------
       open(unit=lunR,file='zgoubi_searchCO-In.dat')
 
@@ -981,7 +1005,7 @@ C     -----------------------------------------------------
       END
 
       subroutine readat(lunIn,fname,
-     >                        kaseV,nCO,T1,T2,ierr)
+     >                        kaseV,nCO,T1,T2,precX,precXp,titl,ierr)
       implicit double precision (a-h,o-z)
 
       include "READAT.H"

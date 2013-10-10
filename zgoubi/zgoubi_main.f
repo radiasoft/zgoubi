@@ -69,7 +69,7 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
       CALL CPU_TIME(TIMSEC)
 
       WRITE(6   ,103) DMY,HMS
- 103  FORMAT(/,'  Zgoubi, version 5.1.0.',/,
+ 103  FORMAT(/,'  Zgoubi, authors dvlpmnt version.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
  1    CONTINUE

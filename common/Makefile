@@ -12,7 +12,8 @@ OBJS=\
  libzg.a(rndm.o)\
  libzg.a(strcon.o)\
  libzg.a(strget.o)\
- libzg.a(time2.o)
+ libzg.a(time2.o)\
+ libzg.a(vscal.o)
 
 
 .POSIX:

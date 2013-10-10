@@ -120,25 +120,24 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
      >    ,T61,'<SX>',T71,'<SY>',T81,'<SZ>',T91,'<S>'
      >    ,/,5X,4F10.4,10X,4F10.4)
  
-          WRITE(NRES,140) II,SX/II,SY/II,SZ/II,SM
-     >    ,SXF/II,SYF/II,SZF/II,SMF
+          WRITE(NRES,140) II,SXF/II,SYF/II,SZF/II,SMF
  140      FORMAT(//,25X,' Average  over  particles and pass, '
      >    ,'at this pass ;  beam with  ',I3,'  particles :'
      >    ,//,T20,'FINAL'
-     >    ,//,T12,'<SX>',T22,'<SY>',T32,'<SZ>'
+     >    ,//,T13,'<SX>',T24,'<SY>',T35,'<SZ>'
      >    ,/,5X,4(1X,F10.4))
  
           WRITE(NRES,110) JMAXT
- 110      FORMAT(///,15X,' Spin  components  of  each  of  the '
+ 110      FORMAT(//,15X,' Spin  components  of  each  of  the '
      >    ,I5,'  particles,  and  rotation  angle :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
-     >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'S'
-     >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'S',T100,'GAMMA'
-     >    ,T108,'(Si,Sf)',T119,'(Si,Sf_x)')
+     >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'|S|'
+     >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'|S|',T101,'GAMMA'
+     >    ,T110,'(Si,Sf)',T120,'(Si,Sf_x)')
           WRITE(NRES,FMT='(
-     >    T106,'' (deg.)'',T119,''  (deg.)'')')
-          WRITE(NRES,fmt='(t87,a,/)') 
-     >           '(Sf_x - projection of Sf on plane x=0)'
+     >    T110,'' (deg.)'',T120,''  (deg.)'')')
+          WRITE(NRES,fmt='(T92,a,/)') 
+     >           '(Sf_x : projection of Sf on plane x=0)'
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
@@ -167,7 +166,7 @@ C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
      >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),I
- 101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),9X,5(1X,F9.6),
+ 101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),9X,4(1X,F9.6),1X,F11.4,
      >        2(1X,F9.4),1X,I4)
 C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
             ENDIF
@@ -180,14 +179,14 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
      >    ,I5,'  particles :'
      >    ,//,T3,'SX_mi',T15,'SX_ma',T27,'SY_mi',T39,'SY_ma'
      >    ,T51,'SZ_mi',T63,'SZ_ma',T75,'|S|_mi',T87,'|S|_ma'
-     >    ,T99,'p/p_0',T111,'GAMMA',T125,'I  IEX',/)
+     >    ,T99,'p/p_0',T112,'GAMMA',T127,'I  IEX',/)
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
               GAMA = SQRT(P*P + AM*AM)/AM
               WRITE(NRES,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
      >           ,GAMA,I,IEX(I)
- 131          FORMAT(1P,8E12.4,2E13.5,I5,I3)
+ 131          FORMAT(1P,8E12.4,2E13.5,1X,I5,1X,I3)
             ENDIF
           ENDDO
  

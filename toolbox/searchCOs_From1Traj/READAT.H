@@ -1,6 +1,7 @@
       logical strcon, ok
-      character*132 txt132
-	character*(*) fname
+      character(132) txt132
+      character(*) fname
+      character(*) titl
       integer debstr
 
       ierr = 0
@@ -12,7 +13,8 @@ C Default mass number and charge number
       Q = 1.d0
 
       read(lunIn,fmt='(a)',end=96,err=97)  txt132  !! reads comment line
-      write(*,*) txt132
+      titl = txt132
+      write(*,*) titl
  
 C For compatibility with earlier version of dataFile
       T0 = -1.d0
@@ -113,6 +115,22 @@ C For compatibility with earlier version of dataFile
      >                       IS)
         read(txt132(IS+1:132),*) kaseV
         write(*,*) ' kaseV = ', kaseV
+      elseif (STRCON(txt132(1:6),'precX',5,
+     >                       IS)
+     >  .and. (.not. STRCON(txt132(1:7),'precXp',6,
+     >                                      IS))) then
+        ok=STRCON(txt132,'=',1,
+     >                       IS)
+        read(txt132(IS+1:132),*) precX
+        write(*,*) ' precX = ', precX
+		    read(*,*)
+      elseif (STRCON(txt132(1:7),'precXp',6,
+     >                       IS)) then
+        ok=STRCON(txt132,'=',1,
+     >                       IS)
+        read(txt132(IS+1:132),*) precXp
+        write(*,*) ' precXp = ', precXp
+				    read(*,*)
       elseif (STRCON(txt132(1:6),'DltACN',6,
      >                       IS)) then
         ok=STRCON(txt132,'=',1,

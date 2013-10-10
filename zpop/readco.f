@@ -28,10 +28,11 @@ C  -------
 C     ----------------------------------------------------
 C     Look for and read coordinates, etc. of particle # NT
 C     ----------------------------------------------------
-      CHARACTER*1 LET
+      CHARACTER(1) LET
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
+      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       COMMON/LABCO/ ORIG(MXL,6) 
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
@@ -47,15 +48,15 @@ C     ----------------------------------------------------
       DIMENSION SX(MXT),SY(MXT),SZ(MXT)
       
       PARAMETER (LBLSIZ=10)
-      CHARACTER*(LBLSIZ) LBL1, LBL2
+      CHARACTER(LBLSIZ) LBL1, LBL2
 
       PARAMETER (KSIZ=10)
-      CHARACTER KLEY*(KSIZ) 
-      CHARACTER TX1*1
+      CHARACTER(KSIZ) KLEY
+      CHARACTER(1) TX1
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
 
-      CHARACTER*1 KLET, KLETO, KLETI
+      CHARACTER(1) KLET, KLETO, KLETI
 
       SAVE KP1, KP2, KP3, BINARY
       SAVE KL1, KL2
@@ -317,6 +318,8 @@ C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0
         YZXB(24) = SQRT(SF(1)**2 + SF(2)**2 + SF(3)**2)
 C        YZXB(24) = SF(4)
 C         convert B from kG to T
+        YZXB(25) = acos(vscal(SI,SF,3)) * deg
+
         YZXB(30) = BX      * .1D0
         YZXB(31) = BY      * .1D0
         YZXB(32) = BZ      * .1D0
@@ -330,7 +333,7 @@ C         convert B from kG to T
 C AMAG is magnyfying factor for plotting of element synoptic and trajectories
 C        CALL INSY1(
 C     >             AMAG)        
-        PI2 = 2.D0*ATAN(1.D0)
+C        PI2 = 0.5D0 * PI     !2.D0*ATAN(1.D0)
         YINL = F(2)* UNIT(1)  
         ZINL = F(4)* UNIT(3)  
 C FM, Dec. 05       XINL = XX* UNIT(5) - ORIG(NOEL,5)

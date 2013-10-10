@@ -37,6 +37,7 @@ C  -------
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
 
@@ -84,6 +85,9 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
      >          ,/,' B'''':',6E16.8)
           ENDIF
  
+          WRITE(NRES,FMT='('' SF_X, _Y, _Z  |S| : '',1P,4(1X,E12.4))')
+     >    (SF(J,IT), J=1,4)
+
         ELSEIF(LST .EQ. 7) THEN
 
           IF(FIRST) THEN
