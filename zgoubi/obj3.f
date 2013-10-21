@@ -144,7 +144,7 @@ C----- Traj. counter
      >      DP,Y,T,Z,P,S,TIM,
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
-     >      ITR,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
      >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
 
           IF(LM .NE. -1) THEN
@@ -152,14 +152,16 @@ C----- Traj. counter
           ENDIF
           
           IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
-     >                                 IEND)) THEN
+     >                                   IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
               GOTO 95
             ENDIF
+
             GOTO 222
           ENDIF
 
+          ITR = ITR + 1
           IF(.NOT. OKKT(KT1,KT2,ITR,
      >                              IEND)) THEN
             GOTO 222
@@ -175,15 +177,25 @@ C----- Traj. counter
      >      DP,Y,T,Z,P,S,TIM,
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
-     >      ITR,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
      >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
             INCLUDE "FRMFAI.H"
+            ITR = ITR + 1
+            it1 = it1 + 1
 
           ELSEIF(KOBJ2.EQ.1) THEN 
 C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
+ 171        continue
             READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+            ITR = ITR + 1
+c            write(*,*) ' obj3 ',ktstp,ktstp*((it1-1)/ktstp),it1-1         
+c                read(*,*)
+            if(ktstp*((itr-1)/ktstp) .ne. itr-1) goto 171            
+c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it1
+c                read(*,*)
+            it1 = it1 + 1
             TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
@@ -198,13 +210,13 @@ C------------ Was installed for reading pion data at NuFact target
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
-            ITR = ITR + 1
 
           ELSEIF(KOBJ2.EQ.2) THEN 
 C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNIA/SPP March 03
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
             READ(NL,*,ERR=97,END=95) X,Y,Z,PX,PY,PZ
+            it1 = it1 + 1
             BRO = BORO
             PT = SQRT(PX*PX+PY*PY+PZ*PZ)
             DP = PT/(BORO*CL9)
@@ -230,6 +242,7 @@ C------------ Was installed for RHS_DESIR
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
             READ(NL,*,ERR=97,END=95) dp,Y,T,Z,P,S,time,amq1, amq2
+            it1 = it1 + 1
 C            TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
@@ -262,7 +275,9 @@ C            TIM = 0.D0
 
           IF(.NOT. OKKT(KT1,KT2,ITR,
      >                              IEND)) THEN
-            GOTO 221 
+            
+            it1 = it1 - 1 
+            GOTO 169
           ENDIF
 
         ENDIF
@@ -273,7 +288,7 @@ C            TIM = 0.D0
 
         IF(IEXI.LE.0) GOTO 17
 
-        IT1 = IT1 + 1
+C        IT1 = IT1 + 1
 
         LET(IT1)=LETI
         IEX(IT1)=IEXI
@@ -332,6 +347,7 @@ C        IREP(IT1) = IREPI
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
+C          write(*,*) ' obj3 it1,it2 : ',it1,it2,mxt,kt2 
       GOTO  17
  
  96   WRITE(TXT,FMT='(
@@ -342,17 +358,14 @@ C        IREP(IT1) = IREPI
  97   WRITE(NRES,FMT='(/,
      > '' SBR OBJ3 -> error in  reading  file '',
      >  A,'' at  event/traj #  '',I6,''/'')') NOMFIC,IT1
-
+          
  95   CONTINUE
-      IT1 = IT1-1
+C      IT1 = IT1-1
+
  169  CONTINUE
 
-C      IF(KT1.GT.1) THEN
-C        IMAX=IT1-1
-C      ELSE
-        IMAX=IT1
-C      ENDIF
-C-----
+      IMAX=IT1
+
       CALL CNTMXT(IMAX)
 
       II = 0

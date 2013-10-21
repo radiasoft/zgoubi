@@ -244,6 +244,7 @@ c      COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
       PARAMETER (MXS=4)
       DIMENSION FO(MXJ),F(MXJ),SI(MXS),SF(MXS)
+      INCLUDE "MAXTRA.H"
       DIMENSION SX(MXT),SY(MXT),SZ(MXT)
       
       CHARACTER*8 LBL1, LBL2
@@ -646,6 +647,7 @@ C     ---------------------------------------------------
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
+      INCLUDE "MAXTRA.H"
       logical first(mxt)
       save first
       data first / mxt * .true. /

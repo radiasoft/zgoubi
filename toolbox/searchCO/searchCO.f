@@ -767,7 +767,7 @@ Compute matrices so to draw various first order paramaters
       cmnd = 'cp -f zgoubi.res zgoubi_searchCO-Out_MATRIX.res'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
-      cmnd = '~/zgoubi/struct/tools/tunesFromMATRIX/tunesFromMatrix'
+      cmnd = '~/zgoubi/toolbox/tunesFromMATRIX/tunesFromMatrix'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
 
@@ -896,7 +896,7 @@ Compute matrices so to draw various first order paramaters
       cmnd = 'cp -f zgoubi.res zgoubi_searchCO-Out_BETA.res'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
-      cmnd = '~/zgoubi/struct/tools/betaFromMatrix/betaFromMatrix'
+      cmnd = '~/zgoubi/toolbox/betaFromMatrix/betaFromMatrix'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
 C----------------------------------------------------
@@ -919,7 +919,7 @@ C----------------------------------------------------
       cmnd = 'cp -f zgoubi.res zgoubi_searchCO-Out.res'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
-      cmnd = '~/zgoubi/struct/tools/b_fai2Fai/fromBFai2Fai'
+      cmnd = '~/zgoubi/toolbox/b_fai2Fai/fromBFai2Fai'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
       cmnd = 'rm -f zgoubi.fai'
@@ -929,18 +929,18 @@ C----------------------------------------------------
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
 C Get Dx and Dy
-      cmnd = '~/zgoubi/struct/tools/getDiffFromFai/getDiffFromFai'
+      cmnd = '~/zgoubi/toolbox/getDiffFromFai/getDiffFromFai'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
 
 C Create gnuplots from tracking results
-      cmmnd = '~/zgoubi/struct/tools/searchCO/geneGnuPlots'
+      cmmnd = '~/zgoubi/toolbox/searchCO/geneGnuPlots'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
 
 C Write a log_CO.tex file containing the plots above and create log_CO.pdf
-      cmmnd = '~/zgoubi/struct/tools/searchCO/geneTexLog'
+      cmmnd = '~/zgoubi/toolbox/searchCO/geneTexLog'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)

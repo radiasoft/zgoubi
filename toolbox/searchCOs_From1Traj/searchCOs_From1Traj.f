@@ -63,20 +63,23 @@ C      call system('ln -sf lattice.data searchCO.data')
         write(*,*) ' ok (y/n, default is "y") ? '
         write(*,*) ' Otherwise edit and update the '//
      >  'searchCO.data file just created' 
-        read(*,fmt='(a)',err=77,end=77) rep
+        rep = 'y'
+c        read(*,fmt='(a)',err=77,end=77) rep
  77     continue
       endif
 
-      open(unit=lunIn,file='searchCO.data')
-      write(lunIn,*) titl(debstr(titl):finstr(titl))
-      write(lunIn,*) '  kaseV = ',kaseV
+      if(ierr.gt.1) then 
+        open(unit=lunIn,file='searchCO.data')
+        write(lunIn,*) titl(debstr(titl):finstr(titl))
+        write(lunIn,*) '  kaseV = ',kaseV
      >                  ,' ! 0 or 1 (w/ or w/o vertical motion)'
-      write(lunIn,*) '  nCO = ',nCO,' ! a few units (nb of co-s)'
-      write(lunIn,*) '  T1 = ',T1,' ! initial energy (eV)'
-      write(lunIn,*) '  T2 = ',T2,' ! final energy (eV)'
-      write(lunIn,*) '  precX = ',precX,' ! (cm) '
-      write(lunIn,*) '  precXp = ',precXp,' ! (mrad) '
-      close(lunIn)
+        write(lunIn,*) '  nCO = ',nCO,' ! a few units (nb of co-s)'
+        write(lunIn,*) '  T1 = ',T1,' ! initial energy (eV)'
+        write(lunIn,*) '  T2 = ',T2,' ! final energy (eV)'
+        write(lunIn,*) '  precX = ',precX,' ! (cm) '
+        write(lunIn,*) '  precXp = ',precXp,' ! (mrad) '
+        close(lunIn)
+      endif
 
       if(rep .eq. 'n' .or. rep .eq. 'N') stop 
 C-----------------------------
@@ -117,7 +120,7 @@ C          if(kobj.ne.2)  stop '  OBJET must be type KOBJ=2 '
             write(txt132,*) ' 1 ' 
             write(lunW,*) txt132(debstr(txt132):finstr(txt132))               
             write(6,*) ' OBJET/Kobj=2 created, assuming'
-     >      //  ' coordinates zero and p/p0=1. '
+     >      //  ' coordinates zero and p/pRef=1. '
             write(6,*) ' Press return to continue... '
             read(*,*)
 
@@ -126,14 +129,14 @@ C          if(kobj.ne.2)  stop '  OBJET must be type KOBJ=2 '
             write(lunW,*) kobj
 C Read till "IMAX IMAXT"
             read(lunR,*) imax, imaxt
-            if(imax.gt.1) stop ' Too many co''s...'
+            if(imax.gt.1) stop ' Give just one co in .dat file. ...'
             if(imax.lt.1) stop ' No  co in zgoubi_searchCO-In.dat !!'
             txt132 = ' 1  1'
             write(lunW,*) txt132(debstr(txt132):finstr(txt132))
 C Read all initial traj present in zgoubi_searchCO-In.dat
             do i=1,imax
               read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
-              write(*,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
+c              write(*,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
             enddo
 C Retains only traj #1
             if(jo.eq.1) then 
@@ -166,7 +169,7 @@ C Jump to the next keyword
 C Complete zgoubi.dat with the rest of zgoubi_searchCO-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
-            write(*,*) txt132(debstr(txt132):finstr(txt132))               
+c            write(*,*) txt132(debstr(txt132):finstr(txt132))               
 
 c               write(*,*) debstr(txt132)
 c               write(*,*) finstr(txt132)
@@ -189,19 +192,19 @@ c                read(*,*)
             write(6,*) ' particle mass and charge : ', am, q
 
 c            if(jo.eq.1) then 
-c              p0 = abs(BORO*CL9*Q/QE)
+c              pRef = abs(BORO*CL9*Q/QE)
 c              p1 = sqrt(T1 * (T1 + 2.d0* am*1.d6))/1.d6
 c              if(nCO.gt.1) then
 c                p2 = sqrt(T2 * (T2 + 2.d0* am*1.d6))/1.d6
-c                fac = (p2-p1)/p0/dble(nCO-1)
+c                fac = (p2-p1)/pRef/dble(nCO-1)
 c              else
 c                fac = 0.d0
 c              endif
 c            endif
-c            djnew = p1/p0 + fac*dble(jo)
+c            djnew = p1/pRef + fac*dble(jo)
 
             if(jo.eq.1) then 
-              p0 = abs(BORO*CL9*Q/QE)
+              pRef = abs(BORO*CL9*Q/QE)
               p1 = sqrt(T1 * (T1 + 2.d0* am*1.d6))/1.d6
               if(nCO.gt.1) then
                 fac = (T2-T1)/dble(nCO-1)
@@ -209,11 +212,18 @@ c            djnew = p1/p0 + fac*dble(jo)
                 fac = 0.d0
               endif
             endif
-            dT = fac * dble(jo)
-            pb = sqrt((T1+dT) * ((T1+dT) + 2.d0* am*1.d6))/1.d6
-            djnew = pb/p0
 
-c              write(*,*) ' t1, t2, dt, pb, p0, djnew = ',djnew
+            if(dt.gt.0.d0) then
+              dT = fac * dble(jo)
+            else
+              dT = fac * dble(jo-1)
+            endif
+
+            pb = sqrt((T1+dT) * ((T1+dT) + 2.d0* am*1.d6))/1.d6
+            djnew = pb/pRef
+
+c            write(*,*) ' t1, t2, dt, pb, pRef, djnew = ',
+c     >           t1, t2, dt, pb, pRef, djnew 
 c                read(*,*)
 
             
@@ -292,10 +302,15 @@ c         read(*,*)
           clorb(7,jok) = tav
           xjok = xav
           xpjok = xpav
+        endif  
+
+        write(6,*) ' jok / jo / nCO :    ', jok,' / ', jo,' / ', nCO
+        if(dt.gt.0.d0) then
+          if(jo.ge. nCO) goto 60
+        else
+          if(jo.gt. nCO) goto 60
         endif
 
-        write(6,*) ' jo / nCO :    ', jo,' / ',nCO
-        if(jo.ge. nCO) goto 60
         jo = jo+1
 
       goto 2
@@ -319,10 +334,11 @@ C Read/write "IMAX IMAXT"
         write(lunW,fmt='(i3,a)') jok,'  1'
 C Write all co coordinates (clorb(i,j)) into zgoubi_searchCO-Out.dat
         do j=1,jok
-          pj = p0 * (1.d0+clorb(6,j))
+          pj = pRef * (1.d0+clorb(6,j))
           Tj = sqrt(pj*pj+am*am) - am
           write(lunW,fmt=
-     >        '(1p,2e14.6,2e9.1,e9.1,e16.8,4a,f16.6,a,1x,i3)') 
+     >        '(1p,2(e14.6,1x),2(e9.1,1x),e9.1,1x,e16.8
+     >        ,4a,f16.6,a,1x,i5)') 
      >    clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),clorb(5,j),
      >    1.d0+clorb(6,j),' ','''',let(1),''' ',Tj/10.,' MeV ',j
         enddo
@@ -361,13 +377,13 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
 
       write(*,*) ' '
       write(*,*) '--------------'
-      write(*,fmt='(a,i2,a,i2,a)') 'zgoubi_searchCO-Out.dat contains ',
+      write(*,fmt='(a,i7,a,i7,a)') 'zgoubi_searchCO-Out.dat contains ',
      >jok,' co''s below (over ',nCO,' trajectories launched) :'
       do j=1,jok
-        pj = p0 * (1.d0+clorb(6,j))
+        pj = pRef * (1.d0+clorb(6,j))
         Tj = sqrt(pj*pj+am*am) - am
-        write(6,fmt='(1p, 2e14.6, 2e9.1, e16.8,
-     >        e14.6, 4a, e16.6, a, f16.6, a,1x,i3)') 
+        write(6,fmt='(1p, 2(e14.6,1x), 2(e9.1,1x), e16.8,1x,
+     >        e14.6, 4a, e16.6, a, f16.6, a,1x,i5)') 
      >  clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),
      >  clorb(5,j), 1.d0+clorb(6,j), 
      >    ' ','''',let(1),''' ',pj,' MeV/c, ',Tj/10.,' MeV ',j
@@ -379,10 +395,10 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
       endif
       open(unit=33,file='searchCO.temp')
       do j=1,jok
-        pj = p0 * (1.d0+clorb(6,j))
+        pj = pRef * (1.d0+clorb(6,j))
         Tj = sqrt(pj*pj+am*am) - am
-        write(33,fmt='(1p, 2e14.6, 2e9.1, e16.8,
-     >        e13.5, e16.8, 4a, f16.6, a, 2(1x, i3))') 
+        write(33,fmt='(1p, 2(e14.6,1x), 2(e9.1,1x), e16.8, 1x,
+     >        e13.5,1x, e16.8, 4a, f16.6, a, 2(i5,1x))') 
 C     >        e13.5, e16.8, 4a, f16.6, a, 2e12.4)') 
      >  clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),
      >  clorb(5,j), 1.d0+clorb(6,j), clorb(7,j),
@@ -428,12 +444,12 @@ C Read "IMAX IMAXT", write sampling
 C Write all co coordinates (clorb(i,j)) into zgoubi_searchCO-Out_MATRIX.dat
         read(lunR,fmt='(a)') txt132
         do j=1,jok
-          pj = p0 * (1.d0+clorb(6,j))
+          pj = pRef * (1.d0+clorb(6,j))
           Tj = sqrt(pj*pj+am*am) - am
           write(lunW,fmt=
-     >                '(1p,2e14.6,2e9.1,e9.1,e16.8,4a,f16.6,a,1x,i3)') 
+     >    '(1p,2(e14.6,1x),2(e9.1,1x),e9.1,1x,e16.8,4a,f16.6,a,1x,i5)') 
      >    clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),
-     >     clorb(5,j), 1.d0+clorb(6,j), !!!!!!clorb(7,j),
+     >    clorb(5,j), 1.d0+clorb(6,j), !!!!!!clorb(7,j),
      >          ' ','''',let(1),''' ',Tj/10.,' MeV ',j
         enddo
         do j=1,nCO-jok
@@ -505,20 +521,20 @@ C Read "IMAX IMAXT",  write "3*nCO 1"
 C Write all co coordinates (clorb(i,j)) and +/- samples
         read(lunR,fmt='(a)') txt132
         do j=1,jok
-          pj = p0 * (1.d0+clorb(6,j))
+          pj = pRef * (1.d0+clorb(6,j))
           Tj = sqrt(pj*pj+am*am) - am
           write(lunW,fmt=
-     >      '(1p,2e16.8,2e9.1,e9.1,e16.8,4a,f16.6,a)') 
+     >      '(1p,2(e16.8,1x),2(e9.1,1x),e9.1,1x,e16.8,4a,f16.6,a)') 
      >      clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),clorb(5,j),
-     >      1.d0+clorb(6,j),' ','''',let(1),''' ',Tj/10.,' MeV'
+     >      1.d0+clorb(6,j),' ','''',let(1),''' ',Tj/10.,' MeV '
           write(lunW,fmt=
-     >      '(1p,2e16.8,2e9.1,e9.1,e16.8,4a)') 
+     >      '(1p,2(e16.8,1x),2(e9.1,1x),e9.1,1x,e16.8,4a)') 
      >      clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),
-     >      clorb(5,j), 1.d0+clorb(6,j)*1.001,' ','''',let(1),''''
+     >      clorb(5,j), 1.d0+clorb(6,j)*1.001,' ','''',let(1),''' '
           write(lunW,fmt=
-     >      '(1p,2e16.8,2e9.1,e9.1,e16.8,4a)') 
+     >      '(1p,2(e16.8,1x),2(e9.1,1x),e9.1,1x,e16.8,4a)') 
      >      clorb(1,j), clorb(2,j), clorb(3,j), clorb(4,j),
-     >      clorb(5,j), 1.d0+clorb(6,j)*0.999,' ','''',let(1),''''
+     >      clorb(5,j), 1.d0+clorb(6,j)*0.999,' ','''',let(1),''' '
         enddo
         do j=1,nCO-jok
           read(lunR,fmt='(a)') txt132
@@ -581,7 +597,7 @@ C Read "IMAX IMAXT",  write "3*nCO 1"
 C Write all co coordinates (clorb(i,j)) and +/- samples
         read(lunR,fmt='(a)') txt132
         do j=1,jok
-          pj = p0 * (1.d0+clorb(6,j))
+          pj = pRef * (1.d0+clorb(6,j))
           Tj = sqrt(pj*pj+am*am) - am
           xx = clorb(1,j)+.1
           yy = clorb(3,j)+.1
@@ -590,9 +606,9 @@ C          yy = clorb(3,j)+.01
 C          xx = clorb(1,j)+.001
 C          yy = clorb(3,j)+.001
           write(lunW,fmt=
-     >      '(1p,2e16.8,2e9.1,e9.1,e16.8,4a,f16.6,a)') 
-     >      xx, clorb(2,j), yy, clorb(4,j),clorb(5,j),
-     >      1.d0+clorb(6,j),' ','''',let(1),''' ',Tj/10.,' MeV'
+     >    '(1p,2(e16.8,1x),2(e9.1,1x),e9.1,1x,e16.8,4a,f16.6,a)') 
+     >    xx, clorb(2,j), yy, clorb(4,j),clorb(5,j),
+     >    1.d0+clorb(6,j),' ','''',let(1),''' ',Tj/10.,' MeV '
         enddo
         do j=1,nCO-jok
           read(lunR,fmt='(a)') txt132

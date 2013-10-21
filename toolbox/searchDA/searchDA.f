@@ -549,7 +549,7 @@ C Completes zgoubi.dat with the rest of searchStabLim.temp2
 C-----------------------------------------------------------------------
 
 C Run zgoubi with single traj
-        cmnd = '~/zgoubi/source/zgoubi_intel'
+        cmnd = '~/zgoubi/source/zgoubi'
         write(*,*) cmnd
         call system(cmnd)
     

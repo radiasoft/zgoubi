@@ -46,8 +46,9 @@ C     *******************************************
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER(MXREF=99)
 
-      CHARACTER TXT132*132, STRA(3)*132
-      LOGICAL STRCON
+      CHARACTER(LEN=132) TXT132, STRA(3)
+      CHARACTER(LEN=80) TXT80
+      LOGICAL STRCON, OK
       INTEGER FINSTR
 
 C----- BORO
@@ -106,7 +107,10 @@ C----- Y-,T-,Z-,P-,S-,DP-,TI-REF
 C----- INIT flag (causes FO(j,i)=F(j,i) if A(NOEL,60)=0)
       READ(NDAT,*,ERR=99) A(NOEL,60)
 C----- Name of trajectory data storage file
-      READ(NDAT,100,ERR=99) TA(NOEL,2)
+      READ(NDAT,100,ERR=99) TXT80
+      OK = STRCON(TXT80,'!',
+     >                      IS)
+      IF(OK) TA(NOEL,2) = TXT80(1:IS-1)
  100  FORMAT(A80)
       RETURN
  
@@ -144,7 +148,8 @@ C----- IY, IZ, IX
      >                     IDUM,STRA) 
 C Get number of digits after '.' in IX, IY, IZ      
       DO I = 1, 3
-        IF(STRCON(STRA(I),'.',IS)) THEN 
+        IF(STRCON(STRA(I),'.'
+     >                       ,IS)) THEN 
           A(NOEL,22+I) = FINSTR(STRA(I)(IS:132))-IS
         ENDIF
       ENDDO

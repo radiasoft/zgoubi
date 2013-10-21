@@ -136,6 +136,7 @@ C-------- Axes  ( Full <-> Proportional)
  6    CONTINUE
 C------- Select pass number
         CALL READC2(5)
+        OKBIN=.FALSE.
       GOTO 98
 
  7    CONTINUE
@@ -155,6 +156,7 @@ C        IF(LM .NE. LM0) OKECH = .FALSE.
  8    CONTINUE
 C------- Select particle number
         CALL READC6(5)
+        OKBIN=.FALSE.
       GOTO 98
 
  10   CONTINUE

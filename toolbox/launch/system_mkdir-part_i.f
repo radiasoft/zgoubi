@@ -52,7 +52,7 @@
         cmmnd = '(cd '
      >  //'part'//txt9(debstr(txt9):finstr(txt9))//'_'
      >          //dmy//'.'//hms(debstr(hms):finstr(hms))
-     >  //' ; ~/zgoubi/SVN/current/zgoubi/zgoubi_intel '
+     >  //' ; ~/zgoubi/SVN/current/zgoubi/zgoubi '
      >  //' < zgoubi.dat > echo '
      >  //')'
         write(*,*) cmmnd

@@ -508,7 +508,7 @@ C----------------------------------------------------
       cmnd = 'cp -f zgoubi_scanTune_Trk.dat zgoubi.dat'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
-      call system('~/zgoubi/source/zgoubi_intel')
+      call system('~/zgoubi/source/zgoubi')
       cmnd = 'mv -f zgoubi.res zgoubi_scanTune_Trk.res'
       write(*,*) '++++++ ',cmnd
       call system(cmnd)
@@ -621,7 +621,7 @@ C     --------------------------------------
  2    continue
 
 C Run zgoubi with single traj
-      call system('~/zgoubi/source/zgoubi_intel')
+      call system('~/zgoubi/source/zgoubi')
 
 C Get initial Traj coord, and average orbit, from zgoubi.res
       call getPUs_Av(

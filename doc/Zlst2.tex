@@ -2735,9 +2735,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \textsl{YR, TR, ZR, PR,}   \>Reference. Given the previous line of data,     \>2(cm, mrad), \>  7*E \\
 \textsl{XR, DR, TR}       \> all coordinate C is transformed to C*CF+CR \> cm, no dim.,$\mu$s     \>\\
 \\
- \textsl{InitC}     \> 0~: set $new~\vec R_0 = old~\vec R_0$, $new~\vec R = old~\vec R$~;      \> 0-1 \> I  \\
-              \> 1 : set $new~\vec R_0 = old~\vec R$, $new~\vec R = old~\vec R$~; \\
-              \> 2 : save $old~\vec R$ in $new~\vec R_0$, set $new~\vec R = old~\vec R_0$. \\
+ \textsl{InitC}     \> 0~: set $new~\vec R_0 = \vec R_0~as~read$, $new~\vec R = \vec R~as~read$~;      \> 0-1 \> I  \\
+              \> 1 : set $new~\vec R_0 = \vec R~as~read$, $new~\vec R = \vec R~as~read$~; \\
+              \> 2 : save $\vec R~as~read$ in $new~\vec R_0$, set $new~\vec R = \vec R_0~as~read$. \\
  \\
  \textsl{FNAME}        \>File name (\emph{e.g.},  zgoubi.fai\index{zgoubi.fai})  \> \>A80 \\
                        \> (NN in KOBJ=3.NN determines storage FORMAT)

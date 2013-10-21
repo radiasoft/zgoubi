@@ -103,8 +103,8 @@ c      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=801, MXY=201)
+ccccccccccc      PARAMETER (IZ=30 , ID=3, MMAP=8)
+ccccccccccc      PARAMETER (MXX=801, MXY=201)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 
@@ -113,8 +113,9 @@ c      PARAMETER (IZ=1 , ID=3, MMAP=1)
 c      PARAMETER (MXX=71, MXY=151)
 
 CC Daedalus cyclo
-c      PARAMETER (IZ=1 , ID=3, MMAP=6)
-c      PARAMETER (MXX=121, MXY=601)
+      PARAMETER (IZ=1 , ID=3, MMAP=6)
+c      PARAMETER (MXX=121, MXY=600)
+      PARAMETER (MXX=721, MXY=600)   ! full cyclo map
 
 CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- GSI KAOS

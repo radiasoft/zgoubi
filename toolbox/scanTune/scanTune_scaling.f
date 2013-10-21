@@ -190,7 +190,7 @@ C            write(lunW,*) Brho
 
         close(lunW)
        
-        cmnd = '~/zgoubi/source/zgoubi_intel'
+        cmnd = '~/zgoubi/source/zgoubi'
         write(*,*) '++++++ ',cmnd
         call system(cmnd)
 

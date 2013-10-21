@@ -66,8 +66,8 @@ C  -------
      >, /,8X,'18, 19 :   phi-phi_s (rad),  dp/p  '                    
      >,//,'   SPIN:'
      >, /,8X,'21,22,23,24 :    S_X, S_Y, S_Z, <S>'
-     >, /,8X,'25,26,27 :  .fai : (S_X,S_Y),*,* '//
-     >      '/ .spn : sumS_X,_Y,_Z/#turns ')
+     >, /,8X,'25,26,27 :  .fai : (S_X,S_Y),*,* / .spn : sumS_X,_Y,_Z/#t
+     >rns ')
  117  FORMAT(
      >  /,'   HISTOGRAM :'
      >, /,8X,'28: Counts'

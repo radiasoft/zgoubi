@@ -376,7 +376,7 @@ C Complete zgoubi_spinN0FIT-Out.dat from content of zgoubi_searchCO_short-Out.da
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
-      cmmnd = '~/zgoubi/SVN/current_intel/zgoubi/zgoubi_intel'
+      cmmnd = '~/zgoubi/SVN/current/zgoubi/zgoubi'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)

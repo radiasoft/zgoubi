@@ -226,7 +226,7 @@ rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H
 rdips.o: $(INC)/MXLD.H
-readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H $(INC)/FRMSPN.H
+readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H $(INC)/FRMSPN.H $(INC)/MAXTRA.H
 rebmul.o: $(INC)/MXLD.H
 rel2tu.o: $(INC)/MXLD.H
 relcmi.o: $(INC)/MXLD.H

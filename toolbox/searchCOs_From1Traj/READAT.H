@@ -123,14 +123,14 @@ C For compatibility with earlier version of dataFile
      >                       IS)
         read(txt132(IS+1:132),*) precX
         write(*,*) ' precX = ', precX
-		    read(*,*)
+C		    read(*,*)
       elseif (STRCON(txt132(1:7),'precXp',6,
      >                       IS)) then
         ok=STRCON(txt132,'=',1,
      >                       IS)
         read(txt132(IS+1:132),*) precXp
         write(*,*) ' precXp = ', precXp
-				    read(*,*)
+C				    read(*,*)
       elseif (STRCON(txt132(1:6),'DltACN',6,
      >                       IS)) then
         ok=STRCON(txt132,'=',1,
