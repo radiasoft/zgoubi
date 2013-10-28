@@ -135,6 +135,16 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           CALL KSMAP4(NOMFIC,NFIC,
      >                          NEWFIC,NBMAPS,IMAP)
 
+        ELSEIF(MOD .EQ. 3) THEN
+          I1=1
+          I2 = 1
+          NFIC=1
+          NAMFIC = TA(NOEL,2)
+          NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+
+          CALL KSMAP4(NOMFIC,NFIC,
+     >                          NEWFIC,NBMAPS,IMAP)
+
           IF(MOD2 .EQ. 1) THEN
 C TOSCA 2D map for the AGS main magnet 
 C dB1, dB2, dB3
@@ -182,7 +192,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
           ENDDO       
 
         ELSE
-          STOP ' *** Error. SBR TOSCAC. No such MOD value '
+          CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
 
       ELSEIF(NDIM .EQ. 3 ) THEN
@@ -211,7 +221,7 @@ C          Each one of these files should contain the all 3D volume.
           I1=1
           I2 = MOD2
         ELSE
-          STOP ' *** Error. SBR TOSCAC. No such MOD value '
+          CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
 
         NFIC=0

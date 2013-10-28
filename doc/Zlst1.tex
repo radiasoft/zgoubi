@@ -8405,7 +8405,7 @@ B. Same  structure, with backward ray-tracing from image to object~: negative in
 \subsubsection{Checking Fields and Trajectories Inside Optical Elements}  \label{sec4.6.1}
 \index{checking field}\index{checking trajectories}
 
-In all optical elements, an option $ \IL $\index{IL@{\IL}} is available.  It
+{\small $\bullet$} In all optical elements, an option $ \IL $\index{IL@{\IL}} is available.  It
 is normally set to $\IL =0$ and in this case has no effect.
 
 \noindent $ \IL=1 $ causes a print  in zgoubi.res \index{zgoubi.res} of particle 
@@ -8416,6 +8416,8 @@ the values of $ \vec  \nabla \cdot\vec  B$,
 integration steps is performed, which allows a check of the behavior of 
 $ \vec  B $ (or $ \vec  E $) in field maps (all these derivatives should normally be zero).
 
+\medskip
+
 \noindent $ \IL=2 $ causes a print   of particle coordinates and other 
 informations into the file  zgoubi.plt\index{zgoubi.plt} at each integration step~; this information 
  can further be processed with 
@@ -8423,9 +8425,39 @@ informations into the file  zgoubi.plt\index{zgoubi.plt} at each integration ste
 that storage file (when dealing with small step size, large number of particles, etc.) it is possible 
 to print out  every other $10^n$ integration step by taking $ \IL=2 \times 10^n $ (for instance, 
  $ \IL=200 $ would cause output into zgoubi.plt every $100$ other step). 
+
 \medskip
 
-\noindent When dealing with field  maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
+\noindent $ \IL=7 $ causes a print   of particle coordinates, fields, field derivatives  and other 
+informations into the file  zgoubi.impdev.out\index{zgoubi.impdev.out|textbf}, 
+one line of data  at each integration step. This information 
+ can be further  plotted (\eg, using \zpop, or gnuplot). 
+An example is given in fig.~\ref{figK1K2AGS}, a plot of the quadrupole and sextupole 
+field indices along the reference orbit 
+in a combined function main dipole pertaining to the AGS lattice~\cite{AGSModel}. 
+
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+%\vspace{1cm}
+\begin{figure}[h]
+%\vspace{4.5 truecm}
+%%%Figure 6
+\centering
+    \includegraphics*[width=.4\linewidth]{gnuplot_bderiv_DB.eps}
+    \includegraphics*[width=.4\linewidth]{gnuplot_bderiv_DDB.eps}
+{\setlength{\captionwidth}{0.7\linewidth}
+\hangcaption[figK1K2AGS]{\label{figK1K2AGS} 
+Typical field and derivatives, here, along the 10~GeV proton orbit across an AGS A-type main magnet. 
+They are obtained from second degree polynomial interpolation from the magnet measured field map. 
+Left~: $dB_Z(s)/dY$ and $dB_Y(s)/dZ$ , bottom~: $d^2B_Z(s)/dY^2$, $d^2B_Y(s)/dZdY$, $d^2B_Y(s)/dYdZ$.
+These data were  stored in zgoubi.impdev.out\index{zgoubi.impdev.out|textbf} during execution, 
+by stating $\IL=7$ under \textsl{TOSCA} keyword. 
+}}
+\end{figure}
+%
+
+\medskip
+
+\noindent {\small $\bullet$} When dealing with field  maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
 \index{ELREVOL}, TOSCA\index{TOSCA}}), an option index $ \IC $\index{IC@{\IC}} is available.
   It is normally set to $\IC =0$ and in this case has no effect.
  

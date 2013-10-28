@@ -60,7 +60,8 @@ integer (I), real (E) or text string (A). For example, ``I, 3*E''
            \>\textbf{\AGSMMTitl}\> \>\\
 \\
 \\
- $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
  \\
 \textsl{MOD[.MOD2]},  $dL$,   \> Type of magnet model~\footnotemark[1]~[type of back-leg winding model~\footnotemark[2]]~; \> 2*no dim., cm, \>I[.I], 5*E\\     
 $R_0$, $dB1$, $dB2$, $dB3$ \> unused~; pole tip radius, 10~cm if set to zero~; relative  \>  3*no dim. \>\\     
@@ -242,7 +243,9 @@ MM\_G09BF~:
            \>\textbf{\AGSQUADTitl}\> \>\\
 \\
 \\
- $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
  \\
  $\XL$, $R_0$, $IW1$, $IW2$,  $IW3$,   \>Length of element~; radius at pole tip~; current in windings~; \>2*cm,3*A \>5*E\\     
 $dIW1$,  $dIW2$,  $dIW3$ \>relative error on currents. \> 3*no dim\>3*E\\
@@ -290,9 +293,11 @@ $N$, $EB1$, $EB2$, $EG1$, \quad \=
     +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM} \right)^3 \right) $ \> \> \\
 \\
 \\
- \textsl{NFACE}, $\IC$, $\IL$        \>Number of field boundaries \>2-3, 0-2, 0-2$[\times 10^n]$ \>3*I\\
+ \textsl{NFACE}, $\IC$, $\IL$        \>Number of field boundaries \>2-3; 0-2; 0-2$[\times 10^n]$, 7 \>3*I\\
  \>$\IC=1,2$ : print field map  \\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \\
+  \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$, 7 : print field and coordinates along trajectories. \\
  \\
  \textsl{IAMAX, IRMAX}        \>Azimuthal and radial number of nodes of the mesh \>$\leq 400$,
          $\leq \imax  $\>2*I\\
@@ -504,7 +509,9 @@ $A_Y, ~ A_Z, ~ A_X$   \> Amplitudes, horizontal, vertical, longitudinal. \>  -, 
 \textbf{BEND}  \label{BEND-B} \index{BEND|textbf} \>  \textbf{\BENDTitl} \> \> \\
  \\
  \\
- $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
   \\
 $ \XL$, $Sk$, $B1 $      \>Length~; skew angle~; field \>cm, rad, kG \>3*E \\
   \\
@@ -590,8 +597,10 @@ If FRM=1             \>   Format is '1X,7E11.*' \\
  \>$X$-axis cylindrical symmetry is assumed \>\>\\
  \\
  \\
- $\IC$, $\IL$      \>$\IC=1,2$ : print the map \>0-2, 0-2$[\times 10^n]$ \>2*I\\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
+ $\IC$, $\IL$      \>$\IC=1,2$ : print the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
+    \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
  \textsl{BNORM, XN}      \> Field and X-coordinate normalization  coeff.
             \> 2*no dim. \> 2*E \\
@@ -651,8 +660,10 @@ myMapFile3
 \>mid-plane symmetry is assumed \>\>\\
  \\
  \\
- $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2, 0-2$[\times 10^n]$ \>2*I\\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
+ $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
+    \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
  \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.
             \> 3*no dim. \> 3*E \\
@@ -995,7 +1006,9 @@ $V_{min}$, $V_{max}$  \> J=1 or 2 for vertical variable resp$^\textrm{ly}$ 1+dp/
   \> \textbf{\DECAPOLETitl}   \> \> \\
   \\
   \\
- $\IL$        \> $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \>0-2$[\times 10^n]$ \>I \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$        \> $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \>0-2$[\times 10^n]$ \>I \\
  \\
  $\XL$, $R_0$, $B_0 $ \>Length~; radius and field at pole tip  \>2*cm, kG \>3*E \\
  \\
@@ -1045,7 +1058,9 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
  \left(\frac{R-RM}{RM} \right)^2+G \left(\frac{R-RM}{RM} \right)^3 \right) $ \> \> \\
  \\
  \\
- $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
  $AT$,  $RM$       \> Total angular extent  of the dipole~;  reference radius \> deg, cm \> 2*E\\
  \\
@@ -1142,9 +1157,11 @@ $ RM3$   \> \> \> \\
  \left(\frac{R-RM}{RM} \right)^2+G \left(\frac{R-RM}{RM} \right)^3 \right) $ \> \> \\
  \\
  \\
- \textsl{NFACE}, $\IC$, $\IL$        \>Number of field boundaries \>2-3, 0-2, 0-2$[\times 10^n]$ \>3*I\\
+ \textsl{NFACE}, $\IC$, $\IL$        \>Number of field boundaries \>2-3; 0-2; 0-2$[\times 10^n]$, 7 \>3*I\\
  \>$\IC=1,2$ : print field map \> \> \\
- \>$\IL=1,2$ : print field and coordinates on trajectories\>\>\\
+   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2$ : print field and coordinates on trajectories\>\>\\
  \\
  \textsl{IAMAX}, \textsl{IRMAX}   \>Azimuthal and radial number of nodes of the mesh 
          \>$\leq 400$, $\leq 200$  \>2*I\\
@@ -1276,7 +1293,9 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  \>(ii) $ B_Z=  \Bz_{0,i} \, + \, \sum_{i=1}^N  \mathcal{F}_i(R,\theta) \, 
 \left( b_{1_i} (R-RM_{i}) + b_{2_i} (R-RM_{i})^2 +... \right)$ \> \> \\
  \\
- $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
  $N$, $AT$,  $RM$       \> Number of magnets in the $N$-tuple~;  \> no dim.,  \> I, 2*E\\
        \> total angular extent  of the dipole~;  reference radius \> deg, cm \>   \\
@@ -1377,7 +1396,9 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 \> \textbf{\DODECAPOTitl}   \> \> \\
  \\
  \\
- $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
  \\
  $\XL$, $ R_0$, $B_0 $ \>Length~; radius and field at pole tip  \>2*cm, kG \>3*E \\
  \\
@@ -1437,7 +1458,9 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
           \> \textbf{\EBMULTTitl} \> \> \\
  \\
  \\
- $\IL$                 \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> 0-2$[\times 10^n]$ \>\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$                 \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> 0-2$[\times 10^n]$ \>\\
  \\
  \>\textbf{Electric poles} \>\>\\
  $\XL$, $R_0$, $E1$, $E2$, ..., $E10$  \>Length of element~; radius at pole tip~;
@@ -1524,7 +1547,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$
           \>\textbf{\ELTwoTUBTitl}\ \>\>\\
  \\
  \\
- $\IL$          \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$          \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\>I\\
  \\
 $ X_1$, $D$, $X_2$, $R_0 $  \>Length of first tube~; distance between tubes~; \>3*m \>4*E\\
  \>length of second tube~; inner radius \>\>\\
@@ -1555,7 +1580,9 @@ $ V_1$, $V_2 $       \>Potentials \>2*V \>2*E \\
      \> \textbf{\ELMIRTitl} \> \> \\
   \\
 \\
-  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+%  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
   \\
 N,$L\!1$, ..., $L\!N$, $D$, \textsl{MT}   \> Number of  electrodes~; electrode lengths~; gap~; \> $2-7$, N*m, m \> I, N*E, E, I \\
   \> mode (11/H-mir, 12/V-mir, 21/V-lens, 22/H-lens)\>  \> \\
@@ -1588,7 +1615,9 @@ $V\!1$, ..., $V\!N$ \> Electrode potentials (normally $V\!1=0$)  \> N*V \> N*E \
      \> \textbf{\ELMIRCTitl} \> \> \\
   \\
 \\
-  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+%  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
   \\
 $R1$, $R2$, $A\!T$, $D$ \> Radius of first and second slits~; total deviation \> 4*m \> 4*E \\
   \> angle~; gap \> 2*m, rad, m \> 4*E \\
@@ -1619,7 +1648,9 @@ $V-V\!A$, $V\!B-V$ \> Potential difference \> 2*V \> 2*E \\
            \> \textbf{\ELMULTTitl }\> \> \\
  \\
  \\
- $\IL$                 \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\>  0-2$[\times 10^n]$ \> I \\ 
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$                 \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\>  0-2$[\times 10^n]$ \> I \\ 
  \\
  $\XL$, $R_0$, $E1$, $E2$,  ..., $E{10}$ \>Length of element~; radius at pole tip~;
         \>2*cm, 10*V/m \>12*E\\
@@ -1667,8 +1698,10 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  \>$X$-axis cylindrical symmetry is assumed \>\>\\
  \\
  \\
- $\IC$, $\IL$      \>$\IC=1,2$ : print the map \>0-2, 0-2$[\times 10^n]$ \>2*I\\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
+ $\IC$, $\IL$      \>$\IC=1,2$ : print the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
+   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
  \\
  \textsl{ENORM, X-NORM}      \> Field and X-coordinate normalization  coeff.
             \> 2*no dim. \> 2*E \\
@@ -1723,7 +1756,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
      \> \textbf{\EMMATitl} \> \> \\
  \\
  \\
- $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2$[\times 10^n]$ \>2*I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2$[\times 10^n]$ \>2*I\\
  \\
  \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients \> 4*no dim. \> 4*E \\
  \\
@@ -1824,7 +1859,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \> {\bf UNDER DEVELOPMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
  \\
- $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
  $N$, $AT$,  $RM$       \> Number of dipoles in the FFAG $N$-tuple~;  \> no dim.,  \> I, 2*E\\
        \> total angular extent  of the dipole~;  reference radius \> deg, cm \>   \\
@@ -1909,7 +1946,9 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 \> {\bf UNDER DEVELOPMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
  \\
- $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
  $N$, $AT$,  $RM$       \> Number of dipoles in the FFAG $N$-tuple~;  \> no dim.,  \> I, 2*E\\
        \> total angular extent  of the dipole~;  reference radius \> deg, cm \>   \\
@@ -2272,8 +2311,10 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
    \> \textbf{\MAPTwoDTitl} \> \> \\
   \\
   \\
- $\IC$, $\IL$        \> $\IC=1,2$ : print the field map \>0-2, 0-2$[\times 10^n]$ \>2*I \\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
+ $\IC$, $\IL$        \> $\IC=1,2$ : print the field map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I \\
+  \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
  \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.
             \> 3*no dim. \> 3*E \\
@@ -2330,8 +2371,10 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :}
    \> \textbf{\MAPTwoDETitl} \> \> \\
   \\
   \\
- $\IC$, $\IL$        \> $\IC=1,2$ : print the field map \>0-2, 0-2$[\times 10^n]$ \>2*I \\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
+ $\IC$, $\IL$        \> $\IC=1,2$ : print the field map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I \\
+  \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
  \textsl{ENORM, X-,Y-NORM}      \> Field and X-,Y-coordinate normalization  coeffs.
             \> 2*no dim. \> 2*E \\
@@ -2457,7 +2500,7 @@ $[$INFO,$]$~\footnotemark[2] $M2$, $M3$, $\tau2$~\footnotemark[3]    \> $[$Switc
 for the definition of the mass and lifetime of the incoming particle M1. } 
 
 \footnotetext[2]{~ Presence of 'INFO' will cause more info on 
-decay kinematics parameters to be  printed into zgoubi.res  at each decay.}
+decay kinematics parameters to be  printed zgoubi.res  at each decay.}
 
 \footnotetext[3]{~  $\tau2$ can be left blank, in which case the lifetime of particle~2
 is set to zero (it decays immediately, which from a practical point of view means that it is not tracked).}
@@ -2630,7 +2673,9 @@ Bottom~: A 2-D grid in ($ Y, Z $) space.
            \> \textbf{Magnetic Multipole}  \> \> \\
  \\
  \\
- $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>0-2$[\times 10^n]$ \>I\\
  \\
  $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
 \>2*cm,10*kG \>12*E\\     
@@ -2873,7 +2918,9 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$ \> \>2(cm,mrad),   \>
 \textbf{OCTUPOLE}         \label{OCTUPOLE-B} \index{OCTUPOLE|textbf}
         \> \textbf{\OCTUPOLETitl}    \> \> \\
  \\
- $\IL$  \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$\>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$  \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$\>I\\
  \\
  $\XL$, $R _0$, $B_0 $ \>Length~; radius and field at pole tip of the element \>2*cm, kG \>3*E\\
  \\
@@ -3076,8 +3123,10 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \quad  \= $ID=2$ : entrance ($A,B,C$) and exit
       \>\textbf{\POISSONTitl} \>\>\\
  \\
  \\
- $\IC$, $\IL$      \>$\IC=1,2$ : print the field map \>0-2, 0-2$[\times 10^n]$ \>2*I\\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
+ $\IC$, $\IL$      \>$\IC=1,2$ : print the field map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
+  \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
  \\
  \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.
             \> 3*no dim. \> 3*E \\
@@ -3133,8 +3182,10 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'} :}
 \>mid-plane symmetry is assumed \>\>\\
  \\
  \\
- $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2, 0-2$[\times 10^n]$ \>2*I\\
- \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
+ $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
+   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
   \textsl{BNORM, AN,RN}      \> Field and A-,R-coordinate normalization  coeffs.
             \> 3*no dim. \> 3*E \\
@@ -3196,7 +3247,9 @@ of the mesh. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or '
           \>\textbf{\PSusoTitl} \>\>\\
  \\
  \\
- $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
  \\
  $\XL$, $R_0$, $B_0 $ \>Length of the element, radius of the circular \>2*cm, kG \>3*E\\
  \>dipole, field \>\>\\
@@ -3223,7 +3276,7 @@ of the mesh. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or '
 
 \begin{tabbing}
 $ N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \= 
-    $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\quad \=
+    $\IL=1,2[\times 10^n]$, 7 : print field and coordinates along trajectories.\quad \=
         1-2, 2*cm, rad\quad \= \kill
 %%%
 \textbf{QUADISEX}         \label{QUADISEX-B} \index{QUADISEX|textbf}
@@ -3232,7 +3285,9 @@ $ N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
               \frac{G}{R^3_0} Y^3 \right) $  \> \> \\
  \\
  \\
-$\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+%$\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
  \\
  $\XL$, $R_0$, $B_0 $ \>Length of the element~; normalization distance~; field \>2*cm, kG \>3*E\\
  \\
@@ -3254,7 +3309,9 @@ $ N$, $EB1$, $EB2$, $EG1$, $EG2$ \>Coefficients for the calculation of B. \>5*no
   \> \textbf{\QUADRUPOTitl }  \> \> \\
  \\
   \\
- $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
  \\
  $\XL$, $R_0$,$B_0 $ \>Length~; radius and field at pole tip \>2*cm, kG \>3*E \\
  \\
@@ -3446,7 +3503,9 @@ $N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
       \frac{B}{R^2_0} Y^2 + \frac{G}{R^3_0} Y^3 \right)$ \> \> \\
   \\
 \\
- $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I\\
  \\
 $ \XL$, $R_0 $, $B_0 $ \>Length of the element~; normalization distance~; field \>2*cm, kG 
          \>3*E\\
@@ -3470,7 +3529,9 @@ $ \XL$, $R_0 $, $B_0 $ \>Length of the element~; normalization distance~; field 
 \textbf{SEXTUPOL }           \label{SEXTUPOL-B} \index{SEXTUPOL|textbf}
           \> \textbf{Sextupole Magnet }  \> \> \\
  \\
- $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$        \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \>I \\
  \\
  $\XL$, $ R_0$,$B_0 $ \>Length~; radius and field at pole tip of the element \>2*cm, kG \>3*E \\
  \\
@@ -3532,7 +3593,9 @@ $ X_S$, $\lambda_ S $    \>Parameters for the exit fringe field~; see entrance \
      \> \textbf{SOLENOIDTitl} \> \> \\
  \\
  \\
- $\IL$  \> $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$\>I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$  \> $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$\>I\\
  \>\>\>\\
  $\XL$, $R_0 $, $B_0 $     \>Length~; radius~; asymptotic field (=$ \mu_0 NI/\XL $)  
         \>2*cm, kG \>3*E \\
@@ -3594,7 +3657,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \textbf{SPNPRT}        \label{SPNPRT-B} \index{SPNPRT|textbf}
      \> \textbf{Print spin coordinates} \>  \\
 \\
- \> Print spin coordinates into zgoubi.res, at the location where this \\
+ \> Print spin coordinates zgoubi.res, at the location where this \\
  \> keyword is introduced in the structure. \\
   \end{tabbing}
  
@@ -3612,7 +3675,7 @@ $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \textbf{SPNTRK~\footnotemark[1]}        \label{SPNTRK-B} \index{SPNTRK|textbf}\index{spin tracking}
      \> \textbf{Spin tracking} \> \> \\
  \\
-\textsl{KSO} \> \textsl{KSO=0}~: spin tracking [switched] off~; \textsl{KSO=-1}~: spin  tracking  \> -1 or 0 or  \> I \\
+\textsl{KSO} \> \textsl{KSO=0}~: spin tracking [switched] off~\footnotemark[2]~; \textsl{KSO=~-1}~: spin  tracking  \> -1 or 0 or  \> I \\
              \>   resumes. Otherwise~: as stated below.                                        \> 1-3 0r 4[.1] or 5 \>  \\
 \\
 \textbf{If KSO = 1 --  3} \> \textsl{KSO} = 1 (respectively 2, 3) : all particles \\
@@ -3642,6 +3705,10 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \footnotetext[1]{~ \textsl{SPNTRK} must be preceded by \textsl{PARTICUL} for
  the definition of $G$ and mass.}
 
+\footnotetext[2]{~ Spin tracking can be switched off at any location in zgoubi.dat data list using \textsl{KSO=0}, 
+and further away resumed using \textsl{KSO=~-1}.}
+
+
 
 
 \newpage
@@ -3650,14 +3717,14 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \begin{tabbing}
 \mestab
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
-     \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
+     \> \textbf{\SRLOSSTitl}\index{synchrotron radiation energy loss} \> \> \\
  \\
-\textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.out}       \> $0-1[.0-.1]$  \> 2*I \\
+\textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.out}       \> $0~or~1[.1]$  \> 2*I \\
 \\
-\textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL'} or \textsl{'all'} or a particular  KEYWORD~;  \> 2*A \\
+\textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL'} or \textsl{'all'} or a particular  KEYWORD~;  \> \> 2*A \\
                     \> \textsl{STR2 = 'scale'} will scale fields with energy loss.              \>  \\
  \\
-\textsl{Option}, seed \>  Option~: 0 / no effect, 1 / SR causes dp only,   \> $1-3$,  $>10^5$ \> I \\
+\textsl{Option}, seed \>  Option~: 0 / no effect, 1 / SR causes dp only,   \> $1-3$,  $>10^5$ \> 2*I \\
                 \>  2 / SR causes dp and angle kick (not installed).  \> \\
 
   \end{tabbing}
@@ -3731,7 +3798,9 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
      \> \textbf{\TOSCATitl} \> \> 
  \\
  \\
- $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2 \>2*I\\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2 \>2*I\\
  \\
  \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients \> 4*no dim. \> 4*E \\
  \\
@@ -3956,7 +4025,9 @@ delivery (print out to zgoubi.res) of
      \> \textbf{Unipotential electrostatic lens} \> \> \\
   \\
 \\
-  $\IL$            \>$\IL=1,2$ : print field and coordinates along trajectories  \>  0-2$[\times 10^n]$ \>    \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+%  $\IL$            \>$\IL=1,2$ : print field and coordinates along trajectories  \>  0-2$[\times 10^n]$ \>    \\
   \\
 $X_1$, $D$, $X_2$, $X_3$, $R_0$ \> Length of first tube~; distance between \> 5*m \> 5*E \\
 \> tubes~; length of second and third tubes~; radius \\
@@ -3988,7 +4059,9 @@ $V_1$, $V_2$ \> Potentials \> 2*V \> 2*E \\
      \> \textbf{Simulation of a rectangular dipole magnet} \> \> \\
  \\
  \\
- $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \> I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+% $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$ \> I  \\
   \\
 $ \XL$, $YL$, $B_0 $      \>Length~; width = $ \pm YL $~; field \>2*cm, kG \>3*E \\
 \\
@@ -4016,7 +4089,9 @@ $ \XL$, $YL$, $B_0 $      \>Length~; width = $ \pm YL $~; field \>2*cm, kG \>3*E
      \> \textbf{Wien filter} \> \> \\
  \\
  \\
-  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+%  $\IL$            \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> 0-2$[\times 10^n]$\> I  \\
   \\
 $ \XL$, $E$, $B$, $HV$      \>Length~; electric field~; magnetic field~; \> m, V/m, T, 
 		\>3*E, I \\

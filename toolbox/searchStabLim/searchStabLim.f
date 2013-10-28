@@ -378,7 +378,7 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
         write(*,*)  '///////////////////////////////////////'
         write(*,*)  '  '
         call system('~/zgoubi/source/zgoubi')
-        call system('~/zgoubi/struct/tools/tunesFromFai/tunesFromFai')  
+        call system('~/zgoubi/toolbox/tunesFromFai/tunesFromFai')  
         if    (HV .eq. 'V') then
           call system('mv -f b_zgoubi.fai b_zgoubi.fai_V')
           call system('mv -f tunesFromFai.out tunesFromFai.out_V')

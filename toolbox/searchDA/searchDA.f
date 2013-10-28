@@ -74,7 +74,7 @@ C     >'H ',prec,-abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
       close(lunw)
 !   2.b search x-. This will also create zgoubi_StabLim-Out.dat_H
       call system(
-     >'~/zgoubi/struct/tools/searchStabLim/searchStabLim')
+     >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   2.c Read x-
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
       do i = 1, 5
@@ -105,7 +105,7 @@ C     >'H ',prec, abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
       close(lunw)
 !   3.b search x+. This will also create zgoubi_StabLim-Out.dat_H
       call system(
-     >'~/zgoubi/struct/tools/searchStabLim/searchStabLim')
+     >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   3.c Read x+
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
       do i = 1, 5
@@ -136,7 +136,7 @@ C     >'V ',prec, abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
       close(lunw)
 !   4.b search z0. This will also create zgoubi_StabLim-Out.dat_V
       call system(
-     >'~/zgoubi/struct/tools/searchStabLim/searchStabLim')
+     >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   4.c Read z0
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_V')
       do i = 1, 5

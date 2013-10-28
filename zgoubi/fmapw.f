@@ -998,7 +998,7 @@ C 12        CONTINUE
                    ZBMI = ZBMI * ZNORM
 
       ELSEIF(MOD.EQ.3) THEN
-C------- AGS magnet maps (2D map, half-magnet, symmetrized wrt YZ plane at 45inches)
+C------- AGS magnet maps (2D map, half-magnet, symmetrized wrt YZ plane - at 45inches in A and C type)
 
            K = 1
            

@@ -1,3 +1,5 @@
+#FC=gfortran
+#FFLAGS=-O4 -Wall -fno-automatic -pedantic
 CFLAGS=-g -DGFORTRAN4
 FC=ifort
 FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save -shared-intel

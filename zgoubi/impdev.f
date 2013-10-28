@@ -95,11 +95,11 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
             FIRST = .FALSE. 
             IF(IDLUNI(
      >                LUN)) THEN
-              OPEN(UNIT=LUN,FILE='zgoubi.impdev.Out')
+              OPEN(UNIT=LUN,FILE='zgoubi.impdev.out')
               OKIMP = .TRUE.
             ELSE
               OKIMP = .FALSE.
-              WRITE(6,*)' SBR impdev. Could not opem zgoubi.impdev.Out.'
+              WRITE(6,*)' SBR impdev. Could not opem zgoubi.impdev.out.'
             ENDIF
           
             IF(OKIMP) WRITE(LUN,FMT='(A,/,A)')
@@ -111,18 +111,18 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
  
           IF(OKIMP) THEN
             WRITE(LUN,109) QBR/(Q*BORO), Y, T, Z, P, X, SAR
-     >      ,( B(1,J),J=1,3)
-     >      ,(( DB(I,J)  ,I=1,3),J=1,3)
-     >      ,((( DDB(I,J,K)  ,I=1,3), J=1,3), K=1,3)
-     >      ,((( D3BX(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
-     >      ,((( D3BY(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
-     >      ,((( D3BZ(I,J,K) ,I=1,3) ,J=1,3) ,K=1,3)
-     >      ,((((D4BX(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
-     >      ,((((D4BY(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
-     >      ,((((D4BZ(I,J,K,L) ,I=1,3),J=1,3),K=1,3),L=1,3)
-     >      ,( E(1,J),J=1,3)
-     >      ,(( DE(I,J)  ,I=1,3),J=1,3)
-     >      ,((( DDE(I,J,K) ,I=1,3),J=1,3),K=1,3)
+     >      ,( B(1,J)/BRI,J=1,3)
+     >      ,(( DB(I,J)/BRI  ,I=1,3),J=1,3)
+     >      ,((( DDB(I,J,K)/BRI  ,I=1,3), J=1,3), K=1,3)
+     >      ,((( D3BX(I,J,K)/BRI ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((( D3BY(I,J,K)/BRI ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((( D3BZ(I,J,K)/BRI ,I=1,3) ,J=1,3) ,K=1,3)
+     >      ,((((D4BX(I,J,K,L)/BRI ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,((((D4BY(I,J,K,L)/BRI ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,((((D4BZ(I,J,K,L)/BRI ,I=1,3),J=1,3),K=1,3),L=1,3)
+     >      ,( E(1,J)/BRI,J=1,3)
+     >      ,(( DE(I,J)/BRI  ,I=1,3),J=1,3)
+     >      ,((( DDE(I,J,K)/BRI ,I=1,3),J=1,3),K=1,3)
      >      ,IT,QBR/Q
  109        FORMAT( 1P,7E17.8
      >      , 3(1X,E13.4)

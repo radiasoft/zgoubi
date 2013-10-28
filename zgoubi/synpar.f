@@ -78,7 +78,8 @@ C  -------
      >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
-      WRITE(NRES,FMT='(/,5X,''Average energy loss, summed over magnets'',
+      WRITE(NRES,FMT='(/,5X,
+     >''Average energy loss, summed over magnets'',
      >'' UP TO THIS POINT :'',1P,G16.8,'' keV/particle'',6X,/,31X,
      >''- relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       WRITE(NRES,FMT='(5X,''# of average photons, summed over magnets'',

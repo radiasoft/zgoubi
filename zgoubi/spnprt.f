@@ -77,11 +77,12 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         SXMF = 0D0
         SYMF = 0D0
         SZMF = 0D0
-        IF(IPASS.EQ.1) THEN
-          SXMT = 0D0
-          SYMT = 0D0
-          SZMT = 0D0
-        ENDIF
+        phim = 0.D0
+C        IF(IPASS.EQ.1) THEN
+C          SXMT = 0D0
+C          SYMT = 0D0
+C          SZMT = 0D0
+C        ENDIF
 
         II=0
         DO I=IMAX1,IMAX2
@@ -105,31 +106,71 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
           IF(SF(2,I).GT.SPMA(2,I)) SPMA(2,I) = SF(2,I)          
           IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)          
           IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)          
+
+              aa(1) = si(1,i)
+              aa(2) = si(2,i)
+              aa(3) = si(3,i)
+              bb(1) = sf(1,i)
+              bb(2) = sf(2,i)
+              bb(3) = sf(3,i)
+              apscal = acos(vscal(aa,bb,3))
+
+              phim = phim + apscal
+
+         ENDIF
+        ENDDO
+
+        PHIM = PHIM / DBLE(II)
+ 
+        phim2 = 0.D0
+        II=0
+        DO I=IMAX1,IMAX2
+         IF( IEX(I) .GT. 0 ) THEN
+          II=II+1
+              aa(1) = si(1,i)
+              aa(2) = si(2,i)
+              aa(3) = si(3,i)
+              bb(1) = sf(1,i)
+              bb(2) = sf(2,i)
+              bb(3) = sf(3,i)
+              apscal = acos(vscal(aa,bb,3))
+
+              phim2 = phim2 + (apscal -phim)**2
+
          ENDIF
         ENDDO
  
+        PHIM2 = PHIM2 / DBLE(II)
+        SIGPHI = SQRT(PHIM2) 
+        
+
         IF(NRES.GT.0) THEN
-          SM = SQRT(SX*SX+SY*SY+SZ*SZ)/II
-          SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/II
-          WRITE(NRES,120) II,SX/II,SY/II,SZ/II,SM
-     >    ,SXF/II,SYF/II,SZF/II,SMF
+          SM = SQRT(SX*SX+SY*SY+SZ*SZ)/DBLE(II)
+          SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/DBLE(II)
+          PHIM = PHIM * deg
+          sigphi = sigphi * deg
+          WRITE(NRES,120) II,SX/DBLE(II),SY/DBLE(II),SZ/DBLE(II),SM
+     >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,phim,sigphi
  120      FORMAT(//,25X,' Average  over  particles at this pass ; '
-     >    ,2X,'beam with  ',I3,'  particles :'
+     >    ,2X,'beam with  ',I6,'  particles :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
-     >    ,//,T12,'<SX>',T22,'<SY>',T32,'<SZ>',T42,'<S>'
-     >    ,T61,'<SX>',T71,'<SY>',T81,'<SZ>',T91,'<S>'
-     >    ,/,5X,4F10.4,10X,4F10.4)
+     >    ,//,T9,'<SX>',T21,'<SY>',T33,'<SZ>',T45,'<S>'
+     >    ,T67,'<SX>',T78,'<SY>',T91,'<SZ>',T104,'<S>'
+     >    ,t109,'<(SI,SF)>',t120,'sigma_(SI,SF)'
+     >    ,/,t110,'  (deg)',t121,'   (deg)'
+     >    ,/,4(2x,F10.6),10X,6(2x,F10.6))
  
-          WRITE(NRES,140) II,SXF/II,SYF/II,SZF/II,SMF
- 140      FORMAT(//,25X,' Average  over  particles and pass, '
-     >    ,'at this pass ;  beam with  ',I3,'  particles :'
-     >    ,//,T20,'FINAL'
-     >    ,//,T13,'<SX>',T24,'<SY>',T35,'<SZ>'
-     >    ,/,5X,4(1X,F10.4))
+cc          WRITE(NRES,140) II,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF
+c          WRITE(NRES,140) II,SXmt/DBLE(II),SYmt/DBLE(II),SZmt/DBLE(II),SMF
+c 140      FORMAT(//,25X,' Average  over  particles and pass, '
+c     >    ,'at this pass ;  beam with  ',I6,'  particles :'
+c     >    ,//,T20,'FINAL'
+c     >    ,//,T13,'<SX>',T24,'<SY>',T35,'<SZ>'
+c     >    ,/,5X,4(1X,F10.4))
  
           WRITE(NRES,110) JMAXT
  110      FORMAT(//,15X,' Spin  components  of  each  of  the '
-     >    ,I5,'  particles,  and  rotation  angle :'
+     >    ,I6,'  particles,  and  rotation  angle :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'|S|'
      >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'|S|',T101,'GAMMA'
@@ -176,7 +217,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
 
           WRITE(NRES,130) JMAXT
  130      FORMAT(///,15X,' Min/Max  components  of  each  of  the '
-     >    ,I5,'  particles :'
+     >    ,I6,'  particles :'
      >    ,//,T3,'SX_mi',T15,'SX_ma',T27,'SY_mi',T39,'SY_ma'
      >    ,T51,'SZ_mi',T63,'SZ_ma',T75,'|S|_mi',T87,'|S|_ma'
      >    ,T99,'p/p_0',T112,'GAMMA',T127,'I  IEX',/)
@@ -186,7 +227,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
               GAMA = SQRT(P*P + AM*AM)/AM
               WRITE(NRES,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
      >           ,GAMA,I,IEX(I)
- 131          FORMAT(1P,8E12.4,2E13.5,1X,I5,1X,I3)
+ 131          FORMAT(1P,8E12.4,2E13.5,1X,I6,1X,I3)
             ENDIF
           ENDDO
  

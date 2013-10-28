@@ -360,7 +360,6 @@ OBJ=\
  vequal.o\
  peu.o\
  vrble.o\
- vscal.o\
  vzero.o\
  waist.o\
  wedgki.o\

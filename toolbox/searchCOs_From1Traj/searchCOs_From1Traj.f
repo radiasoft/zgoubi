@@ -255,7 +255,7 @@ c                read(*,*)
      >                                       IS)) then
               txt132 = '''REBELOTE'''
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))
-              txt132 = '99   0.2  99'
+              txt132 = '99   0.0  99'
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               txt132 = '''END'''
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))

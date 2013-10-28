@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE REBEL(READAT,KLE,LABEL,
      >                                  REBFLG,NOELRB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER KLE(*)*(*)
+      CHARACTER(*) KLE(*)
       INCLUDE 'MXLD.H'
       CHARACTER(*) LABEL(MXL,2)
       LOGICAL READAT
@@ -54,8 +54,8 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
 
       DIMENSION SSP(4,MXT)
       SAVE SSP
-      CHARACTER*9 HMS
-      CHARACTER*108 TXTBUF
+      CHARACTER(9) HMS
+      CHARACTER(108) TXTBUF
 C      LOGICAL FITING
 
       SAVE KREB3, KREB31
@@ -393,7 +393,7 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  126          FORMAT(/,20X,' Average values of spin components :'
      >        ,//,24X,'<SX>',T37,'<SY>',T49,'<SZ>',T61,'<S>')
               WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
- 125          FORMAT(15X,I3,2X,1P,4G12.4)
+ 125          FORMAT(15X,I5,2X,1P,4(1X,G12.4))
             ENDIF
           ENDIF
  
