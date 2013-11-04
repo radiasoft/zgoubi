@@ -18,23 +18,22 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
-      SUBROUTINE FOCAL1(IRF,MX1,MX2,XI,YI)
+      SUBROUTINE FOCAL1(IRF,MX1,MX2,
+     >                              XI,YI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     -----------------------------------------------
-C     CALCULE LA POSITION XI DU POINT DE FOCALISATION
-C     APPELE PAR SPGM MATRIX.
-C     -----------------------------------------------
+C     ------------------------------------------------
+C     CALCULE LA POSITION XI DU POINT DE FOCALISATION.
+C     ------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+     >     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
  
       DIMENSION TTI(MXT)

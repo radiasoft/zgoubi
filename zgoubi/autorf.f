@@ -42,27 +42,54 @@ C     ------------------------------------------------
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       IOP = NINT(A(NOEL,1))
-      IF(IOP .EQ. 3) THEN
-        IRF=NINT(A(NOEL,10))
-        MX1=NINT(A(NOEL,11))
-        MX2=NINT(A(NOEL,12))
+C      IF    (IOP .EQ. 3) THEN
+C        IRF=NINT(A(NOEL,10))
+C        MX1=NINT(A(NOEL,11))
+C        MX2=NINT(A(NOEL,12))
+C      ELSE
+C        IRF=1
+C      ENDIF
+ 
+      IF    (IOP .LE. 3) THEN
+        IF    (IOP .EQ. 0) THEN
+          GOTO 99
+        ELSEIF(IOP .EQ. 1) THEN
+C--------- POSITIONNEMENT REFERENCE = TRAJ. 1, ABSCISSE ACTUELLE
+          IRF=1
+          XC =ZERO
+          YC =F(2,IRF) 
+        ELSEIF(IOP .EQ. 2) THEN
+C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. 1 ET 4-5
+          IRF=1
+          CALL FOCAL1(IRF,4,5,
+     >                        XC,YC )
+        ELSEIF(IOP .EQ. 3) THEN
+C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
+          IRF=NINT(A(NOEL,10))
+          MX1=NINT(A(NOEL,11))
+          MX2=NINT(A(NOEL,12))
+          CALL FOCAL1(IRF,MX1,MX2,
+     >                            XC,YC )
+        ENDIF
+        AA  =F(3,IRF) * 0.001D0
+      ELSEIF(IOP .EQ. 4) THEN
+        XC = ZERO
+        YC = ZERO
+        AA = ZERO
+        II = 0
+        DO I = 1, IMAX
+          IF( IEX(I) .GT. 0) THEN
+            II = II + 1
+            YC = YC + F(2,I) 
+            AA = AA + F(3,I) 
+          ENDIF
+        ENDDO
+        YC = YC / DBLE(II)        
+        AA = AA / DBLE(II) * 0.001D0 
       ELSE
-        IRF=1
+        CALL ENDJOB('Sbr autorf. No such option I = ',IOP)
       ENDIF
- 
-      IF    (IOP .EQ. 1) THEN
-C------- POSITIONNEMENT REFERENCE = TRAJ. 1, ABSCISSE ACTUELLE
-        XC =ZERO
-        YC =F(2,IRF)
-      ELSEIF(IOP .EQ. 2) THEN
-C------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. 1 ET 4-5
-        CALL FOCAL1(IRF,4,5,XC,YC )
-      ELSEIF(IOP .EQ. 3) THEN
-C------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
-        CALL FOCAL1(IRF,MX1,MX2,XC,YC )
-      ENDIF
-      AA  =F(3,IRF)*.001D0
- 
+
       DO 1 I=1,IMAX
 C       +++ IEX<-1 <=> Particule stoppee
         IF( IEX(I) .LT. -1) GOTO 1
@@ -75,14 +102,22 @@ C       +++ IEX<-1 <=> Particule stoppee
         ENDIF
    1  CONTINUE
  
+ 99   CONTINUE
+
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,100) XC,YC,AA*DEG,AA
- 100    FORMAT(/,' Change  of  reference   XC =',F15.8,' cm , YC =',
-     >   F15.8,' cm ,   A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
-C 100    FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
-C     >   F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
-        WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
-  101   FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+
+        IF(IOP .EQ. 0) THEN
+          WRITE(NRES,102) 
+ 102      FORMAT(/,20X,' AUTOREF  is  off')
+        ELSE
+          WRITE(NRES,100) XC,YC,AA*DEG,AA
+ 100      FORMAT(/,' Change  of  reference   XC =',F15.8,' cm , YC =',
+     >    F15.8,' cm ,   A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
+C 100      FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
+C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
+          WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+  101     FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
+        ENDIF
       ENDIF
  
       RETURN

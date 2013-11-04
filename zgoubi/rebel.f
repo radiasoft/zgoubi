@@ -387,15 +387,15 @@ C Now last occurence of REBELOTE => carry on beyond REBELOTE
 C 105      FORMAT(20X,' LIBRE   TEMPS   DE   VOL   MOYEN      :',F10.3
 C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
  
-          IF(KSPN .EQ. 1) THEN
-            IF(KREB3 .EQ. 99) THEN
-              WRITE(LUN,126)
+c          IF(KSPN .EQ. 1) THEN
+c            IF(KREB3 .EQ. 99) THEN
+c              WRITE(LUN,126)
  126          FORMAT(/,20X,' Average values of spin components :'
      >        ,//,24X,'<SX>',T37,'<SY>',T49,'<SZ>',T61,'<S>')
-              WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
+c              WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
  125          FORMAT(15X,I5,2X,1P,4(1X,G12.4))
-            ENDIF
-          ENDIF
+c            ENDIF
+c          ENDIF
  
           CALL CNTOUR(
      >                NOUT)
