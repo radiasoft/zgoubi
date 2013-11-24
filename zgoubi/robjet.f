@@ -48,8 +48,8 @@ C     *******************************************
 
       CHARACTER(LEN=132) TXT132, STRA(3)
       CHARACTER(LEN=80) TXT80
-      LOGICAL STRCON, OK
-      INTEGER FINSTR
+      LOGICAL STRCON
+      INTEGER DEBSTR, FINSTR
 
 C----- BORO
       READ(NDAT,*,ERR=99) A(NOEL,1)
@@ -108,9 +108,12 @@ C----- INIT flag (causes FO(j,i)=F(j,i) if A(NOEL,60)=0)
       READ(NDAT,*,ERR=99) A(NOEL,60)
 C----- Name of trajectory data storage file
       READ(NDAT,100,ERR=99) TXT80
-      OK = STRCON(TXT80,'!',
-     >                      IS)
-      IF(OK) TA(NOEL,2) = TXT80(1:IS-1)
+      IF(STRCON(TXT80,'!',
+     >                      IS)) THEN
+        TA(NOEL,2) = TXT80(1:IS-1)
+      ELSE
+        TA(NOEL,2) = Txt80(debstr(Txt80):finstr(txt80))
+      ENDIF
  100  FORMAT(A80)
       RETURN
  
@@ -127,7 +130,6 @@ C------- Read additional references
         KK = 30
         DO 52 K = 2, K2
           KK = KK + 10
-C              write(*,*) ' sbr robjet KK',kk,k2,k
           IF(KK.GT.MXD-10) 
      >          CALL ENDJOB(' SBR ROBJET. MXD is too small.',-99)
           READ(NDAT,*,ERR=99) (A(NOEL,I),I=KK,KK+5)

@@ -73,10 +73,10 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
         ENDIF
         AA  =F(3,IRF) * 0.001D0
       ELSEIF(IOP .EQ. 4) THEN
-        XC = ZERO
-        YC = ZERO
-        AA = ZERO
+        yc = 0.d0
+        aa = 1.d0
         II = 0
+C First compute center the beam on Y=0, T=0
         DO I = 1, IMAX
           IF( IEX(I) .GT. 0) THEN
             II = II + 1
@@ -86,6 +86,29 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
         ENDDO
         YC = YC / DBLE(II)        
         AA = AA / DBLE(II) * 0.001D0 
+        DO I=1,IMAX
+C         +++ IEX<-1 <=> Particule stoppee
+          IF( IEX(I) .LT. -1) THEN 
+          ELSE
+            IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
+              CALL INITRA(I)
+              CALL CHAREF(.FALSE.,XC,YC,AA)
+              CALL MAJTRA(I)
+            ELSE
+              CALL DEJACA(I)
+            ENDIF
+          ENDIF
+        ENDDO
+        IF(NRES .GT. 0) THEN
+          WRITE(NRES,100) XC,YC,AA*DEG,AA
+          WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+        ENDIF
+ 
+C Then update to requested beam centering coordinates
+        XC = a(noel,10)
+        YC =  a(noel,11)
+        AA =  a(noel,12) *1.d3   
+
       ELSE
         CALL ENDJOB('Sbr autorf. No such option I = ',IOP)
       ENDIF

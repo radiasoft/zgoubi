@@ -106,7 +106,7 @@ C----- To get values into A(), from earlier FIT
 
       SAVE LNOPTI
       SAVE PNLTGT
-      save oklno
+      SAVE OKLNO
 
 C This INCLUDE must stay located right before the first statement
       CHARACTER(KSIZ) KLEO
@@ -361,7 +361,7 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       GOTO 998
 C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
-      IF(READAT) CALL RREBEL(LABEL)
+      IF(READAT) CALL RREBEL(LABEL,kle)
       IF(FITGET) CALL FITGT1
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
@@ -1160,7 +1160,9 @@ C----- MARKER.
       IF(LABEL(NOEL,2).EQ.'.plt' .OR. LABEL(NOEL,2).EQ.'.PLT') THEN
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO IT = 1, IMAX
-          CALL IMPPLB(NPLT,F(2,IT),F(3,IT),F(4,IT),F(5,IT),ZERO, 
+          TRAD = F(3,IT)*1.D-3
+          PRAD = F(5,IT)*1.D-3
+          CALL IMPPLB(NPLT,F(2,IT),TRAD,F(4,IT),PRAD,ZERO,
      >    F(6,IT),F(7,IT),ZERO,AMQ(1,IT),AMQ(2,IT),IEX(IT),IT)
         ENDDO
       ENDIF
@@ -1319,6 +1321,7 @@ C Current KLEY
      >             KLEO)
       KLEO = KLEY
       RETURN
+C Size of KLE array
       ENTRY ZGMXKL( 
      >             MXKLEO)
       MXKLEO = MXKLE

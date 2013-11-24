@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory            és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
 C Storage format advocated in
 C      SUBROUTINE IMPPLT
@@ -40,7 +39,7 @@ C4          KART,  IT,IREP(IT),    SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS
 C5        (SI(J,IT),J=1,4),(SF(J,IT),J=1,4)
      >     ,8(1X,E16.8)
 
-C6    EX,EY,EZ, BORO,IPASS,NOEL,KLEY,     (LABEL(NOEL,I),I=1,2),LET(IT)
-     >,4(1X,E16.8),  2(1X,I6),1X,A1,A10,A1, 2(1X,A1,A8,A1),     1X,3A1)
+C6    EX,EY,EZ, BORO, IPASS,NOEL,   KLEY,  (LABEL(NOEL,I),I=1,2),LET(IT)
+     >,4(1X,E16.8),  2(1X,I6),1X,A1,A10,A1, 2(1X,A1,A ,A1),     1X,3A1)
 
 

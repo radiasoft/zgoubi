@@ -80,7 +80,9 @@ C----- MAGNETIC  RIGIDITY (KG*CM), MASS (MeV/c2)
 
 C----- Get data from possible REBELOTE keyword, then some action
       CALL REBELR(
-     >            KREB3,KREB31)
+     >            KREB3,KREB31,KDUM)
+c             write(*,*) ' objets ', kreb3, kreb31
+c                 read(*,*)
       IF    (KREB3 .EQ. 99) THEN
 C------- Set to 99 by REBELOTE
 C------- For simulation of multiturn injection
@@ -88,22 +90,16 @@ C------- For simulation of multiturn injection
  133    FORMAT(//,15X,'Final  coordinates  of  previous  run',1X
      >  ,' taken  as  initial  coordinates ; ',I9,' particles')
         IF(KREB31 .NE. 0) THEN
-C--------- add new beamlet next to the previous one(s), e.g. for multiturn injection
+C------- add new beamlet next to the previous one(s), e.g. for multiturn injection
           IF(IPASS .LE. 1+KREB31) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(
-     >           15X,'' Injection run ; new beamlet launched'',/)')
+     >         15X,'' Injection run ; new beamlet launched'',/)')
           ELSE
             GOTO 99
           ENDIF
         ELSE
           GOTO 99
         ENDIF
-      ELSEIF(KREB3 .EQ. 22) THEN
-C------- Set possibly to 22 when executing REBELOTE
-C------- To change any data A(NOEL,I)
-c        CALL REBEL5(
-c     >              BORO)
-c        A(NOEL,1) = BORO
       ENDIF
 
 c      write(*,*) 'objets boro, kreb3 ',boro,kreb3

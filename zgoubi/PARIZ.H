@@ -101,10 +101,10 @@ CC D5 IPM magnet in bare AGS.
 c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=1801, MXY=41)
 
-CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
+CC AGS with (mmap -> +3) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-ccccccccccc      PARAMETER (IZ=30 , ID=3, MMAP=8)
-ccccccccccc      PARAMETER (MXX=801, MXY=201)
+      PARAMETER (IZ=30 , ID=3, MMAP=9)
+      PARAMETER (MXX=801, MXY=201)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 
@@ -113,9 +113,9 @@ c      PARAMETER (IZ=1 , ID=3, MMAP=1)
 c      PARAMETER (MXX=71, MXY=151)
 
 CC Daedalus cyclo
-      PARAMETER (IZ=1 , ID=3, MMAP=6)
+c      PARAMETER (IZ=1 , ID=3, MMAP=6)
 c      PARAMETER (MXX=121, MXY=600)
-      PARAMETER (MXX=721, MXY=600)   ! full cyclo map
+c      PARAMETER (MXX=721, MXY=600)   ! full cyclo map
 
 CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
 CC---- GSI KAOS

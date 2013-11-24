@@ -64,15 +64,18 @@ C  -------
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
       SAVE SCL2, TIM2, NTIM2
 
-      dimension kfm(10), kfmo(10)
+      DIMENSION KFM(10), KFMO(10)
       SAVE KFM 
       INTEGER DEBSTR, FINSTR
+      logical ok3
 
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
 
       DATA XM, YM / ND*0.D0, ND*0.D0/
+      data ok3 / .true. /
 
+      ok3 = .true.
       SCALER = 1.D0
       CALL SCALI5(
      >            MODSCL,NFAM)
@@ -123,15 +126,24 @@ c                 endif
 C               ... either LBF ends with '*' ...
                 IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1)
 C               ... or LBF begins with '*' ...
-     >        .OR. LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB)
-     >          ) GOTO 2
+     >          .OR. 
+     >           LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB)
+     >          ) THEN
+                   GOTO 2
+                ENDIF
               ELSE
 C               ... or it as the right label...
-                IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) GOTO 2
+                IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
+                  ok3 = .false.
+                  GOTO 2
+c      write(88,*) ' scaler lab?        '
+c     >                         ,LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
+                ENDIF
               ENDIF
             ENDDO
           ELSE
 C------------ ...or if it has no label at all
+c      write(88,*) ' scaler Nolab ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
             GOTO 2
           ENDIF
         ENDIF
@@ -141,6 +153,9 @@ C------------ ...or if it has no label at all
       GOTO 99
 
  2    CONTINUE
+
+c      write(88,*) ' scaler >2 ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
+
       IFM = IFM + 1
       KFM(IFM) = KF
 
@@ -384,7 +399,7 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
       ENDIF
 
       KF1 = KFM(ifm) + 1
-      goto 3
+      if(ok3) goto 3
 
  99   CONTINUE
       RETURN

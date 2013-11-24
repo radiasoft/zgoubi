@@ -10,7 +10,7 @@ C----- PLOT SPECTRUM
       common/KP/ lusav,kpa,kpb
       LOGICAL IDLUNI
 
-      CHARACTER*80 NOMFIC
+      CHARACTER*80 FILFAI
       logical exs
       character HV*2
 
@@ -33,27 +33,36 @@ C kpa = turn # ; nt=-1 far all particles
 C Range of turns to be considered may be specified using lipsFitFromFai.In
       INQUIRE(FILE='lipsFitFromFai.In',exist=EXS)
 
-        IF (IDLUNI(NLU)) THEN
-          open(unit=nlu,file='lipsFitFromFai.In')
+c      if(exs) then
+        IF (IDLUNI(lunIn)) THEN
+          open(unit=lunIn,file='lipsFitFromFai.In')
         ELSE
           stop 'Pgm lipsFitFromFai :   No idle unit number ! '
         ENDIF
 
+c      elseif(.NOT.exs) then
       if(.NOT.exs) then
         write(*,*)'WARNING : File lipsFitFromFai.In does not exist'
         write(*,*)'Pgm creates one from default values'
 
-        write(nlu,fmt='(2(i6,1x),t60,a)')  kpa
-     >  ,' ! kpa : turn #'
+        write(lunIn,fmt='(2a)')  'zgoubi.fai '
+     >  ,' ! file name (*.fai or b_*.fai type)'
+        write(lunIn,fmt='(i6,1x,t60,a)')  kpa
+     >  ,' ! kpa : turn # (lips will match bunch for that turn)'
       endif
 
-      rewind(nlu)
+      rewind(lunIn)
 
-        read(nlu,*,err=11,end=11) kpa
-        close(nlu)
+        read(lunIn,*,err=11,end=11) filfai
+        read(lunIn,*,err=11,end=11) kpa
+        close(lunIn)
         write(*,*) ' Read following data from lipsFitFromFai.In :'
-     >  ,kpa
- 
+        write(*,*) filfai,'   !  .fai file name '
+        write(*,*) kpa,   '   !  # of the turn to be lips''ed '
+
+c        write(*,*) ' Press Enter to continue'
+c      read(*,*)
+
 
       if(kpa.eq.0) kpa = 1  ! this is for lipsFitFromFai_iterate
       kpb = kpa 
@@ -65,11 +74,12 @@ C Range of turns to be considered may be specified using lipsFitFromFai.In
       call READC2B(KPa,KPb,KPc)
 
       call INIGR(
-     >           NLOG, LM, NOMFIC)
+     >           NLOG, LM)
+C     >           NLOG, LM, FILFAI)
       nl = nfai
       okopn = .false.
       change = .true.
-      call LIPS(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
+      call LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
           
       stop ' Ended correctly it seems...'
 
@@ -77,10 +87,11 @@ C Range of turns to be considered may be specified using lipsFitFromFai.In
       stop 'Error during read from lipsFitFromFai.In.'
       end
 
-      SUBROUTINE LIPS(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
+      SUBROUTINE LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
-      character*(*) HV
+      character(*) HV
+      CHARACTER(80) filfai
 C----- PLOT SPECTRUM     
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       PARAMETER (NCANAL=2500)
@@ -92,7 +103,8 @@ C----- PLOT SPECTRUM
       DIMENSION YMX(6), YPMX(6)
  
       LOGICAL OKECH
-      CHARACTER REP, NOMFIC*80
+      CHARACTER(1) REP
+      CHARACTER(80) NOMFIC
       LOGICAL BINARY, BINARF
       CHARACTER HVL(3)*12
 
@@ -103,7 +115,7 @@ c      DATA NT / -1 /
       DATA OPN / .FALSE. /
       LOGICAL IDLUNI, OKKT5
 
-      INCLUDE 'FILFAI.H'
+C      INCLUDE 'FILFAI.H'
 
       SAVE NPASS, ktma
 
@@ -138,8 +150,9 @@ C          OPN = .FALSE.
            WRITE(IUN,*) 
      >     '% Ellipse matching considers turn#',kpa
            WRITE(IUN,*) 
-     >     '#XM, XPM, (U(I),I=1,3), ',
-     >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'
+     >     '#XM, XPM, (U(I),I=1,3), '//
+     >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
+     >     ', time, E or dp. '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -884,9 +897,10 @@ C      RETURN
 
       END
       SUBROUTINE INIGR(
-     >                 NLOG, LM, NOMFIC)
+     >                 NLOG, LM)
+C     >                 NLOG, LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) NOMFIC
+C      CHARACTER*(*) NOMFIC
 
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
@@ -949,7 +963,7 @@ C----- tunes log unit
       NLOG = 30
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
-      NOMFIC = 'b_zgoubi.fai'
+C      NOMFIC = 'b_zgoubi.fai'
 
       RETURN
       END
@@ -1327,12 +1341,13 @@ C----------  This is to flush the write statements...
       LOGICAL OKKT5
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR)
-      save xm,xpm,ym,ypm
+      save xm,xpm,ym,ypm,zm,zpm
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
-     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
-     > ,KT2-kt1,YM, YPM,kpa,kpb,energ
+     >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm
 !!     >      ,  xK, xiDeg,' ',HV
- 179    FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),1x,E14.6)
+ 179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6))
+
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
       RETURN
 
@@ -1341,5 +1356,7 @@ C----------  This is to flush the write statements...
       xpm = xpmi
       ym =  ymi
       ypm = ypmi
+      zm =  zmi
+      zpm = zpmi
       return
       END

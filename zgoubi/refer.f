@@ -44,9 +44,9 @@ C     **********************************************
 C----- GOES TO NEW REFERENCE FRAME + computes new coordinates there
  
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,FMT='(/,1P,''  Reference, absolute '',
-     >  ''(part #'',I4,'')  : '',
-     >   1P,6E13.5,1X,E13.5)') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
+        WRITE(NRES,FMT='(/,1P,''  Reference, before change of frame '',
+     >  ''(part #'',I4,'')  : '', /, 
+     >   1P,7(1X,E16.8))') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
       ENDIF 
 
       IF    (IFOC .EQ. 0) THEN
@@ -76,6 +76,13 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
      >        ,F9.5,' deg  ( =',F9.6,' rad )',/)
       ENDIF
       PATHL = F(6,IT1)
+
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,FMT='(/,1P,''  Reference, after change of frame '',
+     >  ''(part #'',I4,'')  : '', /, 
+     >   1P,7(1X,E16.8))') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
+      ENDIF 
+
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,1P,''  Reference particle '',
      >  ''(#'',I4,''), path length :'',G16.8,'' cm'', 

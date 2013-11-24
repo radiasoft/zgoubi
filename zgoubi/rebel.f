@@ -41,6 +41,9 @@ C  -------
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER(80) TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
@@ -56,9 +59,8 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       SAVE SSP
       CHARACTER(9) HMS
       CHARACTER(108) TXTBUF
-C      LOGICAL FITING
 
-      SAVE KREB3, KREB31
+      SAVE KREB3, KREB31, KREB4
 
       SAVE KWRI6 
       LOGICAL REBFLG
@@ -72,7 +74,15 @@ C      LOGICAL FITING
 
       save noela, noelb
 
-      DATA KREB3, KREB31 / 0, 0 /
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LBL1, LBL2
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLEI
+      LOGICAL FOUND
+      LOGICAL EMPTY
+      integer debstr, finstr
+
+      DATA KREB3, KREB31, kreb4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPRM*0.D0 /
       data noela, noelb / 1, mxl  /
@@ -82,26 +92,52 @@ C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
 C----- Switch for print to standard output :
       KWRI6=NINT((A(NOEL,2)-KWRT)*10)
-
-c      write(*,*) ' rebel ',noela,noelb,ipass,nrblt,fiting
-c            read(*,*)
-
-C----- For multiturn injection
       KREB3 = NINT(A(NOEL,3))
-      IF(KREB3 .EQ. 22) THEN
-        KLM = A(NOEL,4)
-        KPRM = A(NOEL,5)
+      KREB4 = NINT(A(NOEL,4))
+C----- For multiturn injection
+C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
+      KREB31 = NINT(100*(A(NOEL,3)-KREB3))
+
+      IF(KREB4 .EQ. 1) THEN
+        IF(IPASS .EQ.1 ) THEN
+C            write(*,*) ' rebel empty ',EMPTY(TA(NOEL,1)),TA(NOEL,1)
+          IF(.NOT. EMPTY(TA(NOEL,1))) THEN
+            klei = TA(NOEL,1)
+            nlbl = 0
+            IF(.NOT. EMPTY(TA(NOEL,2))) THEN
+              LBL1 = TA(NOEL,2)
+              nlbl = 1
+              IF(.NOT. EMPTY(TA(NOEL,3))) THEN
+                LBL2 = TA(NOEL,3)
+                nlbl = 2
+              ENDIF
+            ENDIF
+            FOUND = .FALSE.
+            NEL = 1
+            DO WHILE (.NOT. FOUND .AND. NEL .LE. Noel)  
+              IF(KLE(IQ(NEL))(debstr(KLE(IQ(NEL))):finstr(KLE(IQ(NEL))))
+     >             .EQ. KLEI(debstr(KLEI):finstr(KLEI))) THEN
+                IF    (NLBL .EQ. 0) THEN                
+                  FOUND = .TRUE.
+                ENDIF
+              ENDIF
+              nel = nel + 1
+            ENDDO
+            IF(.NOT. FOUND) THEN
+              CALL ENDJOB('Sbr rebel. No such keyword in sequence',-99)
+            ENDIF 
+          ENDIF
+        ENDIF
+        KLM = A(NOEL,10)
+        KPRM = A(NOEL,11)
         DO I = 1, NRBLT
-          J = 10 + 10*((I-1)/10)
-          PARAM(I) = A(NOEL,J +I-1)
+          J = 20 + 20*((I-1)/20)
+          PARAM(I) = A(NOEL,J +I -1)
           IF(I .GT. MXPRM) STOP ' SBR REBEL : Too many parameters under 
      >    ''REBELOTE''. Reduce it or increase MXPRM.'
         ENDDO
 
         A(KLM,KPRM) = PARAM(IPASS)
-
-c        write(*,*) ' rebel ',klm,kprm ,a(klm,kprm),ipass, NRBLT+1
-c               read(*,*)
 
         IF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
@@ -117,12 +153,12 @@ C Now last occurence of REBELOTE => carry on beyond REBELOTE
           IF(LUN.GT.0) THEN
             WRITE(LUN,101) IPASS
  
-            IF(KSPN .EQ. 1) THEN
-              IF(KREB3 .EQ. 99) THEN
-                WRITE(LUN,126)
-                WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
-              ENDIF
-            ENDIF
+C            IF(KSPN .EQ. 1) THEN
+C              IF(KREB3 .EQ. 99) THEN
+C                WRITE(LUN,126)
+C                WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
+C              ENDIF
+C            ENDIF
  
             CALL CNTOUR(
      >                NOUT)
@@ -135,12 +171,6 @@ C Now last occurence of REBELOTE => carry on beyond REBELOTE
           stop
         ENDIF
       ENDIF
-
-C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
-      KREB31 = NINT(100*(A(NOEL,3)-KREB3))
-CC REBELOTE will apply from lmnt #NOELA 
-C      NOELA = NINT(A(NOEL,MXD-1))
-C      NOELB = NINT(A(NOEL,MXD))
 
 C Will stop at element # NOELB when doing last turn
       REBFLG = NOELB .LT. NOEL
@@ -240,12 +270,12 @@ C--------- endif SR loss ----------------------------------
             KNDES = NDES
           ENDIF
           IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-          IF(KSPN .EQ. 1) THEN
-            IF(KREB3 .EQ. 99) THEN
-              WRITE(LUN,126)
-              WRITE(LUN,125) (I,(SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
-            ENDIF
-          ENDIF
+C          IF(KSPN .EQ. 1) THEN
+C            IF(KREB3 .EQ. 99) THEN
+C              WRITE(LUN,126)
+C              WRITE(LUN,125) (I,(SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
+C            ENDIF
+C          ENDIF
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
@@ -269,7 +299,7 @@ C          WRITE(NRES,FMT='(/,5X,
 C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
 
           IF(NRES .GT. 0)  THEN
-            IF(KREB3 .EQ. 22) THEN
+            IF(KREB4 .EQ. 1) THEN
               WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 'Parameter #',KPRM
      >        ,' in element #',KLM,' will be modified at each pass. '
               WRITE(NRES,FMT='(/,5X,A)') 'List of parameter values :'
@@ -280,7 +310,7 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
           IF(NRBLT.GT.1) THEN
             IF(KWRT .NE. 1) THEN
 C------------- inihibit WRITE if KWRT.NE.1 and more than 1 pass
-              IF(KREB3 .NE. 22) THEN 
+              IF(KREB4 .NE. 1)  THEN 
                 IF(NRES .GT. 0) NRES =-NRES
               ENDIF
             ENDIF
@@ -335,12 +365,12 @@ C--------- reactive WRITE
             KNDES = NDES
           ENDIF
           IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-          IF(KSPN .EQ. 1) THEN
-            IF(KREB3 .EQ. 99) THEN
-              WRITE(LUN,126)
-              WRITE(LUN,125) (I,( SSP(J,I)/IPASS,J=1,4) ,I=1,IMAX)
-            ENDIF
-          ENDIF
+C          IF(KSPN .EQ. 1) THEN
+C            IF(KREB3 .EQ. 99) THEN
+C              WRITE(LUN,126)
+C              WRITE(LUN,125) (I,( SSP(J,I)/IPASS,J=1,4) ,I=1,IMAX)
+C            ENDIF
+C          ENDIF
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
@@ -390,10 +420,10 @@ C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
 c          IF(KSPN .EQ. 1) THEN
 c            IF(KREB3 .EQ. 99) THEN
 c              WRITE(LUN,126)
- 126          FORMAT(/,20X,' Average values of spin components :'
-     >        ,//,24X,'<SX>',T37,'<SY>',T49,'<SZ>',T61,'<S>')
+C 126          FORMAT(/,20X,' Average values of spin components :'
+C     >        ,//,24X,'<SX>',T37,'<SY>',T49,'<SZ>',T61,'<S>')
 c              WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
- 125          FORMAT(15X,I5,2X,1P,4(1X,G12.4))
+C 125          FORMAT(15X,I5,2X,1P,4(1X,G12.4))
 c            ENDIF
 c          ENDIF
  
@@ -416,14 +446,15 @@ C REBELOTE should be usable within FIT -> under developement.
 
       ENDIF
 
-      IF(KREB3.EQ.22) READAT = .FALSE.
+      IF(KREB4 .EQ. 1) READAT = .FALSE.
 
       RETURN
 
       ENTRY REBELR(
-     >             KREB3O,KREB31O)
+     >             KREB3O,KREB31O,KREB4O)
       KREB3O = KREB3
       KREB31O = KREB31
+      KREB4O = KREB4
       RETURN
 
       ENTRY REBEL2(KPCKUP)

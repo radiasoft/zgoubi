@@ -64,23 +64,25 @@ C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
             ENDIF
           ENDIF
 
-          IF(NRES .GT. 0) THEN
-            IF(SBR .EQ. 'CHXC') TXT='TRAJECTORIES'
-            IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
-            IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
-            IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
-            IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
-            IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
-            IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
-            TXT80 = ' ' 
-            IF(SBR .EQ. 'SRPRN') WRITE(TXT80,FMT='(15X,
+C FM. Nov 2013. Re-arranged here for compatibilty wit OPTIONS[WRITE ON/OFF]
+C          IF(NRES .GT. 0) THEN
+          IF(IPASS .EQ. 1) THEN
+              IF(SBR .EQ. 'CHXC') TXT='TRAJECTORIES'
+              IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
+              IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
+              IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
+              IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
+              IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
+              IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
+              TXT80 = ' ' 
+              IF(SBR .EQ. 'SRPRN') WRITE(TXT80,FMT='(15X,
      >        ''Particle #   Total # photons   Total E-loss (keV)'')')
-            CALL DATE2(DMY)
-            CALL TIME2(HMS)
-            WRITE(NRES,100) NAMFIC,TXT
- 100        FORMAT(/,15X,' OPEN FILE ',A,/,15X,' FOR PRINTING ',A,/)
+              CALL DATE2(DMY)
+              CALL TIME2(HMS)
+              IF(NRES .GT. 0) WRITE(NRES,100) NAMFIC,TXT
+ 100          FORMAT(/,15X,' OPEN FILE ',A,/,15X,' FOR PRINTING ',A,/)
 
-            IF(IPASS .EQ. 1) THEN
+C            IF(IPASS .EQ. 1) THEN
 C------------- Write down a 4-line header
               WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
      >                                                  TXT,DMY,HMS
@@ -173,12 +175,13 @@ C------------- Write down a 4-line header
                 WRITE(LUN) TXTA80
                 WRITE(LUN) TXTB80
               ENDIF
-            ENDIF
+
+            ENDIF ! ipass.eq.1
           ENDIF
 
           IF(TXT.EQ.'TRAJECTORIES') CALL IMPPL2(BINARY)
 
-        ENDIF
+C        ENDIF
 C------- OPN
 
       RETURN

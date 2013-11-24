@@ -18,21 +18,30 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       OKKL=.FALSE.
       IEND=0
+
       IF(KL1 .GE. 0) THEN
         IF(NOEL.GE.KL1  .AND. NOEL.LE.KL2) THEN   
-C--------- If KL1 < NOEL < KL2
           OKKL=.TRUE.
+        ELSE
+          OKKL=.FALSE.
         ENDIF
       ELSEIF(KL1 .EQ. -1)  THEN
-C--------- Take every KL2 other keyword
-        IF((NOEL/KL2)*KL2 .EQ. NOEL) THEN
+C--------- Take first lmnt and then every KL2 other keyword
+        IF(NOEL .EQ. 1) THEN
           OKKL=.TRUE.
+        ELSE
+          IF((NOEL/KL2)*KL2 .EQ. NOEL) THEN
+            OKKL=.TRUE.
+          ELSE
+            OKKL=.FALSE.
+          ENDIF
         ENDIF
+      ELSE
+        OKKL=.FALSE.
       ENDIF

@@ -37,7 +37,7 @@ C Open zgoubi.res
         GOTO 798
       ENDIF
 
-C Search zgoubi.res for co coordinates
+C Search zgoubi.res for orbit coordinates
         read(lunR,fmt='(a)',end=62) txt132     ! title
         read(lunR,fmt='(a)',end=62) txt132     ! 'OBJET'
         read(lunR,*,end=62) BORO 
@@ -104,6 +104,7 @@ C Search zgoubi.res for MATRIX outputs
         endif
 
         if(iico .gt. 1) then      !! means MATRIX has already been seen
+C This requires 'FAISCEAU' following 'MATRIX'
           if(strcon(txt132,'Time of flight',14,
      >                                         IS)) then 
 
@@ -164,13 +165,14 @@ c            write(*,*) ' Path length of traj. # ',I,' is ',F6m,' cm'
               GOTO 698
             ENDIF
       WRITE(LUNW,fmt='(a)') 
-     >'# xco[m], xpco[rd], XNU, ZNU, alfx, betx,'
-     >//' alfz, betz, Dx, tof[mu_s], '
-     >//'path[cm], E-Kin[MeV], p/p0(co)'
-      WRITE(LUNW,fmt='(a)') 
-     >'#   1        2        3   4     5     6  '
+     >'#   1        2       3   4    5     6  '
      >//'  7     8     9     10     '
      >// '    11        12          13    '
+      WRITE(LUNW,fmt='(a)') 
+     >'# xco[m], x''co[rd], Qx, Qy, alfx, betx,'
+     >//' alfy, bety, Dx, tof[mu_s], '
+     >//'path[cm], E-Kin[MeV], p/p0(co)'
+      WRITE(LUNW,fmt='(a)') '# '
       WRITE(LUNW2,fmt='(a)') 'E_kin(eV) xco(m) xpco(rad) TOF(s) Qx Qy'
 
       do ico = 1, nco

@@ -68,7 +68,7 @@ C       *** Initialisation at 1st pass only
         IRTET =(IRTET /2)*2+1
         IRPHI =(IRPHI /2)*2+1
       ELSE
-        CALL REBELR(KREB3,KREB31)
+        CALL REBELR(KREB3,KREB31,KDUM)
         IF(KREB3.EQ.99) RETURN
       ENDIF 
 

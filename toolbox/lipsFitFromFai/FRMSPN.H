@@ -18,15 +18,14 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory            és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
 C Storage format advocated in 
 C        SUBROUTINE SPNPRN 
 C  (keywords SPNPRNL, SPNSTORE)
 
  101      FORMAT(1P,1X,I2,10(1X,E15.7)
-     >      ,4(1X,I7),3(1X,A1,A8,A1),3A1)
+     >      ,4(1X,I7),3(1X,A1,A ,A1),3A1)
 

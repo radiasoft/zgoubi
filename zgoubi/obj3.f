@@ -90,7 +90,6 @@ C----- Reset particle counter
       INITC = NINT(A(NOEL,60))
       NOMFIC=TA(NOEL,2)
       
-
       NOMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
 
       BINARY=BINARI(NOMFIC,
@@ -258,6 +257,37 @@ C            TIM = 0.D0
             DPO= 0.D0
             TIMO= 0.D0
             ITR = ITR + 1
+
+          ELSEIF(KOBJ2.EQ.4) THEN 
+C------------ Installed for RHIC FFAG arcs
+            IKAR = IKAR+1
+            IF(IKAR.GT.41)  IKAR=1
+ 174        continue
+            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jtr
+            ITR = JTR
+c            write(*,*) ' obj3 ',ktstp,ktstp*((itr-1)/ktstp),it1-1,itr
+c                read(*,*)
+            if(itr .lt. kt1 .or. itr .gt. kt2) goto 174            
+            if(it1.gt.0) then 
+              if(ktstp*((itr)/ktstp) .ne. itr) goto 174            
+            endif
+            it1 = it1 + 1
+c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,itr,itr,it1
+c                read(*,*)
+            TIM = 0.D0
+C            LETI=KAR(IKAR)
+            IEXI=1
+            IT = IT1
+            IREPI = IT
+            IPASSR =  KP1    
+            BRO = BORO
+            YO= 0.D0
+            TTO= 0.D0
+            ZO= 0.D0
+            PO= 0.D0
+            SO= 0.D0
+            DPO= 0.D0
+            TIMO= 0.D0
 
           ENDIF 
 

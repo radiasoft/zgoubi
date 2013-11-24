@@ -53,7 +53,7 @@ C  -------
 
       ONCE = KSO .GE. 1  .OR. ONCE 
 
-      CALL REBELR(KREB3,KREB31)
+      CALL REBELR(KREB3,KDUM,KDUM)
       IF(  KREB3 .EQ. 99
      >.AND.  KSO .NE .0
      >.AND.  KSO .NE. -1

@@ -124,6 +124,7 @@ C------- Record pick-up position (cm)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       IF(NRES.GT.0) THEN
         WRITE(NRES,*) 
+        WRITE(NRES,*) 
      >   ' Found ',IPU,' pick-ups prior to element #',NOELI,'.'
         IF(IPU.GT.0) WRITE(NRES,*) ' Of which last PU is # ',
      >  IPU,' (located at  element NOEL = ',NOELPU(IPU),')'

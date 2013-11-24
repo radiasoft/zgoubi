@@ -4625,7 +4625,8 @@ $ \dfrac{(R_1+R_2) }{ 2} $ and $ \dfrac{(\theta_ 1+\theta_ 2) }{ 2} $.}   }
 \subsubsection*{AUTOREF~: \AUTOREFTitl}\label{AUTOREF}\index{AUTOREF|textbf} 
 \medskip
 
-\textsl{AUTOREF} positions the new reference frame following 3~options~:
+\textsl{AUTOREF} positions the new reference frame following 4~options (apart from  $\mathbf{I = 0}$ 
+which is just an ``off'' switch)~:
 \bigskip
 
 \noindent\textbf{If} $\mathbf{I = 1}$, \textsl{AUTOREF} is equivalent to 
@@ -4656,6 +4657,17 @@ $$\text{\textsl{CHANGREF}} \lbrack XW,YW,T(I1)\rbrack $$
  so that the new reference frame is at the position $ (XW, YW) $ of
 the waist (calculated automatically in the same way as for 
 \textsl{IMAGE}) of the three rays number I1, I2 and I3 specified as data,  while $T(I1)$ is set to zero.
+ 
+
+\bigskip
+
+\noindent\textbf{If} $\mathbf{I=4}$,  it is equivalent to 
+
+$$\text{\textsl{CHANGREF}} \lbrack 0,<Y>,<T>\rbrack $$
+%
+ so that the new reference frame is at the position $ (X=0, Y=<Y>) $, 
+with $<*>$ denoting the average over the \textsl{IMAX} particles, 
+ while all particles have there angle $T \rightarrow T - <T>$. 
  
 
 

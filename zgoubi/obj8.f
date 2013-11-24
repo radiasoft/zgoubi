@@ -108,11 +108,14 @@ C------- Normal case
         IMA = IMAX
         IF(IMAX .GT. MXT) GOTO 98
       ELSE
-C------- Multiturn injection
-        IF(IMAX*(KREB31+1) .GT. MXT) GOTO 98
-        IMI  = 1 + IMAX*(IPASS-1)
-        IMA = IMAX*IPASS
-        IMAX=IMA
+        IF(KREB31 .EQ. 22) THEN
+        ELSE
+C--------- Multiturn injection
+          IF(IMAX*(KREB31+1) .GT. MXT) GOTO 98
+          IMI  = 1 + IMAX*(IPASS-1)
+          IMA = IMAX*IPASS
+          IMAX=IMA
+        ENDIF
       ENDIF
 
       IF(NRES.GT.0) THEN

@@ -264,9 +264,9 @@ C-------
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
  109        FORMAT(18X,'Backleg winding # ',I1,',  Nbr of turns : '
      >      ,I2,',  current in that winding : ',1p,e15.6,' A')      
-       if(noel.eq.456)
-     >     write(87,*)
-     >     ' agsmm i/nbw, wn,  wa ',iblw,'/',nblw,wn(iblw),wa(iblw)
+c       if(noel.eq.456)
+c     >     write(87,*)
+c     >     ' agsmm i/nbw, wn,  wa ',iblw,'/',nblw,wn(iblw),wa(iblw)
           ENDDO
         ENDIF
         ELSE

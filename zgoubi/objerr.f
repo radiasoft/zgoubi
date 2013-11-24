@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE OBJERR(NRES,IER,MXT,TXT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -36,7 +35,7 @@ C  -------
         WRITE(NRES,*) '   Only  non-zero  dp/p  allowed...'
       ELSEIF(IER .EQ. 2) THEN
         WRITE(6,*) '          MAX # OF PARTICLES IS ',MXT
-        CALL REBELR(KREB3,KREB31)
+        CALL REBELR(KREB3,KREB31,KDUM)
         IF(KREB31 .NE. 0) THEN
           WRITE(6,*) '  CHECK APPROPRIATE USE OF ''REBELOTE'''
           WRITE(NRES,*) '          MAX  # OF PARTICLES IS ',MXT

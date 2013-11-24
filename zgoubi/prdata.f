@@ -33,13 +33,16 @@ C-----------------------------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
       PARAMETER (I110=110)
-      CHARACTER   TEXT*110, txt6*6
+      CHARACTER(I110) TEXT
+      PARAMETER (I6=6)
+      CHARACTER(I6) TXT6
       INTEGER DEBSTR, FINSTR
       LOGICAL EMPTY
 
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
+      PARAMETER (I104=I110-I6)
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'
@@ -59,6 +62,7 @@ C----- Read zgoubi.dat title (1st data line)
         IDEB = 1
         IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN
           NOEL=NOEL+1
+          TEXT = TEXT(DEBSTR(TEXT):I104)
 
           DO I=IDEB+1,IDEB+KSIZ+1
             IF(TEXT(I:I) .EQ. '''') GOTO 2
@@ -71,17 +75,21 @@ C----- Read zgoubi.dat title (1st data line)
             IF( .NOT. EMPTY(TEXT((I+1):I110)) ) THEN
               CALL STRGET(TEXT((I+1):I110),2,
      >                                       NST,LAB2)
-              IF(LAB2(1)(1:1).NE.'!') THEN
-                LABEL(NOEL,1) = LAB2(1)
-                IF(NST.EQ.2) THEN 
-                  IF(LAB2(2)(1:1).NE.'!') LABEL(NOEL,2) = LAB2(2)
+              IF(NST.GE.1) THEN
+                IF(LAB2(1)(1:1).NE.'!') THEN
+                  IF(.NOT. EMPTY(LAB2(1))) LABEL(NOEL,1) = LAB2(1)
+                  IF(NST.EQ.2) THEN
+                    IF(LAB2(2)(1:1).NE.'!') THEN
+                      IF(.NOT. EMPTY(LAB2(2))) LABEL(NOEL,2) = LAB2(2)
+                    ENDIF
+                  ENDIF
                 ENDIF
               ENDIF
             ENDIF
 
           WRITE(TXT6,FMT='(I6)') NOEL
-          TEXT = TEXT(1:104)//TXT6
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A)') text
+          TEXT = TEXT(1:I104)//TXT6
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(T2,A)') TEXT
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
      >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95

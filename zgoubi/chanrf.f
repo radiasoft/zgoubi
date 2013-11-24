@@ -85,8 +85,8 @@ C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
 C          pp = atan2(tan(P),cos(T))
           pp = atan(tan(P)/cos(T))
           Z=Z*COS(pp)/COS(pp-YR)
-C          pp=pp-YR 
-C          P =  atan2(tan(pp),1.d0/cos(T))
+          pp=pp-YR 
+          P =  atan2(tan(pp),1.d0/cos(T))
           XL = -Z *SIN(YR)
           ZL = -ZO + Z*COS(YR)
           DL=SQRT(XL*XL+ZL*ZL)

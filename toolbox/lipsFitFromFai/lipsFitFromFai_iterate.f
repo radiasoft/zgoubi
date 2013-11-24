@@ -1,13 +1,14 @@
       logical exs, idluni
       dimension borne(6), nbin(3)
-      character txt*1
-
-      data  kpa, kpb, kpstp / 1, 20000, 400/ 
+      character(1) txt
+      character(80) filfai
+      data filfai / 'zgoubi.fai' /
+      data  kpa, kpb, kpstp / 1, 9, 1/ 
 
       INQUIRE(FILE='lipsFitFromFai_iterate.In',exist=EXS)
 
-      IF (IDLUNI(NLU)) THEN
-        open(unit=nlu,file='lipsFitFromFai_iterate.In')
+      IF (IDLUNI(lIn)) THEN
+        open(unit=lIn,file='lipsFitFromFai_iterate.In')
       ELSE
         stop 'Pgm lipsFitFromFai_iterate : no idle unit number ! '
       ENDIF
@@ -16,13 +17,15 @@
        write(87,*)'WARNING : lipsFitFromFai_iterate.In does not exist'
        write(87,*)'Will be created from default values'
 
-       write(nlu,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp' 
+       write(lIn,*) filfai, ' !  .fai file name' 
+       write(lIn,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp' 
       endif
 
-      rewind(nlu)
+      rewind(lIn)
 
-        read(nlu,*,err=10,end=10) kpa, kpb, kpstp
-        close(nlu)
+        read(lIn,*,err=10,end=10) filfai
+        read(lIn,*,err=10,end=10) kpa, kpb, kpstp
+        close(lIn)
 
 C      call system('rm -f temp_ipmx')
       call system('mv -f lipsFitFromFai.Out  lipsFitFromFai.Out_old')
@@ -30,14 +33,15 @@ C      call system('rm -f temp_ipmx')
      >                             lipsFitFromFai_iterate.Out_old')
 
       do kp = kpa, kpb, kpstp
-        IF (IDLUNI(NLU)) THEN
-          open(unit=nlu,file='lipsFitFromFai.In')
+        IF (IDLUNI(lIn)) THEN
+          open(unit=lIn,file='lipsFitFromFai.In')
         ELSE
           stop 'Pgm lipsFitFromFai_iterate :  No idle unit number - 2 !'
         ENDIF
 
-        write(nlu,*) kp
-        close(nlu)
+        write(lIn,*) filfai
+        write(lIn,*) kp
+        close(lIn)
 
         write(*,*) 
         write(*,*) ' ----------------------------------------------'
@@ -54,7 +58,7 @@ c        read(itmp,*) ierr,mxPss
 c        close(itmp)
 C        if(ierr .eq. -1) goto 11
       enddo
-      close(nlu)
+      close(lIn)
 
       stop
 

@@ -32,6 +32,9 @@ C     ---------------------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       READ(NDAT,*) IA
       A(NOEL,1) = IA
+C Read 3 particle numbers
       IF(IA .EQ. 3) READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+C Read 3 centering coordinates
+      IF(IA .EQ. 4) READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
       RETURN
       END

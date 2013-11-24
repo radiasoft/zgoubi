@@ -26,11 +26,23 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXV=40) 
       COMMON/CONTR/VAT(MXV),XI(MXV)
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/FINIT/ FINI
       COMMON /VAR/ X(3*MXV),P(MXV)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
- 
+      INCLUDE 'MXFS.H'
+      PARAMETER (KSIZ=10)
+      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+      CHARACTER*(KSIZ) KLE
+      CHARACTER*(LBLSIZ) LBL1, LBL2
+      LOGICAL EMPTY
+
       CALL ZGPNLT( 
      >            PNLTGT)
 
@@ -39,15 +51,23 @@ C  -------
       IF(IUNIT.GT.0) WRITE(IUNIT,600)
 600   FORMAT(
      >' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',
-     >'  REACHED         KI2         *  Parameter(s) ')
+     >'  REACHED         KI2       NAME       LBL1     LBL2',
+     >'         *  Parameter(s) ')  
+C----      X(J)        P(I)
       DO I=1,NC
         XI2=((VAT(I)-V(I))/W(I))**2/F
         NPRM1 = NINT(CPAR(I,1)) + 1
+        CALL ZGKLE(IQ(I3(I))
+     >                      ,KLE)
+        LBL1 = LABEL(I3(I),1)
+        LBL2 = LABEL(I3(I),2)
+        IF(EMPTY(LBL1)) LBL1 = '*'
+        IF(EMPTY(LBL2)) LBL2 = '*'
         IF(IUNIT.GT.0) WRITE(IUNIT,700) 
      >  IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
-     >  NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
+     >  KLE,LBL1,LBL2,NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
 700     FORMAT(1P,3I4,I6,5X,E14.7,4X,E11.4,3X,E14.7,2X,E11.4,2X,
-     >  '   * ',I2,' : ',6(E9.1,'/'))
+     >  3(1X,A),' * ',I3,' : ',6(E9.1,'/'))
       ENDDO
       IF(IUNIT.GT.0) THEN
         WRITE(IUNIT,FMT='
