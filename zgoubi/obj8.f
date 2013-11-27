@@ -48,7 +48,7 @@ C     -----------------------------------------
       DIMENSION ALP(MXJ),BET(MXJ),EPS(MXJ)
       DIMENSION CENTRE(MXJ)
       PARAMETER(MXJ1=MXJ-1)
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
       PARAMETER(NDIM = 3)
       DIMENSION ISAM(NDIM)
 

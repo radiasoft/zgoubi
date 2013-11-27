@@ -39,81 +39,75 @@ C     ***************************************
       CHARACTER TXT300*300, TXTA*8, TXTB*8
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
-      CHARACTER(80) STRA(3)
-      DIMENSION PARAM(mxd)
-      character(30) string
-      logical okkle
+      PARAMETER (I4=4)
+      CHARACTER(20) STRA(I4)
+      DIMENSION PARAM(MXD)
+      CHARACTER(30) STRING
+      LOGICAL OKKLE
 
       READ(NDAT,FMT='(A)') TXT300
       TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
-      I4 = 4
       CALL STRGET(TXT300,I4,
      >                      NSR,STRA)
-
+      IF(NSR.GT.I4) CALL ENDJOB('SBR RREBEL. TOO LARGE VALUE NSR=',NSR)
       READ(STRA(1),*,ERR=98) A(NOEL,1)
-      nrblt = nint(A(NOEL,1))
+      NRBLT = NINT(A(NOEL,1))
       READ(STRA(2),*,ERR=98) A(NOEL,2)
       READ(STRA(3),*,ERR=98) A(NOEL,3)
       IA3 = NINT(A(NOEL,3))
-C      A(NOEL,3) = IA3
 
       IF(STRCON(STRA(3),'.',
      >                      II)) THEN
         READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
       ENDIF
 
-      IF(iop .ne. 1 .and. iop .ne. 2) then
-        if(nsr .ge. 4) then
+      IF(IOP .NE. 1 .AND. IOP .NE. 2) THEN
+        IF(NSR .GE. 4) THEN
           READ(STRA(4),*,ERR=77) IA4
-          goto 78
- 77       ia4 = 0
- 78       continue
-        endif
-      else
-        ia4 = 0
-      endif
-      a(noel,4) = ia4
+          GOTO 78
+ 77       IA4 = 0
+ 78       CONTINUE
+        ENDIF
+      ELSE
+        IA4 = 0
+      ENDIF
+      A(NOEL,4) = IA4
 
       IF    (IA4 .EQ. 1) THEN
-C Will 'rebelote' (given A(NOEL,3)=99) using new value for parameter #KPRM in element #KLM
+C WILL 'REBELOTE' (GIVEN A(NOEL,3)=99) USING NEW VALUE FOR PARAMETER #KPRM IN ELEMENT #KLM
         READ(NDAT,FMT='(A)') TXT300
         TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
-        READ(txt300,*) string
-        okkle = .false.
-        iel = 1
-        okkle = .false.
-        do while(.not. okkle .and. iel .le. noel)
-          if(string(debstr(string):finstr(string)) .eq. 
-     >       kle(iq(iel))(debstr(kle(iq(iel))):finstr(kle(iq(iel))))) 
-     >                                            okkle = .true.
-C            write(*,*) ' '
-C            write(*,*) ' rrebel ',iel,okkle, kle(iel), string
-          iel = iel + 1
-        enddo
-        if(okkle) then
-          klm = iel - 1
-          ta(noel,1) = string(debstr(string):finstr(string))
-          READ(txt300,*) string,kprm,(param(i),i=1,nrblt)
-          ta(noel,2) = ' '
-          ta(noel,3) = ' '
-        else
-          ta(noel,1) = ' '
-          ta(noel,2) = ' '
-          ta(noel,3) = ' '
-          READ(txt300,*) klm,kprm,(param(i),i=1,nrblt)
-        endif
+        READ(TXT300,*) STRING
+        IEL = 1
+        OKKLE = .FALSE.
+        DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
+          IF(STRING(DEBSTR(STRING):FINSTR(STRING)) .EQ. 
+     >       KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))) 
+     >                                            OKKLE = .TRUE.
+          IEL = IEL + 1
+        ENDDO
+        IF(OKKLE) THEN
+          KLM = IEL - 1
+          TA(NOEL,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
+          READ(TXT300,*) STRING,KPRM,(PARAM(I),I=1,NRBLT)
+          TA(NOEL,2) = ' '
+          TA(NOEL,3) = ' '
+        ELSE
+          TA(NOEL,1) = ' '
+          TA(NOEL,2) = ' '
+          TA(NOEL,3) = ' '
+          READ(TXT300,*) KLM,KPRM,(PARAM(I),I=1,NRBLT)
+        ENDIF
 
-        a(noel,10) = klm
-        a(noel,11) = kprm
-        do i = 1, nrblt
+        A(NOEL,10) = KLM
+        A(NOEL,11) = KPRM
+        DO I = 1, NRBLT
           J = 20 + 20*((I-1)/20)
-          if(J +I -1 .gt. mxd) 
-     >      call endjob('SBR rrebel. Too many data, # must be .le. MXD='
-     >      ,mxd)
+          IF(J +I -1 .GT. MXD) 
+     >      CALL ENDJOB('SBR RREBEL. TOO MANY DATA, # MUST BE .LE. MXD='
+     >      ,MXD)
           A(NOEL,J +I -1) = PARAM(I) 
-C          write(*,*) ' rrebel ', J +I -1, A(NOEL,J +I -1)
-        enddo   
-C             read(*,*)
+        ENDDO   
         NOELA = 1
         NOELB = NOEL
       ENDIF
@@ -123,7 +117,7 @@ C             read(*,*)
         READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
         IF(IOP .GE. 1) THEN
           IF(IOP .EQ. 1) THEN
-C Get Label, deduce related NOEL : multi-pass tracking will loop over NOEL-REBELOTE   
+C GET LABEL, DEDUCE RELATED NOEL : MULTI-PASS TRACKING WILL LOOP OVER NOEL-REBELOTE   
             READ(TXT300,*) DUM,DUM,DUM,TXTA
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
@@ -135,7 +129,7 @@ C Get Label, deduce related NOEL : multi-pass tracking will loop over NOEL-REBEL
  12         CONTINUE
             NOELB = NOEL
           ELSEIF(IOP .EQ. 2) THEN
-C Get 2 Labels, deduce related NOELs : multi-pass tracking will loop over NOEL1-NOEL2
+C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-NOEL2
             READ(TXT300,*) DUM,DUM,DUM,TXTA,TXTB
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
@@ -154,7 +148,7 @@ C Get 2 Labels, deduce related NOELs : multi-pass tracking will loop over NOEL1-
             NOELB = NOEL
  10         CONTINUE
           ELSE
-            CALL ENDJOB(' SBR RREBEL, no such option IOP=',IOP)
+            CALL ENDJOB(' SBR RREBEL, NO SUCH OPTION IOP=',IOP)
           ENDIF
         ELSE
           NOELA = 1
@@ -170,7 +164,7 @@ C Get 2 Labels, deduce related NOELs : multi-pass tracking will loop over NOEL1-
       RETURN
 
  98   CONTINUE
-      CALL ENDJOB(' SBR RREBEL, wrong input data / element #',-99)
+      CALL ENDJOB(' SBR RREBEL, WRONG INPUT DATA / ELEMENT #',-99)
       RETURN
 
       END

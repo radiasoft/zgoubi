@@ -1,12 +1,12 @@
 #
 # Case of gfortran compiler, next two lines
-#FC=gfortran
-#FFLAGS=-O4 -Wall -fno-automatic -pedantic
+FC=gfortran
+FFLAGS=-O4 -Wall -fno-automatic -pedantic
 #
 # Case of ifort compiler, next three lines
-CFLAGS=-g -DGFORTRAN4
-FC=ifort
-FFLAGS=-save -xHOST -O3 -ip -static -save -shared-intel
+#CFLAGS=-g -DGFORTRAN4
+#FC=ifort
+#FFLAGS=-save -xHOST -O3 -ip -static -save -shared-intel
 
 .POSIX:
 

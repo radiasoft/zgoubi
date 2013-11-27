@@ -40,7 +40,7 @@ C-------------------------------------------------
       COMMON/CONST2/ ZRO, ONE
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT

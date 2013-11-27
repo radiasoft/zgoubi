@@ -91,16 +91,16 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
 C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
 C----- Switch for print to standard output :
-      KWRI6=NINT((A(NOEL,2)-KWRT)*10)
+      KWRI6 = NINT((A(NOEL,2)-KWRT)*10)
       KREB3 = NINT(A(NOEL,3))
       KREB4 = NINT(A(NOEL,4))
-C----- For multiturn injection
-C----- If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
+C----- For multiturn injection : 
+C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
 
       IF(KREB4 .EQ. 1) THEN
+C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
         IF(IPASS .EQ.1 ) THEN
-C            write(*,*) ' rebel empty ',EMPTY(TA(NOEL,1)),TA(NOEL,1)
           IF(.NOT. EMPTY(TA(NOEL,1))) THEN
             klei = TA(NOEL,1)
             nlbl = 0
@@ -128,17 +128,21 @@ C            write(*,*) ' rebel empty ',EMPTY(TA(NOEL,1)),TA(NOEL,1)
             ENDIF 
           ENDIF
         ENDIF
-        KLM = A(NOEL,10)
-        KPRM = A(NOEL,11)
+        KLM = NINT(A(NOEL,10))
+        KPRM = NINT(A(NOEL,11))
         DO I = 1, NRBLT
           J = 20 + 20*((I-1)/20)
-          PARAM(I) = A(NOEL,J +I -1)
           IF(I .GT. MXPRM) STOP ' SBR REBEL : Too many parameters under 
      >    ''REBELOTE''. Reduce it or increase MXPRM.'
+          IF(J .GT. MXD) STOP ' SBR REBEL : Too many parameters under 
+     >    ''REBELOTE''. Reduce it or increase MXD.'
+          PARAM(I) = A(NOEL,J +I -1)
         ENDDO
 
         A(KLM,KPRM) = PARAM(IPASS)
-
+c          write(*,*) ' rebel ', klm, kprm
+c          write(*,*) ' rebel ', ipass, A(KLM,KPRM),PARAM(IPASS)
+c                read(*,*)
         IF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
           IF(KWRT .NE. 1) THEN

@@ -49,7 +49,7 @@ C     -----------------------------------------
       DIMENSION ALP(MXJ),BET(MXJ),EPS(MXJ)
       DIMENSION CENTRE(MXJ)
       PARAMETER(MXJ1=MXJ-1)
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
       DIMENSION ISAM(3)
       PARAMETER (MRHO=4)
       DIMENSION RHO(MRHO)

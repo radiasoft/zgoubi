@@ -46,7 +46,7 @@ C     **************************
 
       CHARACTER  KTIR(MXJ)*9, KOUV*8
       LOGICAL CINE
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
  
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.

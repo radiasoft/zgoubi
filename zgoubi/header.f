@@ -28,7 +28,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      CHARACTER*80 TXT80
+      CHARACTER(80) TXT80
 
       IF(NRES.GT.0) WRITE(NW,FMT='(10X,''File header  ('',I1,
      >'' lines) : '')') N
