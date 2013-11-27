@@ -6,7 +6,7 @@
 # Case of ifort compiler, next three lines
 CFLAGS=-g -DGFORTRAN4
 FC=ifort
-FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save -shared-intel
+FFLAGS=-save -xHOST -O3 -ip -static -save -shared-intel
 
 .POSIX:
 
