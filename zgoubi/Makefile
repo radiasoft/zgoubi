@@ -71,6 +71,7 @@ OBJ=\
  csri.o\
  csrint.o\
  ctrlb.o\
+ cyclo.o\
  cubspl.o\
  damper.o\
  dlain.o\
@@ -255,6 +256,7 @@ OBJ=\
  rcoils.o\
  rcolli.o\
  rcsr.o\
+ rcyclo.o\
  rdampe.o\
  rdipc.o\
  rdip.o\
@@ -418,10 +420,11 @@ cible.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 cntinl.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 coeffs.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 cofin.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MAXCOO.H
-coils.o: $(INC)/MXLD.H
+coils.o: $(INC)/MXLD.H  
 collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
+cyclo.o: $(INC)/MXLD.H
 damper.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dipc.o: $(INC)/MXLD.H
@@ -532,6 +535,7 @@ rchang.o: $(INC)/MXLD.H
 rcible.o: $(INC)/MXLD.H
 rcolli.o: $(INC)/MXLD.H
 rcsr.o: $(INC)/MXLD.H
+rcyclo.o: $(INC)/MXLD.H
 rdampe.o: $(INC)/MXLD.H
 rdipc.o: $(INC)/MXLD.H
 rdip.o: $(INC)/MXLD.H

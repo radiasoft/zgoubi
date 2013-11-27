@@ -82,7 +82,7 @@ C Modif, FM, Dec. 05
 C          KP = NINT(A(NOEL,ND+1))
 C          NDD = ND+2
           KP = NINT(A(NOEL,ND+3))
-          NDD = ND+4
+          NDD = ND + 4
         ELSEIF(KUASEX .EQ. 7 .OR. KUASEX .EQ. 2) THEN
 C--------- TOSCA keyword using cylindrical mesh (MOD.ge.20)
           KP = NINT(A(NOEL,ND+10))
@@ -226,6 +226,15 @@ C     >                  XL,DEV)
         KP = NINT(A(NOEL,ND+3))
         NDD = ND+4
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
+
+      ELSEIF(KUASEX .EQ. 40 )   THEN
+C-------- CYCLOTRON
+
+        CALL CYCLO(SCAL,
+     >                  DSREF,IRD,IDB)
+
+        KP = NINT(A(NOEL,ND+3))
+        NDD = ND+4
 
       ENDIF
 

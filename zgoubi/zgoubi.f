@@ -1309,6 +1309,14 @@ C----- DAMPER.
       IF(FITGET) CALL FITGT1
       CALL DAMPER
       GOTO 998
+C----- CYCLOTRON.
+ 116  CONTINUE
+      KALC =1
+      KUASEX = 40
+      IF(READAT) CALL RCYCLO(ND(NOEL))
+      IF(FITGET) CALL FITGT1
+      CALL AIMANT(ND(NOEL))
+      GOTO 998
 
 C-------------------------
 C-------------------------

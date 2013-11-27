@@ -380,6 +380,20 @@ C  Compute FFAG field  and derivatives from flying field-mesh
             STOP '*** SBR CHAMC. No such field case' 
           ENDIF
 
+        ELSEIF(KUASEX .EQ. 40) THEN
+C--------- CYCLOTRON
+C  Equivalence (X,ANGLE), (Y,RADIUS)
+          IF    (KAN.EQ.0) THEN 
+              CALL CYCLOA(IDB,X,Y,
+     >                            BZ0)
+          ELSEIF(KAN.EQ.1) THEN
+            CALL CYCLOF(X,Y,
+     >                     DA,DR,FTAB)
+C     >                     AAA,RRR,DA,DR,FTAB)
+            CALL INTPLF(Y,AAA,RRR,DA,DR,FTAB,IRD,
+     >                                           BZ0)
+          ENDIF
+
         ENDIF
 C---------- ENDIF KUASEX
  
