@@ -12,15 +12,15 @@ C Create ./Log if does not exist already
       write(*,*) cmmnd
       call system(cmmnd)
  
-      cmmnd = '~/zgoubi/struct/tools/searchCO/geneTexIni'
+      cmmnd = '~/zgoubi/SVN/current/toolbox/searchCO/geneTexIni'
       write(*,*) '------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
-      cmmnd = '~/zgoubi/struct/tools/searchCO/geneTexBody'
+      cmmnd = '~/zgoubi/SVN/current/toolbox/searchCO/geneTexBody'
       write(*,*) '-------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
-      cmmnd = '~/zgoubi/struct/tools/searchCO/geneTexEnd'
+      cmmnd = '~/zgoubi/SVN/current/toolbox/searchCO/geneTexEnd'
       write(*,*) '------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)

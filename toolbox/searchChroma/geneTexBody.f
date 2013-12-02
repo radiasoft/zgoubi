@@ -444,7 +444,7 @@ c      write(lunW,*) txt132(debstr(txt132):finstr(txt132))
       
 cC End section of geneTexlog.tex
 c      cmmnd = 
-c     >'~/zgoubi/struct/tools/spin/xing_geneTexLog/geneTexEnd'
+c     >'~/zgoubi/SVN/current/toolbox/spin/xing_geneTexLog/geneTexEnd'
 c      call system(cmmnd)
 
       stop

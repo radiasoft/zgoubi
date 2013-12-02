@@ -50,7 +50,8 @@ C      call system('rm -f temp_ipmx')
         write(*,*) ' Turn # : ',kp
         write(*,*) ' ----------------------------------------------'
         write(*,*) 
-      call system('~/zgoubi/struct/tools/lipsFitFromFai/lipsFitFromFai')
+        call system
+     >  ('~/zgoubi/SVN/current/toolbox/lipsFitFromFai/lipsFitFromFai')
       call system('cat lipsFitFromFai.Out >>lipsFitFromFai_iterate.Out')
         
 c        IF (IDLUNI(itmp))  open(unit=itmp,file='temp_ipmx')

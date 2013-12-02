@@ -12,9 +12,13 @@ C      parameter (lunR=11,lunW=12,lunDat=15,lunDa2=17,luntmp=14)
       logical strcon, idluni
 
       character(30) tilde
-      parameter (tilde = '/home/owl/fmeot')
-      character(300) exec, cmndZ
+      parameter (tilde = '/home/owl/fmeot/')
+      character(300) exec, cmndZ, searchCO, searchCh
       parameter (exec = '/zgoubi/SVN/current/zgoubi/zgoubi')
+      parameter 
+     >  (searchCO='zgoubi/SVN/current/toolbox/searchCO/')
+      parameter 
+     >(searchCh='zgoubi/SVN/current/toolbox/searchChroma/')
 
       INTEGER DEBSTR,FINSTR
       character typ2*12
@@ -225,8 +229,8 @@ C Get closed orbits
       precX = .001d0 
       precXp = .01d0 
  27   continue
-      cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchCO/searchCO'
+      cmmnd = tilde(debstr(tilde):finstr(tilde))//
+     >searchCO(debstr(searchCO):finstr(searchCO))//'searchCO'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
@@ -240,7 +244,7 @@ C      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/SVN/current/zgoubi/z
 C      write(*,*) '---------------------------------------'
 C      write(*,*) cmmnd
 C      call system(cmmnd)
-C      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/struct/tools/tunesFromMatrix/tunesFromMatrix'
+C      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/SVN/current/toolbox/tunesFromMatrix/tunesFromMatrix'
 C      write(*,*) '---------------------------------------'
 C      write(*,*) cmmnd
 C      call system(cmmnd)
@@ -254,21 +258,23 @@ c      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/SVN/current/zgoubi/z
 c      write(*,*) '---------------------------------------'
 c      write(*,*) cmmnd
 c      call system(cmmnd)
-c      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/struct/tools/tunesFromFai/tunesFromFai'
+c      cmmnd = tilde(debstr(tilde):finstr(tilde))//'/zgoubi/SVN/current/toolbox/tunesFromFai/tunesFromFai'
 c      write(*,*) '---------------------------------------'
 c      write(*,*) cmmnd
 c      call system(cmmnd)
 
 C Create gnuplots from tracking results
       cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchChroma/geneGnuPlots'
+     >//searchCh(debstr(searchCh):finstr(searchCh))
+     >//'geneGnuPlots'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
 
 C Write a log_Chroma.tex file containing the plots above and create log_Chroma.pdf
       cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchChroma/geneTexLog'
+     >//searchCh(debstr(searchCh):finstr(searchCh))
+     >//'geneTexLog'
       write(*,*) '---------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)

@@ -24,7 +24,7 @@ C Write a gnuplot file for dQ-dp/p plot, and execute it
 
 cC Write a gnuplot file for monitoring xxp and zzp plots, and execute it
 c      okGnu= makMon()
-c      cmmnd = '~/zgoubi/struct/tools/b_fai2Fai/fromBFai2Fai'
+c      cmmnd = '~/zgoubi/SVN/current/toolbox/b_fai2Fai/fromBFai2Fai'
 c      write(*,*) '---------------------------------------'
 c      write(*,*) cmmnd
 c      call system(cmmnd)

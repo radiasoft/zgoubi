@@ -80,7 +80,8 @@ C        write(nlu,*)  oksav,'    !  save spectra '
         write(*,*) ' Turn #, range : ',kp,'-',kp+ksmpl-1
         write(*,*) ' ----------------------------------------------'
         write(*,*) 
-        call system('~/zgoubi/struct/tools/tunesFromFai/tunesFromFai')
+        call system
+     >  ('~/zgoubi/SVN/current/toolbox/tunesFromFai/tunesFromFai')
         call system('cat tunesFromFai.out >> tunesFromFai_iterate.out')
         call system('cat tunesFromFai_spctra.Out >>
      >                            tunesFromFai_iterate_spctra.Out')

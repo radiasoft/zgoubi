@@ -12,17 +12,17 @@ C Create ./Log if does not exist already
       call system(cmmnd)
 
       cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchChroma/geneTexIni'
+     >  //'/zgoubi/SVN/current/toolbox/searchChroma/geneTexIni'
       write(*,*) '------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
       cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchChroma/geneTexBody'
+     >  //'/zgoubi/SVN/current/toolbox/searchChroma/geneTexBody'
       write(*,*) '-------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)
       cmmnd = tilde(debstr(tilde):finstr(tilde))
-     >  //'/zgoubi/struct/tools/searchChroma/geneTexEnd'
+     >  //'/zgoubi/SVN/current/toolbox/searchChroma/geneTexEnd'
       write(*,*) '------------------------------------------'
       write(*,*) cmmnd
       call system(cmmnd)

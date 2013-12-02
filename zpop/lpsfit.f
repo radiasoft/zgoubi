@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -37,10 +37,10 @@ C  -------
       INCLUDE 'MAXCOO.H'
 
       DIMENSION UM(3), UMI(3), UMA(3), SMEAR(3)
-      CHARACTER*1 KLET
+      CHARACTER(1) KLET
 
-      PARAMETER ( PI=3.1415926536, SQ2 = 1.414213562)
-C      PARAMETER ( PI=4.D0*ATAN(1.D0), SQ2 = SQRT(2.D0) )
+C      PARAMETER ( PI=3.1415926536, SQ2 = 1.414213562)
+      PARAMETER ( PI=4.D0*ATAN(1.D0), SQ2 = SQRT(2.D0) )
 
       DATA TXT/ 'HORI.', 'VERT.', 'LONG.'/
 
@@ -120,8 +120,6 @@ C------- Courant invariant at 1 sigma is U=4.sqrt(DELTA)=Eps/pi (consistant with
 C Eps=ellipse surface
 C        U(JJ) = 4.D0*SQ
         U(JJ) = SQ
-
-c        write(*,fmt='(a,3g12.4,2i6)') 'blabla ',x2,xp2,u(jj),npts,jj
 
  25   CONTINUE
 

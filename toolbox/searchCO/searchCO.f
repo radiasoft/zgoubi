@@ -222,6 +222,12 @@ C           do not write possible subsquent lines of "1's"
             write(6,*) ' particle mass and charge : ', am, q
             P0 = BORO*CL9
 
+          elseif(strcon(txt300,'''SRLOSS''',8,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) ' 0 '
+
           elseif(strcon(txt300,'''TWISS''',7,
      >                                       IS)) then
             read(lunR,fmt='(a)',end=10) txt300
