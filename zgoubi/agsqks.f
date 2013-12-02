@@ -694,77 +694,45 @@ C       New skew quad definition (identical transfer function to other tune quad
 
                   
       ELSEIF(LBL1(INIL:INIL+3) .EQ. 'QGTR') THEN
-C      !8.0 Gamma Transition Quads
-C      ===============
-        LENQ = XL
+         LENQ = XL
+         XQ = A1/2.d0    
+c         write(*,*) XQ, LENQ, A1
+  
+         kgqc6 = -1.7772d-21 
+         kgqc5 =  5.2639d-18 
+         kgqc4 =  1.8256d-16 
+         kgqc3 = -1.6496d-11 
+         kgqc2 =  2.0786d-8 
+         kgqc1 =  8.5849d-4 
+         kgqc0 =  1.8530d-3*0.d0
 
-        XGQHP2 = XGQHP*XGQHP 
-        XGQHP3 = XGQHP*XGQHP2 
-        XGQHP4 = XGQHP*XGQHP3 
-        XGQHP5 = XGQHP*XGQHP4 
-        XGQHP6 = XGQHP*XGQHP5 
-C      
-        XGQHP2n = XGQHN*XGQHN 
-        XGQHP3n = XGQHN*XGQHP2n 
-        XGQHP4n = XGQHN*XGQHP3n 
-        XGQHP5n = XGQHN*XGQHP4n 
-        XGQHP6n = XGQHN*XGQHP5n 
-        
-        
-C       The gamma quads used to use the same polynomial transfer function
-C        as the tune quads, but does not fit properly to the high currents
-C        of 1500 A or greater used in the gamma quads
-C        /*       
-C        B1GQHPold =kqhc6 * XGQHP6
-C     >             + kqhc5 * XGQHP5
-C     >             + kqhc4 * XGQHP4
-C     >             + kqhc3 * XGQHP3
-C     >             + kqhc2 * XGQHP2
-C     >             + kqhc1 * XGQHP 
-C     >             + kqhc0  
-        
-C        B1GQHNold =  kqhc6 * XGQHP6n
-C                 + kqhc5 * XGQHP5n 
-C                 + kqhc4 * XGQHP4n 
-C                 + kqhc3 * XGQHP3n
-C                 + kqhc2 * XGQHP2n
-C                 + kqhc1 * XGQHN 
-C                 + kqhc0 
-C        */
-        
-C      New polynomial as of 3/5/07, calc'd by KAB
-        
-        kgqc6 = -1.7772D-21 
-        kgqc5 =  5.2639D-18 
-        kgqc4 =  1.8256D-16 
-        kgqc3 = -1.6496D-11 
-        kgqc2 =  2.0786D-8 
-        kgqc1 =  8.5849D-4 
-        kgqc0 =  1.8530D-3 *0.d0
-        
-        
-        B1GQHP =   kgqc6 * XGQHP6
-     >             + kgqc5 * XGQHP5
-     >             + kgqc4 * XGQHP4
-     >             + kgqc3 * XGQHP3
-     >             + kgqc2 * XGQHP2
-     >             + kgqc1 * XGQHP 
-     >             + kgqc0  
-        
-        B1GQHN =  kgqc6 * XGQHP6n
-     >            + kgqc5 * XGQHP5n 
-     >            + kgqc4 * XGQHP4n 
-     >            + kgqc3 * XGQHP3n
-     >            + kgqc2 * XGQHP2n
-     >            + kgqc1 * XGQHN 
-     >            + kgqc0 
-        
-        KGQHPa = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
-        KGQHPe = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
-        KGQHPi = -1 * B1GQHP/(2.0D0*BRHO*LENQ) 
-        KGQHNc = B1GQHN/(2.0D0*BRHO*LENQ) 
-        KGQHNg = B1GQHN/(2.0D0*BRHO*LENQ) 
-        KGQHNk = B1GQHN/(2.0D0*BRHO*LENQ) 
+         B1GQHP =   kgqc6 * XQ**6
+     >        + kgqc5 * XQ**5
+     >        + kgqc4 * XQ**4
+     >        + kgqc3 * XQ**3
+     >        + kgqc2 * XQ**2
+     >        + kgqc1 * XQ 
+     >        + kgqc0  
+         
+         B1GQHP2 =   kqhc6 * XQ**6
+     >        + kqhc5 * XQ**5
+     >        + kqhc4 * XQ**4
+     >        + kqhc3 * XQ**3
+     >        + kqhc2 * XQ**2
+     >        + kqhc1 * XQ 
+     >        + kqhc0  
+         
+         
+         IF(LBL1(INIL+4:INIL+4) .EQ. '1') THEN
+            KQ = -1.d0 * B1GQHP2/(1.0*LENQ)
+            BM =  KQ
+         ELSEIF(LBL1(INIL+4:INIL+4) .EQ. '2') THEN
+            KQ =  1.d0 * B1GQHP2/(1.0*LENQ)
+            BM =  KQ
+         ENDIF
+
+c         BM = 0.d0
+         
 
 
       ELSEIF(LBL1(INIL:INIL+3) .EQ. 'SXH_'

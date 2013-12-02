@@ -35,7 +35,9 @@ C  -------
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE 'MXSCL.H'
+      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
@@ -64,7 +66,7 @@ C  -------
       DIMENSION SCL2(MXF,MXD), TIM2(MXF,MXD), NTIM2(MXF)
       SAVE SCL2, TIM2, NTIM2
 
-      DIMENSION KFM(10), KFMO(10)
+      DIMENSION KFM(MXSCL), KFMO(MXSCL)
       SAVE KFM 
       INTEGER DEBSTR, FINSTR
       logical ok3
@@ -75,6 +77,8 @@ C  -------
       DATA XM, YM / ND*0.D0, ND*0.D0/
       data ok3 / .true. /
 
+      DOUBLE PRECISION SPLINT
+
       ok3 = .true.
       SCALER = 1.D0
       CALL SCALI5(
@@ -83,7 +87,7 @@ C  -------
      >            KLEY)
 C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
-      do i = 1, 10
+      do i = 1, MXSCL
         KFM(i) = -99
       enddo
 
@@ -160,6 +164,7 @@ c      write(88,*) ' scaler >2 ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
       KFM(IFM) = KF
 
       KTI = NTIM(KF)
+
       IF(KTI .NE. 0) THEN
 
         IF(KTI .GT. 0) THEN
@@ -178,8 +183,8 @@ c      write(88,*) ' scaler >2 ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
               ENDIF  
 
               IF( IPASS .GE. IT1 .AND. IPASS .LE. IT2 ) THEN
-                SCALER = SCL(KF,I)
-                IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER )*
+                SCALER = SCL(KF,I,1)
+                IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2,1)-SCALER )*
      >             DBLE( IPASS - IT1 ) / DBLE(IT2 - IT1)
 C FM 08/99
 C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
@@ -187,7 +192,8 @@ C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
 
               ENDIF
 
-            ELSEIF(MODSCL(KF) .GE. 10) THEN
+            ELSEIF((MODSCL(KF) .EQ. 10) .OR.
+     >             (MODSCL(KF) .EQ. 11)) THEN
 
               XT1=TIM(KF,I)
               IF(I .LT. KTI ) THEN
@@ -202,8 +208,8 @@ C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
 C              write(66,*) kf, bro, dpref, xt1,xt2
               IF( BRO .GE. XT1 .AND. BRO .LE. XT2 ) THEN
 
-                SCALER = SCL(KF,I)
-                IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2)- SCALER)*
+                SCALER = SCL(KF,I,1)
+                IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)- SCALER)*
      >                 ( BRO - XT1 ) / (XT2 - XT1)
                
                 IF(MODSCL(KF) .EQ. 11) THEN
@@ -248,7 +254,32 @@ c                     stop ' SBR scaler -  TESTS'
 
                 GOTO 99
               ENDIF
-               
+            ELSEIF(MODSCL(KF) .EQ. 12  ) THEN
+               SCALER = 1.d0
+
+            ELSEIF(MODSCL(KF) .EQ. 13  ) THEN
+               XT1=TIM(KF,I)
+               IF(I .LT. KTI ) THEN
+                  I2 = I+1
+                  XT2 = TIM(KF,I2)
+               ELSE
+                  I2 = I
+                  XT2=XT1
+               ENDIF  
+               CALL CAVIT3(STIME)
+            
+             
+               IF( STIME .GE. XT1 .AND. STIME .LE. XT2 ) THEN
+                  SCALER = SCL(KF,I,1)
+
+
+
+                  IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)
+     >                 - SCALER)*( STIME - XT1 ) / (XT2 - XT1)
+               GOTO 99
+               ENDIF
+
+
             ENDIF
 
  1        CONTINUE
@@ -258,7 +289,7 @@ c                     stop ' SBR scaler -  TESTS'
 c          call cavit1(
 c     >                PP0,GAMMA,dWs)
 c          scaler = SCL(KF,1) * pp0
-          scaler = SCL(KF,1) * dpref
+          scaler = SCL(KF,1,1) * dpref
 
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -288,10 +319,10 @@ C          scaler = SCL(KF,1) * pp0
         ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000
           IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN
-            BRMI = SCL(KF,1)
-            BRMA = SCL(KF,2)
-            BREF = SCL(KF,3)
-            FREP = SCL(KF,4)
+            BRMI = SCL(KF,1,1)
+            BRMA = SCL(KF,2,1)
+            BREF = SCL(KF,3,1)
+            FREP = SCL(KF,4,1)
             OMGAT = 2.D0*PI*FREP*TIME
             
 C            TEMP = 0.5D0*( (BRMA+BRMI) - (BRMA-BRMI)* ( COS(OMGAT) 
@@ -310,10 +341,10 @@ C     >            ' SBR SCALER :   TIME, SCALER, p/p0, IPASS, NOEL'
 
         ELSEIF(KTI .EQ. -88) THEN
 C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
-          PHAS = SCL(KF,1)
-          Q1   = SCL(KF,2)
-          Q2   = SCL(KF,3)
-          PP   = SCL(KF,4)
+          PHAS = SCL(KF,1,1)
+          Q1   = SCL(KF,2,1)
+          Q2   = SCL(KF,3,1)
+          PP   = SCL(KF,4,1)
           RAMPN = TIM(KF,1)
           FLATN = TIM(KF,2)
           DOWNN = TIM(KF,3)
@@ -380,7 +411,7 @@ C             Q-jump started
             
             if(switch.ne.0.d0) then
 C              scaler = fac * SCL(KF,1) * pp0
-              scaler = fac * SCL(KF,1) * dpref
+              scaler = fac * SCL(KF,1,1) * dpref
             else
               scaler = 0.d0
             endif
@@ -402,6 +433,8 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
       if(ok3) goto 3
 
  99   CONTINUE
+
+
       RETURN
 
       ENTRY SCALDP(DTIM,
@@ -466,9 +499,15 @@ c      RETURN
 
       ENTRY SCALE9(
      >             KFMO)
-      do i = 1, 10
-        KFMO(i) = KFM(i)
-      enddo
-      RETURN
-
+      do j = 1, MXSCL
+        KFMO(J) = KFM(J)
+        IF((KFMO(j).GE.0) .AND.
+     >       (NTIM(KFMO(J)).NE.-1 ))then
+           BRO = BORO*DPREF
+           DO I=1, JPA(KFM(j),MXP) 
+              VPA(KFM(j),I) = splint(TIM(KFM(j),1:NTIM(KFM(j))),
+     >             SCL(KFM(j),1:NTIM(KFM(j)),I),NTIM(KFM(j)),BRO)
+           ENDDO
+        ENDIF
+       enddo
       END

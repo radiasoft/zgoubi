@@ -76,7 +76,8 @@ C-------------------------------------------------
       DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
 
-      dimension kfm(10)
+      INCLUDE 'MXSCL.H'
+      dimension kfm(MXSCL)
 
       DATA NOMFIC / IZ*'               '/ 
       DATA FMTYP / ' regular' / 
@@ -153,7 +154,7 @@ C dB1, dB2, dB3
             AA(26) = 0.D0
             CALL SCALE9(
      >                   KFM)
-            do ifm = 1, 10
+            do ifm = 1, MXSCL
 c            IF(KFM .GT. 0) THEN
             IF(KFM(ifm) .le. 0) goto 20
               DO I = 1, JPA(KFM(IFM),MXP)

@@ -47,9 +47,7 @@ C  -------
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-C      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
-C      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
@@ -58,7 +56,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DIMENSION  AREG(2),BREG(2),CREG(2)
       DIMENSION CUR(3), DCUR(3)
       PARAMETER (I2 = 2, I3 = 3)
-      dimension kfm(10)
+      INCLUDE 'MXSCL.H'
+      dimension kfm(MXSCL)
 
       SAVE SXL, QuadK1
 
@@ -66,15 +65,12 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       CALL SCALE9(
      >            KFM )
-      do ifm = 1, 10
-c      IF(KFM .GT. 0) THEN
+      do ifm = 1, MXSCL
             IF(KFM(ifm) .le. 0) goto 20
         DO I= 1 , JPA(KFM(ifm),MXP)
-           A(NOEL,JPA(KFM,I)) = VPA(KFM(IFM) ,I)
+           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
         ENDDO
-c      ENDIF
       enddo
-
  20   continue
 
       CALL RAZ(BM,MPOL)

@@ -74,8 +74,8 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
  10     CONTINUE
 
 C To allow for old style. 
-        TA(NOEL,4) = ' '
-
+c        TA(NOEL,4) = ' '
+c yann prblem, erase the 4th transformation
       ELSE
 C old style, x- and y-shift followed by z-rotation
 

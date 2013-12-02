@@ -76,7 +76,8 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 
       CHARACTER(80) TXT30
 
-      dimension kfm(10)
+      INCLUDE 'MXSCL.H'
+      dimension kfm(MXSCL)
 
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/ 
@@ -114,7 +115,7 @@ C Bcklg winding currents
       CALL SCALE9(
      >            KFM)
 
-      DO IFM = 1, 10
+      DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) GOTO 20
         DO I = 1, JPA(KFM(ifm),MXP)
 C Apply scaling to all parameters concerned

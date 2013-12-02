@@ -34,7 +34,8 @@ C     ----------------------------------------------
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE 'MXSCL.H'
+      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=10)
@@ -55,7 +56,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DIMENSION MODSCL(MXF)
       SAVE MODSCL
 
-      DIMENSION NTIM2(MXF),SCL2(MXF,MXS),TIM2(MXF,MXS)
+      DIMENSION NTIM2(MXF),SCL2(MXF,MXS),TIM2(MXF,MXS),NSCALCOL(MXSCL)
 
       DATA MODSCL / MXF*0  /
       DATA FAC / 1.D0  /
@@ -243,9 +244,29 @@ C--------- TIM(IFM,IT)
 
         ELSEIF( MODSCL(IFM) .GE. 10) then             
 C--------- Name of the storage file in the next line
-
+c     yann : modif to setup the read of the cols if the external file 
+c     is used together with the new scaling method that point directly to the A table
           READ(NDAT,FMT='(A)') TA(NOEL,IFM)
-          READ(NDAT,*) NTIMCOL, NSCALCOL
+          READ(NDAT,fmt='(a)') TXT132
+          CALL RAZS(STRAD,MSTRD)
+          CALL STRGET(TXT132,MSTRD,
+     >         KSTR,STRAD)
+
+          IF( KSTR .LE. 2 ) THEN !yann : this case is "as usual"
+             READ(TXT132,*) NTIMCOL, NSCALCOL(1)
+             NPA = 1
+             JPA(IFM,MXP) = NPA
+          ELSE                   !yann : this is the new case
+             READ(TXT132,*) NPA, NTIMCOL
+             IF( NPA.GT.10 ) CALL ENDJOB('SBR RSCAL - ' //
+     >            'Too many parameter, max is ', 10)
+             JPA(IFM,MXP) = NPA
+             DO I=1, NPA         !yann : loop over the declared number of parameter
+                READ(STRAD(2*I+1),*,err=95,end=95) JPA(IFM,I)     ! index in the table A
+                READ(STRAD(2*I+2),*,err=95,end=95) NSCALCOL(I)    ! column number in the data file
+             ENDDO
+          ENDIF
+c     yann : End of modif
   
           IF(IDLUNI(
      >              LUN)) THEN
@@ -255,22 +276,26 @@ C--------- Name of the storage file in the next line
             GOTO 97
           ENDIF
 
-          NTIM(IFM) = 1 !number of timing is determined during lecture
- 55       CONTINUE
-          READ(LUN,*,ERR=55,END=56)
-     >         (ANONE,ICOL=1,NTIMCOL-1),
-     >         TIM(IFM,NTIM(IFM)),
-     >         (ANONE,ICOL=1,NSCALCOL-NTIMCOL-1),
-     >         SCL(IFM,NTIM(IFM))
-          NTIM(IFM) = NTIM(IFM)+1
-          IF(NTIM(IFM) .GT. MXS-2) 
-     >    CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
-          GOTO 55
+          DO I=1, NPA ! yann : loop over the number of parameter, it is 1 for MOD .10 or .11
+             NTIM(IFM) = 1      !number of timing is determined during lecture
+             REWIND(LUN)
+ 55          CONTINUE
+             READ(LUN,*,ERR=55,END=56)
+     >            (ANONE,ICOL=1,NTIMCOL-1),
+     >            TIM(IFM,NTIM(IFM)),
+     >            (ANONE,ICOL=1,NSCALCOL(I)-NTIMCOL-1),
+     >            SCL(IFM,NTIM(IFM),I)
+             NTIM(IFM) = NTIM(IFM)+1
+             IF(NTIM(IFM) .GT. MXS-2) 
+     >            CALL ENDJOB('SBR RSCAL - ' //
+     >            'Too many timings, max is ',MXS-2)
+             GOTO 55
+ 56          CONTINUE
+          ENDDO       ! yann : end of loop
 
- 56       CONTINUE
           CLOSE(LUN)
           NTIM(IFM) = NTIM(IFM)-1
-          SCL(IFM,MXS) = fac
+          SCL(IFM,MXS,1) = fac
 
           IF( MODSCL(IFM) .EQ. 11) THEN             
             READ(NDAT,* ) NTIM2(IFM)
@@ -324,6 +349,13 @@ c      write(*,*) ' rscal 2   A(4,3), a(4,4), a(4,5) ',
 c     > A(4,3), a(4,4), a(4,5)
 c                    read(*,*)
 
+      RETURN
+
+ 95   CONTINUE
+      WRITE(ABS(NRES),*) 'ERROR READING SCALING'
+      WRITE(ABS(NRES),*) '   Family number', IFM
+      WRITE(ABS(NRES),*) '   at element : ', FAM(IFM)
+      CALL ENDJOB('SBR rscal. End job upon reading scaling',-99)
       RETURN
 
  96   CONTINUE

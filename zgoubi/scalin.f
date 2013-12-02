@@ -34,7 +34,8 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE 'MXSCL.H'
+      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=10)
@@ -97,7 +98,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
           ENDIF
               
-          IF(JPA(IF,MXP).GT.0) THEN
+          IF(JPA(IF,MXP).GT.0 .AND. JPA(IF,1).GT.0) THEN
             WRITE(NRES,FMT='(15X,''List of the '',I2
      >      ,'' parameters to be scaled in these elements : ''
      >      ,20(I2,'','',1X))') JPA(IF,MXP),(JPA(IF,I),I=1,JPA(IF,MXP))
@@ -113,7 +114,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
             NP = NP + 1
             DO IT = 1, NTIM(IF) 
-               SCL(IF,IT) = A(NOEL,NP+IT-1)
+               SCL(IF,IT,1) = A(NOEL,NP+IT-1)
                TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
             ENDDO
             NP = NP +  2 * NTIM(IF) 
@@ -123,7 +124,9 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
             IF(IPASS.EQ.1) THEN
 
               DO IT = 1, NTIM(IF) 
-                SCL(IF,IT) = SCL(IF,IT) * SCL(IF,MXS) 
+                 DO I=1, 10
+                    SCL(IF,IT,I) = SCL(IF,IT,I) * SCL(IF,MXS,1) 
+                 ENDDO
               ENDDO
 
             ENDIF
@@ -153,18 +156,18 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
             IF(MODSCL(IF) .LT. 10) THEN
 
-              WRITE(NRES,102) NTIM(IF), (SCL(IF,IT) ,IT=1,NTIM(IF))
+              WRITE(NRES,102) NTIM(IF), (SCL(IF,IT,1) ,IT=1,NTIM(IF))
  102          FORMAT(20X,' # TIMINGS :', I2
      >          ,/,20X,' SCALING   : ',10(F16.8,1X))
               WRITE(NRES,103) (NINT(TIM(IF,IT)), IT=1,NTIM(IF))
  103          FORMAT(20X,' TURN #    : ',10(I12,1X))
 
-            ELSE
+            ELSEIF(  MODSCL(IF) .LE. 12) THEN
 
               WRITE(NRES,104) 
      >        TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF))),
      >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
-     >        SCL(IF,1), SCL(IF,NTIM(IF))
+     >        SCL(IF,1,1), SCL(IF,NTIM(IF),1)
  104          FORMAT(15X,'Scaling of field follows the law'
      >        ,' function of Rigidity taken from file : ', A
      >        ,/,20X,' # TIMINGS : ', I5, 1P
@@ -174,13 +177,25 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
               IF    (MODSCL(IF) .EQ. 10) THEN
                 WRITE(NRES,FMT='(10X,
      >          ''Scaling law from file is further multiplied by ''
-     >          ,''constant factor = '',1P,E17.8)') SCL(IF,MXS) 
+     >          ,''constant factor = '',1P,E17.8)') SCL(IF,MXS,1) 
 
               ELSEIF(MODSCL(IF) .EQ. 11) THEN
                 WRITE(NRES,FMT='(10X,
      >          ''Scaling law from file is further multiplied by ''
      >          ,''Brho-dependent scaling SCL2'')')
+
               ENDIF
+
+            ELSEIF(  MODSCL(IF) .EQ. 13) THEN
+              WRITE(NRES,105) 
+     >        TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF))),
+     >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
+     >        SCL(IF,1,1), SCL(IF,NTIM(IF),1)
+ 105          FORMAT(15X,'Scaling of field follows the law'
+     >        ,' function of Time taken from file : ', A
+     >        ,/,20X,' # TIMINGS : ', I5, 1P
+     >        ,/,20X,' From :      ', E14.6, ' To ', E14.6, ' s    '
+     >        ,/,20X,' Scal from : ', E14.6, ' To ', E14.6)
 
             ENDIF
 
@@ -197,7 +212,7 @@ C          Starting value is either SCL(IF,1) or BORO
           ENDDO
 
           NP = NP + 1
-          SCL(IF,1) = A(NOEL,NP) 
+          SCL(IF,1,1) = A(NOEL,NP) 
           NP = NP + 1
           IDUM = A(NOEL,NP)  ! TIM
           NP = NP + 1
@@ -206,7 +221,7 @@ C          Starting value is either SCL(IF,1) or BORO
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
      >      ,''increase of rigidity taken from CAVITE, ''
      >      ,''starting scaling value ''
-     >      ,1P,E17.8)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -2) THEN
@@ -262,13 +277,13 @@ C          Starting value is SCL(IF,1)
             NDTIM=1
 
           NP = NP + 1
-          SCL(IF,1) = A(NOEL,NP)
+          SCL(IF,1,1) = A(NOEL,NP)
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(15X,''Scaling of fields follows ''
      >      ,''increase of rigidity taken from CAVITE'')')
             WRITE(NRES,FMT='(15X,''Starting scaling value is ''
-     >      ,1P,E17.8)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1,1)
           ENDIF
 
         ELSEIF(NTIM(IF) .EQ. -77) THEN
@@ -282,19 +297,19 @@ C          TIM(IF,2) = A(NOEL,10*IF+5)
             NDSCL=4
             NDTIM=2
           NP = NP + 1
-          SCL(IF,1) = A(NOEL,NP)
+          SCL(IF,1,1) = A(NOEL,NP)
           NP = NP + 1
-          SCL(IF,2) = A(NOEL,NP)
+          SCL(IF,2,1) = A(NOEL,NP)
           NP = NP + 1
-          SCL(IF,3) = A(NOEL,NP)
+          SCL(IF,3,1) = A(NOEL,NP)
           NP = NP + 1
-          SCL(IF,4) = A(NOEL,NP)
+          SCL(IF,4,1) = A(NOEL,NP)
           NP = NP + 1
           TIM(IF,1) = A(NOEL,NP)
           NP = NP + 1
           TIM(IF,2) = A(NOEL,NP)
           IF(NRES .GT. 0) THEN
-            WRITE(NRES,112) (SCL(IF,IC) ,IC=1,4)
+            WRITE(NRES,112) (SCL(IF,IC,1) ,IC=1,4)
  112        FORMAT(20X,' Brho-min, -max, -ref,  Frep  : ', 4(F17.8,1X))
             WRITE(NRES,113) ( INT(TIM(IF,IT)), IT=1,2)
  113        FORMAT(20X,' TURN #    : ',I12,'  TO  ',I12)
@@ -312,13 +327,13 @@ C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
             NDSCL=4
             NDTIM=3
           NP = NP + 1
-          SCL(IF,1) = A(NOEL,NP)      ! C
+          SCL(IF,1,1) = A(NOEL,NP)      ! C
           NP = NP + 1
-          SCL(IF,2) = A(NOEL,NP)     ! Q1
+          SCL(IF,2,1) = A(NOEL,NP)     ! Q1
           NP = NP + 1
-          SCL(IF,3) = A(NOEL,NP)     ! Q2
+          SCL(IF,3,1) = A(NOEL,NP)     ! Q2
           NP = NP + 1
-          SCL(IF,4) = A(NOEL,NP)     ! P
+          SCL(IF,4,1) = A(NOEL,NP)     ! P
           NP = NP + 1
           TIM(IF,1) = A(NOEL,NP)     ! Nramp
           NP = NP + 1
@@ -329,7 +344,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
 
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))') 
-     >          (SCL(IF,IC) ,IC=1,4)
+     >          (SCL(IF,IC,1) ,IC=1,4)
             WRITE(NRES,FMT='(5X,'' N-ramp, -flat, -down : '',3I8)') 
      >          (NINT(TIM(IF,IT)), IT=1,3)
           ENDIF
@@ -347,7 +362,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
             NDSCL=1
             NDTIM=3
           NP = NP + 1
-          SCL(IF,1) = A(NOEL,NP)
+          SCL(IF,1,1) = A(NOEL,NP)
           NP = NP + 1
           TIM(IF,1) = A(NOEL,NP)     ! G.gamma value at start of jump 
           NP = NP + 1
@@ -359,7 +374,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
             WRITE(NRES,FMT='(15X,''Scaling of field in Q-jump quads ''
      >      ,''follows increase of rigidity taken from CAVITE'')')
             WRITE(NRES,FMT='(15X,''Starting scaling value is ''
-     >      ,1P,E17.8)') SCL(IF,1)
+     >      ,1P,E17.8)') SCL(IF,1,1)
             WRITE(NRES,FMT='(5X,
      >      ''Quad jump series is started at G.gamma = N + dN ='',
      >      F10.4,'' + '',F10.4)') TIM(IF,1),TIM(IF,2)

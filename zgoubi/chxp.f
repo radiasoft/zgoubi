@@ -40,7 +40,8 @@ C  -------
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE 'MXSCL.H'
+      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       COMMON/STEP/ TPAS(3), KPAS
 C      COMMON/STEP/ KPAS, TPAS(3) 
@@ -82,7 +83,7 @@ C Modif, FM, Dec. 05
 C          KP = NINT(A(NOEL,ND+1))
 C          NDD = ND+2
           KP = NINT(A(NOEL,ND+3))
-          NDD = ND + 4
+          NDD = ND+4
         ELSEIF(KUASEX .EQ. 7 .OR. KUASEX .EQ. 2) THEN
 C--------- TOSCA keyword using cylindrical mesh (MOD.ge.20)
           KP = NINT(A(NOEL,ND+10))
@@ -226,15 +227,6 @@ C     >                  XL,DEV)
         KP = NINT(A(NOEL,ND+3))
         NDD = ND+4
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
-
-      ELSEIF(KUASEX .EQ. 40 )   THEN
-C-------- CYCLOTRON
-
-        CALL CYCLO(SCAL,
-     >                  DSREF,IRD,IDB)
-
-        KP = NINT(A(NOEL,ND+3))
-        NDD = ND+4
 
       ENDIF
 

@@ -50,12 +50,29 @@ C     -------------------------------------------------
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SYNRA/ KSYN
- 
+      INCLUDE 'MXFS.H'
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+      INCLUDE 'MXSCL.H'
+      DIMENSION KFM(MXSCL)
+
       LOGICAL EVNT
       PARAMETER (MSR=10)
       CHARACTER QSHRO(MSR)*(2)
       DIMENSION VSHRO(MSR)
+      PARAMETER (I1=1)
  
+      DUM = SCALER(I1,NOEL,
+     >                     DUM)
+      CALL SCALE9(
+     >            KFM)
+      DO IFM = 1, MXSCL
+         IF(KFM(IFM) .LE. 0) GOTO 20
+         DO I= 1 , JPA(KFM(IFM),MXP)
+            A(NOEL,JPA(KFM(IFM),I)) = VPA(KFM(IFM) ,I)
+         ENDDO
+      ENDDO
+ 20   CONTINUE
+
       NSR = NINT(A(NOEL,9))
       IF(NSR .GE. MSR)
      >CALL ENDJOB('SBR CHREFE. Max. nmbr of transforms must be < ',MSR)

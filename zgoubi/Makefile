@@ -389,22 +389,22 @@ accep.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 agsblw.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsk12.o: $(INC)/MXLD.H $(INC)/MXFS.H
 agsks.o: $(INC)/MXLD.H $(INC)/MXFS.H
-agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+agsmm.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 agsmmf.o: $(INC)/MAXTRA.H
-agsqua.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+agsqua.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 agsqks.o: $(INC)/MXFS.H $(INC)/MXLD.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 bendi.o: $(INC)/MXLD.H
 binary.o: $(INC)/MXLD.H
-block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 bndth.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
-bndthi.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+bndthi.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 bonul.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 carla.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 carshi.o: PARIZ.H $(INC)/MXLD.H
-cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H
+cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 chamb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 chamc.o: $(INC)/MAXTRA.H
 chamk.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
@@ -413,9 +413,9 @@ charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 checks.o: PARIZ.H 
 chmbre.o: $(INC)/MAXTRA.H
 chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-chrefe.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
-chxc.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H
-chxp.o: PARIZ.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H
+chrefe.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXSCL.H
+chxc.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H $(INC)/MXSCL.H
+chxp.o: PARIZ.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H $(INC)/MXSCL.H
 cible.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 cntinl.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 coeffs.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -425,7 +425,7 @@ collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 cyclo.o: $(INC)/MXLD.H
-damper.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+damper.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXSCL.H
 dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dipc.o: $(INC)/MXLD.H
 dipci.o: $(INC)/MXLD.H
@@ -433,7 +433,7 @@ dipi.o: $(INC)/MXLD.H
 dipolm.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 dipsi.o: $(INC)/MXLD.H
 dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
+dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXSCL.H
 el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H
 elcyld.o: $(INC)/MXLD.H
@@ -501,7 +501,7 @@ mix.o: $(INC)/MAXCOO.H
 mksa.o: $(INC)/MAXCOO.H
 modord.o: $(INC)/MXLD.H
 multip.o: $(INC)/MAXTRA.H
-multpo.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H
+multpo.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 normal.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 obj3.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
 obj5.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -550,7 +550,7 @@ relmir.o: $(INC)/MXLD.H
 remma.o: $(INC)/MXLD.H
 rempli.o: $(INC)/MXLD.H
 replat.o: $(INC)/MXLD.H
-reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H
+reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
 rfaist.o: $(INC)/MXLD.H
 rffag.o: $(INC)/MXLD.H
 rfit.o: $(INC)/MXLD.H
@@ -566,7 +566,7 @@ robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H
 rrebel.o: $(INC)/MXLD.H
-rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H
+rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 rsepar.o: $(INC)/MXLD.H
 rsimb.o: $(INC)/MXLD.H
 rspinr.o: $(INC)/MXLD.H
@@ -577,10 +577,10 @@ rtrans.o: $(INC)/MXLD.H
 rundul.o: $(INC)/MXLD.H
 runipo.o: $(INC)/MXLD.H
 rwienf.o: $(INC)/MXLD.H        
-scaler.o: $(INC)/MXFS.H $(INC)/MXLD.H
-scalin.o: $(INC)/MXLD.H $(INC)/MXFS.H
+scaler.o: $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
+scalin.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 scumul.o: $(INC)/MAXCOO.H
-separa.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+separa.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXSCL.H
 serv2.o: PARIZ.H
 serv32.o: PARIZ.H
 serv34.o: PARIZ.H
@@ -599,7 +599,7 @@ srprn.o: $(INC)/MXLD.H
 stpsiz.o: $(INC)/MXLD.H
 synpar.o: $(INC)/MXLD.H
 toroid.o: $(INC)/MAXTRA.H
-toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXSCL.H
 toscap.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 trace.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 track.o: $(INC)/MXLD.H
@@ -618,6 +618,6 @@ waist.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 wedgki.o: $(INC)/MAXCOO.H
 wienfi.o: $(INC)/MXLD.H
 ymoiny.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H
+zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H $(INC)/MXSCL.H
 zgoubi_main.o: $(INC)/MXLD.H
  

@@ -39,14 +39,19 @@ C  -------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
-      COMMON/SCAL/ SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE 'MXSCL.H'
+      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
       COMMON/UNITS/ UNIT(MXJ)
  
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
+      SAVE synch_time
+      dimension kfm(MXSCL)
+      
       CHARACTER(9) SKAV(8)
       DIMENSION DTI0(MXT)
       SAVE DTI0
@@ -56,7 +61,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
       SAVE TIOLD, PHIOLD
 
-      SAVE DWS
+      SAVE DWS, PHS_prev
 !     SR loss
       LOGICAL SRLOSS
 
@@ -71,6 +76,19 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
       DATA DWS / 0.D0 / 
+
+
+      CALL SCALE9(
+     >            KFM )
+      do ifm = 1, 10
+            IF(KFM(ifm) .le. 0) goto 121
+        DO I= 1 , JPA(KFM(ifm),MXP)
+           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
+        ENDDO
+      enddo
+ 121  continue
+
+
 
       KCAV = NINT(A(NOEL,1))
       IF(IPASS .EQ. 1) THEN 
@@ -555,6 +573,9 @@ C Kin. energy, MeV
  
  1    CONTINUE
 
+      synch_time = synch_time + 1.d0/FREV*AN11
+
+
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
@@ -585,11 +606,12 @@ C     >        ps/16, AN11/DTS/(53e6), GTRNUS/40/0.11
       ENDIF
 
 cC----- Initial conditions of  the IMAX particles
-      IF(IPASS .EQ. 1) THEN
+      IF ( PHS .NE. PHS_prev .AND. IPASS .GT. 1 ) then
         DO I=1,IMAX
-          PHAS(I) = PHS
+           PHAS(I) = PHAS(I) + PHS - PHS_prev
         ENDDO
       ENDIF
+      PHS_prev = PHS
  
       DO 3 I=1,IMAX 
 
@@ -610,7 +632,11 @@ cC----- Initial conditions of  the IMAX particles
 C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0), 
 C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
-        PHAS(I) = PHAS(I) + (DTI-DTS)*OMRF
+        IF(IPASS .EQ. 1) THEN
+           PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
+        ELSE
+           PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
+        ENDIF
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
         WF = WF1(I) + QV*SIN(PHAS(I))
@@ -618,6 +644,7 @@ C DTI is the time it took since the last passage in CAVITE
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
  
+
 C        DPR(I)=P-PS
         DPR(I)=(P-PS)/PS
         PH(I)=PHAS(I) 
@@ -638,6 +665,9 @@ C        PH(I)=BLAG
 
  3    CONTINUE
       GOTO 88
+
+
+
  
  88   CONTINUE
       DPREF = PS / P0
@@ -653,5 +683,10 @@ C        PH(I)=BLAG
      >             DWSO)
       DWSO = DWS
       RETURN
+
+      ENTRY CAVIT3(
+     >     A_synch_time)
+      A_synch_time = synch_time
+      RETURN 
 
       END
