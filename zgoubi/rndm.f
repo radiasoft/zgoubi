@@ -60,9 +60,11 @@ c      INTEGER DEBSTR
 C year month day time-utc hour min secon ms
 c      dimension ival(8)
 c      save ir
+      dimension i1(1)
 
       data first / .true. /
       data ir / 123456 /
+      data i1 / 1 / 
 
 C For ifort compiler. Can be commented otherwise. 
 
@@ -94,7 +96,9 @@ c      READ(TXT(DEBSTR(TXT)+2:DEBSTR(TXT)+8),FMT='(I6)') IR
       RETURN
 
       entry rndm2(iri)
-      call srand(iri)
+C      call srand(iri)
+       i1(1) = iri
+        call RANDOM_seed(put=i1)
       return
 
       END
