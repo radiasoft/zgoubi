@@ -29,8 +29,10 @@ C     ------------------------
 C     READS DATA FOR MULTIPOLE
 C     ------------------------
 
-          logical first
-             data first / .true. /
+C-- eRHIC, skew ffag dipoles
+c          logical first
+c             data first / .true. /
+C-- eRHIC, skew ffag dipoles
 
       IA = 1
       READ(NDAT,*) A(NOEL,IA) 
@@ -64,24 +66,21 @@ C----- Rotation of multipole components
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
 
 C-- eRHIC, skew ffag dipoles
-       if(first) then
-          call rndm2(456789)
-       endif
-      first = .false.
-        rma = 3.d0
-
-          sigXR = 5.d-3     ! rad
-
-              SM = EXP(-RMA*RMA/2.D0)
-                R=1.D0 + RNDM()*(SM-1.D0)
-              R=SQRT(-2.D0*LOG(R))*sigXR
-                SIGN =  1.D0 
-                IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
-              R = R*SIGN
-         
-       A(NOEL,IA) = R
-       A(NOEL,IA+1) = R       
-      write(88,*) r,sm,rma, first
+c       if(first) then
+c          call rndm2(456789)      !!!!!!!!!! seed
+c       endif
+c      first = .false.
+c        rma = 3.d0
+c          sigXR = 5.d-3     !!!!!!!!!! sigma [rad]
+c              SM = EXP(-RMA*RMA/2.D0)
+c                R=1.D0 + RNDM()*(SM-1.D0)
+c              R=SQRT(-2.D0*LOG(R))*sigXR
+c                SIGN =  1.D0 
+c                IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
+c              R = R*SIGN        
+c       A(NOEL,IA) = R
+c       A(NOEL,IA+1) = R       
+ccc      write(88,*) r,sm,rma, first
 C-- eRHIC, skew ffag dipoles
       
 
