@@ -66,7 +66,6 @@ c      PARAMETER (IZ=1 , ID=3, MMAP=2)
 c      PARAMETER (MXX=961, MXY=161)
 cccccccccccc      PARAMETER (IZ=1 , ID=3, MMAP=1)
 cccccccccccc      PARAMETER (MXX=961, MXY=161)
-c>>>>>>> .r334
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- IZ : # of mesh nodes in Z direction or 3 with MAP2. ID : # of field coordinates (3 if IZ>1)
