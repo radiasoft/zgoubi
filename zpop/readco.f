@@ -397,6 +397,12 @@ C      Location about where particle was lost
       YZXB(58) = IT
       YZXB(59) = ENERG / AMQ1 *AMQ3   ! G.gamma
       YZXB(60) = SQRT(YZXB(2)**2 + YZXB(4)**2)
+      alf = 0.d0 
+      bta = 26.608d0
+      YZXB(61) = atan2(alf*F(2)/1.d2+bta*F(3)/1.d3,F(2)/1.d2)
+      alf = 0.d0 
+      bta = 11.302651d0
+      YZXB(62) = atan2(alf*F(4)/1.d2+bta*F(5)/1.d3,F(4)/1.d2)
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

@@ -84,6 +84,8 @@ C  -------
      >, /,8X,'58 :  Particle #  '
      >, /,8X,'59 :  G.gamma  '
      >, /,8X,'60 :  sqrt(Y^2 + Z^2) '
+     >, /,8X,'61 :  atan2(alf*Y+bta*T,Y) '
+     >, /,8X,'61 :  atan2(alf*Z+bta*P,Z) '
      >,/)
 
       KX0 = KX
