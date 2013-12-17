@@ -67,7 +67,7 @@ C----- Reset particle counter
 
       KT1 = NINT(A(NOEL,20)      )
       KT2 = NINT(A(NOEL,21)      )
-      KTSTP = A(NOEL,22)
+      KT3 = A(NOEL,22)
       KP1 = NINT(A(NOEL,30))
       KP2 = NINT(A(NOEL,31)) 
       KP3 = NINT(A(NOEL,32))
@@ -100,13 +100,18 @@ C----- Reset particle counter
         IF(IDLUNI(
      >            NL)) THEN
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Opening input file  '',
-     >    A,''  Unit # : '',I3)') 
+     >    A,'',  in logical unit # : '',I3)') 
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),NL
           OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',FORM=FRMT,ERR=96, 
      >                                          IOSTAT=IOS)
             IF(IOS.NE.0) GOTO 96
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Reading  initial'',2X
-     >      ,''conditions  in  '',A)') NOMFIC
+     >      ,''conditions  in  file  '',A)') 
+     >                             NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,'' Reading particles  '',2X
+     >      ,I6,''  to  '',I6,'',  step  '',I6)') KT1,KT2,KT3
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,'' Reading pass #     '',2X
+     >      ,I6,''  to  '',I6,'',  step  '',I6,/)') KP1,KP2,KP3
             CALL HEADER(NL,NRES,4,BINARY,
      >                                   *999)
         ELSE
@@ -161,6 +166,8 @@ C----- Traj. counter
           ENDIF
 
           ITR = ITR + 1
+          it1 = it1 + 1
+          
           IF(.NOT. OKKT(KT1,KT2,ITR,
      >                              IEND)) THEN
             GOTO 222
@@ -189,9 +196,9 @@ C------------ Was installed for reading pion data at NuFact target
  171        continue
             READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             ITR = ITR + 1
-c            write(*,*) ' obj3 ',ktstp,ktstp*((it1-1)/ktstp),it1-1         
+c            write(*,*) ' obj3 ',KT3,KT3*((it1-1)/KT3),it1-1         
 c                read(*,*)
-            if(ktstp*((itr-1)/ktstp) .ne. itr-1) goto 171            
+            if(KT3*((itr-1)/KT3) .ne. itr-1) goto 171            
 c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it1
 c                read(*,*)
             it1 = it1 + 1
@@ -265,11 +272,11 @@ C------------ Installed for RHIC FFAG arcs
  174        continue
             READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jtr
             ITR = JTR
-c            write(*,*) ' obj3 ',ktstp,ktstp*((itr-1)/ktstp),it1-1,itr
+c            write(*,*) ' obj3 ',KT3,KT3*((itr-1)/KT3),it1-1,itr
 c                read(*,*)
             if(itr .lt. kt1 .or. itr .gt. kt2) goto 174            
             if(it1.gt.0) then 
-              if(ktstp*((itr)/ktstp) .ne. itr) goto 174            
+              if(KT3*((itr)/KT3) .ne. itr) goto 174            
             endif
             it1 = it1 + 1
 c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,itr,itr,it1
@@ -316,6 +323,9 @@ C            LETI=KAR(IKAR)
           IF(LETI.NE.LETAG) IEXI=-9
         ENDIF
 
+c          write(*,*) ' obj3 iex ',  IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO
+c          write(*,*) ' obj3 iex ',  IEXI,DP,Y,T,Z,P,S,TIM
+c              read(*,*)
         IF(IEXI.LE.0) GOTO 17
 
 C        IT1 = IT1 + 1
@@ -346,6 +356,9 @@ C          SUBSEQUENT PARTICUL
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
         IREP(IT1) = IT1
+c          write(*,*) ' obj3 it1,it2 : ',it1,it2,mxt,kt2 
+c          write(*,*)  F(2,IT1), F(3,IT1), F(4,IT1),F(6,IT1)
+c             read(*,*)
         IF (AMQLU(3)) THEN
            RET(IT1)=RETI
            DPR(IT1)=DPRI
@@ -377,7 +390,7 @@ C        IREP(IT1) = IREPI
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
-C          write(*,*) ' obj3 it1,it2 : ',it1,it2,mxt,kt2 
+
       GOTO  17
  
  96   WRITE(TXT,FMT='(
@@ -410,7 +423,7 @@ C      IT1 = IT1-1
 
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,T5,''  Reading  in  file  '',A
-     >    ,/,''   ended  after  gathering '',I6,''  particles''
+     >    ,''  has  ended  after  gathering '',I6,''  particles''
      >    ,''  in  requested  range :  ['',I6,'', '',I6,'']'')')
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),IMAX,KT1,KT2
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,

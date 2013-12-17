@@ -100,9 +100,14 @@ C Read till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
 c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
 c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
         enddo 
 c        read(lunR,fmt='(a)') txt300
 c        write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
@@ -336,7 +341,14 @@ C Read/write till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
         enddo 
         read(lunR,fmt='(a)') txt300
         write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
@@ -464,7 +476,15 @@ C Read/write till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
+c          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
         enddo 
         read(lunR,fmt='(a)') txt300
         write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
@@ -670,7 +690,15 @@ C Read/write till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
+c          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
         enddo 
         read(lunR,fmt='(a)') txt300
         write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
@@ -804,7 +832,15 @@ C Read/write till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
+c          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
         enddo 
         read(lunR,fmt='(a)') txt300
         write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
@@ -1141,7 +1177,15 @@ C Read/write till "KOBJ"
      >  .not.strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
      >  9,IS))
           read(lunR,fmt='(a)') txt300
-          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          if(strcon(txt300(debstr(txt300):finstr(txt300)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
+          endif
+c          write(lunW,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
 c          write(*,fmt='(a)') txt300(debstr(txt300):finstr(txt300))
 c             read(*,*)
         enddo 

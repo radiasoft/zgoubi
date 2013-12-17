@@ -5,7 +5,9 @@
 #
 # Case of ifort compiler, next three lines
 CFLAGS=-g -DGFORTRAN4
-FC=ifort
+#FC=ifort
+#FFLAGS=-save -xHOST -O3 -ip -static -save -shared-intel
+FC=/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort
 #FFLAGS= -xHOST -O3 -ip -static -save -shared-intel
 FFLAGS= -O3 -ip -static -save
 
