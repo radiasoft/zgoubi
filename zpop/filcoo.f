@@ -31,9 +31,9 @@ C      PARAMETER (NTR=NTRMAX*9)
 
       DIMENSION KXYL(6)
       SAVE KXYL
-      DATA KXYL / 2,3,4,5,7,20 /  ! 7,20=time,energy
+C      DATA KXYL / 2,3,4,5,7,20 /  ! 7,20=time,energy
 C      DATA KXYL / 2,3,4,5,6,1 /
-C      DATA KXYL / 2,3,4,5,18,19 /  ! 18,19=phase,dpp
+      DATA KXYL / 2,3,4,5,18,19 /  ! 18,19=phase,dpp
 
       IF(NOC.LE.NTRMAX) THEN
 

@@ -1185,10 +1185,10 @@ C------- Swallow the header (4 lines)
 
 C      DATA KXYL / 2,3,4,5,7,1 /
 C                 Y  T  Z  P  time energ
-      DATA KXYL / 2, 3, 4, 5, 7,   20 /
+C      DATA KXYL / 2, 3, 4, 5, 7,   20 /
 C                 Y  T  Z  P  time dp/p
 C      DATA KXYL / 2, 3, 4, 5, 7,   1 /
-C      DATA KXYL / 2,3,4,5,18,19 /
+      DATA KXYL / 2,3,4,5,18,19 /
 
 C----------- Current coordinates
           II = 0

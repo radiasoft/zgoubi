@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/zpop/MAXNTR.H
+link ../../zpop/MAXNTR.H

@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/zpop/OKKL.H
+link ../../zpop/OKKL.H

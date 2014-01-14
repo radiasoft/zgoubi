@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/include/MAXTRA.H
+link ../../include/MAXTRA.H

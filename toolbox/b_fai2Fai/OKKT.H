@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/include/OKKT.H
+link ../../include/OKKT.H

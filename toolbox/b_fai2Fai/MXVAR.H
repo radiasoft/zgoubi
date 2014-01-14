@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/zpop/MXVAR.H
+link ../../zpop/MXVAR.H

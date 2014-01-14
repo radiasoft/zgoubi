@@ -60,11 +60,11 @@ c      INTEGER DEBSTR
 C year month day time-utc hour min secon ms
 c      dimension ival(8)
 c      save ir
-      dimension i1(1)
+      dimension i1(12)
 
       data first / .true. /
       data ir / 123456 /
-      data i1 / 1 / 
+      data i1 / 12 * 123456 / 
 
 C For ifort compiler. Can be commented otherwise. 
 
