@@ -1,13 +1,13 @@
 CFLAGS = -g -DGFORTRAN4
 #
 # Case of gfortran compiler, next two lines
-FC=gfortran
-FFLAGS=-O4 -Wall -fno-automatic -pedantic
+#FC=gfortran
+#FFLAGS=-O4 -Wall -fno-automatic -pedantic
 #
 # Case of ifort compiler, next two lines
 #FC=/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort
-#FC=ifort
-#FFLAGS= -xHOST -O3 -ip -static -save -shared-intel
+FC=ifort
+FFLAGS= -xHOST -O3 -ip -static -save -shared-intel
 
 .POSIX:
 
