@@ -51,6 +51,15 @@ C  -------
       LOGICAL CASPI, LTEMP
       SAVE CASPI
 
+cC-----------------
+cC debugging
+c       call zgnoel(
+c     >                 noel)
+c       write(*,*) ' multip ',noel,(bm(i),i=1,mpol)
+c       write(*,*) ' ----'
+c       write(*,*) ' '
+cC---------------------
+
       XLS=XLIM-XS 
       IOP=1
 

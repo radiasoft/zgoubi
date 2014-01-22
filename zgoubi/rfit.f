@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE RFIT(KLEY,
-     >                     PNLTY,ICPTMA)
+     >                     PNLTY,ICPTMA,fitfnl)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -37,14 +37,19 @@ C     ***************************************
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
 
-      CHARACTER TXT132*132
-      LOGICAL STRCON, CMMNT
+      CHARACTER(132) TXT132
+      LOGICAL STRCON, CMMNT, FITFNL
       CHARACTER(40) STRA(10)
 
       PARAMETER (ICPTM1=1000, ICPTM2=1000)
-
-      READ(NDAT,*) NV
+ 
+      READ(NDAT,FMT='(A)') TXT132
+      IF(STRCON(TXT132,'!',
+     >                     IIS)) TXT132 = TXT132(1:IIS-1)
+      READ(TXT132,*) NV
       IF(NV.LT.1) RETURN
+      FITFNL = .not. STRCON(TXT132,'nofinal',
+     >                                       IIS) 
 
       DO I=1,NV
         READ(NDAT,FMT='(A)') TXT132

@@ -105,49 +105,49 @@ c        RETURN
       ENDIF
 
       IF(KWRMAT) THEN
-c        IF(IDLUNI(
-c     >            LNWRT)) THEN
-          INQUIRE(FILE=FNAME,EXIST=EXS,OPENED=OPN,IOSTAT=I)
-c          IF(OPN) THEN
-c            CLOSE(LNWRT)
-c          ENDIF
-
-          IF(EXS) then
-            if(.not. opn) THEN
-              ok = IDLUNI(
-     >                    LNWRT)
-              OPEN(UNIT=LNWRT, FILE=FNAME, status='OLD',ERR=96)
-C              CALL GO2END(LNWRT)
-              WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
-     >        // ' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
-     >        // ' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ'
-            endif
-          ELSE
-            ok = IDLUNI(
+        INQUIRE(FILE=FNAME,EXIST=EXS,OPENED=OPN,IOSTAT=I)
+        IF(EXS) THEN
+          IF(.NOT. OPN) THEN
+            OK = IDLUNI(
      >                  LNWRT)
-            OPEN(UNIT=LNWRT, FILE=FNAME, status='NEW',ERR=96)
-            WRITE(LNWRT,*) '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
-     >      // ' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
-     >      // ' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ'
+            OPEN(UNIT=LNWRT, FILE=FNAME, status='OLD',ERR=96)
+            WRITE(LNWRT,FMT='(A)') 
+     >      '% R11 R12 R13 R14 R15 R16, R21 R22 R23 R24 ... R65 R66, '
+     >      //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
+     >      //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
+c     >      '% R11 R12 R13 R14,  R21 R22 R23 R24, R31 ... R43 R44, '
+c     >      //' R16, R26, R36, R46,  R51 R52 R53 R54 R55,  R66, '
+c     >      //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
+c     >      //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
             WRITE(LNWRT,*) '%  '  
           ENDIF
-
-c          write(lnwrt,*)'%  transport coefficients',
-c     >              ' ((R(IA,IB),IB=1,4),IA=1,4)'
-C This will stack results from stacked jobs, or will stack with earlier results
-c        ELSE
-c          GOTO 95
-c        ENDIF
-c        WRITE(LNWRT,*) ' '
-c        WRITE(LNWRT,*) 'Last merged : '
-        WRITE(LNWRT,FMT='(1P,36(1X,E12.4))') ((R(IA,IB),IB=1,4),IA=1,4), 
-     >  R(1,6), R(2,6), R(3,6), R(4,6), 
-     >  R(5,1), R(5,2), R(5,3), R(5,4), R(5,5), R(6,6), 
+        ELSE
+          OK = IDLUNI(
+     >                LNWRT)
+          OPEN(UNIT=LNWRT, FILE=FNAME, status='NEW',ERR=96)
+          WRITE(LNWRT,FMT='(A)') 
+     >     '% R11 R12 R13 R14 R15 R16, R21 R22 R23 R24 ... R65 R66, '
+     >     //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
+     >     //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
+c     >     '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
+c     >     //' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
+c     >     //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
+c     >     //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
+          WRITE(LNWRT,*) '%  '  
+        ENDIF
+        WRITE(LNWRT,FMT='(1P,51(1X,E16.8))') ((R(IA,IB),IB=1,6),IA=1,6), 
      >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
-     >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU
+     >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU,
+     >  F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)
+c        WRITE(LNWRT,FMT='(1P,41(1X,E16.8))') ((R(IA,IB),IB=1,4),IA=1,4), 
+c     >  R(1,6), R(2,6), R(3,6), R(4,6), 
+c     >  R(5,1), R(5,2), R(5,3), R(5,4), R(5,5), R(6,6), 
+c     >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
+c     >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU,
+c     >  F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)
 C        CLOSE(LNWRT)
 C        KWRMAT = .FALSE.
-
+        CALL FLUSH2(LNWRT,.FALSE.)
       ENDIF
 
 
@@ -216,8 +216,8 @@ C MODIFIED, FM, 04/97
       KWRMAT = KWRI
       RETURN
 
-c 95   CALL ENDJOB('ERROR : no free unit # for '//FNAME,-99)
  96   KWRMAT = .FALSE.
-      CALL ENDJOB('ERROR upon open  old  file '//FNAME,-99)
+      CALL ENDJOB('ERROR upon  open  old  file '//FNAME,-99)
       RETURN
+
       END

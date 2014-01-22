@@ -43,6 +43,7 @@ C-----------------------------------------------------------------------
       CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
       PARAMETER (I104=I110-I6)
+      LOGICAL STRCON
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'
@@ -58,6 +59,14 @@ C----- Read zgoubi.dat title (1st data line)
           TEXT = TEXT(DEBSTR(TEXT):FINSTR(TEXT))
         ELSE
           TEXT = ' '
+        ENDIF
+        IF(STRCON(TEXT,'!', 
+     >                     IS)) THEN
+          IF(IS .GE. 1) THEN
+            TEXT = TEXT(1:IS-1)
+          ELSE
+            TEXT = ' '
+          ENDIF
         ENDIF
         IDEB = 1
         IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN

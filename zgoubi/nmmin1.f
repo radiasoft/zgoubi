@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      DOUBLE PRECISION FUNCTION NMMIN1(F,X,DX,N,iarr)
+      DOUBLE PRECISION FUNCTION NMMIN1(F,X,DX,N,IARR)
 
       IMPLICIT NONE
       DOUBLE PRECISION F
@@ -181,6 +181,7 @@ C Max number of function calls
       ENTRY NMMIN2(PNLTI,ICPTM)
       PNLTY = PNLTI
       ICPTMA = ICPTM
+      NMMIN2 = 0
       RETURN
 
       END

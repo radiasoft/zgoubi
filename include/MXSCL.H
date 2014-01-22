@@ -24,6 +24,5 @@ C  Upton, NY, 11973
 C  -------
 
       INTEGER MXSCL
-
-c     Maximum number of parameters in a single scaling 
+C     Maximum number of parameters in a single scaling 
       PARAMETER(MXSCL=10)

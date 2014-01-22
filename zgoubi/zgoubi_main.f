@@ -35,6 +35,7 @@ C  -------
 
       PARAMETER (KSIZ=10)
       CHARACTER*(KSIZ) KLE
+      LOGICAL FITFNL
 
       DATA ENDFIT / .FALSE. /
 
@@ -76,20 +77,17 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
 
       READAT = .TRUE.
 
- 11   continue
+ 11   CONTINUE
       FITING = .FALSE.
       CALL INIDAT
       CALL RESET
       CALL CHECKS
-
-c      READAT = .TRUE.
-c      FITING = .FALSE.
       CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
       ENDFIT = .FALSE.
       CALL ZGOUBI(NL1,NL2,READAT,
-     >                           NBEL,ENDFIT)
+     >                           NBLMN,ENDFIT)
 
       CALL FITSTA(I5,
      >               FITING)
@@ -102,49 +100,39 @@ c      FITING = .FALSE.
      >              NUMKLE)
         NL2 = NUMKLE-1   ! FIT keyword is at position NUMKLE
         WRITE(6,201)
-        WRITE(6,200) 
-        IF(NRES.GT.0) THEN
-          WRITE(NRES,201)
-          WRITE(NRES,200) 
- 200      FORMAT(/,10X,
-     >   ' MAIN PROGRAM :  now final run using FIT values ',A10)
-        ENDIF
-        ENDFIT = .FALSE.
-        CALL ZGOUBI(NL1,NL2,READAT,
-     >                             NBEL,ENDFIT)
+        CALL FITNU3(
+     >              FITFNL)
+        IF(FITFNL) THEN
+          WRITE(6,200) 
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,201)
+            WRITE(NRES,200) 
+ 200        FORMAT(/,10X,
+     >     ' MAIN PROGRAM :  now final run using FIT values ',A10)
+          ENDIF
+          ENDFIT = .FALSE.
+          CALL ZGOUBI(NL1,NL2,READAT,
+     >                               NBLMN,ENDFIT)
 c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle
 c        write(*,*) 
+          IF(NRES.GT.0) WRITE(NRES,201)
+ 201      FORMAT(/,128('*'))
+        ENDIF
         WRITE(6,201)
-        IF(NRES.GT.0) WRITE(NRES,201)
- 201    FORMAT(/,128('*'))
-
 C Proceeds until the end of zgoubi.dat list
         READAT = .TRUE.
         FITING = .FALSE.
         CALL FITSTA(I6,FITING)
         NOEL = NUMKLE
         NL1 = NUMKLE + 1
-C        call go2key('FIT')
         CALL ZGKLE(IQ(NL1-1),
      >                     KLE)   ! KLE = FIT !!
-        call go2key(NL1)
-        NL2 = NBEL
-        CALL REBEL6(NL1, NBEL)
+        CALL GO2KEY(NL1)
+        NL2 = NBLMN
+        CALL REBEL6(NL1, NBLMN)
         ENDFIT = .TRUE.
         CALL ZGOUBI(NL1,NL2,READAT,
-     >                             NBEL,ENDFIT)
-c        IF(IDLUNI(
-c     >          LUN)) THEN
-c          OPEN(UNIT=LUN,FILE='zgoubi.fitSave',ERR=462)
-c          CALL IMPAJU(LUN,F)          
-c        ELSE
-c          GOTO 462
-c        ENDIF
-c 462    CONTINUE
-
-C For use of REBELOTE (REBELOTE encompasses FIT)
-c         write(*,*) ' zgoubi_main ',endfit
-c             read(*,*)
+     >                             NBLMN,ENDFIT)
         IF(.NOT. ENDFIT) THEN
           REWIND(NDAT)
           GOTO 11 

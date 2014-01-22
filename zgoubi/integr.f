@@ -98,7 +98,7 @@ C--------- Entrance is sharp edge
       X2 = X
       Y2 = Y  
       Z2 = Z
-      IF(FITTST) CALL FITMM2
+      IF(FITTST) CALL FITMM2(IT)
 
 C----- DEBUT DE BOUCLE SUR DXI
 C      Start loop on DXI

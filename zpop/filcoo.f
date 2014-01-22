@@ -51,6 +51,10 @@ C then :               x  x' z  z' t  E
           COOR(NOC,4)=YZXB(KXYL(4)+II )
           COOR(NOC,5)=YZXB(KXYL(5)+II )
           COOR(NOC,6)=YZXB(KXYL(6) )
+
+c             call fbgtxt
+c             write(*,*) ' filcoo ', COOR(NOC,5), COOR(NOC,6),noc
+
       ELSE
         CALL INIGR1(
      >              NLOG)

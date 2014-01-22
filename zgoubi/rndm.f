@@ -99,6 +99,9 @@ c      READ(TXT(DEBSTR(TXT)+2:DEBSTR(TXT)+8),FMT='(I6)') IR
 C      call srand(iri)
        i1(1) = iri
         call RANDOM_seed(put=i1)
+C        call RANDOM_seed()
       return
 
       END
+ 
+ 

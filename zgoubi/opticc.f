@@ -29,7 +29,7 @@ C  -------
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
-      logical prdic
+      LOGICAL PRDIC
 
       IORD = 1
       IFOC = 0

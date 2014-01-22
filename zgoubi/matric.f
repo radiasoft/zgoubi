@@ -57,7 +57,7 @@ C      CHARACTER(140) BUFFER
       INTEGER DEBSTR, FINSTR
       LOGICAL IDLUNI, OK
 
-      character(300) cmmnd
+      CHARACTER(300) CMMND
 
       DATA KWRMAT / .FALSE. /
 

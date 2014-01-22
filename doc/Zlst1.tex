@@ -3415,18 +3415,22 @@ In the example below, \textsl{FIT} requests that (i) the particle trajectory hav
 \noindent Once this is done, the execution pointer then points to 
 the next instruction in the data list, which is   \textsl{REBELOTE} and means 'do it again', which will have the 
 effect of sending the execution pointer back to the begining of zgoubi.dat data list. 
-However, prior to that, the '22' flag in \textsl{REBELOTE} requests a change of parameter number \textbf{35} in     
+However, prior to that, the '1' flag, fourth data in first row in \textsl{REBELOTE}, 
+requests a change of, next line,  parameter number \textbf{35} in     
 element number \textbf{1} (that is, the 
 relative regidity of the particle, $D$, in \textsl{OBJET}) to a new value, namely the first one in the 
-\{1.3872739973  2.1368296674  4.8261190694  11.015241321\} list. And so on, \textbf{4} times, with that 
-\textbf{4} the first data in  \textsl{REBELOTE} data list. Spin data so computed (spin precession) are 
-stored using the keyword '\textsl{SPNPRT}' with label 'PRINT'. 
+\{1.3872739973  2.1368296674  4.8261190694  11.015241321\} list. And so on, \textbf{4} times, from
+\textsl{NRBLT=4} the first data in  \textsl{REBELOTE} data list. Note that spin data so computed (spin 
+vector components, precession, etc) are stored in zgoubi.SPNPRT.Out using the keyword '\textsl{SPNPRT}' with label 'PRINT'. 
 
+~
 
-\begin{minipage}[h]{.60\linewidth}
+~
+
+\begin{minipage}[h]{.55\linewidth}
 {\footnotesize
 \begin{verbatim}
-Warm helical snake, using 3-D map. 
+Spin tacking in AGS warm helical snake, using its 3-D OPERA map. 
  'OBJET'             
 7.2051782956d3        
 2                         
@@ -3435,9 +3439,11 @@ Warm helical snake, using 3-D map.
 1 
 'PARTICUL'     ! proton : 
 9.3827203E+02 1.602176487E-19 1.7928474 0 0           
+
  'SPNTRK'                 
   4.1          ! Initial spin is vertical                 
 0. 0. 1.                  
+
  'TOSCA'             
 0  2                      
 1.e1   100. 100. 100.     
@@ -3449,6 +3455,7 @@ b_table55.map
 .1                        
 2  0.  .00  0.  0.        
  'FAISCEAU'          
+
  'FIT'               
 4               ! Variables :          
 1 30 0  [-3,3]                ! Vary Y_0
@@ -3462,21 +3469,24 @@ b_table55.map
 3.1 1 5 5 0. 1. 0             ! P_0=P     "
 7.3 1 2 4 0. 100. 1 2         ! Y_min+Y_max=0 in 'TOSCA' element
 7.3 1 4 4 0. 100. 1 2         ! Z_min+Z_max=0 in 'TOSCA' element
+
  'SPNPRT'   PRINT       ! Store spin data in zgoubi.SPNPRT.Out
- 'REBELOTE'       Gg=6          9                   20      45.5      
-4  0.1  22  1 35  1.3872739973  2.1368296674  4.8261190694  11.015241321                          
+
+ 'REBELOTE'  G.gamma=6        9             20           45.5      
+4  0.1  0 1
+1  35       1.3872739973  2.1368296674  4.8261190694  11.015241321                          
  'END'        
 \end{verbatim}
 }
 \end{minipage}
-\begin{minipage}[h]{.3\linewidth}
+\begin{minipage}[h]{.4\linewidth}
 
 \centering
-
-\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=6cm]{Fig-YZ_pwsnk.eps}}
-
-Five helical trajectories (projection into the vertical, $(Y,Z)$ plane), centered on the snake axis. 
+\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{Fig-YZ_pwsnk_5.eps}}
 %/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
+
+Helical trajectories at five different momenta (projection into the vertical plane $(Y,Z)$), centered on the snake axis 
+by the fitting procedure. The plot also shows the  helix as it is positioned, off-centered, prior to the fit. 
 
 \end{minipage}
 
@@ -8152,13 +8162,13 @@ periodic parameters are computed such as chromaticities, \index{chromaticity@{ch
 
 \medskip
 
-\noindent  Addition of \textsl{zgoubi.MATRIX.out} following \textsl{IORD, IFOC [, coupled]} will cause 
+\noindent  Addition of \textsl{'PRINT'} following \textsl{IORD, IFOC [, coupled]} will cause 
 stacking of \textsl{MATRIX} output data 
 into   zgoubi.MATRIX.out file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
 
 \medskip
 
-\noindent  Addition of \textsl{coupled} next to \textsl{IORD, IFOC [, zgoubi.MATRIX.out]}, in the case of 
+\noindent  Addition of \textsl{'coupled'} next to \textsl{IORD, IFOC [, PRINT]}, in the case of 
 periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) will cause use of coupled formalism. 
 
 

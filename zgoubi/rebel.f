@@ -68,8 +68,8 @@ C     >,AMS ,AMP,ENSTAR,BSTAR,TDVM ,TETPHI(2,MXT)
       LOGICAL OKPCKP
       SAVE OKPCKP
 
-      PARAMETER (MXPRM=MXD)
-      DIMENSION PARAM(MXPRM)
+      PARAMETER (MXPRM=1000)
+      DIMENSION PARAM(MXPRM), PARAMI(MXPRM)
       SAVE PARAM
 
       save noela, noelb
@@ -93,10 +93,11 @@ C----- Switch for print into zgoubi.res :
 C----- Switch for print to standard output :
       KWRI6 = NINT((A(NOEL,2)-KWRT)*10)
       KREB3 = NINT(A(NOEL,3))
-      KREB4 = NINT(A(NOEL,4))
 C----- For multiturn injection : 
 C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
+C----- KREB4=1 allows changing parameter values prior to rebelote
+      KREB4 = NINT(A(NOEL,4))
 
       IF(KREB4 .EQ. 1) THEN
 C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
@@ -121,28 +122,25 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
                   FOUND = .TRUE.
                 ENDIF
               ENDIF
-              nel = nel + 1
+              NEL = NEL + 1
             ENDDO
             IF(.NOT. FOUND) THEN
               CALL ENDJOB('Sbr rebel. No such keyword in sequence',-99)
             ENDIF 
           ENDIF
         ENDIF
-        KLM = NINT(A(NOEL,10))
-        KPRM = NINT(A(NOEL,11))
-        DO I = 1, NRBLT
-          J = 20 + 20*((I-1)/20)
-          IF(I .GT. MXPRM) STOP ' SBR REBEL : Too many parameters under 
-     >    ''REBELOTE''. Reduce it or increase MXPRM.'
-          IF(J .GT. MXD) STOP ' SBR REBEL : Too many parameters under 
-     >    ''REBELOTE''. Reduce it or increase MXD.'
-          PARAM(I) = A(NOEL,J +I -1)
-        ENDDO
+
+        KLM = NINT(A(NOEL,20))
+        KPRM = NINT(A(NOEL,21))
+
+        IF(NRBLT .GT. MXPRM) 
+     >    CALL ENDJOB('SBR REBEL. TOO MANY DATA, # MUST BE .LE. NRBLT='
+     >    ,NRBLT)
 
         A(KLM,KPRM) = PARAM(IPASS)
-c          write(*,*) ' rebel ', klm, kprm
 c          write(*,*) ' rebel ', ipass, A(KLM,KPRM),PARAM(IPASS)
 c                read(*,*)
+
         IF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure
           IF(KWRT .NE. 1) THEN
@@ -156,14 +154,6 @@ C Now last occurence of REBELOTE => carry on beyond REBELOTE
           LUN=ABS(NRES)
           IF(LUN.GT.0) THEN
             WRITE(LUN,101) IPASS
- 
-C            IF(KSPN .EQ. 1) THEN
-C              IF(KREB3 .EQ. 99) THEN
-C                WRITE(LUN,126)
-C                WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
-C              ENDIF
-C            ENDIF
- 
             CALL CNTOUR(
      >                NOUT)
             IF(NOUT.GT. 0) WRITE(LUN,107) NOUT,IMX
@@ -172,7 +162,7 @@ C            ENDIF
             IF(NRJ .GT. 0) WRITE(LUN,108) NRJ,IMX
           ENDIF
           READAT = .TRUE.
-          stop
+          STOP
         ENDIF
       ENDIF
 
@@ -205,7 +195,7 @@ C      IF(IPASS .EQ. 1) THEN
 C        CALL CNTMXW(IMAX)
 C      ELSE
       IF(IPASS .GT. 1) THEN
-C------- If not multiturn tracking : 
+C------- If not periodic sequence type of tracking (i.e., final coord .ne. initial coord) : 
         IF(KREB3.NE.99) CALL CNTMXT(IMAX)
       ENDIF
 C-----  endif particle count ------------
@@ -302,8 +292,8 @@ C          ENDIF
 C          WRITE(NRES,FMT='(/,5X,
 C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
 
-          IF(NRES .GT. 0)  THEN
-            IF(KREB4 .EQ. 1) THEN
+          IF(KREB4 .EQ. 1) THEN
+            IF(NRES .GT. 0)  THEN
               WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 'Parameter #',KPRM
      >        ,' in element #',KLM,' will be modified at each pass. '
               WRITE(NRES,FMT='(/,5X,A)') 'List of parameter values :'
@@ -325,6 +315,20 @@ C            IF(KREB3.NE.22) READAT = .FALSE.
           IF(REBFLG) NOELRB = NOEL
         ENDIF
  
+        IF(KREB4 .EQ. 1) THEN
+            WRITE(   6,fmt='(/,'' SBR rebel. At pass # '',I4,
+     >      ''.  In element # '',I4,
+     >      '',  changed value of parameter #'',I3,''  to : '',
+     >      1P,E16.8)')
+     >      IPASS, KLM, KPRM, PARAM(IPASS)
+            WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
+     >      ''.  In element # '',I4,
+     >      '',  changed value of parameter #'',I3,''  to : '',
+     >      1P,E16.8)')
+     >      IPASS, KLM, KPRM, PARAM(IPASS)
+c                read(*,*)
+        ENDIF
+
 C        JJJ = 0
 C        DO III = 1, IMAX
 C           IF(IEX(III).LT.0) JJJ = JJJ+1
@@ -390,6 +394,20 @@ C          ENDIF
 
         ENDIF
  
+        IF(KREB4 .EQ. 1) THEN
+            WRITE(   6,fmt='(/,'' SBR rebel. At pass # '',I4,
+     >      ''.  In element # '',I4,
+     >      '',  changed value of parameter #'',I3,''  to : '',
+     >      1P,E16.8)')
+     >      IPASS, KLM, KPRM, PARAM(IPASS)
+            WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
+     >      ''.  In element # '',I4,
+     >      '',  changed value of parameter #'',I3,''  to : '',
+     >      1P,E16.8)')
+     >      IPASS, KLM, KPRM, PARAM(IPASS)
+c                read(*,*)
+        ENDIF
+
         IPASS=IPASS+1
         NOEL=NOELA-1
         IF(OKPCKP) CALL PCKUP3(NOELA)
@@ -450,7 +468,10 @@ C REBELOTE should be usable within FIT -> under developement.
 
       ENDIF
 
-      IF(KREB4 .EQ. 1) READAT = .FALSE.
+      IF(KREB4 .EQ. 1) THEN
+        READAT = .FALSE.
+      ENDIF
+
 
       RETURN
 
@@ -465,17 +486,21 @@ C REBELOTE should be usable within FIT -> under developement.
       OKPCKP = KPCKUP .EQ. 1
       RETURN
 
+      ENTRY REBEL4(PARAMI)
+      DO I = 1, MXPRM
+        PARAM(I) = PARAMI(I)
+      ENDDO
+      RETURN
+
       ENTRY REBEL5(
      >             PARAMO)
       PARAMO = PARAM(IPASS-1)
-      if(nres.gt.0)  write(nres,*) ipass, param
+      IF(NRES.GT.0)  WRITE(NRES,*) IPASS, PARAM
       RETURN
 
       ENTRY REBEL6(NLAI, NLBI)
       NOELA = NLAI
       NOELB = NLBI
-C      if(nres.gt.0)
-C     >  write(nres,*) ' rebel6 noela, noelb ',noela,noelb
       RETURN
 
       ENTRY REBEL7(

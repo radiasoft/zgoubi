@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,
-     >                                 NBEL,ENDFIT)
+     >                                 NBLMN,ENDFIT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT, ENDFIT
 
@@ -112,10 +112,13 @@ C----- To get values into A(), from earlier FIT
 C This INCLUDE must stay located right before the first statement
       CHARACTER(KSIZ) KLEO
  
-      logical prdic
+      LOGICAL PRDIC
 
-      data prdic / .false. /
-      data oklno / .false. /
+      LOGICAL FITFNL
+      SAVE FITFNL
+
+      DATA PRDIC / .FALSE. /
+      DATA OKLNO / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
       
@@ -126,11 +129,11 @@ C This INCLUDE must stay located right before the first statement
 
       IF(READAT) THEN
         CALL PRDATA(
-     >              LABEL,NBEL)
+     >              LABEL,NBLMN)
         CALL FITSTA(I5,
      >                 FITING)
-        CALL FITST2(NBEL)
-        IF(.NOT.FITING) NL2=NBEL
+        CALL FITST2(NBLMN)
+        IF(.NOT.FITING) NL2=NBLMN
         CALL LINGUA(LNG)
         CALL RESET
 C------- Print after defined labels. Switched on by FAISTORE.
@@ -260,7 +263,7 @@ C------- Gets in case of "FIT"
  334    FORMAT(2X,I5,4(2X,A),/)
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))') 
-     >    NOEL,'/',NBEL,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
+     >    NOEL,'/',NBLMN,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
  
@@ -410,8 +413,8 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
       IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
       OKCPLD = NINT(A(NOEL,4)) .EQ. 1
-      CALL 
-     >MATRIC(NINT(A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),OKCPLD)
+      CALL MATRIC(NINT(
+     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),OKCPLD)
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE
@@ -610,11 +613,11 @@ C----- FIT. FIT2. Two methods are available
  461  CONTINUE
       CALL FITNU2(MTHOD)
       IF(READAT) CALL RFIT(KLEY,
-     >                         PNLTGT,ICPTMA)
+     >                         PNLTGT,ICPTMA,FITFNL)
+      CALL FITNU4(FITFNL)
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ICPTMA)
       IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ICPTMA)
       CALL CPTFC1(ICPTMA)
-C      CALL CPTFC2 (ICPTMA)
       FITING = .TRUE.
       CALL FITSTA(I6,FITING)
       CALL FITST2(NOEL)
@@ -1346,8 +1349,8 @@ C KLEY[IKL]
       KLEO = KLE(IKL)
       RETURN
       ENTRY ZGMXL( 
-     >            NBELO)
-      NBELO = NBEL
+     >            NBLMNO)
+      NBLMNO = NBLMN
       RETURN
       ENTRY ZGPNLT( 
      >             PNLTGO)

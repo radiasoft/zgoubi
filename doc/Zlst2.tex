@@ -2039,8 +2039,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
  \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT|textbf} \index{FIT2|textbf}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$           \>Number of physical parameters to be varied  \>$\leq 20$ \>I \\    \index{fit, variable range|textbf} 
-  \\[-2ex]
+ $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; \>$\leq 20$ \>I \\ \index{fit, variable range|textbf} 
+  \>'nofinal'~: will avoid final run (default is~: final run performed   \> 'nofinal' \>A7 \\  
+  \>using fitted values, once fit is done).  \>  \> \\  
+  \\[-1ex]
 \textbf{For I = 1, NV}   \> \it repeat NV times the following sequence \> \> \\
   \\[-2ex]
 either :     \>    \>    \> \\
@@ -2070,7 +2072,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \footnotetext[1]{~  MXL value is set in include file \texttt{MXLD.H}. }
 \footnotetext[2]{~  MXD value is set in include file \texttt{MXLD.H}. Data is of the form ``integer.iii'' with i a 1-digit integer. }
-\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$\textsl{penalty}, or when the maximum allowed number of iterations is reached. }
+\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$ \textsl{penalty}, or when the maximum allowed number of iterations is reached. }
 \footnotetext[4]{~  $V$ is in current \zgou\ units in the case of particle coordinates (cm, mrad). It is in MKSA units 
 (m, rad) in the case of matrix coefficients.}
 
@@ -2452,8 +2454,8 @@ are the components of the field.}
   \\
   \\
  \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or $>10$  \>2*I [,A] \\
- \textsl{[, zgoubi.MATRIX.out]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>  \> \\
-  \textsl{[, coupled]} \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
+ \textsl{[, PRINT] [, coupled]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>  \> \\
+ \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
  \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.01~; \> \> \\
  \> if \textsl{IFOC} $> 10$ : periodic beam matrix, tune numbers  \> \> \\
  \> \textsl{IORD} = 2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
@@ -2471,9 +2473,9 @@ are the components of the field.}
  \>  (assuming that  the DATA file describes one period of a \>\>\\
  \> NPER-period structure).  \>\>\\
 \\
- \>  Including '\textsl{zgoubi.MATRIX.out}' will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
+ \>  \textsl{'PRINT'} will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
 \\
- \>  Including '\textsl{coupled}', in the periodic case,  will cause  use of coupled formalism.   \>\>\\
+ \>  \textsl{'coupled'}, in the periodic case,  will cause  use of coupled formalism.   \>\>\\
 \end{tabbing}
 
 

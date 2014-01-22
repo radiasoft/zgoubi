@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ENDJOB(TXT,II)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -29,14 +28,13 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       NRES = ABS(NRES)
       IF(II.EQ.-99) THEN
-        WRITE(   6,FMT='(/,A)') TXT
-        WRITE(NRES,FMT='(/,A)') TXT
+        WRITE(   6,FMT='(/,1X,A)') TXT
+        WRITE(NRES,FMT='(/,1X,A)') TXT
       ELSE
-C        WRITE(   6,FMT='(/,A,1X,I8)') TXT,II
-C        WRITE(NRES,FMT='(/,A,1X,I8)') TXT,II
-        WRITE(   6,*) TXT,II
-        WRITE(NRES,*) TXT,II
+        WRITE(   6,*) ' '//TXT,II
+        WRITE(NRES,*) ' '//TXT,II
       ENDIF
       WRITE(NRES,FMT='(/,''End of job !'',//,''  '')')
+      WRITE(   6,FMT='(/,''End of job !'',//,''  '')')
       STOP
       END

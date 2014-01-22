@@ -72,7 +72,7 @@ C     ------------------------------
 
       LOGICAL BINM
 
-C----- For possible storing of coordinates in , if ellipse plot
+C----- For possible storing of coordinates, if ellipse plot
       LOGICAL KLIPS, KLIPSI                   
       SAVE KLIPS
 

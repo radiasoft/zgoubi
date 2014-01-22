@@ -62,6 +62,7 @@ C------- JJ = 1 , 2 or 3  for  Y-T, Z-P or T-P(time-momentum) planes
         DO 21 I=1,NPTS
             X = COOR(I,J1)
             XP = COOR(I,J2)
+              write(*,*) ' lpsfit x, xp ',x, xp
             XM = XM + X
             XPM = XPM + XP
 C----------- Min-max of the distribution

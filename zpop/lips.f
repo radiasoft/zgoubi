@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
 CDECK LIPS
       SUBROUTINE LIPS(NLOG,NL,LM,OKOPN,NOMFIC,CHANGE)
@@ -149,7 +148,7 @@ C      IF(NT.EQ. -1) WRITE(*,105) KPS
  6    CONTINUE
           IF(CHANGE) THEN
             CALL STORCO(MODSTO,NL,KPS,
-     >                                          NPASS)
+     >                                NPASS)
             CHANGE=.FALSE.
           ENDIF
           IF(NPTR .GT. 0) THEN

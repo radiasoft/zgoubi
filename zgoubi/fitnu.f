@@ -40,7 +40,12 @@ C  -------
  
       DIMENSION Y(MXV),VI(MXV)
       SAVE MTHD
+
+      LOGICAL FITFNL, FITFNI, FITFNO
+      SAVE FITFNL
+
       DATA MTHD / 2 / 
+      DATA FITFNL / .TRUE. /
 
       CALL FITEST(
      >            IER)
@@ -62,7 +67,19 @@ C Implemented by Scott Berg, LPSC, April 2007
       ENDIF
       CALL ENDFIT
       RETURN
+
       ENTRY FITNU2(MTHDI) 
       MTHD = MTHDI
       RETURN
+
+      ENTRY FITNU3(
+     >             FITFNO) 
+C             WRITE(*,*) ' FITFNO ',FITFNO,FITFNL
+      FITFNO=FITFNL
+      RETURN
+
+      ENTRY FITNU4(FITFNI) 
+      FITFNL=FITFNI
+      RETURN
+
       END
