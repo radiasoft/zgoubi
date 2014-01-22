@@ -409,8 +409,8 @@ C------------ Constraint on  min+max  value of coordinate L reached inside optic
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL1 + VAL2
-c              write(*,fmt='(a,1x,1p,3e14.6)') 
-c     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
+              write(*,fmt='(a,1x,1p,3e14.6)') 
+     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
 c                     read(*,*)
      
            ELSEIF(ICONT2.EQ.6) THEN
