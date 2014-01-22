@@ -87,6 +87,10 @@ C          data hcu /  IDMX * 0.d0 /
       DATA FMTYP / ' regular' / 
       DATA IMAP / 1 /
 
+      PARAMETER (MXC = 4)
+      DIMENSION AA(24+MXC-1)
+      DATA AA / 27 * 0.D0 /
+
 c      CALL KSMAP(
 c     >           IMAP) 
 
@@ -133,7 +137,7 @@ C and used for tracking.
 
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
-          CALL KSMAP4(NAMFIC(1),NFIC-1,
+          CALL KSMAP4(NAMFIC(1),NFIC-1,AA(24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
           NAMFIC(2) = TA(NOEL,1+NFIC)
           NAMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))

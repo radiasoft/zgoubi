@@ -40,6 +40,11 @@ C------------------------------
       DATA NBMAPS, KMAP / 0, 0 /
       DATA NAMSAV / MIZ*' ' /
 
+C     16/01/14 For KSMAP4 to remember the maps coeffcients used
+      PARAMETER (MXC = 4)
+      dimension COEFS(MMAP,MXC), AA(MXC)
+
+
 C Read
       KMAPO = KMAP
       RETURN
@@ -50,7 +55,7 @@ C Reset
       RETURN
 
 C Stack, count 
-      ENTRY KSMAP4(NOMFIC,NFIC,
+      ENTRY KSMAP4(NOMFIC,NFIC,AA,
      >                         NEWFIC,NBMAPO,KMAPO)
 C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
       II = 0
@@ -59,6 +64,8 @@ C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
         OLDFIC = .TRUE.
         DO IFIC = 1, NFIC
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
+C     16/01/14 to check also the coefficients
+     >          .AND. (AA(IFIC).EQ.COEFS(I,IFIC))
         ENDDO
         IF(OLDFIC) GOTO 1
       ENDDO
@@ -73,7 +80,9 @@ C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
         KMAP = NBMAPS
         DO IFIC = 1, NFIC
           NAMSAV(NBMAPS,IFIC) = NOMFIC(IFIC)
-        ENDDO
+C     16/01/14 to save the coefficients
+          COEFS(NBMAPS,IFIC) = AA(IFIC)
+       ENDDO
       ELSE
         KMAP = II
       ENDIF

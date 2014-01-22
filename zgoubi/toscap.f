@@ -72,6 +72,12 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
 
       DATA FMTYP / ' regular' / 
 
+      PARAMETER (MXC = 4)
+      DIMENSION AA(24+MXC-1)
+      DATA AA / 27 * 0.D0 /
+
+      
+
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
 C July 2013      BNORM = A(NOEL,10)*SCAL
@@ -108,7 +114,7 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        CALL KSMAP4(NOMFIC,NFIC,
+        CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
 C        IF(MOD .GE. 20) THEN
@@ -137,7 +143,7 @@ C--------- another option for symmetrization by FMAPR2
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        CALL KSMAP4(NOMFIC,NFIC,
+        CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 

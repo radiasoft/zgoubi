@@ -71,7 +71,6 @@ C-------------------------------------------------
       SAVE IIXMA, JJYMA, KKZMA
 
       DIMENSION DBDX(3)
-      DIMENSION AA(29)
 
       DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
@@ -81,7 +80,12 @@ C-------------------------------------------------
 
       DATA NOMFIC / IZ*'               '/ 
       DATA FMTYP / ' regular' / 
-      DATA AA / 29 * 0.D0 /
+
+      PARAMETER (MXC = 4)
+      DIMENSION AA(MXL,24+MXC-1)
+c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
+      SAVE AA
+C     16/01/14 to pass the map coefficients to KSMAP4
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
@@ -133,7 +137,7 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-          CALL KSMAP4(NOMFIC,NFIC,
+          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
 
         ELSEIF(MOD .EQ. 3) THEN
@@ -143,15 +147,15 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-          CALL KSMAP4(NOMFIC,NFIC,
+          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
 
           IF(MOD2 .EQ. 1) THEN
 C TOSCA 2D map for the AGS main magnet 
 C dB1, dB2, dB3
-            AA(24) = A(NOEL,24)
-            AA(25) = A(NOEL,25)
-            AA(26) = 0.D0
+            AA(NOEL,24) = A(NOEL,24)
+            AA(NOEL,25) = A(NOEL,25)
+            AA(NOEL,26) = 0.D0
             CALL SCALE9(
      >                   KFM)
             do ifm = 1, MXSCL
@@ -160,26 +164,27 @@ c            IF(KFM .GT. 0) THEN
               DO I = 1, JPA(KFM(IFM),MXP)
 C Apply scaling to all parameters concerned
 c            write(*,*) ' toscac ', 
-c     >        I,KFM, JPA(KFM,I), AA(JPA(KFM,I)) , VPA(KFM,I)
+c     >        I,KFM, JPA(KFM,I), AA(NOEL,JPA(KFM,I)) , VPA(KFM,I)
 c                read(*,*)
-                AA(JPA(KFM(IFM),I))=AA(JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
+                AA(NOEL,JPA(KFM(IFM),I))=
+     >                AA(NOEL,JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
               ENDDO
 c            ENDIF
             enddo
 
  20         continue
 
-            DBDX(1) = AA(24)
-            DBDX(2) = AA(25)
-            DBDX(3) = AA(26)
+            DBDX(1) = AA(NOEL,24)
+            DBDX(2) = AA(NOEL,25)
+            DBDX(3) = AA(NOEL,26)
             CALL CHAMK4(DBDX,3)
           ENDIF
         ELSEIF(MOD.EQ.15) THEN
 C--------- MOD2 files are combined linearly into a single 2D map, after reading.
-          FACA = A(NOEL,24)
-          FACB = A(NOEL,25)
-          FACC = A(NOEL,26)
-          FACD = A(NOEL,27)
+          AA(NOEL,24) = A(NOEL,24)
+          AA(NOEL,25) = A(NOEL,25)
+          AA(NOEL,26) = A(NOEL,26)
+          AA(NOEL,27) = A(NOEL,27)
           I1=1
           I2 = MOD2
 
@@ -188,7 +193,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             NFIC = NFIC+1
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-            CALL KSMAP4(NOMFIC,NFIC,
+            CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
           ENDDO       
 
@@ -215,10 +220,10 @@ C--------- A single data file contains the all 3D volume
         ELSEIF(MOD .EQ. 15) THEN
 C--------- MOD2 files are combined linearly into a single map after reading.
 C          Each one of these files should contain the all 3D volume.
-          FACA = A(NOEL,24)
-          FACB = A(NOEL,25)
-          FACC = A(NOEL,26)
-          FACD = A(NOEL,27)
+          AA(NOEL,24) = A(NOEL,24)
+          AA(NOEL,25) = A(NOEL,25)
+          AA(NOEL,26) = A(NOEL,26)
+          AA(NOEL,27) = A(NOEL,27)
           I1=1
           I2 = MOD2
         ELSE
@@ -232,28 +237,32 @@ C        NEWF = .TRUE.
           NAMFIC = TA(NOEL,1+NFIC)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        CALL KSMAP4(NOMFIC,NFIC,
+        CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
 
-        IF(MOD .EQ. 15) THEN
+c         write(*,*) 'before', newfic, 'NFIC',NFIC ,'IMAP',IMAP, noel
+       IF(MOD .EQ. 15) THEN
           IFAC = 24
           IFIC = 1
           DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
-            IF(IFAC .GT. 29) 
+            IF(IFAC .GT. 27) 
      >      CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
-            NEWFIC = NEWFIC .OR. AA(IFIC).NE.A(NOEL,IFAC)
-c              write(*,*) ' toscac ific, i2, newfic ',ific, i2, newfic
-c                 read(*,*)
+            NEWFIC = NEWFIC .OR. AA(NOEL,IFIC).NE.A(NOEL,IFAC)
+c            write(*,*) newfic ,' or ', AA(NOEL,IFIC) ,' NE ', 
+c     >           A(NOEL,IFAC), 
+c     >           'IFIC',IFIC,'IFAC', IFAC
             IFAC = IFAC + 1
             IFIC = IFIC + 1
           ENDDO
           IFAC = 24
           DO IFIC = 1, I2
-            AA(IFIC) = A(NOEL,IFAC)
+            AA(NOEL,IFIC) = A(NOEL,IFAC)
             IFAC = IFAC + 1
           ENDDO
         ENDIF
       ENDIF
+c      write(*,*) 'after', newfic
+c      read(*,*)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,A,I2,A,I2,/)') 
@@ -413,7 +422,7 @@ c                        read(*,*)
 
              IRD = NINT(A(NOEL,40))
 
-             CALL FMAPW2(NFIC,AA(NFIC))
+             CALL FMAPW2(NFIC,AA(NOEL,NFIC))
 
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
@@ -428,7 +437,7 @@ c                        read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HC(IID,III,JJJ,KKK,IMAP) = 
-     >                         FACA*HC(IID,III,JJJ,KKK,IMAP)
+     >                         AA(NOEL,24)*HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO
@@ -440,7 +449,8 @@ c                        read(*,*)
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
                     DO IID = 1, ID    
-                      HCA(IID,III,JJJ,KKK)=FACA*HC(IID,III,JJJ,KKK,IMAP)
+                      HCA(IID,III,JJJ,KKK)=AA(NOEL,24)
+     >                      *HC(IID,III,JJJ,KKK,IMAP)
                     ENDDO
                    ENDDO
                   ENDDO
@@ -460,7 +470,7 @@ c                      read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HC(IID,III,JJJ,KKK,IMAP) = HCA(IID,III,JJJ,KKK)
-     >                  +   FACB * HC(IID,III,JJJ,KKK,IMAP)
+     >                  +   AA(NOEL,25) * HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO
@@ -475,7 +485,7 @@ c                      read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HCB(IID,III,JJJ,KKK) = HCA(IID,III,JJJ,KKK)
-     >                  +   FACB * HC(IID,III,JJJ,KKK,IMAP)
+     >                  +   AA(NOEL,25) * HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO
@@ -492,7 +502,7 @@ c                      read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HC(IID,III,JJJ,KKK,IMAP) = HCB(IID,III,JJJ,KKK)
-     >                  +   FACC * HC(IID,III,JJJ,KKK,IMAP)
+     >                  +   AA(NOEL,26) * HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO
@@ -505,7 +515,7 @@ c                      read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HCC(IID,III,JJJ,KKK) = HCB(IID,III,JJJ,KKK)
-     >                  +   FACC * HC(IID,III,JJJ,KKK,IMAP)
+     >                  +   AA(NOEL,26) * HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO
@@ -521,7 +531,7 @@ c                      read(*,*)
                    DO III=1,IXMA
                      DO IID = 1, ID    
                        HC(IID,III,JJJ,KKK,IMAP) = HCC(IID,III,JJJ,KKK)
-     >                  +   FACD * HC(IID,III,JJJ,KKK,IMAP)
+     >                  +   AA(NOEL,27) * HC(IID,III,JJJ,KKK,IMAP)
                      ENDDO
                    ENDDO
                   ENDDO

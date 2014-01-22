@@ -73,6 +73,12 @@ C-------------------------------------------------
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' / 
 
+      PARAMETER (MXC = 4)
+      DIMENSION AA(24+MXC-1)
+      DATA AA / 27 * 0.D0 /
+
+      
+
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
@@ -98,7 +104,7 @@ C-------------------------------------------------
       NAMFIC = TA(NOEL,2)
       NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-      CALL KSMAP4(NOMFIC,NFIC,
+      CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                        NEWFIC,NBMAPS,IMAP)
 
       IF(NRES.GT.0) THEN

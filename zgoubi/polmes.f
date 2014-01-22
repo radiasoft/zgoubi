@@ -57,6 +57,10 @@ C     > ,YCH,ZCH
       DATA NOMFIC / IZ*'               '/ 
       DATA IMAP / 1 /
 
+      PARAMETER (MXC = 4)
+      DIMENSION AA(24+MXC-1)
+      DATA AA / 27 * 0.D0 /
+
       CALL KSMAP(
      >           IMAP) 
 
@@ -121,7 +125,7 @@ C        CALL KSMAP4(NOMFIC,NFIC,
 C     >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
 
-      CALL KSMAP4(NOMFIC,NFIC,
+      CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                        NEWFIC,NBMAPS,IMAP)
 
       IF(NRES.GT.0) THEN
