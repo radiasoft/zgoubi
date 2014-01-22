@@ -140,7 +140,8 @@ C----- Traj. counter
         IPASS1 = IPASSR
         I = I + 1
 
-        IF(BINARY) THEN
+C        IF(BINARY) THEN
+        IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
  222      CONTINUE
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
@@ -166,14 +167,15 @@ C----- Traj. counter
           ENDIF
 
           ITR = ITR + 1
-          it1 = it1 + 1
+          IT1 = IT1 + 1
           
           IF(.NOT. OKKT(KT1,KT2,ITR,
      >                              IEND)) THEN
             GOTO 222
           ENDIF
 
-        ELSEIF(.NOT.BINARY) THEN
+C        ELSEIF(.NOT.BINARY) THEN
+        ELSE
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
@@ -194,7 +196,12 @@ C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
  171        continue
-            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+            IF (BINARY) THEN
+              READ(NL,ERR=97,END=95) Y,T,Z,P,S, DP
+            ELSE
+              READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
+            ENDIF
             ITR = ITR + 1
 c            write(*,*) ' obj3 ',KT3,KT3*((it1-1)/KT3),it1-1         
 c                read(*,*)
