@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE DATE2(DMY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(9)   DMY
+      CHARACTER(*)   DMY
 
 C This works :   ------------------------------- 
 C      CHARACTER*3 MM(12)
