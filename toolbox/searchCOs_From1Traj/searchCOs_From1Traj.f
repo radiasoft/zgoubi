@@ -88,8 +88,12 @@ C-----------------------------
       cl9 =  2.99792458D8 / 1.d9
       QE =  1.602176487D-19      !!!!1.602e-19
 
+      
+      nco1 = nco + 1
+
       jo = 1
       jok = 0
+      ipass = 1
  2    continue
 
         rewind(lunR)
@@ -219,7 +223,9 @@ c            djnew = p1/pRef + fac*dble(jo)
               dT = fac * dble(jo-1)
             endif
 
-            pb = sqrt((T1+dT) * ((T1+dT) + 2.d0* am*1.d6))/1.d6
+            TT = T1 + dT
+            pb = sqrt(TT * (TT + 2.d0* am*1.d6))/1.d6
+C            pb = sqrt((T1+dT) * ((T1+dT) + 2.d0* am*1.d6))/1.d6
             djnew = pb/pRef
 
 c            write(*,*) ' t1, t2, dt, pb, pRef, djnew = ',
@@ -280,7 +286,7 @@ c         read(*,*)
      >           iter,xav,xpav,zav,zpav,sav,dav,tav,kex,ok,precX,precXp)
  
         if(ok) then 
-          jok = jok + 1
+          if(jo.gt.1) jok = jok + 1
           write(6,*) 
           write(6,fmt='(a,i4,a,a,2f9.4,a,a,i4,a)') 
      >    ' ---------    Found ',jok,' average orbits ',
@@ -306,8 +312,10 @@ c         read(*,*)
 
         write(6,*) ' jok / jo / nCO :    ', jok,' / ', jo,' / ', nCO
         if(dt.gt.0.d0) then
+c           if(TT.gt. 1.0000001*T2) goto 60
           if(jo.ge. nCO) goto 60
         else
+c           if(TT.lt. .999999*T1) goto 60
           if(jo.gt. nCO) goto 60
         endif
 

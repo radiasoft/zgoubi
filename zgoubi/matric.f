@@ -121,7 +121,7 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           CALL MKSA(IORD,R,T,T3,T4)
           IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
-          CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
+          CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC,IT1)
 
 C FM, Nov. 2008
           CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
@@ -139,19 +139,19 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         CALL MKSA(IORD,R,T,T3,T4)
         IF(PRDIC) CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
      >                                                YNU,ZNU,CMUY,CMUZ)
-        CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC)
+        CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC,iref)
         CALL MATIM2(R,T,T3)
         IF(PRDIC) THEN 
           CALL MAT2P(RPD,DP)
           CALL MKSA(IORD,RPD,T,T3,T4)
           CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUP,ZNUP,CMUY,CMUZ)
-          CALL MATIMP(RPD,F0PD,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
+          CALL MATIMP(RPD,F0PD,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,iref)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4)
           CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUM,ZNUM,CMUY,CMUZ)
-          CALL MATIMP(RMD,F0MD,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC)
+          CALL MATIMP(RMD,F0MD,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC,iref)
 C Momentum detuning
           NUML = 1
 C          DNUYDP = (YNUP-YNUM)/2.D0/A(NUML,25)

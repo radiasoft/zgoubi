@@ -42,36 +42,46 @@ C Numb of options. NBOP lines should follow
       NBOP = NINT(A(NOEL,2))
 
       IF(NY*NBOP.EQ.0) THEN
-        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
-     >  ' ''OPTIONS''  is  inhibited,  thus  no  options  set.'
+        if(nrsav .eq. -11111) THEN 
+          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
+     >    ' ''OPTIONS''  is  inhibited,  thus  no  options  set.'
+        ENDIF
         goto 99
       ENDIF
 
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR option : nmbr of options exceded ; max is ',40)
        
-      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(T25,I2,A)') 
-     >nbop, ' option(s) expected.  Option(s) found :'
+      if(nrsav .eq. -11111) THEN 
+          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T25,I2,A)') 
+     >    nbop, ' option(s) expected.  Option(s) found :'
+      ENDIF
 
       DO I = 1, NBOP
         READ(TA(NOEL,I),*) TXT1
-        if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
-     >  'Option # ',I,' : ',
-     >  TA(NOEL,I)(debstr(TA(NOEL,I)):finstr(TA(NOEL,I)))
+        IF(NRES.GT.0) THEN
+          if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
+     >    'Option # ',I,' : ',
+     >    TA(NOEL,I)(debstr(TA(NOEL,I)):finstr(TA(NOEL,I)))
+        ENDIF
         IF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'WRITE') 
      >    READ(TA(NOEL,I),*) TXT1, TXT2
       ENDDO
 
-      if(nrsav .eq. -11111) WRITE(ABS(NRES),FMT='(/,T25,A)') 
-     > ' Action(s) taken :' 
+      if(nrsav .eq. -11111)  THEN 
+         IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,A)') 
+     >   ' Action(s) taken :' 
+      ENDIF
 
       IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
  2      if(nrsav .eq. -11111) then
-          WRITE(ABS(NRES),FMT='(/,T5,A)') 
-     >    'WRITE OFF -> '//
-     >    'A lot of (almost all) WRITE statements will be inhibited !'
-          WRITE(abs(NRES),201)
- 201      FORMAT(/,132('*'))
+          IF(NRES.GT.0) THEN
+            WRITE(ABS(NRES),FMT='(/,T5,A)') 
+     >      'WRITE OFF -> '//
+     >      'A lot of (almost all) WRITE statements will be inhibited !'
+            WRITE(abs(NRES),201)
+ 201        FORMAT(/,132('*'))
+          endif
         endif
         kwroff = 1
         NRSAV = NRES
@@ -80,13 +90,15 @@ C Numb of options. NBOP lines should follow
         CALL FITSTA(5,
      >                FITING)
         IF(NRSAV .NE. -11111 .AND. .NOT. FITING) THEN 
-          NRES = ABS(NRES)
-          WRITE(abs(NRES),201)
-          WRITE(abs(NRES),*)  '  Keyword ''OPTIONS'' '
-          WRITE(ABS(NRES),FMT='(T25,I2,A,/)') 
-     >    nbop, ' option(s) expected.  Option(s) found :'
-          WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
-     >    'WRITE bit in ''OPTIONS'' set to 1.'
+          IF(NRES.GT.0) THEN
+            NRES = ABS(NRES)
+            WRITE(abs(NRES),201)
+            WRITE(abs(NRES),*)  '  Keyword ''OPTIONS'' '
+            WRITE(ABS(NRES),FMT='(T25,I2,A,/)') 
+     >      nbop, ' option(s) expected.  Option(s) found :'
+            WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
+     >      'WRITE bit in ''OPTIONS'' set to 1.'
+          ENDIF
           kwroff = 0
         ENDIF
       ENDIF

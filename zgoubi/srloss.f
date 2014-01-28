@@ -72,7 +72,11 @@ C  -------
       ENDIF
 
       TXT = TA(NOEL,2)
-      TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
+      IF(DEBSTR(TXT) .GT. 0) THEN
+        TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
+      ELSE
+        TXT = ' ' 
+      ENDIF
       SCALE=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
 
 C----- Set SR loss tracking

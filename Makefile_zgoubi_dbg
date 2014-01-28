@@ -7,12 +7,12 @@ CFLAGS = -g -DGFORTRAN4
 # Case of ifort compiler, next two lines
 #FC=/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort
 FC=ifort
-FFLAGS= -xHOST -O3 -ip traceback -static -save
+FFLAGS=  -O0 -traceback -debug -check -static -save
 
 .POSIX:
 
 all :
-	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd common ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 
 clean :

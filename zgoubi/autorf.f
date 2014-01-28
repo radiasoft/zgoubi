@@ -73,10 +73,12 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
         ENDIF
         AA  =F(3,IRF) * 0.001D0
       ELSEIF(IOP .EQ. 4) THEN
-        yc = 0.d0
-        aa = 1.d0
+        XC = ZERO
+        YC = ZERO
+C        AA = 1.d0
+        AA = ZERO
         II = 0
-C First compute center the beam on Y=0, T=0
+C First center the beam on Y=0, T=0
         DO I = 1, IMAX
           IF( IEX(I) .GT. 0) THEN
             II = II + 1
@@ -85,18 +87,20 @@ C First compute center the beam on Y=0, T=0
           ENDIF
         ENDDO
         YC = YC / DBLE(II)        
-        AA = AA / DBLE(II) * 0.001D0 
+        AA = AA / DBLE(II) * 1.D-3 
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
-          IF( IEX(I) .LT. -1) THEN 
-          ELSE
-            IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
+          IF( IEX(I) .GE. -1) THEN 
+            IF(I .EQ. IREP(I) .OR. .NOT. ZSYM) THEN
               CALL INITRA(I)
               CALL CHAREF(.FALSE.,XC,YC,AA)
+c                   write(*,*) ' autorf ,XC,YC,AA ',XC,YC,AA
+c                     read(*,*)
               CALL MAJTRA(I)
             ELSE
               CALL DEJACA(I)
             ENDIF
+          ELSE
           ENDIF
         ENDDO
         IF(NRES .GT. 0) THEN
@@ -105,25 +109,29 @@ C         +++ IEX<-1 <=> Particule stoppee
         ENDIF
  
 C Then update to requested beam centering coordinates
-        XC = a(noel,10)
-        YC =  a(noel,11)
-        AA =  a(noel,12) *1.d3   
+        XC =  -A(NOEL,10)
+        YC =  -A(NOEL,11)
+        AA =  -A(NOEL,12) * 1.D-3
 
       ELSE
         CALL ENDJOB('Sbr autorf. No such option I = ',IOP)
       ENDIF
 
-      DO 1 I=1,IMAX
+      DO I=1,IMAX
 C       +++ IEX<-1 <=> Particule stoppee
-        IF( IEX(I) .LT. -1) GOTO 1
-        IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
-          CALL INITRA(I)
-          CALL CHAREF(.FALSE.,XC,YC,AA)
-          CALL MAJTRA(I)
+        IF( IEX(I) .GE. -1) THEN 
+          IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
+            CALL INITRA(I)
+            CALL CHAREF(.FALSE.,XC,YC,AA)
+c                   write(*,*) ' autorf ,XC,YC,AA ',XC,YC,AA
+c                     read(*,*)
+            CALL MAJTRA(I)
+          ELSE
+            CALL DEJACA(I)
+          ENDIF
         ELSE
-          CALL DEJACA(I)
         ENDIF
-   1  CONTINUE
+      ENDDO
  
  99   CONTINUE
 

@@ -182,7 +182,7 @@ C        ELSEIF(.NOT.BINARY) THEN
           IF  (KOBJ2.EQ.0) THEN           
             READ(NL,110,ERR=97,END=95)
      >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
-     >      DP,Y,T,Z,P,S,TIM,
+     >      DP,Y,T,Z,P,S,TIM, 
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,

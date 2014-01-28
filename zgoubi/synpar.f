@@ -58,6 +58,7 @@ C  -------
       SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
 
       IF(NRES.LE.0) RETURN
+
       WRITE(NRES,FMT='(/,2X,
      >'' * Theoretical S.R. parameters in local *dipole* field :'',//)')
       WRITE(NRES,FMT='(5X,''Bending radius (Brho/B) :'',1P,G16.8,
@@ -89,15 +90,6 @@ C  -------
 
       RETURN
 
-      ENTRY SYNPA3(LUN,
-     >                SMELPO,EO)
-      WRITE(LUN,FMT='(//,5X,''Average energy loss per particle, summed'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
-     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
-      SMELPO = SMELPP*1.D-3
-      EO = E
-      RETURN
-
       ENTRY SYNPA0
         SMELPP=0.D0
         SNMPP=0.D0
@@ -107,6 +99,19 @@ C  -------
       ENTRY SYNPA1(
      >             SMELPO)
       SMELPO = SMELPP*1.D-3
+      RETURN
+
+      ENTRY SYNPA3(LUN,
+     >                SMELPO,EO)
+
+      IF(LUN.LE.0) RETURN
+
+      WRITE(LUN,FMT='(//,5X,''Average energy loss per particle, summed'',
+     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
+     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
+      SMELPO = SMELPP*1.D-3
+      EO = E
+
       RETURN
 
       END

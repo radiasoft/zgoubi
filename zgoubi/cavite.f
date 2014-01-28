@@ -78,9 +78,12 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA DWS / 0.D0 / 
 
 
+      DUM = SCALER(1, NOEL, 
+     >     DUM)
+
       CALL SCALE9(
      >            KFM )
-      do ifm = 1, 10
+      do ifm = 1, MXSCL
             IF(KFM(ifm) .le. 0) goto 121
         DO I= 1 , JPA(KFM(ifm),MXP)
            A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)

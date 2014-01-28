@@ -140,8 +140,17 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
 
+c         call ZGIPAS( 
+c     >                IPASS)
+c           if(ipass.ge.6)write(*,*) ' integr 1 '
+c           if(ipass.ge.6)write(*,*) ' integr 1 ', ipass
+
         CALL CHAMC(X2,Y2,Z2)
 
+c           if(ipass.ge.6)then
+c              write(*,*) ' integr 2 ', ipass
+c                   read(*,*)
+c                   endif
       ENDIF
 
  7    CONTINUE

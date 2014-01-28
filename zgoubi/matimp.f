@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC) 
+      SUBROUTINE MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC,IREF) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL PRDIC
       DIMENSION F0(6,6)
@@ -114,12 +114,17 @@ c        RETURN
             WRITE(LNWRT,FMT='(A)') 
      >      '% R11 R12 R13 R14 R15 R16, R21 R22 R23 R24 ... R65 R66, '
      >      //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
-     >      //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
+     >      //' F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)'
+     >      //' F(6,IREF),F(7,IREF),CMUY,CMUZ,Qy,QZ'
 c     >      '% R11 R12 R13 R14,  R21 R22 R23 R24, R31 ... R43 R44, '
 c     >      //' R16, R26, R36, R46,  R51 R52 R53 R54 R55,  R66, '
 c     >      //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
-c     >      //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
-            WRITE(LNWRT,*) '%  '  
+c     >      //' F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)'
+            WRITE(LNWRT,FMT='(A)') 
+     >     '% 1   2   3   4   5   6    7   8   9   10  ... 35  36   '
+     >     //' 37    38    39    40    41  42   43  44   45    46   '
+     >     //' 47        48        49        50        51       '
+     >     //' 52        53        54   55   56 57'
           ENDIF
         ELSE
           OK = IDLUNI(
@@ -128,23 +133,30 @@ c     >      //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
           WRITE(LNWRT,FMT='(A)') 
      >     '% R11 R12 R13 R14 R15 R16, R21 R22 R23 R24 ... R65 R66, '
      >     //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
-     >     //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
+     >     //' F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)'
+     >     //' F(6,IREF),F(7,IREF),CMUY,CMUZ,Qy,QZ'
 c     >     '% R11 R12 R13 R14 R21 R22 R23 ... R43 R44'
 c     >     //' R16 R26 R36 R46 R51 R52 R53 R54 R55 R66'
 c     >     //' ALFY, BETY, ALFZ, BETZ, DY, DYP, DZ, DZP, PHIY, PHIZ,'
-c     >     //' F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)'
-          WRITE(LNWRT,*) '%  '  
+c     >     //' F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)'
+            WRITE(LNWRT,FMT='(A)') 
+     >     '% 1   2   3   4   5   6    7   8   9   10  ... 35  36   '
+     >     //' 37    38    39    40    41  42   43  44   45    46   '
+     >     //' 47        48        49        50        51       '
+     >     //' 52        53        54   55   56 57'
         ENDIF
-        WRITE(LNWRT,FMT='(1P,51(1X,E16.8))') ((R(IA,IB),IB=1,6),IA=1,6), 
+        WRITE(LNWRT,FMT='(1P,55(1X,E16.8),2(2X,A))') 
+     >  ((R(IA,IB),IB=1,6),IA=1,6), 
      >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
      >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU,
-     >  F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)
+     >  F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF),
+     >  F(6,IREF),F(7,IREF),CMUY,CMUZ,TXTYNU,TXTZNU
 c        WRITE(LNWRT,FMT='(1P,41(1X,E16.8))') ((R(IA,IB),IB=1,4),IA=1,4), 
 c     >  R(1,6), R(2,6), R(3,6), R(4,6), 
 c     >  R(5,1), R(5,2), R(5,3), R(5,4), R(5,5), R(6,6), 
 c     >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
 c     >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU,
-c     >  F(1,1),F(2,1),F(3,1),F(4,1),F(5,1)
+c     >  F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)
 C        CLOSE(LNWRT)
 C        KWRMAT = .FALSE.
         CALL FLUSH2(LNWRT,.FALSE.)

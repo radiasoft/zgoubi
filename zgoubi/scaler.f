@@ -104,6 +104,7 @@ C--------- Current KLEY recorded for scaling
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ Current KLEY will undergo scaling if...
 
+             
             DO  KL=1,MLF
               IF(STRCON(LBF(KF,KL),'*',
      >                                 IS)) THEN
@@ -126,15 +127,15 @@ c     >        (LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB))
 c                    read(*,*)
 c                 endif
 
-
 C               ... either LBF ends with '*' ...
-                IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1)
-C               ... or LBF begins with '*' ...
-     >          .OR. 
-     >           LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB)
-     >          ) THEN
-                   GOTO 2
+                IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1))
+     >               goto 2
+                IF( (LLAB-LLBF+2).GT.0) then !yann to protect -1 in LABEL table
+                   IF(LABEL(NOEL,1)(LLAB-LLBF+2:LLAB)
+     >                  .EQ.LBF(KF,KL)(2:LBFB)) 
+     >                  GOTO 2
                 ENDIF
+
               ELSE
 C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
@@ -501,13 +502,14 @@ c      RETURN
      >             KFMO)
       do j = 1, MXSCL
         KFMO(J) = KFM(J)
-        IF((KFMO(j).GE.0) .AND.
-     >       (NTIM(KFMO(J)).NE.-1 ))then
+        IF((KFMO(j).GE.0)) then
+        IF ((NTIM(KFMO(J)).NE.-1 )) then
            BRO = BORO*DPREF
            DO I=1, JPA(KFM(j),MXP) 
               VPA(KFM(j),I) = splint(TIM(KFM(j),1:NTIM(KFM(j))),
      >             SCL(KFM(j),1:NTIM(KFM(j)),I),NTIM(KFM(j)),BRO)
            ENDDO
+        ENDIF   
         ENDIF
        enddo
       END

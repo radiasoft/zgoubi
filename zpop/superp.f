@@ -31,7 +31,7 @@ C  -------
       LOGICAL EMPTY, IDLUNI, STRCON
       SAVE LN
       CHARACTER TXTX*15, TXTY*15, TITL*70, FNAMI*120, FNAM*120, TXT*80, 
-     >            TXT300*300,TXT4*4
+     >            TXT3000*3000,TXT4*4
       SAVE FNAM
       PARAMETER (MTB=60)
       DIMENSION TAB(MTB)
@@ -157,27 +157,27 @@ C       OKECH=.false.
         NR = 1
 
 C        READ(LN,*,END=10,ERR=3) (TAB(I), I=1, MXTAB)
- 11     READ(LN,FMT='(A)',END=10,ERR=3) TXT300
-        txt300 = txt300(debstr(txt300):finstr(txt300))
-        IF    (STRCON(TXT300(1:1),'%',
+ 11     READ(LN,FMT='(A)',END=10,ERR=3) TXT3000
+        txt3000 = txt3000(debstr(txt3000):finstr(txt3000))
+        IF    (STRCON(TXT3000(1:1),'%',
      >                       IS) ) THEN
           GOTO 11
-        ELSEIF(STRCON(TXT300(1:1),'&',
+        ELSEIF(STRCON(TXT3000(1:1),'&',
      >                       IS) ) THEN
           GOTO 11
-        ELSEIF(STRCON(TXT300(1:2),'//',
+        ELSEIF(STRCON(TXT3000(1:2),'//',
      >                       IS) ) THEN
           GOTO 11
-        ELSEIF(EMPTY(TXT300)) THEN
+        ELSEIF(EMPTY(TXT3000)) THEN
           GOTO 11
-        ELSEIF(STRCON(TXT300,'LTYP',
+        ELSEIF(STRCON(TXT3000,'LTYP',
      >                             IS) ) THEN
           GOTO 11
         ELSE
 C          BACKSPACE(LN)
 C          READ(LN,*,ERR=3) (TAB(I), I=1, MXTAB)
-C            write(*,*) mxtab, txt300
-          READ(TXT300,*,ERR=11) (TAB(I), I=1, MXTAB)
+C            write(*,*) mxtab, txt3000
+          READ(TXT3000,*,ERR=11) (TAB(I), I=1, MXTAB)
         ENDIF
 
 c          write(*,*) (TAB(I), I=1, MXTAB), nr
@@ -194,26 +194,26 @@ CCCCC           if(x.lt. 500) x = x+2.6659E+04
  1      CONTINUE
           NR = NR+1
 C          READ(LN,*,END=2,ERR=3) (TAB(I), I=1, MXTAB)
- 111      READ(LN,FMT='(A)',END=2,ERR=3) TXT300
-          txt300 = txt300(debstr(txt300):finstr(txt300))
-          IF    (STRCON(TXT300(1:1),'%',
+ 111      READ(LN,FMT='(A)',END=2,ERR=3) TXT3000
+          txt3000 = txt3000(debstr(txt3000):finstr(txt3000))
+          IF    (STRCON(TXT3000(1:1),'%',
      >                         IS) ) THEN
             GOTO 1
-          ELSEIF(STRCON(TXT300(1:1),'&',
+          ELSEIF(STRCON(TXT3000(1:1),'&',
      >                       IS) ) THEN
             GOTO 1
-          ELSEIF(STRCON(TXT300(1:2),'//',
+          ELSEIF(STRCON(TXT3000(1:2),'//',
      >                       IS) ) THEN
             GOTO 1
-          ELSEIF(EMPTY(TXT300)) THEN
+          ELSEIF(EMPTY(TXT3000)) THEN
             GOTO 1
-          ELSEIF(STRCON(TXT300,'LTYP',
+          ELSEIF(STRCON(TXT3000,'LTYP',
      >                               IS) ) THEN
             GOTO 1
           ELSE
 C            BACKSPACE(LN)
 C            READ(LN,*,ERR=3) (TAB(I), I=1, MXTAB)
-            READ(TXT300,*,ERR=111) (TAB(I), I=1, MXTAB)
+            READ(TXT3000,*,ERR=111) (TAB(I), I=1, MXTAB)
           ENDIF
 
 c        write(*,*) (TAB(I), I=1, MXTAB), nr
@@ -268,30 +268,30 @@ C----- NOW PLOT !
       NPT = 0
 
 C      READ(LN,*,END=10,ERR=33) (TAB(I), I=1, MXTAB)
- 12   READ(LN,FMT='(A)',END=10,ERR=33) TXT300
-          txt300 = txt300(debstr(txt300):finstr(txt300))
-      IF    (STRCON(TXT300(1:1),'%',
+ 12   READ(LN,FMT='(A)',END=10,ERR=33) TXT3000
+          txt3000 = txt3000(debstr(txt3000):finstr(txt3000))
+      IF    (STRCON(TXT3000(1:1),'%',
      >                     IS) ) THEN
         GOTO 12
-      ELSEIF(STRCON(TXT300(1:1),'&',
+      ELSEIF(STRCON(TXT3000(1:1),'&',
      >                       IS) ) THEN
         GOTO 12
-      ELSEIF(STRCON(TXT300(1:2),'//',
+      ELSEIF(STRCON(TXT3000(1:2),'//',
      >                       IS) ) THEN
         GOTO 12
-      ELSEIF(EMPTY(TXT300)) THEN
+      ELSEIF(EMPTY(TXT3000)) THEN
         GOTO 12
-      ELSEIF(STRCON(TXT300,'LTYP',
+      ELSEIF(STRCON(TXT3000,'LTYP',
      >                           IS) ) THEN
-        TXT300 = TXT300(debstr(TXT300):80)
-        READ(TXT300,FMT='(a,i2)') txt4,LTYP
+        TXT3000 = TXT3000(debstr(TXT3000):80)
+        READ(TXT3000,FMT='(a,i2)') txt4,LTYP
         CALL LINTYP(LTYP)
         MODV=4
         GOTO 12
       ELSE
 C        BACKSPACE(LN)
 C        READ(LN,*,ERR=33) (TAB(I), I=1, MXTAB)
-        READ(TXT300,*,ERR=12) (TAB(I), I=1, MXTAB)
+        READ(TXT3000,*,ERR=12) (TAB(I), I=1, MXTAB)
       ENDIF
 
 c          write(*,*) (TAB(I), I=1, MXTAB), nr
@@ -317,37 +317,37 @@ C      X2 = X
 
  4    CONTINUE
         NR = NR+1
- 411    READ(LN,FMT='(A)',END=10,ERR=33) TXT300
-          txt300 = txt300(debstr(txt300):finstr(txt300))
-        IF    (STRCON(TXT300(1:1),'%',
+ 411    READ(LN,FMT='(A)',END=10,ERR=33) TXT3000
+          txt3000 = txt3000(debstr(txt3000):finstr(txt3000))
+        IF    (STRCON(TXT3000(1:1),'%',
      >                      IS) ) THEN
           MODV=4
           GOTO 4
-        ELSEIF(STRCON(TXT300(1:1),'&',
+        ELSEIF(STRCON(TXT3000(1:1),'&',
      >                       IS) ) THEN
           MODV=4
           GOTO 4
-        ELSEIF(STRCON(TXT300(1:2),'//',
+        ELSEIF(STRCON(TXT3000(1:2),'//',
      >                       IS) ) THEN
           MODV=4
           GOTO 4
-        ELSEIF(EMPTY(TXT300)) THEN
+        ELSEIF(EMPTY(TXT3000)) THEN
           LTYP = LTYP+1
           IF(LTYP .EQ. 6) LTYP = 1
           CALL LINTYP(LTYP)
           MODV=4
           GOTO 4
-        ELSEIF(STRCON(TXT300,'LTYP',
+        ELSEIF(STRCON(TXT3000,'LTYP',
      >                             IS) ) THEN
-          TXT300 = TXT300(debstr(TXT300):80)
-          READ(TXT300,FMT='(a,i2)') txt4,LTYP
+          TXT3000 = TXT3000(debstr(TXT3000):80)
+          READ(TXT3000,FMT='(a,i2)') txt4,LTYP
           CALL LINTYP(LTYP)
           MODV=4
           GOTO 4
         ELSE
 C          BACKSPACE(LN)
 C          READ(LN,*,ERR=33) (TAB(I), I=1, MXTAB)
-          READ(TXT300,*,ERR=411) (TAB(I), I=1, MXTAB)
+          READ(TXT3000,*,ERR=411) (TAB(I), I=1, MXTAB)
         ENDIF
 
 c          write(*,*) (TAB(I), I=1, MXTAB), nr

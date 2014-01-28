@@ -34,7 +34,9 @@ C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
 C     ---------------------------------------------------------------
       INTEGER DEBSTR,FINSTR
       LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
-      IF(LEN(STR).LT.LNG2) GOTO 1
+      IF(LEN(STR).LT.LNG2 .OR.
+     >   (DEBSTR(STR).EQ.0 .AND. FINSTR(STR).EQ.0)
+     >     ) GOTO 1
       DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
         IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
           IS = I 

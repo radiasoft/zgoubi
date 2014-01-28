@@ -42,7 +42,7 @@ C------------------------------
 
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
       PARAMETER (MXC = 4)
-      dimension COEFS(MMAP,MXC), AA(MXC)
+      dimension COEFS(MMAP,IZ), AA(IZ)
 
 
 C Read

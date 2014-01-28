@@ -177,7 +177,7 @@ C------- Switch on print to standard output :
 C        CALL MATIMP(RREF)
         CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
-        CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC)
+        CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
 
         CALL BEAMAT(RREF,PRDIC,OKCPLD,
      >                                 F0,Q1,Q2,CC)        
@@ -240,7 +240,7 @@ C----- 3rd pass through structure will follow
 C        CALL MATIMP(RMINUS)
         CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
      >                                           YNUM,ZNUM,CMUY,CMUZ)
-        CALL MATIMP(RMINUS,F0M,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC)
+        CALL MATIMP(RMINUS,F0M,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
      >              PATHL(2)) 
 
@@ -286,7 +286,7 @@ C------- reactivate WRITE for printing results
 C        CALL MATIMP(RPLUS)
         CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
-        CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
+        CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
      >              PATHL(3)) 
 
@@ -349,7 +349,7 @@ C        ENDIF
 C          CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
-          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
+          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
 
           NRES = ISIGN*NRES
  
@@ -410,7 +410,7 @@ C------- Amplitude tracking completed
 C          CALL MATIMP(RPLUS)
           CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
-          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC)
+          CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
 
           NRES = ISIGN*NRES
 

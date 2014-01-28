@@ -445,7 +445,7 @@ B : Parameters used to define the field map and fringe fields.
 
 \begin{tabbing}  %% nouveaux tabs
 \mestab
-\textbf{AUTOREF} ~ ~ \quad \=   
+\textbf{AUTOREF} ~ ~ ~ ~  ~ \quad \=   
 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$, 
 		$YCE=Y(1)$, $ALE=T(1)$) \quad   \quad \=  ~ ~  3*(1-\imax) \quad  \quad  \=\kill
 \textbf{AUTOREF}  \label{AUTOREF-B} \index{AUTOREF|textbf}
@@ -463,13 +463,15 @@ $ I$             \> 1 : Equivalent to \textsl{CHANGREF} ($XCE=0$,
  \\
  \> 3 : Equivalent to \textsl{CHANGREF} ($XW$, $YW$, $T(I1)$), with ($XW$, $YW$)  \\
  \> being the location of the intersection (waist) of particles $I1$, $I2$ and $I3$ \>\>\\
- \> (for instance : $I1=$ central trajectory, $I2$ 
- and $I3=$ paraxial trajectories \>\>\\
- \>that intersect at the first order 
- focus) \>\>\\
+ \> (for instance : $I1=$ central trajectory, $I2$  and $I3=$ paraxial trajectories \>\>\\
+ \>that intersect at the first order  focus) \>\>\\
  \\
-\textbf{If $I=3$}        \>Next record only if $I=3$ \>\>\\
- $I1$, $I2$, $I3$      \>Three particle numbers \> 3*(1-\IMAX) \>3*I  
+\textbf{If $I=3$}        \>Next record if $I=3$ \>\>\\
+ $I1$, $I2$, $I3$      \>Three particle numbers \> 3*(1-\IMAX) \>3*I  \\
+\\
+\textbf{If $I=4$}        \>Next record  if $I=4$ \>\>\\
+ \textsl{XCE, YCE, ALE} \> Centers the beam on \textsl{XCE, YCE, ALE}  \> 2*cm, mrad \>3*E  \\
+ \\
 \end{tabbing}
 
 

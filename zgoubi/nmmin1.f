@@ -181,7 +181,7 @@ C Max number of function calls
       ENTRY NMMIN2(PNLTI,ICPTM)
       PNLTY = PNLTI
       ICPTMA = ICPTM
-      NMMIN2 = 0
+      NMMIN2 = 0.D0
       RETURN
 
       END

@@ -32,19 +32,19 @@ C     ***************************************
       CHARACTER(*) LABEL(MXL,2)
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(80) TA
-      PARAMETER (MXTA=45)
-      COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER TXT300*300, TXTA*8, TXTB*8
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       PARAMETER (I4=4)
       CHARACTER(20) STRA(I4)
-      PARAMETER (MXPRM=1000)
-      DIMENSION PARAM(MXPRM)
       CHARACTER(30) STRING
       LOGICAL OKKLE
+
+      PARAMETER (MXPRM=10, MXLST=1000)
+      DIMENSION PARAM(MXPRM,MXLST)
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) TPRM(MXPRM,3)
 
       READ(NDAT,FMT='(A)') TXT300
       IF(STRCON(TXT300,'!',
@@ -78,52 +78,74 @@ C     ***************************************
 
       IF    (IA4 .EQ. 1) THEN
 C WILL 'REBELOTE' USING NEW VALUE FOR PARAMETER #KPRM IN ELEMENT #KLM. 
+        IF(NRBLT .GT. MXLST) 
+     >  CALL ENDJOB(
+     >  'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT=',
+     >  NRBLT)
         READ(NDAT,*) NPRM
+        IF(NPRM .GT. MXPRM) 
+     >    CALL ENDJOB('SBR RREBEL. Too many parameters, has to be .le. '
+     >    ,MXPRM)
         A(NOEL,10) = NPRM
-        READ(NDAT,FMT='(A)') TXT300
-        IF(STRCON(TXT300,'!',
-     >                        II))
-     >    TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
-        READ(TXT300,*) STRING
-        IEL = 1
-        OKKLE = .FALSE.
-        DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
-          IF(STRING(DEBSTR(STRING):FINSTR(STRING)) .EQ. 
-     >       KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))) 
+
+        DO IPRM = 1, NPRM
+          READ(NDAT,FMT='(A)') TXT300
+          IF(STRCON(TXT300,'!',
+     >                          II))
+     >      TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
+          READ(TXT300,*) STRING
+          IEL = 1
+          OKKLE = .FALSE.
+          DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
+            IF(STRING(DEBSTR(STRING):FINSTR(STRING)) .EQ. 
+     >        KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))) 
      >                                            OKKLE = .TRUE.
-          IEL = IEL + 1
-        ENDDO
+            IEL = IEL + 1
+          ENDDO
 C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence 
-        IF(OKKLE) THEN
-          KLM = IEL - 1
+          IF(OKKLE) THEN
+            KLM = IEL - 1
 C Keyword with parameter to be changed
-          TA(NOEL,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
-          backspace(ndat)
-          READ(ndat,*,ERR=79,END=79) STRING,KPRM,(PARAM(I),I=1,NRBLT)
-          TA(NOEL,2) = ' '
-          TA(NOEL,3) = ' '
-        ELSE
-          TA(NOEL,1) = ' '
-          TA(NOEL,2) = ' '
-          TA(NOEL,3) = ' '
-          backspace(ndat)
-          READ(ndat,*,ERR=79,END=79) KLM,KPRM,(PARAM(I),I=1,NRBLT)
-        ENDIF
-        
-        goto 80
+            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
+            backspace(ndat)
+            READ(ndat,*,ERR=79,END=79) 
+     >        STRING,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+            TPRM(IPRM,2) = ' '
+            TPRM(IPRM,3) = ' '
+          ELSE
+            backspace(ndat)
+            READ(ndat,*,ERR=79,END=79) 
+     >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+            TPRM(IPRM,1) = ' '
+            TPRM(IPRM,2) = ' '
+            TPRM(IPRM,3) = ' '
+          ENDIF
 
- 79     CONTINUE
-        WRITE(6,*)
-     >  'SBR RREBEL. Stopped while reading list of parameter values.'
-        CALL ENDJOB('Have NRBLT .le. number of parameter values.',-99)
- 80     continue
+          GOTO 80
 
-        A(NOEL,20) = KLM
-        A(NOEL,21) = KPRM
-        IF(NRBLT .GT. MXPRM) 
-     >    CALL ENDJOB('SBR RREBEL. TOO MANY DATA, # MUST BE .LE. NRBLT='
-     >    ,NRBLT)
-        CALL REBEL4(PARAM)
+ 79       CONTINUE
+          WRITE(6,*)
+          WRITE(6,*)
+     >    'SBR RREBEL. Stopped while reading list of parameter values.'
+          CALL ENDJOB('Give NRBLT .le. number of parameter values.',-99)
+
+ 80       CONTINUE
+          A(NOEL,20+10*(iprm-1)) = KLM
+          A(NOEL,21+10*(iprm-1)) = KPRM
+          IF(NRBLT .GT. MXLST) 
+     >      CALL ENDJOB('SBR RREBEL. TOO MANY DATA, # MUST BE .LE.'
+     >      //' NRBLT=',NRBLT)
+
+c             WRITE(*,*) ' RREBEL ', 
+c     >       ' NOEL= ',noel,
+c     >       ' KLM=',A(NOEL,20+10*(iprm-1)), 
+c     >       ' KPRM=',A(NOEL,21+10*(iprm-1)),
+c     >       ' param= ' ,(PARAM(IPRM,I),I=1,NRBLT)
+c                     read(*,*)
+
+        ENDDO
+
+        CALL REBEL4(PARAM,TPRM)
         NOELA = 1
         NOELB = NOEL
       ENDIF

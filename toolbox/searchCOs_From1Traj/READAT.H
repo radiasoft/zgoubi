@@ -149,6 +149,12 @@ C				    read(*,*)
      >                       IS)
         read(txt132(IS+1:132),*) kDrift
         write(*,*) ' kDrift = ', kDrift
+      elseif (STRCON(txt132(1:6),'mass',4,
+     >                       IS)) then
+        ok=STRCON(txt132,'=',1,
+     >                       IS)
+        read(txt132(IS+1:132),*) am
+        write(*,*) ' mass = ', am
       endif
 
       goto 1
