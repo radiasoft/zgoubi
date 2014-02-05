@@ -41,7 +41,7 @@ C     ***************************************
       CHARACTER(30) STRING
       LOGICAL OKKLE
 
-      PARAMETER (MXPRM=10, MXLST=1000)
+      PARAMETER (MXPRM=10, MXLST=200)
       DIMENSION PARAM(MXPRM,MXLST)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TPRM(MXPRM,3)

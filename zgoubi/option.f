@@ -97,16 +97,16 @@ C Numb of options. NBOP lines should follow
             WRITE(ABS(NRES),FMT='(T25,I2,A,/)') 
      >      nbop, ' option(s) expected.  Option(s) found :'
             WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
-     >      'WRITE bit in ''OPTIONS'' set to 1.'
+     >      '''WRITE'' bit in ''OPTIONS'' set to 1.'
           ENDIF
-          kwroff = 0
+          KWROFF = 0
         ENDIF
       ENDIF
 
  99   RETURN
 
-      entry optio1(
-     >             kwrofo)
-      kwrofo = kwroff
-      return
+      ENTRY OPTIO1(
+     >             KWROFO)
+      KWROFO = KWROFF
+      RETURN
       END

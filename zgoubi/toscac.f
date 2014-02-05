@@ -82,7 +82,7 @@ C-------------------------------------------------
       DATA FMTYP / ' regular' / 
 
       PARAMETER (MXC = 4)
-      DIMENSION AA(MXL,24+MXC-1)
+      DIMENSION AA(MXL,24+MXC-1), UU(24+MXC-1)
 c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
@@ -137,7 +137,11 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          do ll = 24, 24+MXC-1
+            uu(ll) = AA(NOEL,ll)
+          enddo
+C          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
         ELSEIF(MOD .EQ. 3) THEN
@@ -147,7 +151,11 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          do ll = 24, 24+MXC-1
+            uu(ll) = AA(NOEL,ll)
+          enddo
+C          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
           IF(MOD2 .EQ. 1) THEN
@@ -193,7 +201,11 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             NFIC = NFIC+1
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-            CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          do ll = 24, 24+MXC-1
+            uu(ll) = AA(NOEL,ll)
+          enddo
+C            CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+            CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
           ENDDO       
 
@@ -237,7 +249,11 @@ C        NEWF = .TRUE.
           NAMFIC = TA(NOEL,1+NFIC)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-        CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+          do ll = 24, 24+MXC-1
+            uu(ll) = AA(NOEL,ll)
+          enddo
+C        CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+        CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
 c         write(*,*) 'before', newfic, 'NFIC',NFIC ,'IMAP',IMAP, noel

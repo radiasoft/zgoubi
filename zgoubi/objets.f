@@ -110,8 +110,9 @@ C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 
       CALL RAZ(F,MXJ*MXT)
 
-      KOBJ = INT(A(NOEL,10))
-      KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
+      KOBJ = NINT(A(NOEL,10))
+      KOBJ2 = NINT(A(NOEL,11))
+C      KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
 
       IF(NRES.GT.0) WRITE(NRES,103) BORO
  103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')

@@ -44,6 +44,8 @@ C     N (INT,IN): The dimension of X
       DOUBLE PRECISION EPS
       PARAMETER (EPS=1.220703125D-4)
 
+      NMMIN = 0.d0
+
       Y1 = 3.40282347D+38
       IARR = 0
 

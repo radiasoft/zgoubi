@@ -1222,7 +1222,7 @@ C        STP3 = A(NOEL,ND)
  101      FORMAT(/,20X,
      >    'Integration steps inside entrance|body|exit region : ',
      >    /,1P,T36,3G11.3,' (cm)',
-     >       /,T36,I3,T47,I6,T58,I3)
+     >       /,T36,I3,T47,I6,T58,I3,/)
 
         IF(KPAS.EQ.2) THEN
           IF(NRES.GT.0) 
@@ -1255,7 +1255,6 @@ C        STP3 = A(NOEL,ND)
       CALL ENDJOB('Execution stopped, data list error ',-99)
 
  99   CONTINUE
-
 
       RETURN
 

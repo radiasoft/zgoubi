@@ -26,28 +26,29 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INTEGER DEBSTR
       CHARACTER * (*) STRING
-
 C     --------------------------------------
 C     RENVOIE DANS DEBSTR LE RANG DU
 C     1-ER CHARACTER NON BLANC DE STRING,
 C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
 C     --------------------------------------
-
-      DEBSTR=0
+      II=0
       LENGTH=LEN(STRING)
-
-      IF(LENGTH.EQ.0) RETURN
-
+      IF(LENGTH.EQ.0) GOTO 99
 1     CONTINUE
-        DEBSTR=DEBSTR+1
-        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
-          IF(DEBSTR .GE. LENGTH) THEN
-            DEBSTR = 0
-            RETURN
+        II=II+1
+        IF (STRING(II:II) .EQ. ' ') THEN
+          IF(II .GE. LENGTH) THEN
+            II = 0
+            GOTO 99
           ELSE
             GOTO 1
           ENDIF
         ENDIF
-
+ 99   CONTINUE
+      IF(II .EQ. 0) THEN
+        STRING = ' '
+        II = 1
+      ENDIF
+      DEBSTR = II
       RETURN
       END

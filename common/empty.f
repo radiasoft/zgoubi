@@ -25,12 +25,12 @@ C  -------
       FUNCTION EMPTY(STR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL EMPTY
-      CHARACTER*(*) STR
+      CHARACTER(*) STR
 C     -----------------------------------------------------
 C     .TRUE. if STR is either empty or contains only blanks
 C     -----------------------------------------------------
 
       INTEGER FINSTR
-      EMPTY = FINSTR(STR) .EQ. 0
+      EMPTY = FINSTR(STR) .EQ. 1 .and. str(1:1) .eq. ' '
       RETURN
       END

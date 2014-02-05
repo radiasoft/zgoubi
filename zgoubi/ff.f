@@ -75,8 +75,6 @@ C            CALL FITSTA(6,FITING)
             ENDFIT = .FALSE.
             CALL ZGOUBI(1,KK,READAT,
      >                              NBEL,ENDFIT)
-C           write(*,*) ' kk ',kk,i3(i)
-C             stop
          ENDIF
 
          IF     (ICONT .EQ. 0) THEN
@@ -165,7 +163,7 @@ C-----------Chromaticity
      >                                                YNU,ZNU,CMUY,CMUZ)
                YNUI(IREF) = YNU
                ZNUI(IREF) = ZNU
-C                  write(*,*) ' iref nux nuy : ',iref, ynu, znu 
+
              IF(IREF.LT.NBREF) GOTO 1 
 
              IF    (NBREF .EQ. 1) THEN
@@ -175,10 +173,7 @@ C                  write(*,*) ' iref nux nuy : ',iref, ynu, znu
                DP2 =  F(1,12)
                DNUYDP = (YNUI(2) - YNUI(1)) / (DP2-DP1)
                DNUZDP = (ZNUI(2) - ZNUI(1)) / (DP2-DP1)
-C               write(*,*)
-C               write(*,*) 'sbr ff dp1,dp2,dnuy,dnyz ; '
-C     >              ,dp1,dp2,dnuydp,dnyzdp
-C               write(*,*)
+
              ELSEIF(NBREF .EQ. 3) THEN
                STOP ' SBR FF : too many MATRIX blocks  '
 C              q' = (q+ - q-) / 2dp
@@ -221,9 +216,7 @@ C-----------Contraints are second order transport coeffs
      >                                             YNUM,ZNUM,CMUY,CMUZ) 
              DNUYDP = (YNUP-YNUM)/2.D0/DP
              DNUZDP = (ZNUP-ZNUM)/2.D0/DP
-C             WRITE(*,FMT='(/,34X,''Chromaticities:'',
-C     >      //,30X,''dNu_y / dp/p = '',G15.8,/, 
-C     >         30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
+
              IF( K .EQ. 7 ) THEN
 C-------------Contraint dNu_Y/dpp
                VAL= DNUYDP
@@ -240,8 +233,6 @@ C----------- Constraints on particle coordinates or bundle
              IF(K .GT. 0) THEN
 C-------------- Constraint is value of coordinate L of particle K
                VAL=F(L,K)
-C             write(*,*) ' val  : ',F(L,K)
-C                   read(*,*)
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
                VAL=FITLAV(L)
@@ -260,15 +251,13 @@ C             e.g., particle #K has equal values for coordinate L,
 C                 at ends of cell 
 C                   (hence expected constraint value in zgoubi.dat is 0).
              VAL=ABS(F(L,K) - FO(L,K))
-C             write(*,*) ' val   : ',F(L,K),FO(L,K),val,L
-C                   read(*,*)
+
            ELSEIF(ICONT2.EQ.2) THEN
 C------------ Constraint on closed orbit : 
 C             or opposite angle values (L=3,5)
 C                 at ends of cell 
 C                   (hence expected constraint value in zgoubi.dat is 0)
              VAL=ABS(F(L,K) + FO(L,K))
-C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
 
 c           ELSEIF(ICONT2.EQ.3) THEN
 cC------------ Constraint on min/max value (MIMA=1/2) of coordinate L reached inside optical element KK
@@ -281,20 +270,16 @@ c             if(mima .eq. 2) mima=1
 c             CALL FITMM1(K,L,KK,MIMA,
 c     >                             VAL2)
 c             val = val1 + val2
-cc              write(88,fmt='(a,1x,1p,3e14.6)') 
-cc     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
      
            ELSEIF(ICONT2.EQ.4) THEN
 C------------ Same coordinate L, two different particles K, K2 
              K2 = NINT(CPAR(I,2)) 
              VAL=ABS( F(L,K) - F(L,K2) )
-C             write(*,*) ' i, f1, f2 : ',i,F(L,K),F(L,K2)
 
            ELSEIF(ICONT2.EQ.5) THEN
 C------------ Same coordinate L, two different particles K, K2 
              K2 = NINT(CPAR(I,2)) 
              VAL=F(L,K) / F(L,K2) -1.D0
-C             write(*,*) ' i, f1, f2 : ',i,F(L,K),F(L,K2)
 
            ENDIF
 
@@ -397,8 +382,6 @@ C------------ Constraint on |min-max| value of coordinate L reached inside optic
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL2 - VAL1
-c              write(88,fmt='(a,1x,1p,3e14.6)') 
-c     >          'ff val1,val2,|val1-val2| ',val1,val2, abs(val1-val2)
      
            ELSEIF(ICONT2.EQ.3) THEN
 C------------ Constraint on  min+max  value of coordinate L reached inside optical element KK
@@ -409,9 +392,6 @@ C------------ Constraint on  min+max  value of coordinate L reached inside optic
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL1 + VAL2
-c              write(*,fmt='(a,1x,1p,3e14.6)') 
-c     >          'ff val1,val2,val1+val2 ',val1,val2, val1+val2
-c                     read(*,*)
      
            ELSEIF(ICONT2.EQ.6) THEN
 C------------ Constraint on  min or max value  (MIMA=1 or 2) of field L-component, across optical element KK
@@ -460,19 +440,21 @@ C-----------Contraints on spin
            IF    (ICONT2.EQ.0) THEN
              VAL=SF(L,K)
            ELSEIF(ICONT2.EQ.1) THEN
-C------------ Constraint on closed orbit : 
+C------------ Constraint on spin components,  
 C             e.g., equal spin values  (L=2,4 or other)
 C                 at ends of cell 
-C                   (hence expected constraint value in zgoubi.dat is 0)
+C                   (hence expected value for the constraint is 0)
              VAL=ABS(SF(L,K) - SI(L,K))
-C             write(*,*) ' val   vi  : ',F(L,K),FO(L,K),val,v(i),L
+
            ELSEIF(ICONT2.EQ.1) THEN
              CALL ENDJOB(' SBR ff.f : no such FIT option 10.',ICONT2)
            ENDIF
 
          ENDIF
+
          Z=Z+((VAL-V(I))/W(I))**2
          VAT(I)=VAL
+
 3     CONTINUE
       
       IF(FINI.LE.Z) THEN

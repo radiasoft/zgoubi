@@ -25,7 +25,7 @@ C  -------
       FUNCTION FINSTR(STRING)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INTEGER FINSTR
-      CHARACTER * (*) STRING
+      CHARACTER(*) STRING
 C     --------------------------------------
 C     RENVOIE DANS FINSTR LE RANG DU
 C     DERNIER CHARACTER NON BLANC DE STRING,
@@ -35,8 +35,14 @@ C     --------------------------------------
       FINSTR=LEN(STRING)+1
 1     CONTINUE
         FINSTR=FINSTR-1
-        IF(FINSTR .EQ. 0) RETURN
+        IF(FINSTR .EQ. 0) GOTO 99
         IF (STRING(FINSTR:FINSTR) .EQ. ' ') GOTO 1
 
+ 99   CONTINUE
+
+      IF(FINSTR.EQ.0) THEN
+        FINSTR = 1
+        STRING = ' '
+      ENDIF
       RETURN
       END

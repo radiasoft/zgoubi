@@ -352,13 +352,10 @@ C Write all co coordinates (clorb(i,j)) into zgoubi_searchCO-Out.dat
         enddo
 C Makes the new line of 1s
         read(lunR,fmt='(a)',end=62) txt132
-        txt132 = ' 1 '
-        i2 = 0
-        do j=1,jok-1
-          i2 = i2 + 2
-          txt132 = txt132(1:i2)//' 1'        
+        txt132 = ' 1 1 1 1 1 1 1 1 1 1 '
+        do j=1,(jok-1)/10+1
+          write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
         enddo
-        write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
         read(lunR,fmt='(a)',end=62) txt132
 C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
  61   continue
@@ -402,6 +399,9 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
         first = .false.
       endif
       open(unit=33,file='searchCO.temp')
+      write(33,fmt='(
+     >''# '',T5, ''Y'',T20,''T'',T35,''Z'',T45,''P'',
+     >T60,''s'',T72,''p/pref'',T82,''time'',T90,'' '',T95,'''')')
       do j=1,jok
         pj = pRef * (1.d0+clorb(6,j))
         Tj = sqrt(pj*pj+am*am) - am

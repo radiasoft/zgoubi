@@ -152,15 +152,20 @@ C----- Get FIT status
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
-      IF(NRES .GT. 0) WRITE(6,905) TITRE
- 905  FORMAT(/,1X,A80,//)
+      IF(.NOT. FITING) THEN 
+        IF(NRES .GT. 0) WRITE(6,905) TITRE
+ 905  FORMAT(/,1X,'Problem title : ',A80,//)
+      ENDIF
 
       TOMANY = .FALSE.
       NOEL = NL1-1
 
  998  CONTINUE
   
-      IF(PRLB) THEN
+C YD FM. 28/01/2014
+      if(noel .gt. 0) then
+
+       IF(PRLB) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
         IF( STRACO(NLB,LBL,LABEL(NOEL,1),
@@ -168,17 +173,17 @@ C        LBL contains the LABEL['s] after which print shall occur
      >    .OR. LBL(1).EQ.'all' .OR. LBL(1).EQ.'ALL') 
      >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
-      ENDIF
-      IF(PRLBSP) THEN
+       ENDIF
+       IF(PRLBSP) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
 C        LBLSP contains the LABEL['s] after which print shall occur
         IF( STRACO(NLB,LBLSP,LABEL(NOEL,1),
      >                                     IL) ) 
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
-      ENDIF
+       ENDIF
 
-      IF(KCO .EQ. 1) THEN
+       IF(KCO .EQ. 1) THEN
 C------- Calculate pick-up signal
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
@@ -186,10 +191,10 @@ C        PULAB contains the NPU LABEL's at which CO is calculated
      >    CALL PCKUP(NOEL)
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
-      ENDIF
+       ENDIF
 
 
-      IF(KOPTCS .EQ. 1) THEN
+       IF(KOPTCS .EQ. 1) THEN
 C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
 
         IF(KUASEX .NE. -99) THEN
@@ -202,14 +207,14 @@ C         Only if keyword is of optical element type or [MC]OBJET or END or MARK
 
           ENDIF
         ENDIF
-      ENDIF
+       ENDIF
 
 C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired 
 C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
           KUASEX = -99
 
 
-      IF(REBFLG) THEN
+       IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         IF(IPASS.EQ.NRBLT+1) THEN
           CALL REBEL7(
@@ -222,8 +227,10 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
             GOTO 187
           ENDIF
         ENDIF
-      ENDIF
- 
+       ENDIF
+
+      endif ! noel.gt.0 
+
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
@@ -366,7 +373,6 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
 C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
       IF(READAT) CALL RREBEL(LABEL,kle)
-      IF(FITGET) CALL FITGT1
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
       CALL KSMAP0
@@ -1237,11 +1243,14 @@ C----- SYSTEM. System call
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))
       IF(NRES.GT.0) WRITE(NRES,*) ' Number of commands : ',NCMD
-      DO I = 1, NCMD
-        READ(NDAT,FMT='(A)') SYSCMD
-        CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
-        IF(NRES.GT.0)WRITE(NRES,*) SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
-      ENDDO 
+      IF(READAT) THEN 
+        DO I = 1, NCMD
+          READ(NDAT,FMT='(A)') SYSCMD
+          CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
+          IF(NRES.GT.0)WRITE(NRES,*) 
+     >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
+        ENDDO 
+      ENDIF
       GOTO 998
 C----- SPINR. Spin rotator 
  107  CONTINUE

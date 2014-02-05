@@ -45,7 +45,11 @@ C  -------
       G3=GAMMA**3
       R0=QE*CL*CL*1.D-7/(AM*1.D6)
       EKEV = (4.D0*PI/3.D0)*R0*CL*BTA*BTA*G3*ABS(B*UNITB)*1.D-3
-      RHO=BRO/B *1.D-2
+      IF(B.GT.0.D0) THEN
+        RHO=BRO/B *1.D-2
+      ELSE
+        RHO=1.D20
+      ENDIF
       ANG=2.D0*ASIN(0.5D0*(XL*1.D-2)/RHO)
       HBAR=6.6260755D-34/(2.D0*PI)
       EC=3.D0*G3*CL/(2.D0*ABS(RHO))*HBAR/QE*1.D-3
@@ -104,13 +108,13 @@ C  -------
       ENTRY SYNPA3(LUN,
      >                SMELPO,EO)
 
-      IF(LUN.LE.0) RETURN
-
-      WRITE(LUN,FMT='(//,5X,''Average energy loss per particle, summed'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' keV'',6X,
-     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
       SMELPO = SMELPP*1.D-3
       EO = E
+
+      IF(LUN.GT.0) 
+     >WRITE(LUN,FMT='(//,5X,''Average energy loss per particle, summed''
+     >,'' UP TO THIS POINT :'', 1P,G16.8,'' keV'',6X,
+     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
 
       RETURN
 

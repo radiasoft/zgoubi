@@ -56,7 +56,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
       EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
      > (JDE(5),IP   ),(JDE(1),ID)
  
-      PARAMETER(MXREF=99)
+      PARAMETER(MXREF=999)
       DIMENSION REF(MXJ,MXREF)
       DIMENSION FI(6,6)
 
@@ -145,12 +145,12 @@ C Dy, Dy', Dz, Dz'
        WRITE(NRES,FMT='(14X,'' Sampling : '',T30, 
      >  5(4X,G10.2),4X,G12.4)') (P(J), J=2,6), P(1)
         IREF = 1
-        WRITE(NRES,FMT='(2X,  ''Reference trajectory #'',I1,'' : '',T30,
+        WRITE(NRES,FMT='(2X,''Refrnce trajectry # '',I6,'' : '',T30,
      >                         5(4X,G10.2),4X,G12.4)') 
      >  IREF,(REF(J,IREF), J=2,6), REF(1,IREF)
         DO 20 IREF=2, NBREF
-          WRITE(NRES,FMT='(2X,''                     #'',I1,'' : '',T30,
-     >                           5(4X,G10.2),4X,G12.4)') 
+          WRITE(NRES,FMT='(
+     >    20X,''# '',I6,'' : '',T30,5(4X,G10.2),4X,G12.4)') 
      >    IREF,(REF(J,IREF), J=2,6), REF(1,IREF)
  20     CONTINUE
       ENDIF

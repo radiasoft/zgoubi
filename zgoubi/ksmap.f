@@ -47,11 +47,14 @@ C     16/01/14 For KSMAP4 to remember the maps coeffcients used
 
 C Read
       KMAPO = KMAP
+ 
       RETURN
 
 C Reset
       ENTRY KSMAP0
-        NBMAPS = 0
+
+      NBMAPS = 0
+
       RETURN
 
 C Stack, count 

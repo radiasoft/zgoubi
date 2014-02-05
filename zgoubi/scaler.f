@@ -97,7 +97,7 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
  3    continue
 
       DO KF = KF1, NFAM
-
+ 
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- Current KLEY recorded for scaling 
           
@@ -128,9 +128,11 @@ c                    read(*,*)
 c                 endif
 
 C               ... either LBF ends with '*' ...
-                IF(  LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1))
+                IF(  LLBF-1 .GE. 1 ) THEN
+                  IF(  LABEL(NOEL,1)(1:LLBF-1).EQ. LBF(KF,KL)(1:LLBF-1))
      >               goto 2
-                IF( (LLAB-LLBF+2).GT.0) then !yann to protect -1 in LABEL table
+                ENDIF
+                IF( (LLAB-LLBF+2).GT.0) THEN                 !yann to protect -1 in LABEL table
                    IF(LABEL(NOEL,1)(LLAB-LLBF+2:LLAB)
      >                  .EQ.LBF(KF,KL)(2:LBFB)) 
      >                  GOTO 2

@@ -44,7 +44,9 @@ C     *******************************************
       DIMENSION IA(5)
 
       PARAMETER(MXJ1=MXJ-1)
-      PARAMETER(MXREF=99)
+
+C  If change MXREF, make sure 1/ to change MXD (see  line 140), 2/ that MXT is large enough
+      PARAMETER(MXREF=999)
 
       CHARACTER(LEN=132) TXT132, STRA(3)
       CHARACTER(LEN=80) TXT80
@@ -53,13 +55,17 @@ C     *******************************************
 
 C----- BORO
       READ(NDAT,*,ERR=99) A(NOEL,1)
-C----- KOBJ
-      READ(NDAT,*,ERR=99) A(NOEL,10)
- 
-C----- KOBJ may be of the form "K.K2"
-      K=INT(A(NOEL,10))
-      K2 = NINT(100.D0*A(NOEL,10)) - 100*K
-      
+C----- KOBJ - may be of the form "K.K2"
+      READ(NDAT,*,ERR=99) TXT132
+      IF(STRCON(TXT132,'!',
+     >                      IS)) 
+     >TXT132 = TXT132(1:IS-1)
+      READ(TXT132,*,ERR=99,END=99) K
+      A(NOEL,10) = K
+      IF(STRCON(TXT132,'.',
+     >                      IS)) 
+     >READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
+      A(NOEL,11) = K2
       IF(K .LT. 0) K=-K
 
       GOTO (1,2,3,1,5,5,7,8,9) K

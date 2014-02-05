@@ -483,6 +483,7 @@ krtax.o: PARIZ.H
 ksmap.o: PARIZ.H
 kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+lpsfi4.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 majtra.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 map2d.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H

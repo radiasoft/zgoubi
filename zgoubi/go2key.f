@@ -36,7 +36,13 @@ C     ******************************************************
       NK = 0
  1    CONTINUE
         READ(NDAT,fmt='(A)',END=98,ERR=99) TXT40
-        TXT40 = TXT40(DEBSTR(TXT40):FINSTR(TXT40))
+        IF(DEBSTR(TXT40) .GE. 1) THEN
+          TXT40 = TXT40(DEBSTR(TXT40):FINSTR(TXT40))
+        ELSE
+          do i = 1, 40
+            TXT40(i:i) = ' '
+          enddo
+        ENDIF
 C        WRITE(*,fmt='(A,2i4,A40)') ' GO2KEY ::::::: ',NUMKEY, NK ,TXT40
         IF(TXT40(1:1).NE.'''') GOTO 1
         NK = NK+1

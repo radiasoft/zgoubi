@@ -88,21 +88,21 @@ C------------- Write down a 4-line header
      >                                                  TXT,DMY,HMS
               IF    (TXT.EQ.'TRAJECTORIES') THEN
                 TXTN80 = 
-     >            ' 1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
+     >          '#  1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
      >          //'  11, 12,  13, 14, 15  , 16  , 17,  18 , 19 ,'
      >          //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
      >          //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
      >          //'  37, 38 , 39 ,  40  , 41   , 42  ,'
      >          //'   43  , 44    , 45    ,   46  '
                 TXTA80 = 
-     >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
+     >          '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
      >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
      >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
-     >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
+     >          '# int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
      >          //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
      >          //'  int,   cm, cm, kG, kG, kG, float, float, float,'
      >          //' float,float,float, float, float,float,float,float,'
@@ -111,7 +111,7 @@ C------------- Write down a 4-line header
 
               ELSEIF(TXT.EQ.'COORDINATES') THEN
                 TXTN80 = 
-     >            ' 1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
+     >          '#  1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
      >          //'  11, 12,  13, 14, 15  ,'
      >          //'   16 ,  17 ,  18 , 19   ,  20  ,  21 ,  22 ,  23 ,'
      >          //'   24   ,  25  ,'
@@ -120,7 +120,7 @@ C------------- Write down a 4-line header
      >          //'    36,  37  , 38   , 39  ,  40   ,'
      >          //'  41/lbl1, 42/lbl2,  43 '
                 TXTA80 = 
-     >            'KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
+     >          '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >          //'   T,  Z,   P,  S, time,'
      >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //'   ENEKI, ENERG,'
@@ -129,7 +129,7 @@ C------------- Write down a 4-line header
      >          //'    PS,  BORO, IPASS, NOEL,   KLEY,'
      >          //'  LABEL1, LABEL2,    LET'
                 TXTB80 = 
-     >            'int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
+     >          '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >          //' mrd, cm, mrd, cm, mu_s,'
      >          //' float,float,float, float, float,float,float,float,'
      >          //'     MeV,   MeV,'
@@ -140,17 +140,17 @@ C------------- Write down a 4-line header
 
               ELSEIF(TXT.EQ.'SPIN DATA') THEN
                 TXTN80 = 
-     >            ' 1 ,'
+     >          '#  1 ,'
      >          //'   2  ,  3  ,  4  ,  5   ,  6   ,  7  ,  8  ,  9  ,'
      >          //' 10, 11  , 12   , 13  , 14   , 15  ,'
      >          //'  16   ,  17   ,  18   ,   19  '
                 TXTA80 = 
-     >            'KEX,'
+     >          '# KEX,'
      >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >          //'  s, Ekin, Itraj, IMAX, IPASS, NOEL,'
      >          //'   KLEY, LABEL1, LABEL2,    LET'
                 TXTB80 = 
-     >            'int,'
+     >          '# int,'
      >          //' float,float,float, float, float,float,float,float,'
      >          //' cm,  MeV,   int,  int,   int,  int,'
      >          //' string, string, string, string'

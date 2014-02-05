@@ -111,20 +111,28 @@ c     >                    label(debstr(label):finstr(label))
 
  63     continue
 
-        elseif(strcon(txt132,'Reference particle (# ',22,
-     >                                                       IS)) then 
+        elseif(strcon(txt132,'Reference particle (#',21,
+     >                                                  IS)) then 
           txt132 = txt132(debstr(txt132):finstr(txt132))
           if(strcon(txt132,'), path length',14,
      >                                          IS)) then 
-            read(txt132(IS+16:IS+16+16),*) path(iico) 
-            read(txt132(82:92),*) pp0(iico) 
+            read(txt132(44:56),*) path(iico) 
+            read(txt132(84:96),*) pp0(iico) 
            
+c              write(*,*) txt132(debstr(txt132):finstr(txt132))
+c                write(*,*) iico, path(iico) ,pp0(iico)  
+c                      read(*,*)
           endif
 
-        elseif(strcon(txt132,'Reference, absolute (part #',27,
+c        elseif(strcon(txt132,'Reference, absolute (part #',27,
+        elseif(strcon(txt132,'Reference, before change of frame',33,
      >                                                    IS)) then 
-            read(txt132(38:132),*) 
+            read(lunR,*) 
      >        D1,YY(iico),TT(iico),ZZ(iico),PP(iico),SS,time
+
+c                write(*,*) 
+c     >        D1,YY(iico),TT(iico),ZZ(iico),PP(iico),SS,time
+c                     read(*,*)
            
         elseif(strcon(txt132,'BEAM  MATRIX (beta',18,
      >                                               IS)) then 
@@ -228,13 +236,16 @@ c            write(*,*) txt132(54:64)
         endif
         sphx = dsphx +  phix(ico)
         sphz = dsphz +  phiz(ico)
+        if(debstr(txt35(ico)).le.0) txt35(ico)='*'
         WRITE(LUNW,179) path(ico), 
-     >  -alfx(ico),betx(ico),Dx(ico),Dpx(ico),
-     >  -alfz(ico),betz(ico),Dz(ico),Dpz(ico), 
+c     >  -alfx(ico),betx(ico),Dx(ico),Dpx(ico),
+c     >  -alfz(ico),betz(ico),Dz(ico),Dpz(ico), 
+     >  alfx(ico),betx(ico),Dx(ico),Dpx(ico),
+     >  alfz(ico),betz(ico),Dz(ico),Dpz(ico), 
      >  sphx, sphz, phix(ico),phiz(ico), pp0(ico)
      >  ,txt35(ico)(debstr(txt35(ico)):finstr(txt35(ico)))
-     >  ,YY(ico),TT(ico),ZZ(ico),PP(ico)
- 179    FORMAT(1P,E14.6,13(1X,E13.5),1x,a,4(1X,E13.5))
+     >  ,YY(ico),TT(ico),ZZ(ico),PP(ico),ico
+ 179    FORMAT(1P,E14.6,13(1X,E13.5),1x,a,4(1X,E13.5),1X,i6)
         sDx2 = sDx2 + Dx(ico) * Dx(ico)
         sDz2 = sDz2 + Dz(ico) * Dz(ico)
         if(betx(ico).gt.betxM) betxM = betx(ico)
