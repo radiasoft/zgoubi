@@ -2034,7 +2034,7 @@ where it is defined (that requires re-compiling \zgoubi).
 
 \clearpage
 
-\subsubsection*{MCOBJET~:  \MCOBJETTitl} \label{MCOBJET} \index{MCOBJET}
+\subsubsection*{MCOBJET~:  \MCOBJETTitl} \label{MCOBJET} \index{MCOBJET|textbf}
 \index{Monte Carlo}\index{negative charge}\index{negative momentum} 
 \medskip 
 
@@ -2045,7 +2045,7 @@ conditions (the maximum value for \IMAX\ is defined in the include file \texttt{
 It can be used in conjunction with the keyword \textsl{REBELOTE\index{REBELOTE}}
 which   either allows generating an arbitrarily high number of initial conditions, or, in the 
 hypothesis of a periodic structure, 
- allows multi-turn tracking with initial conditions at pass number $\IPASS$ 
+ allows multi-turn tracking \index{multi-turn tracking} with initial conditions at pass number $\IPASS$ 
 identified with conditions at end of pass number $\IPASS-1$.  
 
  \bigskip
@@ -2222,7 +2222,7 @@ Bottom~: A 2-D grid in ($ Y, Z $) space.}
 \clearpage
 
  
-\subsubsection*{OBJET~:   \OBJETTitl} \label{OBJET} \index{OBJET}
+\subsubsection*{OBJET~:   \OBJETTitl} \label{OBJET} \index{OBJET|textbf}
 \medskip 
 \index{negative charge}\index{negative momentum}
 
@@ -2608,7 +2608,7 @@ the central value above is assigned.
 
 \subsubsection*{OBJETA~:   \OBJETATitl\ \protect\cite{Biblio9}}  %%% [9]
 \medskip 
- \label{OBJETA} \index{OBJETA}\index{Monte Carlo}
+ \label{OBJETA} \index{OBJETA|textbf}\index{Monte Carlo}
  
 This generator simulates the reactions 
 %
@@ -2700,7 +2700,8 @@ or tracking spin, or in presence of synchrotron radiation energy loss simulation
 
 - \textsl{MCDESINT\index{MCDESINT}}~: switch-on in-flight decay, could be after a target, 
 
-- \REBELOTE\index{REBELOTE}~: for multi-turn tracking, including  an extraction line section for instance, 
+- \REBELOTE\index{REBELOTE}~: for  \index{multi-turn tracking}  multi-turn tracking, 
+including  an extraction line section for instance, 
 
 \medskip
 
@@ -2795,7 +2796,7 @@ keyword \textsl{PICKUPS} is used.
 
 \newpage
 
-\subsubsection*{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT |textbf} \index{FIT2 |textbf}
+\subsubsection*{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT|textbf} \index{FIT2|textbf}
 \medskip
 
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
@@ -3421,7 +3422,8 @@ element number \textbf{1} (that is, the
 relative regidity of the particle, $D$, in \textsl{OBJET}) to a new value, namely the first one in the 
 \{1.3872739973  2.1368296674  4.8261190694  11.015241321\} list. And so on, \textbf{4} times, from
 \textsl{NRBLT=4} the first data in  \textsl{REBELOTE} data list. Note that spin data so computed (spin 
-vector components, precession, etc) are stored in zgoubi.SPNPRT.Out using the keyword '\textsl{SPNPRT}' with label 'PRINT'. 
+vector components, precession, etc) are stored in zgoubi.SPNPRT.Out \index{zgoubi.SPNPRT.Out} 
+using the keyword '\textsl{SPNPRT}' with label ``\textsl{PRINT}''. 
 
 ~
 
@@ -3474,19 +3476,21 @@ b_table55.map
 
  'REBELOTE'  G.gamma=6        9             20           45.5      
 4  0.1  0 1
+1            one list of successive values follows 
 1  35       1.3872739973  2.1368296674  4.8261190694  11.015241321                          
  'END'        
 \end{verbatim}
+\index{zgoubi.SPNPRT.Out}
 }
-\end{minipage}
-\begin{minipage}[h]{.4\linewidth}
+\end{minipage}\hspace{0.03\linewidth}
+\begin{minipage}[h]{.38\linewidth}
 
 \centering
 \centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{Fig-YZ_pwsnk_5.eps}}
 %/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
 
 Helical trajectories at five different momenta (projection into the vertical plane $(Y,Z)$), centered on the snake axis 
-by the fitting procedure. The plot also shows the  helix as it is positioned, off-centered, prior to the fit. 
+by the fitting procedure. The plot also shows for each momentum the  helix as it was positioned, off-centered, prior to the fit. 
 
 \end{minipage}
 
@@ -3565,7 +3569,7 @@ right before  \textsl{[MC]OBJET} in zgoubi.dat, to allow for its updating.
 \subsubsection*{MCDESINT~: \MCDESINTTitl \protect\cite{Biblio11}}
 \medskip 
               %%% [11]
-\label{MCDESINT}\index{MCDESINT}\index{Monte Carlo}
+\label{MCDESINT}\index{MCDESINT|textbf}\index{Monte Carlo}
 
  As soon as \textsl{MCDESINT}  appears in a structure
 (normally, after \textsl{OBJET\index{OBJET}} or after \textsl{CIBLE\index{CIBLE}}),
@@ -3757,7 +3761,7 @@ the labelling of keywords).
 \bigskip
 
 \noindent A third argument, \textsl{IMP=1}, will cause saving of the transported beta functions into 
-file zgoubi.OPTICS.out.
+file \index{zgoubi.OPTICS.out|textbf}zgoubi.OPTICS.out.
 
 
 
@@ -3797,7 +3801,7 @@ Back to normal~: ``WRITE ~ ~  +1''
 
  \newpage
 
-\subsubsection*{ORDRE~: \ORDRETitl } \label{ORDRE} \index{ORDRE}
+\subsubsection*{ORDRE~: \ORDRETitl } \label{ORDRE} \index{ORDRE|textbf}
 \medskip
 
  The position $ \vec  R $ and velocity $ \vec  u $ of a particle are
@@ -3860,7 +3864,7 @@ declarations (\textsl{DIPOLE-M, TOSCA\index{TOSCA}}, etc.).
 
  \newpage
 
-\subsubsection*{PARTICUL~: \PARTICULTitl}  \label{PARTICUL} \index{PARTICUL}
+\subsubsection*{PARTICUL~: \PARTICULTitl}  \label{PARTICUL} \index{PARTICUL|textbf}
 \medskip 
 
 Since \zgoubi\ works  using the rigidity, (\BORO, as declared in \textsl{[MC]OBJET}), 
@@ -3895,11 +3899,9 @@ in purely magnetic optical assemblies, then \zgoubi, since it  only knows the ri
 
  \newpage
 
-\subsubsection*{REBELOTE~: \REBELOTETitl} \label{REBELOTE}   \index{REBELOTE|textbf} 
+\subsubsection*{REBELOTE~: \REBELOTETitl} \label{REBELOTE}   \index{REBELOTE|textbf} \index{REBELOTE}\index{multi-particle}\index{multi-turn tracking|textbf}\index{acceleration} \index{synchrotron motion}
 \medskip
 
-\index{REBELOTE}\index{multi-particle}\index{multi-turn\index{multi-turn} tracking}\index{acceleration}
-\index{synchrotron motion}
 
 When \REBELOTE\ is encountered in the input data file, the code execution jumps, 
 
@@ -3938,7 +3940,7 @@ $(1+\text{\textsl{NPASS}})  \ast  \text{\IMAX}$ trajectories, with as many rando
 
 \bigskip
 
-\noindent {\small $\bullet$} \REBELOTE\ can be used for  multi-turn ray-tracing 
+\noindent {\small $\bullet$} \REBELOTE\ can be used for  multi-turn ray-tracing  \index{multi-turn tracking} 
 in circular machines \textbf{circular machines}~: normally $ K=99$ in that case.  \textsl{NPASS} turns in
 the same structure will follow, resulting in the tracking of \IMAX\ 
 particles over $1+\text{\textsl{NPASS}}$ turns. For the simulation of 
@@ -3982,8 +3984,25 @@ the same fit procedure,  after having changed the value of some parameter in zgo
 That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and then sends the 
 zgoubi execution pointer back to the top of zgoubi.dat for a new run. 
 
-\paragraph{An example~: } see page~\pageref{ExaFITREBELOTE}
+\bigskip 
 
+\noindent{\bf An example~: } see page~\pageref{ExaFITREBELOTE}
+
+
+
+
+\newpage
+
+\subsubsection*{RESET~: \textbf{\RESETTitl} } \label{RESET} \index{RESET|textbf}
+\medskip 
+
+ \noindent Resets counters involved  in \textsl{CHAMBR}\index{CHAMBR}, \textsl{COLLIMA}\index{COLLIMA},   
+  \textsl{HISTO}\index{HISTO} and \textsl{INTEG}\index{INTEG} procedures. 
+ 
+~
+
+ \noindent Switches off \textsl{CHAMBR}, \textsl{MCDESINT}\index{MCDESINT}, \textsl{SCALING}\index{SCALING} and 
+ \textsl{SPNTRK}\index{SPNTRK} options. 
 
 
 
@@ -3992,7 +4011,7 @@ zgoubi execution pointer back to the top of zgoubi.dat for a new run.
 
  \newpage
 
-\subsubsection*{SCALING~: \SCALINGTitl} \label{SCALING} \index{SCALING} 
+\subsubsection*{SCALING~: \SCALINGTitl} \label{SCALING} \index{SCALING|textbf} \index{multi-turn tracking}
 \medskip 
 \index{synchrotron motion}
 
@@ -4000,8 +4019,8 @@ zgoubi execution pointer back to the top of zgoubi.dat for a new run.
 fields in optical elements, potentials in 
 electrostatic devices, RF parameters in \textsl{CAVITE\index{CAVITE}}. It is normally intended
 to be declared right after the object definition, and used in conjunction 
-with \textsl{REBELOTE\index{REBELOTE}}, for the simulation of multi-turn\index{multi-turn} tracking - possibly including  acceleration
-\index{acceleration} cycles.  
+with \textsl{REBELOTE\index{REBELOTE}}, for the simulation of multi-turn tracking 
+- possibly including  acceleration  \index{acceleration} cycles.  
 
 \bigskip
 
@@ -4307,7 +4326,7 @@ dependent consecutive jobs, etc.
 \subsection{Optical Elements and Related Numerical Procedures} \label{sec4.4}
 
 
-\subsubsection*{AGSMM~:  \AGSMMTitl} \label{AGSMM}\index{AGSMM|textbf}
+\subsection*{AGSMM~:  \AGSMMTitl} \label{AGSMM}\index{AGSMM|textbf}
 \medskip 
 
 
@@ -4907,7 +4926,7 @@ extrapolated linearly onto the exit face of the map if $ID=2$, or
 \textsl{CAVITE}  provides a  simulation of a (zero length)
 accelerating cavity~; it can be used in conjunction with  keywords \REBELOTE\index{REBELOTE} 
 and \textsl{SCALING} for 
-the simulation of multi-turn\index{multi-turn} tracking with synchrotron or 
+the simulation of multi-turn\index{multi-turn tracking} tracking with synchrotron or 
 fixed field (FFAG, cyclotron) \index{FFAG} \index{cyclotron} acceleration (see section~\ref{sec4.6.4}). 
 It must be preceded by \textsl{PARTICUL} for the definition 
 of mass ~$ M $ and charge~$ q$.   
@@ -6518,7 +6537,7 @@ $A$, $B$, $C$, $A'$, $B'$, $C'$.
 
 \newpage
 
-\subsubsection*{EMMA~: \EMMATitl} \label{EMMA} \index{EMMA}
+\subsubsection*{EMMA~: \EMMATitl} \label{EMMA} \index{EMMA|textbf}
 \medskip
 
 \noindent  \textsl{EMMA} is dedicated to the reading and treatment of 2-D or 
@@ -6583,10 +6602,10 @@ actual  \textsl{EMMA} quadrupoles. In particular,
 \newpage
 
 
-\subsubsection*{FFAG~: \FFAGTitl~\cite{reportNIMFFAG,reportICFAFFAG}} \label{FFAG} \index{FFAG magnet, radial|textbf}
+\subsubsection*{FFAG~: \FFAGTitl~\cite{reportNIMFFAG,reportICFAFFAG}} \label{FFAG} \index{FFAG magnet, radial} \index{FFAG|textbf} 
 \medskip
 
-\noindent \textsl{FFAG} \index{FFAG} works much like \textsl{DIPOLES} 
+\noindent \textsl{FFAG} works much like \textsl{DIPOLES} 
 as to the field modelling, apart from the  radial dependence of the field, $B=B_0(r/r_0)^k$, so-called ``scaling''. 
 Note that \textsl{DIPOLES} does similar job by using a Taylor $r$-expansion of $B_0(r/r_0)^k$. 
 
@@ -6701,11 +6720,10 @@ together with $\theta=0$ at entrance (resp. exit) EFBs),
 \newpage
 
 
-\subsubsection*{FFAG-SPI~: \FFAGSPITitl~\cite{reportICFAFFAG,reportNIMFFAGSPI}} \label{FFAG-SPI} \index{FFAG magnet, spiral|textbf}
+\subsubsection*{FFAG-SPI~: \FFAGSPITitl~\cite{reportICFAFFAG,reportNIMFFAGSPI}} \label{FFAG-SPI} \index{FFAG magnet, spiral} \index{FFAG-SPI|textbf} 
 \medskip
 
-\noindent \textsl{FFAG-SPI} works much like \textsl{FFAG} \index{FFAG} 
-as to the field modelling, apart from the axial  dependence of the field. 
+\noindent \textsl{FFAG-SPI} works much like \textsl{FFAG} as to the field modelling, apart from the axial  dependence of the field. 
 
 \medskip
 
@@ -6934,7 +6952,7 @@ zgoubi.plt\index{LABEL@{\LABEL}}\index{zgoubi.plt}.
 
 \newpage
 
-\subsubsection*{MULTIPOL~:  \MULTIPOLTitl} \label{MULTIPOL}\index{MULTIPOL}
+\subsubsection*{MULTIPOL~:  \MULTIPOLTitl} \label{MULTIPOL}\index{MULTIPOL|textbf}
 \medskip 
 
 The simulation of  multipolar magnetic field $ \vec  M $ by \textsl{MULTIPOL}  proceeds 
@@ -7000,10 +7018,10 @@ as well as skew lenses.
 
 \newpage
 
-\subsubsection*{OCTUPOLE~: \OCTUPOLETitl\  (Fig.~\protect\ref{fig24}) } \label{OCTUPOLE}
+\subsubsection*{OCTUPOLE~: \OCTUPOLETitl\  (Fig.~\protect\ref{fig24}) } \label{OCTUPOLE} \index{OCTUPOLE|textbf} 
 \medskip 
 
- The meaning of parameters for \textsl{OCTUPOLE} \index{OCTUPOLE} is the same as for 
+ The meaning of parameters for \textsl{OCTUPOLE} is the same as for 
 \textsl{QUADRUPO\index{QUADRUPO}}.  In fringe field regions the magnetic field $ \vec  B(X,Y,Z)$ and 
 its derivatives up to fourth order are derived from the scalar potential 
 approximated to the 8-th order in $ Y $ and $ Z $
@@ -7040,7 +7058,7 @@ approximated to the 8-th order in $ Y $ and $ Z $
 
 \newpage
 
-\subsubsection*{POISSON~:\POISSONTitl} \label{POISSON} \index{POISSON}
+\subsubsection*{POISSON~:\POISSONTitl} \label{POISSON} \index{POISSON|textbf}
 \medskip 
 
 This keyword allows reading a field profile $ B(X) $ from  \textsl{POISSON} output. 
@@ -7076,7 +7094,7 @@ each node $ (X_i,Y_j) $ of the map is $ B(X_i) $, independent of $ Y_j $
 \noindent For the rest, \textsl{POISSON} works in a way similar to \textsl{CARTEMES\index{CARTEMES}}. 
 
 \newpage
-\subsubsection*{POLARMES~: \POLARMESTitl} \label{POLARMES} \index{POLARMES}
+\subsubsection*{POLARMES~: \POLARMESTitl} \label{POLARMES} \index{POLARMES|textbf}
 \medskip 
 
 Similar to \textsl{CARTEMES\index{CARTEMES}}, apart from the polar 
@@ -7087,7 +7105,7 @@ definition of the field map in \textsl{DIPOLE-M}\index{DIPOLE-M}).
 
 \newpage
 
-\subsubsection*{PS170~: \PSusoTitl} \label{PS170} \index{PS170}
+\subsubsection*{PS170~: \PSusoTitl} \label{PS170} \index{PS170|textbf}
 \medskip 
 
 \textsl{PS170} is dedicated to a `rough' simulation
@@ -7113,7 +7131,7 @@ generated at the distance \XL\ from the entrance (Fig.~\ref{fig25}).  %%%
 
 \subsubsection*{QUADISEX, SEXQUAD~: \QUADISEXTitl} \label{QUADISEX}\label{SEXQUAD}
 \medskip 
-\index{QUADISEX} \index{SEXQUAD}
+\index{QUADISEX|textbf} \index{SEXQUAD|textbf}
 
 \textsl{SEXQUAD}    defines in a simple way a sharp edge field with quadrupolar, 
 sextupolar and octupolar components. \textsl{QUADISEX}  adds a dipole component. The length of 
@@ -7141,9 +7159,8 @@ calculated at each step using the following expressions
 
 \newpage
 
-\subsubsection*{QUADRUPO~:  \QUADRUPOTitl\  (Fig.~\protect\ref{fig26}) } \label{QUADRUPO}  
-\medskip 
-\index{QUADRUPO}
+\subsubsection*{QUADRUPO~:  \QUADRUPOTitl\  (Fig.~\protect\ref{fig26}) } \label{QUADRUPO} \index{QUADRUPO|textbf}
+\medskip
 
 The length of the magnet $ \XL $ is the distance between the
 effective field boundaries (EFB), Fig.~\ref{fig27}. The field at the pole tip $ R_0 $ is $ B_0 $. 
@@ -7229,7 +7246,7 @@ automatic change of frame.
 
 \newpage
 
-\subsubsection*{SEPARA~: \SEPARATitl}\label{SEPARA} \index{SEPARA}
+\subsubsection*{SEPARA~: \SEPARATitl}\label{SEPARA} \index{SEPARA|textbf}
 \medskip 
 
 \noindent Note~: simulation by stepwise integration can be found in \textsl{WIENFILTER}.
@@ -7293,7 +7310,7 @@ cycloidal motion.} }
 
 \subsubsection*{SEXTUPOL~: \SEXTUPOLTitl\ (Fig.~\protect\ref{fig29})} 
 \medskip 
-     \label{SEXTUPOL} \index{SEXTUPOL}  
+     \label{SEXTUPOL} \index{SEXTUPOL|textbf}  
 
 The meaning of parameters for \textsl{SEXTUPOL} is the same as 
 for \textsl{QUADRUPO\index{QUADRUPO}}.  
@@ -7562,7 +7579,7 @@ suitable for straightforward use with \textsl{TRANSMAT}.
 
 \newpage
 
-\subsubsection*{TRAROT~: \TRAROTTitl} \label{TRAROT} \index{TRAROT}
+\subsubsection*{TRAROT~: \TRAROTTitl} \label{TRAROT} \index{TRAROT|textbf}
 \medskip
 
 
@@ -7580,7 +7597,7 @@ particle decay and gas-scattering are taken into account (but not on synchrotron
 \newpage
 
 
-\subsubsection*{UNDULATOR~: \UNDULATORTitl}\label{UNDULATOR}  \index{UNDULATOR}
+\subsubsection*{UNDULATOR~: \UNDULATORTitl}\label{UNDULATOR}  \index{UNDULATOR|textbf}
 
 \medskip
 
@@ -7591,7 +7608,7 @@ particle decay and gas-scattering are taken into account (but not on synchrotron
 
 \newpage
 
-\subsubsection*{UNIPOT~: \UNIPOTTitl} \label{UNIPOT} \index{UNIPOT}
+\subsubsection*{UNIPOT~: \UNIPOTTitl} \label{UNIPOT} \index{UNIPOT|textbf}
 \medskip 
 
 The lens is cylindrically symmetric about the $ X$-axis.  
@@ -7638,7 +7655,7 @@ at entrance of the first electrode and terminates at exit of the third one.
 
 \newpage
 
-\subsubsection*{VENUS~: \VENUSTitl}  \label{VENUS}
+\subsubsection*{VENUS~: \VENUSTitl}  \label{VENUS|textbf}
 \medskip 
 \index{VENUS} 
 
@@ -7660,7 +7677,7 @@ extent $ \XL $ and transverse extent $ \pm YL $~;  outside these limits, $ B_0=0
 
 \newpage
 
-\subsubsection*{WIENFILT~: \WIENFILTTitl}\label{WIENFILT} \index{WIENFILT}
+\subsubsection*{WIENFILT~: \WIENFILTTitl}\label{WIENFILT} \index{WIENFILT|textbf}
 \medskip 
 
 \textsl{WIENFILT} simulates a Wien filter, with transverse and
@@ -7705,7 +7722,7 @@ to zero (for the purpose of saving computing time).  In this case, the magnetic 
 
 \newpage
 
-\subsubsection*{YMY~: \YMYTitl} \label{YMY} \index{YMY}
+\subsubsection*{YMY~: \YMYTitl} \label{YMY} \index{YMY|textbf}
 \medskip 
 
 \textsl{YMY}  performs a 180$^\circ$ rotation of particle coordinates with respect to the 
@@ -8157,13 +8174,13 @@ periodic parameters are computed such as chromaticities, \index{chromaticity@{ch
 
 \medskip
 
-\noindent  Addition of \textsl{'PRINT'} following \textsl{IORD, IFOC [, coupled]} will cause 
-stacking of \textsl{MATRIX} output data 
-into   zgoubi.MATRIX.out file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
+\noindent  Addition of ``\textsl{PRINT}'' following \textsl{IORD, IFOC [, coupled]} will cause 
+stacking of \textsl{MATRIX} output data into   zgoubi.MATRIX.out \index{zgoubi.MATRIX.out|textbf} 
+file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
 
 \medskip
 
-\noindent  Addition of \textsl{'coupled'} next to \textsl{IORD, IFOC [, PRINT]}, in the case of 
+\noindent  Addition of ``\textsl{coupled}'' next to \textsl{IORD, IFOC [, PRINT]}, in the case of 
 periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) will cause use of coupled formalism. 
 
 
@@ -8194,8 +8211,7 @@ That (list of) \LABEL(s) is specified by the user, as part of the arguments unde
 \newpage
 
 
-\subsubsection*{PLOTDATA~: \PLOTDATATitl~\protect\cite{BiblioPlot}}%
-\label{PLOTDATA} \index{PLOTDATA}
+\subsubsection*{PLOTDATA~: \PLOTDATATitl~\protect\cite{BiblioPlot}} \label{PLOTDATA} \index{PLOTDATA|textbf}
 
 \medskip
 
@@ -8212,8 +8228,8 @@ see \FORTRAN\ subroutine \texttt{pltdat.f}.
 
 \newpage
 
-\subsubsection*{SPNPRNL, SPNSTORE~: Print/Store spin coordinates 
-  }\label{SPNPRNL} \label{SPNSTORE}\index{SPNPRNL|textbf}\index{SPNSTORE|textbf}
+\subsubsection*{SPNPRNL, SPNSTORE~: Print/Store spin coordinates}
+       \label{SPNPRNL} \label{SPNSTORE}\index{SPNPRNL|textbf}\index{SPNSTORE|textbf}
 
 \medskip 
 
@@ -8302,8 +8318,8 @@ the mean values of the spin components, etc.,  at the location where it is place
 \medskip
 
 
-\noindent  If \textsl{SPNPRT} has ``PRINT'' as a label, then spin data will also be stored in 
-zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``PRINT''. 
+\noindent  If the keyword \textsl{SPNPRT} is followed by ``\textsl{PRINT}'' as its first label, then spin data will also be stored in 
+zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``\textsl{PRINT}''. 
 
 
 
@@ -8371,20 +8387,21 @@ tracked on different transverse invariants, horizontal or vertical.
 
 
 \subsubsection{Reference rigidity}  \label{sec4.6.RefBORO} 
-\index{reference rigidity} 
+\index{reference rigidity|textbf} 
 
 \zgoubi\ computes the strengths of optical elements (they are usually defined by their field) from the reference 
 rigidity \BORO\ as defined in \textsl{[MC]OBJET}. However using \textsl{CAVITE}, and indirectly \textsl{SCALING},  
 may affect the reference rigidity, following 
 $$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$ \index{BORO@{\BORO}$\times D_{ref}$|textbf}
 \noindent with normally $\delta \Br_s$ the synchronous rigidity increase (or decrease). A typical configuration where this would 
-occur is that of multi-turn tracking in a pulsed synchrotron, where in general strengths have to follow the  
+occur is that of multi-turn tracking \index{multi-turn tracking} 
+in a pulsed synchrotron, where in general strengths have to follow the  
 acceleration (see section~\ref{sec4.6.5}). 
 
 
 
 \subsubsection{Time Varying Fields} \label{sec4.6.TimeVFields} 
-\index{time varying fields} 
+\index{time varying fields|textbf} 
 
 Fields can be varied as a function of time  (in some cases this may mean as a function of turn number, 
 see section~\ref{sec4.6.5}), by means of the  \textsl{SCALING} keyword. 
@@ -8397,7 +8414,7 @@ fast crossing of spin resonances with families of jump quadrupoles).
 
 
 \subsubsection{Backward Ray-Tracing} \label{sec4.6.3} 
-\index{backward ray-tracing} \index{XPAS, negative}\index{integration step size!negative}
+\index{backward ray-tracing|textbf} \index{XPAS, negative}\index{integration step size!negative}
 
 For the purpose of parameterization for instance, it may be interesting to ray-trace 
 backward  from the image toward the object.  This can be performed by first 
@@ -8420,7 +8437,7 @@ B. Same  structure, with backward ray-tracing from image to object~: negative in
 
 
 \subsubsection{Checking Fields and Trajectories Inside Optical Elements}  \label{sec4.6.1}
-\index{checking field}\index{checking trajectories}
+\index{checking field|textbf}\index{checking trajectories|textbf}
 
 {\small $\bullet$} In all optical elements, an option $ \IL $\index{IL@{\IL}} is available.  It
 is normally set to $\IL =0$ and in this case has no effect.
@@ -8466,7 +8483,7 @@ in a combined function main dipole pertaining to the AGS lattice~\cite{AGSModel}
 Typical field and derivatives, here, along the 10~GeV proton orbit across an AGS A-type main magnet. 
 They are obtained from second degree polynomial interpolation from the magnet measured field map. 
 Left~: $dB_Z(s)/dY$ and $dB_Y(s)/dZ$ , bottom~: $d^2B_Z(s)/dY^2$, $d^2B_Y(s)/dZdY$, $d^2B_Y(s)/dYdZ$.
-These data were  stored in zgoubi.impdev.out\index{zgoubi.impdev.out|textbf} during execution, 
+These data were  stored in zgoubi.impdev.out\index{zgoubi.impdev.out} during execution, 
 by stating $\IL=7$ under \textsl{TOSCA} keyword. 
 }}
 \end{figure}
@@ -8502,9 +8519,9 @@ above mentioned purposes, the second one (set to ``.plt'' in that case) is used 
 into zgoubi.plt. The keyword and its \LABEL['s] should fit within a 110-character 
 long string on a single line (a quantity set in the \FORTRAN\ file \texttt{prdata.f}). 
 
-\subsubsection{Multi-turn Tracking in Circular Machines \label{sec4.6.5} }
+\subsubsection{Multi-turn Tracking in Circular Machines \label{sec4.6.5} } \index{multi-turn tracking|textbf}
 
-Multi-turn\index{multi-turn} tracking  in circular machines can be performed by
+Multi-turn tracking  in circular machines can be performed by
 means of the keyword \textsl{REBELOTE\index{REBELOTE}}. \textsl{REBELOTE} is introduced in 
 the  zgoubi.dat data list with its argument \textsl{NPASS}$+1$\index{NPASS} being the number of turns to be 
 performed. 
@@ -8514,6 +8531,11 @@ in that list. From then on, tracking resumes down to \textsl{REBELOTE} again, an
 requested number of passes has been reached. 
 
 \medskip
+
+\noindent Possible magnet  timing laws $ B(T)$  during the multi-turn process 
+(with $T=1 $ to \textsl{NPASS}$+1$  counted in number of turns) can be introduced by means of \textsl{SCALING}. 
+
+\medskip 
 
 \noindent In order that the \IMAX\index{IMAX@{\IMAX}} particles of the beam start a new 
 pass with the coordinates they had reached at the end of the 
@@ -8543,9 +8565,8 @@ fast crossing of spin resonances with families of jump quadrupoles).
 
 
 
-\subsubsection{Positioning\index{positioning of optical elements|textbf}\index{alignment (mis-) of optical elements |textbf}, 
-(Mis-)Alignment\index{misalignment|textbf}, 
-of Optical Elements  and Field Maps} \label{sec4.6.2} 
+\subsubsection{Positioning, (Mis-)Alignment, of Optical Elements and Field Maps} \label{sec4.6.2} 
+\index{positioning of optical elements|textbf} \index{alignment (mis-) of optical elements|textbf} \index{misalignment|textbf}
 
 The last record in most optical elements and field maps is the positioning option 
 \textsl{KPOS}\index{KPOS|textbf}. \KPOS\ is followed by the positioning parameters, 
@@ -8556,7 +8577,7 @@ Cartesian $ (X, Y, Z) $ coordinates (\emph{e.g.}, \textsl{QUADRUPO\index{QUADRUP
  or polar 
  ($R$, $\theta$, $Z$)  coordinates (\textsl{DIPOLE\index{DIPOLE}}). 
  
- \subsubsection*{Cartesian Coordinates~: } 
+ \subsubsection*{Cartesian Coordinates~: }   \index{cartesian coordinates|textbf} 
  
  If \textsl{KPOS} $ =1$, the optical element is moved (shifted by \textsl{XCE, YCE} and Z-rotated by 
 \textsl{ALE}) with respect to the incoming reference frame. Trajectory coordinates after traversal of the 
@@ -8709,7 +8730,7 @@ $p$ is the projection of $P$.
 
 \clearpage 
 
- \subsubsection*{Polar Coordinates} 
+ \subsubsection*{Polar Coordinates}   \index{polar coordinates|textbf} 
  
  If  \textsl{KPOS} $=1$,  the element is positioned automatically in such a way
 that a particle entering with zero initial coordinates and 
@@ -8730,7 +8751,7 @@ the two parameters $ RS $ (radius) and $ TS $ (angle) (see Fig.~\ref{fig9}A page
 
 
 
- \subsubsection{Coded Integration Step\index{XPAS, coded}\index{integration step size!coded}} 
+ \subsubsection{Coded Integration Step\index{XPAS, coded}\index{integration step size!coded|textbf}} 
 
 In several optical elements (\emph{e.g.}, all multipoles, \textsl{BEND}) the 
 integration step (in general noted \textsl{XPAS}) can be coded under the 
@@ -8739,10 +8760,10 @@ steps  in the entrance fringe field region, \texttt{C} is the number of
 steps in the magnet body, and \texttt{S} is the number of steps in the 
 exit fringe field region.
 
-\subsubsection{Ray-tracing of an Arbitrarily Large Number of Particles} %
-      \label{sec4.6.4}
+\subsubsection{Ray-tracing of an Arbitrarily Large Number of Particles} \index{multi-particle|textbf} \index{Monte Carlo}
+  \label{sec4.6.4}
 
-Monte Carlo\index{Monte Carlo} multi-particle \index{multi-particle} simulations involving an 
+Monte Carlo  multi-particle simulations involving an 
 arbitrarily large number of particles
 can be performed using  \textsl{MCOBJET} together with \textsl{REBELOTE\index{REBELOTE}}, put at the end of the optical
 structure, with its argument \textsl{NPASS}\index{NPASS} being the number of passes through 
@@ -8758,7 +8779,7 @@ etc. that stack the information from pass to pass.
 
 
 \subsubsection{Stopped Particles~: The \IEX\ Flag} 
-\label{sec4.6.6}\index{stopped particles}\index{IEX@{\IEX}|textbf}
+\label{sec4.6.6}\index{stopped particles|textbf}\index{IEX@{\IEX}|textbf}
 
 As described in \textsl{OBJET\index{OBJET}}, each particle $I=1$, \IMAX\
  is attached a
@@ -8783,7 +8804,7 @@ the field outside the map is extrapolated from the map data, and the particle ma
 back into the map (see section~\ref{sec2.4.2} on page~\pageref{sec2.4.2}).  In all other cases 
   the particle will be stopped. 
 
-\subsubsection{Negative Rigidity} \label{sec4.6.7}  \index{negative rigidity} 
+\subsubsection{Negative Rigidity} \label{sec4.6.7}  \index{negative rigidity|textbf} 
 \index{negative charge}\index{negative momentum}
 
 \zgou\ can handle negative rigidities $\Br = p/q$. This is equivalent to 

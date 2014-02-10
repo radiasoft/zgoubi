@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TWISS(LUN,OKCPLD,
      >                 KOPTCS, READAT)
@@ -586,21 +586,20 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
           ENDIF
       ENDIF
 
-      goto 97
-
- 96   CONTINUE
-      WRITE(ABS(NRES),FMT='(/,''SBR TWISS : '',
-     >           ''Error open file zgoubi.TWISS.Out'')')
-      WRITE(*        ,FMT='(/,''SBR TWISS : '',
-     >           ''Error open file zgoubi.TWISS.Out'')')
-
- 97   continue
+c      goto 97
+c 96   CONTINUE
+c      WRITE(ABS(NRES),FMT='(/,''SBR TWISS : '',
+c     >           ''Error open file zgoubi.TWISS.Out'')')
+c      WRITE(*        ,FMT='(/,''SBR TWISS : '',
+c     >           ''Error open file zgoubi.TWISS.Out'')')
+c 97   continue
 
       IPASS = 1
 C      NRBLT = 0
 
       RETURN
 
+C-------------------------------------------------------------------
  20   CONTINUE
 Compute linear functions, from multiturn tracking. Number of the particle used for that is given by user. 
 c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier

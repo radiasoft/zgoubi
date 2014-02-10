@@ -188,8 +188,29 @@ C        ELSEIF(.NOT.BINARY) THEN
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
      >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
             INCLUDE "FRMFAI.H"
+
+
+            IF(LM .NE. -1) THEN
+              IF(LM .NE. NOELR) GOTO 221
+            ENDIF
+          
+            IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
+     >                                   IEND)) THEN
+              IF(IEND.EQ.1) THEN 
+                IPASSR=IPASS1
+                GOTO 95
+              ENDIF
+
+              GOTO 221
+            ENDIF
+
             ITR = ITR + 1
-            it1 = it1 + 1
+            IT1 = IT1 + 1
+          
+            IF(.NOT. OKKT(KT1,KT2,ITR,
+     >                                IEND)) THEN
+              GOTO 221
+          ENDIF
 
           ELSEIF(KOBJ2.EQ.1) THEN 
 C------------ Was installed for reading pion data at NuFact target

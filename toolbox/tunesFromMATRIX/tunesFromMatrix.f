@@ -2,11 +2,12 @@ C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
       implicit double precision (a-h,o-z)
       CHARACTER txt132*132, txt9*9
-      dimension xco(99), xpco(99), zco(99), zpco(99), dpco(99), tof(99)
-      dimension path(99)
-      dimension betx(99), alfx(99), Dx(99), Dpx(99)
-      dimension betz(99), alfz(99), Dz(99), Dpz(99)
-      dimension xnu(99), znu(99)
+      dimension xco(999), xpco(999), zco(999), zpco(999), 
+     >                                  dpco(999), tof(999)
+      dimension path(999)
+      dimension betx(999), alfx(999), Dx(999), Dpx(999)
+      dimension betz(999), alfz(999), Dz(999), Dpz(999)
+      dimension xnu(999), znu(999)
       LOGICAL IDLUNI
       LOGICAL STRCON, EXS
       CHARACTER LET*1
@@ -41,9 +42,17 @@ C Search zgoubi.res for orbit coordinates
         read(lunR,fmt='(a)',end=62) txt132     ! title
         read(lunR,fmt='(a)',end=62) txt132     ! 'OBJET'
         read(lunR,*,end=62) BORO 
-        read(lunR,fmt=*,end=62) objk
+        read(lunR,fmt='(a)',end=62) txt132     ! KOBJ.KOBJ2
+        read(txt132,fmt=*,end=62) objk
         kobj = objk
-        kobj2 = nint(100.*objk) - 100*kobj
+        if(strcon(txt132,'.',1,
+     >                         IS)) then
+          read(txt132(is+1:132),*) kobj2
+        else
+          kobj2 = 0
+        endif         
+c        kobj = objk
+c        kobj2 = nint(100.*objk) - 100*kobj
         if(kobj2.eq.0) then
           nCO = 1
         else
@@ -99,6 +108,10 @@ C Search zgoubi.res for MATRIX outputs
           else
             read(txtznu,*)  znu(iico)
           endif
+
+C Test ----------------------------------------------------
+            write(*,*) ' QY, QZ : ',xnu(iico),znu(iico),iico,nco
+C End test ----------------------------------------------------
 
           iico = iico + 1
         endif
@@ -171,7 +184,7 @@ c            write(*,*) ' Path length of traj. # ',I,' is ',F6m,' cm'
       WRITE(LUNW,fmt='(a)') 
      >'# xco[m], x''co[rd], Qx, Qy, alfx, betx,'
      >//' alfy, bety, Dx, tof[mu_s], '
-     >//'path[cm], E-Kin[MeV], p/p0(co)'
+     >//'path[cm], E_Kin[MeV], p/p0(co)'
       WRITE(LUNW,fmt='(a)') '# '
       WRITE(LUNW2,fmt='(a)') 'E_kin(eV) xco(m) xpco(rad) TOF(s) Qx Qy'
 
@@ -201,7 +214,7 @@ C Long write-up
       WRITE(LUNW,fmt='(a)') 
      >'# xco, xpco, zco, zpco, path(s), dpco, tof(s), '//
      >' alfx, betx, alfz, betz, alfl, betl, '//
-     >' Dx, Dpx, Dy, Dpy, Dl, Dpl, xmu, zmu, smu, E-Kin'
+     >' Dx, Dpx, Dy, Dpy, Dl, Dpl, xmu, zmu, smu, E_Kin'
 
       alfl = 0.d0
       betl = 0.d0

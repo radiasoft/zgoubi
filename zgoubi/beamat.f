@@ -35,9 +35,12 @@ C  -------
       INTEGER DEBSTR, FINSTR
       CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
+C      PARAMETER (N4 = 6)
       DIMENSION RT(N4,N4)
       DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
       DIMENSION N0(N4), B(N4)
+
+      DIMENSION R66(6,6)
 
       IF(.NOT. PRDIC) THEN
         F0(1,1) = R(1,1)*R(1,1)*FI(1,1)-2.D0*R(1,1)*R(1,2)*FI(2,1) +
@@ -77,9 +80,9 @@ c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
 
       ELSE
 
-C R is the matrix from OBJET down to here. Make it 4x4
-        DO J=1,4
-          DO I=1,4
+C R is the matrix from OBJET down to here. Make it N4xN4
+        DO J=1,N4
+          DO I=1,N4
             R44(I,J) = R(I,J)
             RINV(I,J) = R44(I,J)
           ENDDO
@@ -88,13 +91,13 @@ C R is the matrix from OBJET down to here. Make it 4x4
 Compute the inverse of R
         CALL DLAIN(N4,N4,RINV,N0,B,IER)
 
-C Get the 4x4 1-turn map
+C Get the N4xN4 1-turn map
         call twiss1(
      >                RT)
         call ZGNOEL(
      >               NOEL)
-        call pmat(RT,RINV,RINT,4,4,4)
-        call pmat(R44,RINT,RT,4,4,4)
+        call pmat(RT,RINV,RINT,N4,N4,N4)
+        call pmat(R44,RINT,RT,N4,N4,N4)
 C RT now contains the local 1-turn map 
 
         IF(OKCPLD) THEN
@@ -108,8 +111,8 @@ C RT now contains the local 1-turn map
           WRITE(lunW,FMT='(//)')
           WRITE(lunW,FMT='(
      >    ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
-          DO I=1,4
-             WRITE(lunW,FMT='(4(F15.8,1X))') (RT(I,J),J=1,4)
+          DO I=1,N4
+             WRITE(lunW,FMT='(6(F15.8,1X))') (RT(I,J),J=1,N4)
           ENDDO
           WRITE(lunW,FMT='(/,a,i6)') ' Element # ',noel
 
@@ -216,12 +219,12 @@ c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
      -       (RT(1,4)*(-1 + RT(2,2)) - RT(1,2)*RT(2,4))*
      -        (RT(1,4)*(-1 + RT(3,3)) - RT(1,3)*RT(3,4)))
 
-       F0(3,6) = (R(1,6)*RT(2,4)*RT(3,2) - RT(1,4)*R(2,6)*RT(3,2) + 
-     - R(1,6)*RT(3,4) - R(1,6)*RT(2,2)*RT(3,4) 
+          F0(3,6) = (R(1,6)*RT(2,4)*RT(3,2) - RT(1,4)*R(2,6)*RT(3,2) + 
+     -    R(1,6)*RT(3,4) - R(1,6)*RT(2,2)*RT(3,4) 
      -                           + RT(1,2)*R(2,6)*RT(3,4) - 
-     - RT(1,4)*R(3,6) + RT(1,4)*RT(2,2)*R(3,6) 
+     -    RT(1,4)*R(3,6) + RT(1,4)*RT(2,2)*R(3,6) 
      -                             - RT(1,2)*RT(2,4)*R(3,6) + 
-     - (RT(1,4)*(RT(1,4)*(-((-1 + RT(2,2))*RT(3,1)) + RT(2,1)*RT(3,2)) + 
+     -    (RT(1,4)*(RT(1,4)*(-((-1+RT(2,2))*RT(3,1)) + RT(2,1)*RT(3,2))+ 
      -            RT(1,2)*(RT(2,4)*RT(3,1) - RT(2,1)*RT(3,4)) - 
      -    (-1 + RT(1,1))*(RT(2,4)*RT(3,2) + RT(3,4) - RT(2,2)*RT(3,4)))*
      -          (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) + 
@@ -254,12 +257,12 @@ c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
      -             RT(1,4)*RT(2,1)*RT(4,3) + 
      -          RT(1,3)*(-(RT(2,4)*RT(4,1)) + RT(2,1)*(-1 + RT(4,4))) + 
      -           (-1 + RT(1,1))*(RT(2,4)*RT(4,3) - RT(2,3)*RT(4,4)))))/
-     -     (RT(2,4)*(-(RT(1,3)*RT(3,2)) + RT(1,2)*(-1 + RT(3,3))) + 
-     - RT(1,4)*(-1+ RT(2,3)*RT(3,2)- RT(2,2)*(-1 + RT(3,3)) + RT(3,3))+ 
+     -    (RT(2,4)*(-(RT(1,3)*RT(3,2)) + RT(1,2)*(-1 + RT(3,3))) + 
+     -    RT(1,4)*(-1+RT(2,3)*RT(3,2)-RT(2,2)*(-1+ RT(3,3)) + RT(3,3))+
      -       (RT(1,3)*(-1 + RT(2,2)) - RT(1,2)*RT(2,3))*RT(3,4))
 
-       F0(4,6) = 
-     -  (-(RT(1,3)*R(2,6)*RT(3,2)*RT(4,1)) - RT(1,3)*R(3,6)*RT(4,1) + 
+          F0(4,6) = 
+     -    (-(RT(1,3)*R(2,6)*RT(3,2)*RT(4,1)) - RT(1,3)*R(3,6)*RT(4,1) + 
      -       RT(1,3)*RT(2,2)*R(3,6)*RT(4,1) 
      -               - R(2,6)*RT(4,2) + RT(1,1)*R(2,6)*RT(4,2) + 
      -       RT(1,3)*R(2,6)*RT(3,1)*RT(4,2) + R(2,6)*RT(3,3)*RT(4,2) - 
@@ -318,8 +321,38 @@ c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
 
         ELSEIF(.NOT. OKCPLD) THEN
 
-          CALL TUNES(R,F0,1,IERY,IERZ,.FALSE.,
+          call raz(r66,6*6)
+
+          do jj = 1, N4
+            do ii = 1, N4
+              r66(ii,jj) = rt(ii,jj)
+            enddo
+          enddo
+
+c            write(*,*) ' beamat '
+c            write(*,fmt='(1p,6e13.4)') ((r66(ii,jj),ii=1,6),jj=1,6)
+c                 read(*,*)
+
+          CALL TUNES(R66,F0,1,IERY,IERZ,.FALSE.,
      >                                       PHY,PHZ,CMUY,CMUZ)          
+
+C Periodic D and D', i.e. 6j, i6, are not computed correctly, 
+C it requires rt(6,j), rt(i,6), to be implemented. 
+        S2NU = 2.D0 - Rt(1,1) - Rt(2,2)
+c            write(*,*) ' beamat '
+c            write(*,fmt='(1p,3e13.4)') S2NU, Rt(1,1),  Rt(2,2)
+c                 read(*,*)
+        F0(1,6) = ( (1.D0 - R(2,2))*R(1,6) + R(1,2)*R(2,6) ) / S2NU
+        F0(2,6) = ( R(2,1)*R(1,6) + (1.D0 - R(1,1))*R(2,6) ) / S2NU
+        S2NU = 2.D0 - Rt(3,3) - Rt(4,4)
+        F0(3,6) = ( (1.D0 - R(4,4))*R(3,6) + R(3,4)*R(4,6) ) / S2NU
+        F0(4,6) = ( R(4,3)*R(3,6) + (1.D0 - R(3,3))*R(4,6) ) / S2NU
+
+        F0(1,6) = 0.d0
+        F0(2,6) =  0.d0
+        F0(3,6) =  0.d0
+        F0(4,6) =  0.d0
+
 
         ENDIF
       ENDIF

@@ -355,22 +355,22 @@ C            IF(KREB3.NE.22) READAT = .FALSE.
           IF(REBFLG) NOELRB = NOEL
         ENDIF
  
-          IF(KREB4 .EQ. 1) THEN
-            do iprm = 1, nprm
-              WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,
-     >        ''.  In element # '',I4,
-     >        '',  changed value of parameter #'',I3,''  to : '',
-     >        1P,E16.8)')
-     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
-        IF(NRES .GT. 0 ) then 
+        IF(KREB4 .EQ. 1) THEN
+          do iprm = 1, nprm
+            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,
+     >      ''.  In element # '',I4,
+     >      '',  changed value of parameter #'',I3,''  to : '',
+     >      1P,E16.8)')
+     >      IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+            IF(NRES .GT. 0 ) then 
               WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
      >        ''.  In element # '',I4,
      >        '',  changed value of parameter #'',I3,''  to : '',
      >        1P,E16.8)')
      >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+            ENDIF
+          enddo
         ENDIF
-            enddo
-          ENDIF
 
         IPASS=IPASS+1
         NOEL=NOELA-1

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TUNES(R,F0,NMAIL,IERY,IERZ,OKPR,
      >                                           YNU,ZNU,CMUY,CMUZ)
@@ -31,28 +31,14 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-C      CHARACTER*15 TXTYNU, TXTZNU
-
       IERY=0
       IERZ=0
       CALL RAZ(F0, 6*6)
 
-C      IF(OKPR) THEN
-C        IF(NMAIL.LE.0) THEN
-C          IF(NRES.GT.0) 
-C     >    WRITE(NRES,*) '  NUMBER OF PERIODS = IFOC-10 = ERRONEOUS !'
-C          RETURN
-C        ELSE
-C          IF(NRES.GT.0) WRITE(NRES,106) NMAIL
-C 106      FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
-C     >           I4,'  is  assumed ',/
-C     >             ,35X,' - UNCOUPLED -')
-C        ENDIF
-C      ENDIF
- 
 C  HORIZONTAL
       CMUY = .5D0 * (R(1,1)+R(2,2))
       IF(CMUY*CMUY .GE. 1.D0) THEN
+
         IERY=-1
         F0(1,1)=0.D0
         F0(1,2)=0.D0
@@ -61,6 +47,7 @@ C  HORIZONTAL
         F0(1,6)=0.D0
         F0(2,6)=0.D0
         YNU = 0.D0
+
       ELSE
 
         COSMU=CMUY
@@ -126,30 +113,5 @@ C         write(*,*) '                                tunes...'
 
       ENDIF
 
-C      IF(OKPR) THEN
-C        IF(NRES.GT.0) THEN
-C          WRITE(NRES,103)
-C 103      FORMAT(/,6X,
-C     >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
-C     >    ' and  periodic  dispersion  (MKSA units)',/)
-C          WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
-C 104      FORMAT(6X,6F13.6)
-C          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-C          WRITE(TXTYNU,FMT='(A)') 'undefined'
-C          WRITE(TXTZNU,FMT='(A)') 'undefined'
-
-C         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
-C           WRITE(TXTYNU,FMT='(G15.8)') YNU
-C           WRITE(TXTZNU,FMT='(G15.8)') ZNU
-C         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
-C           IF(CMUY*CMUY .LT. 1.D0) WRITE(TXTYNU,FMT='(G15.8)') YNU
-C           IF(CMUZ*CMUZ .LT. 1.D0) WRITE(TXTZNU,FMT='(G15.8)') ZNU
-C         ENDIF
-
-C         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
-C     >              'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
-
-C        ENDIF
-C      ENDIF
       RETURN
       END

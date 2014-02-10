@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,
      >                                 NBLMN,ENDFIT)
@@ -232,7 +232,7 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
       endif ! noel.gt.0 
 
       IF(READAT) THEN
- 188    READ(NDAT,*,ERR=999) KLEY
+ 188    READ(NDAT,*,ERR=999,END=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
         DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN

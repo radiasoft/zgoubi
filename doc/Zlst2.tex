@@ -748,7 +748,7 @@ extrapolated linearly to the exit face of the map.}
  \> $ \Delta W=qVsin(2\pi hf\Delta t+\varphi_ s) $ and other voltage and frequency laws.   \> \> \\
  \\
  \\
- \textsl{IOPT[.i]}       \> Option. $i=1$ causes info output into \texttt{zgoubi.CAVITE.out}    \>0-7 \>I \\
+ \textsl{IOPT[.i]}       \> Option. $i=1$ causes info output into \texttt{zgoubi.CAVITE.Out}    \>0-7 \>I \\
  \\
 \textbf{If IOPT=0}  \>Element inactive \>\>\\
 \\
@@ -2475,9 +2475,9 @@ are the components of the field.}
  \>  (assuming that  the DATA file describes one period of a \>\>\\
  \> NPER-period structure).  \>\>\\
 \\
- \>  \textsl{'PRINT'} will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
+ \>  ``\textsl{PRINT}'' will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
 \\
- \>  \textsl{'coupled'}, in the periodic case,  will cause  use of coupled formalism.   \>\>\\
+ \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.   \>\>\\
 \end{tabbing}
 
 
@@ -3371,7 +3371,7 @@ X_S $ translations.}
 
 \begin{tabbing}
 \mestab
-\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE|textbf} \index{multi-particle}\index{multi-turn}
+\textbf{REBELOTE} \label{REBELOTE-B} \index{REBELOTE|textbf} \index{multi-particle}\index{multi-turn tracking|textbf}
 		\index{acceleration}\index{synchrotron motion}
      \>\textbf{Jump to the beginning of \zgoubi input data file}\>\>\\
  \\
@@ -3480,11 +3480,12 @@ HEADER_9
                    ! the whole element ir=6 (TOSCA, i.e. accross teh 3D field map).
                    ! The effect of the constraint is to center the trajectory on 
                    ! the helical field map axis.              
- 'SPNPRT'   PRINT  ! Save spin vector in zgoubi.SPNPRT.out, for info        10
+ 'SPNPRT'   PRINT  ! Save spin vector in zgoubi.SPNPRT.Out, for info        10
               
               
  'REBELOTE'        ! Will re-do the "FIT" for the following list of 6 different values of the  
 6  0.1  0  1       ! "D=dp/p" (PRM=35) coordinate of the particle defined in "OBJET" (LMNT=1)
+1                  ! A series of 6 successive values, to be takne by parameter 35 in element 1, follows
 1 35    1. 1.387274 1.502203 1.764428 2.3835574 3.447732 3.6081683             
               
  'END'                                                                      12
@@ -3503,11 +3504,11 @@ HEADER_9
 \textbf{RESET} \label{RESET-B} \index{RESET|textbf}  \> \textbf{\RESETTitl} \>\>\\
  \\
  \\
- \>Resets counters involved  in \textsl{CHAMBR}\index{CHAMBR}, \textsl{COLLIMA}\index{COLLIMA}  \>\>\\
- \> \textsl{HISTO}\index{HISTO} and \textsl{INTEG}\index{INTEG} procedures \>\>\\
+ \>Resets counters involved  in \textsl{CHAMBR}\index{CHAMBR}, \textsl{COLLIMA}\index{COLLIMA},  \>\>\\
+ \> \textsl{HISTO}\index{HISTO} and \textsl{INTEG}\index{INTEG} procedures. \>\>\\
  \\
  \>Switches off \textsl{CHAMBR}, \textsl{MCDESINT}\index{MCDESINT}, \textsl{SCALING}\index{SCALING} and \>\>\\
- \>\textsl{SPNTRK}\index{SPNTRK} options 
+ \>\textsl{SPNTRK}\index{SPNTRK} options. 
 \end{tabbing}
 
 \newpage
@@ -3809,7 +3810,7 @@ and further away resumed using \textsl{KSO=~-1}.}
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
      \> \textbf{\SRLOSSTitl}\index{synchrotron radiation energy loss} \> \> \\
  \\
-\textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.out}       \> $0~or~1[.1]$  \> 2*I \\
+\textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.Out}       \> $0~or~1[.1]$  \> 2*I \\
 \\
 \textsl{STR1, STR2} \> Options~: \textsl{STR1 = 'ALL'} or \textsl{'all'} or a particular  KEYWORD~;  \> \> 2*A \\
                     \> \textsl{STR2 = 'scale'} will scale fields with energy loss.              \>  \\
@@ -4013,7 +4014,7 @@ $RX$, $RY$, $RZ$
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I,2*E \\
+ \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I1[.I1], 2*E \\
          FacD, FacA    \> chromaticities / add computation of anharmonicities.    \> \>\\
                           \> $KTW2=1$~: long write-up to zgoubi.res.            \> \>\\
                           \> $FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
