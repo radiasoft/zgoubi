@@ -37,6 +37,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT1=1) 
+      PARAMETER (I0=0) 
 
       IER=0
 C----- CONTROLE VARIABLES
@@ -98,6 +99,8 @@ C----- CONTROLE CONTRAINTES
         IER = 1
       ENDIF
  
+      CALL FITMM6(I0)
+
       DO 8 I=1,NC
         IF(I3(I).LT. 1 .OR. I3(I).GE.NOEL ) THEN
           IF(NRES.GT.0) WRITE(NRES,101) '''IR''',I3(I),'CONSTRAINT',I
@@ -121,7 +124,7 @@ C             reset min-max storage table'
 c                 write(*,*) ' fitest ic2 ',ic2(i)
 c                    read(*,*)
             CALL INTEG8(INT1)
-            CALL FITMM3(I3(I))
+            CALL FITMM4(I3(I))
         ENDIF
  8    CONTINUE
  

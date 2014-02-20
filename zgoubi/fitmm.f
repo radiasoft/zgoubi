@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -44,11 +44,6 @@ C  -------
       CALL ZGNOEL(
      >            NOEL)
       NEL = IQ(NOEL)
-
-c      WRITE(*,*) noel,IQ(noel)
-c      write(88,*) 'fitmm#1 ',NOEL,NEL,Y, FMA(2,NEL), DMAX1(Y,FMA(2,NEL))
-c      write(*,*) 'fitmm#1 ',NOEL,NEL,Y, FMA(2,NEL), DMAX1(Y,FMA(2,NEL))
-c          READ(*,*)
 
       FMA(1,NEL,IT) = DMAX1( DP,FMA(1,NEL,IT))
       FMA(2,NEL,IT) = DMAX1(  Y,FMA(2,NEL,IT))
@@ -78,10 +73,6 @@ c          READ(*,*)
       SFLD(2,nel,IT)       = SFLD(2,nel,IT) + B(1,2)*PAS
       SFLD(3,nel,IT)       = SFLD(3,nel,IT) + B(1,3)*PAS
 
-c      write(*,fmt='(a,3(1x,i3),3(1x,1p,e12.4))') 'fitmm sfld ',NOEL,NEL
-c     > ,it,sfld(1,nel,it),sfld(2,nel,it),sfld(3,nel,it)
-c         read(*,*) 
-         
       RETURN
 
       ENTRY FITMM1(KT,JI,LI,MIMA,IC2,
@@ -110,20 +101,13 @@ C KT=prtcl #, JI=field coordinate, LI=lmnt #
         CALL ENDJOB('SBR FF. NO SUCH CONSTRAINT 3.',IC2)
       ENDIF 
 
-c      write(*,fmt='(a,4i4,e14.6)') 
-c     >  ' FITMM IC2,JI,LI,VAL ',IC2,KT,JI,LI,VAL
-c         read(*,*)
-
       RETURN
 
       ENTRY FITMM2(ITI)
-c        write(*,*) ' fitmm2 ',mxloc, mxj
-c           read(*,*)
       DO  LL = 1, MXLOC
         DO  JJ = 1, MXJ
           FMI(JJ,LL,ITI) = 1.D99
           FMA(JJ,LL,ITI) = -1.D99
-c        write(*,*) ' fitmm2 ',ll,jj,FMI(JJ,LL),FMa(JJ,LL) 
         ENDDO
         DO  I = 1, 3
           SFLD(I,LL,ITI) = 0.d0
@@ -133,11 +117,13 @@ c        write(*,*) ' fitmm2 ',ll,jj,FMI(JJ,LL),FMa(JJ,LL)
       ENDDO
       RETURN
 
-      ENTRY FITMM3(ic3)
+      ENTRY FITMM4(ic3)
       NBL = NBL + 1
       IQ(ic3) = nbl
-c        write(*,*) ' fitmm3 nbl, ic3, iq(ic3) ',nbl, ic3, iq(ic3)
-c         read(*,*)
+      RETURN
+
+      ENTRY FITMM6(I0)
+      NBL = I0
       RETURN
 
       END      

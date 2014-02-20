@@ -1632,7 +1632,7 @@ per step.} a Poisson probability law
 
 \begin{equation}
 	\label{EqPoiss}
- p(k) = \dfrac{\lambda^{-k}}{k!} \exp(-k)
+ p(k) = \dfrac{\lambda^k}{k!} \exp(-\lambda)
 \end{equation}
 %
 is considered. $k$ is the number of photons emitted over a $\Delta \theta$ (circular) arc of 
@@ -1642,12 +1642,12 @@ instance, in the case of electrons, to the classical formula $\lambda/\Delta \th
 
 \begin{equation}
         \label{EqPoissMean}
- \lambda = \dfrac{20 e r_0 }{8 \bar{h} \sqrt{3}  } \beta^2 \Br  \Delta s
+ \lambda = \dfrac{20 e r_0 }{8 \hbar \sqrt{3}  } \beta^2 \Br  \Delta s
 \end{equation}
 %
 where $r_0=e^2/4\pi \epsilon_0 m_0 c^2$ is the classical radius of the particle of rest-mass $m_0$, 
 $e$ is the elementary 
-charge, $\bar{h} = h/2\pi , h$ is the Planck constant, $\beta = v/c$, $\Br$ is the particle 
+charge, $\hbar = h/2\pi , h$ is the Planck constant, $\beta = v/c$, $\Br$ is the particle 
 stiffness. $\lambda$ is evaluated at each integration step from the current values $\beta$, $\Br$ 
 and $\Delta s$,  then a value of $k$ is drawn by a rejection method.  
 
@@ -1677,7 +1677,7 @@ $\rho$ and perform SR loss corrections afterwards.}
        Cumulative energy distribution   $\mathcal{P}(\epsilon/\epsilon_c)$. }
   \end{center}
 \end{wrapfigure}
-where $K_5/3$ is a modified Bessel function and, $\epsilon_c= \bar{h} \omega_c$, 
+where $K_5/3$ is a modified Bessel function and, $\epsilon_c= \hbar \omega_c$, 
 $\omega_c=2 \pi \times 3 \gamma^3 c / 2 \rho$ being the critical frequency  in 
 the presence of bending radius $\rho$~;  $\omega_c$ is evaluated at each integration step from 
 the current values $\gamma$ and $\rho$, in other words, this energy loss calculation 
@@ -1712,7 +1712,7 @@ expressions, such as for instance, \\
 the dipole field  exclusive of any other multipole component 
 in the magnet, $\Delta \theta$  the total deviation as calculated from $B$, from the 
 magnet length, and from the reference rigidity \BORO\ (as defined with, \eg, \textsl{[MC]OBJET}) \\
--  critical energy $\epsilon_c(eV)=\dfrac{3 \gamma^3 c}{2 \rho} \dfrac{\bar{h}}{e}$, with 
+-  critical energy $\epsilon_c(eV)=\dfrac{3 \gamma^3 c}{2 \rho} \dfrac{\hbar}{e}$, with 
 $\rho =$\BORO$/B$ \\
 - average energy of the photons radiated $<\epsilon> = \dfrac{8}{15 \sqrt{3}} \epsilon_c$, \\ 
 - \rms\ energy of radiated photons $\epsilon_{rms} = 0.5591 \epsilon_c$, \\
@@ -3615,7 +3615,7 @@ $0<R_2\leq 1 $ and $ 0<R_3\leq 1 $ by
 %
  \begin{alignat*}{2}
 	 \theta^ \ast 
-	       & =   \textrm{acos} (1 - 2R_2) & \qquad & (-\pi   <\theta^\ast \leq \pi ) \\
+	       & =   \textrm{acos} (1 - 2R_2) & \qquad & (0   <\theta^\ast \leq \pi ) \\
 	\phi 
 	       & =   2\pi R_3         & \qquad &  (0<\phi \leq 2\pi ) 
  \end{alignat*}
@@ -3640,7 +3640,7 @@ $$ \tan \theta = \dfrac{1 }{ \gamma_1}\,
 	         & =   \gamma_1\gamma^ \ast_ 2 
 	         	\left(1+\beta_1 \beta^\ast_ 2 \cos \theta^ \ast \right) \\
 	\beta_ 2 
-	         & =  \left( 1- \dfrac{1 }{ \gamma^ 2} \right)^{1/2} \\
+	         & =  \left( 1- \dfrac{1 }{ \gamma^2_2} \right)^{1/2} \\
 	p_2 
 	         & = M_2 \sqrt{ \gamma^2_2 -1} 
  \end{align*}

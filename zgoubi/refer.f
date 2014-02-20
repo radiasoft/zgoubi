@@ -37,6 +37,7 @@ C     **********************************************
      $     IREP(MXT),AMQLU,PABSLU
  
       SAVE XI,YI,ALE,PATHL
+      DATA XI, YI, ALE / 3*-9999.D0 / 
       DATA PATHL / -9999.D0 / 
       GOTO (1,2) IO
  
@@ -107,6 +108,13 @@ C----- COMES BACK TO OLD FRAME + OLD COORDINATES
       ENTRY REFER1(
      >             PATHLO)
       PATHLO = PATHL
+      RETURN
+      
+      ENTRY REFER3(
+     >             XIO,YIO,ALEO)
+      XIO = XI
+      YIO = YI
+      ALEO = ALE
       RETURN
       
       END
