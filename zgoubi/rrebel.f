@@ -116,6 +116,7 @@ C Keyword with parameter to be changed
             backspace(ndat)
             READ(ndat,*,ERR=79,END=79) 
      >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
             TPRM(IPRM,3) = ' '

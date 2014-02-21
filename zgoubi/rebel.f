@@ -136,10 +136,13 @@ c                   read(*,*)
             ENDIF
             FOUND = .FALSE.
             NEL = 1
-            DO WHILE (.NOT. FOUND .AND. NEL .LE. Noel)  
+              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
+                   read(*,*)
+            DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
               IF(KLE(IQ(NEL))(debstr(KLE(IQ(NEL))):finstr(KLE(IQ(NEL))))
      >           .EQ. KLEI(iprm)(debstr(KLEI(iprm)):finstr(KLEI(iprm)))) 
      >        THEN
+              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
                 IF    (NLBL(iprm) .EQ. 0) THEN                
                   FOUND = .TRUE.
                 ENDIF

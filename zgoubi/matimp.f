@@ -78,8 +78,8 @@ c        RETURN
      >           ,35X,' - UNCOUPLED -')
       ENDIF
 
-      TXTYNU = 'noQYValue'
-      TXTZNU = 'noQZValue'
+      TXTYNU = '-99999.'
+      TXTZNU = '-99999.'
 
       IF(PRDIC) THEN
         IF(NRES.GT.0) THEN
