@@ -107,11 +107,11 @@ CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
       PARAMETER (IZ=29 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
-<<<<<<< .mine
-ccccccccccc      PARAMETER (IZ=60 , ID=3, MMAP=15)
-=======
+C<<<<<<< .mine
+Ccccccccccc      PARAMETER (IZ=60 , ID=3, MMAP=15)
+C=======
 CCCC      PARAMETER (IZ=60 , ID=3, MMAP=3)
->>>>>>> .r370
+C>>>>>>> .r370
 c      PARAMETER (MXX=321, MXY=29)
 c      PARAMETER (IZ=29 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
