@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -61,7 +61,7 @@ C  -------
  102  FORMAT(/,1P,5X,'3*2-D domains, centered, with emittances :', 
      >/,T25,' Eps_y/pi = ',G12.4,' *',G11.3,' m.rad', 
      >/,T25,' Eps_z/pi = ',G12.4,' *',G11.3,' m.rad',  
-     >/,T25,' Eps_t/pi = ',G12.4,' *',G11.3,' s.eV')
+     >/,T25,' Eps_l/pi = ',G12.4,' *',G11.3,'ph.dpp')
       WRITE(*,101) NCOUNT
       WRITE(NLOG,101) NCOUNT
  101  FORMAT(T6,'Number of particles within these 3*2-D domains :',I8,/)

@@ -3426,9 +3426,9 @@ X_S $ translations.}
 \newpage
 
 
-\textbf{REBELOTE}, an example \\
+\noindent \textbf{REBELOTE}, an example \\
 
-The "FIT" procedure is ran 7 times, with each time a different 
+\noindent The "FIT" procedure is ran 7 times, with each time a different 
 value for the particle rigidity.  This finds the initial coordinates of a particle, for a series of different momenta, 
 such that each particle (each momenta) will have  its helix accross the helical field map aligned on the field map axis,
 following the result schemed in Fig.~\ref{FigHelix}. 
@@ -3876,6 +3876,183 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
   \end{tabbing}
   
 
+
+\newpage
+
+\noindent \textbf{SYSTEM}, an example \\
+
+\noindent The first occurence of the command (top region in the data list below) 
+allows establishing links from remote folders to the current one (the one in which \zgou\ 
+is presently run). These folders happen to contain  files appearing in the \textsl{SCALING} command, 
+as well as OPERA field maps of the siberian snakes used in subsequent \textsl{TOSCA} commands.
+
+The second occurence of the command (bottom region in the data list below) 
+allows saving  zgoubi.res output file as resulting from the \zgou\ run, under a different name. 
+
+~
+
+%\hspace{-0.05\linewidth}
+\begin{minipage}{.48\linewidth}
+\tiny   % scriptsize
+\begin{verbatim}
+AGS, polarized protons. 2 snakes. t = 145 ms.
+'GETFITVAL'                                                 
+fitVals.data
+'OBJET'     LBL_OBJfit                                      
+7069.3668040036146
+5
+.01 .01 .01 .01 0. .0001    
+  0.  0.  0.  0.  0.  1.    'o'       
+'FAISCEAU'
+'SYSTEM'
+ 2
+ln -sf /rap/lattice_tools/zgoubi/AgsZgoubiModel/snakeFieldMaps/TOSC3D/Csnk3D .
+ln -sf /rap/lattice_tools/zgoubi/AgsZgoubiModel/snakeFieldMaps/TOSC3D/Wsnk3D . 
+'SCALING'   LBL_SCLfit
+1   21
+AGSMM *AF *BF *CF  !# of params 2Bchanged. dB0 (FIT#3) dB1 (FIT#4)      dB2     
+-1                  3                      13  3E-20   14 -1.473595E-03 15  8.01942
+1.00000000     ! (FIT #6)
+1
+AGSMM *AD *BD *CD  !# of params 2Bchanged. dB0 (FIT#9) dB1 (FIT#10)     dB2   
+-1                  3                      13  9E-20   14 -1.011857E-03 15 -1.70597
+1.000000      ! (FIT#12)
+1
+AGSQUAD  QH_*   !# of params 2Bchanged.      (FIT#15)
+-1               1                       15   0.0   
+1.000000
+1
+AGSQUAD  QV_*  QP_*      !# of params 2Bchanged.       (FIT#15)
+-1                        1                       15    0.0  
+1.000000
+1
+MULTIPOL   QJUMP_*
+-1
+7.06936680E+00
+1
+MULTIPOL   SXH_*
+-1
+7.06936680E+00
+1
+MULTIPOL   SXV_*
+-1
+7.06936680E+00
+1
+AGSMM MM_F08CD MM_F09BF MM_G02BF MM_G03CD MM_G16AD MM_G17CF  ! blw1 / G9  bump
+-1          1        22    -.0762e-99                ! Amp.  (FIT #31)
+1.0
+1
+AGSMM MM_H04CD MM_H05AF MM_H18CF MM_H19BD MM_I12BD MM_I13CF  ! blw1 / H11 bump
+-1          1        22    -.06093e-99               ! Amp.  (FIT #35)
+1.0
+1
+MULTIPOL COH1
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 4
+MULTIPOL COV1
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 5
+MULTIPOL COH2
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 6
+MULTIPOL COV2
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 7
+MULTIPOL WOH1
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 4
+MULTIPOL WOV1
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 5
+MULTIPOL WOH2
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 6
+MULTIPOL WOV2
+1.10
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 7
+CHANGREF WSNKE
+1.12
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 1  1 3
+CHANGREF WSNKO
+1.12
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal_51.8_0.0
+1 1  1 2
+CHANGREF CSNKE
+1.12
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 1  1 3
+CHANGREF CSNKO
+1.12
+./Csnk3D/Hlx68.2_Sol42.3/CHREF_+_dipolCORR.scal
+1 1  1 2
+\end{verbatim}
+\end{minipage}\hspace{.05\linewidth}
+\begin{minipage}{.38\linewidth}
+\begin{verbatim}
+'MARKER'   #Start
+'OPTIONS'
+1 1  ! options
+WRITE OFF
+'AGSMM'  MM_A01BF
+0
+3 0 0   0.00000E+00  1.00000E+00  1.00000E+00  1.0
+2.1  1 0.  1 0.
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+3.0  Dip MM_A01BF
+4 0. 0. 0. 0. 0.
+[......]
+'TOSCA'
+0  0
+1.e-3 100. 100. 100.
+HEADER_4 csnake
+281 29 29  15.2 .682 .423
+./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Helix_3T.tab
+./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Solen.tab
+0 0 0 0
+2
+.1
+2  0.  .00  0.  0.
+[......]
+'TOSCA'
+0  0
+1.e-3 100. 100. 100.
+HEADER_4 csnake
+281 29 29  15.2 .518 1.e-30
+./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Helix_3T.tab_2
+./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Solen.tab_2
+0 0 0 0
+2
+.1
+2  0.  .00  0.  0.
+[......]
+'MARKER'   #End
+'FAISCEAU'
+'OPTIONS'
+1 1  ! options
+WRITE ON
+'FAISCEAU'
+'MATRIX'
+1   11                     
+'SYSTEM'
+1
+cp zgoubi.res zgoubi.res_save
+'END'   
+\end{verbatim}
+
+\end{minipage}
 
 
 

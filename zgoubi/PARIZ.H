@@ -105,13 +105,18 @@ c      PARAMETER (MXX=1801, MXY=41)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-c      PARAMETER (IZ=29 , ID=3, MMAP=8)
+      PARAMETER (IZ=29 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
-      PARAMETER (IZ=60 , ID=3, MMAP=3)
+<<<<<<< .mine
+ccccccccccc      PARAMETER (IZ=60 , ID=3, MMAP=15)
+=======
+CCCC      PARAMETER (IZ=60 , ID=3, MMAP=3)
+>>>>>>> .r370
 c      PARAMETER (MXX=321, MXY=29)
 c      PARAMETER (IZ=29 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
-      PARAMETER (MXX=1100, MXY=60)
+      PARAMETER (MXX=801, MXY=29)
+ccccccccccc      PARAMETER (MXX=1100, MXY=60)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 

@@ -120,8 +120,8 @@ C RT now contains the local 1-turn map
 
 Compute coupled optics
           cmmnd = '~/zgoubi/current/coupling/ETparam'
-c        write(6,*) ' Pgm beamat. Now doing ' 
-c     >  // cmmnd(debstr(cmmnd):finstr(cmmnd))
+c          write(6,*) ' Pgm beamat. Now doing ' 
+c     >    // cmmnd(debstr(cmmnd):finstr(cmmnd))
           CALL SYSTEM(cmmnd)
 
           OK = IDLUNI(
