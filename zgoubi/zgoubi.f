@@ -955,7 +955,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
       ENDIF
 C      OKLNO = .FALSE. 
       IF(KOPIMP.EQ.1) THEN
-        if(.not. oklno) then
+        IF(.NOT. OKLNO) THEN
           IF(IDLUNI(
      >          LNOPTI)) THEN
             OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
@@ -981,7 +981,11 @@ C      OKLNO = .FALSE.
      >         '23            24            25      '
           endif
         endif
+      ELSE
+        OKLNO = .FALSE.
       ENDIF
+      CALL OPTIC2(
+     >            OKLNO,LNOPTI)
       GOTO 998
  899  CONTINUE
 C      IF(NRES.GT.0) 
@@ -1065,6 +1069,8 @@ C                            ktwiss=2 :  Prtcl#   unused    [coupled]
           OKLNO = .TRUE.
         ENDIF
       ENDIF
+      CALL OPTIC2(
+     >            OKLNO,LNOPTI)
 
       CALL TWISS(LNOPTI,OKCPLD,
      >                  KOPTCS,READAT)

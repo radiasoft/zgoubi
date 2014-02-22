@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTICC(LNOPTI,NOEL,KOPIMP,prdic,OKCPLD)
+      SUBROUTINE OPTICC(NOEL,KOPIMP,prdic,OKCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,6), F0(6,6), AKL(3)
       logical OKCPLD
@@ -30,6 +30,9 @@ C  -------
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
       LOGICAL PRDIC
+      LOGICAL OKLNO, OKLNOO
+      SAVE OKLNO
+      SAVE LNOPTI
 
       IORD = 1
       IFOC = 0
@@ -67,12 +70,19 @@ C  -------
 c Print to zgoubi.OPTICS.out
 c      IF(KOPIMP.EQ.1) THEN
 
-      CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL,Cstrn)      
+      IF(OKLNO) 
+     > CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL,Cstrn)      
 
 c Store for later print by TWISS to zgoubi.TWISS.out
 c      ELSEIF(KOPIMP.EQ.2) THEN
 
 c      ENDIF
 
+      RETURN
+
+      ENTRY OPTIC2(
+     >             OKLNOI,LNOPTJ)
+      OKLNO = OKLNOI
+      LNOPTI = LNOPTJ
       RETURN
       END

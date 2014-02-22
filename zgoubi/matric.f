@@ -132,6 +132,7 @@ C FM, Nov. 2008
 
 C FM, Nov. 2008
 C        CALL REFER(1,IORD,IFOC,1,6,7)
+        IREF = 1
         IFC = IFOC
         IF(PRDIC) IFC = 0
         CALL REFER(1,IORD,IFC,1,6,7)

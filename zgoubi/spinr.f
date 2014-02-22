@@ -43,10 +43,11 @@ C     ------------------
 
       IOPT = NINT(A(NOEL,1))
       ANG = A(NOEL,10)
+      PHI = A(NOEL,11)
 
       IF(IOPT .NE. 1)THEN
         IF(NRES.GT.0) THEN 
-          WRITE(NRES,FMT='(35X,''+++++ OFF +++++'')') 
+          WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')') 
         ENDIF
         RETURN
       ENDIF
@@ -56,28 +57,23 @@ C     ------------------
              S1 = SF(1,i)
              S2 = SF(2,i)
              S3 = SF(3,i)
-              dtr=PI/180.d0
-              ANGLE=int(ANG)
-              phi=(ANG-int(ANG))*100.d0
+             dtr=PI/180.d0
+C Old form
+C              ANGLE=int(ANG)
+C              phi=(ANG-int(ANG))*100.d0
               VEC(1)=cos(dtr*phi)
               VEC(2)=sin(dtr*phi)
               VEC(3)=0.d0
-              Call SPINRO(ANGLE,VEC,OT)
-            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2)+
-     +              S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4))+
-     +              S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
-            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2)+
-     +              S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4))+
-     +              S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
-            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2)+
-     +              S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2))+
-     +              S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
+              Call SPINRO(ANG,VEC,OT)
+            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2) +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4)) +S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
+            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2) +S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4)) +S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
+            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2) +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2)) +S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
            endif
          enddo
 
-      IF(NRES.GT.0) WRITE(NRES,109) ANGLE, PHI
+      IF(NRES.GT.0) WRITE(NRES,109) ANG, PHI
  109  FORMAT(/,30X,'Spin rotator. Angle = ',F12.5,' deg., ',
-     >       /,30X,'              axes at ',F12.5,' deg. ',/)
+     >       /,30X,'              axis at ',F12.5,' deg. ',/)
 
 
       RETURN

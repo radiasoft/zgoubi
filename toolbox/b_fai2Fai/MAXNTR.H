@@ -1,1 +1,1 @@
-link ../../zpop/MAXNTR.H
+      PARAMETER (NTRMAX=999999)

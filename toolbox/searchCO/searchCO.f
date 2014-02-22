@@ -422,7 +422,7 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
 
         elseif(strcon(txt300,'''FAISCEAU''',10,
      >                                     IS)) then
-          goto 62
+          goto 61
         elseif(strcon(txt300,'''REBELOTE''',10,
      >                                IS)) then 
           read(lunR,fmt='(a)',end=62) txt300

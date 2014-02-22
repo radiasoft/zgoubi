@@ -61,7 +61,7 @@ C 101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.3,1X,I5)
 C Aug 2013
 C 101    FORMAT(A1,1X,I2,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.4,1X,I6)
  101    FORMAT(A1,1X,I2,1X,F8.4,4F10.3,1X,F12.4,
-     >                     2X,F8.4,4F9.3,1X,F12.4,1X,I6)
+     >                     2X,F8.4,4F9.3,1X,F14.4,1X,I5)
         IF(AM .NE. 0D0) THEN
           IF(IFDES.EQ.1) THEN
             WRITE(NRES,FMT='(15X,''Time of flight (mus) :'',
