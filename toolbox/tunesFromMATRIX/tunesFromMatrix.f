@@ -126,7 +126,7 @@ c  read path length of traj 1 (modulo 11)
             backspace(lunR)
             read(lunR,fmt='(a)',end=62) txt132
             read(txt132,*) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
-     >      ,F1,F2,F3,F4,F5,F6,  I
+     >      ,F1,F2,F3,F4,F5,F6
 c            read(txt132,101) LET,IEX,fo1,fo2,fo3,fo4,fo5,fo6
 c     >      ,F1,F2,F3,F4,F5,F6,  I
  101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F11.3,1X,I6)
