@@ -3122,7 +3122,7 @@ Each constraint is defined by the following list of data~:
 
 \begin{center}
 	\begin{tabular}{lcp{15cm}}
-	$\IC$        &  = &  type of  constraint (see table p.~\pageref{TabFITZlst1}).\\
+	$\IC[.\IC 2]$        &  = &  type of  constraint (see table p.~\pageref{TabFITZlst1}).\\
 	$I$, $J$    & =  &  constraint (\emph{i.e.},~$R_{ij}$, determinant, tune~; 
 	                    $T_{ijk}$~; $\sigma_{ ij}$~; trajectory $\#I$ and coordinate $\#J$)\\
 	$IR$       &  =  &  number of the keyword at the exit of which the constraint applies   \\
@@ -3181,7 +3181,8 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			\hline
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{\mbox{$\sigma$-matrix} }} 
-	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
+%	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
+	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{21,~12}=\alpha_Y$, etc.) 
 	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 

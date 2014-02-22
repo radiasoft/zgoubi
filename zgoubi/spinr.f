@@ -65,9 +65,15 @@ C              phi=(ANG-int(ANG))*100.d0
               VEC(2)=sin(dtr*phi)
               VEC(3)=0.d0
               Call SPINRO(ANG,VEC,OT)
-            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2) +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4)) +S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
-            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2) +S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4)) +S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
-            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2) +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2)) +S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
+            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2) 
+     >      +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4)) 
+     >      +S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
+            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2) 
+     >      +S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4)) 
+     >      +S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
+            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2) 
+     >      +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2)) 
+     >      +S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
            endif
          enddo
 
