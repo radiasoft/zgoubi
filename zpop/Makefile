@@ -74,7 +74,6 @@ MODULEF =\
  ploter.f\
  pltemi.f\
  plthis.f\
- pltlps.f\
  pltopt.f\
  ppar.f\
  prarc.f\
@@ -214,7 +213,6 @@ pllips.o: MXVAR.H MAXNTR.H
 ploter.o: MXVAR.H $(INC)/MAXTRA.H
 pltemi.o: MXVAR.H MXLD.H FILFAI.H
 plthis.o: MXVAR.H
-pltlps.o: $(INC)/MAXTRA.H MXVAR.H
 pltopt.o: MXVAR.H
 prdata.o: MXLD.H
 rautor.o: MXLD.H
