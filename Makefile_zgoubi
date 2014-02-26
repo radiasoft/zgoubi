@@ -10,6 +10,7 @@ FC=ifort
 ### check : check array boundary errors
 ###FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
 FFLAGS= -xHOST -O3 -ip -traceback -static -save
+###FFLAGS= -xHOST -O4 -ip -static -save
 
 .POSIX:
 

@@ -18,11 +18,20 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-C-- Max integration steps in an lmnt
-      PARAMETER (MXSTEP = 100000)
-C Cyclotrons
-C      PARAMETER (MXSTEP = 10000000)
+
+       INTEGER MXL, MXD   
+
+C Max lmnts in a structure, max data (in zgoubi data list) per lmnt
+C       PARAMETER (MXL=3500 , MXD=400)
+C       PARAMETER (MXL=7800 , MXD=400)
+C-- For LHC
+C       PARAMETER (MXL=15000 , MXD=400)
+C
+C For Muon1''s eRHIC
+C       PARAMETER (MXL=15000 , MXD=1100)
+C For eRHIC since [KOBJ].KOBJ2 up to [5.]999 (*11 yields 10989)
+       PARAMETER (MXL=15000 , MXD=1000)
