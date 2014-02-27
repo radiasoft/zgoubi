@@ -1,8 +1,23 @@
 
+Subfolders 6GeV...18GeV : 
+
 Particle bunches are launched with all 3 emittances zero, for several damping times.
 
-This tracking yields bot horizontal and longitudinal equilibrium emittances. 
+This tracking yields both horizontal and longitudinal equilibrium emittances. 
 
-Matching with damping law (actually growth) yields the damping times.
+Matching with damping law (actually growth) yields horizontal and longitudinal damping times.
+
+
+------
+
+Subfolder coupled : 
+
+A skew quadrupole has been introduced at the start of the structure (this is the essential difference with 
+the previous cases). 
+
+The skew field is 3000 kG, integrated field BL=0.003T.m, strength 0.003m^-1. 
+
+The coupling thus amounts to ey/ex~0.58.
+
 
  
