@@ -1,5 +1,5 @@
 
-Subfolders 6GeV...18GeV : 
+Subfolders "6GeV" ... "18GeV" : 
 
 Particle bunches are launched with all 3 emittances zero, for several damping times.
 
@@ -10,7 +10,7 @@ Matching with damping law (actually growth) yields horizontal and longitudinal d
 
 ------
 
-Subfolder coupled : 
+Subfolder "coupled" : 
 
 A skew quadrupole has been introduced at the start of the structure (this is the essential difference with 
 the previous cases). 
