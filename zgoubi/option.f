@@ -90,7 +90,9 @@ C Numb of options. NBOP lines should follow
         CALL FITSTA(5,
      >                FITING)
         IF(NRSAV .NE. -11111 .AND. .NOT. FITING) THEN 
-          IF(NRES.GT.0) THEN
+C          IF(NRES.GT.0) THEN
+C Yann, 14-03-07. Necessary for the online model to work
+          IF(ABS(NRES).GT.0) THEN
             NRES = ABS(NRES)
             WRITE(abs(NRES),201)
             WRITE(abs(NRES),*)  '  Keyword ''OPTIONS'' '
