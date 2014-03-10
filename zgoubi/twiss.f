@@ -69,6 +69,9 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
   
       PARAMETER (KSIZ=10)
       CHARACTER*(KSIZ)  KLOBJ
+
+      CHARACTER(KSIZ) KLEO
+
       LOGICAL IDLUNI
       INTEGER DEBSTR, FINSTR
 
@@ -186,6 +189,21 @@ c             write(*,*) q1, q2, cc, f0
 c                read(*,*)
         NRES = ISIGN*NRES
 
+c          call ZGKLE(iq(noel), 
+c     >                             kleo)
+c           write(*,*) ' 1 twiss noel iq(noel) ',noel, kleo 
+c          call ZGKLE(iq(noel-1), 
+c     >                             kleo)
+c           write(*,*) ' noel -1 ',kleo 
+c          call ZGKLE(iq(noel+1), 
+c     >                             kleo)
+c          call ZGKLE(iq(noel+1), 
+c     >                             kleo)
+c           write(*,*) ' noel +1 ',kleo 
+c          call ZGKLE(iq(noel+2), 
+c     >                             kleo)
+c           write(*,*) ' noel +2 ',kleo 
+
         IF(KTW.GE.2) THEN
   
 c          IF(KTW2 .EQ. 0) THEN
@@ -256,6 +274,21 @@ C        NLOBJ = 1
         A(NLOBJ,33) =  REF(4) +  1.D3*F0REF(4,6) * FAP25
           
         IPASS=IPASS+1
+
+c          call ZGKLE(iq(noel), 
+c     >                             kleo)
+c           write(*,*) ' 2 twiss noel iq(noel) ',noel, kleo 
+c          call ZGKLE(iq(noel-1), 
+c     >                             kleo)
+c           write(*,*) ' noel -1 ',kleo 
+c          call ZGKLE(iq(noel+1), 
+c     >                             kleo)
+c           write(*,*) ' noel +1 ',kleo 
+c          call ZGKLE(iq(noel+2), 
+c     >                             kleo)
+c           write(*,*) ' noel +2 ',kleo 
+
+   
         NOEL=0 
         CALL SCUMS(0.D0)
 
@@ -314,12 +347,26 @@ C------- Reset reference coordinates for OBJECT sampling : y -> y+dy
           A(NLOBJ,21) =  FACA * A(NLOBJ,21)    
 
           IPASS=IPASS+1
+      
           NOEL=0 
           CALL SCUMS(0.D0)
 
           RETURN
 
         ELSE
+
+c          call ZGKLE(iq(noel), 
+c     >                             kleo)
+c           write(*,*) ' 3 twiss noel iq(noel) ',noel, kleo 
+c          call ZGKLE(iq(noel-1), 
+c     >                             kleo)
+c           write(*,*) ' noel -1 ',kleo 
+c          call ZGKLE(iq(noel+1), 
+c     >                             kleo)
+c           write(*,*) ' noel +1 ',kleo 
+c          call ZGKLE(iq(noel+2), 
+c     >                             kleo)
+c           write(*,*) ' noel +2 ',kleo 
 
           goto 222
 
@@ -597,6 +644,21 @@ c 97   continue
       IPASS = 1
 C      NRBLT = 0
 
+
+c          call ZGKLE(iq(noel), 
+c     >                             kleo)
+c           write(*,*) ' 99 twiss noel iq(noel) ',noel, kleo 
+c          call ZGKLE(iq(noel-1), 
+c     >                             kleo)
+c           write(*,*) ' noel -1 ',kleo 
+c          call ZGKLE(iq(noel+1), 
+c     >                             kleo)
+c           write(*,*) ' noel +1 ',kleo 
+c          call ZGKLE(iq(noel+2), 
+c     >                             kleo)
+c           write(*,*) ' noel +2 ',kleo 
+
+
       RETURN
 
 C-------------------------------------------------------------------
@@ -631,34 +693,34 @@ c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier
 
       IF(IPASS.LT.7) RETURN       
 
-      do ic=1,6
-        do i=1,6
-          xys(i,ic) = f2(7-i,ic)
-C          sm(i,ic) = f2(8-i,ic)
-          XYS(I,IC+6) = f2(8-i,ic)
-        enddo
-      enddo
+      DO IC=1,6
+        DO I=1,6
+          XYS(I,IC) = F2(7-I,IC)
+C          SM(I,IC) = F2(8-I,IC)
+          XYS(I,IC+6) = F2(8-I,IC)
+        ENDDO
+      ENDDO
 
-c      write(88,*) ' IPASS = ',IPASS
-c      write(88,fmt='(1p,12e12.4)') ((xys(i,ic),ic=1,12),i=1,6)
-cC      write(88,fmt='(1p,10X,6e12.4)') ((sm(i,ic),ic=1,6),i=1,6)
-c      write(88,*) ' -------------------- '
+C      WRITE(88,*) ' IPASS = ',IPASS
+C      WRITE(88,FMT='(1P,12E12.4)') ((XYS(I,IC),IC=1,12),I=1,6)
+CC      WRITE(88,FMT='(1P,10X,6E12.4)') ((SM(I,IC),IC=1,6),I=1,6)
+C      WRITE(88,*) ' -------------------- '
       
       IER = 0
-      call dlgau(6,6,6,XYS,KAUX,ier)
+      CALL DLGAU(6,6,6,XYS,KAUX,IER)
 
-c      write(88,*) ' IPASS = ',IPASS,IER
-c      write(88,fmt='(1p,6e12.4)') ((xys(i,ic),i=1,6),iC=1,6)
-c      write(88,*) ' +++++++++++++-------------------- '
+C      WRITE(88,*) ' IPASS = ',IPASS,IER
+C      WRITE(88,FMT='(1P,6E12.4)') ((XYS(I,IC),I=1,6),IC=1,6)
+C      WRITE(88,*) ' +++++++++++++-------------------- '
 
       RETURN
 
 
-      entry twiss1(
-     >             rturn)
+      ENTRY TWISS1(
+     >             RTURN)
       DO J=1,4
         DO I=1,4
-          rturn(I,J) = RREF(I,J)
+          RTURN(I,J) = RREF(I,J)
         ENDDO
       ENDDO
 

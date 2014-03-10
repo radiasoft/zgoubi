@@ -117,6 +117,9 @@ C This INCLUDE must stay located right before the first statement
       LOGICAL FITFNL
       SAVE FITFNL
 
+      CHARACTER(132) TXT132
+      LOGICAL STRCON 
+
       DATA PRDIC / .FALSE. /
       DATA OKLNO / .FALSE. /
 
@@ -163,7 +166,7 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
  998  CONTINUE
   
 C YD FM. 28/01/2014
-      if(noel .gt. 0) then
+      IF(NOEL .GT. 0) THEN
 
        IF(PRLB) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
@@ -229,7 +232,7 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         ENDIF
        ENDIF
 
-      endif ! noel.gt.0 
+      ENDIF ! NOEL.GT.0 
 
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999,END=999) KLEY
@@ -265,7 +268,7 @@ C------- Gets in case of "FIT"
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
  201    FORMAT(/,132('*'))
-        WRITE(NRES,334)NOEL,'Keyword, label(s) :',
+        WRITE(NRES,334) NOEL,'Keyword, label(s) :',
      >  KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
  334    FORMAT(2X,I5,4(2X,A),/)
         CALL FLUSH2(NRES,.FALSE.)
@@ -1059,9 +1062,19 @@ C      Also prints periodic beta functions (sets KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
-      IF(READAT) READ(NDAT,*) A(NOEL,1),A(NOEL,2),A(NOEL,3),TA(NOEL,1)
-      OKCPLD = 
-     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
+      IF(READAT) THEN
+        READ(NDAT,fmt='(a)') TXT132
+        IF(STRCON(TXT132,'!',
+     >                       IS)) TXT132 = TXT132(1:IS-1)
+        IF(STRCON(TXT132,'coupled',
+     >                             IS)) THEN
+          OKCPLD = .TRUE. 
+          TA(NOEL,1) = 'coupled'
+        ENDIF
+        READ(TXT132,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
+      ENDIF
+C      OKCPLD = 
+C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
       IF(.NOT. OKLNO) THEN
         IF(IDLUNI(
      >            LNOPTI)) THEN
