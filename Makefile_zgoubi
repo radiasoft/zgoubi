@@ -5,24 +5,20 @@ CFLAGS = -g -DGFORTRAN4
 #FFLAGS=-O4 -Wall -fno-automatic -pedantic
 #
 # Case of ifort compiler, next two lines
-FC=/opt/intel/bin/ifort
+######## OWL
+#FC=/opt/intel/bin/ifort
+########
 FC=ifort
+#
 ### check : check array boundary errors
-<<<<<<< .mine
 #############FFLAGS= -xHOST -O3 -ip -traceback -check -save
 #FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
-=======
-########FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
->>>>>>> .r385
-###FFLAGS= -xHOST -O3 -ip -traceback -static -save
-#FFLAGS= -xHOST -O3 -ip -static -save
-<<<<<<< .mine
+#FFLAGS= -xHOST -O3 -ip -traceback        -static -save
+#FFLAGS= -xHOST -O3 -ip                   -static -save
 # -static includes local libs (-lm etc.) into executable. Pb with that on cscomputers
 #FFLAGS= -xHOST -O4 -ip -static -save
+######## OWL
 FFLAGS= -xHOST -O4 -ip -save
-=======
-FFLAGS= -xHOST -O4 -ip -static -save
->>>>>>> .r385
 
 .POSIX:
 
