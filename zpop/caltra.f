@@ -434,7 +434,7 @@ C            write(*,*) ' caltra mult ND ',ND(NOEL),kpos
           ALSHFT = COEF * SQRT(XCE*XCE + YCE*YCE) 
           TETA=TETA1 + ATAN2(YCE,XCE)
           S=S1+ALSHFT*COS(TETA)
-          Y=Y1+ALSHFT*SIN(TETA)
+          Y=Y1+ALSHFT*SIN(TETA) - YCE
           CALL CALTRI(N,S,Y)
           TETA1 = TETA1 - PHI2RF
 
@@ -463,8 +463,6 @@ c-------- KPOS=1
         CALL SYNBOX(N,TETA1,S1,Y1,TETA,S,Y,AL,WIDTH)
 
         IF    (KPOS.EQ.3) THEN
-          XCE=0.D0
-          YCE=0.D0
           ALE=A(NOEL,6+ND(NOEL)) 
           XIRF = 0.D0
           PHI2RF = -ALE 
@@ -476,13 +474,13 @@ c-------- KPOS=1
 
           XCE=0.D0  
           YCE= A(NOEL,5+ND(NOEL)) * CM2M
-          ALE= 0.D0
+          ALE= A(NOEL,6+ND(NOEL)) 
           XIRF = 0.D0
           PHI2RF = -ALE 
           ALSHFT = COEF * SQRT(XCE*XCE + YCE*YCE) 
           TETA=TETA1 + ATAN2(YCE,XCE)
           S=S1+ALSHFT*COS(TETA)
-          Y=Y1+ALSHFT*SIN(TETA)
+          Y=Y1+ALSHFT*SIN(TETA) - YCE
           CALL CALTRI(N,S,Y)
           TETA1 = TETA1 - PHI2RF
 

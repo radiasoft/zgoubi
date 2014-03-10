@@ -30,11 +30,39 @@ C     ---------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      READ(NDAT,*) IA
+      CHARACTER(132) TXT132
+      LOGICAL STRCON, DEBSTR, FINSTR
+      READ(NDAT,*) TXT132
+      TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+      IF(STRCON(TXT132,'!',
+     >                     ISA)) THEN
+        TXT132 = TXT132(1:ISA-1)
+      ELSE
+        ISA = FINSTR(TXT132)
+      ENDIF
+      IF(STRCON(TXT132,'.',
+     >                     IS)) THEN
+        READ(TXT132(   1:IS-1),*) IA
+        READ(TXT132(IS+1:ISA),*) IA2
+      ELSE
+        READ(TXT132,*) IA
+        IA2 = 0
+      ENDIF
       A(NOEL,1) = IA
+      A(NOEL,2) = IA2
 C Read 3 particle numbers
       IF(IA .EQ. 3) READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
 C Read 3 centering coordinates
-      IF(IA .EQ. 4) READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+      IF(IA .EQ. 4) THEN
+        IF    (IA2.EQ.0) THEN
+C Center the beam on xce, yce, ale
+          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+        ELSEIF(IA2.EQ.1) THEN
+C Center the beam on xce, yce, ale, p/pRef
+          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12),A(NOEL,13)
+        ELSE
+          CALL ENDJOB('Pgm rautor. No such option IA2 = ',IA2)
+        ENDIF
+      ENDIF
       RETURN
       END

@@ -119,7 +119,7 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
       IF(KREB4 .EQ. 1) THEN
 C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
         IF(IPASS .EQ.1 ) THEN
-              write(*,*) ' kreb4, ipass',kreb4, ipass, nprm
+c              write(*,*) ' kreb4, ipass',kreb4, ipass, nprm
 c                   read(*,*)
           DO iprm = 1, NPRM
             IF(.NOT. EMPTY(TPRM(iprm,1))) THEN
@@ -136,13 +136,13 @@ c                   read(*,*)
             ENDIF
             FOUND = .FALSE.
             NEL = 1
-              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
-                   read(*,*)
+c              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
+c                   read(*,*)
             DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
               IF(KLE(IQ(NEL))(debstr(KLE(IQ(NEL))):finstr(KLE(IQ(NEL))))
      >           .EQ. KLEI(iprm)(debstr(KLEI(iprm)):finstr(KLEI(iprm)))) 
      >        THEN
-              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
+c              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
                 IF    (NLBL(iprm) .EQ. 0) THEN                
                   FOUND = .TRUE.
                 ENDIF

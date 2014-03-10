@@ -116,7 +116,7 @@ C Keyword with parameter to be changed
             backspace(ndat)
             READ(ndat,*,ERR=79,END=79) 
      >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
-        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
+C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
             TPRM(IPRM,3) = ' '
@@ -128,7 +128,7 @@ C Keyword with parameter to be changed
           WRITE(6,*)
           WRITE(6,*)
      >    'SBR RREBEL. Stopped while reading list of parameter values.'
-          CALL ENDJOB('Give NRBLT .le. number of parameter values.',-99)
+          CALL ENDJOB('Give NRBLT .le. number of values in list.',-99)
 
  80       CONTINUE
           A(NOEL,20+10*(iprm-1)) = KLM

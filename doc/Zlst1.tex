@@ -3958,6 +3958,19 @@ with possible extraction, at the last pass, at the location of the second \LABEL
 
 \bigskip
 
+In addition to what precedes,  \textsl{REBELOTE} can change the value of arbitrary parameters in zgoubi.dat 
+data list. \textsl{NPRM} tells the number of parameters to be changed. 
+A series of   \textsl{NPRM} lists of values, one list per parameter to be changed and each list 
+with \textsl{NRBLT} data, tells the 
+ values to be taken by each one of these parameters, over the \textsl{NRBLT} passes of the 
+\textsl{REBELOTE} process.  
+
+\medskip
+\noindent{\bf An example~: } see page~\pageref{ExaREBELOTE}
+
+
+\bigskip
+
 \noindent Output prints over \textsl{NPASS+1} passes  might result in a
 prohibitively big zgoubi.res file. They may be switched on/off  by means of the option 
 \mbox{\textsl{KWRIT}$= i.j$}, with $i=1/0$ respectively. The $j$ flag commands printing 
@@ -3985,9 +3998,139 @@ the same fit procedure,  after having changed the value of some parameter in zgo
 That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and then sends the 
 zgoubi execution pointer back to the top of zgoubi.dat for a new run. 
 
-\bigskip 
+\medskip
 
 \noindent{\bf An example~: } see page~\pageref{ExaFITREBELOTE}
+
+
+
+
+\newpage
+
+\subsubsection*{An example~: \label{ExaREBELOTE}}
+
+In this example the arguments in the keyword \textsl{AUTOREF} and \textsl{CAVITE} are changed \textsl{20} times 
+by \textsl{REBELOTE}, over its 20-pass process. The role of \textsl{AUTOREF} is
+ to re-center the beam on the design FFAG orbit and momentum value, at each pass (\ie, at the start of each 
+one of the 11 accelerated and 10 decelerated ring turns). 
+This is a simple way of (artificially) overcoming the effects on bunch and polarization dynamics, of synchrotron 
+radiation induced energy loss. The RF voltage in \textsl{CAVITE} is set positive (accelerating, +1.322~GV, 
+from 7.944~GeV to 21.16~GeV) during the first 11 passes through the optical structure, and negative 
+(decerating, -1.322~GV, from 21.16 to 7.944~GeV) over the remaining 10 passes. 
+
+~
+
+~
+
+\begin{minipage}[h]{.55\linewidth}
+{\tiny
+\begin{verbatim}
+eRHIC ENERGY RECOVERY LINAC RECIRCULATOR WITH FFAG ARCS.
+ 'MCOBJET'                                               1
+57.36635309d3         reference rigidity (kG.cm) 
+3   
+2000
+2 2 2 2 1 1                                              
+-5.360667E-03   5.059706E-3  0. 0. 0.   4.619439E-01  'o'
+0. 1   0.   3                                            
+0. 1   0.   3                                            
+0. 1.  0.     3                                          
+123456 234567 345678                                         
+ 'PARTICUL'                                              2
+0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0       
+ 'SPNTRK'                                                3
+ 'FAISCEAU'                                              4    
+ 'SRLOSS'                                                5
+1   srLoss                                               
+MULTIPOL                                                 
+1  123456                                                
+ 'SCALING'                                               6
+1  1
+MULTIPOL                                                 
+-1  
+57.36635309 57.36635309                                  
+1           11                                               
+ 'MARKER'   ARC#S_1                                      7
+ 'OPTIONS'                                               8
+1  1
+WRITE OFF                                                
+ 'MARKER'   MARK      CELLSTART                          9
+ 'DRIFT'    DRIF      HD                                10
+14.547181                                                
+ 'MULTIPOL' RBEN      BD2                               11
+0  .Dip                                                  
+90.000000  10.00   0.00000000  -0.87159105   0. 0. 0. 0. 0. 0. 0. 0.
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|90|30    Dip  BD2                                    
+3   0.0000000000E+00   4.0704703212E-01  -1.5071892929E-03                                                    
+ 'DRIFT'    DRIF      D                                 12
+29.094362                                                
+ 'MULTIPOL' RBEN      QF2                               13
+0  .Dip                                                  
+110.000000  10.00   0.00000000   0.86286642   0.00000000 0.0 0.0 0.0 0.0 0.0 0.0 0.0                          
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|110|30    Dip  QF2                                   
+3   0.0000000000E+00  -3.6008008661E-01  -1.8710983347E-03                                                    
+ 'DRIFT'    DRIF      HD                                14
+14.547181                                                
+ 'MARKER'   MARK      CELLEND                           15
+!!!!!!!!!!!!!!!!!!!
+6*138-1 additional such FD cells, simulating a 6 arc 
+energy recovery ring, 138 cells per arc. 
+!!!!!!!!!!!!!!!!!!!
+ 'MARKER'   ARC#E_6                                   5820    
+ 'OPTIONS'                                            5821
+1  1
+WRITE ON                                                 
+ 'FAISTORE'                                           5822
+zgoubi.fai                                               
+1   
+ 'FAISCEAU'                                           5823
+ 'CAVITE'                                             5824
+3   
+0  0
+1.322e9  1.57079632679                           
+ 'AUTOREF'                                            5825
+4.1 
+0. -5.168354E-01 4.169759E+00  5.38813280E-01            
+ 'FAISCEAU'                                           5826
+ 'REBELOTE'                                           5827
+20  0.1 99 1                                             
+4   
+AUTOREF 11 -4.74932E-01 -4.12907E-01 -3.32923E-01 -2.36843E-01 
+-1.26268E-01 -2.59705E-03  1.32948E-01  2.79292 ... (a list of 20 values) 
+AUTOREF 12  3.34619E+00  2.58215E+00  1.87157E+00  1.20916E+00 
+ 5.90197E-01  1.05897E-02 -5.33276E-01 -1.04459 ... (a list of 20 values) 
+AUTOREF 13 .615682680   .692552080   .769421480   .846290880   
+.923160280    1.00002970   1.07689910   1.15376 ... (a list of 20 values) 
+CAVITE  20  1.322e9      1.322e9      1.322e9      1.322e9    
+  1.322e9      1.322e9      1.322e9      1.322e9 ... (a list of 20 values) 
+ 'SPNPRT'                                             5828
+ 'SRPRNT'                                             5829
+ 'END'                                                5830
+
+\end{verbatim}
+\index{zgoubi.SPNPRT.Out}
+}
+\end{minipage}\hspace{0.03\linewidth}
+\begin{minipage}[h]{.38\linewidth}
+
+\centering
+%\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{}}
+
+
+\end{minipage}
+
+
+
 
 
 

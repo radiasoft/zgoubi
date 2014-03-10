@@ -42,6 +42,7 @@ C     ------------------------------------------------
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       IOP = NINT(A(NOEL,1))
+      IOP2 = NINT(A(NOEL,2))
 C      IF    (IOP .EQ. 3) THEN
 C        IRF=NINT(A(NOEL,10))
 C        MX1=NINT(A(NOEL,11))
@@ -72,11 +73,14 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
      >                            XC,YC )
         ENDIF
         AA  =F(3,IRF) * 0.001D0
+
       ELSEIF(IOP .EQ. 4) THEN
+
         XC = ZERO
         YC = ZERO
 C        AA = 1.d0
         AA = ZERO
+        DD = ZERO
         II = 0
 C First center the beam on Y=0, T=0
         DO I = 1, IMAX
@@ -84,10 +88,12 @@ C First center the beam on Y=0, T=0
             II = II + 1
             YC = YC + F(2,I) 
             AA = AA + F(3,I) 
+            DD = DD + F(1,I) 
           ENDIF
         ENDDO
         YC = YC / DBLE(II)        
         AA = AA / DBLE(II) * 1.D-3 
+        IF(IOP2.EQ.1) DD = DD / DBLE(II)        
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
           IF( IEX(I) .GE. -1) THEN 
@@ -101,6 +107,10 @@ c                     read(*,*)
               CALL DEJACA(I)
             ENDIF
           ELSE
+          ENDIF
+          IF(IOP2.EQ.1) THEN
+C               WRITE(*,*) ' AUTORF ',F(1,I),DD, A(NOEL,13)
+            F(1,I) = F(1,I) - DD + A(NOEL,13)
           ENDIF
         ENDDO
         IF(NRES .GT. 0) THEN
