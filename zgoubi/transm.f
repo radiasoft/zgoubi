@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -50,6 +50,24 @@ C     ***********************************
       DIMENSION FF(MXJ1),FC(MXJ1)
       SAVE P0
  
+
+      INCLUDE 'MXFS.H'
+      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+      INCLUDE 'MXSCL.H'
+      dimension kfm(MXSCL)
+
+      DUM = SCALER(1, NOEL, 
+     >     DUM)
+      CALL SCALE9(
+     >            KFM )
+      do ifm = 1, MXSCL
+            IF(KFM(ifm) .le. 0) goto 121
+        DO I= 1 , JPA(KFM(ifm),MXP)
+           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
+        ENDDO
+      enddo
+ 121  continue
+
 C     *** R EST AU FORMAT 6 x 6
 CModified, FM, 04/97
 C         T EST AU FORMAT 6 x 6 x 6

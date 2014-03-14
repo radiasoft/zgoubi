@@ -162,14 +162,13 @@ C------------- Write down a 4-line header
               ENDIF
 
               IF(.NOT.BINARY) THEN
-                WRITE(LUN,FMT='(A)') TXT80(debstr(TXT80):finstr(TXT80))
-     >                                   //'. '//TITRE
+                TXT80 = TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
+                WRITE(LUN,FMT='(A)') TXT80
                 WRITE(LUN,FMT='(A)') TXTN80
                 WRITE(LUN,FMT='(A)') TXTA80
                 WRITE(LUN,FMT='(A)') TXTB80
               ELSE
-                WRITE(TXT80,FMT='(A)')TXT80(debstr(TXT80):finstr(TXT80))
-     >                                   //'. '//TITRE
+                TXT80=TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
                 WRITE(LUN) TXT80
                 WRITE(LUN) TXTN80
                 WRITE(LUN) TXTA80

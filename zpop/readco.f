@@ -312,6 +312,7 @@ C------- (p_ps)/ps
 C-------- momentum
 C        YZXB(19) = BORO * (1.D0+F(1))*0.299792458D0   
         YZXB(20) = ENEKI
+C Spin stories
         YZXB(21) = SF(1)
         YZXB(22) = SF(2)    
         YZXB(23) = SF(3)    

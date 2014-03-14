@@ -15,8 +15,8 @@
 #set xrange [:394]   # RHIC
 
 plot \
-     'averageS.Out' u ($8):($9==1000 && $2>0 ? $6 : 1/0) w l lw .5 tit '1000 prtcls' ,\
-     'averageS.Out' u ($8):($9==2000 && $2>0 ? $6 : 1/0) w l lw .5 tit '2000 prtcls' ,\
+     'averageS.out' u ($8):($9==1000 && $2>0 ? $6 : 1/0) w l lw .5 tit '1000 prtcls' ,\
+     'averageS.out' u ($8):($9==2000 && $2>0 ? $6 : 1/0) w l lw .5 tit '2000 prtcls' ,\
      'fort.88'  w l lw .99 tit 'Model' 
 
  set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12

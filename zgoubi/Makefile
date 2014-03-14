@@ -605,7 +605,7 @@ toscap.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 trace.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 track.o: $(INC)/MXLD.H
 transf.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
-transm.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+transm.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 traobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 trarot.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 trobj.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H

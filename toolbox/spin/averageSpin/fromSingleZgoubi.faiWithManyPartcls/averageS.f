@@ -16,11 +16,19 @@ C----- PLOT SPECTRUM
 
       nx = 59
       ny = 23
-      call avrg(NLOG,NL,LM,OKOPN,CHANGE,nx,ny)
+      ny = 25
+
+      i12 = 1
+      call avrg(NLOG,i12,NL,LM,OKOPN,CHANGE,nx,ny)
+
+      if (ny.eq.25) then
+        i12 =2 
+        call avrg(NLOG,i12,NL,LM,OKOPN,CHANGE,nx,ny)
+      endif
       stop
       end
 
-      SUBROUTINE avrg(NLOG,NL,LM,OKOPN,CHANGE,nx,ny)
+      SUBROUTINE avrg(NLOG,I12,NL,LM,OKOPN,CHANGE,nx,ny)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
 C----- PLOT SPECTRUM     
@@ -46,14 +54,14 @@ C      COMMON/LUN/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       LOGICAL IDLUNI
 
       parameter (mxpass=999999)
-      dimension xvar(mxpass), sum(mxpass), nbtraj(mxpass)
+      dimension xvar(mxpass), sum(mxpass,10), nbtraj(mxpass)
 
       INCLUDE 'FILFAI.H'
 
       DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
     
       call iraz(nbtraj,mxpass)
-      call raz(sum,mxpass)
+      if(i12.eq.1) call raz(sum,mxpass*10)
 
       IF(.NOT.OKOPN) 
      > CALL OPNDEF(NFAI,FILFAI,NL,
@@ -69,6 +77,10 @@ C      COMMON/LUN/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
         CALL READC6B(NT,NT)        
       ENDIF
 
+c           write(*,*) ' npts ',npts,nt
+c               read(*,*)
+
+
  6    CONTINUE
 C          OPN = .FALSE.
         IF(.NOT. OPN) THEN
@@ -76,22 +88,90 @@ C          OPN = .FALSE.
             IF (IDLUNI(IUN)) THEN
               OPEN(UNIT=IUN,FILE='averageS.out',ERR=699)
               OPN = .TRUE.
+              write(iun,fmt='(a)')
+     >   '# yzxb(nx), av sx sy sz, av |S|, av ctta stta, av tta tta^2, '
+     >        //'sigTta, sin2+cos2, # of traj at that pass'
             ELSE
               GOTO 698
             ENDIF
           ENDIF
         ENDIF
 
-            CALL STORCO(NL,LM,1  ,BINARY,nx,ny,
+            CALL STORCO(I12,NL,LM,1  ,BINARY,nx,ny,
      >                              xvar, sum,nbtraj,npass)
 
         do ipass = 1, npass
-          write(iun,fmt='(1p,e17.8,1x,e17.8,1x,i6,1x,i6,a)')
-     >    abs(xvar(ipass)), sum(ipass)/dble(nbtraj(ipass)), 
-     >    nbtraj(ipass), ipass,' pass #, avrge, # of traj at that pass'
+          if(ny.eq.25) then 
+            if(i12.eq.1) then 
+              sum(ipass,1)= sum(ipass,1)/dble(nbtraj(ipass)) 
+              sum(ipass,2)= sum(ipass,2)/dble(nbtraj(ipass)) 
+              sum(ipass,3)= sum(ipass,3)/dble(nbtraj(ipass)) 
+              write(*,*) 
+     >        sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
+c                 write(*,*) ' ipass, # trak, |<S>|^2: ',   ! this quantity is NOT ok : |<S>|^2 .ne. 1
+c     >        ipass,  nbtraj(ipass), 
+c     >        sum(ipass,1)**2 + 
+c     >        sum(ipass,2)**2 + 
+c     >        sum(ipass,3)**2 
+c                 read(*,*)
+            else              
+c                 write(*,*) ' ipass, # trak, |<S>|^2 : ',   ! this quantity is not ok : |<S>|^2 .ne. 1
+c     >        ipass,  nbtraj(ipass), 
+c     >        sum(ipass,1)**2 + 
+c     >        sum(ipass,2)**2 + 
+c     >        sum(ipass,3)**2 
+c                 read(*,*)
+
+              sum(ipass,4)= sum(ipass,4)/dble(nbtraj(ipass))  ! cos tta
+              sum(ipass,5)= sum(ipass,5)/dble(nbtraj(ipass))  ! sin tta
+              sum(ipass,6)= sum(ipass,6)/dble(nbtraj(ipass))  ! avrg tta
+              sum(ipass,7)= sum(ipass,7)/dble(nbtraj(ipass))  ! avrg tta^2
+              xnrm=sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
+              write(iun,fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,a)')
+     >        abs(xvar(ipass)), 
+     >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg \vec S
+     >        xnrm,  ! |av S|
+     >        sum(ipass,4), sum(ipass,5),                       ! cos_tta, sin_tta
+     >        sum(ipass,6), sum(ipass,7),                       ! av tta, av tta^2
+     >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )  ,      ! sig_tta
+     >        (sum(ipass,4)**2 + sum(ipass,5)**2) ,             ! sin^2 + cos^2 == 1 ?
+     >        nbtraj(ipass), ipass,
+     >        ' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
+     >        //'sigTta, sin2+cos2, # of traj at that pass'
+            endif
+          else
+            write(iun,fmt='(1p,e17.8,1x,e17.8,1x,i6,1x,i6,a)')
+     >      abs(xvar(ipass)), sum(ipass,1)/dble(nbtraj(ipass)), 
+     >      nbtraj(ipass), ipass,
+     >         ' yzxb(nx), avrge, # of traj at that pass'
+          endif
         enddo
 
-            CLOSE(IUN)
+         if(ny.eq.25 ) then 
+           if( i12.eq.2) then 
+             CLOSE(IUN)
+           endif
+         else
+           CLOSE(IUN)
+         endif
+
+        do ipass = 1, npass
+                 write(88,*)    ! this quantity is ok : |<S>|^2=1
+     >        i12, ipass,  nbtraj(ipass), 
+     >             sum(ipass,1), sum(ipass,2), sum(ipass,3),
+     >        sqrt( sum(ipass,1)**2 + 
+     >        sum(ipass,2)**2 + 
+     >        sum(ipass,3)**2) , 
+     >         ' i12 ipass, #trj  sx sy sz  |s|   '
+           if(i12.eq.2) then 
+              xnrm = sqrt(sum(ipass,1)**2 + sum(ipass,2)**2 
+     >        + sum(ipass,3)**2 )**0.5
+              sum(ipass,1)= sum(ipass,1)/xnrm
+              sum(ipass,2)= sum(ipass,2)/xnrm
+              sum(ipass,3)= sum(ipass,3)/xnrm
+           endif
+         enddo
+
       RETURN
 
  698  WRITE(6,*) ' *** Problem : No idle unit for averageS.out '
@@ -103,14 +183,14 @@ C          OPN = .FALSE.
 
       END
 
-      SUBROUTINE STORCO(NL,LM,KPS,BINARY,nx,ny,
+      SUBROUTINE STORCO(i12,NL,LM,KPS,BINARY,nx,ny,
      >                            xvar,sum,nbtraj,npass)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
 C     Read coordinates from zgoubi output file, and store  
 C     ---------------------------------------------------
       parameter (mxpass=999999)
-      dimension xvar(mxpass), sum(mxpass), nbtraj(mxpass)
+      dimension xvar(mxpass), sum(mxpass,10), nbtraj(mxpass)
 
       LOGICAL BINARY
       COMMON/TRACKM/ NPTS,NPTR
@@ -136,12 +216,60 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
         NOC=NOC+1
 
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
+C            write(*,*) nrblt, NINT(YZXB(39)) 
 
         ipass = nint(yzxb(39))
         xvar(ipass) = yzxb(nx)
-C            write(*,*) yzxb(nx), nx, yzxb(ny), ny
+C            write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny
         if(ipass .gt. mxpass) stop ' Increase mxpass !! '
-        sum(ipass) = sum(ipass) + yzxb(ny)
+        if(ny.eq.25) then   !  average spin vector
+          if(i12.eq.1) then 
+            sum(ipass,1) = sum(ipass,1) + yzxb(21)
+            sum(ipass,2) = sum(ipass,2) + yzxb(22)
+            sum(ipass,3) = sum(ipass,3) + yzxb(23)
+c             write(*,*) ' i12 = 1; ipass, |s_i|^2 : ',   ! this quantities is ok
+c     >         ipass,
+c     >      yzxb(21)**2 + 
+c     >      yzxb(22)**2 + 
+c     >      yzxb(23)**2
+c                  read(*,*) 
+          else
+C cos angle between avrge \vec S and current \vec S
+c                 write(*,*) ' i12=2 ipass, |<S>|^2, |s_i|^2 : ',   ! |<S>|^2 is not ok (.ne. 1)
+c     >         ipass,
+c     >      sum(ipass,1)**2 + 
+c     >      sum(ipass,2)**2 + 
+c     >      sum(ipass,3)**2 ,
+c     >      yzxb(21)**2 + 
+c     >      yzxb(22)**2 + 
+c     >      yzxb(23)**2
+c                    read(*,*)
+            ctta = sum(ipass,1) * yzxb(21) + 
+     >      sum(ipass,2) * yzxb(22) + sum(ipass,3) * yzxb(23)
+            stta = sqrt(
+     >      (sum(ipass,2) * yzxb(23) - sum(ipass,3) * yzxb(22))**2+
+     >      (sum(ipass,3) * yzxb(21) - sum(ipass,1) * yzxb(23))**2+
+     >      (sum(ipass,1) * yzxb(22) - sum(ipass,2) * yzxb(21))**2)
+            sum(ipass,4) = sum(ipass,4) + ctta
+            sum(ipass,5) = sum(ipass,5) + stta
+            tta = atan2(stta,ctta)
+C            tta = acos(ctta)
+C                  read(*,*) 
+c                 write(*,*) ' tta, ctta , stta, ctta^2+stta^2 : ',
+c     >      tta, ctta, stta, ctta**2+stta*2
+c                 write(*,*) ' ctta , stta atan, atan2 : ',
+c     >      ctta, stta,atan(stta/ctta), tta, acos(ctta), asin(stta), 
+c     >             ctta**2+stta**2
+c                   read(*,*)
+            sum(ipass,6) = sum(ipass,6) + tta
+            sum(ipass,7) = sum(ipass,7) + tta*tta
+c                 write(*,*) ' tta, sum_tta, sum_tta2 : ',
+c     >           tta, sum(ipass,6) , sum(ipass,7) 
+c                   read(*,*)
+          endif 
+        else
+          sum(ipass,1) = sum(ipass,1) + yzxb(ny)
+        endif
         nbtraj(ipass) = nbtraj(ipass) + 1
 
 C        IF(NOC.EQ. NPTR) GOTO 10
@@ -247,7 +375,7 @@ C--------- read in zgoubi.fai type storage file
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
-             jpass = ipass
+            jpass = ipass
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                IEND)) GOTO 222
 
@@ -275,10 +403,12 @@ C              ENDIF
 
             INCLUDE "FRMFAI.H"
 
+             jpass = ipass
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                IEND)) GOTO 21
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND))  THEN
+
 C              IF(IEND.EQ.0) THEN
                                              GOTO 21
 C              ELSEIF(IEND.EQ.1) THEN
@@ -290,7 +420,8 @@ C              ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
-
+C                write(*,*) ' averageS ',ENEKI, ENERG,ipass,jpass
+               ipass = jpass
         ELSEIF(NL .EQ. NPLT) THEN
 C--------- read in zgoubi.plt type storage file
 
@@ -484,8 +615,8 @@ C      Location about where particle was lost
       YZXB(58) = IT
       YZXB(59) = ENERG / AMQ1 *AMQ3   ! G.gamma
 
-C        write(77,*) ENERG , AMQ1 ,AMQ3   
-
+C        write(*,*) ipass, ENERG , AMQ1 ,AMQ3   
+            
 
 C- For RACCAM design --------------------------
 c       nCell = 8
@@ -918,7 +1049,8 @@ C----- zpop log unit
       NLOG = 30
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
-      NOMFIC = 'b_zgoubi.fai'
+C      NOMFIC = 'b_zgoubi.fai'
+      NOMFIC = 'zgoubi.fai'
 
       RETURN
       END
@@ -1038,12 +1170,12 @@ C------- Swallow the header (4 lines)
       SUBROUTINE HEADER(NL,N,BINARY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      CHARACTER*80 TXT80
-      WRITE(6,FMT='(/,A)') ' File header : '
+      CHARACTER*270 TXT80
+      WRITE(6,FMT='(/,A,/)') ' File header : '
       IF(.NOT.BINARY) THEN
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
+        READ(NL,FMT='(A)',ERR=99,END=99) TXT80
         WRITE(6,FMT='(A)') TXT80
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
+        READ(NL,FMT='(A)',ERR=99,END=99) TXT80
         WRITE(6,FMT='(A)') TXT80
       ELSE
         READ(NL,ERR=99,END=89) TXT80
