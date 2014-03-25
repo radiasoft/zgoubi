@@ -1642,7 +1642,7 @@ instance, in the case of electrons, to the classical formula $\lambda/\Delta \th
 
 \begin{equation}
         \label{EqPoissMean}
- \lambda = \dfrac{20 e r_0 }{8 \hbar \sqrt{3}  } \beta^2 \Br  \Delta s
+ \lambda = \dfrac{20 e r_0 }{8 \hbar \sqrt{3}  } \beta^2 \Br  \dfrac{\Delta s}{\rho}
 \end{equation}
 %
 where $r_0=e^2/4\pi \epsilon_0 m_0 c^2$ is the classical radius of the particle of rest-mass $m_0$, 
@@ -1663,7 +1663,7 @@ $\rho$ and perform SR loss corrections afterwards.}
 
 \begin{equation}
 \label{EqSK53}
- \mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} \int_{\epsilon/\epsilon_c}^\infty K_{5/3}(x) dx
+ \mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi} \int_0^{\epsilon/\epsilon_c} \dfrac{d\epsilon}{\epsilon_c} \int_{\epsilon/\epsilon_c}^\infty K_{5/3}(x) dx
 %\mathcal{P}(\epsilon/\epsilon_c) = \dfrac{3}{5\pi}                           \int_0^{\epsilon/\epsilon_c} K_{5/3}(x) dx
 \end{equation}
 %
@@ -1686,7 +1686,7 @@ In the low frequency region $(\epsilon/\epsilon_c \ll 1)$ it can be approximated
 
 \begin{equation}
 \label{EqSK53Low}
-\mathcal{P}(\epsilon/\epsilon_c) = \dfrac{12 \sqrt{3}}{5\, 2^{1/3} \Gamma(\dfrac{1}{3})}  
+\mathcal{P}(\epsilon/\epsilon_c) = \dfrac{12 \sqrt{3}}{2^{1/3} \, 5 \, \Gamma(\dfrac{1}{3})}  
 (\dfrac{\epsilon}{\epsilon_c})^{1/3}
 \end{equation}
 %
@@ -1697,7 +1697,7 @@ order to get $\epsilon/\epsilon_c$, first a random value $0<\mathcal{P}<1$ is ge
 then  $\epsilon/\epsilon_c$ is drawn either  by simple inverse linear interpolation 
  of the tabulated values if $\mathcal{P}>0.26$ (corresponding to 
 $\epsilon/\epsilon_c>10^{-2}$), 
-or, if $\mathcal{P}<0.26$ from eq.~\ref{EqSK53Low} that directly gives 
+or, if $\mathcal{P}<0.26$ from eq.~\ref{EqSK53Low} that gives 
  $\epsilon/\epsilon_c= \bigl( \dfrac{5 \, 2^{1/3} \Gamma(\dfrac{1}{3})}{12 \sqrt{3} \mathcal{P}}\bigr)^3$ 
  with precision no less than 1$\%$ at  $\mathcal{P}\rightarrow 0.26$. 
 
@@ -2445,7 +2445,7 @@ particle $ I $ by simple symmetry.  This saves on computing time.
 
 \bigskip
 
-\noindent\KOBJ $= 3 $    can be used directly for reading files filled by \textsl{FAISCNL}, \textsl{FAISTORE}.\\
+\noindent\KOBJ $= 3 $    can be used for reading files filled by \textsl{FAISCNL}, \textsl{FAISTORE}.\\
 If more than \IMAX\ particles are to be read from a file, use  \textsl{REBELOTE\index{REBELOTE}}.   
 
 \bigskip
@@ -5093,7 +5093,7 @@ use \textsl{SCALING} with the option $\NTIM=-1$.
 
 \bigskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
+\noindent \textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
 \bigskip
 
 \noindent\textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the RF~cavity of a 
@@ -7566,15 +7566,31 @@ described in section~\ref{sec2.5.2}.
 
 \newpage
 
-\subsubsection*{SPINR~: \SPINRTitl\  } \label{SPINR} \index{SPINR|textbf} 
+\subsubsection*{SPINR~: \SPINRTitl~\cite{SPINR}  } \label{SPINR} \index{SPINR|textbf} 
 \medskip
 
-Spin precession, a local transformation.  
+\textsl{SPINR} causes spin precession, a local transformation on the spin vector of the particles, 
+ as, \eg, in a local helical spin rotator.  Two options are 
+available, as follows. 
 
 \bigskip
 
-\noindent The precession is defined by its axis and its value. 
+\noindent \textbf{$\mathbf{IOPT  =  0}$} inhibits the keyword. 
 
+\bigskip
+
+\noindent \textbf{If $\mathbf{IOPT  =  1}$~:} the precession is defined by its axis, at angle  $\phi_Z$ with 
+respect to \zgou's X-axis and assumed in the horizontal plane,  and by its value, $\mu$. 
+
+\bigskip
+
+\noindent \textbf{If $\mathbf{IOPT  =  2}$~:}  given the spin precession axis $\phi_Z$ - defined as  above -  
+   the spin precession angle follows a function of the \textsl{reference} Lorentz factor~: 
+  $$\mu (\gamma) = \left(\frac{B}{B_0}\right)^2 \times \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $$
+ with $B$ and $B_0$ normally  a nominal and a reference magnetic field value, and $C_i$ empirical coefficients. 
+The \textsl{reference} Lorentz factor corresponds to the reference rigidity 
+ \BORO, as defined for instance with \textsl{[MC]OBJET}, possibly updated in the presence of acceleration 
+(see section~\ref{sec4.6.RefBORO}, page~\pageref{sec4.6.RefBORO}). 
 
 \newpage
 

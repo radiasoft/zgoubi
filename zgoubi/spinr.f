@@ -18,16 +18,17 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Service Accélerateurs
-C  LPSC Grenoble
-C  53 Avenue des Martyrs
-C  38026 Grenoble Cedex
-C  France
+C  Brookhaven National Laboratory   
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  USA
+C  -------
       SUBROUTINE SPINR
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     ------------------
+C     ---------------------------
 C     Spin rotator. 
-C     ------------------
+C     Installed by Mei Bai, 2009.
+C     ---------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'       ! MXL, MXD
@@ -39,25 +40,38 @@ C     ------------------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      double precision OT(4), VEC(3)
+      COMMON/PTICUL/ AM,Q,G,TO
+      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+
+      DOUBLE PRECISION OT(4), VEC(3)
 
       IOPT = NINT(A(NOEL,1))
-      ANG = A(NOEL,10)
-      PHI = A(NOEL,11)
 
-      IF(IOPT .NE. 1)THEN
-        IF(NRES.GT.0) THEN 
-          WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')') 
-        ENDIF
-        RETURN
+      IF(IOPT .EQ. 1)THEN
+         ANG = A(NOEL,10)
+         PHI = A(NOEL,11)
+      ELSEIF(IOPT .EQ. 2)THEN
+         PHI = A(NOEL,10)
+         GMAREF = SQRT((BORO*DPREF*Q*CL9/AM)**2+1.d0)
+         ANG = (A(NOEL,11)/A(NOEL,12))**2* 
+     >   (A(NOEL,13) + (A(NOEL,14) + (A(NOEL,15) + 
+     >             A(NOEL,16)/GMAREF)/GMAREF)/GMAREF)
+C         write(*,*) GMAREF, ANG
+C         read(*,*)
+      ELSE
+         IF(NRES.GT.0) THEN 
+            WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')') 
+         ENDIF
+         RETURN
       ENDIF
+
 
          DO I=1,IMAX
            IF(IEX(I) .ge. 0) then
              S1 = SF(1,i)
              S2 = SF(2,i)
              S3 = SF(3,i)
-             dtr=PI/180.d0
+             DTR=PI/180.D0
 C Old form
 C              ANGLE=int(ANG)
 C              phi=(ANG-int(ANG))*100.d0
@@ -74,8 +88,8 @@ C              phi=(ANG-int(ANG))*100.d0
             SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2) 
      >      +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2)) 
      >      +S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
-           endif
-         enddo
+           ENDIF
+         ENDDO
 
       IF(NRES.GT.0) WRITE(NRES,109) ANG, PHI
  109  FORMAT(/,30X,'Spin rotator. Angle = ',F12.5,' deg., ',

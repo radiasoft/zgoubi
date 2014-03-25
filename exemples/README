@@ -1,8 +1,14 @@
 
 
-These examples are maintained. Efforts are provided to ensure that they are run-able  with the latest trunk version of zgoubi executable. 
+These examples are maintained. Efforts are made to ensure that they are run-able  with the latest version of zgoubi executable on the author's "trunk" branch. 
 
-The various folders contain zgoubi.dat input data files, and results under various forms including output data files xxx.res and other xxx.eps plot files. 
+The various folders contain 
+
+- one or more zgoubi input data files for a given example (a file with suffix ".dat"), and the corresponding result files *.res, and sometimes in addition *.eps plot files or other forms of computation outputs, 
+
+- or just one or more result files (suffix ".res")
+
+Zgoubi needs a zgoubi.dat as input file. It is obtained by copy-pasting a *.dat or a *.res file to zgoubi.dat. (that works with a .res file since the first part of a zgoubi result file is a copy of the zgoubi.dat file that it stems from).  
 
 Some of these examples are discussed in Part C of the users' guide. 
 

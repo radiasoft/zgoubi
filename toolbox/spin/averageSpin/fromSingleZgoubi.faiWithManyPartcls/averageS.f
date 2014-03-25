@@ -127,7 +127,8 @@ c                 read(*,*)
               sum(ipass,6)= sum(ipass,6)/dble(nbtraj(ipass))  ! avrg tta
               sum(ipass,7)= sum(ipass,7)/dble(nbtraj(ipass))  ! avrg tta^2
               xnrm=sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
-              write(iun,fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,a)')
+              write(iun,
+     >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        abs(xvar(ipass)), 
      >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg \vec S
      >        xnrm,  ! |av S|
@@ -136,6 +137,9 @@ c                 read(*,*)
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )  ,      ! sig_tta
      >        (sum(ipass,4)**2 + sum(ipass,5)**2) ,             ! sin^2 + cos^2 == 1 ?
      >        nbtraj(ipass), ipass,
+     >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 ) 
+     >         * 180./(4.* atan(1.d0)) 
+     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.),
      >        ' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
      >        //'sigTta, sin2+cos2, # of traj at that pass'
             endif
@@ -199,6 +203,7 @@ C     ---------------------------------------------------
 
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
+      dimension a(3),b(3),vv(3)
 
       CALL REWIN2(NL,*96)
       WRITE(6,*) '  READING  AND  STORING  COORDINATES...'
@@ -244,15 +249,33 @@ c     >      yzxb(21)**2 +
 c     >      yzxb(22)**2 + 
 c     >      yzxb(23)**2
 c                    read(*,*)
-            ctta = sum(ipass,1) * yzxb(21) + 
-     >      sum(ipass,2) * yzxb(22) + sum(ipass,3) * yzxb(23)
-            stta = sqrt(
-     >      (sum(ipass,2) * yzxb(23) - sum(ipass,3) * yzxb(22))**2+
-     >      (sum(ipass,3) * yzxb(21) - sum(ipass,1) * yzxb(23))**2+
-     >      (sum(ipass,1) * yzxb(22) - sum(ipass,2) * yzxb(21))**2)
+c            ctta = sum(ipass,1) * yzxb(21) + 
+c     >      sum(ipass,2) * yzxb(22) + sum(ipass,3) * yzxb(23)
+c            ttac = acos(ctta)
+            a(1) = sum(ipass,1)
+            a(2) = sum(ipass,2)
+            a(3) = sum(ipass,3)
+c            xa = sqrt(pscal(a,a))
+c            a(1) = a(1) / xa
+c            a(2) = a(2) / xa
+c            a(3) = a(3) / xa
+c            xxa = sqrt(pscal(a,a))
+            b(1) =  yzxb(21)
+            b(2) =  yzxb(22)
+            b(3) =  yzxb(23)
+            ctta = pscal(a,b)
+            xb = sqrt(pscal(b,b))
+c               write(*,*) ' |a|, |b| :', pscal(a,a),pscal(b,b)          
+            call vvect(a,b,vv)
+c            stta = sqrt(
+c     >      (sum(ipass,2) * yzxb(23) - sum(ipass,3) * yzxb(22))**2+
+c     >      (sum(ipass,3) * yzxb(21) - sum(ipass,1) * yzxb(23))**2+
+c     >      (sum(ipass,1) * yzxb(22) - sum(ipass,2) * yzxb(21))**2)
+            stta = sqrt(pscal(vv,vv))
             sum(ipass,4) = sum(ipass,4) + ctta
             sum(ipass,5) = sum(ipass,5) + stta
             tta = atan2(stta,ctta)
+            tta = acos(ctta)
 C            tta = acos(ctta)
 C                  read(*,*) 
 c                 write(*,*) ' tta, ctta , stta, ctta^2+stta^2 : ',
@@ -263,9 +286,10 @@ c     >             ctta**2+stta**2
 c                   read(*,*)
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
-c                 write(*,*) ' tta, sum_tta, sum_tta2 : ',
-c     >           tta, sum(ipass,6) , sum(ipass,7) 
-c                   read(*,*)
+                 write(*,*) ' tta, atg, acos, sum_tta, sum_tta2 : ',
+     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
+c     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2),xxa,xb
+c                  read(*,*)
           endif 
         else
           sum(ipass,1) = sum(ipass,1) + yzxb(ny)
@@ -1219,5 +1243,21 @@ C     -----------------------------------
          FINSTR=FINSTR-1
          IF(FINSTR.EQ. 0) RETURN
          IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
+      RETURN
+      END
+      SUBROUTINE VVECT(A,B,C)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION A(*),B(*),C(*)
+      C(1) = A(2)*B(3) - A(3)*B(2)
+      C(2) = A(3)*B(1) - A(1)*B(3)
+      C(3) = A(1)*B(2) - A(2)*B(13)
+      RETURN
+      END
+      FUNCTION PSCAL(X,Y)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION X(*),Y(*)
+ 
+      PSCAL=X(1)*Y(1)+X(2)*Y(2)+X(3)*Y(3)
+ 
       RETURN
       END

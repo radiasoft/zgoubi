@@ -3661,13 +3661,31 @@ $ X_S$, $\lambda_ S $    \>Parameters for the exit fringe field~; see entrance \
 \begin{tabbing}
 \mestab
  \textbf{SPINR}        \label{SPINR-B} \index{SPINR|textbf}
-     \> \textbf{SPINRTitl} \> \> \\
+     \> \textbf{\SPINRTitl} \> \> \\
+% \\
+% \\
+% $\Theta_x$, $\Phi_X$      \>Angles that define the spin precession axis. \>2*rad \>2*E \\
+% \\
+% $\mu$     \>Spin precession  angle. \>rad \>E \\
+% \\
  \\
  \\
- $\Theta_x$, $\Phi_X$      \>Angles that define the spin precession axis. \>2*rad \>2*E \\
+ \textsl{IOPT}       \> Option    \>0-2 \>I \\
  \\
- $\mu$     \>Spin precession  angle. \>rad \>E \\
+\textbf{If IOPT=0}  \>Element inactive \>\>\\
+\\
+$ X$, $X $        \> Unused \> 2*unused\> 2*E\\
+  \\
+\textbf{If IOPT=1}  \> Spin precession angle and axis are explicitly given.\\
  \\
+$\phi_Z$, $\mu$ \> Angle (in $(X,Y)$ plane) between the X-axis and the spin precession \> deg, deg \> 2*E \\
+                \>  axis~; spin precession angle \>  \>  \\
+\\
+\textbf{If IOPT=2}  \>\bf Given the spin precession direction in the horizontal plane, the spin precession \\
+         \> \bf angle follows a function of the Lorentz factor~: $\mu = \left(\frac{B}{B_0}\right)^2 * \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $  \\
+ \\
+$\phi_Z$, $B$, $B_0$,  \> Angle between the X-axis and the spin precession axis~; six \> deg.; 6*no dim \> 7*E \\
+$C_0$, $C_1$, $C_2$, $C_3$  \> coeficients. \>  \>  \\
 \end{tabbing}
  
 
