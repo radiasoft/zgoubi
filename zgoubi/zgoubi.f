@@ -206,7 +206,8 @@ C         Only if keyword is of optical element type or [MC]OBJET or END or MARK
           IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
-            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
+C            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
+            CALL OPTICC(        NOEL,KOPIMP,PRDIC,OKCPLD)
 
           ENDIF
         ENDIF
