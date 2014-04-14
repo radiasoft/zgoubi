@@ -65,7 +65,9 @@ C     >, PHY/(2.D0*PI), PHZ/(2.D0*PI), SCUM, NOEL
      >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
      >, Cstrn, '   ! otpimp.f'
  104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1x,a)
-     >,5(1X,E13.5),A,/)
+     >,5(1X,E13.5),A)
+C FM 14 Apr. 14
+C     >,5(1X,E13.5),A,/)
 
       RETURN
       END
