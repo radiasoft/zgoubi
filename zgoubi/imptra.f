@@ -55,13 +55,14 @@ C     2,4X,'Z(CM)',4X,'P(MR)',3X,'S(CM)'),/)
  
       DO 1 I=IMAX1,IMAX2
         WRITE(NRES,101) LET(I),IEX(I),(FO(J,I),J=1,6)
-     >  ,(F(J,I),J=1,6),I
+     >  ,(F(J,I),J=1,5),F(6,I),I
+C     >  ,(F(J,I),J=1,6),I
 C 101    FORMAT(' ',A1,1X,I2,1X,F8.4,5F10.3,6X,F8.4,4F9.3,1X,F10.3,1X,I6)
 C 101    FORMAT(A1,1X,I3,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.3,1X,I5)
 C Aug 2013
 C 101    FORMAT(A1,1X,I2,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.4,1X,I6)
  101    FORMAT(A1,1X,I2,1X,F8.4,4F10.3,1X,F12.4,
-     >                     2X,F8.4,4F9.3,1X,F14.4,1X,I5)
+     >                     2X,F8.4,4F9.3,1X,(1P,E14.6),1X,I5)
         IF(AM .NE. 0D0) THEN
           IF(IFDES.EQ.1) THEN
             WRITE(NRES,FMT='(15X,''Time of flight (mus) :'',

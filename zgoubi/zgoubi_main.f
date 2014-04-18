@@ -65,6 +65,17 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
         GOTO 995
       ENDIF
 
+      WRITE(6,*) ' '
+      WRITE(6,*) ' --'
+      WRITE(6,fmt='(a)') 
+     >'Now copying zgoubi executable to local directory.'
+      call system('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
+      WRITE(6,fmt='(a)') 'Now copying zpop executable to local '
+     >//'directory (if you wish to run it, use an xterm terminal).'
+      call system('cp ~/zgoubi/SVN/current/zpop/zpop .') 
+      WRITE(6,*) ' --'
+      WRITE(6,*) ' '
+
       CALL DATE2(DMY)
       CALL TIME2(HMS)
       CALL CPU_TIME(TIMSEC)

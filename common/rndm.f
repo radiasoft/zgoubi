@@ -55,7 +55,7 @@ c      REAL R
       logical first 
       save first
 C year month day time-utc hour min secon ms
-      dimension ival(8)
+C      dimension ival(8)
       save ir
       data first / .true. /
       data ir / 0 /

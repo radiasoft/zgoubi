@@ -68,15 +68,10 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1
-        SX = 0D0
-        SY = 0D0
-        SZ = 0D0
-        SXM = 0D0
-        SYM = 0D0
-        SZM = 0D0
-        SXMF = 0D0
-        SYMF = 0D0
-        SZMF = 0D0
+        SX =   0D0;  SY =   0D0;  SZ =   0D0
+        SXM =  0D0;  SYM =  0D0;  SZM =  0D0
+        SXF =  0D0;  SYF =  0D0;  SZF =  0D0 
+        SXMF = 0D0;  SYMF = 0D0;  SZMF = 0D0
         phim = 0.D0
 C        IF(IPASS.EQ.1) THEN
 C          SXMT = 0D0

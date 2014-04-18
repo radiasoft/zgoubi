@@ -1,10 +1,10 @@
 
 
-These examples are maintained. Efforts are made to ensure that they are run-able  with the latest version of zgoubi executable on the author's "trunk" branch. 
+These examples are maintained. Efforts are made to ensure that they are run-able with the latest version of zgoubi executable on the author's "trunk" branch. 
 
 The various folders contain 
 
-- one or more zgoubi input data files for a given example (a file with suffix ".dat"), and the corresponding result files *.res, and sometimes in addition *.eps plot files or other forms of computation outputs, 
+- one or more zgoubi input data files for a given example (a file with suffix ".dat"), and the corresponding result files (*.res suffix), and sometimes in addition *.eps plot files or other forms of computation outputs, 
 
 - or just one or more result files (suffix ".res")
 
