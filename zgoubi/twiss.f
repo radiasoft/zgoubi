@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TWISS(LUN,OKCPLD,
-     >                 KOPTCS, READAT)
+     >                            KOPTCS, READAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT, OKCPLD
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

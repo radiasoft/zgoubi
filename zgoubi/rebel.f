@@ -401,7 +401,7 @@ C------- Last but one pass through structure
         IF(KWRT .NE. 1) THEN
 C--------- reactive WRITE
           IF(NRES.LT.0) NRES=-NRES
-            KWRT = 1
+          KWRT = 1
         ENDIF
 
         LUN=ABS(NRES)
@@ -526,6 +526,10 @@ C REBELOTE should be usable within FIT -> under developement.
       KREB3O = KREB3
       KREB31O = KREB31
       KREB4O = KREB4
+      RETURN
+
+      ENTRY REBEL1(KWRTO)
+      KWRTO = KWRT
       RETURN
 
       ENTRY REBEL2(KPCKUP)

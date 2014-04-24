@@ -47,7 +47,7 @@ C      A(NOEL,10) = ANG
       IF(STRCON(TXT,'!',
      >                  IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       IF(IOP.EQ.2) THEN
-         READ(TXT,*,END=11,ERR=11) B, B0, C1, C12, C2, PHI
+         READ(TXT,*,END=11,ERR=11) PHI, B, B0, C1, C12, C2
          A(NOEL,10) = PHI
          A(NOEL,11) = B
          A(NOEL,12) = B0
@@ -57,19 +57,19 @@ C      A(NOEL,10) = ANG
          A(NOEL,16) = C3
          RETURN
       ELSE
-         READ(TXT,*,END=10,ERR=10) ANG, PHI
-         A(NOEL,10) = ANG
-         A(NOEL,11) = PHI
+         READ(TXT,*,END=10,ERR=10) PHI, ANG
+         A(NOEL,10) = PHI
+         A(NOEL,11) = ANG
          RETURN
       ENDIF
 
  10   WRITE(NRES,*) ' Format error in SPINR input data'
-      CALL ENDJOB('SBR RSPINR. Data must have the form angle, phi',-99)
+      CALL ENDJOB('SBR RSPINR. Data must be : phi, angle',-99)
       RETURN
 
  11   WRITE(NRES,*) ' Format error in SPINR input data'
-      CALL ENDJOB('SBR RSPINR. G.gammaata must have the form '//
-     >' "B, B0, C1, C12, C2, PHI"',-99)
+      CALL ENDJOB('SBR RSPINR. Data must be :  '//
+     >' PHI,  B, B0, C1, C12, C2',-99)
       RETURN
 
       END

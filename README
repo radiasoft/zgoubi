@@ -3,8 +3,16 @@ This is ZGOUBI, a program for computing the trajectories of charged particles.
 The directory layout is as follows:
 
 common   : Fortran files common to zgoubi and zpop
-doc      : Documentation for zgoubi
-exemples : Examples of zgoubi input files.
+doc      : Zgoubi users' guide, Zgoubi.pdf
+exemples : Examples of zgoubi input/ouptu files
 include  : Include files common to zgoubi and zpop
 zgoubi   : The zgoubi program itself
-zpop     : A program for plotting zgoubi results
+zpop     : A program for plotting/analyzing zgoubi results
+
+In this folder, "make" will create zgoubi executable and zpop executable, in that order. 
+
+Note that "make" may require ifort, or gfortran, or else. Comment/un-comment the FC variable and its attributes, 
+as needed, in Makefile_zgoubi.
+
+Problem ? in that case : fmeot@bnl.gov, jsberg@bnl.gov
+

@@ -48,8 +48,8 @@ C     ---------------------------
       IOPT = NINT(A(NOEL,1))
 
       IF(IOPT .EQ. 1)THEN
-         ANG = A(NOEL,10)
-         PHI = A(NOEL,11)
+         PHI = A(NOEL,10)
+         ANG = A(NOEL,11)
       ELSEIF(IOPT .EQ. 2)THEN
          PHI = A(NOEL,10)
          GMAREF = SQRT((BORO*DPREF*Q*CL9/AM)**2+1.d0)
@@ -91,9 +91,9 @@ C              phi=(ANG-int(ANG))*100.d0
            ENDIF
          ENDDO
 
-      IF(NRES.GT.0) WRITE(NRES,109) ANG, PHI
- 109  FORMAT(/,30X,'Spin rotator. Angle = ',F12.5,' deg., ',
-     >       /,30X,'              axis at ',F12.5,' deg. ',/)
+      IF(NRES.GT.0) WRITE(NRES,109) PHI, ANG
+ 109  FORMAT(/,30X,'Spin rotator. Axis at ',F12.5,' deg., ',
+     >       /,30X,'              Angle = ',F12.5,' deg. ',/)
 
 
       RETURN

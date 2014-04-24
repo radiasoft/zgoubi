@@ -1058,8 +1058,8 @@ C----- BETATRON. Betatron core
       IF(FITGET) CALL FITGT1
       CALL DPKICK(DPKCK)
       GOTO 998
-C----- TWISS. Compute linear lattice functions, chromaticity, etc. 
-C      Also prints periodic beta functions (sets KOPTCS to 1).
+C----- TWISS. Compute linear lattice functions, chromaticities, etc. 
+C      Also prints periodic beta functions (by setting KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]

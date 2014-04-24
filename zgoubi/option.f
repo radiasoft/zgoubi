@@ -37,6 +37,8 @@ C  -------
       LOGICAL FITING
       
       DATA NRSAV / -11111 /
+      data kwroff /  0 /
+
 C Numb of options. NBOP lines should follow
       NY = NINT(A(NOEL,1))
       NBOP = NINT(A(NOEL,2))
@@ -101,7 +103,9 @@ C Yann, 14-03-07. Necessary for the online model to work
             WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
      >      '''WRITE'' bit in ''OPTIONS'' set to 1.'
           ENDIF
-          KWROFF = 0
+          call rebel1(
+     >                 kwrt)
+          if(kwrt.ne.0)  KWROFF = 0
         ENDIF
       ENDIF
 
