@@ -6,6 +6,7 @@ common   : Fortran files common to zgoubi and zpop
 doc      : Zgoubi users' guide, Zgoubi.pdf
 exemples : Examples of zgoubi input/ouptu files
 include  : Include files common to zgoubi and zpop
+toolbox  : A library of small programs that perform elementary data treatment functions (find orbit, betatron functions, DA, etc.)
 zgoubi   : The zgoubi program itself
 zpop     : A program for plotting/analyzing zgoubi results
 
