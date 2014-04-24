@@ -1,0 +1,14 @@
+# E1 for obtaining non-standard features, e.g. the DATE routine
+# -g for debbug, -O for optimizer, +O3 for higher optim, 
+#    -K for statiq mem alloc.
+CFLAGS 	=  
+FFLAGS	= -cgK  +E1
+MODULEC = 
+MODULEF = \
+	/javelbig1/meot/mad/tools/trmadzgoubi/lhc/madzg.f
+# obtient la liste des .o a partir des .f :
+OBJECTF = $(MODULEF:.f=.o)
+OBJECTC = $(MODULEC:.c=.o)
+OBJECTS = $(OBJECTF) $(OBJECTC)
+madzg  :$(OBJECTS)
+	fort77  $(OBJECTS) -lm -o $@

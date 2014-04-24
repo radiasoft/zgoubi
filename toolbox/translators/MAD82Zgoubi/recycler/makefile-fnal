@@ -1,0 +1,12 @@
+#
+CFLAGS 	=  
+FFLAGS	= 
+MODULEC = 
+MODULEF = \
+	/home/calvin/meot/mad/tools/trmadzgoubi/lhc/madzg.f
+# obtient la liste des .o a partir des .f :
+OBJECTF = $(MODULEF:.f=.o)
+OBJECTC = $(MODULEC:.c=.o)
+OBJECTS = $(OBJECTF) $(OBJECTC)
+madzg  :$(OBJECTS)
+	f77  $(OBJECTS) -o $@
