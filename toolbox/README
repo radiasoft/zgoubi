@@ -1,0 +1,8 @@
+A set of short programs that perform elementary functions : 
+
+betaFromMatrix : will extract betatron functions and other tune values from zgoubi.res, assuming they have been computed using MATRIX.  MATRIX outputs may occur downstream of all elements, using OPTICS option, this is a way to obtain beta_x,y(s), mu_x,y(s), etc. 
+
+lipsFitFromFai : 
+
+
+
