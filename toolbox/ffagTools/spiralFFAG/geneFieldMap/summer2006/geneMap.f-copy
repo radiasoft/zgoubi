@@ -1,0 +1,210 @@
+      PARAMETER (NA=300,NR=100)
+      DIMENSION atab(na),rtab(nr),BZ(NA,NR)
+
+      OPEN(UNIT=10,FILE='FIELDMAP',FORM='FORMATTED')
+      PI=4.*ATAN(1.)
+C     DATA DEB
+C      NCELL=12.
+      B0 = 15.        ! KG
+      AK = 2.5  
+C      AT =2.* PI/NCELL               
+      XI=50.* PI/180
+      R0 = 4
+      PF=1./3.
+      NCELL = 4
+      R2D=180./PI
+      d2r = 1./R2D
+ 
+      RMIN = R0 - 1.
+      RMAX = R0 
+      XACC=0.0001     ! accuracy for Newton zero method
+
+      RO1=R0
+      B1=1/TAN(XI)
+      RO2=R0
+      B2=B1
+
+C      AMIN=1/AMAX1(B1,B2)*ALOG(RMIN/AMAX1(RO1,RO2)) 
+C      AMAX=1/AMIN1(B1,B2)*ALOG(RMAX/AMIN1(RO1,RO2)) 
+C          WRITE(*,*) AMIN, AMAX
+C          WRITE(*,*) ALOG(RMIN /R0)/ B1,ALOG(RMAX /R0)/ B1
+C      AT=AMAX-AMIN
+      AT = 2. * PI / NCELL
+      OMEGA = AT  * PF /2.
+      TTA1=   OMEGA
+      TTA2=  -OMEGA
+      AMIN = -AT/2.
+      AMAX =  AT/2.
+      WRITE(6,*) ' Total sector angle : ',AT*r2d,' deg.'
+      WRITE(6,*) ' Magnetic sector : ',(TTA1-TTA2)*R2D,' deg.'
+      CALL FLLOF1(TTA1,TTA2)
+
+      G=0.1           ! Gap size
+      C0=0.1455        ! fringe coefficients
+      C1=2.267
+      C2=-.6395
+      C3=1.1558
+      C4=0.
+      C5=0.      
+C     DATA FIN
+      
+      ASTP = AT/FLOAT(NA-1)
+      RSTP = (RMAX-RMIN)/FLOAT(NR-1)
+
+      WRITE(6,*) '  astp, rstp : ',ASTP*d2r, RSTP,AMIN*R2D,AMAX*R2D
+      TEMP = TIMSEC
+
+      DO IR = 1, NR, 20
+
+        R = RMIN + (IR-1.)*RSTP
+
+        rtab(ir) = r
+         write(88,*) 
+        call field1(99999.,99999.)
+
+        WRITE(10,*) 
+
+        DO IA = 1, NA, 10
+
+          A = AMIN + (IA-1.)*ASTP
+            if(ir.eq.1 ) atab(ia) = a
+C          XB = 3.
+C          YB = 1.
+C          A = ATAN2(YB,XB)
+C          R = SQRT(XB*XB + YB*YB)
+
+C          write(*,*) '  Observation of field B at point xb, yb =',
+C     >           r * cos(a), r * sin(a)
+C          write(*,*) '                                    A, R =',a,r
+
+          CALL FIELD(A,R,B0,R0,AK,AMIN,AMAX,XACC,
+     >                      RO1,B1,RO2,B2,G,C0,C1,C2,C3,C4,C5,
+     >                                                  de,fe,ds,fs,B)
+        WRITE(10,FMT='(1P, 3G12.4, 2I4,4G12.4)') A,B, 
+     >                                R, IA,IR,de,fe,ds,fs
+C          WRITE(6,FMT='(1P, 3G14.6, 2I5)') A,R,B,IA,IR
+
+        ENDDO
+      ENDDO
+
+
+      TEMP = TIMSEC
+      CALL CPU_TIME(TIMSEC)
+      WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
+
+      STOP
+      END
+
+      SUBROUTINE FIELD(A,R,B0,R0,AK,AMIN,AMAX,XACC,
+     >                      RO1,B1,RO2,B2,G,C0,C1,C2,C3,C4,C5,
+     >                                                de,fe,ds,fs,B)
+       save de1, ds1
+         SAVE TTA1,TTA2
+
+C  Distance to first EFB, and field factor
+         DE=-DSTEFB(A,R,RO1,B1,AMIN,AMAX,XACC,TTA1)
+         if(abs(de).gt.de1) de = -de
+         de1 = abs(de)
+         GE=DE/G         
+         FE=1./(1+EXP(C0+C1*GE+C2*GE**2+C3*GE**3+C4*GE**4+C5*GE**5))
+
+C  Distance to first EFB, and field factor
+         DS=DSTEFB(A,R,RO2,B2,AMIN,AMAX,XACC,TTA2)
+         if(ds.gt.ds1) ds = -ds
+         ds1 = ds
+         GS=DS/G
+         FS=1./(1+EXP(C0+C1*GS+C2*GS**2+C3*GS**3+C4*GS**4+C5*GS**5))
+
+      pi = 4. * atan(1.)
+      R2D=180./PI
+      d2r = 1./R2D
+c         write(88,fmt='(1p, 6G14.6)') a*r2d, r, de, fe,ds,fs
+         write(88,fmt='(1p, 6G14.6)')a*r0, fe*fs, fe, fs !r*cos(a),r*sin(a)
+
+         B = B0 * (R/R0)**AK*FE*FS 
+C         WRITE(6,*) A,R,B
+
+      RETURN
+      
+      ENTRY Field1(de1i,ds1i)
+      de1=de1I
+      ds1=ds1I
+      RETURN
+
+      ENTRY FLLOF1(TTA1I,TTA2I)
+      TTA1=TTA1I
+      TTA2=TTA2I
+      RETURN
+
+      END
+
+      FUNCTION DSTEFB(A,R,D,E,AMIN,AMAX,XACC,TTARF)
+      tz=RTNEWT(A,R,D,E,AMIN,AMAX,XACC,TTARF)
+      xN = D*EXP(E*tz)*COS(tz+TTARF)
+      yN = D*EXP(E*tz)*SIN(tz+TTARF)
+c      xb = r * cos(a)
+c      yb = r * sin(a)
+      DSTEFB=SQRT((R*COS(A) - xN)**2
+     >               +(R*SIN(A) - yN)**2)
+      RETURN
+
+      entry dstef1(d1In)
+      d1 = d1In
+      RETURN
+      END
+      
+      FUNCTION RTNEWT(A,R,D,E,X1,X2,XACC,TTARF)
+      PARAMETER (JMAX=10000)
+      RTNEWT=.5*(X1+X2)
+C          write(*,*) ' rtnewt0, amin, amax : ',RTNEWT ,x1, x2
+      DO 11 J=1,JMAX
+         CALL FUNCD(RTNEWT,A,R,D,E,F,DF,TTARF)
+C         write(*,*) ' (RTNEWT) t, fctn = ',RTNEWT, F, J
+         DX=F/DF
+         RTNEWT=RTNEWT-DX
+c         IF((X1-RTNEWT)*(RTNEWT-X2).LT.0.)PAUSE 'jumped out of brackets'
+         IF((X1-RTNEWT)*(RTNEWT-X2).LT.0.) goto 11
+         IF(ABS(DX).LT.XACC) RETURN 
+ 11      CONTINUE
+C      PAUSE 'RTNEWT exceeding maximum iterations'
+      RETURN
+      END
+
+      SUBROUTINE FUNCD(X,A,R,D,E,FN,DF,TTARF)
+      FN=FCTN(A,R,D,E,X,TTARF)
+      DF=DFCTN(A,R,D,E,X,TTARF)
+      RETURN
+      END
+      
+      FUNCTION FCTN(A,R,R0,B,t,TTARF)
+      E = EXP(1.)
+      xb = R * COS(A)
+      yb = R * SIN(A)
+      FCTN= 
+     - (xb - E**(b*t)*r0*Cos(TTARF + t))*
+     -   (b*E**(b*t)*r0*Cos(TTARF + t) - E**(b*t)*r0*Sin(TTARF + t)) + 
+     - (yb - E**(b*t)*r0*Sin(TTARF + t))*
+     -   (E**(b*t)*r0*Cos(TTARF + t) + b*E**(b*t)*r0*Sin(TTARF + t))
+C        write(*,*) ' (FCTN) t, fctn = ',t, FCTN,b,xb,yb,e,TTARF,r0
+      RETURN
+      END
+
+      FUNCTION DFCTN(A,R,R0,B,t,TTARF)
+      E = EXP(1.)
+      xb = R * COS(A)
+      yb = R * SIN(A)
+       DFCTN= 
+     - (b*E**(b*t)*r0*Cos(TTARF + t) - E**(b*t)*r0*Sin(TTARF + t))*
+     - (-(b*E**(b*t)*r0*Cos(TTARF + t)) + E**(b*t)*r0*Sin(TTARF + t)) + 
+     -  (xb - E**(b*t)*r0*Cos(TTARF + t))*
+     - (-(E**(b*t)*r0*Cos(TTARF + t))+ b**2*E**(b*t)*r0*Cos(TTARF + t)- 
+     -     2*b*E**(b*t)*r0*Sin(TTARF + t)) + 
+     -  (-(E**(b*t)*r0*Cos(TTARF + t)) - b*E**(b*t)*r0*Sin(TTARF + t))*
+     -   (E**(b*t)*r0*Cos(TTARF + t) + b*E**(b*t)*r0*Sin(TTARF + t)) + 
+     -  (yb - E**(b*t)*r0*Sin(TTARF + t))*
+     -   (2*b*E**(b*t)*r0*Cos(TTARF + t) - E**(b*t)*r0*Sin(TTARF + t) + 
+     -     b**2*E**(b*t)*r0*Sin(TTARF + t))
+      RETURN
+      END
+
+     

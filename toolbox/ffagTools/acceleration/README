@@ -1,0 +1,19 @@
+To generate a frequency law for Zgoubi/CAVITE : 
+Note : (i)  E1, E2 in Et2fn.In must be same values as in lattice.data
+       (ii) V in Et2fn.In must be same as V in zgoubi/CAVITE 
+1- generate several 10's of co's (max number is nd value in Et2fn.f)  -  in particular case of spiral FFAG, 
+                           run geneMap, input data file for geneMap is lattice.data
+2- zgoubi_searchCO-In.dat is needed  (if geneMap is used, just  'cp zgoubi_geneMap-Out.dat zgoubi_searchCO-In.dat')
+3- run searchCO (or searchCOs_From1Traj) to get precise co's, this will generate searchCO.out_COs
+4- run Et2nf with searchCO.out_COs as input (link to Et2nf.In2), this will generate Et2nf.Out ; 
+  a 2nd input data file is needed, named Et2nf.In
+5- Et2nf.Out is the input zgoubi.freqLaw.In to zgoubi/CAVITE (do :  ln -sf  Et2nf.Out zgoubi.freqLaw.In)
+
+Note : format for SCALING : 
+		'SCALING'    #START                                                                 4
+		 1   1
+		CAVITE
+		 -2    
+		     1  unused
+		     1  unused
+

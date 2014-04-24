@@ -1,0 +1,293 @@
+      character*132 txt132
+      character*100 cmmnd
+      parameter(lunR=7, lunW=8)
+
+      open(unit=lunR,file='gnuplot_alfa.Out',status='old')
+      read(lunR,*) txt132
+      read(lunR,*) aL0, gtr, alfa, alfa1, alfa2
+      close(lunR)
+      open(unit=lunR,file='gnuplot_eta.Out',status='old')
+      read(lunR,*) txt132
+      read(lunR,*) T0, eta, eta1, eta2 
+      close(lunR)      
+      open(unit=lunR,file='gnuplot_dQdp.Out',status='old')
+      read(lunR,*) Qx0,Qx1,Qx2,Qx3
+      read(lunR,*) Qy0,Qy1,Qy2,Qy3
+      close(lunR)
+
+C Open ./Log_Chroma/log_Chroma.tex and write body
+      open(unit=lunW,file='./Log_Chroma/log_Chroma.tex',status='old')
+      call gotoEnd(lunW,
+     >                  line)
+
+      txt132 = '\clearpage'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\begin{figure}[h]'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) txt132
+      txt132 = '\begin{center}'
+      write(lunW,*) txt132
+
+      txt132 = '\includegraphics*['
+     >//'bbllx=50,bblly=50,bburx=285,bbury=163,'
+     >//'width=14cm,height=5cm]{'
+     >  //'gnuplot_alfa.eps}'
+      write(lunW,*) txt132
+      txt132 = '\vspace{-2ex}'
+      write(lunW,*) txt132
+      txt132 = '  \caption{ \label{'
+     >//'FigAlfa}'
+      write(lunW,*) txt132
+      txt132 = 'Momentum dependence of orbit length.'
+      write(lunW,*) txt132
+      txt132 = ' }'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = '\vspace{5ex}'
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) '$L_0 = ',aL0
+     >,'$, $\gamma_{tr} = ',gtr
+     >,'$, $\alpha = ',alfa,'$,  $\alpha_1 = ',alfa1
+     >,'$, $\alpha_2 = ',alfa2,'$'
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \vspace{5ex}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\rule{100mm}{0.2mm}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \end{center}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      txt132 = '\end{figure}'
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' ~ '
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' ~ '
+      write(lunW,*) txt132
+
+
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\begin{figure}[h]'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) txt132
+      txt132 = '\begin{center}'
+      write(lunW,*) txt132
+
+      txt132 = '\includegraphics*['
+     >//'bbllx=50,bblly=50,bburx=285,bbury=163,'
+     >//'width=14cm,height=5cm]{'
+     >  //'gnuplot_eta.eps}'
+      write(lunW,*) txt132
+      txt132 = '\vspace{-2ex}'
+      write(lunW,*) txt132
+      txt132 = '  \caption{ \label{'
+     >//'FigEta}'
+      write(lunW,*) txt132
+      txt132 = 'Momentum dependence of revolution time.'
+      write(lunW,*) txt132
+      txt132 = ' }'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = '\vspace{5ex}'
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) '$T_0 = ',T0
+     >,'$, $\eta = ',eta,'$,  $\eta_1 = ',eta1 
+     >,'$, $\eta_2 = ',eta2,'$'
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \vspace{5ex}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\rule{100mm}{0.2mm}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \end{center}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      txt132 = '\end{figure}'
+      write(lunW,*) txt132
+
+
+
+
+      txt132 = '\clearpage'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\begin{figure}[h]'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) txt132
+      txt132 = '\begin{center}'
+      write(lunW,*) txt132
+
+      txt132 = '\includegraphics*['
+     >//'bbllx=50,bblly=50,bburx=285,bbury=163,'
+     >//'width=14cm,height=5cm]{'
+     >  //'gnuplot_Chroma.eps}'
+      write(lunW,*) txt132
+      txt132 = '\vspace{-2ex}'
+      write(lunW,*) txt132
+      txt132 = '  \caption{ \label{'
+     >//'FigdQdp}'
+      write(lunW,*) txt132
+      txt132 = 'Momentum dependence of tunes, and '
+     >//' matching polynomials $Q(\delta) = Q_0 + Q''\delta '
+     >//' + Q'''' \delta^2  Q'''''' \delta^3$. '
+      write(lunW,*) txt132
+      txt132 = ' }'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = '\vspace{5ex}'
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) 'Horizontal~:  $Q_x = ',Qx0,'$, $Q_x'' = ',Qx1
+     >,'$, $Q_x'''' = ',Qx2,'$,  $Q_x'''''' = ',Qx3,'$' 
+      txt132 = ' '
+      write(lunW,*) txt132
+      write(lunW,*) 'Vertical~:  $Q_y = ',Qy0,'$, $Q_y'' = ',Qy1
+     >,'$, $Q_y'''' = ',Qy2,'$,  $Q_y'''''' = ',Qy3,'$' 
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \vspace{5ex}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\rule{100mm}{0.2mm}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = 'MONITORING'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \vspace{5ex}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = '\includegraphics*['
+     >//'bbllx=50,bblly=50,bburx=285,bbury=163,'
+     >//'width=14cm,height=5cm]{'
+     >//'gnuplot_xxp.eps}'
+      write(lunW,*) txt132
+      txt132 = '\vspace{-2ex}'
+      write(lunW,*) txt132
+      txt132 = '  \caption{ \label{'
+     >  //'Figxxp}'
+      write(lunW,*) txt132
+      txt132 = ' Horizontal phase-space motions used for computing '
+      write(lunW,*) txt132
+      txt132 = ' Qx values as shown in Fig.~\ref{FigdQdp}. ' 
+      write(lunW,*) txt132
+      txt132 = ' }'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = '\vspace{6ex}'
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = '\includegraphics*['
+     >//'bbllx=50,bblly=50,bburx=285,bbury=163,'
+     >//'width=14cm,height=5cm]{'
+     >//'gnuplot_yyp.eps}'
+      write(lunW,*) txt132
+      txt132 = '\vspace{-2ex}'
+      write(lunW,*) txt132
+      txt132 = '  \caption{ \label{'
+     >  //'Figyyp}'
+      write(lunW,*) txt132
+      txt132 = ' Vertical phase-space motions used for computing '
+      write(lunW,*) txt132
+      txt132 = ' Qy values as shown in Fig.~\ref{FigdQdp}. ' 
+      write(lunW,*) txt132
+      txt132 = ' }'
+      write(lunW,*) txt132
+      txt132 = ' '
+      write(lunW,*) txt132
+
+      txt132 = ' '
+      write(lunW,*) txt132
+      txt132 = ' \end{center}'
+      write(lunW,*) txt132
+      txt132 = ' '
+      txt132 = '\end{figure}'
+      write(lunW,*) txt132
+
+      close(lunW)
+      
+cC End section of geneTexlog.tex
+c      cmmnd = 
+c     >'~/zgoubi/struct/tools/spin/xing_geneTexLog/geneTexEnd'
+c      call system(cmmnd)
+
+      stop
+      end
+      subroutine gotoEnd(lunW,
+     >                        line)
+      character*132 txt132
+      line = 0
+ 1    continue
+        read(lunW,*,err=99,end=10) txt132
+        line = line + 1
+        goto 1
+
+ 10   continue
+      return
+
+ 99   continue
+      write(*,*) ' '
+      write(*,*) '************* '
+      write(*,*) 'Pgm geneTexEnd.  Error reading in lunW ' 
+      write(*,*) 'line = ',line
+      write(*,*) '************* '
+      write(*,*) ' '
+      stop 
+      end
+

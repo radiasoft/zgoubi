@@ -1,0 +1,43 @@
+#!/home/frederic/gnuplot/bin/gnuplot
+#
+#    
+#    	G N U P L O T
+#    	Version 4.6 patchlevel 0    last modified 2012-03-04 
+#    	Build System: Linux i686
+#    
+#    	Copyright (C) 1986-1993, 1998, 2004, 2007-2012
+#    	Thomas Williams, Colin Kelley and many others
+#    
+#    	gnuplot home:     http://www.gnuplot.info
+#    	faq, bugs, etc:   type "help FAQ"
+#    	immediate help:   type "help"  (plot window: hit 'h')
+a = 0.0223777263239703
+b = 1.19265548195924
+c = 16.7508516807456
+GPFUN_Q1 = "Q1(x) = a*x**2 + b*x + c"
+d = -0.0234874421084651
+e = -1.28770984572281
+f = -16.8224234193694
+GPFUN_Q2 = "Q2(x) = d*x**2 + e*x + f"
+g = 0.0220856145708591
+h = 1.44013437415142
+GPFUN_QX = "QX(x) = g*x+h"
+i = -0.0575293745432948
+j = -0.711447628671083
+GPFUN_QY = "QY(x) = i*x+j"
+FIT_LIMIT = 1e-08
+FIT_CONVERGED = 1
+a_err = 0.000304749376940323
+b_err = 0.0163707685753945
+c_err = 0.219795784516966
+FIT_NDF = 98
+FIT_STDFIT = 0.000455999024639947
+FIT_WSSR = 2.03776408263131e-05
+d_err = 0.000300607066184919
+e_err = 0.0161482486430282
+f_err = 0.216808206818316
+g_err = 0.000107960297880069
+h_err = 0.00290013559808218
+i_err = 9.29238791193117e-05
+j_err = 0.00249621254329198
+#    EOF

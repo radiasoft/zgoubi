@@ -1,0 +1,25 @@
+
+
+                                        ####################################
+                                        #          FIT PARAMETERS          #
+                                        ####################################
+
+
+
+
+        NUMBER OF POINTS:      100
+        TOLERANCE:           1.E-8
+
+
+        FIT OF Q1:         0.02237773*KQUAD**2 +    1.19265548*KQUAD +   16.75085168
+        FIT OF Q2:        -0.02348744*KQUAD**2 +   -1.28770985*KQUAD +  -16.82242342
+        FIT OF QX:                                  0.02208561*KQUAD +    1.44013437
+        FIT OF QY:                                 -0.05752937*KQUAD +   -0.71144763
+
+        LOCATION OF THE LINEAR DIFFERENCE RESONANCE:      -27.02483574  T/M
+        DELTA Q MINIMUM:                                    0.03905677
+
+
+        FIT OF THE RELATIVE ERROR BETWEEN DELTAQ AND THE COUPLING COEFFICIENT:
+      .32636800E-01*KQUAD**6 + .49518683E+01*KQUAD**5 + .31242638E+03*KQUAD**4 + 
+      .10490507E+05*KQUAD**3 + .19768650E+06*KQUAD**2 + .19819719E+07*KQUAD    + .82579700E+07

@@ -1,0 +1,2 @@
+10      0.01  499      NdxIn,preczIn,nTrnIn == # of dx step, precision on z-DA (cm), #turns for z-DA tracking
+NdxIn   preczIn   nTrnIn

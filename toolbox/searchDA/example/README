@@ -1,0 +1,51 @@
+
+* searchDA can be used for synchrotrons, FFAGs, cyclotrons, in the same way for all, described below. 
+
+* The executable is "searchDA". It has to be run in the folder where both searchDA.in and zgoubi_searchDA-In.dat 
+  stand, see below.
+
+* Lattice of concern in this example is EMMA type of doublet. It has the merit of yielding a 
+  fast example (just a couple of quads to be tracked in).
+
+* What searchDA does : 
+
+searchDA will look for the DA, in (x,y) space (the (Y,Z) space in Zgoubi notations) at one or more 
+momenta,  as specified by the user in the input file "zgoubi_searchDA-In.dat" see below.
+It does that in the following way : 
+  - 1/ look for the maximum stable x, xM
+  - 2/ look for the maximum stable x, xm
+  - 3/ look for the maximum stable y at various x values in the [xm,xM] interval.
+To achieve that, searchDA essentially runs zgoubi executable (by "system calls"), a repeated number of times, 
+after shaping zgoubi.dat in an appropriate way. 
+
+
+* Using searchDA : 
+ 
+A/ searchDA requires two input files : 
+
+	 1/ "searchDA.in", which tells DA search conditions - see therein
+	 2/ a zgoubi input data file named "zgoubi_searchDA-In.dat". 
+
+B/ as to zgoubi_searchDA-In.dat : 
+
+   1/ Make sure that zgoubi_searchDA-In.dat does run (copy it to zgoubi.dat and run zgoubi, to check that)
+   2/ zgoubi_searchDA-In.dat must have an 'OBJET' of type 2.  Number of particles is arbitrary.  
+      Each particle in this type-2 object has a particular momentum. searchDA will look for the DA for each momentum 
+      that appears there.  
+
+C/ run searchDA in the presence of its two input data files.  While executing, searchDA writes its outputs into 
+   searchDA.out, which can be examined (e.g., using emacs) simultaneously. 
+
+D/ results in  searchDA.out are organized in such a way to allow direct plot  using gnuplot. 
+   "gnuplot <./gnuplot_DA.cmd", in the present package, does that. It reads from searchDA.out and produces 
+    gnuplot_DAs.eps. 
+    gnuplot_DA.cmd may need some adjustment depending on the number of momenta or other user's needs. 
+
+
+
+
+
+
+
+
+

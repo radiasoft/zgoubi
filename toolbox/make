@@ -1,0 +1,33 @@
+echo ' '
+echo '(cd betaFromMatrix ; ./make )'
+(cd betaFromMatrix ; ./make )
+echo ' '
+echo '(cd b_fai2Fai ; ./make )'
+(cd b_fai2Fai ; ./make )
+echo ' '
+echo '(cd  getDiffFromFai ; ./make )'
+(cd  getDiffFromFai ; ./make )
+echo ' '
+echo '(cd  lipsFitFromFai ; ./make )'
+(cd  lipsFitFromFai ; ./make )
+echo ' '
+echo '(cd  searchCO ; ./make )'
+(cd  searchCO ; ./make )
+echo ' '
+echo '(cd  searchCOs_From1Traj ; ./make )'
+(cd  searchCOs_From1Traj ; ./make )
+echo ' '
+echo '(cd  searchChroma ; ./make )'
+(cd  searchChroma ; ./make )
+echo ' '
+echo '(cd  searchDA ; ./make )'
+(cd  searchDA ; ./make )
+echo ' '
+echo '(cd  searchStabLim ; ./make )'
+(cd  searchStabLim ; ./make )
+echo ' '
+echo '(cd  tunesFromFai ; ./make )'
+(cd  tunesFromFai ; ./make )
+echo ' '
+echo '(cd  tunesFromMATRIX ; ./make )'
+(cd  tunesFromMATRIX ; ./make )
