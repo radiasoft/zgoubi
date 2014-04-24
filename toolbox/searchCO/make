@@ -1,7 +1,0 @@
- gfortran -o searchCO searchCO.f
- gfortran -o searchCO_short searchCO_short.f
- gfortran -o  geneGnuPlots  geneGnuPlots.f
- gfortran -o  geneTexBody  geneTexBody.f
- gfortran -o  geneTexEnd  geneTexEnd.f
- gfortran -o  geneTexIni  geneTexIni.f
- gfortran -o  geneTexLog  geneTexLog.f

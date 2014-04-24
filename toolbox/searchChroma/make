@@ -1,6 +1,0 @@
- gfortran -o geneTexEnd geneTexEnd.f
- gfortran -o geneTexIni geneTexIni.f
- gfortran -o geneTexBody geneTexBody.f
- gfortran -o geneTexLog geneTexLog.f
- gfortran -o searchChroma searchChroma.f
- gfortran -o geneGnuPlots geneGnuPlots.f

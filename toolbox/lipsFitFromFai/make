@@ -1,2 +1,0 @@
-gfortran -O5 -o lipsFitFromFai lipsFitFromFai.f
-gfortran -O5 -o lipsFitFromFai_iterate lipsFitFromFai_iterate.f

@@ -1,2 +1,0 @@
-ifort -O5 -o spinTuneFromFai spinTuneFromFai.f
-ifort -O5 -o spinTuneFromFai_iterate spinTuneFromFai_iterate.f

@@ -1,1 +1,0 @@
-gfortran -O5 -o searchStabLim searchStabLim.f
