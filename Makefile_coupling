@@ -1,6 +1,10 @@
 CFLAGS=-g -DGFORTRAN4
-FC=gfortran
-FFLAGS=-O4 -Wall -fno-automatic -pedantic
+FC=/opt/intel/bin/ifort
+FFLAGS= -xHOST -O4 -ip -save
+##FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
+############
+#FC=gfortran
+#FFLAGS=-O4 -Wall -fno-automatic -pedantic
 
 .POSIX:
 

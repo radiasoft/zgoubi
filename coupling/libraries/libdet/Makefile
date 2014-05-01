@@ -5,7 +5,7 @@
 
 CC = gfortran
 CFLAGS = -W
-OBJ = getdet.o 
+OBJ = caxpy.o  cgeco.o  cgedi.o  cgefa.o  cscal.o  cswap.o getdet.o 
 
 all: $(OBJ)
 

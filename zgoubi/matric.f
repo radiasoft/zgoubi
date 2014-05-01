@@ -222,11 +222,10 @@ C      CLOSE(lunR,IOSTAT=IOS1)
       CLOSE(lunW,IOSTAT=IOS2)
 c----------------------------------------------
 
-C      call system('/home/meot/zgoubi/struct/tools/ETparam/ETparam')
-      cmmnd = '/home/owl/fmeot/zgoubi/current/coupling/ETparam'
-c      write(6,*) ' Pgm matric. Now doing ' 
-c     > // cmmnd(debstr(cmmnd):finstr(cmmnd))
-      CALL SYSTEM(cmmnd)
+c      cmmnd = '/home/owl/fmeot/zgoubi/current/coupling/ETparam'
+c      CALL SYSTEM(cmmnd)
+
+      call tunesc
 
 c            read(*,*)
 

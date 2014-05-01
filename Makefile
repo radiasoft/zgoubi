@@ -3,7 +3,6 @@
 
 all :
 	$(MAKE) -f Makefile_zgoubi
-	$(MAKE) -f Makefile_coupling
 	$(MAKE) -f Makefile_zpop
 
 clean :

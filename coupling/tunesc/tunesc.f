@@ -1,3 +1,27 @@
+C  ZGOUBI, a program for computing the trajectories of charged particles
+C  in electric and magnetic fields
+C  Copyright (C) 1988-2007  François Méot
+C
+C  This program is free software; you can redistribute it and/or modify
+C  it under the terms of the GNU General Public License as published by
+C  the Free Software Foundation; either version 2 of the License, or
+C  (at your option) any later version.
+C
+C  This program is distributed in the hope that it will be useful,
+C  but WITHOUT ANY WARRANTY; without even the implied warranty of
+C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C  GNU General Public License for more details.
+C
+C  You should have received a copy of the GNU General Public License
+C  along with this program; if not, write to the Free Software
+C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
+C  Boston, MA  02110-1301  USA
+C
+C  François Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory 
+C  C-AD, Bldg 911
+C  Upton, NY, 11973
+C  -------
 c     tunesc.f
 c     written by Frédéric Desforges, frederic.desforges@grenoble-inp.org
 c
@@ -12,18 +36,19 @@ C                 - integer and half-integer tunes forbidden
 C                 - vertical tune and horizontal not perfectly equal
 C
 c
+      SUBROUTINE TUNESC
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
       DIMENSION R(4,4),REIG(4,4),Q(4,4),U(4,4),WR(4),WI(4),P(4,4),PINV(4
      >,4),A(4,4),GV1(16),FV1(16),WORK(4),G(4,4),C(2,2),NUTEST(4)
       DOUBLE COMPLEX EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2,F1001,F1010
       INTEGER   IPIV,IERR,INFO,IOS1,IOS2,IOS3,IOS4,IOS7,IOS8
       DIMENSION IPIV(4)
-      CHARACTER*300 BUFFER
+      CHARACTER(300) BUFFER
       LOGICAL STRCON,N_PROP
-      CHARACTER*300 LABEL,KEYWOR
+      CHARACTER(300) LABEL,KEYWOR
 
       PARAMETER (PI = 3.141592653589793)
-
+      logical ok, idluni
 
 c      CALL SYSTEM('rm transfertM.dat')
 c      CALL SYSTEM('touch transfertM.dat')
@@ -31,8 +56,9 @@ c      CALL SYSTEM('touch transfertM.dat')
 
 c     Opening of the file containing the transfert matrix
 
-      OPEN(1, FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
-
+      ok = idluni(
+     >            lunt) 
+      OPEN(lunt, FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
 
 c     Zgoubi calculations
 
@@ -44,11 +70,11 @@ c      CALL SYSTEM('/home/frederic/zgoubiCoupling/zgoubi/zgoubi')
 
 C     Transfert matrix in coupled referential
 
-      READ(1,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(1,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(1,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(1,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(1,*)((R(I,J),J=1,4),I=1,4)
+      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
+      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
+      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
+      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
+      READ(lunt,*)((R(I,J),J=1,4),I=1,4)
 
       GOTO 1
 
@@ -58,7 +84,7 @@ C     Transfert matrix in coupled referential
 
  99   CONTINUE
 
-      CLOSE(1,IOSTAT=IOS1)      
+      CLOSE(lunt,IOSTAT=IOS1)      
 
 c      WRITE(*,FMT='(/,6X,''TRANSFERT MATRIX (Rij) IN THE COUPLED FRAME''
 c     >,/)')
@@ -71,10 +97,10 @@ C     Computation of eigen values and eigen vectors
       REIG = R
       CALL RG(4,4,REIG,WR,WI,1,Q,GV1,FV1,IERR)         ! The output matrix Q is composed of as follows:
                                                        ! 1st column: real part of eigenvector 1
-      EV1 = COMPLEX(WR(1),WI(1))                       ! 2nd column: imaginary part of eigenvector 1
-      EV2 = COMPLEX(WR(2),WI(2))                       ! 3rd column: real part of eigenvector 2
-      EV3 = COMPLEX(WR(3),WI(3))                       ! 4th column: imaginary part of eigenvector 2
-      EV4 = COMPLEX(WR(4),WI(4))
+      EV1 = CMPLX(WR(1),WI(1))                       ! 2nd column: imaginary part of eigenvector 1
+      EV2 = CMPLX(WR(2),WI(2))                       ! 3rd column: real part of eigenvector 2
+      EV3 = CMPLX(WR(3),WI(3))                       ! 4th column: imaginary part of eigenvector 2
+      EV4 = CMPLX(WR(4),WI(4))
 
 
 C     Normalization of the eigen vectors
@@ -85,47 +111,47 @@ C     Normalization of the eigen vectors
       NORM2  = SQRT(Q(1,3)**2+Q(1,4)**2+Q(2,3)**2+Q(2,4)**2+Q(3,3)**2+Q(
      >3,4)**2+Q(4,3)**2+Q(4,4)**2)
 
-      V(1,1) = COMPLEX(Q(1,1),Q(1,2))/NORM1
-      V(2,1) = COMPLEX(Q(2,1),Q(2,2))/NORM1
-      V(3,1) = COMPLEX(Q(3,1),Q(3,2))/NORM1
-      V(4,1) = COMPLEX(Q(4,1),Q(4,2))/NORM1
-      V(1,2) = COMPLEX(Q(1,1),-Q(1,2))/NORM1
-      V(2,2) = COMPLEX(Q(2,1),-Q(2,2))/NORM1
-      V(3,2) = COMPLEX(Q(3,1),-Q(3,2))/NORM1
-      V(4,2) = COMPLEX(Q(4,1),-Q(4,2))/NORM1
-      V(1,3) = COMPLEX(Q(1,3),Q(1,4))/NORM2
-      V(2,3) = COMPLEX(Q(2,3),Q(2,4))/NORM2
-      V(3,3) = COMPLEX(Q(3,3),Q(3,4))/NORM2
-      V(4,3) = COMPLEX(Q(4,3),Q(4,4))/NORM2
-      V(1,4) = COMPLEX(Q(1,3),-Q(1,4))/NORM2
-      V(2,4) = COMPLEX(Q(2,3),-Q(2,4))/NORM2
-      V(3,4) = COMPLEX(Q(3,3),-Q(3,4))/NORM2
-      V(4,4) = COMPLEX(Q(4,3),-Q(4,4))/NORM2
+      V(1,1) = CMPLX(Q(1,1),Q(1,2))/NORM1
+      V(2,1) = CMPLX(Q(2,1),Q(2,2))/NORM1
+      V(3,1) = CMPLX(Q(3,1),Q(3,2))/NORM1
+      V(4,1) = CMPLX(Q(4,1),Q(4,2))/NORM1
+      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/NORM1
+      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/NORM1
+      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/NORM1
+      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/NORM1
+      V(1,3) = CMPLX(Q(1,3),Q(1,4))/NORM2
+      V(2,3) = CMPLX(Q(2,3),Q(2,4))/NORM2
+      V(3,3) = CMPLX(Q(3,3),Q(3,4))/NORM2
+      V(4,3) = CMPLX(Q(4,3),Q(4,4))/NORM2
+      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/NORM2
+      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/NORM2
+      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/NORM2
+      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/NORM2
 
 
 C     Phase uncertainity
 
       THETA1 = ATAN2(AIMAG(V(1,1)),REAL(V(1,1)))
       THETA2 = ATAN2(AIMAG(V(3,3)),REAL(V(3,3)))
-      PHASE1 = COMPLEX(COS(-PI/2.D0-THETA1),SIN(-PI/2.D0-THETA1))
-      PHASE2 = COMPLEX(COS(-PI/2.D0-THETA2),SIN(-PI/2.D0-THETA2))
+      PHASE1 = CMPLX(COS(-PI/2.D0-THETA1),SIN(-PI/2.D0-THETA1))
+      PHASE2 = CMPLX(COS(-PI/2.D0-THETA2),SIN(-PI/2.D0-THETA2))
 
-      V(1,1) = COMPLEX(Q(1,1),Q(1,2))/NORM1*PHASE1
-      V(2,1) = COMPLEX(Q(2,1),Q(2,2))/NORM1*PHASE1
-      V(3,1) = COMPLEX(Q(3,1),Q(3,2))/NORM1*PHASE1
-      V(4,1) = COMPLEX(Q(4,1),Q(4,2))/NORM1*PHASE1
-      V(1,2) = COMPLEX(Q(1,1),-Q(1,2))/NORM1*CONJG(PHASE1)
-      V(2,2) = COMPLEX(Q(2,1),-Q(2,2))/NORM1*CONJG(PHASE1)
-      V(3,2) = COMPLEX(Q(3,1),-Q(3,2))/NORM1*CONJG(PHASE1)
-      V(4,2) = COMPLEX(Q(4,1),-Q(4,2))/NORM1*CONJG(PHASE1)
-      V(1,3) = COMPLEX(Q(1,3),Q(1,4))/NORM2*PHASE2
-      V(2,3) = COMPLEX(Q(2,3),Q(2,4))/NORM2*PHASE2
-      V(3,3) = COMPLEX(Q(3,3),Q(3,4))/NORM2*PHASE2
-      V(4,3) = COMPLEX(Q(4,3),Q(4,4))/NORM2*PHASE2
-      V(1,4) = COMPLEX(Q(1,3),-Q(1,4))/NORM2*CONJG(PHASE2)
-      V(2,4) = COMPLEX(Q(2,3),-Q(2,4))/NORM2*CONJG(PHASE2)
-      V(3,4) = COMPLEX(Q(3,3),-Q(3,4))/NORM2*CONJG(PHASE2)
-      V(4,4) = COMPLEX(Q(4,3),-Q(4,4))/NORM2*CONJG(PHASE2)
+      V(1,1) = CMPLX(Q(1,1),Q(1,2))/NORM1*PHASE1
+      V(2,1) = CMPLX(Q(2,1),Q(2,2))/NORM1*PHASE1
+      V(3,1) = CMPLX(Q(3,1),Q(3,2))/NORM1*PHASE1
+      V(4,1) = CMPLX(Q(4,1),Q(4,2))/NORM1*PHASE1
+      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/NORM1*CONJG(PHASE1)
+      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/NORM1*CONJG(PHASE1)
+      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/NORM1*CONJG(PHASE1)
+      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/NORM1*CONJG(PHASE1)
+      V(1,3) = CMPLX(Q(1,3),Q(1,4))/NORM2*PHASE2
+      V(2,3) = CMPLX(Q(2,3),Q(2,4))/NORM2*PHASE2
+      V(3,3) = CMPLX(Q(3,3),Q(3,4))/NORM2*PHASE2
+      V(4,3) = CMPLX(Q(4,3),Q(4,4))/NORM2*PHASE2
+      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/NORM2*CONJG(PHASE2)
+      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/NORM2*CONJG(PHASE2)
+      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/NORM2*CONJG(PHASE2)
+      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/NORM2*CONJG(PHASE2)
 
  
 C      Computation of the fractional part of the horizontal tunes without considering coupling
@@ -211,22 +237,22 @@ c 200     FORMAT(6X,4F13.8)
 
 C     Transformation matrix from coupled referential to action-angle one
 
-      P(1,1) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(1,1)-V(1,2)))
-      P(2,1) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(2,1)-V(2,2)))
-      P(3,1) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(3,1)-V(3,2)))
-      P(4,1) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(4,1)-V(4,2)))
-      P(1,2) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(1,1)+V(1,2)))
-      P(2,2) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(2,1)+V(2,2)))
-      P(3,2) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(3,1)+V(3,2)))
-      P(4,2) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(4,1)+V(4,2)))
-      P(1,3) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(1,3)-V(1,4)))
-      P(2,3) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(2,3)-V(2,4)))
-      P(3,3) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(3,3)-V(3,4)))
-      P(4,3) = DBLE(COMPLEX(0.D0,1.D0/SQRT(2.D0))*(V(4,3)-V(4,4)))
-      P(1,4) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(1,3)+V(1,4)))
-      P(2,4) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(2,3)+V(2,4)))
-      P(3,4) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(3,3)+V(3,4)))
-      P(4,4) = DBLE(COMPLEX(1.D0/SQRT(2.D0),0.D0)*(V(4,3)+V(4,4)))
+      P(1,1) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(1,1)-V(1,2)))
+      P(2,1) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(2,1)-V(2,2)))
+      P(3,1) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(3,1)-V(3,2)))
+      P(4,1) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(4,1)-V(4,2)))
+      P(1,2) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(1,1)+V(1,2)))
+      P(2,2) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(2,1)+V(2,2)))
+      P(3,2) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(3,1)+V(3,2)))
+      P(4,2) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(4,1)+V(4,2)))
+      P(1,3) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(1,3)-V(1,4)))
+      P(2,3) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(2,3)-V(2,4)))
+      P(3,3) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(3,3)-V(3,4)))
+      P(4,3) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(4,3)-V(4,4)))
+      P(1,4) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(1,3)+V(1,4)))
+      P(2,4) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(2,3)+V(2,4)))
+      P(3,4) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(3,3)+V(3,4)))
+      P(4,4) = DBLE(CMPLX(1.D0/SQRT(2.D0),0.D0)*(V(4,3)+V(4,4)))
 
       IF(NU1 .EQ. NUTEST(2)) P(:,1) = -P(:,1)
       IF(NU2 .EQ. NUTEST(4)) P(:,3) = -P(:,3)
@@ -299,4 +325,5 @@ C        IF(N_PROP .EQV. .TRUE.) CALL PROPAG(3,4,7,8,P,C,NU1,NU2,CMOINS)    ! th
         CLOSE(3,IOSTAT=IOS3)
       ENDIF
 
+      return
       END

@@ -379,7 +379,7 @@ OBJ=\
 	$(FC) $(FFLAGS) -I$(INC) -c $<
  
 zgoubi : $(OBJ)
-	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) -L../common -lzg -o $@
+	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) -L../common -lzg -L../coupling -lcoupl -o $@
 
 clean :
 	$(RM) *.o zgoubi *~

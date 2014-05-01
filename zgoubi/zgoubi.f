@@ -1169,7 +1169,7 @@ C----- COILS.
       IF(FITGET) CALL FITGT1
       CALL  QUASEX(ND(NOEL))
       GOTO 998
-C----- GETFITVAL.  Get parameter values resulting from FIT, stored in zgoubi.fitVal
+C----- GETFITVAL.  Get parameter values resulting from FIT, stored in TA(NOEL,1)
  96   CONTINUE
       IF(READAT) THEN
         CALL RFITGT
