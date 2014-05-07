@@ -112,6 +112,7 @@ OBJ=\
  endjob.o\
  ererz.o\
  erexyz.o\
+ errors.o\
  esl.o\
  eslvir.o\
  et2res.o\
@@ -206,6 +207,7 @@ OBJ=\
  mix.o\
  mksa.o\
  modord.o\
+ mulerr.o\
  multip.o\
  multpo.o\
  nmfonc.o\
@@ -272,6 +274,7 @@ OBJ=\
  remma.o\
  rempli.o\
  replat.o\
+ rerror.o\
  reset.o\
  revers.o\
  rfaist.o\
@@ -442,6 +445,7 @@ emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 endfit.o: $(INC)/MXLD.H
+errors.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
@@ -551,6 +555,7 @@ relmir.o: $(INC)/MXLD.H
 remma.o: $(INC)/MXLD.H
 rempli.o: $(INC)/MXLD.H
 replat.o: $(INC)/MXLD.H
+rerror.o: $(INC)/MXLD.H
 reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
 rfaist.o: $(INC)/MXLD.H
 rffag.o: $(INC)/MXLD.H

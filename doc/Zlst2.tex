@@ -2070,6 +2070,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \newpage
 
+
 %\include{ZgoubiFITTable}
 %  \newlength{\LL}
 \settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint|textbf}
@@ -2086,19 +2087,20 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			\cline{2-9}
 			    & \rule{0cm}{5mm}$\mathbf{\IC}$ 
 			    & $\mathbf{I}$ & $\mathbf{J}$ & \textbf{Constraint}  
-                            &  \multicolumn{4}{c|}{\textbf{Parameter(s)}  } &   \\
-         & & & & & \multicolumn{1}{c|}{\#} & \multicolumn{3}{c|}{  values} & \\
+                            &  \multicolumn{4}{c|}{\textbf{Additional parameter(s)}  } &   \\
+         & & & & & \multicolumn{1}{c|}{\NP} & \multicolumn{3}{c|}{  value(s), $\PV_{1 - N\!P}$} & \\
 			\hline
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{\mbox{$\sigma$-matrix} }} 
-	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
+%	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
+	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{21,~12}=\alpha_Y$, etc.) 
 	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
 	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
-			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
+			\multicolumn{1}{|c|}{ (N=1-9  for {\footnotesize \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
 			\multicolumn{1}{|c|}{                       } & & 10 & any & $\cos(\mu_Z)$  & & & & &  \\
                            & & & & & & & & &  \\
@@ -2116,24 +2118,24 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Trajectory}}
-			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $  
+			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $ 
          & & & & & \textsl{[MC]OBJET}   \\
 			 \multicolumn{1}{|c|}{\textbf{coordinates}}
 			    &   &  $-1$      & $1 - 7$  &   $<F(J,i)>_{i=1,\IMAX}$ & & & & &   \\
-			 \multicolumn{1}{|c|}{\textbf{ }}
+			 \multicolumn{1}{|c|}{  \footnotesize (I = particle  }
 			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ &  & & & &   \\
-			 \multicolumn{1}{|c|}{\textbf{ }}
-			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,dI}$ &  3 & I1 & I2 & dI &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
+			 \multicolumn{1}{|c|}{ \footnotesize number; J=1-7 for }
+			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,d_{1,2}}$ &  3 & $I_1$ & $I_2$ & $d_{1,2}$ &  \\
+			\multicolumn{1}{|c|}{\footnotesize D,Y,T,Z,P,S,time) }
 			    & 3.1 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - FO(J,I)|$  & & & & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & & & &  \\
 %			\multicolumn{1}{|c|}{\textbf{  }}
 %			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &\footnotesize $K\leq \IMAX$ & & &  \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 &\footnotesize $K\leq \IMAX$ & & &  \\
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
@@ -2162,14 +2164,14 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & max($F(J,I)$) - min$F(J,I)$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & & & &  \\
+			\multicolumn{1}{|c|}{ \footnotesize  (J=1-3 for }
+			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
+			\multicolumn{1}{|c|}{\footnotesize $B_X$,  $B_Y$,  $B_Z$) }
+			    & 7.7 & $1 - \IMAX$ & $1 - 3$  & max($B_J$) - min($B_J$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.6 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
+			    & 7.8 & $1 - \IMAX$ & $1 - 3$  & min($B_J$) + max($B_J$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.7 & $1 - \IMAX$ & $1 - 7$  & max($B_J$) - min($B_J$) &  & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.8 & $1 - \IMAX$ & $1 - 7$  & min($B_J$) + max($B_J$) &  & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.9 & $1 - \IMAX$ & $1 - 7$  & $\int B_J \, ds$ & &  & &  \\
+			    & 7.9 & $1 - \IMAX$ & $1 - 3$  & $\int B_J \, ds$ & &  & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}

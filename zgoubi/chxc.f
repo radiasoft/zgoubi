@@ -909,18 +909,18 @@ C           IF(KUASEX .EQ. MPOL+1) NND = 1
 
            IF(KFLD .EQ. MG) THEN
 C------------ Magnetic
-             CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
+             CALL MULTPO(KUASEX,LMNT,MG,SCAL,
      >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
                   DSREF = XL
            ELSEIF(KFLD .EQ. LC) THEN
 C------------ Electric
-             CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
+             CALL MULTPO(KUASEX,LMNT,LC,SCAL,
      >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
            ELSEIF(KFLD .EQ. ML) THEN
 C------------ Electric & Magnetic
-             CALL MULTPO(KUASEX,LMNT,LC,MPOL,SCAL,
+             CALL MULTPO(KUASEX,LMNT,LC,SCAL,
      >        DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
-             CALL MULTPO(KUASEX,LMNT,MG,MPOL,SCAL,
+             CALL MULTPO(KUASEX,LMNT,MG,SCAL,
      >        DEV,RTB,XL,BBM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
            ENDIF
            KP = NINT(A(NOEL,ND+NND))

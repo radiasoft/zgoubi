@@ -1350,6 +1350,12 @@ C----- CYCLOTRON.
       IF(FITGET) CALL FITGT1
       CALL AIMANT(ND(NOEL))
       GOTO 998
+C----- ERRORS. 
+ 117  CONTINUE
+      IF(READAT) CALL RERROR
+      IF(FITGET) CALL FITGT1
+      CALL ERRORS
+      GOTO 998
 
 C-------------------------
 C-------------------------

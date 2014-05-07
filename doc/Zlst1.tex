@@ -3125,10 +3125,11 @@ Each constraint is defined by the following list of data~:
 	$\IC[.\IC 2]$        &  = &  type of  constraint (see table p.~\pageref{TabFITZlst1}).\\
 	$I$, $J$    & =  &  constraint (\emph{i.e.},~$R_{ij}$, determinant, tune~; 
 	                    $T_{ijk}$~; $\sigma_{ ij}$~; trajectory $\#I$ and coordinate $\#J$)\\
-	$IR$       &  =  &  number of the keyword at the exit of which the constraint applies   \\
+	\label{RefIR}
+        $\IR$       &  =  &  number of the keyword at the exit of which the constraint applies   \\
 	$V$        &  =  &  desired value of the constraint\\
 	$W$        &  =  &  weight of the constraint (smaller $W$ for higher weight)  \\
-        $\NP$       &    &   $\NP$ values follow 
+        $\NP$       &    &   $\NP$ additional parameters, values $\PV_{1 - N\!P}$, defining the constraint  
 	\end{tabular}
 \end{center}
 
@@ -3176,8 +3177,8 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			\cline{2-9}
 			    & \rule{0cm}{5mm}$\mathbf{\IC}$ 
 			    & $\mathbf{I}$ & $\mathbf{J}$ & \textbf{Constraint}  
-                            &  \multicolumn{4}{c|}{\textbf{Parameter(s)}  } &   \\
-         & & & & & \multicolumn{1}{c|}{\#} & \multicolumn{3}{c|}{  values} & \\
+                            &  \multicolumn{4}{c|}{\textbf{Additional parameter(s)}  } &   \\
+         & & & & & \multicolumn{1}{c|}{\NP} & \multicolumn{3}{c|}{  value(s), $\PV_{1 - N\!P}$} & \\
 			\hline
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{\mbox{$\sigma$-matrix} }} 
@@ -3189,7 +3190,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
 	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
-			\multicolumn{1}{|c|}{ (N=1-9  for {\small \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
+			\multicolumn{1}{|c|}{ (N=1-9  for {\footnotesize \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
 			\multicolumn{1}{|c|}{                       } & & 10 & any & $\cos(\mu_Z)$  & & & & &  \\
                            & & & & & & & & &  \\
@@ -3207,24 +3208,24 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Trajectory}}
-			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $  
+			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $ 
          & & & & & \textsl{[MC]OBJET}   \\
 			 \multicolumn{1}{|c|}{\textbf{coordinates}}
 			    &   &  $-1$      & $1 - 7$  &   $<F(J,i)>_{i=1,\IMAX}$ & & & & &   \\
-			 \multicolumn{1}{|c|}{\textbf{ }}
+			 \multicolumn{1}{|c|}{  \footnotesize (I = particle  }
 			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ &  & & & &   \\
-			 \multicolumn{1}{|c|}{\textbf{ }}
-			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,dI}$ &  3 & I1 & I2 & dI &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
+			 \multicolumn{1}{|c|}{ \footnotesize number; J=1-7 for }
+			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,d_{1,2}}$ &  3 & $I_1$ & $I_2$ & $d_{1,2}$ &  \\
+			\multicolumn{1}{|c|}{\footnotesize D,Y,T,Z,P,S,time) }
 			    & 3.1 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - FO(J,I)|$  & & & & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & & & &  \\
 %			\multicolumn{1}{|c|}{\textbf{  }}
 %			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &\footnotesize $K\leq \IMAX$ & & &  \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 &\footnotesize $K\leq \IMAX$ & & &  \\
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
@@ -3253,14 +3254,14 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & max($F(J,I)$) - min$F(J,I)$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & & & &  \\
+			\multicolumn{1}{|c|}{ \footnotesize  (J=1-3 for }
+			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
+			\multicolumn{1}{|c|}{\footnotesize $B_X$,  $B_Y$,  $B_Z$) }
+			    & 7.7 & $1 - \IMAX$ & $1 - 3$  & max($B_J$) - min($B_J$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.6 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
+			    & 7.8 & $1 - \IMAX$ & $1 - 3$  & min($B_J$) + max($B_J$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.7 & $1 - \IMAX$ & $1 - 7$  & max($B_J$) - min($B_J$) &  & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.8 & $1 - \IMAX$ & $1 - 7$  & min($B_J$) + max($B_J$) &  & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.9 & $1 - \IMAX$ & $1 - 7$  & $\int B_J \, ds$ & &  & &  \\
+			    & 7.9 & $1 - \IMAX$ & $1 - 3$  & $\int B_J \, ds$ & &  & &  \\
                             & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
@@ -3290,19 +3291,24 @@ $I=-1$~:  the constraint is the mean value of coordinate of type $J$,
 
 $I=-2$~:  the constraint is the maximum  value of coordinate of type $J$, 
 
-$I=-3$~:  the constraint is the distance between two different particles. 
+$I=-3$~:  the constraint is the distance, $d_{1,2}$, 
+between two different particles. \NP=3 and,  $\PV_1= I_1$, $\PV_2=I_2$ are the number  
+of these two particles, $\PV_3 = d_{1,2}$
 
 \smallskip
 
 \noindent  {\it IC=3.1~: } Absolute value of the difference between local and initial $J$-coordinate of particle $I$ (convenient 
 \emph{e.g.} for closed orbit search). \index{closed orbit}
 
-\noindent  {\it IC=3.2~: } Absolute value of the sum of the local and initial $J$-coordinate of particle $I$.
+\noindent  {\it IC=3.2~: } Absolute value of the sum of the local and initial $J$-coordinate of particle number $I$.
 
-\noindent  {\it IC=3.3~: } Minimum (\NP=1) or maximum value (\NP=2) of the local $J$-coordinate of particle $I$.
+%\noindent  {\it IC=3.3~: } Minimum ($\PV=1$) or maximum value ($\PV=2$) of the local $J$-coordinate of particle number $I$.
 
 \noindent  {\it IC=3.4~: } Absolute value of the difference between local $J$-coordinates of particles respectively 
  $I$ and $K$.
+
+\noindent  {\it IC=3.5~: } Difference between local $J$-coordinates of particles respectively 
+ $I$ and $K$, relative to $J$-coordinate of particle $K$.
 
 \smallskip
 
@@ -3330,6 +3336,30 @@ The center and shape of the ellipse are
 
      $I =4, ~ 5, ~ 6$,  same as previous case, except for the ellipse, taken to be the \rms\ matched ellipse 
 to the distribution. Thus \NP=0.
+
+\smallskip
+
+\noindent  {\it IC=7 series~: } The quantity to be constrained is 
+taken  \textsl{inside } the optical element with number \IR\ (see page~\pageref{RefIR}). 
+
+\noindent  {\it IC=7.1~: } Minimum or maximum value as reached by coordinate $J$ of particle number $I$. 
+
+\noindent  {\it IC=7.2~: } Maximum minus minimum of the value of coordinate $J$ of particle number $I$. 
+
+\noindent  {\it IC=7.3~: } Maximum plus minimum of the value of coordinate $J$ of particle number $I$. 
+
+\noindent  {\it IC=7.6~: } Minimum ($\PV=1$) or maximum ($\PV=2$) value as reached by the X, Y or Z component 
+of the field along the trajectory of particle number $I$.
+
+\noindent  {\it IC=7.7~: } Maximum minus minimum of the values taken by the X, Y or Z component 
+of the field along the trajectory of particle number $I$.
+
+\noindent  {\it IC=7.8~: } Maximum plus minimum of the values taken by the X, Y or Z component 
+of the field along the trajectory of particle number $I$.
+
+\noindent  {\it IC=7.9~: } Integral of the X, Y or Z component of the field as experienced by 
+particle number $I$, across the optical element. 
+
 
 \smallskip
 

@@ -22,9 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MULTPO(KUASEX,LMNT,KFL,MPOL,SCAL,
+      SUBROUTINE MULTPO(KUASEX,LMNT,KFL,SCAL,
      >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      PARAMETER(MPOL=10)
       CHARACTER LMNT(*)*(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
@@ -45,6 +46,9 @@ C  -------
       COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       LOGICAL ZSYM
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
@@ -71,7 +75,32 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       
       dimension AKS(6)
       SAVE AKS, sXL
-      
+
+      PARAMETER (MXERR=MXTA)
+      CHARACTER(LBLSIZ) LBL1(MXERR), LBL2(MXERR)
+      CHARACTER(LBLSIZ) LBL1i, LBL2i
+      save lbl1, lbl2
+
+      DIMENSION kpol(mxerr,mpol)
+      character(2) TYPERR(mxerr,mpol)
+      character(1) TYPAR(mxerr,mpol),TYPDIS(mxerr,mpol)
+      character(2) TYPERI
+      character(1) TYPAI,TYPDII
+      DIMENSION ERRCEN(mxerr,mpol),ERRSIG(mxerr,mpol),ERRCUT(mxerr,mpol)
+      SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,iseed
+      LOGICAL empty
+      LOGICAL erron
+      SAVE ERRON
+C      Errors
+      dimension db(MXL,mpol),dpos(MXL,mpol,3),tilt(MXL,mpol,3)
+      save db, dpos, tilt
+      logical ok
+
+
+c      data db / mpol*0.d0 /
+c      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
+c      data dtilt / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
+      data erron / .false. /
 
       IER = 0
       SKEW=.FALSE.
@@ -79,7 +108,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
 
       GAP = 0.D0
       IF(KUASEX .LE. MPOL) THEN
-C------- Single-pole, from Magnetic QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
+C------- Single-pole, from QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
 
         XL =A(NOEL,10)
         RO =A(NOEL,11)
@@ -126,22 +155,22 @@ C--------- ... or magnetic part of EBMULT
         XL =A(NOEL,IA)
         IA = IA + 1
         RO =A(NOEL,IA)
-          DO IM=1,MPOL
-            IA = IA + 1
-            BM(IM) =A(NOEL,IA)*SCAL
-            IF(RO .EQ. 0.D0) THEN
-              IF(IM .GE. 2) THEN 
-                IF(BM(IM) .NE. 0.D0) THEN
-                  IER = IER+1
-                  TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
-                  CALL ENDJOB(TXT(IER),-99)
-                ENDIF
+        DO IM=1,MPOL
+          IA = IA + 1
+          BM(IM) =A(NOEL,IA)*SCAL
+          IF(RO .EQ. 0.D0) THEN
+            IF(IM .GE. 2) THEN 
+              IF(BM(IM) .NE. 0.D0) THEN
+                IER = IER+1
+                TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
+                CALL ENDJOB(TXT(IER),-99)
               ENDIF
             ENDIF
-            IF(GAP.EQ.0.D0) THEN
-              IF(BM(IM).NE.0.D0) GAP = RO/IM
-            ENDIF
-          ENDDO
+          ENDIF
+          IF(GAP.EQ.0.D0) THEN
+            IF(BM(IM).NE.0.D0) GAP = RO/IM
+          ENDIF
+        ENDDO
 
 C------- If SR-loss switched on by procedure SRLOSS
         IF(KSYN.GE.1) THEN
@@ -208,6 +237,51 @@ C------- FM, LHC purpose, Fermilab, 1996
       ENDIF
 C------------ KUASEX
  
+C----- Magnetic MULTIPOL with non-zero dipole
+C--------- Automatic positionning in SBR TRANSF
+C           Dev normally identifies with the deviation
+C             that would occur in a sharp edge dipole magnet.
+        IF(BM(1) .NE. 0.D0) THEN
+          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
+        ELSE
+          DEV= 0.D0
+        ENDIF
+C------------------------  TESTS for COSY
+C         DEV = 2.D0 * PI /24.D0  
+CC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
+C         DEV = ALE
+C-----------------------------------------
+
+C----- Case erron (errors)
+      if(erron) then
+        do irr = 1, mxerr 
+          ok = (empty(lbl1(irr)) .or. lbl1(irr).eq.label(noel,1)) 
+     >    .and.(empty(lbl2(irr)) .or. lbl2(irr).eq.label(noel,2)) 
+c                 write(*,*) ' multpo ok err ',ok,
+c     >         empty(lbl1(irr)), lbl1(irr).eq.label(noel,1),  
+c     >      empty(lbl2(irr)),  lbl2(irr).eq.label(noel,2)
+c                 write(*,*) '               ',
+c     >         lbl1(irr), label(noel,1),lbl2(irr),label(noel,2)
+c                      read(*,*)
+          if(ok) then
+            if(ipass.eq.1) then 
+c                 write(*,*) ' multpo kpol ',(kpol(k),k=1,mpol)
+c                      read(*,*)
+              call mulerr(noel,irr,iseed,BM, 
+     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+     >                                     DB,dpos,tilt)
+            endif
+            IF(KUASEX .LE. MPOL) THEN
+              BM(KUASEX) = BM(KUASEX) + db(noel,kuasex)
+            ELSEIF(KUASEX .EQ. MPOL+1) THEN
+              DO IM=1,MPOL
+                if(kpol(irr,im).eq.1) BM(IM) = BM(IM) + db(noel,im)
+              enddo
+            endif      
+          endif      
+        enddo
+      endif
+
 C----- MULTIPOLE
       DO IM = NM0+1,NM
         DLE(IM)  = DLE(NM0)*DLE(IM)
@@ -244,7 +318,7 @@ C----- MULTIPOLE
       DO IM=NM0,NM
         DL0=DL0+DLE(IM)+DLS(IM)
         SUM=SUM+BM(IM)*BM(IM)
-C------- E converti en MeV/cm
+C------- E converted to MeV/cm
         IF(KFL .EQ. LC) THEN
           IF(BM(IM).NE.0.D0) BM(IM) = 2.D0*BM(IM)/RO*1.D-6
           RT(IM) = RT(IM) + .5D0*PI/DBLE(IM)
@@ -446,6 +520,33 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
         ENDIF
       ENDIF
 
+C----- Case erron (errors)
+      IF(NRES.GT.0) then
+        do irr = 1, mxerr 
+          ok = (empty(lbl1(irr)) .or. lbl1(irr).eq.label(noel,1)) 
+     >    .and.(empty(lbl2(irr)) .or. lbl2(irr).eq.label(noel,2)) 
+          if(ok) then
+            do i = 1, mpol
+              if(kpol(irr,i) .eq. 1) then 
+                WRITE(NRES,FMT='(/,15x,
+     >          ''ERRORS ARE SET, accounted for in the fields '', 
+     >          ''above.'')')
+                WRITE(NRES,FMT=
+     >          '(15x,''Case of MULTIPOL with labels : '',4a,i4,a,i4)')
+     >          lbl1(irr), ' / ',lbl2(irr),' /  error set # ',irr,
+     >          ', # element = ',noel  
+                WRITE(NRES,FMT='(15x,
+     >          ''Pole#, error type, A/R, G/U : '',i1,3(2x,a))')
+     >          i, typerr(irr,i), typar(irr,i), typdis(irr,i)
+                WRITE(NRES,FMT='(15x,a,1p,3(e14.6,2x))') 
+     >          'err_center, err_sigma, err_cutOff : ',
+     >          errcen(irr,i),errsig(irr,i),errcut(irr,i)
+              endif
+            enddo
+          ENDIF
+        enddo
+      ENDIF
+
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM
@@ -476,20 +577,20 @@ C        TXT(IER) =
 C     >   'Overlapping of fringe fields is too large. Check XE, XS < XL'
 C      ENDIF
 
-C----- Magnetic MULTIPOL with non-zero dipole
-C--------- Automatic positionning in SBR TRANSF
-C           Dev normally identifies with the deviation
-C             that would occur in a sharp edge dipole magnet.
-        IF(BM(1) .NE. 0.D0) THEN
-          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
-        ELSE
-          DEV= 0.D0
-        ENDIF
-C------------------------  TESTS for COSY
-C         DEV = 2.D0 * PI /24.D0  
-CC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
-C         DEV = ALE
-C-----------------------------------------
+cC----- Magnetic MULTIPOL with non-zero dipole
+cC--------- Automatic positionning in SBR TRANSF
+cC           Dev normally identifies with the deviation
+cC             that would occur in a sharp edge dipole magnet.
+c        IF(BM(1) .NE. 0.D0) THEN
+c          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
+c        ELSE
+c          DEV= 0.D0
+c        ENDIF
+cC------------------------  TESTS for COSY
+cC         DEV = 2.D0 * PI /24.D0  
+cCC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
+cC         DEV = ALE
+cC-----------------------------------------
 
       CALL CHXC1R(
      >            KPAS)
@@ -517,11 +618,32 @@ C----- Execution stopped :
       RETURN 1
       
       ENTRY MULTKL(
-     >     aL, aK1, aK2, aK3)
+     >             AL, AK1)
+C     >     aL, aK1, aK2, aK3)
       aL = sXL
       aK1 = AKS(1)
-      aK2 = AKS(2)
-      aK3 = AKS(3)
+C      aK2 = AKS(2)
+C      aK3 = AKS(3)
       RETURN
       
+      ENTRY MULTP2(irri,iseei,iPOLI,TYPERI,TYPAI,TYPDII,
+     >ERRCEI,ERRSII,ERRCUI,lbl1i,lbl2i)
+      ERRON = .TRUE.
+      irr = irri
+      ISEED = ISEEI
+      IPOL = IPOLI
+      KPOL(irr,IPOL) = 1
+      TYPERR(irr,IPOL)=      TYPERI
+      TYPAR(irr,IPOL)=      TYPAI
+      TYPDIS(irr,IPOL)=      TYPDII
+      ERRCEN(irr,IPOL)=      ERRCEI
+      ERRSIG(irr,IPOL)=      ERRSII
+      ERRCUT(irr,IPOL)=      ERRCUI
+      LBL1(irr) = LBL1I
+      LBL2(irr) = LBL2I
+      RETURN
+
+      ENTRY MULTP4
+      ERRON = .FALSE.
+      RETURN      
       END
