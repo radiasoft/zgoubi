@@ -33,7 +33,7 @@ C  -------
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+     >     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
@@ -83,15 +83,13 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
       CALL SCALE9(
      >            KFM )
-      do ifm = 1, MXSCL
-            IF(KFM(ifm) .le. 0) goto 121
-        DO I= 1 , JPA(KFM(ifm),MXP)
+      DO IFM = 1, MXSCL
+            IF(KFM(IFM) .LE. 0) GOTO 121
+        DO I= 1 , JPA(KFM(IFM),MXP)
            A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
         ENDDO
-      enddo
- 121  continue
-
-
+      ENDDO
+ 121  CONTINUE
 
       KCAV = NINT(A(NOEL,1))
       IF(IPASS .EQ. 1) THEN 
@@ -243,6 +241,9 @@ C        PH(I)=DPHI-PHS
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
+
+
+      write(88,*) ' cavite ', QV*SIN(PH(I)), dphi,PH(I)*deg
  
         DPR(I)=WF-QV*SIN(PHS)
         F(1,I) = P/P0
