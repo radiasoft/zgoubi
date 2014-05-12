@@ -380,7 +380,7 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
       CALL KSMAP0
-      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT.
+      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE

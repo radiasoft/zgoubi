@@ -152,7 +152,7 @@ C          OPN = .FALSE.
            WRITE(IUN,*) 
      >     '#XM, XPM, (U(I),I=1,3), '//
      >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
-     >     ', time, E or dp. '
+     >     ', time, E or dp.,# of prtcls in rms lips '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -191,13 +191,13 @@ c             GOTO 69
           ENDIF
           IF(NPTR .GT. 0) THEN
             CALL LPSFIT(NLOG,KPR,LM,
-     >                              YM,YPM,YMX,YPMX,U,A,B,*60)
+     >                      YM,YPM,YMX,YPMX,U,A,B,nptin,*60)
  60         CONTINUE
 
 c            IF(OKKT5(KT)) THEN
 c              IF(KPR.EQ.2) 
                CALL LPSIMP(IUN,YNU,BORNE,U,KT1,ktma,HV
-     >             ,npass,kpa,kpb,energ)
+     >             ,npass,kpa,kpb,energ,nptin)
 
 c              write(6,*) ' Pause '
 c              read(5,*)
@@ -235,7 +235,7 @@ c      GOTO 99
       END
 
       SUBROUTINE LPSFIT(NLOG,KPR,LM,
-     >                              YM,YPM,YMX,YPMX,U,A,B,*)
+     >                  YM,YPM,YMX,YPMX,U,A,B,nptin,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YM(*), YPM(*), U(*), A(*), B(*)
       DIMENSION YMX(*), YPMX(*)
@@ -252,6 +252,8 @@ c      GOTO 99
 
       PARAMETER ( PI=3.1415926536, SQ2 = 1.414213562)
 C      PARAMETER ( PI=4.D0*ATAN(1.D0), SQ2 = SQRT(2.D0) )
+
+      dimension nptin(3)
 
       DATA TXT/ 'HORI.', 'VERT.', 'LONG.'/
 
@@ -341,7 +343,7 @@ c        write(*,fmt='(a,3g12.4,2i6)') 'blabla ',x2,xp2,u(jj),npts,jj
 
       IF(KPR .EQ. 0) RETURN
      
-C----- SMEAR
+C----- SMEAR and count in lips
       DO 3 J=1,MXJ-1,2
 C------- JJ = 1 , 2 or 3  for  Y-T, Z-P or T-P(time-momentum) planes
         J1 = J
@@ -352,6 +354,7 @@ C------- JJ = 1 , 2 or 3  for  Y-T, Z-P or T-P(time-momentum) planes
         UM(JJ)=0.D0
         U2M=0.D0
         SNPT = 0.D0
+        nptin(jj) = 0
         DO 31 I=1,NPTS
 C--------- Normalized coordinates (*Beta), for phase-space point I:
             X = ( COOR(I,J1) - YM(JJ) )
@@ -360,6 +363,9 @@ C--------- Normalized coordinates (*Beta), for phase-space point I:
             XPN = ( A(JJ) * XN + B(JJ) * XP )
 C----------- Courant invariant Epsilon/pi at phase-space point I:
             UI = ( XN * XN + XPN * XPN )/ B(JJ)
+
+C            Count
+            if(ui.le.u(jj)) nptin(jj) = nptin(jj)+1
 
             IF(UI .GT. UMA(JJ)) UMA(JJ) = UI
             IF(UI .LT. UMI(JJ)) UMI(JJ) = UI
@@ -372,6 +378,9 @@ C----------- Courant invariant Epsilon/pi at phase-space point I:
         UM(JJ) = UM(JJ)/SNPT
         U2M = U2M/SNPT
         SMEAR(JJ) = SQRT( U2M - UM(JJ) * UM(JJ) )
+
+c        write(*,*) 
+c     >  ' lipsfromfai nptin(jj)/imax = ',nptin(jj),'/',npts
 
  3    CONTINUE
 
@@ -1331,10 +1340,12 @@ C----------  This is to flush the write statements...
 
       RETURN
       END
-      SUBROUTINE LPSIMP(IUN,YNU,BORNE,U,KT1,kt2,HV,npass,kpa,kpb,energ)
+      SUBROUTINE LPSIMP
+     >(IUN,YNU,BORNE,U,KT1,kt2,HV,npass,kpa,kpb,energ,nptin)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YNU(*), BORNE(*), U(*)
       character HV*(*)
+      dimension nptin(*)
       INCLUDE 'MAXNPT.H'
       PARAMETER (NTR=NPTMAX*9)
       COMMON/TRACKM/COOR(NPTMAX,9),NPTS,NPTR
@@ -1344,9 +1355,10 @@ C----------  This is to flush the write statements...
       save xm,xpm,ym,ypm,zm,zpm
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
      >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
-     >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm
+     >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
 !!     >      ,  xK, xiDeg,' ',HV
- 179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6))
+ 179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6),
+     >3(1x,i6))
 
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
       RETURN
