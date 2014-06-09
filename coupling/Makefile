@@ -188,6 +188,6 @@ libcoupl.a : $(OBJS)
 	ar rv $@ $?
 
 clean :
-	rm -f *.o *.a *~
+	rm -rf *.o *.a *~
 
 

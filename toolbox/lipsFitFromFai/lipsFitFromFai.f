@@ -145,12 +145,12 @@ C          OPN = .FALSE.
            call system('rm -f lipsFitFromFai.Out')
            OPEN(UNIT=IUN,FILE='lipsFitFromFai.Out',ERR=699)
            OPN = .TRUE.
-           WRITE(IUN,*) '//////////////////////////////////////////'
-           WRITE(*,*) '//////////////////////////////////////////'
+           WRITE(IUN,*) '# //////////////////////////////////////////'
+           WRITE(*,*) '# //////////////////////////////////////////'
            WRITE(IUN,*) 
-     >     '% Ellipse matching considers turn#',kpa
+     >     '# % Ellipse matching considers turn#',kpa
            WRITE(IUN,*) 
-     >     '#XM, XPM, (U(I),I=1,3), '//
+     >     '# XM, XPM, (U(I),I=1,3), '//
      >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
      >     ', time, E or dp.,# of prtcls in rms lips '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'

@@ -167,12 +167,30 @@ c     >  //' NRBLT=',NRBLT)
         DO iprm = 1, NPRM
           KLM(iprm)   = NINT(A(NOEL,20+10*(iprm-1)))
           KPRM(iprm)  = NINT(A(NOEL,21+10*(iprm-1)))
+          AOLD = A(KLM(iprm),KPRM(iprm))
           A(KLM(iprm),KPRM(iprm)) = PARAM(iprm,IPASS)
 
+c          write(*,*) ' rebel    ipass, iprm, A '
 c          write(*,*) ' rebel ', ipass, iprm, A(KLM(iprm),KPRM(iprm))
+c          write(*,*) ' rebel  ipass, iprm, KLM,  KPRM '
 c          write(*,*) ' rebel ', ipass, iprm, KLM(iprm),KPRM(iprm)
-c          write(*,*) ' rebel ', A(KLM(iprm),KPRM(iprm))
-c          write(*,*) ' rebel ', (PARAM(ii,IPASS), ii = 1,3)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm))
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+1)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+2)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+3)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+4)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+5)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+6)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+7)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+8)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+9)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+10)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+11)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+12)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+13)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+14)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+15)
+c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+16)
 c                read(*,*)
 
         ENDDO
@@ -363,14 +381,14 @@ C            IF(KREB3.NE.22) READAT = .FALSE.
             WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,
      >      ''.  In element # '',I4,
      >      '',  changed value of parameter #'',I3,''  to : '',
-     >      1P,E16.8)')
-     >      IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+     >      1P,E16.8,''   (was : '',E16.8,'')'',/)')
+     >      IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
             IF(NRES .GT. 0 ) then 
               WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
      >        ''.  In element # '',I4,
      >        '',  changed value of parameter #'',I3,''  to : '',
-     >        1P,E16.8)')
-     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+     >        1P,E16.8,''   (was : '',E16.8,'')'')')
+     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
             ENDIF
           enddo
         ENDIF

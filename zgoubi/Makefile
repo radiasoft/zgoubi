@@ -162,6 +162,7 @@ OBJ=\
  impctr.o\
  impdev.o\
  impfai.o\
+ impmod.o\
  impplt.o\
  imptra.o\
  impvar.o\

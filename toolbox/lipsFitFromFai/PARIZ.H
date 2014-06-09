@@ -99,8 +99,8 @@ C      PARAMETER (MXX=1000, MXY=201)
 
 C AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 C and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=30 , ID=3, MMAP=8)
-      PARAMETER (MXX=1000, MXY=201)
+      PARAMETER (IZ=61 , ID=3, MMAP=8)
+      PARAMETER (MXX=1001, MXY=201)
 
 CC Daedalus cyclo
 C      PARAMETER (IZ=1 , ID=3, MMAP=8)
@@ -111,3 +111,4 @@ CC---- GSI KAOS
 C      PARAMETER (IZ=5 , ID=3, MMAP=2)
 C      PARAMETER (MXX=401, MXY=300)
 
+   

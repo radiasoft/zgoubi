@@ -235,21 +235,9 @@ c            read(*,*)
       call et2res(nres)
       call et2re1(
      >             F011,f012,f033,f034,phy,phz,Cstrn)
-      IF(NRES .GT. 0) then
-        WRITE(NRES,*)
-        WRITE(NRES,*) '--------------------------------------'
-        WRITE(NRES,*) ' Pgm matric. '
-        WRITE(NRES,*)
-        WRITE(NRES,*) ' Coupled modes : '
-        WRITE(NRES,*) ' bet1, alf1 : ',    F011,-f012
-        WRITE(NRES,*) ' bet2, alf2 : ',    f033,-f034
-        WRITE(NRES,*) ' Q1, Q2 :     ',    phy,phz  
-        WRITE(NRES,*) ' Coupling strength :     ',    Cstrn
-        WRITE(NRES,*)
-        WRITE(NRES,*) '--------------------------------------'
-        WRITE(NRES,*)
 
-      ENDIF
+      call impmod
+     >('matric',NRES,OKCPLD,F011,f012,f033,f034,phy,phz,Cstrn)
 
       RETURN
  
