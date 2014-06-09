@@ -67,7 +67,7 @@ c      yymax = yyma + dble(iqy )
      >' Scales (QX_min/max, Qy_min/max)       : '
      > , qxmi + dble(iqx), xxma + dble(iqx )
      > , qymi + dble(iqy ), yyma + dble(iqy ) 
-      read(*,fmt=*,err=5,end=5) QXMIi,XXMAi,QYMIi,YYMAi
+      read(*,fmt='(4e18.2)',err=5,end=5) QXMIi,XXMAi,QYMIi,YYMAi
       goto 51
  5    continue
       QXMIi = QXMI

@@ -2,10 +2,17 @@ C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
-C----- PLOT SPECTRUM     
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
-      CHARACTER*80 NOMFIC
+      CHARACTER*20 NOMFIC
+      logical exs
+      LOGICAL IDLUNI, ok
+
+      write(*,*) ' '
+      write(*,*) '------------------------- '
+      write(*,*) 'Pgm averageS.  '
+      write(*,*) '------------------------- '
+      write(*,*) ' '
 
       call block 
       call INIGR(
@@ -14,9 +21,29 @@ C----- PLOT SPECTRUM
       okopn = .false.
       change = .true.
 
-      nx = 59
-      ny = 23
-      ny = 25
+      INQUIRE(FILE='averageS.in',EXIST=EXS)
+      if(exs) then
+         ok = IDLUNI(lunin)         
+         OPEN(UNIT=lunin,FILE='averageS.in')
+         write(*,*) 'Data read from averageS.in :'
+         read(lunin,*) nx,ny
+         read(lunin,*) nomfic
+         close(lunin)
+      else
+        nx = 59
+c        ny = 23
+        ny = 25
+      endif
+
+      write(*,*) ' '
+      write(*,*) '------------------------- '
+      write(*,*) 'nx, ny : ',nx,ny
+      write(*,*) 'file : ',nomfic
+      write(*,*) '------------------------- '
+      write(*,*) ' '
+
+      nl = nfai
+      OPEN(UNIT=nfai,FILE=nomfic)
 
       i12 = 1
       call avrg(NLOG,i12,NL,LM,OKOPN,CHANGE,nx,ny)
@@ -25,15 +52,15 @@ C----- PLOT SPECTRUM
         i12 =2 
         call avrg(NLOG,i12,NL,LM,OKOPN,CHANGE,nx,ny)
       endif
+
+      close(nfai)
+      close(lunout)
       stop
       end
 
       SUBROUTINE avrg(NLOG,I12,NL,LM,OKOPN,CHANGE,nx,ny)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
-C----- PLOT SPECTRUM     
-      COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
-C      COMMON/LUN/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       PARAMETER (NCANAL=2500)
       COMMON/SPEDF/BORNE(6),SPEC(NCANAL,3),PMAX(3),NC0(3)
       COMMON/TRACKM/ NPTS,NPTR
@@ -42,7 +69,7 @@ C      COMMON/LUN/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       DIMENSION YMX(6), YPMX(6)
  
       LOGICAL OKECH
-      CHARACTER REP, NOMFIC*80
+      CHARACTER REP, NOMFIC*20
       LOGICAL BINARY, BINARF
       CHARACTER HVL(3)*12
 
@@ -56,16 +83,10 @@ C      COMMON/LUN/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       parameter (mxpass=999999)
       dimension xvar(mxpass), sum(mxpass,10), nbtraj(mxpass)
 
-      INCLUDE 'FILFAI.H'
-
       DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
     
       call iraz(nbtraj,mxpass)
       if(i12.eq.1) call raz(sum,mxpass*10)
-
-      IF(.NOT.OKOPN) 
-     > CALL OPNDEF(NFAI,FILFAI,NL,
-     >                            NOMFIC,OKOPN) 
 
       NPTR=NPTS
 
@@ -90,7 +111,7 @@ C          OPN = .FALSE.
               OPN = .TRUE.
               write(iun,fmt='(a)')
      >   '# yzxb(nx), av sx sy sz, av |S|, av ctta stta, av tta tta^2, '
-     >        //'sigTta, sin2+cos2, # of traj at that pass'
+     >        //'sigTta,  # of traj at that pass'
             ELSE
               GOTO 698
             ENDIF
@@ -106,42 +127,36 @@ C          OPN = .FALSE.
               sum(ipass,1)= sum(ipass,1)/dble(nbtraj(ipass)) 
               sum(ipass,2)= sum(ipass,2)/dble(nbtraj(ipass)) 
               sum(ipass,3)= sum(ipass,3)/dble(nbtraj(ipass)) 
-              write(*,*) 
-     >        sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
-c                 write(*,*) ' ipass, # trak, |<S>|^2: ',   ! this quantity is NOT ok : |<S>|^2 .ne. 1
-c     >        ipass,  nbtraj(ipass), 
-c     >        sum(ipass,1)**2 + 
-c     >        sum(ipass,2)**2 + 
-c     >        sum(ipass,3)**2 
-c                 read(*,*)
-            else              
-c                 write(*,*) ' ipass, # trak, |<S>|^2 : ',   ! this quantity is not ok : |<S>|^2 .ne. 1
-c     >        ipass,  nbtraj(ipass), 
-c     >        sum(ipass,1)**2 + 
-c     >        sum(ipass,2)**2 + 
-c     >        sum(ipass,3)**2 
-c                 read(*,*)
+              sqrts = sqrt(
+     >        sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
 
-              sum(ipass,4)= sum(ipass,4)/dble(nbtraj(ipass))  ! cos tta
-              sum(ipass,5)= sum(ipass,5)/dble(nbtraj(ipass))  ! sin tta
+              sum(ipass,1)= sum(ipass,1)/sqrts
+              sum(ipass,2)= sum(ipass,2)/sqrts
+              sum(ipass,3)= sum(ipass,3)/sqrts
+
+            else              
+
+              sum(ipass,4)= sum(ipass,4)/dble(nbtraj(ipass))  ! avrg cos tta
+              sum(ipass,5)= sum(ipass,5)/dble(nbtraj(ipass))  ! avrg sin tta
               sum(ipass,6)= sum(ipass,6)/dble(nbtraj(ipass))  ! avrg tta
               sum(ipass,7)= sum(ipass,7)/dble(nbtraj(ipass))  ! avrg tta^2
               xnrm=sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
               write(iun,
-     >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
+     >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,1x,e17.8)')
+c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        abs(xvar(ipass)), 
-     >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg \vec S
+     >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg S_x,_y,_z
      >        xnrm,  ! |av S|
      >        sum(ipass,4), sum(ipass,5),                       ! cos_tta, sin_tta
      >        sum(ipass,6), sum(ipass,7),                       ! av tta, av tta^2
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )  ,      ! sig_tta
-     >        (sum(ipass,4)**2 + sum(ipass,5)**2) ,             ! sin^2 + cos^2 == 1 ?
      >        nbtraj(ipass), ipass,
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 ) 
      >         * 180./(4.* atan(1.d0)) 
-     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.),
-     >        ' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
-     >        //'sigTta, sin2+cos2, # of traj at that pass'
+     >          * 11.8393845 /
+c     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.)
+c     >        ,' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
+c     >        //'sigTta, sin2+cos2, # of traj at that pass'
             endif
           else
             write(iun,fmt='(1p,e17.8,1x,e17.8,1x,i6,1x,i6,a)')
@@ -158,23 +173,6 @@ c                 read(*,*)
          else
            CLOSE(IUN)
          endif
-
-        do ipass = 1, npass
-                 write(88,*)    ! this quantity is ok : |<S>|^2=1
-     >        i12, ipass,  nbtraj(ipass), 
-     >             sum(ipass,1), sum(ipass,2), sum(ipass,3),
-     >        sqrt( sum(ipass,1)**2 + 
-     >        sum(ipass,2)**2 + 
-     >        sum(ipass,3)**2) , 
-     >         ' i12 ipass, #trj  sx sy sz  |s|   '
-           if(i12.eq.2) then 
-              xnrm = sqrt(sum(ipass,1)**2 + sum(ipass,2)**2 
-     >        + sum(ipass,3)**2 )**0.5
-              sum(ipass,1)= sum(ipass,1)/xnrm
-              sum(ipass,2)= sum(ipass,2)/xnrm
-              sum(ipass,3)= sum(ipass,3)/xnrm
-           endif
-         enddo
 
       RETURN
 
@@ -221,18 +219,18 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
         NOC=NOC+1
 
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
-C            write(*,*) nrblt, NINT(YZXB(39)) 
 
         ipass = nint(yzxb(39))
         xvar(ipass) = yzxb(nx)
-C            write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny
+c         write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny,i12
         if(ipass .gt. mxpass) stop ' Increase mxpass !! '
+
         if(ny.eq.25) then   !  average spin vector
           if(i12.eq.1) then 
             sum(ipass,1) = sum(ipass,1) + yzxb(21)
             sum(ipass,2) = sum(ipass,2) + yzxb(22)
             sum(ipass,3) = sum(ipass,3) + yzxb(23)
-c             write(*,*) ' i12 = 1; ipass, |s_i|^2 : ',   ! this quantities is ok
+c             write(*,*) ' Sbr storco. i12 = 1; ipass, |s_i|^2 : ',   ! this quantities IS OK
 c     >         ipass,
 c     >      yzxb(21)**2 + 
 c     >      yzxb(22)**2 + 
@@ -240,55 +238,31 @@ c     >      yzxb(23)**2
 c                  read(*,*) 
           else
 C cos angle between avrge \vec S and current \vec S
-c                 write(*,*) ' i12=2 ipass, |<S>|^2, |s_i|^2 : ',   ! |<S>|^2 is not ok (.ne. 1)
-c     >         ipass,
-c     >      sum(ipass,1)**2 + 
-c     >      sum(ipass,2)**2 + 
-c     >      sum(ipass,3)**2 ,
-c     >      yzxb(21)**2 + 
-c     >      yzxb(22)**2 + 
-c     >      yzxb(23)**2
-c                    read(*,*)
-c            ctta = sum(ipass,1) * yzxb(21) + 
-c     >      sum(ipass,2) * yzxb(22) + sum(ipass,3) * yzxb(23)
-c            ttac = acos(ctta)
             a(1) = sum(ipass,1)
             a(2) = sum(ipass,2)
             a(3) = sum(ipass,3)
-c            xa = sqrt(pscal(a,a))
-c            a(1) = a(1) / xa
-c            a(2) = a(2) / xa
-c            a(3) = a(3) / xa
-c            xxa = sqrt(pscal(a,a))
+            xa = sqrt(pscal(a,a))
+
             b(1) =  yzxb(21)
             b(2) =  yzxb(22)
             b(3) =  yzxb(23)
-            ctta = pscal(a,b)
             xb = sqrt(pscal(b,b))
-c               write(*,*) ' |a|, |b| :', pscal(a,a),pscal(b,b)          
+
+            ctta = pscal(a,b)
             call vvect(a,b,vv)
-c            stta = sqrt(
-c     >      (sum(ipass,2) * yzxb(23) - sum(ipass,3) * yzxb(22))**2+
-c     >      (sum(ipass,3) * yzxb(21) - sum(ipass,1) * yzxb(23))**2+
-c     >      (sum(ipass,1) * yzxb(22) - sum(ipass,2) * yzxb(21))**2)
             stta = sqrt(pscal(vv,vv))
+
+c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
+
             sum(ipass,4) = sum(ipass,4) + ctta
             sum(ipass,5) = sum(ipass,5) + stta
             tta = atan2(stta,ctta)
             tta = acos(ctta)
-C            tta = acos(ctta)
-C                  read(*,*) 
-c                 write(*,*) ' tta, ctta , stta, ctta^2+stta^2 : ',
-c     >      tta, ctta, stta, ctta**2+stta*2
-c                 write(*,*) ' ctta , stta atan, atan2 : ',
-c     >      ctta, stta,atan(stta/ctta), tta, acos(ctta), asin(stta), 
-c     >             ctta**2+stta**2
-c                   read(*,*)
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
-                 write(*,*) ' tta, atg, acos, sum_tta, sum_tta2 : ',
-     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
-c     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2),xxa,xb
+
+c                 write(*,*) ' tta, atg, acos, sum_tta, sum_tta2 : ',
+c     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
 c                  read(*,*)
           endif 
         else
@@ -430,7 +404,7 @@ C              ENDIF
              jpass = ipass
             IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
      >                                IEND)) GOTO 21
-            IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
+            IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
      >                                IEND))  THEN
 
 C              IF(IEND.EQ.0) THEN
@@ -917,93 +891,6 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
       ENDIF
       RETURN
       END
-      SUBROUTINE OPNDEF(LU2O,DEFN2O,LUO,
-     >                                  FNO,OKOPN)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) DEFN2O, FNO
-      LOGICAL OKOPN
-
-      LOGICAL EXS, OPN, BINARY 
-      CHARACTER*11 FRMT
-
-      IF( LU2O .EQ. -1) THEN
-C------- Looks for a free LUO starting from #10
-        OKOPN = .FALSE.
-        LU2O = 9
- 1      CONTINUE  
-        LU2O = LU2O+1
-        IF(LU2O.EQ.100) GOTO 96
-        INQUIRE(UNIT=LU2O,EXIST=EXS,OPENED=OPN,IOSTAT=IOS)
-        IF( IOS .EQ. 0 .AND. OPN ) GOTO 1
-      ELSEIF(LU2O .EQ. LUO) THEN
-C------- Check whether LUO is already open
-        INQUIRE(UNIT=LUO,EXIST=EXS,OPENED=OPN,NAME=FNO,IOSTAT=IOS)
-        IF(IOS .EQ. 0) THEN
-          OKOPN = OPN
-        ELSE
-          OKOPN = .FALSE.
-        ENDIF
-      ELSE
-        IF(LUO.GT.0) CLOSE(LUO)
-        OKOPN = .FALSE.
-      ENDIF
-
-      IF(.NOT. OKOPN) THEN
-C--------- Check existence of DEFN2O
-        INQUIRE(FILE=DEFN2O,EXIST=EXS,IOSTAT=IOS)
-
-        IF(IOS .EQ. 0) THEN
-
-          BINARY=DEFN2O(1:2).EQ.'B_' .OR. DEFN2O(1:2).EQ.'b_'
-          IF(BINARY) THEN 
-            FRMT='UNFORMATTED'
-          ELSE
-            FRMT='FORMATTED'
-          ENDIF
-          IF(EXS) THEN
-            OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='OLD',ERR=99,IOSTAT=IOS,
-     >           FORM=FRMT)
-            IF(IOS.NE.0) GOTO 97
-            CALL HEADER(LU2O,4,BINARY,*99)
-          ELSE
-            OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='NEW',ERR=99,IOSTAT=IOS,
-     >           FORM=FRMT)
-            IF(IOS.NE.0) GOTO 97
-          ENDIF
-
-          FNO = DEFN2O
-          LUO = LU2O
-          OKOPN = .TRUE.
-        ELSE
-
-          WRITE(6,*) ' Exec error occured in Subroutine OPNDEF : '
-          WRITE(6,*) ' IOS NON-ZERO '
-
-        ENDIF
-C        IF(OKOPN) WRITE(6,FMT='(2A)') 'Opened file is ',DEFN2O
-C      ELSE
-C         WRITE(6,*) ' Already opened file ',DEFN2O
-        CALL READC8(BINARY)
-      ENDIF
-
-      IF(OKOPN) WRITE(6,FMT='(2A)') 'Opened file is ',DEFN2O
-
-      RETURN
-
- 96   WRITE(6,*) ' Exec error occured in Subroutine OPNDEF : ' 
-      WRITE(6,*) ' Logical unit # exceeds 100 ; CANNOT OPEN ',DEFN2O
-      RETURN
-
- 97   WRITE(6,*) ' Error occured while in Subroutine OPNDEF : '
-      WRITE(6,*) '      IOS NON-ZERO ; CANNOT OPEN ',DEFN2O
- 99   CONTINUE
-      RETURN
-
-C 98   CONTINUE
-C      CLOSE(LU2O)
-C      RETURN
-
-      END
       SUBROUTINE INIGR(
      >                 NLOG, LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -1093,7 +980,7 @@ C      NOMFIC = 'b_zgoubi.fai'
 
       RETURN
       END
-      FUNCTION OKKP(KP1,KP2,IPASS,
+      FUNCTION OKKP(KP1,KP2,KP3,IPASS,
      >                            IEND)
       LOGICAL OKKP
 
@@ -1245,12 +1132,13 @@ C     -----------------------------------
          IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
       RETURN
       END
-      SUBROUTINE VVECT(A,B,C)
+      SUBROUTINE VVECT(A,B,
+     >                     C)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(*),B(*),C(*)
       C(1) = A(2)*B(3) - A(3)*B(2)
       C(2) = A(3)*B(1) - A(1)*B(3)
-      C(3) = A(1)*B(2) - A(2)*B(13)
+      C(3) = A(1)*B(2) - A(2)*B(1)
       RETURN
       END
       FUNCTION PSCAL(X,Y)
