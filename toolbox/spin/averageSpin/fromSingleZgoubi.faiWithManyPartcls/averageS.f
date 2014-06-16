@@ -153,7 +153,6 @@ c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        nbtraj(ipass), ipass,
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 ) 
      >         * 180./(4.* atan(1.d0)) 
-     >          * 11.8393845 /
 c     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.)
 c     >        ,' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
 c     >        //'sigTta, sin2+cos2, # of traj at that pass'

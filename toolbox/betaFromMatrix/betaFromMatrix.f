@@ -116,8 +116,8 @@ c     >                    label(debstr(label):finstr(label))
           txt132 = txt132(debstr(txt132):finstr(txt132))
           if(strcon(txt132,'), path length',14,
      >                                          IS)) then 
-            read(txt132(44:56),*) path(iico) 
-            read(txt132(84:96),*) pp0(iico) 
+            read(txt132(44:60),*) path(iico) 
+            read(txt132(84:99),*) pp0(iico) 
            
 c              write(*,*) txt132(debstr(txt132):finstr(txt132))
 c                write(*,*) iico, path(iico) ,pp0(iico)  
@@ -188,8 +188,8 @@ c              write(*,*) '  Reading betatron phase'
             read(lunR,fmt='(a)',end=62) txt132
 c            write(*,*) txt132(27:37)
 c            write(*,*) txt132(54:64)
-            read(txt132(27:37),*,end=62,err=639) phix(iico)
-            read(txt132(54:64),*,end=62,err=639) phiz(iico)
+            read(txt132(27:42),*,end=62,err=639) phix(iico)
+            read(txt132(54:76),*,end=62,err=639) phiz(iico)
 
             sDx = sDx + Dx(iico)
             sDz = sDz + Dz(iico)
@@ -211,7 +211,7 @@ c            write(*,*) txt132(54:64)
             ENDIF
       WRITE(LUNW,*) 
      >'% s, alfx, betx, Dx, Dpx, alfz, betz, Dz, Dpz, Sphx, Sphz, phx,
-     >phz, p/p0, lmnt#'
+     >phz, p/p0, lmnt'
       sDx2 = 0.d0
       sDz2 = 0.d0
       iico = iico-1 
