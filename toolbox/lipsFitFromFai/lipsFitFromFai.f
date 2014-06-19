@@ -13,6 +13,7 @@ C----- PLOT SPECTRUM
       CHARACTER*80 FILFAI
       logical exs
       character HV*2
+      INTEGER DEBSTR,FINSTR
 
       data HV / '  ' /
 
@@ -63,6 +64,13 @@ c      elseif(.NOT.exs) then
 c        write(*,*) ' Press Enter to continue'
 c      read(*,*)
 
+      INQUIRE(FILE=filfai,exist=EXS)
+      if(.not. exs) then
+        write(*,*) ' No such file '
+     >  ,filfai(debstr(filfai):finstr(filfai))
+        stop ' Please change .fai file name in'//
+     >  ' lipsFitFromFai[_iterate].In.'
+      endif
 
       if(kpa.eq.0) kpa = 1  ! this is for lipsFitFromFai_iterate
       kpb = kpa 
@@ -1254,23 +1262,6 @@ c      WRITE(6,FMT='(/,A,I2,A)') ' Now reading  ',N,'-line  file  header'
       WRITE(6,*) '        ... Empty file ?'
       RETURN 1
       END
-      FUNCTION FINSTR(STR)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INTEGER FINSTR
-      CHARACTER * (*) STR
-C     -----------------------------------
-C     Renvoie dans FINSTR le rang du
-C     dernier caractere non-blanc de STR.
-C     Renvoie 0 si STR est vide ou blanc.
-C     -----------------------------------
-
-      FINSTR=LEN(STR)+1
-1     CONTINUE
-         FINSTR=FINSTR-1
-         IF(FINSTR.EQ. 0) RETURN
-         IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
-      RETURN
-      END
       SUBROUTINE SPEPR(NLOG,KPR,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YM(*), YPM(*), YNU(*), PMAX(*), NC0(*)
@@ -1371,4 +1362,50 @@ C----------  This is to flush the write statements...
       zm =  zmi
       zpm = zpmi
       return
+      END
+      FUNCTION DEBSTR(STRING)
+      implicit double precision (a-h,o-z)
+      INTEGER DEBSTR
+      CHARACTER * (*) STRING
+
+C     --------------------------------------
+C     RENVOIE DANS DEBSTR LE RANG DU
+C     1-ER CHARACTER NON BLANC DE STRING,
+C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
+C     --------------------------------------
+
+      DEBSTR=0
+      LENGTH=LEN(STRING)
+C      LENGTH=LEN(STRING)+1
+1     CONTINUE
+        DEBSTR=DEBSTR+1
+C        IF(DEBSTR .EQ. LENGTH) RETURN
+C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
+        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
+          IF(DEBSTR .EQ. LENGTH) THEN
+            DEBSTR = 0
+            RETURN
+          ELSE
+            GOTO 1
+          ENDIF
+        ENDIF
+
+      RETURN
+      END
+      FUNCTION FINSTR(STR)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER FINSTR
+      CHARACTER * (*) STR
+C     -----------------------------------
+C     Renvoie dans FINSTR le rang du
+C     dernier caractere non-blanc de STR.
+C     Renvoie 0 si STR est vide ou blanc.
+C     -----------------------------------
+
+      FINSTR=LEN(STR)+1
+1     CONTINUE
+         FINSTR=FINSTR-1
+         IF(FINSTR.EQ. 0) RETURN
+         IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
+      RETURN
       END

@@ -247,9 +247,9 @@ C cos angle between avrge \vec S and current \vec S
             b(3) =  yzxb(23)
             xb = sqrt(pscal(b,b))
 
-            ctta = pscal(a,b)
+            ctta = pscal(a,b)/xa/xb
             call vvect(a,b,vv)
-            stta = sqrt(pscal(vv,vv))
+            stta = sqrt(pscal(vv,vv))/xa/xb
 
 c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
 
@@ -260,8 +260,8 @@ c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
 
-c                 write(*,*) ' tta, atg, acos, sum_tta, sum_tta2 : ',
-c     >       tta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
+c      write(*,*)' tta, stta, ctta, atg, acos, sum_tta, sum_tta2 : ',
+c     >tta,stta, ctta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
 c                  read(*,*)
           endif 
         else

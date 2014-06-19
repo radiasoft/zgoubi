@@ -1,0 +1,1 @@
+gfortran -o averageS averageS.f

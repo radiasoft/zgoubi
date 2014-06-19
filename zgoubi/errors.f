@@ -54,7 +54,7 @@ C                  A or R   G or U
 C on/off switch  (1/0), number of lines to follow (each line sets a particular error)
       iop = nint(A(NOEL,1) )
       nbr = nint (A(NOEL,2) )
-      iseed = nint (A(NOEL,2) )
+      iseed = nint (A(NOEL,3) )
 
       if (iop .eq. 0) then 
 C        Switch off all possible earlier error settings
