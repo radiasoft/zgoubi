@@ -6,7 +6,7 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
 
       CHARACTER*20 NOMFIC
       logical exs
-      LOGICAL IDLUNI, ok
+      LOGICAL IDLUNI, OK
 
       write(*,*) ' '
       write(*,*) '------------------------- '
