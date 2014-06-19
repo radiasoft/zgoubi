@@ -1,4 +1,4 @@
-C        1         2         3         4         5         6         7
+C        1         2         3         4         5         6         7  
 C23456789012345678901234567890123456789012345678901234567890123456789012
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
