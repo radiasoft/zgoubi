@@ -1,0 +1,8 @@
+
+
+This is the regular RHIC Blue lattice, with regular operation settings. The 2 snakes are simulated using "SPINR" keyword, just a local spin rotation, no particle tracking. 
+
+Copy track.dat to zgoubi.dat, run, that'll yield zgoubi.res (formatted data) and b_zgoubi.fai (binary data). The latter, binary file, contains particle data turn by turn. If formatted output wanted instead, change b_zgoubi.fai to zgoubi.fai in zgoubi.dat, re-run.
+
+The graphics found in this folder have been obtained using zpop, menu 7 (choice of variables to be plotted is in 7/2). Gnuplot can do that as well, reading from zgoubi.fai easier in taht case.
+
