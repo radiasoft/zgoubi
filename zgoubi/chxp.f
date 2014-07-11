@@ -57,6 +57,9 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       INCLUDE 'FILPLT.H'
       DIMENSION DBDX(3)
 
+      PARAMETER (PI = 4.D0 * ATAN(1.D0))
+      PARAMETER (RAD = PI/180.D0)
+
       DATA DTA1 / 0.D0 /
       DATA NEWFIC / .TRUE. /
 c         open(unit=88,file='fort.88')
@@ -224,7 +227,22 @@ C-------- FFAG-SPI     spiral ffag
 C     >                  XL,DEV)
         IDZ=3
 
-        KP = NINT(A(NOEL,ND+3))
+        NP = ND + 3
+        KP = NINT(A(NOEL,NP))
+        IDRT =  NINT(10*A(NOEL,NP))- 10*KP
+        NP = NP + 5
+        IF(IDRT .GE. 1) THEN
+          WRITE(NRES,*)' NUMB. OF DROITES LIMITES : ', IDRT
+          WRITE(*,*)' NUMB. OF DROITES LIMITES : ', IDRT
+          DO I = 1, IDRT
+            CA(I) = A(NOEL,NP) * RAD
+            SA(I) = A(NOEL,NP+1) 
+            CM(I) = A(NOEL,NP+2) 
+            NP = NP + 3
+            WRITE(*,*)' SBR CHXP. DROITE LIMITE : ',CA(I),SA(I),CM(I),KP
+            WRITE(NRES,*)' SBR CHXP. DROITE LIMITE : ',CA(I),SA(I),CM(I)
+          ENDDO
+        ENDIF
         NDD = ND+4
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 

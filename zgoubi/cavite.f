@@ -243,7 +243,7 @@ C        PH(I)=DPHI-PHS
         PX=SQRT( P*P -PY*PY-PZ*PZ)
 
 
-      write(88,*) ' cavite ', QV*SIN(PH(I)), dphi,PH(I)*deg
+C      write(88,*) ' cavite ', QV*SIN(PH(I)), dphi,PH(I)*deg
  
         DPR(I)=WF-QV*SIN(PHS)
         F(1,I) = P/P0

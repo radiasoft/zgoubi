@@ -91,7 +91,17 @@ C     ... KP, RE, TE, RS, TS
 C Modif, FM, Dec. 05
 C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
-
+      KP = NINT(A(NOEL,NP+3))
+      IDRT =  NINT(10*A(NOEL,ND+3))- 10*KP
+      NP = NP + 8
+      IF(IDRT .GE. 1) THEN
+        DO I = 1, IDRT
+          IF(NP .GT. MXD) CALL ENDJOB('SBR RFFAG. TOO MANY BOUNDARIES, '
+     >    //'SHOULD BE .LE. ',MXD)
+          READ(NDAT,*) (A(NOEL,J),J=NP,NP+2)
+          NP = NP + 3
+        ENDDO
+      ENDIF
       RETURN
 
  999  CONTINUE

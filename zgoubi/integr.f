@@ -231,9 +231,8 @@ C--------------- i.e., IDRT=1 or 2
                 XFINAL = XLIM
                 GOTO 6
               ELSEIF(KDR .LT. IDRT) THEN
-C--------------- i.e., IDRT > 2
-C---------------- S'il y a (IDRT-1)>2 droites en sorties (e.g., plans 
-C                                    de detecteurs)
+C---------------- Thus, IDRT > 2
+C---------------- There are (IDRT-1)>2 "droites en sorties" (e.g., spectrometer detector planes)
                 KDR = KDR + 1
                 CT=COS(T)
                 ST=SIN(T)
@@ -258,10 +257,31 @@ C                                    de detecteurs)
 C------------- if .not.mirror etc. 
 
           ENDIF
+
         ELSEIF( KART .EQ. 2) THEN
-          stop ' SBR INTEGR : IDRT not implemented'
-        ENDIF
-      ENDIF
+C--------- Cylindrical coordinates
+C Array CA contains angle of integration boundary
+
+C          stop ' SBR INTEGR : IDRT not implemented'
+
+          IF(abs(CA(2)-X) .LT. DXI) THEN
+
+        write(*,*) ' be > XLIM) idrt, ca1 ',
+     >       idrt, ca(2)-x, ca(2),x,dxi
+
+c              IF(LST .EQ. 2) THEN 
+c                CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
+c              ELSEIF(LST .EQ. 3) THEN 
+c                CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
+c              ENDIF
+
+c              XFINAL = CA(2)
+c              GOTO 6
+
+          ENDIF ! XLIM-X
+
+        ENDIF  ! KART
+      ENDIF ! IDRT .GE. 1
 
 C-----------------------    TEST  EFB's in Multipoles etc.
 C                              IFB set to .ne.0 due to mixed sharp edge+FF

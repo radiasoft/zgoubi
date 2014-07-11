@@ -11,14 +11,14 @@ FC=/opt/intel/bin/ifort
 #FC=ifort
 #
 ### check : check array boundary errors
-#FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
+FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
 #FFLAGS= -xHOST -O3 -ip -traceback -check         -save
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save
 #FFLAGS= -xHOST -O3 -ip                   -static -save
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save
 ######## OWL : 
 # -static includes local libs (-lm etc.) into executable. Pb with that on cscomputers
-FFLAGS= -xHOST -O4 -ip -save
+#FFLAGS= -xHOST -O4 -ip -save
 
 .POSIX:
 
