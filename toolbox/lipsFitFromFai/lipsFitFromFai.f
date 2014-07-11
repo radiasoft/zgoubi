@@ -1,5 +1,4 @@
 C        1         2         3         4         5         6         7
-C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
@@ -127,6 +126,7 @@ c      DATA NT / -1 /
 C      INCLUDE 'FILFAI.H'
 
       SAVE NPASS, ktma
+      dimension nptin(3)
 
       DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
       data ktma / -1 /
@@ -161,7 +161,8 @@ C          OPN = .FALSE.
            WRITE(IUN,*) 
      >     '# XM, XPM, (U(I),I=1,3), '//
      >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
-     >     ', time, E or dp.,# of prtcls in rms lips '
+     >     ', LM, DPM, # of prtcls in rms lips_x,_y,_z, '//
+     >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp'
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -323,6 +324,8 @@ c              write(*,fmt='(a,3g12.4,i4)') 'blublu ',x,x2,ym(jj),jj
         X2  = X2/SNPT
         XP2 = XP2/SNPT
         XXP = XXP/SNPT
+
+        call lpsim4(jj,x2,xp2,xxp)
 
 C G. Leleux : surface de l'ellipse S=4.pi.sqrt(DELTA)
 C Soit d11=X2/sqrt(DELTA), d12=XXP/sqrt(DELTA), d22=XP2/sqrt(DELTA), alors 
@@ -1204,9 +1207,9 @@ C------- Swallow the header (4 lines)
 C      DATA KXYL / 2,3,4,5,7,1 /
 C                 Y  T  Z  P  time energ
 C      DATA KXYL / 2, 3, 4, 5, 7,   20 /
-C                 Y  T  Z  P  time dp/p
-C      DATA KXYL / 2, 3, 4, 5, 7,   1 /
-      DATA KXYL / 2,3,4,5,18,19 /
+C                 Y  T  Z  P  S dp/p
+      DATA KXYL / 2, 3, 4, 5, 7,   1 /
+C      DATA KXYL / 2,3,4,5,18,19 /
 
 C----------- Current coordinates
           II = 0
@@ -1345,12 +1348,16 @@ C----------  This is to flush the write statements...
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR)
       save xm,xpm,ym,ypm,zm,zpm
+      dimension sigx2(3), sigxp2(3), sigxxp(3) 
+      save sigx2, sigxp2, sigxxp 
+
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
      >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
      >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
+     >,(sigx2(I),I=1,3),(sigxp2(I),I=1,3),(sigxxp(I),I=1,3)
 !!     >      ,  xK, xiDeg,' ',HV
  179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6),
-     >3(1x,i6))
+     >3(1x,i6),9(1x,E14.6))
 
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
       RETURN
@@ -1363,6 +1370,13 @@ C----------  This is to flush the write statements...
       zm =  zmi
       zpm = zpmi
       return
+
+      entry lpsim4(jj,x2,xp2,xxp)
+      sigx2(jj) = x2
+      sigxp2(jj) = xp2
+      sigxxp(jj) = xxp
+      return
+
       END
       FUNCTION DEBSTR(STRING)
       implicit double precision (a-h,o-z)
