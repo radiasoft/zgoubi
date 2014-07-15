@@ -76,10 +76,11 @@ C        Switch off all possible earlier error settings
      >//' cannot exceed ',MXTA)
 
 C Example of an error assignment line : 
-C          MULTIPOL{lbl1,lbl2} XR 1, G, center, sigma, cut
+C          MULTIPOL{lbl1,lbl2} 1, XR, R, G, center, sigma, cut
 C {lbl1,lbl2} is optional, can be {,lbl2}, {lbl1}  
-C XR is roll. Other possibilities : YR, ZR, XS, YS, ZS
 C 1 is the  pole # (dipole). can be 1-10 for dipole-20_pole
+C XR is roll. Other possibilities : YR, ZR, XS, YS, ZS, BP (B_pole)
+C R is for relative, A for absolute
 C G for gaussian, U for uniform
 C Case U : "sigma" stands for half-width
 C cut is in units of sigma

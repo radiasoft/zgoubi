@@ -162,7 +162,7 @@ C          OPN = .FALSE.
      >     '# XM, XPM, (U(I),I=1,3), '//
      >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
      >     ', LM, DPM, # of prtcls in rms lips_x,_y,_z, '//
-     >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp'
+     >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp, dp/p|Init'
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -1201,15 +1201,16 @@ C------- Swallow the header (4 lines)
       PARAMETER (NTR=NPTMAX*9)
       COMMON/TRACKM/COOR(NPTMAX,9),NPTS,NPTR
 
-      DIMENSION KXYL(6)
+      DIMENSION KXYL(9)
       SAVE KXYL
 
-C      DATA KXYL / 2,3,4,5,7,1 /
-C                 Y  T  Z  P  time energ
-C      DATA KXYL / 2, 3, 4, 5, 7,   20 /
-C                 Y  T  Z  P  S dp/p
-      DATA KXYL / 2, 3, 4, 5, 7,   1 /
-C      DATA KXYL / 2,3,4,5,18,19 /
+C                 Y  T  Z  P  time enrg dppInit unused
+      DATA KXYL / 2, 3, 4, 5, 7,   20,  11,     2*1 /
+CCCC                  Y  T  Z  P  time   dp/p dppInit unused
+CCCC      DATA KXYL / 2, 3, 4, 5, 7,     1,   11,     2*1 /
+C                          RF  RF
+C                  Y  T  Z phi dp  dppInit unused
+C      DATA KXYL / 2,3,4,5,18, 19, 11,     2*1 /
 
 C----------- Current coordinates
           II = 0
@@ -1222,6 +1223,7 @@ C----------- Initial coordinates
           COOR(NOC,4)=YZXB(KXYL(4)+II )
           COOR(NOC,5)=YZXB(KXYL(5)+II )
           COOR(NOC,6)=YZXB(KXYL(6) )
+          COOR(NOC,7)=YZXB(KXYL(7) )  ! dp_p|Init
       RETURN
       END
       SUBROUTINE HEADER(NL,N,IPRNT,BINARY,*)
@@ -1354,10 +1356,11 @@ C----------  This is to flush the write statements...
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
      >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
      >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
-     >,(sigx2(I),I=1,3),(sigxp2(I),I=1,3),(sigxxp(I),I=1,3)
+     >,(sqrt(sigx2(I)),I=1,3),(sqrt(sigxp2(I)),I=1,3)
+     >,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7)
 !!     >      ,  xK, xiDeg,' ',HV
  179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6),
-     >3(1x,i6),9(1x,E14.6))
+     >3(1x,i6),10(1x,E14.6))
 
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
       RETURN

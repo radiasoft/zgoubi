@@ -265,11 +265,11 @@ c     >         lbl1(irr), label(noel,1),lbl2(irr),label(noel,2)
 c                      read(*,*)
           if(ok) then
             if(ipass.eq.1) then 
-c                 write(*,*) ' multpo kpol ',(kpol(k),k=1,mpol)
-c                      read(*,*)
               call mulerr(noel,irr,iseed,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                     DB,dpos,tilt)
+c                 write(*,*) ' multpo kpol ',db
+c                      read(*,*)
             endif
             IF(KUASEX .LE. MPOL) THEN
               BM(KUASEX) = BM(KUASEX) + db(noel,kuasex)

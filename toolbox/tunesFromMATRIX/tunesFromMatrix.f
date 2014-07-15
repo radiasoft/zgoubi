@@ -13,6 +13,8 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       CHARACTER LET*1
       CHARACTER*14 txtxnu, txtznu
       logical okpart
+      integer debstr, finstr
+
       data okpart / .false. /
 
       logical part
@@ -38,11 +40,33 @@ C Open zgoubi.res
         GOTO 798
       ENDIF
 
-C Search zgoubi.res for orbit coordinates
-        read(lunR,fmt='(a)',end=62) txt132     ! title
-        read(lunR,fmt='(a)',end=62) txt132     ! 'OBJET'
-        read(lunR,*,end=62) BORO 
-        read(lunR,fmt='(a)',end=62) txt132     ! KOBJ.KOBJ2
+C Read till "KOBJ"
+        txt132 = ' '
+        dowhile(
+     >  .not. strcon(txt132(debstr(txt132):finstr(txt132)),'''OBJET''',
+     >  7,IS)
+     >  .and. 
+     >  .not.strcon(txt132(debstr(txt132):finstr(txt132)),'''MCOBJET''',
+     >  9,IS))
+          read(lunR,fmt='(a)') txt132
+          if(strcon(txt132(debstr(txt132):finstr(txt132)),'''MCOBJET''',
+     >      9,IS)) then 
+            write(lunW,fmt='(a)') '''OBJET'''
+c          write(*,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+c             read(*,*)
+          else
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          endif
+        enddo 
+c        read(lunR,fmt='(a)') txt132
+c        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+c        read(lunR,fmt='(a)') txt132
+c        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        read(lunR,fmt='(a)') txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        read(txt132,*) BORO
+        !!!write(*,*) ' Reference rigidity BRho = ',BORO/1000.d0,' T.m' 
+        read(lunR,fmt='(a)') txt132
         read(txt132,fmt=*,end=62) objk
         kobj = objk
         if(strcon(txt132,'.',1,
