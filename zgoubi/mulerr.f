@@ -42,6 +42,8 @@ C  -------
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
       COMMON/CONST2/ ZERO, UN
 
+          call rndm2(iseed)      !!!!!!!!!! seed
+
       do i = 1, mpol
         if(kpol(irr,i) .eq.1) then
           if    (typdis(irr,i).eq.'G') then

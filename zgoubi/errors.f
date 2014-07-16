@@ -63,7 +63,7 @@ C        Switch off all possible earlier error settings
 
       if(nres.gt.0) then
         write(nres,fmt='(/25x,''--- SETTING ERRORS ---'',/)') 
-        write(nres,fmt='(/15x,''On/off, number, random seed :'',3I4)') 
+        write(nres,fmt='(/15x,''On/off, number, random seed :'',3I9)') 
      >  iop, nbr, iseed
         write(nres,fmt='(/15x,''Errors to be introduced : '')')
         DO IRR = 1, NBR
