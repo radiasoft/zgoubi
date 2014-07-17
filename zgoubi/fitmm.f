@@ -45,6 +45,10 @@ C  -------
      >            NOEL)
       NEL = IQ(NOEL)
 
+      IF(NEL.LE.0) CALL ENDJOB('SBR FITMM. '
+     >//' Problem with constraint number assignement.'
+     >//' Wrong element number in constraint ?',-99)
+
       FMA(1,NEL,IT) = DMAX1( DP,FMA(1,NEL,IT))
       FMA(2,NEL,IT) = DMAX1(  Y,FMA(2,NEL,IT))
       FMA(3,NEL,IT) = DMAX1(  T,FMA(3,NEL,IT))

@@ -1349,11 +1349,6 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 
 \begin{tabbing}
 \mestab
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
-  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
-                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
-%%%%%%%%%
 \textsl{KIRD[.n],~Resol}         
  \>  If KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~; no dim. \>I, E\\
  \>    n=0~: default, $ B_Z$ formula (i) above, n=1~: $ B_Z$ formula (ii). \>  \\ 
@@ -1791,6 +1786,75 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 
 
+\newpage
+
+
+\begin{tabbing}
+\mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $ ~ ~ ~     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $ \quad  \= 2*cm, 2*deg, cm \quad \= \kill
+%%%%%%%%%
+ \textbf{ERRORS}        \label{ERRORS-B} \index{ERRORS|textbf}
+     \> \textbf{\ERRORSTitl} \> \> \\
+     \> (UNDER DEVELOPMENT)\\
+ \\
+ \\
+ \textsl{ONF, NBR, SEED}      \> On/off switch (0/1)~; number of error sets to be injected (\ie,   \> 3*no dim. \> 3*I \\
+                              \> as well, number of lines  following this one)~; random seed. \> \> \\
+ \\
+ \textbf{The next line depends on the optical element of concern, and is to be one of the following~: } \\
+\textbf{(only one possibility at the moment, namely \textsl{MULTIPOL} keyword) } \\
+\\
+ \textsl{MULTIPOL[{LBL1 [,LBL2]}]}, \> Keyword concerned [optionally, first and/or second label, so to  discriminate \>   \>A80,   \\
+\textsl{N, TYP, AR, UG,} \>between all occurences in the zgobui.dat sequence]~; N=1-10~: pole  concerned \> \>I, A2, A1, \\
+\textsl{VC, HW, CUTOFF} \>(dipole to 20-pole)~; TYP= BP~: field at pole~; AR=A or R~: field value is  absolute \> \> A1, 3*E  \\
+                        \> or relative (to present one)~; UG=U or G~: uniform or Gaussian random law~; VC=  \> \> \\
+                        \> central value~; HW= half-width (case UG=U) or sigma (case UG=G)~; cut-off value in \\
+                        \> units of sigma (unused in uniform case) \\
+\\
+\end{tabbing}
+
+
+
+\vfill
+
+{\noindent {\bf \textsl{Example}} 
+\\
+{\small
+\begin{verbatim}
+'ERRORS'     
+1 1 123456  
+MULTIPOL{VKICK}  6     BP A U 0.d0  1.   3  
+\end{verbatim}
+}
+\noindent In this example the various attributes of the error keyword take the following value and meaning~: 
+
+\noindent First line~: 
+
+- \textsl{ONF = 1}, error setting is on, \textsl{NBR=1}, only one line follows (only on set of errors in a single keyword,
+ \textsl{seed = 123456}
+
+\noindent second line~: 
+
+- \textsl{MULTIPOL} keywords in zgoubi.dat sequence are concerned, only those \textsl{MULTIPOL} featuring ``\textsl{VKICK}'' as 
+first label, 
+
+- multipole component N=6, \ie, dodecapole component, will be modified, as follows
+
+- BP, A, U, 0.d0, 1., 3~: absolute (AR=A) field value (TYP=BP) for that component, will be sorted in a uniform (UG=U) random distribution centered on 0 (VC=0.d0) with half-width 1~kG (HW=1.), CUTOFF=3 here is unused (only used for Gaussian distributions, case UG=G). 
+
+
+
+
+
+
+
+
+
+
+
 
 
 \newpage
@@ -1798,6 +1862,11 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textbf{FAISCEAU}         \label{FAISCEAU-B} \index{FAISCEAU|textbf}
   \> \textbf{\FAISCEAUTitl }   \> \> \\
   \\
@@ -2070,7 +2139,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 \settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint|textbf}
 {\footnotesize
 	\begin{center}
-\label{TabFITZlst1}
+\label{TabFITZlst2}
     {\renewcommand{\arraystretch}{1}
 			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|c|c|c|p{\LL}|}
 			\hline
@@ -2180,6 +2249,109 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 		\end{tabular}  }
 	\end{center}
 } %\normalsize
+
+
+
+
+
+\newpage
+
+
+\noindent \textbf{Combining FIT and REBELOTE}, an example  \label{ExaFITREBELOTE}}
+
+In the example below, \textsl{FIT} requests that (i) the particle trajectory have identical horizontal 
+coordinates at both ends of the snake 
+(achieved by varying initial coordinates $Y_0$, $T_0$ in \textsl{OBJET}),   and (ii) the trajectory 
+across the snake - an helix - be $Y$-centered  along the snake axis. 
+
+\medskip
+
+\noindent \textsl{FIT} is executed a first time for $B\rho_{ref}  = BORO=7205.1782956$~kG.cm,\index{BORO@{\BORO}$\times D_{ref}$}
+ namely the execution loops between \textsl{OBJET} and \textsl{FIT} 
+ until the constraints are best fulfilled.  
+Once this is completed, the execution pointer then goes to 
+the next instruction in the data list, namely  '\textsl{SPNPRT}', this is discussed below, 
+and then points to \textsl{REBELOTE}, which will have the 
+effect of sending it back to the begining of zgoubi.dat data list. 
+However, prior to that, the ``\textbf{1}'' flag, fourth data in first row in \textsl{REBELOTE}, 
+requests a change of, next line,  parameter number \textbf{35} in  element  ``\textbf{OBJET}'' (that is, the 
+relative regidity of the particle, $D$).  The list of values follows, namely, 
+\{1.3872739973  2.1368296674  4.8261190694  11.015241321\}. The change occurs  \textbf{4} times, according to  
+\textsl{NRBLT=4}, the first data in  \textsl{REBELOTE} data list. Note that spin data so computed (spin 
+vector components, precession, etc) are stored in zgoubi.SPNPRT.Out \index{zgoubi.SPNPRT.Out} 
+by placing the keyword '\textsl{SPNPRT}' with label ``\textsl{PRINT}'', between  \textsl{FIT} and  \textsl{REBELOTE}. 
+
+~
+
+~
+
+\begin{minipage}[h]{.55\linewidth}
+{\footnotesize
+\begin{verbatim}
+Centering 5 helical orbits in the AGS warm helical snake 3-D OPERA map.          
+ 'OBJET'  
+7.2051782956d3      ! Rigidity value for first FIT trial
+2 
+1 1                 ! Initial coordinates : 
+-2.0239  -0.000658  -0.002224   0.146412   0.0  1. 'o'                    
+1 
+ 'PARTICUL'         ! proton / necessary for spion tracking
+9.3827203E+02 1.602176487E-19 1.7928474 0 0                               
+  
+ 'SPNTRK' 
+4.1                 ! Initial spin is vertical    
+0. 0. 1.                              
+                   
+ 'TOSCA'  
+0  2                                  
+1.e1   100. 100. 100.                 
+HEADER_0 wsnake                       
+801 29 29 12.1                        
+table55.map         ! AGS warm snake OPERA map 
+0 0 0 0                               
+2 
+.1
+2  0.  .00  0.  0.                    
+          
+ 'FIT'
+2                   ! Two ariables :          
+1 30 0  [-3,3]          ! Vary initial coordinate Y_0 (horiz. position)
+1 31 0  [-3,3]          ! Vary initial coordinate T_0 (horiz. angle)
+3                   ! Three constraints : 
+3.1 1 2 4 0. 1. 0       ! Y_0=Y after at exit of the magnet
+3.1 1 3 4 0. 1. 0       ! T_0=T after at exit of the magnet
+7.3 1 2 4 0. 1. 0       ! Y_min+Y_max=0 inside the magnet
+
+ 'SPNPRT'   PRINT   ! Store spin data in zgoubi.SPNPRT.Out
+
+ 'REBELOTE'         ! Will re-do the FIT for 4 different rigidities
+4  0.1  0 1
+1                   ! List of 4 successive values of D in OBJET follows 
+OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321                          
+
+ 'END'        
+\end{verbatim}
+\index{zgoubi.SPNPRT.Out}
+}
+\end{minipage}\hspace{0.03\linewidth}
+\begin{minipage}[h]{.38\linewidth}
+
+\centering
+
+
+\label{FigHelix}
+\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=1.\linewidth]{Fig-YZ_pwsnk_5.eps}}
+%/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
+
+
+Helical trajectories (projection into the vertical plane $(Y,Z)$) at five different momenta, as centered on the snake axis 
+by the fitting procedure. The plot also shows for each momentum the  helix as it was positioned, off-centered, prior to the fit. 
+
+\vspace{30ex}
+
+~
+
+\end{minipage}
 
 
 
@@ -3406,73 +3578,130 @@ X_S $ translations.}
 \newpage
 
 
-\noindent \textbf{REBELOTE}, an example \\
+\noindent Using \textbf{REBELOTE}, an example  \label{ExaREBELOTE}. \\
 
-\noindent The "FIT" procedure is ran 7 times, with each time a different 
-value for the particle rigidity.  This finds the initial coordinates of a particle, for a series of different momenta, 
-such that each particle (each momenta) will have  its helix accross the helical field map aligned on the field map axis,
-following the result schemed in Fig.~\ref{FigHelix}. 
+\noindent In this example of an energy-recovery electron recirculator based on FFAG arcs, 
+ the arguments in the keyword \textsl{AUTOREF} and \textsl{CAVITE} are changed \textsl{20} times 
+by \textsl{REBELOTE}, over the 21-pass recirculation process~\cite{EIC14}. The role of \textsl{AUTOREF} is
+ to mimic a spreader-recombiner, \ie, re-centering the beam on the design FFAG orbit
+  at the start of each one of the 11 accelerated and 10 decelerated ring turns. 
+The RF voltage in \textsl{CAVITE} is set positive (accelerating, 
+from 7.944~GeV to 21.16~GeV) during the first 11 passes through the optical structure, and negative 
+(decerating, from 21.16 to 7.944~GeV) over the remaining 10 passes. The voltage value at each pass 
+is adjusted (for an energy of 1.322~GeV per turn on average) so to compensate the energy lost by 
+synchrotron radiation in the arcs.  
 
-~
+\bigskip
 
-\begin{minipage}{.38\linewidth}
-\scriptsize
+\begin{minipage}[h]{.55\linewidth}
+{\tiny
 \begin{verbatim}
-Using FIT and REBELOTE keywords concurrently :
- 'OBJET'                                                                     1
-7.20517829566983d3            
-2                  ! Defines particles one by one             
-1     1            ! Y, T, Z, P, dL, D=dp/p coordinates :
--1.165820199 0. 0. 0. 0. 2.136830E+00 'o'
-1 1           
-              
- 'PARTICUL'        ! Necessary since spin is to be tracked                   2
-9.3827203E+02 1.602176487E-19 1.7928474 0 0   
- 'SPNTRK'          ! Initial spin vector coordinates                         3
-4.1           
-0. 0.  1.     
-              
- 'FAISCEAU'        ! Print out particle coordiantes in zgoubi.res            4
-             
- 'DRIFT' DRIF   CSNK                                                         5
--20.          
- 'TOSCA'           ! Handle field map(s)                                     6
-0  0          
-10.15 1. 1. 1.                
-HEADER_9                      
-321 29 29  15.2  0.9606  0.423      ! (15.)2 : two field maps superimposed
-./Csnk3D_map/b_ags-full-coilv5-x06-rerun2-x071-integral-x5y5z10mm.table       
-./Csnk3D_map/b_ags-full-sold3-only-nodal-x5y5z10mm-wasActually-integral.table 
-0 0 0 0       
-2             
-.1            
-2  0.  .00  0.  0.            
- 'DRIFT' DRIF   CSNK                                                         7
--20.          
-              
- 'FAISCEAU'                                                                  8
-              
- 'FIT'                                                                       9
-1                  ! One variable : 
-1 30 0  [-3,3]      
-1                  ! One constraint : 
-3 1 2 6 0. 1. 0    ! particl 1 has its coordnte j=2=Y satisfying max_Y+min_Y =0, across 
-                   ! the whole element ir=6 (TOSCA, i.e. accross teh 3D field map).
-                   ! The effect of the constraint is to center the trajectory on 
-                   ! the helical field map axis.              
- 'SPNPRT'   PRINT  ! Save spin vector in zgoubi.SPNPRT.Out, for info        10
-              
-              
- 'REBELOTE'        ! Will re-do the "FIT" for the following list of 6 different values of the  
-6  0.1  0  1       ! "D=dp/p" (PRM=35) coordinate of the particle defined in "OBJET" (LMNT=1)
-1                  ! A series of 6 successive values, to be takne by parameter 35 in element 1, follows
-1 35    1. 1.387274 1.502203 1.764428 2.3835574 3.447732 3.6081683             
-              
- 'END'                                                                      12
+eRHIC ENERGY RECOVERY LINAC RECIRCULATOR WITH FFAG ARCS.
+ 'MCOBJET'                                               1
+57.36635309d3         reference rigidity (kG.cm) 
+3   
+2000
+2 2 2 2 1 1                                              
+-5.360667E-03   5.059706E-3  0. 0. 0.   4.619439E-01  'o'
+0. 1   0.   3                                            
+0. 1   0.   3                                            
+0. 1.  0.     3                                          
+123456 234567 345678                                         
+ 'PARTICUL'                                              2
+0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0       
+ 'SPNTRK'                                                3
+ 'FAISCEAU'                                              4    
+ 'SRLOSS'                                                5
+1   srLoss                                               
+MULTIPOL                                                 
+1  123456                                                
+ 'SCALING'                                               6
+1  1
+MULTIPOL                                                 
+-1  
+57.36635309 57.36635309                                  
+1           11                                               
+ 'MARKER'   ARC#S_1                                      7
+ 'OPTIONS'                                               8
+1  1
+WRITE OFF                                                
+ 'MARKER'   MARK      CELLSTART                          9
+ 'DRIFT'    DRIF      HD                                10
+14.547181                                                
+ 'MULTIPOL' RBEN      BD2                               11
+0  .Dip                                                  
+90. 10. 0. -0.87159105   0. 0. 0. 0. 0. 0. 0. 0.
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|90|30    Dip  BD2                                    
+3   0.0E+00   4.0704703E-01  -1.5071892929E-03         
+ 'DRIFT'    DRIF      D                                 12
+29.094362                                                
+ 'MULTIPOL' RBEN      QF2                               13
+0  .Dip                                                  
+110.  10.  0. 0.86286642  0. 0.0 0.0 0.0 0.0 0.0 0.0 0.0     
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|110|30    Dip  QF2                                   
+3   0.  -3.6008008661E-01  -1.8710983347E-03            
+ 'DRIFT'    DRIF      HD                                14
+14.547181                                                
+ 'MARKER'   MARK      CELLEND                           15
+!!!!!!!!!!!!!!!!!!!
+6*138-1 additional such FD cells, simulating a 6 arc 
+energy recovery ring, 138 cells per arc. 
+!!!!!!!!!!!!!!!!!!!
+ 'MARKER'   ARC#E_6                                   5820    
+ 'OPTIONS'                                            5821
+1  1
+WRITE ON                                                 
+ 'FAISTORE'                                           5822
+zgoubi.fai                                               
+1   
+ 'FAISCEAU'                                           5823
+ 'CAVITE'                                             5824
+3   
+0  0
+1.322e9  1.57079632679                           
+ 'AUTOREF'                                            5825
+4.1 
+0. -5.168354E-01 4.169759E+00  5.38813280E-01            
+ 'FAISCEAU'                                           5826
+ 'REBELOTE'                                           5827
+20  0.1 99 1                                             
+4   
+AUTOREF 11 -4.7493E-01 -4.1290E-01 -3.3292E-01 -2.3684E-01 
+-1.26268E-01 -2.59705E-03   ... (a list of 20 values) 
+AUTOREF 12  3.34619E+00  2.58215E+00  1.87157E+00  1.20916 
+ 5.90197E-01  1.05897E-02   ... (a list of 20 values) 
+AUTOREF 13 .615682680   .692552080   .769421480  .84629088   
+.923160280    1.00002970    ... (a list of 20 values) 
+CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9 
+... (15 more voltage values) ...  -1.30660e9  -1.309577e9 
+ 'SRPRNT'                                             5828
+ 'END'                                                5829
 \end{verbatim}
-\normalsize
-\end{minipage}\hspace{.05\linewidth}
+\index{zgoubi.SPNPRT.Out}
+}
+\end{minipage}\hspace{0.03\linewidth}
+\begin{minipage}[h]{.38\linewidth}
 
+\centering
+%\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{}}
+
+
+\end{minipage}
+
+\bigskip 
+
+
+\noindent \textbf{Combining FIT and REBELOTE}~: an example is given page \pageref{ExaFITREBELOTE}.
 
 
 

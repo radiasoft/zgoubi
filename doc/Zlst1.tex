@@ -2714,10 +2714,10 @@ including  an extraction line section for instance,
 
 \medskip
 
-\noindent \textsl{GETFITVAL\index{GETFITVAL}} is an exception  rule in that it may appear 
-\textsl{before} the object definition (thus becoming the first keyword in zgoubi.dat data list). This is 
+\noindent \textsl{GETFITVAL\index{GETFITVAL}} may appear 
+\textsl{before} the object definition (keyword \textsl{[MC]OBJET}, normally the first in \zgou\ input data list). This is 
 the case if  variables prior saved following a '\textsl{FIT[2]}' procedure 
-and then read using \textsl{GETFITVAL}, happen to belong in the object input data list. 
+and then read back using \textsl{GETFITVAL}, happen to belong in the \textsl{[MC]OBJET} data list. 
 
 \medskip
 
@@ -2776,6 +2776,9 @@ only supports a limited number of read/write formats. Details concerning I/O for
 in the \FORTRAN\ file \texttt{'binary.f'}.
 
 
+
+
+
 \newpage
 
 \subsubsection*{END or FIN~: \ENDTitl}  \label{FIN} \index{FIN|textbf} \label{END} \index{END|textbf}
@@ -2793,6 +2796,27 @@ the data file, should be stated by means of the keywords \textsl{FIN} or
 
 \noindent In some cases, these keywords may cause some information to be  printed in zgoubi.res, for instance when the 
 keyword \textsl{PICKUPS} is used. 
+
+
+
+
+\newpage
+
+\subsubsection*{ERRORS~:  \ERRORSTitl}  \label{ERRORS}  \index{ERRORS|textbf} 
+\medskip
+
+ The keyword \textsl{ERRORS} allows injecting all sort of errors in optical elements, 
+including field and positionning errors. Uniform and gaussian distribution laws available. 
+
+\medskip 
+
+ \noindent The function is under development, at the moment only filed errors can be injected, 
+in \textsl{MULTIPOL}. Multipoles concenred can be discriminated using one or both of their 
+labels.
+
+
+
+
 
 \newpage
 
@@ -3274,6 +3298,9 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			\hline
 			\hline
 		\end{tabular}  }
+~ ~ ~ \\
+~ ~ ~ \\
+~ ~ ~ 
 	\end{center}
 } %\normalsize
 
@@ -3300,12 +3327,18 @@ of these two particles, $\PV_3 = d_{1,2}$
 \noindent  {\it IC=3.1~: } Absolute value of the difference between local and initial $J$-coordinate of particle $I$ (convenient 
 \emph{e.g.} for closed orbit search). \index{closed orbit}
 
+\smallskip
+
 \noindent  {\it IC=3.2~: } Absolute value of the sum of the local and initial $J$-coordinate of particle number $I$.
 
 %\noindent  {\it IC=3.3~: } Minimum ($\PV=1$) or maximum value ($\PV=2$) of the local $J$-coordinate of particle number $I$.
 
+\smallskip
+
 \noindent  {\it IC=3.4~: } Absolute value of the difference between local $J$-coordinates of particles respectively 
  $I$ and $K$.
+
+\smallskip
 
 \noindent  {\it IC=3.5~: } Difference between local $J$-coordinates of particles respectively 
  $I$ and $K$, relative to $J$-coordinate of particle $K$.
@@ -3342,20 +3375,34 @@ to the distribution. Thus \NP=0.
 \noindent  {\it IC=7 series~: } The quantity to be constrained is 
 taken  \textsl{inside } the optical element with number \IR\ (see page~\pageref{RefIR}). 
 
+\smallskip
+
 \noindent  {\it IC=7.1~: } Minimum or maximum value as reached by coordinate $J$ of particle number $I$. 
+
+\smallskip
 
 \noindent  {\it IC=7.2~: } Maximum minus minimum of the value of coordinate $J$ of particle number $I$. 
 
+\smallskip
+
 \noindent  {\it IC=7.3~: } Maximum plus minimum of the value of coordinate $J$ of particle number $I$. 
+
+\smallskip
 
 \noindent  {\it IC=7.6~: } Minimum ($\PV=1$) or maximum ($\PV=2$) value as reached by the X, Y or Z component 
 of the field along the trajectory of particle number $I$.
 
+\smallskip
+
 \noindent  {\it IC=7.7~: } Maximum minus minimum of the values taken by the X, Y or Z component 
 of the field along the trajectory of particle number $I$.
 
+\smallskip
+
 \noindent  {\it IC=7.8~: } Maximum plus minimum of the values taken by the X, Y or Z component 
 of the field along the trajectory of particle number $I$.
+
+\smallskip
 
 \noindent  {\it IC=7.9~: } Integral of the X, Y or Z component of the field as experienced by 
 particle number $I$, across the optical element. 
@@ -3426,105 +3473,10 @@ iterations on the step size or on the call to the function.
 
 
 \noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows executing again 
-the same fit procedure,  after having changed the value of some parameter in zgoubi.dat data list. 
-That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and causes 
-the fit to be executed again with that different value. 
+the  fitting procedure, following a change, by  \textsl{REBELOTE}, in  the value of some parameter in zgoubi.dat data list. 
 
-\subsubsection*{An example~: \label{ExaFITREBELOTE}}
 
-In the example below, \textsl{FIT} requests that (i) the particle trajectory have identical coordinates at both ends of the snake 
-(varying $Y_0$, $T_0$, $Z_0$, $P_0$) initial coordinates in \textsl{OBJET}),   and (ii) the trajectory  - an helix - be centered 
- along the snake axis, in both $Y$ and $Z$. 
-
-\medskip
-
-\noindent \textsl{FIT} is executed a first time for $B\rho_{ref}  = BORO=7205.1782956$~kG.cm,\index{BORO@{\BORO}$\times D_{ref}$}
- namely the execution loops between \textsl{OBJET} and \textsl{FIT} 
- untill the constraints are best fulfilled.  
-
-\medskip
-
-\noindent Once this is done, the execution pointer then points to 
-the next instruction in the data list, which is   \textsl{REBELOTE} and means 'do it again', which will have the 
-effect of sending the execution pointer back to the begining of zgoubi.dat data list. 
-However, prior to that, the '1' flag, fourth data in first row in \textsl{REBELOTE}, 
-requests a change of, next line,  parameter number \textbf{35} in     
-element number \textbf{1} (that is, the 
-relative regidity of the particle, $D$, in \textsl{OBJET}) to a new value, namely the first one in the 
-\{1.3872739973  2.1368296674  4.8261190694  11.015241321\} list. And so on, \textbf{4} times, from
-\textsl{NRBLT=4} the first data in  \textsl{REBELOTE} data list. Note that spin data so computed (spin 
-vector components, precession, etc) are stored in zgoubi.SPNPRT.Out \index{zgoubi.SPNPRT.Out} 
-using the keyword '\textsl{SPNPRT}' with label ``\textsl{PRINT}''. 
-
-~
-
-~
-
-\begin{minipage}[h]{.55\linewidth}
-{\footnotesize
-\begin{verbatim}
-Spin tacking in AGS warm helical snake, using its 3-D OPERA map. 
- 'OBJET'             
-7.2051782956d3        
-2                         
-1 1            ! Initial coordinates : 
--2.0239  -0.000658  -0.002224   0.146412   0.0  1. 'o'
-1 
-'PARTICUL'     ! proton : 
-9.3827203E+02 1.602176487E-19 1.7928474 0 0           
-
- 'SPNTRK'                 
-  4.1          ! Initial spin is vertical                 
-0. 0. 1.                  
-
- 'TOSCA'             
-0  2                      
-1.e1   100. 100. 100.     
-HEADER_0 wsnake           
-801 29 29 12.1               
-b_table55.map
-0 0 0 0                   
-2                         
-.1                        
-2  0.  .00  0.  0.        
- 'FAISCEAU'          
-
- 'FIT'               
-4               ! Variables :          
-1 30 0  [-3,3]                ! Vary Y_0
-1 31 0  [-3,3]                ! Vary T_0
-1 32 0  [-3,3]                ! Vary Z_0
-1 33 0  [-3,3]                ! Vary P_0
-6               ! Constraints : 
-3.1 1 2 5 0. 1. 0             ! Y_0=Y after 'FAISCEAU'
-3.1 1 3 5 0. 1. 0             ! T_0=T     "
-3.1 1 4 5 0. 1. 0             ! Z_0=Z     "
-3.1 1 5 5 0. 1. 0             ! P_0=P     "
-7.3 1 2 4 0. 100. 1 2         ! Y_min+Y_max=0 in 'TOSCA' element
-7.3 1 4 4 0. 100. 1 2         ! Z_min+Z_max=0 in 'TOSCA' element
-
- 'SPNPRT'   PRINT       ! Store spin data in zgoubi.SPNPRT.Out
-
- 'REBELOTE'  G.gamma=6        9             20           45.5      
-4  0.1  0 1
-1            one list of successive values follows 
-1  35       1.3872739973  2.1368296674  4.8261190694  11.015241321                          
- 'END'        
-\end{verbatim}
-\index{zgoubi.SPNPRT.Out}
-}
-\end{minipage}\hspace{0.03\linewidth}
-\begin{minipage}[h]{.38\linewidth}
-
-\centering
-\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{Fig-YZ_pwsnk_5.eps}}
-%/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
-
-Helical trajectories at five different momenta (projection into the vertical plane $(Y,Z)$), centered on the snake axis 
-by the fitting procedure. The plot also shows for each momentum the  helix as it was positioned, off-centered, prior to the fit. 
-
-\end{minipage}
-
+An example is given page~\pageref{ExaFITREBELOTE}. 
 
 
 
@@ -3995,10 +3947,6 @@ with \textsl{NRBLT} data, tells the
  values to be taken by each one of these parameters, over the \textsl{NRBLT} passes of the 
 \textsl{REBELOTE} process.  
 
-\medskip
-\noindent{\bf An example~: } see page~\pageref{ExaREBELOTE}
-
-
 \bigskip
 
 \noindent Output prints over \textsl{NPASS+1} passes  might result in a
@@ -4028,139 +3976,14 @@ the same fit procedure,  after having changed the value of some parameter in zgo
 That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and then sends the 
 zgoubi execution pointer back to the top of zgoubi.dat for a new run. 
 
-\medskip
 
-\noindent{\bf An example~: } see page~\pageref{ExaFITREBELOTE}
+\bigskip
 
+ An example of the use of the \textsl{REBELOTE} procedure is given page~\pageref{ExaREBELOTE}. 
 
+\bigskip
 
-
-\newpage
-
-\subsubsection*{An example~: \label{ExaREBELOTE}}
-
-In this example the arguments in the keyword \textsl{AUTOREF} and \textsl{CAVITE} are changed \textsl{20} times 
-by \textsl{REBELOTE}, over its 20-pass process. The role of \textsl{AUTOREF} is
- to re-center the beam on the design FFAG orbit and momentum value, at each pass (\ie, at the start of each 
-one of the 11 accelerated and 10 decelerated ring turns). 
-This is a simple way of (artificially) overcoming the effects on bunch and polarization dynamics, of synchrotron 
-radiation induced energy loss. The RF voltage in \textsl{CAVITE} is set positive (accelerating, +1.322~GV, 
-from 7.944~GeV to 21.16~GeV) during the first 11 passes through the optical structure, and negative 
-(decerating, -1.322~GV, from 21.16 to 7.944~GeV) over the remaining 10 passes. 
-
-~
-
-~
-
-\begin{minipage}[h]{.55\linewidth}
-{\tiny
-\begin{verbatim}
-eRHIC ENERGY RECOVERY LINAC RECIRCULATOR WITH FFAG ARCS.
- 'MCOBJET'                                               1
-57.36635309d3         reference rigidity (kG.cm) 
-3   
-2000
-2 2 2 2 1 1                                              
--5.360667E-03   5.059706E-3  0. 0. 0.   4.619439E-01  'o'
-0. 1   0.   3                                            
-0. 1   0.   3                                            
-0. 1.  0.     3                                          
-123456 234567 345678                                         
- 'PARTICUL'                                              2
-0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0       
- 'SPNTRK'                                                3
- 'FAISCEAU'                                              4    
- 'SRLOSS'                                                5
-1   srLoss                                               
-MULTIPOL                                                 
-1  123456                                                
- 'SCALING'                                               6
-1  1
-MULTIPOL                                                 
--1  
-57.36635309 57.36635309                                  
-1           11                                               
- 'MARKER'   ARC#S_1                                      7
- 'OPTIONS'                                               8
-1  1
-WRITE OFF                                                
- 'MARKER'   MARK      CELLSTART                          9
- 'DRIFT'    DRIF      HD                                10
-14.547181                                                
- 'MULTIPOL' RBEN      BD2                               11
-0  .Dip                                                  
-90.000000  10.00   0.00000000  -0.87159105   0. 0. 0. 0. 0. 0. 0. 0.
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
-#30|90|30    Dip  BD2                                    
-3   0.0000000000E+00   4.0704703212E-01  -1.5071892929E-03                                                    
- 'DRIFT'    DRIF      D                                 12
-29.094362                                                
- 'MULTIPOL' RBEN      QF2                               13
-0  .Dip                                                  
-110.000000  10.00   0.00000000   0.86286642   0.00000000 0.0 0.0 0.0 0.0 0.0 0.0 0.0                          
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
-#30|110|30    Dip  QF2                                   
-3   0.0000000000E+00  -3.6008008661E-01  -1.8710983347E-03                                                    
- 'DRIFT'    DRIF      HD                                14
-14.547181                                                
- 'MARKER'   MARK      CELLEND                           15
-!!!!!!!!!!!!!!!!!!!
-6*138-1 additional such FD cells, simulating a 6 arc 
-energy recovery ring, 138 cells per arc. 
-!!!!!!!!!!!!!!!!!!!
- 'MARKER'   ARC#E_6                                   5820    
- 'OPTIONS'                                            5821
-1  1
-WRITE ON                                                 
- 'FAISTORE'                                           5822
-zgoubi.fai                                               
-1   
- 'FAISCEAU'                                           5823
- 'CAVITE'                                             5824
-3   
-0  0
-1.322e9  1.57079632679                           
- 'AUTOREF'                                            5825
-4.1 
-0. -5.168354E-01 4.169759E+00  5.38813280E-01            
- 'FAISCEAU'                                           5826
- 'REBELOTE'                                           5827
-20  0.1 99 1                                             
-4   
-AUTOREF 11 -4.74932E-01 -4.12907E-01 -3.32923E-01 -2.36843E-01 
--1.26268E-01 -2.59705E-03  1.32948E-01  2.79292 ... (a list of 20 values) 
-AUTOREF 12  3.34619E+00  2.58215E+00  1.87157E+00  1.20916E+00 
- 5.90197E-01  1.05897E-02 -5.33276E-01 -1.04459 ... (a list of 20 values) 
-AUTOREF 13 .615682680   .692552080   .769421480   .846290880   
-.923160280    1.00002970   1.07689910   1.15376 ... (a list of 20 values) 
-CAVITE  20  1.322e9      1.322e9      1.322e9      1.322e9    
-  1.322e9      1.322e9      1.322e9      1.322e9 ... (a list of 20 values) 
- 'SPNPRT'                                             5828
- 'SRPRNT'                                             5829
- 'END'                                                5830
-
-\end{verbatim}
-\index{zgoubi.SPNPRT.Out}
-}
-\end{minipage}\hspace{0.03\linewidth}
-\begin{minipage}[h]{.38\linewidth}
-
-\centering
-%\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{}}
-
-
-\end{minipage}
-
-
-
+ An example combining \textsl{FIT} and \textsl{REBELOTE} is given page~\pageref{ExaFITREBELOTE}. 
 
 
 
@@ -5430,29 +5253,29 @@ of quadrupole axis shifted 1~cm off optical axis).
 
 \medskip
 
-\begin{center}
-\begin{minipage}{.38\linewidth}
+\begin{minipage}{1.\linewidth}
+\begin{minipage}{.52\linewidth}
 
  Zgoubi data file~: 
 
-\tiny
+\footnotesize
 \begin{verbatim}
 Using CHANGREF, "Old style"
 'OBJET'
-51.71103865921708                            Electron, Ekin=15MeV.
+51.71103865921708         ! Electron, Ekin=15MeV.
 2
-1 1                                             One particle, with
-2. 0.  0.0 0.0 0.0 1. 'R'        Y_0=2 cm, other coordinates zero.
+1 1                       ! One particle, with
+2. 0.  0.0 0.0 0.0 1. 'R' ! Y_0=2 cm. 
 1 1 1 1 1 1 1 
-'MARKER'    BEG    .plt                  -> list  into zgoubi.plt.
-'DRIFT'                                               10 cm drift.
+'MARKER'    BEG    .plt   ! Print into zgoubi.plt.
+'DRIFT'                   ! 10 cm drift.
 10.
 'CHANGREF'  
-0. 0. -6.34165                            First : half Z-rotation.
+0. 0. -6.34165            ! 1/ half Z-rotation.
 'CHANGREF'  
-0. 1. 0.                                           Next : Y-shift.
-'MULTIPOL'       Combined function multipole, dipole + quadrupole.
-   2                                     -> list  into zgoubi.plt.
+0. 1. 0.                  ! 2/ Y-shift.
+'MULTIPOL'       ! Combined function dipole + quadrupole.
+   2                      ! Print into zgoubi.plt.
 5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
  0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
@@ -5462,22 +5285,22 @@ Using CHANGREF, "Old style"
 .1   step size
 1  0. 0.  0.
 'CHANGREF'
-0. -1. -6.34165     First : Y-shift back ; next : half Z-rotation.
-'DRIFT'                                               10 cm drift.
+0. -1. -6.34165           ! 1/ Y-shift, 2/ half Z-rotate.
+'DRIFT'                   ! 10 cm drift.
 10.
-'MARKER'    END    .plt           ".plt" => list  into zgoubi.plt.
 'FAISCEAU'
 'END'
 \end{verbatim}
 \normalsize
 \end{minipage}\hspace{.05\linewidth}
-\begin{minipage}{.5\linewidth}
-\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=8cm]{FigCHAREFb.eps}}
+\begin{minipage}{.35\linewidth}
+\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=1.\linewidth]{FigCHAREFb.eps}}
 
 Note~: The square markers scheme the stepwise integration in case of $\pm$5~cm additional fringe field 
 extent upstream and downstream of the 5~cm long multipole. 
 \end{minipage}
-\end{center}
+\end{minipage}
+
 
 
 
@@ -5490,8 +5313,7 @@ The ``old style'' example above is transposed into  ``new style'',  hereafter.
 
 \medskip
 
-\begin{center}
-\begin{minipage}{.38\linewidth}
+\begin{minipage}{1.\linewidth}
 
  Zgoubi data file~: 
 
@@ -5499,18 +5321,18 @@ The ``old style'' example above is transposed into  ``new style'',  hereafter.
 \begin{verbatim}
 Using CHANGREF, "New Style"
 'OBJET'
-51.71103865921708                          Electron, Ekin=15MeV.
+51.71103865921708         ! Electron, Ekin=15MeV.
 2
-1 1                                           One particle, with
-2. 0.  0.0 0.0 0.0 1. 'R'      Y_0=2 cm, other coordinates zero.
+1 1                       ! One particle, with
+2. 0.  0.0 0.0 0.0 1. 'R' ! Y_0=2 cm. 
 1 1 1 1 1 1 1 
-'MARKER'    BEG    .plt                -> list  into zgoubi.plt.
-'DRIFT'                                             10 cm drift.
+'MARKER'    BEG    .plt   ! Print into zgoubi.plt.
+'DRIFT'                   ! 10 cm drift.
 10.
 'CHANGREF'  
-ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
-'MULTIPOL'     Combined function multipole, dipole + quadrupole.
-   2                                   -> list  into zgoubi.plt.
+ZR -6.34165 YS 1.         ! 1/ half Z-rotate, 2/ Y-shift.
+'MULTIPOL'       ! Combined function dipole + quadrupole.
+   2                      ! Print into zgoubi.plt.
 5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.
  0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.                              
 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.                                    
@@ -5520,16 +5342,13 @@ ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shift.
 .1   step size
 1  0. 0.  0.
 'CHANGREF'
-YS -1. ZR -6.34165       First Y-shift back, next half Z-rotate.
-'DRIFT'                                             10 cm drift.
+YS -1. ZR -6.34165        ! 1/ Y-shift, 2/ half Z-rotate.
+'DRIFT'                   ! 10 cm drift.
 10.
 'FAISCEAU'
 'END'
 \end{verbatim}
-\normalsize
-\end{minipage}\hspace{.05\linewidth}
-\end{center}
-
+\end{minipage}
 
 
 
@@ -7847,7 +7666,7 @@ at entrance of the first electrode and terminates at exit of the third one.
 
 \newpage
 
-\subsubsection*{VENUS~: \VENUSTitl}  \label{VENUS|textbf}
+\subsubsection*{VENUS~: \VENUSTitl}  \label{VENUS}
 \medskip 
 \index{VENUS} 
 
