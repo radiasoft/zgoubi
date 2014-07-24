@@ -28,7 +28,8 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(80) TA
+      PARAMETER (ISZTA=80)
+      CHARACTER(ISZTA) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
@@ -77,10 +78,21 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
  
       DO 1 IF=1,NFAM
 
+        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
+C FM July 2014. For compatibility with combined FIT+REBELOTE
+        NP = NP + 1
+        NTIM(IF) = NINT(A(NOEL,NP))
+        IF(NTIM(IF).NE. -1) NP = NP - 1
+C              write(*,*) ' sbr scalin ', ntim(if), modscl(if)
+C---
+
         IF(NRES .GT. 0) THEN
           NLF = 0
           DO WHILE ( .NOT. EMPTY(LBF(IF,NLF+1)) ) 
-              NLF = NLF+1
+            IF(KSIZ+NLF+1+LBLSIZ.GT.ISZTA) CALL ENDJOB(
+     >      'SBR scalin. Prblm with TA size. Should be > ',ISZTA)   
+            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
+            NLF = NLF+1
           ENDDO
 
           WRITE(NRES,FMT='(/,5X,''Family number  '',I2)') IF

@@ -55,6 +55,7 @@ C     ----------------------------------------------------
       CHARACTER(1) TX1
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
+      DIMENSION XVEC(3), YVEC(3), ZVEC(3)
 
       CHARACTER(1) KLET, KLETO, KLETI
 
@@ -65,6 +66,7 @@ C     ----------------------------------------------------
 
       SAVE MOD, RFR, RFR2 
       SAVE NOEL1, NOC
+      SAVE XVEC, YVEC, ZVEC
 
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
@@ -75,6 +77,9 @@ C     ----------------------------------------------------
       DATA KKEX, KLET / 1, '*' / 
 
       DATA NOEL1, NOC / -1, 0 /
+      data xvec / 1.d0, 0.d0, 0.d0 /
+      data yvec / 0.d0, 1.d0, 0.d0 /
+      data zvec / 0.d0, 0.d0, 1.d0 /
 
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file
@@ -320,6 +325,7 @@ C Spin stories
 C        YZXB(24) = SF(4)
 C         convert B from kG to T
         YZXB(25) = acos(vscal(SI,SF,3)) * deg
+        YZXB(26) = acos(vscal(YVEC,SF,3)) * deg
 
         YZXB(30) = BX      * .1D0
         YZXB(31) = BY      * .1D0

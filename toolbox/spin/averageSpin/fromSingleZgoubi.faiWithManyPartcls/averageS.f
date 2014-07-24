@@ -110,8 +110,9 @@ C          OPN = .FALSE.
               OPEN(UNIT=IUN,FILE='averageS.out',ERR=699)
               OPN = .TRUE.
               write(iun,fmt='(a)')
-     >   '# yzxb(nx), av sx sy sz, av |S|, av ctta stta, av tta tta^2, '
-     >        //'sigTta,  # of traj at that pass'
+     >   '# yzxb(nx), av sx sy sz, av |S|, av ctta stta, av tta (rd)'
+     >   //' tta^2 (rd^2), '//'sigTta (rd),  # of traj at that pass'
+     >   //' sigTta (deg)'
             ELSE
               GOTO 698
             ENDIF

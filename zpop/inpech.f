@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory                  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -58,7 +58,7 @@ C  -------
         WRITE(6,*)
         WRITE(6,101) 
  101    FORMAT('  Give  XMI, XMA, YMI, YMA, no grid / grid / no axes (1'
-     >     '-3) : ')
+     >     //'-3) : ')
         READ(5,*,ERR=40) XMI,XMA,YMI,YMA, ITYP
         if(ityp.lt.1 .or. ityp.gt.3 ) ityp = 2
         IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN 

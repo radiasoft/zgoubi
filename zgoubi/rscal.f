@@ -97,6 +97,7 @@ C Remove possible comment trailer
 
         IF(KSIZ .GT. LBLSIZ) STOP ' Pgm rscal, ERR : KSIZ > LBLSIZ.' 
         FAM(IFM) = STRA(1)(1:KSIZ)
+        TA(NOEL,IFM) = FAM(IFM)
 
         IF(NSTR .GE. 2) THEN
           DO  KL=1,NSTR-1
@@ -185,7 +186,9 @@ c                    read(*,*)
             NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
-
+            NP = NP + 1
+            IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            A(NOEL,NP) = NTIM(IFM)
           ELSEIF(NTIM(IFM) .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
             NDSCL=1
