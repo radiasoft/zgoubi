@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE MCOBJ1(KTIR,KOUV,CINE,CENTRE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER  KTIR(*)*(*), KOUV*(*)
+      CHARACTER(*)  KTIR(*), KOUV
       LOGICAL CINE
       DIMENSION CENTRE(*)
 C     ----------------------------------------------------------

@@ -49,12 +49,13 @@ C            print *, rand(seed), rand(), rand(), rand()
 C          end program test_rand
 
 C For ifort compiler. Comment otherwise
-c        use ifport
+C        use ifport
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 c      CHARACTER TXT*16
 c      INTEGER DEBSTR
-      REAL R
+C      REAL R
+      REAL Rand
       logical first 
       save first
 C year month day time-utc hour min secon ms
@@ -65,8 +66,6 @@ c      save ir
       data first / .true. /
       data ir / 123456 /
       data i1 / 12 * 123456 / 
-
-C For ifort compiler. Can be commented otherwise. 
 
       if(first) then
         first = .false.
@@ -82,12 +81,12 @@ C--------------------------
 c        write(*,*) ' rndm ',ival(5),ival(6),ival(7),ival(8),ir,rndm
       endif
 
-c      R = rand()
-      CALL RANDOM_NUMBER(R)
+      R = dble(rand(0))
+C      CALL RANDOM_NUMBER(R)
 
       RNDM=R
  
-c          write(*,*) ' rndm ',r,ir,rndm
+c          write(*,*) ' rndm ',r,ir
 c             read(*,*)
 
 c      WRITE(TXT,FMT='(E14.6)') RNDM
@@ -97,9 +96,13 @@ c      READ(TXT(DEBSTR(TXT)+2:DEBSTR(TXT)+8),FMT='(I6)') IR
 
       entry rndm2(iri)
 C      call srand(iri)
-       i1(1) = iri
-        call RANDOM_seed(put=i1)
-C        call RANDOM_seed()
+C       i1(1) = iri
+C        call RANDOM_seed(put=i1)
+C           write(*,*) ' sbr rndm iri ',iri
+C Necessary because random changes the value of its argument:
+       isi = iri
+C        call RANDOM_seed(isi)
+      call seed(isi)
       return
 
       END

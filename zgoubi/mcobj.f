@@ -44,7 +44,8 @@ C     **************************
       DIMENSION CENTRE(MXJ)
       PARAMETER (MXJ1=MXJ-1)
 
-      CHARACTER  KTIR(MXJ)*9, KOUV*8
+      CHARACTER(15)  KTIR(MXJ)
+      CHARACTER(14) KOUV
       LOGICAL CINE
       CHARACTER(80) TXT
  
@@ -82,12 +83,21 @@ C      KOBJ=1 : window
 C      KOBJ=2 : grid
 C      KOBJ=3 : ellipses
       KOBJ = A(NOEL,10)
+      KOBJ2 = NINT(A(NOEL,11))
+
+      IF(KOBJ2.EQ.1) THEN
+         KNRM = 1
+      ELSE
+         KNRM = 0
+      ENDIF
+
       IF(KOBJ .EQ. 1) THEN
         KOUV='Window'
       ELSEIF(KOBJ .EQ. 2) THEN
         KOUV='Grid'
       ELSEIF(KOBJ .EQ. 3) THEN
         KOUV='Ellipse'
+        IF(KOBJ2.EQ.1) KNRM = 1
       ENDIF
 
       IMAX  = A(NOEL,20)
@@ -108,7 +118,6 @@ C------- Multiturn injection
 
       IF(KOUV.EQ.'Ellipse') THEN
         DO 3 I= 2, 6, 2
-C          KPDF = A(NOEL,30+I/2-1)
           KPDF = NINT(A(NOEL,30+I-1))
           IF(KPDF .EQ. 1) THEN
             KTIR(I) = 'Uniform'
@@ -158,7 +167,7 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
       IF(KOBJ.LE.2) THEN
         CALL MCOBJ1(KTIR,KOUV,CINE,CENTRE)
       ELSEIF(KOBJ.EQ.3) THEN
-        CALL MCOBJ3(KTIR,CENTRE,IMI,IMA)
+        CALL MCOBJ3(KTIR,CENTRE,KNRM,IMI,IMA)
       ENDIF
 
  99   CONTINUE

@@ -66,7 +66,7 @@ C----- For printing after occurence of pre-defined labels
       SAVE KPRT, PRLB, KPRTSP, PRLBSP
 
 C----- Pick-up signal
-      PARAMETER (MXPUD=9,MXPU=1000)
+      PARAMETER (MXPUD=9,MXPU=5000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
       CHARACTER(10) PULAB
@@ -410,8 +410,8 @@ C----- AIMANT TOROIDAL
       IF(FITGET) CALL FITGT1
       CALL  QUASEX(ND(NOEL))
       GOTO 998
-C----- OBJET MONTE-CARLO = MU OU PI DE DECROISSANCE DU ETA
-C          ( D'APRES B. MAYER , FEVRIER 1990 )
+C----- OBJETA. MONTE-CARLO GENERATION OF MU OR PI FROM ETA DECAY 
+C          ( D'APRES Benjamin MAYER , FEVRIER 1990 )
  17   CONTINUE
       IF(READAT) CALL ROBJTA
       CALL OBJETA
@@ -475,12 +475,14 @@ C----- MCOBJET. Object defined by Monte-Carlo
  25   CONTINUE
       KUASEX = 0
       IF(READAT) CALL RMCOBJ
-      IF(.NOT. FITING) THEN
+      IF(FITGET) CALL FITGT1
+C FM July 2014 - Inhibited call to mcobja for eRHIC, to allow varying Z0,P0. 
+C      IF(.NOT. FITING) THEN
         CALL MCOBJ
-      ELSE
-        CALL MCOBJA
-        CALL CNTRST
-      ENDIF
+C      ELSE
+C        CALL MCOBJA
+C        CALL CNTRST
+C      ENDIF
       GOTO 998
 C----- DESINTEGRATION EN COURS DE VOL
 26    CONTINUE

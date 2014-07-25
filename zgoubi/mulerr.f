@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE mulerr(noel,irr,iseed,BM, 
+      SUBROUTINE mulerr(noel,irr,BM, 
      >kPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                     DB,dpos,tilt)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -42,15 +42,15 @@ C  -------
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
       COMMON/CONST2/ ZERO, UN
 
-          call rndm2(iseed)      !!!!!!!!!! seed
-
       do i = 1, mpol
         if(kpol(irr,i) .eq.1) then
           if    (typdis(irr,i).eq.'G') then
             SM = EXP(-(errcut(irr,i)*errsig(irr,i))**2/2.D0)
             derr = (2.d0*RNDM() -1.d0)*SM
           elseif(typdis(irr,i).eq.'U') then
-            derr = errsig(irr,i)* 2.d0*(rndm()-0.5d0) 
+            xxx = rndm()
+            derr = errsig(irr,i)* 2.d0*(xxx-0.5d0) 
+C                write(88,*) ' mulerr rndm ',xxx
           endif
           if    (typerr(irr,i)(1:1).eq.'B') then
             if    (typar(irr,i).eq.'A') then

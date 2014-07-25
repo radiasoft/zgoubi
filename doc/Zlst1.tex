@@ -8209,12 +8209,22 @@ at one or more \LABEL'ed\index{LABEL@{\LABEL}} keyword(s).
 That (list of) \LABEL(s) is specified by the user, as part of the arguments under the keyword  \textsl{PICKUPS}.
 
 \medskip
+
 \noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE} in the case of a periodic structure, 
+with  \textsl{REBELOTE} thus being used to cause multi-turn tracking, 
   \textsl{PICKUPS} thus effectively delivers the closed orbit coordinates.       \index{closed orbit} 
 
 \medskip
 
+\noindent Pickup data computed during \zgou\ execution are stored in the file zgoubi.PICKUP.out, \index{zgoubi.PICKUP.out}
+usable for further analysis, or for plotting (for instance, using gnuplot). 
 
+\medskip
+
+\noindent A summary of the list of pickups and their individual beam data is performed  and listed 
+in the result file zgoubi.res  (below the   \textsl{END}  \index{END} keyword) 
+at the end of \zgou\ execution. It is concluded with statistics as the \rms, minimum and maximum values 
+of the beam centroid data over the ensemble of pickups. 
 
 
 

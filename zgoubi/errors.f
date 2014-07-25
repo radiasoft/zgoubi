@@ -55,6 +55,7 @@ C on/off switch  (1/0), number of lines to follow (each line sets a particular e
       iop = nint(A(NOEL,1) )
       nbr = nint (A(NOEL,2) )
       iseed = nint (A(NOEL,3) )
+      seed = rndm2(iseed)    
 
       if (iop .eq. 0) then 
 C        Switch off all possible earlier error settings
@@ -129,7 +130,7 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
             read(stra(5),*) errcen
             read(stra(6),*) errsig   ! sigma for G, half-width for U
             read(stra(7),*) errcut   ! in units of errsig for G, unused for U
-            call MULTP2(irr,iseed,ipol,typerr,typar,typdis,
+            call MULTP2(irr,ipol,typerr,typar,typdis,
      >      errcen,errsig,errcut,lbl1,lbl2)          
           endif
         endif

@@ -36,13 +36,27 @@ C     *******************************************
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-
+      INTEGER DEBSTR, FINSTR
+      LOGICAL STRCON
+      CHARACTER(132) TXT132
       PARAMETER (MXJ2=MXJ-2)
+      PARAMETER (I0 = 0)
 
 C----- BORO
       READ(NDAT,*) A(NOEL,1)
-C----- KOBJ
-      READ(NDAT,*) KOBJ
+C----- KOBJ - may be of the form "KOBJ.K2"
+      READ(NDAT,*,ERR=99) TXT132
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(1:IS-1)
+      A(NOEL,11) = I0
+      IF(STRCON(TXT132,'.',
+     >                      IS)) THEN
+        READ(TXT132(1:IS-1),*,ERR=99,END=99) KOBJ
+        READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
+        A(NOEL,11) = K2
+      ELSE
+        READ(TXT132,*,ERR=99,END=99) KOBJ
+      ENDIF
       A(NOEL,10) = KOBJ
 C----- IMAX
       READ(NDAT,*) A(NOEL,20)

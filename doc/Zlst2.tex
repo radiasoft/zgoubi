@@ -3225,11 +3225,12 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
  \> 
  \\
   \\
-\textbf{For I = 1, N}       \>A list of N keywords' labels follows \>\>\\
+\textbf{A list of N keywords' labels follows} \> \>\>\\
  \\
  \LABEL1 [,LABEL2, [...]]
-          \> The N labels at which beam centroid is to be computed/recorded. \> N string(s) \> N*A10 \\
-          \> In case a ``\textsl{LABELi}'' in the list does not exist, it is peacefully ignored. \>  \> \\
+          \> The N labels at which beam data are to be computed/recorded. \> N string(s) \> N*A10 \\
+          \> In case some ``\textsl{LABELi}'' in this list actually misses in zgoubi.dat   \> \> \\
+          \>  optical sequence, then it is peacefully ignored. \>  \> \\
  \\
 \end{tabbing}
 

@@ -43,12 +43,15 @@ C  -------
 
       LOGICAL FITFNL, FITFNI, FITFNO
       SAVE FITFNL
+      CHARACTER(80) FNAME, FNAMEI
+      SAVE LSAV, FNAME
+      LOGICAL SAVE, OK
 
       DATA MTHD / 2 / 
       DATA FITFNL / .TRUE. /
 
-      CALL FITEST(
-     >            IER)
+      CALL FITEST(SAVE,FNAME,
+     >                       IER)
       IF(IER .NE. 0) CALL ENDJOB('End of upon FITEST procedure',-99)
       CALL FITSET
       CALL FITARR(IER)
@@ -64,6 +67,10 @@ C Implemented by Scott Berg, LPSC, April 2007
            CALL ENDJOB('SBR fitnu, Error : no such FIT method.',-99)
          ENDIF
          CALL IMPAJU(LUN,F)
+         if(save) THEN
+           CALL IMPAJU(LSAV,F)
+           CLOSE(LSAV)
+         ENDIF
       ENDIF
       CALL ENDFIT
       RETURN
@@ -74,12 +81,19 @@ C Implemented by Scott Berg, LPSC, April 2007
 
       ENTRY FITNU3(
      >             FITFNO) 
-C             WRITE(*,*) ' FITFNO ',FITFNO,FITFNL
       FITFNO=FITFNL
       RETURN
 
       ENTRY FITNU4(FITFNI) 
       FITFNL=FITFNI
+      RETURN
+
+      ENTRY FITNU6(FNAMEI) 
+      SAVE = .TRUE.
+      FNAME = FNAMEI
+      OK = IDLUNI(
+     >            LSAV)
+      OPEN(UNIT=LSAV,FILE=FNAMEI)
       RETURN
 
       END

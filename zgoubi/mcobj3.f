@@ -22,9 +22,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE MCOBJ3(KTIR,CENTRE,IMI,IMA)
+      SUBROUTINE MCOBJ3(KTIR,CENTRE,KNRM,IMI,IMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER  KTIR(*)*(*)
+      CHARACTER(*)  KTIR(*)
       DIMENSION CENTRE(*)
 C     ----------------------------------------------------
 C     Sorting at random inside three 2-D ellipses or other
@@ -50,6 +50,7 @@ C     ----------------------------------------------------
  
       PARAMETER (MXJ1=MXJ-1)
       DIMENSION ALP(MXJ1),BET(MXJ1),EPS(MXJ1),RMA(MXJ1),RMB(MXJ1)
+      DIMENSION EPST(MXJ1)
 
       DATA IKAR / 0 /
 
@@ -69,7 +70,18 @@ C     .. PARAMETRE ELLIPSES
       RMB(2)=A(NOEL,54)
       RMB(4)=A(NOEL,64)
       RMB(6)=A(NOEL,74)
- 
+
+      if   (knrm .eq. 0) then
+        EPST(2)=EPS(2)
+        EPST(4)=EPS(4)
+        EPST(6)=EPS(6)
+      ELSEif(knrm .eq. 1) then
+        EPST(2)=EPS(2) / CENTRE(1) 
+        EPST(4)=EPS(4) / CENTRE(1) 
+        EPST(6)=EPS(6) / CENTRE(1) 
+      ELSE
+        CALL ENDJOB('Pgm mcobj3. Sorry, no such option KNRM = ',KNRM)
+      endif 
 C----- LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE SI REBELOTE)
 C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN

@@ -32,7 +32,7 @@ C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      PARAMETER (MXPUD=9,MXPU=1000)
+      PARAMETER (MXPUD=9,MXPU=5000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
       CHARACTER(10) PULAB
@@ -43,6 +43,7 @@ C     -----------------------------------------------------
        
       LOGICAL IDLUNI, OPN
       SAVE OPN, KPCKUP
+      LOGICAL FITING
  
       DATA OPN / .FALSE. /
 
@@ -70,31 +71,38 @@ C     -----------------------------------------------------
         ENDIF
       ENDIF
 
-      IF(IPASS .EQ. 1) THEN
-        CALL RAZ(FPU,MXPUD*MXPU)
- 10     CONTINUE
-        IF(OPN) THEN
-          INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,NUMBER=LN)
-          IF(NRES.GT.0) WRITE(NRES,*) 
-     >        ' Pick-up storage file zgoubi.PICKUP.out '
-     >       ,' already open under logical unit number ', LN
-        ELSE
-          INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,OPENED=OPN,NUMBER=LN)
-          IF(OPN) GOTO 10
-          IF(IDLUNI(
-     >              NFPU)) THEN
-            OPEN(UNIT=NFPU,FILE='zgoubi.PICKUP.out',ERR=99)
-          ELSE
-            GOTO 99
-          ENDIF 
-        ENDIF 
- 11     CONTINUE
-      ENDIF
+      CALL FITSTA(5,
+     >              FITING)
 
-      IF(IPASS .EQ. 1) THEN
-        WRITE(NFPU,FMT='(A15,A40,5(1X,A10))') ' Pick-ups',
-     >  ' - storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
-        WRITE(NFPU,FMT='(A80)') TITRE
+      IF(.NOT. FITING) THEN
+
+        IF(IPASS .EQ. 1) THEN
+
+          CALL RAZ(FPU,MXPUD*MXPU)
+
+ 10       CONTINUE
+          IF(OPN) THEN
+            INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,NUMBER=LN)
+            IF(NRES.GT.0) WRITE(NRES,*) 
+     >          ' Pick-up storage file zgoubi.PICKUP.out '
+     >         ,' already open under logical unit number ', LN
+          ELSE
+            INQUIRE(FILE='zgoubi.PICKUP.out',
+     >                      ERR=11,OPENED=OPN,NUMBER=LN)
+            IF(OPN) GOTO 10
+            IF(IDLUNI(
+     >                NFPU)) THEN
+              OPEN(UNIT=NFPU,FILE='zgoubi.PICKUP.out',ERR=99)
+            ELSE
+              GOTO 99
+            ENDIF 
+          ENDIF 
+ 11       CONTINUE
+
+          WRITE(NFPU,FMT='(A15,A40,5(1X,A10))') ' Pick-ups',
+     >    ' - storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
+          WRITE(NFPU,FMT='(A80)') TITRE
+        ENDIF
       ENDIF
 
 C----- some reset actions at start of each new pass

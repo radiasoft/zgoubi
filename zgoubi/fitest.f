@@ -22,9 +22,11 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE FITEST(
-     >                  IER)
+      SUBROUTINE FITEST(SAVE,FNAME,
+     >                             IER)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL SAVE
+      CHARACTER(*) FNAME
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
@@ -138,8 +140,18 @@ c                    read(*,*)
      >  '(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
       ELSE
         IF(NRES.GT.0) WRITE(NRES,FMT=
-     >  '(/,20X,'' FIT  variables  in  good  order,'',  
+     >  '(/,20X,''FIT  variables  in  good  order,'',  
      >              ''  FIT  will proceed. '')')
+      ENDIF
+
+      IF(SAVE) THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT=
+     >  '(/,20X,''Final FIT status will be saved in '',A,/)')
+     >  FNAME
+      ELSE
+        IF(NRES.GT.0) WRITE(NRES,FMT=
+     >  '(/,20X,''Final FIT status will NOT be saved. For so, use the'',
+     >   '' ''''save'''' command'')')
       ENDIF
 
       RETURN    

@@ -32,7 +32,7 @@ C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      PARAMETER (MXPUD=9,MXPU=1000)
+      PARAMETER (MXPUD=9,MXPU=5000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
@@ -44,12 +44,12 @@ C     -----------------------------------------------------
       DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU), NOELPU(MXPU)
       SAVE FPUL, FPUL2, NOELPU
 
-      DIMENSION TBT(MXPUD,2)
+      DIMENSION TBT(2,MXPU)
       SAVE TBT
 
       DATA NOELPU / MXPU*0 /
 
-C----- Pick-up number. Reset to 0 in SBR PICKUP
+C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
       IPU = IPU + 1
 
       IF(IPASS.EQ.1) NOELPU(IPU) = NOEL
@@ -59,8 +59,8 @@ C----- Pick-up number. Reset to 0 in SBR PICKUP
 
       NT = 0
       DO 2 I = 1, IMAX
-        TBT(IPU,1) = TBT(IPU,1) + F(2,I)
-        TBT(IPU,2) = TBT(IPU,2) + F(4,I)
+        TBT(1,IPU) = TBT(1,IPU) + F(2,I)
+        TBT(2,IPU) = TBT(2,IPU) + F(4,I)
         IF( IEX(I) .GT. 0) THEN
           NT = NT+1
           DO 1 J = 1, 7
@@ -100,7 +100,7 @@ C------- Record pick-up position (cm)
 
       ENTRY PCKUP2
       IPU = 0
-      CALL RAZ(TBT,MXPUD*2)
+      CALL RAZ(TBT,2*MXPU)
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       RETURN
@@ -135,8 +135,8 @@ C------- Record pick-up position (cm)
      >                ,YCM,ZCM)
       if(   FPUL(8,MPU) .le.0 )
      >  call endjob(' SBR pckup. All particles fucked up !',-99)
-      YCM = TBT(MPU,1) /    FPUL(8,MPU) 
-      ZCM = TBT(MPU,2) /    FPUL(8,MPU) 
+      YCM = TBT(1,MPU) /    FPUL(8,MPU) 
+      ZCM = TBT(2,MPU) /    FPUL(8,MPU) 
       RETURN
 
       END

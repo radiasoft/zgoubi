@@ -87,7 +87,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       character(2) TYPERI
       character(1) TYPAI,TYPDII
       DIMENSION ERRCEN(mxerr,mpol),ERRSIG(mxerr,mpol),ERRCUT(mxerr,mpol)
-      SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,iseed
+      SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
       LOGICAL empty
       LOGICAL erron
       SAVE ERRON
@@ -95,7 +95,7 @@ C      Errors
       dimension db(MXL,mpol),dpos(MXL,mpol,3),tilt(MXL,mpol,3)
       save db, dpos, tilt
       logical ok
-
+      logical fiting
 
 c      data db / mpol*0.d0 /
 c      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
@@ -265,10 +265,15 @@ c     >         lbl1(irr), label(noel,1),lbl2(irr),label(noel,2)
 c                      read(*,*)
           if(ok) then
             if(ipass.eq.1) then 
-              call mulerr(noel,irr,iseed,BM, 
+              CALL FITSTA(5,FITING)
+              if(.not.fiting) 
+     >        call mulerr(noel,irr,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                     DB,dpos,tilt)
-c                 write(*,*) ' multpo kpol ',db
+c           if(noel.le.20)write(*,*) 
+c     >     ' sbr multpo. fiting, db : ',fiting,noel, db(noel,1)
+c           if(noel.le.20)write(66,*) 
+c     >     ' sbr multpo. fiting, db : ',fiting,noel, db(noel,1)
 c                      read(*,*)
             endif
             IF(KUASEX .LE. MPOL) THEN
@@ -626,11 +631,10 @@ C      aK2 = AKS(2)
 C      aK3 = AKS(3)
       RETURN
       
-      ENTRY MULTP2(irri,iseei,iPOLI,TYPERI,TYPAI,TYPDII,
+      ENTRY MULTP2(irri,iPOLI,TYPERI,TYPAI,TYPDII,
      >ERRCEI,ERRSII,ERRCUI,lbl1i,lbl2i)
       ERRON = .TRUE.
       irr = irri
-      ISEED = ISEEI
       IPOL = IPOLI
       KPOL(irr,IPOL) = 1
       TYPERR(irr,IPOL)=      TYPERI

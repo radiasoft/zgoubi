@@ -34,6 +34,9 @@ C     ***************************************
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER(80) TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
 
@@ -42,7 +45,12 @@ C     ***************************************
       CHARACTER(40) STRA(10)
 
       PARAMETER (ICPTM1=1000, ICPTM2=1000)
- 
+      LOGICAL SAVE
+      INTEGER DEBSTR, FINSTR
+      LOGICAL OK
+      CHARACTER(80) FNAME
+
+C  READ NV ['nofinal','save']
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
      >                     IIS)) TXT132 = TXT132(1:IIS-1)
@@ -50,6 +58,21 @@ C     ***************************************
       IF(NV.LT.1) RETURN
       FITFNL = .not. STRCON(TXT132,'nofinal',
      >                                       IIS) 
+      SAVE = STRCON(TXT132,'save',
+     >                             JJS) 
+      IF(SAVE) THEN
+        TXT132 = TXT132(JJS+4:FINSTR(TXT132))
+        TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+        IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)) .EQ. '[') THEN
+C If it is given (between [*]) then get name of save file 
+          OK = STRCON(TXT132,']',
+     >                           JJS)
+          READ(TXT132(DEBSTR(TXT132)+1:JJS-1),*) FNAME
+        ELSE
+          FNAME = 'zgoubi.FITVALS.out'
+        ENDIF
+        CALL FITNU6(FNAME) 
+      ENDIF
 
       DO I=1,NV
         READ(NDAT,FMT='(A)') TXT132
