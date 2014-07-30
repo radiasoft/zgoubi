@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -32,6 +32,7 @@ C  -------
       DIMENSION CO1(7), CO2(7), COMA(7), COMI(7)
       
       IF    (IOPT .EQ. 1) THEN
+
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT(/,1X,'Brute record at pick-ups :',/,
      >  2X,'PU#',T15,'Pos',T30,'Yco',T45,'Tco',T60,'Zco',T75,
@@ -40,8 +41,11 @@ C  -------
      >  /,T15,'(cm)',T29,'(cm)',T44,'(mrad)',T59,'(cm)',T73,'(mrad)',
      >  T88,'(cm)',T103,'(dp/p)',T120,'(mu_s)'
      >  )
+
         CALL PCKUP1
+
       ELSEIF(IOPT .EQ. 2) THEN
+
         WRITE(LUN,100) 
         DO 251 J = 1, 7
           COMA(J) = -1.D10
@@ -60,13 +64,18 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
           CO1(J) = CO1(J) / IPU
           IF(IPU.GT.1) CO2(J) = SQRT( CO2(J) / IPU - CO1(J) * CO1(J) )
  251    CONTINUE
-        DO 4 I = 1, IPU
+        DO I = 1, IPU
           NT = NINT(FPU(8,I))
           WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E14.6),2(1X,E17.9),2(1X,I6))')
      >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
      >    ,NT,IPASS
- 4      CONTINUE
-C Careful before changing output format : some post-processor may need high prec.!
+        ENDDO
+
+      ENDIF
+
+C Careful before changing output format : 
+C - some post-processor use it
+C - they may need high prec.!
         WRITE(LUN,FMT= '(/,1X,''PU_average (over partcl and pass) : '',
      >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
      >  T74,''path-L'',T90,''D'',T105,''time'', 
@@ -81,6 +90,6 @@ C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
         WRITE(LUN,FMT= '(  1X,''Min-PUSignal  '',
      >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
      >  (COMI(J),J=2,6 ), COMI(1), COMI(7)
-      ENDIF
+
       RETURN
       END

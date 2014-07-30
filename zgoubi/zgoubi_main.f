@@ -29,20 +29,47 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(9)   DMY,HMS
       LOGICAL IDLUNI, READAT, FITING, ENDFIT
-      CHARACTER(10) FNAME
+      CHARACTER(100) FILIN, FILOU, FILOG
+      CHARACTER(10) FDAT, FRES, FLOG
 
       PARAMETER (I5=5, I6=6)
 
       PARAMETER (KSIZ=10)
       CHARACTER*(KSIZ) KLE
       LOGICAL FITFNL
+      INTEGER DEBSTR, FINSTR
+
+      character(len=12), dimension(:), allocatable :: args
+      logical savxec, savzpp
 
       DATA ENDFIT / .FALSE. /
+      DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
+      data savxec, savzpp / .false., .false.  /
+
+C Manage possible arguments to zgoubi -----------------------
+      NBARGS = COMMAND_ARGUMENT_COUNT()
+      ALLOCATE(ARGS(NBARGS)) 
+      DO IX = 1, NBARGS
+         CALL GET_COMMAND_ARGUMENT(IX,ARGS(IX))
+      END DO
+      IF(NBARGS.GE.1) THEN
+        WRITE(*,*) ' '
+        WRITE(*,*) ' Argument(s) to zgoubi command :'
+        WRITE(*,*) (IX,ARGS(IX),IX = 1, NBARGS)
+      ENDIF
+      DO IX = 1, NBARGS
+         IF(ARGS(IX) .EQ. '-fileIn'  ) FDAT = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-fileOut' ) FRES = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-fileLog' ) FLOG = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-saveExec') SAVXEC = .TRUE.
+         IF(ARGS(IX) .EQ. '-saveZpop') SAVZPP = .TRUE.
+      ENDDO
+C -----
 
       IF(IDLUNI(
      >          NDAT)) THEN
-        FNAME = 'zgoubi.dat'
-        OPEN(UNIT=NDAT,FILE=FNAME,STATUS='OLD',ERR=996)
+        FILIN = FDAT
+        OPEN(UNIT=NDAT,FILE=FILIN,STATUS='OLD',ERR=996)
 c          write(*,*) ' zgoubi.dat is unit # ',ndat
       ELSE
         GOTO 996
@@ -50,8 +77,8 @@ c          write(*,*) ' zgoubi.dat is unit # ',ndat
 
       IF(IDLUNI(
      >          NRES)) THEN
-        FNAME = 'zgoubi.res'
-        OPEN(UNIT=NRES,FILE=FNAME,ERR=997)
+        FILOU = FRES
+        OPEN(UNIT=NRES,FILE=FILOU,ERR=997)
 c          write(*,*) ' zgoubi.res is unit # ',nres
       ELSE
         GOTO 997
@@ -59,22 +86,28 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
 
       IF(IDLUNI(
      >          NLOG)) THEN
-        FNAME = 'zgoubi.log'
-        OPEN(UNIT=NLOG,FILE=FNAME,ERR=995)
+        FILOG = FLOG
+        OPEN(UNIT=NLOG,FILE=FILOG,ERR=995)
       ELSE
         GOTO 995
       ENDIF
 
-      WRITE(6,*) ' '
-      WRITE(6,*) ' --'
-      WRITE(6,fmt='(a)') 
-     >'Now copying zgoubi executable to local directory.'
-      call system('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
-      WRITE(6,fmt='(a)') 'Now copying zpop executable to local '
-     >//'directory (if you wish to run it, use an xterm terminal).'
-      call system('cp ~/zgoubi/SVN/current/zpop/zpop .') 
-      WRITE(6,*) ' --'
-      WRITE(6,*) ' '
+      if(savxec .or. savzpp) then
+        WRITE(6,*) ' '
+        WRITE(6,*) ' --'
+        if(savxec) then
+          WRITE(6,fmt='(a)') 
+     >    'Now copying zgoubi executable to local directory.'
+          call system('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
+        endif
+        if(savzpp) then
+          WRITE(6,fmt='(a)') 'Now copying zpop executable to local '
+     >    //'directory (if you wish to run it, use an xterm terminal).'
+          call system('cp ~/zgoubi/SVN/current/zpop/zpop .') 
+        endif
+        WRITE(6,*) ' --'
+        WRITE(6,*) ' '
+      endif
 
       CALL DATE2(DMY)
       CALL TIME2(HMS)
@@ -152,11 +185,14 @@ C Proceeds until the end of zgoubi.dat list
 
       GOTO 10
  
- 995  WRITE(6,*) ' PGM ZGOUBI : error open file ', FNAME
+ 996  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+     >FILIN(DEBSTR(FILIN):FINSTR(FILIN))
       GOTO 10
- 996  WRITE(6,*) ' PGM ZGOUBI : error open file ', FNAME
+ 997  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+     >FILOU(DEBSTR(FILOU):FINSTR(FILOU))
       GOTO 10
- 997  WRITE(6,*) ' PGM ZGOUBI : error open file ', FNAME
+ 995  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+     >FILOG(DEBSTR(FILOG):FINSTR(FILOG))
       GOTO 10 
 
  99     CONTINUE

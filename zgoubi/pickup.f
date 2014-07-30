@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE PICKUP
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -41,7 +41,7 @@ C     -----------------------------------------------------
       CHARACTER(80) TITRE
       COMMON/TITR/ TITRE 
        
-      LOGICAL IDLUNI, OPN
+      LOGICAL IDLUNI, OPN, OPNO
       SAVE OPN, KPCKUP
       LOGICAL FITING
  
@@ -122,4 +122,10 @@ C      IPU = 0
      >             KPU)
       KPU = KPCKUP
       RETURN
+
+      ENTRY PICKU3(
+     >             OPNO)
+      OPNO = OPN
+      RETURN
+
       END

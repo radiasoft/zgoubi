@@ -77,6 +77,7 @@ C----- Pick-up signal ----------------------------------------
         IF(NRES .GT. 0) CALL AVORPR(NRES,2)
       ENDIF
 
+C-------------------------------------------------------------
       IF(IPASS.EQ.1) THEN
           CALL CNTMXR(
      >                IMX)
