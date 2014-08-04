@@ -124,7 +124,7 @@ C----- Flag for lmnt number - not used (for the moment...)
 C----- Traj. counter
       I = 0
       IT1 = 0
-      ITR = 0
+      IT2 = 0
       IKAR = 0
       IPASSR = 0
       IEND = 0
@@ -166,11 +166,12 @@ C        IF(BINARY) THEN
             GOTO 222
           ENDIF
 
-          ITR = ITR + 1
+          IT2 = IT2 + 1
           IT1 = IT1 + 1
           
-          IF(.NOT. OKKT(KT1,KT2,ITR,
-     >                              IEND)) THEN
+C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
+          IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+     >                                  IEND)) THEN
             GOTO 222
           ENDIF
 
@@ -189,13 +190,16 @@ C        ELSEIF(.NOT.BINARY) THEN
      >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
             INCLUDE "FRMFAI.H"
 
+C              write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
+C              write(88,*) ' KT1,KT2,KT3,IT :',KT1,KT2,KT3,IT
+C              write(88,*) ' lm, noelr ',lm,noelr
 
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221
             ENDIF
           
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
-     >                                   IEND)) THEN
+     >                                       IEND)) THEN
               IF(IEND.EQ.1) THEN 
                 IPASSR=IPASS1
                 GOTO 95
@@ -204,13 +208,19 @@ C        ELSEIF(.NOT.BINARY) THEN
               GOTO 221
             ENDIF
 
-            ITR = ITR + 1
+C              write(88,*) ' iend_okkp :',iend
+
+            IT2 = IT2 + 1
             IT1 = IT1 + 1
           
-            IF(.NOT. OKKT(KT1,KT2,ITR,
-     >                                IEND)) THEN
+C            IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+     >                                   IEND)) THEN
               GOTO 221
-          ENDIF
+            ENDIF
+
+C              write(88,*) ' iend_okkt :',iend
+C              write(88,*) ' '
 
           ELSEIF(KOBJ2.EQ.1) THEN 
 C------------ Was installed for reading pion data at NuFact target
@@ -223,10 +233,10 @@ C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             ELSE
               READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             ENDIF
-            ITR = ITR + 1
+            IT2 = IT2 + 1
 c            write(*,*) ' obj3 ',KT3,KT3*((it1-1)/KT3),it1-1         
 c                read(*,*)
-            if(KT3*((itr-1)/KT3) .ne. itr-1) goto 171            
+            if(KT3*((it2-1)/KT3) .ne. it2-1) goto 171            
 c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it1
 c                read(*,*)
             it1 = it1 + 1
@@ -269,7 +279,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
-            ITR = ITR + 1
+            IT2 = IT2 + 1
 
           ELSEIF(KOBJ2.EQ.3) THEN 
 C------------ Was installed for RHS_DESIR
@@ -291,23 +301,23 @@ C            TIM = 0.D0
             SO= 0.D0
             DPO= 0.D0
             TIMO= 0.D0
-            ITR = ITR + 1
+            IT2 = IT2 + 1
 
           ELSEIF(KOBJ2.EQ.4) THEN 
 C------------ Installed for RHIC FFAG arcs
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
  174        continue
-            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jtr
-            ITR = JTR
-c            write(*,*) ' obj3 ',KT3,KT3*((itr-1)/KT3),it1-1,itr
+            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jt2
+            IT2 = JT2
+c            write(*,*) ' obj3 ',KT3,KT3*((it2-1)/KT3),it1-1,it2
 c                read(*,*)
-            if(itr .lt. kt1 .or. itr .gt. kt2) goto 174            
+            if(it2 .lt. kt1 .or. it2 .gt. kt2) goto 174            
             if(it1.gt.0) then 
-              if(KT3*((itr)/KT3) .ne. itr) goto 174            
+              if(KT3*((it2)/KT3) .ne. it2) goto 174            
             endif
             it1 = it1 + 1
-c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,itr,itr,it1
+c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it2,it2,it1
 c                read(*,*)
             TIM = 0.D0
 C            LETI=KAR(IKAR)
@@ -330,7 +340,7 @@ C            LETI=KAR(IKAR)
             IF(LM .NE. NOELR) GOTO 221
           ENDIF
           IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
-     >                                 IEND)) THEN
+     >                                     IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
               GOTO 95
@@ -338,8 +348,9 @@ C            LETI=KAR(IKAR)
             GOTO 221
           ENDIF
 
-          IF(.NOT. OKKT(KT1,KT2,ITR,
-     >                              IEND)) THEN
+C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
+          IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+     >                                 IEND)) THEN
             
             it1 = it1 - 1 
             GOTO 169

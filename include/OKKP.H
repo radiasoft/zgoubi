@@ -43,5 +43,3 @@ C--------- Plot at [KP2]-ipass
           OKKP=.TRUE.
         ENDIF
       ENDIF
-
-

@@ -67,7 +67,7 @@ C Implemented by Scott Berg, LPSC, April 2007
            CALL ENDJOB('SBR fitnu, Error : no such FIT method.',-99)
          ENDIF
          CALL IMPAJU(LUN,F)
-         if(save) THEN
+         IF(SAVE) THEN
            CALL IMPAJU(LSAV,F)
            CLOSE(LSAV)
          ENDIF

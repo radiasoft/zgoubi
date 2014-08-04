@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION OKKT(KT1,KT2,IT,
-     >                         IEND)
+      FUNCTION OKKT(KT1,KT2,KT3,IT,
+     >                             IEND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKKT
       INCLUDE "OKKT.H"

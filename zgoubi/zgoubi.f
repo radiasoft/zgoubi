@@ -1260,17 +1260,22 @@ C----- REVERSE.
       GOTO 998
 C----- SYSTEM. System call
  106  CONTINUE
-      IF(READAT) READ(NDAT,*) A(NOEL,1)
+        stop '***************'
+C      IF(READAT) READ(NDAT,*) A(NOEL,1)
+      READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))
       IF(NRES.GT.0) WRITE(NRES,*) ' Number of commands : ',NCMD
-      IF(READAT) THEN 
+C      IF(READAT) THEN 
         DO I = 1, NCMD
           READ(NDAT,FMT='(A)') SYSCMD
           CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
-          IF(NRES.GT.0)WRITE(NRES,*) 
+          IF(NRES.GT.0) WRITE(NRES,*) 
      >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
         ENDDO 
-      ENDIF
+C      ENDIF
+          WRITE(*,*) 
+     >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
+                  read(*,*)
       GOTO 998
 C----- SPINR. Spin rotator 
  107  CONTINUE

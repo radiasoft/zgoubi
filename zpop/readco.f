@@ -81,6 +81,8 @@ C     ----------------------------------------------------
       data yvec / 0.d0, 1.d0, 0.d0 /
       data zvec / 0.d0, 0.d0, 1.d0 /
 
+      KT3 = 1
+
       IF(NL .EQ. NSPN) THEN
 C--------- read in zgoubi.spn type storage file
 
@@ -91,7 +93,7 @@ C--------- read in zgoubi.spn type storage file
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                       IEND)) GOTO 111
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                       IEND)) THEN
@@ -111,7 +113,7 @@ C--------- read in zgoubi.spn type storage file
      >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
             INCLUDE 'FRMSPN.H'
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                       IEND)) GOTO 1        
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                       IEND)) THEN
@@ -165,7 +167,7 @@ C--------- read in zgoubi.fai type storage file
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 222
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND))  THEN
@@ -191,7 +193,7 @@ C              ENDIF
 
             INCLUDE "FRMFAI.H"
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 21
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND))  THEN
@@ -223,7 +225,7 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 232
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND))  THEN
@@ -252,7 +254,7 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 31
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND))  THEN

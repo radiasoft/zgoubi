@@ -141,6 +141,8 @@ C        J=K+NV
 C----- OBJECT coordinates are redefined according to FIT variables, if any
 C To be completed
 
+C FM 14-08-01
+      CLOSE(LUN)
       RETURN
 
  97   CONTINUE

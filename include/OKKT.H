@@ -28,9 +28,10 @@ C  -------
         IF(KT1 .GE. 0) THEN
 
           IF(IT.GE.KT1  .AND. IT.LE.KT2) THEN   
-C----------- If KT1<IT<KT2
-            OKKT=.TRUE.
-
+C----------- If KT1<IT<KT2, [KT3]-IT
+            IF((IT/KT3)*KT3 .EQ. IT) THEN
+              OKKT=.TRUE.
+            ENDIF
           ELSEIF(IT.GT.KT2) THEN
 C----------- Data reading will end
             IEND=1
