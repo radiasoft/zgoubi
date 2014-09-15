@@ -257,6 +257,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
      >      ,6(1X,E14.6))
           ENDIF
         ENDDO
+C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
 C        CLOSE(LUN)
       ENDIF 
 

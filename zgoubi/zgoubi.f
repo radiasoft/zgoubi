@@ -1171,11 +1171,15 @@ C----- COILS.
       GOTO 998
 C----- GETFITVAL.  Get parameter values resulting from FIT, stored in TA(NOEL,1)
  96   CONTINUE
-      IF(READAT) THEN
-        CALL RFITGT
+        CALL FITSTA(I5,
+     >                 FITING)
+C      IF(READAT) THEN
+      IF(.NOT.FITING) THEN
+        if(ipass.eq.1)CALL RFITGT
         CALL FITGTV(TA(NOEL,1),
      >                         FITGET)
       ENDIF
+C          WRITE(*,*) ' ZGOUBI   GETFITVAL ',FITING,NOEL,IPASS
       GOTO 998
 C----- SUPERPOSE.  To superimpose magnets. 2B developped
  97   CONTINUE

@@ -28,6 +28,7 @@ C  -------
       LOGICAL IDLUNI
 
       LOGICAL OPN
+      character(100) fname
 
       I = 20
  1    CONTINUE
