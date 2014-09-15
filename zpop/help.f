@@ -42,7 +42,7 @@ C      ENTRY LEVOUT(KLEV)
 C      RETURN
 C      END
       SUBROUTINE HELP(SHELP)
-      CHARACTER*(*) SHELP
+      CHARACTER(*) SHELP
 
       WRITE(6,*) '      '
       WRITE(6,*) '      '

@@ -30,7 +30,7 @@ C     ----------------------------------------------
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),KTI(MXF),KSCL
@@ -42,7 +42,7 @@ C     ----------------------------------------------
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF),JPA(MXF,MXP)
  
       PARAMETER(MSTR=MLF+1)
-      CHARACTER*10 STRA(MSTR)
+      CHARACTER(10) STRA(MSTR)
  
       INTEGER DEBSTR, FINSTR
 

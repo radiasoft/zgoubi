@@ -30,8 +30,12 @@ C     --------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER(80) TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
  
-      CHARACTER TXT*132
+      CHARACTER(400) TXT
+      INTEGER DEBSTR
 
       READ(NDAT,*) A(NOEL,1)               ! IL      
       NP = 1                 
@@ -39,7 +43,7 @@ C     --------------------------
       NMAG = NINT(A(NOEL,NP+1))                                
       NP=NP+3
 
-      DO 1 IMAG = 1, NMAG
+      DO IMAG = 1, NMAG
 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,4)          ! ACENT, DR0, HNORM, K
         NP=NP+4
@@ -65,12 +69,38 @@ C         ... Lateral face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
 
- 1    CONTINUE
+      ENDDO
+
+      READ(NDAT,FMT='(A400)') TXT
+      TA(NOEL,1) = ' '
+
+      IF(TXT(DEBSTR(TXT):DEBSTR(TXT)+5) .EQ. 'IntLim') THEN
+C Integration limts defined by entrance and/or exit lines
+        READ(TXT(DEBSTR(TXT)+6:400),*) IDRT  
+        NP = NP + 1
+        A(NOEL,NP) = IDRT
+        IF    (IDRT.EQ.-1) THEN
+C          Intgration limit at entrance
+          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,3)
+          NP = NP + 3
+        ELSEIF(IDRT.EQ. 1) THEN
+C          Intgration limit at exit
+          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,3)                
+          NP = NP + 3
+        ELSEIF(IDRT.EQ. 2) THEN
+C          Intgration limit at entrance and at exit
+          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,6)                
+          NP = NP + 6
+        ELSE
+          CALL ENDJOB('Pgm rffag. No such option IDRT = ',IDRT)
+        ENDIF
+        TA(NOEL,1) = TXT(DEBSTR(TXT):DEBSTR(TXT)+5)
+        READ(NDAT,FMT='(A400)') TXT
+      ENDIF
 
 C KIRD= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
 C mesh size= XPAS/RESOL
 C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
-      READ(NDAT,FMT='(A132)') TXT
       READ(TXT,*,ERR=999) IA
       IF(IA.NE.0) THEN
 C KIRD=2,25 OR 4 AND RESOL
@@ -83,25 +113,17 @@ C KIRD=2,25 OR 4 AND IRD==RESOL
         A(NOEL,NP+2) = IB
       ENDIF
       NP=NP+2
+
 C     ... XPAS
       NP=NP+1
       ND=NP
       READ(NDAT,*) A(NOEL,ND)
+
 C     ... KP, RE, TE, RS, TS
-C Modif, FM, Dec. 05
-C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
-      READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
-      KP = NINT(A(NOEL,NP+3))
-      IDRT =  NINT(10*A(NOEL,ND+3))- 10*KP
-      NP = NP + 8
-      IF(IDRT .GE. 1) THEN
-        DO I = 1, IDRT
-          IF(NP .GT. MXD) CALL ENDJOB('SBR RFFAG. TOO MANY BOUNDARIES, '
-     >    //'SHOULD BE .LE. ',MXD)
-          READ(NDAT,*) (A(NOEL,J),J=NP,NP+2)
-          NP = NP + 3
-        ENDDO
-      ENDIF
+C      READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
+      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
+      KP = NINT(A(NOEL,NP+1))
+
       RETURN
 
  999  CONTINUE

@@ -166,9 +166,6 @@ C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
             IF(NP.GT.MXD) CALL ENDJOB('SBR rscal. NP >',MXD)
             A(NOEL,NP) = VPA(IFM,J)
 
-c            write(*,*) ' rscal jpa, vpa ', IFM,J,JPA(IFM,J),VPA(IFM,J)
-c            write(*,*) 'rscal noel, np, A ',noelll, nppp, A(NOELll,NPpp)
-c                    read(*,*)
           ENDDO
 
         ENDIF        
@@ -178,6 +175,12 @@ c                    read(*,*)
           NDSCL=NTIM(IFM)
           NDTIM=NTIM(IFM)
           MAX=NTIM(IFM)
+          NP = NP + 1
+          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+          A(NOEL,NP) = NTIM(IFM)
+
+C              write(*,*) ' rscal np, A, ntim : ',np,NTIM(IFM),NDTIM
+C                   pause
 
         ELSEIF(NTIM(IFM) .LT. 0) THEN
 
@@ -231,14 +234,20 @@ C--------- SCL(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDSCL)
-c           write(*,*) 
-c     >    'rscal ',IFM, ndscl, (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
+
+C             write(*,*) ' A(NOEL,NP+IT-1),IT=1,NDSCL : ',
+C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
+
           NP = NP + NDSCL -1
 
 C--------- TIM(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
           READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
+
+C             WRITE(*,*) ' A(NOEL,NP+IT-1),IT=1,NDtim : ',
+C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
+
                 
           NP = NP + NDTIM - 1 
 
@@ -344,14 +353,13 @@ c            A(NOEL,NP) = NSTR
 
         ENDIF
 
+          IF(NTIM(IFM) .GE. 0) np = np-1
+
+
  1    CONTINUE
  
       CLOSE(lun)
       CALL SCALI6(MODSCL)
-
-c      write(*,*) ' rscal 2   A(4,3), a(4,4), a(4,5) ', 
-c     > A(4,3), a(4,4), a(4,5)
-c                    read(*,*)
 
       RETURN
 

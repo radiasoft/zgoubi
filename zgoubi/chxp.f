@@ -227,23 +227,9 @@ C-------- FFAG-SPI     spiral ffag
 C     >                  XL,DEV)
         IDZ=3
 
-        NP = ND + 3
+        NP = ND + 1
         KP = NINT(A(NOEL,NP))
-        IDRT =  NINT(10*A(NOEL,NP))- 10*KP
-        NP = NP + 5
-        IF(IDRT .GE. 1) THEN
-          WRITE(NRES,*)' NUMB. OF DROITES LIMITES : ', IDRT
-          WRITE(*,*)' NUMB. OF DROITES LIMITES : ', IDRT
-          DO I = 1, IDRT
-            CA(I) = A(NOEL,NP) * RAD
-            SA(I) = A(NOEL,NP+1) 
-            CM(I) = A(NOEL,NP+2) 
-            NP = NP + 3
-            WRITE(*,*)' SBR CHXP. DROITE LIMITE : ',CA(I),SA(I),CM(I),KP
-            WRITE(NRES,*)' SBR CHXP. DROITE LIMITE : ',CA(I),SA(I),CM(I)
-          ENDDO
-        ENDIF
-        NDD = ND+4
+        NDD = NP+1
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 
       ENDIF

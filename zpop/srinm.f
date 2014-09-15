@@ -27,7 +27,7 @@ C  -------
      >  NOMFIC,OKOPN,GNUFIL,STORE,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*), WF(*), WO(*)
-      CHARACTER*(*) NOMFIC, GNUFIL
+      CHARACTER(*) NOMFIC, GNUFIL
       LOGICAL OKOPN, STORE
 C     -------------------------------------------------------
 C     Menu for integral calculations: dP/do, dP/dPhidPsi, etc

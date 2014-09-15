@@ -25,11 +25,11 @@ C  -------
       SUBROUTINE OPNDEF(LU2O,DEFN2O,LUO,
      >                                  FNO,OKOPN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) DEFN2O, FNO
+      CHARACTER(*) DEFN2O, FNO
       LOGICAL OKOPN
 
       LOGICAL EXS, OPN, BINARY 
-      CHARACTER*11 FRMT
+      CHARACTER(11) FRMT
 
       IF( LU2O .EQ. -1) THEN
 C------- Looks for a free LUO starting from #10

@@ -42,8 +42,12 @@ C------------------------------
 
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
       PARAMETER (MXC = 4)
-      dimension COEFS(MMAP,IZ), AA(IZ)
+      DIMENSION COEFS(MMAP,IZ), AA(IZ)
 
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE, KLEI
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LBL1, LBL2, LBL1I, LBL2I
 
 C Read
       KMAPO = KMAP
@@ -57,7 +61,8 @@ C Reset
 
       RETURN
 
-C Stack, count 
+C--
+C Stack, count. 
       ENTRY KSMAP4(NOMFIC,NFIC,AA,
      >                         NEWFIC,NBMAPO,KMAPO)
 C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
@@ -90,6 +95,17 @@ C     16/01/14 to save the coefficients
         KMAP = II
       ENDIF
       NBMAPO = NBMAPS
+      KMAPO = KMAP
+      RETURN
+
+C--
+C Stack, count, case self-made maps : dipole-m, aimant, cartemes, etc.
+C INSTALLATION HAS TO BE COMPLETED, 
+C It is not in the present state compatible with KSMAP4, neither does it allow stacking maps. 
+      ENTRY KSMAP6(
+     >             KMAPO)
+      NBMAPS = NBMAPS+1
+      KMAP = NBMAPS
       KMAPO = KMAP
       RETURN
 

@@ -117,15 +117,15 @@ C of 11 particles (based on MATRIX)
       if(okorbt) Then
         if(nres.gt.0) then
           write(nres,*)
-          write(nres,*) ' Closed orbit search not requested '
-          write(nres,*) ' Particle 1 on will be assumed on orbit.'
+          write(nres,*) ' Closed orbit search was not requested, '
+     >    //' particle 1 is assumed on closed orbit.'
           write(nres,*)
         endif
       else
         if(nres.gt.0) then
           write(nres,*)
-          write(nres,*) ' Closed orbit search requested '
-          write(nres,*) ' Particle 1 on will be put on orbit.'
+          write(nres,*) ' Closed orbit search was requested, closed or'
+     >    //'bit coordinates first searched and assigned to particle 1.'
           write(nres,*)
         endif
       endif

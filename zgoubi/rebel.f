@@ -355,9 +355,10 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
                 WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 
      >          'Parameter #',KPRM(iprm),' in element #',
      >          KLM(iprm),' will be modified at each pass, '
-                WRITE(NRES,FMT='(5X,A)') 'list of parameter values :'
-                WRITE(NRES,FMT='(15X,i3,1p,e17.8)')
-     >          (I,PARAM(iprm,I),I=1, NRBLT)
+                WRITE(NRES,FMT='(5X,A)') 'list of requested parameter '
+     >          //'values :'
+                WRITE(NRES,FMT='(15X,I5,1P,E17.8)')
+     >          (I,PARAM(IPRM,I),I=1, NRBLT)
               enddo
             ENDIF
           ENDIF

@@ -24,16 +24,12 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE DIPI(SCAL, 
      >                     DSREF)
-C     >                      XL,DEV)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C---------------------------------------------------------
 C     Same as DIPSI, but for a single dipole. 
 C---------------------------------------------------------
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-C      INCLUDE "MAXTRA.H"
-C      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,HNORM
-C     > ,YCH,ZCH
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -59,6 +55,7 @@ C     > ,YCH,ZCH
       SAVE NN, RESOL
 
       LOGICAL OKTTA, LTXI, GTXF
+
       DATA OKTTA, LTXI, GTXF / .TRUE., .FALSE.   , .FALSE.   /
 
       NP = 2

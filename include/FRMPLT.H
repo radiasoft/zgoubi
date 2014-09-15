@@ -28,7 +28,7 @@ C      SUBROUTINE IMPPLT
  100     FORMAT(1X,
 
 C1                     KEX,     XXXO, (FO(J,IT),J=2,MXJ),
-     >    1P,          1X,I2,   7(1X,E16.8)
+     >    1P,       1X,I3,      7(1X,E16.8)
 
 C2              XXX,Y,T*1.D3,Z,P*1.D3,SAR,TAR,  BTI, DS
      >         ,7(1X,E24.16),                   2(1X,E16.8)

@@ -104,7 +104,6 @@ C--------- Current KLEY recorded for scaling
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ Current KLEY will undergo scaling if...
 
-             
             DO  KL=1,MLF
               IF(STRCON(LBF(KF,KL),'*',
      >                                 IS)) THEN
@@ -114,18 +113,6 @@ C------------ Current KLEY will undergo scaling if...
                 LABA = DEBSTR(LABEL(NOEL,1))
                 LABB = FINSTR(LABEL(NOEL,1))
                 LLAB = LABB-LABA+1
-
-c               if(noel.eq.684 .or. noel .eq. 759 ) then
-c                write(*,*) 'scaler  NOEL, IS, ',NOEL,IS,
-c     >        LABEL(NOEL,1)(1:LLBF-1),' ' , LBF(KF,KL)(1:LLBF-1)
-c                write(*,*) 'scaler  ',IS,
-c     >        LABEL(NOEL,1)(LLAB-LLBF+2:LLAB),' ', LBF(KF,KL)(2:LBFB)
-c              write(*,*) 
-c     >        (LABEL(NOEL,1)(1:LLBF-1) .EQ. LBF(KF,KL)(1:LLBF-1))
-c              write(*,*) 
-c     >        (LABEL(NOEL,1)(LLAB-LLBF+2:LLAB).EQ.LBF(KF,KL)(2:LBFB))
-c                    read(*,*)
-c                 endif
 
 C               ... either LBF ends with '*' ...
                 IF(  LLBF-1 .GE. 1 ) THEN
@@ -143,14 +130,11 @@ C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
                   ok3 = .false.
                   GOTO 2
-c      write(88,*) ' scaler lab?        '
-c     >                         ,LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
                 ENDIF
               ENDIF
             ENDDO
           ELSE
 C------------ ...or if it has no label at all
-c      write(88,*) ' scaler Nolab ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
             GOTO 2
           ENDIF
         ENDIF
@@ -160,8 +144,6 @@ c      write(88,*) ' scaler Nolab ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
       GOTO 99
 
  2    CONTINUE
-
-c      write(88,*) ' scaler >2 ',LABEL(NOEL,1), LBF(KF,KL),noel,kf,kl
 
       IFM = IFM + 1
       KFM(IFM) = KF

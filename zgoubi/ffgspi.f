@@ -45,8 +45,10 @@ C     > ,YCH,ZCH
       COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      CHARACTER(80) TA
+      PARAMETER (MXTA=45)
+      COMMON/DONT/ TA(MXL,MXTA)
       COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-C      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
   
@@ -269,7 +271,35 @@ C Exit Fringe Field
       IF(KMAG.LT.NBMAG) GOTO 10
 
 C-----------------------------
-      
+      IF(TA(NOEL,1) .EQ. 'IntLim') THEN
+        NP = NP + 1
+        IDRT = NINT(A(NOEL,NP))
+        IF    (IDRT.EQ.-1) THEN
+C          Intgration limit at entrance
+          AM(1) = A(NOEL,NP+1)          
+          BM(1) = A(NOEL,NP+2)          
+          CM(1) = A(NOEL,NP+3)          
+          NP = NP + 3
+        ELSEIF(IDRT.EQ. 1) THEN
+C          Intgration limit at exit
+          AM(2) = A(NOEL,NP+1)          
+          BM(2) = A(NOEL,NP+2)          
+          CM(2) = A(NOEL,NP+3)          
+          NP = NP + 3
+        ELSEIF(IDRT.EQ. 2) THEN
+C          Intgration limit at entrance and at exit
+          AM(1) = A(NOEL,NP+1)          
+          BM(1) = A(NOEL,NP+2)          
+          CM(1) = A(NOEL,NP+3)          
+          AM(2) = A(NOEL,NP+4)          
+          BM(2) = A(NOEL,NP+5)          
+          CM(2) = A(NOEL,NP+6)          
+          NP = NP + 6
+        ELSE
+          CALL ENDJOB('Pgm ffgspi. No such option IDRT = ',IDRT)
+        ENDIF
+      ENDIF
+
 C Get type of field & deriv. calculation 
       NP=NP+1 
       KIRD = NINT(A(NOEL,NP))
@@ -279,7 +309,7 @@ C Get resol, or idb
       IF    (KIRD.NE.0) THEN
 C    interpolation 
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
-     >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
+     >  ('Pgm ffgspi. Sharp edge not comptible with nmrcl drvtive.',-99)
         IRD = KIRD
         KIRD = 1
         IF    (IRD.EQ.2) THEN 
@@ -289,7 +319,7 @@ C    interpolation
         ELSEIF(IRD.EQ.4) THEN
           NN=5
         ELSE
-          STOP ' *** ERROR - SBR FFAGI, WRONG VALUE IRD'
+          CALL ENDJOB('Pgm ffgspi. Wrong value IRD :',IRD)
         ENDIF
       ELSEIF(KIRD.EQ.0) THEN
 C    analytic
@@ -316,6 +346,30 @@ C--- Formule à revoir...
 C--------------------
 
       IF(NRES.GT.0) THEN
+        IF(TA(NOEL,1) .EQ. 'IntLim') THEN
+          IF    (IDRT.EQ.-1) THEN
+            WRITE(NRES,FMT='(/,5X,'' Integration limit at entrance,'',
+     >      ''  positionning as follows :  '',/,20X,
+     >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
+     >      '' ;  tilt : '',E14.6)') AM(1),BM(1),CM(1)
+          ELSEIF(IDRT.EQ. 1) THEN
+            WRITE(NRES,FMT='(/,5X,'' Integration limit at exit,'',
+     >      ''  positionning as follows :  '',/,20X,
+     >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
+     >      '' ;  tilt : '',E14.6)') AM(2),BM(2),CM(2)
+          ELSEIF(IDRT.EQ. 2) THEN
+            WRITE(NRES,FMT='(/,5X,'' Integration limit at entrance,'',
+     >      ''  positionning as follows :  '',/,20X,
+     >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
+     >      '' ;  tilt : '',E14.6)') AM(1),BM(1),CM(1)
+            WRITE(NRES,FMT='(/,5X,'' Integration limit at exit,    '',
+     >      ''  positionning as follows :  '',/,20X,
+     >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
+     >      '' ;  tilt : '',E14.6)') AM(2),BM(2),CM(2)
+          ENDIF
+        ELSE
+            WRITE(NRES,FMT='(/,5X,'' No integration limit set.'')')
+        ENDIF
         WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
      >  TYPCAL(KIRD+1)
         IF    (KIRD.NE.0) THEN
@@ -333,6 +387,11 @@ C----------- IRD= 4 OR 25
      >    ''Derivatives computed to order '',I1)') IDB
         ENDIF
       ENDIF
+
+C Installation in DRTENT and INTEGR with KART=2 is to be completed. 
+      IF(IDRT.NE.0) CALL ENDJOB
+     >('Pgm ffgspi. Installation of ntegration boundaries is '
+     >//'to be completed.',-99)
 
       RETURN
 
@@ -377,8 +436,9 @@ C      COORDONNEES DU POINT COURANT
       RO2=RM
       B2=B1
 
-      AMIN = -AT/2.D0 !- ACN(KMAG)       
-      AMAX =  AT/2.D0 !- ACN(KMAG)       
+C FM Aug. 2014. Useless since values are "SAVE"
+C      AMIN = -AT/2.D0 !- ACN(KMAG)       
+C      AMAX =  AT/2.D0 !- ACN(KMAG)       
 
 c          write(*,*) ' sbr ffgspi, num. model, acn ', acn(kmag) 
 
@@ -488,7 +548,7 @@ C  Compute FFAG field  and derivatives from analytical model
      >                        BZ0)
          
       CALL ENDJOB
-     >    ('SBR FFGSPI : analytical  model not implemented. ',-99)
+     >    ('Pgm ffgspi. Analytical model is not implemented. ',-99)
 
       KMAG = 0
  30   CONTINUE

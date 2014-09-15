@@ -26,7 +26,7 @@ C  -------
       FUNCTION OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                 IEND)
       LOGICAL OKKT
-      CHARACTER*1 LET,KLETO
+      CHARACTER(1) LET,KLETO
       LOGICAL OKKT5
 
       INCLUDE 'MAXNTR.H'          

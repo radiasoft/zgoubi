@@ -26,11 +26,22 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL EMPTY
       CHARACTER(*) STR
+      INTEGER DEBSTR, FINSTR
 C     -----------------------------------------------------
 C     .TRUE. if STR is either empty or contains only blanks
 C     -----------------------------------------------------
 
-      INTEGER FINSTR
-      EMPTY = FINSTR(STR) .EQ. 1 .and. str(1:1) .eq. ' '
+C FM Sept 2014. This does not work
+C      EMPTY = FINSTR(STR) .EQ. 1 .and. str(1:1) .eq. ' '
+      EMPTY = 
+     > (
+     >    LEN(STR(DEBSTR(STR):FINSTR(STR))) .EQ. 1 
+     >    .AND.  STR(DEBSTR(STR):FINSTR(STR)) .EQ. ' '
+     > )
+     > .OR. 
+     > (
+     >    LEN(STR(DEBSTR(STR):FINSTR(STR))) .LT. 1
+     > )
+
       RETURN
       END

@@ -10,10 +10,12 @@ C----- PLOT SPECTRUM
       common/KP/ lusav,kpa,kpb
       LOGICAL IDLUNI
 
-      CHARACTER*80 FILFAI
+      CHARACTER(80) FILFAI
       logical exs
-      character HV*2
+      character(2) HV
       INTEGER DEBSTR,FINSTR
+
+      character(7) TXT7A, TXT7B, TXT7R
 
       data HV / '  ' /
 
@@ -25,9 +27,9 @@ C kpa = turn # ; nt=-1 far all particles
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
-      write(*,*) 'Now running pgm lipsFitFromFai... '
+      write(*,*) 'Now running pgm lipsFitFromFai ... '
       write(*,*) 'Will find ellipse matched to particle population'
-     >,' at turn # kpa.'
+     >//' at turn # kpa as specified in lipsFitFromFai.In'
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
@@ -75,10 +77,16 @@ c      read(*,*)
       if(kpa.eq.0) kpa = 1  ! this is for lipsFitFromFai_iterate
       kpb = kpa 
       kpc = 1
+      ksmpl = kpb-kpa+1
 
-      write(*,*) ' Particle # : ','   all ' 
-      write(*,*) 
-     >' Turn # range :  ',ksmpl,' turns,  from ',kpa,' to ',kpb
+      write(TXT7A,fmt='(I7)') kpa
+      write(TXT7B,fmt='(I7)') kpb
+      write(TXT7R,fmt='(I7)') ksmpl
+
+      write(*,*) ' Particle # : '//'   all ' 
+      write(*,*) ' Number of turns and range :  '//TXT7R
+     >//' turn(s),  from '//TXT7A//' to '//TXT7B
+
       call READC2B(KPa,KPb,KPc)
 
       call INIGR(

@@ -33,7 +33,7 @@ C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
 C     --------------------------------------
       II=0
       LENGTH=LEN(STRING)
-      IF(LENGTH.EQ.0) GOTO 99
+      IF(LENGTH.LE.0) GOTO 99
 1     CONTINUE
         II=II+1
         IF (STRING(II:II) .EQ. ' ') THEN

@@ -159,7 +159,7 @@ c     >     //' F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF)'
      >              XCE,YCE,ALE)
         WRITE(LNWRT,FMT='(1P,55(1X,E16.8),2(2X,A),3(1X,E16.8))') 
      >  ((R(IA,IB),IB=1,6),IA=1,6), 
-     >  F0(1,1), -F0(1,2), F0(3,3), -F0(3,4), 
+     >  -F0(1,2), F0(1,1), -F0(3,4), F0(3,3),  
      >  F0(1,6), F0(2,6), F0(3,6), F0(4,6), YNU, ZNU,
      >  F(1,IREF),F(2,IREF),F(3,IREF),F(4,IREF),F(5,IREF),
      >  F(6,IREF),F(7,IREF),CMUY,CMUZ,TXTYNU,TXTZNU,xce,yce,ale

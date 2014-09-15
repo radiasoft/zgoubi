@@ -127,14 +127,14 @@ C-------  Compute  B(X,Y,0)  from  field  maps
         IF(KERK .NE. 0) THEN
 C          IF(ABS(BZ).GT.0.020)  KEX =-1
           IF(ISORT .EQ. 2)  GOTO 7
-          IF(NRES.GT.0) WRITE(NRES,100)Y,X,T,IT,' HORS LIMITES'
+          IF(NRES.GT.0) WRITE(NRES,100)Y,X,T,IT,' went out of'
   100     FORMAT (/,4X,'Y =',F8.2,' X =',F8.2,' T =',F6.3
-     >    ,' TRAJECTOIRE ',I3,A,' Champ ')
+     >    ,' Trajectory # ',I7,A,' field region.')
           ISORT=2
           GOTO 7
         ENDIF
         IF(ISORT .EQ. 1)  GOTO 7
-        IF(NRES.GT.0) WRITE(NRES,100) Y,X,T,IT,' REVENUE DANS'
+        IF(NRES.GT.0) WRITE(NRES,100) Y,X,T,IT,' came back in.'
         ISORT=1
 
       ELSE
@@ -198,7 +198,7 @@ C------- DROITE(S) DE COUPURE EN SORTIE
 C        "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
 C        be > XLIM)
 
-        IF( KART .EQ. 1) THEN
+        IF    (KART .EQ. 1) THEN
 C--------- COORDONNEES CARTESIENNES
           D = ABS(CA(KDR)*X + SA(KDR)*Y + CM(KDR))
 

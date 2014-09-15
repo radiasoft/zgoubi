@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OBJETS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -60,7 +60,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       COMMON/UNITS/ UNIT(MXJ)
  
       PARAMETER(MXJ1=MXJ-1)
-      DIMENSION DE(5,MXT),IDE(5),JDE(5),P(MXJ)
+      DIMENSION DE(MXJ,MXT),IDE(MXJ),JDE(MXJ),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
      > (IDE(5),IPMAX),(IDE(1),IMAXD)
       EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
@@ -491,7 +491,7 @@ C     1')  FORME  DE ',I6,' POINTS ',//)
   106 FORMAT(/,41X,'TRAJECTOIRY SETTING UP',//,30X,'OBJET  (',I1,
      1')  BUILT  UP  FROM  ',I6,' POINTS ',//)
   101 FORMAT(/,42X,'D',7X,'Y(cm)',5X,'T(mrd)',4X,'Z(cm)',5X,'P(mrd)',4X,
-     >'X(cm)',//,30X,'NUMBER',5(5X,I3,2X),/)
+     >'X(cm)',//,30X,'NUMBER',6(5X,I3,2X),/)
   102 FORMAT(/,19X,' SAMPLING ',4X,F7.4,5(4X,F6.2),/)
 C  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
       END

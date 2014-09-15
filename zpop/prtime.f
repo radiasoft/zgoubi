@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE PRTIME(IOP,
      >                      DMY,HMSI,HMSF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*)   DMY, HMSI, HMSF
+      CHARACTER(*)   DMY, HMSI, HMSF
       IF(IOP .EQ. 1) THEN
         CALL DATE2(DMY)                     
         CALL TIME2(HMSI)      

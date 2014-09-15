@@ -27,7 +27,7 @@ C  -------
      >                         STORE,LUO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STORE
-      CHARACTER*(*) GNUFIL
+      CHARACTER(*) GNUFIL
 
       LOGICAL EXS, OPN, IDLUNI
 

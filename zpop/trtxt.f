@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE TRTXT(X,Y,TXT,IUN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) TXT
+      CHARACTER(*) TXT
       IF(IUN .EQ. 0) THEN
 C------- Conversion screen (384/256 Pix)  >  screen (1024/780Pix)
         CALL TRTEXT(SNGL(X*1024./384.), SNGL(Y*780./256.) ,TXT,IUN)

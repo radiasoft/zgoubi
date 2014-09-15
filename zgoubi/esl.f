@@ -126,7 +126,7 @@ C-------- COMPTAGE / LIMITES CHAMBRE
  101     FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',
      >   I3,1P,5E14.6,1X,E15.7,1X,E13.5)
          IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
- 102     FORMAT('TRAJ #1 Spin components :',1X,I2,2X,1P,4(E14.6,1X))
+ 102     FORMAT('TRAJ #1 SX, SY, SZ, |S| :',1X,I2,2X,1P,4(E14.6,1X))
         ENDIF
       ENDIF
 

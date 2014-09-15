@@ -18,20 +18,20 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory                        
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE FMATCH(NLOG,NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) NOMFIC
+      CHARACTER(*) NOMFIC
 
 C----- Calculate the fringe field coefficients Co-C5,
 C      from a matching between, on one hand the analytical model
 C        F / Fo = 1 / ( 1 + exp( P(X) ), P(X) = Co + C1*X ... + C5*X**5
 C      and on the other hand numerical values read from the input 
-C      file NOMFIC (Default name = fmatch.dat or last open file).
+C      file NOMFIC (Default name = fmatch.data or last open file).
 C      The matching method uses a Fletcher-Reeves alternated 
 C      gradient algorithm.
 C         Longitudinal coordinate should be Meters
@@ -43,14 +43,14 @@ C         Longitudinal coordinate should be Meters
       PARAMETER(MXC=400)
       DIMENSION CX(MXC), CY(MXC)
 
-C      CHARACTER REP, NOMFIC*(80)
-C      SAVE NOMFIC
       CHARACTER REP
       LOGICAL RFMTCH, OKOPN, EMPTY, NORM
       SAVE OKOPN
       EXTERNAL FRINGE, DFRING
       LOGICAL IDLUNI   
       SAVE NL
+
+      INTEGER DEBSTR, FINSTR
 
       DATA NORM / .TRUE. /
       DATA VMI/ 10 * -10.D0 /
@@ -81,9 +81,13 @@ C      DATA V/ .015527D0, 3.875D0,-2.362D0,2.9782D0,
 C     >          12.6044D0,15.0257D0 , 4 * 0.D0 / 
 C      DATA XLAMB / 11.2d-2 /
 C----- AGS magnets
+C      DATA NV / 4 /
+C      DATA V/ .1455 ,  2.2670,  -.6395 , 1.1558,  6*0.d0 /
+C      DATA XLAMB / 6.d-2 /
+C----- Malek, PSI cyclo 
       DATA NV / 4 /
-      DATA V/ .1455 ,  2.2670,  -.6395 , 1.1558,  6*0.d0 /
-      DATA XLAMB / 6.d-2 /
+      DATA V/ .6d0, 4d0, -3d0, 1d0, 6*0.d0  /
+      DATA XLAMB / 20.d0 /     ! same units as CX
 C----- LHC Quadrupole
 C      DATA NV / 6 /
 C      DATA V/-.01D0, 5.46D0, .997D0, 1.57D0,-5.67D0,18.5D0, 4 * 0.D0 / 
@@ -111,7 +115,7 @@ C      CALL HOMCLR
       WRITE(*,104) NV-1,EPS, XLAMB
  104  FORMAT(//,3X,60('-'),//,15X
      X,' MENU  FOR FRINGE-FIELD  MATCHING:',/
-     1,/,5X,' 1  Open data file (Default = fmatch.dat)'
+     1,/,5X,' 1  Open data file (Default = fmatch.data)'
      2,/,5X,' 2  Degree  of  P(X) = Co + C1*X...+ C5*X^5'
      X,/,5X,'                           (present = ',I1,')'
      3,/,5X,' 3  Precision   (Present = ',E10.2,')'
@@ -146,17 +150,17 @@ CC Some more data :
 CC   11.2      Lambda, for LHC dipole
 CC   6       P(X) of degree 5
       WRITE(*,*) 
-     >  ' Give input data file name (default will be fmatch.dat) :'
+     >  ' Give input data file name. Default will be ',
+     >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       READ(*,FMT='(A)') NOMFIC
-      IF(EMPTY(NOMFIC)) NOMFIC = 'fmatch.dat'
+      IF(EMPTY(NOMFIC)) NOMFIC = 'fmatch.data'
       CLOSE(NL)
       OKOPN = .FALSE.
       WRITE(*,*)
-      WRITE(*,*) ' Trying to open ',NOMFIC,' ...' 
-      IOS = 1
+      WRITE(*,*)'Trying to open '//NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       IF (IDLUNI(NL)) OPEN(UNIT=NL, FILE=NOMFIC,STATUS='OLD',IOSTAT=IOS)
       IF(IOS .NE. 0) THEN
-        WRITE(*,*) '  Cannot open ',nomfic
+        WRITE(*,*) ' Cannot open ',nomfic(debstr(nomfic):finstr(nomfic))
       ELSE
         OKOPN = .TRUE.
         WRITE(*,*) ' Ok !' 
@@ -189,7 +193,7 @@ CC   6       P(X) of degree 5
 
  7    CONTINUE
         IF(.NOT.OKOPN) THEN
-          NOMFIC = 'fmatch.dat'
+          NOMFIC = 'fmatch.data'
           IOS = 1
           IF(IDLUNI(NL))
      >            OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',IOSTAT=IOS)

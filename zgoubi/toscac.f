@@ -137,10 +137,10 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-          do ll = 24, 24+MXC-1
-            uu(ll) = AA(NOEL,ll)
+          DO LL = 24, 24+MXC-1
+            UU(LL) = AA(NOEL,LL)
           enddo
-C          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
@@ -154,7 +154,7 @@ C          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
           do ll = 24, 24+MXC-1
             uu(ll) = AA(NOEL,ll)
           enddo
-C          CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
@@ -204,7 +204,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
           do ll = 24, 24+MXC-1
             uu(ll) = AA(NOEL,ll)
           enddo
-C            CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+
             CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
           ENDDO       
@@ -252,11 +252,11 @@ C        NEWF = .TRUE.
           do ll = 24, 24+MXC-1
             uu(ll) = AA(NOEL,ll)
           enddo
-C        CALL KSMAP4(NOMFIC,NFIC,AA(NOEL,24:24+MXC-1),
+
         CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
-c         write(*,*) 'before', newfic, 'NFIC',NFIC ,'IMAP',IMAP, noel
+
        IF(MOD .EQ. 15) THEN
           IFAC = 24
           IFIC = 1

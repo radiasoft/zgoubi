@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -39,16 +39,16 @@ C-----------------------------
         DEN = AM(1)*CT+BM(1)*ST
 
         IF    (KART .EQ. 1) THEN
-C         ... CARTESIEN
+C CARTESIEN
           XN = (-CM(1)*CT+X*BM(1)*ST-Y*BM(1)*CT)/DEN
           Y  = (-CM(1)*ST-X*AM(1)*ST+Y*AM(1)*CT)/DEN
           DL = (XN-X)/CT
           SAR = SAR + DL/COS(P)
           Z = Z + DL*TAN(P)
           X = XN
-c          WRITE(NRES,*) ' SBR DRTENT, DR. ENTREE , X,Y=',X,Y
+
         ELSEIF(KART .EQ. 2) THEN
-C         ... POLAIRE
+C POLAIRE
 C ****************  NEVER BEEN USED! CHECK FORMULAE FIRST !!! *************8
           XN = (-CM(1)*ST+Y*AM(1)*CT)/DEN
           YN = (-CM(1)*CT-Y*BM(1)*CT)/DEN

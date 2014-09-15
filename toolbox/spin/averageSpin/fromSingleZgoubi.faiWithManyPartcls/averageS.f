@@ -110,7 +110,7 @@ C          OPN = .FALSE.
               OPEN(UNIT=IUN,FILE='averageS.out',ERR=699)
               OPN = .TRUE.
               write(iun,fmt='(a)')
-     >   '# yzxb(nx), av sx sy sz, av |S|, av ctta stta, av tta (rd)'
+     >   '# yzxb(nx), av SX SY SZ, av |S|, av ctta stta, av tta (rd)'
      >   //' tta^2 (rd^2), '//'sigTta (rd),  # of traj at that pass'
      >   //' sigTta (deg)'
             ELSE
@@ -146,7 +146,7 @@ C          OPN = .FALSE.
      >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,1x,e17.8)')
 c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        abs(xvar(ipass)), 
-     >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg S_x,_y,_z
+     >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg S_X,_Y,_Z
      >        xnrm,  ! |av S|
      >        sum(ipass,4), sum(ipass,5),                       ! cos_tta, sin_tta
      >        sum(ipass,6), sum(ipass,7),                       ! av tta, av tta^2
@@ -155,7 +155,7 @@ c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 ) 
      >         * 180./(4.* atan(1.d0)) 
 c     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.)
-c     >        ,' yzxb(nx), av sx sy sz, av ctta stta, av tta tta^2, '
+c     >        ,' yzxb(nx), av SX SY SZ, av ctta stta, av tta tta^2, '
 c     >        //'sigTta, sin2+cos2, # of traj at that pass'
             endif
           else
@@ -237,17 +237,19 @@ c     >      yzxb(22)**2 +
 c     >      yzxb(23)**2
 c                  read(*,*) 
           else
-C cos angle between avrge \vec S and current \vec S
+C Avrge \vec S at pass # ipass
             a(1) = sum(ipass,1)
             a(2) = sum(ipass,2)
             a(3) = sum(ipass,3)
             xa = sqrt(pscal(a,a))
 
+C \vec S of current particle
             b(1) =  yzxb(21)
             b(2) =  yzxb(22)
             b(3) =  yzxb(23)
             xb = sqrt(pscal(b,b))
 
+C cos and sin of angle between avrge \vec S and current \vec S
             ctta = pscal(a,b)/xa/xb
             call vvect(a,b,vv)
             stta = sqrt(pscal(vv,vv))/xa/xb
@@ -921,8 +923,8 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
      >'   X  ',' Step ','   r  ',
      >'dp/p|o','  Yo  ','  To  ','  Zo  ','  Po  ','  So  ',' Time ',
      >'Phase ',' dp/p ','KinEnr',
-     >'  Sx  ','  Sy  ','  Sz  ',' <S>  ',
-     >' <Sx> ',' <Sy> ',' <Sz> ','COUNT ','      ',
+     >'  SX  ','  SY  ','  SZ  ',' <S>  ',
+     >' <SX> ',' <SY> ',' <SZ> ','COUNT ','      ',
      >'  Bx  ','  By  ','  Bz  ','  Br  ',
      >'  Ex  ','  Ey  ','  Ez  ','  Er  ',
      >' S_out',' Pass#'  ,2*'      ',

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
@@ -55,14 +55,16 @@ C     > ,YCH,ZCH
       LOGICAL STRCON
 
       DATA NOMFIC / IZ*'               '/ 
-      DATA IMAP / 1 /
+C FM 9 Spet. 14
+C      DATA IMAP / 1 /
 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
 
-      CALL KSMAP(
-     >           IMAP) 
+C FM 9 Spet. 14
+C      CALL KSMAP(
+C     >           IMAP) 
 
       IF(KUASEX .EQ. 22) NDIM=2
 
@@ -102,8 +104,6 @@ C Apr 2013      BNORM = A(NOEL,10)*SCAL
         NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
         NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-C        CALL KSMAP4(NOMFIC,NFIC,
-C     >                          NEWFIC,NBMAPS,IMAP)
       ELSEIF(NDIM .EQ. 3 ) THEN
         IF    (MOD .EQ. 0) THEN
 C         ... 3-D map will be symmetrized wrt horizontal plane using SYMMED
@@ -121,8 +121,6 @@ C         ... No symm
           NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))          
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
-C        CALL KSMAP4(NOMFIC,NFIC,
-C     >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
 
       CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
@@ -184,8 +182,6 @@ C------ CARTE POLAIRE 2-D
                 YBMI = YH(J)
                 ZBMI = 0D0
               ENDIF
-C              HC(ID,I,J,1,IMAP) = BFLD * BNORM
-c                 write(*,*) ' polmes ',BFLD, BNORM
             ENDDO
           ENDDO
 

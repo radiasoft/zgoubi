@@ -332,7 +332,7 @@ to \textsl{ACENT}~; \>2*deg, 4*cm  \>6*E\\
  \>EXIT FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \\
 $\lambda$, $\xi$               \> Fringe field parameters \>cm, (cm) \>2*E\\
- \textsl{NC, $C_0-C_5$, shift }    \>    \>0-6, 6*no dim., cm \>1, 7*E\\
+ \textsl{NC, $C_0-C_5$, shift }    \>  See above  \>0-6, 6*no dim., cm \>1, 7*E\\
 $ \omega^ - $, $\theta$, $ R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of the
 exit EFB \>2*deg, 4*cm \>6*E\\
  \\
@@ -349,7 +349,7 @@ $N$, $EB1$, $EB2$, $EG1$, \quad \=
 \textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY   (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
 $\lambda$, $\xi$                  \>Fringe field parameters \>cm, (cm) \>2*E \\
- \textsl{NC, $ C_0-C_5$, shift }       \> \>0-6, 6*no dim., cm \>I, 7*E \\
+ \textsl{NC, $ C_0-C_5$, shift }       \> See above \>0-6, 6*no dim., cm \>I, 7*E \\
 $ \omega^ - $, $\theta$, $ R_1$, $U_1$, $U_2$, $R_2$,      \>Positioning and shape of the
 lateral EFB~; \> 2*deg, 5*cm \>7*E \\
  $RM3$                   \>RM3 is the radial position on azimuth \textsl{ACENT} \>\>\\
@@ -1105,9 +1105,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of 
  \\
 $\lambda$, $\xi$               \> LATERAL EFB is inhibited if $\xi=0$\>cm, unused\>2*E \\
  $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E\\
-% \>    \>dim., cm \> \\
-\\
-$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,    \>Positioning and shape of the exit EFB \>2*deg, 5*cm \>7*E\\
+$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,    \>Positioning and shape of the EFB \>2*deg, 5*cm \>7*E\\
 $ RM3$   \> \> \> \\
  \\
 % \>(Note : $ \lambda =0$, $\omega^- = -AT+$ \textsl{ACENT} and $ \theta 
@@ -1215,8 +1213,7 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of 
 %%%%%
 \textbf{If NFACE = 3}          \>LATERAL FIELD BOUNDARY   (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \>Next 3 records  \emph{only}  if \textsl{NFACE} = 3 \>\>\\
-$\lambda$, $\xi$                  \> \>cm, (cm) \>2*E \\
- \>Fringe field parameters \> \> \\
+$\lambda$, $\xi$                  \> Fringe field parameters  \>cm, (cm) \>2*E \\
  NC, $ C_0-C_5$, shift        \> \>0-6, 6*no dim., cm  \>I, 7*E \\
 % \> \>no dim., cm \> \\
 $ \omega^ - $, $\theta$, $ R_1$, $U_1$, $U_2$, $R_2$,      \>Positioning and shape of the
@@ -1291,18 +1288,18 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
- \\
+ \\[-1ex]
  $N$, $AT$,  $RM$       \> Number of magnets in the $N$-tuple~;  \> no dim.,  \> I, 2*E\\
        \> total angular extent  of the dipole~;  reference radius \> deg, cm \>   \\
- \\
+ \\[-1ex]
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
- \\
+ \\[-2ex]
  \textsl{ACN}, $\delta R\!M$~\footnotemark[1], $ B_0$, \> Positioning of EFBs : azimuth, $R\!M_{i} = R\!M + \delta R\!M$~; field~;
                                                      \> deg., cm, kG, \> 3*E, I, \\
 $ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients     \> $(ind+1)$*no dim. \> $ind$*E\\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
- \\
+ \\[-2ex]
 $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)    \> cm, no dim. \>2*E\\
  \>Exponential type fringe field $ F=1\, /\, (1+ \exp (P(s))) $ \>\>\\
  \>with $ P(s)=C_0+C_1(\dfrac{s}{g} )+C_2(\dfrac{s}{g} )^2
@@ -1320,35 +1317,21 @@ $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB 
         KIRD=0 for \underbar{sharp edge}) \>\>\\
  \\
  \>EXIT FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
- \\
+ \\[-2ex]
 $g_0$, $\kappa$               \>   \> cm, no dim. \>2*E\\
-\\
  $NC$, $ C_0-C_5 $, shift     \>    \>$0-6$, $6$*no dim., cm \>1, 7*E\\
- \\
 $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $  \>  \>2*deg, 4*cm \>6*E\\
- \\
  \>(Note : $ g_0 =0$, $\omega^- = -AT+$ \textsl{ACENT}, $ \theta 
  =0 $ and  KIRD=0 for \underbar{sharp edge}) \\
 \\
  \>LATERAL FIELD BOUNDARY  {\bf to be implemented - following data not used}  \>\>\\
- \\
-$g_0$, $\kappa$               \>   \> cm, no dim. \>2*E\\
-\\
- $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E\\
-% \>    \>dim., cm \> \\
- \\
-$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \>7*E\\
- \\
+ \\[-2ex]
+$g_0$, $\kappa$               \>   \> cm, no dim. \>2*E  \\
+ $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E  \\
+$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ RM3$   \>  \>2*deg, 5*cm \>7*E\\
+ \\[-2ex]
 \textsl{ End of repeat} \rule{80mm}{.1mm} \> \> \> \\
-\end{tabbing}
-
-\footnotetext[1]{~ Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
-
-\newpage 
-
-
-\begin{tabbing}
-\mestab
+\\
 \textsl{KIRD[.n],~Resol}         
  \>  If KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~; no dim. \>I, E\\
  \>    n=0~: default, $ B_Z$ formula (i) above, n=1~: $ B_Z$ formula (ii). \>  \\ 
@@ -1357,11 +1340,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
  \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
- \\
+ \\[-1ex]
  \textsl{XPAS}            \>Integration step                                 \>cm \>E \\
  \\
  \textsl{KPOS}            \>Positioning of the magnet, normally 2. Two options : \>1-2 \>I\\
- \\
+ \\[-1ex]
 \textbf{If KPOS = 2}     \>Positioning as follows : \>\>\\
  $RE$, $TE$, $RS$, $TS$  \>Radius and angle of reference, respectively, 
                \>cm, rad, cm, rad \>4*E \\
@@ -1369,6 +1352,8 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ R3$   \>  \>2*deg, 5*cm \
 \textbf{If KPOS = 1}     \>Automatic positioning of the magnet, by means of\>\>\\
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
+
+\footnotetext[1]{~ Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
 
 
 
@@ -1949,7 +1934,7 @@ $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB 
  \\
  \>EXIT FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \\
-$g_0$, $\kappa$               \>    \> cm, no dim \>2*E\\
+$g_0$, $\kappa$               \> Fringe field parameters, see above   \> cm, no dim \>2*E\\
  $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim, cm \>1, 7*E  \\
 $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \> \>2*deg, 4*cm \>6*E\\
  \\
@@ -2006,18 +1991,18 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 \> {\bf UNDER DEVELOPMENT}\> \>   \\
  \>$ B_Z= \sum_{i=1}^N \Bz_{0,i} \, \mathcal{F}_i(R,\theta) \, \left(   R/R_{M,i} \right)^{K_i}  $ \> \> \\
  \\
- $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \>0-2$[\times 10^n]$, 7 \>I\\
-        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates along  trajectories, fields, etc.,  \>0-2$[\times 10^n]$, 7 \>I\\
+        \>  into zgoubi.res ($1$) or zgoubi.plt ($2[\times 10^n]$) or  zgoubi.impdev.out ($7$).       \>   \> \\
 % $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
  $N$, $AT$,  $RM$       \> Number of dipoles in the FFAG $N$-tuple~;  \> no dim.,  \> I, 2*E\\
-       \> total angular extent  of the dipole~;  reference radius \> deg, cm \>   \\
+       \> total angular extent  of the dipole~;  reference radius. \> deg, cm \>   \\
  \\
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
  \\
  \textsl{ACN}, $\delta R\!M$,  \> Azimuth for dipole positioning~; $R_{M,i}=R\!M + \delta R\!M$~; 
                                                      \> deg, cm, kG,  \> 4*E \\
- $ \Bz_{0}$, $K$ \>  field at $R_{M,i}$~; index 
+ $ \Bz_{0}$, $K$ \>  field at $R_{M,i}$~; index. 
                                                      \> no dim. \> \\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
@@ -2025,11 +2010,11 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
 $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)  \> cm, no dim. \>2*E\\
  $NC$, $ C_0-C_5 $, shift     \>Unused~; $ C_0 $ to $ C_5 $ : fringe field coefficients~; EFB shift \>0-6, 6*no dim, cm \>I, 7*E \\
 $ \omega^ +$, $\xi$,  4 dummies   \>Azimuth of entrance EFB with respect  to \textsl{ACN}~; \>2*deg, 4*unused   \>6*E\\
- \>spiral angle~; 4 $\times$ unused \> \> \\
+ \>spiral angle~; 4$\times$unused. \> \> \\
  \\
  \>EXIT FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \\
-$g_0$, $\kappa$               \>    \> cm, no dim \>2*E\\
+$g_0$, $\kappa$               \> Fringe field parameters, see above    \> cm, no dim \>2*E\\
  $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim, cm \>1, 7*E  \\
 $ \omega^ -$, $\xi$,  4 dummies   \>  \>2*deg, 4*unused   \>6*E\\
  \>  \> \> \\
@@ -2051,11 +2036,21 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>     \>2*deg, 4*cm \>6*E\
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
                 \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 %%%%%%%%%
+\\
+\textbf{Integration boundaries} - next line is  optional, starting with string \texttt{IntLim}~: \>\>\\
+ \\[-2ex]
+\texttt{IntLim}, $ ID$\index{ID@{\textsl{ID}}|textbf}, $A$, $B$, $C$   \>Integration boundary. Line has to start with '\texttt{IntLim}'.  \>$-1,1,2$; deg; cm;  \>I, 3*E\\
+$\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the magnet begins at entrance  \>deg [; \textsl{id.}]  \>[,3*E]\\ %
+                       \>boundary defined by A, B, C. \>     \>           \\
+                       \>$ID=1$~: integration is terminated at exit boundary  defined     \> \> \\
+                       \>by A', B', C'.                 \> \> \\
+                       \>$ID= 2$~: both entrance and exit  boundaries.        \> \> \\
+ \\
 \textsl{KIRD,~Resol}         
  \>  If KIRD=0 :  analytical computation of field derivatives~;  \>0, 2, 25 or 4~;  \>I, E\\
- \>   Resol = 2/4 for 2nd/4th order field derivatives computation \> no dim. \> \\ 
+ \>   Resol = 2/4 for 2nd/4th order field derivatives computation. \> no dim. \> \\ 
  \>  If KIRD $=2,4$ or $25$~:  numerical interpolation of field derivatives~; \>  \>\\
- \>  size of flying interpolation mesh is \textsl{XPAS/Resol}  \>  \>\\
+ \>  size of flying interpolation mesh is \textsl{XPAS/Resol}.  \>  \>\\
  \>  \hspace{10mm} KIRD=2 or 25 : second degree, 9- or 25-point grid \>  \>\\
  \>  \hspace{10mm} KIRD=4 : fourth degree, 25-point grid \>\>\\
  \\
@@ -2259,10 +2254,14 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \noindent \textbf{Combining FIT and REBELOTE}, an example  \label{ExaFITREBELOTE}}
 
-In the example below, \textsl{FIT} requests that (i) the particle trajectory have identical horizontal 
-coordinates at both ends of the snake 
-(achieved by varying initial coordinates $Y_0$, $T_0$ in \textsl{OBJET}),   and (ii) the trajectory 
-across the snake - an helix - be $Y$-centered  along the snake axis. 
+In the example below, \textsl{FIT} requests that (i) the particle trajectory with initial coordinates defined by \textsl{OBJET} 
+have identical horizontal coordinates at both ends of the snake 
+(this is achieved by varying  $Y_0$, $T_0$ in \textsl{OBJET}),   and that 
+(ii) the trajectory across the snake - an helix - be $Y\!$-centered  along the snake axis. 
+
+\medskip
+
+The way this works~: 
 
 \medskip
 
@@ -2290,62 +2289,63 @@ by placing the keyword '\textsl{SPNPRT}' with label ``\textsl{PRINT}'', between 
 \begin{verbatim}
 Centering 5 helical orbits in the AGS warm helical snake 3-D OPERA map.          
  'OBJET'  
-7.2051782956d3      ! Rigidity value for first FIT trial
+7.2051782956D3      ! Reference rigidity of the problem
 2 
-1 1                 ! Initial coordinates : 
--2.0239  -0.000658  -0.002224   0.146412   0.0  1. 'o'                    
+1 1                 ! A single particle. Initial coordinates : 
+-2.2  0. 0. 0. 0.  1. 'o'           ! Yo, To, Zo, Po, So, p/po
 1 
- 'PARTICUL'         ! proton / necessary for spion tracking
-9.3827203E+02 1.602176487E-19 1.7928474 0 0                               
+ 'PARTICUL'         ! proton / data used for spin tracking :
+938.27203 1.602176487E-19 1.7928474 0 0     ! M, Q, G factor
   
  'SPNTRK' 
-4.1                 ! Initial spin is vertical    
-0. 0. 1.                              
-                   
+4.1                 ! Initial spin is positionned vertical    
+0. 0. 1.           
+
  'TOSCA'  
-0  2                                  
+0  2               
 1.e1   100. 100. 100.                 
-HEADER_0 wsnake                       
-801 29 29 12.1                        
-table55.map         ! AGS warm snake OPERA map 
-0 0 0 0                               
+HEADER_0 wsnake    
+801 29 29 12.1     
+b_table55.map       ! AGS warm snake 3-D OPERA map 
+0 0 0 0            
 2 
 .1
-2  0.  .00  0.  0.                    
+2  0.  .0  0.  0. 
           
  'FIT'
-2                   ! Two ariables :          
+2                   ! Two variables :          
 1 30 0  [-3,3]          ! Vary initial coordinate Y_0 (horiz. position)
 1 31 0  [-3,3]          ! Vary initial coordinate T_0 (horiz. angle)
-3                   ! Three constraints : 
+3    2E-3           ! Three constraints (penalty 2E-3 requested) : 
 3.1 1 2 4 0. 1. 0       ! Y_0=Y after at exit of the magnet
 3.1 1 3 4 0. 1. 0       ! T_0=T after at exit of the magnet
-7.3 1 2 4 0. 1. 0       ! Y_min+Y_max=0 inside the magnet
+7.3 1 2 4 0. 1. 0       ! Y_min+Y_max=0 inside the OPERA field map
 
- 'SPNPRT'   PRINT   ! Store spin data in zgoubi.SPNPRT.Out
+ 'SPNPRT'  PRINT    ! Print spin coordinates in zgoubi.SPNPRT.Out
 
- 'REBELOTE'         ! Will re-do the FIT for 4 different rigidities
+ 'REBELOTE'         ! Will loop on re-doing the FIT for 4 additional particle rigidities
 4  0.1  0 1
 1                   ! List of 4 successive values of D in OBJET follows 
-OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321                          
+OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321       
 
  'END'        
 \end{verbatim}
 \index{zgoubi.SPNPRT.Out}
 }
 \end{minipage}\hspace{0.03\linewidth}
-\begin{minipage}[h]{.38\linewidth}
+\begin{minipage}[h]{.37\linewidth}
 
 \centering
 
 
 \label{FigHelix}
-\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=1.\linewidth]{Fig-YZ_pwsnk_5.eps}}
+\centerline{\includegraphics*[bbllx=20,bblly=105,bburx=567,bbury=470,width=.9\linewidth]{Fig-YZ_pwsnk_5.eps}}
 %/home/meot/zgoubi/struct/bnl/ags/snakeFieldMaps/rotationAngle/proton/warmSnake/usingTOSCA-3D
 
-
-Helical trajectories (projection into the vertical plane $(Y,Z)$) at five different momenta, as centered on the snake axis 
-by the fitting procedure. The plot also shows for each momentum the  helix as it was positioned, off-centered, prior to the fit. 
+This figure shows how, using \textsl{REBELOTE}, 
+ the helical trajectories at five different momenta are moved by the \textsl{FIT} procedure, 
+one after the other, 
+from  initial off-centered position  to final centering on the snake axis (at Y=Z=0). 
 
 \vspace{30ex}
 

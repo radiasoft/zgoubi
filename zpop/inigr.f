@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE INIGR(
      >                 LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) NOMFIC
+      CHARACTER(*) NOMFIC
 
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
@@ -44,7 +44,7 @@ C  -------
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       CHARACTER * 9   DMY
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
       CHARACTER LOGOT*18, TEMP*80
 
       logical ok, idluni

@@ -124,7 +124,7 @@ C-------- IEX<-1 <=> Particle stopped
           IF( CHGRFS ) THEN
             IF(NRES.GT.0)
      >        WRITE(NRES,100)'A',KEX,(FO(J,IT),J=1,5),X ,Y,T,Z,P,IT
- 100        FORMAT(2X,A1,2X,I2,F8.4,4F10.3,8X,F9.3,4F10.3,8X,I5)
+ 100        FORMAT(2X,A1,2X,I3,F8.4,4F10.3,8X,F9.3,4F10.3,8X,I5)
              CALL CHANRF(EVNT,QSHROS,VSHROS)
           ENDIF
 

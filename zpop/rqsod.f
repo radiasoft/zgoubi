@@ -32,7 +32,7 @@ C     -------------------------------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
  
-      CHARACTER*80 TXT*80
+      CHARACTER(80) TXT*80
 
 C----- IL
       READ(NDAT,*) IA

@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE RAGSMM(NDAT,NOEL,MXL,A,ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
-      CHARACTER*130 TXT
+      CHARACTER(130) TXT
 C     -------------------------
 C     READS DATA FOR AGS DIPOLE
 C     -------------------------

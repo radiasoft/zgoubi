@@ -31,7 +31,7 @@ C     *******************************************
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
 
 C----- BORO
       READ(NDAT,*) A(NOEL,1)

@@ -551,7 +551,10 @@ C------------- The all 3D map is contained in a single file
            IF(KUASEX .EQ. 1 ) THEN
 C----------- CARTEMES
 C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
- 
+
+             CALL KSMAP6(
+     >                   IMAP)
+
              IF(BINAR) THEN
                READ(LUN) (YH(J),J=1,JYMA)
              ELSE
@@ -579,6 +582,9 @@ C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
            ELSEIF(KUASEX .EQ. 3 ) THEN
 C------------ CARTE MESUREE DU SPES3 (CEA-SACLAY)
  
+             CALL KSMAP6(
+     >                   IMAP)
+
              XX0=0D0
              YY0=0D0
  
@@ -651,6 +657,9 @@ C     set magnetic field before target position to 0.
            ELSEIF(KUASEX .EQ. 4 ) THEN
 C------------ CARTE CARTESIENNE 2-D DE CHALUT
  
+             CALL KSMAP6(
+     >                   IMAP)
+
              DO 63 J=1,55
                READ(LUN,*)
  63          CONTINUE
@@ -684,6 +693,9 @@ C------------ CARTE CARTESIENNE 2-D DE CHALUT
            ELSEIF(KUASEX .EQ. 5 ) THEN
 C------------ CARTE CARTESIENNE 2-D POISSON
  
+             CALL KSMAP6(
+     >                   IMAP)
+
              CALL RDPOIS(LUN,IXMA,JYMA,XH,YH,CBM)
              DO 252 J=1,JYMA
                DO  252  I = 1,IXMA
@@ -702,6 +714,9 @@ C------------ CARTE CARTESIENNE 2-D POISSON
            ELSEIF(KUASEX .EQ. 6 ) THEN
 C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  
+             CALL KSMAP6(
+     >                   IMAP)
+
              YH(1)=-91.D0
              DO 624 J=2,JYMA
                YH(J)=YH(J-1)+3.D0
@@ -879,7 +894,7 @@ C              .... IRD=4 OU 25
            ELSEIF(NDIM .EQ. 3) THEN
              WRITE(NRES,119) IRD
  119         FORMAT(/,20X,' OPTION  DE  CALCUL  :  GRILLE  3-D',2X,
-     X       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
+     >       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
            ENDIF
  
            IF(LF .NE. 0) CALL FMAPW(ZERO,RFR,1)

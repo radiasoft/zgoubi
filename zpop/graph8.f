@@ -25,7 +25,7 @@ C  -------
 CDECK GRAPH2 
       SUBROUTINE GRAPH8(NLOG, LM, NOMFIC,wrkDir)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*)  NOMFIC 
+      CHARACTER(*)  NOMFIC 
       character(*) wrkDir
       
       LOGICAL OKECH, OKVAR, OKBIN
@@ -38,11 +38,13 @@ CDECK GRAPH2
 
       LOGICAL OKOPN, INPECH, CHANGE
       SAVE NL
+      CHARACTER(80) FFMTCH
       integer debstr, finstr
 
       DATA  OKOPN / .FALSE. /
       DATA CHANGE / .TRUE./
- 
+      DATA FFMTCH / 'fmatch.data' /       
+
       GOTO 921
 
  920  CONTINUE      
@@ -53,8 +55,9 @@ CDECK GRAPH2
       CALL FBGTXT
       CALL HOMCLR
 
+      nomfic = NOMFIC(debstr(nomfic):finstr(nomfic))
       WRITE(6,100)  '[...]'//wrkDir(finstr(wrkDir)-60:finstr(wrkDir))
-     >,NOMFIC
+     >,NOMFIC(debstr(nomfic):finstr(nomfic))
  100  FORMAT(//,3X,60('*'),//,20X,' MENU - Analysis/Graphic :' ,//
      > ,9X,'        ' ,/
      > ,4x,' Working directory now : ',/,5x,A,  //
@@ -162,7 +165,8 @@ C      GOTO 920
       GOTO 921
 
  18   CONTINUE 
-        CALL FMATCH(NLOG,NOMFIC)
+        FFMTCH = 'fmatch.data'
+        CALL FMATCH(NLOG,FFMTCH)
       GOTO 921
 
  19   CONTINUE 

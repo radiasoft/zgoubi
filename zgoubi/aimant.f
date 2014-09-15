@@ -122,7 +122,7 @@ C      ENDIF
       ENDIF
 
 C3     CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,101)RE,TE,RS,TS
+      IF(NRES.GT.0) WRITE(NRES,101) KP,RE,TE,RS,TS
 
       ALE=AE-TE
       XCE=-RE*SIN(TE)
@@ -168,7 +168,8 @@ C----- Unset coded step
  
 100   FORMAT(/,5X,'  Magnet positionning computed from'
      > ,1X,'backward tracking of particle with impulse D =',F7.4,/)
-101   FORMAT(/,30X,' Position of reference orbit on mechanical ',
+101   FORMAT(/,30X,' KPOS = ',I1,
+     > '.  Position of reference orbit on mechanical ',
      > ' faces',/,40X,' at entrance    RE =',1P,G14.6,' cm  TE =',
      > G14.6,' rad',/,40X,
      >     ' at exit        RS =',G14.6,' cm  TS =',G14.6,' rad',/)

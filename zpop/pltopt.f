@@ -39,7 +39,7 @@ C  -------
       LOGICAL  OKX12, OKY12
       SAVE   OKX12, OKY12
 
-      CHARACTER*1 KLET
+      CHARACTER(1) KLET
 
       SAVE AX,PX,BX,AY,PY,BY,IBXY
 

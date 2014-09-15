@@ -32,7 +32,7 @@ C     ****************************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
-      CHARACTER*80 TXT*80
+      CHARACTER(80) TXT*80
 
       READ(NDAT,*) IA
       A(NOEL,1) = IA

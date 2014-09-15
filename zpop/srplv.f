@@ -27,7 +27,7 @@ C  -------
      >                                                            YNRM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION SYDX(*)
-      CHARACTER*(*) XVA,XDI,YVA,YDI,SY
+      CHARACTER(*) XVA,XDI,YVA,YDI,SY
 
       CHARACTER YDI1*15, SY1*13
 

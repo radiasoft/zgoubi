@@ -28,7 +28,7 @@ C of them or not.
 C IZ :   
 C ID :   
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C-- Max mesh nodes in Z direction, # of field coordinates
 C      PARAMETER (IZ=9 , ID=3)
 C      PARAMETER (IZ=5 , ID=3)
@@ -40,27 +40,27 @@ C      PARAMETER (MXX=3202, MXY=200)
 C      PARAMETER (MXX=601, MXY=200)
 C      PARAMETER (MXX=2000, MXY=600)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC----- PRISM.  Yasutoshi Kuriyama
 C      PARAMETER (IZ=35 , ID=3)
 C      PARAMETER (IZ=41 , ID=3)
 C      PARAMETER (MXX=361, MXY=171)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC----- RACCAM spiral field maps
 C       PARAMETER (IZ=21 , ID=3, MMAP=1)
 C       PARAMETER (MXX=671, MXY=53)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C      PARAMETER (IZ=41 , ID=3, MMAP=1)
 C      PARAMETER (MXX=1000, MXY=300)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC---- EMMA 
 C      PARAMETER (IZ=5 , ID=3, MMAP=1)
 C      PARAMETER (MXX=401, MXY=300)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC---- EMMA. Two 2D maps, Ben, Feb 2013 
 c      PARAMETER (IZ=3 , ID=3, MMAP=2)
 c      PARAMETER (MXX=961, MXY=161)
@@ -73,22 +73,22 @@ C-- MMAP : maximum number of maps in a problem
 C      PARAMETER (IZ=3 , ID=3, MMAP=2)
 C      PARAMETER (MXX=801, MXY=29)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC----- RACCAM spiral field maps
 c       PARAMETER (IZ=3 , ID=3, MMAP=1)
 c       PARAMETER (MXX=361, MXY=221)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC----- RACCAM spiral field maps
 C       PARAMETER (IZ=21 , ID=3, MMAP=1)
 C       PARAMETER (MXX=671, MXY=53)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C----- KEK/TOSCA.  Masamitsu Aiba
 c      PARAMETER (IZ=41 , ID=3, MMAP=1)
 c      PARAMETER (MXX=301, MXY=121)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C----- Jaroslaw problem, Oct 2010
 c      PARAMETER (IZ=3 , ID=3, MMAP=1)
 c      PARAMETER (MXX=1271, MXY=97)
@@ -107,9 +107,9 @@ CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
 C      PARAMETER (IZ=29 , ID=3, MMAP=8)
 CCCCCCCCCCCC      PARAMETER (IZ=61 , ID=3, MMAP=8)
-c      PARAMETER (MXX=801, MXY=201)
+      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
-c      PARAMETER (IZ=29 , ID=3, MMAP=8)
+      PARAMETER (IZ=29 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
 CCCCCCCCCCCC      PARAMETER (MXX=1001, MXY=61)
 C      PARAMETER (MXX=801, MXY=29)
@@ -122,10 +122,10 @@ c      PARAMETER (IZ=3 , ID=3, MMAP=1)
 c      PARAMETER (MXX=71, MXY=151)
 
 CC Daedalus cyclo
-      PARAMETER (IZ=3 , ID=3, MMAP=6)
-      PARAMETER (MXX=596, MXY=596)
+c      PARAMETER (IZ=3 , ID=3, MMAP=6)
+c      PARAMETER (MXX=596, MXY=596)
 
-CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ)
+CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC---- GSI KAOS
 C      PARAMETER (IZ=5 , ID=3, MMAP=2)
 C      PARAMETER (MXX=401, MXY=300)

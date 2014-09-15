@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE SRMEN(NLOG,NL,LM,OKOPN,NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN
-      CHARACTER*(*) NOMFIC
+      CHARACTER(*) NOMFIC
 
 C----- Synchrotron radiation
 

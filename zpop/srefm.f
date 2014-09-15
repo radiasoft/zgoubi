@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE SREFM(NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*)
-      CHARACTER*(*) NOMFIC
+      CHARACTER(*) NOMFIC
       LOGICAL OKOPN
       
 C     --------------------------------------------------------

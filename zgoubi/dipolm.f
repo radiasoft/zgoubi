@@ -48,10 +48,13 @@ C-----------------------------------------------------------------------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION CI(6),CS(6),C3(6)
-      DATA IMAP / 1 /
+C      DATA IMAP / 1 /
 
-      CALL KSMAP(
-     >           IMAP) 
+      CALL KSMAP6(
+     >            IMAP)
+      if(imap.le.0 .or. imap .gt. mmap)
+     >call endjob('Pgm dipolm. Wrong value IMAP = ',imap)
+
 C----- NBFACE=2(3) :DIPOLE LIMITE PAR (2)3 FACES.
       NBFACE = A(NOEL,1)
  

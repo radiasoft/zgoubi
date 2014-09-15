@@ -31,7 +31,7 @@ C     *********************
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (MXTA=40)
-      CHARACTER*80 TA
+      CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,MXTA)
  
 C     ... # OF FILES TO TRANSLATE

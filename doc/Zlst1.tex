@@ -4345,10 +4345,11 @@ to $ BORO\times D_{ref}$  \index{BORO@{\BORO}$\times D_{ref}$} at each passage i
 the relative synchronous momentum increase, a quantity that \zgou\ updates at cavity traversal.
   \end{itemize}
   \item The field indices, quadrupole $K1$ and sextupole $K2$, are derived from  the reference rigidity, $B\rho_{ref}$, via 
- momentum-dependent polynomials, taken from Ref.~\cite{EJBleser}.  
+ momentum-dependent polynomials, taken from Ref.~\cite{EJBleser}, 
+ and following in that the methods found in the MAD model of the AGS~\cite{MADXAGSModel}. 
 
   \item The AGS main dipole has back-leg windings, used for instance for injection and extraction orbit bumps. 
-The number of winding turns and the  number of Ampere-turns 
+The number of winding turns and the  number of ampere-turns 
 are part of the data in the input data list. The intensity in the windings is  accounted for in the conversion 
  from total ampere-turns in the magnet  to momentum and then to magnetic field. 
 \end{itemize}
@@ -4376,8 +4377,8 @@ particularity by allowing  for an additional set of quadrupole data in \textsl{A
 
 \bigskip
 
-\noindent The field in \textsl{AGSQUAD} is computed using transfer functions from the ampere-turns in the coils to 
-magnetic field that  account for the non-linearity of the magnetic permeability~\cite{MADXAGSModel}. 
+\noindent The field in \textsl{AGSQUAD} is computed using transfer functions, from the specified ampere-turns in the coils to 
+magnetic field at pole-tip, that  account for the non-linearity of the magnetic permeability~\cite{MADXAGSModel}. 
 
 
 
@@ -7357,7 +7358,7 @@ its derivatives up to fourth order are derived from the scalar potential approxi
  The solenoidal magnet has an effective length $ \XL$,  a mean radius
 $ R_0 $ and an asymptotic field  $ B_0=\mu_0 N I / \XL$ (\emph{i.e.}, $\int_{-\infty}^\infty 
 B_X(X,r) dX = \mu_0 N I, ~\forall r<R_0$), wherein $B_X$=longitudinal field component, 
-$ NI $  = number of Ampere-Turns, $\mu_0=4\pi  10^{-7} $. 
+$ NI $  = number of ampere-Turns, $\mu_0=4\pi  10^{-7} $. 
 \medskip
 
 \noindent The distance of ray-tracing beyond the effective length $ \XL$,   is 

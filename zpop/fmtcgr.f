@@ -36,7 +36,7 @@ C----- Plot the data and the matched field fall-off curve.
 
       PARAMETER(MXC=400)
       DIMENSION FCT(MXC)
-      CHARACTER*80 TXT
+      CHARACTER(80) TXT
 C      CHARACTER TX1*80, TFM*80
       EXTERNAL FNCT
 

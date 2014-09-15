@@ -30,7 +30,7 @@ C     ------------------------
 C     READS DATA FOR MULTIPOLE
 C     ------------------------
  
-      CHARACTER*80 TXT*80
+      CHARACTER(80) TXT*80
 
       IA = 1
       READ(NDAT,*) A(NOEL,IA) 

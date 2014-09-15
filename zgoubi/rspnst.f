@@ -26,7 +26,7 @@ C  -------
      >                      PRLB,IA,LBL,NLB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL PRLB
-      CHARACTER*(*) LBL(MLB)
+      CHARACTER(*) LBL(*)
 C     ------------------------------------------
 C     Read data for SPNPRNL, SPNSTORE procedures
 C     ------------------------------------------
