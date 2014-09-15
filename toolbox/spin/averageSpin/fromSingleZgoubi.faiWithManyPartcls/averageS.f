@@ -262,7 +262,7 @@ c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
             tta = acos(ctta)
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
-
+  
 c      write(*,*)' tta, stta, ctta, atg, acos, sum_tta, sum_tta2 : ',
 c     >tta,stta, ctta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
 c                  read(*,*)
