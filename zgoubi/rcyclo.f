@@ -18,70 +18,86 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE RCYCLO(ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     **********************
-C     READS DATA FOR DIPOLES
-C     **********************
+C     --------------------------
+C     READS DATA FOR SPIRAL CYCLOTRON
+C     --------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
-      NP = 1                                     ! IL      
-      READ(NDAT,*) A(NOEL,NP)
-      READ(NDAT,*) (A(NOEL,NP+I),I=1,3)          ! NMAG, AT, RM
-      NMAG = NINT(A(NOEL,NP+1))
-      NP=NP+3
+      CHARACTER TXT*132
+
+      READ(NDAT,*) A(NOEL,1)               ! IL      
+      NP = 1                 
+      READ(NDAT,*) (A(NOEL,NP+I),I=1,4)    ! NMAG, AT, R0, Type of sector (radial, spiral, both)
+      NMAG = NINT(A(NOEL,NP+1))                                
+      NP=NP+4
+
+      
 
       DO 1 IMAG = 1, NMAG
 
-        READ(NDAT,*) 
-     >    (A(NOEL,NP+I),I=1,3),IND,(A(NOEL,NP+4+I),I=1,ABS(IND)) ! ACENT, DRM, HNORM, indices
-        A(NOEL,NP+4) = IND
-        NP=NP+4 + ABS(IND)
-
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,10)          ! ACENT, DR0, FAC, HNORM, K, Rref, H1,H2,H3,H4
+        NP=NP+10
 C       ... Entrance face
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,4)          ! LAMBDA=g, gap's k  g10 g11
+        NP=NP+4                                    !    .eq.0/.ne.0 for constant/g_0(R0/r)^k
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,10)          ! NBCOEF, COEFS_C0-7, NORME 
+        NP=NP+10
+        
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! OMEGA,XI0,XI1,XI2,XI3,aen,ben,cen 
         NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
-        NP=NP+6
 C         ... Exit face 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,4)          ! LAMBDA=g, gap's k g20 g21
+        NP=NP+4 
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,10)          ! NBCOEF, COEFS_C0-7, NORMS
+        NP=NP+10
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! OMEGA,XI0exit,XI1exit,XI2exit,XI3exit,aexit,bexit,cexit
+        NP=NP+8
+C         ... Lateral face
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
         NP=NP+2 
         READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
-C        write(*,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
-C        write(*,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
-C         ... Lateral face
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
-        NP=NP+8
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,7)          ! OMEGA,THETA,R1,U1,U2,R2,RM3
-        NP=NP+7
 
  1    CONTINUE
 
-C     ... IRD, RESOL
-      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
+C KIRD= 0 or 2,4,25  for analytic or 2-,4-,5-type numerical interpolation
+C mesh size= XPAS/RESOL
+C      READ(NDAT,*) A(NOEL,NP+1),A(NOEL,NP+2)
+      READ(NDAT,FMT='(A132)') TXT
+      READ(TXT,*,ERR=999) IA
+      IF(IA.NE.0) THEN
+C KIRD=2,25 OR 4 AND RESOL
+        READ(TXT,*,ERR=999) IA,A(NOEL,NP+2)
+        A(NOEL,NP+1) = IA
+      ELSE
+C KIRD=2,25 OR 4 AND IRD==RESOL
+        READ(TXT,*,ERR=999) IA,IB
+        A(NOEL,NP+1) = IA
+        A(NOEL,NP+2) = IB
+      ENDIF
       NP=NP+2
 C     ... XPAS
       NP=NP+1
       ND=NP
       READ(NDAT,*) A(NOEL,ND)
-C         write(*,*) ' rdips ' ,nd, A(NOEL,ND)
-C Modif, FM, Dec. 05
 C     ... KP, RE, TE, RS, TS
+C Modif, FM, Dec. 05
 C      READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
 
+      RETURN
+
+ 999  CONTINUE
+      CALL ENDJOB('SBR rffag. Input data format error at KIRD.',-99)
       RETURN
       END

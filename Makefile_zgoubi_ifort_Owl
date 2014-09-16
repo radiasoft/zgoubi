@@ -6,6 +6,7 @@ FFLAGS=-save -xHOST -O3 -ip -no-prec-dir -static -save -shared-intel
 
 all :
 	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd coupling rm libcoupl.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 
 clean :

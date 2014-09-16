@@ -92,6 +92,7 @@ OBJ=\
  drtent.o\
  drvg.o\
  dstefb.o\
+ dstefb2.o\
  eax3tu.o\
  eaxial.o\
  el2tub.o\
@@ -122,6 +123,8 @@ OBJ=\
  ff.o\
  ffgspi.o\
  ffspd.o\
+ ffspd2.o\
+ ffspd3.o\
  fgf.o\
  finstr.o\
  fitarr.o\
@@ -138,6 +141,9 @@ OBJ=\
  fmapw.o\
  focal1.o\
  focale.o\
+ funcd.o\
+ funcd2.o\
+ funct.o\
  funcd.o\
  gammln.o\
  gang.o\
@@ -303,11 +309,13 @@ OBJ=\
  rsepar.o\
  rsimb.o\
  rsolen.o\
+ rsolve.o\
  rspinr.o\
  rspn.o\
  rspnst.o\
  rsrlos.o\
  rtnewt.o\
+ rtnewt2.o\
  rtrans.o\
  rundul.o\
  runipo.o\

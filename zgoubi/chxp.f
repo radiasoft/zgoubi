@@ -232,6 +232,17 @@ C     >                  XL,DEV)
         NDD = NP+1
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 
+      ELSEIF(KUASEX .EQ. 40 )   THEN
+C-------- CYCLOTRON
+
+        CALL CYCLO(SCAL,
+     >                  DSREF,IRD,IDB)
+
+        NP = ND + 3
+        KP = NINT(A(NOEL,NP))
+        NDD = NP+1
+C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
+
       ENDIF
 
       GOTO 99

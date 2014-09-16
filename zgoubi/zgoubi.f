@@ -155,7 +155,7 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
       IF(.NOT. FITING) THEN 
         IF(NRES .GT. 0) WRITE(6,905) TITRE
- 905  FORMAT(/,1X,'Problem title : ',A80,//)
+ 905  FORMAT(/,1X,'Title : ',A80,//)
       ENDIF
 
       TOMANY = .FALSE.
