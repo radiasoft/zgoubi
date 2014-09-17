@@ -124,8 +124,6 @@ C      READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
       READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       KP = NINT(A(NOEL,NP+1))
 
-           write(*,*) ' rffag  kp ',kp
-
       RETURN
 
  999  CONTINUE
