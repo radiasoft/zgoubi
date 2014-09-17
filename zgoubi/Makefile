@@ -144,7 +144,6 @@ OBJ=\
  funcd.o\
  funcd2.o\
  funct.o\
- funcd.o\
  gammln.o\
  gang.o\
  gascat.o\

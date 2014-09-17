@@ -38,7 +38,7 @@ C     ****************************
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       INTEGER DEBSTR, FINSTR
-      CHARACTER TXT20*20
+      CHARACTER(20) TXT20
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       READ(NDAT,*) TXT20

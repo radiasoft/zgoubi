@@ -26,14 +26,14 @@ C  -------
      >(PGMNAM,NRES,OKCPLD,F011,f012,f033,f034,phy,phz,Cstrn)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) PGMNAM
-      LOGICAL OKCPLD, OKCPLDs
+      LOGICAL OKCPLD, OKCPS, OKCPO
 
-      SAVE OKCPLDS, F011S, F012S, F033S, F034S, PHYS, PHZS, CSTRNS
+      SAVE OKCPS, F011S, F012S, F033S, F034S, PHYS, PHZS, CSTRNS
       logical first, idluni
       save first
          data first / .true. /
 
-      DATA OKCPLDS / .FALSE. /
+      DATA OKCPS / .FALSE. /
 
          if(first) then
            first = idluni(
@@ -45,7 +45,7 @@ C  -------
          endif
 
 
-      OKCPLDS=OKCPLD
+      OKCPS=OKCPLD
       F011S=F011
       f012S=f012
       f033S=f033
@@ -57,7 +57,7 @@ C  -------
       ENTRY IMPMO1
 
       IF(NRES .GT. 0) then
-       IF(OKCPLDS) THEN
+       IF(OKCPS) THEN
         WRITE(NRES,*)
         WRITE(NRES,*) '--------------------------------------'
         WRITE(NRES,*) ' Pgm impmod, called by ',pgmnam
@@ -89,7 +89,7 @@ C  -------
       RETURN
 
       ENTRY IMPMO3(OKCPO,F011O,f012O,f033O,f034O,phyO,phzO,CstrnO)
-      OKCPO=OKCPLDS
+      OKCPO=OKCPS
       F011O=F011S
       f012O=f012S
       f033O=f033S
