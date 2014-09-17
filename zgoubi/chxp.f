@@ -188,6 +188,7 @@ C        KP = NINT(A(NOEL,ND+1))
 C        NDD = ND+2
 C Modif, FM, Sept 2014
 C        KP = NINT(A(NOEL,ND+3))
+
         KP = NINT(A(NOEL,ND+1))
         NDD = ND+2
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
