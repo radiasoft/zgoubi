@@ -113,7 +113,7 @@ C KIRD=2,25 OR 4 AND IRD==RESOL
         A(NOEL,NP+2) = IB
       ENDIF
       NP=NP+2
-
+             
 C     ... XPAS
       NP=NP+1
       ND=NP
@@ -123,6 +123,8 @@ C     ... KP, RE, TE, RS, TS
 C      READ(NDAT,*) (A(NOEL,NP+I),I=3,7)
       READ(NDAT,*) (A(NOEL,NP+I),I=1,5)
       KP = NINT(A(NOEL,NP+1))
+
+           write(*,*) ' rffag  kp ',kp
 
       RETURN
 

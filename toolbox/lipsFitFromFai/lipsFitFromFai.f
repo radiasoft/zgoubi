@@ -190,7 +190,7 @@ C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           nspec = 0
          
 C--------- Coordinate reading/storing loop
- 62       CONTINUE
+C 62       CONTINUE
           nspec = nspec + 1
           IF(CHANGE) THEN
             NPTR = NPTMAX

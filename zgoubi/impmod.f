@@ -26,7 +26,7 @@ C  -------
      >(PGMNAM,NRES,OKCPLD,F011,f012,f033,f034,phy,phz,Cstrn)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) PGMNAM
-      LOGICAL OKCPLD, OKCPS, OKCPO
+      LOGICAL OKCPLD, OKCPS
 
       SAVE OKCPS, F011S, F012S, F033S, F034S, PHYS, PHZS, CSTRNS
       logical first, idluni
@@ -85,18 +85,6 @@ C  -------
      >      F011,-f012, f033,-f034, phy,phz , Cstrn
 
       ENDIF
-
-      RETURN
-
-      ENTRY IMPMO3(OKCPO,F011O,f012O,f033O,f034O,phyO,phzO,CstrnO)
-      OKCPO=OKCPS
-      F011O=F011S
-      f012O=f012S
-      f033O=f033S
-      f034O=f034S
-      phyO=phyS
-      phzO=phzS
-      CstrnO=CstrnS
 
       RETURN
       END
