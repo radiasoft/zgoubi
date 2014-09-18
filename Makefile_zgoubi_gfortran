@@ -6,11 +6,11 @@ FFLAGS=-O4 -Wall -fno-automatic -pedantic
 
 all :
 	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd coupling rm libcoupl.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd coupling ; rm libcoupl.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 
 clean :
 	$(RM) *~
-	cd common ; ($MAKE) clean
-	cd zgoubi ; ($MAKE) clean
-
+	cd common ;  make clean
+	cd coupling ; make clean
+	cd zgoubi ;  make clean

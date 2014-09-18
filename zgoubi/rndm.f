@@ -101,8 +101,8 @@ C        call RANDOM_seed(put=i1)
 C           write(*,*) ' sbr rndm iri ',iri
 C Necessary because random changes the value of its argument:
        isi = iri
-C        call RANDOM_seed(isi)
-      call seed(isi)
+        call RANDOM_seed(isi)
+C      call seed(isi)
       return
 
       END
