@@ -63,7 +63,7 @@ C  -------
 
       DIMENSION BZ0(5,5)
 
-      CHARACTER TYPCAL(2)*14
+      CHARACTER(14) TYPCAL(2)
 
       SAVE TYPCAL
 
