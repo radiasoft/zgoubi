@@ -3,7 +3,7 @@
 #################################################################
 # EMMA-FFAG/matrixComputation/
 #
-(cd ../EMMA-FFAG/matrixComputation/ ; cp matrix_140925_svn436.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../EMMA-FFAG/matrixComputation/ ; cp matrix_140925_svn436.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  EMMA-FFAG/matrixComputation - reference : "      | cat  >   compare.out
 grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix_140925_svn436.res  | cat >>   compare.out
 echo "                                              - new : "            | cat >>   compare.out
@@ -15,7 +15,7 @@ echo "////////////////  EMMA-FFAG/matrixComputation "
 #################################################################
 # ../gsiKaos/usingDIPOLE-M/
 #
-(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "       | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi.res     | cat >>  compare.out
 echo "                                           - new : "             | cat >>  compare.out
@@ -27,7 +27,7 @@ echo "////////////////  ../gsiKaos/usingDIPOLE-M "
 #################################################################
 # ../gsiKaos/usingTOSCAmaps/
 #
-(cd ../gsiKaos/usingTOSCAmaps/ ; cp tosca-3D.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../gsiKaos/usingTOSCAmaps/ ; cp tosca-3D.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  /gsiKaos/usingTOSCAmaps/ - reference : "          | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/tosca-3D.res  | cat >>  compare.out
 echo "                                           - new : "                | cat >>  compare.out
@@ -39,7 +39,7 @@ echo "////////////////  /gsiKaos/usingTOSCAmaps/"
 #################################################################
 # ../KEK150MeVFFAG/analyticalModel/
 #
-(cd ../KEK150MeVFFAG/analyticalModel/ ; cp tosca-3D.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../KEK150MeVFFAG/analyticalModel/ ; cp K7.25-7.58_mat_130921.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : "   | cat >>   compare.out
 grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/K7.25-7.58_mat_130921.res  | cat >>   compare.out
 echo "                                                    - new : "         | cat >>   compare.out
@@ -51,7 +51,7 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ "
 #################################################################
 # ../LHC
 #
-#(cd ../LHC/ ; cp fullTurnMatrix.res_071017 zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+#(cd ../LHC/ ; cp fullTurnMatrix.res_071017 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 #echo "////////////////  ../LHC/ - reference : "       | cat >>   compare.out
 #grep "NU_Y = "  ../LHC/fullTurnMatrix.res_071017      | cat >>   compare.out
 #echo "                          - new : "             | cat >>   compare.out
@@ -63,7 +63,7 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ "
 #################################################################
 # ../microBeamDoublet/
 #
-(cd ../microBeamDoublet/ ; cp achromat_Mat.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../microBeamDoublet/ ; cp achromat_Mat.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../microBeamDoublet/ - reference : "       | cat >>   compare.out
 grep "R12=0 at "  ../microBeamDoublet/achromat_Mat.res      | cat >>   compare.out
 grep "Y/Y3 "      ../microBeamDoublet/achromat_Mat.res      | cat >>   compare.out
@@ -83,7 +83,7 @@ echo "////////////////  ../microBeamDoublet/ "
 #################################################################
 # ../saturneRing/matrix/
 #
-(cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../saturneRing/matrix/ - reference : "       | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../saturneRing/matrix/TWISS.res      | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../saturneRing/matrix/TWISS.res      | cat >>   compare.out
@@ -97,7 +97,7 @@ echo "////////////////  ../saturneRing/matrix "
 #################################################################
 # ../spiralFFAG/FFAG-SPI/
 #
-(cd ../spiralFFAG/FFAG-SPI/ ; cp matrix_ffagSpi.res zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../spiralFFAG/FFAG-SPI/ ; cp matrix_ffagSpi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../spiralFFAG/FFAG-SPI/ - reference : "       | cat >>   compare.out
 grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res      | cat >>   compare.out
 echo "                          - new : "                          | cat >>   compare.out
@@ -109,7 +109,7 @@ echo "////////////////  ../spiralFFAG/FFAG-SPI/ "
 #################################################################
 # ../usersGuide_FIT/
 #
-(cd ../usersGuide_FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; /home/fmeot/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../usersGuide_FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../usersGuide_FIT/ - reference : "       | cat >>   compare.out
 grep "R12=0 at "  ../usersGuide_FIT/fit.res      | cat >>   compare.out
 echo "                          - new : "                          | cat >>   compare.out
