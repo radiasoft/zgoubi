@@ -39,7 +39,7 @@ C     --------------------------------------------
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      CHARACTER LET
+      CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IMAXD,IMAXT
 C      COMMON/PTICUL/ AM,Q,G,TO

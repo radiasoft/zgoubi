@@ -26,7 +26,7 @@ C  -------
      >                      PRLB,IA,LBL,NLB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL PRLB
-      CHARACTER*(*) LBL(*)
+      CHARACTER(*) LBL(*)
 C     ---------------------------------
 C     READS DATA FOR FAISTORE PROCEDURE
 C     ---------------------------------

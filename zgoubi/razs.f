@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE RAZS(TAB,N)
-      CHARACTER*(*) TAB(*)
+      CHARACTER(*) TAB(*)
       DO I=1,N
         TAB(I) = ' '
       ENDDO

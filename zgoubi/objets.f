@@ -45,11 +45,11 @@ C     > ,YCH,ZCH
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      CHARACTER LET
+      CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
 C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles 
 C            as resulting from decay (keyword 'MCDESINT')
-      CHARACTER KAR(41)
+      CHARACTER(1) KAR(41)
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AAM,Q,G,TO

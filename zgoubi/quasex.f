@@ -50,7 +50,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       SAVE dtta, zce, phi
 
       PARAMETER (MSR=10)
-      CHARACTER QSHROE(MSR)*(2),QSHROS(MSR)*(2)
+      CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES

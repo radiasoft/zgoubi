@@ -57,7 +57,7 @@ C     -------------------------------------------------
 
       LOGICAL EVNT
       PARAMETER (MSR=10)
-      CHARACTER QSHRO(MSR)*(2)
+      CHARACTER(2) QSHRO(MSR)
       DIMENSION VSHRO(MSR)
       PARAMETER (I1=1)
  

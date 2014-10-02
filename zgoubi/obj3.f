@@ -41,9 +41,9 @@ C     **************************************
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      CHARACTER LET
+      CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
-      CHARACTER  KAR(41)
+      CHARACTER(1) KAR(41)
       COMMON/KAR/ KAR
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AAM,Q,G,TO
@@ -59,8 +59,8 @@ C     **************************************
       CHARACTER TDUMX*10
       CHARACTER TDUM8*8
 
-      CHARACTER LETI, LETAG
-      CHARACTER*130 TXT
+      CHARACTER(1) LETI, LETAG
+      CHARACTER(130) TXT
 
 C----- Reset particle counter
       IF(IPASS.EQ.1) CALL CNTRST

@@ -35,7 +35,7 @@ C     ---------------------------------------------------
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
 
-      CHARACTER TXT*80, STRA(2)*80
+      CHARACTER(80) TXT, STRA(2)
 
 C----- IC, IL
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)

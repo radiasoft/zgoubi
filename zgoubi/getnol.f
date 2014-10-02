@@ -28,7 +28,7 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (KSIZ=10)
-      CHARACTER*(KSIZ)  KLEY, KLE
+      CHARACTER(KSIZ)  KLEY, KLE
       KLE = '*******'
       NUML = 0
       DO WHILE ( KLEY .NE. KLE .AND. NUML.LE.MXL )

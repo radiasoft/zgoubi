@@ -26,7 +26,7 @@ C  -------
      >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER(MPOL=10)
-      CHARACTER LMNT(*)*(*)
+      CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
@@ -65,7 +65,10 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
 C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       LOGICAL CASPI 
 
-      CHARACTER DIM(2)*3, BE(2)*2, TXT(10)*80
+      CHARACTER(3) DIM(2)
+      CHARACTER(2) BE(2)
+      CHARACTER(80) TXT(10)
+
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
       DATA DIM / 'kG ', 'V/m'/

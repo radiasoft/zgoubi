@@ -68,7 +68,7 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
       SAVE F2
   
       PARAMETER (KSIZ=10)
-      CHARACTER*(KSIZ)  KLOBJ
+      CHARACTER(KSIZ)  KLOBJ
 
       CHARACTER(KSIZ) KLEO
 

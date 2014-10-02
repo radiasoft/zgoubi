@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE GETNAM(LUN,MXDST,
      >                            NOMFIC,NBDST)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER NOMFIC(*)*(*)
+      CHARACTER(*) NOMFIC(*)
       INTEGER DEBSTR,FINSTR
       I = 1
  1    CONTINUE

@@ -39,7 +39,7 @@ C         Post-processing of stored data possible with zpop.
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      CHARACTER LET
+      CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL

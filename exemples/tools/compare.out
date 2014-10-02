@@ -1,0 +1,74 @@
+////////////////  EMMA-FFAG/matrixComputation - reference : 
+                    NU_Y =  0.24012342         NU_Z =  0.11354653    
+                    NU_Y =  0.38308431         NU_Z =  0.23672440    
+                    NU_Y =  0.30036184         NU_Z =  0.17553703    
+                    NU_Y =  0.25615148         NU_Z =  0.13175592    
+                    NU_Y =  0.22665525         NU_Z =  0.96975057E-01
+                    NU_Y =  0.20512968         NU_Z =  0.66978507E-01
+                    NU_Y =  0.18856151         NU_Z =  0.37642542E-01
+                                              - new : 
+                    NU_Y =  0.24012342         NU_Z =  0.11354653    
+                    NU_Y =  0.38308431         NU_Z =  0.23672440    
+                    NU_Y =  0.30036184         NU_Z =  0.17553703    
+                    NU_Y =  0.25615148         NU_Z =  0.13175592    
+                    NU_Y =  0.22665525         NU_Z =  0.96975057E-01
+                    NU_Y =  0.20512968         NU_Z =  0.66978507E-01
+                    NU_Y =  0.18856151         NU_Z =  0.37642542E-01
+        
+////////////////  ../gsiKaos/usingDIPOLE-M - reference : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
+                                           - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
+        
+////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
+                                           - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
+        
+////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : 
+                    NU_Y =  0.34607177         NU_Z =  0.19641682    
+                                                    - new : 
+                    NU_Y =  0.34607177         NU_Z =  0.19641682    
+        
+////////////////  ../microBeamDoublet/ - reference : 
+          R12=0 at   0.3907E-04 m,        R34=0 at   0.6326E-05 m
+           Y/Y3           -18.771    
+           Y/T3           -2845.1    
+           Z/Z3           -42.837    
+           Z/P3           -7775.2    
+                          - new : 
+          R12=0 at   0.3907E-04 m,        R34=0 at   0.6326E-05 m
+           Y/Y3           -18.771    
+           Y/T3           -2845.1    
+           Z/Z3           -42.837    
+           Z/P3           -7775.2    
+        
+////////////////  ../saturneRing/matrix/ - reference : 
+                              dNu_y / dp/p = -4.19772290E+00
+                              dNu_z / dp/p = -5.22334792E+00
+                          - new : 
+                              dNu_y / dp/p = -4.19772290E+00
+                              dNu_z / dp/p = -5.22334792E+00
+        
+////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
+                    NU_Y = 0.28048977         NU_Z = 0.16397824    
+                    NU_Y = 0.27796808         NU_Z = 0.16402896    
+                    NU_Y = 0.28048977         NU_Z = 0.16397592    
+                    NU_Y = 0.27796839         NU_Z = 0.16397596    
+                    NU_Y = 0.28048977         NU_Z = 0.16397137    
+                    NU_Y = 0.27797028         NU_Z = 0.16409903    
+                          - new : 
+                    NU_Y =  0.28049038         NU_Z =  0.16397824    
+                    NU_Y =  0.27852360         NU_Z =  0.16402895    
+                    NU_Y =  0.28049038         NU_Z =  0.16397592    
+                    NU_Y =  0.27852393         NU_Z =  0.16397595    
+                    NU_Y =  0.28049038         NU_Z =  0.16397137    
+                    NU_Y =  0.27852585         NU_Z =  0.16409912    
+        
+////////////////  ../usersGuide_FIT/ - reference : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+                          - new : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+        

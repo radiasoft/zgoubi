@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -41,7 +41,7 @@ C     -------------------------------------------------------------
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
  
       DIMENSION ISTO(130)
-      CHARACTER KARL(130),KARO(10),KAR,BLANC
+      CHARACTER(1) KARL(130),KARO(10),KAR,BLANC
       DATA KARO / '1','2','3','4','5','6','7','8','9','0'/
       DATA BLANC/ ' '/
 C     ** numero de la 1-er colonne sur  le listing

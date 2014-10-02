@@ -25,7 +25,7 @@ C  -------
       FUNCTION DEBSTR(STRING)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INTEGER DEBSTR
-      CHARACTER * (*) STRING
+      CHARACTER(*) STRING
 C     --------------------------------------
 C     RENVOIE DANS DEBSTR LE RANG DU
 C     1-ER CHARACTER NON BLANC DE STRING,

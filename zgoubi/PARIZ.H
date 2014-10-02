@@ -135,6 +135,11 @@ C      PARAMETER (IZ=3 , ID=3, MMAP=8)
 C      PARAMETER (MXX=651, MXY=361)
 
 CC FFAG 14 tutorial - POLARMES with PSI field map
-      PARAMETER (IZ=41 , ID=3, MMAP=2)
-      PARAMETER (MXX=350, MXY=200)
+c      PARAMETER (IZ=41 , ID=3, MMAP=2)
+c      PARAMETER (MXX=351, MXY=200)
+
+CC ~/zgoubi/SVN/current/exemples/tools
+      PARAMETER (IZ=29 , ID=3, MMAP=2)
+      PARAMETER (MXX=1000, MXY=300)
+
 

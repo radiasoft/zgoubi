@@ -31,7 +31,7 @@ C     READS DATA FOR SOLENOID
 C     -----------------------
       COMMON/MARK/ KART,KALC,KERK,KUASEX
 
-      CHARACTER TXT132*132, XRBM(4)*30
+      CHARACTER(132) TXT132, XRBM(4)*30
  
 
 C----- IL

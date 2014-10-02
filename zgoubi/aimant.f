@@ -44,7 +44,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       PARAMETER (I0=0, ZERO=0.D0)
 
       PARAMETER (MSR=10)
-      CHARACTER QSHROE(MSR)*(2),QSHROS(MSR)*(2)
+      CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
 
 C------ Fields defined in polar coordinates - Champs definis en coordonnees polaires

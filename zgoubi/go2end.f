@@ -31,7 +31,7 @@ C     Strings are assumed spaced by (at least) one blank.
 C     They are saved in  array STRA, and their total number 
 C     (possibly < mss) is NST.
 C     ------------------------------------------------------
-      CHARACTER TXT80*80
+      CHARACTER(80) TXT80
 
  1    CONTINUE
         READ(LUN,FMT='(A)',ERR=99,END=99) TXT80

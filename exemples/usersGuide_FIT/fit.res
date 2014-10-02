@@ -48,6 +48,8 @@ MATCHING A SYMMETRIC QUADRUPOLE TRIPLET
 2  1.E-10          # OF CONSTRAINTS, PENALTY                                                                  
 1  1 2 8 16.6 1.   CNSTRNT #1 : R12=16.6 AFTER LAST DRIFT (LMNT #8)                                           
 1  3 4 8 -.88 1.   CNSTRNT #2 : R34=-.88 AFTER LAST DRIFT                                                     
+ 'MATRIX'                                                                                                     9
+1  0                                                                                                          
  'END'                                                                                                       11
 
 ********************************************************************************************************************************

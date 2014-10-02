@@ -83,7 +83,8 @@ C---------------------------------------------------------
 
       DIMENSION BZ0(5,5)
 
-      CHARACTER(14) TYPCAL(2), TYPGAP(2)*12
+      CHARACTER(14) TYPCAL(2)
+      CHARACTER(12) TYPGAP(2)
       SAVE TYPCAL, TYPGAP
 
       PARAMETER (PLIM=40.D0)

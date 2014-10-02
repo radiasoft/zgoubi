@@ -40,7 +40,7 @@ C     ----------------------------------------------
       CHARACTER(LBLSIZ) LBF
       COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
-      CHARACTER MMNM*(LBLSIZ)
+      CHARACTER(LBLSIZ) MMNM 
       parameter(turnMM=16.d0)
       integer debstr, finstr
 

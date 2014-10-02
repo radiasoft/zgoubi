@@ -49,7 +49,7 @@ C-------------------------------------------------
 
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR, NEWFIC
-      CHARACTER TITL*80 , NOMFIC(2)*80, NAMFIC(2)*80
+      CHARACTER(80) TITL, NOMFIC(2), NAMFIC(2)
 
       SAVE NOMFIC, NAMFIC
 
@@ -68,7 +68,7 @@ C      SAVE HCU
 
       parameter (idmx=ID*MXX*MXY*IZ)
 
-      CHARACTER*20 FMTYP
+      CHARACTER(20) FMTYP
 
       DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
       SAVE XXH, YYH, ZZH

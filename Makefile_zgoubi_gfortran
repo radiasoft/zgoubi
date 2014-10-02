@@ -5,7 +5,7 @@ FFLAGS=-O4 -Wall -fno-automatic -pedantic
 .POSIX:
 
 all :
-	cd common ; rm libzg.a ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd common ; rm libzg.a  || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 

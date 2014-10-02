@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE AGSMM(LMNT,KFL,MPOL,NPOL,SCAL,
      >  DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER LMNT(*)*(*)
+      CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
@@ -61,7 +61,8 @@ C  -------
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
      
-      CHARACTER DIM(2)*3, BE(2)*2
+      CHARACTER(3) DIM(2)
+      CHARACTER(2) BE(2)
       DIMENSION  AREG(2),BREG(2),CREG(2)
 
       DIMENSION AK1(6), AK2(6), AKS(6)
@@ -494,3 +495,4 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
       RETURN
       
       END
+

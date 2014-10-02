@@ -24,7 +24,7 @@ FFLAGS= -xHOST -O4 -ip  -save
 
 all :
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd coupling ; rm libcoupl.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 
 clean :

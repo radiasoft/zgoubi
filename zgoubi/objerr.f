@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE OBJERR(NRES,IER,MXT,TXT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) TXT
+      CHARACTER(*) TXT
       WRITE(   *,*)
       WRITE(   *,*) ' *** ERROR in object definition : '
       WRITE(NRES,*) ' *** ERROR in object definition : '

@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE INIDRT(TITL,ND,XI,
      >                             RCS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) TITL
+      CHARACTER(*) TITL
       DIMENSION RCS(*)
 
       INCLUDE 'MXLD.H'

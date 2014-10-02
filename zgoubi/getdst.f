@@ -26,10 +26,10 @@ C  -------
       SUBROUTINE GETDST(NOMFIC,NBDST,
      >                               DISTL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER NOMFIC(*)*(*)
+      CHARACTER(*) NOMFIC(*)
       DIMENSION DISTL(*)
       INTEGER DEBSTR, FINSTR
-      CHARACTER TXT3*3 
+      CHARACTER(3) TXT3 
 
       DO J = 1, NBDST
 

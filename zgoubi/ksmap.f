@@ -31,7 +31,7 @@ C     Monitors field map number
 C------------------------------
       INCLUDE 'PARIZ.H'
       CHARACTER*(80) NAMSAV(MMAP,IZ)
-      CHARACTER*(*) NOMFIC(*)
+      CHARACTER(*) NOMFIC(*)
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
 
