@@ -139,7 +139,7 @@ c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=351, MXY=200)
 
 CC ~/zgoubi/SVN/current/exemples/tools
-      PARAMETER (IZ=29 , ID=3, MMAP=2)
+      PARAMETER (IZ=5 , ID=3, MMAP=2)
       PARAMETER (MXX=1000, MXY=300)
 
 

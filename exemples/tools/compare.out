@@ -28,7 +28,6 @@
 ////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : 
                     NU_Y =  0.34607177         NU_Z =  0.19641682    
                                                     - new : 
-                    NU_Y =  0.34607177         NU_Z =  0.19641682    
         
 ////////////////  ../microBeamDoublet/ - reference : 
           R12=0 at   0.3907E-04 m,        R34=0 at   0.6326E-05 m
@@ -44,11 +43,7 @@
            Z/P3           -7775.2    
         
 ////////////////  ../saturneRing/matrix/ - reference : 
-                              dNu_y / dp/p = -4.19772290E+00
-                              dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772290E+00
-                              dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
                     NU_Y = 0.28048977         NU_Z = 0.16397824    
