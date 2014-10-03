@@ -221,8 +221,14 @@ c     >                         s,sxl,s-sxl,xl,ds,kley,name,warn
       goto 86
 
  85   continue
+      write(lw,fmt='(A)')   ' '
+      write(lw,fmt='(A,T111,I6)') '''OPTIONS''',it
+      write(lw,fmt='(A)')   ' 1 1 '
+      write(lw,fmt='(A)')   ' WRITE ON '
+      write(lw,fmt='(A)')   ' '
+      it = it + 1
       write(lw,fmt='(A,T111,I6)') '''TWISS''',it
-      write(lw,fmt='(A)')   '1  1. 1. '
+      write(lw,fmt='(A)')   '2  1. 1. '
 c      write(lw,fmt='(A,T111,I6)') '''MATRIX''',it
 c      write(lw,fmt='(A)')   '1  11 '
 c      it = it + 1
@@ -309,6 +315,13 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
       write(lw,fmt='(A)') '-1         '
       write(lw,fmt='(1P,E16.8)') BRO
       write(lw,fmt='(A)') '1      '
+
+      it = it + 1
+      write(lw,fmt='(A)')   ' '
+      write(lw,fmt='(A,T111,I6)') '''OPTIONS''',it
+      write(lw,fmt='(A)')   ' 1 1 '
+      write(lw,fmt='(A)')   ' WRITE OFF '
+      write(lw,fmt='(A)')   ' '
 
       return
       end 

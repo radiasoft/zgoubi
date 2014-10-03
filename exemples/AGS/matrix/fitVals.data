@@ -1,0 +1,9 @@
+# 175ms     
+#STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+#LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+6    1      4  -0.500      -2.335E-04  -3.9190779240E-04  0.500      1.875E-07 SCALING    LBL_SCLfit *
+6    2     10  -0.500      -8.552E-04  -8.9075263637E-04  0.500      1.852E-07 SCALING    LBL_SCLfit *
+#STATUS OF CONSTRAINTS (Target penalty =   1.0000E-11)
+#TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s
+#0   7   7   967      8.3200000E-01     1.0000E+00    8.3199979E-01     Infinity   MATRIX     *          *          *   0 :
+#0   8   8   967      8.3200000E-01     8.0000E-01    8.3199789E-01     Infinity   MATRIX     *          *          *   0 :

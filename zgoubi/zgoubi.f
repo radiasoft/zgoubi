@@ -1063,6 +1063,7 @@ C      Also prints periodic beta functions (by setting KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
+      NOELS = NOEL
       IF(READAT) THEN
         READ(NDAT,fmt='(a)') TXT132
         IF(STRCON(TXT132,'!',
@@ -1087,7 +1088,7 @@ C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
      >            OKLNO,LNOPTI)
 
       CALL TWISS(LNOPTI,OKCPLD,
-     >                  KOPTCS,READAT)
+     >                  KOPTCS,READAT,KTW)
       IF(KOPTCS .EQ. 1) THEN
         KOPIMP = 2
         LBLOPT = 'all'
@@ -1115,6 +1116,9 @@ C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
 C        KOPIMP = 0
 C        OKLNO = .FALSE.
       ENDIF
+      IF(IPASS .EQ. 2*KTW+1) READAT = .TRUE.
+c      write(*,*) ' zgoubi, noel, ktw, readat : ',noel,ktw,ipass,readat
+c      write(*,*) ' zgoubi, noel, ktw, readat : ',noel,ktw,ipass,readat
       GOTO 998
 C----- END. End of run, except for some options that may need more
  90   CONTINUE

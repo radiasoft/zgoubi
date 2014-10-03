@@ -111,11 +111,30 @@ echo "////////////////  ../spiralFFAG/FFAG-SPI/ "
 #
 (cd ../usersGuide_FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../usersGuide_FIT/ - reference : "       | cat >>   compare.out
-grep "R12=0 at "  ../usersGuide_FIT/fit.res      | cat >>   compare.out
-echo "                          - new : "                          | cat >>   compare.out
-grep "R12=0 at "  ../usersGuide_FIT/zgoubi.res      | cat >>   compare.out
-echo "        "                                                    | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide_FIT/fit.res                      | cat >>   compare.out
+echo "                          - new : "                        | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide_FIT/zgoubi.res                   | cat >>   compare.out
+echo "        "                                                  | cat >>   compare.out
 echo "////////////////  ../usersGuide_FIT/ "
+#
+#
+#################################################################
+# ../RHIC/matrix/
+#
+(cd ../RHIC/matrix/ ; cp TWISS_blue_141003.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../RHIC/matrix/ - reference : "       | cat >>   compare.out
+grep "NU_Y = "  ../RHIC/matrix/TWISS_blue_141003.res          | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "NU_Y = "  ../RHIC/matrix/zgoubi.res                     | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+echo "                  ../RHIC/matrix/ - reference : "       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../RHIC/matrix/TWISS_blue_141003.res   | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../RHIC/matrix/TWISS_blue_141003.res   | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../RHIC/matrix/zgoubi.res              | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../RHIC/matrix/zgoubi.res              | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+echo "////////////////  ../RHIC/matrix/ "
 #
 #
 
