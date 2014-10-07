@@ -565,8 +565,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 222
 C            ENDIF
 
-
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 222
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND)) GOTO 222
@@ -590,7 +590,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 21
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 21
 
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
@@ -618,7 +619,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 232
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND)) GOTO 232
@@ -644,7 +646,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 31
 
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
@@ -1106,7 +1109,7 @@ c      close(itmp)
 
       RETURN
       END
-      FUNCTION OKKT(KT1,KT2,IT,KEX,LET,
+      FUNCTION OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                 IEND)
       LOGICAL OKKT
       CHARACTER*1 LET,KLETO

@@ -61,6 +61,9 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       INTEGER DEBSTR, FINSTR
       SAVE NFAM
 
+      CHARACTER(132)  TFILE(MXTA), TXTF
+      SAVE TFILE
+
       DATA OPT/ '++ OFF ++','         ' /
 
       NP = 1
@@ -79,7 +82,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
  
       DO 1 IF=1,NFAM
 
-        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
+c        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
 C FM July 2014. For compatibility with combined FIT+REBELOTE
         NP = NP + 1
         NTIM(IF) = NINT(A(NOEL,NP))
@@ -190,7 +193,7 @@ C     >                      ,TIM(IF,IT)
             ELSEIF(  MODSCL(IF) .LE. 12) THEN
 
               WRITE(NRES,104) 
-     >        TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF))),
+     >        TFILE(IF)(DEBSTR(TFILE(IF)):FINSTR(TFILE(IF))),
      >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
      >        SCL(IF,1,1), SCL(IF,NTIM(IF),1)
  104          FORMAT(15X,'Scaling of field follows the law'
@@ -213,7 +216,7 @@ C     >                      ,TIM(IF,IT)
 
             ELSEIF(  MODSCL(IF) .EQ. 13) THEN
               WRITE(NRES,105) 
-     >        TA(NOEL,IF)(DEBSTR(TA(NOEL,IF)):FINSTR(TA(NOEL,IF))),
+     >        TFILE(IF)(DEBSTR(TFILE(IF)):FINSTR(TFILE(IF))),
      >        NTIM(IF), TIM(IF,1), TIM(IF,NTIM(IF)),
      >        SCL(IF,1,1), SCL(IF,NTIM(IF),1)
  105          FORMAT(15X,'Scaling of field follows the law'
@@ -411,8 +414,6 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
 
         ENDIF
 
-          IF(NTIM(IF) .GE. 0) np = np-1
-
  1    CONTINUE
 
       RETURN
@@ -451,6 +452,11 @@ C      RETURN
       DO I = 1, MXF 
         MODSCV(I) = MODSCL(I)
       ENDDO
+      RETURN
+      
+      ENTRY SCALI8(
+     >     TXTF, IFAM)
+      TFILE(IFAM) = TXTF
       RETURN
 
       END

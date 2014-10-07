@@ -242,13 +242,19 @@ C--------- Coordinate reading/storing loop
             CALL LPSFIT(NLOG,KPR,LM,
      >                              YM,YPM,YMX,YPMX,U,A,B,*60,*60)
  60         CONTINUE
-            WRITE(*,FMT='(/,A,/)') '  Busy, computing tunes...'
-
             
             IF(OKQ) THEN
+
+              WRITE(*,FMT='(/,A,/)') '  Busy, computing tunes...'
+
               CALL SPEANA(YM,BORNE,NC0,
      >                               YNU,SPEC,PMAX,OKSAV,kt,nspec)
               CALL SPEPR(NLOG,KPR,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
+
+            ELSE
+
+              WRITE(*,FMT='(/,A,/)') '  Tunes not requested, '
+     >                                         //'skipping it.'
 
             ENDIF
 
@@ -742,8 +748,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 222
 C            ENDIF
 
-
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 222
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND)) GOTO 222
@@ -767,7 +773,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 21
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 21
 
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
@@ -795,7 +802,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 232
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
      >                                IEND)) GOTO 232
@@ -821,7 +829,8 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 31
 
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
@@ -1063,6 +1072,7 @@ C--------- Check existence of DEFN2O
             IF(IOS.NE.0) GOTO 97
             I4=4
             IPRNT = 0
+            IPRNT = 1
             CALL HEADER(LU2O,I4,IPRNT,BINARY,*99)
           ELSE
             OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='NEW',ERR=99,IOSTAT=IOS,
@@ -1278,7 +1288,7 @@ C      write(*,*) ' Pgm tunesFromFai, trjctries kt1:kt2 : ',kt1,':',kt2
 
       RETURN
       END
-      FUNCTION OKKT(KT1,KT2,IT,KEX,LET,
+      FUNCTION OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                 IEND)
       LOGICAL OKKT
       CHARACTER*1 LET,KLETO
@@ -1332,6 +1342,7 @@ C------- Swallow the header (4 lines)
       CALL READC7(BINAR)
       I4 = 4
       IPRNT = 0
+      IPRNT = 1
       CALL HEADER(NL,I4,IPRNT,BINAR,*99)
       RETURN
  99   RETURN 1

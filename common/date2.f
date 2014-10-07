@@ -47,7 +47,7 @@ C This uses built-in idate, hence transportable
       INTEGER(4) TODAY(3)
 C      call idate(today(1),today(2),today(3))  ! today(1)=day, today(2)=month, today(3)=year
       call idate(today)  ! today(1)=day, today(2)=month, today(3)=year
-      write(dmy,fmt='(2(i2.2,a1),i2.2)') 
-     > today(1),'/',today(2),'/',today(3) !-2000
+      write(dmy,fmt='(2(i2.2,a1),i4.4)') 
+     > today(1),'-',today(2),'-',today(3) 
       RETURN
       END

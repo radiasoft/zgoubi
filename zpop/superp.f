@@ -37,7 +37,7 @@ C  -------
       DIMENSION TAB(MTB)
       PARAMETER (PTXT0=14.D0)
       SAVE PTXT
-      CHARACTER * 9   DMY
+      CHARACTER(10)   DMY
       CHARACTER * 1 CTR, CTR0
       CHARACTER * 1 REP
       SAVE MOD
@@ -408,7 +408,7 @@ C      NPT=NPT+1
 
       CALL TXTFBG
       CALL DATE2(DMY)
-      WRITE(TXT,FMT='(A9)') DMY
+      WRITE(TXT,FMT='(A)') DMY
       CALL DEFCAR(1,0,0)
       CALL TRTXT(38.D0,245.D0,TXT,0)
       CALL DFKSIZ

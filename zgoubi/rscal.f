@@ -53,7 +53,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       INTEGER DEBSTR, FINSTR
 
       LOGICAL STRCON, IDLUNI, OK
-      CHARACTER(132) TXT132, TXT
+      CHARACTER(132) TXT132, TXT, TXTF
       DIMENSION MODSCL(MXF)
       SAVE MODSCL
 
@@ -126,6 +126,9 @@ C Remove possible comment trailer
      >                           IS)
           READ(TXT132(DEBSTR(TXT132):IS-1),*) NTIM(IFM)
           READ(TXT132(IS+1:FINSTR(TXT132)),*) MODSCL(IFM)
+          NP = NP + 1
+          A(NOEL,NP) = NTIM(IFM)
+          I_NTIM = NP
 C Possible additional scaling factor : 
           IF(MODSCL(IFM) .EQ. 10)
      >      READ(TXT132(IS+3:FINSTR(TXT132)),*,ERR=44,END=44) FAC
@@ -144,6 +147,8 @@ C Possible additional scaling factor :
      >                            KSTR,STRAD)
 
           IF(KSTR.GE.1) READ(STRAD(1),*) NTIM(IFM)
+          NP = NP + 1
+          A(NOEL,NP) = NTIM(IFM)
           IF(NTIM(IFM) .GT. MXD-2) 
      >        CALL ENDJOB('SBR RSCAL - Too many timings. Max is ',MXD-2)
 
@@ -170,17 +175,12 @@ C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
 
         ENDIF        
 
+
         IF(NTIM(IFM) .GE. 0) THEN
 
           NDSCL=NTIM(IFM)
           NDTIM=NTIM(IFM)
           MAX=NTIM(IFM)
-          NP = NP + 1
-          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-          A(NOEL,NP) = NTIM(IFM)
-
-C              write(*,*) ' rscal np, A, ntim : ',np,NTIM(IFM),NDTIM
-C                   pause
 
         ELSEIF(NTIM(IFM) .LT. 0) THEN
 
@@ -189,9 +189,8 @@ C                   pause
             NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL  
-            NP = NP + 1
             IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-            A(NOEL,NP) = NTIM(IFM)
+            A(NOEL,MXD-IFM) = NTIM(IFM)
           ELSEIF(NTIM(IFM) .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
             NDSCL=1
@@ -259,7 +258,8 @@ C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
 C--------- Name of the storage file in the next line
 c     yann : modif to setup the read of the cols if the external file 
 c     is used together with the new scaling method that point directly to the A table
-          READ(NDAT,FMT='(A)') TA(NOEL,IFM)
+          READ(NDAT,FMT='(A)') TXTF 
+          CALL SCALI8(TXTF, IFM)
           READ(NDAT,fmt='(a)') TXT132
           CALL RAZS(STRAD,MSTRD)
           CALL STRGET(TXT132,MSTRD,
@@ -282,9 +282,9 @@ c     is used together with the new scaling method that point directly to the A 
 c     yann : End of modif
   
           IF(IDLUNI(
-     >              LUN)) THEN
-            OPEN(UNIT=LUN,FILE=TA(NOEL,IFM)(DEBSTR(TA(NOEL,IFM)):
-     >      FINSTR(TA(NOEL,IFM))),STATUS='OLD',ERR=96)
+     >              LUN)) THEN   
+            OPEN(UNIT=LUN,FILE=TXTF(DEBSTR(TXTF):FINSTR(TXTF))
+     >            ,STATUS='OLD',ERR=96)
           ELSE
             GOTO 97
           ENDIF
@@ -309,6 +309,7 @@ c     yann : End of modif
           CLOSE(LUN)
           NTIM(IFM) = NTIM(IFM)-1
           SCL(IFM,MXS,1) = fac
+          A(NOEL,I_NTIM) = NTIM(IFM)
 
           IF( MODSCL(IFM) .EQ. 11) THEN             
             READ(NDAT,* ) NTIM2(IFM)
@@ -336,10 +337,6 @@ C----------- TIM2(IFM,IT)
               A(NOEL,NP+IT-1) =  TIM2(IFM,IT)
             ENDDO
 
-c            NP = NP + 1
-c            IF(NP.GT.MXD-2) 
-c     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-c            A(NOEL,NP) = NSTR
 
             CALL SCALI4(
      >                  SCL2,TIM2,NTIM2,IFM)
@@ -352,9 +349,6 @@ c            A(NOEL,NP) = NSTR
      >    ('SBR RSCAL: No such option MODSCL = ',MODSCL(IFM))
 
         ENDIF
-
-          IF(NTIM(IFM) .GE. 0) np = np-1
-
 
  1    CONTINUE
  
@@ -372,7 +366,7 @@ c            A(NOEL,NP) = NSTR
 
  96   CONTINUE
       WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ', 
-     > TA(NOEL,IFM)(DEBSTR(TA(NOEL,IFM)):FINSTR(TA(NOEL,IFM)))
+     > TXTF(DEBSTR(TXTF):FINSTR(TXTF))
       WRITE(ABS(NRES),*) ' NOEL, IFM : ',NOEL,IFM
       CALL ENDJOB('SBR rscal. End job upon ERROR  OPEN  FILE.',-99)
       RETURN

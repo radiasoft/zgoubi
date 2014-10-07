@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory                    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -52,7 +52,8 @@ C      PARAMETER (MXSTEP=90000,MSAM=1000)
 
       SAVE MNU,NZ,DZ,DW
 
-      CHARACTER * (9)   DMY, HMS
+      CHARACTER * (10)   DMY
+      CHARACTER * (9)   HMS
 
       DATA XVA / 'omga',    'WaveL.' , 'omga', 'Phi', 'Psi'/
       DATA YVA / 
@@ -159,7 +160,7 @@ C                    energy at prsnt Psi -> D3W_8,9(Psi) = dW_x,y/dPsi (J/rad)
 
          IF(JY .EQ. NY2) THEN
             WRITE(6,*) '---------------------------------------'
-            WRITE(6,FMT='(A9,2X,A9)') DMY, HMS
+            WRITE(6,FMT='(A,2X,A)') DMY, HMS
             WRITE(6,FMT=
      >'('' Energy in fragmnt # '',I5,''  at y,z='',1P,2G12.4,'' m :'')')
      >      IW, XO(2),XO(3)
@@ -168,7 +169,7 @@ C----------- On HP stations only :
 C            CALL FLUSH(6)
 
             WRITE(NLOG,*) '---------------------------------------'
-            WRITE(NLOG,FMT='(A9,2X,A9)') DMY, HMS
+            WRITE(NLOG,FMT='(A,2X,A)') DMY, HMS
             WRITE(NLOG,FMT=
      >'('' Energy in fragmnt # '',I5,''  at y,z='',1P,2G12.4,'' m :'')')
      >      IW, XO(2),XO(3)

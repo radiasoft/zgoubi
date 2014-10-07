@@ -1,0 +1,15 @@
+
+** tunesFromFai
+
+requires b_zgoubi.fai or zgoubi.fai 
+
+b_zgoubi.fai has NT particles, NP passes (i.e., turns.
+
+The program will find the ellipse that matches each particle over NP turns. 
+
+
+** tunesFromFai_iterate 
+
+loops on the previous one
+
+

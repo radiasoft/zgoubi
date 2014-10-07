@@ -30,7 +30,8 @@ C DES OUTPUT DE ZGOUBI
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN    
       COMMON/LUN/                        L1  ,L2  ,L3  ,L4  ,L5  ,L6  
 
-      CHARACTER * 9   DMY,HMSF  
+      CHARACTER(10)   DMY
+      CHARACTER(9)   HMSF  
       CHARACTER * 80  NOMFIC
       LOGICAL FIRST, FIRST1, exs, ok, idluni
       SAVE FIRST, FIRST1 
@@ -103,7 +104,7 @@ c         read(*,*)
          
          if(.not. first1) then
            WRITE(6,100) DMY,HMSF
- 100       FORMAT(/,'  Job  ended  on  ',A9,',  at  ',A9,/)
+ 100       FORMAT(/,'  Job  ended  on  ',A,',  at  ',A,/)
            GOTO 20      
          else
            first1 = .false.

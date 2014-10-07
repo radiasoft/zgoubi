@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory                  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,14 +30,14 @@ C  -------
       IF(IOP .EQ. 1) THEN
         CALL DATE2(DMY)                     
         CALL TIME2(HMSI)      
-        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)')
+        WRITE(6,FMT='(/,''  Job  started  on  '',A,'',  at  '',A,/)')
      >   DMY, HMSI
-        WRITE(6,FMT='(/,''  Job  started  on  '',A9,'',  at  '',A9,/)')
+        WRITE(6,FMT='(/,''  Job  started  on  '',A,'',  at  '',A,/)')
      >   DMY, HMSI
       ELSEIF(IOP .EQ. 2) THEN
         CALL DATE2(DMY)                     
         CALL TIME2(HMSF)
-        WRITE(6,FMT='(/,''  Job  ended  on  '',A9,'',  at  '',A9,/)')
+        WRITE(6,FMT='(/,''  Job  ended  on  '',A,'',  at  '',A,/)')
      >   DMY, HMSF
       ENDIF
       RETURN
