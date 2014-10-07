@@ -25,5 +25,5 @@ C  USA
 C  -------
 
       COMMON//
-     >XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,MMAP),IXMA,JYMA,KZMA
+     >XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
              

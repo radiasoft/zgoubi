@@ -1,5 +1,10 @@
 INC=../include
 
+MODS=../modules
+
+MOD=\
+ ../modules/dynhc.o
+
 OBJ=\
  accen.o\
  accep.o\
@@ -387,10 +392,10 @@ OBJ=\
 .POSIX:
 
 .f.o:
-	$(FC) $(FFLAGS) -I$(INC) -c $<
+	$(FC) $(FFLAGS) -I$(INC) -I$(MODS) -c $<
  
 zgoubi : $(OBJ)
-	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) -L../common -lzg -L../coupling -lcoupl -o $@
+	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) $(MOD) -L../common -lzg -L../coupling -lcoupl -o $@
 
 clean :
 	$(RM) *.o zgoubi *~
@@ -485,6 +490,7 @@ impfai.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
 impplt.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/FRMPLT.H
 imptra.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 impvar.o: $(INC)/MXLD.H
+inidat.o: PARIZ.H
 inidrt.o: $(INC)/MXLD.H
 initra.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 integr.o: $(INC)/MXSTEP.H

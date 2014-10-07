@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE CHXP(ND,KALC,KUASEX,
      >                               XL,DSREF,NDD)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'PARIZ.H'

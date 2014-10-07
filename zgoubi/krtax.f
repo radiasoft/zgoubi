@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE KRTAX(X1,BX)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*)
       INCLUDE 'PARIZ.H'

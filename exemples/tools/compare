@@ -9,7 +9,7 @@ grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix_140925_svn436.res  | cat >
 echo "                                              - new : "            | cat >>   compare.out
 grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/zgoubi.res                | cat >>   compare.out
 echo "        "                                                          | cat >>   compare.out
-echo "////////////////  EMMA-FFAG/matrixComputation "
+echo "////////////////  EMMA-FFAG/matrixComputation: done..."
 #
 #
 #################################################################
@@ -21,7 +21,7 @@ grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi.res     | cat >> 
 echo "                                           - new : "             | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/zgoubi.res  | cat >>  compare.out
 echo "        "                                                        | cat >>  compare.out
-echo "////////////////  ../gsiKaos/usingDIPOLE-M "
+echo "////////////////  ../gsiKaos/usingDIPOLE-M: done..."
 #
 #
 #################################################################
@@ -33,7 +33,7 @@ grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/tosca-3D.res  | cat 
 echo "                                           - new : "                | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/zgoubi.res    | cat >>  compare.out
 echo "        "                                                           | cat >>  compare.out
-echo "////////////////  /gsiKaos/usingTOSCAmaps/"
+echo "////////////////  /gsiKaos/usingTOSCAmaps: done..."
 #
 #
 #################################################################
@@ -45,7 +45,7 @@ grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/K7.25-7.58_mat_130921.res  | ca
 echo "                                                    - new : "         | cat >>   compare.out
 grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/zgoubi.res                 | cat >>   compare.out  
 echo "        "                                                             | cat >>   compare.out
-echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ "
+echo "////////////////  ../KEK150MeVFFAG/analyticalModel: done..."
 #
 #
 #################################################################
@@ -57,7 +57,7 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ "
 #echo "                          - new : "             | cat >>   compare.out
 #grep "NU_Y = "  ../LHC/zgoubi.res                     | cat >>   compare.out  
 #echo "        "                                       | cat >>   compare.out
-#echo "////////////////  ../LHC/ "
+#echo "////////////////  ../LHC: done..."
 #
 #
 #################################################################
@@ -77,7 +77,7 @@ grep "Y/T3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   comp
 grep "Z/Z3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 grep "Z/P3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 echo "        "                                                    | cat >>   compare.out
-echo "////////////////  ../microBeamDoublet/ "
+echo "////////////////  ../microBeamDoublet: done..."
 #
 #
 #################################################################
@@ -91,7 +91,7 @@ echo "                          - new : "                          | cat >>   co
 grep "dNu_y / dp/p ="  ../saturneRing/matrix/zgoubi.res      | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../saturneRing/matrix/zgoubi.res      | cat >>   compare.out
 echo "        "                                                    | cat >>   compare.out
-echo "////////////////  ../saturneRing/matrix "
+echo "////////////////  ../saturneRing/matrix: done..."
 #
 #
 #################################################################
@@ -103,7 +103,7 @@ grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res      | cat >>   compar
 echo "                          - new : "                          | cat >>   compare.out
 grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/zgoubi.res      | cat >>   compare.out
 echo "        "                                                    | cat >>   compare.out
-echo "////////////////  ../spiralFFAG/FFAG-SPI/ "
+echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
 #
 #
 #################################################################
@@ -115,7 +115,7 @@ grep "R12=0 at "  ../usersGuide_FIT/fit.res                      | cat >>   comp
 echo "                          - new : "                        | cat >>   compare.out
 grep "R12=0 at "  ../usersGuide_FIT/zgoubi.res                   | cat >>   compare.out
 echo "        "                                                  | cat >>   compare.out
-echo "////////////////  ../usersGuide_FIT/ "
+echo "////////////////  ../usersGuide_FIT: done..."
 #
 #
 #################################################################
@@ -134,7 +134,21 @@ echo "                          - new : "                     | cat >>   compare
 grep "dNu_y / dp/p ="  ../RHIC/matrix/zgoubi.res              | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../RHIC/matrix/zgoubi.res              | cat >>   compare.out
 echo "        "                                               | cat >>   compare.out
-echo "////////////////  ../RHIC/matrix/ "
+echo "////////////////  ../RHIC/matrix: done..."
+#
+#
+#################################################################
+# ../AGS/matrix/
+#
+(cd ../AGS/matrix/ ; cp TWISS.res_141007 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../AGS/matrix/ - reference : "       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/matrix/TWISS.res_141007   | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/matrix/TWISS.res_141007   | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/matrix/zgoubi.res              | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/matrix/zgoubi.res              | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+echo "////////////////  ../AGS/matrix: done..."
 #
 #
 

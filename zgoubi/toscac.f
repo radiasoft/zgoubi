@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read field map with cartesian coordinates. 
@@ -72,7 +73,9 @@ C-------------------------------------------------
 
       DIMENSION DBDX(3)
 
-      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
+      DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
+     >     HCA, HCB, HCC
+C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
 
       INCLUDE 'MXSCL.H'
@@ -86,6 +89,27 @@ C-------------------------------------------------
 c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
+
+      if( .NOT.ALLOCATED( HCA )) 
+     >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     ' for Malloc of HC',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HCB )) 
+     >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     ' for Malloc of HC',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HCC )) 
+     >     ALLOCATE( HCC(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     ' for Malloc of HC',
+     >     -99)
 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT

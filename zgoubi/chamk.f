@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE CHAMK(A1,R1,Z1,*)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------------
 C     CALCUL DU Champ ET DE SES DERIVEES, A PARTIR D'UNE CARTE,

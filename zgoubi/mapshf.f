@@ -30,7 +30,9 @@ C------------------------------------------------------
 C     Compute new field map, HCB, in D-translated frame
 C------------------------------------------------------
       INCLUDE 'PARIZ.H'
-      DIMENSION HC(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
+      DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
+     >     HC, HCB
+C      DIMENSION HC(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       DIMENSION XH(MXX),YH(MXY)
 
       PARAMETER (IRD=2, KART=1)
@@ -38,7 +40,21 @@ C------------------------------------------------------
 
       DIMENSION BMESH(5,5)
 
-          call raz(hcb,ID*MXX*MXY*IZ)
+       if( .NOT.ALLOCATED( HC )) 
+     >     ALLOCATE( HC(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR MAPSHF Not enough memory'//
+     >     ' for Malloc of HC',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HCB )) 
+     >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR MAPSHF Not enough memory'//
+     >     ' for Malloc of HCB',
+     >     -99)
+
+         call raz(hcb,ID*MXX*MXY*IZ)
 
 
       DA=XH(2)-XH(1)

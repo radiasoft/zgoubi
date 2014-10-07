@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,
      >                                    XL,DSREF,QSHROE,VSHROE)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
 C     DEFINES THE FIELD:

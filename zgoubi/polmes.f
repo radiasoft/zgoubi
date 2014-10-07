@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE POLMES(SCAL,KUASEX,
      >                          BMIN,BMAX,BNORM,
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"

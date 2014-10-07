@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE SERV5
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"

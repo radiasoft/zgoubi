@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
@@ -47,7 +48,9 @@ C      LOGICAL IDLUNI, BINARI
       
 C 3D field maps, intermediate storage prior to summing
       PARAMETER(MX3D=3)
-      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
+      DOUBLE PRECISION, DIMENSION(:,:,:,:,:), ALLOCATABLE :: 
+     >     HCTMP
+C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
       SAVE HCTMP
 
       save aa, ific
@@ -570,6 +573,13 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       
+      if( .NOT.ALLOCATED( HCTMP )) 
+     >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR FMAPW Not enough memory'//
+     >     ' for Malloc of HCTMP',
+     >     -99)
+
 Check current number of field map, IMAP in HC(*,*,*,*,IMAP)
       CALL KSMAP(
      >           IMAP) 

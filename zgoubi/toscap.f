@@ -26,6 +26,7 @@ C  -------
 C     >                           BMIN,BMAX,BNORM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cylindrical coordinates. 

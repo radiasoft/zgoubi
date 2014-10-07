@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE PAVEL(IORDE,A1,R1,Z1,
      >                                B,DB,DDB,KERK)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       INCLUDE 'PARIZ.H'

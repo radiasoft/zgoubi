@@ -26,6 +26,7 @@ C  -------
       SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates. 

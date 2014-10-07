@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE DIPOLM(SCAL,
      >                          BMIN,BMAX,BNORM,
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-----------------------------------------------------------------------
 C     Build a simulated 2D magnetic field map in polar coordinates mesh.

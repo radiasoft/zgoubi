@@ -24,6 +24,7 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE CARSHI(NBSHIM)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------------------
 C     CORRECTION DE LA CARTE DE Champ CALCULEE PAR CARLA. ON INTRODUIT

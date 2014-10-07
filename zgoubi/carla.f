@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE CARLA(SCAL,
      >                          BMIN,BMAX,BNORM,
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     *******
 C     CONSTRUIT LA CARTE DE Champ D'UN DIPOLE EN MAILLAGE

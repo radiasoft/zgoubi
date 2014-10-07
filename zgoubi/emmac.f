@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE EMMAC(SCAL,NDIM, 
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+      USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates. 
@@ -59,8 +60,10 @@ C-------------------------------------------------
 
       LOGICAL STRCON 
 
-      DIMENSION HC1(ID,MXX,MXY,IZ), HC2(ID,MXX,MXY,IZ)
-      DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
+      DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
+     >     HC1, HC2, HCA, HCB
+C      DIMENSION HC1(ID,MXX,MXY,IZ), HC2(ID,MXX,MXY,IZ)
+C      DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       SAVE HC1, HC2, HCA, HCB
 
 C      DIMENSION HCU(ID,MXX,MXY,IZ)
@@ -90,6 +93,30 @@ C          data hcu /  IDMX * 0.d0 /
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
+
+      if( .NOT.ALLOCATED( HC1 )) 
+     >     ALLOCATE( HC1(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HC1',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HC2 ))
+     >     ALLOCATE( HC2(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HC2',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HCA )) 
+     >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HCA',
+     >     -99)
+
+      if( .NOT.ALLOCATED( HCB )) 
+     >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
+      IF (IALOC /= 0) 
+     >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HCB',
+     >     -99)
 
 c      CALL KSMAP(
 c     >           IMAP) 
