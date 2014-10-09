@@ -2,9 +2,9 @@
       integer debstr, finstr
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
 
-      cmmnd = '~/zgoubi/struct/tools/fromBFai2Fai/fromBFai2Fai'
+      cmmnd = '~/zgoubi/toolbox/fromBFai2Fai/fromBFai2Fai'
       write(*,*) ' command : ',cmmnd
       call system(cmmnd)
 

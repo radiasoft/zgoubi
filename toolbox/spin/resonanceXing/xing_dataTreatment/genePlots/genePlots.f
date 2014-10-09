@@ -1,7 +1,8 @@
-      character cmmnd*132 
+      character(132) cmmnd 
       character(100) dirTools
+      character(10) txt10
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
       integer debstr, finstr
 
       write(*,*) ' '
@@ -11,7 +12,7 @@
       write(*,*) ' '
 
       cmmnd = 
-     >'~/zgoubi/struct/tools/b_fai2Fai/fromBFai2Fai'
+     >'~/zgoubi/toolbox/b_fai2Fai/fromBFai2Fai'
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
       call system(cmmnd)
@@ -32,9 +33,27 @@
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
       call system(cmmnd)
       
-      cmmnd =  'gnuplot < '//
+      cmmnd =  'cp '//
      >dirTools(debstr(dirTools):finstr(dirTools))
      >//'xing_dataTreatment/genePlots/'//
+     >'gnuplot_xingFinal.cmd  . '
+      write(*,*) ' '
+      write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
+      call system(cmmnd)
+      open(unit=56,file='tunesFromFai.In')
+      read(56,*) iturn, irange
+      close(56)
+c        write(*,*) ' geneplots ',iturn, irange
+c             read(*,*)
+      write(txt10,fmt='(i10)') iturn + 4*irange/5
+      cmmnd =  'sed -i ''s@maxPnt@'//txt10//'@g'' '
+     >//'gnuplot_xingFinal.cmd '
+      write(*,*) ' '
+      write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
+      call system(cmmnd)
+      cmmnd =  'gnuplot < '//
+c     >dirTools(debstr(dirTools):finstr(dirTools))
+c     >//'xing_dataTreatment/genePlots/'//
      >'gnuplot_xingFinal.cmd'
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd

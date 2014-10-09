@@ -6,7 +6,7 @@
       parameter(lunR=7,lunW=8)
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -23,14 +23,14 @@ C Create ./Log
 
 C Create ./Log/log.tex and write head section
       cmmnd = 
-     >'dirTools(debstr(dirTools):finstr(dirTools))'
+     >dirTools(debstr(dirTools):finstr(dirTools))
      >//'/xing_geneTexLog/geneTexIni'
       write(*,*) ' '
       write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
       call system(cmmnd)
 
 C Get directory names
-      open(unit=lunR,file='scanSpinResonances.Out2',err=99)
+      open(unit=lunR,file='scanSpinResonances.Out',err=99)
       read(lunR,*) txt132
       write(*,*) txt132
       j = 1
@@ -53,7 +53,7 @@ C Create a page for each xing
         close(lunW)
         fname = drctry(i)(debstr(drctry(i)):finstr(drctry(i)))
         cmmnd = 'cd '//fname(debstr(fname):finstr(fname))//' ; '//
-     >  'dirTools(debstr(dirTools):finstr(dirTools))'
+     >  dirTools(debstr(dirTools):finstr(dirTools))
      >  //'xing_geneTexLog/geneTexPage'
         write(*,*) ' '
         write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
@@ -123,7 +123,7 @@ C and cp to ./Log
 
 C End section of geneTexlog.tex
       cmmnd = 
-     >'dirTools(debstr(dirTools):finstr(dirTools))'
+     >dirTools(debstr(dirTools):finstr(dirTools))
      >//'xing_geneTexLog/geneTexEnd'
       write(*,*) ' '
       write(*,*) 'Pgm geneTexLog, execute : ',cmmnd

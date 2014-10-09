@@ -2,10 +2,10 @@
       parameter (lunW=8)
       integer debstr, finstr
 
-      open(unit=lunW,file='./Log/log.tex')
+      open(unit=lunW,file='./Log/log.tex',position='append')
 
-      call gotoEnd(lunW,
-     >                  line)
+c      call gotoEnd(lunW,
+c     >                  line)
 
       txt80=''
       write(lunW,*) txt80

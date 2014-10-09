@@ -21,7 +21,7 @@
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/meot/zgoubi/toolbox/spin/resonanceXing/')
 
       data am, q, G / 938.27203d6,1.602176487d-19,1.7928474d0 /
 
@@ -250,6 +250,7 @@ C Complete zgoubi.dat from content of zgoubi_geneZGDat4Xing-In.dat
 
           elseif(strcon(txt132,'''CAVITE''',8,
      >                                        IS)) then
+            write(lunW,*) txt132
             read(lunR,fmt='(a)',end=10) txt132
             if(txt132(debstr(txt132):debstr(txt132)).ne.'0') 
      >         txt132 = ' 0 '//txt132(debstr(txt132):finstr(txt132))
@@ -391,7 +392,7 @@ C Complete zgoubi_searchCO-In.dat from content of zgoubi_geneZGDat4Xing-Out.dat
       close(lunW)
 
 C Get closed orbit
-      cmmnd = '~/zgoubi/struct/tools/searchCO/searchCO_HV'
+      cmmnd = '~/zgoubi/toolbox/searchCO/searchCO_HV'
       call system(cmmnd)
       open(unit=lunR,file='zgoubi_searchCO-Out.dat')
       open(unit=lunW,file='zgoubi_geneZGDat4Xing-Out.dat')

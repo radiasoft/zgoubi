@@ -17,7 +17,7 @@ C find (and get !) M*Qz*s' names from scanSpinResonances.Out2 storage file.
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/meot/zgoubi/toolbox/spin/resonanceXing/')
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -25,7 +25,8 @@ C find (and get !) M*Qz*s' names from scanSpinResonances.Out2 storage file.
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
-      open(unit=lunR,file='scanSpinResonances.Out2',err=99)
+C      open(unit=lunR,file='scanSpinResonances.Out2',err=99)
+      open(unit=lunR,file='scanSpinResonances.Out',err=99)
       read(lunR,*) txt132
       write(*,*) txt132
       j = 1
@@ -61,15 +62,17 @@ C Get number of turns, from zgoubi.res
      >  //'/tunesFromFai.In'
         open(unit=34,file=fname)
         write(34,*) int(npass/2*.9d0), int(npass/2*1.1d0)
-     >                                      ,' turn# range'
+     >                                      ,'  ! turn# range'
         write(34,*) '0.51, 1., 0.51, 1., 0., 1. '
-     >                                  ,' tune boundaries'
+     >                                  //'  ! tune boundaries'
         write(34,*) ' 2000, 2000, 2000, '
-     >                                         ,' sampling'
+     >                                  //' !  spectrum sampling'
+        write(34,*) ' n '//'  ! do not store spectra '
+        write(34,*) ' y '//'  ! compute tunes '
         close(34)
         cmmnd = 'cd '//
      >  drctry(i)(debstr(drctry(i)):finstr(drctry(i)))//' ; '//
-     >  ' ~/zgoubi/struct/tools/tunesFromFai/tunesFromFai'
+     >  ' ~/zgoubi/toolbox/tunesFromFai/tunesFromFai'
         write(*,*) ' '
         write(*,*) 'Pgm dataTreatment, execute : ',cmmnd
         call system(cmmnd)

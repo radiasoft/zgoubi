@@ -78,7 +78,11 @@ C Get emittance and tune from tunesFromFai
      >  //'tunesFromFai.out'
         open(unit=34,file=fname)
         read(34,fmt='(a)',end=993) txt132
+c        write(*,*) txt132
         read(34,fmt='(a)',end=993) txt132
+c        write(*,*) txt132
+        read(34,fmt='(a)',end=993) txt132
+c        write(*,*) txt132
         read(34,*,end=993) X0, Z0, XNU, ZNU, UXNU, UZNU, UX, UY, UZ
         call system(' pwd')
         write(*,*) i, X0, Z0, XNU, ZNU, UXNU, UZNU, UX, UY, UZ

@@ -1,10 +1,10 @@
 
 1/ execute ./scanSpinResonances/scanSpinResonances_launch
 This will create the zgoubi_xxx.dat files and run these
-Note : this will use /home/meot/zgoubi/struct/tools/spin/xing_geneZgDat/geneZGDat4Xing_fromCalcStrength,
+Note : this will use /home/meot/zgoubi/toolbox/spin/xing_geneZgDat/geneZGDat4Xing_fromCalcStrength,
 so it requires geneZGDat4Xing.data and scanSpinResonances.In
 
-2/ execute ./xing_dataTreatment/dataTreatment
+2/ execute ./xing_dataTreatment/dataTreatment/dataTreatment
 This will compute resonance strengths etc. from the b_zgoubi.fai files
 
 3/ execute ./xing_gnuplots/gnuplot.cmd

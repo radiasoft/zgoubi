@@ -1,0 +1,4 @@
+
+gfortran -o genePlots genePlots.f
+gfortran -o xing_gnuplot xing_gnuplot.f
+

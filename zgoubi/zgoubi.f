@@ -1268,7 +1268,7 @@ C----- REVERSE.
       GOTO 998
 C----- SYSTEM. System call
  106  CONTINUE
-        stop '***************'
+C        stop '***************'
 C      IF(READAT) READ(NDAT,*) A(NOEL,1)
       READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))

@@ -1,7 +1,7 @@
       character(200) cmmnd
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
       integer debstr, finstr
 
 C----------------------------
@@ -18,7 +18,7 @@ C Launch tracking procedure
 
 cC----------------------------
 cC Creates log.tex 
-c      cmmnd = '/home/fmeot/zgoubi/struct/tools/spin/xing_geneTexLog/'
+c      cmmnd = '/home/fmeot/zgoubi/toolbox/spin/xing_geneTexLog/'
 c     >  //'geneTexLog'
 c      call system(cmmnd)      
 
