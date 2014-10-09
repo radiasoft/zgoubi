@@ -324,6 +324,7 @@ OBJ=\
  rundul.o\
  runipo.o\
  rwienf.o\
+ sbendi.o\
  scal0.o\
  scaler.o\
  scalin.o\
@@ -597,6 +598,7 @@ rtrans.o: $(INC)/MXLD.H
 rundul.o: $(INC)/MXLD.H
 runipo.o: $(INC)/MXLD.H
 rwienf.o: $(INC)/MXLD.H        
+sbendi.o: $(INC)/MXLD.H
 scaler.o: $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
 scalin.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 scumul.o: $(INC)/MAXCOO.H

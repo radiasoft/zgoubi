@@ -195,14 +195,18 @@ C        KP = NINT(A(NOEL,ND+3))
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 
       ELSEIF(KUASEX .EQ. 30) THEN
-C------- EMPTY
+C------- Installiing SBEND, not yet complete 
+        
+          CALL SBENDI(SCAL,
+     >                    DSREF)
+          KP = NINT(A(NOEL,ND+NND))
+C          DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 
       ELSEIF(KUASEX .EQ. 31 )   THEN
 C-------- DIPOLE
 
         CALL DIPI(SCAL,
      >                 DSREF)
-
 C Modif, FM, Dec. 05
 C        KP = NINT(A(NOEL,ND+1))
 C        NDD = ND+2

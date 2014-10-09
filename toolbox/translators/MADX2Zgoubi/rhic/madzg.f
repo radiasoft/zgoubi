@@ -56,14 +56,14 @@ C      read(*,fmt='(A)') fnw
      >             ' lhc/recycler/musr/default (1/2/3/99)'
 C 2    read(*,*,err=2) kff
          kff = 99
-C      if( kff .ne. 1 .and. kff .ne. 2) kff = 3
+C      if( kff .ne. 1 .and. kff .ne. 2 .and. kff .ne. 3) kff = 99
       write(*,*) ' Fringe field coeff : option set to ',kff
       call lmntff(kff)
 
       write(*,*) 
-      write(*,*) ' Fringe fields on/off/default (1/0/99) :'
-c 3    read(*,*,err=3) frf
-          frf  = 0
+      write(*,*) ' Fringe fields on/off (1/0) :'
+ 3    read(*,*,err=3) frf
+C          frf  = 0
       if( frf .ne. 1.d0) frf = 0.d0
       if(frf.eq.1.d0) write(*,*) ' Fringe fields on '
       if(frf.eq.0.d0) write(*,*) ' Fringe fields off '
@@ -95,8 +95,8 @@ c 6    read(*,*,err=6) ny
 
       write(*,*)
       write(*,*) ' Translate S/RBEND to BEND or to MULTIPOLE (1/2) :'
-      read(*,*,err=7) kbm 
-C            kbm = 1
+C      read(*,*,err=7) kbm 
+            kbm = 1
  7    continue
       if( kbm .ne. 2   ) kbm = 1
       if(kbm.eq.1   ) write(*,*) ' BEND will be used for S/RBEND'
@@ -229,9 +229,9 @@ c     >                         s,sxl,s-sxl,xl,ds,kley,name,warn
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''TWISS''',it
       write(lw,fmt='(A)')   '2  1. 1. '
-c      write(lw,fmt='(A,T111,I6)') '''MATRIX''',it
-c      write(lw,fmt='(A)')   '1  11 '
-c      it = it + 1
+      write(lw,fmt='(A,T111,I6)') '''MATRIX''',it
+      write(lw,fmt='(A)')   '1  11 '
+      it = it + 1
       write(lw,fmt='(A,T111,I6)') '''END''',it
 C      it = it + 1
       write(lw,fmt='(///,A)') ' '
@@ -331,9 +331,6 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
      >                                        tilt,e1,e2,h1,h2,
      >                                      hkic, vkic,
      >                                it)
-c      subroutine lmnt
-c     >(lw,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,tilt,e1,e2,h1,h2,
-c     >                                                       it)
       implicit double precision (a-h,o-z)
       character kley*(*)
 
@@ -346,6 +343,15 @@ c     >                                                       it)
       save txfd,txfq,txffd, txffq
       logical drimul
       save drimul
+
+      parameter (cm=100.d0, t2kg=10.d0)
+      parameter(i0=0, i1=1, i2=2, i4=4, i6=6)
+      parameter(x0=0.d0,x1=1.d0,x2=2.d0,x3=3.d0,x4=4.d0,x5=5.d0,x6=6.d0)
+      parameter(x7=7.d0,x8=8.d0,x10=10.d0,x20=20.d0,
+     >                                    x30=30.d0,x999=999.d0)
+
+      character txt*80, txtfrm*23
+      save kpos, kbm
 
       data ffq / '6.00  3.00 1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0. ' / 
       data fq / '6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723'/
@@ -384,13 +390,10 @@ c     >                                                       it)
       data ffqmus / '17.0 20.0  1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0.' / 
 !----------- muon collider fringe fields -------------------------------
 
-      parameter (cm=100.d0, t2kg=10.d0)
-      parameter(i0=0, i1=1, i2=2, i4=4, i6=6)
-      parameter(x0=0.d0,x1=1.d0,x2=2.d0,x3=3.d0,x4=4.d0,x5=5.d0,x6=6.d0)
-      parameter(x7=7.d0,x8=8.d0,x10=10.d0,x20=20.d0,x999=999.d0)
-
-      character txt*80, txtfrm*23
-      save kpos, kbm
+      parameter (stpsiz = 2.d0)  ! step size in cm
+c      parameter (stpsiz = 1.d0)  ! step size in cm
+c      parameter (stpsiz = 0.5d0)  ! step size in cm
+c      parameter (stpsiz = 0.25d0)  ! step size in cm
 
       pi = 4.d0*atan(1.d0)
       zero=0.d0
@@ -536,10 +539,10 @@ C         write(*,*) ak2, bro, b3, x10
 C      write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
       write(lw,fmt='(1p,4e16.8,A)') 
      >  tilt,tilt,tilt,tilt,'  0. 0. 0. 0. 0. 0.'
-      if(xlmag*cm-int(xlmag*cm).gt.0.5) then 
-            istepdip=int(xlmag*cm)+1
+      if(xlmag*cm/stpsiz-int(xlmag*cm/stpsiz) .gt. 0.5d0) then 
+            istepdip=int(xlmag*cm/stpsiz)+1
       else
-            istepdip=int(xlmag*cm)
+            istepdip=int(xlmag*cm/stpsiz)
       endif
       if(istepdip.lt.10) then
         write(lw,fmt='(2A)') ' #30|9|30    Dip',name
@@ -547,8 +550,10 @@ C      write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
         write(lw,fmt='(A,I2,A,2X,A)') ' #30|',istepdip,'|30    Dip',name
       elseif(istepdip.ge.100.and.istepdip.lt.1000) then
         write(lw,fmt='(A,I3,A,2X,A)') ' #30|',istepdip,'|30    Dip',name
-      elseif(istepdip.ge.1000) then
-        write(lw,fmt='(2A)') ' #30|9999|30    Dip',name
+      elseif(istepdip.ge.1000.and.istepdip.lt.10000) then
+        write(lw,fmt='(A,I4,A,2X,A)') ' #30|',istepdip,'|30    Dip',name
+      elseif(istepdip.ge.10000) then
+        write(lw,fmt='(2A)') ' #30|99999|30    Dip',name
       endif
       if(kpos.ne.4) then
         if(abs(tilt).lt.1d-10) then
@@ -605,17 +610,20 @@ C err. FM June 2009      write(lw,fmt='(2F14.7,F15.8)') xl,tilt,b
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
       else 
-        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
+C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
+        write(lw,fmt='(2F6.2,2(1x,F12.8))') x30,x10,te
       endif
       write(lw,fmt='(A)') txfd
       ts=ang/2.+e2
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,ts
       else
-        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
+C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
+        write(lw,fmt='(2F6.2,2(1x,F12.8))') x30,x10,te
       endif
       write(lw,fmt='(A)') txfd
-      step = xl
+C      step = xl
+      step = stpsiz
       write(lw,fmt='(1P,E12.4,A)') dble(nint(step)),'  Bend'
 C      write(lw,fmt='(F12.6,A4)') step * 10.,'  Bend'
 C      write(lw,fmt='(A,2X,A)') ' #10|10|10   Bend',name
@@ -658,19 +666,28 @@ C----- SBEN -> BEND
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
       else
-        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
+C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
+        write(lw,fmt='(2F6.2,2(1x,F12.8))') x30,x10,te
       endif
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
       ts=e2
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,ts
       else
-        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
+C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
+        write(lw,fmt='(2F6.2,2(1x,F12.8))') x30,x10,te
       endif
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
 C      istepdip=int(xxl*cm/3.0d0)
-      istepdip=int(xxl*cm)
-      if(istepdip .ge. 100) then
+      istepdip=int(xxl*cm/stpsiz)
+      if(istepdip .ge. 10000) then
+        if(istepdip .ge. 99999) istepdip = 99999
+        write(lw,fmt='(A,I5,A,2X,A)') '#200|',istepdip,
+     + '|200    Bend',name
+      elseif(istepdip .ge. 1000  .and. istepdip .lt. 10000) then
+        write(lw,fmt='(A,I4,A,2X,A)') '#200|',istepdip,
+     + '|200    Bend',name
+      elseif(istepdip .ge. 100  .and. istepdip .lt. 1000) then
         write(lw,fmt='(A,I3,A,2X,A)') '#200|',istepdip,
      + '|200    Bend',name
       elseif(istepdip .ge. 10  .and. istepdip .lt. 100) then
@@ -702,18 +719,18 @@ C----- QUAD
      >xl*cm,x10,x0,ak1/xl*bro,x0,x0,x0,x0,x0,x0,x0,x0
       txt = txffq
       txt=txt//name
-      if(frf .eq. 0.) txt = '0. 0. '//txt
+!      if(frf .eq. 0.) txt = '0. 0. '//txt
+      txt = '0. 0. '//txt
       write(lw,fmt='(A)') txt
       write(lw,fmt='(A)') txfq
       write(lw,fmt='(A)') txt
       write(lw,fmt='(A)') txfq
       write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
-      if(xl*cm-int(xl*cm).gt.0.5) then 
-            istepdip=int(xl*cm)+1
+      if(xl*cm/stpsiz-int(xl*cm/stpsiz).gt.0.5) then 
+            istepdip=int(xl*cm/stpsiz)+1
       else
-            istepdip=int(xl*cm)
+            istepdip=int(xl*cm/stpsiz)
       endif
-      istepdip = istepdip
       if(istepdip.lt.6) then
         write(lw,fmt='(2A)') ' #30|5|30   Quad',name
       elseif(istepdip.ge.10.and.istepdip.lt.100) then
@@ -744,10 +761,10 @@ C----- SEXT ***
       write(lw,fmt='(A)') '0.00 0.00  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
       write(lw,fmt='(A)') txfq//name
         write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
-      if(xl*cm-int(xl*cm).gt.0.5) then 
-            istepdip=int(xl*cm)+1
+      if(xl*cm/stpsiz-int(xl*cm/stpsiz).gt.0.5) then 
+            istepdip=int(xl*cm/stpsiz)+1
       else
-            istepdip=int(xl*cm)
+            istepdip=int(xl*cm/stpsiz)
       endif
       if(istepdip.lt.10) then
         write(lw,fmt='(2A)') ' #30|9|30   Sext',name
@@ -778,10 +795,10 @@ C        it = it - 1
       write(lw,fmt='(A)') '0.000 0.00  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
       write(lw,fmt='(A)') txfq//name
         write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
-      if(xl*cm-int(xl*cm).gt.0.5) then 
-            istepdip=int(xl*cm)+1
+      if(xl*cm/stpsiz-int(xl*cm/stpsiz).gt.0.5) then 
+            istepdip=int(xl*cm/stpsiz)+1
       else
-            istepdip=int(xl*cm)
+            istepdip=int(xl*cm/stpsiz)
       endif
       if(istepdip.lt.10) then
         write(lw,fmt='(2A)') ' #30|9|30   Octu',name
@@ -827,10 +844,10 @@ c     > abs(ak1)+abs(ak2)+abs(ak3)+abs(ak4),' abs(k1)+abs(k2...'
       write(lw,fmt='(A)') '00.00 00.0  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
       write(lw,fmt='(A)') txfq//name
         write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
-      if(xl*cm-int(xl*cm).gt.0.5) then 
-            istepdip=int(xl*cm)+1
+      if(xl*cm/stpsiz-int(xl*cm/stpsiz).gt.0.5) then 
+            istepdip=int(xl*cm/stpsiz)+1
       else
-            istepdip=int(xl*cm)
+            istepdip=int(xl*cm/stpsiz)
       endif
       if(istepdip.lt.10) then
         write(lw,fmt='(2A)') ' #30|9|30   Mult',name

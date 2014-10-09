@@ -32,7 +32,6 @@ C  -------
 
       DIMENSION FII(6,6)
       LOGICAL OK, IDLUNI
-      INTEGER DEBSTR, FINSTR
       CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
 C      PARAMETER (N4 = 6)
@@ -120,8 +119,6 @@ C RT now contains the local 1-turn map
 
 Compute coupled optics
           cmmnd = '~/zgoubi/current/coupling/ETparam'
-c          write(6,*) ' Pgm beamat. Now doing ' 
-c     >    // cmmnd(debstr(cmmnd):finstr(cmmnd))
           CALL SYSTEM(cmmnd)
 
           OK = IDLUNI(
@@ -334,7 +331,7 @@ c            write(*,fmt='(1p,6e13.4)') ((r66(ii,jj),ii=1,6),jj=1,6)
 c                 read(*,*)
 
           CALL TUNES(R66,F0,1,IERY,IERZ,.FALSE.,
-     >                                       PHY,PHZ,CMUY,CMUZ)          
+     >                                       PHY,PHZ,CMUY,CMUZ)
 
 C Periodic D and D', i.e. 6j, i6, are not computed correctly, 
 C it requires rt(6,j), rt(i,6), to be implemented. 
