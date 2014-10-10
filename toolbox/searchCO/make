@@ -1,4 +1,5 @@
  gfortran -o searchCO searchCO.f
+ gfortran -o searchCO_HV searchCO_HV.f
  gfortran -o searchCO_short searchCO_short.f
  gfortran -o  geneGnuPlots  geneGnuPlots.f
  gfortran -o  geneTexBody  geneTexBody.f

@@ -18,7 +18,7 @@
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/struct/tools/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
       data am, q, G / 938.27203d6,1.602176487d-19,1.7928474d0 /
 

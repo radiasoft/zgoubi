@@ -21,7 +21,7 @@
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/toolbox/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
       data am, q, G / 938.27203d6,1.602176487d-19,1.7928474d0 /
 
@@ -100,7 +100,7 @@ C gG-(n +/- Qz) = 1000Jn corresponds to Sz=0.999999500
         T = E - am
         p = sqrt(T * (T + 2.d0*am))
         boro = p/c
-        if(gamma.gt.gtr) phisD = 180.d0 - phisD
+        if(gamma.gt.gtr .and. phisD.lt.90.d0) phisD = 180.d0 - phisD
         phis = phisD * deg2rd        
         dEturn = Vp * sin(phis)
         nrbl2 = nint(dE/dEturn)

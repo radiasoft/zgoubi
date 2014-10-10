@@ -275,7 +275,7 @@ C Read file number from temporary storage by scanSpinResonances.f
               write(*,*) cmmnd
               write(lunW,*) cmmnd
               cmmnd = 'cd .. ; '//
-     >        '/home/meot/zgoubi/struct/tools/spin/xing_scanResonances'
+     >        '~/zgoubi/toolbox/spin/xing_scanResonances'
      >        //'/scanSpinResonances'
               write(lunW,*) cmmnd
 

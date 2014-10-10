@@ -2,7 +2,7 @@
       character(100) dirTools
       character(10) txt10
       parameter (dirTools=
-     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
       integer debstr, finstr
 
       write(*,*) ' '

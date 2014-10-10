@@ -1,7 +1,7 @@
 ! 1/ Create an ensemble of zgoubi_xxx.dat files for Froissard-Stora resonance xing, saved in respective xxx directories. 
 ! Starting data is calcStrength.out (contains list of resonances and their strengths),
 ! as obtained from prior executing /mad/tools/spin/calcStrength/calcStrength. 
-! A zgoubi_xxx.dat is then built executing /home/fmeot/zgoubi/toolbox/spin/xing_geneZgDat/geneZGDat4Xing_fromCalcStrength
+! A zgoubi_xxx.dat is then built executing ~/zgoubi/toolbox/spin/xing_geneZgDat/geneZGDat4Xing_fromCalcStrength
 ! 2/ Run each zgoubi_xxx.dat in its own directory xxx. 
 ! 3/ executes various programs that compute resonance strengths from Sz vs. turn# etc.
 ! 4/ Execute various gnuplot.cmd types of files that produce graphs for monitoring, 
@@ -17,7 +17,7 @@
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
 C scanSpinResonances.In is a copy of calcStrength.out 
 C      call system('cp -f calcStrength.out scanSpinResonances.In')

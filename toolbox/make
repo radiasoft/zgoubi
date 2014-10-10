@@ -31,3 +31,8 @@ echo '(cd  tunesFromFai ; ./make )'
 echo ' '
 echo '(cd  tunesFromMATRIX ; ./make )'
 (cd  tunesFromMATRIX ; ./make )
+echo ' '
+echo '(cd spin/resonanceXing/ ; ./make )'
+(cd spin/resonanceXing/ ; ./make )
+
+exit

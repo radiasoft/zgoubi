@@ -6,7 +6,7 @@
       parameter(lunR=7,lunW=8)
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/fmeot/zgoubi/toolbox/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'

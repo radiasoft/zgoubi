@@ -390,8 +390,8 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
       data ffqmus / '17.0 20.0  1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0.' / 
 !----------- muon collider fringe fields -------------------------------
 
-      parameter (stpsiz = 2.d0)  ! step size in cm
-c      parameter (stpsiz = 1.d0)  ! step size in cm
+c      parameter (stpsiz = 2.d0)  ! step size in cm
+      parameter (stpsiz = 1.d0)  ! step size in cm
 c      parameter (stpsiz = 0.5d0)  ! step size in cm
 c      parameter (stpsiz = 0.25d0)  ! step size in cm
 

@@ -17,7 +17,7 @@ C find (and get !) M*Qz*s' names from scanSpinResonances.Out2 storage file.
 
       character(100) dirTools
       parameter (dirTools=
-     >   '/home/meot/zgoubi/toolbox/spin/resonanceXing/')
+     >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
