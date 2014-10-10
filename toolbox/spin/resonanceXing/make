@@ -11,6 +11,7 @@
 (cd ./xing_geneTexLog ; gfortran -o geneTexIni geneTexIni.f)
 (cd ./xing_geneTexLog ; gfortran -o geneTexEnd geneTexEnd.f)
 (cd ./xing_geneTexLog ; gfortran -o geneTexPage geneTexPage.f)
+
 (cd ./xing_geneZgDat ; gfortran -o geneZGDat4Xing_fromCalcStrength geneZGDat4Xing_fromCalcStrength.f)
 (cd ./xing_geneZgDat/ags ; gfortran -o geneZGDat4Xing_fromCalcStrength geneZGDat4Xing_fromCalcStrength.f)
 

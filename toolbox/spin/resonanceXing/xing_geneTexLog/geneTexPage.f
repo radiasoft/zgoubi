@@ -45,7 +45,7 @@
       txt132 = '  \caption{ \label{'
      >  //txtfig(debstr(txtfig):finstr(txtfig))//'_xingFull}'
       write(lunW,*) txt132
-      txt132 = '$S_y$ versus kinetic energy. '
+      txt132 = '$S_y$ versus turn number. '
       write(lunW,*) txt132
       txt132 = ' }'
       write(lunW,*) txt132

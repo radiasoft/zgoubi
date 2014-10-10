@@ -175,7 +175,7 @@ C Read in zgoubi_geneZGDat4Xing-In.dat
       txt132 = '''MARKER''  #Start'
       write(lunW,*) txt132   
 
-C Complete zgoubi.dat from content of zgoubi_geneZGDat4Xing-In.dat
+C Complete zgoubi_geneZGDat4Xing-Out.dat from content of zgoubi_geneZGDat4Xing-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
           txt132 = txt132(debstr(txt132):132)
@@ -277,17 +277,19 @@ C Complete zgoubi.dat from content of zgoubi_geneZGDat4Xing-In.dat
         goto 1
 
  11     continue
+            if(.not. okCAV) then 
               txt132 = '''CAVITE'''
               write(lunW,*) txt132
               txt132 = ' 2   .1'
               write(lunW,*) txt132
               write(lunW,fmt='(f18.11,3x,f7.2)') circ, ah
               write(lunW,fmt='(1p,e16.8,3x,e20.12)') Vp, phis
-              txt132 = '''MARKER''   #End'
-              write(lunW,*) txt132
-              txt132 = '''REBELOTE'''
-              write(lunW,*) txt132
-              write(lunW,fmt='(i8,a)') 2*nrbl2, '  0.2  99'
+            endif
+            txt132 = '''MARKER''   #End'
+            write(lunW,*) txt132
+            txt132 = '''REBELOTE'''
+            write(lunW,*) txt132
+            write(lunW,fmt='(i8,a)') 2*nrbl2, '  0.2  99'
 
 C When this zgoubi run finishes, Keyword 'SYSTEM' will cause launching of next zgoubi run
 C Read file number from temporary storage by scanSpinResonances.f   

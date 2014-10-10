@@ -84,8 +84,12 @@ c        write(*,*) txt132
         read(34,fmt='(a)',end=993) txt132
 c        write(*,*) txt132
         read(34,*,end=993) X0, Z0, XNU, ZNU, UXNU, UZNU, UX, UY, UZ
+        if(uxnu .lt. .9d0 .and. uxnu .gt. .5) xnu = uxnu
+        if(uznu .lt. .9d0 .and. uznu .gt. .5) znu = uznu
+
         call system(' pwd')
-        write(*,*) i, X0, Z0, XNU, ZNU, UXNU, UZNU, UX, UY, UZ
+        write(*,*) i, X0, Z0, XNU, ZNU, UX, UY, UZ 
+C               read(*,*) 
         close(34)
 
 C Get zco, vkick from MAD data
@@ -145,7 +149,6 @@ C Get resonance style
         write(*,*) '   xing speed alpha = dgamma/dtta = ',alpha
      >  , '    dB/dt  = ',Bdot
 
-
 C Save results
         fname = 
      >  './'
@@ -159,11 +162,11 @@ C Save results
      >    'E-tot, Qz, e_z/pi/1e-6, p_i, p_f, |J_n|^2/1e-6, |J_n|^2/ez'
           write(lunW,fmt='(1p,'' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
      >           g11.3,1x, 4('' & '',g12.4))') 
-     >    Etot/1d9, uznu, ez*1.d6, pini, pfin, 
+     >    Etot/1d9, znu, ez*1.d6, pini, pfin, 
      >    A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez
           write(*,fmt='(1p,'' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
      >           g11.3,1x, 4('' & '',g12.4))') 
-     >    Etot/1d9, uznu, ez*1.d6, pini, pfin, 
+     >    Etot/1d9, znu, ez*1.d6, pini, pfin, 
      >    A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez
 
         elseif(typ2(debstr(typ2):finstr(typ2)) .eq. 'imperfection') then
@@ -171,7 +174,7 @@ c          write(lunW,*) '% imperfection E-tot, Qz, zmax, p_i, p_f, |J_n|
 c     >    ^2/1e-6, |J_n|^2/zmax^2 '
 c          write(lunW,fmt='('' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
 c     >           g11.3,1x, 4('' & '',f12.4))') 
-c     >    Etot/1d9, uznu, zco*vk/vkick, pini, pfin, A2*2.*alpha/pi*1.d6
+c     >    Etot/1d9, znu, zco*vk/vkick, pini, pfin, A2*2.*alpha/pi*1.d6
 c     >    ,A2*2.*alpha/pi/(zco*vk/vkick)**2
           write(lunW,*) '% imperfection E-tot, zmax, p_i, p_f, |J_n|
      >    ^2/1e-6, |J_n|^2/zmax^2 '

@@ -4,6 +4,17 @@
      >   '~/zgoubi/toolbox/spin/resonanceXing/')
       integer debstr, finstr
 
+C-----------------------------
+      write(*,*) ' '
+      write(*,*) ' '
+      write(*,*) ' ////////////////////////////////////////////////////'
+      write(*,*) ' PGM scanSpinResonances_launch. '
+      write(*,*) ' xing_scanResonances/scanSpinResonances now launched,'
+      write(*,*) ' "ps -u meot | grep zgoubi" allows checking that'
+     > ,' the zgoubixxx.dat series is running... '
+      write(*,*) ' ////////////////////////////////////////////////////'
+
+
 C----------------------------
 C Launch tracking procedure      
       open(unit=8,file='scanSpinResonances.count')
@@ -22,16 +33,6 @@ c      cmmnd = '~/zgoubi/toolbox/spin/xing_geneTexLog/'
 c     >  //'geneTexLog'
 c      call system(cmmnd)      
 
-C-----------------------------
-C 
-      write(*,*) ' '
-      write(*,*) ' '
-      write(*,*) ' ////////////////////////////////////////////////////'
-      write(*,*) ' PGM scanSpinResonances_launch. '
-      write(*,*) ' xing_scanResonances/scanSpinResonances now launched,'
-      write(*,*) ' "ps -u meot | grep zgoubi" allows checking that'
-     > ,' the zgoubixxx.dat series is running... '
-      write(*,*) ' ////////////////////////////////////////////////////'
       stop
       end
       FUNCTION DEBSTR(STRING)
