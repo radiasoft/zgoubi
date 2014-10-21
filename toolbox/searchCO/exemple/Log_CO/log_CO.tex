@@ -1,0 +1,130 @@
+ \documentclass[11pt]{article}                                                   
+                                                                                 
+ \usepackage{draftcopy}                                                          
+ %\usepackage[draft]{graphicx}                                                   
+ \usepackage{graphicx}                                                           
+ \usepackage{wrapfig}                                                            
+ \usepackage{amssymb}                                                            
+ \usepackage{lscape}                                                             
+ \usepackage{times}                                                              
+                                                                                 
+ \oddsidemargin =-0.1in                                                          
+ \evensidemargin=-0.1in                                                          
+ \textwidth=6.8in                                                                
+ \textheight=10.2in                                                              
+ \topmargin=-.8in                                                                
+ \footskip=0in                                                                   
+                                                                                 
+ \newcommand{\Br}{\ensuremath{B\!\rho}}                                          
+ \newcommand{\bull}{\ensuremath{\bullet~}}                                       
+ \newcommand{\nib}{\noindent \ensuremath{\bullet~}}                              
+ \newcommand{\com}{{center of mass}}                                             
+ \newcommand{\hbrk}{\hfill \break}                                               
+ \newcommand{\lab}{{laboratory frame}}                                           
+ \newcommand{\MC}{Monte~Carlo}                                                   
+ \newcommand{\rms}{\ensuremath{rms}}                                             
+ \newcommand{\wrt}{{with respect to}}                                            
+                                                                                 
+                                                                                 
+ \newcommand{\rfrncA}{\rm  }                                                     
+ \newcommand{\rfrncB}{\rm }                                                      
+ \newcommand{\rfrncC}{\rm }                                                      
+                                                                                 
+ \pagestyle{myheadings}                                                          
+ \markboth{\small \rfrncA ~ ~ \rfrncB ~ ~  \rfrncC \hfill}                       
+          {\small \rfrncA ~ ~ \rfrncB ~ ~  \rfrncC \hfill}                       
+                                                                                 
+                                                                                 
+ \pagestyle{headings}                                                            
+                                                                                 
+ \begin{document}                                                                
+                                                                                 
+ \thispagestyle{myheadings}                                                      
+                                                                                 
+ ~ ~ ~                                                                           
+                                                                                 
+  ~ ~ ~ \hfill F. M{\'e}ot                                                       
+                                                                                 
+ \vspace{20mm}                                                                   
+                                                                                 
+ \begin{center}                                                                  
+ \bf \large                                                                      
+ CLOSED ORBITS                                                                   
+                                                                                 
+ \end{center}                                                                    
+                                                                                 
+                                                                                 
+                                                                                 
+ \tableofcontents                                                                
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+ 
+ \begin{figure}[h]
+ 
+ \centering
+ 
+ ~
+ 
+ \includegraphics*[width=17cm,height=7cm]{gnuplot_CO.eps}
+ \vspace{-2ex}
+ \caption{ \label{FigCOxy}
+ Closed orbits, H and V, from zgoubi.fai.
+ }
+ 
+ 
+ ~
+ ~
+ 
+ \includegraphics*[width=17cm,height=7cm]{gnuplot_DxDy.eps}
+ \vspace{-2ex}
+ \caption{ \label{FigDxDy}
+ Dispersion, H and V (getDiffFromFai).
+ }
+ 
+ \end{figure}
+ 
+ \clearpage
+ 
+ 
+ \begin{figure}[h]
+ 
+ \centering
+ 
+ ~
+ ~
+ 
+ \includegraphics*[width=17cm,height=6cm]{gnuplot_betxy.eps}
+ \vspace{-2ex}
+ \caption{ \label{Figbetxy}
+ Optical functions, H and V (betaFromMatrix).
+ }
+ 
+ 
+ ~
+ ~
+ 
+ \includegraphics*[width=17cm,height=6cm]{gnuplot_Dxy.eps}
+ \vspace{-2ex}
+ \caption{ \label{FigDxy}
+ Dispersion, H and V (betaFromMatrix).
+ }
+ 
+ 
+ ~
+ ~
+ 
+ \includegraphics*[width=17cm,height=6cm]{gnuplot_muxy.eps}
+ \vspace{-2ex}
+ \caption{ \label{Figmuxy}
+ Phase advance, H and V (betaFromMatrix).
+ }
+ 
+ \end{figure}
+                                                                                                                                     
+                                                                                                                                     
+                                                                                 
+ \end{document}                                                                  
+                                                                                 
+                                                                                 

@@ -48,10 +48,6 @@ C        close(lunR)
      >    //drctry(ifile)(debstr(drctry(ifile)):finstr(drctry(ifile)))
      >                           //'.dat'
 
-c           write(*,*) ' xing_scanResonances : ',ifile, drctry(ifile)
-c           write(*,*) zgDatFile(ifile) 
-c                 read(*,*) 
-
 C Temporary storage, for use by geneZGDat4Xing_fromCalcStrength   
         open(unit=luntmp,file='scanSpinResonances.tmp')
         write(luntmp,fmt='(i4,2(1X,a))') 
@@ -70,10 +66,7 @@ C Generate zgoubi_geneZGDat4Xing-Out.dat
       write(*,*) ' Pgm scanSpinResonances, now doing : ',
      >cmmnd(debstr(cmmnd):finstr(cmmnd))
         call system(cmmnd)
-
          
-              read(*,*)
-
 C Create dedicated directory and 
 C   moves zgoubi_geneZGDat4Xing-Out.dat there under dedicated name
         cmmnd = 'mkdir -p '//drctry(ifile)
