@@ -346,7 +346,7 @@ c      txt132 = '\begin{center}'
       write(lunW,*) txt132(debstr(txt132):finstr(txt132))
       txt132 = 'Momentum dependence of tunes, and '
      >//' matching polynomials $Q(\delta) = Q_0 + Q''\delta '
-     >//' + Q'''' \delta^2  Q'''''' \delta^3$. '
+     >//' + Q'''' \delta^2 + Q'''''' \delta^3$. '
       write(lunW,*) txt132(debstr(txt132):finstr(txt132))
       txt132 = ' }'
       write(lunW,*) txt132(debstr(txt132):finstr(txt132))

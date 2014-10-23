@@ -9,6 +9,8 @@ searchCO will look for the closed orbit for all these momenta. Results will be s
 
 Other files are produced for further use, once the orbits have been found, as zgoubi_searchCO-Out_MATRIX.dat for MATRIX computation, etc. searchCO also produces a .pdf report of the actions undertaken and results obtained, saved in Log_CO folder. 
 
+An input data file to searchCO is also created if it does not exist, with default arguments that can next be changed if desired. 
+
 An example can be run in the "exemple" folder (just go there, and execute ../searchCO). 
 
 

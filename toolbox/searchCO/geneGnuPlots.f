@@ -33,9 +33,9 @@ C Write a gnuplot file for CO plot, and execute it
 C      write(8,fmt='(2a)') 'plot [:808][] \'  ! AGS
       write(8,fmt='(2a)') 'plot  \'
       write(8,fmt='(2a)') '"getDiffFromFai.out" '
-     > //' u ($1 /100.):($2 /100.) w l lw 2  tit "x_{co}", \'
+     > //' u ($1 /100.):($2 /100.) w l lw 2 lc 1 tit "x_{co}", \'
       write(8,fmt='(2a)') '"getDiffFromFai.out" '
-     > //' u ($1 /100.):($3 /100.) w l lw 2  tit "y_{co}"'
+     > //' u ($1 /100.):($3 /100.) w l lw 2  lc 3 tit "y_{co}"'
       write(8,fmt='(a)') ' '
       write(8,fmt='(a)') 'pause 3'
       write(8,fmt='(a)') ' '
@@ -55,9 +55,9 @@ C      write(8,fmt='(2a)') 'plot [:808][] \'  ! AGS
 C      write(8,fmt='(2a)') 'plot [:808][] \'  !AGS
       write(8,fmt='(2a)') 'plot  \'
       write(8,fmt='(2a)') '"getDiffFromFai.out" '
-     > //' u ($1 /100.):($4 /100.) w l lw 2  tit "D_{x}",  \'
+     > //' u ($1 /100.):($4 /100.) w l lw 2 lc 1 tit "D_{x}",  \'
       write(8,fmt='(2a)') ' "getDiffFromFai.out" '
-     > //' u ($1 /100.):($5 /100.) w l lw 2  tit "D_{y}"'
+     > //' u ($1 /100.):($5 /100.) w l lw 2 lc 3 tit "D_{y}"'
       write(8,fmt='(a)') ' '
       write(8,fmt='(a)') 'pause 3'
       write(8,fmt='(a)') ' '
@@ -83,16 +83,17 @@ C      write(8,fmt='(2a)') 'plot [:808][] \'  !AGS
       write(8,fmt='(a)') ' '
       write(8,fmt='(a)') 'set grid'
       write(8,fmt='(a)') ' '
-      write(8,fmt='(a)') 'set tit  "beta_x,y versus s" font "roman,25"'
+      write(8,fmt='(a)') 
+     >        'set tit  "beta_x, beta_y versus s" font "roman,25"'
       write(8,fmt='(a)') 'set xlab "s (m)"             font "roman,25"'
-      write(8,fmt='(2a)') 'set ylab "beta_x, -beta_y (m)" ',
+      write(8,fmt='(2a)') 'set ylab "-beta_y, beta_x  (m)" ',
      >' font "roman,25"'
 C      write(8,fmt='(a)') 'plot [0:807.1][]\'   !AGS
       write(8,fmt='(a)') 'plot \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out" ',
-     >'us ($1/100.):($3) w l lw 2  tit "beta_x" , \'
+     >'us ($1/100.):($3) w l lw 2 lc 1 tit "beta_x" , \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out" ',
-     >'us ($1/100.):($7 * (-1)) w l lw 2  tit "-beta_y" '
+     >'us ($1/100.):($7 * (-1)) w l lw 2 lc 3 tit "-beta_y" '
       write(8,fmt='(a)') ' '
       write(8,fmt='(2a)') ' set term post eps enh  size 8.3cm,4cm ',
      >'"helvetica,14" blacktext color'
@@ -109,9 +110,9 @@ C      write(8,fmt='(a)') 'plot [0:807.1][]\'   !AGS
 C      write(8,fmt='(a)') 'plot [0:807.1][-2.5:1.]\'  !AGS
       write(8,fmt='(a)') 'plot \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out" us ($1/100.):($4)',
-     >' w l lw 2  tit "D_x" , \'
+     >' w l lw 2 lc 1 tit "D_x" , \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out" us ($1/100.):($8)',
-     >' w l lw 2  tit "D_y" '
+     >' w l lw 2 lc 3 tit "D_y" '
       write(8,fmt='(a)') ' '
       write(8,fmt='(2a)') ' set term post eps enh  size 8.3cm,4cm ',
      >'"helvetica,14" blacktext color'
@@ -131,9 +132,9 @@ C      write(8,fmt='(a)') 'plot [0:807.1][-2.5:1.]\'  !AGS
 C      write(8,fmt='(a)') 'plot [0: 12*  807.1/12][]\'   !AGS
       write(8,fmt='(a)') 'plot \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out"       ',
-     >'us ($1/100.):($10) w l lw 2  tit "mu_x" , \'
+     >'us ($1/100.):($10) w l lw 2 lc 1 tit "mu_x" , \'
       write(8,fmt='(2a)') ' "betaFromMatrix.out"       ',
-     >'us ($1/100.):($11) w l lw 2  tit "mu_y" '
+     >'us ($1/100.):($11) w l lw 2 lc 3 tit "mu_y" '
       write(8,fmt='(a)') ' '
       write(8,fmt='(2a)') ' set term post eps enh  size 8.3cm,4cm',
      >' "helvetica,14" blacktext color'
