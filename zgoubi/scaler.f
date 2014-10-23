@@ -128,7 +128,7 @@ C               ... either LBF ends with '*' ...
               ELSE
 C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
-                  ok3 = .false.
+c                  ok3 = .false.
                   GOTO 2
                 ENDIF
               ENDIF
