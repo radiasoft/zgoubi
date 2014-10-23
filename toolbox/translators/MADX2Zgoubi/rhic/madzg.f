@@ -391,8 +391,8 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
 !----------- muon collider fringe fields -------------------------------
 
 c      parameter (stpsiz = 2.d0)  ! step size in cm
-      parameter (stpsiz = 1.d0)  ! step size in cm
-c      parameter (stpsiz = 0.5d0)  ! step size in cm
+c      parameter (stpsiz = 1.d0)  ! step size in cm
+      parameter (stpsiz = 0.5d0)  ! step size in cm
 c      parameter (stpsiz = 0.25d0)  ! step size in cm
 
       pi = 4.d0*atan(1.d0)

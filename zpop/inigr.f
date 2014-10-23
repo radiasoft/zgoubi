@@ -51,7 +51,9 @@ C  -------
 
       SAVE KARSIZ, NLOG
 
-      DATA KARSIZ / 3 /
+C Changed Oct 2004 - FM
+C      DATA KARSIZ / 3 /
+      DATA KARSIZ / 2 /
 
 C----- Histograms 
       IF(KX .EQ. 28) THEN
