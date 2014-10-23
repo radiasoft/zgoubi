@@ -128,7 +128,8 @@ C               ... either LBF ends with '*' ...
               ELSE
 C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
-c                  ok3 = .false.
+C Yann, Oct 2014 : commented to allow for multiple scaling "lines/families" to point to the same element.
+C                  ok3 = .false.
                   GOTO 2
                 ENDIF
               ENDIF
