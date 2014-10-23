@@ -13,5 +13,5 @@ all :
 
 clean :
 	$(RM) *~
-	cd coupling ; ($MAKE) clean
+	cd coupling ; make clean
 
