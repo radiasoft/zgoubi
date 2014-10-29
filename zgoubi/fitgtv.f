@@ -22,9 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE FITGTV(NOMFIC,
-     >                         FITGET)
+      SUBROUTINE FITGTV(FITING,NOMFIC,
+     >                                FITGET)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL FITING
       CHARACTER(*) NOMFIC
       LOGICAL FITGET
 
@@ -35,7 +36,7 @@ C  -------
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+     >     IREP(MXT),AMQLU,PABSLU
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
       COMMON /LABEL/ LABEL(MXL,2)
@@ -62,6 +63,19 @@ C  -------
 
       CHARACTER(KSIZ) KLEY
       LOGICAL GTTEXT, OK, STRCON
+      LOGICAL FINAL, FINALI
+      SAVE FINAL
+      LOGICAL FIRST
+      LOGICAL SKPLIN
+
+      DATA FINAL / .FALSE. /
+      DATA SKPLIN / .FALSE. /
+
+      IF(FITING) THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(
+     >  /,10X,''Now fitting, GETFITVAL is inhibited'')')
+        RETURN
+      ENDIF
 
       FITGET = .FALSE.
 
@@ -78,7 +92,7 @@ C  -------
       IF(.NOT. EXS) GOTO 2
       IF(OPN) CLOSE(UNIT=LUN)
       GOTO 3
- 2    IF(NRES .GT. 0) WRITE(NRES,FMT='(3A)')     
+ 2    IF(NRES .GT. 0) WRITE(NRES,FMT='(3A,/)')     
      >'    Could not find file ',NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),
      >' ;  proceeding without it ... '
       RETURN
@@ -151,7 +165,7 @@ C FM 14-08-01
      >  ,'''''''')')
      >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
         WRITE(NRES,FMT='(20X,''Thus no updating requested, 
-     >  going on without that...'')') 
+     >  carrying on without that...'',/)') 
       ENDIF
       RETURN 
 
@@ -161,7 +175,7 @@ C FM 14-08-01
      >  '' find string ''''STATUS OF VARIABLES'''' in file '',A)') 
      >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
         WRITE(NRES,FMT='(20X,''Thus, no initialization of'',
-     >  '' variables performed,  going on without that...'')') 
+     >  '' variables performed, carrying on without that...'',/)') 
       ENDIF
       RETURN 
 
@@ -175,29 +189,57 @@ C FM 14-08-01
       ENTRY FITGT1
       CALL ZGKLEY(
      >            KLEY)
-      DO IV = 1, KREAD
-C        IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
-        IF(KLEFIT(IV) .EQ. KLEY) THEN
-          IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
-            IF(
-     >      (LB1FIT(IV) .EQ. '*' 
-     >      .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
-     >      .AND.
-     >      (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
-     >      .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
-              TEMP = A(NOEL,IPRM(IV)) 
-              A(NOEL,IPRM(IV)) = AFIT(IV)
+
+        FIRST = .TRUE. 
+        DO IV = 1, KREAD
+C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
+          IF(KLEFIT(IV) .EQ. KLEY) THEN
+            IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
+              IF(
+     >        (LB1FIT(IV) .EQ. '*' 
+     >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
+     >        .AND.
+     >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
+     >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
+                SKPLIN = .TRUE.
+                IF(.NOT. FINAL) THEN
+                  TEMP = A(NOEL,IPRM(IV)) 
+                  A(NOEL,IPRM(IV)) = AFIT(IV)
+                  IF(NRES .GT. 0) WRITE(NRES,
+     >            FMT='('' GETFITVAL procedure. ''
+     >            ,'' Former  value  A(NOEL=''
+     >            ,I3,'','',I3,'') = '',1P,G15.6,'',   changed to '', 
+     >            G15.6)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+                ELSE
+                  IF(FIRST) THEN
+                    IF(NRES .GT. 0) WRITE(NRES,FMT='('' Pgm fitgtv. ''
+     >              ,''GETFITVAL procedure will not be applied, since ''
+     >              ,'' this is a final run with ''
+     >              ,/,'' variable values''
+     >              ,'' following from just completed FIT.'')')
+                  ENDIF
+                  FIRST = .FALSE.
+                  IF(NRES .GT. 0) WRITE(NRES,FMT='(
+     >            '' Variable concerned, and its present value :  ''
+     >            ,'' A(NOEL='',I3,'','',I3,'') = '',1P,G15.6)') 
+     >            NOEL,IPRM(IV),A(NOEL,IPRM(IV))
+                ENDIF          
+              ENDIF
+            ELSE
               IF(NRES .GT. 0) WRITE(NRES,
-     >        FMT='(/,'' GETFITVAL procedure.  Former  value A(NOEL=''
-     >        ,I3,'','',I3,'') = '',1P,G15.6,'',   changed to '', 
-     >        G15.6)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
+     >        FMT='('' GETFITVAL procedure, cannot be applied : ''
+     >        ,'' Elements need be labeled. Provide label #1.'')')
             ENDIF
-          ELSE
-            IF(NRES .GT. 0) WRITE(NRES,
-     >      FMT='('' GETFITVAL procedure, cannot be applied : ''
-     >      ,'' Elements need be labeled. Provide label #1.'')')
           ENDIF
+        ENDDO
+        IF(SKPLIN) THEN
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(A)') ' '
+          SKPLIN = .FALSE.
         ENDIF
-      ENDDO
+
+      RETURN
+
+      ENTRY FITGT2(FINALI)
+      FINAL = FINALI      
       RETURN
       END

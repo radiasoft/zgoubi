@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -37,7 +37,8 @@ C----- NPU = 0 (OFF) or NPU > 0 (# of distinct lmnt LABEL's)
       IF(NPU .GT. MPULAB) THEN 
         NPU = MPULAB
         WRITE(NRES,FMT='(/,10X,'' ** WARNING '', 
-     >  ''  Too  many  PUs  =>  number  forced  to  '',I3)') MPULAB 
+     >  ''  Too  many  PU families  =>  number  forced  to  '',I3)') 
+     >  MPULAB 
       ELSEIF(NPU .GT. 0) THEN
         KCO = 1
       ENDIF

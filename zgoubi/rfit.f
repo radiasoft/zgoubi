@@ -45,12 +45,12 @@ C     ***************************************
       CHARACTER(40) STRA(10)
 
       PARAMETER (ICPTM1=1000, ICPTM2=1000)
-      LOGICAL SAVE
+      LOGICAL FITSAV
       INTEGER DEBSTR, FINSTR
       LOGICAL OK
       CHARACTER(80) FNAME
 
-C  READ NV ['nofinal','save']
+C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
      >                     IIS)) TXT132 = TXT132(1:IIS-1)
@@ -58,16 +58,13 @@ C  READ NV ['nofinal','save']
       IF(NV.LT.1) RETURN
       FITFNL = .not. STRCON(TXT132,'nofinal',
      >                                       IIS) 
-      SAVE = STRCON(TXT132,'save',
+      FITSAV = STRCON(TXT132,'save',
      >                             JJS) 
-      IF(SAVE) THEN
+      IF(FITSAV) THEN
         TXT132 = TXT132(JJS+4:FINSTR(TXT132))
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-        IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)) .EQ. '[') THEN
-C If it is given (between [*]) then get name of save file 
-          OK = STRCON(TXT132,']',
-     >                           JJS)
-          READ(TXT132(DEBSTR(TXT132)+1:JJS-1),*) FNAME
+        IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)+6) .NE. 'nofinal') THEN
+          READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*) FNAME
         ELSE
           FNAME = 'zgoubi.FITVALS.out'
         ENDIF

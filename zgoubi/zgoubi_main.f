@@ -93,22 +93,22 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
         GOTO 995
       ENDIF
 
-      if(savxec .or. savzpp) then
+      IF(SAVXEC .OR. SAVZPP) THEN
         WRITE(6,*) ' '
         WRITE(6,*) ' --'
         if(savxec) then
           WRITE(6,fmt='(a)') 
      >    'Now copying zgoubi executable to local directory.'
-          call system('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
+          CALL SYSTEM('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
         endif
         if(savzpp) then
           WRITE(6,fmt='(a)') 'Now copying zpop executable to local '
      >    //'directory (if you wish to run it, use an xterm terminal).'
-          call system('cp ~/zgoubi/SVN/current/zpop/zpop .') 
+          CALL SYSTEM('cp ~/zgoubi/SVN/current/zpop/zpop .') 
         endif
         WRITE(6,*) ' --'
         WRITE(6,*) ' '
-      endif
+      ENDIF
 
       CALL DATE2(DMY)
       CALL TIME2(HMS)
@@ -153,9 +153,11 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
             WRITE(NRES,201)
             WRITE(NRES,200) 
  200        FORMAT(/,10X,
-     >     ' MAIN PROGRAM :  now final run using FIT values ',A10)
+     >     ' MAIN PROGRAM :  FIT completed. ',
+     >     ' Now doing final run using FIT variable values. ',A10)
           ENDIF
           ENDFIT = .FALSE.
+          CALL FITGT2(FITFNL)
           CALL ZGOUBI(NL1,NL2,READAT,
      >                               NBLMN,ENDFIT)
 c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle

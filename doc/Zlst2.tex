@@ -2086,9 +2086,11 @@ $\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the mag
  \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT|textbf} \index{FIT2|textbf}  \index{constraint (FIT, FIT2)|textbf}\index{variable (FIT, FIT2)|textbf}
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; \>$\leq 20$ \>I \\ \index{fit, variable range|textbf} 
-  \>'nofinal'~: will avoid final run (default is~: final run performed   \> 'nofinal' \>A7 \\  
-  \>using fitted values, once fit is done).  \>  \> \\  
+ $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'~:   \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit, variable range|textbf} 
+ \textsl{[, save [, FileName]]} \>will avoid final run (default is~: final run performed  using \> save [string] \> [, A4 [, A80]] \\  
+  \> fitted values, once fit is done)~;  'save'~: will save fit variables   \>  \> \\  
+  \>when fit is completed, either in 'FileName' if specified, or   \>  \> \\  
+  \>by default in zgoubi.FITVALS.out.  \>  \> \\  
   \\[-1ex]
 \textbf{For I = 1, NV}   \> \it repeat NV times the following sequence \> \> \\
   \\[-2ex]
@@ -2252,9 +2254,12 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 \newpage
 
 
-\noindent \textbf{Combining FIT and REBELOTE}, an example  \label{ExaFITREBELOTE}}
+\noindent $\bullet$ \textbf{Combining FIT and REBELOTE}, an example  \label{ExaFITREBELOTE}}
 
-In the example below, \textsl{FIT} requests that (i) the particle trajectory with initial coordinates defined by \textsl{OBJET} 
+\medskip 
+
+\noindent In the example below, \textsl{FIT} requests that (i) the particle trajectory 
+with initial coordinates defined by \textsl{OBJET} 
 have identical horizontal coordinates at both ends of the snake 
 (this is achieved by varying  $Y_0$, $T_0$ in \textsl{OBJET}),   and that 
 (ii) the trajectory across the snake - an helix - be $Y\!$-centered  along the snake axis. 
@@ -2279,8 +2284,6 @@ relative regidity of the particle, $D$).  The list of values follows, namely,
 \textsl{NRBLT=4}, the first data in  \textsl{REBELOTE} data list. Note that spin data so computed (spin 
 vector components, precession, etc) are stored in zgoubi.SPNPRT.Out \index{zgoubi.SPNPRT.Out} 
 by placing the keyword '\textsl{SPNPRT}' with label ``\textsl{PRINT}'', between  \textsl{FIT} and  \textsl{REBELOTE}. 
-
-~
 
 ~
 
@@ -2352,6 +2355,61 @@ from  initial off-centered position  to final centering on the snake axis (at Y=
 ~
 
 \end{minipage}
+
+
+\newpage
+
+\noindent  $\bullet$  \textbf{FIT[2] options}, an example \label{FITOptionsExa}  \\
+
+\medskip 
+
+\noindent \textsl{FIT[2]} options, ``nofinal'', ``save {FileName}'', ``penalty'' and ``ITER'', are 
+all specified in the example below. 
+
+~
+
+\begin{minipage}[h]{.55\linewidth}
+{\footnotesize
+\begin{verbatim}
+An example with FIT options
+'GETFITVAL'
+zgoubi.FITVALS.In
+ 'MCOBJET'                                                                                    1
+57.36635309d3         ! reference rigidity 
+3.1                                                                                                           
+1                                                                                                             
+2 2 2 2 1 1                                                                                                   
+0. 0. 0. 0. 0.   4.61943880E-01  
+ 2.703371  1.859656  1.48563786487e-99   9 
+-2.592712  2.421706  1.48563786487e-99   9                                                                    
+0. 1.  0.     9                                                                                               
+12345 23456 34567 
+ 'PARTICUL'                                                                                    2
+0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0                                                            
+'PICKUPS'   
+  2
+ #StartRing MULT BD2S #EndRing
+...
+ 'DRIFT'    DRIF      HD                                                                    7497
+14.38218115                                                                                                   
+ 'MARKER'  #SSMid                                                                           7498
+ 'MARKER'  #EndRing                                                                         7500
+ 'FIT2' 
+4 save zgoubiFIT.result nofinal  ! Variables saved in zgoubiFIT.result when FIT2 done. No final run.
+!!! 4 save nofinal  ! Would cause variables to be saved in default file zgoubi.FITVALS.out instead. 
+2 40 0 [-1.e-2,1.e-2]              ! The four variables are Yo, To, Zo, Po in MCOBJET    
+2 41 0 [-1.e-2,1.e-2]                      
+2 42 0 [-1.e-2,1.e-2]    
+2 43 0 [-1.e-2,1.e-2]                      
+4   1e-10   90                 ! penalty=1e-10. Maximum allowed calls to zgoubi is 90.
+3.1 1 2 7500 0. 1. 0           ! The four constraints are : initial Y, T, Z, P of 
+3.1 1 3 7500 0. 1. 0           ! particle #1 equal to its final Y, T, Z, P.           
+3.1 1 4 7500 0. 1. 0                                      
+3.1 1 5 7500 0. 1. 0                                     
+\end{verbatim}
+}
+\end{minipage}
+
 
 
 
@@ -3579,7 +3637,9 @@ X_S $ translations.}
 \newpage
 
 
-\noindent Using \textbf{REBELOTE}, an example  \label{ExaREBELOTE}. \\
+\noindent  $\bullet$  Using \textbf{REBELOTE}, an example  \label{ExaREBELOTE}. \\
+
+\medskip 
 
 \noindent In this example of an energy-recovery electron recirculator based on FFAG arcs, 
  the arguments in the keyword \textsl{AUTOREF} and \textsl{CAVITE} are changed \textsl{20} times 
@@ -4117,7 +4177,9 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 \newpage
 
-\noindent \textbf{SYSTEM}, an example \\
+\noindent  $\bullet$  \textbf{SYSTEM}, an example \\
+
+\medskip 
 
 \noindent The first occurence of the command (top region in the data list below) 
 allows establishing links from remote folders to the current one (the one in which \zgou\ 
