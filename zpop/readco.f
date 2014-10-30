@@ -32,7 +32,7 @@ C     ----------------------------------------------------
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      COMMON/CONST/ CL,PI,DPI,RAD,DEG,QE,AH
       INCLUDE 'MXLD.H'
       COMMON/LABCO/ ORIG(MXL,6) 
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN

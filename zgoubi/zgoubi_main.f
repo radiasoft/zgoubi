@@ -157,16 +157,19 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
      >     ' Now doing final run using FIT variable values. ',A10)
           ENDIF
           ENDFIT = .FALSE.
-          CALL FITGT2(FITFNL)
+          CALL FITNU8(FITFNL)
           CALL ZGOUBI(NL1,NL2,READAT,
      >                               NBLMN,ENDFIT)
-c        write(*,*) ' zgoubi_main 2 fiting :',nl1,nl2,numkle
-c        write(*,*) 
           IF(NRES.GT.0) WRITE(NRES,201)
- 201      FORMAT(/,128('*'))
+ 201      FORMAT(/,132('*'))
+          WRITE(NRES,334) NUMKLE,' Keyword FIT is skipped since '
+     >    //'this is the (end of) final run following the fitting '
+     >    //'procedure.','Now carrying on beyond FIT keyword.'
+ 334      FORMAT(/,2X,I5,2X,A,//,10X,A)
+          CALL FLUSH2(NRES,.FALSE.)
         ENDIF
         WRITE(6,201)
-C Proceeds until the end of zgoubi.dat list
+C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         READAT = .TRUE.
         FITING = .FALSE.
         CALL FITSTA(I6,FITING)

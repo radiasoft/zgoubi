@@ -35,7 +35,7 @@ C     ********************************
       COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT132
-      LOGICAL STRCON, CMMNT, FITFNL, ok
+      LOGICAL STRCON, OK
       CHARACTER(40) STRA(10)
  
       PARAMETER (KSIZ=10)
@@ -52,10 +52,10 @@ C                  A or R   G or U
       DATA LBL1, LBL2 / 2*' ' /
 
 C on/off switch  (1/0), number of lines to follow (each line sets a particular error)
-      iop = nint(A(NOEL,1) )
-      nbr = nint (A(NOEL,2) )
-      iseed = nint (A(NOEL,3) )
-      seed = rndm2(iseed)    
+      IOP = NINT(A(NOEL,1) )
+      NBR = NINT (A(NOEL,2) )
+      ISEED = NINT (A(NOEL,3) )
+      SEED = RNDM2(ISEED)    
 
       if (iop .eq. 0) then 
 C        Switch off all possible earlier error settings
@@ -120,18 +120,18 @@ C          Get the rest of the arguments
      >                          NSTR,STRA)
 C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
 
-          read(stra(1),*) ipol     ! Pole to which the error applies (1-10)
-          read(stra(2),*) typerr   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
-          read(stra(3),*) typar    ! Relative or absolute : R, A
-          read(stra(4),*) typdis   ! Type of density : G or U,  or 0 to switch off ERRORS
-          if(typdis.eq.'0') then
-            call MULTP4
-          else
-            read(stra(5),*) errcen
-            read(stra(6),*) errsig   ! sigma for G, half-width for U
+          READ(STRA(1),*) IPOL     ! Pole to which the error applies (1-10)
+          READ(STRA(2),*) TYPERR   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
+          READ(STRA(3),*) TYPAR    ! Relative or absolute : R, A
+          READ(STRA(4),*) TYPDIS   ! Type of density : G or U,  or 0 to switch off ERRORS
+          IF(TYPDIS.EQ.'0') THEN
+            CALL MULTP4
+          ELSE
+            READ(STRA(5),*) ERRCEN
+            READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
             read(stra(7),*) errcut   ! in units of errsig for G, unused for U
             call MULTP2(irr,ipol,typerr,typar,typdis,
-     >      errcen,errsig,errcut,lbl1,lbl2)          
+     >                      errcen,errsig,errcut,lbl1,lbl2)          
           endif
         endif
       ENDDO

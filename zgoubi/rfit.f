@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE RFIT(KLEY,
-     >                     PNLTY,ICPTMA,fitfnl)
+     >                     PNLTY,ICPTMA,FITFNL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -56,7 +56,7 @@ C  READ NV [,'nofinal','save' [FileName]]
      >                     IIS)) TXT132 = TXT132(1:IIS-1)
       READ(TXT132,*) NV
       IF(NV.LT.1) RETURN
-      FITFNL = .not. STRCON(TXT132,'nofinal',
+      FITFNL = .NOT. STRCON(TXT132,'nofinal',
      >                                       IIS) 
       FITSAV = STRCON(TXT132,'save',
      >                             JJS) 

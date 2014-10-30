@@ -29,11 +29,11 @@ C  -------
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT0=0)
-      call optio1(
-     >            kwroff)
-      if(kwroff .ne. 1) then
+      CALL OPTIO1(
+     >            KWROFF)
+      IF(KWROFF .NE. 1) THEN
         IF(NRES .LT. 0) NRES = -NRES
-      endif
+      ENDIF
       CALL INTEG8(INT0)
       RETURN
       END

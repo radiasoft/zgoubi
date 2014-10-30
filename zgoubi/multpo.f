@@ -76,34 +76,34 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
  
       DATA CASPI / .TRUE. /
       
-      dimension AKS(6)
-      SAVE AKS, sXL
+      DIMENSION AKS(6)
+      SAVE AKS, SXL
 
       PARAMETER (MXERR=MXTA)
       CHARACTER(LBLSIZ) LBL1(MXERR), LBL2(MXERR)
-      CHARACTER(LBLSIZ) LBL1i, LBL2i
-      save lbl1, lbl2
+      CHARACTER(LBLSIZ) LBL1I, LBL2I
+      SAVE LBL1, LBL2
 
-      DIMENSION kpol(mxerr,mpol)
-      character(2) TYPERR(mxerr,mpol)
-      character(1) TYPAR(mxerr,mpol),TYPDIS(mxerr,mpol)
-      character(2) TYPERI
-      character(1) TYPAI,TYPDII
-      DIMENSION ERRCEN(mxerr,mpol),ERRSIG(mxerr,mpol),ERRCUT(mxerr,mpol)
+      DIMENSION KPOL(MXERR,MPOL)
+      CHARACTER(2) TYPERR(MXERR,MPOL)
+      CHARACTER(1) TYPAR(MXERR,MPOL),TYPDIS(MXERR,MPOL)
+      CHARACTER(2) TYPERI
+      CHARACTER(1) TYPAI,TYPDII
+      DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-      LOGICAL empty
-      LOGICAL erron
+      LOGICAL EMPTY
+      LOGICAL ERRON
       SAVE ERRON
-C      Errors
-      dimension db(MXL,mpol),dpos(MXL,mpol,3),tilt(MXL,mpol,3)
-      save db, dpos, tilt
-      logical ok
-      logical fiting
+C      ERRORS
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
+      SAVE DB, DPOS, TILT
+      LOGICAL OK
+      LOGICAL FITING, FINAL
 
-c      data db / mpol*0.d0 /
-c      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
+C      DATA DB / MPOL*0.D0 /
+C      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
 c      data dtilt / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
-      data erron / .false. /
+      DATA ERRON / .FALSE. /
 
       IER = 0
       SKEW=.FALSE.
@@ -256,39 +256,30 @@ C         DEV = ALE
 C-----------------------------------------
 
 C----- Case erron (errors)
-      if(erron) then
-        do irr = 1, mxerr 
-          ok = (empty(lbl1(irr)) .or. lbl1(irr).eq.label(noel,1)) 
-     >    .and.(empty(lbl2(irr)) .or. lbl2(irr).eq.label(noel,2)) 
-c                 write(*,*) ' multpo ok err ',ok,
-c     >         empty(lbl1(irr)), lbl1(irr).eq.label(noel,1),  
-c     >      empty(lbl2(irr)),  lbl2(irr).eq.label(noel,2)
-c                 write(*,*) '               ',
-c     >         lbl1(irr), label(noel,1),lbl2(irr),label(noel,2)
-c                      read(*,*)
-          if(ok) then
-            if(ipass.eq.1) then 
+      IF(ERRON) THEN
+        DO IRR = 1, MXERR 
+          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+          IF(OK) THEN
+            IF(IPASS.EQ.1) THEN 
               CALL FITSTA(5,FITING)
-              if(.not.fiting) 
-     >        call mulerr(noel,irr,BM, 
-     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                     DB,dpos,tilt)
-c           if(noel.le.20)write(*,*) 
-c     >     ' sbr multpo. fiting, db : ',fiting,noel, db(noel,1)
-c           if(noel.le.20)write(66,*) 
-c     >     ' sbr multpo. fiting, db : ',fiting,noel, db(noel,1)
-c                      read(*,*)
-            endif
+              CALL FITNU5(
+     >                    FINAL)
+              IF(.NOT.FITING .AND. .NOT. FINAL) 
+     >          CALL MULERR(NOEL,IRR,BM, 
+     >          KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+     >                                             DB,dpos,tilt)
+            ENDIF
             IF(KUASEX .LE. MPOL) THEN
-              BM(KUASEX) = BM(KUASEX) + db(noel,kuasex)
+              BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
             ELSEIF(KUASEX .EQ. MPOL+1) THEN
               DO IM=1,MPOL
-                if(kpol(irr,im).eq.1) BM(IM) = BM(IM) + db(noel,im)
-              enddo
-            endif      
-          endif      
-        enddo
-      endif
+                IF(KPOL(IRR,IM).EQ.1) BM(IM) = BM(IM) + DB(NOEL,IM)
+              ENDDO
+            ENDIF      
+          ENDIF      
+        ENDDO
+      ENDIF
 
 C----- MULTIPOLE
       DO IM = NM0+1,NM
@@ -634,10 +625,10 @@ C      aK2 = AKS(2)
 C      aK3 = AKS(3)
       RETURN
       
-      ENTRY MULTP2(irri,iPOLI,TYPERI,TYPAI,TYPDII,
-     >ERRCEI,ERRSII,ERRCUI,lbl1i,lbl2i)
+      ENTRY MULTP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
+     >               ERRCEI,ERRSII,ERRCUI,LBL1I,LBL2I)
       ERRON = .TRUE.
-      irr = irri
+      IRR = IRRI
       IPOL = IPOLI
       KPOL(irr,IPOL) = 1
       TYPERR(irr,IPOL)=      TYPERI

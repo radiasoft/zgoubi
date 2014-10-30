@@ -63,12 +63,10 @@ C  -------
 
       CHARACTER(KSIZ) KLEY
       LOGICAL GTTEXT, OK, STRCON
-      LOGICAL FINAL, FINALI
-      SAVE FINAL
+      LOGICAL FINAL
       LOGICAL FIRST
       LOGICAL SKPLIN
 
-      DATA FINAL / .FALSE. /
       DATA SKPLIN / .FALSE. /
 
       IF(FITING) THEN
@@ -189,6 +187,8 @@ C FM 14-08-01
       ENTRY FITGT1
       CALL ZGKLEY(
      >            KLEY)
+      CALL FITNU5(
+     >            FINAL)         !  True if final run following FIT[2}
 
         FIRST = .TRUE. 
         DO IV = 1, KREAD
@@ -237,9 +237,5 @@ C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
           SKPLIN = .FALSE.
         ENDIF
 
-      RETURN
-
-      ENTRY FITGT2(FINALI)
-      FINAL = FINALI      
       RETURN
       END

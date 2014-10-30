@@ -151,6 +151,20 @@ echo "        "                                               | cat >>   compare
 echo "////////////////  ../AGS/matrix: done..."
 #
 #
+#################################################################
+# ../eRHIC-FFAG/
+#
+(cd ../eRHIC-FFAG/ ; cp fitOrbit.res_141028 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../eRHIC-FFAG/ - reference : "       | cat >>   compare.out
+grep "C  1   0.4619 "  ../eRHIC-FFAG/fitOrbit.res_141028     | cat >>   compare.out
+echo "                          - new : "                    | cat >>   compare.out
+grep "C  1   0.4619 "  ../eRHIC-FFAG/zgoubi.res              | cat >>   compare.out
+echo "        "                                              | cat >>   compare.out
+echo "////////////////  ../eRHIC-FFAG: done..."
+#
+#
+
+
 
 echo "  "
 echo "----------------------------------------------------------------------------------------------------------------------------"

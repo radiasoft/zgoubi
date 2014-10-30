@@ -608,7 +608,8 @@ C----- PLOTDATA PURPOSE STUFF
       IF(FITGET) CALL FITGT1
       CALL PLTDAT
       GOTO 998
-C----- READS  THE  FORMATTED  FILE  'MYFILE' AND
+C----- BINARY. 
+C          READ  THE  FORMATTED  FILE  'MYFILE' AND
 C          COPIES  IT  INTO  THE  BINARY  FILE  'B_MYFILE',
 C          OR RECIPROCAL.
  45   CONTINUE
@@ -1175,8 +1176,8 @@ C----- COILS.
       GOTO 998
 C----- GETFITVAL.  Get parameter values resulting from FIT, stored in TA(NOEL,1)
  96   CONTINUE
-        CALL FITSTA(I5,
-     >                 FITING)
+      CALL FITSTA(I5,
+     >               FITING)
       IF(.NOT.FITING) THEN
         IF(IPASS.EQ.1) CALL RFITGT
       ENDIF

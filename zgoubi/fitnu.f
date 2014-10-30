@@ -46,9 +46,12 @@ C  -------
       CHARACTER(80) FNAME, FNAMEI
       SAVE LSAV, FNAME
       LOGICAL FITSAV, OK
+      LOGICAL FINAL, FINALI, FINALO
+      SAVE FINAL
 
       DATA MTHD / 2 / 
       DATA FITFNL / .TRUE. /
+      DATA FINAL / .FALSE. /
 
       CALL FITEST(FITSAV,FNAME,
      >                       IER)
@@ -94,6 +97,17 @@ C Implemented by Scott Berg, LPSC, April 2007
       OK = IDLUNI(
      >            LSAV)
       OPEN(UNIT=LSAV,FILE=FNAMEI)
+      RETURN
+
+! Final run following FIT[2]
+      ENTRY FITNU8(FINALI)
+      FINAL = FINALI      
+      RETURN
+
+! Final run following FIT[2]
+      ENTRY FITNU5(
+     >              FINALO)
+      FINALO = FINAL
       RETURN
 
       END

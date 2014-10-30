@@ -113,7 +113,8 @@
 
 #define SCALX(x)	x = (x * MAXXTK)/maxx
 #define SCALY(y)        y = (y * MAXYTK)/maxy
-#define XTERM		( !strcmp(getenv("TERM"),"xterm") ||\
+/* Sam Tygier, Oct 2014 - #define XTERM		( !strcmp(getenv("TERM"),"xterm") ||	\ */
+#define XTERM		( !strncmp(getenv("TERM"),"xterm",5) ||	\
 			((getenv("DISPLAY") &&\
 				 !strcmp(getenv("TERM"),"vt100"))) )
 
