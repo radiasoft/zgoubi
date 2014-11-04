@@ -59,7 +59,8 @@ C     **************************
 C----- Magnetic rigidity  (Kg*cm)
       BORO = A(NOEL,1)
 
-      CALL REBELR(KREB3,KREB31,KDUM)
+      CALL REBELR(
+     >            KREB3,KREB31,KDUM)
       IF(KREB3 .EQ. 99) THEN
 C------- SET TO 99 IN SBR REBELOTE
         IF(NRES.GT.0) WRITE(NRES,133)

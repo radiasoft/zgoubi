@@ -23,87 +23,27 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       FUNCTION RNDM()
-CDescription:
-C    RAND(FLAG) returns a pseudo-random number from a uniform distribution between 0 and 1. 
-C  If FLAG is 0, the next number in the current sequence is returned; if FLAG is 1, the generator 
-C  is restarted by CALL SRAND(0); if FLAG has any other value, it is used as a new seed with SRAND.
-C    This intrinsic routine is provided for backwards compatibility with GNU Fortran 77. It implements 
-C  a simple modulo generator as provided by g77. For new code, one should consider the use of 
-C    RANDOM_NUMBER as it implements a superior algorithm.
-CStandard:
-C    GNU extension
-Class:
-C    Function
-CSyntax:
-C    RESULT = RAND(I)
-CArguments:
-C    I 	Shall be a scalar INTEGER of kind 4.
-CReturn value:
-C    The return value is of REAL type and the default kind.
-CExample:
-C          program test_rand
-C            integer,parameter :: seed = 86456         
-C            call srand(seed)
-C            print *, rand(), rand(), rand(), rand()
-C            print *, rand(seed), rand(), rand(), rand()
-C          end program test_rand
-
-C For ifort compiler. Comment otherwise
-C        use ifport
-
+C-- For ifort compiler. Comment otherwise
+c        use ifport
+C While not required, the recommend usage of the Intel Fortran portability 
+C library functions is to access these either by inserting a USE IFPORT in 
+C the calling program, or by including iflport.f90 from the INCLUDE directory 
+C of your compiler distribution as part of your program. 
+C Use *without* the USE IFPORT (or iflport.f90) in conjunction with high-level 
+C optimizations may cause programs to suffer a run-time segmentation fault 
+C associated with calling the portability function. This is not a compiler defect.
+C-----------------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-c      CHARACTER TXT*16
-c      INTEGER DEBSTR
-C      REAL R
-      REAL Rand
-      logical first 
-      save first
-C year month day time-utc hour min secon ms
-c      dimension ival(8)
-c      save ir
-      dimension i1(12)
 
-      data first / .true. /
-      data ir / 123456 /
-      data i1 / 12 * 123456 / 
-
-      if(first) then
-        first = .false.
-C--------------------------
-C Chose here between random seed or not
-c        call date_and_time(VALUES=ival)
-c        ir = (1+ival(5))*100000 + ival(6)*1000 + ival(7)*10 +ival(8)
-
-c        call srand(ir)
-c        CALL init_random_seed()
-
-C--------------------------
-c        write(*,*) ' rndm ',ival(5),ival(6),ival(7),ival(8),ir,rndm
-      endif
-
-      R = dble(rand(0))
-C      CALL RANDOM_NUMBER(R)
-
-      RNDM=R
- 
-c          write(*,*) ' rndm ',r,ir
-c             read(*,*)
-
-c      WRITE(TXT,FMT='(E14.6)') RNDM
-c      READ(TXT(DEBSTR(TXT)+2:DEBSTR(TXT)+8),FMT='(I6)') IR      
-      
+      R = RAND(0)     ! RAND(1) RESTART THE SERIES
+      RNDM = R
       RETURN
 
-      entry rndm2(iri)
-C      call srand(iri)
-C       i1(1) = iri
-C        call RANDOM_seed(put=i1)
-C           write(*,*) ' sbr rndm iri ',iri
-C Necessary because random changes the value of its argument:
-       isi = iri
-        call RANDOM_seed(isi)
-C      call seed(isi)
-      return
+      ENTRY RNDM2(IRI)
+      ISI = IRI
+      CALL SRAND(ISI)
+      RNDM2 = DBLE(ISI)
+      RETURN
 
       END
  

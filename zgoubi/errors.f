@@ -33,6 +33,7 @@ C     ********************************
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
+      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
       CHARACTER(132) TXT132
       LOGICAL STRCON, OK
@@ -54,29 +55,36 @@ C                  A or R   G or U
 C on/off switch  (1/0), number of lines to follow (each line sets a particular error)
       IOP = NINT(A(NOEL,1) )
       NBR = NINT (A(NOEL,2) )
+      CALL REBELR(
+     >            KREB3,KDUM,KDUM)
       ISEED = NINT (A(NOEL,3) )
-      SEED = RNDM2(ISEED)    
+      IF(KREB3 .EQ. 99) THEN
+C Re-initialize the series to same seed, after REBELOTE, when multi-turn tracking.
+        DUMMY = RNDM2(ISEED)
+      ELSE
+        IF(IPASS .EQ. 1) DUMMY = RNDM2(ISEED)
+      ENDIF
 
-      if (iop .eq. 0) then 
+      IF (IOP .EQ. 0) THEN 
 C        Switch off all possible earlier error settings
-        call MULTP4
-      endif
+        CALL MULTP4
+      ENDIF
 
-      if(nres.gt.0) then
-        write(nres,fmt='(/25x,''--- SETTING ERRORS ---'',/)') 
-        write(nres,fmt='(/15x,''On/off,  number,  seed :'',2I4,I8)') 
-     >  iop, nbr, iseed
-        write(nres,fmt='(/15x,''Errors to be introduced : '')')
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(/25X,''--- SETTING ERRORS ---'',/)') 
+        WRITE(NRES,FMT='(/15X,''On/off, number of sets, seed, start '',
+     >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
+        WRITE(NRES,FMT='(/15X,''ERRORS TO BE INTRODUCED : '')')
         DO IRR = 1, NBR
-          write(nres,fmt='(20x,a)')
-     >    TA(NOEL,IRR)(debstr(TA(NOEL,IRR)):finstr(TA(NOEL,IRR)))
-        enddo
-      endif
+          WRITE(NRES,FMT='(20X,A)')
+     >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
+        ENDDO
+      ENDIF
 
-      IF(NBR.GT.MXTA) CALL ENDJOB('SBR rerror. Number of instructions '
-     >//' cannot exceed ',MXTA)
+      IF(NBR.GT.MXTA) CALL ENDJOB('SBR RERROR. NUMBER OF INSTRUCTIONS '
+     >//' CANNOT EXCEED ',MXTA)
 
-C Example of an error assignment line : 
+C EXAMPLE OF AN ERROR ASSIGNMENT LINE : 
 C          MULTIPOL{lbl1,lbl2} 1, XR, R, G, center, sigma, cut
 C {lbl1,lbl2} is optional, can be {,lbl2}, {lbl1}  
 C 1 is the  pole # (dipole). can be 1-10 for dipole-20_pole

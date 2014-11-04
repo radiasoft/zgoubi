@@ -34,7 +34,8 @@ C  -------
       INTEGER AllocateStatus
 
 !     Allocate storage for array A accordingly
-      ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = AllocateStatus)
+      IF( .NOT.ALLOCATED( HC ))
+     >ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = AllocateStatus)
       IF (AllocateStatus /= 0) 
      >     CALL ENDJOB('SBR INIDAT Not enough memory for Malloc of HC',
      >     -99)

@@ -261,14 +261,15 @@ C----- Case erron (errors)
           OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
           IF(OK) THEN
-            IF(IPASS.EQ.1) THEN 
+C            IF(IPASS.EQ.1) THEN 
+            IF(KREB3 .NE. 99) THEN 
               CALL FITSTA(5,FITING)
               CALL FITNU5(
      >                    FINAL)
               IF(.NOT.FITING .AND. .NOT. FINAL) 
      >          CALL MULERR(NOEL,IRR,BM, 
      >          KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                             DB,dpos,tilt)
+     >                                             DB,DPOS,TILT)
             ENDIF
             IF(KUASEX .LE. MPOL) THEN
               BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
@@ -519,31 +520,31 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
         ENDIF
       ENDIF
 
-C----- Case erron (errors)
-      IF(NRES.GT.0) then
-        do irr = 1, mxerr 
-          ok = (empty(lbl1(irr)) .or. lbl1(irr).eq.label(noel,1)) 
-     >    .and.(empty(lbl2(irr)) .or. lbl2(irr).eq.label(noel,2)) 
-          if(ok) then
-            do i = 1, mpol
-              if(kpol(irr,i) .eq. 1) then 
-                WRITE(NRES,FMT='(/,15x,
-     >          ''ERRORS ARE SET, accounted for in the fields '', 
-     >          ''above.'')')
+C----- CASE ERRON (ERRORS)
+      IF(NRES.GT.0) THEN
+        DO IRR = 1, MXERR 
+          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+          IF(OK) THEN
+            DO I = 1, MPOL
+              IF(KPOL(IRR,I) .EQ. 1) THEN 
+                WRITE(NRES,FMT='(/,15X,
+     >          ''ERRORS ARE SET, ACCOUNTED FOR IN THE FIELDS '', 
+     >          ''ABOVE.'')')
                 WRITE(NRES,FMT=
-     >          '(15x,''Case of MULTIPOL with labels : '',4a,i4,a,i4)')
-     >          lbl1(irr), ' / ',lbl2(irr),' /  error set # ',irr,
-     >          ', # element = ',noel  
-                WRITE(NRES,FMT='(15x,
-     >          ''Pole#, error type, A/R, G/U : '',i1,3(2x,a))')
-     >          i, typerr(irr,i), typar(irr,i), typdis(irr,i)
-                WRITE(NRES,FMT='(15x,a,1p,3(e14.6,2x))') 
-     >          'err_center, err_sigma, err_cutOff : ',
-     >          errcen(irr,i),errsig(irr,i),errcut(irr,i)
-              endif
-            enddo
+     >          '(15X,''CASE OF MULTIPOL WITH LABELS : '',4A,I4,A,I4)')
+     >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
+     >          ', # ELEMENT = ',NOEL  
+                WRITE(NRES,FMT='(15X,
+     >          ''POLE#, ERROR TYPE, A/R, G/U : '',I1,3(2X,A))')
+     >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
+                WRITE(NRES,FMT='(15X,A,1P,3(E14.6,2X))') 
+     >          'ERR_CENTER, ERR_SIGMA, ERR_CUTOFF : ',
+     >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+              ENDIF
+            ENDDO
           ENDIF
-        enddo
+        ENDDO
       ENDIF
 
       XI = 0.D0
@@ -552,8 +553,8 @@ C----- Case erron (errors)
       XS = XL + XE
       SUM=0.D0
 
-C----- Passage obligatoire sur les EFB's si
-C       melange Mpoles-crenau + Mpoles-champ de fuite
+C----- PASSAGE OBLIGATOIRE SUR LES EFB'S SI
+C       MELANGE MPOLES-CRENAU + MPOLES-CHAMP DE FUITE
       IF( IFB .EQ. -1 ) THEN
         AFB(1) = 1.D0
         BFB(1) = 0.D0

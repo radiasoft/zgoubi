@@ -231,7 +231,21 @@ C           do not write possible subsquent lines of "1's"
      >                                           IS)) then 
             write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
             read(lunR,fmt='(a)',end=10) txt300
-            write(lunW,*) ' 0 '
+            write(txt300,*) ' 0 '
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+
+          elseif(strcon(txt300,'''OPTIONS''',9,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(txt300,*) nbr
+            do iop = 1, nbr
+              read(lunR,fmt='(a)',end=10) txt300
+              if(strcon(txt300,'WRITE',5,
+     >                                   IS)) txt300=' WRITE ON' 
+              write(lunW,*) txt300(debstr(txt300):finstr(txt300)) 
+            enddo
 
           elseif(strcon(txt300,'''TWISS''',7,
      >                                       IS)) then
@@ -414,6 +428,25 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
           read(lunR,fmt='(a)') txt300
           goto 61
 
+          elseif(strcon(txt300,'''SRLOSS''',8,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(txt300,*) ' 0 '
+
+          elseif(strcon(txt300,'''OPTIONS''',9,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(txt300,*) nbr
+            do iop = 1, nbr
+              read(lunR,fmt='(a)',end=10) txt300
+              if(strcon(txt300,'WRITE',5,
+     >                                   IS)) txt300=' WRITE ON' 
+C              write(lunW,*) txt300(debstr(txt300):finstr(txt300)) 
+            enddo
+
         elseif(strcon(txt300,'''FAISTORE''',10,
      >                                       IS)) then 
           read(lunR,fmt='(a)') txt300
@@ -565,6 +598,25 @@ C Completes zgoubi_searchCO-Out_TrkFourier.dat with the rest of zgoubi_searchCO-
           elseif(strcon(txt300,'''FAISCNL''',9,
      >                                       IS)) then 
             read(lunR,fmt='(a)') txt300
+
+          elseif(strcon(txt300,'''SRLOSS''',8,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) ' 0 '
+
+          elseif(strcon(txt300,'''OPTIONS''',9,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(txt300,*) nbr
+            do iop = 1, nbr
+              read(lunR,fmt='(a)',end=10) txt300
+              if(strcon(txt300,'WRITE',5,
+     >                                   IS)) txt300=' WRITE ON' 
+              write(lunW,*) txt300(debstr(txt300):finstr(txt300)) 
+            enddo
 
           elseif(strcon(txt300,'''FAISTORE''',10,
      >                                       IS)) then 
@@ -764,6 +816,25 @@ C------- First get read of '1 1 1 1 ...'
 C          skip
           read(lunR,fmt='(a)') txt300
 
+          elseif(strcon(txt300,'''SRLOSS''',8,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) ' 0 '
+
+          elseif(strcon(txt300,'''OPTIONS''',9,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(txt300,*) nbr
+            do iop = 1, nbr
+              read(lunR,fmt='(a)',end=10) txt300
+              if(strcon(txt300,'WRITE',5,
+     >                                   IS)) txt300=' WRITE ON' 
+              write(lunW,*) txt300(debstr(txt300):finstr(txt300)) 
+            enddo
+
         elseif(strcon(txt300,'''END''',5,
      >                               IS)
      >  .or. strcon(txt300,'''FIN''',5,
@@ -787,6 +858,7 @@ C          skip
         else
           write(lunW,*) txt300(debstr(txt300):finstr(txt300))   
         endif
+
       goto 611
 
  621  close(lunR)
@@ -896,6 +968,25 @@ C------- First get read of '1 1 1 1 ...'
 C          skip
           read(lunR,fmt='(a)') txt300
 
+          elseif(strcon(txt300,'''SRLOSS''',8,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) ' 0 '
+
+          elseif(strcon(txt300,'''OPTIONS''',9,
+     >                                           IS)) then 
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(lunR,fmt='(a)',end=10) txt300
+            write(lunW,*) txt300(debstr(txt300):finstr(txt300))               
+            read(txt300,*) nbr
+            do iop = 1, nbr
+              read(lunR,fmt='(a)',end=10) txt300
+              if(strcon(txt300,'WRITE',5,
+     >                                   IS)) txt300=' WRITE ON' 
+              write(lunW,*) txt300(debstr(txt300):finstr(txt300)) 
+            enddo
+
         elseif(strcon(txt300,'''END''',5,
      >                               IS)
      >  .or. strcon(txt300,'''FIN''',5,
@@ -924,6 +1015,7 @@ C          skip
         else
           write(lunW,*) txt300(debstr(txt300):finstr(txt300))   
         endif
+
       goto 711
 
  721  close(lunR)

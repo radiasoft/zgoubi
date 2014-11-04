@@ -22,53 +22,54 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE mulerr(noel,irr,BM, 
-     >kPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                     DB,dpos,tilt)
+      SUBROUTINE MULERR(NOEL,IRR,BM, 
+     >KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+     >                                     DB,DPOS,TILT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      dimension bm(*)
+      DIMENSION BM(*)
       PARAMETER (MXTA=45)
       PARAMETER (MXERR=MXTA)
       PARAMETER (MPOL=10)
-      DIMENSION kpol(mxerr,mpol)
-      character(2) TYPERR(mxerr,mpol)
-      character(1) TYPAR(mxerr,mpol),TYPDIS(mxerr,mpol)
-      DIMENSION ERRCEN(mxerr,mpol),ERRSIG(mxerr,mpol),ERRCUT(mxerr,mpol)
+      DIMENSION KPOL(MXERR,MPOL)
+      CHARACTER(2) TYPERR(MXERR,MPOL)
+      CHARACTER(1) TYPAR(MXERR,MPOL),TYPDIS(MXERR,MPOL)
+      DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
 
       INCLUDE 'MXLD.H'
-      dimension db(MXL,mpol),dpos(MXL,mpol,3),tilt(MXL,mpol,3)
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
       COMMON/CONST2/ ZERO, UN
 
-      do i = 1, mpol
-        if(kpol(irr,i) .eq.1) then
-          if    (typdis(irr,i).eq.'G') then
-            SM = EXP(-(errcut(irr,i)*errsig(irr,i))**2/2.D0)
-            derr = (2.d0*RNDM() -1.d0)*SM
-          elseif(typdis(irr,i).eq.'U') then
-            xxx = rndm()
-            derr = errsig(irr,i)* 2.d0*(xxx-0.5d0) 
-C                write(88,*) ' mulerr rndm ',xxx
-          endif
-          if    (typerr(irr,i)(1:1).eq.'B') then
-            if    (typar(irr,i).eq.'A') then
-C              Absolute error
-              db(noel,i) = errcen(irr,i) + derr
-            elseif(typar(irr,i).eq.'R') then
-C              Relative error
-              db(noel,i) = errcen(irr,i) + derr*BM(I)
-            endif
-          elseif(typerr(irr,i)(2:2).eq.'S') then
-              dpos(noel,i,3) = 0.d0
-          elseif(typerr(irr,i)(2:2).eq.'R') then
-              tilt(noel,i,3) = 0.d0
-          else
-            call endjob('SBR mulerr. No such option for typerr',-99)
-          endif
-        endif
-      enddo      
+      DO I = 1, MPOL
+        IF(KPOL(IRR,I) .EQ.1) THEN
+          IF    (TYPDIS(IRR,I).EQ.'G') THEN
+            SM = EXP(-(ERRCUT(IRR,I)*ERRSIG(IRR,I))**2/2.D0)
+            DERR = (2.D0*RNDM() -1.D0)*SM
+          ELSEIF(TYPDIS(IRR,I).EQ.'U') THEN
+            XXX = RNDM()
+            DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0) 
+C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
+C                WRITE(88,*) ' MULERR RNDM ',XXX
+          ENDIF
+          IF    (TYPERR(IRR,I)(1:1).EQ.'B') THEN
+            IF    (TYPAR(IRR,I).EQ.'A') THEN
+C              ABSOLUTE ERROR
+              DB(NOEL,I) = ERRCEN(IRR,I) + DERR
+            ELSEIF(TYPAR(IRR,I).EQ.'R') THEN
+C              RELATIVE ERROR
+              DB(NOEL,I) = ERRCEN(IRR,I) + DERR*BM(I)
+            ENDIF
+          ELSEIF(TYPERR(IRR,I)(2:2).EQ.'S') THEN
+              DPOS(NOEL,I,3) = 0.D0
+          ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
+              TILT(NOEL,I,3) = 0.D0
+          ELSE
+            CALL ENDJOB('SBR MULERR. NO SUCH OPTION FOR TYPERR',-99)
+          ENDIF
+        ENDIF
+      ENDDO      
 
       RETURN      
       END

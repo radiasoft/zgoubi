@@ -1282,7 +1282,7 @@ C      IF(READAT) THEN
 C      ENDIF
           WRITE(*,*) 
      >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
-                  read(*,*)
+C                  read(*,*)
       GOTO 998
 C----- SPINR. Spin rotator 
  107  CONTINUE
