@@ -623,6 +623,8 @@ C----- FIT. FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
+          write(*,*) ' zgoubi readat ',readat,fitfnl,endfit,mthod
+              pause
       IF(READAT) CALL RFIT(KLEY,
      >                         PNLTGT,ICPTMA,FITFNL)
       CALL FITNU4(FITFNL)

@@ -49,6 +49,7 @@ C     ***************************************
       INTEGER DEBSTR, FINSTR
       LOGICAL OK
       CHARACTER(80) FNAME
+      LOGICAL EMPTY
 
 C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132
@@ -63,8 +64,12 @@ C  READ NV [,'nofinal','save' [FileName]]
       IF(FITSAV) THEN
         TXT132 = TXT132(JJS+4:FINSTR(TXT132))
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-        IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)+6) .NE. 'nofinal') THEN
-          READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*) FNAME
+        IF(.NOT. EMPTY(TXT132)) THEN
+          IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)+6).NE.'nofinal') THEN
+            READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*) FNAME
+          ELSE
+            FNAME = 'zgoubi.FITVALS.out'
+          ENDIF
         ELSE
           FNAME = 'zgoubi.FITVALS.out'
         ENDIF

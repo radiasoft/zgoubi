@@ -3488,24 +3488,24 @@ An example is given page~\pageref{ExaFITREBELOTE}.
 
 \smallskip
 
-\noindent - ``nofinal''~: \index{nofinal option in FIT[2]|textbf} \label{nofinal}
+\noindent - 'nofinal'~: \index{FIT[2],~options|textbf} \label{nofinal}
 a request to avoid a final run that would normally follow the completion of the fit, allowing for the 
-variable values as just determined by \textsl{FIT[2]}. By default, \ie, if ``nofinal'' does 
+variable values as just determined by \textsl{FIT[2]}. By default, \ie, if `nofinal' does 
 not appear in the   \textsl{FIT[2]} data list, then that final run does occur. 
 
 \smallskip
 
-\noindent - ``save [, FileName]''~: a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
-default in ``zgoubi.FITVALS.out'', or in ``FileName'' file if the latter is specified following the ``save'' instruction.
+\noindent - 'save' [, FileName]~: a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
+default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.
 
 \smallskip
 
-\noindent - ``penalty''~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
+\noindent - Penalty~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
 will be considered completed, and thus  stopped. 
 
 \smallskip
 
-\noindent - ``ITER''~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
+\noindent - ITER~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
  \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. 
 
 \medskip
@@ -3585,7 +3585,7 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \medskip
 
-Note that, if the ``nofinal'' option\index{nofinal option in FIT[2]}  
+Note that, if the `nofinal' option\index{FIT[2],~options}  
 is not set in \textsl{FIT[2]} (see page~\pageref{nofinal}), then, once completed, \textsl{FIT[2]} will be followed by a final  
 run of zgoubi.dat with the variable values as resulting from \textsl{FIT[2]}. In that case, for that final run, 
 \textsl{GETFITVAL} will be inhibited so avoid overridding these updated variable values. 
@@ -4733,8 +4733,20 @@ the waist (calculated automatically in the same way as for
 
 \bigskip
 
-\noindent\textbf{If} $\mathbf{I=4}$~: provided \textsl{XCE, YCE, ALE}, 
- the beam is moved by $XCE$ and then centered on \textsl{YCE, ALE}. 
+\noindent\textbf{If} $\mathbf{I=4}$~: new horizontal beam centroid positionning \textsl{XCE, YCE, ALE} is provided.  
+ The beam is moved by $XCE$ and then centered on \textsl{YCE, ALE}. 
+ 
+\bigskip
+
+\noindent\textbf{If} $\mathbf{I=4.1}$~: new  beam centroid positionning \textsl{XCE, YCE, ALE, DPP} is provided. 
+ The beam is moved by \XCE\ and then centered on \textsl{YCE, ALE}. 
+In addition, the beam is centered on a new relative momentum \textsl{DPP}. 
+
+\bigskip
+
+\noindent\textbf{If} $\mathbf{I=5}$~: new vertical beam centroid positionning \textsl{ZCE, PLE} (position, angle) is provided.  
+ The beam is centered on vertical position and angle \textsl{ZCE, PLE}. 
+ 
  
 
 

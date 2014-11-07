@@ -41,6 +41,14 @@ C     ------------------------------------------------
       LOGICAL ZSYM
       COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
+      LOGICAL EVNT
+      SAVE EVNT
+      PARAMETER (MSR=10)
+      CHARACTER(2) QSHRO(MSR)
+      DIMENSION VSHRO(MSR)
+
+      DATA EVNT / .FALSE. /
+     
       IOP = NINT(A(NOEL,1))
       IOP2 = NINT(A(NOEL,2))
 C      IF    (IOP .EQ. 3) THEN
@@ -91,26 +99,23 @@ C First center the beam on Y=0, T=0
             DD = DD + F(1,I) 
           ENDIF
         ENDDO
+
         YC = YC / DBLE(II)        
         AA = AA / DBLE(II) * 1.D-3 
         IF(IOP2.EQ.1) DD = DD / DBLE(II)        
+
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
           IF( IEX(I) .GE. -1) THEN 
             IF(I .EQ. IREP(I) .OR. .NOT. ZSYM) THEN
               CALL INITRA(I)
               CALL CHAREF(.FALSE.,XC,YC,AA)
-c                   write(*,*) ' autorf ,XC,YC,AA ',XC,YC,AA
-c                     read(*,*)
               CALL MAJTRA(I)
             ELSE
               CALL DEJACA(I)
             ENDIF
+            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
           ELSE
-          ENDIF
-          IF(IOP2.EQ.1) THEN
-C               WRITE(*,*) ' AUTORF ',F(1,I),DD, A(NOEL,13)
-            F(1,I) = F(1,I) - DD + A(NOEL,13)
           ENDIF
         ENDDO
         IF(NRES .GT. 0) THEN
@@ -122,43 +127,99 @@ C Then update to requested beam centering coordinates
         XC =  -A(NOEL,10)
         YC =  -A(NOEL,11)
         AA =  -A(NOEL,12) * 1.D-3
+        DD =  -A(NOEL,13)
+        
+      ELSEIF(IOP .EQ. 5) THEN
+
+        ZC = ZERO
+        BB = ZERO
+        II = 0
+C First center the beam on Z=0, P=0
+        DO I = 1, IMAX
+          IF( IEX(I) .GT. 0) THEN
+            II = II + 1
+            ZC = ZC + F(4,I) 
+            BB = BB + F(5,I) 
+          ENDIF
+        ENDDO
+        ZC = ZC / DBLE(II)        
+        BB = BB / DBLE(II) * 1.D-3 
+        DO I=1,IMAX
+C         +++ IEX<-1 <=> Particule stoppee
+          IF( IEX(I) .GE. -1) THEN 
+            F(4,I) = F(4,I) - ZC
+            F(5,I) = F(5,I) - BB
+          ELSE
+          ENDIF
+        ENDDO
+ 
+C Then update to requested beam centering coordinates
+        ZC =  -A(NOEL,10)
+        BB =  -A(NOEL,11)
 
       ELSE
         CALL ENDJOB('Sbr autorf. No such option I = ',IOP)
       ENDIF
 
-      DO I=1,IMAX
-C       +++ IEX<-1 <=> Particule stoppee
-        IF( IEX(I) .GE. -1) THEN 
-          IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
-            CALL INITRA(I)
-            CALL CHAREF(.FALSE.,XC,YC,AA)
-c                   write(*,*) ' autorf ,XC,YC,AA ',XC,YC,AA
-c                     read(*,*)
-            CALL MAJTRA(I)
+      IF    (IOP .LE. 4) THEN
+        DO I=1,IMAX
+C         +++ IEX<-1 <=> Particule stoppee
+          IF( IEX(I) .GE. -1) THEN 
+            IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
+              CALL INITRA(I)
+              CALL CHAREF(.FALSE.,XC,YC,AA)
+              CALL MAJTRA(I)
+            ELSE
+              CALL DEJACA(I)
+            ENDIF
+            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
           ELSE
-            CALL DEJACA(I)
           ENDIF
-        ELSE
-        ENDIF
-      ENDDO
+        ENDDO
+      ELSEIF(IOP .EQ. 5) THEN
+        VSHRO(MSR) = 2
+        VSHRO(1) = ZC 
+        VSHRO(2) = BB
+        QSHRO(1) = 'ZS'
+        QSHRO(2) = 'YR'
+        DO I=1,IMAX
+C         +++ IEX<-1 <=> Particule stoppee
+          IF( IEX(I) .GE. -1) THEN 
+            CALL INITRA(I)
+            CALL CHANRF(EVNT,QSHRO,VSHRO)
+            CALL MAJTRA(I)
+          ENDIF
+        ENDDO
+      ENDIF
  
  99   CONTINUE
 
       IF(NRES .GT. 0) THEN
 
-        IF(IOP .EQ. 0) THEN
+        IF    (IOP .EQ. 0) THEN
           WRITE(NRES,102) 
  102      FORMAT(/,20X,' AUTOREF  is  off')
-        ELSE
-          WRITE(NRES,100) XC,YC,AA*DEG,AA
- 100      FORMAT(/,' Change  of  reference   XC =',F15.8,' cm , YC =',
-     >    F15.8,' cm ,   A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
+        ELSEIF(IOP .LE. 5) THEN
+          IF(IOP .LE.4) THEN
+            WRITE(NRES,100) XC,YC,AA*DEG,AA
+ 100        FORMAT(/,' Change  of  reference,  horizontal,   XC =',
+     >      F15.8,' cm , YC =',
+     >      F15.8,' cm ,   A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
 C 100      FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
 C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
+            IF(IOP2.EQ.1) THEN
+              WRITE(NRES,FMT='(/,'' Beam centerd on momentum p/p_Ref ='',
+     >        1P,E16.8,/)') A(NOEL,13)
+            ENDIF
+          ELSEIF(IOP .EQ. 5) THEN
+            WRITE(NRES,107) ZC,BB*DEG,BB
+ 107        FORMAT(/,' Change  of  reference,  vertical,   ZC =',
+     >      F15.8,' cm,  A =',F16.9,' deg  (i.e., ',F14.10,' rad)',/)
+          ENDIF
           WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
   101     FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
         ENDIF
+
       ENDIF
  
       RETURN

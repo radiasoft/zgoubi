@@ -52,9 +52,10 @@ C     ---------------------
       A(NOEL,1) = IA
       A(NOEL,2) = IA2
 C Read 3 particle numbers
-      IF(IA .EQ. 3) READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+      IF    (IA .EQ. 3) THEN
+        READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
 C Read 3 centering coordinates
-      IF(IA .EQ. 4) THEN
+      ELSEIF(IA .EQ. 4) THEN
         IF    (IA2.EQ.0) THEN
 C Center the beam on xce, yce, ale
           READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
@@ -64,6 +65,10 @@ C Center the beam on xce, yce, ale, p/pRef
         ELSE
           CALL ENDJOB('Pgm rautor. No such option IA2 = ',IA2)
         ENDIF
+      ELSEIF(IA .EQ. 5) THEN
+        READ(NDAT,*) A(NOEL,10),A(NOEL,11)
+      ELSE
+        CALL ENDJOB('Pgm RAUTOR. No such option IA = ',IA2)
       ENDIF
       RETURN
       END

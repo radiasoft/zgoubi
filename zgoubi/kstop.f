@@ -108,12 +108,16 @@ C     >  'Lmnt # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
 C     >  II,' stopped (IK=',IK,') : ',
 C     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
 C     >    IMX-NSTOP,'/',IMX
+        CALL ZGNOEL(
+     >              NUML)
         WRITE(ABS(NRES),100) 
-     >  'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
-     >  II,' stopped (IK=',IK,') : ',
-     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
+C     >  'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'  -> Traj. #',
+     >  'LMNT #',NUML,'   -> Traj. #',
+     >  II,'  stopped  (IK=',IK,
+     >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
- 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
+C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
+ 100    FORMAT(A,I4,A,I4,A,I2,A,I6,A,I6)
         call flush2(abs(nres),.false.) 
       ENDIF 
 

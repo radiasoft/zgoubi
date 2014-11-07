@@ -87,12 +87,14 @@ c      COMMON/DONT/ TA(MXL,MXTA)
       SAVE NLBL
 
       PARAMETER (MXPL= MXPRM*MXLST, MXPRM3= MXPRM*3)
+      LOGICAL OKLSTP
 
       DATA KREB3, KREB31, kreb4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
       DATA TPRM / MXPRM3*' ' /
       DATA NOELA, NOELB / 1, MXL /
+      DATA OKLSTP / .FALSE. /
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
@@ -351,15 +353,17 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
 
           IF(KREB4 .EQ. 1) THEN
             IF(NRES .GT. 0)  THEN
-              do iprm = 1, nprm
+              DO IPRM = 1, NPRM
                 WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 
      >          'Parameter #',KPRM(iprm),' in element #',
      >          KLM(iprm),' will be modified at each pass, '
-                WRITE(NRES,FMT='(5X,A)') 'list of requested parameter '
-     >          //'values :'
-                WRITE(NRES,FMT='(15X,I5,1P,E17.8)')
-     >          (I,PARAM(IPRM,I),I=1, NRBLT)
-              enddo
+                IF(OKLSTP) THEN
+                  WRITE(NRES,FMT='(5X,A)') 'list of requested '
+     >            //'parameter values :'
+                  WRITE(NRES,FMT='(15X,I5,1P,E17.8)')
+     >            (I,PARAM(IPRM,I),I=1, NRBLT)
+                ENDIF
+              ENDDO
             ENDIF
           ENDIF
 

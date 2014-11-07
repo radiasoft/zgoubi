@@ -22,7 +22,6 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-C      SUBROUTINE CHANRF(NSR,EVNT,QSHRO,VSHRO)
       SUBROUTINE CHANRF(EVNT,QSHRO,VSHRO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL EVNT
@@ -83,10 +82,10 @@ C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
           YR = VSHRO(KSR) 
           ZO=Z
 C          pp = atan2(tan(P),cos(T))
-          pp = atan(tan(P)/cos(T))
+          PP = atan(tan(P)/cos(T))
           Z=Z*COS(pp)/COS(pp-YR)
-          pp=pp-YR 
-          P =  atan2(tan(pp),1.d0/cos(T))
+          PP=PP-YR 
+          P = ATAN2(TAN(PP),1.D0/COS(T))
           XL = -Z *SIN(YR)
           ZL = -ZO + Z*COS(YR)
           DL=SQRT(XL*XL+ZL*ZL)

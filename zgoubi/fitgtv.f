@@ -71,7 +71,7 @@ C  -------
 
       IF(FITING) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(
-     >  /,10X,''Now fitting, GETFITVAL is inhibited'')')
+     >  /,10X,''Now fitting, hence GETFITVAL is inhibited'')')
         RETURN
       ENDIF
 

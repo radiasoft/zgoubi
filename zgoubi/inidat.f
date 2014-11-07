@@ -24,18 +24,17 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE INIDAT
-      USE dynhc
+      USE DYNHC
       DOUBLE PRECISION CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-
 
       INCLUDE 'PARIZ.H'
       INTEGER AllocateStatus
 
 !     Allocate storage for array A accordingly
-      IF( .NOT.ALLOCATED( HC ))
-     >ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = AllocateStatus)
+      IF( .NOT.ALLOCATED( HC )) 
+     >  ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = AllocateStatus)
       IF (AllocateStatus /= 0) 
      >     CALL ENDJOB('SBR INIDAT Not enough memory for Malloc of HC',
      >     -99)
