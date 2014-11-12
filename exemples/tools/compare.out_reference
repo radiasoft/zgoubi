@@ -18,6 +18,7 @@
 ////////////////  ../gsiKaos/usingDIPOLE-M - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
                                            - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
         
 ////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
@@ -46,7 +47,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -64,12 +65,25 @@
                     NU_Y =  0.28049038         NU_Z =  0.16397137    
                     NU_Y =  0.27852585         NU_Z =  0.16409912    
         
-////////////////  ../usersGuide_FIT/ - reference : 
+////////////////  ../usersGuide/FIT/ - reference : 
           R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
           R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
                           - new : 
           R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
           R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+        
+////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : 
+ Fit reached penalty value   9.1352E-03
+ Fit reached penalty value   6.0699E-03
+ Fit reached penalty value   4.1051E-03
+ Fit reached penalty value   2.7601E-03
+ Fit reached penalty value   9.6329E-03
+                          - new : 
+ Fit reached penalty value   9.1352E-03
+ Fit reached penalty value   6.0699E-03
+ Fit reached penalty value   4.1051E-03
+ Fit reached penalty value   2.7601E-03
+ Fit reached penalty value   9.6329E-03
         
 ////////////////  ../RHIC/matrix/ - reference : 
                     NU_Y =  0.68499603         NU_Z =  0.67299597    
@@ -93,15 +107,3 @@
                           - new : 
                               dNu_y / dp/p =  4.29909176E+01
                               dNu_z / dp/p = -5.45369658E+01
-        
-////////////////  ../eRHIC-FFAG/ - reference : 
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   0.000000E+00     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   0.000000E+00     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   3.841827E+05     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   3.841827E+05     1
-                          - new : 
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   0.000000E+00     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   0.000000E+00     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   3.841827E+05     1
-C  1   0.4619    -0.002     0.015    -0.002    -0.011       0.0000    0.4619   -0.002    0.015   -0.002   -0.011   3.841827E+05     1
-        

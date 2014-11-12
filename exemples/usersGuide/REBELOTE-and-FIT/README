@@ -1,0 +1,22 @@
+
+1/ Copy centeredHelix.res to zgoubi.dat, then run zgoubi.
+This will produce zgoubi.res, which should be identical to centeredHelix.res.
+This will also produce zgoubi.plt, whose content can be plotted (using zpop, or gnuplot) and yields the figure centeredHelix.eps.
+
+2/ What centeredHelix does : 
+
+- Zgoubi execution pointer points sequentially from OBJET down to FIT, tracking one particle with initial coordinate Y=-2.2cm.
+
+- Meeting FIT causes the pointer to be sent back to OBJET for a new run, and again until the requested penalty=1e-2 is fulfilled.
+
+- The execution pointer then carries on beyond FIT and eventually meets REBELOTE, which causes the following : 
+  (i) parameter 35 in OBJET (i.e., the relative rigidity of the particle, initially 1.) is changed to 1.3872739973
+  (ii) the execution pointer is sent back to OBJET
+
+- And so forth, so computing 4 additional FITs as requested in REBELOTE
+
+- The problem is completed after a total of 5 FITs, for a 5 different values od D.
+
+3/ What FIT does : 
+It requests the helical particle motion in the snake field map to be centered on the field map axis. The variables are the initial position, Y, and angle, T, of the particle in OBJET. 
+The figure centeredHelix.eps shows the 5 pairs of helices, one before the FIT, non-centerd, and one centered as follows from the FIT procedure. This figure takes its data from zgoubi.plt, which is filled thansk to the option IL=2 under 'TOSCA'.

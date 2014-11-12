@@ -1,8 +1,10 @@
 
 
 #################################################################
-# EMMA-FFAG/matrixComputation/
-#
+echo "        "
+echo "        "
+echo "Now doing :   EMMA-FFAG/matrixComputation/"
+echo "        "
 (cd ../EMMA-FFAG/matrixComputation/ ; cp matrix_140925_svn436.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  EMMA-FFAG/matrixComputation - reference : "      | cat  >   compare.out
 grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix_140925_svn436.res  | cat >>   compare.out
@@ -13,8 +15,10 @@ echo "////////////////  EMMA-FFAG/matrixComputation: done..."
 #
 #
 #################################################################
-# ../gsiKaos/usingDIPOLE-M/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../gsiKaos/usingDIPOLE-M/"
+echo "        "
 (cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "       | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi.res     | cat >>  compare.out
@@ -25,8 +29,10 @@ echo "////////////////  ../gsiKaos/usingDIPOLE-M: done..."
 #
 #
 #################################################################
-# ../gsiKaos/usingTOSCAmaps/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../gsiKaos/usingTOSCAmaps/"
+echo "        "
 (cd ../gsiKaos/usingTOSCAmaps/ ; cp tosca-3D.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  /gsiKaos/usingTOSCAmaps/ - reference : "          | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/tosca-3D.res  | cat >>  compare.out
@@ -37,8 +43,10 @@ echo "////////////////  /gsiKaos/usingTOSCAmaps: done..."
 #
 #
 #################################################################
-# ../KEK150MeVFFAG/analyticalModel/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../KEK150MeVFFAG/analyticalModel/"
+echo "        "
 (cd ../KEK150MeVFFAG/analyticalModel/ ; cp K7.25-7.58_mat_130921.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : "   | cat >>   compare.out
 grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/K7.25-7.58_mat_130921.res  | cat >>   compare.out
@@ -49,8 +57,10 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel: done..."
 #
 #
 #################################################################
-# ../LHC
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../LHC"
+echo "        "
 #(cd ../LHC/ ; cp fullTurnMatrix.res_071017 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 #echo "////////////////  ../LHC/ - reference : "       | cat >>   compare.out
 #grep "NU_Y = "  ../LHC/fullTurnMatrix.res_071017      | cat >>   compare.out
@@ -61,8 +71,10 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel: done..."
 #
 #
 #################################################################
-# ../microBeamDoublet/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../microBeamDoublet/"
+echo "        "
 (cd ../microBeamDoublet/ ; cp achromat_Mat.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../microBeamDoublet/ - reference : "       | cat >>   compare.out
 grep "R12=0 at "  ../microBeamDoublet/achromat_Mat.res      | cat >>   compare.out
@@ -81,8 +93,10 @@ echo "////////////////  ../microBeamDoublet: done..."
 #
 #
 #################################################################
-# ../saturneRing/matrix/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../saturneRing/matrix/"
+echo "        "
 (cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../saturneRing/matrix/ - reference : "       | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../saturneRing/matrix/TWISS.res      | cat >>   compare.out
@@ -95,8 +109,10 @@ echo "////////////////  ../saturneRing/matrix: done..."
 #
 #
 #################################################################
-# ../spiralFFAG/FFAG-SPI/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../spiralFFAG/FFAG-SPI/"
+echo "        "
 (cd ../spiralFFAG/FFAG-SPI/ ; cp matrix_ffagSpi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../spiralFFAG/FFAG-SPI/ - reference : "       | cat >>   compare.out
 grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res      | cat >>   compare.out
@@ -107,20 +123,38 @@ echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
 #
 #
 #################################################################
-# ../usersGuide_FIT/
-#
-(cd ../usersGuide_FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../usersGuide_FIT/ - reference : "       | cat >>   compare.out
-grep "R12=0 at "  ../usersGuide_FIT/fit.res                      | cat >>   compare.out
+echo "        "
+echo "        "
+echo "Now doing :   ../usersGuide/FIT/"
+echo "        "
+(cd ../usersGuide/FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../usersGuide/FIT/ - reference : "       | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide/FIT/fit.res                      | cat >>   compare.out
 echo "                          - new : "                        | cat >>   compare.out
-grep "R12=0 at "  ../usersGuide_FIT/zgoubi.res                   | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
 echo "        "                                                  | cat >>   compare.out
-echo "////////////////  ../usersGuide_FIT: done..."
+echo "////////////////  ../usersGuide/FIT: done..."
 #
 #
 #################################################################
-# ../RHIC/matrix/
+echo "        "
+echo "        "
+echo "Now doing :   ../usersGuide/REBELOTE-and-FIT/"
+echo "        "
+(cd ../usersGuide/REBELOTE-and-FIT/ ; cp centeredHelix.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : "                   | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/centeredHelix.res       | cat >>   compare.out
+echo "                          - new : "                                                 | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/zgoubi.res              | cat >>   compare.out
+echo "        "                                                                           | cat >>   compare.out
+echo "////////////////  ../usersGuide/REBELOTE-and-FIT: done..."
 #
+#
+#################################################################
+echo "        "
+echo "        "
+echo "Now doing :   ../RHIC/matrix/"
+echo "        "
 (cd ../RHIC/matrix/ ; cp TWISS_blue_141003.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../RHIC/matrix/ - reference : "       | cat >>   compare.out
 grep "NU_Y = "  ../RHIC/matrix/TWISS_blue_141003.res          | cat >>   compare.out
@@ -138,8 +172,10 @@ echo "////////////////  ../RHIC/matrix: done..."
 #
 #
 #################################################################
-# ../AGS/matrix/
-#
+echo "        "
+echo "        "
+echo "Now doing :   ../AGS/matrix/"
+echo "        "
 (cd ../AGS/matrix/ ; cp TWISS.res_141007 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS/matrix/ - reference : "       | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../AGS/matrix/TWISS.res_141007   | cat >>   compare.out
@@ -151,19 +187,6 @@ echo "        "                                               | cat >>   compare
 echo "////////////////  ../AGS/matrix: done..."
 #
 #
-#################################################################
-# ../eRHIC-FFAG/
-#
-(cd ../eRHIC-FFAG/ ; cp fitOrbit.res_141028 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../eRHIC-FFAG/ - reference : "       | cat >>   compare.out
-grep "C  1   0.4619 "  ../eRHIC-FFAG/fitOrbit.res_141028     | cat >>   compare.out
-echo "                          - new : "                    | cat >>   compare.out
-grep "C  1   0.4619 "  ../eRHIC-FFAG/zgoubi.res              | cat >>   compare.out
-echo "        "                                              | cat >>   compare.out
-echo "////////////////  ../eRHIC-FFAG: done..."
-#
-#
-
 
 
 echo "  "
