@@ -86,7 +86,6 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
 
         XC = ZERO
         YC = ZERO
-C        AA = 1.d0
         AA = ZERO
         DD = ZERO
         II = 0
@@ -143,7 +142,7 @@ C First center the beam on Z=0, P=0
           ENDIF
         ENDDO
         ZC = ZC / DBLE(II)        
-        BB = BB / DBLE(II) * 1.D-3 
+        BB = BB / DBLE(II) 
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
           IF( IEX(I) .GE. -1) THEN 
@@ -152,10 +151,15 @@ C         +++ IEX<-1 <=> Particule stoppee
           ELSE
           ENDIF
         ENDDO
+        IF(NRES .GT. 0) THEN
+          BB = BB *1.D-3
+          WRITE(NRES,107) ZC,BB*DEG,BB
+          WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+        ENDIF
  
 C Then update to requested beam centering coordinates
         ZC =  -A(NOEL,10)
-        BB =  -A(NOEL,11)
+        BB =  -A(NOEL,11) * 1.D-3
 
       ELSE
         CALL ENDJOB('Sbr autorf. No such option I = ',IOP)

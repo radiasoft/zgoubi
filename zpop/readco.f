@@ -89,7 +89,8 @@ C--------- read in zgoubi.spn type storage file
           IMAX = 0
           IF(BINARY) THEN
  111         CONTINUE
-            READ(NL,ERR=99,END=10) 
+            READ(NL,ERR=111,END=10) 
+C            READ(NL,ERR=99,END=10) 
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET
 
@@ -107,7 +108,9 @@ C--------- read in zgoubi.spn type storage file
      >                                       IEND)) GOTO 111
 
           ELSE
- 1          READ(NL,101,ERR=99,END=10) 
+ 1          CONTINUE
+            READ(NL,101,ERR=1,END=10) 
+C 1          READ(NL,101,ERR=99,END=10) 
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL
      >      ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
@@ -159,7 +162,8 @@ C--------- read in zgoubi.fai type storage file
           IMAX = 0
           IF(BINARY) THEN
  222        CONTINUE
-            READ(NL,ERR=99,END=10) 
+            READ(NL,ERR=222,END=10) 
+C            READ(NL,ERR=99,END=10) 
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -182,7 +186,9 @@ C              ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
- 21         READ(NL,110,ERR=99,END=10)
+ 21         CONTINUE
+            READ(NL,110,ERR=21,END=10)
+C 21         READ(NL,110,ERR=99,END=10)
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -215,7 +221,8 @@ C--------- read in zgoubi.plt type storage file
           IMAX = 0
           IF(BINARY) THEN
  232         CONTINUE
-            READ(NL,ERR=99,END=10) 
+            READ(NL,ERR=232,END=10) 
+C            READ(NL,ERR=99,END=10) 
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), BTI, DS, 
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
@@ -240,7 +247,9 @@ C              ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
- 31         READ(NL,100,ERR=99,END=10)
+ 31         CONTINUE
+            READ(NL,100,ERR=31,END=10)
+C 31         READ(NL,100,ERR=99,END=10)
      >      KEX,(FO(J),J=1,MXJ),
      >      (F(J),J=1,MXJ), BTI, DS,
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR, PS,
@@ -593,9 +602,9 @@ C----------------------------
         noc = 0
         noel1 = 0
         RETURN 1
- 99   continue
-        noc = 0
-        noel1 = 0
-        RETURN 2      
+C 99   continue
+C        noc = 0
+C        noel1 = 0
+C        RETURN 2      
 
       END

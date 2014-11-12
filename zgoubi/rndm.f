@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       FUNCTION RNDM()
 C-- For ifort compiler. Comment otherwise
-c        use ifport
+        use ifport
 C While not required, the recommend usage of the Intel Fortran portability 
 C library functions is to access these either by inserting a USE IFPORT in 
 C the calling program, or by including iflport.f90 from the INCLUDE directory 
@@ -34,9 +34,9 @@ C optimizations may cause programs to suffer a run-time segmentation fault
 C associated with calling the portability function. This is not a compiler defect.
 C-----------------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-
+      REAL R
       R = RAND(0)     ! RAND(1) RESTART THE SERIES
-      RNDM = R
+      RNDM = DBLE(R)
       RETURN
 
       ENTRY RNDM2(IRI)
