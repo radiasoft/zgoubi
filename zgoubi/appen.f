@@ -35,8 +35,8 @@ C  -------
 
       RETURN
 
- 88   WRITE(*,*) ' SBR APPEN, REACHED EOF '
+ 88   WRITE(6,*) ' SBR APPEN, REACHED EOF '
       RETURN
- 89   WRITE(*,*) ' SBR APPEN, READ ERROR '
+ 89   WRITE(6,*) ' SBR APPEN, READ ERROR '
       RETURN
       END

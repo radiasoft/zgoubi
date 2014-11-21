@@ -140,17 +140,8 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
 
-c         call ZGIPAS( 
-c     >                IPASS)
-c           if(ipass.ge.6)write(*,*) ' integr 1 '
-c           if(ipass.ge.6)write(*,*) ' integr 1 ', ipass
-
         CALL CHAMC(X2,Y2,Z2)
 
-c           if(ipass.ge.6)then
-c              write(*,*) ' integr 2 ', ipass
-c                   read(*,*)
-c                   endif
       ENDIF
 
  7    CONTINUE
@@ -266,17 +257,8 @@ C          stop ' SBR INTEGR : IDRT not implemented'
 
           IF(abs(CA(2)-X) .LT. DXI) THEN
 
-        write(*,*) ' be > XLIM) idrt, ca1 ',
-     >       idrt, ca(2)-x, ca(2),x,dxi
-
-c              IF(LST .EQ. 2) THEN 
-c                CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
-c              ELSEIF(LST .EQ. 3) THEN 
-c                CALL IMPPLA(  30,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
-c              ENDIF
-
-c              XFINAL = CA(2)
-c              GOTO 6
+c        write(*,*) ' be > XLIM) idrt, ca1 ',
+c     >       idrt, ca(2)-x, ca(2),x,dxi
 
           ENDIF ! XLIM-X
 

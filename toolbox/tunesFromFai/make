@@ -1,4 +1,9 @@
+echo ' '
+echo 'gfortran -O5 -o tunesFromFai tunesFromFai.f'
 gfortran -O5 -o tunesFromFai tunesFromFai.f
+echo ' '
+echo 'gfortran -O5 -o tunesFromFai_iterate tunesFromFai_iterate.f'
 gfortran -O5 -o tunesFromFai_iterate tunesFromFai_iterate.f
+echo ' '
 
 #/usr/local/intel/composer_xe_2011_sp1.11.339/bin/ifort -save -xHOST -O3 -ip -static -o tunesFromFai tunesFromFai.f

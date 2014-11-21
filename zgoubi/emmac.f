@@ -152,8 +152,6 @@ c     >           IMAP)
       DIST = A(NOEL,32)
       DIST2 = A(NOEL,33)
 
-c           write(*,*) ' dist, dist2 ',  dist, dist2 
-
       IF    (NDIM.EQ.2 ) THEN
 
         IF(MOD .EQ. 0) THEN
@@ -428,10 +426,6 @@ C and used for tracking.
            CALL MAPSHF(HCB,XH,YH,DIST2,IXMA,JYMA,
      >                                           HC2)
 
-C              write(*,*)  '  dist,  dist2 ', dist,  dist2
-
-
-
 C Superimpose the two field maps into a single one
 C          zer1 = 0.d0
           do jjj=1,JYMA
@@ -444,9 +438,6 @@ c                zerB = HCB(iid,iii,jjj,KZ) - HC2(iid,iii,jjj,KZ)
               enddo
             enddo
           enddo
-
-C              write(*,*)  '  zera, zerb ', zera, zerb
-
 
         ELSE
 

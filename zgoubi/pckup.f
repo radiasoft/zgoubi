@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE PCKUP(NOEL)
+      SUBROUTINE PCKUP
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
 C     Pick-up signal (multiturn AND multiparticle summmation)
@@ -34,11 +34,16 @@ C     -----------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXPUD=9,MXPU=5000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      COMMON /LABEL/ LABEL(MXL,2)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
       DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU), NOELPU(MXPU)
@@ -47,6 +52,10 @@ C     -----------------------------------------------------
       DIMENSION TBT(2,MXPU)
       SAVE TBT
 
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ)  KLOBJ
+
+      CHARACTER(KSIZ) KLEO
       DATA NOELPU / MXPU*0 /
 
 C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
@@ -91,10 +100,14 @@ C------- Record pick-up position (cm)
       ENTRY PCKUP1
       DO 4 I = 1, IPU
         NT = NINT(FPUL(8,I))
+        CALL ZGKLE(IQ(NOELPU(I)),
+     >                           KLEO)
         WRITE(NFPU,FMT= 
-     >    '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4))')
-     >  I,FPU(9,I),(FPUL(J,I),J=2,6),FPUL(1,I),FPUL(7,I),NT,IPASS
-     >  , (FPUL2(J,I),J=2,7), FPUL2(1,I)
+     >  '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4),2X,
+     >  I5,3(1X,A))')
+     >  I,FPU(9,I),(FPUL(J,I),J=2,6),FPUL(1,I),FPUL(7,I),NT,IPASS,
+     >  (FPUL2(J,I),J=2,7), FPUL2(1,I), 
+     >  NOELPU(I),KLEO,LABEL(NOELPU(I),1),LABEL(NOELPU(I),2)
  4    CONTINUE
       RETURN
 
@@ -115,7 +128,7 @@ C------- Record pick-up position (cm)
             IF(NOELPU(IPU1).LT.NOELI) IPU1= IPU1+1
           ENDIF
         ELSE
-          CALL ENDJOB('SBR PCKUP. Problem : IPU should be <= ',MXPU)
+          CALL ENDJOB('SBR PCKUP. Problem : IPU should be .le. ',MXPU)
         ENDIF
       ENDDO
  10   CONTINUE

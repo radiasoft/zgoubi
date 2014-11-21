@@ -356,7 +356,8 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
               DO IPRM = 1, NPRM
                 WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 
      >          'Parameter #',KPRM(iprm),' in element #',
-     >          KLM(iprm),' will be modified at each pass, '
+     >          KLM(iprm),' will be modified at each pass. '
+                OKLSTP = NRBLT .LE.20    ! Just to avoid big listing 
                 IF(OKLSTP) THEN
                   WRITE(NRES,FMT='(5X,A)') 'list of requested '
      >            //'parameter values :'
@@ -365,6 +366,22 @@ C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
                 ENDIF
               ENDDO
             ENDIF
+
+            do iprm = 1, nprm
+            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed  to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
+     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
+            IF(NRES .GT. 0 ) then 
+              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >        I4,''.  In element # '',I4,
+     >        '',  parameter #'',I3,''  changed to  '',
+     >        1P,E16.8,''   (was  '',E16.8,'')'')')
+     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
+            ENDIF
+            enddo
+
           ENDIF
 
           IF(NRBLT.GT.1) THEN
@@ -381,22 +398,22 @@ C            IF(KREB3.NE.22) READAT = .FALSE.
           IF(REBFLG) NOELRB = NOEL
         ENDIF
  
-        IF(KREB4 .EQ. 1) THEN
-          do iprm = 1, nprm
-            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,
-     >      ''.  In element # '',I4,
-     >      '',  changed value of parameter #'',I3,''  to : '',
-     >      1P,E16.8,''   (was : '',E16.8,'')'',/)')
-     >      IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
-            IF(NRES .GT. 0 ) then 
-              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
-     >        ''.  In element # '',I4,
-     >        '',  changed value of parameter #'',I3,''  to : '',
-     >        1P,E16.8,''   (was : '',E16.8,'')'')')
-     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
-            ENDIF
-          enddo
-        ENDIF
+c        IF(KREB4 .EQ. 1) THEN
+c          do iprm = 1, nprm
+c            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+c     >      I4,''.  In element # '',I4,
+c     >      '',  parameter #'',I3,''  changed  to  '',
+c     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
+c     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
+c            IF(NRES .GT. 0 ) then 
+c              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+c     >        I4,''.  In element # '',I4,
+c     >        '',  parameter #'',I3,''  changed to  '',
+c     >        1P,E16.8,''   (was  '',E16.8,'')'')')
+c     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
+c            ENDIF
+c          enddo
+c        ENDIF
 
         IPASS=IPASS+1
         NOEL=NOELA-1
@@ -458,25 +475,33 @@ C          ENDIF
  102      FORMAT(//,5X,' Next  pass  is  #',I6
      >    ,' and  last  pass  through  the  optical  structure',/)
 
+          do iprm = 1, nprm
+            WRITE(LUN,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'')')
+     >      IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
+          enddo
+
         ENDIF
  
-          IF(KREB4 .EQ. 1) THEN
-            do iprm = 1, nprm
-              WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,
-     >        ''.  In element # '',I4,
-     >        '',  changed value of parameter #'',I3,''  to : '',
-     >        1P,E16.8)')
-     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
-        IF(NRES .GT. 0 ) then 
-              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,
-     >        ''.  In element # '',I4,
-     >        '',  changed value of parameter #'',I3,''  to : '',
-     >        1P,E16.8)')
-     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
-        ENDIF
+c          IF(KREB4 .EQ. 1) THEN
+c            do iprm = 1, nprm
+c              WRITE(6,fmt='(/,'' SBR rebel. Pass is #'',I4,''/'',
+c     >        I4,''.  In element # '',I4,
+c     >        '',  parameter #'',I3,''  changed  to  '',
+c     >        1P,E16.8)')
+c     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+c            IF(NRES .GT. 0 ) then 
+c              WRITE(NRES,fmt='(/,'' SBR rebel. Pass is #'',I4,''/'',
+c     >        I4,''.  In element # '',I4,
+c     >        '',  parameter #'',I3,''  changed  to  '',
+c     >        1P,E16.8)')
+c     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
+c            ENDIF
 c                read(*,*)
-            enddo
-          ENDIF
+c            enddo
+c          ENDIF
 
         IPASS=IPASS+1
         NOEL=NOELA-1
@@ -540,6 +565,20 @@ C REBELOTE should be usable within FIT -> under developement.
 
       IF(KREB4 .EQ. 1) THEN
         READAT = .FALSE.
+          do iprm = 1, nprm
+            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed  to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
+     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
+            IF(NRES .GT. 0 ) then 
+              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >        I4,''.  In element # '',I4,
+     >        '',  parameter #'',I3,''  changed to  '',
+     >        1P,E16.8,''   (was  '',E16.8,'')'')')
+     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
+            ENDIF
+          enddo
       ENDIF
 
       RETURN

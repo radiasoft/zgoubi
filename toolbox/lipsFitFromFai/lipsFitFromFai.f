@@ -16,8 +16,12 @@ C----- PLOT SPECTRUM
       INTEGER DEBSTR,FINSTR
 
       character(7) TXT7A, TXT7B, TXT7R
+      character(200) TXT200
+      CHARACTER(80) STRA(2)
+      logical strcon
 
       data HV / '  ' /
+      data stra / 2*'  ' /
 
 C Channel number, .le. NCANAL
       data nc0 / 3* NCANAL /
@@ -56,7 +60,17 @@ c      elseif(.NOT.exs) then
 
       rewind(lunIn)
 
-        read(lunIn,*,err=11,end=11) filfai
+C        read(lunIn,*,err=11,end=11) filfai
+        read(lunIn,fmt='(a)',err=11,end=11) txt200
+        if(strcon(txt200,'!',
+     >                       is)) txt200 = txt200(1:is-1)
+        call strget(txt200,2,
+     >                       nbstr,stra)
+        read(stra(1),*) filfai
+        if(nbstr.eq.2) read(stra(2),*) nt
+c              write(*,*) ' lipsFromFai ',nbstr, stra(1)
+c              write(*,*) stra(2), nt
+c              read(*,*)
         read(lunIn,*,err=11,end=11) kpa
         close(lunIn)
         write(*,*) ' Read following data from lipsFitFromFai.In :'
@@ -1436,5 +1450,88 @@ C     -----------------------------------
          FINSTR=FINSTR-1
          IF(FINSTR.EQ. 0) RETURN
          IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
+      RETURN
+      END
+      FUNCTION STRCON(STR,STR2,
+     >                         IS)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL STRCON
+      CHARACTER STR*(*), STR2*(*)
+C     ---------------------------------------------------------------
+C     .TRUE. if the string STR contains the string STR2 at least once
+C     IS = position of first occurence of STR2 in STR 
+C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
+C     ---------------------------------------------------------------
+      INTEGER DEBSTR,FINSTR
+      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
+      IF(LEN(STR).LT.LNG2) GOTO 1
+      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
+        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
+          IS = I 
+          STRCON = .TRUE.
+          RETURN
+        ENDIF
+      ENDDO
+ 1    CONTINUE
+      STRCON = .FALSE.
+      RETURN
+      END
+      SUBROUTINE STRGET(STR,MSS,
+     >                          NST,STRA)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) STR, STRA(MSS)
+C     ------------------------------------------------------
+C     Extract substrings #1 up to #MSS, out of string STR. 
+C     Strings are assumed spaced by (at least) one blank. 
+C     They are saved in  array STRA, and their actual number 
+C     (possibly < mss) is NST.
+C     ------------------------------------------------------
+      INTEGER FINSTR
+
+      CHARACTER STR0*(300)
+
+      if(len(str0).lt.len(str)) 
+     >  stop ' SBR STRGET : Increase length of string str0'
+
+      STR0 = STR
+      IE = FINSTR(STR)
+      NST = 0
+      I2 = 1
+
+ 1    CONTINUE
+
+        IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >     STR(I2:I2) .EQ. ',') THEN
+          I2 = I2 + 1
+          IF(I2 .LE. IE) GOTO 1
+        ELSE
+          I1 = I2
+ 2        CONTINUE
+          I2 = I2 + 1
+          IF(I2 .LE. IE) THEN
+            IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >         STR(I2:I2) .EQ. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+                I2 = I2 + 1
+                GOTO 1
+              ENDIF
+            ELSE
+              GOTO 2
+            ENDIF
+          ELSE
+            IF(STR(I2-1:I2-1) .NE. ' ' .AND.
+     >         STR(I2-1:I2-1) .NE. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDIF
+
+      STR = STR0
+
       RETURN
       END

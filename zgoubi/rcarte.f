@@ -56,7 +56,7 @@ C----- BNORM & X-,Y-,Z-NORM
       READ(NDAT,*,ERR=8) A(NOEL,10),(A(NOEL,10+I),I=1,IDIM)
       GOTO 81
  8    CONTINUE
-      WRITE(*,*) ' *** Need 4 normalisation coefficients on that line'
+      WRITE(6,*) ' *** Need 4 normalisation coefficients on that line'
       CALL ENDJOB('*** Input data error in SBR RCARTE, data line #2',0)
       STOP 
  81   CONTINUE

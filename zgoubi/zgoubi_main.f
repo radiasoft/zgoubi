@@ -54,9 +54,9 @@ C Manage possible arguments to zgoubi -----------------------
          CALL GET_COMMAND_ARGUMENT(IX,ARGS(IX))
       END DO
       IF(NBARGS.GE.1) THEN
-        WRITE(*,*) ' '
-        WRITE(*,*) ' Argument(s) to zgoubi command :'
-        WRITE(*,*) (IX,ARGS(IX),IX = 1, NBARGS)
+        WRITE(6,*) ' '
+        WRITE(6,*) ' Argument(s) to zgoubi command :'
+        WRITE(6,*) (IX,ARGS(IX),IX = 1, NBARGS)
       ENDIF
       DO IX = 1, NBARGS
          IF(ARGS(IX) .EQ. '-fileIn'  ) FDAT = ARGS(IX+1)

@@ -12,8 +12,11 @@ Centering 5 helical orbits in the AGS warm helical snake 3-D OPERA map.
 4.1                                                                                                           
 0. 0. 1.                                                                                                      
                                                                                                               
- 'TOSCA'                                                                                                      4
-0  2                                                                                                          
+ 'FAISCEAU'                                                                                                   4
+ 'SPNPRT'                                                                                                     5
+                                                                                                              
+ 'TOSCA'                                                                                                      6
+0  0                                                                                                          
 1.e1   100. 100. 100.                                                                                         
 HEADER_0 wsnake                                                                                               
 801 29 29 12.1                                                                                                
@@ -23,23 +26,30 @@ warmSnake.map
 .1                                                                                                            
 2  0.  .0  0.  0.                                                                                             
                                                                                                               
- 'FIT'                                                                                                        5
-2                                                                                                             
+ 'FAISCEAU'                                                                                                   7
+                                                                                                              
+ 'FIT'                                                                                                        8
+2  save                                                                                                       
 1 30 0  [-3,3]                                                                                                
 1 31 0  [-3,3]                                                                                                
 3    1E-2                                                                                                     
-3.1 1 2 4 0. 1. 0                                                                                             
-3.1 1 3 4 0. 1. 0                                                                                             
-7.3 1 2 4 0. 1. 0                                                                                             
+3.1 1 2 6 0. 1. 0                                                                                             
+3.1 1 3 6 0. 1. 0                                                                                             
+7.3 1 2 6 0. 1. 0                                                                                             
                                                                                                               
- 'SPNPRT'  PRINT                                                                                              6
+ 'SPNPRT'  PRINT                                                                                              9
                                                                                                               
- 'REBELOTE'                                                                                                   7
+ 'SYSTEM'                                                                                                    10
+1                                                                                                             
+cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat                                                              
+                                                                                                              
+ 'REBELOTE'                                                                                                  11
 4  0.1  0 1                                                                                                   
 1                                                                                                             
 OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321                                             
                                                                                                               
- 'END'                                                                                                        8
+ 'FAISCEAU'                                                                                                  12
+ 'END'                                                                                                       13
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -105,11 +115,75 @@ OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -2.200     0.000     0.000     0.000       0.0000    1.0000   -2.200    0.000    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-                OPEN FILE zgoubi.plt                                                                      
-                FOR PRINTING TRAJECTORIES
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -2.2000E-02    0.000           1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000        0.000        1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      2.5100    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.00000E+00  2.50997E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -150,34 +224,61 @@ warmSnake.map map,  FORMAT type :  regular
 
   A    1  1.0000    -2.200     0.000     0.000     0.000          599.500    -2.182     0.000    -0.055     0.000            1
 
-
-                CONDITIONS  DE  MAXWELL  (     4004.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -3.3328E-12      -1.0454E-13       -1.5080E-14
-                                      1.5768E-12       -9.5122E-13
-                                     -2.7052E-13       -6.0426E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
-
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   1.454695E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -2.200     0.000     0.000     0.000       0.0000    1.0000   -2.182    0.090   -0.055    0.009   4.003418E+02     1
+               Time of flight (mus) :  1.45593751E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -2.1817E-02   9.0396E-05       1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000      -5.4741E-04   8.6225E-06       1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000       1.4559E-02    1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
            variable #            1       IR =            1 ,   ok.
            variable #            1       IP =           30 ,   ok.
            variable #            2       IR =            1 ,   ok.
            variable #            2       IP =           31 ,   ok.
-           constraint #            1       IR =            4 ,   ok.
+           constraint #            1       IR =            6 ,   ok.
            constraint #            1       I  =            1 ,   ok.
-           constraint #            2       IR =            4 ,   ok.
+           constraint #            2       IR =            6 ,   ok.
            constraint #            2       I  =            1 ,   ok.
-           constraint #            3       IR =            4 ,   ok.
+           constraint #            3       IR =            6 ,   ok.
 
                     FIT  variables  in  good  order,  FIT  will proceed. 
 
-                    Final FIT status will NOT be saved. For so, use the 'save' command
+                    Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
  LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
@@ -185,9 +286,9 @@ warmSnake.map map,  FORMAT type :  regular
     1    2     31   -3.00       6.000E-02   6.0000000000E-02   3.00      2.000E-02 OBJET      *          *         
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
  TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
-   3   1   2     4      0.0000000E+00     1.0000E+00    8.1418231E-03   7.2565E-03   TOSCA      *          *          *   0 : 
-   3   1   3     4      0.0000000E+00     1.0000E+00    8.1629180E-02   7.2942E-01   TOSCA      *          *          *   0 : 
-   7   1   2     4      0.0000000E+00     1.0000E+00   -4.9046288E-02   2.6333E-01   TOSCA      *          *          *   0 : 
+   3   1   2     6      0.0000000E+00     1.0000E+00    8.1418231E-03   7.2565E-03   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    8.1629180E-02   7.2942E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -4.9046288E-02   2.6333E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   9.1352E-03
 
 ************************************************************************************************************************************
@@ -236,11 +337,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -1.840     0.060     0.000     0.000       0.0000    1.0000   -1.840    0.060    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.8400E-02   6.0000E-05       1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000        0.000        1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      2.5100    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.00000E+00  2.50997E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -271,28 +437,54 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  1.0000    -1.840     0.060     0.000     0.000          599.500    -1.832     0.000    -0.045     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4004.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -2.7838E-12      -1.0454E-13        6.5642E-15
-                                      1.5768E-12       -9.5291E-13
-                                     -2.7052E-13       -6.0517E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  1.0000    -1.840     0.060     0.000     0.000          599.500    -1.832    -0.000    -0.045     0.000            1
 
  Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
 
 ************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
 
-      5   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -1.840     0.060     0.000     0.000       0.0000    1.0000   -1.832   -0.022   -0.045    0.007   4.003421E+02     1
+               Time of flight (mus) :  1.45593861E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.8319E-02  -2.1629E-05       1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000      -4.5196E-04   6.8008E-06       1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000       1.4559E-02    1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
 
           Now carrying on beyond FIT keyword.
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  SPNPRT      PRINT                 
+      9  Keyword, label(s) :  SPNPRT      PRINT                 
 
 
 
@@ -321,23 +513,31 @@ warmSnake.map map,  FORMAT type :  regular
 
   SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
 
- -9.6557E-04 -9.6557E-04  2.0832E-01  2.0832E-01  9.7806E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.00000E+00  2.50997E+00      1   1
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.00000E+00  2.50997E+00      1   1
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  REBELOTE                          
+     10  Keyword, label(s) :  SYSTEM                            
+
+  Number of commands :            1
+ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  REBELOTE                          
 
 
      Multiple pass, 
           from element #     1 : OBJET     /label1=          /label2=           to REBELOTE /label1=          /label2=          
-          ending at pass #       5 at element #     7 : REBELOTE  /label1=          /label2=          
+          ending at pass #       5 at element #    11 : REBELOTE  /label1=          /label2=          
 
 
-     Parameter #   35 in element #    1 will be modified at each pass, 
+     Parameter #   35 in element #    1 will be modified at each pass. 
      list of requested parameter values :
                    1   1.38727400E+00
                    2   2.13682967E+00
                    3   4.82611907E+00
                    4   1.10152413E+01
+
+ SBR rebel. At pass #    1/   5.  In element #    1,  parameter # 35  changed to    1.38727400E+00   (was    1.00000000E+00)
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -381,7 +581,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.840     0.060     0.000     0.000       0.0000    1.3873   -1.840    0.060    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.8400E-02   6.0000E-05       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -459,7 +727,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.780     0.060     0.000     0.000       0.0000    1.3873   -1.780    0.060    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.7800E-02   6.0000E-05       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -537,7 +873,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.780     0.120     0.000     0.000       0.0000    1.3873   -1.780    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.7800E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -615,7 +1019,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.720     0.180     0.000     0.000       0.0000    1.3873   -1.720    0.180    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.7200E-02   1.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -693,7 +1165,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.660     0.240     0.000     0.000       0.0000    1.3873   -1.660    0.240    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.6600E-02   2.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -771,7 +1311,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.600     0.300     0.000     0.000       0.0000    1.3873   -1.600    0.300    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.6000E-02   3.0000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -849,7 +1457,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.540     0.360     0.000     0.000       0.0000    1.3873   -1.540    0.360    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.5400E-02   3.6000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -927,7 +1603,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.480     0.420     0.000     0.000       0.0000    1.3873   -1.480    0.420    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.4800E-02   4.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1005,7 +1749,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.420     0.480     0.000     0.000       0.0000    1.3873   -1.420    0.480    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.4200E-02   4.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1083,7 +1895,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.540     0.000     0.000       0.0000    1.3873   -1.360    0.540    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   5.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1161,7 +2041,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.600     0.000     0.000       0.0000    1.3873   -1.300    0.600    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   6.0000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1239,7 +2187,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.540     0.000     0.000       0.0000    1.3873   -1.360    0.540    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   5.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1317,7 +2333,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.540     0.000     0.000       0.0000    1.3873   -1.300    0.540    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   5.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1395,7 +2479,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.420     0.540     0.000     0.000       0.0000    1.3873   -1.420    0.540    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.4200E-02   5.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1473,7 +2625,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.600     0.000     0.000       0.0000    1.3873   -1.360    0.600    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   6.0000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1551,7 +2771,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.480     0.000     0.000       0.0000    1.3873   -1.360    0.480    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   4.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1629,7 +2917,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.420     0.000     0.000       0.0000    1.3873   -1.360    0.420    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   4.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1707,7 +3063,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.360     0.000     0.000       0.0000    1.3873   -1.360    0.360    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   3.6000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1785,7 +3209,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.300     0.000     0.000       0.0000    1.3873   -1.360    0.300    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   3.0000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1863,7 +3355,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.240     0.000     0.000       0.0000    1.3873   -1.360    0.240    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   2.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -1941,7 +3501,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.180     0.000     0.000       0.0000    1.3873   -1.360    0.180    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   1.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2019,7 +3647,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.120     0.000     0.000       0.0000    1.3873   -1.360    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2097,7 +3793,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.360     0.180     0.000     0.000       0.0000    1.3873   -1.360    0.180    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3600E-02   1.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2175,7 +3939,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.180     0.000     0.000       0.0000    1.3873   -1.300    0.180    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.8000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2253,7 +4085,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.240     0.000     0.000       0.0000    1.3873   -1.300    0.240    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   2.4000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2331,7 +4231,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2409,7 +4377,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.240     0.060     0.000     0.000       0.0000    1.3873   -1.240    0.060    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.2400E-02   6.0000E-05       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2441,7 +4477,7 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  1.3873    -1.240     0.060     0.000     0.000          599.500    -1.230     0.000    -0.037     0.000            1
+  A    1  1.3873    -1.240     0.060     0.000     0.000          599.500    -1.230    -0.000    -0.037     0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   1.454695E-08 s 
 
@@ -2487,7 +4523,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2565,7 +4669,75 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
 
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
@@ -2607,9 +4779,9 @@ warmSnake.map map,  FORMAT type :  regular
     1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
  TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
-   3   1   2     4      0.0000000E+00     1.0000E+00    3.6561969E-02   2.2023E-01   TOSCA      *          *          *   0 : 
-   3   1   3     4      0.0000000E+00     1.0000E+00    5.9165583E-02   5.7671E-01   TOSCA      *          *          *   0 : 
-   7   1   2     4      0.0000000E+00     1.0000E+00    3.5107390E-02   2.0306E-01   TOSCA      *          *          *   0 : 
+   3   1   2     6      0.0000000E+00     1.0000E+00    3.6561969E-02   2.2023E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    5.9165583E-02   5.7671E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00    3.5107390E-02   2.0306E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   6.0699E-03
 
 ************************************************************************************************************************************
@@ -2658,11 +4830,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -2695,26 +4932,52 @@ warmSnake.map map,  FORMAT type :  regular
 
   A    1  1.3873    -1.300     0.120     0.000     0.000          599.500    -1.263     0.000    -0.038     0.000            1
 
-
-                CONDITIONS  DE  MAXWELL  (     4002.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -1.4120E-12      -5.6219E-14       -3.7321E-15
-                                      1.0172E-12       -6.7881E-13
-                                     -1.4808E-13       -4.3143E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
-
  Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
 
 ************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
 
-      5   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.263    0.061   -0.038    0.002   4.001769E+02     1
+               Time of flight (mus) :  1.39875067E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.2634E-02   6.0834E-05       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000      -3.7661E-04   2.1120E-06       1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000       1.3988E-02    2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
 
           Now carrying on beyond FIT keyword.
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  SPNPRT      PRINT                 
+      9  Keyword, label(s) :  SPNPRT      PRINT                 
 
 
 
@@ -2743,13 +5006,19 @@ warmSnake.map map,  FORMAT type :  regular
 
   SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
 
- -9.6557E-04 -6.7114E-04  1.9615E-01  2.0832E-01  9.7806E-01  9.8057E-01  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  REBELOTE                          
+     10  Keyword, label(s) :  SYSTEM                            
+
+  Number of commands :            1
+ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  REBELOTE                          
 
 
- SBR rebel. At pass #    2.  In element #    1,  changed value of parameter # 35  to :   2.13682967E+00   (was :   1.38727400E+00)
+ SBR rebel. At pass #    3/   5.  In element #    1,  parameter # 35  changed to    4.82611907E+00   (was    1.38727400E+00)
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -2793,11 +5062,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000        0.000        3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      5.0199    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -2828,22 +5162,48 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  2.1368    -1.300     0.120     0.000     0.000          599.500    -1.249     0.000    -0.030     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -9.0275E-13      -2.3726E-14        1.4132E-15
-                                      7.2217E-13       -4.4137E-13
-                                     -1.0949E-13       -2.8051E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  2.1368    -1.300     0.120     0.000     0.000          599.500    -1.249     0.000    -0.030    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -1.249    0.135   -0.030   -0.000   4.000743E+02     1
+               Time of flight (mus) :  1.36179758E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.2488E-02   1.3504E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000      -2.9790E-04  -3.2808E-08       1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000       1.3618E-02    3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
 
 ************************************************************************************************************************************
@@ -2888,11 +5248,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000        0.000        3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      5.0199    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -2923,36 +5348,63 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  2.1368    -1.300     0.120     0.000     0.000          599.500    -1.249     0.000    -0.030     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -9.0275E-13      -2.3726E-14        1.4132E-15
-                                      7.2217E-13       -4.4137E-13
-                                     -1.0949E-13       -2.8051E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  2.1368    -1.300     0.120     0.000     0.000          599.500    -1.249     0.000    -0.030    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   1.454695E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -1.249    0.135   -0.030   -0.000   4.000743E+02     1
+               Time of flight (mus) :  1.36179758E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.2488E-02   1.3504E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000      -2.9790E-04  -3.2808E-08       1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000       1.3618E-02    3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
            variable #            1       IR =            1 ,   ok.
            variable #            1       IP =           30 ,   ok.
            variable #            2       IR =            1 ,   ok.
            variable #            2       IP =           31 ,   ok.
-           constraint #            1       IR =            4 ,   ok.
+           constraint #            1       IR =            6 ,   ok.
            constraint #            1       I  =            1 ,   ok.
-           constraint #            2       IR =            4 ,   ok.
+           constraint #            2       IR =            6 ,   ok.
            constraint #            2       I  =            1 ,   ok.
-           constraint #            3       IR =            4 ,   ok.
+           constraint #            3       IR =            6 ,   ok.
 
                     FIT  variables  in  good  order,  FIT  will proceed. 
 
-                    Final FIT status will NOT be saved. For so, use the 'save' command
+                    Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
  LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
@@ -2960,9 +5412,9 @@ warmSnake.map map,  FORMAT type :  regular
     1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
  TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
-   3   1   2     4      0.0000000E+00     1.0000E+00    4.2566376E-02   4.4138E-01   TOSCA      *          *          *   0 : 
-   3   1   3     4      0.0000000E+00     1.0000E+00    2.8341262E-02   1.9567E-01   TOSCA      *          *          *   0 : 
-   7   1   2     4      0.0000000E+00     1.0000E+00   -3.8600183E-02   3.6296E-01   TOSCA      *          *          *   0 : 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.2566376E-02   4.4138E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    2.8341262E-02   1.9567E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -3.8600183E-02   3.6296E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   4.1051E-03
 
 ************************************************************************************************************************************
@@ -3011,11 +5463,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -0.880     0.120     0.000     0.000       0.0000    2.1368   -0.880    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.8000E-03   1.2000E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000        0.000        3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      5.0199    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3048,26 +5565,52 @@ warmSnake.map map,  FORMAT type :  regular
 
   A    1  2.1368    -0.880     0.120     0.000     0.000          599.500    -0.837     0.000    -0.027     0.000            1
 
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -6.0593E-13      -2.3726E-14        1.0384E-16
-                                      7.2217E-13       -4.4136E-13
-                                     -1.0949E-13       -2.8078E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
-
  Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
 
 ************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
 
-      5   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -0.880     0.120     0.000     0.000       0.0000    2.1368   -0.837    0.092   -0.027    0.000   4.000743E+02     1
+               Time of flight (mus) :  1.36179768E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.3743E-03   9.1659E-05       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000      -2.7487E-04   1.0380E-07       1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000       1.3618E-02    3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
 
           Now carrying on beyond FIT keyword.
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  SPNPRT      PRINT                 
+      9  Keyword, label(s) :  SPNPRT      PRINT                 
 
 
 
@@ -3096,13 +5639,19 @@ warmSnake.map map,  FORMAT type :  regular
 
   SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
 
- -9.6557E-04 -5.2989E-04  1.8858E-01  2.0832E-01  9.7806E-01  9.8206E-01  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  REBELOTE                          
+     10  Keyword, label(s) :  SYSTEM                            
+
+  Number of commands :            1
+ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  REBELOTE                          
 
 
- SBR rebel. At pass #    3.  In element #    1,  changed value of parameter # 35  to :   4.82611907E+00   (was :   2.13682967E+00)
+ SBR rebel. At pass #    4/   5.  In element #    1,  parameter # 35  changed to    1.10152413E+01   (was    2.13682967E+00)
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -3146,11 +5695,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -0.880    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.8000E-03   1.2000E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000        0.000        9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     11.1554    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3181,22 +5795,48 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  4.8261    -0.880     0.120     0.000     0.000          599.500    -0.832     0.000    -0.013     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -2.6796E-13      -1.0505E-14        4.5234E-17
-                                      3.1975E-13       -1.9949E-13
-                                     -4.8479E-14       -1.2702E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  4.8261    -0.880     0.120     0.000     0.000          599.500    -0.832     0.000    -0.013    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -0.832    0.118   -0.013   -0.000   4.000145E+02     1
+               Time of flight (mus) :  1.33969849E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.3234E-03   1.1788E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000      -1.3446E-04  -4.6479E-07       1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000       1.3397E-02    9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
 
 ************************************************************************************************************************************
@@ -3241,11 +5881,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -0.880    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.8000E-03   1.2000E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000        0.000        9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     11.1554    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3276,36 +5981,63 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  4.8261    -0.880     0.120     0.000     0.000          599.500    -0.832     0.000    -0.013     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -2.6796E-13      -1.0505E-14        4.5234E-17
-                                      3.1975E-13       -1.9949E-13
-                                     -4.8479E-14       -1.2702E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  4.8261    -0.880     0.120     0.000     0.000          599.500    -0.832     0.000    -0.013    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   1.454695E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -0.832    0.118   -0.013   -0.000   4.000145E+02     1
+               Time of flight (mus) :  1.33969849E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.3234E-03   1.1788E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000      -1.3446E-04  -4.6479E-07       1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000       1.3397E-02    9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
            variable #            1       IR =            1 ,   ok.
            variable #            1       IP =           30 ,   ok.
            variable #            2       IR =            1 ,   ok.
            variable #            2       IP =           31 ,   ok.
-           constraint #            1       IR =            4 ,   ok.
+           constraint #            1       IR =            6 ,   ok.
            constraint #            1       I  =            1 ,   ok.
-           constraint #            2       IR =            4 ,   ok.
+           constraint #            2       IR =            6 ,   ok.
            constraint #            2       I  =            1 ,   ok.
-           constraint #            3       IR =            4 ,   ok.
+           constraint #            3       IR =            6 ,   ok.
 
                     FIT  variables  in  good  order,  FIT  will proceed. 
 
-                    Final FIT status will NOT be saved. For so, use the 'save' command
+                    Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
  LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
@@ -3313,9 +6045,9 @@ warmSnake.map map,  FORMAT type :  regular
     1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
  TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
-   3   1   2     4      0.0000000E+00     1.0000E+00    4.5659894E-02   7.5534E-01   TOSCA      *          *          *   0 : 
-   3   1   3     4      0.0000000E+00     1.0000E+00    1.2231785E-02   5.4207E-02   TOSCA      *          *          *   0 : 
-   7   1   2     4      0.0000000E+00     1.0000E+00   -2.2927628E-02   1.9045E-01   TOSCA      *          *          *   0 : 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.5659894E-02   7.5534E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    1.2231785E-02   5.4207E-02   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -2.2927628E-02   1.9045E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   2.7601E-03
 
 ************************************************************************************************************************************
@@ -3364,11 +6096,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.400     0.120     0.000     0.000       0.0000    4.8261   -0.400    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -4.0000E-03   1.2000E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000        0.000        9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     11.1554    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3399,28 +6196,54 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1  4.8261    -0.400     0.120     0.000     0.000          599.500    -0.354     0.000    -0.013     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -1.0848E-13      -5.5780E-15       -5.7161E-16
-                                      3.2984E-13       -1.9945E-13
-                                     -5.3047E-14       -1.2710E-12
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1  4.8261    -0.400     0.120     0.000     0.000          599.500    -0.354     0.000    -0.013    -0.000            1
 
  Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
 
 ************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
 
-      5   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.400     0.120     0.000     0.000       0.0000    4.8261   -0.354    0.108   -0.013   -0.000   4.000145E+02     1
+               Time of flight (mus) :  1.33969849E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -3.5434E-03   1.0777E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000      -1.2806E-04  -3.7453E-07       1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000       1.3397E-02    9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
 
           Now carrying on beyond FIT keyword.
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  SPNPRT      PRINT                 
+      9  Keyword, label(s) :  SPNPRT      PRINT                 
 
 
 
@@ -3449,10 +6272,16 @@ warmSnake.map map,  FORMAT type :  regular
 
   SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
 
- -9.6557E-04 -4.3378E-04  1.8415E-01  2.0832E-01  9.7806E-01  9.8290E-01  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  REBELOTE                          
+     10  Keyword, label(s) :  SYSTEM                            
+
+  Number of commands :            1
+ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  REBELOTE                          
 
 
                                 -----  REBELOTE  -----
@@ -3471,7 +6300,9 @@ warmSnake.map map,  FORMAT type :  regular
       Next  pass  is  #     5 and  last  pass  through  the  optical  structure
 
 
- SBR rebel. At pass #    4.  In element #    1,  changed value of parameter # 35  to :   1.10152413E+01
+ SBR rebel. At pass #    4/   5.  In element #    1,  parameter # 35  changed to    1.10152413E+01   (was    4.82611907E+00)
+
+ SBR rebel. At pass #    5/   5.  In element #    1,  parameter # 35  changed to    0.00000000E+00   (was    4.82611907E+00)
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -3515,11 +6346,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -0.400    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -4.0000E-03   1.2000E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000        0.000       2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     25.3786    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3550,22 +6446,48 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1 11.0152    -0.400     0.120     0.000     0.000          599.500    -0.353     0.000    -0.006     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -4.7510E-14      -2.4439E-15       -2.3047E-16
-                                      1.4452E-13       -8.7736E-14
-                                     -2.3242E-14       -5.5918E-13
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1 11.0152    -0.400     0.120     0.000     0.000          599.500    -0.353     0.000    -0.006    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -0.353    0.115   -0.006   -0.000   4.000028E+02     1
+               Time of flight (mus) :  1.33530270E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -3.5287E-03   1.1542E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000      -5.7228E-05  -2.2002E-07       1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000       1.3353E-02   2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
 
 ************************************************************************************************************************************
@@ -3610,11 +6532,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -0.400    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -4.0000E-03   1.2000E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000        0.000       2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     25.3786    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3645,36 +6632,63 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1 11.0152    -0.400     0.120     0.000     0.000          599.500    -0.353     0.000    -0.006     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -4.7510E-14      -2.4439E-15       -2.3047E-16
-                                      1.4452E-13       -8.7736E-14
-                                     -2.3242E-14       -5.5918E-13
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1 11.0152    -0.400     0.120     0.000     0.000          599.500    -0.353     0.000    -0.006    -0.000            1
 
  Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   1.454695E-08 s 
 
 ************************************************************************************************************************************
-      5  Keyword, label(s) :  FIT                               
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -0.353    0.115   -0.006   -0.000   4.000028E+02     1
+               Time of flight (mus) :  1.33530270E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -3.5287E-03   1.1542E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000      -5.7228E-05  -2.2002E-07       1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000       1.3353E-02   2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  FIT                               
 
            variable #            1       IR =            1 ,   ok.
            variable #            1       IP =           30 ,   ok.
            variable #            2       IR =            1 ,   ok.
            variable #            2       IP =           31 ,   ok.
-           constraint #            1       IR =            4 ,   ok.
+           constraint #            1       IR =            6 ,   ok.
            constraint #            1       I  =            1 ,   ok.
-           constraint #            2       IR =            4 ,   ok.
+           constraint #            2       IR =            6 ,   ok.
            constraint #            2       I  =            1 ,   ok.
-           constraint #            3       IR =            4 ,   ok.
+           constraint #            3       IR =            6 ,   ok.
 
                     FIT  variables  in  good  order,  FIT  will proceed. 
 
-                    Final FIT status will NOT be saved. For so, use the 'save' command
+                    Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
  LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
@@ -3682,9 +6696,9 @@ warmSnake.map map,  FORMAT type :  regular
     1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
  TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
-   3   1   2     4      0.0000000E+00     1.0000E+00    4.7047888E-02   2.2979E-01   TOSCA      *          *          *   0 : 
-   3   1   3     4      0.0000000E+00     1.0000E+00    4.9788712E-03   2.5734E-03   TOSCA      *          *          *   0 : 
-   7   1   2     4      0.0000000E+00     1.0000E+00   -8.5991763E-02   7.6764E-01   TOSCA      *          *          *   0 : 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.7047888E-02   2.2979E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    4.9788712E-03   2.5734E-03   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -8.5991763E-02   7.6764E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   9.6329E-03
 
 ************************************************************************************************************************************
@@ -3733,11 +6747,76 @@ warmSnake.map map,  FORMAT type :  regular
                                <S>  =     1.0000
 
 ************************************************************************************************************************************
-      4  Keyword, label(s) :  TOSCA                             
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.220     0.120     0.000     0.000       0.0000   11.0152   -0.220    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
 
 
-     zgoubi.plt                                                                      
-      already open...
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -2.2000E-03   1.2000E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000        0.000       2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     25.3786    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
 
      NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
      Value of MOD.I is 12. 1
@@ -3768,28 +6847,54 @@ warmSnake.map map,  FORMAT type :  regular
      Element  is  mis-aligned  wrt.  the  optical  axis
           Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
 
-  A    1 11.0152    -0.220     0.120     0.000     0.000          599.500    -0.173     0.000    -0.006     0.000            1
-
-
-                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
-                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
-                    -2.1972E-14       4.3083E-17        1.7902E-16
-                                      1.2338E-13       -8.7761E-14
-                                     -1.9032E-14       -5.5921E-13
-                       LAPLACIEN SCALAIRE =   0.000    
-
-
+  A    1 11.0152    -0.220     0.120     0.000     0.000          599.500    -0.173     0.000    -0.006    -0.000            1
 
  Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
 
 ************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
 
-      5   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.220     0.120     0.000     0.000       0.0000   11.0152   -0.173    0.115   -0.006   -0.000   4.000028E+02     1
+               Time of flight (mus) :  1.33530271E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.7295E-03   1.1502E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000      -5.6525E-05  -2.1974E-07       1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000       1.3353E-02   2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT is skipped since this is the (end of) final run following the fitting procedure.
 
           Now carrying on beyond FIT keyword.
 
 ************************************************************************************************************************************
-      6  Keyword, label(s) :  SPNPRT      PRINT                 
+      9  Keyword, label(s) :  SPNPRT      PRINT                 
 
 
 
@@ -3818,10 +6923,16 @@ warmSnake.map map,  FORMAT type :  regular
 
   SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
 
- -9.6557E-04 -4.1869E-04  1.8328E-01  2.0832E-01  9.7806E-01  9.8306E-01  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
 
 ************************************************************************************************************************************
-      7  Keyword, label(s) :  REBELOTE                          
+     10  Keyword, label(s) :  SYSTEM                            
+
+  Number of commands :            1
+ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  REBELOTE                          
 
 
                          ****  End  of  'REBELOTE'  procedure  ****

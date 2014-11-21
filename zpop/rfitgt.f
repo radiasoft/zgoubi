@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -34,7 +34,7 @@ C     --------------------------------
       CHARACTER(80) TA
       COMMON/DONT/ TA(MXL,40)
 
-      CHARACTER TXT*80, STRA(1)*80
+      CHARACTER(80) TXT, STRA(1)
 
       READ(NDAT,FMT='(A)') TXT
       CALL STRGET(TXT,1,

@@ -19,6 +19,11 @@ C----- PLOT SPECTRUM
       character*1 txtsav, txtQ
       logical okQ
 
+      character(200) TXT200
+      CHARACTER(80) STRA(3)
+      logical strcon
+
+      data stra / 3*'  ' /
       data txtsav / 'y' /
 
       data HV / '  ' /
@@ -30,6 +35,7 @@ c Fourier transf. ksmpl turns strarting from kpa
       data kpa, ksmpl / 0, 600 /
       data txtQ / 'y' /
       data okQ / .true. /
+      data nt / -1 /
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -59,8 +65,9 @@ C Range of turns to be considered may be specified using tunesFromFai.In
         write(*,*)'WARNING : File tunesFromFai.In does not exist'
         write(*,*)'Pgm tunesTuneFromFai creates one from default values'
 
-        write(nlu,fmt='(2(i6,1x),t60,a)')  kpa, ksmpl
-     >  ,' ! kpa, ksmpl : Fourier transf. ksmpl turns starting from kpa'
+        write(nlu,fmt='(2(i6,1x),a3,t60,a)')  kpa, ksmpl, ' -1 '
+     >  ,' ! kpa, ksmpl, nt : Fourier transf. ksmpl turns starting '
+     >  //'from kpa.  nt is particle number or nt=-1 for all'
         write(nlu,fmt='(6(f8.4,1x),t60,a)')  (borne(i),i=1,6)
      >  ,' ! 3*(Q_1, Q_2) : x/y/l  spectrum range'
         write(nlu,fmt='(3(i6,1x),t60,a)')  (nc0(i),i=1,3)
@@ -71,7 +78,15 @@ C Range of turns to be considered may be specified using tunesFromFai.In
 
       rewind(nlu)
 
-        read(nlu,*,err=11,end=11) kpa, ksmpl
+C        read(nlu,*,err=11,end=11) kpa, ksmpl
+        read(nlu,fmt='(a)',err=11,end=11) txt200
+        if(strcon(txt200,'!',
+     >                       is)) txt200 = txt200(1:is-1)
+        call strget(txt200,3,
+     >                       nbstr,stra)
+        read(stra(1),*) kpa
+        read(stra(2),*) ksmpl
+        if(nbstr.eq.3) read(stra(3),*) nt
         read(nlu,*,err=11,end=11) (borne(i),i=1,6)
         read(nlu,*,err=11,end=11) (nc0(i),i=1,3)
         read(nlu,*,err=11,end=11) txtsav
@@ -88,7 +103,12 @@ C Range of turns to be considered may be specified using tunesFromFai.In
         if(nc0(ii) .gt. ncanal) nc0(ii) = ncanal
       enddo
 
-      write(*,*) ' Particle # : ','   all ' 
+      if(nt.eq.-1) then
+        write(*,*) ' Particle considered is # : ','   all ' 
+      else
+        write(*,*) ' Particle considered is # : ', nt
+      endif
+C           read(*,*)
       write(*,*) 
      >' Turn # range :  ',ksmpl,' turns,  from ',kpa,' to ',kpb
       write(*,*) ' Tune boudaries (x/y/l) : ',(borne(i),i=1,6)
@@ -130,7 +150,7 @@ C Just a temp storage for passing HV :
       nl = nfai
       okopn = .false.
       change = .true.
-      call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,OKSAV,okQ)
+      call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
           
       call SPSAV4
       stop ' Ended correctly it seems...'
@@ -139,7 +159,7 @@ C Just a temp storage for passing HV :
       stop 'Error during read from tunesFromFai.In.'
       end
 
-      SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,OKSAV,okQ)
+      SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE, OKSAV, okQ
       character*(*) HV
@@ -158,8 +178,8 @@ C----- PLOT SPECTRUM
       LOGICAL BINARY, BINARF
       CHARACTER HVL(3)*12
 
-      SAVE NT
-      DATA NT / -1 /
+C      SAVE NT
+C      DATA NT / -1 /
 
       LOGICAL OPN
       DATA OPN / .FALSE. /
@@ -190,7 +210,7 @@ C----- PLOT SPECTRUM
  6    CONTINUE
 C          OPN = .FALSE.
         IF(.NOT. OPN) THEN
-         IF(NT.EQ.-1) THEN
+C         IF(NT.EQ.-1) THEN
           IF (IDLUNI(IUN)) THEN
            call system('cat tunesFromFai.out >>tunesFromFai.out_old')
            call system('rm -f tunesFromFai.out')
@@ -207,7 +227,7 @@ C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
           ENDIF
-         ENDIF
+C         ENDIF
         ENDIF
 
           IF(NT.EQ.-1) THEN
@@ -215,7 +235,10 @@ C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
             KT = 1
             CALL READC6B(KT,KT)
           ELSE
-            KPR = 1
+C            KPR = 1
+            KPR = 2
+            KT = NT
+            CALL READC6B(KT,KT)
           ENDIF
 
           nspec = 0
@@ -1655,3 +1678,115 @@ c      return
       return
       END
       
+      FUNCTION STRCON(STR,STR2,
+     >                         IS)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL STRCON
+      CHARACTER STR*(*), STR2*(*)
+C     ---------------------------------------------------------------
+C     .TRUE. if the string STR contains the string STR2 at least once
+C     IS = position of first occurence of STR2 in STR 
+C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
+C     ---------------------------------------------------------------
+      INTEGER DEBSTR,FINSTR
+      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
+      IF(LEN(STR).LT.LNG2) GOTO 1
+      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
+        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
+          IS = I 
+          STRCON = .TRUE.
+          RETURN
+        ENDIF
+      ENDDO
+ 1    CONTINUE
+      STRCON = .FALSE.
+      RETURN
+      END
+      SUBROUTINE STRGET(STR,MSS,
+     >                          NST,STRA)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) STR, STRA(MSS)
+C     ------------------------------------------------------
+C     Extract substrings #1 up to #MSS, out of string STR. 
+C     Strings are assumed spaced by (at least) one blank. 
+C     They are saved in  array STRA, and their actual number 
+C     (possibly < mss) is NST.
+C     ------------------------------------------------------
+      INTEGER FINSTR
+
+      CHARACTER STR0*(300)
+
+      if(len(str0).lt.len(str)) 
+     >  stop ' SBR STRGET : Increase length of string str0'
+
+      STR0 = STR
+      IE = FINSTR(STR)
+      NST = 0
+      I2 = 1
+
+ 1    CONTINUE
+
+        IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >     STR(I2:I2) .EQ. ',') THEN
+          I2 = I2 + 1
+          IF(I2 .LE. IE) GOTO 1
+        ELSE
+          I1 = I2
+ 2        CONTINUE
+          I2 = I2 + 1
+          IF(I2 .LE. IE) THEN
+            IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >         STR(I2:I2) .EQ. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+                I2 = I2 + 1
+                GOTO 1
+              ENDIF
+            ELSE
+              GOTO 2
+            ENDIF
+          ELSE
+            IF(STR(I2-1:I2-1) .NE. ' ' .AND.
+     >         STR(I2-1:I2-1) .NE. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDIF
+
+      STR = STR0
+
+      RETURN
+      END
+      FUNCTION DEBSTR(STRING)
+      implicit double precision (a-h,o-z)
+      INTEGER DEBSTR
+      CHARACTER * (*) STRING
+
+C     --------------------------------------
+C     RENVOIE DANS DEBSTR LE RANG DU
+C     1-ER CHARACTER NON BLANC DE STRING,
+C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
+C     --------------------------------------
+
+      DEBSTR=0
+      LENGTH=LEN(STRING)
+C      LENGTH=LEN(STRING)+1
+1     CONTINUE
+        DEBSTR=DEBSTR+1
+C        IF(DEBSTR .EQ. LENGTH) RETURN
+C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
+        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
+          IF(DEBSTR .EQ. LENGTH) THEN
+            DEBSTR = 0
+            RETURN
+          ELSE
+            GOTO 1
+          ENDIF
+        ENDIF
+
+      RETURN
+      END

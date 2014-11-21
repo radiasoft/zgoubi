@@ -189,7 +189,8 @@ C------- Calculate pick-up signal
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
      >                                  IL) ) 
-     >    CALL PCKUP(NOEL)
+     >    CALL PCKUP
+C     >    CALL PCKUP(NOEL)
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
        ENDIF
@@ -374,7 +375,7 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       GOTO 998
 C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
-      IF(READAT) CALL RREBEL(LABEL,kle)
+      IF(READAT) CALL RREBEL(LABEL,KLE) 
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
       CALL KSMAP0
@@ -623,8 +624,8 @@ C----- FIT. FIT2. Two methods are available
       MTHOD = 1
  461  CONTINUE
       CALL FITNU2(MTHOD)
-          write(*,*) ' zgoubi readat ',readat,fitfnl,endfit,mthod
-              pause
+c          write(*,*) ' zgoubi readat ',readat,fitfnl,endfit,mthod
+c              pause
       IF(READAT) CALL RFIT(KLEY,
      >                         PNLTGT,ICPTMA,FITFNL)
       CALL FITNU4(FITFNL)
@@ -1120,8 +1121,6 @@ C        KOPIMP = 0
 C        OKLNO = .FALSE.
       ENDIF
       IF(IPASS .EQ. 2*KTW+1) READAT = .TRUE.
-c      write(*,*) ' zgoubi, noel, ktw, readat : ',noel,ktw,ipass,readat
-c      write(*,*) ' zgoubi, noel, ktw, readat : ',noel,ktw,ipass,readat
       GOTO 998
 C----- END. End of run, except for some options that may need more
  90   CONTINUE
@@ -1274,17 +1273,12 @@ C      IF(READAT) READ(NDAT,*) A(NOEL,1)
       READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))
       IF(NRES.GT.0) WRITE(NRES,*) ' Number of commands : ',NCMD
-C      IF(READAT) THEN 
-        DO I = 1, NCMD
-          READ(NDAT,FMT='(A)') SYSCMD
-          CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
-          IF(NRES.GT.0) WRITE(NRES,*) 
-     >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
-        ENDDO 
-C      ENDIF
-          WRITE(*,*) 
-     >    SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
-C                  read(*,*)
+      DO I = 1, NCMD
+        READ(NDAT,FMT='(A)') SYSCMD
+        CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
+        IF(NRES.GT.0) 
+     >  WRITE(NRES,*) SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
+      ENDDO 
       GOTO 998
 C----- SPINR. Spin rotator 
  107  CONTINUE

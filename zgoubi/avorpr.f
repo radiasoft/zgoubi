@@ -35,11 +35,11 @@ C  -------
 
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT(/,1X,'Brute record at pick-ups :',/,
-     >  2X,'PU#',T15,'Pos',T30,'Yco',T45,'Tco',T60,'Zco',T75,
-     >  'Pco',T90,'L',T105,'D',T122,'t',
-     >  T132,' #part ',T142,'Pass#'
-     >  /,T15,'(cm)',T29,'(cm)',T44,'(mrad)',T59,'(cm)',T73,'(mrad)',
-     >  T88,'(cm)',T103,'(dp/p)',T120,'(mu_s)'
+     >  2X,'PU#',T15,'Pos',T29,'S_Yco',T41,'S_Tco',T54,'S_Zco',T67,
+     >  'S_Pco',T80,'S_L',T93,'D',T106,'S_t',
+     >  T118,' #part ',T126,'Pass#',T224,'Lmnt#',
+     >  /,T15,'(cm)',T29,'(cm)',T41,'(mrad)',T54,'(cm)',T67,'(mrad)',
+     >  T80,'(cm)',T93,'(dp/p)',T106,'(mu_s)'
      >  )
 
         CALL PCKUP1
