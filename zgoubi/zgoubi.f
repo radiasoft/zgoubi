@@ -23,9 +23,9 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,
-     >                                 NBLMN,ENDFIT)
+     >                                 NBLMN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL READAT, ENDFIT
+      LOGICAL READAT
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -118,12 +118,22 @@ C This INCLUDE must stay located right before the first statement
       CHARACTER(132) TXT132
       LOGICAL STRCON 
 
+      LOGICAL FITBYD, FITRBL
+
       DATA PRDIC / .FALSE. /
       DATA OKLNO / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
-      
-      IF(ENDFIT) GOTO 998 
+
+C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
+      CALL FITST3(
+     >            FITBYD)
+c      CALL FITST5(
+c     >            FITFNL)
+c         write(*,*) ' zgoubi FITBYD noel ipass : ',FITBYD,noel,ipass
+c             pause
+
+      IF(FITBYD) GOTO 998 
 
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
@@ -162,7 +172,7 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
       NOEL = NL1-1
 
  998  CONTINUE
-  
+
 C YD FM. 28/01/2014
       IF(NOEL .GT. 0) THEN
 
@@ -195,7 +205,6 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
        ENDIF
 
-
        IF(KOPTCS .EQ. 1) THEN
 C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
 
@@ -216,7 +225,6 @@ C This was introduced so to restrain OPTICS to optics-type keywords.  Any additi
 C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
           KUASEX = -99
 
-
        IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         IF(IPASS.EQ.NRBLT+1) THEN
@@ -234,9 +242,20 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
 
       ENDIF ! NOEL.GT.0 
 
+c         if(nrblt.ne.0 .and. ipass.ge.nrblt) then 
+c            write(*,*) 
+c     >    ' zgoubi noel,ipass,nrblt,readat ',   noel,ipass,nrblt,readat
+c        pause
+c         endif
+
+
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999,END=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
+
+c         if(nrblt.ne.0 .and. ipass.eq.nrblt+1) 
+c     >         write(*,*) ' zgoubi kley ',kley
+
         DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
             NOEL = NOEL+1
@@ -261,6 +280,9 @@ C------- Gets in case of "FIT"
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
         KLEY = KLE(IKLE)
+c           write(*,*) ' zgoubi. Case NOEL=0 : noel,ikle,kley : ',
+c     >       noel, ikle, kley
+c                 pause
       ENDIF
  
  187  CONTINUE
@@ -376,10 +398,18 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
 C----- REBELOTE. Passes NRBLT more times thru the structure
 11    CONTINUE
       IF(READAT) CALL RREBEL(LABEL,KLE) 
+      IF(FITBYD) THEN
+        FITRBL = NRBLT .EQ.0 .OR. IPASS .LE. NRBLT  
+        CALL FITST8(FITRBL)          ! Allows FIT embeded in REBELOTE in zgoubi_main
+      ENDIF
       CALL REBEL(READAT,KLE,LABEL,
      >                            REBFLG,NOELRB)
+      FITBYD = .FALSE.
+      CALL FITST4(FITBYD)
       CALL KSMAP0
-      ENDFIT = .FALSE.   ! Used in zgoubi_main. Purpose : make REBELOTE compatible with FIT
+c      write(*,*) ' zgoubi readat, fiting, FITBYD, fitfnl, ', 
+c     >  readat,fiting,FITBYD,fitfnl,fitrbl
+c                pause
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
@@ -623,12 +653,12 @@ C----- FIT. FIT2. Two methods are available
  46   CONTINUE
       MTHOD = 1
  461  CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
+     >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
-c          write(*,*) ' zgoubi readat ',readat,fitfnl,endfit,mthod
-c              pause
       IF(READAT) CALL RFIT(KLEY,
      >                         PNLTGT,ICPTMA,FITFNL)
-      CALL FITNU4(FITFNL)
+      CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ICPTMA)
       IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ICPTMA)
       CALL CPTFC1(ICPTMA)
@@ -1122,10 +1152,11 @@ C        OKLNO = .FALSE.
       ENDIF
       IF(IPASS .EQ. 2*KTW+1) READAT = .TRUE.
       GOTO 998
-C----- END. End of run, except for some options that may need more
+C----- END. End of data list, end of execution. 
  90   CONTINUE
       CALL END(
-     >         READAT,NOEL,*998)
+     >         READAT,NOEL,KCSR)
+      IF(KCSR.EQ.1) GOTO 998
       GOTO 999
 C----- FFAG. FFAG Sector multi-dipole. 
  91   CONTINUE
@@ -1272,7 +1303,8 @@ C        stop '***************'
 C      IF(READAT) READ(NDAT,*) A(NOEL,1)
       READ(NDAT,*) A(NOEL,1)
       NCMD = NINT(A(NOEL,1))
-      IF(NRES.GT.0) WRITE(NRES,*) ' Number of commands : ',NCMD
+      IF(NRES.GT.0) WRITE(NRES,FMT='(5X,''Number  of  commands : '',I3,
+     >'',  as  follows : '',/)') NCMD
       DO I = 1, NCMD
         READ(NDAT,FMT='(A)') SYSCMD
         CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))

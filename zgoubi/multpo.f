@@ -98,7 +98,7 @@ C      ERRORS
       DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
       SAVE DB, DPOS, TILT
       LOGICAL OK
-      LOGICAL FITING, FINAL
+      LOGICAL FITING, FITFNL
 
 C      DATA DB / MPOL*0.D0 /
 C      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
@@ -264,9 +264,9 @@ C----- Case erron (errors)
 C            IF(IPASS.EQ.1) THEN 
             IF(KREB3 .NE. 99) THEN 
               CALL FITSTA(5,FITING)
-              CALL FITNU5(
-     >                    FINAL)
-              IF(.NOT.FITING .AND. .NOT. FINAL) 
+              CALL FITST5(
+     >                    FITFNL)         
+              IF(.NOT.FITING .AND. .NOT. FITFNL) 
      >          CALL MULERR(NOEL,IRR,BM, 
      >          KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)

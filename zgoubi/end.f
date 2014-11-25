@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE END(
-     >               READAT,NOEL,*)
+     >               READAT,NOEL,KCSRO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -43,7 +43,6 @@ C  -------
       COMMON/FAISCT/ LET(MXT)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       COMMON/UNITS/ UNIT(MXJ)
-C      CHARACTER(9) HMS
 
 C----- Coherent synchrotron radiation
       IF(KCSR.EQ.1) THEN
@@ -56,7 +55,8 @@ C----- Coherent synchrotron radiation
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(ZERO)
-          RETURN 1
+          KCSRO = KCSR
+          GOTO 99
         ELSEIF(IPASS .EQ. 2) THEN
 C--------- CSR calculations done
 
@@ -126,5 +126,7 @@ C-------------------------------------------------------------
      >      'integration in field :', I10,'/',I10) 
           ENDIF
       ENDIF
+
+ 99   CONTINUE
       RETURN
       END

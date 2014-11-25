@@ -29,7 +29,7 @@ C  -------
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(10) DMY
       CHARACTER(9) HMS
-      LOGICAL IDLUNI, READAT, FITING, ENDFIT
+      LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
       CHARACTER(100) FILIN, FILOU, FILOG
       CHARACTER(10) FDAT, FRES, FLOG
 
@@ -40,12 +40,11 @@ C  -------
       LOGICAL FITFNL
       INTEGER DEBSTR, FINSTR
 
-      character(len=12), dimension(:), allocatable :: args
-      logical savxec, savzpp
+      CHARACTER(LEN=12), DIMENSION(:), ALLOCATABLE :: ARGS
+      LOGICAL SAVXEC, SAVZPP
 
-      DATA ENDFIT / .FALSE. /
       DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
-      data savxec, savzpp / .false., .false.  /
+      DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -71,7 +70,6 @@ C -----
      >          NDAT)) THEN
         FILIN = FDAT
         OPEN(UNIT=NDAT,FILE=FILIN,STATUS='OLD',ERR=996)
-c          write(*,*) ' zgoubi.dat is unit # ',ndat
       ELSE
         GOTO 996
       ENDIF
@@ -80,7 +78,6 @@ c          write(*,*) ' zgoubi.dat is unit # ',ndat
      >          NRES)) THEN
         FILOU = FRES
         OPEN(UNIT=NRES,FILE=FILOU,ERR=997)
-c          write(*,*) ' zgoubi.res is unit # ',nres
       ELSE
         GOTO 997
       ENDIF
@@ -130,14 +127,12 @@ c          write(*,*) ' zgoubi.res is unit # ',nres
       CALL FITSTA(I6,FITING)
       NL1 = 1
       NL2 = MXL
-      ENDFIT = .FALSE.
+      FITBYD = .FALSE.
+      CALL FITST4(FITBYD)
       CALL ZGOUBI(NL1,NL2,READAT,
-     >                           NBLMN,ENDFIT)
-
+     >                           NBLMN)
       CALL FITSTA(I5,
      >               FITING)
-C          write(*,*) ' main ',fiting,readat,endfit
-C              pause
       IF(FITING) THEN
         READAT = .FALSE.
         CALL FITNU(NRES,*99)
@@ -147,9 +142,8 @@ C              pause
      >              NUMKLE)
         NL2 = NUMKLE-1   ! FIT keyword is at position NUMKLE
         WRITE(6,201)
-        CALL FITNU3(
+        CALL FITST5(
      >              FITFNL)
-C             write(*,*) ' main fitfnl, fiting : ',fitfnl, fiting 
         IF(FITFNL) THEN
           WRITE(6,200) 
           IF(NRES.GT.0) THEN
@@ -157,26 +151,28 @@ C             write(*,*) ' main fitfnl, fiting : ',fitfnl, fiting
             WRITE(NRES,200) 
  200        FORMAT(/,10X,
      >     ' MAIN PROGRAM :  FIT completed. ',
-     >     ' Now doing final run using FIT variable values. ',A10)
+     >     ' Now doing a last run using variable values from FIT. ',A10)
           ENDIF
-          ENDFIT = .FALSE.
-          CALL FITNU8(FITFNL)
+          FITBYD = .FALSE.
+          CALL FITST4(FITBYD)
           CALL ZGOUBI(NL1,NL2,READAT,
-     >                               NBLMN,ENDFIT)
+     >                               NBLMN)
           IF(NRES.GT.0) THEN 
             WRITE(NRES,201)
  201        FORMAT(/,132('*'))
-            WRITE(NRES,334) NUMKLE,' Keyword FIT is skipped since '
-     >      //'this is the (end of) final run following the fitting '
+            WRITE(NRES,334) NUMKLE,' Keyword FIT[2] is skipped since '
+     >      //'this is the (end of) last run following the fitting '
      >      //'procedure.','Now carrying on beyond FIT keyword.'
- 334        FORMAT(/,2X,I5,2X,A,//,10X,A)
+ 334        FORMAT(/,2X,I5,2X,A,//,10X,A,/)
             CALL FLUSH2(NRES,.FALSE.)
           ENDIF
+
         ELSE
-            WRITE(NRES,335) ' Final run following FIT[2] is skipped,'
+            WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
      >      //'as requested.  Now carrying on beyond FIT keyword.'
  335        FORMAT(/,2X,A)
         ENDIF
+
         WRITE(6,201)
 C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         READAT = .TRUE.
@@ -189,13 +185,19 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         CALL GO2KEY(NL1)
         NL2 = NBLMN
         CALL REBEL6(NL1, NBLMN)
-        ENDFIT = .TRUE.
+        FITBYD = .TRUE.
+        CALL FITST4(FITBYD)
         CALL ZGOUBI(NL1,NL2,READAT,
-     >                             NBLMN,ENDFIT)
-        IF(.NOT. ENDFIT) THEN
+     >                             NBLMN)
+        CALL FITST7(
+     >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
+        IF(FITRBL) THEN
+          FITRBL = .FALSE.   
+          CALL FITST8(FITRBL)
           REWIND(NDAT)
           GOTO 11 
         ENDIF
+
       ENDIF
 
       GOTO 10

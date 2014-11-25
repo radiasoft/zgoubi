@@ -47,7 +47,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -66,7 +66,13 @@
                     NU_Y =  0.27852585         NU_Z =  0.16409912    
         
 ////////////////  ../usersGuide/FIT/ - reference : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
                           - new : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
         
 ////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : 
  Fit reached penalty value   9.1352E-03
@@ -101,6 +107,4 @@
                               dNu_y / dp/p =  4.29909176E+01
                               dNu_z / dp/p = -5.45369658E+01
                           - new : 
-                              dNu_y / dp/p =  4.29909176E+01
-                              dNu_z / dp/p = -5.45369658E+01
         

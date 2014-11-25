@@ -45,17 +45,17 @@ C  -------
       CALL MINO13(
      >            NITER)
 
-        IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
-100     FORMAT('1')
-        IF(IUNIT.GT.0) WRITE(IUNIT,200) NI, NITER
-200     FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,
-     >  ' / ',I6,' max.)')
-        IF(IUNIT.GT.0) WRITE(IUNIT,300)
-300     FORMAT(
-     >  ' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',
-C------   IR(I)  I   IS(I)   X(K)        XI(I)          X(I)  
-     >  ' MAXIMUM      STEP     NAME       LBL1     LBL2' )
-C----      X(J)        P(I)
+      IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
+100   FORMAT('1')
+      IF(IUNIT.GT.0) WRITE(IUNIT,200) NI, NITER
+200   FORMAT(/,' STATUS OF VARIABLES  (Iteration #',I6,
+     >' / ',I6,' max.)')
+      IF(IUNIT.GT.0) WRITE(IUNIT,300)
+300   FORMAT(
+     >' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',
+C-----  IR(I)  I   IS(I)   X(K)        XI(I)          X(I)  
+     >' MAXIMUM      STEP     NAME       LBL1     LBL2' )
+C----    X(J)        P(I)
  
       DO 1 I=1,NV
         K=I+NV

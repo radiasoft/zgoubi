@@ -63,7 +63,7 @@ C  -------
 
       CHARACTER(KSIZ) KLEY
       LOGICAL GTTEXT, OK, STRCON
-      LOGICAL FINAL
+      LOGICAL FITFNL
       LOGICAL FIRST
       LOGICAL SKPLIN
 
@@ -187,8 +187,8 @@ C FM 14-08-01
       ENTRY FITGT1
       CALL ZGKLEY(
      >            KLEY)
-      CALL FITNU5(
-     >            FINAL)         !  True if final run following FIT[2}
+      CALL FITST5(
+     >            FITFNL)     
 
         FIRST = .TRUE. 
         DO IV = 1, KREAD
@@ -202,7 +202,7 @@ C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
      >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
      >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
                 SKPLIN = .TRUE.
-                IF(.NOT. FINAL) THEN
+                IF(.NOT. FITFNL) THEN
                   TEMP = A(NOEL,IPRM(IV)) 
                   A(NOEL,IPRM(IV)) = AFIT(IV)
                   IF(NRES .GT. 0) WRITE(NRES,
@@ -214,7 +214,7 @@ C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
                   IF(FIRST) THEN
                     IF(NRES .GT. 0) WRITE(NRES,FMT='('' Pgm fitgtv. ''
      >              ,''GETFITVAL procedure will not be applied, since ''
-     >              ,'' this is a final run with ''
+     >              ,'' this is a last run with ''
      >              ,/,'' variable values''
      >              ,'' following from just completed FIT.'')')
                   ENDIF

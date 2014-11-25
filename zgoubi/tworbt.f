@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TWorbt
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -44,20 +44,19 @@ C  -------
       DIMENSION RREF(6,6), T(6,6,6)
       DIMENSION T3(5,6) , T4(5,6)
 
-      logical readat, endfit
+      LOGICAL READAT
 
-      data prec /  1e-4 /
+      DATA PREC /  1E-4 /
 
 
-      xame = 1.d99
-      dowhile(xame .gt. prec) 
+      XAME = 1.D99
+      DOWHILE(XAME .GT. PREC) 
 
           READAT = .FALSE.  ! OBJET has to be skipped (there may be another way).
                             ! Here, FO(j,1) has to be set to the new final coordinates
                             ! and the sampling of OBJET/KOBJ=5 has to be updated.
-          ENDFIT = .FALSE.
           CALL ZGOUBI(1,MXL,READAT,
-     >                             NBEL,ENDFIT)
+     >                             NBEL)
 
         IF(KOBJ .EQ. 5) THEN
           IORD=1
@@ -79,16 +78,16 @@ C  -------
           CALL REFER(2,2,0,1,6,7)
         ENDIF
 
-        xame = (
-     >  abs(f(1,2) - fo(1,2)) + 
-     >  abs(f(1,3) - fo(1,3)) + 
-     >  abs(f(1,4) - fo(1,4)) + 
-     >  abs(f(1,5) - fo(1,5)) 
+        XAME = (
+     >  ABS(F(1,2) - FO(1,2)) + 
+     >  ABS(F(1,3) - FO(1,3)) + 
+     >  ABS(F(1,4) - FO(1,4)) + 
+     >  ABS(F(1,5) - FO(1,5)) 
      >  )
 
-      enddo
+      ENDDO
       
-      ipass = 1
+      IPASS = 1
 
       RETURN
 

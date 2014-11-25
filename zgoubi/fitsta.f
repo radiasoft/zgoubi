@@ -27,8 +27,22 @@ C  -------
       LOGICAL FITIN, FITING
       SAVE FITING
       SAVE NUMKLE
+
+      LOGICAL FITBYI, FITBYO, FITBYD
+      SAVE FITBYD
+
+      LOGICAL FITFNL, FITFNI, FITFNO
+      SAVE FITFNL
+
+      LOGICAL FITRBL, FITRBI, FITRBO
+      SAVE FITRBL
+
       DATA FITING / .FALSE. /
       DATA NUMKLE / 0 /
+      DATA FITBYD / .FALSE. /
+      DATA FITFNL / .FALSE. /
+      DATA FITRBL / .FALSE. /
+
 C FITIN set to .true. (in zgoubi.f) when FIT procedure run
       IF(IO.EQ.5) THEN
 C-------- read status
@@ -46,6 +60,33 @@ C-------- save status
 
       ENTRY FITST2(NUMKL)
          NUMKLE = NUMKL
+      RETURN
+
+! .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
+      ENTRY FITST3(
+     >             FITBYO)
+         FITBYO = FITBYD
+      RETURN
+      ENTRY FITST4(FITBYI)
+         FITBYD = FITBYI
+      RETURN
+
+! Execute Zgoubi w new variables following completed FIT[2]
+      ENTRY FITST5(
+     >             FITFNO)
+      FITFNO = FITFNL
+      RETURN
+      ENTRY FITST6(FITFNI)
+      FITFNL = FITFNI      
+      RETURN
+
+! .T. if FIT[2] embedded in REBELOTE
+      ENTRY FITST7(
+     >             FITRBO)
+         FITRBO = FITRBL
+      RETURN
+      ENTRY FITST8(FITRBI)
+         FITRBL = FITRBI
       RETURN
 
       END

@@ -54,7 +54,7 @@ C      SAVE IC2
 
       DIMENSION RPD(6,6), RMD(6,6) 
 
-      LOGICAL READAT, ENDFIT
+      LOGICAL READAT
       PARAMETER (I0=0)
 
       M=1
@@ -72,9 +72,8 @@ C----------- Compute present value of constraint
 C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
-            ENDFIT = .FALSE.
             CALL ZGOUBI(1,KK,READAT,
-     >                              NBEL,ENDFIT)
+     >                              NBEL)
          ENDIF
 
          IF     (ICONT .EQ. 0) THEN

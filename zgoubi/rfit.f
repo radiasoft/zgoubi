@@ -50,6 +50,8 @@ C     ***************************************
       LOGICAL OK
       CHARACTER(80) FNAME
       LOGICAL EMPTY
+      LOGICAL FIRST 
+      DATA FIRST / .TRUE. /
 
 C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132
@@ -64,6 +66,7 @@ C  READ NV [,'nofinal','save' [FileName]]
       IF(FITSAV) THEN
         TXT132 = TXT132(JJS+4:FINSTR(TXT132))
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+
         IF(.NOT. EMPTY(TXT132)) THEN
           IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)+6).NE.'nofinal') THEN
             READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*) FNAME
@@ -73,7 +76,8 @@ C  READ NV [,'nofinal','save' [FileName]]
         ELSE
           FNAME = 'zgoubi.FITVALS.out'
         ENDIF
-        CALL FITNU6(FNAME) 
+        IF(FIRST) CALL FITNU6(FNAME)
+        FIRST = .FALSE.  
       ENDIF
 
       DO I=1,NV

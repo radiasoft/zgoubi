@@ -41,17 +41,11 @@ C  -------
       DIMENSION Y(MXV),VI(MXV)
       SAVE MTHD
 
-      LOGICAL FITFNL, FITFNI, FITFNO
-      SAVE FITFNL
       CHARACTER(80) FNAME, FNAMEI
       SAVE LSAV, FNAME
       LOGICAL FITSAV, OK
-      LOGICAL FINAL, FINALI, FINALO
-      SAVE FINAL
 
       DATA MTHD / 2 / 
-      DATA FITFNL / .TRUE. /
-      DATA FINAL / .FALSE. /
 
       CALL FITEST(FITSAV,FNAME,
      >                       IER)
@@ -82,32 +76,12 @@ C Implemented by Scott Berg, LPSC, April 2007
       MTHD = MTHDI
       RETURN
 
-      ENTRY FITNU3(
-     >             FITFNO) 
-      FITFNO=FITFNL
-      RETURN
-
-      ENTRY FITNU4(FITFNI) 
-      FITFNL=FITFNI
-      RETURN
-
       ENTRY FITNU6(FNAMEI) 
       FITSAV = .TRUE.
       FNAME = FNAMEI
       OK = IDLUNI(
      >            LSAV)
       OPEN(UNIT=LSAV,FILE=FNAMEI)
-      RETURN
-
-! Final run following FIT[2]
-      ENTRY FITNU8(FINALI)
-      FINAL = FINALI      
-      RETURN
-
-! Final run following FIT[2]
-      ENTRY FITNU5(
-     >              FINALO)
-      FINALO = FINAL
       RETURN
 
       END

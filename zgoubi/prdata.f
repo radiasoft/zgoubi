@@ -60,14 +60,6 @@ C----- Read zgoubi.dat title (1st data line)
         ELSE
           TEXT = ' '
         ENDIF
-        IF(STRCON(TEXT,'!', 
-     >                     IS)) THEN
-          IF(IS .GE. 1) THEN
-            TEXT = TEXT(1:IS-1)
-          ELSE
-            TEXT = ' '
-          ENDIF
-        ENDIF
         IDEB = 1
         IF( TEXT(IDEB:IDEB) .EQ. '''' ) THEN
           NOEL=NOEL+1

@@ -89,6 +89,8 @@ c      COMMON/DONT/ TA(MXL,MXTA)
       PARAMETER (MXPL= MXPRM*MXLST, MXPRM3= MXPRM*3)
       LOGICAL OKLSTP
 
+      logical fiting
+
       DATA KREB3, KREB31, kreb4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
@@ -116,112 +118,14 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
         IF(NRBLT .GT. MXLST) 
      >  CALL ENDJOB('SBR REBEL. Parameter list too large. Has to be < '
      >  //' NRBLT=',NRBLT)
-      ENDIF
 
-      IF(KREB4 .EQ. 1) THEN
-C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
-        IF(IPASS .EQ.1 ) THEN
-c              write(*,*) ' kreb4, ipass',kreb4, ipass, nprm
-c                   read(*,*)
-          DO iprm = 1, NPRM
-            IF(.NOT. EMPTY(TPRM(iprm,1))) THEN
-              klei(iprm) = Tprm(iprm,1)
-              nlbl(iprm) = 0
-              IF(.NOT. EMPTY(TPRM(iprm,2))) THEN
-                LBL1(iprm) = TPRM(iprm,2)
-                nlbl(iprm) = 1
-                IF(.NOT. EMPTY(TPRM(iprm,3))) THEN
-                  LBL2(iprm) = Tprm(iprm,3)
-                  nlbl(iprm) = 2
-                ENDIF
-              ENDIF
-            ENDIF
-            FOUND = .FALSE.
-            NEL = 1
-c              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
-c                   read(*,*)
-            DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
-              IF(KLE(IQ(NEL))(debstr(KLE(IQ(NEL))):finstr(KLE(IQ(NEL))))
-     >           .EQ. KLEI(iprm)(debstr(KLEI(iprm)):finstr(KLEI(iprm)))) 
-     >        THEN
-c              write(*,*) ' rebel klei(iprm) ',iprm,KLEI(iprm)
-                IF    (NLBL(iprm) .EQ. 0) THEN                
-                  FOUND = .TRUE.
-                ENDIF
-              ENDIF
-              NEL = NEL + 1
-            ENDDO
-            IF(.NOT. FOUND) THEN
-              CALL ENDJOB(
-     >        'Sbr rebel. No such keyword in optical sequence',-99)
-            ENDIF 
-          enddo
-        ENDIF
-
-C        NPRM = NINT(A(NOEL,10))
-c        IF(NPRM .GT. MXPRM) 
-c     >    CALL ENDJOB('SBR REBEL. Too many parameters, has to be .le. '
-c     >    ,MXPRM)
-c        IF(NRBLT .GT. MXLST) 
-c     >  CALL ENDJOB('SBR REBEL. Parameter list too large. Has to be < '
-c     >  //' NRBLT=',NRBLT)
-
-        DO iprm = 1, NPRM
-          KLM(iprm)   = NINT(A(NOEL,20+10*(iprm-1)))
-          KPRM(iprm)  = NINT(A(NOEL,21+10*(iprm-1)))
-          AOLD = A(KLM(iprm),KPRM(iprm))
-          A(KLM(iprm),KPRM(iprm)) = PARAM(iprm,IPASS)
-
-c          write(*,*) ' rebel    ipass, iprm, A '
-c          write(*,*) ' rebel ', ipass, iprm, A(KLM(iprm),KPRM(iprm))
-c          write(*,*) ' rebel  ipass, iprm, KLM,  KPRM '
-c          write(*,*) ' rebel ', ipass, iprm, KLM(iprm),KPRM(iprm)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm))
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+1)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+2)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+3)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+4)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+5)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+6)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+7)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+8)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+9)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+10)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+11)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+12)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+13)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+14)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+15)
-c          write(*,*) ' rebel ', aold, A(KLM(iprm),KPRM(iprm)+16)
-c                read(*,*)
-
+        DO IPRM = 1, NPRM
+          KLM(IPRM)   = NINT(A(NOEL,20+10*(IPRM-1)))
+          KPRM(IPRM)  = NINT(A(NOEL,21+10*(IPRM-1)))
+          AOLD = A(KLM(IPRM),KPRM(IPRM))
+          A(KLM(IPRM),KPRM(IPRM)) = PARAM(IPRM,IPASS)
         ENDDO
 
-        IF(IPASS .EQ. NRBLT) THEN
-C------- Last but one pass through structure
-          IF(KWRT .NE. 1) THEN
-C--------- reactive WRITE
-            IF(NRES.LT.0) NRES=-NRES
-            KWRT = 1
-          ENDIF
-
-        ELSEIF(IPASS .EQ. NRBLT+1) THEN
-C------- Last pass has been completed
-C Now last occurence of REBELOTE => carry on beyond REBELOTE
-          LUN=ABS(NRES)
-          IF(LUN.GT.0) THEN
-            WRITE(LUN,101) IPASS
-            CALL CNTOUR(
-     >                  NOUT)
-            IF(NOUT.GT. 0) WRITE(LUN,107) NOUT,IMX
-            CALL CNTNRR(
-     >                  NRJ)
-            IF(NRJ .GT. 0) WRITE(LUN,108) NRJ,IMX
-          ENDIF
-
-          READAT = .TRUE.
-          STOP
-        ENDIF
       ENDIF
 
 C Will stop at element # NOELB when doing last turn
@@ -308,9 +212,8 @@ C--------- endif SR loss ----------------------------------
 
       IF( IPASS .LT. NRBLT ) THEN
 
-C        LUN=ABS(NRES) 
-        LUN=NRES 
-        IF(LUN.GT.0 .AND. KWRT.EQ.2) THEN
+        LUN=ABS(NRES)
+        IF(LUN .GT. 0) THEN
           WRITE(LUN,100) IPASS
  100      FORMAT(/,30X,'  -----  REBELOTE  -----',//
      >    ,5X,'End of pass # ',I8,' through the optical structure ',/)
@@ -322,13 +225,8 @@ C        LUN=ABS(NRES)
           ELSE
             KNDES = NDES
           ENDIF
-          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-C          IF(KSPN .EQ. 1) THEN
-C            IF(KREB3 .EQ. 99) THEN
-C              WRITE(LUN,126)
-C              WRITE(LUN,125) (I,(SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
-C            ENDIF
-C          ENDIF
+          IF(IFDES .EQ. 1) 
+     >      WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
@@ -336,84 +234,96 @@ C          ENDIF
      >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
         ENDIF
- 
+
         IF(IPASS .EQ. 1) THEN
-          IF(NRES .GT. 0) WRITE(NRES,FMT='(/,5X,
-     >    ''Multiple pass, '', /, 
-     >    10X,''from element # '',I5,'' : '',
-     >    A,''/label1='',A,''/label2='',A,
-     >    '' to REBELOTE '',''/label1='',A,''/label2='',A,/, 
-     >    10X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
-     >    A,''/label1='',A,''/label2='',A,/)') 
-     >    NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2),
-     >    LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
-     >    NOELB,KLE(IQ(NOELB)),LABEL(NOELB,1),LABEL(NOELB,2)
-C          WRITE(NRES,FMT='(/,5X,
-C     >    ''Total nuber of passes will be : '',I7,/)') NRBLT+1
+
+          LUN=ABS(NRES)
+          IF(LUN .GT. 0) THEN
+            WRITE(LUN,FMT='(/,5X,
+     >      ''Multiple pass, '', /, 
+     >      10X,''from element # '',I5,'' : '',
+     >      A,''/label1='',A,''/label2='',A,
+     >      '' to REBELOTE '',''/label1='',A,''/label2='',A,/, 
+     >      10X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
+     >      A,''/label1='',A,''/label2='',A,/)') 
+     >      NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2),
+     >      LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
+     >      NOELB,KLE(IQ(NOELB)),LABEL(NOELB,1),LABEL(NOELB,2)
+          ENDIF
 
           IF(KREB4 .EQ. 1) THEN
-            IF(NRES .GT. 0)  THEN
+C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
+            DO IPRM = 1, NPRM
+              IF(.NOT. EMPTY(TPRM(IPRM,1))) THEN
+                KLEI(IPRM) = TPRM(IPRM,1)
+                NLBL(IPRM) = 0
+                IF(.NOT. EMPTY(TPRM(IPRM,2))) THEN
+                  LBL1(IPRM) = TPRM(IPRM,2)
+                  NLBL(IPRM) = 1
+                  IF(.NOT. EMPTY(TPRM(IPRM,3))) THEN
+                    LBL2(IPRM) = TPRM(IPRM,3)
+                    NLBL(IPRM) = 2
+                  ENDIF
+                ENDIF
+              ENDIF
+              FOUND = .FALSE.
+              NEL = 1
+              DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
+                IF(
+     >           KLE(IQ(NEL))(DEBSTR(KLE(IQ(NEL))):FINSTR(KLE(IQ(NEL))))
+     >           .EQ. KLEI(IPRM)(DEBSTR(KLEI(IPRM)):FINSTR(KLEI(IPRM))))
+     >          THEN
+                  IF    (NLBL(IPRM) .EQ. 0) THEN                
+                    FOUND = .TRUE.
+                  ENDIF
+                ENDIF
+                NEL = NEL + 1
+              ENDDO
+              IF(.NOT. FOUND) THEN
+                CALL ENDJOB(
+     >          'Sbr rebel. No such keyword in optical sequence',-99)
+              ENDIF 
+            ENDDO
+
+            LUN=ABS(NRES)
+            IF(LUN .GT. 0) THEN
               DO IPRM = 1, NPRM
-                WRITE(NRES,FMT='(/,5X,2(A,1x,I4),A)') 
+                WRITE(LUN,FMT='(/,5X,2(A,1x,I4),A)') 
      >          'Parameter #',KPRM(iprm),' in element #',
-     >          KLM(iprm),' will be modified at each pass. '
+     >          KLM(IPRM),' will be modified at each pass. '
                 OKLSTP = NRBLT .LE.20    ! Just to avoid big listing 
                 IF(OKLSTP) THEN
-                  WRITE(NRES,FMT='(5X,A)') 'list of requested '
+                  WRITE(LUN,FMT='(5X,A)') 'list of requested '
      >            //'parameter values :'
-                  WRITE(NRES,FMT='(15X,I5,1P,E17.8)')
+                  WRITE(LUN,FMT='(15X,I5,1P,E17.8)')
      >            (I,PARAM(IPRM,I),I=1, NRBLT)
                 ENDIF
               ENDDO
             ENDIF
 
-            do iprm = 1, nprm
+          ENDIF
+
+          IF(NRBLT.GT.1) READAT = .FALSE.
+
+          IF(REBFLG) NOELRB = NOEL
+
+        ENDIF  !IF(IPASS .EQ. 1) 
+ 
+        LUN = NRES
+        IF(LUN .GT. 0) THEN
+          DO IPRM = 1, NPRM
             WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed  to  '',
-     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
-     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
-            IF(NRES .GT. 0 ) then 
-              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-     >        I4,''.  In element # '',I4,
-     >        '',  parameter #'',I3,''  changed to  '',
-     >        1P,E16.8,''   (was  '',E16.8,'')'')')
-     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
-            ENDIF
-            enddo
-
-          ENDIF
-
-          IF(NRBLT.GT.1) THEN
-            IF(KWRT .NE. 1) THEN
-c              IF(KREB4 .NE. 1)  THEN 
-C------------- inihibit WRITE if KWRT.NE.1 and more than 1 pass
-                IF(NRES .GT. 0) NRES =-NRES
-c              ENDIF
-            ENDIF
-CC----------- If not FIT :
-C            IF(KREB3.NE.22) READAT = .FALSE.
-            READAT = .FALSE.
-          ENDIF
-          IF(REBFLG) NOELRB = NOEL
+     >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+            WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+          ENDDO
         ENDIF
- 
-c        IF(KREB4 .EQ. 1) THEN
-c          do iprm = 1, nprm
-c            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-c     >      I4,''.  In element # '',I4,
-c     >      '',  parameter #'',I3,''  changed  to  '',
-c     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
-c     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
-c            IF(NRES .GT. 0 ) then 
-c              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-c     >        I4,''.  In element # '',I4,
-c     >        '',  parameter #'',I3,''  changed to  '',
-c     >        1P,E16.8,''   (was  '',E16.8,'')'')')
-c     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
-c            ENDIF
-c          enddo
-c        ENDIF
 
         IPASS=IPASS+1
         NOEL=NOELA-1
@@ -422,28 +332,23 @@ c        ENDIF
 
 C--------- SR loss ----------------------------------
         IF(KSYN .EQ. 1) THEN
-         IF(LUN.GT.0) THEN 
-          WRITE(LUN,FMT='(/,2X,
-     >    '' * Theoretical S.R. parameters in BEND and MULTIPOL ''
-     >    ,''*dipole*  field :'')')
-          CALL SYNPA3(LUN,
-     >                    SMELPP,EE)
-          WRITE(LUN,FMT='(5X,
-     >    '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
-     >    '',   time : '',G16.8,'' mu_sec'')') 
-     >    EE/SMELPP,EE/SMELPP*F(7,1)
-         ENDIF
+          LUN = NRES
+          IF(LUN.GT.0) THEN 
+            WRITE(LUN,FMT='(/,2X,
+     >      '' * Theoretical S.R. parameters in BEND and MULTIPOL ''
+     >      ,''*dipole*  field :'')')
+            CALL SYNPA3(LUN,
+     >                      SMELPP,EE)
+            WRITE(LUN,FMT='(5X,
+     >      '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
+     >      '',   time : '',G16.8,'' mu_sec'')') 
+     >      EE/SMELPP,EE/SMELPP*F(7,1)
+          ENDIF
         ENDIF
 C--------- endif SR loss ----------------------------
 
       ELSEIF(IPASS .EQ. NRBLT) THEN
-C------- Last but one pass through structure
-        IF(KWRT .NE. 1) THEN
-C--------- reactive WRITE
-          IF(NRES.LT.0) NRES=-NRES
-          KWRT = 1
-        ENDIF
-
+C------- Last but one pass through structure HAS JUST BEEN completed
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
           WRITE(LUN,100) IPASS
@@ -456,12 +361,6 @@ C--------- reactive WRITE
             KNDES = NDES
           ENDIF
           IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-C          IF(KSPN .EQ. 1) THEN
-C            IF(KREB3 .EQ. 99) THEN
-C              WRITE(LUN,126)
-C              WRITE(LUN,125) (I,( SSP(J,I)/IPASS,J=1,4) ,I=1,IMAX)
-C            ENDIF
-C          ENDIF
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
@@ -469,47 +368,35 @@ C          ENDIF
      >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
  
-          WRITE(LUN,104)
- 104      FORMAT(/,128('*'),//,128('*'),//,128('*'))
           WRITE(LUN,102) NRBLT+1
  102      FORMAT(//,5X,' Next  pass  is  #',I6
      >    ,' and  last  pass  through  the  optical  structure',/)
-
-          do iprm = 1, nprm
-            WRITE(LUN,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+          DO IPRM = 1, NPRM
+            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed  to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+            WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed to  '',
-     >      1P,E16.8,''   (was  '',E16.8,'')'')')
-     >      IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
-          enddo
+     >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+          ENDDO
+
+c          WRITE(LUN,104)
+c 104      FORMAT(/,128('*'),//,128('*'),//,128('*'))
 
         ENDIF
  
-c          IF(KREB4 .EQ. 1) THEN
-c            do iprm = 1, nprm
-c              WRITE(6,fmt='(/,'' SBR rebel. Pass is #'',I4,''/'',
-c     >        I4,''.  In element # '',I4,
-c     >        '',  parameter #'',I3,''  changed  to  '',
-c     >        1P,E16.8)')
-c     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
-c            IF(NRES .GT. 0 ) then 
-c              WRITE(NRES,fmt='(/,'' SBR rebel. Pass is #'',I4,''/'',
-c     >        I4,''.  In element # '',I4,
-c     >        '',  parameter #'',I3,''  changed  to  '',
-c     >        1P,E16.8)')
-c     >        IPASS, KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS)
-c            ENDIF
-c                read(*,*)
-c            enddo
-c          ENDIF
-
         IPASS=IPASS+1
         NOEL=NOELA-1
         IF(OKPCKP) CALL PCKUP3(NOELA)
  
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
-C------- Last pass has been completed
-C Now last occurence of REBELOTE => carry on beyond REBELOTE
+C------- Last pass HAS JUST BEEN completed
+C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
+
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
           WRITE(LUN,101) IPASS
@@ -531,18 +418,6 @@ C Now last occurence of REBELOTE => carry on beyond REBELOTE
  105      FORMAT(20X,
      >    ' Average  life  distance  from  Monte Carlo :',F10.3,' m',/,
      >    20X,' Number  of  decays  in  flight  :',3I10)
-C 105      FORMAT(20X,' LIBRE   TEMPS   DE   VOL   MOYEN      :',F10.3
-C     >    ,' CM',/,20X,' NOMBRE  DE  DESINTEGRATIONS  EN  VOL  :',I10)
- 
-c          IF(KSPN .EQ. 1) THEN
-c            IF(KREB3 .EQ. 99) THEN
-c              WRITE(LUN,126)
-C 126          FORMAT(/,20X,' Average values of spin components :'
-C     >        ,//,24X,'<SX>',T37,'<SY>',T49,'<SZ>',T61,'<S>')
-c              WRITE(LUN,125) ( I,( SSP(J,I)/IPASS,J=1,4 ) ,I=1,IMAX)
-C 125          FORMAT(15X,I5,2X,1P,4(1X,G12.4))
-c            ENDIF
-c          ENDIF
  
           CALL CNTOUR(
      >                NOUT)
@@ -557,28 +432,47 @@ c          ENDIF
 
         READAT = .TRUE.
 
+        noel = noelb
+ 
+C To be developed, so to allow proceeding beyond REBELOTE
+        IF(KREB4 .EQ. 1) THEN
+          CALL ENDJOB('That''s where this REBELOTE option ends, '
+     >    //' for the time being.',-99)
+        ENDIF
+
 C REBELOTE should be usable within FIT -> under developement. 
-        IPASS = 1
+C        IPASS = 1
         IF(OKPCKP) CALL PCKUP3(NOEL)
 
       ENDIF
 
+
       IF(KREB4 .EQ. 1) THEN
+
         READAT = .FALSE.
-          do iprm = 1, nprm
-            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-     >      I4,''.  In element # '',I4,
-     >      '',  parameter #'',I3,''  changed  to  '',
-     >      1P,E16.8,''   (was  '',E16.8,'')'',/)')
-     >      IPASS,NRBLT+1,KLM(iprm), KPRM(iprm), PARAM(iprm,IPASS),AOLD
-            IF(NRES .GT. 0 ) then 
-              WRITE(NRES,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-     >        I4,''.  In element # '',I4,
-     >        '',  parameter #'',I3,''  changed to  '',
-     >        1P,E16.8,''   (was  '',E16.8,'')'')')
-     >        IPASS,NRBLT+1,KLM(iprm),KPRM(iprm),PARAM(iprm,IPASS),AOLD
-            ENDIF
-          enddo
+
+      ENDIF
+
+      NXTPAS = IPASS
+      IF(NXTPAS .EQ. 2) THEN
+        IF(KWRT .NE. 1) THEN
+          IF(NRES .GT. 0) THEN
+            WRITE(NRES,FMT='(/,5X,''WRITE statements''
+     >      ,'' to zgoubi.res are inhibeted from now on.'')')
+            WRITE(NRES,201)
+ 201        FORMAT(/,132('*'))
+            NRES =-NRES
+          ENDIF
+        ENDIF
+      ELSEIF(NXTPAS .EQ. NRBLT+1) THEN
+C------- Next pass is last pass through structure
+        IF(KWRT .NE. 1) THEN
+C--------- reactive WRITE
+          KWRT = 1
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(/,5X,''WRITE statements''
+     >    '' to zgoubi.res are re-established from now on.'')')
+          IF(NRES .LT. 0) NRES=-NRES
+        ENDIF
       ENDIF
 
       RETURN
@@ -590,7 +484,8 @@ C REBELOTE should be usable within FIT -> under developement.
       KREB4O = KREB4
       RETURN
 
-      ENTRY REBEL1(KWRTO)
+      ENTRY REBEL1(
+     >             KWRTO)
       KWRTO = KWRT
       RETURN
 

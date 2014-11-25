@@ -3482,31 +3482,32 @@ An example is given page~\pageref{ExaFITREBELOTE}.
 
 \bigskip
 
-\paragraph{\textit{OPTIONS} \index{FIT[2], options|textbf}}
+\paragraph{\textit{OPTIONS} \index{fit, options|textbf}}
 
 \noindent \textsl{FIT} and \textsl{FIT2} accept various options, as follows. 
 
 \smallskip
 
-\noindent - 'nofinal'~: \index{FIT[2],~options|textbf} \label{nofinal}
+\noindent - 'nofinal' option~: \index{fit, options|textbf} \label{nofinal}
 a request to avoid a final run that would normally follow the completion of the fit, allowing for the 
 variable values as just determined by \textsl{FIT[2]}. By default, \ie, if `nofinal' does 
 not appear in the   \textsl{FIT[2]} data list, then that final run does occur. 
 
 \smallskip
 
-\noindent - 'save' [, FileName]~: a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
+\noindent - 'save' [, FileName] option~: a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
 default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.
+\index{fit, save variables}
 
 \smallskip
 
 \noindent - Penalty~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
-will be considered completed, and thus  stopped. 
+will be considered completed, and thus  stopped. \index{fit, penalty}
 
 \smallskip
 
 \noindent - ITER~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
- \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. 
+ \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit, max. number of iterations}
 
 \medskip
 
@@ -3585,7 +3586,7 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \medskip
 
-Note that, if the `nofinal' option\index{FIT[2],~options}  
+Note that, if the `nofinal' option\index{fit, options}  
 is not set in \textsl{FIT[2]} (see page~\pageref{nofinal}), then, once completed, \textsl{FIT[2]} will be followed by a final  
 run of zgoubi.dat with the variable values as resulting from \textsl{FIT[2]}. In that case, for that final run, 
 \textsl{GETFITVAL} will be inhibited so avoid overridding these updated variable values. 
