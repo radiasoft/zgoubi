@@ -42,8 +42,9 @@ C  -------
       SAVE MTHD
 
       CHARACTER(80) FNAME, FNAMEI
-      SAVE LSAV, FNAME
+C      SAVE LSAV, FNAME
       LOGICAL FITSAV, OK
+      SAVE FNAME, FITSAV
 
       DATA MTHD / 2 / 
 
@@ -65,6 +66,9 @@ C Implemented by Scott Berg, LPSC, April 2007
          ENDIF
          CALL IMPAJU(LUN,F)
          IF(FITSAV) THEN
+            OK = IDLUNI(
+     >                  LSAV)
+            OPEN(UNIT=LSAV,FILE=FNAME)
            CALL IMPAJU(LSAV,F)
            CLOSE(LSAV)
          ENDIF
@@ -79,9 +83,6 @@ C Implemented by Scott Berg, LPSC, April 2007
       ENTRY FITNU6(FNAMEI) 
       FITSAV = .TRUE.
       FNAME = FNAMEI
-      OK = IDLUNI(
-     >            LSAV)
-      OPEN(UNIT=LSAV,FILE=FNAMEI)
       RETURN
 
       END

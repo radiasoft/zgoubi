@@ -168,7 +168,8 @@ C -----
           ENDIF
 
         ELSE
-            WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
+            IF(NRES.GT.0) 
+     >      WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
      >      //'as requested.  Now carrying on beyond FIT keyword.'
  335        FORMAT(/,2X,A)
         ENDIF

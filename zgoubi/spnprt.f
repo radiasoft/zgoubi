@@ -54,7 +54,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
       INTEGER DEBSTR, FINSTR
       LOGICAL FIRST
-      SAVE LUN 
+      SAVE LUNPRT, FIRST
 
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
@@ -62,9 +62,11 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
-      IF(JDMAX .GT. 1) WRITE(NRES,121) JDMAX
- 121  FORMAT(/,25X,' .... ',I3
-     >,'  Groups  of  momenta  follow    ....')
+
+      IF(NRES.GT.0) THEN
+        IF(JDMAX .GT. 1) WRITE(NRES,121) JDMAX
+ 121  FORMAT(/,25X,' .... ',I3,'  Groups  of  momenta  follow   ....')
+      ENDIF
  
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
@@ -73,12 +75,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         SXM =  0D0;  SYM =  0D0;  SZM =  0D0
         SXF =  0D0;  SYF =  0D0;  SZF =  0D0 
         SXMF = 0D0;  SYMF = 0D0;  SZMF = 0D0
-        phim = 0.D0
-C        IF(IPASS.EQ.1) THEN
-C          SXMT = 0D0
-C          SYMT = 0D0
-C          SZMT = 0D0
-C        ENDIF
+        PHIM = 0.D0
 
         II=0
         DO I=IMAX1,IMAX2
@@ -103,35 +100,35 @@ C        ENDIF
           IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)          
           IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)          
 
-              aa(1) = si(1,i)
-              aa(2) = si(2,i)
-              aa(3) = si(3,i)
-              bb(1) = sf(1,i)
-              bb(2) = sf(2,i)
-              bb(3) = sf(3,i)
-              apscal = acos(vscal(aa,bb,3))
+              AA(1) = SI(1,I)
+              AA(2) = SI(2,I)
+              AA(3) = SI(3,I)
+              BB(1) = SF(1,I)
+              BB(2) = SF(2,I)
+              BB(3) = SF(3,I)
+              APSCAL = ACOS(VSCAL(AA,BB,3))
 
-              phim = phim + apscal
+              PHIM = PHIM + APSCAL
 
          ENDIF
         ENDDO
 
         PHIM = PHIM / DBLE(II)
  
-        phim2 = 0.D0
+        PHIM2 = 0.D0
         II=0
         DO I=IMAX1,IMAX2
          IF( IEX(I) .GT. 0 ) THEN
           II=II+1
-              aa(1) = si(1,i)
-              aa(2) = si(2,i)
-              aa(3) = si(3,i)
-              bb(1) = sf(1,i)
-              bb(2) = sf(2,i)
-              bb(3) = sf(3,i)
-              apscal = acos(vscal(aa,bb,3))
+              AA(1) = SI(1,I)
+              AA(2) = SI(2,I)
+              AA(3) = SI(3,I)
+              BB(1) = SF(1,I)
+              BB(2) = SF(2,I)
+              BB(3) = SF(3,I)
+              APSCAL = ACOS(VSCAL(AA,BB,3))
 
-              phim2 = phim2 + (apscal -phim)**2
+              PHIM2 = PHIM2 + (APSCAL -PHIM)**2
 
          ENDIF
         ENDDO
@@ -143,8 +140,8 @@ C        ENDIF
         IF(NRES.GT.0) THEN
           SM = SQRT(SX*SX+SY*SY+SZ*SZ)/DBLE(II)
           SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/DBLE(II)
-          PHIM = PHIM * deg
-          sigphi = sigphi * deg
+          PHIM = PHIM * DEG
+          SIGPHI = SIGPHI * DEG
           WRITE(NRES,120) II,SX/DBLE(II),SY/DBLE(II),SZ/DBLE(II),SM
      >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,phim,sigphi
  120      FORMAT(//,25X,' Average  over  particles at this pass ; '
@@ -155,14 +152,6 @@ C        ENDIF
      >    ,t109,'<(SI,SF)>',t120,'sigma_(SI,SF)'
      >    ,/,t110,'  (deg)',t121,'   (deg)'
      >    ,/,4(2x,F10.6),10X,6(2x,F10.6))
- 
-cc          WRITE(NRES,140) II,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF
-c          WRITE(NRES,140) II,SXmt/DBLE(II),SYmt/DBLE(II),SZmt/DBLE(II),SMF
-c 140      FORMAT(//,25X,' Average  over  particles and pass, '
-c     >    ,'at this pass ;  beam with  ',I6,'  particles :'
-c     >    ,//,T20,'FINAL'
-c     >    ,//,T13,'<SX>',T24,'<SY>',T35,'<SZ>'
-c     >    ,/,5X,4(1X,F10.4))
  
           WRITE(NRES,110) JMAXT
  110      FORMAT(//,15X,' Spin  components  of  each  of  the '
@@ -175,31 +164,27 @@ c     >    ,/,5X,4(1X,F10.4))
      >    T110,'' (deg.)'',T120,''  (deg.)'')')
           WRITE(NRES,fmt='(T92,a,/)') 
      >           '(Sf_x : projection of Sf on plane x=0)'
+
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
               GAMA = SQRT(P*P + AM*AM)/AM
-              aa(1) = si(1,i)
-              aa(2) = si(2,i)
-              aa(3) = si(3,i)
-              bb(1) = sf(1,i)
-              bb(2) = sf(2,i)
-              bb(3) = sf(3,i)
+              AA(1) = SI(1,I)
+              AA(2) = SI(2,I)
+              AA(3) = SI(3,I)
+              BB(1) = SF(1,I)
+              BB(2) = SF(2,I)
+              BB(3) = SF(3,I)
 
-              cphi = vscal(aa,bb,3)
-              PHI(I) = acos(cphi) * deg
+              CPHI = VSCAL(AA,BB,3)
+              PHI(I) = ACOS(CPHI) * DEG
 
 C If initial spin is // Z
-              phizf = atan(sqrt(sf(1,i)**2+sf(2,i)**2)/sf(3,i)) * deg
-c                  write(*,*) ' '
-c                  write(*,*) ' spnprt it, phizf : ',i,phizf
-C              call vvect(aa,bb,xx)
-C              sphi = xnorm(xx)
-C Sfx=(0,sfy,sfz) = projection de Sf sur le plan (y,z)
-              bb(1)= 0.d0
+              PHIZF = ATAN(SQRT(SF(1,I)**2+SF(2,I)**2)/SF(3,I)) * DEG
+              BB(1)= 0.D0
 
-              cphix = vscal(aa,bb,3)/xnorm(bb,3)
-              PHIX(I) = acos(cphix) * deg 
+              CPHIX = VSCAL(AA,BB,3)/XNORM(BB,3)
+              PHIX(I) = ACOS(CPHIX) * DEG 
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
      >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),I
@@ -235,12 +220,12 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
         IF(FIRST) THEN
           FIRST = .FALSE.
           IF(IDLUNI(
-     >              LUN)) THEN
-            OPEN(UNIT=LUN,FILE='zgoubi.SPNPRT.Out',ERR=96)
+     >              LUNPRT)) THEN
+            OPEN(UNIT=LUNPRT,FILE='zgoubi.SPNPRT.Out',ERR=96)
           ELSE
             GOTO 96
           ENDIF
-          WRITE(LUN,fmt='(A)') 
+          WRITE(LUNPRT,fmt='(A)') 
      >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4)
      >    , (SF(J,I),J=1,4), gamma, G.gamma, PHI, 
      >    , PHIX, ITRAJ, IPASS, Yo, To, Zo, Po, So, Do'
@@ -249,7 +234,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
           IF( IEX(I) .GE. -1 ) THEN
             P = BORO*CL9 *F(1,I) *Q
             GAMA = SQRT(P*P + AM*AM)/AM
-            WRITE(LUN,111) 
+            WRITE(LUNPRT,111) 
      >      (F(J,I),J=2,6),F(1,I)
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,ipass,noel
@@ -259,16 +244,15 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
           ENDIF
         ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
-C        CLOSE(LUN)
+C        CLOSE(LUNPRT)
       ENDIF 
 
       RETURN
 
- 96       CONTINUE
-          WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
-     >               ''Error open file zgoubi.SPNPRT.Out'')')
-          WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
-     >               ''Error open file zgoubi.SPNPRT.Out'')')
+ 96   CONTINUE
+      WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
+     >           ''Error open file zgoubi.SPNPRT.Out'')')
+      CALL ENDJOB('Pgm spnprt. Error open file zgoubi.SPNPRT.Out',-99)
 
       RETURN
       END

@@ -29,7 +29,7 @@ warmSnake.map
  'FAISCEAU'                                                                                                   7
                                                                                                               
  'FIT'                                                                                                        8
-2  save nofinal             ! Save updated FIT variables in zgoubi.FITVALS.out.                               
+2  save                     ! Save updated FIT variables (in zgoubi.FITVALS.out).                             
 1 30 0  [-3,3]                                                                                                
 1 31 0  [-3,3]                                                                                                
 3    1E-2                                                                                                     
@@ -37,10 +37,9 @@ warmSnake.map
 3.1 1 3 6 0. 1. 0                                                                                             
 7.3 1 2 6 0. 1. 0                                                                                             
                                                                                                               
- 'SPNPRT'  PRINT            ! zgoubi.SPNPRT.Out reamins open in the presence of                               9
-! REBELOTE, output data will be stacked.                                                                      
+ 'SPNPRT'  PRINT            ! Stack spin data (in zgoubi.SPNPRT.Out).                                         9
                                                                                                               
- 'SYSTEM'                   ! Save zgoubi.FITVALS.out data                                                   10
+ 'SYSTEM'                   ! Stack zgoubi.FITVALS.out data following from successive REBELOTE.              10
 1                                                                                                             
 cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat                                                              
                                                                                                               
@@ -49,13 +48,12 @@ cat zgoubi.FITVALS.out >> zgoubi.FITVALS.out_cat
 1                                                                                                             
 OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321                                             
                                                                                                               
- 'FAISCEAU'                                                                                                  12
+ 'SYSTEM'                   ! Save a copy of zgoubi.FITVALS.out_cat and of zgoubi.SPNPRT.Out_cat             12
+2                                                                                                             
+\cp zgoubi.FITVALS.out_cat zgoubi.FITVALS.out_cat_copy                                                        
+\cp zgoubi.SPNPRT.Out      zgoubi.SPNPRT.Out_copy                                                             
                                                                                                               
- 'SYSTEM'                   ! Save zgoubi.SPNPRT.Out                                                         13
-1                                                                                                             
-cp zgoubi.SPNPRT.Out zgoubi.SPNPRT.Out_save                                                                   
-                                                                                                              
- 'END'                                                                                                       14
+ 'END'                                                                                                       13
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -313,7 +311,211 @@ o  1   1.0000    -2.200     0.000     0.000     0.000       0.0000    1.0000   -
    7   1   2     6      0.0000000E+00     1.0000E+00   -4.9046288E-02   2.6333E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   9.1352E-03
 
-   Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
+************************************************************************************************************************************
+
+           MAIN PROGRAM :  FIT completed.  Now doing a last run using variable values from FIT. 
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET                             
+
+                          MAGNETIC  RIGIDITY =       7205.178 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL                          
+
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  SPNTRK                            
+
+
+                SPIN  TRACKING  REQUESTED  
+
+                          PARTICLE  MASS          =    938.2720     MeV/c2
+                          GYROMAGNETIC  FACTOR  G =    1.792847    
+
+                          INITIAL SPIN CONDITIONS TYPE  4 :
+                              All spins entered particle by particle
+                              Particles # 1 to      10 may be subjected to spin matching using FIT procedure
+
+
+                          PARAMETRES  DYNAMIQUES  DE  REFERENCE :
+                               BORO   =      7205.178 KG*CM
+                               BETA   =    0.917207
+                               GAMMA*G =   4.500000
+
+
+                          POLARISATION  INITIALE  MOYENNE  DU  FAISCEAU  DE        1  PARTICULES :
+                               <SX> =     0.0000
+                               <SY> =     0.0000
+                               <SZ> =     1.0000
+                               <S>  =     1.0000
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -1.840     0.060     0.000     0.000       0.0000    1.0000   -1.840    0.060    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.8400E-02   6.0000E-05       1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000        0.000        1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      2.5100    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.00000E+00  2.50997E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
+
+     zgoubi.plt                                                                      
+      already open...
+
+     NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
+     Value of MOD.I is 12. 1
+
+          No  new  map  file  to  be  opened. Already  stored.
+          Skip  reading  field  map  file :           warmSnake.map                                                                   
+ SBR TOSCAC,  restored mesh coordinates for field map #   1,  name : warmSnake.map
+
+
+     Min/max fields in map       :  -2.934230E-01                  /   3.119730E-01
+       @  X(CM),  Y(CM), Z(CM) :  -1.04     -6.000E-02  6.500E-02  /   1.05      5.500E-02  7.000E-02
+      given normalisation coeffs on field, x, y, z :   1.000000E+01   1.000000E+02   1.000000E+02   1.000000E+02
+     Min/max normalised fields (kG)  : -2.934230E+00                      3.119730E+00
+
+     Length of element,  XL =  4.000000E+02 cm 
+                                               from  XI =   1.995000E+02 cm 
+                                               to    XF =   5.995000E+02 cm 
+
+     Nbr of nodes in X = 801;  nbr of nodes in Y =   29
+     X-size of mesh =  5.000000E-01 cm ; Y-size =  5.000000E-01 cm
+     nber of nodes in Z =   57 ; Step in Z =  0.500000E+00 cm
+
+                     OPTION  DE  CALCUL  :  GRILLE  3-D  A  3*3*3  POINTS , INTERPOLATION  A  L'ORDRE  2
+
+                    Integration step :  0.1000     cm
+
+
+     Element  is  mis-aligned  wrt.  the  optical  axis
+          Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
+
+  A    1  1.0000    -1.840     0.060     0.000     0.000          599.500    -1.832     0.000    -0.045     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     4004.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                    -2.7838E-12      -1.0454E-13        6.5642E-15
+                                      1.5768E-12       -9.5291E-13
+                                     -2.7052E-13       -6.0517E-12
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000    -1.840     0.060     0.000     0.000       0.0000    1.0000   -1.832   -0.022   -0.045    0.007   4.003421E+02     1
+               Time of flight (mus) :  1.45593861E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.8319E-02  -2.1629E-05       1       0    0.000    B-Dim     1      1
+    0.000        0.000        0.000      -4.5196E-04   6.8008E-06       1       0    0.000    B-Dim     2      1
+    0.000        0.000        0.000       1.4559E-02    1417.           1       0    0.000    B-Dim     3      1
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT[2] is skipped since this is the (end of) last run following the fitting procedure.
+
+          Now carrying on beyond FIT keyword.
+
 
 ************************************************************************************************************************************
       9  Keyword, label(s) :  SPNPRT      PRINT                 
@@ -393,7 +595,211 @@ o  1   1.0000    -2.200     0.000     0.000     0.000       0.0000    1.0000   -
    7   1   2     6      0.0000000E+00     1.0000E+00    3.5107390E-02   2.0306E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   6.0699E-03
 
-   Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
+************************************************************************************************************************************
+
+           MAIN PROGRAM :  FIT completed.  Now doing a last run using variable values from FIT. 
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET                             
+
+                          MAGNETIC  RIGIDITY =       7205.178 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL                          
+
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  SPNTRK                            
+
+
+                SPIN  TRACKING  REQUESTED  
+
+                          PARTICLE  MASS          =    938.2720     MeV/c2
+                          GYROMAGNETIC  FACTOR  G =    1.792847    
+
+                          INITIAL SPIN CONDITIONS TYPE  4 :
+                              All spins entered particle by particle
+                              Particles # 1 to      10 may be subjected to spin matching using FIT procedure
+
+
+                          PARAMETRES  DYNAMIQUES  DE  REFERENCE :
+                               BORO   =      7205.178 KG*CM
+                               BETA   =    0.917207
+                               GAMMA*G =   4.500000
+
+
+                          POLARISATION  INITIALE  MOYENNE  DU  FAISCEAU  DE        1  PARTICULES :
+                               <SX> =     0.0000
+                               <SY> =     0.0000
+                               <SZ> =     1.0000
+                               <S>  =     1.0000
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.300    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.3000E-02   1.2000E-04       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000        0.000        2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      3.3466    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.38727E+00  3.34663E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
+
+     zgoubi.plt                                                                      
+      already open...
+
+     NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
+     Value of MOD.I is 12. 1
+
+          No  new  map  file  to  be  opened. Already  stored.
+          Skip  reading  field  map  file :           warmSnake.map                                                                   
+ SBR TOSCAC,  restored mesh coordinates for field map #   1,  name : warmSnake.map
+
+
+     Min/max fields in map       :  -2.934230E-01                  /   3.119730E-01
+       @  X(CM),  Y(CM), Z(CM) :  -1.04     -6.000E-02  6.500E-02  /   1.05      5.500E-02  7.000E-02
+      given normalisation coeffs on field, x, y, z :   1.000000E+01   1.000000E+02   1.000000E+02   1.000000E+02
+     Min/max normalised fields (kG)  : -2.934230E+00                      3.119730E+00
+
+     Length of element,  XL =  4.000000E+02 cm 
+                                               from  XI =   1.995000E+02 cm 
+                                               to    XF =   5.995000E+02 cm 
+
+     Nbr of nodes in X = 801;  nbr of nodes in Y =   29
+     X-size of mesh =  5.000000E-01 cm ; Y-size =  5.000000E-01 cm
+     nber of nodes in Z =   57 ; Step in Z =  0.500000E+00 cm
+
+                     OPTION  DE  CALCUL  :  GRILLE  3-D  A  3*3*3  POINTS , INTERPOLATION  A  L'ORDRE  2
+
+                    Integration step :  0.1000     cm
+
+
+     Element  is  mis-aligned  wrt.  the  optical  axis
+          Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
+
+  A    1  1.3873    -1.300     0.120     0.000     0.000          599.500    -1.263     0.000    -0.038     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     4002.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                    -1.4120E-12      -5.6219E-14       -3.7321E-15
+                                      1.0172E-12       -6.7881E-13
+                                     -1.4808E-13       -4.3143E-12
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.3873    -1.300     0.120     0.000     0.000       0.0000    1.3873   -1.263    0.061   -0.038    0.002   4.001769E+02     1
+               Time of flight (mus) :  1.39875067E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.2634E-02   6.0834E-05       1       0    0.000    B-Dim     1      2
+    0.000        0.000        0.000      -3.7661E-04   2.1120E-06       1       0    0.000    B-Dim     2      2
+    0.000        0.000        0.000       1.3988E-02    2202.           1       0    0.000    B-Dim     3      2
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT[2] is skipped since this is the (end of) last run following the fitting procedure.
+
+          Now carrying on beyond FIT keyword.
+
 
 ************************************************************************************************************************************
       9  Keyword, label(s) :  SPNPRT      PRINT                 
@@ -603,7 +1009,7 @@ o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -
 
 
 
- Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+ Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
       7  Keyword, label(s) :  FAISCEAU                          
@@ -873,7 +1279,211 @@ o  1   2.1368    -1.300     0.120     0.000     0.000       0.0000    2.1368   -
    7   1   2     6      0.0000000E+00     1.0000E+00   -3.8600183E-02   3.6296E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   4.1051E-03
 
-   Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
+************************************************************************************************************************************
+
+           MAIN PROGRAM :  FIT completed.  Now doing a last run using variable values from FIT. 
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET                             
+
+                          MAGNETIC  RIGIDITY =       7205.178 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL                          
+
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  SPNTRK                            
+
+
+                SPIN  TRACKING  REQUESTED  
+
+                          PARTICLE  MASS          =    938.2720     MeV/c2
+                          GYROMAGNETIC  FACTOR  G =    1.792847    
+
+                          INITIAL SPIN CONDITIONS TYPE  4 :
+                              All spins entered particle by particle
+                              Particles # 1 to      10 may be subjected to spin matching using FIT procedure
+
+
+                          PARAMETRES  DYNAMIQUES  DE  REFERENCE :
+                               BORO   =      7205.178 KG*CM
+                               BETA   =    0.917207
+                               GAMMA*G =   4.500000
+
+
+                          POLARISATION  INITIALE  MOYENNE  DU  FAISCEAU  DE        1  PARTICULES :
+                               <SX> =     0.0000
+                               <SY> =     0.0000
+                               <SZ> =     1.0000
+                               <S>  =     1.0000
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -0.880     0.120     0.000     0.000       0.0000    2.1368   -0.880    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.8000E-03   1.2000E-04       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000        0.000        3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000      5.0199    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  2.13683E+00  5.01995E+00      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
+
+     zgoubi.plt                                                                      
+      already open...
+
+     NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
+     Value of MOD.I is 12. 1
+
+          No  new  map  file  to  be  opened. Already  stored.
+          Skip  reading  field  map  file :           warmSnake.map                                                                   
+ SBR TOSCAC,  restored mesh coordinates for field map #   1,  name : warmSnake.map
+
+
+     Min/max fields in map       :  -2.934230E-01                  /   3.119730E-01
+       @  X(CM),  Y(CM), Z(CM) :  -1.04     -6.000E-02  6.500E-02  /   1.05      5.500E-02  7.000E-02
+      given normalisation coeffs on field, x, y, z :   1.000000E+01   1.000000E+02   1.000000E+02   1.000000E+02
+     Min/max normalised fields (kG)  : -2.934230E+00                      3.119730E+00
+
+     Length of element,  XL =  4.000000E+02 cm 
+                                               from  XI =   1.995000E+02 cm 
+                                               to    XF =   5.995000E+02 cm 
+
+     Nbr of nodes in X = 801;  nbr of nodes in Y =   29
+     X-size of mesh =  5.000000E-01 cm ; Y-size =  5.000000E-01 cm
+     nber of nodes in Z =   57 ; Step in Z =  0.500000E+00 cm
+
+                     OPTION  DE  CALCUL  :  GRILLE  3-D  A  3*3*3  POINTS , INTERPOLATION  A  L'ORDRE  2
+
+                    Integration step :  0.1000     cm
+
+
+     Element  is  mis-aligned  wrt.  the  optical  axis
+          Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
+
+  A    1  2.1368    -0.880     0.120     0.000     0.000          599.500    -0.837     0.000    -0.027     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                    -6.0593E-13      -2.3726E-14        1.0384E-16
+                                      7.2217E-13       -4.4136E-13
+                                     -1.0949E-13       -2.8078E-12
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   2.1368    -0.880     0.120     0.000     0.000       0.0000    2.1368   -0.837    0.092   -0.027    0.000   4.000743E+02     1
+               Time of flight (mus) :  1.36179768E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -8.3743E-03   9.1659E-05       1       0    0.000    B-Dim     1      3
+    0.000        0.000        0.000      -2.7487E-04   1.0380E-07       1       0    0.000    B-Dim     2      3
+    0.000        0.000        0.000       1.3618E-02    3772.           1       0    0.000    B-Dim     3      3
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT[2] is skipped since this is the (end of) last run following the fitting procedure.
+
+          Now carrying on beyond FIT keyword.
+
 
 ************************************************************************************************************************************
       9  Keyword, label(s) :  SPNPRT      PRINT                 
@@ -1083,7 +1693,7 @@ o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -
 
 
 
- Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+ Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
       7  Keyword, label(s) :  FAISCEAU                          
@@ -1353,7 +1963,211 @@ o  1   4.8261    -0.880     0.120     0.000     0.000       0.0000    4.8261   -
    7   1   2     6      0.0000000E+00     1.0000E+00   -2.2927628E-02   1.9045E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   2.7601E-03
 
-   Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
+************************************************************************************************************************************
+
+           MAIN PROGRAM :  FIT completed.  Now doing a last run using variable values from FIT. 
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET                             
+
+                          MAGNETIC  RIGIDITY =       7205.178 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL                          
+
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  SPNTRK                            
+
+
+                SPIN  TRACKING  REQUESTED  
+
+                          PARTICLE  MASS          =    938.2720     MeV/c2
+                          GYROMAGNETIC  FACTOR  G =    1.792847    
+
+                          INITIAL SPIN CONDITIONS TYPE  4 :
+                              All spins entered particle by particle
+                              Particles # 1 to      10 may be subjected to spin matching using FIT procedure
+
+
+                          PARAMETRES  DYNAMIQUES  DE  REFERENCE :
+                               BORO   =      7205.178 KG*CM
+                               BETA   =    0.917207
+                               GAMMA*G =   4.500000
+
+
+                          POLARISATION  INITIALE  MOYENNE  DU  FAISCEAU  DE        1  PARTICULES :
+                               <SX> =     0.0000
+                               <SY> =     0.0000
+                               <SZ> =     1.0000
+                               <S>  =     1.0000
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.400     0.120     0.000     0.000       0.0000    4.8261   -0.400    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -4.0000E-03   1.2000E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000        0.000        9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     11.1554    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  4.82612E+00  1.11554E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
+
+     zgoubi.plt                                                                      
+      already open...
+
+     NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
+     Value of MOD.I is 12. 1
+
+          No  new  map  file  to  be  opened. Already  stored.
+          Skip  reading  field  map  file :           warmSnake.map                                                                   
+ SBR TOSCAC,  restored mesh coordinates for field map #   1,  name : warmSnake.map
+
+
+     Min/max fields in map       :  -2.934230E-01                  /   3.119730E-01
+       @  X(CM),  Y(CM), Z(CM) :  -1.04     -6.000E-02  6.500E-02  /   1.05      5.500E-02  7.000E-02
+      given normalisation coeffs on field, x, y, z :   1.000000E+01   1.000000E+02   1.000000E+02   1.000000E+02
+     Min/max normalised fields (kG)  : -2.934230E+00                      3.119730E+00
+
+     Length of element,  XL =  4.000000E+02 cm 
+                                               from  XI =   1.995000E+02 cm 
+                                               to    XF =   5.995000E+02 cm 
+
+     Nbr of nodes in X = 801;  nbr of nodes in Y =   29
+     X-size of mesh =  5.000000E-01 cm ; Y-size =  5.000000E-01 cm
+     nber of nodes in Z =   57 ; Step in Z =  0.500000E+00 cm
+
+                     OPTION  DE  CALCUL  :  GRILLE  3-D  A  3*3*3  POINTS , INTERPOLATION  A  L'ORDRE  2
+
+                    Integration step :  0.1000     cm
+
+
+     Element  is  mis-aligned  wrt.  the  optical  axis
+          Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
+
+  A    1  4.8261    -0.400     0.120     0.000     0.000          599.500    -0.354     0.000    -0.013     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                    -1.0848E-13      -5.5780E-15       -5.7161E-16
+                                      3.2984E-13       -1.9945E-13
+                                     -5.3047E-14       -1.2710E-12
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   4.8261    -0.400     0.120     0.000     0.000       0.0000    4.8261   -0.354    0.108   -0.013    0.000   4.000145E+02     1
+               Time of flight (mus) :  1.33969849E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -3.5434E-03   1.0777E-04       1       0    0.000    B-Dim     1      4
+    0.000        0.000        0.000      -1.2806E-04  -3.7453E-07       1       0    0.000    B-Dim     2      4
+    0.000        0.000        0.000       1.3397E-02    9529.           1       0    0.000    B-Dim     3      4
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT[2] is skipped since this is the (end of) last run following the fitting procedure.
+
+          Now carrying on beyond FIT keyword.
+
 
 ************************************************************************************************************************************
       9  Keyword, label(s) :  SPNPRT      PRINT                 
@@ -1569,7 +2383,7 @@ o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -
 
 
 
- Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+ Cumulative length of optical axis =    4.00000000     m ;  Time  (for ref. rigidity & particle) =   4.364084E-08 s 
 
 ************************************************************************************************************************************
       7  Keyword, label(s) :  FAISCEAU                          
@@ -1839,7 +2653,211 @@ o  1  11.0152    -0.400     0.120     0.000     0.000       0.0000   11.0152   -
    7   1   2     6      0.0000000E+00     1.0000E+00   -8.5991763E-02   7.6764E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   9.6329E-03
 
-   Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
+************************************************************************************************************************************
+
+           MAIN PROGRAM :  FIT completed.  Now doing a last run using variable values from FIT. 
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET                             
+
+                          MAGNETIC  RIGIDITY =       7205.178 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL                          
+
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  SPNTRK                            
+
+
+                SPIN  TRACKING  REQUESTED  
+
+                          PARTICLE  MASS          =    938.2720     MeV/c2
+                          GYROMAGNETIC  FACTOR  G =    1.792847    
+
+                          INITIAL SPIN CONDITIONS TYPE  4 :
+                              All spins entered particle by particle
+                              Particles # 1 to      10 may be subjected to spin matching using FIT procedure
+
+
+                          PARAMETRES  DYNAMIQUES  DE  REFERENCE :
+                               BORO   =      7205.178 KG*CM
+                               BETA   =    0.917207
+                               GAMMA*G =   4.500000
+
+
+                          POLARISATION  INITIALE  MOYENNE  DU  FAISCEAU  DE        1  PARTICULES :
+                               <SX> =     0.0000
+                               <SY> =     0.0000
+                               <SZ> =     1.0000
+                               <S>  =     1.0000
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.220     0.120     0.000     0.000       0.0000   11.0152   -0.220    0.120    0.000    0.000   0.000000E+00     1
+               Time of flight (mus) :   0.0000000     mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -2.2000E-03   1.2000E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000        0.000        0.000           1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000        0.000       2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  SPNPRT                            
+
+
+
+                          Average  over  particles at this pass ;   beam with       1  particles :
+
+                   INITIAL                                           FINAL
+
+        <SX>        <SY>        <SZ>        <S>                   <SX>       <SY>         <SZ>         <S>  <(SI,SF)>  sigma_(SI,SF)
+                                                                                                               (deg)       (deg)
+    0.000000    0.000000    1.000000    1.000000              0.000000    0.000000    1.000000    1.000000    0.000000    0.000000
+
+
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|               SX        SY        SZ        |S|        GAMMA    (Si,Sf)   (Si,Sf_x)
+                                                                                                              (deg.)     (deg.)
+                                                                                           (Sf_x : projection of Sf on plane x=0)
+
+ o  1  0.000000  0.000000  1.000000  1.000000           0.000000  0.000000  1.000000  1.000000     25.3786    0.0000    0.0000    1
+
+
+
+                Min/Max  components  of  each  of  the      1  particles :
+
+  SX_mi       SX_ma       SY_mi       SY_ma       SZ_mi       SZ_ma       |S|_mi      |S|_ma      p/p_0        GAMMA          I  IEX
+
+ -9.6557E-04  0.0000E+00  0.0000E+00  2.0832E-01  9.7806E-01  1.0000E+00  1.0000E+00  1.0000E+00  1.10152E+01  2.53786E+01      1   1
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  TOSCA                             
+
+
+     zgoubi.plt                                                                      
+      already open...
+
+     NDIM =   3 ;  Number of data file sets used is   1 ;  Stored in field array # IMAP =    1 ;  
+     Value of MOD.I is 12. 1
+
+          No  new  map  file  to  be  opened. Already  stored.
+          Skip  reading  field  map  file :           warmSnake.map                                                                   
+ SBR TOSCAC,  restored mesh coordinates for field map #   1,  name : warmSnake.map
+
+
+     Min/max fields in map       :  -2.934230E-01                  /   3.119730E-01
+       @  X(CM),  Y(CM), Z(CM) :  -1.04     -6.000E-02  6.500E-02  /   1.05      5.500E-02  7.000E-02
+      given normalisation coeffs on field, x, y, z :   1.000000E+01   1.000000E+02   1.000000E+02   1.000000E+02
+     Min/max normalised fields (kG)  : -2.934230E+00                      3.119730E+00
+
+     Length of element,  XL =  4.000000E+02 cm 
+                                               from  XI =   1.995000E+02 cm 
+                                               to    XF =   5.995000E+02 cm 
+
+     Nbr of nodes in X = 801;  nbr of nodes in Y =   29
+     X-size of mesh =  5.000000E-01 cm ; Y-size =  5.000000E-01 cm
+     nber of nodes in Z =   57 ; Step in Z =  0.500000E+00 cm
+
+                     OPTION  DE  CALCUL  :  GRILLE  3-D  A  3*3*3  POINTS , INTERPOLATION  A  L'ORDRE  2
+
+                    Integration step :  0.1000     cm
+
+
+     Element  is  mis-aligned  wrt.  the  optical  axis
+          Center  of  entrance  EFB  is  at    X =   0.000     CM   Y =   0.000     cm,  tilt  angle =   0.00000     RAD
+
+  A    1 11.0152    -0.220     0.120     0.000     0.000          599.500    -0.173     0.000    -0.006     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     4001.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                    -2.1972E-14       4.3083E-17        1.7902E-16
+                                      1.2338E-13       -8.7761E-14
+                                     -1.9032E-14       -5.5921E-13
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    8.00000000     m ;  Time  (for ref. rigidity & particle) =   2.909389E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU                          
+
+0                                             TRACE DU FAISCEAU
+
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1  11.0152    -0.220     0.120     0.000     0.000       0.0000   11.0152   -0.173    0.115   -0.006    0.000   4.000028E+02     1
+               Time of flight (mus) :  1.33530271E-02 mass (MeV/c2) :   938.272    
+
+
+  Beam  characteristics   (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : 
+
+    0.000        0.000        0.000      -1.7295E-03   1.1502E-04       1       0    0.000    B-Dim     1      5
+    0.000        0.000        0.000      -5.6525E-05  -2.1974E-07       1       0    0.000    B-Dim     2      5
+    0.000        0.000        0.000       1.3353E-02   2.2874E+04       1       0    0.000    B-Dim     3      5
+
+
+  Beam  characteristics   SIGMA(4,4) : 
+
+           Ex, Ez =  0.000000E+00  0.000000E+00
+           AlpX, BetX =           NaN           NaN
+           AlpZ, BetZ =           NaN           NaN
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+************************************************************************************************************************************
+
+      8   Keyword FIT[2] is skipped since this is the (end of) last run following the fitting procedure.
+
+          Now carrying on beyond FIT keyword.
+
 
 ************************************************************************************************************************************
       9  Keyword, label(s) :  SPNPRT      PRINT                 

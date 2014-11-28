@@ -3,7 +3,7 @@
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   EMMA-FFAG/matrixComputation/"
+echo "////////////////  Now doing :   EMMA-FFAG/matrixComputation/"
 echo "        "
 (cd ../EMMA-FFAG/matrixComputation/ ; cp matrix_140925_svn436.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  EMMA-FFAG/matrixComputation - reference : "      | cat  >   compare.out
@@ -17,7 +17,7 @@ echo "////////////////  EMMA-FFAG/matrixComputation: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../gsiKaos/usingDIPOLE-M/"
+echo "////////////////  Now doing :   ../gsiKaos/usingDIPOLE-M/"
 echo "        "
 (cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "       | cat >>  compare.out
@@ -31,7 +31,7 @@ echo "////////////////  ../gsiKaos/usingDIPOLE-M: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../gsiKaos/usingTOSCAmaps/"
+echo "////////////////  Now doing :   ../gsiKaos/usingTOSCAmaps/"
 echo "        "
 (cd ../gsiKaos/usingTOSCAmaps/ ; cp tosca-3D.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  /gsiKaos/usingTOSCAmaps/ - reference : "          | cat >>  compare.out
@@ -45,7 +45,7 @@ echo "////////////////  /gsiKaos/usingTOSCAmaps: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../KEK150MeVFFAG/analyticalModel/"
+echo "////////////////  Now doing :   ../KEK150MeVFFAG/analyticalModel/"
 echo "        "
 (cd ../KEK150MeVFFAG/analyticalModel/ ; cp K7.25-7.58_mat_130921.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : "   | cat >>   compare.out
@@ -59,7 +59,7 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../LHC"
+echo "////////////////  Now doing :   ../LHC"
 echo "        "
 #(cd ../LHC/ ; cp fullTurnMatrix.res_071017 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 #echo "////////////////  ../LHC/ - reference : "       | cat >>   compare.out
@@ -73,7 +73,7 @@ echo "        "
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../microBeamDoublet/"
+echo "////////////////  Now doing :   ../microBeamDoublet/"
 echo "        "
 (cd ../microBeamDoublet/ ; cp achromat_Mat.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../microBeamDoublet/ - reference : "       | cat >>   compare.out
@@ -95,7 +95,7 @@ echo "////////////////  ../microBeamDoublet: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../saturneRing/matrix/"
+echo "////////////////  Now doing :   ../saturneRing/matrix/"
 echo "        "
 (cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../saturneRing/matrix/ - reference : "       | cat >>   compare.out
@@ -111,7 +111,7 @@ echo "////////////////  ../saturneRing/matrix: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../spiralFFAG/FFAG-SPI/"
+echo "////////////////  Now doing :   ../spiralFFAG/FFAG-SPI/"
 echo "        "
 (cd ../spiralFFAG/FFAG-SPI/ ; cp matrix_ffagSpi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../spiralFFAG/FFAG-SPI/ - reference : "       | cat >>   compare.out
@@ -125,7 +125,7 @@ echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../usersGuide/FIT/"
+echo "////////////////  Now doing :   ../usersGuide/FIT/"
 echo "        "
 (cd ../usersGuide/FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../usersGuide/FIT/ - reference : "       | cat >>   compare.out
@@ -139,21 +139,21 @@ echo "////////////////  ../usersGuide/FIT: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../usersGuide/REBELOTE-and-FIT/"
+echo "////////////////  Now doing :   ../usersGuide/REBELOTE-and-FIT/"
 echo "        "
-(cd ../usersGuide/REBELOTE-and-FIT/ ; cp centeredHelix.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : "                   | cat >>   compare.out
-grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/centeredHelix.res       | cat >>   compare.out
-echo "                          - new : "                                                 | cat >>   compare.out
-grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/zgoubi.res              | cat >>   compare.out
-echo "        "                                                                           | cat >>   compare.out
+(cd ../usersGuide/REBELOTE-and-FIT/ ; cp centeredHelix_FIT\&save\&nofinal_141028.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : "                                        | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/centeredHelix_FIT\&save\&nofinal_141028.res  | cat >>   compare.out
+echo "                          - new : "                                                                      | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/zgoubi.res                                   | cat >>   compare.out
+echo "        "                                                                                                | cat >>   compare.out
 echo "////////////////  ../usersGuide/REBELOTE-and-FIT: done..."
 #
 #
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../RHIC/matrix/"
+echo "////////////////  Now doing :   ../RHIC/matrix/"
 echo "        "
 (cd ../RHIC/matrix/ ; cp TWISS_blue_141003.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../RHIC/matrix/ - reference : "       | cat >>   compare.out
@@ -174,7 +174,7 @@ echo "////////////////  ../RHIC/matrix: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "Now doing :   ../AGS/matrix/"
+echo "////////////////  Now doing :   ../AGS/matrix/"
 echo "        "
 (cd ../AGS/matrix/ ; cp TWISS.res_141007 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS/matrix/ - reference : "       | cat >>   compare.out
@@ -190,13 +190,13 @@ echo "////////////////  ../AGS/matrix: done..."
 
 
 echo "  "
-echo "----------------------------------------------------------------------------------------------------------------------------"
-echo "----------------------------------------------------------------------------------------------------------------------------"
-echo "----------------------------------------------------------------------------------------------------------------------------"
-echo "-------------                                                                                               ----------------"
-echo "------------- CONCLUSION ---- CONCLUSION ---- CONCLUSION ---- CONCLUSION ---- CONCLUSION ---- CONCLUSION :  ----------------"
-echo "-------------                                                                                               ----------------"
-echo "----------------------------------------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
+echo "-------------                                                               ----------------"
+echo "------------- CONCLUSION ---- CONCLUSION ---- CONCLUSION ---- CONCLUSION :  ----------------"
+echo "-------------                                                               ----------------"
+echo "--------------------------------------------------------------------------------------------"
 echo "  "
 echo "  DIFFERENCE between this compare.out and  compare.out_reference (==compare.out_141030) :"
 echo "  "
@@ -206,9 +206,9 @@ echo "  diff compare.out  compare.out_reference"
 diff compare.out  compare.out_reference
 
 echo "  "
-echo "----------------------------------------------------------------------------------------------------------------------------"
-echo "----------------------------------------------------------------------------------------------------------------------------"
-echo "----------------------------------------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------"
 echo "  "
 
 exit
