@@ -88,7 +88,7 @@ grep "Y/Y3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   comp
 grep "Y/T3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 grep "Z/Z3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 grep "Z/P3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
-echo "        "                                                    | cat >>   compare.out
+echo "        "                                                  | cat >>   compare.out
 echo "////////////////  ../microBeamDoublet: done..."
 #
 #
@@ -139,15 +139,15 @@ echo "////////////////  ../usersGuide/FIT: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../usersGuide/REBELOTE-and-FIT/"
+echo "////////////////  Now doing :   ../usersGuide/FIT-and-REBELOTE/"
 echo "        "
-(cd ../usersGuide/REBELOTE-and-FIT/ ; cp centeredHelix_FIT\&save\&nofinal_141028.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../usersGuide/REBELOTE-and-FIT/ - reference : "                                        | cat >>   compare.out
-grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/centeredHelix_FIT\&save\&nofinal_141028.res  | cat >>   compare.out
-echo "                          - new : "                                                                      | cat >>   compare.out
-grep "Fit reached penalty value "  ../usersGuide/REBELOTE-and-FIT/zgoubi.res                                   | cat >>   compare.out
-echo "        "                                                                                                | cat >>   compare.out
-echo "////////////////  ../usersGuide/REBELOTE-and-FIT: done..."
+(cd ../usersGuide/FIT-and-REBELOTE/ ; cp centeredHelix_FIT\&save\&nofinal_141128.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../usersGuide/FIT-and-REBELOTE/ - reference : "                                       | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/FIT-and-REBELOTE/centeredHelix_FIT\&save\&nofinal_141128.res | cat >>   compare.out
+echo "                          - new : "                                                                     | cat >>   compare.out
+grep "Fit reached penalty value "  ../usersGuide/FIT-and-REBELOTE/zgoubi.res                                  | cat >>   compare.out
+echo "        "                                                                                               | cat >>   compare.out
+echo "////////////////  ../usersGuide/FIT-and-REBELOTE: done..."
 #
 #
 #################################################################
@@ -198,7 +198,7 @@ echo "------------- CONCLUSION ---- CONCLUSION ---- CONCLUSION ---- CONCLUSION :
 echo "-------------                                                               ----------------"
 echo "--------------------------------------------------------------------------------------------"
 echo "  "
-echo "  DIFFERENCE between this compare.out and  compare.out_reference (==compare.out_141030) :"
+echo "  DIFFERENCE between this compare.out and  compare.out_reference :"
 echo "  "
 
 echo "  diff compare.out  compare.out_reference"

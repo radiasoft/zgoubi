@@ -406,6 +406,10 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
      >                            REBFLG,NOELRB)
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
+      if(ipass.eq.NRBLT+2) then        ! Means that REBELOTE series is completed
+          FITRBL = .FALSE.   
+          CALL FITST8(FITRBL)
+      endif
       CALL KSMAP0
 c      write(*,*) ' zgoubi readat, fiting, FITBYD, fitfnl, ', 
 c     >  readat,fiting,FITBYD,fitfnl,fitrbl
@@ -1432,9 +1436,10 @@ C KLEY[IKL]
       PNLTGO = PNLTGT
       RETURN
       ENTRY ZGIPAS( 
-     >             IPASSO)
+     >             IPASSO,nrblto)
 C Current pass #
       IPASSO = IPASS
+      nrblto = nrblt
       RETURN
 
       END

@@ -91,7 +91,7 @@ c      COMMON/DONT/ TA(MXL,MXTA)
 
       logical fiting
 
-      DATA KREB3, KREB31, kreb4 / 0, 0, 0 /
+      DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
       DATA TPRM / MXPRM3*' ' /
@@ -303,7 +303,7 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
 
           ENDIF
 
-          IF(NRBLT.GT.1) READAT = .FALSE.
+C          IF(NRBLT.GT.1) READAT = .FALSE.
 
           IF(REBFLG) NOELRB = NOEL
 
@@ -347,6 +347,8 @@ C--------- SR loss ----------------------------------
         ENDIF
 C--------- endif SR loss ----------------------------
 
+        READAT = .FALSE.
+
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure HAS JUST BEEN completed
         LUN=ABS(NRES)
@@ -389,6 +391,8 @@ c 104      FORMAT(/,128('*'),//,128('*'),//,128('*'))
 
         ENDIF
  
+        READAT = .FALSE.
+
         IPASS=IPASS+1
         NOEL=NOELA-1
         IF(OKPCKP) CALL PCKUP3(NOELA)
@@ -432,29 +436,18 @@ C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
 
         READAT = .TRUE.
 
-        noel = noelb
+        NOEL = NOELB
  
-C To be developed, so to allow proceeding beyond REBELOTE
-        IF(KREB4 .EQ. 1) THEN
-          CALL ENDJOB('That''s where this REBELOTE option ends, '
-     >    //' for the time being.',-99)
-        ENDIF
-
 C REBELOTE should be usable within FIT -> under developement. 
-C        IPASS = 1
+
+        IPASS = ipass+1
         IF(OKPCKP) CALL PCKUP3(NOEL)
 
       ENDIF
 
-
-      IF(KREB4 .EQ. 1) THEN
-
-        READAT = .FALSE.
-
-      ENDIF
-
       NXTPAS = IPASS
-      IF(NXTPAS .EQ. 2) THEN
+C      IF(NXTPAS .EQ. 2) THEN
+      IF(NXTPAS .LE. NRBLT) THEN
         IF(KWRT .NE. 1) THEN
           IF(NRES .GT. 0) THEN
             WRITE(NRES,FMT='(/,5X,''WRITE statements''

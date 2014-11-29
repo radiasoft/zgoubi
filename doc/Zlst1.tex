@@ -2721,7 +2721,7 @@ and then read back using \textsl{GETFITVAL}, happen to belong in the \textsl{[MC
 
 \medskip
 
-\noindent \textsl{SYSTEM} as well,  is liable to appear anywhere in the data list.
+\noindent \textsl{SYSTEM} as well,  may appear anywhere in the data list.
 
 
 
@@ -3495,9 +3495,10 @@ not appear in the   \textsl{FIT[2]} data list, then that final run does occur.
 
 \smallskip
 
-\noindent - 'save' [, FileName] option~: a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
-default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.
-\index{fit, save variables}
+
+
+\noindent - 'save' [, FileName] option~:  a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
+default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit, save variables}
 
 \smallskip
 
@@ -4359,6 +4360,12 @@ It can appear anywhere, an arbitrary number of times,
 \noindent  \textsl{SYSTEM} keyword is followed by the list of the desired system commands. That 
 can be saving zgoubi output files, calling again \zgou\ at the end of a run so allowing 
 dependent consecutive jobs, etc. 
+
+
+\medskip 
+
+ Examples of the use of \textsl{SYSTEM}  are given in pp.~\pageref{ExaFITREBELOTE},~\pageref{ExaSYSTEM}.  
+
 
 
 
@@ -8399,7 +8406,7 @@ the mean values of the spin components, etc.,  at the location where it is place
 
 
 \noindent  If the keyword \textsl{SPNPRT} is followed by ``\textsl{PRINT}'' as its first label, then spin data will also be stored in 
-zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``\textsl{PRINT}''. 
+zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``\textsl{PRINT}''. In particular, if \textsl{REBELOTE} is used then data will be stacked in zgoubi.SPNPRT.Out. 
 
 
 

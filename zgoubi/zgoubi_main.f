@@ -193,10 +193,17 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
-          FITRBL = .FALSE.   
-          CALL FITST8(FITRBL)
-          REWIND(NDAT)
-          GOTO 11 
+          CALL ZGIPAS(
+     >                IPASS,NRBLT)
+          IF(IPASS .LE. NRBLT+1) THEN
+            READAT = .FALSE.
+            FITRBL = .FALSE.   
+            CALL FITST8(FITRBL)
+            REWIND(NDAT)
+            GOTO 11 
+          ELSE
+            GOTO 10
+          ENDIF
         ENDIF
 
       ENDIF
