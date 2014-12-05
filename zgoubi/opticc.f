@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTICC(NOEL,KOPIMP,prdic,OKCPLD)
+      SUBROUTINE OPTICC(NOEL,KOPIMP,PRDIC,OKCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,6), F0(6,6), AKL(3)
       logical OKCPLD

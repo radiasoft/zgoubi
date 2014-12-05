@@ -491,8 +491,8 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C Now make a last pass to get optical functions at all elements
 
-      IF(dolast) THEN
-        dolast = .false.
+      IF(DOLAST) THEN
+        DOLAST = .FALSE.
 
 C----- So to print into zgoubi.OPTICS.out
         KOPTCS = 1
