@@ -141,7 +141,7 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../usersGuide/FIT-and-REBELOTE/"
 echo "        "
-(cd ../usersGuide/FIT-and-REBELOTE/ ; cp centeredHelix_FIT\&save\&nofinal_141128.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../usersGuide/FIT-and-REBELOTE/ ; gunzip warmSnake.map.gz ; cp centeredHelix_FIT\&save\&nofinal_141128.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../usersGuide/FIT-and-REBELOTE/ - reference : "                                       | cat >>   compare.out
 grep "Fit reached penalty value "  ../usersGuide/FIT-and-REBELOTE/centeredHelix_FIT\&save\&nofinal_141128.res | cat >>   compare.out
 echo "                          - new : "                                                                     | cat >>   compare.out

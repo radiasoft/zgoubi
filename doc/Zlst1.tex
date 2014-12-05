@@ -3119,7 +3119,7 @@ element can be shifted while preserving the length of the structure, by coupling
 together its upstream and downstream drift spaces).  
 
  
-\paragraph{Variation Range  \index{fit, variable range|textbf}} 
+\paragraph{Variation Range  \index{fit procedure!variable range|textbf}} 
 
 \noindent There are two ways to define the allowed range for a variable, as follows. 
 
@@ -3134,7 +3134,7 @@ allowed to explore the range $ v\times(1\pm DV)$.
 \noindent (i) $[v_{min}, v_{max}]$~: This specifies the allowed interval of variation. 
 
 
-\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit, constraint|textbf}
+\paragraph{\textit{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit procedure!constraint|textbf}
 
 \noindent The next input data in \textsl{FIT[2]} is the number of constraints, \textsl{\NC}. 
 A list of the available constraints is given in the table~page~\pageref{TabFITZlst1}~; adding or changing a constraint 
@@ -3187,7 +3187,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 
 %\include{ZgoubiFITTable}
 %  \newlength{\LL}
-\settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit, constraint|textbf}
+\settowidth{\LL}{\textbf{Beam matrix\ }}  \index{fit procedure!constraint|textbf}
 {\footnotesize
 	\begin{center}
 \label{TabFITZlst1}
@@ -3197,7 +3197,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			\hline
 			 \multirow{3}{\LL}{\textbf{Type of constraint}}
 			    & \multicolumn{8}{c|}{\rule{0cm}{5mm} \textbf{Parameters defining the constraints}} 
-                            &\multirow{3}{\LL}{\textbf{Object definition (recommended) }}  \\[-2mm]
+                            &\multirow{4}{\LL}{\textbf{Recommended \textsl{[MC]OBJET}, and other comments }}  \\[-2mm]
 			\cline{2-9}
 			    & \rule{0cm}{5mm}$\mathbf{\IC}$ 
 			    & $\mathbf{I}$ & $\mathbf{J}$ & \textbf{Constraint}  
@@ -3208,11 +3208,11 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 			   \multicolumn{1}{|c|}{\textbf{\mbox{$\sigma$-matrix} }} 
 %	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
 	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{21,~12}=\alpha_Y$, etc.) 
-	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5,6} \\
+	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5.N} \\
+	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\footnotesize \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -3220,13 +3220,13 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                            & & & & & & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
-	 & & & & & \footnotesize \textsl{OBJET/KOBJ=5} \\
+	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5} \\
 	\multicolumn{1}{|c|}{\textbf{transport coeffs.}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & & & &  \\
                            & & & & & & & & &  \\
 		\multicolumn{1}{|c|}{\textbf{Second order}}  
 			    & 2  & $1 - 6$ & 1$1 - 6$6 & Transport coeff.  $T_{I,j,k} $  
-	 & & & & & \footnotesize \textsl{OBJET/KOBJ=6} \\
+	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=6} \\
 			 \multicolumn{1}{|c|}{\textbf{transport coeffs.}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
 			 \multicolumn{1}{|c|}{\textbf{ }}  &  &  &  &  &  & & & &  \\
                             & & & & & & & & &  \\
@@ -3254,33 +3254,33 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
 	 & 4 & $1 - 6$ & $1 - 6$ & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$,  
-         & & & & & \footnotesize \textsl{OBJET/{\footnotesize KOBJ=8}~; } \\
+         & & & & & \scriptsize  \textsl{OBJET/{\scriptsize  KOBJ=8}~; } \\
                           \multicolumn{1}{|c|}{\textbf{ }} 
          &   &         &         & $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.)
-         & & & & & \footnotesize \textsl{MCOBJET/{\footnotesize KOBJ=3}} \\
+         & & & & & \scriptsize  \textsl{MCOBJET/{\scriptsize  KOBJ=3}} \\
                            & & & & & & & & &  \\
 %
 			\multicolumn{1}{|c|}{\textbf{Number of}} 
 			    & 5 & $-1$ & any &  $N_{survived}/\IMAX$  
-         & & & & & \footnotesize \textsl{OBJET} \\
+         & & & & & \scriptsize  \textsl{OBJET} \\
 			\multicolumn{1}{|c|}{\textbf{particles}} &  & $1 - 3$ & any 
                 & $N_{in~\epsilon_{Y,Z,X}}/ N_{survived}$ 
-         & 1 & $\epsilon/ \pi $& & & \footnotesize \textsl{MCOBJET}   \\
+         & 1 & $\epsilon/ \pi $& & & \scriptsize  \textsl{MCOBJET}   \\
 			    &  & $4 - 6$ & any 
                 & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
-         &  &  & & & \footnotesize \textsl{MCOBJET}   \\
+         &  &  & & & \scriptsize  \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
 %
-			\multicolumn{1}{|c|}{\textbf{Across optical}}
+			\multicolumn{1}{|c|}{\textbf{Coordinates and}}
 			    & 7.1 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2)  of $F(J,I)$ & 1 & 1-2 & &  
          &  \textsl{[MC]OBJET}   \\
-			\multicolumn{1}{|c|}{\textbf{ elements, }}
+			\multicolumn{1}{|c|}{\textbf{ fields, across}}
 			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & max($F(J,I)$) - min$F(J,I)$) &  & & & &  \\
-			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & & & &  \\
-			\multicolumn{1}{|c|}{ \footnotesize  (J=1-3 for }
-			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & &  \\
-			\multicolumn{1}{|c|}{\footnotesize $B_X$,  $B_Y$,  $B_Z$) }
+			\multicolumn{1}{|c|}{\textbf{optical elements  }}
+			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & & & &  \\[0.5ex]
+			\multicolumn{1}{|c|}{ \footnotesize (J=1, 2, 3 for   }
+			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & & \\
+			\multicolumn{1}{|c|}{ \footnotesize $B_{X,\ Y,\ Z}$) }
 			    & 7.7 & $1 - \IMAX$ & $1 - 3$  & max($B_J$) - min($B_J$) &  & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 7.8 & $1 - \IMAX$ & $1 - 3$  & min($B_J$) + max($B_J$) &  & & & &  \\
@@ -3482,13 +3482,13 @@ An example is given page~\pageref{ExaFITREBELOTE}.
 
 \bigskip
 
-\paragraph{\textit{OPTIONS} \index{fit, options|textbf}}
+\paragraph{\textit{OPTIONS} \index{fit procedure!options|textbf}}
 
 \noindent \textsl{FIT} and \textsl{FIT2} accept various options, as follows. 
 
 \smallskip
 
-\noindent - 'nofinal' option~: \index{fit, options|textbf} \label{nofinal}
+\noindent - 'nofinal' option~: \label{nofinal}
 a request to avoid a final run that would normally follow the completion of the fit, allowing for the 
 variable values as just determined by \textsl{FIT[2]}. By default, \ie, if `nofinal' does 
 not appear in the   \textsl{FIT[2]} data list, then that final run does occur. 
@@ -3498,17 +3498,17 @@ not appear in the   \textsl{FIT[2]} data list, then that final run does occur.
 
 
 \noindent - 'save' [, FileName] option~:  a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
-default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit, save variables}
+default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit procedure!save variables}
 
 \smallskip
 
 \noindent - Penalty~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
-will be considered completed, and thus  stopped. \index{fit, penalty}
+will be considered completed, and thus  stopped. \index{fit procedure!penalty}
 
 \smallskip
 
 \noindent - ITER~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
- \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit, max. number of iterations}
+ \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit procedure!max. number of iterations}
 
 \medskip
 
@@ -3587,7 +3587,7 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \medskip
 
-Note that, if the `nofinal' option\index{fit, options}  
+Note that, if the `nofinal' option\index{fit procedure!options}  
 is not set in \textsl{FIT[2]} (see page~\pageref{nofinal}), then, once completed, \textsl{FIT[2]} will be followed by a final  
 run of zgoubi.dat with the variable values as resulting from \textsl{FIT[2]}. In that case, for that final run, 
 \textsl{GETFITVAL} will be inhibited so avoid overridding these updated variable values. 
@@ -3744,7 +3744,7 @@ is again allowed to decay,  after  the  same path length. This  procedure  is ma
 possible  by  prior storage  of  the  coordinates of the parent  
 particles (in array \textsl{FDES}$(J,I)$) each  time  a  decay  occurs. 
 
-\noindent Negative steps\index{integration step size!negative}\index{XPAS!negative} (\textsl{XPAS}$<0$) in
+\noindent Negative steps\index{integration step size!negative|textbf}\index{XPAS!negative} (\textsl{XPAS}$<0$) in
 optical elements are not compatible with  \textsl{MCDESINT\index{MCDESINT}}.  
 
 
@@ -3953,9 +3953,9 @@ the execution  continues from the keyword which follows \REBELOTE, until \textsl
 
 \bigskip
 
-The two functionalities of \textsl{REBELOTE} are the following~: 
+\noindent The two functionalities of \textsl{REBELOTE} are the following~: 
 
-\smallskip
+\medskip
 
 \noindent {\small $\bullet$} \REBELOTE\ can be used for Monte Carlo\index{Monte Carlo} simulations when more 
 than Max(\IMAX) particles  \index{IMAX@{\IMAX}} are to be tracked. 
@@ -3987,8 +3987,9 @@ with possible extraction, at the last pass, at the location of the second \LABEL
 
 \bigskip
 
-In addition to what precedes,  \textsl{REBELOTE} can change the value of arbitrary parameters in zgoubi.dat 
-data list. \textsl{NPRM} tells the number of parameters to be changed. 
+\noindent In addition to what precedes,  \textsl{REBELOTE} can change the value of arbitrary parameters in zgoubi.dat 
+data list, using the forth argument \textsl{IOPT=1} (see page~\pageref{REBEL_IOPT}). 
+\textsl{NPRM} tells the number of parameters to be changed. 
 A series of   \textsl{NPRM} lists of values, one list per parameter to be changed and each list 
 with \textsl{NRBLT} data, tells the 
  values to be taken by each one of these parameters, over the \textsl{NRBLT} passes of the 
@@ -4013,24 +4014,27 @@ data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking
 
 
 
-\bigskip
+\clearpage
 
 \paragraph{\textit{COMBINING REBELOTE AND FIT[2]} \index{REBELOTE and FIT, combined|textbf}}    %%%%[10]
 
 
 \noindent The keyword  \textsl{REBELOTE}  can follow   \textsl{FIT[2]}.  This allows executing again 
-the same fit procedure,  after having changed the value of some parameter in zgoubi.dat. 
-That's the role of   \textsl{REBELOTE}  in that game~: it changes that parameter, and then sends the 
+the fit procedure,  after changing the value of some parameter in zgoubi.dat using \textsl{REBELOTE} with 
+option \textsl{IOPT=1}. 
+That's the interest of the game~: \textsl{REBELOTE}  changes that parameter, and then sends the 
 zgoubi execution pointer back to the top of zgoubi.dat for a new run. 
 
 
 \bigskip
 
- An example of the use of the \textsl{REBELOTE} procedure is given page~\pageref{ExaREBELOTE}. 
+\paragraph{\textit{EXAMPLES}} 
+
+\noindent  An example of the use of the \textsl{REBELOTE} procedure is given page~\pageref{ExaREBELOTE}. 
 
 \bigskip
 
- An example combining \textsl{FIT} and \textsl{REBELOTE} is given page~\pageref{ExaFITREBELOTE}. 
+\noindent  An example combining \textsl{FIT} and \textsl{REBELOTE} is given page~\pageref{ExaFITREBELOTE}. 
 
 
 
