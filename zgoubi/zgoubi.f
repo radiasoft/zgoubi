@@ -1311,6 +1311,8 @@ C      IF(READAT) READ(NDAT,*) A(NOEL,1)
      >'',  as  follows : '',/)') NCMD
       DO I = 1, NCMD
         READ(NDAT,FMT='(A)') SYSCMD
+        IF(STRCON(SYSCMD,'!'
+     >                      ,IS)) SYSCMD = SYSCMD(1:IS-1)
         CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
         IF(NRES.GT.0) 
      >  WRITE(NRES,*) SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))

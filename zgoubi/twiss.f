@@ -633,31 +633,7 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
           ENDIF
       ENDIF
 
-c      goto 97
-c 96   CONTINUE
-c      WRITE(ABS(NRES),FMT='(/,''SBR TWISS : '',
-c     >           ''Error open file zgoubi.TWISS.Out'')')
-c      WRITE(*        ,FMT='(/,''SBR TWISS : '',
-c     >           ''Error open file zgoubi.TWISS.Out'')')
-c 97   continue
-
       IPASS = 1
-C      NRBLT = 0
-
-
-c          call ZGKLE(iq(noel), 
-c     >                             kleo)
-c           write(*,*) ' 99 twiss noel iq(noel) ',noel, kleo 
-c          call ZGKLE(iq(noel-1), 
-c     >                             kleo)
-c           write(*,*) ' noel -1 ',kleo 
-c          call ZGKLE(iq(noel+1), 
-c     >                             kleo)
-c           write(*,*) ' noel +1 ',kleo 
-c          call ZGKLE(iq(noel+2), 
-c     >                             kleo)
-c           write(*,*) ' noel +2 ',kleo 
-
 
       RETURN
 
