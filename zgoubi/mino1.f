@@ -28,14 +28,17 @@ C  -------
 
       LOGICAL ITSENS
 
-      PARAMETER (NITER=90)
+C      PARAMETER (NITER=90)
 
       PARAMETER (VALMAX=1.D38)
       PARAMETER (D=3.0D0)
       EXTERNAL FONC
 
       SAVE PNLTY, ICPTMA
+      SAVE NITER
+
       DATA PNLTY, ICPTMA / 1D-10, 1000 /
+      DATA NITER / 90 /
 
       CALL CPTINI
       NI=0
@@ -115,7 +118,6 @@ C Stop test
      >               I)
 
          IF(NI.LE.NITER) GOTO 1
-C         WRITE(ABS(NRES),*) 
          WRITE(6,*) 
      >     ' SBR mino1 : Out of mino1 upon NITER = ',NI
 
@@ -123,9 +125,10 @@ C         WRITE(ABS(NRES),*)
 
       RETURN
 
-      ENTRY MINO12(PNLTI,ICPTM)
+      ENTRY MINO12(PNLTI,NITERI,ICPTMI)
       PNLTY = PNLTI
-      ICPTMA = ICPTM
+      NITER = NITERI
+      ICPTMA = ICPTMI
       RETURN
 
       ENTRY MINO13(

@@ -661,10 +661,10 @@ C----- FIT. FIT2. Two methods are available
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
       IF(READAT) CALL RFIT(KLEY,
-     >                         PNLTGT,ICPTMA,FITFNL)
+     >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
-      IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ICPTMA)
-      IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ICPTMA)
+      IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)
+      IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ITRMA,ICPTMA)
       CALL CPTFC1(ICPTMA)
       FITING = .TRUE.
       CALL FITSTA(I6,FITING)

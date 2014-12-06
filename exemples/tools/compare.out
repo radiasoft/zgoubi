@@ -47,7 +47,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772228E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -100,13 +100,13 @@
                               dNu_y / dp/p =  2.00054555E+00
                               dNu_z / dp/p =  1.99967243E+00
                           - new : 
-                              dNu_y / dp/p =  2.00054555E+00
+                              dNu_y / dp/p =  2.00054566E+00
                               dNu_z / dp/p =  1.99967243E+00
         
 ////////////////  ../AGS/matrix/ - reference : 
                               dNu_y / dp/p =  4.29909176E+01
                               dNu_z / dp/p = -5.45369658E+01
                           - new : 
-                              dNu_y / dp/p =  4.29909176E+01
+                              dNu_y / dp/p =  4.29909177E+01
                               dNu_z / dp/p = -5.45369658E+01
         

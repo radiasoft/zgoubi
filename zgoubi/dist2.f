@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -41,7 +41,6 @@ C  -------
           DVAL2 = F(L,JT) - F(L,IT)
           VAL = VAL + DVAL2*DVAL2
           II = II + 1
-C        write(*,*) ' DIST2 :  F(L,JT-IT) ', F(L,JT),F(L,IT),jt,it
  10   CONTINUE
       IF(II.GT.0) THEN 
         VAL = SQRT(VAL)/DBLE(II)

@@ -46,6 +46,7 @@ C  -------
       DOUBLE PRECISION NMMIN2, PNLTY, PNLTI
 C Max number of function calls
       INTEGER ICPTM, ICPTMA, ICPTF
+      INTEGER ITRMA, NITER
       SAVE PNLTY
       SAVE ICPTMA
 
@@ -178,8 +179,9 @@ C Max number of function calls
       NMMIN1 = FF(P(1))
       RETURN
 
-      ENTRY NMMIN2(PNLTI,ICPTM)
+      ENTRY NMMIN2(PNLTI,ITRMA,ICPTM)
       PNLTY = PNLTI
+      NITER = ITRMA
       ICPTMA = ICPTM
       NMMIN2 = 0.D0
       RETURN

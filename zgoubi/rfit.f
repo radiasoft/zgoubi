@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE RFIT(KLEY,
-     >                     PNLTY,ICPTMA,FITFNL)
+     >                     PNLTY,ITRMA,ICPTMA,FITFNL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -51,7 +51,10 @@ C     ***************************************
       CHARACTER(80) FNAME
       LOGICAL EMPTY
       LOGICAL FIRST 
+
       DATA FIRST / .TRUE. /
+c      DATA PNLTY, ITRMA, ICPTMA / 1.D-10, 90, 1000 /
+c      DATA FITFNL / .TRUE. /
 
 C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132
@@ -110,7 +113,7 @@ C--------- Old method
         ENDIF
       ENDDO
 
-C  READ NC [,PNLTY [,ICPTMA]]
+C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
@@ -122,9 +125,14 @@ C  READ NC [,PNLTY [,ICPTMA]]
         IF(NSTR.GE.2) THEN
           READ(STRA(2),*,ERR=43,END=43) PNLTY
           IF(NSTR.EQ.3) THEN
-            READ(STRA(3),*,ERR=44,END=44) ICPTMA
+            READ(STRA(3),*,ERR=44,END=44) ITRMA
+            IF(NSTR.EQ.4) THEN
+              READ(STRA(4),*,ERR=44,END=44) ICPTMA
+            ELSE
+              GOTO 44
+            ENDIF
           ELSE
-            GOTO 44
+            GOTO 42
           ENDIF
         ELSE
           GOTO 43
@@ -133,6 +141,8 @@ C  READ NC [,PNLTY [,ICPTMA]]
       GOTO 45
  43   CONTINUE
       PNLTY = 1.D-10
+ 42   CONTINUE
+      ITRMA = 90
  44   CONTINUE
       IF(KLEY .EQ. 'FIT') THEN
         ICPTMA = ICPTM1

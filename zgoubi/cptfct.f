@@ -28,7 +28,7 @@ C  -------
       EXTERNAL FONC
 
       SAVE ICPTF, ICPTMA
-      data icptma / 1000 /
+      DATA ICPTMA / 1000 /
 
       ICPTF=ICPTF+1
       F=FONC()
@@ -53,8 +53,8 @@ C1000  FORMAT(/,1X,I10,' APPELS A LA FONCTION')
       ICPTFO = ICPTF
       RETURN
 
-      ENTRY CPTFC1(ICPTM)
-      ICPTMA = ICPTM
+      ENTRY CPTFC1(ICPTMI)
+      ICPTMA = ICPTMI
       RETURN
 
       END
