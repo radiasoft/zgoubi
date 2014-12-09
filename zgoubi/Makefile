@@ -142,6 +142,7 @@ OBJ=\
  fitnu.o\
  fitset.o\
  fitsta.o\
+ fitwda.o\
  flush2.o\
  fmapw.o\
  focal1.o\

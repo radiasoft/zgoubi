@@ -42,9 +42,11 @@ C  -------
 
       CHARACTER(LEN=12), DIMENSION(:), ALLOCATABLE :: ARGS
       LOGICAL SAVXEC, SAVZPP
+      logical okwdat
 
       DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
+      data okwdat / .false. /
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -174,6 +176,8 @@ C -----
  335        FORMAT(/,2X,A)
         ENDIF
 
+          okwdat = .true.
+
         WRITE(6,201)
 C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         READAT = .TRUE.
@@ -193,6 +197,10 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
+          if(okwdat) then
+            call fitwda
+            okwdat = .false.
+          endif
           CALL ZGIPAS(
      >                IPASS,NRBLT)
           IF(IPASS .LE. NRBLT+1) THEN
@@ -232,6 +240,11 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
 
  10   CONTINUE
       
+      if(okwdat) then
+        call fitwda
+        okwdat = .false.
+      endif
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,fmt='(A)')  '   '
         WRITE(NRES,fmt='(A)')  '            Zgoubi run completed. '

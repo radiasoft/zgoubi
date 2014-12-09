@@ -88,6 +88,7 @@ c      COMMON/DONT/ TA(MXL,MXTA)
 
       PARAMETER (MXPL= MXPRM*MXLST, MXPRM3= MXPRM*3)
       LOGICAL OKLSTP
+      dimension aold(MXPRM)
 
       logical fiting
 
@@ -122,7 +123,7 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
         DO IPRM = 1, NPRM
           KLM(IPRM)   = NINT(A(NOEL,20+10*(IPRM-1)))
           KPRM(IPRM)  = NINT(A(NOEL,21+10*(IPRM-1)))
-          AOLD = A(KLM(IPRM),KPRM(IPRM))
+          AOLD(IPRM) = A(KLM(IPRM),KPRM(IPRM))
           A(KLM(IPRM),KPRM(IPRM)) = PARAM(IPRM,IPASS)
         ENDDO
 
@@ -316,12 +317,12 @@ C          IF(NRBLT.GT.1) READAT = .FALSE.
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed  to  '',
      >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
             WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed to  '',
      >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
           ENDDO
         ENDIF
 
@@ -378,12 +379,12 @@ C------- Last but one pass through structure HAS JUST BEEN completed
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed  to  '',
      >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
             WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
      >      I4,''.  In element # '',I4,
      >      '',  parameter #'',I3,''  changed to  '',
      >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
           ENDDO
 
 c          WRITE(LUN,104)

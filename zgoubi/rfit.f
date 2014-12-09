@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RFIT(KLEY,
+      SUBROUTINE RFIT(KLEY,IMAX,
      >                     PNLTY,ITRMA,ICPTMA,FITFNL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
@@ -30,7 +30,7 @@ C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
       CHARACTER(*) KLEY
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      PARAMETER (MXV=40) 
+      PARAMETER (MXV=60) 
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -164,7 +164,13 @@ C----- Looks for possible parameters, with values in CPAR, and action
       DO 5 I=1,NC
         IF    (IC(I).EQ.3) THEN 
 C--------- Traj coord
-          IF(I1(I).EQ.-3)  THEN
+          IF    (I1(I).EQ.-1)  THEN
+c            IF(CPAR(I,1).GT.0) THEN
+c              CALL FITLA2(CPAR(I,2), CPAR(I,3))    ! trajectory range I1-I2
+c            ELSE
+c              CALL FITLA2(1, IMAX)
+c            ENDIF
+          ELSEIF(I1(I).EQ.-3)  THEN
             CALL DIST2W(CPAR(I,2), CPAR(I,3), CPAR(I,4))
           ENDIF
         ELSEIF(IC(I).EQ.5) THEN 

@@ -25,7 +25,7 @@ C  -------
       FUNCTION FF()
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      PARAMETER (MXV=40)
+      PARAMETER (MXV=60)
       COMMON/CONTR/ VAT(MXV),XI(MXV)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
@@ -55,7 +55,7 @@ C      SAVE IC2
       DIMENSION RPD(6,6), RMD(6,6) 
 
       LOGICAL READAT
-      PARAMETER (I0=0)
+      PARAMETER (I0=0,ZRO=0.D0)
 
       M=1
       CALL REMPLI(M)
@@ -234,7 +234,18 @@ C-------------- Constraint is value of coordinate L of particle K
                VAL=F(L,K)
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
-               VAL=FITLAV(L)
+               if    (NINT(CPAR(I,1)) .eq. 0) then
+                     write(*,*) ' ff  imax ',imax
+                        pause
+                 VAL=FITLAV(L,1,imax,ZRO)
+               elseif(NINT(CPAR(I,1)) .eq. 2) then
+c                 write(*,*) 'ff i1 i2 ',NINT(CPAR(I,2)),NINT(CPAR(I,3))
+c                        pause
+                 VAL=FITLAV(L,NINT(CPAR(I,2)),NINT(CPAR(I,3)),ZRO)
+               elseif(NINT(CPAR(I,1)) .eq. 3) then
+                 VAL=FITLAV
+     >             (L,NINT(CPAR(I,2)),NINT(CPAR(I,3)),CPAR(I,4))
+               endif
              ELSEIF(K.EQ.-2) THEN
 C------------- Constraint on beam : max value of coordinate L
                VAL=FITLMA(L)

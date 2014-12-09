@@ -70,12 +70,6 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       CHARACTER(80) TXT(10)
 
       DIMENSION  AREG(2),BREG(2),CREG(2)
-
-      DATA DIM / 'kG ', 'V/m'/
-      DATA BE / 'B-', 'E-'/
- 
-      DATA CASPI / .TRUE. /
-      
       DIMENSION AKS(6)
       SAVE AKS, SXL
 
@@ -99,12 +93,25 @@ C      ERRORS
       SAVE DB, DPOS, TILT
       LOGICAL OK
       LOGICAL FITING, FITFNL
+      LOGICAL PRNT, PRNTI
+      SAVE PRNT
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLEY
+      logical idluni
+      logical okopn
+      save okopn, lerr
+      save ipol
+      CHARACTER(LBLSIZ) LBL1l, LBL2l
 
 C      DATA DB / MPOL*0.D0 /
 C      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
 c      data dtilt / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
+      DATA DIM / 'kG ', 'V/m'/
+      DATA BE / 'B-', 'E-'/
+      DATA CASPI / .TRUE. /
       DATA ERRON / .FALSE. /
-
+      DATA okopn / .FALSE. /
+     
       IER = 0
       SKEW=.FALSE.
       CALL RAZ(BM,MPOL)
@@ -261,21 +268,59 @@ C----- Case erron (errors)
           OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
           IF(OK) THEN
-C            IF(IPASS.EQ.1) THEN 
-            IF(KREB3 .NE. 99) THEN 
-              CALL FITSTA(5,FITING)
-              CALL FITST5(
-     >                    FITFNL)         
-              IF(.NOT.FITING .AND. .NOT. FITFNL) 
-     >          CALL MULERR(NOEL,IRR,BM, 
-     >          KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+            CALL REBELR(
+     >                  KREB3,KDUM,KDUM)
+            CALL FITSTA(5,FITING)
+            CALL FITST5(
+     >                  FITFNL)         
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+              CALL MULERR(NOEL,IRR,BM, 
+     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
-            ENDIF
+              if(prnt) then
+                call ZGKLE(iq(noel), 
+     >                             KLEy)
+                if(empty(lbl1(irr))) then 
+                  lbl1l = '.'
+                else
+                  lbl1l = lbl1(irr)
+                endif
+                if(empty(lbl2(irr))) then 
+                  lbl2l = '.'
+                else
+                  lbl2l = lbl1(irr)
+                endif
+                write(lerr,fmt='(3(1x,i5),3(1x,a),
+     >          3(1x,e16.8), 1x,e16.8, 6(1x,e16.8), 3(1x,a))') 
+     >          NOEL,IRR,KPOL(IRR,Ipol),
+     >          TYPERR(IRR,Ipol), TYPAR(IRR,Ipol),TYPDIS(IRR,Ipol),
+     >          ERRCEN(IRR,Ipol),ERRSIG(IRR,Ipol),ERRCUT(IRR,Ipol),
+     >               DB(noel,ipol),
+     >          (DPOS(noel,ipol,jj),jj=1,3),(TILT(noel,ipol,jj),jj=1,3),
+     >             kley,lbl1l,lbl2l
+              endif
+
+c                  close(lerr)
+
+              IF(KUASEX .LE. MPOL) THEN
+                BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+              ELSEIF(KUASEX .EQ. MPOL+1) THEN
+                DO IM=1,MPOL
+                  IF(KPOL(IRR,IM).EQ.1) THEN
+                    BM(IM) = BM(IM) + DB(NOEL,IM)
+                  ENDIF
+                ENDDO
+              ENDIF      
+            ENDIF      
             IF(KUASEX .LE. MPOL) THEN
-              BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+              A(NOEL,12) = BM(KUASEX) / SCAL
             ELSEIF(KUASEX .EQ. MPOL+1) THEN
+              IA = 4
               DO IM=1,MPOL
-                IF(KPOL(IRR,IM).EQ.1) BM(IM) = BM(IM) + DB(NOEL,IM)
+                IF(KPOL(IRR,IM).EQ.1) THEN
+                  A(NOEL,IA) = BM(IM) / SCAL
+                  IA = IA + 1
+                ENDIF
               ENDDO
             ENDIF      
           ENDIF      
@@ -299,8 +344,10 @@ C----- MULTIPOLE
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
      >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
-        WRITE(NRES,103) (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),IM=NM0,NM)
- 103    FORMAT(15X,2A,'  =',1P,E15.7,1X,A)
+        WRITE(NRES,103) 
+     >    (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),BM(IM)/SCAL,IM=NM0,NM)
+ 103    FORMAT(15X,2A,'  =',1P,E15.7,1X,A,
+     >  '  (i.e., ',E15.7,' * SCAL)')
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,E15.7,' rd')
         IF(XL .NE. 0.D0) THEN
@@ -522,10 +569,12 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 
 C----- CASE ERRON (ERRORS)
       IF(NRES.GT.0) THEN
-        DO IRR = 1, MXERR 
+        IF(ERRON) THEN
+         DO IRR = 1, MXERR 
           OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
           IF(OK) THEN
+           IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
             DO I = 1, MPOL
               IF(KPOL(IRR,I) .EQ. 1) THEN 
                 WRITE(NRES,FMT='(/,15X,
@@ -543,8 +592,14 @@ C----- CASE ERRON (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
               ENDIF
             ENDDO
+           ELSE
+                WRITE(NRES,FMT='(/,15X,
+     >          ''ERRORS WERE SET, ACCOUNTED FOR IN THE FIELDS '', 
+     >          ''ABOVE - MAINTAINDED UNCHANGED SO FAR.'')')
+           ENDIF
           ENDIF
-        ENDDO
+         ENDDO
+        ENDIF
       ENDIF
 
       XI = 0.D0
@@ -644,5 +699,27 @@ C      aK3 = AKS(3)
 
       ENTRY MULTP4
       ERRON = .FALSE.
+      RETURN      
+
+      ENTRY MULTP8(PRNTI)
+      PRNT = PRNTI
+      IF(PRNT) THEN
+        IF(.NOT. OKOPN) THEN
+          OK = IDLUNI(
+     >              LERR)
+          OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
+          write(lerr,fmt='(a)') '# Origin of this print: multpo pgm.'
+                write(lerr,fmt='(a)')
+     >  '# NOEL, IRR, KPOL(IRR,Ipol) '
+     >  //'TYPERR(IRR,Ipol), TYPAR(IRR,Ipol),TYPDIS(IRR,Ipol), '
+     >  //'ERRCEN(IRR,Ipol),ERRSIG(IRR,Ipol),ERRCUT(IRR,Ipol), '
+     >  //'DB(noel,ipol), '
+     >  //'(DPOS(noel,ipol,jj),jj=1,3),(TILT(noel,ipol,jj),jj=1,3), '
+     >  //'kley,lbl1l,lbl2l'
+                write(lerr,fmt='(a)') '#'
+        ENDIF
+      ELSE
+        IF(OKOPN) CLOSE(LERR)
+      ENDIF
       RETURN      
       END

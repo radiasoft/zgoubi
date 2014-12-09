@@ -71,7 +71,7 @@ C-------- save status
          FITBYD = FITBYI
       RETURN
 
-! Execute Zgoubi w new variables following completed FIT[2]
+! Execute Zgoubi w new variables following completion of FIT[2]
       ENTRY FITST5(
      >             FITFNO)
       FITFNO = FITFNL

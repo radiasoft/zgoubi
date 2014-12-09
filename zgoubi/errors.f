@@ -49,8 +49,10 @@ C                  A or R   G or U
       CHARACTER(1) TYPAR,   TYPDIS
       LOGICAL EMPTY
       INTEGER DEBSTR, FINSTR 
+      logical prnt
 
       DATA LBL1, LBL2 / 2*' ' /
+      data prnt / .true. /
 
 C on/off switch  (1/0), number of lines to follow (each line sets a particular error)
       IOP = NINT(A(NOEL,1) )
@@ -68,6 +70,14 @@ C Re-initialize the series to same seed, after REBELOTE, when multi-turn trackin
       IF (IOP .EQ. 0) THEN 
 C        Switch off all possible earlier error settings
         CALL MULTP4
+        CALL MULTP8(.NOT. PRNT)
+      ENDIF
+
+      IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
+C Will save error list in zgoubi.ERRORS.out
+        CALL MULTP8(PRNT)
+      ELSE
+        CALL MULTP8(.NOT. PRNT)
       ENDIF
 
       IF(NRES.GT.0) THEN

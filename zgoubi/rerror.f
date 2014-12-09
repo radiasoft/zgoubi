@@ -37,12 +37,24 @@ C     ********************************
       CHARACTER(132) TXT132
       LOGICAL STRCON, CMMNT, FITFNL, ok
       CHARACTER(40) STRA(10)
+      INTEGER DEBSTR
  
 C on/off switch  (1/0), number of lines to follow, random generator seed
-      READ(NDAT,*) IOP, NBR, iseed
+      READ(NDAT,FMT='(A)') TXT132      
+      READ(TXT132,*) IOP, NBR, ISEED
+
       A(NOEL,1) = IOP
       A(NOEL,2) = NBR
-      A(NOEL,3) = iseed
+      A(NOEL,3) = ISEED
+
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      IF(STRCON(TXT132,'PRINT',
+     >                         IS)) THEN
+        A(NOEL,4) = 1
+      ELSE
+        A(NOEL,4) = 0
+      ENDIF      
       
       IF(NBR.GT.MXTA) CALL ENDJOB('SBR rerror. Number of instructions '
      >//' cannot exceed ',MXTA)

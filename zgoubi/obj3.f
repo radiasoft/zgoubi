@@ -61,6 +61,8 @@ C     **************************************
 
       CHARACTER(1) LETI, LETAG
       CHARACTER(130) TXT
+      logical okopn
+      data okopn / .false. /
 
 C----- Reset particle counter
       IF(IPASS.EQ.1) CALL CNTRST
@@ -97,8 +99,11 @@ C----- Reset particle counter
       FRMT='FORMATTED'
       IF(BINARY) FRMT='UNFORMATTED'
       IF(IPASS .EQ. 1) THEN
-        IF(IDLUNI(
-     >            NL)) THEN
+        if(.not. okopn) then      
+          okopn = (IDLUNI(
+     >                    NL)) 
+          if(.not. okopn) call endjob
+     >       ('Pgm obj3. Cannot get free unit for object file',-99)
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Opening input file  '',
      >    A,'',  in logical unit # : '',I3)') 
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),NL
@@ -112,11 +117,11 @@ C----- Reset particle counter
      >      ,I6,''  to  '',I6,'',  step  '',I6)') KT1,KT2,KT3
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,'' Reading pass #     '',2X
      >      ,I6,''  to  '',I6,'',  step  '',I6,/)') KP1,KP2,KP3
-            CALL HEADER(NL,NRES,4,BINARY,
-     >                                   *999)
-        ELSE
-          GOTO 96
+        else
+          rewind(nl)
         ENDIF
+        CALL HEADER(NL,NRES,4,BINARY,
+     >                              *999)
       ENDIF
 
 C----- Flag for lmnt number - not used (for the moment...)
@@ -491,7 +496,7 @@ C      IT1 = IT1-1
       IDMAX = 1
       IMAXT=IMAX
  
-      CLOSE(NL)
+C      CLOSE(NL)
       RETURN
  999  CONTINUE
           CALL OBJERR(ABS(NRES),1,MXT,' Read error')

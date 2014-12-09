@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      FUNCTION FITLAV(L)
+      FUNCTION FITLAV(L,IT1,IT2,PAR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
@@ -31,7 +31,8 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
       FITLAV=0.D0
       NPTS = 0
-      DO 21 I=1,IMAX
+C      DO 21 I=1,IMAX
+      DO 21 I=IT1, IT2
         IF(IEX(I) .LT. -1) GOTO 21
         NPTS = NPTS + 1
         FITLAV = FITLAV + F(L,I)

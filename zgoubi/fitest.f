@@ -22,10 +22,10 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE FITEST(SAVE,FNAME,
+      SUBROUTINE FITEST(SAVFT,FNAME,
      >                             IER)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL SAVE
+      LOGICAL SAVFT
       CHARACTER(*) FNAME
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXCOO.H"
@@ -33,7 +33,7 @@ C  -------
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      PARAMETER (MXV=40) 
+      PARAMETER (MXV=60) 
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
      >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
       INCLUDE 'MXLD.H'
@@ -144,14 +144,14 @@ c                    read(*,*)
      >              ''  FIT  will proceed. '')')
       ENDIF
 
-      IF(SAVE) THEN
+      IF(SAVFT) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT=
      >  '(/,20X,''Final FIT status will be saved in '',A,/)')
      >  FNAME
       ELSE
         IF(NRES.GT.0) WRITE(NRES,FMT=
      >  '(/,20X,''Final FIT status will NOT be saved. For so, use the'',
-     >   '' ''''save'''' command'')')
+     >   '' ''''SAVFT'''' command'')')
       ENDIF
 
       RETURN    

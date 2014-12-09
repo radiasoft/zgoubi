@@ -36,7 +36,7 @@ C     (possibly < mss) is NST.
 C     ------------------------------------------------------
       INTEGER FINSTR
 
-      CHARACTER STR0*(300)
+      CHARACTER(2000) STR0
 
       if(len(str0).lt.len(str)) 
      >  stop ' SBR STRGET : Increase length of string str0'

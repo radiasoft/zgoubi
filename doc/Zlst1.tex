@@ -2932,7 +2932,7 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lcl}
-	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\[1ex]
 	'KEYWORD'      &&  \\
 	first line   && 1, 2, 3, ..., 9 \\
 	second  line &&  10, 11, 12, 13, ..., 19 \\
@@ -2947,8 +2947,10 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
+\index{QUADRUPO!parameter numbering}
+\index{TOSCA!parameter numbering}
 	\begin{tabular}{lcl}
-	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\[1ex ]
 	\textsl{'QUADRUPO'}\index{QUADRUPO}        \\
     $\IL$                                                   & &     1\\
     $\XL$, $R_0$, $B$                                       && 10, 11, 12 \\
@@ -2959,7 +2961,7 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
    \textsl{XPAS}                                            &&  60\\
    \textsl{KPOS, XCE, YCE, ALE }                            && 70, 71, 72, 73 \\
    \\
-   \textsl{TOSCA}  \\
+   \textsl{'TOSCA'}  \\
    \textsl{\IC, \IL}  &  &  1, 2\\
    \textsl{BNORM, X- [, Y-, Z-]NORM}     &&  10, 11 [, 12, 13] \\
    \textsl{TIT}       &&  This is  text \\
@@ -2978,16 +2980,17 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 
 \noindent A different numbering,  fully sequential, has been adopted in the following elements~: \\
 \\
- \textsl{AIMANT\index{AIMANT}},   \textsl{DIPOLE\index{DIPOLE}}, 
- \textsl{EBMULT\index{EBMULT}}, \textsl{ELMULT\index{ELMULT}}, \textsl{MULTIPOL\index{MULTIPOL}}. \\
+ \textsl{AIMANT}\index{AIMANT!parameter numbering},   \textsl{DIPOLE}\index{DIPOLE!parameter numbering}, 
+ \textsl{EBMULT}\index{EBMULT!parameter numbering}, \textsl{ELMULT}\index{ELMULT!parameter numbering}, 
+\textsl{MULTIPOL}. \index{MULTIPOL!parameter numbering} \\
 \\
 It is  illustrated  here after 
-in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. 
+in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!parameter numbering}
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lcl}
-	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\[1ex]
       \textsl{'MULTIPOL'}                      \\
 	\textsl{0 }     &  &  1 \\
 	\textsl{365.760 10.0 7.5739 1.4939 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0} &&  2, 3, 4, 5, ..., 13    \\
@@ -3023,7 +3026,7 @@ in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}.
 
 
 
-\noindent Parameters in \textsl{SCALING\index{SCALING}} also have a sequential numbering, yet some positions 
+\noindent Parameters in \textsl{SCALING\index{SCALING!parameter numbering}} also have a sequential numbering, yet some positions 
 are skipped, this is illustrated in the example hereafter which covers all possible working modes of \textsl{SCALING} 
  (all details regarding the numbering can be found in the \FORTRAN\ subroutine \texttt{rscal.f})~: 
 

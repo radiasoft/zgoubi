@@ -660,7 +660,7 @@ C----- FIT. FIT2. Two methods are available
       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
-      IF(READAT) CALL RFIT(KLEY,
+      IF(READAT) CALL RFIT(KLEY,IMAX,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)
@@ -1438,10 +1438,10 @@ C KLEY[IKL]
       PNLTGO = PNLTGT
       RETURN
       ENTRY ZGIPAS( 
-     >             IPASSO,nrblto)
+     >             IPASSO,NRBLTO)
 C Current pass #
       IPASSO = IPASS
-      nrblto = nrblt
+      NRBLTO = NRBLT
       RETURN
 
       END

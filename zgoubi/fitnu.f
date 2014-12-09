@@ -24,7 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FITNU(LUN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      PARAMETER (MXV=40) 
+      PARAMETER (MXV=60) 
       COMMON/CONTR/ VAT(MXV),XI(MXV)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -43,12 +43,12 @@ C  -------
 
       CHARACTER(80) FNAME, FNAMEI
 C      SAVE LSAV, FNAME
-      LOGICAL FITSAV, OK
-      SAVE FNAME, FITSAV
+      LOGICAL SAVFT, OK
+      SAVE FNAME, SAVFT
 
       DATA MTHD / 2 / 
 
-      CALL FITEST(FITSAV,FNAME,
+      CALL FITEST(SAVFT,FNAME,
      >                       IER)
       IF(IER .NE. 0) CALL ENDJOB('End of upon FITEST procedure',-99)
       CALL FITSET
@@ -65,10 +65,11 @@ C Implemented by Scott Berg, LPSC, April 2007
            CALL ENDJOB('SBR fitnu, Error : no such FIT method.',-99)
          ENDIF
          CALL IMPAJU(LUN,F)
-         IF(FITSAV) THEN
-            OK = IDLUNI(
-     >                  LSAV)
-            OPEN(UNIT=LSAV,FILE=FNAME)
+         CALL IMPAJU(6,F)
+         IF(SAVFT) THEN
+           OK = IDLUNI(
+     >                 LSAV)
+           OPEN(UNIT=LSAV,FILE=FNAME)
            CALL IMPAJU(LSAV,F)
            CLOSE(LSAV)
          ENDIF
@@ -81,7 +82,7 @@ C Implemented by Scott Berg, LPSC, April 2007
       RETURN
 
       ENTRY FITNU6(FNAMEI) 
-      FITSAV = .TRUE.
+      SAVFT = .TRUE.
       FNAME = FNAMEI
       RETURN
 
