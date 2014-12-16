@@ -186,7 +186,7 @@ C------- Compute space charge kick and apply to bunch
        IF(OKSPCH) THEN
         IF( STRACO(NLBSC,LBLSC,LABEL(NOEL,1),
      >                                       IL) 
-     >    .OR. LBL(1).EQ.'all' .OR. LBL(1).EQ.'ALL') 
+     >    .OR. LBLSC(1).EQ.'all' .OR. LBLSC(1).EQ.'ALL') 
      >    CALL SCKICK 
        ENDIF
        IF(PRLB) THEN
