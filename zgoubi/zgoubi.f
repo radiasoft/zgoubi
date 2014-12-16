@@ -59,11 +59,17 @@ C  -------
       PARAMETER(MPOL=10)
       DIMENSION ND(MXL)
 
+C----- For space charge computaton
+      PARAMETER(MLBSC=10)
+      CHARACTER(LBLSIZ) LBLSC(MLBSC)
+      LOGICAL OKSPCH
+      SAVE OKSPCH, LBLSC, NLBSC
+
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
       CHARACTER(LBLSIZ) LBL(MLB), LBLSP(MLB)
       LOGICAL PRLB, PRLBSP
-      SAVE KPRT, PRLB, KPRTSP, PRLBSP
+      SAVE KPRT, PRLB, LBL, KPRTSP, PRLBSP, LBLSP, NLB
 
 C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=5000)
@@ -176,6 +182,13 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
 C YD FM. 28/01/2014
       IF(NOEL .GT. 0) THEN
 
+C------- Compute space charge kick and apply to bunch
+       IF(OKSPCH) THEN
+        IF( STRACO(NLBSC,LBLSC,LABEL(NOEL,1),
+     >                                       IL) 
+     >    .OR. LBL(1).EQ.'all' .OR. LBL(1).EQ.'ALL') 
+     >    CALL SCKICK 
+       ENDIF
        IF(PRLB) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
 C        LBL contains the LABEL['s] after which print shall occur
@@ -1402,7 +1415,14 @@ C----- ERRORS.
       IF(FITGET) CALL FITGT1
       CALL ERRORS
       GOTO 998
-
+C----- SPACECHARG. 
+ 118  CONTINUE
+      IF(READAT) CALL RSPACH(
+     >                       KSPCH,LBLSC,NLBSC)
+      OKSPCH = KSPCH .EQ. 1
+      CALL SPACH(KSPCH,LBLSC,NLBSC)
+      GOTO 998
+C-------------------------
 C-------------------------
 C-------------------------
       ENTRY ZGLMNT(

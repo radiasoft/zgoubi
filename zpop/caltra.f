@@ -1227,4 +1227,7 @@ C----- DAMPER.
 C----- ERRORS.
  117  CONTINUE
       GOTO 341
+C----- ERRORS.
+ 118  CONTINUE
+      GOTO 341
       END
