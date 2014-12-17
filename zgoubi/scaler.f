@@ -69,17 +69,17 @@ C  -------
       DIMENSION KFM(MXSCL), KFMO(MXSCL)
       SAVE KFM 
       INTEGER DEBSTR, FINSTR
-      logical ok3
+      LOGICAL OK3
+
+      DOUBLE PRECISION SPLINT
 
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
 
       DATA XM, YM / ND*0.D0, ND*0.D0/
-      data ok3 / .true. /
+      DATA OK3 / .TRUE. /
 
-      DOUBLE PRECISION SPLINT
-
-      ok3 = .true.
+      OK3 = .TRUE.
       SCALER = 1.D0
       CALL SCALI5(
      >            MODSCL,NFAM)
@@ -87,19 +87,19 @@ C  -------
      >            KLEY)
 C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
 C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
-      do i = 1, MXSCL
-        KFM(i) = -99
-      enddo
+      DO I = 1, MXSCL
+        KFM(I) = -99
+      ENDDO
 
       KF1 = 1
       IFM = 0
 
- 3    continue
+ 3    CONTINUE
 
       DO KF = KF1, NFAM
  
         IF(KLEY .EQ. FAM(KF)) THEN
-C--------- Current KLEY recorded for scaling 
+C--------- CURRENT KLEY RECORDED FOR SCALING 
           
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ Current KLEY will undergo scaling if...
@@ -142,7 +142,7 @@ C------------ ...or if it has no label at all
 
       ENDDO
 
-      GOTO 99
+      GOTO 88
 
  2    CONTINUE
 
@@ -174,7 +174,8 @@ C------------ ...or if it has no label at all
      >             DBLE( IPASS - IT1 ) / DBLE(IT2 - IT1)
 C FM 08/99
 C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
-                GOTO 99
+
+                GOTO 88
 
               ENDIF
 
@@ -238,7 +239,7 @@ c     >               write(66,*) ' scaler ',scaler,
 c     >               scal2,scaler*scal2, BRO,yt1,yt2,kf,it
 c                     stop ' SBR scaler -  TESTS'
 
-                GOTO 99
+                GOTO 88
               ENDIF
             ELSEIF(MODSCL(KF) .EQ. 12  ) THEN
                SCALER = 1.d0
@@ -262,7 +263,7 @@ c                     stop ' SBR scaler -  TESTS'
 
                   IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)
      >                 - SCALER)*( STIME - XT1 ) / (XT2 - XT1)
-               GOTO 99
+               GOTO 88
                ENDIF
 
 
@@ -418,7 +419,7 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
       KF1 = KFM(ifm) + 1
       if(ok3) goto 3
 
- 99   CONTINUE
+ 88   CONTINUE
 
 
       RETURN

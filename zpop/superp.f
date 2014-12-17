@@ -83,7 +83,8 @@ C      CALL LINTYW(LTYP)
       IF (IDLUNI(LN)) THEN
         WRITE(6,*) ' SBR SUPERP, Logical unit ',ln,' is free...'
         WRITE(6,*) ' SBR SUPERP, Try to open ',FNAM
-        OPEN(UNIT=LN,FILE=FNAM,STATUS='OLD',ERR=98,ACCESS='READ')
+C        OPEN(UNIT=LN,FILE=FNAM,STATUS='OLD',ERR=98,ACCESS='READ')
+        OPEN(UNIT=LN,FILE=FNAM,ERR=98)
         WRITE(6,*) ' Opened input data file ',FNAM
       ELSE
         WRITE(6,*) ' *** SBR SUPERP ; Error idle UNIT '

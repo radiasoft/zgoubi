@@ -54,10 +54,12 @@ C     **************************************
       INTEGER DEBSTR,FINSTR
       LOGICAL IDLUNI
       LOGICAL BINARI, BINARY
-      CHARACTER*11 FRMT
+      CHARACTER(11) FRMT
       LOGICAL OKKT, OKKP
-      CHARACTER TDUMX*10
-      CHARACTER TDUM8*8
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) TDUMK
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) TDUML
 
       CHARACTER(1) LETI, LETAG
       CHARACTER(130) TXT
@@ -99,10 +101,10 @@ C----- Reset particle counter
       FRMT='FORMATTED'
       IF(BINARY) FRMT='UNFORMATTED'
       IF(IPASS .EQ. 1) THEN
-        if(.not. okopn) then      
-          okopn = (IDLUNI(
+        IF(.NOT. OKOPN) THEN      
+          OKOPN = (IDLUNI(
      >                    NL)) 
-          if(.not. okopn) call endjob
+          IF(.NOT. OKOPN) CALL ENDJOB
      >       ('Pgm obj3. Cannot get free unit for object file',-99)
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Opening input file  '',
      >    A,'',  in logical unit # : '',I3)') 
@@ -113,12 +115,12 @@ C----- Reset particle counter
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Reading  initial'',2X
      >      ,''conditions  in  file  '',A)') 
      >                             NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-            IF(NRES.GT.0) WRITE(NRES,FMT='(/,'' Reading particles  '',2X
-     >      ,I6,''  to  '',I6,'',  step  '',I6)') KT1,KT2,KT3
-            IF(NRES.GT.0) WRITE(NRES,FMT='(/,'' Reading pass #     '',2X
-     >      ,I6,''  to  '',I6,'',  step  '',I6,/)') KP1,KP2,KP3
-        else
-          rewind(nl)
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Particles  '',2X
+     >      ,I9,''  to  '',I9,'',  step  '',I9)') KT1,KT2,KT3
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Pass #     '',2X
+     >      ,I9,''  to  '',I9,'',  step  '',I9,/)') KP1,KP2,KP3
+        ELSE
+          REWIND(NL)
         ENDIF
         CALL HEADER(NL,NRES,4,BINARY,
      >                              *999)
@@ -155,7 +157,7 @@ C        IF(BINARY) THEN
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
-     >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
+     >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI
 
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 222
@@ -192,7 +194,7 @@ C        ELSEIF(.NOT.BINARY) THEN
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
-     >      BRO, IPASSR, NOELR, TDUMX,TDUM8,TDUM8,LETI
+     >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI
             INCLUDE "FRMFAI.H"
 
 C              write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
@@ -353,11 +355,10 @@ C            LETI=KAR(IKAR)
             GOTO 221
           ENDIF
 
-C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
           IF(.NOT. OKKT(KT1,KT2,KT3,IT,
      >                                 IEND)) THEN
             
-            it1 = it1 - 1 
+            IT1 = IT1 - 1 
             GOTO 169
           ENDIF
 
@@ -367,12 +368,17 @@ C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
           IF(LETI.NE.LETAG) IEXI=-9
         ENDIF
 
-c          write(*,*) ' obj3 iex ',  IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO
-c          write(*,*) ' obj3 iex ',  IEXI,DP,Y,T,Z,P,S,TIM
-c              read(*,*)
-        IF(IEXI.LE.0) GOTO 17
+        IF(IEXI.LE.0) THEN
+C So to avoid problem with test on D in objets
+          FO(1,IT1)= 1.D0 
+          F(1,IT1) = 1.D0
+C To be clean, otherwise LET(i) is undefined
+          LET(IT1) = LETI
+          IEX(IT1)=IEXI
 
-C        IT1 = IT1 + 1
+          GOTO 17
+
+        ENDIF
 
         LET(IT1)=LETI
         IEX(IT1)=IEXI
@@ -400,9 +406,6 @@ C          SUBSEQUENT PARTICUL
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
         IREP(IT1) = IT1
-c          write(*,*) ' obj3 it1,it2 : ',it1,it2,mxt,kt2 
-c          write(*,*)  F(2,IT1), F(3,IT1), F(4,IT1),F(6,IT1)
-c             read(*,*)
         IF (AMQLU(3)) THEN
            RET(IT1)=RETI
            DPR(IT1)=DPRI
@@ -434,6 +437,11 @@ C        IREP(IT1) = IREPI
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
+
+c          write(*,*) ' obj3 it1,it2, kt2, iex, leti : '
+c     >           ,it1,it2,kt2,iexi,leti
+c          write(*,*)  F(2,IT1), F(3,IT1), F(4,IT1),F(6,IT1)
+c             read(*,*)
 
       GOTO  17
  

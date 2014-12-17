@@ -58,7 +58,7 @@ recent version of \zgou. The code and its Guide are  both far from being  ``fini
 \addcontentsline{toc}{section}{\numberline{}INTRODUCTION TO THE 4th  EDITION (1997)}
 
 The initial  version of \zgoubi, dedicated to  ray-tracing in magnetic fields,
- was developed  by D.~Garreta and J.C.~Faivre  at CEN-Saclay in the early 1970's.
+ was developed  by D.~Garreta and J.C.~Faivre  at CEN-Saclay in the early 1970s.
  It was perfected for the purpose of studying the four spectrometers SPES I, II, III, IV  
 at the  Laboratoire National SATURNE (CEA-Saclay, France), and SPEG at GANIL 
 (Caen, France). It is being used since long in several national and foreign laboratories.
@@ -2495,6 +2495,12 @@ charge in units of the elementary charge.
 regarding options 3.01-3.03, see the source file \texttt{'obj3.f'}.
 
 
+\paragraph{\textit{RECOVERING FROM A CRASH}}\index{OBJET!recovering from a crash}
+
+\noindent \textsl{OBJET} with option \KOBJ=3[.*] can be used to recover from a job 
+crash, when multi-turn tracking  - due to computer crash or else. This is discussed in the 
+\textsl{SCALING} section, page~\pageref{SCALING}, an example of job resuming is given  page~\pageref{ExaOBJ3Recovery}. 
+
 \bigskip
 
 
@@ -2743,20 +2749,31 @@ $$NF[.J], NCOL, NHDR $$
 number of data columns in the file, 
 number of header lines in the file.  
 
-\medskip
+\bigskip
 
-\noindent If $J$ is not given, the $NCOL$ arrangement should be consistent with the following \FORTRAN\ READ statement~: 
+\noindent Fortran READ format, case of formatted input file~: 
+
+\smallskip
+
+ If $J$ is not given, the $NCOL$ arrangement should be consistent with the following \FORTRAN\ READ statement~: 
 
        {\tt     READ (unit=ln,*) (X7(I),I=1,NCOL)}
 
 \medskip
 
-\noindent If $J=1$, NCOL should be consistent with the following \FORTRAN\ READ statement~: 
+ If $J=1$, NCOL should be consistent with the following \FORTRAN\ READ statement~: 
 
        {\tt     READ (unit=ln,fmt='(1x,ncol*E11.2)') (X7(I),I=1,NCOL)}
 
- 
 \medskip
+
+\noindent Fortran READ format, case of formatted input file~: 
+
+\smallskip
+
+ Data are expected to have been recorded under the form of Ncol column rows. 
+ 
+\bigskip
 
 \noindent Then follow, line by line, the NF names of the files to be translated.
 
@@ -3475,7 +3492,7 @@ iterations on the step size or on the call to the function.
 \paragraph{\textit{COMBINING FIT[2] AND REBELOTE } \index{FIT and REBELOTE, combined|textbf}}    %%%%[10]
 
 
-\noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows executing again 
+\noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows for instance executing again 
 the  fitting procedure, following a change, by  \textsl{REBELOTE}, in  the value of some parameter in zgoubi.dat data list. 
 
 
@@ -4041,6 +4058,22 @@ zgoubi execution pointer back to the top of zgoubi.dat for a new run.
 
 
 
+\paragraph{\textit{RECOVERING FROM A CRASH}}\index{REBELOTE!recovering from a crash}
+
+\noindent When accelerating a bunch, \textsl{REBELOTE} is used to ensure the multi-turn process. 
+Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
+  \textsl{CAVITE} and  \textsl{SCALING} aspects of the data file modifications necessary to ensure the recovery, 
+in the case of pulsed magnets,  are 
+discussed respectively in the \textsl{SCALING} section, pp.~\pageref{SCALING},~\pageref{CrashSCALING}, 
+ an example of job resuming is given  page~\pageref{ExaOBJ3Recovery}. 
+
+
+
+
+
+
+
 
 \newpage
 
@@ -4079,10 +4112,10 @@ with \textsl{REBELOTE\index{REBELOTE}}, for the simulation of multi-turn trackin
 designated by its name that  coincides with 
 the keyword of the corresponding element. For instance, declaring \textsl{MULTIPOL\index{MULTIPOL}} 
 as to be varied will result in the same timing law being applied to all 
-\textsl{MULTIPOL\index{MULTIPOL}}'s in the \zgou\ optical structure data file. Subsets can be selected by 
+\textsl{MULTIPOL\index{MULTIPOL}}s in the \zgou\ optical structure data file. Subsets can be selected by 
 labeling keywords in the data file (section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}) 
 and adding the corresponding \LABEL(s)\index{LABEL@{\LABEL}} 
-in the \textsl{SCALING} declarations (two \LABEL's maximum). The family name of concern, 
+in the \textsl{SCALING} declarations (two \LABEL s maximum). The family name of concern, 
 as well as the scaling function for  that  family,  are given as
 input data to the keyword \textsl{SCALING\index{SCALING}}. There is an upper limit, \textsl{NFMAX}, to the number  $NF$ 
 of families that can be declared
@@ -4113,7 +4146,7 @@ machine is given in the following.
   18131.E-3           &24176.E-3 &  Fields  increase from 18131E-3$\ast {B_i} $ to 
                                   24176E-3$\ast  {B_i} $  ($\forall i=1,\,10$ poles) \\
   1                   & 6379     & from turn 1 to turn 6379\\
-  \textsl{BEND}       &          &- All \textsl{BEND}'s (regardless of any \LABEL) \\
+  \textsl{BEND}       &          &- All \textsl{BEND}s (regardless of any \LABEL) \\
   2                  &               &           $NT = 2$ timings  \\
   18131.E-3           &24176.E-3 & As above \\
   1                   & 6379  \\
@@ -4163,6 +4196,8 @@ from which value the calculations of $ f_{RF}(N) $ follow.
 
  \noindent $NT$ can take negative values, then acting as an option switch (rather than giving number of timings), as follows~: 
 
+\medskip 
+
  \noindent $\bullet ~ NT = -1$~: this is convenient for synchrotron acceleration. In this case 
 the next two lines both contain a single data (as for $NT=1$), respectively the starting scaling factor value, and 1.  
 The current field scaling factor will  then be  updated 
@@ -4172,9 +4207,41 @@ The current field scaling factor will  then be  updated
 \end{align*}
 
 
+\medskip
+
+\noindent Note that in the case of the previous example (assuming, though, that the ramping of the magnetic fields 
+strictly follows the \textsl{CAVITE} kick, which was not strictly the case), 
+the \textsl{SCALING} argument list can be simplified, including by suppressing 
+'\textsl{CAVITE}' from the list, as follows~: 
+
+\bigskip
+
+{\small
+{\renewcommand{\arraystretch}{1}
+\noindent\begin{tabular}{lll}
+  \textsl{SCALING}    &          & - Scaling \\
+  1    ~~~~ 3         &          &  Active. $NF = 3$ families of elements are concerned, as listed below \\
+  \textsl{QUADRUPO} \textsl{QFA} \textsl{QFB}&          & - Quadrupoles labeled 'QFA' and Quadrupoles labeled 'QFB' \\
+  -1          \\
+  18131.E-3           &  \qquad \\
+  1                   \\
+  \textsl{MULTIPOL} \textsl{QDA} \textsl{QDB}&          &- Multipoles labeled 'QDA' and Multipoles labeled 'QDB'\\
+  -1            \\
+  18131.E-3       \\
+  1                 \\
+  \textsl{BEND}       &          &- All \textsl{BEND}s (regardless of any \LABEL) \\
+  -1           \\
+  18131.E-3      \\
+  1                \\
+\end{tabular} }                   
+}
+
+ \bigskip
+
  \noindent $\bullet ~ NT = -2$~: this is convenient for reading an RF law for \textsl{CAVITE} from an external data file, 
 including usage for acceleration in fixed field accelerators. 
 
+\medskip
 
  \noindent $\bullet ~ NT = 1.10$~: allows taking the scaling law from an external data file, as in the following example~:
 
@@ -4203,8 +4270,24 @@ $$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$ \inde
 
 \medskip
 
-\noindent 2. It may happen that some optical elements won't scale, for source code development reasons. 
-This should be paid attention to. 
+\noindent 2. It may happen that some optical elements won't scale, for source code development or updating reasons. 
+This should be paid attention to by preliminary simulation tests. 
+
+
+\paragraph{\textit{RECOVERING FROM A CRASH}}\index{SCALING!recovering from a crash} \label{CrashSCALING}
+
+\noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
+so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
+argument list, see the two previous examples. 
+Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
+In the presence of acceleration using \textsl{CAVITE} however,  since there is no reference particle in \zgou, 
+  \textsl{CAVITE}  needs be told the reference rigidity at the corresponding time/turn where tracking is resumed. 
+This is done using \textsl{SCALING}, see example page~\pageref{ExaOBJ3Recovery}. This has the effect of updating 
+the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the one it had when the job stopped. 
+
+
+
 
 
 
@@ -4476,7 +4559,7 @@ following parameters,
 
 \begin{tabular}{l!{~:}l}
 	 \textsl{ACENT} 
-	    & arbitrary  angle, used for the positioning of the EFB's. \\
+	    & arbitrary  angle, used for the positioning of the EFBs. \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACENT}\\
 	$\theta$ & angle of a boundary with respect to its azimuth (wedge angle)\\ 
 	$R_1$, $R_2$  &  radius of curvature of an EFB\\
@@ -4809,7 +4892,7 @@ $ \XL = 2 \dfrac{\BORO}{B1} \sin \theta/2$.
 
 \bigskip
 
-\noindent Then follows the description of the entrance and exit EFB's and
+\noindent Then follows the description of the entrance and exit EFBs and
 fringe fields.       The wedge angles $W_E $ 
 (entrance) and $W_S $ (exit) are defined with respect to the sector angle, 
 with the signs as described in Fig.~\ref{fig14}.  
@@ -5184,7 +5267,7 @@ linear FFAG~\cite{repDapniaEMMA,EMMAIPAC10}.
 
 \bigskip
 
-\noindent {\bf NOTE. Calculation of the closed orbit~:}     \index{closed orbit}  
+\paragraph{\textit{CLOSED ORBIT COMPUTATION}}     \index{closed orbit!computation}  
 
 \medskip
 
@@ -5202,6 +5285,22 @@ A few iterations are usually sufficient (avoid near-integer tunes) to ensure acc
 ray-tracing over one turn a particle starting with the initial condition 
 ($Y_c $, $ T_c $, $ Z_c$, $P_c$)  will provide the entire closed orbit, and as a sub-product its   length $\mathcal{L}$ 
 (the $ F(6,1) $ coordinate in the \FORTRAN). 
+
+
+\paragraph{\textit{RECOVERING FROM A CRASH}}\index{CAVITE!recovering from a crash} \label{CrashCAVITE}
+
+\noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
+so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
+argument list, this is discussed in the \textsl{SCALING} section, page~\pageref{CrashSCALING}. 
+Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
+In the presence of acceleration using \textsl{CAVITE} however,  since there is no reference particle in \zgou, 
+  \textsl{CAVITE}  needs be told the reference rigidity at the corresponding time/turn where tracking is resumed. 
+This is done using \textsl{SCALING}. This has the effect of updating 
+the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the one it had when the job stopped. 
+See  the \textsl{SCALING} section for more (page~\pageref{SCALING}) and the examples there, as well as the example 
+ page~\pageref{ExaOBJ3Recovery}. 
+
 
 \newpage
 
@@ -5230,11 +5329,11 @@ printed concerning those particles that have been stopped.
 \bigskip
 
 \noindent The testing is done in optical elements at each integration step, between the
-\textsl{EFB}'s. For instance, in \textsl{QUADRUPO\index{QUADRUPO}} there will be 
+\textsl{EFB}s. For instance, in \textsl{QUADRUPO\index{QUADRUPO}} there will be 
 no testing from $-X_E $ to 0 and 
 from $ \XL $ to $ \XL+X_S $, but only from 0  to $ \XL $~;  in \textsl{DIPOLE\index{DIPOLE}}, there is no 
 testing as long as the \textsl{ENTRANCE EFB} is not reached, and testing is stopped as 
-soon as the \textsl{EXIT} or \textsl{LATERAL EFB}'s are passed.  
+soon as the \textsl{EXIT} or \textsl{LATERAL EFB}s are passed.  
 \bigskip
 
 \noindent In optical elements defined in polar coordinates,  $ Y $  stands for the radial
@@ -5643,7 +5742,7 @@ following parameters.
 
 \begin{tabular}{l!{~:}l}
 	 \textsl{ACENT} 
-	    & arbitrary inner angle, used for EFB's positioning  \\
+	    & arbitrary inner angle, used for EFBs positioning  \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACENT}\\
 	$\theta$ & angle of an EFB with respect to its azimuth (wedge angle)\\ 
 	$R_1$, $R_2$  &  radius of curvature of an EFB\\
@@ -5787,7 +5886,7 @@ following parameters.
 
 \begin{tabular}{l!{~:}l}
 	 \textsl{ACENT} 
-	    & arbitrary inner angle, used for EFB's positioning  \\
+	    & arbitrary inner angle, used for EFBs positioning  \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACENT}\\
 	$\theta$ & angle of an EFB with respect to its azimuth (wedge angle)\\ 
 	$R_1$, $R_2$  &  radius of curvature of an EFB\\
@@ -5957,7 +6056,7 @@ following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M
 \bigskip
 
 \begin{tabular}{l!{~:}l}
-	$ACN_i$  & arbitrary inner angle, used for EFB's positioning  \\
+	$ACN_i$  & arbitrary inner angle, used for EFBs positioning  \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACN}\\
 	$\theta$ & angle of an EFB with respect to its azimuth (wedge angle)\\ 
 	$R_1$, $R_2$  &  radius of curvature of an EFB\\
@@ -6704,7 +6803,7 @@ following parameters (in the same manner as in \textsl{DIPOLE}, \textsl{DIPOLE-M
 \medskip
 
 \begin{tabular}{l!{~:}l}
-	$ACN_i$  & arbitrary inner angle, used for EFB's positioning  \\
+	$ACN_i$  & arbitrary inner angle, used for EFBs positioning  \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACN}\\
 	$\theta$ & angle of an EFB with respect to its azimuth (wedge angle)\\ 
 	$R_1$, $R_2$  &  radius of curvature of an EFB\\
@@ -6820,7 +6919,7 @@ following parameters
 \medskip
 
 \begin{tabular}{l!{~:}l}
-	$ACN_i$  & arbitrary inner angle, used for EFB's positioning  \\
+	$ACN_i$  & arbitrary inner angle, used for EFBs positioning  \\
 	$\omega$ &  azimuth of an EFB with respect to  \textsl{ACN}\\
 	$\xi$ & spiral angle \\
 \end{tabular}
@@ -7148,7 +7247,7 @@ the data are read following the \FORTRAN\ statements here under
 \medskip
  
 \noindent where X(I) is the longitudinal coordinate, and B(I) is the Z
-component of the field at a node (I) of the mesh. K's and R's are dummy variables 
+component of the field at a node (I) of the mesh. Ks and Rs are dummy variables 
 appearing in the \textsl{POISSON} output file outpoi.lis
  but not used here. 
 \medskip
@@ -7235,12 +7334,12 @@ effective field boundaries (EFB), Fig.~\ref{fig27}. The field at the pole tip $ 
 
 \noindent The extent of the  entrance (exit) fringe field is characterized by 
 $ \lambda_ E(\lambda_ S) $.  The distance of ray-tracing on both sides of the
-EFB's, in the field fall off regions, will be $\pm$  $ X_E $ at 
+EFBs, in the field fall off regions, will be $\pm$  $ X_E $ at 
 the entrance, and $\pm$  $ X_S $ at the exit (Fig.~\ref{fig27}),  
 by prior and further automatic change of frame. 
 
 \noindent In the fringe field  regions $[ -X_E,X_E ]$  and 
-$[ -X_S,X_S ]$ on both sides of the EFB's, $ \vec  B(X,Y,Z) $ and its derivatives up to
+$[ -X_S,X_S ]$ on both sides of the EFBs, $ \vec  B(X,Y,Z) $ and its derivatives up to
 fourth order are calculated at each step of the trajectory from the analytical expressions 
 of the three components $ B_X $, $ B_Y $, $ B_Z $ obtained by differentiation
 of the scalar potential (see section~\ref{sec2.3.5}) expressed to the 8th order in $ Y $ 
@@ -7522,8 +7621,9 @@ The \textsl{reference} Lorentz factor corresponds to the reference rigidity
 \medskip
 
  \textsl{TOSCA} is dedicated to the reading and treatment of 2-D or 
-3-D Cartesian or cylindrical mesh field maps as  delivered by the
-\textsl{TOSCA}  magnet computer code standard output.
+3-D Cartesian or cylindrical mesh field maps.  It was first created in order to read 
+\textsl{TOSCA}  magnet computer code style of fieldmap  output and  formatting, hence its name. However 
+the actual origin of the fieldmap, TOSCA or other computer code, does not matter. 
 
 \medskip
 
@@ -7771,7 +7871,7 @@ orthogonal electric and magnetic fields $ \vec  E_Y$,  $ \vec  B_Z $ or $ \vec  
 \medskip
 
 \noindent The length $ \XL $ of the element is the distance between its
-entrance and exit EFB's. The electric and magnetic field intensities $ E_0 $ and $ B_0 $ in the 
+entrance and exit EFBs. The electric and magnetic field intensities $ E_0 $ and $ B_0 $ in the 
 central, uniform field region, normally satisfy the relation
  
  $$ B_0= - \dfrac{E_0 }{ \beta_ Wc} $$
@@ -7953,7 +8053,7 @@ C8            'KLEY',    ('LABEL(NOEL,I)',I=1,2),           'LET(IT)'
 \noindent $\bullet$  \textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with two more features. 
 
 - On the first data line, \textsl{FNAME} may be followed 
-by a series of up to 10 \LABEL's\index{LABEL@{\LABEL}}.     If there is no 
+by a series of up to 10 \LABEL s\index{LABEL@{\LABEL}}.     If there is no 
 label, the print occurs by default at the location of \textsl{FAISTORE}~; if there are labels the 
 print occurs right downstream of all optical elements wearing those labels
  (and no longer at the \textsl{FAISTORE} location). 
@@ -8285,7 +8385,7 @@ The (list of) \LABEL(s) concerned is specified by the user, as part of the argum
 
 \noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE} in the case of a periodic structure, 
 with  \textsl{REBELOTE} thus being used to cause multi-turn tracking, 
-  \textsl{PICKUPS} sums up the coordinates, turn after turn.       \index{closed orbit} 
+  \textsl{PICKUPS} sums up the coordinates, turn after turn.       \index{closed orbit!computation} 
 
 \medskip
 
@@ -8351,7 +8451,7 @@ with meaning of printed quantities as follows~:
 \noindent  $\bullet$   \textsl{SPNSTORE} has an effect similar to \textsl{SPNPRNL}, with two more features. 
 
 - On the first data line, \textsl{FNAME} may be followed 
-by a series of up to 10 \LABEL's\index{LABEL@{\LABEL}} proper to the elements of the zgoubi.dat data 
+by a series of up to 10 \LABEL s\index{LABEL@{\LABEL}} proper to the elements of the zgoubi.dat data 
 file at the exit of which the print should occur~; if no label is given, 
 the print occurs by default at the very location of \textsl{SPNSTORE}~; 
 if  labels are given, then print occurs right downstream of all optical elements wearing those labels
@@ -8607,10 +8707,10 @@ $\IL=2$ option).
 
 \medskip 
 
-\noindent A keyword in zgoubi.dat accepts two \LABEL's. The first one is used for the 
+\noindent A keyword in zgoubi.dat accepts two \LABEL s. The first one is used for the 
 above mentioned purposes, the second one (set to ``.plt'' in that case) is used essentially 
  with \textsl{MARKER} for storage of current particle data 
-into zgoubi.plt. The keyword and its \LABEL['s] should fit within a 110-character 
+into zgoubi.plt. The keyword and its \LABEL[s] should fit within a 110-character 
 long string on a single line (a quantity set in the \FORTRAN\ file \texttt{prdata.f}). 
 
 \subsubsection{Multi-turn Tracking in Circular Machines \label{sec4.6.5} } \index{multi-turn tracking|textbf}

@@ -571,7 +571,7 @@ extent~; fringe field extent (normally \>cm, cm, rad \>3*E  \\
       \>\textbf{\BINARYTitl}\> \>    \\
 \\
 \\
-$N\!F[.J], ~ N\!Col, ~ N\!H\!D\!R$	\> Number of files to convert [\texttt{READ} format type, see below],   \> $\leq20$, $\geq 1$ , $0-9$
+$N\!F[.J], ~ N\!Col, ~ N\!H\!D\!R$	\> Number of files to convert [\texttt{READ} format type, see below],   \> $\leq20$, $\leq 7$ , $0-9$
                                                 \> 3*I1 \\
                                         \>     of data columns,  of header lines.         \\
 \\
@@ -583,10 +583,14 @@ $N\!F[.J], ~ N\!Col, ~ N\!H\!D\!R$	\> Number of files to convert [\texttt{READ} 
 \\
 \\
 \\
-\texttt{READ} format  : \\
+\texttt{READ} format, case of formatted input file~: \\
 \\
 If FRM not given     \>   Format is '*' \\
-If FRM=1             \>   Format is '1X,7E11.*' \\
+If FRM=1             \>   Format is '1X, 7E11.*' \\
+\\
+\texttt{READ} format, case of binary input file~: \\
+\\
+Expected format is 7 column rows. \\
  \end{tabbing}
 
 
@@ -2267,7 +2271,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 \newpage
 
 
-\noindent $\bullet$ \textbf{Combining FIT and REBELOTE}, an example  \label{ExaFITREBELOTE}} 
+\noindent $\bullet$ \textbf{Combining FIT and REBELOTE}~: An example  \label{ExaFITREBELOTE}} 
 
 \medskip 
 
@@ -2386,7 +2390,7 @@ from  initial off-centered position  to final centering on the snake axis (at Y=
 
 \newpage
 
-\noindent  $\bullet$  \textbf{FIT[2] options}, an example \label{FITOptionsExa}  \\
+\noindent  $\bullet$  \textbf{FIT[2] options}~: An example \label{FITOptionsExa}  \\
 
 \medskip 
 
@@ -2974,17 +2978,17 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
 \textbf{If KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
 \\
- \textsl{IY, IT, IZ, IP, IX, ID}  
- \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP*IX*ID $\leq \imax$ } \> 6*1  \\
+ \textsl{IY, IT, IZ, IP, IS, ID}  
+ \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP*IS*ID $\leq \imax$ } \> 6*1  \\
  \>Total number of points in $\pm Y$, $\pm T$, $\pm Z$, $\pm P$ \> \> \\ 
-		\> [$+Z$, $+P$ with KOBJ = 1.01], $\pm X$.    \> \>\\
+		\> [$+Z$, $+P$ with KOBJ = 1.01], $\pm S$.    \> \>\\
  \>and $\pm D$ coordinates ($IY \leq 20$,...,$ID \leq 20$)   \> \>\\
  \\
- \textsl{PY, PT, PZ, PP, PX, PD}
-       \>Step size in $Y$, $T$, $Z$, $P$, $X$ and momentum   \>2(cm,mrad),  cm, no dim.  \> 6*E \\
+ \textsl{PY, PT, PZ, PP, PS, PD}
+       \>Step size in $Y$, $T$, $Z$, $P$, $S$ and momentum   \>2(cm,mrad),  cm, no dim.  \> 6*E \\
  \>($\PD =  \delta B \rho /\text{\BORO}$)           \> \>  \\
  \\
-\textsl{YR, TR, ZR, PR, XR, DR}    \>Reference  ($DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
+\textsl{YR, TR, ZR, PR, SR, DR}    \>Reference  ($DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
  \\
 \textbf{If KOBJ = 2[.01]}      \>All the initial coordinates must be entered explicitly\>\>\\
 \\
@@ -2994,7 +2998,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
 \textbf{For I = 1, IMAX}  \>Repeat \IMAX\ times the following line  \> \>\\
 \\
- \textsl{Y, T, Z, P, X, D, LET} 
+ \textsl{Y, T, Z, P, S, D, LET} 
            \>Coordinates and tagging  of the \IMAX\ particles~; 
                                                          \>2(cm,mrad), cm, no dim.,   \>6*E, A1\\
             \> \textsl{If KOBJ = 2.01} input units are different~:  \>2(m,rad), m, no dim.,   \>\\
@@ -3019,10 +3023,10 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
                                \> IP1 to IP2, step IPStep  \\
   \\
 \textsl{YF, TF, ZF, PF,}    \> Scaling factor. TAG-ing letter : no effect if \textsl{TAG}='*',    \> 7*no.dim, char.\>  7*E, A1 \\
- \textsl{XF, DF, TF, TAG}  \> otherwise only particles with TAG$\equiv$LET are retained. \>     \>\\
+ \textsl{SF, DF, TF, TAG}  \> otherwise only particles with TAG$\equiv$LET are retained. \>     \>\\
   \\
 \textsl{YR, TR, ZR, PR,}   \>Reference. Given the previous line of data,     \>2(cm, mrad), \>  7*E \\
-\textsl{XR, DR, TR}       \> all coordinate C is transformed to C*CF+CR \> cm, no dim.,$\mu$s     \>\\
+\textsl{SR, DR, TR}       \> all coordinate C is transformed to C*CF+CR \> cm, no dim.,$\mu$s     \>\\
 \\
  \textsl{InitC}     \> 0~: set $new~\vec R_0 = \vec R_0~as~read$, $new~\vec R = \vec R~as~read$~;      \> 0-1 \> I  \\
               \> 1 : set $new~\vec R_0 = \vec R~as~read$, $new~\vec R = \vec R~as~read$~; \\
@@ -3053,55 +3057,55 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \hskip1em\textbf{NN=01,99]}\>\textbf{Generation of 11 particles, or 11*NN if $I\ge 2$} 
                                    (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=1$)  \>\>\\
  \\
- \textsl{PY, PT, PZ, PP, PX, PD}  \>Step sizes in $Y$, $T$, $Z$, $P$, $X$ and $D$
+ \textsl{PY, PT, PZ, PP, PS, PD}  \>Step sizes in $Y$, $T$, $Z$, $P$, $S$ and $D$
                                               \>2(cm,mrad), cm, no dim. \> 6*E\\
  \\
- \textsl{YR, TR, ZR, PR, XR, DR} \> 
+ \textsl{YR, TR, ZR, PR, SR, DR} \> 
                         Reference trajectory   ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
  \\
 \textit{If KOBJ = 5.01}      \> additional data line :  \>\>\\
- $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$,  \> Initial beam ellipse parameters~\footnotemark[1]  
+ $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_S, \beta_S$,  \> Initial beam ellipse parameters~\footnotemark[1]  
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D_Y'$, $D_Z, D_Z'$  \>       \> 2(m,rad)\>  4*E \\
  \\
 \textit{If KOBJ = 5.NN,}\\
 \hskip1em\textit{NN=02-99}      \> i = 1 to 98 (if, resp$^{ly}$, NN=02 to 99) additional data lines :  \>\>\\
- \textsl{YR, TR, ZR, PR, XR, DR}  \> 
+ \textsl{YR, TR, ZR, PR, SR, DR}  \> 
                         Reference trajectory \# i  ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\
 \textbf{If KOBJ = 6}      \>\textbf{Generation of 61 particles}  (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=2$)  \> \> \\
  \\
- \textsl{PY, PT, PZ, PP, PX, PD} \>Step sizes in $Y$, $T$, $Z$, $P$, $X$ and $D$
+ \textsl{PY, PT, PZ, PP, PS, PD} \>Step sizes in $Y$, $T$, $Z$, $P$, $S$ and $D$
      \>2(cm,mrad),  cm, no dim.  \>6*E \\
  \\
- \textsl{YR, TR, ZR, PR, XR, DR} \> Reference trajectory~; $DR= B \rho /\text{\BORO}$  \> 2(cm,mrad),  cm, no dim. \>   6*E\\
+ \textsl{YR, TR, ZR, PR, SR, DR} \> Reference trajectory~; $DR= B \rho /\text{\BORO}$  \> 2(cm,mrad),  cm, no dim. \>   6*E\\
  \\
 \textbf{If KOBJ = 7}      \>\textbf{Object with kinematics} \>\>\\
 \\
-  \textsl{IY, IT, IZ, IP, IX, ID}
-       \>Number of points in $\pm Y$, $\pm T$,$\pm Z$, $\pm P$,  \>{\footnotesize \textsl{IY*IT*IZ*IP*IX*ID}$\leq\imax$} \> 6*I \\
-    \> $\pm X$~; $ID$ is not used        \> \>\\
+  \textsl{IY, IT, IZ, IP, IS, ID}
+       \>Number of points in $\pm Y$, $\pm T$,$\pm Z$, $\pm P$,  \>{\footnotesize \textsl{IY*IT*IZ*IP*IS*ID}$\leq\imax$} \> 6*I \\
+    \> $\pm S$~; $ID$ is not used        \> \>\\
  \\
- \textsl{PY, PT, PZ, PP, PX, PD}   \>Step sizes in $Y$, $T$, $Z$, $P$ and $X$~; $PD$ = kinematic 
+ \textsl{PY, PT, PZ, PP, PS, PD}   \>Step sizes in $Y$, $T$, $Z$, $P$ and $S$~; $PD$ = kinematic 
                                                                   \>2(cm,mrad),  cm, mrad$^{-1}$ \> 6*E\\
              \>coefficient, such that $ D(T)=DR+PD \ast  T $ \>\>\\
  \\
- \textsl{YR, TR, ZR, PR, XR, DR}              \>Reference  ($DR=B\rho/\text{\BORO}$)  \>2(cm,mrad), cm, no dim. \>  6*E \\
+ \textsl{YR, TR, ZR, PR, SR, DR}              \>Reference  ($DR=B\rho/\text{\BORO}$)  \>2(cm,mrad), cm, no dim. \>  6*E \\
  \\
 \textbf{If KOBJ = 8} \label{pageOBJ8}     \>\textbf{Generation of phase-space coordinates on ellipses~\footnotemark[2]} \>\>\\
 \\
- $IY$,  $IZ$, $IX$  
-       \>Number of samples in each 2-D phase-space~;  \>  {\footnotesize $0\le IX,IY,IZ \le IMAX$}, \> 3*I\\
-       \> if zero the central value (below) is assigned \>  {\footnotesize $1\le IX*IY*IZ \le IMAX$}\> \\
+ $IY$,  $IZ$, $IS$  
+       \>Number of samples in each 2-D phase-space~;  \>  {\footnotesize $0\le IY,IZ,IS \le IMAX$}, \> 3*I\\
+       \> if zero the central value (below) is assigned \>  {\footnotesize $1\le IY*IZ*IS \le IMAX$}\> \\
   \\
 $Y_0$, $T_0$, $Z_0$, $P_0$,\> Central values ($D_0 = B \rho /\text{\BORO}$)
 	\> m, rad, m, rad, \> 6*E\\
-$X_0$, $D_0$ \> \> m, no dim. \> \\
+$S_0$, $D_0$ \> \> m, no dim. \> \\
 \\
 $\alpha_Y$, $\beta_Y$, $\varepsilon_Y/\pi$       
 		\> ellipse parameters and emittances \> no dim., m, m  \> 3*E \\
 $\alpha_Z$, $\beta_Z$, $\varepsilon_Z/\pi$ \>          \> no dim., m, m \> 3*E \\
-$\alpha_X$, $\beta_X$, $\varepsilon_X/\pi$\>       \> no dim., m, m  \> 3*E \\
+$\alpha_S$, $\beta_S$, $\varepsilon_S/\pi$\>       \> no dim., m, m  \> 3*E \\
 
 
 $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
@@ -3114,6 +3118,173 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 \footnotetext[2]{~ Similar possibilities, random, are offered with \textsl{MCOBJET}, KOBJ=3 
 (p.~\pageref{pageMCOBJ3})} 
 %%%
+
+
+
+
+
+
+\newpage
+
+
+\noindent $\bullet$ \textbf{OBJET, \KOBJ=3} recovering from a crash~: An example  \label{ExaOBJ3Recovery}
+\index{OBJET!recovering from a crash}
+
+\medskip 
+
+\noindent The job below, a 9 million turn tracking in RHIC, crashed at turn \# 2,217,299. 
+It can be read from the storage file b\_zgoubi.fai (or infered as well from the \textsl{OBJET} 
+and \textsl{CAVITE} data), that the reference (synchronous, theoretical) 
+rigidity at the previously saved turn (turn\# 2,217,298, the closest integer multiple of 67) 
+was  $B\rho_{\rm ref}=272.519214209$~T.m (magnet scaling coefficient under \textsl{SCALING}, right column below), 
+which is $B\rho_{\rm ref} / \BORO = 3.111758007$ 
+(as used in \textsl{SCALING}, \texttt{CAVITE} data, right column), with $\BORO=87.5772517$~T.m the initial rigidity (25.33~GeV), top of left column. 
+
+\noindent The right column shows how these informations are transposed to the new tracking run based on 
+\textsl{OBJET, \KOBJ=3}, which allows resuming tracking from that last saved turn \#2,217,298.  
+
+~
+
+\hspace{-7ex}
+\begin{minipage}{0.499\linewidth}
+\scriptsize
+\begin{verbatim}
+This 9,000,000-turn job crashed at turn number 2,217,299.
+'OBJET'        
+87.5772517e3                    
+2              ! Declare 8 particles, all 
+8 1            ! on a 21mu_m, norm. vertical invariant. 
+0.     0.    2.58575455E-01  -1.73487148E-01  0. 1. 'o'   
+0.     0.    1.82840458E-01   1.21643409E-01  0. 1. 'o'   
+0.     0.    1.58331802E-17   3.45516907E-01  0. 1. 'o'   
+0.     0.   -1.82840458E-01   3.66991287E-01  0. 1. 'o'   
+0.     0.   -2.58575455E-01   1.73487148E-01  0. 1. 'o'   
+0.     0.   -1.82840458E-01  -1.21643409E-01  0. 1. 'o'   
+0.     0.   -4.74995405E-17  -3.45516907E-01  0. 1. 'o'   
+0.     0.    1.82840458E-01  -3.66991287E-01  0. 1. 'o'   
+-1 1 1 1 1 1 1 1  ! on/off switches. Particle 1 selected. 
+'PARTICUL'        ! Particle data needed for spin tracking.
+9.382720300E+02 1.602176487E-19 1.792847400  0. 0.  
+'SPNTRK'     
+3                 ! All initial spins vertical. 
+'FAISCEAU'
+'FAISTORE'        ! Storage location in sequence is at SNK1, 
+b_zgoubi.fai SNK1 ! the first of the two helicoidal snakes. 
+67                ! Storage (at pass 1 and) every 67 passes.
+'SCALING'          
+1  5              ! 5 families of magnets ramped. 
+BEND              ! Magnet fields strictly follow cavity kick :
+-1                ! (i) NT=-1 can be used, and (ii) CAVITE does 
+87.5772517        ! not need be declared under SCALING.
+1     
+MULTIPOL HKIC VKIC              
+-1    
+0.                ! Zero field in HKIC and VKIC magnet families.
+1     
+MULTIPOL QUAD                   
+-1    
+87.5772517                      
+1     
+MULTIPOL SEXT                   
+-1    
+87.5772517                      
+1     
+MULTIPOL MULT                   
+-1    
+87.5772517                      
+1
+ 'OPTIONS'
+1 1   
+WRITE OFF                       
+'MARKER'   MARK      RHIC$START   
+'MARKER'   MARK      CLOCK6down
+------ RHIC ring, from CLOCK6 to CLOCK6 ------------
+'MARKER'   MARK      CLOCK6up    
+'MARKER'   MARK      RHIC$END   
+'CAVITE'  accelerating cavity  
+2     
+3833.8456    120.00 circumf., H 
+50e3    2.61799387799           
+'REBELOTE'                     
+8999999   0.4  99    ! Repeat optical sequence 8999999 times.
+'END'
+\end{verbatim}
+
+\end{minipage} \hspace{4ex}
+\begin{minipage}{0.47\linewidth}
+This run recovers from the  crash, starting with particle, magnet and cavity  data as found at turn number 2,217,299. 
+\scriptsize
+\begin{verbatim}
+ 'OBJET'                        
+87.5772517e3                    
+3
+1 8 1                    ! Will look for stored turn in 
+2217290  2217299 1       ! range (2217298 is concerned). 
+1. 1. 1. 1. 0. 1. 0. '*' ! Zero factor to 'S' for correct 
+0. 0. 0. 0. 0. 0. 0.     ! path length/RF phase at CAVITE.
+0
+b_zgoubi.fai    ! The storage file is used to recover 
+                ! particle coordinates at pass # 2217299.
+'PARTICUL'                     
+9.382720300E+02  1.602176487E-19  1.792847400E+00  0. 0.  
+'SPNTRK'                       
+3      
+'FAISCEAU'                     
+
+'FAISTORE'                     
+b_zgoubi_rest.fai   SNK1   
+67
+'SCALING'               
+1  6
+BEND  
+-1    
+272.519214209                      
+1     
+MULTIPOL HKIC VKIC              
+-1    
+0.    
+1     
+MULTIPOL QUAD                   
+-1    
+272.519214209                      
+1     
+MULTIPOL SEXT                   
+-1    
+272.519214209                      
+1     
+MULTIPOL MULT                   
+-1    
+272.519214209                      
+1     
+CAVITE
+2
+1.            3.07555022085 
+1             6782702
+
+'OPTIONS'               
+1 1   
+WRITE OFF                        
+
+'MARKER'  SNK1down  ! RHIC start changed to SNK1
+------ RHIC ring, from snake 1 to snake 1 ------
+'MARKER'   MULT      ERHLX                         
+'MARKER'    SNK1up
+'SPINR'    SNK1      OSNKE                        
+1     
++45. 180.                ! snkAxis, spin angle 
+'CAVITE'                 ! accelerating cavity                 
+2     
+3833.8456    120.00 
+50e3    2.61799387799           
+'REBELOTE'              
+6782700   0.4  99                      
+'END'                   
+\end{verbatim}
+
+\end{minipage}  
+
+
+
 
 \newpage
 
@@ -3666,7 +3837,7 @@ X_S $ translations.}
 \newpage
 
 
-\noindent  $\bullet$  Using \textbf{REBELOTE}, an example.  \label{ExaREBELOTE} \\
+\noindent  $\bullet$  Using \textbf{REBELOTE}~: An example.  \label{ExaREBELOTE} \\
 
 \medskip 
 
@@ -3792,7 +3963,7 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
 \bigskip 
 
 
-\noindent  $\bullet$ \textbf{Combining  REBELOTE and FIT}~: an example is given page \pageref{ExaFITREBELOTE}.
+\noindent  $\bullet$ \textbf{Combining  REBELOTE and FIT}~: An example is given page \pageref{ExaFITREBELOTE}.
 
 
 
@@ -4211,7 +4382,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 \newpage
 
-\noindent  $\bullet$  \textbf{SYSTEM}, an example (another example can be found page~\pageref{ExaFITREBELOTE}) \\
+\noindent  $\bullet$  \textbf{SYSTEM}~: An example (an additional example can be found page~\pageref{ExaFITREBELOTE}) \\
 
 \label{ExaSYSTEM}
 

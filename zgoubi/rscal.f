@@ -62,8 +62,8 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA MODSCL / MXF*0  /
       DATA FAC / 1.D0  /
 
-      if(mxta.lt.mxf) 
-     >call endjob('SBR RSCAL. Change MXTA to same value as MXF',-99)
+      IF(MXTA.LT.MXF) 
+     >CALL ENDJOB('SBR RSCAL. Change MXTA to same value as MXF',-99)
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1

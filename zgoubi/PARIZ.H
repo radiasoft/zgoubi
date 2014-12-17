@@ -112,7 +112,9 @@ c      PARAMETER (IZ=29 , ID=3, MMAP=8)
 C      PARAMETER (MXX=1001, MXY=61)
 C      PARAMETER (MXX=801, MXY=29)
 c       compatible gsi_kaos
-      PARAMETER (MXX=1001, MXY=200)
+C      PARAMETER (MXX=1001, MXY=200)
+c       compatible eRHIC permanent magnet
+      PARAMETER (MXX=1601, MXY=200)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 

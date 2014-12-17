@@ -466,6 +466,20 @@ C              write(lunW,*) txt300(debstr(txt300):finstr(txt300))
           read(lunR,fmt='(a)',end=62) txt300
           goto 62
 
+        elseif(strcon(txt300,'''FIT''',5,
+     >                                   IS)
+     >  .or. strcon(txt300,'''FIT2''',6,
+     >                                   IS)) then
+          read(lunR,*,end=10) IV
+          do ii = 1, iv
+            read(lunR,fmt='(a)',end=10) txt300
+          enddo
+          read(lunR,*,end=10) IC
+          do ii = 1, ic
+            read(lunR,fmt='(a)',end=10) txt300
+          enddo
+          goto 62
+
         elseif(strcon(txt300,'''END''',5,
      >                                     IS)) then
           goto 62
@@ -632,6 +646,19 @@ C Completes zgoubi_searchCO-Out_TrkFourier.dat with the rest of zgoubi_searchCO-
             else              
               write(lunW,*) txt300(debstr(txt300):finstr(txt300))
             endif
+
+          elseif(strcon(txt300,'''FIT''',5,
+     >                                     IS)
+     >    .or. strcon(txt300,'''FIT2''',6,
+     >                                     IS)) then
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
 
           elseif(strcon(txt300,'''CAVITE''',8,
      >                                        IS)) then
@@ -809,12 +836,25 @@ C------- First get read of '1 1 1 1 ...'
         endif
 
  611    continue
-        read(lunR,fmt='(a)',end=621,err=621) txt300
+          read(lunR,fmt='(a)',end=621,err=621) txt300
 
-        if(strcon(txt300,'''TWISS''',7,
+          if(strcon(txt300,'''TWISS''',7,
      >                                       IS)) then 
 C          skip
-          read(lunR,fmt='(a)') txt300
+            read(lunR,fmt='(a)') txt300
+
+          elseif(strcon(txt300,'''FIT''',5,
+     >                                     IS)
+     >    .or. strcon(txt300,'''FIT2''',6,
+     >                                     IS)) then
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
 
           elseif(strcon(txt300,'''SRLOSS''',8,
      >                                           IS)) then 
@@ -961,12 +1001,25 @@ C------- First get read of '1 1 1 1 ...'
           write(lunW,*) ' 1  all 0'
 
  711    continue
-        read(lunR,fmt='(a)',end=721,err=721) txt300
+          read(lunR,fmt='(a)',end=721,err=721) txt300
 
-        if(strcon(txt300,'''TWISS''',7,
+          if(strcon(txt300,'''TWISS''',7,
      >                                       IS)) then 
 C          skip
-          read(lunR,fmt='(a)') txt300
+            read(lunR,fmt='(a)') txt300
+
+          elseif(strcon(txt300,'''FIT''',5,
+     >                                     IS)
+     >    .or. strcon(txt300,'''FIT2''',6,
+     >                                     IS)) then
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt300
+            enddo
 
           elseif(strcon(txt300,'''SRLOSS''',8,
      >                                           IS)) then 

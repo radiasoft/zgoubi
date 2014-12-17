@@ -253,6 +253,19 @@ c                read(*,*)
      >                                   IS)) then
             endif
 
+          elseif(strcon(txt132,'''FIT''',5,
+     >                                     IS)
+     >    .or. strcon(txt132,'''FIT2''',6,
+     >                                     IS)) then
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+
           elseif(strcon(txt132,'''REBELOTE''',10,
      >                                           IS)) then
               read(lunR,fmt='(a)',end=10) txt132
@@ -365,6 +378,21 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
      >                                IS)) then 
           backspace(lunW)
           read(lunR,fmt='(a)',end=62) txt132
+
+        elseif(strcon(txt132,'''FIT''',5,
+     >                                     IS)
+     >  .or. strcon(txt132,'''FIT2''',6,
+     >                                     IS)) then
+          backspace(lunW)
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+
         elseif(strcon(txt132,'''END''',5,
      >                                     IS)) then
           backspace(lunW)
@@ -482,6 +510,20 @@ C except for introducing MATRIX
      >                                       IS)) then     !skip
           read(lunR,fmt='(a132)',end=621,err=621) txt132
           read(lunR,fmt='(a132)',end=621,err=621) txt132
+
+        elseif(strcon(txt132,'''FIT''',5,
+     >                                     IS)
+     >  .or. strcon(txt132,'''FIT2''',6,
+     >                                     IS)) then    !skip
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+
         elseif(strcon(txt132,'''REBELOTE''',10,
      >                                        IS)) then   !skip
           read(lunR,fmt='(a132)',end=621,err=621) txt132
@@ -559,6 +601,21 @@ C Completes zgoubi_searchCO-Out_periodicParam.dat with the rest of zgoubi_search
           backspace(lunW)
           write(lunW,*) '''MARKER''  #E'
           write(lunW,*) '''FAISCEAU'''
+
+        elseif(strcon(txt132,'''FIT''',5,
+     >                                     IS)
+     >  .or. strcon(txt132,'''FIT2''',6,
+     >                                     IS)) then    !skip
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            goto 711
+
         endif
         write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
       goto 711
@@ -668,6 +725,19 @@ C Completes zgoubi_searchCO-Out_TrkFourier.dat  with the rest of zgoubi_searchCO
         elseif(strcon(txt132,'''MARKER''',8,
      >                                      IS)) then
           goto 811
+        elseif(strcon(txt132,'''FIT''',5,
+     >                                     IS)
+     >  .or. strcon(txt132,'''FIT2''',6,
+     >                                     IS)) then    !skip
+            read(lunR,*,end=10) IV
+            do ii = 1, iv
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            read(lunR,*,end=10) IC
+            do ii = 1, ic
+              read(lunR,fmt='(a)',end=10) txt132
+            enddo
+            goto 811
         elseif(strcon(txt132,'''REBELOTE''',10,
      >                                         IS)) then
           read(lunR,fmt='(a132)',end=821,err=821) txt132

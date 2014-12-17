@@ -54,13 +54,16 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
           READ(TXT132(105:132),*,err=11,end=11) NUEL      ! Position folows from prdata
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
-          IF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
+          IF    (KLEY(1:8) .EQ. 'MULTIPOL') THEN 
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
             WRITE(LTEMP,FMT='(F11.6,F7.2,3F15.10,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
+          ELSEIF(KLEY(1:8) .EQ. 'CHANGREF') THEN 
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(3F14.8)') (A(NUEL,J),J=1,3)
           ENDIF
         ENDIF
       ENDDO

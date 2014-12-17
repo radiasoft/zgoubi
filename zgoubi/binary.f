@@ -37,6 +37,7 @@ C  -------
       INTEGER DEBSTR,FINSTR
       DIMENSION X7(7)
       PARAMETER (I20=20)
+      CHARACTER(15) FRMT
 
       NFIC = INT(A(NOEL,1))
       NFRM =NINT( 10*(A(NOEL,1) - INT(A(NOEL,1))))
@@ -50,7 +51,6 @@ C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
       DO 1 IFIC=1,NFIC
         OLDFIL=TA(NOEL,IFIC)
         OLDFIL=OLDFIL(DEBSTR(OLDFIL):FINSTR(OLDFIL))
-C 200    FORMAT(A)
         IDEB = 1
         IFIN = FINSTR(OLDFIL)
  
@@ -85,17 +85,13 @@ C 200    FORMAT(A)
           DO NH = 1, NHEAD
             READ (LNR, ERR=90, END= 1 ) HEADER
             LINE = LINE + 1
-            WRITE(LNW,FMT='(A132)') HEADER
+            WRITE(LNW,FMT='(A)') HEADER(DEBSTR(HEADER):FINSTR(HEADER))
           ENDDO
+
  10       CONTINUE
             READ (LNR, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             LINE = LINE + 1
-            IF    (NFRM.EQ.0) THEN
-              WRITE(LNW,405) (X7(I),I=1,NCOL)
- 405          FORMAT(1X,1P,7E11.4)
-            ELSEIF(NFRM.EQ.1) THEN
-              WRITE(LNW,405) (X7(I),I=1,NCOL)
-            ENDIF
+            WRITE(LNW,FMT='(1P,<NCOL>(1X,E20.12))') (X7(I),I=1,NCOL)
 
           GOTO 10
  
@@ -138,13 +134,10 @@ c               write(*,*) ' sbr binary, try open ',oldfil,lnr
             IF    (NFRM.EQ.0) THEN
               READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             ELSEIF(NFRM.EQ.1) THEN
-              READ (LNR,404, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
- 404          FORMAT(1X,7E11.2)
+              READ (LNR,fmt='(1X,<NCOL>E11.2)') (X7(I),I=1,NCOL)
             ENDIF
             LINE = LINE + 1
             WRITE(LNW) (X7(I),I=1,NCOL)
-c              write(*,*) line,(X7(I),I=1,NCOL)
-c                  read(*,*)
           GOTO 11
         ENDIF
  

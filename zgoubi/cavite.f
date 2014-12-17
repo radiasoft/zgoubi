@@ -664,13 +664,14 @@ C        PH(I)=BLAG
         F(6,I)=0.D0 
 
         IF(OKIMP) 
-     >    WRITE(LUN,FMT='(1P,6(E14.6,1X),2(I6,1X))') PH(I),PHS,P-PS,
-     >    OMRF,DTI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),10(1X,E14.6),A)') 
+     >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
+     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,
+     >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS'
 
  3    CONTINUE
       GOTO 88
-
-
 
  
  88   CONTINUE

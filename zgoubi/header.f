@@ -18,45 +18,47 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory               
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
-C  USA
 C  -------
       SUBROUTINE HEADER(NL,NW,N,BINARY,
      >                                 *)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      CHARACTER(80) TXT80
+      CHARACTER(270) TXT
 
-      IF(NRES.GT.0) WRITE(NW,FMT='(10X,''File header  ('',I1,
-     >'' lines) : '')') N
+      IF(NW.GT.0) WRITE(NW,FMT='(/,10X,''Now reading file header  ('',
+     >I1,'' lines) : '',/)') N
 
+C      WRITE(6,FMT='(/,A)') ' File header : '
       IF(.NOT.BINARY) THEN
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
-        READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
+        READ(NL,FMT='(A)',ERR=99,END=99) TXT
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+        READ(NL,FMT='(A)',ERR=99,END=99) TXT
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
       ELSE
-        READ(NL,ERR=99,END=89) TXT80
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
-        READ(NL,ERR=99,END=89) TXT80
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
+        READ(NL,ERR=99,END=89) TXT
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+        READ(NL,ERR=99,END=89) TXT
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
       ENDIF
       IF(.NOT.BINARY) THEN
         DO 1 I=3, N
-           READ(NL,FMT='(A)',ERR=99,END=89) TXT80
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
+           READ(NL,FMT='(A)',ERR=99,END=89) TXT
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
  1      CONTINUE
       ELSE
         DO 2 I=3, N
-           READ(NL,ERR=99,END=89) TXT80
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT80
+           READ(NL,          ERR=99,END=89) TXT
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
  2      CONTINUE
       ENDIF
-      RETURN
 
+      IF(NW.GT.0) WRITE(NW,FMT='(10X,''Header reading went on ok, it '',
+     >''seems. Now proceeding... '',/)') 
+
+      RETURN
  89   CONTINUE
       WRITE(6 ,*) 
      >'SBR HEADER : END of file reached while reading data file header'
