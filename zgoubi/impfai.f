@@ -52,7 +52,7 @@ C------- Called by keyword FAISTORE
       CHARACTER(80) FNAME
       LOGICAL BINARY, FITING
 
-      CHARACTER TX1*1
+      CHARACTER(1) TX1
       PARAMETER (TX1='''')
       SAVE BINARY
 

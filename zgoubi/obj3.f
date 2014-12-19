@@ -63,7 +63,9 @@ C     **************************************
 
       CHARACTER(1) LETI, LETAG
       CHARACTER(130) TXT
+      CHARACTER(1) TX1
       logical okopn
+ 
       data okopn / .false. /
 
 C----- Reset particle counter
@@ -188,18 +190,23 @@ C        ELSEIF(.NOT.BINARY) THEN
           IF(IEND.EQ.1) GOTO 95
 
           IF  (KOBJ2.EQ.0) THEN           
-            READ(NL,110,ERR=97,END=95)
+            READ(NL,*,ERR=97,END=95)
      >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
      >      DP,Y,T,Z,P,S,TIM, 
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
-     >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI
+     >      BRO, IPASSR, NOELR,     TDUMK,
+     >                              TDUML,
+     >                              TDUML,     LETI 
+c     >      BRO, IPASSR, NOELR, tx1,TDUMK, tx1, 
+c     >                          tx1,TDUML, tx1, 
+c     >                          tx1,TDUML, tx1,LETI 
             INCLUDE "FRMFAI.H"
 
-C              write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
-C              write(88,*) ' KT1,KT2,KT3,IT :',KT1,KT2,KT3,IT
-C              write(88,*) ' lm, noelr ',lm,noelr
+c             write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
+c             write(88,*) ' KT1,KT2,KT3,IT     : ',KT1,KT2,KT3,IT
+c             write(88,*) ' lm, noelr ',lm,noelr
 
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221
