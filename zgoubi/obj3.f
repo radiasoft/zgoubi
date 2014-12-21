@@ -174,9 +174,6 @@ C        IF(BINARY) THEN
 
             GOTO 222
           ENDIF
-
-          IT2 = IT2 + 1
-          IT1 = IT1 + 1
           
 C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
           IF(.NOT. OKKT(KT1,KT2,KT3,IT,
@@ -184,8 +181,11 @@ C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
             GOTO 222
           ENDIF
 
-C        ELSEIF(.NOT.BINARY) THEN
-        ELSE
+          IT2 = IT2 + 1
+          IT1 = IT1 + 1
+
+        ELSE       ! .NOT.BINARY) THEN
+
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
@@ -205,8 +205,13 @@ c     >                          tx1,TDUML, tx1,LETI
             INCLUDE "FRMFAI.H"
 
 c             write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
+c     >       ,OKKP(KP1,KP2,KP3,IPASSR,
+c     >                                 IEND)
 c             write(88,*) ' KT1,KT2,KT3,IT     : ',KT1,KT2,KT3,IT
+c     >       ,OKKT(KT1,KT2,KT3,IT,
+c     >                            IEND)
 c             write(88,*) ' lm, noelr ',lm,noelr
+c             write(88,*) ' dp_o, dp ',dpo, dp
 
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221
@@ -221,11 +226,6 @@ c             write(88,*) ' lm, noelr ',lm,noelr
 
               GOTO 221
             ENDIF
-
-C              write(88,*) ' iend_okkp :',iend
-
-            IT2 = IT2 + 1
-            IT1 = IT1 + 1
           
 C            IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,
@@ -233,6 +233,8 @@ C            IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
               GOTO 221
             ENDIF
 
+            IT2 = IT2 + 1
+            IT1 = IT1 + 1
 C              write(88,*) ' iend_okkt :',iend
 C              write(88,*) ' '
 

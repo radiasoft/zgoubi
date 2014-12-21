@@ -235,6 +235,7 @@ OBJ=\
  objerr.o\
  objeta.o\
  objets.o\
+ okkp.o\
  okkt.o\
  open2.o\
  opticc.o\
@@ -534,7 +535,6 @@ obj9.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
-okkt.o: $(INC)/OKKT.H
 option.o: $(INC)/MXLD.H
 opticc.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 optimp.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H

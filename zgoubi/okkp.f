@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,6 +27,22 @@ C  -------
      >                                IEND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKKP
-      INCLUDE "OKKP.H"
+      OKKP=.FALSE.
+      IEND=0
+      IF(KP1 .GE. 0) THEN
+        IF(IPASS.GE.KP1  .AND. IPASS.LE.KP2) THEN   
+	  IF(MOD(IPASS-KP1,KP3) .EQ. 0) THEN
+            OKKP=.TRUE.
+          ENDIF
+        ELSEIF(IPASS.GT.KP2) THEN
+C--------- Data reading will end
+          IEND=1
+        ENDIF  
+      ELSEIF(KP1 .EQ. -1)  THEN
+C--------- Plot at [KP2]-ipass
+        IF((IPASS/KP2)*KP2 .EQ. IPASS) THEN
+          OKKP=.TRUE.
+        ENDIF
+      ENDIF
       RETURN
       END

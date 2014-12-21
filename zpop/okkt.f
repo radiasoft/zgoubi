@@ -36,8 +36,6 @@ C  -------
 
       CALL FBGTXT
 
-      INCLUDE "OKKT.H"
-
       CALL READC9(KEXO,KLETO)
 
 C------ Plot or store only as long as KEX is correct 

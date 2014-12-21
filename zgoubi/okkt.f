@@ -26,6 +26,26 @@ C  -------
      >                             IEND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKKT
-      INCLUDE "OKKT.H"
+      OKKT=.FALSE.
+      IEND=0
+
+        IF(KT1 .GE. 0) THEN
+
+          IF(IT.GE.KT1  .AND. IT.LE.KT2) THEN   
+            IF(MOD(IT-KT1,KT3) .EQ. 0) THEN
+              OKKT=.TRUE.
+            ENDIF
+          ELSEIF(IT.GT.KT2) THEN
+C----------- Data reading will end
+            IEND=1
+          ENDIF
+
+        ELSEIF(KT1 .EQ. -1)  THEN
+C----------- Take every KT2 other particle
+          IF((IT/KT2)*KT2 .EQ. IT) THEN
+            OKKT=.TRUE.
+          ENDIF
+
+        ENDIF
       RETURN
       END

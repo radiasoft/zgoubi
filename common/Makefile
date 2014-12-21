@@ -5,7 +5,6 @@ OBJS=\
  libzg.a(empty.o)\
  libzg.a(gttext.o)\
  libzg.a(iraz.o)\
- libzg.a(okkp.o)\
  libzg.a(raz.o)\
  libzg.a(rffag.o)\
  libzg.a(rhist.o)\
@@ -27,5 +26,4 @@ all : $(OBJS)
 clean:
 	$(RM) libzg.a *.o *~
 
-libzg.a(okkp.o) : $(INC)/OKKP.H
 libzg.a(rffag.o) : $(INC)/MXLD.H

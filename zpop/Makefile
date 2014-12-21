@@ -62,6 +62,7 @@ MODULEF =\
  minmax.f\
  mnzgra.f\
  okkl.f\
+ okkp.f\
  okkt.f\
  opndef.f\
  opngnu.f\
@@ -206,7 +207,7 @@ lpscnt.o: MAXNTR.H
 lpsdrw.o: MXVAR.H MAXNTR.H
 lpsfit.o: MAXNTR.H $(INC)/MAXCOO.H
 okkl.o: OKKL.H
-okkt.o: MAXNTR.H $(INC)/OKKT.H
+okkt.o: MAXNTR.H 
 opnmn.o: $(INC)/FILPLT.H FILFAI.H
 opnmnl.o: $(INC)/FILPLT.H FILFAI.H
 pllips.o: MXVAR.H MAXNTR.H
