@@ -3230,13 +3230,13 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{21,~12}=\alpha_Y$, etc.) 
 	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5,6} \\
                           & & & & & & & & &  \\
-			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
+			   \multicolumn{1}{|c|}{\textbf{Periodic}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
 	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
-			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
-			\multicolumn{1}{|c|}{ (N=1-9  for {\footnotesize \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
-			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
-			\multicolumn{1}{|c|}{                       } & & 10 & any & $\cos(\mu_Z)$  & & & & &  \\
+			\multicolumn{1}{|c|}{\textbf{  parameters }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
+			\multicolumn{1}{|c|}{ (N=1-9  for  }& & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
+			\multicolumn{1}{|c|}{ {\footnotesize \textsl{MATRIX}}} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
+			\multicolumn{1}{|c|}{   block 1-9)     } & & 10 & any & $\cos(\mu_Z)$  & & & & &  \\
                            & & & & & & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
@@ -3253,11 +3253,11 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 %
 			\multicolumn{1}{|c|}{\textbf{Trajectory}}
 			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $ 
-         & & & & & \textsl{[MC]OBJET}   \\
+         & & & & & \textsl{[MC]OBJET}   \\[0.4ex]
 			 \multicolumn{1}{|c|}{\textbf{coordinates}}
-			    &   &  $-1$      & $1 - 7$  &   $<F(J,i)>_{i=1,\IMAX}$ & & & & &   \\
+			    &   &  $-1$      & $1 - 7$  &   $<F(J,i)>_{i=I1,I2}$ &  $ \left\{ \begin{array}{l} 0\\[-1ex] 2 \end{array} \right. $  &  $\begin{array}{l} \\[-1ex] I_1 \end{array}$  &  $\begin{array}{l} \\[-1ex] I_2 \end{array} $  & & \scriptsize $\begin{array}{l} \Leftrightarrow 1,~\IMAX\\[-.3ex] 1\! \leq \! I_1 \! \leq \! I_2\! \leq\! \IMAX \end{array} $   \\[0.4ex]
 			 \multicolumn{1}{|c|}{  \footnotesize (I = particle  }
-			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ &  & & & &   \\
+			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ && & & &   \\
 			 \multicolumn{1}{|c|}{ \footnotesize number; J=1-7 for }
 			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,d_{1,2}}$ &  3 & $I_1$ & $I_2$ & $d_{1,2}$ &  \\
 			\multicolumn{1}{|c|}{\footnotesize D,Y,T,Z,P,S,time) }
@@ -3267,15 +3267,15 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 %			\multicolumn{1}{|c|}{\textbf{  }}
 %			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & & & &  \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &K & & & \scriptsize $K \! \leq \! \IMAX$ \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 &\scriptsize $K \! \leq \! \IMAX$ & & &  \\
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 & K & & & \scriptsize $K \! \leq \! \IMAX$ \\
                             & & & & & & & & &  \\
 %
-			\multicolumn{1}{|c|}{\textbf{Ellipse parameters}} 
+			\multicolumn{1}{|c|}{\textbf{Ellipse }} 
 	 & 4 & $1 - 6$ & $1 - 6$ & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$,  
          & & & & & \scriptsize  \textsl{OBJET/{\scriptsize  KOBJ=8}~; } \\
-                          \multicolumn{1}{|c|}{\textbf{ }} 
+                          \multicolumn{1}{|c|}{\textbf{parameters }} 
          &   &         &         & $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.)
          & & & & & \scriptsize  \textsl{MCOBJET/{\scriptsize  KOBJ=3}} \\
                            & & & & & & & & &  \\
@@ -3291,7 +3291,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
          &  &  & & & \scriptsize  \textsl{MCOBJET}   \\
                            & & & & & & & & &  \\
 %
-			\multicolumn{1}{|c|}{\textbf{Coordinates and}}
+			\multicolumn{1}{|c|}{\textbf{Coordinates \&}}
 			    & 7.1 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2)  of $F(J,I)$ & 1 & 1-2 & &  
          &  \textsl{[MC]OBJET}   \\
 			\multicolumn{1}{|c|}{\textbf{ fields, across}}
@@ -3334,7 +3334,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
  $D,~Y,~T,~Z,~P,~S$) of particle number $I$ ($1\leq I\leq \IMAX$) is constrained.  However $I$ can take 
 special meaning, as follows. 
 
-$I=-1$~:  the constraint is the mean value of coordinate of type $J$, 
+$I=-1$~:  the constraint is the average value of coordinate of type $J$ over particles $[I_1,I_2]$, 
 
 $I=-2$~:  the constraint is the maximum  value of coordinate of type $J$, 
 

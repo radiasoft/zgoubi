@@ -165,11 +165,6 @@ C----- Looks for possible parameters, with values in CPAR, and action
         IF    (IC(I).EQ.3) THEN 
 C--------- Traj coord
           IF    (I1(I).EQ.-1)  THEN
-c            IF(CPAR(I,1).GT.0) THEN
-c              CALL FITLA2(CPAR(I,2), CPAR(I,3))    ! trajectory range I1-I2
-c            ELSE
-c              CALL FITLA2(1, IMAX)
-c            ENDIF
           ELSEIF(I1(I).EQ.-3)  THEN
             CALL DIST2W(CPAR(I,2), CPAR(I,3), CPAR(I,4))
           ENDIF

@@ -235,8 +235,8 @@ C-------------- Constraint is value of coordinate L of particle K
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
                if    (NINT(CPAR(I,1)) .eq. 0) then
-                     write(*,*) ' ff  imax ',imax
-                        pause
+c                     write(*,*) ' ff  imax ',imax
+c                        pause
                  VAL=FITLAV(L,1,imax,ZRO)
                elseif(NINT(CPAR(I,1)) .eq. 2) then
 c                 write(*,*) 'ff i1 i2 ',NINT(CPAR(I,2)),NINT(CPAR(I,3))
