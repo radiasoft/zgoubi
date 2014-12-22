@@ -197,10 +197,10 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
-          if(okwdat) then
-            call fitwda
-            okwdat = .false.
-          endif
+          IF(OKWDAT) THEN
+            CALL FITWDA
+            OKWDAT = .FALSE.
+          ENDIF
           CALL ZGIPAS(
      >                IPASS,NRBLT)
           IF(IPASS .LE. NRBLT+1) THEN
@@ -240,14 +240,15 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
 
  10   CONTINUE
       
-      if(okwdat) then
-        call fitwda
-        okwdat = .false.
-      endif
+      CLOSE(NDAT)     
+      IF(OKWDAT) THEN
+        CALL FITWDA
+        OKWDAT = .FALSE.
+      ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,fmt='(A)')  '   '
-        WRITE(NRES,fmt='(A)')  '            Zgoubi run completed. '
+        WRITE(NRES,FMT='(A)')  '   '
+        WRITE(NRES,FMT='(A)')  '            ZGOUBI RUN COMPLETED. '
         WRITE(NRES,103) DMY,HMS
       ENDIF
 
@@ -256,12 +257,15 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
       CALL TIME2(HMS)
       IF(NRES.GT.0) WRITE(NRES,107) DMY,HMS
       WRITE(6   ,107) DMY,HMS
- 107  FORMAT('  Job  ended  on    ',A,',  at  ',A,/)
+ 107  FORMAT('  JOB  ENDED  ON    ',A,',  AT  ',A,/)
 
       TEMP = TIMSEC
       CALL CPU_TIME(TIMSEC)
       IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
+
+      CLOSE(ABS(NRES))
+      CLOSE(NLOG)     
 
       STOP
       END

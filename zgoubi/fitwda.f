@@ -44,7 +44,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
      >''Saved new version of zgoubi.dat with variables updated.'')')
 
-      TXT132 = ' ' 
+      TXT132 = '***' 
       DOWHILE(TXT132(1:5) .NE.'''END''')
         READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
