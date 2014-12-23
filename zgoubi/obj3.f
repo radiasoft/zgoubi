@@ -55,7 +55,7 @@ C     **************************************
       LOGICAL IDLUNI
       LOGICAL BINARI, BINARY
       CHARACTER(11) FRMT
-      LOGICAL OKKT, OKKP
+      LOGICAL OKKT3, OKKP3
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TDUMK
       PARAMETER (LBLSIZ=10)
@@ -151,7 +151,9 @@ C----- Traj. counter
 
 C        IF(BINARY) THEN
         IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
+
  222      CONTINUE
+
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
      >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
@@ -165,7 +167,7 @@ C        IF(BINARY) THEN
             IF(LM .NE. NOELR) GOTO 222
           ENDIF
           
-          IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
+          IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                   IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
@@ -175,8 +177,7 @@ C        IF(BINARY) THEN
             GOTO 222
           ENDIF
           
-C          IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
-          IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+          IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                  IEND)) THEN
             GOTO 222
           ENDIF
@@ -205,10 +206,10 @@ c     >                          tx1,TDUML, tx1,LETI
             INCLUDE "FRMFAI.H"
 
 c             write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
-c     >       ,OKKP(KP1,KP2,KP3,IPASSR,
+c     >       ,OKKP3(KP1,KP2,KP3,IPASSR,
 c     >                                 IEND)
 c             write(88,*) ' KT1,KT2,KT3,IT     : ',KT1,KT2,KT3,IT
-c     >       ,OKKT(KT1,KT2,KT3,IT,
+c     >       ,OKKT3(KT1,KT2,KT3,IT,
 c     >                            IEND)
 c             write(88,*) ' lm, noelr ',lm,noelr
 c             write(88,*) ' dp_o, dp ',dpo, dp
@@ -216,8 +217,13 @@ c             write(88,*) ' dp_o, dp ',dpo, dp
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221
             ENDIF
-          
-            IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
+
+c             write(*,*) ' obj3 KP ',KP1,KP2,KP3,IPASSR
+c     >         ,OKKP3(KP1,KP2,KP3,IPASSR,
+c     >                  IEND)
+c               pause
+
+            IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                       IEND)) THEN
               IF(IEND.EQ.1) THEN 
                 IPASSR=IPASS1
@@ -226,16 +232,20 @@ c             write(88,*) ' dp_o, dp ',dpo, dp
 
               GOTO 221
             ENDIF
-          
-C            IF(.NOT. OKKT(KT1,KT2,KT3,IT2,
-            IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+
+c             write(*,*) ' obj3 KT ',KT1,KT2,KT3,IT
+c     >         ,OKKT3(KT1,KT2,KT3,IT,
+c     >                                   IEND),iend
+c                pause          
+
+            IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                   IEND)) THEN
               GOTO 221
             ENDIF
 
             IT2 = IT2 + 1
             IT1 = IT1 + 1
-C              write(88,*) ' iend_okkt :',iend
+C              write(88,*) ' iend_OKKT3 :',iend
 C              write(88,*) ' '
 
           ELSEIF(KOBJ2.EQ.1) THEN 
@@ -355,7 +365,7 @@ C            LETI=KAR(IKAR)
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 221
           ENDIF
-          IF(.NOT. OKKP(KP1,KP2,KP3,IPASSR,
+          IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                     IEND)) THEN
             IF(IEND.EQ.1) THEN 
               IPASSR=IPASS1
@@ -364,7 +374,7 @@ C            LETI=KAR(IKAR)
             GOTO 221
           ENDIF
 
-          IF(.NOT. OKKT(KT1,KT2,KT3,IT,
+          IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                 IEND)) THEN
             
             IT1 = IT1 - 1 

@@ -235,8 +235,8 @@ OBJ=\
  objerr.o\
  objeta.o\
  objets.o\
- okkp.o\
- okkt.o\
+ okkp3.o\
+ okkt3.o\
  open2.o\
  opticc.o\
  optimp.o\

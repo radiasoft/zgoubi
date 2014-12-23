@@ -18,34 +18,31 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
+C  USA
 C  -------
-      FUNCTION OKKT(KT1,KT2,KT3,IT,
-     >                             IEND)
+      FUNCTION OKKP3(KP1,KP2,KP3,IPASS,
+     >                                IEND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL OKKT
-      OKKT=.FALSE.
+      LOGICAL OKKP3
+      OKKP3=.FALSE.
       IEND=0
-
-        IF(KT1 .GE. 0) THEN
-
-          IF(IT.GE.KT1  .AND. IT.LE.KT2) THEN   
-            IF(MOD(IT-KT1,KT3) .EQ. 0) THEN
-              OKKT=.TRUE.
-            ENDIF
-          ELSEIF(IT.GT.KT2) THEN
-C----------- Data reading will end
-            IEND=1
+      IF(KP1 .GE. 0) THEN
+        IF(IPASS.GE.KP1  .AND. IPASS.LE.KP2) THEN   
+	  IF(MOD(IPASS-KP1,KP3) .EQ. 0) THEN
+            OKKP3=.TRUE.
           ENDIF
-
-        ELSEIF(KT1 .EQ. -1)  THEN
-C----------- Take every KT2 other particle
-          IF((IT/KT2)*KT2 .EQ. IT) THEN
-            OKKT=.TRUE.
-          ENDIF
-
+        ELSEIF(IPASS.GT.KP2) THEN
+C--------- Data reading will end
+          IEND=1
+        ENDIF  
+      ELSEIF(KP1 .EQ. -1)  THEN
+C--------- Plot at [KP2]-ipass
+        IF((IPASS/KP2)*KP2 .EQ. IPASS) THEN
+          OKKP3=.TRUE.
         ENDIF
+      ENDIF
       RETURN
       END
