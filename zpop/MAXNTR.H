@@ -1,1 +1,0 @@
-      PARAMETER (NTRMAX=10000)

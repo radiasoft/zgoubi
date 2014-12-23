@@ -1,0 +1,9 @@
+ln -sf ../../include/FRMFAI.H
+ln -sf ../../include/FRMPLT.H
+ln -sf ../../include/MAXCOO.H
+ln -sf ../include/MAXNPT.H
+ln -sf ../../include/MXLD.H
+ln -sf ../../zpop/MXVAR.H
+ln -sf ../../zpop/OKKL.H
+ln -sf ../../include/OKKP.H
+ln -sf ../../include/OKKT.H
