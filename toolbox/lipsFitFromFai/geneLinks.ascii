@@ -7,3 +7,4 @@ ln -sf ../../zpop/MXVAR.H
 ln -sf ../../zpop/OKKL.H
 ln -sf ../../include/OKKP.H
 ln -sf ../../include/OKKT.H
+svn add *H

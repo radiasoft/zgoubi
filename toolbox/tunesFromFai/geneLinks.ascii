@@ -22,3 +22,4 @@ ln -sf  ../../zpop/PARCST.H     PARCST.H
 ln -sf  ../../zgoubi/PARIZ.H    PARIZ.H      
 ln -sf  ../../zgoubi/XYZHC.H    XYZHC.H      
 ln -sf  ../../include/ZGINIT.H  ZGINIT.H     
+svn add *H
