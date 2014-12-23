@@ -140,6 +140,7 @@ C----- Some initializations and resets
         IF(KALC .EQ. 2 ) THEN
 C--------- Field is defined by maps
 
+C  LF = 1/2 : print field map in zgoubi.res/zgoubi.map
           LF =NINT(A(NOEL,1))
 C  LST=1(2) : PRINT step by step coord. and field in zgoubi.res (zgoubi.plt)
           LST = LSTSET(NINT(A(NOEL,2)))
@@ -899,7 +900,7 @@ C              .... IRD=4 OU 25
      >       'A  3*3*3  POINTS , INTERPOLATION  A  L''ORDRE ',I2)
            ENDIF
  
-           IF(LF .NE. 0) CALL FMAPW(ZERO,RFR,1)
+           IF(LF .NE. 0 .AND. IPASS .EQ. 1) CALL FMAPW(ZERO,RFR,1)
  
          ENDIF
 C         ... endif NRES>0

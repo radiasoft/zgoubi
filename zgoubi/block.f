@@ -86,7 +86,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       DATA NRBLT,IPASS/ 0, 1/
       DATA DPREF / 1.D0 /
       DATA KPAS / 0 /
-      DATA CPAR / 280* 0.D0 /
+      DATA CPAR / 420*0.D0 /
       DATA IDMAX / 1 /
 
 C----- To yield MKSA units : 

@@ -90,14 +90,14 @@ c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
 
-      if( .NOT.ALLOCATED( HCA )) 
+      IF( .NOT.ALLOCATED( HCA )) 
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0) 
      >     CALL ENDJOB('SBR toscac Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
 
-      if( .NOT.ALLOCATED( HCB )) 
+      IF( .NOT.ALLOCATED( HCB )) 
      >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0) 
      >     CALL ENDJOB('SBR toscac Not enough memory'//
