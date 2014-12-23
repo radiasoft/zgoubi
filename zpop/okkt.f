@@ -36,28 +36,7 @@ C  -------
 
       CALL FBGTXT
 
-      OKKT=.FALSE.
-      IEND=0
-
-      IF(KT1 .GE. 0) THEN
-
-        IF(IT.GE.KT1  .AND. IT.LE.KT2) THEN   
-C--------- If KT1<IT<KT2, [KT3]-IT
-          IF((IT/KT3)*KT3 .EQ. IT) THEN
-            OKKT=.TRUE.
-          ENDIF
-        ELSEIF(IT.GT.KT2) THEN
-C--------- Data reading will end
-          IEND=1
-        ENDIF
-
-      ELSEIF(KT1 .EQ. -1)  THEN
-C--------- Take every KT2 other particle
-        IF((IT/KT2)*KT2 .EQ. IT) THEN
-          OKKT=.TRUE.
-        ENDIF
-
-      ENDIF
+      INCLUDE 'OKKT.H'
 
       CALL READC9(KEXO,KLETO)
 

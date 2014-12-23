@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,18 +17,31 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
-      FUNCTION OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL OKKP
 
-      INCLUDE 'OKKP.H'
- 
-      RETURN
-      END
+      OKKT=.FALSE.
+      IEND=0
+
+      IF(KT1 .GE. 0) THEN
+
+        IF(IT.GE.KT1  .AND. IT.LE.KT2) THEN   
+C--------- If KT1<IT<KT2, [KT3]-IT
+          IF((IT/KT3)*KT3 .EQ. IT) THEN
+            OKKT=.TRUE.
+          ENDIF
+        ELSEIF(IT.GT.KT2) THEN
+C--------- Data reading will end
+          IEND=1
+        ENDIF
+
+      ELSEIF(KT1 .EQ. -1)  THEN
+C--------- Take every KT2 other particle
+        IF((IT/KT2)*KT2 .EQ. IT) THEN
+          OKKT=.TRUE.
+        ENDIF
+
+      ENDIF

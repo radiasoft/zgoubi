@@ -194,7 +194,7 @@ clean :
 
 bin.o: MXVAR.H
 block.o: $(INC)/MAXTRA.H
-caltra.o: MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
+caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
 filcoo.o: MAXNTR.H
 graph7.o: MXVAR.H MAXNTR.H
 graph8.o: MXVAR.H
@@ -207,51 +207,52 @@ lpscnt.o: MAXNTR.H
 lpsdrw.o: MXVAR.H MAXNTR.H
 lpsfit.o: MAXNTR.H $(INC)/MAXCOO.H
 okkl.o: OKKL.H
-okkt.o: MAXNTR.H 
+okkp.o: $(INC)/OKKP.H
+okkt.o: $(INC)/OKKT.H MAXNTR.H 
 opnmn.o: $(INC)/FILPLT.H FILFAI.H
 opnmnl.o: $(INC)/FILPLT.H FILFAI.H
 pllips.o: MXVAR.H MAXNTR.H
 ploter.o: MXVAR.H $(INC)/MAXTRA.H
-pltemi.o: MXVAR.H MXLD.H FILFAI.H
+pltemi.o: MXVAR.H $(INC)/MXLD.H FILFAI.H
 plthis.o: MXVAR.H
 pltopt.o: MXVAR.H
-prdata.o: MXLD.H
-rautor.o: MXLD.H
-rbend.o: MXLD.H
-rbinar.o: MXLD.H
-rcarte.o: MXLD.H
-rcavit.o: MXLD.H
-rcible.o: MXLD.H
-rcolli.o: MXLD.H
-rcsr.o: MXLD.H
-rdips.o: MXLD.H
-readco.o: MXVAR.H MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H $(INC)/FRMSPN.H $(INC)/MAXTRA.H
-rebmul.o: MXLD.H
-rel2tu.o: MXLD.H
-relcmi.o: MXLD.H
-relcyl.o: MXLD.H
-relmir.o: MXLD.H
-rffags.o: MXLD.H
-rfit.o: MXLD.H
-rfitgt.o: MXLD.H
-rgasca.o: MXLD.H
-rhelix.o: MXLD.H
-rmcdes.o: MXLD.H
-rmatrx.o: MXLD.H
-rmcobj.o: MXLD.H
-rnorma.o: MXLD.H
-robjet.o: MXLD.H
-robjta.o: MXLD.H
-rscale.o: MXLD.H $(INC)/MXFS.H
-rsepar.o: MXLD.H
-rsimb.o: MXLD.H
-rsolen.o: MXLD.H
-rspn.o: MXLD.H $(INC)/MAXTRA.H
-rsrlos.o: MXLD.H
-rtrans.o: MXLD.H
-rundul.o: MXLD.H
-runipo.o: MXLD.H
-rwienf.o: MXLD.H
+prdata.o: $(INC)/MXLD.H
+rautor.o: $(INC)/MXLD.H
+rbend.o: $(INC)/MXLD.H
+rbinar.o: $(INC)/MXLD.H
+rcarte.o: $(INC)/MXLD.H
+rcavit.o: $(INC)/MXLD.H
+rcible.o: $(INC)/MXLD.H
+rcolli.o: $(INC)/MXLD.H
+rcsr.o: $(INC)/MXLD.H
+rdips.o: $(INC)/MXLD.H
+readco.o: MXVAR.H $(INC)/MXLD.H MAXNTR.H $(INC)/FRMFAI.H $(INC)/FRMPLT.H $(INC)/FRMSPN.H $(INC)/MAXTRA.H
+rebmul.o: $(INC)/MXLD.H
+rel2tu.o: $(INC)/MXLD.H
+relcmi.o: $(INC)/MXLD.H
+relcyl.o: $(INC)/MXLD.H
+relmir.o: $(INC)/MXLD.H
+rffags.o: $(INC)/MXLD.H
+rfit.o: $(INC)/MXLD.H
+rfitgt.o: $(INC)/MXLD.H
+rgasca.o: $(INC)/MXLD.H
+rhelix.o: $(INC)/MXLD.H
+rmcdes.o: $(INC)/MXLD.H
+rmatrx.o: $(INC)/MXLD.H
+rmcobj.o: $(INC)/MXLD.H
+rnorma.o: $(INC)/MXLD.H
+robjet.o: $(INC)/MXLD.H
+robjta.o: $(INC)/MXLD.H
+rscale.o: $(INC)/MXLD.H $(INC)/MXFS.H
+rsepar.o: $(INC)/MXLD.H
+rsimb.o: $(INC)/MXLD.H
+rsolen.o: $(INC)/MXLD.H
+rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H
+rsrlos.o: $(INC)/MXLD.H
+rtrans.o: $(INC)/MXLD.H
+rundul.o: $(INC)/MXLD.H
+runipo.o: $(INC)/MXLD.H
+rwienf.o: $(INC)/MXLD.H
 spctra.o: MAXNTR.H FILFAI.H
 speana.o: MAXNTR.H
 speimp.o: MAXNTR.H
@@ -265,7 +266,7 @@ srinc.o: $(INC)/MXSTEP.H
 srinm.o: MXVAR.H $(INC)/FILPLT.H
 srmen.o: $(INC)/FILPLT.H
 storco.o: MAXNTR.H MXVAR.H
-storig.o: MXLD.H
+storig.o: $(INC)/MXLD.H
 synaxe.o: PARCST.H
 synbox.o: PARCST.H
 xyzbr.o: MXVAR.H $(INC)/MXSTEP.H

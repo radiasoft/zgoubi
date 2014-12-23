@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,18 +17,30 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
-      FUNCTION OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL OKKP
 
-      INCLUDE 'OKKP.H'
- 
-      RETURN
-      END
+      OKKP=.FALSE.
+      IEND=0
+      IF(KP1 .GE. 0) THEN
+        IF    (IPASS.EQ.KP1  .OR. IPASS.EQ.KP2) THEN   
+C--------- Always read extremes, KP1 and KP2
+            OKKP=.TRUE.
+        ELSEIF(IPASS.GT.KP1  .AND. IPASS.LT.KP2) THEN   
+C--------- Read if  KP1 < IPASS < KP2, [KP3]-ipass
+          IF((IPASS/KP3)*KP3 .EQ. IPASS) THEN
+            OKKP=.TRUE.
+          ENDIF
+        ELSEIF(IPASS.GT.KP2) THEN
+C--------- Data reading will end
+          IEND=1
+        ENDIF
+      ELSEIF(KP1 .EQ. -1)  THEN
+C--------- Plot at [KP2]-ipass
+        IF((IPASS/KP2)*KP2 .EQ. IPASS) THEN
+          OKKP=.TRUE.
+        ENDIF
+      ENDIF
