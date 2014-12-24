@@ -51,7 +51,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
         WRITE(LTEMP,FMT='(A)') 
      >       TXT132(DEBSTR(TXT132):FINSTR(TXT132))
         IF(TXT132(1:1) .EQ. '''') THEN
-          READ(TXT132(105:132),*,err=11,end=11) NUEL      ! Position folows from prdata
+          READ(TXT132(105:132),*,err=11,end=11) NUEL      ! Position follows from prdata
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
           IF    (KLEY(1:8) .EQ. 'MULTIPOL') THEN 
