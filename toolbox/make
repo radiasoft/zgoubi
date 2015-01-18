@@ -34,5 +34,8 @@ echo '(cd  tunesFromMATRIX ; ./make )'
 echo ' '
 echo '(cd spin/resonanceXing/ ; ./make )'
 (cd spin/resonanceXing/ ; ./make )
+echo ' '
+echo '(cd spin/averageSpin/ ; ./make )'
+(cd spin/averageSpin/ ; ./make )
 
 exit

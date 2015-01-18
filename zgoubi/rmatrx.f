@@ -28,8 +28,8 @@ C  -------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(132) TXT
 
+      CHARACTER(132) TXT
       INTEGER DEBSTR
       LOGICAL STRCON
 
@@ -56,6 +56,9 @@ C----- Read IORD, IFOC
       ENDIF
 
       RETURN
- 99   STOP
-     >  ' *** Data error in zgoubi.dat :  while reading MATRIX'
+
+ 99   CALL ENDJOB(
+     >'Data error in zgoubi.dat :  while reading MATRIX. '
+     >,-99)
+      RETURN
       END

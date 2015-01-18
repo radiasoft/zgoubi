@@ -24,7 +24,7 @@ C For compatibility with earlier version of dataFile
       read(lunIn,fmt='(a)',end=96,err=97)  txt132
       ideb = debstr(txt132)
       txt132 = txt132(ideb:132)
-
+C	write(*,*) ' Pgm readat : ',txt132
       if (STRCON(txt132(1:6),'K',1,
      >                       IS)) then
         ok=STRCON(txt132,'=',1,

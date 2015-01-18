@@ -2820,16 +2820,27 @@ keyword \textsl{PICKUPS} is used.
 \newpage
 
 \subsubsection*{ERRORS~:  \ERRORSTitl}  \label{ERRORS}  \index{ERRORS|textbf} 
-\medskip
-
- The keyword \textsl{ERRORS} allows injecting all sort of errors in optical elements, 
-including field and positionning errors. Uniform and gaussian distribution laws available. 
 
 \medskip 
 
- \noindent The function is under development, at the moment only filed errors can be injected, 
-in \textsl{MULTIPOL}. Multipoles concenred can be discriminated using one or both of their 
-labels.
+{\bf \it  UNDER DEVELOPMENT}
+
+\bigskip
+
+ \noindent The keyword \textsl{ERRORS} allows injecting diverse types of errors in optical elements, 
+including field and positionning defects. Uniform and Gaussian distribution laws are available. 
+
+\medskip 
+
+\noindent Optical elements concerned can be discriminated using one or both of their labels.
+
+\medskip 
+
+ \noindent \textsl{ERRORS}  is under development, functionalities at the moment are the following~: 
+
+\medskip 
+
+\noindent  \textsl{MULTIPOL} can be injected field defects. 
 
 
 
@@ -3212,109 +3223,111 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 	\begin{center}
 \label{TabFITZlst1}
     {\renewcommand{\arraystretch}{1}
-			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|c|c|c|p{\LL}|}
+			\begin{tabular}{|>{\bfseries}p{\LL}|c|c|c|c|c|l|c|c|p{\LL}|}
 			\hline
 			\hline
 			 \multirow{3}{\LL}{\textbf{Type of constraint}}
 			    & \multicolumn{8}{c|}{\rule{0cm}{5mm} \textbf{Parameters defining the constraints}} 
                             &\multirow{4}{\LL}{\textbf{Recommended \textsl{[MC]OBJET}, and other comments }}  \\[-2mm]
-			\cline{2-9}
+			\cline{2-7}
 			    & \rule{0cm}{5mm}$\mathbf{\IC}$ 
 			    & $\mathbf{I}$ & $\mathbf{J}$ & \textbf{Constraint}  
                             &  \multicolumn{4}{c|}{\textbf{Additional parameter(s)}  } &   \\
-         & & & & & \multicolumn{1}{c|}{\NP} & \multicolumn{3}{c|}{  value(s), $\PV_{1 - N\!P}$} & \\
+         & & & & & \multicolumn{1}{c|}{\NP} & \multicolumn{1}{l|}{   $\PV_{1 - N\!P}$ value(s)} & \\
 			\hline
-                          & & & & & & & & &  \\
+                          & & & & & & &   \\
 			   \multicolumn{1}{|c|}{\textbf{\mbox{$\sigma$-matrix} }} 
 %	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.) 
 	 & 0& 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$, $\sigma_{21,~12}=\alpha_Y$, etc.) 
-	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5,6} \\
-                          & & & & & & & & &  \\
+	 & & &  \scriptsize  \textsl{OBJET/KOBJ=5,6} \\
+                          & & & & & & &   \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
-			\multicolumn{1}{|c|}{\textbf{  parameters }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
-			\multicolumn{1}{|c|}{ (N=1-9  for  }& & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
-			\multicolumn{1}{|c|}{ {\footnotesize \textsl{MATRIX}}} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
-			\multicolumn{1}{|c|}{   block 1-9)     } & & 10 & any & $\cos(\mu_Z)$  & & & & &  \\
-                           & & & & & & & & &  \\
+	 & & &  \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
+			\multicolumn{1}{|c|}{\textbf{  parameters }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & &  \\
+			\multicolumn{1}{|c|}{ (N=1-9  for  }& & 8 & any & Z-tune = $\mu_Z/2\pi$ & & &   \\
+			\multicolumn{1}{|c|}{ {\footnotesize \textsl{MATRIX}}} & &  9 & any & $\cos(\mu_Y)$  & & &  \\
+			\multicolumn{1}{|c|}{   block 1-9)     } & & 10 & any & $\cos(\mu_Z)$  & & &   \\
+                           & & & & & & &   \\
 			\multicolumn{1}{|c|}{\textbf{First order}}  
 			    & 1  & $1 - 6$ & $1 - 6$ & Transport coeff. $R_{IJ} $  
-	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5} \\
-	\multicolumn{1}{|c|}{\textbf{transport coeffs.}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & & & &  \\
-		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & & & &  \\
-                           & & & & & & & & &  \\
+	 & & &  \scriptsize  \textsl{OBJET/KOBJ=5} \\
+	\multicolumn{1}{|c|}{\textbf{transport coeffs.}} &   & 7 & i & $i\ne 8$~: YY-determinant~; i=8~: YZ-det.  & & &   \\
+		\multicolumn{1}{|c|}{\textbf{ }}          &   & 8 & j & $j\ne 7$~: ZZ-determinant~; j=7~: ZY-det.   & & &   \\
+                           & & & & & & &   \\
 		\multicolumn{1}{|c|}{\textbf{Second order}}  
 			    & 2  & $1 - 6$ & 1$1 - 6$6 & Transport coeff.  $T_{I,j,k} $  
-	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=6} \\
-			 \multicolumn{1}{|c|}{\textbf{transport coeffs.}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & & & &  \\
-			 \multicolumn{1}{|c|}{\textbf{ }}  &  &  &  &  &  & & & &  \\
-                            & & & & & & & & &  \\
+	 & & &  \scriptsize  \textsl{OBJET/KOBJ=6} \\
+			 \multicolumn{1}{|c|}{\textbf{transport coeffs.}} &  &  &  & $  (j= [J/10] ,k=J-10 [J/10] ) $  & & &  \\
+			 \multicolumn{1}{|c|}{\textbf{ }}  &  &  &  &  &  & &   \\
+                            & & & & & & &   \\
 %
 			\multicolumn{1}{|c|}{\textbf{Trajectory}}
 			    & 3 & $1 - \IMAX$ & $1 - 7$  & $  F(J,I) $ 
-         & & & & & \textsl{[MC]OBJET}   \\[0.4ex]
+         & & &  \textsl{[MC]OBJET}   \\[0.4ex]
 			 \multicolumn{1}{|c|}{\textbf{coordinates}}
-			    &   &  $-1$      & $1 - 7$  &   $<F(J,i)>_{i=I1,I2}$ &  $ \left\{ \begin{array}{l} 0\\[-1ex] 2 \end{array} \right. $  &  $\begin{array}{l} \\[-1ex] I_1 \end{array}$  &  $\begin{array}{l} \\[-1ex] I_2 \end{array} $  & & \scriptsize $\begin{array}{l} \Leftrightarrow 1,~\IMAX\\[-.3ex] 1\! \leq \! I_1 \! \leq \! I_2\! \leq\! \IMAX \end{array} $   \\[0.4ex]
+			    &   &  $-1$      & $1 - 7$  &   $<\! F(J,i)\! >_{i=I1,I2}$ &  \hspace{-1.5ex} {\large $ \left\{ \right. $} \hspace{-3.ex}  $\begin{array}{l} 0\\[-.8ex] 2 \end{array} $ &  \hspace{-1.5ex} $\begin{array}{l} \\[-.8ex] I_1 \end{array}$     $\begin{array}{l} \\[-.8ex] I_2  \end{array} $  &  \scriptsize $\begin{array}{l} \Leftrightarrow 1,~\IMAX\\[-.2ex] 1\! \leq \! I_1 \! \leq \! I_2\! \leq\! \IMAX \end{array} $   \\[0.4ex]
 			 \multicolumn{1}{|c|}{  \footnotesize (I = particle  }
-			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ && & & &   \\
+			    &   &  $-2$      & $1 - 7$  &   $Sup(|F(J,i)|)_{i=1,\IMAX}$ && &    \\
 			 \multicolumn{1}{|c|}{ \footnotesize number; J=1-7 for }
-			    &   &  $-3$      & $1 - 7$  &  $Dist|F(J,I)|_{i=I1,I2,d_{1,2}}$ &  3 & $I_1$ & $I_2$ & $d_{1,2}$ &  \\
-			\multicolumn{1}{|c|}{\footnotesize D,Y,T,Z,P,S,time) }
-			    & 3.1 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - FO(J,I)|$  & & & & &   \\
+			    &   &  $-3$      & $1 - 7$  &  $Dist\left[ F(J,I)_{i=I1,I2}\right]$ &  3 & $I_1$, $I_2$,  $\Delta I$ &  \scriptsize $1\! \leq \! I_1 \! \leq \! I_2\! \leq\! \IMAX $ \\
+			 \multicolumn{1}{|c|}{ \footnotesize D,Y,T,Z,P,S,time) }
+			    &   &  $-4$      & $1 - 7$  &   $Dist\left[ PU_i, i=1,N \right]$ &  2 &\scriptsize \textsl{NOEL}$_A$,  \textsl{NOEL}$_B$  & \small PU range   \\[0.4ex]
+			\multicolumn{1}{|c|}{ }
+			    & 3.1 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - FO(J,I)|$  & & &    \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & & & &  \\
+			    & 3.2 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) + FO(J,I)|$  & & &   \\
 %			\multicolumn{1}{|c|}{\textbf{  }}
-%			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & & & &  \\
+%			    & 3.3 & $1 - \IMAX$ & $1 - 7$  & (min($F(J,I)$)+max($F(J,I)$))/2 & 0 & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &K & & & \scriptsize $K \! \leq \! \IMAX$ \\
+			    & 3.4 & $1 - \IMAX$ & $1 - 7$  &$|F(J,I) - F(J,K)|$  & 1 &K &  \scriptsize $K \! \leq \! \IMAX$ \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 & K & & & \scriptsize $K \! \leq \! \IMAX$ \\
-                            & & & & & & & & &  \\
+			    & 3.5 & $1 - \IMAX$ & $1 - 7$  &$(F(J,I) - F(J,K))/F(J,K)$  & 1 & K &  \scriptsize $K \! \leq \! \IMAX$ \\
+                            & & & & & & &   \\
 %
 			\multicolumn{1}{|c|}{\textbf{Ellipse }} 
 	 & 4 & $1 - 6$ & $1 - 6$ & $\sigma_{I\! J}$~~  ($\sigma_{11}=\beta_Y$,  
-         & & & & & \scriptsize  \textsl{OBJET/{\scriptsize  KOBJ=8}~; } \\
+         & & &  \scriptsize  \textsl{OBJET/{\scriptsize  KOBJ=8}~; } \\
                           \multicolumn{1}{|c|}{\textbf{parameters }} 
          &   &         &         & $\sigma_{12}=\sigma_{21}=\alpha_Y$, etc.)
-         & & & & & \scriptsize  \textsl{MCOBJET/{\scriptsize  KOBJ=3}} \\
-                           & & & & & & & & &  \\
+         & & &  \scriptsize  \textsl{MCOBJET/{\scriptsize  KOBJ=3}} \\
+                           & & & & & & &   \\
 %
 			\multicolumn{1}{|c|}{\textbf{Number of}} 
 			    & 5 & $-1$ & any &  $N_{survived}/\IMAX$  
-         & & & & & \scriptsize  \textsl{OBJET} \\
+         & & &  \scriptsize  \textsl{OBJET} \\
 			\multicolumn{1}{|c|}{\textbf{particles}} &  & $1 - 3$ & any 
                 & $N_{in~\epsilon_{Y,Z,X}}/ N_{survived}$ 
-         & 1 & $\epsilon/ \pi $& & & \scriptsize  \textsl{MCOBJET}   \\
+         & 1 & $\epsilon/ \pi $&  \scriptsize  \textsl{MCOBJET}   \\
 			    &  & $4 - 6$ & any 
                 & $N_{in~best~\epsilon_{Y,Z,X,rms}}/ N_{survived}$ 
-         &  &  & & & \scriptsize  \textsl{MCOBJET}   \\
-                           & & & & & & & & &  \\
+         &  &  &  \scriptsize  \textsl{MCOBJET}   \\
+                           & & & & & & &   \\
 %
 			\multicolumn{1}{|c|}{\textbf{Coordinates \&}}
-			    & 7.1 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2)  of $F(J,I)$ & 1 & 1-2 & &  
+			    & 7.1 & $1 - \IMAX$ & $1 - 7$  & min. (1) or max. (2)  of $F(J,I)$ & 1 & 1-2   
          &  \textsl{[MC]OBJET}   \\
 			\multicolumn{1}{|c|}{\textbf{ fields, across}}
-			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & max($F(J,I)$) - min$F(J,I)$) &  & & & &  \\
+			    & 7.2 & $1 - \IMAX$ & $1 - 7$  & max($F(J,I)$) - min$F(J,I)$) &  & &   \\
 			\multicolumn{1}{|c|}{\textbf{optical elements  }}
-			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & & & &  \\[0.5ex]
+			    & 7.3 & $1 - \IMAX$ & $1 - 7$  & min$F(J,I)$) + max($F(J,I)$) &  & &   \\[0.5ex]
 			\multicolumn{1}{|c|}{ \footnotesize (J=1, 2, 3 for   }
-			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 & & & \\
+			    & 7.6 & $1 - \IMAX$ & $1 - 3$  & min. (1) or max. (2) value of $B_J$ & 1 & 1-2 &  \\
 			\multicolumn{1}{|c|}{ \footnotesize $B_{X,\ Y,\ Z}$) }
-			    & 7.7 & $1 - \IMAX$ & $1 - 3$  & max($B_J$) - min($B_J$) &  & & & &  \\
+			    & 7.7 & $1 - \IMAX$ & $1 - 3$  & max($B_J$) - min($B_J$) &  & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.8 & $1 - \IMAX$ & $1 - 3$  & min($B_J$) + max($B_J$) &  & & & &  \\
+			    & 7.8 & $1 - \IMAX$ & $1 - 3$  & min($B_J$) + max($B_J$) &  & &   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
-			    & 7.9 & $1 - \IMAX$ & $1 - 3$  & $\int B_J \, ds$ & &  & &  \\
-                            & & & & & & & & &  \\
+			    & 7.9 & $1 - \IMAX$ & $1 - 3$  & $\int B_J \, ds$ & &    \\
+                            & & & & & & &   \\
 %
 			\multicolumn{1}{|c|}{\textbf{Spin}}
 			    & 10 & $1 - \IMAX$ & $1 - 4$  & $  S_{X,Y,Z}(I), ~ |\vec S(I)| $  
-         & & & & & \textsl{[MC]OBJET}   \\
+         & & &  \textsl{[MC]OBJET}   \\
 			\multicolumn{1}{|c|}{\textbf{  }}
 			    & 10.1 & $1 -\IMAX$ & $1 -3$  &$|S_{X,Y,Z}(I) -SO_{X,Y,Z}(I)|$
-         & & & & & \textsl{+SPNTRK}   \\
-                            & & & & & & & & &  \\
+         & & &  \textsl{+SPNTRK}   \\
+                            & & & & & & &   \\
 			\hline
 			\hline
 		\end{tabular}  }
@@ -3338,9 +3351,13 @@ $I=-1$~:  the constraint is the average value of coordinate of type $J$ over par
 
 $I=-2$~:  the constraint is the maximum  value of coordinate of type $J$, 
 
-$I=-3$~:  the constraint is the distance, $d_{1,2}$, 
-between two different particles. \NP=3 and,  $\PV_1= I_1$, $\PV_2=I_2$ are the number  
-of these two particles, $\PV_3 = d_{1,2}$
+$I=-3$~:  the constraint is the distance  between  particles $ I_1-I_2$ (step $\Delta I$).  
+
+$I=-4$~: take the  average of the $F(J,i)$ coordinate (J=1-7 for D,Y,T,Z,P,S,time) over  $(I2-I1+1)$ particles in the range $i = I1-I2$, get it at $N$ different  pickup locations $PU_1, PU_2, ..., PU_N$. The constraint is, minimizing the distance between these averages, 
+$Dist\left[ <\! F(J,i)\! >_{i=I1,I2}\right]_{PU_{1-N}}$ (Ex.~: minimize the difference between PU records, for a series of PUs along a beamline). 
+If the number of locations is $997$ (\ie, N+2=999) then all PUs upstream of IR are accounted for.
+This constraint requires declaring pick-ups using  \textsl{PICKUPS} keyword, their locations are as numbered in the data list 
+in zgoubi.res. 
 
 \smallskip
 
@@ -7627,12 +7644,12 @@ the actual origin of the fieldmap, TOSCA or other computer code, does not matter
 
 \medskip
 
-\noindent A pair of flags, \textsl{MOD}, \textsl{MOD2}, determine whether Cartesian or Z-axis cylindrical mesh is used, 
-and the nature of the field map data set.
+\noindent A double-flag, \textsl{MOD[.MOD2]}, determines whether Cartesian or Z-axis cylindrical mesh is used, 
+and the nature and/or form of the field map data set.
 
 \medskip
 
-\noindent The total number of field data files to be read is determined by the \textsl{MOD} flag 
+\noindent The total number of field data files to be read is determined by the \textsl{MOD[.MOD2]} flag 
 (see below) and by the parameter $IZ$ that appears in the data list following the keyword. 
 Each of these files contains the field components $B_X$, $B_Y$, $B_Z$ on an 
 \mbox{($X$, $Y$)} mesh. $IZ = 1$ for a 2-D~map, and 
@@ -7677,42 +7694,50 @@ FNAME must begin with  \mbox{`B\_'} or  \mbox{`b\_'}.
 \medskip
 
 
-\noindent In addition to the \textsl{MOD=1, 2} cases above, one can have \textsl{MOD=12} and in that case a single file 
-contains the all 3-D field map. 
-See  table below and the \FORTRAN\  subroutine \texttt{fmapw.f} and its entries FMAPR, FMAPR2, for more details, in particular 
-the  formatting of the field map data file(s). 
+\noindent Other \textsl{MOD[.MOD2]} cases  in addition to the above, are listed in  table~\ref{TabTOSCAMOD}. 
+The \FORTRAN\  subroutine \texttt{fmapw.f} and its entries FMAPR, FMAPR2 can be looked up for more details, in particular 
+regarding the  formatting of the field map data file(s). 
 
-\medskip
 
-\begin{center}
+
+\begin{table}[p]
+\centering
+
+\caption{\label{TabTOSCAMOD}
+The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \textsl{TOSCA}. 
+}
+
+~
+
+
 \renewcommand{\arraystretch}{1}
-\begin{tabular}{llll}
-\bf         MOD   &\bf      MOD2 &   & \\[1ex]
- \multicolumn{3}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
- 0 and $IZ=1$ &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
-0  and $IZ>1$ &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[6ex]
-        0     &    1, 2, 3              &  As previous case, just  different reading formats. \\[1ex]
-        1     &  none                   &  \multirow{2}{80mm}{2- or 3-D map, IZ data files, one per (X,Y) plane, no symmetry assumed.} \\[3ex]
-        1     &    1, 2, 3              &  As previous case, just  different reading formats. \\[1ex]
-        3     &     none, 1             &  \multirow{3}{80mm}{AGS main magnet field map, 2-D, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[9ex]
-        12    &           none          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
-        12    &              1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
-        12    &              2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
-        15    &              1-6        &  \multirow{2}{80mm}{3-D map, whole magnet volume (thus no symmetry assumed), up to 6 maps 
- summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $.}  \\[5ex]
- \multicolumn{2}{l}{\underline{MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
-       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane.} \\[4ex]
-       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+\begin{tabular}{lcllll}
+\bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
+ \multicolumn{5}{l}{\underline{MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
+ 1   & & 0 &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
+$>1$ & & 0   &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[5ex]
+&&        0     &    .1, .2, .3              &  As previous case, just  different reading formats. \\[3ex]
+1 &&        1     &  none                 &  \multirow{2}{80mm}{2-D map, one mid-plane $B_Y(X,Y)$ data field map.} \\[4ex]
+$>1$ &&        1     &  none              &  \multirow{2}{80mm}{3-D map, IZ files containing $B_{X,Y,Z}(X,Y,Z)$ data, one per (X,Y) plane, no symmetry assumed.} \\[5ex]
+&&        1     &    .1, .2, .3              &  As previous case, just  different reading formats. \\[3ex]
+&&        3     &     none \textsl{or} .1             &  \multirow{3}{80mm}{AGS main magnet field map, 2-D, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[9ex]
+&&        12    &           none          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+&&        12    &              .1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
+&&        12    &              .2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
+$>1$ &&        15    &         .1$-$.6        &  \multirow{2}{80mm}{3-D map data file(s) (up to 6), whole magnet volume each (thus no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
+ \multicolumn{4}{l}{\underline{MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
+&&       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane.} \\[4ex]
+&&       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
 %       25      &                        &  \multirow{2}{80mm}{2-D mid-plane field map, single file, full magnet, symmetry with respect to mid-plane} \\[3ex]
 \end{tabular}
-\end{center}
+\end{table}
 
-\medskip
+\bigskip
 
 
-\noindent The field $ \vec  B=(B_X,B_Y,B_Z) $ is normalized by means of 
+\noindent Once the field map(s) reading is completed, the field $ \vec  B=(B_X,B_Y,B_Z) $ is normalized by means of 
 \textsl{BNORM} in a similar way as in \textsl{CARTEMES\index{CARTEMES}}.  
- As well the  coordinates  X and Y (and Z in the case of a 3-D field map) are normalized by  the
+ As well the  coordinates  X and Y (and Z in the case of 3-D field maps) are normalized by  the
   \textsl{X-[, Y-, Z-]NORM} coefficient (useful to convert to centimeters, the working units in  \zgoubi). 
 
 \medskip
@@ -8376,17 +8401,17 @@ periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) wil
 \subsubsection*{PICKUPS~: \PICKUPSTitl}\label{PICKUPS} \index{PICKUPS|textbf}
 \medskip
 
-\noindent \textsl{PICKUPS} computes the coordinates of the beam centroid, 
-at one or more \LABEL'ed\index{LABEL@{\LABEL}} keyword(s). 
- These coordinates are the average values of the coordinates of the  particles in a bunch. 
-The (list of) \LABEL(s) concerned is specified by the user, as part of the arguments under the keyword  \textsl{PICKUPS}.
+\noindent \textsl{PICKUPS} computes the average values of the coordinates of the  particles in a bunch
+ (coordinates of the bunch centroid)  
+at one or more keywords specified by their {\LABEL}s \index{LABEL@{\LABEL}}. 
+The list of \LABEL(s) concerned is specified by the user, as part of the arguments under the keyword  \textsl{PICKUPS}.
 
 \medskip
 
 \noindent In conjunction with \textsl{REBELOTE}\index{REBELOTE} in the case of a periodic structure, 
-with  \textsl{REBELOTE} thus being used to cause multi-turn tracking, 
-  \textsl{PICKUPS} sums up the coordinates, turn after turn.       \index{closed orbit!computation} 
-
+with  \textsl{REBELOTE} thus being used to cause multi-turn tracking,
+  \textsl{PICKUPS}  are zeroed at start of each turn. 
+ 
 \medskip
 
 \noindent Pickup data computed during \zgou\ execution are stored in the file zgoubi.PICKUP.out, \index{zgoubi.PICKUP.out}
@@ -8394,10 +8419,10 @@ usable for further analysis, or for plotting (for instance, using gnuplot).
 
 \medskip
 
-\noindent A summary of the list of pickups and their individual beam data is performed  and listed 
+\noindent A summary of the list of pickups and their individual bunch data is  listed 
 in the result file zgoubi.res  (below the   \textsl{END}  \index{END} keyword) 
 at the end of \zgou\ execution. It is concluded with statistics as the \rms, minimum and maximum values 
-of the beam centroid data over the ensemble of pickups. 
+of the bunch centroid data over the ensemble of pickups. 
 
 
 

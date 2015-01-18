@@ -83,8 +83,8 @@ C------- Print field map in zgoubi.res
               DO JD=1, ID
                 BREAD(JD) = HC(JD,I,J,K,IMAP)
               ENDDO
-                WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
-     >                               BREAD(2), BREAD(3), BREAD(1)
+              WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
+     >                             BREAD(2), BREAD(3), BREAD(1)
             ENDDO
           ENDDO
 
@@ -370,7 +370,6 @@ C----------- Read the bare map data
 
            DO 33 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
-C             WRITE(*,*)'fmapw R0, radius : ',R0,radius
              DO 33  K = 1,KKZMA      
                KZC = KKZMA-1+K
                Z = DBLE(K-1) * DZ
@@ -449,7 +448,6 @@ C------- symmetrise 3D map wrt mid-plane= bend-plane
               HC(1,J,I,KZS,IMAP) = -HC(1,J,I,KZC,IMAP)
               HC(2,J,I,KZS,IMAP) = -HC(2,J,I,KZC,IMAP) 
               HC(3,J,I,KZS,IMAP) = HC(3,J,I,KZC,IMAP) 
-C              WRITE(*,*)'fmapw j,i,kzs,kzc : ',j,i,kzs,kzc 
  35     CONTINUE
 
 C------- Mesh coordinates
@@ -493,7 +491,6 @@ C------- Mesh coordinates
                  ENDIF
                  BMAX0 = BMAX
                  BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
-C              write(*,*) ' fmapr2 ',BMAX,BREAD(1),BREAD(2),BREAD(3)
                  IF(BMAX.NE.BMAX0) THEN
                    XBMA = TTA
                    YBMA = RADIUS
@@ -518,9 +515,6 @@ C---------------- Watch the sign !! Bx and By multiplied by (-1)
                  HC(2,JTC,I,KZC,IMAP) =   -  BRAD * BNORM
                  HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
 
-c                 write(*,*) ' fmapr2 HC(3,JTC,I,KZC,IMAP) ',
-c     >               BREAD(2) ,    HC(3,JTC,I,KZC,IMAP) ,JTC,I,KZC,IMAP
-c                           stop
 C---------------- In case that non-zero Bx, By in median plane would be prohibitive
                  IF(ZZZ.EQ.0.D0) THEN
                     HC(1,JTC,I,KZC,IMAP) = 0.D0
@@ -573,7 +567,8 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       
-      if( .NOT.ALLOCATED( HCTMP )) 
+
+      IF( .NOT.ALLOCATED( HCTMP )) 
      >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
       IF (IALOC /= 0) 
      >     CALL ENDJOB('SBR FMAPW Not enough memory'//
@@ -726,7 +721,6 @@ C Used for instance for AGS helical snake maps
            jtcnt=0
            ircnt = 0
            kzcnt=0       
-C           write(*,*) 'sbr fmapr3 ixma, kzma, jyma: ',ixma,kzma,jyma 
            DO J=1,JYMA        
              JTC = J
              jtcnt = jtcnt + 1
@@ -925,33 +919,34 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
                    ENDIF
 
                    IF    (MOD2.EQ.1) THEN 
-                     READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K), 
+                     READ(TXT132,FMT='(1X,6E11.2)',ERR=96)  
+     >                                        YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSEIF(MOD2.EQ.2) THEN 
-                     READ(TXT132,FMT='(1X,6E12.2)') YH(J),ZH(I),XH(K), 
+                     READ(TXT132,FMT='(1X,6E12.2)',ERR=96) 
+     >                                        YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSEIF(MOD2.EQ.3) THEN 
-                     READ(TXT132,*) YH(J),ZH(I),XH(K), 
+                     READ(TXT132,*,ERR=96) YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSE
 C-------------------- Default MOD2
                      IF(FMTYP.EQ.'GSI') THEN
-                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
+                       READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
+     >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSEIF(FMTYP.EQ.'LESB3') THEN
-                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
+                       READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
+     >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ELSE
-                       READ(TXT132,*) YH(J),ZH(I),XH(K),  
+                       READ(TXT132,*,ERR=96) YH(J),ZH(I),XH(K),  
 CCCCCCCCCCCCC                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
                      ENDIF
                    ENDIF
-                   write(89,fmt='(1p,6e12.4,6i8)') YH(J),ZH(I),XH(K), 
-     >                BREAD(2),BREAD(3),BREAD(1),j,jyma,i,kz,k,ixma
-c        write(89,*) j,i,k,jyma,KZ,ixma,imap,' J,I,k,jyma,KZ,ixma,imap'
 
-CC----  Manip VAMOS ganil, oct 2001 
+CC----  Manip VAMOS GANIL, oct. 2001 
 C                     YH(J) = YH(J) * 1.D2
 C                     zH(i) = zH(i) * 1.D2
 C                     xH(k) = xH(k) * 1.D2
@@ -1012,41 +1007,32 @@ C------- AGS magnet maps (2D map, half-magnet, symmetrized wrt YZ plane - at 45i
 
            K = 1
            
-           READ(LUN,*) JYMA
+           READ(LUN,*,ERR=96) JYMA
            IF(JYMA.GT.MXY) CALL 
      >       ENDJOB(' SBR fmapw. In PARIZ.H need MXY .ge. ',JYMA)
-           READ(LUN,*) (YH(J),J=1,JYMA)
+           READ(LUN,*,ERR=96) (YH(J),J=1,JYMA)
            DO J=1,JYMA
              YH(J) = YH(J) * YNORM
            ENDDO
 
-           READ(LUN,*) IXMA2
+           READ(LUN,*,ERR=96) IXMA2
            IXMA = 2*IXMA2 - 1
            IF(IXMA.GT.MXX) CALL 
      >       ENDJOB(' SBR fmapw. In PARIZ.H need MXX .ge. ',IXMA)
-           READ(LUN,*) (XH(I),I=1,IXMA2)
+           READ(LUN,*,ERR=96) (XH(I),I=1,IXMA2)
            DO I=1,IXMA2
              XH(I) = XH(I) * XNORM
-C                write(*,*) ' fmapw i, xh : ', i,xh(i)
            ENDDO
            DX = XH(2) - XH(1)
            DO I=IXMA2+1,IXMA
              XH(I) = XH(IXMA2) + DBLE(I-IXMA2)*DX
-C                write(*,*) ' fmapw i, xh : ', i,xh(i)
            ENDDO
 
-C           DO I=1,IXMA
-C                write(*,*) ' fmapw i, xh(i) : ',i, xh(i)  
-C           ENDDO
-
-           READ(LUN,*) NTOT  
+           READ(LUN,*,ERR=96) NTOT  
 
            DO I = 1, IXMA2
-             READ(LUN,FMT='(A132)') TXT132
-C             IF(NRES.GT.0) WRITE(NRES,*) 'Read from field map : ',TXT132
-             READ(LUN,*) (HC(ID,I,J,K,IMAP), J=1,JYMA)
-C             write(*,*) (HC(ID,I,J,K,IMAP), J=1,JYMA)
-C                 stop
+             READ(LUN,FMT='(A132)',ERR=96) TXT132
+             READ(LUN,*,ERR=96) (HC(ID,I,J,K,IMAP), J=1,JYMA)
              DO J = 1, JYMA
                BREAD(3) = HC(ID,I,J,K,IMAP)
                BMAX0 = BMAX
@@ -1098,9 +1084,10 @@ C Used for instance for AGS cold snake = helix+solenoid
                  ircnt = ircnt+1
 
                  IF(BINAR) THEN
-                   READ(LUN)YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
+                   READ(LUN,ERR=96)
+     >             YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
                  ELSE
-                   READ(LUN,*) YH(J),ZH(K),XH(I), 
+                   READ(LUN,*,ERR=96) YH(J),ZH(K),XH(I), 
      >                                    BREAD(2),BREAD(3),BREAD(1)
                  ENDIF
                  BMAX0 = BMAX
@@ -1152,48 +1139,48 @@ C------- Mesh coordinates
            ENDDO
 
 
-               IF    (IFIC.EQ.1) THEN
-                 DO I = 1, IXMA
-                   DO J = 1, JYMA
-                     DO K = 1, KZMA
-                       HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
-                       HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
-                       HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
-                     ENDDO
+           IF    (IFIC.EQ.1) THEN
+             DO I = 1, IXMA
+               DO J = 1, JYMA
+                 DO K = 1, KZMA
+                   HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+                   HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+                   HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+                 ENDDO
+               ENDDO
+             ENDDO
+           ELSE
+             IF    (IFIC.LT.MOD2) THEN
+               DO I = 1, IXMA
+                 DO J = 1, JYMA
+                   DO K = 1, KZMA
+                     HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+     >                 + HCTMP(1,I,J,K,IFIC) 
+                     HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+     >                 + HCTMP(2,I,J,K,IFIC) 
+                     HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+     >                 + HCTMP(3,I,J,K,IFIC) 
                    ENDDO
                  ENDDO
-               ELSE
-                 IF    (IFIC.LT.MOD2) THEN
-                   DO I = 1, IXMA
-                     DO J = 1, JYMA
-                       DO K = 1, KZMA
-                         HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
-     >                     + HCTMP(1,I,J,K,IFIC) 
-                         HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
-     >                     + HCTMP(2,I,J,K,IFIC) 
-                         HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
-     >                     + HCTMP(3,I,J,K,IFIC) 
-                       ENDDO
-                     ENDDO
+               ENDDO
+             ELSEIF(IFIC.EQ.MOD2) THEN
+               DO I = 1, IXMA
+                 DO J = 1, JYMA
+                   DO K = 1, KZMA
+                     HC(1,I,J,K,IMAP) = HC(1,I,J,K,IMAP) 
+     >               + HCTMP(1,I,J,K,IFIC) 
+                     HC(2,I,J,K,IMAP) = HC(2,I,J,K,IMAP) 
+     >               + HCTMP(2,I,J,K,IFIC) 
+                     HC(3,I,J,K,IMAP) = HC(3,I,J,K,IMAP) 
+     >               + HCTMP(3,I,J,K,IFIC) 
                    ENDDO
-                 ELSEIF(IFIC.EQ.MOD2) THEN
-                   DO I = 1, IXMA
-                     DO J = 1, JYMA
-                       DO K = 1, KZMA
-                         HC(1,I,J,K,IMAP) = HC(1,I,J,K,IMAP) 
-     >                     + HCTMP(1,I,J,K,IFIC) 
-                         HC(2,I,J,K,IMAP) = HC(2,I,J,K,IMAP) 
-     >                     + HCTMP(2,I,J,K,IFIC) 
-                         HC(3,I,J,K,IMAP) = HC(3,I,J,K,IMAP) 
-     >                     + HCTMP(3,I,J,K,IFIC) 
-                       ENDDO
-                     ENDDO
-                   ENDDO
-                 ELSE
-                   CALL ENDJOB(
-     >              'SBR toscac. No such possibility IFIC=',IFIC)
-                 ENDIF
-               ENDIF
+                 ENDDO
+               ENDDO
+             ELSE
+               CALL ENDJOB(
+     >         'SBR toscac. No such possibility IFIC=',IFIC)
+             ENDIF
+           ENDIF
 
       ENDIF  
 
@@ -1201,6 +1188,11 @@ C------- Mesh coordinates
         WRITE(NRES,*)' SBR FMAPW/FMAPR3 : completed job of reading map.'
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
+      RETURN
+
+ 96   CONTINUE
+      CALL ENDJOB('Pgm fmapw. Problem reading into field map.'
+     >//' Check field map data formatting',-99)
       RETURN
 
  97   CONTINUE

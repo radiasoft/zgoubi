@@ -881,7 +881,7 @@ c          write(*,*) '****** OBJET : ',xn,xpn,zn,zpn,s,d,' ',let
 
  12   continue
 C On cherche 'PU_average'
-      read(lunR,*,end=18,err=19) txt132
+      read(lunR,fmt='(a)',end=18,err=19) txt132
 c      write(*,*) '                now txt132 is : ', txt132
       if(strcon(txt132,'PU_average',10,
      >                      IS)) then 

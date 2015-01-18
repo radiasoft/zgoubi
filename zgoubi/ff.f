@@ -37,7 +37,7 @@ C  -------
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/UT/ U(6,6), T(6,6,6)
       COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
  
       CHARACTER BLANC*1,AST*10
       PARAMETER (BLANC=' ')
@@ -242,18 +242,22 @@ c                        pause
 c                 write(*,*) 'ff i1 i2 ',NINT(CPAR(I,2)),NINT(CPAR(I,3))
 c                        pause
                  VAL=FITLAV(L,NINT(CPAR(I,2)),NINT(CPAR(I,3)),ZRO)
-               elseif(NINT(CPAR(I,1)) .eq. 3) then
-                 VAL=FITLAV
-     >             (L,NINT(CPAR(I,2)),NINT(CPAR(I,3)),CPAR(I,4))
                endif
              ELSEIF(K.EQ.-2) THEN
 C------------- Constraint on beam : max value of coordinate L
                VAL=FITLMA(L)
              ELSEIF(K.EQ.-3) THEN
-C------------ Constraint : minimze distance between paticles for coord. L
+C------------ Constraint : minimze distance between paticles for coord. L. 
 C             List of particles concerned is entered via parameter list
                CALL DIST2(L,
      >                      VAL)
+             ELSEIF(K.EQ.-4) THEN
+C------------ Constraint : bring distance between bunch centroids at various pickups closest to VAL.
+C             PUs concerned are those included in the range NOELA - NOELB.
+C             What that does : get PU signals for a given coordinate, then 
+C             dist3 computes the sum of the absolute values of the differences between these averages.
+               CALL DIST3(L,nint(CPAR(I,2)),NINT(CPAR(I,3)),
+     >                                                      VAL)
              ENDIF
            ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on closed orbit : 

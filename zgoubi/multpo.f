@@ -97,10 +97,10 @@ C      ERRORS
       SAVE PRNT
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
-      logical idluni
-      logical okopn
-      save okopn, lerr
-      save ipol
+      LOGICAL IDLUNI
+      LOGICAL OKOPN
+      SAVE OKOPN, LERR
+      SAVE IPOL
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
 C      DATA DB / MPOL*0.D0 /
@@ -110,7 +110,7 @@ c      data dtilt / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
       DATA BE / 'B-', 'E-'/
       DATA CASPI / .TRUE. /
       DATA ERRON / .FALSE. /
-      DATA okopn / .FALSE. /
+      DATA OKOPN / .FALSE. /
      
       IER = 0
       SKEW=.FALSE.
@@ -277,30 +277,28 @@ C----- Case erron (errors)
               CALL MULERR(NOEL,IRR,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
-              if(prnt) then
-                call ZGKLE(iq(noel), 
-     >                             KLEy)
-                if(empty(lbl1(irr))) then 
-                  lbl1l = '.'
-                else
-                  lbl1l = lbl1(irr)
-                endif
-                if(empty(lbl2(irr))) then 
-                  lbl2l = '.'
-                else
-                  lbl2l = lbl1(irr)
-                endif
-                write(lerr,fmt='(3(1x,i5),3(1x,a),
-     >          3(1x,e16.8), 1x,e16.8, 6(1x,e16.8), 3(1x,a))') 
-     >          NOEL,IRR,KPOL(IRR,Ipol),
-     >          TYPERR(IRR,Ipol), TYPAR(IRR,Ipol),TYPDIS(IRR,Ipol),
-     >          ERRCEN(IRR,Ipol),ERRSIG(IRR,Ipol),ERRCUT(IRR,Ipol),
-     >               DB(noel,ipol),
-     >          (DPOS(noel,ipol,jj),jj=1,3),(TILT(noel,ipol,jj),jj=1,3),
-     >             kley,lbl1l,lbl2l
-              endif
-
-c                  close(lerr)
+              IF(PRNT .AND. OKOPN) THEN
+                CALL ZGKLE(IQ(NOEL), 
+     >                             KLEY)
+                IF(EMPTY(LBL1(IRR))) THEN 
+                  LBL1L = '.'
+                ELSE
+                  LBL1L = LBL1(IRR)
+                ENDIF
+                IF(EMPTY(LBL2(IRR))) THEN 
+                  LBL2L = '.'
+                ELSE
+                  LBL2L = LBL1(IRR)
+                ENDIF
+                WRITE(LERR,FMT='(3(1X,I5),3(1X,A),
+     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
+     >          NOEL,IRR,KPOL(IRR,IPOL),
+     >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
+     >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
+     >               DB(NOEL,IPOL),
+     >          (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
+     >             KLEY,LBL1L,LBL2L
+              ENDIF
 
               IF(KUASEX .LE. MPOL) THEN
                 BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
@@ -370,7 +368,17 @@ C------- E converted to MeV/cm
           IF(BM(IM).NE.0.D0) BM(IM) = 2.D0*BM(IM)/RO*1.D-6
           RT(IM) = RT(IM) + .5D0*PI/DBLE(IM)
         ENDIF
+
+C--------------------------------------------------------------
+C This write is necessary for the FIT problem 
+C /home/meot/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
+C to work on my dell laptop
+             write(89,*) im,RO, BM(IM)
+             rewind(89)
+C--------------------------------------------------------------
+
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
+
       ENDDO
 
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
@@ -593,9 +601,9 @@ C----- CASE ERRON (ERRORS)
               ENDIF
             ENDDO
            ELSE
-                WRITE(NRES,FMT='(/,15X,
-     >          ''ERRORS WERE SET, ACCOUNTED FOR IN THE FIELDS '', 
-     >          ''ABOVE - MAINTAINDED UNCHANGED SO FAR.'')')
+             WRITE(NRES,FMT='(/,15X,
+     >       ''ERRORS WERE SET, ACCOUNTED FOR IN THE FIELDS '', 
+     >       ''ABOVE - MAINTAINDED UNCHANGED SO FAR.'')')
            ENDIF
           ENDIF
          ENDDO
@@ -706,17 +714,19 @@ C      aK3 = AKS(3)
       IF(PRNT) THEN
         IF(.NOT. OKOPN) THEN
           OK = IDLUNI(
-     >              LERR)
+     >                 LERR)
           OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
-          write(lerr,fmt='(a)') '# Origin of this print: multpo pgm.'
-                write(lerr,fmt='(a)')
-     >  '# NOEL, IRR, KPOL(IRR,Ipol) '
-     >  //'TYPERR(IRR,Ipol), TYPAR(IRR,Ipol),TYPDIS(IRR,Ipol), '
-     >  //'ERRCEN(IRR,Ipol),ERRSIG(IRR,Ipol),ERRCUT(IRR,Ipol), '
-     >  //'DB(noel,ipol), '
-     >  //'(DPOS(noel,ipol,jj),jj=1,3),(TILT(noel,ipol,jj),jj=1,3), '
-     >  //'kley,lbl1l,lbl2l'
-                write(lerr,fmt='(a)') '#'
+          WRITE(LERR,FMT='(A,I,A)') '# Origin of this print : multpo'
+     >    //' program. This file opened with unit # ',LERR,'.'
+          WRITE(LERR,FMT='(A)') '# '
+          WRITE(LERR,FMT='(A)') '# NOEL, IRR, KPOL(IRR,Ipol) '
+     >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
+     >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
+     >    //'DB(NOEL,IPOL), '
+     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '
+     >    //'KLEY, LBL1L, LBL2L'
+          WRITE(LERR,FMT='(A)') '# '
+          OKOPN = .TRUE.
         ENDIF
       ELSE
         IF(OKOPN) CLOSE(LERR)

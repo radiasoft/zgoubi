@@ -18,7 +18,6 @@
 ////////////////  ../gsiKaos/usingDIPOLE-M - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
                                            - new : 
-     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
         
 ////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
@@ -47,7 +46,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -107,6 +106,4 @@
                               dNu_y / dp/p =  4.29909176E+01
                               dNu_z / dp/p = -5.45369658E+01
                           - new : 
-                              dNu_y / dp/p =  4.29909176E+01
-                              dNu_z / dp/p = -5.45369658E+01
         

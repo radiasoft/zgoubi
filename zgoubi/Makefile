@@ -92,6 +92,8 @@ OBJ=\
  dipolm.o\
  dipsi.o\
  dist2.o\
+ dist3.o\
+ dispu.o\
  dlgau.o\
  dpkick.o\
  drtent.o\
@@ -454,6 +456,8 @@ dipi.o: $(INC)/MXLD.H
 dipolm.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 dipsi.o: $(INC)/MXLD.H
 dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dist3.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dispu.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXSCL.H
 el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H

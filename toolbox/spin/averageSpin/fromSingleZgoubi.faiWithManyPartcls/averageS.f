@@ -4,7 +4,7 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       LOGICAL OKOPN, CHANGE
       COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
-      CHARACTER*20 NOMFIC
+      CHARACTER(20) NOMFIC
       logical exs
       LOGICAL IDLUNI, OK
 
@@ -40,7 +40,7 @@ c        ny = 23
       write(*,*) 'nx, ny : ',nx,ny
       write(*,*) 'file : ',nomfic
       write(*,*) '------------------------- '
-      write(*,*) ' '
+      write(*,*) ' ok ?'
 
       nl = nfai
       OPEN(UNIT=nfai,FILE=nomfic)
@@ -80,11 +80,14 @@ c        ny = 23
       DATA OPN / .FALSE. /
       LOGICAL IDLUNI
 
-      parameter (mxpass=999999)
+      parameter (mxpass=99999)
       dimension xvar(mxpass), sum(mxpass,10), nbtraj(mxpass)
 
       DATA HVL / 'Horizontal', 'Vertical', 'Longitudinal' /
     
+c       write(*,*) ' Avant raz, nbtraj(1), i12 : ',nbtraj(1),i12
+c           read(*,*)
+
       call iraz(nbtraj,mxpass)
       if(i12.eq.1) call raz(sum,mxpass*10)
 
@@ -122,14 +125,22 @@ C          OPN = .FALSE.
             CALL STORCO(I12,NL,LM,1  ,BINARY,nx,ny,
      >                              xvar, sum,nbtraj,npass)
 
+c      write(*,*) ' ny, i12, npass  :  ',ny, i12, npass
+c      read(*,*)
+c       write(*,*) ' At do-loop, nbtraj(1), i12 : ',nbtraj(1),i12
+c           read(*,*)
+
         do ipass = 1, npass
           if(ny.eq.25) then 
             if(i12.eq.1) then 
-              sum(ipass,1)= sum(ipass,1)/dble(nbtraj(ipass)) 
+              sum(ipass,1)= sum(ipass,1)/dble(nbtraj(ipass)) ! avrg S_X,_Y,_Z
               sum(ipass,2)= sum(ipass,2)/dble(nbtraj(ipass)) 
               sum(ipass,3)= sum(ipass,3)/dble(nbtraj(ipass)) 
               sqrts = sqrt(
-     >        sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
+     >        sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)  ! avrg |S| 
+
+c             write(*,*) ' averageS nbtraj, |S| ',nbtraj(ipass), sqrts
+c                           read(*,*)
 
               sum(ipass,1)= sum(ipass,1)/sqrts
               sum(ipass,2)= sum(ipass,2)/sqrts
@@ -191,7 +202,7 @@ c     >        //'sigTta, sin2+cos2, # of traj at that pass'
 C     ---------------------------------------------------
 C     Read coordinates from zgoubi output file, and store  
 C     ---------------------------------------------------
-      parameter (mxpass=999999)
+      parameter (mxpass=99999)
       dimension xvar(mxpass), sum(mxpass,10), nbtraj(mxpass)
 
       LOGICAL BINARY
@@ -209,10 +220,14 @@ C     ---------------------------------------------------
       NOC=0
       NRBLT = -1 
 C----- BOUCLE SUR READ FICHIER NL 
+      goto 44
+ 42   continue
+      write(*,*) ' Storco. Out of readco upon 42.'
+      read(*,*)
  44   CONTINUE
 
         CALL READCO(NL,
-     >                 KART,LET,YZXB,NDX,*10,*44)
+     >                 KART,LET,YZXB,NDX,*10,*42)
 
 C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
 
@@ -221,6 +236,10 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
 
         ipass = nint(yzxb(39))
+            
+           write(88,*) ' storco nbtraj(1),ipass,noc :    '
+     >        ,nbtraj(ipass),ipass,noc
+
         xvar(ipass) = yzxb(nx)
 c         write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny,i12
         if(ipass .gt. mxpass) stop ' Increase mxpass !! '
@@ -270,10 +289,10 @@ c                  read(*,*)
         else
           sum(ipass,1) = sum(ipass,1) + yzxb(ny)
         endif
-        nbtraj(ipass) = nbtraj(ipass) + 1
 
-C        IF(NOC.EQ. NPTR) GOTO 10
-
+C        nbtraj(ipass) = nbtraj(ipass) + 1
+        nbtraj(ipass) = noc
+          
       GOTO 44             
 C     ----------------------------------
 
@@ -284,6 +303,9 @@ C     ----------------------------------
 
  10   CONTINUE
       WRITE(6,*) ' READ  OK; END  OF  FILE  ENCOUNTERED'
+
+        write(*,*) ' storco nbtraj, noc : ',nbtraj(ipass) , noc
+c           read(*,*)
 
  11   CONTINUE
       NPASS = NRBLT + 1
@@ -303,8 +325,9 @@ C     ----------------------------------
       ENDIF
 
       WRITE(6,*) ' ',NOC,' points have been stored'
+      return
 
- 96   RETURN                  
+ 96   stop 'Storco : Problem reading header of .fai file.' 
       END
 
       SUBROUTINE READCO(NL,
@@ -313,7 +336,7 @@ C     ----------------------------------
 C     ----------------------------------------------------
 C     Look for and read coordinates, etc. of particle # NT
 C     ----------------------------------------------------
-      CHARACTER*1 LET
+      CHARACTER(1) LET
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
@@ -337,7 +360,9 @@ C     ----------------------------------------------------
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
 
-      CHARACTER*1 KLET, KLETO, KLETI
+      CHARACTER(1) KLET, KLETO, KLETI
+      CHARACTER(1000) TXT1K
+      integer debstr, finstr
 
       SAVE KP1, KP2, KP3, BINARY
       SAVE KL1, KL2
@@ -351,12 +376,13 @@ C     ----------------------------------------------------
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
       DATA KP1, KP2, KP3 / 1, 999999, 1 /
-      parameter (MXT=999999)
-      DATA KT1, KT2 / 1, 999999 /
+      parameter (MXT=999000)
+      DATA KT1, KT2 / 1, 999000 /
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
 
       DATA NOEL1, NOC / -1, 0 /
+      DATA locl, locl2 / 0, 0 /
 
       IF(NL .EQ. NSPN) THEN
       ELSE
@@ -367,6 +393,7 @@ C--------- read in zgoubi.fai type storage file
           IMAX = 0
           IF(BINARY) THEN
  222        CONTINUE
+            locl = locl + 1
             READ(NL,ERR=99,END=10) 
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
@@ -375,24 +402,30 @@ C--------- read in zgoubi.fai type storage file
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
 
-            jpass = ipass
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                                IEND)) GOTO 222
+            locl2 = locl2 + 1
 
+            jpass = ipass
+            kt3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
+     >                             IEND)) GOTO 222
             IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 222
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+     >                                IEND)) GOTO 222
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 222
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
- 21         READ(NL,110,ERR=99,END=10)
+            locl = locl + 1
+            goto 21
+ 219        continue
+            write(*,*) ' -----------------------'
+            write(*,*) ' locl : ',locl
+            stop ' Out of readco at 219'
+            write(*,*) ' -----------------------'
+ 21         READ(NL,fmt='(a)',END=10) TXT1K
+c            write(88,*) locl,locl2, TXT1k(debstr(txt1k):finstr(txt1k))
+
+            READ(TXT1K,110,ERR=99,END=10)
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -401,23 +434,24 @@ C              ENDIF
      >      BORO, IPASS,NOEL, 
      >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
 
+
             INCLUDE "FRMFAI.H"
 
              jpass = ipass
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                                IEND)) GOTO 21
-            IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
-     >                                IEND))  THEN
+            KT3 = 1
 
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 21
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
+     >                             IEND)) GOTO 219
+
+            IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
+     >                                IEND)) GOTO 219
+
             IF(.NOT. OKKL(KL1,KL2,NOEL,
-     >                                IEND)) GOTO 21
+     >                           IEND)) GOTO 219
+
             IF(IEND.EQ.1) GOTO 91
+
+            locl2 = locl2 + 1
 
           ENDIF
 C                write(*,*) ' averageS ',ENEKI, ENERG,ipass,jpass
@@ -438,18 +472,16 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 232
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                                IEND)) GOTO 232
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
+     >                             IEND)) GOTO 232
+
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 232
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
-            IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 232
+
+            IF(.NOT. OKKL(KL1,KL2,NOEL,
+     >                           IEND)) GOTO 232
+
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
@@ -467,18 +499,16 @@ C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF
 
-            IF(.NOT. OKKT(KT1,KT2,IT,KEX,LET,
-     >                                IEND)) GOTO 31
+            KT3 = 1
+            IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
+     >                             IEND)) GOTO 31
+
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 31
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
-            IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 31
+
+            IF(.NOT. OKKL(KL1,KL2,NOEL,
+     >                           IEND)) GOTO 31
+
             IF(IEND.EQ.1) GOTO 91
 
           ENDIF
@@ -636,11 +666,6 @@ C-----------------------------------------------
 
  91   CONTINUE
       write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
       RETURN 1
 
 C------------------ Pass # KP1 to KP2, ipass-modulo KP3
@@ -790,10 +815,16 @@ C----------------------------
       RETURN
 
  10   continue
+        write(*,*) ' Out of READCO upon END=10. locl,locl2, IT : ',
+     >    locl,locl2,IT
+        read(*,*)
         noc = 0
         noel1 = 0
         RETURN 1
  99   continue
+        write(*,*) ' Out of READCO upon ERR=99. locl,locl2, IT : ',
+     >    locl,locl2,IT
+        read(*,*)
         noc = 0
         noel1 = 0
         RETURN 2      
@@ -990,10 +1021,16 @@ C      NOMFIC = 'b_zgoubi.fai'
 
       RETURN
       END
-      FUNCTION OKKT(KT1,KT2,IT,KEX,LET,
+      FUNCTION OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                 IEND)
       LOGICAL OKKT
       CHARACTER*1 LET,KLETO
+      LOGICAL OKKT5
+
+      INCLUDE 'MAXNPT.H'          
+      LOGICAL LOST(NPTMAX)
+      SAVE LOST
+      DATA LOST / NPTMAX* .FALSE. / 
 
       INCLUDE "OKKT.H"
 
@@ -1011,8 +1048,12 @@ C------ Only parent particles (if decay process using MCDESINT) can be plotted
         ENDIF
       ENDIF
 
+      IF(.NOT.LOST(IT)) LOST(IT) = KEX.LE.0
       RETURN
 
+      ENTRY OKKT5(KT)      
+      OKKT5 = .NOT. LOST(KT)
+      RETURN
       END
       SUBROUTINE FLUSH2(IUNIT,BINARY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)   
@@ -1031,10 +1072,14 @@ C------ Only parent particles (if decay process using MCDESINT) can be plotted
       LOGICAL BINAR
       REWIND(NL)
 C------- Swallow the header (4 lines)
-      CALL READC7(BINAR)
+c      write(*,*) ' ////////rewin2 binar : ',binar
+      CALL READC7(
+     >             BINAR)
+c      write(*,*) ' ////////rewin2 binar : ',binar
       CALL HEADER(NL,4,BINAR,*99)
       RETURN
- 99   RETURN 1
+ 99   write(*,*) 'Rewin2 : Problem reading header of .fai file.' 
+      return 1
       END
       FUNCTION IDLUNI(LN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -1117,6 +1162,52 @@ C      WRITE(6,*) ' Header has been read,  ok'
       WRITE(6,*) '        ... Empty file ?'
       RETURN 1
       END
+      SUBROUTINE VVECT(A,B,
+     >                     C)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION A(*),B(*),C(*)
+      C(1) = A(2)*B(3) - A(3)*B(2)
+      C(2) = A(3)*B(1) - A(1)*B(3)
+      C(3) = A(1)*B(2) - A(2)*B(1)
+      RETURN
+      END
+      FUNCTION PSCAL(X,Y)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION X(*),Y(*)
+ 
+      PSCAL=X(1)*Y(1)+X(2)*Y(2)+X(3)*Y(3)
+ 
+      RETURN
+      END
+      FUNCTION DEBSTR(STRING)
+      implicit double precision (a-h,o-z)
+      INTEGER DEBSTR
+      CHARACTER * (*) STRING
+
+C     --------------------------------------
+C     RENVOIE DANS DEBSTR LE RANG DU
+C     1-ER CHARACTER NON BLANC DE STRING,
+C     OU BIEN 0 SI STRING EST VIDE ou BLANC.
+C     --------------------------------------
+
+      DEBSTR=0
+      LENGTH=LEN(STRING)
+C      LENGTH=LEN(STRING)+1
+1     CONTINUE
+        DEBSTR=DEBSTR+1
+C        IF(DEBSTR .EQ. LENGTH) RETURN
+C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
+        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') THEN
+          IF(DEBSTR .EQ. LENGTH) THEN
+            DEBSTR = 0
+            RETURN
+          ELSE
+            GOTO 1
+          ENDIF
+        ENDIF
+
+      RETURN
+      END
       FUNCTION FINSTR(STR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INTEGER FINSTR
@@ -1134,20 +1225,27 @@ C     -----------------------------------
          IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
       RETURN
       END
-      SUBROUTINE VVECT(A,B,
-     >                     C)
+      FUNCTION STRCON(STR,STR2,
+     >                         IS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION A(*),B(*),C(*)
-      C(1) = A(2)*B(3) - A(3)*B(2)
-      C(2) = A(3)*B(1) - A(1)*B(3)
-      C(3) = A(1)*B(2) - A(2)*B(1)
-      RETURN
-      END
-      FUNCTION PSCAL(X,Y)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION X(*),Y(*)
- 
-      PSCAL=X(1)*Y(1)+X(2)*Y(2)+X(3)*Y(3)
- 
+      LOGICAL STRCON
+      CHARACTER STR*(*), STR2*(*)
+C     ---------------------------------------------------------------
+C     .TRUE. if the string STR contains the string STR2 at least once
+C     IS = position of first occurence of STR2 in STR 
+C     (i.e.,STR(IS:IS+LEN(STR2)-1)=STR2)
+C     ---------------------------------------------------------------
+      INTEGER DEBSTR,FINSTR
+      LNG2 = LEN(STR2(DEBSTR(STR2):FINSTR(STR2)))
+      IF(LEN(STR).LT.LNG2) GOTO 1
+      DO I = DEBSTR(STR), FINSTR(STR)-LNG2+1
+        IF( STR(I:I+LNG2-1) .EQ. STR2 ) THEN
+          IS = I 
+          STRCON = .TRUE.
+          RETURN
+        ENDIF
+      ENDDO
+ 1    CONTINUE
+      STRCON = .FALSE.
       RETURN
       END

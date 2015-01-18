@@ -1418,7 +1418,7 @@ c              read(*,*)
 
  12   continue
 C On cherche 'PU_average'
-      read(lunR,*,end=18,err=19) txt300
+      read(lunR,fmt='(a)',end=18,err=19) txt300
 c      write(*,*) '                now txt300 is : ', txt300
       if(strcon(txt300,'PU_average',10,
      >                      IS)) then 

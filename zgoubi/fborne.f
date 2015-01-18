@@ -32,7 +32,7 @@ C  -------
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       COMMON /VAR/ X(3*MXV),P(MXV)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       DO I=1,NV
 C FM, Dec.2002, for fit of longitudinal ellipses out of pi-collect channel
 C            P(I)=ABS(DX(I)*X(I)/10.D0) +.01  replaced by

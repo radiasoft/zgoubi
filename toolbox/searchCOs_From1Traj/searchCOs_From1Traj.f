@@ -18,6 +18,7 @@ C zgoubi.dat, look for nCO precise co's
       logical gtText
       character(132) titl, titl0
       character(1) rep
+      logical exs
 
       data okpart / .false. /
  
@@ -39,11 +40,11 @@ C      call system('ln -sf lattice.data searchCO.data')
       call readat(lunIn,'searchCO.data', 
      >                 kaseV,nCO,T1,T2,precX,precXp,titl,ierr)
       if(ierr.eq.3) then
-        write(*,*) '  Failed to open searchCO.data '
+        write(6,*) '  Failed to open searchCO.data '
       elseif(ierr.eq.2) then
-        write(*,*) '  Failed to read data from searchCO.data '
+        write(6,*) '  Failed to read data from searchCO.data '
       elseif(ierr.eq.1) then
-        write(*,*) '  EOF reached in searchCO.data '
+        write(6,*) '  EOF reached in searchCO.data '
       endif
       if(ierr.gt.1) then 
         titl = titl0
@@ -53,15 +54,15 @@ C      call system('ln -sf lattice.data searchCO.data')
         T2 = T20
         precX = precX0
         precXp = precXp0
-        write(*,*)  ' (beware : case dependent input) '
-        write(*,*)  '  kaseV = 0 or 1 (w/ or w/o vertical motion)'
-        write(*,*)  '  nCO = ',nCO,' a few units (nb of co-s)'
-        write(*,*)  '  T1 = ',T1,' initial energy (eV)'
-        write(*,*)  '  T2 = ',T2,' final energy (eV)'
-        write(*,*)  '  precX = ',precX
-        write(*,*)  '  precXp = ',precXp
-        write(*,*) ' ok (y/n, default is "y") ? '
-        write(*,*) ' Otherwise edit and update the '//
+        write(6,*)  ' (beware : case dependent input) '
+        write(6,*)  '  kaseV = 0 or 1 (w/ or w/o vertical motion)'
+        write(6,*)  '  nCO = ',nCO,' a few units (nb of co-s)'
+        write(6,*)  '  T1 = ',T1,' initial energy (eV)'
+        write(6,*)  '  T2 = ',T2,' final energy (eV)'
+        write(6,*)  '  precX = ',precX
+        write(6,*)  '  precXp = ',precXp
+        write(6,*) ' ok (y/n, default is "y") ? '
+        write(6,*) ' Otherwise edit and update the '//
      >  'searchCO.data file just created' 
         rep = 'y'
 c        read(*,fmt='(a)',err=77,end=77) rep
@@ -83,7 +84,11 @@ c        read(*,fmt='(a)',err=77,end=77) rep
 
       if(rep .eq. 'n' .or. rep .eq. 'N') stop 
 C-----------------------------
-      open(unit=lunR,file='zgoubi_searchCO-In.dat')
+      INQUIRE(file='zgoubi_searchCO_from1Traj-In.dat',exist=exs)
+      if(.not. exs) stop
+     >'Need zgoubi_searchCO_from1Traj-In.dat file (containing 1st '
+     >//'traj (T1 energy) near closed orbit).'
+      open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
 
       cl9 =  2.99792458D8 / 1.d9
       QE =  1.602176487D-19      !!!!1.602e-19
@@ -109,7 +114,7 @@ C Read till "KOBJ"
           read(lunR,fmt='(a)') txt132
           write(lunW,*) txt132(debstr(txt132):finstr(txt132))
           read(txt132,*) BORO
-          write(*,*) ' Reference rigidity BRho = ',BORO/1000.d0,' T.m' 
+          write(6,*) ' Reference rigidity BRho = ',BORO/1000.d0,' T.m' 
           read(lunR,*) kobj
 
 C          if(kobj.ne.2)  stop '  OBJET must be type KOBJ=2 '
@@ -134,10 +139,11 @@ C          if(kobj.ne.2)  stop '  OBJET must be type KOBJ=2 '
 C Read till "IMAX IMAXT"
             read(lunR,*) imax, imaxt
             if(imax.gt.1) stop ' Give just one co in .dat file. ...'
-            if(imax.lt.1) stop ' No  co in zgoubi_searchCO-In.dat !!'
+            if(imax.lt.1) 
+     >      stop ' No  co in zgoubi_searchCO_from1Traj-In.dat !!'
             txt132 = ' 1  1'
             write(lunW,*) txt132(debstr(txt132):finstr(txt132))
-C Read all initial traj present in zgoubi_searchCO-In.dat
+C Read all initial traj present in zgoubi_searchCO_from1Traj-In.dat
             do i=1,imax
               read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
 c              write(*,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
@@ -156,7 +162,7 @@ C Retains only traj #1
             write(lunW,fmt='(1p,2(e14.6,1x),2(e9.1,1x),e9.1,1x
      >      ,e14.7,1x,4a,i4)') 
      >      xj,xpj,z(1),zp(1),s(1),dj,' ','''',let(1),'''',jo
-            write(*,fmt='(1p,2(e14.6,1x),2(e9.1,1x),e9.1,1x
+            write(6,fmt='(1p,2(e14.6,1x),2(e9.1,1x),e9.1,1x
      >      ,e14.7,1x,4a,i4)') 
      >      xj,xpj,z(1),zp(1),s(1),dj,' ','''',let(1),'''',jo           
           write(6,*)
@@ -170,7 +176,7 @@ C Jump to the next keyword
      >                         txt132)
         backspace(lunR)
 
-C Complete zgoubi.dat with the rest of zgoubi_searchCO-In.dat
+C Complete zgoubi.dat with the rest of zgoubi_searchCO_from1Traj-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
 c            write(*,*) txt132(debstr(txt132):finstr(txt132))               
@@ -340,7 +346,7 @@ c           if(TT.lt. .999999*T1) goto 60
       close(lunR)
 
 Create  zgoubi_searchCO-Out.dat  containing computed closed orbits
-      open(unit=lunR,file='zgoubi_searchCO-In.dat')
+      open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
       open(unit=lunW,file='zgoubi_searchCO-Out.dat')
 C Read/write till "KOBJ"
         read(lunR,fmt='(a)') txt132
@@ -370,7 +376,7 @@ C Makes the new line of 1s
           write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
         enddo
         read(lunR,fmt='(a)',end=62) txt132
-C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
+C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO_from1Traj-In.dat
  61   continue
         read(lunR,fmt='(a)',end=62) txt132
         write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
@@ -408,9 +414,9 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
  62   close(lunR)
       close(lunW)
 
-      write(*,*) ' '
-      write(*,*) '--------------'
-      write(*,fmt='(a,i7,a,i7,a)') 'zgoubi_searchCO-Out.dat contains ',
+      write(6,*) ' '
+      write(6,*) '--------------'
+      write(6,fmt='(a,i7,a,i7,a)') 'zgoubi_searchCO-Out.dat contains ',
      >jok,' co''s below (over ',nCO,' trajectories launched) :'
       do j=1,jok
         pj = pRef * (1.d0+clorb(6,j))
@@ -421,7 +427,7 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
      >  clorb(5,j), 1.d0+clorb(6,j), 
      >    ' ','''',let(1),''' ',pj,' MeV/c, ',Tj/10.,' MeV ',j
       enddo
-      write(*,*) ' '
+      write(6,*) ' '
       if(first) then
         call system('mv -f searchCO.out_COs  searchCO.out_COs_old')
         first = .false.
@@ -446,7 +452,7 @@ C     >        e13.5, e16.8, 4a, f16.6, a, 2e12.4)')
       call system('rm searchCO.temp')
 
 Create zgoubi_searchCO-Out_MATRIX.dat including MATRIX and containing closed orbits
-      open(unit=lunR,file='zgoubi_searchCO-In.dat')
+      open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
       open(unit=lunW,file='zgoubi_searchCO-Out_MATRIX.dat')
 C Read/write till "KOBJ"
         read(lunR,fmt='(a)') txt132
@@ -494,7 +500,7 @@ C Write all co coordinates (clorb(i,j)) into zgoubi_searchCO-Out_MATRIX.dat
 C Get rid of '1  1  1 ...'
           read(lunR,fmt='(a)') txt132
 
-C Completes zgoubi_searchCO-Out_MATRIX.dat with the rest of zgoubi_searchCO-In.dat
+C Completes zgoubi_searchCO-Out_MATRIX.dat with the rest of zgoubi_searchCO_from1Traj-In.dat
 C except for introducing MATRIX
  611    continue
         read(lunR,fmt='(a132)',end=621,err=621) txt132
@@ -543,7 +549,7 @@ C except for introducing MATRIX
       close(lunW)
 
 Create zgoubi_searchCO-Out_periodicParam.dat 
-      open(unit=lunR,file='zgoubi_searchCO-In.dat')
+      open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
       open(unit=lunW,file='zgoubi_searchCO-Out_periodicParam.dat')
 C Read/write till "KOBJ"
         read(lunR,fmt='(a)') txt132
@@ -592,7 +598,7 @@ C Write all co coordinates (clorb(i,j)) and +/- samples
 C Write ' 1 1 1 1 1 ...'
         read(lunR,fmt='(a)',end=721,err=721) txt132
         write(lunW,*) ('1 ',i=1,3*jok)    
-C Completes zgoubi_searchCO-Out_periodicParam.dat with the rest of zgoubi_searchCO-In.dat
+C Completes zgoubi_searchCO-Out_periodicParam.dat with the rest of zgoubi_searchCO_from1Traj-In.dat
  711    continue
         read(lunR,fmt='(a)',end=721,err=721) txt132
 
@@ -634,7 +640,7 @@ C Completes zgoubi_searchCO-Out_periodicParam.dat with the rest of zgoubi_search
       close(lunW)
 
 Create zgoubi_searchCO-Out_TrkFourier.dat 
-      open(unit=lunR,file='zgoubi_searchCO-In.dat')
+      open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
       open(unit=lunW,file='zgoubi_searchCO-Out_TrkFourier.dat')
 C Read/write till "KOBJ"
         read(lunR,fmt='(a)') txt132
@@ -693,7 +699,7 @@ C Write ' 1 1 1 1 1 ...'
         write(lunW,*) '''FAISCEAU'''
         write(lunW,*) '''MARKER''  #S'
 
-C Completes zgoubi_searchCO-Out_TrkFourier.dat  with the rest of zgoubi_searchCO-In.dat
+C Completes zgoubi_searchCO-Out_TrkFourier.dat  with the rest of zgoubi_searchCO_from1Traj-In.dat
  811    continue
         read(lunR,fmt='(a132)',end=821,err=821) txt132
 
@@ -870,6 +876,7 @@ C Get initial Traj coord, and average orbit, from zgoubi.res
       call getPUs_Av(
      >       x,xp,z,zp,s,d,t,let,xav,xpav,zav,zpav,sav,dav,tav,kex)
       existCO = kex.eq.1
+             write(6,*) ' searchCOs_from1Traj ' ,existCO
       if(existCO) then
 C        iter = 1
         write(6,*) 
@@ -930,7 +937,7 @@ C Write best co coordinates
         read(lunR,fmt='(a)') txt132
         write(lunW,fmt='(1p,2e14.6,2e9.1,e9.1,e16.8,4a,i4)') 
      >    xn,xpn,zn,zpn,sn,d,' ','''',let,''' ',jo
-        write(*,fmt='(1p,a,2e14.6,2e9.1,e9.1,e16.8,4a,i4)') 
+        write(6,fmt='(1p,a,2e14.6,2e9.1,e9.1,e16.8,4a,i4)') 
      >   ' New object : ', xn,xpn,zn,zpn,sn,d,' ','''','A','''',jo
 C Completes zgoubi.dat with the rest of searchCO.temp2
  1    continue
@@ -983,8 +990,8 @@ C On cherche la 1ere traj.
           read(lunR,*,end=18,err=19) txt132
           read(lunR,*,end=18,err=19) txt132
 C Read trajectory
-          read(lunR,*) xn,xpn,zn,zpn,sn,dn,let
-c          write(*,*) '****** OBJET : ',xn,xpn,zn,zpn,s,d,' ',let
+          read(lunR,*,end=18,err=19) xn,xpn,zn,zpn,sn,dn,let
+
         else
           goto 10
         endif
@@ -992,7 +999,7 @@ c          write(*,*) '****** OBJET : ',xn,xpn,zn,zpn,s,d,' ',let
 
  12   continue
 C On cherche 'PU_average'
-      read(lunR,*,end=18,err=19) txt132
+      read(lunR,fmt='(a)',end=18,err=19) txt132
 c      write(*,*) '                now txt132 is : ', txt132
       if(strcon(txt132,'PU_average',10,
      >                      IS)) then 
@@ -1016,8 +1023,8 @@ C read units are :                 cm  mrd  cm  mrd  cm      mu_s
  90     continue
         write(6,*)  ' ' 
         write(6,*)  '----------' 
-        write(*,*) '  Objet was : ',xn, xpn, zn, zpn, dn
-        write(*,*) '  PU gives  : ',xav,xpav,zav,zpav,sav,dav,tav
+        write(6,*) '  Objet was : ',xn, xpn, zn, zpn, dn
+        write(6,*) '  PU gives  : ',xav,xpav,zav,zpav,sav,dav,tav
         write(6,*)  ' ' 
         write(6,*)  ' ' 
         kex = 1
@@ -1129,14 +1136,14 @@ C     -----------------------------------------------------
       goto 10
 
  99   continue
-      write(*,*) ' PGM getATMDATA/gtText - 99 upon read.' 
-      write(*,*) ' text was : ',txt(debstr(txt):finstr(txt))
+      write(6,*) ' PGM getATMDATA/gtText - 99 upon read.' 
+      write(6,*) ' text was : ',txt(debstr(txt):finstr(txt))
       gtText = .false.
       goto 10
 
  98   continue
-      write(*,*) ' PGM getATMDATA/gtText - EOF upon read.' 
-      write(*,*) ' text was : ',txt(debstr(txt):finstr(txt))
+      write(6,*) ' PGM getATMDATA/gtText - EOF upon read.' 
+      write(6,*) ' text was : ',txt(debstr(txt):finstr(txt))
       gtText = .false.
       goto 10
 

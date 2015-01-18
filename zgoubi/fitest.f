@@ -35,7 +35,7 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (MXV=60) 
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT1=1) 
@@ -151,7 +151,7 @@ c                    read(*,*)
       ELSE
         IF(NRES.GT.0) WRITE(NRES,FMT=
      >  '(/,20X,''Final FIT status will NOT be saved. For so, use the'',
-     >   '' ''''SAVFT'''' command'')')
+     >   '' ''''save [FileName]'''' command'')')
       ENDIF
 
       RETURN    

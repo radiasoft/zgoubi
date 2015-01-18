@@ -34,8 +34,8 @@ C  -------
       IF    (IOPT .EQ. 1) THEN
 
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
- 100    FORMAT(/,1X,'Brute record at pick-ups :',/,
-     >  2X,'PU#',T15,'Pos',T29,'S_Yco',T41,'S_Tco',T54,'S_Zco',T67,
+ 100    FORMAT('# Brute record at pick-ups :',/,
+     >  '# PU#',T15,'Pos',T29,'S_Yco',T41,'S_Tco',T54,'S_Zco',T67,
      >  'S_Pco',T80,'S_L',T93,'D',T106,'S_t',
      >  T118,' #part ',T126,'Pass#',T224,'Lmnt#',
      >  /,T15,'(cm)',T29,'(cm)',T41,'(mrad)',T54,'(cm)',T67,'(mrad)',
@@ -76,7 +76,7 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
 C Careful before changing output format : 
 C - some post-processor use it
 C - they may need high prec.!
-        WRITE(LUN,FMT= '(/,1X,''PU_average (over partcl and pass) : '',
+        WRITE(LUN,FMT= '(/,''# PU_average (over partcl and pass #) : '',
      >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
      >  T74,''path-L'',T90,''D'',T105,''time'', 
      >  /,2X,1P,7E16.8,/)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)

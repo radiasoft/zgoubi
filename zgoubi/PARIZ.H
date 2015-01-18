@@ -103,19 +103,20 @@ CC D5 IPM magnet in bare AGS.
 c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=1801, MXY=41)
 
+      PARAMETER (IZ=61 , ID=3, MMAP=4)
+      PARAMETER (MXX=1001, MXY=150)
+
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-      PARAMETER (IZ=61 , ID=3, MMAP=8)
+c      PARAMETER (IZ=61 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
 c      PARAMETER (IZ=29 , ID=3, MMAP=8)
 CCCCCCCCCCCC      PARAMETER (MXX=1001, MXY=61)
-C      PARAMETER (MXX=801, MXY=29)
-C      PARAMETER (MXX=1001, MXY=61)
 c       compatible gsi_kaos
 C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet
-      PARAMETER (MXX=1601, MXY=200)
+c      PARAMETER (MXX=1601, MXY=200)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
 C AGS ----------------------------------------------------
 

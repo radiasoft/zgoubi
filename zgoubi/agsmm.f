@@ -263,12 +263,11 @@ C-------
           WRITE(NRES,FMT='(15X,''Mode 2 = '',I2,'',  '',A)') MODBW,TXT30
 
           DO IBLW = 1, NBLW
+c            WRITE(NRES,*) 'Backleg winding #, # of turns, current : ',
+c     >      IBLW, NINT(WN(IBLW)), WA(IBLW)
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
- 109        FORMAT(18X,'Backleg winding # ',I1,',  Nbr of turns : '
-     >      ,I2,',  current in that winding : ',1p,e15.6,' A')      
-c       if(noel.eq.456)
-c     >     write(87,*)
-c     >     ' agsmm i/nbw, wn,  wa ',iblw,'/',nblw,wn(iblw),wa(iblw)
+ 109        FORMAT(18X,'Backleg winding # ',I2,',  Nbr of turns : '
+     >      ,I3,',  current in that winding : ',1P,E16.6,' A')      
           ENDDO
         ENDIF
         ELSE

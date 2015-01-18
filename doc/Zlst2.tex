@@ -1796,18 +1796,19 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
      \> (UNDER DEVELOPMENT)\\
  \\
  \\
- \textsl{ONF, NBR, SEED}      \> On/off switch (0/1)~; number of error sets to be injected (\ie,   \> 3*no dim. \> 3*I \\
+ \textsl{ONF, NBR, SEED [, PRINT]}      \> On/off switch (0/1)~; number of error sets to be injected (\ie,   \> 3*no dim. [, -] \> 3*I [,A] \\
                               \> as well, number of lines  following this one)~; random seed. \> \> \\
+                              \> Occurence of \textsl{PRINT} will save error series in zgoubi.ERRORS.out. \> \> \\
  \\
  \textbf{The next line depends on the optical element of concern, and is to be one of the following~: } \\
 \textbf{(only one possibility at the moment, namely \textsl{MULTIPOL} keyword) } \\
 \\
- \textsl{MULTIPOL[{LBL1 [,LBL2]}]}, \> Keyword concerned [optionally, first and/or second label, so to  discriminate \>   \>A80,   \\
-\textsl{N, TYP, AR, UG,} \>between all occurences in the zgobui.dat sequence]~; N=1-10~: pole  concerned \> \>I, A2, A1, \\
+ \textsl{MULTIPOL[{LBL1 [,LBL2]}]}, \> Keyword concerned [optionally, first and/or second label, so to  discriminate \> \>A [,A[,A]],  \\
+\textsl{N, TYP, AR, UG,} \>between all occurences in the zgoubi.dat sequence]~; N=1-10~: pole  concerned \> \>I, A2, A1, \\
 \textsl{VC, HW, CUTOFF} \>(dipole to 20-pole)~; TYP= BP~: field at pole~; AR=A or R~: field value is  absolute \> \> A1, 3*E  \\
-                        \> or relative (to present one)~; UG=U or G~: uniform or Gaussian random law~; VC=  \> \> \\
-                        \> central value~; HW= half-width (case UG=U) or sigma (case UG=G)~; cut-off value in \\
-                        \> units of sigma (unused in uniform case) \\
+                        \> or relative (to present one)~; UG=U or G~: uniform or Gaussian random law~;  \> \> \\
+                        \> VC= central value~; HW= half-width (case UG=U) or sigma (case UG=G)~; \\
+                        \> cut-off value in units of sigma (unused in uniform case) \\
 \\
 \end{tabbing}
 
@@ -3471,7 +3472,7 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 \begin{tabbing}
 \mestab
 \textbf{PICKUPS}         \label{PICKUPS-B} \index{PICKUPS|textbf}         \> \textbf{\PICKUPSTitl}  \> \> \\
- \> \textbf{Summation of particles coordinates at pickups are printed out in zgoubi.PICKUP.out.} \> \>  \\
+ \> \textbf{Summation of particles coordinates at pickups may be printed out in zgoubi.PICKUP.out.} \> \>  \\
  \> \textbf{Pickup contents are zeroed at start of each pass, in multi-turn mode.} \> \>  \\
  \\
  \\

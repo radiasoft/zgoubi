@@ -90,7 +90,6 @@ C--------- read in zgoubi.spn type storage file
           IF(BINARY) THEN
  111         CONTINUE
             READ(NL,ERR=111,END=10) 
-C            READ(NL,ERR=99,END=10) 
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL,KLEY,LBL1,LBL2,LET
 
@@ -163,7 +162,6 @@ C--------- read in zgoubi.fai type storage file
           IF(BINARY) THEN
  222        CONTINUE
             READ(NL,ERR=222,END=10) 
-C            READ(NL,ERR=99,END=10) 
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -188,7 +186,6 @@ C              ENDIF
           ELSE
  21         CONTINUE
             READ(NL,110,ERR=21,END=10)
-C 21         READ(NL,110,ERR=99,END=10)
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),

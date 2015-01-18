@@ -1,0 +1,5 @@
+
+(cd fromSingleZgoubi.faiWithManyPartcls ; gfortran -o averageS averageS.f)
+
+
+

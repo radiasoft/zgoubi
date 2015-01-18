@@ -38,7 +38,7 @@ C     ***************************************
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
 
       CHARACTER(132) TXT132
       LOGICAL STRCON, CMMNT, FITFNL
@@ -167,6 +167,8 @@ C--------- Traj coord
           IF    (I1(I).EQ.-1)  THEN
           ELSEIF(I1(I).EQ.-3)  THEN
             CALL DIST2W(CPAR(I,2), CPAR(I,3), CPAR(I,4))
+          ELSEIF(I1(I).EQ.-4)  THEN
+            CALL DISPU2(CPAR,I)
           ENDIF
         ELSEIF(IC(I).EQ.5) THEN 
 C--------- Numb. particls

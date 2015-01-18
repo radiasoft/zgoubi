@@ -71,17 +71,16 @@ C     .. PARAMETRE ELLIPSES
       RMB(4)=A(NOEL,64)
       RMB(6)=A(NOEL,74)
 
-      if   (knrm .eq. 0) then
-        EPST(2)=EPS(2)
-        EPST(4)=EPS(4)
-        EPST(6)=EPS(6)
-      ELSEif(knrm .eq. 1) then
+      IF    (KNRM .EQ. 1) THEN
         EPST(2)=EPS(2) / CENTRE(1) 
         EPST(4)=EPS(4) / CENTRE(1) 
         EPST(6)=EPS(6) / CENTRE(1) 
       ELSE
-        CALL ENDJOB('Pgm mcobj3. Sorry, no such option KNRM = ',KNRM)
-      endif 
+        EPST(2)=EPS(2)
+        EPST(4)=EPS(4)
+        EPST(6)=EPS(6)
+      ENDIF 
+
 C----- LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE SI REBELOTE)
 C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN
@@ -103,7 +102,12 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
      >  ,/,11X,' vertical      ( Zo, Po ):',T50,   2G12.4
      >  ,/,11X,' longitudinal  ( Xo, Do ):',T50,   2G12.4,/)
  
-        WRITE(NRES,109) (ALP(J),BET(J),EPS(J),RMA(J),RMB(J),J=2,6,2)
+        IF(KNRM .EQ. 1) 
+     >  WRITE(NRES,FMT='(A,/)') ' Transverse emittances as declared are'
+     >  //' assumed normalized to BORO. Actual geometrical emittances '
+     >  //' below drawn by changing  epsilon -> epsilon/(central p/p0).'
+
+        WRITE(NRES,109) (ALP(J),BET(J),EPST(J),RMA(J),RMB(J),J=2,6,2)
  109    FORMAT(/,15X,
      >  ' Alpha (rad), Beta(m/rad), E/pi(m.rad), Cut-off(*BetEps/pi) :'
      >  ,/,11X,' horizontal    :',T35,1P,3G12.4,G10.2,' (',G10.2,')'
@@ -120,14 +124,14 @@ C MXJ1=6 ; J : 2,4,6 -> Y,Z,s
 C------- J1 : 3,5,7(1) -> T,P,D
         J1=J+1
         IF(J1.EQ.MXJ) J1=1 
-        IF(EPS(J).EQ.0.D0) THEN
+        IF(EPST(J).EQ.0.D0) THEN
           DO I=IMI,IMA
             FO(J ,I)=0.D0
             FO(J1,I)=0.D0
           ENDDO
         ELSE
-          REB=SQRT( EPS(J)*BET(J) )
-          REBM=SQRT(RMA(J)*EPS(J)*BET(J))
+          REB=SQRT( EPST(J)*BET(J) )
+          REBM=SQRT(RMA(J)*EPST(J)*BET(J))
 C          RM = RMA(J)*REB
           DO I=IMI,IMA
 
@@ -149,7 +153,7 @@ C                DP/P, X
                 X = R*SIGN
                 FO(J ,I) = X/UNIT(J-1)
                 R=RNDM()*
-     >            SQRT(RMA(J)*EPS(J)*(1.D0+ALP(J))**2/BET(J))
+     >            SQRT(RMA(J)*EPST(J)*(1.D0+ALP(J))**2/BET(J))
                 SIGN =  1.D0 
                 IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
@@ -190,7 +194,7 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
 
               AXB = ALP(J)*X/BET(J)
               GAM = (1.D0 + ALP(J)*ALP(J))/ BET(J)
-              DXM = AXB*AXB - (GAM*X*X - EPS(J))/BET(J)
+              DXM = AXB*AXB - (GAM*X*X - EPST(J))/BET(J)
               IF(DXM .LT. 0.D0) GOTO 7
               DXM = SQRT( DXM )
               XM = -AXB

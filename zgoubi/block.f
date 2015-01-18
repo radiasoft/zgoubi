@@ -60,7 +60,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       COMMON/UNITS/ UNIT(MXJ)
       PARAMETER (MXV=60) 
       COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,7)
+     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
  
       PARAMETER (MDR3= 3*MDR)
     
@@ -86,7 +86,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       DATA NRBLT,IPASS/ 0, 1/
       DATA DPREF / 1.D0 /
       DATA KPAS / 0 /
-      DATA CPAR / 420*0.D0 /
+      DATA CPAR / 1620*0.D0 /
       DATA IDMAX / 1 /
 
 C----- To yield MKSA units : 

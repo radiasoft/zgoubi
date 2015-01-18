@@ -32,20 +32,30 @@ C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (MXPUD=9,MXPU=5000)
       COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) PULAB
       PARAMETER (MPULAB=5)
-      CHARACTER(10) PULAB
       COMMON/COT/ PULAB(MPULAB)
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      CHARACTER(80) TITRE
-      COMMON/TITR/ TITRE 
        
-      LOGICAL IDLUNI, OPN, OPNO
+      LOGICAL IDLUNI, OPN
       SAVE OPN, KPCKUP
       LOGICAL FITING
+      INTEGER DEBSTR, FINSTR
  
       DATA OPN / .FALSE. /
+
+      NPU = NINT(A(NOEL,1))
+      IF(NPU .GE. 1) THEN
+        KCO = 1
+      ELSE
+        KCO = 0
+      ENDIF
+      OPN = NINT(A(NOEL,2)) .EQ. 1
 
       KPCKUP = 1
 
@@ -57,18 +67,13 @@ C     -----------------------------------------------------
       ENDIF
 
       IF(NRES .GT. 0) THEN
-        IF(KCO .EQ. 1) THEN
-          WRITE(NRES,110) 
- 110      FORMAT(/,10X,' Pick-up  signal  calculation  requested')
-
-          WRITE(NRES,111) 
- 111      FORMAT(/,15X,' Particle coordinates will be averaged',
-     >      1X,'at elements labeled:')
-          WRITE(NRES,112) (PULAB(I), I=1,NPU) 
- 112      FORMAT(20X,A)
-        ELSE
-          WRITE(NRES,FMT='(/,10X,''Pick-up signal calculation *OFF*'')')
-        ENDIF
+        WRITE(NRES,110) 
+ 110    FORMAT(/,10X,' Pick-up  signal  calculation  requested')
+        WRITE(NRES,111) 
+ 111    FORMAT(/,15X,' Particle coordinates will be averaged',
+     >    1X,'at elements labeled:')
+        WRITE(NRES,112) (PULAB(I), I=1,NPU) 
+ 112    FORMAT(20X,A)
       ENDIF
 
       CALL FITSTA(5,
@@ -99,9 +104,8 @@ C     -----------------------------------------------------
           ENDIF 
  11       CONTINUE
 
-          WRITE(NFPU,FMT='(A15,A40,5(1X,A10))') ' Pick-ups',
-     >    ' - storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
-          WRITE(NFPU,FMT='(A80)') TITRE
+          WRITE(NFPU,FMT='(A,A,5(1X,A10))') '# PICKUPS ',
+     >    '- storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
         ENDIF
       ENDIF
 
@@ -121,11 +125,6 @@ C      IPU = 0
       ENTRY PICKU1(
      >             KPU)
       KPU = KPCKUP
-      RETURN
-
-      ENTRY PICKU3(
-     >             OPNO)
-      OPNO = OPN
       RETURN
 
       END

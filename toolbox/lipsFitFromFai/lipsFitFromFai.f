@@ -597,8 +597,19 @@ C            ENDIF
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS,NOEL, 
      >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
-C     >      KLEY,LBL1,LBL2,LET
+
             INCLUDE "FRMFAI.H"
+
+c               write(*,*) ' lipsfromfai ',KT1,KT2,KT3,IT,KEX
+c               write(*,*) '             ',KP1,KP2,KP3,IPASS
+c               write(*,*) '             ',KL1,KL2,NOEL
+c               write(*,*) OKKT(KT1,KT2,KT3,IT,KEX,LET,
+c     >                             IEND),
+c     >                     OKKP(KP1,KP2,KP3,IPASS,
+c     >                                IEND),
+c     >                    OKKL(KL1,KL2,NOEL,
+c     >                           IEND)
+
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 21
@@ -654,8 +665,7 @@ C            ENDIF
      8                                            TX1,LET,TX1
 C     >      KLEY,LBL1,LBL2,LET
             INCLUDE "FRMPLT.H"
-CCCCCCCCCCC           if(it.eq.1) yref = f(2)
-
+CCCCCCCCCCC           if(it.eq.1) yref = f(2)                   
 C            IF(LM .NE. -1) THEN
 C              IF(LM .NE. NOEL) GOTO 31
 C            ENDIF

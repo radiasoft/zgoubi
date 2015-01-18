@@ -116,10 +116,13 @@ C----- PLOT SPECTRUM
                 GOTO 698
               ENDIF
             ELSE
+             call system('\cp fromBFai2Fai.out fromBFai2Fai.out_save')
+             call system('rm -f fromBFai2Fai.out')
              WRITE(6,FMT='(A)') ' file fromBFai2Fai.out'
-     >       //' already exists. Save it and relaunch.'
+     >       //' already exists. Saved it under fromBFai2Fai_save.'
              READ(*,*)
-             STOP ' Pgm fromBFai2Fai. '
+C             STOP ' Pgm fromBFai2Fai. '
+             goto 6
             ENDIF
           ENDIF
         ENDIF

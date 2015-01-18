@@ -1447,7 +1447,12 @@ C Current elmnt #
 C KLEY[IKL]
       ENTRY ZGKLE(IKL, 
      >                KLEO)
-      KLEO = KLE(IKL)
+      IF(IKL.LE.0) THEN
+        KLEO = 'UnknownKLE'
+      ELSE
+        KLEO = KLE(IKL)
+      ENDIF
+C      KLEO = KLE(IKL)
       RETURN
       ENTRY ZGMXL( 
      >            NBLMNO)

@@ -49,19 +49,26 @@ C     -----------------------------------------------------
       DIMENSION FPUL(MXPUD,MXPU), FPUL2(MXPUD-2,MXPU), NOELPU(MXPU)
       SAVE FPUL, FPUL2, NOELPU
 
-      DIMENSION TBT(2,MXPU)
-      SAVE TBT
+      PARAMETER (I4 = 4)
+      DIMENSION TBT(I4,MXPU),iqpu(mxl)
+      SAVE TBT, iqpu
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLOBJ
 
       CHARACTER(KSIZ) KLEO
+      LOGICAL CHKPU
+
       DATA NOELPU / MXPU*0 /
+      DATA CHKPU / .TRUE. /
 
 C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
       IPU = IPU + 1
 
-      IF(IPASS.EQ.1) NOELPU(IPU) = NOEL
+      IF(IPASS.EQ.1) then
+        NOELPU(IPU) = NOEL
+        iqpu(noel) = ipu
+      endif
 
       IF(IPU .GT. MXPU) 
      >CALL ENDJOB('SBR PCKUP.  Too many c.o. pick-ups,  max is ',MXPU)
@@ -69,7 +76,9 @@ C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
       NT = 0
       DO 2 I = 1, IMAX
         TBT(1,IPU) = TBT(1,IPU) + F(2,I)
-        TBT(2,IPU) = TBT(2,IPU) + F(4,I)
+        TBT(2,IPU) = TBT(2,IPU) + F(3,I)
+        TBT(3,IPU) = TBT(3,IPU) + F(4,I)
+        TBT(4,IPU) = TBT(4,IPU) + F(5,I)
         IF( IEX(I) .GT. 0) THEN
           NT = NT+1
           DO 1 J = 1, 7
@@ -82,15 +91,16 @@ C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
  2    CONTINUE
       FPUL(8,IPU) = NT
 
-          DO 3 J = 1, 5
-            FPU(J,IPU) = FPU(J,IPU) + FPUL(J,IPU)
- 3        CONTINUE
-C          CUMULATED PATH LENGTH
-          FPU(6,IPU) = FPUL(6,IPU)
-C          cumulated time
-          FPU(7,IPU) = FPUL(7,IPU)
-C          cumulate turn #
-          FPU(8,IPU) = FPU(8,IPU) + NT
+C Cumulated coordinates 
+      DO J = 1, 5
+        FPU(J,IPU) = FPU(J,IPU) + FPUL(J,IPU)
+      ENDDO
+C path length
+      FPU(6,IPU) = FPUL(6,IPU)
+C time
+      FPU(7,IPU) = FPUL(7,IPU)
+C turn #
+      FPU(8,IPU) = FPU(8,IPU) + NT
 
 C------- Record pick-up position (cm)
       IF(IPASS .EQ. 1) FPU(9,IPU) = F(6,1)
@@ -113,7 +123,7 @@ C------- Record pick-up position (cm)
 
       ENTRY PCKUP2
       IPU = 0
-      CALL RAZ(TBT,2*MXPU)
+      CALL RAZ(TBT,I4*MXPU)
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       RETURN
@@ -132,7 +142,11 @@ C------- Record pick-up position (cm)
         ENDIF
       ENDDO
  10   CONTINUE
-      IPU = IPU1-1            
+      IF(NOELPU(IPU1).EQ.NOELI) THEN
+        IPU = IPU1        
+      ELSE
+        IPU = IPU1-1
+      ENDIF
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       IF(NRES.GT.0) THEN
@@ -146,10 +160,56 @@ C------- Record pick-up position (cm)
 
       ENTRY PCKUP5(MPU
      >                ,YCM,ZCM)
-      if(   FPUL(8,MPU) .le.0 )
-     >  call endjob(' SBR pckup. All particles fucked up !',-99)
+      IF(   FPUL(8,MPU) .LE.0 )
+     >  CALL ENDJOB(' SBR pckup. All particles fucked up !',-99)
       YCM = TBT(1,MPU) /    FPUL(8,MPU) 
-      ZCM = TBT(2,MPU) /    FPUL(8,MPU) 
+      ZCM = TBT(3,MPU) /    FPUL(8,MPU) 
       RETURN
 
+      ENTRY PCKUP7(NOELA,NOELB, 
+     >                         IPUI,IPUF,noeli,noelf)
+        CALL ENDJOB('SBR PCKUP.  Must  have  NOELA .LE. NOELB.',-99)
+C Range of PUs (1st and last PU's NOEL) located between NOELA and NOELB
+c      ipu1 = 0
+c      DO IL = NOELA, NOELB
+c          CALL ZGKLE(IQ(NOELPU(I)),
+c     >                             KLEO)
+cC     >  NOELPU(I),KLEO,LABEL(NOELPU(I),1),LABEL(NOELPU(I),2)
+c        IF(IL.LE.MXPU) THEN
+c          IF(NOELPU(IL).EQ.0) THEN
+c            GOTO 17
+c          ELSE 
+c            IF(IPU1 .EQ. 1) noeli = NOELPU(IPU1)
+c            IF(NOELPU(IPU1).LT.NOELI) IPU1= IPU1+1
+c          ENDIF
+c        ELSE
+c          CALL ENDJOB('SBR PCKUP. Problem : IL should be .le. ',MXPU)
+c        ENDIF
+c      ENDDO
+
+c 17   CONTINUE
+c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)   
+      chkPU = .true.
+      noel = noela
+      do while(chkPU .and. noel.le.noelb)
+        if(iqpu(noel) .gt.0) then
+          chkPU = .false.
+        else
+          noel = noel+1
+        endif
+      enddo
+      noeli = noel
+      ipui = iqpu(noel) 
+      chkPU = .true.
+      noel = noelb
+      do while(chkPU .and. noel .gt. noela)
+        if(iqpu(noel) .gt.0) then
+          chkPU = .false.
+        else
+          noel = noel-1
+        endif
+      enddo
+      noelf = noel
+      ipuf = iqpu(noel) 
+      RETURN
       END

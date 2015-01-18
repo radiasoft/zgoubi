@@ -834,20 +834,26 @@ C close does not seem to idle lun => makes problem with FIT !!
              ENDIF
            ENDIF
 
-           WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
+C FM Jan 2015
+C           WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
+           WRITE(NRES,203) BMIN,BMAX,
      >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
      >      BNORM,XNORM,YNORM,ZNORM,
-     >      BMIN,BMAX,
+     >      BMIN*bnorm,BMAX*bnorm,
+     >      XBMI*XNORM,YBMI*YNORM,ZBMI*ZNORM,
+     >      XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM, 
      >      XL, XI, XF, 
      >      IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
   203      FORMAT(
-     >      //,5X,'Min/max fields in map       : ', 
+     >      //,5X,'Min/max fields seen in map   : ', 
      >                               1P,E14.6,T68,'/ ',E14.6
-     >     , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3(G10.3,1X),T68
+     >     , /,5X,'  @  X,  Y, Z : ', 3(G10.3,1X),T68
      >                                      ,'/ ',3(G10.3,1X)
-     >     , /,5X,' given normalisation coeffs on field, x, y, z'
+     >     ,//,5X,'Given normalisation coeffs on field, x, y, z'
      >     ,' : ', 4(E14.6,1X)
-     >     , /,5X,'Min/max normalised fields (kG)  :', 2(E14.6,20X)
+     >     , /,5X,'  min/max normalised fields (kG) :', 2(E14.6,20X)
+     >     , /,5X,'  @  X (cm),  Y (cm), Z (cm) : ', 3(G10.3,1X),T68
+     >                                      ,'/ ',3(G10.3,1X)
      >     ,//,5X,'Length of element,  XL =',E14.6,' cm '
      >     , /,T48,'from  XI = ',E14.6,' cm '
      >     , /,T48,'to    XF = ',E14.6,' cm '
