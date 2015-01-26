@@ -2244,7 +2244,7 @@ the initial conditions ($ Y$, $T$, $Z$, $P$, $X$, $D$)  with $ D =B\rho/\BORO$
 conditions may be generated   in eight different ways~:   
 \bigskip
 
-\noindent\textbf{KOBJ  =  1}~:  Defines a grid in the $ Y$, $T$, $Z$, $P$, $X$, $D$
+\noindent\textbf{KOBJ  =  1~:}   Defines a grid in the $ Y$, $T$, $Z$, $P$, $X$, $D$
  space. One gives the number of points desired 
 % \begin{gather*}
 $$	 IY,\quad IT,\quad IZ,\quad IP, \quad IX, \quad ID\\$$
@@ -2289,7 +2289,7 @@ $ (DR+I\ast PD)\ast \BORO$.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 1.01}: Same as \KOBJ = 1    except for the $ Z $
+\noindent\textbf{KOBJ = 1.01~:}  Same as \KOBJ = 1    except for the $ Z $
 symmetry.  The initial $ Z $ and $ P $ conditions are the following 
 
 $$
@@ -2304,7 +2304,7 @@ $$
 
 \bigskip
 
-\noindent\textbf{KOBJ = 2~:}  Next data~: \IMAX\index{IMAX@{\IMAX}|textbf},  
+\noindent\textbf{KOBJ = 2~:}   Next data~: \IMAX\index{IMAX@{\IMAX}|textbf},  
 \IDMAX\index{IDMAX@{\IDMAX}|textbf}. Initial coordinates
 are entered explicitly for each 
 trajectory.  \IMAX\  is the total number of particles.  
@@ -2335,7 +2335,7 @@ tracked,  or ``-9''  to indicates that the particle should not be tracked.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 2.01}: Same as \KOBJ = 2    except for the units, meter and radian in that case. 
+\noindent\textbf{KOBJ = 2.01~:}  Same as \KOBJ = 2    except for the units, meter and radian in that case. 
 
 
 
@@ -2346,7 +2346,7 @@ tracked,  or ``-9''  to indicates that the particle should not be tracked.
 %\newpage 
 
 
-\noindent\textbf{KOBJ $= 3$~:} This option allows the reading of initial conditions from an
+\noindent\textbf{KOBJ = 3~:}  This option allows the reading of initial conditions from an
 external input file \textsl{FNAME}.  
 
 \noindent The next three data lines are~: 
@@ -2455,7 +2455,7 @@ the keyword \textsl{PARTICUL} that  assigns   mass and charge.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 3.01:} Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
+\noindent\textbf{KOBJ = 3.01~:}  Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
 data in  \textsl{FNAME}, namely, according to the following \FORTRAN\ sequence 
 \begin{alltt}
 \footnotesize
@@ -2469,7 +2469,7 @@ data in  \textsl{FNAME}, namely, according to the following \FORTRAN\ sequence
 
 \bigskip
 
-\noindent\textbf{KOBJ = 3.02:} As for \textbf{KOBJ=3.01}, except for the different format
+\noindent\textbf{KOBJ = 3.02~:}  As for \textbf{KOBJ=3.01}, except for the different format
 \begin{alltt}
          READ(NL,*) X,Y,Z,PX,PY,PZ
 \end{alltt}
@@ -2478,7 +2478,7 @@ MeV/$c$.  Note that DPR will be ignored in this case.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 3.03:} As for \textbf{KOBJ=3.01}, except for the different format~: 
+\noindent\textbf{KOBJ = 3.03~:} As for \textbf{KOBJ=3.01}, except for the different format~: 
 \begin{alltt}
          READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE
 \end{alltt}
@@ -2524,14 +2524,14 @@ coordinate  values.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 5.01:} Same as \textsl{KOBJ = 5}, except for an additional data line giving 
+\noindent\textbf{KOBJ = 5.1~:} Same as \textsl{KOBJ = 5}, except for an additional data line giving 
 initial beam ellipse parameters and  dispersions,  
 $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$, $D_Y$ , $D'_Y$ , $D_Z$ , $D'_Z$,  
  for further transport of these using \textsl{MATRIX}, or for  possible use by the \textsl{FIT[2]}\index{FIT}\index{FIT2} procedure. 
 
 \bigskip
 
-\noindent\textbf{KOBJ = 5.NN:} Like \textsl{KOBJ = 5}, except for  $NN = 02 - 99$ references needed in this case 
+\noindent\textbf{KOBJ = 5.N~:} Like \textsl{KOBJ = 5}, except for  $NN = 2 - 99$ references needed in this case 
 (thus \textsl{NN-1} additional input data lines), rather than just one. 
 Zgoubi will generate  \textsl{NN} sets of 11 particles with initial  coordinates in each set taken \wrt\ one 
 of the  \textsl{NN} references. 
@@ -2543,7 +2543,7 @@ of the  \textsl{NN} references.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 6:}  Mostly dedicated to the calculation of first, second
+\noindent\textbf{KOBJ = 6~:}  Mostly dedicated to the calculation of first, second
 and other higher order transfer coefficients and various other  optical parameters, 
 using for instance \textsl{MATRIX\index{MATRIX}}. 
 The input data are the coordinate sampling (normally taken paraxial)  
@@ -3243,7 +3243,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
                           & & & & & & &   \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & &  \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
+	 & & &  \scriptsize  \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  parameters }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & &  \\
 			\multicolumn{1}{|c|}{ (N=1-9  for  }& & 8 & any & Z-tune = $\mu_Z/2\pi$ & & &   \\
 			\multicolumn{1}{|c|}{ {\footnotesize \textsl{MATRIX}}} & &  9 & any & $\cos(\mu_Y)$  & & &  \\
@@ -3807,11 +3807,11 @@ following options \textsl{KOPT} and '\textsl{label}', below.
 \noindent IF \textsl{KOPT=0}~: Off
 
 \noindent IF \textsl{KOPT=1}~: Will transport the optical functions with initial values as specified in \textsl{OBJET}, option 
- \textsl{KOBJ=5.01}. 
+ \textsl{KOBJ=5.1}. 
 
 \medskip
 
-\noindent  Note~:  The initial values  in \textsl{OBJET[KOBJ=5.01]} may be the periodic ones, as obtained, for instance, from a first run using \textsl{MATRIX[IFOC=11]}. 
+\noindent  Note~:  The initial values  in \textsl{OBJET[KOBJ=5.1]} may be the periodic ones, as obtained, for instance, from a first run using \textsl{MATRIX[IFOC=11]}. 
 
 \bigskip
 
@@ -8288,7 +8288,7 @@ $$          R_{11} = \left(\dfrac{Y }{ T_0} \right) = \dfrac{Y^+-Y^- }{ 2T_0} $$
 
 \smallskip 
 
-In addition, if \textsl{OBJET}, \textsl{KOBJ} = 5.01 is used (hence introducing initial optical function values, 
+In addition, if \textsl{OBJET}, \textsl{KOBJ} = 5.1 is used (hence introducing initial optical function values, 
 $\alpha_{Y,Z}$, $\alpha_{Y,Z}$, $D_{Y,Z}$, $D'_{Y,Z}$), 
 then, using the $R_{ij}$ above,  \textsl{MATRIX} will transport  the  optical functions and phase advances 
 $\phi_Y$, $\phi_Z$, following
@@ -8336,8 +8336,8 @@ the second order matrix $[T_{ijk}]$.  Other higher order coefficients are also c
 \noindent An automatic generation of an appropriate object for the use of \textsl{MATRIX}  can be obtained 
 using the procedure \textsl{OBJET}~(pages~\pageref{OBJET},~\pageref{OBJET-B}), as follows
 
-\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.NN, NN=01,99]), 
-that generates up to 99*11 sets of initial coordinates. In this case, up to ninety nine matrices 
+\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N, NN=2,99]), 
+that generates up to 99*11 sets of initial coordinates. In this case, up to 99 matrices 
 may be calculated, each one \wrt\ to the reference trajectory of concern. 
 
 \noindent - if  \textsl{IORD} = 2, use \textsl{OBJET}(KOBJ = 6)  that generates 

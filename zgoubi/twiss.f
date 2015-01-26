@@ -83,10 +83,10 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
 
       DIMENSION F0(6,6) 
 
-      save q1, q2, cc, okorbt
+      SAVE Q1, Q2, CC, OKORBT
 
       DATA KWRI6 / 1 /
-      DATA dolast / .true. /
+      DATA DOLAST / .TRUE. /
 
       NMAIL = 1
       PRDIC = .TRUE.
@@ -143,7 +143,7 @@ C of 11 particles (based on MATRIX)
 C Compute periodic beta from first pass.
 C 2nd pass through structure will follow iff KTW>1.
 
-        dolast = .true.
+        DOLAST = .TRUE.
 
         ISIGN = NRES/ABS(NRES)
         NRES = ISIGN*NRES

@@ -60,7 +60,6 @@ C----- KOBJ - may be of the form "K.K2"
       READ(NDAT,*,ERR=99) TXT132
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
-      A(NOEL,11) = I0
       IF(STRCON(TXT132,'.',
      >                      IS)) THEN
         READ(TXT132(1:IS-1),*,ERR=99,END=99) K
@@ -68,6 +67,7 @@ C----- KOBJ - may be of the form "K.K2"
         A(NOEL,11) = K2
       ELSE
         READ(TXT132,*,ERR=99,END=99) K
+        A(NOEL,11) = I0
       ENDIF
       A(NOEL,10) = K
       IF(K .LT. 0) K=-K

@@ -877,7 +877,7 @@ C     >       , /,5X,'PAS EN X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
                WRITE(NRES,403)
      >         ES(1),CA(1)*RCS(1),SA(1)*RCS(1),CM(1)*RCS(1)
  403           FORMAT(5X,' DROITE  DE  COUPURE  ',A6,'  D''EQUATION'
-     >         ,5X,'(',F8.3,')*X + (',F8.3,')*Y + (',F8.3,') =0')
+     >         ,5X,'(',F11.3,')*X + (',F11.3,')*Y + (',F11.3,') =0')
              ELSEIF(IDRT .EQ. 1) THEN
                WRITE(NRES,403)
      >         ES(2),CA(2)*RCS(2) ,SA(2)*RCS(2) ,CM(2)*RCS(2)

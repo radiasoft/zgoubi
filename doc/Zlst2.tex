@@ -2170,7 +2170,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
                           & & & & & & & & &  \\
 			   \multicolumn{1}{|c|}{\textbf{Periodic parameters}} 
 	 & 0.N & 1 - 6 & 1 - 6 & $\sigma_{I\! J}$~~  ($\sigma_{11}=\cos\mu_Y + \alpha_Y \sin\mu_Y$, etc.) 
-	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5.NN} \\
+	 & & & & & \scriptsize  \textsl{OBJET/KOBJ=5.N} \\
 			\multicolumn{1}{|c|}{\textbf{  }} & &  7 & any & Y-tune = $\mu_Y/2\pi$ & & & & & \\
 			\multicolumn{1}{|c|}{ (N=1-9  for {\footnotesize \textsl{MATRIX}}} & & 8 & any & Z-tune = $\mu_Z/2\pi$ & & & & &  \\
 			\multicolumn{1}{|c|}{  block 1-9))} & &  9 & any & $\cos(\mu_Y)$  & & & & &  \\
@@ -2700,7 +2700,7 @@ are the components of the field.}
  \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or $>10$  \>2*I [,A] \\
  \textsl{[, PRINT] [, coupled]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>  \> \\
  \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
- \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.01~; \> \> \\
+ \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.1~; \> \> \\
  \> if \textsl{IFOC} $> 10$ : periodic beam matrix, tune numbers  \> \> \\
  \> \textsl{IORD} = 2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
  \>  matrix $[ R_{ij}] $, second order array $ [T_{ijk} ]$ and higher order transfer   \>\>\\
@@ -3061,13 +3061,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{YR, TR, ZR, PR, SR, DR} \> 
                         Reference trajectory   ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
  \\
-\textit{If KOBJ = 5.01}      \> additional data line :  \>\>\\
+\textit{If KOBJ = 5.1}      \> additional data line :  \>\>\\
  $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_S, \beta_S$,  \> Initial beam ellipse parameters~\footnotemark[1]  
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D_Y'$, $D_Z, D_Z'$  \>       \> 2(m,rad)\>  4*E \\
  \\
-\textit{If KOBJ = 5.NN,}\\
-\hskip1em\textit{NN=02-99}      \> i = 1 to 98 (if, resp$^{ly}$, NN=02 to 99) additional data lines :  \>\>\\
+\textit{If KOBJ = 5.N,}\\
+\hskip1em\textit{NN=2-99}      \> i = 1 to 98 (if, resp$^{ly}$, NN=02 to 99) additional data lines :  \>\>\\
  \textsl{YR, TR, ZR, PR, SR, DR}  \> 
                         Reference trajectory \# i  ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\
