@@ -462,7 +462,7 @@ $ I$             \> 1 : Equivalent to global \textsl{CHANGREF}($XCE=0$, $YCE=Y(1
  \\
  \> 4 : Equivalent to global \textsl{CHANGREF}($XCE$, $YCE$, $ALE$).   \\
  \> 4.1 : Equivalent to global \textsl{CHANGREF}($XCE$, $YCE$, $ALE$) with in addition    \\
- \> centering of the beam on a new relative momentum  \textsl{DPP}.   \\
+ \> centering of the beam on a new relative momentum  \textsl{DCE}.   \\
  \\
  \> 5 : The beam  is centered vertically on \textsl{ZCE, PLE}. \\
  \\
@@ -473,7 +473,7 @@ $ I$             \> 1 : Equivalent to global \textsl{CHANGREF}($XCE=0$, $YCE=Y(1
  \textsl{XCE, YCE, ALE} \> \XCE\ and beam centroid new coordinates \textsl{YCE, ALE}  \> 2*cm, mrad \>3*E  \\
  \\
 \textbf{If $I=4.1$}        \>Provide next record  if $I=4$ \>\>\\
- \textsl{XCE, YCE, ALE, DPP} \> \XCE\ and beam centroid new coordinates \textsl{YCE, ALE, DPP}  \> 2*cm, mrad, - \>4*E  \\
+ \textsl{XCE, YCE, ALE, DCE} \> \XCE\ and beam centroid new coordinates \textsl{YCE, ALE, DCE}  \> 2*cm, mrad, - \>4*E  \\
  \\
 \textbf{If $I=5$}        \>Provide next record  if $I=5$ \>\>\\
  \textsl{ZCE, PLE} \> New vertical beam centroid coordinates \textsl{ZCE, PLE}  \> cm, mrad \>2*E  \\
@@ -2974,12 +2974,12 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \textsl{KOBJ[.K2]}           \>Option index [.More options]            \>1-6    \>I \\
  \\
-\textbf{If KOBJ = 1[.01]}      \> [Non-] Symmetric object \> \> \\
+\textbf{If KOBJ = 1[.1]}      \> [Non-] Symmetric object \> \> \\
 \\
  \textsl{IY, IT, IZ, IP, IS, ID}  
  \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP*IS*ID $\leq \imax$ } \> 6*1  \\
  \>Total number of points in $\pm Y$, $\pm T$, $\pm Z$, $\pm P$ \> \> \\ 
-		\> [$+Z$, $+P$ with KOBJ = 1.01], $\pm S$.    \> \>\\
+		\> [$+Z$, $+P$ with KOBJ = 1.1], $\pm S$.    \> \>\\
  \>and $\pm D$ coordinates ($IY \leq 20$,...,$ID \leq 20$)   \> \>\\
  \\
  \textsl{PY, PT, PZ, PP, PS, PD}
@@ -2988,7 +2988,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
 \textsl{YR, TR, ZR, PR, SR, DR}    \>Reference  ($DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
  \\
-\textbf{If KOBJ = 2[.01]}      \>All the initial coordinates must be entered explicitly\>\>\\
+\textbf{If KOBJ = 2[.1]}      \>All the initial coordinates must be entered explicitly\>\>\\
 \\
  \IMAX, \textsl{IDMAX}     \>total number of particles~; number of distinct momenta  
             \>\IMAX\ $\leq \imax$ \>2*I\\
@@ -2999,17 +2999,17 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{Y, T, Z, P, S, D, LET} 
            \>Coordinates and tagging  of the \IMAX\ particles~; 
                                                          \>2(cm,mrad), cm, no dim.,   \>6*E, A1\\
-            \> \textsl{If KOBJ = 2.01} input units are different~:  \>2(m,rad), m, no dim.,   \>\\
+            \> \textsl{If KOBJ = 2.1} input units are different~:  \>2(m,rad), m, no dim.,   \>\\
  \\
  \IEX($I=1$, \IMAX)  \>\IMAX\ times 1 or -9. If $\IEX(I)=1$ trajectory $I$ is   \>1 or -9  \>\IMAX\*I\\
                      \>   ray-traced, it is not if $\IEX(I)=-9$.   \> \> \\
  \\
-\textbf{If KOBJ=3[.NN,}\\
-\hskip1em\textbf{NN=00\ldots 03]}      \>Reads coordinates from a storage file \> \> \\
-                     \> NN=00 (default) : [b\_]zgoubi.fai like data file FORMAT  \> \> \\
-                     \> NN=01 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
-                     \> NN=02 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
-                     \> NN=03 : read FORMAT is \texttt{\small``READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE''}   \> \> \\
+\textbf{If KOBJ=3[.N,}\\
+\hskip1em\textbf{N=00 - 3]}      \>Reads coordinates from a storage file \> \> \\
+                     \> N=00 (default) : [b\_]zgoubi.fai like data file FORMAT  \> \> \\
+                     \> N=01 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
+                     \> N=02 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
+                     \> N=03 : read FORMAT is \texttt{\small``READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE''}   \> \> \\
  \\
  \textsl{IT1, IT2, ITStep}     \> Read particles numbered IT1 to IT2, step ITStep
               \> $\geq 1$, $\geq IT1$, $\geq 1$ \>3*I\\
@@ -3031,7 +3031,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
               \> 2 : save $\vec R~as~read$ in $new~\vec R_0$, set $new~\vec R = \vec R_0~as~read$. \\
  \\
  \textsl{FNAME}        \>File name (\emph{e.g.},  zgoubi.fai\index{zgoubi.fai})  \> \>A80 \\
-                       \> (NN in KOBJ=3.NN determines storage FORMAT)
+                       \> (N in KOBJ=3.N determines storage FORMAT)
 \end{tabbing}
 
 
@@ -3051,8 +3051,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 %$XR,DR$              \> ($DR=B\rho/\text{\BORO}$) \>  cm, no dim.     \>\\
 % \\
 
-\textbf{If KOBJ = 5[.NN, }\>\\
-\hskip1em\textbf{NN=01,99]}\>\textbf{Generation of 11 particles, or 11*NN if $I\ge 2$} 
+\textbf{If KOBJ = 5[.N, $N \geq 1$]}\>\\
+\>\textbf{Generation of 11 particles, or 11*N if $I\ge 2$} 
                                    (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=1$)  \>\>\\
  \\
  \textsl{PY, PT, PZ, PP, PS, PD}  \>Step sizes in $Y$, $T$, $Z$, $P$, $S$ and $D$
@@ -3066,8 +3066,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D_Y'$, $D_Z, D_Z'$  \>       \> 2(m,rad)\>  4*E \\
  \\
+<<<<<<< .mine
+\textit{If KOBJ = 5.N, $N\geq 2$}\\
+      \> i = 1 to 98 (if, resp$^{ly}$, $N\geq 2$) additional data lines :  \>\>\\
+=======
 \textit{If KOBJ = 5.N,}\\
 \hskip1em\textit{NN=2-99}      \> i = 1 to 98 (if, resp$^{ly}$, NN=02 to 99) additional data lines :  \>\>\\
+>>>>>>> .r499
  \textsl{YR, TR, ZR, PR, SR, DR}  \> 
                         Reference trajectory \# i  ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\
@@ -3386,9 +3391,10 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- \textsl{IOPT}, label, \textsl{IMP}        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
-      \> 'label'~:  Can be  'all', 'ALL', or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
-      \> $IMP=1$ causes storage of optical functions in zgoubi.OPTICS.out.   \>  \> \\
+ \textsl{IOPT}, label        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
+  \textsl{[,IMP]} or [PRINT]   \> 'label'~:  Can be  'all', 'ALL', or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
+      \> $IMP=1$ or 'PRINT' will cause storage of optical functions   \>  \> \\
+      \> in zgoubi.OPTICS.out.   \>  \> \\
 \end{tabbing}
 
 
@@ -4695,6 +4701,7 @@ $RX$, $RY$, $RZ$
 \mestab
 \textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf}
              \> \textbf{\TWISSTitl} \> \> \\
+             \> \textbf{and printout to zgoubi.TWISS.out} \> \> \\
   \\
   \\
  \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I1[.I1], 2*E \\

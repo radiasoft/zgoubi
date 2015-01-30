@@ -2289,7 +2289,11 @@ $ (DR+I\ast PD)\ast \BORO$.
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 1.1~:} Same as \KOBJ = 1    except for the $ Z $
+=======
 \noindent\textbf{KOBJ = 1.01~:}  Same as \KOBJ = 1    except for the $ Z $
+>>>>>>> .r499
 symmetry.  The initial $ Z $ and $ P $ conditions are the following 
 
 $$
@@ -2335,7 +2339,11 @@ tracked,  or ``-9''  to indicates that the particle should not be tracked.
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 2.1~:} Same as \KOBJ = 2    except for the units, meter and radian in that case. 
+=======
 \noindent\textbf{KOBJ = 2.01~:}  Same as \KOBJ = 2    except for the units, meter and radian in that case. 
+>>>>>>> .r499
 
 
 
@@ -2346,7 +2354,11 @@ tracked,  or ``-9''  to indicates that the particle should not be tracked.
 %\newpage 
 
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 3~:} This option allows the reading of initial conditions from an
+=======
 \noindent\textbf{KOBJ = 3~:}  This option allows the reading of initial conditions from an
+>>>>>>> .r499
 external input file \textsl{FNAME}.  
 
 \noindent The next three data lines are~: 
@@ -2445,7 +2457,7 @@ particle $ I $ by simple symmetry.  This saves on computing time.
 
 \bigskip
 
-\noindent\KOBJ $= 3 $    can be used for reading files filled by \textsl{FAISCNL}, \textsl{FAISTORE}.\\
+\noindent \KOBJ $= 3 $    can be used for reading files filled by \textsl{FAISCNL}, \textsl{FAISTORE}.\\
 If more than \IMAX\ particles are to be read from a file, use  \textsl{REBELOTE\index{REBELOTE}}.   
 
 \bigskip
@@ -2455,7 +2467,11 @@ the keyword \textsl{PARTICUL} that  assigns   mass and charge.
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 3.1~:} Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
+=======
 \noindent\textbf{KOBJ = 3.01~:}  Same as \textbf{KOBJ = 3}, except for the formatting of trajectory coordinate 
+>>>>>>> .r499
 data in  \textsl{FNAME}, namely, according to the following \FORTRAN\ sequence 
 \begin{alltt}
 \footnotesize
@@ -2469,7 +2485,11 @@ data in  \textsl{FNAME}, namely, according to the following \FORTRAN\ sequence
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 3.2~:} As for \textbf{KOBJ=3.1}, except for the different format
+=======
 \noindent\textbf{KOBJ = 3.02~:}  As for \textbf{KOBJ=3.01}, except for the different format
+>>>>>>> .r499
 \begin{alltt}
          READ(NL,*) X,Y,Z,PX,PY,PZ
 \end{alltt}
@@ -2478,7 +2498,11 @@ MeV/$c$.  Note that DPR will be ignored in this case.
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 3.3~:} As for \textbf{KOBJ=3.1}, except for the different format~: 
+=======
 \noindent\textbf{KOBJ = 3.03~:} As for \textbf{KOBJ=3.01}, except for the different format~: 
+>>>>>>> .r499
 \begin{alltt}
          READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE
 \end{alltt}
@@ -2531,14 +2555,21 @@ $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$, $D_Y$ , $D'_Y$ , 
 
 \bigskip
 
+<<<<<<< .mine
+\noindent\textbf{KOBJ = 5.N~:} Like \textsl{KOBJ = 5}, except for  $N \geq 2$ references needed in this case 
+(thus \textsl{N-1} additional input data lines), rather than just one. 
+Zgoubi will generate  \textsl{N} sets of 11 particles with initial  coordinates in each set taken \wrt\ one 
+of the  \textsl{N} references. 
+=======
 \noindent\textbf{KOBJ = 5.N~:} Like \textsl{KOBJ = 5}, except for  $NN = 2 - 99$ references needed in this case 
 (thus \textsl{NN-1} additional input data lines), rather than just one. 
 Zgoubi will generate  \textsl{NN} sets of 11 particles with initial  coordinates in each set taken \wrt\ one 
 of the  \textsl{NN} references. 
+>>>>>>> .r499
 
 \medskip 
 
-\noindent A subsequent use of \textsl{MATRIX}  would then cause the computation of \textsl{NN} transport matrices. 
+\noindent A subsequent use of \textsl{MATRIX}  would then cause the computation of \textsl{N} transport matrices. 
 
 
 \bigskip
@@ -3826,7 +3857,8 @@ the labelling of keywords).
 
 \bigskip
 
-\noindent A third argument, \textsl{IMP=1}, will cause saving of the transported beta functions into 
+\noindent An optional third argument, \textsl{IMP=1}, or equivalently the command 'PRINT', 
+will cause saving of the transported beta functions into 
 file \index{zgoubi.OPTICS.out|textbf}zgoubi.OPTICS.out.
 
 
@@ -4853,9 +4885,9 @@ the waist (calculated automatically in the same way as for
  
 \bigskip
 
-\noindent\textbf{If} $\mathbf{I=4.1}$~: new  beam centroid positionning \textsl{XCE, YCE, ALE, DPP} is provided. 
+\noindent\textbf{If} $\mathbf{I=4.1}$~: new  beam centroid positionning \textsl{XCE, YCE, ALE, DCE} is provided. 
  The beam is moved by \XCE\ and then centered on \textsl{YCE, ALE}. 
-In addition, the beam is centered on a new relative momentum \textsl{DPP}. 
+In addition, the beam is centered on a new relative momentum \textsl{DCE}. 
 
 \bigskip
 
@@ -8336,8 +8368,13 @@ the second order matrix $[T_{ijk}]$.  Other higher order coefficients are also c
 \noindent An automatic generation of an appropriate object for the use of \textsl{MATRIX}  can be obtained 
 using the procedure \textsl{OBJET}~(pages~\pageref{OBJET},~\pageref{OBJET-B}), as follows
 
+<<<<<<< .mine
+\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N]), 
+that generates up to 99*11 sets of initial coordinates. In this case, up to ninety nine matrices 
+=======
 \noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N, NN=2,99]), 
 that generates up to 99*11 sets of initial coordinates. In this case, up to 99 matrices 
+>>>>>>> .r499
 may be calculated, each one \wrt\ to the reference trajectory of concern. 
 
 \noindent - if  \textsl{IORD} = 2, use \textsl{OBJET}(KOBJ = 6)  that generates 
@@ -8581,7 +8618,8 @@ changing for instance the reference trajectory in \textsl{OBJET} for dp/p relate
 \medskip
 
 - It assumes that the reference particle (particle \#1 of 11, when using \textsl{OBJET[\KOBJ= 5]}) is located on 
-the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently. }  \index{closed orbit} 
+the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently}, 
+because  \textsl{TWISS} does not look for the closed orbit by itself (this is under installation). \index{closed orbit} 
 
 - A first pass (the only one if \textsl{KTW=1}) through the structure allows computing the periodic 
 optical functions  from the  rays.
@@ -8595,6 +8633,11 @@ first order transport matrices. From these the chromaticities are deduced.
 They are deduced from the difference in tunes for particles 
 tracked on different transverse invariants, horizontal or vertical. 
 
+\bigskip
+
+\noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out, a MADX type ``twiss'' file, 
+with similar formatting, including   periodic optical data as a header (tunes, chromaticities, etc.) and, 
+in sequence, optical functions and  strengths at all elements. 
 
 
 \newpage
