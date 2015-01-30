@@ -215,25 +215,30 @@ C--------- endif SR loss ----------------------------------
 
         LUN=ABS(NRES)
         IF(LUN .GT. 0) THEN
-          WRITE(LUN,100) IPASS
- 100      FORMAT(/,30X,'  -----  REBELOTE  -----',//
-     >    ,5X,'End of pass # ',I8,' through the optical structure ',/)
-          CALL CNTMXR(
-     >                IMX)
-          WRITE(LUN,103) IMX
-          IF(KREB3.NE.99) THEN
-            KNDES = NNDES
-          ELSE
-            KNDES = NDES
-          ENDIF
-          IF(IFDES .EQ. 1) 
-     >      WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-          CALL CNTOUR(
+
+          CALL OPTIO1(
+     >                KWROF)
+          IF(KWROF .NE. 1) THEN
+            WRITE(LUN,100) IPASS
+ 100        FORMAT(/,30X,'  -----  REBELOTE  -----',//
+     >      ,5X,'End of pass # ',I8,' through the optical structure ',/)
+            CALL CNTMXR(
+     >                  IMX)
+            WRITE(LUN,103) IMX
+            IF(KREB3.NE.99) THEN
+              KNDES = NNDES
+            ELSE
+              KNDES = NDES
+            ENDIF
+            IF(IFDES .EQ. 1) 
+     >        WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
+            CALL CNTOUR(
      >                NOUT)
-          IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
-          CALL CNTNRR(
-     >                NRJ)
-          IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
+            IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
+            CALL CNTNRR(
+     >                  NRJ)
+            IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
+          ENDIF
         ENDIF
 
         IF(IPASS .EQ. 1) THEN

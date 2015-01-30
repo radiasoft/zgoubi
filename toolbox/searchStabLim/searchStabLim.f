@@ -161,7 +161,7 @@ C Completes zgoubi.dat with the rest of zgoubi_StabLim-In.dat
             write(lunW,*) txt132   
             read(lunR,fmt='(a)',end=62) txt132
             write(txt20,fmt='(I6)') nTurn
-            txt132 = txt20//'  0.2  99'
+            txt132 = txt20//'  0.3  99'
             write(lunW,*) txt132
             txt132 = '''END'''
             write(lunW,*) txt132
@@ -172,7 +172,7 @@ C Completes zgoubi.dat with the rest of zgoubi_StabLim-In.dat
               txt132 = '''REBELOTE'''
               write(lunW,*) txt132
               write(txt20,fmt='(i6)') nTurn
-              txt132 = txt20//'  0.2  99'
+              txt132 = txt20//'  0.3  99'
               write(lunW,*) txt132
               txt132 = '''END'''
               write(lunW,*) txt132
@@ -323,7 +323,7 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
       txt132 = '''REBELOTE'''
       write(lunW,*) txt132
       write(txt20,fmt='(I6)') nTurn
-      txt132 = txt20//'  0.2  99'
+      txt132 = txt20//'  0.3  99'
       write(lunW,*) txt132
       txt132 = '''END'''
       write(lunW,*) txt132
