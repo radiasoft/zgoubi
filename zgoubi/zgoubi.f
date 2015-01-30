@@ -978,9 +978,15 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
  80   CONTINUE
       IF(READAT) THEN
         READ(NDAT,fmt='(A)') TXTEMP
+        IF(STRCON(TXTEMP,'!',
+     >                      IS)) TXTEMP = TXTEMP(DEBSTR(TXTEMP):IS-1)
+        KOPIMP = 0
+        IF(STRCON(TXTEMP,'PRINT',
+     >                          IS)) KOPIMP = 1
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
      >  *,ERR=801,END=801) KOPTCS, LBLOPT
-        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
+        IF( KOPIMP .EQ. 0) 
+     >  READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
      >  *,ERR=803,END=803) KOPTCS, TXT1, KOPIMP
       ENDIF
       GOTO 802

@@ -597,8 +597,11 @@ c                   read(*,*)
       !              OPPOSITE POLARITIES. E19 IS FOCUSING,F01 IS DEFOCUSING.
       
         ELSEIF(LBL1(INIL:INIL+8) .EQ. 'QTHIN_E19') THEN
-          E19_F1_QUAD_I = A1      
-          XE19 = E19_F1_QUAD_I 
+Changed Run 15 : 2 different power supplies from then on
+C          E19_F1_QUAD_I = A1      
+C          XE19 = E19_F1_QUAD_I 
+          E19_QUAD_I = A1      
+          XE19 = E19_QUAD_I 
       
           KTHIN_E19_RAW = E19C6*(XE19*XE19*XE19*XE19*XE19*XE19)  +
      >                E19C5*(XE19*XE19*XE19*XE19*XE19)      +
@@ -612,8 +615,11 @@ c                   read(*,*)
           BM =  KTHIN_E19 
             
         ELSEIF(LBL1(INIL:INIL+8) .EQ. 'QTHIN_F01') THEN
-          E19_F1_QUAD_I = A1       ! E19 AND F1 THIN QUADS ARE WIRED IN SERIES 
-          XF1 = E19_F1_QUAD_I 
+Changed Run 15 : 2 different power supplies from then on
+C          E19_F1_QUAD_I = A1       ! E19 AND F1 THIN QUADS ARE WIRED IN SERIES 
+C          XF1 = E19_F1_QUAD_I 
+          F1_QUAD_I = A1  
+          XF1 = F1_QUAD_I 
       
           KTHIN_F01_RAW =       F1C6*(XF1*XF1*XF1*XF1*XF1*XF1)       +
      >             F1C5*(XF1*XF1*XF1*XF1*XF1)      +

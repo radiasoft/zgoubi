@@ -172,13 +172,7 @@ C--------- read in zgoubi.fai type storage file
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 222
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 222
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+     >                                IEND)) GOTO 222
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 222
             IF(IEND.EQ.1) GOTO 91
@@ -199,13 +193,7 @@ C              ENDIF
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 21
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 21
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+     >                                IEND)) GOTO 21
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 21
             IF(IEND.EQ.1) GOTO 91
@@ -232,13 +220,7 @@ C            ENDIF
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 232
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 232
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+     >                                IEND)) GOTO 232
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 232
             IF(IEND.EQ.1) GOTO 91
@@ -263,13 +245,7 @@ C            ENDIF
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 31
             IF(.NOT. OKKP(KP1,KP2,KP3,IPASS,
-     >                                IEND))  THEN
-C              IF(IEND.EQ.0) THEN
-                                             GOTO 31
-C              ELSEIF(IEND.EQ.1) THEN
-C                GOTO 91
-C              ENDIF
-            ENDIF
+     >                                IEND)) GOTO 31
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                                IEND)) GOTO 31
             IF(IEND.EQ.1) GOTO 91

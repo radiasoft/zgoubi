@@ -231,7 +231,7 @@ C-------
      >  ,/,15X,' Deviation                   = ',G17.8,'  rad'
      >  ,5X,                                ' (',G17.8,' deg)'
      >  ,/,15X,' Reference  pole  radius RO  = ',G14.5,'  cm')
-        WRITE(NRES,103) (BE(KFL), LMNT(IM), BM(IM), DIM(KFL)
+        WRITE(NRES,103) ( BE(KFL), LMNT(IM), BM(IM), DIM(KFL)
      >  ,IM-1, AKS(IM), IM, IM-1, IM-1, DB(IM), IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A,'  (K',I1,' = ',G17.8,' /m'
      >  ,I1,'),  dB',I1,'/B',I1,' = ',G17.8)
