@@ -187,6 +187,38 @@ echo "        "                                               | cat >>   compare
 echo "////////////////  ../AGS/matrix: done..."
 #
 #
+#################################################################
+echo "        "
+echo "        "
+echo "////////////////  Now doing :   ../AGS_Booster/"
+echo "        "
+(cd ../AGS_Booster/ ; cp TWISS.res_150131 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../AGS_Booster/TWISS - reference : "       | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/TWISS.res_150131   | cat >>   compare.out
+grep "NU_Z = "         ../AGS_Booster/TWISS.res_150131   | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/TWISS.res_150131   | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/TWISS.res_150131   | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "NU_Z = "         ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+(cd ../AGS_Booster/ ; cp OPTICS.res_150131 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../AGS_Booster/OPTICS - reference : "       | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/OPTICS.res_150131   | cat >>   compare.out
+grep "NU_Z = "         ../AGS_Booster/OPTICS.res_150131   | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/OPTICS.res_150131   | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/OPTICS.res_150131   | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "NU_Z = "         ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res   | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+echo "////////////////  ../AGS_Booster: done..."
+#
+#
 
 
 echo "  "

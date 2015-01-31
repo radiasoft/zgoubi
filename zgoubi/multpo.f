@@ -370,11 +370,14 @@ C------- E converted to MeV/cm
         ENDIF
 
 C--------------------------------------------------------------
-C This write is necessary for the FIT problem 
+C Problem here : this write(89 is necessary for the FIT problem 
 C /home/meot/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
 C to work on my dell laptop
+           call fitsta(5,fiting)
+           if(fiting) then
              write(89,*) im,RO, BM(IM)
              rewind(89)
+           endif
 C--------------------------------------------------------------
 
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)

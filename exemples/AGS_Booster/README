@@ -1,0 +1,12 @@
+
+TWISS performs 3 passes through the lattice sequence so to get chromaticities
+It also gets the periodic optical functions, which it finally transports along the sequence, and stores in zgoubi.TWISS.out.
+
+OPTICS.dat transports the initial optical functions, as stated in OBJET/KOBK=5.01, along the lattice.
+Since the initial optical functions happen to be the periodic ones in this example, optical functions as 
+transported by OPTICS will be the same as by TWISS, above. 
+The PRINT option in 'OPTICS' allows saving the optical functions in zgoubi.OPTICS.out. 
+
+
+
+
