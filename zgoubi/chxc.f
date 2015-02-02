@@ -555,7 +555,7 @@ C------------- The all 3D map is contained in a single file
 C----------- CARTEMES
 C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
 
-             CALL KSMAP6(
+             CALL KSMAP5(
      >                   IMAP)
 
              IF(BINAR) THEN
@@ -585,7 +585,7 @@ C------------ CARTE MESUREE DU SPES2 (CEA-SACLAY)
            ELSEIF(KUASEX .EQ. 3 ) THEN
 C------------ CARTE MESUREE DU SPES3 (CEA-SACLAY)
  
-             CALL KSMAP6(
+             CALL KSMAP5(
      >                   IMAP)
 
              XX0=0D0
@@ -660,7 +660,7 @@ C     set magnetic field before target position to 0.
            ELSEIF(KUASEX .EQ. 4 ) THEN
 C------------ CARTE CARTESIENNE 2-D DE CHALUT
  
-             CALL KSMAP6(
+             CALL KSMAP5(
      >                   IMAP)
 
              DO 63 J=1,55
@@ -696,7 +696,7 @@ C------------ CARTE CARTESIENNE 2-D DE CHALUT
            ELSEIF(KUASEX .EQ. 5 ) THEN
 C------------ CARTE CARTESIENNE 2-D POISSON
  
-             CALL KSMAP6(
+             CALL KSMAP5(
      >                   IMAP)
 
              CALL RDPOIS(LUN,IXMA,JYMA,XH,YH,CBM)
@@ -717,7 +717,7 @@ C------------ CARTE CARTESIENNE 2-D POISSON
            ELSEIF(KUASEX .EQ. 6 ) THEN
 C------------ CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  
-             CALL KSMAP6(
+             CALL KSMAP5(
      >                   IMAP)
 
              YH(1)=-91.D0
@@ -755,7 +755,10 @@ C---------- BREVOL AND ELREVOL
 C           Read a 1-D X-map of  Bx(R=0,X)-field,
 C                            or  E(R=0,X)-field
 C                                  (x-cylindrical symmetry assumed)
- 
+    
+             CALL KSMAP5(
+     >                   IMAP)
+
              CALL RAZ(HC,ID*IXMA)
              JFIC = 0
  5521        CONTINUE

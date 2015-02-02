@@ -103,8 +103,8 @@ CC D5 IPM magnet in bare AGS.
 c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=1801, MXY=41)
 
-      PARAMETER (IZ=61 , ID=3, MMAP=4)
-      PARAMETER (MXX=1001, MXY=150)
+c      PARAMETER (IZ=61 , ID=3, MMAP=4)
+c      PARAMETER (MXX=1001, MXY=150)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -143,7 +143,7 @@ c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=351, MXY=200)
 
 CC ~/zgoubi/SVN/current/exemples/tools
-c      PARAMETER (IZ=5 , ID=3, MMAP=2)
-c      PARAMETER (MXX=1000, MXY=300)
+      PARAMETER (IZ=5 , ID=3, MMAP=2)
+      PARAMETER (MXX=3201, MXY=300)
 
 

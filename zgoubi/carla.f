@@ -56,7 +56,7 @@ C     *******
  
       DIMENSION CI(6),CS(6),C3(6)
 
-      CALL KSMAP6(
+      CALL KSMAP5(
      >            IMAP)
  
 C  NBFACE=(2)3 :DIPOLE LIMITE PAR (2)3 FACES.

@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
 C-- Max integration steps in an lmnt
+C      PARAMETER (MXSTEP = 10000)
       PARAMETER (MXSTEP = 100000)
 C Cyclotrons
 C      PARAMETER (MXSTEP = 10000000)

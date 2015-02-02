@@ -51,7 +51,7 @@ C-----------------------------------------------------------------------
       DIMENSION CI(6),CS(6),C3(6)
 C      DATA IMAP / 1 /
 
-      CALL KSMAP6(
+      CALL KSMAP5(
      >            IMAP)
       if(imap.le.0 .or. imap .gt. mmap)
      >call endjob('Pgm dipolm. Wrong value IMAP = ',imap)

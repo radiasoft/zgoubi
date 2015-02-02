@@ -102,7 +102,7 @@ C--
 C Stack, count, case self-made maps : dipole-m, aimant, cartemes, etc.
 C INSTALLATION HAS TO BE COMPLETED, 
 C It is not in the present state compatible with KSMAP4, neither does it allow stacking maps. 
-      ENTRY KSMAP6(
+      ENTRY KSMAP5(
      >             KMAPO)
       NBMAPS = NBMAPS+1
       KMAP = NBMAPS

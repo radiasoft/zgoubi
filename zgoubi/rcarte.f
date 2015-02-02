@@ -37,7 +37,10 @@ C     ---------------------------------------------------
       COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT
-      CHARACTER(80) STRA(2)
+      parameter (MXSTR=6)
+      CHARACTER(80) STRA(mxstr)
+      integer debstr
+      logical strcon
 
 C     ... IC, IL
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)
@@ -53,12 +56,25 @@ C      BACKSPACE(NDAT)
 C 11   CONTINUE
 
 C----- BNORM & X-,Y-,Z-NORM
-      READ(NDAT,*,ERR=8) A(NOEL,10),(A(NOEL,10+I),I=1,IDIM)
-      GOTO 81
- 8    CONTINUE
-      WRITE(6,*) ' *** Need 4 normalisation coefficients on that line'
-      CALL ENDJOB('*** Input data error in SBR RCARTE, data line #2',0)
-      STOP 
+      do i = 1, IDIM    ! For compatibility with earlier versions
+        A(NOEL,10+I) = 1.d0
+      enddo
+      READ(NDAT,FMT='(A)',ERR=97) TXT   
+      IF( STRCON(TXT,'!', 
+     >                   IS)) TXT = TXT(DEBSTR(TXT):IS-1)
+      call strget(txt,4,
+     >                  NSTR,STRA)
+      if(nstr .gt. 4) goto 97
+      do i = 1, nstr
+        read(stra(i),*) A(NOEL,9+I)
+      enddo      
+C      READ(NDAT,*,ERR=8) A(NOEL,10),(A(NOEL,10+I),I=1,IDIM)
+c      GOTO 81
+c 8    CONTINUE
+c      WRITE(6,*) ' *** Need ',IDIM+1,
+c     > ' normalisation coefficients on that line'
+c      CALL ENDJOB('*** Input data error in SBR RCARTE, data line #2',0)
+c      STOP 
  81   CONTINUE
  
 C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to 
@@ -204,6 +220,11 @@ C       ... Polar map frame
 
       RETURN
 
+ 97   continue
+      WRITE(NRES,*) 'SBR rcarte, normalization coefficients : '
+     >//' input data error'
+      CALL ENDJOB('Expected is a list of  1 to 4 data.',-99)
+      STOP
  98   continue
       WRITE(NRES,*) 'SBR rcarte, input data Error'
       CALL ENDJOB('Expecting more data after MOD=15.*',-99)
