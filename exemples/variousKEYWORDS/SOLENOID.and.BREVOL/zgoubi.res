@@ -8,7 +8,7 @@ NuFactory. Solenoid pion capture. In-flight decay into muon
 -20.
  'BREVOL'                                                                                3                    3
 0 0
-0.095933608187
+0.095933608187 1
 TEST CARTE SOLENO
 1521                                  IX
 sol30m.map
@@ -332,7 +332,7 @@ J  1   0.9990     0.000     0.000     0.000     0.000       0.0000    0.9990    
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  02-02-0015,  at  17:28:41 
-  JOB  ENDED  ON    02-02-0015,  AT  17:28:41 
+  Job  started  on  02-02-0015,  at  18:23:06 
+  JOB  ENDED  ON    02-02-0015,  AT  18:23:06 
 
-   CPU time, total :    6.000300000000000E-002
+   CPU time, total :    5.600300000000000E-002

@@ -111,8 +111,10 @@ CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)
 c      PARAMETER (IZ=61 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
-c      PARAMETER (IZ=29 , ID=3, MMAP=8)
-CCCCCCCCCCCC      PARAMETER (MXX=1001, MXY=61)
+ccccccccccccccccc
+        PARAMETER (IZ=29 , ID=3, MMAP=8)
+ccccccccccccccccc      
+        PARAMETER (MXX=1001, MXY=61)
 c       compatible gsi_kaos
 C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet
@@ -143,7 +145,7 @@ c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=351, MXY=200)
 
 CC ~/zgoubi/SVN/current/exemples/tools
-      PARAMETER (IZ=5 , ID=3, MMAP=2)
-      PARAMETER (MXX=3201, MXY=300)
+c      PARAMETER (IZ=29 , ID=3, MMAP=2)
+c      PARAMETER (MXX=1600, MXY=200)
 
 

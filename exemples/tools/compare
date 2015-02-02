@@ -150,6 +150,22 @@ echo "        "                                                                 
 echo "////////////////  ../usersGuide/FIT-and-REBELOTE: done..."
 #
 #
+#
+#
+#################################################################
+echo "        "
+echo "        "
+echo "////////////////  Now doing :   ../variousKEYWORDS/SOLENOID.and.BREVOL/"
+echo "        "
+(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp zgoubi.res_trunk502_150202 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
+grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res_trunk502_150202 | cat >>   compare.out
+echo "                          - new : "                                          | cat >>   compare.out
+grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
+echo "        "                                                                    | cat >>   compare.out
+echo "////////////////  ../usersGuide/FIT-and-REBELOTE: done..."
+#
+#
 #################################################################
 echo "        "
 echo "        "
