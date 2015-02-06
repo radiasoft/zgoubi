@@ -90,7 +90,7 @@ c      COMMON/DONT/ TA(MXL,MXTA)
       LOGICAL OKLSTP
       dimension aold(MXPRM)
 
-      logical fiting
+C      logical fiting
 
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
@@ -469,7 +469,7 @@ C------- Next pass is last pass through structure
 C--------- reactive WRITE
           KWRT = 1
           IF(NRES .GT. 0) WRITE(NRES,FMT='(/,5X,''WRITE statements''
-     >    '' to zgoubi.res are re-established from now on.'')')
+     >    ,'' to zgoubi.res are re-established from now on.'')')
           IF(NRES .LT. 0) NRES=-NRES
         ENDIF
       ENDIF

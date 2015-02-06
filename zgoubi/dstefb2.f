@@ -31,6 +31,9 @@ C  -------
 
       parameter(lunW=12)
 
+C FM Jan 2015
+      DSTEFB2 = 999.D0 
+
 cc      open(unit=lunW,file='Distance.H')
 CCC later discussion on spiral/radial sector      IF (ASP0 .NE. 0.) THEN
       CALL RTNEWT2(XB,YB,D,E,AMIN,AMAX,XACC,TTARF,TZ,FA,Typ)

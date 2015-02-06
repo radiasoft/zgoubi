@@ -6,19 +6,19 @@ CFLAGS = -g -DGFORTRAN4
 #
 ######## 
 # Case of ifort compiler, next two lines
-FC=ifort
+#FC=ifort
 ### check : check array boundary errors
-FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
+#FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
 #FFLAGS= -xHOST -O3 -ip -traceback -check         -save
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save
 #FFLAGS= -xHOST -O3 -ip                   -static -save
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save
 ######## case OWL : 
 # Note : the -static option includes local libs (-lm etc.) into executable. Pb with that on cscomputers
-#FC=/opt/intel/bin/ifort
-#FFLAGS= -xHOST -O4 -ip  -save
+FC=/opt/intel/bin/ifort
+FFLAGS= -xHOST -O4 -ip  -save
 #FFLAGS= -xHOST -O4 -ip -traceback -save
-#FFLAGS= -xHOST -O4 -ip -traceback -check -save
+#FFLAGS= -xHOST -O3 -ip -traceback -check         -save
 
 .POSIX:
 
@@ -27,8 +27,6 @@ all :
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd zpop ; make CFLAGS="$(CFLAGS)" FC=gfortran FFLAGS="$(FFLAGS)"
-	cd doc ; make
 
 clean :
 	$(RM) *~
@@ -36,6 +34,5 @@ clean :
 	cd common ;  make clean
 	cd coupling ; make clean
 	cd zgoubi ;  make clean
-	cd zpop ; $(MAKE) clean
-	cd doc ; $(MAKE) clean
 
+ 

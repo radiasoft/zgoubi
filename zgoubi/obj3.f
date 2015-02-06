@@ -63,7 +63,7 @@ C     **************************************
 
       CHARACTER(1) LETI, LETAG
       CHARACTER(130) TXT
-      CHARACTER(1) TX1
+C      CHARACTER(1) TX1
       logical okopn
  
       data okopn / .false. /
@@ -203,7 +203,7 @@ C        IF(BINARY) THEN
 c     >      BRO, IPASSR, NOELR, tx1,TDUMK, tx1, 
 c     >                          tx1,TDUML, tx1, 
 c     >                          tx1,TDUML, tx1,LETI 
-            INCLUDE "FRMFAI.H"
+C            INCLUDE "FRMFAI.H"
 
 c             write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
 c     >       ,OKKP3(KP1,KP2,KP3,IPASSR,

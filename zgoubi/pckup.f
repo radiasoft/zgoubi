@@ -54,7 +54,7 @@ C     -----------------------------------------------------
       SAVE TBT, iqpu
 
       PARAMETER (KSIZ=10)
-      CHARACTER(KSIZ)  KLOBJ
+C      CHARACTER(KSIZ)  KLOBJ
 
       CHARACTER(KSIZ) KLEO
       LOGICAL CHKPU

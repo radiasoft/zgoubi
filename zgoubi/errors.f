@@ -81,10 +81,10 @@ C Will save error list in zgoubi.ERRORS.out
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/25X,''--- SETTING ERRORS ---'',/)') 
-        WRITE(NRES,FMT='(/15X,''On/off, number of sets, seed, start '',
+        WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)') 
+        WRITE(NRES,FMT='(/,15X,''On/off, number of sets, seed, start '',
      >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
-        WRITE(NRES,FMT='(/15X,''ERRORS TO BE INTRODUCED : '')')
+        WRITE(NRES,FMT='(/,15X,''ERRORS TO BE INTRODUCED : '')')
         DO IRR = 1, NBR
           WRITE(NRES,FMT='(20X,A)')
      >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
@@ -104,36 +104,36 @@ C G for gaussian, U for uniform
 C Case U : "sigma" stands for half-width
 C cut is in units of sigma
       DO IRR = 1, NBR
-        Txt132 = TA(NOEL,IRR)(debstr(TA(NOEL,IRR)):finstr(TA(NOEL,IRR)))
+        TXT132 = TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
 C         Get possible label1 and/or label2
-        ok = strcon(txt132,'{',
-     >                         is)
-        if(ok) then 
-          READ(txt132(1:is-1),*) klerr
-        else
-          READ(txt132,*) klerr
-        endif
-        if(klerr.eq.'MULTIPOL') then
-          txt132 = txt132(9:finstr(txt132))
-          if(ok) then 
-            ok = strcon(txt132,'{',
-     >                             is)
-            ok = strcon(txt132,'}',
-     >                             is2)
-            ok = strcon(txt132(is:is2),',',
-     >                                     is3)
-            if(is+1.lt.is2-1) then
-              if(.not. empty(txt132(is+1:is2-1))) 
-     >             read(txt132(is+1:is2-1),*) lbl1
-            endif
-            if(ok) then
-              if(.not. empty(txt132(is3+1:is2-1))) 
-     >          read(txt132(2:is2+1),*) lbl2
-            endif
-            txt132 = txt132(is2+1:finstr(txt132))
-          endif
+        OK = STRCON(TXT132,'{',
+     >                         IS)
+        IF(OK) THEN 
+          READ(TXT132(1:IS-1),*) KLERR
+        ELSE
+          READ(TXT132,*) KLERR
+        ENDIF
+        IF(KLERR.EQ.'MULTIPOL') THEN
+          TXT132 = TXT132(9:FINSTR(TXT132))
+          IF(OK) THEN 
+            OK = STRCON(TXT132,'{',
+     >                             IS)
+            OK = STRCON(TXT132,'}',
+     >                             IS2)
+            OK = STRCON(TXT132(IS:IS2),',',
+     >                                     IS3)
+            IF(IS+1.LT.IS2-1) THEN
+              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
+     >             READ(TXT132(IS+1:IS2-1),*) LBL1
+            ENDIF
+            IF(OK) THEN
+              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
+     >          READ(TXT132(2:IS2+1),*) LBL2
+            ENDIF
+            TXT132 = TXT132(IS2+1:FINSTR(TXT132))
+          ENDIF
 C          Get the rest of the arguments
-          txt132 = txt132(debstr(txt132):finstr(txt132))
+          TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           CALL STRGET(TXT132,99,
      >                          NSTR,STRA)
 C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
@@ -147,11 +147,25 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
           ELSE
             READ(STRA(5),*) ERRCEN
             READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
-            read(stra(7),*) errcut   ! in units of errsig for G, unused for U
-            call MULTP2(irr,ipol,typerr,typar,typdis,
-     >                      errcen,errsig,errcut,lbl1,lbl2)          
-          endif
-        endif
+            READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
+            CALL MULTP2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
+     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
+          ENDIF
+        ENDIF
+
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS INTRODUCED : '',/,
+     >  2(A,I3,/),3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
+     >  '   Error # ',IRR,
+     >  '    IPOL : ',IPOL,
+     >  '  TYPERR : ',TYPERR,
+     >  '   TYPAR : ',TYPAR,
+     >  '  TYPDIS : ',TYPDIS,
+     >  '  ERRCEN : ',ERRCEN,
+     >  '  ERRSIG : ',ERRSIG,
+     >  '  ERRCUT : ',ERRCUT,
+     >  '    LBL1 : ',LBL1,
+     >  '    LBL2 : ',LBL2
+ 
       ENDDO
 
       RETURN

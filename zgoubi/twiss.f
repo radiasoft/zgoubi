@@ -70,10 +70,10 @@ C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLOBJ
 
-      CHARACTER(KSIZ) KLEO
+C      CHARACTER(KSIZ) KLEO
 
-      LOGICAL IDLUNI
-      INTEGER DEBSTR, FINSTR
+C      LOGICAL IDLUNI
+C      INTEGER DEBSTR, FINSTR
 
       LOGICAL dolast
       save dolast

@@ -37,7 +37,7 @@ C  -------
       INTEGER DEBSTR,FINSTR
       DIMENSION X7(7)
       PARAMETER (I20=20)
-      CHARACTER(15) FRMT
+      CHARACTER(40) FRMT
 
       NFIC = INT(A(NOEL,1))
       NFRM =NINT( 10*(A(NOEL,1) - INT(A(NOEL,1))))
@@ -91,7 +91,8 @@ C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
  10       CONTINUE
             READ (LNR, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             LINE = LINE + 1
-            WRITE(LNW,FMT='(1P,<NCOL>(1X,E20.12))') (X7(I),I=1,NCOL)
+            WRITE(FRMT,FMT='(A,I0,A)') '(1P,',NCOL,'(1X,E20.12))'
+            WRITE(LNW,FRMT) (X7(I),I=1,NCOL)
 
           GOTO 10
  
@@ -134,7 +135,8 @@ c               write(*,*) ' sbr binary, try open ',oldfil,lnr
             IF    (NFRM.EQ.0) THEN
               READ (LNR,*, ERR=90, END= 1 ) (X7(I),I=1,NCOL)
             ELSEIF(NFRM.EQ.1) THEN
-              READ (LNR,fmt='(1X,<NCOL>E11.2)') (X7(I),I=1,NCOL)
+              WRITE(FRMT,FMT='(A,I0,A)') '(1X,',NCOL,'E11.2)'
+              READ (LNR,FMT=FRMT) (X7(I),I=1,NCOL)
             ENDIF
             LINE = LINE + 1
             WRITE(LNW) (X7(I),I=1,NCOL)

@@ -54,10 +54,10 @@ C------        Beam_ref    +dp/p     -dp/p
 
       DIMENSION RO(6,6)
 C      CHARACTER(140) BUFFER
-      INTEGER DEBSTR, FINSTR
+C      INTEGER DEBSTR, FINSTR
       LOGICAL IDLUNI, OK
 
-      CHARACTER(300) CMMND
+C      CHARACTER(300) CMMND
 
       DATA KWRMAT / .FALSE. /
 

@@ -31,7 +31,8 @@ C  -------
       CHARACTER(9) HMS
       LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
       CHARACTER(100) FILIN, FILOU, FILOG
-      CHARACTER(10) FDAT, FRES, FLOG
+      PARAMETER (I10 = 10)
+      CHARACTER(I10) FDAT, FRES, FLOG
 
       PARAMETER (I5=5, I6=6)
 
@@ -40,7 +41,7 @@ C  -------
       LOGICAL FITFNL
       INTEGER DEBSTR, FINSTR
 
-      CHARACTER(LEN=12), DIMENSION(:), ALLOCATABLE :: ARGS
+      CHARACTER(LEN=I10), DIMENSION(:), ALLOCATABLE :: ARGS
       LOGICAL SAVXEC, SAVZPP
       logical okwdat
 
@@ -117,7 +118,7 @@ C -----
  103  FORMAT(/,'  Zgoubi, author''s dvlpmnt version.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
- 1    CONTINUE
+C 1    CONTINUE
 
       READAT = .TRUE.
 

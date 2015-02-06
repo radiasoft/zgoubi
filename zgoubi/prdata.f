@@ -43,7 +43,6 @@ C-----------------------------------------------------------------------
       CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
       PARAMETER (I104=104)
-      LOGICAL STRCON
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'

@@ -76,7 +76,7 @@ C Numb of options. NBOP lines should follow
       ENDIF
 
       IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
- 2      IF(NRSAV .EQ. -11111) THEN
+        IF(NRSAV .EQ. -11111) THEN
           IF(NRES.GT.0) THEN
             WRITE(ABS(NRES),FMT='(/,T5,A)') 
      >      'WRITE OFF -> '//

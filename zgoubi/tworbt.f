@@ -42,7 +42,7 @@ C  -------
       COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       
       DIMENSION RREF(6,6), T(6,6,6)
-      DIMENSION T3(5,6) , T4(5,6)
+C      DIMENSION T3(5,6) , T4(5,6)
 
       LOGICAL READAT
 

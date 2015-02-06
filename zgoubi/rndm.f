@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       FUNCTION RNDM()
 C-- For ifort compiler. Comment otherwise
-        use ifport
+CCCCCCCCCCCC        use ifport
 C While not required, the recommend usage of the Intel Fortran portability 
 C library functions is to access these either by inserting a USE IFPORT in 
 C the calling program, or by including iflport.f90 from the INCLUDE directory 

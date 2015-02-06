@@ -1,4 +1,16 @@
+#!/bin/bash
+# init
+function pause(){
+   read -p "$*"
+} 
 
+#################################################################
+echo " " 
+echo " Did you change size in PARIZ.H ?   "
+echo " If not then do it, compile, and resume...       "
+echo " " 
+pause 'Press [Enter] key to continue...'
+echo " " 
 
 #################################################################
 echo "        "

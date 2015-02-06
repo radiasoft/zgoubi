@@ -47,7 +47,6 @@ C     ***************************************
       PARAMETER (ICPTM1=1000, ICPTM2=1000)
       LOGICAL FITSAV
       INTEGER DEBSTR, FINSTR
-      LOGICAL OK
       CHARACTER(80) FNAME
       LOGICAL EMPTY
       LOGICAL FIRST 
@@ -55,6 +54,8 @@ C     ***************************************
       DATA FIRST / .TRUE. /
 c      DATA PNLTY, ITRMA, ICPTMA / 1.D-10, 90, 1000 /
 c      DATA FITFNL / .TRUE. /
+
+      idum = imax
 
 C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132

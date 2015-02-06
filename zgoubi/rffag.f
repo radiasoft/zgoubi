@@ -86,11 +86,11 @@ C          Intgration limit at entrance
           NP = NP + 3
         ELSEIF(IDRT.EQ. 1) THEN
 C          Intgration limit at exit
-          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,3)                
+          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,3)
           NP = NP + 3
         ELSEIF(IDRT.EQ. 2) THEN
 C          Intgration limit at entrance and at exit
-          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,6)                
+          READ(TXT(DEBSTR(TXT)+6:400),*) IDUM,(A(NOEL,NP+I),I=1,6)
           NP = NP + 6
         ELSE
           CALL ENDJOB('Pgm rffag. No such option IDRT = ',IDRT)

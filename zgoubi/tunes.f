@@ -26,10 +26,12 @@ C  -------
      >                                           YNU,ZNU,CMUY,CMUZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*), F0(6,*)
-      LOGICAL OKPR
+      LOGICAL OKPR, okdum
 
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+
+      okdum=OKPR
 
       IERY=0
       IERZ=0

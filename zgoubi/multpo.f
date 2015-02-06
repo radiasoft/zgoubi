@@ -267,13 +267,16 @@ C----- Case erron (errors)
         DO IRR = 1, MXERR 
           OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+
           IF(OK) THEN
             CALL REBELR(
      >                  KREB3,KDUM,KDUM)
             CALL FITSTA(5,FITING)
             CALL FITST5(
      >                  FITFNL)         
+
             IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+C Won't go if KREB3=99, since this is multi-turn in same lattice. 
               CALL MULERR(NOEL,IRR,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
@@ -290,9 +293,9 @@ C----- Case erron (errors)
                 ELSE
                   LBL2L = LBL1(IRR)
                 ENDIF
-                WRITE(LERR,FMT='(3(1X,I5),3(1X,A),
+                WRITE(LERR,FMT='(4(1X,I5),3(1X,A),
      >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
-     >          NOEL,IRR,KPOL(IRR,IPOL),
+     >          NOEL,IRR,IPOL,KPOL(IRR,IPOL),
      >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
      >               DB(NOEL,IPOL),
@@ -308,19 +311,23 @@ C----- Case erron (errors)
                     BM(IM) = BM(IM) + DB(NOEL,IM)
                   ENDIF
                 ENDDO
+              ELSE
+                CALL ENDJOB
+     >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
               ENDIF      
             ENDIF      
+
             IF(KUASEX .LE. MPOL) THEN
               A(NOEL,12) = BM(KUASEX) / SCAL
             ELSEIF(KUASEX .EQ. MPOL+1) THEN
-              IA = 4
               DO IM=1,MPOL
                 IF(KPOL(IRR,IM).EQ.1) THEN
+                  IA = IM + 3
                   A(NOEL,IA) = BM(IM) / SCAL
-                  IA = IA + 1
                 ENDIF
               ENDDO
             ENDIF      
+
           ENDIF      
         ENDDO
       ENDIF
@@ -373,11 +380,11 @@ C--------------------------------------------------------------
 C Problem here : this write(89 is necessary for the FIT problem 
 C /home/meot/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
 C to work on my dell laptop
-           call fitsta(5,fiting)
-           if(fiting) then
-             write(89,*) im,RO, BM(IM)
-             rewind(89)
-           endif
+          CALL FITSTA(5,FITING)
+            if(FITING) then
+            write(89,*) im,RO, BM(IM)
+            rewind(89)
+          endif
 C--------------------------------------------------------------
 
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
@@ -589,24 +596,38 @@ C----- CASE ERRON (ERRORS)
             DO I = 1, MPOL
               IF(KPOL(IRR,I) .EQ. 1) THEN 
                 WRITE(NRES,FMT='(/,15X,
-     >          ''ERRORS ARE SET, ACCOUNTED FOR IN THE FIELDS '', 
-     >          ''ABOVE.'')')
+     >          ''ERRORS are set, accounted for in the field '', 
+     >          ''values above.'')')
                 WRITE(NRES,FMT=
-     >          '(15X,''CASE OF MULTIPOL WITH LABELS : '',4A,I4,A,I4)')
+     >          '(20X,''Case of MULTIPOL with labels : '',4A,I4,A,I4)')
      >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
-     >          ', # ELEMENT = ',NOEL  
-                WRITE(NRES,FMT='(15X,
-     >          ''POLE#, ERROR TYPE, A/R, G/U : '',I1,3(2X,A))')
+     >          ', # element = ',NOEL  
+                WRITE(NRES,FMT='(20X,
+     >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
      >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
-                WRITE(NRES,FMT='(15X,A,1P,3(E14.6,2X))') 
-     >          'ERR_CENTER, ERR_SIGMA, ERR_CUTOFF : ',
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+     >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
               ENDIF
             ENDDO
            ELSE
-             WRITE(NRES,FMT='(/,15X,
-     >       ''ERRORS WERE SET, ACCOUNTED FOR IN THE FIELDS '', 
-     >       ''ABOVE - MAINTAINDED UNCHANGED SO FAR.'')')
+            DO I = 1, MPOL
+              IF(KPOL(IRR,I) .EQ. 1) THEN 
+                WRITE(NRES,FMT='(/,15X,
+     >          ''ERRORS were set, accounted for in the field '', 
+     >          ''values above - maintainded unchanged so far.'')')
+                WRITE(NRES,FMT=
+     >          '(20X,''Case of MULTIPOL with labels : '',4A,I4,A,I4)')
+     >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
+     >          ', # element = ',NOEL  
+                WRITE(NRES,FMT='(20X,
+     >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
+     >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+     >          'err_center, err_sigma, err_cutoff : ',
+     >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+              ENDIF
+            ENDDO
            ENDIF
           ENDIF
          ENDDO
@@ -719,10 +740,10 @@ C      aK3 = AKS(3)
           OK = IDLUNI(
      >                 LERR)
           OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
-          WRITE(LERR,FMT='(A,I,A)') '# Origin of this print : multpo'
+          WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : multpo'
      >    //' program. This file opened with unit # ',LERR,'.'
           WRITE(LERR,FMT='(A)') '# '
-          WRITE(LERR,FMT='(A)') '# NOEL, IRR, KPOL(IRR,Ipol) '
+          WRITE(LERR,FMT='(A)') '# NOEL, IRR, IPOL, KPOL(IRR,Ipol) '
      >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
      >    //'DB(NOEL,IPOL), '

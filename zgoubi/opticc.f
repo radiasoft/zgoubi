@@ -69,6 +69,7 @@ C  -------
 
 c Print to zgoubi.OPTICS.out
 c      IF(KOPIMP.EQ.1) THEN
+      idum = KOPIMP
 
       IF(OKLNO) 
      > CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL,Cstrn)      

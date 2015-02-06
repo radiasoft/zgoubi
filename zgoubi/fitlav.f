@@ -29,6 +29,7 @@ C  -------
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
+      DUM = PAR
       FITLAV=0.D0
       NPTS = 0
 C      DO 21 I=1,IMAX

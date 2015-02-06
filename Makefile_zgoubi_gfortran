@@ -9,6 +9,8 @@ all :
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zpop ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd doc ; make
 
 clean :
 	$(RM) *~
@@ -16,4 +18,6 @@ clean :
 	cd common ;  make clean
 	cd coupling ; make clean
 	cd zgoubi ;  make clean
+	cd zpop ; $(MAKE) clean
+	cd doc ; $(MAKE) clean
 

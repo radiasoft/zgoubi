@@ -43,7 +43,7 @@ C  -------
 
       CHARACTER(80) FNAME, FNAMEI
 C      SAVE LSAV, FNAME
-      LOGICAL SAVFT, OK
+      LOGICAL SAVFT, OK, IDLUNI
       SAVE FNAME, SAVFT
 
       DATA MTHD / 2 / 

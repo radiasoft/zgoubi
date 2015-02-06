@@ -35,8 +35,7 @@ C     ********************************
       COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT132
-      LOGICAL STRCON, CMMNT, FITFNL, ok
-      CHARACTER(40) STRA(10)
+      LOGICAL STRCON
       INTEGER DEBSTR
  
 C on/off switch  (1/0), number of lines to follow, random generator seed

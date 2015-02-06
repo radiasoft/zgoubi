@@ -45,6 +45,8 @@ C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,u), (RM,rho)
       LOGICAL CHFE, CHU, CHFS
       PARAMETER (I0=0, I1=1)
 
+      DUM = EM(1)
+
       VN = V0*BRI
 
 C----- LambdaE,LambdaS 

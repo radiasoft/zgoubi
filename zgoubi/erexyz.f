@@ -33,6 +33,8 @@ C-------------------------------------------------------
       DIMENSION ER0(*)
       DIMENSION E(5,3),DE(3,3),DDE(3,3,3)
 
+      IDUM = IDE
+
       GOTO(10,20) IOP
 
  10   CONTINUE

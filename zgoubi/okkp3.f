@@ -31,7 +31,7 @@ C  -------
       IEND=0
       IF(KP1 .GE. 0) THEN
         IF(IPASS.GE.KP1  .AND. IPASS.LE.KP2) THEN   
-	  IF(MOD(IPASS-KP1,KP3) .EQ. 0) THEN
+          IF(MOD(IPASS-KP1,KP3) .EQ. 0) THEN
             OKKP3=.TRUE.
           ENDIF
         ELSEIF(IPASS.GT.KP2) THEN

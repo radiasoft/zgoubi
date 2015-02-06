@@ -45,7 +45,7 @@ C     -----------------------------------------------------
       LOGICAL IDLUNI, OPN
       SAVE OPN, KPCKUP
       LOGICAL FITING
-      INTEGER DEBSTR, FINSTR
+C      INTEGER DEBSTR, FINSTR
  
       DATA OPN / .FALSE. /
 

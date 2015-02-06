@@ -212,8 +212,8 @@ C         +++ IEX<-1 <=> Particule stoppee
 C 100      FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
 C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
             IF(IOP2.EQ.1) THEN
-              WRITE(NRES,FMT='(/,'' Beam centerd on momentum p/p_Ref ='',
-     >        1P,E16.8,/)') A(NOEL,13)
+              WRITE(NRES,FMT='(/,'' Beam centerd on momentum p/p_Ref =''
+     >        ,1P,E16.8,/)') A(NOEL,13)
             ENDIF
           ELSEIF(IOP .EQ. 5) THEN
             WRITE(NRES,107) ZC,BB*DEG,BB

@@ -41,7 +41,7 @@ C Get 1st and last PU #s, as well as corresponding NOELs, for PUs located in ran
       do ipu = ipui, ipuf-1
         call PCKUP5(iPU
      >                 ,xyz1)
-        do jpu = ipu+1, puf
+        do jpu = ipu+1, ipuf
           kpu = kpu+1
           call PCKUP5(jPU
      >                   ,xyz2)

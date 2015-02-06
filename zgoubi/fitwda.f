@@ -25,7 +25,6 @@ C  -------
       SUBROUTINE FITWDA
 C Will cause save of zgoubi.dat list with updated variables as following from FIT[2].
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL OK
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -35,6 +34,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLEY
       INTEGER DEBSTR, FINSTR
+      LOGICAL OK, IDLUNI
 
       OK = IDLUNI(
      >            LWDAT)
