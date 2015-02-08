@@ -104,13 +104,11 @@ C--------- New method
             CALL ENDJOB(' SBR RFIT, wrong input data / variables',-99)
           ENDIF
         ELSE
-C--------- Old method
- 
+C--------- Original method 
            READ(TXT132,*) IR(I),IS(I),XCOU(I),DX(I)
            XI = A(IR(I),IS(I))
            XMI(I)=XI-ABS(XI)*DX(I)
            XMA(I)=XI+ABS(XI)*DX(I)
-
         ENDIF
       ENDDO
 

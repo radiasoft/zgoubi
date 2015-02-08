@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE CHXP(ND,KALC,KUASEX,
      >                               XL,DSREF,NDD)
-      USE dynhc
+      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'PARIZ.H'
@@ -153,10 +153,22 @@ C          Field is defined by analytical models, mid plane (1) or 3D (3).
 
 C----- FACTEUR D'ECHELLE DES Champs. UTILISE PAR 'SCALING'
 C Field scale factor. Used by  'SCALING'
+
+C--------------------------------------------------------------
+C Problem here : this write(89 is necessary for the FIT problem 
+C /home/meot/zgoubi/struct/folks/thomasPlanche
+C to run (yet does not work) on my dell laptop. 
+C Otherwise scal=NaN is passed to dipi
+          CALL FITSTA(5,FITING)
+            if(FITING) then
+       write(89,*) ' chxp  SCAL , SCAL0() ',SCAL , SCAL0()
+        rewind(89)
+        endif
+C--------------------------------------------------------------
+
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
-
       AE = 0.D0
       AS = 0.D0
       IDRT = 0

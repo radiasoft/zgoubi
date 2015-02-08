@@ -20,7 +20,7 @@ C
 C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FBORNE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -43,18 +43,20 @@ C           P(I)=ABS(DX(I)*X(I)/10.D0) +.01D0
            K=I+NV
            J=K+NV
            KL=XCOU(I)
-           IF(KL .EQ. 0) THEN
+C FM Jan 2015. This was a mistake. The coupled variable is just forced to 
+C the value reached by the varied variable (in sbr rempli)
+c           IF(KL .EQ. 0) THEN
              X(K)=XMI(I)
              X(J)=XMA(I)
-           ELSE
-             IF(KL.LT.0) THEN
-               X(K)=-XMA(I)
-               X(J)=-XMI(I)
-             ELSE
-               X(K)=XMI(I)
-               X(J)=XMA(I)
-             ENDIF
-           ENDIF
+c           ELSE
+c             IF(KL.LT.0) THEN
+c               X(K)=-XMA(I)
+c               X(J)=-XMI(I)
+c             ELSE
+c               X(K)=XMI(I)
+c               X(J)=XMA(I)
+c             ENDIF
+c           ENDIF
       ENDDO
       RETURN
       END

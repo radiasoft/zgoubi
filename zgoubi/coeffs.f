@@ -44,6 +44,7 @@ C     ----------------------------------------------------------------------
       DIMENSION TX3(5,6) , TX4(5,6)
       logical prdic
       data prdic / .false. /
+      logical FITING
 
       IF    (IORD .EQ. 1) THEN
         IT1 = 1 + 11 * (IREF-1)
@@ -62,9 +63,16 @@ C     ----------------------------------------------------------------------
  
       CALL MKSA(IORD,R,T,TX3,TX4)
 
-      prdic = .false.
-      IF(IOPT.EQ.1) CALL BEAMAT(R,prdic,.false.,
-     >                                          F0,PHY,PHZ,Cstrn)
- 
+      PRDIC = .FALSE.
+      IF(IOPT.EQ.1) CALL BEAMAT(R,PRDIC,.FALSE.,
+     >                                          F0,PHY,PHZ,CSTRN)
+
+C FIT problem. Jan 2015
+          CALL FITSTA(5,FITING)
+            if(FITING) 
+     >      write(89,*) ' coeffs ',r(1,1),r(2,2) 
+            rewind(89)
+C------------
+
       RETURN
       END

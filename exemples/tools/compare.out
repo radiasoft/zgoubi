@@ -16,9 +16,11 @@
                     NU_Y =  0.18856151         NU_Z =  0.37642542E-01
         
 ////////////////  ../gsiKaos/usingDIPOLE-M - reference : 
-     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
                                            - new : 
-     LARGEUR IMAGE,  A MI-HAUTEUR =  1.337236E-02 CM,  TOTALE =  1.215158E-02 CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
         
 ////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
@@ -47,7 +49,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -65,14 +67,38 @@
                     NU_Y =  0.28049038         NU_Z =  0.16397137    
                     NU_Y =  0.27852585         NU_Z =  0.16409912    
         
-////////////////  ../usersGuide/FIT/ - reference : 
+////////////////  Now doing :   ../usersGuide/FIT/
+ Doing fit_negativeCoupl_FIT.res - reference : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+                          - new : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.439     m,        R34=0 at  -0.4233     m
+        
+ Doing fit_positiveCoupl_FIT.res - reference : 
           R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
-          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
-          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7079     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7079     m
                           - new : 
           R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
-          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
-          R12=0 at   -3.147     m,        R34=0 at  -0.7062     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7079     m
+        
+ Doing fit_negativeCoupl_FIT2.res - reference : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+                          - new : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+        
+ Doing fit_positiveCoupl_FIT2.res - reference : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7073     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7073     m
+                          - new : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7073     m
         
 ////////////////  ../usersGuide/FIT-and-REBELOTE/ - reference : 
  Fit reached penalty value   9.1352E-03
@@ -88,10 +114,10 @@
  Fit reached penalty value   9.6329E-03
         
 ////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : 
-          DetY-1 =      -0.2345240302,    DetZ-1 =      -0.2345240349
+          DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
           DetY-1 =      -0.2353424906,    DetZ-1 =      -0.2353424954
                           - new : 
-          DetY-1 =      -0.2345240302,    DetZ-1 =      -0.2345240349
+          DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
           DetY-1 =      -0.2353424906,    DetZ-1 =      -0.2353424954
         
 ////////////////  ../RHIC/matrix/ - reference : 
@@ -114,8 +140,6 @@
                               dNu_y / dp/p =  4.29909176E+01
                               dNu_z / dp/p = -5.45369658E+01
                           - new : 
-                              dNu_y / dp/p =  4.29909176E+01
-                              dNu_z / dp/p = -5.45369658E+01
         
 ////////////////  ../AGS_Booster/TWISS - reference : 
                     NU_Y =  0.29727205         NU_Z =  0.53232835    

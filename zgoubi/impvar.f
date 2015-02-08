@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPVAR(IUNIT,NI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -44,7 +44,6 @@ C  -------
 
       CALL MINO13(
      >            NITER)
-
       IF(IUNIT .EQ. 7) WRITE(IUNIT,100)
 100   FORMAT('1')
       IF(IUNIT.GT.0) WRITE(IUNIT,200) NI, NITER
@@ -73,10 +72,33 @@ C----    X(J)        P(I)
         IF(XCOU(I).NE.0.D0) THEN
           KL=XCOU(I)
           KP=NINT((1D3*XCOU(I)-1D3*KL))
-          SGN = KL/ABS(KL)
+          SGN = dsign(1.d0,dble(KL))
           ISGN = NINT(SGN)
-          IF(IUNIT.GT.0) WRITE(IUNIT,400) ISGN*KL,I,ISGN*KP,
-     >            A(IR(I),IS(I)),XI(I),SGN*X(I),X(J),P(I)
+          IF    (ISGN .EQ. 1) THEN
+            XMI = X(K)
+            XINI = XI(I)
+            XMA = X(J)
+          ELSEIF(ISGN .EQ. -1) THEN
+            SGN= DSIGN(1.D0,A(IR(I),IS(I)))* 
+     >                            DSIGN(1.D0,A(ISGN*KL,ISGN*KP))
+            JSGN = NINT(SGN)
+            IF   (JSGN .EQ. 1) THEN
+              XMI = X(K)
+              XINI = XI(I)
+              XMA = X(J)
+            ELSEIF(JSGN .EQ. -1) THEN
+              XMI = -X(J)
+              XINI = -XI(I)
+              XMA = -X(K)
+            ELSE
+              CALL ENDJOB('Pgm impvar. Impossible value JSGN =',JSGN)
+            ENDIF
+          ELSE
+            CALL ENDJOB('Pgm impvar. Impossible value ISGN =',ISGN)
+          ENDIF
+          IF(IUNIT.GT.0) WRITE(IUNIT,400) 
+     >    ISGN*KL,I,ISGN*KP,xmi,xini,
+     >    A(ISGN*KL,ISGN*KP),xma,P(I)
         ENDIF
  1    CONTINUE
       IF(IUNIT.GT.0) CALL FLUSH2(IUNIT,.FALSE.)

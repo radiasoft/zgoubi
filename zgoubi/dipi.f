@@ -75,6 +75,8 @@ C  NBFACE=(2)3 : dipole limited by (2)3 field boundaries
       ACENT = A(NOEL,NP)
       NP=NP+1 
       HNORM = A(NOEL,NP)*SCAL
+CCCCCCC       write(*,*) ' dipi  SCAL  ',SCAL,hnorm 
+
       NP=NP+1  
       COEFN = A(NOEL,NP)
       NP=NP+1 

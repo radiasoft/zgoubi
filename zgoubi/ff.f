@@ -123,6 +123,9 @@ C-----------Contraints are first order transport coeffs
      >                                F0P,Cstrn)
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
                VAL= U(K,L)
+
+c                   write(*,*) ' ffffffffffff ',k,l,val
+
              ELSEIF( K .EQ. 7 ) THEN
                IF(.NOT. L .EQ. 8 ) THEN
 C---------------Contraint determinant H

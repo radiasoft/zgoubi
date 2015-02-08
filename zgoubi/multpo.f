@@ -740,6 +740,7 @@ C      aK3 = AKS(3)
           OK = IDLUNI(
      >                 LERR)
           OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
+C          WRITE(LERR,FMT='(A,I,A)') '# Origin of this print : multpo'
           WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : multpo'
      >    //' program. This file opened with unit # ',LERR,'.'
           WRITE(LERR,FMT='(A)') '# '

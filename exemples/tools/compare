@@ -31,12 +31,14 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../gsiKaos/usingDIPOLE-M/"
 echo "        "
-(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "       | cat >>  compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi.res     | cat >>  compare.out
-echo "                                           - new : "             | cat >>  compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/zgoubi.res  | cat >>  compare.out
-echo "        "                                                        | cat >>  compare.out
+(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi_Y101.res_150206 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "                | cat >>  compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi_Y101.res_150206  | cat >>  compare.out
+grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/gsi_Y101.res_150206  | cat >>  compare.out
+echo "                                           - new : "                      | cat >>  compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
+grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
+echo "        "                                                                 | cat >>  compare.out
 echo "////////////////  ../gsiKaos/usingDIPOLE-M: done..."
 #
 #
@@ -126,10 +128,10 @@ echo "        "
 echo "////////////////  Now doing :   ../spiralFFAG/FFAG-SPI/"
 echo "        "
 (cd ../spiralFFAG/FFAG-SPI/ ; cp matrix_ffagSpi.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../spiralFFAG/FFAG-SPI/ - reference : "       | cat >>   compare.out
-grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res      | cat >>   compare.out
+echo "////////////////  ../spiralFFAG/FFAG-SPI/ - reference : "    | cat >>   compare.out
+grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res          | cat >>   compare.out
 echo "                          - new : "                          | cat >>   compare.out
-grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/zgoubi.res      | cat >>   compare.out
+grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/zgoubi.res                  | cat >>   compare.out
 echo "        "                                                    | cat >>   compare.out
 echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
 #
@@ -138,10 +140,29 @@ echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
 echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../usersGuide/FIT/"
+echo "////////////////  Now doing :   ../usersGuide/FIT/"        | cat >>   compare.out
 echo "        "
-(cd ../usersGuide/FIT/ ; cp fit.res zgoubi.dat ; sed -i 's/2                  # OF VARIABLES/2 nofinal     # OF VARIABLES/g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../usersGuide/FIT/ - reference : "       | cat >>   compare.out
-grep "R12=0 at "  ../usersGuide/FIT/fit.res                      | cat >>   compare.out
+echo " Doing fit_negativeCoupl_FIT.res - reference : "            | cat >>   compare.out
+(cd ../usersGuide/FIT/ ; cp fit_negativeCoupl_FIT.res zgoubi.dat ; sed -i 's/2  save   /2 nofinal /g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+grep "R12=0 at "  ../usersGuide/FIT/fit_negativeCoupl_FIT.res    | cat >>   compare.out
+echo "                          - new : "                        | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
+echo "        "                                                  | cat >>   compare.out
+echo " Doing fit_positiveCoupl_FIT.res - reference : "            | cat >>   compare.out
+(cd ../usersGuide/FIT/ ; cp fit_positiveCoupl_FIT.res zgoubi.dat ; sed -i 's/2  save   /2 nofinal /g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+grep "R12=0 at "  ../usersGuide/FIT/fit_positiveCoupl_FIT.res    | cat >>   compare.out
+echo "                          - new : "                        | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
+echo "        "                                                  | cat >>   compare.out
+echo " Doing fit_negativeCoupl_FIT2.res - reference : "           | cat >>   compare.out
+(cd ../usersGuide/FIT/ ; cp fit_negativeCoupl_FIT2.res zgoubi.dat ; sed -i 's/2  save   /2 nofinal /g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+grep "R12=0 at "  ../usersGuide/FIT/fit_negativeCoupl_FIT2.res   | cat >>   compare.out
+echo "                          - new : "                        | cat >>   compare.out
+grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
+echo "        "                                                  | cat >>   compare.out
+echo " Doing fit_positiveCoupl_FIT2.res - reference : "           | cat >>   compare.out
+(cd ../usersGuide/FIT/ ; cp fit_positiveCoupl_FIT2.res zgoubi.dat ; sed -i 's/2  save   /2 nofinal /g' zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+grep "R12=0 at "  ../usersGuide/FIT/fit_positiveCoupl_FIT2.res   | cat >>   compare.out
 echo "                          - new : "                        | cat >>   compare.out
 grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
 echo "        "                                                  | cat >>   compare.out
@@ -169,9 +190,9 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../variousKEYWORDS/SOLENOID.and.BREVOL/"
 echo "        "
-(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp zgoubi.res_trunk502_150202 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp zgoubi.res_trunk502_150206 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
-grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res_trunk502_150202 | cat >>   compare.out
+grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res_trunk502_150206 | cat >>   compare.out
 echo "                          - new : "                                          | cat >>   compare.out
 grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
 echo "        "                                                                    | cat >>   compare.out
