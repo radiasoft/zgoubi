@@ -91,7 +91,7 @@ C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
      >                            E,DE,DDE,KERK)
           CALL NORMB(E,DE,DDE)
         ENDIF
-        RETURN
+        GOTO 998
       ENDIF
  
       DA=XH(2)-XH(1)
@@ -596,7 +596,7 @@ C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
  418    CONTINUE
       ENDIF
  
-      RETURN
+      GOTO 998
  
  
  42   CONTINUE
@@ -614,7 +614,7 @@ C--------- electrique
           CALL BXRXYZ(BC,DBC,DDBC,R1,Z1,R,2,E,DE,DDE)
           CALL DBDXYZ(2,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ)
         ENDIF
-      RETURN
+      GOTO 998
  
  
  99   CONTINUE
@@ -646,7 +646,9 @@ C Due to reminicences from ancient times
       IF(IRD .EQ. 4) IDB=4
       CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
  
+ 998  CONTINUE
       RETURN
+
  999  RETURN 1
 
       ENTRY CHAMK2(SCALI)

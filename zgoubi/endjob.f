@@ -25,16 +25,22 @@ C  -------
       SUBROUTINE ENDJOB(TXT,II)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) TXT
+      INCLUDE 'MXLD.H'
+      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      NRES = ABS(NRES)
+      LUN = ABS(NRES)
       IF(II.EQ.-99) THEN
-        WRITE(   6,FMT='(/,1X,A)') TXT
-        WRITE(NRES,FMT='(/,1X,A)') TXT
+        WRITE(  6,FMT=
+     >  '(//,1X,A,''. Occured in element # '',I0,//)') ' '//TXT,NOEL
+        WRITE(LUN,FMT=
+     >  '( /,1X,A,''. Occured in element # '',I0)') TXT,NOEL
       ELSE
-        WRITE(   6,*) ' '//TXT,II
-        WRITE(NRES,*) ' '//TXT,II
+        WRITE(  6,FMT='(//,1X,A,
+     >  1X,I0,''. Occured in element # '',I0,//)') ' '//TXT,II,NOEL
+        WRITE(LUN,FMT='( /,1X,A,
+     >  1X,I0,''. Occured in element # '',I0)') TXT,II,NOEL
       ENDIF
-      WRITE(NRES,FMT='(/,''End of job !'',//,''  '')')
-      WRITE(   6,FMT='(/,''End of job !'',//,''  '')')
+      WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
+      WRITE(  6,FMT='(/,''End of job !'',//,''  '')')
       STOP
       END

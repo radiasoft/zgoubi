@@ -2693,3 +2693,58 @@
    3   1   3     6      0.0000000E+00     1.0000E+00    4.9788712E-03   2.5734E-03   TOSCA      *          *          *   0 : 
    7   1   2     6      0.0000000E+00     1.0000E+00   -8.5991763E-02   7.6764E-01   TOSCA      *          *          *   0 : 
  Fit reached penalty value   9.6329E-03
+
+ STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    1    1     30   -3.00       -1.84       -1.840000000       3.00      2.000E-02 OBJET      *          *         
+    1    2     31   -3.00       6.000E-02   6.0000000000E-02   3.00      2.000E-02 OBJET      *          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
+   3   1   2     6      0.0000000E+00     1.0000E+00    8.1418231E-03   7.2565E-03   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    8.1629180E-02   7.2942E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -4.9046288E-02   2.6333E-01   TOSCA      *          *          *   0 : 
+ Fit reached penalty value   9.1352E-03
+
+ STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    1    1     30   -3.00       -1.30       -1.300000000       3.00      2.000E-02 OBJET      *          *         
+    1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
+   3   1   2     6      0.0000000E+00     1.0000E+00    3.6561969E-02   2.2023E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    5.9165583E-02   5.7671E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00    3.5107390E-02   2.0306E-01   TOSCA      *          *          *   0 : 
+ Fit reached penalty value   6.0699E-03
+
+ STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    1    1     30   -3.00      -0.880      -0.8800000000       3.00      2.000E-02 OBJET      *          *         
+    1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.2566376E-02   4.4138E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    2.8341262E-02   1.9567E-01   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -3.8600183E-02   3.6296E-01   TOSCA      *          *          *   0 : 
+ Fit reached penalty value   4.1051E-03
+
+ STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    1    1     30   -3.00      -0.400      -0.4000000000       3.00      2.000E-02 OBJET      *          *         
+    1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.5659894E-02   7.5534E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    1.2231785E-02   5.4207E-02   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -2.2927628E-02   1.9045E-01   TOSCA      *          *          *   0 : 
+ Fit reached penalty value   2.7601E-03
+
+ STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
+ LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL         MAXIMUM      STEP     NAME       LBL1     LBL2
+    1    1     30   -3.00      -0.220      -0.2200000000       3.00      2.000E-02 OBJET      *          *         
+    1    2     31   -3.00       0.120       0.1200000000       3.00      2.000E-02 OBJET      *          *         
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-02)
+ TYPE  I   J  LMNT#       DESIRED           WEIGHT         REACHED         KI2       NAME       LBL1     LBL2         *  Parameter(s) 
+   3   1   2     6      0.0000000E+00     1.0000E+00    4.7047888E-02   2.2979E-01   TOSCA      *          *          *   0 : 
+   3   1   3     6      0.0000000E+00     1.0000E+00    4.9788712E-03   2.5734E-03   TOSCA      *          *          *   0 : 
+   7   1   2     6      0.0000000E+00     1.0000E+00   -8.5991763E-02   7.6764E-01   TOSCA      *          *          *   0 : 
+ Fit reached penalty value   9.6329E-03

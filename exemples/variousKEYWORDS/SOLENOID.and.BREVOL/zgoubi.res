@@ -332,7 +332,7 @@ J  1   0.9990     0.000     0.000     0.000     0.000       0.0000    0.9990    
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  08-02-0015,  at  10:04:18 
-  JOB  ENDED  ON    08-02-0015,  AT  10:04:18 
+  Job  started  on  08-02-0015,  at  21:44:18 
+  JOB  ENDED  ON    08-02-0015,  AT  21:44:19 
 
    CPU time, total :    5.200300000000000E-002

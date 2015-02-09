@@ -486,16 +486,16 @@ c      RETURN
 
       ENTRY SCALE9(
      >             KFMO)
-      do j = 1, MXSCL
+      DO J = 1, MXSCL
         KFMO(J) = KFM(J)
-        IF((KFMO(j).GE.0)) then
-        IF ((NTIM(KFMO(J)).NE.-1 )) then
+        IF((KFMO(J).GE.0)) THEN
+        IF ((NTIM(KFMO(J)).NE.-1 )) THEN
            BRO = BORO*DPREF
-           DO I=1, JPA(KFM(j),MXP) 
-              VPA(KFM(j),I) = splint(TIM(KFM(j),1:NTIM(KFM(j))),
-     >             SCL(KFM(j),1:NTIM(KFM(j)),I),NTIM(KFM(j)),BRO)
+           DO I=1, JPA(KFM(J),MXP) 
+              VPA(KFM(J),I) = SPLINT(TIM(KFM(J),1:NTIM(KFM(J))),
+     >             SCL(KFM(J),1:NTIM(KFM(J)),I),NTIM(KFM(J)),BRO)
            ENDDO
         ENDIF   
         ENDIF
-       enddo
+       ENDDO
       END
