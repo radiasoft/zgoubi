@@ -8,7 +8,7 @@ CFLAGS = -g -DGFORTRAN4
 # Case of ifort compiler, next two lines
 #FC=ifort
 ### check : check array boundary errors
-#FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
+##########################################FFLAGS= -xHOST -O3 -ip -traceback -check -static -save
 #FFLAGS= -xHOST -O3 -ip -traceback -check         -save
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save
 #FFLAGS= -xHOST -O3 -ip                   -static -save

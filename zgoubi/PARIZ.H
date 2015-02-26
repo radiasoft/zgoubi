@@ -108,11 +108,11 @@ c      PARAMETER (MXX=1001, MXY=150)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-c      PARAMETER (IZ=61 , ID=3, MMAP=8)
+        PARAMETER (IZ=61 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
 ccccccccccccccccc
-        PARAMETER (IZ=29 , ID=3, MMAP=8)
+c        PARAMETER (IZ=29 , ID=3, MMAP=8)
 ccccccccccccccccc
         PARAMETER (MXX=1001, MXY=101)
 c       compatible gsi_kaos

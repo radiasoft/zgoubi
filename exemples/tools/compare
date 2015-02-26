@@ -6,11 +6,16 @@ function pause(){
 
 #################################################################
 echo " " 
-echo " Did you change size in PARIZ.H ?   "
-echo " If not then do it, compile, and resume...       "
 echo " " 
-pause 'Press [Enter] key to continue...'
+echo " ////////////////////////////////////////////////////////////////////////////////////////" 
+echo " Did you change size in PARIZ.H ?           /////////////////////////////////////////////" 
+echo " If not then do it, compile, and resume...  /////////////////////////////////////////////" 
+echo " ////////////////////////////////////////////////////////////////////////////////////////" 
 echo " " 
+echo " " 
+echo  'Press [Enter] key to continue...'
+echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
+pause " waiting for your action... "
 
 #################################################################
 echo "        "
@@ -190,9 +195,9 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../variousKEYWORDS/SOLENOID.and.BREVOL/"
 echo "        "
-(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp zgoubi.res_trunk502_150206 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp trunk502.res_150226 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
-grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res_trunk502_150206 | cat >>   compare.out
+grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/trunk502.res_150226        | cat >>   compare.out
 echo "                          - new : "                                          | cat >>   compare.out
 grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
 echo "        "                                                                    | cat >>   compare.out
@@ -223,17 +228,17 @@ echo "////////////////  ../RHIC/matrix: done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../AGS/matrix/"
+echo "////////////////  Now doing :   ../AGS/TWISS/"
 echo "        "
-(cd ../AGS/matrix/ ; cp TWISS.res_141007 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../AGS/matrix/ - reference : "       | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../AGS/matrix/TWISS.res_141007   | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../AGS/matrix/TWISS.res_141007   | cat >>   compare.out
-echo "                          - new : "                     | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../AGS/matrix/zgoubi.res              | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../AGS/matrix/zgoubi.res              | cat >>   compare.out
-echo "        "                                               | cat >>   compare.out
-echo "////////////////  ../AGS/matrix: done..."
+(cd ../AGS/TWISS/ ; cp TWISS.res_022615 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../AGS/TWISS/ - reference : "       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS.res_022615        | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS.res_022615        | cat >>   compare.out
+echo "                          - new : "                   | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
+echo "        "                                             | cat >>   compare.out
+echo "////////////////  ../AGS/TWISS: done..."
 #
 #
 #################################################################

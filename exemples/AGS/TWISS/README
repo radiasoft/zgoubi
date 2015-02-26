@@ -1,0 +1,23 @@
+
+Files setup by Yann Dutheil, BNL, 02/26/15 : 
+
+A realitic AGS lattice in polarized proton configuration at ~20GeV.
+ 
+The lattice includes the 3D Opera maps of the two helical dipole snakes (TOSCA keywords). Including, in the cold snake case, 
+an adjustable linear combination of its, independent, solenoidal and helix components.  
+
+In this example Zgoubi computes the periodic functions along the AGS, they are stored in zgoubi.TWISS.out, formatted in 
+a similar way to equivalent MADX type of twiss output file.
+
+
+---
+A couple of tricks : 
+
+'OPTIONS'   with argument  "WRITE OFF/ON" 
+is used here so to inhibit zgoubi outputs to zgoubi.res between  "'MARKER'   #Start" and "  'MARKER'   #End" keywords. 
+This saves a lot of CPU time. 
+
+'SCALING' 
+reads the scaling of a series of optical elements from the "powerSupplies.in" file. This further allows full acceleration
+cycle from 2.51 to 25.38 GeV (injection energy into RHIC) if desired, by introducing the 'CAVITE' keyword. 
+

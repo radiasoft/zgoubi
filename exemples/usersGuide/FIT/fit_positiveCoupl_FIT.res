@@ -45,7 +45,7 @@ MATCHING A SYMMETRIC QUADRUPOLE TRIPLET, INCLUDING COUPLED QUADS
 2  save            ! # of variables; variables will save in zgoubi.FITVALS.out
 3  12 7.012  .2    ! Symmetric triplet => quads #1 and #3 are coupled
 5  12  0.   2.     ! Parmtr #12 of elements #3, 5 and 7 is the field value
-2  1.E-10  200     ! # of constraints; penalty; max. nmbr of itereations
+2  1.E-5  200     ! # of constraints; penalty; max. nmbr of itereations
 1  1 2 8 16.6 1.   ! Cnstrnt #1 : R12=16.6 after last drift (lmnt #8)
 1  3 4 8 -.88 1.   ! Cnstrnt #2 : R34=-.88 after last drift
  'MATRIX'                                                                                                    11
