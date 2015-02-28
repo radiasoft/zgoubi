@@ -33,7 +33,7 @@ C     ---------------------------------------------------
 C     CARTES  2-D  OU  ELEMENTS  DEFINIS  PAR  BZ(X,Y,0):
 C     SYMMETRISE PAR RAPPORT AU PLAN MEDIAN
 C     ---------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
 C Reminicences from ancient times
       B0=BZ0(1,1) 

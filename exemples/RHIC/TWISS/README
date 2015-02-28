@@ -1,0 +1,34 @@
+
+no more "Maximum # steps allowed =        10000" if spntrk is suppressed
+
+le pb vient de la valeur de B dans pvect
+
++ en amont : bri = nan dans multip
+
++ en amont : chamc bri :  NaN 
+
++ en amont : initra : f(1,i), dp = nan
+
+en fait c'est bend/245 juste avant quad/258 qui fait pb, verole dp et f(1,i) : 
+majtra           245   1.00000000000000        1000.00000000000      NaN 
+
+bri est verole car bri = qt/ q*boro*dp
+par conseqt, a l'entree dans 258 qui est le premier multip de champ non-nul en aval de 245, f(1,i) =nan
+
+
+  245/ 6819 BEND      /SBEN      /DS                                            
+ initra in :          245           1
+  QBR,DP    999.900000000000       0.999900000000000     
+   F(1,I)     1.00000000000000     
+ initra out :          245           1
+  QBR,DP    1000.00000000000        1.00000000000000     
+   F(1,I)     1.00000000000000     
+ majtra IN :           245           1
+  f(1,i),dp    1.00000000000000        1.00000000000000     
+  QBR,Q,BORO  NaN                       1.00000000000000     ****** qbr est verole a l'entree ds majtra. ce qui verole dp et F(1,i) 
+   1000.00000000000                                            et donc ensuite bri a l'entree dans le prochain MULTIPOL
+ majtra OUT :           245           1
+  DP  NaN                    
+------------
+
+

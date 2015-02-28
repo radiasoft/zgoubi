@@ -49,7 +49,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
@@ -67,7 +67,6 @@
                     NU_Y =  0.28049038         NU_Z =  0.16397137    
                     NU_Y =  0.27852585         NU_Z =  0.16409912    
         
-////////////////  Now doing :   ../usersGuide/FIT/
  Doing fit_negativeCoupl_FIT.res - reference : 
           R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
           R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
@@ -108,10 +107,10 @@
  Fit reached penalty value   9.6329E-03
                           - new : 
  Fit reached penalty value   9.1352E-03
- Fit reached penalty value   6.0699E-03
- Fit reached penalty value   4.1051E-03
- Fit reached penalty value   2.7601E-03
- Fit reached penalty value   9.6329E-03
+ Fit reached penalty value   1.1331E+00
+ Fit reached penalty value   3.9092E+00
+ Fit reached penalty value   8.5050E+00
+ Fit reached penalty value   1.1143E+01
         
 ////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : 
           DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
@@ -120,7 +119,7 @@
           DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
           DetY-1 =      -0.2353424906,    DetZ-1 =      -0.2353424954
         
-////////////////  ../RHIC/matrix/ - reference : 
+////////////////  ../RHIC/TWISS/ - reference : 
                     NU_Y =  0.68499603         NU_Z =  0.67299597    
                     NU_Y =  0.68479464         NU_Z =  0.67280439    
                     NU_Y =  0.68519475         NU_Z =  0.67320433    
@@ -129,7 +128,7 @@
                     NU_Y =  0.68479464         NU_Z =  0.67280439    
                     NU_Y =  0.68519475         NU_Z =  0.67320433    
         
-                  ../RHIC/matrix/ - reference : 
+                  ../RHIC/TWISS/ - reference : 
                               dNu_y / dp/p =  2.00054555E+00
                               dNu_z / dp/p =  1.99967243E+00
                           - new : 

@@ -67,7 +67,6 @@
                     NU_Y =  0.28049038         NU_Z =  0.16397137    
                     NU_Y =  0.27852585         NU_Z =  0.16409912    
         
-////////////////  Now doing :   ../usersGuide/FIT/
  Doing fit_negativeCoupl_FIT.res - reference : 
           R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
           R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
@@ -120,7 +119,7 @@
           DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
           DetY-1 =      -0.2353424906,    DetZ-1 =      -0.2353424954
         
-////////////////  ../RHIC/matrix/ - reference : 
+////////////////  ../RHIC/TWISS/ - reference : 
                     NU_Y =  0.68499603         NU_Z =  0.67299597    
                     NU_Y =  0.68479464         NU_Z =  0.67280439    
                     NU_Y =  0.68519475         NU_Z =  0.67320433    
@@ -129,7 +128,7 @@
                     NU_Y =  0.68479464         NU_Z =  0.67280439    
                     NU_Y =  0.68519475         NU_Z =  0.67320433    
         
-                  ../RHIC/matrix/ - reference : 
+                  ../RHIC/TWISS/ - reference : 
                               dNu_y / dp/p =  2.00054555E+00
                               dNu_z / dp/p =  1.99967243E+00
                           - new : 

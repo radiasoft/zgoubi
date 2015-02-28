@@ -36,14 +36,14 @@ C  -------
       DIMENSION D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
       DIMENSION BT(5, *)
  
-      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
-      COMMON/CONST2/ ZERO, UN
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       LOGICAL CHFE, CHFS, CHU
       PARAMETER (Q7=3.038194444D-4)
@@ -51,14 +51,18 @@ C  -------
       LOGICAL CASPI, LTEMP
       SAVE CASPI
 
-cC-----------------
-cC debugging
+C-----------------
+C debugging
 c       call zgnoel(
 c     >                 noel)
-c       write(*,*) ' multip ',noel,(bm(i),i=1,mpol)
-c       write(*,*) ' ----'
-c       write(*,*) ' '
-cC---------------------
+c      if(noel.eq.258) then
+c        write(*,*) ' multip ',kuasex
+c        write(*,*) noel,(bm(i),i=1,mpol)
+c        write(*,*) ' bri : ',bri
+c        write(*,*) ' ----'
+c        write(*,*) ' '
+c      endif
+C---------------------
 
       XLS=XLIM-XS 
       IOP=1
@@ -262,6 +266,10 @@ C----- QUADRUPOLE
       DLS = DLSM(IP)
       Y=Y0
       Z=Z0
+
+
+c      if(noel.eq.258) 
+c     >   write(*,*) ' multip bm(ip) ',ip,bri,bm(ip),gn
 
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
 

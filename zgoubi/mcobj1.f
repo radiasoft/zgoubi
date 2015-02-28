@@ -31,9 +31,9 @@ C     ----------------------------------------------------------
 C      Sorting at random on a window (KOBJ=1) or a grid (KOBJ=2)
 C      Uncorrelated coordinates
 C     ---------------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU

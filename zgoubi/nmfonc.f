@@ -18,12 +18,12 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973,USA
+C  Upton, NY, 11973, USA
 C  -------
       DOUBLE PRECISION FUNCTION NMFONC(XX)
-
+ 
       IMPLICIT NONE
       DOUBLE PRECISION XX(*)
       DOUBLE PRECISION NMFINI
@@ -31,14 +31,14 @@ C  -------
       INTEGER MXV
       PARAMETER (MXV=60)
       DOUBLE PRECISION X(3*MXV),P(MXV)
-      COMMON /VAR/X,P
+      INCLUDE "C.VAR_2.H"     ! COMMON /VAR/ X,P
       DOUBLE PRECISION FF
       EXTERNAL FF
       INTEGER I
       DOUBLE PRECISION FR
       INTEGER N,NI
       SAVE N,NI
-
+ 
       DO 1000 I=1,N
          IF (X(I).LE.X(I+N).OR.X(I+2*N).LE.X(I)) THEN
             WRITE(6,1100) I
@@ -57,15 +57,15 @@ C  -------
         WRITE (6,2000) FR
  2000   FORMAT(/,' Xi2 =',1P,E24.16,'   Busy...',/)
       ENDIF
-
+ 
       NMFONC = FR
-
+ 
       RETURN
-
+ 
       ENTRY NMFINI(NN)
-
+ 
       NI=0
       N=NN
       NMFINI = 0D0
-
+ 
       END

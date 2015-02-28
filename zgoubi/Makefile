@@ -158,6 +158,7 @@ OBJ=\
  gasesl.o\
  gasini.o\
  geneta.o\
+ getllb.o\
  getnam.o\
  getnol.o\
  getdst.o\
@@ -175,13 +176,13 @@ OBJ=\
  impctr.o\
  impdev.o\
  impfai.o\
- impmod.o\
  impplt.o\
  imptra.o\
  impvar.o\
  inicin.o\
  inidat.o\
  inidrt.o\
+ isnum.o\
  initra.o\
  integr.o\
  interm.o\
@@ -208,6 +209,7 @@ OBJ=\
  maplim.o\
  mat1.o\
  mat2.o\
+ matimc.o\
  matimp.o\
  matric.o\
  mcdes.o\
@@ -375,6 +377,8 @@ OBJ=\
  trobj.o\
  trrote.o\
  tunes.o\
+ tunesc.o\
+ twss.o\
  twiss.o\
  tworbt.o\
  undulf.o\
@@ -386,7 +390,6 @@ OBJ=\
  peu.o\
  vrble.o\
  vzero.o\
- waist.o\
  wedgki.o\
  wienfi.o\
  xnorm.o\
@@ -645,7 +648,6 @@ tworbt.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 undulia.o: $(INC)/MXLD.H
 unduli.o: $(INC)/MXLD.H
 unipot.o: $(INC)/MXLD.H
-waist.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 wedgki.o: $(INC)/MAXCOO.H
 wienfi.o: $(INC)/MXLD.H
 ymoiny.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H

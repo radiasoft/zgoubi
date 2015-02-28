@@ -31,8 +31,16 @@ C  Update coordinates of trajectory # I
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+
+c      call ZGNOEL(
+c     >             NOEL)
+c       if(noel.eq.245) then
+c           write(*,*) 'majtra IN :  ',noel,i
+c           write(*,*) ' f(1,i),dp ',f(1,i),dp
+c           write(*,*) ' QBR,Q,BORO ',QBR,Q,BORO
+c         endif
 
       F(2,I)=Y
       F(3,I)=T*1000.D0
@@ -45,5 +53,15 @@ C  Update coordinates of trajectory # I
       F(7,I)= TAR    *1.D-5
       AMQ(1,I) = AMT
       AMQ(2,I) = QT
+
+c       if(noel.eq.245) then
+c           write(*,*) 'majtra OUT :  ',noel,i
+c           write(*,*) ' DP ',DP
+c           write(*,*) 
+c           write(*,*) 
+c           write(*,*) 
+c         endif
+
+
       RETURN
       END

@@ -25,14 +25,12 @@ C  -------
       SUBROUTINE FBORNE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(81) TAMP
-      COMMON/EDIT/TAMP
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (MXV=60) 
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
-      COMMON /VAR/ X(3*MXV),P(MXV)
-      COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
+      INCLUDE "C.VAR.H"     ! COMMON /VAR/ X(3*MXV),P(MXV)
+      INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
+                          !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       DO I=1,NV
 C FM, Dec.2002, for fit of longitudinal ellipses out of pi-collect channel
 C            P(I)=ABS(DX(I)*X(I)/10.D0) +.01  replaced by
@@ -42,7 +40,7 @@ C           P(I)=ABS(DX(I)*X(I)/10.D0) +.01D0
            P(I)=(XMA(I)-XMI(I))/100.D0  
            K=I+NV
            J=K+NV
-           KL=XCOU(I)
+           KL=INT(XCOU(I))
 C FM Jan 2015. This was a mistake. The coupled variable is just forced to 
 C the value reached by the varied variable (in sbr rempli)
 c           IF(KL .EQ. 0) THEN

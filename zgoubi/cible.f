@@ -17,18 +17,18 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  François Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory              
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE CIBLE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CINE/ M1,M2,M3,M4,M12,M1212,M22,P0 ,G,C,C2,BG,EL3M,PC3
-     1,THETA,BETA,Q,PS(5),TS(5),NPS,NTS,II
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      COMMON/CINE/ M1,M2,M3,M4,M12,M1212,M22,P0 ,G,C,C2,BG,EL3M,PC3,
+     1THETA,BETA,Q,PS(5),TS(5),NPS,NTS,II
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -37,12 +37,12 @@ C  -------
       CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
  
       DOUBLE PRECISION M1,M2,M3,M4,M12,M1212,M22
@@ -86,8 +86,8 @@ C         LE PGM CONVERTIT LES DONNES EN GEV
       M1212=M12*M12
       M22=M2*M2
  
-      NTSMAX = A(NOEL,10)
-      NPSMAX = A(NOEL,11)
+      NTSMAX = NINT(A(NOEL,10))
+      NPSMAX = NINT(A(NOEL,11))
       PTS = A(NOEL,20)
       PPS = A(NOEL,21)
       DTS = A(NOEL,22)

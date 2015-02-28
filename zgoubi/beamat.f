@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE BEAMAT(R,PRDIC,OKCPLD,
      >                                 F0,PHY,PHZ,Cstrn)
@@ -28,7 +28,7 @@ C  -------
       DIMENSION R(6,*),F0(6,*)
       LOGICAL PRDIC, OKCPLD
       COMMON/BEAM/ FI(6,6)
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
       DIMENSION FII(6,6)
       LOGICAL OK, IDLUNI
@@ -91,55 +91,53 @@ Compute the inverse of R
         CALL DLAIN(N4,N4,RINV,N0,B,IER)
 
 C Get the N4xN4 1-turn map
-        call twiss1(
+        CALL TWISS1(
      >                RT)
-        call ZGNOEL(
+        CALL ZGNOEL(
      >               NOEL)
-        call pmat(RT,RINV,RINT,N4,N4,N4)
-        call pmat(R44,RINT,RT,N4,N4,N4)
+        CALL PMAT(RT,RINV,RINT,N4,N4,N4)
+        CALL PMAT(R44,RINT,RT,N4,N4,N4)
 C RT now contains the local 1-turn map 
 
         IF(OKCPLD) THEN
 
-          OK = IDLUNI(
-     >              LUNW)
-          IF(.NOT. OK) CALL ENDJOB(
-     >    'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
+c          OK = IDLUNI(
+c     >              LUNW)
+c          IF(.NOT. OK) CALL ENDJOB(
+c     >    'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
+c          OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
+c          WRITE(lunW,FMT='(//)')
+c          WRITE(lunW,FMT='(
+c     >    ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
+c          DO I=1,N4
+c             WRITE(lunW,FMT='(6(F15.8,1X))') (RT(I,J),J=1,N4)
+c          ENDDO
+c          WRITE(lunW,FMT='(/,a,i6)') ' Element # ',noel
+c          CLOSE(lunW,IOSTAT=IOS2)
+cCompute coupled optics
+c          cmmnd = '~/zgoubi/current/coupling/ETparam'
+c          CALL SYSTEM(cmmnd)
+c          OK = IDLUNI(
+c     >                 LUNW)
+c          call et2res(lunw)
+c          CLOSE(lunW)  
+c          call et2re1(
+c     >             F011,f012,f033,f034,phy,phz,Cstrn)
 
-          OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
-          WRITE(lunW,FMT='(//)')
-          WRITE(lunW,FMT='(
-     >    ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
-          DO I=1,N4
-             WRITE(lunW,FMT='(6(F15.8,1X))') (RT(I,J),J=1,N4)
-          ENDDO
-          WRITE(lunW,FMT='(/,a,i6)') ' Element # ',noel
+          CALL TUNESC(RT, 
+     >                   F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
 
-          CLOSE(lunW,IOSTAT=IOS2)
+c          F0(1,1) = F011
+c          F0(1,2) = f012
+c          F0(2,1) = F0(1,2) 
+c          F0(2,2) = (1.d0 + f012*f012 ) / F011
+c          F0(3,3) = f033
+c          F0(3,4) = f034
+c          F0(4,3) = F0(3,4) 
+c          F0(4,4) = (1.d0 + f034*f034 ) / F033
 
-Compute coupled optics
-          cmmnd = '~/zgoubi/current/coupling/ETparam'
-          CALL SYSTEM(cmmnd)
-
-          OK = IDLUNI(
-     >                 LUNW)
-          call et2res(lunw)
-          CLOSE(lunW)
-   
-          call et2re1(
-     >             F011,f012,f033,f034,phy,phz,Cstrn)
-
-          F0(1,1) = F011
-          F0(1,2) = f012
-          F0(2,1) = F0(1,2) 
-          F0(2,2) = (1.d0 + f012*f012 ) / F011
-          F0(3,3) = f033
-          F0(3,4) = f034
-          F0(4,3) = F0(3,4) 
-          F0(4,4) = (1.d0 + f034*f034 ) / F033
-
-          IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
-          IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
+c          IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
+c          IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
           F0(1,6) = -((RT(1,4)*
      -        (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) + 
@@ -318,16 +316,16 @@ Compute coupled optics
 
         ELSEIF(.NOT. OKCPLD) THEN
 
-          call raz(r66,6*6)
+          CALL RAZ(R66,6*6)
 
-          do jj = 1, N4
-            do ii = 1, N4
-              r66(ii,jj) = rt(ii,jj)
-            enddo
-          enddo
+          DO JJ = 1, N4
+            DO II = 1, N4
+              R66(II,JJ) = RT(II,JJ)
+            ENDDO
+          ENDDO
 
-c            write(*,*) ' beamat '
-c            write(*,fmt='(1p,6e13.4)') ((r66(ii,jj),ii=1,6),jj=1,6)
+C            WRITE(*,*) ' BEAMAT '
+C            WRITE(*,FMT='(1P,6E13.4)') ((R66(II,JJ),ii=1,6),jj=1,6)
 c                 read(*,*)
 
           CALL TUNES(R66,F0,1,IERY,IERZ,.FALSE.,
@@ -335,21 +333,20 @@ c                 read(*,*)
 
 C Periodic D and D', i.e. 6j, i6, are not computed correctly, 
 C it requires rt(6,j), rt(i,6), to be implemented. 
-        S2NU = 2.D0 - Rt(1,1) - Rt(2,2)
+          S2NU = 2.D0 - Rt(1,1) - Rt(2,2)
 c            write(*,*) ' beamat '
 c            write(*,fmt='(1p,3e13.4)') S2NU, Rt(1,1),  Rt(2,2)
 c                 read(*,*)
-        F0(1,6) = ( (1.D0 - R(2,2))*R(1,6) + R(1,2)*R(2,6) ) / S2NU
-        F0(2,6) = ( R(2,1)*R(1,6) + (1.D0 - R(1,1))*R(2,6) ) / S2NU
-        S2NU = 2.D0 - Rt(3,3) - Rt(4,4)
-        F0(3,6) = ( (1.D0 - R(4,4))*R(3,6) + R(3,4)*R(4,6) ) / S2NU
-        F0(4,6) = ( R(4,3)*R(3,6) + (1.D0 - R(3,3))*R(4,6) ) / S2NU
+          F0(1,6) = ( (1.D0 - R(2,2))*R(1,6) + R(1,2)*R(2,6) ) / S2NU
+          F0(2,6) = ( R(2,1)*R(1,6) + (1.D0 - R(1,1))*R(2,6) ) / S2NU
+          S2NU = 2.D0 - Rt(3,3) - Rt(4,4)
+          F0(3,6) = ( (1.D0 - R(4,4))*R(3,6) + R(3,4)*R(4,6) ) / S2NU
+          F0(4,6) = ( R(4,3)*R(3,6) + (1.D0 - R(3,3))*R(4,6) ) / S2NU
 
-        F0(1,6) = 0.d0
-        F0(2,6) =  0.d0
-        F0(3,6) =  0.d0
-        F0(4,6) =  0.d0
-
+          F0(1,6) = 0.d0
+          F0(2,6) =  0.d0
+          F0(3,6) =  0.d0
+          F0(4,6) =  0.d0
 
         ENDIF
       ENDIF

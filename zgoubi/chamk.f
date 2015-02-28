@@ -34,10 +34,10 @@ C      SI ID=3 ALORS IZ >= NOMBRE DE CARTES EN Z= IMPAIR > 2
 C     --------------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
       COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
@@ -46,12 +46,12 @@ C     --------------------------------------------------------
       COMMON/DDEXYZ/ DE(9),DDE(27)
       COMMON/D3EXYZ/ D3EX(3,3,3), D3EY(3,3,3), D3EZ(3,3,3)
       COMMON/D4EXYZ/ D4EX(3,3,3,3) ,D4EY(3,3,3,3) ,D4EZ(3,3,3,3)
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION A000(3),A100(3),A010(3),A001(3),A200(3),A020(3),
      >A002(3),A110(3),A101(3),A011(3)
@@ -151,6 +151,7 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
         IZC=MAX0(IZC,2)
         IZC=MIN0(IZC,KZMA-1)
         Z=Z1-ZH(IZC)
+
         GOTO 41
       ENDIF
 
@@ -462,8 +463,7 @@ C   *** Calculation of 6 coeffs of 3 polynomes with degre 2 :
 C     BX (Btta)  or  BY (Br)  or  BZ =
 C       A000 + A100*X + A010*Y + A001*Z + A200*X2 + A020*Y2 + A002*Z2
 C     + A110*XY + A101*XZ + A011*YZ
- 
-C                        isum =0
+
       DO 415 L = 1,3
         A000(L)=0.D0
         A100(L)=0.D0
@@ -481,6 +481,10 @@ C                        isum =0
             IA=I-2
             DO 416 K=1,3
               KZ=K-2
+c       if(noel.eq.89)  write(*,*) ' chamk //// ', l,
+c     > IAC+IA,IRC+JR,IZC+KZ,IMAP, SCAL
+c       if(noel.eq.89)  write(*,*) ' chamk  ', l,
+c     > HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP), SCAL
               BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP) * SCAL
               BMESH3(K,I,J) = BIJK
               A000(L)=A000(L) + 
@@ -507,6 +511,7 @@ C              A002(L)=A002(L) +  (3.D0*KZ*KZ-2.D0)   *BIJK
 
         CALL MAPLIM(*999, 27, BMESH3)
 
+
         A000(L)=A000(L)/( 9.D0      )*BRI
         A100(L)=A100(L)/(18.D0*DA   )*BRI
         A010(L)=A010(L)/(18.D0*DR   )*BRI
@@ -522,17 +527,12 @@ C
 C  CALCUL BZ ET SES DERIVEES AU POINT COURANT A1,R1,Z1
 C
 C     *** COMPOSANTES BX, BY, BZ DU Champ
- 
+
       DO 417 L = 1,3
         B(1,L)=A000(L)     
      >       + A100(L)*A   + A010(L)*R   + A001(L)*Z
      >       + A200(L)*A*A + A020(L)*R*R + A002(L)*Z*Z
      >       + A110(L)*A*R + A101(L)*A*Z + A011(L)*R*Z
-C FM, Check using SIGMAPHI fieldmap
-C                if(Z1.eq.0.D0) then    ! here I can see that A000 .ne.0 -> not correct
-C                 write(89,fmt='(i4,6g14.6)') 
-C     >               l,A000(L),b(1,1),b(1,2),b(1,3),db(1,1),db(1,2)
-C                endif
         DB(1,L)  = A100(L) + 2.D0*A200(L)*A + A110(L)*R + A101(L)*Z
         DB(2,L)  = A010(L) + 2.D0*A020(L)*R + A110(L)*A + A011(L)*Z
         DB(3,L)  = A001(L) + 2.D0*A002(L)*Z + A101(L)*A + A011(L)*R
@@ -647,6 +647,7 @@ C Due to reminicences from ancient times
       CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
  
  998  CONTINUE
+
       RETURN
 
  999  RETURN 1

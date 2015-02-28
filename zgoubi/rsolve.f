@@ -20,8 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
 
 CCCCCC using newton's method this procedure will solve the equation: r=RM*exp(b(r)*theta) where b(r) is defined earlier and theta=fixed here but varying in rtnewt2.

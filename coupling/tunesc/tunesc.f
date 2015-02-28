@@ -20,7 +20,7 @@ C
 C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
 c     tunesc.f
 c     written by Frédéric Desforges, frederic.desforges@grenoble-inp.org
@@ -36,8 +36,10 @@ C                 - integer and half-integer tunes forbidden
 C                 - vertical tune and horizontal not perfectly equal
 C
 c
-      SUBROUTINE TUNESC
+      SUBROUTINE TUNESC(R6,
+     >                     F0,NU1,NU2,CMUY,CMUZ,IERY,IERZ,RPARAM,C)
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
+      DIMENSION F0(6,6), R6(6,6)
       DIMENSION R(4,4),REIG(4,4),Q(4,4),U(4,4),WR(4),WI(4),P(4,4),PINV(4
      >,4),A(4,4),GV1(16),FV1(16),WORK(4),G(4,4),C(2,2),NUTEST(4)
       DOUBLE COMPLEX EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2,F1001,F1010
@@ -50,47 +52,15 @@ c
       PARAMETER (PI = 3.141592653589793)
       logical ok, idluni
 
-c      CALL SYSTEM('rm transfertM.dat')
-c      CALL SYSTEM('touch transfertM.dat')
-      
+      IERY=0
+      IERZ=0
 
-c     Opening of the file containing the transfert matrix
-
-      ok = idluni(
-     >            lunt) 
-      OPEN(lunt, FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS1)
-
-c     Zgoubi calculations
-
-c      CALL SYSTEM('/home/frederic/zgoubiCoupling/zgoubi/zgoubi')
-
-
- 1    CONTINUE
-
-
-C     Transfert matrix in coupled referential
-
-      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(lunt,FMT='(a)',END=99,ERR=98) BUFFER
-      READ(lunt,*)((R(I,J),J=1,4),I=1,4)
-
-      GOTO 1
-
- 98   CONTINUE
-      
-      WRITE(*,FMT='(/,/,''ERROR IN READING OF ZGOUBI.DAT'',/,/)')
-
- 99   CONTINUE
-
-      CLOSE(lunt,IOSTAT=IOS1)      
-
-c      WRITE(*,FMT='(/,6X,''TRANSFERT MATRIX (Rij) IN THE COUPLED FRAME''
-c     >,/)')
-c      WRITE(*,100) ((R(I,J),J=1,4),I=1,4)
-c 100     FORMAT(6X,4F13.8)
-
+      CALL RAZ(F0, 6*6)
+      DO J = 1, 4
+        DO I = 1, 4
+          R(I,J) = R6(I,J)
+        ENDDO
+      ENDDO
 
 C     Computation of eigen values and eigen vectors
       
@@ -102,9 +72,7 @@ C     Computation of eigen values and eigen vectors
       EV3 = CMPLX(WR(3),WI(3))                       ! 4th column: imaginary part of eigenvector 2
       EV4 = CMPLX(WR(4),WI(4))
 
-
 C     Normalization of the eigen vectors
-
 
       NORM1  = SQRT(Q(1,1)**2+Q(1,2)**2+Q(2,1)**2+Q(2,2)**2+Q(3,1)**2+Q(
      >3,2)**2+Q(4,1)**2+Q(4,2)**2)
@@ -161,14 +129,12 @@ C      Computation of the fractional part of the horizontal tunes without consid
       NUY  = SIGN(ATAN2(SMUY,CMUY) /(2.D0 * PI) ,R(1,2))
       IF(NUY .LT. 0.D0) NUY = 1 + NUY
 
-
 C     Computation of the fractional part of the vertical tunes without considering coupling
 
       CMUZ = .5D0 * (R(3,3)+R(4,4))
       SMUZ = SIGN(SQRT(-R(3,4)*R(4,3)-.25D0*(R(3,3)-R(4,4))**2),R(3,4))
       NUZ  = SIGN(ATAN2(SMUZ,CMUZ) /(2.D0 * PI) ,R(3,4))
       IF(NUZ .LT. 0.D0) NUZ = 1 + NUZ
-
 
 C     Tunes in the decoupled referential
 
@@ -274,28 +240,16 @@ C     Inverse of the transformation matrix
 
 
 C     Edwards-Teng's parameters: alpha, beta, gamma, r and the matrix C
-         
-      CALL TWSS(ALPHA1,BETA1,GAMMA1,ALPHA2,BETA2,GAMMA2,rPARAM,C,P)
-      
-      
+
+      CALL TWSS(P, 
+     >            F0,rPARAM,C)
+
 C     Hamiltonian pertubation parameters and  Computing of the unperturbed tunes from the coupling parameters
       
       CALL HAMILT(NU1,NU2,rPARAM,CMOINS,DELTA,NUX0,NUY0,DELTA2,CPLUS)
 
-
-C     Display of the results
-
-      OPEN(2, FILE='ETparam.res',STATUS='UNKNOWN',IOSTAT=IOS2)
-
-      nres = 7
-c      CALL POSITI(NRES,
-c     >                 ARCLEN,LABEL,KEYWOR)
-
-      CALL EXTRAC(2,ARCLEN,R,rPARAM,C,NU1,NU2,ALPHA1,ALPHA2,BETA1,BETA2,
-     >GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)
-      
-      CLOSE(2,IOSTAT=IOS2)
-
+       call matic2(rPARAM,C,NU1,NU2,ALPHA1,ALPHA2,BETA1,BETA2,
+     > GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)      
 
 C     Propagation of the generalized Twiss' parameters and coupling parameters
 
@@ -313,10 +267,6 @@ C      N_PROP = .TRUE.                                                    ! Flag
      >  ''BETA1'',9X,''BETA2'',9X,''ALPHA1'',8X,''ALPHA2'',8X,
      >  ''GAMMA1'',8X,''GAMMA2'',8X,''rPARAM'',/)')
       
-C        N_PROP = .TRUE.                                                    ! Flag turned on by default,
-C        N_PROP = .FALSE.                                                    ! Flag turned on by default,
-                                                                         ! it allows the computation of 
-C        IF(N_PROP .EQV. .TRUE.) CALL PROPAG(3,4,7,8,P,C,NU1,NU2,CMOINS)    ! the generalized Twiss' parameters 
         CALL PROPAG(3,4,nres,8,P,C,NU1,NU2,CMOINS,NUX0,NUY0)    ! the generalized Twiss' parameters 
                                                                          ! and coupling strenght along 
         CLOSE(8,IOSTAT=IOS8)                                               ! the ring
@@ -325,5 +275,5 @@ C        IF(N_PROP .EQV. .TRUE.) CALL PROPAG(3,4,7,8,P,C,NU1,NU2,CMOINS)    ! th
         CLOSE(3,IOSTAT=IOS3)
       ENDIF
 
-      return
+      RETURN
       END

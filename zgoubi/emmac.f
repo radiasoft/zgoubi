@@ -18,61 +18,61 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE EMMAC(SCAL,NDIM, 
+      SUBROUTINE EMMAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
-C     Read TOSCA map with cartesian coordinates. 
-C     TOSCA keyword with MOD.le.19. 
+C     Read TOSCA map with cartesian coordinates.
+C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-      COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-
+ 
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR, NEWFIC
       CHARACTER(80) TITL, NOMFIC(2), NAMFIC(2)
-
+ 
       SAVE NOMFIC, NAMFIC
-
+ 
       INTEGER DEBSTR,FINSTR
-
+ 
       SAVE NHDF
-
-      LOGICAL STRCON 
-
-      DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
+ 
+      LOGICAL STRCON
+ 
+      DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE ::
      >     HC1, HC2, HCA, HCB
 C      DIMENSION HC1(ID,MXX,MXY,IZ), HC2(ID,MXX,MXY,IZ)
 C      DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       SAVE HC1, HC2, HCA, HCB
-
+ 
 C      DIMENSION HCU(ID,MXX,MXY,IZ)
 C      SAVE HCU
-
+ 
       parameter (idmx=ID*MXX*MXY*IZ)
-
+ 
       CHARACTER(20) FMTYP
-
+ 
       DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
       SAVE XXH, YYH, ZZH
       DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
@@ -80,47 +80,47 @@ C      SAVE HCU
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
-
-      DATA NOMFIC / 2*'               '/ 
-
+ 
+      DATA NOMFIC / 2*'               '/
+ 
       DATA NHDF / 8 /
-
+ 
 C          data hcu /  IDMX * 0.d0 /
-
-      DATA FMTYP / ' regular' / 
+ 
+      DATA FMTYP / ' regular' /
       DATA IMAP / 1 /
-
+ 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
-
-      if( .NOT.ALLOCATED( HC1 )) 
+ 
+      if( .NOT.ALLOCATED( HC1 ))
      >     ALLOCATE( HC1(ID,MXX,MXY,IZ), STAT = IALOC)
-      IF (IALOC /= 0) 
+      IF (IALOC /= 0)
      >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HC1',
      >     -99)
-
+ 
       if( .NOT.ALLOCATED( HC2 ))
      >     ALLOCATE( HC2(ID,MXX,MXY,IZ), STAT = IALOC)
-      IF (IALOC /= 0) 
+      IF (IALOC /= 0)
      >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HC2',
      >     -99)
-
-      if( .NOT.ALLOCATED( HCA )) 
+ 
+      if( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
-      IF (IALOC /= 0) 
+      IF (IALOC /= 0)
      >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HCA',
      >     -99)
-
-      if( .NOT.ALLOCATED( HCB )) 
+ 
+      if( .NOT.ALLOCATED( HCB ))
      >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
-      IF (IALOC /= 0) 
+      IF (IALOC /= 0)
      >     CALL ENDJOB('SBR EMMAC Not enough memory for Malloc of HCB',
      >     -99)
-
+ 
 c      CALL KSMAP(
-c     >           IMAP) 
-
+c     >           IMAP)
+ 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
@@ -132,34 +132,34 @@ c     >           IMAP)
       ELSE
         NHD = NHDF
       ENDIF
-      IXMA = A(NOEL,20)
-      IF(IXMA.GT.MXX) 
+      IXMA = NINT(A(NOEL,20))
+      IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
-      JYMA = A(NOEL,21)
-      IF(JYMA.GT.MXY ) 
+      JYMA = NINT(A(NOEL,21))
+      IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
       IF(NDIM .EQ. 3) THEN
-        KZMA =A(NOEL,22)
-        IF(KZMA.GT.IZ ) 
+        KZMA =NINT(A(NOEL,22))
+        IF(KZMA.GT.IZ )
      >     CALL ENDJOB('Z-dim of map is too large,  max  is ',IZ)
       ENDIF
-
+ 
       MOD = NINT(A(NOEL,23))
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
-
+ 
       AF = A(NOEL,30)
       AD = A(NOEL,31)
       DIST = A(NOEL,32)
       DIST2 = A(NOEL,33)
-
+ 
       IF    (NDIM.EQ.2 ) THEN
-
+ 
         IF(MOD .EQ. 0) THEN
 C--------- Rectangular mesh
-C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
+C Keyword EMMA with *two* 2D maps, one for QF, one for QD,
 C a single map superimposition of both is built prior to tracking
-C and used for tracking. 
-
+C and used for tracking.
+ 
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
           CALL KSMAP4(NAMFIC(1),NFIC-1,AA(24:24+MXC-1),
@@ -167,54 +167,54 @@ C and used for tracking.
           NAMFIC(2) = TA(NOEL,1+NFIC)
           NAMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))
           NAMFIC(2) = NAMFIC(2)(DEBSTR(NAMFIC(2)):FINSTR(NAMFIC(2)))
-
-
-
+ 
+ 
+ 
           NEWFIC = (NAMFIC(1) .NE. NOMFIC(1))
           NEWFIC = NEWFIC .OR. (NAMFIC(2) .NE. NOMFIC(2))
           NOMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))
           NOMFIC(2) = NAMFIC(2)(DEBSTR(NAMFIC(2)):FINSTR(NAMFIC(2)))
-
+ 
         ELSEIF(MOD .EQ. 1) THEN
 C--------- Rectangular mesh
-C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
-C the resulting single map is obtained in the following way : 
-C  QF_new is interpolated from QF with dr=xF, 
-C  QD_new is interpolated from QD with dr=xD. 
+C Keyword EMMA with *two* 2D maps, one for QF, one for QD,
+C the resulting single map is obtained in the following way :
+C  QF_new is interpolated from QF with dr=xF,
+C  QD_new is interpolated from QD with dr=xD.
 C A single map superimposition of both is built prior to tracking
-C and used for tracking. 
+C and used for tracking.
           NFIC = 2
           NAMFIC(1) = TA(NOEL,NFIC)
           NAMFIC(2) = TA(NOEL,1+NFIC)
           NAMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))
           NAMFIC(2) = NAMFIC(2)(DEBSTR(NAMFIC(2)):FINSTR(NAMFIC(2)))
-
+ 
           NEWFIC = (NAMFIC(1) .NE. NOMFIC(1))
           NEWFIC = NEWFIC .OR. (NAMFIC(2) .NE. NOMFIC(2))
           NOMFIC(1) = NAMFIC(1)(DEBSTR(NAMFIC(1)):FINSTR(NAMFIC(1)))
           NOMFIC(2) = NAMFIC(2)(DEBSTR(NAMFIC(2)):FINSTR(NAMFIC(2)))
-
+ 
         ELSE
-
+ 
           CALL ENDJOB('*** Error, SBR EMMAC -> No  such  MOD= ',MOD)
-
+ 
         ENDIF
-
+ 
       ELSEIF(NDIM .EQ. 3 ) THEN
-
+ 
         CALL ENDJOB('*** Error, SBR EMMAC -> No  such  NDIM= ',NDIM)
-
+ 
       ENDIF
-
+ 
       IF(NRES.GT.0) THEN
-
-        WRITE(NRES,FMT='(/,5X,2(A,I3),A,A,I3)') 
+ 
+        WRITE(NRES,FMT='(/,5X,2(A,I3),A,A,I3)')
      >  'NDIM = ',NDIM,' ;   value of MOD is ', MOD,' ;  '
      >  ,'Number of map files set used is ',NFIC
-
+ 
         IF(NEWFIC) THEN
-           WRITE(NRES,209) 
- 209       FORMAT(/,10X  
+           WRITE(NRES,209)
+ 209       FORMAT(/,10X
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
@@ -226,37 +226,37 @@ C and used for tracking.
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
         ENDIF
-
-        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4)') 
+ 
+        WRITE(NRES,FMT='(/,5X,A,1P,2E12.4)')
      >  ' Value of field factor coefficients AF, AD are : ', AF, AD
-
+ 
         IF(MOD .EQ. 0) THEN
-          WRITE(NRES,FMT='(/,5X,A,1P,E12.4)') 
+          WRITE(NRES,FMT='(/,5X,A,1P,E12.4)')
      >    ' Distance between axis of quads : ', DIST
-          WRITE(NRES,FMT='(/,5X,A)') 
+          WRITE(NRES,FMT='(/,5X,A)')
      >    'A single map is built by superimposition prior to tracking'
         ELSEIF(MOD .EQ. 1) THEN
-          WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A)') 
+          WRITE(NRES,FMT='(/,5X,A,1P,E14.6,A)')
      >    ' Field map 1 recomputed following radial move ',DIST,' (cm)'
-          WRITE(NRES,FMT='(  5X,A,1P,E14.6,A)') 
+          WRITE(NRES,FMT='(  5X,A,1P,E14.6,A)')
      >    ' Field map 2 recomputed following radial move ',DIST2,' (cm)'
-          WRITE(NRES,FMT='(/,5X,A)') 
+          WRITE(NRES,FMT='(/,5X,A)')
      >    'A single map is built by superimposition prior to tracking'
         ENDIF
-      ENDIF 
-
+      ENDIF
+ 
       IF(NEWFIC) THEN
-
+ 
         IF(MOD .EQ. 0) THEN
 C------- Rectangular mesh
-C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
+C Keyword EMMA with *two* 2D maps, one for QF, one for QD,
 C a single map superimposition of both is built prior to tracking
-C and used for tracking. 
-
+C and used for tracking.
+ 
              IRD = NINT(A(NOEL,50))
              KZ = 1
              I1=1
-
+ 
              NFIC = 1
              IF(IDLUNI(
      >                 LUN)) THEN
@@ -270,26 +270,26 @@ C and used for tracking.
              ELSE
                GOTO 96
              ENDIF
-
+ 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
+     >         ' map,  FORMAT type : ', FMTYP
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
+ 
                do jjj=1,JYMA
                  do iii=1,IXMA
-                   do iid = 1, id    
+                   do iid = 1, id
                      HC1(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ,IMAP)
 c                      write(86,*) iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
                    enddo
                  enddo
                enddo
-
+ 
              NFIC = 2
              IF(IDLUNI(
      >                 LUN)) THEN
@@ -303,51 +303,51 @@ c                      write(86,*) iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
              ELSE
                GOTO 96
              ENDIF
-
+ 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
+     >         ' map,  FORMAT type : ', FMTYP
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                             BMIN,BMAX,
      >                             XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
+ 
                do jjj=1,JYMA
                  do iii=1,IXMA
-                   do iid = 1, id    
+                   do iid = 1, id
                      HC2(iid,iii,jjj,KZ) = HC(iid,iii,jjj,KZ,IMAP)
                    enddo
                  enddo
                enddo
-
-
+ 
+ 
           do jjj=1,JYMA
             do iii=1,IXMA
-              do iid = 1, id    
-                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ) 
+              do iid = 1, id
+                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ)
      >                         + AD * HC2(iid,iii,jjj,KZ)
 c                write(86,*) af,ad,iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
               enddo
             enddo
           enddo
-
+ 
         ELSEIF(MOD .EQ. 1) THEN
 C--------- Rectangular mesh
-C Keyword EMMA with *two* 2D maps, one for QF, one for QD, 
-C the resulting single map is obtained in the following way : 
-C  QF_new is interpolated from QF with dr=xF, 
-C  QD_new is interpolated from QD with dr=xD. 
+C Keyword EMMA with *two* 2D maps, one for QF, one for QD,
+C the resulting single map is obtained in the following way :
+C  QF_new is interpolated from QF with dr=xF,
+C  QD_new is interpolated from QD with dr=xD.
 C A single map superimposition of both is built prior to tracking
-C and used for tracking. 
-
+C and used for tracking.
+ 
            IRD = NINT(A(NOEL,50))
            KZ = 1
            I1=1
-
+ 
            IF(NEWFIC) THEN
-
+ 
              NFIC = 1
              IF(IDLUNI(
      >                 LUN)) THEN
@@ -361,33 +361,33 @@ C and used for tracking.
              ELSE
                GOTO 96
              ENDIF
-
+ 
              LNGTH=LEN(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
+     >         ' map,  FORMAT type : ', FMTYP
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                 BMIN,BMAX,
      >                                 XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
+ 
              DO JJJ=1,JYMA
                DO III=1,IXMA
-                 DO IID = 1, ID    
+                 DO IID = 1, ID
                    HCA(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
              CLOSE(UNIT=LUN)
-
+ 
            ENDIF ! NEWFIC
-
+ 
            CALL MAPSHF(HCA,XH,YH,DIST,IXMA,JYMA,
      >                                           HC1)
-
+ 
            IF(NEWFIC) THEN
-
+ 
              NFIC = 2
              IF(IDLUNI(
      >                 LUN)) THEN
@@ -401,50 +401,50 @@ C and used for tracking.
              ELSE
                GOTO 96
              ENDIF
-
+ 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+             IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
+     >         ' map,  FORMAT type : ', FMTYP
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                               BMIN,BMAX,
      >                               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
              CLOSE(UNIT=LUN)
-
+ 
              DO JJJ=1,JYMA
                DO III=1,IXMA
-                 DO IID = 1, ID    
+                 DO IID = 1, ID
                    HCB(IID,III,JJJ,KZ) = HC(IID,III,JJJ,KZ,IMAP)
                  ENDDO
                ENDDO
              ENDDO
  
            ENDIF ! NEWFIC
-
+ 
            CALL MAPSHF(HCB,XH,YH,DIST2,IXMA,JYMA,
      >                                           HC2)
-
+ 
 C Superimpose the two field maps into a single one
 C          zer1 = 0.d0
           do jjj=1,JYMA
             do iii=1,IXMA
-              do iid = 1, id    
-                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ) 
+              do iid = 1, id
+                HC(iid,iii,jjj,KZ,IMAP) = AF * HC1(iid,iii,jjj,KZ)
      >                         + AD * HC2(iid,iii,jjj,KZ)
 c                zerA = HCA(iid,iii,jjj,KZ) - HC1(iid,iii,jjj,KZ)
 c                zerB = HCB(iid,iii,jjj,KZ) - HC2(iid,iii,jjj,KZ)
               enddo
             enddo
           enddo
-
+ 
         ELSE
-
+ 
           CALL ENDJOB('*** Error, SBR EMMAC -> No  such  MOD= ',MOD)
-
+ 
         ENDIF
-
+ 
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA
@@ -466,15 +466,15 @@ C------- Store mesh coordinates
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
-
+ 
            write(*,*)'emmac x1,x2,y1,y2 : ',imap,XXH(1,imap),XXH(2,imap)
      >         ,yyH(1,imap),yyH(2,imap)
                stop
-
+ 
       ELSE
-
+ 
            IRD = NINT(A(NOEL,40))
-
+ 
 C------- Restore mesh coordinates
            IXMA = IIXMA(IMAP)
            DO I=1,IXMA
@@ -482,35 +482,35 @@ C------- Restore mesh coordinates
            ENDDO
            JYMA = JJYMA(IMAP)
            DO J=1,JYMA
-             YH(J) = YYH(J,imap) 
+             YH(J) = YYH(J,imap)
            ENDDO
            KZMA = KKZMA(IMAP)
            DO K= 1, KZMA
              ZH(K) = ZZH(K,imap)
            ENDDO
-           BMIN = bBMI(imap) 
-           BMAX = bBMA(imap)  
-           XBMI = XBbMI(imap)  
-           YBMI = YbBMI(imap)  
-           ZBMI = ZbBMI(imap)  
-           XBMA = XbBMA(imap)  
-           YBMA = YBBMA(imap) 
-           ZBMA = ZBBMA(imap)  
-
+           BMIN = bBMI(imap)
+           BMAX = bBMA(imap)
+           XBMI = XBbMI(imap)
+           YBMI = YbBMI(imap)
+           ZBMI = ZbBMI(imap)
+           XBMA = XbBMA(imap)
+           YBMA = YBBMA(imap)
+           ZBMA = ZBBMA(imap)
+ 
            IF(NRES.GT.0) THEN
              WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
      >       ' restored mesh coordinates for field map # ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
            ENDIF
-
+ 
       ENDIF ! NEWFIC
-
+ 
       CALL CHAMK2(BNORM*SCAL)
-
+ 
 C Make sure this is ok with cartésien
         CALL MAPLI1(BMAX-BMIN)
-
+ 
       RETURN
  96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)

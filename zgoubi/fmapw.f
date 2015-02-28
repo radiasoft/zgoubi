@@ -28,11 +28,11 @@ C  -------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
 C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 
       DIMENSION BREAD(3)
 C----- at entry FMAPR :
@@ -59,6 +59,7 @@ C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
 
       DATA MOD, MOD2 / 0, 0 /
       DATA IMAP / 1 /
+      data ialoc / 0 /
 
       CALL KSMAP(
      >           IMAP) 
@@ -570,7 +571,7 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
 
       IF( .NOT.ALLOCATED( HCTMP )) 
      >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
-      IF (IALOC /= 0) 
+      IF (IALOC .ne. 0) 
      >     CALL ENDJOB('SBR FMAPW Not enough memory'//
      >     ' for Malloc of HCTMP',
      >     -99)
@@ -612,7 +613,7 @@ C Map data file starts with NHD-line header
               ENDDO
               IF(NRES.GT.0) THEN
                 WRITE(NRES,FMT='(A,1P,4E17.8,/)') 
-     >          ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
+     >          ' R0, DR, DTTA, DZ : ',R0, DR, DTTA, DZ
                 CALL FLUSH2(NRES,.FALSE.)
               ENDIF
             ENDIF

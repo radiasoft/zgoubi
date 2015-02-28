@@ -34,35 +34,35 @@ C------------------------------
       CHARACTER(*) NOMFIC(*)
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
-
+ 
       SAVE NBMAPS, KMAP
-
+ 
       DATA NBMAPS, KMAP / 0, 0 /
       DATA NAMSAV / MIZ*' ' /
-
+ 
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
       PARAMETER (MXC = 4)
       DIMENSION COEFS(MMAP,IZ), AA(IZ)
-
+ 
 C      PARAMETER (KSIZ=10)
 C      CHARACTER(KSIZ) KLE, KLEI
 C      PARAMETER (LBLSIZ=10)
 C      CHARACTER(LBLSIZ) LBL1, LBL2, LBL1I, LBL2I
-
+ 
 C Read
       KMAPO = KMAP
  
       RETURN
-
+ 
 C Reset
       ENTRY KSMAP0
-
+ 
       NBMAPS = 0
-
+ 
       RETURN
-
+ 
 C--
-C Stack, count. 
+C Stack, count.
       ENTRY KSMAP4(NOMFIC,NFIC,AA,
      >                         NEWFIC,NBMAPO,KMAPO)
 C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
@@ -80,7 +80,7 @@ C     16/01/14 to check also the coefficients
  1    CONTINUE
       NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
-        IF(NBMAPS.GE.MMAP) THEN 
+        IF(NBMAPS.GE.MMAP) THEN
           WRITE(NRES,*) ' SBR ksmap(b) : too many different field maps'
           CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
         ENDIF
@@ -97,16 +97,16 @@ C     16/01/14 to save the coefficients
       NBMAPO = NBMAPS
       KMAPO = KMAP
       RETURN
-
+ 
 C--
 C Stack, count, case self-made maps : dipole-m, aimant, cartemes, etc.
-C INSTALLATION HAS TO BE COMPLETED, 
-C It is not in the present state compatible with KSMAP4, neither does it allow stacking maps. 
+C INSTALLATION HAS TO BE COMPLETED,
+C It is not in the present state compatible with KSMAP4, neither does it allow stacking maps.
       ENTRY KSMAP5(
      >             KMAPO)
       NBMAPS = NBMAPS+1
       KMAP = NBMAPS
       KMAPO = KMAP
       RETURN
-
+ 
       END

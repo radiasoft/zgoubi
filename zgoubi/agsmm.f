@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Meot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -30,70 +30,70 @@ C  -------
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
  
-      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
-      COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
+      INCLUDE "C.EFBS.H"     ! COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-      COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+      INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+      INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       COMMON/SYNRA/ KSYN
-
-
+ 
+ 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
-     
+ 
       CHARACTER(3) DIM(2)
       CHARACTER(2) BE(2)
       DIMENSION  AREG(2),BREG(2),CREG(2)
-
+ 
       DIMENSION AK1(6), AK2(6), AKS(6)
       PARAMETER (MBLW=3)
       DIMENSION WN(MBLW), WA(MBLW)
-
+ 
       PARAMETER (I3=3)
-
+ 
       DIMENSION DB(3)
-
+ 
       DIMENSION AA(MXD)
-
+ 
       CHARACTER(80) TXT30
-
+ 
       INCLUDE 'MXSCL.H'
       dimension kfm(MXSCL)
-
+ 
       DATA DIM / 'kG ', 'V/m'/
-      DATA BE / 'B-', 'E-'/ 
+      DATA BE / 'B-', 'E-'/
       DATA AK1, AK2 / 6*1.D0, 6*1.D0 /
       DATA WA / MBLW * 0.D0 /
       DATA WN / MBLW * 0.D0 /
-
+ 
       SAVE AKS, SXL
-      
-
+ 
+ 
       SKEW=.FALSE.
       CALL RAZ(BM,NPOL)
-         
+ 
       RO = 10.d0
-
+ 
       MOD = NINT(A(NOEL,10))
       DLL =A(NOEL,11)
       GAP =A(NOEL,12)
@@ -103,7 +103,7 @@ C dB1, dB2, dB3
         IF(12+I .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
         AA(12+I) = A(NOEL,12+I)
       ENDDO
-
+ 
       NBLW =  INT(       A(NOEL,20))
       MODBW = NINT(10.D0*A(NOEL,20)) - 10*NBLW
       IF(NBLW .GT. 2) STOP ' SBR agsmm, NBLW cannot exceed 2'
@@ -112,10 +112,10 @@ C Bcklg winding currents
         IF(21+(2*I-1) .GT. MXD) STOP ' SBR AGSMM. ARG TOO LARGE'
         AA(21+(2*I-1)) = A(NOEL,21+(2*I-1))
       ENDDO
-
+ 
       CALL SCALE9(
      >            KFM)
-
+ 
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) GOTO 20
         DO I = 1, JPA(KFM(ifm),MXP)
@@ -128,17 +128,17 @@ c     >  i,ifm,mxp,JPA(KFM(ifm),MXP), VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
 c     >  , kfm(ifm)
         ENDDO
       ENDDO
-
+ 
  20   CONTINUE
-
-C This is a remedy to otherwise  
+ 
+C This is a remedy to otherwise
 C FIT2 in presence of AGSMM variables in SCALING
 C The problem is only on  my laptop. Not on Yann's nor CAD computers...
-C        write(*,fmt='(a,4i4,1p,2e12.4)') ' agsmm ', 
+C        write(*,fmt='(a,4i4,1p,2e12.4)') ' agsmm ',
 C     > NBLW,KFM, mxp, JPA(KFM,mxp), AA(JPA(KFM,I)), VPA(KFM,I)
 C The problem is cured as well by adding a dummy "MULTIPOL' right before the first 'AGSMM'...
 C------
-
+ 
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
      >                                    AK1,AK2,AKS)
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
@@ -149,29 +149,29 @@ C------
 c       if(noel.eq.456)
 c     >     write(87,*) ' agsmm i/nblw, wn,  wa ',i,'/',nblw,wn(i),wa(i)
       ENDDO
-
+ 
       CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,WN,WA,
      >                                       BM,I3)
-
+ 
 c      DO I = 1, NBLW
 c       if(noel.eq.456)
 c     > write(87,*) ' agsmm i/nblw, wn,  wa (3) ',i,'/',nblw,wn(i),wa(i)
 c      ENDDO
-
-
-
+ 
+ 
+ 
       DEV = ANGMM
       DO I = 1, I3
         DB(I) = AA(12+I)
 c        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
        BM(I) = SCAL * (BORO*1.D-3      ) * BM(I) * (1.D0 + DB(I))
       ENDDO
-
+ 
 c           i = 1
-c       if(noel.eq.456)write(87,*) 
+c       if(noel.eq.456)write(87,*)
 c     >        ' agsmm bm(i) ',i,bm(i)*SCAL*(BORO*1.D-3),scal
-
-
+ 
+ 
       XE =A(NOEL,30)
       DO IM=1,3
         DLE(IM) =A(NOEL,30+IM)
@@ -204,7 +204,7 @@ C        DECA, DODECA, ... 18-POLE
       DLS(8)=ZERO
       DLE(9)=ZERO
       DLS(9)=ZERO
-  
+ 
 C--- Pole rotation
       DO 35 IM=1,3
         RT(IM)=A(NOEL,70+IM-1)
@@ -214,16 +214,16 @@ C--- Pole rotation
       NM0 = 1
       NM = NPOL
  
-C------- 
+C-------
       DO IM = NM0+1,NM
         DLE(IM)  = DLE(NM0)*DLE(IM)
         DLS(IM)  = DLS(NM0)*DLS(IM)
       ENDDO
-             
+ 
       AKS(1) = BM(1)/(BORO*DPREF)*1.d2
-        
+ 
       SXL = XL
-
+ 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) 'AGS Dipole',XL,DEV,DEV*DEG,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
@@ -235,39 +235,39 @@ C-------
      >  ,IM-1, AKS(IM), IM, IM-1, IM-1, DB(IM), IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,G17.8,1X,A,'  (K',I1,' = ',G17.8,' /m'
      >  ,I1,'),  dB',I1,'/B',I1,' = ',G17.8)
-
-        IF    (MOD.EQ.1) THEN 
+ 
+        IF    (MOD.EQ.1) THEN
           TXT30=' centered multipol model'
-        ELSEIF(MOD.EQ.2) THEN 
+        ELSEIF(MOD.EQ.2) THEN
           TXT30=' long-shifted dipole model'
         ELSE
           TXT30=' short-shifted dipole model'
         ENDIF
         WRITE(NRES,FMT='(/,15X,''Mode  = '',I2,'',  '',A)') MOD,TXT30
-
+ 
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,G17.8,' RAD')
         IF(XL .NE. 0.D0) THEN
           IF( (XL-DLE(NM)-DLS(NM)) .LT. 0.D0) WRITE(NRES,102)
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',
      >    /,10X,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
-
+ 
         WRITE(NRES,108) NBLW
  108    FORMAT(/,15X,'Nbr of backleg windings : ',I1)
         IF(NBLW .GE.1) THEN
-          IF    (MODBW.EQ.0) THEN 
+          IF    (MODBW.EQ.0) THEN
             TXT30=' user defined back-leg windings'
-          ELSEIF(MODBW.EQ.1) THEN 
+          ELSEIF(MODBW.EQ.1) THEN
             TXT30=' real AGS back-leg windings'
           ENDIF
           WRITE(NRES,FMT='(15X,''Mode 2 = '',I2,'',  '',A)') MODBW,TXT30
-
+ 
           DO IBLW = 1, NBLW
 c            WRITE(NRES,*) 'Backleg winding #, # of turns, current : ',
 c     >      IBLW, NINT(WN(IBLW)), WA(IBLW)
             WRITE(NRES,109) IBLW, NINT(WN(IBLW)), WA(IBLW)
  109        FORMAT(18X,'Backleg winding # ',I2,',  Nbr of turns : '
-     >      ,I3,',  current in that winding : ',1P,E16.6,' A')      
+     >      ,I3,',  current in that winding : ',1P,E16.6,' A')
           ENDDO
         ENDIF
         ELSE
@@ -277,13 +277,13 @@ c     >      IBLW, NINT(WN(IBLW)), WA(IBLW)
  
       DL0=0.D0
       SUM=0.D0
-
+ 
       DO IM=NM0,NM
         DL0=DL0+DLE(IM)+DLS(IM)
         SUM=SUM+BM(IM)*BM(IM)
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
       ENDDO
-
+ 
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
       IF(DL0 .EQ. 0.D0) THEN
 C-------- Sharp edge at entrance and exit
@@ -299,7 +299,7 @@ C-------- Sharp edge at entrance and exit
         ENDIF
         CALL INTEG1(ZERO,FINTE,GAP)
         CALL INTEG2(ZERO,FINTS,GAP)
-        
+ 
       ELSE
 C-------- Gradient G(s) at entrance or exit
 C-----    Let's see entrance first
@@ -309,7 +309,7 @@ C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
         DL0 = 0.D0
         DO 5 IM=NM0,NM
  5        DL0 = DL0+DLE(IM)
-
+ 
         IF(DL0 .EQ. 0.D0) THEN
           FINTE = XE
           XE=0.D0
@@ -341,7 +341,7 @@ C--------------- MIXFF = true if combined sharp edge multpole + fringe field mul
               ENDIF
             ENDIF
           ENDIF
-
+ 
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XE
  130        FORMAT(20X,' with  fringe  field :'
@@ -387,18 +387,18 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
             MIXFF = .FALSE.
             DO 61 IM = NM0,NM
               IF(.NOT. MIXFF) THEN
-                IF(DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0) 
+                IF(DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0)
      >           MIXFF= .TRUE.
               ENDIF
  61         CONTINUE
-
+ 
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
                 IFB = 1
-
+ 
               ELSE
                 IFB = 2
-
+ 
               ENDIF
             ENDIF
           ENDIF
@@ -427,10 +427,10 @@ C----- Some more actions about Magnetic Dipole components :
 C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model,'',
      >      '' vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT at entrance ='',1P,2G12.4)') 
+     >      ''first order kick, FINT at entrance ='',1P,2G12.4)')
      >      FINTE
 C          ENDIF
         ENDIF
@@ -438,39 +438,39 @@ C          ENDIF
 C------- Exit sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C          IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model,'',
      >      '' vertical wedge focusing approximated with '',
-     >      ''first order kick, FINT at exit ='',1P,2G12.4)') 
+     >      ''first order kick, FINT at exit ='',1P,2G12.4)')
      >      FINTS
 C          ENDIF
         ENDIF
-
+ 
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM
       XS = XL + XE
       SUM=0.D0
-
+ 
 C----- Passage obligatoire sur les EFB's si
 C       melange Mpoles-crenau + Mpoles-champ de fuite
       IF( IFB .EQ. -1 ) THEN
         AFB(1) = 1.D0
         BFB(1) = 0.D0
-        CFB(1) = -XE         
+        CFB(1) = -XE
       ELSEIF( IFB .EQ. 1 ) THEN
         AFB(2) = 1.D0
         BFB(2) = 0.D0
-        CFB(2) = -XS       
+        CFB(2) = -XS
       ELSEIF( IFB .EQ. 2 ) THEN
         AFB(1) = 1.D0
         BFB(1) = 0.D0
-        CFB(1) = -XE       
+        CFB(1) = -XE
         AFB(2) = 1.D0
         BFB(2) = 0.D0
-        CFB(2) = -XS       
+        CFB(2) = -XS
       ENDIF
-
+ 
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
@@ -482,9 +482,9 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
         CREG(2)=-2.D0*XS+XLIM
         CALL INTEG6(AREG,BREG,CREG)
       ENDIF
-
+ 
  98   RETURN
-      
+ 
       ENTRY AGSMKL(
      >             AL, AKL1, AKL2, AKL3)
       AL  = SXL
@@ -492,6 +492,6 @@ C       melange Mpoles-crenau + Mpoles-champ de fuite
       AKL2 = AKS(2)
       AKL3 = AKS(3)
       RETURN
-      
+ 
       END
-
+ 

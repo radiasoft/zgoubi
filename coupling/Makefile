@@ -5,8 +5,6 @@ OBJS = \
  libcoupl.a(tunesc/hamilt.o)\
  libcoupl.a(tunesc/positi.o)\
  libcoupl.a(tunesc/propag.o)\
- libcoupl.a(tunesc/tunesc.o)\
- libcoupl.a(tunesc/twss.o)\
  libcoupl.a(libraries/libdet/caxpy.o)\
  libcoupl.a(libraries/libdet/cgedi.o)\
  libcoupl.a(libraries/libdet/cscal.o)\

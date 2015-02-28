@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       FUNCTION APDPO(A)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -77,7 +76,7 @@ C            FP_k, k=0,nn-1 = FP(J=1,NN)
 C----- Number of photons emitted by each particle, 
 C                 "acceptance-rejection" method. 
  17     R1=RNDM()       
-          K= NN*R1
+          K= (NN*R1)
           J=K+1
           R2=RNDM()       
         IF(R2.GT.FP(J)) GOTO 17

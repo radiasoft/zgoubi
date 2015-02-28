@@ -28,22 +28,22 @@ C  -------
 C     ------------------
 C     SECTION SANS Champ
 C     ------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
      >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/GASC/ AI, DEN, KGA
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       COMMON/UNITS/ UNIT(MXJ)
@@ -132,8 +132,8 @@ C-------- COMPTAGE / LIMITES CHAMBRE
 
       IF(NRES .GT. 0)
      >  WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
-     >  1P,G17.9,'' m  at '',
-     >  '' ;  Time  (for ref. rigidity & particle) = '', 
+     >  1P,G17.9,'' m  '',
+     >  '' ;  Time  (for reference rigidity & particle) = '', 
      >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN

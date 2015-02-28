@@ -30,7 +30,7 @@ C  -------
 C-----------------------------------------------------------------------
 C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
       PARAMETER (I2000=2000)
       CHARACTER(I2000) TEXT

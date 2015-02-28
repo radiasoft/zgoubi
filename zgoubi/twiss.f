@@ -26,10 +26,10 @@ C  -------
      >                            KOPTCS, READAT,KTW)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT, OKCPLD
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -37,11 +37,11 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
-      COMMON /LABEL/ LABEL(MXL,2)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       
       DIMENSION T(6,6,6)
       SAVE      T
@@ -622,7 +622,8 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
      >      30X,''dNu_z'',7X,2(E15.8,3X), //, 
      >      20X,''Nu_y_Ref = '',E15.8,'', Nu_z_Ref = '',E15.8, / 
      >      20X,''Nu_y_+dp = '',E15.8,'',   Nu_z_+dp = '',E15.8, / 
-     >      20X,''Eps_y_Ref/pi = '',E15.8,'',   Eps_z_Ref/pi = '',E15.8, / 
+     >      20X,''Eps_y_Ref/pi = '',E15.8,''
+     >                                ,   Eps_z_Ref/pi = '',E15.8, / 
      >      20X,''Eps_y_+dA/pi = '',E15.8,'',   Eps_z_+dA = '',E15.8)')
      >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
      >      YNUREF,ZNUREF,

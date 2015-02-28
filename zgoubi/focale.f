@@ -31,9 +31,9 @@ C          ET WAIST GLOBAL           SI IENERG=1
 C          OU WAIST PAR MOMENTUM     SI IENERG=2
 C     - LECTURE DE XI ET DIM. BEAM   SI IENERG=3
 C     ***********************************************
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -41,7 +41,6 @@ C     ***********************************************
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/FOCAL/ TTI(MXT),YI(MXT),ZI(MXT),WC,XI,YIO
      >,YMI,WCZ,MZ,IMAX1,IMAX2,MY
-      COMMON /INIT/ FA0(6,6),FA1(6,6),BID(6),BID1(6),IF
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
  
       DIMENSION F2(MXT),F3(MXT),F4(MXT),F5(MXT)
@@ -82,6 +81,7 @@ C     ***********************************************
         JMAXT=IMAXT
       ENDIF
  
+      SWI2 = 0.D0
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1

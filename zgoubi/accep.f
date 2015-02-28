@@ -29,10 +29,10 @@ C----------------------------------------------------------------------------
 C     Looks for ellipse with emittance EPSPI and other parameters taken in 
 C     the vicinity of the rms ellipse, that has the maximum particle content.
 C----------------------------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU

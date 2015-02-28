@@ -1,0 +1,1 @@
+      COMMON /VAR/ X(3*MXV),P(MXV)

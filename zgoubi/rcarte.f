@@ -29,15 +29,15 @@ C     ---------------------------------------------------
 C     READS B-FIELD FOR CARTEMES, TOSCA, BREVOL,
 C       AND E(R=0,X)-FIELD FOR ELREVOL
 C     ---------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT
-      parameter (MXSTR=6)
+      parameter (MXSTR=20)
       CHARACTER(80) STRA(mxstr)
       integer debstr
       logical strcon
@@ -56,18 +56,18 @@ C      BACKSPACE(NDAT)
 C 11   CONTINUE
 
 C----- BNORM & X-,Y-,Z-NORM
-      do i = 1, IDIM    ! For compatibility with earlier versions
+      DO I = 1, IDIM    ! For compatibility with earlier versions
         A(NOEL,10+I) = 1.d0
-      enddo
+      ENDDO
       READ(NDAT,FMT='(A)',ERR=97) TXT   
       IF( STRCON(TXT,'!', 
      >                   IS)) TXT = TXT(DEBSTR(TXT):IS-1)
-      call strget(txt,4,
+      CALL STRGET(TXT,4,
      >                  NSTR,STRA)
-      if(nstr .gt. 4) goto 97
-      do i = 1, nstr
-        read(stra(i),*) A(NOEL,9+I)
-      enddo      
+      IF(NSTR .GT. mxstr) GOTO 97
+      DO I = 1, NSTR
+        READ(STRA(I),*) A(NOEL,9+I)
+      ENDDO      
 C      READ(NDAT,*,ERR=8) A(NOEL,10),(A(NOEL,10+I),I=1,IDIM)
 c      GOTO 81
 c 8    CONTINUE
@@ -144,9 +144,20 @@ C--------- The all 3D map is contained in a single file
           ELSEIF(MOD .EQ. 15) THEN
 C--------- The MOD2 files are combined linearly
 C          Each single file contains the all 3D volume
+
             NFIC = MOD2
-            READ(TXT,*,ERR=98,END=98) IDUM1,IDUM2,IDUM3,DUM4,
-     >      (A(NOEL,23+J),J=1,NFIC)
+
+            IF(4+NFIC .GT. MXSTR) CALL ENDJOB('Pgm rcarte. Too many'
+     >      //'  field map scaling factors. Max is ',4)
+
+            CALL STRGET(TXT,4+NFIC,
+     >                           IDUM,STRA) 
+            DO J = 1, NFIC
+c            write(*,*) ' rcarte stra ', j, STRA(4+j),noel
+              READ(STRA(4+j),*) A(NOEL,23+J) 
+c            write(*,*) ' rcarte stra 23+j ', 23+j, STRA(4+j),A(NOEL,23+J) 
+            ENDDO
+
           ELSE
             NFIC = 1
           ENDIF

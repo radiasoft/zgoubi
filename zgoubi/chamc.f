@@ -29,34 +29,34 @@ C     Champ CALCULE. APPELE PAR INTEGR A CHAQUE PAS D'INTEGRATION.
 C     CALCULE, A PARTIR D'UNE FORMULE, LE Champ ET SES DERIVEES DANS
 C     LE PLAN MEDIAN, AU POINT COURANT X,Y,Z=0.
 C     --------------------------------------------------------------
-      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       PARAMETER(MCOEF=6)
       COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
       COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
       COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
       COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       COMMON/D3EXYZ/ D3EX(3,3,3), D3EY(3,3,3), D3EZ(3,3,3)
       COMMON/D4EXYZ/ D4EX(3,3,3,3) ,D4EY(3,3,3,3) ,D4EZ(3,3,3,3)
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERC,KUASEX
       PARAMETER(MPOL=10)
       COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
      >,QE(MPOL,MCOEF),QS(MPOL,MCOEF),RTQ(MPOL)
       COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL)
      >,DI(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       DIMENSION BT(5,15),ET(5,15)
       SAVE BT,ET
@@ -95,9 +95,26 @@ C----------- Magnetic
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
           ELSEIF(KFLD .EQ. LC) THEN
 C----------- Electric
+
+c      call ZGNOEL(
+c     >             NOEL)
+c      if(noel.eq.19) then
+c        write(*,*) 'chamc bri : ',bri
+c        write(*,*)  (kkk,em(kkk),kkk=1,3) 
+c        write(*,*)  (kkk,e(1,kkk),kkk=1,3) 
+c      endif
+
             CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QE,QS,RTQ,
      >               XE,XS,QCE,QCS,
      >               E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ,ET)
+
+c      if(noel.eq.19) then
+c        write(*,*) 'chamc '
+c        write(*,*)  (kkk,em(kkk),kkk=1,3) 
+c        write(*,*)  (kkk,e(1,kkk),kkk=1,3) 
+cc            read(*,*)
+c      endif
+
           ELSEIF(KFLD .EQ. ML) THEN
 C----------- Electric & Magnetic
             CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QE,QS,RTQ,
@@ -118,7 +135,7 @@ C--------- Electric component
 
           Y0=Y
           Z0=Z
-          CALL ROTX(EM(6),Y0,Z0)
+          IF(EM(6) .NE. ZERO) CALL ROTX(EM(6),Y0,Z0)
 C FM CeeRainer 11/2003. QCE and QCS where never used due to this bug, FF coeffs where always CE, CS. 
 C          CALL BENDF(EM(1),MPOL,QLE,QLS,QE,QS,RTQ,X,Y0,
           CALL BENDF(EM(1),MPOL,XE,XS,QCE,QCS,QLE,QLS,QE,QS,RTQ,X,Y0,
@@ -130,7 +147,7 @@ C--------- Magnetic component
 
           Y0=Y
           Z0=Z
-          CALL ROTX(BM(6),Y0,Z0)
+          IF(BM(6) .NE. ZERO) CALL ROTX(BM(6),Y0,Z0)
 C FM CeeRainer 11/2003. QCE and QCS where never used due to this bug, FF coeffs where always CE, CS. 
 C          CALL BENDF(BM(1),MPOL,DLE,DLS,DI,DS,RTB,X,Y0,
           CALL BENDF(BM(1),MPOL,XE,XS,CE,CS,DLE,DLS,DI,DS,RTB,X,Y0,

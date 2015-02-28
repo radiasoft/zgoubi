@@ -26,17 +26,17 @@ C  -------
      >                               XL,DSREF,NDD)
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
@@ -49,7 +49,8 @@ C      COMMON/STEP/ KPAS, TPAS(3)
       COMMON/SYNRA/ KSYN
       COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
   
-      CHARACTER TXTT*39, TXTS*39, TXTA*39, TXTEMP*11
+      CHARACTER(39) TXTT, TXTS, TXTA
+      CHARACTER(11) TXTEMP
       SAVE IPREC
 
       LOGICAL FITING
@@ -63,6 +64,8 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
       DATA DTA1 / 0.D0 /
       DATA NEWFIC / .TRUE. /
+      data scal / 1.d0 /
+
 c         open(unit=88,file='fort.88')
 
 
@@ -156,8 +159,8 @@ C Field scale factor. Used by  'SCALING'
 
 C--------------------------------------------------------------
 C Problem here : this write(89 is necessary for the FIT problem 
-C /home/meot/zgoubi/struct/folks/thomasPlanche
-C to run (yet does not work) on my dell laptop. 
+C /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE/FitWorks.res
+C to work (otherwise does run but won't fit to the expected values) on my dell laptop. 
 C Otherwise scal=NaN is passed to dipi
           CALL FITSTA(5,FITING)
             if(FITING) then

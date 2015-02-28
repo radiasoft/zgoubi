@@ -29,27 +29,27 @@ C  -------
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
-C     Read TOSCA map with cartesian coordinates. 
-C     TOSCA keyword with MOD.le.19. 
+C     Read TOSCA map with cartesian coordinates.
+C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
       LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
-      COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-
+ 
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
@@ -57,29 +57,29 @@ C-------------------------------------------------
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
-
-      LOGICAL STRCON 
-
+ 
+      LOGICAL STRCON
+ 
       CHARACTER(20) FMTYP
       DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
       SAVE XXH, YYH, ZZH
       DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
       DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
-
+ 
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
-
-      DATA NOMFIC / IZ*' '/ 
+ 
+      DATA NOMFIC / IZ*' '/
       DATA NHDF / 8 /
-      DATA FMTYP / ' regular' / 
-
+      DATA FMTYP / ' regular' /
+ 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
-
-      
-
+ 
+ 
+ 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
@@ -94,31 +94,31 @@ C-------------------------------------------------
       IDEB = DEBSTR(TITL)
       FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       IXMA = A(NOEL,20)
-      IF(IXMA.GT.MXX) 
+      IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
       JYMA = A(NOEL,21)
-      IF(JYMA.GT.MXY ) 
+      IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
-
+ 
       KZMA = 1
       NFIC = 1
       NAMFIC = TA(NOEL,2)
       NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-
+ 
       CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                        NEWFIC,NBMAPS,IMAP)
-
+ 
       IF(NRES.GT.0) THEN
 C        WRITE(NRES,*) ' '
-C        WRITE(NRES,*) ' map2d ', 
+C        WRITE(NRES,*) ' map2d ',
 C     >       NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC)),
 C     >       '       file #',nfic
-        WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)') 
-     >  'Number of data file sets used is ',NFIC,' ;  ' 
+        WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)')
+     >  'Number of data file sets used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' '
         IF(NEWFIC) THEN
-          WRITE(NRES,209) 
- 209      FORMAT(/,10X  
+          WRITE(NRES,209)
+ 209      FORMAT(/,10X
      >    ,' New field map now used, cartesian mesh (MOD.le.19) ; '
      >    ,/,10X,' name of map data file : ')
           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
@@ -129,12 +129,12 @@ C     >       '       file #',nfic
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
         ENDIF
-      ENDIF 
-
+      ENDIF
+ 
       INDEX=0
       NT = 1
       CALL PAVELW(INDEX,NT)
-
+ 
       IF(NEWFIC) THEN
                NFIC = 1
                IF(IDLUNI(
@@ -149,18 +149,18 @@ C     >       '       file #',nfic
                ELSE
                  GOTO 96
                ENDIF
-
+ 
              MOD = 0
              MOD2 = 3
              I1 = 1
              KZ = 1
              IRD = NINT(A(NOEL,40))
-
+ 
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
+ 
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA
@@ -183,12 +183,12 @@ C FM Nov 2011   DO K= 2, KZMA
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
-
+ 
       ELSE
-
+ 
 c           write(*,*) ' oldfic imap ', xxh(1,imap),xxh(ixma,imap),imap
 c     >         ,HC(3,1,1,1,iMAP)
-
+ 
 C------- Restore mesh coordinates
            IXMA = IIXMA(IMAP)
            DO I=1,IXMA
@@ -196,33 +196,33 @@ C------- Restore mesh coordinates
            ENDDO
            JYMA = JJYMA(IMAP)
            DO J=1,JYMA
-             YH(J) = YYH(J,imap) 
+             YH(J) = YYH(J,imap)
            ENDDO
            KZMA = KKZMA(IMAP)
            DO K= 1, KZMA
              ZH(K) = ZZH(K,imap)
            ENDDO
-           BMIN = bBMI(imap) 
-           BMAX = bBMA(imap)  
-           XBMI = XBbMI(imap)  
-           YBMI = YbBMI(imap)  
-           ZBMI = ZbBMI(imap)  
-           XBMA = XbBMA(imap)  
-           YBMA = YBBMA(imap) 
-           ZBMA = ZBBMA(imap)  
-
+           BMIN = bBMI(imap)
+           BMAX = bBMA(imap)
+           XBMI = XBbMI(imap)
+           YBMI = YbBMI(imap)
+           ZBMI = ZbBMI(imap)
+           XBMA = XbBMA(imap)
+           YBMA = YBBMA(imap)
+           ZBMA = ZBBMA(imap)
+ 
            IF(NRES.GT.0) WRITE(NRES,*) ' SBR TOSCAC, ',
      >     ' restored mesh coordinates for field map # ',imap
-
+ 
       ENDIF
-
-
+ 
+ 
       CALL MAPLI1(BMAX-BMIN)
-
+ 
       RETURN
-
+ 
  96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
-
+ 
       RETURN
-      END 
+      END

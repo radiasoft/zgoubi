@@ -18,41 +18,41 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPACH(KSPCH,LBLSC,NLBSC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LBLSC(*)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+ 
       KSPCH = NINT(A(NOEL,1))
-
-      IF(NRES.GT.0) THEN 
+ 
+      IF(NRES.GT.0) THEN
         IF    (KSPCH .NE. 1) THEN
           WRITE(NRES,107)
  107      FORMAT(/,15X,' KSPCH .ne. 1 :  Space charge is  off. ',/)
         ELSE
           WRITE(NRES,FMT=
      >    '(/,15X,''  KSPCH = 1 :  Space charge switched on. '',/)')
-
-          WRITE(NRES,FMT='(/,A,I0,A,/)') 
+ 
+          WRITE(NRES,FMT='(/,A,I0,A,/)')
      >    'Space charge will be applied at the ',NLBSC,
      >    ' following labels : '
-
+ 
           DO ILBL = 1, NLBSC
             WRITE(NRES,FMT='(5X,A)') LBLSC(ILBL)
           ENDDO
-
+ 
         ENDIF
       ENDIF
  
       RETURN
-
+ 
       ENTRY SCKICK
-
+ 
       RETURN
       END

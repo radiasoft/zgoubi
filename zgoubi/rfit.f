@@ -29,18 +29,19 @@ C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
       CHARACTER(*) KLEY
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXV=60) 
       COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
+      INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
+                          !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
 
       CHARACTER(132) TXT132
+      CHARACTER(20) TXT20
       LOGICAL STRCON, CMMNT, FITFNL
       CHARACTER(40) STRA(10)
 
@@ -50,7 +51,7 @@ C     ***************************************
       CHARACTER(80) FNAME
       LOGICAL EMPTY
       LOGICAL FIRST 
-
+       logical isnum
       DATA FIRST / .TRUE. /
 c      DATA PNLTY, ITRMA, ICPTMA / 1.D-10, 90, 1000 /
 c      DATA FITFNL / .TRUE. /
@@ -152,12 +153,30 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
 
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
-        READ(NDAT,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
+        READ(NDAT,FMT='(A)') TXT132
+        IF(STRCON(TXT132,'!',
+     >                     III)) TXT132 = TXT132(1:III-1) 
+        IF(STRCON(TXT132,'!',
+     >                     III)) TXT132 = TXT132(1:III-1) 
+C        READ(TXT132,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
+        READ(TXT132,*,ERR=98,END=98) XC,I1(I),I2(I),TXT20,V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
- 41     CONTINUE
+        if(isnum(txt20)) then
+           READ(TXT20,*) I3(I)
+c               write(*,*) ' rfit isnum, i3(i) : ', I3(I)
+c               read(*,*)
+        else
+c               write(*,*) ' rfit txt20 : ',txt20
+          call getllb(txt20,         ! txt20 contains an lmnt's 1st label. Look for its first occurence
+     >                      numl)
+          i3(i) = numl
+c               write(*,*) ' rfit i3(i) : ',numl
+c               read(*,*)
+        endif
         IC(I) = INT(XC)
         IC2(I) = NINT(10.D0*XC - 10*IC(I))
  4    CONTINUE  
+
 
 C----- Looks for possible parameters, with values in CPAR, and action
       DO 5 I=1,NC
@@ -184,5 +203,6 @@ C--------- Numb. particls
       RETURN
 
  97   CALL ENDJOB('SBR rfit, error input data at NC',-99)
+ 98   CALL ENDJOB('Pgm rfit. Constraints : wrong input data.',-99)
       RETURN
       END

@@ -60,3 +60,10 @@ Determine if the current FFLAGS are necessary, and make changes to the code
 so that they are not.
 
 Fix the warnings, in particular the one about tempnam.
+
+--------------------
+Install periodic dispersion when coupled, in matrix and twiss. 
+
+Install call tunesc in ff, twiss
+
+

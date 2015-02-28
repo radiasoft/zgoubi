@@ -18,16 +18,16 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -35,24 +35,24 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       CHARACTER KAX(3)
-
+ 
       SAVE SXM,SYM,SZM
  
       LOGICAL ONCE
       SAVE ONCE
-  
+ 
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
-
+ 
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
-
-      ONCE = KSO .GE. 1  .OR. ONCE 
-
+ 
+      ONCE = KSO .GE. 1  .OR. ONCE
+ 
       CALL REBELR(KREB3,KDUM,KDUM)
       IF(  KREB3 .EQ. 99
      >.AND.  KSO .NE .0
@@ -65,8 +65,8 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         RETURN
       ENDIF
  
-
-      IF(NRES.GT.0) THEN 
+ 
+      IF(NRES.GT.0) THEN
         IF    (KSO .EQ. 0) THEN
           WRITE(NRES,107)
  107      FORMAT(/,15X,' KSO=0 :  Spin  tracking  off. ',/)
@@ -99,7 +99,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
  104        FORMAT(
      >         30X,'All spins entered particle by particle'
      >      ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
-     >      ,      'matching using FIT procedure') 
+     >      ,      'matching using FIT procedure')
           ELSEIF(KSO .EQ. 5) THEN
             WRITE(NRES,108)
  108        FORMAT(15X,' OPTION 5 UNAVAILABLE IN THIS VERSION',/)
@@ -135,10 +135,10 @@ C          P = BORO*CL*1D-9*Q
  106      FORMAT(//,15X,' SVP  INDIQUER  LA  MASSE  DES  PROJECTILES !'
      >         ,/,15X,' - UTILISER  LE  MOT-CLE  ''PARTICUL''',/)
           CALL ENDJOB('SBR SPN. Need to provide particle mass.',-99)
-        ENDIF 
+        ENDIF
         KSPN = 1
       ENDIF
-
+ 
       GOTO(1,1,1,4,5) KSO
       RETURN
  
@@ -162,7 +162,7 @@ C          P = BORO*CL*1D-9*Q
       GOTO 98
  
  4    CONTINUE
-      IF    (KSO2.EQ.0) THEN 
+      IF    (KSO2.EQ.0) THEN
         IM = IMAX
         IF(IM.GT.MXD/10) IM=MXD/10
         IA = 0
@@ -191,7 +191,7 @@ c        DO I=IM+1,IMAX
           SF(3,I) = SZ
           SF(4,I) = SI(4,I)
         ENDDO
-      ELSEIF(KSO2.EQ.1) THEN 
+      ELSEIF(KSO2.EQ.1) THEN
         SX = A(NOEL,10)
         SY = A(NOEL,11)
         SZ = A(NOEL,12)

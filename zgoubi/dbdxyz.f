@@ -31,7 +31,7 @@ C     -----------------------------------------
 C     Compute  derivatives di+j+k(B)/dXidYjdZk.
 C     B stands for magnetic or electric field.
 C     -----------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
  
 C----- DERIVEES 1-ERES DE BX, BY, BZ(X,Y,Z)
 C     INDICE 1 = ELEMENTS DIFFERENTIELS : DX, DY, OU DZ.

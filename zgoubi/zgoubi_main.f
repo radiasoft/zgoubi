@@ -24,9 +24,9 @@ C  Upton, NY, 11973, USA
 C  -------
       PROGRAM ZGOUBI_MAIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
@@ -47,7 +47,15 @@ C  -------
 
       DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
-      data okwdat / .false. /
+      DATA TIMSEC / 0.D0 / 
+
+C Tentative pour faire fonctionner REBELOTE en compil dyn. 
+C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne. 
+C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
+      SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE, 
+     > FITFNL, FITRBL, OKWDAT, KLE, IPASS,NRBLT
+
+      DATA OKWDAT / .FALSE. /
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -177,7 +185,7 @@ C 1    CONTINUE
  335        FORMAT(/,2X,A)
         ENDIF
 
-          okwdat = .true.
+        OKWDAT = .TRUE.
 
         WRITE(6,201)
 C Proceeds downstream of FIT[2] to the end of zgoubi.dat list

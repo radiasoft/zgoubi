@@ -22,13 +22,12 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      subroutine bbrsp(Ptsl,thispart,a,b,c,sa,sb)
-C      subroutine bbrsp(Ptsl,thispart,a,b,c,sa,sb,npt)
+      subroutine bbrsp(Ptsl,ithspart,a,b,c,sa,sb)
+C      subroutine bbrsp(Ptsl,ithspart,a,b,c,sa,sb,npt)
 C S. White & F. Meot, Jan. 2012
       implicit double precision (a-h,o-z)
       parameter (mxpt=10000)
       dimension  Ptsl(9,mxpt) 
-      integer  thispart
       double precision  a,b,c,sa,sb
       dimension  rotmat(3,3) 
       double precision  tmp1,tmp2,tmp3
@@ -43,15 +42,15 @@ C S. White & F. Meot, Jan. 2012
       rotmat(3,2) = b*c*sa-a*sb
       rotmat(3,3) = 1-sa*(a**2+b**2)
 
-      tmp1 = Ptsl(7,thispart)
-      tmp2 = Ptsl(8,thispart)
-      tmp3 = Ptsl(9,thispart)
+      tmp1 = Ptsl(7,ithspart)
+      tmp2 = Ptsl(8,ithspart)
+      tmp3 = Ptsl(9,ithspart)
 
-      Ptsl(7,thispart) = 
+      Ptsl(7,ithspart) = 
      > rotmat(1,1)*tmp1+rotmat(1,2)*tmp2+rotmat(1,3)*tmp3
-      Ptsl(8,thispart) = 
+      Ptsl(8,ithspart) = 
      > rotmat(2,1)*tmp1+rotmat(2,2)*tmp2+rotmat(2,3)*tmp3
-      Ptsl(9,thispart) = 
+      Ptsl(9,ithspart) = 
      > rotmat(3,1)*tmp1+rotmat(3,2)*tmp2+rotmat(3,3)*tmp3
       
       return

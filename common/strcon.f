@@ -26,7 +26,7 @@ C  -------
      >                         IS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL STRCON
-      CHARACTER STR*(*), STR2*(*)
+      CHARACTER(*) STR, STR2
 C     ---------------------------------------------------------------
 C     .TRUE. if the string STR contains the string STR2 at least once
 C     IS = position of first occurence of STR2 in STR 

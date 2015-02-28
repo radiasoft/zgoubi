@@ -25,19 +25,19 @@ C  -------
       SUBROUTINE IMPVAR(IUNIT,NI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXV=60) 
-      COMMON/CONTR/VAT(MXV),XI(MXV)
+      INCLUDE "C.CONTR.H"     ! COMMON/CONTR/VAT(MXV),XI(MXV)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
-      COMMON /LABEL/ LABEL(MXL,2)
-      COMMON /VAR/ X(3*MXV),P(MXV)
-      COMMON/VARY/NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
+      INCLUDE "C.VAR.H"     ! COMMON /VAR/ X(3*MXV),P(MXV)
+      INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
+                          !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       INCLUDE 'MXFS.H'
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+      INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       CHARACTER(KSIZ) KLE
       CHARACTER(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
@@ -51,10 +51,10 @@ C  -------
      >' / ',I6,' max.)')
       IF(IUNIT.GT.0) WRITE(IUNIT,300)
 300   FORMAT(
-     >' LMNT  VAR  PARAM  MINIMUM     INITIAL         FINAL        ',
-C-----  IR(I)  I   IS(I)   X(K)        XI(I)          X(I)  
-     >' MAXIMUM      STEP     NAME       LBL1     LBL2' )
-C----    X(J)        P(I)
+     >'  LMNT  VAR  PARAM   MINIMUM     INITIAL         FINAL        ',
+C-----  IR(I)   I   IS(I)    X(K)        XI(I)          X(I)  
+     >' MAXIMUM     STEP     NAME       LBL1     LBL2' )
+C----    X(J)       P(I)
  
       DO 1 I=1,NV
         K=I+NV
@@ -68,7 +68,7 @@ C----    X(J)        P(I)
         IF(IUNIT.GT.0) WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I),KLE,LBL1,LBL2
  400    FORMAT(1P, 
-     >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
+     >  2X,I4,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
         IF(XCOU(I).NE.0.D0) THEN
           KL=XCOU(I)
           KP=NINT((1D3*XCOU(I)-1D3*KL))

@@ -31,26 +31,26 @@ C  -------
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
  
-      COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YCH,ZCH
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QEL,AMPROT, CM2M
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
-      COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
+      INCLUDE "C.EFBS.H"     ! COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
-      COMMON /LABEL/ LABEL(MXL,2)
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
@@ -123,6 +123,7 @@ C------- Single-pole, from QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
         XL =A(NOEL,10)
         RO =A(NOEL,11)
         GAP = RO/KUASEX
+
         BM(KUASEX) =A(NOEL,12)*SCAL
         XE =A(NOEL,20)
         DLE(KUASEX) =A(NOEL,21)
@@ -181,6 +182,10 @@ C--------- ... or magnetic part of EBMULT
             IF(BM(IM).NE.0.D0) GAP = RO/IM
           ENDIF
         ENDDO
+
+c         if(noel.eq.19)   write(*,*) 'multpo  A ',
+c     >                      ia  , scal,bm(3)
+
 
 C------- If SR-loss switched on by procedure SRLOSS
         IF(KSYN.GE.1) THEN
@@ -387,7 +392,13 @@ C to work on my dell laptop
           endif
 C--------------------------------------------------------------
 
+c         if(noel.eq.19)   write(*,*) 'multpo  rewind A ',
+c     >                      im  , scal,bm(im),RO,(IM-1)
+
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
+
+c         if(noel.eq.19)   write(*,*) 'multpo  rewind B ',
+c     >                      im  , scal,bm(im),RO,(IM-1)
 
       ENDDO
 
@@ -692,6 +703,9 @@ cC-----------------------------------------
       ENDIF
 
       IF(IER.NE.0) GOTO 99
+
+c         if(noel.eq.19)   write(*,*) 'multpo  OUT ',
+c     >                      ia  , scal,bm(3)
 
  98   RETURN
 

@@ -24,7 +24,7 @@ C  Upton, NY, 11973
 C  -------
       FUNCTION SPLINT(XA,YA,N,X)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION XA(N),YA(N)
+      DIMENSION XA(*),YA(*)
       KLO=1
       KHI=N
  1    IF(KHI-KLO.GT.1) THEN
@@ -37,7 +37,7 @@ C  -------
         GOTO 1
       ENDIF
       H=XA(KHI)-XA(KLO)
-      IF(H.EQ.0.D0) WRITE(6,*) ' Bad XA input. XAs must be distinct'
+      IF(H.EQ.0.D0) WRITE(6,*) ' Bad XA input. XAs must be distinct.'
       A=(XA(KHI)-X)/H
       B=(X-XA(KLO))/H
       SPLINT=A*YA(KLO)+B*YA(KHI)

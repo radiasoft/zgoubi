@@ -619,8 +619,8 @@ YS 0.
 0  0
 1.e-3 100. 100. 100.
 HEADER_4 csnake
-281 29 29  15.2 .682 .423
-./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Helix_3T.tab
+281 29 29  15.2 .682          .423                    ! Problem if .682000000000 .423 instead :
+./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Helix_3T.tab     ! then rcarte reads NaN
 ./Csnk3D/Hlx68.2_Sol42.3/b_table_for_Solen.tab
 0 0 0 0
 2
@@ -5677,9 +5677,9 @@ YS  0.
 WRITE ON
  
  'MATRIX'                                                                                                   964
-1  11
+1  11  coupled
  'TWISS'                                                                                                    965
-2 1. 1.
+2 1. 1.  coupled
  'END'                                                                                                      966
 
 ************************************************************************************************************************************
@@ -6144,14 +6144,14 @@ WRITE ON
 
 
   Reference, before change of frame (part #     1)  : 
-   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
            Frame for MATRIX calculation moved by :
             XC =    0.000 cm , YC =    0.000 cm ,   A =  0.00000 deg  ( = 0.000000 rad )
 
 
   Reference, after change of frame (part #     1)  : 
-   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
   Reference particle (#     1), path length :   80709.142     cm  relative momentum :    1.00000    
 
@@ -6174,20 +6174,57 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
-          19.886771     1.558603     0.000000     0.000000     0.000000    -2.005293
-           1.558603     0.172438     0.000000     0.000000     0.000000    -0.125403
-           0.000000     0.000000     9.376055    -0.771505     0.000000     0.009498
-           0.000000     0.000000    -0.771505     0.170138     0.000000    -0.000424
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
-                    NU_Y =  0.69500290         NU_Z =  0.98775890    
+                    NU_Y =  0.69500291         NU_Z =  0.98775898    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.69500291           0.98775898
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.69500291
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98775898
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
 ************************************************************************************************************************************
     965  Keyword, label(s) :  TWISS                             
@@ -6200,14 +6237,14 @@ WRITE ON
 
 
   Reference, before change of frame (part #     1)  : 
-   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
            Frame for MATRIX calculation moved by :
             XC =    0.000 cm , YC =    0.000 cm ,   A =  0.00000 deg  ( = 0.000000 rad )
 
 
   Reference, after change of frame (part #     1)  : 
-   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
   Reference particle (#     1), path length :   80709.142     cm  relative momentum :    1.00000    
 
@@ -6230,7 +6267,7 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
@@ -6241,9 +6278,46 @@ WRITE ON
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
                     NU_Y =  0.69500290         NU_Z =  0.98775890    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.69500291           0.98775898
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.69500291
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98775898
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -6692,20 +6766,57 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
-          19.677446     1.531203     0.000000     0.000000     0.000000    -2.014525
-           1.531203     0.169970     0.000000     0.000000     0.000000    -0.127707
-           0.000000     0.000000     9.264147    -0.747409     0.000000     0.010882
-           0.000000     0.000000    -0.747409     0.168242     0.000000    -0.000783
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
-                    NU_Y =  0.70130386         NU_Z =  0.98686740    
+                    NU_Y =  0.70130383         NU_Z =  0.98686749    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.70130383           0.98686749
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.70130383
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98686749
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
 ************************************************************************************************************************************
     965  Keyword, label(s) :  TWISS                             
@@ -6748,7 +6859,7 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
@@ -6759,9 +6870,46 @@ WRITE ON
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
                     NU_Y =  0.70130386         NU_Z =  0.98686740    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.70130383           0.98686749
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.70130383
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98686749
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
 ************************************************************************************************************************************
       1  Keyword, label(s) :  OBJET                             
@@ -7210,20 +7358,57 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
-          20.102843     1.586253     0.000000     0.000000     0.000000    -1.995194
-           1.586253     0.174910     0.000000     0.000000     0.000000    -0.122878
-           0.000000     0.000000     9.554173    -0.803293     0.000000     0.009290
-           0.000000     0.000000    -0.803293     0.172205     0.000000    -0.000166
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+                NaN          NaN     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
+           0.000000     0.000000          NaN          NaN     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
-                    NU_Y =  0.68928033         NU_Z =  0.98838776    
+                    NU_Y =  0.68928035         NU_Z =  0.98838786    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.68928035           0.98838786
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.68928035
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98838786
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
 ************************************************************************************************************************************
     965  Keyword, label(s) :  TWISS                             
@@ -7266,7 +7451,7 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
@@ -7277,9 +7462,46 @@ WRITE ON
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
                     NU_Y =  0.68928033         NU_Z =  0.98838776    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.68928035           0.98838786
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.68928035
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98838786
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
 
                           ****  End  of  pass #3 of TWISS  procedure  ****
 
@@ -7329,6 +7551,43 @@ WRITE ON
           0.000         0.000         0.000         0.000         0.000         0.000    
 
 
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:            NaN
+                           - C:
+                                          NaN             NaN
+                                          NaN             NaN
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.68928035           0.98838786
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                           NaN                  NaN
+                                - BETA:                                            NaN                  NaN
+                                - GAMMA:                                           NaN                  NaN
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.68928035
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98838786
+
+      P MATRIX :
+
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+                 NaN                 NaN                 NaN                 NaN
+
+
                   BEAM  MATRIX (beta/alpha/alpha/gamma, D,D'),        INITIAL
 
            1.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
@@ -7343,14 +7602,14 @@ WRITE ON
 
            19.8868         1.55860         0.00000         0.00000         0.00000         0.00000    
            1.55860        0.172438         0.00000         0.00000         0.00000         0.00000    
-           0.00000         0.00000         9.37606       -0.771505         0.00000         0.00000    
-           0.00000         0.00000       -0.771505        0.170138         0.00000         0.00000    
+           0.00000         0.00000         9.37605       -0.771497         0.00000         0.00000    
+           0.00000         0.00000       -0.771497        0.170137         0.00000         0.00000    
            0.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
            0.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
 
                   Betatron phase advances (fractional),  phi_y/2pi,  phi_z/2pi :
 
-                         1.106131E-01       1.572067E-01
+                         0.000000E+00       0.000000E+00
 
 ************************************************************************************************************************************
       2  Keyword, label(s) :  PARTICUL                          
@@ -7768,6 +8027,43 @@ WRITE ON
           0.000         0.000         0.000         0.000         0.000         0.000    
 
 
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:     1.01727994
+                           - C:
+                                  -0.00164958     -0.01069537
+                                  -0.00007171     -0.00053395
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.69500291           0.98775898
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                    0.00042890           0.00025160
+                                - BETA:                                    -0.05006808           0.07803625
+                                - GAMMA:                                    0.00042890          -0.00025160
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.69500291
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98775898
+
+      P MATRIX :
+
+   -3.7039172902E+00   -1.9100474239E-07    2.7887566314E-03    4.1339617331E-03
+   -2.9029028794E-01   -1.8625031316E-01    1.0067310910E-04    2.0638020451E-04
+    9.3593478710E-04    1.5954658236E-03   -3.6866396201E+00   -1.6097255535E-07
+   -1.7346030012E-04   -2.6657637871E-04    3.0335096899E-01   -3.9319771186E-01
+
+
                   BEAM  MATRIX (beta/alpha/alpha/gamma, D,D'),        INITIAL
 
            1.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
@@ -7782,14 +8078,14 @@ WRITE ON
 
            19.8868         1.55860         0.00000         0.00000         0.00000         0.00000    
            1.55860        0.172438         0.00000         0.00000         0.00000         0.00000    
-           0.00000         0.00000         9.37606       -0.771505         0.00000         0.00000    
-           0.00000         0.00000       -0.771505        0.170138         0.00000         0.00000    
+           0.00000         0.00000         9.37605       -0.771497         0.00000         0.00000    
+           0.00000         0.00000       -0.771497        0.170137         0.00000         0.00000    
            0.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
            0.00000         0.00000         0.00000         0.00000         0.00000         0.00000    
 
                   Betatron phase advances (fractional),  phi_y/2pi,  phi_z/2pi :
 
-                         1.106131E-01       1.572067E-01
+                         0.000000E+00       0.000000E+00
 
 ************************************************************************************************************************************
       7  Keyword, label(s) :  OPTIONS                           
@@ -7807,14 +8103,14 @@ WRITE ON
 
 
   Reference, before change of frame (part #     1)  : 
-   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   8.87016965E-05   4.02720471E-05  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
            Frame for MATRIX calculation moved by :
             XC =    0.000 cm , YC =    0.000 cm ,   A =  0.00000 deg  ( = 0.000000 rad )
 
 
   Reference, after change of frame (part #     1)  : 
-   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850841E-08   6.49388521E-08   8.07091420E+04   2.69485672E+00
+   0.00000000E+00   0.00000000E+00   0.00000000E+00  -3.31850826E-08   6.49388505E-08   8.07091420E+04   2.69485672E+00
 
   Reference particle (#     1), path length :   80709.142     cm  relative momentum :    1.00000    
 
@@ -7837,20 +8133,57 @@ WRITE ON
 
 
                 TWISS  parameters,  periodicity  of   1  is  assumed 
-                                    - UNCOUPLED -
+                                   -  COUPLED  -
 
        Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
 
-          19.886771     1.558603     0.000000     0.000000     0.000000    -2.005293
-           1.558603     0.172438     0.000000     0.000000     0.000000    -0.125403
-           0.000000     0.000000     9.376055    -0.771505     0.000000     0.009498
-           0.000000     0.000000    -0.771505     0.170138     0.000000    -0.000424
+          19.886771     1.558603     0.000000     0.000000     0.000000     0.000000
+           1.558603     0.172438     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000     9.376046    -0.771497     0.000000     0.000000
+           0.000000     0.000000    -0.771497     0.170137     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
            0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
 
-                                   Betatron  tunes
+                                   Betatron  tunes  (Q1 Q2 modes)
 
-                    NU_Y =  0.69500290         NU_Z =  0.98775890    
+                    NU_Y =  0.69500291         NU_Z =  0.98775898    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+
+      COUPLING PARAMETERS:
+                           - r:     1.01727995
+                           - C:
+                                  -0.00164958     -0.01069537
+                                  -0.00007171     -0.00053395
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.69500291           0.98775898
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                    0.00042890           0.00025160
+                                - BETA:                                    -0.05006808           0.07803625
+                                - GAMMA:                                    0.00042890          -0.00025160
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.69500291
+                           - UNPERTURBED VERTICAL TUNE:                                 0.98775898
+
+      P MATRIX :
+
+   -3.7039171861E+00   -1.9100473681E-07    2.7887563609E-03    4.1339616046E-03
+   -2.9029027978E-01   -1.8625030793E-01    1.0067310546E-04    2.0638019560E-04
+    9.3593476078E-04    1.5954657788E-03   -3.6866398161E+00   -1.4444877661E-07
+   -1.7346029525E-04   -2.6657637122E-04    3.0335097454E-01   -3.9319771441E-01
 
 ************************************************************************************************************************************
     965  Keyword, label(s) :  TWISS                             
@@ -7893,7 +8226,7 @@ WRITE ON
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  26-02-0015,  at  12:29:13 
-  JOB  ENDED  ON    26-02-0015,  AT  12:29:15 
+  Job  started  on  28-02-0015,  at  16:16:43 
+  JOB  ENDED  ON    28-02-0015,  AT  16:16:47 
 
-   CPU time, total :     1.22381400000000     
+   CPU time, total :     3.39221100000000     

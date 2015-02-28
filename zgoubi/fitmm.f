@@ -121,9 +121,9 @@ C KT=prtcl #, JI=field coordinate, LI=lmnt #
       ENDDO
       RETURN
 
-      ENTRY FITMM4(ic3)
+      ENTRY FITMM4(IC3I)
       NBL = NBL + 1
-      IQ(ic3) = nbl
+      IQ(IC3I) = NBL
       RETURN
 
       ENTRY FITMM6(I0)

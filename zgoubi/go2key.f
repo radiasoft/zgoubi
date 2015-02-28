@@ -27,7 +27,7 @@ C  -------
 C     ******************************************************
 C     Places pointer right before key # numkey in zgoubi.dat
 C     ******************************************************
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       CHARACTER(40) TXT40
       INTEGER DEBSTR, FINSTR
 

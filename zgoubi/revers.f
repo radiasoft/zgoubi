@@ -28,7 +28,7 @@ C  -------
 C-----------------------------------------------------------------------
 C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
       CHARACTER   TEXT*110
       INTEGER DEBSTR

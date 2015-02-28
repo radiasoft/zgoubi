@@ -25,9 +25,9 @@ C  -------
       SUBROUTINE FITWDA
 C Will cause save of zgoubi.dat list with updated variables as following from FIT[2].
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       
       CHARACTER(2000) TXT132
 
@@ -40,6 +40,8 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
      >            LWDAT)
       CALL SYSTEM('\cp zgoubi.dat zgoubi.FIT.out.dat')
       OPEN(UNIT=LWDAT,FILE='zgoubi.FIT.out.dat')
+      OK = IDLUNI(
+     >            LTEMP)
       OPEN(UNIT=LTEMP,FILE='zgoubi.temp.dat')
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
      >''Saved new version of zgoubi.dat with variables updated.'')')

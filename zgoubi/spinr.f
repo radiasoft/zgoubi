@@ -29,10 +29,10 @@ C     ---------------------------
 C     Spin rotator. 
 C     Installed by Mei Bai, 2009.
 C     ---------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'       ! MXL, MXD
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXTRA.H"     ! MXT
       INCLUDE "MAXCOO.H"     ! MXJ
       LOGICAL AMQLU(5),PABSLU
@@ -41,7 +41,7 @@ C     ---------------------------
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       DOUBLE PRECISION OT(4), VEC(3)
 

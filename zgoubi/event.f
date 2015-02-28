@@ -20,15 +20,20 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE EVENT(DL,Y,T,Z,P,X,XAR,QBR,SAR,TAR,KEX,IT,
-     > AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
+     > AMT,Q,BORO,KART,IMAX,*)
+C     > AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YL2,ZL2,SORT(MXT),FMAG,BMAX
-     > ,YC,ZC
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
+      COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
+     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
+      COMMON/GASC/ AI, DEN, KGA
+      COMMON/SYNRA/ KSYN
 
 C----- in-flight decay
       IF(IFDES .EQ. 1)
@@ -36,9 +41,11 @@ C----- in-flight decay
 C     >  CALL MCDES(DL,KEX,Y,T,Z,P,RZ,BR,SAR,TAR,IT,AMT,QT,BORO,XAR,KART)
 
 C----- gas-scattering
-      QBR0 = QBR
-      IF(KGA .EQ. 1) CALL GASCAT(DL,QBR0,IT,
-     >                                     QBR,*99)
+      IF(KGA .EQ. 1) THEN
+        QBR0 = QBR
+        CALL GASCAT(DL,QBR0,IT,
+     >                         QBR,*99)
+      ENDIF
 
 C------- Walls (chamber) 
       IF(LIMIT .EQ. 1) CALL CHMBRE(IT,Y,Z,SAR,

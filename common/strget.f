@@ -26,20 +26,20 @@ C  -------
       SUBROUTINE STRGET(STR,MSS,
      >                          NST,STRA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER STRA(*)*(*)
-      CHARACTER STR*(*)
+      CHARACTER(*) STRA(*)
+      CHARACTER(*) STR
 C     ------------------------------------------------------
 C     Extract substrings #1 up to #MSS, out of string STR. 
 C     Strings are assumed spaced by (at least) one blank. 
 C     They are saved in  array STRA, and their total number 
 C     (possibly < mss) is NST.
 C     ------------------------------------------------------
-      INTEGER FINSTR
+      INTEGER DEBSTR, FINSTR
 
       CHARACTER(2000) STR0
 
-      if(len(str0).lt.len(str)) 
-     >  stop ' SBR STRGET : Increase length of string str0'
+      IF(LEN(STR0).LT.LEN(STR)) 
+     >CALL ENDJOB(' Sbr strget : increase length of string str0.',-99)
 
       STR0 = STR
       IE = FINSTR(STR)
@@ -80,6 +80,16 @@ C     ------------------------------------------------------
         ENDIF
 
       STR = STR0
+
+      call ZGNOEL(
+     >             NOEL)
+c       if(noel.eq.89) then
+c           write(*,*) ' strget  //////////////////'
+c           write(*,*) ' strget  NST = ', nst
+c           write(*,*) ' strget ', (stra(i),i=1,nst)
+c            write(*,*) ' strget  //////////////////'
+c              read(*,*)     
+c          endif
 
       RETURN
       END

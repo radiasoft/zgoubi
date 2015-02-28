@@ -29,7 +29,7 @@ C  -------
 C     --------------------------------------------------
 C     SI XL = 0 (ELMNT DE LONGUEUR NULLE) , LMNT IGNORE.
 C     --------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
  
       LNUL = XL .EQ. 0.D0
 

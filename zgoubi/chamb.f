@@ -39,12 +39,12 @@ C     LES APPELS SUIVANTS AVEC LIMIT=1 PERMETTENT DE MODIFIER LES LI-
 C     MITES DE LA CHAMBRE SANS ARRETER LE COMPTAGE. UN APPEL AVEC LIMITE
 C     =2 LISTE LE BILAN DU COMPTAGE ET RAZ LE COMPTEUR.
 C     ***************************************
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,BMAX
-     > ,YC,ZC
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
@@ -64,8 +64,8 @@ C     DE LA CHAMBRE, RAZ DU COMPTEUR, ET ARRET DU COMPTAGE.
 C     IFORM = 1 : CHAMBRE RECTANGULAIRE
 C     IFORM = 2 : CHAMBRE ELLIPTIQUE
 C
-      LIMIT = A(NOEL,1)
-      IFORM = A(NOEL,10)
+      LIMIT = NINT(A(NOEL,1))
+      IFORM = NINT(A(NOEL,10))
       JFRM = NINT(10.D0*A(NOEL,10)) - 10*IFORM
       A1 = A(NOEL,11)
       A2 = A(NOEL,12)
@@ -75,13 +75,13 @@ C
       IF(JFRM.EQ.1) THEN
         YL=.5D0*(A2-A1)
         ZL=.5D0*(A4-A3)
-        YC=.5D0*(A1+A2)
-        ZC=.5D0*(A3+A4)
+        YCH=.5D0*(A1+A2)
+        ZCH=.5D0*(A3+A4)
       ELSE
         YL=A1
         ZL=A2
-        YC=A3
-        ZC=A4
+        YCH=A3
+        ZCH=A4
       ENDIF
 
       YLIM2=YL*YL
@@ -103,14 +103,14 @@ C
  101        FORMAT(
      >      /,20X,' Start  of  rectangular  chamber  with  size :')
             WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3)
-     >                      ,YC*UNIT(1),ZC*UNIT(3)
+     >                      ,YCH*UNIT(1),ZCH*UNIT(3)
  103        FORMAT(25X,' YL = +/-',1P,G12.4,' m'
      >            ,5X,' ZL = +/-',   G12.4,' m'
      >      ,/,20X,' centered  on :',/
      >           ,25X,' YC =    ',   G12.4,' m'
      >            ,5X,' ZC =    ',   G12.4,' m')
-            WRITE(NRES,107)  (YC-YL)*UNIT(1),(YC+YL)*UNIT(1), 
-     >                        (ZC-ZL)*UNIT(3),(ZC+ZL)*UNIT(3)
+            WRITE(NRES,107)  (YCH-YL)*UNIT(1),(YCH+YL)*UNIT(1), 
+     >                       (ZCH-ZL)*UNIT(3),(ZCH+ZL)*UNIT(3)
  107        FORMAT(/,20X,
      >       ' => Max.  accepted  coordinates  Y,  Z  such  that :',1P,
      >       /,44X,G12.4,' < Y < ',G12.4,'  m',
@@ -120,11 +120,11 @@ C
  102        FORMAT(/,20X,
      >               ' Start  of  elliptical  chamber  with  axes :')
             WRITE(NRES,103) YL*UNIT(1),ZL*UNIT(3),
-     >                       YC*UNIT(1),ZC*UNIT(3)
+     >                      YCH*UNIT(1),ZCH*UNIT(3)
 C            WRITE(NRES,108) YL*UNIT(1),ZL*UNIT(3),
-C     >                       YC*UNIT(1),ZC*UNIT(3)
-            WRITE(NRES,108) YC*UNIT(1),YL*UNIT(1)
-     >                      ,ZC*UNIT(3),ZL*UNIT(3)
+C     >                      YCH*UNIT(1),ZCH*UNIT(3)
+            WRITE(NRES,108) YCH*UNIT(1),YL*UNIT(1)
+     >                     ,ZCH*UNIT(3),ZL*UNIT(3)
  108        FORMAT(/,20X,
      >       ' => Max.  accepted  coordinates  Y,  Z  such  that :',1P,
      >       /,25X,'((Y-',G10.3,')/',G10.3,')^2 + ((Z-',G10.3,')/',

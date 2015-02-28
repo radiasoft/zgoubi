@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -31,8 +31,8 @@ C        COMPTAGE DES PARTICULES QUI SORTENT D'UNE
 C     CHAMBRE DE LIMITES TRANSVERSALES YLIM2 ET ZLIM2.
 C     ------------------------------------------------
       INCLUDE "MAXTRA.H"
-      COMMON/CHAMBR/ LIMIT,IFORM,YL2,ZL2,SORT(MXT),FMAG,BMAX
-     > ,YC,ZC
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
+ 
  
 C------- SKIP SI LA PARTICULE EST DEJA SORTIE :
       IF(KEX .LT. -1) RETURN
@@ -42,8 +42,8 @@ CCCCC IF(FMAG .GE. .45D0) THEN
  
         TEMP = SAR
 
-        YP2 = (Y - YC)*(Y - YC)/YL2
-        ZP2 = (Z - ZC)*(Z - ZC)/ZL2
+        YP2 = (Y - YCH)*(Y - YCH)/YLIM2
+        ZP2 = (Z - ZCH)*(Z - ZCH)/ZLIM2
 
         IF    (IFORM .EQ. 1) THEN
 C--------- CHAMBRE RECTANGULAIRE

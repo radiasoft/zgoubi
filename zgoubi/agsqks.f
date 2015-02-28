@@ -31,10 +31,10 @@ C  -------
       INTEGER LBLSIZ, KSIZ 
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
-      COMMON /LABEL/ LABEL(MXL,2)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+      INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
       CHARACTER(LBLSIZ) LBL1
       INTEGER INIL
@@ -110,17 +110,6 @@ C  In xags.madx :
       LBL1 = LABEL(NOEL,1)
       INIL = DEBSTR(LBL1)
 
-      ! ! 6.0 TUNE QUADRUPOLES
-      ! =================
-      IF    (LBL1(INIL:INIL+2) .EQ. 'QH_') THEN
-        LENQ = XL
-        XQH = A1
-        XQHP2 = XQH*XQH 
-        XQHP3 = XQH*XQHP2 
-        XQHP4 = XQH*XQHP3 
-        XQHP5 = XQH*XQHP4 
-        XQHP6 = XQH*XQHP5 
-        
       ! ==================================================================
       !  WE'RE GOING TO HAVE TO USE THE POLYNOMIAL COEFFICIENTS OVER AND OVER
       !    LATER IN THE FILE, SO I'M GOING TO DEFINE A SET THAT WE'LL USE 
@@ -135,6 +124,31 @@ C  In xags.madx :
         Q2 = KQHC2 
         Q1 = KQHC1 
         Q0 = KQHC0 
+
+      ! ! 6.0 TUNE QUADRUPOLES
+      ! =================
+      IF    (LBL1(INIL:INIL+2) .EQ. 'QH_') THEN
+        LENQ = XL
+        XQH = A1
+        XQHP2 = XQH*XQH 
+        XQHP3 = XQH*XQHP2 
+        XQHP4 = XQH*XQHP3 
+        XQHP5 = XQH*XQHP4 
+        XQHP6 = XQH*XQHP5 
+        
+c      ! ==================================================================
+c      !  WE'RE GOING TO HAVE TO USE THE POLYNOMIAL COEFFICIENTS OVER AND OVER
+c      !    LATER IN THE FILE, SO I'M GOING TO DEFINE A SET THAT WE'LL USE 
+c      !    THROUGHOUT THE REST OF THE FILE.  IF ONE WANTS TO CHANGE WHICH POLYNOMIAL
+c      !    IS USED, ONE ONLY HAS TO CHANGE THE VALUES OF Q0-Q6
+c      ! ==================================================================     
+c        Q6 = KQHC6 
+c        Q5 = KQHC5 
+c        Q4 = KQHC4 
+c        Q3 = KQHC3 
+c        Q2 = KQHC2 
+c        Q1 = KQHC1 
+c        Q0 = KQHC0 
       
       !  ===================================================================
       !  ALMOST ALL OF THE TUNE QUADS HAVE MULTIPLE SUPPLIES WIRED TO THEM.
@@ -280,20 +294,19 @@ c                   read(*,*)
         XQVP5 = XQV*XQVP4 
         XQVP6 = XQV*XQVP5 
       
-      ! ==================================================================
-      !  WE'RE GOING TO HAVE TO USE THE POLYNOMIAL COEFFICIENTS OVER AND OVER
-      !    LATER IN THE FILE, SO I'M GOING TO DEFINE A SET THAT WE'LL USE 
-      !    THROUGHOUT THE REST OF THE FILE.  IF ONE WANTS TO CHANGE WHICH POLYNOMIAL
-      !    IS USED, ONE ONLY HAS TO CHANGE THE VALUES OF Q0-Q6
-      ! ==================================================================
-      
-        Q6 = KQHC6 
-        Q5 = KQHC5 
-        Q4 = KQHC4 
-        Q3 = KQHC3 
-        Q2 = KQHC2 
-        Q1 = KQHC1 
-        Q0 = KQHC0 
+c      ! ==================================================================
+c      !  WE'RE GOING TO HAVE TO USE THE POLYNOMIAL COEFFICIENTS OVER AND OVER
+c      !    LATER IN THE FILE, SO I'M GOING TO DEFINE A SET THAT WE'LL USE 
+c      !    THROUGHOUT THE REST OF THE FILE.  IF ONE WANTS TO CHANGE WHICH POLYNOMIAL
+c      !    IS USED, ONE ONLY HAS TO CHANGE THE VALUES OF Q0-Q6
+c      ! ================================================================== 
+c        Q6 = KQHC6 
+c        Q5 = KQHC5 
+c        Q4 = KQHC4 
+c        Q3 = KQHC3 
+c        Q2 = KQHC2 
+c        Q1 = KQHC1 
+c        Q0 = KQHC0 
       
         IF    (LBL1(INIL:INIL+5) .EQ. 'QV_A03') THEN
       !  VERTICAL TUNE QUAD CURRENTS (MADE POSITIVE FOR USE IN THE TRANSFER FUNC. POLYNOMIALS)

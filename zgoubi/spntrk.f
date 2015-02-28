@@ -24,13 +24,13 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPNTRK(DS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "MAXTRA.H"
       COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       COMMON/SPTRK/ EU(5),CSV,DCSV,D2CSV,D3CSV,D4CSV
@@ -50,6 +50,14 @@ C      DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
       SAVE SMI, SMA
       PARAMETER (ICMXT=4*MXT)
       DATA SMI, SMA / ICMXT*1D10, ICMXT* -1D10 /
+
+cC///////////////////////
+c      call ZGNOEL(
+c     >             NOEL)
+c       if(noel.eq.245) then
+c           write(*,*) 'spntrk IN : ',noel
+c           write(*,*) ' QBR,DP ',QBR,DP
+c         endif
 
       PM = QBR*CL9/AMT
       GG = G * SQRT( 1.D0+PM*PM )
@@ -376,6 +384,14 @@ C--------------------------------------------------------------------
         IF(SMI(ICOO,IT).GT.SF(ICOO,IT)) SMI(ICOO,IT) = SF(ICOO,IT)
         IF(SMA(ICOO,IT).LT.SF(ICOO,IT)) SMA(ICOO,IT) = SF(ICOO,IT)
       ENDDO
+
+cC///////////////////////
+c      call ZGNOEL(
+c     >             NOEL)
+c       if(noel.eq.245) then
+c           write(*,*) 'spntrk OUT : ',noel
+c           write(*,*) ' QBR,DP ',QBR,DP
+c         endif
 
       RETURN
 

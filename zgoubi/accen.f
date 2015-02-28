@@ -29,10 +29,10 @@ C--------------------------------------------------------------------------
 C     Computes the rms ellipse with emittance AY matched to a particle set, 
 C     and gives particle rate within that ellipse
 C--------------------------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -44,10 +44,10 @@ C--------------------------------------------------------------------------
 
 Compute rms ellipse
       CALL LPSFIT(JJ, 
-     >                         EMIT,ALP,BET,XM,XPM)
-Compute number of particles alive and numberinside ellipse
+     >               EMIT,ALP,BET,XM,XPM)
+Compute number of particles alive and number inside ellipse
       CALL CNTINL(JJ,EPSPI,ALP,BET,XM,XPM,
-     >                                       NLIV,NINL)
+     >                                    NLIV,NINL)
 C        GAM = (1.D0+ALP*ALP) / BET
 CC------- JJ = 1, 2 or 3
 C        J1=2*JJ

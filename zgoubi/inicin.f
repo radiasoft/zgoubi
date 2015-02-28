@@ -17,17 +17,17 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  François Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE INICIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      COMMON/CINE/M1,M2,M3,M4,M12,M1212,M22,P0 ,G,C,C2,BG,EL3M,PC3,THETA
-     U,BETA,Q,PS(5),TS(5),NPS,NTS,II
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      COMMON/CINE/M1,M2,M3,M4,M12,M1212,M22,P0 ,G,C,C2,BG,EL3M,PC3,
+     >THETA,BETA,Q,PS(5),TS(5),NPS,NTS,II
       DOUBLE PRECISION M1,M2,M3,M4,M12,M1212,M22
       PL2=DP*P0
       PL22=PL2*PL2

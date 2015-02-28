@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE RREBEL(LABEL,kle)
+      SUBROUTINE RREBEL(LABEL,KLE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
 C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
@@ -30,8 +30,8 @@ C     ***************************************
       CHARACTER(*) KLE(*)
       INCLUDE 'MXLD.H'
       CHARACTER(*) LABEL(MXL,2)
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
       CHARACTER TXT300*300, TXTA*8, TXTB*8
       INTEGER DEBSTR, FINSTR
@@ -45,6 +45,7 @@ C     ***************************************
       DIMENSION PARAM(MXPRM,MXLST)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TPRM(MXPRM,3)
+      data ia4 / 0 /
 
       READ(NDAT,FMT='(A)') TXT300
       IF(STRCON(TXT300,'!',
@@ -59,6 +60,7 @@ C     ***************************************
       READ(STRA(3),*,ERR=98) A(NOEL,3)
       IA3 = NINT(A(NOEL,3))
 
+      IOP = 0
       IF(STRCON(STRA(3),'.',
      >                      II)) THEN
         READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP

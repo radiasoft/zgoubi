@@ -31,20 +31,19 @@ C     Transfer  coefficients
 C     Called by ff during FIT process. IOPT=1 if fitting beam matrix coeffs.
 C     ----------------------------------------------------------------------
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
-      COMMON/INIT/ FA0(6,6),FA1(6,6),BID(6),BID1(6),IF
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/UNITS/ UNIT(MXJ)
  
       DIMENSION TX3(5,6) , TX4(5,6)
-      logical prdic
-      data prdic / .false. /
-      logical FITING
+      LOGICAL PRDIC
+      DATA PRDIC / .FALSE. /
+      LOGICAL FITING
 
       IF    (IORD .EQ. 1) THEN
         IT1 = 1 + 11 * (IREF-1)
@@ -67,9 +66,9 @@ C     ----------------------------------------------------------------------
       IF(IOPT.EQ.1) CALL BEAMAT(R,PRDIC,.FALSE.,
      >                                          F0,PHY,PHZ,CSTRN)
 
-C FIT problem. Jan 2015
-          CALL FITSTA(5,FITING)
-            if(FITING) 
+C Thomas Planche FIT problem : /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE. Jan 2015
+          call fitsta(5,fiting)
+            if(fiting) 
      >      write(89,*) ' coeffs ',r(1,1),r(2,2) 
             rewind(89)
 C------------

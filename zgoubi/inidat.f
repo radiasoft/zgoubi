@@ -27,15 +27,14 @@ C  -------
       USE DYNHC
       DOUBLE PRECISION CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'PARIZ.H'
-      INTEGER AllocateStatus
+      DATA ISTAT / 0 /
 
 !     Allocate storage for array A accordingly
       IF( .NOT.ALLOCATED( HC )) 
-     >  ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = AllocateStatus)
-      IF (AllocateStatus /= 0) 
+     >  ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = ISTAT)
+      IF (ISTAT .NE. 0) 
      >     CALL ENDJOB('SBR INIDAT Not enough memory for Malloc of HC',
      >     -99)
 

@@ -36,15 +36,15 @@ C     angle and by its RM radial positionniing.
 C     For each dipole, the three faces are positionned wrt. 
 C     the dipole's ACENT value. 
 C---------------------------------------------------------
-      COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
+      INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
   
       DIMENSION FTAB(5,5)
        
@@ -73,7 +73,8 @@ C---------------------------------------------------------
 
       DIMENSION BZ0(5,5)
 
-      CHARACTER(14) TYPCAL(2), TYPGAP(2)*12
+      CHARACTER(14) TYPCAL(2)
+      CHARACTER(12) TYPGAP(2)
       SAVE TYPCAL, TYPGAP
 
       PARAMETER (PLIM=80.D0)

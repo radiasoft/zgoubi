@@ -27,9 +27,9 @@ C  -------
 C     *******************************************
 C     READS DATA FOR OBJECT DEFINITION BY 'OBJET'
 C     *******************************************
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
@@ -66,6 +66,7 @@ C----- KOBJ - may be of the form "K.K2"
         READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
         A(NOEL,11) = K2
       ELSE
+        K2 = 0 
         READ(TXT132,*,ERR=99,END=99) K
         A(NOEL,11) = I0
       ENDIF

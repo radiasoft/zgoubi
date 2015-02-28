@@ -26,19 +26,19 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) TXT
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       LUN = ABS(NRES)
       IF(II.EQ.-99) THEN
         WRITE(  6,FMT=
-     >  '(//,1X,A,''. Occured in element # '',I0,//)') ' '//TXT,NOEL
+     >  '(//,1X,A,''   Occured in element # '',I0,//)') ' '//TXT,NOEL
         WRITE(LUN,FMT=
-     >  '( /,1X,A,''. Occured in element # '',I0)') TXT,NOEL
+     >  '( /,1X,A,''   Occured in element # '',I0)') TXT,NOEL
       ELSE
         WRITE(  6,FMT='(//,1X,A,
-     >  1X,I0,''. Occured in element # '',I0,//)') ' '//TXT,II,NOEL
+     >  1X,I0,''   Occured in element # '',I0,//)') ' '//TXT,II,NOEL
         WRITE(LUN,FMT='( /,1X,A,
-     >  1X,I0,''. Occured in element # '',I0)') TXT,II,NOEL
+     >  1X,I0,''   Occured in element # '',I0)') TXT,II,NOEL
       ENDIF
       WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
       WRITE(  6,FMT='(/,''End of job !'',//,''  '')')

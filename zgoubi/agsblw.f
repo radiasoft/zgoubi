@@ -34,15 +34,15 @@ C     ----------------------------------------------
       INCLUDE 'MXLD.H'
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
-      COMMON /LABEL/ LABEL(MXL,2)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
-      COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
+      INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
       CHARACTER(LBLSIZ) MMNM 
-      parameter(turnMM=16.d0)
-      integer debstr, finstr
+      PARAMETER(TURNMM=16.D0)
+      INTEGER DEBSTR, FINSTR
 
       MMNM = LABEL(NOEL,1)
       MMNM = MMNM(DEBSTR(MMNM):FINSTR(MMNM))
@@ -159,7 +159,7 @@ c/====================================================================
           SIGN = 1.D0
           NWL = 6
           WN(1) = DBLE(NWL) * SIGN
-          BLIL20=BLI
+C          BLIL20=BLI
 
 c/===============================================================
 c/ L20 Angle Bump (1 lambda)

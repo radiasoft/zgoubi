@@ -18,9 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TOSCAP(SCAL,NDIM,
 C     >                           BMIN,BMAX,BNORM,
@@ -29,35 +29,35 @@ C     >                           BMIN,BMAX,BNORM,
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
-C     Read TOSCA map with cylindrical coordinates. 
-C     TOSCA keyword with MOD.ge.20. 
+C     Read TOSCA map with cylindrical coordinates.
+C     TOSCA keyword with MOD.ge.20.
 C-------------------------------------------------
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
 C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
-      COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
-      COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      LOGICAL ZSYM
-      COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+C      LOGICAL ZSYM
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-
+ 
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
       CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
-
+ 
       LOGICAL STRCON
-
+ 
       CHARACTER(20) FMTYP
       DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
       SAVE XXH, YYH, ZZH
@@ -67,18 +67,18 @@ C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
  
-      DATA NOMFIC / IZ*'               '/ 
-
+      DATA NOMFIC / IZ*'               '/
+ 
       DATA NHDF / 8 /
-
-      DATA FMTYP / ' regular' / 
-
+ 
+      DATA FMTYP / ' regular' /
+ 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
-
-      
-
+ 
+ 
+ 
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
 C July 2013      BNORM = A(NOEL,10)*SCAL
@@ -94,19 +94,19 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
         NHD = NHDF
       ENDIF
       IXMA = A(NOEL,20)
-      IF(IXMA.GT.MXX) 
+      IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
       JYMA = A(NOEL,21)
-      IF(JYMA.GT.MXY ) 
+      IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
-
+ 
       KZMA =A(NOEL,22)
-      IF(KZMA.GT.IZ ) 
+      IF(KZMA.GT.IZ )
      >  CALL ENDJOB('Z-dim of map is too large, max is ',IZ)
-
+ 
       MOD = NINT(A(NOEL,23))
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
-
+ 
       IF    (NDIM.EQ.2 ) THEN
         NFIC=1
         I1 = 1
@@ -120,8 +120,8 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
       ELSEIF(NDIM .EQ. 3 ) THEN
 C        IF(MOD .GE. 20) THEN
         IF(MOD .EQ. 20) THEN
-C--------- an option on symmetrization for creating full field map from 
-C          a 1-quarter map (done by  ENTRY FMAPR2). 
+C--------- an option on symmetrization for creating full field map from
+C          a 1-quarter map (done by  ENTRY FMAPR2).
 C          Cylindrical mesh. Axis is Z
           I1 = 1
           I2 = 1
@@ -147,14 +147,14 @@ C--------- another option for symmetrization by FMAPR2
         CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
      >                          NEWFIC,NBMAPS,IMAP)
       ENDIF
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)') 
-     >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ', 
+      IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)')
+     >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ',
      >'Number of data file sets used is ',NFIC
-
+ 
       IF(NRES.GT.0) THEN
         IF(NEWFIC) THEN
-           WRITE(NRES,209) 
- 209       FORMAT(/,10X  
+           WRITE(NRES,209)
+ 209       FORMAT(/,10X
      >     ,'New field map(s) now used, polar mesh (MOD .ge. 20) ; '
      >     ,/,10X,' name(s) of map data file(s) are : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
@@ -166,10 +166,10 @@ C--------- another option for symmetrization by FMAPR2
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
         ENDIF
-      ENDIF 
-
+      ENDIF
+ 
       IF(NEWFIC) THEN
-
+ 
         IF(IDLUNI(
      >            LUN)) THEN
           BINAR=BINARI(NOMFIC(NFIC),IB)
@@ -182,15 +182,15 @@ C--------- another option for symmetrization by FMAPR2
         ELSE
           GOTO 96
         ENDIF
-
+ 
              LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-             WRITE(NRES,FMT='(/,3A)') 
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH), 
-     >         ' map,  FORMAT type : ', FMTYP             
+             WRITE(NRES,FMT='(/,3A)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
+     >         ' map,  FORMAT type : ', FMTYP
         IRD = NINT(A(NOEL,40))
 C        NHD = NHDF
-
+ 
 C BNORM set to ONE, since sent to CHAMK below
 C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
         one = 1.d0
@@ -199,7 +199,7 @@ C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
+ 
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA
@@ -222,12 +222,12 @@ C FM Nov 2011           DO K= 2, KZMA
            XbBMA(imap) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
-
+ 
       ENDIF
-
+ 
 c          write(*,*)  ' toscap BNORM SCAL ',BNORM,SCAL
       CALL CHAMK2(BNORM*SCAL)
-
+ 
        CALL MAPLI1(BMAX-BMIN)
        AT=XH(IXMA)-XH(1)
        ATO = 0.D0
@@ -235,7 +235,7 @@ c          write(*,*)  ' toscap BNORM SCAL ',BNORM,SCAL
        RM=.5D0*(YH(JYMA)+YH(1))
        XI = XH(1)
        XF = XH(IXMA)
-
+ 
       RETURN
  96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)

@@ -20,13 +20,13 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE GETNOL(KLEY,
      >                       NUML)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLEY, KLE
       KLE = '*******'

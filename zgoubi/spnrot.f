@@ -28,7 +28,7 @@ C     ---------------------------------------------------------
 C     TOURNE LE REFERENTIEL DU SPIN PAS APRES
 C     PAS, DANS CHANGREF ET DANS LES AIMANTS EN COORD. POLAIRES.
 C     ---------------------------------------------------------
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU

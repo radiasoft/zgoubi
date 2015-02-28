@@ -46,8 +46,8 @@ MATCHING QUADRUPOLE TRIPLET, INCLUDING COUPLED DRIFTS
 2  1 -8.001  .5    ! Coupled: sum of drifts stays constant
 5  12  0.   2.     ! Parmtr #12 of elements #3 is the field value
 2  1.E-5          ! # of constraints; penalty
-1  1 2 8  17. 1.   ! Cnstrnt #1 : R12=17. after last drift (lmnt #8)
-1  3 4 8 -.8  1.   ! Cnstrnt #2 : R34=-.8 after last drift
+1  1 2 8  17. 1. 0 ! Cnstrnt #1 : R12=17. after last drift (lmnt #8)
+1  3 4 8 -.8  1. 0 ! Cnstrnt #2 : R34=-.8 after last drift
  'MATRIX'                                                                                                    11
 1  0
  'END'                                                                                                       12

@@ -31,8 +31,19 @@ C     ***COORDONNEES DE LA TRAJECTOIRE I ,INITIALISATION
       COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
      $     IREP(MXT),AMQLU,PABSLU
       COMMON/PTICUL/ AM,Q,G,TO
-      COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+
+
+C///////////////////////
+c      call ZGNOEL(
+c     >             NOEL)
+c       if(noel.eq.245) then
+c           write(*,*) 'initra IN : ',noel,i
+c           write(*,*) ' QBR,DP ',QBR,DP
+c           write(*,*) '  F(1,I)  ',F(1,I)
+c         endif
+
       IT = I
       Y=F(2,I)
       T=F(3,I)*0.001D0
@@ -41,11 +52,20 @@ C     ***COORDONNEES DE LA TRAJECTOIRE I ,INITIALISATION
       DP=F(1,I)
       QT = AMQ(2,I)
       QBR = Q*BORO*DP
+
       BRI = QT/QBR
       KEX=IEX(I)
       SAR= F(6,I)
       AMT = AMQ(1,I)
 C----- AMQ(2,I) = Q/QE
       TAR = F(7,I)   *1.D5
+
+cC///////////////////////
+c       if(noel.eq.245) then
+c           write(*,*) 'initra OUT : ',noel,i
+c           write(*,*) ' QBR,DP ',QBR,DP
+c           write(*,*) ' BRI  ',bri
+c         endif
+
       RETURN
       END

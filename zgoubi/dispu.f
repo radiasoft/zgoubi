@@ -33,8 +33,8 @@ C  -------
      $     IREP(MXT),AMQLU,PABSLU
 
       PARAMETER (MXV=60, I27 = 27, I24 = I27-3) 
-      DIMENSION TAB(MXV,I27), LOC(MXV,I24)
-      SAVE IT1, IT2, NPU, LOC
+      DIMENSION TAB(MXV,I27), XLOC(MXV,I24)
+      SAVE IT1, IT2, NPU, XLOC
 
       VAL = 0.D0
       II = 0
@@ -59,7 +59,7 @@ C  -------
      >('Pgm disloc. Too many PU locations. Max is ',I24)
       IF(NPU.NE.999) THEN 
         DO I = 1, NPU
-          LOC(JJ,I) = TAB(JJ,2+I)        
+          XLOC(JJ,I) = TAB(JJ,2+I)        
         ENDDO
       ELSE
 C All PUs upstream of IR are accounted for.

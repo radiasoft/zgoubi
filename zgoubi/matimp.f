@@ -28,8 +28,9 @@ C  -------
       DIMENSION F0(6,6)
       DIMENSION R(6,*) , T(6,6,*)
       DIMENSION  T3(5,*)
-
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      LOGICAL OKCPLD, OKCPLDI
+      SAVE OKCPLD
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -41,9 +42,15 @@ C  -------
       LOGICAL EXS, OPN, OK
       SAVE KWRMAT
       CHARACTER(15) TXTYNU, TXTZNU
+      CHARACTER(9) TCPLD
+      SAVE RPARAM, CSTRN
 
       DATA FNAME / 'zgoubi.MATRIX.out' /
-  
+      DATA LNWRT / 0 /
+      DATA TCPLD / ' ' /  
+      DATA OKCPLD / .TRUE. /
+      DATA RPARAM, CSTRN / 0.D0, 0.D0 /
+
       DETY=R(1,1)*R(2,2)-R(1,2)*R(2,1)
       DETZ=R(3,3)*R(4,4)-R(3,4)*R(4,3)
       RIJ = R(2,2)
@@ -72,10 +79,15 @@ c        IF(NRES.GT.0)
 c     >  WRITE(NRES,*) ' Pgm matimp. NUMBER OF PERIODS IS ERRONEOUS !'
 c        RETURN
       ELSE
-        IF(NRES.GT.0) WRITE(NRES,106) NMAIL
+        IF(OKCPLD) THEN
+          TCPLD = ' COUPLED '
+        ELSE
+          TCPLD = 'UNCOUPLED'
+        ENDIF
+        IF(NRES.GT.0) WRITE(NRES,106) NMAIL,TCPLD
  106    FORMAT(//,15X,' TWISS  parameters,  periodicity  of',
      >         I4,'  is  assumed ',/
-     >           ,35X,' - UNCOUPLED -')
+     >           ,35X,'- ',A,' -')
       ENDIF
 
       TXTYNU = '-99999.'
@@ -87,10 +99,16 @@ c        RETURN
  113      FORMAT(/,6X,
      >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
      >    ' and  periodic  dispersion  (MKSA units)',/)
+          IF(OKCPLD) WRITE(NRES,FMT='(20X,
+     >    '' (coupled periodic dispersion still to be installed)'')')
           WRITE(NRES,114) (( F0(IA,IB) , IB=1,6) , IA=1,6)
  114      FORMAT(6X,6F13.6)
-          WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
-
+          IF(OKCPLD) THEN
+            WRITE(NRES,FMT='(/,30X,''Betatron  tunes  (Q1 Q2 modes)''
+     >      ,/)') 
+          ELSE
+            WRITE(NRES,FMT='(/,35X,''Betatron  tunes'',/)') 
+          ENDIF
 c         IF    (ABS(CMUY).LT.1.D0 .AND. ABS(CMUZ).LT.1.D0) THEN
 c           WRITE(TXTYNU,FMT='(G15.8)') YNU
 c           WRITE(TXTZNU,FMT='(G15.8)') ZNU
@@ -176,6 +194,9 @@ C        KWRMAT = .FALSE.
 
       ENDIF
 
+      IF(NRES .GT. 0) THEN 
+        IF(OKCPLD) CALL MATIMC(NRES)
+      ENDIF
 
       RETURN
 
@@ -236,6 +257,10 @@ C MODIFIED, FM, 04/97
   101   FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
       ENDIF
 
+      RETURN
+
+      ENTRY MATIM4(OKCPLDI)
+      OKCPLD = OKCPLDI
       RETURN
 
       ENTRY MATIM6(KWRI)

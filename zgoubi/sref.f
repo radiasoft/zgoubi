@@ -31,7 +31,7 @@ C     ----------------------
       DIMENSION EVB(*)
 C----- E is the radiated E-field in observer time
 
-      COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE,AMPROT, CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXSTEP.H'
       INCLUDE 'MAXTRA.H'
       INCLUDE 'CSR.H'

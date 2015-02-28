@@ -37,15 +37,15 @@ C     angle and by its RM radial positionniing.
 C     For each dipole, the three faces are positionned wrt. 
 C     the dipole's ACENT value. 
 C---------------------------------------------------------
-      COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
-      COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/CONST2/ ZERO, UN
+      INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
+      INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
       COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3
       COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
       COMMON/radial_sec/aen,ben,cen,aex,bex,cex     

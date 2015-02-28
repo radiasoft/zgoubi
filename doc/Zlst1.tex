@@ -7243,8 +7243,8 @@ its derivatives up to fourth order are derived from the scalar potential
 approximated to the 8-th order in $ Y $ and $ Z $
 
 \begin{align*}
-	V(X,Y,Z) &   =   \left(G-\dfrac{G^{\prime\prime} }{ 20} \, (Y^2+Z^2)+
-	              \dfrac{G^{\quaprime} }{ 960}\, (Y^2+Z^2)^2 \right) (Y^3Z-YZ^3)   \\
+	V(X,Y,Z) &   =   \left(G(X)-\dfrac{G^{\prime\prime}(X) }{ 20} \, (Y^2+Z^2)+
+	              \dfrac{G^{\quaprime}(X) }{ 960}\, (Y^2+Z^2)^2 \right) (Y^3Z-YZ^3)   \\
 	\text{with } ~ G_0 &   =  \dfrac{ B_0 }{ R^3_0} 
 \end{align*}
 
@@ -7395,23 +7395,23 @@ of the scalar potential (see section~\ref{sec2.3.5}) expressed to the 8th order 
 and $ Z $. 
 
  \begin{gather*}
- 	V(X,Y,Z)     =   \left(G- \dfrac{G^{\prime\prime} }{ 12}\, (Y^2+Z^2)+
-	             \dfrac{G^{\quaprime} }{ 384}\, (Y^2+Z^2)^2-
-	             \dfrac{G^{\cinqprime\prime} }{ 23040}\, (Y^2+Z^2)^3 \right)YZ  \\
-	(\quad G^{\prime\prime} =d^2G/dX^2,...) \\
-\intertext{where $ G $ is the gradient on axis~\protect\cite{Biblio12}~:  } %% [12]
-    G(s) = \dfrac{G_0 }{ 1+ \exp  P(s)}\qquad \text{with} \quad G_0=\dfrac{B_0}{R_0} \\
+ 	V(X,Y,Z)     =   \left(G(X)- \dfrac{G^{\prime\prime}(X) }{ 12}\, (Y^2+Z^2)+
+	             \dfrac{G^{\quaprime}(X) }{ 384}\, (Y^2+Z^2)^2-
+	             \dfrac{G^{\cinqprime\prime}(X) }{ 23040}\, (Y^2+Z^2)^3 \right)YZ  \\
+	(\quad G^{(n)}(X) =d^nG(X)/dX^n, etc.) \\
+\intertext{where $ G(X) $ is the gradient on axis~\protect\cite{Biblio12}~:  } %% [12]
+    G(X) = \dfrac{G_0 }{ 1+ \exp  P(d(X))}\qquad \text{with} \quad G_0=\dfrac{B_0}{R_0} \\
 \intertext{and,}
-     P(s) = C_0
-       +C_1 \left(  \dfrac{s }{ \lambda} \right) 
-       +C_2 \left( \dfrac{s }{ \lambda} \right)^2 
-       + C_3 \left( \dfrac{s }{ \lambda} \right)^3 
-       +C_4 \left( \dfrac{s }{ \lambda} \right)^4 
-       + C_5 \left(\dfrac{s }{ \lambda} \right)^5
-       P(s)=C_0+C_1 \left(\dfrac{s }{ \lambda} \right) + C_2 \left(\dfrac{s }{ \lambda}\right)
+     P(d) = C_0
+       +C_1 \left(  \dfrac{d }{ \lambda} \right) 
+       +C_2 \left( \dfrac{d }{ \lambda} \right)^2 
+       + C_3 \left( \dfrac{d }{ \lambda} \right)^3 
+       +C_4 \left( \dfrac{d }{ \lambda} \right)^4 
+       + C_5 \left(\dfrac{d }{ \lambda} \right)^5
+%       P(s)=C_0+C_1 \left(\dfrac{s }{ \lambda} \right) + C_2 \left(\dfrac{s }{ \lambda}\right)
 \end{gather*}
 %
- where, $ s $ is the distance to the field boundary and $\lambda$
+ where $ d(X) $ is the distance to the field boundary and $\lambda$
 stands for $ \lambda_ E $ or $ \lambda_ S $ 
 (normally, $ \lambda  \simeq  2  \ast  R_0$). 
 
@@ -7537,8 +7537,8 @@ its derivatives up to fourth order are derived from the scalar potential approxi
 7th order in $ Y $ and $ Z $
 
  \begin{align*}
- 	V(X,Y,Z)    & =   \left(G- \dfrac{G^{\prime\prime} }{ 16}\, (Y^2+Z^2)+
-	             \dfrac{G^{\quaprime} }{ 640}\, (Y^2+Z^2)^2\right) 
+ 	V(X,Y,Z)    & =   \left(G(X)- \dfrac{G^{\prime\prime}(X) }{ 16}\, (Y^2+Z^2)+
+	             \dfrac{G^{\quaprime}(X) }{ 640}\, (Y^2+Z^2)^2\right) 
 	             \left(Y^2Z-\dfrac{Z^3 }{ 3} \right)   \\
 \text{with } ~ G_0 &   =  \dfrac{ B_0}{ R^2_0}
 \end{align*}

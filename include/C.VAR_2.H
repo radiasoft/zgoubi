@@ -1,0 +1,1 @@
+      COMMON /VAR/ X, P
