@@ -4,7 +4,7 @@
 
 CC = gfortran
 CFLAGS = -W
-OBJ = debstr.o extrac.o finstr.o hamilt.o positi.o propag.o strcon.o tunesc.o twss.o
+OBJ = debstr.o extrac.o finstr.o hamilt.o positi.o propag.o strcon.o
 
 all: $(OBJ)
 

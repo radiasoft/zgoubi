@@ -82,6 +82,7 @@ C      INTEGER DEBSTR, FINSTR
       logical prdic, okorbt
 
       DIMENSION F0(6,6) 
+      DIMENSION R4(4,4) 
 
       SAVE Q1, Q2, CC, OKORBT
 
@@ -178,8 +179,18 @@ C------- Switch on print to standard output :
 
         CALL MKSA(IORD,RREF,T,TX3,TX4)
 C        CALL MATIMP(RREF)
-        CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
+        IF(OKCPLD) THEN
+          DO J = 1, 4
+            DO I = 1, 4
+              R4(I,J) = RREF(I,J)
+            ENDDO
+          ENDDO
+          CALL TUNESC(R4, 
+     >    F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ,RPAREF,CSTREF)
+        ELSE
+          CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
+        ENDIF
         CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
 
         CALL BEAMAT(RREF,PRDIC,OKCPLD,
@@ -256,8 +267,18 @@ C----- 3rd pass through structure will follow
         ENDIF
         CALL MKSA(IORD,RMINUS,T,TX3,TX4)
 C        CALL MATIMP(RMINUS)
-        CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
+        IF(OKCPLD) THEN
+          DO J = 1, 4
+            DO I = 1, 4
+              R4(I,J) = RMINUS(I,J)
+            ENDDO
+          ENDDO
+          CALL TUNESC(R4, 
+     >          F0M,YNUM,ZNUM,CMUY,CMUZ,IERY,IERZ,RPARMM,CSTRM)
+        ELSE
+          CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
      >                                           YNUM,ZNUM,CMUY,CMUZ)
+        ENDIF
         CALL MATIMP(RMINUS,F0M,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
      >              PATHL(2)) 
@@ -317,8 +338,18 @@ C------- reactivate WRITE for printing results
         ENDIF
         CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C        CALL MATIMP(RPLUS)
-        CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
+        IF(OKCPLD) THEN
+          DO J = 1, 4
+            DO I = 1, 4
+              R4(I,J) = RPLUS(I,J)
+            ENDDO
+          ENDDO
+          CALL TUNESC(R4, 
+     >           F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+        ELSE
+          CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
+        ENDIF
         CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
      >              PATHL(3)) 
@@ -394,8 +425,18 @@ C        ENDIF
           ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
-          CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
+          IF(OKCPLD) THEN
+            DO J = 1, 4
+              DO I = 1, 4
+                R4(I,J) = RPLUS(I,J)
+              ENDDO
+            ENDDO
+              CALL TUNESC(R4, 
+     >             F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+          ELSE
+            CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
+          ENDIF
           CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
 
           NRES = ISIGN*NRES
@@ -455,8 +496,18 @@ C------- Amplitude tracking completed
           ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
-          CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
+          IF(OKCPLD) THEN
+            DO J = 1, 4
+              DO I = 1, 4
+                R4(I,J) = RPLUS(I,J)
+              ENDDO
+            ENDDO
+            CALL TUNESC(R4, 
+     >            F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+          ELSE
+            CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
+          ENDIF
           CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
 
           NRES = ISIGN*NRES
