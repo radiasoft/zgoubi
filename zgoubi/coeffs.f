@@ -64,7 +64,7 @@ C     ----------------------------------------------------------------------
 
       PRDIC = .FALSE.
       IF(IOPT.EQ.1) CALL BEAMAT(R,PRDIC,.FALSE.,
-     >                                          F0,PHY,PHZ,CSTRN)
+     >                                          F0,PHY,PHZ,CSTRN,RPRM)
 
 C Thomas Planche FIT problem : /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE. Jan 2015
           call fitsta(5,fiting)

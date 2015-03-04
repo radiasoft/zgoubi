@@ -29,7 +29,7 @@ C  -------
       DIMENSION F0(6,*)
 
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      IF(NRES .LT. 0) RETURN
+      IF(NRES .LE. 0) RETURN
       WRITE(NRES,103) 'INITIAL'
  103  FORMAT(//,18X,'BEAM  MATRIX (beta/alpha/alpha/gamma, D,D''), 
      >       ',A,/)

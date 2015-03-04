@@ -338,6 +338,7 @@ exit EFB \>2*deg, 4*cm \>6*E\\
  \>(Note : $ \lambda =0$, $\omega^ -= $-AT+ACENT and $ \theta =0 $  for \\
  \> \underbar{sharp edge}) \\
 \end{tabbing}
+
 \newpage
 
 \begin{tabbing}
@@ -3037,6 +3038,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
                        \> (N in KOBJ=3.N determines storage FORMAT)
 \end{tabbing}
 
+\newpage
+
 
 \begin{tabbing}
  \mestabOBJ
@@ -3394,11 +3397,24 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- \textsl{IOPT}, label        \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
-  \textsl{[,IMP]} or [PRINT]   \> 'label'~:  Can be  'all', 'ALL', or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
-      \> $IMP=1$ or 'PRINT' will cause storage of optical functions   \>  \> \\
-      \> in zgoubi.OPTICS.out.   \>  \> \\
+ \textsl{IOPT}, label \textsl{[, IMP or }       \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
+ \textsl{  'PRINT']} \textsl{[, coupled]}]  \> 'label'~:  Can be  'all', 'ALL', or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
+      \> $IMP=1$, or presence of 'PRINT', will cause storage of optical   \>  \> \\
+      \> functions  in zgoubi.OPTICS.out~;  \>  \> \\
+      \> optical function computation is in coupled hypothesis if specified, uncoupled otherwise.  \>  \> \\
 \end{tabbing}
+
+
+\vfill
+
+{\noindent {\bf \textsl{Example}} 
+\\
+The following will cause a print  of optical functions in zgoubi.res  at all elements of the zgoubi.dat sequence,  
+as well as their print out in zgoubi.OPTICS.out~: 
+\begin{verbatim}
+'OPTICS'
+ 1  all  PRINT
+\end{verbatim}
 
 
 

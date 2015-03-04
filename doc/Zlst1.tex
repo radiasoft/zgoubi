@@ -3862,8 +3862,26 @@ will cause saving of the transported beta functions into
 file \index{zgoubi.OPTICS.out|textbf}zgoubi.OPTICS.out.
 
 
+\vfill
 
 
+\noindent \underline{\textsl{About the source code~: }}
+
+\medskip
+
+\noindent The program \texttt{beamat} ensures the transport of the beam matrix along the 
+zgoubi.dat sequence. \texttt{beamat}  is called by \texttt{opticc}, 
+ itself called after each optical element, in the  program \texttt{zgoubi}. 
+
+\smallskip
+
+\noindent The starting beam matrix value is in the array \texttt{FI},  initialized by  \textsl{OBJET[KOBJ=5.1]},  program \texttt{obj5}. 
+The array \texttt{F0} contains the running beam matrix. 
+
+\smallskip
+
+\noindent The program \texttt{beaimp} prints to zgoubi.res, whereas  \texttt{optimp} prints to zgoubi.OPTICS.out.  
+Both are called from \texttt{opticc}.
 
 
 
@@ -8408,6 +8426,7 @@ from the 1-turn transport matrix as obtained in the way described above,
  \textsl{MATRIX\index{MATRIX}} calculates periodic parameters characteristic  of the structure 
 such as  optical functions and tune numbers, assuming that it is \textsl{NPeriod}-periodic, 
 and  in the coupled hypothesis, based on the Edwards-Teng method~\cite{Coupling}. \index{coupling|textbf}
+This only makes senss when met \textsl{at the end} of the zgoubi.dat sequence. 
 
 If  \textsl{IORD} = 2 additional 
 periodic parameters are computed such as chromaticities, \index{chromaticity@{chromaticity}} beta-function momentum dependence, 
@@ -8428,6 +8447,30 @@ file (convenient for use with \emph{e.g.} gnuplot type of data treatment softwar
 
 \noindent  Addition of ``\textsl{coupled}'' next to \textsl{IORD, IFOC [, PRINT]}, in the case of 
 periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) will cause use of coupled formalism. 
+
+
+
+
+
+\vfill
+
+
+\noindent \underline{\textsl{About the source code~: }}
+
+\medskip
+
+\noindent The program \texttt{matric} computes the transport matrix coefficients, 
+ it is called by \texttt{zgoubi} when the 
+keyword \textsl{MATRIX} is met along the zgoubi.dat sequence. 
+\texttt{matimp}, called by  \texttt{matric}, 
+ensures the print out of the matrix (and possibly the beam matrix) in zgoubi.res, and upon 
+\textsl{'PRINT'} option in zgoubi.MATRIX.out as well. 
+
+
+
+\smallskip
+
+
 
 
 
@@ -8638,6 +8681,35 @@ tracked on different transverse invariants, horizontal or vertical.
 \noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out, a MADX type ``twiss'' file, 
 with similar formatting, including   periodic optical data as a header (tunes, chromaticities, etc.) and, 
 in sequence, optical functions and  strengths at all elements. 
+
+
+
+
+
+\vfill
+
+
+\noindent \underline{\textsl{About the source code~: }}
+
+\medskip
+
+\noindent The program \texttt{beamat} ensures the transport of the beam matrix along the 
+zgoubi.dat sequence. \texttt{beamat}  is called by \texttt{opticc}, 
+ itself called after each optical element, in the  program \texttt{zgoubi}. 
+
+\smallskip
+
+\noindent The starting beam matrix value is in the array \texttt{FI},  initialized by the  program \texttt{twiss} 
+when met at the end of the zgoubi.dat sequence. 
+The array \texttt{F0} contains the running beam matrix. 
+
+\smallskip
+
+\noindent The program  \texttt{optimp}, called from \texttt{opticc},  prints to zgoubi.TWISS.out after each optical element 
+of the zgoubi.dat sequence. 
+
+
+
 
 
 \newpage

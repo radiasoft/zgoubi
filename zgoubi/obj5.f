@@ -60,6 +60,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
       DIMENSION REF(MXJ,MXREF)
       DIMENSION FI(6,6)
 
+      SAVE KOBJ2
       SAVE NBREF
       DATA NBREF / 1 /
 
@@ -109,32 +110,36 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
 
       IF(IREF.LT.NBREF) GOTO 1
 
-C----- Alpha_y, beta_y, *_z, *_d
-      FI(1,1) = A(NOEL,41)  
-      IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0    
-      FI(2,1) = A(NOEL,40)      
-      FI(1,2) = FI(2,1)
-      FI(2,2) = (1.D0+FI(2,1)*FI(2,1))/FI(1,1)
-      FI(3,3) = A(NOEL,43)  
-      IF(FI(3,3) .EQ. 0.D0) FI(3,3) = 1.D0    
-      FI(4,3) = A(NOEL,42)      
-      FI(3,4) = FI(4,3)
-      FI(4,4) = (1.D0+FI(4,3)*FI(4,3))/FI(3,3)
-      FI(5,5) = A(NOEL,45)  
-      IF(FI(5,5) .EQ. 0.D0) FI(5,5) = 1.D0    
-      FI(6,5) = A(NOEL,44)      
-      FI(5,6) = FI(6,5)
-      FI(6,6) = (1.D0+FI(6,5)*FI(6,5))/FI(5,5)        
+      IF(KOBJ2 .EQ. 1) THEN
+C----- beam line's initial alpha_y, beta_y, *_z, *_d
+C In case of periodic structure, FI is filled up by tunes (uncoupled option) or tunesc (coupled option)
+        FI(1,1) = A(NOEL,41)  
+        IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0    
+        FI(2,1) = A(NOEL,40)      ! +alpha
+        FI(1,2) = FI(2,1)
+        FI(2,2) = (1.D0+FI(2,1)*FI(2,1))/FI(1,1)
+        FI(3,3) = A(NOEL,43)  
+        IF(FI(3,3) .EQ. 0.D0) FI(3,3) = 1.D0    
+        FI(4,3) = A(NOEL,42)      ! +alpha
+        FI(3,4) = FI(4,3)
+        FI(4,4) = (1.D0+FI(4,3)*FI(4,3))/FI(3,3)
+        FI(5,5) = A(NOEL,45)  
+        IF(FI(5,5) .EQ. 0.D0) FI(5,5) = 1.D0    
+        FI(6,5) = A(NOEL,44)      
+        FI(5,6) = FI(6,5)
+        FI(6,6) = (1.D0+FI(6,5)*FI(6,5))/FI(5,5)        
 C Dy, Dy', Dz, Dz'
-      FI(1,6) = A(NOEL,46)      
-      FI(6,1) = FI(1,6)
-      FI(2,6) = A(NOEL,47)      
-      FI(6,2) = FI(2,6)
-      FI(3,6) = A(NOEL,48)      
-      FI(6,3) = FI(3,6)
-      FI(4,6) = A(NOEL,49)      
-      FI(6,4) = FI(4,6)
-      CALL BEAMA1(FI)
+        FI(1,6) = A(NOEL,46)      
+        FI(6,1) = FI(1,6)
+        FI(2,6) = A(NOEL,47)      
+        FI(6,2) = FI(2,6)
+        FI(3,6) = A(NOEL,48)      
+        FI(6,3) = FI(3,6)
+        FI(4,6) = A(NOEL,49)      
+        FI(6,4) = FI(4,6)
+        SIGN = +1.D0
+        CALL BEAMA2(FI,SIGN)
+      ENDIF
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) KOBJ,IMAX
@@ -145,7 +150,7 @@ C Dy, Dy', Dz, Dz'
        WRITE(NRES,FMT='(14X,'' Sampling : '',T30, 
      >  5(4X,G10.2),4X,G12.4)') (P(J), J=2,6), P(1)
         IREF = 1
-        WRITE(NRES,FMT='(2X,''Refrnce trajectry # '',I6,'' : '',T30,
+        WRITE(NRES,FMT='(2X,''Reference trajectry # '',I6,'' : '',T30,
      >                         5(4X,G10.2),4X,G12.4)') 
      >  IREF,(REF(J,IREF), J=2,6), REF(1,IREF)
         DO 20 IREF=2, NBREF
@@ -162,7 +167,8 @@ C Dy, Dy', Dz, Dz'
       NBREFO = NBREF
       RETURN
 
-      ENTRY OBJ52(KOBJ2)
+      ENTRY OBJ52(KOBJ2I)
+      KOBJ2 = KOBJ2I
       IF(KOBJ2 .EQ. 0) THEN
         NBREF = 1
       ELSEIF(KOBJ2 .EQ. 1) THEN

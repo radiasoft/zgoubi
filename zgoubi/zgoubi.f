@@ -219,7 +219,7 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
        ENDIF
 
        IF(KOPTCS .EQ. 1) THEN
-C------- Transport beam matrix and print at element ends. Switched by OPTICS keyword.
+C------- Transport beam matrix and print at element ends. Set by OPTICS or by TWISS keywords.
 
         IF(KUASEX .NE. -99) THEN
 C         Only if keyword is of optical element type or [MC]OBJET or END or MARKER
@@ -228,7 +228,7 @@ C         Only if keyword is of optical element type or [MC]OBJET or END or MARK
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
 C            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
-            CALL OPTICC(        NOEL,KOPIMP,PRDIC,OKCPLD)
+            CALL OPTICC(        NOEL,PRDIC,OKCPLD)
 
           ENDIF
         ENDIF
@@ -468,10 +468,8 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
       IF(READAT) CALL RMATRX
       IF(FITGET) CALL FITGT1
-      OKCPLD = NINT(A(NOEL,4)) .EQ. 1
-      call matim4(OKCPLD)
       CALL MATRIC(NINT(
-     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),OKCPLD)
+     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE
@@ -984,6 +982,8 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
         KOPIMP = 0
         IF(STRCON(TXTEMP,'PRINT',
      >                          IS)) KOPIMP = 1
+        OKCPLD = STRCON(TXTEMP,'coupled',
+     >                                   IS)
         READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
      >  *,ERR=801,END=801) KOPTCS, LBLOPT
         IF( KOPIMP .EQ. 0) 
@@ -1004,18 +1004,19 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
  802  CONTINUE
       IF (KOPTCS .NE. 1) KOPTCS = 0
       IF(NRES.GT.0) THEN
-        WRITE(NRES,*)  ' '
-        WRITE(NRES,*)  ' KOPTCS =',KOPTCS,'  (off/on = 0/1)'
-        WRITE(NRES,*)  ' '
-        WRITE(NRES,*)  ' LBLOPT = ' //
+        WRITE(NRES,*) ' '
+        WRITE(NRES,*) ' KOPTCS =',KOPTCS,'  (off/on = 0/1)'
+        WRITE(NRES,*) ' '
+        WRITE(NRES,*) ' LBLOPT = ' //
      >  LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))  //
      >  '  (will print beam matrix into zgoubi.res at those labels)' 
-        WRITE(NRES,*)  ' '
-        WRITE(NRES,*)  ' KOPIMP=',KOPIMP,
+        WRITE(NRES,*) ' '
+        WRITE(NRES,*) ' KOPIMP =',KOPIMP,
      >  '  (print betas into zgoubi.OPTICS.out, no/yes = 0/1)'
-        WRITE(NRES,*)  ' '
+        WRITE(NRES,*) ' '
+        WRITE(NRES,*) ' Coupled optics hypothsis (True/False) : ',OKCPLD
+        WRITE(NRES,*) ' '
       ENDIF
-C      OKLNO = .FALSE. 
       IF(KOPIMP.EQ.1) THEN
         IF(.NOT. OKLNO) THEN
           IF(IDLUNI(
@@ -1026,13 +1027,14 @@ C      OKLNO = .FALSE.
           IF(OKLNO) THEN
             WRITE(LNOPTI,FMT='(A)') '# FROM OPTICS KEYWORD'
             WRITE(LNOPTI,FMT='(A)') 
-     >         '# ALFX,         BTX,          ALFY,         BTY, ' //
-     >         '         ALFL,         BTL,          DX,         ' //
-     >         '  DXP,          DY,           DYP,          PHIX/' //
-     >         '2PI,     PHIY/2PI,     SUM_S,        #LMNT, X,   ' //
-     >         '         XP,           Y,            YP,         ' //
-     >         'KEYWORD,   LABEL1,    LABEL2       FO(6,1)       ' //
-     >         'K0*L          K1*L          K2*L  '
+     >         '# alfx          btx           alfy          bty  ' //
+     >         '         alfl          btl           Dx          ' //
+     >         '  Dxp           Dy            Dy            phix/' //
+     >         '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
+     >         '         xp            y             yp          ' //
+     >         'KEYWORD    label1     label2       FO(6,1)       ' //
+     >         'K0*L          K1*L          K2*L          |C|    ' //
+     >         '       r'
             WRITE(LNOPTI,FMT='(A)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
@@ -1040,7 +1042,8 @@ C      OKLNO = .FALSE.
      >         '         12            13            14     15   ' //
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
-     >         '23            24            25      '
+     >         '23            24            25            26     ' //
+     >         '       27'
           endif
         endif
       ELSE
@@ -1126,16 +1129,16 @@ C                            ktwiss=2 :  Prtcl#   unused    [coupled]
         READ(NDAT,fmt='(a)') TXT132
         IF(STRCON(TXT132,'!',
      >                       IS)) TXT132 = TXT132(1:IS-1)
-        IF(STRCON(TXT132,'coupled',
-     >                             IS)) THEN
-          OKCPLD = .TRUE. 
-          call matim4(OKCPLD)
+        OKCPLD = STRCON(TXT132,'coupled',
+     >                                   IS)
+        IF(  OKCPLD) THEN
           TA(NOEL,1) = 'coupled'
+        ELSE
+          TA(NOEL,1) = ' '
         ENDIF
+        CALL MATIM4(OKCPLD)
         READ(TXT132,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
       ENDIF
-C      OKCPLD = 
-C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
       IF(.NOT. OKLNO) THEN
         IF(IDLUNI(
      >            LNOPTI)) THEN
@@ -1155,13 +1158,14 @@ C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
           IF(OKLNO) THEN
             WRITE(LNOPTI,fmt='(a)') '# From TWISS keyword'
             WRITE(LNOPTI,fmt='(a)') 
-     >         '# alfx,         btx,          alfy,         bty, ' //
-     >         '         alfl,         btl,          Dx,         ' //
-     >         '  Dxp,          Dy,           Dyp,          phix/' //
-     >         '2pi,     phiy/2pi,     sum_s,        #lmnt, x,   ' //
-     >         '         xp,           y,            yp,         ' //
-     >         'KEYWORD,   label1,    label2       FO(6,1)       ' //
-     >         'K0*L          K1*L          K2*L          |C|    '
+     >         '# alfx          btx           alfy          bty  ' //
+     >         '         alfl          btl           Dx          ' //
+     >         '  Dxp           Dy            Dy            phix/' //
+     >         '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
+     >         '         xp            y             yp          ' //
+     >         'KEYWORD    label1     label2       FO(6,1)       ' //
+     >         'K0*L          K1*L          K2*L          |C|    ' //
+     >         '       r'
             WRITE(LNOPTI,fmt='(a)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
@@ -1169,7 +1173,8 @@ C     >TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1))) .eq. 'coupled'
      >         '         12            13            14     15   ' //
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
-     >         '23            24            25            26 '
+     >         '23            24            25            26     ' //
+     >         '       27'
           ENDIF
       ELSE
 C        KOPIMP = 0

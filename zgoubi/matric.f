@@ -20,14 +20,13 @@ C
 C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MATRIC(JORD,JFOC,KWR,OKCPLD)
+      SUBROUTINE MATRIC(JORD,JFOC,KWR,KCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
 C     Compute transfer matrix coefficients
 C     ------------------------------------
-      LOGICAL OKCPLD
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
 C      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -49,8 +48,8 @@ C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
       DIMENSION R4(4,4)
 
+      LOGICAL OKCPLD
       LOGICAL KWRMAT
-
       LOGICAL PRDIC
 
       DIMENSION RO(6,6)
@@ -101,6 +100,10 @@ C      IF(KWRMAT) CALL MATIM6(KWRMAT)
         WRITE(NRES,*)  ' Matrix coefficients are printed in '
      >  // ' zgoubi.MATRIX.out.'
       ENDIF
+
+C      KCPLD = A(NOEL,4) 
+      OKCPLD = KCPLD .EQ. 1
+      CALL MATIM4(OKCPLD)
 
       IF    (IORD .EQ. 1) THEN
         CALL OBJ51(

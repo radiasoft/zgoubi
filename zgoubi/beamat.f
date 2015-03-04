@@ -21,9 +21,10 @@ C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
-C  -------
+C  ------- 
       SUBROUTINE BEAMAT(R,PRDIC,OKCPLD,
-     >                                 F0,PHY,PHZ,Cstrn)
+     >                                 F0,PHY,PHZ,CSTRN,RPARAM)
+C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWISS.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),F0(6,*)
       LOGICAL PRDIC, OKCPLD
@@ -34,38 +35,35 @@ C  -------
       LOGICAL OK, IDLUNI
       CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
-C      PARAMETER (N4 = 6)
-      DIMENSION RT(N4,N4)
+      PARAMETER (N6 = 6)
+      DIMENSION RT66(N6,N6), RT(N4,N4)
       DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
       DIMENSION N0(N4), B(N4)
 
-      DIMENSION R66(6,6)
+C      DIMENSION R66(6,6)
 
-      IF(.NOT. PRDIC) THEN
+      IF(.NOT. OKCPLD) THEN
+
         F0(1,1) = R(1,1)*R(1,1)*FI(1,1)-2.D0*R(1,1)*R(1,2)*FI(2,1) +
      >  R(1,2)*R(1,2)*FI(2,2)
         F0(1,2) = -(  R(1,1)*R(2,1)*FI(1,1) -
-     >  ( 1.D0 + 2.D0*R(1,2)*R(2,1) )*FI(2,1) +
-     >  R(1,2)*R(2,2)*FI(2,2)  )
+     >  ( 1.D0 + 2.D0*R(1,2)*R(2,1) )*FI(2,1)+ R(1,2)*R(2,2)*FI(2,2) )
         F0(2,1) = F0(1,2) 
         F0(2,2) = R(2,1)*R(2,1)*FI(1,1) - 2.D0*R(2,2)*R(2,1)*FI(2,1) +
      >  R(2,2)*R(2,2)*FI(2,2)
+
         F0(3,3) = R(3,3)*R(3,3)*FI(3,3)-2.D0*R(3,3)*R(3,4)*FI(4,3) +
      >  R(3,4)*R(3,4)*FI(4,4)
         F0(3,4) = -(  R(3,3)*R(4,3)*FI(3,3) -
-     >  ( 1.D0 + 2.D0*R(3,4)*R(4,3) )*FI(4,3) +
-     >  R(3,4)*R(4,4)*FI(4,4)  )
+     >  ( 1.D0 + 2.D0*R(3,4)*R(4,3) )*FI(4,3)+ R(3,4)*R(4,4)*FI(4,4) )
         F0(4,3) = F0(3,4) 
         F0(4,4) = R(4,3)*R(4,3)*FI(3,3) - 2.D0*R(4,4)*R(4,3)*FI(4,3) +
      >  R(4,4)*R(4,4)*FI(4,4)
-        F0(1,6) = R(1,1)*FI(1,6) +R(1,2)*FI(2,6) +R(1,3)*FI(3,6) +
-     >  R(1,4)*FI(4,6) +R(1,5)*FI(5,6) +R(1,6)*FI(6,6) 
-        F0(2,6) = R(2,1)*FI(1,6) +R(2,2)*FI(2,6) +R(2,3)*FI(3,6) + 
-     >  R(2,4)*FI(4,6) +R(2,5)*FI(5,6) +R(2,6)*FI(6,6) 
-        F0(3,6) = R(3,1)*FI(1,6) +R(3,2)*FI(2,6) +R(3,3)*FI(3,6) + 
-     >  R(3,4)*FI(4,6) +R(3,5)*FI(5,6) +R(3,6)*FI(6,6) 
-        F0(4,6) = R(4,1)*FI(1,6) +R(4,2)*FI(2,6) +R(4,3)*FI(3,6) + 
-     >  R(4,4)*FI(4,6) +R(4,5)*FI(5,6) +R(4,6)*FI(6,6) 
+
+        F0(1,6) = R(1,1)*FI(1,6) +R(1,2)*FI(2,6) +R(1,6)
+        F0(2,6) = R(2,1)*FI(1,6) +R(2,2)*FI(2,6) +R(2,6)
+        F0(3,6) = R(3,3)*FI(3,6) +R(3,4)*FI(4,6) +R(3,6)
+        F0(4,6) = R(4,3)*FI(3,6) +R(4,4)*FI(4,6) +R(4,6)
 
 C Betatron phase advance
 c        PHY = atan2(R(1,2) , ( R(1,1)*F0(1,1) - R(1,2)*F0(1,2)))
@@ -75,9 +73,21 @@ c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
         PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
         IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
-        Cstrn = 0.d0
+        CSTRN = 0.D0
+        RPARAM = 0.D0
 
-      ELSE
+      ELSEIF(OKCPLD) then
+
+
+       if(.not. PRDIC) then
+
+          call endjob(' Case non-periodic coupled beam-matrix '
+     >    //' transport to be installed.',-99)
+
+       else
+
+
+              stop ' //////////// ici '
 
 C R is the matrix from OBJET down to here. Make it N4xN4
         DO J=1,N4
@@ -90,16 +100,22 @@ C R is the matrix from OBJET down to here. Make it N4xN4
 Compute the inverse of R
         CALL DLAIN(N4,N4,RINV,N0,B,IER)
 
-C Get the N4xN4 1-turn map
+C Get the 6*6 1-turn map as stored by first TWISS pass
         CALL TWISS1(
-     >                RT)
+     >              RT66)
+C Get the 4*4 part of it
+        do j = 1, 4
+          do i = 1, 4
+            rt(i,j) = rt66(i,j)
+          enddo
+        enddo
         CALL ZGNOEL(
      >               NOEL)
         CALL PMAT(RT,RINV,RINT,N4,N4,N4)
         CALL PMAT(R44,RINT,RT,N4,N4,N4)
 C RT now contains the local 1-turn map 
 
-        IF(OKCPLD) THEN
+C        ELSEIF(OKCPLD) THEN
 
 c          OK = IDLUNI(
 c     >              LUNW)
@@ -314,49 +330,20 @@ c          IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
      -               + RT(4,4)) + RT(4,4)) + 
      -      RT(2,3)*(RT(3,1) + RT(3,4)*RT(4,1) - RT(3,1)*RT(4,4))))
 
-        ELSEIF(.NOT. OKCPLD) THEN
-
-          CALL RAZ(R66,6*6)
-
-          DO JJ = 1, N4
-            DO II = 1, N4
-              R66(II,JJ) = RT(II,JJ)
-            ENDDO
-          ENDDO
-
-C            WRITE(*,*) ' BEAMAT '
-C            WRITE(*,FMT='(1P,6E13.4)') ((R66(II,JJ),ii=1,6),jj=1,6)
-c                 read(*,*)
-
-          CALL TUNES(R66,F0,1,IERY,IERZ,.FALSE.,
-     >                                       PHY,PHZ,CMUY,CMUZ)
-
-C Periodic D and D', i.e. 6j, i6, are not computed correctly, 
-C it requires rt(6,j), rt(i,6), to be implemented. 
-          S2NU = 2.D0 - Rt(1,1) - Rt(2,2)
-c            write(*,*) ' beamat '
-c            write(*,fmt='(1p,3e13.4)') S2NU, Rt(1,1),  Rt(2,2)
-c                 read(*,*)
-          F0(1,6) = ( (1.D0 - R(2,2))*R(1,6) + R(1,2)*R(2,6) ) / S2NU
-          F0(2,6) = ( R(2,1)*R(1,6) + (1.D0 - R(1,1))*R(2,6) ) / S2NU
-          S2NU = 2.D0 - Rt(3,3) - Rt(4,4)
-          F0(3,6) = ( (1.D0 - R(4,4))*R(3,6) + R(3,4)*R(4,6) ) / S2NU
-          F0(4,6) = ( R(4,3)*R(3,6) + (1.D0 - R(3,3))*R(4,6) ) / S2NU
-
-          F0(1,6) = 0.d0
-          F0(2,6) =  0.d0
-          F0(3,6) =  0.d0
-          F0(4,6) =  0.d0
-
         ENDIF
       ENDIF
 
       RETURN
 
-      ENTRY BEAMA1(FII)
-      DO 2 J=1,6
-        DO 2 I=1,6 
-          FI(I,J) = FII(I,J)
- 2    CONTINUE
+      ENTRY BEAMA2(FII,sign)
+      DO J=1,4
+        DO I=1,4 
+          FI(I,J) = sign**(i+j) * FII(I,J)  ! FI is in the form beta, +alpha, gamma
+        ENDDO                               ! by contrast w F0 in the form beta, -alpha, gamma
+      ENDDO
+      DO I=1,4
+        FI(I,6) = FII(I,6)
+      ENDDO      
       RETURN
+
       END

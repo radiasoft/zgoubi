@@ -25,7 +25,7 @@ C  -------
 
 c     written by Frédéric Desforges
 
-      SUBROUTINE matimc(NRES)
+      SUBROUTINE MATIMC(NRES)
 
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
       DIMENSION C(2,2),P(4,4)

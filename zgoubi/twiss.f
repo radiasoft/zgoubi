@@ -78,8 +78,8 @@ C      INTEGER DEBSTR, FINSTR
       LOGICAL dolast
       save dolast
       
-      dimension rturn(4,4)
-      logical prdic, okorbt
+      DIMENSION RTURN(6,6)
+      LOGICAL PRDIC, OKORBT
 
       DIMENSION F0(6,6) 
       DIMENSION R4(4,4) 
@@ -88,6 +88,7 @@ C      INTEGER DEBSTR, FINSTR
 
       DATA KWRI6 / 1 /
       DATA DOLAST / .TRUE. /
+      DATA CC, RPRM / 0.D0, 0.D0 /
 
       NMAIL = 1
       PRDIC = .TRUE.
@@ -187,14 +188,21 @@ C        CALL MATIMP(RREF)
           ENDDO
           CALL TUNESC(R4, 
      >    F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ,RPAREF,CSTREF)
+          call twss2(rref)
+          cc = CSTREF
+          rprm = RPAREF
         ELSE
           CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
         ENDIF
+
+        SIGN = -1.D0
+        CALL BEAMA2(F0REF,SIGN)
+
         CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
 
-        CALL BEAMAT(RREF,PRDIC,OKCPLD,
-     >                                 F0,Q1,Q2,CC)        
+c        CALL BEAMAT(RREF,PRDIC,OKCPLD,
+c     >                                 F0,Q1,Q2,cc,rprm)        
             
 c             write(*,*) q1, q2, cc, f0
 c                read(*,*)
@@ -545,7 +553,7 @@ C Now make a last pass to get optical functions at all elements
       IF(DOLAST) THEN
         DOLAST = .FALSE.
 
-C----- So to print into zgoubi.OPTICS.out
+C----- So to print into zgoubi.TWISS.out
         KOPTCS = 1
 
         ISIGN = NRES/ABS(NRES)
@@ -746,8 +754,8 @@ C      WRITE(88,*) ' +++++++++++++-------------------- '
 
       ENTRY TWISS1(
      >             RTURN)
-      DO J=1,4
-        DO I=1,4
+      DO J=1,6
+        DO I=1,6
           RTURN(I,J) = RREF(I,J)
         ENDDO
       ENDDO
