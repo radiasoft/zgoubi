@@ -378,7 +378,7 @@ OBJ=\
  trrote.o\
  tunes.o\
  tunesc.o\
- twss.o\
+ twssfc.o\
  twiss.o\
  tworbt.o\
  undulf.o\

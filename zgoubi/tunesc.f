@@ -36,11 +36,13 @@ C                 - integer and half-integer tunes forbidden
 C                 - vertical tune and horizontal not perfectly equal
 C
 c
-      SUBROUTINE TUNESC(R,
+      SUBROUTINE TUNESC(R6,
      >                     F0,NU1,NU2,CMUY,CMUZ,IERY,IERZ,RPARAM,C)
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
+      DIMENSION R6(6,6)
       DIMENSION F0(6,6)
-      DIMENSION R(4,4),REIG(4,4),Q(4,4),U(4,4),WR(4),WI(4),P(4,4),PINV(4
+C      DIMENSION REIG(4,4),Q(4,4),U(4,4),WR(4),WI(4),P(4,4),PINV(4
+      DIMENSION Q(4,4),U(4,4),WR(4),WI(4),P(4,4),PINV(4
      >,4),A(4,4),GV1(16),FV1(16),WORK(4),G(4,4),C(2,2),NUTEST(4)
       DOUBLE COMPLEX EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2,F1001,F1010
       INTEGER   IPIV,IERR,INFO,IOS1,IOS2,IOS3,IOS4,IOS7,IOS8
@@ -48,6 +50,8 @@ c
       CHARACTER(300) BUFFER
       LOGICAL STRCON,N_PROP
       CHARACTER(300) LABEL,KEYWOR
+
+      DIMENSION R(4,4)
 
       PARAMETER (PI = 3.141592653589793)
       logical ok, idluni
@@ -57,10 +61,16 @@ c
 
       CALL RAZ(F0, 6*6)
 
+      DO J = 1, 4
+        DO I = 1, 4
+          R(I,J) = R6(I,J)
+        ENDDO
+      ENDDO
+
 C     Computation of eigen values and eigen vectors
       
-      REIG = R
-      CALL RG(4,4,REIG,WR,WI,1,Q,GV1,FV1,IERR)         ! The output matrix Q is composed of as follows:
+C      REIG = R
+      CALL RG(4,4,R,WR,WI,1,Q,GV1,FV1,IERR)         ! The output matrix Q is composed of as follows:
                                                        ! 1st column: real part of eigenvector 1
       EV1 = CMPLX(WR(1),WI(1))                       ! 2nd column: imaginary part of eigenvector 1
       EV2 = CMPLX(WR(2),WI(2))                       ! 3rd column: real part of eigenvector 2
@@ -235,40 +245,36 @@ C     Inverse of the transformation matrix
 
 
 C     Edwards-Teng's parameters: alpha, beta, gamma, r and the matrix C
-
-      CALL TWSS(P, 
-     >            F0,rPARAM,C)
+      CALL TWSSFC(P,R6, 
+     >                 F0,rPARAM,C)
 
 C     Hamiltonian pertubation parameters and  Computing of the unperturbed tunes from the coupling parameters
       
       CALL HAMILT(NU1,NU2,rPARAM,CMOINS,DELTA,NUX0,NUY0,DELTA2,CPLUS)
 
-       CALL MATIC2(RPARAM,C,NU1,NU2,ALPHA1,ALPHA2,BETA1,BETA2,
-     > GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)      
+C For possiblw write out to zgoubi.res
+      CALL MATIC2(RPARAM,C,NU1,NU2,ALPHA1,ALPHA2,BETA1,BETA2,
+     >GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)      
 
-C     Propagation of the generalized Twiss' parameters and coupling parameters
-
-      N_PROP = .FALSE.                                            
-C      N_PROP = .TRUE.                                                    ! Flag turned on by default,
-
-      IF(N_PROP .EQV. .TRUE.) THEN
-
-        OPEN(3, FILE='ETbeta.res',STATUS='UNKNOWN',IOSTAT=IOS3)
-        OPEN(4, FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS4)
-        OPEN(7, FILE='zgoubi.res',STATUS='UNKNOWN',IOSTAT=IOS7)
-        OPEN(8, FILE='twiss.out',STATUS='UNKNOWN',IOSTAT=IOS8)
-      
-        WRITE(8,FMT='(2X,''LABEL'',9X,''KEYWORD'',20X,''S'',10X,
-     >  ''BETA1'',9X,''BETA2'',9X,''ALPHA1'',8X,''ALPHA2'',8X,
-     >  ''GAMMA1'',8X,''GAMMA2'',8X,''rPARAM'',/)')
-      
-        CALL PROPAG(3,4,nres,8,P,C,NU1,NU2,CMOINS,NUX0,NUY0)    ! the generalized Twiss' parameters 
-                                                                         ! and coupling strenght along 
-        CLOSE(8,IOSTAT=IOS8)                                               ! the ring
-        CLOSE(7,IOSTAT=IOS7)      
-        CLOSE(4,IOSTAT=IOS4)
-        CLOSE(3,IOSTAT=IOS3)
-      ENDIF
+cC     Propagation of the generalized Twiss' parameters and coupling parameters
+c      N_PROP = .FALSE.                                            
+cC      N_PROP = .TRUE.                                                    ! Flag turned on by default,
+c      IF(N_PROP .EQV. .TRUE.) THEN
+c        OPEN(3, FILE='ETbeta.res',STATUS='UNKNOWN',IOSTAT=IOS3)
+c        OPEN(4, FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS4)
+c        OPEN(7, FILE='zgoubi.res',STATUS='UNKNOWN',IOSTAT=IOS7)
+c        OPEN(8, FILE='twiss.out',STATUS='UNKNOWN',IOSTAT=IOS8)     
+c        WRITE(8,FMT='(2X,''LABEL'',9X,''KEYWORD'',20X,''S'',10X,
+c     >  ''BETA1'',9X,''BETA2'',9X,''ALPHA1'',8X,''ALPHA2'',8X,
+c     >  ''GAMMA1'',8X,''GAMMA2'',8X,''rPARAM'',/)')
+c      
+c        CALL PROPAG(3,4,nres,8,P,C,NU1,NU2,CMOINS,NUX0,NUY0)    ! the generalized Twiss' parameters 
+c                                                                         ! and coupling strenght along 
+c        CLOSE(8,IOSTAT=IOS8)                                               ! the ring
+c        CLOSE(7,IOSTAT=IOS7)      
+c        CLOSE(4,IOSTAT=IOS4)
+c        CLOSE(3,IOSTAT=IOS3)
+c      ENDIF
 
       RETURN
       END

@@ -40,7 +40,7 @@ C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWI
       DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
       DIMENSION N0(N4), B(N4)
 
-C      DIMENSION R66(6,6)
+      DIMENSION R6(6,6)
 
       IF(.NOT. OKCPLD) THEN
 
@@ -66,8 +66,6 @@ C      DIMENSION R66(6,6)
         F0(4,6) = R(4,3)*FI(3,6) +R(4,4)*FI(4,6) +R(4,6)
 
 C Betatron phase advance
-c        PHY = atan2(R(1,2) , ( R(1,1)*F0(1,1) - R(1,2)*F0(1,2)))
-c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
         PHY = atan2(R(1,2) , ( R(1,1)*FI(1,1) - R(1,2)*FI(1,2)))
         IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
         PHZ = atan2(R(3,4) , ( R(3,3)*FI(3,3) - R(3,4)*FI(3,4)))
@@ -79,15 +77,12 @@ c        PHZ = atan2(R(3,4) , ( R(3,3)*F0(3,3) - R(3,4)*F0(3,4)))
       ELSEIF(OKCPLD) then
 
 
-       if(.not. PRDIC) then
+       IF(.NOT. PRDIC) THEN
 
-          call endjob(' Case non-periodic coupled beam-matrix '
+          CALL ENDJOB(' Case non-periodic coupled beam-matrix '
      >    //' transport to be installed.',-99)
 
-       else
-
-
-              stop ' //////////// ici '
+       ELSE
 
 C R is the matrix from OBJET down to here. Make it N4xN4
         DO J=1,N4
@@ -115,45 +110,14 @@ C Get the 4*4 part of it
         CALL PMAT(R44,RINT,RT,N4,N4,N4)
 C RT now contains the local 1-turn map 
 
-C        ELSEIF(OKCPLD) THEN
-
-c          OK = IDLUNI(
-c     >              LUNW)
-c          IF(.NOT. OK) CALL ENDJOB(
-c     >    'SBR BEAMAT. Problem open idle unit for WRITE. ',-99)
-c          OPEN(lunW,FILE='transfertM.dat',STATUS='UNKNOWN',IOSTAT=IOS2)
-c          WRITE(lunW,FMT='(//)')
-c          WRITE(lunW,FMT='(
-c     >    ''TRANSPORT MATRIX (written by Zgoubi, used by ETparam ):'')')
-c          DO I=1,N4
-c             WRITE(lunW,FMT='(6(F15.8,1X))') (RT(I,J),J=1,N4)
-c          ENDDO
-c          WRITE(lunW,FMT='(/,a,i6)') ' Element # ',noel
-c          CLOSE(lunW,IOSTAT=IOS2)
-cCompute coupled optics
-c          cmmnd = '~/zgoubi/current/coupling/ETparam'
-c          CALL SYSTEM(cmmnd)
-c          OK = IDLUNI(
-c     >                 LUNW)
-c          call et2res(lunw)
-c          CLOSE(lunW)  
-c          call et2re1(
-c     >             F011,f012,f033,f034,phy,phz,Cstrn)
-
-          CALL TUNESC(RT, 
+          call raz(r6,6*6)
+          do j = 1, 4
+            do i = 1, 4
+              r6(i,j) = rt(i,j)
+            enddo
+          enddo
+          CALL TUNESC(R6, 
      >                   F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
-
-c          F0(1,1) = F011
-c          F0(1,2) = f012
-c          F0(2,1) = F0(1,2) 
-c          F0(2,2) = (1.d0 + f012*f012 ) / F011
-c          F0(3,3) = f033
-c          F0(3,4) = f034
-c          F0(4,3) = F0(3,4) 
-c          F0(4,4) = (1.d0 + f034*f034 ) / F033
-
-c          IF(PHY.LT.0.D0) PHY = 2.D0*PI + PHY
-c          IF(PHZ.LT.0.D0) PHZ = 2.D0*PI + PHZ
 
           F0(1,6) = -((RT(1,4)*
      -        (-((R(1,6)*(RT(2,4)*(-1 + RT(3,3)) - RT(2,3)*RT(3,4)) + 

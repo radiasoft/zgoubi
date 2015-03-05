@@ -82,7 +82,6 @@ C      INTEGER DEBSTR, FINSTR
       LOGICAL PRDIC, OKORBT
 
       DIMENSION F0(6,6) 
-      DIMENSION R4(4,4) 
 
       SAVE Q1, Q2, CC, OKORBT
 
@@ -115,27 +114,27 @@ C KTW2 = 1 is a request for orbit search prior to attacking twiss procedure
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
 
-      okorbt = .not. ktw2 .eq. 1 
-      if(okorbt) Then
-        if(nres.gt.0) then
-          write(nres,*)
-          write(nres,*) ' Closed orbit search was not requested, '
+      OKORBT = .NOT. KTW2 .EQ. 1 
+      IF(OKORBT) THEN
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,*)
+          WRITE(NRES,*) ' Closed orbit search was not requested, '
      >    //' particle 1 is assumed on closed orbit.'
-          write(nres,*)
-        endif
-      else
-        if(nres.gt.0) then
-          write(nres,*)
-          write(nres,*) ' Closed orbit search was requested, closed or'
+          WRITE(NRES,*)
+        ENDIF
+      ELSE
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,*)
+          WRITE(NRES,*) ' Closed orbit search was requested, closed or'
      >    //'bit coordinates first searched and assigned to particle 1.'
-          write(nres,*)
-        endif
-      endif
+          WRITE(NRES,*)
+        ENDIF
+      ENDIF
 
-      if(.not. okorbt) call tworbt
+      IF(.NOT. OKORBT) CALL TWORBT
 
  
-      if(ipass .eq. 4 .and. ktw .eq. 2) goto 222
+      IF(IPASS .EQ. 4 .AND. KTW .EQ. 2) GOTO 222
 
       KLOBJ = 'OBJET'
       CALL GETNOL(KLOBJ,
@@ -181,14 +180,8 @@ C------- Switch on print to standard output :
         CALL MKSA(IORD,RREF,T,TX3,TX4)
 C        CALL MATIMP(RREF)
         IF(OKCPLD) THEN
-          DO J = 1, 4
-            DO I = 1, 4
-              R4(I,J) = RREF(I,J)
-            ENDDO
-          ENDDO
-          CALL TUNESC(R4, 
+          CALL TUNESC(RREF, 
      >    F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ,RPAREF,CSTREF)
-          call twss2(rref)
           cc = CSTREF
           rprm = RPAREF
         ELSE
@@ -201,33 +194,9 @@ C        CALL MATIMP(RREF)
 
         CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
 
-c        CALL BEAMAT(RREF,PRDIC,OKCPLD,
-c     >                                 F0,Q1,Q2,cc,rprm)        
-            
-c             write(*,*) q1, q2, cc, f0
-c                read(*,*)
         NRES = ISIGN*NRES
 
-c          call ZGKLE(iq(noel), 
-c     >                             kleo)
-c           write(*,*) ' 1 twiss noel iq(noel) ',noel, kleo 
-c          call ZGKLE(iq(noel-1), 
-c     >                             kleo)
-c           write(*,*) ' noel -1 ',kleo 
-c          call ZGKLE(iq(noel+1), 
-c     >                             kleo)
-c          call ZGKLE(iq(noel+1), 
-c     >                             kleo)
-c           write(*,*) ' noel +1 ',kleo 
-c          call ZGKLE(iq(noel+2), 
-c     >                             kleo)
-c           write(*,*) ' noel +2 ',kleo 
-
         IF(KTW.GE.2) THEN
-  
-c          IF(KTW2 .EQ. 0) THEN
-c            IF(NRES .GT. 0) NRES =-NRES
-c          ENDIF
 
           CALL REFER1(
      >                PATHL(1)) 
@@ -276,12 +245,7 @@ C----- 3rd pass through structure will follow
         CALL MKSA(IORD,RMINUS,T,TX3,TX4)
 C        CALL MATIMP(RMINUS)
         IF(OKCPLD) THEN
-          DO J = 1, 4
-            DO I = 1, 4
-              R4(I,J) = RMINUS(I,J)
-            ENDDO
-          ENDDO
-          CALL TUNESC(R4, 
+          CALL TUNESC(RMINUS, 
      >          F0M,YNUM,ZNUM,CMUY,CMUZ,IERY,IERZ,RPARMM,CSTRM)
         ELSE
           CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
@@ -347,12 +311,7 @@ C------- reactivate WRITE for printing results
         CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C        CALL MATIMP(RPLUS)
         IF(OKCPLD) THEN
-          DO J = 1, 4
-            DO I = 1, 4
-              R4(I,J) = RPLUS(I,J)
-            ENDDO
-          ENDDO
-          CALL TUNESC(R4, 
+          CALL TUNESC(RPLUS, 
      >           F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
         ELSE
           CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -434,12 +393,7 @@ C        ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
-            DO J = 1, 4
-              DO I = 1, 4
-                R4(I,J) = RPLUS(I,J)
-              ENDDO
-            ENDDO
-              CALL TUNESC(R4, 
+            CALL TUNESC(RPLUS, 
      >             F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -505,12 +459,7 @@ C------- Amplitude tracking completed
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
-            DO J = 1, 4
-              DO I = 1, 4
-                R4(I,J) = RPLUS(I,J)
-              ENDDO
-            ENDDO
-            CALL TUNESC(R4, 
+            CALL TUNESC(RPLUS, 
      >            F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -603,32 +552,33 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           write(LUN,51)'@ ALFA             %le', Alpha
           write(LUN,50)'@ ORBIT5           %le                  -0'
           write(LUN,51)'@ GAMMATR          %le', sqrt(1.d0/Alpha)
-          write(LUN,51)'@ Q1               %le', YNUREF + 8.d0
-          write(LUN,51)'@ Q2               %le', ZNUREF + 8.d0
+          write(LUN,54)'@ Q1               %le', YNUREF, ' + integer'
+          write(LUN,54)'@ Q2               %le', ZNUREF, ' + integer'
           write(LUN,51)'@ DQ1              %le', DNUYDP
           write(LUN,51)'@ DQ2              %le', DNUZDP
-          write(LUN,51)'@ DXMAX            %le', 9999.
-          write(LUN,51)'@ DYMAX            %le', 9999.
-          write(LUN,50)'@ XCOMAX           %le                   0'
-          write(LUN,50)'@ YCOMAX           %le                   0'
-          write(LUN,51)'@ BETXMAX          %le', 9999.
-          write(LUN,51)'@ BETYMAX          %le', 9999.
-          write(LUN,50)'@ XCORMS           %le                   0'
-          write(LUN,50)'@ YCORMS           %le                   0'
-          write(LUN,51)'@ DXRMS            %le', 9999.
-          write(LUN,51)'@ DYRMS            %le', 9999.
-          write(LUN,50)'@ DELTAP           %le                   0'
+          write(LUN,50)'@ DXMAX            %le  0.    not computed'
+          write(LUN,50)'@ DYMAX            %le  0.    not computed'
+          write(LUN,50)'@ XCOMAX           %le  0.    not computed'
+          write(LUN,50)'@ YCOMAX           %le  0.    not computed'
+          write(LUN,50)'@ BETXMAX          %le  0.    not computed'
+          write(LUN,50)'@ BETYMAX          %le  0.    not computed'
+          write(LUN,50)'@ XCORMS           %le  0.    not computed'
+          write(LUN,50)'@ YCORMS           %le  0.    not computed'
+          write(LUN,50)'@ DXRMS            %le  0.    not computed'
+          write(LUN,50)'@ DYRMS            %le  0.    not computed'
+          write(LUN,50)'@ DELTAP           %le  0.    not computed'
           write(LUN,51)'@ |C|              %le', CC
           write(LUN,51)'@ Q1               %le', Q1
           write(LUN,51)'@ Q2               %le', Q2
-          write(LUN,50)'@ SYNCH_4          %le                   0'
-          write(LUN,50)'@ SYNCH_5          %le                   0'
+          write(LUN,50)'@ SYNCH_4          %le  0.    not computed'
+          write(LUN,50)'@ SYNCH_5          %le  0.    not computed'
           write(LUN,50)'@ TITLE            %12s "Zgoubi model"'
           write(LUN,50)'@ ORIGIN           %12s "twiss.f"'
           write(LUN,50)'@ DATE             %08s "  "'
           write(LUN,50)'@ TIME             %08s "  "'
  50       format(a)
  51       format(a,G18.10)
+ 54       format(a,G18.10,a)
  53       format(2(a,G18.10,1x))
  52       format(a,i6)
 

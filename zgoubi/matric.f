@@ -46,7 +46,6 @@ C------         R_ref    +dp/p     -dp/p
 
 C------        Beam_ref    +dp/p     -dp/p
       DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
-      DIMENSION R4(4,4)
 
       LOGICAL OKCPLD
       LOGICAL KWRMAT
@@ -126,12 +125,7 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           CALL MKSA(IORD,R,T,T3,T4)
           IF(PRDIC) THEN
             IF(OKCPLD) THEN
-              DO J = 1, 4
-                DO I = 1, 4
-                  R4(I,J) = R(I,J)
-                ENDDO
-              ENDDO
-              CALL TUNESC(R4, 
+              CALL TUNESC(R, 
      >                      F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
             ELSE
               CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
@@ -157,12 +151,7 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         CALL MKSA(IORD,R,T,T3,T4)
         IF(PRDIC) THEN
           IF(OKCPLD) THEN
-              DO J = 1, 4
-                DO I = 1, 4
-                  R4(I,J) = R(I,J)
-                ENDDO
-              ENDDO
-            CALL TUNESC(R4, 
+            CALL TUNESC(R, 
      >                      F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
           ELSE
             CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
@@ -174,13 +163,8 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         IF(PRDIC) THEN 
           CALL MAT2P(RPD,DP)
           CALL MKSA(IORD,RPD,T,T3,T4)          
-              DO J = 1, 4
-                DO I = 1, 4
-                  R4(I,J) = R(I,J)
-                ENDDO
-              ENDDO
           IF(OKCPLD) THEN
-            CALL TUNESC(R4, 
+            CALL TUNESC(R, 
      >                      F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
           ELSE
             CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
@@ -189,14 +173,9 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
           CALL MATIMP(RPD,F0PD,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,iref)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4)
-              DO J = 1, 4
-                DO I = 1, 4
-                  R4(I,J) = R(I,J)
-                ENDDO
-              ENDDO
           IF(OKCPLD) THEN
-            CALL TUNESC(R4, 
-     >                      F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
+            CALL TUNESC(R, 
+     >                    F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ,RPARAM,CSTRN)
           ELSE
             CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
      >                                              YNUM,ZNUM,CMUY,CMUZ)

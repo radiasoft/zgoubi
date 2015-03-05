@@ -99,8 +99,6 @@ c        RETURN
  113      FORMAT(/,6X,
      >    ' Beam  matrix  (beta/-alpha/-alpha/gamma)',
      >    ' and  periodic  dispersion  (MKSA units)',/)
-          IF(OKCPLD) WRITE(NRES,FMT='(20X,
-     >    '' (coupled periodic dispersion still to be installed)'')')
           WRITE(NRES,114) (( F0(IA,IB) , IB=1,6) , IA=1,6)
  114      FORMAT(6X,6F13.6)
           IF(OKCPLD) THEN
