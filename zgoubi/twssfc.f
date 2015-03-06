@@ -33,7 +33,6 @@ c     Written after former tunesc by Frédéric Desforges
       INTEGER   IPIV,INFO
       DIMENSION IPIV(4)
 
-
       F0(1,2) =  P(2,1)/P(2,2)         ! -alpha
       F0(2,1) = F0(1,2)
       F0(1,1) = P(1,1)/P(2,2)
