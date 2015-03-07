@@ -1,4 +1,9 @@
 
+Coupled case, pb :
+- les fctns optiques ne sont pas tout a fait egales aux 2 bouots
+
+
+----------------------
 no more "Maximum # steps allowed =        10000" if spntrk is suppressed
 
 le pb vient de la valeur de B dans pvect

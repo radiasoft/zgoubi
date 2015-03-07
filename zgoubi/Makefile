@@ -170,6 +170,7 @@ OBJ=\
  histab.o\
  hist.o\
  icentr.o\
+ ident.o\
  idluni.o\
  impaju.o\
  impcsr.o\

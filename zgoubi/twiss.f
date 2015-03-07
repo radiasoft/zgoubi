@@ -181,9 +181,7 @@ C------- Switch on print to standard output :
 C        CALL MATIMP(RREF)
         IF(OKCPLD) THEN
           CALL TUNESC(RREF, 
-     >    F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ,RPAREF,CSTREF)
-          cc = CSTREF
-          rprm = RPAREF
+     >           F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUREF,ZNUREF,CMUY,CMUZ)
@@ -246,7 +244,7 @@ C----- 3rd pass through structure will follow
 C        CALL MATIMP(RMINUS)
         IF(OKCPLD) THEN
           CALL TUNESC(RMINUS, 
-     >          F0M,YNUM,ZNUM,CMUY,CMUZ,IERY,IERZ,RPARMM,CSTRM)
+     >          F0M,YNUM,ZNUM,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
      >                                           YNUM,ZNUM,CMUY,CMUZ)
@@ -268,20 +266,6 @@ C        NLOBJ = 1
           
         IPASS=IPASS+1
 
-c          call ZGKLE(iq(noel), 
-c     >                             kleo)
-c           write(*,*) ' 2 twiss noel iq(noel) ',noel, kleo 
-c          call ZGKLE(iq(noel-1), 
-c     >                             kleo)
-c           write(*,*) ' noel -1 ',kleo 
-c          call ZGKLE(iq(noel+1), 
-c     >                             kleo)
-c           write(*,*) ' noel +1 ',kleo 
-c          call ZGKLE(iq(noel+2), 
-c     >                             kleo)
-c           write(*,*) ' noel +2 ',kleo 
-
-   
         NOEL=0 
         CALL SCUMS(0.D0)
 
@@ -312,7 +296,7 @@ C------- reactivate WRITE for printing results
 C        CALL MATIMP(RPLUS)
         IF(OKCPLD) THEN
           CALL TUNESC(RPLUS, 
-     >           F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+     >           F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
@@ -353,20 +337,7 @@ C------- Reset reference coordinates for OBJECT sampling : y -> y+dy
 
         ELSE
 
-c          call ZGKLE(iq(noel), 
-c     >                             kleo)
-c           write(*,*) ' 3 twiss noel iq(noel) ',noel, kleo 
-c          call ZGKLE(iq(noel-1), 
-c     >                             kleo)
-c           write(*,*) ' noel -1 ',kleo 
-c          call ZGKLE(iq(noel+1), 
-c     >                             kleo)
-c           write(*,*) ' noel +1 ',kleo 
-c          call ZGKLE(iq(noel+2), 
-c     >                             kleo)
-c           write(*,*) ' noel +2 ',kleo 
-
-          goto 222
+          GOTO 222
 
         ENDIF
 
@@ -394,7 +365,7 @@ C        ENDIF
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
             CALL TUNESC(RPLUS, 
-     >             F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+     >             F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                            YNUP,ZNUP,CMUY,CMUZ)
@@ -460,7 +431,7 @@ C------- Amplitude tracking completed
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
             CALL TUNESC(RPLUS, 
-     >            F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ,RPARAP,CSTRP)
+     >            F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
      >                                          YNUP,ZNUP,CMUY,CMUZ)
@@ -493,7 +464,7 @@ C        NLOBJ = 1
         
       ENDIF
 
- 222  continue
+ 222  CONTINUE
 
 C-------------------------------------------------------------------
 C-------------------------------------------------------------------
