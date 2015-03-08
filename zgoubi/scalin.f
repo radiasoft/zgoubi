@@ -455,7 +455,9 @@ C      RETURN
       RETURN
  
       ENTRY SCALI8(
-     >     TXTF, IFAM)
+     >             TXTF, IFAM)
+      IF(ifam.gt.mxta) CALL ENDJOB 
+     >('SBR scalin. Too many files. Max is ',MXTA)
       TFILE(IFAM) = TXTF
       RETURN
  

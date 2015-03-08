@@ -65,7 +65,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
  
       IF(MXTA.LT.MXF)
      >CALL ENDJOB('SBR RSCAL. Change MXTA to same value as MXF',-99)
- 
+
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1
       READ(NDAT,*) A(NOEL,NP),NFAM
@@ -74,6 +74,8 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
  
       IF(NFAM .GT. MXF)
      >CALL ENDJOB('SBR RSCAL - Too many families. Max allowed is ',MXF)
+      IF(NFAM .GT. MXTA)
+     >CALL ENDJOB('SBR RSCAL - Too many TA. Max allowed is ',MXTA)
  
       DO 1 IFM=1,NFAM
  
@@ -157,6 +159,8 @@ C Possible additional scaling factor :
             READ(STRAD(2),*) NPA
             IF(NPA.GT.MPA) CALL
      >         ENDJOB('SBR RSCAL - Too many parameterss. Max is ',MPA)
+            IF(NPA .GT. MXSCL)
+     >       CALL ENDJOB('SBR rscal. Exceded size of SCL tab.',-99) 
           ELSE
             NPA = 0
           ENDIF
@@ -164,7 +168,8 @@ C Possible additional scaling factor :
  
           DO J = 1, NPA
 C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
-            IF(2*J+1 .GT. MSTRD) STOP ' SBR rscal, ERR : 2J+1 > MSTRD.'
+            IF(2*J+1 .GT. MSTRD) CALL ENDJOB(
+     >      ' SBR rscal, ERR : 2J+1 > MSTRD.',-99)
             READ(STRAD(2*J+1),*) JPA(IFM,J)
             READ(STRAD(2*J+2),*) VPA(IFM,J)
             IF(NP.GT.MXD-2) CALL ENDJOB('SBR rscal. Too many data.',-99)
