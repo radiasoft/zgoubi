@@ -3,6 +3,7 @@ INC=../include
 OBJS=\
  libzg.a(date2.o)\
  libzg.a(empty.o)\
+ libzg.a(endjob.o)\
  libzg.a(gttext.o)\
  libzg.a(iraz.o)\
  libzg.a(raz.o)\

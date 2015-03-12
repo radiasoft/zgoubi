@@ -13131,7 +13131,8 @@ TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  0.000000E+00  1.089964E-02 -9.218047E-03  0.0
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  05-03-0015,  at  16:05:49 
-  JOB  ENDED  ON    05-03-0015,  AT  16:05:50 
+  Job  started  on  05-03-0015,  at  16:15:30 
+  JOB  ENDED  ON    05-03-0015,  AT  16:15:32 
 
-   CPU time, total :    0.360022000000000     
+   CPU time, total :    0.267959000000000     
+

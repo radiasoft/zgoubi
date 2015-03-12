@@ -107,10 +107,10 @@
  Fit reached penalty value   9.6329E-03
                           - new : 
  Fit reached penalty value   9.1352E-03
- Fit reached penalty value   1.1331E+00
- Fit reached penalty value   3.9092E+00
- Fit reached penalty value   8.5050E+00
- Fit reached penalty value   1.1143E+01
+ Fit reached penalty value   6.0699E-03
+ Fit reached penalty value   4.1051E-03
+ Fit reached penalty value   2.7601E-03
+ Fit reached penalty value   9.6329E-03
         
 ////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : 
           DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
@@ -136,11 +136,11 @@
                               dNu_z / dp/p =  1.99967243E+00
         
 ////////////////  ../AGS/TWISS/ - reference : 
-                              dNu_y / dp/p = -6.01176605E+00
-                              dNu_z / dp/p =  7.60180132E-01
+                              dNu_y / dp/p = -6.01187072E+00
+                              dNu_z / dp/p =  7.58443612E-01
                           - new : 
-                              dNu_y / dp/p = -6.01176605E+00
-                              dNu_z / dp/p =  7.60180132E-01
+                              dNu_y / dp/p = -6.01187072E+00
+                              dNu_z / dp/p =  7.58443612E-01
         
 ////////////////  ../AGS_Booster/TWISS - reference : 
                     NU_Y =  0.29727205         NU_Z =  0.53232835    
@@ -175,4 +175,13 @@
                     NU_Y =  0.29727205         NU_Z =  0.53232835    
  E  1  0.000000  0.000000  1.000000  1.000000           0.000113  0.000009  1.000000  1.000000      1.0048    0.0065    0.0005    6
  G  1  0.000000  0.000000  1.000000  1.000000           0.000002 -0.000028  1.000000  1.000000      1.0048    0.0016    0.0016    8
+        
+////////////////  ../variousKEYWORDS/TWISS/ - reference : 
+                              dNu_y / dp/p = -4.60044476E+00
+                              dNu_z / dp/p = -1.41194599E+01
+ -2.41217E+00   1.39721E+01  -1.14703E+00   7.51209E+00   0.00000E+00   0.00000E+00   6.38284E+00   6.81184E-01   1.31098E-02  -1.10979E-02   6.61821E-01   5.22204E-01   1.05558E+04     86   1.08837E-04  -9.12558E-03   4.64142E-06  -7.63456E-03 ESL        .          .            1.05556E+02   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   8.93748E-01   ! otpimp.f
+                          - new : 
+                              dNu_y / dp/p = -4.60044476E+00
+                              dNu_z / dp/p = -1.41194599E+01
+ -2.41217E+00   1.39721E+01  -1.14703E+00   7.51209E+00   0.00000E+00   0.00000E+00   6.38284E+00   6.81184E-01   1.31098E-02  -1.10979E-02   6.61821E-01   5.22204E-01   1.05558E+04     86   1.08837E-04  -9.12558E-03   4.64142E-06  -7.63456E-03 ESL        .          .            1.05556E+02   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   8.93748E-01   ! otpimp.f
         

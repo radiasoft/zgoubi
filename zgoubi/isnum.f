@@ -1,39 +1,40 @@
       FUNCTION ISNUM(S)
-      IMPLICIT double precision (a-h,o-z)
-      CHARACTER(*) S
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL ISNUM
+      CHARACTER(*) S
       INTEGER I, K, N
-      integer debstr, finstr
-      logical alrdy
-      data alrdy / .false. /
-      isnum = .false.
-      N = LEN(s(debstr(s):finstr(s)))
+      INTEGER DEBSTR, FINSTR
+      LOGICAL ALRDY
+      DATA ALRDY / .FALSE. /
+      ISNUM = .FALSE.
+      S = S(DEBSTR(S):FINSTR(S))
+      N = LEN(S(DEBSTR(S):FINSTR(S)))
       I = 1
       K = ICHAR(S(I:I))
-      IF (K .lt. 48) THEN
-        IF (.not.(K.eq.43 .or. K.eq.45)) THEN   ! + or -
+      IF (K .LT. 48) THEN
+        IF (.NOT.(K.EQ.43 .OR. K.EQ.45)) THEN   ! + OR -
           ISNUM = .FALSE.
           RETURN
-        endif
-      elseIF (K .gt. 57) THEN
+        ENDIF
+      ELSEIF (K .GT. 57) THEN
         ISNUM = .FALSE.
         RETURN
       ENDIF
       DO I = 2, N
         K = ICHAR(S(I:I))
-        IF (K .lt. 48) THEN
-          IF (K.ne.46) THEN    !  a dot
+        IF (K .LT. 48) THEN
+          IF (K.NE.46) THEN    !  A DOT
             ISNUM = .FALSE.
             RETURN
-          else
-            if(alrdy) then
+          ELSE
+            IF(ALRDY) THEN
               ISNUM = .FALSE.
               RETURN
-            else
-              alrdy = .true.
-            endif 
-          endif
-        elseIF (K .gt. 57) THEN
+            ELSE
+              ALRDY = .TRUE.
+            ENDIF 
+          ENDIF
+        ELSEIF (K .GT. 57) THEN
           ISNUM = .FALSE.
           RETURN
         ENDIF

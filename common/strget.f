@@ -81,8 +81,8 @@ C     ------------------------------------------------------
 
       STR = STR0
 
-      call ZGNOEL(
-     >             NOEL)
+c      call ZGNOEL(
+c     >             NOEL)
 c       if(noel.eq.89) then
 c           write(*,*) ' strget  //////////////////'
 c           write(*,*) ' strget  NST = ', nst
