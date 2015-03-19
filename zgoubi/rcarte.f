@@ -34,7 +34,7 @@ C     ---------------------------------------------------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
-      COMMON/DONT/ TA(MXL,MXTA)
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT
       parameter (MXSTR=20)

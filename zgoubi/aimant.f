@@ -37,7 +37,7 @@ C-----------------------------------------------------
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
-      COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
  
       LOGICAL BONUL
 

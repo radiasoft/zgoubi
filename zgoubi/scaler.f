@@ -32,18 +32,18 @@ C  -------
       INCLUDE 'MXLD.H'
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
-      COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
-      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
       CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "MAXTRA.H"
-      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       CHARACTER(KSIZ) KLEY
 
@@ -53,7 +53,7 @@ C  -------
       SAVE ARGDP, FACDP, PSYN
       SAVE TEMP
 
-      PARAMETER (ND=200000)
+      PARAMETER (ND=20000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
       dimension dat1(ND), dat2(ND), dat3(ND), 
      >          dat1i(ND),dat2i(ND),dat3i(ND)
@@ -286,6 +286,9 @@ c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
 C                         time   phase
           scaler = CUBSPL(xm,    ym,    xv,nd,nfrq)
 C                         
+          IF(nfrq.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
+     >    //'Max allowed is ND = ',ND)
+
           xv = ekin
 C                          ekin freq
           coTime1 = CUBSPL(dat3,dat2,xv,nd,nfrq)
@@ -466,6 +469,8 @@ c              endif
       ENTRY SCALE6(xmi,ymi,dat1i,dat2i,dat3i,nfrqi)
 C               oclock phi turn#  freq  Ekin 
       nfrq = nfrqi
+      IF(nfrq.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
+     >//'Max allowed is ND = ',ND)
       do 6 i=1,nfrq
         xm(i) = xmi(i)
         ym(i) = ymi(i)

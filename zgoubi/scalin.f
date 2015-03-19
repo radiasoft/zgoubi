@@ -31,14 +31,13 @@ C  -------
       PARAMETER (ISZTA=80)
       CHARACTER(ISZTA) TA
       PARAMETER (MXTA=45)
-      COMMON/DONT/ TA(MXL,MXTA)
-      COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
-      COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
-C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=10)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM
@@ -47,7 +46,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
  
       LOGICAL EMPTY, IDLUNI
  
-      PARAMETER (ND=200000)
+      PARAMETER (ND=20000)
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
  
       CHARACTER(9) OPT(2)
@@ -274,7 +273,8 @@ C              READ(LUN,*,ERR=599,END=598) XM(I),YM(I)
 C Read                 turn#,  freq,   phi,   oclock, Ekin
               READ(LUN,*,ERR=599,END=598)
      >                 turn(i),freq(i),YM(I), XM(I),  ekin(i)
-              IF(I.GT.ND) STOP ' SBR SCALIN, too many data'
+              IF(I.GT.ND) CALL ENDJOB(' SBR SCALIN, too many data. '
+     >        //'Max allowed is ND = ',ND)
 c              WRITE(88,fmt='(1p,4e14.6,2x,a)') turn,freq, yM(I), xM(I),
 c     >                   '  sbr scalin turn freq phase oclock '
               I = I+1

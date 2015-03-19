@@ -32,7 +32,7 @@ C     --------------------------------------------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       COMMON/GASC/ AI, DEN, KGA
-      COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
  
       KGA= A(NOEL,1)
       KGA = 0

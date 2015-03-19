@@ -39,7 +39,7 @@ C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AM ,Q 
-      COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
 C-----          Emitor Emitor-Obs.                       Nrmlzd
 C               posit.  direct     beta  beta-dot  field obs. pos. 

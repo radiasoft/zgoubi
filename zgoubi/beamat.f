@@ -28,10 +28,8 @@ C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWI
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*),F0(6,*)
       LOGICAL PRDIC, OKCPLD
-      COMMON/BEAM/ FI(6,6)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      DIMENSION FII(6,6)
       LOGICAL OK, IDLUNI
       CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
@@ -41,6 +39,9 @@ C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWI
       DIMENSION N0(N4), B(N4)
 
       DIMENSION RT6(6,6), C(2,2), P(4,4)
+      DIMENSION FII(6,6)
+      DIMENSION FI(6,6)
+      SAVE FI
 
 C Betatron phase advance
       PHY = ATAN2(R(1,2) , ( R(1,1)*FI(1,1) - R(1,2)*FI(1,2)))
@@ -112,6 +113,15 @@ C Get the 4x4 P matrix as stored by first TWISS pass
 
       RETURN
 
+      ENTRY BEAMA1(
+     >             FII)
+      DO J=1,6
+        DO I=1,6 
+          FII(I,J) = FI(I,J) 
+        ENDDO                
+      ENDDO
+      RETURN
+
       ENTRY BEAMA2(FII,sign)
       DO J=1,4
         DO I=1,4 
@@ -121,7 +131,6 @@ C Get the 4x4 P matrix as stored by first TWISS pass
       DO I=1,4
         FI(I,6) = FII(I,6)
       ENDDO      
-
       RETURN
 
       END

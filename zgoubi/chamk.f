@@ -38,17 +38,16 @@ C     --------------------------------------------------------
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
  
-      COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
-      COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
+      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
-      COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
-      COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
+      INCLUDE "C.D3B_2.H"     ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
+      INCLUDE "C.D4B.H"     ! COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
       COMMON/DDEXYZ/ DE(9),DDE(27)
-      COMMON/D3EXYZ/ D3EX(3,3,3), D3EY(3,3,3), D3EZ(3,3,3)
+      INCLUDE "C.D3E_2.H"     ! COMMON/D3EXYZ/ D3EX(3,3,3), D3EY(3,3,3), D3EZ(3,3,3)
       COMMON/D4EXYZ/ D4EX(3,3,3,3) ,D4EY(3,3,3,3) ,D4EZ(3,3,3,3)
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
-C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
@@ -209,7 +208,8 @@ C BB/FM/ 18/08 to be thought of......
       BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) *BRI
       BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) *BRI
 
-C          write(*,*) ' chamk scal, f1, f2, f3 ',scal, f1, f2, f3 
+c       write(*,*) ' chamk scal, f1-5 ',scal,f1,f2,f3,f4,f5
+c     > ,HC(ID,IAC-1,IRC-1,1,IMAP)
 
       GOTO 30
  

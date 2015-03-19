@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -39,14 +39,14 @@ C     -------------------------------------------------------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       COMMON/FAISCT/ LET(MXT)
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/REBELO/ NPASS,IPASS,KWRT,NNDES,STDVM
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
   
 C      DIMENSION YM(MXJ), YPM(MXJ), U(MXJ), ALPHA(MXJ), BETA(MXJ)
 C      DIMENSION YMX(MXJ), YPMX(MXJ)

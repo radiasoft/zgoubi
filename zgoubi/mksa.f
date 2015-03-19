@@ -29,7 +29,7 @@ C  -------
       DIMENSION  T3(5,*), T4(5,*)
 
       INCLUDE "MAXCOO.H"
-      COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
  
       DO 1 IA=1,6
         DO 1 IB=1,6

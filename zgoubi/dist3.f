@@ -29,8 +29,8 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+C     $     IREP(MXT),AMQLU,PABSLU
       
       DIMENSION XYZ1(MXJ), XYZ2(MXJ)
 C Get 1st and last PU #s, as well as corresponding NOELs, for PUs located in range noela-noelb

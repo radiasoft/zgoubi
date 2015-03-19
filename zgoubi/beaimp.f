@@ -24,11 +24,13 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE BEAIMP(F0,PHY,PHZ) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/BEAM/ FI(6,6)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       DIMENSION F0(6,*)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      DIMENSION FI(6,6)
       IF(NRES .LE. 0) RETURN
+      CALL BEAMA1(
+     >            FI)
       WRITE(NRES,103) 'INITIAL'
  103  FORMAT(//,18X,'BEAM  MATRIX (beta/alpha/alpha/gamma, D,D''), 
      >       ',A,/)

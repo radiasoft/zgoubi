@@ -36,9 +36,9 @@ C--------------------------------------------------------------------------
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
-      COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+C     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
       SAVE EPSPI
 

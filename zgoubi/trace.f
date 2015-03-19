@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -29,11 +29,9 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
-      COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-     $     IREP(MXT),AMQLU,PABSLU
-      COMMON/FOCAL/TTI(MXT),YI(MXT),ZI(MXT),WC,XI,YIO,YMI
-     A,WCZ,MZ,IMAX1,IMAX2,MY
-C      COMMON/LIGNE/ NT(200),NC(200)
+      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+C     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.FOCAL.H"     ! COMMON/FOCAL/TTI(MXT),YI(MXT),ZI(MXT),WC,XI,YIO,YMI,WCZ,MZ,IMAX1,IMAX2,MY
       COMMON/LIGNE/ NT(MXT),NC(MXT)
  
       WRITE(NRES,100) MY,MZ,XI,YIO,YMI

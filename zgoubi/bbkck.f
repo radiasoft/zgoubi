@@ -26,7 +26,7 @@ C  -------
        implicit double precision (a-h,o-z)
 C S. White & F. Meot, Jan. 2012
       INCLUDE "MAXTRA.H"
-      COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
        double precision  coef,sepx,sepy,bbfx,bbfy,bbgx,bbgy
        dimension  sigma (6)
        parameter (mxpt=10000)
