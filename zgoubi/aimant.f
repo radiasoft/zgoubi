@@ -34,7 +34,7 @@ C-----------------------------------------------------
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+      INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)

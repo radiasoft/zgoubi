@@ -33,7 +33,7 @@ C     > AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*)
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       COMMON/GASC/ AI, DEN, KGA
-      COMMON/SYNRA/ KSYN
+      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
 
 C----- in-flight decay
       IF(IFDES .EQ. 1)
@@ -52,7 +52,7 @@ C------- Walls (chamber)
      >                                        KEX,*99)
 
 C----- synchrotron radiation
-      IF(KSYN .GE. 1 ) CALL RAYSYN(DL,IT,IMAX)
+      IF(KSYN .GE. 1 ) CALL RAYSYN(DL,IT,IMAX,Q)
 
       RETURN
  99   RETURN 1

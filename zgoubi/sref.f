@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SREF(KSTP,FE,ITEM,
      >                             EVB,*)
@@ -38,7 +38,7 @@ C----- E is the radiated E-field in observer time
 C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       INCLUDE "MAXCOO.H"
       COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
-      COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AM ,Q 
+      INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
 C-----          Emitor Emitor-Obs.                       Nrmlzd
@@ -65,10 +65,10 @@ C------- Normalized ( n(t') )
 C------- Beta
 C   yzxb(1)=-1+dp/p. Rigidity (T.m),  Momentum (MeV/c) 
         BRO = YZXB(KSTP,ITEM,36) * (1.D0 + YZXB(KSTP,ITEM,1)) 
-        P0 = BRO * CL * 1.D-6 * Q    
-        BTA = P0 / SQRT( P0*P0 + AM*AM )  
+        P0 = BRO * CL * 1.D-6 * QT    
+        BTA = P0 / SQRT( P0*P0 + AMT*AMT )  
 C   q/m.gamma, MKSA units
-        QMG = BTA * CL * CL / (P0 * 1.D6)* Q 
+        QMG = BTA * CL * CL / (P0 * 1.D6)* QT 
 
         BE(1) = BTA * CT * CP
         BE(2) = BTA * SIN( YZXB(KSTP,ITEM,3) ) * CP
@@ -82,7 +82,7 @@ C------- Acceleration = Beta-dot = q/m beta x Field
 C------- 1 - n.Beta
         UNB = (1.D0 - ON(1)*BE(1)) - (ON(2)*BE(2)+ON(3)*BE(3) )
 
-        G1 = BTA * AM / P0
+        G1 = BTA * AMT / P0
           UNB2 = UNB * UNB
           UNB3 = UNB2 * UNB
 C--------- (n - Beta) x Beta-dot
@@ -139,8 +139,8 @@ C------- Normalized ( n(t') )
 C------- Beta emittor
 C   yzxb(1)=dp/p. Rigidity (T.m),  Momentum (MeV/c) 
         BRO = YZXB(KSTP,ITE,36) * (1.D0 + YZXB(KSTP,ITE,1)) 
-        P0 = BRO * CL * 1.D-6 * Q    
-        BTA = P0 / SQRT( P0*P0 + AM*AM )  
+        P0 = BRO * CL * 1.D-6 * QT    
+        BTA = P0 / SQRT( P0*P0 + AMT*AMT )  
         BTAO = BTA
         BEO(1) = BTA * CT * CP
         BEO(2) = BTA * ST * CP

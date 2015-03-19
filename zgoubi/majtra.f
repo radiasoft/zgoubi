@@ -32,7 +32,7 @@ C  Update coordinates of trajectory # I
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+      INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
 c      call ZGNOEL(
 c     >             NOEL)

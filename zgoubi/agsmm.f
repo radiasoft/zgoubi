@@ -55,7 +55,7 @@ C      LOGICAL ZSYM
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
-      COMMON/SYNRA/ KSYN
+      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
  
  
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole

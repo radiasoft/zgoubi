@@ -57,7 +57,7 @@ C      LOGICAL ZSYM
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
-      COMMON/SYNRA/ KSYN
+      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF

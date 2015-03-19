@@ -68,7 +68,7 @@ C Center the beam on xce, yce, ale, p/pRef
       ELSEIF(IA .EQ. 5) THEN
         READ(NDAT,*) A(NOEL,10),A(NOEL,11)
       ELSE
-        CALL ENDJOB('Pgm RAUTOR. No such option IA = ',IA2)
+C        CALL ENDJOB('Pgm RAUTOR. No such option IA = ',IA2)
       ENDIF
       RETURN
       END
