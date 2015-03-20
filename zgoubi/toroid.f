@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TOROID(X,Y)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -29,7 +28,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(15),V(5,3),E(5,3)
-      COMMON/DDBXYZ/ DB(9),DDB(27)
+      INCLUDE "C.DDBXYZ_2.H"     ! COMMON/DDBXYZ/ DB(9),DDB(27)
       INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "MAXTRA.H"
@@ -38,7 +37,7 @@ C  -------
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      COMMON/MARK/ KART,KALC,KERC,KUASEX
+      INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
  
       EQUIVALENCE (R1,EB1),(R2,EB2),(R3,EG1),(R4,EG2)

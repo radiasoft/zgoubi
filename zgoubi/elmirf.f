@@ -30,7 +30,7 @@ C Mirror, straight slits. Frame is Cartesian
 
       INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
+      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
  
 C----- D=gap   AL=plate lengths, V=potentials
       DIMENSION AL(7), V(7), ALIN(7), VIN(7)

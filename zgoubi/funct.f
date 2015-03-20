@@ -25,8 +25,8 @@ C  USA
 C  -------
       FUNCTION FUNCT(r,a,RM,FA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3 
-      COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
+      INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3 
+      INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
       SAVE xi,EBT
       IF (FA==1.0) THEN
       xi= ASP0+ASP1*r+ASP2*r**2+ASP3*r**3

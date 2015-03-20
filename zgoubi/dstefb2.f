@@ -25,9 +25,9 @@ C  USA
 C  -------
       FUNCTION DSTEFB2(XB,YB,D,AMIN,AMAX,XACC,TTARF,YN,FA,Typ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3   
-      COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
-      COMMON/radial_sec/aen,ben,cen,aex,bex,cex 
+      INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3   
+      INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
+      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex 
 
       parameter(lunW=12)
 

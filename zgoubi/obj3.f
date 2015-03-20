@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OBJ3(KOBJ2,BORO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -33,7 +33,7 @@ C     **************************************
  
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
+      INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
@@ -42,13 +42,13 @@ C     **************************************
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
-      COMMON/FAISCT/ LET(MXT)
+      INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
       CHARACTER(1) KAR(41)
-      COMMON/KAR/ KAR
-      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
+      INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
 
       CHARACTER(80) NOMFIC
       INTEGER DEBSTR,FINSTR
@@ -160,7 +160,7 @@ C        IF(BINARY) THEN
      >      DP,Y,T,Z,P,S,TIM,
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
-     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
      >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI
 
           IF(LM .NE. -1) THEN
@@ -196,7 +196,7 @@ C        IF(BINARY) THEN
      >      DP,Y,T,Z,P,S,TIM, 
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
-     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,RETI,DPRI,PS,
+     >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
      >      BRO, IPASSR, NOELR,     TDUMK,
      >                              TDUML,
      >                              TDUML,     LETI 
@@ -426,7 +426,7 @@ C          SUBSEQUENT PARTICUL
         F(7,IT1)=TIM*TIFAC + TIREF 
         IREP(IT1) = IT1
         IF (AMQLU(3)) THEN
-           RET(IT1)=RETI
+           PH(IT1)=PHI
            DPR(IT1)=DPRI
 C        IREP(IT1) = IREPI
            SORT(IT1) = SORTI

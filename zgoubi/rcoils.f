@@ -29,7 +29,7 @@ C  -------
 C     ------------------------
 C     READS DATA FOR COILS
 C     ------------------------
-      COMMON/MARK/ KART,KALC,KERK,KUASEX
+      INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
  
 C------ IL
       READ(NDAT,*) A(NOEL,1)

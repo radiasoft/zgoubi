@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MCOBJ
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,8 +35,7 @@ C     **************************
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-C     $     IREP(MXT),AMQLU,PABSLU
-      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IMAXD,IMAXT
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
@@ -114,7 +113,7 @@ C------- Multiturn injection
         IMAX=IMA
       ENDIF
 
-      IMAXD=1
+      IDMAX=1
       IMAXT=IMAX
 
       IF(KOUV.EQ.'Ellipse') THEN

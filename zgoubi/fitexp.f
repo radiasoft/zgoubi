@@ -27,7 +27,7 @@ C  -------
 C     ------------------------------------------
 C     GENERE DES N.A. DANS UNE DISTRIBUTION EXPO
 C     ------------------------------------------
-      COMMON/ FITEX /DN0,C0,C1,C2,C3,DL
+      INCLUDE "C.FITEX.H"     ! COMMON/FITEX/ DN0,C0,C1,C2,C3,DL
  
  10   X=RNDM()
       Y = EXP( C0 + (C1 + (C2 + C3*X)*X)*X ) / DN0

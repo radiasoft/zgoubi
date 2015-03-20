@@ -1,0 +1,1 @@
+      COMMON/TRNSF/ XFE,XFS

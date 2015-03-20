@@ -28,7 +28,7 @@ C  -------
 C     -----------------------
 C     READS DATA FOR AGS QUAD
 C     -----------------------
-      COMMON/MARK/ KART,KALC,KERK,KUASEX
+      INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
  
 C----- IL

@@ -40,12 +40,12 @@ C         Post-processing of stored data possible with zpop.
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
-      COMMON/FAISCT/ LET(MXT)
+      INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
-      COMMON/MARK/ KART,KALC,KERK,KUASEX
-      COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TOO
@@ -56,7 +56,7 @@ C      LOGICAL ZSYM
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
-      COMMON/SYNCH/ RET(MXT), DPR(MXT),PS
+      INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
  
       CHARACTER(KSIZ) KLEY
 
@@ -129,7 +129,7 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
         WRITE(LN)
      >   KEX,      XXXO, (FO(J,IT),J=2,MXJ),
      >   XXX, Y-DY, T*1.D3, Z, P*1.D3, SAR, TAR, BTI, DS, 
-     >   KART, IT, IREP(IT), SORT(IT), X, BX,BY,BZ, RET(IT),DPR(IT), PS,
+     >   KART, IT, IREP(IT), SORT(IT), X, BX,BY,BZ, PH(IT),DPR(IT), PS,
      >   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
      >   EX,EY,EZ, BORO, IPASS,NOEL,KLEY,(LABEL(NOEL,I),I=1,2),LET(IT)
       ELSE
@@ -141,7 +141,7 @@ C       Initial coordinates: D,Y,T,Z,P,X,Time
 C       current coordinates              time     v/c    Step 
 C                                        mu_s            size 
 
-     4   KART,  IT,IREP(IT), SORT(IT),X, BX,BY,BZ, RET(IT), DPR(IT), PS,
+     4   KART,  IT,IREP(IT), SORT(IT),X, BX,BY,BZ, PH(IT), DPR(IT), PS,
 C        Cart.               Path out     - kG -     (S)   dp/p_Synchro
 C         or                  CHAMBR                Synchrotron
 C        Polar                                       motion

@@ -20,8 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE HISTAB(IC1,IC2,NLIN,KAR,MODE,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -36,8 +35,8 @@ C     -------------------------------------------------------------
  
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (JH=24,KH=5)
-      COMMON/HISTO/ ICTOT(JH,KH),MOYC(JH,KH) ,CMOY(JH,KH),JMAX(JH,KH)
-      COMMON/HISTOG/NC(JH,120,KH),JJ,NH,XMI(JH,KH),XMO(JH,KH),XMA(JH,KH)
+      INCLUDE "C.HISTO.H"     ! COMMON/HISTO/ ICTOT(JH,KH),MOYC(JH,KH) ,CMOY(JH,KH),JMAX(JH,KH)
+      INCLUDE "C.HISTOG.H"     ! COMMON/HISTOG/NC(JH,120,KH),J,NH,XMI(JH,KH),XMO(JH,KH),XMA(JH,KH)
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
  
       DIMENSION ISTO(130)
@@ -51,24 +50,24 @@ C     ** numero de la 1-er colonne sur  le listing
       IC20=IC0+IC2
  
 C     *** COMPTAGE, MOYENNE
-      CMOY(JJ,NH)=0D0
-      MOYC(JJ,NH)=0
-      ICTOT(JJ,NH)=0
+      CMOY(J,NH)=0D0
+      MOYC(J,NH)=0
+      ICTOT(J,NH)=0
       DO 6 IC=IC1,IC2
-        ICTOT(JJ,NH)=ICTOT(JJ,NH) + NC(JJ,IC,NH)
- 6      CMOY(JJ,NH) = CMOY(JJ,NH) + IC*NC(JJ,IC,NH)
+        ICTOT(J,NH)=ICTOT(J,NH) + NC(J,IC,NH)
+ 6      CMOY(J,NH) = CMOY(J,NH) + IC*NC(J,IC,NH)
  
-      IF(ICTOT(JJ,NH) .GT. 0) THEN
-        MOYC(JJ,NH) = NINT(CMOY(JJ,NH)/ICTOT(JJ,NH))
+      IF(ICTOT(J,NH) .GT. 0) THEN
+        MOYC(J,NH) = NINT(CMOY(J,NH)/ICTOT(J,NH))
  
         DO 5 IC=IC1,IC2
- 5        ISTO(IC+IC0)=NC(JJ,IC,NH)
+ 5        ISTO(IC+IC0)=NC(J,IC,NH)
  
         IF(MODE .EQ. 1) THEN
 C         ** NORMALISE NC (DANS LA FENETRE IC1-IC2)
           YMAX=0D0
           DO 4 IC=IC1,IC2
-            IF(YMAX .LT. NC(JJ,IC,NH)) YMAX=NC(JJ,IC,NH)
+            IF(YMAX .LT. NC(J,IC,NH)) YMAX=NC(J,IC,NH)
  4        CONTINUE
           IF(YMAX .NE. 0.D0) THEN
             DO 3  IC=IC10,IC20
@@ -102,14 +101,14 @@ C       ** TRACE L'HISTO
      >  ,KARO((I)/10) , I=(IC10/10)*10,(IC20/10-1 )*10,10)
  107    FORMAT(1X,131A1)
  
-        WRITE(NRES,104) ICTOT(JJ,NH),JMAX(JJ,NH)
-     >  ,MOYC(JJ,NH),NC(JJ,MOYC(JJ,NH),NH)
+        WRITE(NRES,104) ICTOT(J,NH),JMAX(J,NH)
+     >  ,MOYC(J,NH),NC(J,MOYC(J,NH),NH)
  104    FORMAT(
      >  //,15X,' TOTAL  COMPTAGE                 : ',I7,'  SUR',I7
      >  ,/,15X,' NUMERO   DU  CANAL  MOYEN       : ',I7
      >  ,/,15X,' COMPTAGE  AU   "      "         : ',I7 )
  
-      ELSEIF(ICTOT(JJ,NH) .EQ. 0) THEN
+      ELSEIF(ICTOT(J,NH) .EQ. 0) THEN
  
         WRITE(NRES,108)
  108    FORMAT(////,15X,' TOTAL  COMPTAGE                 : 0',///)

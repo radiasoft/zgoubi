@@ -36,8 +36,8 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       PARAMETER(MPOL=10)
-      COMMON/MULTPL/ BBM(MPOL),DLE(MPOL),DLS(MPOL)
-     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+      INCLUDE "C.MULTPL.H"     ! COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+C     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
@@ -48,7 +48,7 @@ C      LOGICAL ZSYM
 C      LOGICAL SHARPE, SHARPS
  
       XL =A(NOEL,10)
-      BBM(1)  =A(NOEL,11)*SCAL
+      BM(1)  =A(NOEL,11)*SCAL
       AA = A(NOEL,12)
       BB = A(NOEL,13)
 
@@ -64,7 +64,7 @@ C      LOGICAL SHARPE, SHARPS
         WRITE(NRES,100) ' UNDULATOR :  B(x)=Bo.sin(x/B)/(1+(x/A)^8))',XL
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P, 
      >        //,15X,' Length              = ',G12.4,'  cm')
-        WRITE(NRES,103) ' MAX     ', BBM(1), AA, BB
+        WRITE(NRES,103) ' MAX     ', BM(1), AA, BB
  103    FORMAT(15X,1P,' B-',A,'  =',G12.4,'  kG ', 
      >        /15X   ,' A        =',G12.4,'  cm',
      >        /15X   ,' B        =',G12.4,'  cm')

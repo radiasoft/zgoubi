@@ -1,0 +1,1 @@
+      COMMON/FAISCT/ LET(MXT)

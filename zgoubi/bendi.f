@@ -36,8 +36,8 @@ C  -------
       INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       PARAMETER(MPOL=10)
-      COMMON/MULTPL/ BBM(MPOL),DLE(MPOL),DLS(MPOL)
-     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+      INCLUDE "C.MULTPL.H"     ! COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+C     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
@@ -52,27 +52,27 @@ C      LOGICAL ZSYM
 C----- Magnet length, geometrical
       XL =A(NOEL,10)
 C----- Skew angle
-      BBM(6) = A(NOEL,11)
+      BM(6) = A(NOEL,11)
 C----- Field
-      BBM(1)  =A(NOEL,12)*SCAL
+      BM(1)  =A(NOEL,12)*SCAL
 
 C----- SR-loss switched on by procedure SRLOSS
       IF(KSYN.GE.1) THEN
         IF(KFLD .EQ. MG) THEN
-          IF(BBM(1).NE.0.D0) CALL SYNPAR(BBM(1),XL)
+          IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
         ENDIF
       ENDIF
 
-      DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BBM(1)))
+      DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BM(1)))
       KP = NINT(A(NOEL,70))
       IF( KP .EQ. 3 ) THEN
         IF(A(NOEL,73) .NE. 0.D0) DEV = -A(NOEL,73) * 2.D0
       ENDIF
 
-      IF(BBM(6) .NE. 0.D0) THEN
+      IF(BM(6) .NE. 0.D0) THEN
 C------- BEND is skewed
-        DEVH=ATAN(TAN(DEV)*COS(BBM(6)))
-        DEVV=ATAN(TAN(DEV)*SIN(BBM(6)))
+        DEVH=ATAN(TAN(DEV)*COS(BM(6)))
+        DEVV=ATAN(TAN(DEV)*SIN(BM(6)))
       ENDIF
  
       XE = A(NOEL,20)
@@ -132,7 +132,7 @@ C------- Correction for entrance wedge
         SA(1)=STE
         CM(1)=-XE*CA(1)
       ELSE
-        DE(1,1)=-BBM(1)/DLE(1)
+        DE(1,1)=-BM(1)/DLE(1)
         DO 10 I=2,4
           DE(1,I)=-DE(1,I-1)/DLE(1)
  10     CONTINUE
@@ -151,7 +151,7 @@ C------- Correction for exit wedge
         SA(2)=-STS
         CM(2)=-XS*CA(2)
       ELSE
-        DS(1,1)=-BBM(1)/DLS(1)
+        DS(1,1)=-BM(1)/DLS(1)
         DO 11 I=2,4
           DS(1,I)=-DS(1,I-1)/DLS(1)
  11     CONTINUE
@@ -170,17 +170,17 @@ C------- Correction for exit wedge
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) ' BEND',XL,BORO/BBM(1)*DEV,DEV*DEG,DEV
+        WRITE(NRES,100) ' BEND',XL,BORO/BM(1)*DEV,DEV*DEG,DEV
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
      >       //,15X, ' Length    = ',E14.6,' cm'
      >       ,/,15X, ' Arc length    = ',E14.6,' cm'
      >       ,/,15X, ' Deviation    = ',E14.6,' deg.,  ',E14.6,' rad',/)
-        WRITE(NRES,103) BBM(1),BORO/BBM(1)
+        WRITE(NRES,103) BM(1),BORO/BM(1)
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
      >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')
-        WRITE(NRES,105) BBM(6)
+        WRITE(NRES,105) BM(6)
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
-        IF(BBM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 
+        IF(BM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 
      >       '' Projected  deviations  in H/V  planes  = '',
      >               1P,G13.6,''/'',G13.6,''  (rad)'')') DEVH, DEVV
  

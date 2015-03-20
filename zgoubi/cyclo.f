@@ -46,9 +46,9 @@ C---------------------------------------------------------
       INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
-      COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3
-      COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
-      COMMON/radial_sec/aen,ben,cen,aex,bex,cex     
+      INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3
+      INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
+      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex     
 
       DIMENSION FTAB(5,5)
        

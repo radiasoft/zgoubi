@@ -31,7 +31,7 @@ C     --------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      COMMON/GASC/ AI, DEN, KGA
+      INCLUDE "C.GASC.H"     ! COMMON/GASC/ AI, DEN, KGA
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
  
       KGA= A(NOEL,1)

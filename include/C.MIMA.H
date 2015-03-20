@@ -1,0 +1,1 @@
+      COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)

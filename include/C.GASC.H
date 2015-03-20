@@ -1,0 +1,1 @@
+      COMMON/GASC/ AI, DEN, KGA
