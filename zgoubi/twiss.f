@@ -539,8 +539,8 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           write(LUN,50)'@ DYRMS            %le  0.    not computed'
           write(LUN,50)'@ DELTAP           %le  0.    not computed'
           write(LUN,51)'@ |C|              %le', CC
-          write(LUN,51)'@ Q1               %le', Q1
-          write(LUN,51)'@ Q2               %le', Q2
+          write(LUN,51)'@ Q1*              %le', Q1
+          write(LUN,51)'@ Q2*              %le', Q2
           write(LUN,50)'@ SYNCH_4          %le  0.    not computed'
           write(LUN,50)'@ SYNCH_5          %le  0.    not computed'
           write(LUN,50)'@ TITLE            %12s "Zgoubi model"'

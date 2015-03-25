@@ -36,12 +36,12 @@ c     written by Frédéric Desforges
      >BETA2,GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P
       
       WRITE(NRES,FMT='(//,40X,
-     >                     ''----------------------------------------'
-     >')')
-      WRITE(NRES,FMT='(40X,''-  EDWARDS AND TENG`S PARAMETRIZATION  -'')
-     >')
-      WRITE(NRES,FMT='(40X,''----------------------------------------'',
-     >/,/)')
+     >                     ''----------------------------------------''
+     >)')
+      WRITE(NRES,FMT='(40X,''-  EDWARDS AND TENG`S PARAMETRIZATION  -''
+     >)')
+      WRITE(NRES,FMT='(40X,''----------------------------------------''
+     >,//)')
 
       WRITE(NRES,FMT='(6X,''COUPLING PARAMETERS:'')')
       

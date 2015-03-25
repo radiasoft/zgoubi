@@ -261,6 +261,7 @@ C--------- Coordinate reading/storing loop
              GOTO 69
             ENDIF
           ENDIF
+
           IF(NPTR .GT. 0) THEN
             CALL LPSFIT(NLOG,KPR,LM,
      >                              YM,YPM,YMX,YPMX,U,A,B,*60,*60)
@@ -1054,6 +1055,7 @@ C----------------------------
 
       LOGICAL EXS, OPN, BINARY 
       CHARACTER*11 FRMT
+      INTEGER DEBSTR,FINSTR
 
       IF( LU2O .EQ. -1) THEN
 C------- Looks for a free LUO starting from #10
@@ -1092,6 +1094,10 @@ C--------- Check existence of DEFN2O
           IF(EXS) THEN
             OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='OLD',ERR=99,IOSTAT=IOS,
      >           FORM=FRMT)
+            write(*,*) ' ' 
+            write(*,*) ' Just opened file ', 
+     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
+            write(*,*) ' ' 
             IF(IOS.NE.0) GOTO 97
             I4=4
             IPRNT = 0
@@ -1100,9 +1106,13 @@ C--------- Check existence of DEFN2O
           ELSE
             OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='NEW',ERR=99,IOSTAT=IOS,
      >           FORM=FRMT)
+            write(*,*) ' ' 
+            write(*,*) ' Just opened file ', 
+     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
+            write(*,*) ' ' 
             IF(IOS.NE.0) GOTO 97
           ENDIF
-
+ 
           FNO = DEFN2O
           LUO = LU2O
           OKOPN = .TRUE.
@@ -1588,6 +1598,22 @@ C----------  This is to flush the write statements...
       ELSE
         ZZNU = 1.D0 - YNU(2)
       ENDIF
+
+               write(*,*) ' nptr, okkt = ',nptr,npts,iun
+               write(*,*) ' nptr, okkt = ',nptr,npts,iun
+               write(*,*) ' nptr, okkt = ',nptr
+               write(*,*) ' nptr, okkt = ',nptr
+               write(*,*) ' nptr, okkt = ',nptr
+       WRITE(*,179) XM, XPM
+     > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
+     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
+
+      IF(NPTS.EQ.NPTR) WRITE(*,179) XM, XPM
+     > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
+     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
+
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
      > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
      > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
