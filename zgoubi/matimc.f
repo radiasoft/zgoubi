@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
 
-c     written by Frédéric Desforges
+C     written by Frédéric Desforges (2013)
 
       SUBROUTINE MATIMC(NRES)
 
@@ -32,7 +32,7 @@ c     written by Frédéric Desforges
       INTEGER NRES
       dimension x4(2,2), x19(4,4)
 
-      save ARCLEN,R,rPARAM,C,NU1,NU2,ALPHA1, ALPHA2, BETA1,    
+      save R,rPARAM,C,NU1,NU2,ALPHA1, ALPHA2, BETA1,    
      >BETA2,GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P
       
       WRITE(NRES,FMT='(//,40X,
@@ -50,7 +50,7 @@ c     written by Frédéric Desforges
       WRITE(NRES,FMT='(27X,''- C:'')')
       
       WRITE(NRES,200) ((C(I,J),J=1,2),I=1,2)
- 200     FORMAT(2(30X,2(F15.8,X),/))
+ 200     FORMAT(2(30X,2(F15.8,1X),/))
 
       WRITE(NRES,FMT='(78X,''MODE 1'',15X,''MODE 2'',/)')
       

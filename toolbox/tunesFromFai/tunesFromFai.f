@@ -12,7 +12,7 @@ C----- PLOT SPECTRUM
 
       CHARACTER*80 NOMFIC
       logical exs
-      character HV*2
+      character(2) HV
 
       LOGICAL OKSAV
       DATA OKSAV / .FALSE. /
@@ -36,6 +36,7 @@ c Fourier transf. ksmpl turns strarting from kpa
       data txtQ / 'y' /
       data okQ / .true. /
       data nt / -1 /
+      data change / .true. /
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -113,7 +114,7 @@ C           read(*,*)
      >' Turn # range :  ',ksmpl,' turns,  from ',kpa,' to ',kpb
       write(*,*) ' Tune boudaries (x/y/l) : ',(borne(i),i=1,6)
       write(*,*) ' #channels, .le.2500 (x/y/l) : ',(nc0(i),i=1,3)
-      write(*,*) ' Save spectra : ',oksav,txtsav
+      write(*,*) ' Save spectra : ',oksav  !,txtsav
       call READC2B(KPa,KPb,KPc)
 c      if(oksav) call spsav2(kpa,kpb,ksmpl)
       if(oksav) then
@@ -151,7 +152,7 @@ C Just a temp storage for passing HV :
       okopn = .false.
       change = .true.
       call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
-          
+C                (NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)          
       call SPSAV4
       stop ' Ended correctly it seems...'
 
@@ -162,7 +163,7 @@ C Just a temp storage for passing HV :
       SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE, OKSAV, okQ
-      character*(*) HV
+      character(*) HV
 C----- PLOT SPECTRUM     
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       PARAMETER (NCANAL=2500)
@@ -283,9 +284,14 @@ C--------- Coordinate reading/storing loop
             ENDIF
 
             IF(OKKT5(KT)) THEN
-              IF(KPR.EQ.2) CALL SPEIMP(IUN,YNU,BORNE,U,KT,HV
-     >           ,npass,kpa,kpb,energ,A,B)
-
+              CALL SPEIM3(IUN,KT,HV
+     >                             ,npass,kpa,kpb,energ)
+              IF(KPR.EQ.2) CALL SPEIMP(YNU,BORNE,U
+     >                                            ,A,B)
+c(IUN,YNU,BORNE,U,KT,HV
+c     >           ,npass,kpa,kpb,energ,A,B)
+C                                     (IUN,YNU,BORNE,U,KT,HV
+C     >           npass,kpa,kpb,energ,alf,bet)
               ENDIF
 
           ENDIF
@@ -782,7 +788,8 @@ C            ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
- 21         READ(NL,110,ERR=21,END=10)
+ 21         continue
+            READ(NL,110,ERR=21,END=10)
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -790,7 +797,7 @@ C            ENDIF
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
      >      BORO, IPASS,NOEL, 
      >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
-C     >      KLEY,LBL1,LBL2,LET
+
             INCLUDE "FRMFAI.H"
 CCCCCCCCCCC           if(it.eq.1) yref = f(2)
 C            IF(LM .NE. -1) THEN
@@ -838,7 +845,8 @@ C            ENDIF
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
- 31         READ(NL,100,ERR=31,END=10)
+ 31         continue
+            READ(NL,100,ERR=31,END=10)
      >      KEX,(FO(J),J=1,MXJ),
      >      (F(J),J=1,MXJ), DS,
      >      KART, IT, IREP, SORT, XX, BX, BY, BZ, RET, DPR,
@@ -1146,7 +1154,7 @@ C      RETURN
       SUBROUTINE INIGR(
      >                 NLOG, LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) NOMFIC
+      CHARACTER(*) NOMFIC
 
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
@@ -1422,7 +1430,7 @@ C------- Swallow the header (4 lines)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YZXB(*), NDX(*)
       INCLUDE 'MAXNPT.H'
-      PARAMETER (NTR=NPTMAX*9)
+C      PARAMETER (NTR=NPTMAX*9)
       COMMON/TRACKM/COOR(NPTMAX,9),NPTS,NPTR
 
       DIMENSION KXYL(6)
@@ -1576,18 +1584,23 @@ C----------  This is to flush the write statements...
 
       RETURN
       END
-      SUBROUTINE SPEIMP(IUN,YNU,BORNE,U,KT,HV,npass,kpa,kpb,energ
-     >                                           ,alf,bet)
+      SUBROUTINE SPEIMP(YNU,BORNE,U
+     >                             ,alf,bet)
+c      SUBROUTINE SPEIMP(IUN,YNU,BORNE,U,KT,HV,npass,kpa,kpb,energ
+c     >                                           ,alf,bet)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YNU(*), BORNE(*), U(*), alf(*), bet(*)
-      character HV*(*)
+      character(2) HV, HVi
       INCLUDE 'MAXNPT.H'
-      PARAMETER (NTR=NPTMAX*9)
+C      PARAMETER (NTR=NPTMAX*9)
       COMMON/TRACKM/COOR(NPTMAX,9),NPTS,NPTR
-      LOGICAL OKKT5
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR)
       save xm,xpm,ym,ypm
+      save IUN,KT,HV,npass,kpa,kpb,energ
+
+      data dum / 0.d0 /
+
       IF(YNU(1).GE.BORNE(1) .AND. YNU(1).LE.BORNE(2)) THEN
         XXNU = YNU(1)
       ELSE
@@ -1599,28 +1612,15 @@ C----------  This is to flush the write statements...
         ZZNU = 1.D0 - YNU(2)
       ENDIF
 
-               write(*,*) ' nptr, okkt = ',nptr,npts,iun
-               write(*,*) ' nptr, okkt = ',nptr,npts,iun
-               write(*,*) ' nptr, okkt = ',nptr
-               write(*,*) ' nptr, okkt = ',nptr
-               write(*,*) ' nptr, okkt = ',nptr
-       WRITE(*,179) XM, XPM
-     > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
-     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
-     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
-
-      IF(NPTS.EQ.NPTR) WRITE(*,179) XM, XPM
-     > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
-     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
-     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
-
       IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
      > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
-     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+C     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     > ,(U(I),I=1,3),dum, COOR(1,6)
      > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
 !!     >      ,  xK, xiDeg,' ',HV
  179    FORMAT(1P,11(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),7(1x,E14.6))
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
+
       RETURN
 
       entry speim2(xmi,xpmi,ymi,ypmi,zmi,zpmi)
@@ -1628,6 +1628,17 @@ C----------  This is to flush the write statements...
       xpm = xpmi
       ym =  ymi
       ypm = ypmi
+      return
+
+      entry SPEIM3(IUNi,KTi,HVi
+     >                      ,npassi,kpai,kpbi,energi)
+      IUN=IUNi
+      KT = KTi
+      HV = HVi
+      npass = npassi
+      kpa = kpai
+      kpb = kpbi
+      energ = energi
       return
 
 c      IF(NPTS.EQ.NPTR) WRITE(IUN,179) COOR(1,1),COOR(1,3)

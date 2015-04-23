@@ -33,6 +33,9 @@ C  -------
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       LOGICAL TYLAB
+      character(200) txt200
+      character(9) stra(3)
+      character(5) tmod
 
       GOTO 21
 
@@ -92,7 +95,26 @@ C  -------
       KY0 = KY
       WRITE(6,100) ' * Give desired variables  (0 0 to quit) : '
  100  FORMAT(A45)
-      READ(5,*,ERR=20) KX, KY
+C      READ(5,*,ERR=20) KX, KY
+      READ(5,fmt='(a)',ERR=20) txt200
+      call strget(txt200,3,
+     >                     nst,stra)
+      read(stra(1),*) KX
+      read(stra(2),*) KY
+         write(*,*) ' inpvar txt200 ',txt200
+         read(*,*)
+      if(nst.eq.3) then
+        read(stra(3),*) tmod
+        write(*,*) ' Mode, tmod = ',tmod
+        if(tmod .eq. 'norm') call plot20(1)
+        write(*,*) ' '
+        write(*,*) ' Coordinates will be normalized by F(1) '
+        write(*,*) ' nst, kx, ky, tmod : ',nst,kx,ky,tmod
+        write(*,*) ' '
+         read(*,*)
+      else
+        call plot20(0)
+      endif
 
       IF(KX .NE. KY) THEN
 

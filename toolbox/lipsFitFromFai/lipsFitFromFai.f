@@ -1349,7 +1349,7 @@ c      WRITE(6,FMT='(/,A,I2,A)') ' Now reading  ',N,'-line  file  header'
       ELSEIF(KPR.EQ.2) THEN
         REP = 'y'
       ENDIF
-
+ 
       IF(REP.EQ. 'y') THEN
 
         WRITE(*,*) '  Tunes will be printed in tunes.log'

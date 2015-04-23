@@ -99,6 +99,13 @@ C        write(nlu,*)  oksav,'    !  save spectra '
         write(*,*) 
         call system
      >  ('~/zgoubi/SVN/current/toolbox/tunesFromFai/tunesFromFai')
+
+        write(*,*) ' '
+        write(*,*) 'Pgm lipsFitFromFai_iterate. Now doing :'
+        write(*,*) 'cat tunesFromFai.out >> tunesFromFai_iterate.out'
+        write(*,*) ' '
+C           read(*,*)
+
         call system('cat tunesFromFai.out >> tunesFromFai_iterate.out')
         call system('cat tunesFromFai_spctra.Out >>
      >                            tunesFromFai_iterate_spctra.Out')
@@ -107,13 +114,20 @@ C        write(nlu,*)  oksav,'    !  save spectra '
         read(itmp,*) ierr,mxPss
         close(itmp)
 C        if(ierr .eq. -1) goto 11
+C        if(mxPss .le. 0) goto 12
       enddo
       close(nlu)
 
       stop
 
- 10   stop 'Error during read in tunesFromFai_iterate.In'
- 11   write(*,*) 'End of .fai file reached, NPASS = ',mxPss
+ 10   stop 'Pgm tunesFromFai_iterate. '
+     >//'Error during read in tunesFromFai_iterate.In'
+ 11   write(*,*) 'Pgm tunesFromFai_iterate. '
+      write(*,*) 'Error report from pgm tunesFromFai. '
+      write(*,*) 'mxPss = ',mxPss
+      stop
+ 12   write(*,*) 'Pgm tunesFromFai_iterate. '
+      write(*,*) 'End of .fai file reached, found mxPss = ',mxPss
       stop
       end
       FUNCTION IDLUNI(LN)
