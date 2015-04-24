@@ -40,13 +40,13 @@ C                 - vertical tune and horizontal not perfectly equal
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
       DIMENSION RT6(6,6)
       DIMENSION F0(6,6)
-C      DIMENSION REIG(4,4),Q(4,4),U(4,4),WR(4),WI(4),P(4,4)
       DIMENSION Q(4,4),U(4,4),WR(4),WI(4)
-     >,PINV(4,4),A(4,4),GV1(16),FV1(16),WORK(4),G(4,4),NUTEST(4)
-      DOUBLE COMPLEX EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2,F1001,F1010
-      INTEGER   IPIV,IERR,INFO,IOS1,IOS2,IOS3,IOS4,IOS7,IOS8
+     >,PINV(4,4),GV1(16),FV1(16),WORK(4),NUTEST(4)
+C FM Apr. 2015
+      integer, parameter :: dp = selected_real_kind(15,50)
+      COMPLEX(dp) EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2
+      INTEGER   IPIV,IERR,INFO
       DIMENSION IPIV(4)
-      LOGICAL STRCON,N_PROP
 
       DIMENSION RT(4,4), REIG(4,4)
       DIMENSION P(4,4),C(2,2)

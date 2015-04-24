@@ -80,7 +80,7 @@ C---------------------------------------------------------
       SAVE NBMAG, NBFACE
 C      SAVE RO1,RO2,B1,B2,AMIN,AMAX,TTA1,TTA2
 C FM Jan 2015
-      SAVE RO1,RO2,B1,B2,AMIN,AMAX,TTA1,TTA2
+      SAVE RO1,RO2,AMIN,AMAX,TTA1,TTA2
 
 
 C FM Jan 2015

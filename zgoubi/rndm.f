@@ -23,8 +23,12 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       FUNCTION RNDM()
+c--------------------------------------------------------------------------------
 C-- For ifort compiler. Comment otherwise
-CCCCCCCCCCCC        use ifport
+C BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE 
+C If you compile w ifort and This is commented, that may cause zgoubi not to work
+        use ifport
+C--------------------------------------------------------------------------------
 C While not required, the recommend usage of the Intel Fortran portability 
 C library functions is to access these either by inserting a USE IFPORT in 
 C the calling program, or by including iflport.f90 from the INCLUDE directory 

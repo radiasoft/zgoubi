@@ -30,15 +30,11 @@ C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWI
       LOGICAL PRDIC, OKCPLD
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 
-      LOGICAL OK, IDLUNI
-      CHARACTER(50) CMMND
       PARAMETER (N4 = 4)
       PARAMETER (N6 = 6)
-      DIMENSION RT66(N6,N6), RT(N4,N4)
-      DIMENSION R44(N4,N4), RINV(N4,N4), RINT(N4,N4)
-      DIMENSION N0(N4), B(N4)
+      DIMENSION R44(N4,N4)
 
-      DIMENSION RT6(6,6), C(2,2), P(4,4)
+      DIMENSION C(2,2), P(4,4)
       DIMENSION FII(6,6)
       DIMENSION FI(6,6)
       SAVE FI
