@@ -99,17 +99,17 @@ C--------- Phase-space (acceptance) collimator
 C--------------- Compute H matched llips
                 JJ = 1
                 CALL LPSFIT(JJ, 
-     >                                   EMIT,ALP,BET,XM,XPM)
+     >                         EMIT,ALP,BET,XM,XPM)
               ELSEIF(IFRM .EQ. 15) THEN
 C--------------- Compute V matched llips
                 JJ = 2
                 CALL LPSFIT(JJ, 
-     >                                   EMIT,ALP,BET,XM,XPM)
+     >                         EMIT,ALP,BET,XM,XPM)
               ELSEIF(IFRM .EQ. 16) THEN
 C---------------Compute LONGITUDINAL matched llips
                 JJ = 3
                 CALL LPSFIT(JJ, 
-     >                                   EMIT,ALP,BET,XM,XPM)
+     >                         EMIT,ALP,BET,XM,XPM)
               ENDIF
           ENDIF  
         ENDIF

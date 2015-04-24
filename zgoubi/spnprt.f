@@ -239,7 +239,7 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
      >      ,(FO(J,I),J=2,6),FO(1,I)
- 111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E14.6),3(1X,I4)
+ 111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E14.6),3(1X,I6)
      >      ,6(1X,E14.6))
           ENDIF
         ENDDO

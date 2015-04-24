@@ -41,23 +41,30 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE 'MXFS.H'
+      INCLUDE 'MXSCL.H'
+      INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       DOUBLE PRECISION OT(4), VEC(3)
 
       IOPT = NINT(A(NOEL,1))
 
+C SCALING 
+      SCAL = SCAL0()
+      IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
+     >                                                 DTA1)
+
       IF(IOPT .EQ. 1)THEN
          PHI = A(NOEL,10)
-         ANG = A(NOEL,11)
+         ANG = A(NOEL,11) * SCAL
       ELSEIF(IOPT .EQ. 2)THEN
          PHI = A(NOEL,10)
          GMAREF = SQRT((BORO*DPREF*Q*CL9/AM)**2+1.d0)
-         ANG = (A(NOEL,11)/A(NOEL,12))**2* 
+         ANG = ((A(NOEL,11)/A(NOEL,12))**2* 
      >   (A(NOEL,13) + (A(NOEL,14) + (A(NOEL,15) + 
-     >             A(NOEL,16)/GMAREF)/GMAREF)/GMAREF)
-C         write(*,*) GMAREF, ANG
-C         read(*,*)
+     >             A(NOEL,16)/GMAREF)/GMAREF)/GMAREF) ) * SCAL
       ELSE
          IF(NRES.GT.0) THEN 
             WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')') 
@@ -78,7 +85,7 @@ C              phi=(ANG-int(ANG))*100.d0
               VEC(1)=cos(dtr*phi)
               VEC(2)=sin(dtr*phi)
               VEC(3)=0.d0
-              Call SPINRO(ANG,VEC,OT)
+              CALL SPINRO(ANG,VEC,OT)
             SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2) 
      >      +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4)) 
      >      +S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
@@ -91,11 +98,18 @@ C              phi=(ANG-int(ANG))*100.d0
            ENDIF
          ENDDO
 
-      IF(NRES.GT.0) WRITE(NRES,109) PHI, ANG
- 109  FORMAT(/,30X,'Spin rotator. Axis at ',F12.5,' deg., ',
-     >       /,30X,'              Angle = ',F12.5,' deg. ',/)
-
-
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,109) PHI
+ 109    FORMAT(/,30X,1P,'Spin rotator. Axis at ',E14.6,' deg.')
+        IF(KSCL .EQ. 1) THEN
+          WRITE(NRES,110) ANG, SCAL
+ 110      FORMAT(/,30X,1P,'       Angle * scal = ',E14.6,
+     >    ' deg   (SCAL = ',E14.6,')')
+        ELSE
+          WRITE(NRES,111) ANG
+ 111      FORMAT(/,30X,1P,'       Angle  = ',E14.6,' deg. ')
+        ENDIF
+      ENDIF
       RETURN
       END
       

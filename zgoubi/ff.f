@@ -312,7 +312,7 @@ C----------- Constraint ellipse parameters
               K2=3
             ENDIF
             CALL LPSFIT(K2, 
-     >                               EMIT,ALP,BET,XM,XPM)
+     >                     EMIT,ALP,BET,XM,XPM)
             IF(K.EQ.L) THEN
               IF(K.EQ.2*K2) THEN
                 VAL = (1.D0+ALP*ALP)/BET
@@ -375,7 +375,7 @@ C                VAL=DBLE(NINL)/DBLE(IMAX)
 C    constraint rms  emittance
 
             CALL LPSFIT(K, 
-     >                              EMIT,ALP,BET,XM,XPM)
+     >                    EMIT,ALP,BET,XM,XPM)
             VAL=EMIT
 
         ELSE IF(ICONT .EQ. 7) THEN
