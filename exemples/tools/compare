@@ -7,10 +7,13 @@ function pause(){
 #################################################################
 echo " " 
 echo " " 
-echo " ////////////////////////////////////////////////////////////////////////////////////////" 
-echo " Sure H array size in PARIZ.H is large enough?     //////////////////////////////////////" 
-echo " If not then check, compile, and resume...         //////////////////////////////////////" 
-echo " ////////////////////////////////////////////////////////////////////////////////////////" 
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
+echo " 1/ Sure H array size in PARIZ.H is large enough?     //////////////////////////////////////" 
+echo "    If not then check, compile, and resume...         //////////////////////////////////////" 
+echo "                                                      //////////////////////////////////////" 
+echo " 2/ If you compile w ifort : sure you uncommented 'use ipfort' in rndm.f ? /////////////////" 
+echo "    If not then check, compile, and resume...         //////////////////////////////////////" 
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
 echo " " 
 echo " " 
 echo  'Press [Enter] key to continue...'
@@ -187,8 +190,6 @@ echo "        "                                                                 
 echo "////////////////  variousKEYWORDS/FIT_embedded_in_REBELOTE/: done..."
 #
 #
-#
-#
 #################################################################
 echo "        "
 echo "        "
@@ -288,6 +289,20 @@ grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      
 grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out                       | cat >>   compare.out
 echo "        "                                                                 | cat >>   compare.out
 echo "////////////////  ../variousKEYWORDS/TWISS: done..."
+#
+#
+#################################################################
+echo "        "
+echo "        "
+echo "////////////////  Now doing :   ../variousKEYWORDS/SRLOSS/"
+echo "        "
+(cd ../variousKEYWORDS/SRLOSS/ ; cp srloss.res_150424 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../variousKEYWORDS/SRLOSS/ - reference : "            | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/srloss.res_150424 | cat >>   compare.out
+echo "                          - new : "                                     | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/zgoubi.res        | cat >>   compare.out
+echo "        "                                                               | cat >>   compare.out
+echo "////////////////  variousKEYWORDS/SRLOSS/: done..."
 #
 #
 
