@@ -382,9 +382,8 @@ C------- E converted to MeV/cm
         ENDIF
 
 C--------------------------------------------------------------
-C Problem here : this write(89 is necessary for the FIT problem 
+C Problem here with my laptop (ok on owl !) : this write(89 is necessary for the FIT problem 
 C /home/meot/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
-C to work on my dell laptop
           CALL FITSTA(5,FITING)
             if(FITING) then
             write(89,*) im,RO, BM(IM)

@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE CHANRF(EVNT,QSHRO,VSHRO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL EVNT
-      PARAMETER (MSR=10)
+      PARAMETER (MSR=8)
       CHARACTER(2) QSHRO(MSR)
       DIMENSION VSHRO(MSR)
 C     -----------------------------------------------

@@ -1,0 +1,3 @@
+      PARAMETER (MXHD=20)
+      CHARACTER(120) HDR(MXHD)
+

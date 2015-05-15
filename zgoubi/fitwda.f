@@ -34,7 +34,10 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLEY
       INTEGER DEBSTR, FINSTR
-      LOGICAL OK, IDLUNI
+      LOGICAL OK, IDLUNI, STRCON, ISNUM
+      PARAMETER (MSR=8,MSR2=2*MSR)
+      CHARACTER(30) STRA(MSR2)
+      CHARACTER(40) FRMT
 
       OK = IDLUNI(
      >            LWDAT)
@@ -65,7 +68,21 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
      >                                  (A(NUEL,J),J=2,13)
           ELSEIF(KLEY(1:8) .EQ. 'CHANGREF') THEN 
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-            WRITE(LTEMP,FMT='(3F14.8)') (A(NUEL,J),J=1,3)
+            IF(STRCON(TXT132,'!',
+     >                           IS))
+     >      TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+            CALL STRGET(TXT132,MSR2,
+     >                             NSR2,STRA)
+            IF(.NOT. ISNUM(STRA(1))) THEN
+C New style CHANGREF
+              WRITE(FRMT,FMT='(A,I0,A)') '(,',NSR2/2,'(A2,1X,F12.8,1X))'
+              WRITE(LTEMP,FRMT) 
+     >        (STRA(J)(DEBSTR(STRA(J)):FINSTR(STRA(J))),
+     >        A(NUEL,J/2+1),J=1,NSR2,2)
+            ELSE
+C Old style CHANGREF
+              WRITE(LTEMP,FMT='(3(F12.8,1X))') (A(NUEL,J),J=1,3)
+            ENDIF
           ENDIF
         ENDIF
       ENDDO

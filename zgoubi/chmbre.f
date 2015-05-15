@@ -40,17 +40,21 @@ C------- SKIP SI LA PARTICULE EST DEJA SORTIE :
 CC---- SEULEMNT SI LA FACE MAGNTQ EST FRANCHIE :
 CCCCC IF(FMAG .GE. .45D0) THEN
  
-        TEMP = SAR
-
         YP2 = (Y - YCH)*(Y - YCH)/YLIM2
         ZP2 = (Z - ZCH)*(Z - ZCH)/ZLIM2
 
         IF    (IFORM .EQ. 1) THEN
 C--------- CHAMBRE RECTANGULAIRE
-          IF( YP2 .GE. 1.D0 .OR. ZP2 .GE. 1.D0) CALL KSTOP(4,IT,KEX,*99)
+          IF( YP2 .GE. 1.D0 .OR. ZP2 .GE. 1.D0) THEN
+            SORT(IT) = SAR
+            CALL KSTOP(4,IT,KEX,*99)
+          ENDIF
         ELSEIF(IFORM .EQ. 2) THEN
 C--------- CHAMBRE ELLIPTIQUE
-          IF( ( YP2 + ZP2 ) .GE. 1.D0 ) CALL KSTOP(4,IT,KEX,*99)
+          IF( ( YP2 + ZP2 ) .GE. 1.D0 ) THEN
+            SORT(IT) = SAR
+            CALL KSTOP(4,IT,KEX,*99)
+          ENDIF
         ENDIF
 
 CCCCC ENDIF

@@ -1,7 +1,0 @@
-latex Zgoubi
-latex Zgoubi
-makeindex Zgoubi
-latex Zgoubi
-latex Zgoubi
-dvips Zgoubi
-dvipdf Zgoubi

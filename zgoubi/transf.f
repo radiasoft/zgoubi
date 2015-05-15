@@ -28,7 +28,7 @@ C     ----------------------------------------------------------------
 C     APPELE PAR AIMANT ET QUASEX .
 C     APPELLE INTEGR POUR LE CALCUL DES IMAX TRAJECTOIRES DU FAISCEAU.
 C     ----------------------------------------------------------------
-      PARAMETER (MSR=10)
+      PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
 

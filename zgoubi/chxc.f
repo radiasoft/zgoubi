@@ -33,7 +33,7 @@ C                 PLANE + ASSUMES MID PLANE SYM
 C       KALC = 2: READS A FIELD MAP
 C       KALC = 3: DEFINES QUAD , SEXTU , ... , MULTPL...
 C     --------------------------------------------------
-      PARAMETER (MSR=10)
+      PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR)
       DIMENSION VSHROE(MSR)
 
@@ -92,12 +92,10 @@ C      LOGICAL ZSYM
       CHARACTER(120) FMTYP
 
       LOGICAL SUMAP
-
       SAVE NHDF
-
       LOGICAL STRCON, FITING
-
       LOGICAL AGS, NEWFIC
+      INCLUDE 'MAPHDR.H'
 
       SAVE YSHFT
  
@@ -461,6 +459,9 @@ C Steps back because this is settled after the endif...
            ELSE
              NHD = NHDF
            ENDIF
+          IF(NHD .GT. MXHD) CALL ENDJOB(
+     >    'Pgm chxc. Field map header has too many lines. Must be .le.'
+     >    ,MXHD)
 
            IDEB = DEBSTR(TITL)
            FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'

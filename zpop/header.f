@@ -25,32 +25,33 @@ C  -------
       SUBROUTINE HEADER(NL,N,BINARY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-C      CHARACTER(80) TITL
-      CHARACTER(270) TITL
-      CHARACTER(270) TXT
+      INCLUDE 'FILHDR.H'
+
       WRITE(6,FMT='(/,A)') ' File header : '
       IF(.NOT.BINARY) THEN
-        READ(NL,FMT='(A)',ERR=99,END=99) TXT
-        WRITE(6,FMT='(A)') TXT
-        READ(NL,FMT='(A)',ERR=99,END=99) TITL
-        WRITE(6,FMT='(A)') TITL
-      ELSE
-        READ(NL,ERR=99,END=89) TXT
-        WRITE(6,FMT='(A)') TXT
-        READ(NL,ERR=99,END=89) TITL
-        WRITE(6,FMT='(A)') TITL
+        READ(NL,FMT='(A)',ERR=99,END=99) HDRF(1)
+        WRITE(6,FMT='(A)') HDRF(1)
+        READ(NL,FMT='(A)',ERR=99,END=99) HDRF(2)
+        WRITE(6,FMT='(A)') HDRF(2)
+      ELSE 
+        READ(NL,ERR=99,END=89) HDRF(1)
+        WRITE(6,FMT='(A)') HDRF(1)
+        READ(NL,ERR=99,END=89) HDRF(2)
+        WRITE(6,FMT='(A)') HDRF(2)
       ENDIF
-      CALL TRKVA2(TXT)
-      CALL LOGO2(TXT)
+      CALL TRKVA2(HDRF(1))
+      CALL LOGO2(HDRF(1))
+      IF(N.GT.MXHDF) 
+     >STOP ' Pgm header. Too many header lines in file.'
       IF(.NOT.BINARY) THEN
         DO 1 I=3, N
-           READ(NL,FMT='(A)',ERR=99,END=89) TXT
-           WRITE(6,FMT='(A)') TXT
+           READ(NL,FMT='(A)',ERR=99,END=89) HDRF(I)
+           WRITE(6,FMT='(A)') HDRF(I)
  1      CONTINUE
       ELSE
         DO 2 I=3, N
-           READ(NL,          ERR=99,END=89) TXT
-           WRITE(6,FMT='(A)') TXT
+           READ(NL,          ERR=99,END=89) HDRF(I)
+           WRITE(6,FMT='(A)') HDRF(I)
  2      CONTINUE
       ENDIF
       RETURN

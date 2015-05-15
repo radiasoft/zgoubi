@@ -89,8 +89,9 @@ c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
+      INCLUDE 'MAPHDR.H'
 
-      data ialoc / 0 /
+      DATA IALOC / 0 /
       DATA NBMAPS/ 0 /
  
       IF( .NOT.ALLOCATED( HCA ))
@@ -128,6 +129,9 @@ C Aug 2012      BNORM = A(NOEL,10)*SCAL
       ELSE
         NHD = NHDF
       ENDIF
+      IF(NHD .GT. MXHD) CALL ENDJOB(
+     >'Pgm toscac. Field map header has too many lines. Must be .le.'
+     >,MXHD)
       IDEB = DEBSTR(TITL)
 C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       FLIP = STRCON(TITL,'FLIP',

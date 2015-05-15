@@ -81,6 +81,8 @@ C      SAVE HCU
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
  
+      INCLUDE 'MAPHDR.H'
+
       DATA NOMFIC / 2*'               '/
  
       DATA NHDF / 8 /
@@ -132,6 +134,11 @@ c     >           IMAP)
       ELSE
         NHD = NHDF
       ENDIF
+
+      IF(NHD .GT. MXHD) CALL ENDJOB(
+     >'Pgm emmac. Field map header has too many lines. Must be .le.'
+     >,MXHD)
+
       IXMA = NINT(A(NOEL,20))
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)

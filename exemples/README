@@ -1,6 +1,6 @@
 
 
-These examples are maintained. Efforts are made to ensure that they are run-able with the latest version of zgoubi executable on the author's "trunk" branch. 
+These examples are maintained. Efforts are made to ensure that they are run-able with the latest version of zgoubi executable on the author's "trunk" branch. In particular some are part of the tools/compare procdure which tests their repeatability.
 
 The various folders contain 
 

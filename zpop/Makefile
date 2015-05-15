@@ -198,6 +198,7 @@ caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
 filcoo.o: MAXNTR.H
 graph7.o: MXVAR.H MAXNTR.H
 graph8.o: MXVAR.H
+header.o: $(INC)/FILHDR.H
 inigr.o: MXVAR.H MAXNTR.H
 inpvar.o: MXVAR.H
 isofld.o: MXVAR.H

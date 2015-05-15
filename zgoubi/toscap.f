@@ -66,6 +66,7 @@ C      LOGICAL ZSYM
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
+      INCLUDE 'MAPHDR.H'
  
       DATA NOMFIC / IZ*'               '/
  
@@ -93,6 +94,9 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
       ELSE
         NHD = NHDF
       ENDIF
+      IF(NHD .GT. MXHD) CALL ENDJOB(
+     >'Pgm toscap. Field map header has too many lines. Must be .le.'
+     >,MXHD)
       IXMA = A(NOEL,20)
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
@@ -189,7 +193,6 @@ C--------- another option for symmetrization by FMAPR2
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
      >         ' map,  FORMAT type : ', FMTYP
         IRD = NINT(A(NOEL,40))
-C        NHD = NHDF
  
 C BNORM set to ONE, since sent to CHAMK below
 C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,

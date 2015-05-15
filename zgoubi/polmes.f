@@ -54,7 +54,8 @@ C      LOGICAL ZSYM
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=4)
       LOGICAL STRCON
- 
+      INCLUDE 'MAPHDR.H' 
+
       DATA NOMFIC / IZ*'               '/
 C FM 9 Spet. 14
 C      DATA IMAP / 1 /
@@ -83,6 +84,9 @@ C Apr 2013      BNORM = A(NOEL,10)*SCAL
       ELSE
         NHD = NHDF
       ENDIF
+      IF(NHD .GT. MXHD) CALL ENDJOB(
+     >'Pgm polmes. Field map header has too many lines. Must be .le.'
+     >,MXHD)
  
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)

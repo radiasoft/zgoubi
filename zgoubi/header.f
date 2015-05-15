@@ -20,38 +20,41 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory               
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE HEADER(NL,NW,N,BINARY,
      >                                 *)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      CHARACTER(270) TXT
+C      CHARACTER(270) TXT
+      INCLUDE 'FILHDR.H'
 
       IF(NW.GT.0) WRITE(NW,FMT='(/,10X,''Now reading file header  ('',
      >I1,'' lines) : '',/)') N
 
 C      WRITE(6,FMT='(/,A)') ' File header : '
       IF(.NOT.BINARY) THEN
-        READ(NL,FMT='(A)',ERR=99,END=99) TXT
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
-        READ(NL,FMT='(A)',ERR=99,END=99) TXT
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+        READ(NL,FMT='(A)',ERR=99,END=99) HDRF(1)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
+        READ(NL,FMT='(A)',ERR=99,END=99) HDRF(2)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(2)
       ELSE
-        READ(NL,ERR=99,END=89) TXT
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
-        READ(NL,ERR=99,END=89) TXT
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+        READ(NL,ERR=99,END=89) HDRF(1)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
+        READ(NL,ERR=99,END=89) HDRF(2)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(2)
       ENDIF
+      IF(N.GT.MXHDF) CALL ENDJOB(
+     >'Pgm header. Too many header lines in file. Sould be .le.',MXHDF)
       IF(.NOT.BINARY) THEN
         DO 1 I=3, N
-           READ(NL,FMT='(A)',ERR=99,END=89) TXT
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+           READ(NL,FMT='(A)',ERR=99,END=89) HDRF(I)
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(I)
  1      CONTINUE
       ELSE
         DO 2 I=3, N
-           READ(NL,          ERR=99,END=89) TXT
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') TXT
+           READ(NL,          ERR=99,END=89) HDRF(1)
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
  2      CONTINUE
       ENDIF
 

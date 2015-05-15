@@ -43,7 +43,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
 
       PARAMETER (I0=0, ZERO=0.D0)
 
-      PARAMETER (MSR=10)
+      PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
 

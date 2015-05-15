@@ -32,7 +32,8 @@ C  -------
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
  
       CHARACTER(80) OLDFIL, NEWFIL
-      CHARACTER(132) HEADER
+C      CHARACTER(132) HEADER
+      INCLUDE 'MAPHDR.H'
       LOGICAL BINARI, IDLUNI
       INTEGER DEBSTR,FINSTR
       DIMENSION X7(7)
@@ -42,7 +43,10 @@ C  -------
       NFIC = INT(A(NOEL,1))
       NFRM =NINT( 10*(A(NOEL,1) - INT(A(NOEL,1))))
       NCOL = NINT(A(NOEL,2))
-      NHEAD = NINT(A(NOEL,3))
+      NHD = NINT(A(NOEL,3))
+      IF(NHD .GT. MXHD) CALL ENDJOB(
+     >'Pgm binary. Field map header has too many lines. Must be .le.'
+     >,MXHD)
       IF(NFIC.GT.I20) 
      >   CALL ENDJOB('SBR  BINARY:  too  many  files,  max  is',I20)
       IF(NCOL.LE.0) NCOL = 6
@@ -58,7 +62,7 @@ C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
  
           NEWFIL=OLDFIL(IB+2:IFIN)
           IF(NRES.GT.0) THEN
-            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL, NHEAD, NFRM
+            WRITE(NRES,100) OLDFIL, NEWFIL, NCOL, NHD, NFRM
  100        FORMAT(10X,' Translate  from  binary  file  : ',A
      >          ,/,10X,' to  formatted  file            : ',A,/
      >          ,/,10X,' Number of data columns  : ',I4
@@ -82,10 +86,11 @@ C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
           ENDIF
 
           LINE = 0
-          DO NH = 1, NHEAD
-            READ (LNR, ERR=90, END= 1 ) HEADER
+          DO NH = 1, NHD
+            READ (LNR, ERR=90, END= 1 ) HDR(NH)
             LINE = LINE + 1
-            WRITE(LNW,FMT='(A)') HEADER(DEBSTR(HEADER):FINSTR(HEADER))
+            WRITE(LNW,FMT='(A)') 
+     >      HDR(NH)(DEBSTR(HDR(NH)):FINSTR(HDR(NH)))
           ENDDO
 
  10       CONTINUE
@@ -100,7 +105,7 @@ C May be second argument in BINARY (zgoubi version > 5.1.0) : # of header lines
  
           NEWFIL='b_'//OLDFIL(IB:IFIN)
           IF(NRES.GT.0) THEN
-            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL, NHEAD, NFRM
+            WRITE(NRES,101) OLDFIL, NEWFIL, NCOL, NHD, NFRM
  101        FORMAT(10X,' TRANSLATE  FROM  FORMATTED  FILE  : ',A
      >          ,/,10X,' TO  BINARY  FILE                  : ',A,/
      >          ,/,10X,' Number of data columns  : ',I4
@@ -126,10 +131,10 @@ c               write(*,*) ' sbr binary, try open ',oldfil,lnr
           ENDIF
  
           LINE = 0
-          DO NH = 1, NHEAD
-            READ (LNR,FMT='(A132)', ERR=90, END= 1 ) HEADER
+          DO NH = 1, NHD
+            READ (LNR,FMT='(A)', ERR=90, END= 1 ) HDR(NH)
             LINE = LINE + 1
-            WRITE(LNW) HEADER
+            WRITE(LNW) HDR(NH)
           ENDDO
  11       CONTINUE
             IF    (NFRM.EQ.0) THEN

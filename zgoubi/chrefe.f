@@ -56,7 +56,7 @@ C      LOGICAL ZSYM
       DIMENSION KFM(MXSCL)
 
       LOGICAL EVNT
-      PARAMETER (MSR=10)
+      PARAMETER (MSR=8)
       CHARACTER(2) QSHRO(MSR)
       DIMENSION VSHRO(MSR)
       PARAMETER (I1=1)
@@ -74,8 +74,8 @@ C      LOGICAL ZSYM
  20   CONTINUE
 
       NSR = NINT(A(NOEL,9))
-      IF(NSR .GE. MSR)
-     >CALL ENDJOB('SBR CHREFE. Max. nmbr of transforms must be < ',MSR)
+      IF(NSR .GT. MSR)
+     >CALL ENDJOB('SBR CHREFE. Nmbr of transforms must be .le. ',MSR)
       VSHRO(MSR) = NSR
       DO I = 1, NSR
         QSHRO(I) = TA(NOEL,I)(1:2)

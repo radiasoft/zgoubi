@@ -20,10 +20,10 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
-      USE dynhc
+      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
@@ -38,7 +38,7 @@ C      LOGICAL ZSYM
 C----- at entry FMAPR :
 C      LOGICAL IDLUNI, BINARI
       LOGICAL BINAR, EMPTY
-      CHARACTER(120) TITL
+      CHARACTER(120) HDRM
       CHARACTER(20) FMTYP
       PARAMETER (MXCHAR=200)
       CHARACTER(200) TXT132
@@ -53,7 +53,7 @@ C 3D field maps, intermediate storage prior to summing
 C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
       SAVE HCTMP
 
-      save aa, ific
+      SAVE AA, IFIC
 
       DATA BE /'B','E'/
 
@@ -143,7 +143,7 @@ C Calabretta H2 field map.
 C Map data file starts with NHD-line header
 C Line NHD contains IXM,JYM,ACENT,RM,KRT,MD
           DO II=1, NHD-1
-            READ(LUN) TITL
+            READ(LUN) HDRM
           ENDDO
 
           READ(LUN) IXM,JYM,ACENT,RM,KRT,MD
@@ -156,7 +156,7 @@ C Line NHD contains IXM,JYM,ACENT,RM,KRT,MD
 C Map data file starts with NHD-line header
 C Line NHD contains IXM,JYM,ACENT,RM,KRT,MD
           DO II=1, NHD-1
-            READ(LUN,FMT='(A)') TITL
+            READ(LUN,FMT='(A)') HDRM
           ENDDO
 
           READ(LUN,*) IXM,JYM,ACENT,RM,KRT,MD
@@ -194,7 +194,7 @@ C Line NHD contains IXM,JYM,ACENT,RM
         IF(BINAR) THEN
 
           DO II=1, NHD-1
-            READ(LUN) TITL
+            READ(LUN) HDRM
           ENDDO
    
           READ(LUN,*) IXM,JYM,ACENT,RM
@@ -205,7 +205,7 @@ C Line NHD contains IXM,JYM,ACENT,RM
         ELSE
  
           DO II=1, NHD-1
-            READ(LUN,FMT='(A)') TITL
+            READ(LUN,FMT='(A)') HDRM
           ENDDO
 
           READ(LUN,*) IXM,JYM,ACENT,RM
@@ -241,7 +241,7 @@ C Line NHD contains IXM,JYM,ACENT,RM
         IF(BINAR) THEN
 
           DO II=1, NHD-1
-            READ(LUN) TITL
+            READ(LUN) HDRM
           ENDDO
    
           READ(LUN,*) IXM,JYM,ACENT,RM
@@ -252,7 +252,7 @@ C Line NHD contains IXM,JYM,ACENT,RM
         ELSE
  
           DO II=1, NHD-1
-            READ(LUN,FMT='(A)') TITL
+            READ(LUN,FMT='(A)') HDRM
           ENDDO
 
           READ(LUN,*) IXM,JYM,ACENT,RM
@@ -311,17 +311,17 @@ C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
       IF(BINAR) THEN
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header (NORMALLY 8)
-          READ(LUN,END=97,ERR=98) TITL
-          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-          READ(TITL,*,ERR=41,END=41) R0, DR, DTTA, DZ
+          READ(LUN,END=97,ERR=98) HDRM
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
+          READ(HDRM,*,ERR=41,END=41) R0, DR, DTTA, DZ
           GOTO 42
  41       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
      >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
  42       CONTINUE
           DO II=1, NHD-1
-            READ(LUN,END=97,ERR=98) TITL
-            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+            READ(LUN,END=97,ERR=98) HDRM
+            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
@@ -330,17 +330,17 @@ C Map data file starts with NHD-line header (NORMALLY 8)
       ELSE
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header (NORMALLY 8)
-          READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
-          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-          READ(TITL,*,ERR=39,END=39) R0, DR, DTTA, DZ
+          READ(LUN,FMT='(A120)',END=97,ERR=98) HDRM
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
+          READ(HDRM,*,ERR=39,END=39) R0, DR, DTTA, DZ
           GOTO 40
  39       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
      >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
  40       CONTINUE
           DO II=1, NHD-1
-            READ(LUN,FMT='(A120)',END=97,ERR=98) TITL
-            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+            READ(LUN,FMT='(A120)',END=97,ERR=98) HDRM
+            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
@@ -595,21 +595,21 @@ C Map data file starts with NHD-line header
 
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header
-          READ(LUN,END=97,ERR=98) TITL
-          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-          READ(TITL,*,ERR=51,END=51) R0, DR, DTTA, DZ
+          READ(LUN,END=97,ERR=98) HDRM
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
+          READ(HDRM,*,ERR=51,END=51) R0, DR, DTTA, DZ
           GOTO 52
  51       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
      >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
  52       CONTINUE
           IF(NHD .GE. 2) THEN
-            READ(LUN) TITL
-            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+            READ(LUN) HDRM
+            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
             IF(NHD .GE. 3) THEN
               DO II=1, NHD-2
-                READ(LUN) TITL
-                IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+                READ(LUN) HDRM
+                IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
               ENDDO
               IF(NRES.GT.0) THEN
                 WRITE(NRES,FMT='(A,1P,4E17.8,/)') 
@@ -623,22 +623,22 @@ C Map data file starts with NHD-line header
       ELSE
 
         IF(NHD .GE. 1) THEN
-          READ(LUN,FMT='(A120)') TITL
-          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-          READ(TITL,*,END=49,ERR=49) R0, DR, DX, DZ
+          READ(LUN,FMT='(A120)') HDRM
+          IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
+          READ(HDRM,*,END=49,ERR=49) R0, DR, DX, DZ
           GOTO 50
  49       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
      >        'Could not read R0, DR, DX, DZ from line 1 of HEADER...'
  50       CONTINUE
           IF(NHD .GE. 2) THEN
-            READ(LUN,FMT='(A120)') TITL
-            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
+            READ(LUN,FMT='(A120)') HDRM
+            IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
             IF(NHD .GE. 3) THEN
               DO II=1, NHD-2
-                READ(LUN,FMT='(A120)') TITL
-                IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') TITL
-              enddo
+                READ(LUN,FMT='(A120)') HDRM
+                IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
+              ENDDO
               IF(NRES.GT.0) THEN
                 WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
                 CALL FLUSH2(NRES,.FALSE.)
