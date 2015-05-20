@@ -62,7 +62,7 @@ C                 write(*,*)YH,ZH,XH,BREAD2,BREAD3,BREAD1
      >             //' and first line of field data ?'
                    READ(*,*)
 
-                   WRITE(*,*) ' Busy... working ...'
+                   WRITE(*,*) ' Busy... now translating to binary...'
                  ENDIF
 
                ENDDO

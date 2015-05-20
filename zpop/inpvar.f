@@ -94,7 +94,9 @@ C  -------
       KX0 = KX
       KY0 = KY
       WRITE(6,100) ' * Give desired variables  (0 0 to quit) : '
- 100  FORMAT(A45)
+      WRITE(6,100) ' (add ''norm'' following KX KY, for coordinates'
+     >//' to be normalized)'
+ 100  FORMAT(A)
 C      READ(5,*,ERR=20) KX, KY
       READ(5,fmt='(a)',ERR=20) txt200
       call strget(txt200,3,
@@ -108,8 +110,7 @@ C      READ(5,*,ERR=20) KX, KY
         write(*,*) ' Mode, tmod = ',tmod
         if(tmod .eq. 'norm') call plot20(1)
         write(*,*) ' '
-        write(*,*) ' Coordinates will be normalized by F(1) '
-        write(*,*) ' nst, kx, ky, tmod : ',nst,kx,ky,tmod
+        write(*,*) ' Coordinates will be * by sqrt(momentum) '
         write(*,*) ' '
          read(*,*)
       else
