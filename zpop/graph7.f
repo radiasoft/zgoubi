@@ -26,12 +26,13 @@ CDECK GRAPH1
       SUBROUTINE GRAPH7(NLOG,LM,NOMFIC,wrkDir)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) NOMFIC
-      character(*) wrkDir
+      CHARACTER(*) WRKDIR
       
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/ OKECH, OKVAR, OKBIN
       INCLUDE 'MXVAR.H'
-      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      CHARACTER(7) KVAR(MXVAR), KDIM(MXVAR)
+      CHARACTER(9) KPOL(2)
       COMMON/INPVR/ KVAR, KPOL, KDIM
       COMMON/LUN/NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       COMMON/REBELO/ NRBLT,IPASS,KWRI,NNDES,STDVM
@@ -46,8 +47,8 @@ CDECK GRAPH1
 
       CHARACTER(1) KLET
 
-      CHARACTER RLIPS,RLIPS0,RLIPS2,RSNPT,RSNPT0,RSNPT2
-      CHARACTER RHIST,RHIST0,RHIST2
+      CHARACTER(1) RLIPS,RLIPS0,RLIPS2,RSNPT,RSNPT0,RSNPT2
+      CHARACTER(1) RHIST,RHIST0,RHIST2
 
       SAVE FIRST
       SAVE NL
@@ -56,13 +57,13 @@ CDECK GRAPH1
       LOGICAL OKREW
      
       LOGICAL IDLUNI
-      CHARACTER FNAM*11
+      CHARACTER(11) FNAM
       LOGICAL FIRST2
       SAVE FNAM, NLIPS, FIRST2
 
       PARAMETER (ITWO=2)
      
-      integer debstr, finstr
+      INTEGER DEBSTR, FINSTR
 
       DATA  OKOPN / .FALSE. /
       DATA CHANGE / .TRUE./
@@ -75,10 +76,10 @@ CDECK GRAPH1
       DATA FNAM /'zpop.lips'/
       DATA FIRST2 /.TRUE./
 
-       nlips = 77
-         goto 921
-c         write(*,*) 'Pgm graph7 ' 
-c          read(*,*)
+C       nlips = 77
+C         goto 921
+C         write(*,*) 'Pgm graph7 ' 
+C          read(*,*)
 
       IF(FIRST2) THEN
         IF (IDLUNI(NLIPS)) THEN
@@ -90,6 +91,7 @@ c          read(*,*)
         ELSE
           WRITE(6,*) ' *** Problem in graph7 : No idle unit number ! '
           WRITE(6,*) '     No idle unit number !  Forced to 77 '
+          WRITE(6,*) '                            file will be fort.77 '
           NLIPS=77
         ENDIF
         FIRST2 = .FALSE.

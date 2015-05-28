@@ -29,6 +29,8 @@ C  -------
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      PARAMETER (MXTA=45)
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
@@ -47,8 +49,8 @@ C  -------
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
-      SAVE synch_time
-      dimension kfm(MXSCL)
+      SAVE SYNCH_TIME
+      DIMENSION KFM(MXSCL)
       
       CHARACTER(9) SKAV(8)
       DIMENSION DTI0(MXT)
@@ -59,15 +61,15 @@ C  -------
 
       SAVE TIOLD, PHIOLD
 
-      SAVE DWS, PHS_prev
+      SAVE DWS, PHS_PREV
 !     SR loss
       LOGICAL SRLOSS
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
-     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', ' Isochro.' /
+     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.' /
 
-      data dti0 / mxt*0.D0 /
+      DATA DTI0 / MXT*0.D0 /
 
       DATA LUN / 99 /
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
@@ -77,7 +79,7 @@ C  -------
 
 
       DUM = SCALER(1, NOEL, 
-     >     DUM)
+     >                     DUM)
 
       CALL SCALE9(
      >            KFM )
@@ -96,25 +98,30 @@ C  -------
 
       KCAV = NINT(A(NOEL,1))
       IF(IPASS .EQ. 1) THEN 
-       OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KCAV) .EQ. 1
-       IF(OKIMP) THEN 
-        IF(.NOT.OKOPEN) THEN
-          IF(IDLUNI(
+        OKIMP = TA(NOEL,1) .EQ. 'PRINT'
+        IF(OKIMP) THEN 
+          IF(.NOT.OKOPEN) THEN
+            IF(IDLUNI(
      >              LUN)) THEN
-            OPEN(UNIT=LUN,FILE='zgoubi.CAVITE.Out',
+              OPEN(UNIT=LUN,FILE='zgoubi.CAVITE.Out',
      >                     FORM='FORMATTED',ERR=99, IOSTAT=IOS)
-          ELSE
-            OKIMP = .FALSE.
-            GOTO 99
+            ELSE
+              OKIMP = .FALSE.
+              GOTO 99
+            ENDIF
+            IF(IOS.NE.0) GOTO 99
+            OKOPEN = .TRUE.
           ENDIF
-          IF(IOS.NE.0) GOTO 99
-          OKOPEN = .TRUE.
         ENDIF
-       ENDIF
       ENDIF
 
-      IF(NRES.GT.0) WRITE(NRES,100) SKAV(KCAV+1)
- 100  FORMAT(15X,' Accelerating  cavity',/,16X,A,/)
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,100) SKAV(KCAV+1)
+ 100    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
+        IF(OKIMP) WRITE(NRES,FMT='(15X,
+     >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)') 
+      ENDIF
+
       IF(KCAV .EQ. 0) RETURN
  
       AN10 = A(NOEL,10)
@@ -369,11 +376,6 @@ C Phase, in [-pi,pi] interval
         DPR(I)=(P-PS)/PS
         PX=SQRT( P*P -PY*PY-PZ*PZ)
 
-c        ekaft = sqrt(p*p + am*am) -am
-c        qvhat = (ekaft - ekbef)/SIN(PHI)
-c        write(89,fmt='(1p, 5e24.16)') 
-c     >        ekbef, TI-TIOLD, coTime, PHI-PHIOLD, 
-c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
         TIOLD = TI
         PHIOLD = PHI
 
@@ -383,18 +385,19 @@ c     >                 2.d0*PI*(TI-TIOLD)/(PHI-PHIOLD)
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
 
         IF(OKIMP) THEN
-          scala = SCALER(IPASS,NOEL,
+          SCALA = SCALER(IPASS,NOEL,
      >                              DTA1)
           WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
-     >            ipass, omrf/(2.*pi),
+     >            IPASS, OMRF/(2.*PI),
 C     >            scala, 
 C     >            PHI-PHS,
      >            PHI,
      >            TI,
-     >             wf,
+     >             WF,
 C     >              QV*SIN(PH(I))/(Q*1.D-6), 
      >               P-PS, I, 
-     >            ' ipass freq phi-phs ti qV*sin p-ps ITraj'
+     >            '       ! ipass freq phi ti WF p-ps ITraj'
+C     >            ' ipass freq phi-phs ti qV*sin p-ps ITraj'
         ENDIF
  63   CONTINUE
       GOTO 88

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory                                           
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE INPVAR
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -98,18 +98,21 @@ C  -------
      >//' to be normalized)'
  100  FORMAT(A)
 C      READ(5,*,ERR=20) KX, KY
+ 10   CONTINUE
       READ(5,fmt='(a)',ERR=20) txt200
       call strget(txt200,3,
      >                     nst,stra)
+      if(nst .lt. 2) goto 10
       read(stra(1),*) KX
       read(stra(2),*) KY
-         write(*,*) ' inpvar txt200 ',txt200
-         read(*,*)
+c         write(*,*) ' inpvar nst, txt200 ',nst,txt200
+c         read(*,*)
       if(nst.eq.3) then
         read(stra(3),*) tmod
-        write(*,*) ' Mode, tmod = ',tmod
+c        write(*,*) ' Mode, tmod = ',tmod
         if(tmod .eq. 'norm') call plot20(1)
         write(*,*) ' '
+        write(*,*) ' KX = ',kx,'   KY = ',ky
         write(*,*) ' Coordinates will be * by sqrt(momentum) '
         write(*,*) ' '
          read(*,*)

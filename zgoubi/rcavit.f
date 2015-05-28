@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -31,9 +31,27 @@ C     **************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
+      PARAMETER (MXTA=45)
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
+
+      CHARACTER(132) TXT132
+      LOGICAL STRCON
+      INTEGER DEBSTR
+
 C     ....IOPT -OPTION
-      READ(NDAT,*) A(NOEL,1)
+C      READ(NDAT,*) A(NOEL,1)
+      READ(NDAT,FMT='(A)') TXT132      
+      READ(TXT132,*) A(NOEL,1)
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      IF(STRCON(TXT132,'PRINT',
+     >                         IS) 
+     >   .OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) THEN
+        TA(NOEL,1) = 'PRINT'        
+      ELSE
+        TA(NOEL,1) = '    '
+      ENDIF
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
 C     ....Orbit length. (m), H -HARMONIQUE
       READ(NDAT,*) A(NOEL,10),A(NOEL,11)
