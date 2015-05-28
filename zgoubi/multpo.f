@@ -377,11 +377,11 @@ C------- E converted to MeV/cm
 C--------------------------------------------------------------
 C Problem here with my laptop (ok on owl !) : this write(89 is necessary for the FIT problem 
 C ~/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
-          CALL FITSTA(5,FITING)
-           if(FITING) then
-            write(89,*) im,RO, BM(IM)
-            rewind(89)
-          endif
+c          CALL FITSTA(5,FITING)
+c            if(FITING) then
+c            write(89,*) im,RO, BM(IM)
+c            rewind(89)
+c          endif
 C--------------------------------------------------------------
 
 c         if(noel.eq.19)   write(*,*) 'multpo  rewind A ',

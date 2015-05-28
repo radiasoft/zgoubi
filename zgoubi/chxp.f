@@ -158,7 +158,7 @@ C Field scale factor. Used by  'SCALING'
 
 C--------------------------------------------------------------
 C Problem here with my laptop (ok w owl !) : this write(89 is necessary for the FIT problem 
-C /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE/FitWorks.res
+C ~/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE/FitWorks.res
 C to work (otherwise does run but won't fit to the expected values). 
 C Otherwise scal=NaN is passed to dipi
 c          CALL FITSTA(5,FITING)
