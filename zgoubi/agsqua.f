@@ -57,21 +57,26 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
       DIMENSION CUR(3), DCUR(3)
       PARAMETER (I2 = 2, I3 = 3)
       INCLUDE 'MXSCL.H'
-      dimension kfm(MXSCL)
+      DIMENSION KFM(MXSCL)
  
-      SAVE SXL, QuadK1
+      SAVE SXL, QUADK1
  
       DATA MIXFF / .FALSE.  /
  
       CALL SCALE9(
      >            KFM )
-      do ifm = 1, MXSCL
-            IF(KFM(ifm) .le. 0) goto 20
-        DO I= 1 , JPA(KFM(ifm),MXP)
-           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
+      DO IFM = 1, MXSCL
+        IF(KFM(IFM) .LE. 0) THEN
+          GOTO 20
+        ELSE
+          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF) 
+     >    CALL ENDJOB('Pgm agsqua. Exceed array size, KFM = ',KFM(IFM))
+        ENDIF
+        DO I= 1 , JPA(KFM(IFM),MXP)
+          A(NOEL,JPA(KFM(IFM),I)) = VPA(KFM(IFM) ,I)
         ENDDO
-      enddo
- 20   continue
+      ENDDO
+ 20   CONTINUE
  
       CALL RAZ(BM,MPOL)
  

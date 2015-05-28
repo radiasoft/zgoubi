@@ -143,6 +143,11 @@ c             pause
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
+
+c       write(*,*) ' zgoubi readat, fiting ',readat,fiting,NL1,NL2,
+c     >                                 NBLMN
+c               read(*,*)
+
       IF(READAT) THEN
         CALL PRDATA(
      >              LABEL,NBLMN)
@@ -177,6 +182,9 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
       NOEL = NL1-1
 
  998  CONTINUE
+
+c       write(*,*) ' zgoubi noel > 0 ? ',noel
+            
 
 C YD FM. 28/01/2014
       IF(NOEL .GT. 0) THEN
@@ -287,7 +295,12 @@ c     >         write(*,*) ' zgoubi kley ',kley
         ENDDO
         GOTO 999
       ELSE
-C------- Gets in case of "FIT"
+C------- Gets here in case of "FIT"
+
+c       write(*,*) ' zgoubi noel, nl2 ',noel,nl2
+c               read(*,*)
+
+
         IF (NOEL .EQ. NL2 ) RETURN
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
@@ -670,12 +683,25 @@ C----- FIT. FIT2. Two methods are available
  461  CONTINUE
       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
+c         write(*,*) ' zgoubi/fit fitnu2 '
+c             read(*,*)
       CALL FITNU2(MTHOD)
       IF(READAT) CALL RFIT(KLEY,IMAX,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
+
+c         write(*,*) ' zgoubi/fit go to mtnod '
+c             read(*,*)
+
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)
       IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ITRMA,ICPTMA)
+
+
+c         write(*,*) ' zgoubi/fit out of mthod '
+c             read(*,*)
+
+
+
       CALL CPTFC1(ICPTMA)
       FITING = .TRUE.
       CALL FITSTA(I6,FITING)

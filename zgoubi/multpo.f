@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MULTPO(KUASEX,LMNT,KFL,SCAL,
      >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
@@ -53,10 +53,6 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE 'MXFS.H'
-      INCLUDE 'MXSCL.H'
-      INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
-C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
@@ -103,9 +99,6 @@ C      ERRORS
       SAVE IPOL
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
-C      DATA DB / MPOL*0.D0 /
-C      data dpos / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
-c      data dtilt / mpol*0.d0, mpol*0.d0, mpol*0.d0 /
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/
       DATA CASPI / .TRUE. /
@@ -383,9 +376,9 @@ C------- E converted to MeV/cm
 
 C--------------------------------------------------------------
 C Problem here with my laptop (ok on owl !) : this write(89 is necessary for the FIT problem 
-C /home/meot/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
+C ~/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
           CALL FITSTA(5,FITING)
-            if(FITING) then
+           if(FITING) then
             write(89,*) im,RO, BM(IM)
             rewind(89)
           endif

@@ -118,11 +118,11 @@ C      LOGICAL ZSYM
 
       DATA DTA1 / 0.D0 /
       DATA FMTYP / ' regular' / 
-      DATA lun / 0 / 
-      DATA flip / .false. / 
-      data BMIN,BMAX,
+      DATA LUN / 0 / 
+      DATA FLIP / .FALSE. / 
+      DATA BMIN,BMAX,
      >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
-     >      BNORM,XNORM,YNORM,ZNORM /  12*0.D0 /
+     >      BNORM,XNORM,YNORM,ZNORM / 9*0.D0, 3*1.D0 /
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
@@ -416,6 +416,10 @@ C------------ No 2nd-order 25-point interpolation available with MAP2D[_E]
 C   Because it's done down after the endif...
              XBMA = XBMA/XNORM
              XBMI = XBMI/XNORM
+             YBMA = YBMA/YNORM
+             YBMI = YBMI/YNORM
+             ZBMA = ZBMA/ZNORM
+             ZBMI = ZBMI/ZNORM
              BMAX = BMAX/BNORM
              BMIN = BMIN/BNORM
 
@@ -450,7 +454,7 @@ C Steps back because this is settled after the endif...
            BNORM = A(NOEL,10)*SCAL
            XNORM = A(NOEL,11)
            YNORM = A(NOEL,12)
-           ZNORM = 0.D0
+           ZNORM = 1.D0
 
            TITL = TA(NOEL,1)
            IF    (STRCON(TITL,'HEADER',
@@ -822,6 +826,10 @@ C close does not seem to idle lun => makes problem with FIT !!
 
          XBMA = XBMA*XNORM
          XBMI = XBMI*XNORM
+         YBMA = YBMA*YNORM
+         YBMI = YBMI*YNORM
+         ZBMA = ZBMA*ZNORM
+         ZBMI = ZBMI*ZNORM
          BMAX = BMAX*BNORM
          BMIN = BMIN*BNORM
          XI =XH(1)
@@ -842,14 +850,19 @@ C close does not seem to idle lun => makes problem with FIT !!
              ENDIF
            ENDIF
 
-C FM Jan 2015
+C FM Apr 2015, for map-2d
 C           WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
-           WRITE(NRES,203) BMIN,BMAX,
-     >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
+C     >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
+C     >      BNORM,XNORM,YNORM,ZNORM,
+C     >      BMIN*bnorm,BMAX*bnorm,
+C     >      XBMI*XNORM,YBMI*YNORM,ZBMI*ZNORM,
+C     >      XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM, 
+           WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
+     >      XBMI/XNORM,YBMI/YNORM,ZBMI/ZNORM,
+     >      XBMA/XNORM,YBMA/YNORM,ZBMA/ZNORM, 
      >      BNORM,XNORM,YNORM,ZNORM,
-     >      BMIN*bnorm,BMAX*bnorm,
-     >      XBMI*XNORM,YBMI*YNORM,ZBMI*ZNORM,
-     >      XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM, 
+     >      BMIN,BMAX,XBMI,YBMI,ZBMI, 
+     >      XBMA,YBMA,ZBMA, 
      >      XL, XI, XF, 
      >      IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
   203      FORMAT(

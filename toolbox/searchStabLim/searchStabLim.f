@@ -104,11 +104,11 @@ C and sets z to nul
           goto 99
         endif
         zp(jo) = 0.
-        write(lunW,fmt='(1p,4e14.6,e9.1,e12.4,4a,i4)') 
+        write(lunW,fmt='(1p,4e16.8,e9.1,e16.8,4a,i4)') 
      >    x(jo),xp(jo),z(jo),zp(jo),s(jo),d(jo),' ','''',let(jo),'''',jo
         write(6,*) 
         write(6,*) ' ---------    New trajectory :'
-        write(6,fmt='(1p,4e14.6,e9.1,e12.4,4a,i4)') 
+        write(6,fmt='(1p,4e16.8,e9.1,e16.8,4a,i4)') 
      >    x(jo),xp(jo),z(jo),zp(jo),s(jo),d(jo),' ','''',let(jo),'''',jo
         write(6,*)
 C Complete OBJET with the line with '1'
@@ -251,7 +251,7 @@ C Write stab Lim coordinates
               xxx = storb(1,j)
               zzz = storb(3,j)/float(njj) * float(jj)
             endif
-            write(lunW,fmt='(1p,4e14.6,e9.1,e12.4,4a,i4)') 
+            write(lunW,fmt='(1p,4e16.8,e9.1,e16.8,4a,i4)') 
      >      xxx, storb(2,j), zzz, storb(4,j),
      >      storb(5,j), storb(6,j),' ','''',let(j),''' ',j
           enddo

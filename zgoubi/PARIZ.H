@@ -114,7 +114,7 @@ c      PARAMETER (MXX=321, MXY=29)
 ccccccccccccccccc
 c        PARAMETER (IZ=29 , ID=3, MMAP=8)
 ccccccccccccccccc
-        PARAMETER (MXX=1001, MXY=101)
+        PARAMETER (MXX=1001, MXY=111)
 c       compatible gsi_kaos
 C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet

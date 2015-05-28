@@ -73,8 +73,19 @@ C----------- Compute present value of constraint
 C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
+
+
+c         write(*,*) ' ff call zgoubi',KK,READAT,
+c     >                              NBEL
+c             read(*,*)
+
             CALL ZGOUBI(1,KK,READAT,
      >                              NBEL)
+
+c         write(*,*) ' ff out of zgoubi',KK,READAT,
+c     >                              NBEL
+c             read(*,*)
+
          ENDIF
 
          IF     (ICONT .EQ. 0) THEN

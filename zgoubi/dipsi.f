@@ -1255,7 +1255,7 @@ C       IF (KIRD.EQ.1) THEN
      >         + 8*D*GA3RO*GAP2*GARO
      >         -12*GAP*GARO*GARO*(3*D*GA2RO-(SIGN*D2RO)*GAP)
      >         -4.D0*GAP3*((SIGN*D1RO)*GA3RO+(SIGN*D3RO)*GARO)   
-     >         -24.D0*GARO*GARO*GARO*((SIGN*D1RO)*GAP-D*GARO)) / GAP5   
+     >         -24.D0*GARO*GARO*GARO*((SIGN*D1RO)*GAP-D*GARO)) / GAP5
           PPPTA = UL*(SIGN*D1TTA)*PPPP
           PP2TA = UL*((SIGN*D2TTA)*PPP 
      >         + (SIGN*D1TTA)*UL*(SIGN*D1TTA)*PPPP)
@@ -1880,9 +1880,8 @@ C-------------------------------------------------------------
 C    Calcul de B et des derivees de B par rapport a RO  et TTA 
 
       ROI   = (RO-RM)/RM
-C         write(*,*) ' anal itypf = ',itypf
+
       IF    (ITYPF.EQ.0) THEN
-C         write(*,*) ' anal itypf 0 '
         HRC = HO*(1.D0+(COEF1+(COEF2+(COEF3
      >          +(COEF4+COEF5*ROI)*ROI)*ROI)*ROI)*ROI)
         DHRC  = (HO/RM)*(COEF1+(2.D0*COEF2+(3.D0*COEF3
@@ -1903,18 +1902,18 @@ C         write(*,*) ' anal itypf 0 '
 
       FAC    =  F*FS*FL
       FACRO  =  FL*FS*FRO  +F*FS*FROL  + F*FL*FROS
-      FAC2RO = 2*(FL*FRO+F*FROL)*FROS + FS*(2*FRO*FROL+FL*F2RO+F*F2ROL) 
-     >         + F*FL*F2ROS
+      FAC2RO = 2.D0*(FL*FRO+F*FROL)*FROS + FS*(2.D0*FRO*FROL +
+     >      FL*F2RO+F*F2ROL)    + F*FL*F2ROS
       FACTTA =  FL*FS*FTTA +F*FS*FTTAL + F*FL*FTTAS
-      FAC2TA = 2*(FL*FTTA+F*FTTAL)*FTTAS + FS*(2*FTTA*FTTAL+FL*F2TTA 
-     >         + F*F2TTAL)+F*FL*F2TTAS
+      FAC2TA = 2.D0*(FL*FTTA+F*FTTAL)*FTTAS + FS*(2.D0*FTTA*FTTAL +
+     >      FL*F2TTA    + F*F2TTAL)+F*FL*F2TTAS
       FACRTA  =  FRTA*FS*FL+FRO*FTTAS*FL+FRO*FS*FTTAL
      >          + FTTA*FROS*FL+F*FRTAS*FL+F*FROS*FTTAL
      >          + FTTA*FS*FROL+F*FTTAS*FROL+F*FS*FRTAL 
 
       B      =  FAC*HRC
       BRO    =  FAC*DHRC  +   FACRO*HRC
-      B2RO   =  FAC*D2HRC + 2*FACRO*DHRC  +   FAC2RO*HRC 
+      B2RO   =  FAC*D2HRC + 2.D0*FACRO*DHRC  +   FAC2RO*HRC 
       BTTA   =  FACTTA*HRC
       B2TTA  =  FAC2TA*HRC
       BRTA   =  FACTTA*DHRC  +   FACRTA*HRC
@@ -1951,43 +1950,43 @@ C      IF (KIRD.EQ.1) THEN
          D4HRC =  (1.D0/(RM*RM*RM*RM))*(24.D0*COEF4+120.D0*COEF5*ROI)
         ENDIF
 
-         FAC3RO = 3*FROS*(2*FRO*FROL+FL*F2RO+F*F2ROL) 
+         FAC3RO = 3*FROS*(2.D0*FRO*FROL+FL*F2RO+F*F2ROL) 
      >        + 3*(FL*FRO+F*FROL)*F2ROS 
      >        + FS*(3*FROL*F2RO+3*FRO*F2ROL+FL*F3RO+F*F3ROL)
      >        + F*FL*F3ROS
-         FAC4RO =  6*(2*FRO*FROL+FL*F2RO+F*F2ROL)*F2ROS 
+         FAC4RO =  6*(2.D0*FRO*FROL+FL*F2RO+F*F2ROL)*F2ROS 
      >        + 4*FROS*(3*FROL*F2RO+3*FRO*F2ROL+FL*F3RO+F*F3ROL) 
      >        + 4*(FL*FRO+F*FROL)*F3ROS 
      >        + FS*(6*F2RO*F2ROL+4*FROL*F3RO+4*FRO*F3ROL+F4RO+F*F4ROL) 
      >        + F*FL*F4ROS
          
-         FAC3TA = 3*FTTAS*(2*FTTA*FTTAL+FL*F2TTA+F*F2TTAL) 
+         FAC3TA = 3*FTTAS*(2.D0*FTTA*FTTAL+FL*F2TTA+F*F2TTAL) 
      >        + 3*(FL*FTTA+F*FTTAL)*F2TTAS 
      >        + FS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA+F*F3TTAL)
      >        + F*FL*F3TTAS
-         FAC4TA =  6*(2*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*F2TTAS 
+         FAC4TA =  6*(2.D0*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*F2TTAS 
 C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL) 
      >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA+F*F3TTAL) 
      >        + 4*(FL*FTTA+F*FTTAL)*F3TTAS 
      >        + FS*(6*F2TTA*F2TTAL+4*FTTAL*F3TTA+4*FTTA*F3TTAL+FL*F4TTA 
      >        + F*F4TTAL)
      >        + F*FL*F4TTAS
-         FAC2RT =  2*FROS*(FTTAL*FRO + FTTA*FROL + FL*FRTA + F*FRTAL)
-     >        + 2*(FL*FRO+F*FROL)*FRTAS + FTTAS*(2*FRO*FROL+FL*F2RO
+         FAC2RT =  2.D0*FROS*(FTTAL*FRO + FTTA*FROL + FL*FRTA + F*FRTAL)
+     >       + 2.D0*(FL*FRO+F*FROL)*FRTAS + FTTAS*(2.D0*FRO*FROL+FL*F2RO
      >        +F*F2ROL)
      >        + FL*FTTA*F2ROS + F*FTTAL*F2ROS 
-     >        + FS*(2*FROL*FRTA+2*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL
+     >        + FS*(2.D0*FROL*FRTA+2.D0*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL
      >        + FL*F2RTA+F*F2RTAL) 
      >        + F*FL*F2RTAS
-         FACR2T = (2*FTTAL*FTTAS+FS*F2TTAL+FL*F2TTAS)*FRO 
-     >        +(2*FTTA*FTTAS+FS*F2TTA+F*F2TTAS)*FROL 
-     >        + (2*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*FROS 
-     >        + 2*(FS*FTTAL+FL*FTTAS)*FRTA 
-     >        + 2*(FS*FTTA+F*FTTAS)*FRTAL + 2*(FL*FTTA+F*FTTAL)*FRTAS 
+         FACR2T = (2.D0*FTTAL*FTTAS+FS*F2TTAL+FL*F2TTAS)*FRO 
+     >        +(2.D0*FTTA*FTTAS+FS*F2TTA+F*F2TTAS)*FROL 
+     >        + (2.D0*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*FROS 
+     >        + 2.D0*(FS*FTTAL+FL*FTTAS)*FRTA 
+     >     + 2.D0*(FS*FTTA+F*FTTAS)*FRTAL + 2.D0*(FL*FTTA+F*FTTAL)*FRTAS 
      >        + FL*FS*FR2TA + F*FS*FR2TAL + F*FL*FR2TAS
-         FAC3RT = 3*FRTAS*(2*FRO*FROL + FL*F2RO + F*F2ROL) 
+         FAC3RT = 3*FRTAS*(2.D0*FRO*FROL + FL*F2RO + F*F2ROL) 
      >        + 3*(FTTAL*FRO+FTTA*FROL+FL*FRTA+F*FRTAL)*F2ROS 
-     >        + 3*FROS*(2*FROL*FRTA+2*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL 
+     >     + 3*FROS*(2.D0*FROL*FRTA+2.D0*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL 
      >        + FL*F2RTA + F*F2RTAL) 
      >        + 3*(FL*FRO+F*FROL)*F2RTAS 
      >        + FTTAS*(3*FROL*F2RO+3*FRO*F2ROL+FL*F3RO+F*F3ROL)
@@ -1998,24 +1997,24 @@ C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL)
          FACR3T=(3*FTTAS*F2TTAL+3*FTTAL*F2TTAS+FS*F3TTAL+FL*F3TTAS)*FRO 
      >        +(3*FTTAS*F2TTA+3*FTTA*F2TTAS+FS*F3TTA+F*F3TTAS)*FROL 
      >        +(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA+F*F3TTAL)*FROS 
-     >        + 3*(2*FTTAL*FTTAS+FS*F2TTAL+FL*F2TTAS)*FRTA 
-     >        + 3*(2*FTTA*FTTAS+FS*F2TTA+F*F2TTAS)*FRTAL 
-     >        + 3*(2*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*FRTAS 
+     >        + 3*(2.D0*FTTAL*FTTAS+FS*F2TTAL+FL*F2TTAS)*FRTA 
+     >        + 3*(2.D0*FTTA*FTTAS+FS*F2TTA+F*F2TTAS)*FRTAL 
+     >        + 3*(2.D0*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*FRTAS 
      >        + 3*(FS*FTTAL+FL*FTTAS)*FR2TA 
      >        + 3*(FS*FTTA+F*FTTAS)*FR2TAL 
      >        + 3*(FL*FTTA+F*FTTAL)*FR2TAS + FL*FS*FR3TA + F*FS*FR3TAL
      >        + F*FL*FR3TAS
          FA2R2TA =  4*(FTTAL*FRO+FTTA*FROL+FL*FRTA+F*FRTAL)*FRTAS
-     >        + 2*FROS*(F2TTAL*FRO+F2TTA*FROL+2*FTTAL*FRTA
-     >        +2*FTTA*FRTAL + FL*FR2TA + F*FR2TAL)
-     >        + 2*(FL*FRO+F*FROL)*FR2TAS + F2TTAS*(2*FRO*FROL+FL*F2RO
+     >        + 2.D0*FROS*(F2TTAL*FRO+F2TTA*FROL+2.D0*FTTAL*FRTA
+     >        +2.D0*FTTA*FRTAL + FL*FR2TA + F*FR2TAL)
+     >     + 2.D0*(FL*FRO+F*FROL)*FR2TAS + F2TTAS*(2.D0*FRO*FROL+FL*F2RO
      >        + F*F2ROL) 
-     >        + (2*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*F2ROS 
-     >        + 2*FTTAS*(2*FROL*FRTA+2*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL 
+     >        + (2.D0*FTTA*FTTAL+FL*F2TTA+F*F2TTAL)*F2ROS 
+     > + 2.D0*FTTAS*(2.D0*FROL*FRTA+2.D0*FRO*FRTAL+FTTAL*F2RO+FTTA*F2ROL 
      >        + FL*F2RTA + F*F2RTAL) 
-     >        + 2*(FL*FTTA + F*FTTAL)*F2RTAS 
-     >        +FS*(4*FRTA*FRTAL+2*FROL*FR2TA+2*FRO*FR2TAL+ F2TTAL*F2RO 
-     >        +F2TTA*F2ROL+2*FTTAL*F2RTA + 2*FTTA*F2RTAL + FL*F2R2TA 
+     >        + 2.D0*(FL*FTTA + F*FTTAL)*F2RTAS 
+     >    +FS*(4*FRTA*FRTAL+2.D0*FROL*FR2TA+2.D0*FRO*FR2TAL+ F2TTAL*F2RO 
+     >      +F2TTA*F2ROL+2.D0*FTTAL*F2RTA + 2.D0*FTTA*F2RTAL + FL*F2R2TA 
      >        + F*F2R2TAL)+ F*FL*F2R2TAS
          
          B3RO = FAC*D3HRC + 3*FACRO*D2HRC+3*FAC2RO*DHRC  + FAC3RO*HRC
@@ -2023,12 +2022,12 @@ C????     >        + 4*FTTAS*(3*FTTAL*F2TTA+3*FTTA*F2TTAL+FL*F3TTA F*F3TTAL)
      >        + HRC*FAC4RO
          B3TTA  =  FAC3TA*HRC
          B4TTA  =  FAC4TA*HRC
-         B2RTA  =  FACTTA*D2HRC + 2*FACRTA*DHRC +  FAC2RT*HRC
+         B2RTA  =  FACTTA*D2HRC + 2.D0*FACRTA*DHRC +  FAC2RT*HRC
          BR2TA  =  FAC2TA*DHRC  +   FACR2T*HRC
          B3RTA  =  FACTTA*D3HRC + 3*FACRTA*D2HRC+3*FAC2RT*DHRC
      >        + FAC3RT*HRC
          BR3TA  =  FAC3TA*DHRC  +   FACR3T*HRC
-         B2R2TA =  FAC2TA*D2HRC + 2*FACR2T*DHRC+  FA2R2TA*HRC
+         B2R2TA =  FAC2TA*D2HRC + 2.D0*FACR2T*DHRC+  FA2R2TA*HRC
 
          BZXXX  = B3TTA  * BRI
          BZX4   = B4TTA  * BRI

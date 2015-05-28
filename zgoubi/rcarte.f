@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RCARTE(KART,IDIM,
      >                            ND)
@@ -37,15 +37,16 @@ C     ---------------------------------------------------
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT
-      parameter (MXSTR=20)
-      CHARACTER(80) STRA(mxstr)
-      integer debstr
-      logical strcon
+      PARAMETER (MXSTR=20)
+      CHARACTER(80) STRA(MXSTR)
+      INTEGER DEBSTR
+      LOGICAL STRCON
+      LOGICAL ISNUM
 
 C     ... IC, IL
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)
 
-CC   rustine chicane cebaf
+CC   RUSTINE CHICANE CEBAF
 CC     ... BNORM...
 C      READ(NDAT,*,ERR=10) A(NOEL,10), A(NOEL,11),A(NOEL,12)
 C      GOTO 11
@@ -64,18 +65,12 @@ C----- BNORM & X-,Y-,Z-NORM
      >                   IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       CALL STRGET(TXT,4,
      >                  NSTR,STRA)
-      IF(NSTR .GT. mxstr) GOTO 97
-      DO I = 1, NSTR
-        READ(STRA(I),*) A(NOEL,9+I)
+      IF(NSTR .GT. MXSTR) GOTO 97
+      I = 1
+      DOWHILE (I .LE. NSTR)
+        READ(STRA(I),*,ERR=97) A(NOEL,9+I)
+        I = I + 1
       ENDDO      
-C      READ(NDAT,*,ERR=8) A(NOEL,10),(A(NOEL,10+I),I=1,IDIM)
-c      GOTO 81
-c 8    CONTINUE
-c      WRITE(6,*) ' *** Need ',IDIM+1,
-c     > ' normalisation coefficients on that line'
-c      CALL ENDJOB('*** Input data error in SBR RCARTE, data line #2',0)
-c      STOP 
- 81   CONTINUE
  
 C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to 
 C                       be completed for others)

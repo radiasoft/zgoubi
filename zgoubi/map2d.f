@@ -78,12 +78,11 @@ C      LOGICAL ZSYM
       DIMENSION AA(24+MXC-1)
       DATA AA / 27 * 0.D0 /
  
- 
- 
       BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
+      IF(ZNORM .EQ. 0.D0) ZNORM = 1.D0      
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                              IS) ) THEN
@@ -109,10 +108,7 @@ C      LOGICAL ZSYM
      >                        NEWFIC,NBMAPS,IMAP)
  
       IF(NRES.GT.0) THEN
-C        WRITE(NRES,*) ' '
-C        WRITE(NRES,*) ' map2d ',
-C     >       NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC)),
-C     >       '       file #',nfic
+
         WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)')
      >  'Number of data file sets used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' '
@@ -160,18 +156,18 @@ C     >       '       file #',nfic
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
 C------- Store mesh coordinates
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA
-             XXH(I,imap) =  XH(I)
+             XXH(I,IMAP) =  XH(I)
            ENDDO
            JJYMA(IMAP) = JYMA
            DO J=1,JYMA
-             YYH(J,imap) =  YH(J)
+             YYH(J,IMAP) =  YH(J)
            ENDDO
            KKZMA(IMAP) = KZMA
-C FM Nov 2011   DO K= 2, KZMA
+C FM NOV 2011   DO K= 2, KZMA
            DO K= 1, KZMA
              ZZH(K,imap) = ZH(K)
            ENDDO

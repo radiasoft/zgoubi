@@ -571,7 +571,7 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
 
       IF( .NOT.ALLOCATED( HCTMP )) 
      >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
-      IF (IALOC .ne. 0) 
+      IF (IALOC .NE. 0) 
      >     CALL ENDJOB('SBR FMAPW Not enough memory'//
      >     ' for Malloc of HCTMP',
      >     -99)
@@ -654,18 +654,18 @@ C Read 3D field map of (part or total of) magnet, contained in a single file
 
         IF(MOD2 .EQ. 0) THEN    
 C------- Default : upper half of magnet, symmetrise 3D map wrt (X,Y)=mid-plane=bend-plane
-           jtcnt=0
-           ircnt = 0
-           kzcnt=0       
+           JTCNT=0
+           IRCNT = 0
+           KZCNT=0       
 
            DO 121 I=1,IXMA            
-             ircnt = ircnt+1
+             IRCNT = IRCNT+1
              DO 121  K = 1,KZMA      
                KZC = KZMA-1+K
-               kzcnt = kzcnt+1
+               KZCNT = KZCNT+1
                DO 121 J=1,JYMA        
                  JTC = J
-                 jtcnt = jtcnt + 1
+                 JTCNT = JTCNT + 1
 
                  IF(BINAR) THEN
                    READ(LUN)YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)

@@ -82,7 +82,7 @@ Compute rms ellipse
       PI4 = 4.D0 *      4.D0 * ATAN(1.D0)
       DO 10 JJ = 1, 3
         CALL LPSFIT(JJ, 
-     >                           EMIT,ALP,BET,XM,XPM)
+     >                 EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
         CALL CNTINL(JJ,PI4*EMIT,ALP,BET,XM,XPM,
      >                                        NLIV,NINL)
@@ -97,13 +97,13 @@ Compute 4-D sigma matrix
       WRITE(NRES,FMT='(//,''  Beam  characteristics '', 1X
      >,'' SIGMA(4,4) : '',/)')
       CALL LPSFI4( 
-     >             sqx,sqz,SIG)
+     >             SQX,SQZ,SIG)
 
-      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' Ex, Ez =', sqx,sqz
+      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' Ex, Ez =', SQX,SQZ
       WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpX, BetX =', 
-     >                  sig(1,2)/sqx, sig(1,1)/sqx
+     >                  SIG(1,2)/SQX, SIG(1,1)/SQX
       WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpZ, BetZ =', 
-     >                  sig(3,4)/sqZ, sig(3,3)/sqx
+     >                  SIG(3,4)/SQZ, SIG(3,3)/SQX
       WRITE(NRES,120) ((SIG(I,J),J=1,4),I=1,4)
  120  FORMAT(/,1P,4E14.6)
 

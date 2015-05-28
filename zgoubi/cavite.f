@@ -82,9 +82,14 @@ C  -------
       CALL SCALE9(
      >            KFM )
       DO IFM = 1, MXSCL
-            IF(KFM(IFM) .LE. 0) GOTO 121
+        IF(KFM(IFM) .LE. 0) THEN
+          GOTO 121
+        ELSE
+          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF) 
+     >    CALL ENDJOB('Pgm cavite. Exceed array size, KFM = ',KFM(IFM))
+        ENDIF
         DO I= 1 , JPA(KFM(IFM),MXP)
-           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
+          A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
         ENDDO
       ENDDO
  121  CONTINUE

@@ -14,31 +14,33 @@
       IF (K .LT. 48) THEN
         IF (.NOT.(K.EQ.43 .OR. K.EQ.45)) THEN   ! + OR -
           ISNUM = .FALSE.
-          RETURN
+          GOTO 88
         ENDIF
       ELSEIF (K .GT. 57) THEN
         ISNUM = .FALSE.
-        RETURN
+        GOTO 88
       ENDIF
       DO I = 2, N
         K = ICHAR(S(I:I))
         IF (K .LT. 48) THEN
           IF (K.NE.46) THEN    !  A DOT
             ISNUM = .FALSE.
-            RETURN
+            GOTO 88
           ELSE
             IF(ALRDY) THEN
               ISNUM = .FALSE.
-              RETURN
+              GOTO 88
             ELSE
               ALRDY = .TRUE.
             ENDIF 
           ENDIF
         ELSEIF (K .GT. 57) THEN
           ISNUM = .FALSE.
-          RETURN
+          GOTO 88
         ENDIF
       ENDDO
       ISNUM = .TRUE.
+
+ 88   CONTINUE
       RETURN
       END 

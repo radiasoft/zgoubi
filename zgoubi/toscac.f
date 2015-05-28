@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
@@ -78,14 +78,14 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
  
       INCLUDE 'MXSCL.H'
-      dimension kfm(MXSCL)
+      DIMENSION KFM(MXSCL)
  
       DATA NOMFIC / IZ*'               '/
       DATA FMTYP / ' regular' /
  
       PARAMETER (MXC = 4)
-      DIMENSION AA(MXL,24+MXC-1), UU(24+MXC-1)
-c      DATA AA / MXL*(24+MXC-1)* 0.d0 /
+      PARAMETER (MXAA2=24+MXC-1)
+      DIMENSION AA(MXL,MXAA2), UU(MXAA2)
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
@@ -108,7 +108,7 @@ C     16/01/14 to pass the map coefficients to KSMAP4
      >     ' for Malloc of HC',
      >     -99)
  
-      if( .NOT.ALLOCATED( HCC ))
+      IF( .NOT.ALLOCATED( HCC ))
      >     ALLOCATE( HCC(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
      >     CALL ENDJOB('SBR toscac Not enough memory'//
@@ -168,7 +168,7 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  
-          DO LL = 24, 24+MXC-1
+          DO LL = 24, MXAA2  ! 24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
  
@@ -182,7 +182,7 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  
-          DO LL = 24, 24+MXC-1
+          DO LL = 24, MXAA2     !24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
  
@@ -197,21 +197,23 @@ C dB1, dB2, dB3
             AA(NOEL,26) = 0.D0
             CALL SCALE9(
      >                   KFM)
-            do ifm = 1, MXSCL
+            DO IFM = 1, MXSCL
 c            IF(KFM .GT. 0) THEN
-            IF(KFM(ifm) .le. 0) goto 20
-              DO I = 1, JPA(KFM(IFM),MXP)
+              IF(KFM(IFM) .LE. 0) GOTO 20
+                DO I = 1, JPA(KFM(IFM),MXP)
 C Apply scaling to all parameters concerned
 c            write(*,*) ' toscac ',
 c     >        I,KFM, JPA(KFM,I), AA(NOEL,JPA(KFM,I)) , VPA(KFM,I)
 c                read(*,*)
-                AA(NOEL,JPA(KFM(IFM),I))=
+                 IF(JPA(KFM(IFM),I) .GT. MXAA2) CALL ENDJOB(
+     >           'Pgm toscac. Exceeded AA size. JPA = ',JPA(KFM(IFM),I))
+                  AA(NOEL,JPA(KFM(IFM),I))=
      >                AA(NOEL,JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
               ENDDO
 c            ENDIF
-            enddo
+            ENDDO
  
- 20         continue
+ 20         CONTINUE
  
             DBDX(1) = AA(NOEL,24)
             DBDX(2) = AA(NOEL,25)
@@ -233,7 +235,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
 
-            DO LL = 24, 24+MXC-1
+            DO LL = 24, MXAA2     !24+MXC-1
               UU(LL) = AA(NOEL,LL)
             ENDDO
  
