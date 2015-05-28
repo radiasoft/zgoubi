@@ -113,7 +113,7 @@ c        write(*,*) ' Mode, tmod = ',tmod
         if(tmod .eq. 'norm') call plot20(1)
         write(*,*) ' '
         write(*,*) ' KX = ',kx,'   KY = ',ky
-        write(*,*) ' Coordinates will be * by sqrt(momentum) '
+        write(*,*) ' Coordinates will be * by sqrt(relative momentum) '
         write(*,*) ' '
          read(*,*)
       else
