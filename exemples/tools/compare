@@ -31,7 +31,7 @@ grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix_140925_svn436.res  | cat >
 echo "                                              - new : "            | cat >>   compare.out
 grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/zgoubi.res                | cat >>   compare.out
 echo "        "                                                          | cat >>   compare.out
-echo "////////////////  EMMA-FFAG/matrixComputation: done..."
+echo "////////////////  EMMA-FFAG/matrixComputation : done..."
 #
 #
 #################################################################
@@ -47,7 +47,7 @@ echo "                                           - new : "                      
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
 grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
 echo "        "                                                                 | cat >>  compare.out
-echo "////////////////  ../gsiKaos/usingDIPOLE-M: done..."
+echo "////////////////  ../gsiKaos/usingDIPOLE-M : done..."
 #
 #
 #################################################################
@@ -61,21 +61,21 @@ grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/tosca-3D.res  | cat 
 echo "                                           - new : "                | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/zgoubi.res    | cat >>  compare.out
 echo "        "                                                           | cat >>  compare.out
-echo "////////////////  /gsiKaos/usingTOSCAmaps: done..."
+echo "////////////////  /gsiKaos/usingTOSCAmaps : done..."
 #
 #
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../KEK150MeVFFAG/analyticalModel/"
+echo "////////////////  Now doing :   ../KEK150MeVFFAG/analyticalModel/matrix/"
 echo "        "
-(cd ../KEK150MeVFFAG/analyticalModel/ ; cp K7.25-7.58_mat_130921.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../KEK150MeVFFAG/analyticalModel/ - reference : "   | cat >>   compare.out
-grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/K7.25-7.58_mat_130921.res  | cat >>   compare.out
+(cd ../KEK150MeVFFAG/analyticalModel/matrix/ ; cp K7.25-7.58_mat_130921.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEK150MeVFFAG/analyticalModel/matrix/ - reference : "   | cat >>   compare.out
+grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/matrix/K7.25-7.58_mat_130921.res  | cat >>   compare.out
 echo "                                                    - new : "         | cat >>   compare.out
-grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/zgoubi.res                 | cat >>   compare.out  
+grep "NU_Y = "  ../KEK150MeVFFAG/analyticalModel/matrix/zgoubi.res                 | cat >>   compare.out  
 echo "        "                                                             | cat >>   compare.out
-echo "////////////////  ../KEK150MeVFFAG/analyticalModel: done..."
+echo "////////////////  ../KEK150MeVFFAG/analyticalModel/matrix : done..."
 #
 #
 #################################################################
@@ -89,7 +89,7 @@ echo "        "
 #echo "                          - new : "             | cat >>   compare.out
 #grep "NU_Y = "  ../LHC/zgoubi.res                     | cat >>   compare.out  
 #echo "        "                                       | cat >>   compare.out
-#echo "////////////////  ../LHC: done..."
+#echo "////////////////  ../LHC : done..."
 #
 #
 #################################################################
@@ -111,7 +111,7 @@ grep "Y/T3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   comp
 grep "Z/Z3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 grep "Z/P3 "  ../microBeamDoublet/zgoubi.res                     | cat >>   compare.out  
 echo "        "                                                  | cat >>   compare.out
-echo "////////////////  ../microBeamDoublet: done..."
+echo "////////////////  ../microBeamDoublet : done..."
 #
 #
 #################################################################
@@ -127,7 +127,7 @@ echo "                          - new : "                            | cat >>   
 grep "dNu_y / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
 echo "        "                                                      | cat >>   compare.out
-echo "////////////////  ../saturneRing/matrix: done..."
+echo "////////////////  ../saturneRing/matrix : done..."
 #
 #
 #################################################################
@@ -141,7 +141,7 @@ grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/matrix_ffagSpi.res          | cat >>   co
 echo "                          - new : "                          | cat >>   compare.out
 grep "NU_Y = "  ../spiralFFAG/FFAG-SPI/zgoubi.res                  | cat >>   compare.out
 echo "        "                                                    | cat >>   compare.out
-echo "////////////////  ../spiralFFAG/FFAG-SPI: done..."
+echo "////////////////  ../spiralFFAG/FFAG-SPI : done..."
 #
 #
 #################################################################
@@ -173,7 +173,7 @@ grep "R12=0 at "  ../usersGuide/FIT/fit_positiveCoupl_FIT2.res   | cat >>   comp
 echo "                          - new : "                        | cat >>   compare.out
 grep "R12=0 at "  ../usersGuide/FIT/zgoubi.res                   | cat >>   compare.out
 echo "        "                                                  | cat >>   compare.out
-echo "////////////////  ../usersGuide/FIT: done..."
+echo "////////////////  ../usersGuide/FIT : done..."
 #
 #
 #################################################################
@@ -187,7 +187,7 @@ grep "Fit reached penalty value " ../variousKEYWORDS/FIT_embedded_in_REBELOTE/ce
 echo "                          - new : "                                                                               | cat >>   compare.out
 grep "Fit reached penalty value " ../variousKEYWORDS/FIT_embedded_in_REBELOTE/zgoubi.res                                | cat >>   compare.out
 echo "        "                                                                                                         | cat >>   compare.out
-echo "////////////////  variousKEYWORDS/FIT_embedded_in_REBELOTE/: done..."
+echo "////////////////  variousKEYWORDS/FIT_embedded_in_REBELOTE/ : done..."
 #
 #
 #################################################################
@@ -201,7 +201,7 @@ grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/trunk502.res_150226     
 echo "                          - new : "                                          | cat >>   compare.out
 grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
 echo "        "                                                                    | cat >>   compare.out
-echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL: done..."
+echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL : done..."
 #
 #
 #################################################################
@@ -222,7 +222,7 @@ echo "                          - new : "                     | cat >>   compare
 grep "dNu_y / dp/p ="  ../RHIC/TWISS/zgoubi.res               | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../RHIC/TWISS/zgoubi.res               | cat >>   compare.out
 echo "        "                                               | cat >>   compare.out
-echo "////////////////  ../RHIC/TWISS: done..."
+echo "////////////////  ../RHIC/TWISS : done..."
 #
 #
 #################################################################
@@ -238,7 +238,7 @@ echo "                          - new : "                   | cat >>   compare.o
 grep "dNu_y / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
 echo "        "                                             | cat >>   compare.out
-echo "////////////////  ../AGS/TWISS: done..."
+echo "////////////////  ../AGS/TWISS : done..."
 #
 #
 #################################################################
@@ -270,7 +270,7 @@ grep "NU_Z = "         ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 echo "        "                                        | cat >>   compare.out
-echo "////////////////  ../AGS_Booster: done..."
+echo "////////////////  ../AGS_Booster : done..."
 #
 #
 #################################################################
@@ -288,7 +288,7 @@ grep "dNu_y / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      
 grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
 grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out                       | cat >>   compare.out
 echo "        "                                                                 | cat >>   compare.out
-echo "////////////////  ../variousKEYWORDS/TWISS: done..."
+echo "////////////////  ../variousKEYWORDS/TWISS : done..."
 #
 #
 #################################################################
@@ -302,7 +302,7 @@ grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/srloss.res_150
 echo "                          - new : "                                     | cat >>   compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/zgoubi.res        | cat >>   compare.out
 echo "        "                                                               | cat >>   compare.out
-echo "////////////////  variousKEYWORDS/SRLOSS/: done..."
+echo "////////////////  variousKEYWORDS/SRLOSS/ : done..."
 #
 #
 

@@ -55,6 +55,11 @@ c        ny = 23
 
       close(nfai)
       close(lunout)
+
+      ok = IDLUNI(IUN)
+      OPEN(UNIT=IUN,FILE='averageS.out2')
+      call histo1(iun)
+      close(iun)
       stop
       end
 
@@ -154,7 +159,7 @@ c                           read(*,*)
               sum(ipass,7)= sum(ipass,7)/dble(nbtraj(ipass))  ! avrg tta^2
               xnrm=sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
               write(iun,
-     >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,1x,e17.8)')
+     >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,2(1x,e17.8))')
 c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        abs(xvar(ipass)), 
      >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg S_X,_Y,_Z
@@ -163,11 +168,10 @@ c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        sum(ipass,6), sum(ipass,7),                       ! av tta, av tta^2
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )  ,      ! sig_tta
      >        nbtraj(ipass), ipass,
-     >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 ) 
+     >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )         ! sig_tta (deg)
+     >         * 180./(4.* atan(1.d0)),  
+     >        sum(ipass,6)                                      ! av tta (deg)
      >         * 180./(4.* atan(1.d0)) 
-c     >         * 11.8393845 / (8.80238350E-02/(4.d0*atan(1.d0))*180.)
-c     >        ,' yzxb(nx), av SX SY SZ, av ctta stta, av tta tta^2, '
-c     >        //'sigTta, sin2+cos2, # of traj at that pass'
             endif
           else
             write(iun,fmt='(1p,e17.8,1x,e17.8,1x,i6,1x,i6,a)')
@@ -195,6 +199,82 @@ c     >        //'sigTta, sin2+cos2, # of traj at that pass'
  99   RETURN
 
       END
+      SUBROUTINE histo(ip,tta)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      parameter (mxpass=99)
+      DIMENSION ist(1800,mxpass),mxist(mxpass), imx(mxpass)
+      DIMENSION imi(mxpass), ima(mxpass)
+      DIMENSION avA(mxpass), avA2(mxpass), sigA(mxpass), sist(mxpass)
+      save ist, ipmx
+      data ipmx / -1 /
+      if(ip .gt. ipmx) ipmx = ip
+          ipmx = 11
+      if(ip .gt. mxpass) stop ' Pb with ip > mxpass.'
+      if(ip .lt. 1) stop ' Pb with ip < 1.'
+      ttad = 10.d0 *  tta /(4.d0*atan(1.d0))*180.d0
+      do i = 1, 1800
+        if(1+int(ttad) .gt.1800) stop ' Pb with int(ttad)>1800.'
+        if(1+int(ttad) .lt. 1) stop ' Pb with int(ttad) < 1.'
+        if(i .eq. 1+int(ttad)) then
+          ist(i,ip) = ist(i,ip) + 1
+          goto 10
+        endif
+      enddo
+ 10   continue
+      RETURN
+
+      entry histo1(iun)
+      write(*,*) ' Pgm histo1 ipmx = ',ipmx
+      do ips = 1, ipmx
+        mxist(ips) = -999
+        imi(ips) = 9999
+        ima(ips) = -9999
+        do i = 1, 1800
+          if(ist(i,ips) .ne. 0) then
+            if(ist(i,ips) .gt. mxist(ips)) then
+              mxist(ips) = ist(i,ips)
+              imx(ips) = i
+c            write(*,*) ip,i,ttad,'  ! Pgm histo ip,i,ttad'
+            endif
+            if(i .lt. imi(ips)) imi(ips) = i
+            if(i .gt. ima(ips)) ima(ips) = i
+          endif
+        enddo
+      enddo
+      do ips = 1, ipmx
+        avA(ips)  = 0.d0
+        avA2(ips) = 0.d0
+        sist(ips) = 0
+        do i = imi(ips), ima(ips)
+          sist(ips) = sist(ips) + ist(i,ips)
+          avA(ips)  = avA(ips)  + dble(i)*ist(i,ips)
+          avA2(ips) = avA2(ips) + dble(i)**2 * ist(i,ips)
+        enddo
+        avA(ips) = avA(ips) / sist(ips)
+        avA2(ips) = avA2(ips) / sist(ips)
+        sigA(ips) = sqrt(avA2(ips) - avA(ips)*avA(ips))
+      enddo
+      do ips = 1, ipmx
+        write(*,fmt='(a,i11,1x,3(f8.2,1x),i11,3(1x,f8.2))') 
+     >  ' ipass, imi(A), i(A)(@max_hist), ima(A), '
+     >  //'Max(hist), av(A), sigA(A), sqrt(av(A**2)) : '
+     >  ,ips,
+     >  dble(imi(ips))/10.d0,dble(imx(ips))/10.d0,dble(ima(ips))/10.d0
+     >  , mxist(ips), avA(ips)/10.d0,sigA(ips)/10.d0,avA2(ips)/100.d0
+      enddo
+      read(*,*)
+      do ips = 1, ipmx
+        do i = 1, 1800
+          if(ist(i,ips) .ge. 1)
+     >    write(iun,fmt='(i11,1x,f8.2,1x,i11,3f8.2,i11,3(1x,f8.2),a)') 
+     >    ips, dble(i)/10.d0, ist(i,ips),
+     >    dble(imi(ips))/10.d0,dble(imx(ips))/10.d0,dble(ima(ips))/10.d0
+     >    ,mxist(ips),avA(ips)/10.d0,sigA(ips)/10.d0,avA2(ips)/100.d0,
+     >    '     !  ip, i, ist(i),imi,im_x,ima,mxist,av,sigA,avA^2'
+        enddo
+      enddo
+      return
+      END
 
       SUBROUTINE STORCO(i12,NL,LM,KPS,BINARY,nx,ny,
      >                            xvar,sum,nbtraj,npass)
@@ -214,11 +294,15 @@ C     ---------------------------------------------------
       DIMENSION YZXB(MXVAR),NDX(5)
       dimension a(3),b(3),vv(3)
 
+      data ntraj / 100000 /
+
       CALL REWIN2(NL,*96)
       WRITE(6,*) '  READING  AND  STORING  COORDINATES...'
 
       NOC=0
+      MOC=0
       NRBLT = -1 
+      ipas1 = 0
 C----- BOUCLE SUR READ FICHIER NL 
       goto 44
  42   continue
@@ -236,15 +320,16 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
         IF(NINT(YZXB(39)) .GE. NRBLT+1) NRBLT = NINT(YZXB(39)) -1
 
         ipass = nint(yzxb(39))
-            
-           write(88,*) ' storco nbtraj(1),ipass,noc :    '
-     >        ,nbtraj(ipass),ipass,noc
+        if(ipass .gt. ipas1) moc = 0
+        mOC=mOC+1
+        ipas1 = ipass
 
         xvar(ipass) = yzxb(nx)
 c         write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny,i12
         if(ipass .gt. mxpass) stop ' Increase mxpass !! '
 
         if(ny.eq.25) then   !  average spin vector
+
           if(i12.eq.1) then 
             sum(ipass,1) = sum(ipass,1) + yzxb(21)
             sum(ipass,2) = sum(ipass,2) + yzxb(22)
@@ -281,17 +366,24 @@ c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
             tta = acos(ctta)
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
-  
+
+            call histo(ipass,tta)
+
 c      write(*,*)' tta, stta, ctta, atg, acos, sum_tta, sum_tta2 : ',
 c     >tta,stta, ctta, atan(stta/ctta),acos(ctta),(ctta**2 + stta**2)
 c                  read(*,*)
           endif 
         else
+
           sum(ipass,1) = sum(ipass,1) + yzxb(ny)
+
         endif
 
-C        nbtraj(ipass) = nbtraj(ipass) + 1
-        nbtraj(ipass) = noc
+        
+        nbtraj(ipass) = moc
+
+c      write(*,*) ' storco ipass, nbtraj : ',ipass,nbtraj(ipass),noc,moc
+c      write(88,*) ' storco ipass, nbtraj : ',ipass,nbtraj(ipass),noc,moc
           
       GOTO 44             
 C     ----------------------------------
@@ -303,9 +395,6 @@ C     ----------------------------------
 
  10   CONTINUE
       WRITE(6,*) ' READ  OK; END  OF  FILE  ENCOUNTERED'
-
-        write(*,*) ' storco nbtraj, noc : ',nbtraj(ipass) , noc
-c           read(*,*)
 
  11   CONTINUE
       NPASS = NRBLT + 1
@@ -386,7 +475,8 @@ C     ----------------------------------------------------
 
       IF(NL .EQ. NSPN) THEN
       ELSE
-
+c               write(*,*) ' ici '
+c                read(*,*) 
         IF(NL .EQ. NFAI) THEN
 C--------- read in zgoubi.fai type storage file
 
@@ -415,6 +505,7 @@ C--------- read in zgoubi.fai type storage file
             IF(IEND.EQ.1) GOTO 91
 
           ELSE
+
             locl = locl + 1
             goto 21
  219        continue
@@ -423,7 +514,6 @@ C--------- read in zgoubi.fai type storage file
             stop ' Out of readco at 219'
             write(*,*) ' -----------------------'
  21         READ(NL,fmt='(a)',END=10) TXT1K
-c            write(88,*) locl,locl2, TXT1k(debstr(txt1k):finstr(txt1k))
 
             READ(TXT1K,110,ERR=99,END=10)
      >      KEX,(FO(J),J=1,7),
@@ -440,12 +530,18 @@ c            write(88,*) locl,locl2, TXT1k(debstr(txt1k):finstr(txt1k))
              jpass = ipass
             KT3 = 1
 
+c            write(*,*) ' OKKT(KT1,KT2 ',OKKT(KT1,KT2,KT3,IT,KEX,LET,
+c     >                             IEND)
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 219
 
+c            write(*,*) ' OKKP(KP1,KP2 ',OKKP(KP1,KP2,KP3,jPASS,
+c     >                                IEND)
             IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
      >                                IEND)) GOTO 219
 
+c            write(*,*) ' OKKL(KL1,KL2 ',OKKL(KL1,KL2,NOEL,
+c     >                           IEND)
             IF(.NOT. OKKL(KL1,KL2,NOEL,
      >                           IEND)) GOTO 219
 
