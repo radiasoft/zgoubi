@@ -39,6 +39,9 @@ C      SUBROUTINE BENDF(BN,MPOL,DLE,DLS,DE,DS,RTB,X,Y,
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
       SAVE IOPIN, IOPOU, DISTE, DISTS
+      SAVE G1, G2
+
+      DATA G1, G2 /0d0,0d0/
              
       CTE=RTB(1)
       STE=RTB(2)
@@ -150,14 +153,17 @@ C--------- DLS=0. => XS=0.
       CTS2=CTS*CTS
       STS2=STS*STS
 
-      BZ = ( GE+GS-1.D0 )*BN*BRI
+C      BZ = ( GE+GS-1.D0 )*BN*BRI
+      BZ = (( GE+GS-1.D0 )*BN + G1*Y + G2*Y**2)*BRI
  
       BZX=  DGE*CTE - DGS*CTS
-      BZY=  DGE*STE + DGS*STS
+C      BZY=  DGE*STE + DGS*STS
+      BZY=  DGE*STE + DGS*STS + (G1 + 2D0*G2*Y)*BRI
  
       BZXX= D2GE*CTE2    + D2GS*CTS2
       BZXY= D2GE*CTE*STE - D2GS*CTS*STS
-      BZYY= D2GE*STE2    + D2GS*STS2
+C      BZYY= D2GE*STE2    + D2GS*STS2
+      BZYY= D2GE*STE2    + D2GS*STS2 + 2D0*G2*BRI
  
       BZXXX=  D3GE*CTE2*CTE - D3GS*CTS2*CTS
       BZXXY=  D3GE*CTE2*STE + D3GS*CTS2*STS
@@ -196,4 +202,10 @@ C      BZ0(1,5)=BZY4
       DISTS = DISTSI
       RETURN
 
+      ENTRY BENDF2(G1I,G2I)
+      G1=G1I
+      G2=G2I
+C      write(*,*) 'G1 ', G1
+C      read(*,*)
+      RETURN
       END

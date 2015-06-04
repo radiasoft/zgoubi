@@ -103,7 +103,7 @@ CC D5 IPM magnet in bare AGS.
 c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=1801, MXY=41)
 
-      PARAMETER (IZ=61 , ID=3, MMAP=4)
+cccccccccccccccc      PARAMETER (IZ=61 , ID=3, MMAP=4)
 c      PARAMETER (MXX=1001, MXY=150)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
@@ -111,10 +111,7 @@ CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)
 c        PARAMETER (IZ=61 , ID=3, MMAP=8)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
-ccccccccccccccccc
-c        PARAMETER (IZ=29 , ID=3, MMAP=8)
-ccccccccccccccccc
-        PARAMETER (MXX=1001, MXY=111)
+ccccccccccccccccc        PARAMETER (MXX=1001, MXY=111)
 c       compatible gsi_kaos
 C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet
@@ -147,5 +144,10 @@ c      PARAMETER (MXX=351, MXY=200)
 CC ~/zgoubi/SVN/current/exemples/tools
 c      PARAMETER (IZ=61 , ID=3, MMAP=2)
 c      PARAMETER (MXX=300, MXY=200)
+
+CC Malek FFAG 150MeV
+       PARAMETER (IZ=21 , ID=3, MMAP=1)
+       PARAMETER (MXX=301, MXY=319)
+
 
 

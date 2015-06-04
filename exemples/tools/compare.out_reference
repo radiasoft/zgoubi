@@ -28,7 +28,6 @@
      LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
         
 ////////////////  ../KEK150MeVFFAG/analyticalModel/matrix/ - reference : 
-                    NU_Y =  0.34607177         NU_Z =  0.19641682    
                                                     - new : 
                     NU_Y =  0.34607177         NU_Z =  0.19641682    
         
@@ -49,7 +48,7 @@
                               dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
                           - new : 
-                              dNu_y / dp/p = -4.19772291E+00
+                              dNu_y / dp/p = -4.19772290E+00
                               dNu_z / dp/p = -5.22334792E+00
         
 ////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 

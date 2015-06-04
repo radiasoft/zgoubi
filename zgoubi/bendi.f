@@ -55,8 +55,18 @@ C----- Skew angle
       BM(6) = A(NOEL,11)
 C----- Field
       BM(1)  =A(NOEL,12)*SCAL
+      RADIUS  =A(NOEL,13)
+      AK1    =A(NOEL,14)*SCAL
+      AK2   =A(NOEL,15)*SCAL
+      IF(RADIUS .NE. 0.D0) THEN
+        G1 = AK1/RADIUS
+        G2 = AK2/RADIUS**2
+      ELSE
+        G1 = 0.D0
+        G2 = 0.D0
+      ENDIF
 
-C----- SR-loss switched on by procedure SRLOSS
+C----- SR-LOSS SWITCHED ON BY PROCEDURE SRLOSS
       IF(KSYN.GE.1) THEN
         IF(KFLD .EQ. MG) THEN
           IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
@@ -171,10 +181,14 @@ C------- Correction for exit wedge
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' BEND',XL,BORO/BM(1)*DEV,DEV*DEG,DEV
+     >       , RADIUS, G1, G2
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
      >       //,15X, ' Length    = ',E14.6,' cm'
      >       ,/,15X, ' Arc length    = ',E14.6,' cm'
-     >       ,/,15X, ' Deviation    = ',E14.6,' deg.,  ',E14.6,' rad',/)
+     >       ,/,15X, ' Deviation    = ',E14.6,' deg.,  ',E14.6,' rad'
+     >       ,/,15X, ' Radius   = ',E14.6,' cm'
+     >       ,/,15X, ' Gradient   = ',E14.6,' kG/cm'
+     >       ,/,15X, ' Grad-prime   = ',E14.6,' kG/cm^2',/)
         WRITE(NRES,103) BM(1),BORO/BM(1)
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
      >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')
@@ -206,7 +220,9 @@ C        WRITE(NRES,104) 'DE  SORTIE'
      >    ''entails vertical wedge focusing approximated with'',
      >    '' first order kick, FINT values entr/exit : '',1P,2G12.4)') 
      >         FINTE, FINTS
-
       ENDIF
+
+      CALL BENDF2(G1,G2)
+
       RETURN
       END

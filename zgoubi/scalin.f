@@ -46,7 +46,7 @@ C  -------
  
       LOGICAL EMPTY, IDLUNI
  
-      PARAMETER (ND=20000)
+      PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
  
       CHARACTER(9) OPT(2)
@@ -279,20 +279,27 @@ c              WRITE(88,fmt='(1p,4e14.6,2x,a)') turn,freq, yM(I), xM(I),
 c     >                   '  sbr scalin turn freq phase oclock '
               I = I+1
             GOTO 11
- 
- 598        WRITE(6,*) '  READ ended upon EOF, # data read is ',I-1
+
+ 598        WRITE(6,FMT='(/,A,I8)') ' Pgm scalin. READ file '
+     >      //'zgoubi.freqLaw.In ended upon EOF,'
+     >      //' number of data read is ',I-1
             GOTO 21
- 599        WRITE(6,*) '  READ ended upon ERROR, # data read is ',I-1
+ 599        WRITE(6,*) ' Pgm scalin. READ file zgoubi.freqLaw.In ended '
+     >      //'upon ERROR, number data read is ',I-1
             GOTO 21
  
  21         CONTINUE
  
               N = I-1
-              WRITE(6,*) ' # of data to be interpolated :  N= ',N
-              IF(N.EQ.0) STOP ' SBR SCALIN, no data to be interpolated'
+              WRITE(6,*) 'Number of data to be interpolated :  N= ',N
+              WRITE(6,FMT='(/,/)') 
+              IF(N.EQ.0) CALL ENDJOB(
+     >        'Pgm scalin. Found no data to be interpolated. Leaving.'
+     >        ,-99)
  
-              IF(XM(2).LT.XM(1)) STOP
-     >        'SBR SCALIN, array X must be increasing function of index'
+              IF(XM(2).LT.XM(1)) CALL ENDJOB(
+     >        'Pgm scalin. Array X must be an increasing function '
+     >        //'of index. Fix it...',-99)
  
              DUM = SCALE6(XM,YM,turn,freq,ekin,N)
  
@@ -419,11 +426,13 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
       RETURN
  
  597  CONTINUE
-      WRITE(6,FMT='(3A)') ' SBR SCALIN : COULD NOT OPEN FILE ',
+      WRITE(6,FMT='(3A)') 'Pgm scalin. Could not open file ',
      > 'zgoubi.freqLaw.In','.  Check existence...'
-      STOP
+      CALL ENDJOB('Pgm scalin. Leaving.',-99)
  596  CONTINUE
-      STOP ' SBR SCALIN :  IDLE  UNIT  PROBLEM  AT  OPEN  FILE '
+      WRITE(6,FMT='(3A)') 'Pgm scalin. Could not get idle unit number '
+     >//'for opening file','zgoubi.freqLaw.In','.  Check pgm scalin.'
+      CALL ENDJOB('Pgm scalin. Leaving.',-99)
       RETURN
  
 C      ENTRY SCALI4(

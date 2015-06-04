@@ -53,7 +53,7 @@ C  -------
       SAVE ARGDP, FACDP, PSYN
       SAVE TEMP
 
-      PARAMETER (ND=20000)
+      PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
       dimension dat1(ND), dat2(ND), dat3(ND), 
      >          dat1i(ND),dat2i(ND),dat3i(ND)

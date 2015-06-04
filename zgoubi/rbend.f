@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -32,10 +32,25 @@ C     ****************************
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
+      CHARACTER(132) TXT132
+      CHARACTER(30) STRA(6)
+      INTEGER DEBSTR, FINSTR
+      LOGICAL STRCON
+
       READ(NDAT,*) IA
       A(NOEL,1) = IA
-C     ... XL, skew angle, BO
-      READ(NDAT,*) (A(NOEL,I),I=10,12)
+C     ... XL, SKEW ANGLE, BO, G, G'
+C      READ(NDAT,*) (A(NOEL,I),I=10,12)
+      READ(NDAT,FMT='(A)') TXT132 
+      IF(STRCON(TXT132,'!',
+     >                     IS)) 
+     >TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      CALL STRGET(TXT132,6
+     >                    ,MSS,STRA)
+      DO I = 1, MSS
+        READ(STRA(I),*) A(NOEL,9+I)
+      ENDDO
+
 C     ... XE, LE, WE
       READ(NDAT,*) (A(NOEL,I),I=20,22)
 C      READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
