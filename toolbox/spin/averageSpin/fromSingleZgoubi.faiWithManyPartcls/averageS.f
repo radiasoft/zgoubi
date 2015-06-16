@@ -119,8 +119,8 @@ C          OPN = .FALSE.
               OPN = .TRUE.
               write(iun,fmt='(a)')
      >   '# yzxb(nx), av SX SY SZ, av |S|, av ctta stta, av tta (rd)'
-     >   //' tta^2 (rd^2), '//'sigTta (rd),  # of traj at that pass'
-     >   //' sigTta (deg)'
+     >   //' tta^2 (rd^2), '//'sig_Tta (rd),  # of traj at that pass'
+     >   //' sig_Tta (deg),  av E (MeV),  sig_E (MeV)'
             ELSE
               GOTO 698
             ENDIF
@@ -143,10 +143,6 @@ c           read(*,*)
               sum(ipass,3)= sum(ipass,3)/dble(nbtraj(ipass)) 
               sqrts = sqrt(
      >        sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)  ! avrg |S| 
-
-c             write(*,*) ' averageS nbtraj, |S| ',nbtraj(ipass), sqrts
-c                           read(*,*)
-
               sum(ipass,1)= sum(ipass,1)/sqrts
               sum(ipass,2)= sum(ipass,2)/sqrts
               sum(ipass,3)= sum(ipass,3)/sqrts
@@ -157,9 +153,11 @@ c                           read(*,*)
               sum(ipass,5)= sum(ipass,5)/dble(nbtraj(ipass))  ! avrg sin tta
               sum(ipass,6)= sum(ipass,6)/dble(nbtraj(ipass))  ! avrg tta
               sum(ipass,7)= sum(ipass,7)/dble(nbtraj(ipass))  ! avrg tta^2
+              sum(ipass,8)= sum(ipass,8)/dble(nbtraj(ipass))  ! avrg E
+              sum(ipass,9)= sum(ipass,9)/dble(nbtraj(ipass))  ! avrg E^2
               xnrm=sqrt(sum(ipass,1)**2+sum(ipass,2)**2+sum(ipass,3)**2)
               write(iun,
-     >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,2(1x,e17.8))')
+     >          fmt='(1p,e17.8,1x,9e17.8,1x,i6,1x,i6,4(1x,e17.8))')
 c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        abs(xvar(ipass)), 
      >        sum(ipass,1), sum(ipass,2), sum(ipass,3),               ! avrg S_X,_Y,_Z
@@ -171,13 +169,22 @@ c    >          fmt='(1p,e17.8,1x,10e17.8,1x,i6,1x,i6,1x,e17.8,a)')
      >        sqrt(sum(ipass,7) -   (sum(ipass,6))**2 )         ! sig_tta (deg)
      >         * 180./(4.* atan(1.d0)),  
      >        sum(ipass,6)                                      ! av tta (deg)
-     >         * 180./(4.* atan(1.d0)) 
+     >         * 180./(4.* atan(1.d0)), 
+     >        sum(ipass,8),                                     ! av E (MeV)
+     >        sqrt(sum(ipass,9) -   (sum(ipass,8))**2 )         ! sig_E (MeV)
             endif
           else
             write(iun,fmt='(1p,e17.8,1x,e17.8,1x,i6,1x,i6,a)')
      >      abs(xvar(ipass)), sum(ipass,1)/dble(nbtraj(ipass)), 
      >      nbtraj(ipass), ipass,
      >         ' yzxb(nx), avrge, # of traj at that pass'
+          endif
+          if(i12.eq.1) then 
+            write(*,*) ' ---'
+            write(*,*) ' i12 = ', i12
+            write(*,*) ' sqrts = ',sqrts,'  (should be 1 !!)'
+            write(*,*) ' ipass, nbtraj(ipass) : ',ipass, nbtraj(ipass)
+            write(*,*) ' sqrts = ',sqrts,'  (should be 1 !!)'
           endif
         enddo
 
@@ -328,7 +335,7 @@ C----- NDX: 1->KEX, 2->IT, 3->IREP, 4->IMAX
 c         write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny,i12
         if(ipass .gt. mxpass) stop ' Increase mxpass !! '
 
-        if(ny.eq.25) then   !  average spin vector
+        if(ny.eq.25) then       !  average spin vector
 
           if(i12.eq.1) then 
             sum(ipass,1) = sum(ipass,1) + yzxb(21)
@@ -339,7 +346,7 @@ c     >         ipass,
 c     >      yzxb(21)**2 + 
 c     >      yzxb(22)**2 + 
 c     >      yzxb(23)**2
-c                  read(*,*) 
+C                  read(*,*) 
           else
 C Avrge \vec S at pass # ipass
             a(1) = sum(ipass,1)
@@ -353,6 +360,9 @@ C \vec S of current particle
             b(3) =  yzxb(23)
             xb = sqrt(pscal(b,b))
 
+C            write(*,*) ' |av S|, |S| : ',xa, xb
+C                read)*,*)
+
 C cos and sin of angle between avrge \vec S and current \vec S
             ctta = pscal(a,b)/xa/xb
             call vvect(a,b,vv)
@@ -364,8 +374,13 @@ c        write(*,*) ' |a|, |b| :',xa,xb,ctta**2+stta**2
             sum(ipass,5) = sum(ipass,5) + stta
             tta = atan2(stta,ctta)
             tta = acos(ctta)
+
+C            write(*,*) ' atan2, acos : ',atan2(stta,ctta),acos(ctta)
+
             sum(ipass,6) = sum(ipass,6) + tta
             sum(ipass,7) = sum(ipass,7) + tta*tta
+            sum(ipass,8) = sum(ipass,8) + yzxb(20)
+            sum(ipass,9) = sum(ipass,9) + yzxb(20)*yzxb(20)
 
             call histo(ipass,tta)
 

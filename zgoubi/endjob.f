@@ -28,6 +28,7 @@ C  -------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       LUN = ABS(NRES)
       IF(II.EQ.-99) THEN
         WRITE(  6,FMT=
@@ -38,7 +39,8 @@ C  -------
         WRITE(  6,FMT='(//,1X,A,
      >  1X,I0,''   Occured in element # '',I0,//)') ' '//TXT,II,NOEL
         WRITE(LUN,FMT='( /,1X,A,
-     >  1X,I0,''   Occured in element # '',I0)') TXT,II,NOEL
+     >  1X,I0,''   Occured in element # '',I0,'',  at pass # '',I0)') 
+     >  TXT,II,NOEL,IPASS
       ENDIF
       WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
       WRITE(  6,FMT='(/,''End of job !'',//,''  '')')

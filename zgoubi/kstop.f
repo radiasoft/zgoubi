@@ -125,7 +125,8 @@ C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
       IF(NSTOP.GE.IMX) THEN
         CALL FITSTA(5,FITING)
         IF(.NOT.FITING) THEN 
-          WRITE(ABS(NRES),*) ' SBR KSTOP,  IK = ', IK 
+          WRITE(ABS(NRES),*) ' '
+          WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK 
           CALL ENDJOB
      >    ('SBR KSTOP : execution stopped, all particles lost !!',-99)
         ENDIF
