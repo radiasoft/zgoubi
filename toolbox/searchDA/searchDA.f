@@ -208,20 +208,49 @@ C these will be starting point for search of DA
         rewind(lunR)
 
 C Read till "KOBJ"
-        do i=1,4
+        do i=1,3
           read(lunR,fmt='(a)') txt132
           write(lunW,*) txt132
-          write(*,*) txt132
         enddo
-C Read till "IMAX IMAXT"
+        read(lunR,fmt='(a)') txt132
+        write(lunW,*) ' 2 '
+C Set "IMAX IMAXT" for kobj=2 option 
+        read(txt132,*) xobj
+        kobj = int(xobj)
+        if    (kobj .eq. 2) then
           read(lunR,*) nTraj, imaxt
-          if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
-          txt132 = ' 1  1'
-          write(lunW,*) txt132
-C Read all initial traj from zgoubi_searchDA-In.dat, supposed to be stable
+        elseif(kobj .eq. 5) then
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          read(txt132(3:99),*) kobj2
+          ntraj = kobj2
+          read(lunR,fmt='(a)') txt132        ! skip sample
+        endif
+c               write(*,*) ' Pgm searchStabLim. ntraj,kobj,kobj2 : ',
+c     >           ntraj,kobj,kobj2
+c                    read(*,*)
+        if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+        txt132 = ' 1  1'
+        write(lunW,*) txt132
+C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
         enddo
+cC Read till "KOBJ"
+c        do i=1,4
+c          read(lunR,fmt='(a)') txt132
+c          write(lunW,*) txt132
+c          write(*,*) txt132
+c        enddo
+cC Read till "IMAX IMAXT"
+c          read(lunR,*) nTraj, imaxt
+c          if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+c          txt132 = ' 1  1'
+c          write(lunW,*) txt132
+cC Read all initial traj from zgoubi_searchDA-In.dat, supposed to be stable
+c        do i=1,nTraj
+c          read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
+c        enddo
+
 C Retains only one initial traj at a time
 C and sets z to nul
         z(jo) = 0.

@@ -73,19 +73,34 @@ C
         rewind(lunR)
 
 C Read till "KOBJ"
-        do i=1,4
+        do i=1,3
           read(lunR,fmt='(a)') txt132
           write(lunW,*) txt132
         enddo
-C Read till "IMAX IMAXT"
+        read(lunR,fmt='(a)') txt132
+        write(lunW,*) ' 2 '
+C Set "IMAX IMAXT" for kobj=2 option 
+        read(txt132,*) xobj
+        kobj = int(xobj)
+        if    (kobj .eq. 2) then
           read(lunR,*) nTraj, imaxt
-          if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
-          txt132 = ' 1  1'
-          write(lunW,*) txt132
+        elseif(kobj .eq. 5) then
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          read(txt132(3:99),*) kobj2
+          ntraj = kobj2
+          read(lunR,fmt='(a)') txt132        ! skip sample
+        endif
+c               write(*,*) ' Pgm searchStabLim. ntraj,kobj,kobj2 : ',
+c     >           ntraj,kobj,kobj2
+c                    read(*,*)
+        if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+        txt132 = ' 1  1'
+        write(lunW,*) txt132
 C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
         enddo
+
 C Retains only one initial traj at a time
 C and sets z to nul
         if    (HV .eq. 'H') then
@@ -111,13 +126,16 @@ C and sets z to nul
         write(6,fmt='(1p,4e16.8,e9.1,e16.8,4a,i4)') 
      >    x(jo),xp(jo),z(jo),zp(jo),s(jo),d(jo),' ','''',let(jo),'''',jo
         write(6,*)
+
 C Complete OBJET with the line with '1'
- 37     read(lunR,fmt='(a)',end=62) txt132
-        txt132 = txt132(debstr(txt132):finstr(txt132))
-        if(txt132(1:2) .eq. '1 ') then
-          goto 37
-        else
-          backspace(lunR)
+        if(kobj .eq. 2) then
+ 37       read(lunR,fmt='(a)',end=62) txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(txt132(1:2) .eq. '1 ') then
+            goto 37
+          else
+            backspace(lunR)
+          endif
         endif
         write(lunW,*) ' 1 '
         txt132 = '''FAISTORE'''
