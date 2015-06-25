@@ -1,6 +1,6 @@
 CFLAGS=-g -DGFORTRAN4
 FC=gfortran
-FFLAGS=-O4 -Wall -fno-automatic -pedantic
+FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
 
 .POSIX:
 
