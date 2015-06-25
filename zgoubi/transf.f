@@ -118,7 +118,7 @@ C-------- IEX<-1 <=> Particle stopped
 
           IF( DRT  ) CALL DRTENT
  
-          CALL INTEGR(EVNT,BACKW,MIRROR)
+          CALL INTEGR(EVNT,BACKW,MIRROR,KFLD)
  
           IF( CHPFS  ) CALL CHAREF(EVNT,XFS,ZERO,ZERO)
           IF( CHGRFS ) THEN

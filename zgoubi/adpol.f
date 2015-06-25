@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ADPOL(ID,IK,KFL,
+      SUBROUTINE ADPOL(ID,IK,
      >                 B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C--------------------------------------------------------------------
@@ -89,7 +89,8 @@ C              ID GE 2
 C            ID GE 1
         ENDIF
 C          ID GE 0
-        CALL RAZDRV(KFL)
+
+C FM june 2015. Already in chamc        CALL RAZDRV(KFL)
 
         IK=2
  
@@ -151,7 +152,7 @@ C            ID GE 1
         ENDIF
 C          ID GE 0
 
-        CALL RAZDRV(KFL)
+C FM june 2015. Already in chamc        CALL RAZDRV(KFL)
 
       GOTO 99
  

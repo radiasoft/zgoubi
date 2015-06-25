@@ -10,7 +10,7 @@ all :
 	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zpop ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd doc ; make
+	cd guide ; make
 
 clean :
 	$(RM) *~
@@ -19,5 +19,5 @@ clean :
 	cd coupling ; make clean
 	cd zgoubi ;  make clean
 	cd zpop ; $(MAKE) clean
-	cd doc ; $(MAKE) clean
+	cd guide ; $(MAKE) clean
 

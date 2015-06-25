@@ -117,7 +117,7 @@ C      Start loop on DXI
 C---------------------  Some tests to possibly stop integration
       NSTEP = NSTEP+1
       IF(NSTEP .GT. MXSTEP) THEN
-        call ZGNOEL(
+        CALL ZGNOEL(
      >             NOEL)
         WRITE(ABS(NRES),*) 'Maximum # steps allowed = ',MXSTEP,
      >  '.  At element number ',NOEL
@@ -201,6 +201,8 @@ C-------- CHREG is .true. if particle is going to next region
             ST=SIN(T)
             PAS = TPAS(KREG)
             DXI = PAS
+
+C        CALL RAZDRV(3)
  
             GOTO 1
         ENDIF
