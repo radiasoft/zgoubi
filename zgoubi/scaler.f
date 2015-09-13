@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, LI, NY, 11973
+C  Upton, LI, NY, 11973, USA
 C  -------
       FUNCTION SCALER(IPASS,NOEL, 
      >                           D1)
@@ -277,7 +277,7 @@ c          call cavit1(
 c     >                PP0,GAMMA,dWs)
 c          scaler = SCL(KF,1) * pp0
           scaler = SCL(KF,1,1) * dpref
-
+            
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
 c          xv = ipass
@@ -294,7 +294,6 @@ C                          ekin freq
           coTime1 = CUBSPL(dat3,dat2,xv,nd,nfrq)
           coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
           D1 = coTime
-C        write(*,*) ' scaler ',xv, cotime1, coTime
 
 C        ELSEIF(KTI .EQ. -60) THEN
 CC--------- AGS dipoles, K1 and K2 laws
@@ -448,16 +447,6 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
          TIM2(JF,JT) = TIM2I(JF,JT) 
       enddo
 
-c               if(jf.eq.1 .or. jf.eq.2)   then
-cc               if(jf.eq.1 )   then
-c                 write(*,*) ' SCALE2 / if,iit : ',Jf,iit
-c                 write(*,*) '  (SCL2(jF,IT),it=1,iit) : '
-c                 write(*,*) (SCL2(jF,IT),it=1,iit)
-c                 write(*,*) ' (TIM2(jF,IT),it=1,iit) : '
-c                 write(*,*) (TIM2(jF,IT),it=1,iit)
-c                 write(*,*) ' '
-c              endif
-
       RETURN
 
       ENTRY SCALE4(OCLOCI,ekinI)
@@ -477,7 +466,6 @@ C               oclock phi turn#  freq  Ekin
         dat1(i) = dat1i(i)
         dat2(i) = dat2i(i)
         dat3(i) = dat3i(i)
-C          write(*,*) i, dat2(i), dat3(i)
  6    continue
       SCALE6 = 0.D0
       RETURN

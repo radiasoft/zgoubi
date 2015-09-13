@@ -18,13 +18,13 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE SOLBAX(XL,BOSQ,RO2,X,
-     >                                BX)
+      SUBROUTINE SOLBAX(XL,BO2,RO2,X,
+     >                               BX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*)
                 
@@ -40,40 +40,34 @@ C  -------
       V3 = V2*V
       SQV = SQRT(V)
       DV = 2.D0 * (X-XL)
-C------- BX(n)=-d(n-1)B/dX^(n-1)
-C        BX(1)=BOSQ * ( X/SQU - (X-XL)/SQV )
-        BX(1)=BOSQ * (
-     >x/Sqrt(ro2 + x**2) + (-x + xl)/Sqrt(ro2 + (x - xl)**2)
-     > )
+C----- BX(n)=-d(n-1)B/dX^(n-1)
+C      BX(1)=BO/2 * ( X/SQU - (X-XL)/SQV )
+      BX(1)=BO2 * (
+     >x/Sqrt(ro2 + x**2) + (-x + xl)/Sqrt(ro2 + (x - xl)**2) )
 
-        BX(2)=BOSQ * (
-     >ro2*((ro2 + x**2)**(-1.5) - (ro2 + (x - xl)**2)**(-1.5))
-     > )
+      BX(2)=BO2 * (
+     >ro2*((ro2 + x**2)**(-1.5) - (ro2 + (x - xl)**2)**(-1.5)) )
 
-        BX(3)=BOSQ * (
+      BX(3)=BO2 * (
      >ro2*((-3*x)/(ro2 + x**2)**2.5 + 
-     >(3*(x - xl))/(ro2 + (x - xl)**2)**2.5)
-     > )
+     >(3*(x - xl))/(ro2 + (x - xl)**2)**2.5) )
 
-        BX(4)=BOSQ * (
-     >  3*ro2*(4/(ro2 + x**2)**2.5 + 
+      BX(4)=BO2 * (
+     >3*ro2*(4/(ro2 + x**2)**2.5 + 
      >5*ro2*(-(ro2 + x**2)**(-3.5) + (ro2 + (x - xl)**2)**(-3.5)) - 
-     >4/(ro2 + (x - xl)**2)**2.5)
-     > )
+     >4/(ro2 + (x - xl)**2)**2.5) )
 
-        BX(5)=BOSQ * (
-     >   3*ro2*((-20*x)/(ro2 + x**2)**3.5 + 
-     >    (20*(x - xl))/(ro2 + (x - xl)**2)**3.5 + 
-     >    5*ro2*((7*x)/(ro2 + x**2)**4.5 + 
-     >       (-7*x + 7*xl)/(ro2 + (x - xl)**2)**4.5))
-     > )
+      BX(5)=BO2 * (
+     > 3*ro2*((-20*x)/(ro2 + x**2)**3.5 + 
+     >  (20*(x - xl))/(ro2 + (x - xl)**2)**3.5 + 
+     >  5*ro2*((7*x)/(ro2 + x**2)**4.5 + 
+     >     (-7*x + 7*xl)/(ro2 + (x - xl)**2)**4.5)) )
 
-        BX(6)= BOSQ * (
+        BX(6)= BO2 * (
      >45*ro2*(8/(ro2 + x**2)**3.5 + 
      >21*ro2**2*((ro2 + x**2)**(-5.5) - (ro2 + (x - xl)**2)**(-5.5)) + 
      >28*ro2*(-(ro2 + x**2)**(-4.5) + (ro2 + (x - xl)**2)**(-4.5)) - 
-     >8/(ro2 + (x - xl)**2)**3.5)
-     > )
+     >8/(ro2 + (x - xl)**2)**3.5) )
 
       RETURN
       END

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  25 JUN 2015 08:01
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  2 SEP 2015 10:46
 entering extended mode
  %&-line parsing enabled.
 **Zgoubi
@@ -407,38 +407,45 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [26]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \vbox (6.82695pt too high) has occurred while \output is active []
 
 
 [27]
-Underfull \vbox (badness 1655) has occurred while \output is active []
-
-
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [28]
+Underfull \vbox (badness 1655) has occurred while \output is active []
+
+
 Overfull \vbox (6.82695pt too high) has occurred while \output is active []
 
 
 [29]
-File: Fig4.ps Graphic file (type eps)
- <Fig4.ps>
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [30]
+File: Fig4.ps Graphic file (type eps)
+ <Fig4.ps>
 Overfull \vbox (6.82695pt too high) has occurred while \output is active []
 
 
-[31] [32
-
-]
+[31]
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
-[33]
-Overfull \hbox (6.32796pt too wide) in paragraph at lines 1514--1516
+[32]
+Overfull \vbox (3.97462pt too high) has occurred while \output is active []
+
+
+[33
+
+]
+Overfull \hbox (6.32796pt too wide) in paragraph at lines 1513--1515
 \OT1/ptm/m/n/12 The in-ter-est of that for-mu-la-tion is that the $[][]$ are al
 -ready known from the par-ti-cle dy-nam-ics, eq. (1.2.21[]),
  []
@@ -471,7 +478,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [38]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1746.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1745.
 File: NewFig5.ps Graphic file (type eps)
  <NewFig5.ps>
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -502,7 +509,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 ] [44
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 2026
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 2025
 .
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -527,7 +534,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [48]
-Overfull \hbox (1.79253pt too wide) in paragraph at lines 2273--2275
+Overfull \hbox (1.79253pt too wide) in paragraph at lines 2272--2274
 \OT1/ptm/m/n/12 In this op-tion rel-a-tive rigidi-ties will be clas-si-fied au-
 to-mat-i-cally in view of pos-si-ble fur-ther use of $[]\OT1/cmr/m/n/12 [\OML/c
 mm/m/it/12 Z\OT1/cmr/m/n/12 ]$[]
@@ -545,7 +552,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [50]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 2522.
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 2521.
 
 
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -565,7 +572,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [54]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sl' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 2767.
+(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 2766.
 
 
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -584,12 +591,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [58]
-Underfull \hbox (badness 10000) in paragraph at lines 3040--3048
+Underfull \hbox (badness 10000) in paragraph at lines 3039--3047
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3040--3048
+Underfull \hbox (badness 10000) in paragraph at lines 3039--3047
 
  []
 
@@ -598,7 +605,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [59]
-Overfull \hbox (15.78796pt too wide) in paragraph at lines 3095--3137
+Overfull \hbox (15.78796pt too wide) in paragraph at lines 3094--3136
  [] 
  []
 
@@ -617,10 +624,10 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sl' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 3262.
+(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 3261.
 
 
-Overfull \hbox (9.30312pt too wide) in paragraph at lines 3257--3365
+Overfull \hbox (9.30312pt too wide) in paragraph at lines 3256--3364
  [] 
  []
 
@@ -633,7 +640,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [63]
-Overfull \hbox (1.44649pt too wide) in paragraph at lines 3583--3585
+Overfull \hbox (1.44649pt too wide) in paragraph at lines 3582--3584
 \OT1/ptm/m/n/12 An ex-am-ple us-ing all five op-tions, ``no-fi-nal'', ``save [F
 ile-Name]'', ``penalty'' and ``ITER'', is given in page 224[]. 
  []
@@ -647,7 +654,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [65]
-Underfull \hbox (badness 10000) in paragraph at lines 3617--3619
+Underfull \hbox (badness 10000) in paragraph at lines 3616--3618
 
  []
 
@@ -658,7 +665,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [66]
 File: Fig6.eps Graphic file (type eps)
  <Fig6.eps>
-Overfull \hbox (12.79999pt too wide) in paragraph at lines 3769--3777
+Overfull \hbox (12.79999pt too wide) in paragraph at lines 3768--3776
 [][]
  []
 
@@ -671,7 +678,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [68]
-Overfull \hbox (5.77641pt too wide) in paragraph at lines 3840--3842
+Overfull \hbox (5.77641pt too wide) in paragraph at lines 3839--3841
 \OT1/ptm/m/n/12 IF \OT1/ptm/m/sl/12 KOPT=1 \OT1/ptm/m/n/12 : Will trans-port th
 e op-ti-cal func-tions with ini-tial val-ues as spec-i-fied in \OT1/ptm/m/sl/12
  OB-JET\OT1/ptm/m/n/12 , op-tion \OT1/ptm/m/sl/12 KOBJ=5.1\OT1/ptm/m/n/12 . 
@@ -793,7 +800,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [92]
-Overfull \hbox (6.82121pt too wide) in paragraph at lines 4929--4931
+Overfull \hbox (6.82121pt too wide) in paragraph at lines 4928--4930
 \OT1/ptm/m/n/12 Upon op-tion us-ing \OT1/ptm/m/sl/12 SP-N-TRK\OT1/ptm/m/n/12 , 
 \OT1/ptm/m/sl/12 BEAM-BEAM \OT1/ptm/m/n/12 will in-clude spin kicks, af-ter mod
 -elling as de-scribed in Ref. [[]]. 
@@ -832,7 +839,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [99]
-Overfull \hbox (3.01184pt too wide) in paragraph at lines 5327--5330
+Overfull \hbox (3.01184pt too wide) in paragraph at lines 5332--5335
 \OT1/ptm/b/n/12 If $[]$ : \OT1/ptm/m/n/12 fixed fre-quency RF, quasi- or isochr
 onous ac-cel-er-a-tion. Was first used for quasi-isochronous,
  []
@@ -847,32 +854,32 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [101]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sl' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 5448.
+(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 5453.
 
 
-Overfull \hbox (54.7685pt too wide) in paragraph at lines 5464--5464
+Overfull \hbox (54.7685pt too wide) in paragraph at lines 5469--5469
 [] 
  []
 
 File: FigCHAREFa.eps Graphic file (type eps)
 <FigCHAREFa.eps>
-Overfull \hbox (5.45042pt too wide) in paragraph at lines 5455--5470
+Overfull \hbox (5.45042pt too wide) in paragraph at lines 5460--5475
 []$[]$ $[]$ 
  []
 
 
-Overfull \hbox (7.2802pt too wide) in paragraph at lines 5532--5532
+Overfull \hbox (7.2802pt too wide) in paragraph at lines 5537--5537
 []\OT1/pcr/m/n/8 'MULTIPOL'       ! Combined function dipole + quadrupole.[] 
  []
 
 
-Overfull \hbox (7.2802pt too wide) in paragraph at lines 5532--5532
+Overfull \hbox (7.2802pt too wide) in paragraph at lines 5537--5537
 []\OT1/pcr/m/n/8 0. -1. -6.34165           ! 1/ Y-shift, 2/ half Z-rotate.[] 
  []
 
 File: FigCHAREFb.eps Graphic file (type eps)
 <FigCHAREFb.eps>
-Overfull \hbox (30.0pt too wide) in paragraph at lines 5495--5542
+Overfull \hbox (30.0pt too wide) in paragraph at lines 5500--5547
 []$[]$ 
  []
 
@@ -881,7 +888,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [102]
-Overfull \hbox (30.0pt too wide) in paragraph at lines 5555--5591
+Overfull \hbox (30.0pt too wide) in paragraph at lines 5560--5596
 []$[]$ 
  []
 
@@ -934,7 +941,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [112]
-Overfull \hbox (3.2538pt too wide) in paragraph at lines 6276--6285
+Overfull \hbox (3.2538pt too wide) in paragraph at lines 6281--6290
 \OT1/ptm/m/n/12 These in-gre-di-ents al-low cal-cu-lat-ing the deriva-tives $[]
  \OML/cmm/m/it/12 ;$ $  [] ;$ $  [] ;$ $  [] ;$
  []
@@ -987,7 +994,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [120]
 File: Fig21.ps Graphic file (type eps)
  <Fig21.ps>
-Underfull \hbox (badness 3312) in paragraph at lines 6710--6710
+Underfull \hbox (badness 3312) in paragraph at lines 6715--6715
 [][]\OT1/ptm/m/n/12 An elec-tric mul-ti-pole com-bin-ing skew-quadrupole $\OT1/
 cmr/m/n/12 ([]2 \OMS/cmsy/m/n/12 6\OT1/cmr/m/n/12 =
  []
@@ -1087,7 +1094,7 @@ File: Fig26.ps Graphic file (type eps)
  <Fig26.ps>
 File: Fig27.ps Graphic file (type eps)
  <Fig27.ps>
-Underfull \hbox (badness 2334) in paragraph at lines 7476--7476
+Underfull \hbox (badness 2334) in paragraph at lines 7481--7481
 \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 OX\OT1/cmr/m/n/12 )$ \OT1/ptm/m/n/12 is the l
 on-gi-tu-di-nal axis of the ref-er-ence frame
  []
@@ -1119,7 +1126,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [143]
-Overfull \vbox (33.31989pt too high) detected at line 7777
+Overfull \vbox (33.31989pt too high) detected at line 7787
  []
 
 
@@ -1173,7 +1180,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [154]
-Overfull \hbox (0.50949pt too wide) in paragraph at lines 8168--8171
+Overfull \hbox (0.50949pt too wide) in paragraph at lines 8178--8181
 \OT1/ptm/m/n/12 This is achieved by giv-ing the stor-age file a name of the for
 m \OT1/ptm/m/sl/12 b[]FNAME \OT1/ptm/m/n/12 or \OT1/ptm/m/sl/12 B[]FNAME \OT1/p
 tm/m/n/12 (\OT1/ptm/m/it/12 e.g.\OT1/ptm/m/n/12 , `b[]zgoubi.fai').
@@ -1229,7 +1236,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [163]
-Overfull \hbox (4.63759pt too wide) in paragraph at lines 8596--8599
+Overfull \hbox (4.63759pt too wide) in paragraph at lines 8606--8609
 \OT1/ptm/m/n/12 This is achieved by giv-ing the stor-age file a name of the for
 m \OT1/ptm/m/sl/12 b[]FNAME \OT1/ptm/m/n/12 or \OT1/ptm/m/sl/12 B[]FNAME \OT1/p
 tm/m/n/12 (\OT1/ptm/m/it/12 e.g.\OT1/ptm/m/n/12 , `b[]zgoubi.spn').
@@ -1266,7 +1273,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [169]
-Overfull \hbox (17.84247pt too wide) in paragraph at lines 8922--8929
+Overfull \hbox (17.84247pt too wide) in paragraph at lines 8932--8939
 \OT1/ptm/m/sl/12 CHANGREF( $[]$, $[]$, $[]$) \OT1/ptm/m/n/12 up-stream of the o
 p-ti-cal el-e-ment, fol-lowed by \OT1/ptm/m/sl/12 CHANGREF($[]$,$[]$,$[] \OT1/c
 mr/m/n/12 =
@@ -1305,9 +1312,9 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [172]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9115.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9125.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9115.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9125.
 )
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
@@ -2182,12 +2189,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [256]
-Underfull \hbox (badness 10000) in paragraph at lines 3863--3864
+Underfull \hbox (badness 10000) in paragraph at lines 3862--3863
 
  []
 
 
-Overfull \hbox (11.41747pt too wide) in paragraph at lines 3880--3985
+Overfull \hbox (11.41747pt too wide) in paragraph at lines 3879--3984
 []$[]$  $[]$ 
  []
 
@@ -2272,18 +2279,18 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [270]
-Underfull \hbox (badness 10000) in paragraph at lines 4408--4409
+Underfull \hbox (badness 10000) in paragraph at lines 4410--4411
 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4527--4527
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4529--4529
 []\OT1/pcr/m/n/5 -1                  3                      13  3E-20   14 -1.4
 73595E-03 15  8.01942[] 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4527--4527
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4529--4529
 []\OT1/pcr/m/n/5 -1                  3                      13  9E-20   14 -1.0
 11857E-03 15 -1.70597[] 
  []
@@ -3136,12 +3143,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 ### simple group (level 1) entered at line 3410 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 2532 strings out of 493849
- 27588 string characters out of 1152846
- 135146 words of memory out of 3000000
- 5637 multiletter control sequences out of 15000+50000
+ 2533 strings out of 493849
+ 27596 string characters out of 1152846
+ 135161 words of memory out of 3000000
+ 5638 multiletter control sequences out of 15000+50000
  33685 words of font info for 88 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  29i,15n,28p,958b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Zgoubi.dvi (312 pages, 872912 bytes).
+Output written on Zgoubi.dvi (312 pages, 873596 bytes).

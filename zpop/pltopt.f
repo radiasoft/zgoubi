@@ -126,7 +126,7 @@ C-------- Axes  ( Full <-> Proportional)
      >                                          '') : '')') KKEX
         READ(5,*,ERR=51) KKEX
  52     WRITE(6,FMT='(
-     >  '' Tag filter (P[-rimary]/S[-econdary]/*[any] ; '',
+     >  '' Tag filter (P[-rimary] / S[-econdary] / * [any] ; '',
      >  ''now : '',A1,'') : '' )')  KLET
         READ(5,FMT='(A1)',ERR=52) KLET
         IF(KLET.NE.'P' .AND. KLET.NE.'S' .AND. KLET.NE.'*') GOTO 52

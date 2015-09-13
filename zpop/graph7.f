@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
 CDECK GRAPH1 
       SUBROUTINE GRAPH7(NLOG,LM,NOMFIC,wrkDir)
@@ -229,23 +229,23 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,ITWO)
           IOP=5
         ENDIF
         IF(TYLAB(KX,KY)) THEN
-                  RSNPT0=RSNPT
- 75               CONTINUE      
-                  WRITE(6,FMT='(/,
-     >              ''  Plot synoptic ? ('',A1,''/'',A1,'') : ''
-     >              )') RSNPT,RSNPT2
-                  READ(5,FMT='(A1)',ERR=75) RSNPT
-                  IF(RSNPT.EQ.'n') RSNPT='N'
-                  IF(RSNPT.EQ.'y') RSNPT='Y'
-                  IF(RSNPT.NE.RSNPT2) THEN
-                    RSNPT=RSNPT0
-                  ELSE
-                    IF(RSNPT2.EQ.'Y') THEN
-                      RSNPT2='N'
-                    ELSE
-                      RSNPT2='Y'
-                    ENDIF
-                  ENDIF
+          RSNPT0=RSNPT
+ 75       CONTINUE      
+          WRITE(6,FMT='(/,
+     >    ''  Plot synoptic ? ('',A1,''/'',A1,'') : ''
+     >    )') RSNPT,RSNPT2
+          READ(5,FMT='(A1)',ERR=75) RSNPT
+          IF(RSNPT.EQ.'n') RSNPT='N'
+          IF(RSNPT.EQ.'y') RSNPT='Y'
+          IF(RSNPT.NE.RSNPT2) THEN
+            RSNPT=RSNPT0
+          ELSE
+            IF(RSNPT2.EQ.'Y') THEN
+              RSNPT2='N'
+            ELSE
+              RSNPT2='Y'
+            ENDIF
+          ENDIF
           IF(RSNPT.EQ.'Y') THEN
             CALL OPNMN(IOP,
      >                     NL,OKOPN,CHANGE,NOMFIC)
@@ -309,21 +309,21 @@ C              CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,ITWO)
                 OK23=((KX.EQ.2  .AND. KY.EQ.3)  .OR.
 C                    xxp phase-space
      >               (KX.EQ.12 .AND. KY.EQ.13) .OR.
-C                    xxp initial phase-space
+C                    xxp_o initial phase-space
      >               (KX.EQ.4  .AND. KY.EQ.5)  .OR.
 C                    zzp initial phase-space
      >               (KX.EQ.14 .AND. KY.EQ.15) .OR.    
-C                    xxp initial phase-space
+C                    zzp_0 initial phase-space
      >              ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
      >                     (KY.EQ.1 .OR. KY.EQ.19 .OR. KY.EQ.20)) .OR.     
-C                   s/time/phase-dp/Ekin  phase-space
+C                   dp/Ekin vs. s/time/phase 
      >              ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
      >                     (KY.EQ.11 .OR. KY.EQ.19 .OR. KY.EQ.20 )))
-C                   s/time/phase-dp/Ekin initial phase-space
+C                   initial dp/Ekin vs. s/time/phase
                 OK24=((KX.EQ.2  .AND. KY.EQ.4)  .OR.
-C                      YZ cross section
+C                      Y-Z cross section
      >               (KX.EQ.12 .AND. KY.EQ.14))
-C                      Y_oZ_o cross section
+C                      Y_o-Z_o cross section
                 IF(KX.LT.10 .OR. KX.EQ.18) THEN
                   KPS=1
                 ELSE
@@ -348,8 +348,9 @@ C                      Y_oZ_o cross section
                       RLIPS2='Y'
                     ENDIF
                   ENDIF
-                  KLIPS = ( (OK23 .AND. (RLIPS.EQ.'Y')) 
-     >                .OR.  (OK24   .AND. (RLIPS.EQ.'Y'))  )
+                  KLIPS = ( (OK23   .AND.  (RLIPS.EQ.'Y')) 
+     >                .OR.  (OK24   .AND.  (RLIPS.EQ.'Y'))  
+     >                )
                   RHIST0=RHIST
  711              CONTINUE      
                   WRITE(6,FMT='(/,

@@ -54,7 +54,7 @@ C  -------
       SAVE SYNCH_TIME
       DIMENSION KFM(MXSCL)
       
-      CHARACTER(9) SKAV(8)
+      CHARACTER(10) SKAV(12)
       DIMENSION DTI0(MXT)
       SAVE DTI0
 
@@ -66,10 +66,12 @@ C  -------
       SAVE DWS, PHS_PREV
 !     SR loss
       LOGICAL SRLOSS
+      PARAMETER (SQRT2 = SQRT(2.D0),SQRT8 = SQRT(8.D0), I0=0.D0)
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
-      DATA SKAV/'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
-     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.' /
+      DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
+     >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
+     >  ' ' , ' ' , 'eRHIClinac', 'SR + accel.' /
 
       DATA DTI0 / MXT*0.D0 /
 
@@ -82,6 +84,9 @@ C  -------
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
+
+      SRLOSS = .FALSE.
+      dwsr = 0.D0
 
       CALL SCALE9(
      >            KFM )
@@ -141,10 +146,8 @@ C----- P0, AM  are  in  MEV/c, /c^2
       QV = VLT*Q *1.D-6
  
 
-      GOTO(10,20,30,40,50,60,70,80) KCAV
-      IF(NRES .GT. 0) 
-     >         WRITE(NRES,*) ' SBR  CAVITE:  ERRONEOUS  INPUT  DATA'
-      RETURN 1
+      GOTO(10,20,30,40,50,60,70,80,77,110,21) KCAV
+      CALL ENDJOB(' Sbr cavite : No such option KCAV =',KCAV)
   
 C------------------------------------------- 
  10   CONTINUE
@@ -181,12 +184,42 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
-C--- Case SR loss
+C--- Case SR loss in storage ring (no acceleration)
       CALL SRLOS3(
      >            SRLOSS)
       IF(SRLOSS) WKS = WKS - DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
       WS = WKS + AM
+      GOTO 1
+
+C------------------------------------------- 
+C Works like 20 if no SR, or if SR in storage ring. Diff is allows SR with acceleration. 
+C It uses ph_s to accelerate (not for compensation of SR unlike 20) (so, ph_s=0 
+C in storage mode); ph_s is corrected for SR compensation : 
+C requires A(noel,22) = theoretical SR loss at first pass, then, SR loss assumes ~gamma^4 
+C dependence at subsequent passes. 
+ 21   CONTINUE
+      ORBL = AN10
+      HARM = AN11
+C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
+      IF(IPASS .EQ. 1) PS = P0
+      BTS = PS/SQRT(PS*PS+AM2)
+      DTS = ORBL / ( CL * BTS)
+      OMRF = 2.D0*PI*HARM / DTS
+      WKS = PS/BTS - AM
+      FREV = HARM/DTS
+C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
+      DWS = QV*SIN(PHS)
+      WKS = WKS + DWS
+      PS = SQRT(WKS*(WKS+2.D0*AM))
+      WS = WKS + AM
+C--- Case SR loss in storage ring (no acceleration)
+      CALL SRLOS3(
+     >            SRLOSS)
+      IF(SRLOSS) THEN
+        gg4 = ( ws / (ws-dws)   )**4
+        dwsr = a(noel,22) * gg4         
+      ENDIF
       GOTO 1
 
 C------------------------------------------- 
@@ -313,7 +346,6 @@ C      HN = AN12
       PS0 = SQRT((WS0+AM)**2 - AM2)
       BTS0 = PS0/SQRT(PS0*PS0+AM2)
 C     ... Conditions at cavity entrance 
-C        write(*,*) frev0,hn,SCALER(IPASS,NOEL,DTA1,DTA2,DTA3),ipass,noel
       OMRF = 2.D0*PI*FREV0*HN
 C     ... Synchronous conditions at cavity exit
       DWS = QV * SIN(PHS)
@@ -485,7 +517,6 @@ C Kin. energy, MeV
      >     TI, ti-dble(ipass)*dts, QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  71   CONTINUE
-
       GOTO 88
  
 
@@ -585,10 +616,10 @@ C Kin. energy, MeV
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
         DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
-        WRITE(NRES,120) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
- 120    FORMAT(1P, 
+ 220    FORMAT(1P, 
      >       /,20X,'Orbit  length           =',E15.4,' m',
      >       /,20X,'RF  harmonic            =',E15.4,
      >       /,20X,'Peak  voltage           =',E15.4,' V',
@@ -602,6 +633,9 @@ C Kin. energy, MeV
      >       /,20X,'dgamma/dt               =',E15.4,' /s '
      >       /,20X,'rho*dB/dt               =',E15.4,' T.m/s '
      >       )
+        IF(SRLOSS) WRITE(NRES,FMT='(1P,
+     >       /,20X,''SR loss compensation    ='',E19.8,'' MeV'')')
+     >       DWSR
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)
@@ -644,6 +678,7 @@ C DTI is the time it took since the last passage in CAVITE
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
         WF = WF1(I) + QV*SIN(PHAS(I))
+        if(srloss) wf = wf + dwsr
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
@@ -673,6 +708,116 @@ C        PH(I)=BLAG
  3    CONTINUE
       GOTO 88
 
+ 110  CONTINUE
+Cavite is modeled by Chambers style matrix, so accounting for transverse focusing.
+C After J.Rosenzweig, L.Serafini, Phys Rev E Vo. 49, Num 2, 1994.
+      CALL SCUMR(
+     >           DUM,SCUM,TCUM) 
+C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
+      cavL = AN10*1.d2     ! cavL in cm
+      FCAV = AN11          ! fcav in Hz
+      PH0 = AN21  ! normally pi/2 for e-linac
+      PS = P0
+      BTS = PS/SQRT(PS*PS+AM2)
+      HARM = 1.d0
+      DTS = SCUM*UNIT(5) / CL 
+      OMRF = 2.D0 * PI * FCAV
+ 
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,200) FCAV,cavl,QV,BORO,DTS,
+     >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
+ 200    FORMAT(
+     >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
+     >  /,20X,'        length                    =',   E15.6,' m',
+     >  /,20X,'Max energy  gain                  =',   E15.6,' MeV',
+     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       E15.6,' s',
+     >  /,20X,'Cumulated distance since origin   =',   E15.6,' m',
+     >  /,20X,'Cumulated   TOF      "     "      =',   E15.6,' s',
+     >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
+     >  /,20X,'         charge                   =',   E15.6,' C')
+      ENDIF
+
+      call ESL(I0,cavL/2.d0,1,imax)
+
+      DO I=1,IMAX
+        IF(IEX(I) .GE. -1) THEN 
+          TTA = F(3,I)*.001D0
+          PHI = F(5,I)*.001D0
+          P = P0*F(1,I)
+          PCP = P*COS(PHI)
+          PX = PCP * COS(TTA)
+          PY = PCP * SIN(TTA)
+          PZ = P * SIN(PHI)
+ 
+          AM2 = AMQ(1,I) * AMQ(1,I)
+          ENRG = SQRT(P*P + AM2)
+          WF1(I) = ENRG - AMQ(1,I)
+          BTA = P / ENRG
+C F(7,I) is time in mu_s. of course, TI is in s
+          TI = F(7,I) * UNIT(7) 
+          PHI = OMRF * TI + PH0    ! PH0 normally pi/2 for e-linac 
+C Phase, in [-pi,pi] interval
+          PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+          IF    (PHI .GT.  PI) THEN
+            PH(I) =PHI - 2.D0*PI
+          ELSEIF(PHI .LT. -PI) THEN
+            PH(I) =PHI + 2.D0*PI
+          ELSE
+            PH(I) =PHI 
+          ENDIF
+
+          DWF =  QV   !!!!!!!!!!!!!!!!!!!!!!* SIN(PH(I))
+          WF1(I) = WF1(I) + DWF
+          WF = WF1(I)
+
+C Kin. energy, MeV
+          DPR(I)=WF
+
+          P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
+             pxi = px
+          PX=SQRT( P*P -PY*PY-PZ*PZ)
+          F(1,I) = P / P0
+        
+c *****   quid du damping ?
+c        F(3,I) = ATAN2(PY,PX) / UNIT(2)
+c        F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
+
+          IF(OKIMP) 
+     >     WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
+     >     TI, ti-dble(ipass)*dts, QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
+     >     , dwf
+
+C Transverse
+C Angles satisfy :  
+C taking u_p = projected u on (X,Z) plane, taking phi_p = projected PHI, 
+C then u_p cos(phi_p) = u cos(P) cos(T), u_p sin(phi_p) = Z_p = u sin(P), 
+C hence tg(phi_p) = tg(PHI)/cos(T). 
+C However I assume paraxial conditions so that tg~angle and so phi_p=PHI.
+          eta = 1.d0
+          wi = wf+am-dwf
+          wf = wf+am
+          dw = dwf / CAVL   ! cavl in cm
+          alf = sqrt(eta / 8.d0) / cos(phi) * log(wf/wi)     ! phi should be wrt crest
+          calf = cos(alf)
+          salf = sin(alf)
+          r11 = calf - sqrt2*salf
+          r12 = sqrt8 * wi/dw * salf
+          r21 = -3.d0*dw/(sqrt8*wf) * salf
+          r22 = wi/wf * (calf + sqrt2*salf) 
+          temp = r11 * F(2,I) + r12 * F(3,I) 
+          f(3,I) = r21 * F(2,I) + r22 * F(3,I)
+          f(2,i) = temp 
+          temp = r11 * F(4,I) + r12 * F(5,I) 
+          f(5,I) = r21 * F(4,I) + r22 * F(5,I)
+          f(4,i) = temp 
+
+        ENDIF   
+      ENDDO
+
+      CALL ESL(I0,CAVL/2.D0,1,IMAX)
+
+      GOTO 88
+
  
  88   CONTINUE
       DPREF = PS / P0
@@ -683,6 +828,8 @@ C        PH(I)=BLAG
      >                          ' OPEN zgoubi.CAVITE.Out'
  101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
       RETURN
+
+ 77   RETURN
 
       ENTRY CAVIT1(
      >             DWSO)

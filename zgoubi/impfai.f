@@ -55,6 +55,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) TX1
       PARAMETER (TX1='''')
       SAVE BINARY
+      LOGICAL OPN
+      SAVE OPN
+      DATA OPN / .FALSE. /
 
       CALL FITSTA(5,FITING)
       IF(FITING) RETURN
@@ -117,7 +120,11 @@ CC---------------------------------------------------------------------
 
       ENTRY IMPFAW(FNAME,LBL,NLB)
 
-      IF(IPASS .EQ. 1) CALL OPEN2('FAISCN',NFAI,FNAME)
+C Bug found by Sam T, July 2015 : FAISTORE may come after REBELOTE and ipass>1
+C      IF(.NOT. OPN) INQUIRE(FILE=FNAME,OPENED=OPN)
+C      IF(IPASS .EQ. 1) CALL OPEN2('FAISCN',NFAI,FNAME)
+C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
+      CALL OPEN2('FAISCN',NFAI,FNAME)
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SRLOSS(IMAX,IPASS,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -34,8 +34,8 @@ C  -------
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
-      LOGICAL SCALE, SCALO
-      SAVE SCALE
+      LOGICAL SCLFLD, SCLFLO
+      SAVE SCLFLD
       CHARACTER(80) TXT
       INTEGER DEBSTR, FINSTR
       LOGICAL OKSR, OKSRO
@@ -77,7 +77,7 @@ C  -------
       ELSE
         TXT = ' ' 
       ENDIF
-      SCALE=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
+      SCLFLD=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
 
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 
@@ -85,7 +85,7 @@ C----- Set SR loss tracking
           IF(TA(NOEL,1).NE.'ALL' .AND. TA(NOEL,1).NE.'all') 
      >                                    WRITE(NRES,FMT='(20X,
      >           '' Accounted for only in '',A)') TA(NOEL,1)
-          IF(TA(NOEL,2).EQ.'SCALE') THEN
+          IF(SCLFLD) THEN
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will '',
      >      ''scale with energy lost in dipole fields'')')
           ELSE
@@ -127,8 +127,8 @@ C----- Set SR loss tracking
       RETURN
 
       ENTRY SRLOSR(
-     >             SCALO)
-      SCALO=SCALE
+     >             SCLFLO)
+      SCLFLO=SCLFLD
       RETURN
 
       ENTRY SRLOS3(

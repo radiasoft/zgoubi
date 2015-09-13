@@ -55,12 +55,12 @@ C----- Skew angle
       BM(6) = A(NOEL,11)
 C----- Field
       BM(1)  =A(NOEL,12)*SCAL
-      RADIUS  =A(NOEL,13)
+      GAP  =A(NOEL,13)
       AK1    =A(NOEL,14)*SCAL
       AK2   =A(NOEL,15)*SCAL
-      IF(RADIUS .NE. 0.D0) THEN
-        G1 = AK1/RADIUS
-        G2 = AK2/RADIUS**2
+      IF(GAP .NE. 0.D0) THEN
+        G1 = AK1/GAP
+        G2 = AK2/GAP**2
       ELSE
         G1 = 0.D0
         G2 = 0.D0
@@ -181,17 +181,17 @@ C------- Correction for exit wedge
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' BEND',XL,BORO/BM(1)*DEV,DEV*DEG,DEV
-     >       , RADIUS, G1, G2
+     >       , GAP, G1, G2
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
      >       //,15X, ' Length    = ',E14.6,' cm'
      >       ,/,15X, ' Arc length    = ',E14.6,' cm'
      >       ,/,15X, ' Deviation    = ',E14.6,' deg.,  ',E14.6,' rad'
-     >       ,/,15X, ' Radius   = ',E14.6,' cm'
+     >       ,/,15X, ' GAP   = ',E14.6,' cm'
      >       ,/,15X, ' Gradient   = ',E14.6,' kG/cm'
      >       ,/,15X, ' Grad-prime   = ',E14.6,' kG/cm^2',/)
         WRITE(NRES,103) BM(1),BORO/BM(1)
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
-     >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')
+     >  /,15X, ' Reference curvature radius (Brho/B) = ',E14.6,' cm')
         WRITE(NRES,105) BM(6)
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
         IF(BM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 

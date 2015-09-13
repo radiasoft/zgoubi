@@ -113,7 +113,7 @@
   \item {\IC}, 169
   \item {\textsl{ID}}, \textbf{96}, \textbf{194}, \textbf{219}
   \item {\IDMAX}, 49, \textbf{49}
-  \item {\IEX}, 29, 50, \textbf{50}, 82, 96, 101, 105, 155, 164, 
+  \item {\IEX}, 30, 50, \textbf{50}, 82, 96, 101, 105, 155, 164, 
 		\textbf{173}
   \item {\IL}, 168
   \item IMAGE, 92, 156, \textbf{156}, \textbf{229}
@@ -126,7 +126,7 @@
   \item integration step size, 173
     \subitem coded, \textbf{173}
     \subitem negative, \textbf{68}, 168
-  \item IORDRE, 25, 27, 71, 91, 96, 110, 129, 130, 144
+  \item IORDRE, 25, 28, 71, 91, 96, 110, 129, 130, 144
 
   \indexspace
 
@@ -231,8 +231,7 @@
   \item storage files, 305
   \item synchrotron motion, 73, 76, 98, 196, 256, 259
   \item synchrotron radiation, 37, 306
-  \item synchrotron radiation energy loss, 267
-  \item synchrotron radiation loss, 81, 166
+  \item synchrotron radiation loss, 81, 99, 166, 267
   \item synchrotron radiation spectra, 82, 269
   \item SYNRAD, \textbf{82}, \textbf{269}
   \item SYSTEM, \textbf{83}, \textbf{270}

@@ -57,8 +57,11 @@ C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
           XLS= A(NOEL,21)
  
       RO2 = RO*RO
-      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
-      CALL SOLEN2(MODL,BOSQ,RO2)
+C      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
+C      CALL SOLEN2(MODL,BOSQ,RO2)
+C FM - July 2015
+      BO2 = BO /2.D0
+      CALL SOLEN2(MODL,BO2,RO2)
 
           IF(NRES.GT.0) THEN
             WRITE(NRES,100) LMNT(KUASEX),XL,RO
@@ -68,7 +71,8 @@ C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
             WRITE(NRES,103) 'CNTRL',BO,' kG'
  103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A6)
             WRITE(NRES,145) XE,XLS
- 145        FORMAT(20X,' XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
+ 145        FORMAT(15X,' Entrance and exit integration extents : '
+     >      //'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
             WRITE(NRES,FMT='(15X,'' MODL = '',I2,
      >      '' -> Solenoid model is '',A)') MODL,TYP(MODL)
           ENDIF

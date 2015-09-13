@@ -39,6 +39,7 @@ C     **************************
       CHARACTER(132) TXT132
       LOGICAL STRCON
       INTEGER DEBSTR
+      CHARACTER(30) STRA(3)
 
 C     ....IOPT -OPTION
 C      READ(NDAT,*) A(NOEL,1)
@@ -57,7 +58,15 @@ C      READ(NDAT,*) A(NOEL,1)
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
 C     ....Orbit length. (m), H -HARMONIQUE
       READ(NDAT,*) A(NOEL,10),A(NOEL,11)
-C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS)
-      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
+C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
+C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
+      READ(NDAT,FMT='(A)') TXT132      
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      CALL STRGET(TXT132,3
+     >                    ,MSTR,STRA)
+      DO I = 1, MSTR
+        READ(STRA(I),*) A(NOEL,19+I)
+      ENDDO
       RETURN
       END

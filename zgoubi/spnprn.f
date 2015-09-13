@@ -96,7 +96,9 @@ C------- store at ipass=1 & every ipass=multiple of KPR
 
       ENTRY SPNPRW(FNAME,LBL,NLB)
 
-      IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,FNAME)
+C FM July 2015. 
+C      IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,FNAME)
+      CALL OPEN2('SPNPRN',NSPN,FNAME)
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,

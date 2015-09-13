@@ -3816,8 +3816,7 @@ X_S $ translations.}
  \textsl{NPASS}\index{NPASS}, \textsl{KWRIT}, $K$\textsl{[.n]}, 
            \>NPASS~: Number of runs~; \textsl{KWRIT} = 1.1 (resp. 0.0)  switches   \>arbitrary~; 0-1~; \>3*I\\
  \textsl{[IOPT]},  \>(inhibits) \textsl{FORTRAN WRITE}s to .res and to screen~; \> 0, 99~; [1[.any]]\> 2A10 \\
- \textsl{[, Label1 [, Label2]]} \>(inhibits) \textsl{FORTRAN WRITE}s to .res and to screen~; \> 0-1~; 0, 22, 99 \> 2A10 \\
-        \> $K$  option~:  \>\> \\
+ \textsl{[, Label1 [, Label2]]} \> $K$  option~: \> 0-1~; 0, 22, 99 \> 2A10 \\
  \>$K=0$ : initial conditions (coordinates and spins\index{spin tracking}) \>\>\\
  \>are generated following the regular functioning \>\>\\
  \>of object definitions. If random generators are \>\>\\
@@ -3833,7 +3832,7 @@ X_S $ translations.}
  \> next to \textsl{REBELOTE}  and will be carried out down to \textsl{'END'}. \>\>\\
  \>\textsl{IOPT} is optional~: \> \> \\
  \> \textsl{IOPT = 1}~: will change the value of \textsl{NPRM} different parameters  \>\>\\
- \> in one or a series of optical elements, using the data list in the next line. \>\>\\
+ \> in one or more of optical elements, using the data list in the next line. \>\>\\
 \\
 \textbf{If IOPT = 1~\footnotemark[1]}          \>   \>         \>    \\[2ex]  \label{REBEL_IOPT}
 \textsl{NPRM},    \>  Number of parameters to be changed at each of the  NPASS passes. \>        \>  I  \\[1ex]
@@ -4030,9 +4029,11 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\
            \>$NT=-2$~:  RF law in \textsl{CAVITE} is  read from external data file.  \> \> \\
  \\
- $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single one, normally 1, if $NT=-1$).    \>relative \>NT*E\\
+ $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single one, normally 1, if $NT=-1$~;    \>relative \>NT*E\\
+                       \> any - unused - if      $NT=-2$).                       \>  \>  \\
  \\
- $TIM(I)$, $I=1$, $NT$ \>Corresponding timings, in units of turns (1 if $NT=-1$).  \>turn number \>NT*I \\
+ $TIM(I)$, $I=1$, $NT$ \>Corresponding timings, in units of turns (1 if $NT=-1$~;   \>turn number \>NT*I \\
+                       \> any - unused - if      $NT=-2$).                       \>  \>  \\
 % \>  Out of this range, the scaling factor is 1.
 \end{tabbing} 
 
@@ -4171,8 +4172,9 @@ $N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % $\IL$  \> $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \>0-2$[\times 10^n]$\>I\\
  \>\>\>\\
- $\XL$, $R_0 $, $B_0 $     \>Length~; radius~; asymptotic field (=$ \mu_0 NI/\XL $)  
-        \>2*cm, kG \>3*E \\
+ $\XL$, $R_0 $, $B_0 $  \textsl{[, MODL]}   \>Length~; radius~; asymptotic field (=$ \mu_0 NI/\XL $)~; \textsl{MODL=1}~: default,  \>2*cm, kG \>3*E \\
+     \>   $r$-extrapolation from on-axis field model, \textsl{MODL=2}~: elliptic    \> \> \\
+     \>   integrals method      \> \> \\
  \\
 $ X_E$, $X_S $        \>Entrance and exit integration zones \>2*cm\>2*E\\
  \\
@@ -4334,7 +4336,7 @@ and further away resumed using \textsl{KSO=~-1}.}
 \begin{tabbing}
 \mestab
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
-     \> \textbf{\SRLOSSTitl}\index{synchrotron radiation energy loss} \> \> \\
+     \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
  \\
 \textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.Out}       \> $0~or~1[.1]$  \> 2*I \\
 \\
@@ -4724,10 +4726,11 @@ $RX$, $RY$, $RZ$
   \\
   \\
  \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I1[.I1], 2*E \\
-         FacD, FacA    \> chromaticities / add computation of anharmonicities.    \> \>\\
+         FacD, FacA \textsl{[, coupled]}    \> chromaticities / add computation of anharmonicities.    \> \>\\
                           \> $KTW2=1$~: long write-up to zgoubi.res.            \> \>\\
                           \> $FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
-                          \> in OBJET~; $FacA$~: unused.             \> \>
+                          \> in OBJET~; $FacA$~: unused.             \> \> \\
+                          \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.   \>\>\\
 \end{tabbing}
 
 

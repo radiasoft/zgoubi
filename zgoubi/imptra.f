@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory                    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPTRA(IMAX1,IMAX2,NRES)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -44,7 +44,11 @@ C      LOGICAL ZSYM
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ) 
 
       DIMENSION SIG(4,4)
-      CHARACTER TXT*10, TXT2*2 
+      CHARACTER(5) TXT(3)
+      CHARACTER(10) UU(3)
+
+      DATA TXT / '(Y,T)', '(Z,P)', '(t,K)' /
+      DATA UU / '(cm,rd)', '(cm,rd)', '(mu_s,MeV)' /
 
       WRITE(NRES,100) IMAX2-IMAX1+1
  100  FORMAT('0',45X,'TRACE DU FAISCEAU',//,45X,I6,' TRAJECTOIRES',//
@@ -76,36 +80,46 @@ C 101    FORMAT(A1,1X,I2,1X,F8.4,5F10.3,5X,F8.4,4F9.3,1X,F12.4,1X,I6)
  1    CONTINUE
 
 Compute rms ellipse
-      WRITE(NRES,FMT='(//,''  Beam  characteristics '', 1X
-     >,'' (EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN) : '',/)')
-      TXT = 'B-Dim '
-      PI4 = 4.D0 *      4.D0 * ATAN(1.D0)
-      DO 10 JJ = 1, 3
+      WRITE(NRES,FMT='(//,A)') '------' 
+      WRITE(NRES,FMT='(''  Characteristics of concentration ellipse '',
+     >''(Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls'', 
+     >'' inside ellips, ratio, space, pass#) : '',/)')
+      PI = 4.D0 * ATAN(1.D0)
+      DO JJ = 1, 3
         CALL LPSFIT(JJ, 
      >                 EMIT,ALP,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
-        CALL CNTINL(JJ,PI4*EMIT,ALP,BET,XM,XPM,
+        CALL CNTINL(JJ,PI*EMIT,ALP,BET,XM,XPM,
      >                                        NLIV,NINL)
         RATIN = DBLE(NINL)/DBLE(IMAX)
-        WRITE(TXT2,FMT='(I1)') JJ
         WRITE(NRES,110)
-     >       PI4*EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN,TXT//TXT2,IPASS
- 110    FORMAT(1P,5(1X,G12.4),2I8,1X,G12.4,A,I6)
- 10   CONTINUE
+     >  PI*EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN,TXT(JJ),IPASS
+ 110    FORMAT(1P,3(1X,E12.4),2(1X,E14.6),2(1X,I8),1X,G12.4,2X,A,2X,I8)
+      ENDDO
+
+      DO JJ = 1, 3
+        CALL LPSFIT(JJ, 
+     >                 EMIT,ALP,BET,XM,XPM)
+        WRITE(NRES,fmt='(1P,/,A,2(/,5X,A,E14.6))') 
+     >  TXT(JJ)//'  space (units : '//UU(JJ)//') :  ',
+     >  ' sigma_'//TXT(JJ:JJ)(2:2)//' = sqrt(Surface/pi * BET) = ',
+     >  sqrt(emit * BET) ,
+     >  ' sigma_'//TXT(JJ)(4:4)//
+     >                   ' = sqrt(Surface/pi * (1+ALP^2)/BET) = ',
+     >  sqrt(emit * (1.d0+alp**2)/BET) 
+      ENDDO
 
 Compute 4-D sigma matrix
-      WRITE(NRES,FMT='(//,''  Beam  characteristics '', 1X
-     >,'' SIGMA(4,4) : '',/)')
+C      WRITE(NRES,FMT='(//,''  Beam  characteristics '', 1X
+C     >,'' SIGMA(4,4) : '',/)')
+      WRITE(NRES,FMT='(//,''  Beam  sigma  matrix : '',/)')
       CALL LPSFI4( 
      >             SQX,SQZ,SIG)
-
-      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' Ex, Ez =', SQX,SQZ
-      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpX, BetX =', 
-     >                  SIG(1,2)/SQX, SIG(1,1)/SQX
-      WRITE(NRES,fmt='(10X,1P,A,2E14.6)') ' AlpZ, BetZ =', 
-     >                  SIG(3,4)/SQZ, SIG(3,3)/SQX
       WRITE(NRES,120) ((SIG(I,J),J=1,4),I=1,4)
- 120  FORMAT(/,1P,4E14.6)
+ 120  FORMAT(1P,4(1X,E14.6))
+      WRITE(NRES,fmt='(/,5X,1P,A,2(2X,E14.6),3X,A)') 
+     >' sqrt(det_Y), sqrt(det_Z) : ', SQX, SQZ,
+     >' (Note :  sqrt(determinant) = ellipse surface / pi)'
 
       RETURN
       END

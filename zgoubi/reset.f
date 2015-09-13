@@ -131,5 +131,8 @@ C-----  structure length ------------
       CALL SCUMT(ZERO)
 C------------------------------------------------
 
+C SR loss -----------------------
+      CALL RAYSY4(IMAX)
+
       RETURN
       END

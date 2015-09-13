@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AUTORF
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -118,8 +118,12 @@ C         +++ IEX<-1 <=> Particule stoppee
           ENDIF
         ENDDO
         IF(NRES .GT. 0) THEN
+          WRITE(NRES,FMT='(1X,A)') ' First,  center  beam  on'
+     >    // ' Y=0,  T=0 : ' 
           WRITE(NRES,100) XC,YC,AA*DEG,AA
           WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
+          WRITE(NRES,FMT='(/,1X,A)') ' Then,  move  beam  to '
+     >    // ' new  centroid :'
         ENDIF
  
 C Then update to requested beam centering coordinates

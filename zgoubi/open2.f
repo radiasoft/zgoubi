@@ -44,145 +44,145 @@ C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
       CALL ZGTITR(
      >            TITRE)
  
-        NAMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-        INQUIRE(FILE=NAMFIC,ERR=98,OPENED=OPN,NUMBER=LN)
+      NAMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+      INQUIRE(FILE=NAMFIC,ERR=98,OPENED=OPN,NUMBER=LN)
 
-        BINARY=NAMFIC(1:2).EQ.'B_' .OR. NAMFIC(1:2).EQ. 'b_'
+      BINARY=NAMFIC(1:2).EQ.'B_' .OR. NAMFIC(1:2).EQ. 'b_'
         
-        IF(OPN) THEN
-           IF(NRES.GT.0)
-     >     WRITE(NRES,FMT='(/,5X,A,/,5X,'' already open...'')')NAMFIC
-           IF(LN .NE. LUN) CALL ENDJOB(
-     >       '*** Error, SBR OPEN2 -> mixing up output files !',-99)
-        ELSE
-          IF(IDLUNI(
-     >              LUN)) THEN
-            IF(.NOT.BINARY) THEN
-              OPEN(UNIT=LUN,FILE=NAMFIC,ERR=99)
-              CLOSE(UNIT=LUN,STATUS='DELETE')
-              OPEN(UNIT=LUN,FILE=NAMFIC,ERR=99)
-            ELSE
-              OPEN(UNIT=LUN,FILE=NAMFIC,FORM='UNFORMATTED',ERR=99)
-              CLOSE(UNIT=LUN,STATUS='DELETE')
-              OPEN(UNIT=LUN,FILE=NAMFIC,FORM='UNFORMATTED',ERR=99)
-            ENDIF
+      IF(OPN) THEN
+         IF(NRES.GT.0)
+     >   WRITE(NRES,FMT='(/,5X,A,/,5X,'' already open...'')')NAMFIC
+         IF(LN .NE. LUN) CALL ENDJOB(
+     >     '*** Error, SBR OPEN2 -> mixing up output files !',-99)
+      ELSE
+        IF(IDLUNI(
+     >            LUN)) THEN
+          IF(.NOT.BINARY) THEN
+            OPEN(UNIT=LUN,FILE=NAMFIC,ERR=99)
+            CLOSE(UNIT=LUN,STATUS='DELETE')
+            OPEN(UNIT=LUN,FILE=NAMFIC,ERR=99)
+          ELSE
+            OPEN(UNIT=LUN,FILE=NAMFIC,FORM='UNFORMATTED',ERR=99)
+            CLOSE(UNIT=LUN,STATUS='DELETE')
+            OPEN(UNIT=LUN,FILE=NAMFIC,FORM='UNFORMATTED',ERR=99)
           ENDIF
+        ENDIF
 
 C FM. Nov 2013. Re-arranged here for compatibilty wit OPTIONS[WRITE ON/OFF]
 C          IF(NRES .GT. 0) THEN
-          IF(IPASS .EQ. 1) THEN
-              IF(SBR .EQ. 'CHXC') TXT='TRAJECTORIES'
-              IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
-              IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
-              IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
-              IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
-              IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
-              IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
-              TXT80 = ' ' 
-              IF(SBR .EQ. 'SRPRN') WRITE(TXT80,FMT='(15X,
-     >        ''Particle #   Total # photons   Total E-loss (keV)'')')
-              CALL DATE2(DMY)
-              CALL TIME2(HMS)
-              IF(NRES .GT. 0) WRITE(NRES,100) NAMFIC,TXT
- 100          FORMAT(/,15X,' OPEN FILE ',A,/,15X,' FOR PRINTING ',A,/)
+C        IF(IPASS .EQ. 1) THEN
+          IF(SBR .EQ. 'CHXC') TXT='TRAJECTORIES'
+          IF(SBR .EQ. 'CHXP') TXT='TRAJECTORIES'
+          IF(SBR .EQ. 'FAISCN') TXT='COORDINATES'
+          IF(SBR .EQ. 'FMAPW') TXT='FIELD MAP'
+          IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
+          IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
+          IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
+          TXT80 = ' ' 
+          IF(SBR .EQ. 'SRPRN') WRITE(TXT80,FMT='(15X,
+     >    ''Particle #   Total # photons   Total E-loss (keV)'')')
+          CALL DATE2(DMY)
+          CALL TIME2(HMS)
+          IF(NRES .GT. 0) WRITE(NRES,100) NAMFIC,TXT
+ 100      FORMAT(/,15X,' OPEN FILE ',A,/,15X,' FOR PRINTING ',A,/)
 
 C            IF(IPASS .EQ. 1) THEN
 C------------- Write down a 4-line header
-              WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
-     >                                                  TXT,DMY,HMS
-              IF    (TXT.EQ.'TRAJECTORIES') THEN
-                TXTN80 = 
-     >          '#  1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
-     >          //'  11, 12,  13, 14, 15  , 16  , 17,  18 , 19 ,'
-     >          //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
-     >          //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
-     >          //'  37, 38 , 39 ,  40  , 41   , 42  ,'
-     >          //'   43  , 44    , 45    ,   46  '
-                TXTA80 = 
-     >          '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
-     >          //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
-     >          //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
-     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
-     >          //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
-     >          //'   KLEY, LABEL1, LABEL2,    LET'
-                TXTB80 = 
-     >          '# int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
-     >          //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
-     >          //'  int,   cm, cm, kG, kG, kG, float, float, float,'
-     >          //' float,float,float, float, float,float,float,float,'
-     >          //' V/m, V/m, V/m, kG.cm,   int,  int,'
-     >          //' string, string, string, string'
+          WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
+     >                                                TXT,DMY,HMS
+          IF    (TXT.EQ.'TRAJECTORIES') THEN
+            TXTN80 = 
+     >      '#  1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
+     >      //'  11, 12,  13, 14, 15  , 16  , 17,  18 , 19 ,'
+     >      //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
+     >      //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
+     >      //'  37, 38 , 39 ,  40  , 41   , 42  ,'
+     >      //'   43  , 44    , 45    ,   46  '
+            TXTA80 = 
+     >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
+     >      //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
+     >      //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
+     >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
+     >      //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
+     >      //'   KLEY, LABEL1, LABEL2,    LET'
+            TXTB80 = 
+     >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
+     >      //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
+     >      //'  int,   cm, cm, kG, kG, kG, float, float, float,'
+     >      //' float,float,float, float, float,float,float,float,'
+     >      //' V/m, V/m, V/m, kG.cm,   int,  int,'
+     >      //' string, string, string, string'
 
-              ELSEIF(TXT.EQ.'COORDINATES') THEN
-                TXTN80 = 
-     >          '#  1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
-     >          //'  11, 12,  13, 14, 15  ,'
-     >          //'   16 ,  17 ,  18 , 19   ,  20  ,  21 ,  22 ,  23 ,'
-     >          //'   24   ,  25  ,'
-     >          //'  26,  27 , 28  ,   29  ,30,  31  ,   32 , unused,'
-     >          //'   34 ,   35 ,'
-     >          //'    36,  37  , 38   , 39  ,  40   ,'
-     >          //'  41/lbl1, 42/lbl2,  43 '
-                TXTA80 = 
-     >          '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
-     >          //'   T,  Z,   P,  S, time,'
-     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
-     >          //'   ENEKI, ENERG,'
-     >          //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
-     >          //'   RET,   DPR,'
-     >          //'    PS,  BORO, IPASS, NOEL,   KLEY,'
-     >          //'  LABEL1, LABEL2,    LET'
-                TXTB80 = 
-     >          '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
-     >          //' mrd, cm, mrd, cm, mu_s,'
-     >          //' float,float,float, float, float,float,float,float,'
-     >          //'     MeV,   MeV,'
-     >          //' int,  int,   cm, MeV/c2, C, float, float,  float,'
-     >          //' float, float,'
-     >          //' float, kG.cm,   int,  int, string,'
-     >          //'  string, string, string'
+          ELSEIF(TXT.EQ.'COORDINATES') THEN
+            TXTN80 = 
+     >      '#  1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
+     >      //'  11, 12,  13, 14, 15  ,'
+     >      //'   16 ,  17 ,  18 , 19   ,  20  ,  21 ,  22 ,  23 ,'
+     >      //'   24   ,  25  ,'
+     >      //'  26,  27 , 28  ,   29  ,30,  31  ,   32 , unused,'
+     >      //'   34 ,   35 ,'
+     >      //'    36,  37  , 38   , 39  ,  40   ,'
+     >      //'  41/lbl1, 42/lbl2,  43 '
+            TXTA80 = 
+     >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
+     >      //'   T,  Z,   P,  S, time,'
+     >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
+     >      //'   ENEKI, ENERG,'
+     >      //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
+     >      //'   RET,   DPR,'
+     >      //'    PS,  BORO, IPASS, NOEL,   KLEY,'
+     >      //'  LABEL1, LABEL2,    LET'
+            TXTB80 = 
+     >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
+     >      //' mrd, cm, mrd, cm, mu_s,'
+     >      //' float,float,float, float, float,float,float,float,'
+     >      //'     MeV,   MeV,'
+     >      //' int,  int,   cm, MeV/c2, C, float, float,  float,'
+     >      //' float, float,'
+     >      //' float, kG.cm,   int,  int, string,'
+     >      //'  string, string, string'
 
-              ELSEIF(TXT.EQ.'SPIN DATA') THEN
-                TXTN80 = 
-     >          '#  1 ,'
-     >          //'   2  ,  3  ,  4  ,  5   ,  6   ,  7  ,  8  ,  9  ,'
-     >          //' 10, 11  , 12   , 13  , 14   , 15  ,'
-     >          //'  16   ,  17   ,  18   ,   19  '
-                TXTA80 = 
-     >          '# KEX,'
-     >          //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
-     >          //'  s, Ekin, Itraj, IMAX, IPASS, NOEL,'
-     >          //'   KLEY, LABEL1, LABEL2,    LET'
-                TXTB80 = 
-     >          '# int,'
-     >          //' float,float,float, float, float,float,float,float,'
-     >          //' cm,  MeV,   int,  int,   int,  int,'
-     >          //' string, string, string, string'
+          ELSEIF(TXT.EQ.'SPIN DATA') THEN
+            TXTN80 = 
+     >      '#  1 ,'
+     >      //'   2  ,  3  ,  4  ,  5   ,  6   ,  7  ,  8  ,  9  ,'
+     >      //' 10, 11  , 12   , 13  , 14   , 15  ,'
+     >      //'  16   ,  17   ,  18   ,   19  '
+            TXTA80 = 
+     >      '# KEX,'
+     >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
+     >      //'  s, Ekin, Itraj, IMAX, IPASS, NOEL,'
+     >      //'   KLEY, LABEL1, LABEL2,    LET'
+            TXTB80 = 
+     >      '# int,'
+     >      //' float,float,float, float, float,float,float,float,'
+     >      //' cm,  MeV,   int,  int,   int,  int,'
+     >      //' string, string, string, string'
 
-              ELSE
-                TXTN80 = '# ...'
-                TXTA80 = '# ...'
-                TXTB80 = '# ...'
-              ENDIF
-
-              IF(.NOT.BINARY) THEN
-                TXT80 = TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
-                WRITE(LUN,FMT='(A)') TXT80
-                WRITE(LUN,FMT='(A)') TXTN80
-                WRITE(LUN,FMT='(A)') TXTA80
-                WRITE(LUN,FMT='(A)') TXTB80
-              ELSE
-                TXT80=TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
-                WRITE(LUN) TXT80
-                WRITE(LUN) TXTN80
-                WRITE(LUN) TXTA80
-                WRITE(LUN) TXTB80
-              ENDIF
-
-            ENDIF ! ipass.eq.1
+          ELSE
+            TXTN80 = '# ...'
+            TXTA80 = '# ...'
+            TXTB80 = '# ...'
           ENDIF
 
-          IF(TXT.EQ.'TRAJECTORIES') CALL IMPPL2(BINARY)
+          IF(.NOT.BINARY) THEN
+            TXT80 = TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
+            WRITE(LUN,FMT='(A)') TXT80
+            WRITE(LUN,FMT='(A)') TXTN80
+            WRITE(LUN,FMT='(A)') TXTA80
+            WRITE(LUN,FMT='(A)') TXTB80
+          ELSE
+            TXT80=TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
+            WRITE(LUN) TXT80
+            WRITE(LUN) TXTN80
+            WRITE(LUN) TXTA80
+            WRITE(LUN) TXTB80
+          ENDIF
+
+C        ENDIF ! ipass.eq.1
+      ENDIF
+
+      IF(TXT.EQ.'TRAJECTORIES') CALL IMPPL2(BINARY)
 
 C        ENDIF
 C------- OPN

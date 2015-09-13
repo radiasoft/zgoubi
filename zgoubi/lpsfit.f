@@ -56,9 +56,9 @@ C--------- Time-momentum
           X   = F(J1,I)*UNIT1
           XP  = F(J2,I)*UNIT2
           IF(J2.EQ.1) THEN
-C--------- To get kineticE
-              P = BORO*CL9 *XP * AMQ(2,I)
-              XP= SQRT(P*P + AMQ(1,I)*AMQ(1,I))- AMQ(1,I)
+C----------- Get kineticE
+            P = BORO*CL9 *XP * AMQ(2,I)
+            XP= SQRT(P*P + AMQ(1,I)*AMQ(1,I))- AMQ(1,I)
           ENDIF
           XM  = XM + X
           XPM = XPM + XP
@@ -87,9 +87,9 @@ C--------- Time-momentum
           X   = F(J1,I)*UNIT1
           XP  = F(J2,I)*UNIT2
           IF(J2.EQ.1) THEN
-C--------- To get kineticE
-              P = BORO*CL9 *XP * AMQ(2,I)
-              XP= SQRT(P*P + AMQ(1,I)*AMQ(1,I))- AMQ(1,I)
+C----------- Get kineticE
+            P = BORO*CL9 *XP * AMQ(2,I)
+            XP= SQRT(P*P + AMQ(1,I)*AMQ(1,I))- AMQ(1,I)
           ENDIF
           X2  = X2 + (X-YM)**2
           XP2 = XP2 + (XP-YPM)**2
@@ -114,6 +114,9 @@ C Eps=ellipse surface
         IF(SQ .GT. 0.D0) THEN
           B=  X2/SQ
           A=  -XXP/SQ
+        ELSE
+          B=  1.D0
+          A=  0.D0
         ENDIF
 
       RETURN

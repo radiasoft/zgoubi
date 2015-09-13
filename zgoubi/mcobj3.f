@@ -89,6 +89,7 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
         IR1=(IR1/2)*2+1
         IR2=(IR2/2)*2+1
         IR3 =(IR3 /2)*2+1
+        CALL RNDM2(IR1)
       ENDIF
  
       IF(NRES.GT.0) THEN

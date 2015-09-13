@@ -20,7 +20,7 @@ C
 C  Francois Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SCALIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -85,11 +85,6 @@ c        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
 C FM July 2014. For compatibility with combined FIT+REBELOTE
         NP = NP + 1
         NTIM(IF) = NINT(A(NOEL,NP))
-C           write(*,*) ' scalin np NINT(A(NOEL,NP)) ',
-C     >              np,A(NOEL,NP),NINT(A(NOEL,NP))
-C                pause
-c        IF(NTIM(IF).NE. -1) NP = NP - 1
-C---
  
         IF(NRES .GT. 0) THEN
           NLF = 0
@@ -139,10 +134,6 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
             DO IT = 1, NTIM(IF)
                SCL(IF,IT,1) = A(NOEL,NP+IT-1)
                TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
-C               write(*,*) ' scalin if, itim/ntim : ',if, it,'/',NTIM(IF)
-C               write(*,*) ' scalin np, scl : ',NP+IT-1,SCL(IF,IT,1)
-C               write(*,*) ' scalin np, tim : ',NP+NTIM(IF)+IT-1
-C     >                      ,TIM(IF,IT)
             ENDDO
             NP = NP +  2 * NTIM(IF)
  
@@ -434,11 +425,6 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
      >//'for opening file','zgoubi.freqLaw.In','.  Check pgm scalin.'
       CALL ENDJOB('Pgm scalin. Leaving.',-99)
       RETURN
- 
-C      ENTRY SCALI4(
-C     >             NTIM2I,JF)
-C      NTIM2(JF) = NTIM2I(JF)
-C      RETURN
  
       ENTRY SCALI4(
      >             SCL2I,TIM2I,NTIM2I,JF)

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RAYSYN(DS,IT,IMAX,QT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -132,7 +132,7 @@ C----- Correction to particle rigidity
 
       ENTRY RAYSY1(IMAX,IRAI)
       IRA=IRAI
-      seed = rndm2(ira)
+      SEED = RNDM2(IRA)
 C      DXSPLI=(X(NSPLIN)-X(1))
       DXSPLI=X(NSPLIN)
       CLQE=CL/QE
@@ -191,18 +191,28 @@ C        PP = BORO*CL*1.D-9*Q
      >  '' particle, per step :'',1P,T65,g15.7)') TTPHOT/XSTEP
       ENDIF
 
-      if(ipass.eq.1 .or. 10*(ipass/10) .eq. ipass ) then 
+      IF(IPASS.EQ.1 .OR. 10*(IPASS/10) .EQ. IPASS ) THEN 
         WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
      >  1P,I8,
      >  T60, 4(g15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
      >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
      >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
      >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
-        call FLUSH2(88,.false.)
-      endif
+        CALL FLUSH2(88,.FALSE.)
+      ENDIF
       RETURN
 
       ENTRY RAYSY3(TYPMAGI)
       TYPMAG=TYPMAGI
       RETURN
+
+      ENTRY RAYSY4(IMX)
+C To be installed
+C      CALL RAZ(TPHOT,IMX)
+C      CALL RAZ(TLOSS,IMX)
+C      TL2=0.D0
+C      NSTEP=0
+C      ECMEAN=0.D0
+      RETURN
       END
+ 

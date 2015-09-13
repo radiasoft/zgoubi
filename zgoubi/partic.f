@@ -72,7 +72,7 @@ c           stop
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
  
-      DO 10 I=1,IMAX
+      DO I=1,IMAX
          IF (.NOT.AMQLU(1)) THEN
             IF(NM.EQ.1) THEN
                AMQ(1,I) = AM
@@ -88,10 +88,10 @@ c           stop
          IF (.NOT.AMQLU(3)) AMQ(3,I) = G
          IF (.NOT.AMQLU(4)) AMQ(4,I) = TO
          IF (PABSLU) F(1,I) = DP0(I)/Q
- 10   CONTINUE
+      ENDDO
 
 C----- Set time at OBJET
-      DO 11 I=1,IMAX
+      DO I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
 C Err. Corr. Franck, Nov. 05
 C          P = BORO*CL9*AMQ(2,I)
@@ -100,14 +100,15 @@ C          P = BORO*CL9*AMQ(2,I)
           TIM = F(6,I)*UNIT(5) / (BTA * CL)
           F(7,I) = TIM / UNIT(7)          
           FO(7,I) = F(7,I) 
-        ENDIF
+C                write(*,*) Fo(6,I),F(6,I),F(7,I),' partic '
 C        IF(CODE(1:11) .EQ. 'MASS_CODE_1') THEN
 C          IF(I .LE. IMAX/2) THEN
 C          ELSE
 CC            F(1,I) = F(1,I) * AM2/AM
 C          ENDIF
 C        ENDIF        
- 11   CONTINUE
+        ENDIF
+      ENDDO
 
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,T6,''Particle  properties :'',/)')       
@@ -150,14 +151,14 @@ C        ENDIF
         ENDIF
 
       WRITE(NRES,*) ' '
-      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time :'
+      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time, s :'
       WRITE(NRES,*) ' '
       DO I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
           P = BORO*CL9*Q * F(1,I)
           BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
-          WRITE(NRES,FMT='(I6,1X,1P,5E16.8)') 
-     >       I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I)
+          WRITE(NRES,FMT='(I6,1X,1P,6E16.8)') 
+     >       I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I),F(6,I)
         ENDIF
       ENDDO
 

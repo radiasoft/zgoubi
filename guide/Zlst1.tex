@@ -879,18 +879,17 @@ Z^k}$ ($i+j+k= 0 \text{ to } 4$) in the case of
 	V_n(X,Y,Z)=(n!)^2 
 	  \left( \sum^{ \infty}_{ q=0}(-1)^q \,
 	        \dfrac{G^{(2q)}(X)(Y^2+Z^2)^q }{ 4^q q!(n+q)!} \right) 
-	  \left( \sum^ n_{m=0}\dfrac{sin \left(m \dfrac{\pi }{ 2} \right) Y^{n-m} Z^m }{ m!(n-m)!} \right) 
+	  \left( \sum^ n_{m=0}\dfrac{\sin \left(m \dfrac{\pi }{ 2} \right) Y^{n-m} Z^m }{ m!(n-m)!} \right) 
 	\label{eq2-3-5}
 \end{equation}
-
- where $ G(X) $ is the longitudinal gradient, defined at the entrance 
+%
+ where $ G(X) $ is a longitudinal form factor, defined at the entrance 
  or exit of the optical element by
-
  \begin{equation}
 	 G(s) = \dfrac{G_0 }{ 1+ \exp(P(s))} , \quad G_0 = \dfrac{B_0 }{R^{n-1}_0} 
  	\label{eq2-3-6}
  \end{equation}
-wherein 
+wherein $B_0$ is the field at pole tip radius $R_0$, and 
 $$ P(s) = C_0
 	       +C_1 \left(  \dfrac{s }{ \lambda} \right) 
 	       +C_2 \left( \dfrac{s }{ \lambda} \right)^2 
@@ -5305,6 +5304,12 @@ where the synchronous phase $ \phi_ s $ is given in the input data.
 From this, the calculation of the law $ (\Br )_s $ and the RF frequency 
 $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =  1} case. 
 
+\medskip
+
+\index{synchrotron radiation loss}
+\noindent \textsl{IOPT  =  2} can be used for SR loss compensation in \textsl{storage ring} mode. In that case 
+$ \phi_ s $ should be given  the appropriate value for compensation for SR induced energy loss. 
+
 \bigskip
 
 \noindent\textbf{If $\mathbf{IOPT  =  3}$~:} sine RF law, acceleration without synchrotron motion. 
@@ -7606,7 +7611,9 @@ $X_E $ at the entrance, and $ X_S $ at the exit (Fig.~\ref{fig30}).
 \noindent Two methods are available for the computation of the field $ \vec  B(X,r)$ and its derivatives. 
 
 
-\noindent Method~1~:   $ \vec  B(X,r)$, $r=(Y^2+Z^2)^{1/2} $ and its derivatives up to 
+\medskip
+
+\noindent {\bf Method~1~:}   $ \vec  B(X,r)$ (with $r=(Y^2+Z^2)^{1/2} $) and its derivatives up to 
 second order  at all $(X,Y,Z)$ are calculated following Ref.~\cite{Biblio17}, %%% [17]
 based on the three complete elliptic integrals $K$, $E $ and $\Pi$. The latter 
 are calculated with the algorithm proposed in the same reference, their
@@ -7620,14 +7627,17 @@ provided that the coil thickness is small enough compared to the mean radius $ R
 \medskip
 
 
-\noindent In particular the field on-axis writes (taking $X=r=0$ at the center of the  solenoid) 
+\noindent In this model the field on-axis writes (taking $X=r=0$ at the center of the  solenoid) 
 \begin{equation}
-B_X(X,r=0) = \dfrac{\mu_0 N I }{2 \XL} \left[ \dfrac{\XL/2-X}{\sqrt{(\XL/2-X)^2}+R_0^2} 
-+  \dfrac{\XL/2+X}{\sqrt{(\XL/2+X)^2}+R_0^2} \right]$$ 
- and yields the magnetic length 
-$$L_{mag} \equiv  \dfrac{\int_{-\infty}^\infty B_X(X,r<R_0) dX }{B_X(X=r=0)} 
-= \XL\sqrt{1+\dfrac{4R_0^2 }{\XL^2}} > \XL 
 \label{EqSol}
+B_X(X,r=0) = \dfrac{\mu_0 N I }{2 \XL} \left[ \dfrac{\XL/2-X}{\sqrt{(\XL/2-X)^2+R_0^2}} 
++  \dfrac{\XL/2+X}{\sqrt{(\XL/2+X)^2+R_0^2}} \right]
+\end{equation}
+and yields the magnetic length 
+\begin{equation}
+\label{EqSol2}
+L_{mag} \equiv  \dfrac{\int_{-\infty}^\infty B_X(X,r<R_0) dX }{B_X(X=r=0)} 
+= \XL\sqrt{1+\dfrac{4R_0^2 }{\XL^2}} > \XL 
 \end{equation}
 with in addition 
 $$B_X(\textrm{center}) \equiv B_X(X=r=0) = 
@@ -7635,7 +7645,7 @@ $$B_X(\textrm{center}) \equiv B_X(X=r=0) =
 
 \bigskip
 
-\noindent Method~2~:  The second method available uses eq.~\ref{EqSol} above as a 1-D model and uses off-axis 
+\noindent {\bf Method~2~:}  The second method available uses eq.~\ref{EqSol} as a 1-D on-axis model and uses off-axis 
 extrapolation to derive the field  and its derivatives at all $(X,Y,Z)$, following the method 
 described in section~\ref{sec2.5.2}. 
 

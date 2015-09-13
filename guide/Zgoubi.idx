@@ -26,8 +26,8 @@
 \indexentry{ELMULT}{26}
 \indexentry{EBMULT}{26}
 \indexentry{EBMULT}{26}
-\indexentry{IORDRE}{27}
-\indexentry{IEX@{\IEX}}{29}
+\indexentry{IORDRE}{28}
+\indexentry{IEX@{\IEX}}{30}
 \indexentry{spin tracking}{33}
 \indexentry{synchrotron radiation}{37}
 \indexentry{zpop}{39}
@@ -280,6 +280,7 @@
 \indexentry{IMAX@{\IMAX}}{99}
 \indexentry{SCALING}{99}
 \indexentry{CAVITE}{99}
+\indexentry{synchrotron radiation loss}{99}
 \indexentry{FFAG}{100}
 \indexentry{cyclotron}{100}
 \indexentry{closed orbit!computation}{100}
@@ -706,7 +707,7 @@
 \indexentry{SPNTRK|textbf}{266}
 \indexentry{spin tracking}{266}
 \indexentry{SRLOSS|textbf}{267}
-\indexentry{synchrotron radiation energy loss}{267}
+\indexentry{synchrotron radiation loss}{267}
 \indexentry{SRPRNT|textbf}{268}
 \indexentry{SRLOSS}{268}
 \indexentry{SYNRAD|textbf}{269}

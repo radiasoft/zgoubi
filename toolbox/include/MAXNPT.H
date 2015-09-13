@@ -23,4 +23,4 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
 
-      PARAMETER (NPTMAX=5000)
+      PARAMETER (NPTMAX=10000)

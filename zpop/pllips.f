@@ -20,13 +20,14 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory            
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE PLLIPS(NLOG,NLIPS,LM,IPASS,KX,KY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       COMMON/CONST/ CL,PI,DPI,RAD,DEG,QE,AH
       INCLUDE 'MXVAR.H'
-      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      CHARACTER(7) KVAR(MXVAR), KDIM(MXVAR)
+      CHARACTER(9) KPOL(2)
       COMMON/INPVR/ KVAR, KPOL, KDIM
       INCLUDE 'MAXNTR.H'
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
@@ -34,7 +35,7 @@ C  -------
       DIMENSION YM(3), YPM(3), U(3), A(3), B(3)
       DIMENSION YMX(6), YPMX(6)
       DIMENSION XSIGU(3)
-      CHARACTER TXT*80
+      CHARACTER(80) TXT
 
       IF(NPTR .GT. 0) THEN
 

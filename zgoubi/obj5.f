@@ -112,8 +112,9 @@ C     > (JDE(5),IP   ),(JDE(1),ID)
       IF(IREF.LT.NBREF) GOTO 1
 
       IF(KOBJ2 .EQ. 1) THEN
-C----- beam line's initial alpha_y, beta_y, *_z, *_d
-C In case of periodic structure, FI is filled up by tunes (uncoupled option) or tunesc (coupled option)
+C        if(nres.gt.0) write(nres,fmt='(a)')
+C     >  'beam line initial alpha_y, beta_y, *_z, *_d are as follows :'
+C In case of periodic structure, FI is filled up by tunes.f (uncoupled option) or tunesc.f (coupled option)
         FI(1,1) = A(NOEL,41)  
         IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0    
         FI(2,1) = A(NOEL,40)      ! +alpha

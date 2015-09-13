@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -41,7 +41,7 @@ C  -------
       PARAMETER (MDX=6)
       DIMENSION BX(MDX)
 
-      SAVE MODL, BOSQ, RO2
+      SAVE MODL, BO2, RO2
 
       DATA MODL / 1 / 
 
@@ -176,7 +176,7 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
  
       GOTO 2000
  
-CCCCCCCCCCCCCCCCCCC Seems not to work well...CCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCC Seems to not work well...CCCCCCCCCCC
 1000  XL=-XL
       U =(RO*RO +XR*XR)
       VV =(RO*RO +XL*XL)
@@ -213,7 +213,7 @@ C Axial field model
 
       XL = XS - XE
       X = XX - XE
-      CALL SOLBAX(XL,BOSQ*BRI,RO2,X,
+      CALL SOLBAX(XL,BO2*BRI,RO2,X,
      >                              BX)
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
@@ -224,9 +224,9 @@ C Axial field model
 
       RETURN
 
-      ENTRY SOLEN2(MODLI,BOSQI,RO2I)
+      ENTRY SOLEN2(MODLI,BO2I,RO2I)
       MODL = MODLI 
-      BOSQ = BOSQI
+      BO2 = BO2I
       RO2 = RO2I
       RETURN
 

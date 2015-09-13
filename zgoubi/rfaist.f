@@ -39,11 +39,14 @@ C     ---------------------------------
 
       INTEGER DEBSTR,FINSTR
       CHARACTER TXT*80, STRA(1)*80
+      LOGICAL STRCON
 
 C----- Will print into file TA(NOEL,1), 
 C           right after any occurence of element label[s] TA(noel,2)
 
       READ(NDAT,FMT='(A)') TXT
+      IF(STRCON(TXT,'!',
+     >                  IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       CALL STRGET(TXT,1,
      >                  IDUM,STRA) 
 C File name

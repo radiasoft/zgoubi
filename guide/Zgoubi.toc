@@ -24,10 +24,10 @@
 \contentsline {paragraph}{A Note on Electrostatic Multipoles}{26}
 \contentsline {subsection}{\numberline {1.4}Calculation of $ \mathaccentV {vec}17EE$ and $ \mathaccentV {vec}17EB $ from Field Maps}{26}
 \contentsline {subsubsection}{\numberline {1.4.1}1-D Axial Map, with Cylindrical Symmetry}{26}
-\contentsline {subsubsection}{\numberline {1.4.2}2-D Median Plane Map, with Median Plane Antisymmetry}{27}
-\contentsline {paragraph}{The Special Case of Polar Maps}{28}
-\contentsline {subsubsection}{\numberline {1.4.3}Arbitrary 2-D Map, no Symmetry}{29}
-\contentsline {subsubsection}{\numberline {1.4.4}3-D Field Map}{30}
+\contentsline {subsubsection}{\numberline {1.4.2}2-D Median Plane Map, with Median Plane Antisymmetry}{28}
+\contentsline {paragraph}{The Special Case of Polar Maps}{29}
+\contentsline {subsubsection}{\numberline {1.4.3}Arbitrary 2-D Map, no Symmetry}{30}
+\contentsline {subsubsection}{\numberline {1.4.4}3-D Field Map}{31}
 \contentsline {section}{\numberline {2}SPIN TRACKING}{33}
 \contentsline {subsection}{\numberline {2.1}Introduction}{33}
 \contentsline {subsection}{\numberline {2.2}Integration in Magnetic Fields}{33}
