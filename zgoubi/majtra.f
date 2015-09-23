@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MAJTRA(I)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -34,14 +34,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.245) then
-c           write(*,*) 'majtra IN :  ',noel,i
-c           write(*,*) ' f(1,i),dp ',f(1,i),dp
-c           write(*,*) ' QBR,Q,BORO ',QBR,Q,BORO
-c         endif
-
       F(2,I)=Y
       F(3,I)=T*1000.D0
       F(4,I)=Z
@@ -53,15 +45,6 @@ c         endif
       F(7,I)= TAR    *1.D-5
       AMQ(1,I) = AMT
       AMQ(2,I) = QT
-
-c       if(noel.eq.245) then
-c           write(*,*) 'majtra OUT :  ',noel,i
-c           write(*,*) ' DP ',DP
-c           write(*,*) 
-c           write(*,*) 
-c           write(*,*) 
-c         endif
-
 
       RETURN
       END

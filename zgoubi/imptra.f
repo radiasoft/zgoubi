@@ -102,7 +102,7 @@ Compute number of particles alive and numberinside ellipse
      >                 EMIT,ALP,BET,XM,XPM)
         WRITE(NRES,fmt='(1P,/,A,2(/,5X,A,E14.6))') 
      >  TXT(JJ)//'  space (units : '//UU(JJ)//') :  ',
-     >  ' sigma_'//TXT(JJ:JJ)(2:2)//' = sqrt(Surface/pi * BET) = ',
+     >  ' sigma_'//TXT(JJ)(2:2)//' = sqrt(Surface/pi * BET) = ',
      >  sqrt(emit * BET) ,
      >  ' sigma_'//TXT(JJ)(4:4)//
      >                   ' = sqrt(Surface/pi * (1+ALP^2)/BET) = ',

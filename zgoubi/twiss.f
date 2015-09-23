@@ -310,9 +310,13 @@ C Momentum compaction
 
 C Momentum detuning
 C        NLOBJ = 1
-        DNUYDP = (YNUP-YNUM)/2.D0/A(NLOBJ,25)
-        DNUZDP = (ZNUP-ZNUM)/2.D0/A(NLOBJ,25)
-        
+C Mod FM. 15.09.14 
+C        DNUYDP = (YNUP-YNUM)/2.D0/A(NLOBJ,25)
+C        DNUZDP = (ZNUP-ZNUM)/2.D0/A(NLOBJ,25)
+        DPP = 2.D0*FAP25/REF(6)
+        DNUYDP = (YNUP-YNUM)/DPP
+        DNUZDP = (ZNUP-ZNUM)/DPP
+
         IF(KTW.GE.3) THEN
 C------- Amplitude detuning tracking & calculations follow
 C          NLOBJ = 1

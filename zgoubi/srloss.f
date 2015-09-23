@@ -36,15 +36,20 @@ C  -------
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       LOGICAL SCLFLD, SCLFLO
       SAVE SCLFLD
-      CHARACTER(80) TXT
+      CHARACTER(80) TSCAL, LIST
       INTEGER DEBSTR, FINSTR
       LOGICAL OKSR, OKSRO
 
-      LOGICAL OKOPEN, OKIMP, IDLUNI
-      SAVE LUN, OKOPEN, OKIMP
+      LOGICAL OKOPEN, OKPRSR, OKPRSO, IDLUNI
+      LOGICAL EMPTY
+
+      SAVE LNSR, OKOPEN, OKSR, OKPRSR
 
       DATA OKSR / .FALSE. /
-      DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
+      DATA OKOPEN, OKPRSR /.FALSE., .FALSE. /
+      DATA TSCAL / ' ' /
+      DATA LIST / ' ' /
+      DATA SCLFLD / .FALSE. /
 
       KSYN= A(NOEL,1)
       IF(KSYN.EQ.0) THEN
@@ -54,15 +59,29 @@ C  -------
       ENDIF
 
       IF(IPASS .EQ. 1) THEN 
-       OKIMP = (NINT(10.D0*A(NOEL,1)) - 10*KSYN) .EQ. 1
-       IF(OKIMP) THEN 
+       OKPRSR = (NINT(10.D0*A(NOEL,1)) - 10*KSYN) .EQ. 1
+       IF(OKPRSR) THEN 
         IF(.NOT.OKOPEN) THEN
           IF(IDLUNI(
-     >              LUN)) THEN
-            OPEN(UNIT=LUN,FILE='zgoubi.SRLOSS.Out',
+     >              LNSR)) THEN
+            OPEN(UNIT=LNSR,FILE='zgoubi.SRLOSS.Out',
      >                     FORM='FORMATTED',ERR=99, IOSTAT=IOS)
+            write(lnsr,fmt='(a)') 
+     >      '# File created by srloss, print out by prsr'
+            write(lnsr,fmt='(a)') '# '
+            write(lnsr,fmt='(a)') '# 1 2 3 4 5 6 7 8 ...' 
+            write(lnsr,fmt='(a)') 
+     >      '# kle, noel, ipass, BORO, DPREF, AM, Q, G, imax, '
+     >      //'PI*EMIT(1), ALP(1), BET(1), XM(1), XPM(1), '
+     >      //'NLIV(1), NINL(1), RATIN(1), '
+     >      //'PI*EMIT(2), ALP(2), BET(2), XM(2), XPM(2), '
+     >      //'NLIV(2), NINL(2), RATIN(2), '
+     >      //'PI*EMIT(3), ALP(3), BET(3), XM(3), XPM(3), '
+     >      //'NLIV(3), NINL(3), RATIN(3), '
+     >      //'dE local, sigE local ; theoretical '
+     >      //'dEav (kEv/prtcl), Eav_phot (keV), Erms_phot (keV)'
           ELSE
-            OKIMP = .FALSE.
+            OKPRSR = .FALSE.
             GOTO 99
           ENDIF
           IF(IOS.NE.0) GOTO 99
@@ -71,13 +90,20 @@ C  -------
        ENDIF
       ENDIF
 
-      TXT = TA(NOEL,2)
-      IF(DEBSTR(TXT) .GT. 0) THEN
-        TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
+      TSCAL = TA(NOEL,2)
+      LIST = TA(NOEL,3)
+      TSCAL = TSCAL(DEBSTR(TSCAL):FINSTR(TSCAL))
+      if(TSCAL(1:5) .eq. 'scale' .or. TSCAL(1:5) .eq. 'SCALE') then
+        sclfld = .true. 
       ELSE
-        TXT = ' ' 
+        sclfld = .false. 
+        TSCAL = ' ' 
       ENDIF
-      SCLFLD=TXT.EQ.'SCALE' .OR. TXT.EQ.'scale'
+      if(empty(list)) then
+        list = ' '
+      else
+        list = LIST(DEBSTR(LIST):FINSTR(LIST))
+      endif
 
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 
@@ -86,11 +112,12 @@ C----- Set SR loss tracking
      >                                    WRITE(NRES,FMT='(20X,
      >           '' Accounted for only in '',A)') TA(NOEL,1)
           IF(SCLFLD) THEN
-            WRITE(NRES,FMT='(20X,'' Magnetic strengths will '',
-     >      ''scale with energy lost in dipole fields'')')
+            WRITE(NRES,FMT='(20X,'' Magnetic strengths will scale '',
+     >      ''with energy lost in the following list of elements :'',
+     >    /,25X,''{'',A,''}'')') LIST(DEBSTR(LIST):FINSTR(LIST))
           ELSE
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will NOT '',
-     >      ''scale with energy lost in dipole fields'')')
+     >      ''scale with energy lost in dipole fields.'')')
           ENDIF 
           IF(A(NOEL,10).NE.1) WRITE(NRES,FMT='(20X,
      >      '' Loss entails dp only, no angle kick installed!! '')') 
@@ -122,13 +149,17 @@ C----- Set SR loss tracking
         CALL RAYSY3(TA(NOEL,1))
       ENDIF
 
-      IF(OKIMP) CALL SRPRN(I0,LUN,IMAX)
-
       RETURN
 
       ENTRY SRLOSR(
      >             SCLFLO)
       SCLFLO=SCLFLD
+      RETURN
+
+      ENTRY SRLOS1(
+     >             OKPRSO,LNSRO)
+      OKPRSO = OKPRSR
+      LNSRO = LNSR
       RETURN
 
       ENTRY SRLOS3(

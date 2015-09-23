@@ -65,7 +65,7 @@ C                     +alfY     betY    +alfZ    betZ
 C     >, PHY, PHZ, SCUM, NOEL
      >, F(2,1)*0.01D0, F(3,1), F(4,1)*0.01D0, F(5,1)
      >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
-     >, CSTRN, RPRM, '   ! otpimp.f'
+     >, CSTRN, RPRM, '   ! optimp.f'
  104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1x,a)
      >,6(1X,E13.5),A)
 C FM 14 Apr. 14

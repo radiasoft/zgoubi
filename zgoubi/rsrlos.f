@@ -30,18 +30,29 @@ C  -------
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
-      CHARACTER(80) STRA(2)
+      CHARACTER(80) STRA(10)
+      integer debstr, finstr
 
       READ(NDAT,*,ERR=99) A(NOEL,1)
       READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)
 
-      CALL STRGET(TA(NOEL,1),2,
-     >                         NOUT,STRA)
+      CALL STRGET(TA(NOEL,1),10,
+     >                         NSTR,STRA)
 
       TA(NOEL,1)=' '
       TA(NOEL,2)=' '
-      IF(NOUT.GE.1) TA(NOEL,1)=STRA(1)
-      IF(NOUT.GE.2) TA(NOEL,2)=STRA(2)
+      IF(NSTR.GE.1) TA(NOEL,1)=STRA(1)
+      IF(NSTR.GE.2) TA(NOEL,2)=STRA(2)
+      IF(NSTR.GE.3) THEN
+C Get the list of elements to be subjected to scaling
+        TA(NOEL,3) = STRA(3)(debstr(STRA(3)):finstr(STRA(3)))
+        DO I = 4, NSTR
+          TA(NOEL,3)=TA(NOEL,3)(debstr(TA(NOEL,3)):finstr(TA(NOEL,3)))
+     >    //' '//STRA(I)(debstr(STRA(I)):finstr(STRA(I)))
+        ENDDO
+      ELSE
+        TA(NOEL,3)=' ' 
+      ENDIF
 
       READ(NDAT,*,ERR=99) A(NOEL,10), A(NOEL,11)
 

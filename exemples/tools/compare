@@ -230,7 +230,7 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../AGS/TWISS/"
 echo "        "
-(cd ../AGS/TWISS/ ; cp TWISS.res_coupled_150312 ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS/TWISS/ ; cp TWISS.res_coupled_150312 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS/TWISS/ - reference : "       | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS.res_coupled_150312       | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS.res_coupled_150312       | cat >>   compare.out

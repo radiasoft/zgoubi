@@ -59,7 +59,9 @@ C  -------
      >            SCALE)
       IF(SCALE) SCL=SCAL0W(1.D0-SMELPP*1.D-3/E0)
       SNMPP=SNMPP+EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
-      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
+C Bug. FM. Sept 2015
+C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
+      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  
 
       IF(NRES.LE.0) RETURN
 
@@ -72,25 +74,28 @@ C  -------
      >'' keV'',/,30X,
      >''(elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))'')')
      >EKEV *ABS(ANG)/(2.D0*PI)
-      WRITE(NRES,FMT='(5X,''Critical energy :'',
+      WRITE(NRES,FMT='(5X,''Critical photon energy :'',
      >'' Ec = 3.gamma^3.c/(2.rho)*(Hbar/e)/1000 ='',1P,T80,G16.8,
      >'' keV'')') EC
-      WRITE(NRES,FMT='(5X,''Average energy of radiated photons :'',
-     >'' <Eph> = 8/(15.sqrt(3)).Ec ='',1P,T80,G16.8,'' keV'')') EPHOT
-      WRITE(NRES,FMT='(5X,''rms energy of radiated photons :'',
-     >'' Eph_rms = 0.6383.Ec ='',1P,T80,G16.8,'' keV'')') .6383D0*EC
+      WRITE(NRES,FMT='(5X,''Average photon energy :'',
+     >'' <Eph> = 8/(15.sqrt(3)) *Ec ='',1P,T80,G16.8,'' keV'')') EPHOT
+      WRITE(NRES,FMT='(5X,''rms photon energy :'',
+     >'' Eph_rms = 0.6383.Ec ='',1P,T80,G16.8,'' keV'')') 0.6383D0*EC
       WRITE(NRES,FMT='(5X,''Number of average photons per particle'',
      >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
       WRITE(NRES,FMT='(/,5X,
-     >''Average energy loss, summed over magnets'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' keV/particle'',6X,/,31X,
+     >''Summed over magnets, up to this point : '')')
+      WRITE(NRES,FMT='(10X,
+     >''Average energy loss : '',1P,G16.8,'' keV/particle'',6X,/,31X,
      >''- relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
-      WRITE(NRES,FMT='(5X,''# of average photons, summed over magnets'',
-     >'' UP TO THIS POINT :'',1P,G16.8,'' /particle'')') SNMPP
-      WRITE(NRES,FMT='(5X,''rms energy of radiated photons'',
+      WRITE(NRES,FMT='(10X,''rms photon energy : '',
      > 1P,G16.8,'' keV'')') SQRT(SRMSE2)
+      WRITE(NRES,FMT='(10X,
+     >''Number of average photons : '',1P,G16.8,'' /particle'')') SNMPP
+
+      CALL PRSR2(SMELPP,EPHOT,SQRT(SRMSE2))
 
       RETURN
 

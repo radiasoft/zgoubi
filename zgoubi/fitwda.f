@@ -81,7 +81,7 @@ C New style CHANGREF
      >        A(NUEL,J/2+1),J=1,NSR2,2)
             ELSE
 C Old style CHANGREF
-              WRITE(LTEMP,FMT='(3(F12.8,1X))') (A(NUEL,J),J=1,3)
+              WRITE(LTEMP,FMT='(3(E14.6,1X))') (A(NUEL,J),J=1,3)
             ENDIF
           ENDIF
         ENDIF

@@ -68,6 +68,9 @@ C  -------
       LOGICAL SRLOSS
       PARAMETER (SQRT2 = SQRT(2.D0),SQRT8 = SQRT(8.D0), I0=0.D0)
 
+      CHARACTER(60) TYPCH(5)
+      INTEGER DEBSTR, FINSTR
+
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
      >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
@@ -81,6 +84,11 @@ C  -------
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
       DATA DWS / 0.D0 / 
 
+      DATA TYPCH / 'no motion damping (det(M) forced to 1)',
+     >'DE/E<<1 aproximation, no motion damping (det(M) forced to 1)',
+     >'cavity is inhibited, transport is identity matrix',
+     >'DE/E<<1 aproximation, regular transport including damping',
+     >'regular transport, including damped motion' /
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
@@ -135,6 +143,7 @@ C  -------
       AN11 = A(NOEL,11)
       VLT= A(NOEL,20)
       AN21= A(NOEL,21)
+      AN22= A(NOEL,22)
       PHS= AN21
  
       IF(Q*AM .EQ. 0.D0) CALL ENDJOB('Pgm cavite. Give mass & charge'
@@ -711,52 +720,57 @@ C        PH(I)=BLAG
  110  CONTINUE
 Cavite is modeled by Chambers style matrix, so accounting for transverse focusing.
 C After J.Rosenzweig, L.Serafini, Phys Rev E Vo. 49, Num 2, 1994.
+C Source code moved from BETA on Sept. 2015. Origin of phase is on >0 crest.
+C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
+      CAVL = AN10*1.d2     ! cavL in cm
+      CALL SCUMW(0.5D0*CAVL/UNIT(5))
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
-C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
-      cavL = AN10*1.d2     ! cavL in cm
-      FCAV = AN11          ! fcav in Hz
-      PH0 = AN21  ! normally pi/2 for e-linac
+      FCAV = AN11          ! RF freq. in Hz
+      PH0 = AN21  ! RF phase reference. Normally zero for e-linac
       PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
       HARM = 1.d0
-      DTS = SCUM*UNIT(5) / CL 
+      DTS = SCUM*UNIT(5) / ( CL * BTS) 
       OMRF = 2.D0 * PI * FCAV
+      IDMP = NINT(AN22)
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,200) FCAV,cavl,QV,BORO,DTS,
-     >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
- 200    FORMAT(
-     >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
-     >  /,20X,'        length                    =',   E15.6,' m',
-     >  /,20X,'Max energy  gain                  =',   E15.6,' MeV',
-     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       E15.6,' s',
-     >  /,20X,'Cumulated distance since origin   =',   E15.6,' m',
-     >  /,20X,'Cumulated   TOF      "     "      =',   E15.6,' s',
-     >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
-     >  /,20X,'         charge                   =',   E15.6,' C')
+        WRITE(NRES,200) IDMP,
+     >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
+     >  FCAV,cavl,QV,BORO,DTS,
+     >  SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
+ 200    FORMAT(1P,
+     >  /,15X,'CHAMBERS  CAVITY  STYLE',
+     >  /,15X,'Transport option : ',I2,'  (',A,')',
+     >  /,20X,'Cavity  frequency                     =',E15.6,' Hz',
+     >  /,20X,'        length                        =',E15.6,' m',
+     >  /,20X,'Max energy  gain                      =',E15.6,' MeV',
+     >  /,20X,'TOF for BRho_ref (',G10.2,')          =',E15.6,' s',
+     >  /,20X,'Cumulated distance at cavity center   =',E15.6,' m',
+     >  /,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
+     >  /,20X,'Particle mass                         =',E15.6,' MeV/c2',
+     >  /,20X,'         charge                       =',E15.6,' C')
       ENDIF
-
-      call ESL(I0,cavL/2.d0,1,imax)
 
       DO I=1,IMAX
         IF(IEX(I) .GE. -1) THEN 
-          TTA = F(3,I)*.001D0
-          PHI = F(5,I)*.001D0
-          P = P0*F(1,I)
-          PCP = P*COS(PHI)
-          PX = PCP * COS(TTA)
-          PY = PCP * SIN(TTA)
-          PZ = P * SIN(PHI)
- 
+          P = P0*F(1,I) 
           AM2 = AMQ(1,I) * AMQ(1,I)
           ENRG = SQRT(P*P + AM2)
           WF1(I) = ENRG - AMQ(1,I)
           BTA = P / ENRG
-C F(7,I) is time in mu_s. of course, TI is in s
+
           TI = F(7,I) * UNIT(7) 
-          PHI = OMRF * TI + PH0    ! PH0 normally pi/2 for e-linac 
+          DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
+          TI = TI + dsar2 / (bta*cl)
+
+C F(7,I) is time in mu_s. of course, TI is in s
+          PHI = OMRF * TI + PH0   
 C Phase, in [-pi,pi] interval
+
+          WRITE(*,*) ' cav ',PHI, INT(PHI/(2.D0*PI))
+     >               ,phi-pi,phi+pi
           PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
           IF    (PHI .GT.  PI) THEN
             PH(I) =PHI - 2.D0*PI
@@ -766,55 +780,92 @@ C Phase, in [-pi,pi] interval
             PH(I) =PHI 
           ENDIF
 
-          DWF =  QV   !!!!!!!!!!!!!!!!!!!!!!* SIN(PH(I))
+          write(*,*) 'cavite ph(i)', phi, ph(i)
+         
+
+          COSRF=COS(PH(I))
+          DWF=QV*COSRF
+          WI = WF1(I) 
           WF1(I) = WF1(I) + DWF
           WF = WF1(I)
-
 C Kin. energy, MeV
           DPR(I)=WF
-
           P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
-             pxi = px
-          PX=SQRT( P*P -PY*PY-PZ*PZ)
-          F(1,I) = P / P0
         
-c *****   quid du damping ?
-c        F(3,I) = ATAN2(PY,PX) / UNIT(2)
-c        F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
+          IF     (DWF.EQ.0.D0 .OR. IDMP.EQ.0.) THEN
+C        CAVITY + DRIFT
+            V11= 1.D0
+            V12= 0.D0
+            V21= 0.D0                               
+            V22= 1.D0
+          ELSE IF(IDMP.EQ.1) THEN
+C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)#1
+            FAC=SQRT(WI/WF)
+            V11= FAC
+            V12= CAVL*FAC
+            V21= 0.D0                               
+            V22= FAC
+          ELSE IF(IDMP.EQ.-1) THEN
+C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)=1
+            FAC=SQRT(WI/WF)
+            V11= FAC
+            V12= CAVL*FAC
+            V21= 0.D0     
+            V22= FAC
+            DWFT=DSQRT(V11*V22-V21*V12)
+            V11=V11/DWFT
+            V12=V12/DWFT
+            V22=V22/DWFT
+            V21=V21/DWFT
+          ELSE IF(IDMP.EQ.2) THEN
+C        CHAMBERS CAVITY Det(M)#1
+            EFEI=WF/WI
+            FAC=DLOG(EFEI)/SQRT8/COSRF
+            COSFAC=COS(FAC)
+            SINFAC=SIN(FAC)
+            RAP=SQRT8*CAVL/DWF
+            V11= COSFAC-SQRT2*SINFAC*COSRF
+            V12=    SINFAC*RAP*WI*COSRF
+            V21=-SINFAC/RAP/WF*(2*COSRF+1.D0/COSRF)
+            V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
+          ELSE IF(IDMP.EQ.-2) THEN
+C        CHAMBERS CAVITY Det(M)=1
+            EFEI=WF/WI 
+            FAC=DLOG(EFEI)/SQRT8/COSRF
+            COSFAC=COS(FAC)
+            SINFAC=SIN(FAC)
+            RAP=SQRT8*CAVL/DWF
+            V11= COSFAC-SQRT2*SINFAC*COSRF
+            V12=    SINFAC*RAP*WI*COSRF
+            V21=-SINFAC/RAP/WF*(2*COSRF+1./COSRF)
+            V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
+            DWFT=DSQRT(V11*V22-V21*V12)
+            V11=V11/DWFT
+            V12=V12/DWFT
+            V22=V22/DWFT
+            V21=V21/DWFT
+          ENDIF 
+
+          write(*,*) 'cavite , WI, WF ', WI, WF 
+                 read(*,*)
+
+          F(1,I) = P / P0
+          F(2,I) = (v11 * F(2,I)*.01D0 + v12 * F(3,I)*.001D0)*1.D2
+          F(3,I) = (v21 * F(2,I)*.01D0 + v22 * F(3,I)*.001D0)*1.D3
+          F(4,I) = (v11 * F(4,I)*.01D0 + v12 * F(5,I)*.001D0)*1.D2
+          F(5,I) = (v21 * F(4,I)*.01D0 + v22 * F(5,I)*.001D0)*1.D3
+          F(6,I) = F(6,I) + 2.D0 * dsar2/unit(5)
+          F(7,I) = F(7,I) + 2.D0* dsar2 / (bta*cl) / unit(7)
+          CALL SCUMW(0.5D0*CAVL/UNIT(5))
 
           IF(OKIMP) 
-     >     WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
-     >     TI, ti-dble(ipass)*dts, QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
-     >     , dwf
-
-C Transverse
-C Angles satisfy :  
-C taking u_p = projected u on (X,Z) plane, taking phi_p = projected PHI, 
-C then u_p cos(phi_p) = u cos(P) cos(T), u_p sin(phi_p) = Z_p = u sin(P), 
-C hence tg(phi_p) = tg(PHI)/cos(T). 
-C However I assume paraxial conditions so that tg~angle and so phi_p=PHI.
-          eta = 1.d0
-          wi = wf+am-dwf
-          wf = wf+am
-          dw = dwf / CAVL   ! cavl in cm
-          alf = sqrt(eta / 8.d0) / cos(phi) * log(wf/wi)     ! phi should be wrt crest
-          calf = cos(alf)
-          salf = sin(alf)
-          r11 = calf - sqrt2*salf
-          r12 = sqrt8 * wi/dw * salf
-          r21 = -3.d0*dw/(sqrt8*wf) * salf
-          r22 = wi/wf * (calf + sqrt2*salf) 
-          temp = r11 * F(2,I) + r12 * F(3,I) 
-          f(3,I) = r21 * F(2,I) + r22 * F(3,I)
-          f(2,i) = temp 
-          temp = r11 * F(4,I) + r12 * F(5,I) 
-          f(5,I) = r21 * F(4,I) + r22 * F(5,I)
-          f(4,i) = temp 
+     >    WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
+     >    TI, wi, wf, I , IPASS, DWF
 
         ENDIF   
       ENDDO
 
-      CALL ESL(I0,CAVL/2.D0,1,IMAX)
+      CALL SCUMW(0.5D0*CAVL/UNIT(5))
 
       GOTO 88
 

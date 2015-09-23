@@ -1477,9 +1477,9 @@ C Size of KLE array
      >             MXKLEO)
       MXKLEO = MXKLE
       RETURN
+C Current elmnt #
       ENTRY ZGNOEL(
      >             NOELO)
-C Current elmnt #
       NOELO = NOEL
       RETURN
 C KLEY[IKL]

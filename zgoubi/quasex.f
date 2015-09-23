@@ -38,6 +38,7 @@ C-----------------------------------------------------
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.TRNSF.H"     ! COMMON/TRNSF/ XFE,XFS
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
@@ -53,6 +54,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
+      logical OKPRSR
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
@@ -224,8 +226,14 @@ C        VSHROS(MSR) = 6
      >'' m ;  Time  (for ref. rigidity & particle) = '', 
      >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
+      IF(KSYN.EQ.1) THEN
+        CALL SRLOS1(
+     >             OKPRSR,LNSR)
+        IF(OKPRSR) CALL PRSR(LNSR) 
+      ENDIF
+
  99   CONTINUE
-C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
+C----- Unset wedge correction, in case would have been set by MULTIPOL, BEND, etc.
       CALL INTEG3
 C----- Unset coded step
       CALL CHXC1W(I0,I0)

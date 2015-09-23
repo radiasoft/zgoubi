@@ -256,6 +256,7 @@ OBJ=\
  poidev.o\
  polmes.o\
  prdata.o\
+ prsr.o\
  pvect.o\
  quasex.o\
  ragsmm.o\
@@ -554,6 +555,7 @@ pckup.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 pltdat.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 polmes.o: PARIZ.H $(INC)/MXLD.H $(INC)/MAPHDR.H
 prdata.o: $(INC)/MXLD.H
+prsr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 quasex.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 rautor.o: $(INC)/MXLD.H
 raysyn.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MAXTRA.H

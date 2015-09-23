@@ -34,6 +34,7 @@ C-----------------------------------------------------
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
@@ -46,6 +47,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
       DIMENSION VSHROE(MSR),    VSHROS(MSR)
+      logical OKPRSR
 
 C------ Fields defined in polar coordinates - Champs definis en coordonnees polaires
       KART = 2
@@ -150,6 +152,12 @@ C3     CONTINUE
       VSHROS(MSR) = 3
 
       CALL TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
+
+      IF(KSYN.EQ.1) THEN
+        CALL SRLOS1(
+     >             OKPRSR,LNSR)
+        IF(OKPRSR) CALL PRSR(LNSR) 
+      ENDIF
 
  99   CONTINUE
 C----- Unset wedge correction, in case it has been set by MULTIPOL, BEND, etc.
