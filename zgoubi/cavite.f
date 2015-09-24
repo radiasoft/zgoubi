@@ -723,34 +723,32 @@ C After J.Rosenzweig, L.Serafini, Phys Rev E Vo. 49, Num 2, 1994.
 C Source code moved from BETA on Sept. 2015. Origin of phase is on >0 crest.
 C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
       CAVL = AN10*1.d2     ! cavL in cm
-      CALL SCUMW(0.5D0*CAVL/UNIT(5))
+      CALL SCUMW(0.5D0*CAVL)
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
       FCAV = AN11          ! RF freq. in Hz
       PH0 = AN21  ! RF phase reference. Normally zero for e-linac
       PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
-      HARM = 1.d0
-      DTS = SCUM*UNIT(5) / ( CL * BTS) 
+      HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
       IDMP = NINT(AN22)
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
-     >  FCAV,cavl,QV,BORO,DTS,
-     >  SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
+     >  FCAV,cavl*unit(5),QV,BORO,SCUM*UNIT(5),TCUM,AM,Q*QE
  200    FORMAT(1P,
-     >  /,15X,'CHAMBERS  CAVITY  STYLE',
-     >  /,15X,'Transport option : ',I2,'  (',A,')',
-     >  /,20X,'Cavity  frequency                     =',E15.6,' Hz',
-     >  /,20X,'        length                        =',E15.6,' m',
-     >  /,20X,'Max energy  gain                      =',E15.6,' MeV',
-     >  /,20X,'TOF for BRho_ref (',G10.2,')          =',E15.6,' s',
-     >  /,20X,'Cumulated distance at cavity center   =',E15.6,' m',
-     >  /,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
-     >  /,20X,'Particle mass                         =',E15.6,' MeV/c2',
-     >  /,20X,'         charge                       =',E15.6,' C')
+     >  / ,15X,'CHAMBERS  CAVITY  STYLE',
+     >  / ,15X,'Transport option : ',I2,'  (',A,')',
+     >  / ,20X,'Cavity  frequency                     =',E15.6,' Hz',
+     >  / ,20X,'        length                        =',E15.6,' m',
+     >  / ,20X,'Max energy  gain                      =',E15.6,' MeV',
+     >  / ,15X,'For BRho_ref (',G12.4, ' kG.cm) : ',
+     >  / ,20X,'Cumulated distance at cavity center   =',E15.6,' m',
+     >  / ,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
+     >  //,20X,'Particle mass                         =',E15.6,' MeV/c2',
+     >  / ,20X,'         charge                       =',E15.6,' C')
       ENDIF
 
       DO I=1,IMAX
@@ -763,14 +761,13 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
 
           TI = F(7,I) * UNIT(7) 
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
+          F(6,I) = F(6,I) + DSAR2
+          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
           TI = TI + dsar2 / (bta*cl)
 
 C F(7,I) is time in mu_s. of course, TI is in s
           PHI = OMRF * TI + PH0   
 C Phase, in [-pi,pi] interval
-
-          WRITE(*,*) ' cav ',PHI, INT(PHI/(2.D0*PI))
-     >               ,phi-pi,phi+pi
           PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
           IF    (PHI .GT.  PI) THEN
             PH(I) =PHI - 2.D0*PI
@@ -779,9 +776,6 @@ C Phase, in [-pi,pi] interval
           ELSE
             PH(I) =PHI 
           ENDIF
-
-          write(*,*) 'cavite ph(i)', phi, ph(i)
-         
 
           COSRF=COS(PH(I))
           DWF=QV*COSRF
@@ -846,17 +840,21 @@ C        CHAMBERS CAVITY Det(M)=1
             V21=V21/DWFT
           ENDIF 
 
-          write(*,*) 'cavite , WI, WF ', WI, WF 
-                 read(*,*)
-
           F(1,I) = P / P0
           F(2,I) = (v11 * F(2,I)*.01D0 + v12 * F(3,I)*.001D0)*1.D2
           F(3,I) = (v21 * F(2,I)*.01D0 + v22 * F(3,I)*.001D0)*1.D3
           F(4,I) = (v11 * F(4,I)*.01D0 + v12 * F(5,I)*.001D0)*1.D2
           F(5,I) = (v21 * F(4,I)*.01D0 + v22 * F(5,I)*.001D0)*1.D3
-          F(6,I) = F(6,I) + 2.D0 * dsar2/unit(5)
-          F(7,I) = F(7,I) + 2.D0* dsar2 / (bta*cl) / unit(7)
-          CALL SCUMW(0.5D0*CAVL/UNIT(5))
+          DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))           
+          F(6,I) = F(6,I) + DSAR2
+          BTA = P / SQRT(P*P + AM2)
+          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
+
+c          write(*,*) 'cavite dsar2 ~ 88cm ? ', dsar2, f(6,i)-toto
+c          write(*,*) '                      ', dsar2, f(7,i)-tata
+c          write(*,*) 'cavite , WI, WF-WI ', WI, WF-WI 
+c                 read(*,*)
+
 
           IF(OKIMP) 
      >    WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
@@ -865,7 +863,7 @@ C        CHAMBERS CAVITY Det(M)=1
         ENDIF   
       ENDDO
 
-      CALL SCUMW(0.5D0*CAVL/UNIT(5))
+      CALL SCUMW(0.5D0*CAVL)
 
       GOTO 88
 

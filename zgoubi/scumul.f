@@ -34,7 +34,8 @@ C  -------
 
       DATA XL, SCUM, TCUM / 0.D0, 0.D0, 0.D0 / 
 
-      ENTRY SCUMW(XLI)
+! XLI is in cm
+      ENTRY SCUMW(XLI)       
       XL=XLI
       SCUM = SCUM + XL
 C----- Compute cumulative time. Default is for proton. 
