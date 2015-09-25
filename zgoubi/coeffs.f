@@ -67,10 +67,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
      >                                          F0,PHY,PHZ,CSTRN,RPRM)
 
 C Thomas Planche FIT problem : /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE. Jan 2015
-          call fitsta(5,fiting)
-            if(fiting) 
-     >      write(89,*) ' coeffs ',r(1,1),r(2,2) 
-            rewind(89)
+c          call fitsta(5,fiting)
+c            if(fiting) 
+c     >      write(89,*) ' coeffs ',r(1,1),r(2,2) 
+c            rewind(89)
 C------------
 
       RETURN

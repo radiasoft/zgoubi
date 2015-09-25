@@ -64,8 +64,15 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-            WRITE(LTEMP,FMT='(F11.6,F7.2,3F15.10,7F4.1)')
+            WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
+          ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(F11.6,2F7.2,3E16.8)')
+     >                                  (A(NUEL,J),J=10,15)
           ELSEIF(KLEY(1:8) .EQ. 'CHANGREF') THEN 
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
             IF(STRCON(TXT132,'!',
