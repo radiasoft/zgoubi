@@ -44,7 +44,8 @@ C     **************************
 C     ....IOPT -OPTION
 C      READ(NDAT,*) A(NOEL,1)
       READ(NDAT,FMT='(A)') TXT132      
-      READ(TXT132,*) A(NOEL,1)
+      READ(TXT132,*) IOPT
+      A(NOEL,1) = IOPT
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
       IF(STRCON(TXT132,'PRINT',
@@ -61,12 +62,21 @@ C     ....Orbit length. (m), H -HARMONIQUE
 C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
 C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       READ(NDAT,FMT='(A)') TXT132      
-      IF(STRCON(TXT132,'!',
+      if(iopt .ne. 0) then 
+        IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
-      CALL STRGET(TXT132,3
+        CALL STRGET(TXT132,3
      >                    ,MSTR,STRA)
-      DO I = 1, MSTR
-        READ(STRA(I),*) A(NOEL,19+I)
-      ENDDO
+        if(iopt .ne. 10) mstr=2        !      3rd data is IDMP in cavite IOPT=10
+        DO I = 1, MSTR
+          if(isnum(stra(i))) then 
+            READ(STRA(I),*) A(NOEL,19+I)
+          else
+            call endjob('Pgm rcavit. Non-numerical data found '
+     >      //'at 3rd line. Please check with Users'' guide.',-99)
+          endif
+        ENDDO
+      endif
+
       RETURN
       END

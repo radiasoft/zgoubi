@@ -235,7 +235,7 @@ C         Only if keyword is of optical element type or [MC]OBJET or END or MARK
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
 C            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
-            CALL OPTICC(        NOEL,PRDIC,OKCPLD)
+            CALL OPTICC(NOEL,PRDIC,OKCPLD)
 
           ENDIF
         ENDIF
@@ -1045,7 +1045,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
       IF(KOPIMP.EQ.1) THEN
         IF(.NOT. OKLNO) THEN
           IF(IDLUNI(
-     >          LNOPTI)) THEN
+     >              LNOPTI)) THEN
             OPEN(UNIT=LNOPTI,FILE='zgoubi.OPTICS.out',ERR=899)
             OKLNO = .TRUE.
           ENDIF
@@ -1069,13 +1069,12 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
      >         '       27'
-          endif
-        endif
+          ENDIF
+        ENDIF
       ELSE
         OKLNO = .FALSE.
       ENDIF
-      CALL OPTIC2(
-     >            OKLNO,LNOPTI)
+      CALL OPTIC2(OKLNO,LNOPTI)
       GOTO 998
  899  CONTINUE
 C      IF(NRES.GT.0) 
@@ -1149,7 +1148,7 @@ C      Also prints periodic beta functions (by setting KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
-      NOELS = NOEL
+C      IF(READAT) CALL RTWISS
       IF(READAT) THEN
         READ(NDAT,fmt='(a)') TXT132
         IF(STRCON(TXT132,'!',
@@ -1163,44 +1162,45 @@ C                            ktwiss=2 :  Prtcl#   unused    [coupled]
         ENDIF
         CALL MATIM4(OKCPLD)
         READ(TXT132,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
+        KTW = NINT(A(NOEL,1))
       ENDIF
-      IF(.NOT. OKLNO) THEN
-        IF(IDLUNI(
+      IF(KTW .GE. 2) THEN
+        IF(.NOT. OKLNO) THEN
+          IF(IDLUNI(
      >            LNOPTI)) THEN
-          OPEN(UNIT=LNOPTI,FILE='zgoubi.TWISS.out',ERR=899)
-          OKLNO = .TRUE.
+            OPEN(UNIT=LNOPTI,FILE='zgoubi.TWISS.out',ERR=899)
+            OKLNO = .TRUE.
+          ENDIF
         ENDIF
       ENDIF
-      CALL OPTIC2(
-     >            OKLNO,LNOPTI)
-
+      CALL OPTIC2(OKLNO,LNOPTI)
       CALL TWISS(LNOPTI,OKCPLD,
      >                  KOPTCS,READAT,KTW)
       IF(KOPTCS .EQ. 1) THEN
         KOPIMP = 2
         LBLOPT = 'all'
         PRDIC = .TRUE.
-          IF(OKLNO) THEN
-            WRITE(LNOPTI,fmt='(a)') '# From TWISS keyword'
-            WRITE(LNOPTI,fmt='(a)') 
-     >         '# alfx          btx           alfy          bty  ' //
-     >         '         alfl          btl           Dx          ' //
-     >         '  Dxp           Dy            Dy            phix/' //
-     >         '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
-     >         '         xp            y             yp          ' //
-     >         'KEYWORD    label1     label2       FO(6,1)       ' //
-     >         'K0*L          K1*L          K2*L          |C|    ' //
-     >         '       r'
-            WRITE(LNOPTI,fmt='(a)') 
-     >         '# 1             2             3             4    ' //
-     >         '         5             6             7           ' //
-     >         '  8             9             10            11   ' //
-     >         '         12            13            14     15   ' //
-     >         '         16            17            18          ' //
-     >         '19         20         21           22            ' //
-     >         '23            24            25            26     ' //
-     >         '       27'
-          ENDIF
+        IF(OKLNO) THEN
+          WRITE(LNOPTI,fmt='(a)') '# From TWISS keyword'
+          WRITE(LNOPTI,fmt='(a)') 
+     >       '# alfx          btx           alfy          bty  ' //
+     >       '         alfl          btl           Dx          ' //
+     >       '  Dxp           Dy            Dy            phix/' //
+     >       '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
+     >       '         xp            y             yp          ' //
+     >       'KEYWORD    label1     label2       FO(6,1)       ' //
+     >       'K0*L          K1*L          K2*L          |C|    ' //
+     >       '       r'
+          WRITE(LNOPTI,fmt='(a)') 
+     >       '# 1             2             3             4    ' //
+     >       '         5             6             7           ' //
+     >       '  8             9             10            11   ' //
+     >       '         12            13            14     15   ' //
+     >       '         16            17            18          ' //
+     >       '19         20         21           22            ' //
+     >       '23            24            25            26     ' //
+     >       '       27'
+        ENDIF
       ELSE
 C        KOPIMP = 0
 C        OKLNO = .FALSE.

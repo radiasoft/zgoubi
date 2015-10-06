@@ -75,8 +75,8 @@ C      CHARACTER(KSIZ) KLEO
 C      LOGICAL IDLUNI
 C      INTEGER DEBSTR, FINSTR
 
-      LOGICAL dolast
-      save dolast
+      LOGICAL DOLAST
+      SAVE DOLAST
       
       DIMENSION RTURN(6,6)
       LOGICAL PRDIC, OKORBT
@@ -215,6 +215,11 @@ C          NLOBJ = 1
           IPASS=IPASS+1
           NOEL=0 
           CALL SCUMS(0.D0)
+
+        ELSE
+
+          DOLAST = .FALSE.
+          GOTO 222
 
         ENDIF
 
@@ -502,65 +507,65 @@ C        NLOBJ = 1
 C--------- P0, AM  are  in  MEV/c, /c^2
           PREF = BORO*CL9*Q*DPREF
           IF(AM.LE.1D-8) AM = AMPROT
-          Energy = sqrt(PREF*PREF + AM*AM)
-          write(LUN,50)'@ NAME             %05s   "TWISS"' 
-          write(LUN,50)'@ TYPE             %05s   "TWISS"'
-          write(LUN,50)'@ SEQUENCE         %04s   "RING"'
-          write(LUN,50)'@ PARTICLE         %00s   ""'
-          write(LUN,51)'@ MASS             %le', am/1.d3
-          write(LUN,52)'@ CHARGE           %le', int(q)
-          write(LUN,51)'@ ENERGY           %le', Energy/1.d3
-          write(LUN,55)'@ PC               %le', PREF/1.D3,
+          ENERGY = sqrt(PREF*PREF + AM*AM)
+          WRITE(LUN,50)'@ NAME             %05s   "TWISS"' 
+          WRITE(LUN,50)'@ TYPE             %05s   "TWISS"'
+          WRITE(LUN,50)'@ SEQUENCE         %04s   "RING"'
+          WRITE(LUN,50)'@ PARTICLE         %00s   ""'
+          WRITE(LUN,51)'@ MASS             %le', am/1.d3
+          WRITE(LUN,52)'@ CHARGE           %le', int(q)
+          WRITE(LUN,51)'@ ENERGY           %le', Energy/1.d3
+          WRITE(LUN,55)'@ PC               %le', PREF/1.D3,
      >    '   [B.rho= ',BORO/1.d3,']'
-          write(LUN,51)'@ GAMMA            %le', Energy/am
-          write(LUN,50)'@ KBUNCH           %le                   1'
-          write(LUN,50)'@ BCURRENT         %le                   0'
-          write(LUN,50)'@ SIGE             %le                   0'
-          write(LUN,50)'@ SIGT             %le                   1'
-          write(LUN,50)'@ NPART            %le                   0'
-          write(LUN,50)'@ EX               %le                   1'
-          write(LUN,50)'@ EY               %le                   1'
-          write(LUN,50)'@ ET               %le                   1'
-          write(LUN,51)'@ LENGTH           %le', PathL(1) *CM2M
-          write(LUN,51)'@ ALFA             %le', Alpha
-          write(LUN,50)'@ ORBIT5           %le                  -0'
+          WRITE(LUN,51)'@ GAMMA            %le', Energy/am
+          WRITE(LUN,50)'@ KBUNCH           %le                   1'
+          WRITE(LUN,50)'@ BCURRENT         %le                   0'
+          WRITE(LUN,50)'@ SIGE             %le                   0'
+          WRITE(LUN,50)'@ SIGT             %le                   1'
+          WRITE(LUN,50)'@ NPART            %le                   0'
+          WRITE(LUN,50)'@ EX               %le                   1'
+          WRITE(LUN,50)'@ EY               %le                   1'
+          WRITE(LUN,50)'@ ET               %le                   1'
+          WRITE(LUN,51)'@ LENGTH           %le', PathL(1) *CM2M
+          WRITE(LUN,51)'@ ALFA             %le', Alpha
+          WRITE(LUN,50)'@ ORBIT5           %le                  -0'
           if(alpha .gt. 0.d0) then
-            write(LUN,51)'@ GAMMATR          %le', sqrt(1.d0/Alpha)
+            WRITE(LUN,51)'@ GAMMATR          %le', sqrt(1.d0/Alpha)
           else
-            write(LUN,50)'@ GAMMATR          %le   Imaginary '
+            WRITE(LUN,50)'@ GAMMATR          %le   Imaginary '
           endif
-          write(LUN,54)'@ Q1               %le', YNUREF,'   [+ integer]'
-          write(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
-          write(LUN,51)'@ DQ1              %le', DNUYDP
-          write(LUN,51)'@ DQ2              %le', DNUZDP
-          write(LUN,50)'@ DXMAX            %le    0.    not computed'
-          write(LUN,50)'@ DYMAX            %le    0.    not computed'
-          write(LUN,50)'@ XCOMAX           %le    0.    not computed'
-          write(LUN,50)'@ YCOMAX           %le    0.    not computed'
-          write(LUN,50)'@ BETXMAX          %le    0.    not computed'
-          write(LUN,50)'@ BETYMAX          %le    0.    not computed'
-          write(LUN,50)'@ XCORMS           %le    0.    not computed'
-          write(LUN,50)'@ YCORMS           %le    0.    not computed'
-          write(LUN,50)'@ DXRMS            %le    0.    not computed'
-          write(LUN,50)'@ DYRMS            %le    0.    not computed'
-          write(LUN,56)'@ DELTAP           %le', REF(6), 
+          WRITE(LUN,54)'@ Q1               %le', YNUREF,'   [+ integer]'
+          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
+          WRITE(LUN,51)'@ DQ1              %le', DNUYDP
+          WRITE(LUN,51)'@ DQ2              %le', DNUZDP
+          WRITE(LUN,50)'@ DXMAX            %le    0.    not computed'
+          WRITE(LUN,50)'@ DYMAX            %le    0.    not computed'
+          WRITE(LUN,50)'@ XCOMAX           %le    0.    not computed'
+          WRITE(LUN,50)'@ YCOMAX           %le    0.    not computed'
+          WRITE(LUN,50)'@ BETXMAX          %le    0.    not computed'
+          WRITE(LUN,50)'@ BETYMAX          %le    0.    not computed'
+          WRITE(LUN,50)'@ XCORMS           %le    0.    not computed'
+          WRITE(LUN,50)'@ YCORMS           %le    0.    not computed'
+          WRITE(LUN,50)'@ DXRMS            %le    0.    not computed'
+          WRITE(LUN,50)'@ DYRMS            %le    0.    not computed'
+          WRITE(LUN,56)'@ DELTAP           %le', REF(6), 
      >    '   [B.rho= ',BORO*REF(6)/1.d3,' E_kin= ',
      >    (sqrt((BORO*CL9*Q*DPREF*REF(6))**2 + AM*AM)-AM)/1.d3,']'
-          write(LUN,51)'@ |C|              %le', CC
-          write(LUN,51)'@ Q1*              %le', Q1
-          write(LUN,51)'@ Q2*              %le', Q2
-          write(LUN,50)'@ SYNCH_4          %le    0.    not computed'
-          write(LUN,50)'@ SYNCH_5          %le    0.    not computed'
-          write(LUN,50)'@ TITLE            %12s   "Zgoubi model"'
-          write(LUN,50)'@ ORIGIN           %12s   "twiss.f"'
-          write(LUN,50)'@ DATE             %08s   "  "'
-          write(LUN,50)'@ TIME             %08s   "  "'
- 50       format(a)
- 51       format(a,T25,G18.10)
- 52       format(a,T25,i6)
- 54       format(a,T25,G18.10,a)
- 55       format(a,T25,G18.10,a,G18.10,a)
- 56       format(a,T25,G18.10,a,2(G18.10,a))
+          WRITE(LUN,51)'@ |C|              %le', CC
+          WRITE(LUN,51)'@ Q1*              %le', Q1
+          WRITE(LUN,51)'@ Q2*              %le', Q2
+          WRITE(LUN,50)'@ SYNCH_4          %le    0.    not computed'
+          WRITE(LUN,50)'@ SYNCH_5          %le    0.    not computed'
+          WRITE(LUN,50)'@ TITLE            %12s   "Zgoubi model"'
+          WRITE(LUN,50)'@ ORIGIN           %12s   "twiss.f"'
+          WRITE(LUN,50)'@ DATE             %08s   "  "'
+          WRITE(LUN,50)'@ TIME             %08s   "  "'
+ 50       FORMAT(A)
+ 51       FORMAT(A,T25,G18.10)
+ 52       FORMAT(A,T25,I6)
+ 54       FORMAT(A,T25,G18.10,A)
+ 55       FORMAT(A,T25,G18.10,A,G18.10,A)
+ 56       FORMAT(A,T25,G18.10,A,2(G18.10,A))
 
 C          CLOSE(LUN)
 C        ENDIF 
@@ -616,7 +621,9 @@ C        CALL MATIMP(RREF)
         SIGN = -1.D0
         CALL BEAMA2(F0REF,SIGN)
 
-        CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
+        IF(KTW.GE.2) THEN
+
+          CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
           WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
      >    30X,''dL/L / dp/p = '',G15.8)') ALPHA
           WRITE(NRES,FMT='(5X,1P,''(dp = '',E13.6,5X  
@@ -631,11 +638,9 @@ C        CALL MATIMP(RREF)
      >    30X,''dNu_y / dp/p = '',E15.8,/, 
      >    30X,''dNu_z / dp/p = '',E15.8)') DNUYDP, DNUZDP
 
-
           IF(KTW .GE.3) THEN
 C             DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
-C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
-        
+C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)        
              WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
      >      42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
      >      30X,''dNu_y'',7X,2(E15.8,3X),/, 
@@ -652,6 +657,10 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
      >      UYP,   UZP
 
           ENDIF
+
+          CALL TWIFNL(LUN)
+
+        ENDIF
       ENDIF
 
       IPASS = 1

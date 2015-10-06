@@ -344,6 +344,7 @@ OBJ=\
  serv34.o\
  serv4.o\
  serv5.o\
+ slalain.o\
  solbax.o\
  solenf.o\
  soleno.o\
@@ -382,6 +383,7 @@ OBJ=\
  tunesc.o\
  twssfc.o\
  twiss.o\
+ twifnl.o\
  tworbt.o\
  undulf.o\
  unduli.o\

@@ -248,21 +248,10 @@ C     Transformation matrix from coupled referential to action-angle one
       IF(NU1 .EQ. NUTEST(2)) P(:,1) = -P(:,1)
       IF(NU2 .EQ. NUTEST(4)) P(:,3) = -P(:,3)
 
-!      WRITE(*, FMT='(/,/,6X,''V MATRIX'',/)')
-!      WRITE(*,200) (( V(I,J) , J=1,4) , I=1,4)
-!      WRITE(*, FMT='(/,/,6X,''P MATRIX'',/)')
-!      WRITE(*,200) (( P(I,J) , J=1,4) , I=1,4)
-! 200     FORMAT(6X,4F13.8)
-
       CALL GETDET(P,4,DETP)
 
       P=P/DETP**(0.25)
 
-c      WRITE(*,FMT='(/,/,6X,''TRANSFORMATION MATRIX (Pij)'',/)')
-c      WRITE(*,300) (( P(I,J) , J=1,4) , I=1,4)
-c 300     FORMAT(6X,4F13.8)
-    
- 
 C     Inverse of the transformation matrix
 
       PINV = P

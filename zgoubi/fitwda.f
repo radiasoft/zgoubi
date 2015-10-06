@@ -46,8 +46,8 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       OK = IDLUNI(
      >            LTEMP)
       OPEN(UNIT=LTEMP,FILE='zgoubi.temp.dat')
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
-     >''Saved new version of zgoubi.dat with variables updated.'')')
+      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Saving new version of '',
+     >''zgoubi.dat to zgoubi.FIT.out.dat, with variables updated.'')')
 
       TXT132 = '***' 
       DOWHILE(TXT132(1:5) .NE.'''END''')
@@ -56,7 +56,8 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
         WRITE(LTEMP,FMT='(A)') 
      >       TXT132(DEBSTR(TXT132):FINSTR(TXT132))
         IF(TXT132(1:1) .EQ. '''') THEN
-          READ(TXT132(105:132),*,err=11,end=11) NUEL      ! Position follows from prdata
+          READ(TXT132(105:132),*,ERR=11,END=11) NUEL      ! Position follows from prdata
+          IF(NUEL .LT. 0 .OR. NUEL .GT. MXL) GOTO 11
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
           IF    (KLEY(1:8) .EQ. 'MULTIPOL') THEN 
@@ -113,7 +114,22 @@ C Old style CHANGREF
       RETURN
 
  11   CONTINUE
-      CALL ENDJOB('Pgm fitwda. Need number at each element.'
-     >//' This element may have no number in zgoubi.dat ?',-99)
+      WRITE(*,fmt='(/,A)') 
+     >'Pgm fitwda. Need number at each element.'
+     >//' Some element may have wrong/no number in zgoubi.dat ?'
+      WRITE(*,fmt='(A,/)') 'Write to zgoubi.FIT.out.dat skipped.'
+C      IF(NRES .GT. 0) THEN 
+      NRESA = ABS(NRES)
+        WRITE(NRESA,fmt='(/,10X,A)') 
+     >  'Pgm fitwda. Need number at each element.'
+     >  //' Some element may have wrong/no number in zgoubi.dat ?'
+        WRITE(NRESA,fmt='(10X,A,/)') 
+     >  'Write to zgoubi.FIT.out.dat skipped.'
+C       ENDIF
+C      CALL ENDJOB('Pgm fitwda. Need number at each element.'
+C     >//' Some element may have wrong/no number in zgoubi.dat ?',-99)
+C     >//' This element may have no number in zgoubi.dat ?',-99)
+
+
       RETURN
       END

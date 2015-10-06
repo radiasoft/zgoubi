@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE REFER(IO,IORD,IFOC,IT1,IT2,IT3)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -35,10 +35,12 @@ C     **********************************************
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
- 
-      SAVE XI,YI,ALE,PATHL
+
+      SAVE XI,YI,ALE,PATHL,ZE,PE
       DATA XI, YI, ALE / 3*-9999.D0 / 
-      DATA PATHL / -9999.D0 / 
+      DATA PATHL / 0.D0 / 
+      DATA ZE, PE / 0.D0, 0.D0 /
+
       GOTO (1,2) IO
  
  1    CONTINUE
@@ -60,10 +62,14 @@ C------- RECHERCHE DES COORDONNEES DU POINT DE FOCALISATION
            CALL FOCAL1(IT1,IT2,IT3,XI,YI)
         ELSEIF(IORD .EQ. 2) THEN
            CALL FOCAL1(IT1,IT2,IT3,XI,YI)
+        ELSE
+           CALL ENDJOB('Pgm refer. No such option IORD = ',IORD)
         ENDIF
 C------- LE SYSTEME DE REFERENCE POUR LE CALCUL DES COEFFICIENTS
 C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
         ALE=F(3,IT1)*.001D0
+      ELSE
+         CALL ENDJOB('Pgm refer. No such option IFOC = ',IFOC)
       ENDIF
       IF(IFOC.LE.1) THEN
         DO 8 I=1,IMAX
@@ -82,13 +88,18 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
         WRITE(NRES,FMT='(/,1P,''  Reference, after change of frame '',
      >  ''(part #'',I6,'')  : '', /, 
      >   1P,7(1X,E16.8))') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
-      ENDIF 
-
-      IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,1P,''  Reference particle '',
      >  ''(#'',I6,''), path length :'',G16.8,'' cm'', 
      >  ''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
       ENDIF 
+ 
+      XIA = XI
+      YIA = YI
+      ALEA = ALE
+      PATHA = PATHL
+      ZEA = F(1,4)
+      PEA = F(1,5)*.001D0
+ 
       RETURN
  
  2    CONTINUE
@@ -111,10 +122,13 @@ C----- COMES BACK TO OLD FRAME + OLD COORDINATES
       RETURN
       
       ENTRY REFER3(
-     >             XIO,YIO,ALEO)
-      XIO = XI
-      YIO = YI
-      ALEO = ALE
+     >             XIO,YIO,ALEO,PATHO,ZEO,PEO)
+      XIO = XIA
+      YIO = YIA
+      ALEO = ALEA
+      PATHO = PATHLA
+      ZEO = F14A
+      PEO = F15A*.001D0
       RETURN
       
       END

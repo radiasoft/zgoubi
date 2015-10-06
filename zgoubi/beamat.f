@@ -118,10 +118,10 @@ C Get the 4x4 P matrix as stored by first TWISS pass
       ENDDO
       RETURN
 
-      ENTRY BEAMA2(FII,sign)
+      ENTRY BEAMA2(FII,SIGN)
       DO J=1,4
         DO I=1,4 
-          FI(I,J) = sign**(i+j) * FII(I,J)  ! FI is in the form beta, +alpha, gamma
+          FI(I,J) = SIGN**(I+J) * FII(I,J)  ! FI is in the form beta, +alpha, gamma
         ENDDO                               ! by contrast w F0 in the form beta, -alpha, gamma
       ENDDO
       DO I=1,4

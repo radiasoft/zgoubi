@@ -20,18 +20,42 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OPTICC(NOEL,PRDIC,OKCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKCPLD, PRDIC
 
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       DIMENSION R(6,6), F0(6,6), AKL(3)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
       LOGICAL OKLNO, OKLNOI
       SAVE OKLNO
-      SAVE LNOPTI
+      SAVE LNOPT
+      SAVE DXMA, DYMA, XMA, YMA, BTXMA, BTYMA, 
+     >              XM, YM, DXM, DYM, 
+     >              XM2, YM2, DXM2, DYM2, DLTP, NC
+      DIMENSION RSAV(6,6), RLOC(6,6), NW(6), BW(6)
+      SAVE RSAV
+
+      DATA OKLNO / .FALSE. /
+
+      DATA DXMA, DYMA / -1.D10, -1.D10 / 
+      DATA DXMI, DYMI / 1.D10, 1.D10 / 
+      DATA XMA, YMA / -1.D10, -1.D10 / 
+      DATA XMI, YMI / 1.D10, 1.D10 / 
+      DATA BTXMA, BTYMA / -1.D0, -1.D0 / 
+      DATA BTXMI, BTYMI / 99999.D0, 99999.D0 / 
+      DATA XM, YM / 0.D0, 0.D0 / 
+      DATA XM2, YM2 / 0.D0, 0.D0 / 
+      DATA DXM, DYM / 0.D0, 0.D0 / 
+      DATA DXM2, DYM2 / 0.D0, 0.D0 / 
+      DATA DLTP / 0.D0 / 
+
+      DATA NC / 0 /
+C      DATA ((RSAV(I,J),I=1,6),J=1,6) / 36*0.D0 /
+      DATA (RSAV(I,I),I=1,6) / 6*1.D0 /
 
       IORD = 1
       IFOC = 0
@@ -39,9 +63,56 @@ C  -------
       CALL MATRIC(IORD,IFOC,KWR,OKCPLD)
       CALL MATRI1(
      >            R)
+c        WRITE(NRES,*)
+c        WRITE(NRES,*)  '  R_SAV : '
+c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
 
+      CALL ALAIN(6,6,RSAV,NW,BW,IER)
+      RLOC = matmul(R,RSAV)
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,113) 
+ 113    FORMAT(//,18X,'TRANSFER  MATRIX  OF  LAST  ELEMENT'//
+     >  '  (MKSA units)',/)
+        WRITE(NRES,104) (( RLOC(IA,IB) , IB=1,6) , IA=1,6)
+ 104    FORMAT(6X,1P,6G16.6)
+        WRITE(NRES,112) (RLOC(1,1)*RLOC(2,2)-RLOC(1,2)*RLOC(2,1))-1.D0,
+     >  (RLOC(3,3)*RLOC(4,4)-RLOC(3,4)*RLOC(4,3))-1.D0
+112     FORMAT(/,10X,'DetY-1 = ',F18.10,',',4X,'DetZ-1 = ',F18.10)
+      ENDIF
+      DO J = 1, 6
+        DO I = 1, 6
+          RSAV(I,J) = R(I,J)
+        ENDDO
+      ENDDO
+
+
+      CALL REFER3(
+     >            XI,YI,ALE,PATHL,ZE,PE)
       CALL BEAMAT(R,PRDIC,OKCPLD,
-     >                           F0,PHY,PHZ,Cstrn,RPRM)
+     >                           F0,PHY,PHZ,CSTRN,RPRM)
+      NC = NC + 1
+      DX = F0(1,6)      
+      DY = F0(3,6)      
+      IF(F0(1,6) .GT. DXMA) DXMA = DX
+      IF(F0(3,6) .GT. DYMA) DYMA = DY
+      IF(YI .GT. XMA) XMA = YI
+      IF(ZE .GT. YMA) YMA = ZE
+      IF(F0(1,1) .GT. BTXMA) BTXMA = F0(1,1)      
+      IF(F0(3,3) .GT. BTYMA) BTYMA = F0(3,3)      
+      IF(F0(1,6) .LT. DXMI) DXMI = DX
+      IF(F0(3,6) .LT. DYMI) DYMI = DY
+      IF(YI .LT. XMI) XMI = YI
+      IF(ZE .LT. YMI) YMI = ZE
+      IF(F0(1,1) .LT. BTXMI) BTXMI = F0(1,1)      
+      IF(F0(3,3) .LT. BTYMI) BTYMI = F0(3,3)      
+      XM = XM + YI
+      YM = YM + ZE
+      XM2 = XM2 + YI*YI
+      YM2 = YM2 + ZE*ZE
+      DXM = DXM + DX
+      DYM = DYM + DY
+      DXM2 = DXM2 + DX*DX
+      DYM2 = DYM2 + DY*DY
 
       CALL BEAIMP(F0,PHY,PHZ)    ! print to zgoubi.res
 
@@ -68,14 +139,43 @@ C  -------
       ENDIF
 
       IF(OKLNO) 
-     > CALL OPTIMP(LNOPTI,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM)   ! print to zgoubi.OPTICS.out (OPTICS keyword)
-                                                            ! or to zgoubi.TWISS.out (TWISS keyword)
-
+     > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM)   ! print to zgoubi.OPTICS.out (OPTICS keyword)
+                                                           ! or to zgoubi.TWISS.out (TWISS keyword)
       RETURN
 
-      ENTRY OPTIC2(
-     >             OKLNOI,LNOPTJ)
+      ENTRY OPTIC1(
+     >              DXMAO, DYMAO, DXMIO, DYMIO, 
+     >              XMAO, YMAO, XMIO, YMIO, 
+     >              BTXMAO, BTYMAO, BTXMIO, BTYMIO, 
+     >              XMO, YMO, DXMO, DYMO, 
+     >              XM2O, YM2O, DXM2O, DYM2O, DLTPO, NCO)
+      DXMAO = DXMA
+      DYMAO = DYMA
+      XMAO = XMA
+      YMAO = YMA
+      BTXMAO = BTXMA
+      BTYMAO = BTYMA
+      DXMIO = DXMI
+      DYMIO = DYMI
+      XMIO = XMI
+      YMIO = YMI
+      BTXMIO = BTXMI
+      BTYMIO = BTYMI
+      XMO = XM
+      YMO = YM
+      DXMO = DXM
+      DYMO = DYM
+      XM2O = XM2
+      YM2O = YM2
+      DXM2O = DXM2
+      DYM2O = DYM2
+      DLTPO = DLTP
+      NCO = NC
+      RETURN
+
+      ENTRY OPTIC2(OKLNOI,LNOPTI)
       OKLNO = OKLNOI
-      LNOPTI = LNOPTJ
+      LNOPT = LNOPTI
       RETURN
+
       END

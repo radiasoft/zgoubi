@@ -50,9 +50,9 @@ C      PARAMETER (PI = 3.1415926535898d0)
 
       CALL ZGKLEY( 
      >            KLE)
-      lbl1 = label(noel,1)
+      LBL1 = LABEL(NOEL,1)
       IF(EMPTY(LBL1)) LBL1 = '.'
-      lbl2 = label(noel,2)
+      LBL2 = LABEL(NOEL,2)
       IF(EMPTY(LBL2)) LBL2 = '.'
 
 C      WRITE(LUN,104) -F0(1,2), F0(1,1), -F0(3,4), F0(3,3) 

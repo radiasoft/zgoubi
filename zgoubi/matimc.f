@@ -30,9 +30,9 @@ C     written by Frédéric Desforges (2013)
       IMPLICIT DOUBLE PRECISION (A-H,M-Z)
       DIMENSION C(2,2),P(4,4)
       INTEGER NRES
-      dimension x4(2,2), x19(4,4)
+      DIMENSION X4(2,2), X19(4,4)
 
-      save R,rPARAM,C,NU1,NU2,ALPHA1, ALPHA2, BETA1,    
+      SAVE R,RPARAM,C,NU1,NU2,ALPHA1, ALPHA2, BETA1,    
      >BETA2,GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P
       
       WRITE(NRES,FMT='(//,40X,
@@ -59,13 +59,13 @@ C     written by Frédéric Desforges (2013)
       
       WRITE(NRES,FMT='(/,6X,''EDWARDS-TENG`S PARAMETERS:'')')
       
-      WRITE(NRES,FMT='(32X,''- ALPHA:'',33X,F13.8,8X,F13.8)') ALPHA1,ALP
-     >HA2
+      WRITE(NRES,FMT='(32X,''- ALPHA:'',33X,F13.8,8X,F13.8)') ALPHA1,
+     >ALPHA2
       
       WRITE(NRES,FMT='(32X,''- BETA:'',34X,F13.8,8X,F13.8)') BETA1,BETA2
       
-      WRITE(NRES,FMT='(32X,''- GAMMA:'',33X,F13.8,8X,F13.8)') GAMMA1,GAM
-     >MA2
+      WRITE(NRES,FMT='(32X,''- GAMMA:'',33X,F13.8,8X,F13.8)') GAMMA1,
+     >GAMMA2
 
       WRITE(NRES,FMT='(/,6X,''HAMILTONIAN PERTURBATION PARAMETERS:'',/
      >)')
