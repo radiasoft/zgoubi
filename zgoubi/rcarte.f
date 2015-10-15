@@ -68,7 +68,8 @@ C----- BNORM & X-,Y-,Z-NORM
       IF(NSTR .GT. MXSTR) GOTO 97
       I = 1
       DOWHILE (I .LE. NSTR)
-        READ(STRA(I),*,ERR=97) A(NOEL,9+I)
+        IF(ISNUM(STRA(I)))   ! In case unexpectedly a ! is missing in that .dat line...
+     >  READ(STRA(I),*,ERR=97) A(NOEL,9+I)
         I = I + 1
       ENDDO      
  
@@ -82,30 +83,40 @@ C                       be completed for others)
         NFIC = 1
       ELSEIF(IDIM .EQ. 2) THEN
         READ(NDAT,FMT='(A)') TXT
-        READ(TXT,*) NX,NY
+        CALL STRGET(TXT,4,
+     >                    NSTR,STRA)
+        READ(STRA(1),*) NX
+        READ(STRA(2),*) NY
         A(NOEL,20)=NX
         A(NOEL,21)=NY
-        READ(TXT,*,END=40,ERR=40) IDUM,IDUM,AMOD
-        GOTO 41
- 40     AMOD = 0.D0
- 41     A(NOEL,22)=AMOD
+        IF(NSTR.EQ.3) THEN 
+          READ(STRA(3),*) AMOD
+        ELSE
+          AMOD = 0.D0
+        ENDIF
+        A(NOEL,22)=AMOD
         NFIC = 1
 
       ELSEIF(IDIM .EQ. 3) THEN
 C------- TOSCA, 2-D or 3-D maps, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
         READ(NDAT,FMT='(A)') TXT
-        READ(TXT,*,END=50,ERR=50) NX,NY
-        READ(TXT,*,END=50,ERR=50) IDUM,IDUM,KZMA
-        READ(TXT,*,END=50,ERR=50) IDUM,IDUM,IDUM,AMOD
-        GOTO 51
-
+        CALL STRGET(TXT,4,
+     >                    NSTR,STRA)
+        READ(STRA(1),*) NX
+        READ(STRA(2),*) NY
+        IF(NSTR.GE.3) THEN 
+          READ(STRA(3),*) KZMA
+          IF(NSTR.GE.4) THEN
+            READ(STRA(4),*) AMOD
+          ELSE
+            AMOD = 0
+          ENDIF
+        ELSE
+          KZMA = 1
 C------- To ensure compatibility with version 3 of Zgoubi
- 50     CONTINUE
-        KZMA = 1
-        AMOD = 0.D0
-C        BACKSPACE(NDAT)
+          AMOD = 0.D0
+        ENDIF
 
- 51     CONTINUE
         A(NOEL,20)=NX
         A(NOEL,21)=NY
         A(NOEL,22)=KZMA
@@ -148,9 +159,7 @@ C          Each single file contains the all 3D volume
             CALL STRGET(TXT,4+NFIC,
      >                           IDUM,STRA) 
             DO J = 1, NFIC
-c            write(*,*) ' rcarte stra ', j, STRA(4+j),noel
               READ(STRA(4+j),*) A(NOEL,23+J) 
-c            write(*,*) ' rcarte stra 23+j ', 23+j, STRA(4+j),A(NOEL,23+J) 
             ENDDO
 
           ELSE

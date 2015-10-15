@@ -65,10 +65,10 @@ C      CHARACTER(KSIZ)  KLOBJ
 C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
       IPU = IPU + 1
 
-      IF(IPASS.EQ.1) then
+      IF(IPASS.EQ.1) THEN
         NOELPU(IPU) = NOEL
-        iqpu(noel) = ipu
-      endif
+        IQPU(NOEL) = IPU
+      ENDIF
 
       IF(IPU .GT. MXPU) 
      >CALL ENDJOB('SBR PCKUP.  Too many c.o. pick-ups,  max is ',MXPU)
@@ -189,27 +189,27 @@ c      ENDDO
 
 c 17   CONTINUE
 c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)   
-      chkPU = .true.
-      noel = noela
-      do while(chkPU .and. noel.le.noelb)
-        if(iqpu(noel) .gt.0) then
-          chkPU = .false.
-        else
-          noel = noel+1
-        endif
-      enddo
-      noeli = noel
-      ipui = iqpu(noel) 
-      chkPU = .true.
-      noel = noelb
-      do while(chkPU .and. noel .gt. noela)
-        if(iqpu(noel) .gt.0) then
-          chkPU = .false.
-        else
-          noel = noel-1
-        endif
-      enddo
-      noelf = noel
-      ipuf = iqpu(noel) 
+      CHKPU = .TRUE.
+      NOEL = NOELA
+      DO WHILE(CHKPU .AND. NOEL.LE.NOELB)
+        IF(IQPU(NOEL) .GT.0) THEN
+          CHKPU = .FALSE.
+        ELSE
+          NOEL = NOEL+1
+        ENDIF
+      ENDDO
+      NOELI = NOEL
+      IPUI = IQPU(NOEL) 
+      CHKPU = .TRUE.
+      NOEL = NOELB
+      DO WHILE(CHKPU .AND. NOEL .GT. NOELA)
+        IF(IQPU(NOEL) .GT.0) THEN
+          CHKPU = .FALSE.
+        ELSE
+          NOEL = NOEL-1
+        ENDIF
+      ENDDO
+      NOELF = NOEL
+      IPUF = IQPU(NOEL) 
       RETURN
       END

@@ -57,7 +57,7 @@ C      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
  77   CONTINUE
       I = I+1
       K = ICHAR(S(I:I))
-      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
+C      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
       IF (K .LT. 48) THEN
         IF (.NOT.(K.EQ.43 .OR. K.EQ.45)) THEN   ! + OR - 
           ISNUM = .FALSE.

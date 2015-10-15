@@ -66,12 +66,12 @@ C  -------
      >              LNSR)) THEN
             OPEN(UNIT=LNSR,FILE='zgoubi.SRLOSS.Out',
      >                     FORM='FORMATTED',ERR=99, IOSTAT=IOS)
-            write(lnsr,fmt='(a)') 
+            WRITE(LNSR,FMT='(A)') 
      >      '# File created by srloss, print out by prsr'
-            write(lnsr,fmt='(a)') '# '
-            write(lnsr,fmt='(a)') '# 1 2 3 4 5 6 7 8 ...' 
-            write(lnsr,fmt='(a)') 
-     >      '# kle, noel, ipass, BORO, DPREF, AM, Q, G, imax, '
+            WRITE(LNSR,FMT='(A)') '# '
+            WRITE(LNSR,FMT='(A)') '# 1 2 3 4 5 6 7 8 ...' 
+            WRITE(LNSR,FMT='(A)') 
+     >      '# KLE, NOEL, IPASS, BORO, DPREF, AM, Q, G, IMAX, '
      >      //'PI*EMIT(1), ALP(1), BET(1), XM(1), XPM(1), '
      >      //'NLIV(1), NINL(1), RATIN(1), '
      >      //'PI*EMIT(2), ALP(2), BET(2), XM(2), XPM(2), '
@@ -93,17 +93,17 @@ C  -------
       TSCAL = TA(NOEL,2)
       LIST = TA(NOEL,3)
       TSCAL = TSCAL(DEBSTR(TSCAL):FINSTR(TSCAL))
-      if(TSCAL(1:5) .eq. 'scale' .or. TSCAL(1:5) .eq. 'SCALE') then
-        sclfld = .true. 
+      IF(TSCAL(1:5) .EQ. 'scale' .OR. TSCAL(1:5) .EQ. 'SCALE') THEN
+        SCLFLD = .TRUE. 
       ELSE
-        sclfld = .false. 
+        SCLFLD = .FALSE. 
         TSCAL = ' ' 
       ENDIF
-      if(empty(list)) then
-        list = ' '
-      else
-        list = LIST(DEBSTR(LIST):FINSTR(LIST))
-      endif
+      IF(EMPTY(LIST)) THEN
+        LIST = ' '
+      ELSE
+        LIST = LIST(DEBSTR(LIST):FINSTR(LIST))
+      ENDIF
 
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 

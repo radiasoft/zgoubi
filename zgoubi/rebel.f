@@ -83,9 +83,10 @@ C  -------
 
       PARAMETER (MXPL= MXPRM*MXLST, MXPRM3= MXPRM*3)
       LOGICAL OKLSTP
-      dimension aold(MXPRM)
-
-C      logical fiting
+      DIMENSION AOLD(MXPRM)
+      
+      LOGICAL AFTREB, AFTREO
+      SAVE AFTREB
 
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
@@ -94,6 +95,7 @@ C      logical fiting
       DATA NOELA, NOELB / 1, MXL /
       DATA OKLSTP / .FALSE. /
       DATA NPRM / 0 /
+      DATA AFTREB / .FALSE. /
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
@@ -402,6 +404,7 @@ c 104      FORMAT(/,128('*'),//,128('*'),//,128('*'))
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
 C------- Last pass HAS JUST BEEN completed
 C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
+        AFTREB = .TRUE. 
 
         LUN=ABS(NRES)
         IF(LUN.GT.0) THEN
@@ -491,6 +494,11 @@ C--------- reactive WRITE
       ENTRY REBEL4(PARAMI,TPRMI)
       PARAM = PARAMI
       TPRM = TPRMI
+      RETURN
+
+      ENTRY REBEL5(
+     >             AFTREO)
+      AFTREO = AFTREB
       RETURN
 
       ENTRY REBEL6(NLAI, NLBI)

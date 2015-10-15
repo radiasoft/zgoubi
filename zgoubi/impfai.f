@@ -29,7 +29,7 @@ C------- Called by keyword FAISTORE
       CHARACTER(*) LBL1,LBL2
       PARAMETER(MLB=10)
       PARAMETER (LBLSIZ=10)
-      CHARACTER(LBLSIZ) LBL(MLB)
+      CHARACTER(LBLSIZ) LBLST(MLB)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
@@ -118,7 +118,7 @@ CC---------------------------------------------------------------------
 
       RETURN
 
-      ENTRY IMPFAW(FNAME,LBL,NLB)
+      ENTRY IMPFAW(FNAME,LBLST,NLB)
 
 C Bug found by Sam T, July 2015 : FAISTORE may come after REBELOTE and ipass>1
 C      IF(.NOT. OPN) INQUIRE(FILE=FNAME,OPENED=OPN)
@@ -129,7 +129,7 @@ C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,
      >    ''Print will occur at element[s] labeled : '')') 
-        WRITE(NRES,FMT='(20X,A)') (LBL(I),I=1,NLB)
+        WRITE(NRES,FMT='(20X,A)') (LBLST(I),I=1,NLB)
       ENDIF
 
       RETURN

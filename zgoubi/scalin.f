@@ -163,7 +163,7 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
                 IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0)
      >                         TIM2(IF,1) =  BORO
  
-                call scale2(SCL2,TIM2,NTIM2,IF)
+                CALL SCALE2(SCL2,TIM2,NTIM2,IF)
  
               ENDIF
             ENDIF
@@ -451,7 +451,7 @@ C          TIM(IF,3) = A(NOEL,10*IF+3)     ! # of turns on up and on down ramps 
  
       ENTRY SCALI8(
      >             TXTF, IFAM)
-      IF(ifam.gt.mxta) CALL ENDJOB 
+      IF(IFAM.GT.MXTA) CALL ENDJOB 
      >('SBR scalin. Too many files. Max is ',MXTA)
       TFILE(IFAM) = TXTF
       RETURN

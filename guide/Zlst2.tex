@@ -1890,14 +1890,15 @@ first label,
    \\
    \\
  \textsl{FNAME}~~\footnotemark[1] 
-       \>Name of storage file (\emph{e.g.}~zgoubi.fai) [~; label(s) of the element(s)  at the exit  \> \>A80, \\ %%
-{[,}\textsl{\LABEL(s)}{]}  \index{LABEL@{\LABEL}}   \> of which the store occurs (10 labels maximum)]. If either \textsl{FNAME} or first \textsl{LABEL} \> \>  [, 10*A10] \\ 
-     \> is 'none' then no storage occurs. Store occurs at all elements if  first  \> \> \\
-     \> \textsl{LABEL} is 'all' or 'ALL'. \> \> \\
+       \>Name of storage file (\emph{e.g.}~zgoubi.fai). Optional~: a series of up to 10 label(s),   \> \>A80, \\ %%
+{[,}\textsl{\LABEL(s)}{]}  \index{LABEL@{\LABEL}}   \> (the first label of element(s) 
+             at the exit of which the store will occur). \> \>  [, 10*A10] \\ 
+     \> If either \textsl{FNAME} or first \textsl{LABEL} is 'none' then no storage occurs.  \> \> \\
+     \> Elements in the list of the form \textsl{'*my\_label'} or \textsl{'my\_label*'} are accepted.  \> \> \\
+     \>  Store occurs at all elements if  first \textsl{LABEL}  is 'all' or 'ALL'. \> \> \\
        \\
  $I\!P$ 	\> Store every $I\!P$ other pass (when using 
- \textsl{REBELOTE}\index{REBELOTE} \> \>I\\
- \> with \textsl{NPASS}\index{NPASS} $\geq I\!P-1$).
+ \textsl{REBELOTE}\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $\geq I\!P-1$).
 \end{tabbing}
 
 
@@ -3398,9 +3399,10 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
 %
 %
  \textsl{IOPT}, label \textsl{[, IMP or }       \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
- \textsl{  'PRINT']} \textsl{[, coupled]}]  \> 'label'~:  Can be  'all', 'ALL', or existing 'LABEL\_1(NOEL)'~;  \>  \> \\
-      \> $IMP=1$, or presence of 'PRINT', will cause storage of optical   \>  \> \\
-      \> functions  in zgoubi.OPTICS.out~;  \>  \> \\
+ \textsl{  'PRINT']} \textsl{[, coupled]}]  
+      \> 'label'~:  Can be  'all', 'ALL', or existing first label as appearing at  \>  \> \\
+      \> one or more elements in zgoubi.dat sequence~; $IMP=1$, or presence of   \>  \> \\
+      \>  'PRINT', will  cause storage of optical   functions  in zgoubi.OPTICS.out~;    \>  \> \\
       \> optical function computation is in coupled hypothesis if specified, uncoupled otherwise.  \>  \> \\
 \end{tabbing}
 
@@ -4264,8 +4266,7 @@ $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define th
 {[,}\textsl{\LABEL(s)}{]}~~\footnotemark[2]  \index{LABEL@{\LABEL}}   \>  at the exit of which the store occurs (10 labels 
        maximum)]. \> \> [, 10*A10] \\
        \\
- $IP$ 	\> Store every $IP$ other pass (when using 
- \textsl{REBELOTE}\index{REBELOTE} \> \>I\\
+ $IP$ 	\> Store every $IP$ other pass (when using \textsl{REBELOTE}\index{REBELOTE} \> \>I\\
  \> with \textsl{NPASS}\index{NPASS} $\geq IP-1$).  \\[60pt]
 %
 %

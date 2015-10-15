@@ -68,7 +68,8 @@ c        WRITE(NRES,*)  '  R_SAV : '
 c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
 
       CALL ALAIN(6,6,RSAV,NW,BW,IER)
-      RLOC = matmul(R,RSAV)
+      RLOC = MATMUL(R,RSAV)
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,113) 
  113    FORMAT(//,18X,'TRANSFER  MATRIX  OF  LAST  ELEMENT'//

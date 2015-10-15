@@ -3836,12 +3836,18 @@ following options \textsl{KOPT} and '\textsl{label}', below.
 
 \noindent IF \textsl{KOPT=0}~: Off
 
+~
+
 \noindent IF \textsl{KOPT=1}~: Will transport the optical functions with initial values as specified in \textsl{OBJET}, option 
- \textsl{KOBJ=5.1}. 
+ \textsl{KOBJ=5.1}. Note that \textsl{OPTICS} assumes the first particle of the set of 11 as defined by \textsl{OBJET},
+ to be the reference particle for computation of the transport coefficients. 
+
 
 \medskip
 
-\noindent  Note~:  The initial values  in \textsl{OBJET[KOBJ=5.1]} may be the periodic ones, as obtained, for instance, from a first run using \textsl{MATRIX[IFOC=11]}. 
+\noindent  Note~: In the case of a periodic structure, the initial coordinate values  in \textsl{OBJET[KOBJ=5.1]} may 
+be  the periodic ones (as obtained, for instance, from a first run using \textsl{MATRIX[IFOC=11]}). 
+Using \textsl{TWISS} keyword instead may be considered in that case. 
 
 \bigskip
 

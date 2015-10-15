@@ -66,9 +66,9 @@ C----- For space charge computaton
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
-      CHARACTER(LBLSIZ) LBL(MLB), LBLSP(MLB)
+      CHARACTER(LBLSIZ) LBLST(MLB), LBLSP(MLB)
       LOGICAL PRLB, PRLBSP
-      SAVE KPRT, PRLB, LBL, KPRTSP, PRLBSP, LBLSP, NLB
+      SAVE KPRT, PRLB, LBLST, KPRTSP, PRLBSP, LBLSP, NLB, NLBSP
 
 C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=5000)
@@ -87,7 +87,7 @@ C----- To get values into A(), from earlier FIT
       LOGICAL FITGET
       SAVE FITGET
 
-      LOGICAL TOMANY, STRACO
+      LOGICAL TOMANY, STRACO, STRWLD
       CHARACTER(80) TXTEMP
       CHARACTER(1) TXT1
       INTEGER DEBSTR,FINSTR
@@ -124,6 +124,7 @@ C This INCLUDE must stay located right before the first statement
       LOGICAL STRCON 
 
       LOGICAL FITBYD, FITRBL
+      LOGICAL OKPRLB
 
       DATA PRDIC / .FALSE. /
       DATA OKLNO / .FALSE. /
@@ -197,18 +198,21 @@ C------- Compute space charge kick and apply to bunch
      >   CALL SCKICK 
        ENDIF
        IF(PRLB) THEN
-C------- Print after Lmnt with defined LABEL - from Keyword FAISTORE
-C        LBL contains the LABEL['s] after which print shall occur
-        IF( STRACO(NLB,LBL,LABEL(NOEL,1),
-     >                                   IL) 
-     >    .OR. LBL(1).EQ.'all' .OR. LBL(1).EQ.'ALL') 
+C------- From Keyword FAISTORE. Print after Lmnt with defined LABEL.
+C        LBLST contains the LABEL['s] after which print shall occur
+C        IF( STRACO(NLB,LBLST,LABEL(NOEL,1),
+C     >                                   IL) 
+C     >    .OR. LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL') 
+          IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1)) 
+     >    .OR.STRWLD(NLB,LBLST,LABEL(NOEL,1),
+     >                                       IS))
      >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
        ENDIF
        IF(PRLBSP) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
 C        LBLSP contains the LABEL['s] after which print shall occur
-        IF( STRACO(NLB,LBLSP,LABEL(NOEL,1),
+        IF( STRACO(NLBSP,LBLSP,LABEL(NOEL,1),
      >                                     IL) ) 
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
@@ -218,7 +222,9 @@ C        LBLSP contains the LABEL['s] after which print shall occur
 C------- Calculate pick-up signal
 C        PULAB contains the NPU LABEL's at which CO is calculated 
         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
-     >                                  IL) ) 
+     >                                     IL)
+     >  .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
+     >                                       IS))
      >    CALL PCKUP
 C     >    CALL PCKUP(NOEL)
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
@@ -229,7 +235,7 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 C------- Transport beam matrix and print at element ends. Set by OPTICS or by TWISS keywords.
 
         IF(KUASEX .NE. -99) THEN
-C         Only if keyword is of optical element type or [MC]OBJET or END or MARKER
+C OPTICC may not be desired for non-optical elements, or MARKER, or else. 
 
           IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
@@ -398,12 +404,12 @@ C----- FAISCEAU. Print current beam in zgoubi.res
 C----- FAISCNL. Stores beam at current position (in .fai type file)
  8    CONTINUE
       IF(READAT) CALL RFAIST(I0,
-     >                         PRLB,KPRT,LBL,NLB)
+     >                         PRLB,KPRT,LBLST,NLB)
       IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0
         TXTEMP = TA(NOEL,1)
         TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
-        CALL IMPFAW(TXTEMP,LBL,NLB)
+        CALL IMPFAW(TXTEMP,LBLST,NLB)
         CALL IMPFAI(I0,NOEL-1,KLE(IQ(NOEL-1)),LABEL(NOEL-1,1),
      >                                             LABEL(NOEL-1,2))
       ENDIF
@@ -506,9 +512,10 @@ C----- CARTEMES. CARTE DE Champ CARTESIENNE MESUREE DU SPES2
       IF(FITGET) CALL FITGT1
       CALL QUASEX(ND(NOEL))
       GOTO 998
-C----- CHANGE LE FAISCEAU Y,T,Z,P EN -Y,-T,-Z,-P
+C----- YMY. CHANGE LE FAISCEAU Y,T,Z,P  ->  -Y,-T,-Z,-P
 C       ( EQUIVALENT A CHANGEMENT DE SIGNE DU Champ DIPOLAIRE }
  22   CONTINUE
+      KUASEX = 0
       CALL YMOINY
       GOTO 998
 C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
@@ -767,12 +774,12 @@ C----- Plot transverse coordinates (for use on a workstation)
 C----- SPNPRNL. Store  state of spins in logical unit
  54   CONTINUE
       IF(READAT) CALL RSPNST(I0,
-     >                         PRLBSP,KPRTSP,LBLSP,NLB)
+     >                         PRLBSP,KPRTSP,LBLSP,NLBSP)
       IF(TA(NOEL,1).NE.'none') THEN
-        NLB = 0
+        NLBSP = 0
         TXTEMP = TA(NOEL,1)
         TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
-        CALL SPNPRW(TXTEMP,LBLSP,NLB)
+        CALL SPNPRW(TXTEMP,LBLSP,NLBSP)
         CALL SPNPRN(I0,NOEL-1,KLE(IQ(NOEL-1)),LABEL(NOEL-1,1),
      >                                             LABEL(NOEL-1,2))
       ENDIF
@@ -884,12 +891,12 @@ C        - Print after LABEL'ed elements
 C        - Print every other IPASS = mutltiple of IA
  66   CONTINUE
       IF(READAT) CALL RFAIST(MLB,
-     >                           PRLB,KPRT,LBL,NLB)
+     >                           PRLB,KPRT,LBLST,NLB)
       TXTEMP = TA(NOEL,1)
       TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
       IF(TXTEMP.NE.'none') THEN
         IF(TA(NOEL,2).NE.'none') THEN
-          CALL IMPFAW(TXTEMP,LBL,NLB)
+          CALL IMPFAW(TXTEMP,LBLST,NLB)
           IF(.NOT. PRLB) CALL IMPFAI(KPRT,NOEL-1,KLE(IQ(NOEL-1)),
      >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
         ENDIF
@@ -900,12 +907,12 @@ C        - Print after LABEL'ed elements
 C        - Print every other IPASS = mutltiple of IA
  67   CONTINUE
       IF(READAT) CALL RSPNST(MLB,
-     >                           PRLBSP,KPRTSP,LBLSP,NLB)
+     >                           PRLBSP,KPRTSP,LBLSP,NLBSP)
       TXTEMP = TA(NOEL,1)
       TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
       IF(TXTEMP.NE.'none') THEN
         IF(TA(NOEL,2).NE.'none') THEN
-          CALL SPNPRW(TXTEMP,LBLSP,NLB)
+          CALL SPNPRW(TXTEMP,LBLSP,NLBSP)
           IF(.NOT. PRLBSP) CALL SPNPRN(KPRTSP,NOEL-1,KLE(IQ(NOEL-1)),
      >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
         ENDIF
@@ -1054,7 +1061,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
             WRITE(LNOPTI,FMT='(A)') 
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
-     >         '  Dxp           Dy            Dy            phix/' //
+     >         '  Dxp           Dy            Dyp           phix/' //
      >         '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
      >         '         xp            y             yp          ' //
      >         'KEYWORD    label1     label2       FO(6,1)       ' //
@@ -1185,7 +1192,7 @@ C      IF(READAT) CALL RTWISS
           WRITE(LNOPTI,fmt='(a)') 
      >       '# alfx          btx           alfy          bty  ' //
      >       '         alfl          btl           Dx          ' //
-     >       '  Dxp           Dy            Dy            phix/' //
+     >       '  Dxp           Dy            Dyp           phix/' //
      >       '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
      >       '         xp            y             yp          ' //
      >       'KEYWORD    label1     label2       FO(6,1)       ' //

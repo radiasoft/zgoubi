@@ -64,9 +64,11 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LETI, LETAG
       CHARACTER(130) TXT
 C      CHARACTER(1) TX1
-      logical okopn
+      LOGICAL OKOPN
+      LOGICAL AFTREB
  
-      data okopn / .false. /
+      DATA OKOPN / .FALSE. /
+      DATA AFTREB / .FALSE. /
 
 C----- Reset particle counter
       IF(IPASS.EQ.1) CALL CNTRST
@@ -102,7 +104,9 @@ C----- Reset particle counter
      >                     IDUM)
       FRMT='FORMATTED'
       IF(BINARY) FRMT='UNFORMATTED'
+
       IF(IPASS .EQ. 1) THEN
+        INQUIRE(FILE=NOMFIC,NUMBER=NL,OPENED=OKOPN)
         IF(.NOT. OKOPN) THEN      
           OKOPN = (IDLUNI(
      >                    NL)) 
@@ -126,6 +130,19 @@ C----- Reset particle counter
         ENDIF
         CALL HEADER(NL,NRES,4,BINARY,
      >                              *999)
+      ELSE
+        CALL REBEL5(
+     >              AFTREB)
+        IF(AFTREB) THEN
+C May happen if problems are stacked, as in 
+C [...]/testKEYWORDS/FIT/FITfollowedByREBELOTE/orbitsInCYCLOTRON/REBELOTE-FIT_followedByOrbits.dat
+          INQUIRE(FILE=NOMFIC,NUMBER=NL,OPENED=OKOPN)
+          IF(OKOPN) THEN
+            REWIND(NL)
+            CALL HEADER(NL,NRES,4,BINARY,
+     >                                   *999)
+          ENDIF
+        ENDIF
       ENDIF
 
 C----- Flag for lmnt number - not used (for the moment...)
@@ -218,11 +235,6 @@ c             write(88,*) ' dp_o, dp ',dpo, dp
               IF(LM .NE. NOELR) GOTO 221
             ENDIF
 
-c             write(*,*) ' obj3 KP ',KP1,KP2,KP3,IPASSR
-c     >         ,OKKP3(KP1,KP2,KP3,IPASSR,
-c     >                  IEND)
-c               pause
-
             IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                       IEND)) THEN
               IF(IEND.EQ.1) THEN 
@@ -232,11 +244,6 @@ c               pause
 
               GOTO 221
             ENDIF
-
-c             write(*,*) ' obj3 KT ',KT1,KT2,KT3,IT
-c     >         ,OKKT3(KT1,KT2,KT3,IT,
-c     >                                   IEND),iend
-c                pause          
 
             IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                   IEND)) THEN
@@ -260,12 +267,8 @@ C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
               READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             ENDIF
             IT2 = IT2 + 1
-c            write(*,*) ' obj3 ',KT3,KT3*((it1-1)/KT3),it1-1         
-c                read(*,*)
-            if(KT3*((it2-1)/KT3) .ne. it2-1) goto 171            
-c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it1
-c                read(*,*)
-            it1 = it1 + 1
+            IF(KT3*((IT2-1)/KT3) .NE. IT2-1) GOTO 171            
+            IT1 = IT1 + 1
             TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
@@ -336,17 +339,12 @@ C------------ Installed for RHIC FFAG arcs
  174        continue
             READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jt2
             IT2 = JT2
-c            write(*,*) ' obj3 ',KT3,KT3*((it2-1)/KT3),it1-1,it2
-c                read(*,*)
-            if(it2 .lt. kt1 .or. it2 .gt. kt2) goto 174            
-            if(it1.gt.0) then 
-              if(KT3*((it2)/KT3) .ne. it2) goto 174            
-            endif
-            it1 = it1 + 1
-c            write(*,*) ' obj3 ',Y,T,Z,P,S, DP,it2,it2,it1
-c                read(*,*)
+            IF(IT2 .LT. KT1 .OR. IT2 .GT. KT2) GOTO 174            
+            IF(IT1.GT.0) THEN 
+              IF(KT3*((IT2)/KT3) .NE. IT2) GOTO 174            
+            ENDIF
+            IT1 = IT1 + 1
             TIM = 0.D0
-C            LETI=KAR(IKAR)
             IEXI=1
             IT = IT1
             IREPI = IT
@@ -456,11 +454,6 @@ C        IREP(IT1) = IREPI
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
-
-c          write(*,*) ' obj3 it1,it2, kt2, iex, leti : '
-c     >           ,it1,it2,kt2,iexi,leti
-c          write(*,*)  F(2,IT1), F(3,IT1), F(4,IT1),F(6,IT1)
-c             read(*,*)
 
       GOTO  17
  

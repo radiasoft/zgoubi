@@ -242,6 +242,7 @@ OBJ=\
  objets.o\
  okkp3.o\
  okkt3.o\
+ okprlb.o\
  open2.o\
  opticc.o\
  optimp.o\
@@ -363,6 +364,7 @@ OBJ=\
  srprn.o\
  stpsiz.o\
  straco.o\
+ strwld.o\
  symmed.o\
  sympl.o\
  synpar.o\

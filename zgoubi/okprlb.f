@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
+C  Copyright (C) 1988-2007  François Méot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,17 +17,28 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973, USA
+C  Upton, NY, 11973
+C  USA
 C  -------
-      DATA LBLST, LBLSP / MLB * ' ',   MLB * ' ' /
-C----- Switch for calculation, transport and print of optical functions :
-      DATA KOPTCS, KOPTIP / 0, 0 / 
-      DATA OKLNO / .FALSE. / 
+      FUNCTION OKPRLB(NLB,LBLST,LABEL)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) LBLST(*)
+      CHARACTER(*) LABEL
+      LOGICAL OKPRLB, STRACO
 
-      DATA REBFLG, NOELRB / .FALSE., MXL / 
-      DATA LBLOPT / ' ' /
+      IF    (LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL') THEN
+        OKPRLB = .TRUE.  
+        RETURN   
+      ELSEIF( STRACO(NLB,LBLST,LABEL,
+     >                               IL)) THEN
+        OKPRLB = .TRUE.  
+        RETURN   
+      ENDIF
 
+      OKPRLB=.FALSE.
 
+      RETURN
+      END
