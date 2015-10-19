@@ -43,83 +43,108 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (I0 = 0)
 
 C----- BORO
-      READ(NDAT,*) A(NOEL,1)
+      LINE = 1
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
 C----- KOBJ - may be of the form "KOBJ.K2"
-      READ(NDAT,*,ERR=99) TXT132
+      LINE = 2
+      READ(NDAT,*,ERR=90,END=90) TXT132
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
       A(NOEL,11) = I0
       IF(STRCON(TXT132,'.',
      >                      IS)) THEN
-        READ(TXT132(1:IS-1),*,ERR=99,END=99) KOBJ
-        READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
+        READ(TXT132(1:IS-1),*,ERR=90,END=90) KOBJ
+        READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=90,END=90) K2
         A(NOEL,11) = K2
       ELSE
-        READ(TXT132,*,ERR=99,END=99) KOBJ
+        READ(TXT132,*,ERR=90,END=90) KOBJ
       ENDIF
       A(NOEL,10) = KOBJ
 C----- IMAX
-      READ(NDAT,*) A(NOEL,20)
+      LINE = 3
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,20)
 C----- Type of p.d.f, KY, KT, KZ, KP, KX, KD
-      READ(NDAT,*) (A(NOEL,I),I=30,30 + MXJ2)
+      LINE = 4
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=30,30 + MXJ2)
 C----- Central values Yo, To, Zo, Po, Xo, Do
-      READ(NDAT,*) (A(NOEL,I),I=40,40 + MXJ2)
+      LINE = 5
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=40,40 + MXJ2)
 
       GOTO (1,2,3) KOBJ
       CALL ENDJOB('KOBJ should be 1, 2 or 3. No such object KOBJ=',KOBJ)
  
  1    CONTINUE
 C----- dY, dT, dZ,...
-      READ(NDAT,*) (A(NOEL,I),I=50,50 + MXJ2)
+      LINE = 6
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,50 + MXJ2)
 C----- Cut-offs Nsy, Nst, Nsz,...
-      READ(NDAT,*) (A(NOEL,I),I=60,60 + MXJ2)
+      LINE = 7
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,60 + MXJ2)
 C----- No, Co, C1, C2 C3
-      READ(NDAT,*) (A(NOEL,I),I=70,74)
+      LINE = 8
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,74)
 C----- IR1, IR2, IR3
-      READ(NDAT,*) (A(NOEL,I),I=80,82)
+      LINE = 9
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,82)
       RETURN
  
  2    CONTINUE
 C----- # of bars IY, IT , IZ,...
-      READ(NDAT,*) (A(NOEL,I),I=50,50 + MXJ2)
+      LINE = 6
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,50 + MXJ2)
 C----- Distances between bars PY, PT, PZ,...
-      READ(NDAT,*) (A(NOEL,I),I=60,60 + MXJ2)
+      LINE = 7
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,60 + MXJ2)
 C----- Widths of the bars dY, dT, dZ,...
-      READ(NDAT,*) (A(NOEL,I),I=70,70 + MXJ2)
+      LINE = 8
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,70 + MXJ2)
 C----- Cut-offs Nsy, Nst, Nsz,...
-      READ(NDAT,*) (A(NOEL,I),I=80,80 + MXJ2)
+      LINE = 9
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,80 + MXJ2)
 C----- No, Co, C1, C2 C3
-      READ(NDAT,*) (A(NOEL,I),I=90,94)
+      LINE = 10
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=90,94)
 C----- IR1, IR2, IR3
-      READ(NDAT,*) (A(NOEL,I),I=95,97)
+      LINE = 11
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=95,97)
       RETURN
  
  3    CONTINUE
-      READ(NDAT,*) (A(NOEL,I),I=50,53)
+      LINE = 6
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,53)
       IF(A(NOEL,53) .LT. 0.D0) THEN
         BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*) (A(NOEL,I),I=50,54)
+        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,54)
         A(NOEL,53) = -A(NOEL,53) 
       ELSE
         A(NOEL,54) = 0.D0
       ENDIF 
-      READ(NDAT,*) (A(NOEL,I),I=60,63)
+      LINE = 7
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,63)
       IF(A(NOEL,63) .LT. 0.D0) THEN
         BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*) (A(NOEL,I),I=60,64)
+        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,64)
         A(NOEL,63) = -A(NOEL,63) 
       ELSE
         A(NOEL,64) = 0.D0
       ENDIF 
-      READ(NDAT,*) (A(NOEL,I),I=70,73)
+      LINE = 8
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,73)
       IF(A(NOEL,73) .LT. 0.D0) THEN
         BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*) (A(NOEL,I),I=70,74)
+        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,74)
         A(NOEL,73) = -A(NOEL,73) 
       ELSE
         A(NOEL,74) = 0.D0
       ENDIF 
-      READ(NDAT,*) (A(NOEL,I),I=80,82)
+      LINE = 9
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,82)
       RETURN
- 99   CALL ENDJOB('*** Error, SBR RMCOBJ -> upon BACKSPACE',-99)
+
+ 99   WRITE(NRES,FMT='(5X,A)') 
+     >'*** Pgm rmcobj. error upon BACKSPACE'
+
+ 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
+
+      RETURN
       END

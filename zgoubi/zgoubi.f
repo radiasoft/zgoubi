@@ -240,7 +240,6 @@ C OPTICC may not be desired for non-optical elements, or MARKER, or else.
           IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
      >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
-C            CALL OPTICC(LNOPTI,NOEL,KOPIMP,PRDIC,OKCPLD)
             CALL OPTICC(NOEL,PRDIC,OKCPLD)
 
           ENDIF

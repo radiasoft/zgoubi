@@ -140,7 +140,8 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
       ENDIF
 
       IF(OKLNO) 
-     > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM)   ! print to zgoubi.OPTICS.out (OPTICS keyword)
+     > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,
+     >                                              PP0)  ! print to zgoubi.OPTICS.out (OPTICS keyword)
                                                            ! or to zgoubi.TWISS.out (TWISS keyword)
       RETURN
 
@@ -170,7 +171,7 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
       YM2O = YM2
       DXM2O = DXM2
       DYM2O = DYM2
-      DLTPO = DLTP
+      DLTPO = PP0
       NCO = NC
       RETURN
 

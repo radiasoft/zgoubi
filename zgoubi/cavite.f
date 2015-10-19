@@ -94,7 +94,7 @@ C  -------
      >                     DUM)
 
       SRLOSS = .FALSE.
-      dwsr = 0.D0
+      DWSR = 0.D0
 
       CALL SCALE9(
      >            KFM )
@@ -131,8 +131,8 @@ C  -------
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) SKAV(KCAV+1)
- 100    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
+        WRITE(NRES,102) SKAV(KCAV+1)
+ 102    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
         IF(OKIMP) WRITE(NRES,FMT='(15X,
      >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)') 
       ENDIF
@@ -155,7 +155,7 @@ C----- P0, AM  are  in  MEV/c, /c^2
       QV = VLT*Q *1.D-6
  
 
-      GOTO(10,20,30,40,50,60,70,80,77,110,21) KCAV
+      GOTO(10,20,30,40,50,60,70,80,77,100,21) KCAV
       CALL ENDJOB(' Sbr cavite : No such option KCAV =',KCAV)
   
 C------------------------------------------- 
@@ -717,12 +717,13 @@ C        PH(I)=BLAG
  3    CONTINUE
       GOTO 88
 
- 110  CONTINUE
+ 100  CONTINUE
 Cavite is modeled by Chambers style matrix, so accounting for transverse focusing.
 C After J.Rosenzweig, L.Serafini, Phys Rev E Vo. 49, Num 2, 1994.
 C Source code moved from BETA on Sept. 2015. Origin of phase is on >0 crest.
 C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
-      CAVL = AN10*1.d2     ! cavL in cm
+      CAVM = AN10          ! cavLength /m
+      CAVL = CAVM*1.D2     ! cavLength /cm
       CALL SCUMW(0.5D0*CAVL)
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
@@ -733,11 +734,11 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
       IDMP = NINT(AN22)
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
-     >  FCAV,cavl*unit(5),QV,BORO,SCUM*UNIT(5),TCUM,AM,Q*QE
+     >  FCAV,CAVM,QV,BORO,SCUM*UNIT(5),TCUM,AM,Q*QE
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
      >  / ,15X,'Transport option : ',I2,'  (',A,')',
@@ -759,14 +760,16 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
           WF1(I) = ENRG - AMQ(1,I)
           BTA = P / ENRG
 
+Compute particle time at center of cavity 
           TI = F(7,I) * UNIT(7) 
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
           TI = TI + dsar2 / (bta*cl)
 
-C F(7,I) is time in mu_s. of course, TI is in s
+C F(7,I) is time in mu_s. Of course, TI is in s
           PHI = OMRF * TI + PH0   
+C          PHI = 0.
 C Phase, in [-pi,pi] interval
           PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
           IF    (PHI .GT.  PI) THEN
@@ -777,6 +780,9 @@ C Phase, in [-pi,pi] interval
             PH(I) =PHI 
           ENDIF
 
+c           if(i.eq.1)  write(*,fmt='(/,e12.4,/)') PH(i)
+C                 read(*,*)
+
           COSRF=COS(PH(I))
           DWF=QV*COSRF
           WI = WF1(I) 
@@ -785,28 +791,31 @@ C Phase, in [-pi,pi] interval
 C Kin. energy, MeV
           DPR(I)=WF
           P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
+
+C                write(*,*) ' cavite dwf ',dwf,phi,wf,wf-dwf
         
           IF     (DWF.EQ.0.D0 .OR. IDMP.EQ.0.) THEN
 C        CAVITY + DRIFT
             V11= 1.D0
-            V12= 0.D0
+            V12= CAVM
             V21= 0.D0                               
             V22= 1.D0
           ELSE IF(IDMP.EQ.1) THEN
 C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)#1
             FAC=SQRT(WI/WF)
             V11= FAC
-            V12= CAVL*FAC
+            V12= CAVM*FAC
             V21= 0.D0                               
             V22= FAC
           ELSE IF(IDMP.EQ.-1) THEN
 C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)=1
             FAC=SQRT(WI/WF)
             V11= FAC
-            V12= CAVL*FAC
+            V12= CAVM*FAC
             V21= 0.D0     
             V22= FAC
             DWFT=DSQRT(V11*V22-V21*V12)
+C            write(*,*) ' cavite idmp=-1 ; damp factor dwft = ',dwft
             V11=V11/DWFT
             V12=V12/DWFT
             V22=V22/DWFT
@@ -817,7 +826,7 @@ C        CHAMBERS CAVITY Det(M)#1
             FAC=DLOG(EFEI)/SQRT8/COSRF
             COSFAC=COS(FAC)
             SINFAC=SIN(FAC)
-            RAP=SQRT8*CAVL/DWF
+            RAP=SQRT8*CAVM/DWF
             V11= COSFAC-SQRT2*SINFAC*COSRF
             V12=    SINFAC*RAP*WI*COSRF
             V21=-SINFAC/RAP/WF*(2*COSRF+1.D0/COSRF)
@@ -828,12 +837,13 @@ C        CHAMBERS CAVITY Det(M)=1
             FAC=DLOG(EFEI)/SQRT8/COSRF
             COSFAC=COS(FAC)
             SINFAC=SIN(FAC)
-            RAP=SQRT8*CAVL/DWF
+            RAP=SQRT8*CAVM/DWF
             V11= COSFAC-SQRT2*SINFAC*COSRF
             V12=    SINFAC*RAP*WI*COSRF
             V21=-SINFAC/RAP/WF*(2*COSRF+1./COSRF)
             V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
             DWFT=DSQRT(V11*V22-V21*V12)
+C            write(*,*) ' cavite idmp=-2 ; damp factor dwft = ',dwft
             V11=V11/DWFT
             V12=V12/DWFT
             V22=V22/DWFT

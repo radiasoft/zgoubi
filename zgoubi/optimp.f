@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM) 
+      SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,
+     >                                                     PP0) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION F0(6,6),AKL(3)
 
@@ -66,10 +67,12 @@ C     >, PHY, PHZ, SCUM, NOEL
      >, F(2,1)*0.01D0, F(3,1), F(4,1)*0.01D0, F(5,1)
      >, kle, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
      >, CSTRN, RPRM, '   ! optimp.f'
- 104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1x,a)
+ 104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1X,A)
      >,6(1X,E13.5),A)
 C FM 14 Apr. 14
 C     >,5(1X,E13.5),A,/)
+
+      PP0 = F(1,1)
 
       RETURN
       END

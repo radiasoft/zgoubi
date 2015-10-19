@@ -15,7 +15,7 @@ C----- PLOT SPECTRUM
       character(2) HV
       INTEGER DEBSTR,FINSTR
 
-      character(7) TXT7A, TXT7B, TXT7R
+      character(7) TXT7A, TXT7B, TXT7R, TXT7L
       character(200) TXT200
       CHARACTER(80) STRA(2)
       logical strcon
@@ -26,14 +26,17 @@ C----- PLOT SPECTRUM
 C Channel number, .le. NCANAL
       data nc0 / 3* NCANAL /
       data borne / 0.5d0, 1.d0, 0.5d0, 1.d0, 0.d0, 1.d0 /
-C kpa = turn # ; nt=-1 far all particles
+C kpa = turn # ; nt=-1 for all particles
       data kpa, nt / 1, -1 /
+C kla = lmnt # ; inhibited if -1
+      data kla / -1 /
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
       write(*,*) 'Now running pgm lipsFitFromFai ... '
       write(*,*) 'Will find ellipse matched to particle population'
-     >//' at turn # kpa as specified in lipsFitFromFai.In'
+     >//' at turn # kpa and at lmnt kla (inhibited if kla=-1),'
+     >//' as specified in lipsFitFromFai.In'
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
@@ -56,6 +59,8 @@ c      elseif(.NOT.exs) then
      >  ,' ! file name (*.fai or b_*.fai type)'
         write(lunIn,fmt='(i6,1x,t60,a)')  kpa
      >  ,' ! kpa : turn # (lips will match bunch for that turn)'
+        write(lunIn,fmt='(i6,1x,t60,a)')  kla
+     >  ,' ! kla : lmnt # (inhibited if -1)'
       endif
 
       rewind(lunIn)
@@ -72,10 +77,13 @@ c              write(*,*) ' lipsFromFai ',nbstr, stra(1)
 c              write(*,*) stra(2), nt
 c              read(*,*)
         read(lunIn,*,err=11,end=11) kpa
+        read(lunIn,*,err=11,end=11) kla
         close(lunIn)
         write(*,*) ' Read following data from lipsFitFromFai.In :'
         write(*,*) filfai,'   !  .fai file name '
         write(*,*) kpa,   '   !  # of the turn to be lips''ed '
+        write(*,*) kla,   '   !  # of the lmnt to be considered'
+     >                                //' (-1 to inhibit)'
 
 c        write(*,*) ' Press Enter to continue'
 c      read(*,*)
@@ -96,20 +104,22 @@ c      read(*,*)
       write(TXT7A,fmt='(I7)') kpa
       write(TXT7B,fmt='(I7)') kpb
       write(TXT7R,fmt='(I7)') ksmpl
+      write(TXT7L,fmt='(I7)') kla
 
       write(*,*) ' Particle # : '//'   all ' 
       write(*,*) ' Number of turns and range :  '//TXT7R
      >//' turn(s),  from '//TXT7A//' to '//TXT7B
+      write(*,*) ' Lmnt number :  '//TXT7R
 
       call READC2B(KPa,KPb,KPc)
-
+      call READC4B(KLa,KLa)
       call INIGR(
      >           NLOG, LM)
 C     >           NLOG, LM, FILFAI)
       nl = nfai
       okopn = .false.
       change = .true.
-      call LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
+      call LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,kla)
           
       stop ' Ended correctly it seems...'
 
@@ -117,7 +127,7 @@ C     >           NLOG, LM, FILFAI)
       stop 'Error during read from lipsFitFromFai.In.'
       end
 
-      SUBROUTINE LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt)
+      SUBROUTINE LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,kla)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
       character(*) HV
@@ -179,12 +189,13 @@ C          OPN = .FALSE.
            WRITE(IUN,*) '# //////////////////////////////////////////'
            WRITE(*,*) '# //////////////////////////////////////////'
            WRITE(IUN,*) 
-     >     '# % Ellipse matching considers turn#',kpa
+     >     '# % Ellipse matching considers turn#',kpa,' and lmnt # ',kla
            WRITE(IUN,*) 
      >     '# XM, XPM, (U(I),I=1,3), '//
      >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
      >     ', LM, DPM, # of prtcls in rms lips_x,_y,_z, '//
-     >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp, dp/p|Init'
+     >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp, dp/p|Init'//
+     >     ', kla, <s>'
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -223,13 +234,13 @@ c             GOTO 69
           ENDIF
           IF(NPTR .GT. 0) THEN
             CALL LPSFIT(NLOG,KPR,LM,
-     >                      YM,YPM,YMX,YPMX,U,A,B,nptin,*60)
+     >                    YM,YPM,YMX,YPMX,U,A,B,nptin,sav,*60)
  60         CONTINUE
 
 c            IF(OKKT5(KT)) THEN
 c              IF(KPR.EQ.2) 
                CALL LPSIMP(IUN,YNU,BORNE,U,KT1,ktma,HV
-     >             ,npass,kpa,kpb,energ,nptin)
+     >             ,npass,kpa,kpb,kla,energ,nptin,sav)
 
 c              write(6,*) ' Pause '
 c              read(5,*)
@@ -267,7 +278,7 @@ c      GOTO 99
       END
 
       SUBROUTINE LPSFIT(NLOG,KPR,LM,
-     >                  YM,YPM,YMX,YPMX,U,A,B,nptin,*)
+     >                  YM,YPM,YMX,YPMX,U,A,B,nptin,sav,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YM(*), YPM(*), U(*), A(*), B(*)
       DIMENSION YMX(*), YPMX(*)
@@ -374,6 +385,13 @@ C        U(JJ) = 4.D0*SQ
 c        write(*,fmt='(a,3g12.4,2i6)') 'blabla ',x2,xp2,u(jj),npts,jj
 
  25   CONTINUE
+
+      sav = 0.d0
+      DO I=1,NPTS
+          sav = sav + COOR(I,8)
+          SNPT = SNPT + 1
+      enddo
+      sav = sav / dble(npts)
 
       IF(KPR .EQ. 0) RETURN
      
@@ -1239,8 +1257,8 @@ C------- Swallow the header (4 lines)
       DIMENSION KXYL(9)
       SAVE KXYL
 
-C                 Y  T  Z  P  time enrg dppInit unused
-      DATA KXYL / 2, 3, 4, 5, 7,   20,  11,     2*1 /
+C                 Y  T  Z  P  time enrg dppInit,<s>, unused
+      DATA KXYL / 2, 3, 4, 5, 7,   20,  11,      6,  1 /
 CCCC                  Y  T  Z  P  time   dp/p dppInit unused
 CCCC      DATA KXYL / 2, 3, 4, 5, 7,     1,   11,     2*1 /
 C                          RF  RF
@@ -1259,6 +1277,7 @@ C----------- Initial coordinates
           COOR(NOC,5)=YZXB(KXYL(5)+II )
           COOR(NOC,6)=YZXB(KXYL(6) )
           COOR(NOC,7)=YZXB(KXYL(7) )  ! dp_p|Init
+          COOR(NOC,8)=YZXB(KXYL(8) )  ! average s
       RETURN
       END
       SUBROUTINE HEADER(NL,N,IPRNT,BINARY,*)
@@ -1373,7 +1392,7 @@ C----------  This is to flush the write statements...
       RETURN
       END
       SUBROUTINE LPSIMP
-     >(IUN,YNU,BORNE,U,KT1,kt2,HV,npass,kpa,kpb,energ,nptin)
+     >(IUN,YNU,BORNE,U,KT1,kt2,HV,npass,kpa,kpb,kla,energ,nptin,sav)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YNU(*), BORNE(*), U(*)
       character HV*(*)
@@ -1392,10 +1411,10 @@ C----------  This is to flush the write statements...
      >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
      >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
      >,(sqrt(sigx2(I)),I=1,3),(sqrt(sigxp2(I)),I=1,3)
-     >,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7)
+     >,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7),kla,sav
 !!     >      ,  xK, xiDeg,' ',HV
  179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6),
-     >3(1x,i6),10(1x,E14.6))
+     >3(1x,i6),10(1x,E14.6),1x,i6,1x,e14.6)
 
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
       RETURN

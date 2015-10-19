@@ -67,7 +67,11 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
         CALL STRGET(TXT132,3
      >                    ,MSTR,STRA)
-        if(iopt .ne. 10) mstr=2        !      3rd data is IDMP in cavite IOPT=10
+        if(iopt .ne. 10) then
+          mstr=2        !      3rd data is IDMP in cavite IOPT=10
+        else
+          if(mstr.eq.2) a(noel,22)= 2      ! default
+        endif
         DO I = 1, MSTR
           if(isnum(stra(i))) then 
             READ(STRA(I),*) A(NOEL,19+I)

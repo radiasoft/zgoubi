@@ -4,6 +4,7 @@
       character(80) filfai
       data filfai / 'zgoubi.fai' /
       data  kpa, kpb, kpstp / 1, 9, 1/ 
+      data  kla, klb, klstp / -1, -1, -1 / ! Will not consider lmnt #. Otherwise kpa<kpb. 
 
       INQUIRE(FILE='lipsFitFromFai_iterate.In',exist=EXS)
 
@@ -17,14 +18,20 @@
        write(87,*)'WARNING : lipsFitFromFai_iterate.In does not exist'
        write(87,*)'Will be created from default values'
 
-       write(lIn,*) filfai, ' !  .fai file name' 
-       write(lIn,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp' 
+       write(lIn,*) filfai,          ' ! .fai file name' 
+       write(lIn,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp (pass #)' 
+       write(lIn,*) kla, klb, klstp, ' ! kla, klb, klstp (lmnt #)' 
       endif
 
       rewind(lIn)
 
         read(lIn,*,err=10,end=10) filfai
         read(lIn,*,err=10,end=10) kpa, kpb, kpstp
+        kla1 = kla ; klb1 = klb ; klstp1 = klstp
+        read(lIn,*,err=20,end=20) klai, klbi, klstpi
+        kla1 = klai ; klb1 = klbi ; klstp1 = klstpi
+ 20     continue
+        kla = klai ; klb = klbi ; klstp = klstpi
         close(lIn)
 
 C      call system('rm -f temp_ipmx')
@@ -33,6 +40,7 @@ C      call system('rm -f temp_ipmx')
      >                             lipsFitFromFai_iterate.Out_old')
 
       do kp = kpa, kpb, kpstp
+       do kl = kla, klb, klstp
         IF (IDLUNI(lIn)) THEN
           open(unit=lIn,file='lipsFitFromFai.In')
         ELSE
@@ -41,6 +49,7 @@ C      call system('rm -f temp_ipmx')
 
         write(lIn,*) filfai
         write(lIn,*) kp
+        write(lIn,*) kl 
         close(lIn)
 
         write(*,*) 
@@ -48,16 +57,19 @@ C      call system('rm -f temp_ipmx')
         write(*,*) 
      >  ' PGM lipsFitFromFai_iterate ; NOW NEW CALL TO lipsFitFromFai'
         write(*,*) ' Turn # : ',kp
+        write(*,*) ' Lmnt # : ',kl
         write(*,*) ' ----------------------------------------------'
         write(*,*) 
         call system
      >  ('~/zgoubi/SVN/current/toolbox/lipsFitFromFai/lipsFitFromFai')
-      call system('cat lipsFitFromFai.Out >>lipsFitFromFai_iterate.Out')
+        call system('cat lipsFitFromFai.Out '
+     >                  //' >> lipsFitFromFai_iterate.Out')
         
 c        IF (IDLUNI(itmp))  open(unit=itmp,file='temp_ipmx')
 c        read(itmp,*) ierr,mxPss
 c        close(itmp)
 C        if(ierr .eq. -1) goto 11
+       enddo
       enddo
       close(lIn)
 

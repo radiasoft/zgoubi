@@ -18,8 +18,8 @@ set grid
 G =  1.15965218E-03
 am = 5.10998920E-01 
 c = 2.99792458e8
-p0 =  57.36635309*c
 pi = 3.1415926
+broRef = 55.038075681301081
 
 #fit_limit=1e-20
 #q0 = 0.25
@@ -30,19 +30,19 @@ pi = 3.1415926
 # fit [] Qy(x)             "tunesFromMatrix.out" u (($12+am)/am*G):($4) via q0, q1, q2, q3
 #print "Qy(44.8339) : ", Qy(44.8339)*138*6
 #exit
-
-set samples 100000
-set xrange  [14:49]
-set x2range [14/G*am/1000.:49/G*am/1000.]
+ 
+Ggmi = 14 ; Ggma = 49
+set xrange  [Ggmi:Ggma] 
+set x2range [Ggmi/G*am/1e3:Ggma/G*am/1e3] 
 set yrange []
 set y2range []
 
  plot \
-      "run_twissScan.out" u (G * $6*1e3/am):($9) axes x1y1 w lp ps .2 lt 1 lc 1 tit "Q_x"  ,\
-      "run_twissScan.out" u (G * $6*1e3/am):($11) axes x1y1 w lp ps .2 lt 1 lc 3 tit "Q_y"  ,\
-      "run_twissScan.out" u (G * $6*1e3/am):($13) axes x1y2 w lp ps .2 lt 2 lc 1 tit "{/Symbol x}_x"  ,\
-      "run_twissScan.out" u (G * $6*1e3/am):($15) axes x1y2 w lp ps .2 lt 2 lc 3 tit "{/Symbol x}_y"  ,\
-      "searchCO.out_COs_12traj"  u (G * $8/am):($3+.4) w impulse lt 1 lw .2 lc 2 axes x1y1 tit "Design E" 
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($4) axes x1y1 w lp ps .2 lt 1 lc 1 tit "Q_x"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($6) axes x1y1 w lp ps .2 lt 1 lc 3 tit "Q_y"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($8) axes x1y2 w lp ps .2 lt 2 lc 1 tit "{/Symbol x}_x"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($10) axes x1y2 w lp ps .2 lt 2 lc 3 tit "{/Symbol x}_y"  ,\
+      "searchCO.out_COs_12traj"  u (G * $6*broRef*c*1e-6/am):($3+.4) w impulse lt 1 lw .2 lc 2 axes x1y1 tit "Design E" 
 
 #set samples 100000
  set terminal postscript eps blacktext color enh size 8.3cm,6cm "Times-Roman" 12
