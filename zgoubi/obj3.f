@@ -66,9 +66,13 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C      CHARACTER(1) TX1
       LOGICAL OKOPN
       LOGICAL AFTREB
+
+      SAVE NHD
+      LOGICAL FIRST
  
       DATA OKOPN / .FALSE. /
       DATA AFTREB / .FALSE. /
+      DATA FIRST / .TRUE. /
 
 C----- Reset particle counter
       IF(IPASS.EQ.1) CALL CNTRST
@@ -128,7 +132,12 @@ C----- Reset particle counter
         ELSE
           REWIND(NL)
         ENDIF
-        CALL HEADER(NL,NRES,4,BINARY,
+        IF(NINT(A(NOEL,11)).GE.1) THEN
+          NHD = NINT(A(NOEL,12)) 
+        ELSE
+          NHD = 4
+        ENDIF
+        CALL HEADER(NL,NRES,NHD,BINARY,
      >                              *999)
       ELSE
         CALL REBEL5(
@@ -139,7 +148,7 @@ C [...]/testKEYWORDS/FIT/FITfollowedByREBELOTE/orbitsInCYCLOTRON/REBELOTE-FIT_fo
           INQUIRE(FILE=NOMFIC,NUMBER=NL,OPENED=OKOPN)
           IF(OKOPN) THEN
             REWIND(NL)
-            CALL HEADER(NL,NRES,4,BINARY,
+            CALL HEADER(NL,NRES,NHD,BINARY,
      >                                   *999)
           ENDIF
         ENDIF
@@ -259,7 +268,7 @@ C              write(88,*) ' '
 C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
- 171        continue
+ 171        CONTINUE
 C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             IF (BINARY) THEN
               READ(NL,ERR=97,END=95) Y,T,Z,P,S, DP
@@ -314,7 +323,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
 C------------ Was installed for RHS_DESIR
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
-            READ(NL,*,ERR=97,END=95) dp,Y,T,Z,P,S,time,amq1, amq2
+            READ(NL,*,ERR=97,END=95) DP,Y,T,Z,P,S,time,amq1, amq2
             it1 = it1 + 1
 C            TIM = 0.D0
             LETI=KAR(IKAR)
@@ -345,6 +354,39 @@ C------------ Installed for RHIC FFAG arcs
             ENDIF
             IT1 = IT1 + 1
             TIM = 0.D0
+            IEXI=1
+            IT = IT1
+            IREPI = IT
+            IPASSR =  KP1    
+            BRO = BORO
+            YO= 0.D0
+            TTO= 0.D0
+            ZO= 0.D0
+            PO= 0.D0
+            SO= 0.D0
+            DPO= 0.D0
+            TIMO= 0.D0
+
+          ELSEIF(KOBJ2.EQ.5) THEN 
+C------------ Installed to read Yichao's files
+            IKAR = IKAR+1
+            IF(IKAR.GT.41)  IKAR=1
+ 175        CONTINUE
+            READ(NL,*,ERR=97,END=95) Y,T,Z,P,TIM, GMA
+            IF(FIRST) THEN
+              AME = 0.51099892
+              Q = 1.D0
+              PRF = BORO*CL9*Q
+            ENDIF
+            PIT1 =  AME * SQRT(GMA*GMA -1.D0)
+            DP = PIT1/PRF
+            BTA = PIT1/SQRT(PIT1*PIT1 + AME * AME)
+            S = BTA * CL * TIM * 1D2  ! cm
+            TIM = TIM * 1.D6  ! mu_s
+            IT2 = IT2 + 1
+            IF(KT3*((IT2-1)/KT3) .NE. IT2-1) GOTO 175
+            IT1 = IT1 + 1
+            LETI=KAR(IKAR)
             IEXI=1
             IT = IT1
             IREPI = IT
@@ -399,15 +441,14 @@ C To be clean, otherwise LET(i) is undefined
 
         LET(IT1)=LETI
         IEX(IT1)=IEXI
-C        FO(1,IT1)=1.D0 + DPO
         FO(1,IT1)=(1.D0 + DPO) * BRO/BORO
-C        FO(1,IT1)= DPO * BRO/BORO
         FO(2,IT1)=YO
         FO(3,IT1)=TTO
         FO(4,IT1)=ZO
         FO(5,IT1)=PO
         FO(6,IT1)=SO
         FO(7,IT1)=TIMO
+
         IF (PABSLU) THEN
            DP0(IT1)=DP*DPFAC * BRO/BORO
 C          THIS WILL NOT WORK RIGHT IF DREF.NE.0D0 AND Q IS CHANGED IN A 
@@ -422,6 +463,8 @@ C          SUBSEQUENT PARTICUL
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
+c         write(*,*) ' obj3 ',y,t,z,p,dp
+c         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(1,it1)
         IREP(IT1) = IT1
         IF (AMQLU(3)) THEN
            PH(IT1)=PHI
@@ -486,9 +529,9 @@ C      IT1 = IT1-1
  1    CONTINUE
 
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,FMT='(/,T5,''  Reading  in  file  '',A
-     >    ,''  has  ended  after  gathering '',I6,''  particles''
-     >    ,''  in  requested  range :  ['',I6,'', '',I6,'']'')')
+        WRITE(NRES,FMT='(/,T5,''  Reading in file '',A
+     >    ,''has ended after gathering '',I7,'' particles''
+     >    ,'' in requested range :  ['',I7,'', '',I7,'']'')')
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),IMAX,KT1,KT2
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,
      >    ''  particles  are  of  secondary  type  (LET="S")'')') IS

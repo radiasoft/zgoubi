@@ -1,5 +1,20 @@
 C        1         2         3         4         5         6         7
 C23456789012345678901234567890123456789012345678901234567890123456789012
+C
+C This programs can do either of the following
+C - compute concentration ellipse surface, turn-by-turn, from a multiturn [b_]zgoubi.fai. 
+C In principle the program is capable of selecting the element to be considered, if 
+C FAISTORA was requested at several different elements along the ring 
+C - compute concentration ellipse surface along a line from a single-pass [b_]zgoubi.fai (for 
+C instance using '[b_]zgoubi.fai labela, labelb, ...' under FAISTORE.
+C
+C As an option, dispersion can be removed, as follows :   
+C - first produce a zgoubi.TWISS.out file with exactly same sequencing (same numbering) of 
+C element as that used to produced  [b_]zgoubi.fai. What will happen is that lipsFitFromFai
+C will first read Dx, Dxp, Dy, Dyp as a function of element number in zgoubi.TWISS.out. It 
+C will then use it to change coordinates (e.g., Y, T) read from  [b_]zgoubi.fai to 
+C dispersion removed coordinates (e.g., Y-Dx*dp/p, T-Dxp*dp/p) 
+C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
 C----- PLOT SPECTRUM     
@@ -17,8 +32,13 @@ C----- PLOT SPECTRUM
 
       character(7) TXT7A, TXT7B, TXT7R, TXT7L
       character(200) TXT200
+      character(500) TXT500
       CHARACTER(80) STRA(2)
-      logical strcon
+      logical strcon, ok
+
+      INCLUDE 'MXLD.H'
+      dimension disp(4,mxl)
+      character(1) rmvDsp
 
       data HV / '  ' /
       data stra / 2*'  ' /
@@ -30,13 +50,16 @@ C kpa = turn # ; nt=-1 for all particles
       data kpa, nt / 1, -1 /
 C kla = lmnt # ; inhibited if -1
       data kla / -1 /
+      data rmvDsp / 'N' /
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
       write(*,*) 'Now running pgm lipsFitFromFai ... '
       write(*,*) 'Will find ellipse matched to particle population'
      >//' at turn # kpa and at lmnt kla (inhibited if kla=-1),'
-     >//' as specified in lipsFitFromFai.In'
+     >//' as specified in lipsFitFromFai.In.'
+      write(*,*) 'Dispersion will be remove from particle coordinates '
+     >//'if requested. '
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
@@ -54,6 +77,9 @@ c      elseif(.NOT.exs) then
       if(.NOT.exs) then
         write(*,*)'WARNING : File lipsFitFromFai.In does not exist'
         write(*,*)'Pgm creates one from default values'
+        write(*,*)'Press ENTER to continue'
+
+        read(*,*)
 
         write(lunIn,fmt='(2a)')  'zgoubi.fai '
      >  ,' ! file name (*.fai or b_*.fai type)'
@@ -61,6 +87,9 @@ c      elseif(.NOT.exs) then
      >  ,' ! kpa : turn # (lips will match bunch for that turn)'
         write(lunIn,fmt='(i6,1x,t60,a)')  kla
      >  ,' ! kla : lmnt # (inhibited if -1)'
+        write(lunIn,fmt='(a,1x,t60,a)')  rmvDsp
+     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
+     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
       endif
 
       rewind(lunIn)
@@ -78,15 +107,55 @@ c              write(*,*) stra(2), nt
 c              read(*,*)
         read(lunIn,*,err=11,end=11) kpa
         read(lunIn,*,err=11,end=11) kla
+        read(lunIn,*,err=11,end=11) rmvDsp
         close(lunIn)
         write(*,*) ' Read following data from lipsFitFromFai.In :'
         write(*,*) filfai,'   !  .fai file name '
         write(*,*) kpa,   '   !  # of the turn to be lips''ed '
         write(*,*) kla,   '   !  # of the lmnt to be considered'
      >                                //' (-1 to inhibit)'
+        write(*,*) rmvDsp//'   !  remove disperesion (Y/N)'
 
 c        write(*,*) ' Press Enter to continue'
 c      read(*,*)
+
+      if(rmvDsp .eq. 'Y') then
+        write(*,*) ' Dispersion removal : ',rmvDsp
+        INQUIRE(FILE='zgoubi.TWISS.out',exist=EXS)
+        if(.not. exs) then
+          write(*,*) ' However, could not find required file '//
+     >    'zgoubi.TWISS.out.  Dispersion will not be removed.'
+        else
+          ok = IDLUNI(ldsp) 
+          OPEN(UNIT=ldsp,FILE='zgoubi.TWISS.out')          
+          txt500 = ' ' 
+          dowhile(.not. strcon(txt500,'# From TWISS keyword',
+     >                                 is))
+            read(ldsp,fmt='(a)',err=20,end=21) txt500
+c            write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
+c               read(*,*)
+          enddo
+          read(ldsp,*) txt500
+          read(ldsp,*) txt500
+c          write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
+ 12       continue
+            read(ldsp,fmt='(a)',err=10,end=10) txt500
+c            write(*,*) ' lips** READ nuel '
+            read(txt500,*,err=10,end=10) 
+     >      dum,dum,dum,dum,dum,dum,dum, 
+     >      dum,dum,dum,dum,dum,dum,  nuel
+c            write(*,*) ' lips** nuel : ',nuel
+            read(txt500,*,err=10,end=10) 
+     >      dum,dum,dum,dum,dum,dum,
+     >      disp(1,nuel),disp(2,nuel),disp(3,nuel),disp(4,nuel)
+c            write(*,fmt='(i7,2x,1p,4e14.6,a)') 
+c     >      nuel,(disp(id,nuel),id=1,4),' nuel,(disp(id,nuel),i=1,4)'
+c                read(*,*)
+          goto 12
+ 10       continue
+          call readsp(rmvDsp,disp)
+        endif
+      endif
 
       INQUIRE(FILE=filfai,exist=EXS)
       if(.not. exs) then
@@ -105,6 +174,7 @@ c      read(*,*)
       write(TXT7B,fmt='(I7)') kpb
       write(TXT7R,fmt='(I7)') ksmpl
       write(TXT7L,fmt='(I7)') kla
+      write(TXT7L,fmt='(a)') rmvDsp
 
       write(*,*) ' Particle # : '//'   all ' 
       write(*,*) ' Number of turns and range :  '//TXT7R
@@ -125,6 +195,11 @@ C     >           NLOG, LM, FILFAI)
 
  11   continue
       stop 'Error during read from lipsFitFromFai.In.'
+
+ 20   continue
+      stop 'Reached end of zgoubi.TWISS.out file.'
+ 21   continue
+      stop 'Error during read in zgoubi.TWISS.out file.'
       end
 
       SUBROUTINE LIPS(NLOG,NL,filfai,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,kla)
@@ -542,7 +617,7 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
 C     ----------------------------------------------------
 C     Look for and read coordinates, etc. of particle # NT
 C     ----------------------------------------------------
-      CHARACTER*1 LET
+      CHARACTER(1) LET
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
@@ -568,16 +643,20 @@ c      COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
       CHARACTER*1 KLET, KLETO, KLETI, TX1
 
+      character(1) rmvdspi, rmvDsp
+      dimension dispi(4,mxl), disp(4,mxl)
+
       SAVE KP1, KP2, KP3, BINARY
       SAVE KL1, KL2
       SAVE KT1, KT2
       SAVE KKEX, KLET
+      save disp, rmvDsp
 
       DATA KP1, KP2, KP3 / 1, NPTMAX, 1 /
       DATA KT1, KT2 / 1, 1 /
       DATA KL1, KL2 / 1, 999999 /
       DATA KKEX, KLET / 1, '*' / 
-
+      
       IF(NL .EQ. NSPN) THEN
       ELSE
         IF(NL .EQ. NFAI) THEN
@@ -720,6 +799,18 @@ CCCCCCC          if(j.eq.2) YZXB(J) = (f(j)-yref) * UNIT(JU)
           YZXB(J+10) = FO(J)  * UNIT(JU) 
  20     CONTINUE
 
+C Removal od dispersion -------------------------------------------
+C           write(*,*) ' readco rmvDsp : ',rmvdsp
+        if(rmvDsp .eq. 'Y') then
+          do j = 2, 5
+            delta = yzxb(1)
+            YZXB(j) = YZXB(j) - disp(j-1,noel) * delta
+          enddo
+c          write(88,fmt='(i6,10(2x,e12.4))') 
+c     >      noel,YZXB(1), (YZXB(j), disp(j-1,noel),j=2,5), delta
+        endif
+C------------------------------------------------------------------
+
 C           write(66,*) ' sbr readco it ipass, f7 :',it,ipass,yzxb(7)
 
 C------- KART=1 : Cartesian coordinates, X is current x-coordinate
@@ -775,6 +866,29 @@ C      Location about where particle was lost
 
  91   RETURN 3
 
+C------- Read pass #,  KP1 to KP2
+      KP1O=KP1
+      KP2O=KP2
+      RETURN
+
+C------------------ Dispersion function
+      ENTRY READSP(rmvDspi,dispi)
+      rmvDsp = rmvDspi
+      if(rmvDsp .eq. 'Y') then
+        do id = 1, 4
+          do nuel = 1, mxl
+            disp(id,nuel) = dispi(id,nuel)
+          enddo
+        enddo
+      endif
+     
+c           do nuel = 1, 150
+c            write(88,fmt='(1p,4(e12.4,1x),2x,i7)')  
+c     >    (disp(id,nuel),id=1,4),nuel
+c          enddo
+c             stop ' readsp ***************'
+      RETURN
+
 C------------------ Pass #, KP1 to KP2
       ENTRY READC1(
      >             KP1O,KP2O)
@@ -782,6 +896,7 @@ C------- Read pass #,  KP1 to KP2
       KP1O=KP1
       KP2O=KP2
       RETURN
+
 C--
       ENTRY READC2(LN)
 C------- Write pass #,  KP1 to KP2

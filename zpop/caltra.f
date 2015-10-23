@@ -62,7 +62,8 @@ C  -------
 
       LOGICAL OKLNO, REBFLG
       PARAMETER(MLB=10)
-      CHARACTER(LBLSIZ) LBL(MLB), LBLSP(MLB)
+      CHARACTER(LBLSIZ) LBL(MLB)
+      CHARACTER(LBLSIZ) LBLST(MLB), LBLSP(MLB)
       CHARACTER(LBLSIZ) LBLOPT
 
 C This INCLUDE must stay located right before the first statement

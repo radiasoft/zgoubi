@@ -317,7 +317,8 @@ C                    zzp_0 initial phase-space
      >              ((KX.EQ.6  .OR.  KX.EQ.7  .OR. KX.EQ.18)  .AND. 
      >                     (KY.EQ.1 .OR. KY.EQ.19 .OR. KY.EQ.20)) .OR.     
 C                   dp/Ekin vs. s/time/phase 
-     >              ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18) .AND. 
+     >              ((KX.EQ.16 .OR.  KX.EQ.17 .OR. KX.EQ.18
+     >                         .OR. KX.EQ.6 .OR. KX.EQ.7) .AND. 
      >                     (KY.EQ.11 .OR. KY.EQ.19 .OR. KY.EQ.20 )))
 C                   initial dp/Ekin vs. s/time/phase
                 OK24=((KX.EQ.2  .AND. KY.EQ.4)  .OR.

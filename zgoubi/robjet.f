@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ROBJET
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -49,15 +49,19 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C  If change MXREF, make sure 1/ to change MXD (see  line 140), 2/ that MXT is large enough
       PARAMETER(MXREF=999)
 
-      CHARACTER(LEN=132) TXT132, STRA(3)
+      CHARACTER(LEN=132) TXT132
+      PARAMETER (MST=3)
+      CHARACTER(LEN=20) STRA(MST)
       CHARACTER(LEN=80) TXT80
       LOGICAL STRCON
       INTEGER DEBSTR, FINSTR
 
 C----- BORO
+      LINE = 1
       READ(NDAT,*,ERR=99) A(NOEL,1)
 C----- KOBJ - may be of the form "K.K2"
-      READ(NDAT,*,ERR=99) TXT132
+      LINE = 2
+      READ(NDAT,FMT='(A)',ERR=99) TXT132
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
       IF(STRCON(TXT132,'.',
@@ -107,23 +111,43 @@ C--------- For allowing the use of the first 7 traj with FIT
       RETURN
  
  3    CONTINUE
+      CALL STRGET(TXT132,MST,
+     >                     NST,STRA) 
+      IF(NST .GT. MST) GOTO 90
+      I = 1
+      DOWHILE(STRA(I)(1:6).NE.'HEADER' .AND. I.LE.NST)
+C Key is of the form 'HEADER_num', 0.le.num.le.9 
+        I = I + 1
+      ENDDO
+      IF(I.LE.NST) THEN
+        READ(STRA(I)(8:FINSTR(STRA(I))),*) NHDR
+        A(NOEL,12) = NHDR
+      ELSE
+        A(NOEL,12) = 0.D0
+      ENDIF
 C----- Will read from part. #I1 to part. #I2, step
+      LINE = 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,22)
 C----- Will read from  ipass #I1 to ipass #I2, step
+      LINE = 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,32)
 C----- Y-,T-,Z-,P-,S-,DP-,TI-FAC, LETAG
+      LINE = 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,46),TA(NOEL,1)
 C----- Y-,T-,Z-,P-,S-,DP-,TI-REF
+      LINE = 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,56)
 C----- INIT flag (causes FO(j,i)=F(j,i) if A(NOEL,60)=0)
+      LINE = 1
       READ(NDAT,*,ERR=99) A(NOEL,60)
 C----- Name of trajectory data storage file
+      LINE = 1
       READ(NDAT,100,ERR=99) TXT80
       IF(STRCON(TXT80,'!',
      >                      IS)) THEN
         TA(NOEL,2) = TXT80(1:IS-1)
       ELSE
-        TA(NOEL,2) = Txt80(debstr(Txt80):finstr(txt80))
+        TA(NOEL,2) = TXT80(DEBSTR(TXT80):FINSTR(TXT80))
       ENDIF
  100  FORMAT(A80)
       RETURN
@@ -184,17 +208,22 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,52)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
       RETURN
- 
+
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
       WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
-      CALL ENDJOB('Execution stopped upon READ  ',-99)
+      GOTO 90
+      
  98   WRITE(6,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
       WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      CALL ENDJOB(' Execution stopped upon READ ',-99)
+      GOTO 90
+
+ 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
+      RETURN
+ 
       END

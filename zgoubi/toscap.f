@@ -187,7 +187,7 @@ C--------- another option for symmetrization by FMAPR2
           GOTO 96
         ENDIF
  
-             LNGTH=len(
+             LNGTH=LEN(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
              WRITE(NRES,FMT='(/,3A)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
@@ -217,12 +217,12 @@ C FM Nov 2011           DO K= 2, KZMA
            DO K= 1, KZMA
              ZZH(K,imap) = ZH(K)
            ENDDO
-           bBMI(imap) = BMIN
-           bBMA(imap) = BMAX
-           XBbMI(imap) = XBMI
-           YbBMI(imap) = YBMI
-           ZbBMI(imap) = ZBMI
-           XbBMA(imap) = XBMA
+           BBMI(IMAP) = BMIN
+           BBMA(IMAP) = BMAX
+           XBBMI(IMAP) = XBMI
+           YBBMI(IMAP) = YBMI
+           ZBBMI(IMAP) = ZBMI
+           XBBMA(IMAP) = XBMA
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
  

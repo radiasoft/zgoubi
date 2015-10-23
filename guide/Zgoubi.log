@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  17 OCT 2015 09:58
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  21 OCT 2015 12:45
 entering extended mode
  %&-line parsing enabled.
 **Zgoubi
@@ -2279,18 +2279,18 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [270]
-Underfull \hbox (badness 10000) in paragraph at lines 4406--4407
+Underfull \hbox (badness 10000) in paragraph at lines 4405--4406
 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4525--4525
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4524--4524
 []\OT1/pcr/m/n/5 -1                  3                      13  3E-20   14 -1.4
 73595E-03 15  8.01942[] 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4525--4525
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4524--4524
 []\OT1/pcr/m/n/5 -1                  3                      13  9E-20   14 -1.0
 11857E-03 15 -1.70597[] 
  []
@@ -3151,4 +3151,4 @@ Here is how much of TeX's memory you used:
  714 hyphenation exceptions out of 8191
  29i,15n,28p,958b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Zgoubi.dvi (312 pages, 873900 bytes).
+Output written on Zgoubi.dvi (312 pages, 873852 bytes).

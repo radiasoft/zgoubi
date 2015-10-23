@@ -3010,11 +3010,11 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
                      \>   ray-traced, it is not if $\IEX(I)=-9$.   \> \> \\
  \\
 \textbf{If KOBJ=3[.N,}\\
-\hskip1em\textbf{N=00 - 3]}      \>Reads coordinates from a storage file \> \> \\
-                     \> N=00 (default) : [b\_]zgoubi.fai like data file FORMAT  \> \> \\
-                     \> N=01 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
-                     \> N=02 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
-                     \> N=03 : read FORMAT is \texttt{\small``READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE''}   \> \> \\
+\hskip1em\textbf{N=0 - 3]}      \>Reads coordinates from a storage file \> \> \\
+                     \> N=0 (default) : [b\_]zgoubi.fai style data file FORMAT  \> \> \\
+                     \> N=1 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
+                     \> N=2 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
+                     \> N=3 : read FORMAT is \texttt{\small``READ(NL,*) DP,Y,T,Z,P,S,TIME,MASS,CHARGE''}   \> \> \\
  \\
  \textsl{IT1, IT2, ITStep}     \> Read particles numbered IT1 to IT2, step ITStep
               \> $\geq 1$, $\geq IT1$, $\geq 1$ \>3*I\\
@@ -4005,10 +4005,10 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
 
 \begin{tabbing}
 \mestab
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$  ~   \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $,     \quad \= 2*cm, 2*deg, cm   \= \kill
+                \right) \right) $, ~ ~ ~     \quad \= 2*cm, 2*deg, cm   \= \kill
 %%%%%%%%
 \textbf{SCALING} \label{SCALING-B} \index{SCALING|textbf}  \index{acceleration}
 \index{synchrotron motion}
@@ -4026,11 +4026,10 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\
            \>$NT=-2$~:  RF law in \textsl{CAVITE} is  read from external data file.  \> \> \\
  \\
- $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single one, normally 1, if $NT=-1$~;    \>relative \>NT*E\\
-                       \> any - unused - if      $NT=-2$).                       \>  \>  \\
+ $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single value if $NT=-1$~; unused if $NT=-2$)  \>relative \>NT*E\\
  \\
  $TIM(I)$, $I=1$, $NT$ \>Corresponding timings, in units of turns (1 if $NT=-1$~;   \>turn number \>NT*I \\
-                       \> any - unused - if      $NT=-2$).                       \>  \>  \\
+                       \>  unused  if      $NT=-2$).                       \>  \>  \\
 % \>  Out of this range, the scaling factor is 1.
 \end{tabbing} 
 

@@ -26,36 +26,41 @@ C  -------
      >                                 *)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-C      CHARACTER(270) TXT
+      INTEGER DEBSTR, FINSTR
+
       INCLUDE 'FILHDR.H'
 
       IF(NW.GT.0) WRITE(NW,FMT='(/,10X,''Now reading file header  ('',
      >I1,'' lines) : '',/)') N
 
-C      WRITE(6,FMT='(/,A)') ' File header : '
       IF(.NOT.BINARY) THEN
         READ(NL,FMT='(A)',ERR=99,END=99) HDRF(1)
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') 
+     >  HDRF(1)(DEBSTR(HDRF(1)):FINSTR(HDRF(1)))
         READ(NL,FMT='(A)',ERR=99,END=99) HDRF(2)
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(2)
       ELSE
         READ(NL,ERR=99,END=89) HDRF(1)
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
+        IF(NW.GT.0) WRITE(NW,FMT='(A)') 
+     >  HDRF(1)(DEBSTR(HDRF(1)):FINSTR(HDRF(1)))
         READ(NL,ERR=99,END=89) HDRF(2)
-        IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(2)
       ENDIF
+      IF(NW.GT.0) WRITE(NW,FMT='(A)') 
+     >HDRF(2)(DEBSTR(HDRF(2)):FINSTR(HDRF(2)))
+
       IF(N.GT.MXHDF) CALL ENDJOB(
      >'Pgm header. Too many header lines in file. Sould be .le.',MXHDF)
       IF(.NOT.BINARY) THEN
-        DO 1 I=3, N
+        DO I=3, N
            READ(NL,FMT='(A)',ERR=99,END=89) HDRF(I)
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(I)
- 1      CONTINUE
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') 
+     >     HDRF(I)(DEBSTR(HDRF(I)):FINSTR(HDRF(I)))
+        ENDDO
       ELSE
-        DO 2 I=3, N
+        DO I=3, N
            READ(NL,          ERR=99,END=89) HDRF(1)
-           IF(NW.GT.0) WRITE(NW,FMT='(A)') HDRF(1)
- 2      CONTINUE
+           IF(NW.GT.0) WRITE(NW,FMT='(A)') 
+     >     HDRF(1)(DEBSTR(HDRF(1)):FINSTR(HDRF(1)))
+        ENDDO
       ENDIF
 
       IF(NW.GT.0) WRITE(NW,FMT='(10X,''Header reading went on ok, it '',
