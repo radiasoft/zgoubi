@@ -1228,7 +1228,10 @@ C----- DAMPER.
 C----- ERRORS.
  117  CONTINUE
       GOTO 341
-C----- ERRORS.
+C----- SPACECHARG. 
+ 118  CONTINUE
+      GOTO 341
+C----- GOTO.
  118  CONTINUE
       GOTO 341
       END

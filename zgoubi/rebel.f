@@ -445,7 +445,7 @@ C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
  
 C REBELOTE should be usable within FIT -> under developement. 
 
-        IPASS = ipass+1
+        IPASS = IPASS+1
         IF(OKPCKP) CALL PCKUP3(NOEL)
 
       ENDIF

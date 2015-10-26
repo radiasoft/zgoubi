@@ -18,23 +18,46 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory          
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
-C  Upton, NY, 11973, USA
+C  Upton, NY, 11973
+C  USA
 C  -------
-      SUBROUTINE RGASCA
+      SUBROUTINE RGOTO(NOEL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       CHARACTER(80) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
-C----- Switch KGA
-      READ(NDAT,*) A(NOEL,1)
-C----- AI, DEN
-      READ(NDAT,*) (A(NOEL,I),I=10,11)
- 
+      CHARACTER(132) TXT
+      CHARACTER(20) TXT20
+      INTEGER DEBSTR
+      LOGICAL STRCON
+
+      LINE = 1
+      READ(NDAT,FMT='(A)',ERR=97,END=97) TXT
+      TXT = TXT(DEBSTR(TXT):LEN(TXT))
+      IF    (STRCON(TXT,'!',
+     >                      IS)) TXT = TXT(1:IS-1)
+      TA(NOEL,1) = TXT
+
+      LINE = 2
+      READ(NDAT,FMT='(A)',ERR=97,END=97) TXT
+      TXT = TXT(DEBSTR(TXT):LEN(TXT))
+      IF    (STRCON(TXT,'!',
+     >                      IS)) TXT = TXT(1:IS-1)
+      TA(NOEL,2) = TXT
+
+      RETURN
+
+ 97   WRITE(NRES,*)
+     >'Data error met while reading condition from data list.'
+      WRITE(6,*)
+     >'Data error met while reading condition from data list.'
+      GOTO 90
+
+ 90   CALL ENDJOB('*** Pgm rgoto. Input data error, at line ',line)
       RETURN
       END

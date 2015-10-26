@@ -165,6 +165,7 @@ OBJ=\
  gg.o\
  go2end.o\
  go2key.o\
+ gotol.o\
  header.o\
  helix.o\
  histab.o\
@@ -302,6 +303,7 @@ OBJ=\
  rfit.o\
  rfitgt.o\
  rgasca.o\
+ rgoto.o\
  rhelix.o\
  rmatrx.o\
  rmcdes.o\
@@ -498,9 +500,10 @@ getnol.o: $(INC)/MXLD.H
 gascat.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 gasesl.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 gasini.o: $(INC)/MXLD.H
-header.o:  $(INC)/FILHDR.H
-helix.o: $(INC)/MXLD.H
-hist.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+gotol.o:  $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H $(INC)/C.REBELO.H
+header.o: $(INC)/FILHDR.H
+helix.o:  $(INC)/MXLD.H
+hist.o:   $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 icentr.o: PARIZ.H
 impcsr.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
 impctr.o: $(INC)/MXLD.H $(INC)/MXFS.H
@@ -585,16 +588,17 @@ rel2tu.o: $(INC)/MXLD.H
 relcmi.o: $(INC)/MXLD.H        
 relcyl.o: $(INC)/MXLD.H
 relmir.o: $(INC)/MXLD.H        
-remma.o: $(INC)/MXLD.H
+remma.o:  $(INC)/MXLD.H
 rempli.o: $(INC)/MXLD.H
 replat.o: $(INC)/MXLD.H
 rerror.o: $(INC)/MXLD.H
-reset.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
+reset.o:  $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
 rfaist.o: $(INC)/MXLD.H
-rffag.o: $(INC)/MXLD.H $(INC)/MAPHDR.H
-rfit.o: $(INC)/MXLD.H
+rffag.o:  $(INC)/MXLD.H $(INC)/MAPHDR.H
+rfit.o:   $(INC)/MXLD.H
 rfitgt.o: $(INC)/MXLD.H
 rgasca.o: $(INC)/MXLD.H
+rgoto.o:  $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.DON.H
 rhelix.o: $(INC)/MXLD.H
 rmatrx.o: $(INC)/MXLD.H
 rmcdes.o: $(INC)/MXLD.H
@@ -605,12 +609,12 @@ robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H
 rrebel.o: $(INC)/MXLD.H
-rscal.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
+rscal.o:  $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 rsepar.o: $(INC)/MXLD.H
-rsimb.o: $(INC)/MXLD.H
+rsimb.o:  $(INC)/MXLD.H
 rspach.o: $(INC)/MXLD.H
 rspinr.o: $(INC)/MXLD.H
-rspn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+rspn.o:   $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rspnst.o: $(INC)/MXLD.H
 rsrlos.o: $(INC)/MXLD.H
 rtrans.o: $(INC)/MXLD.H

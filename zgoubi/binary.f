@@ -116,7 +116,6 @@ C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
  
           IF(IDLUNI(
      >              LNR)) THEN
-c               write(*,*) ' sbr binary, try open ',oldfil,lnr
             OPEN( UNIT=LNR, FILE=OLDFIL, ERR=96)
           ELSE
             WRITE(ABS(NRES),*) ' SBR BINARY, no idle unit for'

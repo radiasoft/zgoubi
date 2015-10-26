@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,
-     >                                 NBLMN)
+     >                                 NBLM)
+C     >                                 NBLMN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
 
@@ -134,24 +135,16 @@ C This INCLUDE must stay located right before the first statement
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
      >            FITBYD)
-c      CALL FITST5(
-c     >            FITFNL)
-c         write(*,*) ' zgoubi FITBYD noel ipass : ',FITBYD,noel,ipass
-c             pause
 
       IF(FITBYD) GOTO 998 
 
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
-
-c       write(*,*) ' zgoubi readat, fiting ',readat,fiting,NL1,NL2,
-c     >                                 NBLMN
-c               read(*,*)
-
       IF(READAT) THEN
         CALL PRDATA(
      >              LABEL,NBLMN)
+        nblm = nblmn
         CALL FITSTA(I5,
      >                 FITING)
         CALL FITST2(NBLMN)
@@ -184,7 +177,7 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
  998  CONTINUE
 
-c       write(*,*) ' zgoubi noel > 0 ? ',noel
+C       write(*,*) ' zgoubi noel > 0 ? ',noel  !!,iq(noel)
             
 
 C YD FM. 28/01/2014
@@ -267,19 +260,9 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
 
       ENDIF ! NOEL.GT.0 
 
-c         if(nrblt.ne.0 .and. ipass.ge.nrblt) then 
-c            write(*,*) 
-c     >    ' zgoubi noel,ipass,nrblt,readat ',   noel,ipass,nrblt,readat
-c        pause
-c         endif
-
-
       IF(READAT) THEN
  188    READ(NDAT,*,ERR=999,END=999) KLEY
         IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
-
-c         if(nrblt.ne.0 .and. ipass.eq.nrblt+1) 
-c     >         write(*,*) ' zgoubi kley ',kley
 
         DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
@@ -299,20 +282,20 @@ c     >         write(*,*) ' zgoubi kley ',kley
           ENDIF
         ENDDO
         GOTO 999
+
       ELSE
 C------- Gets here in case of "FIT"
-
-c       write(*,*) ' zgoubi noel, nl2 ',noel,nl2
-c               read(*,*)
-
 
         IF (NOEL .EQ. NL2 ) RETURN
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
+
+c       write(*,*) ' zgoubi noel, nl2, ikle ',noel,nl2,ikle
+c               read(*,*)
+
         KLEY = KLE(IKLE)
-c           write(*,*) ' zgoubi. Case NOEL=0 : noel,ikle,kley : ',
-c     >       noel, ikle, kley
-c                 pause
+
+
       ENDIF
  
  187  CONTINUE
@@ -436,10 +419,10 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
      >                            REBFLG,NOELRB)
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
-      if(ipass.eq.NRBLT+2) then        ! Means that REBELOTE series is completed
+      IF(IPASS.EQ.NRBLT+2) THEN        ! Means that REBELOTE series is completed
           FITRBL = .FALSE.   
           CALL FITST8(FITRBL)
-      endif
+      ENDIF
       CALL KSMAP0
 c      write(*,*) ' zgoubi readat, fiting, FITBYD, fitfnl, ', 
 c     >  readat,fiting,FITBYD,fitfnl,fitrbl
@@ -695,19 +678,8 @@ c             read(*,*)
       IF(READAT) CALL RFIT(KLEY,IMAX,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
-
-c         write(*,*) ' zgoubi/fit go to mtnod '
-c             read(*,*)
-
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)
       IF(MTHOD.EQ.2) CALL NMMIN2(PNLTGT,ITRMA,ICPTMA)
-
-
-c         write(*,*) ' zgoubi/fit out of mthod '
-c             read(*,*)
-
-
-
       CALL CPTFC1(ICPTMA)
       FITING = .TRUE.
       CALL FITSTA(I6,FITING)
@@ -1466,6 +1438,13 @@ C----- SPACECHARG.
       OKSPCH = KSPCH .EQ. 1
       CALL SPACH(KSPCH,LBLSC,NLBSC)
       GOTO 998
+C----- GOTO. 
+ 119  CONTINUE
+      IF(READAT) CALL RGOTO(NOEL)
+      CALL GOTOL(IPASS,MXKLE,KLE)
+C READAT may have been set to F, e.g. by REBELOTE. 
+      READAT = .TRUE.
+      GOTO 998
 C-------------------------
 C-------------------------
 C-------------------------
@@ -1473,24 +1452,24 @@ C-------------------------
      >             TXTELO)
       TXTELO = TXTELT
       RETURN
-C Current KLEY
       ENTRY ZGKLEY( 
      >             KLEO)
+C Current KLEY
       KLEO = KLEY
       RETURN
-C Size of KLE array
       ENTRY ZGMXKL( 
      >             MXKLEO)
+C Size of KLE array
       MXKLEO = MXKLE
       RETURN
-C Current elmnt #
       ENTRY ZGNOEL(
      >             NOELO)
+C Current elmnt #
       NOELO = NOEL
       RETURN
-C KLEY[IKL]
       ENTRY ZGKLE(IKL, 
      >                KLEO)
+C KLEY[IKL]
       IF(IKL.LE.0) THEN
         KLEO = 'UnknownKLE'
       ELSE
@@ -1500,10 +1479,12 @@ C      KLEO = KLE(IKL)
       RETURN
       ENTRY ZGNBLM( 
      >             NBLMNO)
+C Number of elements in the sequence
       NBLMNO = NBLMN
       RETURN
       ENTRY ZGPNLT( 
      >             PNLTGO)
+C Target penalty in FIT[2]
       PNLTGO = PNLTGT
       RETURN
       ENTRY ZGIPAS( 

@@ -42,12 +42,12 @@ C  -------
       INTEGER DEBSTR, FINSTR
 
       CHARACTER(LEN=I10), DIMENSION(:), ALLOCATABLE :: ARGS
-      LOGICAL SAVXEC, SAVZPP
-      logical okwdat
 
-      DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
-      DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
-      DATA TIMSEC / 0.D0 / 
+      LOGICAL SAVXEC, SAVZPP
+      LOGICAL OKWDAT
+
+      CHARACTER(KSIZ) KEY, LBL1, LBL2
+      PARAMETER (I0=0)
 
 C Tentative pour faire fonctionner REBELOTE en compil dyn. 
 C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne. 
@@ -55,7 +55,14 @@ C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
       SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE, 
      > FITFNL, FITRBL, OKWDAT, KLE, IPASS,NRBLT
 
+C Dummy
+      CHARACTER(1) TAB(1)
+
+      DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
+      DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
+      DATA TIMSEC / 0.D0 / 
       DATA OKWDAT / .FALSE. /
+      DATA TAB /  1 * ' '  /
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -196,7 +203,8 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         NL1 = NUMKLE + 1
         CALL ZGKLE(IQ(NL1-1),
      >                     KLE)   ! KLE = FIT !!
-        CALL GO2KEY(NL1)
+        CALL GO2KEY(NL1,I0,I0,TAB,
+     >                            KEY,LBL1,LBL2)
         NL2 = NBLMN
         CALL REBEL6(NL1, NBLMN)
         FITBYD = .TRUE.
