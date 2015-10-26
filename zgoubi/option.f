@@ -27,7 +27,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(80) TA
+      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       CHARACTER(40) TXT1, TXT2
@@ -55,8 +55,8 @@ C Numb of options. NBOP lines should follow
      >CALL ENDJOB('SBR option : nmbr of options exceded ; max is ',40)
        
       IF(NRSAV .EQ. -11111) THEN 
-          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T25,I2,A)') 
-     >    NBOP, ' option(s) expected.  Option(s) found :'
+          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T10,A,I0,A)') 
+     >    'A list of ',NBOP,' option(s) expected.  List is as follows :'
       ENDIF
 
       DO I = 1, NBOP
@@ -98,8 +98,8 @@ C Yann, 14-03-07. Necessary for the online model to work
             NRES = ABS(NRES)
             WRITE(ABS(NRES),201)
             WRITE(ABS(NRES),*)  '  Keyword ''OPTIONS'' '
-            WRITE(ABS(NRES),FMT='(T25,I2,A,/)') 
-     >      NBOP, ' option(s) expected.  Option(s) found :'
+            IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T10,A,I0,A,/)') 
+     >    'A list of ',NBOP,' option(s) expected.  List is as follows :'
             WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
      >      '''WRITE'' bit in ''OPTIONS'' set to 1.'
           ENDIF

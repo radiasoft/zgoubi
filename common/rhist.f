@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                és
+C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE RHIST(NDAT,NOEL,MXL,A,TA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
-      CHARACTER*(*) TA(MXL,*)
+      CHARACTER(*) TA(MXL,*)
  
       READ(NDAT,*) (A(NOEL,I),I=1,5)
       READ(NDAT,*) A(NOEL,10),TA(NOEL,1),A(NOEL,11),TA(NOEL,2)

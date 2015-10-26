@@ -87,21 +87,18 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
         XC = ZERO
         YC = ZERO
         AA = ZERO
-        DD = ZERO
         II = 0
-C First center the beam on Y=0, T=0
+C First center the beam on Y=0, T=0, D
         DO I = 1, IMAX
           IF( IEX(I) .GT. 0) THEN
             II = II + 1
             YC = YC + F(2,I) 
             AA = AA + F(3,I) 
-            DD = DD + F(1,I) 
           ENDIF
         ENDDO
 
         YC = YC / DBLE(II)        
         AA = AA / DBLE(II) * 1.D-3 
-        IF(IOP2.EQ.1) DD = DD / DBLE(II)        
 
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
@@ -113,8 +110,7 @@ C         +++ IEX<-1 <=> Particule stoppee
             ELSE
               CALL DEJACA(I)
             ENDIF
-            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
-          ELSE
+
           ENDIF
         ENDDO
         IF(NRES .GT. 0) THEN
@@ -130,7 +126,6 @@ C Then update to requested beam centering coordinates
         XC =  -A(NOEL,10)
         YC =  -A(NOEL,11)
         AA =  -A(NOEL,12) * 1.D-3
-        DD =  -A(NOEL,13)
         
       ELSEIF(IOP .EQ. 5) THEN
 
@@ -180,10 +175,31 @@ C         +++ IEX<-1 <=> Particule stoppee
             ELSE
               CALL DEJACA(I)
             ENDIF
-            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
-          ELSE
+C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
           ENDIF
         ENDDO
+
+            IF(IOP2.EQ.1) THEN
+              II = 0
+              DD = 0.D0
+              TT = 0.D0
+              DO I = 1, IMAX
+               IF( IEX(I) .GT. 0) THEN
+                II = II + 1
+                DD = DD + F(1,I) 
+                TT = TT + F(7,I) 
+               ENDIF
+              ENDDO
+              DD = DD / DBLE(II)        
+              TT = TT / DBLE(II)        
+              DO I = 1, IMAX
+                IF( IEX(I) .GT. 0) THEN
+                  F(1,I) = F(1,I) - DD + A(NOEL,13)
+                  F(7,I) = F(7,I) - TT + A(NOEL,14)    ! case eRHIC linac
+                ENDIF
+              ENDDO
+            ENDIF
+
       ELSEIF(IOP .EQ. 5) THEN
         VSHRO(MSR) = 2
         VSHRO(1) = ZC 
@@ -216,8 +232,8 @@ C         +++ IEX<-1 <=> Particule stoppee
 C 100      FORMAT(/,' CHANGEMENT  DE  REFERENCE  XC =',F9.3,' cm , YC =',
 C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
             IF(IOP2.EQ.1) THEN
-              WRITE(NRES,FMT='(/,'' Beam centerd on momentum p/p_Ref =''
-     >        ,1P,E16.8,/)') A(NOEL,13)
+              WRITE(NRES,FMT='(/,'' Beam centerd on momentum p/p_Ref ''
+     >        ,1P,E16.8,''  and tine '',E16.8,/)') A(NOEL,13),A(NOEL,14)
             ENDIF
           ELSEIF(IOP .EQ. 5) THEN
             WRITE(NRES,107) ZC,BB*DEG,BB
@@ -232,3 +248,4 @@ C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
  
       RETURN
       END
+

@@ -75,6 +75,9 @@ C      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
  
       logical consty
       parameter(consty=.false.)
+
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KEY
  
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
       DATA WDGE, WDGS, FINTE, FINTS, GAPE, GAPS / 6*0.D0 /
@@ -119,10 +122,20 @@ C---------------------  Some tests to possibly stop integration
       IF(NSTEP .GT. MXSTEP) THEN
         CALL ZGNOEL(
      >             NOEL)
-        WRITE(ABS(NRES),*) 'Maximum # steps allowed = ',MXSTEP,
-     >  '.  At element number ',NOEL
-        WRITE(6,*) '      Maximum # steps allowed = ',MXSTEP,
-     >  '.  At element number ',NOEL
+        CALL ZGKLEY(  
+     >              KEY)
+        WRITE(ABS(NRES),fmt='(a,2(i0,a))') 
+     >  'Particle exceeded maximum # of steps allowed : ',MXSTEP,
+     >  '.  At element number ',NOEL,' ('//KEY//')'
+        WRITE(6,fmt='(a,2(i0,a))') 
+     >  'Particle exceeded maximum # of steps allowed : ',MXSTEP,
+     >  '.  At element number ',NOEL,' ('//KEY//')'
+C        CALL ZGNOEL(
+C     >             NOEL)
+C        WRITE(ABS(NRES),*) 'Maximum # steps allowed = ',MXSTEP,
+C     >  '.  At element number ',NOEL
+C        WRITE(6,*) '      Maximum # steps allowed = ',MXSTEP,
+C     >  '.  At element number ',NOEL
         CALL KSTOP(2,IT,KEX,*97)
       ENDIF
  

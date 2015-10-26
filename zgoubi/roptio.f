@@ -27,11 +27,11 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(80) TA
+      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       LOGICAL STRCON
-      CHARACTER(80) TXT80
+      CHARACTER(LNTA) TXT132
       INTEGER DEBSTR, FINSTR
 C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       READ(NDAT,*) NY, NBOP
@@ -40,11 +40,11 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
       DO I = 1, NBOP
-        READ(NDAT,FMT='(A)') TXT80
-        TXT80 = TXT80(DEBSTR(TXT80):FINSTR(TXT80))
-        IF(STRCON(TXT80,'!',
-     >                      IS)) TXT80 = TXT80(DEBSTR(TXT80):IS-1)
-        TA(NOEL,I) = TXT80
+        READ(NDAT,FMT='(A)') TXT132
+        TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+        IF(STRCON(TXT132,'!',
+     >                      IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+        TA(NOEL,I) = TXT132
       ENDDO
       RETURN
       END

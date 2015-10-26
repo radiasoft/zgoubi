@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  24 OCT 2015 09:36
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  26 OCT 2015 13:50
 entering extended mode
  %&-line parsing enabled.
 **Zgoubi
@@ -1434,7 +1434,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 
-Underfull \hbox (badness 4518) in paragraph at lines 653--653
+Underfull \hbox (badness 4518) in paragraph at lines 654--654
  \OT1/ptm/m/n/8 where $\OML/cmm/m/it/8 X\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 I\OT1/c
 mr/m/n/8 )$ \OT1/ptm/m/n/8 and $\OML/cmm/m/it/8 BX\OT1/cmr/m/n/8 (\OML/cmm/m/it
 /8 I\OT1/cmr/m/n/8 )$ \OT1/ptm/m/n/8 are the lon-gi-tu-di-nal co-or-di-nate and
@@ -1476,86 +1476,86 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 Missing character: There is no   in font ptmr7t!
 File: FigCHAREFa.eps Graphic file (type eps)
  <FigCHAREFa.eps>
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 51.71103865921708                          Electron, Ekin=15Me
 V.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 1 1                                           One particle, wi
 th[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 2. 0.  0.0 0.0 0.0 1. 'R'      Y_0=2 cm, other coordinates zer
 o.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 'MARKER'    BEG    .plt                -> list  into zgoubi.pl
 t.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 'DRIFT'                                             10 cm drif
 t.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 ZR -6.34165 YS 1.             First half Z-rotate, Next Y-shif
 t.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 'MULTIPOL'     Combined function multipole, dipole + quadrupol
 e.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []   \OT1/pcr/m/n/8 2                                   -> list  into zgoubi.pl
 t.[] 
  []
 
 
-Overfull \hbox (54.98082pt too wide) in paragraph at lines 909--909
+Overfull \hbox (54.98082pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 5  10. 2.064995867082342  2. 0. 0. 0. 0. 0. 0. 0. 0.[] 
  []
 
 
-Overfull \hbox (45.38081pt too wide) in paragraph at lines 909--909
+Overfull \hbox (45.38081pt too wide) in paragraph at lines 910--910
 [] \OT1/pcr/m/n/8 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.[] 
  []
 
 
-Overfull \hbox (16.5808pt too wide) in paragraph at lines 909--909
+Overfull \hbox (16.5808pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.[] 
  []
 
 
-Overfull \hbox (45.38081pt too wide) in paragraph at lines 909--909
+Overfull \hbox (45.38081pt too wide) in paragraph at lines 910--910
 [] \OT1/pcr/m/n/8 0 0  5. 1.1  1.00 1.00 1.00 1.00 1.00 1. 1. 1. 1.[] 
  []
 
 
-Overfull \hbox (16.5808pt too wide) in paragraph at lines 909--909
+Overfull \hbox (16.5808pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 YS -1. ZR -6.341         First Y-shift back, next half Z-rotat
 e.[] 
  []
 
 
-Overfull \hbox (112.58086pt too wide) in paragraph at lines 909--909
+Overfull \hbox (112.58086pt too wide) in paragraph at lines 910--910
 []\OT1/pcr/m/n/8 'DRIFT'                                             10 cm drif
 t.[] 
  []
@@ -1687,10 +1687,10 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 LaTeX Font Info:    Font shape `OMS/ptm/m/sl' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1808.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1809.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1823--1826
+Underfull \hbox (badness 10000) in paragraph at lines 1824--1827
 
  []
 
@@ -1735,12 +1735,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [221]
-Overfull \hbox (1.03984pt too wide) in paragraph at lines 2223--2224
+Overfull \hbox (1.03984pt too wide) in paragraph at lines 2224--2225
 []|\OT1/ptm/m/sl/7 MCOBJET/KOBJ=3| 
  []
 
 
-Overfull \hbox (17.85507pt too wide) in paragraph at lines 2158--2264
+Overfull \hbox (17.85507pt too wide) in paragraph at lines 2159--2265
  [] 
  []
 
@@ -1750,128 +1750,128 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [222]
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2303.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2304.
 
 
-Overfull \hbox (59.11638pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (59.11638pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 Centering 5 helical orbits in the AGS warm helical snake 3-D O
 PERA map.[] 
  []
 
 
-Overfull \hbox (59.11638pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (59.11638pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'OBJET'            ! This data list may be copy-pasted and ru
 n, as is.[] 
  []
 
 
-Overfull \hbox (15.91635pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (15.91635pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 1 1                 ! A single particle. Initial coordinates :
 [] 
  []
 
 
-Overfull \hbox (15.91635pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (15.91635pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 -2.2  0. 0. 0. 0.  1. 'o'           ! Yo, To, Zo, Po, So, p/po
 [] 
  []
 
 
-Overfull \hbox (30.31636pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (30.31636pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'PARTICUL'         ! proton data are necessary for spin track
 ing[] 
  []
 
 
-Overfull \hbox (6.31635pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (6.31635pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 938.27203 1.602176487E-19 1.7928474 0 0     ! M, Q, G factor[]
  
  []
 
 
-Overfull \hbox (102.3164pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (102.3164pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 2   save            ! Two variables. Save FIT variables (in zg
 oubi.FITVALS.out).[] 
  []
 
 
-Overfull \hbox (59.11638pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (59.11638pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 1 30 0  [-3,3]          ! Vary initial coordinate Y_0 (horiz. 
 position)[] 
  []
 
 
-Overfull \hbox (44.71637pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (44.71637pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 1 31 0  [-3,3]          ! Vary initial coordinate T_0 (horiz. 
 angle)[] 
  []
 
 
-Overfull \hbox (35.11636pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (35.11636pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 3    1E-2           ! Three constraints (penalty 2E-3 requeste
 d) :[] 
  []
 
 
-Overfull \hbox (1.51634pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (1.51634pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 3.1 1 2 6 0. 1. 0       ! Y_0=Y after at exit of the magnet[] 
 
  []
 
 
-Overfull \hbox (1.51634pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (1.51634pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 3.1 1 3 6 0. 1. 0       ! T_0=T after at exit of the magnet[] 
 
  []
 
 
-Overfull \hbox (35.11636pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (35.11636pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 7.3 1 2 6 0. 1. 0       ! Y_min+Y_max=0 inside the OPERA field
  map[] 
  []
 
 
-Overfull \hbox (11.11635pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (11.11635pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'SPNPRT'  PRINT    ! Stack spin data (in zgoubi.SPNPRT.Out).[
 ] 
  []
 
 
-Overfull \hbox (131.11642pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (131.11642pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'SYSTEM'           ! Save zgoubi.FITVALS.out data following f
 rom successive REBELOTE.[] 
  []
 
 
-Overfull \hbox (140.71643pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (140.71643pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'REBELOTE'         ! Will loop on re-doing the FIT for 4 addi
 tional particle rigidities[] 
  []
 
 
-Overfull \hbox (59.11638pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (59.11638pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 1                   ! List of 4 successive values of D in OBJE
 T follows[] 
  []
 
 
-Overfull \hbox (30.31636pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (30.31636pt too wide) in paragraph at lines 2370--2370
 []\OT1/pcr/m/n/8 OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241
 321[] 
  []
 
 
-Overfull \hbox (140.71643pt too wide) in paragraph at lines 2369--2369
+Overfull \hbox (140.71643pt too wide) in paragraph at lines 2370--2370
 [] \OT1/pcr/m/n/8 'SYSTEM'           ! Save a copy of zgoubi.FITVALS.out_cat an
 d of zgoubi.SPNPRT.Out_cat[] 
  []
 
 
-LaTeX Warning: File `Fig-YZ_pwsnk_5.eps' not found on input line 2379.
+LaTeX Warning: File `Fig-YZ_pwsnk_5.eps' not found on input line 2380.
 
 File: Fig-YZ_pwsnk_5.eps Graphic file (type eps)
 <Fig-YZ_pwsnk_5.eps>
-Overfull \hbox (6.29097pt too wide) in paragraph at lines 2313--2392
+Overfull \hbox (6.29097pt too wide) in paragraph at lines 2314--2393
 []$[]$  $[]$ 
  []
 
@@ -1880,66 +1880,66 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [223]
-Underfull \hbox (badness 10000) in paragraph at lines 2396--2397
+Underfull \hbox (badness 10000) in paragraph at lines 2397--2398
 
  []
 
 
-Overfull \hbox (179.11646pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (179.11646pt too wide) in paragraph at lines 2444--2444
 [] \OT1/pcr/m/n/8 'PARTICUL'                                                   
                                  2[] 
  []
 
 
-Overfull \hbox (179.11646pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (179.11646pt too wide) in paragraph at lines 2444--2444
 [] \OT1/pcr/m/n/8 'DRIFT'    DRIF      HD                                      
                               7497[] 
  []
 
 
-Overfull \hbox (179.11646pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (179.11646pt too wide) in paragraph at lines 2444--2444
 [] \OT1/pcr/m/n/8 'MARKER'  #SSMid                                             
                               7498[] 
  []
 
 
-Overfull \hbox (179.11646pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (179.11646pt too wide) in paragraph at lines 2444--2444
 [] \OT1/pcr/m/n/8 'MARKER'  #EndRing                                           
                               7500[] 
  []
 
 
-Overfull \hbox (198.31647pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (198.31647pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 4 save zgoubiFIT.result nofinal  ! Variables saved in zgoubiFI
 T.result when FIT2 done. No final run.[] 
  []
 
 
-Overfull \hbox (193.51646pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (193.51646pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 !!! 4 save nofinal  ! Would cause variables to be saved in def
 ault file zgoubi.FITVALS.out instead.[] 
  []
 
 
-Overfull \hbox (126.31642pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (126.31642pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 2 40 0 [-1.e-2,1.e-2]              ! The four variables are Yo
 , To, Zo, Po in MCOBJET[] 
  []
 
 
-Overfull \hbox (131.11642pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (131.11642pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 4   1e-10   90                 ! penalty=1e-10. Maximum allowe
 d calls to zgoubi is 90.[] 
  []
 
 
-Overfull \hbox (107.11641pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (107.11641pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 3.1 1 2 7500 0. 1. 0           ! The four constraints are : in
 itial Y, T, Z, P of[] 
  []
 
 
-Overfull \hbox (78.31639pt too wide) in paragraph at lines 2443--2443
+Overfull \hbox (78.31639pt too wide) in paragraph at lines 2444--2444
 []\OT1/pcr/m/n/8 3.1 1 3 7500 0. 1. 0           ! particle #1 equal to its fina
 l Y, T, Z, P.[] 
  []
@@ -1982,7 +1982,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [229]
 Missing character: There is no   in font ptmr7t!
 
-Underfull \hbox (badness 5787) in paragraph at lines 2613--2613
+Underfull \hbox (badness 5787) in paragraph at lines 2614--2614
 []\OT1/ptm/m/n/8 where $\OML/cmm/m/it/8 X\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 I\OT1/
 cmr/m/n/8 )$\OT1/ptm/m/n/8 , $\OML/cmm/m/it/8 Y\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 
 J\OT1/cmr/m/n/8 )$ \OT1/ptm/m/n/8 are the lon-gi-tu-di-nal, hor-i-zon-tal  co-o
@@ -2054,36 +2054,36 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [240]
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3216--3216
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3217--3217
 []\OT1/pcr/m/n/7 BEND              ! Magnet fields strictly follow cavity kick 
 :[] 
  []
 
 
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3216--3216
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3217--3217
 []\OT1/pcr/m/n/7 -1                ! (i) NT=-1 can be used, and (ii) CAVITE doe
 s[] 
  []
 
 
-Overfull \hbox (13.24078pt too wide) in paragraph at lines 3216--3216
+Overfull \hbox (13.24078pt too wide) in paragraph at lines 3217--3217
 []\OT1/pcr/m/n/7 0.                ! Zero field in HKIC and VKIC magnet familie
 s.[] 
  []
 
 
-Overfull \hbox (0.6408pt too wide) in paragraph at lines 3216--3216
+Overfull \hbox (0.6408pt too wide) in paragraph at lines 3217--3217
 []\OT1/pcr/m/n/7 8999999   0.4  99    ! Repeat optical sequence 8999999 times.[
 ] 
  []
 
 
-Overfull \hbox (2.8889pt too wide) in paragraph at lines 3287--3287
+Overfull \hbox (2.8889pt too wide) in paragraph at lines 3288--3288
 []\OT1/pcr/m/n/7 0. 0. 0. 0. 0. 0. 0.     ! path length/RF phase at CAVITE.[] 
  []
 
 
-Overfull \hbox (6.32047pt too wide) in paragraph at lines 3153--3290
+Overfull \hbox (6.32047pt too wide) in paragraph at lines 3154--3291
 []  $[]$   $[]$ 
  []
 
@@ -2120,13 +2120,13 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [246]
 Missing character: There is no   in font ptmr7t!
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3477
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3478
 .
  (/usr/share/texmf-texlive/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3477.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3478.
 
 
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -2189,12 +2189,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [256]
-Underfull \hbox (badness 10000) in paragraph at lines 3860--3861
+Underfull \hbox (badness 10000) in paragraph at lines 3861--3862
 
  []
 
 
-Overfull \hbox (11.41747pt too wide) in paragraph at lines 3877--3982
+Overfull \hbox (11.41747pt too wide) in paragraph at lines 3878--3983
 []$[]$  $[]$ 
  []
 
@@ -2279,18 +2279,18 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [270]
-Underfull \hbox (badness 10000) in paragraph at lines 4407--4408
+Underfull \hbox (badness 10000) in paragraph at lines 4408--4409
 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4526--4526
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4527--4527
 []\OT1/pcr/m/n/5 -1                  3                      13  3E-20   14 -1.4
 73595E-03 15  8.01942[] 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4526--4526
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4527--4527
 []\OT1/pcr/m/n/5 -1                  3                      13  9E-20   14 -1.0
 11857E-03 15 -1.70597[] 
  []
@@ -3140,7 +3140,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 ) (./Zbiblio.aux)) )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 3407 ({)
+### simple group (level 1) entered at line 3408 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
  2533 strings out of 493849
@@ -3151,4 +3151,4 @@ Here is how much of TeX's memory you used:
  714 hyphenation exceptions out of 8191
  29i,15n,28p,958b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Zgoubi.dvi (312 pages, 874004 bytes).
+Output written on Zgoubi.dvi (312 pages, 874036 bytes).

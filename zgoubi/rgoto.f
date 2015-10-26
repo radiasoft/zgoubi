@@ -27,7 +27,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      CHARACTER(80) TA
+      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
@@ -39,15 +39,15 @@ C  -------
       LINE = 1
       READ(NDAT,FMT='(A)',ERR=97,END=97) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
-      IF    (STRCON(TXT,'!',
-     >                      IS)) TXT = TXT(1:IS-1)
+      IF(STRCON(TXT,'!',
+     >                  IS)) TXT = TXT(1:IS-1)
       TA(NOEL,1) = TXT
 
       LINE = 2
       READ(NDAT,FMT='(A)',ERR=97,END=97) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
-      IF    (STRCON(TXT,'!',
-     >                      IS)) TXT = TXT(1:IS-1)
+      IF(STRCON(TXT,'!',
+     >                  IS)) TXT = TXT(1:IS-1)
       TA(NOEL,2) = TXT
 
       RETURN

@@ -60,8 +60,9 @@ C Read 3 centering coordinates
 C Center the beam on xce, yce, ale
           READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
         ELSEIF(IA2.EQ.1) THEN
-C Center the beam on xce, yce, ale, p/pRef
-          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12),A(NOEL,13)
+C Center the beam on xce, yce, ale, p/pRef, time
+          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12),
+     >    A(NOEL,13),A(NOEL,14)
         ELSE
           CALL ENDJOB('Pgm rautor. No such option IA2 = ',IA2)
         ENDIF

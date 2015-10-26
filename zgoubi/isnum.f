@@ -70,7 +70,7 @@ C      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
       J = I + 1
       DO I = J, N
         K = ICHAR(S(I:I))
-      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
+C      write(*,*) ' n, i, char, isnum ',n, i, ICHAR(S(I:I)),s(i:i)
         IF (K .LT. 48) THEN
             ISNUM = .FALSE.
             GOTO 88
