@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  29 OCT 2015 17:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  31 OCT 2015 11:32
 entering extended mode
  %&-line parsing enabled.
 **Zgoubi
@@ -1236,7 +1236,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [163]
-Overfull \hbox (4.63759pt too wide) in paragraph at lines 8612--8615
+Overfull \hbox (4.63759pt too wide) in paragraph at lines 8627--8630
 \OT1/ptm/m/n/12 This is achieved by giv-ing the stor-age file a name of the for
 m \OT1/ptm/m/sl/12 b[]FNAME \OT1/ptm/m/n/12 or \OT1/ptm/m/sl/12 B[]FNAME \OT1/p
 tm/m/n/12 (\OT1/ptm/m/it/12 e.g.\OT1/ptm/m/n/12 , `b[]zgoubi.spn').
@@ -1273,7 +1273,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [169]
-Overfull \hbox (17.84247pt too wide) in paragraph at lines 8938--8945
+Overfull \hbox (17.84247pt too wide) in paragraph at lines 8953--8960
 \OT1/ptm/m/sl/12 CHANGREF( $[]$, $[]$, $[]$) \OT1/ptm/m/n/12 up-stream of the o
 p-ti-cal el-e-ment, fol-lowed by \OT1/ptm/m/sl/12 CHANGREF($[]$,$[]$,$[] \OT1/c
 mr/m/n/12 =
@@ -1312,9 +1312,9 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [172]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9131.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9146.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9131.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9146.
 )
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
@@ -2054,36 +2054,36 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [240]
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3218--3218
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3222--3222
 []\OT1/pcr/m/n/7 BEND              ! Magnet fields strictly follow cavity kick 
 :[] 
  []
 
 
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3218--3218
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3222--3222
 []\OT1/pcr/m/n/7 -1                ! (i) NT=-1 can be used, and (ii) CAVITE doe
 s[] 
  []
 
 
-Overfull \hbox (13.24078pt too wide) in paragraph at lines 3218--3218
+Overfull \hbox (13.24078pt too wide) in paragraph at lines 3222--3222
 []\OT1/pcr/m/n/7 0.                ! Zero field in HKIC and VKIC magnet familie
 s.[] 
  []
 
 
-Overfull \hbox (0.6408pt too wide) in paragraph at lines 3218--3218
+Overfull \hbox (0.6408pt too wide) in paragraph at lines 3222--3222
 []\OT1/pcr/m/n/7 8999999   0.4  99    ! Repeat optical sequence 8999999 times.[
 ] 
  []
 
 
-Overfull \hbox (2.8889pt too wide) in paragraph at lines 3289--3289
+Overfull \hbox (2.8889pt too wide) in paragraph at lines 3293--3293
 []\OT1/pcr/m/n/7 0. 0. 0. 0. 0. 0. 0.     ! path length/RF phase at CAVITE.[] 
  []
 
 
-Overfull \hbox (6.32047pt too wide) in paragraph at lines 3155--3292
+Overfull \hbox (6.32047pt too wide) in paragraph at lines 3159--3296
 []  $[]$   $[]$ 
  []
 
@@ -2120,13 +2120,13 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [246]
 Missing character: There is no   in font ptmr7t!
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3479
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3483
 .
  (/usr/share/texmf-texlive/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3479.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3483.
 
 
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -2189,12 +2189,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [256]
-Underfull \hbox (badness 10000) in paragraph at lines 3862--3863
+Underfull \hbox (badness 10000) in paragraph at lines 3866--3867
 
  []
 
 
-Overfull \hbox (11.41747pt too wide) in paragraph at lines 3879--3984
+Overfull \hbox (11.41747pt too wide) in paragraph at lines 3883--3988
 []$[]$  $[]$ 
  []
 
@@ -2279,18 +2279,18 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [270]
-Underfull \hbox (badness 10000) in paragraph at lines 4409--4410
+Underfull \hbox (badness 10000) in paragraph at lines 4413--4414
 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4528--4528
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4532--4532
 []\OT1/pcr/m/n/5 -1                  3                      13  3E-20   14 -1.4
 73595E-03 15  8.01942[] 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4528--4528
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4532--4532
 []\OT1/pcr/m/n/5 -1                  3                      13  9E-20   14 -1.0
 11857E-03 15 -1.70597[] 
  []
@@ -3117,12 +3117,15 @@ Missing character: There is no â in font ptmr7t!
 Missing character: There is no ˆ in font ptmr7t!
 Missing character: There is no — in font ptmr7t!
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--343
+Underfull \hbox (badness 10000) in paragraph at lines 348--351
 []\OT1/ptm/m/n/10 F. M[]eot, \OT1/ptm/m/sl/10 End-to-end 9-D po-lar-ized bunch 
 trans-port in FFAG eR-HIC\OT1/ptm/m/n/10 , EIC14 work-shop,
  []
 
 )
+Overfull \vbox (27.39326pt too high) has occurred while \output is active []
+
+
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
@@ -3140,15 +3143,15 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 ) (./Zbiblio.aux)) )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 3409 ({)
+### simple group (level 1) entered at line 3413 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 2533 strings out of 493849
- 27596 string characters out of 1152846
- 135161 words of memory out of 3000000
- 5638 multiletter control sequences out of 15000+50000
+ 2536 strings out of 493849
+ 27624 string characters out of 1152846
+ 135177 words of memory out of 3000000
+ 5641 multiletter control sequences out of 15000+50000
  33685 words of font info for 88 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  29i,15n,28p,958b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Zgoubi.dvi (312 pages, 874092 bytes).
+Output written on Zgoubi.dvi (312 pages, 876096 bytes).

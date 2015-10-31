@@ -1,6 +1,6 @@
 This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
-Scanning input file Zgoubi.idx....done (764 entries accepted, 0 rejected).
-Sorting entries.........done (7850 comparisons).
+Scanning input file Zgoubi.idx....done (766 entries accepted, 0 rejected).
+Sorting entries.........done (7946 comparisons).
 Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 288; output = Zgoubi.ind, line = 34):
    -- Conflicting entries: multiple encaps for the same page under same key.
@@ -44,11 +44,11 @@ Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 207; output = Zgoubi.ind, line = 211):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 260):
+## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 261):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 486; output = Zgoubi.ind, line = 286):
+## Warning (input = Zgoubi.idx, line = 487; output = Zgoubi.ind, line = 287):
    -- Conflicting entries: multiple encaps for the same page under same key.
-done (298 lines written, 16 warnings).
+done (299 lines written, 16 warnings).
 Output written in Zgoubi.ind.
 Transcript written in Zgoubi.ilg.

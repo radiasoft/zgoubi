@@ -2699,36 +2699,40 @@ are the components of the field.}
 
 \begin{tabbing}
 \mestab
-\textbf{MATRIX}         \label{MATRIX-B} \index{MATRIX|textbf}
+\textbf{MATRIX}         \label{MATRIX-B} \index{MATRIX|textbf} \index{Transport coefficients|textbf}
              \> \textbf{\MATRIXTitl} \> \> \\
   \\
   \\
  \textsl{IORD, IFOC}            \> Options :                                            \>0-2, 0-1 or $>10$  \>2*I [,A] \\
  \textsl{[, PRINT] [, coupled]} \> \textsl{IORD} = 0 : Same effect as \textsl{FAISCEAU} \>  \> \\
- \> \textsl{IORD} = 1 (normally using \textsl{OBJET}, \textsl{KOBJ} = 5) : First order transfer \> \> \\
- \>    matrix~; beam matrix, phase advance if using \textsl{OBJET}, \textsl{KOBJ} = 5.1~; \> \> \\
- \> if \textsl{IFOC} $> 10$ : periodic beam matrix, tune numbers  \> \> \\
- \> \textsl{IORD} = 2 (normally using \textsl{OBJET}, \textsl{KOBJ} = 6) : First order transfer   \>\>\\
- \>  matrix $[ R_{ij}] $, second order array $ [T_{ijk} ]$ and higher order transfer   \>\>\\
-% FM, Nov. 2008
-% \>coefficients~;  periodic parameters, chromaticities\index{chromaticity}, etc.   if \textsl{IFOC} $> 0$ \>\>\\
- \>  coefficients~; if \textsl{IFOC} $> 10$ : periodic parameters,     \>\>\\
+ \> \textsl{IORD} = 1, using \textsl{OBJET}, \textsl{KOBJ} = 5[.N]~: 1st order transfer parameters, \> \> \\
+ \>   ~ ~ - if \textsl{KOBJ} = 5.1~:  beam matrix, phase advance,  otherwise  \> \> \\
+ \>   ~ ~ -  1st order data (\cf\ IFOC value) for N different cases of optical reference.  \> \> \\
+ \> \textsl{IORD} = 2, using \textsl{OBJET}, \textsl{KOBJ} = 6~: 1st order transfer  matrix   $[ R_{ij}] $, \>\>\\
+ \> 2nd order array $ [T_{i\, jk} ]$ and a few higher order transfer   coefficients~;  \>\>\\
+ \>  some periodic parameters in addition if \textsl{IFOC} $> 10$~;     \>\>\\
+ \> \textsl{IORD} = 3, using \textsl{OBJET}, \textsl{KOBJ} = 6.1~: 1st order transfer matrix $[ R_{ij}] $,   \>\>\\
+ \>  2nd and 3rd order arrays $ [T_{i\, jk} ]$, $ [T_{i\, jkl} ]$. \>\>\\
  \\
- \>\textsl{IFOC} = 0 : matrix at actual location, \>\>\\
- \>        reference $\equiv$ particle \# 1 \>\>\\
- \>\textsl{IFOC} = 1 : matrix at the closest first order horizontal focus,\>\>\\
- \>        reference $\equiv$ particle \# 1 \>\>\\
- \>\textsl{IFOC} = 10 + NPER : same as \textsl{IFOC} = 0, and also calculates\>\>\\
- \>      the Twiss parameters, tune numbers, etc.\>\>\\
- \>  (assuming that  the DATA file describes one period of a \>\>\\
- \> NPER-period structure).  \>\>\\
+ \>\textsl{IFOC} = 0 : matrix at actual location~\footnotemark[1]~; \>\>\\
+ \>\textsl{IFOC} = 1 : matrix at the closest first order horizontal focus~\footnotemark[1]~;\>\>\\
+ \>\textsl{IFOC} = 10 + NPER : same as \textsl{IFOC} = 0, and also calculates 1 or N sets   \>\>\\
+ \> (case respectively of \textsl{KOBJ} = 5 or \textsl{KOBJ} = 5.N, $2\leq N \leq 99$) of Twiss    \>\>\\
+ \> parameters, tune numbers, etc., assuming  zgoubi.dat file describes  \>\>\\
+ \>  one period of a NPER-period structure~\footnotemark[1].  \>\>\\
 \\
- \>  ``\textsl{PRINT}'' will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
+ \> Occurence of  ``\textsl{PRINT}'' will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
 \\
- \>  ``\textsl{coupled}'', in the periodic case (\textsl{IFOC} = 10 + NPER, above)   \>\>\\
+ \> Occurence of  ``\textsl{coupled}'', in the periodic case (\textsl{IFOC} = 10 + NPER, above),   \>\>\\
  \>    will cause  use of coupled formalism.   \>\>\\
 \end{tabbing}
 
+\footnotetext[1]{~ The reference in computing transport coefficients and other periodic parameters 
+is particle \# 1 of the ray-traced set.  
+If N 11-particle sets are ray-traced in order to get (in a single zgoubi run) transport coeeficients for N different cases of 
+reference orbit (using \textsl{OBJET}, \textsl{KOBJ} = 5.N, $2\leq N \leq 99$), 
+the reference particle for each 11-particle set is respectively particle \#1, 12, 23, ... 1+(N-1)$\times$11. 
+}
 
 \newpage
 

@@ -8317,7 +8317,7 @@ runs in the structure will add up.
 
 \newpage
 
-\subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}
+\subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}  \index{Transport coefficients|textbf}
 \medskip
 
 \textsl{MATRIX}  causes the calculation of the transfer coefficients through the optical 
@@ -8325,7 +8325,7 @@ structure, from the \textsl{OBJET} down to the location where \textsl{MATRIX}  i
 upon option, down to the horizontal focus closest to that location.  
 In this last case the position of 
 the focus is calculated automatically in the same way as the position of the 
-waist in \textsl{IMAGE}. Depending on option \textsl{IFOC},  \textsl{MATRIX} also
+waist in \textsl{IMAGE}. Depending on \textsl{OBJET} and on option \textsl{IFOC},  \textsl{MATRIX} also
 delivers the beam matrix and betatron phase advances or (case of a periodic structure) periodic beam matrix and tunes, 
 chromaticities\index{chromaticity@{chromaticity}|textbf}  and other global parameters. 
 
@@ -8341,7 +8341,7 @@ chromaticities\index{chromaticity@{chromaticity}|textbf}  and other global param
 \item[$\bullet$] If \textsl{IORD} = 0, \textsl{MATRIX}  is inhibited (equivalent to 
 \textsl{FAISCEAU}, whatever \textsl{IFOC}). 
 
-\item[$\bullet$] If \textsl{IORD} = 1, the first order transfer matrix 
+\item[$\bullet$] If \textsl{IORD} = 1, using \textsl{OBJET}, \textsl{KOBJ} = 5[.N], the first order transfer matrix 
 $ [R_{ij}]$ is calculated, from a third order approximation of the coordinates. For instance 
 $$  Y^+    =   \left( \dfrac{Y}{T_0} \right)\, T_0
 	             + \left(\dfrac{Y }{ T^2_0} \right)\, T^2_0 
@@ -8354,7 +8354,14 @@ $$          R_{11} = \left(\dfrac{Y }{ T_0} \right) = \dfrac{Y^+-Y^- }{ 2T_0} $$
 
 \smallskip 
 
-In addition, if \textsl{OBJET}, \textsl{KOBJ} = 5.1 is used (hence introducing initial optical function values, 
+This is repeated $N$ times if \textsl{OBJET}, \textsl{KOBJ} = 5.N ($2\leq N \leq 99$) is used, 
+so delivering first order data for each 
+11-particle set, with for each set the reference trajectory being trajectory number 1+(N-1)$\times$11 in the 
+N$\times$11-particle list (keyword \textsl{FAISCEAU} will print out that list in zgoubi.res, if desired). 
+
+\smallskip 
+
+If \textsl{OBJET}, \textsl{KOBJ} = 5.1 is used instead (hence introducing initial optical function values, 
 $\alpha_{Y,Z}$, $\alpha_{Y,Z}$, $D_{Y,Z}$, $D'_{Y,Z}$), 
 then, using the $R_{ij}$ above,  \textsl{MATRIX} will transport  the  optical functions and phase advances 
 $\phi_Y$, $\phi_Z$, following
@@ -8389,12 +8396,15 @@ R_{21}^2      &  -2R_{21}R_{22} &  R_{22}^2 \\
 ~ ~ ~   \phi_{Y, Z} \rightarrow \phi_{Y,Z} + 2 \pi ~ ~ ~ 
 \textrm{if} ~ \phi_{Y,Z} < 0, \textrm{given} ~ ~ [0,\pi] \textrm{ Atan determination}   \nonumber
 \end{eqnarray}
-
 \noindent and print these out. 
 
-\item[$\bullet$] If \textsl{IORD} = 2, fifth order Taylor expansions are used for the 
+\item[$\bullet$] If \textsl{IORD} = 2, using \textsl{OBJET}, \textsl{KOBJ} = 6, fifth order Taylor expansions are used for the 
 calculation of the first order transfer matrix $ [R_{ij}] $ and of 
 the second order matrix $[T_{ijk}]$.  Other higher order coefficients are also calculated. 
+
+\item[$\bullet$] If \textsl{IORD} = 3, using \textsl{OBJET}, \textsl{KOBJ} = 6.1, 
+transport coefficients up to 3rd order are computed using 102 rays
+(after routines developed for  RAYTRACE~\cite{RAYTRACE,RAYTRACECoeffs}). 
 \end{itemize}
 
 \medskip
@@ -8402,17 +8412,17 @@ the second order matrix $[T_{ijk}]$.  Other higher order coefficients are also c
 \noindent An automatic generation of an appropriate object for the use of \textsl{MATRIX}  can be obtained 
 using the procedure \textsl{OBJET}~(pages~\pageref{OBJET},~\pageref{OBJET-B}), as follows
 
-<<<<<<< .mine
-\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N]), 
-that generates up to 99*11 sets of initial coordinates. In this case, up to ninety nine matrices 
-=======
-\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N, NN=2,99]), 
-that generates up to 99*11 sets of initial coordinates. In this case, up to 99 matrices 
->>>>>>> .r499
-may be calculated, each one \wrt\ to the reference trajectory of concern. 
+
+\noindent - if  \textsl{IORD} = 1, use \textsl{OBJET}(KOBJ = 5[.N, $2\leq N \leq 99$]), 
+that generates up to 99*11 initial coordinates. In this case, up to 99 matrices 
+may be calculated, each one \wrt\ to the reference trajectory of concern (trajectory number 
+1, 12, 23, ... 1+(N-1)$\times$11 respectively). 
 
 \noindent - if  \textsl{IORD} = 2, use \textsl{OBJET}(KOBJ = 6)  that generates 
-  61~sets of initial coordinates. 
+  61 initial coordinates. 
+
+\noindent - if  \textsl{IORD} = 3, use \textsl{OBJET}(KOBJ = 6.1)  that generates 
+ 102 initial coordinates. 
 
 
 \medskip
@@ -8444,7 +8454,12 @@ such as  optical functions and tune numbers, assuming that it is \textsl{NPeriod
 and  in the coupled hypothesis, based on the Edwards-Teng method~\cite{Coupling}. \index{coupling|textbf}
 This only makes senss when met \textsl{at the end} of the zgoubi.dat sequence. 
 
-If  \textsl{IORD} = 2 additional 
+This is repeated $N$ times if \textsl{OBJET}, \textsl{KOBJ} = 5.N ($2\leq N \leq 99$) is used, 
+so delivering first order data for each 11-particle set.
+
+\smallskip
+
+If  \textsl{IORD} = 2 (using \textsl{OBJET}, \textsl{KOBJ} = 6) additional 
 periodic parameters are computed such as chromaticities, \index{chromaticity@{chromaticity}} beta-function momentum dependence, 
  etc. 
 
