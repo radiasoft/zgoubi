@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -33,23 +33,35 @@ C     ******************************
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.TRNSM.H"     ! COMMON/TRNSM/ R(6,6),T(6,6,6)
  
-      READ(NDAT,*) IORD
+      LINE = 1
+      READ(NDAT,*,END=90,ERR=90) IORD
       A(NOEL,1) = IORD
-      READ(NDAT,*) A(NOEL,10)
+
+      LINE = 2
+      READ(NDAT,*,END=90,ERR=90) A(NOEL,10)
+
       IIB = 20
       DO 10 IA=1,6
-        READ(NDAT,*) ( R(IA,IB), IB=1,6)
+        LINE = LINE + 1
+        READ(NDAT,*,END=90,ERR=90) ( R(IA,IB), IB=1,6)
         DO 10 IB=1, 6
           A(NOEL,IIB) =  R(IA,IB)
           IIB = IIB + 1 
  10   CONTINUE
+
       IF(IORD .EQ. 2) THEN
-        DO 20 IA=1,6
-          DO 20 IC=1,6
+        DO IA=1,6
+          DO IC=1,6
 C Modified, FM, 04/97
-C 20         READ(NDAT,*) ( T(IA,IB,IC), IB=1,IC)
- 20         READ(NDAT,*) ( T(IA,IB,IC), IB=1,6)
+C 20         READ(NDAT,*,END=90,ERR=90) ( T(IA,IB,IC), IB=1,IC)
+            LINE = LINE + 1
+            READ(NDAT,*,END=90,ERR=90) ( T(IA,IB,IC), IB=1,6)
+          ENDDO
+        ENDDO
       ENDIF
  
+      RETURN
+
+ 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
       RETURN
       END

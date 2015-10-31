@@ -72,7 +72,7 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,113) 
- 113    FORMAT(//,18X,'TRANSFER  MATRIX  OF  LAST  ELEMENT'//
+ 113    FORMAT(//,18X,'TRANSFER  MATRIX  OF  LAST  ELEMENT',
      >  '  (MKSA units)',/)
         WRITE(NRES,104) (( RLOC(IA,IB) , IB=1,6) , IA=1,6)
  104    FORMAT(6X,1P,6G16.6)

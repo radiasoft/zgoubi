@@ -466,10 +466,12 @@ C          ( D'APRES Benjamin MAYER , FEVRIER 1990 )
       GOTO 998
 C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
-      IF(READAT) CALL RMATRX
+      IF(READAT) CALL RMATRX(
+     >                       IORD,IFOC,KWR,KCPL)
       IF(FITGET) CALL FITGT1
-      CALL MATRIC(NINT(
-     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
+      CALL MATRIC(IORD,IFOC,KWR,KCPL)
+C      CALL MATRIC(NINT(
+C     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE

@@ -31,20 +31,30 @@ C  -------
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       LOGICAL STRCON
-      CHARACTER(LNTA) TXT132
+      CHARACTER(LNTA) TXT
       INTEGER DEBSTR, FINSTR
+
 C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
-      READ(NDAT,*) NY, NBOP
+      LINE =1          
+      READ(NDAT,*,END=90,ERR=90) NY, NBOP
       A(NOEL,1) = NY
       A(NOEL,2) = NBOP
+
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
+
       DO I = 1, NBOP
-        READ(NDAT,FMT='(A)') TXT132
-        TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-        IF(STRCON(TXT132,'!',
-     >                      IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
-        TA(NOEL,I) = TXT132
+        LINE = LINE + 1          
+        READ(NDAT,FMT='(A)',END=90,ERR=90) TXT
+        TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
+        IF(STRCON(TXT,'!',
+     >                      IS)) TXT = TXT(DEBSTR(TXT):IS-1)
+        TA(NOEL,I) = TXT
       ENDDO
+
       RETURN
+
+ 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
+      RETURN
+ 
       END

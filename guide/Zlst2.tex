@@ -2725,7 +2725,8 @@ are the components of the field.}
 \\
  \>  ``\textsl{PRINT}'' will cause printout to  zgoubi.MATRIX.out file.   \>\>\\
 \\
- \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.   \>\>\\
+ \>  ``\textsl{coupled}'', in the periodic case (\textsl{IFOC} = 10 + NPER, above)   \>\>\\
+ \>    will cause  use of coupled formalism.   \>\>\\
 \end{tabbing}
 
 
@@ -3510,7 +3511,7 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
           \> The N labels at which beam data are to be computed/recorded. \> N string(s) \> N*A10 \\
           \> In case some ``\textsl{LABELi}'' in this list actually misses in zgoubi.dat   \> \> \\
           \>  optical sequence, then it is peacefully ignored. \>  \> \\
-          \> Prefix eor suffix '*' cards are accepted~: '*lbl' or 'lbl*'. \> \> \\
+          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> \\
  \\
 \end{tabbing}
 
@@ -4023,7 +4024,7 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
 \textbf{For NF=1, NFAM :} \>repeat \textsl{NFAM} times the following sequence : \> \> \\
  \> \> \> \\
  \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern) [, up to 2 labels]. \> \>A10 [,A10[,A10]] \\
-          \> Prefix eor suffix '*' cards are accepted~: '*lbl' or 'lbl*'. \> \> \\
+          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> \\
  \\
  $NT$          \>$NT>0$~: number of timings~;   \>  -2, -1 or 1-10 \>I \\
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\

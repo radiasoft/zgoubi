@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE RMATRX
+      SUBROUTINE RMATRX(
+     >                  IORD,IFOC,KWR,KCPL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
@@ -33,32 +34,38 @@ C  -------
       INTEGER DEBSTR
       LOGICAL STRCON
 
-      READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
+C      CALL MATRIC(NINT(
+C     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
+
+      LINE = 1
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
 C----- Read IORD, IFOC
-      READ(TXT,*,ERR=99,END=99) (A(NOEL,I),I=1,2)
-
+      READ(TXT,*,ERR=90,END=90) IORD, IFOC
+      A(NOEL,1) = IORD
+      A(NOEL,2) = IFOC
 
       IF    (STRCON(TXT,'!',
      >                      IS)) TXT = TXT(1:IS-1)
       IF    (STRCON(TXT,'PRINT',
      >                          IS)) THEN
-        A(NOEL,3)=1.D0
+        KWR = 1
       ELSE
-        A(NOEL,3)=0.D0
+        KWR = 0
       ENDIF
-
+      A(NOEL,3) = KWR
+      
       IF    (STRCON(TXT,'coupled',
      >                            IS)) THEN
-        A(NOEL,4)=1.D0
+        KCPL = 1
       ELSE
-        A(NOEL,4)=0.D0
+        KCPL = 0
       ENDIF
+      A(NOEL,4) = KCPL
 
       RETURN
 
- 99   CALL ENDJOB(
-     >'Data error in zgoubi.dat :  while reading MATRIX. '
-     >,-99)
+ 90   CALL ENDJOB('*** Pgm rmatrx, keyword MATRIX : '//
+     >'input data error.',-99)
       RETURN
       END

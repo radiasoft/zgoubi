@@ -28,15 +28,14 @@ C     ------------------------------------
 C     Compute transfer matrix coefficients
 C     ------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE 'MXLD.H'
+C      INCLUDE 'MXLD.H'
 C      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+C      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-C     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU,PABSLU
  
 C------         R_ref    +dp/p     -dp/p
       DIMENSION R(6,6), RPD(6,6), RMD(6,6) 
@@ -56,6 +55,8 @@ C------        Beam_ref    +dp/p     -dp/p
 
       DATA KWRMAT / .FALSE. /
 
+      CALL OBJET1(
+     >            KOBJ,KOBJ2)
       IF(.NOT. (KOBJ.EQ.5 .OR. KOBJ.EQ.6)) THEN
         IF(NRES.GT.0)
      >  WRITE(NRES,FMT='('' Matrix  cannot  be  computed :  need "OBJET" 
@@ -75,7 +76,11 @@ C      IORD = A(NOEL,1)
       IF(KOBJ .EQ. 5) THEN
         IORD=1
       ELSEIF(KOBJ .EQ. 6) THEN
-        IORD=2
+        IF(KOBJ2 .EQ. 0) THEN
+          IORD=2
+        ELSEIF(KOBJ2 .EQ. 1) THEN    
+          IORD=3
+        ENDIF
       ENDIF 
 
 C      IFOC = A(NOEL,2) 
@@ -187,6 +192,16 @@ C             write(nres,*) dp, a(numl,25)
         ENDIF
 C        CALL REFER(2,IORD,IFOC,1,6,7)
         CALL REFER(2,IORD,IFC,1,6,7)
+
+      ELSEIF(IORD .EQ. 3) THEN
+C From Nick Tsoupas, RAYTRACE, 3rd order transport coeffs
+
+        IREF = 1
+        IFC = IFOC
+        CALL REFER(1,IORD,IFC,1,6,7)
+        CALL MAT3RD(NRES)
+        CALL REFER(2,IORD,IFC,1,6,7)
+
       ENDIF
 
       RETURN

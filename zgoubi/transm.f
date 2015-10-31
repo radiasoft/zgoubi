@@ -57,24 +57,28 @@ C     $     IREP(MXT),AMQLU,PABSLU
       dimension kfm(MXSCL)
 
       DUM = SCALER(1, NOEL, 
-     >     DUM)
+     >                     DUM)
       CALL SCALE9(
      >            KFM )
-      do ifm = 1, MXSCL
-            IF(KFM(ifm) .le. 0) goto 121
-        DO I= 1 , JPA(KFM(ifm),MXP)
-           A(NOEL,JPA(KFM(ifm),I)) = VPA(KFM(IFM) ,I)
+      DO IFM = 1, MXSCL
+            IF(KFM(IFM) .LE. 0) GOTO 121
+        DO I= 1 , JPA(KFM(IFM),MXP)
+           A(NOEL,JPA(KFM(IFM),I)) = VPA(KFM(IFM) ,I)
         ENDDO
-      enddo
- 121  continue
+      ENDDO
+ 121  CONTINUE
 
-C     *** R EST AU FORMAT 6 x 6
-CModified, FM, 04/97
+C     *** R EST AU FORMAT 6 X 6
+CMODIFIED, FM, 04/97
 C         T EST AU FORMAT 6 x 6 x 6
 C         UNITES  MKSA
  
       IORD = A(NOEL,1)
-      XL = A(NOEL,10)
+      XLM = A(NOEL,10)
+      CALL SCUMW(XLM/UNIT(5))
+      CALL SCUMR(
+     >           XL,SCUM,TCUM) 
+
       IIB = 20
       DO 5  IA=1, 6
         DO 5 IB=1, 6
@@ -94,10 +98,11 @@ C 11     CONTINUE
 C      ENDIF
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,105) IORD,XL
+        WRITE(NRES,105) IORD,XLM,SCUM
  105    FORMAT(/,20X,8('+'),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
      >  I1,3X,8('+'), 1P,
-     >  /,20X,'Length  of  element  :',G12.4,' m',/)
+     >  /,20X,'Length  of  element  :',G15.4,' m',
+     >  /,20X,'Cumulated  distance  from  origin  =',  E15.4,' m')
         I=1
         WRITE(NRES,100) I
  100    FORMAT(//,15X,'TRANSFER  MATRIX  ORDRE',I3,'  (MKSA units)',/)
@@ -147,7 +152,7 @@ C            DO 3 IC=1,IB
         F(4,I)=FC(3)
         F(5,I)=FC(4)
 C       ... Path length :
-        F(6,I)=F(6,I) + FC(5) + XL/UNIT(5)
+        F(6,I)=F(6,I) + FC(5) + XL
 C       ... Time of flight update ????
 C        F(7,I)= ??
 

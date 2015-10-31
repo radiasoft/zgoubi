@@ -20,13 +20,13 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OBJ6
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     ***************************************
-C     CONSTITUTION DE L'OBJET INITIAL KOBJ=60
-C     ***************************************
+C     **************************************
+C     CONSTITUTION DE L'OBJET INITIAL KOBJ=6
+C     **************************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
@@ -217,10 +217,10 @@ C     ** TRAJECTOIRES AVEC COUPLAGE  ./PD
         WRITE(NRES,100) KOBJ,IMAX
         WRITE(NRES,102) (P(J),J=1,MXJ1)
         WRITE(NRES,FMT='(/,19X,'' Reference trajectory : '',
-     >    4X,F7.4,6(4X,F6.2),/)') (REF(I), I=1, MXJ1)
+     >    4X,F9.6,6(4X,F9.6),/)') (REF(I), I=1, MXJ1)
       ENDIF
   100 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
-     1')  FORME  DE ',I6,' POINTS ',//)
-  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
+     1')  FORME  DE ',I6,' POINTS ')
+  102 FORMAT(/,19X,' Sampling : ',16X,F9.6,5(4X,F9.6))
       RETURN
       END

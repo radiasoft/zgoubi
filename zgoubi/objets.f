@@ -112,7 +112,6 @@ C----- Was necessary for FIT procedure when time is constrained :
 
       KOBJ = NINT(A(NOEL,10))
       KOBJ2 = NINT(A(NOEL,11))
-C      KOBJ2 = NINT(1D2*A(NOEL,10)) - 100*KOBJ
 
       IF(NRES.GT.0) WRITE(NRES,103) BORO
  103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
@@ -128,13 +127,18 @@ C---------- OBJET with 11 traj. for 1st order matrix calculation
       CALL RAZ(FO,MXJ*MXT)
       CALL OBJ52(KOBJ2)
       CALL OBJ5
-C      CALL MATRI2(KOBJ2)
       GOTO 99
 
 C---------- OBJET with 61 traj. for 1st, 2nd, and higher coeff. computation
  60   CONTINUE
       CALL RAZ(FO,MXJ*MXT)
-      CALL OBJ6
+      IF(KOBJ2.EQ.0) THEN
+        CALL OBJ6
+      ELSEIF(KOBJ2.EQ.1) THEN
+        CALL OBJ102
+      ELSE
+        CALL ENDJOB('Pgm objets. No such option kobj.kobj2 = 6.',kobj2)
+      ENDIF
       GOTO 99
 
 C---------- Read OBJET from file
@@ -485,6 +489,11 @@ c           read(*,*)
 
       RETURN
 
+      ENTRY OBJET1(
+     >             KOBJO,KOBJ2O)
+      KOBJO = KOBJ
+      KOBJ2O = KOBJ2
+      RETURN      
  
 C  106 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
 C     1')  FORME  DE ',I6,' POINTS ',//)

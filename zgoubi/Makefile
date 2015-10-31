@@ -211,6 +211,10 @@ OBJ=\
  maplim.o\
  mat1.o\
  mat2.o\
+ mat3av.o\
+ mat3ca.o\
+ mat3rd.o\
+ mat3tr.o\
  matimc.o\
  matimp.o\
  matric.o\
@@ -233,6 +237,7 @@ OBJ=\
  nmmin.o\
  normal.o\
  normb.o\
+ obj102.o\
  obj3.o\
  obj5.o\
  obj6.o\
@@ -265,6 +270,7 @@ OBJ=\
  ragsqu.o\
  raiman.o\
  rautor.o\
+ ray102.o\
  raysyn.o\
  razdrv.o\
  razs.o\
@@ -530,6 +536,9 @@ map2d.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 mapshf.o: PARIZ.H
 mat1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 mat2.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+mat3ca.o: $(INC)/MAXTRA.H
+mat3rd.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/C.OBJET.H $(INC)/C.FAISC.H 
+mat3tr.o: $(INC)/MAXTRA.H
 matimp.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 matric.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 mcdes.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -544,6 +553,7 @@ modord.o: $(INC)/MXLD.H
 multip.o: $(INC)/MAXTRA.H
 multpo.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 normal.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+obj102.o: $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON_2.H $(INC)/C.DONT.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/C.FAISC.H $(INC)/C.FAISCT.H $(INC)/C.KAR.H $(INC)/C.OBJET.H $(INC)/C.REBELO.H $(INC)/C.RIGID.H
 obj3.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/FRMFAI.H
 obj5.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 obj6.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -565,6 +575,7 @@ prdata.o: $(INC)/MXLD.H
 prsr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 quasex.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 rautor.o: $(INC)/MXLD.H
+ray102.o: $(INC)/MAXTRA.H
 raysyn.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MAXTRA.H
 rbb.o: $(INC)/MXLD.H
 rbend.o: $(INC)/MXLD.H

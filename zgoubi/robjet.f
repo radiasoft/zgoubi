@@ -66,6 +66,7 @@ C----- KOBJ - may be of the form "K.K2"
      >                     IS)) TXT132 = TXT132(1:IS-1)
       IF(STRCON(TXT132,'.',
      >                      IS)) THEN
+
         READ(TXT132(1:IS-1),*,ERR=99,END=99) K
         READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
         A(NOEL,11) = K2
@@ -77,13 +78,10 @@ C----- KOBJ - may be of the form "K.K2"
       A(NOEL,10) = K
       IF(K .LT. 0) K=-K
 
-      GOTO (1,2,3,1,5,5,7,8,9) K
+      GOTO (1,2,3,1,5,6,7,8,9) K
       CALL ENDJOB('*** Error, SBR ROBJET -> No  such  object  KOBJ= ',K)
  
  1    CONTINUE
-c      READ(NDAT,*,ERR=99) (IA(I),I=1,MXJ1)
-c      DO 11 I=1,MXJ1
-c 11     A(NOEL,19+I) = IA(I)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,45)
@@ -153,12 +151,14 @@ C----- Name of trajectory data storage file
       RETURN
  
  5    CONTINUE
-C      CALL OBJ52(K2)
+      LINE = 3
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
+      LINE = 4
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       IF(K2.EQ.1) THEN
 C------- Read initial beam, for possible transport by MATRIX or use by FIT
 C alfy, bety,  alfz, betz,  alfx, betx, Dy, Dy', Dz, Dz'
+        LINE = 5
         READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,49)
       ELSEIF(K2 .GE. 2 .AND. K2 .LE. MXREF) THEN
 C------- Read additional references 
@@ -167,10 +167,23 @@ C------- Read additional references
           KK = KK + 10
           IF(KK.GT.MXD-10) 
      >          CALL ENDJOB(' SBR ROBJET. MXD is too small.',-99)
+          line = line + 1
           READ(NDAT,*,ERR=99) (A(NOEL,I),I=KK,KK+5)
  52       CONTINUE
       ELSEIF(K2 .GT. MXREF) THEN
         CALL ENDJOB(' SBR ROBJET. MXREF is too small.',-99)
+      ENDIF
+      RETURN
+ 
+ 6    CONTINUE
+      LINE = 3
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
+      LINE = 4
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
+      IF    (K2.EQ.0) THEN
+      ELSEIF(K2.EQ.1) THEN
+      ELSE
+        CALL ENDJOB(' SBR ROBJET. No such option K2 = ',K2)
       ENDIF
       RETURN
  
@@ -223,7 +236,8 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
      >  ' at particle #',I
       GOTO 90
 
- 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
+ 90   CALL ENDJOB('*** Pgm robj, keyword OBJET : '// 
+     >'input data error, at line ',line)
       RETURN
  
       END

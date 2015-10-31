@@ -1,0 +1,35 @@
+      SUBROUTINE mat3tr(L,N,X,XO,YO,ZO,VXO,VYO,VZO,RTL,RLL)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION XO(*),YO(*),ZO(*),VXO(*),VYO(*),VZO(*),RTL(*),RLL(*)
+      INCLUDE "MAXTRA.H"
+       DIMENSION X(MXT)
+C*
+      GO TO (10,20,30,40,50), L
+C*
+10    DO 101 I=3,N
+      X(I)=XO(I)
+101   CONTINUE
+      GO TO 70
+C*
+20    DO 102 I=1,N
+      X(I)=VXO(I)
+102   CONTINUE
+      GO TO 70
+C*
+30    DO 103 I=1,N
+      X(I)=YO(I)
+103   CONTINUE
+      GO TO 70
+C*
+40    DO 104 I=1,N
+      X(I)=VYO(I)
+104   CONTINUE
+      GO TO 70
+C*
+50    DO 105 I=1,N
+      X(I)=RTL(I)-RTL(1)
+105   CONTINUE
+C*
+70    CONTINUE
+        RETURN
+        END
