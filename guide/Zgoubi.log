@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  31 OCT 2015 11:32
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.6.10)  2 NOV 2015 09:27
 entering extended mode
  %&-line parsing enabled.
 **Zgoubi
@@ -665,7 +665,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [66]
 File: Fig6.eps Graphic file (type eps)
  <Fig6.eps>
-Overfull \hbox (12.79999pt too wide) in paragraph at lines 3768--3776
+Overfull \hbox (12.79999pt too wide) in paragraph at lines 3770--3778
 [][]
  []
 
@@ -678,7 +678,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [68]
-Overfull \hbox (5.77641pt too wide) in paragraph at lines 3841--3844
+Overfull \hbox (5.77641pt too wide) in paragraph at lines 3843--3846
 \OT1/ptm/m/n/12 IF \OT1/ptm/m/sl/12 KOPT=1 \OT1/ptm/m/n/12 : Will trans-port th
 e op-ti-cal func-tions with ini-tial val-ues as spec-i-fied in \OT1/ptm/m/sl/12
  OB-JET\OT1/ptm/m/n/12 , op-tion \OT1/ptm/m/sl/12 KOBJ=5.1\OT1/ptm/m/n/12 .
@@ -800,7 +800,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [92]
-Overfull \hbox (6.82121pt too wide) in paragraph at lines 4934--4936
+Overfull \hbox (6.82121pt too wide) in paragraph at lines 4936--4938
 \OT1/ptm/m/n/12 Upon op-tion us-ing \OT1/ptm/m/sl/12 SP-N-TRK\OT1/ptm/m/n/12 , 
 \OT1/ptm/m/sl/12 BEAM-BEAM \OT1/ptm/m/n/12 will in-clude spin kicks, af-ter mod
 -elling as de-scribed in Ref. [[]]. 
@@ -839,7 +839,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [99]
-Overfull \hbox (3.01184pt too wide) in paragraph at lines 5338--5341
+Overfull \hbox (3.01184pt too wide) in paragraph at lines 5340--5343
 \OT1/ptm/b/n/12 If $[]$ : \OT1/ptm/m/n/12 fixed fre-quency RF, quasi- or isochr
 onous ac-cel-er-a-tion. Was first used for quasi-isochronous,
  []
@@ -854,32 +854,32 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [101]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sl' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 5459.
+(Font)              Font shape `OT1/ptm/b/sl' tried instead on input line 5461.
 
 
-Overfull \hbox (54.7685pt too wide) in paragraph at lines 5475--5475
+Overfull \hbox (54.7685pt too wide) in paragraph at lines 5477--5477
 [] 
  []
 
 File: FigCHAREFa.eps Graphic file (type eps)
 <FigCHAREFa.eps>
-Overfull \hbox (5.45042pt too wide) in paragraph at lines 5466--5481
+Overfull \hbox (5.45042pt too wide) in paragraph at lines 5468--5483
 []$[]$ $[]$ 
  []
 
 
-Overfull \hbox (7.2802pt too wide) in paragraph at lines 5543--5543
+Overfull \hbox (7.2802pt too wide) in paragraph at lines 5545--5545
 []\OT1/pcr/m/n/8 'MULTIPOL'       ! Combined function dipole + quadrupole.[] 
  []
 
 
-Overfull \hbox (7.2802pt too wide) in paragraph at lines 5543--5543
+Overfull \hbox (7.2802pt too wide) in paragraph at lines 5545--5545
 []\OT1/pcr/m/n/8 0. -1. -6.34165           ! 1/ Y-shift, 2/ half Z-rotate.[] 
  []
 
 File: FigCHAREFb.eps Graphic file (type eps)
 <FigCHAREFb.eps>
-Overfull \hbox (30.0pt too wide) in paragraph at lines 5506--5553
+Overfull \hbox (30.0pt too wide) in paragraph at lines 5508--5555
 []$[]$ 
  []
 
@@ -888,7 +888,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [102]
-Overfull \hbox (30.0pt too wide) in paragraph at lines 5566--5602
+Overfull \hbox (30.0pt too wide) in paragraph at lines 5568--5604
 []$[]$ 
  []
 
@@ -941,7 +941,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [112]
-Overfull \hbox (3.2538pt too wide) in paragraph at lines 6287--6296
+Overfull \hbox (3.2538pt too wide) in paragraph at lines 6289--6298
 \OT1/ptm/m/n/12 These in-gre-di-ents al-low cal-cu-lat-ing the deriva-tives $[]
  \OML/cmm/m/it/12 ;$ $  [] ;$ $  [] ;$ $  [] ;$
  []
@@ -994,7 +994,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [120]
 File: Fig21.ps Graphic file (type eps)
  <Fig21.ps>
-Underfull \hbox (badness 3312) in paragraph at lines 6721--6721
+Underfull \hbox (badness 3312) in paragraph at lines 6723--6723
 [][]\OT1/ptm/m/n/12 An elec-tric mul-ti-pole com-bin-ing skew-quadrupole $\OT1/
 cmr/m/n/12 ([]2 \OMS/cmsy/m/n/12 6\OT1/cmr/m/n/12 =
  []
@@ -1094,7 +1094,7 @@ File: Fig26.ps Graphic file (type eps)
  <Fig26.ps>
 File: Fig27.ps Graphic file (type eps)
  <Fig27.ps>
-Underfull \hbox (badness 2334) in paragraph at lines 7487--7487
+Underfull \hbox (badness 2334) in paragraph at lines 7489--7489
 \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 OX\OT1/cmr/m/n/12 )$ \OT1/ptm/m/n/12 is the l
 on-gi-tu-di-nal axis of the ref-er-ence frame
  []
@@ -1126,7 +1126,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [143]
-Overfull \vbox (33.31989pt too high) detected at line 7793
+Overfull \vbox (33.31989pt too high) detected at line 7795
  []
 
 
@@ -1180,7 +1180,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [154]
-Overfull \hbox (0.50949pt too wide) in paragraph at lines 8184--8187
+Overfull \hbox (0.50949pt too wide) in paragraph at lines 8186--8189
 \OT1/ptm/m/n/12 This is achieved by giv-ing the stor-age file a name of the for
 m \OT1/ptm/m/sl/12 b[]FNAME \OT1/ptm/m/n/12 or \OT1/ptm/m/sl/12 B[]FNAME \OT1/p
 tm/m/n/12 (\OT1/ptm/m/it/12 e.g.\OT1/ptm/m/n/12 , `b[]zgoubi.fai').
@@ -1236,7 +1236,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [163]
-Overfull \hbox (4.63759pt too wide) in paragraph at lines 8627--8630
+Overfull \hbox (4.63759pt too wide) in paragraph at lines 8629--8632
 \OT1/ptm/m/n/12 This is achieved by giv-ing the stor-age file a name of the for
 m \OT1/ptm/m/sl/12 b[]FNAME \OT1/ptm/m/n/12 or \OT1/ptm/m/sl/12 B[]FNAME \OT1/p
 tm/m/n/12 (\OT1/ptm/m/it/12 e.g.\OT1/ptm/m/n/12 , `b[]zgoubi.spn').
@@ -1273,7 +1273,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [169]
-Overfull \hbox (17.84247pt too wide) in paragraph at lines 8953--8960
+Overfull \hbox (17.84247pt too wide) in paragraph at lines 8955--8962
 \OT1/ptm/m/sl/12 CHANGREF( $[]$, $[]$, $[]$) \OT1/ptm/m/n/12 up-stream of the o
 p-ti-cal el-e-ment, fol-lowed by \OT1/ptm/m/sl/12 CHANGREF($[]$,$[]$,$[] \OT1/c
 mr/m/n/12 =
@@ -1312,9 +1312,9 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [172]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9146.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9148.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9146.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 9148.
 )
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
@@ -1982,7 +1982,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 [229]
 Missing character: There is no   in font ptmr7t!
 
-Underfull \hbox (badness 5787) in paragraph at lines 2614--2614
+Underfull \hbox (badness 5787) in paragraph at lines 2615--2615
 []\OT1/ptm/m/n/8 where $\OML/cmm/m/it/8 X\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 I\OT1/
 cmr/m/n/8 )$\OT1/ptm/m/n/8 , $\OML/cmm/m/it/8 Y\OT1/cmr/m/n/8 (\OML/cmm/m/it/8 
 J\OT1/cmr/m/n/8 )$ \OT1/ptm/m/n/8 are the lon-gi-tu-di-nal, hor-i-zon-tal  co-o
@@ -2054,36 +2054,36 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [240]
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3222--3222
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3223--3223
 []\OT1/pcr/m/n/7 BEND              ! Magnet fields strictly follow cavity kick 
 :[] 
  []
 
 
-Overfull \hbox (9.04079pt too wide) in paragraph at lines 3222--3222
+Overfull \hbox (9.04079pt too wide) in paragraph at lines 3223--3223
 []\OT1/pcr/m/n/7 -1                ! (i) NT=-1 can be used, and (ii) CAVITE doe
 s[] 
  []
 
 
-Overfull \hbox (13.24078pt too wide) in paragraph at lines 3222--3222
+Overfull \hbox (13.24078pt too wide) in paragraph at lines 3223--3223
 []\OT1/pcr/m/n/7 0.                ! Zero field in HKIC and VKIC magnet familie
 s.[] 
  []
 
 
-Overfull \hbox (0.6408pt too wide) in paragraph at lines 3222--3222
+Overfull \hbox (0.6408pt too wide) in paragraph at lines 3223--3223
 []\OT1/pcr/m/n/7 8999999   0.4  99    ! Repeat optical sequence 8999999 times.[
 ] 
  []
 
 
-Overfull \hbox (2.8889pt too wide) in paragraph at lines 3293--3293
+Overfull \hbox (2.8889pt too wide) in paragraph at lines 3294--3294
 []\OT1/pcr/m/n/7 0. 0. 0. 0. 0. 0. 0.     ! path length/RF phase at CAVITE.[] 
  []
 
 
-Overfull \hbox (6.32047pt too wide) in paragraph at lines 3159--3296
+Overfull \hbox (6.32047pt too wide) in paragraph at lines 3160--3297
 []  $[]$   $[]$ 
  []
 
@@ -2120,13 +2120,13 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 [246]
 Missing character: There is no   in font ptmr7t!
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3483
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 3484
 .
  (/usr/share/texmf-texlive/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3483.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3484.
 
 
 Overfull \vbox (3.97462pt too high) has occurred while \output is active []
@@ -2189,12 +2189,12 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [256]
-Underfull \hbox (badness 10000) in paragraph at lines 3866--3867
+Underfull \hbox (badness 10000) in paragraph at lines 3867--3868
 
  []
 
 
-Overfull \hbox (11.41747pt too wide) in paragraph at lines 3883--3988
+Overfull \hbox (11.41747pt too wide) in paragraph at lines 3884--3989
 []$[]$  $[]$ 
  []
 
@@ -2279,18 +2279,18 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 
 
 [270]
-Underfull \hbox (badness 10000) in paragraph at lines 4413--4414
+Underfull \hbox (badness 10000) in paragraph at lines 4414--4415
 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4532--4532
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4533--4533
 []\OT1/pcr/m/n/5 -1                  3                      13  3E-20   14 -1.4
 73595E-03 15  8.01942[] 
  []
 
 
-Overfull \hbox (3.1704pt too wide) in paragraph at lines 4532--4532
+Overfull \hbox (3.1704pt too wide) in paragraph at lines 4533--4533
 []\OT1/pcr/m/n/5 -1                  3                      13  9E-20   14 -1.0
 11857E-03 15 -1.70597[] 
  []
@@ -3143,7 +3143,7 @@ Overfull \vbox (3.97462pt too high) has occurred while \output is active []
 ) (./Zbiblio.aux)) )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 3413 ({)
+### simple group (level 1) entered at line 3414 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
  2536 strings out of 493849
@@ -3154,4 +3154,4 @@ Here is how much of TeX's memory you used:
  714 hyphenation exceptions out of 8191
  29i,15n,28p,958b,373s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Zgoubi.dvi (312 pages, 876096 bytes).
+Output written on Zgoubi.dvi (312 pages, 876144 bytes).

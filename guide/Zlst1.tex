@@ -3654,10 +3654,12 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \medskip
 
-Note that, if the `nofinal' option\index{fit procedure!options}  
-is not set in \textsl{FIT[2]} (see page~\pageref{nofinal}), then, once completed, \textsl{FIT[2]} will be followed by a final  
-run of zgoubi.dat with the variable values as resulting from \textsl{FIT[2]}. In that case, for that final run, 
-\textsl{GETFITVAL} will be inhibited so avoid overridding these updated variable values. 
+\noindent Once completed, \textsl{FIT[2]} will be followed by a final  
+run of zgoubi.dat with variable values updated as resulting from the fit. 
+This can be inhibited by indicating `nofinal' option\index{fit procedure!options}  
+ in \textsl{FIT[2]} (see page~\pageref{nofinal}). 
+For that final run 
+\textsl{GETFITVAL} will be inhibited so avoid overridding the updated variable values. 
 
 
 \newpage
@@ -8317,7 +8319,7 @@ runs in the structure will add up.
 
 \newpage
 
-\subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}  \index{Transport coefficients|textbf}
+\subsubsection*{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}  \index{transport coefficients|textbf}
 \medskip
 
 \textsl{MATRIX}  causes the calculation of the transfer coefficients through the optical 
