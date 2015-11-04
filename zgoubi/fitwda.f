@@ -38,6 +38,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       PARAMETER (MSR=8,MSR2=2*MSR)
       CHARACTER(30) STRA(MSR2)
       CHARACTER(40) FRMT
+      CHARACTER(1) LET
 
       OK = IDLUNI(
      >            LWDAT)
@@ -60,7 +61,17 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
           IF(NUEL .LT. 0 .OR. NUEL .GT. MXL) GOTO 11
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
-          IF    (KLEY(1:8) .EQ. 'MULTIPOL') THEN 
+          IF    (KLEY(1:8) .EQ. 'OBJET') THEN 
+            DO I = 1, 3
+              READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+              WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            ENDDO
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(TXT132,*,err=10,end=10) Y,T,Z,P,X,D,LET
+            WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8,3A)')
+     >              (A(NUEL,J),J=30,35),' ''',LET,''' '
+          ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -108,8 +119,8 @@ C Old style CHANGREF
       CLOSE(LWDAT)
       CLOSE(LTEMP)
 
-        CALL SYSTEM('\cp zgoubi.temp.dat zgoubi.FIT.out.dat')
-        CALL SYSTEM('rm -f zgoubi.temp.dat')
+      CALL SYSTEM('\cp zgoubi.temp.dat zgoubi.FIT.out.dat')
+      CALL SYSTEM('rm -f zgoubi.temp.dat')
 
       RETURN
 

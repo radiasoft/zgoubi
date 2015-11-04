@@ -1,5 +1,5 @@
 
- set title "Optical functions from zgoubi.TWISS.out"    font "roman,16"   # offset 0,+.7    
+ set title "Optical functions, from zgoubi.TWISS.out"    font "roman,16"   # offset 0,+.7    
 
  set xlabel "s [m]"        font "roman,16"   # offset +4,-.5 rotate by +20  
  set ylabel "{/Symbol b}_x, {/Symbol b}_y [m]"             font "roman,13"   #offset -0,-1 rotate by -20 
@@ -23,7 +23,7 @@ set x2range []
 set yrange []
 set y2range []
 
-#set xrange  [:810]
+set xrange  [:810]
 
 #set xrange  [490:510]
 
@@ -34,7 +34,7 @@ set y2range []
       "zgoubi.TWISS.out" u ($13/100.):($9) axes x1y2 w l lt 1 lc 4 lw 2 tit "{/Symbol h}_y"  
 
  set samples 10000
- set terminal postscript eps blacktext color enh size 8.3cm,6cm "Times-Roman" 12
+ set terminal postscript eps blacktext color enh size 8.3cm,5cm "Times-Roman" 12
  set output "gnuplot_TWISS_btxy.eps"
  replot
  set terminal X11
@@ -42,6 +42,7 @@ set y2range []
 
 pause 2
 
+ set title "Orbit, from zgoubi.TWISS.out"    font "roman,16"   # offset 0,+.7    
 
  set ylabel "x, y [m]"             font "roman,13"   #offset -0,-1 rotate by -20 
  set y2label "x, y [m]"             font "roman,13"   #offset -0,-1 rotate by -20 
@@ -56,7 +57,7 @@ pause 2
       "zgoubi.TWISS.out" u ($13/100.):($17) axes x1y1 w l lt 1 lc 3 tit "y"  
 
  set samples 10000
- set terminal postscript eps blacktext color enh size 8.3cm,6cm "Times-Roman" 12
+ set terminal postscript eps blacktext color enh size 9.3cm,6cm "Times-Roman" 12
  set output "gnuplot_TWISS_xy.eps"
  replot
  set terminal X11

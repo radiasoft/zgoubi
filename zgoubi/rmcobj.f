@@ -144,7 +144,8 @@ C----- IR1, IR2, IR3
  99   WRITE(NRES,FMT='(5X,A)') 
      >'*** Pgm rmcobj. error upon BACKSPACE'
 
- 90   CALL ENDJOB('*** Pgm rmcobj. Input data error, at line ',line)
+ 90   CALL ENDJOB('*** Pgm rmcobj. MCOBJET. '//
+     >'Input data error, at line ',line)
 
       RETURN
       END
