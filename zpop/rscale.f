@@ -47,6 +47,7 @@ C     ----------------------------------------------
       INTEGER DEBSTR, FINSTR
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
+      LINE = 1
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)
 
       NFAM = NINT(A(NOEL,2))
@@ -60,6 +61,7 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       DO 1 IF=1,NFAM
 
 C------- Store name of family and label(s)
+        LINE = LINE + 1
         READ(NDAT,100)  TA(NOEL,IF)
  100    FORMAT(A80)
         TA(NOEL,IF) = 
@@ -82,6 +84,7 @@ C------- Store name of family and label(s)
         DO 12 KL=NST+1, MSTR
  12       LBF(IF,KL-1) = ' '
 
+        LINE = LINE + 1
         READ(NDAT,*) KTI(IF)
         IF(KTI(IF) .GT. MXS) THEN
           WRITE(NRES,FMT='
@@ -91,8 +94,10 @@ C------- Store name of family and label(s)
         ENDIF
 
 C------- TIM(IF,IT)
+        LINE = LINE + 1
         READ(NDAT,*) (A(NOEL,10*IF+IT-1),IT=1,KTI(IF))
 C------- SCL(IF,IT)
+        LINE = LINE + 1
         READ(NDAT,*) (A(NOEL,10*IF+KTI(IF)+IT-1),IT=1,KTI(IF))
         A(NOEL,10*IF+2*KTI(IF)) = NST
 

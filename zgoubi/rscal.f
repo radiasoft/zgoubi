@@ -63,27 +63,40 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA FAC / 1.D0  /
       DATA LUN / 0 /
  
-      IF(MXTA.LT.MXF)
-     >CALL ENDJOB('SBR RSCAL. Change MXTA to same value as MXF',-99)
+      LINE = 0
+      IF(MXTA.LT.MXF) THEN
+        WRITE(NRES,*) 'SBR RSCAL. Change MXTA to same value as MXF'
+        GOTO 90
+      ENDIF
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1
-      READ(NDAT,*) A(NOEL,NP),NFAM
+      LINE = LINE + 1
+      READ(NDAT,*,err=90,end=90) A(NOEL,NP),NFAM
       NP = NP + 1
       A(NOEL,NP) = NFAM
  
-      IF(NFAM .GT. MXF)
-     >CALL ENDJOB('SBR RSCAL - Too many families. Max allowed is ',MXF)
-      IF(NFAM .GT. MXTA)
-     >CALL ENDJOB('SBR RSCAL - Too many TA. Max allowed is ',MXTA)
+      IF(NFAM .GT. MXF) THEN
+        WRITE(NRES,*) 'SBR RSCAL - Too many families. Max allowed is '
+     >  ,MXF
+        GOTO 90
+      ENDIF
+      IF(NFAM .GT. MXTA) THEN
+        WRITE(NRES,*) 'SBR RSCAL - Too many TA. Max allowed is ',MXTA
+        GOTO 90
+      ENDIF
  
       DO 1 IFM=1,NFAM
  
-        IF(NP .GT. MXD-2)
-     >  CALL ENDJOB('SBR RSCAL - Too many data. Max allowed is ',MXD-2)
+        IF(NP .GT. MXD-2) THEN
+          WRITE(NRES,*) 'SBR RSCAL - Too many data. Max allowed is '
+     >    ,MXD-2
+          GOTO 90
+        ENDIF
  
 C------- Store name of family and label(s)
-        READ(NDAT,FMT='(A)')  TXT132
+        LINE = LINE + 1
+        READ(NDAT,FMT='(A)',err=90,end=90)  TXT132
 C Remove possible comment trailer
         IF( STRCON(TXT132,'!',
      >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
@@ -94,9 +107,11 @@ C Remove possible comment trailer
         CALL STRGET(TXT132,MSTR,
      >                          NSTR,STRA)
  
-        IF(NSTR .GT. MSTR)
-     >  CALL ENDJOB
-     >  ('SBR RSCAL - Too many labels in family. Max allowed is ',MLF)
+        IF(NSTR .GT. MSTR) THEN
+          WRITE(NRES,*)
+     >    'SBR RSCAL - Too many labels in family. Max allowed is ',MLF
+          GOTO 90
+        ENDIF
  
         IF(KSIZ .GT. LBLSIZ) STOP ' Pgm rscal, ERR : KSIZ > LBLSIZ.'
         FAM(IFM) = STRA(1)(1:KSIZ)
@@ -115,7 +130,8 @@ C Remove possible comment trailer
  
 C For the current family, get the number of timings or working mode and possible parameters
 C (input data is of the form NT[.MODSCL].
-        READ(NDAT,FMT='(A)') TXT132
+        LINE = LINE + 1
+        READ(NDAT,FMT='(A)',err=90,end=90) TXT132
 C Remove possible comment trailer
         IF( STRCON(TXT132,'!',
      >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
@@ -141,8 +157,11 @@ C Possible additional scaling factor :
           FAC = 1.D0
  45       CONTINUE
  
-          IF(NTIM(IFM) .GT. MXS-2)
-     >       CALL ENDJOB('SBR RSCAL - Too many timings. Max is ',MXS-2)
+          IF(NTIM(IFM) .GT. MXS-2) THEN
+            WRITE(NRES,*)
+     >     'SBR RSCAL - Too many timings. Max is ',MXS-2
+            GOTO 90
+          ENDIF
         ELSE
  
           CALL RAZS(STRAD,MSTRD)
@@ -152,15 +171,24 @@ C Possible additional scaling factor :
           IF(KSTR.GE.1) READ(STRAD(1),*) NTIM(IFM)
           NP = NP + 1
           A(NOEL,NP) = NTIM(IFM)
-          IF(NTIM(IFM) .GT. MXD-2)
-     >        CALL ENDJOB('SBR RSCAL - Too many timings. Max is ',MXD-2)
+          IF(NTIM(IFM) .GT. MXD-2) THEN
+            WRITE(NRES,*)
+     >      'SBR RSCAL - Too many timings. Max is ',MXD-2
+            GOTO 90
+          ENDIF
  
           IF(KSTR.GE.2) THEN
             READ(STRAD(2),*) NPA
-            IF(NPA.GT.MPA) CALL
-     >         ENDJOB('SBR RSCAL - Too many parameterss. Max is ',MPA)
-            IF(NPA .GT. MXSCL)
-     >       CALL ENDJOB('SBR rscal. Exceded size of SCL tab.',-99) 
+            IF(NPA.GT.MPA)  THEN
+              WRITE(NRES,*)
+     >        'SBR RSCAL - Too many parameterss. Max is ',MPA
+              GOTO 90
+            ENDIF
+            IF(NPA .GT. MXSCL) THEN
+              WRITE(NRES,*)
+     >        'SBR rscal. Exceded size of SCL tab.'
+              GOTO 90
+            ENDIF
           ELSE
             NPA = 0
           ENDIF
@@ -168,13 +196,22 @@ C Possible additional scaling factor :
  
           DO J = 1, NPA
 C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
-            IF(2*J+1 .GT. MSTRD) CALL ENDJOB(
-     >      ' SBR rscal, ERR : 2J+1 > MSTRD.',-99)
+            IF(2*J+1 .GT. MSTRD)  THEN
+              WRITE(NRES,*)
+     >        ' SBR rscal, ERR : 2J+1 > MSTRD.'
+              GOTO 90
+            ENDIF
             READ(STRAD(2*J+1),*) JPA(IFM,J)
             READ(STRAD(2*J+2),*) VPA(IFM,J)
-            IF(NP.GT.MXD-2) CALL ENDJOB('SBR rscal. Too many data.',-99)
+            IF(NP.GT.MXD-2) THEN
+              WRITE(NRES,*) 'SBR rscal. Too many data.'
+              GOTO 90
+            ENDIF
             NP = NP + 1
-            IF(NP.GT.MXD) CALL ENDJOB('SBR rscal. NP >',MXD)
+            IF(NP.GT.MXD)  THEN
+              WRITE(NRES,*) 'SBR rscal. NP >',MXD
+              GOTO 90
+            ENDIF
             A(NOEL,NP) = VPA(IFM,J)
  
           ENDDO
@@ -195,7 +232,10 @@ C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
             NDTIM=1
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL
-            IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            IF(NP.GT.MXD-2)  THEN
+              WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              GOTO 90
+            ENDIF
             A(NOEL,MXD-IFM) = NTIM(IFM)
           ELSEIF(NTIM(IFM) .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -237,8 +277,12 @@ C               max = max(NDSCL,NDTIM)
  
 C--------- SCL(IFM,IT)
           NP = NP + 1
-          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-          READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDSCL)
+          IF(NP.GT.MXD-2) THEN
+            WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            GOTO 90
+          ENDIF
+          LINE = LINE + 1
+          READ(NDAT,*,err=90,end=90) (A(NOEL,NP+IT-1),IT=1,NDSCL)
  
 C             write(*,*) ' A(NOEL,NP+IT-1),IT=1,NDSCL : ',
 C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
@@ -247,8 +291,12 @@ C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
  
 C--------- TIM(IFM,IT)
           NP = NP + 1
-          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
-          READ(NDAT,*) (A(NOEL,NP+IT-1),IT=1,NDTIM)
+          IF(NP.GT.MXD-2) THEN
+            WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            GOTO 90
+          ENDIF
+          LINE = LINE + 1
+          READ(NDAT,*,err=90,end=90) (A(NOEL,NP+IT-1),IT=1,NDTIM)
  
 C             WRITE(*,*) ' A(NOEL,NP+IT-1),IT=1,NDtim : ',
 C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
@@ -257,33 +305,41 @@ C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
           NP = NP + NDTIM - 1
  
           NP = NP + 1
-          IF(NP.GT.MXD-2) CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+          IF(NP.GT.MXD-2) THEN
+            WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            GOTO 90
+          ENDIF
           A(NOEL,NP) = NSTR
  
         ELSEIF( MODSCL(IFM) .GE. 10) then
 C--------- Name of the storage file in the next line
 c     yann : modif to setup the read of the cols if the external file
 c     is used together with the new scaling method that point directly to the A table
-          READ(NDAT,FMT='(A)') TXTF
+          LINE = LINE + 1
+          READ(NDAT,FMT='(A)',err=90,end=90) TXTF
           CALL SCALI8(TXTF, IFM)
-          READ(NDAT,fmt='(a)') TXT132
+          LINE = LINE + 1
+          READ(NDAT,fmt='(a)',err=90,end=90) TXT132
           CALL RAZS(STRAD,MSTRD)
           CALL STRGET(TXT132,MSTRD,
      >         KSTR,STRAD)
  
           IF( KSTR .LE. 2 ) THEN !yann : this case is "as usual"
-             READ(TXT132,*) NTIMCOL, NSCALCOL(1)
-             NPA = 1
-             JPA(IFM,MXP) = NPA
+            READ(TXT132,*) NTIMCOL, NSCALCOL(1)
+            NPA = 1
+            JPA(IFM,MXP) = NPA
           ELSE                   !yann : this is the new case
-             READ(TXT132,*) NPA, NTIMCOL
-             IF( NPA.GT.10 ) CALL ENDJOB('SBR RSCAL - ' //
-     >            'Too many parameter, max is ', 10)
-             JPA(IFM,MXP) = NPA
-             DO I=1, NPA         !yann : loop over the declared number of parameter
-                READ(STRAD(2*I+1),*,err=95,end=95) JPA(IFM,I)     ! index in the table A
-                READ(STRAD(2*I+2),*,err=95,end=95) NSCALCOL(I)    ! column number in the data file
-             ENDDO
+            READ(TXT132,*) NPA, NTIMCOL
+            IF( NPA.GT.10 ) THEN
+              WRITE(NRES,*) 'SBR RSCAL - ' //
+     >           'Too many parameter, max is ', 10
+              GOTO 90
+            ENDIF
+            JPA(IFM,MXP) = NPA
+            DO I=1, NPA         !yann : loop over the declared number of parameter
+               READ(STRAD(2*I+1),*,err=95,end=95) JPA(IFM,I)     ! index in the table A
+               READ(STRAD(2*I+2),*,err=95,end=95) NSCALCOL(I)    ! column number in the data file
+            ENDDO
           ENDIF
 c     yann : End of modif
  
@@ -305,9 +361,12 @@ c     yann : End of modif
      >            (ANONE,ICOL=1,NSCALCOL(I)-NTIMCOL-1),
      >            SCL(IFM,NTIM(IFM),I)
              NTIM(IFM) = NTIM(IFM)+1
-             IF(NTIM(IFM) .GT. MXS-2)
-     >            CALL ENDJOB('SBR RSCAL - ' //
-     >            'Too many timings, max is ',MXS-2)
+             IF(NTIM(IFM) .GT. MXS-2) THEN
+               WRITE(NRES,*)
+     >           'SBR RSCAL - ' //
+     >            'Too many timings, max is ',MXS-2
+               GOTO 90
+             ENDIF
              GOTO 55
  56          CONTINUE
           ENDDO       ! yann : end of loop
@@ -318,27 +377,37 @@ c     yann : End of modif
           A(NOEL,I_NTIM) = NTIM(IFM)
  
           IF( MODSCL(IFM) .EQ. 11) THEN
-            READ(NDAT,* ) NTIM2(IFM)
+            LINE = LINE + 1
+            READ(NDAT,*,err=90,end=90) NTIM2(IFM)
             IIT = NTIM2(IFM)
-            IF(IIT .GT. MXS-2)
-     >      CALL ENDJOB('SBR RSCAL - Too many timings, max is ',MXS-2)
+            IF(IIT .GT. MXS-2) THEN
+              WRITE(NRES,*)
+     >        'SBR RSCAL - Too many timings, max is ',MXS-2
+              GOTO 90
+            ENDIF
 C            IF(IIT.GT.10) CALL ENDJOB(
 C     >      'SBR RSCAL: Number of scaling factors cannot exceed',10)
 C            IF(10*IFM+2*IIT-1.GT.MXD-1) CALL ENDJOB(
 C     >      'SBR RSCAL: Too maniy families or too many timings',-99)
 C----------- SCL2(IFM,IT)
-            READ(NDAT,*) (SCL2(IFM,IT),IT=1,IIT)
+            LINE = LINE + 1
+            READ(NDAT,*,err=90,end=90) (SCL2(IFM,IT),IT=1,IIT)
             NP = NP + IIT
-            IF(NP.GT.MXD-2)
-     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            IF(NP.GT.MXD-2) THEN
+              WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              GOTO 90
+            ENDIF
             DO IT = 1, IIT
               A(NOEL,NP+IT-1) =     SCL2(IFM,IT)
             ENDDO
 C----------- TIM2(IFM,IT)
-            READ(NDAT,*) (TIM2(IFM,IT),IT=1,IIT)
+            LINE = LINE + 1
+            READ(NDAT,*,err=90,end=90) (TIM2(IFM,IT),IT=1,IIT)
             NP = NP + IIT
-            IF(NP.GT.MXD-2)
-     >        CALL ENDJOB('SBR RSCAL. Too many data.',-99)
+            IF(NP.GT.MXD-2) THEN
+              WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              GOTO 90
+            ENDIF
             DO IT = 1, IIT
               A(NOEL,NP+IT-1) =  TIM2(IFM,IT)
             ENDDO
@@ -350,9 +419,10 @@ C----------- TIM2(IFM,IT)
           ENDIF
  
         ELSE
- 
-          CALL ENDJOB
-     >    ('SBR RSCAL: No such option MODSCL = ',MODSCL(IFM))
+           
+          WRITE(NRES,*)
+     >    'SBR RSCAL: No such option MODSCL = ',MODSCL(IFM)
+          GOTO 90
  
         ENDIF
  
@@ -367,18 +437,19 @@ C----------- TIM2(IFM,IT)
       WRITE(ABS(NRES),*) 'ERROR READING SCALING'
       WRITE(ABS(NRES),*) '   Family number', IFM
       WRITE(ABS(NRES),*) '   at element : ', FAM(IFM)
-      CALL ENDJOB('SBR rscal. End job upon reading scaling',-99)
-      RETURN
+      GOTO 90
  
  96   CONTINUE
       WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',
      > TXTF(DEBSTR(TXTF):FINSTR(TXTF))
       WRITE(ABS(NRES),*) ' NOEL, IFM : ',NOEL,IFM
-      CALL ENDJOB('SBR rscal. End job upon ERROR  OPEN  FILE.',-99)
-      RETURN
+      GOTO 90
  
  97   CONTINUE
       WRITE(ABS(NRES),*) 'SBR rscal. No idle unit  '
-      CALL ENDJOB('SBR rscal. End job upon NO IDLE UNIT.',-99)
+      GOTO 90
+
+ 90   CALL ENDJOB('*** Pgm rscal, keyword SCALIN : '// 
+     >'input data error, at line ',line)
       RETURN
       END
