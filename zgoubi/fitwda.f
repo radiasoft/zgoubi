@@ -71,13 +71,6 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
             READ(TXT132,*,err=10,end=10) Y,T,Z,P,X,D,LET
             WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8,3A)')
      >              (A(NUEL,J),J=30,35),' ''',LET,''' '
-          ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-            WRITE(LTEMP,FMT='(A)') 
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-            WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
-     >                                  (A(NUEL,J),J=2,13)
           ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
             READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
@@ -102,6 +95,43 @@ C New style CHANGREF
 C Old style CHANGREF
               WRITE(LTEMP,FMT='(3(E14.6,1X))') (A(NUEL,J),J=1,3)
             ENDIF
+          ELSEIF(KLEY(1:6) .EQ. 'SPNTRK') THEN 
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(TXT132,*,err=10,end=10) XSO
+            IF(XSO .GE. 4) THEN
+              IF    (NINT(10*XSO) .EQ. 40) THEN
+                CALL ZGIMAX(
+     >                      IMAX) 
+                DO IT = 1, IMAX
+                  READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                  WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
+     >                                  (A(NUEL,J),J=2,13)
+                ENDDO
+              ELSEIF(NINT(10*XSO) .EQ. 41) THEN
+                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                WRITE(LTEMP,FMT='(3(E16.8,2X))')
+     >                                  (A(NUEL,J),J=10,12)
+              ELSEIF(NINT(10*XSO) .EQ. 50) THEN
+                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
+     >                                  (A(NUEL,J),J=2,13)
+                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
+     >                                  (A(NUEL,J),J=2,13)
+              ELSE
+                CALL ENDJOB('Pgm fitwda. Present KSO option in SPNTRK '
+     >          //' needs be installed in fitwda. ',-99)
+              ENDIF
+            ENDIF
+          ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
+     >                                  (A(NUEL,J),J=2,13)
           ENDIF
         ENDIF
       ENDDO

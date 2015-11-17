@@ -42,7 +42,7 @@ CDECK GRAPH1
 
       LOGICAL OKOPN, INPECH, CHANGE, KLIPS, KHIST, OK24, OK23
       LOGICAL TYLAB,TYLABR
-      CHARACTER(14) TXTL
+      CHARACTER(16) TXTL
       LOGICAL FIRST
 
       CHARACTER(1) KLET
@@ -183,7 +183,7 @@ C          read(*,*)
           IF(KL1.EQ.-1) THEN
             WRITE(TXTL,FMT='(A5)') '* all'
           ELSE
-            WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
+            WRITE(TXTL,FMT='(I5,A,I6)') KL1,' to ',KL2
           ENDIF
 C          IF(LM.EQ.-1) THEN
 C             WRITE(TXTL,FMT='(A5)') '* all'
@@ -265,7 +265,7 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,ITWO)
             IF(KL1.EQ.-1) THEN
               WRITE(TXTL,FMT='(A5)') '* all'
             ELSE
-              WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
+              WRITE(TXTL,FMT='(I6,A,I6)') KL1,' to ',KL2
             ENDIF
 C            IF(LM.EQ.-1) THEN
 C              WRITE(TXTL,FMT='(A5)') '* all'
@@ -443,7 +443,7 @@ C Superpose a curve
             IF(KL1.EQ.-1) THEN
               WRITE(TXTL,FMT='(A5)') '* all'
             ELSE
-              WRITE(TXTL,FMT='(I5,A,I5)') KL1,' to ',KL2
+              WRITE(TXTL,FMT='(I6,A,I6)') KL1,' to ',KL2
             ENDIF
             CALL READC5(KT1,KT2)
             CALL READC1(

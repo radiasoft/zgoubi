@@ -15,12 +15,12 @@ set key font "roman, 12"  samplen 1
 
 set grid
 
-plot [350:505] \
-     'zgoubi.OPTICS.out_G10On' u ($13/100.):15  w l lc 1  tit "G10 On" ,\
-     'zgoubi.OPTICS.out_G10Off' u ($13/100.):15  w l lc 3 tit "G10 Off"
+plot \
+     'zgoubi.OPTICS.out' u ($13/100.):15  w l lc 1  tit "Y orbit"  ,\
+     'zgoubi.OPTICS.out' u ($13/100.):17  w l lc 1  tit "Z orbit"
 
 set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12 
- set output "gnuplot_OPTICS.eps" 
+ set output "gnuplot_OPTICS_YZorbits.eps" 
  replot 
  set terminal X11 
  unset output 

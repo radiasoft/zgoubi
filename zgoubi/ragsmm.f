@@ -32,26 +32,34 @@ C     -------------------------
 C     READS DATA FOR AGS DIPOLE
 C     -------------------------
 C                  IL
-      READ(NDAT,*) A(NOEL,1)
+      LINE = 1
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
 
 C mod = option flag (for K1, K2 method)
 C                  MOD, dL/L, gap, db0/b0, db1/b1, db2/b2
-      READ(NDAT,*) (A(NOEL,10+I-1),I=1,6)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,10+I-1),I=1,6)
 C # of backleg windings, # of turns and I for each winding   
-      READ(NDAT,*) ABLW,(A(NOEL,20+I),I=1,2*INT(ABLW))
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) ABLW,(A(NOEL,20+I),I=1,2*INT(ABLW))
       IF(INT(ABLW) .GT. 2) STOP ' SBR RAGSMM. # of blwg cannot exceed 2'
       A(NOEL,20) = ABLW
 C----- CHP FUITE ENTREE
 C        XE, LambdaE, ff2,ff3
-      READ(NDAT,*) (A(NOEL,I),I=30,33)
-      READ(NDAT,*) II,(A(NOEL,40+I),I=1,II)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=30,33)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) II,(A(NOEL,40+I),I=1,II)
       A(NOEL,40) = II
 C----- CHP FUITE SORTIE
-      READ(NDAT,*) (A(NOEL,I),I=50,53)
-      READ(NDAT,*) II,(A(NOEL,60+I),I=1,II)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,53)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) II,(A(NOEL,60+I),I=1,II)
       A(NOEL,60) = II
 C----- Rotation of multipole components
-      READ(NDAT,*) (A(NOEL,70+I-1),I=1,3)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) (A(NOEL,70+I-1),I=1,3)
 
 C----- Step
       ND = 80
@@ -60,20 +68,25 @@ C----- Step
 
 C KPOS=3 : XCE, YCE, ALE
 C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
-      READ(NDAT,fmt='(a)') txt
+      LINE = LINE + 1
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT
       CALL STRGET(TXT,MSS,
      >                    NS,STRA) 
       
-      READ(stra(1),*,err=66) II
+      READ(STRA(1),*,ERR=66) II
       A(NOEL,90) = II 
 
-      do kk = 2, NS
-        READ(stra(kk),*,err=66) temp
-        A(NOEL,91+kk-2) = temp
-      enddo
+      DO KK = 2, NS
+        READ(STRA(KK),*,ERR=66) TEMP
+        A(NOEL,91+KK-2) = TEMP
+      ENDDO
 
       RETURN
 
- 66   Continue
+ 66   CONTINUE
+      RETURN
+
+ 90   CALL ENDJOB('*** Pgm ragsmm, keyword AGSMM : '// 
+     >'input data error, at line ',LINE)
       RETURN
       END

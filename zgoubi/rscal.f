@@ -450,6 +450,6 @@ C----------- TIM2(IFM,IT)
       GOTO 90
 
  90   CALL ENDJOB('*** Pgm rscal, keyword SCALIN : '// 
-     >'input data error, at line ',line)
+     >'input data error, at line ',LINE)
       RETURN
       END

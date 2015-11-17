@@ -1499,5 +1499,10 @@ C Current pass #
      >             TITRO)
       TITRO = TITRE
       RETURN
+      ENTRY ZGIMAX( 
+     >             IMAXO)
+C Number of particles being tracked
+      IMAXO = IMAX
+      RETURN
 
       END

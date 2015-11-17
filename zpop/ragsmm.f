@@ -30,27 +30,37 @@ C     -------------------------
 C     READS DATA FOR AGS DIPOLE
 C     -------------------------
 C                  IL
+      LINE = 1
       READ(NDAT,*) A(NOEL,1)
 
 c mod = option flag (for K1, K2 method)
 C                  MOD, dL/L, gap, db0/b0, db1/b1, db2/b2
+      LINE = 2
       READ(NDAT,*) (A(NOEL,10+I-1),I=1,6)
 C       # of turns and I for each winding   
+      LINE = 3
       READ(NDAT,*) NBLWG,(A(NOEL,20+I),I=1,2*NBLWG)
       IF(NBLWG.GT.2) STOP ' SBR ragsmm. # of blwg cannot exceed 2'
       A(NOEL,20) = NBLWG
 C----- CHP FUITE ENTREE
 C        XE, LambdaE, ff2,ff3
+      LINE = 4
       READ(NDAT,*) (A(NOEL,I),I=30,33)
+      LINE = 5
       READ(NDAT,*) II,(A(NOEL,40+I),I=1,II)
       A(NOEL,40) = II
 C----- CHP FUITE SORTIE
+      LINE = 6
       READ(NDAT,*) (A(NOEL,I),I=50,53)
+      LINE = 7
       READ(NDAT,*) II,(A(NOEL,60+I),I=1,II)
       A(NOEL,60) = II
 C----- Rotation of multipole components
+      LINE = 8
       READ(NDAT,*) (A(NOEL,70+I-1),I=1,3)
 
+      LINE = 10
+C----- KPOS, XCE, YCE, ALE
       READ(NDAT,*,err=99) II,(A(NOEL,I),I=91,93)
 
  99   RETURN

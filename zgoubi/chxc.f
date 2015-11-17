@@ -1250,14 +1250,18 @@ C----- Some more actions on Magnetic Multipoles, BEND, etc.  :
 C          - automatic positioning in SBR TRANSF,
 C          - warning on z-foc. if sharp edge dipole field
 
-      IF( KP .EQ. 3)  THEN
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
-     >  ''Automatic positioning of element, XCE, YCE, ALE ='',
-     >          1P,3G18.10,'' cm/cm/rad'' : )') XCE, YCE, ALE
-      ELSEIF( KP .EQ. 4)  THEN
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
-     >  ''Automatic positioning of element, XCE,YCE,Z-rot,ZCE,Y-rot =''
-     >  ,1P,5G16.8,'' cm/cm/rad/cm/rad'' : )') XCE, YCE, ALE, ZCE, PHE
+      IF(NRES.GT.0) THEN
+        IF( KP .EQ. 3)  THEN
+          WRITE(NRES,FMT='(/,5X,''KPOS = '',I2,'' :'',
+     >    ''  automatic positioning of element, '',/,
+     >    8X,''XCE, YCE, ALE ='',
+     >          1P,3G18.10,'' cm/cm/rad'' : )') KP,XCE,YCE,ALE
+        ELSEIF( KP .EQ. 4)  THEN
+          WRITE(NRES,FMT='(/,5X,''KPOS = '',I2,'' :'',
+     >    ''  automatic positioning of element, '',/,
+     >    8X,''XCE,YCE,Z-rot,ZCE,Y-rot =''
+     >    ,1P,5G16.8,'' cm/cm/rad/cm/rad'' : )') KP,XCE,YCE,ALE,ZCE,PHE
+        ENDIF
       ENDIF
 
       IF( KPAS .GT. 0 ) THEN
