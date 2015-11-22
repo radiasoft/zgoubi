@@ -48,6 +48,9 @@ C     **************************
       LOGICAL CINE
       CHARACTER(80) TXT
  
+      DATA KTIR, KOUV / MXJ*' ', ' ' / 
+      DATA CENTRE / MXJ*0.D0 / 
+
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
       AMQLU(3) = .FALSE.

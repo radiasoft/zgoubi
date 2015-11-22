@@ -416,6 +416,7 @@ C Phase, in [-pi,pi] interval
 
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         DPR(I)=(P-PS)/PS
+
         PX=SQRT( P*P -PY*PY-PZ*PZ)
 
         TIOLD = TI
