@@ -59,8 +59,9 @@ C Read 3 centering coordinates
         IF    (IA2.EQ.0) THEN
 C Center the beam on xce, yce, ale
           READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
-        ELSEIF(IA2.EQ.1) THEN
-C Center the beam on xce, yce, ale, p/pRef, time
+        ELSEIF(IA2.LE.2) THEN
+C 1 : Center the beam on xce, yce, ale, p/pRef, time
+C 2 : Center the beam on xce, yce, ale, p/pRef and set all times to A(NOEL,14)
           READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12),
      >    A(NOEL,13),A(NOEL,14)
         ELSE

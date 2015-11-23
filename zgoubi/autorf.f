@@ -198,6 +198,22 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
                   F(7,I) = F(7,I) - TT + A(NOEL,14)    ! case eRHIC linac
                 ENDIF
               ENDDO
+            ELSEIF(IOP2.EQ.2) THEN
+              II = 0
+              DD = 0.D0
+              DO I = 1, IMAX
+               IF( IEX(I) .GT. 0) THEN
+                II = II + 1
+                DD = DD + F(1,I) 
+               ENDIF
+              ENDDO
+              DD = DD / DBLE(II)        
+              DO I = 1, IMAX
+                IF( IEX(I) .GT. 0) THEN
+                  F(1,I) = F(1,I) - DD + A(NOEL,13)
+                  F(7,I) = A(NOEL,14)    ! case eRHIC linac
+                ENDIF
+              ENDDO
             ENDIF
 
       ELSEIF(IOP .EQ. 5) THEN

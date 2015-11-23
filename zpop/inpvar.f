@@ -103,8 +103,8 @@ C      READ(5,*,ERR=20) KX, KY
       call strget(txt200,3,
      >                     nst,stra)
       if(nst .lt. 2) goto 10
-      read(stra(1),*) KX
-      read(stra(2),*) KY
+      read(stra(1),*,err=10,end=10) KX
+      read(stra(2),*,err=10,end=10) KY
 c         write(*,*) ' inpvar nst, txt200 ',nst,txt200
 c         read(*,*)
       if(nst.eq.3) then
