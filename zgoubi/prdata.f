@@ -47,14 +47,16 @@ C-----------------------------------------------------------------------
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'
 
+      LUNR = NDAT
+
 C----- Read zgoubi.dat title (1st data line)
-      READ (NDAT,FMT='(A)',ERR=10,END=95) TEXT
+      READ (LUNR,FMT='(A)',ERR=10,END=95) TEXT
       IF(NRES .GT. 0) WRITE(NRES,FMT='(A)') 
      >TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
       NOEL=0
  10   CONTINUE
-        READ (NDAT,FMT='(A)',ERR=10,END=95) TEXT
+        READ (LUNR,FMT='(A)',ERR=10,END=95) TEXT
         IF( .NOT. EMPTY(TEXT) ) THEN
           TEXT = TEXT(DEBSTR(TEXT):FINSTR(TEXT))
         ELSE
@@ -106,7 +108,7 @@ C----- Read zgoubi.dat title (1st data line)
         GOTO 10
 
  95   CONTINUE
-      REWIND(NDAT)
+      REWIND(LUNR)
 
       RETURN
       END

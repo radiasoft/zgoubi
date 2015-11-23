@@ -125,10 +125,11 @@ C This INCLUDE must stay located right before the first statement
       LOGICAL STRCON 
 
       LOGICAL FITBYD, FITRBL
-      LOGICAL OKPRLB
+      LOGICAL OKPRLB, OKPRDA
 
       DATA PRDIC / .FALSE. /
       DATA OKLNO / .FALSE. /
+      DATA OKPRDA / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
 
@@ -141,10 +142,18 @@ C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
-      IF(READAT) THEN
+      IF(.NOT. OKPRDA) THEN
+C      IF(READAT) THEN
         CALL PRDATA(
      >              LABEL,NBLMN)
-        nblm = nblmn
+        NBLM = NBLMN
+        OKPRDA = .TRUE.
+      ENDIF
+
+      IF(READAT) THEN
+C        CALL PRDATA(
+C     >              LABEL,NBLMN)
+C        NBLM = NBLMN
         CALL FITSTA(I5,
      >                 FITING)
         CALL FITST2(NBLMN)
