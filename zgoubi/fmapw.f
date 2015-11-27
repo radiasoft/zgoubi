@@ -72,7 +72,8 @@ C------- Print field map in zgoubi.res
           WRITE(NRES,
      >    FMT='(/,1X,20(''-''),/,10X,'' FIELD  MAP  (NORMALISED) :'',/)'
      $         )
-          WRITE(NRES,FMT='(/,A,3I2,/)') '  IXMA,JYMA,KZMA ',IXMA,JYMA,K
+          WRITE(NRES,FMT='(/,A,3I2,/)') '  IXMA,JYMA,KZMA ',
+     >    IXMA,JYMA,KZMA
           WRITE(NRES,FMT='(
      >    5X,''Y'',4X,''Z'',4X,''X'',4X,A,''y'',4X,A,''z'',4X,A,''x'')') 
      >    BE(KFLD),BE(KFLD),BE(KFLD)
@@ -84,6 +85,7 @@ C------- Print field map in zgoubi.res
               DO JD=1, ID
                 BREAD(JD) = HC(JD,I,J,K,IMAP)
               ENDDO
+
               WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
      >                             BREAD(2), BREAD(3), BREAD(1)
             ENDDO
@@ -326,6 +328,9 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
      >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
+        ELSE
+C          CALL ENDJOB('Please give at least 1 line header in field map'
+C     >    //' file with R0, DR, DTTA, DZ values.',-99)
         ENDIF
       ELSE
         IF(NHD .GE. 1) THEN
@@ -345,6 +350,9 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
      >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
+        ELSE
+C          CALL ENDJOB('Please give at least 1 line header in field map'
+C     >    //' file with R0, DR, DTTA, DZ values.',-99)
         ENDIF
       ENDIF
 
@@ -618,8 +626,10 @@ C Map data file starts with NHD-line header
               ENDIF
             ENDIF
           ENDIF
+        ELSE
+C          CALL ENDJOB('Please give at least 1 line header in field map'
+C     >    //' file with R0, DR, DTTA, DZ values.',-99)
         ENDIF
-
       ELSE
 
         IF(NHD .GE. 1) THEN
@@ -645,6 +655,9 @@ C Map data file starts with NHD-line header
               ENDIF
             ENDIF
           ENDIF
+        ELSE
+C          CALL ENDJOB('Please give at least 1 line header in field map'
+C     >    //' file with  R0, DR, DX, DZ values.',-99)
         ENDIF
 
       ENDIF
@@ -719,17 +732,17 @@ C------- Mesh coordinates
         ELSEIF(MOD2 .EQ. 1) THEN
 C Full map of magnet. Differs from MOD2=0 by absence of symmetrization
 C Used for instance for AGS helical snake maps
-           jtcnt=0
-           ircnt = 0
-           kzcnt=0       
+           JTCNT=0
+           IRCNT = 0
+           KZCNT=0       
            DO J=1,JYMA        
              JTC = J
-             jtcnt = jtcnt + 1
+             JTCNT = JTCNT + 1
              DO  K = 1,KZMA      
-               kzc = k
-               kzcnt = kzcnt+1
+               KZC = K
+               KZCNT = KZCNT+1
                DO I=1,IXMA            
-                 ircnt = ircnt+1
+                 IRCNT = IRCNT+1
 
                  IF(BINAR) THEN
                    READ(LUN)YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
@@ -1077,12 +1090,12 @@ C Used for instance for AGS cold snake = helix+solenoid
 
            DO J=1,JYMA        
              JTC = J
-             jtcnt = jtcnt + 1
+             JTCNT = JTCNT + 1
              DO  K = 1,KZMA      
-               kzc = k
-               kzcnt = kzcnt+1
+               KZC = K
+               KZCNT = KZCNT+1
                DO I=1,IXMA            
-                 ircnt = ircnt+1
+                 IRCNT = IRCNT+1
 
                  IF(BINAR) THEN
                    READ(LUN,ERR=96)
@@ -1109,6 +1122,14 @@ C Used for instance for AGS cold snake = helix+solenoid
                  HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
                  HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
                  HC(3,I,JTC,KZC,IMAP) = BREAD(3) * BNORM
+
+
+c               write(88,fmt='(a,3i4,2x,6(1x,e12.4))') 
+c     >        ' fmapwhc J,K,I  : ',j,k,i,yh(J),zh(K),xh(I),
+c     >       HC(2,I,JTC,KZC,IMAP),
+c     >       HC(3,I,JTC,KZC,IMAP),
+c     >       HC(1,I,JTC,KZC,IMAP)
+                  
 
                ENDDO
              ENDDO
@@ -1141,6 +1162,7 @@ C------- Mesh coordinates
 
 
            IF    (IFIC.EQ.1) THEN
+
              DO I = 1, IXMA
                DO J = 1, JYMA
                  DO K = 1, KZMA
@@ -1150,6 +1172,24 @@ C------- Mesh coordinates
                  ENDDO
                ENDDO
              ENDDO
+
+
+c                   write(89,fmt='(9(1x,e12.4),/)') 
+c     >        dx,xh(1),xh(2),dy,yh(1),yh(2),dz,zh(1),zh(2)
+c                   write(89,fmt='(9(1x,e12.4),/)') 
+c     >        dx,xh(1),xh(2),dy,yh(1),yh(2),dz,zh(1),zh(2)
+c             DO J = 1, JYMA
+c               DO K = 1, KZMA
+c                 DO I = 1, IXMA
+c                   write(89,fmt='(6(1x,e12.4))') 
+c     >             yh(J),zh(K),xh(I),
+c     >             HC(2,I,J,K,IMAP),
+c     >             HC(3,I,J,K,IMAP),
+c     >             HC(1,I,J,K,IMAP)
+c                 ENDDO
+c               ENDDO
+c             ENDDO
+
            ELSE
              IF    (IFIC.LT.MOD2) THEN
                DO I = 1, IXMA

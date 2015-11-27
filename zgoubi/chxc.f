@@ -403,6 +403,7 @@ C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
           ELSEIF(KUASEX.EQ.7) THEN
 C-------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
             NDIM = 3
+            MOD = NINT(A(NOEL,23))
 
           ENDIF
 
@@ -477,9 +478,9 @@ C Steps back because this is settled after the endif...
             ELSE
               NHD = NHDF
             ENDIF
-           IF(NHD .GT. MXHD) CALL ENDJOB(
-     >     'Pgm chxc. Field map header has too many lines. Must be .le.'
-     >     ,MXHD)
+            IF(NHD .GT. MXHD) CALL ENDJOB(
+     >      'Pgm chxc. Field map headr has too many lines. Must be .le.'
+     >      ,MXHD)
 
             IDEB = DEBSTR(TITL)
             FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
@@ -537,6 +538,7 @@ C--------- Will sum (superimpose) 1D or 2D field maps if map file name is follow
             
             ELSEIF(NDIM .EQ. 3 ) THEN
               MOD = NINT(A(NOEL,23))
+
               IF    (MOD .EQ. 0) THEN
 C-------------- The 3-D map is symmetrised /  horizontal plane
                 I1 = (KZMA/2) + 1
@@ -896,16 +898,27 @@ C     >     XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM,
      >    , /,5X,'X-size of mesh =',E14.6,' cm ; Y-size =',E14.6,' cm')
           IF(NDIM .EQ. 3) THEN
 C            I2=2 introduced to avoid compiler complainig when IZ=1...
+
+            IF    (MOD .EQ. 0) THEN
+              KNOD = 2*KZMA-1
+            ELSEIF(MOD .EQ. 1) THEN
+              KNOD = KZMA
+            ELSEIF(MOD .EQ. 12) THEN
+              IF   (MOD2 .EQ. 1) THEN
+                KNOD = KZMA
+              ELSEIF(MOD2 .EQ. 2) THEN
+                KNOD = 2*KZMA-1
+              ELSE
+                KNOD = 2*KZMA-1
+              ENDIF
+            ELSEIF(MOD .EQ. 15) THEN
+              KNOD = KZMA
+            ELSE
+              CALL ENDJOB('Pgm chxc. No such option MOD = ',MOD)
+            ENDIF
             WRITE(NRES,FMT='(5X,
-     >      ''nber of nodes in Z ='',I5,'' ; Step in Z ='',E14.6,
-     >                                 '' cm'')') 2*KZMA-1,ZH(I2)-ZH(1)
-C     >     //,5X,'Champ MIN/MAX CARTE       : ', 
-C     >                              1P,G12.4,T64,'/ ',G12.4
-C     >      , /,5X,'  @  X(CM),  Y(CM), Z(CM) : ', 3G10.3,T64,'/ ',3G10.3
-C     >      , /,5X,'COEFF. DE NORMALISATION   :', G12.4
-C     >      , /,5X,'Champ MIN/MAX NORMALISE   :', 2(G12.4,20X)
-C     >      ,//,5X,'NBRE DE PAS EN X =',I4,'  NBRE DE PAS EN Y =',I5
-C     >      , /,5X,'PAS EN X =',G12.4,' CM,  PAS EN Y =',G12.4,' CM')
+     >      ''nber of mesh nodes in Z ='',I5,'' ; Step in Z ='',E14.6,
+     >                                 '' cm'')') KNOD,ZH(I2)-ZH(1)
           ENDIF
           IF(IDRT .NE. 0) THEN
             IF    (IDRT .EQ. -1) THEN

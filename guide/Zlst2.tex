@@ -4616,14 +4616,15 @@ cp zgoubi.res zgoubi.res_save
  \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped. Include \> \>A80 \\
                       \>``HEADER n'' in case \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
  \\
- $IX$, $IY$, $IZ$,     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}\footnotemark[1], $\leq$\textsl{MXY}, \>3*I \\
-  \textsl{MOD[.MOD2]}  \> and $Z$ directions,  $IZ=1$ for single 2-D map~;     \>  $\leq$\textsl{IZ}, $\ge 0$[.1-9] \> \\
-                       \> \textsl{MOD} : operational and map \textsl{FORMAT} reading mode~\footnotemark[2]; \> \> \\
+ $IX$, $IY$, $IZ,$~\footnotemark[1]     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}, $\leq$\textsl{MXY}, \>3*I \\
+  \textsl{MOD[.MOD2 [, a(i),i=}  \> and $Z$ directions,  $IZ=1$ for single 2-D map~;     \>  $\leq$\textsl{IZ}, $\ge 0$[.1-9] \> \\
+  \textsl{1,MOD2]]}    \> \textsl{MOD} : operational and map \textsl{FORMAT} reading mode~\footnotemark[2]; \> \> \\
                        \> \textsl{MOD}$\le$19 : Cartesian mesh~; \> \> \\
                        \> \textsl{MOD}$\ge$20 : cylindrical mesh.  \> \> \\
                        \> \textsl{MOD2}, optional, tells the reading \textsl{FORMAT}, default is '*'. \> \> \\
+                       \> If \textsl{MOD=15} give \textsl{MOD2} linear combination coefficients. \> \> \\
  \\
-\textsl{FNAME}~\footnotemark[1] \>   Names of the $NF$ files that contain the 2-D maps,  from $Z(1)$ to $Z(NF)$.   \> \>A80 \\
+\textsl{FNAME}~\footnotemark[3]  \>   Names of the $NF$ files that contain the 2-D maps,  from $Z(1)$ to $Z(NF)$.   \> \>A80 \\
 ($K=1$, $NF$)       \> If \textsl{MOD}=0 : $NF = 1+ [IZ/2]$, the $NF$ 2-D maps are for $0 \leq Z \leq Z_{max}$, \\
       \> they are symmetrized with respect to the $Z(1)=0$ plane.\\
        \> If \textsl{MOD}=1 : $NF = IZ$, no symmetry assumed~; $Z(1) = Z_{max}$,  \\ 
@@ -4634,7 +4635,7 @@ cp zgoubi.res zgoubi.res_save
 $ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$,  cm, \>I,3*E  \\
 $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,\id]\>[,3*E,etc.]\\
  \\
- \textsl{IORDRE}     \>If $IZ=1$ : 3, 4, 25, as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 25 or 4 \>I\\
+ \textsl{IORDRE}     \>If $IZ=1$ : 2, 25 or 4 as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 25 or 4 \>I\\
  \\
  \textsl{XPAS}          \>Integration step  \>cm \>E \\
  \\
@@ -4642,30 +4643,34 @@ $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \tex
  \textsl{KPOS, XCE, YCE, ALE}    \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; shifts, tilt  \>1-2, 2*cm, rad \>I, 3*E \\
  \textbf{If polar mesh : } \\
  \textsl{KPOS}    \>as for \textsl{POLARMES}. Normally 2.    \>1-2  \>I \\
- \textbf{If KPOS = 2} \> \> \> \\
+ \textbf{If KPOS = 2 :} \> \> \> \\
  $RE$, $TE$, $RS$, $TS$ \> \> cm, rad, cm, rad \> 4*E \\
  \end{tabbing}
 
 
 \begin{alltt}
-\footnotetext[1]{\textsl{MXX, MXY, IZ} may be changed, they are stated in the include file \texttt{PARIZ.H}. 
-}
-\footnotetext[2]{\textrm{Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :} 
-{\footnotesize
-   DO K = 1, NF
-     OPEN (UNIT = NL, FILE = FNAME(K), STATUS = `OLD' [,FORM='UNFORMATTED'])
+\footnotetext[1]{\textsl{MXX, MXY, IZ} may be changed, they are stated in the include file \texttt{PARIZ.H}. }
+\footnotetext[2]{\textrm{Case of 2-D field maps : Each file \textsl{FNAME(K)} contains the field specific to elevation \(Z(K)\) and must be formatted according to the following \textsl{FORTRAN} read sequence (that usually fits \textsl{TOSCA} code \textsl{OUTPUTS} - details and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :} 
+{\tiny
+   DO JF = 1, NF
+     OPEN (UNIT = NL, FILE = FNAME(JF), STATUS = `OLD' [,FORM='UNFORMATTED'])
      DO J = 1,  JY ;       DO I = 1, IX
-         IF (BINARY) THEN
-           READ(NL) Y(J), Z(K), X(I), BY(J,K,I), BZ(J,K,I), BX(J,K,I)        \hfill   {\footnotesize node coordinates, field components at node}
-         ELSE
-           READ(NL,*) Y(J), Z(K), X(I), BY(J,K,I), BZ(J,K,I), BX(J,K,I)    \hfill      {\footnotesize node coordinates, field components at node}
-         ENDIF
-       ENDDO ;     ENDDO
+         READ(NL,*) Y(J), Z(JF), X(I), BY(J,I), BZ(J,I), BX(J,I)    \hfill      {\footnotesize node coordinates, field components at node}
+     ENDDO ;     ENDDO
      NL = NL + 1
-   ENDDO
-} 
-For 2-D maps  BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I), BY(J,1,I) values. For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'.
+   ENDDO} 
+BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I), BY(J,1,I) values. 
+\textrm{Case of 3-D field maps :} 
+{\tiny
+   DO JF = 1, NF
+     OPEN (UNIT = NL, FILE = FNAME(JF), STATUS = `OLD' [,FORM='UNFORMATTED'])
+     DO J = 1,  JY ; DO K = 1, KX ; DO I = 1, IX
+         READ(NL,*) Y(J), Z(K), X(I), BY(J,K,I), BZ(J,K,I), BX(J,K,I)    \hfill      {\footnotesize node coordinates, field components at node}
+     ENDDO ; ENDDO ; ENDDO
+     NL = NL + 1
+   ENDDO} 
 }
+\footnotetext[3]{For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'. }
 \end{alltt}
 
 

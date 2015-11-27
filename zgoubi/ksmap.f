@@ -44,11 +44,6 @@ C     16/01/14 For KSMAP4 to remember the maps coeffcients used
       PARAMETER (MXC = 4)
       DIMENSION COEFS(MMAP,IZ), AA(IZ)
  
-C      PARAMETER (KSIZ=10)
-C      CHARACTER(KSIZ) KLE, KLEI
-C      PARAMETER (LBLSIZ=10)
-C      CHARACTER(LBLSIZ) LBL1, LBL2, LBL1I, LBL2I
- 
 C Read
       KMAPO = KMAP
  

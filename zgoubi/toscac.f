@@ -502,9 +502,9 @@ c                        read(*,*)
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
-             if    (nfic.eq.1) then
+             IF    (NFIC.EQ.1) THEN
  
-               if(mod2.eq.1) then
+               IF(MOD2.EQ.1) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
