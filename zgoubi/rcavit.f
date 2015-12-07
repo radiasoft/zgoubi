@@ -62,25 +62,28 @@ C     ....Orbit length. (m), H -HARMONIQUE
 C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
 C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       READ(NDAT,FMT='(A)') TXT132      
-      if(iopt .ne. 0) then 
+      IF(IOPT .NE. 0) then 
         IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
         CALL STRGET(TXT132,3
      >                    ,MSTR,STRA)
-        if(iopt .ne. 10) then
-          mstr=2        !      3rd data is IDMP in cavite IOPT=10
-        else
-          if(mstr.eq.2) a(noel,22)= 2      ! default
-        endif
+        IF(IOPT .NE. 10) THEN
+          MSTR=2        !      3rd data is IDMP in cavite IOPT=10
+        ELSE
+          IF(MSTR.EQ.2) A(NOEL,22)= 2      ! default
+        ENDIF
         DO I = 1, MSTR
-          if(isnum(stra(i))) then 
+          IF(ISNUM(STRA(I))) THEN 
             READ(STRA(I),*) A(NOEL,19+I)
-          else
-            call endjob('Pgm rcavit. Non-numerical data found '
-     >      //'at 3rd line. Please check with Users'' guide.',-99)
-          endif
+          ELSE
+            CALL ENDJOB('Pgm rcavit. Non-numerical data found '
+     >      //'at 3rd line. Please check with users'' guide.',-99)
+          ENDIF
         ENDDO
-      endif
+      ENDIF
+
+c      write(*,*) ' rcavite *',n
+c     >oel,ta(noel,1)(DEBSTR(ta(noel,1)):80),'*'
 
       RETURN
       END

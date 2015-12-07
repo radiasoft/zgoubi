@@ -30,15 +30,23 @@ C  -------
       PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
       PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
-      CHARACTER(80) STRA(10)
-      integer debstr, finstr
+      PARAMETER (MSTR=10)
+      CHARACTER(80) STRA(MSTR)
+      CHARACTER(132) TXT132
+      INTEGER DEBSTR, FINSTR
+      LOGICAL STRCON
 
-      READ(NDAT,*,ERR=99) A(NOEL,1)
-      READ(NDAT,FMT='(A80)',ERR=99) TA(NOEL,1)
+      LINE = 1
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
 
+      LINE = LINE + 1
+      READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(1:IS-1)
+      TA(NOEL,1)=TXT132(DEBSTR(TXT132):FINSTR(TXT132))
       CALL STRGET(TA(NOEL,1),10,
      >                         NSTR,STRA)
-
+      IF(NSTR .GT. MSTR) GOTO 90
       TA(NOEL,1)=' '
       TA(NOEL,2)=' '
       IF(NSTR.GE.1) TA(NOEL,1)=STRA(1)
@@ -54,10 +62,12 @@ C Get the list of elements to be subjected to scaling
         TA(NOEL,3)=' ' 
       ENDIF
 
-      READ(NDAT,*,ERR=99) A(NOEL,10), A(NOEL,11)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,10), A(NOEL,11)
 
       RETURN
- 99   CONTINUE
-      WRITE(6,*) ' Input data error at keyword SRLOSS'
-      STOP
+
+ 90   CALL ENDJOB('*** Pgm rscrlos, keyword SRLOSS : '// 
+     >'input data error, at line ',LINE)
+      RETURN
       END

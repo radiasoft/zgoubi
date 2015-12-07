@@ -274,10 +274,12 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
               NEL = 1
               DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
                 IF(
-     >           KLE(IQ(NEL))(DEBSTR(KLE(IQ(NEL))):FINSTR(KLE(IQ(NEL))))
-     >           .EQ. KLEI(IPRM)(DEBSTR(KLEI(IPRM)):FINSTR(KLEI(IPRM))))
+     >          KLE(IQ(NEL))(DEBSTR(KLE(IQ(NEL))):FINSTR(KLE(IQ(NEL))))
+     >          .EQ. KLEI(IPRM)(DEBSTR(KLEI(IPRM)):FINSTR(KLEI(IPRM))))
      >          THEN
                   IF    (NLBL(IPRM) .EQ. 0) THEN                
+                    FOUND = .TRUE.
+                  ELSEIF( LBL1(IPRM) .EQ. LABEL(NEL,1) ) THEN
                     FOUND = .TRUE.
                   ENDIF
                 ENDIF
@@ -285,7 +287,8 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
               ENDDO
               IF(.NOT. FOUND) THEN
                 CALL ENDJOB(
-     >          'Sbr rebel. No such keyword in optical sequence',-99)
+     >          'Sbr rebel. No such keyword[label] in optical sequence',
+     >          -99)
               ENDIF 
             ENDDO
 

@@ -70,6 +70,8 @@ C  -------
       CHARACTER(60) TYPCH(5)
       INTEGER DEBSTR, FINSTR
 
+      PARAMETER (CG=8.846D-14)  ! m/MeV^3
+
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
      >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
@@ -94,6 +96,7 @@ C  -------
 
       SRLOSS = .FALSE.
       DWSR = 0.D0
+      U0 = 0.D0
 
       CALL SCALE9(
      >            KFM )
@@ -111,6 +114,10 @@ C  -------
  121  CONTINUE
 
       KCAV = NINT(A(NOEL,1))
+
+c      write(*,*) ' rcavite *',ta(noel,1)(DEBSTR(ta(noel,1)):80),'*'
+c            stop
+             
       IF(IPASS .EQ. 1) THEN 
         OKIMP = TA(NOEL,1) .EQ. 'PRINT'
         IF(OKIMP) THEN 
@@ -129,6 +136,10 @@ C  -------
         ENDIF
       ENDIF
 
+c            write(*,*) ' cavite ',okimp,ta(noel,1)
+c            stop
+
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,102) SKAV(KCAV+1)
  102    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
@@ -140,7 +151,8 @@ C  -------
  
       AN10 = A(NOEL,10)
       AN11 = A(NOEL,11)
-      VLT= A(NOEL,20)
+      AN20= A(NOEL,20)
+C      VLT= A(NOEL,20)
       AN21= A(NOEL,21)
       AN22= A(NOEL,22)
       PHS= AN21
@@ -151,7 +163,8 @@ C  -------
 C----- P0, AM  are  in  MEV/c, /c^2
       P0 = BORO*CL9*Q
       AM2= AM*AM
-      QV = VLT*Q *1.D-6
+C      QV = VLT*Q *1.D-6
+      QV = AN20 *Q *1.D-6
  
 
       GOTO(10,20,30,40,50,60,70,80,77,100,21) KCAV
@@ -201,7 +214,7 @@ C--- Case SR loss in storage ring (no acceleration)
       GOTO 1
 
 C------------------------------------------- 
-C Works like 20 if no SR, or if SR in storage ring. Diff is allows SR with acceleration. 
+C Works like CAVITE/2 (tag 20) if no SR, or if SR in storage ring. Diff is allows SR with acceleration. 
 C It uses ph_s to accelerate (not for compensation of SR unlike 20) (so, ph_s=0 
 C in storage mode); ph_s is corrected for SR compensation : 
 C requires A(noel,22) = theoretical SR loss at first pass, then, SR loss assumes ~gamma^4 
@@ -217,17 +230,24 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       WKS = PS/BTS - AM
       FREV = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
+      CALL SRLOS3(
+     >            SRLOSS)
+      IF(SRLOSS) THEN 
+        SI2 = 0.0568860943517   !  =I2=2pi/rho
+        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
+      ENDIF
+      QV = (AN20 *Q *1.D-6 + U0) /SIN(PHS)
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
       WS = WKS + AM
-C--- Case SR loss in storage ring (no acceleration)
-      CALL SRLOS3(
-     >            SRLOSS)
-      IF(SRLOSS) THEN
-        gg4 = ( ws / (ws-dws)   )**4
-        dwsr = a(noel,22) * gg4         
-      ENDIF
+C--- Case SR loss in storage ring or booster
+c      CALL SRLOS3(
+c     >            SRLOSS)
+c      IF(SRLOSS) THEN
+c        gg4 = ( ws / (ws-dws)   )**4
+c        dwsr = a(noel,22) * gg4         
+c      ENDIF
       GOTO 1
 
 C------------------------------------------- 
@@ -708,11 +728,11 @@ C        PH(I)=BLAG
         F(6,I)=0.D0 
 
         IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),10(1X,E14.6),A)') 
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),11(1X,E14.6),A)') 
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
-     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,
+     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,
      >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
-     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0'
 
  3    CONTINUE
       GOTO 88

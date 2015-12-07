@@ -45,6 +45,7 @@ C     ***************************************
       DIMENSION PARAM(MXPRM,MXLST)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TPRM(MXPRM,3)
+      LOGICAL ISNUM, OK
       data ia4 / 0 /
 
       READ(NDAT,FMT='(A)') TXT300
@@ -94,36 +95,82 @@ C WILL 'REBELOTE' USING NEW VALUE FOR PARAMETER #KPRM IN ELEMENT #KLM.
           READ(NDAT,FMT='(A)') TXT300
           IF(STRCON(TXT300,'!',
      >                          II))
-     >      TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
+     >    TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
+
           READ(TXT300,*) STRING
-          IEL = 1
-          OKKLE = .FALSE.
-          DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
-            IF(STRING(DEBSTR(STRING):FINSTR(STRING)) .EQ. 
-     >        KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))) 
-     >                                            OKKLE = .TRUE.
-            IEL = IEL + 1
-          ENDDO
+
 C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence 
-          IF(OKKLE) THEN
-            KLM = IEL - 1
-C Keyword with parameter to be changed
-            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
-            backspace(ndat)
-            READ(ndat,*,ERR=79,END=79) 
-     >        STRING,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
-            TPRM(IPRM,2) = ' '
-            TPRM(IPRM,3) = ' '
-          ELSE
-            backspace(ndat)
-            READ(ndat,*,ERR=79,END=79) 
+          IF(ISNUM(STRING)) THEN
+
+            READ(TXT300,*,ERR=79,END=79) 
      >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
 C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
             TPRM(IPRM,3) = ' '
+
+          ELSE
+
+            NBTP = 1
+            IF(STRCON(TXT300,'[',
+     >                            II1)) THEN
+              NBTP = NBTP + 1
+              IF(STRCON(TXT300,']',
+     >                              II2)) THEN
+                TPRM(IPRM,1) = TXT300(1:II1-1)
+                TPRM(IPRM,1) = TPRM(IPRM,1)
+     >          (DEBSTR(TPRM(IPRM,1)):FINSTR(TPRM(IPRM,1)))
+                TPRM(IPRM,2) = TXT300(II1+1:II2-1)
+                TPRM(IPRM,2) = TPRM(IPRM,2)
+     >          (DEBSTR(TPRM(IPRM,2)):FINSTR(TPRM(IPRM,2)))
+              ELSE
+                WRITE(abs(nres),*)
+     >          'Pgm rrebel. Stopped while reading parameter data.'
+                WRITE(6,*)
+     >          'Pgm rrebel. Stopped while reading parameter data.'
+                 CALL ENDJOB('Input error in keyword[label] data.',-99)
+              ENDIF
+            ELSE
+              TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
+              TPRM(IPRM,2) = ' '
+            ENDIF
+            TPRM(IPRM,3) = ' '
+            IEL = 1
+            OKKLE = .FALSE.
+            DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
+              IF( TPRM(IPRM,1) .EQ. 
+     >          KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))
+     >          .AND.
+     >          TPRM(IPRM,2) .eq. label(iel,1))  OKKLE = .TRUE.
+c                 write(*,*) iel,KLE(IQ(IEL)),label(iel,1)
+c                 write(*,*) iel,TPRM(IPRM,1) ,TPRM(IPRM,2)
+              IEL = IEL + 1
+            ENDDO
+            IF(OKKLE) THEN
+              KLM = IEL - 1
+C Keyword with parameter to be changed
+C            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
+              BACKSPACE(NDAT)
+              READ(NDAT,*,ERR=79,END=79) 
+     >          STRING,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+              TPRM(IPRM,3) = ' '
+            ELSE
+                WRITE(abs(nres),fmt='(a)')
+     >          'Pgm rrebel. Could not find keyword[label] '
+     >          // TPRM(IPRM,1) //'['//TPRM(IPRM,2)//']'
+     >          //'  in zgoubi data sequence.'
+                WRITE(6,fmt='(a)')
+     >          'Pgm rrebel. Could not find keyword[label] '
+     >          // TPRM(IPRM,1) //'['//TPRM(IPRM,2)//']'
+     >          //'  in zgoubi data sequence.'
+                 CALL ENDJOB('Check keyword[label] data.',-99)              
+            ENDIF
+
           ENDIF
 
+
+C                write(*,*) ' rrebel ',TPRM(IPRM,1),TPRM(IPRM,2),string
+C                write(*,*) ' rrebel ',okkle
           GOTO 80
 
  79       CONTINUE

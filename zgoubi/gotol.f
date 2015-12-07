@@ -38,7 +38,7 @@ C  -------
       CHARACTER(20) STRA(MX2)
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
-      PARAMETER (MST=20)
+      PARAMETER (MST=35)
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LBLST(MST)
       DIMENSION NLTO(MST), NLBCK(MST)
@@ -61,7 +61,7 @@ c     >               ta(noel,2)(DEBSTR(TA(NOEL,2)):FINSTR(TA(NOEL,2)))
 c                     read(*,*)
 
       IF(IPASS.GT.MST) CALL ENDJOB('Pgm gotol. Return address is too '//
-     >'large. Increase MST here and in rgoto - now MST = ',MST)
+     >'large. Increase MST - now MST = ',MST)
 
       IF(TA(NOEL,1) .NE. 'GOBACK') THEN
 C GOTO 
@@ -102,21 +102,24 @@ C          REWIND(LUN)
           CALL ZGNBLM( 
      >                NBLMN)
 
-          nuel = 0
+          NUEL = 0
  11       CONTINUE
           TXT132 = ' ' 
           DOWHILE(TXT132(1:1).NE.'''' .AND. NUEL.LT.NBLMN)
+c            IF(NUEL.EQ.NBLMN) CALL ENDJOB('Pgm gotol. Could not goto.'
+c     >      //' Check GOTO list (too short ?). Now number of elements'
+c     >      //' in GOTO list is ',-99)
 C Read keyword [/ label1 [/ label2]]
             READ(LUN,FMT='(A)',ERR=10,END=10) TXT132
-            txt132 = txt132(debstr(txt132):finstr(txt132))
+            TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           ENDDO
-          nuel = nuel + 1
+          NUEL = NUEL + 1
           CALL STRGET(TXT132,MX2,
      >                           IDUM,STRA)
           IF(STRA(2) .EQ. LBLST(IPASS)) THEN
             NLBCK(IPASS) = NOEL+1
-            NoeL = NUEL
-            call go2key(noel,iqcnt,mxkle,kle,
+            NOEL = NUEL
+            CALL GO2KEY(NOEL,IQCNT,MXKLE,KLE,
      >                                       KEY, LBL1, LBL2) 
 c            write(*,*) ' ipass / gotol/# / goback ',
 c     >      ipass,LBLST(IPASS),noel,NLBCK(IPASS)

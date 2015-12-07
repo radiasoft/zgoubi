@@ -3,6 +3,22 @@
 
 	% \part{Description of software contents}{Description of software contents}
 
+                                  \section*{PREFACE TO THE BNL EDITION, 2015+} 
+\addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2015+)} 
+
+New functionalities have been introduced~: 
+
+- \textsl{GOTO} keyword, a conditional goto, useful for RLA simulations, 
+
+- \textsl{INCLUDE} keyword, working like the fortran ``include'', 
+more or less equivalent to ``call file'' as found in other optics codes, useful for long or repetitive sequences. 
+
+A consequence of the latter is the possibility of requesting  a ``zgoubi.SEQUENCE.Out'' output file which 
+contains the whole  developed optical sequence in a single file. 
+
+
+\newpage
+
                                   \section*{PREFACE TO THE BNL EDITION, 2012} 
 \addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2012)} 
 
@@ -20,19 +36,26 @@ and so did the  ``Glossary of Keywords'' list, pp.~\pageref{GOK1A} and~\pageref{
 simulation and computing procedures, which range from constraint-matching to overlapping magnetic fields capabilities to 
 spin manipulations  and other synchrotron radiation damping recipes. 
 
+\bigskip
+
+\noindent The ouput files zgoubi.fai (local particle data) and zgoubi.plt (step-by-step-particle data across an optical element)
+have been reformated in columns, making them readily readable by graphic programs as ``gnuplot''. Ancillary 
+output files, less voluminous than the latter two and useful for producing plots or for functioning checks,
+with names of the form ``zgoubi.*.out''  are available from various keywords, 
+usually by specifying ``PRINT'' in the keyword's arguments, for instance in the case of ``\textsl{CAVITE}'' it 
+will produce ``zgoubi.CAVITE.Out'' containing time dependence of RF parameters as experienced by the particles at 
+traversal of the cavity, whereas ``zgoubi.OPTICS.out'' can be obtained from ``\textsl{OPTICS}'' keyword.
 
 \bigskip
 
-\noindent The code has been installed on SourceForge with the collaboration of J.~S.~Berg, in Sept.~2007, 
-there it is fully and freely available~\cite{SFZ}. The SourceForge package evolves and is maintained at the 
-pace of on-going projects and design studies.   It includes the source files, 
-the post-processor program \zpop, as well as many examples with their  input 
-data files (``zgoubi.dat'') and  output result files (``zgoubi.res''). 
-
+\noindent This evolution of \zgoubi\ allows embedding  ``\textsl{FIT[2]}'' procedure within ``\textsl{REBELOTE}'' 
+(\zgoubi's DO-loop), whereas the latter has been confered the capability of changing values of any numerical data 
+across zgoubi.dat. This allows parameter scans, while possibly using ``\textsl{SYSTEM}'' to store  the 
+outcomes in dedicated external files. 
 
 \bigskip
 
-\noindent A series of auxiliary computing tools have been developed in addition, 
+\noindent A series of auxiliary computing tools and graphic tools (based on ``gnuplot'') have been developed, 
  aimed at making the designer's life easier, as, 
  search for closed orbits\index{closed orbit}  in periodic machines, computation of optical functions and parameters, 
 tune scans, dynamic aperture scans,   spin dynamics data treatment, 
@@ -40,6 +63,14 @@ tune scans, dynamic aperture scans,   spin dynamics data treatment,
 AGS and RHIC studies, synchrotron radiation losses and their effects. 
 In addition ``python'' interfaces are being developed by several users,  possibly made available on web 
 by their authors. 
+
+\bigskip
+
+\noindent The code has been installed on SourceForge with the collaboration of J.~S.~Berg, in Sept.~2007, 
+there it is fully and freely available~\cite{SFZ}. The SourceForge package evolves and is maintained at the 
+pace of on-going projects and design studies.   It includes the source files, 
+the post-processor program \zpop, as well as many examples with their  input 
+data files (``zgoubi.dat'') and  output result files (``zgoubi.res'') and the auxiliary toolbox. 
 
 \bigskip
 
@@ -7064,6 +7095,49 @@ For the rest, namely calculation of the full field at particle position, as resu
 extrapolation off median plane, etc., things are performed in the same manner  as for the 
  \textsl{DIPOLES} procedure (see page~\pageref{FFatAP}). 
 
+
+
+
+
+\newpage
+
+\subsubsection*{GOTO~: \GOTOTitl~\cite{Pavel}} \label{GOTO} \index{GOTO|textbf}
+\medskip
+
+******** To be completed ************
+
+\noindent \textsl{GOTO} is a conditional goto, working much like the fortran branching statement. 
+It sends the execution pointer to some keyword (\eg, ``\textsl{MARKER}'') 
+in the optical sequence,  characterized by one or two specific labels. 
+
+\medskip
+
+\noindent Available options~: 
+
+- pass number
+
+\textsl{GOTO} accepts \textsl{GOBACK}  as an argument, this sends  the execution pointer back to the next  
+keyword immediately following the calling \textsl{GOTO}. 
+
+\medskip
+
+\textsl{GOTO/GOBACK} for instance can be used  in RLA type of structures, to direct the \zgoubi\ amongst 
+the series of spreaders of mergers. A example is given in *******. 
+
+
+
+\newpage
+
+\subsubsection*{INCLUDE~: \INCLUDETitl~\cite{Pavel}} \label{INCLUDE} \index{INCLUDE|textbf}
+\medskip
+
+******** To be completed ************
+
+\noindent \textsl{INCLUDE} works much like the fortran ``include'' statement~: 
+ it directs the \zgoubi\ to stop reading the optical sequence from the current file and read 
+instead in an included file. 
+
+\noindent The INCLUDE statement takes the following arguments~: 
 
 
 
