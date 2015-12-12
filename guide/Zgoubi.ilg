@@ -1,6 +1,6 @@
 This is makeindex, version 2.14 [02-Oct-2002] (kpathsea + Thai support).
-Scanning input file Zgoubi.idx....done (770 entries accepted, 0 rejected).
-Sorting entries.........done (7802 comparisons).
+Scanning input file Zgoubi.idx....done (771 entries accepted, 0 rejected).
+Sorting entries.........done (8026 comparisons).
 Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 288; output = Zgoubi.ind, line = 32):
    -- Conflicting entries: multiple encaps for the same page under same key.
@@ -44,11 +44,23 @@ Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 207; output = Zgoubi.ind, line = 199):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
+<<<<<<< .mine
+## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 265):
+=======
 ## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 246):
+>>>>>>> .r595
    -- Conflicting entries: multiple encaps for the same page under same key.
 
+<<<<<<< .mine
+## Warning (input = Zgoubi.idx, line = 490; output = Zgoubi.ind, line = 291):
+=======
 ## Warning (input = Zgoubi.idx, line = 489; output = Zgoubi.ind, line = 272):
+>>>>>>> .r595
    -- Conflicting entries: multiple encaps for the same page under same key.
+<<<<<<< .mine
+done (303 lines written, 16 warnings).
+=======
 done (284 lines written, 16 warnings).
+>>>>>>> .r595
 Output written in Zgoubi.ind.
 Transcript written in Zgoubi.ilg.
