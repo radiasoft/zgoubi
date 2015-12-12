@@ -31,11 +31,11 @@ C  -------
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-C     $     IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.FAISC.H"     !  COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+                              ! >IREP(MXT),AMQLU,PABSLU
       PARAMETER (MXV=60) 
-      INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
-                          !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
+      INCLUDE "C.VARY.H"  !  COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
+                          ! >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT1=1) 
@@ -127,9 +127,6 @@ C----- CONTROLE CONTRAINTES
         ENDIF
         IF(IC(I) .EQ. 7) THEN
 C------------ Constraint on  coordinate or field in optical element, 
-C             reset min-max storage table'
-c                 write(*,*) ' fitest ic2 ',ic2(i)
-c                    read(*,*)
             CALL INTEG8(INT1)
             CALL FITMM4(I3(I))
         ENDIF

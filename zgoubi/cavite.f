@@ -233,10 +233,12 @@ C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       CALL SRLOS3(
      >            SRLOSS)
       IF(SRLOSS) THEN 
-        SI2 = 0.0568860943517   !  =I2=2pi/rho
-        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
+C        SI2 = 0.0568860943517   !  =I2=2pi/rho
+C        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
+        U0 = 0.51552876 /(12008.775542289)**4 *  (PS/BTS)**4 
       ENDIF
       QV = (AN20 *Q *1.D-6 + U0) /SIN(PHS)
+         write(*,fmt='(a,1p,3(1x,e12.4))') ' cavite ',u0,ps/bts, qv
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))

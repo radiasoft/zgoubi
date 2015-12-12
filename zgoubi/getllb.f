@@ -25,26 +25,23 @@ C  -------
       SUBROUTINE GETLLB(LBL,
      >                      NUML)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      character(*) lbl
+      CHARACTER(*) LBL
       INCLUDE 'MXLD.H'
       PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       integer debstr, finstr
-c            write(*,*) ' getllb  '
-c      call ZGNBLM( 
-c     >            NBLMN)
-        nblmn = mxl
-c            write(*,*) ' getllb nbmln : ',nblmn
+c            write(*,*) ' getllb  FIT position : ',NOEL
 c                read(*,*)
+      NOEL = NUML
       NUML = 1
-      DO WHILE (numl .le. nblmn .and. lbl(debstr(lbl):finstr(lbl))
+      DO WHILE (numl .lt. NOEL .and. lbl(debstr(lbl):finstr(lbl))
      >.ne. label(numl,1)(debstr(label(numl,1)):finstr(label(numl,1))))
 c        write(*,*) ' getllb '//
 c     >  label(numl,1)(debstr(label(numl,1)):finstr(label(numl,1)))
         NUML = NUML+1
       ENDDO
-      if(numl.gt.nblmn) 
-     >call endjob('Pgm getllb. Exceded number of elements.',numl)      
+c      if(numl.gt.NOEL) 
+c     >call endjob('Pgm getllb. Exceded number of elements.',numl)      
       RETURN
       END

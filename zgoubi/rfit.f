@@ -51,13 +51,14 @@ C     ***************************************
       CHARACTER(80) FNAME
       LOGICAL EMPTY
       LOGICAL FIRST 
-       logical isnum
+      LOGICAL ISNUM
+
+      SAVE FIRST
       DATA FIRST / .TRUE. /
-c      DATA PNLTY, ITRMA, ICPTMA / 1.D-10, 90, 1000 /
-c      DATA FITFNL / .TRUE. /
 
-      idum = imax
+C      IDUM = IMAX
 
+      LINE = 1
 C  READ NV [,'nofinal','save' [FileName]]
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
@@ -86,6 +87,7 @@ C  READ NV [,'nofinal','save' [FileName]]
       ENDIF
 
       DO I=1,NV
+        LINE = LINE + 1
         READ(NDAT,FMT='(A)') TXT132
         CMMNT = STRCON(TXT132,'!',
      >                            III) 
@@ -114,6 +116,7 @@ C--------- Original method
       ENDDO
 
 C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
+      LINE = LINE + 1
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
@@ -153,6 +156,7 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
 
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
+        LINE = LINE + 1
         READ(NDAT,FMT='(A)') TXT132
         IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
@@ -161,27 +165,40 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
 C        READ(TXT132,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
         READ(TXT132,*,ERR=98,END=98) XC,I1(I),I2(I),TXT20,V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
-        if(isnum(txt20)) then
+        IF(ISNUM(TXT20)) THEN
            READ(TXT20,*) I3(I)
 c               write(*,*) ' rfit isnum, i3(i) : ', I3(I)
 c               read(*,*)
-        else
+        ELSE
 c               write(*,*) ' rfit txt20 : ',txt20
-          call getllb(txt20,         ! txt20 contains an lmnt's 1st label. Look for its first occurence
-     >                      numl)
-          i3(i) = numl
-c               write(*,*) ' rfit i3(i) : ',numl
-c               read(*,*)
-        endif
+          IF(TXT20(DEBSTR(TXT20):FINSTR(TXT20)) .EQ. '#End') THEN
+            I3(I) = NOEL-1
+          ELSE
+            NUML = NOEL-1
+            CALL GETLLB(TXT20,         ! TXT20 contains an lmnt's 1st label. Look for its first occurence
+     >                        NUML)
+            IF    (NUML .LE. NOEL-1) THEN 
+              I3(I) = NUML
+            ELSE
+              WRITE(TXT132,FMT='(A,I0,A)') 
+     >        ' No element found with label_1 = '
+     >         //TXT20(DEBSTR(TXT20):FINSTR(TXT20))
+     >         //', (FIT[2] was met at position ',NOEL,')'
+              WRITE(*,FMT='(A)') TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              WRITE(NRES,FMT='(A)')TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              GOTO 90
+            ENDIF
+          ENDIF
+        ENDIF
         IC(I) = INT(XC)
         IC2(I) = NINT(10.D0*XC - 10*IC(I))
  4    CONTINUE  
 
 
-C----- Looks for possible parameters, with values in CPAR, and action
+C----- LOOKS FOR POSSIBLE PARAMETERS, WITH VALUES IN CPAR, AND ACTION
       DO 5 I=1,NC
         IF    (IC(I).EQ.3) THEN 
-C--------- Traj coord
+C--------- TRAJ COORD
           IF    (I1(I).EQ.-1)  THEN
           ELSEIF(I1(I).EQ.-3)  THEN
             CALL DIST2W(CPAR(I,2), CPAR(I,3), CPAR(I,4))
@@ -202,7 +219,12 @@ C--------- Numb. particls
 
       RETURN
 
- 97   CALL ENDJOB('SBR rfit, error input data at NC',-99)
- 98   CALL ENDJOB('Pgm rfit. Constraints : wrong input data.',-99)
+ 97   write(*,*) ' Pgm rfit, error input data at NC'
+ 98   write(*,*) ' Pgm rfit. Constraints : wrong input data.'
+      GOTO 90
+
+ 90   CALL ENDJOB('*** Pgm rfit, keyword FIT[2] : '// 
+     >'input data error, at line ',line)
       RETURN
+
       END

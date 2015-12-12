@@ -28,9 +28,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      
       CHARACTER(2000) TXT132
-
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLEY
       INTEGER DEBSTR, FINSTR
@@ -50,7 +48,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Saving new version of '',
      >''zgoubi.dat to zgoubi.FIT.out.dat, with variables updated.'')')
 
-      TXT132 = '***' 
+      TXT132 = 'not END !' 
       DOWHILE(TXT132(1:5) .NE.'''END''')
         READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -62,24 +60,60 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
           IF    (KLEY(1:8) .EQ. 'OBJET') THEN 
-            DO I = 1, 3
-              READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-              WRITE(LTEMP,FMT='(A)') 
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132              ! BORO
+            WRITE(LTEMP,FMT='(A)')                                  
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            ENDDO
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
-            READ(TXT132,*,err=10,end=10) Y,T,Z,P,X,D,LET
-            WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8,3A)')
-     >              (A(NUEL,J),J=30,35),' ''',LET,''' '
-          ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132              ! KOBJ[.KOBJ2]
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+             IF(STRCON(TXT132,'.',
+     >                           IS)) THEN
+              READ(TXT132(1:IS-1),*) KOBJ 
+                   write(*,*) ' fitwda ',TXT132(IS+1:FINSTR(TXT132))
+               READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
+c                   write(*,*) ' fitwda kobj, kobj2 : ',kobj, kobj2
+c                       read(*,*)
+            ELSE
+              READ(TXT132,*) KOBJ 
+              KOBJ2 = 0
+            ENDIF
+            IF    (KOBJ.EQ.2) THEN
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+              WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+              READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8,3A)')
+     >              (A(NUEL,J),J=30,35),' ''',LET,''' '
+            ELSEIF(KOBJ.EQ.5) THEN
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! Sampling
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+     >              (A(NUEL,J),J=20,25)
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! (1st) reference
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+     >              (A(NUEL,J),J=30,35)
+              IF(KOBJ2 .GE. 1) THEN
+                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! Initial beta or 2nd reference
+                WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+     >              (A(NUEL,J),J=40,45)
+                IF(KOBJ2 .GT. 1) THEN
+                  DO I = 1, KOBJ2-2
+                    READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132           ! Next references in a total of KOBJ2
+                    WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+     >              (A(NUEL,J),J=(I+4)*10,(I+4)*10+5)
+                  ENDDO
+                ENDIF
+              ENDIF
+            ENDIF
+          ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(F11.6,2F7.2,3E16.8)')
      >                                  (A(NUEL,J),J=10,15)
           ELSEIF(KLEY(1:8) .EQ. 'CHANGREF') THEN 
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             IF(STRCON(TXT132,'!',
      >                           IS))
      >      TXT132 = TXT132(DEBSTR(TXT132):IS-1)
@@ -96,28 +130,28 @@ C Old style CHANGREF
               WRITE(LTEMP,FMT='(3(E14.6,1X))') (A(NUEL,J),J=1,3)
             ENDIF
           ELSEIF(KLEY(1:6) .EQ. 'SPNTRK') THEN 
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            READ(TXT132,*,err=10,end=10) XSO
+            READ(TXT132,*,ERR=10,END=10) XSO
             IF(XSO .GE. 4) THEN
               IF    (NINT(10*XSO) .EQ. 40) THEN
                 CALL ZGIMAX(
      >                      IMAX) 
                 DO IT = 1, IMAX
-                  READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                  READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
                   WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
                 ENDDO
               ELSEIF(NINT(10*XSO) .EQ. 41) THEN
-                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
                 WRITE(LTEMP,FMT='(3(E16.8,2X))')
      >                                  (A(NUEL,J),J=10,12)
               ELSEIF(NINT(10*XSO) .EQ. 50) THEN
-                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
                 WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
-                READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
                 WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
               ELSE
@@ -126,10 +160,10 @@ C Old style CHANGREF
               ENDIF
             ENDIF
           ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            READ(LWDAT,FMT='(A)',err=10,end=10) TXT132
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
           ENDIF
@@ -159,17 +193,12 @@ C Old style CHANGREF
      >'Pgm fitwda. Need number at each element.'
      >//' Some element may have wrong/no number in zgoubi.dat ?'
       WRITE(*,fmt='(A,/)') 'Write to zgoubi.FIT.out.dat skipped.'
-C      IF(NRES .GT. 0) THEN 
       NRESA = ABS(NRES)
-        WRITE(NRESA,fmt='(/,10X,A)') 
-     >  'Pgm fitwda. Need number at each element.'
-     >  //' Some element may have wrong/no number in zgoubi.dat ?'
-        WRITE(NRESA,fmt='(10X,A,/)') 
-     >  'Write to zgoubi.FIT.out.dat skipped.'
-C       ENDIF
-C      CALL ENDJOB('Pgm fitwda. Need number at each element.'
-C     >//' Some element may have wrong/no number in zgoubi.dat ?',-99)
-C     >//' This element may have no number in zgoubi.dat ?',-99)
+      WRITE(NRESA,fmt='(/,10X,A)') 
+     >'Pgm fitwda. Need number at each element.'
+     >//' Some element may have wrong/no number in zgoubi.dat ?'
+      WRITE(NRESA,fmt='(10X,A,/)') 
+     >'Write to zgoubi.FIT.out.dat skipped.'
 
 
       RETURN

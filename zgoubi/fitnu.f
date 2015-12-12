@@ -46,7 +46,8 @@ C      SAVE LSAV, FNAME
 
       CALL FITEST(SAVFT,FNAME,
      >                       IER)
-      IF(IER .NE. 0) CALL ENDJOB('End of upon FITEST procedure',-99)
+      IF(IER .NE. 0) CALL ENDJOB(
+     >'Pgm fitnu, keyword FIT[2]. End of job upon FITEST procedure',-99)
       CALL FITSET
       CALL FITARR(IER)
       IF(IER .NE. 1) THEN

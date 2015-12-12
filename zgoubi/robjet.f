@@ -165,9 +165,12 @@ C------- Read additional references
         KK = 30
         DO 52 K = 2, K2
           KK = KK + 10
-          IF(KK.GT.MXD-10) 
-     >          CALL ENDJOB(' SBR ROBJET. MXD is too small.',-99)
-          line = line + 1
+          IF(KK.GT.MXD-10) THEN 
+            WRITE(*,FMT='(10X,A)') ' Problem : MXD is too small.'
+            WRITE(NRES,FMT='(10X,A)') ' Problem : MXD is too small.'
+            GOTO 99
+          ENDIF
+          LINE = LINE + 1
           READ(NDAT,*,ERR=99) (A(NOEL,I),I=KK,KK+5)
  52       CONTINUE
       ELSEIF(K2 .GT. MXREF) THEN
@@ -236,7 +239,7 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
      >  ' at particle #',I
       GOTO 90
 
- 90   CALL ENDJOB('*** Pgm robj, keyword OBJET : '// 
+ 90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
      >'input data error, at line ',line)
       RETURN
  
