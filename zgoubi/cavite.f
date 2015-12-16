@@ -239,6 +239,8 @@ C        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
       ENDIF
       QV = (AN20 *Q *1.D-6 + U0) /SIN(PHS)
          write(*,fmt='(a,1p,3(1x,e12.4))') ' cavite ',u0,ps/bts, qv
+      QV = AN20 *Q *1.D-6 
+      phs = asin((qv + u0)/qv)
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
