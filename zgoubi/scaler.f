@@ -155,7 +155,7 @@ c            write(*,*) 'CCC ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
 c                       write(*,*) ' goto 2 CCC '
 
                   GOTO 2
-                else
+                ELSE
 
 c                  write(*,*) '        ',noel,LABEL(NOEL,1),LBF(KF,KL)                         
 c                  write(*,*) 'scaler ',scaler,kl,kf
@@ -220,7 +220,8 @@ C       write(*,*) 'scaler at 2 ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
 C FM 08/99
 C     >              DBLE( IPASS - IT1 ) / (1.D0+ IT2 - IT1 )
 
-                GOTO 88
+C FM 17/15
+C                GOTO 88
 
               ENDIF
 
@@ -327,18 +328,18 @@ c          scaler = SCL(KF,1) * pp0
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
 c          xv = ipass
 c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
-          xv = OCLOCK
+          XV = OCLOCK
 C                         time   phase
-          scaler = CUBSPL(xm,    ym,    xv,nd,nfrq)
+          SCALER = CUBSPL(XM,    YM,    XV,ND,NFRQ)
 C                         
-          IF(nfrq.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
+          IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
      >    //'Max allowed is ND = ',ND)
 
-          xv = ekin
+          XV = EKIN
 C                          ekin freq
-          coTime1 = CUBSPL(dat3,dat2,xv,nd,nfrq)
-          coTime = 1.d0/CUBSPL(dat3,dat2,xv,nd,nfrq)
-          D1 = coTime
+          COTIME1 = CUBSPL(DAT3,DAT2,XV,ND,NFRQ)
+          COTIME = 1.D0/CUBSPL(DAT3,DAT2,XV,ND,NFRQ)
+          D1 = COTIME
 
 C        ELSEIF(KTI .EQ. -60) THEN
 CC--------- AGS dipoles, K1 and K2 laws
@@ -405,56 +406,51 @@ C          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
 C AGS Q-Jump quads
 c            call cavit1(
 c     >                  PP0,GAMMA,dWs)
-            call cavit1(
-     >                  dWs)
-            if(am.le.0.d0) call endjob(' SBR scaler : need mass >',0)
-            P2 = dpref * BORO*CL9*Q
+            CALL CAVIT1(
+     >                  DWS)
+            IF(AM.LE.0.D0) CALL ENDJOB(' SBR scaler : need mass >',0)
+            P2 = DPREF * BORO*CL9*Q
             GAMMA = SQRT(P2 + AM*AM)/AM
-            gg = G*GAMMA
-            if(GG .GT. TIM(KF,1)) THEN
-C             Q-jump started 
-              switch=1.d0
-              dN = TIM(KF,2)
-              dTrn = TIM(KF,3)
-              dgg = G * dWs/AM
-              dint = G*GAMMA - INT(G*GAMMA)
-              trmp1 = dN - (0.5d0*dTrn)*dgg
-              if    (dint .le. trmp1) then
-                fac=0.d0
-              else
-                trmp2 = dN + (0.5d0*dTrn)*dgg
-                if(dint.gt.trmp1 .and. dint .lt. trmp2) then
-                  fac = (dint-trmp1) / (trmp2-trmp1)
-                else
-                  trmp3 = (1.d0-dN) - (0.5d0*dTrn)*dgg
-                  if(dint.lt.trmp3) then
-                    fac = 1.d0
-                  else
-                    trmp4 = (1.d0-dN) + (0.5d0*dTrn)*dgg
-                    if(dint.lt.trmp4) then
-                      fac = (trmp4-dint) / (trmp4-trmp3)
-                    else
-                      fac = 0.d0  
-                    endif
-                  endif
-                endif
-              endif
-            else
-              switch=0.d0
-            endif           
+            GG = G*GAMMA
+            IF(GG .GT. TIM(KF,1)) THEN
+C             Q-JUMP STARTED 
+              SWITCH=1.D0
+              DN = TIM(KF,2)
+              DTRN = TIM(KF,3)
+              DGG = G * DWS/AM
+              DINT = G*GAMMA - INT(G*GAMMA)
+              TRMP1 = DN - (0.5D0*DTRN)*DGG
+              IF    (DINT .LE. TRMP1) THEN
+                FAC=0.D0
+              ELSE
+                TRMP2 = DN + (0.5D0*DTRN)*DGG
+                IF(DINT.GT.TRMP1 .AND. DINT .LT. TRMP2) THEN
+                  FAC = (DINT-TRMP1) / (TRMP2-TRMP1)
+                ELSE
+                  TRMP3 = (1.D0-DN) - (0.5D0*DTRN)*DGG
+                  IF(DINT.LT.TRMP3) THEN
+                    FAC = 1.D0
+                  ELSE
+                    TRMP4 = (1.D0-DN) + (0.5D0*DTRN)*DGG
+                    IF(DINT.LT.TRMP4) THEN
+                      FAC = (TRMP4-DINT) / (TRMP4-TRMP3)
+                    ELSE
+                      FAC = 0.D0  
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDIF
+            ELSE
+              SWITCH=0.D0
+            ENDIF           
             
-            if(switch.ne.0.d0) then
-C              scaler = fac * SCL(KF,1) * pp0
-              scaler = fac * SCL(KF,1,1) * dpref
-            else
-              scaler = 0.d0
-            endif
-
-C             write(77,fmt='(i6,8(1x,F10.4),a)')
-C     >       ipass,fac,gg,dint,trmp1,trmp2,trmp3,trmp4,dws,' scaler'
+            IF(SWITCH.NE.0.D0) THEN
+C              SCALER = FAC * SCL(KF,1) * PP0
+              SCALER = FAC * SCL(KF,1,1) * DPREF
+            ELSE
+              SCALER = 0.D0
+            ENDIF
              SZ = SF(3,1)
-c             write(77,fmt='(i6,8(1x,F10.4),a)')
-c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
 
         ELSE
           STOP 'FCTN SCALER :  invalid input data NTIM(1)'
@@ -464,11 +460,9 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
       ENDIF
 
       KF1 = KFM(ifm) + 1
-      if(ok3) goto 3
+      IF(OK3) GOTO 3
 
  88   CONTINUE
-
-c                  write(*,*) 'scaler  at 88 ', scaler
 
       RETURN
 

@@ -911,7 +911,7 @@ c                 read(*,*)
         ENDIF   
       ENDDO
 
-C      PS = PSF
+      PS = PSF
       CALL SCUMW(0.5D0*CAVL)
 
       GOTO 88

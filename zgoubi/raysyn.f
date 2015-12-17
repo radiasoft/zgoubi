@@ -199,13 +199,13 @@ C        PP = BORO*CL*1.D-9*Q
       ENDIF
 
       IF(IPASS.EQ.1 .OR. 10*(IPASS/10) .EQ. IPASS ) THEN 
-        WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
-     >  1P,I8,
-     >  T60, 4(g15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
-     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
-     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
-     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
-        CALL FLUSH2(88,.FALSE.)
+C        WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
+C     >  1P,I8,
+C     >  T60, 4(g15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
+C     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
+C     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
+C     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
+C        CALL FLUSH2(88,.FALSE.)
       ENDIF
        
       TTLOS2 = TTLOSS
