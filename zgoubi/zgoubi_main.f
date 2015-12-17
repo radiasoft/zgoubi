@@ -27,13 +27,18 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
-      CHARACTER(100) FILIN, FILOU, FILOG
-      PARAMETER (I10 = 10)
-      CHARACTER(I10) FDAT, FRES, FLOG
+      PARAMETER (I100 = 100)
+      CHARACTER(I100) FLIN, FLOUT, FLOG
 
+      CHARACTER(15) FDAT
+      SAVE FDAT
+      
       PARAMETER (I5=5, I6=6)
 
       PARAMETER (KSIZ=10)
@@ -41,7 +46,7 @@ C  -------
       LOGICAL FITFNL
       INTEGER DEBSTR, FINSTR
 
-      CHARACTER(LEN=I10), DIMENSION(:), ALLOCATABLE :: ARGS
+      CHARACTER(LEN=I100), DIMENSION(:), ALLOCATABLE :: ARGS
 
       LOGICAL SAVXEC, SAVZPP
       LOGICAL OKWDAT
@@ -58,7 +63,8 @@ C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
 C Dummy
       CHARACTER(1) TAB(1)
 
-      DATA FDAT, FRES, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
+      DATA FLIN, FLOUT, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
+      DATA FDAT / 'zgoubi.dat' /
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
       DATA TIMSEC / 0.D0 / 
       DATA OKWDAT / .FALSE. /
@@ -72,38 +78,42 @@ C Manage possible arguments to zgoubi -----------------------
       END DO
       IF(NBARGS.GE.1) THEN
         WRITE(6,*) ' '
-        WRITE(6,*) ' Argument(s) to zgoubi command :'
-        WRITE(6,*) (IX,ARGS(IX),IX = 1, NBARGS)
+        WRITE(6,FMT='(A)') ' Argument(s) to zgoubi command :'
+        DO IX = 1, NBARGS
+          WRITE(6,FMT='(2(I0,A))') IX,' : '//ARGS(IX)
+        END DO
       ENDIF
       DO IX = 1, NBARGS
-         IF(ARGS(IX) .EQ. '-fileIn'  ) FDAT = ARGS(IX+1)
-         IF(ARGS(IX) .EQ. '-fileOut' ) FRES = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-fileIn'  ) FLIN = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-fileOut' ) FLOUT = ARGS(IX+1)
          IF(ARGS(IX) .EQ. '-fileLog' ) FLOG = ARGS(IX+1)
          IF(ARGS(IX) .EQ. '-saveExec') SAVXEC = .TRUE.
          IF(ARGS(IX) .EQ. '-saveZpop') SAVZPP = .TRUE.
       ENDDO
 C -----
 
+      IF(FLIN .EQ. 'zgoubi_temp.dat') CALL ENDJOB(
+     >'Pgm zgoubi_main. ''zgoubi_temp.dat'' input file name '//
+     >'is reserved. Please choose a different one.')
+
       IF(IDLUNI(
-     >          NDAT)) THEN
-        FILIN = FDAT
-        OPEN(UNIT=NDAT,FILE=FILIN,STATUS='OLD',ERR=996)
+     >          NLIN)) THEN
+        FLIN = FLIN
+        OPEN(UNIT=NLIN,FILE=FLIN,STATUS='OLD',ERR=996)
       ELSE
         GOTO 996
       ENDIF
 
       IF(IDLUNI(
      >          NRES)) THEN
-        FILOU = FRES
-        OPEN(UNIT=NRES,FILE=FILOU,ERR=997)
+        OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
       ELSE
         GOTO 997
       ENDIF
 
       IF(IDLUNI(
      >          NLOG)) THEN
-        FILOG = FLOG
-        OPEN(UNIT=NLOG,FILE=FILOG,ERR=995)
+        OPEN(UNIT=NLOG,FILE=FLOG,ERR=995)
       ELSE
         GOTO 995
       ENDIF
@@ -111,16 +121,16 @@ C -----
       IF(SAVXEC .OR. SAVZPP) THEN
         WRITE(6,*) ' '
         WRITE(6,*) ' --'
-        if(savxec) then
-          WRITE(6,fmt='(a)') 
+        IF(SAVXEC) THEN
+          WRITE(6,FMT='(A)') 
      >    'Now copying zgoubi executable to local directory.'
           CALL SYSTEM('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
-        endif
-        if(savzpp) then
-          WRITE(6,fmt='(a)') 'Now copying zpop executable to local '
+        ENDIF
+        IF(SAVZPP) THEN
+          WRITE(6,FMT='(a)') 'Now copying zpop executable to local '
      >    //'directory (if you wish to run it, use an xterm terminal).'
           CALL SYSTEM('cp ~/zgoubi/SVN/current/zpop/zpop .') 
-        endif
+        ENDIF
         WRITE(6,*) ' --'
         WRITE(6,*) ' '
       ENDIF
@@ -133,7 +143,12 @@ C -----
  103  FORMAT(/,'  Zgoubi, author''s dvlpmnt version.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
-C 1    CONTINUE
+      CALL PRDATA(NLIN,FLIN,FDAT,
+     >                           LABEL,NBLM)
+      NBLMN = NBLM
+      CLOSE(NLIN)
+      OK=IDLUNI(NDAT)
+      OPEN(UNIT=NDAT,FILE=FDAT)
 
       READAT = .TRUE.
 
@@ -147,8 +162,8 @@ C 1    CONTINUE
       NL2 = MXL
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
-      CALL ZGOUBI(NL1,NL2,READAT,
-     >                           NBLMN)
+      NBLMI = NBLMN
+      CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
       CALL FITSTA(I5,
      >               FITING)
       IF(FITING) THEN
@@ -173,8 +188,8 @@ C 1    CONTINUE
           ENDIF
           FITBYD = .FALSE.
           CALL FITST4(FITBYD)
-          CALL ZGOUBI(NL1,NL2,READAT,
-     >                               NBLMN)
+          NBLMI = NBLMN
+          CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
           IF(NRES.GT.0) THEN 
             WRITE(NRES,201)
  201        FORMAT(/,132('*'))
@@ -206,11 +221,12 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
         CALL GO2KEY(NL1,I0,I0,TAB,
      >                            KEY,LBL1,LBL2)
         NL2 = NBLMN
-        CALL REBEL6(NL1, NBLMN)
+        NBLMI = NBLMN
+        CALL REBEL6(NL1, NBLMI)
         FITBYD = .TRUE.
         CALL FITST4(FITBYD)
-        CALL ZGOUBI(NL1,NL2,READAT,
-     >                             NBLMN)
+        NBLMI = NBLMN
+        CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
@@ -236,13 +252,13 @@ C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
       GOTO 10
  
  996  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
-     >FILIN(DEBSTR(FILIN):FINSTR(FILIN))
+     >FLIN(DEBSTR(FLIN):FINSTR(FLIN))
       GOTO 10
  997  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
-     >FILOU(DEBSTR(FILOU):FINSTR(FILOU))
+     >FLOUT(DEBSTR(FLOUT):FINSTR(FLOUT))
       GOTO 10
  995  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
-     >FILOG(DEBSTR(FILOG):FINSTR(FILOG))
+     >FLOG(DEBSTR(FLOG):FINSTR(FLOG))
       GOTO 10 
 
  99     CONTINUE

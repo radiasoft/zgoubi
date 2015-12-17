@@ -4,7 +4,7 @@
 
   \indexspace
 
-  \item acceleration, 75, 78, 100, 200, 262, 265
+  \item acceleration, 75, 100, 200, 262, 265
   \item AGSMM, \textbf{87}, 175, \textbf{187}
   \item AGSQUAD, \textbf{88}, \textbf{188}
   \item AIMANT, \textbf{89}, 111, \textbf{189}
@@ -19,29 +19,18 @@
   \item BEAMBEAM, \textbf{95}, \textbf{194}
   \item BEND, 27, \textbf{96}, \textbf{195}
   \item BINARY, \textbf{57}, \textbf{196}
-<<<<<<< .mine
   \item {\BORO}, \textbf{48}, \textbf{51}, \textbf{55}, 100, 203, 
 		\textbf{241}, \textbf{245}, \textbf{248}
   \item {\BORO}$\times D_{ref}$, 80, 87, \textbf{100}, \textbf{173}, 
 		227
-=======
-  \item {\BORO}, \textbf{48}, \textbf{51}, \textbf{55}, 100, 203, \textbf{241}, \textbf{245}, \textbf{248}
-  \item {\BORO}$\times D_{ref}$, 80, 87, \textbf{100}, \textbf{172}, 227
->>>>>>> .r595
   \item BREVOL, 26, \textbf{97}, \textbf{197}
 
   \indexspace
 
-<<<<<<< .mine
   \item CARTEMES, 26, 97, \textbf{98}, 125, 133, 134, 138, 139, 148, 
 		174, \textbf{198}, 219, 278, 312
   \item cartesian coordinates, \textbf{175}
   \item CAVITE, 78, \textbf{100}, 101, 175, \textbf{200}
-=======
-  \item CARTEMES, 26, 97, \textbf{98}, 125, 133, 134, 138, 139, 148, 173, \textbf{198}, 219, 278, 312
-  \item cartesian coordinates, \textbf{174}
-  \item CAVITE, 78, \textbf{100}, 101, 174, \textbf{200}
->>>>>>> .r595
     \subitem recovering from a crash, 102
   \item CHAMBR, 75, 77, 103, \textbf{103}, \textbf{201}, 264
   \item CHANGREF, 70, 94, 103, 104, \textbf{104}, 106, \textbf{202}
@@ -118,36 +107,23 @@
 
   \indexspace
 
-<<<<<<< .mine
   \item HISTO, 49, 70, 77, 107, 162, \textbf{162}, 178, \textbf{233}, 
 		264
-=======
-  \item HISTO, 49, 70, 77, 107, 162, \textbf{162}, 177, \textbf{233}, 264
->>>>>>> .r595
 
   \indexspace
 
   \item {\IC}, 174
   \item {\textsl{ID}}, \textbf{98}, \textbf{198}, \textbf{223}
   \item {\IDMAX}, 51, \textbf{51}
-<<<<<<< .mine
   \item {\IEX}, 32, 52, \textbf{52}, 84, 98, 103, 107, 159, 168, 
 		\textbf{178}
   \item {\IL}, 173
-=======
-  \item {\IEX}, 32, 52, \textbf{52}, 84, 98, 103, 107, 159, 168, \textbf{177}
-  \item {\IL}, 172
->>>>>>> .r595
   \item IMAGE, 94, 160, \textbf{160}, \textbf{234}
   \item IMAGES, 51, 160, \textbf{160}, \textbf{234}
   \item IMAGESZ, \textbf{161}, \textbf{234}
   \item IMAGEZ, \textbf{161}, \textbf{234}
-<<<<<<< .mine
   \item {\IMAX}, \textbf{48}, \textbf{51}, 55, 70, 75, 81, 100, 101, 
 		158, 169, 175, 178
-=======
-  \item {\IMAX}, \textbf{48}, \textbf{51}, 55, 70, 75, 81, 100, 101, 158, 169, 174, 177
->>>>>>> .r595
   \item INCLUDE, \textbf{132}, \textbf{235}
   \item INTEG, 77, 264
   \item integration step size, 178
@@ -162,12 +138,8 @@
   \indexspace
 
   \item LABEL, 254
-<<<<<<< .mine
   \item {\LABEL}, 78, 135, 159, 166, 168, \textbf{174}, 221, 238, 254, 
 		271, 312
-=======
-  \item {\LABEL}, 78, 135, 159, 166, 168, \textbf{173}, 221, 238, 254, 271, 312
->>>>>>> .r595
 
   \indexspace
 
@@ -175,21 +147,17 @@
   \item MAP2D-E, 27, \textbf{134}, \textbf{237}
   \item maps, summing, 197
   \item MARKER, \textbf{135}, \textbf{238}, 312
-  \item MATRIX, 53, 54, 60, 63, 94, 150, \textbf{164}, 165, 193, \textbf{239}, 246
-  \item MCDESINT, 49, 51, 56, \textbf{69}, 70, 75, 77, 162, \textbf{240}, 264, 289
+  \item MATRIX, 53, 54, 60, 63, 94, 150, \textbf{164}, 165, 193, 
+		\textbf{239}, 246
+  \item MCDESINT, 49, 51, 56, \textbf{69}, 70, 75, 77, 162, 
+		\textbf{240}, 264, 289
   \item MCOBJET, \textbf{48}, 49, 65, 69, 75, 178, \textbf{241}, 262
   \item misalignment, \textbf{175}
   \item {momentum compaction}, 281
-<<<<<<< .mine
   \item Monte Carlo, 48, 55, 69, 75, 178, 241, 248
   \item multi-particle, 75, \textbf{178}, 262
   \item multi-turn tracking, 48, 56, 75, \textbf{75}, 78, 100, 173, 
 		\textbf{174}, \textbf{262}, 289, 302, 312
-=======
-  \item Monte Carlo, 48, 55, 69, 75, 177, 241, 248
-  \item multi-particle, 75, \textbf{177}, 262
-  \item multi-turn tracking, 48, 56, 75, \textbf{75}, 78, 100, 172, \textbf{173}, \textbf{262}, 289, 302, 312
->>>>>>> .r595
   \item MULTIPOL, 27, 73, 78, 119, 123, \textbf{136}, \textbf{244}, 261
     \subitem parameter numbering, 61
 
@@ -202,12 +170,8 @@
 
   \indexspace
 
-<<<<<<< .mine
   \item OBJET, \textbf{51}, 63, 69, 94, 100, 103, 160, 171, 175, 178, 
 		\textbf{245}
-=======
-  \item OBJET, \textbf{51}, 63, 69, 94, 100, 103, 160, 171, 174, 177, \textbf{245}
->>>>>>> .r595
     \subitem recovering from a crash, 53, 247
   \item OBJETA, 55, \textbf{55}, 75, \textbf{248}
   \item OCTUPOLE, 73, \textbf{137}, \textbf{249}, 261
@@ -218,7 +182,8 @@
 
   \indexspace
 
-  \item PARTICUL, 55, 56, 69, \textbf{74}, 81, 83, 84, 107, 119--123, 125, 144, 153, 155, 240, \textbf{253}
+  \item PARTICUL, 55, 56, 69, \textbf{74}, 81, 83, 84, 107, 119--123, 
+		125, 144, 153, 155, 240, \textbf{253}
   \item PICKUPS, \textbf{166}, 174, \textbf{254}
   \item PLOTDATA, \textbf{167}, \textbf{255}
   \item POISSON, \textbf{138}, \textbf{256}
@@ -230,36 +195,24 @@
   \indexspace
 
   \item QUADISEX, 26, 27, \textbf{141}, \textbf{259}
-<<<<<<< .mine
   \item QUADRUPO, 27, 60, 61, 73, 103, 108, 123, 136, 137, \textbf{142}, 
 		145, 175, \textbf{260}, 261
-=======
-  \item QUADRUPO, 27, 60, 61, 73, 103, 108, 123, 136, 137, \textbf{142}, 145, 174, \textbf{260}, 261
->>>>>>> .r595
     \subitem parameter numbering, 61
 
   \indexspace
 
-<<<<<<< .mine
   \item REBELOTE, 48, 53, 56, 60, 75, \textbf{75}, 78, 100, 159, 162, 
 		166, 168, 174, 175, 178, 221, 245, \textbf{262}, 271, 
 		289
-=======
-  \item REBELOTE, 48, 53, 56, 60, 75, \textbf{75}, 78, 100, 159, 162, 166, 168, 173, 174, 177, 221, 245, \textbf{262}, 271, 289
->>>>>>> .r595
     \subitem recovering from a crash, 76
   \item REBELOTE and FIT, combined, \textbf{76}
-  \item reference rigidity, 48, 51, 79, 100, \textbf{173}
+  \item reference rigidity, 48, 51, 80, 100, \textbf{173}
   \item RESET, \textbf{77}, \textbf{264}
 
   \indexspace
 
-<<<<<<< .mine
   \item SCALING, 77, 78, \textbf{78}, 100, 101, 174, 175, 200, 264, 
 		\textbf{265}
-=======
-  \item SCALING, 77, 78, \textbf{78}, 100, 101, 173, 174, 200, 264, \textbf{265}
->>>>>>> .r595
     \subitem parameter numbering, 62
     \subitem recovering from a crash, 80
   \item SEPARA, \textbf{144}, \textbf{266}
@@ -267,12 +220,8 @@
   \item SEXTUPOL, 27, 73, \textbf{145}, 261, \textbf{268}
   \item SOLENOID, \textbf{146}, \textbf{269}
   \item spin kick, beam-beam, 95, 194
-<<<<<<< .mine
   \item spin tracking, 35, 75, 81, 104, 151, 157, 162, 168, 178, 233, 
 		262, 272, 289
-=======
-  \item spin tracking, 35, 75, 81, 104, 151, 157, 162, 168, 177, 233, 262, 272, 289
->>>>>>> .r595
   \item spin, $\vec n_0$ vector, 65
   \item SPINR, \textbf{147}, \textbf{270}
   \item SPNPRNL, \textbf{168}, \textbf{271}, 312
@@ -296,14 +245,9 @@
   \item tag, symmetry index, 51
   \item tag, tag character, 49, 51, 52, 70, 84, 158, 159, 162, 168
   \item TARGET, \textbf{106}, \textbf{203}
-<<<<<<< .mine
   \item time varying fields, \textbf{173}
   \item TOSCA, 26, 61, 73, \textbf{148}, 174, 175, \textbf{278}, 289, 
 		312
-=======
-  \item time varying fields, \textbf{172}
-  \item TOSCA, 26, 61, 73, \textbf{148}, 173, 174, \textbf{278}, 289, 312
->>>>>>> .r595
     \subitem parameter numbering, 61
   \item TRANSMAT, \textbf{150}, \textbf{279}
   \item transport coefficients, \textbf{164}, \textbf{239}
@@ -352,7 +296,7 @@
   \item zgoubi.plt, 135, 174, 238, 312
   \item zgoubi.res, 173, 174, 311
   \item zgoubi.spn, 168, 271, 312
-  \item zgoubi.SPNPRT.Out, 227, 263
+  \item zgoubi.SPNPRT.Out, 227, 235, 263
   \item zgoubi.sre, 84
   \item zpop, 41, 158, 168, 174, 311
 

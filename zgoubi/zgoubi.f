@@ -22,8 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE ZGOUBI(NL1,NL2,READAT,
-     >                                 NBLM)
+      SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBLMI)
 C     >                                 NBLMN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
@@ -125,13 +124,18 @@ C This INCLUDE must stay located right before the first statement
       LOGICAL STRCON 
 
       LOGICAL FITBYD, FITRBL
-      LOGICAL OKPRLB, OKPRDA
+C      LOGICAL OKPRLB, OKPRDA
+      LOGICAL OKPRLB
+
+      save nblmn
 
       DATA PRDIC / .FALSE. /
       DATA OKLNO / .FALSE. /
-      DATA OKPRDA / .FALSE. /
+C      DATA OKPRDA / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
+
+      nblmn = nblmi
 
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
@@ -142,13 +146,12 @@ C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
 
-      IF(.NOT. OKPRDA) THEN
-C      IF(READAT) THEN
-        CALL PRDATA(
-     >              LABEL,NBLMN)
-        NBLM = NBLMN
-        OKPRDA = .TRUE.
-      ENDIF
+C      IF(.NOT. OKPRDA) THEN
+C        CALL PRDATA(
+C     >              LABEL,NBLMN)
+C        NBLM = NBLMN
+C        OKPRDA = .TRUE.
+C      ENDIF
 
       IF(READAT) THEN
 C        CALL PRDATA(
@@ -351,35 +354,41 @@ C----- DRIFT, ESL. Free space.
       GOTO 998
 C----- AIMANT. Dipole with computed field map in cylindrical coordinates
  2    CONTINUE
-      IF(READAT) CALL RAIMAN(NDAT,NOEL,MXL,A,ND(NOEL))
+      IF(READAT) CALL RAIMAN(NDAT,NOEL,MXL,A,
+     >                                       ND(NOEL))
       IF(FITGET) CALL FITGT1
       KALC = 2
       KUASEX = 20
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- QUADRUPO - B quadrupolaire et derivees calcules en tout point (X,Y,Z)
  3    CONTINUE
       KALC = 3
       KUASEX = 2
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- SEXTUPOL - B SEXTUPOLAIRE  ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 4     CONTINUE
       KALC = 3
       KUASEX = 3
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- IMAGE. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
 C----- FAISCEAU MONOCHROMATIQUE
@@ -441,9 +450,11 @@ C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
       KALC =1
       KUASEX = 3
-      IF(READAT) CALL RSIMB(ND(NOEL))
+      IF(READAT) CALL RSIMB(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- CHANGREF. Translation X,Y et rotation du referentiel courant
  13   CONTINUE
@@ -455,17 +466,21 @@ C----- SEXQUAD. Champ CRENEAU B = B0(N.Y+B.Y2+G.Y3) PLAN MEDIAN
  14   CONTINUE
       KALC =1
       KUASEX = 4
-      IF(READAT) CALL RSIMB(ND(NOEL))
+      IF(READAT) CALL RSIMB(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- AIMANT TOROIDAL
  15   CONTINUE
       KALC =1
       KUASEX = 7
-      IF(READAT) CALL RSIMB(ND(NOEL))
+      IF(READAT) CALL RSIMB(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- OBJETA. MONTE-CARLO GENERATION OF MU OR PI FROM ETA DECAY 
 C          ( D'APRES Benjamin MAYER , FEVRIER 1990 )
@@ -494,16 +509,18 @@ C----- Champ Q-POLE SPECIAL PROJET SPES2
       KUASEX = 1
 C ............... ADD   IF(READAT) CALL ............
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- CARTEMES. CARTE DE Champ CARTESIENNE MESUREE DU SPES2
  21   CONTINUE
       KALC =2
       KUASEX = 1
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                                ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- YMY. CHANGE LE FAISCEAU Y,T,Z,P  ->  -Y,-T,-Z,-P
 C       ( EQUIVALENT A CHANGEMENT DE SIGNE DU Champ DIPOLAIRE }
@@ -516,12 +533,14 @@ C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       KALC = 3
       KUASEX = 4
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- OBJET. 
 24    CONTINUE
@@ -565,24 +584,28 @@ C----- AIMANT VENUS (Champ CONSTANT DANS UN RECTANBLE)
  29   CONTINUE
       KALC =1
       KUASEX = 5
-      IF(READAT) CALL RSIMB(ND(NOEL))
+      IF(READAT) CALL RSIMB(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- AIMANT PS170 (Champ CONSTANT DANS UN CERCLE)
  30   CONTINUE
       KALC =1
       KUASEX = 6
-      IF(READAT) CALL RSIMB(ND(NOEL))
+      IF(READAT) CALL RSIMB(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  31   CONTINUE
       KALC = 2
       IF(READAT) CALL RCARTE(KART,I3,
-     >                               ND(NOEL))
+     >                        ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
 C        KZMA = 1 ; 2-D map
         KUASEX = 2
@@ -594,9 +617,11 @@ C        KZMA > 1 ; 3-D map
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (KART.EQ.1) THEN 
-        CALL QUASEX(ND(NOEL))
+        CALL QUASEX(
+     >                        ND(NOEL))
       ELSEIF(KART.EQ.2) THEN 
-        CALL AIMANT(ND(NOEL))
+        CALL AIMANT(
+     >                        ND(NOEL))
       ENDIF
       GOTO 998
 C----- AUTOREF. CHGNT RFRNTIEL AUTMTIQ => PLAN NORMAL A LA TRAJ. DE REFERENCE
@@ -616,12 +641,14 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       KALC = 3
       KUASEX = MPOL+1
       IF(READAT) THEN
-        CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,ND(NOEL))
+        CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- SEPARATEUR ELECTROSTATIQUE ANALYTIQUE
  35   CONTINUE
@@ -642,11 +669,13 @@ C         ( ORDRE 2 PAR DEFAUT)
       GOTO 998
 C----- DIPOLE-M. 2-D mid plane fabricated dipole map. Polar coordinates.
  39   CONTINUE
-      IF(READAT) CALL RAIMAN(NDAT,NOEL,MXL,A,ND(NOEL))
+      IF(READAT) CALL RAIMAN(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       KALC = 2
       KUASEX = 21
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- IMAGEZ. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE VERTICAUX
  41   CALL FOCALE(-1)
@@ -703,18 +732,20 @@ C          D'APRES W. ROSCH, 1991
       KALC =2
       KUASEX = 3
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- CARTE DE Champ CARTESIENNE 2-D DE CHALUT
  48   CONTINUE
       KALC =2
       KUASEX = 4
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C-----  SPNTRK. Switch spin tracking
  49   CONTINUE
@@ -731,24 +762,28 @@ C----- BEND. Dipole magnet
       KALC =1
       KUASEX = 8
       IF(READAT) THEN 
-        CALL RBEND(ND(NOEL))
+        CALL RBEND(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- SOLENOID
  52   CONTINUE
       KALC = 3
       KUASEX = 20
       IF(READAT) THEN 
-        CALL RSOLEN(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RSOLEN(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- Plot transverse coordinates (for use on a workstation)
  53   CONTINUE
@@ -794,35 +829,40 @@ C----- BREVOL. 1-D field B(r=0,x) on-axis field map, with cylindrical symmetry.
       KALC =2
       KUASEX = 8
       IF(READAT) CALL RCARTE(I1,I1,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- POISSON. CARTE DE Champ CARTESIENNE 2-D FABRIQUEE PAR POISSON
  59   CONTINUE
       KALC =2
       KUASEX = 5
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- DIPOLE. Similar to DIPOLES, but with a single magnet
  60   CONTINUE
       KALC =1
       KUASEX = 31
-      IF(READAT) CALL RDIP(ND(NOEL))
+      IF(READAT) CALL RDIP(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  61   CONTINUE
       KALC =2
       KUASEX = 6
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- MAP2D. 2D B-FIELD MAP, NO SPECIAL SYMMETRY (P. Akishin, 07/1992)
  62   CONTINUE
@@ -831,42 +871,49 @@ C----- MAP2D. 2D B-FIELD MAP, NO SPECIAL SYMMETRY (P. Akishin, 07/1992)
       KALC =2
       KUASEX = 9
       IF(READAT) CALL RCARTE(I1,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- B DECAPOLE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
  63   CONTINUE
       KALC = 3
       KUASEX = 5
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- B DODECAPOLE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
  64   CONTINUE
       KALC = 3
       KUASEX = 6
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- WIENFILT - INTEGR NUMERIQ.
  65   CONTINUE
       KALC = 3
       KUASEX = 21
       KFLD=ML
-      IF(READAT) CALL RWIENF(ND(NOEL))
+      IF(READAT) CALL RWIENF(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- FAISTORE - Similar to FAISCNL, with additional options:
 C        - Print after LABEL'ed elements
@@ -905,18 +952,22 @@ C----- EL2TUB - LENTILLE ELECTROSTATIQ A 2 TUBES OU DIAPHRAG.
       KALC = 3
       KUASEX = 22
       KFLD=LC
-      IF(READAT) CALL REL2TU(ND(NOEL))
+      IF(READAT) CALL REL2TU(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- UNIPOT. LENTILLE ELECTROSTATIQ A 3 TUBES OU DIAPHRAG.
  70   CONTINUE
       KALC = 3
       KUASEX = 23
       KFLD=LC
-      IF(READAT) CALL RUNIPO(ND(NOEL))
+      IF(READAT) CALL RUNIPO(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- ELMULT. E MULTIPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
  71   CONTINUE
@@ -924,21 +975,25 @@ C----- ELMULT. E MULTIPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       KUASEX = MPOL+1
       KFLD=LC
       IF(READAT) THEN
-        CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,ND(NOEL))
+        CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- EBMULT. E+B MULTIPOLAIRES ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
  72   CONTINUE
       KALC = 3
       KUASEX = MPOL+1
       KFLD=ML
-      IF(READAT) CALL REBMUL(ND(NOEL))
+      IF(READAT) CALL REBMUL(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- ESPACE LIBRE VIRTUEL
  73   CONTINUE
@@ -964,9 +1019,10 @@ C----- POLARMES. CARTE DE Champ POLAIRE. Field map, cylindrical coordinates.
       KALC =2
       KUASEX = 22
       IF(READAT) CALL RCARTE(I2,I2,
-     >                             ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- TRANSLATION X,Y,Z ET ROTATION RX,RY,RZ
  77   CONTINUE
@@ -1079,18 +1135,22 @@ C----- UNDULATO.  UNDULATOR
  82   CONTINUE
       KALC =3
       KUASEX = 30
-      IF(READAT) CALL RUNDUL(ND(NOEL))
+      IF(READAT) CALL RUNDUL(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- ELCYLDEF
  83   CONTINUE
-      IF(READAT) CALL RELCYL(ND(NOEL))
+      IF(READAT) CALL RELCYL(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
       KALC = 3
       KUASEX = 24
       KFLD=LC
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- ELMIR
  84   CONTINUE
@@ -1098,12 +1158,14 @@ C----- ELMIR
       KUASEX = 25
       KFLD=LC
       IF(READAT) THEN
-        CALL RELMIR(ND(NOEL))
+        CALL RELMIR(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- ELCMIR
  85   CONTINUE
@@ -1111,12 +1173,14 @@ C----- ELCMIR
       KUASEX = 26
       KFLD=LC
       IF(READAT) THEN
-        CALL RELCMI(ND(NOEL))
+        CALL RELCMI(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- MAP2D-E: 2D E-FIELD MAP
  86   CONTINUE
@@ -1207,24 +1271,28 @@ C----- FFAG. FFAG Sector multi-dipole.
       KALC = 1
       KUASEX = 27
       IF(READAT) THEN
-        CALL RFFAG(ND(NOEL))
+        CALL RFFAG(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- HELIX. Helical field (twisted dipole)
  92   CONTINUE
       KALC = 3
       KUASEX = 28
       IF(READAT) THEN
-        CALL RHELIX(ND(NOEL))
+        CALL RHELIX(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C-----  CSR. Switch  coherent SR interaction
  93   CONTINUE
@@ -1243,12 +1311,14 @@ C----- COILS.
       KALC = 3
       KUASEX = 29
       IF(READAT) THEN 
-        CALL RCOILS(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RCOILS(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL  QUASEX(ND(NOEL))
+      CALL  QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- GETFITVAL.  Get parameter values resulting from FIT, stored in TA(NOEL,1)
  96   CONTINUE
@@ -1284,9 +1354,11 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
  99   CONTINUE
       KALC =1
       KUASEX = 32
-      IF(READAT) CALL RDIPS(ND(NOEL))
+      IF(READAT) CALL RDIPS(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- TRACKING. 
  100  CONTINUE
@@ -1300,19 +1372,21 @@ C----- FFAG-SPI. FFAG, spiral.
       KALC = 1
       KUASEX = 33
       IF(READAT) THEN
-        CALL RFFAG(ND(NOEL))
+        CALL RFFAG(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- EMMA. Read  2-D or 3-D field map, 
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  103  CONTINUE
       KALC = 2
       IF(READAT) CALL REMMA(KART,I3,
-     >                              ND(NOEL))
+     >                        ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
 C------- 2-D map, KZMA = 1
         KUASEX = 34
@@ -1324,18 +1398,22 @@ C------- 3-D map, KZMA > 1
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (KART.EQ.1) THEN 
-        CALL QUASEX(ND(NOEL))
+        CALL QUASEX(
+     >                        ND(NOEL))
       ELSEIF(KART.EQ.2) THEN 
-        CALL AIMANT(ND(NOEL))
+        CALL AIMANT(
+     >                        ND(NOEL))
       ENDIF
       GOTO 998
 C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
  104  CONTINUE
       KALC =1
       KUASEX = 36
-      IF(READAT) CALL RDIPC(ND(NOEL))
+      IF(READAT) CALL RDIPC(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- REVERSE. 
  105  CONTINUE
@@ -1367,21 +1445,24 @@ C----- SPINR. Spin rotator
 C----- BENDTH. Pure dipole field, analytical push. 
  108  CONTINUE
       IF(READAT) CALL RBNDTH(
-     >                       ND(NOEL))
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL BNDTHI(ND(NOEL))
+      CALL BNDTHI(
+     >                        ND(NOEL))
       GOTO 998
 C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or specificities. 
  109  CONTINUE
       KALC = 3
       KUASEX = 37
       IF(READAT) THEN
-        CALL RAGSMM(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RAGSMM(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- BEAMBEAM.
  110  CONTINUE
@@ -1394,12 +1475,14 @@ C----- AGSQUAD. AGS quadrupole. It has 2 windings, works otherwise like QUADRUPO
       KALC = 3
       KUASEX = 38
       IF(READAT) THEN
-        CALL RAGSQU(NDAT,NOEL,MXL,A,ND(NOEL))
+        CALL RAGSQU(NDAT,NOEL,MXL,A,
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- SYNRAD.
  112  CONTINUE
@@ -1415,12 +1498,14 @@ C----- EPLATES.
       KALC = 3
       KUASEX = 39
       IF(READAT) THEN 
-        CALL REPLAT(ND(NOEL))
+        CALL REPLAT(
+     >                        ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(ND(NOEL))
+      CALL QUASEX(
+     >                        ND(NOEL))
       GOTO 998
 C----- DAMPER. 
  115  CONTINUE
@@ -1432,9 +1517,11 @@ C----- CYCLOTRON.
  116  CONTINUE
       KALC =1
       KUASEX = 40
-      IF(READAT) CALL RCYCLO(ND(NOEL))
+      IF(READAT) CALL RCYCLO(
+     >                        ND(NOEL))
       IF(FITGET) CALL FITGT1
-      CALL AIMANT(ND(NOEL))
+      CALL AIMANT(
+     >                        ND(NOEL))
       GOTO 998
 C----- ERRORS. 
  117  CONTINUE

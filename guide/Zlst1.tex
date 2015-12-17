@@ -4207,27 +4207,56 @@ discussed respectively in the \textsl{SCALING} section, pp.~\pageref{SCALING},~\
 
 \textsl{SCALING} acts as a function generator dedicated to varying 
 fields in optical elements, potentials in 
-electrostatic devices, RF parameters in \textsl{CAVITE\index{CAVITE}}. It is normally intended
-to be declared right after the object definition, and used in conjunction 
-with \textsl{REBELOTE\index{REBELOTE}}, for the simulation of multi-turn tracking 
-- possibly including  acceleration  \index{acceleration} cycles.  
+electrostatic devices, possibly in correlation with RF parameters in \textsl{CAVITE\index{CAVITE}}. It is normally intended
+to be declared right after the object definition.
+
+\bigskip
+
+\noindent Used in conjunction with \textsl{REBELOTE\index{REBELOTE}} for the simulation of multi-turn tracking, 
+ \textsl{SCALING} allows to change fields in an arbitrary, user defined manner during the ramp. 
+Fields can as well be imposed to follow an acceleration ramp caused by \textsl{CAVITE}, 
+turn-by-turn (for instance the main magnets), this can be obtained 
+by simply using \textsl{NT=-1} as the first argument in \textsl{SCALING}. 
+
+\bigskip
+
+\noindent The latter (\ie, fields being correlated to \textsl{CAVITE}) holds in general, 
+allowing as well the simulation of a recirculating linac (thus optical elements between cavities 
+are scaled, following the rigidity increase), or multiple RF stations in a ring. 
 
 \bigskip
 
 \noindent\textsl{SCALING} acts on families of elements,  a family being
 designated by its name that  coincides with 
 the keyword of the corresponding element. For instance, declaring \textsl{MULTIPOL\index{MULTIPOL}} 
-as to be varied will result in the same timing law being applied to all 
-\textsl{MULTIPOL\index{MULTIPOL}}s in the \zgou\ optical structure data file. Subsets can be selected by 
+as to be scaled will result in the same timing law being applied to all 
+\textsl{MULTIPOL\index{MULTIPOL}}s in zgoubi.dat optical structure data file. Subsets can be selected by 
 labeling keywords in the data file (section~\ref{sec4.6.8}, page~\pageref{sec4.6.8}) 
 and adding the corresponding \LABEL(s)\index{LABEL@{\LABEL}} 
-in the \textsl{SCALING} declarations (two \LABEL s maximum). The family name of concern, 
-as well as the scaling function for  that  family,  are given as
-input data to the keyword \textsl{SCALING\index{SCALING}}. There is an upper limit, \textsl{NFMAX}, to the number  $NF$ 
+in the \textsl{SCALING} declarations (9~\LABEL s maximum - this can be changed in \textsl{MXFS.H}, parameter \textsl{MLF}). 
+The family name of concern, as well as the scaling function for  that  family,  are given as
+input data to the keyword \textsl{SCALING\index{SCALING}}. There is an upper limit to the number  $NF$ 
 of families that can be declared
-as subject to a scaling law,  \textsl{NFMAX} can be changed in the \FORTRAN\ include file \texttt{MXFS.H}. 
-A scaling law can be comprised  of up to $NT$~successive timings,  
+as subject to a scaling law (this can be changed in the \FORTRAN\ include file \texttt{MXFS.H}, parameter \textsl{MXF}). 
+
+\bigskip
+
+\noindent A scaling law can be comprised  of up to $NT$~successive timings,  
 between two successive timings, a linear interpolation law is used to determine the scaling factor. 
+
+\bigskip
+
+\noindent If a family appears more than once in the \textsl{SCALING} list 
+(\ie, identical keyword and label list), the following will occur~:
+ 
+- if each instance addresses a different parameter in the optical elements concenred, both cases are applied, 
+
+- if each instance addresses the same parameter in the optical elements, the last instance will prevail. 
+
+\noindent If a family addressed is a subset of a previously declared one, the \textsl{SCALING} rule will 
+override the previous one, for that subset only.  
+ 
+
 
 \bigskip
 
@@ -4239,20 +4268,25 @@ machine is given in the following.
 {\small
 {\renewcommand{\arraystretch}{1}
 \noindent\begin{tabular}{lll}
-  \textsl{SCALING}    &          & - Scaling \\
-  1    ~~~~ 4         &          &  Active. $NF = 4$ families of elements are concerned, as listed below \\
-  \textsl{QUADRUPO} \textsl{QFA} \textsl{QFB}&          & - Quadrupoles labeled 'QFA' and Quadrupoles labeled 'QFB' \\
+  \textsl{SCALING}    &          &  \\
+  1    ~~~~ 5         &          &  Active. $NF = 5$ families of elements are concerned, as listed below \\
+  \textsl{QUADRUPO} \textsl{QFA} \textsl{QFB}&          & - \textsl{QUADRUPO} keywords labeled 'QFA' and Quadrupoles labeled 'QFB' \\
   2                   &          & $NT = 2$ timings  \\
   18131.E-3           & 24176.E-3 \qquad 
                                  &   The field increases (linearly) from 18131E-3$\ast B_0 $ 
                                  to 24176E-3$\ast B_0 $  \\
   1                   & 6379     &  from turn 1 to turn 6379\\
-  \textsl{MULTIPOL} \textsl{QDA} \textsl{QDB}&          &- Multipoles labeled 'QDA' and Multipoles labeled 'QDB'\\
+  \textsl{MULTIPOL}   &          &- All \textsl{MULTIPOL} keywords, with or without labels \\
   2                      &       &      $NT = 2$ timings  \\
   18131.E-3           &24176.E-3 &  Fields  increase from 18131E-3$\ast {B_i} $ to 
                                   24176E-3$\ast  {B_i} $  ($\forall i=1,\,10$ poles) \\
   1                   & 6379     & from turn 1 to turn 6379\\
-  \textsl{BEND}       &          &- All \textsl{BEND}s (regardless of any \LABEL) \\
+  \textsl{MULTIPOL} \textsl{QDA} \textsl{QDB}&     &- \textsl{MULTIPOL} keywords labeled 'QDA' and Multipoles labeled 'QDB'\\
+  2                      &       &      $NT = 2$ timings  \\
+  18131.E-3           &24176.E-3 &  Fields  increase from 18131E-3$\ast {B_i} $ to 
+                                  24176E-3$\ast  {B_i} $  ($\forall i=1,\,10$ poles) \\
+  1                   & 6379     & from turn 1 to turn 6379\\
+  \textsl{BEND}       &          &- All \textsl{BEND} keywords, regardless of any \LABEL \\
   2                  &               &           $NT = 2$ timings  \\
   18131.E-3           &24176.E-3 & As above \\
   1                   & 6379  \\
@@ -7127,20 +7161,75 @@ keyword immediately following the calling \textsl{GOTO}.
 \textsl{GOTO/GOBACK} for instance can be used  in RLA type of structures, to direct the \zgoubi\ amongst 
 the series of spreaders of mergers. A example is given in *******. 
 
+\medskip
+
+\noindent An example of an input data file of a recirculator ring, structured with \textsl{GOTO} statements, 
+can be found in page~\pageref{ExaINCLUDE-GOTO}. 
+
+
 
 
 \newpage
 
-\subsubsection*{INCLUDE~: \INCLUDETitl~\cite{Pavel}} \label{INCLUDE} \index{INCLUDE|textbf}
+\subsubsection*{INCLUDE~: \INCLUDETitl} \label{INCLUDE} \index{INCLUDE|textbf}
 \medskip
 
-******** To be completed ************
+\medskip
 
 \noindent \textsl{INCLUDE} works much like the fortran ``include'' statement~: 
- it directs the \zgoubi\ to stop reading the optical sequence from the current file and read 
-instead in an included file. 
+it allows a fragment of an input data list to be stored in a separate file~; 
+when  \textsl{INCLUDE} is met in the input data file, its content is inserted in 
+the data sequence. 
 
 \noindent The INCLUDE statement takes the following arguments~: 
+
+- the number of input files to be included, 
+
+- their names, in as many lines, one name per line. 
+
+\medskip
+
+\noindent The file name may be followed by up to two strings 'LBL\_A', 'LBL\_B'. 
+
+- LBL\_A is the first label of some 
+keyword in the include file, from which the include process will start (whatever precedes will be ignored), 
+if no 'LBL\_A' is declared, the include process starts from the begining of the include file~; 
+
+- LBL\_B is the first label of some 
+keyword in the include file, at which the include process will end (whatever follows will be ignored), 
+if no 'LBL\_B' is declared, the  include file will be included down to its end. 
+
+\medskip
+
+\noindent Because \zgoubi\ uses the reserved name zgoubi.dat as its standard working data file name,  
+and since  the presence of \textsl{INCLUDE} will cause the input data list to be changed (it is expanded, 
+to include all INCLUDE files), as a consequence the input file to zgoubi is no longer allowed the name zgoubi.dat 
+if it contains  \textsl{INCLUDE}  keyword(s) (so to avoid changing the content of the user's 
+input file). This is overcome by using the command 'zgoubi -inFile myFile' instead, with 'myFile'$\neq$'zgoubi.dat'. 
+
+
+\medskip 
+
+\noindent An \textsl{INCLUDE} file may contain one or more \textsl{INCLUDE}. There is a limit in the 
+ allowed depth of \textsl{INCLUDE} statements within \textsl{INCLUDE} files, 
+however high. \zgoubi\ will warn the user when it is exceeded. It can 
+be changed in prdata.f.
+
+
+\medskip 
+
+\noindent By contrast with other keywords, \textsl{INCLUDE} is not part on the LSTKEY.H keyword list (found 
+in the \textsl{common} folder). Instead, possible presence of \textsl{INCLUDE} in the input data file is dealt with by 
+prdata program (prdata.f source file) in a simple way~: the input data file is expanded so eliminating 
+all \textsl{INCLUDE} occurences, and the expanded, complete, data list is stored  in the standard \zgoubi\ input 
+data file zgoubi.dat. Thus \zgoubi\ eventually actually works using a regular, complete, data list in 
+a single input file, zgoubi.dat. 
+
+\medskip
+
+\noindent An example of an input data file of a recirculator ring, structured with \textsl{INCLUDE} statements, 
+can be found in page~\pageref{ExaINCLUDE-GOTO}. 
+
 
 
 

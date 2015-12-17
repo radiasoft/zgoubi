@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RMULTI(NDAT,NOEL,MXL,A,MPOL,ND)
+      SUBROUTINE RMULTI(NDAT,NOEL,MXL,A,MPOL,
+     >                                       ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
 C     ------------------------
@@ -35,45 +36,59 @@ c             data first / .true. /
 C-- eRHIC, skew ffag dipoles
 
       IA = 1
-      READ(NDAT,*) A(NOEL,IA) 
+      LINE =1 
+      READ(NDAT,*,END=90,ERR=90) IL
+      A(NOEL,IA) = IL
 
       IA = IA+1                
       IB = IA+MPOL+1           
-      READ(NDAT,*) (A(NOEL,I),I=IA,IB)
+      LINE = LINE + 1 
+      READ(NDAT,*,END=90,ERR=90) (A(NOEL,I),I=IA,IB)
 
       IA = IB+1                
 C----- CHP FUITE ENTREE
 C        XE, LambdaE, B1-Bmpol
       IB = IA + MPOL           
+      LINE = LINE + 1 
       READ(NDAT,*,ERR=11) (A(NOEL,I),I=IA,IB)
  11   CONTINUE
       IA = IB+1                
       IB = IA + 6              
-      READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
+      LINE = LINE + 1 
+      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C----- CHP FUITE SORTIE
       IA = IB + 1              
       IB = IA + MPOL           
+      LINE = LINE + 1 
       READ(NDAT,*,ERR=12) (A(NOEL,I),I=IA,IB)
  12   CONTINUE
       IA = IB+1                
       IB = IA + 6              
-      READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
+      LINE = LINE + 1 
+      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C----- Rotation of multipole components
       IA = IB +1               
       IB = IA + MPOL - 1       
-      READ(NDAT,*) (A(NOEL,I),I=IA,IB)
+      LINE = LINE + 1 
+      READ(NDAT,*,END=90,ERR=90) (A(NOEL,I),I=IA,IB)
 
       ND = IB + 1              
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
 C Modif, FM, Dec. 05
-C      READ(NDAT,*) II,(A(NOEL,I),I=ND+2,ND+4)
+C      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+2,ND+4)
 C      A(NOEL,ND+1) = II
-      READ(NDAT,*) II,(A(NOEL,I),I=ND+4,ND+6)
+      LINE = LINE + 1 
+      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+4,ND+6)
       A(NOEL,ND+3) = II 
  
       RETURN
+
+ 90   CALL ENDJOB('*** Pgm rmulti, keyword MULTIPOL : '// 
+     >'input data error, at line ',line)
+      RETURN
+
       END

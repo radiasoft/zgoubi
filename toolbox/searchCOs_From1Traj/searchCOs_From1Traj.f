@@ -57,8 +57,8 @@ C      call system('ln -sf lattice.data searchCO.data')
         write(6,*)  ' (beware : case dependent input) '
         write(6,*)  '  kaseV = 0 or 1 (w/ or w/o vertical motion)'
         write(6,*)  '  nCO = ',nCO,' a few units (nb of co-s)'
-        write(6,*)  '  T1 = ',T1,' initial energy (eV)'
-        write(6,*)  '  T2 = ',T2,' final energy (eV)'
+        write(6,*)  '  T1 = ',T1,' initial energy (eV) - kinetic'
+        write(6,*)  '  T2 = ',T2,' final energy (eV) - kinetic'
         write(6,*)  '  precX = ',precX
         write(6,*)  '  precXp = ',precXp
         write(6,*) ' ok (y/n, default is "y") ? '
@@ -75,8 +75,8 @@ c        read(*,fmt='(a)',err=77,end=77) rep
         write(lunIn,*) '  kaseV = ',kaseV
      >                  ,' ! 0 or 1 (w/ or w/o vertical motion)'
         write(lunIn,*) '  nCO = ',nCO,' ! a few units (nb of co-s)'
-        write(lunIn,*) '  T1 = ',T1,' ! initial energy (eV)'
-        write(lunIn,*) '  T2 = ',T2,' ! final energy (eV)'
+        write(lunIn,*) '  T1 = ',T1,' ! initial energy (eV) - kinetic'
+        write(lunIn,*) '  T2 = ',T2,' ! final energy (eV) - kinetic'
         write(lunIn,*) '  precX = ',precX,' ! (cm) '
         write(lunIn,*) '  precXp = ',precXp,' ! (mrad) '
         close(lunIn)
@@ -87,7 +87,7 @@ C-----------------------------
       INQUIRE(file='zgoubi_searchCO_from1Traj-In.dat',exist=exs)
       if(.not. exs) stop
      >'Need zgoubi_searchCO_from1Traj-In.dat file (containing 1st '
-     >//'traj (T1 energy) near closed orbit).'
+     >//'traj (T1 kin_energy) near closed orbit).'
       open(unit=lunR,file='zgoubi_searchCO_from1Traj-In.dat')
 
       clight = 2.99792458D8 

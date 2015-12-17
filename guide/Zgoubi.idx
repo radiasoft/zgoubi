@@ -209,12 +209,11 @@
 \indexentry{synchrotron motion}{78}
 \indexentry{CAVITE}{78}
 \indexentry{REBELOTE}{78}
-\indexentry{acceleration}{78}
 \indexentry{MULTIPOL}{78}
 \indexentry{MULTIPOL}{78}
 \indexentry{LABEL@{\LABEL}}{78}
 \indexentry{SCALING}{78}
-\indexentry{reference rigidity}{79}
+\indexentry{reference rigidity}{80}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{80}
 \indexentry{SCALING!recovering from a crash}{80}
 \indexentry{SPNTRK|textbf}{81}
@@ -629,6 +628,7 @@
 \indexentry{IMAGESZ|textbf}{234}
 \indexentry{IMAGEZ|textbf}{234}
 \indexentry{INCLUDE|textbf}{235}
+\indexentry{zgoubi.SPNPRT.Out}{235}
 \indexentry{MAP2D|textbf}{236}
 \indexentry{MAP2D-E|textbf}{237}
 \indexentry{MARKER|textbf}{238}

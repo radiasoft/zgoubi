@@ -100,11 +100,18 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
  
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- CURRENT KLEY RECORDED FOR SCALING 
-          
+        
+c        write(*,*) ' scaler ',noel,kley,LABEL(NOEL,1),EMPTY(LBF(KF,1))
+c        write(*,*) '        ',noel,'||',LBF(KF,1),'||',scaler
+  
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
-C------------ Current KLEY will undergo scaling if...
+C------------ LBF(,1-MLF) has to match current KLEY's label 1 in part or in full
 
-            DO  KL=1,MLF
+C            DO  KL=1,MLF
+
+            KL = 1
+            DOWHILE(.NOT. EMPTY(LBF(KF,KL)) .AND. KL.LE.MLF)  
+
               IF(STRCON(LBF(KF,KL),'*',
      >                                 IS)) THEN
                 LBFA = DEBSTR(LBF(KF,KL))
@@ -116,13 +123,26 @@ C------------ Current KLEY will undergo scaling if...
 
 C               ... either LBF ends with '*' ...
                 IF(  LLBF-1 .GE. 1 ) THEN
-                  IF(  LABEL(NOEL,1)(1:LLBF-1).EQ. LBF(KF,KL)(1:LLBF-1))
-     >               goto 2
+                  IF(  LABEL(NOEL,1)(1:LLBF-1)
+     >                      .EQ. LBF(KF,KL)(1:LLBF-1)) THEN
+
+c                       write(*,*) ' goto 2 AAA '
+
+                    GOTO 2
+                  ENDIF
+                ELSE
+C Dec 2015. To be checked before release
+CC Means that LBF='*'. Scaling applies to all keywords
+C                  GOTO 2
                 ENDIF
                 IF( (LLAB-LLBF+2).GT.0) THEN                 !yann to protect -1 in LABEL table
                    IF(LABEL(NOEL,1)(LLAB-LLBF+2:LLAB)
-     >                  .EQ.LBF(KF,KL)(2:LBFB)) 
-     >                  GOTO 2
+     >                  .EQ.LBF(KF,KL)(2:LBFB)) THEN
+
+c                       write(*,*) ' goto 2 BBB '
+
+                      GOTO 2
+                   ENDIF
                 ENDIF
 
               ELSE
@@ -130,21 +150,46 @@ C               ... or it as the right label...
                 IF(LABEL(NOEL,1).EQ. LBF(KF,KL)) THEN
 C Yann, Oct 2014 : commented to allow for multiple scaling "lines/families" to point to the same element.
 C                  ok3 = .false.
+
+c            write(*,*) 'CCC ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
+c                       write(*,*) ' goto 2 CCC '
+
                   GOTO 2
+                else
+
+c                  write(*,*) '        ',noel,LABEL(NOEL,1),LBF(KF,KL)                         
+c                  write(*,*) 'scaler ',scaler,kl,kf
+           
                 ENDIF
+
               ENDIF
+
+              KL = KL + 1
             ENDDO
+
           ELSE
-C------------ ...or if it has no label at all
-            GOTO 2
+
+C            IF( EMPTY(LABEL(NOEL,1))) THEN
+
+C             write(*,*) ' scaler ICI ',noel,LABEL(NOEL,1),KF,KF1, NFAM
+Cc                     stop 'ici'
+              GOTO 2
+C            ENDIF
+
           ENDIF
         ENDIF
-
+       
       ENDDO
+
+C                  write(*,*) 'scaler  goto 88 '
 
       GOTO 88
 
  2    CONTINUE
+
+C       write(*,*) 'scaler at 2 ',kf,kf1,nfam
+C       write(*,*) 'scaler at 2 ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
+
 
       IFM = IFM + 1
       KFM(IFM) = KF
@@ -423,6 +468,7 @@ c     >       ipass,fac,gg,SZ,dint,trmp1,trmp2,trmp3,trmp4,' scaler'
 
  88   CONTINUE
 
+c                  write(*,*) 'scaler  at 88 ', scaler
 
       RETURN
 

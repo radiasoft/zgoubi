@@ -2282,7 +2282,7 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \noindent $\bullet$ \textbf{Combining FIT and REBELOTE}~: An example  \label{ExaFITREBELOTE}} 
 
-\medskip 
+\smallskip 
 
 \noindent In the example below, \textsl{FIT} requests that (i) the particle trajectory 
 with initial coordinates defined by \textsl{OBJET} 
@@ -2401,7 +2401,7 @@ from  initial off-centered position  to final centering on the snake axis (at Y=
 
 \noindent  $\bullet$  \textbf{FIT[2] options}~: An example \label{FITOptionsExa}  \\
 
-\medskip 
+\smallskip 
 
 \noindent \textsl{FIT[2]} options, ``nofinal'', ``save {FileName}'', ``penalty'' and ``ITER'', are 
 all specified in the example below. 
@@ -2524,6 +2524,15 @@ zgoubi.FITVALS.In
 
 
 
+
+\vspace{2ex}
+\centerline{\rule{5cm}{0.1mm}}
+\vspace{2ex}
+
+
+\noindent  $\bullet$  Using \textbf{GOTO}~: An example is given page~\pageref{ExaINCLUDE-GOTO} 
+
+
  
  \newpage
 
@@ -2588,14 +2597,156 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \newpage
 
 \begin{tabbing}
-\mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $    ~ ~ ~ ~ ~  \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N       
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left( ~ 
+                \right) \right) $, more ~ ~ ~ \quad  \= 2*cm \quad \= \kill
+%\mestab
 \textbf{INCLUDE}         \label{INCLUDE-B} \index{INCLUDE|textbf} 
-         \> \textbf{\INCLUDETitl} \\[60pt]
+         \> \textbf{\INCLUDETitl} \\[10pt]
 %
 \\
- \textsl{FNAME}~~\footnotemark[1]
-       \>Name of input .dat-like file to be included  \> \>A80\\ %%
+ \textsl{NBF}       \>Number of files to be included.   \> - \>  I \\ %%
+\\
+\textbf{NBF following lines (one file name per line)~:} \\
+\\
+ \textsl{FNAME} \textsl{[,[LBL\_A]:[LBL\_B]]}  \>Name of input zgoubi.dat-style file to be included. \textsl{LBL\_A}~:   \> \>A80 [,[A10], [A10]] \\ %
+  \>  entrance branching tag, \textsl{LBL\_B}~: exit branching tag.  \\ %%
 \end{tabbing}
+
+
+\vspace{2ex}
+\centerline{\rule{5cm}{0.1mm}}
+\vspace{2ex}
+
+\noindent  $\bullet$  Using \textbf{INCLUDE}~: An example. \label{ExaINCLUDE-GOTO} \\
+
+\smallskip 
+
+\noindent In this example of an energy-recovery electron recirculator, the linac, spreader and combiner data lists 
+are given in separate files, declared as  \textsl{INCLUDE}s (see example page~\pageref{ExaREBELOTE} 
+for details regarding this recirculator configuration). Using  \textsl{INCLUDE} has a series of  merits~: 
+
+-  it shortens the parent input data file, so making the optical structure more apparent, 
+
+- it allows picking optical spreader, combiner and ring sequences from  files that may actually be 
+set to -~for instance~- compute optical parameters~; in that case, LBL\_A and LBL\_B are used for this targetted picking~: they define the ends 
+of the sequence to be \textsl{INCLUDE}'d, ignoring the upper and lower parts in the \textsl{INCLUDE}'d file 
+(which are specific -~for instance~-  to MATRIX computations).   
+
+
+\noindent The gymnastics of juggling between the linac, spreaders, combiners and recirculating ring, 
+is handled using \textsl{GOTO} statement. 
+
+\bigskip
+
+\begin{minipage}[h]{.55\linewidth}
+{\tiny
+\begin{verbatim}
+eRHIC ENERGY RECOVERY LINAC RECIRCULATOR WITH FFAG ARCS.
+ 'MCOBJET'                                               1
+57.36635309d3         reference rigidity (kG.cm) 
+3   
+2000
+2 2 2 2 1 1    
+-5.360667E-03   5.059706E-3  0. 0. 0.   4.619439E-01  'o'
+0. 1   0.   3  
+0. 1   0.   3  
+0. 1.  0.     3
+123456 234567 345678                                         
+ 'PARTICUL'                                              2
+0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0       
+ 'SPNTRK'                                                3
+ 'FAISCEAU'                                              4    
+ 'SRLOSS'                                                5
+1   srLoss     
+MULTIPOL       
+1  123456      
+ 'SCALING'                                               6
+1  1
+MULTIPOL       
+-1  
+57.36635309 57.36635309                                  
+1           11     
+ 'MARKER'   ARC#S_1                                      7
+ 'OPTIONS'                                               8
+1  1
+WRITE OFF                                                
+ 'MARKER'   MARK      CELLSTART                          9
+ 'DRIFT'    DRIF      HD                                10
+14.547181      
+ 'MULTIPOL' RBEN      BD2                               11
+0  .Dip        
+90. 10. 0. -0.87159105   0. 0. 0. 0. 0. 0. 0. 0.
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|90|30    Dip  BD2                                    
+3   0.0E+00   4.0704703E-01  -1.5071892929E-03         
+ 'DRIFT'    DRIF      D                                 12
+29.094362      
+\end{verbatim}
+\index{zgoubi.SPNPRT.Out}
+}
+\end{minipage}\hspace{0.03\linewidth}
+\begin{minipage}[h]{.38\linewidth}
+\centering
+%\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{}}
+{\tiny
+\begin{verbatim}
+ 'MULTIPOL' RBEN      QF2                               13
+0  .Dip        
+110.  10.  0. 0.86286642  0. 0.0 0.0 0.0 0.0 0.0 0.0 0.0     
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
+0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
+#30|110|30    Dip  QF2                                   
+3   0.  -3.6008008661E-01  -1.8710983347E-03            
+ 'DRIFT'    DRIF      HD                                14
+14.547181      
+ 'MARKER'   MARK      CELLEND                           15
+----------------------------------------------------
+6*138-1 additional such FD cells, simulating a 6 arc 
+energy recovery ring, 138 cells per arc. 
+----------------------------------------------------
+ 'MARKER'   ARC#E_6                                   5820    
+ 'OPTIONS'                                            5821
+1  1
+WRITE ON       
+ 'FAISTORE'                                           5822
+zgoubi.fai     
+1   
+ 'FAISCEAU'                                           5823
+ 'CAVITE'                                             5824
+3   
+0  0
+1.322e9  1.57079632679                           
+ 'AUTOREF'                                            5825
+4.1 
+0. -5.168354E-01 4.169759E+00  5.38813280E-01            
+ 'FAISCEAU'                                           5826
+ 'REBELOTE'                                           5827
+20  0.1 99 1   
+4   
+AUTOREF 11 -4.7493E-01 -4.1290E-01 -3.3292E-01 -2.3684E-01 
+-1.26268E-01 -2.59705E-03   ... (a list of 20 values) 
+AUTOREF 12  3.34619E+00  2.58215E+00  1.87157E+00  1.20916 
+ 5.90197E-01  1.05897E-02   ... (a list of 20 values) 
+AUTOREF 13 .615682680   .692552080   .769421480  .84629088   
+.923160280    1.00002970    ... (a list of 20 values) 
+CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9 
+... (15 more voltage values) ...  -1.30660e9  -1.309577e9 
+ 'SRPRNT'                                             5828
+ 'END'                                                5829
+\end{verbatim}
+}
+\end{minipage}
+
+\bigskip 
 
 
 
@@ -3185,7 +3336,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 \noindent $\bullet$ \textbf{OBJET, \KOBJ=3} recovering from a crash~: An example  \label{ExaOBJ3Recovery}
 \index{OBJET!recovering from a crash}
 
-\medskip 
+\smallskip 
 
 \noindent The job below, a 9 million turn tracking in RHIC, crashed at turn \# 2,217,299. 
 It can be read from the storage file b\_zgoubi.fai (or infered as well from the \textsl{OBJET} 
@@ -3909,7 +4060,7 @@ X_S $ translations.}
 
 \noindent  $\bullet$  Using \textbf{REBELOTE}~: An example.  \label{ExaREBELOTE} \\
 
-\medskip 
+\smallskip 
 
 \noindent In this example of an energy-recovery electron recirculator based on FFAG arcs, 
  the arguments in the keyword \textsl{AUTOREF} and \textsl{CAVITE} are changed \textsl{20} times 
@@ -4458,7 +4609,7 @@ $X0$, $Y0$, $Z0$ \> Observer position in frame of magnet next to \textsl{SYNRAD}
 
 \label{ExaSYSTEM}
 
-\medskip 
+\smallskip 
 
 \noindent The first occurence of the command (top region in the data list below) 
 allows establishing links from remote folders to the current one (the one in which \zgou\ 

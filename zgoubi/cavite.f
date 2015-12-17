@@ -753,23 +753,33 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >           DUM,SCUM,TCUM) 
       FCAV = AN11          ! RF freq. in Hz
       PH0 = AN21  ! RF phase reference. Normally zero for e-linac
-      PS = P0
+      PS = P0 * DPREF
       BTS = PS/SQRT(PS*PS+AM2)
       HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
       IDMP = NINT(AN22)
+      WS0 = SQRT(PS**2 +AM**2) - AM
+
+      DWS = QV * COS(PH0)
+      WSF = WS0 +  DWS
+      PSF = SQRT((WSF+AM)**2 - AM2)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
-     >  FCAV,CAVM,QV,BORO,SCUM*UNIT(5),TCUM,AM,Q*QE
+     >  FCAV,CAVM,DWS,WSF/WS0,BORO*DPREF,DPREF,BORO*PSF/P0,PSF/P0,
+     >  SCUM*UNIT(5),TCUM,AM,Q*QE
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
-     >  / ,15X,'Transport option : ',I2,'  (',A,')',
+     >  //,15X,'Transport option : ',I2,'  (',A,')',
      >  / ,20X,'Cavity  frequency                     =',E15.6,' Hz',
      >  / ,20X,'        length                        =',E15.6,' m',
-     >  / ,20X,'Max energy  gain                      =',E15.6,' MeV',
-     >  / ,15X,'For BRho_ref (',G12.4, ' kG.cm) : ',
+     >  / ,20X,'Synch energy gain qV.cos(phi)         =',E15.6,' MeV',
+     >  / ,20X,'WF/WI                                 =',E15.6,' MeV',
+     >  //,20X,'BRho_ref in (dp_ref in)               =',E14.6,' kG.cm',
+     >                                                 3x,'(',E14.6,')',
+     >  / ,20X,'BRho_ref out (dp_ref out)             =',E14.6,' kG.cm',
+     >                                                 3x,'(',E14.6,')',
      >  / ,20X,'Cumulated distance at cavity center   =',E15.6,' m',
      >  / ,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
      >  //,20X,'Particle mass                         =',E15.6,' MeV/c2',
@@ -807,8 +817,12 @@ C Phase, in [-pi,pi] interval
 c           if(i.eq.1)  write(*,fmt='(/,e12.4,/)') PH(i)
 C                 read(*,*)
 
-          COSRF=COS(PH(I))
-          DWF=QV*COSRF
+          CORF=COS(PH(I))
+          DWF=QV*CORF
+CCCCCCCCCCCCCCCCCCCCCCCCCCC
+C tests cebaf
+C          DWF=QV*cos(ph0)
+
           WI = WF1(I) 
           WF1(I) = WF1(I) + DWF
           WF = WF1(I)
@@ -897,6 +911,7 @@ c                 read(*,*)
         ENDIF   
       ENDDO
 
+C      PS = PSF
       CALL SCUMW(0.5D0*CAVL)
 
       GOTO 88
@@ -904,6 +919,10 @@ c                 read(*,*)
  
  88   CONTINUE
       DPREF = PS / P0
+
+c      write(*,*) ' cavite ',ws0,ws,ws/ws0,ps,dpref
+c      write(*,*) ' '
+
       RETURN
 
  99   CONTINUE

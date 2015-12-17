@@ -107,7 +107,7 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
           IF( EMPTY(LBF(IF,1)) ) THEN
              WRITE(NRES,FMT='(15X,
      >       ''Family not labeled ;  this scaling will apply'',
-     >       '' to all elements  "'',A,''"'')') FAM(IF)
+     >       '' to all (unlabeled) elements  "'',A,''"'')') FAM(IF)
           ELSE
             IF(NLF .GT. MLF) CALL ENDJOB(
      >      'SBR scalin. Prblm with LBF size... Should be < ',NLF)
