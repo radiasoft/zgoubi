@@ -767,14 +767,15 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
-     >  FCAV,CAVM,DWS,WSF/WS0,BORO*DPREF,DPREF,BORO*PSF/P0,PSF/P0,
+     >  FCAV,CAVM,PH0,DWS,WSF/WS0,BORO*DPREF,DPREF,BORO*PSF/P0,PSF/P0,
      >  SCUM*UNIT(5),TCUM,AM,Q*QE
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
      >  //,15X,'Transport option : ',I2,'  (',A,')',
      >  / ,20X,'Cavity  frequency                     =',E15.6,' Hz',
      >  / ,20X,'        length                        =',E15.6,' m',
-     >  / ,20X,'Synch energy gain qV.cos(phi)         =',E15.6,' MeV',
+     >  / ,20X,'        RF phase phi_0                =',E15.6,' rad',
+     >  / ,20X,'Synch energy gain qV.cos(phi_0)       =',E15.6,' MeV',
      >  / ,20X,'WF/WI                                 =',E15.6,' MeV',
      >  //,20X,'BRho_ref in (dp_ref in)               =',E14.6,' kG.cm',
      >                                                 3x,'(',E14.6,')',
@@ -817,11 +818,14 @@ C Phase, in [-pi,pi] interval
 c           if(i.eq.1)  write(*,fmt='(/,e12.4,/)') PH(i)
 C                 read(*,*)
 
-          CORF=COS(PH(I))
-          DWF=QV*CORF
+          DWF=QV*COS(PH(I))
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
-C          DWF=QV*cos(ph0)
+          DWF=QV*cos(ph0)
+          DO III = 1, 3
+            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
+          ENDDO
+ccccccccccccccccccccccccccc
 
           WI = WF1(I) 
           WF1(I) = WF1(I) + DWF

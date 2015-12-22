@@ -459,7 +459,7 @@ C              SCALER = FAC * SCL(KF,1) * PP0
         IF(NRES .GT. 0) WRITE(NRES,*) ' FCT SCALER : timing is empty'
       ENDIF
 
-      KF1 = KFM(ifm) + 1
+      KF1 = KFM(IFM) + 1
       IF(OK3) GOTO 3
 
  88   CONTINUE
@@ -495,18 +495,18 @@ C              SCALER = FAC * SCL(KF,1) * PP0
       SCALE4 = 0.D0
       RETURN
 
-      ENTRY SCALE6(xmi,ymi,dat1i,dat2i,dat3i,nfrqi)
-C               oclock phi turn#  freq  Ekin 
-      nfrq = nfrqi
-      IF(nfrq.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
+      ENTRY SCALE6(XMI,YMI,DAT1I,DAT2I,DAT3I,NFRQI)
+C               OCLOCK PHI TURN#  FREQ  EKIN 
+      NFRQ = NFRQI
+      IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
      >//'Max allowed is ND = ',ND)
-      do 6 i=1,nfrq
-        xm(i) = xmi(i)
-        ym(i) = ymi(i)
-        dat1(i) = dat1i(i)
-        dat2(i) = dat2i(i)
-        dat3(i) = dat3i(i)
- 6    continue
+      DO 6 I=1,NFRQ
+        XM(I) = XMI(I)
+        YM(I) = YMI(I)
+        DAT1(I) = DAT1I(I)
+        DAT2(I) = DAT2I(I)
+        DAT3(I) = DAT3I(I)
+ 6    CONTINUE
       SCALE6 = 0.D0
       RETURN
 
@@ -522,13 +522,15 @@ c      RETURN
       DO J = 1, MXSCL
         KFMO(J) = KFM(J)
         IF((KFMO(J).GE.0)) THEN
-        IF ((NTIM(KFMO(J)).NE.-1 )) THEN
+         IF ((NTIM(KFMO(J)).NE.-1 )) THEN
            BRO = BORO*DPREF
            DO I=1, JPA(KFM(J),MXP) 
               VPA(KFM(J),I) = SPLINT(TIM(KFM(J),1:NTIM(KFM(J))),
-     >             SCL(KFM(J),1:NTIM(KFM(J)),I),NTIM(KFM(J)),BRO)
+     >        SCL(KFM(J),1:NTIM(KFM(J)),I),NTIM(KFM(J)),BRO)
            ENDDO
-        ENDIF   
+         ENDIF   
         ENDIF
-       ENDDO
+      ENDDO
+
+      RETURN
       END

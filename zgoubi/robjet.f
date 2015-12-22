@@ -60,7 +60,7 @@ C----- BORO
       LINE = 1
       READ(NDAT,*,ERR=99) A(NOEL,1)
 C----- KOBJ - may be of the form "K.K2"
-      LINE = 2
+      LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=99) TXT132
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
@@ -82,18 +82,23 @@ C----- KOBJ - may be of the form "K.K2"
       CALL ENDJOB('*** Error, SBR ROBJET -> No  such  object  KOBJ= ',K)
  
  1    CONTINUE
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,45)
       RETURN
  
  2    CONTINUE
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (IA(I),I=1,2)
       A(NOEL,20) = IA(1)
       A(NOEL,21) = IA(2)
       II = 20
       DO 21 I=1,IA(1)
         II = II + 10
+        LINE = LINE + 1
         READ(NDAT,*,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
         IF(II .LE. 90) THEN
 C--------- For allowing the use of the first 7 traj with FIT
@@ -105,6 +110,7 @@ C--------- For allowing the use of the first 7 traj with FIT
           A(NOEL,II+5) = FO(1,I) 
         ENDIF
  21   CONTINUE
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (IEX(I),I=1,IA(1))
       RETURN
  
@@ -124,22 +130,22 @@ C Key is of the form 'HEADER_num', 0.le.num.le.9
         A(NOEL,12) = 0.D0
       ENDIF
 C----- Will read from part. #I1 to part. #I2, step
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,22)
 C----- Will read from  ipass #I1 to ipass #I2, step
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,32)
 C----- Y-,T-,Z-,P-,S-,DP-,TI-FAC, LETAG
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,46),TA(NOEL,1)
 C----- Y-,T-,Z-,P-,S-,DP-,TI-REF
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,56)
 C----- INIT flag (causes FO(j,i)=F(j,i) if A(NOEL,60)=0)
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) A(NOEL,60)
 C----- Name of trajectory data storage file
-      LINE = 1
+      LINE = LINE + 1
       READ(NDAT,100,ERR=99) TXT80
       IF(STRCON(TXT80,'!',
      >                      IS)) THEN
@@ -151,14 +157,14 @@ C----- Name of trajectory data storage file
       RETURN
  
  5    CONTINUE
-      LINE = 3
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
-      LINE = 4
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       IF(K2.EQ.1) THEN
 C------- Read initial beam, for possible transport by MATRIX or use by FIT
 C alfy, bety,  alfz, betz,  alfx, betx, Dy, Dy', Dz, Dz'
-        LINE = 5
+        LINE = LINE + 1
         READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,49)
       ELSEIF(K2 .GE. 2 .AND. K2 .LE. MXREF) THEN
 C------- Read additional references 
@@ -179,9 +185,9 @@ C------- Read additional references
       RETURN
  
  6    CONTINUE
-      LINE = 3
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
-      LINE = 4
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
       IF    (K2.EQ.0) THEN
       ELSEIF(K2.EQ.1) THEN
@@ -195,6 +201,7 @@ C------- Read additional references
  
  8    CONTINUE
 C----- IY, IZ, IX
+      LINE = LINE + 1
       READ(NDAT,fmt='(a)',ERR=99) txt132
       READ(TXT132,*,ERR=99) (A(NOEL,19+I),I=1,3)
       CALL STRGET(TXT132,3,
@@ -207,21 +214,30 @@ C Get number of digits after '.' in IX, IY, IZ
         ENDIF
       ENDDO
 C----- Center of ellipsoid (Y, T, Z, P, X, D
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
 C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,42)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,52)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
       RETURN
  
  9    CONTINUE
 C----- IY, IZ, IX = number of phase angles in Y, Z, X 
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,19+I),I=1,3)
 C----- Centers of ellipses (Y, T, Z, P, X, D
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
 C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,42)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=50,52)
+      LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
       RETURN
 

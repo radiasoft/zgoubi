@@ -143,12 +143,9 @@ C -----
  103  FORMAT(/,'  Zgoubi, author''s dvlpmnt version.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
-      CALL PRDATA(NLIN,FLIN,FDAT,
-     >                           LABEL,NBLM)
+      CALL PRDATA(NLIN,FLIN,FDAT,NRES,
+     >                                LABEL,NBLM,NDAT)
       NBLMN = NBLM
-      CLOSE(NLIN)
-      OK=IDLUNI(NDAT)
-      OPEN(UNIT=NDAT,FILE=FDAT)
 
       READAT = .TRUE.
 

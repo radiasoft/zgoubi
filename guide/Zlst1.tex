@@ -4213,10 +4213,9 @@ to be declared right after the object definition.
 \bigskip
 
 \noindent Used in conjunction with \textsl{REBELOTE\index{REBELOTE}} for the simulation of multi-turn tracking, 
- \textsl{SCALING} allows to change fields in an arbitrary, user defined manner during the ramp. 
-Fields can as well be imposed to follow an acceleration ramp caused by \textsl{CAVITE}, 
-turn-by-turn (for instance the main magnets), this can be obtained 
-by simply using \textsl{NT=-1} as the first argument in \textsl{SCALING}. 
+ \textsl{SCALING} allows to change fields turn-by-turn in an arbitrary, user defined manner during an acceleration multi-turn. 
+Fields (for instance main magnets') can as well be forced to follow a rigidity change caused by \textsl{CAVITE}, 
+ this can be obtained by simply using \textsl{NT=-1} as the first argument in \textsl{SCALING}. 
 
 \bigskip
 
@@ -4241,17 +4240,17 @@ as subject to a scaling law (this can be changed in the \FORTRAN\ include file \
 
 \bigskip
 
-\noindent A scaling law can be comprised  of up to $NT$~successive timings,  
-between two successive timings, a linear interpolation law is used to determine the scaling factor. 
+\noindent A scaling law can be comprised  of up to $NT$~successive timings.  
+A linear interpolation will determine the value of the scaling factor between successive timings. 
 
 \bigskip
 
 \noindent If a family appears more than once in the \textsl{SCALING} list 
 (\ie, identical keyword and label list), the following will occur~:
  
-- if each instance addresses a different parameter in the optical elements concenred, both cases are applied, 
+- if each instance addresses a different parameter in the optical elements concenred, both scaling rules are applied, 
 
-- if each instance addresses the same parameter in the optical elements, the last instance will prevail. 
+- if two (or more) instance address the same parameter in the optical elements, the last instance will prevail. 
 
 \noindent If a family addressed is a subset of a previously declared one, the \textsl{SCALING} rule will 
 override the previous one, for that subset only.  
@@ -4269,7 +4268,7 @@ machine is given in the following.
 {\renewcommand{\arraystretch}{1}
 \noindent\begin{tabular}{lll}
   \textsl{SCALING}    &          &  \\
-  1    ~~~~ 5         &          &  Active. $NF = 5$ families of elements are concerned, as listed below \\
+  1    ~~~~ 5         &          &  Active. $NF = 5$ families of elements are concerned, as listed below : \\
   \textsl{QUADRUPO} \textsl{QFA} \textsl{QFB}&          & - \textsl{QUADRUPO} keywords labeled 'QFA' and Quadrupoles labeled 'QFB' \\
   2                   &          & $NT = 2$ timings  \\
   18131.E-3           & 24176.E-3 \qquad 
