@@ -80,7 +80,7 @@ C
 C                                                                               
   150 PRINT 1001                                                                
  1001 FORMAT (//' ALAIN * MATRICE SINGULIERE ****')                             
-      IF ( IER.NE.-1 ) STOP                                                     
+C      IF ( IER.NE.-1 ) STOP                                                     
       IER = 1                                                                   
   160 RETURN                                                                    
 C                                                                               

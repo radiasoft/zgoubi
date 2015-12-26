@@ -68,7 +68,7 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
       WRITE(NRES,FMT='(/,2X,
      >'' * Theoretical S.R. parameters in local *dipole* field :'',//)')
       WRITE(NRES,FMT='(5X,''Bending radius (Brho/B) :'',1P,G16.8,
-     > ''m,   deviation angle :'',G16.8,''rad'')') RHO, ANG
+     > ''m,   deviation angle :'',G16.8,'' rad'')') RHO, ANG
       WRITE(NRES,FMT='(5X,''Average energy loss per particle :'',
      >'' Eloss = (2/3).r0.c.gamma^3.B.Ang/1000  ='',1P,T80,G16.8,
      >'' keV'',/,30X,

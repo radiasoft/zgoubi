@@ -205,6 +205,9 @@ c        DO I=IM+1,IMAX
           SF(3,I) = SZ
           SF(4,I) = SI(4,I)
         ENDDO
+      ELSE
+        CALL ENDJOB('*** Pgm spn, keyword SPNTRK : '// 
+     >' No such option KSO2 =',KSO2)
       ENDIF
       GOTO 98
  

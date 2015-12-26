@@ -821,10 +821,10 @@ C                 read(*,*)
           DWF=QV*COS(PH(I))
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
-          DWF=QV*cos(ph0)
-          DO III = 1, 3
-            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
-          ENDDO
+c          DWF=QV*cos(ph0)
+c          DO III = 1, 3
+c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
+c          ENDDO
 ccccccccccccccccccccccccccc
 
           WI = WF1(I) 

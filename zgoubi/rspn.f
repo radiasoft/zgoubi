@@ -41,7 +41,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(20) TXT20
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
-      READ(NDAT,*) TXT20
+      LINE = 1
+      READ(NDAT,*,ERR=90) TXT20
       READ(TXT20,*) A(NOEL,1)
       TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
       IF    (A(NOEL,1).GE.0) THEN
@@ -61,10 +62,12 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
         ELSEIF (KSO .EQ. 4) THEN
           IF     (KSO2 .EQ. 0) THEN
             DO I=1,IMAX
-              READ(NDAT,*) (SI(J,I),J=1,3)
+              LINE = LINE + 1
+              READ(NDAT,*,ERR=90) (SI(J,I),J=1,3)
             ENDDO
           ELSEIF(KSO2 .EQ. 1) THEN
-            READ(NDAT,*) SX, SY, SZ
+            LINE = LINE + 1
+            READ(NDAT,*,ERR=90) SX, SY, SZ
             DO I=1,IMAX
               SI(1,I) = SX
               SI(2,I) = SY
@@ -88,10 +91,16 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
         A(NOEL,9) = IA
       ELSEIF(KSO .EQ. 5) THEN
 C        ... TO, PO = MEAN INITIAL PRCESSION DIRECTION
-        READ(NDAT,*) A(NOEL,10), A(NOEL,11)
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=90) A(NOEL,10), A(NOEL,11)
 C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
-        READ(NDAT,*) A(NOEL,20), A(NOEL,21)
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=90) A(NOEL,20), A(NOEL,21)
       ENDIF 
  
+      RETURN
+
+ 90   CALL ENDJOB('*** Pgm rspn, keyword SPNTRK : '// 
+     >'input data error, at line ',line)
       RETURN
       END

@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE GOTOL(IPASS,mxkle,KLE)
+      SUBROUTINE GOTOL(IPASS,MXKLE,KLE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) KLE(*)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -53,13 +53,6 @@ C  -------
       DATA FIRST / .TRUE. /
       DATA IQCNT / 1 /
 
-c                   write(*,*) ' gotol frmt noel : ',noel
-c                   write(*,*) ' gotol frmt ta1 : ',
-c     >               ta(noel,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
-c                   write(*,*) ' gotol frmt ta2 : ',
-c     >               ta(noel,2)(DEBSTR(TA(NOEL,2)):FINSTR(TA(NOEL,2)))
-c                     read(*,*)
-
       IF(IPASS.GT.MST) CALL ENDJOB('Pgm gotol. Return address is too '//
      >'large. Increase MST - now MST = ',MST)
 
@@ -88,6 +81,7 @@ c                  read(*,*)
             WRITE(NRES,FMT=FRMT)'Pass #        : ',(I,I=1,MLST)
             WRITE(FRMT,FMT='(A,I0,A)') '(10X,A,4X,', MLST, 'A)' 
             WRITE(NRES,FMT=FRMT)'Element label : ',(LBLST(I),I=1,MLST)
+            WRITE(NRES,FMT='(/,15X,''Present pass is  # '',I0)') IPASS
           ENDIF
 
           CALL SYSTEM('cp zgoubi.dat zg_temp_gotol.dat')
@@ -113,6 +107,14 @@ C Read keyword [/ label1 [/ label2]]
             READ(LUN,FMT='(A)',ERR=10,END=10) TXT132
             TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           ENDDO
+
+          IF(NUEL.GE.NBLMN) then
+            WRITE(ABS(NRES),*) 'Branching tag at this GOTO is ''',
+     >      LBLST(IPASS)(DEBSTR(LBLST(IPASS)):FINSTR(LBLST(IPASS))),''''
+            CALL ENDJOB('Pgm gotol, keyword GOTO : '//
+     >      ' could not fing branching tag. Reached lmnt # ',NUEL-1)
+          ENDIF
+
           NUEL = NUEL + 1
           CALL STRGET(TXT132,MX2,
      >                           IDUM,STRA)
@@ -121,16 +123,11 @@ C Read keyword [/ label1 [/ label2]]
             NOEL = NUEL
             CALL GO2KEY(NOEL,IQCNT,MXKLE,KLE,
      >                                       KEY, LBL1, LBL2) 
-c            write(*,*) ' ipass / gotol/# / goback ',
-c     >      ipass,LBLST(IPASS),noel,NLBCK(IPASS)
-c               read(*,*)
-
           ELSE
             GOTO 11
           ENDIF
 
           IF(NRES.GT.0) THEN
-            WRITE(NRES,FMT='(/,15X,''Present pass is  # '',I0)') IPASS
             WRITE(NRES,FMT='(/,15X,''This GOTO switches to'',
      >      '' element # '',I0,'' with label #1 : '',A)') NOEL,STRA(2)
             WRITE(NRES,FMT='(15X,''Return address will be'',
