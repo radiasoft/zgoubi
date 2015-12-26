@@ -776,7 +776,7 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >  / ,20X,'        length                        =',E15.6,' m',
      >  / ,20X,'        RF phase phi_0                =',E15.6,' rad',
      >  / ,20X,'Synch energy gain qV.cos(phi_0)       =',E15.6,' MeV',
-     >  / ,20X,'WF/WI                                 =',E15.6,' MeV',
+     >  / ,20X,'WF/WI                                 =',E15.6,' ',
      >  //,20X,'BRho_ref in (dp_ref in)               =',E14.6,' kG.cm',
      >                                                 3x,'(',E14.6,')',
      >  / ,20X,'BRho_ref out (dp_ref out)             =',E14.6,' kG.cm',
@@ -800,11 +800,13 @@ Compute particle time at center of cavity
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
-          TI = TI + dsar2 / (bta*cl)
+C FM Dec 2015 - wrong units          TI = TI + dsar2 / (bta*cl)
+          TI = F(7,I) * UNIT(7) 
 
 C F(7,I) is time in mu_s. Of course, TI is in s
           PHI = OMRF * TI + PH0   
 C          PHI = 0.
+
 C Phase, in [-pi,pi] interval
           PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
           IF    (PHI .GT.  PI) THEN
@@ -815,10 +817,8 @@ C Phase, in [-pi,pi] interval
             PH(I) =PHI 
           ENDIF
 
-c           if(i.eq.1)  write(*,fmt='(/,e12.4,/)') PH(i)
-C                 read(*,*)
-
           DWF=QV*COS(PH(I))
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
 c          DWF=QV*cos(ph0)
@@ -834,8 +834,6 @@ C Kin. energy, MeV
           DPR(I)=WF
           P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
 
-C                write(*,*) ' cavite dwf ',dwf,phi,wf,wf-dwf
-        
           IF     (DWF.EQ.0.D0 .OR. IDMP.EQ.0.) THEN
 C        CAVITY + DRIFT
             V11= 1.D0
@@ -885,7 +883,6 @@ C        CHAMBERS CAVITY Det(M)=1
             V21=-SINFAC/RAP/WF*(2*COSRF+1./COSRF)
             V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
             DWFT=DSQRT(V11*V22-V21*V12)
-C            write(*,*) ' cavite idmp=-2 ; damp factor dwft = ',dwft
             V11=V11/DWFT
             V12=V12/DWFT
             V22=V22/DWFT
@@ -902,12 +899,6 @@ C            write(*,*) ' cavite idmp=-2 ; damp factor dwft = ',dwft
           BTA = P / SQRT(P*P + AM2)
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
 
-c          write(*,*) 'cavite dsar2 ~ 88cm ? ', dsar2, f(6,i)-toto
-c          write(*,*) '                      ', dsar2, f(7,i)-tata
-c          write(*,*) 'cavite , WI, WF-WI ', WI, WF-WI 
-c                 read(*,*)
-
-
           IF(OKIMP) 
      >    WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
      >    TI, wi, wf, I , IPASS, DWF
@@ -923,9 +914,6 @@ c                 read(*,*)
  
  88   CONTINUE
       DPREF = PS / P0
-
-c      write(*,*) ' cavite ',ws0,ws,ws/ws0,ps,dpref
-c      write(*,*) ' '
 
       RETURN
 
