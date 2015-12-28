@@ -23,7 +23,7 @@ set x2range []
 set yrange []
 set y2range []
 
-set xrange  [:810]
+set xrange  []
 
 #set xrange  [490:510]
 

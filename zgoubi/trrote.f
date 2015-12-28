@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TRROTE(EVNT,TX,TY,TZ,RX,RY,RZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -88,8 +88,10 @@ c        endif
         UZ= U1*SN+UZ*CO
         T=ATAN2(UY,UX)
         P=ATAN( UZ/SQRT(UX*UX+UY*UY) )
-        if(kspn .eq. 1) 
-     >  call endjob('SBR TRROTE. Spin rotation to be implemented. ',-99)
+        IF(KSPN .EQ. 1) 
+     >  CALL ENDJOB('SBR TRROTE. Spin Y-rotation not implemented. '
+     >  //'Inhibit spin tracking option '
+     >  //'(or install Y-rotation in trrote.f).',-99)
       ENDIF
       IF(RZ .NE. 0.D0) THEN
         CP=COS(P)
@@ -106,8 +108,10 @@ c        endif
         UY=-U1*SN+UY*CO
         T=ATAN2(UY,UX)
         P=ATAN( UZ/SQRT(UX*UX+UY*UY) )
-        if(kspn .eq. 1) 
-     >  call endjob('SBR TRROTE. Spin rotation to be implemented. ',-99)
+        IF(KSPN .EQ. 1) 
+     >  CALL ENDJOB('SBR TRROTE. Spin Z-rotation not implemented. '
+     >  //'Inhibit spin tracking option '
+     >  //'(or install Z-rotation in trrote.f).',-99)
       ENDIF
 
 C----- TRANSPORT TO NEW FRAME (=> X=0)

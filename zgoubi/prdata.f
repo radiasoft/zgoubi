@@ -182,6 +182,10 @@ C----- Read zgoubi.dat title (1st data line)
             LINE =1 
             READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
             READ(TEXT,*,ERR=78) NBFIL
+            IF(NBFIL .GT. 1) CALL ENDJOB('Pgm prdata. '//
+     >      'INCLUDE is limited to 1 file, '//
+     >      '(functionality of NBFIL>1 needs be checked). '//
+     >      'Use several INCLUDEs instead.',-99)
 
             IF(NBFIL.GT.MXFIL) CALL ENDJOB('Pgm prdata. '//
      >      'INCLUDE has too many files. Max allowed is ',MXFIL)

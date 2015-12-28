@@ -42,26 +42,28 @@ C     **************************
       CHARACTER(30) STRA(3)
 
 C     ....IOPT -OPTION
-C      READ(NDAT,*) A(NOEL,1)
-      READ(NDAT,FMT='(A)') TXT132      
-      READ(TXT132,*) IOPT
+      LINE = 1
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      
+      READ(TXT132,*,ERR=90,END=90) IOPT
       A(NOEL,1) = IOPT
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      TA(NOEL,1) = ' '        
       IF(STRCON(TXT132,'PRINT',
      >                         IS) 
-     >   .OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) THEN
-        TA(NOEL,1) = 'PRINT'        
-      ELSE
-        TA(NOEL,1) = '    '
-      ENDIF
+     >.OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) 
+     >TA(NOEL,1) = 'PRINT'        
+      IF(STRCON(TXT132,'CEBAF',
+     >                         IS)) TA(NOEL,1) = TA(NOEL,1)//' CEBAF'
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
 C     ....Orbit length. (m), H -HARMONIQUE
-      READ(NDAT,*) A(NOEL,10),A(NOEL,11)
+      LINE = LINE + 1
+      READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
 C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
 C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
-      READ(NDAT,FMT='(A)') TXT132      
+      LINE = LINE + 1
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      
       IF(IOPT .NE. 0) then 
         IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
@@ -74,7 +76,7 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
         ENDIF
         DO I = 1, MSTR
           IF(ISNUM(STRA(I))) THEN 
-            READ(STRA(I),*) A(NOEL,19+I)
+            READ(STRA(I),*,ERR=90,END=90) A(NOEL,19+I)
           ELSE
             CALL ENDJOB('Pgm rcavit. Non-numerical data found '
      >      //'at 3rd line. Please check with users'' guide.',-99)
@@ -86,4 +88,9 @@ c      write(*,*) ' rcavite *',n
 c     >oel,ta(noel,1)(DEBSTR(ta(noel,1)):80),'*'
 
       RETURN
+
+ 90   CALL ENDJOB('*** Pgm rcavit, keyword CAVITE : '// 
+     >'input data error, at line ',line)
+      RETURN
+ 
       END

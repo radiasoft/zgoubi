@@ -99,7 +99,8 @@ C----- KOBJ - may be of the form "K.K2"
       DO 21 I=1,IA(1)
         II = II + 10
         LINE = LINE + 1
-        READ(NDAT,*,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
+        READ(NDAT,FMT='(A)',ERR=99) TXT132
+        READ(TXT132,*,END=98,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
         IF(II .LE. 90) THEN
 C--------- For allowing the use of the first 7 traj with FIT
           A(NOEL,II  ) = FO(2,I) 

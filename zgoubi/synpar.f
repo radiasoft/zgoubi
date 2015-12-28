@@ -66,7 +66,7 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
       IF(NRES.LE.0) RETURN
 
       WRITE(NRES,FMT='(/,2X,
-     >'' * Theoretical S.R. parameters in local *dipole* field :'',//)')
+     >'' * Theoretical S.R. parameters in local *dipole* field :'')')
       WRITE(NRES,FMT='(5X,''Bending radius (Brho/B) :'',1P,G16.8,
      > ''m,   deviation angle :'',G16.8,'' rad'')') RHO, ANG
       WRITE(NRES,FMT='(5X,''Average energy loss per particle :'',
@@ -85,12 +85,12 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
      >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
-      WRITE(NRES,FMT='(/,5X,
-     >''Summed over magnets, up to this point : '')')
-      WRITE(NRES,FMT='(10X,
+      WRITE(NRES,FMT='(/,2X,'' * Theoretical S.R. parameters, ''//
+     >''summed over magnets up to this point : '')')
+      WRITE(NRES,FMT='(5X,
      >''Average energy loss : '',1P,G16.8,'' keV/particle'',6X,/,31X,
      >''- relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
-      WRITE(NRES,FMT='(10X,''rms photon energy : '',
+      WRITE(NRES,FMT='(5X,''rms photon energy : '',
      > 1P,G16.8,'' keV'')') SQRT(SRMSE2)
       WRITE(NRES,FMT='(10X,
      >''Number of average photons : '',1P,G16.8,'' /particle'')') SNMPP

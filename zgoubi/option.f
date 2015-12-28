@@ -60,12 +60,6 @@ C Numb of options. NBOP lines should follow
       ENDIF
 
       DO I = 1, NBOP
-
-        write(*,*) ' option ',i,' *'//
-     >  TA(NOEL,I)(DEBSTR(TA(NOEL,I)):FINSTR(TA(NOEL,I)))//'*'
-        write(*,*) ' option ',' *'//
-     >  TA(NOEL,I)(DEBSTR(TA(NOEL,I)):FINSTR(TA(NOEL,I)))//'*'
-
         READ(TA(NOEL,I),*,ERR=88,END=88) TXT1
         IF(NRES.GT.0) THEN
           IF(NRSAV .EQ. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 

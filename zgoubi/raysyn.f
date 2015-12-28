@@ -171,37 +171,37 @@ C        PP = BORO*CL*1.D-9*Q/QE
 C        PP = BORO*CL*1.D-9*Q
         PP = BORO*CL9*Q
         EE = SQRT(PP*PP+AM*AM)
-        WRITE(NRES,FMT='(/,
-     >  ''  S.R. statistics, from beginning of structure,'',
-     >  '' on a total of '',1P,G15.7,'' integration steps :'',/)') NSTEP
+        WRITE(NRES,FMT='(/,3X,
+     >  '' * Monte Carlo S.R. statistics, from beginning of structure,''
+     >  ,'' on a total of '',1P,G15.7,'' integration steps :'')') NSTEP
         XEVNT=DBLE(IMAX*IPASS)
         XSTEP= NSTEP
         WRITE(NRES,FMT='(5X,'' Average energy loss per particle ''
      >  ,''per pass :'',1P,
-     >  T55,g15.7,'' keV.       Relative to initial energy :'',g15.7)') 
+     >  T55,G15.7,'' keV.       Relative to initial energy :'',G15.7)') 
      >  TTLOSS/XEVNT *1.D3,TTLOSS/(XEVNT*EE)
         WRITE(NRES,FMT='(5X,'' Average energy loss per particle, ''
-     >  ,''this pass :'',1P,T55,g15.7,'' keV'')') 
+     >  ,''this pass :'',1P,T55,G15.7,'' keV'')') 
      >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
         WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :''
-     >  ,1P,T55,g15.7,'' keV'')') ECMEAN/XSTEP *1.D3
+     >  ,1P,T55,G15.7,'' keV'')') ECMEAN/XSTEP *1.D3
         WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :''
-     >  ,1P,T55,g15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
+     >  ,1P,T55,G15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
-     >  T55,g15.7,'' keV'')') 
+     >  T55,G15.7,'' keV'')') 
      >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
         WRITE(NRES,FMT='(5X,'' Number of photons radiated - Total :'',
-     >  1P,T65,g15.7)') TTPHOT
+     >  1P,T65,G15.7)') TTPHOT
         WRITE(NRES,FMT='(5X,''                            - per'',
-     >  '' particle per pass :'',1P,T65,g15.7)') TTPHOT/XEVNT
+     >  '' particle per pass :'',1P,T65,G15.7)') TTPHOT/XEVNT
         WRITE(NRES,FMT='(5X,''                            - per'',
-     >  '' particle, per step :'',1P,T65,g15.7)') TTPHOT/XSTEP
+     >  '' particle, per step :'',1P,T65,G15.7)') TTPHOT/XSTEP
       ENDIF
 
       IF(IPASS.EQ.1 .OR. 10*(IPASS/10) .EQ. IPASS ) THEN 
 C        WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
 C     >  1P,I8,
-C     >  T60, 4(g15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
+C     >  T60, 4(G15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
 C     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
 C     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
 C     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3

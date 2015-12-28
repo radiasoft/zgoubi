@@ -72,6 +72,9 @@ C  -------
 
       PARAMETER (CG=8.846D-14)  ! m/MeV^3
 
+      logical cebaf
+      save cebaf
+
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
      >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
@@ -90,6 +93,8 @@ C  -------
      >'cavity is inhibited, transport is identity matrix',
      >'DE/E<<1 aproximation, regular transport including damping',
      >'regular transport, including damped motion' /
+
+      data CEBAF / .false. /
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
@@ -114,12 +119,10 @@ C  -------
  121  CONTINUE
 
       KCAV = NINT(A(NOEL,1))
-
-c      write(*,*) ' rcavite *',ta(noel,1)(DEBSTR(ta(noel,1)):80),'*'
-c            stop
              
       IF(IPASS .EQ. 1) THEN 
-        OKIMP = TA(NOEL,1) .EQ. 'PRINT'
+        OKIMP = strcon(TA(NOEL,1),'PRINT',
+     >                                    is)
         IF(OKIMP) THEN 
           IF(.NOT.OKOPEN) THEN
             IF(IDLUNI(
@@ -134,10 +137,11 @@ c            stop
             OKOPEN = .TRUE.
           ENDIF
         ENDIF
-      ENDIF
 
-c            write(*,*) ' cavite ',okimp,ta(noel,1)
-c            stop
+        cebaf = strcon(TA(NOEL,1),'CEBAF',
+     >                                    is)
+
+      ENDIF
 
 
       IF(NRES.GT.0) THEN
