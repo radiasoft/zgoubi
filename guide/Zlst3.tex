@@ -1945,7 +1945,7 @@ zpop}
 The \zgoubi~package, including this guide, examples, the \zpop\ graphic/analysis post-processor, is available on 
 web~\cite{SFZ}. 
 
-The  \textbf{zgoubi}\index{zgoubi} \FORTRAN\ package is transportable; it has been
+\noindent The  \textbf{zgoubi}\index{zgoubi} \FORTRAN\ package is transportable; it has been
 compiled, linked and executed over the years on several types of systems (e.g. 
 CDC, CRAY, IBM, DEC, HP, SUN, VAX, UNIX, LINUX).  
 
@@ -1981,20 +1981,28 @@ Compile  the  \FORTRAN\ source files  (normally, just run the Makefile).
 xterm type window. 
 \bigskip
 
- \subsection{Running \zgoubi} 
+ \subsection{Running \zgoubi \label{SecRunZgoubi}}  \index{zgoubi!running the code}
 
 The principles are the following:
 \begin{itemize}
 \item[$\bullet$] Fill up zgoubi.dat \index{zgoubi.dat}   with the input data that describe the 
 problem (see examples, Part~C). 
-\item[$\bullet$] Run  \textbf{zgoubi}. 
+\item[$\bullet$] Run  \textbf{zgoubi} - no argument needed, default input is zgoubi.dat. 
 \item[$\bullet$] Results of the execution will be printed into  
 zgoubi.res \index{zgoubi.res} and, upon options appearing in zgoubi.dat\index{zgoubi.dat},
  into several other outputs files (see section~\ref{secD-3} below).  
+\item[$\bullet$] The command \zgou\ acccepts the following arguments (see zgobui\_main.f source file)~: 
+\begin{itemize}
+\item[] -fileIn, followed by an input file name, 
+\item[] -fileOut, followed by an output file name,
+\item[] -fileLog, followed by a log file name,
+\item[] -saveExec, this will cause saving a copy of \zgou\ exec in the local directory,
+\item[] -saveZpop, this will cause saving a copy of \textbf{zpop} exec in the local directory. 
+\end{itemize}
 \end{itemize}
 %\vfill\eject
 
-\subsection{Running \zpop} 
+\subsection{Running \zpop}  \index{zpop!running the code}
 
 \begin{itemize}
 \item[$\bullet$] Run \textbf{zpop} on an xterm window. This will open a 
@@ -2016,6 +2024,12 @@ When explicitly requested by means of the adequate keywords,  options, or dedica
 
 \noindent Their content can be    post-processed using the interactive program \textbf{zpop} and its dedicated graphic 
 and analysis procedures. 
+
+\bigskip
+
+\noindent Most of these files are formmatted in columns, plotting their content using 
+'gnuplot'~\cite{gnuplot}\index{gnuplot} is 
+straightforward. A library of 'gnuplot' command files can be found in \zgoubi\ sourceForge repository~\cite{SFZ}. 
 
 \bigskip
 
@@ -2079,5 +2093,14 @@ Spin coordinates and histograms, at the position where
 performing multi-turn\index{multi-turn tracking} tracking. 
 \end{itemize}
 
+\bigskip
 
+\noindent In addition, many routines will deliver execution outcomes in individual output files if 
+requested, usually by initroducing a '\textsl{PRINT}' command under the keyword of concern.  
+Instances are 
+zgoubi.MATRIX.out (keyword \textsl{MATRIX}), 
+zgoubi.TWISS.out (keyword \textsl{OPTICS}), 
+zgoubi.PICKUP.out (keyword \textsl{PICKUPS}), 
+zgoubi.TWISS.out (keyword \textsl{TWISS}), 
+etc.
 

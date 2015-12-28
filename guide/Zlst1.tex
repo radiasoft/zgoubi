@@ -7188,23 +7188,27 @@ the data sequence.
 
 \medskip
 
-\noindent The file name may be followed by up to two strings 'LBL\_A', 'LBL\_B'. 
+\noindent The file name may be followed by '\textsl{[LBL\_1A,LBL\_2A:LBL\_1B,LBL\_2B]}', with any of these for 
+labels optional, as follows~: 
 
-- LBL\_A is the first label of some 
-keyword in the include file, from which the include process will start (whatever precedes will be ignored), 
-if no 'LBL\_A' is declared, the include process starts from the begining of the include file~; 
+- LBL\_1A (and \_2A) are optional. They identify to the first (and second) label of some 
+keyword in the include file, from which the include process will start (whatever precedes will be ignored). 
+If none of '\textsl{LBL\_1A, \_2A}' is declared, the include process starts from the begining of the include file. 
+Declaring the second label only takes the form '\textsl{[,LBL\_2A:LBL\_1B,LBL\_2B]}'.  
 
-- LBL\_B is the first label of some 
-keyword in the include file, at which the include process will end (whatever follows will be ignored), 
-if no 'LBL\_B' is declared, the  include file will be included down to its end. 
+- LBL\_1B (and \_2B) are optional. They identify to the first (and second) label of some 
+keyword in the include file, at which the include process will end (whatever follows will be ignored).  
+If none of '\textsl{LBL\_1B, \_2B}' is declared,  the  include file will be included down to its end. 
+Declaring the second label only takes the form '\textsl{[LBL\_1A,LBL\_2A: ,LBL\_2B]}'.  
 
 \medskip
 
 \noindent Because \zgoubi\ uses the reserved name zgoubi.dat as its standard working data file name,  
 and since  the presence of \textsl{INCLUDE} will cause the input data list to be changed (it is expanded, 
-to include all INCLUDE files), as a consequence the input file to zgoubi is no longer allowed the name zgoubi.dat 
+to include all \textsl{INCLUDE} files), as a consequence the input file to zgoubi is no longer allowed the name zgoubi.dat 
 if it contains  \textsl{INCLUDE}  keyword(s) (so to avoid changing the content of the user's 
-input file). This is overcome by using the command 'zgoubi -inFile myFile' instead, with 'myFile'$\neq$'zgoubi.dat'. 
+input file). This is overcome by using the command 'zgoubi -fileIn myFile' instead, with myFile$\neq$zgoubi.dat 
+(see Sec.~\ref{SecRunZgoubi} in PART~D of the guide, page~\pageref{SecRunZgoubi}). 
 
 
 \medskip 
@@ -7218,7 +7222,7 @@ be changed in prdata.f.
 \medskip 
 
 \noindent By contrast with other keywords, \textsl{INCLUDE} is not part on the LSTKEY.H keyword list (found 
-in the \textsl{common} folder). Instead, possible presence of \textsl{INCLUDE} in the input data file is dealt with by 
+in the '\textsl{include}' folder). Instead, possible presence of \textsl{INCLUDE} in the input data file is dealt with by 
 prdata program (prdata.f source file) in a simple way~: the input data file is expanded so eliminating 
 all \textsl{INCLUDE} occurences, and the expanded, complete, data list is stored  in the standard \zgoubi\ input 
 data file zgoubi.dat. Thus \zgoubi\ eventually actually works using a regular, complete, data list in 
@@ -8882,7 +8886,7 @@ tracked on different transverse invariants, horizontal or vertical.
 
 \bigskip
 
-\noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out, a MADX type ``twiss'' file, 
+\noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out\index{zgoubi.TWISS.out}, a MADX type ``twiss'' file, 
 with similar formatting, including   periodic optical data as a header (tunes, chromaticities, etc.) and, 
 in sequence, optical functions and  strengths at all elements. 
 

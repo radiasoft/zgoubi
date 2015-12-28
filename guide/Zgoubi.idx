@@ -472,6 +472,7 @@
 \indexentry{coupling|textbf}{171}
 \indexentry{OBJET}{171}
 \indexentry{closed orbit}{171}
+\indexentry{zgoubi.TWISS.out}{171}
 \indexentry{Units in \zgoubi|textbf}{172}
 \indexentry{reference rigidity|textbf}{173}
 \indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{173}
@@ -726,6 +727,7 @@
 \indexentry{TRANSMAT|textbf}{279}
 \indexentry{TRAROT|textbf}{280}
 \indexentry{TWISS|textbf}{281}
+\indexentry{zgoubi.TWISS.out}{281}
 \indexentry{chromaticity@{chromaticity}}{281}
 \indexentry{momentum compaction@{momentum compaction}}{281}
 \indexentry{UNDULATOR|textbf}{282}
@@ -744,10 +746,13 @@
 \indexentry{zgoubi}{311}
 \indexentry{zpop}{311}
 \indexentry{zgoubi.f}{311}
+\indexentry{zgoubi!running the code}{311}
 \indexentry{zgoubi.dat}{311}
 \indexentry{zgoubi.res}{311}
 \indexentry{zgoubi.dat}{311}
+\indexentry{zpop!running the code}{311}
 \indexentry{storage files}{311}
+\indexentry{gnuplot}{312}
 \indexentry{FAISCNL}{312}
 \indexentry{FAISTORE}{312}
 \indexentry{zgoubi.fai}{312}

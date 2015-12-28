@@ -2610,8 +2610,8 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \\
 \textbf{NBF following lines (one file name per line)~:} \\
 \\
- \textsl{FNAME} \textsl{[,[LBL\_A]:[LBL\_B]]}  \>Name of input zgoubi.dat-style file to be included. \textsl{LBL\_A}~:   \> \>A80 [,[A10], [A10]] \\ %
-  \>  entrance branching tag, \textsl{LBL\_B}~: exit branching tag.  \\ %%
+ \textsl{FNAME} \textsl{, [ [LBL\_1A [, LBL\_2A]]:}  \>Name of input zgoubi.dat-style file to be included. \textsl{LBL\_A}~:   \> \>A80 [,[A10], [A10]] \\ %
+\textsl{[LBL\_1B [, LBL\_2B]]:}   \>  entrance branching tag, \textsl{LBL\_B}~: exit branching tag.  \\ %%
 \end{tabbing}
 
 
@@ -4926,7 +4926,7 @@ $RX$, $RY$, $RZ$
 \mestab
 \textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf}
              \> \textbf{\TWISSTitl} \> \> \\
-             \> \textbf{and printout to zgoubi.TWISS.out} \> \> \\
+             \> \textbf{and printout to zgoubi.TWISS.out} \index{zgoubi.TWISS.out} \> \> \\
   \\
   \\
  \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I1[.I1], 2*E \\
