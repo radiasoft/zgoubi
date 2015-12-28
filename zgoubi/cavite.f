@@ -73,7 +73,6 @@ C  -------
       PARAMETER (CG=8.846D-14)  ! m/MeV^3
 
       logical cebaf
-      save cebaf
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -137,12 +136,10 @@ C  -------
             OKOPEN = .TRUE.
           ENDIF
         ENDIF
-
-        cebaf = strcon(TA(NOEL,1),'CEBAF',
-     >                                    is)
-
       ENDIF
 
+        cebaf = TA(NOEL,2) .EQ. 'CEBAF'
+            WRITE(*,*) ' CAVITE ','*'//TA(NOEL,2)//'*'
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,102) SKAV(KCAV+1)
@@ -825,7 +822,9 @@ C Phase, in [-pi,pi] interval
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
-c          DWF=QV*cos(ph0)
+          if(CEBAF) DWF=QV*cos(ph0)
+                write(*,*) ' cebaf : ',cebaf
+               stop
 c          DO III = 1, 3
 c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
 c          ENDDO

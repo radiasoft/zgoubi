@@ -48,13 +48,19 @@ C     ....IOPT -OPTION
       A(NOEL,1) = IOPT
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
-      TA(NOEL,1) = ' '        
       IF(STRCON(TXT132,'PRINT',
      >                         IS) 
-     >.OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) 
-     >TA(NOEL,1) = 'PRINT'        
+     >.OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) THEN
+        TA(NOEL,1) = 'PRINT'        
+      ELSE
+        TA(NOEL,1) = ' '        
+      ENDIF
       IF(STRCON(TXT132,'CEBAF',
-     >                         IS)) TA(NOEL,1) = TA(NOEL,1)//' CEBAF'
+     >                         IS)) THEN
+        TA(NOEL,2) = ' CEBAF'
+      ELSE
+        TA(NOEL,2) = ' '        
+      ENDIF
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
 C     ....Orbit length. (m), H -HARMONIQUE
@@ -83,9 +89,6 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
           ENDIF
         ENDDO
       ENDIF
-
-c      write(*,*) ' rcavite *',n
-c     >oel,ta(noel,1)(DEBSTR(ta(noel,1)):80),'*'
 
       RETURN
 
