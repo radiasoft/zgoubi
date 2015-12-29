@@ -29,8 +29,8 @@ C  -------
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
-      PARAMETER (MXTA=45)
+C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
+C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
@@ -72,7 +72,7 @@ C  -------
 
       PARAMETER (CG=8.846D-14)  ! m/MeV^3
 
-      logical cebaf
+      LOGICAL CEBAF, STRCON
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -93,7 +93,7 @@ C  -------
      >'DE/E<<1 aproximation, regular transport including damping',
      >'regular transport, including damped motion' /
 
-      data CEBAF / .false. /
+      DATA CEBAF / .FALSE. /
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
@@ -138,8 +138,8 @@ C  -------
         ENDIF
       ENDIF
 
-        cebaf = TA(NOEL,2) .EQ. 'CEBAF'
-            WRITE(*,*) ' CAVITE ','*'//TA(NOEL,2)//'*'
+      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
+     >                                   IS)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,102) SKAV(KCAV+1)
@@ -822,9 +822,10 @@ C Phase, in [-pi,pi] interval
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
-          if(CEBAF) DWF=QV*cos(ph0)
-                write(*,*) ' cebaf : ',cebaf
-               stop
+          if(CEBAF) then 
+            DWF=QV*cos(ph0)
+                write(*,*) ' cavite. cebaf =',cebaf
+           endif
 c          DO III = 1, 3
 c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
 c          ENDDO

@@ -31,15 +31,16 @@ C     **************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (ISZTA=80)
-      CHARACTER(ISZTA) TA
-      PARAMETER (MXTA=45)
+C      PARAMETER (ISZTA=80)
+C      CHARACTER(ISZTA) TA
+C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT132
       LOGICAL STRCON
-      INTEGER DEBSTR
+      INTEGER DEBSTR, finstr
       CHARACTER(30) STRA(3)
+      logical empty
 
 C     ....IOPT -OPTION
       LINE = 1
@@ -48,6 +49,7 @@ C     ....IOPT -OPTION
       A(NOEL,1) = IOPT
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+
       IF(STRCON(TXT132,'PRINT',
      >                         IS) 
      >.OR.  (NINT(10.D0*A(NOEL,1)) - 10*INT(A(NOEL,1))).EQ.1) THEN
@@ -57,9 +59,12 @@ C     ....IOPT -OPTION
       ENDIF
       IF(STRCON(TXT132,'CEBAF',
      >                         IS)) THEN
-        TA(NOEL,2) = ' CEBAF'
-      ELSE
-        TA(NOEL,2) = ' '        
+        IF(EMPTY(TA(NOEL,1))) THEN 
+           TA(NOEL,1) = 'CEBAF'
+        ELSE
+           TA(NOEL,1) = 
+     >     TA(NOEL,1)(debstr(TA(NOEL,1) ):finstr(TA(NOEL,1) ))//' CEBAF'
+        ENDIF
       ENDIF
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE

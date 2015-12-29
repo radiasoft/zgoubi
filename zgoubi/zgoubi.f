@@ -32,8 +32,8 @@ C     >                                 NBLMN)
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
-      PARAMETER (MXTA=45)
+C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
+C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
@@ -189,9 +189,6 @@ CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
  998  CONTINUE
 
-C       write(*,*) ' zgoubi noel > 0 ? ',noel  !!,iq(noel)
-            
-
 C YD FM. 28/01/2014
       IF(NOEL .GT. 0) THEN
 
@@ -301,10 +298,6 @@ C------- Gets here in case of "FIT"
         IF (NOEL .EQ. NL2 ) RETURN
         NOEL = NOEL+1
         IKLE = IQ(NOEL)
-
-c       write(*,*) ' zgoubi noel, nl2, ikle ',noel,nl2,ikle
-c               read(*,*)
-
         KLEY = KLE(IKLE)
 
 
@@ -442,9 +435,6 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
           CALL FITST8(FITRBL)
       ENDIF
       CALL KSMAP0
-c      write(*,*) ' zgoubi readat, fiting, FITBYD, fitfnl, ', 
-c     >  readat,fiting,FITBYD,fitfnl,fitrbl
-c                pause
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
@@ -712,8 +702,6 @@ C----- FIT. FIT2. Two methods are available
  461  CONTINUE
       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
-c         write(*,*) ' zgoubi/fit fitnu2 '
-c             read(*,*)
       CALL FITNU2(MTHOD)
       IF(READAT) CALL RFIT(KLEY,IMAX,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)

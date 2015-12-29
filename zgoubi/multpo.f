@@ -40,8 +40,8 @@ C  -------
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
-      PARAMETER (MXTA=45)
+C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
+C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.EFBS.H"     ! COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
@@ -275,7 +275,7 @@ C----- Case erron (errors)
 
             IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-              CALL MULERR(NOEL,IRR,BM, 
+              CALL MULERR(NOEL,IRR,MXTA,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
               IF(PRNT .AND. OKOPN) THEN

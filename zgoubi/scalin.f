@@ -28,9 +28,9 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (ISZTA=80)
-      CHARACTER(ISZTA) TA
-      PARAMETER (MXTA=45)
+C      PARAMETER (ISZTA=80)
+C      CHARACTER(ISZTA) TA
+C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
@@ -89,8 +89,11 @@ C FM July 2014. For compatibility with combined FIT+REBELOTE
         IF(NRES .GT. 0) THEN
           NLF = 0
           DO WHILE ( .NOT. EMPTY(LBF(IF,NLF+1)) )
-            IF(KSIZ+NLF+1+LBLSIZ.GT.ISZTA) CALL ENDJOB(
-     >      'SBR scalin. Prblm with TA size. Should be > ',ISZTA)
+C FM Dec 2015
+C            IF(KSIZ+NLF+1+LBLSIZ.GT.ISZTA) CALL ENDJOB(
+C     >      'SBR scalin. Prblm with TA size. Should be > ',ISZTA)
+            IF(KSIZ+NLF+1+LBLSIZ.GT.LNTA) CALL ENDJOB(
+     >      'SBR scalin. Prblm with TA size. Should be > ',LNTA)
 C FM Sept 2014. Commented next line
 C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
             IF(NLF+1 .GE. MLF) GOTO 10
