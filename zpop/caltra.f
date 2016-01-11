@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory              
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CALTRA(N)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -107,8 +107,10 @@ CC(1X,A,1P,2G12.4,1X,2G12.4,1X,3G12.4)')
  990  CONTINUE
 
       IF(READAT) THEN
-        READ(NDAT,*) KLEY
-        DO 188 IKLE=1,MXKLE
+        READ(NDAT,*,ERR=999,END=999) KLEY
+              write(*,*) ' caltra ',ikle,KLE(IKLE)
+c                 read(*,*)
+        DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
             NOEL = NOEL+1
             IF( NOEL .EQ. MXL+1) THEN
@@ -116,12 +118,12 @@ CC(1X,A,1P,2G12.4,1X,2G12.4,1X,3G12.4)')
               WRITE(6,*) ' QUEUE DATA WERE SKIPPED: too many elements'
               WRITE(6,*) ' (number of elements should not exceed '
      >                                                       ,MXL,').'
-              GOTO 99
+              GOTO 999
             ENDIF
             IQ(NOEL) =  IKLE
             GOTO 187
           ENDIF
- 188    CONTINUE
+        ENDDO
 
       ELSE
 
@@ -143,7 +145,9 @@ C Go to "GOTO(...) IKLE" ---------------------------
 C---------------------------------------------------
 
       CALL FBGTXT
-      WRITE(6,*) '  ******* WARNING : unknown key ',KLEY
+      WRITE(6,*) '** Pgm caltra. WARNING : unknown key ',KLEY
+      read(*,*)
+      return
       GOTO 998
 
  995  CONTINUE
@@ -157,6 +161,9 @@ C---------------------------------------------------
  
 C-----  DRIFT, ESL. ESPACE LIBRE
  1    CONTINUE
+c            write(*,*) ' caltra drift N = ',N
+c                read(*,*)
+
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(READAT) GOTO 998
       AL = A(NOEL,1) *COEF * CM2M 

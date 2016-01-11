@@ -37,11 +37,15 @@ set x2range [Ggmi/G*am/1e3:Ggma/G*am/1e3]
 set yrange []
 set y2range []
 
- plot \
-      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($4) axes x1y1 w lp ps .2 lt 1 lc 1 tit "Q_x"  ,\
-      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($6) axes x1y1 w lp ps .2 lt 1 lc 3 tit "Q_y"  ,\
-      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($8) axes x1y2 w lp ps .2 lt 2 lc 1 tit "{/Symbol x}_x"  ,\
-      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($10) axes x1y2 w lp ps .2 lt 2 lc 3 tit "{/Symbol x}_y"  ,\
+ plot  \
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($4)  axes x1y1 smooth csplines w l lt 1 lc 1 tit "Q_x"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($4)  axes x1y1  w p ps .6 lt 1 lc 1 notit ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($6)  axes x1y1 smooth csplines w l lt 1 lc 3 tit "Q_y"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($6)  axes x1y1  w p ps .6 lt 1 lc 3 notit ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($8)  axes x1y2 smooth csplines w l lt 2 lc 1 tit "{/Symbol x}_x"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($8)  axes x1y2  w p ps .6 lt 2 lc 1 notit ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($10) axes x1y2 smooth csplines w l lt 2 lc 3 tit "{/Symbol x}_y"  ,\
+      "run_twissScan.out" u (G * $2*broRef*c*1e-6/am):($10) axes x1y2  w p ps .6 lt 2 lc 3 notit ,\
       "searchCO.out_COs_12traj"  u (G * $6*broRef*c*1e-6/am):($3+.4) w impulse lt 1 lw .2 lc 2 axes x1y1 tit "Design E" 
 
 #set samples 100000

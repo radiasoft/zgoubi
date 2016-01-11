@@ -791,6 +791,7 @@ C----- SPNPRNL. Store  state of spins in logical unit
       GOTO 998
 C----- CAVITE ACCELERATRICE
  55   CONTINUE
+      KUASEX = 0   ! This is to allow KOPTCS
       IF(READAT) CALL RCAVIT
       IF(FITGET) CALL FITGT1
       CALL CAVITE(*999)

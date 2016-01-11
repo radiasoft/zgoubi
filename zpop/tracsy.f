@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -61,6 +61,7 @@ C            CORR has been introduced so to make sure plot window does encompass
             YMI=YMIN
             YMA=YMAX
             CORR = (YMA-YMI)* 1.D-1
+            IF(ABS(CORR) .LT. 1E-8) CORR = .1D0
             YMI=YMI - CORR
             YMA=YMA + CORR
             CALL TRAXES(XMI,XMA,YMI,YMA,1)

@@ -824,7 +824,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
           if(CEBAF) then 
             DWF=QV*cos(ph0)
-                write(*,*) ' cavite. cebaf =',cebaf
+C                write(*,*) ' cavite. cebaf =',cebaf
            endif
 c          DO III = 1, 3
 c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
@@ -859,7 +859,6 @@ C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)=1
             V21= 0.D0     
             V22= FAC
             DWFT=DSQRT(V11*V22-V21*V12)
-C            write(*,*) ' cavite idmp=-1 ; damp factor dwft = ',dwft
             V11=V11/DWFT
             V12=V12/DWFT
             V22=V22/DWFT
@@ -914,7 +913,6 @@ C        CHAMBERS CAVITY Det(M)=1
       CALL SCUMW(0.5D0*CAVL)
 
       GOTO 88
-
  
  88   CONTINUE
       DPREF = PS / P0

@@ -5034,7 +5034,7 @@ see section~\ref{sec4.6.2}, p.~\pageref{sec4.6.2}).
 \noindent The dipole simulation accounts for the magnet geometrical length $ \XL $, for a possible 
  skew angle (X-rotation, useful for obtaining vertical deviation magnet), and for the 
 field $ B1 $  such that   in absence of fringe field the deviation $\theta$ satisfies 
-$ \XL = 2 \dfrac{\BORO}{B1} \sin \theta/2$. 
+$ \XL = 2 \dfrac{\BORO}{B1} \sin \frac{\theta}{2}$. 
 
 \bigskip
 
@@ -5074,7 +5074,129 @@ bending radius and $\epsilon$ the wedge angle experienced by the particle~; $\ep
     } }
 \end{figure}
 
-\vfill
+\bigskip
+
+
+\noindent \textbf{From first order methods to \zgou~:}  
+Fig.~\ref{FigBEND2SBEND} illustrates the conversion of matrix method style of data 
+where the magnet is defined by its length and deviation angle (see MAD input 
+ below, using 'SBEND'), to \zgou\ input data using \textsl{BEND} 
+(in this particular case of an illustration of a rectangular magnet, \textsl{MULTIPOL} could be used, as well). 
+
+
+\vspace{-.0ex}
+
+%%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\begin{figure}[h]
+  \centerline{\includegraphics[height=10cm]{FigBEND_e1Zro.eps}}
+  {\setlength{\captionwidth}{13cm}
+	\hangcaption[Fig14b]{\label{FigBEND2SBEND}
+          Simulating a matrix method style of rectangular magnet (\eg, MAD's 'SBEND') by means of \textsl{BEND}, 
+in three different ways, see text. In case (a), the straight length in \zgou's \textsl{BEND} is $L'=\rho \sin(A)$, 
+whereas in cases (b, c) it is $L=2\rho \sin(A/2)$.  
+    } }
+\end{figure}
+
+
+\begin{minipage}{.49\linewidth}
+
+$\bullet$ MAD style 'BEND' definition~: 
+
+\begin{minipage}{.49\linewidth}
+\scriptsize
+\begin{verbatim}
+
+L = 1.
+A = 0.1   
+Larc = L*(A/2.)/ sin(A/2.)
+e1 = 0.
+e2 = A
+B: SBEND,  L=Larc, ANGLE=A, e1 = e1, e2 = e2
+\end{verbatim}
+\end{minipage} 
+
+~
+
+~
+
+$\bullet$ \zgou, case (a)~: 
+
+\begin{minipage}{.49\linewidth}
+\scriptsize
+%\tiny
+\begin{verbatim}
+
+(a) YS=-rho*(1-cos(A)) translated, non-rotated BEND, 
+    followed by A Z-rotation of frame
+
+ 'CHANGREF'                                                                       
+YS  -4.997916927068
+ 'BEND'                                                                           
+1	
+99.8750260394 0.   1.
+0. 0. 0.05         ! e1=A/2
+0 0. 0. 0. 0. 0. 0.
+0. 0. 0.05         ! e2=A/2
+0 0. 0. 0. 0. 0. 0.
+.1
+1 0. 0.  0.
+ 'CHANGREF'                                                                       
+ZR  -5.72957795131
+
+\end{verbatim}
+\end{minipage} 
+\end{minipage} 
+\begin{minipage}{.49\linewidth}
+$\bullet$ \zgou, case (b) or (c) using \textsl{KPOS=1} or \textsl{3}~: 
+
+\scriptsize
+\begin{verbatim}
+
+(b) A/2 Z-rotated BEND followed by A/2 Z-rotation of frame
+
+ 'CHANGREF'                                                                       
+ZR  -2.86478897565
+ 'BEND'                                                                           
+1	
+100. 0.   1.
+0. 0. 0.         ! e1=0
+0 0. 0. 0. 0. 0. 0.
+0. 0. 0.1        ! e2=A
+0 0. 0. 0. 0. 0. 0.
+.1
+1 0. 0.  0.
+ 'CHANGREF' 
+ZR  -2.86478897565
+
+
+ 
+(c) same as (b), using KPOS=3 instead
+
+ 'BEND'        
+1	
+100. 0.   1.
+0. 0. 0.         ! e1=0
+0 0. 0. 0. 0. 0. 0.
+0. 0. 0.1        ! e2=A
+0 0. 0. 0. 0. 0. 0.
+.1
+3 0. 0.  -0.05
+\end{verbatim}
+\end{minipage}
+
+
+\bigskip
+
+
+\noindent \textbf{Negative bend, vertical bend, tricks~:} Use \textsl{YMY} \index{YMY} for the former, 
+\textsl{TRAROT} \index{TRAROT} with a $\pm \pi$ X-rotation for the latter.   
+The two can be combined, so that a vertical negative bend can be represented by the  sequence
+\textsl{TRAROT[$\pi$], YMY, BEND[B$>$0], YMY, TRAROT[$-\pi$]}, with  positionning methods for \textsl{BEND} as 
+discussed above (Fig.~\ref{FigBEND2SBEND}) still applying. 
+
+
+
+
 \newpage
 
 
@@ -8039,8 +8161,13 @@ UNDER DEVELOPMENT. Check before use.
 
 ~
 
-\noindent  This procedure transports particles into a new frame by translation and rotation. Effect on spin tracking\index{spin tracking}, 
-particle decay and gas-scattering are taken into account (but not on synchrotron radiation).
+\noindent  This procedure performs translation and rotation of the local \zgou\ frame. It can be used for instance 
+for skewing multipoles. 
+
+\bigskip
+
+\noindent Relationship to spin tracking\index{spin tracking}, 
+particle decay or gas-scattering may not  be fully installed, to be checked before use. 
 
 
 
