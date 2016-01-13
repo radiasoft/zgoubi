@@ -804,7 +804,7 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
           BTA = P / ENRG
 
 Compute particle time at center of cavity 
-          TI = F(7,I) * UNIT(7) 
+C          TI = F(7,I) * UNIT(7) 
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 

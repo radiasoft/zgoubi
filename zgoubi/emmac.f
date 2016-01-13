@@ -474,9 +474,9 @@ C------- Store mesh coordinates
            YBBMA(imap) = YBMA
            ZBBMA(imap) = ZBMA
  
-           write(*,*)'emmac x1,x2,y1,y2 : ',imap,XXH(1,imap),XXH(2,imap)
-     >         ,yyH(1,imap),yyH(2,imap)
-               stop
+c           write(*,*)'emmac x1,x2,y1,y2 : ',imap,XXH(1,imap),XXH(2,imap)
+c     >         ,yyH(1,imap),yyH(2,imap)
+               stop ' in emmac.f '
  
       ELSE
  

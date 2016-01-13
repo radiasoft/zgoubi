@@ -69,7 +69,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
              IF(STRCON(TXT132,'.',
      >                           IS)) THEN
               READ(TXT132(1:IS-1),*) KOBJ 
-                   write(*,*) ' fitwda ',TXT132(IS+1:FINSTR(TXT132))
+c                   write(*,*) ' fitwda ',TXT132(IS+1:FINSTR(TXT132))
                READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
 c                   write(*,*) ' fitwda kobj, kobj2 : ',kobj, kobj2
 c                       read(*,*)

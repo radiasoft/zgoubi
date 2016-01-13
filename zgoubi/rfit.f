@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RFIT(KLEY,IMAX,
      >                     PNLTY,ITRMA,ICPTMA,FITFNL)
@@ -219,8 +219,8 @@ C--------- Numb. particls
 
       RETURN
 
- 97   write(*,*) ' Pgm rfit, error input data at NC'
- 98   write(*,*) ' Pgm rfit. Constraints : wrong input data.'
+ 97   write(6,*) ' Pgm rfit, error input data at NC'
+ 98   write(6,*) ' Pgm rfit. Constraints : wrong input data.'
       GOTO 90
 
  90   CALL ENDJOB('*** Pgm rfit, keyword FIT[2] : '// 
