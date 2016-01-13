@@ -156,6 +156,7 @@ C      PARAMETER (MXTA=45)
 C      VLT= A(NOEL,20)
       AN21= A(NOEL,21)
       AN22= A(NOEL,22)
+      AN23= A(NOEL,23)
       PHS= AN21
  
       IF(Q*AM .EQ. 0.D0) CALL ENDJOB('Pgm cavite. Give mass & charge'
@@ -748,17 +749,19 @@ C After J.Rosenzweig, L.Serafini, Phys Rev E Vo. 49, Num 2, 1994.
 C Source code moved from BETA on Sept. 2015. Origin of phase is on >0 crest.
 C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(t)=0)
       CAVM = AN10          ! cavLength /m
+      FCAV = AN11          ! RF freq. in Hz
       CAVL = CAVM*1.D2     ! cavLength /cm
+      PH0 = AN21  ! RF phase offset
+      IDMP = NINT(AN22) ! Chambers matrix options
+      PHREF = AN23  ! Used in updating of DPREF
+
       CALL SCUMW(0.5D0*CAVL)
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
-      FCAV = AN11          ! RF freq. in Hz
-      PH0 = AN21  ! RF phase reference. Normally zero for e-linac
       PS = P0 * DPREF
       BTS = PS/SQRT(PS*PS+AM2)
       HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
-      IDMP = NINT(AN22)
       WS0 = SQRT(PS**2 +AM**2) - AM
 
       DWS = QV * COS(PH0)
@@ -788,8 +791,12 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >  / ,20X,'         charge                       =',E15.6,' C')
       ENDIF
 
+      phiav = 0.d0
+      tiav = 0.d0
+      ii = 0
       DO I=1,IMAX
         IF(IEX(I) .GE. -1) THEN 
+          ii = ii + 1
           P = P0*F(1,I) 
           AM2 = AMQ(1,I) * AMQ(1,I)
           ENRG = SQRT(P*P + AM2)
@@ -818,13 +825,16 @@ C Phase, in [-pi,pi] interval
             PH(I) =PHI 
           ENDIF
 
+          tiav = tiav + ti
+          phiav = phiav + ph(i)
+
           DWF=QV*COS(PH(I))
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
           if(CEBAF) then 
             DWF=QV*cos(ph0)
-C                write(*,*) ' cavite. cebaf =',cebaf
+c                write(*,*) ' cavite. cebaf =',cebaf
            endif
 c          DO III = 1, 3
 c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
@@ -911,6 +921,17 @@ C        CHAMBERS CAVITY Det(M)=1
 
       PS = PSF
       CALL SCUMW(0.5D0*CAVL)
+
+      IF(NRES.GT.0) THEN
+        TIAV = TIAV / DBLE(II)
+        PHIAV = PHIAV / DBLE(II)
+        WRITE(NRES,fmt='(1P,
+     >   /,20X,''Averaged over the '',I0,'' particles : '',
+     >  /,25X,''- <arrival time> at cavity      = '',E15.6,'' mu_s'',
+     >  /,25X,''- and resulting <phase>         = '',E15.6,
+     >  /,25X,''- resulting qV.cos(<phase>)     = '',E15.6,'' MeV''
+     >  )') ii, Tiav, phiav, QV*COS(PHiav)
+      ENDIF
 
       GOTO 88
  

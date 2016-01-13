@@ -38,9 +38,9 @@ C      PARAMETER (MXTA=45)
 
       CHARACTER(132) TXT132
       LOGICAL STRCON
-      INTEGER DEBSTR, finstr
+      INTEGER DEBSTR, FINSTR
       CHARACTER(30) STRA(3)
-      logical empty
+      LOGICAL EMPTY, ISNUM
 
 C     ....IOPT -OPTION
       LINE = 1
@@ -68,7 +68,7 @@ C     ....IOPT -OPTION
       ENDIF
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
-C     ....Orbit length. (m), H -HARMONIQUE
+C     ....Orbit length. (m), H -HARMONIQUE... or so
       LINE = LINE + 1
       READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
 C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
@@ -83,14 +83,17 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
         IF(IOPT .NE. 10) THEN
           MSTR=2        !      3rd data is IDMP in cavite IOPT=10
         ELSE
-          IF(MSTR.EQ.2) A(NOEL,22)= 2      ! default
+          IF(MSTR.LE.2) THEN
+            A(NOEL,22)= 2      ! Chambers matrix approximations. Default=none.
+            IF(MSTR.LE.3) A(NOEL,23)= 0.D0      ! BORORef setting. Default=0.
+          ENDIF
         ENDIF
         DO I = 1, MSTR
           IF(ISNUM(STRA(I))) THEN 
             READ(STRA(I),*,ERR=90,END=90) A(NOEL,19+I)
           ELSE
-            CALL ENDJOB('Pgm rcavit. Non-numerical data found '
-     >      //'at 3rd line. Please check with users'' guide.',-99)
+            CALL ENDJOB('Pgm rcavit. Check input data, '
+     >      //' non-numerical data found at line ',LINE)
           ENDIF
         ENDDO
       ENDIF

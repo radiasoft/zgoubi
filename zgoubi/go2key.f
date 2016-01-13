@@ -80,16 +80,12 @@ C     -------------------------------------------------------
           IF(NKMX.LT.NK) THEN
             DO IKLE=1,MXKLE
 
-c       write(*,*) 'go2key iqcnt  *',kley,'*',kle(ikle),'*'
-c     > ,kley .eq. kle(ikle)
-
               IF(KLEY .EQ. KLE(IKLE)) then 
                 IQ(NK) =  IKLE
 
-c                write(*,*) 'go2key iqcnt ',iqcnt,nk,iq(nk)
-c                write(*,*) 'go2key iqcnt ',iqcnt,nk,iq(nk)
-c                     read(*,*)
-              endif
+C         write(nres,*) 'go2key iqcnt ',iqcnt,nk,iq(nk),kley
+
+              ENDIF
             ENDDO          
             NKMX = NK
           ENDIF

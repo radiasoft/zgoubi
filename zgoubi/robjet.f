@@ -181,7 +181,7 @@ C------- Read additional references
           READ(NDAT,*,ERR=99) (A(NOEL,I),I=KK,KK+5)
  52       CONTINUE
       ELSEIF(K2 .GT. MXREF) THEN
-        CALL ENDJOB(' SBR ROBJET. MXREF is too small.',-99)
+        CALL ENDJOB(' Pgm robjet.f. MXREF is too small.',-99)
       ENDIF
       RETURN
  

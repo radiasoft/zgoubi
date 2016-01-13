@@ -166,6 +166,6 @@ c                  read(*,*)
 
  10   CONTINUE
       CALL ENDJOB('Pgm gotol. Error : could not find goto label.'
-     >' Current NOEL = ',NOEL)
+     >//' Current NOEL = ',NOEL)
       RETURN
       END

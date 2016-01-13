@@ -768,23 +768,23 @@ extrapolated linearly to the exit face of the map.}
  \\
 \textbf{If IOPT=0}  \>Element inactive \>\>\\
 \\
-$ X$, $X $        \> Unused \>\>\\
-$ X$, $X $        \> Unused \>\>\\
+$ X$, $X $        \> Unused. \>\>\\
+$ X$, $X $        \> Unused. \>\>\\
   \\
 \textbf{If IOPT=1}~\footnotemark[2]  \> $ f_{RF} $ follows the timing law given by \textsl{SCALING}\index{SCALING}\\
  \\
-$\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number \>m, no dim.  \>2*E\\
-$ \hat  V, ~ X $       \> R.F. peak voltage~; unused  \>V, unused\>2*E\\
+$\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number. \>m, no dim.  \>2*E\\
+$ \hat  V, ~ X $       \> R.F. peak voltage~; unused.  \>V, unused\>2*E\\
  \\
 \textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $ \\
  \\
-$\mathcal{L}$, $h $      \> Reference closed orbit length~; harmonic number \>m, no dim.\>2*E\\
-$ \hat  V$, $\phi_ s $       \> R.F. peak voltage~; synchronous phase \>V, rad \>2*E\\
+$\mathcal{L}$, $h $      \> Reference closed orbit length~; harmonic number. \>m, no dim.\>2*E\\
+$ \hat  V$, $\phi_ s $       \> R.F. peak voltage~; synchronous phase. \>V, rad \>2*E\\
  \\
 \textbf{If IOPT=3}  \> No synchrotron motion : $ \Delta W=q\hat  Vsin\phi_ s $ \> \> \\
 \\
-$ X$, $X$       \> Unused~; unused   \> 2*unused \> 2*E\\
-$ \hat  V$, $\phi_ s $       \>R.F. peak voltage~; synchronous phase \>V, rad \>2*E \\
+$ X$, $X$       \> Unused~; unused.   \> 2*unused. \> 2*E\\
+$ \hat  V$, $\phi_ s $       \>R.F. peak voltage~; synchronous phase. \>V, rad \>2*E \\
  \\
 \textbf{If IOPT=6}  \> Read  RF frequency and/or phase law from  external file, ``zgoubi.freqLaw.In''.  \\
 \\
@@ -793,8 +793,14 @@ $ \hat  V, ~ \Phi_s $       \> R.F. peak voltage~; synchronous phase. \> V, rad 
  \\
 \textbf{If IOPT=7}  \>   Quasi- or isochronous acceleration. \\
 \\
-$X$, $E_k$       \> Unused~; RF frequency~;   \>  - , Hz  \>  2*E  \\
+$X$, $f_{RF}$       \> Unused~; RF frequency.   \>  - , Hz  \>  2*E  \\
 $ \hat  V, ~ \Phi_s $  \> R.F. peak voltage~; synchronous phase. \> V, rad \> 2*E \\
+ \\
+\textbf{If IOPT=10}  \>   Chambers matrix method. \\
+\\
+$L$, $f_{RF}$       \> Cavity length~; RF frequency.   \>  m , Hz  \>  2*E  \\
+$ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options. \> V, rad, $-2$-$2$ \> 2*E, I \\
+%$ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options~; $B\rho_{ref}$ setting. \> V, rad, $-2$-$2$, - \> 2*E, I, E \\
 
 
 \end{tabbing}
@@ -2297,7 +2303,7 @@ The way this works~:
 
 \medskip
 
-\noindent \textsl{FIT} is executed a first time for $B\rho_{ref}  = BORO=7205.1782956$~kG.cm,\index{BORO@{\BORO}$\times D_{ref}$}
+\noindent \textsl{FIT} is executed a first time for $B\rho_{ref}  = BORO=7205.1782956$~kG.cm,\index{BORO@{\BORO}$\times D_{ref}$} \index{BORORef@$B\rho_{ref}$}
  namely the execution loops between \textsl{OBJET} and \textsl{FIT} 
  until the constraints are best fulfilled.  
 Once this is completed, the execution pointer then goes to 
@@ -2636,7 +2642,7 @@ of the sequence to be \textsl{INCLUDE}'d, ignoring the upper and lower parts in 
 (which are specific -~for instance~-  to MATRIX computations).   
 
 
-\noindent The gymnastics of juggling between the linac, spreaders, combiners and recirculating ring, 
+\noindent The juggling between the linac, spreaders, combiners and recirculating ring, 
 is handled using \textsl{GOTO} statement. 
 
 \bigskip

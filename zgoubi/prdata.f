@@ -337,6 +337,7 @@ c          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
       IF(IDA.GT.1) THEN
         IF(YINC2) THEN 
           IF(.NOT. LBBVU) THEN
+            NOEL = NOEL +1 
             WRITE(TXT110,FMT='(A)') '''MARKER'''
      >      //'  ! Include_End : '
      >      //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))

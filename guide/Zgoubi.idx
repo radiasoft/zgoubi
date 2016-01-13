@@ -69,8 +69,8 @@
 \indexentry{OBJET!recovering from a crash}{53}
 \indexentry{MATRIX}{53}
 \indexentry{TWISS}{53}
-\indexentry{FIT}{54}
-\indexentry{FIT2}{54}
+\indexentry{FIT}{53}
+\indexentry{FIT2}{53}
 \indexentry{MATRIX}{54}
 \indexentry{OBJETA|textbf}{55}
 \indexentry{Monte Carlo}{55}
@@ -215,6 +215,7 @@
 \indexentry{SCALING}{78}
 \indexentry{reference rigidity}{80}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{80}
+\indexentry{BORORef@$B\rho_{ref}$}{80}
 \indexentry{SCALING!recovering from a crash}{80}
 \indexentry{SPNTRK|textbf}{81}
 \indexentry{spin tracking}{81}
@@ -238,6 +239,7 @@
 \indexentry{system call}{85}
 \indexentry{AGSMM|textbf}{87}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{87}
+\indexentry{BORORef@$B\rho_{ref}$}{87}
 \indexentry{AGSQUAD|textbf}{88}
 \indexentry{AIMANT|textbf}{89}
 \indexentry{DIPOLE-M}{89}
@@ -270,6 +272,7 @@
 \indexentry{cyclotron}{101}
 \indexentry{reference rigidity}{101}
 \indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{101}
+\indexentry{BORORef@$B\rho_{ref}$|textbf}{101}
 \indexentry{NPASS}{101}
 \indexentry{REBELOTE}{101}
 \indexentry{IMAX@{\IMAX}}{101}
@@ -284,272 +287,275 @@
 \indexentry{synchrotron radiation loss}{102}
 \indexentry{FFAG}{103}
 \indexentry{cyclotron}{103}
-\indexentry{closed orbit!computation}{103}
-\indexentry{CAVITE!recovering from a crash}{103}
-\indexentry{CHAMBR|textbf}{104}
-\indexentry{stopped particles}{104}
-\indexentry{CHAMBR}{104}
-\indexentry{QUADRUPO}{104}
-\indexentry{DIPOLE}{104}
-\indexentry{DIPOLE}{104}
-\indexentry{CHAMBR}{104}
-\indexentry{CHANGREF}{104}
-\indexentry{stopped particles}{104}
-\indexentry{IEX@{\IEX}}{104}
-\indexentry{OBJET}{104}
-\indexentry{CHANGREF|textbf}{105}
+\indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{103}
+\indexentry{BORORef@$B\rho_{ref}$}{103}
+\indexentry{closed orbit!computation}{104}
+\indexentry{CAVITE!recovering from a crash}{104}
+\indexentry{CHAMBR|textbf}{105}
+\indexentry{stopped particles}{105}
+\indexentry{CHAMBR}{105}
+\indexentry{QUADRUPO}{105}
+\indexentry{DIPOLE}{105}
+\indexentry{DIPOLE}{105}
+\indexentry{CHAMBR}{105}
 \indexentry{CHANGREF}{105}
-\indexentry{spin tracking}{105}
-\indexentry{CHANGREF\ ``Old Style''}{105}
-\indexentry{CHANGREF\ ``New Style''}{106}
-\indexentry{CIBLE|textbf}{107}
-\indexentry{TARGET|textbf}{107}
-\indexentry{CHANGREF}{107}
-\indexentry{COLLIMA|textbf}{108}
-\indexentry{stopped particles}{108}
-\indexentry{PARTICUL}{108}
-\indexentry{stopped particles}{108}
-\indexentry{IEX@{\IEX}}{108}
-\indexentry{HISTO}{108}
-\indexentry{DECAPOLE|textbf}{109}
-\indexentry{QUADRUPO}{109}
-\indexentry{DIPOLE|textbf}{110}
-\indexentry{DIPOLE-M|textbf}{112}
-\indexentry{AIMANT}{112}
-\indexentry{IORDRE}{113}
-\indexentry{DIPOLES|textbf}{114}
-\indexentry{DIPOLE}{114}
-\indexentry{fringe fields overlapping}{114}
-\indexentry{cyclotron}{114}
-\indexentry{FFAG magnet, radial}{114}
-\indexentry{FFAG}{114}
-\indexentry{DODECAPO|textbf}{118}
-\indexentry{DRIFT|textbf}{119}
-\indexentry{ESL|textbf}{119}
-\indexentry{EBMULT|textbf}{120}
-\indexentry{ELMULT}{120}
-\indexentry{MULTIPOL}{120}
-\indexentry{ELMULT}{120}
-\indexentry{MULTIPOL}{120}
-\indexentry{PARTICUL}{120}
-\indexentry{EL2TUB|textbf}{121}
+\indexentry{stopped particles}{105}
+\indexentry{IEX@{\IEX}}{105}
+\indexentry{OBJET}{105}
+\indexentry{CHANGREF|textbf}{106}
+\indexentry{CHANGREF}{106}
+\indexentry{spin tracking}{106}
+\indexentry{CHANGREF\ ``Old Style''}{106}
+\indexentry{CHANGREF\ ``New Style''}{107}
+\indexentry{CIBLE|textbf}{108}
+\indexentry{TARGET|textbf}{108}
+\indexentry{CHANGREF}{108}
+\indexentry{COLLIMA|textbf}{109}
+\indexentry{stopped particles}{109}
+\indexentry{PARTICUL}{109}
+\indexentry{stopped particles}{109}
+\indexentry{IEX@{\IEX}}{109}
+\indexentry{HISTO}{109}
+\indexentry{DECAPOLE|textbf}{110}
+\indexentry{QUADRUPO}{110}
+\indexentry{DIPOLE|textbf}{111}
+\indexentry{DIPOLE-M|textbf}{113}
+\indexentry{AIMANT}{113}
+\indexentry{IORDRE}{114}
+\indexentry{DIPOLES|textbf}{115}
+\indexentry{DIPOLE}{115}
+\indexentry{fringe fields overlapping}{115}
+\indexentry{cyclotron}{115}
+\indexentry{FFAG magnet, radial}{115}
+\indexentry{FFAG}{115}
+\indexentry{DODECAPO|textbf}{119}
+\indexentry{DRIFT|textbf}{120}
+\indexentry{ESL|textbf}{120}
+\indexentry{EBMULT|textbf}{121}
+\indexentry{ELMULT}{121}
+\indexentry{MULTIPOL}{121}
+\indexentry{ELMULT}{121}
+\indexentry{MULTIPOL}{121}
 \indexentry{PARTICUL}{121}
-\indexentry{ELMIR|textbf}{122}
+\indexentry{EL2TUB|textbf}{122}
 \indexentry{PARTICUL}{122}
-\indexentry{ELMIRC|textbf}{123}
+\indexentry{ELMIR|textbf}{123}
 \indexentry{PARTICUL}{123}
-\indexentry{ELMULT|textbf}{124}
-\indexentry{MULTIPOL}{124}
-\indexentry{QUADRUPO}{124}
+\indexentry{ELMIRC|textbf}{124}
 \indexentry{PARTICUL}{124}
-\indexentry{ELREVOL|textbf}{126}
-\indexentry{CARTEMES}{126}
-\indexentry{PARTICUL}{126}
-\indexentry{EMMA|textbf}{127}
-\indexentry{FFAG}{127}
-\indexentry{FFAG magnet, radial}{128}
-\indexentry{FFAG|textbf}{128}
+\indexentry{ELMULT|textbf}{125}
+\indexentry{MULTIPOL}{125}
+\indexentry{QUADRUPO}{125}
+\indexentry{PARTICUL}{125}
+\indexentry{ELREVOL|textbf}{127}
+\indexentry{CARTEMES}{127}
+\indexentry{PARTICUL}{127}
+\indexentry{EMMA|textbf}{128}
 \indexentry{FFAG}{128}
-\indexentry{FFAG magnet, spiral}{130}
-\indexentry{FFAG-SPI|textbf}{130}
-\indexentry{FFAG}{130}
-\indexentry{GOTO|textbf}{132}
-\indexentry{INCLUDE|textbf}{133}
-\indexentry{MAP2D|textbf}{134}
-\indexentry{IORDRE}{134}
-\indexentry{IORDRE}{134}
-\indexentry{CARTEMES}{134}
-\indexentry{MAP2D-E|textbf}{135}
+\indexentry{FFAG magnet, radial}{129}
+\indexentry{FFAG|textbf}{129}
+\indexentry{FFAG}{129}
+\indexentry{FFAG magnet, spiral}{131}
+\indexentry{FFAG-SPI|textbf}{131}
+\indexentry{FFAG}{131}
+\indexentry{GOTO|textbf}{133}
+\indexentry{INCLUDE|textbf}{134}
+\indexentry{MAP2D|textbf}{135}
 \indexentry{IORDRE}{135}
 \indexentry{IORDRE}{135}
 \indexentry{CARTEMES}{135}
-\indexentry{MARKER|textbf}{136}
-\indexentry{LABEL@{\LABEL}}{136}
-\indexentry{zgoubi.plt}{136}
-\indexentry{MULTIPOL|textbf}{137}
-\indexentry{QUADRUPO}{137}
-\indexentry{OCTUPOLE|textbf}{138}
+\indexentry{MAP2D-E|textbf}{136}
+\indexentry{IORDRE}{136}
+\indexentry{IORDRE}{136}
+\indexentry{CARTEMES}{136}
+\indexentry{MARKER|textbf}{137}
+\indexentry{LABEL@{\LABEL}}{137}
+\indexentry{zgoubi.plt}{137}
+\indexentry{MULTIPOL|textbf}{138}
 \indexentry{QUADRUPO}{138}
-\indexentry{POISSON|textbf}{139}
-\indexentry{outpoi.lis}{139}
-\indexentry{CARTEMES}{139}
-\indexentry{POLARMES|textbf}{140}
+\indexentry{OCTUPOLE|textbf}{139}
+\indexentry{QUADRUPO}{139}
+\indexentry{POISSON|textbf}{140}
+\indexentry{outpoi.lis}{140}
 \indexentry{CARTEMES}{140}
-\indexentry{DIPOLE-M}{140}
-\indexentry{PS170|textbf}{141}
-\indexentry{QUADISEX|textbf}{142}
-\indexentry{SEXQUAD|textbf}{142}
-\indexentry{QUADRUPO|textbf}{143}
-\indexentry{SEPARA|textbf}{145}
-\indexentry{PARTICUL}{145}
-\indexentry{SEXTUPOL|textbf}{146}
-\indexentry{QUADRUPO}{146}
-\indexentry{SOLENOID|textbf}{147}
-\indexentry{SPINR|textbf}{148}
-\indexentry{TOSCA|textbf}{149}
-\indexentry{CARTEMES}{149}
-\indexentry{IORDRE}{149}
-\indexentry{CARTEMES}{149}
-\indexentry{CARTEMES}{149}
-\indexentry{MAP2D}{149}
-\indexentry{TRANSMAT|textbf}{151}
-\indexentry{MATRIX}{151}
-\indexentry{TRAROT|textbf}{152}
-\indexentry{spin tracking}{152}
-\indexentry{UNDULATOR|textbf}{153}
-\indexentry{UNIPOT|textbf}{154}
-\indexentry{PARTICUL}{154}
-\indexentry{VENUS}{155}
-\indexentry{WIENFILT|textbf}{156}
-\indexentry{PARTICUL}{156}
-\indexentry{YMY|textbf}{157}
-\indexentry{spin tracking}{158}
-\indexentry{FAISCEAU|textbf}{159}
-\indexentry{FAISCNL|textbf}{159}
-\indexentry{FAISTORE|textbf}{159}
-\indexentry{IMAX@{\IMAX}}{159}
-\indexentry{tag, tag character}{159}
-\indexentry{zgoubi.fai}{159}
-\indexentry{zpop}{159}
+\indexentry{POLARMES|textbf}{141}
+\indexentry{CARTEMES}{141}
+\indexentry{DIPOLE-M}{141}
+\indexentry{PS170|textbf}{142}
+\indexentry{QUADISEX|textbf}{143}
+\indexentry{SEXQUAD|textbf}{143}
+\indexentry{QUADRUPO|textbf}{144}
+\indexentry{SEPARA|textbf}{146}
+\indexentry{PARTICUL}{146}
+\indexentry{SEXTUPOL|textbf}{147}
+\indexentry{QUADRUPO}{147}
+\indexentry{SOLENOID|textbf}{148}
+\indexentry{SPINR|textbf}{149}
+\indexentry{TOSCA|textbf}{150}
+\indexentry{CARTEMES}{150}
+\indexentry{IORDRE}{150}
+\indexentry{CARTEMES}{150}
+\indexentry{CARTEMES}{150}
+\indexentry{MAP2D}{150}
+\indexentry{TRANSMAT|textbf}{152}
+\indexentry{MATRIX}{152}
+\indexentry{TRAROT|textbf}{153}
+\indexentry{spin tracking}{153}
+\indexentry{UNDULATOR|textbf}{154}
+\indexentry{UNIPOT|textbf}{155}
+\indexentry{PARTICUL}{155}
+\indexentry{VENUS}{156}
+\indexentry{WIENFILT|textbf}{157}
+\indexentry{PARTICUL}{157}
+\indexentry{YMY|textbf}{158}
+\indexentry{spin tracking}{159}
+\indexentry{FAISCEAU|textbf}{160}
+\indexentry{FAISCNL|textbf}{160}
+\indexentry{FAISTORE|textbf}{160}
+\indexentry{IMAX@{\IMAX}}{160}
 \indexentry{tag, tag character}{160}
-\indexentry{IEX@{\IEX}}{160}
-\indexentry{stopped particles}{160}
-\indexentry{REBELOTE}{160}
-\indexentry{LABEL@{\LABEL}}{160}
-\indexentry{REBELOTE}{160}
-\indexentry{NPASS}{160}
 \indexentry{zgoubi.fai}{160}
-\indexentry{zgoubi.dat}{160}
-\indexentry{FOCALE|textbf}{161}
-\indexentry{IMAGE|textbf}{161}
-\indexentry{IMAGES|textbf}{161}
-\indexentry{IMAGES}{161}
-\indexentry{IMAGE}{161}
-\indexentry{OBJET}{161}
-\indexentry{IMAGES}{161}
-\indexentry{IMAGES}{161}
-\indexentry{FOCALEZ|textbf}{162}
-\indexentry{IMAGEZ|textbf}{162}
-\indexentry{IMAGESZ|textbf}{162}
-\indexentry{HISTO|textbf}{163}
-\indexentry{MCDESINT}{163}
-\indexentry{spin tracking}{163}
-\indexentry{HISTO}{163}
-\indexentry{MCDESINT}{163}
-\indexentry{tag, tag character}{163}
-\indexentry{REBELOTE}{163}
-\indexentry{NPASS}{163}
-\indexentry{MATRIX|textbf}{165}
-\indexentry{transport coefficients|textbf}{165}
-\indexentry{chromaticity@{chromaticity}|textbf}{165}
-\indexentry{MATRIX}{166}
-\indexentry{MATRIX}{166}
-\indexentry{MATRIX}{166}
-\indexentry{coupling|textbf}{166}
-\indexentry{chromaticity@{chromaticity}}{166}
-\indexentry{zgoubi.MATRIX.out|textbf}{166}
-\indexentry{PICKUPS|textbf}{167}
-\indexentry{LABEL@{\LABEL}}{167}
-\indexentry{REBELOTE}{167}
-\indexentry{zgoubi.PICKUP.out}{167}
-\indexentry{END}{167}
-\indexentry{PLOTDATA|textbf}{168}
-\indexentry{SPNPRNL|textbf}{169}
-\indexentry{SPNSTORE|textbf}{169}
-\indexentry{zpop}{169}
-\indexentry{zgoubi.spn}{169}
-\indexentry{IEX@{\IEX}}{169}
-\indexentry{tag, tag character}{169}
-\indexentry{spin tracking}{169}
-\indexentry{LABEL@{\LABEL}}{169}
-\indexentry{REBELOTE}{169}
-\indexentry{NPASS}{169}
-\indexentry{zgoubi.fai}{169}
-\indexentry{zgoubi.dat}{169}
-\indexentry{SPNPRT|textbf}{170}
-\indexentry{IMAX@{\IMAX}}{170}
-\indexentry{SRPRNT|textbf}{171}
-\indexentry{synchrotron radiation loss}{171}
-\indexentry{TWISS|textbf}{172}
-\indexentry{coupling|textbf}{172}
-\indexentry{OBJET}{172}
-\indexentry{closed orbit}{172}
-\indexentry{zgoubi.TWISS.out}{172}
-\indexentry{Units in \zgoubi|textbf}{173}
-\indexentry{reference rigidity|textbf}{174}
-\indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{174}
-\indexentry{multi-turn tracking}{174}
-\indexentry{time varying fields|textbf}{174}
-\indexentry{backward ray-tracing|textbf}{174}
-\indexentry{XPAS, negative}{174}
-\indexentry{integration step size!negative}{174}
-\indexentry{checking field|textbf}{174}
-\indexentry{checking trajectories|textbf}{174}
-\indexentry{IL@{\IL}}{174}
-\indexentry{zgoubi.res}{174}
-\indexentry{zgoubi.plt}{175}
-\indexentry{zpop}{175}
-\indexentry{zgoubi.impdev.out|textbf}{175}
-\indexentry{zgoubi.impdev.out}{175}
-\indexentry{CARTEMES}{175}
-\indexentry{ELREVOL}{175}
-\indexentry{TOSCA}{175}
-\indexentry{IC@{\IC}}{175}
+\indexentry{zpop}{160}
+\indexentry{tag, tag character}{161}
+\indexentry{IEX@{\IEX}}{161}
+\indexentry{stopped particles}{161}
+\indexentry{REBELOTE}{161}
+\indexentry{LABEL@{\LABEL}}{161}
+\indexentry{REBELOTE}{161}
+\indexentry{NPASS}{161}
+\indexentry{zgoubi.fai}{161}
+\indexentry{zgoubi.dat}{161}
+\indexentry{FOCALE|textbf}{162}
+\indexentry{IMAGE|textbf}{162}
+\indexentry{IMAGES|textbf}{162}
+\indexentry{IMAGES}{162}
+\indexentry{IMAGE}{162}
+\indexentry{OBJET}{162}
+\indexentry{IMAGES}{162}
+\indexentry{IMAGES}{162}
+\indexentry{FOCALEZ|textbf}{163}
+\indexentry{IMAGEZ|textbf}{163}
+\indexentry{IMAGESZ|textbf}{163}
+\indexentry{HISTO|textbf}{164}
+\indexentry{MCDESINT}{164}
+\indexentry{spin tracking}{164}
+\indexentry{HISTO}{164}
+\indexentry{MCDESINT}{164}
+\indexentry{tag, tag character}{164}
+\indexentry{REBELOTE}{164}
+\indexentry{NPASS}{164}
+\indexentry{MATRIX|textbf}{166}
+\indexentry{transport coefficients|textbf}{166}
+\indexentry{chromaticity@{chromaticity}|textbf}{166}
+\indexentry{MATRIX}{167}
+\indexentry{MATRIX}{167}
+\indexentry{MATRIX}{167}
+\indexentry{coupling|textbf}{167}
+\indexentry{chromaticity@{chromaticity}}{167}
+\indexentry{zgoubi.MATRIX.out|textbf}{167}
+\indexentry{PICKUPS|textbf}{168}
+\indexentry{LABEL@{\LABEL}}{168}
+\indexentry{REBELOTE}{168}
+\indexentry{zgoubi.PICKUP.out}{168}
+\indexentry{END}{168}
+\indexentry{PLOTDATA|textbf}{169}
+\indexentry{SPNPRNL|textbf}{170}
+\indexentry{SPNSTORE|textbf}{170}
+\indexentry{zpop}{170}
+\indexentry{zgoubi.spn}{170}
+\indexentry{IEX@{\IEX}}{170}
+\indexentry{tag, tag character}{170}
+\indexentry{spin tracking}{170}
+\indexentry{LABEL@{\LABEL}}{170}
+\indexentry{REBELOTE}{170}
+\indexentry{NPASS}{170}
+\indexentry{zgoubi.fai}{170}
+\indexentry{zgoubi.dat}{170}
+\indexentry{SPNPRT|textbf}{171}
+\indexentry{IMAX@{\IMAX}}{171}
+\indexentry{SRPRNT|textbf}{172}
+\indexentry{synchrotron radiation loss}{172}
+\indexentry{TWISS|textbf}{173}
+\indexentry{coupling|textbf}{173}
+\indexentry{OBJET}{173}
+\indexentry{closed orbit}{173}
+\indexentry{zgoubi.TWISS.out}{173}
+\indexentry{Units in \zgoubi|textbf}{174}
+\indexentry{reference rigidity|textbf}{175}
+\indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{175}
+\indexentry{BORORef@$B\rho_{ref}$}{175}
+\indexentry{multi-turn tracking}{175}
+\indexentry{time varying fields|textbf}{175}
+\indexentry{backward ray-tracing|textbf}{175}
+\indexentry{XPAS, negative}{175}
+\indexentry{integration step size!negative}{175}
+\indexentry{checking field|textbf}{175}
+\indexentry{checking trajectories|textbf}{175}
+\indexentry{IL@{\IL}}{175}
 \indexentry{zgoubi.res}{175}
-\indexentry{zgoubi.map}{175}
-\indexentry{LABEL@{\LABEL}|textbf}{175}
-\indexentry{REBELOTE}{175}
-\indexentry{PICKUPS}{175}
-\indexentry{FAISCNL}{175}
-\indexentry{FAISTORE}{175}
-\indexentry{SCALING}{175}
-\indexentry{zgoubi.plt}{175}
-\indexentry{multi-turn tracking|textbf}{175}
-\indexentry{REBELOTE}{175}
-\indexentry{NPASS}{175}
-\indexentry{IMAX@{\IMAX}}{176}
-\indexentry{REBELOTE}{176}
-\indexentry{CAVITE}{176}
-\indexentry{REBELOTE}{176}
-\indexentry{SCALING}{176}
-\indexentry{positioning of optical elements|textbf}{176}
-\indexentry{alignment (mis-) of optical elements|textbf}{176}
-\indexentry{misalignment|textbf}{176}
-\indexentry{KPOS|textbf}{176}
-\indexentry{QUADRUPO}{176}
+\indexentry{zgoubi.plt}{176}
+\indexentry{zpop}{176}
+\indexentry{zgoubi.impdev.out|textbf}{176}
+\indexentry{zgoubi.impdev.out}{176}
+\indexentry{CARTEMES}{176}
+\indexentry{ELREVOL}{176}
 \indexentry{TOSCA}{176}
-\indexentry{DIPOLE}{176}
-\indexentry{cartesian coordinates|textbf}{176}
-\indexentry{XCE@\XCE}{176}
-\indexentry{YCE@\YCE}{176}
-\indexentry{\ALE@{\textsl{ALE}}}{176}
-\indexentry{AGSMM}{176}
-\indexentry{OBJET}{176}
-\indexentry{AGSMM}{176}
-\indexentry{polar coordinates|textbf}{179}
-\indexentry{DIPOLE-M}{179}
-\indexentry{POLARMES}{179}
-\indexentry{XPAS, coded}{179}
-\indexentry{integration step size!coded|textbf}{179}
-\indexentry{multi-particle|textbf}{179}
-\indexentry{Monte Carlo}{179}
-\indexentry{REBELOTE}{179}
-\indexentry{NPASS}{179}
-\indexentry{REBELOTE}{179}
-\indexentry{IMAX@{\IMAX}}{179}
-\indexentry{REBELOTE}{179}
-\indexentry{spin tracking}{179}
-\indexentry{HISTO}{179}
-\indexentry{SPNTRK}{179}
-\indexentry{stopped particles|textbf}{179}
-\indexentry{IEX@{\IEX}|textbf}{179}
-\indexentry{OBJET}{179}
-\indexentry{integration step size}{179}
-\indexentry{negative rigidity|textbf}{179}
-\indexentry{negative charge}{179}
-\indexentry{negative momentum}{179}
-\indexentry{OBJET}{179}
-\indexentry{MCOBJET}{179}
+\indexentry{IC@{\IC}}{176}
+\indexentry{zgoubi.res}{176}
+\indexentry{zgoubi.map}{176}
+\indexentry{LABEL@{\LABEL}|textbf}{176}
+\indexentry{REBELOTE}{176}
+\indexentry{PICKUPS}{176}
+\indexentry{FAISCNL}{176}
+\indexentry{FAISTORE}{176}
+\indexentry{SCALING}{176}
+\indexentry{zgoubi.plt}{176}
+\indexentry{multi-turn tracking|textbf}{176}
+\indexentry{REBELOTE}{176}
+\indexentry{NPASS}{176}
+\indexentry{IMAX@{\IMAX}}{177}
+\indexentry{REBELOTE}{177}
+\indexentry{CAVITE}{177}
+\indexentry{REBELOTE}{177}
+\indexentry{SCALING}{177}
+\indexentry{positioning of optical elements|textbf}{177}
+\indexentry{alignment (mis-) of optical elements|textbf}{177}
+\indexentry{misalignment|textbf}{177}
+\indexentry{KPOS|textbf}{177}
+\indexentry{QUADRUPO}{177}
+\indexentry{TOSCA}{177}
+\indexentry{DIPOLE}{177}
+\indexentry{cartesian coordinates|textbf}{177}
+\indexentry{XCE@\XCE}{177}
+\indexentry{YCE@\YCE}{177}
+\indexentry{\ALE@{\textsl{ALE}}}{177}
+\indexentry{AGSMM}{177}
+\indexentry{OBJET}{177}
+\indexentry{AGSMM}{177}
+\indexentry{polar coordinates|textbf}{180}
+\indexentry{DIPOLE-M}{180}
+\indexentry{POLARMES}{180}
+\indexentry{XPAS, coded}{180}
+\indexentry{integration step size!coded|textbf}{180}
+\indexentry{multi-particle|textbf}{180}
+\indexentry{Monte Carlo}{180}
+\indexentry{REBELOTE}{180}
+\indexentry{NPASS}{180}
+\indexentry{REBELOTE}{180}
+\indexentry{IMAX@{\IMAX}}{180}
+\indexentry{REBELOTE}{180}
+\indexentry{spin tracking}{180}
+\indexentry{HISTO}{180}
+\indexentry{SPNTRK}{180}
+\indexentry{stopped particles|textbf}{180}
+\indexentry{IEX@{\IEX}|textbf}{180}
+\indexentry{OBJET}{180}
+\indexentry{integration step size}{180}
+\indexentry{negative rigidity|textbf}{180}
+\indexentry{negative charge}{180}
+\indexentry{negative momentum}{180}
+\indexentry{OBJET}{180}
+\indexentry{MCOBJET}{180}
 \indexentry{AGSMM|textbf}{189}
 \indexentry{AGSQUAD|textbf}{190}
 \indexentry{AIMANT|textbf}{191}
@@ -617,6 +623,7 @@
 \indexentry{fit procedure!max. number of iterations}{227}
 \indexentry{fit procedure!constraint|textbf}{228}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{229}
+\indexentry{BORORef@$B\rho_{ref}$}{229}
 \indexentry{zgoubi.SPNPRT.Out}{229}
 \indexentry{zgoubi.SPNPRT.Out}{229}
 \indexentry{FOCALE|textbf}{231}
