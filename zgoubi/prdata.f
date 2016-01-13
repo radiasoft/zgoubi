@@ -31,8 +31,6 @@ C  -------
 C----------------------------------------------------------
 C     Copy zgoubi.dat into zgoubi.res, and a few more stuff
 C----------------------------------------------------------
-C      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-
       PARAMETER (I2000=2000)
       CHARACTER(I2000) TEXT
       PARAMETER (I6=6)
@@ -45,6 +43,7 @@ C      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,N
       CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
       PARAMETER (I104=104)
+      CHARACTER(110) TXT110
       DIMENSION LUNR(10)
       PARAMETER(MXFIL=1)
       CHARACTER(132) FINC(MXFIL)
@@ -53,25 +52,22 @@ C      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,N
       CHARACTER(LBLSIZ) LBL1A(MXFIL),LBL2A(MXFIL),
      >LBL1B(MXFIL),LBL2B(MXFIL)
       CHARACTER(LBLSIZ) L1A,L2A,L1B,L2B 
-      logical lbavu, lbbvu 
+      LOGICAL LBAVU, LBBVU, EXS
 
       DATA YINC, YINC2 / .FALSE. , .FALSE. /
+      DATA EXS / .FALSE. /
 
       WRITE(6,*) '  Copying  zgoubi.dat  into  zgoubi.res,'
       WRITE(6,*) '  numbering  and  labeling  elements...'
 
-      OK = IDLUNI(
-     >            NTMP)
-      OPEN(UNIT=NTMP,FILE='zgoubi_temp.dat')
-
       IDA = 1
       LUNR(IDA) = NLIN
-C      LRD = LUNR(IDA)
-
+      YINC = .FALSE. 
+      YINC2 = .FALSE. 
+      
 C----- Read zgoubi.dat title (1st data line)
       READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
       WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-      WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
       NOEL=0
       L1A = '*'      
@@ -114,46 +110,67 @@ C----- Read zgoubi.dat title (1st data line)
             ENDIF
           ENDIF
 
-C              write(*,*) ' YINC2 ',yinc2
-c                    read(*,*)
-          if(yinc2) then
-            
-c                write(*,*) ' prdata ',l1a,l2a,l1b,l2b
-c                write(*,*) ' prdata ',noel,LABEL(NOEL,1),LABEL(NOEL,2)
+          IF(YINC2) THEN
+            IF(LBAVU) THEN
+              LBBVU = ((L1B .EQ. '*') .AND. (L2B .EQ. LABEL(NOEL,2)))
+     >        .OR.    ((L1B .EQ. LABEL(NOEL,1)) .AND. (L2B .EQ. '*'))
+     >        .OR.((L1B.EQ.LABEL(NOEL,1)).AND.(L2B.EQ.LABEL(NOEL,2)))
 
-            if(lbavu) then
-              lbbvu = ((l1b .eq. '*') .or. (l1b .eq. LABEL(NOEL,1)))
-     >        .and.   ((l2b .eq. '*') .or. (l2b .eq. LABEL(NOEL,2)))
-              if(lbbvu) then
+              IF(LBBVU) THEN
                 WRITE(TEXT,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-     >          //'    Include_End : '
+     >          //'  ! Include_End : '
      >          //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
                 WRITE(TXT6,FMT='(I6)') NOEL
                 TEXT = TEXT(1:I104)//TXT6
                 WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
-                WRITE(NTMP,FMT='(T2,A)') TEXT(1:110)
-              endif
-            else
-              lbavu = ((l1a .eq. '*') .or. (l1a .eq. LABEL(NOEL,1)))
-     >          .and. ((l2a .eq. '*') .or. (l2a .eq. LABEL(NOEL,2)))
-              if(lbavu) then
-                WRITE(TEXT,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-     >          //'    Include_Start : '
-     >          //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
-                 WRITE(TXT6,FMT='(I6)') NOEL
-                TEXT = TEXT(1:I104)//TXT6
-                WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
-                WRITE(NTMP,FMT='(T2,A)') TEXT(1:110)
-                goto 10
-              endif
-            endif
-            if( .not. lbavu ) goto 10
-            if(  lbbvu ) goto 95
-          endif
+              ENDIF
+
+            ELSE
+              LBAVU = ((L1A .EQ. '*') .AND.
+     >        ((L2A .EQ. '*') .OR. (L2A .EQ. LABEL(NOEL,2))))
+     >        .OR.    ((L1A .EQ. LABEL(NOEL,1)) .AND.
+     >        ((L2A .EQ. '*') .OR. (L2A .EQ. LABEL(NOEL,2))))
+
+              IF(LBAVU) THEN
+                IF((L1A .EQ. '*') .AND. (L2A .EQ. '*')) THEN 
+                  WRITE(TXT110,FMT='(A)') '''MARKER'''
+     >            //'  ! Include_Start :'
+                ELSE
+                  WRITE(TXT110,FMT='(A)')TEXT(DEBSTR(TEXT):FINSTR(TEXT))
+     >            //'  ! Include_Start :'
+                ENDIF
+                WRITE(TXT110,FMT='(A)') 
+     >          TXT110(DEBSTR(TXT110):FINSTR(TXT110))
+     >          //' '//FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
+     >          //';  range : '
+     >          //'['//LBL1A(IFL)(DEBSTR(LBL1A(IFL)):FINSTR(LBL1A(IFL)))
+     >          //','//LBL2A(IFL)(DEBSTR(LBL2A(IFL)):FINSTR(LBL2A(IFL)))
+     >          //':'//LBL1B(IFL)(DEBSTR(LBL1B(IFL)):FINSTR(LBL1B(IFL)))
+     >          //','//LBL2B(IFL)(DEBSTR(LBL2B(IFL)):FINSTR(LBL2B(IFL)))
+     >          //']'
+                WRITE(TXT6,FMT='(I6)') NOEL
+                TXT110 = TXT110(1:I104)//TXT6
+                WRITE(NRES,FMT='(T2,A)') TXT110 
+                if((l1a .eq. '*') .and. (l2a .eq. '*')) then 
+                  NOEL = NOEL + 1
+                  WRITE(TXT6,FMT='(I6)') NOEL
+                  TXT110 = TEXT(1:I104)//TXT6
+                  WRITE(NRES,FMT='(T2,A)')
+     >            TXT110(DEBSTR(TXT110):FINSTR(TXT110))
+                ENDIF
+                GOTO 10
+              ENDIF
+            ENDIF
+            IF( .NOT. LBAVU ) THEN
+              NOEL = NOEL -1 
+              GOTO 10
+            ENDIF
+            IF(  LBBVU ) GOTO 95
+          ENDIF
 
           IF(TEXT(IDEB+1:I-1) .EQ. 'INCLUDE') THEN
              
-            yinc2 = .true.
+            YINC2 = .TRUE.
 
             IF(FLIN(FINSTR(FLIN)-9:FINSTR(FLIN)) .EQ. 'zgoubi.dat')
      >      CALL ENDJOB('Pgm prdata. Job includes INCLUDE keyword, '//
@@ -165,6 +182,10 @@ c                write(*,*) ' prdata ',noel,LABEL(NOEL,1),LABEL(NOEL,2)
             LINE =1 
             READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
             READ(TEXT,*,ERR=78) NBFIL
+            IF(NBFIL .GT. 1) CALL ENDJOB('Pgm prdata. '//
+     >      'INCLUDE is limited to 1 file, '//
+     >      '(functionality of NBFIL>1 needs be checked). '//
+     >      'Use several INCLUDEs instead.',-99)
 
             IF(NBFIL.GT.MXFIL) CALL ENDJOB('Pgm prdata. '//
      >      'INCLUDE has too many files. Max allowed is ',MXFIL)
@@ -176,12 +197,12 @@ C Only text within range Any_KEYWORD LABEL1=lbl1a&LABEL2=lbl2a : Any_KEYWORD LAB
 C will be included
               OK = STRCON(TEXT,'[',
      >                             ISA) 
-c                   write(*,*) ' prdata AAA ',ok,isa,isb,
-c     >              TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-c                      read(*,*)
+              IF(OK) THEN
+                FINC(IFL) = TEXT(DEBSTR(TEXT):ISA-1)
+              ELSE
+                FINC(IFL) = TEXT(DEBSTR(TEXT):FINSTR(TEXT))
+              ENDIF
 
-              FINC(IFL) = TEXT(DEBSTR(TEXT):ISA-1)                
-              FINC(IFL) = TEXT(1:FINSTR(FINC(IFL)))
               IF(OK) THEN
                 OK = STRCON(TEXT,']',
      >                                     ISB) 
@@ -199,9 +220,6 @@ c                      read(*,*)
 
                 OK = STRCON(TEXT(1:ISC-1),',',
      >                                        ISAC)
-
-C          write(*,*) ' TEXT(ISA+1:ISB-1) ',isa,isac,isc,isb,ok
-C     >        ,TEXT(ISA+1:ISB-1)
 
                 IF(OK) THEN
                 
@@ -228,13 +246,9 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
                   LBL2A(IFL) = '*'
                 ENDIF
 
-C          write(*,*) ' LBL1A  LBL2A(IFL) ',LBL1A(IFL),LBL2A(IFL)  
-
                 OK = STRCON(TEXT(ISC+1:ISB-1),',',
      >                                          ISCB)
                 ISCB = ISCB + ISC
-
-C          write(*,*) ' ,isa,isac,isc,isb ',isa,isac,isc,ISCB,isb,ok 
 
                 IF(OK) THEN
 
@@ -260,8 +274,6 @@ C          write(*,*) ' ,isa,isac,isc,isb ',isa,isac,isc,ISCB,isb,ok
                   LBL2B(IFL) = '*'
                 ENDIF
 
-C          write(*,*) ' LBL1B  LBL2B(IFL) ',LBL1B(IFL),LBL2B(IFL)  
-
                 LBL1A(IFL) = 
      >          LBL1A(IFL)(DEBSTR(LBL1A(IFL)):FINSTR(LBL1A(IFL)))
                 LBL2A(IFL) = 
@@ -280,16 +292,15 @@ C          write(*,*) ' LBL1B  LBL2B(IFL) ',LBL1B(IFL),LBL2B(IFL)
 
               ENDIF
 
-c                   write(*,*) ' prdata ',ifl,finc(ifl)
-c                   write(*,*) ' prdata ',ifl,lbl1a(ifl),lbl2a(ifl),
-c     >                 lbl1b(ifl),lbl2b(ifl)
-
             ENDDO
             IDA = IDA + 1
             OK = IDLUNI(
      >                  LUNR(IDA)) 
-C            LRD = LUNR(IDA)
             IFL = 1
+
+            INQUIRE(FILE=FINC(IFL),EXIST=EXS)
+            IF(.NOT. EXS) CALL ENDJOB('Pgm prdata, keyword INCLUDE  : '
+     >      //'could not include file, does not exist ',-99)
             OPEN(UNIT=LUNR(IDA),FILE=FINC(IFL))           
 
             L1A = LBL1A(IFL)
@@ -297,17 +308,14 @@ C            LRD = LUNR(IDA)
             L1B = LBL1B(IFL)
             L2B = LBL2B(IFL)
 
-c                   write(*,*) ' prdata ',l1a,l2a,l1b,l2b
-
             NOEL = NOEL -1 
-
             GOTO 10
+
           ELSE
 
             WRITE(TXT6,FMT='(I6)') NOEL
             TEXT = TEXT(1:I104)//TXT6
             WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
-            WRITE(NTMP,FMT='(T2,A)') TEXT(1:110)
           ENDIF
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
@@ -318,29 +326,40 @@ c                   write(*,*) ' prdata ',l1a,l2a,l1b,l2b
             if( yinc2 .and. ((.not. lbavu) .or. lbbvu )) goto 10
 
           WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
+c          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
         ENDIF
 
       GOTO 10
 
  95   CONTINUE
-C      REWIND(LUNR(IDA))
+
       IF(IDA.GT.1) THEN
-        YINC2 = .falsE.
+        IF(YINC2) THEN 
+          IF(.NOT. LBBVU) THEN
+            NOEL = NOEL +1 
+            WRITE(TXT110,FMT='(A)') '''MARKER'''
+     >      //'  ! Include_End : '
+     >      //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
+            WRITE(TXT6,FMT='(I6)') NOEL
+            TXT110 = TXT110(1:I104)//TXT6
+            WRITE(NRES,FMT='(T2,A)') TXT110 
+          ENDIF
+        ENDIF
+        YINC2 = .FALSE.
+        LBAVU=.FALSE.
+        LBBVU=.FALSE.
         YINC = .TRUE.
         CLOSE(LUNR(IDA))
         IDA = IDA-1
-C        LRD = LUNR(IDA)
         GOTO 10
       ENDIF
 
-      CLOSE(NTMP)
-
       IF(YINC) THEN
-        CMMND = 'mv zgoubi_temp.dat '//FDAT(DEBSTR(FDAT):FINSTR(FDAT))
-        CALL SYSTEM(CMMND)
         CLOSE(NLIN)
+        CALL FLUSH2(NRES,.FALSE.)
+        CMMND = 'cp zgoubi.res '//FDAT(DEBSTR(FDAT):FINSTR(FDAT))
+        CALL SYSTEM(CMMND)
         OK=IDLUNI(
      >            NDAT)
         OPEN(UNIT=NDAT,FILE=FDAT)
