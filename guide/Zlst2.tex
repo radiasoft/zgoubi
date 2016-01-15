@@ -1906,8 +1906,8 @@ first label,
        \>Name of storage file (\emph{e.g.}~zgoubi.fai). Optional~: a series of up to 10 label(s),   \> \>A80, \\ %%
 {[,}\textsl{\LABEL(s)}{]}  \index{LABEL@{\LABEL}}   \> (the first label of element(s) 
              at the exit of which the store will occur). \> \>  [, 10*A10] \\ 
-     \> If either \textsl{FNAME} or first \textsl{LABEL} is 'none' then no storage occurs.  \> \> \\
-     \> Elements in the list of the form \textsl{'*my\_label'} or \textsl{'my\_label*'} are accepted.  \> \> \\
+     \> If either \textsl{FNAME} or first \textsl{LABEL} is 'none' then \textsl{FAISTORE} is inhibited.  \> \> \\
+     \> Wild cards are accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}.  \> \> \\
      \>  Store occurs at all elements if  first \textsl{LABEL}  is 'all' or 'ALL'. \> \> \\
        \\
  $I\!P$ 	\> Store every $I\!P$ other pass (when using 

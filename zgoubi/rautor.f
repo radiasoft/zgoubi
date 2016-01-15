@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RAUTOR
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -33,7 +33,9 @@ C     ---------------------
       CHARACTER(132) TXT132
       LOGICAL STRCON
       INTEGER DEBSTR, FINSTR
-      READ(NDAT,*) TXT132
+
+      LINE = 1
+      READ(NDAT,*,ERR=90,END=90) TXT132
       TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
       IF(STRCON(TXT132,'!',
      >                     ISA)) THEN
@@ -52,25 +54,35 @@ C     ---------------------
       A(NOEL,1) = IA
       A(NOEL,2) = IA2
 C Read 3 particle numbers
-      IF    (IA .EQ. 3) THEN
-        READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+      IF    (IA .LT. 3) THEN
+      ELSEIF(IA .EQ. 3) THEN
+
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11),A(NOEL,12)
 C Read 3 centering coordinates
       ELSEIF(IA .EQ. 4) THEN
         IF    (IA2.EQ.0) THEN
 C Center the beam on xce, yce, ale
-          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
+          LINE = LINE + 1
+          READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11),A(NOEL,12)
         ELSEIF(IA2.LE.2) THEN
 C 1 : Center the beam on xce, yce, ale, p/pRef, time
 C 2 : Center the beam on xce, yce, ale, p/pRef and set all times to A(NOEL,14)
-          READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12),
+          LINE = LINE + 1
+          READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11),A(NOEL,12),
      >    A(NOEL,13),A(NOEL,14)
         ELSE
-          CALL ENDJOB('Pgm rautor. No such option IA2 = ',IA2)
+          CALL ENDJOB('Pgm rautor. No such option IA = 4.',IA2)
         ENDIF
       ELSEIF(IA .EQ. 5) THEN
-        READ(NDAT,*) A(NOEL,10),A(NOEL,11)
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
       ELSE
-C        CALL ENDJOB('Pgm RAUTOR. No such option IA = ',IA2)
+        CALL ENDJOB('Pgm RAUTOR. No such option IA = .',IA)
       ENDIF
+      RETURN
+
+ 90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
+     >'input data error, at line ',line)
       RETURN
       END

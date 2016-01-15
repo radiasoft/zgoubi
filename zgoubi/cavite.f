@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE CAVITE(*)
+      SUBROUTINE CAVITE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -50,7 +50,7 @@ C      PARAMETER (MXTA=45)
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
-      SAVE SYNCH_TIME
+      SAVE SYNCT
       DIMENSION KFM(MXSCL)
       
       CHARACTER(10) SKAV(12)
@@ -148,7 +148,8 @@ C      PARAMETER (MXTA=45)
      >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)') 
       ENDIF
 
-      IF(KCAV .EQ. 0) RETURN
+      IF(KCAV .EQ. 0) CALL ENDJOB(
+     >'Pgm cavite.f. No such such cavity option ',KCAV)
  
       AN10 = A(NOEL,10)
       AN11 = A(NOEL,11)
@@ -643,7 +644,7 @@ C Kin. energy, MeV
  
  1    CONTINUE
 
-      synch_time = synch_time + 1.d0/FREV*AN11
+      SYNCT = SYNCT + 1.d0/FREV*AN11
 
 
       IF(NRES.GT.0) THEN
@@ -954,8 +955,8 @@ C        CHAMBERS CAVITY Det(M)=1
       RETURN
 
       ENTRY CAVIT3(
-     >     A_synch_time)
-      A_synch_time = synch_time
+     >             SYNCTO)
+      SYNCTO = SYNCT
       RETURN 
 
       END

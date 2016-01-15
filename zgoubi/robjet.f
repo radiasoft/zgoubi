@@ -254,8 +254,7 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      GOTO 90
-
+      
  90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
      >'input data error, at line ',line)
       RETURN

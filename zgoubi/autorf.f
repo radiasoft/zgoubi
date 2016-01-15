@@ -38,6 +38,7 @@ C     ------------------------------------------------
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
@@ -51,27 +52,31 @@ C      LOGICAL ZSYM
      
       IOP = NINT(A(NOEL,1))
       IOP2 = NINT(A(NOEL,2))
-C      IF    (IOP .EQ. 3) THEN
-C        IRF=NINT(A(NOEL,10))
-C        MX1=NINT(A(NOEL,11))
-C        MX2=NINT(A(NOEL,12))
-C      ELSE
-C        IRF=1
-C      ENDIF
  
       IF    (IOP .LE. 3) THEN
-        IF    (IOP .EQ. 0) THEN
-          GOTO 99
-        ELSEIF(IOP .EQ. 1) THEN
+
+        IF(IOP .EQ. 0) GOTO 99
+
+        IF    (IOP .EQ. 1) THEN
 C--------- POSITIONNEMENT REFERENCE = TRAJ. 1, ABSCISSE ACTUELLE
           IRF=1
-          XC =ZERO
-          YC =F(2,IRF) 
+          IF    (IOP2 .EQ. 0) THEN
+            XC =ZERO
+            YC =F(2,IRF) 
+          ELSEIF(IOP2 .EQ. 5) THEN
+            XC =ZERO
+            YC =ZERO
+            AA = ZERO
+            ZC =F(4,IRF) 
+            BB = F(5,IRF) * 0.001D0
+          ENDIF
+          AA  =F(3,IRF) * 0.001D0
         ELSEIF(IOP .EQ. 2) THEN
 C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. 1 ET 4-5
           IRF=1
           CALL FOCAL1(IRF,4,5,
      >                        XC,YC )
+          AA  =F(3,IRF) * 0.001D0
         ELSEIF(IOP .EQ. 3) THEN
 C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
           IRF=NINT(A(NOEL,10))
@@ -79,8 +84,8 @@ C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. IRF ET MX1-MX2
           MX2=NINT(A(NOEL,12))
           CALL FOCAL1(IRF,MX1,MX2,
      >                            XC,YC )
+          AA  =F(3,IRF) * 0.001D0
         ENDIF
-        AA  =F(3,IRF) * 0.001D0
 
       ELSEIF(IOP .EQ. 4) THEN
 
@@ -176,6 +181,22 @@ C         +++ IEX<-1 <=> Particule stoppee
               CALL DEJACA(I)
             ENDIF
 C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
+
+            IF(IOP2.EQ.5) THEN
+
+        VSHRO(MSR) = 2
+        VSHRO(1) = ZC 
+        VSHRO(2) = BB
+        QSHRO(1) = 'ZS'
+        QSHRO(2) = 'YR'
+            CALL INITRA(I)
+            CALL CHANRF(EVNT,QSHRO,VSHRO)
+            CALL MAJTRA(I)
+              IF(KSPN .EQ. 1 ) write(nres,*) 
+     >        ' WARNING : Y-rotation in autorf.f. Spin '
+     >        //'rotation is to be implemented. '
+            ENDIF
+
           ENDIF
         ENDDO
 
