@@ -516,7 +516,7 @@ c                        read(*,*)
                   ENDDO
                  ENDDO
  
-               else
+               ELSE
  
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -532,12 +532,12 @@ c                        read(*,*)
 c                   write(*,*) ' toscac  faca : ',faca,kzma,jyma,ixma,id
 c                      read(*,*)
  
-               endif
+               ENDIF
                CLOSE(UNIT=LUN)
  
-             elseif(nfic.eq.2) then
+             ELSEIF(NFIC.EQ.2) THEN
  
-               if(mod2.eq.2) then
+               IF(MOD2.EQ.2) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -551,7 +551,7 @@ c                      read(*,*)
  
 c                   write(*,*) ' toscac  facb : ',facb,kzma,jyma,ixma,id
 c                      read(*,*)
-               else
+               ELSE
  
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -564,12 +564,12 @@ c                      read(*,*)
                   ENDDO
                  ENDDO
  
-               endif
+               ENDIF
                CLOSE(UNIT=LUN)
  
-             elseif(nfic.eq.3) then
+             ELSEIF(NFIC.EQ.3) THEN
  
-               if(mod2.eq.3) then
+               IF(MOD2.EQ.3) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA

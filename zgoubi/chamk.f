@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHAMK(A1,R1,Z1,*)
-      USE dynhc
+      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------------
 C     CALCUL DU Champ ET DE SES DERIVEES, A PARTIR D'UNE CARTE,
@@ -71,9 +71,17 @@ C     --------------------------------------------------------
       SAVE SCAL
       DIMENSION DBDX(3), DBDXI(3)
       SAVE DBDX
+      LOGICAL SUMF, SUMFI
+      SAVE SUMF
+      DIMENSION IQMP(MMAP)
+      SAVE IQMP
+      SAVE MOD, MOD2
 
       DATA IMAP / 1 /       
       DATA DBDX / 3* 0.D0 /
+      DATA SUMF / .FALSE. /
+      DATA MOD, MOD2 / 0, 0 /
+      DATA FIRST / .TRUE. /
 
       CALL KSMAP(
      >           IMAP)
@@ -92,6 +100,8 @@ C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
         ENDIF
         GOTO 998
       ENDIF
+
+ 50   CONTINUE
  
       DA=XH(2)-XH(1)
       IAC=(A1-XH(1))/DA+1.5D0
@@ -151,10 +161,13 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
         IZC=MIN0(IZC,KZMA-1)
         Z=Z1-ZH(IZC)
 
-        GOTO 41
+        IF(MOD.NE.16) THEN
+          GOTO 41
+        ELSE
+          GOTO 51
+        ENDIF
       ENDIF
 
-C 40   CONTINUE
 C     .... KUASEX = 1,2,3,4,5,6 : 2-D mid-plane field maps
       IF (IRD.EQ.4) GO TO 21
       IF (IRD.GT.4) GO TO 22
@@ -599,6 +612,137 @@ C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
       GOTO 998
  
  
+C------------------------------------------------------------------------
+ 51   CONTINUE
+C     .... KUASEX = 7 and MOD=16 : same as MOD.ne.16, apart from the following : 
+C     Field contributions from all maps are summed here, whereas otherwise field 
+C     maps are summed up into a single new one when they are read (managed in toscac.f). 
+
+      DO 515 L = 1,3
+        A000(L)=0.D0
+        A100(L)=0.D0
+        A010(L)=0.D0
+        A001(L)=0.D0
+        A200(L)=0.D0
+        A020(L)=0.D0
+        A002(L)=0.D0
+        A110(L)=0.D0
+        A101(L)=0.D0
+        A011(L)=0.D0
+        DO 516 J=1,3
+          JR=2-J
+          DO 516 I=1,3
+            IA=I-2
+            DO 516 K=1,3
+              KZ=K-2
+              BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,JMAP) * SCAL
+              BMESH3(K,I,J) = BIJK
+              A000(L)=A000(L) + 
+     >             DBLE(7-3*(IA*IA+JR*JR+KZ*KZ))/3.D0 *BIJK
+              A100(L)=A100(L) +        IA        *BIJK
+              A010(L)=A010(L) +        JR        *BIJK
+              A001(L)=A001(L) +        KZ        *BIJK
+              A200(L)=A200(L) +  DBLE(3*IA*IA-2)   *BIJK
+              A020(L)=A020(L) +  DBLE(3*JR*JR-2)   *BIJK
+              A002(L)=A002(L) +  DBLE(3*KZ*KZ-2)   *BIJK
+C              A200(L)=A200(L) +  (3.D0*IA*IA-2.D0)   *BIJK
+C              A020(L)=A020(L) +  (3.D0*JR*JR-2.D0)   *BIJK
+C              A002(L)=A002(L) +  (3.D0*KZ*KZ-2.D0)   *BIJK
+              A110(L)=A110(L) +      IA*JR       *BIJK
+              A101(L)=A101(L) +      IA*KZ       *BIJK
+              A011(L)=A011(L) +      JR*KZ       *BIJK
+ 516    CONTINUE
+
+        CALL MAPLIM(*999, 27, BMESH3)
+
+
+        A000(L)=A000(L)/( 9.D0      )*BRI
+        A100(L)=A100(L)/(18.D0*DA   )*BRI
+        A010(L)=A010(L)/(18.D0*DR   )*BRI
+        A001(L)=A001(L)/(18.D0*DZ   )*BRI
+        A200(L)=A200(L)/(18.D0*DA*DA)*BRI
+        A020(L)=A020(L)/(18.D0*DR*DR)*BRI
+        A002(L)=A002(L)/(18.D0*DZ*DZ)*BRI
+        A110(L)=A110(L)/(12.D0*DA*DR)*BRI
+        A101(L)=A101(L)/(12.D0*DA*DZ)*BRI
+        A011(L)=A011(L)/(12.D0*DR*DZ)*BRI
+ 515  CONTINUE
+C
+C  CALCUL BZ ET SES DERIVEES AU POINT COURANT A1,R1,Z1
+C
+C     *** COMPOSANTES BX, BY, BZ DU Champ
+
+      DO 517 L = 1,3
+        B(1,L)=A000(L)     
+     >       + A100(L)*A   + A010(L)*R   + A001(L)*Z
+     >       + A200(L)*A*A + A020(L)*R*R + A002(L)*Z*Z
+     >       + A110(L)*A*R + A101(L)*A*Z + A011(L)*R*Z
+        DB(1,L)  = A100(L) + 2.D0*A200(L)*A + A110(L)*R + A101(L)*Z
+        DB(2,L)  = A010(L) + 2.D0*A020(L)*R + A110(L)*A + A011(L)*Z
+        DB(3,L)  = A001(L) + 2.D0*A002(L)*Z + A101(L)*A + A011(L)*R
+        DDB(1,1,L) = 2.D0*A200(L)
+        DDB(1,2,L) = A110(L)
+        DDB(2,1,L) = A110(L)
+        DDB(2,2,L) = 2.D0*A020(L)
+        DDB(1,3,L) = A101(L)
+        DDB(3,1,L) = A101(L)
+        DDB(2,3,L) = A011(L)
+        DDB(3,2,L) = A011(L)
+        DDB(3,3,L) = 2.D0*A002(L)
+ 517  CONTINUE
+      BZ = B(1,3)
+
+C-------------- Pour éventuel tests si défaut de plan médian 
+C          if(izc.eq.21) then   ! KEK FFAG
+C  TEST RACCAM
+C          if(izc.eq.11) then   ! RACCAM
+C            write(89,*) r1,z1,b(1,1), b(1,2), ' sbr chamk'
+C            b(1,1)=0.d0
+C            b(1,2)=0.d0
+C            DB(1,1)  = 0.d0
+C            DB(2,1)  = 0.d0
+C            dDB(1,1,1)  = 0.d0
+C            dDB(1,1,2)  = 0.d0
+C            dDB(1,2,1)  = 0.d0
+C            dDB(1,2,2)  = 0.d0
+C            dDB(2,1,1)  = 0.d0
+C            dDB(2,1,2)  = 0.d0
+C          endif
+C-----------------------------------------------
+
+
+C For calculation of FF coefficients in DFD ffag triplet using mathematica
+C         if(a1.le.0.d0) write(88,fmt='(1p,3g14.6)') a1,r1,bz*br
+
+CC------- PASSAGE DE LA FACE MAGNETIQUE (FMAG>.45) ,
+CC        SI ON UTILISE CHAMBR
+C      IF(LIMIT .EQ. 1) FMAG=ABS(BZ*BR/BMAX)
+ 
+      IF(KART .NE. 1) THEN
+C--------- Transformation from cylindrical to cartesian coordinates
+        R11=1.D0/R1
+        R12=R11*R11
+        DO 518 L = 1,3
+C         dB_*/dtta -> /rdB_*/dx 
+          DB(1,L)  = DB(1,L)*R11
+C         d2B_*/dtta2 -> d2B_*/dx2
+          DDB(1,1,L) = ( DDB(1,1,L)*R11 + DB(2,L) ) * R11
+C         d2B_*/dtta.dr -> d2B_*/dxdy
+          DDB(1,2,L) = ( DDB(1,2,L) - DB(1,L) ) * R11
+          DDB(2,1,L) = DDB(1,2,L) 
+C         d2B_*/dtta.dz -> d2B_*/dxdz
+          DDB(1,3,L) = DDB(1,3,L) * R11
+          DDB(3,1,L) = DDB(1,3,L)
+C--------- Call to DBDXYZ is redundant because all derivatives 
+C          have been filled above, yet it links the derivatives by Maxwell 
+          IDB=2
+C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
+ 518    CONTINUE
+      ENDIF
+ 
+      GOTO 998
+ 
+ 
  42   CONTINUE
 C------- KUASEX = 8: 1-D map with  x-revolution symmetry, grid 1-D with 5 points
         CALL KRTAX(A1,BX)
@@ -660,6 +804,22 @@ C Due to reminicences from ancient times
       DO I = 1, IND
         DBDX(I) = DBDXI(I)
       ENDDO
+      RETURN
+
+      ENTRY CHAMK6(SUMFI,MODI,MOD2I)
+C MOD2 is the number of field maps under this TOSCA[MOD.MOD2=16.MOD2] set
+C IMAP is the current number for the first map in this TOSCA[MOD.MOD2=16.MOD2] set
+      SUMF = SUMFI
+      MOD = MODI
+      MOD2 = MOD2I
+      CALL KSMAP(
+     >           IMAP)
+      IF(IMAP+MOD2-1 .GT.MMAP) CALL ENDJOB('Pgm chamk. Too many field' 
+     >//' maps under this TOSCA keyword. Max allowed is ',MMAP-IMAP+1)
+      DO I = 1, MOD2
+        IQMP(I) = IMAP+I-1
+      ENDDO
+      FIRST = .TRUE.
       RETURN
 
       END

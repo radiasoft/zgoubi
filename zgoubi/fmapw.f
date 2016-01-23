@@ -1082,11 +1082,11 @@ C 12        CONTINUE
 
       ELSEIF(MOD.EQ.15) THEN
 
-C Full 3-D map of magnet as in MOD=12. However can sum up maps. 
-C Used for instance for AGS cold snake = helix+solenoid
-           jtcnt=0
-           ircnt = 0
-           kzcnt=0       
+C Full 3-D map of magnet as in MOD=12. However can sum up several maps. 
+C Used for instance for AGS cold snake = helix map + solenoid map
+           JTCNT=0
+           IRCNT = 0
+           KZCNT=0       
 
            DO J=1,JYMA        
              JTC = J

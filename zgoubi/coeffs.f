@@ -52,6 +52,22 @@ C     $     IREP(MXT),AMQLU,PABSLU
         CALL REFER(1,1,0,IT1,IT2,IT3)
         CALL MAT1(IT1,
      >                R,T)
+
+cC---
+c        call fitsta(5,
+c     >                  fiting)
+c        call FITST1(
+c     >             NUMKL)
+c           call ZGNOEL(
+c     >             NOEL)
+c         if(fiting .and. noel.eq.numkl-1) then 
+c              write(*,*) ' coeffs.   KLE #, NOEL :  ', numkl,noel
+c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
+c              write(*,*) ' R : '
+c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
+c            endif
+C------
+
         CALL REFER(2,1,0,IT1,IT2,IT3)
       ELSEIF(IORD .EQ. 2) THEN
         CALL REFER(1,2,0,1,6,7)
@@ -65,6 +81,28 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PRDIC = .FALSE.
       IF(IOPT.EQ.1) CALL BEAMAT(R,PRDIC,.FALSE.,
      >                                          F0,PHY,PHZ,CSTRN,RPRM)
+
+C------
+c        call fitsta(5,
+c     >                  fiting)
+c        call FITST1(
+c     >             NUMKL)
+c           call ZGNOEL(
+c     >             NOEL)
+c         if(fiting .and. noel.eq.numkl-1) then 
+c              write(*,*) ' coeffs.   KLE #, NOEL :  ', numkl,noel
+c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
+c              write(*,*) ' FO(2-5,1-11) : '
+c              write(*,fmt='(1p,i,4e12.4)') (j,( fo(i,j),i=2,5),j=1,11)
+c              write(*,*) ' F(2-5,1-11) : '
+c              write(*,fmt='(1p,i,4e12.4)') (j,( f(i,j),i=2,5),j=1,11)
+c              write(*,*) ' R : '
+c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
+c              write(*,*) ' F0 : '
+c              write(*,fmt='(1p,6e12.4)') ((F0(i,j),j=1,6),i=1,6)
+c                 read(*,*)
+c          endif
+C----
 
 C Thomas Planche FIT problem : /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE. Jan 2015
 c          call fitsta(5,fiting)

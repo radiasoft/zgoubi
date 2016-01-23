@@ -138,9 +138,6 @@ C      PARAMETER (MXTA=45)
         ENDIF
       ENDIF
 
-      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
-     >                                   IS)
-
       IF(NRES.GT.0) THEN
         WRITE(NRES,102) SKAV(KCAV+1)
  102    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
@@ -148,9 +145,11 @@ C      PARAMETER (MXTA=45)
      >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)') 
       ENDIF
 
-      IF(KCAV .EQ. 0) CALL ENDJOB(
-     >'Pgm cavite.f. No such such cavity option ',KCAV)
+      IF(KCAV .EQ. 0) RETURN
  
+      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
+     >                                   IS)
+
       AN10 = A(NOEL,10)
       AN11 = A(NOEL,11)
       AN20= A(NOEL,20)

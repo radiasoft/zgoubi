@@ -36,6 +36,8 @@ C     -------------------------------------------------
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
+
+         logical fiting
  
       CALL RAZ(R,6*6)
       R(5,5) = 1.D0
@@ -68,9 +70,34 @@ C..............................................
           IF(J .EQ. 5) THEN
             R(5,I)  = ( F(6,I2) - F(6,I3) ) / UO
           ENDIF
-C          write(*,*) j,I2,I3, F(J,I2), F(J,I3)
+
+cC---
+c        call fitsta(5,
+c     >                  fiting)
+c        call FITST1(
+c     >             NUMKL)
+c           call ZGNOEL(
+c     >             NOEL)
+c          if(fiting .and. noel.eq.numkl-1)  then
+c        write(*,*) ' mat1 ',j,I2,I3, F(J,I2), F(J,I3)
+c              read(*,*)
+c         endif
+c-----
+
  11   CONTINUE
       R(5,6)  = ( F(6,I10) - F(6,I11) ) / DP
+
+c        call fitsta(5,
+c     >                  fiting)
+c        call FITST1(
+c     >             NUMKL)
+c           call ZGNOEL(
+c     >             NOEL)
+c         if(fiting .and. noel.eq.numkl-1) then 
+c              write(*,*) ' mat1.   KLE #, NOEL :  ', numkl,noel
+c              write(*,*) ' R : '
+c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
+c            endif
  
       IF(IMAX.NE.13) RETURN
 C     ... Compute Ri5, i=1,5. 

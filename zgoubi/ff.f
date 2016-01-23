@@ -99,6 +99,9 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
      >                                F0P,Cstrn)
              VAL= F0P(K,L)
 
+c         write(*,*) ' ff icont2, k, l, val : ',icont,icont2,k, l, val
+c                    read(*,*)
+
            ELSEIF(ICONT2 .GE. 1 .AND. ICONT2 .LE. 9) THEN
 C------------ Periodic case :  Twiss coefficients or tunes
 C  R16=periodic dispersion D_y, R26= its derivative D'_y ; 36=D_z, 46=D'_z

@@ -445,7 +445,7 @@ C----------- EMMA
 C--------- Reads a 2-D field map, assumes Bx=By=0
             NDIM = 2
           ELSEIF(KUASEX.EQ.35) THEN
-C--------- Reads a 3-D field map, TOSCA type data output format. 
+C--------- Reads a 3-D field map, 
             NDIM = 3
           ENDIF
           CALL EMMAC(SCAL,NDIM, 

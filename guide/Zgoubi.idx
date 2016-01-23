@@ -117,11 +117,12 @@
 \indexentry{MULTIPOL!parameter numbering}{61}
 \indexentry{DIPOLE-M!parameter numbering}{61}
 \indexentry{SCALING!parameter numbering}{62}
+\indexentry{fit procedure!coupled variables|textbf}{63}
 \indexentry{FIT}{63}
 \indexentry{FIT2}{63}
 \indexentry{fit procedure!variable range|textbf}{63}
 \indexentry{constraint (FIT, FIT2)|textbf}{63}
-\indexentry{fit procedure!constraint|textbf}{63}
+\indexentry{fit procedure!constraint}{63}
 \indexentry{OBJET}{63}
 \indexentry{MATRIX}{63}
 \indexentry{OBJET}{63}

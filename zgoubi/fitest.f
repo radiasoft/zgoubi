@@ -120,10 +120,10 @@ C----- CONTROLE CONTRAINTES
      >      '      I  = ',I1(I),',   ok.'
           ENDIF
         ELSEIF(IC(I) .EQ. 0) THEN
-          IF(IC2(I) .EQ. 0 ) THEN
-            IF(NRES.GT.0) WRITE(NRES,101)'''IC2''',IC2(I),'CONSTRAINT',I
-            IER = 1
-          ENDIF
+c          IF(IC2(I) .EQ. 0 ) THEN
+c            IF(NRES.GT.0) WRITE(NRES,101)'''IC2''',IC2(I),'CONSTRAINT',I
+c            IER = 1
+c          ENDIF
         ENDIF
         IF(IC(I) .EQ. 7) THEN
 C------------ Constraint on  coordinate or field in optical element, 

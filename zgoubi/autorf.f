@@ -184,17 +184,19 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
 
             IF(IOP2.EQ.5) THEN
 
-        VSHRO(MSR) = 2
-        VSHRO(1) = ZC 
-        VSHRO(2) = BB
-        QSHRO(1) = 'ZS'
-        QSHRO(2) = 'YR'
-            CALL INITRA(I)
-            CALL CHANRF(EVNT,QSHRO,VSHRO)
-            CALL MAJTRA(I)
-              IF(KSPN .EQ. 1 ) write(nres,*) 
-     >        ' WARNING : Y-rotation in autorf.f. Spin '
-     >        //'rotation is to be implemented. '
+              VSHRO(MSR) = 2
+              VSHRO(1) = ZC 
+              VSHRO(2) = BB
+              QSHRO(1) = 'ZS'
+              QSHRO(2) = 'YR'
+              CALL INITRA(I)
+              CALL CHANRF(EVNT,QSHRO,VSHRO)
+              CALL MAJTRA(I)
+              IF(KSPN .EQ. 1 ) then
+                if(nres .gt. 0) write(nres,*) 
+     >          ' WARNING : Y-rotation in autorf.f. Spin '
+     >          //'rotation is to be implemented. '
+              ENDIF
             ENDIF
 
           ENDIF

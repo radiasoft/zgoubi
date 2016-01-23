@@ -67,6 +67,8 @@ C      LOGICAL ZSYM
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
       INCLUDE 'MAPHDR.H'
+
+      PARAMETER (ONE = 1.D0)
  
       DATA NOMFIC / IZ*'               '/
  
@@ -196,8 +198,7 @@ C--------- another option for symmetrization by FMAPR2
  
 C BNORM set to ONE, since sent to CHAMK below
 C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
-        one = 1.d0
-        kz = 1
+        KZ = 1
         CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,

@@ -44,6 +44,7 @@ C      PARAMETER (MXTA=45)
       LOGICAL ISNUM
 
 C     ... IC, IL
+      LINE = 1
       READ(NDAT,*) A(NOEL,1),A(NOEL,2)
 
 CC   RUSTINE CHICANE CEBAF
@@ -60,6 +61,7 @@ C----- BNORM & X-,Y-,Z-NORM
       DO I = 1, IDIM    ! For compatibility with earlier versions
         A(NOEL,10+I) = 1.d0
       ENDDO
+      LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=97) TXT   
       IF( STRCON(TXT,'!', 
      >                   IS)) TXT = TXT(DEBSTR(TXT):IS-1)
@@ -75,13 +77,16 @@ C----- BNORM & X-,Y-,Z-NORM
  
 C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to 
 C                       be completed for others)
+      LINE = LINE + 1
       READ(NDAT,200) TA(NOEL,1)
  200  FORMAT(A)
 
       IF    (IDIM .EQ. 1) THEN
+        LINE = LINE + 1
         READ(NDAT,*) A(NOEL,20)
         NFIC = 1
       ELSEIF(IDIM .EQ. 2) THEN
+        LINE = LINE + 1
         READ(NDAT,FMT='(A)') TXT
         CALL STRGET(TXT,4,
      >                    NSTR,STRA)
@@ -99,6 +104,7 @@ C                       be completed for others)
 
       ELSEIF(IDIM .EQ. 3) THEN
 C------- TOSCA, 2-D or 3-D maps, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
+        LINE = LINE + 1
         READ(NDAT,FMT='(A)') TXT
         CALL STRGET(TXT,4,
      >                    NSTR,STRA)
@@ -153,8 +159,11 @@ C          Each single file contains the all 3D volume
 
             NFIC = MOD2
 
-            IF(4+NFIC .GT. MXSTR) CALL ENDJOB('Pgm rcarte. Too many'
-     >      //'  field map scaling factors. Max is ',4)
+            IF(4+NFIC .GT. MXSTR) THEN
+              WRITE(ABS(NRES),*) 'At input data line ',LINE
+              CALL ENDJOB('Pgm rcarte. Too many'
+     >        //'  field map scaling factors. Max is ',4)
+            ENDIF
 
             CALL STRGET(TXT,4+NFIC,
      >                           IDUM,STRA) 
@@ -177,6 +186,7 @@ C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single 
 C----- MAP FILE NAME(S)
       IF(NFIC.GT.1) THEN 
         DO 37 IFIC=1,NFIC
+          LINE = LINE + 1
           READ(NDAT,FMT='(A)') TXT
           CALL STRGET(TXT,1,
      >                      IDUM,STRA) 
@@ -188,6 +198,7 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
  371    CONTINUE
           STRA(2) = ' '
           IFIC = IFIC + 1
+          LINE = LINE + 1
           READ(NDAT,FMT='(A)') TXT
           CALL STRGET(TXT,2,
      >                      IDUM,STRA) 
@@ -203,6 +214,7 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
       ENDIF
 
 C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)
+      LINE = LINE + 1
       READ(NDAT,FMT='(A)') TXT
       READ(TXT,*) IA
       IF(IA.GE.1) READ(TXT,*) IA,(A(NOEL,I),I=31,30+3*ABS(IA))
@@ -212,23 +224,29 @@ C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)
 
       A(NOEL,30) = IA
 C     ... IRD
+      LINE = LINE + 1
       READ(NDAT,*) A(NOEL,40)
 C     ... XPAS
+      LINE = LINE + 1
       READ(NDAT,*) A(NOEL,50)
       ND = 50 
 
       IF(KART .EQ. 1) THEN
 C       ... Cartesian map frame
 C           KP, XCE, YCE, ALE
+        LINE = LINE + 1
         READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
         A(NOEL,ND+10) = IA
       ELSEIF(KART .EQ. 2) THEN
 C       ... Polar map frame
+        LINE = LINE + 1
         READ(NDAT,*) KP
         A(NOEL,ND+10) = KP
         IF( KP .EQ. 2 ) THEN
+          LINE = LINE + 1
           READ(NDAT,*) (A(NOEL,I),I=ND+20,ND+20+3)
         ELSE
+          LINE = LINE + 1
           READ(NDAT,*) A(NOEL,ND+20)
         ENDIF
       ENDIF

@@ -237,7 +237,7 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 C------- Transport beam matrix and print at element ends. Set by OPTICS or by TWISS keywords.
 
         IF(KUASEX .NE. -99) THEN
-C OPTICC may not be desired for non-optical elements, or MARKER, or else. 
+C OPTICC may not be desired for some elements (non-optical, or else.) 
 
           IF(EMPTY(LBLOPT) .OR. 
      >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
@@ -250,7 +250,7 @@ C OPTICC may not be desired for non-optical elements, or MARKER, or else.
 
 C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired 
 C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
-          KUASEX = -99
+       KUASEX = -99
 
        IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
@@ -448,6 +448,7 @@ C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
       GOTO 998
 C----- CHANGREF. Translation X,Y et rotation du referentiel courant
  13   CONTINUE
+      KUASEX = 0
       IF(READAT) CALL RCHANG
       IF(FITGET) CALL FITGT1
       CALL CHREFE
@@ -1013,8 +1014,9 @@ C----- POLARMES. CARTE DE Champ POLAIRE. Field map, cylindrical coordinates.
       CALL AIMANT(
      >                        ND(NOEL))
       GOTO 998
-C----- TRANSLATION X,Y,Z ET ROTATION RX,RY,RZ
+C----- TRAROT. Reference frame translation X,Y,Z & rotation RX,RY,RZ
  77   CONTINUE
+      KUASEX = 0
       IF(READAT) READ(NDAT,*) (A(NOEL,II),II=1,6)
       IF(FITGET) CALL FITGT1
       CALL TRAROT(A(NOEL,1),A(NOEL,2),A(NOEL,3)

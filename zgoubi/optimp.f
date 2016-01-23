@@ -53,9 +53,9 @@ C      PARAMETER (PI = 3.1415926535898d0)
       CALL ZGKLEY( 
      >            KLE)
       LBL1 = LABEL(NOEL,1)
-      IF(EMPTY(LBL1)) LBL1 = '.'
+      IF(EMPTY(LBL1)) LBL1 = '-'
       LBL2 = LABEL(NOEL,2)
-      IF(EMPTY(LBL2)) LBL2 = '.'
+      IF(EMPTY(LBL2)) LBL2 = '-'
 
       CALL ZGIPAS( 
      >            IPASS,NRBLT)
