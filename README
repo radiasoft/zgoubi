@@ -3,18 +3,22 @@ This is ZGOUBI, a program for computing the trajectories of charged particles.
 The directory layout is as follows:
 
 common   : Fortran files common to zgoubi and zpop
-doc      : Zgoubi users' guide, Zgoubi.pdf
-exemples : Examples of zgoubi input/ouptu files
+coupling : Fortran files part of zgoubi, dedicated to coupled optics computation from transport matrix (Edwards-Teng method) 
+guide    : Zgoubi users' guide, Zgoubi.pdf
+exemples : Examples of zgoubi input/ouput files
 include  : Include files common to zgoubi and zpop
+modules  : The field map array HC may be huge (this is determined in PARIZ.H), thus it is subjected to dynamic allocation memory
 toolbox  : A library of small programs that perform elementary data treatment functions (find orbit, betatron functions, DA, etc.).
-           Includes translators from MAD[8,X] to Zgoubi
+           Includes translators, e.g., from MAD[8,X] to Zgoubi
 zgoubi   : The zgoubi program itself
 zpop     : A program for plotting/analyzing zgoubi results
 
-In this folder, "make" will create zgoubi executable and zpop executable, in that order. 
+In this folder, "make" (or "make -f Makefile_zgoubi_gfortran", or "make -f Makefile_zgoubi_ifort") will create zgoubi executable. 
+"make -f Makefile_zpop" or "make -f Makefile_zpop_gfortran" will create zpop executable.
 
 Note that "make" may require ifort, or gfortran, or else. Comment/un-comment the FC variable and its attributes, 
-as needed, in Makefile_zgoubi.
+as needed, in these various Makefiles. 
 
-Problem ? in that case : fmeot@bnl.gov, jsberg@bnl.gov
+Problem ?  Solution may be found there : fmeot@bnl.gov, jsberg@bnl.gov
+
 
