@@ -67,7 +67,7 @@ C----------------------------------------------------------
       
 C----- Read zgoubi.dat title (1st data line)
       READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
-      IF(NRES.GT.0) 
+      IF(NRES.GT.0)
      >WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
       NOEL=0
@@ -123,7 +123,7 @@ C----- Read zgoubi.dat title (1st data line)
      >          //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
                 WRITE(TXT6,FMT='(I6)') NOEL
                 TEXT = TEXT(1:I104)//TXT6
-                IF(NRES.GT.0) 
+                IF(NRES.GT.0)
      >          WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
               ENDIF
 
@@ -152,14 +152,14 @@ C----- Read zgoubi.dat title (1st data line)
      >          //']'
                 WRITE(TXT6,FMT='(I6)') NOEL
                 TXT110 = TXT110(1:I104)//TXT6
-                IF(NRES.GT.0) 
-     >          WRITE(NRES,FMT='(T2,A)') TXT110 
-                IF((L1A .EQ. '*') .AND. (L2A .EQ. '*')) then 
+                IF(NRES.GT.0)
+     >                WRITE(NRES,FMT='(T2,A)') TXT110 
+                if((l1a .eq. '*') .and. (l2a .eq. '*')) then 
                   NOEL = NOEL + 1
                   WRITE(TXT6,FMT='(I6)') NOEL
                   TXT110 = TEXT(1:I104)//TXT6
-                 IF(NRES.GT.0) 
-     >            WRITE(NRES,FMT='(T2,A)')
+                  IF(NRES.GT.0)
+     >                  WRITE(NRES,FMT='(T2,A)')
      >            TXT110(DEBSTR(TXT110):FINSTR(TXT110))
                 ENDIF
                 GOTO 10
@@ -319,8 +319,8 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
 
             WRITE(TXT6,FMT='(I6)') NOEL
             TEXT = TEXT(1:I104)//TXT6
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
+            IF(NRES.GT.0)
+     >            WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
           ENDIF
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
@@ -330,8 +330,8 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
 
           IF( YINC2 .AND. ((.NOT. LBAVU) .OR. LBBVU )) GOTO 10
 
-          IF(NRES.GT.0) 
-     >    WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
+            IF(NRES.GT.0)
+     >          WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 c          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
         ENDIF
@@ -349,8 +349,8 @@ c          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
      >      //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
             WRITE(TXT6,FMT='(I6)') NOEL
             TXT110 = TXT110(1:I104)//TXT6
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(T2,A)') TXT110 
+            IF(NRES.GT.0)
+     >            WRITE(NRES,FMT='(T2,A)') TXT110 
           ENDIF
         ENDIF
         YINC2 = .FALSE.

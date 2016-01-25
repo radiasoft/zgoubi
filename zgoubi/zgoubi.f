@@ -1354,7 +1354,8 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
 C----- TRACKING. 
  100  CONTINUE
         READ(NDAT,*) NLMA, NLMB 
-        WRITE(NRES,*) ' Tracking,  NLM_A  ->  NLM_B : ',NLMA,' -> ',NLMB
+        IF(NRES.GTO.)
+     >  WRITE(NRES,*) ' Tracking,  NLM_A  ->  NLM_B : ',NLMA,' -> ',NLMB
         CALL TRACK(NLMA,NLMB)
         CALL ENDJOB(' End of job after TRACKING',-99)
       GOTO 998
@@ -1530,6 +1531,10 @@ C----- SPACECHARG.
 C----- GOTO. 
  119  CONTINUE
       IF(READAT) CALL RGOTO(NOEL)
+<<<<<<< .mine
+C      
+      IF(NRES.GT.0)    
+     >write(nres,*) ' zgoubi.f ******* ',noel,ipass
       CALL GOTOL(IPASS,MXKLE,KLE)
 C READAT may have been set to F, e.g. by REBELOTE. 
       READAT = .TRUE.

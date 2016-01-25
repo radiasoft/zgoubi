@@ -63,14 +63,11 @@ C GOTO
 C          IF(FIRST) THEN
           CALL STRGET(TA(NOEL,2),MST,
      >                              MLST,LBLST)
-          IF(MLST.GT.MST) THEN
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,FMT='(10X,A,I0)')
+          IF(NRES.GT.0) THEN
+            IF(MLST.GT.MST) WRITE(NRES,FMT='(10X,A,I0)')
      >      'Pgm gotol. Warning : list of addresses shortened to '//
      >      'maximum allowed : ',MST
-          ENDIF
 
-          IF(NRES.GT.0) THEN
             WRITE(NRES,FMT='(/,10X,
      >      ''Will switch to next element according to pass #. '',
      >      ''List of '',I0,'' switches is as follows : '',/)') MLST
@@ -142,8 +139,9 @@ C Read keyword [/ label1 [/ label2]]
 
         ELSE
 
-          IF(NRES.GT.0) 
+          IF(NRES.GT.0)
      >    WRITE(NRES,FMT='(10X,A,A)') 'Pgm goto. No such option ',
+
      >    TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
           CALL ENDJOB('Pgm goto. Check input data list ',-99)
 

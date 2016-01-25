@@ -1,0 +1,7 @@
+
+cp OPTICS_6.622eV.dat zgoubi.dat
+/home/meot/zgoubi/SVN/current/zgoubi/zgoubi
+/home/meot/zgoubi/current/toolbox/betaFromPlt/betaFromPlt
+gnuplot <./gnuplot_betaFromPlt.cmd
+
+exit
