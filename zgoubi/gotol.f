@@ -63,9 +63,12 @@ C GOTO
 C          IF(FIRST) THEN
           CALL STRGET(TA(NOEL,2),MST,
      >                              MLST,LBLST)
-          IF(MLST.GT.MST) WRITE(NRES,FMT='(10X,A,I0)')
-     >    'Pgm gotol. Warning : list of addresses shortened to '//
-     >    'maximum allowed : ',MST
+          IF(MLST.GT.MST) THEN
+            IF(NRES.GT.0) 
+     >      WRITE(NRES,FMT='(10X,A,I0)')
+     >      'Pgm gotol. Warning : list of addresses shortened to '//
+     >      'maximum allowed : ',MST
+          ENDIF
 
           IF(NRES.GT.0) THEN
             WRITE(NRES,FMT='(/,10X,
@@ -108,8 +111,9 @@ C Read keyword [/ label1 [/ label2]]
             TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           ENDDO
 
-          IF(NUEL.GE.NBLMN) then
-            WRITE(ABS(NRES),*) 'Branching tag at this GOTO is ''',
+          IF(NUEL.GE.NBLMN) THEN
+            IF(NRES.GT.0) 
+     >      WRITE(ABS(NRES),*) 'Branching tag at this GOTO is ''',
      >      LBLST(IPASS)(DEBSTR(LBLST(IPASS)):FINSTR(LBLST(IPASS))),''''
             CALL ENDJOB('Pgm gotol, keyword GOTO : '//
      >      ' could not fing branching tag. Reached lmnt # ',NUEL-1)
@@ -138,7 +142,8 @@ C Read keyword [/ label1 [/ label2]]
 
         ELSE
 
-          WRITE(NRES,FMT='(10X,A,A)') 'Pgm goto. No such option ',
+          IF(NRES.GT.0) 
+     >    WRITE(NRES,FMT='(10X,A,A)') 'Pgm goto. No such option ',
      >    TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
           CALL ENDJOB('Pgm goto. Check input data list ',-99)
 

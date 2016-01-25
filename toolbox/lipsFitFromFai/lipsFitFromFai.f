@@ -866,10 +866,10 @@ C      Location about where particle was lost
 
  91   RETURN 3
 
-C------- Read pass #,  KP1 to KP2
-      KP1O=KP1
-      KP2O=KP2
-      RETURN
+cC------- Read pass #,  KP1 to KP2
+c      KP1O=KP1
+c      KP2O=KP2
+c      RETURN
 
 C------------------ Dispersion function
       ENTRY READSP(rmvDspi,dispi)

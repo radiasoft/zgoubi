@@ -1530,7 +1530,6 @@ C----- SPACECHARG.
 C----- GOTO. 
  119  CONTINUE
       IF(READAT) CALL RGOTO(NOEL)
-         write(nres,*) ' zgoubi.f ******* ',noel,ipass
       CALL GOTOL(IPASS,MXKLE,KLE)
 C READAT may have been set to F, e.g. by REBELOTE. 
       READAT = .TRUE.
