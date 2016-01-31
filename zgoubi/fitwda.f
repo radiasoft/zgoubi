@@ -83,23 +83,24 @@ c                       read(*,*)
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
               READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
-              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8,3A)')
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,3A)')
      >              (A(NUEL,J),J=30,35),' ''',LET,''' '
             ELSEIF(KOBJ.EQ.5) THEN
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! Sampling
-              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
      >              (A(NUEL,J),J=20,25)
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! (1st) reference
-              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+              WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
      >              (A(NUEL,J),J=30,35)
               IF(KOBJ2 .GE. 1) THEN
-                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! Initial beta or 2nd reference
-                WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
-     >              (A(NUEL,J),J=40,45)
-                IF(KOBJ2 .GT. 1) THEN
-                  DO I = 1, KOBJ2-2
+                READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+                IF(KOBJ2 .EQ. 1) THEN
+                  WRITE(LTEMP,FMT='(1P,10(E10.3,1X))')         ! Initial beta 
+     >            (A(NUEL,J),J=40,49)
+                ELSE
+                  DO I = 1, KOBJ2-1
                     READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132           ! Next references in a total of KOBJ2
-                    WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,E16.8)')
+                    WRITE(LTEMP,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
      >              (A(NUEL,J),J=(I+4)*10,(I+4)*10+5)
                   ENDDO
                 ENDIF

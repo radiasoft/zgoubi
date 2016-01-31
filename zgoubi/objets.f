@@ -67,7 +67,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
      > (JDE(5),IP   ),(JDE(1),ID)
  
       DIMENSION REF(MXJ)
-      LOGICAL FITING
+      LOGICAL FITING, FITFNL
 
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
@@ -105,7 +105,13 @@ C------- add new beamlet next to the previous one(s), e.g. for multiturn injecti
 
       CALL FITSTA(5,
      >              FITING)
-      IF(FITING) DPREF = 1.D0
+      IF(FITING) THEN
+        DPREF = 1.D0
+      ELSE
+        CALL FITST5(
+     >              FITFNL)
+        IF(FITFNL) DPREF = 1.D0
+      ENDIF
 
 C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 

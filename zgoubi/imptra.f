@@ -52,9 +52,10 @@ C      LOGICAL ZSYM
       CALL ZGNOEL(
      >            NOEL)
 
-      WRITE(LUN,100) IMAX2-IMAX1+1
- 100  FORMAT('0',45X,'TRACE DU FAISCEAU (out of element #',
-     >//,45X,I6,' TRAJECTOIRES',//
+      WRITE(LUN,100) NOEL-1,IMAX2-IMAX1+1
+ 100  FORMAT('0',45X,'TRACE DU FAISCEAU',
+     > /,43X,'(follows element # ',I6,')',
+     > /,45X,I6,' TRAJECTOIRES',//
      >,35X,'OBJET',50X,'FAISCEAU',//,2(10X,'D',7X,'Y(CM)',4X,'T(MR)'
      >,4X,'Z(CM)',4X,'P(MR)',6X,'S(CM)'),/)
  

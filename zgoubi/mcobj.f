@@ -47,6 +47,7 @@ C     **************************
       CHARACTER(14) KOUV
       LOGICAL CINE
       CHARACTER(80) TXT
+      LOGICAL FITING
  
       DATA KTIR, KOUV / MXJ*' ', ' ' / 
       DATA CENTRE / MXJ*0.D0 / 
@@ -81,6 +82,10 @@ C--------- add new beamlet next to the previous one(s), e.g. for multiturn injec
         ENDIF
       ENDIF
  
+      CALL FITSTA(5,
+     >              FITING)
+      IF(FITING) DPREF = 1.D0
+
 C------ Type of support : 
 C      KOBJ=1 : window
 C      KOBJ=2 : grid
