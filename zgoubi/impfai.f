@@ -59,7 +59,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       SAVE OPN
       DATA OPN / .FALSE. /
 
-      CALL FITSTA(5,FITING)
+      CALL FITSTA(5,
+     >              FITING)
       IF(FITING) RETURN
 
       IF    (KPR .GE. 1) THEN

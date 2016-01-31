@@ -118,7 +118,7 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           IFC = IFOC
           IF(PRDIC) IFC = 0
           CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
-          CALL MAT1(IT1, 
+          CALL MAT1(IT1,F,IMAX,
      >                  R,T)
           CALL MKSA(IORD,R,T,T3,T4)
           IF(PRDIC) THEN

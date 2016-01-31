@@ -95,7 +95,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       ELSEIF( IK .EQ. 3 ) THEN
       ELSEIF( IK .EQ. 4 ) THEN
       ELSEIF( IK .EQ. 5 ) THEN
-        CALL FITSTA(5,FITING)
+        CALL FITSTA(5,
+     >                FITING)
       ELSEIF( IK .EQ. 6 ) THEN
       ELSEIF( IK .EQ. 7 ) THEN
       ELSEIF( IK .EQ. 8 ) THEN
@@ -123,7 +124,8 @@ C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
       ENDIF 
 
       IF(NSTOP.GE.IMX) THEN
-        CALL FITSTA(5,FITING)
+        CALL FITSTA(5,
+     >                FITING)
         IF(.NOT.FITING) THEN 
           WRITE(ABS(NRES),*) ' '
           WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK 

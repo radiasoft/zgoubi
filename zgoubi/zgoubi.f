@@ -392,7 +392,8 @@ C----- FAISCEAU POLYCHROME
  6    CALL FOCALE(2)
       GOTO 998
 C----- FAISCEAU. Print current beam in zgoubi.res
-7     IF(NRES.GT.0) CALL IMPTRA(1,IMAX,NRES)
+7     IF(NRES.GT.0 .OR. LABEL(NOEL,1).EQ.'FORCE') 
+     >CALL IMPTRA(1,IMAX,ABS(NRES))
       GOTO 998
 C----- FAISCNL. Stores beam at current position (in .fai type file)
  8    CONTINUE
@@ -1354,7 +1355,7 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
 C----- TRACKING. 
  100  CONTINUE
         READ(NDAT,*) NLMA, NLMB 
-        IF(NRES.GTO.)
+        IF(NRES.GT.0)
      >  WRITE(NRES,*) ' Tracking,  NLM_A  ->  NLM_B : ',NLMA,' -> ',NLMB
         CALL TRACK(NLMA,NLMB)
         CALL ENDJOB(' End of job after TRACKING',-99)
@@ -1531,10 +1532,8 @@ C----- SPACECHARG.
 C----- GOTO. 
  119  CONTINUE
       IF(READAT) CALL RGOTO(NOEL)
-<<<<<<< .mine
-C      
-      IF(NRES.GT.0)    
-     >write(nres,*) ' zgoubi.f ******* ',noel,ipass
+C      IF(NRES.GT.0)    
+C     >write(nres,*) ' zgoubi.f ******* ',noel,ipass
       CALL GOTOL(IPASS,MXKLE,KLE)
 C READAT may have been set to F, e.g. by REBELOTE. 
       READAT = .TRUE.

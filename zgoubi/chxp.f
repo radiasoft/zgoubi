@@ -115,7 +115,8 @@ C--------- EMPTY
 
       ENDIF
 
-      CALL FITSTA(5,FITING)
+      CALL FITSTA(5,
+     >              FITING)
       IF(.NOT. FITING) THEN        
         IF    (KALC.EQ.2 ) THEN
 C--------- Field is defined by maps
@@ -161,11 +162,12 @@ C Problem here with my laptop (ok w owl !) : this write(89 is necessary for the 
 C ~/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE/FitWorks.res
 C to work (otherwise does run but won't fit to the expected values). 
 C Otherwise scal=NaN is passed to dipi
-          CALL FITSTA(5,FITING)
-            if(FITING) then
-       write(89,*) ' chxp  SCAL , SCAL0() ',SCAL , SCAL0()
-        rewind(89)
-        endif
+c          CALL FITSTA(5,
+c     >                  FITING)
+c            if(FITING) then
+c       write(89,*) ' chxp  SCAL , SCAL0() ',SCAL , SCAL0()
+c        rewind(89)
+c        endif
 C--------------------------------------------------------------
 
       SCAL = SCAL0()

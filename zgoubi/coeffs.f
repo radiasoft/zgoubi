@@ -50,24 +50,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
         IT2 = IT1+3
         IT3 = IT1+4
         CALL REFER(1,1,0,IT1,IT2,IT3)
-        CALL MAT1(IT1,
+        CALL MAT1(IT1,F,IMAX,
      >                R,T)
-
-cC---
-c        call fitsta(5,
-c     >                  fiting)
-c        call FITST1(
-c     >             NUMKL)
-c           call ZGNOEL(
-c     >             NOEL)
-c         if(fiting .and. noel.eq.numkl-1) then 
-c              write(*,*) ' coeffs.   KLE #, NOEL :  ', numkl,noel
-c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
-c              write(*,*) ' R : '
-c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
-c            endif
-C------
-
         CALL REFER(2,1,0,IT1,IT2,IT3)
       ELSEIF(IORD .EQ. 2) THEN
         CALL REFER(1,2,0,1,6,7)
@@ -76,6 +60,24 @@ C------
         CALL REFER(2,2,0,1,6,7)
       ENDIF
  
+cC---
+c        call fitsta(5,
+c     >                  fiting)
+c        call FITST1(
+c     >             NUMKL)          ! Position of FIT key in zgoubi.dat list
+c           call ZGNOEL(
+c     >             NOEL)
+cC         if(fiting .and. noel.eq.numkl-1) then 
+c         if(fiting) then 
+c              write(*,*) ' coeffs.   KLE #, NOEL, IORD :  ', 
+c     >                                        numkl,noel,IORD
+c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
+c              write(*,*) ' R : '
+c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
+c            endif
+C------
+
+
       CALL MKSA(IORD,R,T,TX3,TX4)
 
       PRDIC = .FALSE.
@@ -89,7 +91,8 @@ c        call FITST1(
 c     >             NUMKL)
 c           call ZGNOEL(
 c     >             NOEL)
-c         if(fiting .and. noel.eq.numkl-1) then 
+cC         if(fiting .and. noel.eq.numkl-1) then 
+c         if(fiting ) then 
 c              write(*,*) ' coeffs.   KLE #, NOEL :  ', numkl,noel
 c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
 c              write(*,*) ' FO(2-5,1-11) : '

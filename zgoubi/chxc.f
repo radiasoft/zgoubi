@@ -137,7 +137,8 @@ C----- Some initializations and resets
       CALL RAZ(DBDX,3)
       CALL CHAMK4(DBDX,3)
 
-      CALL FITSTA(5,FITING)
+      CALL FITSTA(5,
+     >              FITING)
       IF(.NOT. FITING) THEN 
         IF(KALC .EQ. 2 ) THEN
 C--------- Field is defined by maps

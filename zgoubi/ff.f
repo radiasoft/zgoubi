@@ -95,12 +95,18 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
            IF(KOBJ .EQ. 6) IORD=2
 
            IF    (ICONT2 .EQ. 0) THEN
+c         write(*,*) ' ff imptra 1 '
+c                  call imptra(1,11,6)
+c                 read(*,*)
              CALL COEFFS(1,IORD,U,T,1,
      >                                F0P,Cstrn)
+c         write(*,*) ' ff imptra 2 '
+c                  call imptra(1,11,6)
+c                 read(*,*)
              VAL= F0P(K,L)
 
-c         write(*,*) ' ff icont2, k, l, val : ',icont,icont2,k, l, val
-c                    read(*,*)
+C         write(*,*) ' ff icont2, k, l, val : ',icont,icont2,k, l, val
+C                    read(*,*)
 
            ELSEIF(ICONT2 .GE. 1 .AND. ICONT2 .LE. 9) THEN
 C------------ Periodic case :  Twiss coefficients or tunes
@@ -173,8 +179,8 @@ C-----------Chromaticity
                IT3 = IT1+4
                IFC = 0
                CALL REFER(1,IORD,IFC,IT1,IT2,IT3)
-               CALL MAT1(IT1,
-     >                       U,T)
+               CALL MAT1(IT1,F,IMAX,
+     >                              U,T)
                CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
                CALL TUNES(U,F0P,NMAIL,IERY,IERZ,.FALSE.,
      >                                                YNU,ZNU,CMUY,CMUZ)

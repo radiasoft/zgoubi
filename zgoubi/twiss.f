@@ -166,7 +166,7 @@ C------- Switch on print to standard output :
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(1,
+          CALL MAT1(1,F,IMAX,
      >                RREF,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
@@ -235,7 +235,7 @@ C----- 3rd pass through structure will follow
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(1,
+          CALL MAT1(1,F,IMAX,
      >                RMINUS,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
@@ -287,7 +287,7 @@ C------- reactivate WRITE for printing results
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(1,
+          CALL MAT1(1,F,IMAX,
      >                RPLUS,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN
@@ -360,7 +360,7 @@ C        ENDIF
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
-            CALL MAT1(1,
+            CALL MAT1(1,F,IMAX,
      >                  RPLUS,T)
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
@@ -426,7 +426,7 @@ C------- Amplitude tracking completed
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
-            CALL MAT1(1,
+            CALL MAT1(1,F,IMAX,
      >                  RPLUS,T)
             CALL REFER(2,1,0,1,4,5)
           ELSEIF(IORD .EQ. 2) THEN
@@ -599,7 +599,7 @@ C------- reactivate READ in zgoubi.dat
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(1,
+          CALL MAT1(1,F,IMAX,
      >                RREF,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN

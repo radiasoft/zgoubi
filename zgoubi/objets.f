@@ -67,6 +67,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
      > (JDE(5),IP   ),(JDE(1),ID)
  
       DIMENSION REF(MXJ)
+      LOGICAL FITING
 
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
@@ -102,9 +103,9 @@ C------- add new beamlet next to the previous one(s), e.g. for multiturn injecti
         ENDIF
       ENDIF
 
-c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
-c      write(*,*) 'objets boro, kreb3 ',boro,kreb3
-c      if(nres.gt.0)write(nres,*) 'objets boro, kreb3 ',boro,kreb3
+      CALL FITSTA(5,
+     >              FITING)
+      IF(FITING) DPREF = 1.D0
 
 C      CALL RAZ(FO,MXJ*MXT)
 C----- Was necessary for FIT procedure when time is constrained : 

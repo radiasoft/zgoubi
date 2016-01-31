@@ -68,7 +68,7 @@ C      DIMENSION T3(5,6) , T4(5,6)
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
-          CALL MAT1(1,
+          CALL MAT1(1,F,IMAX,
      >                RREF,T)
           CALL REFER(2,1,0,1,4,5)
         ELSEIF(IORD .EQ. 2) THEN

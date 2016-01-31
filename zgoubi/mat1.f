@@ -22,19 +22,20 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MAT1(IT1,
+      SUBROUTINE MAT1(IT1,F,IMAX,
      >                    R,T)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*) , T(6,6,*)
+      INCLUDE "MAXCOO.H"
+      DIMENSION F(MXJ,*)
 C     -------------------------------------------------
 C     OPTION  IORD = 1 :
 C       MATRICES ORDRE 1 ET 2, SERIES DE TAYLOR ORDRE 3
 C     -------------------------------------------------
       INCLUDE "MAXTRA.H"
-      INCLUDE "MAXCOO.H"
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+C      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
 
          logical fiting
@@ -71,34 +72,26 @@ C..............................................
             R(5,I)  = ( F(6,I2) - F(6,I3) ) / UO
           ENDIF
 
-cC---
-c        call fitsta(5,
-c     >                  fiting)
-c        call FITST1(
-c     >             NUMKL)
-c           call ZGNOEL(
-c     >             NOEL)
-c          if(fiting .and. noel.eq.numkl-1)  then
-c        write(*,*) ' mat1 ',j,I2,I3, F(J,I2), F(J,I3)
-c              read(*,*)
-c         endif
-c-----
-
  11   CONTINUE
       R(5,6)  = ( F(6,I10) - F(6,I11) ) / DP
 
+C------
 c        call fitsta(5,
 c     >                  fiting)
-c        call FITST1(
-c     >             NUMKL)
 c           call ZGNOEL(
-c     >             NOEL)
-c         if(fiting .and. noel.eq.numkl-1) then 
-c              write(*,*) ' mat1.   KLE #, NOEL :  ', numkl,noel
+c     >                 NOEL)
+c         if(fiting .and. noel.eq. 700) then 
+cC         if(fiting ) then 
+c              write(*,*) ' MAT1. NOEL = ',noel
+c              write(*,*) ' F(1-5,1-11) : '
+c              write(*,fmt='(1p,i,5e12.4)') (j,( f(i,j),i=1,5),j=1,11)
 c              write(*,*) ' R : '
 c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
-c            endif
- 
+c                  call imptra(1,11,6)
+c                 read(*,*)
+c          endif
+C----
+
       IF(IMAX.NE.13) RETURN
 C     ... Compute Ri5, i=1,5. 
       IF(FO(6,13)-FO(6,12) .NE. 0.D0) THEN

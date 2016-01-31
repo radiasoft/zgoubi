@@ -269,7 +269,8 @@ C----- Case erron (errors)
           IF(OK) THEN
             CALL REBELR(
      >                  KREB3,KDUM,KDUM)
-            CALL FITSTA(5,FITING)
+            CALL FITSTA(5,
+     >                    FITING)
             CALL FITST5(
      >                  FITFNL)         
 
@@ -377,7 +378,8 @@ C------- E converted to MeV/cm
 C--------------------------------------------------------------
 C Problem here with my laptop (ok on owl !) : this write(89 is necessary for the FIT problem 
 C ~/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
-c          CALL FITSTA(5,FITING)
+c          CALL FITSTA(5,
+c     >                  FITING)
 c            if(FITING) then
 c            write(89,*) im,RO, BM(IM)
 c            rewind(89)
