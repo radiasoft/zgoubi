@@ -1,2 +1,16 @@
+
+echo  ' '
+echo 'Now compiling lipsFitFromFai... wait...'
+echo  ' '
 gfortran -O5 -o lipsFitFromFai         lipsFitFromFai.f
+echo  ' '
+echo 'done compiling lipsFitFromFai.'
+echo  ' '
+echo  ' '
+echo 'Now compiling lipsFitFromFai_iterate... wait...'
+echo  ' '
 gfortran -O5 -o lipsFitFromFai_iterate lipsFitFromFai_iterate.f
+echo  ' '
+echo 'Done compiling lipsFitFromFai_iterate. '
+echo  ' '
+

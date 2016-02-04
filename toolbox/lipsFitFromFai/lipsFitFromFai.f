@@ -30,7 +30,7 @@ C----- PLOT SPECTRUM
       character(2) HV
       INTEGER DEBSTR,FINSTR
 
-      character(7) TXT7A, TXT7B, TXT7R, TXT7L
+      character(7) TXT7A, TXT7B, TXT7R, TXT7L, TXTYN
       character(200) TXT200
       character(500) TXT500
       CHARACTER(80) STRA(2)
@@ -39,6 +39,7 @@ C----- PLOT SPECTRUM
       INCLUDE 'MXLD.H'
       dimension disp(4,mxl)
       character(1) rmvDsp
+      character(50) dspFNameDflt,dspFName
 
       data HV / '  ' /
       data stra / 2*'  ' /
@@ -51,29 +52,30 @@ C kpa = turn # ; nt=-1 for all particles
 C kla = lmnt # ; inhibited if -1
       data kla / -1 /
       data rmvDsp / 'N' /
-
+      data dspFNameDflt / 'zgoubi.OPTICS.out' / 
+       
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
       write(*,*) 'Now running pgm lipsFitFromFai ... '
       write(*,*) 'Will find ellipse matched to particle population'
      >//' at turn # kpa and at lmnt kla (inhibited if kla=-1),'
      >//' as specified in lipsFitFromFai.In.'
-      write(*,*) 'Dispersion will be remove from particle coordinates '
-     >//'if requested. '
+      write(*,*) 'Dispersion will be removed from particle coordinates'
+     >//' if requested. '
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
 C Range of turns to be considered may be specified using lipsFitFromFai.In
       INQUIRE(FILE='lipsFitFromFai.In',exist=EXS)
 
-c      if(exs) then
-        IF (IDLUNI(lunIn)) THEN
-          open(unit=lunIn,file='lipsFitFromFai.In')
-        ELSE
-          stop 'Pgm lipsFitFromFai :   No idle unit number ! '
-        ENDIF
+c     if(exs) then
+      IF (IDLUNI(lunIn)) THEN
+        open(unit=lunIn,file='lipsFitFromFai.In')
+      ELSE
+        stop 'Pgm lipsFitFromFai :   No idle unit number ! '
+      ENDIF
 
-c      elseif(.NOT.exs) then
+c    elseif(.NOT.exs) then
       if(.NOT.exs) then
         write(*,*)'WARNING : File lipsFitFromFai.In does not exist'
         write(*,*)'Pgm creates one from default values'
@@ -83,75 +85,119 @@ c      elseif(.NOT.exs) then
 
         write(lunIn,fmt='(2a)')  'zgoubi.fai '
      >  ,' ! file name (*.fai or b_*.fai type)'
-        write(lunIn,fmt='(i6,1x,t60,a)')  kpa
+        write(lunIn,fmt='(i6,1x,t40,a)')  kpa
      >  ,' ! kpa : turn # (lips will match bunch for that turn)'
-        write(lunIn,fmt='(i6,1x,t60,a)')  kla
+        write(lunIn,fmt='(i6,1x,t40,a)')  kla
      >  ,' ! kla : lmnt # (inhibited if -1)'
-        write(lunIn,fmt='(a,1x,t60,a)')  rmvDsp
-     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
-     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
+        write(lunIn,fmt='(a,2x,a,t40,a)')  rmvDsp,
+     >  dspFName(debstr(dspFName):finstr(dspFName)),
+     >  ' ! rmvDsp : remove dispersion Y/N (default is No), '
+     >  //' Y requires zgoubi.TWISS.out or'
+     >  //' zgoubi.OPTICS.out from prior TWISS or OPTICS run.'
       endif
 
       rewind(lunIn)
 
 C        read(lunIn,*,err=11,end=11) filfai
-        read(lunIn,fmt='(a)',err=11,end=11) txt200
-        if(strcon(txt200,'!',
-     >                       is)) txt200 = txt200(1:is-1)
-        call strget(txt200,2,
-     >                       nbstr,stra)
-        read(stra(1),*) filfai
-        if(nbstr.eq.2) read(stra(2),*) nt
-c              write(*,*) ' lipsFromFai ',nbstr, stra(1)
-c              write(*,*) stra(2), nt
-c              read(*,*)
-        read(lunIn,*,err=11,end=11) kpa
-        read(lunIn,*,err=11,end=11) kla
-        read(lunIn,*,err=11,end=11) rmvDsp
-        close(lunIn)
-        write(*,*) ' Read following data from lipsFitFromFai.In :'
-        write(*,*) filfai,'   !  .fai file name '
-        write(*,*) kpa,   '   !  # of the turn to be lips''ed '
-        write(*,*) kla,   '   !  # of the lmnt to be considered'
-     >                                //' (-1 to inhibit)'
-        write(*,*) rmvDsp//'   !  remove disperesion (Y/N)'
+      read(lunIn,fmt='(a)',err=11,end=11) txt200
+      if(strcon(txt200,'!',
+     >                     is)) txt200 = txt200(1:is-1)
+      txt200=txt200(debstr(txt200):finstr(txt200))
+      call strget(txt200,2,
+     >                     nbstr,stra)
+      read(stra(1),*) filfai
+      if(nbstr.eq.2) read(stra(2),*) nt
+c            write(*,*) ' lipsFromFai ',nbstr, stra(1)
+c            write(*,*) stra(2), nt
+c            read(*,*)
+      read(lunIn,*,err=11,end=11) kpa
+      read(lunIn,*,err=11,end=11) kla
+      read(lunIn,fmt='(a)',err=11,end=11) txt200
+      close(lunIn)
+      if(strcon(txt200,'!',
+     >                     is)) txt200 = txt200(1:is-1)
+      call strget(txt200,2,
+     >                     nbstr,stra)
+      read(stra(1),*) rmvDsp
+      if(nbstr.eq.2) then 
+        read(stra(2),*) dspFName
+      else
+        dspFName = dspFNameDflt
+      endif
+      write(*,*) ' Read following data from lipsFitFromFai.In :'
+      write(*,*) filfai,'   !  .fai file name '
+      write(*,*) kpa,   '   !  # of the turn to be lips''ed '
+      write(*,*) kla,   '   !  # of the lmnt to be considered'
+     >                              //' (-1 to inhibit)'
+      write(*,*) rmvDsp//
+     >' '//dspFName(debstr(dspFName):finstr(dspFName))//' '
+     >//'   !  remove disperesion (Y/N), file name'
+     >//' (either zgoubi.OPTICS.out or zgoubi.TWISS.out)'
 
-c        write(*,*) ' Press Enter to continue'
-c      read(*,*)
+c      write(*,*) ' Press Enter to continue'
+c     read(*,*)
 
       if(rmvDsp .eq. 'Y') then
         write(*,*) ' Dispersion removal : ',rmvDsp
-        INQUIRE(FILE='zgoubi.TWISS.out',exist=EXS)
+        INQUIRE(FILE=dspFName,exist=EXS)
         if(.not. exs) then
           write(*,*) ' However, could not find required file '//
-     >    'zgoubi.TWISS.out.  Dispersion will not be removed.'
+     >    ' '//dspFName(debstr(dspFName):finstr(dspFName))//'.'
+     >    //' Dispersion will not be removed.'
         else
+          write(*,*) '       using file : '
+     >    //dspFName(debstr(dspFName):finstr(dspFName))//'.'
           ok = IDLUNI(ldsp) 
-          OPEN(UNIT=ldsp,FILE='zgoubi.TWISS.out')          
+          OPEN(UNIT=ldsp,FILE=dspFName)          
           txt500 = ' ' 
-          dowhile(.not. strcon(txt500,'# From TWISS keyword',
+          if(dspFName(debstr(dspFName)+7:debstr(dspFName)+11) .eq. 
+     >          'TWISS') then
+            dowhile(.not. strcon(txt500,'# From TWISS keyword',
      >                                 is))
-            read(ldsp,fmt='(a)',err=20,end=21) txt500
+              read(ldsp,fmt='(a)',err=20,end=21) txt500
 c            write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
 c               read(*,*)
-          enddo
-          read(ldsp,*) txt500
-          read(ldsp,*) txt500
-c          write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
- 12       continue
-            read(ldsp,fmt='(a)',err=10,end=10) txt500
-c            write(*,*) ' lips** READ nuel '
-            read(txt500,*,err=10,end=10) 
-     >      dum,dum,dum,dum,dum,dum,dum, 
-     >      dum,dum,dum,dum,dum,dum,  nuel
-c            write(*,*) ' lips** nuel : ',nuel
-            read(txt500,*,err=10,end=10) 
-     >      dum,dum,dum,dum,dum,dum,
-     >      disp(1,nuel),disp(2,nuel),disp(3,nuel),disp(4,nuel)
-c            write(*,fmt='(i7,2x,1p,4e14.6,a)') 
-c     >      nuel,(disp(id,nuel),id=1,4),' nuel,(disp(id,nuel),i=1,4)'
-c                read(*,*)
-          goto 12
+            enddo
+            read(ldsp,*) txt500
+            read(ldsp,*) txt500
+c            write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
+ 12         continue
+              read(ldsp,fmt='(a)',err=10,end=10) txt500
+c              write(*,*) ' lips** READ nuel '
+              read(txt500,*,err=10,end=10) 
+     >        dum,dum,dum,dum,dum,dum,dum, 
+     >        dum,dum,dum,dum,dum,dum,  nuel
+c              write(*,*) ' lips** nuel : ',nuel
+              read(txt500,*,err=10,end=10) 
+     >        dum,dum,dum,dum,dum,dum,
+     >        disp(1,nuel),disp(2,nuel),disp(3,nuel),disp(4,nuel)
+c              write(*,fmt='(i7,2x,1p,4e14.6,a)') 
+c     >        nuel,(disp(id,nuel),id=1,4),' nuel,(disp(id,nuel),i=1,4)'
+c                  read(*,*)
+            goto 12
+          elseif(dspFName(debstr(dspFName)+7:debstr(dspFName)+12) .eq. 
+     >          'OPTICS') then
+C Read 3 header lines
+            read(ldsp,*) txt500
+            read(ldsp,*) txt500
+            read(ldsp,*) txt500
+c            write(*,*) ' lips** '//txt500(debstr(txt500):finstr(txt500))
+ 13         continue
+              read(ldsp,fmt='(a)',err=10,end=10) txt500
+c              write(*,*) ' lips** READ nuel '
+              read(txt500,*,err=10,end=10) 
+     >        dum,dum,dum,dum,dum,dum,dum,dum,dum,dum,dum,dum,dum,nuel
+c              write(*,*) ' lips** nuel : ',nuel
+              read(txt500,*,err=10,end=10) 
+     >        dum,dum,dum,dum,dum,dum,
+     >        disp(1,nuel),disp(2,nuel),disp(3,nuel),disp(4,nuel)
+c              write(*,fmt='(i7,2x,1p,4e14.6,a)') 
+c     >        nuel,(disp(id,nuel),id=1,4),' nuel,(disp(id,nuel),i=1,4)'
+c                  read(*,*)
+            goto 13
+          else
+            stop 'Could not disentangle dispersion file name. Sorry. '
+          endif
  10       continue
           call readsp(rmvDsp,disp)
         endif
@@ -174,12 +220,13 @@ c                read(*,*)
       write(TXT7B,fmt='(I7)') kpb
       write(TXT7R,fmt='(I7)') ksmpl
       write(TXT7L,fmt='(I7)') kla
-      write(TXT7L,fmt='(a)') rmvDsp
+      write(TXTYN,fmt='(a)') rmvDsp
 
       write(*,*) ' Particle # : '//'   all ' 
       write(*,*) ' Number of turns and range :  '//TXT7R
      >//' turn(s),  from '//TXT7A//' to '//TXT7B
-      write(*,*) ' Lmnt number :  '//TXT7R
+      write(*,*) ' Lmnt number :  '//TXT7L
+      write(*,*) ' Dispersion removal : ',TXTYN
 
       call READC2B(KPa,KPb,KPc)
       call READC4B(KLa,KLa)
@@ -1522,12 +1569,19 @@ C----------  This is to flush the write statements...
       dimension sigx2(3), sigxp2(3), sigxxp(3) 
       save sigx2, sigxp2, sigxxp 
 
-      IF(NPTS.EQ.NPTR) WRITE(IUN,179) XM, XPM
-     >,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
-     >,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
-     >,(sqrt(sigx2(I)),I=1,3),(sqrt(sigxp2(I)),I=1,3)
-     >,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7),kla,sav
+      IF(NPTS.EQ.NPTR) THEN 
+        WRITE(IUN,179) XM, XPM
+     >  ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     >  ,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
+     >  ,(sqrt(sigx2(I)),I=1,3),(sqrt(sigxp2(I)),I=1,3)
+     >  ,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7),kla,sav
 !!     >      ,  xK, xiDeg,' ',HV
+        WRITE(*,179) XM, XPM
+     >  ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
+     >  ,KT2-kt1,YM, YPM,kpa,kpb,energ, zm, zpm,(nptin(I),I=1,3)
+     >  ,(sqrt(sigx2(I)),I=1,3),(sqrt(sigxp2(I)),I=1,3)
+     >  ,(sqrt(sigxxp(I)),I=1,3),COOR(npass,7),kla,sav
+      ENDIF
  179  FORMAT(1P,7(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),3(1x,E14.6),
      >3(1x,i6),10(1x,E14.6),1x,i6,1x,e14.6)
 

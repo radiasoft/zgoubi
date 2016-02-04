@@ -1,0 +1,4 @@
+zgoubi.fai                                                                       ! .fai file name
+           1           1           1  ! kpa, kpb, kpstp (pass #)
+           1         170           1  ! kla, klb, klstp (lmnt #)
+Y  zgoubi.OPTICS.out                    ! rmvDsp : remove dispersion Y/N (default is No),  Y requires zgoubi.TWISS.out or zgoubi.OPTICS.out from prior TWISS or OPTICS run.

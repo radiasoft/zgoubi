@@ -1,0 +1,46 @@
+From LINAC to ARC
+ 'OBJET'                                                                                                      1
+66.714523526713180e3
+3.5   HEADER_3
+1 299 1
+1 1 1
+1.e2 1.e3 1.e2 1.e3 1. 1. 1.  '*'
+0. 0. 0. 0. 0. 0. 0.
+0
+20GeV_initial_dist
+ 
+ 'PARTICUL'                                                                                                   3
+0.51099892 1.60217653e-19 1.15965218076e-3 0. 0.
+ 'SPNTRK'                                                                                                     4
+3
+ 
+ 'SRLOSS'                                                                                                     6
+1.1         ! srLoss
+BEND  scale
+1  123456
+ 
+ 'FAISTORE'                                                                                                   5
+zgoubi.fai all
+1
+
+ 'SCALING'                                                                                                    7
+1  2
+MULTIPOL
+-1
+66.714523526713180
+1
+BEND
+-1
+66.714523526713180
+1
+
+'INCLUDE'
+1
+20p0GeV_LINACtoARC_9cmPath_clean.INC[SP_20G_S,:SP_20G_E]
+
+ 'MARKER' track_E
+ 'FAISCEAU'                                                                                                 140
+ 'SRPRNT'
+ 'SPNPRT'
+ 'END'                                                                                                      144
+

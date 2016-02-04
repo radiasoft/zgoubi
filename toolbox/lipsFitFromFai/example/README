@@ -1,0 +1,21 @@
+
+20p0GeV_LINACtoARC_9cmPath_clean is an eRHIC 20GeV spreader line (from linac to FFAG arc).
+
+1/ Run 20p0GeV_LINACtoARC_9cmPath_clean.INC, namely : 'zgoubi -fileIn 20p0GeV_LINACtoARC_9cmPath_clean.INC'
+
+This will generate zgoubi.OPTICS.out, for use by lipsFitFromFai_iterate in order to remove the dispersion
+
+2/ run the tracking, namely : 'zgoubi -fileIn 20p0GeV_LINACtoARC_9cmPath_clean_track.dat'
+
+(note that the procedure 'zgoubi -fileIn fileName' is mandatory here since  20p0GeV_LINACtoARC_9cmPath_clean_track.dat uses the INCLUDE keyword - see the Users' Guide)
+
+Now the two files, b_zgoubi.fai and zgoubi.OPTICS.out are available. 
+
+3/ ../lipsFitFromFai_iterate 
+
+This will compute concentration ellipse surfaces for all 3 motions (Y, Z and longitudinal), taking particle coordinates from b_zgoubi.fai, and taking D_Y, D_T, D_Z, D_P from zgoubi.OPTICS.out. Results printed in lipsFitFromFai_iterate.Out.
+
+4/ gnuplot <./gnuplot_lipsFit_norm.cmd will plot allipse surface vs. s, as found in lipsFitFromFai_iterate.Out.
+
+---
+Note :  1/ can be skipped. If so then  ../lipsFitFromFai_iterate  won't find zgoubi.OPTICS.out and will quietly skip removal dispersion from the calculation of concentration ellipse surface.

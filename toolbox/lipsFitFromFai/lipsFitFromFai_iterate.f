@@ -6,11 +6,14 @@
       character(1) rmvDsp1, rmvDspi, rmvDsp
       logical strcon
       integer debstr, finstr
+      character(50) dspFNameDflt,dspFName
+      CHARACTER(80) STRA(2)
 
       data filfai / 'zgoubi.fai' /
       data  kpa, kpb, kpstp / 1, 9, 1/ 
       data  kla, klb, klstp / -1, -1, -1 / ! Will not consider lmnt #. Otherwise kpa<kpb. 
       data rmvDsp / 'N' /
+      data dspFNameDflt / 'zgoubi.OPTICS.out' / 
 
       INQUIRE(FILE='lipsFitFromFai_iterate.In',exist=EXS)
 
@@ -23,13 +26,17 @@
       if(.not. exs) then
        write(87,*)'WARNING : lipsFitFromFai_iterate.In does not exist'
        write(87,*)'Will be created from default values'
-
        write(lIn,*) filfai,          ' ! .fai file name' 
        write(lIn,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp (pass #)' 
        write(lIn,*) kla, klb, klstp, ' ! kla, klb, klstp (lmnt #)' 
-       write(lIn,fmt='(t11,a,1x,t30,a)')  rmvDsp
-     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
-     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
+       write(lIn,fmt='(a,2x,a,t40,a)')  rmvDsp,
+     > dspFName(debstr(dspFName):finstr(dspFName)),
+     > ' ! rmvDsp : remove dispersion Y/N (default is No), '
+     > //' Y requires zgoubi.TWISS.out or'
+     > //' zgoubi.OPTICS.out from prior TWISS or OPTICS run.'
+c       write(lIn,fmt='(t11,a,1x,t30,a)')  rmvDsp
+c     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
+c     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
       endif
 
       rewind(lIn)
@@ -42,22 +49,43 @@
  20     continue
         kla = klai ; klb = klbi ; klstp = klstpi
         rmvDsp1 = rmvDsp
-        read(lIn,*,err=21,end=21) txt200
+        read(lIn,fmt='(a)',err=21,end=21) txt200
         if(strcon(txt200,'!',
      >                       is)) txt200 = txt200(debstr(txt200):is-1)
         read(txt200(1:1),*,err=21,end=21) rmvDspi
         rmvDsp1 = rmvDspi
+        call strget(txt200,2,
+     >                     nbstr,stra)
+        if(nbstr.eq.2) then 
+          read(stra(2),*) dspFName
+        else
+          dspFName = dspFNameDflt
+        endif
+             write(*,*) ' nbstr, dspFName : ',nbstr, dspFName 
  21     continue
         rmvDsp = rmvDsp1
         if(rmvDsp .ne. 'Y') rmvDsp = 'N'
+
+        write(*,fmt='(a,2x,a,t40,a)')  rmvDsp,
+     >  dspFName(debstr(dspFName):finstr(dspFName)),
+     >  ' ! rmvDsp : remove dispersion Y/N (default is No), '
+     >  //' Y requires zgoubi.TWISS.out or'
+     >  //' zgoubi.OPTICS.out from prior TWISS or OPTICS run.'
+              write(*,*) ' ok ? '
+              read(*,*) 
 
        rewind(lIn)
        write(lIn,fmt='(2a)') filfai,          ' ! .fai file name' 
        write(lIn,*) kpa, kpb, kpstp, ' ! kpa, kpb, kpstp (pass #)' 
        write(lIn,*) kla, klb, klstp, ' ! kla, klb, klstp (lmnt #)' 
-       write(lIn,fmt='(t11,a,1x,t30,a)')  rmvDsp
-     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
-     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
+        write(lIn,fmt='(a,2x,a,t40,a)')  rmvDsp,
+     >  dspFName(debstr(dspFName):finstr(dspFName)),
+     >  ' ! rmvDsp : remove dispersion Y/N (default is No), '
+     >  //' Y requires zgoubi.TWISS.out or'
+     >  //' zgoubi.OPTICS.out from prior TWISS or OPTICS run.'
+c       write(lIn,fmt='(t11,a,1x,t30,a)')  rmvDsp
+c     >  ,' ! rmvDsp : remove dispersion Y/N (default is No), '
+c     >  //' Y requires zgoubi.TWISS.out from prior TWISS run.'
 
         close(lIn)
 
@@ -77,7 +105,8 @@ C      call system('rm -f temp_ipmx')
         write(lIn,*) filfai
         write(lIn,*) kp
         write(lIn,*) kl 
-        write(lIn,*) rmvDsp
+        write(lIn,*) 
+     >  rmvDsp//' '//dspFName(debstr(dspFName):finstr(dspFName))
         close(lIn)
 
         write(*,*) 
@@ -87,6 +116,8 @@ C      call system('rm -f temp_ipmx')
         write(*,*) ' Turn # : ',kp
         write(*,*) ' Lmnt # : ',kl
         write(*,*) ' Dispersion removal : ',rmvDsp
+        write(*,*) '         using file : ',
+     >                  dspFName(debstr(dspFName):finstr(dspFName))
         write(*,*) ' ----------------------------------------------'
         write(*,*) 
         call system
@@ -199,5 +230,64 @@ C     ---------------------------------------------------------------
       ENDDO
  1    CONTINUE
       STRCON = .FALSE.
+      RETURN
+      END
+      SUBROUTINE STRGET(STR,MSS,
+     >                          NST,STRA)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) STR, STRA(MSS)
+C     ------------------------------------------------------
+C     Extract substrings #1 up to #MSS, out of string STR. 
+C     Strings are assumed spaced by (at least) one blank. 
+C     They are saved in  array STRA, and their actual number 
+C     (possibly < mss) is NST.
+C     ------------------------------------------------------
+      INTEGER FINSTR
+
+      CHARACTER STR0*(300)
+
+      if(len(str0).lt.len(str)) 
+     >  stop ' SBR STRGET : Increase length of string str0'
+
+      STR0 = STR
+      IE = FINSTR(STR)
+      NST = 0
+      I2 = 1
+
+ 1    CONTINUE
+
+        IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >     STR(I2:I2) .EQ. ',') THEN
+          I2 = I2 + 1
+          IF(I2 .LE. IE) GOTO 1
+        ELSE
+          I1 = I2
+ 2        CONTINUE
+          I2 = I2 + 1
+          IF(I2 .LE. IE) THEN
+            IF(STR(I2:I2) .EQ. ' '  .OR. 
+     >         STR(I2:I2) .EQ. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+                I2 = I2 + 1
+                GOTO 1
+              ENDIF
+            ELSE
+              GOTO 2
+            ENDIF
+          ELSE
+            IF(STR(I2-1:I2-1) .NE. ' ' .AND.
+     >         STR(I2-1:I2-1) .NE. ',') THEN
+              IF(NST .LT. MSS) THEN
+                NST = NST + 1
+                STRA(NST) = STR(I1:I2-1)
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDIF
+
+      STR = STR0
+
       RETURN
       END
