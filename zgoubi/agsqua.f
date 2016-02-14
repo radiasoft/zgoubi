@@ -334,6 +334,11 @@ C      ENDIF
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
+        IF(XE+XLS .GE.XL) THEN
+          CALL ENDJOB(' Pgm agsqua. Entrance/body/exit step size mode '
+     >    //'is not compatible with fringe fields overlapping in body.'
+     >    //' Instead, use explicit single step size value. ',-99)
+        ENDIF
         AREG(1)=1.D0
         BREG(1)=0.D0
         CREG(1)=-2.D0*XE

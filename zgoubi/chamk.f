@@ -615,7 +615,7 @@ C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
 C------------------------------------------------------------------------
  51   CONTINUE
 C     .... KUASEX = 7 and MOD=16 : same as MOD.ne.16, apart from the following : 
-C     Field contributions from all maps are summed here, whereas otherwise field 
+C     Field contributions from all maps are summed right here, whereas otherwise field 
 C     maps are summed up into a single new one when they are read (managed in toscac.f). 
 
       DO 515 L = 1,3
@@ -629,11 +629,11 @@ C     maps are summed up into a single new one when they are read (managed in to
         A110(L)=0.D0
         A101(L)=0.D0
         A011(L)=0.D0
-        DO 516 J=1,3
+        DO J=1,3
           JR=2-J
-          DO 516 I=1,3
+          DO I=1,3
             IA=I-2
-            DO 516 K=1,3
+            DO K=1,3
               KZ=K-2
               BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,JMAP) * SCAL
               BMESH3(K,I,J) = BIJK
@@ -645,16 +645,14 @@ C     maps are summed up into a single new one when they are read (managed in to
               A200(L)=A200(L) +  DBLE(3*IA*IA-2)   *BIJK
               A020(L)=A020(L) +  DBLE(3*JR*JR-2)   *BIJK
               A002(L)=A002(L) +  DBLE(3*KZ*KZ-2)   *BIJK
-C              A200(L)=A200(L) +  (3.D0*IA*IA-2.D0)   *BIJK
-C              A020(L)=A020(L) +  (3.D0*JR*JR-2.D0)   *BIJK
-C              A002(L)=A002(L) +  (3.D0*KZ*KZ-2.D0)   *BIJK
               A110(L)=A110(L) +      IA*JR       *BIJK
               A101(L)=A101(L) +      IA*KZ       *BIJK
               A011(L)=A011(L) +      JR*KZ       *BIJK
- 516    CONTINUE
+            ENDDO
+          ENDDO
+        ENDDO
 
         CALL MAPLIM(*999, 27, BMESH3)
-
 
         A000(L)=A000(L)/( 9.D0      )*BRI
         A100(L)=A100(L)/(18.D0*DA   )*BRI
@@ -722,7 +720,7 @@ C      IF(LIMIT .EQ. 1) FMAG=ABS(BZ*BR/BMAX)
 C--------- Transformation from cylindrical to cartesian coordinates
         R11=1.D0/R1
         R12=R11*R11
-        DO 518 L = 1,3
+        DO L = 1,3
 C         dB_*/dtta -> /rdB_*/dx 
           DB(1,L)  = DB(1,L)*R11
 C         d2B_*/dtta2 -> d2B_*/dx2
@@ -733,11 +731,8 @@ C         d2B_*/dtta.dr -> d2B_*/dxdy
 C         d2B_*/dtta.dz -> d2B_*/dxdz
           DDB(1,3,L) = DDB(1,3,L) * R11
           DDB(3,1,L) = DDB(1,3,L)
-C--------- Call to DBDXYZ is redundant because all derivatives 
-C          have been filled above, yet it links the derivatives by Maxwell 
-          IDB=2
-C          CALL DBDXYZ(IDB,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ)
- 518    CONTINUE
+        ENDDO
+        IDB=2
       ENDIF
  
       GOTO 998

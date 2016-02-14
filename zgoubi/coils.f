@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -53,7 +53,7 @@ C      LOGICAL ZSYM
       XLI(M1) = A(NOEL,3+4*M)
       RI(M1) =  A(NOEL,4+4*M)
       BI(M1) =  A(NOEL,5+4*M)*SCAL
-      DO 1 M = 1, MS-1         
+      DO M = 1, MS-1         
           M1 = M+1
           IF(M1.GT.MXCOIL) 
      >      CALL ENDJOB(' Too  many  coils, max is ',MXCOIL)
@@ -63,7 +63,7 @@ C      LOGICAL ZSYM
           BI(M1) =  A(NOEL,5+4*M)*SCAL
           XLT = XLT + DIST(M)
           BO = BO + BI(M) 
- 1    CONTINUE
+      ENDDO
       XLT = XLT + DIST(MS)
       XLT = XLT + XLI(1)/2.D0 + XLI(MS)/2.D0 
 
@@ -94,6 +94,13 @@ C      LOGICAL ZSYM
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
+        DO M = 1, MS
+          IF(XE+XLS .GE.XLI(M)) THEN
+            CALL ENDJOB(' Pgm coils. Entrance/body/exit step size mode '
+     >      //'is not compatible with fringe fields overlapping in body'
+     >      //'. Instead, use explicit single step size value. ',-99)
+          ENDIF
+        ENDDO
         AREG(1)=1.D0
         BREG(1)=0.D0
         CREG(1)=-2.D0*XE

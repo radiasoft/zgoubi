@@ -69,11 +69,13 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       DIMENSION AKS(6)
       SAVE AKS, SXL
 
+      LOGICAL ERRON
+      SAVE ERRON
       PARAMETER (MXERR=MXTA)
       CHARACTER(LBLSIZ) LBL1(MXERR), LBL2(MXERR)
       CHARACTER(LBLSIZ) LBL1I, LBL2I
       SAVE LBL1, LBL2
-
+      LOGICAL EMPTY
       DIMENSION KPOL(MXERR,MPOL)
       CHARACTER(2) TYPERR(MXERR,MPOL)
       CHARACTER(1) TYPAR(MXERR,MPOL),TYPDIS(MXERR,MPOL)
@@ -81,9 +83,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-      LOGICAL EMPTY
-      LOGICAL ERRON
-      SAVE ERRON
+
 C      ERRORS
       DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
       SAVE DB, DPOS, TILT
@@ -196,7 +196,6 @@ C------- If SR-loss switched on by procedure SRLOSS
         IA = IA + 1
         CALL RAZ(CE,MCOEF)
         NCE = NINT(A(NOEL,IA))
-C        DO 32 I=1,6
         DO 32 I=1, NCE
           IA = IA + 1
           CE(I) =A(NOEL,IA)
@@ -424,7 +423,7 @@ C FM, 2006
         ENDIF
         
       ELSE
-C-------- Gradient G(s) at entrance or exit
+C-------- Form factor G(s) at entrance or exit
 C-----    Let's see entrance first
         IF(NRES.GT.0) WRITE(NRES,104)
  104    FORMAT(/,15X,' Entrance  face  ')
@@ -687,6 +686,11 @@ cC-----------------------------------------
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
+        IF(XE+XLS .GE.XL) THEN
+          CALL ENDJOB(' Pgm multpo. Entrance/body/exit step size mode '
+     >    //'is not compatible with fringe fields overlapping in body.'
+     >    //' Instead, use explicit single step size value. ',-99)
+        ENDIF
         AREG(1)=1.D0
         BREG(1)=0.D0
         CREG(1)=-2.D0*XE
@@ -726,15 +730,15 @@ C      aK3 = AKS(3)
       ERRON = .TRUE.
       IRR = IRRI
       IPOL = IPOLI
-      KPOL(irr,IPOL) = 1
-      TYPERR(irr,IPOL)=      TYPERI
-      TYPAR(irr,IPOL)=      TYPAI
-      TYPDIS(irr,IPOL)=      TYPDII
-      ERRCEN(irr,IPOL)=      ERRCEI
-      ERRSIG(irr,IPOL)=      ERRSII
-      ERRCUT(irr,IPOL)=      ERRCUI
-      LBL1(irr) = LBL1I
-      LBL2(irr) = LBL2I
+      KPOL(IRR,IPOL) = 1
+      TYPERR(IRR,IPOL)=      TYPERI
+      TYPAR(IRR,IPOL)=      TYPAI
+      TYPDIS(IRR,IPOL)=      TYPDII
+      ERRCEN(IRR,IPOL)=      ERRCEI
+      ERRSIG(IRR,IPOL)=      ERRSII
+      ERRCUT(IRR,IPOL)=      ERRCUI
+      LBL1(IRR) = LBL1I
+      LBL2(IRR) = LBL2I
       RETURN
 
       ENTRY MULTP4

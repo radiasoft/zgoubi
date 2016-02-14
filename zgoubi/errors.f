@@ -113,7 +113,7 @@ C         Get possible label1 and/or label2
         ELSE
           READ(TXT132,*) KLERR
         ENDIF
-        IF(KLERR.EQ.'MULTIPOL') THEN
+        IF    (KLERR.EQ.'MULTIPOL') THEN
           TXT132 = TXT132(9:FINSTR(TXT132))
           IF(OK) THEN 
             OK = STRCON(TXT132,'{',
@@ -149,6 +149,44 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
             READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
             READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
             CALL MULTP2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
+     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
+          ENDIF
+        ELSEIF(KLERR.EQ.'TOSCA') THEN
+          TXT132 = TXT132(9:FINSTR(TXT132))
+          IF(OK) THEN 
+            OK = STRCON(TXT132,'{',
+     >                             IS)
+            OK = STRCON(TXT132,'}',
+     >                             IS2)
+            OK = STRCON(TXT132(IS:IS2),',',
+     >                                     IS3)
+            IF(IS+1.LT.IS2-1) THEN
+              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
+     >             READ(TXT132(IS+1:IS2-1),*) LBL1
+            ENDIF
+            IF(OK) THEN
+              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
+     >          READ(TXT132(2:IS2+1),*) LBL2
+            ENDIF
+            TXT132 = TXT132(IS2+1:FINSTR(TXT132))
+          ENDIF
+C          Get the rest of the arguments
+          TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          CALL STRGET(TXT132,99,
+     >                          NSTR,STRA)
+C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
+
+          READ(STRA(1),*) IPOL     ! Parameter to which the error applies (1-10). Now field coeff only
+          READ(STRA(2),*) TYPERR   ! Error type. Now BN (Bnorm factor)
+          READ(STRA(3),*) TYPAR    ! Relative or absolute : R, A
+          READ(STRA(4),*) TYPDIS   ! Type of density : G or U,  or 0 to switch off ERRORS
+          IF(TYPDIS.EQ.'0') THEN
+            CALL TOSCA4
+          ELSE
+            READ(STRA(5),*) ERRCEN
+            READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
+            READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
+            CALL TOSCA2(IRR,TYPERR,TYPAR,TYPDIS,
      >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
           ENDIF
         ENDIF

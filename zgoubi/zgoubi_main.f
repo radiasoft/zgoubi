@@ -36,7 +36,7 @@ C  -------
       PARAMETER (I100 = 100)
       CHARACTER(I100) FLIN, FLOUT, FLOG
 
-      CHARACTER(15) FDAT
+      CHARACTER(I100) FDAT
       SAVE FDAT
       
       PARAMETER (I5=5, I6=6)
@@ -143,7 +143,7 @@ C -----
  103  FORMAT(/,'  Zgoubi, author''s dvlpmnt version.',/,
      >       '  Job  started  on  ',A,',  at  ',A)
 
-      CALL PRDATA(NLIN,FLIN,FDAT,NRES,
+      CALL PRDATA(NLIN,FLIN,FDAT,I100,NRES,
      >                                LABEL,NBLM,NDAT)
       NBLMN = NBLM
 

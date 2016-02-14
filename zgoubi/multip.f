@@ -68,7 +68,8 @@ C---------------------
       IOP=1
 
       GOTO  (1,2,3,4,5,6,7,8,9,10,11), KUASEX
-      CALL ENDJOB('*** Error, SBR MULTIP -> KUASEX value',-99)
+      CALL ENDJOB('*** Error, pgm multip.  '
+     >//' Got out of range value   KUASEX = ',KUASEX)
 
  11   CONTINUE
       IF( BM(1) .EQ. ZERO) GOTO 82
@@ -165,8 +166,8 @@ C            CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
  
           G= GE+GS-UN
  
-          IF(G.LT.ZERO) CALL ENDJOB(
-     >      'SBR CHAMC : gradient is wrong,  G (=GE+GS-1) < ',0)
+          IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, dipole field : '
+     >    //'gradient computation went wrong, found G (=GE+GS-1) < ',0)
  
 C         *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C             SES DERIVEES
@@ -360,8 +361,10 @@ C          CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
  
         G= GE+GS-UN
  
-        IF(G.LT.ZERO) CALL ENDJOB(
-     >    'SBR CHAMC : gradient  is  wrong  G (=GE+GS-1) < ',0)
+        IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, quadrupole field : '
+     >  //'gradient computation went wrong, found G (=GE+GS-1) < ',0)
+c        IF(G.LT.ZERO) CALL ENDJOB(
+c     >    'SBR CHAMC : gradient  is  wrong  G (=GE+GS-1) < ',0)
  
 C       *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C           SES DERIVEES
@@ -591,8 +594,10 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LT.ZERO) CALL ENDJOB(
-     >  'SBR CHAMC : gradient  is  wrong,  G (=GE+GS-1) < ',0)
+      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, sextupole field : '
+     >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
+c      IF(G.LT.ZERO) CALL ENDJOB(
+c     >  'SBR CHAMC : gradient  is  wrong,  G (=GE+GS-1) < ',0)
  
 C     *** CACULE LE GRADIENT DE Champ DE FUITE RESULTANT G=GE+GS-1,
 C         ET  SES DERIVEES
@@ -814,8 +819,10 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LT.ZERO) CALL ENDJOB(
-     >  'SBR CHAMC : gradient is  wrong,  G (=GE+GS-1) < ',0)
+      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, octupole field : '
+     >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
+c      IF(G.LT.ZERO) CALL ENDJOB(
+c     >  'SBR CHAMC : gradient is  wrong,  G (=GE+GS-1) < ',0)
  
 C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C         SES DERIVEES
@@ -1067,7 +1074,7 @@ C        IF ( X.GE.XE .AND. X.LT.XS ) THEN
         IF ( X.GE.XE .AND. X.LE.XS ) THEN
 C         *** A L'INTERIEUR DE L'AIMANT
 
-          CALL ENDJOB('14-pole not installed ',-99)
+          CALL ENDJOB('14-pole not fringe not installed ',-99)
  
           IF(ID.GE.3) THEN
           ENDIF
@@ -1119,7 +1126,7 @@ C         *** A L'INTERIEUR DE L'AIMANT
       ELSEIF(DLE+DLS .NE. ZERO) THEN
 C     *** ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
  
-        CALL ENDJOB('SBR MULTIP:  fringe field not installed ',-99)
+        CALL ENDJOB('16-pole fringe field not installed ',-99)
  
       ENDIF
 C     ** TEST DLE+DLS
@@ -1161,7 +1168,7 @@ C         *** A L'INTERIEUR DE L'AIMANT
       ELSEIF(DLE+DLS .NE. ZERO) THEN
 C     *** ChampS DE FUITE D'ENTREE ET/OU DE SORTIE
  
-        CALL ENDJOB('SBR MULTIP:  fringe field not installed ',-99)
+        CALL ENDJOB('18-pole fringe field not installed ',-99)
  
       ENDIF
 C     ** TEST DLE+DLS
@@ -1308,8 +1315,10 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LT.ZERO) CALL ENDJOB(
-     >  'SBR CHAMC : GRADIENT ERRONNE  G (=GE+GS-1) < ',0)
+      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, 20-pole field : '
+     >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
+c      IF(G.LT.ZERO) CALL ENDJOB(
+c     >  'SBR CHAMC : GRADIENT ERRONNE  G (=GE+GS-1) < ',0)
  
 C     *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
 C         SES DERIVEES

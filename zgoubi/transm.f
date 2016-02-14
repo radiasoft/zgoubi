@@ -129,30 +129,34 @@ C        P0 = BORO*CL*1.D-9 *Q
 C       ... ELSE: PS IS UP DATED BY 'CAVITE'
       ENDIF
  
+      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
       DO 1 I=1,IMAX
-        FF(6)=F(1,I)*P0/PS-1.D0
-        FF(1)=F(2,I)
-        FF(2)=F(3,I)
-        FF(3)=F(4,I)
-        FF(4)=F(5,I)
+C        FF(6)=F(1,I)
+        FF(6)=DP
+        FF(1)=F(2,I)/1.d2
+        FF(2)=F(3,I)/1.d3
+        FF(3)=F(4,I)/1.d2
+        FF(4)=F(5,I)/1.d3
         DO 2 IA=1,6
           FC(IA)=0.D0
           DO 2 IB=1,6
-            FC(IA)=FC(IA) + FF(IB) * R(IA,IB)/UNIT(IA)*UNIT(IB)
+            FC(IA)=FC(IA) + FF(IB) * R(IA,IB)
+C            FC(IA)=FC(IA) + FF(IB) * R(IA,IB)/UNIT(IA)*UNIT(IB)
             IF(IORD .EQ. 1) GOTO 2
 C            DO 3 IC=1,IB
             DO 3 IC=1,6
               FC(IA)=FC(IA) +
      >          FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
+C     >          FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
  3          CONTINUE
  2      CONTINUE
-        F(1,I)=(1.D0+FC(6))*PS/P0
-        F(2,I)=FC(1)
-        F(3,I)=FC(2)
-        F(4,I)=FC(3)
-        F(5,I)=FC(4)
+C        F(1,I)=(1.D0+FC(6))*PS/P0
+        F(2,I)=FC(1)*1.d2
+        F(3,I)=FC(2)*1.d3
+        F(4,I)=FC(3)*1.d2
+        F(5,I)=FC(4)*1.d3
 C       ... Path length :
-        F(6,I)=F(6,I) + FC(5) + XL
+        F(6,I)=F(6,I) + FC(5)*1.d2 + XL
 C       ... Time of flight update ????
 C        F(7,I)= ??
 

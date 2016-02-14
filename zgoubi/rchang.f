@@ -20,15 +20,13 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory            
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RCHANG
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
-C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER TXT*132, TXT1*1, TXT2*2
@@ -37,6 +35,7 @@ C      PARAMETER (MXTA=45)
       PARAMETER (MSR=8,MSR2=2*MSR)
       CHARACTER(30) SSHRO(MSR2)
 
+      LINE = 1
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
       TXT1 = TXT(1:1)
@@ -94,8 +93,12 @@ C old style, x- and y-shift followed by z-rotation
 
       RETURN
 
- 99   CONTINUE
-      CALL ENDJOB(' End of job while reading from ''CHANGREF''',-99)
+ 99   WRITE(6,*) 
+     >  ' *** Execution stopped upon READ : invalid input in CHANGREF'
+      WRITE(NRES ,*) 
+     >  ' *** Execution stopped upon READ : invalid input in CHANGREF'
+      
+ 90   CALL ENDJOB('*** Pgm rchang, keyword CHANGREF : '// 
+     >'input data error, at line ',line)
       RETURN
-
       END

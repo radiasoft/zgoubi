@@ -22,10 +22,11 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE PRDATA(NLIN,FLIN,FDAT,NRES,
+      SUBROUTINE PRDATA(NLIN,FLIN,FDAT,MFDA,NRES,
      >                                 LABEL,NOEL,NDAT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(*) FLIN, FDAT
+      CHARACTER(*) FLIN
+      CHARACTER(MFDA) FDAT
       INCLUDE 'MXLD.H'
       CHARACTER(*) LABEL(MXL,*)
 C----------------------------------------------------------
@@ -47,7 +48,7 @@ C----------------------------------------------------------
       DIMENSION LUNR(10)
       PARAMETER(MXFIL=1)
       CHARACTER(132) FINC(MXFIL)
-      CHARACTER(50) CMMND
+      CHARACTER(MFDA+40) CMMND
       LOGICAL YINC, YINC2, STRCON
       CHARACTER(LBLSIZ) LBL1A(MXFIL),LBL2A(MXFIL),
      >LBL1B(MXFIL),LBL2B(MXFIL)
@@ -140,8 +141,9 @@ C----- Read zgoubi.dat title (1st data line)
                 ELSE
                   WRITE(TXT110,FMT='(A)')TEXT(DEBSTR(TEXT):FINSTR(TEXT))
      >            //'  ! Include_Start :'
-                ENDIF
-                WRITE(TXT110,FMT='(A)') 
+                ENDIF                
+C                WRITE(TXT110,FMT='(A)') 
+                TXT110 = 
      >          TXT110(DEBSTR(TXT110):FINSTR(TXT110))
      >          //' '//FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
      >          //';  range : '

@@ -2874,7 +2874,13 @@ including field and positionning defects. Uniform and Gaussian distribution laws
 
 \medskip 
 
-\noindent  \textsl{MULTIPOL} can be injected field defects. 
+\noindent  \textsl{MULTIPOL} can be injected field defects. Some rules~: 
+
+- if \textsl{REBELOTE} is used in multi-turn mode (\ie, argment K99), then the same defect series is 
+applied at each pass, by default. However one may want to simulate one turn by repeating a cell subset, using 
+\textsl{REBELOTE}, in which case  defects of random type in the subset should be changed at each pass. This 
+requires modification in errors.f program.
+
 
 
 
