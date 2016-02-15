@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MULERR(NOEL,IRR,MXTA,BM, 
+      SUBROUTINE TOSERR(NOEL,IRR,MXTA,BM, 
      >KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                     DB,DPOS,TILT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -51,7 +51,7 @@ C      PARAMETER (MXERR=MXTA)
             XXX = RNDM()
             DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0) 
 C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
-C                WRITE(88,*) ' MULERR RNDM ',XXX
+C                WRITE(88,*) ' TOSERR RNDM ',XXX
           ENDIF
           IF    (TYPERR(IRR,I)(1:1).EQ.'B') THEN
             IF    (TYPAR(IRR,I).EQ.'A') THEN
@@ -66,7 +66,8 @@ C              RELATIVE ERROR
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
               TILT(NOEL,I,3) = 0.D0
           ELSE
-            CALL ENDJOB('SBR MULERR. NO SUCH OPTION FOR TYPERR',-99)
+            WRITE(NRES,FMT='(//,5X,A)') '****** Found TYPERR = '//TYPERR
+            CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
           ENDIF
         ENDIF
       ENDDO      

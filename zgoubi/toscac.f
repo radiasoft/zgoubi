@@ -45,6 +45,9 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
@@ -91,24 +94,39 @@ C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
       INCLUDE 'MAPHDR.H'
 
+C      ERRORS
       LOGICAL ERRON
       SAVE ERRON
       PARAMETER (MXERR=MXTA)
-      PARAMETER (LBLSIZ=10)
       CHARACTER(LBLSIZ) LBL1(MXERR), LBL2(MXERR)
       CHARACTER(LBLSIZ) LBL1I, LBL2I
       SAVE LBL1, LBL2
       LOGICAL EMPTY
-      CHARACTER(2) TYPERR(MXERR)
-      CHARACTER(1) TYPAR(MXERR),TYPDIS(MXERR)
+      PARAMETER (MPOL=6)
+      DIMENSION KPOL(MXERR,MPOL), BNRM(MPOL)
+      CHARACTER(2) TYPERR(MXERR,MPOL)
+      CHARACTER(1) TYPAR(MXERR,MPOL),TYPDIS(MXERR,MPOL)
       CHARACTER(2) TYPERI
       CHARACTER(1) TYPAI,TYPDII
-      DIMENSION ERRCEN(MXERR),ERRSIG(MXERR),ERRCUT(MXERR)
+      DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
+      SAVE DB, DPOS, TILT
+      LOGICAL OK
+      LOGICAL FITING, FITFNL
+      LOGICAL PRNT, PRNTI
+      SAVE PRNT
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLEY
+      LOGICAL OKOPN
+      SAVE OKOPN, LERR
+      SAVE IPOL
+      CHARACTER(LBLSIZ) LBL1l, LBL2l
 
       DATA IALOC / 0 /
       DATA NBMAPS / 0 /
-      DATA ERRON / 0 /
+      DATA ERRON / .FALSE. /
+      DATA BNRM / 6*0.D0 /
  
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
@@ -699,6 +717,128 @@ C------- Restore mesh coordinates
  
       ENDIF ! NEWFIC
  
+C----- Case erron (errors)
+      IF(ERRON) THEN
+
+        DO IRR = 1, MXERR 
+          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+
+          IF(OK) THEN
+            CALL REBELR(
+     >                  KREB3,KDUM,KDUM)
+            CALL FITSTA(5,
+     >                    FITING)
+            CALL FITST5(
+     >                  FITFNL)         
+
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+C Won't go if KREB3=99, since this is multi-turn in same lattice. 
+              CALL TOSERR(NOEL,IRR,MXTA,BNRM, 
+     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+     >                                             DB,DPOS,TILT)
+              IF(PRNT .AND. OKOPN) THEN
+                CALL ZGKLE(IQ(NOEL), 
+     >                             KLEY)
+                IF(EMPTY(LBL1(IRR))) THEN 
+                  LBL1L = '.'
+                ELSE
+                  LBL1L = LBL1(IRR)
+                ENDIF
+                IF(EMPTY(LBL2(IRR))) THEN 
+                  LBL2L = '.'
+                ELSE
+                  LBL2L = LBL1(IRR)
+                ENDIF
+                WRITE(LERR,FMT='(4(1X,I5),3(1X,A),
+     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
+     >          NOEL,IRR,IPOL,KPOL(IRR,IPOL),
+     >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
+     >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
+     >               DB(NOEL,IPOL),
+     >          (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
+     >             KLEY,LBL1L,LBL2L
+              ENDIF
+
+c              IF(KUASEX .LE. MPOL) THEN
+c                BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+c              ELSEIF(KUASEX .EQ. MPOL+1) THEN
+                DO IM=1,MPOL
+                  IF(KPOL(IRR,IM).EQ.1) THEN
+C                    BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
+                    BNRM(IM) = DB(NOEL,IM)
+                  ENDIF
+                ENDDO
+
+                BNORM = BNRM(1)
+
+c                       write(*,*) ' toscac bnorm ',bnorm
+c                       write(*,*) ' toscac bnorm ',bnorm
+
+c              ELSE
+c                CALL ENDJOB
+c     >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
+c              ENDIF      
+            ENDIF      
+
+C              DO IM=1,MPOL
+C                IF(KPOL(IRR,IM).EQ.1) THEN
+C                  IA = IM + 3
+C                  A(NOEL,IA) = BM(IM) / SCAL
+C                ENDIF
+C              ENDDO
+
+          ENDIF      
+        ENDDO
+
+        IF(NRES.GT.0) THEN
+         DO IRR = 1, MXERR 
+          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+          IF(OK) THEN
+           IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+            DO I = 1, MPOL
+              IF(KPOL(IRR,I) .EQ. 1) THEN 
+                WRITE(NRES,FMT='(/,15X,
+     >          ''ERRORS are set, accounted for in the field '', 
+     >          ''values above.'')')
+                WRITE(NRES,FMT=
+     >          '(20X,''Case of TOSCA with labels : '',4A,I4,A,I4)')
+     >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
+     >          ', # element = ',NOEL  
+                WRITE(NRES,FMT='(20X,
+     >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
+     >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+     >          'err_center, err_sigma, err_cutoff : ',
+     >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+              ENDIF
+            ENDDO
+           ELSE
+            DO I = 1, MPOL
+              IF(KPOL(IRR,I) .EQ. 1) THEN 
+                WRITE(NRES,FMT='(/,15X,
+     >          ''ERRORS were set, accounted for in the field '', 
+     >          ''values above - maintainded unchanged so far.'')')
+                WRITE(NRES,FMT=
+     >          '(20X,''Case of TOSCA with labels : '',4A,I4,A,I4)')
+     >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
+     >          ', # element = ',NOEL  
+                WRITE(NRES,FMT='(20X,
+     >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
+     >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+     >          'err_center, err_sigma, err_cutoff : ',
+     >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+              ENDIF
+            ENDDO
+           ENDIF
+          ENDIF
+         ENDDO
+        ENDIF
+
+      ENDIF
+
       CALL CHAMK2(BNORM*SCAL)
  
 C Make sure this is ok with cartésien
@@ -721,17 +861,18 @@ C        XF = XH(IAMA)
       ENDDO
       RETURN
  
-      ENTRY TOSCA2(IRRI,TYPERI,TYPAI,TYPDII,
+      ENTRY TOSCA2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
      >               ERRCEI,ERRSII,ERRCUI,LBL1I,LBL2I)
       ERRON = .TRUE.
       IRR = IRRI
       IPOL = IPOLI
-      TYPERR(IRR)=      TYPERI
-      TYPAR(IRR)=      TYPAI
-      TYPDIS(IRR)=      TYPDII
-      ERRCEN(IRR)=      ERRCEI
-      ERRSIG(IRR)=      ERRSII
-      ERRCUT(IRR)=      ERRCUI
+      KPOL(IRR,IPOL) = 1
+      TYPERR(IRR,IPOL)=      TYPERI
+      TYPAR(IRR,IPOL)=      TYPAI
+      TYPDIS(IRR,IPOL)=      TYPDII
+      ERRCEN(IRR,IPOL)=      ERRCEI
+      ERRSIG(IRR,IPOL)=      ERRSII
+      ERRCUT(IRR,IPOL)=      ERRCUI
       LBL1(IRR) = LBL1I
       LBL2(IRR) = LBL2I
       RETURN
@@ -740,4 +881,27 @@ C        XF = XH(IAMA)
       ERRON = .FALSE.
       RETURN      
 
+      ENTRY TOSCA8(PRNTI)
+      PRNT = PRNTI
+      IF(PRNT) THEN
+        IF(.NOT. OKOPN) THEN
+          OK = IDLUNI(
+     >                 LERR)
+          OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
+          WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : toscac'
+     >    //' program. This file opened with unit # ',LERR,'.'
+          WRITE(LERR,FMT='(A)') '# '
+          WRITE(LERR,FMT='(A)') '# NOEL, IRR, IPOL, KPOL(IRR,Ipol) '
+     >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
+     >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
+     >    //'DB(NOEL,IPOL), '
+     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '
+     >    //'KLEY, LBL1L, LBL2L'
+          WRITE(LERR,FMT='(A)') '# '
+          OKOPN = .TRUE.
+        ENDIF
+      ELSE
+        IF(OKOPN) CLOSE(LERR)
+      ENDIF
+      RETURN      
       END

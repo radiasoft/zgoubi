@@ -69,6 +69,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       DIMENSION AKS(6)
       SAVE AKS, SXL
 
+C      ERRORS
       LOGICAL ERRON
       SAVE ERRON
       PARAMETER (MXERR=MXTA)
@@ -83,8 +84,6 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-
-C      ERRORS
       DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
       SAVE DB, DPOS, TILT
       LOGICAL OK

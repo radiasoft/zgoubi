@@ -67,10 +67,28 @@ C Re-initialize the series to same seed, after REBELOTE, when multi-turn trackin
         IF(IPASS .EQ. 1) DUMMY = RNDM2(ISEED)
       ENDIF
 
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)') 
+        WRITE(NRES,FMT='(/,15X,''On/off, number of sets, seed, start '',
+     >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
+        WRITE(NRES,FMT='(/,15X,''Errors to be introduced : '')')
+        DO IRR = 1, NBR
+          WRITE(NRES,FMT='(20X,A)')
+     >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
+        ENDDO
+
+        IF(IOP.EQ.0) 
+     >  WRITE(NRES,FMT='(/,15X,''Errors are off. Exiting.'',/)')
+
+      ENDIF
+
       IF (IOP .EQ. 0) THEN 
 C        Switch off all possible earlier error settings
         CALL MULTP4
         CALL MULTP8(.NOT. PRNT)
+        CALL TOSCA4
+        CALL TOSCA8(.NOT. PRNT)
+        GOTO 99
       ENDIF
 
       IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
@@ -80,16 +98,6 @@ C Will save error list in zgoubi.ERRORS.out
         CALL MULTP8(.NOT. PRNT)
       ENDIF
 
-      IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)') 
-        WRITE(NRES,FMT='(/,15X,''On/off, number of sets, seed, start '',
-     >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
-        WRITE(NRES,FMT='(/,15X,''ERRORS TO BE INTRODUCED : '')')
-        DO IRR = 1, NBR
-          WRITE(NRES,FMT='(20X,A)')
-     >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
-        ENDDO
-      ENDIF
 
       IF(NBR.GT.MXTA) CALL ENDJOB('SBR RERROR. NUMBER OF INSTRUCTIONS '
      >//' CANNOT EXCEED ',MXTA)
@@ -141,7 +149,7 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
           READ(STRA(1),*) IPOL     ! Pole to which the error applies (1-10)
           READ(STRA(2),*) TYPERR   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
           READ(STRA(3),*) TYPAR    ! Relative or absolute : R, A
-          READ(STRA(4),*) TYPDIS   ! Type of density : G or U,  or 0 to switch off ERRORS
+          READ(STRA(4),*) TYPDIS   ! Type of density : G or U    ????or 0 to switch off ERRORS
           IF(TYPDIS.EQ.'0') THEN
             CALL MULTP4
           ELSE
@@ -176,17 +184,17 @@ C          Get the rest of the arguments
      >                          NSTR,STRA)
 C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
 
-          READ(STRA(1),*) IPOL     ! Parameter to which the error applies (1-10). Now field coeff only
-          READ(STRA(2),*) TYPERR   ! Error type. Now BN (Bnorm factor)
+          READ(STRA(1),*) IPOL     ! Pole to which the error applies (1-10)
+          READ(STRA(2),*) TYPERR   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
           READ(STRA(3),*) TYPAR    ! Relative or absolute : R, A
-          READ(STRA(4),*) TYPDIS   ! Type of density : G or U,  or 0 to switch off ERRORS
+          READ(STRA(4),*) TYPDIS   ! Type of density : G or U        ????or 0 to switch off ERRORS
           IF(TYPDIS.EQ.'0') THEN
             CALL TOSCA4
           ELSE
             READ(STRA(5),*) ERRCEN
             READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
             READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
-            CALL TOSCA2(IRR,TYPERR,TYPAR,TYPDIS,
+            CALL TOSCA2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
      >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
           ENDIF
         ENDIF
@@ -206,5 +214,6 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
  
       ENDDO
 
+ 99   CONTINUE
       RETURN
       END

@@ -380,6 +380,7 @@ OBJ=\
  toroid.o\
  toscac.o\
  toscap.o\
+ toserr.o\
  trace.o\
  track.o\
  transf.o\
@@ -550,6 +551,7 @@ mcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mix.o: $(INC)/MAXCOO.H
 mksa.o: $(INC)/MAXCOO.H
 modord.o: $(INC)/MXLD.H
+mulerr.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.CONST_2.H  $(INC)/C.CONST2.H 
 multip.o: $(INC)/MAXTRA.H
 multpo.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 normal.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -658,6 +660,7 @@ synpar.o: $(INC)/MXLD.H
 toroid.o: $(INC)/MAXTRA.H
 toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/MAPHDR.H
 toscap.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAPHDR.H
+toserr.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.CONST_2.H  $(INC)/C.CONST2.H 
 trace.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 track.o: $(INC)/MXLD.H
 transf.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
