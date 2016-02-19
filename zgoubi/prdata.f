@@ -178,12 +178,14 @@ C                WRITE(TXT110,FMT='(A)')
              
             YINC2 = .TRUE.
 
-            IF(FLIN(FINSTR(FLIN)-9:FINSTR(FLIN)) .EQ. 'zgoubi.dat')
-     >      CALL ENDJOB('Pgm prdata. Job includes INCLUDE keyword, '//
-     >      'hence "zgoubi.dat" cannot be used as input file name '//
-     >      '(zgoubi.dat is reserved). Please use different input '
-     >      //'file name. Use "zgoubi -fileIn filename" command.'
-     >      ,-99)
+            IF(FINSTR(FLIN)-9 .GE. 1) THEN
+              IF(FLIN(FINSTR(FLIN)-9:FINSTR(FLIN)) .EQ. 'zgoubi.dat')
+     >        CALL ENDJOB('Pgm prdata. Job includes INCLUDE keyword, '//
+     >        'hence "zgoubi.dat" cannot be used as input file name '//
+     >        '(zgoubi.dat is reserved). Please use different input '
+     >        //'file name. Use "zgoubi -fileIn filename" command.'
+     >        ,-99)
+            ENDIF
 
             LINE =1 
             READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
@@ -326,8 +328,11 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
           ENDIF
 
           IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
-     >     .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') GOTO 95
-
+     >    .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') THEN
+            LABEL(NOEL,1) = ' '
+            LABEL(NOEL,2) = ' '
+            GOTO 95
+          ENDIF
         ELSE
 
           IF( YINC2 .AND. ((.NOT. LBAVU) .OR. LBBVU )) GOTO 10

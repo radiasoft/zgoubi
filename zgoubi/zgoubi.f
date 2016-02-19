@@ -1093,11 +1093,13 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
      >         '  Dxp           Dy            Dyp           phix/' //
-     >         '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
+     >         '2pi      phiy/2pi    cumul_s         #lmnt  x    ' //
      >         '         xp            y             yp          ' //
      >         'KEYWORD    label1     label2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
-     >         '       r'
+     >         '       r   optimp.f   IPASS  DPREF  R11  R12  R21' //
+     >         '  R22  R33  R34  R43  R44  R51 R52  R53  R54  '   //
+     >         'R56  pathL=F(2,6) '
             WRITE(LNOPTI,FMT='(A)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
@@ -1106,7 +1108,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
-     >         '       27'
+     >         '       27      ....   pathL:45  '
           ENDIF
         ENDIF
       ELSE
