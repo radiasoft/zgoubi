@@ -57,7 +57,8 @@ C      LOGICAL ZSYM
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
-      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
+C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
@@ -92,7 +93,8 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE AA
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
-      INCLUDE 'MAPHDR.H'
+      PARAMETER (MXHD=20)
+C      INCLUDE 'MAPHDR.H'
 
 C      ERRORS
       LOGICAL ERRON
@@ -172,18 +174,18 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
      >                          IS)
       IF(FLIP)
      >  CALL ENDJOB('SBR TOSCAC. FLIP option not implemented.',-99)
-      IXMA = A(NOEL,20)
+      IXMA = NINT(A(NOEL,20))
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
       IF(NDIM .EQ. 1) THEN
         JYMA=1
         KZMA=1
       ELSE
-        JYMA = A(NOEL,21)
+        JYMA = NINT(A(NOEL,21))
         IF(JYMA.GT.MXY )
      >     CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
         IF(NDIM .EQ. 3) THEN
-          KZMA =A(NOEL,22)
+          KZMA =NINT(A(NOEL,22))
           IF(KZMA.GT.IZ )
      >       CALL ENDJOB('Z-dim of map is too large,  max  is ',IZ)
         ELSE
@@ -760,34 +762,18 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
      >             KLEY,LBL1L,LBL2L
               ENDIF
 
-c              IF(KUASEX .LE. MPOL) THEN
-c                BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
-c              ELSEIF(KUASEX .EQ. MPOL+1) THEN
-                DO IM=1,MPOL
-                  IF(KPOL(IRR,IM).EQ.1) THEN
-C                    BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
-                    BNRM(IM) = DB(NOEL,IM)
-                  ENDIF
-                ENDDO
+              DO IM=1,MPOL
+                IF(KPOL(IRR,IM).EQ.1) THEN
+C                  BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
+                  BNRM(IM) = DB(NOEL,IM)
+                ENDIF
+              ENDDO
 
-                BNORM = BNRM(1)
+              BNORM = BNRM(1)
 
-c                       write(*,*) ' toscac bnorm ',bnorm
-c                       write(*,*) ' toscac bnorm ',bnorm
+C             write(88,*) ' toscac BN ',bnorm,noel
 
-c              ELSE
-c                CALL ENDJOB
-c     >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
-c              ENDIF      
             ENDIF      
-
-C              DO IM=1,MPOL
-C                IF(KPOL(IRR,IM).EQ.1) THEN
-C                  IA = IM + 3
-C                  A(NOEL,IA) = BM(IM) / SCAL
-C                ENDIF
-C              ENDDO
-
           ENDIF      
         ENDDO
 

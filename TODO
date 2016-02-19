@@ -81,3 +81,8 @@ Have same manipulation of labels at the top of zgoubi.f by OPTICS, FAISTORE, SPN
 
 -------------------------
 
+In lipsFromFai :
+
+- in the case that dispersion is removed :  some NOELs found in zgoubi.fai are not present in zgoubi.OPTICS.out. In 
+that case what is provided following reading from the latter is D=0 and D'=0. This can be fixed by removing from 
+the computation any NOEL in zgoubi.fai which wouild not have its match in  zgoubi.OPTICS.out. 

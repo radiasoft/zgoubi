@@ -43,7 +43,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DIMENSION TX3(5,6) , TX4(5,6)
       LOGICAL PRDIC
       DATA PRDIC / .FALSE. /
-      LOGICAL FITING
+C      LOGICAL FITING
 
       IF    (IORD .EQ. 1) THEN
         IT1 = 1 + 11 * (IREF-1)

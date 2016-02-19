@@ -10,6 +10,8 @@ c
       DIMENSION R(4,4),C(2,2),P(4,4)
       INTEGER NRES
 
+      dum = cplus
+
       WRITE(NRES,FMT='(/,''-----------------------------------------'',/
      >)')
       
@@ -36,7 +38,7 @@ c
       WRITE(NRES,FMT='(27X,''- C:'')')
       
       WRITE(NRES,200) ((C(I,J),J=1,2),I=1,2)
- 200     FORMAT(2(30X,2(F15.8,X),/))
+ 200     FORMAT(2(30X,2(F15.8,1X),/))
 
       WRITE(NRES,FMT='(/,78X,''MODE 1'',15X,''MODE 2'',/)')
       

@@ -75,8 +75,12 @@ C      LOGICAL ZSYM
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6) 
 
       LOGICAL BINAR,BINARI,IDLUNI
-      CHARACTER(120) TITL
-      CHARACTER(80) NOMFIC(20), NAMFIC
+C      CHARACTER(120) TITL
+      CHARACTER(LNTA) TITL
+C      CHARACTER(80) NOMFIC(20), NAMFIC
+      CHARACTER(LNTA) NAMFIC
+C      CHARACTER(80) NOMFIC(20)
+      CHARACTER(LNTA) NOMFIC(20)
       DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
       INTEGER DEBSTR,FINSTR
  
@@ -95,7 +99,8 @@ C      LOGICAL ZSYM
       SAVE NHDF
       LOGICAL STRCON, FITING
       LOGICAL AGS, NEWFIC
-      INCLUDE 'MAPHDR.H'
+C      INCLUDE 'MAPHDR.H'
+      PARAMETER (MXHD=20)
 
       SAVE YSHFT
  
@@ -897,6 +902,7 @@ C     >     XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM,
      >    , /,T48,'to    XF = ',E14.6,' cm '
      >    ,//,5X,'Nbr of nodes in X =',I4,';  nbr of nodes in Y =',I5
      >    , /,5X,'X-size of mesh =',E14.6,' cm ; Y-size =',E14.6,' cm')
+
           IF(NDIM .EQ. 3) THEN
 C            I2=2 introduced to avoid compiler complainig when IZ=1...
 

@@ -65,7 +65,7 @@ C      PARAMETER (MXTA=45)
       SAVE DWS, PHS_PREV
 !     SR loss
       LOGICAL SRLOSS
-      PARAMETER (SQRT2 = SQRT(2.D0),SQRT8 = SQRT(8.D0), I0=0.D0)
+      PARAMETER (SQRT2 = SQRT(2.D0),SQRT8 = SQRT(8.D0))
 
       CHARACTER(60) TYPCH(5)
       INTEGER DEBSTR, FINSTR
@@ -77,7 +77,7 @@ C      PARAMETER (MXTA=45)
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
      >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
-     >  ' ' , ' ' , 'eRHIClinac', 'SR + accel.' /
+     >  ' ' , ' ' , 'RLA', 'SR +accel.' /
 
       DATA DTI0 / MXT*0.D0 /
 
@@ -787,8 +787,8 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >                                                 3x,'(',E14.6,')',
      >  / ,20X,'Cumulated distance at cavity center   =',E15.6,' m',
      >  / ,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
-     >  //,20X,'Particle mass                         =',E15.6,' MeV/c2',
-     >  / ,20X,'         charge                       =',E15.6,' C')
+     >  //,20X,'Particle mass                         =',E15.6,' MeV/c2'
+     >  ,/ ,20X,'         charge                       =',E15.6,' C')
       ENDIF
 
       phiav = 0.d0

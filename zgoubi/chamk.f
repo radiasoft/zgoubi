@@ -76,6 +76,7 @@ C     --------------------------------------------------------
       DIMENSION IQMP(MMAP)
       SAVE IQMP
       SAVE MOD, MOD2
+      LOGICAL FIRST
 
       DATA IMAP / 1 /       
       DATA DBDX / 3* 0.D0 /

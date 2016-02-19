@@ -34,7 +34,7 @@ C     Strings are assumed spaced by (at least) one blank.
 C     They are saved in  array STRA, and their total number 
 C     (possibly < mss) is NST.
 C     ------------------------------------------------------
-      INTEGER DEBSTR, FINSTR
+      INTEGER FINSTR
 
       CHARACTER(2000) STR0
 
