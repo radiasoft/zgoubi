@@ -506,8 +506,8 @@ C  106 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
 C     1')  FORME  DE ',I6,' POINTS ',//)
   106 FORMAT(/,41X,'TRAJECTOIRY SETTING UP',//,30X,'OBJET  (',I1,
      1')  BUILT  UP  FROM  ',I6,' POINTS ',//)
-  101 FORMAT(/,42X,'D',7X,'Y(cm)',5X,'T(mrd)',4X,'Z(cm)',5X,'P(mrd)',4X,
-     >'X(cm)',//,30X,'NUMBER',6(5X,I3,2X),/)
-  102 FORMAT(/,19X,' SAMPLING ',4X,F7.4,5(4X,F6.2),/)
+  101 FORMAT(/,33X,'D',9X,'Y(cm)',7X,'T(mrd)',6X,'Z(cm)',7X,'P(mrd)',6X,
+     >'X(cm)',//,21X,'NUMBER',6(5X,I5,2X),/)
+  102 FORMAT(/,19X,' SAMPLING ',4X,F7.4,5(4X,F6.2,2X),/)
 C  102 FORMAT(/,19X,' ECHANTILLONNAGE ',4X,F7.4,5(4X,F6.2),/)
       END
