@@ -4370,23 +4370,25 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
 
 \begin{tabbing}
 \mestab
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$  ~   \quad \=
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$  ~ ~ ~    \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, ~ ~ ~     \quad \= 2*cm, 2*deg, cm   \= \kill
+                \right) \right) $, ~ ~ ~ ~ ~ ~ ~     \quad \= 2*cm, 2*deg, cm   \= \kill
 %%%%%%%%
 \textbf{SCALING} \label{SCALING-B} \index{SCALING|textbf}  \index{acceleration}
 \index{synchrotron motion}
       \>\textbf{\SCALINGTitl } \> \> \\
  \\
   \\
- \textsl{IOPT, NFAM }  \>\textsl{IOPT} = 0 (inactive) or 1 (active)~; \>0-1~; 1-9 \>2*I\\
- \>\textsl{NFAM} = number of families to be scaled \> \> \\
+ \textsl{IOPT, NFAM [, PRINT]}  \>\textsl{IOPT} = 0 (inactive) or 1 (active)~; \textsl{NFAM} = number of families  
+                                                                                                      \>0-1~; 1-9 \>2*I [,A]\\
+                \> to be scaled. Occurence of \textsl{PRINT} will cause printing of scaling infos  \> \> \\
+                \>  in zgoubi.SCALING.out. \> \> \\
  \\
 \textbf{For NF=1, NFAM :} \>repeat \textsl{NFAM} times the following sequence : \> \> \\
  \> \> \> \\
- \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern) [, up to 2 labels]. \> \>A10 [,A10[,A10]] \\
-          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> \\
+ \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern) [, up to 2 labels]. \> \>A10 [,A10[ \\
+          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> ,A10]]  \\
  \\
  $NT$          \>$NT>0$~: number of timings~;   \>  -2, -1 or 1-10 \>I \\
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\
