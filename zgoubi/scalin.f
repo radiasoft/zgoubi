@@ -62,13 +62,24 @@ C      PARAMETER (MXTA=45)
  
       CHARACTER(132)  TFILE(MXTA), TXTF
       SAVE TFILE
+      LOGICAL OK
  
       DATA OPT/ '++ OFF ++','         ' /
+      DATA OKPRT / .FALSE. /
  
       NP = 1
       IOPT = NINT(A(NOEL,NP))
       NP = NP + 1
       NFAM = NINT(A(NOEL,NP))
+
+      IF( TA(NOEL,NFAM+1) .EQ. 'PRINT') THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
+     >  ''SCALING parameters saved in zgoubi.SCALING.Out.'',/)') 
+        OK=SCALEX(.TRUE.)
+      ELSE
+        OK=SCALEX(.FALSE.)
+      ENDIF
+
  
       KSCL=0
       IF(IOPT*NFAM.NE.0)  KSCL=1

@@ -63,7 +63,6 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA FAC / 1.D0  /
       DATA LUN / 0 /
  
-      LINE = 0
       IF(MXTA.LT.MXF) THEN
         WRITE(NRES,*) 'SBR RSCAL. Change MXTA to same value as MXF'
         GOTO 90
@@ -71,8 +70,18 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
 
 C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       NP = 1
-      LINE = LINE + 1
-      READ(NDAT,*,err=90,end=90) A(NOEL,NP),NFAM
+      LINE = 1
+      READ(NDAT,FMT='(A)') TXT132
+      IF( STRCON(TXT132,'!',
+     >                      IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+      READ(TXT132,*) A(NOEL,NP),NFAM
+      IF( STRCON(TXT132,'PRINT',
+     >                          IS)) THEN
+        TA(NOEL,NFAM+1) = 'PRINT'
+      ELSE
+        TA(NOEL,NFAM+1)='  '
+      ENDIF
+
       NP = NP + 1
       A(NOEL,NP) = NFAM
  

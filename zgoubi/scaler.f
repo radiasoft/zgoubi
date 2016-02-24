@@ -55,10 +55,10 @@ C  -------
 
       PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
-      dimension dat1(ND), dat2(ND), dat3(ND), 
-     >          dat1i(ND),dat2i(ND),dat3i(ND)
-      SAVE XM, YM, NFRQ, dat1, dat2, dat3
-      SAVE OCLOCK, ekin
+      DIMENSION DAT1(ND), DAT2(ND), DAT3(ND), 
+     >          DAT1I(ND),DAT2I(ND),DAT3I(ND)
+      SAVE XM, YM, NFRQ, DAT1, DAT2, DAT3
+      SAVE OCLOCK, EKIN
 
       DIMENSION MODSCL(MXF)
 
@@ -72,12 +72,15 @@ C  -------
       LOGICAL OK3
 
       DOUBLE PRECISION SPLINT
+      LOGICAL IDLUNI, OK, OKOPN, OKPRT, OKPRTI
+      SAVE OKPRT, OKOPN, LPRT
 
       DATA TIME, ICTIM / 0.D0 , 0/
       DATA TEMP / 1.D0 /
 
       DATA XM, YM / ND*0.D0, ND*0.D0/
       DATA OK3 / .TRUE. /
+      DATA OKPRT / .FALSE. /
 
       OK3 = .TRUE.
       SCALER = 1.D0
@@ -464,6 +467,11 @@ C              SCALER = FAC * SCL(KF,1) * PP0
 
  88   CONTINUE
 
+      IF(OKPRT) THEN
+        WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
+     >  LABEL(NOEL,2)
+      ENDIF
+
       RETURN
 
       ENTRY SCALDP(DTIM,
@@ -482,10 +490,10 @@ C              SCALER = FAC * SCL(KF,1) * PP0
 
       ENTRY SCALE2(SCL2I,TIM2I,NTIM2I,JF)
       NTIM2(JF) = NTIM2I(JF)
-      do JT = 1, NTIM2(JF)
+      DO JT = 1, NTIM2(JF)
          SCL2(JF,JT) = SCL2I(JF,JT) 
          TIM2(JF,JT) = TIM2I(JF,JT) 
-      enddo
+      ENDDO
 
       RETURN
 
@@ -531,6 +539,29 @@ c      RETURN
          ENDIF   
         ENDIF
       ENDDO
-
       RETURN
+
+      ENTRY SCALEX(OKPRTI)
+      OKPRT = OKPRTI
+        IF(OKPRT) THEN 
+          IF(.NOT.OKOPN) THEN
+            OK =(IDLUNI(
+     >                  LPRT)) 
+            OPEN(UNIT=LPRT,FILE='zgoubi.SCALING.Out',
+     >                     ERR=66,IOSTAT=IOS)
+            WRITE(LPRT,*) '#  IPASS, SCALER, lmnt #, KLEY, '
+     >      //'LABEL(NOEL,1), LABEL(NOEL,2)'
+            OKOPN = .TRUE.
+          ENDIF
+        ELSE
+          IF(OKOPN) THEN
+            CLOSE(LPRT)
+          ENDIF
+        ENDIF
+      RETURN
+ 66   IF(NRES.GT.0) WRITE(NRES,FMT='(A)') 
+     >'                *** WARNING, pgm scaler : ' 
+     >//' could not open zgoubi.SCALING.out. Will skip printing.'
+      RETURN
+
       END
