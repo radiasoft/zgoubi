@@ -106,14 +106,18 @@ c                       read(*,*)
                 ENDIF
               ENDIF
             ENDIF
+
           ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
+
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(F11.6,2F7.2,3E16.8)')
      >                                  (A(NUEL,J),J=10,15)
+
           ELSEIF(KLEY(1:8) .EQ. 'CHANGREF') THEN 
+
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             IF(STRCON(TXT132,'!',
      >                           IS))
@@ -130,7 +134,9 @@ C New style CHANGREF
 C Old style CHANGREF
               WRITE(LTEMP,FMT='(3(E14.6,1X))') (A(NUEL,J),J=1,3)
             ENDIF
+
           ELSEIF(KLEY(1:6) .EQ. 'SPNTRK') THEN 
+
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -160,13 +166,57 @@ C Old style CHANGREF
      >          //' needs be installed in fitwda. ',-99)
               ENDIF
             ENDIF
+
           ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
+
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
-            WRITE(LTEMP,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
+            WRITE(LTEMP,FMT='(F11.6,F7.2,1P,3E16.8,0P,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
+            DO I = 1, 6
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+              WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            ENDDO
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(LTEMP,FMT='(I0,1X,1P,3E16.8)')
+     >                           NINT(A(NUEL,63)),(A(NUEL,J),J=64,66)  ! KPOS, XCE, YC, ALE
+
+          ELSEIF(KLEY(1:6) .EQ. 'DIPOLE') THEN 
+ 
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! IL
+            WRITE(*,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            WRITE(LTEMP,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! AT, RM
+            WRITE(*,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(*,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            WRITE(*,FMT='(5F13.7,T70,A)')
+     >             (A(NUEL,J),J=4,8), ' ! ACNT,  HNORM, indices'
+            WRITE(LTEMP,FMT='(5F13.7,T70,A)')
+     >             (A(NUEL,J),J=4,8), ' ! ACNT,  HNORM, indices'
+            DO I = 1, 11
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+              WRITE(*,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              WRITE(LTEMP,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            ENDDO
+            READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(*,FMT='(A)')  
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            WRITE(LTEMP,FMT='(I0,4(1X,F13.7),T70,A)')
+     >                      NINT(A(NUEL,63)),(A(NUEL,J),J=64,67),
+     >                                  ' ! KPOS, RE, TE, RS, TS' 
+C                read(*,*)
           ENDIF
         ENDIF
       ENDDO

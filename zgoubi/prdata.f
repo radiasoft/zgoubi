@@ -102,12 +102,20 @@ C----- Read zgoubi.dat title (1st data line)
      >                                      NST,LAB2)
             IF(NST.GE.1) THEN
               IF(LAB2(1)(1:1).NE.'!') THEN
-                IF(.NOT. EMPTY(LAB2(1))) LABEL(NOEL,1) = LAB2(1)
+                IF(.NOT. EMPTY(LAB2(1))) THEN
+                  LABEL(NOEL,1) = LAB2(1)
+                ELSE
+                  LABEL(NOEL,1) = ' ' 
+                ENDIF
                 IF(NST.EQ.2) THEN
                   IF(LAB2(2)(1:1).NE.'!') THEN
                     IF(.NOT. EMPTY(LAB2(2))) LABEL(NOEL,2) = LAB2(2)
+                  ELSE
+                    LABEL(NOEL,2) = ' '
                   ENDIF
                 ENDIF
+              ELSE
+                LABEL(NOEL,1) = ' ' ; LABEL(NOEL,2) = ' '
               ENDIF
             ENDIF
           ENDIF
@@ -327,8 +335,8 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
      >            WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
           ENDIF
 
-          IF(   TEXT(IDEB:IDEB+4) .EQ. '''FIN'''
-     >    .OR. TEXT(IDEB:IDEB+4) .EQ. '''END''') THEN
+          IF(   TEXT(IDEB:IDEB+2) .EQ. '''FIN'''
+     >    .OR. TEXT(IDEB:IDEB+2) .EQ. '''END''') THEN
             LABEL(NOEL,1) = ' '
             LABEL(NOEL,2) = ' '
             GOTO 95
