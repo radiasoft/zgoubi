@@ -64,6 +64,8 @@ C      PARAMETER (MXTA=45)
       SAVE TFILE
       LOGICAL OK, OKPRT, SCALEX
  
+      LOGICAL OKPRT, SCALEX 
+
       DATA OPT/ '++ OFF ++','         ' /
       DATA OKPRT / .FALSE. /
  
