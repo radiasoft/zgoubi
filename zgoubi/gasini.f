@@ -34,7 +34,7 @@ C     --------------------------------------------
       INCLUDE "C.GASC.H"     ! COMMON/GASC/ AI, DEN, KGA
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
  
-      KGA= A(NOEL,1)
+      KGA= NINT(A(NOEL,1))
       KGA = 0
       AI= A(NOEL,10)
       DEN = A(NOEL,11)

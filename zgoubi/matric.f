@@ -51,7 +51,6 @@ C------        Beam_ref    +dp/p     -dp/p
       LOGICAL PRDIC
 
       DIMENSION RO(6,6)
-      LOGICAL IDLUNI, OK
 
       DATA KWRMAT / .FALSE. /
 

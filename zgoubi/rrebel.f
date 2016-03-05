@@ -33,7 +33,8 @@ C     ***************************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
-      CHARACTER TXT300*300, TXTA*8, TXTB*8
+      CHARACTER(8) TXTA, TXTB
+      CHARACTER(300) TXT300
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       PARAMETER (I4=4)
@@ -45,7 +46,7 @@ C     ***************************************
       DIMENSION PARAM(MXPRM,MXLST)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TPRM(MXPRM,3)
-      LOGICAL ISNUM, OK
+      LOGICAL ISNUM
       data ia4 / 0 /
 
       READ(NDAT,FMT='(A)') TXT300

@@ -90,7 +90,7 @@ C------ Type of support :
 C      KOBJ=1 : window
 C      KOBJ=2 : grid
 C      KOBJ=3 : ellipses
-      KOBJ = A(NOEL,10)
+      KOBJ = NINT(A(NOEL,10))
       KOBJ2 = NINT(A(NOEL,11))
 
       IF(KOBJ2.EQ.1) THEN
@@ -108,7 +108,7 @@ C      KOBJ=3 : ellipses
         IF(KOBJ2.EQ.1) KNRM = 1
       ENDIF
 
-      IMAX  = A(NOEL,20)
+      IMAX  = NINT(A(NOEL,20))
       IF(KREB31 .EQ. 0) THEN
         IMI  = 1 
         IMA = IMAX

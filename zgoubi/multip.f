@@ -63,6 +63,7 @@ c        write(*,*) ' ----'
 c        write(*,*) ' '
 c      endif
 C---------------------
+      IDUM = KFL  ! For the compiler to keep quiet...
 
       XLS=XLIM-XS 
       IOP=1

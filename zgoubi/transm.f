@@ -73,7 +73,7 @@ CMODIFIED, FM, 04/97
 C         T EST AU FORMAT 6 x 6 x 6
 C         UNITES  MKSA
  
-      IORD = A(NOEL,1)
+      IORD = NINT( A(NOEL,1) )
       XLM = A(NOEL,10)
       CALL SCUMW(XLM/UNIT(5))
       CALL SCUMR(

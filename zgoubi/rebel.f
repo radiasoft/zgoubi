@@ -110,7 +110,7 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
       KREB4 = NINT(A(NOEL,4))
 
       IF(KREB4 .EQ. 1) THEN
-        NPRM =  A(NOEL,10)
+        NPRM =  NINT( A(NOEL,10) )
         IF(NPRM .GT. MXPRM) 
      >    CALL ENDJOB('SBR REBEL. Too many parameters, has to be .le. '
      >    ,MXPRM)

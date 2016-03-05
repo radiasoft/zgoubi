@@ -214,14 +214,14 @@ C--------- UNDULATOR
         ELSEIF(KUASEX .EQ. 37) THEN
 C--------- AGSMM = AGS dipole. 
 
-            CALL AGSMMF(IDB,MG,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
+            CALL AGSMMF(IDB,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS,CE, CS,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
        
         ELSEIF(KUASEX .EQ. 38) THEN
 C--------- AGSQUAD = AGS quadrupole. 
 
-            CALL AGSQUF(IDB,MG,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
+            CALL AGSQUF(IDB,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS,CE,CS,
      >                  B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
        

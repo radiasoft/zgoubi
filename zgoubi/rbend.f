@@ -34,7 +34,7 @@ C     ****************************
  
       CHARACTER(132) TXT132
       CHARACTER(30) STRA(6)
-      INTEGER DEBSTR, FINSTR
+      INTEGER DEBSTR
       LOGICAL STRCON
 
       READ(NDAT,*) IA

@@ -33,10 +33,12 @@ C  -------
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      CHARACTER(KSIZ) FAM
+      CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
 
-      DIMENSION AP(50), ADBD(50), ADBF(50)
+      PARAMETER (I50 = 50)
+      DIMENSION AP(I50), ADBD(I50), ADBF(I50)
 
       DIMENSION PNOW(6)
       SAVE PNOW
@@ -216,6 +218,10 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
       DATA   AP(10) /    23.732D0 / !590 
       DATA  ADBD(10) /   1.1D-3 /
       DATA  ADBF(10) /   2.7D-3 /
+
+      DATA   (AP(I),I=11,I50) / 40* 0.D0 / 
+      DATA   (ADBD(I),I=11,I50) / 40* 0.D0 / 
+      DATA   (ADBF(I),I=11,I50) / 40* 0.D0 / 
         
       DATA  ISCLMAX / 10 /
 
@@ -224,6 +230,8 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
 
       LBL1 = LABEL(NOEL,1)
       LAST = FINSTR(LBL1)
+
+c                 write(*,*) 'agsks PNOW(1), P ', PNOW(1),P
 
       IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
         IMM = 1
@@ -268,10 +276,30 @@ c                         read(*,*)
           P5 = P*P4
           P6 = P*P5
 C  K1BF :
+
+c            write(*,*) ' agsks ',DB1F 
+c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
+c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
+c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
+c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
+
           AK1(1)= UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
      >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
      >    +UKBF6*P6 
           AK1(1) = AK1(1)*(DB1F + 1.D0)
+
+C See /home/meot/zgoubi/struct/bnl/AtR/3He/n0/usingTOSCAMaps/blue/testA01BF.dat
+c FC=gfortran
+c FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
+C If I do this write, ak1 value is no longer NaN at first step 
+            write(*,*) ' agsks AK1(1) ap : ' , AK1(1)
+
+c            write(*,*) ' agsks ',DB1F 
+c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
+c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
+c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
+c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
+
 
 C  K2BF :
           AK2(1)= TKBFM3/(P3)+ TKBFM2/(P2)+ TKBFM1/P + TKBF0+TKBF1*P 

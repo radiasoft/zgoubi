@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE RFIT(KLEY,IMAX,
+C      SUBROUTINE RFIT(KLEY,IMAX,
+      SUBROUTINE RFIT(KLEY,
      >                     PNLTY,ITRMA,ICPTMA,FITFNL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
@@ -55,8 +56,6 @@ C      PARAMETER (MXTA=45)
 
       SAVE FIRST
       DATA FIRST / .TRUE. /
-
-C      IDUM = IMAX
 
       LINE = 1
 C  READ NV [,'nofinal','save' [FileName]]

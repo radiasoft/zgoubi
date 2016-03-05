@@ -51,18 +51,26 @@ C      DIMENSION BU(4,4), BP(4,3), O(4,3), S(5,3)
       PARAMETER (ICMXT=4*MXT)
       DATA SMI, SMA / ICMXT*1D10, ICMXT* -1D10 /
 
-cC///////////////////////
+C////// debug...
 c      call ZGNOEL(
 c     >             NOEL)
-c       if(noel.eq.245) then
+c       if(noel.eq.20) then
 c           write(*,*) 'spntrk IN : ',noel
-c           write(*,*) ' QBR,DP ',QBR,DP
+c           write(*,*) ' QBR, DP, DS : ',QBR,DP,DS
+c           write(*,*) ' S_X,Y,Z, |S| : ',it,(sf(i,it),i=1,4)
 c         endif
+C///////////////////////
 
       PM = QBR*CL9/AMT
       GG = G * SQRT( 1.D0+PM*PM )
       GP = 1.D0+ GG
       GM = G-GG
+
+C////// debug...
+c       if(noel.eq.20) then
+c           write(*,*) ' PM, GG, GP, GM : ',PM, GG, GP, GM ,kfld
+c         endif
+C////// debug...
  
       GOTO(1,2,1) KFLD
  
@@ -79,7 +87,7 @@ CALCUL B.U, B.U', B.U'',B.U''', B'.U, B'.U',B'U'', B''.U, B''.U', B'''.U, ...
           BU(IDB,IDU) = TEMP
         ENDDO
       ENDDO
- 
+
 CALCUL d^nB||/ds^n  = d^n((B.U)U)/ds^n
       DO I=1,3
         BP(1,I)=BU(1,1)* U(1,I)
@@ -90,19 +98,44 @@ CALCUL d^nB||/ds^n  = d^n((B.U)U)/ds^n
      >  BU(1,1)*U(3,I)
         D3BU =    BU(4,1) + 3.D0*( BU(3,2) +       BU(2,3) )    
      >   + BU(1,4)
-        BP(4,I)  =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
+       aaaa =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
      >      DBU*U(3,I) ) +  BU(1,1)*U(4,I)
+         BP(4,I)  = aaaa
+C////// debug...
+c       if(noel.eq.20) then
+c           write(*,*) ' i, BP(4,i) : ',i, bp(4,i),aaaa
+c           write(*,*) D3BU, D2BU, DBU, BU(1,1)
+c           write(*,*) U(1,I), U(2,I),  U(3,I),  U(4,I)
+c           write(*,*) D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
+c     >      DBU*U(3,I) ) +  BU(1,1)*U(4,I)
+c                read(*,*)
+c         endif
+C////// debug...
+
         D4BU =    BU(5,1) + 4.D0*  BU(4,2) + 6.D0* BU(3,3) +  
      >     4.D0 * BU(2,4) + BU(1,5)
+
+
         BP(5,I)  =  D4BU*U(1,I) +    4.D0*D3BU*U(2,I)  + 
      >   6.D0*D2BU*U(3,I)   + 4.D0*DBU*U(4,I)  + BU(1,1)*U(5,I)
+
+
       ENDDO
+
+ 
  
 CALCUL Omega
       DO ID=1,5
         O(ID,1) = GP*B(ID,1) + GM*BP(ID,1)
         O(ID,2) = GP*B(ID,2) + GM*BP(ID,2)
         O(ID,3) = GP*B(ID,3) + GM*BP(ID,3)
+
+c       if(noel.eq.20) then
+c           write(*,*) ' O : ', id, (o(id,ii),ii=1,3)
+c           write(*,*) ' B : ', id, (b(id,ii),ii=1,3)
+c           write(*,*) ' BP : ', id, (bp(id,ii),ii=1,3)  ! bp(4,1) is NaN
+c         endif
+
       ENDDO
  
 
@@ -385,13 +418,14 @@ C--------------------------------------------------------------------
         IF(SMA(ICOO,IT).LT.SF(ICOO,IT)) SMA(ICOO,IT) = SF(ICOO,IT)
       ENDDO
 
-cC///////////////////////
+C////// debug...
 c      call ZGNOEL(
 c     >             NOEL)
-c       if(noel.eq.245) then
-c           write(*,*) 'spntrk OUT : ',noel
-c           write(*,*) ' QBR,DP ',QBR,DP
+c       if(noel.eq.20) then
+c           write(*,*) 'spntrk OUT '
+c           write(*,*) ' S_X,Y,Z, |S| : ',it,(sf(i,it),i=1,4)
 c         endif
+C///////////////////////
 
       RETURN
 

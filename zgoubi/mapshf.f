@@ -61,7 +61,7 @@ C      DIMENSION HC(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
       DO IA1=1,IXMA
         A1 = XH(IA1)+DX
         IAC = IA1
-        JAC=(A1-XH(1))/DA+1.5D0
+        JAC=INT( (A1-XH(1))/DA+1.5D0 )
 
         IF(IRD .EQ. 2) THEN
 C---------  2-D/3*3 points or 3-D/3*3*3 points grid
@@ -79,7 +79,7 @@ C---------  2-D  5*5 points
 C           write(88,*) dy,yh(1),yh(jyma),dr
         DO IR1 = 1,JYMA
           R1 = YH(IR1)+DY
-          IRC=(R1-YH(1))/DR+1.5D0
+          IRC=INT( (R1-YH(1))/DR+1.5D0 )
           JRC=IR1
 
           IF    (IRC.LT.1 .OR. IRC.GT.JYMA) THEN

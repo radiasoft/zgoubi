@@ -51,7 +51,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
  
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
-      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
@@ -66,7 +66,8 @@ C      LOGICAL ZSYM
       SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
-      INCLUDE 'MAPHDR.H'
+C      INCLUDE 'MAPHDR.H'
+      INCLUDE 'MXHD.H'
 
       PARAMETER (ONE = 1.D0)
  
@@ -99,14 +100,14 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
       IF(NHD .GT. MXHD) CALL ENDJOB(
      >'Pgm toscap. Field map header has too many lines. Must be .le.'
      >,MXHD)
-      IXMA = A(NOEL,20)
+      IXMA = NINT( A(NOEL,20) )
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
-      JYMA = A(NOEL,21)
+      JYMA = NINT( A(NOEL,21) )
       IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
  
-      KZMA =A(NOEL,22)
+      KZMA =NINT( A(NOEL,22) )
       IF(KZMA.GT.IZ )
      >  CALL ENDJOB('Z-dim of map is too large, max is ',IZ)
  

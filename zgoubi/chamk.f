@@ -102,10 +102,11 @@ C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
         GOTO 998
       ENDIF
 
- 50   CONTINUE
+C 50   CONTINUE
  
       DA=XH(2)-XH(1)
-      IAC=(A1-XH(1))/DA+1.5D0
+C      IAC=(A1-XH(1))/DA+1.5D0
+      IAC=INT( (A1-XH(1))/DA+1.5D0 )
       IF(KUASEX .EQ. 8) THEN
 C--------  KUASEX = 8:  1-D  map  with  X-cylindrical symmetry (e.g., solenoidal field)
 C    1-D  mesh, 5 points grid
@@ -127,7 +128,8 @@ C-------  2-D  5*5 points
       A=A1-XH(IAC)
  
       DR=YH(2)-YH(1)           
-      IRC=(R1-YH(1))/DR+1.5D0
+C      IRC=(R1-YH(1))/DR+1.5D0
+      IRC=INT( (R1-YH(1))/DR+1.5D0 )
 
 C      IF    (IRC.LE.1 .OR. IRC.GE.JYMA) THEN
 CC        ... POINT en limite ou HORS CARTE DE Champ
@@ -157,7 +159,8 @@ C--------  KUASEX = 7: CARTE 3-D
 C        I2=2 introduced to avoid compiler complainig when IZ=1...
         I2 = 2
         DZ=ZH(I2)-ZH(1)
-        IZC=(Z1-ZH(1))/DZ+1.5D0
+C        IZC=(Z1-ZH(1))/DZ+1.5D0
+        IZC=INT( (Z1-ZH(1))/DZ+1.5D0 )
         IZC=MAX0(IZC,2)
         IZC=MIN0(IZC,KZMA-1)
         Z=Z1-ZH(IZC)

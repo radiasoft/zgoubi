@@ -61,7 +61,7 @@ C        E  ( V/M ) = E-FIELD  (USUALLY > 0)
 C        B  ( T )   = B-FIELD  (USUALLY < 0)
 C     ...........................................................
  
-      IJ = A(NOEL,1)
+      IJ = NINT( A(NOEL,1) )
       DL = A(NOEL,2)
       E =  A(NOEL,3)
       B =  A(NOEL,4)

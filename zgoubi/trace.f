@@ -44,7 +44,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
         DO 2 I=IMAX1,IMAX2
           IF( IEX(I) .LT. -1) GOTO 2
           IF(ZI(I).GT.ZLP.OR.ZI(I).LE.ZLM) GOTO 2
-          NK=((YM-YI(I))/WC+1.D0)
+          NK=INT((YM-YI(I))/WC+1.D0)
           IF(NK.LT.1.OR.NK.GT.131)  GOTO 2
           NKAR=NKAR+1
           IF(NKAR.GT.MXT) 
@@ -69,7 +69,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
           IF( IEX(I) .LT. -1) GOTO 5
           IF(F(5,I) .NE. 0.D0)  GOTO 5
           YT=YI(I)+DX*TTI(I)
-          NK=((YM-YT   )/WC+1.D0)
+          NK=INT((YM-YT   )/WC+1.D0)
           IF(NK.LT.1.OR.NK.GT.131)  GOTO 5
           NKAR=NKAR+1
           NT(NKAR)=I

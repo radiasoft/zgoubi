@@ -38,7 +38,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       INTEGER DEBSTR,FINSTR
-      CHARACTER TXT*80, STRA(1)*80
+      CHARACTER(80) TXT, STRA(1)
 
 C----- Will print into file TA(NOEL,1), 
 C           right after any occurence of element label[s] TA(noel,2)
@@ -67,7 +67,7 @@ C           right after any occurence of element label[s] TA(noel,2)
 
         READ(NDAT,*) A(NOEL,1)
 C------- Will print every IA turn
-        IA=A(NOEL,1)
+        IA=NINT( A(NOEL,1) )
       ENDIF
       RETURN
       END

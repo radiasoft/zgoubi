@@ -71,7 +71,8 @@ C         ** NORMALISE NC (DANS LA FENETRE IC1-IC2)
  4        CONTINUE
           IF(YMAX .NE. 0.D0) THEN
             DO 3  IC=IC10,IC20
- 3            ISTO(IC) = .9D0 * ISTO(IC) * NLIN/YMAX
+ 3            ISTO(IC) = INT(.9D0 * ISTO(IC) * NLIN/YMAX)
+c 3            ISTO(IC) = .9D0 * ISTO(IC) * NLIN/YMAX
           ENDIF
         ENDIF
  

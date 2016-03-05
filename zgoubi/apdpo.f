@@ -76,7 +76,8 @@ C            FP_k, k=0,nn-1 = FP(J=1,NN)
 C----- Number of photons emitted by each particle, 
 C                 "acceptance-rejection" method. 
  17     R1=RNDM()       
-          K= (NN*R1)
+C          K= (NN*R1)
+          K= INT( (NN*R1) )
           J=K+1
           R2=RNDM()       
         IF(R2.GT.FP(J)) GOTO 17

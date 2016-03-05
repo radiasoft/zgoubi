@@ -48,13 +48,14 @@ C      LOGICAL ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
  
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
-      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
  
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=4)
       LOGICAL STRCON
-      INCLUDE 'MAPHDR.H' 
+      INCLUDE 'MXHD.H' 
+C      INCLUDE 'MAPHDR.H' 
 
       DATA NOMFIC / IZ*'               '/
 C FM 9 Spet. 14
@@ -77,7 +78,7 @@ C Apr 2013      BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       TITL = TA(NOEL,1)
-      IXMA = A(NOEL,20)
+      IXMA = NINT( A(NOEL,20) )
       IF    (STRCON(TITL,'HEADER',
      >                            IS) ) THEN
         READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
@@ -90,12 +91,12 @@ C Apr 2013      BNORM = A(NOEL,10)*SCAL
  
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
-      JYMA = A(NOEL,21)
+      JYMA = NINT( A(NOEL,21) )
       IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
  
       IF(NDIM .EQ. 3) THEN
-        KZMA =A(NOEL,22)
+        KZMA =NINT( A(NOEL,22) )
         IF(KZMA.GT.IZ )
      >   CALL ENDJOB('Z-dim of map is too large, max is ',IZ)
       ENDIF

@@ -45,7 +45,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
-      CHARACTER TYP(2)*20
+      CHARACTER(20) TYP(2)
       DATA TYP / 'axial field model', 'elliptic integrals' /
 
           XL =A(NOEL,10)

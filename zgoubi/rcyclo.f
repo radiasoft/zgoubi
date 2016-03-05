@@ -31,7 +31,7 @@ C     --------------------------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
  
-      CHARACTER TXT*132
+      CHARACTER(132) TXT
 
       READ(NDAT,*) A(NOEL,1)               ! IL      
       NP = 1                 

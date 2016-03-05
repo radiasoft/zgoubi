@@ -35,7 +35,7 @@ C  -------
 
       INTEGER DEBSTR
 
-      IDRT =A(NOEL,ND-20) 
+      IDRT =NINT( A(NOEL,ND-20) )
  
       IF    (IDRT .EQ. 1) THEN
         CA(2) =  A(NOEL,31)

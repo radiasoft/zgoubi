@@ -70,7 +70,8 @@ C----    X(J)       P(I)
  400    FORMAT(1P, 
      >  2X,I4,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
         IF(XCOU(I).NE.0.D0) THEN
-          KL=XCOU(I)
+C          KL=XCOU(I)
+          KL=INT( XCOU(I) )
           KP=NINT((1D3*XCOU(I)-1D3*KL))
           SGN = dsign(1.d0,dble(KL))
           ISGN = NINT(SGN)

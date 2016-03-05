@@ -29,7 +29,9 @@ C  -------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
-      CHARACTER TXT*132, TXT1*1, TXT2*2
+      CHARACTER(2) TXT2
+      CHARACTER(1) TXT1
+      CHARACTER(132) TXT
 
       INTEGER DEBSTR
       PARAMETER (MSR=8,MSR2=2*MSR)
@@ -98,7 +100,5 @@ C old style, x- and y-shift followed by z-rotation
       WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ : invalid input in CHANGREF'
       
- 90   CALL ENDJOB('*** Pgm rchang, keyword CHANGREF : '// 
-     >'input data error, at line ',line)
       RETURN
       END

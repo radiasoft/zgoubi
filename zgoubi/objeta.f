@@ -54,7 +54,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DIMENSION FP(6,MXT)
  
       DIMENSION AMAX(5),CENTRE(5)
-      CHARACTER  KTIR(2)*8 , BODY(3)*2
+      CHARACTER(8)  KTIR(2)
+      CHARACTER(2)  BODY(3)
 
       SAVE STIR
 
@@ -89,7 +90,7 @@ C       ... SET TO 99 IN SBR REBELOTE
 C     ... GENERE M3(IBODY=1) OU M5( PAR DECROISSANCE,IBODY=2 )
 C         OU M6 ( = PARTNERS OF M5 PRVIOUSLY GENERATED; IBODY=3)
 C         KOBJ=LOI DE Y,Z = 1(UNIF) OU 2(GAUSS)
-      IBODY = A(NOEL,10)
+      IBODY = NINT( A(NOEL,10) )
       IF    (IBODY.LT.10) THEN
 C       ... ANGULAR LIMITS T AND P =ZGOUBI ANGLES
         KAXE=1
@@ -98,8 +99,8 @@ C       ... ANGULAR LIMITS T AND P =POLAR
         IBODY=IBODY-10
         KAXE=2
       ENDIF
-      KOBJ = A(NOEL,11)
-      IMAX = A(NOEL,20)
+      KOBJ = NINT( A(NOEL,11) )
+      IMAX = NINT( A(NOEL,20) )
       IDMAX=1
       IMAXT=IMAX/IDMAX
 C     ... REST MASSES  (GEV/C2)
@@ -135,8 +136,8 @@ C     ** FRONTIERES  +/-   :
 C     ** DEMI-LONGUEUR DE LA CIBLE
       XL = A(NOEL,70)
       IF(IPASS .EQ. 1) THEN
-        IRAND = A(NOEL,80)
-        IRAND2= A(NOEL,81)
+        IRAND = NINT( A(NOEL,80) )
+        IRAND2= NINT( A(NOEL,81) )
       ENDIF
  
       IF(NRES.GT.0) THEN

@@ -30,6 +30,7 @@ C     ****************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -39,6 +40,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
  
       INTEGER DEBSTR, FINSTR
       CHARACTER(20) TXT20
+      CHARACTER(LNTA) fname
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
@@ -73,6 +75,10 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
               SI(2,I) = SY
               SI(3,I) = SZ
             ENDDO
+          ELSEIF(KSO2 .EQ. 2) THEN
+            LINE = LINE + 1
+            READ(NDAT,*,ERR=90) fname
+            ta(noel,1) = fname
           ENDIF
         ENDIF
         IA = 0

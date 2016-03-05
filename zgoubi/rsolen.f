@@ -31,9 +31,9 @@ C     READS DATA FOR SOLENOID
 C     -----------------------
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 
-      CHARACTER(132) TXT132, XRBM(4)*30
+      CHARACTER(132) TXT132
+      CHARACTER(30) XRBM(4)
  
-
 C----- IL
       READ(NDAT,*) A(NOEL,1)
 

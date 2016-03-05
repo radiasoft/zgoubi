@@ -88,7 +88,7 @@ C----- To get values into A(), from earlier FIT
       SAVE FITGET
 
       LOGICAL TOMANY, STRACO, STRWLD
-      CHARACTER(80) TXTEMP
+      CHARACTER(LNTA) TXTEMP
       CHARACTER(1) TXT1
       INTEGER DEBSTR,FINSTR
 
@@ -130,7 +130,7 @@ C      LOGICAL OKPRLB, OKPRDA
       save nblmn
 
       DATA PRDIC / .FALSE. /
-      DATA OKLNO / .FALSE. /
+C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
@@ -706,7 +706,8 @@ C----- FIT. FIT2. Two methods are available
       IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
-      IF(READAT) CALL RFIT(KLEY,IMAX,
+C      IF(READAT) CALL RFIT(KLEY,IMAX,
+      IF(READAT) CALL RFIT(KLEY,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)

@@ -59,7 +59,8 @@ C---------------------------------------------------------
       DIMENSION H1(NM),H2(NM),H3(NM),H4(NM), FAC(NM)
       DIMENSION COEFN(NM)
       DOUBLE PRECISION LAMBDE, LAMBDS, LAMBD3
-      DIMENSION LAMBDE(NM),QAPPAE(NM),NCOEFE(NM),NORME(NM) 
+      DOUBLE PRECISION NORMS
+      DIMENSION LAMBDE(NM),QAPPAE(NM),NCOEFE(NM),RNME(NM) 
       DOUBLE PRECISION G10,G11,G20,G21 
       DIMENSION G10(NM),G11(NM),G20(NM),G21(NM) 
       DIMENSION LAMBDS(NM),QAPPAS(NM),NCOEFS(NM),NORMS(NM) 
@@ -71,7 +72,7 @@ C---------------------------------------------------------
 
       SAVE ACN,DRM,HNORM,Rref,CE,CS,CC,H1,H2,H3,H4
       SAVE COEFN, FAC
-      SAVE LAMBDE,QAPPAE,NCOEFE,NORME
+      SAVE LAMBDE,QAPPAE,NCOEFE,RNME
       SAVE LAMBDS,QAPPAS,NCOEFS,NORMS
       SAVE LAMBD3,QAPPAL,NCOEF3,SHIFT3
       SAVE UMEGA,ASPIE0,ASPIE1,ASPIE2,ASPIE3
@@ -182,8 +183,8 @@ C-----  a list of NBMAG.LE.NM magnets
         NP=NP+1 
  227    CE(KMAG,I) = A(NOEL,NP)
       NP=NP+1 
-      NORME(KMAG) = A(NOEL,NP)
-!      write(*,*) NORME(KMAG)  ! malek
+      RNME(KMAG) = A(NOEL,NP)
+!      write(*,*) RNME(KMAG)  ! malek
       NP=NP+1 
       UMEGA(KMAG)  = A(NOEL,NP)
       NP=NP+1 
@@ -208,7 +209,7 @@ C-----  a list of NBMAG.LE.NM magnets
         WRITE(NRES,106)'Entrance',LAMBDE(KMAG),TYPGAP(KGAP),QAPPAE(KMAG)
 106     FORMAT (/,5X,A8,'  EFB',/,10X,'Fringe  field  :  gap at R0 is',
      >                                 F7.2,' cm,    type is : ',A,F5.2)
-        WRITE(NRES,127) NCOEFE(KMAG),(CE(KMAG,I),I=1,6),NORME(KMAG)
+        WRITE(NRES,127) NCOEFE(KMAG),(CE(KMAG,I),I=1,6),RNME(KMAG)
 127     FORMAT (10X,' COEFFICIENTS :',I3,6F10.5
      2  ,/,10X,' Shift  of  EFB  is ',G12.4,' cm',/)
         WRITE(NRES,103) UMEGA(KMAG),ASPIE0(KMAG)
@@ -597,12 +598,12 @@ C--------- end loop on   NN x tta  &  NN x ro
       IF(KMAG.LT.NBMAG) GOTO 20
 C-----
 
-      RETURN
 
       CLOSE(lunW)
 
 C-----------------------------------------------------------
 C  Compute FFAG field  and derivatives from analytical model
   
+      RETURN
   
       END 

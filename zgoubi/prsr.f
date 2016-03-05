@@ -44,16 +44,16 @@ C      LOGICAL ZSYM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ) 
 
-      DIMENSION SIG(4,4)
+C      DIMENSION SIG(4,4)
       CHARACTER(5) TXT(3)
       CHARACTER(10) UU(3)
 
-      dimension EMIT(3),ALP(3),BET(3),XM(3),XPM(3)
-      dimension NLIV(3),NINL(3),ratin(3)
-      dimension sigx(3), sigxp(3)
+      DIMENSION EMIT(3),ALP(3),BET(3),XM(3),XPM(3)
+      DIMENSION NLIV(3),NINL(3),RATIN(3)
+      DIMENSION SIGX(3), SIGXP(3)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
-      save dEav,phEav,phErms
+      SAVE DEAV,PHEAV,PHERMS
 
       DATA TXT / '(Y,T)', '(Z,P)', '(t,K)' /
       DATA UU / '(cm,rd)', '(cm,rd)', '(mu_s,MeV)' /

@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -47,7 +47,8 @@ C... X(2)- X(1) == LONG. D'UNE MAILLE
       DX2=DX*DX
  
 C... X1 == X COURANT
-      IAC=(X1-XH(1))/DX+1.5D0
+C      IAC=(X1-XH(1))/DX+1.5D0
+      IAC=INT( (X1-XH(1))/DX+1.5D0 )
  
 C... GRILLE 1-D A 5 POINTS OU 2-D A 5*5 POINTS
       IAC=MAX0(IAC,3)

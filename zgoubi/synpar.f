@@ -86,7 +86,7 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
      >'' inside dipole :'','' N = Eloss/<Eph> ='',1P,T80,G16.8)') 
      > EKEV/EPHOT *ABS(ANG)/(2.D0*PI)
 
-      WRITE(NRES,FMT='(/,2X,'' * Theoretical S.R. parameters, ''
+      WRITE(NRES,FMT='(/,2X,'' * Theoretical S.R. parameters, '',
      >''summed over magnets up to this point : '')')
       WRITE(NRES,FMT='(5X,1P,
      >''Average energy loss : '',T80,G16.8,'' keV/particle'',6X,

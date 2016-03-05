@@ -50,7 +50,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
 
-      CHARACTER(80) NOMFIC
+      CHARACTER(LNTA) NOMFIC
       INTEGER DEBSTR,FINSTR
       LOGICAL IDLUNI
       LOGICAL BINARI, BINARY
@@ -79,7 +79,7 @@ C----- Reset particle counter
 
       KT1 = NINT(A(NOEL,20)      )
       KT2 = NINT(A(NOEL,21)      )
-      KT3 = A(NOEL,22)
+      KT3 = NINT(A(NOEL,22))
       KP1 = NINT(A(NOEL,30))
       KP2 = NINT(A(NOEL,31)) 
       KP3 = NINT(A(NOEL,32))

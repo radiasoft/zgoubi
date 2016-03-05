@@ -335,8 +335,8 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
      >            WRITE(NRES,FMT='(T2,A)') TEXT(1:110)
           ENDIF
 
-          IF(   TEXT(IDEB:IDEB+2) .EQ. '''FIN'''
-     >    .OR. TEXT(IDEB:IDEB+2) .EQ. '''END''') THEN
+          IF(   TEXT(IDEB:IDEB+5) .EQ. '''FIN'''
+     >    .OR. TEXT(IDEB:IDEB+5) .EQ. '''END''') THEN
             LABEL(NOEL,1) = ' '
             LABEL(NOEL,2) = ' '
             GOTO 95

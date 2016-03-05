@@ -65,7 +65,7 @@ C------- Read samplings of the Grid
           L2 = NL + J - 1
 
 C------- Number of bars of the Grid :
-          IG(J2) = A(NOEL,L2)
+          IG(J2) = NINT(A(NOEL,L2))
 
 C--------- ECARTEMENT DES BARREAUX :
           P(J2) = A(NOEL,10+L2)
@@ -122,9 +122,9 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN
         NI = NL+30
         IF(NI .EQ. 100) NI = 95 
-        IR1 = A(NOEL,NI)
-        IR2 = A(NOEL,NI+1)
-        IR3 = A(NOEL,NI+2)
+        IR1 = NINT(A(NOEL,NI))
+        IR2 = NINT(A(NOEL,NI+1))
+        IR3 = NINT(A(NOEL,NI+2))
         IR1=(IR1/2)*2+1
         IR2=(IR2/2)*2+1
         IR3 =(IR3/2)*2+1
@@ -182,7 +182,8 @@ C------- TIRAGE GENERATEUR IR1
 
             CENTR=CENTRE(J)
             IF(KOUV .EQ. 'Grid') THEN
-              IGR = 1 + IG(J) * RNDM() * .999999D0
+C              IGR = 1 + IG(J) * RNDM() * .999999D0
+              IGR = INT( 1 + IG(J) * RNDM() * .999999D0 )
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF
@@ -209,7 +210,8 @@ C------- TIRAGE GENERATEUR IR2
             IF(IU .EQ. 0) IU=6
             CENTR=CENTRE(J)
             IF(KOUV .EQ. 'Grid') THEN
-              IGR = 1 + IG(J) * RNDM() * .999999D0
+C              IGR = 1 + IG(J) * RNDM() * .999999D0
+              IGR = INT( 1 + IG(J) * RNDM() * .999999D0 )
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF

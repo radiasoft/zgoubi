@@ -28,6 +28,7 @@ C  -------
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -38,13 +39,18 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
-      CHARACTER KAX(3)
+      CHARACTER(1) KAX(3)
  
       SAVE SXM,SYM,SZM
  
       LOGICAL ONCE
       SAVE ONCE
- 
+
+      INTEGER DEBSTR, FINSTR
+      LOGICAL IDLUNI, OK
+      CHARACTER(300) TXT,TXT2
+      LOGICAL GTTEXT
+
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
  
@@ -95,11 +101,24 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
  101        FORMAT(30X,' ALL PARTICLES HAVE SPIN PARALLEL TO  ',A1
      >      ,'  AXIS')
           ELSEIF(KSO .EQ. 4) THEN
-            WRITE(NRES,104) NINT(A(NOEL,9))
- 104        FORMAT(
-     >         30X,'All spins entered particle by particle'
-     >      ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
-     >      ,      'matching using FIT procedure')
+            IF    (KSO2 .EQ.0) THEN
+              WRITE(NRES,104) NINT(A(NOEL,9))
+ 104          FORMAT(
+     >           30X,'All spins entered particle by particle'
+     >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
+     >        ,      'matching using FIT procedure')
+            ELSEIF(KSO2 .EQ.1) THEN
+              WRITE(NRES,113) NINT(A(NOEL,9))
+ 113          FORMAT(
+     >           30X,'Same spin for all particles'
+     >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
+     >        ,      'matching using FIT procedure')
+            ELSEIF(KSO2 .EQ.2) THEN
+              WRITE(NRES,112) 
+     >        TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
+ 112          FORMAT(
+     >           30X,'Same spin for all particles, read from file ',A)
+            ENDIF
           ELSEIF(KSO .EQ. 5) THEN
             WRITE(NRES,108)
  108        FORMAT(15X,' OPTION 5 UNAVAILABLE IN THIS VERSION',/)
@@ -195,6 +214,34 @@ c        DO I=IM+1,IMAX
         SX = A(NOEL,10)
         SY = A(NOEL,11)
         SZ = A(NOEL,12)
+        DO I=1,IMAX
+          SI(1,I) = SX
+          SI(2,I) = SY
+          SI(3,I) = SZ
+          SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
+          SF(1,I) = SX
+          SF(2,I) = SY
+          SF(3,I) = SZ
+          SF(4,I) = SI(4,I)
+        ENDDO
+      ELSEIF(KSO2.EQ.2) THEN
+        OK = IDLUNI(
+     >              LR)
+        OPEN(UNIT=LR,FILE=TA(NOEL,1))
+        ok = gttext(NRES,LR,'(deg)       (deg)',
+     >              txt2)
+c        do i = 1, 11
+c            write(*,*) ' spn ',txt2
+c                  read(*,*)
+          READ(LR,FMT='(A)') txt
+c        enddo
+c            write(*,*) ' spn ',txt
+c                  read(*,*)
+        READ(txt,*) txt2,SXi, SYi, SZi,smi,SX, SY, SZ,sm
+c            write(*,*) ' spn ',txt
+c            write(*,*) ' SX, SY, SZ ',SX, SY, SZ
+c                  read(*,*)
+        CLOSE(LR)
         DO I=1,IMAX
           SI(1,I) = SX
           SI(2,I) = SY

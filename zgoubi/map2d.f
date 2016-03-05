@@ -53,7 +53,7 @@ C      LOGICAL ZSYM
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
-      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
@@ -92,10 +92,10 @@ C      LOGICAL ZSYM
       ENDIF
       IDEB = DEBSTR(TITL)
       FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
-      IXMA = A(NOEL,20)
+      IXMA = NINT(A(NOEL,20))
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
-      JYMA = A(NOEL,21)
+      JYMA = NINT(A(NOEL,21))
       IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
  

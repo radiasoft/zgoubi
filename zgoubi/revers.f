@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory          
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,10 +30,10 @@ C     Copy zgoubi.dat into zgoubi.res
 C-----------------------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
-      CHARACTER   TEXT*110
+      CHARACTER(110) TEXT
       INTEGER DEBSTR
       LOGICAL IDLUNI
-      CHARACTER*12 NAMSTO, NAMTMP
+      CHARACTER(12) NAMSTO, NAMTMP
       PARAMETER (NAMSTO='reverse.dat',NAMTMP='reverse2.dat')
 
       WRITE(6,*) '  Reversing  zgoubi.dat  into  reverse.dat,'

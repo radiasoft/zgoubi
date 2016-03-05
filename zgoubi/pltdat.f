@@ -48,7 +48,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DATA IPASS0,SP,MAXLOC/0,0,0/
 
  
-      LOC = A(NOEL,1)       
+      LOC = NINT( A(NOEL,1) )
 
       IF(IPASS0 .EQ. 1) THEN
         IF(IDLUNI(

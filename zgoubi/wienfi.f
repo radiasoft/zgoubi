@@ -54,7 +54,7 @@ C      LOGICAL ZSYM
       XL =A(NOEL,10)
       E  =A(NOEL,11)*SCAL
       B  =A(NOEL,12)*SCAL
-      KHV =A(NOEL,13)
+      KHV =NINT( A(NOEL,13) )
       XE = A(NOEL,20)
       QLE(1) = A(NOEL,21)
       DLE(1) = A(NOEL,22)

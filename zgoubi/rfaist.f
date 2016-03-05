@@ -38,7 +38,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       INTEGER DEBSTR,FINSTR
-      CHARACTER TXT*80, STRA(1)*80
+      CHARACTER(80) TXT, STRA(1)
       LOGICAL STRCON
 
 C----- Will print into file TA(NOEL,1), 

@@ -62,7 +62,7 @@ C      PARAMETER (MXTA=45)
  
       CHARACTER(132)  TFILE(MXTA), TXTF
       SAVE TFILE
-      LOGICAL OK
+      LOGICAL OK, OKPRT, SCALEX
  
       DATA OPT/ '++ OFF ++','         ' /
       DATA OKPRT / .FALSE. /
@@ -246,7 +246,7 @@ C          Starting value is either SCL(IF,1) or BORO
           NP = NP + 1
           SCL(IF,1,1) = A(NOEL,NP)
           NP = NP + 1
-          IDUM = A(NOEL,NP)  ! TIM
+          DUM = A(NOEL,NP)  ! TIM
           NP = NP + 1
  
           IF(NRES .GT. 0) THEN

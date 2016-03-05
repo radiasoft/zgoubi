@@ -83,9 +83,9 @@ C     .. PARAMETRE ELLIPSES
 C----- LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE SI REBELOTE)
 C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN
-        IR1 = A(NOEL,80)
-        IR2 = A(NOEL,81)
-        IR3 = A(NOEL,82)
+        IR1 = NINT(A(NOEL,80))
+        IR2 = NINT(A(NOEL,81))
+        IR3 = NINT(A(NOEL,82))
         IR1=(IR1/2)*2+1
         IR2=(IR2/2)*2+1
         IR3 =(IR3 /2)*2+1

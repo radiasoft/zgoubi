@@ -253,16 +253,12 @@ C       ... Polar map frame
 
       RETURN
 
- 97   continue
+ 97   CONTINUE
       WRITE(NRES,*) 'SBR rcarte, normalization coefficients : '
      >//' input data error'
       CALL ENDJOB('Expected is a list of  1 to 4 data.',-99)
       STOP
- 98   continue
-      WRITE(NRES,*) 'SBR rcarte, input data Error'
-      CALL ENDJOB('Expecting more data after MOD=15.*',-99)
-      STOP
- 99   continue
+ 99   CONTINUE
       WRITE(NRES,*) 'SBR rcarte, input data Error'
       CALL ENDJOB('Expecting more data after MOD=3.*',-99)
       STOP

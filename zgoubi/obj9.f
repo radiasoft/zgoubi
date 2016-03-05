@@ -59,7 +59,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C----- IX, IY, IZ
       IMAX = 0
       DO I= 1, 3
-        ISAM(I) = A(NOEL,20+I-1)
+        ISAM(I) = NINT( A(NOEL,20+I-1) )
         IF(ISAM(I).NE.0) IMAX = IMAX + ISAM(I) * MRHO
       ENDDO
 

@@ -49,10 +49,11 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       DIMENSION XMO2(JH,KH), IMX(JH,KH)
-      CHARACTER TYP(JH,KH)*2 ,TEXT*38 ,KAR
-      CHARACTER NORME(2)*14
-      CHARACTER KOORD(JH)*6
-      CHARACTER KUNIT(JH)*6
+      CHARACTER(2) TYP(JH,KH)
+      CHARACTER(38) TEXT
+      CHARACTER(1) KAR
+      CHARACTER(14) NORME(2)
+      CHARACTER(6) KOORD(JH), KUNIT(JH)
  
       DATA NORME /'NORMALISE     ','NON  NORMALISE'/
       DATA KOORD /'  D  ','Y    ','THETA','Z    ','PHI  ','  S  '
@@ -69,18 +70,18 @@ C                   NUM.COORD.  BORNES      NCOL/LISTING     NUMERO DE
 C                     1-JH     PHYSIQUES      < 120           L'HISTO
 C                              COMPTAGE                        1-KH
 C      READ(NDAT,*)    J     , XMIN,XMAX,      NCOL        ,    NH
-      J = A(NOEL,1)
+      J = NINT(A(NOEL,1))
       XMIN = A(NOEL,2)
       XMAX = A(NOEL,3)
-      NCOL = A(NOEL,4)
-      NH = A(NOEL,5)
+      NCOL = NINT(A(NOEL,4))
+      NH = NINT(A(NOEL,5))
 C                                                     COMPTE LES S(SEC),
 C                   AMPLI.VERT.  SYMBOLE  NORM.VERT   P(PRIM) OU Q (PAS
 C                    #30                    1-2       DE SELECTION)
 C      READ(NDAT,*) NBLINE    ,   KAR   ,  NORMY  ,       TYP(J,NH)
-      NBLINE = A(NOEL,10)
+      NBLINE = NINT(A(NOEL,10))
       KAR = TA(NOEL,1)(1:1)
-      NORMY = A(NOEL,11)
+      NORMY = NINT(A(NOEL,11))
       TYP(J,NH) = TA(NOEL,2)(1:2)
 C
 C     LE GRAPHIQ SE CENTRE AUTOMATIQT SUR LA COLONNE

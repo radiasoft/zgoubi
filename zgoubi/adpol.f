@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE ADPOL(ID,IK,
-     >                 B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+      SUBROUTINE ADPOL(ID,
+     >             IK,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C--------------------------------------------------------------------
 C     Add up pole components of multipole lenses. Can be E or B field

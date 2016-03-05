@@ -58,9 +58,9 @@ C----- Life time (s) of secondary particle. Zero if to be abandonned.
       IF(IPASS .EQ. 1) THEN
 C       *** Initialisation at 1st pass only
         IFDES = 1
-        IRSAR = A(NOEL,10)
-        IRTET = A(NOEL,11)
-        IRPHI = A(NOEL,12)
+        IRSAR = NINT(A(NOEL,10))
+        IRTET = NINT(A(NOEL,11))
+        IRPHI = NINT(A(NOEL,12))
         IRSAR =(IRSAR /2)*2+1
         IRTET =(IRTET /2)*2+1
         IRPHI =(IRPHI /2)*2+1

@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -48,7 +48,7 @@ C      COMMON/SYMPL/ NRME,NRMS
       SAVE EMY, EMZ
  
 C     ... TRANSVERSE PHASE_SPACES
-      NRME =A(NOEL,1)
+      NRME = NINT( A(NOEL,1) )
 C     ... BETA, ALPHA
       BY   =A(NOEL,10)
       AY   =A(NOEL,11)
@@ -65,7 +65,7 @@ C     ...RG, RG'
       ZPO  =A(NOEL,23)
  
 C     ... SPIN
-      NRMS=A(NOEL,30)
+      NRMS= NINT( A(NOEL,30) )
  
       IF(NRME .NE. 1) NRME=0
       IF(NRMS .NE. 1) NRMS=0

@@ -63,7 +63,7 @@ C  -------
         GOTO 1
  
  10     CONTINUE
-        KL=XCOU(I)
+        KL=INT( XCOU(I) )
         KP=NINT((1D3*XCOU(I)-1D3*KL))
         IF (KL.LT.0) GOTO 2
         IF (KL.GT.0) GOTO 6
