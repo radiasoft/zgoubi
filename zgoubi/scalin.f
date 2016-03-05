@@ -63,8 +63,6 @@ C      PARAMETER (MXTA=45)
       CHARACTER(132)  TFILE(MXTA), TXTF
       SAVE TFILE
       LOGICAL OK, OKPRT, SCALEX
- 
-      LOGICAL OKPRT, SCALEX 
 
       DATA OPT/ '++ OFF ++','         ' /
       DATA OKPRT / .FALSE. /
