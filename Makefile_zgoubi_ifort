@@ -6,8 +6,8 @@ CFLAGS = -g -DGFORTRAN4
 #
 ######## 
 # Case of ifort compiler, next two lines
-#FC=/opt/intel/bin/ifort
-FC=/opt/intel/composerxe-2011.4.191/bin/ia32/ifort
+FC=/opt/intel/bin/ifort
+#FC=/opt/intel/composerxe-2011.4.191/bin/ia32/ifort
 ### check : check array boundary errors
 FFLAGS= -xHOST -O3 -ip -traceback -check -static -save -cpp
 #FFLAGS= -xHOST -O3 -ip -traceback -check         -save -cpp
