@@ -292,7 +292,7 @@ C See /home/meot/zgoubi/struct/bnl/AtR/3He/n0/usingTOSCAMaps/blue/testA01BF.dat
 c FC=gfortran
 c FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
 C If I do this write, ak1 value is no longer NaN at first step 
-            write(*,*) ' agsks AK1(1) ap : ' , AK1(1)
+c            write(*,*) ' agsks AK1(1) ap : ' , AK1(1)
 
 c            write(*,*) ' agsks ',DB1F 
 c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 

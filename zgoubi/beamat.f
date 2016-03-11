@@ -55,6 +55,20 @@ C Betatron phase advance
         F0(2,2) = R(2,1)*R(2,1)*FI(1,1) - 2.D0*R(2,2)*R(2,1)*FI(2,1) +
      >  R(2,2)*R(2,2)*FI(2,2)
 
+c            call zgnoel(noelo)
+c           noel = noelo
+c          if(noel.eq.99) then
+c                write(*,*) 'R(1,1),R(1,2)'
+c                write(*,*) 'FI(1,1),FI(2,1),FI(2,2)'
+c                write(*,*) 'F0(1,1),F0(1,2) ,F0(2,1),F0(2,2)'
+c                write(*,*) R(1,1),R(1,2)
+c                write(*,*) FI(1,1),FI(2,1),FI(2,2)
+c                write(*,*) F0(1,1),F0(1,2) ,F0(2,1),F0(2,2)
+c                write(*,*) 
+c                  read(*,*)
+c          endif
+
+
         F0(3,3) = R(3,3)*R(3,3)*FI(3,3)-2.D0*R(3,3)*R(3,4)*FI(4,3) +
      >  R(3,4)*R(3,4)*FI(4,4)
         F0(3,4) = -(  R(3,3)*R(4,3)*FI(3,3) -

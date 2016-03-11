@@ -59,7 +59,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
           IF(NUEL .LT. 0 .OR. NUEL .GT. MXL) GOTO 11
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
-          IF    (KLEY(1:8) .EQ. 'OBJET') THEN 
+          IF    (KLEY(1:5) .EQ. 'OBJET') THEN 
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132              ! BORO
             WRITE(LTEMP,FMT='(A)')                                  
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -69,10 +69,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
              IF(STRCON(TXT132,'.',
      >                           IS)) THEN
               READ(TXT132(1:IS-1),*) KOBJ 
-c                   write(*,*) ' fitwda ',TXT132(IS+1:FINSTR(TXT132))
                READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
-c                   write(*,*) ' fitwda kobj, kobj2 : ',kobj, kobj2
-c                       read(*,*)
             ELSE
               READ(TXT132,*) KOBJ 
               KOBJ2 = 0
@@ -107,7 +104,7 @@ c                       read(*,*)
               ENDIF
             ENDIF
 
-          ELSEIF(KLEY(1:8) .EQ. 'AGSMM') THEN 
+          ELSEIF(KLEY(1:5) .EQ. 'AGSMM') THEN 
 
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(A)') 
@@ -187,36 +184,23 @@ C Old style CHANGREF
           ELSEIF(KLEY(1:6) .EQ. 'DIPOLE') THEN 
  
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! IL
-            WRITE(*,FMT='(A)')  
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             WRITE(LTEMP,FMT='(A)')  
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132                 ! AT, RM
-            WRITE(*,FMT='(A)')  
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
-            WRITE(*,FMT='(A)')  
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            WRITE(*,FMT='(5F13.7,T70,A)')
-     >             (A(NUEL,J),J=4,8), ' ! ACNT,  HNORM, indices'
             WRITE(LTEMP,FMT='(5F13.7,T70,A)')
      >             (A(NUEL,J),J=4,8), ' ! ACNT,  HNORM, indices'
             DO I = 1, 11
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
-              WRITE(*,FMT='(A)')  
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             ENDDO
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
-            WRITE(*,FMT='(A)')  
-     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             WRITE(LTEMP,FMT='(I0,4(1X,F13.7),T70,A)')
      >                      NINT(A(NUEL,63)),(A(NUEL,J),J=64,67),
      >                                  ' ! KPOS, RE, TE, RS, TS' 
-C                read(*,*)
           ENDIF
         ENDIF
       ENDDO

@@ -75,7 +75,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         SXM =  0D0;  SYM =  0D0;  SZM =  0D0
         SXF =  0D0;  SYF =  0D0;  SZF =  0D0 
         SXMF = 0D0;  SYMF = 0D0;  SZMF = 0D0
-        PHIM = 0.D0
+        PHIM = 0.D0 ; GGM = 0.D0
 
         II=0
         DO I=IMAX1,IMAX2
@@ -90,6 +90,9 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
           SXMF = SXMF + SXF
           SYMF = SYMF + SYF
           SZMF = SZMF + SZF
+          P = BORO*CL9 *F(1,I) *Q
+          GAMA = SQRT(P*P + AM*AM)/AM
+          GGM = GGM + G * GAMA 
 
           IF(SF(1,I).LT.SPMI(1,I)) SPMI(1,I) = SF(1,I)          
           IF(SF(2,I).LT.SPMI(2,I)) SPMI(2,I) = SF(2,I)          
@@ -114,6 +117,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         ENDDO
 
         PHIM = PHIM / DBLE(II)
+        GGM = GGM / DBLE(II)
  
         PHIM2 = 0.D0
         II=0
@@ -143,15 +147,15 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
           PHIM = PHIM * DEG
           SIGPHI = SIGPHI * DEG
           WRITE(NRES,120) II,SX/DBLE(II),SY/DBLE(II),SZ/DBLE(II),SM
-     >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,phim,sigphi
+     >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,GGM,phim,sigphi
  120      FORMAT(//,25X,' Average  over  particles at this pass ; '
      >    ,2X,'beam with  ',I6,'  particles :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
-     >    ,//,T9,'<SX>',T21,'<SY>',T33,'<SZ>',T45,'<S>'
-     >    ,T67,'<SX>',T78,'<SY>',T91,'<SZ>',T104,'<S>'
-     >    ,t109,'<(SI,SF)>',t120,'sigma_(SI,SF)'
-     >    ,/,t110,'  (deg)',t121,'   (deg)'
-     >    ,/,4(2x,F10.6),10X,6(2x,F10.6))
+     >    ,//,T7,'<SX>',T18,'<SY>',T29,'<SZ>',T40,'<|S|>'
+     >    ,T57,'<SX>',T68,'<SY>',T79,'<SZ>',T89,'<|S|>',T98,'<G.gma>'
+     >    ,T109,'<(SI,SF)>',T120,'sigma_(SI,SF)'
+     >    ,/,T110,'  (deg)',T121,'   (deg)'
+     >    ,/,4(1x,F10.6),6X,7(1x,F10.6))
  
           WRITE(NRES,110) JMAXT
  110      FORMAT(//,15X,' Spin  components  of  each  of  the '
