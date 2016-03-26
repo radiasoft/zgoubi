@@ -60,17 +60,13 @@ C      LOGICAL ZSYM
         IF    (IOP .EQ. 1) THEN
 C--------- POSITIONNEMENT REFERENCE = TRAJ. 1, ABSCISSE ACTUELLE
           IRF=1
-          IF    (IOP2 .EQ. 0) THEN
-            XC =ZERO
-            YC =F(2,IRF) 
-          ELSEIF(IOP2 .EQ. 5) THEN
-            XC =ZERO
-            YC =ZERO
-            AA = ZERO
+          XC =ZERO
+          YC =F(2,IRF) 
+          AA  =F(3,IRF) * 0.001D0
+          IF(IOP2 .EQ. 5) THEN
             ZC =F(4,IRF) 
             BB = F(5,IRF) * 0.001D0
           ENDIF
-          AA  =F(3,IRF) * 0.001D0
         ELSEIF(IOP .EQ. 2) THEN
 C--------- POSITIONNEMENT REFERENCE = WAIST DES TRAJ. 1 ET 4-5
           IRF=1

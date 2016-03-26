@@ -24,6 +24,6 @@ C  Upton, NY, 11973
 C  USA
 C  -------
 
-      COMMON//
-     >XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
+      COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
+
              

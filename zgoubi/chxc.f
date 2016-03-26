@@ -24,7 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,
      >                                    XL,DSREF,QSHROE,VSHROE)
-      USE dynhc
+      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
 C     DEFINES THE FIELD:
@@ -38,8 +38,7 @@ C     --------------------------------------------------
       DIMENSION VSHROE(MSR)
 
       INCLUDE 'PARIZ.H'
-C      PARAMETER (MXX=400, MXY=200)
-      INCLUDE "XYZHC.H"
+      INCLUDE "XYZHC.H"     ! COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
       INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
@@ -75,12 +74,9 @@ C      LOGICAL ZSYM
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6) 
 
       LOGICAL BINAR,BINARI,IDLUNI
-C      CHARACTER(120) TITL
       CHARACTER(LNTA) TITL
-C      CHARACTER(80) NOMFIC(20), NAMFIC
       CHARACTER(LNTA) NAMFIC
-C      CHARACTER(80) NOMFIC(20)
-      CHARACTER(LNTA) NOMFIC(20)
+      CHARACTER(LNTA) NOMFIC(MXTA)
       DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
       INTEGER DEBSTR,FINSTR
  
@@ -93,21 +89,26 @@ C      CHARACTER(80) NOMFIC(20)
       INCLUDE 'FILPLT.H'
 
       PARAMETER (I0=0,I2=2,I3=3)
-      CHARACTER(120) FMTYP
+C      CHARACTER(120) FMTYP
 
       LOGICAL SUMAP
       SAVE NHDF
       LOGICAL STRCON, FITING
+C      LOGICAL AGS, NEWFIC(MXTA)
       LOGICAL AGS, NEWFIC
-C      INCLUDE 'MAPHDR.H'
+
       PARAMETER (MXHD=20)
 
       SAVE YSHFT
  
       DIMENSION DBDX(3)
 
+      DIMENSION AA(1)
+      DATA AA / 0.D0 /
+
       DATA AGS / .FALSE. /
 
+C      DATA NEWFIC / MXTA * .TRUE. /
       DATA NEWFIC / .TRUE. /
 
       DATA NHDF / 4 /
@@ -122,7 +123,7 @@ C      INCLUDE 'MAPHDR.H'
       DATA KTOR /  'CLAMPEES', 'PARALLELES' /
 
       DATA DTA1 / 0.D0 /
-      DATA FMTYP / ' regular' / 
+C      DATA FMTYP / ' regular' / 
       DATA LUN / 0 / 
       DATA FLIP / .FALSE. / 
       DATA BMIN,BMAX,
@@ -423,7 +424,6 @@ C Steps back because this is settled after the endif...
           BMAX = BMAX/BNORM
           BMIN = BMIN/BNORM
 
-
         ELSEIF(KUASEX.EQ.9) THEN
 C------------ 9 : MAP2D, MAP2D-E. READS A 2D FIELD MAP, 
 C                  FORMAT OF MAP FILE = SAME AS TOSCA (PAVEL AKISHIN, JINR, 1992).
@@ -464,13 +464,25 @@ C Steps back because this is settled after the endif...
           BMAX = BMAX/BNORM
           BMIN = BMIN/BNORM
 
+        ELSEIF(KUASEX .EQ. 8 ) THEN
+C-------- BREVOL AND ELREVOL
+C         Read a 1-D X-map of  Bx(R=0,X)-field,
+C                          or  E(R=0,X)-field
+C                                (x-cylindrical symmetry assumed)
+          NDIM = 1
+          CALL BREVOL(SCAL,
+     >                    BMIN,BMAX,BNORM,XNORM,XBMI,XBMA,NEWFIC)
+
+C   Because it's done down after the endif...
+          XBMA = XBMA/XNORM
+          XBMI = XBMI/XNORM
+          BMAX = BMAX/BNORM
+          BMIN = BMIN/BNORM
+
+
         ELSE
- 
-          IF    (KUASEX .EQ. 8) THEN
-            NDIM=1 
-          ELSE
-            NDIM=2
-          ENDIF
+
+          NDIM=2
  
           BNORM = A(NOEL,10)*SCAL
           XNORM = A(NOEL,11)
@@ -564,11 +576,13 @@ C------------- The all 3D map is contained in a single file
           ENDIF
  
           IF(NRES.GT.0) THEN
-            WRITE(NRES,209) ' Title in this field map problem :', TITL
+            WRITE(NRES,209) ' Title in this field map problem : ', 
+     >      TITL(DEBSTR(TITL):FINSTR(TITL))
  209        FORMAT(/,10X,2A)
             WRITE(NRES,*) ' A total of',NFIC,
      >                      ' field map(s) to be loaded :'
-            WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+            WRITE(NRES,208) (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >    FINSTR(NOMFIC(I))),I=1,NFIC)
  208        FORMAT(10X,A)
           ENDIF
 
@@ -781,70 +795,12 @@ C----------- CARTE MESUREE SPECTRO KAON GSI (DANFISICS)
  625          CONTINUE
  622        CONTINUE
  
-          ELSEIF(KUASEX .EQ. 8 ) THEN
-C---------- BREVOL AND ELREVOL
-C           Read a 1-D X-map of  Bx(R=0,X)-field,
-C                            or  E(R=0,X)-field
-C                                  (x-cylindrical symmetry assumed)
-    
-            CALL KSMAP5(
-     >                  IMAP)
-
-            CALL RAZ(HC,ID*IXMA)
-            JFIC = 0
- 5521       CONTINUE
-              JFIC = JFIC+1
-              IF(IDLUNI(
-     >                  LUN)) THEN
-C Rustine pb FIT
-                 lun = 30 
-                BINAR=BINARI(NOMFIC(JFIC),IB)
-                IF(BINAR) THEN
-                  OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),FORM='UNFORMATTED'
-     >            ,STATUS='OLD',ERR=96)
-                ELSE
-                  OPEN(UNIT=LUN,FILE=NOMFIC(JFIC),STATUS='OLD',ERR=96)
-                ENDIF
-              ELSE
-                GOTO 96
-              ENDIF
-              DO  552  I = 1,IXMA
-                IF(BINAR) THEN
-                  READ(LUN) XH(I),BMES
-                ELSE
-                  READ(LUN,*) XH(I),BMES
-                ENDIF
-                IF    (BMES .GT. BMAX) THEN
-                  BMAX = BMES
-                  XBMA = XH(I)
-                ELSEIF(BMES .LT. BMIN) THEN
-                  BMIN = BMES
-                  XBMI = XH(I)
-                ENDIF
-C--------------------- Rustine collecte e+ / Jab
-                  fac=1.D0
-CCCCCCCCCCCCCCCCCCC   if(jfic.eq.2) fac = 3.5d0    ! pour obtenir le meme champ que Jab dans le 2eme soleno
-              HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES * BNORM*FAC
-C--------------------------------------------------------
-C              HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES * BNORM
-                XH(I) = XH(I) * XNORM
- 552        CONTINUE
-            CLOSE(LUN)
-
-C------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat. 
-C        SUMAP is .T.
-            IF(JFIC.LT.NFIC) GOTO 5521
-
-C          Motion in this lmnt has no z-symm. 
-            ZSYM=.FALSE.
- 
           ENDIF
         ENDIF
 C        ... ENDIF KUASEX
 
-
-         CLOSE(UNIT=LUN)
-C close does not seem to idle lun => makes problem with FIT !!   
+        CLOSE(UNIT=LUN)
+C Check that : close does not seem to idle lun => makes problem with FIT !!   
 
         XBMA = XBMA*XNORM
         XBMI = XBMI*XNORM
@@ -993,9 +949,6 @@ C---------- Magnetic
                DSREF = XL
         ELSEIF(KFLD .EQ. LC) THEN
 C---------- Electric
-
-c     if(noel.eq.19)   write(*,*) 'chxc multpo IN  ', scal
-
           CALL MULTPO(KUASEX,LMNT,LC,SCAL,
      >    DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
         ELSEIF(KFLD .EQ. ML) THEN
@@ -1325,15 +1278,15 @@ C        STP3 = A(NOEL,ND)
       GOTO 99
 
  97   NRES = ABS(NRES)
-      WRITE(NRES,200) '  ERROR DURING READ IN ',NOMFIC(NFIC)
+      WRITE(NRES,200) 'Pgm chxc. ERROR DURING READ IN ',NOMFIC(NFIC)
       WRITE(NRES,*) '                 AT NODE IX =',I,',  IY =',J
       CALL ENDJOB('Execution stopped : error during READ  ',-99)
  96   NRES = ABS(NRES)
-      WRITE(NRES,200) '  ERROR  OPEN  FILE ',NOMFIC(NFIC)
+      WRITE(NRES,200) 'Pgm chxc. ERROR  OPEN  FILE ',NOMFIC(NFIC)
       CALL ENDJOB('Execution stopped : error at OPEN  file  ',-99)
  95   NRES = ABS(NRES)
       WRITE(NRES,FMT=
-     > '(//,''  Error  in  data  list'')')
+     > '(//,''Pgm chxc.  Error  in  data  list'')')
       WRITE(6,FMT=
      > '(//,''  Error  in  data  list'',
      >        /,''    * See zgoubi.res'',//)')

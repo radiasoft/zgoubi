@@ -33,13 +33,16 @@ C  -------
       CHARACTER(1) TXT1
       CHARACTER(132) TXT
 
-      INTEGER DEBSTR
+      INTEGER DEBSTR, FINSTR
       PARAMETER (MSR=8,MSR2=2*MSR)
       CHARACTER(30) SSHRO(MSR2)
+      LOGICAL STRCON 
 
       LINE = 1
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
-      TXT = TXT(DEBSTR(TXT):LEN(TXT))
+      IF(STRCON(TXT,'!',
+     >                  IS)) TXT = TXT(DEBSTR(TXT):IS-1)
+      TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
       TXT1 = TXT(1:1)
       IF( TXT1.EQ.'X' .OR.
      >    TXT1.EQ.'Y' .OR. 
@@ -53,14 +56,14 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
           IF(TXT2(1:1).EQ.'X' .OR.
      >       TXT2(1:1).EQ.'Y' .OR.
      >       TXT2(1:1).EQ.'Z' ) THEN
-            IF(TXT2(2:2).EQ.'S' .OR.
-     >         TXT2(2:2).EQ.'R' ) THEN
-              TA(NOEL,I) = TXT2
-              READ(SSHRO(2*I),*) A(NOEL,I)
-            ELSE
-              NSR = II-1
-              GOTO 10
-            ENDIF
+             IF(TXT2(2:2).EQ.'S' .OR.
+     >       TXT2(2:2).EQ.'R' ) THEN
+               TA(NOEL,I) = TXT2
+               READ(SSHRO(2*I),*) A(NOEL,I)
+             ELSE
+               NSR = II-1
+               GOTO 10
+             ENDIF
           ELSE
             NSR = II-1
             GOTO 10

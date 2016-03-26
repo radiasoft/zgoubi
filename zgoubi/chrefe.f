@@ -36,8 +36,6 @@ C     -------------------------------------------------
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
-C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -70,6 +68,12 @@ C      PARAMETER (MXTA=45)
      >    CALL ENDJOB('Pgm cavite. Exceed array size, KFM = ',KFM(IFM))
         ENDIF
         DO I= 1 , JPA(KFM(IFM),MXP)
+          IF(JPA(KFM(IFM),I).GT.MXD) CALL ENDJOB(
+     >    ' Pgm chrefe. Exceded size in array A. MXD<',JPA(KFM(IFM),I))
+          IF(KFM(IFM).GT.MXF) CALL ENDJOB(
+     >    ' Pgm chrefe. Exceded size in array VPA. MXF<',KFM(IFM))
+          IF(I.GT.MXP) CALL ENDJOB(
+     >    ' Pgm chrefe. Exceded size in array VPA. MXP<',I)
           A(NOEL,JPA(KFM(IFM),I)) = VPA(KFM(IFM) ,I)
         ENDDO
       ENDDO

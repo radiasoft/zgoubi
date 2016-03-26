@@ -47,6 +47,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.GASC.H"     ! COMMON/GASC/ AI, DEN, KGA
       CHARACTER(1) KAR(41)
       INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
+      INCLUDE 'MXLD.H'
+      PARAMETER (LBLSIZ=10)
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
@@ -102,4 +106,6 @@ C                                Y      T     Z     P     S    D    time
 C                                m     rad    m    rad    m    1     s
       DATA (UNIT(I),I=1,MXJ) / 1.D-2,1.D-3,1.D-2,1.D-3,1.D-2,1.D0,1.D-6/
       DATA (NTIM(I),I=1,MXF) / MXF * 0 /
+      PARAMETER (MXL2=MXL*2)
+      DATA LABEL / MXL2*' ' / 
       END

@@ -18,22 +18,21 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE NORMB(B,DB,DDB)
+      SUBROUTINE NORMB(SCAL,BRI,
+     >                          B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
- 
+      DIMENSION B(5,*),DB(3,*),DDB(3,3,*)
+      FAC = SCAL*BRI
       DO 1 I=1,3
-        B(1,I)=B(1,I)*BRI
+        B(1,I)=B(1,I)*FAC
         DO 1 J=1,3
-          DB(I,J)=DB(I,J)*BRI
+          DB(I,J)=DB(I,J)*FAC
           DO 1 K=1,3
-            DDB(I,J,K)=DDB(I,J,K)*BRI
+            DDB(I,J,K)=DDB(I,J,K)*FAC
  1    CONTINUE
       RETURN
       END

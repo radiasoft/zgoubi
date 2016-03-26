@@ -165,13 +165,15 @@ C--------- another option for symmetrization by FMAPR2
      >     ,'New field map(s) now used, polar mesh (MOD .ge. 20) ; '
      >     ,/,10X,' name(s) of map data file(s) are : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
-           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+           WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
-          WRITE(NRES,210) (NOMFIC(I),I=1,NFIC)
+          WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  210      FORMAT(
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
-     >    10X,'Skip  reading  field  map  file : ',10X,A80)
+     >    10X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
       ENDIF
  
@@ -206,43 +208,55 @@ C        CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,BNORM,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
 C------- Store mesh coordinates
-           IIXMA(IMAP) = IXMA
-           DO I=1,IXMA
-             XXH(I,imap) =  XH(I)
-           ENDDO
-           JJYMA(IMAP) = JYMA
-           DO J=1,JYMA
-             YYH(J,imap) =  YH(J)
-           ENDDO
-           KKZMA(IMAP) = KZMA
-C FM Nov 2011           DO K= 2, KZMA
-           DO K= 1, KZMA
-             ZZH(K,imap) = ZH(K)
-           ENDDO
-           BBMI(IMAP) = BMIN
-           BBMA(IMAP) = BMAX
-           XBBMI(IMAP) = XBMI
-           YBBMI(IMAP) = YBMI
-           ZBBMI(IMAP) = ZBMI
-           XBBMA(IMAP) = XBMA
-           YBBMA(imap) = YBMA
-           ZBBMA(imap) = ZBMA
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+c           IIXMA(IMAP) = IXMA
+c           DO I=1,IXMA
+c             XXH(I,imap) =  XH(I)
+c           ENDDO
+c           JJYMA(IMAP) = JYMA
+c           DO J=1,JYMA
+c             YYH(J,imap) =  YH(J)
+c           ENDDO
+c           KKZMA(IMAP) = KZMA
+cC FM Nov 2011           DO K= 2, KZMA
+c           DO K= 1, KZMA
+c             ZZH(K,imap) = ZH(K)
+c           ENDDO
+c           BBMI(IMAP) = BMIN
+c           BBMA(IMAP) = BMAX
+c           XBBMI(IMAP) = XBMI
+c           YBBMI(IMAP) = YBMI
+c           ZBBMI(IMAP) = ZBMI
+c           XBBMA(IMAP) = XBMA
+c           YBBMA(imap) = YBMA
+c           ZBBMA(imap) = ZBMA
+ 
+      ELSE
+ 
+C------- Restore mesh coordinates
+        CALL FMAPR5(IMAP,
+     >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+ 
+        IF(NRES.GT.0) WRITE(NRES,*) ' Pgm toscap, ',
+     >  ' restored mesh coordinates for field map # ',imap
  
       ENDIF
  
 c          write(*,*)  ' toscap BNORM SCAL ',BNORM,SCAL
       CALL CHAMK2(BNORM*SCAL)
  
-       CALL MAPLI1(BMAX-BMIN)
-       AT=XH(IXMA)-XH(1)
-       ATO = 0.D0
-       ATOS = 0.D0
-       RM=.5D0*(YH(JYMA)+YH(1))
-       XI = XH(1)
-       XF = XH(IXMA)
+      CALL MAPLI1(BMAX-BMIN)
+      AT=XH(IXMA)-XH(1)
+      ATO = 0.D0
+      ATOS = 0.D0
+      RM=.5D0*(YH(JYMA)+YH(1))
+      XI = XH(1)
+      XF = XH(IXMA)
  
       RETURN
- 96   WRITE(ABS(NRES),*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
-      CALL ENDJOB('ERROR  OPEN  FILE ',-99)
+
+ 96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file ',
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+      CALL ENDJOB('Leaving. ',-99)
       RETURN
       END

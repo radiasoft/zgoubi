@@ -76,7 +76,7 @@ C     16/01/14 to check also the coefficients
       NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
         IF(NBMAPS.GE.MMAP) THEN
-          WRITE(NRES,*) ' SBR ksmap(b) : too many different field maps'
+          WRITE(NRES,*) ' SBR ksmap : too many different field maps'
           CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
         ENDIF
         NBMAPS = NBMAPS+1

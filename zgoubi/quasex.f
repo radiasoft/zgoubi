@@ -49,12 +49,21 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       LOGICAL MIRROR, LDUM
 
       PARAMETER(I0=0, ZERO=0.D0)
-      SAVE dtta, zce, phi
+      SAVE DTTA, ZCE, PHI
 
       PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
-      DIMENSION VSHROE(MSR),    VSHROS(MSR)
-      logical OKPRSR
+      DIMENSION VSHROE(MSR), VSHROS(MSR)
+      LOGICAL OKPRSR
+
+      INTEGER DEBSTR, FINSTR
+      CHARACTER(51) TXTF(4)
+      DATA TXTF / 
+     >'Change  of  frame  at  exit  of  element.',
+     >'Element  is  mis-aligned  wrt.  the  optical  axis.',
+     >'Automatic  positionning  of  element.',
+     >'Special  alignement.'
+     >/
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
@@ -76,23 +85,23 @@ C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       XFS=XS-XLIM
       IF(KP .EQ. 1)  THEN
 C------- Optical elmnt undergoes new positionning. Its frame becomes the new 
-C        reference frame. No exit CHANGREF needed
+C        reference frame. No exit CHANGREF needed'
         XCS = 0.D0
         YCS = 0.D0
         ALS = 0.D0
 
-        qshroE(1) = 'XS'
+        QSHROE(1) = 'XS'
         VSHROE(1) = XCE
-        qshroE(2) = 'YS'
+        QSHROE(2) = 'YS'
         VSHROE(2) = YCE
-        qshroE(3) = 'ZR'
+        QSHROE(3) = 'ZR'
         VSHROE(3) = ALE
         VSHROE(MSR) = 3
-        qshroS(1) = 'XS'
+        QSHROS(1) = 'XS'
         VSHROS(1) = XCS
-        qshroS(2) = 'YS'
+        QSHROS(2) = 'YS'
         VSHROS(2) = YCS
-        qshroS(3) = 'ZR'
+        QSHROS(3) = 'ZR'
         VSHROS(3) = ALS
         VSHROS(MSR) = 3
 
@@ -124,22 +133,20 @@ C         WRITE(*,*) ' QUASEX ',XE,XS,XLIM
         YCS=XTEMP*SL-YTEMP*CL
         ALS=-ALE
 
-        qshroE(1) = 'XS'
+        QSHROE(1) = 'XS'
         VSHROE(1) = XCE
-        qshroE(2) = 'YS'
+        QSHROE(2) = 'YS'
         VSHROE(2) = YCE
-        qshroE(3) = 'ZR'
+        QSHROE(3) = 'ZR'
         VSHROE(3) = ALE
         VSHROE(MSR) = 3
-        qshroS(1) = 'XS'
+        QSHROS(1) = 'XS'
         VSHROS(1) = XCS
-        qshroS(2) = 'YS'
+        QSHROS(2) = 'YS'
         VSHROS(2) = YCS
-        qshroS(3) = 'ZR'
+        QSHROS(3) = 'ZR'
         VSHROS(3) = ALS
         VSHROS(MSR) = 3
-
-        IF(NRES.GT.0) WRITE(NRES,100) XCE,YCE,ALE
 
       ELSEIF(KP .EQ. 3)  THEN
 C------- Optical elmnt is Z-rotated. Entrance and exit frames are 
@@ -156,52 +163,52 @@ C        YCE = 0.D0
           ALS = -(PI - ALE)
         ENDIF
 
-        qshroE(1) = 'XS'
+        QSHROE(1) = 'XS'
         VSHROE(1) = XCE
-        qshroE(2) = 'YS'
+        QSHROE(2) = 'YS'
         VSHROE(2) = YCE
-        qshroE(3) = 'ZR'
+        QSHROE(3) = 'ZR'
         VSHROE(3) = ALE
         VSHROE(MSR) = 3
-        qshroS(1) = 'XS'
+        QSHROS(1) = 'XS'
         VSHROS(1) = XCS
-        qshroS(2) = 'YS'
+        QSHROS(2) = 'YS'
         VSHROS(2) = YCS
-        qshroS(3) = 'ZR'
+        QSHROS(3) = 'ZR'
         VSHROS(3) = ALS
         VSHROS(MSR) = 3
 
       ELSEIF(KP .EQ. 4)  THEN
 C------- Implemented for AGSMM. 
 C        ALE is a delta wrt. DEV/2 
-        tta = ale - dtta
-        ALS = tta - dtta
-        dtta2 = dtta / 2.d0
-        XCS = -xl * sin(dtta2) * sin(dtta2 + tta)
-        YCS = -YCE/COS(ALE) - xl * sin(dtta) * cos(dtta2 + tta)
+        TTA = ALE - DTTA
+        ALS = TTA - DTTA
+        DTTA2 = DTTA / 2.D0
+        XCS = -XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
+        YCS = -YCE/COS(ALE) - XL * SIN(DTTA) * COS(DTTA2 + TTA)
  
 C ZCE
-        zcsb = -Vshroe(4)
+        ZCSB = -VSHROE(4)
 C PHE
-        if(Vshroe(6).ne.0.d0) then
-          XCsb = Vshroe(5) 
-          zcsb = -Vshroe(6)
-        endif
+        IF(VSHROE(6).NE.0.D0) THEN
+          XCSB = VSHROE(5) 
+          ZCSB = -VSHROE(6)
+        ENDIF
 
-C X-rot (Yaw)
-c        qshroS(1) = 'YR'
+C X-ROT (YAW)
+C        QSHROS(1) = 'YR'
 c        VSHROS(1) = Vshroe(7) 
-        qshroS(1) = 'ZS'
-        VSHROS(1) = -Vshroe(6)
-        qshroS(2) = 'XS'
-        VSHROS(2) = -Vshroe(5)
-C Z-shift
-        qshroS(3) = 'ZS'
-        VSHROS(3) = -Vshroe(4)
-C Z-rot (Pitch)
-        qshroS(4) = 'YS'
+        QSHROS(1) = 'ZS'
+        VSHROS(1) = -VSHROE(6)
+        QSHROS(2) = 'XS'
+        VSHROS(2) = -VSHROE(5)
+C Z-SHIFT
+        QSHROS(3) = 'ZS'
+        VSHROS(3) = -VSHROE(4)
+C Z-ROT (PITCH)
+        QSHROS(4) = 'YS'
         VSHROS(4) = YCS
-        qshroS(5) = 'ZR'
+        QSHROS(5) = 'ZR'
         VSHROS(5) = ALS
 C        VSHROS(MSR) = 6
         VSHROS(MSR) = 5
@@ -220,11 +227,14 @@ C        VSHROS(MSR) = 6
  
       CALL TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
 
-      IF(NRES .GT. 0)
-     >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
-     >1P,G17.9,
-     >'' m ;  Time  (for ref. rigidity & particle) = '', 
-     >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,100) KP,
+     >  TXTF(KP)(DEBSTR(TXTF(KP)):FINSTR(TXTF(KP))),XCE,YCE,ALE
+        WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
+     >  1P,G17.9,
+     >  '' m ;  Time  (for ref. rigidity & particle) = '', 
+     >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
+      ENDIF
 
       IF(KSYN.EQ.1) THEN
         CALL SRLOS1(
@@ -241,16 +251,16 @@ C----- Unset coded step
 
       RETURN
 
-      ENTRY QUASE2(dttaI,zcei,phii)
-      dtta = dttaI
-      zce = zcei
-      phi = phii
+      ENTRY QUASE2(DTTAI,ZCEI,PHII)
+      DTTA = DTTAI
+      ZCE = ZCEI
+      PHI = PHII
       RETURN
 
 C100   FORMAT(/,5X,'ELEMENT  DECENTRE  PAR  RAPPORT  A  L''AXE  OPTIQUE'
 C     1,/,10X,'CENTRE  DE  LA  FACE  D''ENTREE  EN  X =',1P,G10.2
 C     2,' CM   Y =',G10.2,' CM   INCLINAISON =',G12.4,' RAD',/)
-100   FORMAT(/,5X,'Element  is  mis-aligned  wrt.  the  optical  axis'
-     1,/,10X,'Center  of  entrance  EFB  is  at    X =',1P,G12.4
-     2,' CM   Y =',G12.4,' cm,  tilt  angle =',G14.6,' RAD',/)
+ 100  FORMAT(/,5X,'KPOS =  ',I0,'.  ',A
+     >,/,10X,'X =',1P,G12.4
+     >,' CM   Y =',G12.4,' cm,  tilt  angle =',G14.6,' RAD',/)
       END

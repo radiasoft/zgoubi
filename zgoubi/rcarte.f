@@ -38,7 +38,7 @@ C      PARAMETER (MXTA=45)
 
       CHARACTER(132) TXT
       PARAMETER (MXSTR=20)
-      CHARACTER(80) STRA(MXSTR)
+      CHARACTER(LNTA) STRA(MXSTR)
       INTEGER DEBSTR
       LOGICAL STRCON
       LOGICAL ISNUM
@@ -59,7 +59,7 @@ C 11   CONTINUE
 
 C----- BNORM & X-,Y-,Z-NORM
       DO I = 1, IDIM    ! For compatibility with earlier versions
-        A(NOEL,10+I) = 1.d0
+        A(NOEL,10+I) = 1.D0
       ENDDO
       LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=97) TXT   
@@ -70,7 +70,7 @@ C----- BNORM & X-,Y-,Z-NORM
       IF(NSTR .GT. MXSTR) GOTO 97
       I = 1
       DOWHILE (I .LE. NSTR)
-        IF(ISNUM(STRA(I)))   ! In case unexpectedly a ! is missing in that .dat line...
+        IF(ISNUM(STRA(I)))   ! In case unexpectedly a ! is missing at that line...
      >  READ(STRA(I),*,ERR=97) A(NOEL,9+I)
         I = I + 1
       ENDDO      
@@ -194,23 +194,27 @@ C----- MAP FILE NAME(S)
  37     CONTINUE
       ELSEIF(NFIC.EQ.1) THEN
 C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed by 'SUM'
-        IFIC = 0
- 371    CONTINUE
-          STRA(2) = ' '
+        IDUM = 0
+        IFIC = 1
+        LINE = LINE + 1
+        READ(NDAT,FMT='(A)') TXT
+        IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
+        CALL STRGET(TXT,2,
+     >                    IDUM,STRA) 
+        TA(NOEL,1+IFIC) = TXT
+        DO WHILE(IDUM.EQ.2 .AND. STRA(2).EQ.'SUM') 
+          IF(IFIC .GE. MXTA) CALL ENDJOB('Pgm rcarte. '
+     >    //'Too many field maps. Max allowed is  ',MXTA-2)
           IFIC = IFIC + 1
           LINE = LINE + 1
           READ(NDAT,FMT='(A)') TXT
+          IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
           CALL STRGET(TXT,2,
      >                      IDUM,STRA) 
-          TA(NOEL,1+IFIC) = STRA(1)
-          IF(STRA(2).EQ.'SUM') THEN
-            TA(NOEL,1+IFIC) = '+'//TA(NOEL,1+IFIC)(1:79)
-            GOTO 371
-          ENDIF
-          WRITE(TA(NOEL,2+IFIC),*) 
-     >                     '// Total # of maps : ',IFIC
-          IF(IFIC.GT.1) 
-     >          WRITE(6,*) '// Total # of maps to be summed : ',IFIC
+          TA(NOEL,1+IFIC) = TXT
+        ENDDO
       ENDIF
 
 C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)

@@ -46,6 +46,7 @@ OBJ=\
  bndthi.o\
  bonul.o\
  boost.o\
+ brevol.o\
  butee.o\
  bxrxyz.o\
  carla.o\
@@ -443,6 +444,7 @@ block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 bndth.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bndthi.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 bonul.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+brevol.o: PARIZ.H XYZHC.H $(INC)/C.AIM_3.H $(INC)/C.CDF.H $(INC)/MAXTRA.H $(INC)/C.CONST.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H $(INC)/C.DROITE_2.H $(INC)/C.INTEG.H $(INC)/C.TYPFLD.H $(INC)/C.ORDRES.H
 carla.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 carshi.o: PARIZ.H $(INC)/MXLD.H
 cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
@@ -533,7 +535,7 @@ lign.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 lpsfi4.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 lpsfit.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 majtra.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
-map2d.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
+map2d.o: PARIZ.H XYZHC.H $(INC)/C.AIM_3.H $(INC)/C.CDF.H $(INC)/MAXTRA.H $(INC)/C.CONST.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H $(INC)/C.DROITE_2.H $(INC)/C.INTEG.H $(INC)/C.TYPFLD.H $(INC)/C.ORDRES.H
 mapshf.o: PARIZ.H
 mat1.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 mat2.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H

@@ -23,16 +23,15 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
-      USE DYNHC
+      USE DYNHC   ! HC(ID,MXX,MXY,IZ,IMAP)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
+      INCLUDE 'PARIZ.H'     ! PARAMETERS : IZ, ID, MMAP, MXX, MXY
+      INCLUDE 'XYZHC.H'     ! COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
+      INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE 'C.CONST.H'     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE 'C.DROITE.H'     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
 C      LOGICAL ZSYM
-      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
+      INCLUDE 'C.TYPFLD.H'     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 
       DIMENSION BREAD(3)
 C----- at entry FMAPR :
@@ -55,11 +54,18 @@ C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
 
       SAVE AA, IFIC
 
+      DIMENSION IIXMA(MMAP),XXH(MXX,MMAP),JJYMA(MMAP),YYH(MXY,MMAP),
+     >KKZMA(MMAP),ZZH(IZ,MMAP),BBMI(MMAP),BBMA(MMAP),XBBMI(MMAP),
+     >YBBMI(MMAP),ZBBMI(MMAP),XBBMA(MMAP),YBBMA(MMAP),ZBBMA(MMAP)
+      SAVE IIXMA,XXH,JJYMA,YYH,
+     >KKZMA,ZZH,BBMI,BBMA,XBBMI,
+     >YBBMI,ZBBMI,XBBMA,YBBMA,ZBBMA
+
       DATA BE /'B','E'/
 
       DATA MOD, MOD2 / 0, 0 /
       DATA IMAP / 1 /
-      data ialoc / 0 /
+      DATA IALOC / 0 /
 
       CALL KSMAP(
      >           IMAP) 
@@ -375,12 +381,12 @@ C  according to tta, r increments and to z increment.
 C----------- Read the bare map data
            IRMA = JYMA
            JTMA = IXMA/2+1
-           KKZMA = KZMA/2+1
+           K2ZMA = KZMA/2+1
 
            DO 33 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
-             DO 33  K = 1,KKZMA      
-               KZC = KKZMA-1+K
+             DO 33  K = 1,K2ZMA      
+               KZC = K2ZMA-1+K
                Z = DBLE(K-1) * DZ
                DO 33 J=1,JTMA        
                  IF    (MOD.EQ.20) THEN
@@ -428,8 +434,8 @@ C---------------- Polar components at positon (r,tta) in cyl. frame
         BMAX = BMAX * BNORM
 
 C------- symmetrise 3D map wrt magnet vertical symm plane
-        DO 34  K=1,KKZMA    
-          KZC = KKZMA-1+K
+        DO 34  K=1,K2ZMA    
+          KZC = K2ZMA-1+K
           if(kzc.gt.iz) call endjob(' FMAPW, K should be <',IZ+1)
           DO 34 I=1,IRMA      
             if(i.gt.mxy) call endjob(' FMAPW, I should be <',mxy+1)
@@ -449,9 +455,9 @@ C------- symmetrise 3D map wrt magnet vertical symm plane
  34     CONTINUE
 
 C------- symmetrise 3D map wrt mid-plane= bend-plane
-        DO 35  K=2,KKZMA      
-          KZC = KKZMA-1+K
-          KZS = KKZMA-K+1
+        DO 35  K=2,K2ZMA      
+          KZC = K2ZMA-1+K
+          KZS = K2ZMA-K+1
           DO 35 I=1,IRMA         
             DO 35 J=1,JTMA*2-1    
               HC(1,J,I,KZS,IMAP) = -HC(1,J,I,KZC,IMAP)
@@ -475,15 +481,15 @@ C------- Mesh coordinates
 
            IRMA = JYMA
            JTMA = IXMA
-           KKZMA = KZMA/2+1
+           K2ZMA = KZMA/2+1
 
            ircnt = 0
            DO 133 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
              ircnt = ircnt+1
              kzcnt=0       
-             DO 133  K = 1,KKZMA      
-               KZC = KKZMA-1+K
+             DO 133  K = 1,K2ZMA      
+               KZC = K2ZMA-1+K
                Z = DBLE(K-1) * DZ
                kzcnt = kzcnt+1
               jtcnt=0
@@ -547,9 +553,9 @@ C     >          HC(3,JTC,I,KZC,IMAP) = HC(3,JTC,I,KZC,IMAP)  *(RADIUS/348.)**(-
                    ZBMI = ZBMI * ZNORM
 
 C------- symmetrise 3D map wrt mid-plane= bend-plane
-        DO 135  K=2,KKZMA      
-          KZC = KKZMA-1+K
-          KZS = KKZMA-K+1
+        DO 135  K=2,K2ZMA      
+          KZC = K2ZMA-1+K
+          KZS = K2ZMA-K+1
           DO 135 I=1,IRMA         
             DO 135 J=1,JTMA
               HC(1,J,I,KZS,IMAP) = -HC(1,J,I,KZC,IMAP)
@@ -576,7 +582,6 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       
-
       IF( .NOT.ALLOCATED( HCTMP )) 
      >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
       IF (IALOC .NE. 0) 
@@ -633,6 +638,7 @@ C     >    //' file with R0, DR, DTTA, DZ values.',-99)
       ELSE
 
         IF(NHD .GE. 1) THEN
+
           READ(LUN,FMT='(A120)') HDRM
           IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
           READ(HDRM,*,END=49,ERR=49) R0, DR, DX, DZ
@@ -944,15 +950,19 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
                      READ(TXT132,*,ERR=96) YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSE
+
 C-------------------- Default MOD2
                      IF(FMTYP.EQ.'GSI') THEN
+
                        READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
      >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
+
                      ELSEIF(FMTYP.EQ.'LESB3') THEN
                        READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
      >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
+
                      ELSE
                        READ(TXT132,*,ERR=96) YH(J),ZH(I),XH(K),  
 CCCCCCCCCCCCC                       READ(TXT132,FMT='(1X,6E11.2)') YH(J),ZH(I),XH(K),  
@@ -987,6 +997,7 @@ C FM 11/03
                    DO 187 LHC=1,ID
  187                  HC(LHC,K,J,I,IMAP) = BREAD(LHC) * BNORM
                  ENDIF
+
                  YH(J) = YH(J) * YNORM
                  ZH(I) = ZH(I) * ZNORM
                  XH(K) = XH(K) * XNORM
@@ -1123,14 +1134,6 @@ C Used for instance for AGS cold snake = helix map + solenoid map
                  HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
                  HC(3,I,JTC,KZC,IMAP) = BREAD(3) * BNORM
 
-
-c               write(88,fmt='(a,3i4,2x,6(1x,e12.4))') 
-c     >        ' fmapwhc J,K,I  : ',j,k,i,yh(J),zh(K),xh(I),
-c     >       HC(2,I,JTC,KZC,IMAP),
-c     >       HC(3,I,JTC,KZC,IMAP),
-c     >       HC(1,I,JTC,KZC,IMAP)
-                  
-
                ENDDO
              ENDDO
            ENDDO
@@ -1219,7 +1222,7 @@ c             ENDDO
                ENDDO
              ELSE
                CALL ENDJOB(
-     >         'SBR toscac. No such possibility IFIC=',IFIC)
+     >         'Pgm fmapw. No such possibility IFIC=',IFIC)
              ENDIF
            ENDIF
 
@@ -1266,5 +1269,54 @@ c             ENDDO
       ENTRY FMAPW2(IFICI,AAI)
       IFIC = IFICI
       AA = AAI
+      RETURN
+
+      ENTRY FMAPW4(IMAPI,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+           IMAP = IMAPI
+           IIXMA(IMAP) = IXMA
+           DO I=1,IXMA
+             XXH(I,IMAP) =  XH(I)
+           ENDDO
+           JJYMA(IMAP) = JYMA
+           DO J=1,JYMA
+             YYH(J,IMAP) =  YH(J)
+           ENDDO
+           KKZMA(IMAP) = KZMA
+           DO K= 1, KZMA
+             ZZH(K,IMAP) = ZH(K)
+           ENDDO
+           BBMI(IMAP)  = BMIN
+           BBMA(IMAP)  = BMAX
+           XBBMI(IMAP) = XBMI
+           YBBMI(IMAP) = YBMI
+           ZBBMI(IMAP) = ZBMI
+           XBBMA(IMAP) = XBMA
+           YBBMA(IMAP) = YBMA
+           ZBBMA(IMAP) = ZBMA
+      RETURN
+
+      ENTRY FMAPR5(IMAPI,
+     >                  BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+           IMAP = IMAPI
+           IXMA = IIXMA(IMAP)
+           DO I=1,IXMA
+             XH(I) = XXH(I,IMAP)
+           ENDDO
+           JYMA = JJYMA(IMAP)
+           DO J=1,JYMA
+             YH(J) = YYH(J,imap)
+           ENDDO
+           KZMA = KKZMA(IMAP)
+           DO K= 1, KZMA
+             ZH(K) = ZZH(K,imap)
+           ENDDO
+           BMIN = BBMI(IMAP)
+           BMAX = BBMA(IMAP)
+           XBMI = XBBMI(IMAP)
+           YBMI = YBBMI(IMAP)
+           ZBMI = ZBBMI(IMAP)
+           XBMA = XBBMA(IMAP)
+           YBMA = YBBMA(IMAP)
+           ZBMA = ZBBMA(IMAP)
       RETURN
       END

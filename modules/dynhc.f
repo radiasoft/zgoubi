@@ -1,4 +1,4 @@
-      MODULE dynhc
+      MODULE DYNHC
 !---------------------------------------------------------------------
 !     
 !     Module containing definitions needed to dynamically allocate 
@@ -7,4 +7,4 @@
 !---------------------------------------------------------------------
       DOUBLE PRECISION, DIMENSION(:,:,:,:,:), ALLOCATABLE :: HC
 
-      END MODULE dynhc
+      END MODULE DYNHC

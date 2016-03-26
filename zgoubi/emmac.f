@@ -225,13 +225,15 @@ C and used for tracking.
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
-           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+           WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
-          WRITE(NRES,210) (NOMFIC(I),I=1,NFIC)
+          WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  210      FORMAT(
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
-     >    10X,'Skip  reading  field  map  file : ',10X,A80)
+     >    10X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
  
         WRITE(NRES,FMT='(/,5X,A,1P,2E12.4)')
@@ -453,59 +455,16 @@ c                zerB = HCB(iid,iii,jjj,KZ) - HC2(iid,iii,jjj,KZ)
         ENDIF
  
 C------- Store mesh coordinates
-           IIXMA(IMAP) = IXMA
-           DO I=1,IXMA
-             XXH(I,imap) =  XH(I)
-           ENDDO
-           JJYMA(IMAP) = JYMA
-           DO J=1,JYMA
-             YYH(J,imap) =  YH(J)
-           ENDDO
-           KKZMA(IMAP) = KZMA
-           DO K= 1, KZMA
-             ZZH(K,imap) = ZH(K)
-           ENDDO
-           bBMI(imap) = BMIN
-           bBMA(imap) = BMAX
-           XBbMI(imap) = XBMI
-           YbBMI(imap) = YBMI
-           ZbBMI(imap) = ZBMI
-           XbBMA(imap) = XBMA
-           YBBMA(imap) = YBMA
-           ZBBMA(imap) = ZBMA
- 
-c           write(*,*)'emmac x1,x2,y1,y2 : ',imap,XXH(1,imap),XXH(2,imap)
-c     >         ,yyH(1,imap),yyH(2,imap)
-               stop ' in emmac.f '
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
       ELSE
- 
-           IRD = NINT(A(NOEL,40))
- 
 C------- Restore mesh coordinates
-           IXMA = IIXMA(IMAP)
-           DO I=1,IXMA
-             XH(I) = XXH(I,imap)
-           ENDDO
-           JYMA = JJYMA(IMAP)
-           DO J=1,JYMA
-             YH(J) = YYH(J,imap)
-           ENDDO
-           KZMA = KKZMA(IMAP)
-           DO K= 1, KZMA
-             ZH(K) = ZZH(K,imap)
-           ENDDO
-           BMIN = bBMI(imap)
-           BMAX = bBMA(imap)
-           XBMI = XBbMI(imap)
-           YBMI = YbBMI(imap)
-           ZBMI = ZbBMI(imap)
-           XBMA = XbBMA(imap)
-           YBMA = YBBMA(imap)
-           ZBMA = ZBBMA(imap)
- 
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+           IRD = NINT(A(NOEL,40))
+  
            IF(NRES.GT.0) THEN
-             WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
+             WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm emmac, ',
      >       ' restored mesh coordinates for field map # ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
@@ -519,7 +478,9 @@ C Make sure this is ok with cartésien
         CALL MAPLI1(BMAX-BMIN)
  
       RETURN
- 96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
-      CALL ENDJOB('ERROR  OPEN  FILE ',-99)
+
+ 96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file ',
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+      CALL ENDJOB('Leaving. ',-99)
       RETURN
       END

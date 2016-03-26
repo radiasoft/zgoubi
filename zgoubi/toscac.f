@@ -238,13 +238,10 @@ c            IF(KFM .GT. 0) THEN
               IF(KFM(IFM) .LE. 0) GOTO 20
                 DO I = 1, JPA(KFM(IFM),MXP)
 C Apply scaling to all parameters concerned
-c            write(*,*) ' toscac ',
-c     >        I,KFM, JPA(KFM,I), AA(NOEL,JPA(KFM,I)) , VPA(KFM,I)
-c                read(*,*)
                  IF(JPA(KFM(IFM),I) .GT. MXAA2) CALL ENDJOB(
      >           'Pgm toscac. Exceeded AA size. JPA = ',JPA(KFM(IFM),I))
-                  AA(NOEL,JPA(KFM(IFM),I))=
-     >                AA(NOEL,JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
+                 AA(NOEL,JPA(KFM(IFM),I))=
+     >               AA(NOEL,JPA(KFM(IFM),I))*VPA(KFM(IFM),I)
               ENDDO
 c            ENDIF
             ENDDO
@@ -398,13 +395,15 @@ C     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
  209       FORMAT(/,10X
      >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) : ',/)
-           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+           WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
-          WRITE(NRES,210) (NOMFIC(I),I=1,NFIC)
+          WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
+     >     FINSTR(NOMFIC(I))),I=1,NFIC)
  210      FORMAT(
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
-     >    10X,'Skip  reading  field  map  file : ',10X,A80)
+     >    10X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
@@ -462,27 +461,28 @@ C BNORM set to ONE, since sent to CHAMK below
  12        CONTINUE
  
 C------- Store mesh coordinates
-           IIXMA(IMAP) = IXMA
-           DO I=1,IXMA
-             XXH(I,imap) =  XH(I)
-           ENDDO
-           JJYMA(IMAP) = JYMA
-           DO J=1,JYMA
-             YYH(J,imap) =  YH(J)
-           ENDDO
-           KKZMA(IMAP) = KZMA
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+C           IIXMA(IMAP) = IXMA
+C           DO I=1,IXMA
+C             XXH(I,imap) =  XH(I)
+C           ENDDO
+C           JJYMA(IMAP) = JYMA
+C           DO J=1,JYMA
+C             YYH(J,imap) =  YH(J)
+C           ENDDO
+C           KKZMA(IMAP) = KZMA
 C FM Nov 2011           DO K= 2, KZMA
-           DO K= 1, KZMA
-             ZZH(K,imap) = ZH(K)
-           ENDDO
-           bBMI(imap) = BMIN
-           bBMA(imap) = BMAX
-           XBbMI(imap) = XBMI
-           YbBMI(imap) = YBMI
-           ZbBMI(imap) = ZBMI
-           XbBMA(imap) = XBMA
-           YBBMA(imap) = YBMA
-           ZBBMA(imap) = ZBMA
+C           DO K= 1, KZMA
+C             ZZH(K,imap) = ZH(K)
+C           ENDDO
+C           bBMI(imap) = BMIN
+C           bBMA(imap) = BMAX
+C           XBbMI(imap) = XBMI
+C           YbBMI(imap) = YBMI
+C           ZbBMI(imap) = ZBMI
+C           XbBMA(imap) = XBMA
+C           YBBMA(imap) = YBMA
+C           ZBBMA(imap) = ZBMA
  
          ELSEIF(MOD .EQ. 15) THEN
  
@@ -656,27 +656,28 @@ c                       read(*,*)
 c               write(*,*) ' toscac imap = ',imap
 c                   read(*,*)
 C------- Store mesh coordinates
-           IIXMA(IMAP) = IXMA
-           DO I=1,IXMA
-             XXH(I,imap) =  XH(I)
-           ENDDO
-           JJYMA(IMAP) = JYMA
-           DO J=1,JYMA
-             YYH(J,imap) =  YH(J)
-           ENDDO
-           KKZMA(IMAP) = KZMA
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+C           IIXMA(IMAP) = IXMA
+C           DO I=1,IXMA
+C             XXH(I,imap) =  XH(I)
+C           ENDDO
+C           JJYMA(IMAP) = JYMA
+C           DO J=1,JYMA
+C             YYH(J,imap) =  YH(J)
+C           ENDDO
+C           KKZMA(IMAP) = KZMA
 C FM Nov 2011           DO K= 2, KZMA
-           DO K= 1, KZMA
-             ZZH(K,imap) = ZH(K)
-           ENDDO
-           bBMI(imap) = BMIN
-           bBMA(imap) = BMAX
-           XBbMI(imap) = XBMI
-           YbBMI(imap) = YBMI
-           ZbBMI(imap) = ZBMI
-           XbBMA(imap) = XBMA
-           YBBMA(imap) = YBMA
-           ZBBMA(imap) = ZBMA
+C           DO K= 1, KZMA
+C             ZZH(K,imap) = ZH(K)
+C           ENDDO
+C           bBMI(imap) = BMIN
+C           bBMA(imap) = BMAX
+C           XBbMI(imap) = XBMI
+C           YbBMI(imap) = YBMI
+C           ZbBMI(imap) = ZBMI
+C           XbBMA(imap) = XBMA
+C           YBBMA(imap) = YBMA
+C           ZBBMA(imap) = ZBMA
  
  
          ELSE
@@ -689,29 +690,31 @@ C FM Nov 2011           DO K= 2, KZMA
            IRD = NINT(A(NOEL,40))
  
 C------- Restore mesh coordinates
-           IXMA = IIXMA(IMAP)
-           DO I=1,IXMA
-             XH(I) = XXH(I,imap)
-           ENDDO
-           JYMA = JJYMA(IMAP)
-           DO J=1,JYMA
-             YH(J) = YYH(J,imap)
-           ENDDO
-           KZMA = KKZMA(IMAP)
-           DO K= 1, KZMA
-             ZH(K) = ZZH(K,imap)
-           ENDDO
-           BMIN = bBMI(imap)
-           BMAX = bBMA(imap)
-           XBMI = XBbMI(imap)
-           YBMI = YbBMI(imap)
-           ZBMI = ZbBMI(imap)
-           XBMA = XbBMA(imap)
-           YBMA = YBBMA(imap)
-           ZBMA = ZBBMA(imap)
+           CALL FMAPR5(IMAP,
+     >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA) 
+c           IXMA = IIXMA(IMAP)
+c           DO I=1,IXMA
+c             XH(I) = XXH(I,imap)
+c           ENDDO
+c           JYMA = JJYMA(IMAP)
+c           DO J=1,JYMA
+c             YH(J) = YYH(J,imap)
+c           ENDDO
+c           KZMA = KKZMA(IMAP)
+c           DO K= 1, KZMA
+c             ZH(K) = ZZH(K,imap)
+c           ENDDO
+c           BMIN = bBMI(imap)
+c           BMAX = bBMA(imap)
+c           XBMI = XBbMI(imap)
+c           YBMI = YbBMI(imap)
+c           ZBMI = ZbBMI(imap)
+c           XBMA = XbBMA(imap)
+c           YBMA = YBBMA(imap)
+c           ZBMA = ZBBMA(imap)
  
            IF(NRES.GT.0) THEN
-             WRITE(NRES,fmt='(2A,I3,2A)') ' SBR TOSCAC, ',
+             WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm toscac, ',
      >       ' restored mesh coordinates for field map # ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
@@ -837,8 +840,10 @@ C        XI = XH(1)
 C        XF = XH(IAMA)
  
       RETURN
- 96   WRITE(ABS(NRES),*) 'Error  open  file ',NOMFIC(NFIC)
-      CALL ENDJOB('Leaving... ',-99)
+
+ 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file ',
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+      CALL ENDJOB('Leaving. ',-99)
       RETURN
  
       ENTRY TOSCA1

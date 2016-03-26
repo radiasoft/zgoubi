@@ -69,7 +69,7 @@ C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
       DIMENSION AKS(6)
       SAVE AKS, SXL
 
-C      ERRORS
+C Field or alignment defects
       LOGICAL ERRON
       SAVE ERRON
       PARAMETER (MXERR=MXTA)
@@ -258,7 +258,7 @@ CC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
 C         DEV = ALE
 C-----------------------------------------
 
-C----- Case erron (errors)
+C----- Case erron (ERRORS)
       IF(ERRON) THEN
         DO IRR = 1, MXERR 
           OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
@@ -588,7 +588,7 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
         ENDIF
       ENDIF
 
-C----- CASE ERRON (ERRORS)
+C----- Case erron (ERRORS)
       IF(NRES.GT.0) THEN
         IF(ERRON) THEN
          DO IRR = 1, MXERR 

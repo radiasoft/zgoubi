@@ -54,7 +54,7 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm ropito, keyword OPTIONS : '// 
+ 90   CALL ENDJOB('*** Pgm roptio, keyword OPTIONS : '// 
      >'input data error, at line ',line)
       RETURN
  

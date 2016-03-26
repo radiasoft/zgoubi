@@ -92,12 +92,14 @@ C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
         IF    (KFLD .EQ. MG) THEN
           CALL PAVEL(IRD,A1,R1,Z1,
      >                            B,DB,DDB,KERK)
-          CALL NORMB(B,DB,DDB)
+          CALL NORMB(SCAL,BRI,
+     >                        B,DB,DDB)
           BZ=B(1,1)
         ELSEIF(KFLD .EQ. LC) THEN
           CALL PAVEL(IRD,A1,R1,Z1,
      >                            E,DE,DDE,KERK)
-          CALL NORMB(E,DE,DDE)
+          CALL NORMB(SCAL,BRI,
+     >                        E,DE,DDE)
         ENDIF
         GOTO 998
       ENDIF
@@ -393,8 +395,6 @@ c          write(*,*) ' chamk  SCAL : ',SCAL,DBDX(1),DBDX(2)
             AI2=AI*AI
             BIAJR= HC(ID,IAC+IA,IRCJR,1,IMAP) * SCAL
      >      * (1.D0 + (DBDX(1) + (DBDX(2) + DBDX(3) * RJ) * RJ ) * RJ) 
-c                  write(*,*) ' chamk hc, scal, B : ', 
-c     >            HC(ID,IAC+IA,IRCJR,1,IMAP) ,scal,biajr
             A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
             A10=A10+         AI       *BIAJR
             A11=A11+             RJ   *BIAJR
@@ -744,7 +744,7 @@ C         d2B_*/dtta.dz -> d2B_*/dxdz
  
  42   CONTINUE
 C------- KUASEX = 8: 1-D map with  x-revolution symmetry, grid 1-D with 5 points
-        CALL KRTAX(A1,BX)
+        CALL KRTAX(A1,BX,SCAL)
         R2=R1*R1+Z1*Z1
         R=SQRT(R2)
         CALL BAXBXR(BX,R,R2,BC,DBC,DDBC)

@@ -142,7 +142,7 @@ c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=351, MXY=200)
 
 CC ~/zgoubi/SVN/current/exemples/tools
-      PARAMETER (IZ=61 , ID=3, MMAP=2)
+      PARAMETER (IZ=61 , ID=3, MMAP=3)
       PARAMETER (MXX=801, MXY=200)
 
 CC Malek FFAG 150MeV

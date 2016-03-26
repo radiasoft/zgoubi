@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE KRTAX(X1,BX)
+      SUBROUTINE KRTAX(X1,BX,FAC)
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*)
@@ -57,11 +57,11 @@ C... GRILLE 1-D A 5 POINTS OU 2-D A 5*5 POINTS
 C.... DX == X/COURANT - X/CENTREGRILLE  LE TOUT /DX
       A=(X1-XH(IAC))/DX
  
-      F(1)=HC(ID,IAC-2,1,1,IMAP)*BRI
-      F(2)=HC(ID,IAC-1,1,1,IMAP)*BRI
-      F(3)=HC(ID,IAC  ,1,1,IMAP)*BRI
-      F(4)=HC(ID,IAC+1,1,1,IMAP)*BRI
-      F(5)=HC(ID,IAC+2,1,1,IMAP)*BRI
+      F(1)=HC(ID,IAC-2,1,1,IMAP)*BRI*FAC
+      F(2)=HC(ID,IAC-1,1,1,IMAP)*BRI*FAC
+      F(3)=HC(ID,IAC  ,1,1,IMAP)*BRI*FAC
+      F(4)=HC(ID,IAC+1,1,1,IMAP)*BRI*FAC
+      F(5)=HC(ID,IAC+2,1,1,IMAP)*BRI*FAC
  
       E1 =     F(1)+F(2)+F(3)+F(4)+    F(5)
       E2 = -2.D0*F(1)-F(2)     +F(4)+ 2.D0*F(5)

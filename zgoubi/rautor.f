@@ -82,7 +82,7 @@ C 2 : Center the beam on xce, yce, ale, p/pRef and set all times to A(NOEL,14)
       ENDIF
       RETURN
 
- 90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
+ 90   CALL ENDJOB('*** Pgm rautor, keyword AUTOREF : '// 
      >'input data error, at line ',line)
       RETURN
       END

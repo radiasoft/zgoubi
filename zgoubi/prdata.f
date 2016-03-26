@@ -347,7 +347,6 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
 
             IF(NRES.GT.0)
      >          WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
-c          WRITE(NTMP,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
         ENDIF
 
