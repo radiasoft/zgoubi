@@ -126,7 +126,7 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
         READ(STRA(1),*,ERR=97,END=97) NC
         IF(NSTR.GE.2) THEN
           READ(STRA(2),*,ERR=43,END=43) PNLTY
-          IF(NSTR.EQ.3) THEN
+          IF(NSTR.GE.3) THEN
             READ(STRA(3),*,ERR=44,END=44) ITRMA
             IF(NSTR.EQ.4) THEN
               READ(STRA(4),*,ERR=44,END=44) ICPTMA

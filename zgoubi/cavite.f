@@ -207,7 +207,7 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
-C--- Case SR loss in storage ring (no acceleration)
+C--- Case SR loss in storage ring (no acceleration). In that case PS is constant, DWS expected to be equal to SR loss.
       CALL SRLOS3(
      >            SRLOSS)
       IF(SRLOSS) WKS = WKS - DWS
@@ -238,11 +238,20 @@ C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C        SI2 = 0.0568860943517   !  =I2=2pi/rho
 C        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
         U0 = 0.51552876 /(12008.775542289)**4 *  (PS/BTS)**4 
+C normalisation de U0=11.071834e-3 keV, a E=9.8932E+02MeV
+c         U0 = 11.071834e-3 * ( (PS/BTS) / 9.8932E+02)**4           ! C_gamma=88.46276*1e-6 m/GeV^3
+          u0 = 88.46276*((ps*1d-3)/bts)**4/283.860202518 *1d-3    ! (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
+c              write(*,*) 'cavite  21  wks u0 (MeV) : ', wks,u0,wks-u0
+c              write(*,*) ' '
       ENDIF
-      QV = (AN20 *Q *1.D-6 + U0) /SIN(PHS)
-         write(*,fmt='(a,1p,3(1x,e12.4))') ' cavite ',u0,ps/bts, qv
-      QV = AN20 *Q *1.D-6 
-      phs = asin((qv + u0)/qv)
+      WKS = WKS -U0
+
+      QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
+C                                                     ! 120MV justified by SR loss at 20GeV being 50MV
+C                                                     ! and willing sin(ph_s) to stay ~1/2
+      qvfrac = AN20 *Q *1.D-6 /2.d0       ! energy gain per turn
+      phs = asin((qvfrac + u0)/qv)   ! |U0| is the energy loss per turn
+         phs = pi - phs  
       DWS = QV*SIN(PHS)
       WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
@@ -254,7 +263,82 @@ c      IF(SRLOSS) THEN
 c        gg4 = ( ws / (ws-dws)   )**4
 c        dwsr = a(noel,22) * gg4         
 c      ENDIF
-      GOTO 1
+C      GOTO 1
+
+      SYNCT = SYNCT + 1.d0/FREV*AN11
+
+      IF(NRES.GT.0) THEN
+        GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
+        ACCDP=  SQRT(QV/(AN11*WS)) * 
+     >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
+        DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
+     >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
+     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
+c        IF(SRLOSS) WRITE(NRES,FMT='(1P,
+c     >       /,20X,''SR loss compensation    ='',E19.8,'' MeV'')')
+c     >       DWSR
+      ENDIF
+
+      DO I=1,IMAX 
+
+       IF(IEX(I) .GT. 0) THEN
+
+        TTA = F(3,I)*.001D0
+        PHI = F(5,I)*.001D0
+        P = P0*F(1,I)
+        PCP = P*COS(PHI)
+        PX = PCP * COS(TTA)
+        PY = PCP * SIN(TTA)
+        PZ = P * SIN(PHI)
+ 
+        AM2 = AMQ(1,I)*AMQ(1,I)
+        ENRG = SQRT(P*P+AM2)
+        WF1(I) = ENRG-AMQ(1,I)
+        BTA = P/ENRG
+C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0), 
+C DTI is the time it took since the last passage in CAVITE 
+        DTI = F(6,I)*.01D0 / (BTA*CL)
+        IF(IPASS .EQ. 1) THEN
+           PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
+        ELSE
+           PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
+        ENDIF
+        IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
+        IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
+        WF = WF1(I) + QV*SIN(PHAS(I))
+c        if(srloss) wf = wf + dwsr
+        WF1(I) = WF
+        P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
+        PX=SQRT( P*P -PY*PY-PZ*PZ)
+ 
+
+C        DPR(I)=P-PS
+        DPR(I)=(P-PS)/PS
+        PH(I)=PHAS(I) 
+C        BLAG=(PHAS(I)-PHS)/OMRF
+C        BLNG=BLAG*(BTA*CL)
+C        PH(I)=BLAG
+     
+
+        F(1,I) = P/P0
+        F(3,I) = ATAN(PY/PX)*1000.D0
+        F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
+ 
+        F(6,I)=0.D0 
+
+        IF(OKIMP) 
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),12(1X,E14.6),A)') 
+     >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
+     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,QV,
+     >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,QV'
+
+       ENDIF
+
+      ENDDO
+      GOTO 88
+
 
 C------------------------------------------- 
  30   CONTINUE
@@ -660,7 +744,7 @@ C Kin. energy, MeV
      >       /,20X,'Peak  voltage           =',E15.4,' V',
      >       /,20X,'RF  frequency           =',E15.4,' Hz',
      >       /,20X,'Synchronous  phase      =',E15.4,' rd',
-     >       /,20X,'Isochronous  time       =',  E15.4,' s',
+     >       /,20X,'Isochronous  time       =',E15.4,' s',
      >       /,20X,'qV.SIN(Phi_s)           =',E15.4,' MeV',
      >       /,20X,'cos(Phi_s)              =',E15.4,' ',
      >       /,20X,'Nu_s/sqrt(alpha)        =',E15.4,'  ',

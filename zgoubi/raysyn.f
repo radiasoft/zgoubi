@@ -78,7 +78,7 @@ C Y      2.       2.5       3.       4.       5.5        7        10.
      > 2.D0, 2.5D0, 3.D0, 4.D0,5.5D0,7.D0,1.D1/
       DATA UNIT,UNITE / 1.D-2, 1.D-6/
 
-      DATA TTLOS2 / 0.D0 /
+C      DATA TTLOS2 / 0.D0 /
 
       IF(TYPMAG.NE.'ALL') THEN
         CALL ZGKLEY(
@@ -156,6 +156,7 @@ C------- Working unit for energies is MeV
       RETURN
 
       ENTRY RAYSY2(IMAX,LUN)
+C Called by SRPRNT. Can be anytime along the .dat sequence
       IF(LUN.GT.0) WRITE(LUN,FMT='(/,
      >''  pass #,       particle #       ->  total # of photons, ''
      >,''   total energy loss (MeV)'')')
@@ -181,9 +182,10 @@ C        PP = BORO*CL*1.D-9*Q
      >  ,''per pass :'',1P,
      >  T55,G15.7,'' keV.       Relative to initial energy :'',G15.7)') 
      >  TTLOSS/XEVNT *1.D3,TTLOSS/(XEVNT*EE)
-        WRITE(NRES,FMT='(5X,'' Average energy loss per particle, ''
-     >  ,''this pass :'',1P,T55,G15.7,'' keV'')') 
-     >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
+C This is not compatibel with multiple use of SRPRNT
+C        WRITE(NRES,FMT='(5X,'' Average energy loss per particle, ''
+C     >  ,''this pass :'',1P,T55,G15.7,'' keV'')') 
+C     >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
         WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :''
      >  ,1P,T55,G15.7,'' keV'')') ECMEAN/XSTEP *1.D3
         WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :''
@@ -207,9 +209,8 @@ C     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass),
 C     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
 C     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
 C        CALL FLUSH2(88,.FALSE.)
-      ENDIF
-       
-      TTLOS2 = TTLOSS
+      ENDIF      
+C      TTLOS2 = TTLOSS
 
       RETURN
 

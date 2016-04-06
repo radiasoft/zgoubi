@@ -5,7 +5,8 @@ C zgoubi.dat is presumed to contain stable trajectories, which will be pushed to
 C extreme amplitude
       parameter (lunR=11,lunW=12,lunIn=15,lunSto=18,icho=10)
       character txt132*132, txt6*6, let*1, namFil*30
-      parameter (nTrajmx=99)
+C      parameter (nTrajmx=99)
+      parameter (nTrajmx=299)
       dimension x(nTrajmx),xp(nTrajmx),z(nTrajmx),
      >                   zp(nTrajmx),s(nTrajmx),d(nTrajmx),let(nTrajmx)
 C      dimension dxminu(nTrajmx), dxplus(nTrajmx), duStrt(nTrajmx)
@@ -109,7 +110,7 @@ C     >'H ',prec, abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
 !   3.c Read x+
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
       do i = 1, 5
-        read(lunw,fmt='(a132)') txt132
+        read(lunw,fmt='(a132)') txt132   
       enddo
       read(txt132,*) ntraj
       do jo = 1, ntraj
