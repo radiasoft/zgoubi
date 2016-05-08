@@ -18,12 +18,12 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory               
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE SREF(KEP,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+      SUBROUTINE SREF(NLOG,KEP,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                           GAM,R,NOC,NRD,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------
@@ -40,7 +40,8 @@ C     ---------------------------------------------
       COMMON/SRTAB/ EFD(MXSTEP,3),D3W(MSAM,9),NPTS
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
-      CHARACTER LET, TXT*80, REP
+      CHARACTER(1) LET, REP
+      CHARACTER(80) TXT
       INCLUDE 'MXVAR.H'
       DIMENSION YZXB(MXVAR),NDX(5)
 
@@ -191,7 +192,7 @@ C------- Normalized ( n(t') )
 
 C------- Beta
 C   yzxb(1)=dp/p 
-        BRO = YZXB(36) * (1.D0 + YZXB(1))        ! Rigidity, T.m
+        BRO = YZXB(38) * (1.D0 + YZXB(1))        ! Rigidity, T.m
         P0 = BRO * CL * 1.D-6 * Q / QE           ! Momentum, MeV/c              
         BTA = P0 / SQRT( P0*P0 + AM*AM )  
 C FM, LC 9/99
@@ -206,6 +207,12 @@ C------- Acceleration = Beta-dot = q/m beta x Field
         BED(1) = QMG * ( BE(2)*B(3) - BE(3)*B(2) )
         BED(2) = QMG * ( BE(3)*B(1) - BE(1)*B(3) )
         BED(3) = QMG * ( BE(1)*B(2) - BE(2)*B(1) )
+
+c         write(*,*) ' qmg ',qmg,bro,YZXB(38),YZXB(1)
+c         write(*,*) ' bta etc. ',BTA , CL,P0 , Q, QE 
+c         write(*,*) ' be(1), be(2),be(3) ',be(1), be(2),be(3)
+c         write(*,*) ' b(1), b(2),b(3) ',b(1), b(2),b(3)
+c         write(*,*) ' ' 
 
 C        BEn = SQRT(BE(1)*BE(1)+BE(2)*BE(2)+BE(3)*BE(3))
 C        Bn = SQRT(B(1)*B(1)+B(2)*B(2)+B(3)*B(3))
@@ -287,14 +294,22 @@ C------- Radiated electric field x,y,z components ( V/m )
         E(1) = FE * ( ON(2)*V3 - ON(3)*V2 ) / UNB3 / R
         E(2) = FE * ( ON(3)*V1 - ON(1)*V3 ) / UNB3 / R
         E(3) = FE * ( ON(1)*V2 - ON(2)*V1 ) / UNB3 / R
-C              write(*,*) '   unb approx    ', UNB, 
-C     >             sqrt(E(1)*E(1)+E(2)*E(2)+E(3)*E(3))
-C              write(78,*) ' iq,  an, qsx ', iq, an,qsx, 
-C            write(*,*) EPX,QSX,ON(2),BE(2),ON(3),BE(3),unb, 
-C              write(*,*) ox(2),rp(1),rp(2),
-C              write(*,*) on(2),ro(2),r,unb, 
-C              write(*,*) ox(2),rp(2),ro(2),r,on(2), iq, 
-C     >             sqrt(E(1)*E(1)+E(2)*E(2)+E(3)*E(3))
+
+c              write(*,*) ' FE ', FE
+c               write(*,*) ' R,unb3  ',R,unb3 
+c               write(*,*) ' V1, V2,V3 ',V1, V2,V3
+c         write(*,*) ' bed(1), bed(2),bed(3) ',bed(1), bed(2),bed(3)
+c         write(*,*) ' onb(1), onb(2),onb(3) ',onb(1), onb(2),onb(3)
+c               write(*,*) ' on(1), on(2),on(3) ',on(1), on(2),on(3)
+c               write(*,*) ' e(1), e(2),e(3) ',e(1), e(2),e(3)
+c              write(*,*) '   unb    |E|    ', UNB, 
+c     >             sqrt(E(1)*E(1)+E(2)*E(2)+E(3)*E(3))
+c               write(*,*) ' iq,  an, qsx ', iq, an,qsx
+c               write(*,*) ox(2),rp(1),rp(2)
+c               write(*,*) ox(2),rp(2),ro(2),r,on(2), iq, 
+c     >            sqrt(E(1)*E(1)+E(2)*E(2)+E(3)*E(3))
+
+c                   read(*,*)
 
 C------- dt/dt' = 1 - n.beta
         DTI = DS / ( BTA * CL )                   ! Prtcl time step dt' (s) 
@@ -359,7 +374,7 @@ C     ------------------------------------------
           ELSE
             IX = 1
             WRITE(6,*) ' Sorry, could not normalize the X-axis'
-            WRITE(6,*) ' Will plot v.s. non-normalized observer time'
+            WRITE(6,*) ' Will plot vs. non-normalized observer time'
           ENDIF
 
           WRITE(6,*) '          --- Y axis ---'

@@ -66,9 +66,10 @@ C----- For space charge computaton
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
-      CHARACTER(LBLSIZ) LBLST(MLB), LBLSP(MLB)
+      CHARACTER(LBLSIZ) LBLST(MLB), LBLSP(MLB), LBLOPT(MLB)
       LOGICAL PRLB, PRLBSP
       SAVE KPRT, PRLB, LBLST, KPRTSP, PRLBSP, LBLSP, NLB, NLBSP
+      SAVE LBLOPT, NLBOPT
 
 C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=5000)
@@ -102,8 +103,9 @@ C----- To get values into A(), from earlier FIT
 
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)
 
-      CHARACTER(LBLSIZ) LBLOPT
-      SAVE KOPIMP, KOPTCS, LBLOPT
+C      CHARACTER(LBLSIZ) LBLOPT
+C      SAVE KOPIMP, KOPTCS, LBLOPT
+      SAVE KOPIMP, KOPTCS
       LOGICAL OKLNO
 
       LOGICAL EMPTY, IDLUNI, OKCPLD
@@ -127,7 +129,9 @@ C This INCLUDE must stay located right before the first statement
 C      LOGICAL OKPRLB, OKPRDA
       LOGICAL OKPRLB
 
-      save nblmn
+      SAVE NBLMN
+
+      CHARACTER(30) STRA(MLB+3)
 
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
@@ -135,7 +139,7 @@ C      DATA OKPRDA / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
 
-      nblmn = nblmi
+      NBLMN = NBLMI
 
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
@@ -222,12 +226,12 @@ C        LBLSP contains the LABEL['s] after which print shall occur
 
        IF(KCO .EQ. 1) THEN
 C------- Calculate pick-up signal
-C        PULAB contains the NPU LABEL's at which CO is calculated 
-        IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
+C         PULAB contains the NPU LABEL's at which CO is calculated 
+         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
      >                                     IL)
-     >  .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
+     >   .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
      >                                       IS))
-     >    CALL PCKUP
+     >   CALL PCKUP
 C     >    CALL PCKUP(NOEL)
 C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
@@ -236,16 +240,21 @@ C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
        IF(KOPTCS .EQ. 1) THEN
 C------- Transport beam matrix and print at element ends. Set by OPTICS or by TWISS keywords.
 
-        IF(KUASEX .NE. -99) THEN
+         IF(KUASEX .NE. -99) THEN
 C OPTICC may not be desired for some elements (non-optical, or else.) 
+c               write(*,*) ' zgoubi ',nlbopt,(lblopt(iii),iii=1,nlbopt)
+c                    read(*,*)
 
-          IF(EMPTY(LBLOPT) .OR. 
-     >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
-     >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
-            CALL OPTICC(NOEL,PRDIC,OKCPLD)
+           IF(OKPRLB(NLBOPT,LBLOPT,LABEL(NOEL,1)) 
+     >     .OR.STRWLD(NLBOPT,LBLOPT,LABEL(NOEL,1),
+     >                                       IS)) THEN
+C          IF(EMPTY(LBLOPT) .OR. 
+C     >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
+C     >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
+             CALL OPTICC(NOEL,PRDIC,OKCPLD)
 
-          ENDIF
-        ENDIF
+           ENDIF
+         ENDIF
        ENDIF
 
 C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired 
@@ -597,16 +606,17 @@ C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code),
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  31   CONTINUE
       KALC = 2
-      IF(READAT) CALL RCARTE(KART,I3,
+      IDIM = I3
+C      IF(READAT) CALL RCARTE(KART,I3,
+      IF(READAT) CALL RCARTE(KART,IDIM,
      >                        ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
-C        KZMA = 1 ; 2-D map
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN
-C        KZMA > 1 ; 3-D map
         KUASEX = 7
-        IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, need
-     >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
+        IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, '
+     >  //'need recompile zgoubi. Change IZ in PARIZ.H, to .ge. '
+     >  //'number of vertical mesh nodes',-99) 
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (KART.EQ.1) THEN 
@@ -1040,45 +1050,94 @@ C----- PICKUPS.
 C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
  80   CONTINUE
       IF(READAT) THEN
-        READ(NDAT,fmt='(A)') TXTEMP
+        READ(NDAT,FMT='(A)') TXTEMP
         IF(STRCON(TXTEMP,'!',
      >                      IS)) TXTEMP = TXTEMP(DEBSTR(TXTEMP):IS-1)
-        KOPIMP = 0
-        IF(STRCON(TXTEMP,'PRINT',
-     >                          IS)) KOPIMP = 1
-        OKCPLD = STRCON(TXTEMP,'coupled',
-     >                                   IS)
-        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-     >  *,ERR=801,END=801) KOPTCS, LBLOPT
-        IF( KOPIMP .EQ. 0) 
-     >  READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPIMP
+        CALL STRGET(TXTEMP,MLB+3
+     >                          ,MSTR,STRA)
+        IF(MSTR .GT. MLB+3) CALL ENDJOB('*** Pgm zgoubi, keyword '
+     >  //'OPTICS :  too many labels, max. is  ',MLB)
+        READ(STRA(1),*) XOPT
+        KOPTCS = INT(XOPT)
+        IF(KOPTCS .EQ. 1) THEN
+          IF( STRCON(STRA(1),'.',
+     >                           IS)) THEN
+c                 write(*,*) ' zgoubi stra ... '
+c                     read(*,*)
+            IF(FINSTR(STRA(1)) .GT. IS) THEN
+              READ(STRA(1)(IS+1:FINSTR(STRA(1))),*) NLBOPT
+            ELSE
+              NLBOPT = 1
+            ENDIF
+          ELSE
+            NLBOPT = 1
+          ENDIF
+          IF(MSTR .LE. NLBOPT) CALL ENDJOB('*** Pgm zgoubi, keyword '
+     >    //'OPTICS :  inconsistent  data  IOPT. Check label list or '
+     >    //'NLBL - Now = ',NLBOPT)
+          DO I = 1, NLBOPT
+            READ(STRA(1+I),*) LBLOPT(I)
+          ENDDO
+          IF(MSTR .GE. NLBOPT+2) THEN
+            IF(STRA(NLBOPT+2) .EQ. 'PRINT' 
+     >      .OR. STRA(NLBOPT+2) .EQ. '1') THEN
+              KOPIMP = 1
+            ELSE
+              KOPIMP = 0
+            ENDIF
+            IF(MSTR .GE. NLBOPT+3) THEN 
+              OKCPLD = STRA(NLBOPT+3) .EQ. 'coupled'
+            ELSE
+              OKCPLD = .FALSE.
+            ENDIF
+          ELSE
+            KOPIMP = 0
+          ENDIF
+        ELSE
+          KOPTCS = 0
+        ENDIF
+C        KOPIMP = 0
+C        IF(STRCON(TXTEMP,'PRINT',
+C     >                          IS)) KOPIMP = 1
+C        OKCPLD = STRCON(TXTEMP,'coupled',
+C     >                                   IS)
+C        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
+C     >  *,ERR=801,END=801) KOPTCS, LBLOPT
+C        IF( KOPIMP .EQ. 0) 
+C     >  READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
+C     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPIMP
       ENDIF
-      GOTO 802
- 801  CONTINUE
-      LBLOPT = 'all'
-      GOTO 802
- 803  CONTINUE
-      KOPIMP = 0
+C      GOTO 802
+C 801  CONTINUE
+C      LBLOPT = 'all'
+C      GOTO 802
+C 803  CONTINUE
+C      KOPIMP = 0
+C      IF(NRES.GT.0) THEN
+C        WRITE(NRES,*)  ' '
+C        WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
+C     >  ,'KOPTCS, LBLOPT, KOPIMP from  zgoubi.dat' 
+C      ENDIF
+C 802  CONTINUE
+C      IF (KOPTCS .NE. 1) KOPTCS = 0
       IF(NRES.GT.0) THEN
-        WRITE(NRES,*)  ' '
-        WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
-     >  ,'KOPTCS, LBLOPT, KOPIMP from  zgoubi.dat' 
-      ENDIF
- 802  CONTINUE
-      IF (KOPTCS .NE. 1) KOPTCS = 0
-      IF(NRES.GT.0) THEN
         WRITE(NRES,*) ' '
-        WRITE(NRES,*) ' KOPTCS =',KOPTCS,'  (off/on = 0/1)'
+        WRITE(NRES,FMT='(10X,A,I0,A,I0)') 
+     >  ' KOPTCS = ',KOPTCS,'   (off/on = 0/1) ;  '
+     >  //' number of label classes to account for  NLBOPT = ',NLBOPT
         WRITE(NRES,*) ' '
-        WRITE(NRES,*) ' LBLOPT = ' //
-     >  LBLOPT(DEBSTR(LBLOPT):FINSTR(LBLOPT))  //
-     >  '  (will print beam matrix into zgoubi.res at those labels)' 
+        DO I = 1, NLBOPT
+          WRITE(NRES,FMT='(10X,A)') ' LBLOPT = ' //
+     >    LBLOPT(I)(DEBSTR(LBLOPT(I)):FINSTR(LBLOPT(I)))  //
+     >    '  (will print beam matrix into zgoubi.res at those labels)' 
+        ENDDO
         WRITE(NRES,*) ' '
-        WRITE(NRES,*) ' KOPIMP =',KOPIMP,
-     >  '  (print betas into zgoubi.OPTICS.out, no/yes = 0/1)'
+        WRITE(NRES,FMT='(10X,A,I0,A)') ' KOPIMP = ',KOPIMP,
+     >  '  (print out optical functions to zgoubi.OPTICS.out, '
+     >  //'no/yes = 0/1)'
         WRITE(NRES,*) ' '
-        WRITE(NRES,*) ' Coupled optics hypothsis (True/False) : ',OKCPLD
+        WRITE(NRES,FMT='(10X,A,I0)') 
+     >  'Coupled optics hypothsis (True/False) : ',OKCPLD
         WRITE(NRES,*) ' '
       ENDIF
       IF(KOPIMP.EQ.1) THEN

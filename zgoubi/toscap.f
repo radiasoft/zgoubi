@@ -26,7 +26,7 @@ C  -------
 C     >                           BMIN,BMAX,BNORM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
-      USE dynhc
+      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cylindrical coordinates.
@@ -69,19 +69,16 @@ C      LOGICAL ZSYM
 C      INCLUDE 'MAPHDR.H'
       INCLUDE 'MXHD.H'
 
-      PARAMETER (ONE = 1.D0)
- 
-      DATA NOMFIC / IZ*'               '/
- 
-      DATA NHDF / 8 /
- 
-      DATA FMTYP / ' regular' /
- 
       PARAMETER (MXC = 4)
-      DIMENSION AA(24+MXC-1)
-      DATA AA / 27 * 0.D0 /
- 
- 
+      PARAMETER (MXAA2=24+MXC-1)
+      DIMENSION AA(MXL,MXAA2), UU(MXAA2)
+      SAVE AA
+
+      PARAMETER (ONE = 1.D0)
+
+      DATA NOMFIC / IZ*'               '/ 
+      DATA NHDF / 8 /
+      DATA FMTYP / ' regular' /
  
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
@@ -113,19 +110,34 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
  
       MOD = NINT(A(NOEL,23))
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
- 
+
       IF    (NDIM.EQ.2 ) THEN
-        NFIC=1
-        I1 = 1
-        I2 = 1
-        NAMFIC = TA(NOEL,2)
-        NAMFIC = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        NEWFIC = NAMFIC .NE. NOMFIC(NFIC)
-        NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-        CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
+        IF(MOD2 .LE. 1) MOD2 = 1
+C Keyword TOSCA, option cylindrical frame, with up to 4 2D maps, 
+C such that total B is their linear superimposition.
+          AA(NOEL,24) = A(NOEL,24)
+          AA(NOEL,25) = A(NOEL,25)
+          AA(NOEL,26) = A(NOEL,26)
+          AA(NOEL,27) = A(NOEL,27)
+          I1=1
+          I2 = MOD2
+ 
+          NFIC=0
+          DO I=I1, I2
+            NFIC = NFIC+1
+            NAMFIC = TA(NOEL,1+NFIC)
+            NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
+
+            DO LL = 24, MXAA2     !24+MXC-1
+              UU(LL) = AA(NOEL,LL)
+            ENDDO
+ 
+            CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
+          ENDDO
+
       ELSEIF(NDIM .EQ. 3 ) THEN
-C        IF(MOD .GE. 20) THEN
+
         IF(MOD .EQ. 20) THEN
 C--------- an option on symmetrization for creating full field map from
 C          a 1-quarter map (done by  ENTRY FMAPR2).
@@ -137,22 +149,32 @@ C--------- another option for symmetrization by FMAPR2
           I1 = 1
           I2 = KZMA
         ELSEIF(MOD .EQ. 22) THEN
-C--------- another option for symmetrization by FMAPR2
-          I1 = 1
-          I2 = 1  !!!KZMA   FM, 2009-04-10 for raccam measured 3-D field maps
+C--------- MOD2 files are combined linearly into a single map after reading.
+C          Each one of these files should contain the all 3D volume.
+          AA(NOEL,24) = A(NOEL,24)
+          AA(NOEL,25) = A(NOEL,25)
+          AA(NOEL,26) = A(NOEL,26)
+          AA(NOEL,27) = A(NOEL,27)
+          I1=1
+          I2 = MOD2
         ELSE
           STOP ' *** Error. SBR TOSCAP. No such MOD value '
         ENDIF
+
         NFIC=0
-        NEWFIC = .TRUE.
-        DO 129 I=I1, I2
+        DO I=I1, I2
           NFIC = NFIC+1
           NAMFIC = TA(NOEL,1+NFIC)
-          NEWFIC = NEWFIC .AND. (NAMFIC .NE. NOMFIC(NFIC))
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
- 129    CONTINUE
-        CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
+
+          DO LL = 24, MXAA2     !24+MXC-1
+            UU(LL) = AA(NOEL,LL)
+          ENDDO
+ 
+          CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
+        ENDDO
+
       ENDIF
       IF(NRES.GT.0) WRITE(NRES,FMT='(/,5X,A,I1,A,I3,2A,I3,/)')
      >'NDIM = ',NDIM,' ;   Value of MOD is ', MOD,' ;  ',

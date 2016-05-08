@@ -8054,10 +8054,23 @@ The \textsl{reference} Lorentz factor corresponds to the reference rigidity
 \subsubsection*{TOSCA~: \TOSCATitl} \label{TOSCA} \index{TOSCA|textbf}
 \medskip
 
- \textsl{TOSCA} is dedicated to the reading and treatment of 2-D or 
-3-D Cartesian or cylindrical mesh field maps.  It was first created in order to read 
-\textsl{TOSCA}  magnet computer code style of fieldmap  output and  formatting, hence its name. However 
-the actual origin of the fieldmap, TOSCA or other computer code, does not matter. 
+ \textsl{TOSCA} is dedicated to the reading and treatment of 
+
+- 2-D  Cartesian or cylindrical mesh mid-plane field maps (mid-plane is assumed anti-symmetry plane, as in an upright multipole), 
+
+- 3-D Cartesian or cylindrical mesh field maps.  
+
+\medskip
+
+\noindent  \textsl{TOSCA}  was first installed to read \textsl{TOSCA}  magnet computer code style of fieldmap  output and  formatting, hence the name. However the actual origin of the fieldmap, TOSCA or other computer code, does not matter. 
+
+\medskip
+
+\noindent  \textsl{TOSCA} has been developed over the years to allow reading  many different input formats, 
+including 3-D maps given under the form of a series of files, partial 3-D maps with particular symmetry plane(s), etc.
+In order to select between the many possibilities, two input data, IZ and MOD.MOD2, are used. This is addressed in the following, 
+and table~\ref{TabTOSCAMOD},~page~\pageref{TabTOSCAMOD}, lists all possibilities as a function of the values 
+given to IZ and MOD.MOD2. 
 
 \medskip
 
@@ -8131,22 +8144,23 @@ The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \texts
 \begin{tabular}{lcllll}
  \multicolumn{5}{l}{\underline{\bf MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
 \bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
- 1   & & 0 &     none                &  \multirow{2}{80mm}{2-D map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
-$>1$ & & 0   &     none                &  \multirow{2}{80mm}{3-D map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[5ex]
+ 1   & & 0 &     none                     &  \multirow{2}{90mm}{{\bf \large 2-D} map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
+$>1$ & & 0   &     none                   &  \multirow{2}{90mm}{{\bf \large 3-D} map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[4ex]
 &&        0     &    .1, .2, .3              &  As previous case, just  different reading formats. \\[3ex]
-1 &&        1     &  none                 &  \multirow{2}{80mm}{2-D map, one mid-plane $B_Y(X,Y)$ data field map.} \\[4ex]
-$>1$ &&        1     &  none              &  \multirow{2}{80mm}{3-D map, IZ files containing $B_{X,Y,Z}(X,Y,Z)$ data, one per (X,Y) plane, no symmetry assumed.} \\[5ex]
-&&        1     &    .1, .2, .3              &  As previous case, just  different reading formats. \\[3ex]
-1 &&        3     &     none \textsl{or} .1             &  \multirow{3}{80mm}{2-D AGS main magnet field map, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[9ex]
-&&        12    &           none          &  \multirow{2}{80mm}{3-D map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
-&&        12    &              .1          &  \multirow{2}{80mm}{3-D map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
-&&        12    &              .2          &  \multirow{2}{80mm}{3-D map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
-$>1$ &&        15    &         .1$-$.4        &  \multirow{2}{80mm}{3-D map data file(s) (up to 4), whole magnet volume each (thus no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
+1 &&        1     &  none                 &  \multirow{1}{90mm}{{\bf \large 2-D} map, one mid-plane $B_Y(X,Y)$ data field map.} \\[3ex]
+$>1$ &&        1     &  none              &  \multirow{2}{90mm}{{\bf \large 3-D} map, IZ files containing $B_{X,Y,Z}(X,Y,Z)$ data, one per (X,Y) plane, no symmetry assumed.} \\[4ex]
+&&        1     &    .1, .2, .3           &  As previous case, just  different reading formats. \\[3ex]
+1 &&      3     &   none \textsl{or} .1   &  \multirow{3}{90mm}{{\bf \large 2-D} AGS main magnet field map, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[7ex]
+&&        12    &           none          &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+&&        12    &              .1         &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
+&&        12    &              .2         &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
+$>1$ &&   15    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 3-D} field map. Up to 4 files, whole magnet volume each (no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
+%
  \multicolumn{4}{l}{\underline{\bf MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
 \bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
-&&       20, 21  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, cyl. symmetry with respect to (Y,Z) plane.} \\[4ex]
-&&       22, 24  &                        &  \multirow{2}{80mm}{3-D map, single file, half a magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
-%       25      &                        &  \multirow{2}{80mm}{2-D mid-plane field map, single file, full magnet, symmetry with respect to mid-plane} \\[3ex]
+&&       20, 21  &                        &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, half a magnet, cylindrical symmetry with respect to (Y,Z) plane.} \\[4ex]
+  1    &&       22  &    .1 $-$ .4  &  \multirow{1}{90mm}{{\bf \large 2-D} field map, 1 to 4 files to be superimposed. } \\[2ex]
+ $>1$  &&       22  &    .1 $-$ .4        &  \multirow{4}{90mm}{{\bf \large 3-D} field map. Up to 4 files, whole magnet volume each (no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
 \end{tabular}
 \end{table}
 

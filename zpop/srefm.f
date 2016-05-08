@@ -18,17 +18,16 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory          
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE SREFM(NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*)
+      SUBROUTINE SREFM(NLOG,NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION OX(*)
       CHARACTER(*) NOMFIC
-      LOGICAL OKOPN
-      
+      LOGICAL OKOPN      
 C     --------------------------------------------------------
 C     Plot E field from synchrotron radiation as observed in a
 C     given direction OX.
@@ -40,7 +39,7 @@ C     --------------------------------------------------------
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
 
       LOGICAL INPECH
-      CHARACTER KVX*8,KDX*8,KVY*8,KDY*8
+      CHARACTER(8) KVX,KDX,KVY,KDY
       CHARACTER REP
 
       INTEGER DEBSTR, FINSTR
@@ -136,7 +135,7 @@ C      IF(IX .NE. IX0 .OR. IY .NE. IY0 ) OKECH = .FALSE.
           KVY = 'Ez'
         ENDIF
         IF(NRMA .EQ. 0) THEN
-C          KVY = 'E'                 ! Ex,y or z
+C          KVY = 'E'                 ! E_x _y or _z
           KDY = '(V/m)'
         ELSEIF(NRMA .EQ. 1) THEN
           KVY = KVY(DEBSTR(KVY):FINSTR(KVY))//'/Emax' 
@@ -221,7 +220,7 @@ C------- Calculate scales and plot axis
         XMA = -1.D10
         YMI = 1.D10
         YMA = -1.D10
-        CALL SREF(1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+        CALL SREF(NLOG,1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*51)
  51     CONTINUE
         WRITE(6,*) ' CALCULATION OF SCALES FROM ',NOC,' POINTS'
@@ -250,7 +249,7 @@ C          CALL TXTFBG
 
         IF(.NOT. OKECH ) THEN
 C--------- Calculate scales and plot axis
-          CALL SREF(1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+          CALL SREF(NLOG,1,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*79)
  79       CONTINUE
           WRITE(6,*)
@@ -277,7 +276,7 @@ C            GOTO 20
 
        IF(OKECH) THEN
 C--------- Plot radiated Electric field
-          CALL SREF(2,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
+          CALL SREF(NLOG,2,OX,IX,IY,Q,AM,FE,NRMA,NRMC,
      >                                              GAM,R,NOC,NRD,*20)
           CALL TRKVAR(NOC,KVY,KDY,KVX,KDX)
           WRITE(6,*) ' Plot  OK; END OF FILE encountered'

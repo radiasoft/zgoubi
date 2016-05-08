@@ -144,7 +144,7 @@ C Called by POLMES
      >           IMAP) 
 
       IF    (MOD2.EQ.0) THEN
-C Calabretta H2 field map.
+C Ex. : Calabretta H2 field map.
 
         IF(BINAR) THEN
 
@@ -364,7 +364,7 @@ C     >    //' file with R0, DR, DTTA, DZ values.',-99)
 
       DTTA = DTTA * RAD
 
-      IF(MOD .NE. 22 .AND. MOD .NE. 24) THEN
+      IF(MOD .EQ. 20 .OR. MOD .EQ. 21) THEN
 C---------- Read the map. 
 C Partial field map, special symmetrization applied, as follows : 
 C  KEK case here (Aiba) :  position (x,y,z) and field components 
@@ -477,7 +477,7 @@ C------- Mesh coordinates
         ENDDO
 
 
-      ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 24) THEN
+      ELSEIF(MOD .EQ. 22) THEN
 
            IRMA = JYMA
            JTMA = IXMA
@@ -572,7 +572,10 @@ C------- Mesh coordinates
           DO 136 I=-IXMA/2,IXMA/2
  136        XH(I+IXMA/2+1) =  DBLE(I) * DTTA
 
-      ENDIF  ! MOD
+      ELSE
+        CALL ENDJOB('SBR FMAPW/FMAPR2, no such option MOD = ',MOD)
+      ENDIF 
+
       RETURN
 
 C-------------------------------------------------------------

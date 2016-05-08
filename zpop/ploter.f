@@ -33,14 +33,15 @@ C     ------------------------------
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
       INCLUDE 'MXVAR.H'
-      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      CHARACTER(9) KPOL(2)
+      CHARACTER(7) KVAR(MXVAR), KDIM(MXVAR)
       COMMON/INPVR/ KVAR, KPOL, KDIM
       COMMON/LUN/NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       COMMON/VXPLT/ XMI,XMA,YMI,YMA,KX,KY,IAX,LIS,NB
       COMMON/REBELO/ NRBLT,IPASS,KWRI,NNDES,STDVM
       
-      CHARACTER LET0
-      CHARACTER LET
+      CHARACTER(1) LET0
+      CHARACTER(1) LET
       DIMENSION YZXB(MXVAR),NDX(5)
       SAVE YZXB
       LOGICAL INRANG
@@ -50,7 +51,7 @@ C     ------------------------------
 
       DIMENSION XYLAST(2,MXT)
       LOGICAL CNECT
-      CHARACTER*3 TXT
+      CHARACTER(3) TXT
       DIMENSION OKT(MXT)
       LOGICAL OKTAG
       SAVE TAGX, TAGY, OKTAG
@@ -108,10 +109,11 @@ C      CALL FLUSH2(IUNIT,.FALSE.)
         ELSE
           WRITE(6,*) '    '
           WRITE(6,*) ' *** sbr PLOTER, Problem : No idle unit number ! '
-          WRITE(6,*) '     Forced to 99 '
+     >    //' sys$output forced to 6 '
+          READ(*,*) 
           WRITE(6,*) '    '
-          JUN = 99
-          CALL IMPV2(99)
+          JUN = 6
+          CALL IMPV2(JUN)
         ENDIF
       ENDIF
 
@@ -396,7 +398,7 @@ C      IUNIT = NLOG
 C      WRITE(IUNIT,FMT='(1P,5(1X,G14.6),1X,I7)') XM,SX,YM,SY,COR,IPASS
 C      CALL FLUSH2(IUNIT,.FALSE.)      
 
-      IF(LIS .EQ. 2) CLOSE(JUN)
+      IF(LIS .EQ. 2 .AND. JUN .NE. 6) CLOSE(JUN)
 
       RETURN
 

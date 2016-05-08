@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory               
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -54,7 +54,7 @@ C----- Loop on data reading
         CALL READCO(NL,
      >                    KART,LET,YZXB,NDX,*11,*12)
 
-        YZXBU(NSTP,1) = YZXB(9)           ! Size of next step (m)
+        YZXBU(NSTP,1) = YZXB(9)          ! Size of next step (m)
         YZXBU(NSTP,2) = YZXB(6)          ! Path length (m)
 
         YZXBU(NSTP,3) = YZXB(30)        ! Bx, Tesla
@@ -73,8 +73,10 @@ C        YZXBU(NSTP,8) = YZXB(7)
         YZXBU(NSTP,10) = YZXB(4)           ! Z (m)
 
 C        BRO = YZXB(36) * (1.D0 + YZXB(1))        ! Rigidity, T.m
-        YZXBU(NSTP,11) = YZXB(36) 
-        YZXBU(NSTP,12) = YZXB(1) 
+C FM. Apr. 2016
+C        YZXBU(NSTP,11) = YZXB(36) 
+        YZXBU(NSTP,11) = YZXB(38)          ! BORO
+        YZXBU(NSTP,12) = YZXB(1)           ! D
 
         YZXBU(NSTP,13) = KART
 C------------ IEX
@@ -88,19 +90,19 @@ C-------- NEWL = NOEL .NE. NDX(5)
 C     ------------------------------------------
 
  11   CONTINUE
-      WRITE(6,*) ' Information : stopped reading at step # ',NSTP
+      WRITE(6,*)' Pgm xyzbf. Info : stopped reading after step #',NSTP-1
       WRITE(6,*) '         upon end of data file'
       CALL SREFW(NSTP-1)
       RETURN 
 
  12   CONTINUE
-      WRITE(6,*) ' Information : stopped reading at step # ',NSTP
+      WRITE(6,*)' Pgm xyzbf. Info : stopped reading after step #',NSTP-1
       WRITE(6,*) '         upon read error'
       CALL SREFW(NSTP-1)
       RETURN 
 
  13   CONTINUE
-      WRITE(6,*) ' Information : stopped reading at step # ',NSTP
+      WRITE(6,*)' Pgm xyzbf. Info : stopped reading after step #',NSTP-1
       WRITE(6,*) '         upon reaching storage limit '
       CALL SREFW(NSTP)
       RETURN 
@@ -120,12 +122,14 @@ C      YZXBO(7) = YZXBU(NRD,8)
       YZXBO(8) = YZXBU(NRD,8)
       YZXBO(2) = YZXBU(NRD,9)
       YZXBO(4) = YZXBU(NRD,10)
-      YZXBO(36) = YZXBU(NRD,11)
+C FM. Apr. 2016
+C      YZXBO(36) = YZXBU(NRD,11)
+      YZXBO(38) = YZXBU(NRD,11)
       YZXBO(1) = YZXBU(NRD,12)
       KARTO = INT(YZXBU(NRD,13) + 1.D-6)
-      NDXO(1) = YZXBU(NRD,14)
+      NDXO(1) = NINT(YZXBU(NRD,14))
       LETO = CHAR(INT(YZXBU(NRD,15)+ 1.D-6))
-      NDXO(5) = YZXBU(NRD,16)
+      NDXO(5) = NINT(YZXBU(NRD,16))
       RETURN
 
       END

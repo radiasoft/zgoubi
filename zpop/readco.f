@@ -280,18 +280,18 @@ C        write(*,*) '  * * * * * * * * ',xx
           YZXB(8) = YZXB(8) * UNIT(5)
         ELSE
 C Rustine  RACCAM pour plot avec ffag-spi
-          if(noel.ne.noel1) then
-            if(kley .eq. 'FFAG-SPI') noc = noc+1
-            noel1 = noel
-          endif
-          nbCell = 10
-          pnCell = 4.d0 * atan(1.d0) / DBLE(nbCell)
+          IF(NOEL.NE.NOEL1) THEN
+            IF(KLEY .EQ. 'FFAG-SPI') NOC = NOC+1
+            NOEL1 = NOEL
+          ENDIF
+          NBCELL = 10
+          PNCELL = 4.D0 * ATAN(1.D0) / DBLE(NBCELL)
 c            write(*,*) '  noc, yzxb(8) ', noc, yzxb(8)
-          YZXB(8) = YZXB(8) + pnCell * (2.d0*noc -1.d0) 
+          YZXB(8) = YZXB(8) + PNCELL * (2.D0*NOC -1.D0) 
 C          YZXB(2) = YZXB(2) +   DY * UNIT(5) 
         ENDIF
 
-C         step size :
+C         step size (used for SR computation by zpop for instance) :
         YZXB(9) = DS       * UNIT(5)
 C         r = sqrt(y^2+z^2) :
         YZXB(10) = SQRT(YZXB(2)*YZXB(2) + YZXB(4)*YZXB(4))
@@ -354,14 +354,14 @@ C           FFAG-SPI
               TEMP = X 
 C-------------------------
 C Rustine  RACCAM pour plot avec ffag-spi
-              if(noel.ne.noel1) then
-                if(kley .eq. 'FFAG-SPI') noc = noc+1
-                noel1 = noel
-              endif
-              nbCell = 10
-              pnCell = 4.d0 * atan(1.d0) / DBLE(nbCell)
+              IF(NOEL.NE.NOEL1) THEN
+                IF(KLEY .EQ. 'FFAG-SPI') NOC = NOC+1
+                NOEL1 = NOEL
+              ENDIF
+              NBCELL = 10
+              PNCELL = 4.D0 * ATAN(1.D0) / DBLE(NBCELL)
 C               write(*,*) '  noc, yzxb(8) ', noc, yzxb(8)
-              temp = temp + pnCell * (2.d0*noc -1.d0) 
+              TEMP = TEMP + PNCELL * (2.D0*NOC -1.D0) 
 C-------------------------
               X = Y * SIN(TEMP) 
               Y = Y * COS(TEMP)  - RFR2
@@ -382,7 +382,8 @@ C-------------------------
       ENDIF ! NL = NSPN, NFAI, NPLT
 
 C      Location about where particle was lost
-      YZXB(38) = SORT * 1.D-2
+      YZXB(28) = SORT * 1.D-2
+      YZXB(38) = BORO
       YZXB(39) = IPASS 
       YZXB(57) = NOEL
       YZXB(58) = IT
@@ -415,12 +416,6 @@ C-----------------------------------------------
       RETURN
 
  91   CONTINUE
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
-      write(*,*) ipass,' AT 91,   readco'
       RETURN 1
 
 C------------------ Pass # KP1 to KP2, ipass-modulo KP3

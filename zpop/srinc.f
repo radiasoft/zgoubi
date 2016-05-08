@@ -126,13 +126,13 @@ C          DOM = COS( PS ) * DPH * DPS
           CALL TIME2(HMS)
 
           IF(IP .EQ. 0) THEN
-            CALL SREF(3,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(NLOG,3,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*79)
 
           ELSEIF(IP .EQ. 1) THEN
 C----------- Intermediate plot of E-field - at each fragment of the window
 
-            CALL SREF(1,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(NLOG,1,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*179)
  179        CONTINUE
             IF(XMI.LT.XMA .AND. YMI.LT.YMA) THEN
@@ -142,7 +142,7 @@ C              CALL TXTFBG
               WRITE(6,*) 
      >         ' Scale min-max problem ; cannot plot E-field !'
             ENDIF
-            CALL SREF(2,XO, 1, 2,Q,AM,FE, 0, 0,
+            CALL SREF(NLOG,2,XO, 1, 2,Q,AM,FE, 0, 0,
      >                                              GAM,R,NOC,NRD,*79)
           ENDIF
 

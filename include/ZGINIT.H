@@ -23,11 +23,11 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       DATA LBLST, LBLSP / MLB * ' ',   MLB * ' ' /
+      DATA LBLOPT / MLB * ' ' /
 C----- Switch for calculation, transport and print of optical functions :
       DATA KOPTCS, KOPTIP / 0, 0 / 
       DATA OKLNO / .FALSE. / 
 
       DATA REBFLG, NOELRB / .FALSE., MXL / 
-      DATA LBLOPT / ' ' /
 
 

@@ -1962,14 +1962,14 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 ~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $ ~ ~ ~  ~ ~    \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $ \quad  \= 2*cm, 2*deg, cm \quad \= \kill
+                \right) \right) $ \quad  \= 2*cm, 2*deg \quad \= \kill
 %%%%%%%%%
  \textbf{ERRORS}        \label{ERRORS-B} \index{ERRORS|textbf}
      \> \textbf{\ERRORSTitl} \> \> \\
      \> (UNDER DEVELOPMENT)\\
- \\
- \\
- \textsl{ONF, NBR, SEED [, PRINT]}      \> On/off switch (0/1)~; number of error sets to be injected (\ie,   \> ,,,[,] \> 3*I [,A] \\
+\\
+\\
+\textsl{ONF, NBR, SEED [, PRINT]}  \> On/off switch (0/1)~; number of error sets to be injected (\ie,  \> ,,,[,] \> I1, I, I [,A5] \\
                               \> as well, number of lines  following this one)~; random seed. \> \> \\
                               \> Occurence of \textsl{PRINT} will save error series in  \> \> \\
                               \>  zgoubi.ERRORS.out. \> \> \\
@@ -1978,7 +1978,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 \textbf{(only one possibility at the moment, namely \textsl{MULTIPOL} keyword) } \\
 \\
  \textsl{MULTIPOL[\{LBL1 [,LBL2]\}]}, 
-                        \> Keyword concerned [optionally, first and/or second label]~; \> ,[,],,,,2*kG, \>A [,A[,A]],  \\
+                        \> Keyword concerned [optionally, first and/or second label]~; \> ,[,],,,,2*kG, \>A8 [,A10[,A10]],  \\
 \textsl{N, TYP, AR, UG,}\> N=1-10~: pole  concerned (dipole to 20-pole)~;              \> \>I, A2, A1, \\
 \textsl{VC, HW, CUTOFF} \>TYP= BP~: field at pole~; AR=A or R~: field value is absolute \> \> A1, 3*E  \\
                         \> or relative (to current one)~; UG=U or G~: uniform or Gaussian  \> \> \\
@@ -2064,13 +2064,13 @@ first label,
  \textsl{FNAME}~~\footnotemark[1] 
        \>Name of storage file (\emph{e.g.}~zgoubi.fai). Optional~: a series of up to 10 label(s),   \> \>A80, \\ %%
 {[,}\textsl{\LABEL(s)}{]}  \index{LABEL@{\LABEL}}   \> (the first label of element(s) 
-             at the exit of which the store will occur). \> \>  [, 10*A10] \\ 
+             at the exit of which the store will occur)~; \> \>  [, 0-10*A10] \\ 
+     \> wild card accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}.  \> \> \\
      \> If either \textsl{FNAME} or first \textsl{LABEL} is 'none' then \textsl{FAISTORE} is inhibited.  \> \> \\
-     \> Wild cards are accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}.  \> \> \\
      \>  Store occurs at all elements if  first \textsl{LABEL}  is 'all' or 'ALL'. \> \> \\
        \\
  $I\!P$ 	\> Store every $I\!P$ other pass (when using 
- \textsl{REBELOTE}\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $\geq I\!P-1$).
+ \textsl{REBELOTE}\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $\geq I\!P-1$). \> \> I \\
 \end{tabbing}
 
 
@@ -3146,7 +3146,7 @@ particle 1. They transform to $ T_2 $ and $ P_2 $ in  Zgoubi  frame.}
 ~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ \quad \= \kill
 %%%%%%%%
 \textbf{MCOBJET}         \label{MCOBJET-B} \index{MCOBJET|textbf}
    \> \textbf{\MCOBJETTitl}\index{Monte Carlo}
@@ -3759,12 +3759,13 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- \textsl{IOPT}, label \textsl{[, IMP or }       \> $IOPT=0/1$~: Off/On. Transport the beam matrix~;   \> 0-1, string, 0-1 \>I, A, I \\
- \textsl{  'PRINT']} \textsl{[, coupled]}]  
-      \> 'label'~:  Can be  'all', 'ALL', or existing first label as appearing at  \>  \> \\
-      \> one or more elements in zgoubi.dat sequence~; $IMP=1$, or presence of   \>  \> \\
-      \>  'PRINT', will  cause storage of optical   functions  in zgoubi.OPTICS.out~;    \>  \> \\
-      \> optical function computation is in coupled hypothesis if specified, uncoupled otherwise.  \>  \> \\
+ \textsl{IOPT[.NLBL]}, label(s) \> $IOPT=0/1$~: Off/On~; NLBL = number of labels (default is 1)~;  \> 0-1, - , 0-1 \>I[.I],  \\
+ \textsl{[, IMP or 'PRINT']} \> 'label'~:  can be  'all', 'ALL', or a list of \textsl{NLBL} first label(s) as   \>  \> 1-NLBL*A10, \\
+\textsl{[, coupled]}        \> appearing at one or more elements in zgoubi.dat sequence~;  \>  \> I1 or A5, A7  \\
+      \> wild card  accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}.   \>  \> \\
+      \> $IMP=1$, or presence of   'PRINT', will  cause storage of optical     \>  \> \\
+      \>   functions  in zgoubi.OPTICS.out~; optical function computation is    \>  \> \\
+      \>  in coupled hypothesis if specified, uncoupled otherwise.  \>  \> \\
 \end{tabbing}
 
 
@@ -3872,10 +3873,10 @@ instance $M$, $Q$ when electric lenses are used)~; others can be set to zero.
 \textbf{A list of N keywords' labels follows} \> \>\>\\
  \\
  \LABEL1 [,LABEL2, [...]]
-          \> The N labels at which beam data are to be computed/recorded. \> N string(s) \> N*A10 \\
-          \> In case some ``\textsl{LABELi}'' in this list actually misses in zgoubi.dat   \> \> \\
-          \>  optical sequence, then it is peacefully ignored. \>  \> \\
-          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> \\
+          \> The N label(s) at which beam data are to be computed/recorded. \> N string(s) \> N*A10 \\
+          \> If some ``\textsl{LABELi}'' in this list actually does not appear    \> \> \\
+          \> in zgoubi.dat optical sequence, then it is peacefully ignored~; \>  \> \\
+          \> wild card accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}. \> \> \\
  \\
 \end{tabbing}
 
@@ -4381,14 +4382,14 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
  \\
   \\
  \textsl{IOPT, NFAM [, PRINT]}  \>\textsl{IOPT} = 0 (inactive) or 1 (active)~; \textsl{NFAM} = number of families  
-                                                                                                      \>0-1~; 1-9 \>2*I [,A]\\
+                                                                                               \>0-1, 1-45 [,-] \>I1, I2  [,A]\\
                 \> to be scaled. Occurence of \textsl{PRINT} will cause printing of scaling infos  \> \> \\
                 \>  in zgoubi.SCALING.out. \> \> \\
  \\
 \textbf{For NF=1, NFAM :} \>repeat \textsl{NFAM} times the following sequence : \> \> \\
  \> \> \> \\
- \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern) [, up to 2 labels]. \> \>A10 [,A10[ \\
-          \> Prefix eor suffix '*' wildcard is allowed~: '*lbl' or 'lbl*'. \> \> ,A10]]  \\
+ \textsl{NAMEF [, Lbl [, Lbl]]}       \>Name of family (\emph{i.e.}, keyword of concern)~;  up to 2 labels, \> \>A10 [,A10[ \\
+          \> wild card accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}. \> \> ,A10]]  \\
  \\
  $NT$          \>$NT>0$~: number of timings~;   \>  -2, -1 or 1-10 \>I \\
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\

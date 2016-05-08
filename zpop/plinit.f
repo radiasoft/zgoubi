@@ -40,7 +40,7 @@ C  -------
       LOGICAL STORE
 
       CHARACTER(80) TITL, TXT, FILE3O
-      CHARACTER STOR*5
+      CHARACTER(5) STOR
       LOGICAL EXS, OPN, IDLUNI 
       LOGICAL EXS2, OPN2
       INTEGER DEBSTR
@@ -48,6 +48,9 @@ C  -------
       SAVE LUO
       LOGICAL TYLAB
       DATA IFIVE /5/
+
+      JUN = 6
+      CALL IMPV2(JUN)
 
       ENTRY SRINIT(GNUFIL,TXTK,
      >                         PART,R0,Q,AM,OX,WF,WO,FNR,STORE)
@@ -76,26 +79,34 @@ C  -------
 
         IF(TXTK.EQ.'////MENU08/16////') THEN
 C---------- Synchrotron radiation menu
+          STOR = ' '
+          READ(LN,FMT='(A)',ERR=12,END=10) PART
+          READ(LN,*,ERR=12,END=10) R0, Q, AM
+          READ(LN,*,ERR=12,END=10) (OX(I), I=1, 3)
+          READ(LN,*,ERR=12,END=10) (WF(I), I=1, 3)
+          READ(LN,*,ERR=12,END=10) (WO(I), I=1, 6)
+          READ(LN,*,ERR=12,END=10) (FNR(I), I=1, 3)
+          READ(LN,FMT='(A)',ERR=12,END=10) STOR
 
-          READ(LN,FMT='(A)',ERR=96,END=96) PART
-          READ(LN,*,ERR=96,END=96) R0, Q, AM
-          READ(LN,*,ERR=96,END=96) (OX(I), I=1, 3)
-          READ(LN,*,ERR=96,END=96) (WF(I), I=1, 3)
-          READ(LN,*,ERR=96,END=96) (WO(I), I=1, 6)
-          READ(LN,*,ERR=96,END=96) (FNR(I), I=1, 3)
-          READ(LN,FMT='(A)',ERR=96,END=96) STOR
+ 10       CONTINUE
           STORE = (STOR .EQ. 'store' .OR. STOR .EQ. 'STORE')
           CALL SRINM1(STORE)
-          IF(STORE) CALL OPNGNU(GNUFIL, 
+          IF(STORE) THEN 
+            WRITE(*,*) ' Pgm plinit. STORE option found  ',STOR,
+     >      '  in zpop.dat'
+            CALL OPNGNU(GNUFIL, 
      >                                 STORE,LUO)
-
+          ENDIF
           WRITE(6,*) ' Parameters for SR calculation read from ',
      >                  'the data file "zpop.dat", '
           WRITE(6,FMT='(2A)') '    - this data list is entitled : ',TITL
+          GOTO 11
 
- 96       WRITE(6,*) 
+ 12       WRITE(6,*) 
           WRITE(6,*) ' Premature end of read in data file "zpop.dat" ! '
           WRITE(6,*) '         Probably missing data... '
+
+ 11       CONTINUE
 
         ELSEIF(TXTK.EQ.'////MENU07////') THEN
 C---------- Main menu
@@ -104,7 +115,7 @@ C---------- Main menu
 C--------- Lab coordinate types
           LINE = 0
           READ(LN,*,ERR=57,END=57) KX,KY
-          WRITE(*,*) KX,KY
+          WRITE(*,*) ' Pgm plinit. KX, KY : ',KX,KY
           LINE = LINE+1
           OKVAR = .TRUE.
           IF( TYLAB(KX,KY) ) THEN
@@ -124,7 +135,8 @@ C--------- Axis range
           YMI0 = YMI
           YMA0 = YMA
           READ(LN,*,ERR=57,END=57) XMI,XMA,YMI,YMA
-          WRITE(*,*) XMI,XMA,YMI,YMA
+          WRITE(*,*) ' Pgm plinit. XMI,XMA,YMI,YMA : ',
+     >    XMI,XMA,YMI,YMA
           LINE = LINE+1
           IF(XMI.LT. XMA .AND. YMI.LT. YMA) THEN
             CALL TRAXES(XMI,XMA,YMI,YMA,2)
@@ -138,20 +150,20 @@ C--------- Axis range
           ENDIF
 C--------- LIST option and histogram bins number
           READ(LN,*,ERR=57,END=57) LIS, NB
-          WRITE(*,*) LIS, NB
+          WRITE(*,*) ' Pgm plinit. LIS, NB : ',LIS, NB
           LINE = LINE+1
 C--------- Marker/line type
           READ(LN,*,ERR=57,END=57) MARK
-          WRITE(*,*) MARK
+          WRITE(*,*) ' Pgm plinit. MARK : ', MARK
           LINE = LINE+1
           CALL LINTYW(MARK)
 C--------- Trajectories data file (default is zgoubi.plt)
           FILE2O = ' '
           READ(LN,*,ERR=57,END=57) FILE2O
-          WRITE(*,*) FILE2O
+          WRITE(*,*) ' Pgm plinit. FILE2O : ',FILE2O
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KP1, KP2, KP3
-          WRITE(*,*) ' Old style KP1-3 : ',KP1, KP2, KP3
+          WRITE(*,*) ' Pgm plinit. Old style KP1-3 : ',KP1, KP2, KP3
           IF(KP1.EQ.-1) THEN
             KP1 = 1
             KP3 = KP2
@@ -269,15 +281,15 @@ C--------- Options, menu 7.7(LabCoord).5. Initial coordinates of synoptic
         WRITE(6,*) '   for power normalisation, particle type,', 
      >                                  ' observer position, etc.'
         PART = 'E'
-C        IF    (PART .EQ. 'P') THEN
-C          AM = .93827231D3
-C          R0 = 1.53469852D-18
-C          Q = 1.60217733D-19
-C        ELSEIF(PART .EQ. 'E') THEN
+        IF    (PART .EQ. 'P') THEN
+          AM = .93827231D3
+          R0 = 1.53469852D-18
+          Q = 1.60217733D-19
+        ELSE       !!!IF(PART .EQ. 'E') THEN
           AM =  .51099906D0
           R0 =  2.81794092D-15
           Q = 1.60217733D-19
-C        ENDIF      
+        ENDIF      
 C------- Observer position, x, y, z (m)
         OX(1) = 1.D5
         OX(2) = 0.D0

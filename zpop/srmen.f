@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory         
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -36,10 +36,10 @@ C----- Synchrotron radiation
       COMMON/ECHL/ OKECH, OKVAR, OKBIN
 
       DIMENSION OX(3), WF(3), WO(6), FNR(3)
-      CHARACTER REP, PART
+      CHARACTER(1) REP, PART
       LOGICAL EMPTY, STORE
 
-      CHARACTER GNUFIL*14
+      CHARACTER(14) GNUFIL
 
       SAVE GNUFIL
       SAVE KPL
@@ -177,7 +177,7 @@ C      OKECH = .FALSE.
       GOTO 20
 
  5    CONTINUE
-        CALL SREFM(NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*1)
+        CALL SREFM(NLOG,NL,LM,OX,Q,AM,FE,NOMFIC,OKOPN,*1)
       GOTO 21
 
  6    CONTINUE

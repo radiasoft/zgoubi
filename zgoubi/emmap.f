@@ -26,8 +26,8 @@ C  -------
      >                           BMIN,BMAX,BNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       a= SCAL
-        i=NDIM
-       v=BMIN+BMAX+BNORM+XBMI+YBMI+ZBMI+XBMA+YBMA+ZBMA
+      a= SCAL
+      i=NDIM
+      v=BMIN+BMAX+BNORM+XBMI+YBMI+ZBMI+XBMA+YBMA+ZBMA
       RETURN
       END

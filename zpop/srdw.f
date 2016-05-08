@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory                  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -38,8 +38,12 @@ C  -------
 
       DIMENSION DW(MSAM,6), SDW(6), SYDX(4)
 
-      CHARACTER XVA(3)*10, YVA(3)*15
-      CHARACTER XDI(3)*10, YDI(3)*15, SY(3)*12
+      CHARACTER(15) YVA(3)
+      CHARACTER(10) XVA(3)
+      CHARACTER(10) XDI(3)
+      CHARACTER(15) YDI(3)
+      CHARACTER(12) SY(3)
+
       DATA XVA / 'omga',    'WaveL.' , 'omga'/
       DATA YVA / 'dW/dNu.dO', 'dW/dWaveL.dO', 'dN/dt.(do/o).dO' /
       DATA XDI / '(keV)',    '(Mu-m)' , '(keV)'/
@@ -49,7 +53,7 @@ C  -------
       WRITE(6,*) ' SBR SRDW     Busy, calculate electric field'
       WRITE(6,*) '               May take a while...'
 
-      CALL SREF(3,OX, 1, 2,Q,AM,FE, 0, 0,
+      CALL SREF(NLOG,3,OX, 1, 2,Q,AM,FE, 0, 0,
      >                                        GAM,R,NOC,NRD,*79)
 
  79   CONTINUE

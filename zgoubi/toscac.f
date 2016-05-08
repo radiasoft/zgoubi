@@ -91,6 +91,7 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       PARAMETER (MXAA2=24+MXC-1)
       DIMENSION AA(MXL,MXAA2), UU(MXAA2)
       SAVE AA
+
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
       PARAMETER (MXHD=20)
@@ -324,7 +325,8 @@ C        NEWF = .TRUE.
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
  129    CONTINUE
 
-        DO LL = 24, 24+MXC-1
+C        DO LL = 24, 24+MXC-1
+        DO LL = 24, MXAA2  ! 24+MXC-1
           UU(LL) = AA(NOEL,LL)
 
 c      call ZGNOEL(

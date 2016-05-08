@@ -18,20 +18,20 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                                               és
+C  Brookhaven National Laboratory                              
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE FLUSH2(IUNIT,BINARY)
+      SUBROUTINE FLUSH2(LUN,BINARY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)   
       LOGICAL BINARY
       CHARACTER(80) TXT80
-      BACKSPACE(IUNIT)
+      BACKSPACE(LUN)
       IF(.NOT.BINARY) THEN
-        READ(IUNIT,FMT='(A80)') TXT80
+        READ(LUN,FMT='(A80)') TXT80
       ELSE
-        READ(IUNIT) TXT80
+        READ(LUN) TXT80
       ENDIF
       RETURN
       END

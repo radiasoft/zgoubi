@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory                    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPV(NLOG,NPT,X,Y,YDX,SYDX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -28,13 +28,17 @@ C  -------
       CALL FBGTXT
       CALL PLOT9(
      >           IPASS)
-      WRITE(6   ,FMT='(1P,4G13.5,3(1X,I6))') X,Y,YDX,SYDX,NPT,IT,IPASS
+      WRITE(6,FMT='(1P,4E20.12,3(1X,I6),A)') 
+     >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
+     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
       WRITE(NLOG,FMT='(1P,4E20.12,3(1X,I6),A)') 
      >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
-     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass# 2'
-      WRITE( JUN,FMT='(1P,4E20.12,3(1X,I6),A)') 
+     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
+      IF(JUN.NE.6)
+     >WRITE( JUN,FMT='(1P,4E20.12,3(1X,I6),A)') 
      >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
-     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass# 1'
+     >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
+
       CALL FLUSH2(NLOG,.FALSE.)
       CALL TXTFBG
       RETURN

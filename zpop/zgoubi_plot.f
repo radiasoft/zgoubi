@@ -32,24 +32,23 @@ C DES OUTPUT DE ZGOUBI
 
       CHARACTER(10)   DMY
       CHARACTER(9)   HMSF  
-      CHARACTER * 80  NOMFIC
-      LOGICAL FIRST, FIRST1, exs, ok, idluni
+      CHARACTER(80)  NOMFIC
+      LOGICAL FIRST, FIRST1, EXS, OK, IDLUNI
       SAVE FIRST, FIRST1 
-      character(400) wrkDir
-      integer debstr, finstr
+      CHARACTER(400) WRKDIR
+      INTEGER DEBSTR, FINSTR
                                       
-      DATA FIRST, first1 / .TRUE. , .TRUE. /
+      DATA FIRST, FIRST1 / .TRUE. , .TRUE. /
 
-      call system('rm -f echoDir ; pwd | cat > echoDir ')
-      ok = idluni(
-     >            ldir)
-      open(ldir,file='echoDir')
-      read(ldir,fmt='(a)') wrkDir
-      close(ldir)
+      CALL SYSTEM('rm -f echoDir ; pwd | cat > echoDir ')
+      OK = IDLUNI(
+     >            LDIR)
+      OPEN(LDIR,FILE='echoDir')
+      READ(LDIR,FMT='(A)') WRKDIR
+      CLOSE(LDIR)
 
-      write(*,*) 'Pgm zgoubi_plot.  Working directory : ', 
+      WRITE(*,*) 'Pgm zgoubi_plot.  Working directory : ', 
      >   wrkDir(debstr(wrkDir):finstr(wrkDir))
-C      read(*,*)
 
       CALL INIGR(
      >           LM, NOMFIC)
@@ -122,11 +121,11 @@ c         read(*,*)
          GOTO 21
 
  11      CONTINUE                      
-         CALL agsmdl(NLOG, LM, NOMFIC)
+         CALL AGSMDL(NLOG, LM, NOMFIC)
          GOTO 21
 
  12      CONTINUE                      
-         CALL agsddq(NLOG, LM, NOMFIC)
+         CALL AGSDDQ(NLOG, LM, NOMFIC)
          GOTO 21
 
 99    CONTINUE
