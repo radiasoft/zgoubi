@@ -117,17 +117,17 @@ echo "////////////////  ../microBeamDoublet : done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../saturneRing/matrix/"
+echo "////////////////  Now doing :   ../saturneRing/TWISS/"
 echo "        "
-(cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../saturneRing/matrix/ - reference : "       | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../saturneRing/matrix/TWISS.res               | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../saturneRing/matrix/TWISS.res               | cat >>   compare.out
+(cd ../saturneRing/TWISS/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../saturneRing/TWISS/ - reference : "       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../saturneRing/TWISS/TWISS.res               | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../saturneRing/TWISS/TWISS.res               | cat >>   compare.out
 echo "                          - new : "                            | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../saturneRing/TWISS/zgoubi.res              | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../saturneRing/TWISS/zgoubi.res              | cat >>   compare.out
 echo "        "                                                      | cat >>   compare.out
-echo "////////////////  ../saturneRing/matrix : done..."
+echo "////////////////  ../saturneRing/TWISS : done..."
 #
 #
 #################################################################
@@ -209,15 +209,15 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../RHIC/TWISS/"
 echo "        "
-(cd ../RHIC/TWISS/ ; cp TWISS_blue_150228.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../RHIC/TWISS/ ; cp TWISS_blue_coupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../RHIC/TWISS/ - reference : "        | cat >>   compare.out
-grep "NU_Y = "  ../RHIC/TWISS/TWISS_blue_150228.res           | cat >>   compare.out
+grep "NU_Y = "  ../RHIC/TWISS/TWISS_blue_coupled.res           | cat >>   compare.out
 echo "                          - new : "                     | cat >>   compare.out
 grep "NU_Y = "  ../RHIC/TWISS/zgoubi.res                      | cat >>   compare.out
 echo "        "                                               | cat >>   compare.out
 echo "                  ../RHIC/TWISS/ - reference : "        | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../RHIC/TWISS/TWISS_blue_150228.res    | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../RHIC/TWISS/TWISS_blue_150228.res    | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../RHIC/TWISS/TWISS_blue_coupled.res    | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../RHIC/TWISS/TWISS_blue_coupled.res    | cat >>   compare.out
 echo "                          - new : "                     | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../RHIC/TWISS/zgoubi.res               | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../RHIC/TWISS/zgoubi.res               | cat >>   compare.out
@@ -230,10 +230,10 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../AGS/TWISS/"
 echo "        "
-(cd ../AGS/TWISS/ ; cp TWISS.res_coupled_150312 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS/TWISS/ ; cp TWISS_uncoupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS/TWISS/ - reference : "       | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS.res_coupled_150312       | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS.res_coupled_150312       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS_uncoupled.res       | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS_uncoupled.res       | cat >>   compare.out
 echo "                          - new : "                   | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
@@ -246,27 +246,23 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../AGS_Booster/"
 echo "        "
-(cd ../AGS_Booster/ ; cp TWISS.res_150131 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS_Booster/ ; cp TWISS.res_160123 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS_Booster/TWISS - reference : "       | cat >>   compare.out
-grep "NU_Y = "         ../AGS_Booster/TWISS.res_150131             | cat >>   compare.out
-grep "NU_Z = "         ../AGS_Booster/TWISS.res_150131             | cat >>   compare.out
-grep "E  1  0.0000"    ../AGS_Booster/TWISS.res_150131             | cat >>   compare.out
-grep "G  1  0.0000"    ../AGS_Booster/TWISS.res_150131             | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
 echo "                          - new : "                     | cat >>   compare.out
 grep "NU_Y = "         ../AGS_Booster/zgoubi.res              | cat >>   compare.out
-grep "NU_Z = "         ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 echo "        "                                               | cat >>   compare.out
 (cd ../AGS_Booster/ ; cp OPTICS.res_150131 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS_Booster/OPTICS - reference : "       | cat >>   compare.out
 grep "NU_Y = "         ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
-grep "NU_Z = "         ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
 grep "G  1  0.0000"    ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
 echo "                          - new : "              | cat >>   compare.out
 grep "NU_Y = "         ../AGS_Booster/zgoubi.res       | cat >>   compare.out
-grep "NU_Z = "         ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 echo "        "                                        | cat >>   compare.out
@@ -282,7 +278,7 @@ echo "        "
 echo "////////////////  ../variousKEYWORDS/TWISS/ - reference : "               | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../variousKEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
-grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out_coupled_150304        | cat >>   compare.out
+grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160131        | cat >>   compare.out
 echo "                          - new : "                   | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
@@ -296,13 +292,27 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../variousKEYWORDS/SRLOSS/"
 echo "        "
-(cd ../variousKEYWORDS/SRLOSS/ ; cp srloss.res_150424 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../variousKEYWORDS/SRLOSS/ ; cp srloss.res_160320 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../variousKEYWORDS/SRLOSS/ - reference : "            | cat >>   compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/srloss.res_150424 | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/srloss.res_160320 | cat >>   compare.out
 echo "                          - new : "                                     | cat >>   compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/zgoubi.res        | cat >>   compare.out
 echo "        "                                                               | cat >>   compare.out
-echo "////////////////  variousKEYWORDS/SRLOSS/ : done..."
+echo "////////////////  ../variousKEYWORDS/SRLOSS/ : done..."
+#
+#
+#################################################################
+echo "        "
+echo "        "
+echo "////////////////  Now doing :   ../gsiKaos/usingMAP2D/"
+echo "        "
+(cd ../gsiKaos/usingMAP2D/ ; cp compare-tosca-map2d.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../gsiKaos/usingMAP2D/ - reference : "                       | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR = " ../gsiKaos/usingMAP2D/compare-tosca-map2d.res | cat >>   compare.out
+echo "                          - new : "                                            | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR = " ../gsiKaos/usingMAP2D/zgoubi.res              | cat >>   compare.out
+echo "        "                                                                      | cat >>   compare.out
+echo "////////////////   ../gsiKaos/usingMAP2D/ : done..."
 #
 #
 
