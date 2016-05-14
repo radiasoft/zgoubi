@@ -94,6 +94,8 @@ C                       be completed for others)
       ELSEIF(IDIM .EQ. 2) THEN
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
+        IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
         CALL STRGET(TXT,4,
      >                    NSTR,STRA)
         READ(STRA(1),*,ERR=99,END=98) NX
@@ -124,6 +126,8 @@ C Old style only has NX, NY for 2D maps. New style gets KZMA here for further us
 C------- TOSCA, 2-D or 3-D maps, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
+        IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
         CALL STRGET(TXT,4,
      >                    NSTR,STRA)
         READ(STRA(1),*,ERR=99,END=98) NX
@@ -216,14 +220,14 @@ C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single 
      >        //'  field map scaling factors. Max is ',4)
             ENDIF
 
-            DO J = 1, MXC
-              A(NOEL,23+J) = 1.D0
-            ENDDO
-
             CALL STRGET(TXT,4+NFIC,
-     >                           IDUM,STRA) 
-            DO J = 1, NFIC
-              READ(STRA(4+j),*,ERR=99,END=98) A(NOEL,23+J) 
+     >                           ITMP,STRA) 
+
+            DO J = 1, ITMP-4
+              READ(STRA(4+J),*,ERR=99,END=98) A(NOEL,23+J) 
+            ENDDO
+            DO J = ITMP-4+1, NFIC
+              A(NOEL,23+J)  = 1.D0
             ENDDO
 
         ENDIF
@@ -234,6 +238,8 @@ C----- MAP FILE NAME(S)
         DO IFIC=1,NFIC
           LINE = LINE + 1
           READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
+          IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
           CALL STRGET(TXT,1,
      >                      IDUM,STRA) 
           TA(NOEL,1+IFIC) = STRA(1)
@@ -266,6 +272,8 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
 C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)
       LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
+      IF(STRCON(TXT,'!',
+     >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       READ(TXT,*,ERR=99,END=98) IA
       IF(IA.GE.1) READ(TXT,*,ERR=99,END=98) 
      >IA,(A(NOEL,I),I=31,30+3*ABS(IA))
@@ -305,17 +313,15 @@ C       ... Polar map frame
       RETURN
 
  99   WRITE(6,*) 
-     >  ' *** Execution stopped upon READ : invalid input in rcarte'
+     >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
       WRITE(NRES ,*) 
-     >  ' *** Execution stopped upon READ : invalid input in rcarte'
+     >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
       GOTO 90
       
  98   WRITE(6,*) 
-     >  ' *** Execution stopped upon READ : invalid input in rcarte',
-     >  ' at particle #',I
+     >  ' *** Execution stopped upon READ END : invalid input in rcarte'
       WRITE(NRES ,*) 
-     >  ' *** Execution stopped upon READ : invalid input in rcarte',
-     >  ' at particle #',I
+     >  ' *** Execution stopped upon READ END : invalid input in rcarte'
       IF(LINE.EQ.2) WRITE(NRES,*) 
      >'SBR rcarte. Prblm with normalization coefficients list : '
      >//' expected is a list of  1 to 4 data at line ',LINE 
