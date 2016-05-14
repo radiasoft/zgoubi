@@ -8131,7 +8131,6 @@ regarding the  formatting of the field map data file(s).
 
 
 \begin{table}[p]
-\centering
 
 \caption{\label{TabTOSCAMOD}
 The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \textsl{TOSCA}. 
@@ -8139,28 +8138,36 @@ The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \texts
 
 ~
 
+{\bf IZ} : number of nodes of the field map along the Z direction
+
+{\bf MOD, MOD2} : allow selecting the coordinate system, type of field map, symmetries, reading format,  etc.
+
+~
+
+\centering
 
 \renewcommand{\arraystretch}{1}
 \begin{tabular}{lcllll}
  \multicolumn{5}{l}{\underline{\bf MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
 \bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
- 1   & & 0 &     none                     &  \multirow{2}{90mm}{{\bf \large 2-D} map, a single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry.} \\[4ex]
-$>1$ & & 0   &     none                   &  \multirow{2}{90mm}{{\bf \large 3-D} map, 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[4ex]
+ 1   & & 0 &     none                     &  \multirow{2}{90mm}{{\bf \large 2-D} map. A single  data file for  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry assumed.} \\[4ex]
+$>1$ & & 0   &     none                   &  \multirow{2}{90mm}{{\bf \large 3-D} map. 1+IZ/2 data files of upper half of magnet, one per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane, mid-plane symmetry.} \\[4ex]
 &&        0     &    .1, .2, .3              &  As previous case, just  different reading formats. \\[3ex]
-1 &&        1     &  none                 &  \multirow{1}{90mm}{{\bf \large 2-D} map, one mid-plane $B_Y(X,Y)$ data field map.} \\[3ex]
-$>1$ &&        1     &  none              &  \multirow{2}{90mm}{{\bf \large 3-D} map, IZ files containing $B_{X,Y,Z}(X,Y,Z)$ data, one per (X,Y) plane, no symmetry assumed.} \\[4ex]
+1 &&        1     &  none                 &  \multirow{1}{90mm}{{\bf \large 2-D} map. Mid-plane $B_Y(X,Y)$ field.} \\[3ex]
+$>1$ &&        1     &  none              &  \multirow{2}{90mm}{{\bf \large 3-D} map. IZ files containing $B_{X,Y,Z}(X,Y,Z)$ data, one map per (X,Y) plane, no symmetry assumed.} \\[4ex]
 &&        1     &    .1, .2, .3           &  As previous case, just  different reading formats. \\[3ex]
 1 &&      3     &   none \textsl{or} .1   &  \multirow{3}{90mm}{{\bf \large 2-D} AGS main magnet field map, mid-plane symmetry assumed. MOD2=1 causes field to be perturbed by $(1+n_1\,dY+n_2\, dY^2+n_3\, dY^3)$ factor.} \\[7ex]
-&&        12    &           none          &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
-&&        12    &              .1         &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
-&&        12    &              .2         &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
-$>1$ &&   15    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 3-D} field map. Up to 4 files, whole magnet volume each (no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
+&&        12    &           none          &  \multirow{2}{90mm}{{\bf \large 3-D} map. Single file, upper half of magnet, symmetry with respect to (X,Y)  mid-plane.} \\[4ex]
+&&        12    &              .1         &  \multirow{2}{90mm}{{\bf \large 3-D} map. Single file, whole magnet volume (thus no symmetry assumed).}  \\[4ex]
+&&        12    &              .2         &  \multirow{2}{90mm}{{\bf \large 3-D} map. Single file, 1/8th of the magnet,  symmetry wrt. (X,Y), (X,Z), (Y,Z) planes.}  \\[4ex]
+1 &&   15    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains mid-plane $B_{Z}(X,Y,Z=0)$ data over  $(X,Y)$ plane, mid-plane antisymmetry assumed.}  \\[10ex]
+$>1$ &&   15    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}  \\[10ex]
 %
  \multicolumn{4}{l}{\underline{\bf MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
 \bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
-&&       20, 21  &                        &  \multirow{2}{90mm}{{\bf \large 3-D} map, single file, half a magnet, cylindrical symmetry with respect to (Y,Z) plane.} \\[4ex]
-  1    &&       22  &    .1 $-$ .4  &  \multirow{1}{90mm}{{\bf \large 2-D} field map, 1 to 4 files to be superimposed. } \\[2ex]
- $>1$  &&       22  &    .1 $-$ .4        &  \multirow{4}{90mm}{{\bf \large 3-D} field map. Up to 4 files, whole magnet volume each (no symmetry assumed). Fields summed up~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes}  \\[14ex]
+&&       20, 21  &                        &  \multirow{2}{90mm}{{\bf \large 3-D} map. Single file, half a magnet, cylindrical symmetry with respect to (Y,Z) plane.} \\[5ex]
+1 &&   22    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{Z}(X,Y,Z=0)$ data over  $(X,Y)$ plane, mid-plane antisymmetry assumed.}  \\[10ex]
+$>1$ &&   22    &      .1 $-$ .4          &  \multirow{4}{90mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each map file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}  
 \end{tabular}
 \end{table}
 

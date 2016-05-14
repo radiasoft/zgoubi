@@ -783,7 +783,7 @@ Expected format is 7 column rows. \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
  \textsl{BNORM, XN}      \> Field and X-coordinate normalization  coeff.  \> 2*UnitConv. \> 2*E \\
-        \> Convert values  as read from map to kG and cm units. \\
+        \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
  \\
@@ -846,7 +846,7 @@ myMapFile3
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
  \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.     \> 3*UnitConv. \> 3*E \\
-        \> Convert values  as read from map to kG and cm units. \\
+        \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
  \\
@@ -1860,7 +1860,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
  \\
  \textsl{ENORM, X-NORM}      \> Field and X-coordinate normalization  coeff.  \> 2*UnitConv. \> 2*E \\
-        \> Convert values  as read from map to MV/cm and cm units. \\
+        \> Convert values  as read from map file, to MV/cm and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped. \> \>A80 \\
  \\
@@ -1915,8 +1915,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2$[\times 10^n]$ \>2*I\\
  \\
- \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients \> 4*UnitConv. \> 4*E \\
-        \> Convert values  as read from map to kG and cm units. \\
+ \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients. \> 4*UnitConv. \> 4*E \\
+        \> Convert values  as read from map file, to kG and cm or rad. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped  \> \>A80 \\
  \\
@@ -2934,7 +2934,7 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
  \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.  \> 3*UnitConv. \> 3*E \\
-        \> Convert values  as read from map to kG and cm units. \\
+        \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
  \\
@@ -2993,7 +2993,7 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :}
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
  \textsl{ENORM, X-,Y-NORM}      \> Field and X-,Y-coordinate normalization  coeffs. \> 3*UnitConv. \> 3*E \\
-        \> Convert values  as read from map to MV/cm and cm units. \\
+        \> Convert values  as read from map file, to MV/cm and cm units. \\
   \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.   \> \>A80 \\
  \\
@@ -4964,28 +4964,23 @@ cp zgoubi.res zgoubi.res_save
     \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., along trajectories \> \>   \\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
  \\
- \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients \> 4*UnitConv. \> 4*E \\
-        \> Convert values  as read from map to kG and cm units. \\
+ \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients. \> 4*UnitConv. \> 4*E \\
+        \> Convert values  as read from map file, to kG and cm or rad. \\
  \\
  \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped. Include \> \>A80 \\
                       \>``HEADER n'' in case \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
  \\
- $IX$, $IY$, $IZ,$~\footnotemark[1]     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}, $\leq$\textsl{MXY}, \>3*I \\
-  \textsl{MOD[.MOD2 [, a(i),i=}  \> and $Z$ directions,  $IZ=1$ for single 2-D map~;     \>  $\leq$\textsl{IZ}, $\ge 0$[.1-9] \> \\
-  \textsl{1,MOD2]]}    \> \textsl{MOD} : operational and map \textsl{FORMAT} reading mode~\footnotemark[2]; \> \> \\
-                       \> \textsl{MOD}$\le$19 : Cartesian mesh~; \> \> \\
-                       \> \textsl{MOD}$\ge$20 : cylindrical mesh.  \> \> \\
-                       \> \textsl{MOD2}, optional, tells the reading \textsl{FORMAT}, default is '*'. \> \> \\
-                       \> If \textsl{MOD=15} give \textsl{MOD2} linear combination coefficients. \> \> \\
+ $IX$, $IY$, $IZ,$~\footnotemark[1]     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}, $\leq$\textsl{MXY}, \>3*I, I[.I  \\
+\textsl{MOD[.MOD2 [, a(i),i=} \> and $Z$ directions, $IZ=1$ for a 2-D map~; \textsl{MOD} \> $\leq$\textsl{IZ}, [0-22.1-9], - \> [, MOD2*E]]\\
+  \textsl{1,MOD2]]}    \> and \textsl{MOD2} : field map style, see table next page. \> \> \\
  \\
-\textsl{FNAME}~\footnotemark[3]  \>   Names of the $NF$ files that contain the 2-D maps,  from $Z(1)$ to $Z(NF)$.   \> \>A80 \\
-($K=1$, $NF$)       \> If \textsl{MOD}=0 : $NF = 1+ [IZ/2]$, the $NF$ 2-D maps are for $0 \leq Z \leq Z_{max}$, \\
+Next NF lines :   \> Map file name(s), one line per name.   \> \>A80 \\
+\textsl{FNAME}~\footnotemark[3] \> If \textsl{MOD}=0 : $NF = 1+ [IZ/2]$, the $NF$ 2-D maps are for $0 \leq Z \leq Z_{max}$, \\
       \> they are symmetrized with respect to the $Z(1)=0$ plane.\\
        \> If \textsl{MOD}=1 : $NF = IZ$, no symmetry assumed~; $Z(1) = Z_{max}$,  \\ 
        \> $Z(1+ [IZ/2])=0$ and $Z(NF) = -Z_{max}$ .\\ 
        \> If \textsl{MOD}=12 : a single \textsl{FNAME}  file contains the all 3-D volume.  \\ 
-       \> If \textsl{MOD=15} give \textsl{MOD2} file names. \> \> \\
-       \> If \textsl{MOD}=20-22 : other symmetry options, see \texttt{toscap.f} routine...  \\ 
+       \> \textsl{MOD=15, 20-22}, etc.~: see table next page.  \> \> \\
  \\
 $ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$,  cm, \>I,3*E  \\
 $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,\id]\>[,3*E,etc.]\\
@@ -5027,6 +5022,58 @@ BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I
 }
 \footnotetext[3]{For binary files, \textsl{FNAME} must begin with 'B\(\sb{_}\)' or 'b\(\sb{_}\)'. }
 \end{alltt}
+
+
+
+\newpage
+
+
+{\bf The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \textsl{TOSCA}. }
+
+
+~
+
+\noindent {\bf IZ} : number of nodes of the \textsl{complete} field map along the Z direction (IZ=1 for 2D)
+
+\noindent {\bf MOD, MOD2} : determine the coordinate system,  symmetries, column sequence, reading format,  etc.
+
+\noindent {\bf NF} : number of field map input data files to be declared. Always include mid-plane map.
+
+\noindent {\bf Lecture format} : data formating in the map file(s) 
+
+\noindent {\bf Examples} of \zgoubi\ runs with field maps can be found in subfolders 
+of zgoubi-code/exemples/KEYWORDS/TOSCA/cartesian (case MOD$\leq$19) or  zgoubi-code/exemples/KEYWORDS/TOSCA/cylindrical (case MOD$\geq$20), 
+in zgoubi development area 'zgoubi-code'. Column ``Examples'' below 
+gives the particular subfolder of concern, in each case of (IZ, MOD, MOD2) values. 
+
+~
+
+\centering
+
+\renewcommand{\arraystretch}{1}
+
+{\small
+\begin{tabular}{ccclcll}
+ \multicolumn{5}{l}{\underline{\bf MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
+\bf IZ &  \bf         MOD   &\bf      .MOD2 &   & \bf NF   & $\begin{array}{c}\bf Columns~; \\[-.8ex] \bf format \end{array}$ & Example folder \\[4ex]
+ 1   & 0, 1 &     \multirow{2}{12.mm}{none or  \\ .1, .2, .3 }        &  \multirow{2}{61.mm}{{\bf \large 2-D} map. File contains  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry assumed. Several different reading formats (see fmapw.f/fmapr3).} & 1 & \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX }& \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}1-0-none/ \\ (GSI KAOS spectrometer)} \\[8ex]
+1 &      3     &   none \textsl{or} .1   &  \multirow{3}{61.mm}{{\bf \large 2-D} map. AGS main magnet.  If MOD2=1, $B_{Z}(X,Y,Z=0)$   field is perturbed by $(1+n_1\,Y+n_2\, Y^2+n_3\, Y^3)$ factor.} & 1 & & \\[8ex]
+1 &   15    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains mid-plane $B_{Z}(X,Y,Z=0)$ data, mid-plane symmetry is assumed.}  & $1-4$ &   \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX } & \footnotesize \multirow{2}{35.mm}{IZ-MOD-.MOD2\_1-15-.1-.4\ \\ (EMMA FFAG cell)} \\[11ex]
+$\geq$1 & 0   &     none                   &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Files span upper half of magnet, one file per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane including median plane, mid-plane symmetry assumed.}  & 1+IZ/2 & \footnotesize Y, Z, X, BY, BZ, BX & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-0-none/ \\ (GSI KAOS spectrometer)}  \\[8ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &        1     &  none              &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Files span full magnet volume, one file per (X,Y) plane, no symmetry assumed.} & IZ &  \footnotesize Y, Z, X, BY, BZ, BX  & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-1-none/ \\ (AGS warm helix snake) }  \\[5ex]
+$\geq$1 &        12    &           none          &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, upper half of magnet, mid-plane symmetry assumed.} & 1 \\[5ex]
+$\geq$1 &        12    &              .1         &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, whole magnet volume, no symmetry assumed.}  & 1 &  \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX } & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-12-.1/ \\ (AGS warm helix snake) } \\[5ex]
+$\geq$1 &        12    &              .2         &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, 1/8th of the magnet,  symmetry wrt. $(X,Y)_{Z=0}$, $(X,Z)_{Y=0}$, $(Y,Z)_{X=0}$ planes.}  & 1 \\[7ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &   15    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}   & $1-4$ & \\
+\\[11ex]
+ \multicolumn{4}{l}{\underline{\bf MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
+\bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
+&       20, 21  &                        &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, half a magnet, cylindrical symmetry with respect to (Y,Z) plane.} \\[5ex]
+1 &   22    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{Z}(X,Y,Z=0)$ data over  $(X,Y)$ plane, mid-plane antisymmetry assumed.}  \\[11ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &   22    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}  
+\end{tabular}
+} %\small
+
 
 
 

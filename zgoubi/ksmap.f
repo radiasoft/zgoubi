@@ -30,7 +30,10 @@ C------------------------------
 C     Monitors field map number
 C------------------------------
       INCLUDE 'PARIZ.H'
-      CHARACTER*(80) NAMSAV(MMAP,IZ)
+      PARAMETER (MXC = 4)
+      PARAMETER (NFM = IZ+MXC)
+      CHARACTER*(80) NAMSAV(MMAP,NFM)
+C      CHARACTER*(80) NAMSAV(MMAP,IZ)
       CHARACTER(*) NOMFIC(*)
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
@@ -38,11 +41,13 @@ C------------------------------
       SAVE NBMAPS, KMAP
  
       DATA NBMAPS, KMAP / 0, 0 /
-      DATA NAMSAV / MIZ*' ' /
+      DATA NAMSAV / NFM*' ' /
+C      DATA NAMSAV / MIZ*' ' /
  
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
-      PARAMETER (MXC = 4)
-      DIMENSION COEFS(MMAP,IZ), AA(IZ)
+C      PARAMETER (MXC = 4)
+      DIMENSION COEFS(MMAP,NFM), AA(NFM)
+C      DIMENSION COEFS(MMAP,IZ), AA(IZ)
  
 C Read
       KMAPO = KMAP

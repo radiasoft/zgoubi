@@ -42,6 +42,9 @@ C      PARAMETER (MXTA=45)
       INTEGER DEBSTR
       LOGICAL STRCON
       LOGICAL ISNUM
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
+      PARAMETER (MXC = 4)
 
 C     ... IC, IL
       LINE = 1
@@ -97,13 +100,25 @@ C                       be completed for others)
         READ(STRA(2),*,ERR=99,END=98) NY
         A(NOEL,20)=NX
         A(NOEL,21)=NY
-        IF(NSTR.EQ.3) THEN 
-          READ(STRA(3),*,ERR=99,END=98) AMOD
+
+C Old style only has NX, NY for 2D maps. New style gets KZMA here for further use.  
+        IF(NSTR.GE.3) THEN 
+          IF    (NSTR.EQ.3) THEN 
+            READ(STRA(3),*,ERR=99,END=98) AMOD
+            NFIC = 1
+          ELSEIF(NSTR.GE.4) THEN 
+            READ(STRA(3),*,ERR=99,END=98) KZMA
+            READ(STRA(4),*,ERR=99,END=98) AMOD
+            MOD=INT(AMOD)
+            MOD2 = NINT (10 *  (AMOD -  DBLE(MOD)) )
+            NFIC = MOD2
+          ENDIF
         ELSE
           AMOD = 0.D0
+          KZMA = 1
+          NFIC = 1
         ENDIF
         A(NOEL,22)=AMOD
-        NFIC = 1
 
       ELSEIF(IDIM .EQ. 3) THEN
 C------- TOSCA, 2-D or 3-D maps, either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
@@ -132,7 +147,7 @@ C------- To ensure compatibility with version 3 of Zgoubi
         A(NOEL,23)=AMOD
         MOD=INT(AMOD)
         MOD2 = NINT (10 *  (AMOD -  DBLE(MOD)) )
-
+            
         IF(KZMA .EQ. 1) THEN
           IDIM = 2  
         ELSE
@@ -165,11 +180,16 @@ C--------- The all 3D map is contained in a single file
           ELSEIF(MOD .EQ. 15) THEN
 C--------- There are 'MOD2' files, they will be combined linearly
 C          Each single file contains the all 3D volume
+            NFIC = MOD2
             IF(4+NFIC .GT. MXSTR) THEN
               WRITE(ABS(NRES),*) 'At input data line ',LINE
               CALL ENDJOB('Pgm rcarte. Too many'
      >        //'  field map scaling factors. Max is ',4)
             ENDIF
+
+            DO J = 1, MXC
+              A(NOEL,23+J) = 1.D0
+            ENDDO
 
             CALL STRGET(TXT,4+NFIC,
      >                           IDUM,STRA) 
@@ -189,6 +209,22 @@ C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single 
           ELSE
             NFIC = MOD2
           ENDIF
+
+            IF(4+NFIC .GT. MXSTR) THEN
+              WRITE(ABS(NRES),*) 'At input data line ',LINE
+              CALL ENDJOB('Pgm rcarte. Too many'
+     >        //'  field map scaling factors. Max is ',4)
+            ENDIF
+
+            DO J = 1, MXC
+              A(NOEL,23+J) = 1.D0
+            ENDDO
+
+            CALL STRGET(TXT,4+NFIC,
+     >                           IDUM,STRA) 
+            DO J = 1, NFIC
+              READ(STRA(4+j),*,ERR=99,END=98) A(NOEL,23+J) 
+            ENDDO
 
         ENDIF
       ENDIF
@@ -286,7 +322,10 @@ C       ... Polar map frame
       IF(LINE.EQ.6) WRITE(NRES,*) 
      >'Expecting more data after MOD=3, at line ',LINE
 
- 90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rcarte, keyword '//KLE//' : '// 
      >'input data error, at line ',line)
       RETURN
       END

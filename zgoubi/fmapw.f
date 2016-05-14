@@ -45,12 +45,12 @@ C      LOGICAL IDLUNI, BINARI
       INTEGER DEBSTR, FINSTR
       SAVE MOD, MOD2
       
-C 3D field maps, intermediate storage prior to summing
-      PARAMETER(MX3D=3)
-      DOUBLE PRECISION, DIMENSION(:,:,:,:,:), ALLOCATABLE :: 
-     >     HCTMP
-C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
-      SAVE HCTMP
+CC 3D field maps, intermediate storage prior to summing
+C      PARAMETER(MX3D=3)
+C      DOUBLE PRECISION, DIMENSION(:,:,:,:,:), ALLOCATABLE :: 
+C     >     HCTMP
+CC      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
+C      SAVE HCTMP
 
       SAVE AA, IFIC
 
@@ -65,7 +65,7 @@ C      DIMENSION HCTMP(ID,MXX,MXY,IZ,MX3D)
 
       DATA MOD, MOD2 / 0, 0 /
       DATA IMAP / 1 /
-      DATA IALOC / 0 /
+C      DATA IALOC / 0 /
 
       CALL KSMAP(
      >           IMAP) 
@@ -304,7 +304,7 @@ C      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, BNORM,
       CALL KSMAP(
      >           IMAP) 
 
-      IF(NRES.GT.0) WRITE(NRES,*)'IMAP : ',IMAP
+C      IF(NRES.GT.0) WRITE(NRES,*)'IMAP : ',IMAP
 C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
       MOD = MODI
       MOD2 = MODI2
@@ -483,26 +483,27 @@ C------- Mesh coordinates
            JTMA = IXMA
            K2ZMA = KZMA/2+1
 
-           ircnt = 0
+           IRCNT = 0
            DO 133 I=1,IRMA            
              RADIUS=R0 + DBLE(I-1) *DR 
-             ircnt = ircnt+1
-             kzcnt=0       
+             IRCNT = IRCNT+1
+             KZCNT=0       
              DO 133  K = 1,K2ZMA      
                KZC = K2ZMA-1+K
                Z = DBLE(K-1) * DZ
-               kzcnt = kzcnt+1
-              jtcnt=0
+               KZCNT = KZCNT+1
+              JTCNT=0
               DO 133 J=1,JTMA        
                    JTC = J
                  TTA =  DBLE(J-1) * DTTA
-                 jtcnt = jtcnt + 1
+                 JTCNT = JTCNT + 1
                  IF(BINAR) THEN
                    READ(LUN,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
                  ELSE
                    READ(LUN,*,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
+
                  ENDIF
                  BMAX0 = BMAX
                  BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
@@ -585,12 +586,12 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       
-      IF( .NOT.ALLOCATED( HCTMP )) 
-     >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
-      IF (IALOC .NE. 0) 
-     >     CALL ENDJOB('SBR FMAPW Not enough memory'//
-     >     ' for Malloc of HCTMP',
-     >     -99)
+C      IF( .NOT.ALLOCATED( HCTMP )) 
+C     >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
+C      IF (IALOC .NE. 0) 
+C     >     CALL ENDJOB('SBR FMAPW Not enough memory'//
+C     >     ' for Malloc of HCTMP',
+C     >     -99)
 
 Check current number of field map, IMAP in HC(*,*,*,*,IMAP)
       CALL KSMAP(
@@ -1095,7 +1096,6 @@ C 12        CONTINUE
                    ZBMI = ZBMI * ZNORM
 
       ELSEIF(MOD.EQ.15) THEN
-
 C Full 3-D map of magnet as in MOD=12. However can sum up several maps. 
 C Used for instance for AGS cold snake = helix map + solenoid map
            JTCNT=0
@@ -1166,68 +1166,49 @@ C------- Mesh coordinates
              ZH(K) = ZH(K-1) + DZ
            ENDDO
 
-
-           IF    (IFIC.EQ.1) THEN
-
-             DO I = 1, IXMA
-               DO J = 1, JYMA
-                 DO K = 1, KZMA
-                   HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
-                   HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
-                   HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
-                 ENDDO
-               ENDDO
-             ENDDO
-
-
-c                   write(89,fmt='(9(1x,e12.4),/)') 
-c     >        dx,xh(1),xh(2),dy,yh(1),yh(2),dz,zh(1),zh(2)
-c                   write(89,fmt='(9(1x,e12.4),/)') 
-c     >        dx,xh(1),xh(2),dy,yh(1),yh(2),dz,zh(1),zh(2)
-c             DO J = 1, JYMA
-c               DO K = 1, KZMA
-c                 DO I = 1, IXMA
-c                   write(89,fmt='(6(1x,e12.4))') 
-c     >             yh(J),zh(K),xh(I),
-c     >             HC(2,I,J,K,IMAP),
-c     >             HC(3,I,J,K,IMAP),
-c     >             HC(1,I,J,K,IMAP)
-c                 ENDDO
-c               ENDDO
-c             ENDDO
-
-           ELSE
-             IF    (IFIC.LT.MOD2) THEN
-               DO I = 1, IXMA
-                 DO J = 1, JYMA
-                   DO K = 1, KZMA
-                     HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
-     >                 + HCTMP(1,I,J,K,IFIC) 
-                     HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
-     >                 + HCTMP(2,I,J,K,IFIC) 
-                     HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
-     >                 + HCTMP(3,I,J,K,IFIC) 
-                   ENDDO
-                 ENDDO
-               ENDDO
-             ELSEIF(IFIC.EQ.MOD2) THEN
-               DO I = 1, IXMA
-                 DO J = 1, JYMA
-                   DO K = 1, KZMA
-                     HC(1,I,J,K,IMAP) = HC(1,I,J,K,IMAP) 
-     >               + HCTMP(1,I,J,K,IFIC) 
-                     HC(2,I,J,K,IMAP) = HC(2,I,J,K,IMAP) 
-     >               + HCTMP(2,I,J,K,IFIC) 
-                     HC(3,I,J,K,IMAP) = HC(3,I,J,K,IMAP) 
-     >               + HCTMP(3,I,J,K,IFIC) 
-                   ENDDO
-                 ENDDO
-               ENDDO
-             ELSE
-               CALL ENDJOB(
-     >         'Pgm fmapw. No such possibility IFIC=',IFIC)
-             ENDIF
-           ENDIF
+C FM. Comented May 2016. Seems redundat with summation in toscac, TBC...
+C           IF    (IFIC.EQ.1) THEN
+C             DO I = 1, IXMA
+C               DO J = 1, JYMA
+C                 DO K = 1, KZMA
+C                   HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+C                   HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+C                   HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+C                 ENDDO
+C               ENDDO
+C             ENDDO
+C           ELSE
+C             IF    (IFIC.LT.MOD2) THEN
+C               DO I = 1, IXMA
+C                 DO J = 1, JYMA
+C                   DO K = 1, KZMA
+C                     HCTMP(1,I,J,K,IFIC) = HC(1,I,J,K,IMAP) 
+C     >                 + HCTMP(1,I,J,K,IFIC) 
+C                     HCTMP(2,I,J,K,IFIC) = HC(2,I,J,K,IMAP) 
+C     >                 + HCTMP(2,I,J,K,IFIC) 
+C                     HCTMP(3,I,J,K,IFIC) = HC(3,I,J,K,IMAP) 
+C     >                 + HCTMP(3,I,J,K,IFIC) 
+C                   ENDDO
+C                 ENDDO
+C               ENDDO
+C             ELSEIF(IFIC.EQ.MOD2) THEN
+C               DO I = 1, IXMA
+C                 DO J = 1, JYMA
+C                   DO K = 1, KZMA
+C                     HC(1,I,J,K,IMAP) = HC(1,I,J,K,IMAP) 
+C     >               + HCTMP(1,I,J,K,IFIC) 
+C                     HC(2,I,J,K,IMAP) = HC(2,I,J,K,IMAP) 
+C     >               + HCTMP(2,I,J,K,IFIC) 
+C                     HC(3,I,J,K,IMAP) = HC(3,I,J,K,IMAP) 
+C     >               + HCTMP(3,I,J,K,IFIC) 
+C                   ENDDO
+C                 ENDDO
+C               ENDDO
+C             ELSE
+C               CALL ENDJOB(
+C     >         'Pgm fmapw. No such possibility IFIC=',IFIC)
+C             ENDIF
+C           ENDIF
 
       ENDIF  
 

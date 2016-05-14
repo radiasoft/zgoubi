@@ -61,6 +61,11 @@ C      PARAMETER (IZ=5 , ID=3, MMAP=1)
 C      PARAMETER (MXX=401, MXY=300)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+CC---- EMMA 
+      PARAMETER (IZ=2 , ID=3, MMAP=1)
+      PARAMETER (MXX=197, MXY=81)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC---- EMMA. Two 2D maps, Ben, Feb 2013 
 c      PARAMETER (IZ=3 , ID=3, MMAP=2)
 c      PARAMETER (MXX=961, MXY=161)
@@ -103,8 +108,10 @@ CC D5 IPM magnet in bare AGS.
 c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=1801, MXY=41)
 
-cccccccccccccccc      PARAMETER (IZ=61 , ID=3, MMAP=4)
-c      PARAMETER (MXX=1001, MXY=150)
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C AGS warm snake 
+c       PARAMETER (IZ=29 , ID=3, MMAP=1)
+c       PARAMETER (MXX=801, MXY=29)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -116,7 +123,7 @@ c       compatible gsi_kaos
 C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet
 c      PARAMETER (MXX=1601, MXY=200)
-C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
+C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA_
 C AGS ----------------------------------------------------
 
 CC Cyl. condenser end, pEDM, MAP2D-E
@@ -129,8 +136,8 @@ c      PARAMETER (MXX=596, MXY=596)
 
 CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 CC---- GSI KAOS
-C      PARAMETER (IZ=5 , ID=3, MMAP=2)
-C      PARAMETER (MXX=401, MXY=300)
+c      PARAMETER (IZ=3, ID=3, MMAP=2)
+c      PARAMETER (MXX=47, MXY=37) 
 
 CC Laurent, DESIR, tmag field maps
 C Using TOSCA
@@ -142,8 +149,8 @@ c      PARAMETER (IZ=41 , ID=3, MMAP=2)
 c      PARAMETER (MXX=351, MXY=200)
 
 CC ~/zgoubi/SVN/current/exemples/tools
-      PARAMETER (IZ=61 , ID=3, MMAP=3)
-      PARAMETER (MXX=801, MXY=200)
+c      PARAMETER (IZ=61 , ID=3, MMAP=3)
+c      PARAMETER (MXX=801, MXY=200)
 
 CC Malek FFAG 150MeV
 C       PARAMETER (IZ=21 , ID=3, MMAP=2)
