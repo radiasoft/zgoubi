@@ -1,0 +1,17 @@
+
+GSI KAOS QD spectrometer, using Q's and D's 3D map. Track some particles through the spectrometer. 
+The 2D map case is run also, for comparison.
+
+--
+Running this exercise requires the following minimal formatting in PARIZ.H : 
+
+CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+CC---- GSI KAOS
+      PARAMETER (IZ=5 , ID=3, MMAP=6)
+      PARAMETER (MXX=47, MXY=37)
+
+--
+cleaning this folder : 
+
+svn --force del  zgoubi.* gsi_3Dmaps.dat *~
+

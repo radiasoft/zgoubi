@@ -1,0 +1,20 @@
+
+EMMA FFAG cell, comprised of a D and a F quad. The 2 maps are uploaded more than once, just for the fun. The field factors sum up to 1 for each map. 
+
+Field map Dax265.Doff.cart.table is with F quad on,  D quad off
+Field map Dax265.Foff.cart.table is with F quad off, D quad on
+
+
+--
+Running this exercise requires the following minimal formatting in PARIZ.H : 
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+CC---- EMMA 
+      PARAMETER (IZ=2 , ID=3, MMAP=1)
+      PARAMETER (MXX=197, MXY=81)
+
+
+--
+cleaning this folder : 
+
+svn --force del  zgoubi.*  *~

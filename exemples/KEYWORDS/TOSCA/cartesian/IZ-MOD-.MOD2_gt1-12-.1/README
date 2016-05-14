@@ -1,0 +1,16 @@
+
+AGS warm snake. The FIT procedure centers helical trajectory on helix axis. This is repeated for various momenta, using REBELOTE. 
+
+--
+Running this exercise requires the following minimal formatting in PARIZ.H : 
+
+CC-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+CC---- AGS warm snake
+      PARAMETER (IZ=29 , ID=3, MMAP=1)
+      PARAMETER (MXX=801, MXY=29)
+
+--
+cleaning this folder : 
+
+svn --force del  zgoubi.*  *~
+
