@@ -243,10 +243,30 @@ c         U0 = 11.071834e-3 * ( (PS/BTS) / 9.8932E+02)**4           ! C_gamma=88
           u0 = 88.46276*((ps*1d-3)/bts)**4/283.860202518 *1d-3    ! (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
 c              write(*,*) 'cavite  21  wks u0 (MeV) : ', wks,u0,wks-u0
 c              write(*,*) ' '
+           u1 = 0.d0
+           do i = 1, imax
+             IF(IEX(I) .GT. 0) THEN
+               P = P0*F(1,I)
+               AM2 = AMQ(1,I)*AMQ(1,I)
+               ENRG = SQRT(P*P+AM2)
+               BTA = P/ENRG
+               u1 = u1 + 88.46276*((p*1d-3)/bta)**4/283.860202518 *1d-3
+             endif
+           enddo
+           u1 = u1 / dble(imax)
+
+C            write(*,*) ' cavite  u0,  u1 : ',u0, u1
+        u0 = u1
+
       ENDIF
+
       WKS = WKS -U0
 
-      QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
+C      QV = AN20 *Q *1.D-6 *(1.d0 + 1.75d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
+
+        dvsv0 = (120.d6 - an20)/an20
+        trnb = 1250.d0                  
+         qv = AN20 *Q *1.D-6 * (1.d0 +dvsv0/trnb )
 C                                                     ! 120MV justified by SR loss at 20GeV being 50MV
 C                                                     ! and willing sin(ph_s) to stay ~1/2
       qvfrac = AN20 *Q *1.D-6 /2.d0       ! energy gain per turn
