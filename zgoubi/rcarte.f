@@ -214,21 +214,20 @@ C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single 
             NFIC = MOD2
           ENDIF
 
-            IF(4+NFIC .GT. MXSTR) THEN
-              WRITE(ABS(NRES),*) 'At input data line ',LINE
-              CALL ENDJOB('Pgm rcarte. Too many'
-     >        //'  field map scaling factors. Max is ',4)
-            ENDIF
-
-            CALL STRGET(TXT,4+NFIC,
+          IF(4+NFIC .GT. MXSTR) THEN
+            WRITE(ABS(NRES),*) 'At input data line ',LINE
+            CALL ENDJOB('Pgm rcarte. Too many'
+     >      //'  field map scaling factors. Max is ',4)
+          ENDIF
+          CALL STRGET(TXT,4+NFIC,
      >                           ITMP,STRA) 
 
-            DO J = 1, ITMP-4
-              READ(STRA(4+J),*,ERR=99,END=98) A(NOEL,23+J) 
-            ENDDO
-            DO J = ITMP-4+1, NFIC
-              A(NOEL,23+J)  = 1.D0
-            ENDDO
+          DO J = 1, ITMP-4
+            READ(STRA(4+J),*,ERR=99,END=98) A(NOEL,23+J) 
+          ENDDO
+          DO J = ITMP-4+1, NFIC
+            A(NOEL,23+J)  = 1.D0
+          ENDDO
 
         ENDIF
       ENDIF
@@ -249,6 +248,7 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
         IDUM = 0
         IFIC = 1
         LINE = LINE + 1
+
         READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
         IF(STRCON(TXT,'!',
      >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)

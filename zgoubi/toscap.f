@@ -174,7 +174,7 @@ C          Cylindrical mesh. Axis is Z
 C--------- another option for symmetrization by FMAPR2
           I1 = 1
           I2 = KZMA
-        ELSEIF(MOD .EQ. 22) THEN
+        ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 23) THEN
 C--------- MOD2 files are combined linearly into a single map after reading.
 C          Each one of these files should contain the all 3D volume.
           IF(MOD2 .GT. 4) CALL ENDJOB('Pgm toscap. Number of field '
@@ -203,7 +203,7 @@ C          Each one of these files should contain the all 3D volume.
 
       ENDIF
 
-      IF(MOD .EQ. 22) THEN
+      IF(MOD .EQ. 22 .OR. MOD .EQ. 23) THEN
         IFAC = 24
         IFIC = 1
         DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
@@ -227,9 +227,9 @@ C          Each one of these files should contain the all 3D volume.
      >  ,'Number of data file sets used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
      >  ,'Value of MOD.MOD2 is ', MOD,'.',MOD2
-        IF(MOD.EQ.22) THEN
+        IF(MOD.EQ.22 .OR. MOD .EQ. 23) THEN
           WRITE(NRES,*)
-     >    ' MOD=22.   Will sum up ',I2,'  field maps.'
+     >    ' MOD=22 or 23.   Will sum up ',I2,'  field maps.'
           WRITE(NRES,*)
      >    ' Coefficient values : ',(a(noel,24+i-1),i=i1,i2)
         ENDIF
@@ -292,7 +292,7 @@ C BNORM set to ONE, since sent to CHAMK below
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
-        ELSEIF(MOD .EQ. 22) THEN
+        ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 23) THEN
  
           NFIC = 0
           DO KZ=I1,I2

@@ -40,8 +40,9 @@ C      CHARACTER*(80) NAMSAV(MMAP,IZ)
  
       SAVE NBMAPS, KMAP
  
+      PARAMETER (MMNF=MMAP*NFM)
       DATA NBMAPS, KMAP / 0, 0 /
-      DATA NAMSAV / NFM*' ' /
+      DATA NAMSAV / MMNF*' ' /
 C      DATA NAMSAV / MIZ*' ' /
  
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used

@@ -501,7 +501,22 @@ C------- Mesh coordinates
                    READ(LUN,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
                  ELSE
-                   READ(LUN,*,END=97,ERR=98) DUM1,ZZZ,DUM3,
+
+ 224                CONTINUE
+                   READ(LUN,FMT='(A)') TXT132
+                   IDSTR = DEBSTR(TXT132)
+                   IF    (EMPTY(TXT132)) THEN
+                     GOTO 224
+                   ELSEIF(TXT132(IDSTR:IDSTR+1) .EQ. '%'
+     >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
+                     GOTO 224 
+                   ELSE
+                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+     >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
+     >                  //' data file must be <',MXCHAR)
+                   ENDIF
+
+                   READ(TXT132,*,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
 
                  ENDIF
@@ -572,6 +587,90 @@ C------- Mesh coordinates
           ENDDO
           DO 136 I=-IXMA/2,IXMA/2
  136        XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+
+      ELSEIF(MOD .EQ. 23) THEN
+
+           IRMA = JYMA
+           JTMA = IXMA
+           K2ZMA = KZMA/2+1
+
+           IRCNT = 0
+           DO 233 I=1,IRMA            
+             RADIUS=R0 + DBLE(I-1) *DR 
+             IRCNT = IRCNT+1
+             KZCNT=0       
+             DO 233  K = 1,K2ZMA      
+               KZC = K2ZMA-1+K
+               Z = DBLE(K-1) * DZ
+               KZCNT = KZCNT+1
+              JTCNT=0
+              DO 233 J=1,JTMA        
+                   JTC = J
+                 TTA =  DBLE(J-1) * DTTA
+                 JTCNT = JTCNT + 1
+                 IF(BINAR) THEN
+                   READ(LUN,END=97,ERR=98) DUM1,ZZZ,DUM3,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
+                 ELSE
+
+ 234                CONTINUE
+                   READ(LUN,FMT='(A)') TXT132
+                   IDSTR = DEBSTR(TXT132)
+                   IF    (EMPTY(TXT132)) THEN
+                     GOTO 234
+                   ELSEIF(TXT132(IDSTR:IDSTR+1) .EQ. '%'
+     >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
+                     GOTO 234  
+                   ELSE
+                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+     >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
+     >                  //' data file must be <',MXCHAR)
+                   ENDIF
+
+                   READ(TXT132,*,END=97,ERR=98) DUM1,DUM2,DUM3,
+     >                                   DUM4,BREAD(3)
+
+                 ENDIF
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = TTA
+                   YBMA = RADIUS
+                   ZBMA = Z
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = TTA
+                   YBMI = RADIUS
+                   ZBMI = Z
+                 ENDIF
+
+                 HC(1,JTC,I,KZC,IMAP) = 0.D0
+                 HC(2,JTC,I,KZC,IMAP) = 0.D0
+                 HC(3,JTC,I,KZC,IMAP) = BREAD(3) * BNORM
+
+ 233       CONTINUE
+
+        BMIN = BMIN * BNORM
+        BMAX = BMAX * BNORM
+                   XBMA = XBMA * XNORM
+                   YBMA = YBMA * YNORM
+                   ZBMA = ZBMA * ZNORM
+                   XBMI = XBMI * XNORM
+                   YBMI = YBMI * YNORM
+                   ZBMI = ZBMI * ZNORM
+
+C------- Mesh coordinates
+        DO J=1,JYMA
+          YH(J) =  R0 + DBLE(J-1) *DR 
+        ENDDO
+        DO K= -KZMA/2,KZMA/2   
+          ZH(K+KZMA/2+1) = DBLE(K) * DZ
+        ENDDO
+        DO I=-IXMA/2,IXMA/2
+          XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+        ENDDO
 
       ELSE
         CALL ENDJOB('SBR FMAPW/FMAPR2, no such option MOD = ',MOD)
@@ -1226,12 +1325,12 @@ C           ENDIF
  97   CONTINUE
       IF(NRES.GT.0) THEN
         WRITE(NRES,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(NRES,*) '   End of file encountered before',
-     >  ' jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
+        WRITE(NRES,FMT='(A,3(1X,I0))') '   End of file encountered '
+     >  //' at jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
         WRITE(NRES,*) ' Check IXMAX and IRMAX ?'
         WRITE(6,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(6,*) '   End of file encountered before',
-     >  ' jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
+        WRITE(6,FMT='(A,3(1X,I0))') '   End of file encountered '
+     >  //' at jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
         WRITE(6,*) ' Check IXMAX and IRMAX ?'
       ENDIF
       RETURN
@@ -1239,10 +1338,12 @@ C           ENDIF
  98   CONTINUE
       IF(NRES.GT.0) THEN
         WRITE(NRES,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(NRES,*) '   Error encountered during map reading'
+        WRITE(NRES,FMT='(A,3(1X,I0))') '   Error encountered '
+     >  //' at jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
         WRITE(NRES,*) '   Check map data file'
         WRITE(6,*) ' WARNING !  Field map may be uncomplete'
-        WRITE(6,*) '   Error encountered during map reading'
+        WRITE(6,FMT='(A,3(1X,I0))') '   Error encountered '
+     >  //' at jtcnt-1, ircnt,  kzcnt : ', jtcnt-1, ircnt,kzcnt
         WRITE(6,*) '   Check map data file'
       ENDIF
       RETURN

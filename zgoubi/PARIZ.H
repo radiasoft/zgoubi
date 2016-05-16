@@ -105,8 +105,8 @@ c      PARAMETER (MXX=1801, MXY=41)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C AGS warm snake 
-       PARAMETER (IZ=29 , ID=3, MMAP=1)
-       PARAMETER (MXX=801, MXY=29)
+c       PARAMETER (IZ=29 , ID=3, MMAP=1)
+c       PARAMETER (MXX=801, MXY=29)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -150,6 +150,11 @@ c      PARAMETER (MXX=801, MXY=200)
 CC Malek FFAG 150MeV
 C       PARAMETER (IZ=21 , ID=3, MMAP=2)
 C       PARAMETER (MXX=301, MXY=319)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C Carols 1GeV FFAG
+       PARAMETER (IZ=3 , ID=3, MMAP=4)
+       PARAMETER (MXX=370, MXY=200)
 
 
 
