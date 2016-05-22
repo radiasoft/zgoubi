@@ -25,9 +25,9 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   EMMA-FFAG/matrixComputation/"
 echo "        "
-(cd ../EMMA-FFAG/matrixComputation/ ; cp matrix_140925_svn436.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../EMMA-FFAG/matrixComputation/ ; cp matrix.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  EMMA-FFAG/matrixComputation - reference : "      | cat  >   compare.out
-grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix_140925_svn436.res  | cat >>   compare.out
+grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/matrix.res                | cat >>   compare.out
 echo "                                              - new : "            | cat >>   compare.out
 grep "NU_Y = "  ../EMMA-FFAG/matrixComputation/zgoubi.res                | cat >>   compare.out
 echo "        "                                                          | cat >>   compare.out
@@ -39,10 +39,10 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../gsiKaos/usingDIPOLE-M/"
 echo "        "
-(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi_Y101.res_150206 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../gsiKaos/usingDIPOLE-M/ ; cp gsi_Y101.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../gsiKaos/usingDIPOLE-M - reference : "                | cat >>  compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi_Y101.res_150206  | cat >>  compare.out
-grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/gsi_Y101.res_150206  | cat >>  compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/gsi_Y101.res         | cat >>  compare.out
+grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/gsi_Y101.res         | cat >>  compare.out
 echo "                                           - new : "                      | cat >>  compare.out
 grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
 grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingDIPOLE-M/zgoubi.res           | cat >>  compare.out
@@ -55,12 +55,14 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../gsiKaos/usingTOSCAmaps/"
 echo "        "
-(cd ../gsiKaos/usingTOSCAmaps/ ; cp tosca-3D.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  /gsiKaos/usingTOSCAmaps/ - reference : "          | cat >>  compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/tosca-3D.res  | cat >>  compare.out
-echo "                                           - new : "                | cat >>  compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/zgoubi.res    | cat >>  compare.out
-echo "        "                                                           | cat >>  compare.out
+(cd ../gsiKaos/usingTOSCAmaps/ ; cp gsi_map.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  /gsiKaos/usingTOSCAmaps/ - reference : "                | cat >>  compare.out
+grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingTOSCAmaps/gsi_map.res         | cat >>  compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/gsi_map.res         | cat >>  compare.out
+echo "                                           - new : "                      | cat >>  compare.out
+grep "ORBITE MOYENNE    X = "     ../gsiKaos/usingTOSCAmaps/zgoubi.res          | cat >>  compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTE" ../gsiKaos/usingTOSCAmaps/zgoubi.res          | cat >>  compare.out
+echo "        "                                                                 | cat >>  compare.out
 echo "////////////////  /gsiKaos/usingTOSCAmaps : done..."
 #
 #
@@ -79,10 +81,10 @@ echo "////////////////  ../KEK150MeVFFAG/analyticalModel/matrix : done..."
 #
 #
 #################################################################
-echo "        "
-echo "        "
-echo "////////////////  Now doing :   ../LHC"
-echo "        "
+#echo "        "
+#echo "        "
+#echo "////////////////  Now doing :   ../LHC"
+#echo "        "
 #(cd ../LHC/ ; cp fullTurnMatrix.res_071017 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 #echo "////////////////  ../LHC/ - reference : "       | cat >>   compare.out
 #grep "NU_Y = "  ../LHC/fullTurnMatrix.res_071017      | cat >>   compare.out
@@ -117,15 +119,15 @@ echo "////////////////  ../microBeamDoublet : done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../saturneRing/TWISS/"
+echo "////////////////  Now doing :   ../saturneRing/matrix/"
 echo "        "
-(cd ../saturneRing/TWISS/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../saturneRing/TWISS/ - reference : "       | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../saturneRing/TWISS/TWISS.res               | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../saturneRing/TWISS/TWISS.res               | cat >>   compare.out
+(cd ../saturneRing/matrix/ ; cp TWISS.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../saturneRing/matrix/ - reference : "       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../saturneRing/matrix/TWISS.res               | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../saturneRing/matrix/TWISS.res               | cat >>   compare.out
 echo "                          - new : "                            | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../saturneRing/TWISS/zgoubi.res              | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../saturneRing/TWISS/zgoubi.res              | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../saturneRing/matrix/zgoubi.res              | cat >>   compare.out
 echo "        "                                                      | cat >>   compare.out
 echo "////////////////  ../saturneRing/TWISS : done..."
 #
@@ -179,29 +181,29 @@ echo "////////////////  ../usersGuide/FIT : done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../variousKEYWORDS/FIT_embedded_in_REBELOTE/"
+echo "////////////////  Now doing :   ../KEYWORDS/FIT_embedded_in_REBELOTE/"
 echo "        "
-(cd ../variousKEYWORDS/FIT_embedded_in_REBELOTE/ ; gunzip -f warmSnake.map.gz ; cp centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../variousKEYWORDS/FIT_embedded_in_REBELOTE/ - reference : "                                    | cat >>   compare.out
-grep "Fit reached penalty value " ../variousKEYWORDS/FIT_embedded_in_REBELOTE/centeredHelix_FIT_save_nofinal_150226.res | cat >>   compare.out
+(cd ../KEYWORDS/FIT_embedded_in_REBELOTE/ ; gunzip -f warmSnake.map.gz ; cp centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/FIT_embedded_in_REBELOTE/ - reference : "                                    | cat >>   compare.out
+grep "Fit reached penalty value " ../KEYWORDS/FIT_embedded_in_REBELOTE/centeredHelix_FIT_save_nofinal_150226.res | cat >>   compare.out
 echo "                          - new : "                                                                               | cat >>   compare.out
-grep "Fit reached penalty value " ../variousKEYWORDS/FIT_embedded_in_REBELOTE/zgoubi.res                                | cat >>   compare.out
+grep "Fit reached penalty value " ../KEYWORDS/FIT_embedded_in_REBELOTE/zgoubi.res                                | cat >>   compare.out
 echo "        "                                                                                                         | cat >>   compare.out
-echo "////////////////  variousKEYWORDS/FIT_embedded_in_REBELOTE/ : done..."
+echo "////////////////  KEYWORDS/FIT_embedded_in_REBELOTE/ : done..."
 #
 #
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../variousKEYWORDS/SOLENOID.and.BREVOL/"
+echo "////////////////  Now doing :   ../KEYWORDS/SOLENOID.and.BREVOL/"
 echo "        "
-(cd ../variousKEYWORDS/SOLENOID.and.BREVOL/ ; cp trunk502.res_150226 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
-grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/trunk502.res_150226        | cat >>   compare.out
+(cd ../KEYWORDS/SOLENOID.and.BREVOL/ ; cp trunk502.res_150226 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
+grep "DetY-1 ="  ../KEYWORDS/SOLENOID.and.BREVOL/trunk502.res_150226        | cat >>   compare.out
 echo "                          - new : "                                          | cat >>   compare.out
-grep "DetY-1 ="  ../variousKEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
+grep "DetY-1 ="  ../KEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
 echo "        "                                                                    | cat >>   compare.out
-echo "////////////////  ../variousKEYWORDS/SOLENOID.and.BREVOL : done..."
+echo "////////////////  ../KEYWORDS/SOLENOID.and.BREVOL : done..."
 #
 #
 #################################################################
@@ -230,10 +232,10 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../AGS/TWISS/"
 echo "        "
-(cd ../AGS/TWISS/ ; cp TWISS_uncoupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS/TWISS/ ; cp TWISS_unCoupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS/TWISS/ - reference : "       | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS_uncoupled.res       | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS_uncoupled.res       | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../AGS/TWISS/TWISS_unCoupled.res       | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../AGS/TWISS/TWISS_unCoupled.res       | cat >>   compare.out
 echo "                          - new : "                   | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../AGS/TWISS/zgoubi.res              | cat >>   compare.out
@@ -272,47 +274,33 @@ echo "////////////////  ../AGS_Booster : done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../variousKEYWORDS/TWISS/"
+echo "////////////////  Now doing :   ../KEYWORDS/TWISS/"
 echo "        "
-(cd ../variousKEYWORDS/TWISS/ ; cp TWISS_coupled.res_150304 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../variousKEYWORDS/TWISS/ - reference : "               | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../variousKEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
-grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160131        | cat >>   compare.out
-echo "                          - new : "                   | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../variousKEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
-grep "    86 "  ../variousKEYWORDS/TWISS/zgoubi.TWISS.out                       | cat >>   compare.out
-echo "        "                                                                 | cat >>   compare.out
-echo "////////////////  ../variousKEYWORDS/TWISS : done..."
+(cd ../KEYWORDS/TWISS/ ; cp TWISS_coupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/TWISS/ - reference : "               | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
+grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160131        | cat >>   compare.out
+echo "                          - new : "                                | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
+grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out                       | cat >>   compare.out
+echo "        "                                                          | cat >>   compare.out
+echo "////////////////  ../KEYWORDS/TWISS : done..."
 #
 #
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../variousKEYWORDS/SRLOSS/"
+echo "////////////////  Now doing :   ../KEYWORDS/SRLOSS/"
 echo "        "
-(cd ../variousKEYWORDS/SRLOSS/ ; cp srloss.res_160320 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../variousKEYWORDS/SRLOSS/ - reference : "            | cat >>   compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/srloss.res_160320 | cat >>   compare.out
+(cd ../KEYWORDS/SRLOSS/ ; cp srloss.res_160320 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/SRLOSS/ - reference : "            | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../KEYWORDS/SRLOSS/srloss.res_160320 | cat >>   compare.out
 echo "                          - new : "                                     | cat >>   compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../variousKEYWORDS/SRLOSS/zgoubi.res        | cat >>   compare.out
+grep "LARGEUR IMAGE,  A MI-HAUTEUR =  " ../KEYWORDS/SRLOSS/zgoubi.res        | cat >>   compare.out
 echo "        "                                                               | cat >>   compare.out
-echo "////////////////  ../variousKEYWORDS/SRLOSS/ : done..."
-#
-#
-#################################################################
-echo "        "
-echo "        "
-echo "////////////////  Now doing :   ../gsiKaos/usingMAP2D/"
-echo "        "
-(cd ../gsiKaos/usingMAP2D/ ; cp compare-tosca-map2d.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../gsiKaos/usingMAP2D/ - reference : "                       | cat >>   compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTEUR = " ../gsiKaos/usingMAP2D/compare-tosca-map2d.res | cat >>   compare.out
-echo "                          - new : "                                            | cat >>   compare.out
-grep "LARGEUR IMAGE,  A MI-HAUTEUR = " ../gsiKaos/usingMAP2D/zgoubi.res              | cat >>   compare.out
-echo "        "                                                                      | cat >>   compare.out
-echo "////////////////   ../gsiKaos/usingMAP2D/ : done..."
+echo "////////////////  ../KEYWORDS/SRLOSS/ : done..."
 #
 #
 

@@ -153,8 +153,13 @@ C       PARAMETER (MXX=301, MXY=319)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C Carols 1GeV FFAG
-       PARAMETER (IZ=3 , ID=3, MMAP=4)
-       PARAMETER (MXX=370, MXY=200)
+C       PARAMETER (IZ=3 , ID=3, MMAP=4)
+C       PARAMETER (MXX=370, MXY=200)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
+       PARAMETER (IZ=29 , ID=3, MMAP=6)
+       PARAMETER (MXX=801, MXY=200)
 
 
 
