@@ -1,0 +1,44 @@
+
+\noindent {\bf IZ} : number of nodes of the \textsl{complete} field map along the Z direction (IZ=1 for 2D)
+
+\noindent {\bf MOD, MOD2} : determine the coordinate system,  symmetries, reading format and column sequence,  etc.
+
+\noindent {\bf NF} : number of field map input data files to be declared. Always include mid-plane map.
+
+\noindent {\bf Columns~; format} : data formating in the map file(s) 
+
+\noindent {\bf Example folder} : examples of of \zgoubi\ runs using field maps can be found in subfolders 
+of zgoubi-code/exemples/KEYWORDS/TOSCA/cartesian (case MOD$\leq$19) or  zgoubi-code/exemples/KEYWORDS/TOSCA/cylindrical (case MOD$\geq$20), 
+in zgoubi development area 'zgoubi-code'. The last column  below 
+indicates the  subfolder of concern, for each case of \textsl{(IZ, MOD, MOD2)} value. 
+
+~
+
+\centering
+
+\renewcommand{\arraystretch}{1}
+
+{\small
+\begin{tabular}{ccclcll}
+ \multicolumn{5}{l}{\underline{\bf MOD $\leq$ 19 :    Cartesian mesh}}    \\[1.5ex]
+\bf IZ &  \bf         MOD   &\bf      .MOD2 &   & \bf NF   & $\begin{array}{c}\bf Columns~; \\[-.8ex] \bf format \end{array}$ & Example folder \\[4ex]
+ 1   & 0, 1 &     \multirow{2}{12.mm}{none or  \\ .1, .2, .3 }        &  \multirow{2}{61.mm}{{\bf \large 2-D} map. File contains  $B_Z(X,Y)|_{Z=0}$, mid-plane symmetry assumed. Several different reading formats (see fmapw.f/fmapr3).} & 1 & \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX }& \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}1-0-none/ \\ (GSI KAOS spectrometer)} \\[8ex]
+1 &      3     &   none \textsl{or} .1   &  \multirow{3}{61.mm}{{\bf \large 2-D} map. AGS main magnet.  If MOD2=1, $B_{Z}(X,Y,Z=0)$   field is perturbed by $(1+n_1\,Y+n_2\, Y^2+n_3\, Y^3)$ factor.} & 1 & & \\[8ex]
+1 &   15    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains mid-plane $B_{Z}(X,Y,Z=0)$ data, mid-plane symmetry is assumed.}  & $1-4$ &   \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX } & \footnotesize \multirow{2}{35.mm}{IZ-MOD-.MOD2\_1-15-.1-.4\ \\ (EMMA FFAG cell)} \\[11ex]
+$\geq$1 & 0   &     none                   &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Files span upper half of magnet, one file per (X,Y)$|_{0\leq Z\leq Z_{max}}$ plane including median plane, mid-plane symmetry assumed.}  & 1+IZ/2 & \footnotesize Y, Z, X, BY, BZ, BX & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-0-none/ \\ (GSI KAOS spectrometer)}  \\[8ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &        1     &  none              &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Files span full magnet volume, one file per (X,Y) plane, no symmetry assumed.} & IZ &  \footnotesize Y, Z, X, BY, BZ, BX  & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-1-none/ \\ (AGS warm helix snake) }  \\[5ex]
+$\geq$1 &        12    &           none          &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, upper half of magnet, mid-plane symmetry assumed.} & 1 \\[5ex]
+$\geq$1 &        12    &              .1         &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, whole magnet volume, no symmetry assumed.}  & 1 &  \footnotesize \multirow{2}{25.mm}{Y, Z, X, BY, BZ, BX } & \footnotesize \multirow{2}{35.mm}{ IZ-MOD-.MOD2{\_}gt1-12-.1/ \\ (AGS warm helix snake) } \\[5ex]
+$\geq$1 &        12    &              .2         &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, 1/8th of the magnet,  symmetry wrt. $(X,Y)_{Z=0}$, $(X,Z)_{Y=0}$, $(Y,Z)_{X=0}$ planes.}  & 1 \\[7ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &   15    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}   & $1-4$ & \\
+\\[11ex]
+ \multicolumn{4}{l}{\underline{\bf MOD $\geq$ 20   : Cylindrical mesh}}   \\[1.5ex]
+\bf IZ & ~ ~ & \bf         MOD   &\bf      .MOD2 &   & \\[1ex]
+&       20, 21  &                        &  \multirow{2}{61.mm}{{\bf \large 3-D} map. Single file, half a magnet, cylindrical symmetry with respect to (Y,Z) plane.} \\[5ex]
+1 &   22    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 2-D} map. Up to 4 files to be superimposed~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{Z}(X,Y,Z=0)$ data over  $(X,Y)$ plane, mid-plane antisymmetry assumed.}  \\[11ex]
+\multirow{2}{8mm}{2p+1 \\ \footnotesize $p\geq 1$} &   22    &      .1 $-$ .4          &  \multirow{4}{61.mm}{{\bf \large 3-D} map. Up to 4 files to be superimposed, whole magnet volume each (no symmetry assumed)~: at all node, $\vec B = \sum_{i=1}^{i=MOD2} a_i \, \vec B_i $. Each file contains $B_{X,Y,Z}(X,Y,Z)$ data over  \IZ\ equally $Z$-spaced $(X,Y)$ planes.}  
+\end{tabular}
+} %\small
+
+
+

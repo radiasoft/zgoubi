@@ -89,7 +89,7 @@
   \item FIT, 53, 56, 60, \textbf{60}, 63, 68, \textbf{230}, 267
   \item FIT and REBELOTE, combined, \textbf{66}
   \item fit procedure
-    \subitem constraint, 63, \textbf{64}, \textbf{231}
+    \subitem constraint, 63, \textbf{63}, \textbf{231}
     \subitem coupled variables, \textbf{63}
     \subitem max. number of iterations, 66, 230
     \subitem options, \textbf{66}, 68
