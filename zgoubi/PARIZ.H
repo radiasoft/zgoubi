@@ -161,5 +161,11 @@ C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
        PARAMETER (IZ=29 , ID=3, MMAP=6)
        PARAMETER (MXX=801, MXY=200)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C For Scott/Holger Cbeta iron quad map
+       PARAMETER (IZ=9 , ID=3, MMAP=2)
+       PARAMETER (MXX=447, MXY=87)
+
+
 
 
