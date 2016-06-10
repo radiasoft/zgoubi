@@ -923,8 +923,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
           if(CEBAF) then 
             DWF=QV*cos(ph0)
-                write(*,*) ' cavite. cebaf =',cebaf
-                 read(*,*)
+c                write(*,*) ' cavite. cebaf =',cebaf, dwf, qv
+c                 read(*,*)
            endif
 c          DO III = 1, 3
 c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0

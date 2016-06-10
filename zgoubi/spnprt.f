@@ -251,7 +251,7 @@ C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
 C        CLOSE(LUNPRT)
       ENDIF 
 
-      CALL FLUSH(LUNPRT,.FALSE.)
+      CALL FLUSH2(LUNPRT,.FALSE.)
 
       RETURN
 

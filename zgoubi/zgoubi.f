@@ -1268,10 +1268,11 @@ C      IF(READAT) CALL RTWISS
         ELSE
           TA(NOEL,1) = ' '
         ENDIF
-        CALL MATIM4(OKCPLD)
+C        CALL MATIM4(OKCPLD)
         READ(TXT132,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
         KTW = NINT(A(NOEL,1))
       ENDIF
+      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
       IF(KTW .GE. 2) THEN
         IF(.NOT. OKLNO) THEN
           IF(IDLUNI(

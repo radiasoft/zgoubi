@@ -110,12 +110,10 @@ c       PARAMETER (MXX=801, MXY=29)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-C        PARAMETER (IZ=61 , ID=3, MMAP=8)
+c        PARAMETER (IZ=61 , ID=3, MMAP=5)
+c      PARAMETER (MXX=1001, MXY=61)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
-ccccccccccccccccc        PARAMETER (MXX=1001, MXY=111)
-c       compatible gsi_kaos
-C      PARAMETER (MXX=1001, MXY=200)
 c       compatible eRHIC Halbach magnet
 c      PARAMETER (MXX=1601, MXY=200)
 C      PARAMETER (MXX=991, MXY=161)   ! compatible EMMA
@@ -153,6 +151,8 @@ C       PARAMETER (MXX=301, MXY=319)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C Carols 1GeV FFAG
+c       PARAMETER (IZ=3 , ID=3, MMAP=4)
+c       PARAMETER (MXX=370, MXY=200)
 C       PARAMETER (IZ=3 , ID=3, MMAP=4)
 C       PARAMETER (MXX=370, MXY=200)
 
