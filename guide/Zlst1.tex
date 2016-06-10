@@ -8926,7 +8926,7 @@ the closed orbit. \textsl{This condition has to be satisfied for TWISS to work c
 because  \textsl{TWISS} does not look for the closed orbit by itself (this is under installation). \index{closed orbit} 
 
 - A first pass (the only one if \textsl{KTW=1}) through the structure allows computing the periodic 
-optical functions  from the  rays.
+optical functions at the end of the structure,  from the  rays.
 
 - The periodic dispersions  are used to define chromatic closed orbits at $\pm \delta p / p$. A second and a third pass 
 (which terminate the process if \textsl{KTW=2}) with 
@@ -8941,7 +8941,8 @@ tracked on different transverse invariants, horizontal or vertical.
 
 \noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out\index{zgoubi.TWISS.out}, a MADX type ``twiss'' file, 
 with similar formatting, including   periodic optical data as a header (tunes, chromaticities, etc.) and, 
-in sequence, optical functions and  strengths at all elements. 
+in sequence element by element~: optical functions, element strength, first order transport coefficients, spin $\vec n_0$ vector 
+(requires \textsl{'SPNTRK'} request). 
 
 
 

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AGSK12(NOEL,X10,BK1,BK2,MOD,
      >                                       XL,BM,ANGMM)
@@ -202,13 +202,13 @@ C          stop
         endif
 
         XL = XLMAG / CM2M
-        if    (lbl1(last-1:last) .eq. 'BF') then
-          ANGMM = 0.02350230d0
-        elseif(lbl1(last-1:last) .eq. 'BD') then  
-          ANGMM = 0.02350230d0
-        else
-          ANGMM = 0.02796503d0
-        endif
+        IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
+          ANGMM = 0.02350230D0
+        ELSEIF(LBL1(LAST-1:LAST) .EQ. 'BD') THEN  
+          ANGMM = 0.02350230D0
+        ELSE
+          ANGMM = 0.02796503D0
+        ENDIF
         BM(1) = -1.D3 / (XL / (2.D0*SIN(ANGMM/2.D0)))
         BM(2) = FB2*B2
         BM(3) = B3*10.D0*SGN

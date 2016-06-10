@@ -1148,7 +1148,7 @@ C      IF (KOPTCS .NE. 1) KOPTCS = 0
             OKLNO = .TRUE.
           ENDIF
           IF(OKLNO) THEN
-            WRITE(LNOPTI,FMT='(A)') '# FROM OPTICS KEYWORD'
+            WRITE(LNOPTI,FMT='(A)') '# From OPTICS keyword'
             WRITE(LNOPTI,FMT='(A)') 
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
@@ -1297,8 +1297,13 @@ C      IF(READAT) CALL RTWISS
      >       '2pi      phiy/2pi      sum_s         #lmnt  x    ' //
      >       '         xp            y             yp          ' //
      >       'KEYWORD    label1     label2       FO(6,1)       ' //
-     >       'K0*L          K1*L          K2*L          |C|    ' //
-     >       '       r'
+     >       'K0*L          K1*L          K2*L          |C|' //
+     >       '           r            ! optimp.f   IPASS         '//
+     >       'DPREF         R11           R12          '//
+     >       'R21           R22           R33          R34'//
+     >       'R43           R44           R51          R52'//
+     >       'R53           R54           R56          F66          '//
+     >       'SX            SY            SZ            |S|   ' 
           WRITE(LNOPTI,fmt='(a)') 
      >       '# 1             2             3             4    ' //
      >       '         5             6             7           ' //
@@ -1307,7 +1312,12 @@ C      IF(READAT) CALL RTWISS
      >       '         16            17            18          ' //
      >       '19         20         21           22            ' //
      >       '23            24            25            26     ' //
-     >       '       27'
+     >       '       27          28 29         30            '//
+     >       '31            32            33           '//
+     >       '34            35            36           37 '//
+     >       '38            39            40           41 '//
+     >       '43            43            44           45           '//
+     >       '46            47            48           49     ' 
         ENDIF
       ELSE
 C        KOPIMP = 0

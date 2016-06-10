@@ -64,7 +64,7 @@ C      COMMON/STEP/ KPAS, TPAS(3)
 
       DATA DTA1 / 0.D0 /
       DATA NEWFIC / .TRUE. /
-      data scal / 1.d0 /
+      DATA SCAL / 1.D0 /
 
 c         open(unit=88,file='fort.88')
 

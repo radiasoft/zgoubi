@@ -981,8 +981,8 @@ c Test, Dec. 06 :
         ELSEIF( KP .EQ. 4 ) THEN  ! Only for AGS Main Magnet
 
           TTA = -DEV/2.D0 
-          dtta = A(NOEL,ND+NND+3)
-          dtta2 = dtta/2.d0
+          DTTA = A(NOEL,ND+NND+3)
+          DTTA2 = DTTA/2.D0
           CALL AGSK13(NINT(A(NOEL,1)),NOEL,
      >                                    YSHFT1)
 
@@ -1095,7 +1095,7 @@ C------- UNDULATOR
      >                   XL)
 
       ELSEIF(KUASEX .EQ. 37 )   THEN
-C------- AGS MAIN MAGNET
+C------- AGSMM. AGS main magnet
 
         IRD = KORD
         IF(IRD .EQ. 4) IDB=4
@@ -1122,8 +1122,8 @@ c Test, Dec. 06 :
         ELSEIF( KP .EQ. 4 ) THEN
 
           TTA = +DEV/2.D0 
-          dtta = A(NOEL,ND+NND+3)
-          dtta2 = dtta/2.d0
+          DTTA = A(NOEL,ND+NND+3)
+          DTTA2 = DTTA/2.D0
           CALL AGSK11(
      >                YSHFT1)
 

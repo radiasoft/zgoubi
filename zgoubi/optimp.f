@@ -37,6 +37,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
@@ -46,6 +47,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       PARAMETER (PI = 4.D0*ATAN(1.D0))
 C      PARAMETER (PI = 3.1415926535898d0)
+      DIMENSION SN0(4)
 
       CALL SCUMR(
      >            XL,SCUM,TCUM)
@@ -59,6 +61,10 @@ C      PARAMETER (PI = 3.1415926535898d0)
 
       CALL ZGIPAS( 
      >            IPASS,NRBLT)
+
+      DO JJ = 1, 4
+        SN0(JJ) = SF(JJ,1)    ! Temporary. This needs be settled, SN0 needs be transported
+      ENDDO
 
 C      WRITE(LUN,104) -F0(1,2), F0(1,1), -F0(3,4), F0(3,3) 
 C FM Mar 2015
@@ -74,8 +80,10 @@ C     >, PHY, PHZ, SCUM, NOEL
      >, R(1,1),R(1,2),R(2,1),R(2,2)
      >, R(3,3),R(3,4),R(4,3),R(4,4)
      >, R(5,1),R(5,2),R(5,3),R(5,4),R(5,6),F(6,6)
+     >, (SN0(JJ),JJ=1,4)
  104  FORMAT(1P,13(E13.5,1X),1X,I5,4(1X,E13.5),3(1X,A)
-     >,6(1X,E13.5),A,1X,I0,1X,15(E13.6,1X))
+     >,6(1X,E13.5),A,1X,I0,1X,15(E13.6,1X),
+     >,4(E13.6,1X))
 C FM 14 Apr. 14
 C     >,5(1X,E13.5),A,/)
 

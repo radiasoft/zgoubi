@@ -259,6 +259,7 @@ c            ENDIF
 C--------- MOD2 files are combined linearly into a single 2D map, after reading.
           IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
      >    //'maps cannot exceed ',MXC)
+          IF(MOD2.LT.1) MOD2 = 1
           I1=1
           I2 = MOD2
           DO I = 1, I2
@@ -306,7 +307,7 @@ C--------- A single data file contains the all 3D volume
         ELSEIF(MOD .EQ. 15) THEN
 C--------- MOD2 files are combined linearly into a single map after reading.
 C          Each one of these files should contain the all 3D volume.
-          IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscap. Number of field '
+          IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
      >    //'maps cannot exceed ',MXC)
           I1=1
           I2 = MOD2

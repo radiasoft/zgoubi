@@ -83,25 +83,25 @@ C      INCLUDE 'MAPHDR.H'
       DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' /
- 
+              
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
-     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     CALL ENDJOB('SBR toscap Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
  
       IF( .NOT.ALLOCATED( HCB ))
      >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
-     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     CALL ENDJOB('SBR toscap Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
  
       IF( .NOT.ALLOCATED( HCC ))
      >     ALLOCATE( HCC(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
-     >     CALL ENDJOB('SBR toscac Not enough memory'//
+     >     CALL ENDJOB('SBR toscap Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
 
@@ -179,6 +179,7 @@ C--------- MOD2 files are combined linearly into a single map after reading.
 C          Each one of these files should contain the all 3D volume.
           IF(MOD2 .GT. 4) CALL ENDJOB('Pgm toscap. Number of field '
      >    //'maps cannot exceed ',MXC)
+          IF(MOD2.LT.1) MOD2 = 1
           I1=1
           I2 = MOD2
           DO I = 1, I2
@@ -359,7 +360,7 @@ C BNORM set to ONE, since sent to CHAMK below
                   ENDDO
                  ENDDO
  
-c                   write(*,*) ' toscac  faca : ',faca,kzma,jyma,ixma,id
+c                   write(*,*) ' toscap  faca : ',faca,kzma,jyma,ixma,id
 c                      read(*,*)
  
                ENDIF
@@ -379,7 +380,7 @@ c                      read(*,*)
                   ENDDO
                  ENDDO
  
-c                   write(*,*) ' toscac  facb : ',facb,kzma,jyma,ixma,id
+c                   write(*,*) ' toscap  facb : ',facb,kzma,jyma,ixma,id
 c                      read(*,*)
                ELSE
  
@@ -460,7 +461,7 @@ C------- Restore mesh coordinates
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
         IF(NRES.GT.0) THEN
-          WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm toscac, ',
+          WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm toscap, ',
      >    ' restored mesh coordinates for field map # ',imap,
      >    ',  name : ',
      >    NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))

@@ -73,8 +73,8 @@ C      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       LOGICAL FITTST
       SAVE FITTST
  
-      logical consty
-      parameter(consty=.false.)
+      LOGICAL CONSTY
+      PARAMETER(CONSTY=.FALSE.)
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KEY
@@ -392,6 +392,7 @@ C  A trick for tests at constant coordinate -----------------
            write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
      >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
          endif
+C            z=0.2d0
 C------------------------------------------------------------
  
       X2 = X

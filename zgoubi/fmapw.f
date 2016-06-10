@@ -594,41 +594,44 @@ C------- Mesh coordinates
            JTMA = IXMA
            K2ZMA = KZMA/2+1
 
-           IRCNT = 0
-           DO 233 I=1,IRMA            
-             RADIUS=R0 + DBLE(I-1) *DR 
-             IRCNT = IRCNT+1
-             KZCNT=0       
-             DO 233  K = 1,K2ZMA      
-               KZC = K2ZMA-1+K
-               Z = DBLE(K-1) * DZ
-               KZCNT = KZCNT+1
               JTCNT=0
-              DO 233 J=1,JTMA        
+              DO J=1,JTMA        
                    JTC = J
                  TTA =  DBLE(J-1) * DTTA
                  JTCNT = JTCNT + 1
+
+             KZCNT=0       
+             DO  K = 1,K2ZMA      
+               KZC = K2ZMA-1+K
+               Z = DBLE(K-1) * DZ
+               KZCNT = KZCNT+1
+
+           IRCNT = 0
+           DO I=1,IRMA            
+             RADIUS=R0 + DBLE(I-1) *DR 
+             IRCNT = IRCNT+1
+
                  IF(BINAR) THEN
                    READ(LUN,END=97,ERR=98) DUM1,ZZZ,DUM3,
      >                                   BREAD(1),BREAD(2),BREAD(3)
                  ELSE
 
- 234                CONTINUE
+ 223                CONTINUE
                    READ(LUN,FMT='(A)') TXT132
                    IDSTR = DEBSTR(TXT132)
                    IF    (EMPTY(TXT132)) THEN
-                     GOTO 234
+                     GOTO 223
                    ELSEIF(TXT132(IDSTR:IDSTR+1) .EQ. '%'
      >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
-                     GOTO 234  
+                     GOTO 223 
                    ELSE
                      IF(FINSTR(TXT132).EQ.MXCHAR) 
      >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
      >                  //' data file must be <',MXCHAR)
                    ENDIF
 
-                   READ(TXT132,*,END=97,ERR=98) DUM1,DUM2,DUM3,
-     >                                   DUM4,BREAD(3)
+                   READ(TXT132,*,END=97,ERR=98) DUM1,ZZZ,DUM3,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
 
                  ENDIF
                  BMAX0 = BMAX
@@ -646,11 +649,27 @@ C------- Mesh coordinates
                    ZBMI = Z
                  ENDIF
 
-                 HC(1,JTC,I,KZC,IMAP) = 0.D0
-                 HC(2,JTC,I,KZC,IMAP) = 0.D0
-                 HC(3,JTC,I,KZC,IMAP) = BREAD(3) * BNORM
+C---------------- Horizontal component of field                 
+                 BH = SQRT(BREAD(1)*BREAD(1) + BREAD(3)*BREAD(3))
+                 ALP = ATAN2(BREAD(3),BREAD(1)) - TTA
+C---------------- Polar components at positon (r,tta) in cyl. frame
+                 BRAD = BH * COS(ALP)
+                 BTTA = BH * SIN(ALP)
+C---------------- Watch the sign !! Bx and By multiplied by (-1)
+                 HC(1,JTC,I,KZC,IMAP) =   -  BTTA * BNORM       !!!!!!!!!!!! sign TBC
+C                       write(*,*) '   !!!!!!!!!!!! sign TBC '
+                 HC(2,JTC,I,KZC,IMAP) =   -  BRAD * BNORM       !!!!!!!!!!!! sign TBC
+                 HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
 
- 233       CONTINUE
+C---------------- In case that non-zero Bx, By in median plane would be prohibitive
+                 IF(ZZZ.EQ.0.D0) THEN
+                    HC(1,JTC,I,KZC,IMAP) = 0.D0
+                    HC(2,JTC,I,KZC,IMAP) = 0.D0
+                ENDIF   
+
+              ENDDO
+            ENDDO
+          ENDDO
 
         BMIN = BMIN * BNORM
         BMAX = BMAX * BNORM
@@ -661,13 +680,26 @@ C------- Mesh coordinates
                    YBMI = YBMI * YNORM
                    ZBMI = ZBMI * ZNORM
 
+C------- symmetrise 3D map wrt mid-plane= bend-plane
+        DO K=2,K2ZMA      
+          KZC = K2ZMA-1+K
+          KZS = K2ZMA-K+1
+          DO I=1,IRMA         
+            DO J=1,JTMA
+              HC(1,J,I,KZS,IMAP) = -HC(1,J,I,KZC,IMAP)
+              HC(2,J,I,KZS,IMAP) = -HC(2,J,I,KZC,IMAP) 
+              HC(3,J,I,KZS,IMAP) = HC(3,J,I,KZC,IMAP) 
+            ENDDO
+          ENDDO
+        ENDDO
+
 C------- Mesh coordinates
         DO J=1,JYMA
-          YH(J) =  R0 + DBLE(J-1) *DR 
+           YH(J) =  R0 + DBLE(J-1) *DR 
         ENDDO
         DO K= -KZMA/2,KZMA/2   
           ZH(K+KZMA/2+1) = DBLE(K) * DZ
-        ENDDO
+          ENDDO
         DO I=-IXMA/2,IXMA/2
           XH(I+IXMA/2+1) =  DBLE(I) * DTTA
         ENDDO
