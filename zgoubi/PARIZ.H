@@ -163,6 +163,11 @@ c       PARAMETER (MXX=801, MXY=200)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map
-       PARAMETER (IZ=9 , ID=3, MMAP=2)
-       PARAMETER (MXX=447, MXY=87)
+c       PARAMETER (IZ=9 , ID=3, MMAP=2)
+c       PARAMETER (MXX=447, MXY=87)
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C For CBeta - Nick
+       PARAMETER (IZ=31 , ID=3, MMAP=2)
+       PARAMETER (MXX=801, MXY=31)
 
