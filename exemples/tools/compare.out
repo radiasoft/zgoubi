@@ -1,0 +1,179 @@
+////////////////  EMMA-FFAG/matrixComputation - reference : 
+                    NU_Y =  0.24012342         NU_Z =  0.11354653    
+                    NU_Y =  0.38308431         NU_Z =  0.23672440    
+                    NU_Y =  0.30036184         NU_Z =  0.17553703    
+                    NU_Y =  0.25615148         NU_Z =  0.13175592    
+                    NU_Y =  0.22665525         NU_Z =  0.96975057E-01
+                    NU_Y =  0.20512968         NU_Z =  0.66978507E-01
+                    NU_Y =  0.18856151         NU_Z =  0.37642542E-01
+                                              - new : 
+                    NU_Y =  0.24012342         NU_Z =  0.11354653    
+                    NU_Y =  0.38308431         NU_Z =  0.23672440    
+                    NU_Y =  0.30036184         NU_Z =  0.17553703    
+                    NU_Y =  0.25615148         NU_Z =  0.13175592    
+                    NU_Y =  0.22665525         NU_Z =  0.96975057E-01
+                    NU_Y =  0.20512968         NU_Z =  0.66978507E-01
+                    NU_Y =  0.18856151         NU_Z =  0.37642542E-01
+        
+////////////////  ../gsiKaos/usingDIPOLE-M - reference : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
+                                           - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
+        
+////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   1.83221     CM    Y = -2.497961E-03 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   1.80507     CM    Y =  2.272092E-02 CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.236633     CM,  TOTALE =  0.373988     CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
+                                           - new : 
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   1.83221     CM    Y = -2.497961E-03 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   1.80507     CM    Y =  2.272092E-02 CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.236633     CM,  TOTALE =  0.373988     CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.223426     CM,  TOTALE =  0.338029     CM
+        
+////////////////  ../KEK150MeVFFAG/analyticalModel/matrix/ - reference : 
+                    NU_Y =  0.34607177         NU_Z =  0.19641682    
+                                                    - new : 
+                    NU_Y =  0.34607177         NU_Z =  0.19641682    
+        
+////////////////  ../microBeamDoublet/ - reference : 
+          R12=0 at   0.3907E-04 m,        R34=0 at   0.6326E-05 m
+           Y/Y3           -18.771    
+           Y/T3           -2845.1    
+           Z/Z3           -42.837    
+           Z/P3           -7775.2    
+                          - new : 
+          R12=0 at   0.3907E-04 m,        R34=0 at   0.6326E-05 m
+           Y/Y3           -18.771    
+           Y/T3           -2845.1    
+           Z/Z3           -42.837    
+           Z/P3           -7775.2    
+        
+////////////////  ../saturneRing/matrix/ - reference : 
+                              dNu_y / dp/p = -4.19772290E+00
+                              dNu_z / dp/p = -5.22334792E+00
+                          - new : 
+                              dNu_y / dp/p = -4.19772311E+00
+                              dNu_z / dp/p = -5.22334792E+00
+        
+////////////////  ../spiralFFAG/FFAG-SPI/ - reference : 
+                    NU_Y = 0.28048977         NU_Z = 0.16397824    
+                    NU_Y = 0.27796808         NU_Z = 0.16402896    
+                    NU_Y = 0.28048977         NU_Z = 0.16397592    
+                    NU_Y = 0.27796839         NU_Z = 0.16397596    
+                    NU_Y = 0.28048977         NU_Z = 0.16397137    
+                    NU_Y = 0.27797028         NU_Z = 0.16409903    
+                          - new : 
+                    NU_Y =  0.28049038         NU_Z =  0.16397824    
+                    NU_Y =  0.27852360         NU_Z =  0.16402895    
+                    NU_Y =  0.28049038         NU_Z =  0.16397592    
+                    NU_Y =  0.27852393         NU_Z =  0.16397595    
+                    NU_Y =  0.28049038         NU_Z =  0.16397137    
+                    NU_Y =  0.27852585         NU_Z =  0.16409912    
+        
+ Doing fit_negativeCoupl_FIT.res - reference : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+                          - new : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.439     m,        R34=0 at  -0.4233     m
+        
+ Doing fit_positiveCoupl_FIT.res - reference : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7079     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7079     m
+                          - new : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7086     m
+        
+ Doing fit_negativeCoupl_FIT2.res - reference : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+          R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
+                          - new : 
+          R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
+          R12=0 at   -2.429     m,        R34=0 at  -0.4191     m
+        
+ Doing fit_positiveCoupl_FIT2.res - reference : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7073     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7073     m
+                          - new : 
+          R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
+          R12=0 at   -3.148     m,        R34=0 at  -0.7088     m
+        
+////////////////  ../KEYWORDS/FIT_embedded_in_REBELOTE/ - reference : 
+ Fit reached penalty value   9.1352E-03
+ Fit reached penalty value   6.0699E-03
+ Fit reached penalty value   4.1051E-03
+ Fit reached penalty value   2.7601E-03
+ Fit reached penalty value   9.6329E-03
+                          - new : 
+ Fit reached penalty value   9.1352E-03
+ Fit reached penalty value   6.0699E-03
+ Fit reached penalty value   4.1051E-03
+ Fit reached penalty value   2.7601E-03
+ Fit reached penalty value   9.6329E-03
+        
+////////////////  ../KEYWORDS/SOLENOID.and.BREVOL/ - reference : 
+          DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
+          DetY-1 =      -0.2353424906,    DetZ-1 =      -0.2353424954
+                          - new : 
+          DetY-1 =      -0.2345167305,    DetZ-1 =      -0.2345167350
+          DetY-1 =      -0.2353370460,    DetZ-1 =      -0.2353370508
+        
+////////////////  ../RHIC/TWISS/ - reference : 
+                    NU_Y =  0.68499603         NU_Z =  0.67299597    
+                    NU_Y =  0.68479464         NU_Z =  0.67280439    
+                    NU_Y =  0.68519475         NU_Z =  0.67320433    
+                          - new : 
+                    NU_Y =  0.68499603         NU_Z =  0.67299597    
+                    NU_Y =  0.68479464         NU_Z =  0.67280439    
+                    NU_Y =  0.68519475         NU_Z =  0.67320433    
+                    NU_Y =  0.68499603         NU_Z =  0.67299597    
+        
+                  ../RHIC/TWISS/ - reference : 
+                              dNu_y / dp/p =  2.00054555E+00
+                              dNu_z / dp/p =  1.99967243E+00
+                          - new : 
+                              dNu_y / dp/p =  2.00054553E+00
+                              dNu_z / dp/p =  1.99967243E+00
+        
+////////////////  ../AGS/TWISS/ - reference : 
+                              dNu_y / dp/p = -6.01176605E+00
+                              dNu_z / dp/p =  7.60180132E-01
+                          - new : 
+                              dNu_y / dp/p = -6.01176605E+00
+                              dNu_z / dp/p =  7.60180131E-01
+        
+////////////////  ../AGS_Booster/TWISS - reference : 
+                          - new : 
+                    NU_Y =  0.29727205         NU_Z =  0.53232835    
+ E  1  0.000000  0.000000  1.000000  1.000000           0.000113  0.000009  1.000000  1.000000      1.0048    0.0065    0.0005    6
+ G  1  0.000000  0.000000  1.000000  1.000000           0.000002 -0.000028  1.000000  1.000000      1.0048    0.0016    0.0016    8
+        
+////////////////  ../AGS_Booster/OPTICS - reference : 
+                    NU_Y =  0.29727205         NU_Z =  0.53232835    
+ E  1  0.000000  0.000000  1.000000  1.000000           0.000113  0.000009  1.000000  1.000000      1.0048    0.0065    0.0005    6
+ G  1  0.000000  0.000000  1.000000  1.000000           0.000002 -0.000028  1.000000  1.000000      1.0048    0.0016    0.0016    8
+                          - new : 
+                    NU_Y =  0.29727205         NU_Z =  0.53232835    
+ E  1  0.000000  0.000000  1.000000  1.000000           0.000113  0.000009  1.000000  1.000000      1.0048    0.0065    0.0005    6
+ G  1  0.000000  0.000000  1.000000  1.000000           0.000002 -0.000028  1.000000  1.000000      1.0048    0.0016    0.0016    8
+        
+////////////////  ../KEYWORDS/TWISS/ - reference : 
+                              dNu_y / dp/p = -4.60044476E+00
+                              dNu_z / dp/p = -1.41194599E+01
+                          - new : 
+                              dNu_y / dp/p = -4.60044446E+00
+                              dNu_z / dp/p = -1.41194584E+01
+-2.41217E+00   1.39721E+01  -1.14703E+00   7.51209E+00   0.00000E+00   0.00000E+00   6.38284E+00   6.81184E-01   1.31098E-02  -1.10979E-02   6.61821E-01   5.22204E-01   1.05558E+04     86   1.08837E-04  -9.12558E-03   4.64142E-06  -7.63456E-03 ESL        -          -            1.05556E+02   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   8.93748E-01   ! optimp.f 4  1.000000E+00  1.489164E+00 -1.160185E+01  4.403389E-01 -2.759267E+00 -9.556096E-01 -1.108133E+00  2.076589E-01 -8.054013E-01 -2.478620E+00  1.610064E+01  5.517644E-01  1.059934E+00  6.447890E+00  1.055558E+04  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+        
+////////////////  ../KEYWORDS/SRLOSS/ - reference : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.178573     CM,  TOTALE =  0.225433     CM
+                          - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.178573     CM,  TOTALE =  0.225433     CM
+        
