@@ -26,7 +26,7 @@ C  -------
      >                                 F0,PHY,PHZ,CSTRN,RPRM)
 C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWISS.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION R(6,*),F0(6,*)
+      DIMENSION R(6,6),F0(6,6)
       LOGICAL PRDIC, OKCPLD
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
 

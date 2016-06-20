@@ -58,12 +58,11 @@ CBETA style
         YNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI) 
         IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)-YNU
         YNU=YNU-AINT(YNU)
-C         write(*,*) ' beta style, sinmu, ynu = ',sinmu,ynu,nmail
+
 CMAD style. Optimized precisison close to 1/2 ? 
         SINMU=SIGN(SQRT(-R(1,2)*R(2,1)-.25D0*(R(1,1)-R(2,2))**2),R(1,2))
         YNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(1,2))
         IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)+YNU
-C         write(*,*) ' mad style, sinmu, ynu = ',sinmu,ynu
 
         BX0=R(1,2) / SINMU
         AX0=(R(1,1) - R(2,2)) / (2.D0*SINMU)
@@ -95,13 +94,11 @@ CBETA style
             IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)-ZNU
             ZNU=ZNU-AINT(ZNU)
             SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(3,4) )
-C         write(*,*) ' beta style, sinmu, znu = ',sinmu,znu,nmail
+
 CMAD style. Optimized precisison close to 1/2 ? 
         SINMU=SIGN(SQRT(-R(3,4)*R(4,3)-.25D0*(R(3,3)-R(4,4))**2),R(3,4))
         ZNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(3,4))
         IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)+ZNU
-C         write(*,*) ' mad style, sinmu, znu = ',sinmu,znu
-C         write(*,*) '                                tunes...' 
 
         BZ0=R(3,4)/SINMU
         AZ0=(R(3,3)-R(4,4))/2.D0/SINMU

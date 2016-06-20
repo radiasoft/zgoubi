@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE TWIFNL(LUNW)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(800) TXT400
-      CHARACTER(62) TXT62
+      CHARACTER(72) TXT72
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
 
@@ -54,69 +54,69 @@ C  -------
         READ(LUNR,FMT='(A)',ERR=77,END=88) TXT400
         IF    (STRCON(TXT400,'@ DXMAX            %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
      >    DXMA, '@ DYMIN            %le',DXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DYMAX            %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
      >    DYMA, '@ DYMIN            %le',DYMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ XCOMAX           %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
      >    XMA,  '@ XMIN             %le',XMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ YCOMAX           %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)')
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
      >    YMA,  '@ YMIN             %le',YMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ BETXMAX          %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
      >    BTXMA,'@ BTXMI            %le',BTXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ BETYMAX          %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8,5X,A,3X,E16.8)') BT
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') BT
      >    YMA,  '@ BTYMI            %le',BTYMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ XCORMS           %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8)') XRMS
+          WRITE(TXT72,FMT='(1P,E16.8)') XRMS
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ YCORMS           %l
      >    e'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8)') YRMS
+          WRITE(TXT72,FMT='(1P,E16.8)') YRMS
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DXRMS            %le'
      >           
      >             ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8)') DXRMS
+          WRITE(TXT72,FMT='(1P,E16.8)') DXRMS
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DYRMS            %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16
+          WRITE(TXT72,FMT='(1P,E16
      >    .8)') DYRMS
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DELTAP           %le'
      >                    ,IS)) THEN
-          WRITE(TXT62,FMT='(1P,E16.8)') DLTP
+          WRITE(TXT72,FMT='(1P,E16.8)') DLTP - 1.D0
           TXT400 = TXT400(
      >    DEBSTR(TXT400):22)//'   '
-     >    //TXT62(debstr(TXT62):finstr(TXT62))
+     >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'XXXXXXXXX'
      >                    ,IS)) THEN
         ENDIF
@@ -127,5 +127,8 @@ C  -------
  88   CONTINUE
       CLOSE(LUNR)
       CLOSE(LUNW)
+
+      CALL SYSTEM('rm -f zgoubi.TWISS.out_temp ')
+
       RETURN
       END

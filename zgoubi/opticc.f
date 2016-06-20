@@ -86,7 +86,6 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
         ENDDO
       ENDDO
 
-
       CALL REFER3(
      >            XI,YI,ALE,PATHL,ZE,PE)
       CALL BEAMAT(R,PRDIC,OKCPLD,

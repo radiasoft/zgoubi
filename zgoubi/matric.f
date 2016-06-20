@@ -22,11 +22,13 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MATRIC(JORD,JFOC,KWR,KCPLD)
+      SUBROUTINE MATRIC(JORD,JFOC,KWR,SCPLD)
+C      SUBROUTINE MATRIC(JORD,JFOC,KWR,KCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
 C     Compute transfer matrix coefficients
 C     ------------------------------------
+      CHARACTER(*) SCPLD
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE 'MXLD.H'
 C      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -98,7 +100,8 @@ C      IF(KWRMAT) CALL MATIM6(KWRMAT)
       ENDIF
 
 C      KCPLD = A(NOEL,4) 
-      OKCPLD = KCPLD .EQ. 1
+C      OKCPLD = KCPLD .EQ. 1
+      OKCPLD = SCPLD .EQ. 'coupled'
       CALL MATIM4(OKCPLD)
 
       IF    (IORD .EQ. 1) THEN

@@ -548,7 +548,7 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           WRITE(LUN,50)'@ YCORMS           %le    0.    not computed'
           WRITE(LUN,50)'@ DXRMS            %le    0.    not computed'
           WRITE(LUN,50)'@ DYRMS            %le    0.    not computed'
-          WRITE(LUN,56)'@ DELTAP           %le', REF(6), 
+          WRITE(LUN,56)'@ DELTAP           %le', REF(6)-1.D0, 
      >    '   [B.rho= ',BORO*REF(6)/1.d3,' E_kin= ',
      >    (sqrt((BORO*CL9*Q*DPREF*REF(6))**2 + AM*AM)-AM)/1.d3,']'
           WRITE(LUN,51)'@ |C|              %le', CC

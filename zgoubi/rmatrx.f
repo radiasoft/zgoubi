@@ -24,8 +24,10 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE RMATRX(
-     >                  IORD,IFOC,KWR,KCPL)
+C     >                  IORD,IFOC,KWR,KCPL)
+     >                  IORD,IFOC,KWR,SCPL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) SCPL
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -57,9 +59,11 @@ C----- Read IORD, IFOC
       
       IF    (STRCON(TXT,'coupled',
      >                            IS)) THEN
-        KCPL = 1
+        SCPL = 'coupled'
+C        KCPL = 1
       ELSE
-        KCPL = 0
+        SCPL = 'uncoupled'
+C        KCPL = 0
       ENDIF
       A(NOEL,4) = KCPL
 

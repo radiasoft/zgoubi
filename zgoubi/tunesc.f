@@ -43,7 +43,7 @@ C                 - vertical tune and horizontal not perfectly equal
       DIMENSION Q(4,4),U(4,4),WR(4),WI(4)
      >,PINV(4,4),GV1(16),FV1(16),WORK(4),NUTEST(4)
 C FM Apr. 2015
-      integer, parameter :: dp = selected_real_kind(15,50)
+      INTEGER, PARAMETER :: DP = SELECTED_REAL_KIND(15,50)
       COMPLEX(dp) EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2
       INTEGER   IPIV,IERR,INFO
       DIMENSION IPIV(4)
@@ -53,7 +53,7 @@ C FM Apr. 2015
       DIMENSION PO(4,4),CO(2,2)
       SAVE P, C
 
-      PARAMETER (PI = 3.141592653589793)
+      PARAMETER (PI = 3.141592653589793D0)
 
       IERY=0
       IERZ=0
@@ -67,7 +67,7 @@ C RT6 is the 6*6 1-turn map
         ENDDO
       ENDDO
 C     Computation of eigen values and eigen vectors
-      
+
       REIG = RT
       CALL RG(4,4,REIG,WR,WI,1,Q,GV1,FV1,IERR)         ! The output matrix Q is composed of as follows:
                                                      ! 1st column: real part of eigenvector 1
@@ -78,38 +78,27 @@ C     Computation of eigen values and eigen vectors
 
 C     Normalization of the eigen vectors
 
-
-      NORM1  = SQRT(Q(1,1)**2+Q(1,2)**2+Q(2,1)**2+Q(2,2)**2+Q(3,1)**2+Q(
+      XNRM1  = SQRT(Q(1,1)**2+Q(1,2)**2+Q(2,1)**2+Q(2,2)**2+Q(3,1)**2+Q(
      >3,2)**2+Q(4,1)**2+Q(4,2)**2)
-      NORM2  = SQRT(Q(1,3)**2+Q(1,4)**2+Q(2,3)**2+Q(2,4)**2+Q(3,3)**2+Q(
+      XNRM2  = SQRT(Q(1,3)**2+Q(1,4)**2+Q(2,3)**2+Q(2,4)**2+Q(3,3)**2+Q(
      >3,4)**2+Q(4,3)**2+Q(4,4)**2)
 
-      V(1,1) = CMPLX(Q(1,1),Q(1,2))/NORM1
-c        write(*,*) ' UNESC ',v(1,1),q(1,1),q(1,2),norm1
-      V(2,1) = CMPLX(Q(2,1),Q(2,2))/NORM1
-c        write(*,*) ' UNESC ',v(2,1),q(2,1),q(2,2),norm1
-      V(3,1) = CMPLX(Q(3,1),Q(3,2))/NORM1
-c        write(*,*) ' UNESC ',v(3,1),q(3,1),q(3,2),norm1
-      V(4,1) = CMPLX(Q(4,1),Q(4,2))/NORM1
-c        write(*,*) ' UNESC ',v(2,1),q(2,1),q(2,2),norm1
-      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/NORM1
-c        write(*,*) ' UNESC ',v(2,1),q(2,1),q(2,2),norm1
-      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/NORM1
-      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/NORM1
-      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/NORM1
-      V(1,3) = CMPLX(Q(1,3),Q(1,4))/NORM2
-      V(2,3) = CMPLX(Q(2,3),Q(2,4))/NORM2
-      V(3,3) = CMPLX(Q(3,3),Q(3,4))/NORM2
-      V(4,3) = CMPLX(Q(4,3),Q(4,4))/NORM2
-      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/NORM2
-      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/NORM2
-      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/NORM2
-      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/NORM2
-
-c      WRITE(*, FMT='(/,/,6X,''V MATRIX'',/)')
-c      WRITE(*,200) (( V(I,J) , I=1,4) , J=1,4)
-c 200     FORMAT(6X,4F13.8)
-
+      V(1,1) = CMPLX(Q(1,1),Q(1,2))/XNRM1
+      V(2,1) = CMPLX(Q(2,1),Q(2,2))/XNRM1
+      V(3,1) = CMPLX(Q(3,1),Q(3,2))/XNRM1
+      V(4,1) = CMPLX(Q(4,1),Q(4,2))/XNRM1
+      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/XNRM1
+      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/XNRM1
+      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/XNRM1
+      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/XNRM1
+      V(1,3) = CMPLX(Q(1,3),Q(1,4))/XNRM2
+      V(2,3) = CMPLX(Q(2,3),Q(2,4))/XNRM2
+      V(3,3) = CMPLX(Q(3,3),Q(3,4))/XNRM2
+      V(4,3) = CMPLX(Q(4,3),Q(4,4))/XNRM2
+      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/XNRM2
+      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/XNRM2
+      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/XNRM2
+      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/XNRM2
 
 C     Phase uncertainity
 
@@ -118,31 +107,23 @@ C     Phase uncertainity
       PHASE1 = CMPLX(COS(-PI/2.D0-THETA1),SIN(-PI/2.D0-THETA1))
       PHASE2 = CMPLX(COS(-PI/2.D0-THETA2),SIN(-PI/2.D0-THETA2))
 
-C      write(*,*) ' TUNESC ',AIMAG(V(1,1)),REAL(V(1,1))
-C      write(*,*) ' TUNESC ',THETA1,PHASE1
+      V(1,1) = CMPLX(Q(1,1),Q(1,2))/XNRM1*PHASE1
+      V(2,1) = CMPLX(Q(2,1),Q(2,2))/XNRM1*PHASE1
+      V(3,1) = CMPLX(Q(3,1),Q(3,2))/XNRM1*PHASE1
+      V(4,1) = CMPLX(Q(4,1),Q(4,2))/XNRM1*PHASE1
+      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/XNRM1*CONJG(PHASE1)
+      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/XNRM1*CONJG(PHASE1)
+      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/XNRM1*CONJG(PHASE1)
+      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/XNRM1*CONJG(PHASE1)
+      V(1,3) = CMPLX(Q(1,3),Q(1,4))/XNRM2*PHASE2
+      V(2,3) = CMPLX(Q(2,3),Q(2,4))/XNRM2*PHASE2
+      V(3,3) = CMPLX(Q(3,3),Q(3,4))/XNRM2*PHASE2
+      V(4,3) = CMPLX(Q(4,3),Q(4,4))/XNRM2*PHASE2
+      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/XNRM2*CONJG(PHASE2)
+      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/XNRM2*CONJG(PHASE2)
+      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/XNRM2*CONJG(PHASE2)
+      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/XNRM2*CONJG(PHASE2)
 
-      V(1,1) = CMPLX(Q(1,1),Q(1,2))/NORM1*PHASE1
-      V(2,1) = CMPLX(Q(2,1),Q(2,2))/NORM1*PHASE1
-      V(3,1) = CMPLX(Q(3,1),Q(3,2))/NORM1*PHASE1
-      V(4,1) = CMPLX(Q(4,1),Q(4,2))/NORM1*PHASE1
-      V(1,2) = CMPLX(Q(1,1),-Q(1,2))/NORM1*CONJG(PHASE1)
-      V(2,2) = CMPLX(Q(2,1),-Q(2,2))/NORM1*CONJG(PHASE1)
-      V(3,2) = CMPLX(Q(3,1),-Q(3,2))/NORM1*CONJG(PHASE1)
-      V(4,2) = CMPLX(Q(4,1),-Q(4,2))/NORM1*CONJG(PHASE1)
-      V(1,3) = CMPLX(Q(1,3),Q(1,4))/NORM2*PHASE2
-      V(2,3) = CMPLX(Q(2,3),Q(2,4))/NORM2*PHASE2
-      V(3,3) = CMPLX(Q(3,3),Q(3,4))/NORM2*PHASE2
-      V(4,3) = CMPLX(Q(4,3),Q(4,4))/NORM2*PHASE2
-      V(1,4) = CMPLX(Q(1,3),-Q(1,4))/NORM2*CONJG(PHASE2)
-      V(2,4) = CMPLX(Q(2,3),-Q(2,4))/NORM2*CONJG(PHASE2)
-      V(3,4) = CMPLX(Q(3,3),-Q(3,4))/NORM2*CONJG(PHASE2)
-      V(4,4) = CMPLX(Q(4,3),-Q(4,4))/NORM2*CONJG(PHASE2)
-
-!      WRITE(*, FMT='(/,/,6X,''V MATRIX'',/)')
-!      WRITE(*,200) (( V(I,J) , J=1,4) , I=1,4)
-! 200     FORMAT(6X,4F13.8)
-
- 
 C      Computation of the fractional part of the horizontal tunes without considering coupling
 
       CMUY = .5D0 * (RT(1,1)+RT(2,2))
@@ -220,12 +201,6 @@ C     Transfert matrix in action-angle referential
       U(4,3) = -SINMU2
       U(4,4) = COSMU2
 
-!      WRITE(*, FMT='(/,/,6X,''TRANSFERT MATRIX (Uij) IN THE ANGLE-ACTIO
-!     >N FRAME'',/)')
-!      WRITE(*,200) (( U(I,J) , J=1,4) , I=1,4)
-! 200     FORMAT(6X,4F13.8)
-
-
 C     Transformation matrix from coupled referential to action-angle one
 
       P(1,1) = DBLE(CMPLX(0.D0,1.D0/SQRT(2.D0))*(V(1,1)-V(1,2)))
@@ -265,15 +240,11 @@ C      CALL TWSS(ALPHA1,BETA1,GAMMA1,ALPHA2,BETA2,GAMMA2,rPARAM,C,P)
       CALL TWSSFC(P,RT6, 
      >                 F0,rPARAM,C)
       
-      
 C     Hamiltonian pertubation parameters and  Computing of the unperturbed tunes from the coupling parameters
       
       CALL HAMILT(NU1,NU2,rPARAM,CMOINS,DELTA,NUX0,NUY0,DELTA2,CPLUS)
 
-
-C For possiblw write out to zgoubi.res
-C      CALL MATIC2(RPARAM,C,NU1,NU2,ALPHA1,ALPHA2,BETA1,BETA2,
-C     >GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)      
+C For possible write out to zgoubi.res
       CALL MATIC2(RPARAM,C,NU1,NU2,-F0(1,2),-F0(3,4),F0(1,1),F0(3,3),
      >F0(2,2),F0(4,4),CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P)      
 

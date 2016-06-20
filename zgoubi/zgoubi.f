@@ -133,6 +133,9 @@ C      LOGICAL OKPRLB, OKPRDA
 
       CHARACTER(30) STRA(MLB+3)
 
+      CHARACTER(9) SCPLD
+      SAVE SCPLD
+
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
@@ -242,15 +245,10 @@ C------- Transport beam matrix and print at element ends. Set by OPTICS or by TW
 
          IF(KUASEX .NE. -99) THEN
 C OPTICC may not be desired for some elements (non-optical, or else.) 
-c               write(*,*) ' zgoubi ',nlbopt,(lblopt(iii),iii=1,nlbopt)
-c                    read(*,*)
 
            IF(OKPRLB(NLBOPT,LBLOPT,LABEL(NOEL,1)) 
      >     .OR.STRWLD(NLBOPT,LBLOPT,LABEL(NOEL,1),
      >                                       IS)) THEN
-C          IF(EMPTY(LBLOPT) .OR. 
-C     >      LBLOPT .EQ. 'ALL' .OR. LBLOPT .EQ. 'all' .OR. 
-C     >              LBLOPT.EQ.LABEL(NOEL,1)) THEN
              CALL OPTICC(NOEL,PRDIC,OKCPLD)
 
            ENDIF
@@ -492,11 +490,11 @@ C          ( D'APRES Benjamin MAYER , FEVRIER 1990 )
 C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
  18   CONTINUE
       IF(READAT) CALL RMATRX(
-     >                       IORD,IFOC,KWR,KCPL)
+     >                       IORD,IFOC,KWR,SCPLD)
+C     >                       IORD,IFOC,KWR,KCPL)
       IF(FITGET) CALL FITGT1
-      CALL MATRIC(IORD,IFOC,KWR,KCPL)
-C      CALL MATRIC(NINT(
-C     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
+      CALL MATRIC(IORD,IFOC,KWR,SCPLD)
+C      CALL MATRIC(IORD,IFOC,KWR,KCPL)
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits
  19   CONTINUE
@@ -1062,8 +1060,6 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
         IF(KOPTCS .EQ. 1) THEN
           IF( STRCON(STRA(1),'.',
      >                           IS)) THEN
-c                 write(*,*) ' zgoubi stra ... '
-c                     read(*,*)
             IF(FINSTR(STRA(1)) .GT. IS) THEN
               READ(STRA(1)(IS+1:FINSTR(STRA(1))),*) NLBOPT
             ELSE
@@ -1086,9 +1082,10 @@ c                     read(*,*)
               KOPIMP = 0
             ENDIF
             IF(MSTR .GE. NLBOPT+3) THEN 
-              OKCPLD = STRA(NLBOPT+3) .EQ. 'coupled'
-            ELSE
-              OKCPLD = .FALSE.
+C              OKCPLD = STRA(NLBOPT+3) .EQ. 'coupled'
+              SCPLD = STRA(NLBOPT+3)
+C            ELSE
+C              OKCPLD = .FALSE.
             ENDIF
           ELSE
             KOPIMP = 0
@@ -1096,30 +1093,10 @@ c                     read(*,*)
         ELSE
           KOPTCS = 0
         ENDIF
-C        KOPIMP = 0
-C        IF(STRCON(TXTEMP,'PRINT',
-C     >                          IS)) KOPIMP = 1
-C        OKCPLD = STRCON(TXTEMP,'coupled',
-C     >                                   IS)
-C        READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-C     >  *,ERR=801,END=801) KOPTCS, LBLOPT
-C        IF( KOPIMP .EQ. 0) 
-C     >  READ(TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP)),
-C     >  *,ERR=803,END=803) KOPTCS, TXT1, KOPIMP
       ENDIF
-C      GOTO 802
-C 801  CONTINUE
-C      LBLOPT = 'all'
-C      GOTO 802
-C 803  CONTINUE
-C      KOPIMP = 0
-C      IF(NRES.GT.0) THEN
-C        WRITE(NRES,*)  ' '
-C        WRITE(NRES,*)  ' OPTICS keyword. EOF or ERR while reading'
-C     >  ,'KOPTCS, LBLOPT, KOPIMP from  zgoubi.dat' 
-C      ENDIF
-C 802  CONTINUE
-C      IF (KOPTCS .NE. 1) KOPTCS = 0
+
+      OKCPLD = SCPLD .EQ. 'coupled'
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,*) ' '
         WRITE(NRES,FMT='(10X,A,I0,A,I0)') 
@@ -1258,21 +1235,24 @@ C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
 C      IF(READAT) CALL RTWISS
       IF(READAT) THEN
-        READ(NDAT,fmt='(a)') TXT132
+        READ(NDAT,FMT='(A)') TXT132
         IF(STRCON(TXT132,'!',
      >                       IS)) TXT132 = TXT132(1:IS-1)
         OKCPLD = STRCON(TXT132,'coupled',
      >                                   IS)
         IF(  OKCPLD) THEN
-          TA(NOEL,1) = 'coupled'
+C          TA(NOEL,1) = 'coupled'
+          SCPLD = 'coupled'
         ELSE
-          TA(NOEL,1) = ' '
+C          TA(NOEL,1) = ' '
+          SCPLD = 'uncoupled'
         ENDIF
 C        CALL MATIM4(OKCPLD)
         READ(TXT132,*) A(NOEL,1),A(NOEL,2),A(NOEL,3)
         KTW = NINT(A(NOEL,1))
       ENDIF
-      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
+C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
+      CALL MATIM4(SCPLD .EQ. 'coupled')
       IF(KTW .GE. 2) THEN
         IF(.NOT. OKLNO) THEN
           IF(IDLUNI(

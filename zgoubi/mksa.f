@@ -18,15 +18,15 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE MKSA(IORD,R,T,T3,T4)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION R(6,*) , T(6,6,*)
-      DIMENSION  T3(5,*), T4(5,*)
+      DIMENSION R(6,6) , T(6,6,6)
+      DIMENSION  T3(5,6), T4(5,6)
 
       INCLUDE "MAXCOO.H"
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
