@@ -16,7 +16,7 @@ C  You should have received a copy of the GNU General Public License
 C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
-C
+CC
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
