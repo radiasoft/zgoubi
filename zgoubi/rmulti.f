@@ -78,6 +78,8 @@ C----- Rotation of multipole components
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
+c           write(*,*) ' multip nd ',nd
+
 C Modif, FM, Dec. 05
 C      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+2,ND+4)
 C      A(NOEL,ND+1) = II
@@ -85,6 +87,11 @@ C      A(NOEL,ND+1) = II
       READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+4,ND+6)
       A(NOEL,ND+3) = II 
  
+c          write(*,*) ' multip  ',ND+3,A(NOEL,ND+3), II 
+c          write(*,*) ' rfit '
+c          write(*,fmt='(1p,10(e12.4,1x))') (a(noel,i),i=1,70)  
+c                 stop
+
       RETURN
 
  90   CALL ENDJOB('*** Pgm rmulti, keyword MULTIPOL : '// 

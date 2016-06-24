@@ -167,7 +167,8 @@ C            CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
  
           G= GE+GS-UN
  
-          IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, dipole field : '
+C          IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, dipole field : '
+          IF(G.LT.ZERO) CALL ENDJOB('Pgm multip, dipole field : '
      >    //'gradient computation went wrong, found G (=GE+GS-1) < ',0)
  
 C         *** CACULE LE DE Champ DE FUITE RESULTANT G=GE+GS-1, ET
@@ -264,8 +265,8 @@ C----- QUADRUPOLE
  
       IP=2
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
 
@@ -362,7 +363,8 @@ C          CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
  
         G= GE+GS-UN
  
-        IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, quadrupole field : '
+C        IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, quadrupole field : '
+        IF(G.LT.ZERO) CALL ENDJOB('Pgm multip, quadrupole field : '
      >  //'gradient computation went wrong, found G (=GE+GS-1) < ',0)
 c        IF(G.LT.ZERO) CALL ENDJOB(
 c     >    'SBR CHAMC : gradient  is  wrong  G (=GE+GS-1) < ',0)
@@ -502,8 +504,8 @@ C----- Champ SEXTUPOLAIRE
  
       IP=3
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -595,7 +597,8 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, sextupole field : '
+C      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, sextupole field : '
+      IF(G.LT.ZERO) CALL ENDJOB('Pgm multip, sextupole field : '
      >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
 c      IF(G.LT.ZERO) CALL ENDJOB(
 c     >  'SBR CHAMC : gradient  is  wrong,  G (=GE+GS-1) < ',0)
@@ -719,8 +722,8 @@ C----- OCTUPOLE
  
       IP=4
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -820,7 +823,8 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, octupole field : '
+C      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, octupole field : '
+      IF(G.LT.ZERO) CALL ENDJOB('Pgm multip, octupole field : '
      >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
 c      IF(G.LT.ZERO) CALL ENDJOB(
 c     >  'SBR CHAMC : gradient is  wrong,  G (=GE+GS-1) < ',0)
@@ -939,8 +943,8 @@ C----- DECAPOLE
  
       IP=5
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -999,8 +1003,8 @@ C----- DODECAPOLE
  
       IP=6
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -1062,8 +1066,8 @@ C----- 14-POLE
  
       IP=7
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -1109,8 +1113,8 @@ C----- 16-POLE
       IF(GN.NE.0.D0) 
      >  stop ' *** 16-POLE lens not installed, please set B7=0 ***     '
 
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -1151,8 +1155,8 @@ C----- 18-POLE
       IF(GN.NE.0.D0) 
      >  stop ' *** 18-POLE not installed, please set B7=0 ***'
 
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -1190,8 +1194,8 @@ C----- 20-POLE
  
       IP=10
       GN = BM(IP)*BRI
-      DLE = DLEM(IP)
-      DLS = DLSM(IP)
+      DLE = DLEM(IP) * DLEM(1)
+      DLS = DLSM(IP) * DLSM(1)
       Y=Y0
       Z=Z0
       IF(RT(IP) .NE. ZERO) CALL ROTX(RT(IP),Y,Z)
@@ -1316,7 +1320,8 @@ C       *** EFFET DU Champ DE FUITE DE SORTIE
  
       G= GE+GS-UN
  
-      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, 20-pole field : '
+C      IF(G.LE.ZERO) CALL ENDJOB('Pgm multip, 20-pole field : '
+      IF(G.LT.ZERO) CALL ENDJOB('Pgm multip, 20-pole field : '
      >//'gradient computation went wrong, found G (=GE+GS-1) < ',0)
 c      IF(G.LT.ZERO) CALL ENDJOB(
 c     >  'SBR CHAMC : GRADIENT ERRONNE  G (=GE+GS-1) < ',0)

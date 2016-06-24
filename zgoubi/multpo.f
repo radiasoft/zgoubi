@@ -329,11 +329,11 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
         ENDDO
       ENDIF
 
-C----- MULTIPOLE
-      DO IM = NM0+1,NM
-        DLE(IM)  = DLE(NM0)*DLE(IM)
-        DLS(IM)  = DLS(NM0)*DLS(IM)
-      ENDDO
+CC----- MULTIPOLE
+C      DO IM = NM0+1,NM
+C        DLE(IM)  = DLE(NM0)*DLE(IM)
+C        DLS(IM)  = DLS(NM0)*DLS(IM)
+C      ENDDO
 
       SXL = XL
 
@@ -342,6 +342,7 @@ C----- MULTIPOLE
       AKS(3) =  BM(3)/(RO**2)/(BORO*DPREF)*1.D6
 
       IF(NRES.GT.0) THEN
+
         WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
@@ -352,20 +353,31 @@ C----- MULTIPOLE
      >  '  (i.e., ',E15.7,' * SCAL)')
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,E15.7,' rd')
+
         IF(XL .NE. 0.D0) THEN
-          IF( (XL-DLE(NM)-DLS(NM)) .LT. 0.D0) WRITE(NRES,102)
- 102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  overlap, ',
-     >    /,10X,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
+          IF( (XL-DLE(NM0)-DLS(NM0)) .LT. 0.D0) 
+     >    WRITE(NRES,102) NM0 
+ 102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  of  ',I0
+     >    '-pole  overlap, '
+     >    //'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
+          DO IM=NM0+1,NM
+            IF( (XL-DLE(NM0)*DLE(NM)-DLS(NM0)*DLS(NM)) .LT. 0.D0) 
+     >      WRITE(NRES,102) IM
+          ENDDO
         ELSE
           GOTO 98
         ENDIF
       ENDIF
  
-      DL0=0.D0
-      SUM=0.D0
-
-      DO IM=NM0,NM
-        DL0=DL0+DLE(IM)+DLS(IM)
+      DL0=DLE(NM0)+DLS(NM0)
+      SUM=BM(NM0)*BM(NM0)
+      IF(KFL .EQ. LC) THEN
+        IF(BM(NM0).NE.0.D0) BM(NM0) = 2.D0*BM(NM0)/RO*1.D-6
+        RT(NM0) = RT(NM0) + .5D0*PI/DBLE(NM0)
+      ENDIF
+      IF(BM(NM0).NE.0.D0) BM(NM0) = BM(NM0)/RO**(NM0-1)
+      DO IM=NM0+1,NM
+        DL0=DL0+DLE(NM0)*DLE(IM)+DLS(NM0)*DLS(IM)
         SUM=SUM+BM(IM)*BM(IM)
 C------- E converted to MeV/cm
         IF(KFL .EQ. LC) THEN
@@ -427,10 +439,10 @@ C-----    Let's see entrance first
         IF(NRES.GT.0) WRITE(NRES,104)
  104    FORMAT(/,15X,' Entrance  face  ')
 C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
-        DL0 = 0.D0
-        DO 5 IM=NM0,NM
- 5        DL0 = DL0+DLE(IM)
-
+        DL0 = DLE(NM0)
+        DO IM=NM0+1,NM
+          DL0 = DL0+DLE(NM0)*DLE(IM)
+        ENDDO
         IF(DL0 .EQ. 0.D0) THEN
           FINTE = XE
           XE=0.D0
@@ -455,11 +467,12 @@ C----------     set to -1 if mixff at entrance
 C----------     set to  1 if mixff at exit
 C----------     set to  2 if mixff at entrance & exit
           IF( IFB .EQ. 0 .OR. IFB .EQ. 1 ) THEN
-            MIXFF = .FALSE.
-            DO 51 IM = NM0,NM
+C            MIXFF = .FALSE.
+            MIXFF = DLE(NM0) .EQ. 0.D0 .AND. BM(NM0) .NE. 0.D0
+            DO 51 IM = NM0+1,NM
               IF(.NOT. MIXFF) THEN
 C--------------- MIXFF = true if combined sharp edge multpole + fringe field multpole
-                IF(DLE(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0)
+                IF(DLE(NM0)*DLE(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0)
      >            MIXFF= .TRUE.
               ENDIF
  51         CONTINUE
@@ -477,19 +490,27 @@ C--------------- MIXFF = true if combined sharp edge multpole + fringe field mul
  130        FORMAT(20X,' with  fringe  field :'
 C 130        FORMAT(20X,' AVEC  Champ  DE  FUITE  :'
      >      ,/,20X,' DX  = ',F7.3,'  CM ')
-            WRITE(NRES,131) ( LMNT(IM),DLE(IM) ,IM=NM0,NM)
+            WRITE(NRES,131)   LMNT(NM0),DLE(NM0)
+            IF(NM0+1 .LE. NM) 
+     >      WRITE(NRES,131) ( LMNT(IM),DLE(NM0)*DLE(IM) ,IM=NM0+1,NM)
  131        FORMAT(20X,' LAMBDA-',A,' =',F7.3,'  CM')
 C            WRITE(NRES,132) (CE(I),I=1,6)
             WRITE(NRES,132) NCE, (CE(I),I=1,NCE)
  132        FORMAT(20X,I1,' COEFFICIENTS :',6F9.5)
           ENDIF
-          DO 45 IM=NM0,NM
-            IF(DLE(IM) .NE. 0.D0) THEN
-              DE(IM,1)= -BM(IM)/DLE(IM)
+          IF(DLE(NM0) .NE. 0.D0) THEN
+            DE(NM0,1)= -BM(NM0)/DLE(NM0)
+            DO I=2, MCOEF
+              DE(NM0,I)=-DE(NM0,I-1)/DLE(NM0)
+            ENDDO
+          ENDIF
+          DO 45 IM=NM0+1,NM
+            IF(DLE(NM0)*DLE(IM) .NE. 0.D0) THEN
+              DE(IM,1)= -BM(IM)/(DLE(NM0)*DLE(IM))
 C Error - Corrctn FM Nov. 2009
 C              DO 44 I=2, 10 !MCOEF
               DO 44 I=2, MCOEF
-                DE(IM,I)=-DE(IM,I-1)/DLE(IM)
+                DE(IM,I)=-DE(IM,I-1)/(DLE(NM0)*DLE(IM))
  44           CONTINUE
             ENDIF
  45       CONTINUE
@@ -500,9 +521,9 @@ C--------- Let's see exit, next
  107    FORMAT(/,15X,' Exit  face  ')
 C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
  
-        DL0 = 0.D0
-        DO 6 IM=NM0,NM
- 6        DL0 = DL0+DLS(IM)
+        DL0 = DLS(NM0)
+        DO 6 IM=NM0+1,NM
+ 6        DL0 = DL0+DLS(NM0)*DLS(IM)
         IF(DL0 .EQ. 0.D0) THEN
           FINTS = XLS
           XLS=0.D0
@@ -523,10 +544,10 @@ C FM, 2006
           ENDIF
         ELSE
           IF( IFB .EQ. 0 .OR. IFB .EQ. -1 ) THEN
-            MIXFF = .FALSE.
-            DO 61 IM = NM0,NM
+            MIXFF = DLS(NM0) .EQ. 0.D0 .AND. BM(NM0) .NE. 0.D0
+            DO 61 IM = NM0+1,NM
               IF(.NOT. MIXFF) THEN
-                IF(DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0) 
+                IF(DLS(NM0)*DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0) 
      >           MIXFF= .TRUE.
               ENDIF
  61         CONTINUE
@@ -543,17 +564,25 @@ C FM, 2006
           ENDIF
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XLS
-            WRITE(NRES,131) ( LMNT(IM),DLS(IM) ,IM=NM0,NM)
+            WRITE(NRES,131)   LMNT(NM0),DLS(NM0)
+            IF(NM0+1 .LE. NM) 
+     >      WRITE(NRES,131) ( LMNT(IM), DLS(NM0)*DLS(IM) ,IM=NM0+1,NM)
             WRITE(NRES,132) NCS,(CS(I),I=1,NCS)
           ENDIF
-          DO 46 IM=NM0,NM
-            IF(DLS(IM) .NE. 0.D0) THEN
-              DS(IM,1)=  BM(IM)/DLS(IM)
+          IF(DLS(NM0).NE. 0.D0) THEN
+            DS(NM0,1)=  BM(NM0)/DLS(NM0)
+            DO I=2,MCOEF
+              DS(NM0,I)= DS(NM0,I-1)/DLS(NM0)
+            ENDDO
+          ENDIF
+          DO 46 IM=NM0+1,NM
+            IF(DLS(NM0)*DLS(IM) .NE. 0.D0) THEN
+              DS(IM,1)=  BM(IM)/(DLS(NM0)*DLS(IM))
 C Error - Corrctn FM Nov. 2009
 C              DO 461 I=2, 10 !MCOEF
-              DO 461 I=2,MCOEF
-                DS(IM,I)= DS(IM,I-1)/DLS(IM)
- 461          CONTINUE
+              DO I=2,MCOEF
+                DS(IM,I)= DS(IM,I-1)/(DLS(NM0)*DLS(IM))
+              ENDDO
             ENDIF
  46       CONTINUE
         ENDIF

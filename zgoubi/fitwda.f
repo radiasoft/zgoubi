@@ -172,7 +172,19 @@ C Old style CHANGREF
             READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LTEMP,FMT='(F11.6,F7.2,1P,3E16.8,0P,7F4.1)')
      >                                  (A(NUEL,J),J=2,13)
-            DO I = 1, 6
+            II = 0
+            DO I = 1, 2
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! xe, xle, ...
+              WRITE(LTEMP,FMT='(2(F8.4,1X),9(F6.2,1X))')
+     >                               (A(NUEL,J),J=14+II,24+II)
+              WRITE(*,FMT='(2(F8.4,1X),9(F6.2,1X))')
+     >                               (A(NUEL,J),J=14+II,24+II)
+              READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! FF coeffs
+              WRITE(LTEMP,FMT='(I0,1X,1P,6(E13.5,1X))')
+     >                    NINT(A(NUEL,25+II)),(A(NUEL,J),J=26+II,31+II)
+              II = II + 18
+            ENDDO
+            DO I = 1, 2
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132
               WRITE(LTEMP,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))

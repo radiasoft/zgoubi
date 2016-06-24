@@ -75,6 +75,10 @@ C------- COUPLAGE AVEC LMNT #KL, PRMTR #KP
         KL=INT(XCOU(I))
         IF(KL .NE. 0) THEN
           KP=NINT((1D3*XCOU(I)-1D3*KL))
+
+c                  write(*,*) ' fitest ',i,xcou(i),kl,kp
+c                    read(*,*)
+
           CALL VRBLE(IER,I,KL,KP)
 C--------- # LMNT COUPLE
           IF(KL.GE.NOEL) THEN

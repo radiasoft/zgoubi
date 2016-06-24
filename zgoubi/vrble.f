@@ -36,8 +36,8 @@ C----- CHERCHE SI LE PARMTRE VARIABLE COUPLE EST AUSSI DECLARE EN VARIABLE
       ENDIF
 
       IF(NRES.GT.0) WRITE(NRES,101) IR(II),IS(II),KL,KP
- 101  FORMAT(10X,' variable  element ',I4,',  prmtr #',I3,' :'
-     >,' coupled  with  element ',I4,',  prmtr #',I3)
+ 101  FORMAT(10X,' variable  element ',I0,',  prmtr # ',I0,' :'
+     >,' coupled  with  element ',I0,',  prmtr # ',I0)
  
       DO 1 I=1,NV
         IF(I .EQ. II) GOTO 1

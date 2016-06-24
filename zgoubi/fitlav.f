@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       FUNCTION FITLAV(L,IT1,IT2,PAR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

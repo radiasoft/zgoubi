@@ -19,8 +19,8 @@
      LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
      POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
                                            - new : 
-     LARGEUR IMAGE,  A MI-HAUTEUR =  9.186249E-02 CM,  TOTALE =  9.934899E-02 CM
-     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   116.553     CM    Y =   147.764     CM
+     LARGEUR IMAGE,  A MI-HAUTEUR =  9.507720E-02 CM,  TOTALE =  9.719241E-02 CM
+     POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   118.397     CM    Y =   147.765     CM
         
 ////////////////  /gsiKaos/usingTOSCAmaps/ - reference : 
      POINT DE FOCALISATION HORIZONTAL SUR L ORBITE MOYENNE    X =   1.83221     CM    Y = -2.497961E-03 CM
@@ -79,7 +79,7 @@
           R12=0 at   -2.432     m,        R34=0 at  -0.4203     m
                           - new : 
           R12=0 at   -3.056     m,        R34=0 at  -0.7163     m
-          R12=0 at   -2.439     m,        R34=0 at  -0.4233     m
+          R12=0 at   -2.438     m,        R34=0 at  -0.4228     m
         
  Doing fit_positiveCoupl_FIT.res - reference : 
           R12=0 at   -3.133     m,        R34=0 at  -0.7671     m
