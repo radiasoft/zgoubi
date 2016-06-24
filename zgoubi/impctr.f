@@ -42,6 +42,20 @@ C  -------
       CHARACTER(KSIZ) KLE
       CHARACTER(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
+      LOGICAL NOSYS,NOSYSI
+      SAVE NOSYS
+      CHARACTER(108) TXTBUF
+
+      IF(NOSYS) THEN
+        IF(IUNIT.GT.0) THEN
+          WRITE(TXTBUF,FMT='
+     >    ('' Fit reached penalty value '',1P,E12.4,
+     >     ''            still working on it... '')') FINI
+          CALL ARRIER(TXTBUF)
+C          CALL FLUSH2(IUNIT,.FALSE.) 
+        ENDIF
+        RETURN
+      ENDIF     
 
       CALL ZGPNLT( 
      >            PNLTGT)
@@ -74,5 +88,9 @@ C----      X(J)        P(I)
      >  ('' Fit reached penalty value '',1P,E12.4)') FINI
         CALL FLUSH2(IUNIT,.FALSE.) 
       ENDIF
+      RETURN
+
+      ENTRY IMPCT2(NOSYSI)
+      NOSYS = NOSYSI
       RETURN
       END

@@ -26,7 +26,7 @@ C  -------
  
       IMPLICIT NONE
       DOUBLE PRECISION XX(*)
-      DOUBLE PRECISION NMFINI
+      DOUBLE PRECISION NMFINI, NMFON2
       INTEGER NN
       INTEGER MXV
       PARAMETER (MXV=60)
@@ -38,6 +38,8 @@ C  -------
       DOUBLE PRECISION FR
       INTEGER N,NI
       SAVE N,NI
+      LOGICAL SYSOUT
+      SAVE SYSOUT
  
       DO 1000 I=1,N
          IF (X(I).LE.X(I+N).OR.X(I+2*N).LE.X(I)) THEN
@@ -54,7 +56,7 @@ C  -------
         CALL IMPVAR(6,NI)
         CALL IMPCTR(6,FR)
         CALL CPTWRT(I)
-        WRITE (6,2000) FR
+        IF(SYSOUT) WRITE (6,2000) FR
  2000   FORMAT(/,' Xi2 =',1P,E24.16,'   Busy...',/)
       ENDIF
  
@@ -68,5 +70,9 @@ C  -------
       N=NN
       NMFINI = 0D0
  
+      RETURN
+
+      ENTRY NMFON2
+      SYSOUT = .FALSE.
       RETURN
       END

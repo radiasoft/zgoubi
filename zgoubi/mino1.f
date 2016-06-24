@@ -37,6 +37,9 @@ C      PARAMETER (NITER=90)
       SAVE PNLTY, ICPTMA
       SAVE NITER
 
+      LOGICAL SYSOUT,NOSYSI
+      SAVE SYSOUT
+
       DATA PNLTY, ICPTMA / 1D-10, 1000 /
       DATA NITER / 90 /
 
@@ -134,6 +137,10 @@ C Stop test
       ENTRY MINO13(
      >             NITERO)
       NITERO = NITER
+      RETURN
+
+      ENTRY MINO14(NOSYSI)
+      SYSOUT = .NOT. NOSYSI
       RETURN
 
       END

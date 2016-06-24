@@ -177,8 +177,6 @@ C Old style CHANGREF
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! xe, xle, ...
               WRITE(LTEMP,FMT='(2(F8.4,1X),9(F6.2,1X))')
      >                               (A(NUEL,J),J=14+II,24+II)
-              WRITE(*,FMT='(2(F8.4,1X),9(F6.2,1X))')
-     >                               (A(NUEL,J),J=14+II,24+II)
               READ(LWDAT,FMT='(A)',ERR=10,END=10) TXT132               ! FF coeffs
               WRITE(LTEMP,FMT='(I0,1X,1P,6(E13.5,1X))')
      >                    NINT(A(NUEL,25+II)),(A(NUEL,J),J=26+II,31+II)

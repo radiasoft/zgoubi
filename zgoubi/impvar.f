@@ -41,6 +41,12 @@ C  -------
       CHARACTER(KSIZ) KLE
       CHARACTER(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
+      LOGICAL NOSYS,NOSYSI
+      SAVE NOSYS
+    
+      IF(NOSYS) THEN
+        RETURN
+      ENDIF     
 
       CALL MINO13(
      >            NITER)
@@ -103,5 +109,9 @@ C          KL=XCOU(I)
         ENDIF
  1    CONTINUE
       IF(IUNIT.GT.0) CALL FLUSH2(IUNIT,.FALSE.)
+      RETURN
+
+      ENTRY IMPVA2(NOSYSI)
+      NOSYS = NOSYSI
       RETURN
       END

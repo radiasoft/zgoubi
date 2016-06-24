@@ -58,12 +58,21 @@ C      PARAMETER (MXTA=45)
       DATA FIRST / .TRUE. /
 
       LINE = 1
-C  READ NV [,'nofinal','save' [FileName]]
+C  READ NV [,'nofinal','save' [FileName],'noSYSout']
       READ(NDAT,FMT='(A)') TXT132
       IF(STRCON(TXT132,'!',
      >                     IIS)) TXT132 = TXT132(1:IIS-1)
       READ(TXT132,*) NV
       IF(NV.LT.1) RETURN
+
+      IF(STRCON(TXT132,'noSYSout',
+     >                            III)) THEN
+        CALL IMPVA2(.TRUE.)
+        CALL IMPCT2(.TRUE.)
+        DUM = NMFON2
+        CALL MINO14(.TRUE.)
+      ENDIF
+
       FITFNL = .NOT. STRCON(TXT132,'nofinal',
      >                                       IIS) 
       FITSAV = STRCON(TXT132,'save',
@@ -84,7 +93,7 @@ C  READ NV [,'nofinal','save' [FileName]]
         IF(FIRST) CALL FITNU6(FNAME)
         FIRST = .FALSE.  
       ENDIF
-
+     
       DO I=1,NV
         LINE = LINE + 1
         READ(NDAT,FMT='(A)') TXT132
