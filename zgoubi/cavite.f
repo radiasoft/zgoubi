@@ -880,12 +880,30 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >  ,/ ,20X,'         charge                       =',E15.6,' C')
       ENDIF
 
-      phiav = 0.d0
-      tiav = 0.d0
-      ii = 0
+      TIAV = 0.D0
+      II = 0
       DO I=1,IMAX
         IF(IEX(I) .GE. -1) THEN 
-          ii = ii + 1
+          II = II + 1
+          P = P0*F(1,I) 
+          AM2 = AMQ(1,I) * AMQ(1,I)
+          ENRG = SQRT(P*P + AM2)
+          BTA = P / ENRG
+Compute particle time at center of cavity 
+C          TI = F(7,I) * UNIT(7) 
+          DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
+          F7I = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
+C F(7,I) is time in mu_s. Of course, TI is in s
+          TI = F7I * UNIT(7) 
+          TIAV = TIAV + TI
+c              write(*,*) ' cav  ti,tiav  : ',ti,tiav 
+        ENDIF   
+      ENDDO
+      TIAV = TIAV / DBLE(II)
+c              write(*,*) ' cav : tiav ',tiav 
+
+      DO I=1,IMAX
+        IF(IEX(I) .GE. -1) THEN 
           P = P0*F(1,I) 
           AM2 = AMQ(1,I) * AMQ(1,I)
           ENRG = SQRT(P*P + AM2)
@@ -893,16 +911,29 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
           BTA = P / ENRG
 
 Compute particle time at center of cavity 
-C          TI = F(7,I) * UNIT(7) 
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
 C FM Dec 2015 - wrong units          TI = TI + dsar2 / (bta*cl)
+C F(7,I) is time in mu_s. Of course, TI is in s
           TI = F(7,I) * UNIT(7) 
 
-C F(7,I) is time in mu_s. Of course, TI is in s
+C Relative time to bunch centroid
+c                write(*,*) ' ti, tiav : ',ti, tiav
+          ti = ti-tiav
+
           PHI = OMRF * TI + PH0   
 C          PHI = 0.
+
+c                write(*,*) ' p, p0, f(1,i) : ',p, p0, f(1,i)
+c                write(*,*) ' enrg, bta, ti : ', enrg, bta, ti
+c          write(*,*) ' OMRF : ',OMRF,OMRF/(2.*pi)
+c          write(*,*) ' OMRF * TI : ',OMRF * TI ,ph0
+c          write(*,*) ' PHI = OMRF * TI + PH0 : ',OMRF * TI + PH0 
+c          write(*,*) ' PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI : ',
+c     >          PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
+
+
 
 C Phase, in [-pi,pi] interval
           PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
@@ -914,16 +945,21 @@ C Phase, in [-pi,pi] interval
             PH(I) =PHI 
           ENDIF
 
-          tiav = tiav + ti
-          phiav = phiav + ph(i)
-
           DWF=QV*COS(PH(I))
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
           if(CEBAF) then 
-            DWF=QV*cos(ph0)
-c                write(*,*) ' cavite. cebaf =',cebaf, dwf, qv
+          IF    (PHI .GT.  2.d0*PI) THEN
+            PH(I) =PHI - 2.D0*PI
+          ELSEIF(PHI .LT. 0.d0) THEN
+            PH(I) =PHI + 2.D0*PI
+          ELSE
+            PH(I) =PHI -pi/2.d0
+          ENDIF
+c                write(*,*) ' noel,i,dwf, ph(i)  : ',noel,i,dwf, ph(i) 
+c            DWF=QV*cos(ph0)
+c                write(*,*) ' noel,i,dwf, ph0 : ',noel,i,dwf, ph0
 c                 read(*,*)
            endif
 c          DO III = 1, 3

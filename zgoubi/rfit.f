@@ -67,8 +67,8 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
 
       IF(STRCON(TXT132,'noSYSout',
      >                            III)) THEN
-        CALL IMPVA2(.TRUE.)
-        CALL IMPCT2(.TRUE.)
+        CALL IMPVA2(.TRUE.,.FALSE.)
+        CALL IMPCT2(.TRUE.,.FALSE.)
         DUM = NMFON2
         CALL MINO14(.TRUE.)
       ENDIF
