@@ -1989,7 +1989,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
  \textsl{TOSCA[\{LBL1 [,LBL2]\}]}, 
                         \> Keyword concerned [optionally, first and/or second label]~; \> ,[,],,,,2*kG, \>A8 [,A10[,A10]],  \\
 \textsl{N, TYP, AR, UG,}\> N=1~: pole  concerned (dipole)~;              \> \>I, A2, A1, \\
-\textsl{VC, HW, CUTOFF} \>TYP= BP~: field at pole~; AR=A or R~: field value is absolute \> \> A1, 3*E  \\
+\textsl{VC, HW, CUTOFF} \>TYP= BP~: field~; AR=A or R~: field value is absolute \> \> A1, 3*E  \\
                         \> or relative (to current one)~; UG=U or G~: uniform or Gaussian  \> \> \\
                         \> random law~; VC= central value~; HW= half-width (case UG=U)  \\
                         \> or sigma (case UG=G)~; cut-off value in units of sigma (unused  \\
@@ -2287,9 +2287,11 @@ $\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the mag
 \index{variable (FIT, FIT2)|textbf}   
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$ \textsl{[, 'nofinal']} \>NV : Number of physical parameters to be varied~; 'nofinal'~:   \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit procedure!variable range|textbf} 
- \textsl{[, 'save' [, FileName]]} \>will avoid final run (default is~: final run performed  using \> save [string] \> [, A4 [, A80]] \\  
-  \> fitted values, once fit is done)~;  'save'~: will save fit variables   \>  \> \\  
+ $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'  \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit procedure!variable range|textbf} 
+ \textsl{[, noSYSout]}   \>  avoids final run (default is~: final run performed  using \> save [string] \> [, A4 [, A80]] \\  
+ \textsl{[, save [, FileName]]} \> fitted values, once fit is done)~;  'noSYSout' inhibits system output  \>  \> \\  
+  \> of variable and constraint status, except for  start and end, and   \> \\  
+  \>  update of penalty value in between~; 'save' saves fit variables   \>  \> \\  
   \>when fit is completed, either in 'FileName' if specified, or   \>  \> \\  
   \>by default in zgoubi.FITVALS.out.  \>  \> \\  
   \\[-1ex]
