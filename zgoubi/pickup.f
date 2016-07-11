@@ -36,7 +36,7 @@ C     -----------------------------------------------------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (MXPUD=9,MXPU=5000)
        INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) PULAB
       PARAMETER (MPULAB=5)
       INCLUDE "C.COT.H"     ! COMMON/COT/ PULAB(MPULAB)

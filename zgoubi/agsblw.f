@@ -32,7 +32,7 @@ C     ----------------------------------------------
       DIMENSION WN(*),WA(*),BM(NB)
       INCLUDE 'MXFS.H'
       INCLUDE 'MXLD.H'
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)

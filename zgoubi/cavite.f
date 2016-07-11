@@ -840,7 +840,7 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       CAVM = AN10          ! cavLength /m
       FCAV = AN11          ! RF freq. in Hz
       CAVL = CAVM*1.D2     ! cavLength /cm
-      PH0 = AN21  ! RF phase offset
+      PH0 = AN21   -PI/2.D0        ! RF phase.  '-PI/2.D0' is just for convention
       IDMP = NINT(AN22) ! Chambers matrix options
       PHREF = AN23  ! Used in updating of DPREF
 
@@ -936,35 +936,28 @@ c     >          PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
 
 
 C Phase, in [-pi,pi] interval
-          PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
-          IF    (PHI .GT.  PI) THEN
-            PH(I) =PHI - 2.D0*PI
-          ELSEIF(PHI .LT. -PI) THEN
-            PH(I) =PHI + 2.D0*PI
-          ELSE
+c          PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+c          IF    (PHI .GT.  PI) THEN
+c            PH(I) =PHI - 2.D0*PI
+c          ELSEIF(PHI .LT. -PI) THEN
+c            PH(I) =PHI + 2.D0*PI
+c          ELSE
             PH(I) =PHI 
-          ENDIF
+c          ENDIF
 
           DWF=QV*COS(PH(I))
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
-          if(CEBAF) then 
-          IF    (PHI .GT.  2.d0*PI) THEN
-            PH(I) =PHI - 2.D0*PI
-          ELSEIF(PHI .LT. 0.d0) THEN
-            PH(I) =PHI + 2.D0*PI
-          ELSE
-            PH(I) =PHI -pi/2.d0
-          ENDIF
-c                write(*,*) ' noel,i,dwf, ph(i)  : ',noel,i,dwf, ph(i) 
-c            DWF=QV*cos(ph0)
-c                write(*,*) ' noel,i,dwf, ph0 : ',noel,i,dwf, ph0
-c                 read(*,*)
-           endif
-c          DO III = 1, 3
-c            write(*,fmt='(A,1p,2(e12.4))') 'CAVITE TEST CEBAF',dwf,phi0
-c          ENDDO
+c          IF(CEBAF) THEN 
+c            IF    (PHI .GT.  PI) THEN
+c              PH(I) =PHI - 2.D0*PI
+c            ELSEIF(PHI .LT. -PI) THEN
+c              PH(I) =PHI + 2.D0*PI
+c            ELSE
+c              PH(I) =PHI 
+c            ENDIF
+c          ENDIF
 ccccccccccccccccccccccccccc
 
           WI = WF1(I) 

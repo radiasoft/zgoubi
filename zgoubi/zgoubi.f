@@ -39,7 +39,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
@@ -1126,7 +1126,7 @@ C              OKCPLD = .FALSE.
           ENDIF
           IF(OKLNO) THEN
             WRITE(LNOPTI,FMT='(A)') '# From OPTICS keyword'
-            WRITE(LNOPTI,FMT='(A,3A,A)') 
+            WRITE(LNOPTI,FMT='(A,A1,A8,A5,A)') 
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
      >         '  Dxp           Dy            Dyp           phix/' //
@@ -1134,12 +1134,12 @@ C              OKCPLD = .FALSE.
      >         '         xp            y             yp          ' //
      >         'KEYWORD    label1     label2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
-     >         '       r ',T364,'!',T366,'optimp.f'
-     >         ,T375,'IPASS',T378,'P/Pref   ....  pathL:45 ...'//  
+     >         '       r       !    optimp.f    ' //
+     >         'IPASS            P/Pref   ....  pathL:45 ...'//  
      >         '  R11  R12  R21' //
      >         '  R22  R33  R34  R43  R44  R51 R52  R53  R54  '   //
      >         'R56  pathL=F(2,6) '
-            WRITE(LNOPTI,FMT='(A,3A,A)') 
+            WRITE(LNOPTI,FMT='(A,3A2,A)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
      >         '  8             9             10            11   ' //
@@ -1147,8 +1147,8 @@ C              OKCPLD = .FALSE.
      >         '         16            17            18          ' //
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
-     >         '       27 ',T363,'28',T366,'29'
-     >         ,T375,'30',T378,'31     ....   pathL:45 ...'  
+     >         '       27      28      29        ' //
+     >         '30             31     ....   pathL:45 ...'  
           ENDIF
         ENDIF
       ELSE

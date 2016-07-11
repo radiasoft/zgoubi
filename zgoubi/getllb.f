@@ -27,7 +27,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LBL
       INCLUDE 'MXLD.H'
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       integer debstr, finstr

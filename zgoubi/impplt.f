@@ -41,7 +41,7 @@ C         Post-processing of stored data possible with zpop.
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX

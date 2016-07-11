@@ -40,7 +40,7 @@ C----------------------------------------------------------
       LOGICAL EMPTY
       LOGICAL IDLUNI, OK
 
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LAB2(2)
       PARAMETER (KSIZ=10)
       PARAMETER (I104=104)
