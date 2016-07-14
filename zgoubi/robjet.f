@@ -62,13 +62,12 @@ C----- BORO
 C----- KOBJ - may be of the form "K.K2"
       LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=99) TXT132
+      TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
-      IF(STRCON(TXT132,'.',
-     >                      IS)) THEN
-
-        READ(TXT132(1:IS-1),*,ERR=99,END=99) K
-        READ(TXT132(IS+1:FINSTR(TXT132)),*,ERR=99,END=99) K2
+      IF(TXT132(2:2) .EQ. '.') THEN
+        READ(TXT132(1:1),*,ERR=99,END=99) K
+        READ(TXT132(3:FINSTR(TXT132)),*,ERR=99,END=99) K2
         A(NOEL,11) = K2
       ELSE
         K2 = 0 

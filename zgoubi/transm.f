@@ -48,7 +48,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       PARAMETER (MXJ1=MXJ-1)
       DIMENSION FF(MXJ1),FC(MXJ1)
-      SAVE P0
+C      SAVE P0
  
 
       INCLUDE 'MXFS.H'
@@ -121,18 +121,20 @@ C      ENDIF
       ENDIF
  
 C     ... ACCELERATION WITH 'CAVITE': PS=SYNCHRONOUS MOMENTUM
-      IF(IPASS .EQ. 1) THEN
+C      IF(IPASS .EQ. 1) THEN
 C        P0 = BORO*CL*1.D-9 *Q/QE
 C        P0 = BORO*CL*1.D-9 *Q
-        P0 = BORO*CL9 *Q
-        PS=P0
+C        P0 = BORO*CL9 *Q
+C        PS=P0
 C       ... ELSE: PS IS UP DATED BY 'CAVITE'
-      ENDIF
+C      ENDIF
  
-      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
+C      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
+
       DO 1 I=1,IMAX
 C        FF(6)=F(1,I)
-        FF(6)=DP
+C        FF(6)=DP
+        FF(6)=DPREF-1.D0
         FF(1)=F(2,I)/1.d2
         FF(2)=F(3,I)/1.d3
         FF(3)=F(4,I)/1.d2

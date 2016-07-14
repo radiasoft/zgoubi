@@ -55,7 +55,7 @@ C  -------
         IF    (STRCON(TXT400,'@ DXMAX            %le'
      >                    ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
-     >    DXMA, '@ DYMIN            %le',DXMI
+     >    DXMA, '@ DXMIN            %le',DXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DYMAX            %le'
@@ -67,25 +67,25 @@ C  -------
         ELSEIF(STRCON(TXT400,'@ XCOMAX           %le'
      >                    ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
-     >    XMA,  '@ XMIN             %le',XMI
+     >    XMA,  '@ XCOMIN           %le',XMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ YCOMAX           %le'
      >                    ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
-     >    YMA,  '@ YMIN             %le',YMI
+     >    YMA,  '@ YCOMIN           %le',YMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ BETXMAX          %le'
      >                    ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
-     >    BTXMA,'@ BTXMI            %le',BTXMI
+     >    BTXMA,'@ BETXMIN          %le',BTXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ BETYMAX          %le'
      >                    ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') BT
-     >    YMA,  '@ BTYMI            %le',BTYMI
+     >    YMA,  '@ BETYMIN          %le',BTYMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ XCORMS           %le'
