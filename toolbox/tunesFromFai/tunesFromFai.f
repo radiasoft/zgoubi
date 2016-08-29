@@ -222,8 +222,8 @@ C         IF(NT.EQ.-1) THEN
      >     '% Fourier analysis considers turn#',kpa,' to turn# ',kpb
            WRITE(IUN,*) 
      >     '#XM, XPM, XXNU, ZZNU, 1-XXNU, 1-ZZNU, (U(I),I=1,3), ' //
-     >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
-     >     ' alfx, betx, alfy, bety, alfl, betl '
+     >     'COOR(npass,5)/(npass-1), COOR(?,?), KT, YM, YPM, kpa, kpb,'//
+     >     ' E_total, alfx, betx, alfy, bety, alfl, betl '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698

@@ -276,11 +276,11 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../KEYWORDS/TWISS/"
 echo "        "
-(cd ../KEYWORDS/TWISS/ ; cp TWISS_coupled.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../KEYWORDS/TWISS/ ; cp TWISS_coupled.res_160711 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEYWORDS/TWISS/ - reference : "               | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_150304        | cat >>   compare.out
-grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160131        | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_160711        | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_160711        | cat >>   compare.out
+grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160711        | cat >>   compare.out
 echo "                          - new : "                                | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out

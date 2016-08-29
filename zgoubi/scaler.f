@@ -301,13 +301,12 @@ c                     stop ' SBR scaler -  TESTS'
                   I2 = I
                   XT2=XT1
                ENDIF  
-               CALL CAVIT3(STIME)
+               CALL CAVIT3(
+     >                     STIME)
             
              
                IF( STIME .GE. XT1 .AND. STIME .LE. XT2 ) THEN
                   SCALER = SCL(KF,I,1)
-
-
 
                   IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)
      >                 - SCALER)*( STIME - XT1 ) / (XT2 - XT1)
