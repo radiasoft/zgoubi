@@ -48,7 +48,7 @@ integer (I), real (E) or text string (A). For example, ``I, 3*E''
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
                 \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~  \= \kill
 }
-\newcommand{\mestabOBJ}{$PY$, $PT$, $PZ$, $PP$, $PD$  \quad \= 
+\newcommand{\mestabOBJ}{$PY$, $PT$, $PZ$, $PP$, $PD$ ~ ~  \quad \= 
         total number of particles~; number of distinct momenta~; more... \quad \=
             IY*IT*IZ*IP*IT*IZ*IP*   \quad \= \kill}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,7 +263,7 @@ $ X_S$, $\lambda_S$ \>Integration zone~; as for entrance
  \\
  \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \\
  \\
-$ R1$  \>Roll angle \>10*rad \>10*E \\
+$ R1$  \>Roll angle \>  rad \> E \\
 \\
  \textsl{XPAS}                 \>Integration step    \>cm \>E \\
  \\
@@ -1107,7 +1107,7 @@ $ T_2$, $\theta$, $\beta $            \>$ Q $ of the reaction~; incident particl
  $NT$, $NP$             \>Number of samples in $T$ and $P$ coordinates \> \>2*I\\
  \>after \textsl{CIBLE} \>\>\\
  \\
- $TS$, $PS$, $DT$          \>Sample step sizes~; tilt angle \>3*mrad \>3*E \\
+ $TS$, $PS$, $DT$          \>Sampling size~; tilt angle \>3*mrad \>3*E \\
  \\
  \BORO\index{BORO@{\BORO}}              \>New reference rigidity after  \textsl{CIBLE}  \>kG.cm \>E
 \end{tabbing}
@@ -3236,16 +3236,16 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \textbf{If KOBJ = 1[.1]}      \> [Non-] Symmetric object \> \> \\
 \\
  \textsl{IY, IT, IZ, IP, IS, ID}  
- \>Ray-Tracing assumes mid-plane symmetry   \> {\footnotesize IY*IT*IZ*IP*IS*ID $\leq \imax$ } \> 6*1  \\
- \>Total number of points in $\pm Y$, $\pm T$, $\pm Z$, $\pm P$ \> \> \\ 
-		\> [$+Z$, $+P$ with KOBJ = 1.1], $\pm S$.    \> \>\\
- \>and $\pm D$ coordinates ($IY \leq 20$,...,$ID \leq 20$)   \> \>\\
+ \>Ray-Tracing assumes mid-plane symmetry. Generated points~:   \> {\footnotesize IY*IT*IZ*IP*IS*ID $\leq \imax$ } \> 6*1  \\
+ \>$\YR\pm  IY\ast \dY$, $\TR\pm  IT\ast \dT$, $\ZR\pm  IZ\ast \dZ$, $\PR\pm  IP\ast \dP$ \> \> \\ 
+		\> [$\ZR+  IZ\ast \dZ$, $\PR+\ IP\ast dP$ if KOBJ = 1.1], $\SR\pm  IS\ast \dS$    \> \>\\
+ \>and $\DR \pm  ID\ast dD$ coordinates ($IY \leq 20$,...,$ID \leq 20$)   \> \>\\
  \\
- \textsl{PY, PT, PZ, PP, PS, PD}
-       \>Step size in $Y$, $T$, $Z$, $P$, $S$ and momentum   \>2(cm,mrad),  cm, no dim.  \> 6*E \\
- \>($\PD =  \delta B \rho /\text{\BORO}$)           \> \>  \\
+ \textsl{dY, dT, dZ, dP, dS, dD}
+       \>Sampling size in $Y$, $T$, $Z$, $P$, $S$ and in relative momentum   \>2(cm,mrad),  cm, no dim.  \> 6*E \\
+ \>($\dD =  \delta B \rho /\text{\BORO}$)           \> \>  \\
  \\
-\textsl{YR, TR, ZR, PR, SR, DR}    \>Reference  ($DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
+\YR, \TR, \ZR, \PR, \SR, \DR    \>Reference trajectory ($\DR=B\rho/\text{\BORO}$)    \>2(cm,mrad),  cm, no dim.   \>  6*E \\
  \\
 \textbf{If KOBJ = 2[.1]}      \>All the initial coordinates must be entered explicitly\>\>\\
 \\
@@ -3263,8 +3263,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \IEX($I=1$, \IMAX)  \>\IMAX\ times 1 or -9. If $\IEX(I)=1$ trajectory $I$ is   \>1 or -9  \>\IMAX\*I\\
                      \>   ray-traced, it is not if $\IEX(I)=-9$.   \> \> \\
  \\
-\textbf{If KOBJ=3[.N,}\\
-\hskip1em\textbf{N=0 - 3]}      \>Reads coordinates from a storage file \> \> \\
+\textbf{If KOBJ=3[.N, N=0 - 3]}      \>Reads coordinates from a storage file \> \> \\
                      \> N=0 (default) : [b\_]zgoubi.fai style data file FORMAT  \> \> \\
                      \> N=1 : read FORMAT is \texttt{\small``READ(NL,*) Y,T,Z,P,S,DP''}   \> \> \\
                      \> N=2 : read FORMAT is \texttt{\small``READ(NL,*) X,Y,Z,PX,PY,PZ''}   \> \> \\
@@ -3283,13 +3282,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{SF, DF, TF, TAG}  \> otherwise only particles with TAG$\equiv$LET are retained. \>     \>\\
   \\
 \textsl{YR, TR, ZR, PR,}   \>Reference. Given the previous line of data,     \>2(cm, mrad), \>  7*E \\
-\textsl{SR, DR, TR}       \> all coordinate C is transformed to C*CF+CR \> cm, no dim.,$\mu$s     \>\\
+\textsl{SR, DR, TR}       \> all coordinate C (=Y, T...) is transformed to C*CF+CR \> cm, no dim.,$\mu$s     \>\\
 \\
- \textsl{InitC}     \> 0~: set $new~\vec R_0 = \vec R_0~as~read$, $new~\vec R = \vec R~as~read$~;      \> 0-1 \> I  \\
-              \> 1 : set $new~\vec R_0 = \vec R~as~read$, $new~\vec R = \vec R~as~read$~; \\
-              \> 2 : save $\vec R~as~read$ in $new~\vec R_0$, set $new~\vec R = \vec R_0~as~read$. \\
+ \textsl{InitC}     \> 0~: set new $\vec R_0 = \vec R_0$ as~read, new $\vec R = \vec R$ as~read~;      \> 0-1 \> I  \\
+              \> 1 : set new $\vec R_0 = \vec R$ as~read, new $\vec R = \vec R$ as~read~; \\
+              \> 2 : save $\vec R$ as~read in new $\vec R_0$, set new $\vec R = \vec R_0$ as~read. \\
  \\
- \textsl{FNAME}        \>File name (\emph{e.g.},  zgoubi.fai\index{zgoubi.fai})  \> \>A80 \\
+ \textsl{FNAME}        \>File name (\emph{e.g.},  [b\_]zgoubi.fai\index{zgoubi.fai})  \> \>A80 \\
                        \> (N in KOBJ=3.N determines storage FORMAT)
 \end{tabbing}
 
@@ -3312,42 +3311,39 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 %$XR,DR$              \> ($DR=B\rho/\text{\BORO}$) \>  cm, no dim.     \>\\
 % \\
 
-\textbf{If KOBJ = 5[.N, $N \geq 1$]}\>\\
-\>\textbf{Generation of 11 particles, or 11*N if $I\ge 2$} 
-                                   (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=1$)  \>\>\\
+\textbf{If KOBJ = 5[.N, $N \geq 1$]} \>\textbf{Generation of 11 particles, or 11*N if $I\ge 2$}    (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=1$)  \>\>\\
  \\
- \textsl{PY, PT, PZ, PP, PS, PD}  \>Step sizes in $Y$, $T$, $Z$, $P$, $S$ and $D$
+ \textsl{dY, dT, dZ, dP, dS, dD}  \>Sampling size in $Y$, $T$, $Z$, $P$, $S$ (unused) and $D$
                                               \>2(cm,mrad), cm, no dim. \> 6*E\\
  \\
  \textsl{YR, TR, ZR, PR, SR, DR} \> 
-                        Reference trajectory   ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
+                        Reference trajectory   ($\DR= B \rho /\text{\BORO}$~; \SR\ is not sused)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
  \\
-\textit{If KOBJ = 5.1}      \> additional data line :  \>\>\\
+\textsl{If KOBJ = 5.1}      \> additional data line :  \>\>\\
  $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_S, \beta_S$,  \> Initial beam ellipse parameters~\footnotemark[1]  
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D_Y'$, $D_Z, D_Z'$  \>       \> 2(m,rad)\>  4*E \\
  \\
-\textit{If KOBJ = 5.N, $2 \leq N \leq 99$}\\
+\textsl{If KOBJ = 5.N ($2\! \leq N \! \leq 99$)}
       \> i = 1 to N-1 additional data lines :  \>\>\\
  \textsl{YR, TR, ZR, PR, SR, DR}  \> 
-                        Reference trajectory \# i  ($D\!R= B \rho /\text{\BORO}$)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
+                        Reference trajectory \# i  ($\DR= B \rho /\text{\BORO}$~; \SR\ is not sused)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\
 \textbf{If KOBJ = 6}      \>\textbf{Generation of 61 particles}  (for use with \textsl{MATRIX}\index{MATRIX}, $IORD=2$)  \> \> \\
  \\
- \textsl{PY, PT, PZ, PP, PS, PD} \>Step sizes in $Y$, $T$, $Z$, $P$, $S$ and $D$
+ \dY, \dT, \dZ, \dP, \dS, \dD \>Sampling size in $Y$, $T$, $Z$, $P$, $S$ (unused) and $D$
      \>2(cm,mrad),  cm, no dim.  \>6*E \\
  \\
- \textsl{YR, TR, ZR, PR, SR, DR} \> Reference trajectory~; $DR= B \rho /\text{\BORO}$  \> 2(cm,mrad),  cm, no dim. \>   6*E\\
+ \textsl{YR, TR, ZR, PR, SR, DR} \> Reference trajectory~; $\DR= B \rho /\text{\BORO}$  \> 2(cm,mrad),  cm, no dim. \>   6*E\\
  \\
 \textbf{If KOBJ = 7}      \>\textbf{Object with kinematics} \>\>\\
 \\
   \textsl{IY, IT, IZ, IP, IS, ID}
-       \>Number of points in $\pm Y$, $\pm T$,$\pm Z$, $\pm P$,  \>{\footnotesize \textsl{IY*IT*IZ*IP*IS*ID}$\leq\imax$} \> 6*I \\
-    \> $\pm S$~; $ID$ is not used        \> \>\\
+       \>Number of points in $\pm Y$, $\pm T$,$\pm Z$, $\pm P$, $\pm S$~; $ID$ is not used  \> \textsl{IY*IT*IZ*IP*IS}$\leq\imax$ \> 6*I \\
  \\
- \textsl{PY, PT, PZ, PP, PS, PD}   \>Step sizes in $Y$, $T$, $Z$, $P$ and $S$~; $PD$ = kinematic 
+ \dY, \dT, \dZ, \dP, \dS, \dD   \>Sampling size in $Y$, $T$, $Z$, $P$ and $S$~; $\dD$ = kinematic 
                                                                   \>2(cm,mrad),  cm, mrad$^{-1}$ \> 6*E\\
-             \>coefficient, such that $ D(T)=DR+PD \ast  T $ \>\>\\
+             \>coefficient, such that $ D(T)=DR+\dD \ast  T $ \>\>\\
  \\
  \textsl{YR, TR, ZR, PR, SR, DR}              \>Reference  ($DR=B\rho/\text{\BORO}$)  \>2(cm,mrad), cm, no dim. \>  6*E \\
  \\
@@ -3357,9 +3353,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
        \>Number of samples in each 2-D phase-space~;  \>  {\footnotesize $0\le IY,IZ,IS \le IMAX$}, \> 3*I\\
        \> if zero the central value (below) is assigned \>  {\footnotesize $1\le IY*IZ*IS \le IMAX$}\> \\
   \\
-$Y_0$, $T_0$, $Z_0$, $P_0$,\> Central values ($D_0 = B \rho /\text{\BORO}$)
-	\> m, rad, m, rad, \> 6*E\\
-$S_0$, $D_0$ \> \> m, no dim. \> \\
+$Y_0$, $T_0$, $Z_0$, $P_0$, $S_0$, $D_0$\> Central values ($D_0 = B \rho /\text{\BORO}$)
+	\> 2(m, rad), m, no dim. \> 6*E\\
 \\
 $\alpha_Y$, $\beta_Y$, $\varepsilon_Y/\pi$       
 		\> ellipse parameters and emittances \> no dim., m, m  \> 3*E \\

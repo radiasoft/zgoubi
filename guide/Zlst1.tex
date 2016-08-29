@@ -2271,16 +2271,16 @@ the initial conditions ($ Y$, $T$, $Z$, $P$, $X$, $D$)  with $ D =B\rho/\BORO$
  the relative rigidity. 
 
 \noindent Depending on the value of the next datum \textsl{KOBJ}, these initial
-conditions may be generated   in eight different ways~:   
+conditions may be generated   in  different ways, as follows. 
 \bigskip
 
 \noindent\textbf{KOBJ  =  1~:}   Defines a grid in the $ Y$, $T$, $Z$, $P$, $X$, $D$
- space. One gives the number of points desired 
+ space. One defines the number of points desired 
 % \begin{gather*}
-$$	 IY,\quad IT,\quad IZ,\quad IP, \quad IX, \quad ID\\$$
-with  $ IY\leq n_Y \ldots ID\leq n_D$ such that $ n_Y \times n_T \times ... \times n_D \leq \textsl{max}(\IMAX)$. 
+$$ \IY,\quad \IT,\quad \IZ,\quad \IP, \quad \IX, \quad \ID\\$$
+with  $ \IY\leq n_Y \ldots \ID\leq n_D$ such that $ n_Y \times n_T \times ... \times n_D \leq \textsl{max}(\IMAX)$. 
  One defines the sampling range in each coordinate
-$$	 PY,\quad PT,\quad PZ,\quad PP,\quad PX, \quad PD  $$
+$$	 \dY,\quad \dT,\quad \dZ,\quad \dP,\quad \dX, \quad \dD  $$
 % \end{gather*}
 
 
@@ -2289,12 +2289,12 @@ $ \IMAX = IY  \ast  IT  \ast  IZ \ast   IP \ast IX \ast  ID $ particles with  in
 
 $$
   \begin{array}{*{5}{r<{,}}}
-	  0  &  \pm PY &   \pm 2  \ast   PY & \ldots & \pm IY/2  \ast   PY \\
-	  0  &  \pm PT &   \pm 2 \ast   PT  & \ldots &  \pm IT/2  \ast   PT \\
-	  0  &  \pm PZ &   \pm 2 \ast  PZ   & \ldots &  \pm IZ/2 \ast PZ \\
-	  0  &  \pm PP &   \pm 2  \ast PP  & \ldots  &  \pm IP/2  \ast  PP \\
-	  0  &  \pm PX &   \pm 2  \ast  PX & \ldots  &  \pm IX/2 \ast   PX \\
- 	  0  &  \pm PD &   \pm 2  \ast  PD & \ldots  &  \pm ID/2 \ast   PD 
+	  0  &  \pm \dY &   \pm 2  \ast   \dY & \ldots & \pm IY/2  \ast   \dY \\
+	  0  &  \pm \dT &   \pm 2 \ast   \dT  & \ldots &  \pm IT/2  \ast   \dT \\
+	  0  &  \pm \dZ &   \pm 2 \ast  \dZ   & \ldots &  \pm IZ/2 \ast \dZ \\
+	  0  &  \pm \dP &   \pm 2  \ast \dP  & \ldots  &  \pm IP/2  \ast  \dP \\
+	  0  &  \pm \dX &   \pm 2  \ast  \dX & \ldots  &  \pm IX/2 \ast   \dX \\
+ 	  0  &  \pm \dD &   \pm 2  \ast  \dD & \ldots  &  \pm ID/2 \ast   \dD 
  \end{array}
  $$
 
@@ -2314,8 +2314,8 @@ involves random processes).
 
 \noindent The last datum is a reference in each coordinate, $\YR,\TR,\ZR,\PR,\XR,\DR$. 
 For instance the reference rigidity is $ DR \ast$ \BORO, resulting 
- in the rigidity of a particle of initial condition $ I\ast PD $ to be 
-$ (DR+I\ast PD)\ast \BORO$. 
+ in the rigidity of a particle defined by $ I\ast \dD $ to be 
+$ (DR+I\ast \dD)\ast \BORO$. 
 
 \bigskip
 
@@ -2324,8 +2324,8 @@ symmetry.  The initial $ Z $ and $ P $ conditions are the following
 
 $$
   \begin{array}{*{5}{r<{,}}}
-	  0  &  PZ &   2  \ast   PZ & \ldots & (IZ-1)   \ast   PZ \\
-	  0  &  PP &   2 \ast   PP  & \ldots & (IP-1)   \ast   PP 
+	  0  &  \dZ &   2  \ast   \dZ & \ldots & (\IZ-1)   \ast   \dZ \\
+	  0  &  \dP &   2  \ast   \dP  & \ldots & (\IP-1)   \ast   \dP 
   \end{array}
  $$
 
@@ -2537,19 +2537,17 @@ crash, when multi-turn tracking  - due to computer crash or else. This is discus
 \noindent\textbf{KOBJ = 5~:} Mostly dedicated to the calculation of first order
 transfer matrix and various other  optical parameters, 
  using for instance \textsl{MATRIX\index{MATRIX}} or \textsl{TWISS\index{TWISS}}.  
-The input data are the coordinate sampling 
+The user defines the coordinate sampling 
 \smallskip
-$$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
-
-\noindent The code generates  11 particles,  with initial coordinates 
-$$ 0,\quad \pm PY,\quad \pm PT,\quad \pm PZ,\quad \pm PP, \quad \pm PX, \quad \pm PD $$
+$$ \dY,\quad \dT,\quad \dZ,\quad \dP,  \quad \dD $$
 
 \noindent These values should be small enough, so that the paraxial ray
 approximation be valid. 
- The last data line gives  the reference 
-$$YR, \quad TR, \quad ZR, \quad PR, \quad XR, \quad DR $$
-(with $ DR\ast \BORO$  the reference rigidity - negative value allowed), which adds to the previous 
-coordinate  values.
+The code generates  11 particles,  with initial coordinates 
+$$ 0, \YR \pm \dY, \TR \pm \dT, \ZR \pm \dZ, \PR \pm \dP,  \DR \pm \dD $$
+\noindent given  the reference trajectory  
+$$\YR, \quad \TR, \quad \ZR, \quad \PR,  \quad \DR $$
+(with $ DR\ast \BORO$  the reference rigidity - negative value allowed). 
 
 
 \bigskip
@@ -2582,12 +2580,12 @@ and other higher order transfer coefficients and various other  optical paramete
 using for instance \textsl{MATRIX\index{MATRIX}}. 
 The input data are the coordinate sampling (normally taken paraxial)  
 
-$$ PY,\quad PT,\quad PZ,\quad PP, \quad PX, \quad PD $$
+$$ \dY,\quad \dT,\quad \dZ,\quad \dP,  \quad \dD $$
  
  \noindent to allow the building up of an object containing 61 particles (note~: their coordinates can be 
 checked by printing out into zgoubi.res using \textsl{FAISCEAU}), whereas   a last data line gives  the reference 
-$$YR, \quad TR, \quad ZR, \quad PR, \quad XR, \quad DR $$
-(with $ DR\ast \BORO$  the reference rigidity - negative value allowed), which adds to the previous 
+$$\YR, \quad \TR, \quad \ZR, \quad \PR, \quad \DR $$
+(with $ \DR\ast \BORO$  the reference rigidity - negative value allowed), which adds to the previous 
  coordinate values.
 
 
@@ -2604,9 +2602,9 @@ following
 number $ I$,  the initial relative rigidity $ D_I $ is calculated from the initial angle 
 $T_I $ following
 $$ D_I = DR+ PD \ast  T_I $$
- while $ T_I $ is in the range
-$$ 0,\quad \pm PT,\quad \pm 2\ast PT,\quad \ldots,\quad \pm IT/2\ast PT $$
- as stated under \KOBJ = 1
+\noindent  while $ T_I $ is in the range
+$$ 0,\quad \pm \PT,\quad \pm 2\ast \PT,\quad \ldots,\quad \pm IT/2\ast \PT $$
+\noindent as when using \KOBJ = 1. 
 \end{itemize}
 
 \bigskip
