@@ -3,7 +3,7 @@
 
 	% \part{Description of software contents}{Description of software contents}
 
-                                  \section*{PREFACE TO THE BNL EDITION, 2015+} 
+                                  \section*{PREFACE TO THE BNL EDITION, 2015+ } %\index{PREFACE}
 \addcontentsline{toc}{section}{\numberline{}PREFACE TO THE BNL EDITION (2015+)} 
 
 New functionalities have been introduced~: 
@@ -1541,6 +1541,7 @@ which is easily differentiated, recursively,
 	\label{eqGamma-E}
 \end{equation} 
 
+
 \noindent The interest of that formulation is that the $\left( \dfrac{1}{\beta} \right)^{(n)}$ are already known from the particle dynamics, eq.~(\ref{eq2-2-17}), 
 as well as the derivatives 
 $$	\dfrac{ d^{n+1} \gamma }{ds^{n+1}} = \dfrac{q}{m} \, \dfrac{ d^n (\vec  e\cdot\vec  u) }{ ds^n}$$
@@ -2525,7 +2526,7 @@ charge in units of the elementary charge.
 regarding options 3.1-3.3, see the source file \texttt{'obj3.f'}.
 
 
-\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{OBJET!recovering from a crash}
+\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{OBJET!- recovering from a crash}
 
 \noindent \textsl{OBJET} with option \KOBJ=3[.*] can be used to recover from a job 
 crash, when multi-turn tracking  - due to computer crash or else. This is discussed in the 
@@ -3024,8 +3025,8 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
-\index{QUADRUPO!parameter numbering}
-\index{TOSCA!parameter numbering}
+\index{QUADRUPO!- parameter numbering}
+\index{TOSCA!- parameter numbering}
 	\begin{tabular}{lcl}
 	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\[1ex ]
 	\textsl{'QUADRUPO'}\index{QUADRUPO}        \\
@@ -3057,12 +3058,12 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 
 \noindent A different numbering,  fully sequential, has been adopted in the following elements~: \\
 \\
- \textsl{AIMANT}\index{AIMANT!parameter numbering},   \textsl{DIPOLE}\index{DIPOLE!parameter numbering}, 
- \textsl{EBMULT}\index{EBMULT!parameter numbering}, \textsl{ELMULT}\index{ELMULT!parameter numbering}, 
-\textsl{MULTIPOL}. \index{MULTIPOL!parameter numbering} \\
+ \textsl{AIMANT}\index{AIMANT!- parameter numbering},   \textsl{DIPOLE}\index{DIPOLE!- parameter numbering}, 
+ \textsl{EBMULT}\index{EBMULT!- parameter numbering}, \textsl{ELMULT}\index{ELMULT!- parameter numbering}, 
+\textsl{MULTIPOL}. \index{MULTIPOL!- parameter numbering} \\
 \\
 It is  illustrated  here after 
-in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!parameter numbering}
+in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!- parameter numbering}
 
 \begin{center}
 {\renewcommand{\arraystretch}{1}
@@ -3103,7 +3104,7 @@ in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!paramete
 
 
 
-\noindent Parameters in \textsl{SCALING\index{SCALING!parameter numbering}} also have a sequential numbering, yet some positions 
+\noindent Parameters in \textsl{SCALING\index{SCALING!- parameter numbering}} also have a sequential numbering, yet some positions 
 are skipped, this is illustrated in the example hereafter which covers all possible working modes of \textsl{SCALING} 
  (all details regarding the numbering can be found in the \FORTRAN\ subroutine \texttt{rscal.f})~: 
 
@@ -3169,7 +3170,7 @@ MULTIPOL  KICKH  KICKV  \\
 
 \clearpage
              
-\paragraph{Coupled Variables  ($XC$)  \index{fit procedure!coupled variables|textbf} } 
+\paragraph{Coupled Variables  ($XC$)  \index{fit procedure!- coupled variables|textbf} } 
 
 \noindent  Coupling a variable parameter to any other parameter in the
 structure is possible. This is done by giving $XC$ a value of the form $ int.ijk $ where
@@ -3199,7 +3200,7 @@ element can be shifted while preserving the length of the structure, by coupling
 together its upstream and downstream drift spaces).  
 
  
-\paragraph{Variation Range  \index{fit procedure!variable range|textbf}} 
+\paragraph{Variation Range  \index{fit procedure!- variable range|textbf}} 
 
 \noindent There are two ways to define the allowed range for a variable, as follows. 
 
@@ -3214,7 +3215,7 @@ allowed to explore the range $ v\times(1\pm DV)$.
 \noindent (i) $[v_{min}, v_{max}]$~: This specifies the allowed interval of variation. 
 
 
-\paragraph{\textsl{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit procedure!constraint}
+\paragraph{\textsl{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit procedure!- constraint}
 
 \noindent The next input data in \textsl{FIT[2]} is the number of constraints, \textsl{\NC}. 
 A list of the available constraints is given in the table~page~\pageref{TabFITZlst1}~; adding or changing a constraint 
@@ -3260,12 +3261,22 @@ with the form   $I cos \mu + J sin \mu $.
 the procedures described in \textsl{MATRIX\index{MATRIX}}, option \mbox{\textsl{IFOC} = 0}. 
 The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients 
  supposes the tracking of particles with paraxial  coordinates,  normally defined using  
-\textsl{OBJET\index{OBJET}} option \mbox{\textsl{KOBJ} = 5 or 6}. 
+\textsl{OBJET} \index{OBJET} option \mbox{\textsl{KOBJ} = 5 or 6}. 
+
 
 
 %\newpage
 
+
+\settowidth{\LL}{\textbf{Beam matrix\ }}  
+\hspace{-10ex}
+\label{TabFITZlst1}
+    {\renewcommand{\arraystretch}{1}
 \input{tabFIT.tex}
+\index{fit procedure!- constraint|textbf}
+
+
+
 
 %\newpage
 
@@ -3448,7 +3459,7 @@ An example is given page~\pageref{ExaFITREBELOTE}.
 
 \bigskip
 
-\paragraph{\textsl{OPTIONS} \index{fit procedure!options|textbf}}
+\paragraph{\textsl{OPTIONS} \index{fit procedure!- options|textbf}}
 
 \noindent \textsl{FIT} and \textsl{FIT2} accept various options, as follows. 
 
@@ -3464,17 +3475,17 @@ not appear in the   \textsl{FIT[2]} data list, then that final run does occur.
 
 
 \noindent - 'save' [, FileName] option~:  a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
-default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit procedure!save variables}
+default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit procedure!- save variables}
 
 \smallskip
 
 \noindent - Penalty~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
-will be considered completed, and thus  stopped. \index{fit procedure!penalty}
+will be considered completed, and thus  stopped. \index{fit procedure!- penalty}
 
 \smallskip
 
 \noindent - ITER~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
- \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit procedure!max. number of iterations}
+ \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit procedure!- max. number of iterations}
 
 \medskip
 
@@ -3555,7 +3566,7 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \noindent Once completed, \textsl{FIT[2]} will be followed by a final  
 run of zgoubi.dat with variable values updated as resulting from the fit. 
-This can be inhibited by indicating `nofinal' option\index{fit procedure!options}  
+This can be inhibited by indicating `nofinal' option\index{fit procedure!- options}  
  in \textsl{FIT[2]} (see page~\pageref{nofinal}). 
 For that final run 
 \textsl{GETFITVAL} will be inhibited so avoid overridding the updated variable values. 
@@ -3712,7 +3723,7 @@ is again allowed to decay,  after  the  same path length. This  procedure  is ma
 possible  by  prior storage  of  the  coordinates of the parent  
 particles (in array \textsl{FDES}$(J,I)$) each  time  a  decay  occurs. 
 
-\noindent Negative steps\index{integration step size!negative|textbf}\index{XPAS!negative} (\textsl{XPAS}$<0$) in
+\noindent Negative steps\index{integration step size!- negative|textbf}\index{XPAS!- negative} (\textsl{XPAS}$<0$) in
 optical elements are not compatible with  \textsl{MCDESINT\index{MCDESINT}}.  
 
 
@@ -3761,14 +3772,16 @@ Using \textsl{TWISS} keyword instead may be considered in that case.
 the labelling of keywords).
 
 
+ 
 \bigskip
 
-\noindent An optional third argument, \textsl{IMP=1}, or equivalently the command 'PRINT', 
+\noindent PRINT~: 
+ An optional third argument, \textsl{IMP=1}, or equivalently the command 'PRINT'\index{PRINT!- OPTICS}, 
 will cause saving of the transported optical functions into 
 file \index{zgoubi.OPTICS.out|textbf}zgoubi.OPTICS.out.
 
 
-\vfill
+\bigskip
 
 
 \noindent \underline{\textsl{About the source code~: }}
@@ -4031,7 +4044,7 @@ zgoubi execution pointer back to the top of zgoubi.dat for a new  \textsl{FIT[2]
 
 
 
-\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{REBELOTE!recovering from a crash}
+\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{REBELOTE!- recovering from a crash}
 
 \noindent When accelerating a bunch, \textsl{REBELOTE} is used to ensure the multi-turn process. 
 Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
@@ -4281,7 +4294,7 @@ $$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$
 This should be paid attention to by preliminary simulation tests. 
 
 
-\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{SCALING!recovering from a crash} \label{CrashSCALING}
+\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{SCALING!- recovering from a crash} \label{CrashSCALING}
 
 \noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
 so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
@@ -5470,7 +5483,7 @@ well as removing the longitudinal damping (thus geometrical emittance is conserv
 
 \bigskip
 
-\paragraph{\textsl{CLOSED ORBIT COMPUTATION}}     \index{closed orbit!computation}  
+\paragraph{\textsl{CLOSED ORBIT COMPUTATION}}     \index{closed orbit!- computation}  
 
 \medskip
 
@@ -5490,7 +5503,7 @@ ray-tracing over one turn a particle starting with the initial condition
 (the $ F(6,1) $ coordinate in the \FORTRAN). 
 
 
-\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{CAVITE!recovering from a crash} \label{CrashCAVITE}
+\paragraph{\textsl{RECOVERING FROM A CRASH}}\index{CAVITE!- recovering from a crash} \label{CrashCAVITE}
 
 \noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
 so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
@@ -5504,6 +5517,14 @@ the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the
 See  the \textsl{SCALING} section for more (page~\pageref{SCALING}) and the examples there, as well as the example 
  page~\pageref{ExaOBJ3Recovery}. 
 
+
+\bigskip
+
+\noindent PRINT~: 
+ The optional command 'PRINT'\index{PRINT!- CAVITE}, following the first argument, \textsl{'IOPT'}, 
+in \textsl{CAVITE} keyword,  
+will cause logging of computational data (synchronous time and momentum, RF phase, and much more) in the 
+file \index{zgoubi.CAVITE.out|textbf}zgoubi.CAVITE.Out.
 
 \bigskip
 
@@ -8706,10 +8727,10 @@ periodic parameters are computed such as chromaticities, \index{chromaticity@{ch
 \end{itemize}
 
  
+\bigskip
 
-\medskip
-
-\noindent  Addition of ``\textsl{PRINT}'' following \textsl{IORD, IFOC [, coupled]} will cause 
+\noindent PRINT~: 
+  Addition of ``\textsl{PRINT}''\index{PRINT!- MATRIX} following \textsl{IORD, IFOC [, coupled]} will cause 
 stacking of \textsl{MATRIX} output data into   zgoubi.MATRIX.out \index{zgoubi.MATRIX.out|textbf} 
 file (convenient for use with \emph{e.g.} gnuplot type of data treatment software). 
 
@@ -8722,7 +8743,7 @@ periodic beam matrix request (i.e., \textsl{IFOC} = 10  +  \textsl{NPeriod}) wil
 
 
 
-\vfill
+\bigskip
 
 
 \noindent \underline{\textsl{About the source code~: }}
@@ -8887,7 +8908,10 @@ the mean values of the spin components, etc.,  at the location where it is place
 \medskip
 
 
-\noindent  If the keyword \textsl{SPNPRT} is followed by ``\textsl{PRINT}'' as its first label, then spin data will also be stored in 
+\bigskip
+
+\noindent PRINT~: 
+If the keyword \textsl{SPNPRT} is followed by ``\textsl{PRINT}''\index{PRINT!- SPNPRT} as its first label, then spin data will also be stored in 
 zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``\textsl{PRINT}''. In particular, if \textsl{REBELOTE} is used then data will be stacked in zgoubi.SPNPRT.Out. 
 
 
@@ -8957,7 +8981,7 @@ in sequence element by element~: optical functions, element strength, first orde
 
 
 
-\vfill
+\bigskip
 
 
 \noindent \underline{\textsl{About the source code~: }}
@@ -9073,7 +9097,7 @@ fast crossing of spin resonances with families of jump quadrupoles).
 
 
 \subsubsection{Backward Ray-Tracing} \label{sec4.6.3} 
-\index{backward ray-tracing|textbf} \index{XPAS, negative}\index{integration step size!negative}
+\index{backward ray-tracing|textbf} \index{XPAS, negative}\index{integration step size!- negative}
 
 For the purpose of parameterization for instance, it may be interesting to ray-trace 
 backward  from the image toward the object.  This can be performed by first 
@@ -9410,7 +9434,7 @@ the two parameters $ RS $ (radius) and $ TS $ (angle) (see Fig.~\ref{fig9}A page
 
 
 
- \subsubsection{Coded Integration Step\index{XPAS, coded}\index{integration step size!coded|textbf}} 
+ \subsubsection{Coded Integration Step\index{XPAS, coded}\index{integration step size!- coded|textbf}} 
 
 In several optical elements (\emph{e.g.}, all multipoles, \textsl{BEND}) the 
 integration step (in general noted \textsl{XPAS}) can be coded under the 

@@ -10,7 +10,7 @@ C----- PLOT SPECTRUM
       common/KP/ lusav,kpa,kpb,ksmpl
       LOGICAL IDLUNI
 
-      CHARACTER*80 NOMFIC
+C      CHARACTER*80 NOMFIC
       logical exs
       character(2) HV
 
@@ -147,7 +147,8 @@ C Just a temp storage for passing HV :
  10   continue
 
       call INIGR(
-     >           NLOG, LM, NOMFIC)
+     >           NLOG, LM)
+C     >           NLOG, LM, NOMFIC)
       nl = nfai
       okopn = .false.
       change = .true.
@@ -186,7 +187,7 @@ C      DATA NT / -1 /
       DATA OPN / .FALSE. /
       LOGICAL IDLUNI, OKKT5
 
-      INCLUDE 'FILFAI.H'
+      INCLUDE 'FILFAI.H'     ! Gives NOMFIC
 
       SAVE NPASS
 
@@ -220,9 +221,9 @@ C         IF(NT.EQ.-1) THEN
            WRITE(IUN,*) '//////////////////////////////////////////'
            WRITE(IUN,*) 
      >     '% Fourier analysis considers turn#',kpa,' to turn# ',kpb
-           WRITE(IUN,*) 
-     >     '#XM, XPM, XXNU, ZZNU, 1-XXNU, 1-ZZNU, (U(I),I=1,3), ' //
-     >     'COOR(npass,5)/(npass-1), COOR(?,?), KT, YM, YPM, kpa, kpb,'//
+           WRITE(IUN,fmt='(a)') 
+     >     '#XM, XPM, XXNU, ZZNU, 1-XXNU, 1-ZZNU, (U(I),I=1,3), '//
+     >     'COOR(npass,5)/(npass-1),COOR(?,?), KT, YM, YPM, kpa, kpb,'//
      >     ' E_total, alfx, betx, alfy, bety, alfl, betl '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
@@ -1152,9 +1153,10 @@ C      RETURN
 
       END
       SUBROUTINE INIGR(
-     >                 NLOG, LM, NOMFIC)
+     >                 NLOG, LM)
+C     >                 NLOG, LM, NOMFIC)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(*) NOMFIC
+C      CHARACTER(*) NOMFIC
 
       LOGICAL OKECH, OKVAR, OKBIN
       COMMON/ECHL/OKECH, OKVAR, OKBIN
@@ -1217,7 +1219,8 @@ C----- tunes log unit
       NLOG = 30
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
-      NOMFIC = 'b_zgoubi.fai'
+C      NOMFIC = 'b_zgoubi.fai'
+C      NOMFIC = 'zgoubi.fai'
 
       RETURN
       END
@@ -1378,7 +1381,7 @@ C------ Only parent particles (if decay process using MCDESINT) can be plotted
       SUBROUTINE REWIN2(NL,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINAR
-      REWIND(NL)
+      REWIND(NL) 
 C------- Swallow the header (4 lines)
       CALL READC7(BINAR)
       I4 = 4
@@ -1459,8 +1462,12 @@ C----------- Initial coordinates
       SUBROUTINE HEADER(NL,N,IPRNT,BINARY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      CHARACTER*80 TXT80
+      CHARACTER*900 TXT80
       WRITE(6,FMT='(/,A,I2,A)') ' Now reading  ',N,'-line  file  header'
+      if(binary) WRITE(6,FMT='(2A)') ' from a binary data file.'
+      if(.not.binary) WRITE(6,FMT='(2A)') ' from a formatted data file.'
+      write(6,*) ' NL,N,IPRNT,BINARY : ',NL,N,IPRNT,BINARY
+      write(6,*) ' '
       IF(.NOT.BINARY) THEN
         READ(NL,FMT='(A80)',ERR=99,END=99) TXT80
         if(IPRNT.eq.1) 

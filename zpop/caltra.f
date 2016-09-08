@@ -64,7 +64,7 @@ C  -------
       PARAMETER(MLB=10)
       CHARACTER(LBLSIZ) LBL(MLB)
       CHARACTER(LBLSIZ) LBLST(MLB), LBLSP(MLB)
-      CHARACTER(LBLSIZ) LBLOPT
+      CHARACTER(LBLSIZ) LBLOPT(MLB)
 
 C This INCLUDE must stay located right before the first statement
       INCLUDE 'LSTKEY.H'

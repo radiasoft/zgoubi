@@ -2287,7 +2287,7 @@ $\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the mag
 \index{variable (FIT, FIT2)|textbf}   
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'  \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit procedure!variable range|textbf} 
+ $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'  \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit procedure!- variable range|textbf} 
  \textsl{[, noSYSout]}   \>  avoids final run (default is~: final run performed  using \> save [string] \> [, A4 [, A80]] \\  
  \textsl{[, save [, FileName]]} \> fitted values, once fit is done)~;  'noSYSout' inhibits system output  \>  \> \\  
   \> of variable and constraint status, except for  start and end, and   \> \\  
@@ -2306,7 +2306,7 @@ or :     \>    \>    \> \\
  $\IR$, $\IP$, $\XC$, $[V_{min},V_{max}]$  \>  $V_{min}$, $V_{max}$~: lower and upper limits of the variable. 
                                                                           \> see footnote\footnotemark[4] \>2*I, 3*E\\
   \\[2ex]
-$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[3]} \index{fit procedure!penalty} \index{fit procedure!max. number of iterations} 
+$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[3]} \index{fit procedure!- penalty} \index{fit procedure!- max. number of iterations} 
        \>Number of constraints [, penalty [, max. numb. of iterations]].   \> $\leq 20$ [,$10^{-n}$ [,$>0$]] \> I [, E [, I]] \\
  \\[-2ex]
 \textbf{For I = 1, NC}  \> \it repeat NC times the following sequence~: \>\>\\
@@ -2333,7 +2333,16 @@ relative to BORO) and B field (T). It is in MKSA units (m, rad) in the case of m
 
 \newpage
 
+
+
+\settowidth{\LL}{\textbf{Beam matrix\ }}  
+\hspace{-10ex}
+\label{TabFITZlst1}
+    {\renewcommand{\arraystretch}{1}
 \input{tabFIT.tex}
+\index{fit procedure!- constraint|textbf}
+
+
 
 
 \newpage
@@ -3382,7 +3391,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 
 
 \noindent $\bullet$ \textbf{OBJET, \KOBJ=3} recovering from a crash~: An example  \label{ExaOBJ3Recovery}
-\index{OBJET!recovering from a crash}
+\index{OBJET!- recovering from a crash}
 
 \smallskip 
 
@@ -4911,7 +4920,7 @@ BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I
 \newpage
 
 
-{\bf $\bullet$ The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \textsl{TOSCA}. }
+\noindent {\bf $\bullet$ The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \textsl{TOSCA}. }
 
 ~
 
@@ -5196,4 +5205,5 @@ $C_{B0}$--$C_{B5}$       \>   \> 6*no dim.\>  6*E \\
 \unnumberedcaption{The use of $ YMY $ in a sequence of two 
 dipoles of opposite signs.}
 \end{figure}
+
 \vfill

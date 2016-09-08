@@ -1,26 +1,23 @@
 This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
-Scanning input file Zgoubi.idx....done (786 entries accepted, 0 rejected).
-Sorting entries.........done (7892 comparisons).
+Scanning input file Zgoubi.idx....done (791 entries accepted, 0 rejected).
+Sorting entries.........done (8088 comparisons).
 Generating output file Zgoubi.ind....
-## Warning (input = Zgoubi.idx, line = 295; output = Zgoubi.ind, line = 36):
+## Warning (input = Zgoubi.idx, line = 298; output = Zgoubi.ind, line = 36):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 306; output = Zgoubi.ind, line = 37):
+## Warning (input = Zgoubi.idx, line = 309; output = Zgoubi.ind, line = 37):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 357; output = Zgoubi.ind, line = 84):
+## Warning (input = Zgoubi.idx, line = 360; output = Zgoubi.ind, line = 84):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
 ## Warning (input = Zgoubi.idx, line = 94; output = Zgoubi.ind, line = 89):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 129; output = Zgoubi.ind, line = 92):
-   -- Conflicting entries: multiple encaps for the same page under same key.
-
 ## Warning (input = Zgoubi.idx, line = 95; output = Zgoubi.ind, line = 99):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 440; output = Zgoubi.ind, line = 113):
+## Warning (input = Zgoubi.idx, line = 443; output = Zgoubi.ind, line = 113):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
 ## Warning (input = Zgoubi.idx, line = 60; output = Zgoubi.ind, line = 120):
@@ -29,29 +26,29 @@ Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 64; output = Zgoubi.ind, line = 121):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 430; output = Zgoubi.ind, line = 124):
+## Warning (input = Zgoubi.idx, line = 433; output = Zgoubi.ind, line = 124):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 431; output = Zgoubi.ind, line = 125):
+## Warning (input = Zgoubi.idx, line = 434; output = Zgoubi.ind, line = 125):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 180; output = Zgoubi.ind, line = 162):
+## Warning (input = Zgoubi.idx, line = 181; output = Zgoubi.ind, line = 162):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
 ## Warning (input = Zgoubi.idx, line = 75; output = Zgoubi.ind, line = 179):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 177; output = Zgoubi.ind, line = 207):
+## Warning (input = Zgoubi.idx, line = 178; output = Zgoubi.ind, line = 212):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 208; output = Zgoubi.ind, line = 217):
+## Warning (input = Zgoubi.idx, line = 209; output = Zgoubi.ind, line = 222):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 268):
+## Warning (input = Zgoubi.idx, line = 101; output = Zgoubi.ind, line = 273):
    -- Conflicting entries: multiple encaps for the same page under same key.
 
-## Warning (input = Zgoubi.idx, line = 499; output = Zgoubi.ind, line = 295):
+## Warning (input = Zgoubi.idx, line = 504; output = Zgoubi.ind, line = 301):
    -- Conflicting entries: multiple encaps for the same page under same key.
-done (309 lines written, 17 warnings).
+done (315 lines written, 16 warnings).
 Output written in Zgoubi.ind.
 Transcript written in Zgoubi.ilg.

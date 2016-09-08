@@ -13,6 +13,7 @@
 \usepackage{alltt}
 \usepackage{Zgoubisty}
 \usepackage{times}   % for better possible conversion to pdf
+\usepackage{ragged2e}  % allows \justifying  
 %\usepackage{color}
 
 %   \includeonly{Zlst1}  
@@ -47,12 +48,13 @@
     \include{Zlst2}
       \clearemptydoublepage
 
+    \justifying
     \include{Zlst3}
       \clearemptydoublepage
 
     \include{Zbiblio}
       \clearemptydoublepage
-
+ 
     \pagestyle{headings}
     \addcontentsline{toc}{section}{\numberline{}INDEX}
     \printindex 

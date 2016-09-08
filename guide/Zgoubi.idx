@@ -66,7 +66,7 @@
 \indexentry{tag, tag character}{52}
 \indexentry{IEX@{\IEX}}{52}
 \indexentry{REBELOTE}{53}
-\indexentry{OBJET!recovering from a crash}{53}
+\indexentry{OBJET!- recovering from a crash}{53}
 \indexentry{MATRIX}{53}
 \indexentry{TWISS}{53}
 \indexentry{FIT}{53}
@@ -107,39 +107,39 @@
 \indexentry{FIT2}{60}
 \indexentry{QUADRUPO}{61}
 \indexentry{TOSCA}{61}
-\indexentry{QUADRUPO!parameter numbering}{61}
-\indexentry{TOSCA!parameter numbering}{61}
+\indexentry{QUADRUPO!- parameter numbering}{61}
+\indexentry{TOSCA!- parameter numbering}{61}
 \indexentry{QUADRUPO}{61}
-\indexentry{AIMANT!parameter numbering}{61}
-\indexentry{DIPOLE!parameter numbering}{61}
-\indexentry{EBMULT!parameter numbering}{61}
-\indexentry{ELMULT!parameter numbering}{61}
-\indexentry{MULTIPOL!parameter numbering}{61}
-\indexentry{DIPOLE-M!parameter numbering}{61}
-\indexentry{SCALING!parameter numbering}{62}
-\indexentry{fit procedure!coupled variables|textbf}{63}
+\indexentry{AIMANT!- parameter numbering}{61}
+\indexentry{DIPOLE!- parameter numbering}{61}
+\indexentry{EBMULT!- parameter numbering}{61}
+\indexentry{ELMULT!- parameter numbering}{61}
+\indexentry{MULTIPOL!- parameter numbering}{61}
+\indexentry{DIPOLE-M!- parameter numbering}{61}
+\indexentry{SCALING!- parameter numbering}{62}
+\indexentry{fit procedure!- coupled variables|textbf}{63}
 \indexentry{FIT}{63}
 \indexentry{FIT2}{63}
-\indexentry{fit procedure!variable range|textbf}{63}
+\indexentry{fit procedure!- variable range|textbf}{63}
 \indexentry{constraint (FIT, FIT2)|textbf}{63}
-\indexentry{fit procedure!constraint}{63}
+\indexentry{fit procedure!- constraint}{63}
 \indexentry{OBJET}{63}
 \indexentry{MATRIX}{63}
 \indexentry{OBJET}{63}
-\indexentry{fit procedure!constraint|textbf}{63}
+\indexentry{fit procedure!- constraint|textbf}{64}
 \indexentry{closed orbit}{64}
 \indexentry{MCOBJET}{65}
 \indexentry{spin, $\vec n_0$ vector}{65}
 \indexentry{FIT and REBELOTE, combined|textbf}{66}
-\indexentry{fit procedure!options|textbf}{66}
-\indexentry{fit procedure!save variables}{66}
-\indexentry{fit procedure!penalty}{66}
-\indexentry{fit procedure!max. number of iterations}{66}
+\indexentry{fit procedure!- options|textbf}{66}
+\indexentry{fit procedure!- save variables}{66}
+\indexentry{fit procedure!- penalty}{66}
+\indexentry{fit procedure!- max. number of iterations}{66}
 \indexentry{GASCAT|textbf}{67}
 \indexentry{GETFITVAL|textbf}{68}
 \indexentry{FIT}{68}
 \indexentry{FIT2}{68}
-\indexentry{fit procedure!options}{68}
+\indexentry{fit procedure!- options}{68}
 \indexentry{MCDESINT|textbf}{69}
 \indexentry{Monte Carlo}{69}
 \indexentry{OBJET}{69}
@@ -156,10 +156,11 @@
 \indexentry{MCDESINT}{70}
 \indexentry{CHANGREF}{70}
 \indexentry{MCDESINT}{70}
-\indexentry{integration step size!negative|textbf}{70}
-\indexentry{XPAS!negative}{70}
+\indexentry{integration step size!- negative|textbf}{70}
+\indexentry{XPAS!- negative}{70}
 \indexentry{MCDESINT}{70}
 \indexentry{OPTICS|textbf}{71}
+\indexentry{PRINT!- OPTICS}{71}
 \indexentry{zgoubi.OPTICS.out|textbf}{71}
 \indexentry{OPTIONS|textbf}{72}
 \indexentry{ORDRE|textbf}{73}
@@ -196,7 +197,7 @@
 \indexentry{CHAMBR}{75}
 \indexentry{COLLIMA}{75}
 \indexentry{REBELOTE and FIT, combined|textbf}{76}
-\indexentry{REBELOTE!recovering from a crash}{76}
+\indexentry{REBELOTE!- recovering from a crash}{76}
 \indexentry{RESET|textbf}{77}
 \indexentry{CHAMBR}{77}
 \indexentry{COLLIMA}{77}
@@ -217,7 +218,7 @@
 \indexentry{reference rigidity}{80}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{80}
 \indexentry{BORORef@$B\rho_{ref}$}{80}
-\indexentry{SCALING!recovering from a crash}{80}
+\indexentry{SCALING!- recovering from a crash}{80}
 \indexentry{SPNTRK|textbf}{81}
 \indexentry{spin tracking}{81}
 \indexentry{IMAX@{\IMAX}}{81}
@@ -290,8 +291,10 @@
 \indexentry{cyclotron}{103}
 \indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{103}
 \indexentry{BORORef@$B\rho_{ref}$}{103}
-\indexentry{closed orbit!computation}{104}
-\indexentry{CAVITE!recovering from a crash}{104}
+\indexentry{closed orbit!- computation}{104}
+\indexentry{CAVITE!- recovering from a crash}{104}
+\indexentry{PRINT!- CAVITE}{104}
+\indexentry{zgoubi.CAVITE.out|textbf}{104}
 \indexentry{CHAMBR|textbf}{105}
 \indexentry{stopped particles}{105}
 \indexentry{CHAMBR}{105}
@@ -453,6 +456,7 @@
 \indexentry{MATRIX}{168}
 \indexentry{coupling|textbf}{168}
 \indexentry{chromaticity@{chromaticity}}{168}
+\indexentry{PRINT!- MATRIX}{168}
 \indexentry{zgoubi.MATRIX.out|textbf}{168}
 \indexentry{PICKUPS|textbf}{169}
 \indexentry{LABEL@{\LABEL}}{169}
@@ -474,6 +478,7 @@
 \indexentry{zgoubi.dat}{171}
 \indexentry{SPNPRT|textbf}{172}
 \indexentry{IMAX@{\IMAX}}{172}
+\indexentry{PRINT!- SPNPRT}{172}
 \indexentry{SRPRNT|textbf}{173}
 \indexentry{synchrotron radiation loss}{173}
 \indexentry{TWISS|textbf}{174}
@@ -489,7 +494,7 @@
 \indexentry{time varying fields|textbf}{176}
 \indexentry{backward ray-tracing|textbf}{176}
 \indexentry{XPAS, negative}{176}
-\indexentry{integration step size!negative}{176}
+\indexentry{integration step size!- negative}{176}
 \indexentry{checking field|textbf}{176}
 \indexentry{checking trajectories|textbf}{176}
 \indexentry{IL@{\IL}}{176}
@@ -537,7 +542,7 @@
 \indexentry{DIPOLE-M}{181}
 \indexentry{POLARMES}{181}
 \indexentry{XPAS, coded}{181}
-\indexentry{integration step size!coded|textbf}{181}
+\indexentry{integration step size!- coded|textbf}{181}
 \indexentry{multi-particle|textbf}{181}
 \indexentry{Monte Carlo}{181}
 \indexentry{REBELOTE}{181}
@@ -619,10 +624,10 @@
 \indexentry{FIT2|textbf}{230}
 \indexentry{constraint (FIT, FIT2)|textbf}{230}
 \indexentry{variable (FIT, FIT2)|textbf}{230}
-\indexentry{fit procedure!variable range|textbf}{230}
-\indexentry{fit procedure!penalty}{230}
-\indexentry{fit procedure!max. number of iterations}{230}
-\indexentry{fit procedure!constraint|textbf}{231}
+\indexentry{fit procedure!- variable range|textbf}{230}
+\indexentry{fit procedure!- penalty}{230}
+\indexentry{fit procedure!- max. number of iterations}{230}
+\indexentry{fit procedure!- constraint|textbf}{231}
 \indexentry{BORO@{\BORO}$\times D_{ref}$}{232}
 \indexentry{BORORef@$B\rho_{ref}$}{232}
 \indexentry{zgoubi.SPNPRT.Out}{232}
@@ -663,7 +668,7 @@
 \indexentry{zgoubi.fai}{250}
 \indexentry{MATRIX}{251}
 \indexentry{MATRIX}{251}
-\indexentry{OBJET!recovering from a crash}{252}
+\indexentry{OBJET!- recovering from a crash}{252}
 \indexentry{OBJETA|textbf}{253}
 \indexentry{Monte Carlo}{253}
 \indexentry{BORO@{\BORO}|textbf}{253}
@@ -756,11 +761,11 @@
 \indexentry{zgoubi}{317}
 \indexentry{zpop}{317}
 \indexentry{zgoubi.f}{317}
-\indexentry{zgoubi!running the code}{317}
+\indexentry{zgoubi!- running the code}{317}
 \indexentry{zgoubi.dat}{317}
 \indexentry{zgoubi.res}{317}
 \indexentry{zgoubi.dat}{317}
-\indexentry{zpop!running the code}{317}
+\indexentry{zpop!- running the code}{317}
 \indexentry{storage files}{317}
 \indexentry{gnuplot}{318}
 \indexentry{FAISCNL}{318}
