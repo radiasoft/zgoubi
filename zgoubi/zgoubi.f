@@ -607,7 +607,7 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       IDIM = I3
 C      IF(READAT) CALL RCARTE(KART,I3,
       IF(READAT) CALL RCARTE(KART,IDIM,
-     >                        ND(NOEL))
+     >                                 ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN

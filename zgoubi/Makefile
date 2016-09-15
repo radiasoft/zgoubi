@@ -679,6 +679,6 @@ unipot.o: $(INC)/MXLD.H
 wedgki.o: $(INC)/MAXCOO.H
 wienfi.o: $(INC)/MXLD.H
 ymoiny.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H $(INC)/MXSCL.H
+zgoubi.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H PARIZ.H $(INC)/FILPLT.H $(INC)/LSTKEY.H $(INC)/ZGINIT.H $(INC)/MXSCL.H
 zgoubi_main.o: $(INC)/MXLD.H
  

@@ -33,6 +33,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+      DIMENSION FOUT(MXJ,MXT)
 
       F(2,I)=Y
       F(3,I)=T*1000.D0
@@ -47,4 +48,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       AMQ(2,I) = QT
 
       RETURN
+
+      ENTRY MAJTR1(
+     >             FOUT)
+      FOUT = F
       END

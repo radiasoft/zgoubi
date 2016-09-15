@@ -78,10 +78,10 @@ C------- Print field map in zgoubi.res
           WRITE(NRES,
      >    FMT='(/,1X,20(''-''),/,10X,'' FIELD  MAP  (NORMALISED) :'',/)'
      $         )
-          WRITE(NRES,FMT='(/,A,3I2,/)') '  IXMA,JYMA,KZMA ',
+          WRITE(NRES,FMT='(/,A,3(I5,1X),/)') '  IXMA, JYMA, KZMA : ',
      >    IXMA,JYMA,KZMA
-          WRITE(NRES,FMT='(
-     >    5X,''Y'',4X,''Z'',4X,''X'',4X,A,''y'',4X,A,''z'',4X,A,''x'')') 
+          WRITE(NRES,FMT='(T3,''Y'',T16,''Z'',T29,''X'',
+     >    T42,A,''Y'',T55,A,''Z'',T68,A,''X'')') 
      >    BE(KFLD),BE(KFLD),BE(KFLD)
 
           CALL RAZ(BREAD,3)
@@ -91,9 +91,9 @@ C------- Print field map in zgoubi.res
               DO JD=1, ID
                 BREAD(JD) = HC(JD,I,J,K,IMAP)
               ENDDO
-
-              WRITE(NRES,FMT='(1X,1P,6G11.2)') YH(J),ZH(K),XH(I),
-     >                             BREAD(2), BREAD(3), BREAD(1)
+              WRITE(NRES,FMT='(1X,1P,6(E12.4,1X),3(I5,1X))') 
+     >        YH(J),ZH(K),XH(I), BREAD(2), BREAD(3), BREAD(1)
+     >        ,J,K,I
             ENDDO
           ENDDO
 
@@ -112,7 +112,7 @@ C Replaces the last 2 lines of header (as written by OPEN2) :
         WRITE(NMAP,FMT='(1X,A11,1X,I1,1P,3G15.7)')
      >  'boundaries:',IDRT,(CA(I),SA(I),CM(I),I=1,IDRT)
         WRITE(NMAP,992) IXMA,JYMA,ACN,RFR,KART,MOD
- 992    FORMAT(2I3,1P,2E15.7,1X,I1,I3)
+ 992    FORMAT(2(I5,1X),1P,2(E15.7,1X),1X,I1,1X,I3)
 
 C Write the map :
         WRITE(NMAP,FMT='(A)') ' X data '
@@ -325,7 +325,7 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           GOTO 42
  41       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
-     >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
+     >    'Could not read R_min, DR, DTTA, DZ from line 1 of HEADER...'
  42       CONTINUE
           DO II=1, NHD-1
             READ(LUN,END=97,ERR=98) HDRM
@@ -333,10 +333,10 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
-     >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
+     >    'R_min (cm), DR (cm), DTTA (deg), DZ (cm) : ',R0,DR,DTTA,DZ
         ELSE
 C          CALL ENDJOB('Please give at least 1 line header in field map'
-C     >    //' file with R0, DR, DTTA, DZ values.',-99)
+C     >    //' file with R_min, DR, DTTA, DZ values.',-99)
         ENDIF
       ELSE
         IF(NHD .GE. 1) THEN
@@ -347,7 +347,7 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           GOTO 40
  39       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
-     >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
+     >    'Could not read R_min, DR, DTTA, DZ from line 1 of HEADER...'
  40       CONTINUE
           DO II=1, NHD-1
             READ(LUN,FMT='(A120)',END=97,ERR=98) HDRM
@@ -355,10 +355,11 @@ C Map data file starts with NHD-line header (NORMALLY 8)
           ENDDO
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') ' '
           IF(NRES.GT.0) WRITE(NRES,fmt='(a,1p,4e14.6,/)')
-     >                 'R0, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
+     >    'R_min (cm), DR (cm), DTTA (deg), DZ (cm) : ',R0,DR,DTTA,DZ
+C     >                 'R_min, DR, DTTA, DZ : ',R0,DR,DTTA,DZ
         ELSE
 C          CALL ENDJOB('Please give at least 1 line header in field map'
-C     >    //' file with R0, DR, DTTA, DZ values.',-99)
+C     >    //' file with R_min, DR, DTTA, DZ values.',-99)
         ENDIF
       ENDIF
 
@@ -377,7 +378,8 @@ C  x,z position in an horizontal plane in map data relates to tta, r by
 C  x=r cos(tta),  z=r sin(tta). 
 C  Coordinates x,z,y in map data file vary from fastest to slowest respectively, 
 C  according to tta, r increments and to z increment. 
-
+C  Cylindrical oordinates of the mesh nodes are computed from dR, dtheta.
+ 
 C----------- Read the bare map data
            IRMA = JYMA
            JTMA = IXMA/2+1
@@ -436,9 +438,9 @@ C---------------- Polar components at positon (r,tta) in cyl. frame
 C------- symmetrise 3D map wrt magnet vertical symm plane
         DO 34  K=1,K2ZMA    
           KZC = K2ZMA-1+K
-          if(kzc.gt.iz) call endjob(' FMAPW, K should be <',IZ+1)
+          IF(KZC.GT.IZ) CALL ENDJOB('Pgm FMAPW : K should be <',IZ+1)
           DO 34 I=1,IRMA      
-            if(i.gt.mxy) call endjob(' FMAPW, I should be <',mxy+1)
+            IF(I.GT.MXY) CALL ENDJOB('Pgm FMAPW : I should be <',MXY+1)
             DO 34 J=1,JTMA-1    
               IF    (MOD.EQ.20) THEN
                 JTC = J
@@ -474,6 +476,70 @@ C------- Mesh coordinates
         ENDDO
         DO I=-IXMA/2,IXMA/2
           XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+        ENDDO
+
+
+      ELSEIF(MOD .EQ. 24) THEN
+C---------- Read the map. 
+C A single field map contains the full 3D map. No symmetrization applied. 
+C The map file gives Btheta, Br, BZ. 
+C Cylindrical oordinates of the mesh nodes are re-computed
+C to ensure accuracy. 
+
+C----------- Read the bare map data
+           ITMA = IXMA
+           JRMA = JYMA
+
+           DO J=1,JRMA            
+             RADIUS=R0 + DBLE(J-1) *DR     ! cm
+             DO K = 1,KZMA      
+               Z = DBLE(K-1) * DZ          ! cm
+               DO I=1,ITMA        
+                 TTA =  DBLE(I-1) * DTTA         ! rad
+                 IF(BINAR) THEN
+                   READ(LUN,END=97,ERR=98) DUM1,DUM2,DUM3,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
+                 ELSE
+                   READ(LUN,*,END=97,ERR=98) DUM1,DUM2,DUM3,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
+C                   write(33,*) DUM1,DUM2,DUM3,BREAD(1),BREAD(2),BREAD(3)
+                 ENDIF
+
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = TTA
+                   YBMA = RADIUS
+                   ZBMA = Z
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = TTA
+                   YBMI = RADIUS
+                   ZBMI = Z
+                 ENDIF
+
+C---------------- Polar components Btheta, Br, BZ at positon (tta,r,Z) in cyl. frame
+                 HC(1,I,J,K,IMAP) = BREAD(1) * BNORM
+                 HC(2,I,J,K,IMAP) = BREAD(2) * BNORM
+                 HC(3,I,J,K,IMAP) = BREAD(3) * BNORM
+               ENDDO
+             ENDDO
+           ENDDO
+
+        BMIN = BMIN * BNORM
+        BMAX = BMAX * BNORM
+
+C------- Mesh coordinates
+        DO I=-IXMA/2,IXMA/2
+          XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+        ENDDO
+        DO J=1,JYMA
+          YH(J) =  R0 + DBLE(J-1) *DR 
+        ENDDO
+        DO K= -KZMA/2,KZMA/2   
+          ZH(K+KZMA/2+1) = DBLE(K) * DZ
         ENDDO
 
 
@@ -749,7 +815,7 @@ C Map data file starts with NHD-line header
           GOTO 52
  51       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
-     >        'Could not read R0, DR, DTTA, DZ from line 1 of HEADER...'
+     >    'Could not read R_min, DR, DTTA, DZ from line 1 of HEADER...'
  52       CONTINUE
           IF(NHD .GE. 2) THEN
             READ(LUN) HDRM
@@ -761,14 +827,16 @@ C Map data file starts with NHD-line header
               ENDDO
               IF(NRES.GT.0) THEN
                 WRITE(NRES,FMT='(A,1P,4E17.8,/)') 
-     >          ' R0, DR, DTTA, DZ : ',R0, DR, DTTA, DZ
+     >          'R_min (cm), DR (cm), DTTA (deg), DZ (cm) : ',
+     >           R0,DR,DTTA,DZ
+C     >          ' R_min, DR, DTTA, DZ : ',R0, DR, DTTA, DZ
                 CALL FLUSH2(NRES,.FALSE.)
               ENDIF
             ENDIF
           ENDIF
         ELSE
 C          CALL ENDJOB('Please give at least 1 line header in field map'
-C     >    //' file with R0, DR, DTTA, DZ values.',-99)
+C     >    //' file with R_min, DR, DTTA, DZ values.',-99)
         ENDIF
       ELSE
 
@@ -780,7 +848,7 @@ C     >    //' file with R0, DR, DTTA, DZ values.',-99)
           GOTO 50
  49       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
-     >        'Could not read R0, DR, DX, DZ from line 1 of HEADER...'
+     >    'Could not read R_min, DR, DX, DZ from line 1 of HEADER...'
  50       CONTINUE
           IF(NHD .GE. 2) THEN
             READ(LUN,FMT='(A120)') HDRM
@@ -791,14 +859,17 @@ C     >    //' file with R0, DR, DTTA, DZ values.',-99)
                 IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
               ENDDO
               IF(NRES.GT.0) THEN
-                WRITE(NRES,*) ' R0, DR, DX, DZ : ',R0,DR,DX,DZ
+                WRITE(NRES,FMT='(A,1P,4E17.8,/)') 
+     >          'R_min (cm), DR (cm), DTTA (deg), DZ (cm) : ',
+     >          R0,DR,DX,DZ
+C                WRITE(NRES,*) ' R_min, DR, DX, DZ : ',R0,DR,DX,DZ
                 CALL FLUSH2(NRES,.FALSE.)
               ENDIF
             ENDIF
           ENDIF
         ELSE
 C          CALL ENDJOB('Please give at least 1 line header in field map'
-C     >    //' file with  R0, DR, DX, DZ values.',-99)
+C     >    //' file with  R_min, DR, DX, DZ values.',-99)
         ENDIF
 
       ENDIF

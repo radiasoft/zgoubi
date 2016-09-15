@@ -74,10 +74,13 @@ C      LOGICAL ZSYM
       PARAMETER(MPOL=10)
       
       LOGICAL MIRROR, MIRRIN, BACKIN, MIRROU, BACKOU
-
       SAVE MIRROR, BACKW
-        
+
+      LOGICAL CONSTY, CONSTI
+      SAVE CONSTY
+      
       DATA MIRROR / .FALSE. /
+      DATA CONSTY / .FALSE. /
 
       IF(LST .GE. 1 ) CALL CTRLB(1)
 
@@ -108,7 +111,8 @@ C------ Some initialisations in SBR DEVTRA...
 C-------- IEX<-1 <=> Particle stopped
         IF(IEX(IT) .LT. -1) GOTO 1
  
-        IF(IT .EQ. IREP(IT) .OR. .NOT. ZSYM) THEN
+        IF(IT .EQ. IREP(IT) .OR. .NOT. ZSYM
+     >     .OR. CONSTY                      ) THEN
 
           CALL INITRA(IT)
           X=XO
@@ -153,5 +157,10 @@ C-------- IEX<-1 <=> Particle stopped
      >             MIRROU,BACKOU)
       MIRROU=MIRROR
       BACKOU=BACKW
+      RETURN
+
+      ENTRY TRANS2(
+     >             CONSTI)
+      CONSTY = CONSTI
       RETURN
       END

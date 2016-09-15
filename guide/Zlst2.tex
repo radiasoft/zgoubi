@@ -3651,8 +3651,8 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
  \> \\[20pt]
 %
 %
- \textsl{IOPT[.NLBL]}, label(s) \> $IOPT=0/1$~: Off/On~; NLBL = number of labels (default is 1)~;  \> 0-1, - , 0-1 \>I[.I],  \\
- \textsl{[, IMP or 'PRINT']} \> 'label'~:  can be  'all', 'ALL', or a list of \textsl{NLBL} first label(s) as   \>  \> 1-NLBL*A10, \\
+ \textsl{IOPT[.NLBL]}, label(s) \> $IOPT=0/1$~: Off/On~; NLBL = number of labels (default is 1)~;  \> 0-1[.1-{\small NLBL}], - ,  \>I[.I],  \\
+ \textsl{[, IMP or 'PRINT']} \> 'label'~:  can be  'all', 'ALL', or a list of \textsl{NLBL} first label(s) as   \> - , - \> 1-NLBL*A10, \\
 \textsl{[, coupled]}        \> appearing at one or more elements in zgoubi.dat sequence~;  \>  \> I1 or A5, A7  \\
       \> wild card  accepted, in the form \textsl{'*myLabel'} or \textsl{'myLabel*'}.   \>  \> \\
       \> $IMP=1$, or presence of   'PRINT', will  cause storage of optical     \>  \> \\
@@ -3683,6 +3683,12 @@ at all optical elements of the zgoubi.dat sequence,  as well as their print out 
 
 \begin{tabbing}
 \mestab
+$R_1$, $U_1$, $U_2$, $R_2 $     \quad \quad \=
+ $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $    \quad \quad \quad \= 
+        2*cm, 2*deg, cm ~ ~  \quad  \quad \quad \quad \quad \= \kill
+%%%%
 \textbf{OPTIONS}         \label{OPTIONS-B} \index{OPTIONS|textbf}
   \> \textbf{\OPTIONSTitl }   \> \> \\
   \\
@@ -3690,11 +3696,15 @@ at all optical elements of the zgoubi.dat sequence,  as well as their print out 
  \> \\[20pt]
 %
 %
- \textsl{IOPT, NBOP}         \> $IOPT=0/1$~: Off/On. NBOP~: total number of options.   \> 0-1, $\geq 0$ \>2*I \\
+ \textsl{IOPT, NBOP}         \> $IOPT=0/1$~: Off/On~; 0 (off) will inhibit all \textsl{NBOP} subsequent  \>0-1, $\geq 0$ \>2*I \\
+                             \>   requests. \textsl{NBOP}~: total number of options.   \>               \>    \\
       \>  \\
-  NBOP lines should follow. Possible choices :    \>  \\
+\sl  NBOP lines should follow. Possible choices :    \>  \\
 \\
- WRITE,   $\pm 1$ \> -1 inhibites (most of) write statements to zgoubi.res  \> 'WRITE', $\pm 1$ \> A,I \\
+ \sl 'WRITE', OPT \> OPT = ON~: inhibites (most of) write statements to zgoubi.res  \> 'WRITE', 'ON' or 'OFF' \> 2*A \\
+\\
+\sl 'CONSTY', OPT \> OPT = ON~: forces constant $Y$ and $Z$ across optical elements  \> 'CONSTY', 'ON' or 'OFF' \> 2*A \\
+
 \end{tabbing}
 
 

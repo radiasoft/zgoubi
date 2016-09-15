@@ -3459,7 +3459,7 @@ An example is given page~\pageref{ExaFITREBELOTE}.
 
 \bigskip
 
-\paragraph{\textsl{OPTIONS} \index{fit procedure!- options|textbf}}
+\paragraph{\textsl{FIT[2] OPTIONS} \index{fit procedure!- options|textbf}}
 
 \noindent \textsl{FIT} and \textsl{FIT2} accept various options, as follows. 
 
@@ -3811,7 +3811,7 @@ Both are called from \texttt{opticc}.
 
 \medskip
 
-\textsl{OPTIONS} allows switching various options. 
+\textsl{OPTIONS} allows on/off switching of various options. 
 
 ~
 
@@ -3819,11 +3819,35 @@ Both are called from \texttt{opticc}.
 
 ~
 
-\noindent - Inhibit (most of) write statements to zgoubi.res
+\noindent - ``WRITE ~ ~   ON or OFF''
 
-Form of the statement~: ``WRITE ~ ~   -1''
+Role~: inhibit (most of) write statements to zgoubi.res. 
 
-Back to normal~: ``WRITE ~ ~  +1''
+\smallskip 
+
+\noindent Interest~: ``WRITE ~ ~   OFF'' may allow substantial savings on CPU time. 
+``WRITE ~ ~   ON'' set backs to normal (the 'normal' state of write outs may depend on 
+the status of other commands, such as \textsl{REBELOTE}, on-going \text{FIT[2]}, etc.). 
+
+~
+
+\noindent - ``CONSTY ~ ~   ON or OFF''
+
+Role~: force to constant \textsl{Y} and \textsl{Z} coordinates during stepwise integration. 
+
+
+\smallskip 
+
+\noindent Concurrent use with $\IL=2, $ or $\IL=7$ (\cf\ Sec.~\ref{sec4.6.1}, p.~\pageref{sec4.6.1}) will allow logging 
+ $\vec B$ and/or $\vec E$ field(s) (and their derivatives if $\IL=7$) 
+experienced across optical elements, for further plotting for instance. 
+
+\noindent Interest~:  forcing  \textsl{Y} and \textsl{Z} to constant values allows easy check of fields across 
+(individual or short series of) optical elements, when setting up input data in \zgou. Can be for instance of great help 
+in case of complex geometrical and field data inputs, as in \textsl{DIPOLES, FFAG}.  
+
+\noindent Initial coordinates are set in a very regular manner using \textsl{OBJET}. The $Y$ coordinate will stand for the 
+radius value in the case of optical elements defined in polar coordinates (\textsl{DIPOLES}, polar field maps, etc.).  
 
 
 
@@ -9123,31 +9147,35 @@ B. Same  structure, with backward ray-tracing from image to object~: negative in
 \index{checking field|textbf}\index{checking trajectories|textbf}
 
 {\small $\bullet$} In all optical elements, an option $ \IL $\index{IL@{\IL}} is available.  It
-is normally set to $\IL =0$ and in this case has no effect.
+is normally set to $\IL =0$ and in this case has no effect. Other possibilities are as follows~: 
 
-\noindent $ \IL=1 $ causes a print  in zgoubi.res \index{zgoubi.res} of particle 
-coordinates and field
-along trajectories in the optical element.  In the meantime, a calculation and summation of
+\smallskip 
+
+- $ \IL=1 $ causes a print  in zgoubi.res \index{zgoubi.res} of particle 
+coordinates, fields and low-order derivatives, spin vector and other data, 
+at each integration step along trajectories across the optical element.  In the meantime, a calculation and summation of
 the values of $ \vec  \nabla \cdot\vec  B$, 
  $ \vec  \nabla \times\vec  B $ and $ \nabla^2\vec  B $ (same for $\vec E$) at all 
 integration steps is performed, which allows a check of the behavior of 
-$ \vec  B $ (or $ \vec  E $) in field maps (all these derivatives should normally be zero).
+$ \vec  B $ (and/or $ \vec  E $) in field maps (all these derivatives should normally be zero).
 
-\medskip
+\smallskip 
 
-\noindent $ \IL=2 $ causes a print   of particle coordinates and other 
-informations into the file  zgoubi.plt\index{zgoubi.plt} at each integration step~; this information 
- can further be processed with 
-\textbf{zpop}\footnote{See Part D of the Guide.}\index{zpop}. In order to minimize  the volume of 
-that storage file (when dealing with small step size, large number of particles, etc.) it is possible 
-to print out  every other $10^n$ integration step by taking $ \IL=2 \times 10^n $ (for instance, 
+- $ \IL=2 $ causes a print of particle data (coordinates, $\vec B $ and/or $\vec E$ field(s) experienced, 
+RF cavity related data, spin, etc.), 
+particle status (\eg, decay status,  whether it is still tracked, etc.), 
+into the dedicated file  zgoubi.plt\index{zgoubi.plt}, 
+one line of data per article, at each integration step. This information  can further be processed 
+(using \textbf{zpop}\footnote{See Part D of the Guide.}\index{zpop} or gnuplot, for instance). In order to minimize  the volume of 
+that storage file (when dealing with small step size, long optical elements, large number of particles, etc.) it is possible 
+to print out  every other $10^n$ integration step by taking $ \IL=2 \times 10^n $ instead (for instance, 
  $ \IL=200 $ would cause output into zgoubi.plt every $100$ other step). 
 
-\medskip
+\smallskip 
 
-\noindent $ \IL=7 $ causes a print   of particle coordinates, fields, field derivatives  and other 
-informations into the file  zgoubi.impdev.out\index{zgoubi.impdev.out|textbf}, 
-one line of data  at each integration step. This information 
+- $ \IL=7 $ causes similar outputs to  $ \IL=1 $, and more, in particular derivatives to higher order, yet 
+ into the dedicated file  zgoubi.impdev.out\index{zgoubi.impdev.out|textbf}, 
+one line of data per particle,  at each integration step. This information 
  can be further  plotted (\eg, using \zpop, or gnuplot). 
 An example is given in fig.~\ref{figK1K2AGS}, a plot of the quadrupole and sextupole 
 field indices along the reference orbit 
@@ -9174,14 +9202,19 @@ by stating $\IL=7$ under \textsl{TOSCA} keyword.
 
 \medskip
 
-\noindent {\small $\bullet$} When dealing with field  maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL
-\index{ELREVOL}, TOSCA\index{TOSCA}}), an option index $ \IC $\index{IC@{\IC}} is available.
+\noindent {\small $\bullet$} When dealing with field  maps (\emph{e.g.}, \textsl{CARTEMES\index{CARTEMES}}, \textsl{ELREVOL, 
+\index{ELREVOL} TOSCA\index{TOSCA}}), an option index $ \IC $\index{IC@{\IC}} is available.
   It is normally set to $\IC =0$ and in this case has no effect.
- 
-\noindent $ \IC=1 $ causes a print of the field map in zgoubi.res. \index{zgoubi.res}
+ Other possibilities are as follows~: 
 
-\noindent $ \IC=2 $ will cause a print   of field maps into the file  zgoubi.map \index{zgoubi.map}
-which can further be processed with \textbf{zpop} for plotting and other data treatment purposes. 
+\smallskip 
+
+- $ \IC=1 $ causes a print of the field map in zgoubi.res. \index{zgoubi.res}
+
+\smallskip 
+
+- $ \IC=2 $ will cause a print   of the field map into the file  zgoubi.map \index{zgoubi.map}
+which can further be processed with \textbf{zpop} for plotting, superimposing trajectories, and other data treatment purposes. 
 %%%%%%%\addtocounter{footnote}{-1}\footnotemark.
 
 

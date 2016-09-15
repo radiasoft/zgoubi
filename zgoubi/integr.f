@@ -73,17 +73,20 @@ C      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       LOGICAL FITTST
       SAVE FITTST
  
-      LOGICAL CONSTY
-      PARAMETER(CONSTY=.FALSE.)
+      LOGICAL CONSTY, CSTYI, IDLUNI
+      SAVE CONSTY  !!, LNW
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KEY
+
+      DIMENSION F(MXJ,MXT)
  
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
       DATA WDGE, WDGS, FINTE, FINTS, GAPE, GAPS / 6*0.D0 /
  
       DATA FITTST / .FALSE. /
- 
+      DATA CONSTY / .FALSE. /
+
 c      call ZGNOEL(
 c     >             NOEL)
 c       if(noel.eq.89) then
@@ -299,7 +302,7 @@ C Array CA contains angle of integration boundary
  
 C          stop ' SBR INTEGR : IDRT not implemented'
  
-          IF(abs(CA(2)-X) .LT. DXI) THEN
+          IF(ABS(CA(2)-X) .LT. DXI) THEN
  
 c        write(*,*) ' be > XLIM) idrt, ca1 ',
 c     >       idrt, ca(2)-x, ca(2),x,dxi
@@ -385,14 +388,18 @@ c        if(noel.eq.245)   write(*,*) 'cofin dx/dxi ', dx/dxi
       ST=SIN(T)
  
 C  A trick for tests at constant coordinate -----------------
-         if(consty) then
-                        y = fo(2,it)
-                    xxx = nstep*dxi
-                    x = xxx
-           write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
-     >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
-         endif
-C            z=0.2d0
+         IF(CONSTY) THEN
+               CALL MAJTR1(
+     >                     F)
+                        Y = F(2,IT)
+                        Z = F(4,IT)
+C                        Y = FO(2,IT)
+C                        Z = FO(4,IT)
+                    X = NSTEP*DXI
+C           WRITE(*,FMT='(1P,10(E14.6,2X),I6,A)') X, Y, Z,F(6,IT), 
+C     >     B(1,1),B(1,2),B(1,3),E(1,1),E(1,2),E(1,3),IT,'  sbr integr'
+C              read(*,*)
+         ENDIF
 C------------------------------------------------------------
  
       X2 = X
@@ -478,13 +485,15 @@ cc          endif
       IF(FITTST) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
  
 C  A trick for tests at constant coordinate -----------------
-         if(consty) then
-                        y = fo(2,it)
-                    xxx = nstep*dxi
-                    x = xxx
-           write(77,*) y*cos(xxx-dxi), zero, y* sin(xxx-dxi),
-     >          b(1,1),b(1,3)/bri,b(1,2),'    sbr integr'
-         endif
+C         IF(CONSTY) THEN
+C                        Y = F(2,IT)
+C                        Z = F(4,IT)
+C                        Y = FO(2,IT)
+C                        Z = FO(4,IT)
+C                    X = NSTEP*DXI
+C           WRITE(LNW,FMT='(1P,7(E14.6,2X),I6,A)') X, Y, Z,F(6,IT), 
+C     >          B(1,1),B(1,2),B(1,3),IT,'    sbr integr'
+C         ENDIF
 C------------------------------------------------------------
 
 cc       if(noel.eq.245) then
@@ -569,6 +578,15 @@ c          endif
  
       ENTRY INTEG8(KFIT)
       FITTST = KFIT.EQ.1
+      RETURN
+
+      ENTRY INTEGA(CSTYI)
+      CONSTY = CSTYI
+C      IF(CONSTY) THEN
+C        IF(IDLUNI(
+C     >            LNW)) OPEN(UNIT=LNW, 
+C     >            FILE='zgoubi.consty.out')
+C      ENDIF      
       RETURN
  
       END

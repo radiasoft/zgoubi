@@ -194,7 +194,7 @@ clean :
 
 bin.o: MXVAR.H
 block.o: $(INC)/MAXTRA.H
-caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H
+caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H $(INC)/ZGINIT.H
 filcoo.o: MAXNTR.H
 graph7.o: MXVAR.H MAXNTR.H
 graph8.o: MXVAR.H

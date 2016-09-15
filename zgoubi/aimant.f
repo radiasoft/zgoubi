@@ -36,6 +36,7 @@ C-----------------------------------------------------
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
+      INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
@@ -89,7 +90,7 @@ C      IF(KP .NE. 2)  THEN
         XLIM=XI
         DXI=-DXI
         PAS=-PAS
-        CALL INTEGR(.FALSE.,.TRUE.,.FALSE.)
+        CALL INTEGR(.FALSE., .TRUE., .FALSE., KFLD)
         AA=-AE
         CALL CHAREF(.FALSE.,ZERO,ZERO,AA)
         RE=Y
@@ -100,7 +101,7 @@ C      IF(KP .NE. 2)  THEN
         XLIM=XF
         DXI=-DXI
         PAS=-PAS
-        CALL INTEGR(.FALSE.,.TRUE.,.FALSE.)
+        CALL INTEGR(.FALSE., .TRUE., .FALSE., KFLD)
         CALL CHAREF(.FALSE.,ZERO,ZERO,AS)
         RS=Y
         TS=T

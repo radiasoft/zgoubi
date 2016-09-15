@@ -206,7 +206,8 @@ C          Each single file contains the all 3D volume
           ENDIF
 
         ELSEIF(MOD .GE. 20) THEN
-C--------- Cylindrical mesh. Axis is Z. The all 3D map is contained in a single file
+C--------- Cylindrical mesh. Axis is Z. 3D maps are contained in a single file
+C--------- Some MOD values allow superimposing maps. 
           KART = 2
           IF(MOD2 .LE. 1) THEN
             NFIC = 1

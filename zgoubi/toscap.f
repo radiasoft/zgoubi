@@ -185,6 +185,10 @@ C          Each one of these files should contain the all 3D volume.
           DO I = 1, I2
             AA(NOEL,24-1+I) = A(NOEL,24-1+I)
           ENDDO
+        ELSEIF(MOD .EQ. 24) THEN
+C--------- Full 3D volume, no symmetry hypothesis
+          I1 = 1
+          I2 = 1
         ELSE
           STOP ' *** Error. SBR TOSCAP. No such MOD value '
         ENDIF
@@ -256,6 +260,44 @@ C          Each one of these files should contain the all 3D volume.
       IF(NEWFIC) THEN
  
         IF    (MOD .EQ. 20 .OR. MOD .EQ. 21) THEN
+
+          IF(IDLUNI(
+     >            LUN)) THEN
+            BINAR=BINARI(NOMFIC(NFIC),IB)
+            IF(BINAR) THEN
+              OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
+     >        ,STATUS='OLD',ERR=96)
+            ELSE
+              OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
+            ENDIF
+          ELSE
+            GOTO 96
+          ENDIF
+ 
+          IF(NRES.GT.0) THEN
+              LNGTH=len(
+     >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+     >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
+              WRITE(NRES,FMT='(5X,3A)')
+     >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' ',
+     >        'map,  FORMAT type : ',FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
+              CALL FLUSH2(NRES,.FALSE.)
+          ENDIF
+
+          IRD = NINT(A(NOEL,40))
+ 
+C BNORM set to ONE, since sent to CHAMK below
+          KZ = 1
+          CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,
+     >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
+     >                      BMIN,BMAX,
+     >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+ 
+C------- Store mesh coordinates
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+ 
+        ELSEIF(MOD .EQ. 24) THEN
 
           IF(IDLUNI(
      >            LUN)) THEN

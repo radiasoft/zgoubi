@@ -1,6 +1,6 @@
 This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
 Scanning input file Zgoubi.idx....done (791 entries accepted, 0 rejected).
-Sorting entries.........done (8088 comparisons).
+Sorting entries.........done (8079 comparisons).
 Generating output file Zgoubi.ind....
 ## Warning (input = Zgoubi.idx, line = 298; output = Zgoubi.ind, line = 36):
    -- Conflicting entries: multiple encaps for the same page under same key.
