@@ -20,8 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973,  USA
 C  -------
       SUBROUTINE SOLENF(XX,Y,Z)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -48,6 +47,31 @@ C  -------
       GOTO(1,2) MODL
       CALL ENDJOB('SBR SOLENF. No such model # ',MODL)
 
+C Axial field model
+ 1    CONTINUE
+
+      XL = XS - XE
+      X = XX - XE
+      CALL SOLBAX(XL,BO2*BRI,RO2,X,
+     >                              BX)
+      R2  =Y*Y + Z*Z
+      R   =SQRT(R2)
+
+c         write(*,*) ' solenf XL,BO2, BRI,RO2,X : ',XL,BO2,BRI,RO2,X
+c         write(*,*) ' solenf  Y,Z,R,r2,Bx ',Y,Z,R,r2,Bx
+
+      CALL BAXBXR(BX,R,R2,
+     >                    BC,DBC,DDBC)
+
+c         write(*,*) ' solenf ',BC,DBC,DDBC,Y,Z,R
+c               read(*,*)
+
+      CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
+     >                                B,DB,DDB)
+
+      RETURN
+
+C Elliptic integral model
  2    CONTINUE
 
       X=XX-(XS-XE)/2.D0-XE
@@ -71,7 +95,7 @@ C  -------
       K2R =4.D0*RO*R/(RR*RR)
       KP2L=1.D0-K2L
       KP2R=1.D0-K2R
-C            write(*,*) ' solenf bo',bo 
+C            write(88,*) ' solenf bo',bo 
       BBC  =BO/(4.D0*PI)*BRI
  
 CCCCCCC Modified because the approximation (GOTO 1000) causes dirac 
@@ -207,22 +231,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
      >                                B,DB,DDB)
       RETURN      
-
-C Axial field model
- 1    CONTINUE
-
-      XL = XS - XE
-      X = XX - XE
-      CALL SOLBAX(XL,BO2*BRI,RO2,X,
-     >                              BX)
-      R2  =Y*Y + Z*Z
-      R   =SQRT(R2)
-      CALL BAXBXR(BX,R,R2,
-     >                    BC,DBC,DDBC)
-      CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
-     >                                B,DB,DDB)
-
-      RETURN
 
       ENTRY SOLEN2(MODLI,BO2I,RO2I)
       MODL = MODLI 

@@ -28,6 +28,7 @@ C  -------
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
@@ -41,6 +42,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(11) CODE
       CHARACTER(*) CODEI
       SAVE CODE 
+
+      CHARACTER(20) PRTCL
 
       LOGICAL FIRST 
       SAVE FIRST 
@@ -61,8 +64,12 @@ C     $     IREP(MXT),AMQLU,PABSLU
       IF(CODE(1:11) .EQ. 'MASS_CODE_1') THEN
         NM = 2
         AM2 = A(NOEL,2)
-      ELSEIF(CODE(1:4) .NE. 'NONE') THEN
-        GOTO 99
+      ELSE
+        IF(CODE(1:4) .EQ. 'NONE') THEN
+          PRTCL = TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
+        ELSE
+          GOTO 99
+        ENDIF
       ENDIF
 
 c         write(*,*) ' partic.f  am, am2 : ', am, am2
@@ -111,7 +118,9 @@ C        ENDIF
       ENDDO
 
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,FMT='(/,T6,''Particle  properties :'',/)')       
+        WRITE(NRES,FMT='(/,T6,''Particle  properties :'')')       
+        WRITE(NRES,FMT='(T6,A)') 
+     >  PRTCL(DEBSTR(PRTCL):FINSTR(PRTCL))       
         IF(AM.NE.0.D0) THEN
           IF(NM .EQ. 1) THEN        
             WRITE(NRES,100) ' Mass          = ',AM, '  MeV/c2'

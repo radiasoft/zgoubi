@@ -38,10 +38,7 @@ C  -------
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       PARAMETER(MPOL=10)
       INCLUDE "C.MULTPE.H"     ! COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
-C      >,QE(MPOL,MCOEF),QS(MPOL,MCOEF),RTQ(MPOL)
       INCLUDE "C.MULTPL.H"     ! COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
-C     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
-C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
@@ -72,7 +69,7 @@ C FM - July 2015
  103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A6)
             WRITE(NRES,145) XE,XLS
  145        FORMAT(15X,' Entrance and exit integration extents : '
-     >      //'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
+     >      /,20X,'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
             WRITE(NRES,FMT='(15X,'' MODL = '',I2,
      >      '' -> Solenoid model is '',A)') MODL,TYP(MODL)
           ENDIF

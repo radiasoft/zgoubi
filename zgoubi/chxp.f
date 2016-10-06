@@ -157,19 +157,6 @@ C          Field is defined by analytical models, mid plane (1) or 3D (3).
 C----- FACTEUR D'ECHELLE DES Champs. UTILISE PAR 'SCALING'
 C Field scale factor. Used by  'SCALING'
 
-C--------------------------------------------------------------
-C Problem here with my laptop (ok w owl !) : this write(89 is necessary for the FIT problem 
-C ~/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE/FitWorks.res
-C to work (otherwise does run but won't fit to the expected values). 
-C Otherwise scal=NaN is passed to dipi
-c          CALL FITSTA(5,
-c     >                  FITING)
-c            if(FITING) then
-c       write(89,*) ' chxp  SCAL , SCAL0() ',SCAL , SCAL0()
-c        rewind(89)
-c        endif
-C--------------------------------------------------------------
-
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)

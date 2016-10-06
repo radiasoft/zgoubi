@@ -23,7 +23,8 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE BAXBXR(BX,R,R2,B,DB,DDB)
+      SUBROUTINE BAXBXR(BX,R,R2,
+     >                          B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BX(*),B(*),DB(2,*),DDB(2,2,*)
 C     -------------------------------------------------

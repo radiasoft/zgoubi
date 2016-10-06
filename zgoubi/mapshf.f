@@ -269,10 +269,7 @@ C  CALCUL DE BZ
  
  30       CONTINUE
 C  +++ CALCUL DE BZ ET SES DERIVEES AU POINT COURANT A1,R1
-              bzav = bz
-c              write(88,*) ' bz avant ',bz
           BZ=BZ+BZX*A+BZY*R+0.5D0*BZXX*A*A+0.5D0*BZYY*R*R+BZXY*A*R
-              write(88,*) ' irc,jrc,bzav-bz   ',irc,jrc,a,r,bz-bzav
  
  99       CONTINUE
 

@@ -22,46 +22,70 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RSPACH(
-     >                  KSPCH,LBL,NLB)
+
+      SUBROUTINE RSPACH(MLB,
+     >                      TSPCH1,TLAMBDA1,LBL,NLB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL TSPCH1
       CHARACTER(*) LBL(*)
 C     ---------------------------------
-C     READS DATA FOR FAISTORE PROCEDURE
+C     READS DATA FOR SPACECHARGE PROCEDURE (SIMILAR TO FAISTORE)
 C     ---------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      CHARACTER(300) TXT300
-      INTEGER DEBSTR, FINSTR
-      PARAMETER(MLBSC=10)
-      CHARACTER STRA(MLBSC+1)
-      logical strcon
+      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
-      READ(NDAT,*) KSPCH
-      A(NOEL,1) = KSPCH
-      
-      READ(NDAT,FMT='(A)') TXT300
-      TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
-      IF(STRCON(TXT300,'!',
-     >                     IS)) TXT300= TXT300(1:IS-1)
-      READ(TXT300,*) NLB
-      IF(nlb.gt.mlbsc) goto 98
-      CALL STRGET(TXT300,NLB+1,
-     >                         NSTRA,STRA)
+      LOGICAL TSPCH
+      COMMON/SPACECHA/ TLAMBDA,Rbeam(2),Xave(2),Emitt(2),Tave,Bunch_len,
+     >                Emittz, BTAG, SCkx, SCky, TSPCH
 
-      IF(NSTRA .LT. NLB+1) GOTO 99
+      INTEGER DEBSTR,FINSTR
+      CHARACTER(80) TXT, STRA(1)
 
-      DO I = 1, NLB
-        LBL(I) = STRA(I+1)
-      ENDDO
+c      save TLAMBDA1
+c      save TSPCH1
+
+      READ(NDAT,FMT='(A)') TXT
+      CALL STRGET(TXT,1,
+     >                  IDUM,STRA) 
+C File name
+      TA(NOEL,1) = STRA(1)
+
+      IF(MLB .EQ. 0) THEN
+        NLB = 0
+        LBL(1) = ' '
+        LBL(2) = ' '
+        TSPCH1 = .FALSE.
+      ELSE
+        ITXT = finstr(txt)
+        TXT = TXT(DEBSTR(TXT):ITXT)
+        LENG = 1+FINSTR(STRA(1))-DEBSTR(STRA(1))
+        TXT = TXT(LENG+2:itxt)
+        TA(NOEL,2) = TXT
+        CALL STRGET(TXT,MLB,
+     >                      NLB,LBL)
+        TSPCH1 = ((NLB .GE. 1) 
+     >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
+     >  .OR. LBL(1).EQ.'all' 
+     >  .OR. LBL(1).EQ.'ALL' )
+
+        READ(NDAT,*) A(NOEL,1)
+        TLAMBDA1=A(NOEL,1)
+
+      ENDIF
+
+      TSPCH = TSPCH1
+      TLAMBDA = TLAMBDA1
 
       RETURN
 
- 98   CONTINUE
-      CALL ENDJOB('Pgm rspach. Too many labels. Max. is ',MLBSC)
-      RETURN
- 99   CONTINUE
-      CALL ENDJOB('Pgm rspach. NLB > # of labels in list :',I-1)
-      RETURN
+c       ENTRY SPA1(
+c     >             TLAMBDA1,TSPCH1)
+c       TLAMBDA1=TLAMBDA
+c       TSPCH1=TSPCH
+c       RETURN
+
+c       write(*,*) TSPCH1, TLAMBDA1
+
       END

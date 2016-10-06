@@ -44,7 +44,7 @@ C                 - vertical tune and horizontal not perfectly equal
      >,PINV(4,4),GV1(16),FV1(16),WORK(4),NUTEST(4)
 C FM Apr. 2015
       INTEGER, PARAMETER :: DP = SELECTED_REAL_KIND(15,50)
-      COMPLEX(dp) EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2
+      COMPLEX(DP) EV1,EV2,EV3,EV4,V(4,4),PHASE1,PHASE2
       INTEGER   IPIV,IERR,INFO
       DIMENSION IPIV(4)
 
@@ -83,6 +83,10 @@ C     Normalization of the eigen vectors
       XNRM2  = SQRT(Q(1,3)**2+Q(1,4)**2+Q(2,3)**2+Q(2,4)**2+Q(3,3)**2+Q(
      >3,4)**2+Q(4,3)**2+Q(4,4)**2)
 
+C             write(*,*) ' Q11, Q12 ',Q(1,1),Q(1,2),XNRM1
+C             write(*,*) ' CMPLX(Q(1,1),Q(1,2)) ',CMPLX(Q(1,1),Q(1,2))
+C             write(*,*) '  ',XNRM1,CMPLX(Q(1,1),Q(1,2))/XNRM1
+
       V(1,1) = CMPLX(Q(1,1),Q(1,2))/XNRM1
       V(2,1) = CMPLX(Q(2,1),Q(2,2))/XNRM1
       V(3,1) = CMPLX(Q(3,1),Q(3,2))/XNRM1
@@ -107,6 +111,10 @@ C     Phase uncertainity
       PHASE1 = CMPLX(COS(-PI/2.D0-THETA1),SIN(-PI/2.D0-THETA1))
       PHASE2 = CMPLX(COS(-PI/2.D0-THETA2),SIN(-PI/2.D0-THETA2))
 
+C             write(*,*) ' v11 ',V(1,1)
+C             write(*,*) ' theta1, 2 ',theta1,theta2
+C             write(*,*) ' phase1, 2 ',phase1,phase2
+
       V(1,1) = CMPLX(Q(1,1),Q(1,2))/XNRM1*PHASE1
       V(2,1) = CMPLX(Q(2,1),Q(2,2))/XNRM1*PHASE1
       V(3,1) = CMPLX(Q(3,1),Q(3,2))/XNRM1*PHASE1
@@ -123,6 +131,9 @@ C     Phase uncertainity
       V(2,4) = CMPLX(Q(2,3),-Q(2,4))/XNRM2*CONJG(PHASE2)
       V(3,4) = CMPLX(Q(3,3),-Q(3,4))/XNRM2*CONJG(PHASE2)
       V(4,4) = CMPLX(Q(4,3),-Q(4,4))/XNRM2*CONJG(PHASE2)
+
+C              write(*,*) ' tunesc ',XNRM1,PHASE1,XNRM2,PHASE2
+C              write(*,*) v
 
 C      Computation of the fractional part of the horizontal tunes without considering coupling
 
@@ -223,9 +234,16 @@ C     Transformation matrix from coupled referential to action-angle one
       IF(NU1 .EQ. NUTEST(2)) P(:,1) = -P(:,1)
       IF(NU2 .EQ. NUTEST(4)) P(:,3) = -P(:,3)
 
+C              write(*,*) ' tunesc , p '
+C              write(*,*) p
+C                    read(*,*)
+
       CALL GETDET(P,4,DETP)
 
-      P=P/DETP**(0.25)
+      P=P/DETP**(0.25D0)
+
+
+
 
 C     Inverse of the transformation matrix
 

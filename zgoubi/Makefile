@@ -313,6 +313,7 @@ OBJ=\
  rgoto.o\
  rhelix.o\
  rmatrx.o\
+ rms.o\
  rmcdes.o\
  rmcobj.o\
  rmulti.o\
@@ -440,7 +441,7 @@ autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 bendi.o: $(INC)/MXLD.H
 binary.o: $(INC)/MXLD.H $(INC)/MAPHDR.H
-block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
+block.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H $(INC)/C.PDATA.H
 bndth.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 bndthi.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 bonul.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -457,7 +458,7 @@ checks.o: PARIZ.H
 chmbre.o: $(INC)/MAXTRA.H
 chmbr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 chrefe.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXSCL.H
-chxc.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H $(INC)/MXSCL.H $(INC)/MAPHDR.H
+chxc.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H $(INC)/MXSCL.H $(INC)/MAPHDR.H $(INC)/MXHD.H 
 chxp.o: PARIZ.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/FILPLT.H $(INC)/MXSCL.H
 cible.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 cntinl.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
@@ -616,13 +617,14 @@ rgasca.o: $(INC)/MXLD.H
 rgoto.o:  $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.DON.H
 rhelix.o: $(INC)/MXLD.H
 rmatrx.o: $(INC)/MXLD.H
+rms.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/C.CONST.H $(INC)/C.FAISC.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H 
 rmcdes.o: $(INC)/MXLD.H
 rmcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 rnorma.o: $(INC)/MXLD.H
 roptio.o: $(INC)/MXLD.H
 robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-rparti.o: $(INC)/MXLD.H
+rparti.o: $(INC)/MXLD.H $(INC)/C.PDATA.H
 rrebel.o: $(INC)/MXLD.H
 rscal.o:  $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 rsepar.o: $(INC)/MXLD.H

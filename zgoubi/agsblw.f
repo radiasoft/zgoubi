@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,WN,WA,
-     >                                           BM,NB)
+      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,NB,WN,WA,
+     >                                              BM)
 C     ----------------------------------------------
 C     NBLW : # of blwg ; WN(i=1,nblw) : # of turns ; 
 C     WA(i=1,nblw) : amperes.   

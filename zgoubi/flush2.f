@@ -24,8 +24,9 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FLUSH2(IUNIT,BINARY)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)   
-      LOGICAL BINARY
-      CHARACTER(80) TXT80
+      LOGICAL BINARY, OK
+      OK = BINARY   ! just to quiet down the compiler...
+C      CHARACTER(80) TXT80
 C      IF(IUNIT.EQ.6.OR.IUNIT.EQ.5) RETURN 
 C      BACKSPACE(IUNIT)
 C      IF(BINARY) THEN
@@ -35,6 +36,6 @@ C        READ(IUNIT,FMT='(A80)') TXT80
 C      ENDIF
 C 2016, June : I add problem with the above version when adding that in spnprt. 
 C For this reasoned I chanegd to fortran 2003 style flush : 
-      FLUSH(IUNIT)
+      IF(IUNIT .GT. 0) FLUSH(IUNIT)
       RETURN
       END

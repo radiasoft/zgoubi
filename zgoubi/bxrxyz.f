@@ -18,12 +18,13 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE BXRXYZ(BR,DBR,DDBR,Y,Z,R,ID,B,DB,DDB)
+      SUBROUTINE BXRXYZ(BR,DBR,DDBR,Y,Z,R,ID,
+     >                                       B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BR(*),DBR(2,*),DDBR(2,2,*)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)

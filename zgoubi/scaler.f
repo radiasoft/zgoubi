@@ -47,7 +47,7 @@ C  -------
 
       CHARACTER(KSIZ) KLEY
 
-      LOGICAL EMPTY, STRCON
+      LOGICAL EMPTY, STRCON, SCALEX
 
       SAVE TIME, ICTIM
       SAVE ARGDP, FACDP, PSYN
@@ -85,6 +85,7 @@ C  -------
       SCALER = 1.D0
       CALL SCALI5(
      >            MODSCL,NFAM)
+C      IF(NFAM .GT. MXF ) CALL ENDJOB('Pgm scaler. Need NFAM < ',MXF)
       CALL ZGKLEY(
      >            KLEY)
 C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
@@ -99,17 +100,12 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
  3    CONTINUE
 
       DO KF = KF1, NFAM
- 
+
         IF(KLEY .EQ. FAM(KF)) THEN
 C--------- CURRENT KLEY RECORDED FOR SCALING 
         
-c        write(*,*) ' scaler ',noel,kley,LABEL(NOEL,1),EMPTY(LBF(KF,1))
-c        write(*,*) '        ',noel,'||',LBF(KF,1),'||',scaler
-  
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ LBF(,1-MLF) has to match current KLEY's label 1 in part or in full
-
-C            DO  KL=1,MLF
 
             KL = 1
             DOWHILE(.NOT. EMPTY(LBF(KF,KL)) .AND. KL.LE.MLF)  
@@ -126,12 +122,7 @@ C            DO  KL=1,MLF
 C               ... either LBF ends with '*' ...
                 IF(  LLBF-1 .GE. 1 ) THEN
                   IF(  LABEL(NOEL,1)(1:LLBF-1)
-     >                      .EQ. LBF(KF,KL)(1:LLBF-1)) THEN
-
-c                       write(*,*) ' goto 2 AAA '
-
-                    GOTO 2
-                  ENDIF
+     >                      .EQ. LBF(KF,KL)(1:LLBF-1)) GOTO 2
                 ELSE
 C Dec 2015. To be checked before release
 CC Means that LBF='*'. Scaling applies to all keywords
@@ -139,12 +130,7 @@ C                  GOTO 2
                 ENDIF
                 IF( (LLAB-LLBF+2).GT.0) THEN                 !yann to protect -1 in LABEL table
                    IF(LABEL(NOEL,1)(LLAB-LLBF+2:LLAB)
-     >                  .EQ.LBF(KF,KL)(2:LBFB)) THEN
-
-c                       write(*,*) ' goto 2 BBB '
-
-                      GOTO 2
-                   ENDIF
+     >                  .EQ.LBF(KF,KL)(2:LBFB)) GOTO 2
                 ENDIF
 
               ELSE
@@ -153,14 +139,8 @@ C               ... or it as the right label...
 C Yann, Oct 2014 : commented to allow for multiple scaling "lines/families" to point to the same element.
 C                  ok3 = .false.
 
-c            write(*,*) 'CCC ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
-c                       write(*,*) ' goto 2 CCC '
-
                   GOTO 2
                 ELSE
-
-c                  write(*,*) '        ',noel,LABEL(NOEL,1),LBF(KF,KL)                         
-c                  write(*,*) 'scaler ',scaler,kl,kf
            
                 ENDIF
 
@@ -171,28 +151,19 @@ c                  write(*,*) 'scaler ',scaler,kl,kf
 
           ELSE
 
-C            IF( EMPTY(LABEL(NOEL,1))) THEN
-
-C             write(*,*) ' scaler ICI ',noel,LABEL(NOEL,1),KF,KF1, NFAM
-Cc                     stop 'ici'
-              GOTO 2
-C            ENDIF
+            GOTO 2
 
           ENDIF
         ENDIF
        
       ENDDO
 
-C                  write(*,*) 'scaler  goto 88 '
-
       GOTO 88
 
  2    CONTINUE
 
-C       write(*,*) 'scaler at 2 ',kf,kf1,nfam
-C       write(*,*) 'scaler at 2 ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
 
-
+C      IF(IFM .EQ. MXSCL) CALL ENDJOB('Pgm scaler. Need IFM < ',MXSCL)
       IFM = IFM + 1
       KFM(IFM) = KF
 
@@ -215,6 +186,8 @@ C       write(*,*) 'scaler at 2 ',noel,LABEL(NOEL,1),LBF(KF,KL),kf,kl
                 IT2=IT1
               ENDIF  
 
+C       IF(I2 .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
+
               IF( IPASS .GE. IT1 .AND. IPASS .LE. IT2 ) THEN
                 SCALER = SCL(KF,I,1)
                 IF(IT2 .NE. IT1) SCALER= SCALER+ (SCL(KF,I2,1)-SCALER )*
@@ -226,6 +199,16 @@ C FM 17/15
 C                GOTO 88
 
               ENDIF
+
+c                    if(kf.eq.1)
+c               if(noel.eq.452) then 
+c               write(*,fmt='(/,a,1p,e12.4,8(2x,i6))') ' scaler ',scaler, 
+c     >            noel,ipass,kf,kti,mxs,i2,it1,it2
+c                 write(*,fmt='(8(2x,i6))') 
+c     >            IT1,NINT(TIM(KF,I)),KF,I,i2,it2
+C                   stop ' SBR scaler -  TESTS'
+c               endif
+
 
             ELSEIF((MODSCL(KF) .EQ. 10) .OR.
      >             (MODSCL(KF) .EQ. 11)) THEN
@@ -243,6 +226,7 @@ C                GOTO 88
 C              write(66,*) kf, bro, dpref, xt1,xt2
               IF( BRO .GE. XT1 .AND. BRO .LE. XT2 ) THEN
 
+C        IF(I .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
                 SCALER = SCL(KF,I,1)
                 IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)- SCALER)*
      >                 ( BRO - XT1 ) / (XT2 - XT1)
@@ -266,6 +250,8 @@ C              write(66,*) kf, bro, dpref, xt1,xt2
 c                      write(66,*) ' scaler SCL2(KF,IT) ',SCL2(KF,IT)
 c                      write(66,*) ' scaler ',BRO,YT1 ,YT2 
 
+C         IF(IT .GT. MXD) CALL ENDJOB('Pgm scaler. Need IT < ',MXD)
+
                     IF( BRO .GE. YT1 .AND. BRO .LE. YT2 ) THEN
                       SCAL2 = SCL2(KF,IT)
                       IF(YT2 .NE. YT1) SCAL2= SCAL2+ 
@@ -281,16 +267,10 @@ c                      write(66,*) ' scaler ',BRO,YT1 ,YT2
 
                 ENDIF
 
-c                    if(kf.eq.1)
-cC                     if(noel.eq.17)
-c     >               write(66,*) ' scaler ',scaler, 
-c     >               scal2,scaler*scal2, BRO,yt1,yt2,kf,it
-c                     stop ' SBR scaler -  TESTS'
-
                 GOTO 88
               ENDIF
             ELSEIF(MODSCL(KF) .EQ. 12  ) THEN
-               SCALER = 1.d0
+               SCALER = 1.D0
 
             ELSEIF(MODSCL(KF) .EQ. 13  ) THEN
                XT1=TIM(KF,I)
@@ -323,7 +303,7 @@ c                     stop ' SBR scaler -  TESTS'
 c          call cavit1(
 c     >                PP0,GAMMA,dWs)
 c          scaler = SCL(KF,1) * pp0
-          scaler = SCL(KF,1,1) * dpref
+          SCALER = SCL(KF,1,1) * DPREF
             
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -465,10 +445,8 @@ C              SCALER = FAC * SCL(KF,1) * PP0
 
  88   CONTINUE
 
-      IF(OKPRT) THEN
-        WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
-     >  LABEL(NOEL,2)
-      ENDIF
+      IF(OKPRT) WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
+     >LABEL(NOEL,2)
 
       RETURN
 
@@ -492,12 +470,12 @@ C              SCALER = FAC * SCL(KF,1) * PP0
          SCL2(JF,JT) = SCL2I(JF,JT) 
          TIM2(JF,JT) = TIM2I(JF,JT) 
       ENDDO
-
+      SCALE2 = 0.D0
       RETURN
 
-      ENTRY SCALE4(OCLOCI,ekinI)
+      ENTRY SCALE4(OCLOCI,EKINI)
       OCLOCK = OCLOCI
-      ekin = ekinI 
+      EKIN = EKINI 
       SCALE4 = 0.D0
       RETURN
 
@@ -516,12 +494,12 @@ C               OCLOCK PHI TURN#  FREQ  EKIN
       SCALE6 = 0.D0
       RETURN
 
-c      ENTRY SCALE8(FREV0I,E0I,AKI)
-c      FREV0 = FREV0I
-c      E0 = E0I
-c      AK = AKI
-c      SCALE8 = 0.D0 
-c      RETURN
+C      ENTRY SCALE8(FREV0I,E0I,AKI)
+C      FREV0 = FREV0I
+C      E0 = E0I
+C      AK = AKI
+C      SCALE8 = 0.D0 
+C      RETURN
 
       ENTRY SCALE9(
      >             KFMO)
@@ -537,29 +515,45 @@ c      RETURN
          ENDIF   
         ENDIF
       ENDDO
+      SCALE9 = 0.D0 
       RETURN
 
       ENTRY SCALEX(OKPRTI)
       OKPRT = OKPRTI
-        IF(OKPRT) THEN 
-          IF(.NOT.OKOPN) THEN
-            OK =(IDLUNI(
-     >                  LPRT)) 
-            OPEN(UNIT=LPRT,FILE='zgoubi.SCALING.Out',
-     >                     ERR=66,IOSTAT=IOS)
-            WRITE(LPRT,*) '#  IPASS, SCALER, lmnt #, KLEY, '
-     >      //'LABEL(NOEL,1), LABEL(NOEL,2)'
-            OKOPN = .TRUE.
-          ENDIF
-        ELSE
-          IF(OKOPN) THEN
-            CLOSE(LPRT)
-          ENDIF
+      IF(OKPRT) THEN 
+        IF(.NOT.OKOPN) THEN
+          OK =(IDLUNI(
+     >                LPRT)) 
+          OPEN(UNIT=LPRT,FILE='zgoubi.SCALING.Out',
+     >                   ERR=66,IOSTAT=IOS)
+          WRITE(LPRT,*) '#  IPASS, SCALER, lmnt #, KLEY, '
+     >    //'LABEL(NOEL,1), LABEL(NOEL,2)'
+          OKOPN = .TRUE.
         ENDIF
-      RETURN
- 66   IF(NRES.GT.0) WRITE(NRES,FMT='(A)') 
+      ELSE
+        IF(OKOPN) THEN
+          CLOSE(LPRT)
+          OKOPN = .FALSE.
+        ENDIF
+      ENDIF
+      GOTO 67
+ 66   CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,FMT='(A)') 
      >'                *** WARNING, pgm scaler : ' 
      >//' could not open zgoubi.SCALING.out. Will skip printing.'
+      OKPRT = .FALSE.
+ 67   CONTINUE
+      IF(NRES.GT.0) THEN
+        IF(OKPRT) THEN 
+          WRITE(NRES,FMT='(/,15X,''PRINT option is ON, '')') 
+          WRITE(NRES,FMT='(  15X,
+     >    ''SCALING parameters will be logged in zgoubi.SCALING.Out.'',
+     >    /)') 
+        ELSE
+          WRITE(NRES,FMT='(/,15X,''PRINT option is OFF.'')') 
+        ENDIF
+      ENDIF
+      SCALEX = OKPRT
       RETURN
 
       END

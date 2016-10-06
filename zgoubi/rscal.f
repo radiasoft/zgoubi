@@ -41,7 +41,8 @@ C      PARAMETER (MXTA=45)
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       PARAMETER (LBLSIZ=20)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      CHARACTER(KSIZ) FAM
+      CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
  
       PARAMETER (MSTR=MLF+1)
@@ -75,6 +76,10 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       IF( STRCON(TXT132,'!',
      >                      IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
       READ(TXT132,*) A(NOEL,NP),NFAM
+      IF(NFAM .GE. MXTA) THEN
+        WRITE(NRES,*) 'SBR RSCAL - Too many TA. Max allowed is ',MXTA
+        GOTO 90
+      ENDIF
       IF( STRCON(TXT132,'PRINT',
      >                          IS)) THEN
         TA(NOEL,NFAM+1) = 'PRINT'
@@ -88,10 +93,6 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       IF(NFAM .GT. MXF) THEN
         WRITE(NRES,*) 'SBR RSCAL - Too many families. Max allowed is '
      >  ,MXF
-        GOTO 90
-      ENDIF
-      IF(NFAM .GT. MXTA) THEN
-        WRITE(NRES,*) 'SBR RSCAL - Too many TA. Max allowed is ',MXTA
         GOTO 90
       ENDIF
  
@@ -121,14 +122,20 @@ C Remove possible comment trailer
      >    'SBR RSCAL - Too many labels in family. Max allowed is ',MLF
           GOTO 90
         ENDIF
- 
-        IF(KSIZ .GT. LBLSIZ) STOP ' Pgm rscal, ERR : KSIZ > LBLSIZ.'
+        IF(KSIZ .GT. LBLSIZ) THEN
+          WRITE(NRES,*) ' Pgm rscal, ERR : KSIZ > LBLSIZ.'
+          GOTO 90
+        ENDIF
+
         FAM(IFM) = STRA(1)(1:KSIZ)
         TA(NOEL,IFM) = FAM(IFM)
  
         IF(NSTR .GE. 2) THEN
           DO  KL=1,NSTR-1
-            IF(KL+1 .GT. MSTR) STOP ' Pgm rscal, ERR : KL+1 > MSTR.'
+            IF(KL+1 .GT. MSTR) THEN
+              WRITE(NRES,*) ' Pgm rscal, ERR : KL+1 > MSTR.'
+              GOTO 90
+            ENDIF
             LBF(IFM,KL) =  STRA(KL+1)(1:LBLSIZ)
           ENDDO
         ENDIF
@@ -282,7 +289,7 @@ C               max = max(NDSCL,NDTIM)
           ENDIF
         ENDIF
  
-        IF    ( MODSCL(IFM) .LT. 10) then
+        IF    ( MODSCL(IFM) .LT. 10) THEN
  
 C--------- SCL(IFM,IT)
           NP = NP + 1
@@ -309,8 +316,7 @@ C--------- TIM(IFM,IT)
  
 C             WRITE(*,*) ' A(NOEL,NP+IT-1),IT=1,NDtim : ',
 C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
- 
- 
+  
           NP = NP + NDTIM - 1
  
           NP = NP + 1

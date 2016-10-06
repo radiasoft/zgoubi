@@ -35,7 +35,7 @@ c     Written after former tunesc by Frédéric Desforges
 
 C R is the local 6*6 1-turn map. P(4,4) is the corresponding transverse Edward-Teng P-matrix
 
-      F0(1,2) =  P(2,1)/P(2,2)         ! -alpha
+      F0(1,2) = P(2,1)/P(2,2)         ! -alpha
       F0(2,1) = F0(1,2)
       F0(1,1) = P(1,1)/P(2,2)
       F0(2,2) = (P(2,1)**2+P(2,2)**2)/(P(1,1)*P(2,2))

@@ -25,15 +25,15 @@ C  -------
 
 CCCCCC using newton's method this procedure will solve the equation: r=RM*exp(b(r)*theta) where b(r) is defined earlier and theta=fixed here but varying in rtnewt2.
 
-      SUBROUTINE RSOLVE(RTNEWT2,D,sol0,RS,FA)
+      SUBROUTINE RSOLVE(TTA,D,sol0,RS,FA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       
 C     Initial guess
       RS=sol0
-      FRLIM=0.001
+      FRLIM=0.001D0
       RACC=0.001D0
       JMAX=10000
-      thet=RTNEWT2
+      thet=TTA
       
       DO 11 J=1,JMAX
          fr = funct(RS,thet,D,FA)
@@ -46,10 +46,8 @@ C     DEB RAJOUT
             RS = RS - deltar            
          ENDIF
 
-
          IF(ABS(fr).LT.RACC) RETURN 
  11      CONTINUE
-C      PAUSE 'rtnewt2 exceeding maximum iterations'
 
       RETURN
       END

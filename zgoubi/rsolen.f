@@ -33,13 +33,18 @@ C     -----------------------
 
       CHARACTER(132) TXT132
       CHARACTER(30) XRBM(4)
- 
+      INTEGER DEBSTR
+      LOGICAL STRCON
+       
 C----- IL
       READ(NDAT,*) A(NOEL,1)
 
-C----- XL, RO, BO
+C----- XL, RO, BO [, MODL]. Default is MODL=1
 C      READ(NDAT,*) A(NOEL,10),A(NOEL,11),A(NOEL,12)
       READ(NDAT,FMT='(A)') TXT132
+      IF(STRCON(TXT132,'!',
+     >                     II))
+     >TXT132 = TXT132(DEBSTR(TXT132):II-1)
       I4 = 4
       CALL STRGET(TXT132,I4,
      >                      I34,XRBM)

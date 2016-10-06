@@ -166,8 +166,8 @@ C       PARAMETER (MXX=370, MXY=200)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
 C       PARAMETER (IZ=29 , ID=3, MMAP=6)      ! strictu sensu
-C       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
-C       PARAMETER (MXX=801, MXY=200)
+       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
+       PARAMETER (MXX=801, MXY=200)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map
@@ -192,7 +192,7 @@ c       PARAMETER (MXX=801, MXY=31)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-       PARAMETER (IZ=41 , ID=3, MMAP=1)
-       PARAMETER (MXX=567, MXY=201)
+c       PARAMETER (IZ=41 , ID=3, MMAP=1)
+c       PARAMETER (MXX=567, MXY=201)
 
  

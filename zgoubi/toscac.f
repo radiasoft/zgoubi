@@ -233,7 +233,7 @@ C dB1, dB2, dB3
             AA(NOEL,24) = A(NOEL,24)
             AA(NOEL,25) = A(NOEL,25)
             AA(NOEL,26) = 0.D0
-            CALL SCALE9(
+            DUM = SCALE9(
      >                   KFM)
             DO IFM = 1, MXSCL
 c            IF(KFM .GT. 0) THEN

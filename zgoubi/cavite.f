@@ -102,7 +102,7 @@ C      PARAMETER (MXTA=45)
       DWSR = 0.D0
       U0 = 0.D0
 
-      CALL SCALE9(
+      DUM = SCALE9(
      >            KFM )
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) THEN

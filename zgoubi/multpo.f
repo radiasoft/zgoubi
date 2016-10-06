@@ -386,7 +386,8 @@ C------- E converted to MeV/cm
         ENDIF
 
 C--------------------------------------------------------------
-C Problem here with my laptop (ok on owl !) : this write(89 is necessary for the FIT problem 
+C OCT. 2016. THIS PROBLEM HAS BEEN SOLVED.
+C Problem was with laptop (ok on owl !) : this write(89 was necessary for the FIT problem 
 C ~/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
 c          CALL FITSTA(5,
 c     >                  FITING)
@@ -396,13 +397,7 @@ c            rewind(89)
 c          endif
 C--------------------------------------------------------------
 
-c         if(noel.eq.19)   write(*,*) 'multpo  rewind A ',
-c     >                      im  , scal,bm(im),RO,(IM-1)
-
         IF(BM(IM).NE.0.D0) BM(IM) = BM(IM)/RO**(IM-1)
-
-c         if(noel.eq.19)   write(*,*) 'multpo  rewind B ',
-c     >                      im  , scal,bm(im),RO,(IM-1)
 
       ENDDO
 

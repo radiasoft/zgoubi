@@ -58,8 +58,8 @@ C     -------------------------------------------------
  
       DUM = SCALER(I1,NOEL,
      >                     DUM)
-      CALL SCALE9(
-     >            KFM)
+      DUM = SCALE9(
+     >             KFM)
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) THEN
           GOTO 20

@@ -53,7 +53,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       PARAMETER (LBLSIZ=20)
       PARAMETER (KSIZ=10)
-      CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
+      CHARACTER(KSIZ) FAM ; CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
  
@@ -113,8 +113,8 @@ C Bcklg winding currents
         AA(21+(2*I-1)) = A(NOEL,21+(2*I-1))
       ENDDO
  
-      CALL SCALE9(
-     >            KFM)
+      DUM = SCALE9(
+     >             KFM)
  
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) GOTO 20
@@ -151,8 +151,8 @@ c       if(noel.eq.456)
 c     >     write(87,*) ' agsmm i/nblw, wn,  wa ',i,'/',nblw,wn(i),wa(i)
       ENDDO
  
-      CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,WN,WA,
-     >                                       BM,I3)
+      CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,I3,WN,WA,
+     >                                           BM)
  
 c      DO I = 1, NBLW
 c       if(noel.eq.456)

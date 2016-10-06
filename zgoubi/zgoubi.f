@@ -61,8 +61,15 @@ C      COMMON/TITR/ TITRE
 C----- For space charge computaton
       PARAMETER(MLBSC=10)
       CHARACTER(LBLSIZ) LBLSC(MLBSC)
-      LOGICAL OKSPCH
-      SAVE OKSPCH, LBLSC, NLBSC
+      LOGICAL TSPCH, TSPCH1
+C      COMMON/SPACECHA/ TSPCH,TLAMBDA,Rbeam,Xave,Emitt,Tave,Bunch_len,
+      COMMON/SPACECHA/ TLAMBDA,Rbeam(2),Xave(2),Emitt(2),Tave,Bunch_len,
+     >                Emittz, BTAG, SCkx, SCky, TSPCH
+CC----- For space charge computaton
+C      PARAMETER(MLBSC=10)
+C      CHARACTER(LBLSIZ) LBLSC(MLBSC)
+C      LOGICAL OKSPCH
+C      SAVE OKSPCH, LBLSC, NLBSC
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
@@ -139,6 +146,7 @@ C      LOGICAL OKPRLB, OKPRDA
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
+      DATA TSPCH / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
 
@@ -184,6 +192,9 @@ C----- Get FIT status
       IF(READAT) READ(NDAT,503) TITRE
  503  FORMAT(A)
 
+C------- space charge initially off
+        TSPCH= .FALSE.
+
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
       IF(.NOT. FITING) THEN 
@@ -200,11 +211,12 @@ C YD FM. 28/01/2014
       IF(NOEL .GT. 0) THEN
 
 C------- Compute space charge kick and apply to bunch
-       IF(OKSPCH) THEN
+       IF(TSPCH) THEN
          IF( STRACO(NLBSC,LBLSC,LABEL(NOEL,1),
      >                                       IL) 
      >   .OR. LBLSC(1).EQ.'all' .OR. LBLSC(1).EQ.'ALL') 
-     >   CALL SCKICK 
+     >   CALL SPACH(
+     >                  SCkx, SCky ) 
        ENDIF
        IF(PRLB) THEN
 C------- From Keyword FAISTORE. Print after Lmnt with defined LABEL.
@@ -1581,10 +1593,24 @@ C----- ERRORS.
       GOTO 998
 C----- SPACECHARG. 
  118  CONTINUE
-      IF(READAT) CALL RSPACH(
-     >                       KSPCH,LBLSC,NLBSC)
-      OKSPCH = KSPCH .EQ. 1
-      CALL SPACH(KSPCH,LBLSC,NLBSC)
+C      IF(READAT) CALL RSPACH(
+C     >                       KSPCH,LBLSC,NLBSC)
+C      OKSPCH = KSPCH .EQ. 1
+C      CALL SPACH(KSPCH,LBLSC,NLBSC)
+       IF(READAT) CALL  RSPACH(MLBSC,
+     >                         TSPCH,TLAMBDA,LBLSC,NLBSC)
+
+       IF(NRES .GT. 0) THEN
+         IF (TSPCH) THEN
+           WRITE(NRES,FMT='(15X,
+     >    ''Space charge effect will occur at element[s] labeled : '')') 
+           WRITE(NRES,FMT='(20X,A)') (LBLSC(I),I=1,NLBSC)
+
+         ELSE
+           WRITE(NRES,FMT='(15X,
+     >    ''Space charge effect will not occur '')')            
+         ENDIF
+       ENDIF
       GOTO 998
 C----- GOTO. 
  119  CONTINUE

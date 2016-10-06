@@ -1031,7 +1031,7 @@ $ \vec  B $ and its derivatives as involved in eq.~(\ref{eq2-2-7}).
 %%%Figure 3
 \centerline{\includegraphics[width=15.5cm]{Fig3.ps}}
 \hangcaption[Fig3]{
-\label{fig3}Mesh in the $ (X,Y) $ plane. The grid is centered 
+\label{fig3} Mesh in the $ (X,Y) $ plane. The grid is centered 
 on the node which is closest to the actual position of the particle.\\
 A~: Cartesian mesh, 9-point interpolation  grid.\\
 B~: Cartesian mesh, 25-point interpolation grid.\\ 
@@ -2000,6 +2000,44 @@ eq.~\ref{eqN4.11} cannot be derived from such relation as
  $\Delta\tau_k = \sum_{k=1}^{n} \Delta\tau_k - \sum_{k=1}^{n-1} \Delta \tau_k$ 
 but instead must be stored as is,  in the course of the ray-tracing process, for 
 subsequent data treatment. 
+
+
+
+
+
+
+\clearemptydoublepage
+
+\section{SPACE CHARGE }\label{secSpach}\index{SPACECHARG|textbf} 
+
+%%% on a de nouveau une numerotation des equations 4.1.1 %%%
+\renewcommand\theequation{\thesubsection.\arabic{equation}}
+\makeatletter
+\@addtoreset{equation}{subsection}
+\makeatother
+
+
+
+\medskip
+
+\zgoubi\ provides models for the  simulation of space charge effects. This capability 
+has been first developped in the context of a PhD work regarding  
+ fixed field ring proton driver design studies and accelerator-driven subcritical reactor 
+applications. 
+This section of the guide is essentially drawn from that PhD dissertation~\cite{MalekPhD}, 
+which can be referred to for additional details -~the document provides benchmarking proofs 
+in both KV and Gaussian density models (see below),   
+ including bunch transport in a drift, transport in a beam line, bunch tracking in an FFAG ring 
+represented using either \zgou's \textsl{FFAG} keyword or magnetic field maps. 
+
+~
+
+\centerline{TO BE DOCUMENTED FURTHER}
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%% previous part 4 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4334,6 +4372,41 @@ the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the
 
 
 
+\newpage
+
+\subsubsection{SPACECHARG~: \SPACECHARGTitl}\label{SPACECHARG}\index{SPACECHARG|textbf}
+\medskip 
+
+\noindent The keyword \textsl{SPACECHARG} enables (or disables) the calculation of 
+space charge effects.
+It must be 
+preceded by \textsl{PARTICUL}\index{PARTICUL} for definition of  mass and charge values, as they enter 
+in the definition of space charge parameters. 
+
+\bigskip
+
+\noindent \textsl{SPACECHARG} is supposed to appear a first time at the 
+location where space charge effects should start being taken into account, 
+with the first data \textsl{LMNT} set 
+to~'all' or a keyword. 
+
+
+\bigskip
+
+
+\noindent\textsl{SPACECHARG} is supposed to appear a second time at the 
+location where calculations should stop, with \textsl{LMNT} set 
+to~'none'. It results in summary  outputs in zgoubi.res. 
+
+\bigskip
+
+\noindent Occurence of \textsl{PRINT} amongst \textsl{SPACECHARG}  arguments 
+ results in storage of computational data and 
+other relevant informations in zgoubi.SPACECHARG.out, as space charge computation 
+proceeds. 
+
+
+
 
 \newpage
 
@@ -5554,7 +5627,7 @@ file \index{zgoubi.CAVITE.out|textbf}zgoubi.CAVITE.Out.
 
 \paragraph{\textsl{For software developers}}  
 
-\noindent Cavity simulation and all available options are found in cavite.f. Management of the reference rigidity 
+\noindent Cavity simulations are done in cavite.f. Management of the reference rigidity 
 $B\rho_{ref}$ is ensured for part in \textsl{cavite.f}, and for part in routines associated with '\textsl{SCALLING}', 
 essentially \textsl{scaler.f}. 
 
@@ -7902,27 +7975,16 @@ $X_E $ at the entrance, and $ X_S $ at the exit (Fig.~\ref{fig30}).
 
 \medskip
 
-\noindent {\bf Method~1~:}   $ \vec  B(X,r)$ (with $r=(Y^2+Z^2)^{1/2} $) and its derivatives up to 
-second order  at all $(X,Y,Z)$ are calculated following Ref.~\cite{Biblio17}, %%% [17]
-based on the three complete elliptic integrals $K$, $E $ and $\Pi$. The latter 
-are calculated with the algorithm proposed in the same reference, their
-derivatives are calculated by means of recursive relations~\cite{Biblio18}.  %%[18] 
-
-\medskip
-
-\noindent This analytical model for the solenoidal field allows simulating an 
-extended range of coil geometries (length, radius) 
-provided that the coil thickness is small enough compared to the mean radius $ R_0 $. 
-\medskip
-
-
-\noindent In this model the field on-axis writes (taking $X=r=0$ at the center of the  solenoid) 
+\noindent {\bf Method~1~:}   uses the on-axis field model 
 \begin{equation}
 \label{EqSol}
 B_X(X,r=0) = \dfrac{\mu_0 N I }{2 \XL} \left[ \dfrac{\XL/2-X}{\sqrt{(\XL/2-X)^2+R_0^2}} 
 +  \dfrac{\XL/2+X}{\sqrt{(\XL/2+X)^2+R_0^2}} \right]
 \end{equation}
-and yields the magnetic length 
+with $X=r=0$ taken at the center of the  solenoid. 
+This  model 
+assumes  that the coil thickness is small  compared to the mean radius $ R_0 $. 
+In this model, the magnetic length is 
 \begin{equation}
 \label{EqSol2}
 L_{mag} \equiv  \dfrac{\int_{-\infty}^\infty B_X(X,r<R_0) dX }{B_X(X=r=0)} 
@@ -7932,11 +7994,23 @@ with in addition
 $$B_X(\textrm{center}) \equiv B_X(X=r=0) = 
       \dfrac{\mu_0 N I }{\XL\sqrt{1+\dfrac{4R_0^2}{\XL^2}}}.$$
 
+\medskip
+
+\noindent From  eq.~\ref{EqSol}, 
+ the field  and its derivatives at all $(X,Y,Z)$ are extrapolated, following the method 
+described in section~\ref{sec2.5.2}. 
+
+
 \bigskip
 
-\noindent {\bf Method~2~:}  The second method available uses eq.~\ref{EqSol} as a 1-D on-axis model and uses off-axis 
-extrapolation to derive the field  and its derivatives at all $(X,Y,Z)$, following the method 
-described in section~\ref{sec2.5.2}. 
+
+\noindent {\bf Method~2~:} computes  $ \vec  B(X,r)$ (with $r=(Y^2+Z^2)^{1/2} $) and its derivatives up to 
+second order  at all $(X,Y,Z)$ following the technique in Ref.~\cite{Biblio17}, %%% [17]
+based on the three complete elliptic integrals $K$, $E $ and $\Pi$. The latter 
+are calculated with the algorithm proposed in the same reference, their
+derivatives are calculated by means of recursive relations~\cite{Biblio18}.  %%[18] 
+
+
 
 
 \vfill
@@ -7945,11 +8019,18 @@ described in section~\ref{sec2.5.2}.
 \begin{figure}[H]
 %\vspace{14 truecm}
 %%%Figure 30
-\centerline{\includegraphics[height=15cm,angle=-90]{Fig30.ps}}
+\centerline{\includegraphics[height=10cm,angle=-90]{Fig30.ps}}
 \caption{\label{fig30} Solenoidal magnet.}
 \end{figure}
 \vfill
 
+
+\bigskip
+
+\paragraph{\textsl{For software developers}}  
+
+\noindent Solenoid parameters are read from zgoubi.dat by rsolen.f. Initializations prior to tracking done in soleno.f. 
+Field computation during tracking is in solenf.f. 
 
 
 
@@ -7968,14 +8049,14 @@ available, as follows.
 
 \bigskip
 
-\noindent \textbf{If $\mathbf{IOPT  =  1}$~:} the precession is defined by its axis, at angle  $\phi_Z$ with 
-respect to \zgou's X-axis and assumed in the horizontal plane,  and by its value, $\mu$. 
+\noindent \textbf{If $\mathbf{IOPT  =  1}$~:} the precession is defined by its axis, at angle  $\mu$ with 
+respect to \zgou's X-axis and assumed in the horizontal plane,  and by its value, $\phi$. 
 
 \bigskip
 
-\noindent \textbf{If $\mathbf{IOPT  =  2}$~:}  given the spin precession axis $\phi_Z$ - defined as  above -  
+\noindent \textbf{If $\mathbf{IOPT  =  2}$~:}  given the spin precession axis direction $\mu$ in the (X,Y) plane, 
    the spin precession angle follows a function of the \textsl{reference} Lorentz factor~: 
-  $$\mu (\gamma) = \left(\frac{B}{B_0}\right)^2 \times \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $$
+  $$\phi (\gamma) = \left(\frac{B}{B_0}\right)^2 \times \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $$
  with $B$ and $B_0$ normally  a nominal and a reference magnetic field value, and $C_i$ empirical coefficients. 
 The \textsl{reference} Lorentz factor corresponds to the reference rigidity 
  \BORO, as defined for instance with \textsl{[MC]OBJET}, possibly updated in the presence of acceleration 
@@ -9099,8 +9180,9 @@ variety of units. For instance~:
 \zgoubi\ computes the strengths of optical elements (they are usually defined by their field) from the reference 
 rigidity \BORO\ as defined in \textsl{[MC]OBJET}. However using \textsl{CAVITE}, and indirectly \textsl{SCALING},  
 may affect the reference rigidity, following 
-$$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$ \index{BORO@{\BORO}$\times D_{ref}$|textbf} \index{BORORef@$B\rho_{ref}$}
-\noindent with normally $\delta \Br_s$ the synchronous rigidity increase (or decrease). A typical configuration where this would 
+\index{BORO@{\BORO}$\times D_{ref}$|textbf} \index{BORORef@$B\rho_{ref}$}
+$$B\rho_{ref} = \BORO \longrightarrow B\rho_{ref} = \BORO + \delta \Br_s$$ 
+\noindent with  $\delta \Br_s$ the synchronous rigidity increase (or decrease). A typical configuration where this would 
 occur is that of multi-turn tracking \index{multi-turn tracking} 
 in a pulsed synchrotron, where in general strengths have to follow the  
 acceleration (see section~\ref{sec4.6.5}). 

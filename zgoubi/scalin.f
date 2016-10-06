@@ -49,7 +49,7 @@ C      PARAMETER (MXTA=45)
       PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
  
-      CHARACTER(9) OPT(2)
+      CHARACTER(15) OPT(2)
       DIMENSION MODSCV(MXF),MODSCL(MXF)
       SAVE MODSCL
  
@@ -62,31 +62,22 @@ C      PARAMETER (MXTA=45)
  
       CHARACTER(132)  TFILE(MXTA), TXTF
       SAVE TFILE
-      LOGICAL OK, OKPRT, SCALEX
+      LOGICAL OK, SCALEX
 
-      DATA OPT/ '++ OFF ++','         ' /
-      DATA OKPRT / .FALSE. /
+      DATA OPT/ '-- Now OFF --',' ' /
  
       NP = 1
       IOPT = NINT(A(NOEL,NP))
       NP = NP + 1
       NFAM = NINT(A(NOEL,NP))
+      OK=SCALEX(TA(NOEL,NFAM+1) .EQ. 'PRINT') 
 
-      IF( TA(NOEL,NFAM+1) .EQ. 'PRINT') THEN
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
-     >  ''SCALING parameters saved in zgoubi.SCALING.Out.'',/)') 
-        OK=SCALEX(.TRUE.)
-      ELSE
-        OK=SCALEX(.FALSE.)
-      ENDIF
-
- 
       KSCL=0
       IF(IOPT*NFAM.NE.0)  KSCL=1
- 
+
       IF(NRES .GT. 0) WRITE(NRES,100) NFAM, OPT(IOPT+1)
- 100  FORMAT(/,15X,' Scaling  applied  on',I3
-     >,'  families  of  optical  elements',/,T40,A9)
+ 100  FORMAT(/,15X,'Scaling  request  on',I3
+     >,'  families  of  optical  elements :',/,T40,A)
  
       IF(IOPT .EQ. 0) RETURN
  
@@ -148,6 +139,10 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
             DO IT = 1, NTIM(IF)
                SCL(IF,IT,1) = A(NOEL,NP+IT-1)
                TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
+
+c            write(*,*) ' scalin ',IF,IT,SCL(IF,IT,1),TIM(IF,IT)
+c            write(*,*) ' scalin '
+
             ENDDO
             NP = NP +  2 * NTIM(IF)
  
@@ -177,7 +172,7 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
                 IF(IIT.EQ.1 .AND. TIM2(IF,1).EQ.0.D0)
      >                         TIM2(IF,1) =  BORO
  
-                CALL SCALE2(SCL2,TIM2,NTIM2,IF)
+                DUM = SCALE2(SCL2,TIM2,NTIM2,IF)
  
               ENDIF
             ENDIF

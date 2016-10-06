@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FITGTV(FITING,NOMFIC,
      >                                FITGET)
@@ -56,9 +56,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       DIMENSION AFIT(MXL), IPRM(MXL)
       SAVE AFIT
-      CHARACTER KLE*(KSIZ),LBL1*(LBLSIZ),LBL2*(LBLSIZ)
-      CHARACTER(KSIZ) KLEFIT(MXL)
-      CHARACTER LB1FIT(MXL)*(LBLSIZ),LB2FIT(MXL)*(LBLSIZ)
+      CHARACTER(LBLSIZ) LBL1, LBL2
+      CHARACTER(KSIZ) KLE,KLEFIT(MXL)
+      CHARACTER(LBLSIZ) LB1FIT(MXL),LB2FIT(MXL)
       SAVE KLEFIT, LB1FIT, LB2FIT, KREAD
 
       CHARACTER(KSIZ) KLEY

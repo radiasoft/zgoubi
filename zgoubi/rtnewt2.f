@@ -106,7 +106,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC    solve spiral sector  CCCCCCCCCCCCCCCCCCCCCCCC
 
         if (Typ .EQ. 1.0) THEN 
 
-C      RTNEWT2=.5D0*(X1+X2)
       TZ=X2
 C      sol0: i have to figure out how to give a good first approximation to r_sol
       sol0=SQRT(XB**2+YB**2)
@@ -141,6 +140,7 @@ C     FIN RAJOUT
          ENDIF
 
          IF(ABS(DX).LT.XACC) RETURN 
+
  11      CONTINUE
 C      PAUSE 'rtnewt2 exceeding maximum iterations'
      

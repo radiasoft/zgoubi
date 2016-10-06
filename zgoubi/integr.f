@@ -54,7 +54,18 @@ C FM Dec.2010, KSPN needed at PAF
       INCLUDE "C.STEP.H"     ! COMMON/STEP/ TPAS(3), KPAS
 C      INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
- 
+
+Ccccccccccccc  SPACE CHARGE MALEK cccccccccccc
+C      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT)
+      logical TSPCH
+C      COMMON/SPACECHA/ TSPCH,TLAMBDA,Rbeam,Xave,Emitt,Tave,Bunch_len,
+      COMMON/SPACECHA/ TLAMBDA,Rbeam(2),Xave(2),Emitt(2),Tave,Bunch_len,
+     >                Emittz, BTAG, SCkx, SCky, TSPCH
+cc      INCLUDE 'MXLD.H'              ! pour faire les tests: to be deleted please 
+cc      COMMON /LABEL/ LABEL(MXL,2)   ! pour faire les tests: to be deleted please
+C       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+cccccccccccccccccccccccccccccccccccccccccccccc
+
       LOGICAL WEDGE, WEDGS
       SAVE WEDGE, WEDGS
  
@@ -183,6 +194,77 @@ c       if(noel.eq.245)   write(*,*) 'integr QBR chamc OUT ', qbr
  
       ENDIF
  
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+C------- Correction for space charge calculation --Begin--
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+          IF (TSPCH)  THEN
+
+
+ccccccccccccc   get the path legnth from the first central orbit   cccccccccccccc
+           if (IT .EQ. 1) then
+                   tlength0=tlength0+PAS
+                   tlength=tlength0 !tlength is the element path length in cm
+                   if (tlength .LE. 1.1*PAS) then
+                    T1=T
+                    Y1=Y
+                    Z1=Z
+                   endif 
+           elseif (IT .NE. 1) then                   
+                   tlength0=0.0
+           endif        
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc                
+
+
+           if ((IT .NE. 1) .and. (IT .NE. ITinit)) then
+             Yinit=Y
+             Zinit=Z
+             ITinit=IT
+! correct             Tsp=SCkx*(Yinit-Y1)*tlength
+! correct             Psp=SCky*(Zinit-Z1)*tlength
+             Tsp=SCkx*(Yinit-Xave(1)*100.0)*tlength
+             Psp=SCky*(Zinit-Xave(2)*100.0)*tlength
+
+             T=T+Tsp   
+             P=P+Psp
+
+c             write(lunX,*) Yinit-Y1,T,Tsp,Zinit-Z1,P,Psp
+           endif   
+
+c           write(lunX,*) IT,Yinit-Y1,Y-Y1,Tsp,Zinit-Z1,Z-Z1,Psp
+
+           
+c         write(lunX,*) IT, ITinit, Xave(1), Yinit, Xave(2), Zinit,
+c     >          tlength, Tsp, Psp
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccc    write the data to a test4 file   ccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc 
+           if ((IT .EQ. 1) .and. (tlength .LE. 2*PAS)) then
+             call ZGIPAS( 
+     >                   IPASS,NRBLT)
+              write(88,fmt=
+     >        '(1p,9(e14.6,1x),i10,1x,e14.6,a)') 
+     >        Rbeam(1),Rbeam(2),Xave(1),SAR,Emitt(1),Emitt(2),Tave,
+     >        Bunch_len, Emittz,IPASS,BTAG,' integr spach'
+           endif  
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+                  
+
+ccc              T=T+SCkx*(1.0/2.0) * exp(- ((Y-Xave(1)*100.0)**2 + 
+ccc     >      (Z-Xave(2)*100.0)**2)/
+ccc     >      (Rbeam(1)/2.0+Rbeam(2)/2.0)**2 ) * (Y-Xave(1)*100.0)*PAS 
+ccc              P=P+SCky*(1.0/2.0) * exp(- ((Y-Xave(1)*100.0)**2 + 
+ccc     >      (Z-Xave(2)*100.0)**2)/
+ccc     >      (Rbeam(1)/2.0+Rbeam(2)/2.0)**2 ) * (Z-Xave(2)*100.0)*PAS   
+            
+          ENDIF   
+
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+C------- Correction for space charge calculation --End--
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
  7    CONTINUE
  
       IF(NSTEP .EQ. 1) THEN

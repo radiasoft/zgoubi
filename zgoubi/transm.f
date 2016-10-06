@@ -58,8 +58,8 @@ C      SAVE P0
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
-      CALL SCALE9(
-     >            KFM )
+      DUM = SCALE9(
+     >             KFM )
       DO IFM = 1, MXSCL
             IF(KFM(IFM) .LE. 0) GOTO 121
         DO I= 1 , JPA(KFM(IFM),MXP)

@@ -60,59 +60,11 @@ C      LOGICAL FITING
         CALL REFER(2,2,0,1,6,7)
       ENDIF
  
-cC---
-c        call fitsta(5,
-c     >                  fiting)
-c        call FITST1(
-c     >             NUMKL)          ! Position of FIT key in zgoubi.dat list
-c           call ZGNOEL(
-c     >             NOEL)
-cC         if(fiting .and. noel.eq.numkl-1) then 
-c         if(fiting) then 
-c              write(*,*) ' coeffs.   KLE #, NOEL, IORD :  ', 
-c     >                                        numkl,noel,IORD
-c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
-c              write(*,*) ' R : '
-c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
-c            endif
-C------
-
-
       CALL MKSA(IORD,R,T,TX3,TX4)
 
       PRDIC = .FALSE.
       IF(IOPT.EQ.1) CALL BEAMAT(R,PRDIC,.FALSE.,
      >                                          F0,PHY,PHZ,CSTRN,RPRM)
-
-C------
-c        call fitsta(5,
-c     >                  fiting)
-c        call FITST1(
-c     >             NUMKL)
-c           call ZGNOEL(
-c     >             NOEL)
-cC         if(fiting .and. noel.eq.numkl-1) then 
-c         if(fiting ) then 
-c              write(*,*) ' coeffs.   KLE #, NOEL :  ', numkl,noel
-c              write(*,*) ' iref, it1, it2, it3 :  ', iref, it1, it2, it3
-c              write(*,*) ' FO(2-5,1-11) : '
-c              write(*,fmt='(1p,i,4e12.4)') (j,( fo(i,j),i=2,5),j=1,11)
-c              write(*,*) ' F(2-5,1-11) : '
-c              write(*,fmt='(1p,i,4e12.4)') (j,( f(i,j),i=2,5),j=1,11)
-c              write(*,*) ' R : '
-c              write(*,fmt='(1p,6e12.4)') (( R(i,j),j=1,6),i=1,6)
-c              write(*,*) ' F0 : '
-c              write(*,fmt='(1p,6e12.4)') ((F0(i,j),j=1,6),i=1,6)
-c                 read(*,*)
-c          endif
-C----
-
-C Thomas Planche FIT problem : /home/meot/zgoubi/struct/folks/thomasPlanche/FITBugWithPARTICLE. Jan 2015
-c          call fitsta(5,fiting)
-c            if(fiting) 
-c     >      write(89,*) ' coeffs ',r(1,1),r(2,2) 
-c            rewind(89)
-C------------
 
       RETURN
       END

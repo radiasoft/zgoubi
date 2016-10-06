@@ -148,6 +148,8 @@
                               dNu_y / dp/p = -6.01176605E+00
                               dNu_z / dp/p =  7.60180132E-01
                           - new : 
+                              dNu_y / dp/p = -6.01176605E+00
+                              dNu_z / dp/p =  7.60180131E-01
         
 ////////////////  ../AGS_Booster/TWISS - reference : 
                           - new : 
@@ -176,4 +178,5 @@
 ////////////////  ../KEYWORDS/SRLOSS/ - reference : 
      LARGEUR IMAGE,  A MI-HAUTEUR =  0.178573     CM,  TOTALE =  0.225433     CM
                           - new : 
+     LARGEUR IMAGE,  A MI-HAUTEUR =  0.178573     CM,  TOTALE =  0.225433     CM
         
