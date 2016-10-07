@@ -1,8 +1,11 @@
+
 To build, make any necessary modifications to the Makefiles in the main
 directory, common, doc, zgoubi, zpop, zpop/liblns, and zpop/liblns/doc, and
-type "make" (to build the programs) or "make docs" (to build the documentation).
-This should build zgoubi, zpop, and the documentation.
+type "make -f 'myMakefile'' (to build the programs) or "make docs" (to build the documentation). 
+(with 'myMakefile'' one of Makefile_zgoubi_gfortran, Makefile_zgoubi_ifort, Makefile_zpop, ...)
+This should build zgoubi and/or zpop, and/or the documentation.
 
-The makefiles should work on a system with g77.
+The makefiles should work on a system with gfrotran, or ifort.
 
 We will come up with a better system at some point.
+
