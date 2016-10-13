@@ -107,8 +107,8 @@ C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C AGS warm snake 
 c       PARAMETER (IZ=29 , ID=3, MMAP=1)
 c       PARAMETER (MXX=801, MXY=29)
-cccccccccccccccc      PARAMETER (IZ=61 , ID=3, MMAP=4)
-c      PARAMETER (MXX=1001, MXY=150)
+      PARAMETER (IZ=61 , ID=3, MMAP=4)
+      PARAMETER (MXX=1001, MXY=150)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C AGS warm snake 
@@ -166,8 +166,8 @@ C       PARAMETER (MXX=370, MXY=200)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
 C       PARAMETER (IZ=29 , ID=3, MMAP=6)      ! strictu sensu
-       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
-       PARAMETER (MXX=801, MXY=200)
+c       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
+c       PARAMETER (MXX=801, MXY=200)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map

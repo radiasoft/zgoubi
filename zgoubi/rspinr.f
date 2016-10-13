@@ -63,12 +63,12 @@ C      A(NOEL,10) = ANG
          RETURN
       ENDIF
 
- 10   WRITE(NRES,*) ' Format error in SPINR input data'
+ 10   IF(NRES.GT.0) WRITE (NRES,*) ' Format error in SPINR input data'
       CALL ENDJOB('SBR RSPINR. Expected data are : axis angle'
      >//' (zero is longitudinal) followed by spin rotation angle',-99)
       RETURN
 
- 11   WRITE(NRES,*) ' Format error in SPINR input data'
+ 11   IF(NRES.GT.0) WRITE(NRES,*) ' Format error in SPINR input data'
       CALL ENDJOB('SBR RSPINR. Expected data :  '//
      >' PHI,  B, B0, C1, C12, C2',-99)
       RETURN
