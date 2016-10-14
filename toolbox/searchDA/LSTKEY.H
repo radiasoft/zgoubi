@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/include/LSTKEY.H
+../../include/LSTKEY.H

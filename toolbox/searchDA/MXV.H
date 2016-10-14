@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/zgoubi/MXV.H
+../../zgoubi/MXV.H

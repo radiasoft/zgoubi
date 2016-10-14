@@ -78,9 +78,17 @@ C     >'H ',prec,-abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
      >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   2.c Read x-
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
-      do i = 1, 5
-        read(lunw,fmt='(a132)') txt132
-      enddo
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+          read(lunW,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+        enddo
+        do i=1,2
+          read(lunW,fmt='(a)') txt132
+        enddo
+        read(lunw,fmt='(a132)') txt132   
+
       read(txt132,*) ntraj
       do jo = 1, ntraj
         read(lunw,*) temp
@@ -109,9 +117,18 @@ C     >'H ',prec, abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
      >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   3.c Read x+
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
-      do i = 1, 5
+C Read till IMAX
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+          read(lunW,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+        enddo
+        do i=1,2
+          read(lunW,fmt='(a)') txt132
+        enddo
         read(lunw,fmt='(a132)') txt132   
-      enddo
+
       read(txt132,*) ntraj
       do jo = 1, ntraj
         read(lunw,*) temp
@@ -140,9 +157,22 @@ C     >'V ',prec, abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
      >'~/zgoubi/toolbox/searchStabLim/searchStabLim')
 !   4.c Read z0
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_V')
-      do i = 1, 5
-        read(lunw,fmt='(a132)') txt132
-      enddo
+
+C Read till IMAX
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+          read(lunW,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+        enddo
+        do i=1,2
+          read(lunW,fmt='(a)') txt132
+        enddo
+        read(lunw,fmt='(a132)') txt132   
+c      do i = 1, 5
+c        read(lunw,fmt='(a132)') txt132
+c      enddo
+
       read(txt132,*) ntraj
       do jo = 1, ntraj
         read(lunw,*) bid, bid, z0
@@ -209,10 +239,17 @@ C these will be starting point for search of DA
         rewind(lunR)
 
 C Read till "KOBJ"
-        do i=1,3
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-          write(lunW,*) txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
+c        do i=1,2
+          read(lunR,fmt='(a)') txt132
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+c        enddo
         read(lunR,fmt='(a)') txt132
         write(lunW,*) ' 2 '
 C Set "IMAX IMAXT" for kobj=2 option 
@@ -231,7 +268,7 @@ c     >           ntraj,kobj,kobj2
 c                    read(*,*)
         if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
         txt132 = ' 1  1'
-        write(lunW,*) txt132
+        write(lunW,*)txt132(debstr(txt132):finstr(txt132))
 C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
@@ -239,14 +276,14 @@ C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
 cC Read till "KOBJ"
 c        do i=1,4
 c          read(lunR,fmt='(a)') txt132
-c          write(lunW,*) txt132
+c          write(lunW,*)txt132(debstr(txt132):finstr(txt132))
 c          write(*,*) txt132
 c        enddo
 cC Read till "IMAX IMAXT"
 c          read(lunR,*) nTraj, imaxt
 c          if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
 c          txt132 = ' 1  1'
-c          write(lunW,*) txt132
+c          write(lunW,*)txt132(debstr(txt132):finstr(txt132))
 cC Read all initial traj from zgoubi_searchDA-In.dat, supposed to be stable
 c        do i=1,nTraj
 c          read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
@@ -273,11 +310,11 @@ C Complete OBJET with the line with '1'
         endif
         write(lunW,*) ' 1 '
         txt132 = '''FAISTORE'''
-        write(lunW,*) txt132
+        write(lunW,*)txt132(debstr(txt132):finstr(txt132))
         txt132 = 'b_zgoubi.fai'
-        write(lunW,*) txt132
+        write(lunW,*)txt132(debstr(txt132):finstr(txt132))
         txt132 = ' 1'
-        write(lunW,*) txt132
+        write(lunW,*)txt132(debstr(txt132):finstr(txt132))
 C Completes zgoubi.dat with the rest of zgoubi_searchDA-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
@@ -298,29 +335,29 @@ C Completes zgoubi.dat with the rest of zgoubi_searchDA-In.dat
             endif
           if    (strcon(txt132,'''REBELOTE''',10,
      >                                        IS) ) then 
-            write(lunW,*) txt132   
+            write(lunW,*)txt132(debstr(txt132):finstr(txt132))   
             read(lunR,fmt='(a)',end=62) txt132
             write(txt132(1:6),fmt='(i5)') nTurn
             txt132 = txt132(1:6)//'  0.0  99'
-            write(lunW,*) txt132
+            write(lunW,*)txt132(debstr(txt132):finstr(txt132))
             txt132 = '''END'''
-            write(lunW,*) txt132
+            write(lunW,*)txt132(debstr(txt132):finstr(txt132))
             goto 10
           endif
           if    (strcon(txt132,'''END''',5,
      >                                     IS) ) then 
               txt132 = '''REBELOTE'''
-              write(lunW,*) txt132
+              write(lunW,*)txt132(debstr(txt132):finstr(txt132))
               write(txt6,fmt='(I6)') nTurn
               txt132 = txt6//'  0.0  99'
-              write(lunW,*) txt132
+              write(lunW,*)txt132(debstr(txt132):finstr(txt132))
               txt132 = '''END'''
-              write(lunW,*) txt132
+              write(lunW,*)txt132(debstr(txt132):finstr(txt132))
               goto 10
           endif
 
-          write(lunW,*) txt132   
-          write(*,*) txt132   
+          write(lunW,*)txt132(debstr(txt132):finstr(txt132))   
+C          write(*,*) txt132   
 
         goto 1    !!go-on completing zgoubi.dat with the rest of zgoubi_searchDA-In.dat
 
@@ -340,7 +377,7 @@ C scan from x=0 to max>0 and then from x= -dx to min<0
      >              'hence  xst0 = xplus(jo) - dx'
           call flush2(icho,.false.)
         else
-          write(*,*) ' Scan x **** ',jo, dx ,xplus(jo), xst0
+c          write(*,*) ' Scan x **** ',jo, dx ,xplus(jo), xst0
           xst0 = x(jo)
           write(icho,*)  'xplus(jo).ge.xst0+prec)', 
      >              'hence  xst0 = x(jo)'
@@ -520,6 +557,7 @@ C     --------------------------------------
       logical lost, ok, first
       parameter (lunR=13,lunW=14)
       character txt132*132, let*1, cmnd*200
+      INTEGER DEBSTR,FINSTR
       data first / .true. /
       data let / 'i' /
 
@@ -552,10 +590,17 @@ C----------------------- Rebuild zgoubi.dat with new traj. -------------
         open(unit=lunR,file='searchStabLim.temp2')
         open(unit=lunW,file='zgoubi.dat')
 C Read/write till "KOBJ"
-          do i=1,4
-            read(lunR,fmt='(a)') txt132
-            write(lunW,fmt='(a)') txt132
-          enddo
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+          read(lunR,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        enddo
+        do i=1,2
+          read(lunR,fmt='(a)') txt132
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        enddo
 C Read/write "IMAX IMAXT"
           read(lunR,fmt='(a)') txt132
           write(lunW,fmt='(a)') '1  1'

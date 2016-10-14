@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/zgoubi/XYZHC.H
+../../zgoubi/XYZHC.H

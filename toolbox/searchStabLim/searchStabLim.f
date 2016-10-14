@@ -25,6 +25,7 @@ C H=pure H, Hz=H+small z, V=vertical
       data njj / 5 /
       data kprx / 1 / 
       data ok, first/ .false., .true. /
+      data kobj2 / -999 /
 
       call system('mv -f searchStabLim-tunes.out 
      >                    searchStabLim-tunes.out_old')
@@ -73,10 +74,19 @@ C
         rewind(lunR)
 
 C Read till "KOBJ"
-        do i=1,3
+c        do i=1,3
+c          read(lunR,fmt='(a)') txt132
+c          write(lunW,*) txt132(debstr(txt132):finstr(txt132))
+c        enddo
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-          write(lunW,*) txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
+        read(lunR,fmt='(a)') txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         read(lunR,fmt='(a)') txt132
         write(lunW,*) ' 2 '
 C Set "IMAX IMAXT" for kobj=2 option 
@@ -90,12 +100,15 @@ C Set "IMAX IMAXT" for kobj=2 option
           ntraj = kobj2
           read(lunR,fmt='(a)') txt132        ! skip sample
         endif
+
 c               write(*,*) ' Pgm searchStabLim. ntraj,kobj,kobj2 : ',
 c     >           ntraj,kobj,kobj2
 c                    read(*,*)
+
         if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+
         txt132 = ' 1  1'
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
 C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
@@ -139,15 +152,14 @@ C Complete OBJET with the line with '1'
         endif
         write(lunW,*) ' 1 '
         txt132 = '''FAISTORE'''
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         txt132 = 'b_zgoubi.fai'
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         txt132 = ' 1'
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
 C Completes zgoubi.dat with the rest of zgoubi_StabLim-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
-
             if    (strcon(txt132,'''FAISTORE''',10,
      >                                        IS) ) then 
               read(lunR,fmt='(a)',end=62) txt132
@@ -167,42 +179,45 @@ C Completes zgoubi.dat with the rest of zgoubi_StabLim-In.dat
               txt132 = txt132(debstr(txt132):finstr(txt132))
               if(txt132(1:2) .ne. txt0)
      >           txt132 = txt0//txt132(debstr(txt132):finstr(txt132))
-              write(lunW,*) txt132   
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))
               read(lunR,fmt='(a)',end=62) txt132
-              write(lunW,*) txt132   
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))   
               read(lunR,fmt='(a)',end=62) txt132
-              write(lunW,*) txt132   
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))
               goto 1
             endif
           if    (strcon(txt132,'''REBELOTE''',10,
      >                                        IS) ) then 
-            write(lunW,*) txt132   
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
             read(lunR,fmt='(a)',end=62) txt132
             write(txt20,fmt='(I6)') nTurn
             txt132 = txt20//'  0.3  99'
-            write(lunW,*) txt132
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
             txt132 = '''END'''
-            write(lunW,*) txt132
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
             goto 10
           endif
           if    (strcon(txt132,'''END''',5,
      >                                     IS) ) then 
               txt132 = '''REBELOTE'''
-              write(lunW,*) txt132
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))
               write(txt20,fmt='(i6)') nTurn
               txt132 = txt20//'  0.3  99'
-              write(lunW,*) txt132
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))
               txt132 = '''END'''
-              write(lunW,*) txt132
+              write(lunW,fmt='(a)')txt132(debstr(txt132):finstr(txt132))
               goto 10
           endif
 
-          write(lunW,*) txt132   
+          write(lunW,fmt='(a)') txt132   
 
         goto 1
 
  10     continue
         close(lunW)
+
+c              write(*,*) ' done .... '
+c                   stop
 
         call stabLim(HV,prec,jo,x(jo),xp(jo),z(jo),zp(jo),s(jo),d(jo),
      >                  xst,xpst,zst,zpst,sst,dst,duStrt,kex,ok)
@@ -244,9 +259,16 @@ Create zgoubi_StabLim-Out.dat_HV containing limit orbits
       open(unit=lunW,file=namFil)
       open(unit=lunR,file='zgoubi_StabLim-In.dat')
 C Read/write till "KOBJ"
-        do i=1,4
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-          write(lunW,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        enddo
+        do i=1,2
+          read(lunR,fmt='(a)') txt132
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
 C Read/write "IMAX IMAXT"
         read(lunR,fmt='(a)') txt132
@@ -290,11 +312,11 @@ C Complete OBJET with the line of 1's
         ii = ii + 10
         if(kprx1+jok*njj .gt. ii) goto 34
         txt132 = '''FAISTORE'''
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         txt132 = 'b_zgoubi.fai'
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         txt132 = ' 1'
-        write(lunW,*) txt132
+        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
 C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
  11     continue
           read(lunR,fmt='(a)',end=62) txt132
@@ -318,11 +340,11 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
             txt132 = txt132(debstr(txt132):finstr(txt132))
             if(txt132(1:2) .ne. txt0) 
      >         txt132 = txt0//txt132(debstr(txt132):finstr(txt132))
-            write(lunW,*) txt132   
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
             read(lunR,fmt='(a)',end=62) txt132
-            write(lunW,*) txt132   
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
             read(lunR,fmt='(a)',end=62) txt132
-            write(lunW,*) txt132   
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
             goto 11
           elseif(strcon(txt132,'''REBELOTE''',10,
      >                                        IS) ) then 
@@ -333,18 +355,18 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
             goto 63
           endif
 
-          write(lunW,*) txt132   
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
 
         goto 11
 
  63   CONTINUE
       txt132 = '''REBELOTE'''
-      write(lunW,*) txt132
+      write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
       write(txt20,fmt='(I6)') nTurn
       txt132 = txt20//'  0.3  99'
-      write(lunW,*) txt132
+      write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
       txt132 = '''END'''
-      write(lunW,*) txt132
+      write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132)) 
  62   CONTINUE
       close(lunR)
       close(lunW)
@@ -413,7 +435,7 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
       goto 111   
 C----- Loop on HV
 
-      write(*,*) ' SearchStabLim :  end of loop 111... '
+c      write(*,*) ' SearchStabLim :  end of loop 111... '
       goto 99
 
  997  continue
@@ -511,6 +533,7 @@ C     --------------------------------------
       data first / .true. /
       data let / 'i' /
       logical du2
+      integer debstr, finstr
 
       ok = .false.
       lost = .false.
@@ -543,9 +566,16 @@ C----------------------- Rebuild zgoubi.dat with new traj. -------------
         open(unit=lunR,file='searchStabLim.temp2')
         open(unit=lunW,file='zgoubi.dat')
 C Read/write till "KOBJ"
-          do i=1,4
+        txt132 = ' '
+        dowhile
+     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+          read(lunR,fmt='(a)') txt132
+          txt132 = txt132(debstr(txt132):finstr(txt132))
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+        enddo
+          do i=1,2
             read(lunR,fmt='(a)') txt132
-            write(lunW,fmt='(a)') txt132
+            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
           enddo
 C Read/write "IMAX IMAXT"
           read(lunR,fmt='(a)') txt132
@@ -561,7 +591,7 @@ C Write best co coordinates
 C Completes zgoubi.dat with the rest of searchStabLim.temp2
  19       continue
           read(lunR,fmt='(a)',end=10) txt132
-          write(lunW,fmt='(a)') txt132   
+          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
         goto 19 
  10     continue
         close(lunR)
