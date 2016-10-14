@@ -81,8 +81,8 @@ cccccccccccccccccccccccccccccccccccccccccccccc
  
       SAVE WDGE, WDGS, FINTE, FINTS, GAPE, GAPS
  
-      LOGICAL FITTST
-      SAVE FITTST
+      LOGICAL FITMEM
+      SAVE FITMEM
  
       LOGICAL CONSTY, CSTYI, IDLUNI
       SAVE CONSTY  !!, LNW
@@ -95,7 +95,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
       DATA WDGE, WDGS, FINTE, FINTS, GAPE, GAPS / 6*0.D0 /
  
-      DATA FITTST / .FALSE. /
+      DATA FITMEM / .FALSE. /
       DATA CONSTY / .FALSE. /
 
 c      call ZGNOEL(
@@ -125,7 +125,7 @@ C--------- Entrance is sharp edge
       X2 = X
       Y2 = Y
       Z2 = Z
-      IF(FITTST) CALL FITMM2(IT)
+      IF(FITMEM) CALL FITMM2(IT)
  
 C----- DEBUT DE BOUCLE SUR DXI
 C      Start loop on DXI
@@ -464,7 +464,7 @@ c        if(noel.eq.245)   write(*,*) 'cofin dx/dxi ', dx/dxi
       CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
  
-      IF(FITTST) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
+      IF(FITMEM) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
  
       CT=COS(T)
       ST=SIN(T)
@@ -564,7 +564,7 @@ cc          endif
         ENDIF
       ENDIF
  
-      IF(FITTST) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
+      IF(FITMEM) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
  
 C  A trick for tests at constant coordinate -----------------
 C         IF(CONSTY) THEN
@@ -658,8 +658,8 @@ c          endif
       CREG(2)=CREGI(2)
       RETURN
  
-      ENTRY INTEG8(KFIT)
-      FITTST = KFIT.EQ.1
+      ENTRY INTEG8(KFITMM)
+      FITMEM = KFITMM.EQ.1
       RETURN
 
       ENTRY INTEGA(CSTYI)

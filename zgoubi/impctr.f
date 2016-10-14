@@ -66,9 +66,9 @@ C          CALL FLUSH2(IUNIT,.FALSE.)
 500   FORMAT(' STATUS OF CONSTRAINTS (Target penalty = ',1P,E12.4,')')
       IF(IUNIT.GT.0) WRITE(IUNIT,600)
 600   FORMAT(
-     >' TYPE  I   J  LMNT#       DESIRED           WEIGHT       ',
-     >'  REACHED         KI2       NAME       LBL1     LBL2',
-     >'         *  Parameter(s) ')  
+     >' TYPE  I   J  LMNT#       DESIRED           WEIGHT         ',
+     >'REACHED         KI2       NAME       LBL1                 LBL2',
+     >'                 Parameter(s) ')  
 C----      X(J)        P(I)
       DO I=1,NC
         XI2=((VAT(I)-V(I))/W(I))**2/F
@@ -77,13 +77,13 @@ C----      X(J)        P(I)
      >                      ,KLE)
         LBL1 = LABEL(I3(I),1)
         LBL2 = LABEL(I3(I),2)
-        IF(EMPTY(LBL1)) LBL1 = '*'
-        IF(EMPTY(LBL2)) LBL2 = '*'
+        IF(EMPTY(LBL1)) LBL1 = '-'
+        IF(EMPTY(LBL2)) LBL2 = '-'
         IF(IUNIT.GT.0) WRITE(IUNIT,700) 
      >  IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
      >  KLE,LBL1,LBL2,NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
 700     FORMAT(1P,3I4,I6,5X,E14.7,4X,E11.4,3X,E14.7,2X,E11.4,2X,
-     >  3(1X,A),' * ',I3,' : ',6(E9.1,'/'))
+     >  3(1X,A),T137,I3,' : ',6(E9.1,'/'))
       ENDDO
       IF(IUNIT.GT.0) THEN
         WRITE(IUNIT,FMT='

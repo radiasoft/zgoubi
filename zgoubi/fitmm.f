@@ -35,19 +35,21 @@ C  -------
       SAVE FMI, FMA, FLDMI, FLDMA, SFLD
 
       INCLUDE "MXLD.H"
-      DIMENSION IQ(MXL)
-      SAVE IQ
+      DIMENSION IQMM(MXL)
+      SAVE IQMM
 
       SAVE NBL
       DATA NBL / 0 /
+      DATA IQMM / MXL * 0 /
 
       CALL ZGNOEL(
      >            NOEL)
-      NEL = IQ(NOEL)
+      NEL = IQMM(NOEL)
 
-      IF(NEL.LE.0) CALL ENDJOB('SBR FITMM. '
-     >//' Problem with constraint number assignement.'
-     >//' Wrong element number in constraint ?',-99)
+      IF(NEL.LE.0) RETURN
+C      IF(NEL.LE.0) CALL ENDJOB('SBR FITMM. '
+C     >//' Problem with constraint number assignement.'
+C     >//' Wrong element number in constraint ?',-99)
 
       FMA(1,NEL,IT) = DMAX1( DP,FMA(1,NEL,IT))
       FMA(2,NEL,IT) = DMAX1(  Y,FMA(2,NEL,IT))
@@ -82,7 +84,7 @@ C  -------
       ENTRY FITMM1(KT,JI,LI,MIMA,IC2,
      >                               VAL)
 C KT=prtcl #, JI=field coordinate, LI=lmnt #
-      NLI = IQ(LI)      
+      NLI = IQMM(LI)      
 
       IF    (IC2.GE.1 .AND. IC2.LE.3) THEN
         IF(MIMA.EQ.1) THEN
@@ -123,7 +125,7 @@ C KT=prtcl #, JI=field coordinate, LI=lmnt #
 
       ENTRY FITMM4(IC3I)
       NBL = NBL + 1
-      IQ(IC3I) = NBL
+      IQMM(IC3I) = NBL
       RETURN
 
       ENTRY FITMM6(I0)

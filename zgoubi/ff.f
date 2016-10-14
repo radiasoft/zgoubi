@@ -67,6 +67,7 @@ C      SAVE IC2
          ICONT2=IC2(I)
          K=I1(I)
          L=I2(I)
+
          IF(I3(I) .NE. KK) THEN
             KK=I3(I)
 C----------- Compute present value of constraint 
@@ -252,6 +253,7 @@ C-------------Contraint dNu_Z/dpp
  
         ELSE IF(ICONT .EQ. 3) THEN
 C----------- Constraints on particle coordinates or bundle
+
            IF    (ICONT2.EQ.0) THEN
              IF(K .GT. 0) THEN
 C-------------- Constraint is value of coordinate L of particle K
@@ -401,6 +403,8 @@ C    constraint rms  emittance
         ELSE IF(ICONT .EQ. 7) THEN
 C----------- Constraints on coordinates and fields *inside* optical elements
 
+C                 write(*,*) ' ff ',icont, icont2
+
            IF(ICONT2.EQ.1) THEN
 C------------ Constraint on min or max value (MIMA=1 or 2) of coordinate L reached inside optical element KK
              MIMA = NINT(CPAR(I,2))
@@ -493,7 +497,7 @@ C                   (hence expected value for the constraint is 0)
          Z=Z+((VAL-V(I))/W(I))**2
          VAT(I)=VAL
 
-3     CONTINUE
+ 3    CONTINUE
       
       IF(FINI.LE.Z) THEN
 C        WRITE(6,100) CHAR(13),IV,FINI,Z,BLANC

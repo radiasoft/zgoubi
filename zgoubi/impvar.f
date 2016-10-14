@@ -61,7 +61,7 @@ C  -------
 300   FORMAT(
      >'  LMNT  VAR  PARAM   MINIMUM     INITIAL         FINAL        ',
 C-----  IR(I)   I   IS(I)    X(K)        XI(I)          X(I)  
-     >' MAXIMUM     STEP     NAME       LBL1     LBL2' )
+     >' MAXIMUM     STEP     NAME       LBL1                 LBL2' )
 C----    X(J)       P(I)
  
       DO 1 I=1,NV
@@ -71,8 +71,8 @@ C----    X(J)       P(I)
      >                      ,KLE)
         LBL1 = LABEL(IR(I),1)
         LBL2 = LABEL(IR(I),2)
-        IF(EMPTY(LBL1)) LBL1 = '*'
-        IF(EMPTY(LBL2)) LBL2 = '*'
+        IF(EMPTY(LBL1)) LBL1 = '-'
+        IF(EMPTY(LBL2)) LBL2 = '-'
         IF(IUNIT.GT.0) WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I),KLE,LBL1,LBL2
  400    FORMAT(1P, 

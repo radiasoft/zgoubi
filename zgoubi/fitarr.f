@@ -36,18 +36,21 @@ C  -------
         DO 5 I=J,NC
           IF(I3(I).GE.I3(II1))   GOTO 5
           IC0=IC(I)
+          IC02=IC2(I)
           I10=I1(I)
           I20=I2(I)
           I30=I3(I)
           V0=V(I)
           W0=W(I)
           IC(I)=IC(II1)
+          IC2(I)=IC2(II1)
           I1(I)=I1(II1)
           I2(I)=I2(II1)
           I3(I)=I3(II1)
           V(I)=V(II1)
           W(I)=W(II1)
           IC(II1)=IC0
+          IC2(II1)=IC02
           I2(II1)=I20
           I1(II1)=I10
           I3(II1)=I30
