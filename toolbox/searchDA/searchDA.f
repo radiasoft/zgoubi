@@ -6,7 +6,7 @@ C extreme amplitude
       parameter (lunR=11,lunW=12,lunIn=15,lunSto=18,icho=10)
       character txt132*132, txt6*6, let*1, namFil*30
 C      parameter (nTrajmx=99)
-      parameter (nTrajmx=299)
+      parameter (nTrajmx=999)
       dimension x(nTrajmx),xp(nTrajmx),z(nTrajmx),
      >                   zp(nTrajmx),s(nTrajmx),d(nTrajmx),let(nTrajmx)
 C      dimension dxminu(nTrajmx), dxplus(nTrajmx), duStrt(nTrajmx)
@@ -266,29 +266,15 @@ C Set "IMAX IMAXT" for kobj=2 option
 c               write(*,*) ' Pgm searchStabLim. ntraj,kobj,kobj2 : ',
 c     >           ntraj,kobj,kobj2
 c                    read(*,*)
-        if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+        if(nTraj.gt.nTrajmx) 
+     >  stop 'Pgm searchDA. Too many trajectories...'
+
         txt132 = ' 1  1'
         write(lunW,*)txt132(debstr(txt132):finstr(txt132))
 C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
         enddo
-cC Read till "KOBJ"
-c        do i=1,4
-c          read(lunR,fmt='(a)') txt132
-c          write(lunW,*)txt132(debstr(txt132):finstr(txt132))
-c          write(*,*) txt132
-c        enddo
-cC Read till "IMAX IMAXT"
-c          read(lunR,*) nTraj, imaxt
-c          if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
-c          txt132 = ' 1  1'
-c          write(lunW,*)txt132(debstr(txt132):finstr(txt132))
-cC Read all initial traj from zgoubi_searchDA-In.dat, supposed to be stable
-c        do i=1,nTraj
-c          read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
-c        enddo
-
 C Retains only one initial traj at a time
 C and sets z to nul
         z(jo) = 0.

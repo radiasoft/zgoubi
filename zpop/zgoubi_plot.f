@@ -48,7 +48,7 @@ C DES OUTPUT DE ZGOUBI
       CLOSE(LDIR)
 
       WRITE(*,*) 'Pgm zgoubi_plot.  Working directory : ', 
-     >   wrkDir(debstr(wrkDir):finstr(wrkDir))
+     >   WRKDIR(DEBSTR(WRKDIR):FINSTR(WRKDIR))
 
       CALL INIGR(
      >           LM, NOMFIC)
@@ -63,9 +63,9 @@ C DES OUTPUT DE ZGOUBI
       L6 = NSPN
 
       I=0
-      inquire(file='zpop.log',exist=exs)
+      INQUIRE(FILE='zpop.log',EXIST=EXS)
  898  continue
-      if(exs) then
+      IF(EXS) THEN
         OPEN(UNIT=NLOG,FILE='zpop.log',STATUS='OLD',ERR=998
      >  ,IOSTAT=IOS)
         CLOSE(NLOG,STATUS='DELETE')
@@ -85,7 +85,7 @@ c         read(*,*)
         FIRST = .FALSE.
       ENDIF
       CALL FBGTXT
-      CALL MNZGRA(IOPT,wrkDir) 
+      CALL MNZGRA(IOPT,WRKDIR) 
       GOTO (21,21,21,21,21,21, 7, 8,21,99,11,12) IOPT  
       GOTO 21
 
@@ -101,7 +101,7 @@ c         read(*,*)
          CALL DATE2(DMY)                     
          CALL TIME2(HMSF)                   
          
-         if(.not. first1) then
+         IF(.NOT. FIRST1) THEN
            WRITE(6,100) DMY,HMSF
  100       FORMAT(/,'  Job  ended  on  ',A,',  at  ',A,/)
            GOTO 20      
@@ -117,7 +117,7 @@ c         read(*,*)
          GOTO 21
 
  8    CONTINUE                      
-         CALL GRAPH8(NLOG, LM, NOMFIC,wrkDir)
+         CALL GRAPH8(NLOG, LM, NOMFIC,WRKDIR)
          GOTO 21
 
  11      CONTINUE                      

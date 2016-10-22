@@ -364,7 +364,7 @@ C     >    //' file with R_min, DR, DTTA, DZ values.',-99)
       ENDIF
 
       DTTA = DTTA * RAD
-
+             
       IF(MOD .EQ. 20 .OR. MOD .EQ. 21) THEN
 C---------- Read the map. 
 C Partial field map, special symmetrization applied, as follows : 
@@ -481,9 +481,9 @@ C------- Mesh coordinates
 
       ELSEIF(MOD .EQ. 24) THEN
 C---------- Read the map. 
-C A single field map contains the full 3D map. No symmetrization applied. 
-C The map file gives Btheta, Br, BZ. 
-C Cylindrical oordinates of the mesh nodes are re-computed
+C A single file contains the full 3D map. No symmetrization applied. 
+C The map file gives theta, r, Z, Btheta, Br, BZ. 
+C Cylindrical oordinates theta, r, Z of the mesh nodes are re-computed
 C to ensure accuracy. 
 
 C----------- Read the bare map data

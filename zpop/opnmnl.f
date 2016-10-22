@@ -27,30 +27,35 @@ C  -------
      >                       NL,FN2O,OKOPN,CHANGE)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE
-      CHARACTER FN2O*(*)
+      CHARACTER(*) FN2O
 
       COMMON/LUN/NDAT,NRES,NPLT,NFAI,NMAP,NSPN
 
-      CHARACTER DEFN2O*20
+      CHARACTER(20) DEFN2O, FN2OO
+      SAVE FN2OO
       LOGICAL EMPTY, BINARY
       INTEGER DEBSTR, FINSTR
       CHARACTER(11) FRMT
       INCLUDE 'FILPLT.H'
       INCLUDE 'FILFAI.H'
 
-      IF    (LU2O .EQ. NFAI) THEN
-        DEFN2O = FILFAI
-      ELSEIF(LU2O .EQ. NPLT) THEN
-        DEFN2O = FILPLT
-      ELSEIF(LU2O .EQ. NSPN) THEN
-        DEFN2O = 'zgoubi.spn'
-      ELSE
-C        DEFN2O = 'none'
-        IF( EMPTY(FN2O) ) THEN
-          DEFN2O='none'
+      DATA FN2OO / 'TBD' /
+
+      IF(FN2OO .EQ. 'TBD') THEN
+        IF    (LU2O .EQ. NFAI) THEN
+          DEFN2O = FILFAI
+        ELSEIF(LU2O .EQ. NPLT) THEN
+          DEFN2O = FILPLT
+        ELSEIF(LU2O .EQ. NSPN) THEN
+          DEFN2O = 'zgoubi.spn'
         ELSE
-          DEFN2O = FN2O
+          IF( EMPTY(FN2O) ) THEN
+            DEFN2O='none'
+          ELSE
+            DEFN2O = FN2O
+          ENDIF
         ENDIF
+        FN2OO = DEFN2O
       ENDIF
 
       IF(OKOPN) THEN
@@ -61,14 +66,15 @@ C        DEFN2O = 'none'
       NL = LU2O
 
       WRITE(6,FMT='(/,2A)')
-     >' Give input data file name  - Default will be ',DEFN2O
+     >' Give input data file name  - Default will be ',FN2OO
       WRITE(6,FMT='(/,''  ("none" for exit)'')') 
       READ(5,FMT='(A)') FN2O
       IF( EMPTY(FN2O) ) THEN
-        FN2O = DEFN2O
+        FN2O = FN2OO
       ELSE
         FN2O=FN2O(DEBSTR(FN2O):FINSTR(FN2O))
       ENDIF
+      FN2OO = FN2O
       IF(FN2O .NE. 'none') THEN
         WRITE(6,*)
         WRITE(6,*) ' Trying to open ',FN2O,' ...' 
@@ -86,7 +92,7 @@ C        DEFN2O = 'none'
           FN2O = 'none'
         ELSE
           OKOPN = .TRUE.
-          WRITE(6,FMT='(2A)') ' Opened file ',FN2O
+          WRITE(6,FMT='(2A)') 'Pgm opnmnl.  Opened file ',FN2O
           WRITE(6,*) ' Particle coordinates will be read from ',FN2O
           IDB=DEBSTR(FN2O)
           CALL HEADER(NL,4,BINARY,*49)

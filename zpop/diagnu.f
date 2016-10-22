@@ -46,7 +46,7 @@ c      data nmail, iqx, iqy /  8, 0, 0  /
 c      DATA QXMI,XXMA,QYMI,YYMA/1.0499d0,2.05001d0,0.299d0,1.03001d0/
 C Fred's ETparam
       data nmail, iqx, iqy /  1, 0, 0  /
-      DATA QXMI,XXMA,QYMI,YYMA/ 0.65 , .9, 0.75, 1. /
+      DATA QXMI,XXMA,QYMI,YYMA/ 0.65 , 1., 0.65, 1. /
 C      DATA QXMI,XXMA,QYMI,YYMA/ 0.65d0 , .85d0, 0.85d0, 1.d0 /
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /

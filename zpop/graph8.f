@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory          
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
 CDECK GRAPH2 
       SUBROUTINE GRAPH8(NLOG, LM, NOMFIC,WRKDIR)
@@ -56,9 +56,9 @@ CDECK GRAPH2
       CALL FBGTXT
       CALL HOMCLR
 
-      nomfic = NOMFIC(debstr(nomfic):finstr(nomfic))
-      WRITE(6,100)  '[...]'//wrkDir(finstr(wrkDir)-60:finstr(wrkDir))
-     >,NOMFIC(debstr(nomfic):finstr(nomfic))
+      NOMFIC = NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
+      WRITE(6,100)  '[...]'//WRKDIR(FINSTR(WRKDIR)-60:FINSTR(WRKDIR))
+     >,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
  100  FORMAT(//,3X,60('*'),//,20X,' MENU - Analysis/Graphic :' ,//
      > ,9X,'        ' ,/
      > ,4x,' Working directory now : ',/,5x,A,  //

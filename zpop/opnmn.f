@@ -196,6 +196,7 @@ C  -------
           FRMT='FORMATTED'
         ENDIF
         NL=NF(KTYP)
+        CLOSE(NL)
         OPEN(UNIT=NL, FILE=NOMFIC,STATUS='OLD',FORM=FRMT,ERR=98)
         WRITE(6,FMT='(/,4A)') ' OK, opened ',FRMT,' file  ',NOMFIC
         OKOPN = .TRUE.

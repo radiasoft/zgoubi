@@ -108,7 +108,8 @@ C AGS warm snake
 c       PARAMETER (IZ=29 , ID=3, MMAP=1)
 c       PARAMETER (MXX=801, MXY=29)
       PARAMETER (IZ=61 , ID=3, MMAP=4)
-      PARAMETER (MXX=1001, MXY=150)
+C      PARAMETER (MXX=1001, MXY=150)
+      PARAMETER (MXX=1001, MXY=201)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C AGS warm snake 

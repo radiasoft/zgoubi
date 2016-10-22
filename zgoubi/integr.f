@@ -85,7 +85,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       SAVE FITMEM
  
       LOGICAL CONSTY, CSTYI, IDLUNI
-      SAVE CONSTY  !!, LNW
+      SAVE CONSTY 
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KEY
@@ -98,12 +98,6 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       DATA FITMEM / .FALSE. /
       DATA CONSTY / .FALSE. /
 
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.89) then
-c               write(*,*) 'integr IN QBR : ', qbr,bri
-c          endif
- 
       KDR = 2
       ISORT=1
       CT=COS(T)
@@ -475,12 +469,9 @@ C  A trick for tests at constant coordinate -----------------
      >                     F)
                         Y = F(2,IT)
                         Z = F(4,IT)
-C                        Y = FO(2,IT)
-C                        Z = FO(4,IT)
+                     T = 0.D0
+                     P = 0.D0  
                     X = NSTEP*DXI
-C           WRITE(*,FMT='(1P,10(E14.6,2X),I6,A)') X, Y, Z,F(6,IT), 
-C     >     B(1,1),B(1,2),B(1,3),E(1,1),E(1,2),E(1,3),IT,'  sbr integr'
-C              read(*,*)
          ENDIF
 C------------------------------------------------------------
  
@@ -544,46 +535,14 @@ C            CALL SPNTRK(IT,PAF)
           ENDIF
 c          ELSE
 
-cc       if(noel.eq.245) then
-c               write(*,*) 'integr event in ',it,qbr 
-c            write(*,*) 'integr IFDES,KGA,ksyn',IFDES,KGA,ksyn
-cc            read(*,*)
-cc          endif
-
           CALL EVENT(
      >    PAF,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,
      >    AMT,Q,BORO,KART,IMAX,*97)
-C     >    AMT,Q,BORO,KART,IFDES,KGA,KSYN,IMAX,*97)
-c          ENDIF
-
-cc       if(noel.eq.245) then
-c               write(*,*) 'integr event out ',it,qbr 
-cc            read(*,*)
-cc          endif
 
         ENDIF
       ENDIF
  
       IF(FITMEM) CALL FITMM(IT,Y,T,Z,P,SAR,DP,TAR,PAS)
- 
-C  A trick for tests at constant coordinate -----------------
-C         IF(CONSTY) THEN
-C                        Y = F(2,IT)
-C                        Z = F(4,IT)
-C                        Y = FO(2,IT)
-C                        Z = FO(4,IT)
-C                    X = NSTEP*DXI
-C           WRITE(LNW,FMT='(1P,7(E14.6,2X),I6,A)') X, Y, Z,F(6,IT), 
-C     >          B(1,1),B(1,2),B(1,3),IT,'    sbr integr'
-C         ENDIF
-C------------------------------------------------------------
-
-cc       if(noel.eq.245) then
-c               write(*,*) 'integr ////////////////// ',it, qbr
-cc            read(*,*)
-cc          endif
-
- 
  
  99   CONTINUE
 c      IF(KALC .EQ. 2 ) THEN
@@ -611,13 +570,6 @@ C----- Print last step
           CALL IMPDEV
         ENDIF
       ENDIF
- 
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.89) then
-c               write(*,*) 'integr OUT - IT, QBR : ',it, qbr,bri
-cc            read(*,*)
-c          endif
  
       RETURN
  
@@ -664,11 +616,6 @@ c          endif
 
       ENTRY INTEGA(CSTYI)
       CONSTY = CSTYI
-C      IF(CONSTY) THEN
-C        IF(IDLUNI(
-C     >            LNW)) OPEN(UNIT=LNW, 
-C     >            FILE='zgoubi.consty.out')
-C      ENDIF      
       RETURN
  
       END

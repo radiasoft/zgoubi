@@ -5,7 +5,7 @@ C zgoubi.dat is presumed to contain stable trajectories, which will be pushed to
 C extreme amplitude
       parameter (lunR=11,lunW=12,lunIn=15)
       character txt132*132, txt20*6, let*1, namFil*30
-      parameter (nTrajmx=99)
+      parameter (nTrajmx=999)
       dimension x(nTrajmx),xp(nTrajmx),z(nTrajmx),
      >                   zp(nTrajmx),s(nTrajmx),d(nTrajmx),let(nTrajmx)
       dimension storb(6,nTrajmx)
@@ -105,7 +105,8 @@ c               write(*,*) ' Pgm searchStabLim. ntraj,kobj,kobj2 : ',
 c     >           ntraj,kobj,kobj2
 c                    read(*,*)
 
-        if(nTraj.gt.nTrajmx) stop ' Too many trajectories...'
+        if(nTraj.gt.nTrajmx) 
+     >  stop 'Pgm searchStabLim. Too many trajectories...'
 
         txt132 = ' 1  1'
         write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))

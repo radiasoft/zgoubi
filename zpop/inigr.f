@@ -84,9 +84,8 @@ C----- Number of the lmnt concerned by the plot (-1 for all)
       LM = -1
 
 cC----- zpop log unit
-c      NLOG = 30
-      ok = idluni(
-     >            nlog)
+      OK = IDLUNI(
+     >            NLOG)
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
       NOMFIC = 'none'

@@ -3864,8 +3864,8 @@ Role~: inhibit (most of) write statements to zgoubi.res.
 \smallskip 
 
 \noindent Interest~: ``WRITE ~ ~   OFF'' may allow substantial savings on CPU time. 
-``WRITE ~ ~   ON'' set backs to normal (the 'normal' state of write outs may depend on 
-the status of other commands, such as \textsl{REBELOTE}, on-going \text{FIT[2]}, etc.). 
+``WRITE ~ ~   ON'' sets back to normal (the 'normal' state of write outs may depend on 
+the status of other commands, such as \textsl{REBELOTE}, on-going \textsl{FIT[2]}, etc.). 
 
 ~
 
@@ -3873,19 +3873,29 @@ the status of other commands, such as \textsl{REBELOTE}, on-going \text{FIT[2]},
 
 Role~: force to constant \textsl{Y} and \textsl{Z} coordinates during stepwise integration. 
 
+This allows checking fields, it is can also be used to fabricate field maps from analytical models of optical elements, 
+as follows.
 
 \smallskip 
 
-\noindent Concurrent use with $\IL=2, $ or $\IL=7$ (\cf\ Sec.~\ref{sec4.6.1}, p.~\pageref{sec4.6.1}) will allow logging 
- $\vec B$ and/or $\vec E$ field(s) (and their derivatives if $\IL=7$) 
-experienced across optical elements, for further plotting for instance. 
+\noindent Concurrent use of 
+with $\IL=1, ~ 2, ~ \textrm{or} ~ 7 $ (\cf\ Sec.~\ref{sec4.6.1}, p.~\pageref{sec4.6.1}) will allow logging 
+ $\vec B$ and/or $\vec E$ field(s) (and their derivatives) 
+experienced across optical elements, in zgoubi.res, zgoubi.plt or zgoubi.impdev.out respectively. 
 
-\noindent Interest~:  forcing  \textsl{Y} and \textsl{Z} to constant values allows easy check of fields across 
-(individual or short series of) optical elements, when setting up input data in \zgou. Can be for instance of great help 
+\smallskip 
+
+\noindent As a consequence, forcing  \textsl{Y} and \textsl{Z} to constant values, using  ``CONSTY ~ ~   ON'', 
+allows checking of fields (and derivatives) at constant \textsl{Y} and \textsl{Z}, as determined by 
+\textsl{OBJET},  across 
+(individual or short series of) optical elements. 
+This may be helpful when setting up input data in \zgou. It can be for instance of great help 
 in case of complex geometrical and field data inputs, as in \textsl{DIPOLES, FFAG}.  
 
+\smallskip 
+
 \noindent Initial coordinates are set in a very regular manner using \textsl{OBJET}. The $Y$ coordinate will stand for the 
-radius value in the case of optical elements defined in polar coordinates (\textsl{DIPOLES}, polar field maps, etc.).  
+radius value in the case of optical elements defined in polar coordinates (\eg, \textsl{DIPOLES}, polar field maps, etc.).  
 
 
 
