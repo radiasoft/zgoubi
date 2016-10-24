@@ -103,10 +103,12 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
             ENDIF
           
             IF(OKIMP) WRITE(LUN,FMT='(A,/,A)')
-     >     '#1, 2, 3, 4, 5, 6, 7, 8-10,11-19, 20-46  , 47-127 , 128-370  
-     >     ,371-373, 374-382, 383-409,  410,  411   ',
-     >     '#D, Y, T, Z, P, X, S, B_J, DB_IJ, DDB_IJK, D3B_IJK, D4B_IJKL
-     >     , E_J  ,  DE_IJ,   DDE_IJK,  IT,   BRho(kG.cm)  '
+     >     '#1, 2, 3, 4, 5, 6, 7, 8-10,11-19, 20-46,   47-73,    '//
+     >     '74-100,   101-127,  128-208,   209-289,   290-370,   '//
+     >     '371-373, 374-382, 383-409,  410,  411   ',
+     >     '#D, Y, T, Z, P, X, S, B_J, DB_IJ, DDB_IJK, D3BX_IJK, '//
+     >     'D3BY_IJK, D3BZ_IJK, D4BX_IJKL, D4BY_IJKL, D4BZ_IJKL, '//
+     >     'E_J,     DE_IJ,   DDE_IJK,  IT,   BRho(kG.cm)  '
           ENDIF
  
           IF(OKIMP) THEN

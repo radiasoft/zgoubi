@@ -184,9 +184,12 @@ C Default IDB value is set here :
       IF(KUASEX .EQ. 27 )   THEN
 C-------- FFAG                ffag radial
 
-        CALL FFAGI(SCAL,
-     >                  DSREF,IRD,IDB)
+C Modif, FM, Dec. 05
         IDZ=3
+
+        CALL FFAGI(SCAL,
+     >                  DSREF,IRD,IDB,IDZ)
+        
 C Modif, FM, Dec. 05
 C        KP = NINT(A(NOEL,ND+1))
 C        NDD = ND+2

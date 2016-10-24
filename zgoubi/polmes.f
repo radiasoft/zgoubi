@@ -205,7 +205,6 @@ C------ CARTE POLAIRE 2-D
             YH(J)= YH(J) * YNORM
           ENDDO
  
- 
         ENDIF ! NEWFIC
  
       ENDIF

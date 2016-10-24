@@ -208,7 +208,7 @@ C--------- Full 3D volume, no symmetry hypothesis
 
       ENDIF
 
-      IF(MOD .EQ. 22 .OR. MOD .EQ. 23) THEN
+      IF(MOD .EQ. 22 .OR. MOD .EQ. 23 .OR. MOD .EQ. 25) THEN
         IFAC = 24
         IFIC = 1
         DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
@@ -232,18 +232,33 @@ C--------- Full 3D volume, no symmetry hypothesis
      >  ,'Number of data file sets used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
      >  ,'Value of MOD.MOD2 is ', MOD,'.',MOD2
-        IF(MOD.EQ.22 .OR. MOD .EQ. 23) THEN
-          WRITE(NRES,*)
-     >    ' MOD=22 or 23.   Will sum up ',I2,'  field maps.'
-          WRITE(NRES,*)
-     >    ' Coefficient values : ',(a(noel,24+i-1),i=i1,i2)
+        IF    (MOD.EQ.22 .OR. MOD .EQ. 23) THEN
+         IF(I2.GT.1) THEN
+          WRITE(NRES,FMT='(10X,A,I0,2A,1P,/,15X,4E14.6)')
+     >    ' 3-D map. MOD=22 or 23.   Will sum up ',I2,'  field maps, ',
+     >    'with field coefficient values : ',(a(noel,24+i-1),i=i1,i2)
+         ELSE
+          WRITE(NRES,FMT='(10X,2A,1P,/,15X,4E14.6)')
+     >    ' 3-D map. MOD=22 or 23.  Single field map, ',
+     >    'with field coefficient value : ',(a(noel,24+i-1),i=i1,i2)
+         ENDIF
+        ELSEIF(MOD.EQ.25) THEN
+         IF(I2.GT.1) THEN
+          WRITE(NRES,FMT='(10X,A,I0,2A,1P,/,15X,4E14.6)')
+     >    ' 2-D map. MOD=25.   Will sum up ',I2,'  field maps, ',
+     >    'with field coefficient values : ',(a(noel,24+i-1),i=i1,i2)
+         ELSE
+          WRITE(NRES,FMT='(10X,2A,1P,/,15X,4E14.6)')
+     >    ' 2-D map. MOD=25.  Single field map, ',
+     >    'with field coefficient value : ',(a(noel,24+i-1),i=i1,i2)
+         ENDIF
         ENDIF
  
         IF(NEWFIC) THEN
            WRITE(NRES,209)
  209       FORMAT(/,10X
      >     ,'New field map(s) now used, polar mesh (MOD .ge. 20) ; '
-     >     ,/,10X,' name(s) of map data file(s) are : ')
+     >     ,' name(s) of map data file(s) are : ')
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
@@ -335,7 +350,7 @@ C BNORM set to ONE, since sent to CHAMK below
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
-        ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 23) THEN
+        ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 23 .OR. MOD .EQ. 25) THEN
  
           NFIC = 0
           DO KZ=I1,I2
@@ -503,7 +518,7 @@ C------- Restore mesh coordinates
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
  
         IF(NRES.GT.0) THEN
-          WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm toscap, ',
+          WRITE(NRES,fmt='(A,I3,2A)') ' Pgm toscap, '//
      >    ' restored mesh coordinates for field map # ',imap,
      >    ',  name : ',
      >    NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))

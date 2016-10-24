@@ -339,6 +339,7 @@ C          CALL ENDJOB('Please give at least 1 line header in field map'
 C     >    //' file with R_min, DR, DTTA, DZ values.',-99)
         ENDIF
       ELSE
+          
         IF(NHD .GE. 1) THEN
 C Map data file starts with NHD-line header (NORMALLY 8)
           READ(LUN,FMT='(A120)',END=97,ERR=98) HDRM
@@ -769,6 +770,81 @@ C------- Mesh coordinates
         DO I=-IXMA/2,IXMA/2
           XH(I+IXMA/2+1) =  DBLE(I) * DTTA
         ENDDO
+
+      ELSEIF(MOD .EQ. 25) THEN
+
+           IRMA = JYMA
+           JTMA = IXMA
+           KZC = 1
+
+           IRCNT = 0
+           DO I=1,IRMA            
+             RADIUS=R0 + DBLE(I-1) *DR 
+             IRCNT = IRCNT+1
+              JTCNT=0
+              DO J=1,JTMA        
+                 JTC = J
+                 TTA =  DBLE(J-1) * DTTA
+                 JTCNT = JTCNT + 1
+                 IF(BINAR) THEN
+                   READ(LUN,END=97,ERR=98) DUM1,DUM2,zzz,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
+                 ELSE
+
+ 227                CONTINUE
+                   READ(LUN,FMT='(A)') TXT132
+                   IDSTR = DEBSTR(TXT132)
+                   IF    (EMPTY(TXT132)) THEN
+                     GOTO 227
+                   ELSEIF(TXT132(IDSTR:IDSTR+1) .EQ. '%'
+     >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
+                     GOTO 227 
+                   ELSE
+                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+     >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
+     >                  //' data file must be <',MXCHAR)
+                   ENDIF
+
+                   READ(TXT132,*,END=97,ERR=98) dum1,dum2,zzz,
+     >                                   BREAD(1),BREAD(2),BREAD(3)
+
+                 ENDIF
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = TTA
+                   YBMA = RADIUS
+                   ZBMA = Z
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = TTA
+                   YBMI = RADIUS
+                   ZBMI = Z
+                 ENDIF
+
+                 HC(3,JTC,I,KZC,IMAP) = BREAD(3) * BNORM
+
+               ENDDO
+           ENDDO
+
+        BMIN = BMIN * BNORM
+        BMAX = BMAX * BNORM
+                   XBMA = XBMA * XNORM
+                   YBMA = YBMA * YNORM
+                   ZBMA = ZBMA * ZNORM
+                   XBMI = XBMI * XNORM
+                   YBMI = YBMI * YNORM
+                   ZBMI = ZBMI * ZNORM
+
+C------- Mesh coordinates
+          DO J=1,JYMA
+            YH(J) =  R0 + DBLE(J-1) *DR 
+          ENDDO
+          DO I=-IXMA/2,IXMA/2
+            XH(I+IXMA/2+1) =  DBLE(I) * DTTA
+          ENDDO
 
       ELSE
         CALL ENDJOB('SBR FMAPW/FMAPR2, no such option MOD = ',MOD)

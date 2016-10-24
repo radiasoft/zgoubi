@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE FFAGI(SCAL,
-     >                      DSREF,IRD,IDB)
+     >                      DSREF,IRD,IDB,IDZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C---------------------------------------------------------
 C     FFAG sector with several dipoles. 
@@ -277,7 +277,7 @@ C-----------------------------
 C Get type of field & deriv. calculation 
       NP=NP+1 
       KIRD = NINT(A(NOEL,NP))
-C Get resol, or idb
+C Get resol, or IDB
       NP=NP+1 
       RESOL=A(NOEL,NP)
       IF    (KIRD.NE.0) THEN
@@ -297,7 +297,11 @@ C        interpolation method
         ENDIF
       ELSEIF(KIRD.EQ.0) THEN
         IDB=NINT(RESOL)
-        IF(IDB.NE.4) IDB=2
+        IF    (IDB .EQ. 4) THEN
+          IDZ = 4               ! Used in symmed
+        ELSE
+          IDB=2
+        ENDIF
       ENDIF
       CALL CHAMC6(KIRD)
 
@@ -319,13 +323,13 @@ C--------------------
 
       IF(NRES.GT.0) THEN
         IF(KIRD.EQ.0) THEN
-          WRITE(NRES,FMT='(/,5X,'' KIRD, resol, IDB : '',3(I2,1X))') 
-     >              KIRD,NINT(RESOL),IDB
+          WRITE(NRES,FMT='(/,5X,''KIRD, resol, IDB, IDZ : '',4(I2,1X))') 
+     >              KIRD,NINT(RESOL),IDB, IDZ
         ELSE
-          WRITE(NRES,FMT='(/,5X,'' KIRD, resol : '',I2,1X,F9.3)') 
+          WRITE(NRES,FMT='(/,5X,''KIRD, resol : '',I2,1X,F9.3)') 
      >              IRD,RESOL
         ENDIF
-        WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
+        WRITE(NRES,FMT='(/,5X,''Field & deriv. calculation :'',A)') 
      >  TYPCAL(KIRD+1)
         IF    (KIRD.NE.0) THEN
           IF(IRD .EQ. 2) THEN
