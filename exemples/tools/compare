@@ -5,20 +5,35 @@ function pause(){
 } 
 
 #################################################################
-echo " " 
-echo " " 
+echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
-echo " 1/ Sure H array size in PARIZ.H is large enough?     //////////////////////////////////////" 
-echo "    If not then check, compile, and resume...         //////////////////////////////////////" 
-echo "                                                      //////////////////////////////////////" 
+echo " 1/ H array size in PARIZ.H has to be appropriate     //////////////////////////////////////" 
+echo "    Will ln -sf PARIZ_compare.H PARIZ.H  ...          //////////////////////////////////////" 
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
+echo " " 
+echo " " 
+echo " "  
+pause  'Press [Enter] key to continue...'
+#echo "(cd ../../zgoubi ; ln -sf PARIZ_compare.H PARIZ.H ; cd .. ; make )"
+#pause " OK ? "  
+(cd ../../zgoubi ; ln -sf PARIZ_compare.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
+echo "           "
+echo "           "
+echo "           "
+echo  "DONE RE-COMPILING WITH AD HOC PARIZ.H.               //////////////////////////////////////" 
+echo  "Press [Enter] key to continue...       "
+echo " "
+pause "  "
+echo " "
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
 echo " 2/ If you compile w ifort : sure you uncommented 'use ipfort' in rndm.f ? /////////////////" 
 echo "    If not then check, compile, and resume...         //////////////////////////////////////" 
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
 echo " " 
 echo " " 
-echo  'Press [Enter] key to continue...'
-echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
-pause " waiting for your action... "
+echo " "  
+pause  'Press [Enter] key to continue...'
+echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
 
 #################################################################
 echo "        "
@@ -248,21 +263,21 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../AGS_Booster/"
 echo "        "
-(cd ../AGS_Booster/ ; cp TWISS.res_160123 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS_Booster/ ; cp TWISS.res_161108 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS_Booster/TWISS - reference : "       | cat >>   compare.out
-grep "NU_Y = "         ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
-grep "E  1  0.0000"    ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
-grep "G  1  0.0000"    ../AGS_Booster/TWISS.res_160123             | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/TWISS.res_161108             | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/TWISS.res_161108             | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/TWISS.res_161108             | cat >>   compare.out
 echo "                          - new : "                     | cat >>   compare.out
 grep "NU_Y = "         ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 grep "G  1  0.0000"    ../AGS_Booster/zgoubi.res              | cat >>   compare.out
 echo "        "                                               | cat >>   compare.out
-(cd ../AGS_Booster/ ; cp OPTICS.res_150131 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../AGS_Booster/ ; cp OPTICS.res_161108 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../AGS_Booster/OPTICS - reference : "       | cat >>   compare.out
-grep "NU_Y = "         ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
-grep "E  1  0.0000"    ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
-grep "G  1  0.0000"    ../AGS_Booster/OPTICS.res_150131             | cat >>   compare.out
+grep "NU_Y = "         ../AGS_Booster/OPTICS.res_161108             | cat >>   compare.out
+grep "E  1  0.0000"    ../AGS_Booster/OPTICS.res_161108             | cat >>   compare.out
+grep "G  1  0.0000"    ../AGS_Booster/OPTICS.res_161108             | cat >>   compare.out
 echo "                          - new : "              | cat >>   compare.out
 grep "NU_Y = "         ../AGS_Booster/zgoubi.res       | cat >>   compare.out
 grep "E  1  0.0000"    ../AGS_Booster/zgoubi.res       | cat >>   compare.out
@@ -326,5 +341,18 @@ echo "--------------------------------------------------------------------------
 echo "--------------------------------------------------------------------------------------------"
 echo "--------------------------------------------------------------------------------------------"
 echo "  "
+
+echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
+echo " Will ln -sf PARIZ_regular.H PARIZ.H and re-compile ...      ///////////////////////////////" 
+echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
+echo " " 
+echo " "  
+pause  'Press [Enter] key to continue, or Ctrl C otherwise...'
+echo " " 
+echo " "  
+echo " " 
+echo " "  
+(cd ../../zgoubi ; ln -sf PARIZ_regular.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
 
 exit

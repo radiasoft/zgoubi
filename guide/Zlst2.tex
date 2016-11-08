@@ -1019,13 +1019,13 @@ $YC$ stands for the reference radius (normally, $YC  \simeq RM$).}
 \mestab
 \textbf{CHANGREF}  \label{CHANGREF-B} \index{CHANGREF|textbf}      \> \textbf{\CHANGREFTitl}\\
  \\
- \textbf{``Old Style''} (Figure below)~: \index{CHANGREF ``Old Style''}  \\
+ \textbf{``Old Style''} (Figure below)~:   \\
 \\
  \textsl{XCE, YCE, ALE} \>Longitudinal and transverse shifts, \>2*cm, deg \>3*E \\
  \>followed by $Z$-axis rotation  \\
 \\
 \\
- \textbf{``New Style'' (example below). \index{CHANGREF ``New Style''}  In an arbitrary order, up to 9  occurrences of~:  }\\
+ \textbf{``New Style'' (example below).   In an arbitrary order, up to 9  occurrences of~:  }\\
 \\
  \textsl{XS 'val', YS 'val', ZS 'val',} \> \>cm or deg \>up to 9*(A2,E) \\
  \textsl{XR 'val', YR 'val', ZR 'val'} \> \>\>\\
@@ -2298,18 +2298,18 @@ $\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the mag
 either :     \>    \>    \> \\
  $\IR$, $\IP$, $\XC$, $\DV$  \>Number of the element in the structure~; \> $\leq${\small MXL}~\footnotemark[1], 
 {\small $\leq$MXD}~\footnotemark[1], \>2*I, 2*E\\
- \>number of the physical parameter in the element~;\>$\pm$ {\small MXL.MXD}~\footnotemark[3],  \> \\
+ \>number of the physical parameter in the element~;\>$\pm$ {\small MXL.MXD}~\footnotemark[2],  \> \\
  \>coupling switch (off = 0)~; variation range ($\pm$).\> relative \> \\
 or :     \>    \>    \> \\
  $\IR$, $\IP$, $\XC$, $[V_{min},V_{max}]$  \>  $V_{min}$, $V_{max}$~: lower and upper limits of the variable. 
-                                                                          \> see footnote\footnotemark[4] \>2*I, 3*E\\
+                                                                          \> see footnote\footnotemark[3] \>2*I, 3*E\\
   \\[2ex]
-$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[3]} \index{fit procedure!- penalty} \index{fit procedure!- max. number of iterations} 
+$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[4]} \index{fit procedure!- penalty} \index{fit procedure!- max. number of iterations} 
        \>Number of constraints [, penalty [, max. numb. of iterations]].   \> $\leq 20$ [,$10^{-n}$ [,$>0$]] \> I [, E [, I]] \\
  \\[-2ex]
 \textbf{For I = 1, NC}  \> \it repeat NC times the following sequence~: \>\>\\
  \\[-2ex]
- $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[4], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
+ $\IC$, $I$, $J$, $I\!R$, $V$~\footnotemark[3], $WV$,  \>$\IC$, $I$ and $J$  define the type of constraint (see table below)~; 
                  \>0-5, 3*($>$0), \>4*I, 2*E, \\
 $N\!P$ ~$[,~ p_i(i=1,NP)]$  \>
 $I\!R$ : number of the element after which the constraint applies~; \>current unit,  \>  I, $N\!P*$E \\
@@ -2320,11 +2320,11 @@ $I\!R$ : number of the element after which the constraint applies~; \>current un
 
 \vfill
 
-\footnotetext[1]{~  The values for the maximum number of elements (\ie, keywords) that a sequence in \zgou\ can contain, MXL, and for the maximum number of parameters under a keyword, MXD,  are set in the include file \texttt{MXLD.H}. }
-\footnotetext[2]{~ Data is of the form ``integer.ijk'' with integer$\le$MXD and i, j, k 1-digit integers and such that ijk$\le$MXD. }
-\footnotetext[3]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$ \textsl{penalty}, or when the maximum allowed number of iterations is reached. }
-\footnotetext[4]{~  $V$ is in current \zgou\ units in the case of particle coordinates (\ie, cm, mrad, $\mu$s, momentum 
-relative to BORO) and B field (T). It is in MKSA units (m, rad) in the case of matrix coefficients.}
+\footnotetext[1]{~  The values for the maximum number of elements (\ie, keywords in zgoubi.dat) that a sequence in \zgou\ can contain, MXL, and for the maximum number of parameters under a keyword, MXD,  are set in the include file \texttt{MXLD.H}. }
+\footnotetext[2]{~ The coupling input  data $\XC$ is of the form ``integer.ijk'' with integer$\le$MXD and i, j, k 1-digit integers and such that ijk$\le$MXD. }
+\footnotetext[3]{~  $V$ is in current \zgou\ units in the case of particle coordinates (\ie, cm, mrad, $\mu$s, momentum 
+relative to BORO) and B field (kG). It is in MKSA units (m, rad) in the case of matrix coefficients.}
+\footnotetext[4]{~  FIT[2] ~ will stop when the sum of the squared residuals gets $<$ \textsl{penalty}, or when the maximum allowed number of iterations is reached. }
 
 
 
@@ -3697,7 +3697,7 @@ $R_1$, $U_1$, $U_2$, $R_2 $     \quad \quad \=
  \textsl{IOPT, NBOP}         \> $IOPT=0/1$~: Off/On~; 0 (off) will inhibit all \textsl{NBOP} subsequent  \>0-1, $\geq 0$ \>2*I \\
                              \>   requests. \textsl{NBOP}~: total number of options.   \>               \>    \\
       \>  \\
-\sl  NBOP lines should follow. Possible choices :    \>  \\
+\bf  NBOP lines follow. Possible choices :    \>  \\
 \\
  \sl 'WRITE', OPT \> OPT = ON/OFF~: allows/inhibites (most) write statements to zgoubi.res  \> 'WRITE', 'ON' or 'OFF' \> 2*A \\
 \\
@@ -4897,8 +4897,10 @@ cp zgoubi.res zgoubi.res_save
  \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients. \> 4*UnitConv. \> 4*E \\
         \> Convert values  as read from map file, to kG and cm or rad. \\
  \\
- \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped. Include \> \>A80 \\
-                      \>``HEADER n'' in case \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
+ \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped.  \> \>A80 \\
+                      \>Include ``HEADER n'' if \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
+                      \>Include ``ZroBXY'' to force $B_X=B_Y=0$ at all Z=0 (only applies  \> \> \\
+                      \> for \textsl{MOD}=15 and \textsl{MOD}=24).  \> \> \\
  \\
  $IX$, $IY$, $IZ,$~\footnotemark[1]     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}, $\leq$\textsl{MXY}, \>3*I, I[.I  \\
 \textsl{MOD[.MOD2 [, a(i),i=} \> and $Z$ directions, $IZ=1$ for a 2-D map~; \textsl{MOD} \> $\leq$\textsl{IZ}, [0-22.1-9], - \> [, MOD2*E]]\\

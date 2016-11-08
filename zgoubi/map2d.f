@@ -73,15 +73,16 @@ C      SAVE IIXMA, JJYMA, KKZMA
 
       PARAMETER (MXHD=20)
       PARAMETER (ONE=1.D0)
- 
-      DATA NOMFIC / IZ*' '/
-      DATA FMTYP / ' regular' /
- 
+  
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
 
       LOGICAL NEWF
+      LOGICAL ZROBXY      
 
+      DATA ZROBXY / .FALSE. /
+      DATA NOMFIC / IZ*' '/
+      DATA FMTYP / ' regular' /
       DATA AA / 27 * 0.D0 /
       DATA NEWF / .TRUE. /
  
@@ -198,7 +199,7 @@ C        NEWF = NEWFIC(I)
              KZ = 1
              IRD = NINT(A(NOEL,40))
  
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

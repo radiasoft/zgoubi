@@ -81,19 +81,16 @@ C      SAVE HCU
       DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
       SAVE IIXMA, JJYMA, KKZMA
  
-C      INCLUDE 'MAPHDR.H'
-
-      DATA NOMFIC / 2*'               '/
- 
-      DATA NHDF / 8 /
- 
-C          data hcu /  IDMX * 0.d0 /
- 
-      DATA FMTYP / ' regular' /
-      DATA IMAP / 1 /
- 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
+
+      LOGICAL ZROBXY      
+
+      DATA ZROBXY / .FALSE. /
+      DATA NOMFIC / 2*'               '/
+      DATA NHDF / 8 /
+      DATA FMTYP / ' regular' /
+      DATA IMAP / 1 /
       DATA AA / 27 * 0.D0 /
  
       if( .NOT.ALLOCATED( HC1 ))
@@ -285,7 +282,7 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
      >         ' map,  FORMAT type : ', FMTYP
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -318,7 +315,7 @@ c                      write(86,*) iid,iii,jjj,KZ,HC(iid,iii,jjj,KZ,IMAP)
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
      >         ' map,  FORMAT type : ', FMTYP
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                             BMIN,BMAX,
      >                             XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -376,7 +373,7 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
      >         ' map,  FORMAT type : ', FMTYP
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                                 BMIN,BMAX,
      >                                 XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -416,7 +413,7 @@ C and used for tracking.
              IF(NRES.GT.0) WRITE(NRES,FMT='(/,3A)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH),
      >         ' map,  FORMAT type : ', FMTYP
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,BNORM,I1,KZ,FMTYP,
      >                               BMIN,BMAX,
      >                               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)

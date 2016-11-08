@@ -57,12 +57,15 @@ C      LOGICAL ZSYM
       INCLUDE 'MXHD.H' 
 C      INCLUDE 'MAPHDR.H' 
 
-      DATA NOMFIC / IZ*'               '/
-C FM 9 Spet. 14
-C      DATA IMAP / 1 /
- 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
+
+      LOGICAL ZROBXY      
+
+      DATA ZROBXY / .FALSE. /
+      DATA NOMFIC / IZ*'               '/
+C FM 9 Spet. 14
+C      DATA IMAP / 1 / 
       DATA AA / 27 * 0.D0 /
  
 C FM 9 Spet. 14
@@ -171,7 +174,7 @@ C------ CARTE POLAIRE 2-D
           BMAX = -1.D10
           IRD = NINT(A(NOEL,40))
  
-          CALL FMAPR(BINAR,LUN,MOD,MOD2,NHD,
+          CALL FMAPR(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                                 RM)
  
           DO J=1,JYMA

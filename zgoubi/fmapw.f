@@ -44,7 +44,6 @@ C      LOGICAL IDLUNI, BINARI
       CHARACTER(1) BE(2)
       INTEGER DEBSTR, FINSTR
       SAVE MOD, MOD2
-      
 CC 3D field maps, intermediate storage prior to summing
 C      PARAMETER(MX3D=3)
 C      DOUBLE PRECISION, DIMENSION(:,:,:,:,:), ALLOCATABLE :: 
@@ -61,11 +60,13 @@ C      SAVE HCTMP
      >KKZMA,ZZH,BBMI,BBMA,XBBMI,
      >YBBMI,ZBBMI,XBBMA,YBBMA,ZBBMA
 
+      LOGICAL ZROBXY   ! Set to .TRUE. to force BX==0, BY==0, at Z=0 (some OPERA maps have residual 
+                       ! non-zero, that causes particles in mid-plane to wrongly acquire Z-motion). 
+
       DATA BE /'B','E'/
 
       DATA MOD, MOD2 / 0, 0 /
       DATA IMAP / 1 /
-C      DATA IALOC / 0 /
 
       CALL KSMAP(
      >           IMAP) 
@@ -296,16 +297,13 @@ c     >        i,j,XH(I),YH(J),HC(ID,I,J,1,IMAP),ii,id,imap
 
 C----------------------------------------------------------
 C Read and interprete field maps in polar frame (MOD >= 20)
-C      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, BNORM,
-      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI, 
+      ENTRY FMAPR2(BINAR,LUN, MODI,MODI2,NHDI,ZROBXY,
      >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       CALL KSMAP(
      >           IMAP) 
 
-C      IF(NRES.GT.0) WRITE(NRES,*)'IMAP : ',IMAP
-C      IF(IMAP.LT.0) CALL ENDJOB('SBR FMAPW, IMAP has to be .ge.0',-99)
       MOD = MODI
       MOD2 = MODI2
       NHD = NHDI
@@ -522,9 +520,20 @@ C                   write(33,*) DUM1,DUM2,DUM3,BREAD(1),BREAD(2),BREAD(3)
                  ENDIF
 
 C---------------- Polar components Btheta, Br, BZ at positon (tta,r,Z) in cyl. frame
-                 HC(1,I,J,K,IMAP) = BREAD(1) * BNORM
-                 HC(2,I,J,K,IMAP) = BREAD(2) * BNORM
+                 IF(ZROBXY) THEN
+                   IF(Z .EQ. 0.D0) THEN
+                     HC(1,I,J,K,IMAP) = 0.D0
+                     HC(2,I,J,K,IMAP) = 0.D0
+                   ELSE
+                     HC(1,I,J,K,IMAP) = BREAD(1) * BNORM
+                     HC(2,I,J,K,IMAP) = BREAD(2) * BNORM
+                   ENDIF
+                 ELSE
+                   HC(1,I,J,K,IMAP) = BREAD(1) * BNORM
+                   HC(2,I,J,K,IMAP) = BREAD(2) * BNORM
+                 ENDIF
                  HC(3,I,J,K,IMAP) = BREAD(3) * BNORM
+
                ENDDO
              ENDDO
            ENDDO
@@ -854,7 +863,7 @@ C------- Mesh coordinates
 
 C-------------------------------------------------------------
 C Read and interprete field maps in cartesian frame (MOD < 20)
-      ENTRY FMAPR3(BINAR,LUN,MODI,MODI2,NHDI,
+      ENTRY FMAPR3(BINAR,LUN,MODI,MODI2,NHDI,ZROBXY,
      >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -887,7 +896,10 @@ C Map data file starts with NHD-line header
 C Map data file starts with NHD-line header
           READ(LUN,END=97,ERR=98) HDRM
           IF(NRES.GT.0) WRITE(NRES,FMT='(5X,A120)') HDRM
-          READ(HDRM,*,ERR=51,END=51) R0, DR, DTTA, DZ
+          IF(MOD .EQ. 15) THEN
+          ELSE
+            READ(HDRM,*,ERR=51,END=51) R0, DR, DTTA, DZ
+          ENDIF
           GOTO 52
  51       CONTINUE
           IF(NRES.GT.0) WRITE(NRES,*) 
@@ -1411,8 +1423,19 @@ C Used for instance for AGS cold snake = helix map + solenoid map
                    ZBMI = ZH(K)
                  ENDIF
 
-                 HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
-                 HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+
+                 IF(ZROBXY) THEN
+                   IF(ZH(K) .EQ. 0.D0) THEN
+                     HC(1,I,JTC,KZC,IMAP) = 0.D0
+                     HC(2,I,JTC,KZC,IMAP) = 0.D0
+                   ELSE
+                     HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
+                     HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+                   ENDIF
+                 ELSE
+                   HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
+                   HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+                 ENDIF
                  HC(3,I,JTC,KZC,IMAP) = BREAD(3) * BNORM
 
                ENDDO
@@ -1423,13 +1446,13 @@ C Used for instance for AGS cold snake = helix map + solenoid map
            BMAX = BMAX * BNORM
 
 C------- Mesh coordinates
-           DX = (XH(2) - XH(1))*Xnorm
-           XH(1) = XH(1)*Xnorm
+           DX = (XH(2) - XH(1))*XNORM
+           XH(1) = XH(1)*XNORM
            DO J=2,IXMA
              XH(J) =  XH(J-1) + DX
            ENDDO
-           DY = (YH(2) - YH(1))*ynorm
-           YH(1) = YH(1)*ynorm
+           DY = (YH(2) - YH(1))*YNORM
+           YH(1) = YH(1)*YNORM
            DO J=2,JYMA
              YH(J) =  YH(J-1) + DY
            ENDDO
@@ -1438,8 +1461,8 @@ C------- Mesh coordinates
            ELSE
              IZ1 = 2
            ENDIF
-           DZ = (ZH(IZ1) - ZH(1))*Znorm
-           ZH(1) = ZH(1)*Znorm
+           DZ = (ZH(IZ1) - ZH(1))*ZNORM
+           ZH(1) = ZH(1)*ZNORM
            DO K= 2, KZMA
              ZH(K) = ZH(K-1) + DZ
            ENDDO

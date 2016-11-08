@@ -38,12 +38,13 @@ C  -------
       LOGICAL STRCON
 
 C----- NPU = 0 (OFF) or NPU > 0 (# of distinct lmnt LABEL's)
-      READ(NDAT,FMT='(A)',ERR=97,END=97) TXT
+      LINE = 1
+      READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
       IF    (STRCON(TXT,'!',
      >                      IS)) TXT = TXT(1:IS-1)
 
-      READ(TXT,*,ERR=97,END=97) NPU
+      READ(TXT,*,ERR=99,END=99) NPU
 
       IF(NPU .GT. MPULAB) CALL ENDJOB('Pgm rpckup. '
      >//'Too  many  PU families, maximum allowed is  ',MPULAB )
@@ -54,23 +55,28 @@ C----- NPU = 0 (OFF) or NPU > 0 (# of distinct lmnt LABEL's)
      >                          IS)) A(NOEL,2)=1.D0
 
 C----- LABEL's
+      LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
       TXT = TXT(DEBSTR(TXT):LEN(TXT))
       IF(NPU.GE.1) READ(TXT,*,ERR=98) (PULAB(I),I=1,NPU)
 
       RETURN
 
- 97   CALL ENDJOB(
-     >'Data error met while reading NPU from PICKUPS data list.',-99)
-      RETURN
+ 98   WRITE(6,FMT='(A,1X,I0)') 
+     >'Data error met while reading pickup list. Check # of PUs. '
+     >//' Expected # of itmes in list is ',NPU
+      WRITE(NRES ,*) 
+     >'Data error met while reading pickup list. Check # of PUs. '
+     >//' Expected # of itmes in list is ',NPU
+      GOTO 90
 
- 98   CALL ENDJOB(
-     >'Data error met while reading PICKUPS. Check # of PUs. '
-     >//' Expected # of itmes in list is ',NPU)
-      RETURN
-
- 99   CALL ENDJOB(
-     >'Data error met while reading PICKUPS. Check # of PUs and list'
-     >,-99)
+ 99   WRITE(6,*) 
+     >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
+      WRITE(NRES ,*) 
+     >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
+      GOTO 90
+      
+ 90   CALL ENDJOB('*** Pgm rpckup, keyword PICKUPS : '// 
+     >'input data error, at line ',line)
       RETURN
       END

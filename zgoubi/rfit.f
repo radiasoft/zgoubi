@@ -59,10 +59,10 @@ C      PARAMETER (MXTA=45)
 
       LINE = 1
 C  READ NV [,'nofinal','save' [FileName],'noSYSout']
-      READ(NDAT,FMT='(A)') TXT132
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
       IF(STRCON(TXT132,'!',
      >                     IIS)) TXT132 = TXT132(1:IIS-1)
-      READ(TXT132,*) NV
+      READ(TXT132,*,ERR=90,END=90) NV
       IF(NV.LT.1) RETURN
 
       IF(STRCON(TXT132,'noSYSout',
@@ -83,7 +83,8 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
 
         IF(.NOT. EMPTY(TXT132)) THEN
           IF(TXT132(DEBSTR(TXT132):DEBSTR(TXT132)+6).NE.'nofinal') THEN
-            READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*) FNAME
+            READ(TXT132(DEBSTR(TXT132):FINSTR(TXT132)),*,ERR=90,END=90)
+     >      FNAME
           ELSE
             FNAME = 'zgoubi.FITVALS.out'
           ENDIF
@@ -96,7 +97,7 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
      
       DO I=1,NV
         LINE = LINE + 1
-        READ(NDAT,FMT='(A)') TXT132
+        READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
         CMMNT = STRCON(TXT132,'!',
      >                            III) 
         IF(CMMNT) THEN
@@ -107,16 +108,16 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
         IF(STRCON(TXT132(1:III),'[',
      >                              II)) THEN
 C--------- New method
-          READ(TXT132(1:II-1),*) IR(I),IS(I),XCOU(I)
+          READ(TXT132(1:II-1),*,ERR=90,END=90) IR(I),IS(I),XCOU(I)
           IF(STRCON(TXT132,']',
      >                      II2)) THEN
-            READ(TXT132(II+1:II2-1),*) XMI(I),XMA(I)
+            READ(TXT132(II+1:II2-1),*,ERR=90,END=90) XMI(I),XMA(I)
           ELSE
             CALL ENDJOB(' SBR RFIT, wrong input data / variables',-99)
           ENDIF
         ELSE
 C--------- Original method 
-           READ(TXT132,*) IR(I),IS(I),XCOU(I),DX(I)
+           READ(TXT132,*,ERR=90,END=90) IR(I),IS(I),XCOU(I),DX(I)
            XI = A(IR(I),IS(I))
            XMI(I)=XI-ABS(XI)*DX(I)
            XMA(I)=XI+ABS(XI)*DX(I)
@@ -125,7 +126,7 @@ C--------- Original method
 
 C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
       LINE = LINE + 1
-      READ(NDAT,FMT='(A)') TXT132
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
       IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
       CALL STRGET(TXT132,3,
@@ -165,20 +166,16 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
       IF(NC.LT.1) RETURN
       DO 4 I=1,NC
         LINE = LINE + 1
-        READ(NDAT,FMT='(A)') TXT132
+        READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
         IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
         IF(STRCON(TXT132,'!',
      >                     III)) TXT132 = TXT132(1:III-1) 
-C        READ(TXT132,*,ERR=41,END=41) XC,I1(I),I2(I),I3(I),V(I),W(I),
         READ(TXT132,*,ERR=98,END=98) XC,I1(I),I2(I),TXT20,V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
         IF(ISNUM(TXT20)) THEN
-           READ(TXT20,*) I3(I)
-c               write(*,*) ' rfit isnum, i3(i) : ', I3(I)
-c               read(*,*)
+           READ(TXT20,*,ERR=90,END=90) I3(I)
         ELSE
-c               write(*,*) ' rfit txt20 : ',txt20
           IF(TXT20(DEBSTR(TXT20):FINSTR(TXT20)) .EQ. '#End') THEN
             I3(I) = NOEL-1
           ELSE

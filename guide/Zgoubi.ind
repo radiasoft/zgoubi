@@ -35,10 +35,6 @@
     \subitem - recovering from a crash, 106
   \item CHAMBR, 77, 79, 107, \textbf{107}, \textbf{208}, 271
   \item CHANGREF, 72, 96, 107, 108, \textbf{108}, 110, \textbf{209}
-  \item CHANGREF ``New Style'', 209
-  \item CHANGREF ``Old Style'', 209
-  \item CHANGREF\ ``New Style'', 109
-  \item CHANGREF\ ``Old Style'', 108
   \item checking field, \textbf{178}
   \item checking trajectories, \textbf{178}
   \item {chromaticity}, \textbf{169}, 170, 290

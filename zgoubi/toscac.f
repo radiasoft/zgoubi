@@ -86,9 +86,6 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       INCLUDE 'MXSCL.H'
       DIMENSION KFM(MXSCL)
  
-      DATA NOMFIC / NFM*'               '/
-      DATA FMTYP / ' regular' /
- 
       PARAMETER (MXAA2=24+MXC-1)
       DIMENSION AA(MXL,MXAA2), UU(MXAA2)
       SAVE AA
@@ -127,6 +124,11 @@ C      ERRORS
       SAVE IPOL
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
+      LOGICAL ZROBXY      
+
+      DATA ZROBXY / .FALSE. /
+      DATA NOMFIC / NFM*'               '/
+      DATA FMTYP / ' regular' /
       DATA IALOC / 0 /
       DATA NBMAPS / 0 /
       DATA ERRON / .FALSE. /
@@ -161,6 +163,12 @@ C Aug 2012      BNORM = A(NOEL,10)*SCAL
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'ZroBXY',
+     >                            IS) ) THEN
+        ZROBXY=.TRUE.
+      ELSE
+        ZROBXY=.FALSE.
+      ENDIF
       IF    (STRCON(TITL,'HEADER',
      >                            IS) ) THEN
         READ(TITL(IS+7:IS+7),FMT='(I1)') NHD
@@ -365,11 +373,24 @@ C          Each one of these files should contain the all 3D volume.
      >      ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
           ENDIF
         ELSEIF(MOD.EQ.15) THEN
-          WRITE(NRES,*)
-     >    ' MOD=15.   Will sum up ',I2,'  field maps.'
-          WRITE(NRES,*)
-     >    ' Coefficient values : ',(a(noel,24+i-1),i=i1,i2)
-C     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
+          IF(I2.GT.1) THEN
+            WRITE(NRES,FMT='(10X,A,I0,2A,1P,/,15X,4E14.6)')
+     >      ' 3-D map. MOD=15.   Will sum up ',I2,'  field maps, ',
+     >      'with field coefficient values : ',(a(noel,24+i-1),i=i1,i2)
+          ELSE
+            WRITE(NRES,FMT='(10X,2A,1P,/,15X,4E14.6)')
+     >      ' 3-D map. MOD=15.  Single field map, ',
+     >      'with field coefficient value : ',(a(noel,24+i-1),i=i1,i2)
+          ENDIF
+          IF(ZROBXY) THEN
+            WRITE(NRES,FMT='(5X,A)')
+     >      'ZroBXY OPTION :  found in map title. '//
+     >      'BX and BY values in Z=0 plane forced to zero.'
+          ELSE
+            WRITE(NRES,FMT='(5X,A)')
+     >      'ZroBXY OPTION :  absent from map title. '//
+     >      'BX and BY values in Z=0 plane left as read.'
+          ENDIF
         ENDIF
  
         IF(NEWFIC) THEN
@@ -437,7 +458,7 @@ C     >    ' MOD=15.   Will sum up ',I2,'  3D field maps.'
              IRD = NINT(A(NOEL,40))
  
 C BNORM set to ONE, since sent to CHAMK below
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
@@ -495,7 +516,7 @@ C------- Store mesh coordinates
  
              CALL FMAPW2(NFIC,AA(NOEL,NFIC))
  
-             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
