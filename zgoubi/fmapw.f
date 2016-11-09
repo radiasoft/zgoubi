@@ -1514,7 +1514,7 @@ C           ENDIF
       ENDIF  
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,*)' SBR FMAPW/FMAPR3 : completed job of reading map.'
+        WRITE(NRES,*)' Sbr fmapw/fmapr3 : completed job of reading map.'
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
       RETURN

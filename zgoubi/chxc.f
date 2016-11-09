@@ -103,8 +103,12 @@ C      LOGICAL AGS, NEWFIC(MXTA)
  
       DIMENSION DBDX(3)
 
-      DIMENSION AA(1)
-      DATA AA / 0.D0 /
+      PARAMETER (MXC = 4)
+      PARAMETER (MXAA2=24+MXC-1)
+      DIMENSION AA(MXL,MXAA2), UU(MXAA2)
+      SAVE AA
+C      DIMENSION AA(1)
+C      DATA AA / 0.D0 /
 
       DATA AGS / .FALSE. /
 
@@ -403,10 +407,13 @@ C---------------------------------------------------------------
 C-------- KALC = 2: READS FIELD MAP
 
         RFR = 0.D0
- 
+
+        MOD = 0
+        MOD2 = 0
+
         IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
 C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
-
+ 
           IF(KUASEX .EQ. 2) THEN
 C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
             NDIM = 2
@@ -414,13 +421,15 @@ C---------- 2 : TOSCA. Read a 2-D field map, assume Bx=By=0
           ELSEIF(KUASEX.EQ.7) THEN
 C-------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format. 
             NDIM = 3
-            MOD = NINT(A(NOEL,23))
 
           ENDIF
 
+          MOD = NINT(A(NOEL,23))
+          MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
+
           CALL TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
 
 C Steps back because this is settled after the endif...
           XBMA = XBMA/XNORM
@@ -832,6 +841,23 @@ C Check that : close does not seem to idle lun => makes problem with FIT !!
             ENDIF
           ENDIF
 
+          IF(MOD2 .GE. 1 ) THEN
+            IF    (MOD2 .EQ. 1 ) THEN
+              WRITE(NRES,FMT='(/,5X,''Field maps will be scaled by  ''
+     >    ,''coefficients value  '',1P, E14.6)') AA(NOEL,24)
+            ELSEIF(MOD2 .LE. MXC ) THEN
+              WRITE(NRES,FMT='(/,5X,
+     >        ''The '',I2,'' field maps are conbined (summed up) with ''
+     >        ,'' linear combination coefficients, respectively : ''
+     >        ,/,10X,1P, 4E14.6
+     >        )') MOD2, (AA(NOEL,I),I = 24, 23+MOD2)
+            ELSE
+              CALL ENDJOB('Pgm chxc. No such possibility, MOD2 = ',MOD2)
+            ENDIF
+          ELSE
+C            CALL ENDJOB('Pgm chxc. No such possibility, MOD2 == ',MOD2)
+          ENDIF
+
 C FM Apr 2015, for map-2d
 C          WRITE(NRES,203) BMIN/BNORM,BMAX/BNORM,
 C     >     XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
@@ -848,13 +874,14 @@ C     >     XBMA*XNORM,YBMA*YNORM,ZBMA*ZNORM,
      >    XL, XI, XF, 
      >    IXMA,JYMA, XH(2)-XH(1), YH(2)-YH(1)
   203     FORMAT(
-     >    //,5X,'Min/max fields seen in map   : ', 
+     >    /,5X,'Min/max fields found in map (series) read   : ', 
      >                              1P,E14.6,T68,'/ ',E14.6
      >    , /,5X,'  @  X,  Y, Z : ', 3(G10.3,1X),T68
      >                                     ,'/ ',3(G10.3,1X)
-     >    ,//,5X,'Given normalisation coeffs on field, x, y, z'
+     >    ,/,5X,'Given normalisation coeffs on field, x, y, z'
      >    ,' : ', 4(E14.6,1X)
-     >    , /,5X,'  min/max normalised fields (kG) :', 2(E14.6,20X)
+     >    , /,5X,'this yields min/max normalised fields (kG) :', 
+     >                                                 2(E14.6,20X)
      >    , /,5X,'  @  X (cm),  Y (cm), Z (cm) : ', 3(G10.3,1X),T68
      >                                     ,'/ ',3(G10.3,1X)
      >    ,//,5X,'Length of element,  XL =',E14.6,' cm '

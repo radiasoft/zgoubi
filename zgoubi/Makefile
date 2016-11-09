@@ -55,6 +55,7 @@ OBJ=\
  chamb.o\
  chamc.o\
  chamk.o\
+ chamk1.o\
  chanrf.o\
  charef.o\
  checks.o\
@@ -451,7 +452,7 @@ carshi.o: PARIZ.H $(INC)/MXLD.H
 cavite.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H $(INC)/MXFS.H $(INC)/MXSCL.H
 chamb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 chamc.o: $(INC)/MAXTRA.H
-chamk.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
+chamk1.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H 
 chanrf.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 charef.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 checks.o: PARIZ.H 

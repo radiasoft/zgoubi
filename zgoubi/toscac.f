@@ -24,7 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -88,7 +88,7 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
  
       PARAMETER (MXAA2=24+MXC-1)
       DIMENSION AA(MXL,MXAA2), UU(MXAA2)
-      SAVE AA
+C      SAVE AA
 
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
@@ -125,6 +125,7 @@ C      ERRORS
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
       LOGICAL ZROBXY      
+      PARAMETER (IONE = 1)
 
       DATA ZROBXY / .FALSE. /
       DATA NOMFIC / NFM*'               '/
@@ -217,7 +218,6 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           DO LL = 24, MXAA2  ! 24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
- 
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
  
@@ -231,7 +231,6 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           DO LL = 24, MXAA2     !24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
- 
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
  
@@ -263,6 +262,7 @@ c            ENDIF
             DBDX(3) = AA(NOEL,26)
             CALL CHAMK4(DBDX,3)
           ENDIF
+
         ELSEIF(MOD.EQ.15) THEN
 C--------- MOD2 files are combined linearly into a single 2D map, after reading.
           IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
@@ -274,20 +274,24 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             AA(NOEL,24-1+I) = A(NOEL,24-1+I)
           ENDDO
  
+          DO LL = 24, MXAA2     !24+MXC-1
+            UU(LL) = AA(NOEL,LL)
+          ENDDO
+
           NFIC=0
           DO I=I1, I2
             NFIC = NFIC+1
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-
-            DO LL = 24, MXAA2     !24+MXC-1
-              UU(LL) = AA(NOEL,LL)
-            ENDDO
- 
 C            CALL KSMAP4(NOMFIC,NFIC,UU,
-C     >                          NEWFIC,NBMAPS,IMAP)
+C     >                          NEWFIC,NBMAPS,IMAP) 
           ENDDO
  
+C          DO LL = 24, MXAA2     !24+MXC-1
+C            UU(LL) = AA(NOEL,LL)
+C          ENDDO
+
+C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
@@ -302,18 +306,32 @@ C--------- Several data files, normally one per XY plane
 C          3-D map is  symmetrysed wrt horizontal plane
           I1 = (KZMA/2) + 1
           I2 = KZMA
+
         ELSEIF(MOD .EQ. 1) THEN
 C--------- Several data files, normally one per XY plane
 C--------  No symmetrization, map taken as is
           I1 = 1
           I2 = KZMA
           ZSYM=.FALSE.
+
         ELSEIF(MOD .EQ. 12) THEN
 C--------- A single data file contains the all 3D volume
           I1=1
           I2 = 1
+
         ELSEIF(MOD .EQ. 15) THEN
 C--------- MOD2 files are combined linearly into a single map after reading.
+C          Each one of these files should contain the all 3D volume.
+          IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
+     >    //'maps cannot exceed ',MXC)
+          I1=1
+          I2 = MOD2
+          DO I = 1, I2
+            AA(NOEL,24-1+I) = A(NOEL,24-1+I)
+          ENDDO
+
+        ELSEIF(MOD .EQ. 16) THEN
+C--------- MOD2 files read for on-the-flight contribution
 C          Each one of these files should contain the all 3D volume.
           IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
      >    //'maps cannot exceed ',MXC)
@@ -327,6 +345,10 @@ C          Each one of these files should contain the all 3D volume.
           CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
  
+        DO LL = 24, MXAA2  ! 24+MXC-1
+          UU(LL) = AA(NOEL,LL)
+        ENDDO
+
         NFIC=0
         DO  I = I1, I2
           NFIC = NFIC+1
@@ -334,16 +356,15 @@ C          Each one of these files should contain the all 3D volume.
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
         ENDDO
 
-        DO LL = 24, MXAA2  ! 24+MXC-1
-          UU(LL) = AA(NOEL,LL)
-        ENDDO
- 
+C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
         CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
- 
+
+        IF(MOD .EQ. 16) CALL CHAMK(NFIC)
+
       ENDIF
 
-      IF(MOD .EQ. 15) THEN
+      IF    (MOD .EQ. 15) THEN
         IFAC = 24
         IFIC = 1
         DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
@@ -358,6 +379,23 @@ C          Each one of these files should contain the all 3D volume.
           AA(NOEL,IFIC) = A(NOEL,IFAC)
           IFAC = IFAC + 1
         ENDDO
+
+      ELSEIF(MOD .EQ. 16) THEN
+        IFAC = 24
+        IFIC = 1
+        DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
+          IF(IFAC .GT. 27)
+     >    CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
+          NEWFIC = NEWFIC .OR. AA(NOEL,IFIC).NE.A(NOEL,IFAC)
+          IFAC = IFAC + 1
+          IFIC = IFIC + 1
+        ENDDO
+        IFAC = 24
+        DO IFIC = 1, I2
+          AA(NOEL,IFIC) = A(NOEL,IFAC)
+          IFAC = IFAC + 1
+        ENDDO
+
       ENDIF
  
       IF(NRES.GT.0) THEN
@@ -372,14 +410,15 @@ C          Each one of these files should contain the all 3D volume.
      >      'MOD2 = ',MOD2,' ->  map will be perturbed using '
      >      ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
           ENDIF
-        ELSEIF(MOD.EQ.15) THEN
+c        ELSEIF(MOD.EQ.15) THEN
+        ELSEIF(MOD.EQ.15 .OR. MOD .EQ. 16) THEN
           IF(I2.GT.1) THEN
-            WRITE(NRES,FMT='(10X,A,I0,2A,1P,/,15X,4E14.6)')
-     >      ' 3-D map. MOD=15.   Will sum up ',I2,'  field maps, ',
+            WRITE(NRES,FMT='(10X,2(A,I2),2A,1P,/,15X,4E14.6)')
+     >      ' 3-D map. MOD=',MOD,'.   Will sum up ',I2,'  field maps, ',
      >      'with field coefficient values : ',(a(noel,24+i-1),i=i1,i2)
           ELSE
-            WRITE(NRES,FMT='(10X,2A,1P,/,15X,4E14.6)')
-     >      ' 3-D map. MOD=15.  Single field map, ',
+            WRITE(NRES,FMT='(10X,A,I2,2A,1P,/,15X,4E14.6)')
+     >      ' 3-D map. MOD=',MOD,'.  Single field map, ',
      >      'with field coefficient value : ',(a(noel,24+i-1),i=i1,i2)
           ENDIF
           IF(ZROBXY) THEN
@@ -637,6 +676,123 @@ c                      read(*,*)
 
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+ 
+         ELSEIF(MOD .EQ. 16) THEN
+ 
+           NFIC = 0
+           DO KZ=I1,I2
+             NFIC = NFIC+1
+
+             IF(IDLUNI(
+     >                 LUN)) THEN
+               BINAR=BINARI(NOMFIC(NFIC),IB)
+               IF(BINAR) THEN
+                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
+     >           ,STATUS='OLD',ERR=96)
+               ELSE
+                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
+               ENDIF
+             ELSE
+               GOTO 96
+             ENDIF
+ 
+             IF(     STRCON(NOMFIC(NFIC),'GSI',
+     >                                         IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'gsi',
+     >                                         IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
+             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',
+     >                                             IS)
+     >          .OR. STRCON(NOMFIC(NFIC),'bw6',
+     >                                         IS)) THEN
+                  NHD = 0
+                  FMTYP = 'GSI'
+             ENDIF
+ 
+             IF(NRES.GT.0) THEN
+               LNGTH=len(
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+     >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
+              WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
+     >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
+     >        'map,  FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
+     >        //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
+               CALL FLUSH2(NRES,.FALSE.)
+             ENDIF
+ 
+             IRD = NINT(A(NOEL,40))
+ 
+             CALL FMAPW2(NFIC,AA(NOEL,NFIC))
+ 
+             CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
+     >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
+     >                                    BMIN,BMAX,
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+ 
+             IF    (NFIC.EQ.1) THEN
+ 
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID
+                       HC(IID,III,JJJ,KKK,IMAP) =
+     >                         AA(NOEL,24)*HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+ 
+             ELSEIF(NFIC.EQ.2) THEN
+ 
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID
+                       HCA(IID,III,JJJ,KKK) = 
+     >                     AA(NOEL,25) * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+ 
+             ELSEIF(NFIC.EQ.3) THEN
+ 
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID
+                       HCB(IID,III,JJJ,KKK) = 
+     >                    AA(NOEL,26) * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+ 
+             ELSEIF(NFIC.EQ.4) THEN
+ 
+                 DO KKK=1,KZMA
+                  DO JJJ=1,JYMA
+                   DO III=1,IXMA
+                     DO IID = 1, ID
+                       HCC(IID,III,JJJ,KKK) = 
+     >                   AA(NOEL,27) * HC(IID,III,JJJ,KKK,IMAP)
+                     ENDDO
+                   ENDDO
+                  ENDDO
+                 ENDDO
+                 CLOSE(UNIT=LUN)
+ 
+             ENDIF
+
+             CLOSE(UNIT=LUN)
+ 
+           ENDDO
+
+C--------- Store mesh coordinates
+             CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
  
          ELSE
            CALL ENDJOB('SBR toscac. No such option MOD = ',MOD)

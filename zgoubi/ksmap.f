@@ -24,11 +24,14 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE KSMAP(
-     >                 KMAPO)
+     >                 IMAPO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C------------------------------
-C     Monitors field map number
-C------------------------------
+C---------------------------------------------------------------------------------------
+C Monitors field map number. 
+C IMAP is the number of a field map stored in HC(ID,IA,IR,IZ,IMAP) array, as a result of
+C  - either individual reading if 1! file is read (e.g., MOD.MOD2=15.1)
+C  - or a combination of IFIC=1,NFIC field maps from as many files (e.g., MOD.MOD2=15.4)
+C---------------------------------------------------------------------------------------
       INCLUDE 'PARIZ.H'
       PARAMETER (MXC = 4)
       PARAMETER (NFM = IZ+MXC)
@@ -38,10 +41,10 @@ C      CHARACTER*(80) NAMSAV(MMAP,IZ)
       LOGICAL NEWFIC, OLDFIC
       PARAMETER (MIZ = MMAP*IZ)
  
-      SAVE NBMAPS, KMAP
+      SAVE NBMAPS, IMAP
  
       PARAMETER (MMNF=MMAP*NFM)
-      DATA NBMAPS, KMAP / 0, 0 /
+      DATA NBMAPS, IMAP / 0, 0 /
       DATA NAMSAV / MMNF*' ' /
 C      DATA NAMSAV / MIZ*' ' /
  
@@ -51,7 +54,7 @@ C      PARAMETER (MXC = 4)
 C      DIMENSION COEFS(MMAP,IZ), AA(IZ)
  
 C Read
-      KMAPO = KMAP
+      IMAPO = IMAP
  
       RETURN
  
@@ -60,25 +63,27 @@ C Reset
  
       NBMAPS = 0
  
-      RETURN
- 
-C--
+      RETURN 
+
 C Stack, count.
       ENTRY KSMAP4(NOMFIC,NFIC,AA,
-     >                         NEWFIC,NBMAPO,KMAPO)
+     >                         NEWFIC,NBMAPO,IMAPO)
 C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
       II = 0
       DO I = 1, MMAP
         II = II+1
         OLDFIC = .TRUE.
         DO IFIC = 1, NFIC
+C OLDFIC stays true iff (the 1-NFIC series has already been met 
+C AND the linear combination coefficients have not been changed)
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
-C     16/01/14 to check also the coefficients
      >          .AND. (AA(IFIC).EQ.COEFS(I,IFIC))
         ENDDO
         IF(OLDFIC) GOTO 1
       ENDDO
+
  1    CONTINUE
+
       NEWFIC = .NOT. OLDFIC
       IF(NEWFIC) THEN
         IF(NBMAPS.GE.MMAP) THEN
@@ -86,28 +91,31 @@ C     16/01/14 to check also the coefficients
           CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
         ENDIF
         NBMAPS = NBMAPS+1
-        KMAP = NBMAPS
+        IMAP = NBMAPS
+
+            write(*,*) ' ksmap imap ',imap
         DO IFIC = 1, NFIC
-          NAMSAV(NBMAPS,IFIC) = NOMFIC(IFIC)
+          NAMSAV(IMAP,IFIC) = NOMFIC(IFIC)
 C     16/01/14 to save the coefficients
-          COEFS(NBMAPS,IFIC) = AA(IFIC)
+          COEFS(IMAP,IFIC) = AA(IFIC)
        ENDDO
       ELSE
-        KMAP = II
+        IMAP = II
       ENDIF
+C Total number of maps stored in HC(ID,IA,IR,IZ,IMP=1,NBMAPS)
       NBMAPO = NBMAPS
-      KMAPO = KMAP
+C Number of this map, HC(ID,IA,IR,IZ,IMAP)
+      IMAPO = IMAP
       RETURN
  
-C--
+      ENTRY KSMAP5(
+     >             IMAPO)
 C Stack, count, case self-made maps : dipole-m, aimant, cartemes, etc.
 C INSTALLATION HAS TO BE COMPLETED,
 C It is not in the present state compatible with KSMAP4, neither does it allow stacking maps.
-      ENTRY KSMAP5(
-     >             KMAPO)
       NBMAPS = NBMAPS+1
-      KMAP = NBMAPS
-      KMAPO = KMAP
+      IMAP = NBMAPS
+      IMAPO = IMAP
       RETURN
  
       END

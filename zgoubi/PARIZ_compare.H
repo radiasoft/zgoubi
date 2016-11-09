@@ -30,6 +30,6 @@ C ID :
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
-       PARAMETER (IZ=29 , ID=3, MMAP=6)      ! strictu sensu
+       PARAMETER (IZ=31 , ID=3, MMAP=6)      ! strictu sensu
        PARAMETER (MXX=801, MXY=200)
 
