@@ -144,7 +144,7 @@ C Called by POLMES
       CALL KSMAP(
      >           IMAP) 
 
-      IF    (MOD2.EQ.0) THEN
+      IF    (MOD2 .EQ. 0) THEN
 C Ex. : Calabretta H2 field map.
 
         IF(BINAR) THEN
@@ -195,7 +195,7 @@ c          write(88,*)((XH(I),YH(J),HC(ID,I,J,1,IMAP),I=1,IXMA),J=1,JYMA)
 
         ENDIF
 
-      ELSEIF(MOD2.EQ.1) THEN
+      ELSEIF(MOD2 .EQ. 1) THEN
 C Input data formatting is that of MIT Megatron field map 
 C Map data file starts with NHD-line header
 C Line NHD contains IXM,JYM,ACENT,RM
@@ -242,7 +242,7 @@ c     >        i,j,XH(I),YH(J),HC(ID,I,J,1,IMAP),ii,id,imap
 
         ENDIF
 
-      ELSEIF(MOD2.EQ.2) THEN
+      ELSEIF(MOD2 .EQ. 2) THEN
 C Input data formatting is that of Carol's FFAG - Sept. 2012
 C Map data file starts with NHD-line header
 C Line NHD contains IXM,JYM,ACENT,RM
@@ -390,9 +390,9 @@ C----------- Read the bare map data
                KZC = K2ZMA-1+K
                Z = DBLE(K-1) * DZ
                DO 33 J=1,JTMA        
-                 IF    (MOD.EQ.20) THEN
+                 IF    (MOD .EQ. 20) THEN
                    JTC = J
-                 ELSEIF(MOD.EQ.21) THEN
+                 ELSEIF(MOD .EQ. 21) THEN
                    JTC = JTMA-1+J
                  ENDIF
                  TTA =  DBLE(J-1) * DTTA
@@ -441,10 +441,10 @@ C------- symmetrise 3D map wrt magnet vertical symm plane
           DO 34 I=1,IRMA      
             IF(I.GT.MXY) CALL ENDJOB('Pgm FMAPW : I should be <',MXY+1)
             DO 34 J=1,JTMA-1    
-              IF    (MOD.EQ.20) THEN
+              IF    (MOD .EQ. 20) THEN
                 JTC = J
                 JTS = 2*JTMA-J
-              ELSEIF(MOD.EQ.21) THEN
+              ELSEIF(MOD .EQ. 21) THEN
                 JTC = JTMA+J
                 JTS = JTMA-J
               ENDIF
@@ -587,7 +587,7 @@ C------- Mesh coordinates
      >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
                      GOTO 224 
                    ELSE
-                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+                     IF(FINSTR(TXT132) .EQ. MXCHAR) 
      >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
      >                  //' data file must be <',MXCHAR)
                    ENDIF
@@ -623,7 +623,7 @@ C---------------- Watch the sign !! Bx and By multiplied by (-1)
                  HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
 
 C---------------- In case that non-zero Bx, By in median plane would be prohibitive
-                 IF(ZZZ.EQ.0.D0) THEN
+                 IF(ZZZ .EQ. 0.D0) THEN
                     HC(1,JTC,I,KZC,IMAP) = 0.D0
                     HC(2,JTC,I,KZC,IMAP) = 0.D0
                 ENDIF   
@@ -701,7 +701,7 @@ C------- Mesh coordinates
      >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
                      GOTO 223 
                    ELSE
-                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+                     IF(FINSTR(TXT132) .EQ. MXCHAR) 
      >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
      >                  //' data file must be <',MXCHAR)
                    ENDIF
@@ -738,7 +738,7 @@ C                       write(*,*) '   !!!!!!!!!!!! sign TBC '
                  HC(3,JTC,I,KZC,IMAP) = BREAD(2) * BNORM
 
 C---------------- In case that non-zero Bx, By in median plane would be prohibitive
-                 IF(ZZZ.EQ.0.D0) THEN
+                 IF(ZZZ .EQ. 0.D0) THEN
                     HC(1,JTC,I,KZC,IMAP) = 0.D0
                     HC(2,JTC,I,KZC,IMAP) = 0.D0
                 ENDIF   
@@ -809,7 +809,7 @@ C------- Mesh coordinates
      >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
                      GOTO 227 
                    ELSE
-                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+                     IF(FINSTR(TXT132) .EQ. MXCHAR) 
      >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
      >                  //' data file must be <',MXCHAR)
                    ENDIF
@@ -1087,7 +1087,7 @@ C------- Mesh coordinates
            DO J=2,JYMA
              YH(J) =  YH(J-1) + DY
            ENDDO
-           IF(IZ.EQ.1) THEN 
+           IF(IZ .EQ. 1) THEN 
              IZ1 = 1
            ELSE
              IZ1 = 2
@@ -1200,7 +1200,7 @@ C--------- Mesh coordinates
 
         ENDIF ! MOD2=0, 1, 2
 
-      ELSEIF(MOD.EQ.0 .OR. MOD.EQ.1) THEN
+      ELSEIF(MOD .EQ. 0 .OR. MOD .EQ. 1) THEN
 C------- EMMAC, GSI spectro for instance. 
 C------- MAP2D (2D map)
 C        Keyword EMMA with two 2D maps 
@@ -1227,32 +1227,32 @@ C        MOD=1 : # of files is NF= IZ, from -z_max to +z_max, no symmetrizing
      >                        .OR. TXT132(IDSTR:IDSTR+1) .EQ. '#') THEN
                      GOTO 14
                    ELSE
-                     IF(FINSTR(TXT132).EQ.MXCHAR) 
+                     IF(FINSTR(TXT132) .EQ. MXCHAR) 
      >                  CALL ENDJOB('SBR FMAPW : # of columns in field' 
      >                  //' data file must be <',MXCHAR)
                    ENDIF
 
-                   IF    (MOD2.EQ.1) THEN 
+                   IF    (MOD2 .EQ. 1) THEN 
                      READ(TXT132,FMT='(1X,6E11.2)',ERR=96)  
      >                                        YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
-                   ELSEIF(MOD2.EQ.2) THEN 
+                   ELSEIF(MOD2 .EQ. 2) THEN 
                      READ(TXT132,FMT='(1X,6E12.2)',ERR=96) 
      >                                        YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
-                   ELSEIF(MOD2.EQ.3) THEN 
+                   ELSEIF(MOD2 .EQ. 3) THEN 
                      READ(TXT132,*,ERR=96) YH(J),ZH(I),XH(K), 
      >                                        BREAD(2),BREAD(3),BREAD(1)
                    ELSE
 
 C-------------------- Default MOD2
-                     IF(FMTYP.EQ.'GSI') THEN
+                     IF(FMTYP .EQ. 'GSI') THEN
 
                        READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
      >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
 
-                     ELSEIF(FMTYP.EQ.'LESB3') THEN
+                     ELSEIF(FMTYP .EQ. 'LESB3') THEN
                        READ(TXT132,FMT='(1X,6E11.2)',ERR=96) 
      >                                      YH(J),ZH(I),XH(K),  
      >                                      BREAD(2),BREAD(3),BREAD(1)
@@ -1285,7 +1285,7 @@ C                     xH(k) = xH(k) * 1.D2
                    ZBMI = ZH(I)
                  ENDIF
 C FM 11/03 
-                 IF(ID.EQ.1) THEN
+                 IF(ID .EQ. 1) THEN
                    HC(ID,K,J,I,IMAP) =  BREAD(3) * BNORM
                  ELSE
                    DO 187 LHC=1,ID
@@ -1321,7 +1321,7 @@ C 12        CONTINUE
                    YBMI = YBMI * YNORM
                    ZBMI = ZBMI * ZNORM
 
-      ELSEIF(MOD.EQ.3) THEN
+      ELSEIF(MOD .EQ. 3) THEN
 C------- AGS magnet maps (2D map, half-magnet, symmetrized wrt YZ plane - at 45inches in A and C type)
 
            K = 1
@@ -1385,7 +1385,7 @@ C 12        CONTINUE
                    YBMI = YBMI * YNORM
                    ZBMI = ZBMI * ZNORM
 
-      ELSEIF(MOD.EQ.15) THEN
+      ELSEIF(MOD .EQ. 15) THEN
 C Full 3-D map of magnet as in MOD=12. However can sum up several maps. 
 C Used for instance for AGS cold snake = helix map + solenoid map
            JTCNT=0
@@ -1456,7 +1456,91 @@ C------- Mesh coordinates
            DO J=2,JYMA
              YH(J) =  YH(J-1) + DY
            ENDDO
-           IF(IZ.EQ.1) THEN 
+           IF(IZ .EQ. 1) THEN 
+             IZ1 = 1
+           ELSE
+             IZ1 = 2
+           ENDIF
+           DZ = (ZH(IZ1) - ZH(1))*ZNORM
+           ZH(1) = ZH(1)*ZNORM
+           DO K= 2, KZMA
+             ZH(K) = ZH(K-1) + DZ
+           ENDDO
+
+      ELSEIF(MOD .EQ. 16) THEN
+C Full 3-D map of magnet. Can sum up field from several maps at particle location, on-the-flight. 
+           JTCNT=0
+           IRCNT = 0
+           KZCNT=0       
+
+           DO J=1,JYMA        
+             JTC = J
+             JTCNT = JTCNT + 1
+             DO  K = 1,KZMA      
+               KZC = K
+               KZCNT = KZCNT+1
+               DO I=1,IXMA            
+                 IRCNT = IRCNT+1
+
+                 IF(BINAR) THEN
+                   READ(LUN,ERR=96)
+     >             YH(J),ZH(K),XH(I),BREAD(2),BREAD(3),BREAD(1)
+                 ELSE
+                   READ(LUN,*,ERR=96) YH(J),ZH(K),XH(I), 
+     >                                    BREAD(2),BREAD(3),BREAD(1)
+                 ENDIF
+                 BMAX0 = BMAX
+                 BMAX = DMAX1(BMAX,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMAX.NE.BMAX0) THEN
+                   XBMA = XH(I)
+                   YBMA = YH(J)
+                   ZBMA = ZH(K)
+                 ENDIF
+                 BMIN0 = BMIN
+                 BMIN = DMIN1(BMIN,BREAD(1),BREAD(2),BREAD(3))
+                 IF(BMIN.NE.BMIN0) THEN
+                   XBMI = XH(I)
+                   YBMI = YH(J)
+                   ZBMI = ZH(K)
+                 ENDIF
+
+
+                 IF(ZROBXY) THEN
+                   IF(ZH(K) .EQ. 0.D0) THEN
+                     HC(1,I,JTC,KZC,IMAP) = 0.D0
+                     HC(2,I,JTC,KZC,IMAP) = 0.D0
+                   ELSE
+                     HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
+                     HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+                   ENDIF
+                 ELSE
+                   HC(1,I,JTC,KZC,IMAP) = BREAD(1) * BNORM
+                   HC(2,I,JTC,KZC,IMAP) = BREAD(2) * BNORM
+                 ENDIF
+
+C               write(*,*) ' fmapw ',I,JTC,KZC,IMAP,BNORM,BREAD(3)
+
+                 HC(3,I,JTC,KZC,IMAP) = BREAD(3) * BNORM
+
+               ENDDO
+             ENDDO
+           ENDDO
+
+           BMIN = BMIN * BNORM
+           BMAX = BMAX * BNORM
+
+C------- Mesh coordinates
+           DX = (XH(2) - XH(1))*XNORM
+           XH(1) = XH(1)*XNORM
+           DO J=2,IXMA
+             XH(J) =  XH(J-1) + DX
+           ENDDO
+           DY = (YH(2) - YH(1))*YNORM
+           YH(1) = YH(1)*YNORM
+           DO J=2,JYMA
+             YH(J) =  YH(J-1) + DY
+           ENDDO
+           IF(IZ .EQ. 1) THEN 
              IZ1 = 1
            ELSE
              IZ1 = 2
@@ -1468,7 +1552,7 @@ C------- Mesh coordinates
            ENDDO
 
 C FM. Comented May 2016. Seems redundat with summation in toscac, TBC...
-C           IF    (IFIC.EQ.1) THEN
+C           IF    (IFIC .EQ. 1) THEN
 C             DO I = 1, IXMA
 C               DO J = 1, JYMA
 C                 DO K = 1, KZMA
@@ -1492,7 +1576,7 @@ C     >                 + HCTMP(3,I,J,K,IFIC)
 C                   ENDDO
 C                 ENDDO
 C               ENDDO
-C             ELSEIF(IFIC.EQ.MOD2) THEN
+C             ELSEIF(IFIC .EQ. MOD2) THEN
 C               DO I = 1, IXMA
 C                 DO J = 1, JYMA
 C                   DO K = 1, KZMA

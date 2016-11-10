@@ -201,6 +201,27 @@ C          Each single file contains the all 3D volume
               READ(STRA(4+j),*,ERR=99,END=98) A(NOEL,23+J) 
             ENDDO
 
+          ELSEIF(MOD .EQ. 16) THEN
+C--------- There are 'MOD2' files.
+C          Each single file contains the all 3D volume
+C          Their field contributions at particle location will add
+            NFIC = MOD2
+            IF(4+NFIC .GT. MXSTR) THEN
+              WRITE(ABS(NRES),*) 'At input data line ',LINE
+              CALL ENDJOB('Pgm rcarte. Too many'
+     >        //'  field map scaling factors. Max is ',4)
+            ENDIF
+
+            DO J = 1, MXC
+              A(NOEL,23+J) = 1.D0
+            ENDDO
+
+            CALL STRGET(TXT,4+NFIC,
+     >                           IDUM,STRA) 
+            DO J = 1, NFIC
+              READ(STRA(4+j),*,ERR=99,END=98) A(NOEL,23+J) 
+            ENDDO
+
           ELSE
             NFIC = 1
           ENDIF

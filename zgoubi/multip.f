@@ -50,6 +50,7 @@ C  -------
 
       LOGICAL CASPI, LTEMP
       SAVE CASPI
+      SAVE IOP
 
 C-----------------
 C debugging

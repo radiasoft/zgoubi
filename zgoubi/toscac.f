@@ -60,7 +60,7 @@ C      LOGICAL ZSYM
 C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
       PARAMETER (MXC = 4)
       PARAMETER (NFM = IZ+MXC)
-      CHARACTER(LNTA) TITL , NOMFIC(NFM), NAMFIC
+      CHARACTER(LNTA) TITL , NOMFIC(NFM), NAMFIC, NOMFI1(1)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
@@ -127,6 +127,8 @@ C      ERRORS
       LOGICAL ZROBXY      
       PARAMETER (IONE = 1)
 
+      DIMENSION NMPT(NOEL,MXC),NMPTN(MXC)
+
       DATA ZROBXY / .FALSE. /
       DATA NOMFIC / NFM*'               '/
       DATA FMTYP / ' regular' /
@@ -134,6 +136,8 @@ C      ERRORS
       DATA NBMAPS / 0 /
       DATA ERRON / .FALSE. /
       DATA BNRM / 6*0.D0 /
+      DATA NMPTN / MXC * 1 /
+      DATA NFIC / 1 /
  
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
@@ -357,12 +361,34 @@ C          Each one of these files should contain the all 3D volume.
         ENDDO
 
 C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
-        CALL KSMAP4(NOMFIC,NFIC,UU,
+
+        IF    (MOD .LE. 15) THEN 
+          CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
-        IF(MOD .EQ. 16) CALL CHAMK(NFIC)
+        ELSEIF(MOD .EQ. 16) THEN 
+          CALL KSMAP(
+     >               IMP)
+          NEW = IMP
+          DO I = 1, NFIC
+            NOMFI1(1) = NOMFIC(I)
+            UU(24) = UU(24+I-1)
+            CALL KSMAP4(NOMFI1, IONE ,UU,
+     >                          NEWFIC,NBMAPS,IMAP)
+            NMPT(NOEL,I) = IMAP
+            IF(IMAP .GT. NEW) NEW = NEW +1
+c               write(*,*) ' toscac imp,imap,nEW ',imp,imap,NEW
+c               write(*,*) NoMFI1(1)(DEBSTR(NoMFI1(1)):FINSTR(NoMFI1(1)))
+          ENDDO
+          NEW = NEW - IMP
+          DO I = 1, MXC
+            NMPTN(I) = NMPT(NOEL,I)
+          ENDDO
+          CALL CHAMKW(NFIC,NMPTN)
 
-      ENDIF
+        ENDIF
+   
+      ENDIF  ! NDIM.EQ.3
 
       IF    (MOD .EQ. 15) THEN
         IFAC = 24
@@ -399,39 +425,66 @@ C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
       ENDIF
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,3(A,I3,A),/,5X,A,I0,A,I0,/)')
-     >  'NDIM = ',NDIM,' ;  '
-     >  ,'Number of data file sets used is ',NFIC,' ;  '
-     >  ,'Stored in field array # IMAP =  ',IMAP,' ;  '
-     >  ,'Value of MOD.MOD2 is ', MOD,'.',MOD2
+        WRITE(NRES,FMT='(/,5X,3(A,I0),2A,I3,A)')
+     >  ,'Status of MOD.MOD2 is ', MOD,'.',MOD2,' ; NDIM = ',NDIM,' ;'
+     >  ,' number of field data files used is ',NFIC,'.'
         IF    (MOD.EQ.3) THEN
+          WRITE(NRES,FMT='(5X,A,I0,A)') 
+     >    'Field map set stored in field array HC(IMAP = ',IMAP,')' 
           IF(MOD2.EQ.1) THEN
             WRITE(NRES,FMT='(/,5X,A,I1,2A,1P,2E15.6,/)')
      >      'MOD2 = ',MOD2,' ->  map will be perturbed using '
      >      ,'field indices db/dx, d2b/dx2 : ',dbdx(1),dbdx(2)
           ENDIF
 c        ELSEIF(MOD.EQ.15) THEN
-        ELSEIF(MOD.EQ.15 .OR. MOD .EQ. 16) THEN
+        ELSEIF(MOD.EQ.15) THEN
+          WRITE(NRES,FMT='(5X,A,I0,A)') 
+     >    'Field map set stored in field array HC(IMAP = ',IMAP,')' 
           IF(I2.GT.1) THEN
-            WRITE(NRES,FMT='(10X,2(A,I2),2A,1P,/,15X,4E14.6)')
-     >      ' 3-D map. MOD=',MOD,'.   Will sum up ',I2,'  field maps, ',
+            WRITE(NRES,FMT='(5X,2(A,I2),2A,1P,/,15X,4E14.6)')
+     >      '3-D map. MOD=',MOD,'.   Will sum up ',I2,'  field maps, ',
      >      'with field coefficient values : ',(a(noel,24+i-1),i=i1,i2)
           ELSE
-            WRITE(NRES,FMT='(10X,A,I2,2A,1P,/,15X,4E14.6)')
-     >      ' 3-D map. MOD=',MOD,'.  Single field map, ',
+            WRITE(NRES,FMT='(5X,A,I2,2A,1P,/,15X,4E14.6)')
+     >      '3-D map. MOD=',MOD,'.  Single field map, ',
      >      'with field coefficient value : ',(a(noel,24+i-1),i=i1,i2)
           ENDIF
           IF(ZROBXY) THEN
-            WRITE(NRES,FMT='(5X,A)')
+            WRITE(NRES,FMT='(/,5X,A)')
      >      'ZroBXY OPTION :  found in map title. '//
      >      'BX and BY values in Z=0 plane forced to zero.'
           ELSE
-            WRITE(NRES,FMT='(5X,A)')
+            WRITE(NRES,FMT='(/,5X,A)')
+     >      'ZroBXY OPTION :  absent from map title. '//
+     >      'BX and BY values in Z=0 plane left as read.'
+          ENDIF
+        ELSEIF(MOD .EQ. 16) THEN
+          IF(I2.EQ.1) THEN
+            WRITE(NRES,FMT='(5X,A,I0,A)') 
+     >      'Single 3-D field map, stored in field array HC(IMAP = '
+     >      ,IMAP,')'
+            WRITE(NRES,FMT='(5X,A,4E14.6)')
+     >      'Field coefficient will apply : ',(a(noel,24+i-1),i=i1,i2)
+          ELSE
+            WRITE(NRES,FMT='(5X,2(A,I0),A)') 
+     >      'New 3-D field map(s) stored in field array(s) HC(IMAP = ',
+     >      IMP+1,'-',IMP+NEW,')' 
+            WRITE(NRES,FMT='(5X,A,I2,2A,1P,/,15X,4E14.6)')
+     >      'Will sum up field from ',I2,
+     >      ' maps, on-the-flight at particle location. ',
+     >      'Field coefficients will apply : ',(a(noel,24+i-1),i=i1,i2)
+          ENDIF
+          IF(ZROBXY) THEN
+            WRITE(NRES,FMT='(/,5X,A)')
+     >      'ZroBXY OPTION :  found in map title. '//
+     >      'BX and BY values in Z=0 plane forced to zero.'
+          ELSE
+            WRITE(NRES,FMT='(/,5X,A)')
      >      'ZroBXY OPTION :  absent from map title. '//
      >      'BX and BY values in Z=0 plane left as read.'
           ENDIF
         ENDIF
- 
+
         IF(NEWFIC) THEN
            WRITE(NRES,209)
  209       FORMAT(/,10X
@@ -586,10 +639,7 @@ C------- Store mesh coordinates
                    ENDDO
                   ENDDO
                  ENDDO
- 
-c                   write(*,*) ' toscac  faca : ',faca,kzma,jyma,ixma,id
-c                      read(*,*)
- 
+  
                ENDIF
                CLOSE(UNIT=LUN)
  
@@ -606,9 +656,7 @@ c                      read(*,*)
                    ENDDO
                   ENDDO
                  ENDDO
- 
-c                   write(*,*) ' toscac  facb : ',facb,kzma,jyma,ixma,id
-c                      read(*,*)
+
                ELSE
  
                  DO KKK=1,KZMA
@@ -696,29 +744,15 @@ C------- Store mesh coordinates
                GOTO 96
              ENDIF
  
-             IF(     STRCON(NOMFIC(NFIC),'GSI',
-     >                                         IS)
-     >          .OR. STRCON(NOMFIC(NFIC),'gsi',
-     >                                         IS)) THEN
-                  NHD = 0
-                  FMTYP = 'GSI'
-             ELSEIF(     STRCON(NOMFIC(NFIC),'BW6',
-     >                                             IS)
-     >          .OR. STRCON(NOMFIC(NFIC),'bw6',
-     >                                         IS)) THEN
-                  NHD = 0
-                  FMTYP = 'GSI'
-             ENDIF
- 
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
-     >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-              WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
-     >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
-     >        'map,  FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
-     >        //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
+               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+     >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
+               WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
+     >         'map, FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
+     >         //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
@@ -729,69 +763,13 @@ C------- Store mesh coordinates
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
-     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
-             IF    (NFIC.EQ.1) THEN
- 
-                 DO KKK=1,KZMA
-                  DO JJJ=1,JYMA
-                   DO III=1,IXMA
-                     DO IID = 1, ID
-                       HC(IID,III,JJJ,KKK,IMAP) =
-     >                         AA(NOEL,24)*HC(IID,III,JJJ,KKK,IMAP)
-                     ENDDO
-                   ENDDO
-                  ENDDO
-                 ENDDO
- 
-             ELSEIF(NFIC.EQ.2) THEN
- 
-                 DO KKK=1,KZMA
-                  DO JJJ=1,JYMA
-                   DO III=1,IXMA
-                     DO IID = 1, ID
-                       HCA(IID,III,JJJ,KKK) = 
-     >                     AA(NOEL,25) * HC(IID,III,JJJ,KKK,IMAP)
-                     ENDDO
-                   ENDDO
-                  ENDDO
-                 ENDDO
- 
-             ELSEIF(NFIC.EQ.3) THEN
- 
-                 DO KKK=1,KZMA
-                  DO JJJ=1,JYMA
-                   DO III=1,IXMA
-                     DO IID = 1, ID
-                       HCB(IID,III,JJJ,KKK) = 
-     >                    AA(NOEL,26) * HC(IID,III,JJJ,KKK,IMAP)
-                     ENDDO
-                   ENDDO
-                  ENDDO
-                 ENDDO
- 
-             ELSEIF(NFIC.EQ.4) THEN
- 
-                 DO KKK=1,KZMA
-                  DO JJJ=1,JYMA
-                   DO III=1,IXMA
-                     DO IID = 1, ID
-                       HCC(IID,III,JJJ,KKK) = 
-     >                   AA(NOEL,27) * HC(IID,III,JJJ,KKK,IMAP)
-                     ENDDO
-                   ENDDO
-                  ENDDO
-                 ENDDO
-                 CLOSE(UNIT=LUN)
- 
-             ENDIF
-
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA) 
              CLOSE(UNIT=LUN)
  
            ENDDO
 
 C--------- Store mesh coordinates
-             CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+           CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
  
          ELSE

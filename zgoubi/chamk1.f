@@ -84,9 +84,6 @@ C      DATA IMAP / 1 /
       DATA MOD, MOD2 / 0, 0 /
       DATA FIRST / .TRUE. /
 
-C      CALL KSMAP(
-C     >           IMAP)
-
       IF(KUASEX .EQ. 9) THEN
 C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
         IF    (KFLD .EQ. MG) THEN
@@ -222,9 +219,6 @@ C BB/FM/ 18/08 to be thought of......
       BZ=(20.D0*C1-12.D0*C4-12.D0*C5)/36.D0   *BRI
       BZXX=(-12.D0*C1+18.D0*C4)/(18.D0*DA*DA) *BRI
       BZYY=(-12.D0*C1+18.D0*C5)/(18.D0*DR*DR) *BRI
-
-c       write(*,*) ' chamk scal, f1-5 ',scal,f1,f2,f3,f4,f5
-c     > ,HC(ID,IAC-1,IRC-1,1,IMAP)
 
       GOTO 30
  
@@ -372,8 +366,6 @@ C--------- ORDRE 2 , GRILLE A 5*5 POINTS
 C     --- CALCUL DES 6 COEFFS DU POLYNOME DE DEGRE 2 :
 C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
 
-c          write(*,*) ' chamk '
-c          write(*,*) ' chamk  SCAL : ',SCAL,DBDX(1),DBDX(2)
       A0 =0D0
       A10=0D0
       A11=0D0
@@ -494,29 +486,16 @@ C     + A110*XY + A101*XZ + A011*YZ
             IA=I-2
             DO 416 K=1,3
               KZ=K-2
-c       if(noel.eq.89)  write(*,*) ' chamk //// ', l,
-c     > IAC+IA,IRC+JR,IZC+KZ,IMAP, SCAL
-c       if(noel.eq.89)  write(*,*) ' chamk  ', l,
-c     > HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP), SCAL
               BIJK= HC(L,IAC+IA,IRC+JR,IZC+KZ,IMAP) * SCAL
               BMESH3(K,I,J) = BIJK
               A000(L)=A000(L) + 
      >             DBLE(7-3*(IA*IA+JR*JR+KZ*KZ))/3.D0 *BIJK
-C              A000(L)=A000(L) +(7.D0/3.D0-IA*IA-JR*JR-KZ*KZ)*BIJK
-
-C                if(IZC.eq.11) then
-C                  write(89,fmt='(4i4,2g28.20)') l,j,i,kz,BIJK, A000(L)
-C                endif
-
               A100(L)=A100(L) +        IA        *BIJK
               A010(L)=A010(L) +        JR        *BIJK
               A001(L)=A001(L) +        KZ        *BIJK
               A200(L)=A200(L) +  DBLE(3*IA*IA-2)   *BIJK
               A020(L)=A020(L) +  DBLE(3*JR*JR-2)   *BIJK
               A002(L)=A002(L) +  DBLE(3*KZ*KZ-2)   *BIJK
-C              A200(L)=A200(L) +  (3.D0*IA*IA-2.D0)   *BIJK
-C              A020(L)=A020(L) +  (3.D0*JR*JR-2.D0)   *BIJK
-C              A002(L)=A002(L) +  (3.D0*KZ*KZ-2.D0)   *BIJK
               A110(L)=A110(L) +      IA*JR       *BIJK
               A101(L)=A101(L) +      IA*KZ       *BIJK
               A011(L)=A011(L) +      JR*KZ       *BIJK

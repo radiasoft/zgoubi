@@ -93,15 +93,16 @@ C AND the linear combination coefficients have not been changed)
         NBMAPS = NBMAPS+1
         IMAP = NBMAPS
 
-            write(*,*) ' ksmap imap ',imap
         DO IFIC = 1, NFIC
           NAMSAV(IMAP,IFIC) = NOMFIC(IFIC)
 C     16/01/14 to save the coefficients
           COEFS(IMAP,IFIC) = AA(IFIC)
        ENDDO
+
       ELSE
         IMAP = II
       ENDIF
+
 C Total number of maps stored in HC(ID,IA,IR,IZ,IMP=1,NBMAPS)
       NBMAPO = NBMAPS
 C Number of this map, HC(ID,IA,IR,IZ,IMAP)

@@ -25,30 +25,57 @@ C  -------
       SUBROUTINE CHAMK(A1,R1,Z1,*)
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      SAVE NBMAP
+      PARAMETER (I3=3)
+      PARAMETER (MXC = 4)
+      DIMENSION NMPT(MXC), NMPTI(MXC)
 
-      DATA NBMAP / 1 /
+C      SAVE NFIC, NMPT
+      SAVE IOP
 
-      CALL KSMAP(
-     >           IMAP)
- 
-      IF    (NBMAP .EQ. 1) THEN 
+      DATA NFIC / 1 /
+      DATA NMPT / MXC * 1 /
+
+      IF    (NFIC .EQ. 1) THEN 
+        CALL KSMAP(
+     >           IMAP) 
         CALL CHAMK1(A1,R1,Z1,IMAP,*999)
-      ELSEIF(NBMAP .GE. 2) THEN 
-        DO I = 1, NBMAP
-          IMAPO = IMAP-NBMAP+I
-          CALL CHAMK1(A1,R1,Z1,IMAPO,*999)
+
+      ELSEIF(NFIC .GE. 2) THEN 
+C Case MOD=16. IMAP has been incrized by NFIC units in tosca, each field map stored in HC
+        I = 1
+
+c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
+
+        CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)
+        IOP = 1
+        CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+        DO I = 2, NFIC-1
+
+c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
+
+          CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)          
+          CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
         ENDDO
+        I = NFIC
+
+c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
+
+        CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)
+        CALL ADPOL(ID,I3,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
       ELSE
-        CALL ENDJOB('Pgm chamk. No such possibility NBMAP = ',NBMAP)
+        CALL ENDJOB('Pgm chamk. No such possibility NFIC = ',NFIC)
       ENDIF
+
+c               write(*,*) ' ' 
 
       RETURN
 
  999  RETURN 1
 
-      ENTRY CHAMKW(NBMAPI)
-      NBMAP = NBMAPI
+      ENTRY CHAMKW(NFICI,NMPTI)
+      NFIC = NFICI
+      NMPT = NMPTI
       RETURN
 
       END

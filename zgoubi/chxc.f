@@ -843,11 +843,11 @@ C Check that : close does not seem to idle lun => makes problem with FIT !!
 
           IF(MOD2 .GE. 1 ) THEN
             IF    (MOD2 .EQ. 1 ) THEN
-              WRITE(NRES,FMT='(/,5X,''Field maps will be scaled by  ''
-     >    ,''coefficients value  '',1P, E14.6)') AA(NOEL,24)
+              WRITE(NRES,FMT='(/,5X,''Field map scaled by''
+     >      ,'' factor   '',1P, E14.6)') AA(NOEL,24)
             ELSEIF(MOD2 .LE. MXC ) THEN
               WRITE(NRES,FMT='(/,5X,
-     >        ''The '',I2,'' field maps are conbined (summed up) with ''
+     >        ''Field from '',I2,'' maps is combined (summed up) with ''
      >        ,'' linear combination coefficients, respectively : ''
      >        ,/,10X,1P, 4E14.6
      >        )') MOD2, (AA(NOEL,I),I = 24, 23+MOD2)
@@ -906,6 +906,8 @@ C            I2=2 introduced to avoid compiler complainig when IZ=1...
                 KNOD = 2*KZMA-1
               ENDIF
             ELSEIF(MOD .EQ. 15) THEN
+              KNOD = KZMA
+            ELSEIF(MOD .EQ. 16) THEN
               KNOD = KZMA
             ELSE
               CALL ENDJOB('Pgm chxc. No such option MOD = ',MOD)
