@@ -518,9 +518,9 @@ c        ELSEIF(MOD.EQ.15) THEN
         ELSE
           WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
- 210      FORMAT(
-     >    10X,'No  map  file  opened :  was  already  stored.',/
-     >    10X,'Skip  reading  field  map  file : ',10X,A)
+ 210      FORMAT(/,
+     >    5X,'No  map  file  opened :  was  already  stored.',/
+     >    5X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
@@ -815,8 +815,8 @@ C------- Restore mesh coordinates
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA) 
  
            IF(NRES.GT.0) THEN
-             WRITE(NRES,fmt='(2A,I3,2A)') ' Pgm toscac, ',
-     >       ' restored mesh coordinates for field map # ',imap,
+             WRITE(NRES,fmt='(5X,A,I3,2A)') 
+     >       'Restored mesh coordinates for field map #IMAP= ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
            ENDIF

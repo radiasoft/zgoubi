@@ -82,7 +82,7 @@ C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=5000)
        INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
-      CHARACTER(10) PULAB
+      CHARACTER(LBLSIZ) PULAB
       INCLUDE "C.COT.H"     ! COMMON/COT/ PULAB(MPULAB)
 
 C----- Set to true by REBELOTE if last turn to be stopped at NOELB<MAX_NOEL
@@ -242,14 +242,16 @@ C        LBLSP contains the LABEL['s] after which print shall occur
        IF(KCO .EQ. 1) THEN
 C------- Calculate pick-up signal
 C         PULAB contains the NPU LABEL's at which CO is calculated 
-         IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
-     >                                     IL)
-     >   .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
-     >                                       IS))
-     >   CALL PCKUP
-C     >    CALL PCKUP(NOEL)
-C     >    CALL PCKUP(NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),LABEL(NOEL,2))
 
+         IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
+
+           IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
+     >                                       IL)
+     >     .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
+     >                                       IS))
+     >     CALL PCKUP
+        
+         ENDIF
        ENDIF
 
        IF(KOPTCS .EQ. 1) THEN

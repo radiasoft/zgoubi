@@ -31,33 +31,35 @@ C     MPULAB = max number of LABEL's. MPX = max number of
 C     pick-ups (virtual pick-ups, positionned at indicated 
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXPUD=9,MXPU=5000)
-       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      INCLUDE 'C.CO.H'     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      PARAMETER (MPULAB=5)
+      INCLUDE 'C.COT.H'     ! COMMON/COT/ PULAB(MPULAB)
+      INCLUDE 'MXLD.H'
+      INCLUDE 'C.DON.H'     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) PULAB
-      PARAMETER (MPULAB=5)
-      INCLUDE "C.COT.H"     ! COMMON/COT/ PULAB(MPULAB)
-      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE 'C.REBELO.H'   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
        
       LOGICAL IDLUNI, OPN
       SAVE OPN, KPCKUP
       LOGICAL FITING
-C      INTEGER DEBSTR, FINSTR
+      INTEGER DEBSTR, FINSTR
+      CHARACTER(50) FRMT
  
       DATA OPN / .FALSE. /
 
       NPU = NINT(A(NOEL,1))
       IF(NPU .GE. 1) THEN
         KCO = 1
+        KPCKUP = 1
       ELSE
         KCO = 0
+        KPCKUP = 0
       ENDIF
       OPN = NINT(A(NOEL,2)) .EQ. 1
 
-      KPCKUP = 1
 
       IF(KCO .EQ. 0) THEN
         KPCKUP = 0
@@ -67,13 +69,15 @@ C      INTEGER DEBSTR, FINSTR
       ENDIF
 
       IF(NRES .GT. 0) THEN
-        WRITE(NRES,110) 
- 110    FORMAT(/,10X,' Pick-up  signal  calculation  requested')
+        WRITE(NRES,110) NPU
+ 110    FORMAT(/,5X,' Pick-up  signal  calculation  requested, '
+     >  'at ',I0,'  locations, as  follows : ')
         WRITE(NRES,111) 
- 111    FORMAT(/,15X,' Particle coordinates will be averaged',
-     >    1X,'at elements labeled:')
+ 111    FORMAT(10X,' particle coordinates will be averaged',
+     >  ' at elements labeled :')
         WRITE(NRES,112) (PULAB(I), I=1,NPU) 
  112    FORMAT(20X,A)
+        WRITE(NRES,*) ' ' 
       ENDIF
 
       CALL FITSTA(5,
@@ -88,9 +92,9 @@ C      INTEGER DEBSTR, FINSTR
  10       CONTINUE
           IF(OPN) THEN
             INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,NUMBER=LN)
-            IF(NRES.GT.0) WRITE(NRES,*) 
-     >          ' Pick-up storage file zgoubi.PICKUP.out '
-     >         ,' already open under logical unit number ', LN
+            IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)') 
+     >      '     Pgm picup. Pick-up storage file zgoubi.PICKUP.out'
+     >      //' already open under logical unit number ', LN,'.'
           ELSE
             INQUIRE(FILE='zgoubi.PICKUP.out',
      >                      ERR=11,OPENED=OPN,NUMBER=LN)
@@ -98,26 +102,34 @@ C      INTEGER DEBSTR, FINSTR
             IF(IDLUNI(
      >                NFPU)) THEN
               OPEN(UNIT=NFPU,FILE='zgoubi.PICKUP.out',ERR=99)
+              IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)') 
+     >        '     Pgm pickup. Pick-up storage file zgoubi.PICKUP.out'
+     >        //' opened under logical unit number ', NFPU,'.'
             ELSE
               GOTO 99
             ENDIF 
           ENDIF 
  11       CONTINUE
 
-          WRITE(NFPU,FMT='(A,A,5(1X,A10))') '# PICKUPS ',
-     >    '- storage file.  PU are positionned at ',(PULAB(I), I=1,NPU)
+          WRITE(FRMT,FMT='(I0)') 2*NPU -1
+          FRMT = '(A,I0,A,'//FRMT(DEBSTR(FRMT):FINSTR(FRMT))//'A)'
+          WRITE(NFPU,FMT=FRMT) 
+     >    '# Pgm pickup - storage file. '
+     >    ,NPU,'  PU(s), located at keywords with first label : '
+     >    ,(PULAB(I)(DEBSTR(PULAB(I)):FINSTR(PULAB(I))),', ', 
+     >    I=1,NPU-1),PULAB(NPU)(DEBSTR(PULAB(NPU)):FINSTR(PULAB(NPU)))
         ENDIF
       ENDIF
 
-C----- some reset actions at start of each new pass
-C      Total pick-up number
-C      IPU = 0
+C----- Some reset actions at start of each new pass
       CALL PCKUP2
       GOTO 98
 
  99   CONTINUE
       KPCKUP = 0
       CALL ENDJOB('*** Error, SBR PICKUP -> can`t open strage file',-99)
+      RETURN
+
  98   CONTINUE
       CALL REBEL2(KPCKUP)
       RETURN

@@ -26,20 +26,20 @@ C  -------
       SUBROUTINE AVORPR(LUN,IOPT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXPUD=9,MXPU=5000)
-       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
-      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE 'C.CO.H'     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      INCLUDE 'C.REBELO.H'   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
       DIMENSION CO1(7), CO2(7), COMA(7), COMI(7)
       
       IF    (IOPT .EQ. 1) THEN
 
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
- 100    FORMAT('# Brute record at pick-ups :',/,
-     >  '# PU#',T15,'Pos',T29,'S_Yco',T41,'S_Tco',T54,'S_Zco',T67,
-     >  'S_Pco',T80,'S_L',T93,'D',T106,'S_t',
-     >  T118,' #part ',T126,'Pass#',T224,'Lmnt#',
-     >  /,T15,'(cm)',T29,'(cm)',T41,'(mrad)',T54,'(cm)',T67,'(mrad)',
-     >  T80,'(cm)',T93,'(dp/p)',T106,'(mu_s)'
+ 100    FORMAT('# Pgm avorpr. Brute record at pick-ups :',/,
+     >  '#  PU#',T17,'Pos',T28,'S_Yco',T41, 'S_Tco',T54,'S_Zco'
+     >  ,T67,'S_Pco', T82,'S_L', T97,'D',T108,'S_t'
+     >  ,T117,' #traj ',T125,'Pass#',
+     >  /      ,T16,'(cm)',T29, '(cm)',T40,'(mrad)',T55,'(cm)'
+     >  ,T66,'(mrad)',T81,'(cm)',T92,'(dp/p)',T105,'(mu_s)'
      >  )
 
         CALL PCKUP1
@@ -47,6 +47,16 @@ C  -------
       ELSEIF(IOPT .EQ. 2) THEN
 
         WRITE(LUN,100) 
+        DO I = 1, IPU
+          NT = NINT(FPU(8,I))
+C          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E13.5),2(1X,E13.5),2(1X,I6))')
+          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E12.4),2(1X,E12.3),2(1X,I6))')
+     >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
+     >    ,NT,IPASS
+        ENDDO
+
+      ENDIF
+
         DO 251 J = 1, 7
           COMA(J) = -1.D10
           COMI(J) = 1.D10
@@ -64,32 +74,24 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
           CO1(J) = CO1(J) / IPU
           IF(IPU.GT.1) CO2(J) = SQRT( CO2(J) / IPU - CO1(J) * CO1(J) )
  251    CONTINUE
-        DO I = 1, IPU
-          NT = NINT(FPU(8,I))
-          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E13.5),2(1X,E13.5),2(1X,I6))')
-     >    I,FPU(9,I),(FPU(J,I)/NT,J=2,6),FPU(1,I)/NT,FPU(7,I)/NT
-     >    ,NT,IPASS
-        ENDDO
-
-      ENDIF
 
 C Careful before changing output format : 
 C - some post-processor use it
 C - they may need high prec.!
-        WRITE(LUN,FMT= '(/,''# PU_average (over partcl and pass #) : '',
-     >  /,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
-     >  T74,''path-L'',T90,''D'',T105,''time'', 
-     >  /,2X,1P,7E16.8,/)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
+      WRITE(LUN,FMT= '(/,''# PU_average (over trajct and pass #) : '',
+     >/,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
+     >T74,''path-L'',T90,''D'',T105,''time'', 
+     >/,2X,1P,7E16.8,/)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
 C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
-        IF(IPU.GT.1) WRITE(LUN,FMT= '(  1X,''Sigma  '',
-     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
-     >  (CO2(J),J=2,6 ), CO2(1), CO2(7)
-        WRITE(LUN,FMT= '(  1X,''Max-PUSignal  '',
-     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
-     >  (COMA(J),J=2,6 ), COMA(1), COMA(7)
-        WRITE(LUN,FMT= '(  1X,''Min-PUSignal  '',
-     >  /,2X,1P,2E16.8,4E14.6,E16.8)' )
-     >  (COMI(J),J=2,6 ), COMI(1), COMI(7)
+      IF(IPU.GT.1) WRITE(LUN,FMT= '(  1X,''Sigma  '',
+     >/,2X,1P,2E16.8,4E14.6,E16.8)' )
+     >(CO2(J),J=2,6 ), CO2(1), CO2(7)
+      WRITE(LUN,FMT= '(  1X,''Max-PUSignal  '',
+     >/,2X,1P,2E16.8,4E14.6,E16.8)' )
+     >(COMA(J),J=2,6 ), COMA(1), COMA(7)
+      WRITE(LUN,FMT= '(  1X,''Min-PUSignal  '',
+     >/,2X,1P,2E16.8,4E14.6,E16.8)' )
+     >(COMI(J),J=2,6 ), COMI(1), COMI(7)
 
       RETURN
       END

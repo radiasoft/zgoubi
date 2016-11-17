@@ -41,5 +41,6 @@ C     -----------------------------------------------------------
         ENDIF
  1    CONTINUE
       STRACO = .FALSE.
- 99   RETURN
+ 99   CONTINUE
+      RETURN
       END

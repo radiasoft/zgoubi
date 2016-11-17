@@ -440,6 +440,7 @@ agsqua.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 agsqks.o: $(INC)/MXFS.H $(INC)/MXLD.H
 aimant.o: $(INC)/MXLD.H $(INC)/MAXCOO.H
 autorf.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
+avorpr.o: $(INC)/C.CO.H $(INC)/C.REBELO.H
 bb.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 bendi.o: $(INC)/MXLD.H
 binary.o: $(INC)/MXLD.H $(INC)/MAPHDR.H
@@ -575,7 +576,8 @@ optimp.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 path.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 pavel.o: PARIZ.H
-pckup.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+pckup.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/C.FAISC.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
+pickup.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.REBELO.H
 pltdat.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 polmes.o: PARIZ.H $(INC)/MXLD.H $(INC)/MAPHDR.H
 prdata.o: $(INC)/MXLD.H
@@ -627,6 +629,7 @@ roptio.o: $(INC)/MXLD.H
 robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H $(INC)/C.PDATA.H
+rpckup.o: $(INC)/C.CDF.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H
 rrebel.o: $(INC)/MXLD.H
 rscal.o:  $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 rsepar.o: $(INC)/MXLD.H
