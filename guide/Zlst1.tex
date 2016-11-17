@@ -5362,12 +5362,13 @@ Note as an illustration of the process, that, in this case, a simple way to have
 optical elements have their \textsl{strengths} maintained constant is to 
 use \textsl{SCALING} with the option $\NTIM=-1$.
 
-\bigskip
+\medskip
 
-\noindent \textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
-\bigskip
+\begin{itemize}
+\item[\footnotesize $\bullet$]  \textbf{If $\mathbf{IOPT  =  0}$~:}   \textsl{CAVITE} is switched off.  
+\medskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the RF~cavity of a 
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  1}$~:}  \textsl{CAVITE} simulates the RF~cavity of a 
 synchrotron accelerator~: 
 the periodic motion over $IP  = 1$, \textsl{NPASS} + 1 \index{NPASS}
 turns (passes through the structure) is obtained using the keyword \textsl{REBELOTE\index{REBELOTE}}, option 
@@ -5401,7 +5402,7 @@ $$ \left\{
 	\beta c     &  particle velocity \\
             $c$ & velocity  of light.
  \end{tabular}}
-\bigskip
+\medskip
 
 \noindent The RF frequency $ f_{RF} $ is a multiple of the synchronous 
 revolution frequency, and is obtained from the input data, following 
@@ -5414,7 +5415,7 @@ $$ f_{RF} = \dfrac{hc }{\mathcal{L}}\, \dfrac{q(\Br )_s }{ \sqrt{q^2(\Br)^2_s+(M
   $\Br_s$ &  rigidity  associated with the synchronous energy \\
   \end{tabular}
 
-\bigskip
+\medskip
 
 \noindent The synchronous rigidity $ (\Br)_s $  is obtained from the timing law specified by means of \textsl{SCALING} following 
 $ (\Br)_s= \BORO\cdot \text{\textsl{SCALE(TIMING)}} $\index{BORO@{\BORO}} 
@@ -5437,8 +5438,8 @@ $$ \beta_ s = \dfrac{q(\Br )_s }{ \sqrt{ q^2(\Br )^2_s + (Mc)^2}} $$
 
 $$ q(\Br ) = \sqrt{ W(W+2Mc^2)} $$
 
-\noindent  Finally, the initial conditions for the mapping, at the first 
-turn, are the following  
+\noindent  Finally, the initial conditions for the mapping, at the first turn, are the following  
+%
 \begin{itemize}
 \item[-] For the (virtual) synchronous particle
 %
@@ -5486,7 +5487,7 @@ and for the angles (see Fig.~\ref{fig1})
 \end{equation*}  
 %\vfill\eject
 
-\noindent\textbf{If $\mathbf{IOPT  =  2~:}$} the same simulation of a synchrotron RF cavity 
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  2~:}$} the same simulation of a synchrotron RF cavity 
 as for $\mathbf{IOPT  =  1}$ is performed, except that the keyword 
 \textsl{SCALING\index{SCALING}} (family \textsl{CAVITE\index{CAVITE}}) is not taken into 
 account in this option~: the increase in kinetic energy at each traversal, 
@@ -5504,36 +5505,51 @@ $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =
 \noindent \textsl{IOPT  =  2} can be used for SR loss compensation in \textsl{storage ring} mode. In that case 
 $ \phi_ s $ should be given  the appropriate value for compensation for SR induced energy loss. 
 
-\bigskip
+\medskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  3}$~:} sine RF law, acceleration without synchrotron motion. 
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  3}$~:} sine RF law, acceleration without synchrotron motion. 
 Any particle will be given a kick
 
 $$ \Delta W = q\hat  V\, \sin\phi_ s $$
 
 \noindent where $ \hat  V $ and $ \phi_ s $ are input data.  
 
-\bigskip
+\medskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  6}$~:}  
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  4}$~:} to be documented.
+
+\medskip
+
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  5}$~:} to be documented.
+
+\medskip
+
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  6}$~:}  
 allows reading the RF frequency and/or phase law from an external file (wih name normally ``zgoubi.freqLaw.In''). 
 See routines \texttt{cavite.f} and \texttt{scalin.f} for details
 Was first used for  acceleration  in scaling FFAG~\cite{reportNIMFFAGSPI}. \index{FFAG}  
 
 
-\bigskip
+\medskip
 
-\noindent\textbf{If $\mathbf{IOPT  =  7}$~:} fixed frequency RF, quasi- or isochronous acceleration. Was 
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  7}$~:} fixed frequency RF, quasi- or isochronous acceleration. Was 
 first used for quasi-isochronous, fixed frequency acceleration in the EMMA prototype 
 linear FFAG~\cite{repDapniaEMMA,EMMAIPAC10}. 
 
 \noindent \textsl{IOPT  =  7} can be used for  cyclotron \index{cyclotron} acceleration. 
 
+\medskip
 
-\bigskip
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  8}$~:} to be documented.
+
+\medskip
+
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  9}$~:} to be documented.
+
+\medskip
 
 
-\noindent\textbf{If $\mathbf{IOPT  =  10}$~:} fixed frequency RF. Was 
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  10}$~:} fixed frequency RF. Was 
 first installed/used for CEBAF and eRHIC ERL simulations. A Chambers matrix method is used to 
 get the transverse focusing effect. Particles undergo a longitudinal boost in energy
 
@@ -5541,7 +5557,6 @@ $$ \Delta W = q\hat  V\, \cos (2\pi f_{RF} t + \phi_ s) $$
 
 \noindent with $t$ the arrival time at the center of the cavity. The phase datum $\phi_s$ in this option \textsl{}  has two roles, 
 (i)~that played in the equation above, (ii)~determining the updating of \zgou's reference rigidity, namely, 
-
 \begin{equation}
 B\rho_{ref} = \BORO \rightarrow B\rho_{ref} = \BORO + \delta \Br_s  ~ ~ ~ ~ \textrm{with} ~ ~ ~ ~ \delta \Br_s= \frac{\Delta(\beta_s (W_s+M)) }{qc}, ~ ~ ~ ~ ~ \Delta W_s = q\hat  V\, \cos (\phi_ s)
 \index{BORO@{\BORO}$\times D_{ref}$|textbf} \index{BORORef@$B\rho_{ref}$}
@@ -5550,11 +5565,11 @@ B\rho_{ref} = \BORO \rightarrow B\rho_{ref} = \BORO + \delta \Br_s  ~ ~ ~ ~ \tex
 \medskip
 
 \noindent The cavity length $L$ as specified in the input data  is also used  to  update the path length 
-of the particles (linearly). An opiton ('\text{IOPT}' flag) allows small $\Delta W$ approximation of Chambers matrices, as 
+of the particles (linearly). An option ('\text{IOP}' flag) allows small $\Delta W$ approximation of Chambers matrices, as 
 well as removing the longitudinal damping (thus geometrical emittance is conserved), as follows~: 
-\begin{itemize}
-\item[-] \text{IOPT} = 1~:  Chambers cavity with  $\Delta W/W$ aproximation,  namely, for both planes, 
 
+\begin{itemize}
+\item[-] \text{IOP} = 1~:  Chambers cavity with  $\Delta W/W$ aproximation,  namely, for both planes, 
 \begin{equation}
       \left(  \begin{array}{c} x \\ x'  \end{array} \right)_{out} = 
       \left(  \begin{array}{cc} 
@@ -5563,14 +5578,12 @@ well as removing the longitudinal damping (thus geometrical emittance is conserv
       \end{array} \right)
       \left(  \begin{array}{c} x \\ x'  \end{array} \right)_{in} 
 \end{equation}
+\noindent with   $W_i$, $ W_o$ respectively the incoming and outgoing kinetic energies. 
 
-\noindent with   $W_i$, $ W_o$ respectively the incoming and outgoing kinetic energies, $\phi$  the particle phase at the cavity. 
-
-\item[-] \text{IOPT} = -1~: Same as 1, with matrix in both planes re-normalized  to determinant=1 
+\item[-] \text{IOP} = -1~: Same as 1, with matrix in both planes re-normalized  to determinant=1 
 (\ie, $R_{ij} \rightarrow R_{ij} /\sqrt{R_{11}R_{12} - R_{21}R_{22}}$),
 
-\item[-] \text{IOPT} = 2~: Chambers cavity without aproximation on  $\Delta W/W$, namely, for both planes, 
-
+\item[-] \text{IOP} = 2~: Chambers cavity without aproximation on  $\Delta W/W$, namely, for both planes, 
 \begin{equation}
       \left(  \begin{array}{c} x \\ x'  \end{array} \right)_{out} = 
       \left(  \begin{array}{cc} 
@@ -5579,16 +5592,16 @@ well as removing the longitudinal damping (thus geometrical emittance is conserv
       \end{array} \right)
       \left(  \begin{array}{c} x \\ x'  \end{array} \right)_{in} 
 \end{equation}
+\noindent with   $u=\log(W_o/W_i)/(\sqrt{8} \cos(\phi))$, $v=\sqrt{8} L/(W_o-W_i)$, $\phi$  the particle phase at the cavity. 
 
-\noindent with   $u=\log(W_o/W_i)/(\sqrt{8} \cos(\phi))$, $v=\sqrt{8} L/(W_o-W_i)$, 
+\item[-] \text{IOP} = -2~: Same as 1, with matrix in both planes re-normalized  to determinant=1.
 
-\item[-] \text{IOPT} = -2~: Same as 1, with matrix in both planes re-normalized  to determinant=1,
-
-\item[-] \text{IOPT} = 0~: Transverse matrix is that of a drift with length $L$.
+\item[-] \text{IOP} = 0~: Transverse matrix is that of a drift with length $L$.
 \end{itemize}
+\end{itemize}  
 
 
-\bigskip
+\medskip
 
 \paragraph{\textsl{CLOSED ORBIT COMPUTATION}}     \index{closed orbit!- computation}  
 

@@ -7,8 +7,8 @@ function pause(){
 #################################################################
 echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
-echo " 1/ H array size in PARIZ.H has to be appropriate     //////////////////////////////////////" 
-echo "    Will ln -sf PARIZ_compare.H PARIZ.H  ...          //////////////////////////////////////" 
+echo " 1/ H array size in PARIZ.H has to be appropriate                     //////////////////////" 
+echo "    so, now 'ln -sf PARIZ_compare.H PARIZ.H', and re-compile  ...     //////////////////////" 
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
 echo " " 
 echo " " 
@@ -307,6 +307,20 @@ echo "////////////////  ../KEYWORDS/TWISS : done..."
 #################################################################
 echo "        "
 echo "        "
+echo "////////////////  Now doing :   ../KEYWORDS/BREVOL/"
+echo "        "
+(cd ../KEYWORDS/BREVOL/ ; cp sol30m_761.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/BREVOL/ - reference : "   | cat >>   compare.out
+grep "  DetY-1 =  "  ../KEYWORDS/BREVOL/sol30m_761.res        | cat >>   compare.out
+echo "                          - new : "                     | cat >>   compare.out
+grep "  DetY-1 =  "  ../KEYWORDS/BREVOL/zgoubi.res            | cat >>   compare.out
+echo "        "                                               | cat >>   compare.out
+echo "////////////////  ../KEYWORDS/BREVOL : done..."
+#
+#
+#################################################################
+echo "        "
+echo "        "
 echo "////////////////  Now doing :   ../KEYWORDS/SRLOSS/"
 echo "        "
 (cd ../KEYWORDS/SRLOSS/ ; cp srloss.res_160320 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
@@ -344,7 +358,8 @@ echo "  "
 
 echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; echo " "  ; 
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
-echo " Will ln -sf PARIZ_regular.H PARIZ.H and re-compile ...      ///////////////////////////////" 
+echo " 3/ Now done with compare ...                                           ////////////////////" 
+echo "    so, now  'ln -sf PARIZ_regular.H PARIZ.H',  and re-compile ...      ////////////////////"
 echo " ///////////////////////////////////////////////////////////////////////////////////////////" 
 echo " " 
 echo " "  

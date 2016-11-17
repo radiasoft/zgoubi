@@ -23,14 +23,26 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHAMK(A1,R1,Z1,*)
-      USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
+      INCLUDE "C.D3B_2.H"     ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
+      INCLUDE "C.D4B.H"     ! COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
+
+      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
+
+      DIMENSION BT(5,15)
+      SAVE BT
+
       PARAMETER (I3=3)
       PARAMETER (MXC = 4)
       DIMENSION NMPT(MXC), NMPTI(MXC)
 
-C      SAVE NFIC, NMPT
-      SAVE IOP
+      PARAMETER (MXMAP=4)
+      PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
+      DIMENSION UU(MXAA2), UUI(MXAA2)
+
+      SAVE IOP, UU
 
       DATA NFIC / 1 /
       DATA NMPT / MXC * 1 /
@@ -40,28 +52,70 @@ C      SAVE NFIC, NMPT
      >           IMAP) 
         CALL CHAMK1(A1,R1,Z1,IMAP,*999)
 
+c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+c     >   A1,R1,A1N,R1N,i,imap,B(1,3),' A1,R1,A1N,R1N,imag, BT '
+
       ELSEIF(NFIC .GE. 2) THEN 
 C Case MOD=16. IMAP has been incrized by NFIC units in tosca, each field map stored in HC
         I = 1
+        ID = 2  ! This is to be settled
+        ird=2
 
-c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
+C Hyp UU : X_O2, Y_O2, theta, dY (magnet is first translated, then rotated, then Y-shifted)
+        XO2 = UU(20+10*I+1)
+        YO2 = UU(20+10*I+2)
+        TTA = UU(20+10*I+3)
+        DY =  UU(20+10*I+4)
+C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
 
-        CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)
+        CT = COS(TTA)
+        ST = SIN(TTA)
+        A1N =  (A1-XO2)*CT + (R1-YO2)*ST
+        R1N = -(A1-XO2)*ST + (R1-YO2)*CT - DY
+        CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)
         IOP = 1
         CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
+
         DO I = 2, NFIC-1
-
 c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
+          XO2 = UU(20+10*I+1)
+          YO2 = UU(20+10*I+2)
+          TTA = UU(20+10*I+3)
+          DY =  UU(20+10*I+4)
+          CT = COS(TTA)
+          ST = SIN(TTA)
 
-          CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)          
+C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
+
+          A1N =  (A1-XO2)*CT + (R1-YO2)*ST
+          R1N = -(A1-XO2)*ST + (R1-YO2)*CT - DY
+          CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)          
           CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
+
         ENDDO
+
         I = NFIC
-
 c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
-
-        CALL CHAMK1(A1,R1,Z1,NMPT(I),*999)
+        XO2 = UU(20+10*I+1)
+        YO2 = UU(20+10*I+2)
+        TTA = UU(20+10*I+3)
+        DY =  UU(20+10*I+4)
+C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
+        CT = COS(TTA)
+        ST = SIN(TTA)
+        A1N =  (A1-XO2)*CT + (R1-YO2)*ST
+        R1N = -(A1-XO2)*ST + (R1-YO2)*CT - DY
+        CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)
         CALL ADPOL(ID,I3,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
+
+         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
       ELSE
         CALL ENDJOB('Pgm chamk. No such possibility NFIC = ',NFIC)
@@ -73,9 +127,10 @@ c               write(*,*) ' '
 
  999  RETURN 1
 
-      ENTRY CHAMKW(NFICI,NMPTI)
+      ENTRY CHAMKW(NFICI,NMPTI,UUI)
       NFIC = NFICI
       NMPT = NMPTI
+      UU = UUI
       RETURN
 
       END

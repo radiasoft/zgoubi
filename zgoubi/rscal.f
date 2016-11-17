@@ -59,6 +59,8 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       SAVE MODSCL
  
       DIMENSION NTIM2(MXF),SCL2(MXF,MXS),TIM2(MXF,MXS),NSCALCOL(MXSCL)
+
+      CHARACTER(KSIZ) KLE
  
       DATA MODSCL / MXF*0  /
       DATA FAC / 1.D0  /
@@ -464,7 +466,10 @@ C----------- TIM2(IFM,IT)
       WRITE(ABS(NRES),*) 'SBR rscal. No idle unit  '
       GOTO 90
 
- 90   CALL ENDJOB('*** Pgm rscal, keyword SCALIN : '// 
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rscal, keyword '//KLE//' : '// 
      >'input data error, at line ',LINE)
       RETURN
       END

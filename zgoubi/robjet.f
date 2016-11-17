@@ -55,6 +55,8 @@ C  If change MXREF, make sure 1/ to change MXD (see  line 140), 2/ that MXT is l
       CHARACTER(LEN=80) TXT80
       LOGICAL STRCON
       INTEGER DEBSTR, FINSTR
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C----- BORO
       LINE = 1
@@ -254,8 +256,11 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
       
- 90   CALL ENDJOB('*** Pgm robjet, keyword OBJET : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm robjet, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
  
       END

@@ -40,7 +40,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
  
       INTEGER DEBSTR, FINSTR
       CHARACTER(20) TXT20
-      CHARACTER(LNTA) fname
+      CHARACTER(LNTA) FNAME
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
@@ -106,7 +108,10 @@ C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
  
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rspn, keyword SPNTRK : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rspn, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
       END

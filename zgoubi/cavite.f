@@ -896,11 +896,9 @@ C          TI = F(7,I) * UNIT(7)
 C F(7,I) is time in mu_s. Of course, TI is in s
           TI = F7I * UNIT(7) 
           TIAV = TIAV + TI
-c              write(*,*) ' cav  ti,tiav  : ',ti,tiav 
         ENDIF   
       ENDDO
       TIAV = TIAV / DBLE(II)
-c              write(*,*) ' cav : tiav ',tiav 
 
       DO I=1,IMAX
         IF(IEX(I) .GE. -1) THEN 
@@ -919,33 +917,12 @@ C F(7,I) is time in mu_s. Of course, TI is in s
           TI = F(7,I) * UNIT(7) 
 
 C Relative time to bunch centroid
-c                write(*,*) ' ti, tiav : ',ti, tiav
-          ti = ti-tiav
-
+          TI = TI-TIAV
           PHI = OMRF * TI + PH0   
-C          PHI = 0.
-
-c                write(*,*) ' p, p0, f(1,i) : ',p, p0, f(1,i)
-c                write(*,*) ' enrg, bta, ti : ', enrg, bta, ti
-c          write(*,*) ' OMRF : ',OMRF,OMRF/(2.*pi)
-c          write(*,*) ' OMRF * TI : ',OMRF * TI ,ph0
-c          write(*,*) ' PHI = OMRF * TI + PH0 : ',OMRF * TI + PH0 
-c          write(*,*) ' PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI : ',
-c     >          PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
-
-
-
-C Phase, in [-pi,pi] interval
-c          PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
-c          IF    (PHI .GT.  PI) THEN
-c            PH(I) =PHI - 2.D0*PI
-c          ELSEIF(PHI .LT. -PI) THEN
-c            PH(I) =PHI + 2.D0*PI
-c          ELSE
-            PH(I) =PHI 
-c          ENDIF
-
-          DWF=QV*COS(PH(I))
+          PHIAV = PHIAV + PHI
+          PH(I) =PHI 
+          DWF=QV*COS(PHI)
+          CPH = COS(PHI)
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 C tests cebaf
@@ -966,7 +943,7 @@ ccccccccccccccccccccccccccc
 C Kin. energy, MeV
           DPR(I)=WF
           P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
-
+          
           IF     (DWF.EQ.0.D0 .OR. IDMP.EQ.0.) THEN
 C        CAVITY + DRIFT
             V11= 1.D0
@@ -995,25 +972,25 @@ C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)=1
           ELSE IF(IDMP.EQ.2) THEN
 C        CHAMBERS CAVITY Det(M)#1
             EFEI=WF/WI
-            FAC=DLOG(EFEI)/SQRT8/COSRF
+            FAC=DLOG(EFEI)/SQRT8/CPH
             COSFAC=COS(FAC)
             SINFAC=SIN(FAC)
             RAP=SQRT8*CAVM/DWF
-            V11= COSFAC-SQRT2*SINFAC*COSRF
-            V12=    SINFAC*RAP*WI*COSRF
-            V21=-SINFAC/RAP/WF*(2*COSRF+1.D0/COSRF)
-            V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
+            V11= COSFAC-SQRT2*SINFAC*CPH
+            V12=    SINFAC*RAP*WI*CPH
+            V21=-SINFAC/RAP/WF*(2*CPH+1.D0/CPH)
+            V22=(COSFAC+SQRT2*SINFAC*CPH)/EFEI
           ELSE IF(IDMP.EQ.-2) THEN
 C        CHAMBERS CAVITY Det(M)=1
             EFEI=WF/WI 
-            FAC=DLOG(EFEI)/SQRT8/COSRF
+            FAC=DLOG(EFEI)/SQRT8/CPH
             COSFAC=COS(FAC)
             SINFAC=SIN(FAC)
             RAP=SQRT8*CAVM/DWF
-            V11= COSFAC-SQRT2*SINFAC*COSRF
-            V12=    SINFAC*RAP*WI*COSRF
-            V21=-SINFAC/RAP/WF*(2*COSRF+1./COSRF)
-            V22=(COSFAC+SQRT2*SINFAC*COSRF)/EFEI
+            V11= COSFAC-SQRT2*SINFAC*CPH
+            V12=    SINFAC*RAP*WI*CPH
+            V21=-SINFAC/RAP/WF*(2*CPH+1./CPH)
+            V22=(COSFAC+SQRT2*SINFAC*CPH)/EFEI
             DWFT=DSQRT(V11*V22-V21*V12)
             V11=V11/DWFT
             V12=V12/DWFT
@@ -1034,22 +1011,25 @@ C        CHAMBERS CAVITY Det(M)=1
           IF(OKIMP) 
      >    WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
      >    TI, WI, WF, I , IPASS, DWF
+          
+c          ii = ii + 1
 
         ENDIF   
       ENDDO
+      PHIAV = PHIAV / DBLE(II)
 
       PS = PSF
       CALL SCUMW(0.5D0*CAVL)
 
       IF(NRES.GT.0) THEN
-        TIAV = TIAV / DBLE(II)
-        PHIAV = PHIAV / DBLE(II)
+C        TIAV = TIAV / DBLE(II)
+C        PHIAV = PHIAV / DBLE(II)
         WRITE(NRES,fmt='(1P,
      >   /,20X,''Averaged over the '',I0,'' particles : '',
-     >  /,25X,''- <arrival time> at cavity      = '',E15.6,'' mu_s'',
+     >  /,25X,''- <arrival time> at cavity      = '',2E15.6,'' mu_s'',
      >  /,25X,''- and resulting <phase>         = '',E15.6,
      >  /,25X,''- resulting qV.cos(<phase>)     = '',E15.6,'' MeV''
-     >  )') ii, Tiav, phiav, QV*COS(PHiav)
+     >  )') ii, Tiav, tiav2, phiav, QV*COS(PHiav)
       ENDIF
 
       GOTO 88

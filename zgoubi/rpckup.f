@@ -36,6 +36,8 @@ C  -------
       CHARACTER(132) TXT
       INTEGER DEBSTR
       LOGICAL STRCON
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C----- NPU = 0 (OFF) or NPU > 0 (# of distinct lmnt LABEL's)
       LINE = 1
@@ -76,7 +78,10 @@ C----- LABEL's
      >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
       GOTO 90
       
- 90   CALL ENDJOB('*** Pgm rpckup, keyword PICKUPS : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rpckup, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
       END

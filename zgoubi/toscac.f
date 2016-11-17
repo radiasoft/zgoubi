@@ -50,7 +50,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
+C      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE 'MXFS.H'
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
  
@@ -86,16 +86,16 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       INCLUDE 'MXSCL.H'
       DIMENSION KFM(MXSCL)
  
-      PARAMETER (MXAA2=24+MXC-1)
+C      PARAMETER (MXAA2=24+MXC-1)
+      PARAMETER (MXMAP=4)
+      PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
       DIMENSION AA(MXL,MXAA2), UU(MXAA2)
-C      SAVE AA
 
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
       PARAMETER (MXHD=20)
-C      INCLUDE 'MAPHDR.H'
 
-C      ERRORS
+C--    ERRORS
       LOGICAL ERRON
       SAVE ERRON
       PARAMETER (MXERR=MXTA)
@@ -183,7 +183,7 @@ C Aug 2012      BNORM = A(NOEL,10)*SCAL
       IF(NHD .GT. MXHD) CALL ENDJOB(
      >'Pgm toscac. Field map header has too many lines. Must be .le.'
      >,MXHD)
-      IDEB = DEBSTR(TITL)
+C      IDEB = DEBSTR(TITL)
 C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       FLIP = STRCON(TITL,'FLIP',
      >                          IS)
@@ -287,14 +287,8 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             NFIC = NFIC+1
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
-C            CALL KSMAP4(NOMFIC,NFIC,UU,
-C     >                          NEWFIC,NBMAPS,IMAP) 
           ENDDO
  
-C          DO LL = 24, MXAA2     !24+MXC-1
-C            UU(LL) = AA(NOEL,LL)
-C          ENDDO
-
 C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
@@ -330,7 +324,7 @@ C          Each one of these files should contain the all 3D volume.
      >    //'maps cannot exceed ',MXC)
           I1=1
           I2 = MOD2
-          DO I = 1, I2
+          DO I = I1, I2
             AA(NOEL,24-1+I) = A(NOEL,24-1+I)
           ENDDO
 
@@ -341,15 +335,22 @@ C          Each one of these files should contain the all 3D volume.
      >    //'maps cannot exceed ',MXC)
           I1=1
           I2 = MOD2
-          DO I = 1, I2
+          DO I = I1, I2
+C Field scaling coefficients (1 per map)
             AA(NOEL,24-1+I) = A(NOEL,24-1+I)
+          ENDDO
+          DO I = I1, I2
+C Map positioning data (1 set per map)
+            DO J = 1, 5
+              AA(NOEL,20+10*I +J-1) = A(NOEL,20+10*I +J-1)
+            ENDDO
           ENDDO
 
         ELSE
           CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
  
-        DO LL = 24, MXAA2  ! 24+MXC-1
+        DO LL = 24, MXAA2
           UU(LL) = AA(NOEL,LL)
         ENDDO
 
@@ -366,6 +367,9 @@ C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
+
+c              write(*,*) ' toscac MOD 15, newfic = ',newfic
+
         ELSEIF(MOD .EQ. 16) THEN 
           CALL KSMAP(
      >               IMP)
@@ -377,50 +381,68 @@ C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
      >                          NEWFIC,NBMAPS,IMAP)
             NMPT(NOEL,I) = IMAP
             IF(IMAP .GT. NEW) NEW = NEW +1
-c               write(*,*) ' toscac imp,imap,nEW ',imp,imap,NEW
-c               write(*,*) NoMFI1(1)(DEBSTR(NoMFI1(1)):FINSTR(NoMFI1(1)))
           ENDDO
           NEW = NEW - IMP
           DO I = 1, MXC
             NMPTN(I) = NMPT(NOEL,I)
           ENDDO
-          CALL CHAMKW(NFIC,NMPTN)
 
-        ENDIF
+C          CALL CHAMKW(NFIC,NMPTN,UU)
+
+        ENDIF ! MOD  .le.15, .eq.16
    
       ENDIF  ! NDIM.EQ.3
 
       IF    (MOD .EQ. 15) THEN
-        IFAC = 24
-        IFIC = 1
+        ICOF = 24
+        IFIC = I1
         DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
-          IF(IFAC .GT. 27)
-     >    CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
-          NEWFIC = NEWFIC .OR. AA(NOEL,IFIC).NE.A(NOEL,IFAC)
-          IFAC = IFAC + 1
+          IF(ICOF .GT. 27)
+     >    CALL ENDJOB('SBR toscac. No such possibility ICOF=',ICOF)
+          NEWFIC = NEWFIC .OR. AA(NOEL,ICOF).NE.A(NOEL,ICOF)
+
+
+c              write(*,*) ' toscac test aa newfic = ',newfic
+c              write(*,*) ' aa  noel,ICOF : ',AA(NOEL,ICOF),noel,ICOF
+c              write(*,*) ' a ICOF  ', A(NOEL,ICOF),ICOF
+c              write(*,*) ' +++++++++++++++++'
+c              write(*,*) ' '
+c              write(*,*) ' '
+c                 read(*,*)
+
+
+          ICOF = ICOF + 1
           IFIC = IFIC + 1
         ENDDO
-        IFAC = 24
-        DO IFIC = 1, I2
-          AA(NOEL,IFIC) = A(NOEL,IFAC)
-          IFAC = IFAC + 1
+        ICOF = 24
+        DO IFIC = I1, I2
+          AA(NOEL,ICOF) = A(NOEL,ICOF)
+          ICOF = ICOF + 1
         ENDDO
 
       ELSEIF(MOD .EQ. 16) THEN
-        IFAC = 24
-        IFIC = 1
+        ICOF = 24
+        IFIC = I1
         DO WHILE (IFIC.LE.I2 .AND. .NOT. NEWFIC)
-          IF(IFAC .GT. 27)
-     >    CALL ENDJOB('SBR toscac. No such possibility IFAC=',IFAC)
-          NEWFIC = NEWFIC .OR. AA(NOEL,IFIC).NE.A(NOEL,IFAC)
-          IFAC = IFAC + 1
+          IF(ICOF .GT. 27)
+     >    CALL ENDJOB('SBR toscac. No such possibility ICOF=',ICOF)
+          NEWFIC = NEWFIC .OR. AA(NOEL,ICOF).NE.A(NOEL,ICOF)
+          ICOF = ICOF + 1
           IFIC = IFIC + 1
         ENDDO
-        IFAC = 24
-        DO IFIC = 1, I2
-          AA(NOEL,IFIC) = A(NOEL,IFAC)
-          IFAC = IFAC + 1
+        ICOF = 24
+        DO IFIC = I1, I2
+          AA(NOEL,ICOF) = A(NOEL,ICOF)
+          ICOF = ICOF + 1
         ENDDO
+          DO I = 1, I2
+C Map positioning data (1 set per map)
+            DO J = 1, 5
+              AA(NOEL,20+10*I +J-1) = A(NOEL,20+10*I +J-1)
+            ENDDO
+          ENDDO
+
+          CALL CHAMKW(NFIC,NMPTN,UU)
 
       ENDIF
  
@@ -488,7 +510,7 @@ c        ELSEIF(MOD.EQ.15) THEN
         IF(NEWFIC) THEN
            WRITE(NRES,209)
  209       FORMAT(/,10X
-     >     ,' New field map(s) now used, cartesian mesh (MOD.le.19) ; '
+     >     ,' New field map(s) opened, cartesian mesh (MOD.le.19) ; '
      >     ,/,10X,' name(s) of map data file(s) : ',/)
            WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
@@ -497,7 +519,7 @@ c        ELSEIF(MOD.EQ.15) THEN
           WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
  210      FORMAT(
-     >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
+     >    10X,'No  map  file  opened :  was  already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
@@ -547,7 +569,7 @@ c        ELSEIF(MOD.EQ.15) THEN
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
-             IRD = NINT(A(NOEL,40))
+C             IRD = NINT(A(NOEL,40))
  
 C BNORM set to ONE, since sent to CHAMK below
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
@@ -592,21 +614,23 @@ C------- Store mesh coordinates
                   FMTYP = 'GSI'
              ENDIF
  
+             ICOF = 23+NFIC
+
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
-     >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-              WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
-     >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
-     >        'map,  FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
-     >        //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
+               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+     >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
+               WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
+     >         'map, FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
+     >         //'.  Field multiplication factor :',AA(NOEL,ICOF)
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
-             IRD = NINT(A(NOEL,40))
+C             IRD = NINT(A(NOEL,40))
  
-             CALL FMAPW2(NFIC,AA(NOEL,NFIC))
+             CALL FMAPW2(NFIC,AA(NOEL,ICOF))
  
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
@@ -744,21 +768,26 @@ C------- Store mesh coordinates
                GOTO 96
              ENDIF
  
+             ICOF = 23+NFIC
+
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
                WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
      >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-               WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
+               WRITE(NRES,FMT='(5X,A,1P,E16.8,/,5x,a,4(e14.6,1x),2i4/)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
      >         'map, FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
-     >         //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
+     >         //'.  Field multiplication factor :',AA(NOEL,23+NFIC),
+     >         'Positioning (X, Y, theta, dY) : ',
+     >         (aa(noel,jj),jj=20+10*kz+1,20+10*kz+4),
+     >             20+10*kz, 20+10*kz+4
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
-             IRD = NINT(A(NOEL,40))
+C             IRD = NINT(A(NOEL,40))
  
-             CALL FMAPW2(NFIC,AA(NOEL,NFIC))
+             CALL FMAPW2(NFIC,AA(NOEL,ICOF))
  
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
@@ -779,7 +808,7 @@ C--------- Store mesh coordinates
  
       ELSE   !  .not. NEWFIC
  
-           IRD = NINT(A(NOEL,40))
+C           IRD = NINT(A(NOEL,40))
  
 C------- Restore mesh coordinates
            CALL FMAPR5(IMAP,

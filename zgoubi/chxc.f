@@ -104,28 +104,23 @@ C      LOGICAL AGS, NEWFIC(MXTA)
       DIMENSION DBDX(3)
 
       PARAMETER (MXC = 4)
-      PARAMETER (MXAA2=24+MXC-1)
+C Changed to allow positioning data after map name in MOD.MOD2=16.1-4
+C      PARAMETER (MXAA2=24+MXC-1)
+      PARAMETER (MXMAP=4)
+      PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
       DIMENSION AA(MXL,MXAA2), UU(MXAA2)
       SAVE AA
-C      DIMENSION AA(1)
-C      DATA AA / 0.D0 /
 
       DATA AGS / .FALSE. /
-
-C      DATA NEWFIC / MXTA * .TRUE. /
       DATA NEWFIC / .TRUE. /
-
       DATA NHDF / 4 /
-
       DATA SUMAP /.FALSE./
-
       DATA (ES(I),I=1,2)/ 'ENTREE' , 'SORTIE' /
       DATA LMNT / 'DIPOLE', 'QUADRUPOLE', 'SEXTUPOLE', 'OCTUPOLE',
      > 'DECAPOLE' , 'DODECAPOLE', 
      > '14-POLE', '16-POLE', '18-POLE', '20-POLE', 
      > 'MULTIPOLE ', 8*' ', 'SOLENOID ', 'WIENFILTER', '2-ELC LENS' /
       DATA KTOR /  'CLAMPEES', 'PARALLELES' /
-
       DATA DTA1 / 0.D0 /
 C      DATA FMTYP / ' regular' / 
       DATA LUN / 0 / 
@@ -178,10 +173,6 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
-
-c             if(noel.eq.452) then 
-c               write(*,fmt='(/,a,1p,e12.4)') ' chxc scal=',scal 
-c             endif
 
       XE = 0.D0
       XS = 0.D0
@@ -303,7 +294,7 @@ C FM, Dec 2011
           IF( KP .EQ. 3 ) THEN
 C             Stop if XCE .ne. 0. To be provisionned...
             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
-     >                  STOP ' KPOS=3 does not support XCE.ne.0'
+     >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
 C            Calculate ALE as half BL/BRho. BL_arc???
             IF(A(NOEL,ND+NND+3) .EQ. 0.D0)   
      >        A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/BORO)
@@ -358,7 +349,7 @@ C-------- BEND MAGNET
 C            Stop if XCE .ne. 0. To be provisionned...
 
             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
-     >      CALL ENDJOB('Pgm chxc.  KPOS=3 does not support XCE.ne.',I0)
+     >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
 
             IF(A(NOEL,ND+NND+3).EQ.0.D0) 
      >                      A(NOEL,ND+NND+3)=-DEV/2.D0
@@ -383,7 +374,7 @@ C--------- DIPOLEC
           KP = NINT(A(NOEL,ND+NND))
           IF( KP .EQ. 3 ) THEN
             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
-     >      CALL ENDJOB('Pgm chxc.  KPOS=3 does not support XCE.ne.',I0)
+     >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
 C             Calculate ALE as half deviation. 
             IF(A(NOEL,ND+NND+3).EQ.0.D0) 
      >                      A(NOEL,ND+NND+3)=-DEV/2.D0
@@ -424,6 +415,8 @@ C-------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format.
 
           ENDIF
 
+          IRD = NINT(A(NOEL,ND-10))
+
           MOD = NINT(A(NOEL,23))
           MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
 
@@ -436,6 +429,20 @@ C Steps back because this is settled after the endif...
           XBMI = XBMI/XNORM
           BMAX = BMAX/BNORM
           BMIN = BMIN/BNORM
+
+          KP = NINT(A(NOEL,ND+NND))   
+          IF( KP .EQ. 3 ) THEN
+            CALL ENDJOB('Pgm chxc. KPOS=3 not supported. '//
+     >      'To be provisioned.',-99)
+
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+     >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
+C             Calculate XCE, YCE for entrance change of referential    
+            YSHFT = A(NOEL,ND+NND+2)
+            XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
+            YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
+
+          ENDIF
 
         ELSEIF(KUASEX.EQ.9) THEN
 C------------ 9 : MAP2D, MAP2D-E. READS A 2D FIELD MAP, 
@@ -957,6 +964,7 @@ C        ... endif NRES>0
  
         CALL MAPLI1(BMAX-BMIN)
 
+      IF(KP .EQ. 3) GOTO 92
       GOTO 91
  
 C---------------------------------------------------------------
@@ -1053,7 +1061,6 @@ C Y-rotation
 C          Vshroe(MSR) = 6
 
           GOTO 93
-
 
         ENDIF
 

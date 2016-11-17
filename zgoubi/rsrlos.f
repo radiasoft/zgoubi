@@ -35,6 +35,8 @@ C      PARAMETER (MXTA=45)
       CHARACTER(132) TXT132
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
       LINE = 1
       READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
@@ -67,7 +69,10 @@ C Get the list of elements to be subjected to scaling
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rscrlos, keyword SRLOSS : '// 
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rsrlos, keyword '//KLE//' : '// 
      >'input data error, at line ',LINE)
       RETURN
       END

@@ -33,6 +33,8 @@ C      PARAMETER (MXTA=45)
       LOGICAL STRCON
       CHARACTER(LNTA) TXT
       INTEGER DEBSTR, FINSTR
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       LINE =1          
@@ -54,8 +56,11 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm roptio, keyword OPTIONS : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm roptio, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
  
       END

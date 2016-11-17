@@ -76,8 +76,21 @@ C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
         DO IFIC = 1, NFIC
 C OLDFIC stays true iff (the 1-NFIC series has already been met 
 C AND the linear combination coefficients have not been changed)
+
+c           call zgnoel(
+c     >                  noel)
+c             write(*,*) ' ksmap4 noel = ',noel
+c             write(*,*) '  ific = ',ific, 'old : ',OLDFIC, NOMFIC(IFIC)
+c             write(*,*) '  NOMFIC :  ',NOMFIC(IFIC)
+c             write(*,*) ' imap = ',        i, NAMSAV(I,IFIC)
+c             write(*,*) ' aa, coef : ', AA(IFIC), COEFS(I,IFIC)
+
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
      >          .AND. (AA(IFIC).EQ.COEFS(I,IFIC))
+
+c             write(*,*) 'old, updated : ',OLDFIC
+c              read(*,*)
+
         ENDDO
         IF(OLDFIC) GOTO 1
       ENDDO

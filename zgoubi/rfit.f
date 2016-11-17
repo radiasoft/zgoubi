@@ -53,8 +53,11 @@ C      PARAMETER (MXTA=45)
       LOGICAL EMPTY
       LOGICAL FIRST 
       LOGICAL ISNUM
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
       SAVE FIRST
+
       DATA FIRST / .TRUE. /
 
       LINE = 1
@@ -228,8 +231,10 @@ C--------- Numb. particls
  98   write(6,*) ' Pgm rfit. Constraints : wrong input data.'
       GOTO 90
 
- 90   CALL ENDJOB('*** Pgm rfit, keyword FIT[2] : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rfit, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
-
       END

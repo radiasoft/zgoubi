@@ -341,6 +341,7 @@ OBJ=\
  rsrlos.o\
  rtnewt.o\
  rtnewt2.o\
+ rtosca.o\
  rtrans.o\
  rundul.o\
  runipo.o\
@@ -587,7 +588,7 @@ rbb.o: $(INC)/MXLD.H
 rbend.o: $(INC)/MXLD.H
 rbinar.o: $(INC)/MXLD.H
 rbndth.o: $(INC)/MXLD.H
-rcarte.o: $(INC)/MXLD.H
+rcarte.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H
 rcavit.o: $(INC)/MXLD.H
 rchang.o: $(INC)/MXLD.H
 rcible.o: $(INC)/MXLD.H
@@ -635,6 +636,7 @@ rspinr.o: $(INC)/MXLD.H
 rspn.o:   $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rspnst.o: $(INC)/MXLD.H
 rsrlos.o: $(INC)/MXLD.H
+rtosca.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H
 rtrans.o: $(INC)/MXLD.H
 rundul.o: $(INC)/MXLD.H
 runipo.o: $(INC)/MXLD.H

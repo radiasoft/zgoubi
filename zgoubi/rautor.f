@@ -33,6 +33,8 @@ C     ---------------------
       CHARACTER(132) TXT132
       LOGICAL STRCON
       INTEGER DEBSTR, FINSTR
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
       LINE = 1
       READ(NDAT,*,ERR=90,END=90) TXT132
@@ -82,7 +84,10 @@ C 2 : Center the beam on xce, yce, ale, p/pRef and set all times to A(NOEL,14)
       ENDIF
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rautor, keyword AUTOREF : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rautor, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
       END

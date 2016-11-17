@@ -618,15 +618,15 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       KALC = 2
       IDIM = I3
 C      IF(READAT) CALL RCARTE(KART,I3,
-      IF(READAT) CALL RCARTE(KART,
+      IF(READAT) CALL RTOSCA(KART,
      >                            IDIM, ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN
         KUASEX = 7
-        IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, '
-     >  //'need recompile zgoubi. Change IZ in PARIZ.H, to .ge. '
-     >  //'number of vertical mesh nodes',-99) 
+        IF(IZ.LE.1) CALL ENDJOB('Pgm zgoubi. Cannot use a 3-D map. '
+     >  //'Change IZ in PARIZ.H, to .ge. '
+     >  //'number of vertical mesh nodes and re-compile',-99) 
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (KART.EQ.1) THEN 

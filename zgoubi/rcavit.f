@@ -41,6 +41,8 @@ C      PARAMETER (MXTA=45)
       INTEGER DEBSTR, FINSTR
       CHARACTER(30) STRA(3)
       LOGICAL EMPTY, ISNUM
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C     ....IOPT -OPTION
       LINE = 1
@@ -100,8 +102,10 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rcavit, keyword CAVITE : '// 
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rcavit, keyword '//KLE//' : '// 
      >'input data error, at line ',line)
-      RETURN
- 
+      RETURN 
       END

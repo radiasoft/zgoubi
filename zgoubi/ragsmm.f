@@ -23,15 +23,18 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RAGSMM(NDAT,NOEL,MXL,A,ND)
+C     -------------------------
+C     READS DATA FOR AGS DIPOLE
+C     -------------------------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION A(MXL,*)
       CHARACTER(130) TXT
       PARAMETER (MSS=6)
       CHARACTER(80) STRA(MSS)
-C     -------------------------
-C     READS DATA FOR AGS DIPOLE
-C     -------------------------
-C                  IL
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
+
+C --- IL
       LINE = 1
       READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
 
@@ -86,7 +89,10 @@ C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
  66   CONTINUE
       RETURN
 
- 90   CALL ENDJOB('*** Pgm ragsmm, keyword AGSMM : '// 
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm ragsmm, keyword '//KLE//' : '// 
      >'input data error, at line ',LINE)
       RETURN
       END

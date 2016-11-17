@@ -24,11 +24,13 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE RMULTI(NDAT,NOEL,MXL,A,MPOL,
      >                                       ND)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      DIMENSION A(MXL,*)
 C     ------------------------
 C     READS DATA FOR MULTIPOLE
 C     ------------------------
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION A(MXL,*)
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C-- eRHIC, skew ffag dipoles
 c          logical first
@@ -94,8 +96,10 @@ c                 stop
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rmulti, keyword MULTIPOL : '// 
-     >'input data error, at line ',line)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rmulti, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
-
       END

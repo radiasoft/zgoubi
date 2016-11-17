@@ -35,6 +35,8 @@ C     >                  IORD,IFOC,KWR,KCPL)
       CHARACTER(132) TXT
       INTEGER DEBSTR
       LOGICAL STRCON
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
 C      CALL MATRIC(NINT(
 C     >  A(NOEL,1)),NINT(A(NOEL,2)),NINT(A(NOEL,3)),NINT(A(NOEL,4)))
@@ -69,7 +71,10 @@ C        KCPL = 0
 
       RETURN
 
- 90   CALL ENDJOB('*** Pgm rmatrx, keyword MATRIX : '//
-     >'input data error.',-99)
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rmatrx, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
       RETURN
       END
