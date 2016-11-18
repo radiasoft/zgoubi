@@ -1059,12 +1059,13 @@ C----------------------------
       SUBROUTINE OPNDEF(LU2O,DEFN2O,LUO,
      >                                  FNO,OKOPN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER*(*) DEFN2O, FNO
+      CHARACTER(*) DEFN2O, FNO
       LOGICAL OKOPN
 
-      LOGICAL EXS, OPN, BINARY 
+      LOGICAL EXS, OPN, BINARY, idluni
       CHARACTER*11 FRMT
       INTEGER DEBSTR,FINSTR
+      character(6) status
 
       IF( LU2O .EQ. -1) THEN
 C------- Looks for a free LUO starting from #10
@@ -1077,12 +1078,20 @@ C------- Looks for a free LUO starting from #10
         IF( IOS .EQ. 0 .AND. OPN ) GOTO 1
       ELSEIF(LU2O .EQ. LUO) THEN
 C------- Check whether LUO is already open
-        INQUIRE(UNIT=LUO,EXIST=EXS,OPENED=OPN,NAME=FNO,IOSTAT=IOS)
-        IF(IOS .EQ. 0) THEN
-          OKOPN = OPN
-        ELSE
-          OKOPN = .FALSE.
-        ENDIF
+        INQUIRE(file=defn2o,EXIST=EXS,OPENED=OPN,IOSTAT=IOS)
+        if(exs) then 
+          IF(IOS .EQ. 0) THEN
+            OKOPN = OPN
+          ELSE
+            OKOPN = .FALSE.
+          ENDIF
+        else
+          WRITE(6,fmt='(a)') 'Pgm tunesFromFai. Cannot find file '
+     >    //DEFN2O(debstr(DEFN2O):finstr(DEFN2O))//'.  Cannot open.'
+          WRITE(6,fmt='(a)') 'Check FILFAI.H  '
+          status = 'FAILED'
+          goto 99
+        endif
       ELSE
         IF(LUO.GT.0) CLOSE(LUO)
         OKOPN = .FALSE.
@@ -1103,10 +1112,10 @@ C--------- Check existence of DEFN2O
           IF(EXS) THEN
             OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='OLD',ERR=99,IOSTAT=IOS,
      >           FORM=FRMT)
-            write(*,*) ' ' 
-            write(*,*) ' Just opened file ', 
-     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
-            write(*,*) ' ' 
+c            write(*,*) ' ' 
+c            write(*,*) ' Just opened file ', 
+c     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
+c            write(*,*) ' ' 
             IF(IOS.NE.0) GOTO 97
             I4=4
             IPRNT = 0
@@ -1115,10 +1124,10 @@ C--------- Check existence of DEFN2O
           ELSE
             OPEN(UNIT=LU2O,FILE=DEFN2O,STATUS='NEW',ERR=99,IOSTAT=IOS,
      >           FORM=FRMT)
-            write(*,*) ' ' 
-            write(*,*) ' Just opened file ', 
-     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
-            write(*,*) ' ' 
+c            write(*,*) ' ' 
+c            write(*,*) ' Just opened file ', 
+c     >            DEFN2O(debstr(DEFN2O):finstr(DEFN2O))
+c            write(*,*) ' ' 
             IF(IOS.NE.0) GOTO 97
           ENDIF
  
@@ -1134,17 +1143,31 @@ C--------- Check existence of DEFN2O
         CALL READC8(BINARY)
       ENDIF
 
-      IF(OKOPN) WRITE(6,FMT='(2A)') 'Opened file is ',DEFN2O
+      IF(OKOPN) THEN
+        WRITE(6,FMT='(2A)') 'Opened file is ',DEFN2O
+        status = 'OK'
+      else
+        WRITE(6,fmt='(a)') ' tunesFromFai/OPNDEF. Error open .fai file.' 
+        status = 'FAILED'
+      endif
+      goto 99
 
-      RETURN
 
  96   WRITE(6,*) ' Exec error occured in Subroutine OPNDEF : ' 
       WRITE(6,*) ' Logical unit # exceeds 100 ; CANNOT OPEN ',DEFN2O
-      RETURN
+      goto 99
 
  97   WRITE(6,*) ' Error occured while in Subroutine OPNDEF : '
       WRITE(6,*) '      IOS NON-ZERO ; CANNOT OPEN ',DEFN2O
+
  99   CONTINUE
+      if(idluni(itmp)) open(unit=itmp,file='tunesFromFai.status')
+      write(itmp,fmt='(2a)') 
+     >'tunesFromFai.status - open DEFN2O ',status
+      close(itmp)
+      write(*,fmt='(2a)') 
+     >'Pgm tunesFromFai - open DEFN2O : ',status
+      if(status.eq.'FAILED') stop 'Stop upon open failed.'
       RETURN
 
 C 98   CONTINUE
@@ -1462,7 +1485,8 @@ C----------- Initial coordinates
       SUBROUTINE HEADER(NL,N,IPRNT,BINARY,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
-      CHARACTER*900 TXT80
+C      CHARACTER*900 TXT80
+      CHARACTER*270 TXT80  ! This must match 4-line header in zgoubi/impfai.f
       WRITE(6,FMT='(/,A,I2,A)') ' Now reading  ',N,'-line  file  header'
       if(binary) WRITE(6,FMT='(2A)') ' from a binary data file.'
       if(.not.binary) WRITE(6,FMT='(2A)') ' from a formatted data file.'

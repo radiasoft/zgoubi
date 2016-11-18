@@ -5,6 +5,8 @@
 
       character(200) TXT200
       CHARACTER(80) STRA(5)
+      CHARACTER(40) status
+
       logical strcon
 
 C RHIC
@@ -100,6 +102,14 @@ C        write(nlu,*)  oksav,'    !  save spectra '
         call system
      >  ('~/zgoubi/SVN/current/toolbox/tunesFromFai/tunesFromFai')
 
+        if(idluni(itmp)) open(unit=itmp,file='tunesFromFai.status')
+        read(itmp,fmt='(a)') status
+               write(*,*) ' iterate status : ',status
+        if(strcon(status,'FAILED'
+     >                           ,IS)) stop 
+     >         'Pgm tunesFromFia_iterate. Cannot find .fai file.'
+        close(itmp)        
+
         write(*,*) ' '
         write(*,*) 'Pgm lipsFitFromFai_iterate. Now doing :'
         write(*,*) 'cat tunesFromFai.out >> tunesFromFai_iterate.out'
@@ -115,6 +125,7 @@ C           read(*,*)
         close(itmp)
 C        if(ierr .eq. -1) goto 11
 C        if(mxPss .le. 0) goto 12
+
       enddo
       close(nlu)
 

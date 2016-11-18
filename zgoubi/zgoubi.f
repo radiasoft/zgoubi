@@ -291,8 +291,12 @@ C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
       ENDIF ! NOEL.GT.0 
 
       IF(READAT) THEN
- 188    READ(NDAT,*,ERR=999,END=999) KLEY
-        IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!') GOTO 188
+
+ 188    READ(NDAT,*,ERR=996,END=997) KLEY
+
+        IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!' .OR. 
+     >  FINSTR(KLEY) .LE. DEBSTR(KLEY) ! Takes care of empty lines and of possible crap single-character
+     >  ) GOTO 188 
 
         DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
@@ -353,12 +357,23 @@ C---------------------------------------------------
         WRITE(NRES,201)
 
         WRITE(NRES,200) KLEY
- 200    FORMAT(/,10X,' MAIN PROGRAM : Execution ended upon key  ',A)
+ 200    FORMAT(/,10X,'Pgm zgoubi : Execution ended upon key  ',A)
         WRITE(NRES,201) 
       ENDIF
-
       RETURN 
- 
+
+ 996  CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
+     >'Pgm zgoubi : Execution stopped due to ERRor '//
+     >'while reading Key from input .dat file.'
+      RETURN 
+
+ 997  CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
+     >'Pgm zgoubi : Execution stopped due to END-of-file '//
+     >'while reading Key from input .dat file.'
+      RETURN 
+
 C----- DRIFT, ESL. Free space. 
  1    CONTINUE
       KUASEX = 0
