@@ -201,7 +201,7 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
 
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',/,
      >  2(A,I3,/),3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
-     >  '   Error # ',IRR,' : ',
+     >  '   Error # ',IRR,' : ', 
      >  '         IPOL : ',IPOL,
      >  '       TYPERR : ',TYPERR,
      >  '        TYPAR : ',TYPAR,
