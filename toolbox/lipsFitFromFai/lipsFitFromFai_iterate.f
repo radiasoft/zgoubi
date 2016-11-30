@@ -15,6 +15,8 @@
       data rmvDsp / 'N' /
       data dspFNameDflt / 'zgoubi.OPTICS.out' / 
 
+      dspFName = dspFNameDflt
+
       INQUIRE(FILE='lipsFitFromFai_iterate.In',exist=EXS)
 
       IF (IDLUNI(lIn)) THEN

@@ -199,18 +199,18 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
           ENDIF
         ENDIF
 
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS INTRODUCED : '',/,
+        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',/,
      >  2(A,I3,/),3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
-     >  '   Error # ',IRR,
-     >  '    IPOL : ',IPOL,
-     >  '  TYPERR : ',TYPERR,
-     >  '   TYPAR : ',TYPAR,
-     >  '  TYPDIS : ',TYPDIS,
-     >  '  ERRCEN : ',ERRCEN,
-     >  '  ERRSIG : ',ERRSIG,
-     >  '  ERRCUT : ',ERRCUT,
-     >  '    LBL1 : ',LBL1,
-     >  '    LBL2 : ',LBL2
+     >  '   Error # ',IRR,' : ',
+     >  '         IPOL : ',IPOL,
+     >  '       TYPERR : ',TYPERR,
+     >  '        TYPAR : ',TYPAR,
+     >  '       TYPDIS : ',TYPDIS,
+     >  '       ERRCEN : ',ERRCEN,
+     >  '       ERRSIG : ',ERRSIG,
+     >  '       ERRCUT : ',ERRCUT,
+     >  '         LBL1 : ',LBL1,
+     >  '         LBL2 : ',LBL2
  
       ENDDO
 

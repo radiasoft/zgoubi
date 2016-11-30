@@ -34,7 +34,7 @@ C     ----------------------------------------------
       COMMON/DONT/ TA(MXL,40)
       INCLUDE 'MXFS.H'
       COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),KTI(MXF),KSCL
-      PARAMETER (LBLSIZ=10)
+      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       COMMON /LABEL/ LABEL(MXL,2)
       PARAMETER (KSIZ=10)

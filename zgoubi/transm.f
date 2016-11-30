@@ -98,11 +98,12 @@ C 11     CONTINUE
 C      ENDIF
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,105) IORD,XLM,SCUM
+        WRITE(NRES,105) IORD,XLM,SCUM,DPREF
  105    FORMAT(/,20X,8('+'),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
      >  I1,3X,8('+'), 1P,
      >  /,20X,'Length  of  element  :',G15.4,' m',
-     >  /,20X,'Cumulated  distance  from  origin  =',  E15.4,' m')
+     >  /,20X,'Cumulated  distance  from  origin  =',  E15.4,' m',
+     >  //,20X,'Reference relative rigidity D/D_0|_ref  =',  E15.4)
         I=1
         WRITE(NRES,100) I
  100    FORMAT(//,15X,'TRANSFER  MATRIX  ORDRE',I3,'  (MKSA units)',/)
@@ -132,25 +133,27 @@ C      ENDIF
 C      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
 
       DO 1 I=1,IMAX
-C        FF(6)=F(1,I)
+        FF(6)=F(1,I) -1.D0
 C        FF(6)=DP
-        FF(6)=DPREF-1.D0
+c        FF(6)=DPREF -1.D0
         FF(1)=F(2,I)/1.d2
         FF(2)=F(3,I)/1.d3
         FF(3)=F(4,I)/1.d2
         FF(4)=F(5,I)/1.d3
+        FF(5)=F(6,I)/1.d2
         DO 2 IA=1,6
           FC(IA)=0.D0
           DO 2 IB=1,6
             FC(IA)=FC(IA) + FF(IB) * R(IA,IB)
 C            FC(IA)=FC(IA) + FF(IB) * R(IA,IB)/UNIT(IA)*UNIT(IB)
-            IF(IORD .EQ. 1) GOTO 2
-C            DO 3 IC=1,IB
-            DO 3 IC=1,6
-              FC(IA)=FC(IA) +
-     >          FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
-C     >          FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
- 3          CONTINUE
+            IF(IORD .GE. 2) THEN
+C              DO 3 IC=1,IB
+              DO IC=1,6
+                FC(IA)=FC(IA) +
+     >            FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
+C     >            FF(IB)*FF(IC)*T(IA,IB,IC)/UNIT(IA)*UNIT(IB)*UNIT(IC)
+              ENDDO
+            ENDIF
  2      CONTINUE
 C        F(1,I)=(1.D0+FC(6))*PS/P0
         F(2,I)=FC(1)*1.d2

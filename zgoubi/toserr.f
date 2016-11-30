@@ -69,6 +69,8 @@ C              RELATIVE ERROR
             WRITE(NRES,FMT='(//,5X,A)') '****** Found TYPERR = '//TYPERR
             CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
           ENDIF
+        ELSE
+          CALL ENDJOB('SBR TOSERR. NO SUCH OPTION KPOL=',KPOL(IRR,I))
         ENDIF
       ENDDO      
 

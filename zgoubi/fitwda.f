@@ -51,8 +51,31 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       DOWHILE(TXT132(1:5) .NE.'''END''')
         READ(LR,FMT='(A)',ERR=10,END=10) TXT132
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-        WRITE(LW,FMT='(A)') 
-     >       TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+        IF(TXT132(1:4) .EQ. '''FIT') THEN
+          WRITE(LW,FMT='(A)') 
+     >    ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+          WRITE(LW,FMT='(A)')  
+     >     ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          READ(TXT132,*,ERR=10,END=10) NV
+          DO I = 1, NV
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132       
+            WRITE(LW,FMT='(A)') 
+     >      ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          ENDDO
+          READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+          WRITE(LW,FMT='(A)')  
+     >     ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          READ(TXT132,*,ERR=10,END=10) NC
+          DO I = 1, NC
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132       
+            WRITE(LW,FMT='(A)') 
+     >      ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+          ENDDO
+        ELSE
+          WRITE(LW,FMT='(A)') 
+     >    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+        ENDIF
         IF(TXT132(1:1) .EQ. '''') THEN
           READ(TXT132(105:132),*,ERR=11,END=11) NUEL      ! Position follows from prdata
           IF(NUEL .LT. 0 .OR. NUEL .GT. MXL) GOTO 11
