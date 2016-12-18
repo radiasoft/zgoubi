@@ -2911,20 +2911,20 @@ including field and positionning defects. Uniform and Gaussian distribution laws
 
 \medskip 
 
-\noindent  \textsl{MULTIPOL} can be injected multipole field defects, namely, dipole to 20-pole components.
-The defect can be relative (to the current field value) or absolute (add to the current field value). 
+\noindent  \textsl{MULTIPOL} can be injected multipole field defects on any one of its dipole to 20-pole component.
+The defect can be relative (to the current field value) or absolute (adds to the current field value). 
 
 \medskip 
 
-\noindent  \textsl{TOSCA} can be injected a field defect that applies to the field map as a whole. 
-The defect can be relative (to the current field value) or absolute (add to the current field value). 
+\noindent  \textsl{TOSCA} can be injected a field defect  that applies to the field map as a whole. 
+The defect can be relative (to the current field value) or absolute (adds to the current field value). 
 
 
 \bigskip
 
 \noindent Some rules~: 
 
-- if \textsl{REBELOTE} is used in multi-turn mode (\ie, argment K99), then the same defect series is 
+- if \textsl{REBELOTE} is used in multi-turn mode (\ie, its $K$ argument value is $99$), then the same defect series is 
 applied at each pass, by default. However one may want to simulate one turn by repeating a cell subset, using 
 \textsl{REBELOTE}, in which case  defects of random type in the subset should be changed at each pass. This 
 requires modification in errors.f program.
@@ -4094,7 +4094,7 @@ data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking
 
 \clearpage
 
-\paragraph{\textsl{COMBINING REBELOTE AND FIT[2]} \index{REBELOTE and FIT, combined|textbf}}    %%%%[10]
+\paragraph{\textsl{COMBINING REBELOTE AND FIT[2]} \index{combined with FIT|textbf}}    %%%%[10]
 
 
 \noindent The keyword  \textsl{REBELOTE}  can follow   \textsl{FIT[2]}.  This allows executing again 
@@ -7407,10 +7407,10 @@ Declaring the second label only takes the form '\textsl{[LBL\_1A,LBL\_2A: ,LBL\_
 \medskip
 
 \noindent Because \zgoubi\ uses the reserved name zgoubi.dat as its standard working data file name,  
-and since  the presence of \textsl{INCLUDE} will cause the input data list to be changed (it is expanded, 
-to include all \textsl{INCLUDE} files), as a consequence the input file to zgoubi is no longer allowed the name zgoubi.dat 
-if it contains  \textsl{INCLUDE}  keyword(s) (so to avoid changing the content of the user's 
-input file). This is overcome by using the command 'zgoubi -fileIn myFile' instead, with myFile$\neq$zgoubi.dat 
+and as  the presence of \textsl{INCLUDE} will cause the input data list to be changed (it is expanded  
+to include the content of all included files),  the user's input data file is no longer allowed the name zgoubi.dat 
+if it contains  \textsl{INCLUDE}  keyword(s) (zgoubi.dat is reserved as the name of the expanded
+input file to zgoubi). This is overcome by using the command 'zgoubi -fileIn myFile' instead, with myFile$\neq$zgoubi.dat 
 (see Sec.~\ref{SecRunZgoubi} in PART~D of the guide, page~\pageref{SecRunZgoubi}). 
 
 
@@ -8072,14 +8072,14 @@ available, as follows.
 
 \bigskip
 
-\noindent \textbf{If $\mathbf{IOPT  =  1}$~:} the precession is defined by its axis, at angle  $\mu$ with 
-respect to \zgou's X-axis and assumed in the horizontal plane,  and by its value, $\phi$. 
+\noindent \textbf{If $\mathbf{IOPT  =  1}$~:} the precession is defined by its axis, at angle  $\phi$ with 
+respect to \zgou's X-axis and assumed in the horizontal plane,  and by its value, $\mu$. 
 
 \bigskip
 
-\noindent \textbf{If $\mathbf{IOPT  =  2}$~:}  given the spin precession axis direction $\mu$ in the (X,Y) plane, 
+\noindent \textbf{If $\mathbf{IOPT  =  2}$~:}  given the spin precession axis direction $\phi$ in the (X,Y) plane, 
    the spin precession angle follows a function of the \textsl{reference} Lorentz factor~: 
-  $$\phi (\gamma) = \left(\frac{B}{B_0}\right)^2 \times \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $$
+  $$\mu (\gamma) = \left(\frac{B}{B_0}\right)^2 \times \left( C_0 + \frac{C_1}{\gamma} + \frac{C_2}{\gamma^2}  + \frac{C_3}{\gamma^3} \right) $$
  with $B$ and $B_0$ normally  a nominal and a reference magnetic field value, and $C_i$ empirical coefficients. 
 The \textsl{reference} Lorentz factor corresponds to the reference rigidity 
  \BORO, as defined for instance with \textsl{[MC]OBJET}, possibly updated in the presence of acceleration 

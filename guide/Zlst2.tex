@@ -2664,7 +2664,7 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \newpage
 
 \begin{tabbing}
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $    ~ ~ ~ ~ ~  \quad \=
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $    ~ ~ ~ ~ ~ ~ ~   \quad \=
   $ B=\mathcal{F}B_0 \left(1+N       
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left( ~ 
                 \right) \right) $, more ~ ~ ~ \quad  \= 2*cm \quad \= \kill
@@ -2677,143 +2677,199 @@ $ J$, $X_{\text{min}}$, $X_{\text{max}}$,  \>$J$ = type of coordinate to be hist
 \\
 \textbf{NBF following lines (one file name per line)~:} \\
 \\
- \textsl{FNAME} \textsl{, [ [LBL\_1A [, LBL\_2A]]:}  \>Name of input zgoubi.dat-style file to be included. \textsl{LBL\_A}~:   \> \>A80 [,[A10], [A10]] \\ %
-\textsl{[LBL\_1B [, LBL\_2B]]:}   \>  entrance branching tag, \textsl{LBL\_B}~: exit branching tag.  \\ %%
+ \textsl{FNAME} \textsl{[, [LBL\_1A [, LBL\_2A]]:}  \>Name of input zgoubi.dat-style file to be included. \textsl{LBL\_A}~:   \> \>A80 [,[A10], [A10]] \\ %
+\textsl{[LBL\_1B [, LBL\_2B]]}   \>  entrance branching tag, \textsl{LBL\_B}~: exit branching tag.  \\ %%
 \end{tabbing}
 
 
-\vspace{2ex}
-\centerline{\rule{5cm}{0.1mm}}
-\vspace{2ex}
+\clearpage
 
 \noindent  $\bullet$  Using \textbf{INCLUDE}~: An example. \label{ExaINCLUDE-GOTO} \\
 
 \smallskip 
 
-\noindent In this example of an energy-recovery electron recirculator, the linac, spreader and combiner data lists 
-are given in separate files, declared as  \textsl{INCLUDE}s (see example page~\pageref{ExaREBELOTE} 
-for details regarding this recirculator configuration). Using  \textsl{INCLUDE} has a series of  merits~: 
+\noindent In this example of an energy-recovery electron recirculator~\cite{CBETA}, the linac, spreader and combiner data lists 
+are given in separate files, declared as  \textsl{INCLUDE}s. 
+Using  \textsl{INCLUDE} has a series of  merits~: 
 
 -  it shortens the parent input data file, so making the optical structure more apparent, 
 
 - it allows picking optical spreader, combiner and ring sequences from  files that may actually be 
 set to -~for instance~- compute optical parameters~; in that case, LBL\_A and LBL\_B are used for this targetted picking~: they define the ends 
 of the sequence to be \textsl{INCLUDE}'d, ignoring the upper and lower parts in the \textsl{INCLUDE}'d file 
-(which are specific -~for instance~-  to MATRIX computations).   
+(which may be specific, for instance,  to MATRIX computations).   
 
+\medskip
 
-\noindent The juggling between the linac, spreaders, combiners and recirculating ring, 
-is handled using \textsl{GOTO} statement. 
+\noindent Note the following~:  (i)~juggling between linac, spreaders, combiners and recirculating ring, 
+is handled using \textsl{GOTO} statement, (ii)~the use of \textsl{REBELOTE} in this ERL 
+context is discussed in an example page~\pageref{ExaREBELOTE}.  
 
 \bigskip
 
+\noindent
 \begin{minipage}[h]{.55\linewidth}
 {\tiny
 \begin{verbatim}
-eRHIC ENERGY RECOVERY LINAC RECIRCULATOR WITH FFAG ARCS.
- 'MCOBJET'                                               1
-57.36635309d3         reference rigidity (kG.cm) 
-3   
-2000
-2 2 2 2 1 1    
--5.360667E-03   5.059706E-3  0. 0. 0.   4.619439E-01  'o'
-0. 1   0.   3  
-0. 1   0.   3  
-0. 1.  0.     3
-123456 234567 345678                                         
- 'PARTICUL'                                              2
-0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0       
- 'SPNTRK'                                                3
- 'FAISCEAU'                                              4    
- 'SRLOSS'                                                5
-1   srLoss     
-MULTIPOL       
-1  123456      
- 'SCALING'                                               6
-1  1
-MULTIPOL       
--1  
-57.36635309 57.36635309                                  
-1           11     
- 'MARKER'   ARC#S_1                                      7
- 'OPTIONS'                                               8
-1  1
-WRITE OFF                                                
- 'MARKER'   MARK      CELLSTART                          9
- 'DRIFT'    DRIF      HD                                10
-14.547181      
- 'MULTIPOL' RBEN      BD2                               11
-0  .Dip        
-90. 10. 0. -0.87159105   0. 0. 0. 0. 0. 0. 0. 0.
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
-#30|90|30    Dip  BD2                                    
-3   0.0E+00   4.0704703E-01  -1.5071892929E-03         
- 'DRIFT'    DRIF      D                                 12
-29.094362      
+Cornell CBETA prototype (of an eRHIC) FFAG arc ERL
+ 'MCOBJET'
+19.9411300960454126   ! T.m    E_tot=6MeV
+5.01
+.01 .01 .01 .01 .01 .01 
+0. 0. 0. 0. 0. 1. 
+-0.8475 1.5739 -0.8481 1.59 0. 1. 7.49E-03  4.12E-03 0. 0.
+ 'PARTICUL' 
+0.51099892 1.60217653e-19 1.15965218076e-3 0.0 0.0
+  
+ 'ERRORS' 
+0 1 123466                   dB(kG)
+MULTIPOL{}  1  BP A U 0.d0   0.0  9999
+ 
+ 'SCALING' 
+1  2
+MULTIPOL  
+2
+1.  1.  
+1 9999
+MULTIPOL SA1.1 SB1.1
+2
+1.  1.  
+1 9999
+
+'OPTIONS' 
+1  1 
+WRITE ON 
+
+!////// Racetrack sequence starts here, at linac entrance
+! Linac
+'INCLUDE'
+1
+./LA/LA_obj5.inc[LA.MAR.BEG\1:LA.MAR.END\1]
+
+! Goto splitter line
+ 'GOTO'        
+PASS#
+SA1 SA2 SA3 SA4 SA3 SA2 SA1
+ 'MARKER' RT_SA
+
+! Goto FFAG return loop : arc+(DS+straight+DS)+arc
+ 'GOTO'        
+PASS#
+FA FA FA FA FA FA FA FA
+ 'MARKER' RT_FA
+ 'GOTO'        
+PASS#
+ X X X X X X X X 
+ 'MARKER' RT_X
+ 'GOTO'        
+PASS#
+FB FB FB FB FB FB FB FB
+ 'MARKER' RT_FB
+
+! Goto combiner line
+ 'GOTO'        
+PASS#
+SB1 SB2 SB3 SB4 SB3 SB2 SB1
+ 'MARKER' RT_SB
+ 
+ 'MATRIX'                                                                             
+1 0
+ 
+ 'MARKER'  rebelote                                   
+ 'REBELOTE'  ! send zgoubi pointer back to 
+7  0.1  99   ! the top (and linac entrance), 7 times
+ 
+ 'MARKER'  stop                                                                          
+ 'STOP'                                                                                   
+!////////////////////
+!// job done, here //
+!////////////////////
 \end{verbatim}
 \index{zgoubi.SPNPRT.Out}
 }
 \end{minipage}\hspace{0.03\linewidth}
 \begin{minipage}[h]{.38\linewidth}
-\centering
-%\centerline{\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=470,width=.9\linewidth]{}}
 {\tiny
 \begin{verbatim}
- 'MULTIPOL' RBEN      QF2                               13
-0  .Dip        
-110.  10.  0. 0.86286642  0. 0.0 0.0 0.0 0.0 0.0 0.0 0.0     
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 10.00  4.0  0.800 0.00 0.00 0.00 0.00 0. 0. 0. 0.  
-4  .1455   2.2670  -.6395  1.1558  0. 0.  0.             
-0. 0. 0. 0. 0. 0. 0. 0. 0. 0.                            
-#30|110|30    Dip  QF2                                   
-3   0.  -3.6008008661E-01  -1.8710983347E-03            
- 'DRIFT'    DRIF      HD                                14
-14.547181      
- 'MARKER'   MARK      CELLEND                           15
-----------------------------------------------------
-6*138-1 additional such FD cells, simulating a 6 arc 
-energy recovery ring, 138 cells per arc. 
-----------------------------------------------------
- 'MARKER'   ARC#E_6                                   5820    
- 'OPTIONS'                                            5821
-1  1
-WRITE ON       
- 'FAISTORE'                                           5822
-zgoubi.fai     
-1   
- 'FAISCEAU'                                           5823
- 'CAVITE'                                             5824
-3   
-0  0
-1.322e9  1.57079632679                           
- 'AUTOREF'                                            5825
-4.1 
-0. -5.168354E-01 4.169759E+00  5.38813280E-01            
- 'FAISCEAU'                                           5826
- 'REBELOTE'                                           5827
-20  0.1 99 1   
-4   
-AUTOREF 11 -4.7493E-01 -4.1290E-01 -3.3292E-01 -2.3684E-01 
--1.26268E-01 -2.59705E-03   ... (a list of 20 values) 
-AUTOREF 12  3.34619E+00  2.58215E+00  1.87157E+00  1.20916 
- 5.90197E-01  1.05897E-02   ... (a list of 20 values) 
-AUTOREF 13 .615682680   .692552080   .769421480  .84629088   
-.923160280    1.00002970    ... (a list of 20 values) 
-CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9 
-... (15 more voltage values) ...  -1.30660e9  -1.309577e9 
- 'SRPRNT'                                             5828
- 'END'                                                5829
+! Splitter lines
+'MARKER'  SA1
+'INCLUDE'
+1
+./SA/SA1.inc[LA.MATCH1:S1.MERGE.MAR.END\1]
+ 'GOTO' 
+GOBACK
+'MARKER'  SA2
+'INCLUDE'
+1
+./SA/SA2.inc[LA.DEMER.MAR.BEG\2:S1.MERGE.MAR.END\2]
+ 'GOTO'                 
+GOBACK
+'MARKER'  SA3
+'INCLUDE'
+1
+./SA/SA3.inc[SA3#S:SA3#E]
+ 'GOTO'                 
+GOBACK
+'MARKER'  SA4
+'INCLUDE'
+1
+./SA/SA4.inc[SA4#S:SA4#E]
+ 'GOTO'                 
+GOBACK
+  
+'MARKER'  FA
+'INCLUDE'
+1
+./FA/FA.inc[FA#S:FA#E]
+ 'GOTO'                 
+GOBACK
+  
+'MARKER'  X
+'INCLUDE'
+1
+./X./X.inc[X#S:X#E]
+ 'GOTO'                 
+GOBACK
+  
+'MARKER'  FB
+'INCLUDE'
+1
+./FB/FB.inc[FB#S:FB#E]
+ 'GOTO'                 
+GOBACK
+  
+! Combiner lines
+'MARKER'  SB1
+'INCLUDE'
+1
+./SB/SB1.inc[SB1#S:SB1#E]
+ 'GOTO'                 
+GOBACK
+'MARKER'  SB2
+'INCLUDE'
+1
+./SB/SB2.inc[SB2#S:SB2#E]
+ 'GOTO'                 
+GOBACK
+'MARKER'  SB3
+'INCLUDE'
+1
+./SB/SB3.inc[SB3#S:SB3#E]
+ 'GOTO'                 
+GOBACK
+'MARKER'  SB4
+'INCLUDE'
+1
+./SB/SB4.inc[SB4#S:SB4#E]
+ 'GOTO'                 
+GOBACK
+  
+'MATRIX'                                                                                    
+1  0 
+'END'                                                                                       
 \end{verbatim}
 }
 \end{minipage}
-
-\bigskip 
 
 
 
@@ -4092,7 +4148,7 @@ X_S $ translations.}
  \textsl{[, Label1 [, Label2]]} \> $K$  option~: \> 0-1~; 0, 22, 99 \> 2A10 \\
  \>$K=0$ : initial conditions (coordinates and spins\index{spin tracking}) \>\>\\
  \>are generated following the regular functioning \>\>\\
- \>of object definitions. If random generators are \>\>\\
+ \>of \textsl{[MC]OBJET}. If random generators are \>\>\\
  \>used (\emph{e.g.} in \textsl{MCOBJET}\index{MCOBJET}) their seeds will not be reset. \>\>\\
 % \>$K=22$ :  next run will account for new parameter values in \>\>\\
 % \>zgoubi.dat data list, see below. \>\>\\
@@ -4110,12 +4166,15 @@ X_S $ translations.}
 \textbf{If IOPT = 1~\footnotemark[1]}          \>   \>         \>    \\[2ex]  \label{REBEL_IOPT}
 \textsl{NPRM}    \>  Number of parameters to be changed at each of the  NPASS passes. \>        \>  I  \\[1ex]
 \bf \textsl{NPRM } lines with the following sequence (tells parameters concerned, and for each, its successive values)~: \\[.5ex]
-\textsl{LMNT}, \textsl{KPRM}, NV*Val
+\textsl{LMNT}, \textsl{KPRM}, values
          \> \textsl{LMNT}~: two possibilities, (i)~keyword number in zgoubi.dat \>  -, -, NV*dim~\footnotemark[2] \>  2*I, NV*E \\
          \>  sequence~; (ii)~\textsl{KEYWORD[, LABEL]}, i.e., keyword concerned   \>  \\
-         \>  followed optionnally by is label  \>  \\
+         \>  followed optionnally by is label~;  \>  \\
          \>  \textsl{KPRM}~: parameter number under that keyword (similar nomenclature  \>  \\
-         \>   to FIT[2],  see page~\pageref{FIT-B})~; then follow the \textsl{NPASS} parameter values. \>  \\
+         \>   to FIT[2],  see page~\pageref{FIT-B})~;  \>  \\
+         \>   \textsl{'values'} are  the new parameter values. It can take two forms~: \>  \\
+         \>   - either an explicit list of  \textsl{NPASS} values \>  \\
+         \>   - or, first\_value:last\_value (interval will be (first\_value - first\_value)(npass-1))   \>  \\
 \end{tabbing}
 
 
@@ -4515,13 +4574,13 @@ $ X$, $X $        \> Unused \> 2*unused\> 2*E\\
   \\
 \textbf{If IOPT=1}  \> \bf Axis and spin precession angle values.\\
  \\
- $\mu$, $\phi$ \> Angle (in $(X,Y)$ plane) between the X-axis and the spin precession \> deg, deg \> 2*E \\
+ $\phi$, $\mu$ \> Angle (in $(X,Y)$ plane) between the X-axis and the spin precession \> deg, deg \> 2*E \\
                 \>  axis~; spin precession angle around that axis. \>  \>  \\
 \\
-\textbf{If IOPT=2}  \>\bf Given the spin precession axis direction, $\mu$, in the horizontal plane, the spin precession \\
-   \> \bf angle follows a function of the Lorentz factor~: $\phi(\gamma) = \left(\dfrac{B}{B_0}\right)^2 * \left( C_0 + \dfrac{C_1}{\gamma} + \dfrac{C_2}{\gamma^2}  + \dfrac{C_3}{\gamma^3} \right) $  \\
+\textbf{If IOPT=2}  \>\bf Given the spin precession axis direction, $\phi$, in the horizontal plane, the spin precession \\
+   \> \bf angle follows a function of the Lorentz factor~: $\mu (\gamma) = \left(\dfrac{B}{B_0}\right)^2 * \left( C_0 + \dfrac{C_1}{\gamma} + \dfrac{C_2}{\gamma^2}  + \dfrac{C_3}{\gamma^3} \right) $  \\
  \\
-$\mu$, $B$, $B_0$,  \> Angle  (in $(X,Y)$ plane)  between the X-axis and the spin  \> deg.; 6*no dim \> 7*E \\
+$\phi$, $B$, $B_0$,  \> Angle  (in $(X,Y)$ plane)  between the X-axis and the spin  \> deg.; 6*no dim \> 7*E \\
 $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define the spin precession \>  \>  \\
   \> around that axis. \>  \>  \\
 \end{tabbing}

@@ -34,11 +34,13 @@ C     ***************************************
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
       CHARACTER(8) TXTA, TXTB
-      CHARACTER(300) TXT300
+      PARAMETER(I300=300)
+      CHARACTER(I300) TXT300
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       PARAMETER (I4=4)
-      CHARACTER(20) STRA(I4)
+      CHARACTER(I300) STRA(I4)
+      CHARACTER(10) STRA3
       CHARACTER(30) STRING
       LOGICAL OKKLE
 
@@ -47,9 +49,12 @@ C     ***************************************
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) TPRM(MXPRM,3)
       LOGICAL ISNUM
-      data ia4 / 0 /
+      PARAMETER (I3=3)
 
-      READ(NDAT,FMT='(A)') TXT300
+      DATA IA4 / 0 /
+
+      LINE = 1
+      READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
       IF(STRCON(TXT300,'!',
      >                     II))
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
@@ -81,30 +86,33 @@ C     ***************************************
       A(NOEL,4) = IA4
 
       IF    (IA4 .EQ. 1) THEN
-C WILL 'REBELOTE' USING NEW VALUE FOR PARAMETER #KPRM IN ELEMENT #KLM. 
+C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for parameter #KPRM in element #KLM. 
         IF(NRBLT .GT. MXLST) 
      >  CALL ENDJOB(
      >  'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT=',
      >  NRBLT)
-        READ(NDAT,*) NPRM
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=98,END=98) NPRM
         IF(NPRM .GT. MXPRM) 
      >    CALL ENDJOB('SBR RREBEL. Too many parameters, has to be .le. '
      >    ,MXPRM)
         A(NOEL,10) = NPRM
 
         DO IPRM = 1, NPRM
-          READ(NDAT,FMT='(A)') TXT300
+          LINE = LINE + 1
+          READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
           IF(STRCON(TXT300,'!',
      >                          II))
      >    TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
 
-          READ(TXT300,*) STRING
+          READ(TXT300,*,ERR=98,END=98) STRING
 
 C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence 
           IF(ISNUM(STRING)) THEN
 
             READ(TXT300,*,ERR=79,END=79) 
-     >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+     >        KLM, KPRM, TXT300
+C     >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
 C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
@@ -136,24 +144,28 @@ C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
               TPRM(IPRM,2) = ' '
             ENDIF
             TPRM(IPRM,3) = ' '
+
             IEL = 1
             OKKLE = .FALSE.
             DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
               IF( TPRM(IPRM,1) .EQ. 
      >          KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))
      >          .AND.
-     >          TPRM(IPRM,2) .eq. label(iel,1))  OKKLE = .TRUE.
+     >          TPRM(IPRM,2) .EQ. LABEL(IEL,1))  OKKLE = .TRUE.
 c                 write(*,*) iel,KLE(IQ(IEL)),label(iel,1)
 c                 write(*,*) iel,TPRM(IPRM,1) ,TPRM(IPRM,2)
               IEL = IEL + 1
             ENDDO
+
             IF(OKKLE) THEN
               KLM = IEL - 1
 C Keyword with parameter to be changed
 C            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
               BACKSPACE(NDAT)
-              READ(NDAT,*,ERR=79,END=79) 
-     >          STRING,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
+              LINE = LINE + 1
+              READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
+              CALL STRGET(TXT300,I3,
+     >                              NSR,STRA)
               TPRM(IPRM,3) = ' '
             ELSE
                 WRITE(abs(nres),fmt='(a)')
@@ -169,23 +181,44 @@ C            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
 
           ENDIF
 
-
-C                write(*,*) ' rrebel ',TPRM(IPRM,1),TPRM(IPRM,2),string
-C                write(*,*) ' rrebel ',okkle
+          IF(STRCON(STRA(I3),':',
+     >                           IS)) THEN
+C DO loop style, V1:V_NRBLT
+            READ(TXT300,*,ERR=98,END=98) STRING, KPRM
+            READ(STRA(I3)(1:IS-1),*,ERR=98,END=98) VA
+            READ(STRA(I3)(IS+1:FINSTR(STRA(I3))),*,ERR=98,END=98) VB
+            IF    (NRBLT.LE.0) THEN
+            ELSEIF(NRBLT.EQ.1) THEN
+              PARAM(IPRM,1) = VA
+            ELSEIF(NRBLT.LE.MXLST) THEN
+              DV = (VB-VA)/DBLE(NRBLT-1)
+              DO I = 1, NRBLT
+                PARAM(IPRM,I) = VA + DBLE(I-1)*DV
+              ENDDO
+            ELSE
+              CALL ENDJOB('Sbr rrebel. List too large, must contain '
+     >        //'number of data .le. nrblt=',NRBLT)
+            ENDIF
+          ELSE
+C List style, V1, V2, ..., V_NRBLT
+            READ(TXT300,*,ERR=98,END=98) 
+     >      STRING, KPRM, (PARAM(IPRM,I),I=1,NRBLT)
+          ENDIF
           GOTO 80
 
  79       CONTINUE
-          WRITE(6,*)
-          WRITE(6,*)
+          WRITE(6,FMT='(A)') ' '
+          WRITE(6,FMT='(A)')
      >    'SBR RREBEL. Stopped while reading list of parameter values.'
-          CALL ENDJOB('Give NRBLT .le. number of values in list.',-99)
+     >    //' Give NRBLT .le. number of values in list.'
+          GOTO 98
 
  80       CONTINUE
-          A(NOEL,20+10*(iprm-1)) = KLM
-          A(NOEL,21+10*(iprm-1)) = KPRM
+          A(NOEL,20+10*(IPRM-1)) = KLM
+          A(NOEL,21+10*(IPRM-1)) = KPRM
           IF(NRBLT .GT. MXLST) 
-     >      CALL ENDJOB('SBR RREBEL. TOO MANY DATA, # MUST BE .LE.'
-     >      //' NRBLT=',NRBLT)
+     >      CALL ENDJOB('Sbr rrebel. Too many data, # must be .LE.'
+     >      //' nrblt=',NRBLT)
 
 c             WRITE(*,*) ' RREBEL ', 
 c     >       ' NOEL= ',noel,
@@ -201,13 +234,13 @@ c                     read(*,*)
         NOELB = NOEL
       ENDIF
 
-      IF(STRCON(STRA(3),'.',
-     >                      II)) THEN
-        READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
+C      IF(STRCON(STRA(3),'.',
+C     >                      II)) THEN
+C        READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
         IF(IOP .GE. 1) THEN
           IF(IOP .EQ. 1) THEN
 C GET LABEL, DEDUCE RELATED NOEL : MULTI-PASS TRACKING WILL LOOP OVER NOEL-REBELOTE   
-            READ(TXT300,*) DUM,DUM,DUM,TXTA
+            READ(TXT300,*,ERR=98,END=98) DUM,DUM,DUM,TXTA
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
                 NOELA = JJ
@@ -219,7 +252,7 @@ C GET LABEL, DEDUCE RELATED NOEL : MULTI-PASS TRACKING WILL LOOP OVER NOEL-REBEL
             NOELB = NOEL
           ELSEIF(IOP .EQ. 2) THEN
 C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-NOEL2
-            READ(TXT300,*) DUM,DUM,DUM,TXTA,TXTB
+            READ(TXT300,*,ERR=98,END=98) DUM,DUM,DUM,TXTA,TXTB
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
                 NOELA = JJ
@@ -243,17 +276,18 @@ C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-
           NOELA = 1
           NOELB = NOEL
         ENDIF
-      ELSE
-        NOELA = 1
-        NOELB = NOEL
-      ENDIF
+C      ELSE
+C        NOELA = 1
+C        NOELB = NOEL
+C      ENDIF
 
       CALL REBEL6(NOELA, NOELB)
 
       RETURN
 
  98   CONTINUE
-      CALL ENDJOB(' SBR RREBEL, WRONG INPUT DATA / ELEMENT #',-99)
+      CALL ENDJOB('*** Pgm robjet, keyword ''REBELOTE'' : '// 
+     >'input data error, at line ',LINE)
       RETURN
-
+ 
       END

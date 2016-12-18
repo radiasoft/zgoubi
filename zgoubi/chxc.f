@@ -851,11 +851,11 @@ C Check that : close does not seem to idle lun => makes problem with FIT !!
           IF(MOD2 .GE. 1 ) THEN
             IF    (MOD2 .EQ. 1 ) THEN
               WRITE(NRES,FMT='(5X,''Field map scaled by''
-     >      ,'' factor   '',1P, E14.6)') AA(NOEL,24)
+     >      ,'' factor  a(1) = '',1P, E14.6)') AA(NOEL,24)
             ELSEIF(MOD2 .LE. MXC ) THEN
               WRITE(NRES,FMT='(5X,''Field from '',I2
-     >        ,'' map(s) is combined (summed up) with ''
-     >        ,'' linear combination coefficient(s, respectively) : ''
+     >        ,'' map(s) is combined (summed up) with linear ''
+     >        ,''combination coefficient(s) a(i=1-4), respectively) : ''
      >        ,/,10X,1P, 4E14.6
      >        )') MOD2, (AA(NOEL,I),I = 24, 23+MOD2)
             ELSE

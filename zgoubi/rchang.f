@@ -30,6 +30,7 @@ C  -------
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(2) TXT2
+      CHARACTER(5) TXT5
       CHARACTER(1) TXT1
       CHARACTER(132) TXT
 
@@ -37,12 +38,17 @@ C  -------
       PARAMETER (MSR=8,MSR2=2*MSR)
       CHARACTER(30) SSHRO(MSR2)
       LOGICAL STRCON 
+      CHARACTER(3) TXDIM
+      PARAMETER (PI = 4.D0 * ATAN(1.D0))
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) KLE
 
       LINE = 1
       READ(NDAT,FMT='(A)',ERR=99,END=99) TXT
       IF(STRCON(TXT,'!',
      >                  IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
+
       TXT1 = TXT(1:1)
       IF( TXT1.EQ.'X' .OR.
      >    TXT1.EQ.'Y' .OR. 
@@ -53,17 +59,42 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         II = NSR2/2
         DO I=1,II
           TXT2 = SSHRO(2*I-1)(1:2)
+          TXT5 = SSHRO(2*I-1)(3:7)
+
           IF(TXT2(1:1).EQ.'X' .OR.
-     >       TXT2(1:1).EQ.'Y' .OR.
-     >       TXT2(1:1).EQ.'Z' ) THEN
-             IF(TXT2(2:2).EQ.'S' .OR.
-     >       TXT2(2:2).EQ.'R' ) THEN
+     >    TXT2(1:1).EQ.'Y' .OR.
+     >    TXT2(1:1).EQ.'Z' ) THEN
+
+            IF(TXT2(2:2).EQ.'S' .OR.
+     >      TXT2(2:2).EQ.'R' ) THEN
                TA(NOEL,I) = TXT2
                READ(SSHRO(2*I),*) A(NOEL,I)
-             ELSE
-               NSR = II-1
-               GOTO 10
-             ENDIF
+            ELSE
+              NSR = II-1
+              GOTO 10
+            ENDIF
+
+            IF(TXT5(1:1).EQ.'[') THEN
+              IF(STRCON(TXT5,']',
+     >                           IS)) THEN
+                READ(TXT5(2:IS-1),*) TXDIM
+                IF    (TXDIM.EQ.'cm') THEN
+                ELSEIF(TXDIM.EQ.'m') THEN
+                  A(NOEL,I) = A(NOEL,I) * 1.D2
+                ELSEIF(TXDIM.EQ.'mm') THEN
+                  A(NOEL,I) = A(NOEL,I) * 1.D-1
+                ELSEIF(TXDIM.EQ.'deg') THEN
+                ELSEIF(TXDIM.EQ.'rd') THEN
+                  A(NOEL,I) = A(NOEL,I) * 180.D0/PI
+                ELSEIF(TXDIM.EQ.'mrd') THEN
+                  A(NOEL,I) = A(NOEL,I) * 180.D0/PI*1.D-3
+                ELSE
+                  GOTO 99
+                ENDIF
+              ELSE
+                GOTO 90
+              ENDIF
+            ENDIF
           ELSE
             NSR = II-1
             GOTO 10
@@ -89,7 +120,6 @@ C old style, x- and y-shift followed by z-rotation
         TA(NOEL,2) = 'YS'
         TA(NOEL,3) = 'ZR'
         TA(NOEL,4) = 'OL'
-
       ENDIF
 
       IF(NSR .GT. MSR)
@@ -99,9 +129,17 @@ C old style, x- and y-shift followed by z-rotation
       RETURN
 
  99   WRITE(6,*) 
-     >  ' *** Execution stopped upon READ : invalid input in CHANGREF'
+     >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
       WRITE(NRES ,*) 
-     >  ' *** Execution stopped upon READ : invalid input in CHANGREF'
+     >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
+      GOTO 90
+      
+ 90   CONTINUE
+      CALL ZGKLEY( 
+     >            KLE)
+      CALL ENDJOB('*** Pgm rchang, keyword '//KLE//' : '// 
+     >'input data error, at line ',LINE)
+      RETURN
       
       RETURN
       END

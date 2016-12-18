@@ -47,8 +47,8 @@ C      PARAMETER (MXTA=45)
 C     ....IOPT -OPTION
       LINE = 1
       READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      
-      READ(TXT132,*,ERR=90,END=90) IOPT
-      A(NOEL,1) = IOPT
+      READ(TXT132,*,ERR=90,END=90) A(NOEL,1)
+      IOPT = A(NOEL,1)
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
 

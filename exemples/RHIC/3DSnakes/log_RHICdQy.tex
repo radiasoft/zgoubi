@@ -1,0 +1,447 @@
+\documentclass[10pt]{article}
+
+%\usepackage{draftcopy}
+%\usepackage[draft]{graphicx}
+\usepackage{graphicx}
+%\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{lscape}
+\usepackage{times}
+\usepackage{color}  % For \textcolor and \color % Ex. : \textcolor{red}{Text colored with} ; {\color{red}Text colored with}
+\usepackage{soul}   % For \hl{ highlighted text} ; \sethlcolor{colorname}
+%\usepackage[table]{xcolor}
+\usepackage{xcolor,colortbl}
+
+%----------------------
+%   portrait
+%\oddsidemargin =-0.4in
+%\evensidemargin=-0.4in
+%\textwidth=6.8in
+%\textheight=8in
+%\topmargin=-1.in
+%\footskip=0in
+%   landscape
+ \oddsidemargin =-0.8in                            
+ \evensidemargin=-0.8in                            
+ \textwidth=8.2in              
+ \textheight=10.1in  
+ \topmargin=-.9in  % laptop
+% \topmargin=-.15in  % owl
+ \footskip=0in       
+%----------------------
+
+\newcommand{\Br}{\ensuremath{B\!\rho}}
+\newcommand{\bull}{\ensuremath{\bullet~}}
+\newcommand{\Bz}{\ensuremath{{B_z}}}
+\newcommand{\CE}{concentration ellipse}
+\newcommand{\CES}{CE-$\mathcal{S}$}
+\newcommand{\com}{{center of mass}}
+\newcommand{\dEE}{\small \ensuremath{\frac{dE}{E}}}
+\newcommand{\dip}{\textit{ DIPOLE}}
+\newcommand{\eg}{\textsl{e.g.}}
+\newcommand{\EFB}{\ensuremath{E\!F\!B}}
+\newcommand{\EFBs}{\ensuremath{E\!F\!B\!s}}
+\newcommand{\ffag}{\textit{ FFAG}}
+\newcommand{\hel}{\ensuremath{\mathbf{^3 H\! e ^{2+}}}}
+\newcommand{\hbrk}{\hfill \break}
+\newcommand{\x}{\ensuremath{x}} 
+\newcommand{\xp}{\ensuremath{{x'}}}
+\newcommand{\y}{\ensuremath{y} }
+\newcommand{\yp}{\ensuremath{{y'}}}
+\newcommand{\dl}{\ensuremath{{\delta l}}} 
+\newcommand{\lab}{\ensuremath{lab. frame}}
+\newcommand{\MC}{Monte~Carlo}
+\newcommand{\nib}{\noindent \ensuremath{\bullet~}}
+\newcommand{\nin}{\noindent~}
+\newcommand{\p}{\ensuremath{\mathbf{p}}}
+\newcommand{\pp}{$p\! \! \uparrow$}
+\newcommand{\rms}{\ensuremath{rms}}
+\newcommand{\SRl}{SR loss}
+\newcommand{\Sx}{\ensuremath{\mathcal{S}_x}}
+\newcommand{\Sy}{\ensuremath{\mathcal{S}_y}}
+\newcommand{\Sz}{\ensuremath{\mathcal{S}_z}}
+\newcommand{\wrt}{{with respect to}}
+\newcommand{\Y}{\ensuremath{Y} }
+\newcommand{\Yp}{\ensuremath{{Y'}}}
+\newcommand{\z}{Zgoubi}
+
+
+\newcommand{\C}{\ensuremath{\mathcal{C}}}
+\newcommand{\D}{\ensuremath{\mathcal{D}}}
+\newcommand{\HH}{\ensuremath{\mathcal{H}}}
+\newcommand{\bHH}{\bar \HH}
+\newcommand{\LL}{\ensuremath{\mathcal{L}}}
+\newcommand{\zg}{Zgoubi}
+
+\newcommand{\black}{\color{black}}
+\newcommand{\red}{\color{red}}
+\newcommand{\green}{\color{green}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\BurntOrange}{\color{BurntOrange}}
+
+\newcommand{\hlyell}[1]{{\sethlcolor{yellow}\hl{#1}}}
+\newcommand{\hlcyan}[1]{{\sethlcolor{cyan}\hl{#1}}}
+
+\newcolumntype{a}{>{\columncolor{gray!40!white}}c}
+\newcolumntype{b}{>{\columncolor{blue!10!white}}c}
+
+\definecolor{yell80}{rgb}{1,1,.8}
+\definecolor{yell60}{rgb}{1,1,.6}
+\definecolor{yell40}{rgb}{1,1,.4}
+\definecolor{yell20}{rgb}{1,1,.2}
+\definecolor{bluelight}{rgb}{.75,.946,1.}
+
+\newcommand{\referenceA}{\rm }
+\newcommand{\referenceB}{\rm F. M\'eot, Dec. 2016}
+\newcommand{\referenceC}{\rm }
+
+\markboth{\small  \referenceA ~ ~   \referenceB ~ ~  \referenceC \hfill }
+         {\small  \referenceA ~ ~   \referenceB ~ ~  \referenceC \hfill }
+
+
+
+\begin{document}
+\landscape
+
+\Large  \bf
+
+\thispagestyle{myheadings}
+
+
+\title{
+%\bf  \includegraphics{nufact4c_small.eps}
+  \hfill  \referenceA \\
+ \hfill \referenceB  \\
+ \hfill \referenceC  \\
+~ ~ ~ \\
+{\bf \blue
+\Huge Effect of snakes on tunes and chromas, at injection
+} 
+}
+
+\date{}
+
+\pagestyle{headings}
+
+\maketitle
+
+\tableofcontents
+
+ 
+
+
+\clearpage
+
+\nib RHIC 4-module snakes are simulated using Ramesh's two 3D OPERA maps of respectively  
+right-handed and  left-handed modules. 
+
+~
+
+\nib Tunes and chromas,  snakes off or on, $G\gamma = 45.5$. 
+
+Note~: inkection optics should be used, collision is, instead, for now (optical functions 
+plots in slied \# \pageref{slide:optics}). Snakes change the  focusing in IR regions, 
+this may have substantial effect on tune. This has to be updated with proper optics.  
+
+~
+
+~
+
+\begin{minipage}{1.\linewidth}
+
+\begin{minipage}{.49\linewidth}
+SNAKES OFF
+\tiny
+\begin{verbatim}
+  Reference, before change of frame (part #     1)  : 
+   0.  -3.46581390E-06  -1.18678295E-05   0.   0.   3.83384557E+05   1.27982715E+01
+
+                TWISS  parameters,  periodicity  of   1  is  assumed 
+                                   -  COUPLED  -
+
+       Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
+           1.949062     0.058889     0.000000     0.000000     0.000000     0.001580
+           0.058889     0.514847     0.000000     0.000000     0.000000     0.002030
+           0.000000     0.000000     2.059936    -0.027239     0.000000     0.000000
+           0.000000     0.000000    -0.027239     0.485812     0.000000     0.000000
+           0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
+
+                              Betatron  tunes  (Q1 Q2 modes)
+
+                    NU_Y =  0.68499553         NU_Z =  0.67299602    
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.68499553           0.67299602
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                   -0.05888897           0.02723900
+                                - BETA:                                     1.94906212           2.05993600
+                                - GAMMA:                                    0.51484655           0.48581216
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:     0.00000000
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00000000
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.00000000
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.68499553
+                           - UNPERTURBED VERTICAL TUNE:                                 0.67299602
+
+                                   Momentum compaction : 
+
+                              dL/L / dp/p =  1.78866203E-03
+     (dp =  1.000000E-04      L(0)   =    3.83385E+05 cm,  L(0)-L(-dp) =    6.85822E-02 cm,  L(0)-L(+dp) =   -6.85669E-02 cm) 
+
+                                   Transition gamma  =  2.36448115E+01
+
+                                   Chromaticities : 
+
+                              dNu_y / dp/p =  2.00068579E+00
+                              dNu_z / dp/p =  1.99970750E+00
+\end{verbatim}
+\end{minipage}
+\begin{minipage}{.001\linewidth}
+\rule{0.1mm}{11cm}
+\end{minipage}
+\begin{minipage}{.49\linewidth}
+SNAKES ON
+
+\tiny
+\begin{verbatim}
+  Reference, before change of frame (part #     1)  : 
+   0.  -4.56024376E-06   6.31737633E-06  -1.55944093E-06   3.37854334E-05   3.83384968E+05   1.27982854E+01
+
+                TWISS  parameters,  periodicity  of   1  is  assumed 
+                                   -  COUPLED  -
+
+       Beam  matrix  (beta/-alpha/-alpha/gamma) and  periodic  dispersion  (MKSA units)
+           1.936703     0.050666     0.000000     0.000000     0.000000     0.000149
+           0.050666     0.517667     0.000000     0.000000     0.000000     0.001667
+           0.000000     0.000000     2.007300    -0.332127     0.000000    -0.000119
+           0.000000     0.000000    -0.332127     0.553135     0.000000    -0.001162
+           0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
+           0.000000     0.000000     0.000000     0.000000     0.000000     0.000000
+
+                              Betatron  tunes  (Q1 Q2 modes)
+
+                    NU_Y =  0.68194766         NU_Z =  0.73614756    
+
+
+                                        ----------------------------------------
+                                        -  EDWARDS AND TENG`S PARAMETRIZATION  -
+                                        ----------------------------------------
+
+                                                                              MODE 1               MODE 2
+
+      FRACTIONAL PART OF THE BETATRON TUNES IN THE DECOUPLED FRAME:        0.68194766           0.73614756
+
+      EDWARDS-TENG`S PARAMETERS:
+                                - ALPHA:                                   -0.05066621           0.33212699
+                                - BETA:                                     1.93670259           2.00729961
+                                - GAMMA:                                    0.51766702           0.55313533
+
+      HAMILTONIAN PERTURBATION PARAMETERS:
+
+                           - DISTANCE FROM THE NEAREST DIFFERENCE LINEAR RESONANCE:    -0.05405238
+                           - COUPLING STRENGTH OF THE DIFFERENCE LINEAR RESONANCE:      0.00399628
+
+                           - DISTANCE FROM THE NEAREST SUM LINEAR RESONANCE:            0.41809522
+                           - UNPERTURBED HORIZONTAL TUNE:                               0.68202142
+                           - UNPERTURBED VERTICAL TUNE:                                 0.73607380
+
+                                   Momentum compaction : 
+
+                              dL/L / dp/p =  1.78676165E-03
+     (dp =  1.000000E-04      L(0)   =    3.83385E+05 cm,  L(0)-L(-dp) =    6.85099E-02 cm,  L(0)-L(+dp) =   -6.84936E-02 cm) 
+
+                                   Transition gamma  =  2.36573823E+01
+
+                                   Chromaticities : 
+
+                              dNu_y / dp/p =  3.82686455E+00
+                              dNu_z / dp/p =  3.96685338E+00
+\end{verbatim}
+
+\end{minipage}
+
+~
+
+~
+
+\nib From left to right, tunes change from 
+
+{\blue 
+\fbox{uncoupled, NU\_Y =  0.68499553    ~ ~     NU\_Z =  0.67299602    ~ ~  ~ ~  to, weakly coupled, ~ ~ Q1 =  0.68194766  ~ ~ Q2 =  0.73614756   }
+}
+
+and chromas increase by ~1.9 unit, from 2 to ~3.9.
+
+
+
+\end{minipage}
+
+
+
+\clearpage
+
+\nib Just to show that residual orbits in these simulations are negligible~: 
+
+~
+
+~
+
+\begin{minipage}{1.\linewidth}
+
+\mbox{
+\begin{minipage}{.49\linewidth}
+\nib SNAKES OFF
+
+~
+
+HORIZONTAL :
+
+~
+
+\includegraphics*[bbllx=20,bblly=105,bburx=550,bbury=460,width=.7\linewidth]{residualOrbit_snakesOff.eps} 
+
+
+~
+
+~
+
+~
+
+~
+
+Initial vertical conditions zero remain zero.
+
+\end{minipage}
+\begin{minipage}{.001\linewidth}
+\rule{0.1mm}{18cm}
+\end{minipage} ~  ~ 
+\begin{minipage}{.49\linewidth}
+\nib SNAKES ON
+
+~
+
+HORIZONTAL :
+
+~
+
+\includegraphics*[bbllx=20,bblly=105,bburx=550,bbury=460,width=.7\linewidth]{residualOrbit_snakesOn_H.eps} 
+
+~
+
+~
+
+VERTICAL :
+
+~
+
+\includegraphics*[bbllx=20,bblly=105,bburx=550,bbury=460,width=.7\linewidth]{residualOrbit_snakesOn_V.eps} 
+
+\end{minipage}
+}
+
+\end{minipage}
+
+
+
+\clearpage
+
+\nib Shows Y and Z orbit excursions in the two snakes~: 
+
+
+~
+
+~
+
+\begin{minipage}{1.\linewidth}
+\begin{minipage}{.49\linewidth}
+\centering
+
+SNAKE 1 : 
+
+~
+
+\includegraphics*[bbllx=20,bblly=105,bburx=550,bbury=460,width=.9\linewidth]{orbit_snake1_45.5.eps} 
+
+~
+
+\end{minipage}
+\begin{minipage}{.49\linewidth}
+\centering
+SNAKE 2 : 
+
+~
+
+\includegraphics*[bbllx=20,bblly=105,bburx=550,bbury=460,width=.9\linewidth]{orbit_snake2_45.5.eps} 
+
+
+\end{minipage}
+
+\end{minipage}
+
+
+
+
+\clearpage
+
+\nib Optical functions ($G.gamma=45.5$ -~with collision optics~(!))~:
+
+~
+
+~
+
+\begin{minipage}{1.\linewidth}
+
+\begin{minipage}{.49\linewidth}
+
+\label{slide:optics}
+
+\nib SNAKES OFF
+
+~
+
+\includegraphics*[width=.99\linewidth]{gnuplot_TWISS_btxy_snakesOff.eps} 
+
+~
+
+\includegraphics*[width=.99\linewidth]{gnuplot_TWISS_xy_snakesOff.eps} 
+
+
+\end{minipage}
+\begin{minipage}{.001\linewidth}
+\rule{0.1mm}{18cm}
+\end{minipage}
+\begin{minipage}{.49\linewidth}
+\nib SNAKES ON
+
+~
+
+\includegraphics*[width=.99\linewidth]{gnuplot_TWISS_btxy_snakesOn.eps} 
+
+~
+
+\includegraphics*[width=.99\linewidth]{gnuplot_TWISS_xy_snakesOn.eps} 
+
+
+\end{minipage}
+
+\end{minipage}
+
+
+
+
+
+\end{document}
+
+
+
+

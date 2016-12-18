@@ -22,9 +22,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE SPNPRT(LBL1)
+      SUBROUTINE SPNPRT(LBL1, LBL2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(*) LBL1
+      CHARACTER(*) LBL1, LBL2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "MAXTRA.H"
@@ -55,6 +55,8 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       INTEGER DEBSTR, FINSTR
       LOGICAL FIRST
       SAVE LUNPRT, FIRST
+
+      DIMENSION SMAT(3,3), DLT(3,3), PROD(3,3)
 
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
@@ -219,8 +221,64 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
         ENDIF
  3    CONTINUE
  
-      IF(LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 
-     >                                    'PRINT') THEN
+C Matrix computation
+C Pattern in OBJET has to be 
+C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0, 1,0,0
+      IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'MATRIX'
+     >.OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
+
+        IT = 1
+        SMAT(1,IT) = SF(1,IT) 
+        SMAT(2,IT) = SF(2,IT) 
+        SMAT(3,IT) = SF(3,IT) 
+        IT = 2
+        SMAT(1,IT) = SF(1,IT) 
+        SMAT(2,IT) = SF(2,IT) 
+        SMAT(3,IT) = SF(3,IT) 
+        IT = 3
+        SMAT(1,IT) = SF(1,IT) 
+        SMAT(2,IT) = SF(2,IT) 
+        SMAT(3,IT) = SF(3,IT) 
+
+        TRM = SMAT(1,1) + SMAT(2,2) + SMAT(3,3) 
+        SROT = ACOS((TRM-1.D0)/2.D0)
+
+        CALL RAZ(DLT,3*3)
+        DLT(2,3) = -1.D0 
+        DLT(3,2) = +1.D0 
+        PROD = MATMUL(DLT,SMAT)
+        TR1 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
+        DLT(2,3) = 0.D0 
+        DLT(3,2) = 0.D0 
+        DLT(1,3) = +1.D0 
+        DLT(3,1) = -1.D0 
+        PROD = MATMUL(DLT,SMAT)
+        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
+        DLT(1,3) = 0.D0 
+        DLT(3,1) = 0.D0 
+        DLT(1,2) = -1.D0 
+        DLT(2,1) = +1.D0 
+        PROD = MATMUL(DLT,SMAT)
+        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
+        REN = SQRT(TR1*TR1+TR2*TR2+TR3*TR3)
+        TR1 = TR1 / REN ; TR2 = TR2 / REN ; TR3 = TR3 / REN 
+
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,103) 
+ 103      FORMAT(//,18X,'Spin  transfer  matrix  ',/)
+          WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
+ 104      FORMAT(6X,1P,3G16.6)
+          WRITE(NRES,112) TRM, SROT*180.D0/(4.D0*ATAN(1.D0)),TR1,TR2,TR3
+112       FORMAT(/,10X,'Trace = ',F18.10,',',4X,
+     >    ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
+     >    /,10X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')')
+        ENDIF
+      ENDIF
+
+C Print to zgoubi.SPNPRT.Out
+      IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'PRINT'
+     >.OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'PRINT') THEN
+
         IF(FIRST) THEN
           FIRST = .FALSE.
           IF(IDLUNI(
@@ -229,10 +287,20 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
           ELSE
             GOTO 96
           ENDIF
-          WRITE(LUNPRT,fmt='(A)') 
-     >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4)
-     >    , (SF(J,I),J=1,4), gamma, G.gamma, PHI, 
-     >    , PHIX, ITRAJ, IPASS, Yo, To, Zo, Po, So, Do'
+          WRITE(LUNPRT,FMT='(3(A,/),A)') 
+     >    '# spin data. PRINT by spnprt.f ',
+     >    '#  1  2  3  4  5  6    7    8     9 10 11 12   '//
+     >    '    13 14 15 16      17       18   19 '//
+     >    '   20     21     22  23  24  25  26  27     '//
+     >    ' etc.                                               '//
+     >    '           ',
+     >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4), '//
+     >    '(SF(J,I),J=1,4), gamma, G.gamma, PHI, '//
+     >    'PHIX, ITRAJ, IPASS, Yo, To, Zo, Po, So, Do '//
+     >    ' !spnprt.f ',
+     >    '# cm mr cm mr cm  -   -     -    - - - -       '//
+     >    '    - - - -            -        -     '//
+     >    '  etc.     '
         ENDIF
         DO I=IMAX1,IMAX2
           IF( IEX(I) .GE. -1 ) THEN

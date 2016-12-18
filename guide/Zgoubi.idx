@@ -197,7 +197,7 @@
 \indexentry{stopped particles}{77}
 \indexentry{CHAMBR}{77}
 \indexentry{COLLIMA}{77}
-\indexentry{REBELOTE and FIT, combined|textbf}{78}
+\indexentry{combined with FIT|textbf}{78}
 \indexentry{REBELOTE!- recovering from a crash}{78}
 \indexentry{RESET|textbf}{79}
 \indexentry{CHAMBR}{79}
@@ -643,113 +643,113 @@
 \indexentry{IMAGESZ|textbf}{241}
 \indexentry{IMAGEZ|textbf}{241}
 \indexentry{INCLUDE|textbf}{242}
-\indexentry{zgoubi.SPNPRT.Out}{242}
-\indexentry{MAP2D|textbf}{243}
-\indexentry{MAP2D-E|textbf}{244}
-\indexentry{MARKER|textbf}{245}
-\indexentry{LABEL@{\LABEL}}{245}
-\indexentry{zgoubi.plt}{245}
-\indexentry{MATRIX|textbf}{246}
-\indexentry{transport coefficients|textbf}{246}
-\indexentry{MCDESINT|textbf}{247}
-\indexentry{PARTICUL}{247}
-\indexentry{MCOBJET|textbf}{248}
-\indexentry{Monte Carlo}{248}
-\indexentry{negative charge}{248}
-\indexentry{negative momentum}{248}
-\indexentry{BORO@{\BORO}|textbf}{248}
-\indexentry{MULTIPOL|textbf}{251}
-\indexentry{OBJET|textbf}{252}
-\indexentry{negative charge}{252}
-\indexentry{negative momentum}{252}
-\indexentry{BORO@{\BORO}|textbf}{252}
-\indexentry{REBELOTE}{252}
-\indexentry{zgoubi.fai}{252}
-\indexentry{MATRIX}{253}
-\indexentry{MATRIX}{253}
-\indexentry{OBJET!- recovering from a crash}{254}
-\indexentry{OBJETA|textbf}{255}
-\indexentry{Monte Carlo}{255}
-\indexentry{BORO@{\BORO}|textbf}{255}
-\indexentry{OCTUPOLE|textbf}{256}
-\indexentry{OPTICS|textbf}{257}
-\indexentry{OPTIONS|textbf}{258}
-\indexentry{ORDRE|textbf}{259}
-\indexentry{PARTICUL|textbf}{260}
-\indexentry{PICKUPS|textbf}{261}
-\indexentry{LABEL@{\LABEL}}{261}
-\indexentry{LABEL}{261}
-\indexentry{PLOTDATA|textbf}{262}
-\indexentry{POISSON|textbf}{263}
-\indexentry{DIPOLE-M}{263}
-\indexentry{POLARMES|textbf}{264}
-\indexentry{PS170|textbf}{265}
-\indexentry{QUADISEX|textbf}{266}
-\indexentry{QUADRUPO|textbf}{267}
-\indexentry{QUADRUPO}{268}
-\indexentry{SEXTUPOL}{268}
-\indexentry{OCTUPOLE}{268}
-\indexentry{DECAPOLE}{268}
-\indexentry{DODECAPO}{268}
-\indexentry{MULTIPOL}{268}
-\indexentry{REBELOTE|textbf}{269}
-\indexentry{multi-particle}{269}
-\indexentry{multi-turn tracking|textbf}{269}
-\indexentry{acceleration}{269}
-\indexentry{synchrotron motion}{269}
-\indexentry{NPASS}{269}
-\indexentry{spin tracking}{269}
-\indexentry{MCOBJET}{269}
-\indexentry{FIT}{269}
-\indexentry{FIT2}{269}
-\indexentry{zgoubi.SPNPRT.Out}{270}
-\indexentry{RESET|textbf}{271}
-\indexentry{CHAMBR}{271}
-\indexentry{COLLIMA}{271}
-\indexentry{HISTO}{271}
-\indexentry{INTEG}{271}
-\indexentry{MCDESINT}{271}
-\indexentry{SCALING}{271}
-\indexentry{SPNTRK}{271}
-\indexentry{SCALING|textbf}{272}
-\indexentry{acceleration}{272}
-\indexentry{synchrotron motion}{272}
-\indexentry{SEPARA|textbf}{273}
-\indexentry{SEXQUAD|textbf}{274}
-\indexentry{SEXTUPOL|textbf}{275}
-\indexentry{SOLENOID|textbf}{276}
-\indexentry{SPACECHARG|textbf}{277}
-\indexentry{SPINR|textbf}{278}
-\indexentry{SPNPRNL|textbf}{279}
-\indexentry{zgoubi.spn}{279}
-\indexentry{SPNSTORE|textbf}{279}
-\indexentry{LABEL@{\LABEL}}{279}
-\indexentry{REBELOTE}{279}
-\indexentry{NPASS}{279}
-\indexentry{SPNPRT|textbf}{279}
-\indexentry{SPNTRK|textbf}{280}
-\indexentry{spin tracking}{280}
-\indexentry{SRLOSS|textbf}{281}
-\indexentry{synchrotron radiation loss}{281}
-\indexentry{SRPRNT|textbf}{282}
-\indexentry{SRLOSS}{282}
-\indexentry{SYNRAD|textbf}{283}
-\indexentry{synchrotron radiation spectra}{283}
-\indexentry{SYSTEM|textbf}{284}
-\indexentry{system call}{284}
-\indexentry{TOSCA|textbf}{286}
-\indexentry{CARTEMES}{286}
-\indexentry{TRANSMAT|textbf}{288}
-\indexentry{TRAROT|textbf}{289}
-\indexentry{TWISS|textbf}{290}
-\indexentry{zgoubi.TWISS.out}{290}
-\indexentry{chromaticity@{chromaticity}}{290}
-\indexentry{momentum compaction@{momentum compaction}}{290}
-\indexentry{UNDULATOR|textbf}{291}
-\indexentry{UNIPOT|textbf}{292}
-\indexentry{VENUS|textbf}{293}
-\indexentry{WIENFILT|textbf}{294}
-\indexentry{YMY|textbf}{295}
+\indexentry{zgoubi.SPNPRT.Out}{243}
+\indexentry{MAP2D|textbf}{244}
+\indexentry{MAP2D-E|textbf}{245}
+\indexentry{MARKER|textbf}{246}
+\indexentry{LABEL@{\LABEL}}{246}
+\indexentry{zgoubi.plt}{246}
+\indexentry{MATRIX|textbf}{247}
+\indexentry{transport coefficients|textbf}{247}
+\indexentry{MCDESINT|textbf}{248}
+\indexentry{PARTICUL}{248}
+\indexentry{MCOBJET|textbf}{249}
+\indexentry{Monte Carlo}{249}
+\indexentry{negative charge}{249}
+\indexentry{negative momentum}{249}
+\indexentry{BORO@{\BORO}|textbf}{249}
+\indexentry{MULTIPOL|textbf}{252}
+\indexentry{OBJET|textbf}{253}
+\indexentry{negative charge}{253}
+\indexentry{negative momentum}{253}
+\indexentry{BORO@{\BORO}|textbf}{253}
+\indexentry{REBELOTE}{253}
+\indexentry{zgoubi.fai}{253}
+\indexentry{MATRIX}{254}
+\indexentry{MATRIX}{254}
+\indexentry{OBJET!- recovering from a crash}{255}
+\indexentry{OBJETA|textbf}{256}
+\indexentry{Monte Carlo}{256}
+\indexentry{BORO@{\BORO}|textbf}{256}
+\indexentry{OCTUPOLE|textbf}{257}
+\indexentry{OPTICS|textbf}{258}
+\indexentry{OPTIONS|textbf}{259}
+\indexentry{ORDRE|textbf}{260}
+\indexentry{PARTICUL|textbf}{261}
+\indexentry{PICKUPS|textbf}{262}
+\indexentry{LABEL@{\LABEL}}{262}
+\indexentry{LABEL}{262}
+\indexentry{PLOTDATA|textbf}{263}
+\indexentry{POISSON|textbf}{264}
+\indexentry{DIPOLE-M}{264}
+\indexentry{POLARMES|textbf}{265}
+\indexentry{PS170|textbf}{266}
+\indexentry{QUADISEX|textbf}{267}
+\indexentry{QUADRUPO|textbf}{268}
+\indexentry{QUADRUPO}{269}
+\indexentry{SEXTUPOL}{269}
+\indexentry{OCTUPOLE}{269}
+\indexentry{DECAPOLE}{269}
+\indexentry{DODECAPO}{269}
+\indexentry{MULTIPOL}{269}
+\indexentry{REBELOTE|textbf}{270}
+\indexentry{multi-particle}{270}
+\indexentry{multi-turn tracking|textbf}{270}
+\indexentry{acceleration}{270}
+\indexentry{synchrotron motion}{270}
+\indexentry{NPASS}{270}
+\indexentry{spin tracking}{270}
+\indexentry{MCOBJET}{270}
+\indexentry{FIT}{270}
+\indexentry{FIT2}{270}
+\indexentry{zgoubi.SPNPRT.Out}{271}
+\indexentry{RESET|textbf}{272}
+\indexentry{CHAMBR}{272}
+\indexentry{COLLIMA}{272}
+\indexentry{HISTO}{272}
+\indexentry{INTEG}{272}
+\indexentry{MCDESINT}{272}
+\indexentry{SCALING}{272}
+\indexentry{SPNTRK}{272}
+\indexentry{SCALING|textbf}{273}
+\indexentry{acceleration}{273}
+\indexentry{synchrotron motion}{273}
+\indexentry{SEPARA|textbf}{274}
+\indexentry{SEXQUAD|textbf}{275}
+\indexentry{SEXTUPOL|textbf}{276}
+\indexentry{SOLENOID|textbf}{277}
+\indexentry{SPACECHARG|textbf}{278}
+\indexentry{SPINR|textbf}{279}
+\indexentry{SPNPRNL|textbf}{280}
+\indexentry{zgoubi.spn}{280}
+\indexentry{SPNSTORE|textbf}{280}
+\indexentry{LABEL@{\LABEL}}{280}
+\indexentry{REBELOTE}{280}
+\indexentry{NPASS}{280}
+\indexentry{SPNPRT|textbf}{280}
+\indexentry{SPNTRK|textbf}{281}
+\indexentry{spin tracking}{281}
+\indexentry{SRLOSS|textbf}{282}
+\indexentry{synchrotron radiation loss}{282}
+\indexentry{SRPRNT|textbf}{283}
+\indexentry{SRLOSS}{283}
+\indexentry{SYNRAD|textbf}{284}
+\indexentry{synchrotron radiation spectra}{284}
+\indexentry{SYSTEM|textbf}{285}
+\indexentry{system call}{285}
+\indexentry{TOSCA|textbf}{287}
+\indexentry{CARTEMES}{287}
+\indexentry{TRANSMAT|textbf}{289}
+\indexentry{TRAROT|textbf}{290}
+\indexentry{TWISS|textbf}{291}
+\indexentry{zgoubi.TWISS.out}{291}
+\indexentry{chromaticity@{chromaticity}}{291}
+\indexentry{momentum compaction@{momentum compaction}}{291}
+\indexentry{UNDULATOR|textbf}{292}
+\indexentry{UNIPOT|textbf}{293}
+\indexentry{VENUS|textbf}{294}
+\indexentry{WIENFILT|textbf}{295}
+\indexentry{YMY|textbf}{296}
 \indexentry{TOSCA}{299}
 \indexentry{DIPOLE}{299}
 \indexentry{MCDESINT}{299}

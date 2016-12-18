@@ -27,23 +27,23 @@ C  -------
      >                                     DB,DPOS,TILT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BM(*)
-C      PARAMETER (MXTA=45)
-C      PARAMETER (MXERR=MXTA)
-      PARAMETER (MPOL=10)
-      DIMENSION KPOL(MXTA,MPOL)
-      CHARACTER(2) TYPERR(MXTA,MPOL)
-      CHARACTER(1) TYPAR(MXTA,MPOL),TYPDIS(MXTA,MPOL)
-      DIMENSION ERRCEN(MXTA,MPOL),ERRSIG(MXTA,MPOL),ERRCUT(MXTA,MPOL)
+      PARAMETER (JPOL=6)
+      DIMENSION KPOL(MXTA,JPOL)
+      CHARACTER(2) TYPERR(MXTA,JPOL)
+      CHARACTER(1) TYPAR(MXTA,JPOL),TYPDIS(MXTA,JPOL)
+      DIMENSION ERRCEN(MXTA,JPOL),ERRSIG(MXTA,JPOL),ERRCUT(MXTA,JPOL)
 
       INCLUDE 'MXLD.H'
-      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
+      DIMENSION DB(MXL,JPOL),DPOS(MXL,JPOL,3),TILT(MXL,JPOL,3)
 
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
 
-      DO I = 1, MPOL
-        IF(KPOL(IRR,I) .EQ.1) THEN
+      DO I = 1, JPOL
+
+        IF(KPOL(IRR,I) .EQ. 1) THEN
+
           IF    (TYPDIS(IRR,I).EQ.'G') THEN
             SM = EXP(-(ERRCUT(IRR,I)*ERRSIG(IRR,I))**2/2.D0)
             DERR = (2.D0*RNDM() -1.D0)*SM
@@ -53,10 +53,16 @@ C      PARAMETER (MXERR=MXTA)
 C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
 C                WRITE(88,*) ' TOSERR RNDM ',XXX
           ENDIF
+
           IF    (TYPERR(IRR,I)(1:1).EQ.'B') THEN
             IF    (TYPAR(IRR,I).EQ.'A') THEN
 C              ABSOLUTE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR
+C              WRITE(NRES,FMT='(10X,A,I,A,2(A,I0),A,1P,3E14.6)') 
+C     >        'Element #',NOEL,', error added - ',
+C     >        ' Multipole order is ',I0,' ;  type of error is ',IRR,
+C     >        ' ;  error center/delta/center+delta : ',
+C     >        ERRCEN(IRR,I), DERR, DB(NOEL,I)
             ELSEIF(TYPAR(IRR,I).EQ.'R') THEN
 C              RELATIVE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR*BM(I)
@@ -69,9 +75,12 @@ C              RELATIVE ERROR
             WRITE(NRES,FMT='(//,5X,A)') '****** Found TYPERR = '//TYPERR
             CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
           ENDIF
-        ELSE
-          CALL ENDJOB('SBR TOSERR. NO SUCH OPTION KPOL=',KPOL(IRR,I))
+
+C        ELSE
+C          CALL ENDJOB('SBR TOSERR. NO SUCH OPTION KPOL=',KPOL(IRR,I))
+
         ENDIF
+
       ENDDO      
 
       RETURN      

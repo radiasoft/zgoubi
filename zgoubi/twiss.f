@@ -707,17 +707,8 @@ C          SM(I,IC) = F2(8-I,IC)
         ENDDO
       ENDDO
 
-C      WRITE(88,*) ' IPASS = ',IPASS
-C      WRITE(88,FMT='(1P,12E12.4)') ((XYS(I,IC),IC=1,12),I=1,6)
-CC      WRITE(88,FMT='(1P,10X,6E12.4)') ((SM(I,IC),IC=1,6),I=1,6)
-C      WRITE(88,*) ' -------------------- '
-      
       IER = 0
       CALL DLGAU(6,6,6,XYS,KAUX,IER)
-
-C      WRITE(88,*) ' IPASS = ',IPASS,IER
-C      WRITE(88,FMT='(1P,6E12.4)') ((XYS(I,IC),I=1,6),IC=1,6)
-C      WRITE(88,*) ' +++++++++++++-------------------- '
 
       RETURN
 

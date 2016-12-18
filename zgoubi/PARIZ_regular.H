@@ -190,12 +190,12 @@ C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
 c       PARAMETER (IZ=31 , ID=3, MMAP=2)
 c       PARAMETER (MXX=801, MXY=79)
-c       PARAMETER (IZ=31 , ID=3, MMAP=6)
-c       PARAMETER (MXX=801, MXY=81)
+       PARAMETER (IZ=31 , ID=3, MMAP=6)
+       PARAMETER (MXX=801, MXY=81)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-       PARAMETER (IZ=41 , ID=3, MMAP=1)
-       PARAMETER (MXX=567, MXY=201)
+c       PARAMETER (IZ=41 , ID=3, MMAP=1)
+c       PARAMETER (MXX=567, MXY=201)
 
  

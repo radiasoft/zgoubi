@@ -81,7 +81,6 @@ OBJ=\
  cyclo.o\
  cubspl.o\
  damper.o\
- dlain.o\
  dbdxyz.o\
  debstr.o\
  dejaca.o\

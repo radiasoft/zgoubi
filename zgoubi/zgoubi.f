@@ -784,7 +784,7 @@ C-----  SPNTRK. Switch spin tracking
       GOTO 998
 C----- SPNPRT. PRINT SPIN STATES
  50   CONTINUE
-      CALL SPNPRT(LABEL(NOEL,1))
+      CALL SPNPRT(LABEL(NOEL,1),LABEL(NOEL,2))
       GOTO 998
 C----- BEND. Dipole magnet
  51   CONTINUE
@@ -1142,7 +1142,9 @@ C              OKCPLD = .FALSE.
      >  '  (print out optical functions to zgoubi.OPTICS.out, '
      >  //'no/yes = 0/1)'
         WRITE(NRES,*) ' '
-        WRITE(NRES,FMT='(10X,A,I0)') 
+C Sam, Dec 2016
+C        WRITE(NRES,FMT='(10X,A,I0)') 
+        WRITE(NRES,FMT='(10X,A,L1)') 
      >  'Coupled optics hypothsis (True/False) : ',OKCPLD
         WRITE(NRES,*) ' '
       ENDIF
@@ -1313,8 +1315,8 @@ C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
      >       'K0*L          K1*L          K2*L          |C|' //
      >       '           r            ! optimp.f   IPASS         '//
      >       'DPREF         R11           R12          '//
-     >       'R21           R22           R33          R34'//
-     >       'R43           R44           R51          R52'//
+     >       'R21           R22           R33          R34 '//
+     >       'R43           R44           R51          R52 '//
      >       'R53           R54           R56          F66          '//
      >       'SX            SY            SZ            |S|   ' 
           WRITE(LNOPTI,fmt='(a)') 

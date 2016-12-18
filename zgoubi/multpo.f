@@ -272,11 +272,13 @@ C----- Case erron (ERRORS)
             CALL FITST5(
      >                  FITFNL)         
 
-            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+C            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) 
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-              CALL MULERR(NOEL,IRR,MXTA,BM, 
+     >        CALL MULERR(NOEL,IRR,MXTA,BM, 
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
+
               IF(PRNT .AND. OKOPN) THEN
                 CALL ZGKLE(IQ(NOEL), 
      >                             KLEY)
@@ -290,9 +292,9 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
                 ELSE
                   LBL2L = LBL1(IRR)
                 ENDIF
-                WRITE(LERR,FMT='(4(1X,I5),3(1X,A),
+                WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
      >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
-     >          NOEL,IRR,IPOL,KPOL(IRR,IPOL),
+     >          IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
      >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
      >               DB(NOEL,IPOL),
@@ -312,7 +314,8 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
                 CALL ENDJOB
      >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
               ENDIF      
-            ENDIF      
+
+C            ENDIF      
 
             IF(KUASEX .LE. MPOL) THEN
               A(NOEL,12) = BM(KUASEX) / SCAL
@@ -775,11 +778,11 @@ C      aK3 = AKS(3)
           OK = IDLUNI(
      >                 LERR)
           OPEN(UNIT=LERR,FILE='zgoubi.ERRORS.out')
-C          WRITE(LERR,FMT='(A,I,A)') '# Origin of this print : multpo'
           WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : multpo'
      >    //' program. This file opened with unit # ',LERR,'.'
           WRITE(LERR,FMT='(A)') '# '
-          WRITE(LERR,FMT='(A)') '# NOEL, IRR, IPOL, KPOL(IRR,Ipol) '
+          WRITE(LERR,FMT='(A)') 
+     >    '# IPASS, NOEL, KREB3, IRR, IPOL, KPOL(IRR,Ipol) '
      >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
      >    //'DB(NOEL,IPOL), '

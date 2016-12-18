@@ -49,10 +49,10 @@ C                  A or R   G or U
       CHARACTER(1) TYPAR,   TYPDIS
       LOGICAL EMPTY
       INTEGER DEBSTR, FINSTR 
-      logical prnt
+      LOGICAL PRNT
 
       DATA LBL1, LBL2 / 2*' ' /
-      data prnt / .true. /
+      DATA PRNT / .TRUE. /
 
 C on/off switch  (1/0), number of lines to follow (each line sets a particular error)
       IOP = NINT(A(NOEL,1) )
@@ -91,14 +91,6 @@ C        Switch off all possible earlier error settings
         GOTO 99
       ENDIF
 
-      IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
-C Will save error list in zgoubi.ERRORS.out
-        CALL MULTP8(PRNT)
-      ELSE
-        CALL MULTP8(.NOT. PRNT)
-      ENDIF
-
-
       IF(NBR.GT.MXTA) CALL ENDJOB('SBR RERROR. NUMBER OF INSTRUCTIONS '
      >//' CANNOT EXCEED ',MXTA)
 
@@ -122,6 +114,13 @@ C         Get possible label1 and/or label2
           READ(TXT132,*) KLERR
         ENDIF
         IF    (KLERR.EQ.'MULTIPOL') THEN
+          IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
+C Will save error list in zgoubi.ERRORS.out
+            CALL MULTP8(PRNT)
+          ELSE
+            CALL MULTP8(.NOT. PRNT)
+          ENDIF
+
           TXT132 = TXT132(9:FINSTR(TXT132))
           IF(OK) THEN 
             OK = STRCON(TXT132,'{',
@@ -160,6 +159,13 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
      >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
           ENDIF
         ELSEIF(KLERR.EQ.'TOSCA') THEN
+          IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
+C Will save error list in zgoubi.ERRORS.out
+            CALL TOSCA8(PRNT)
+          ELSE
+            CALL TOSCA8(.NOT. PRNT)
+          ENDIF
+
           TXT132 = TXT132(9:FINSTR(TXT132))
           IF(OK) THEN 
             OK = STRCON(TXT132,'{',
@@ -200,7 +206,7 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
         ENDIF
 
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',/,
-     >  2(A,I3,/),3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
+     >  A,I3,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
      >  '   Error # ',IRR,' : ', 
      >  '         IPOL : ',IPOL,
      >  '       TYPERR : ',TYPERR,
