@@ -175,10 +175,6 @@ C--------- ... or magnetic part of EBMULT
           ENDIF
         ENDDO
 
-c         if(noel.eq.19)   write(*,*) 'multpo  A ',
-c     >                      ia  , scal,bm(3)
-
-
 C------- If SR-loss switched on by procedure SRLOSS
         IF(KSYN.GE.1) THEN
           IF(KFL .EQ. MG) THEN
@@ -261,8 +257,14 @@ C-----------------------------------------
 C----- Case erron (ERRORS)
       IF(ERRON) THEN
         DO IRR = 1, MXERR 
-          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+
+          OK = KUASEX .EQ. MPOL+1
+     >    .OR. (KUASEX .LE. MPOL .AND. KUASEX .EQ. IPOL)
+
+          OK =  OK .AND. 
+     >    ( (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+     >    )
 
           IF(OK) THEN
             CALL REBELR(
@@ -272,48 +274,48 @@ C----- Case erron (ERRORS)
             CALL FITST5(
      >                  FITFNL)         
 
-C            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
-            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) 
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-     >        CALL MULERR(NOEL,IRR,MXTA,BM, 
-     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+            CALL MULERR(NOEL,IRR,MXTA,BM, 
+     >      KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
 
-              IF(PRNT .AND. OKOPN) THEN
-                CALL ZGKLE(IQ(NOEL), 
-     >                             KLEY)
-                IF(EMPTY(LBL1(IRR))) THEN 
-                  LBL1L = '.'
-                ELSE
-                  LBL1L = LBL1(IRR)
-                ENDIF
-                IF(EMPTY(LBL2(IRR))) THEN 
-                  LBL2L = '.'
-                ELSE
-                  LBL2L = LBL1(IRR)
-                ENDIF
-                WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
-     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
-     >          IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
-     >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
-     >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
-     >               DB(NOEL,IPOL),
-     >          (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
-     >             KLEY,LBL1L,LBL2L
-              ENDIF
-
-              IF(KUASEX .LE. MPOL) THEN
-                BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
-              ELSEIF(KUASEX .EQ. MPOL+1) THEN
-                DO IM=1,MPOL
-                  IF(KPOL(IRR,IM).EQ.1) THEN
-                    BM(IM) = BM(IM) + DB(NOEL,IM)
-                  ENDIF
-                ENDDO
+            IF(PRNT .AND. OKOPN) THEN
+              CALL ZGKLE(IQ(NOEL), 
+     >                            KLEY)
+              IF(EMPTY(LBL1(IRR))) THEN 
+                LBL1L = '.'
               ELSE
-                CALL ENDJOB
-     >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
-              ENDIF      
+                LBL1L = LBL1(IRR)
+              ENDIF
+              IF(EMPTY(LBL2(IRR))) THEN 
+                LBL2L = '.'
+              ELSE
+                LBL2L = LBL1(IRR)
+              ENDIF
+              WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
+     >        3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
+     >        IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
+     >        TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
+     >        ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
+     >             DB(NOEL,IPOL),
+     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
+     >           KLEY,LBL1L,LBL2L
+            ENDIF
+
+            IF(KUASEX .LE. MPOL) THEN
+              BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+            ELSEIF(KUASEX .EQ. MPOL+1) THEN
+              DO IM=1,MPOL
+                IF(KPOL(IRR,IM).EQ.1) THEN
+                  BM(IM) = BM(IM) + DB(NOEL,IM)
+                ENDIF
+              ENDDO
+            ELSE
+              CALL ENDJOB
+     >        ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
+            ENDIF      
 
 C            ENDIF      
 
@@ -328,9 +330,11 @@ C            ENDIF
               ENDDO
             ENDIF      
 
-          ENDIF      
-        ENDDO
-      ENDIF
+            ENDIF  ! .NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99
+
+          ENDIF     ! OK
+        ENDDO   ! IRR
+      ENDIF   ! ERRON
 
 CC----- MULTIPOLE
 C      DO IM = NM0+1,NM
@@ -619,8 +623,13 @@ C----- Case erron (ERRORS)
       IF(NRES.GT.0) THEN
         IF(ERRON) THEN
          DO IRR = 1, MXERR 
-          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+
+          OK = KUASEX .EQ. MPOL+1
+     >    .OR. (KUASEX .LE. MPOL .AND. KUASEX .EQ. IPOL)
+          OK =  OK .AND. 
+     >    (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+
           IF(OK) THEN
            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
             DO I = 1, MPOL
@@ -638,6 +647,11 @@ C----- Case erron (ERRORS)
                 WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
+     >          '    error  values  status, '
+     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
+     >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ELSE
@@ -656,6 +670,11 @@ C----- Case erron (ERRORS)
                 WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
+                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
+     >          '    error  values  status, '
+     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
+     >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ENDIF
@@ -694,21 +713,6 @@ C        TXT(IER) =
 C     >   'Overlapping of fringe fields is too large. Check XE, XS < XL'
 C      ENDIF
 
-cC----- Magnetic MULTIPOL with non-zero dipole
-cC--------- Automatic positionning in SBR TRANSF
-cC           Dev normally identifies with the deviation
-cC             that would occur in a sharp edge dipole magnet.
-c        IF(BM(1) .NE. 0.D0) THEN
-c          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
-c        ELSE
-c          DEV= 0.D0
-c        ENDIF
-cC------------------------  TESTS for COSY
-cC         DEV = 2.D0 * PI /24.D0  
-cCC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
-cC         DEV = ALE
-cC-----------------------------------------
-
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
@@ -728,9 +732,6 @@ cC-----------------------------------------
 
       IF(IER.NE.0) GOTO 99
 
-c         if(noel.eq.19)   write(*,*) 'multpo  OUT ',
-c     >                      ia  , scal,bm(3)
-
  98   RETURN
 
  99   CONTINUE
@@ -744,11 +745,8 @@ C----- Execution stopped :
       
       ENTRY MULTKL(
      >             AL, AK1)
-C     >     aL, aK1, aK2, aK3)
       aL = sXL
       aK1 = AKS(1)
-C      aK2 = AKS(2)
-C      aK3 = AKS(3)
       RETURN
       
       ENTRY MULTP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
@@ -783,7 +781,7 @@ C      aK3 = AKS(3)
           WRITE(LERR,FMT='(A)') '# '
           WRITE(LERR,FMT='(A)') 
      >    '# IPASS, NOEL, KREB3, IRR, IPOL, KPOL(IRR,Ipol) '
-     >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
+     >    //'TYPERR(IRR,IPOL), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
      >    //'DB(NOEL,IPOL), '
      >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '

@@ -246,9 +246,9 @@ C--------- endif SR loss ----------------------------------
             WRITE(LUN,FMT='(/,5X,
      >      ''Multiple pass, '', /, 
      >      10X,''from element # '',I5,'' : '',
-     >      A,''/label1='',A,''/label2='',A,
-     >      '' to REBELOTE '',''/label1='',A,''/label2='',A,/, 
-     >      10X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
+     >      A,''/label1='',A,''/label2='',A,/,28X,
+     >      '' to  REBELOTE  '',''/label1='',A,''/label2='',A,/, 
+     >      5X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
      >      A,''/label1='',A,''/label2='',A,/)') 
      >      NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2),
      >      LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,

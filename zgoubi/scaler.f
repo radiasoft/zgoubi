@@ -313,8 +313,8 @@ c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
 C                         time   phase
           SCALER = CUBSPL(XM,    YM,    XV,ND,NFRQ)
 C                         
-          IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
-     >    //'Max allowed is ND = ',ND)
+          IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data '
+     >    //'sent to cubspl. Max allowed is ND = ',ND)
 
           XV = EKIN
 C                          ekin freq
@@ -482,8 +482,8 @@ C              SCALER = FAC * SCL(KF,1) * PP0
       ENTRY SCALE6(XMI,YMI,DAT1I,DAT2I,DAT3I,NFRQI)
 C               OCLOCK PHI TURN#  FREQ  EKIN 
       NFRQ = NFRQI
-      IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data. '
-     >//'Max allowed is ND = ',ND)
+      IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data '
+     >//'sent to cubspl. Max allowed is ND = ',ND)
       DO 6 I=1,NFRQ
         XM(I) = XMI(I)
         YM(I) = YMI(I)

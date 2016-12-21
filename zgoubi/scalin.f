@@ -290,18 +290,18 @@ c     >                   '  sbr scalin turn freq phase oclock '
  
  21         CONTINUE
  
-              N = I-1
-              WRITE(6,*) 'Number of data to be interpolated :  N= ',N
-              WRITE(6,FMT='(/,/)') 
-              IF(N.EQ.0) CALL ENDJOB(
-     >        'Pgm scalin. Found no data to be interpolated. Leaving.'
-     >        ,-99)
+            N = I-1
+            WRITE(6,*) 'Number of data to be interpolated :  N= ',N
+            WRITE(6,FMT='(/,/)') 
+            IF(N.EQ.0) CALL ENDJOB(
+     >      'Pgm scalin. Found no data to be interpolated. Leaving.'
+     >      ,-99)
  
-              IF(XM(2).LT.XM(1)) CALL ENDJOB(
-     >        'Pgm scalin. Array X must be an increasing function '
-     >        //'of index. Fix it...',-99)
+            IF(XM(2).LT.XM(1)) CALL ENDJOB(
+     >      'Pgm scalin. Array X must be an increasing function '
+     >      //'of index. Fix it...',-99)
  
-             DUM = SCALE6(XM,YM,turn,freq,ekin,N)
+            DUM = SCALE6(XM,YM,turn,freq,ekin,N)
  
           ENDIF
  

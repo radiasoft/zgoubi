@@ -7379,9 +7379,9 @@ can be found in page~\pageref{ExaINCLUDE-GOTO}.
 \medskip
 
 \noindent \textsl{INCLUDE} works much like the fortran ``include'' statement~: 
-it allows a fragment of an input data list to be stored in a separate file~; 
-when  \textsl{INCLUDE} is met in the input data file, its content is inserted in 
-the data sequence. 
+it allows a fragment of an input data list to be taken from a separate file~; 
+when  \textsl{INCLUDE} is met in the input data file, the content of the separate file, 
+or part of it, is inserted in the data sequence. 
 
 \noindent The INCLUDE statement takes the following arguments~: 
 
@@ -7391,15 +7391,15 @@ the data sequence.
 
 \medskip
 
-\noindent The file name may be followed by '\textsl{[LBL\_1A,LBL\_2A:LBL\_1B,LBL\_2B]}', with any of these for 
+\noindent The file name may be followed by '\textsl{[LBL\_1A,LBL\_2A:LBL\_1B,LBL\_2B]}', with any of these four 
 labels optional, as follows~: 
 
-- LBL\_1A (and \_2A) are optional. They identify to the first (and second) label of some 
+- LBL\_1A  [LBL\_2A] identify to the first (and possibly second) label of some 
 keyword in the include file, from which the include process will start (whatever precedes will be ignored). 
 If none of '\textsl{LBL\_1A, \_2A}' is declared, the include process starts from the begining of the include file. 
 Declaring the second label only takes the form '\textsl{[,LBL\_2A:LBL\_1B,LBL\_2B]}'.  
 
-- LBL\_1B (and \_2B) are optional. They identify to the first (and second) label of some 
+- LBL\_1B [LBL\_2B]  identify to the first (and second) label of some 
 keyword in the include file, at which the include process will end (whatever follows will be ignored).  
 If none of '\textsl{LBL\_1B, \_2B}' is declared,  the  include file will be included down to its end. 
 Declaring the second label only takes the form '\textsl{[LBL\_1A,LBL\_2A: ,LBL\_2B]}'.  
@@ -7433,7 +7433,7 @@ a single input file, zgoubi.dat.
 
 \medskip
 
-\noindent An example of an input data file of a recirculator ring, structured with \textsl{INCLUDE} statements, 
+\noindent An example of an input data file of a recirculating ring, structured with \textsl{INCLUDE} statements, 
 can be found in page~\pageref{ExaINCLUDE-GOTO}. 
 
 

@@ -66,7 +66,7 @@ C              RELATIVE ERROR
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
               TILT(NOEL,I,3) = 0.D0
           ELSE
-            CALL ENDJOB('SBR MULERR. NO SUCH OPTION FOR TYPERR',-99)
+            CALL ENDJOB('Sbr mulerr. No such option for TYPERR',-99)
           ENDIF
         ENDIF
       ENDDO      
