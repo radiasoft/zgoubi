@@ -45,6 +45,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER(I0 = 0)
+      PARAMETER(I90 = 90)
 
 C  If change MXREF, make sure 1/ to change MXD (see  line 140), 2/ that MXT is large enough
       PARAMETER(MXREF=999)
@@ -96,13 +97,12 @@ C----- KOBJ - may be of the form "K.K2"
       READ(NDAT,*,ERR=99) (IA(I),I=1,2)
       A(NOEL,20) = IA(1)
       A(NOEL,21) = IA(2)
-      II = 20
+      II = 30
       DO 21 I=1,IA(1)
-        II = II + 10
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=99) TXT132
         READ(TXT132,*,END=98,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
-        IF(II .LE. 90) THEN
+        IF(II .LE. I90) THEN
 C--------- For allowing the use of the first 7 traj with FIT
           A(NOEL,II  ) = FO(2,I) 
           A(NOEL,II+1) = FO(3,I) 
@@ -111,6 +111,7 @@ C--------- For allowing the use of the first 7 traj with FIT
           A(NOEL,II+4) = FO(6,I) 
           A(NOEL,II+5) = FO(1,I) 
         ENDIF
+        II = II + 10
  21   CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (IEX(I),I=1,IA(1))

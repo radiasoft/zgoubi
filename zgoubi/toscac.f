@@ -131,6 +131,10 @@ C--    ERRORS
       CHARACTER(80) TXFM
       CHARACTER(1) TXT1
 
+      PARAMETER (I16 = 16)
+      DIMENSION RSI(I16), RSB(I16)
+      PARAMETER (T2KG = 10.D0)
+
       DATA ZROBXY / .FALSE. /
       DATA NOMFIC / NFM*'               '/
       DATA FMTYP / ' regular' /
@@ -140,6 +144,15 @@ C--    ERRORS
       DATA BNRM / 6*0.D0 /
       DATA NMPTN / MXC * 1 /
       DATA NFIC / 1 /
+
+C RHIC snake measured B(I) [T(A)]
+      DATA RSB / 1.372D0,  1.921D0, 2.465D0, 2.994D0,  3.246D0, 
+     >3.367D0, 3.485D0,  3.598D0,  3.712D0,  3.822D0,  3.929D0, 
+     >4.034D0,  4.138D0,  4.240D0,  4.341D0,  4.539D0 /
+      DATA RSI / 102.64D0, 143.82D0, 185.D0, 226.19D0, 246.78D0,
+     >257.08D0, 267.4D0,  277.7D0,  288.D0,   298.3D0, 308.6D0, 
+     >318.89D0, 329.18D0, 339.48D0, 349.76D0, 370.37D0 /
+
  
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
@@ -170,6 +183,16 @@ C Aug 2012      BNORM = A(NOEL,10)*SCAL
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
       TITL = TA(NOEL,1)
+      IF    (STRCON(TITL,'RHIC_helix',
+     >                                IS) ) THEN
+C Takes B(T) from meaured B(I). Convert to kG. Assumes field map has been normalized to Bmax=1, 
+C for instance using a=1/Bmax scaling in 15.MOD2 option
+        BNORM = CUBSPL(RSI,RSB,ABS(A(NOEL,10)),I16,I16) * T2KG
+        IF(A(NOEL,10) .LT. 0.D0) BNORM = -BNORM
+c           write(*,*) ' toscac bnorm = ',bnorm,A(NOEL,10)
+c           write(*,*) '  '
+c              read(*,*)
+      ENDIF
       IF    (STRCON(TITL,'ZroBXY',
      >                            IS) ) THEN
         ZROBXY=.TRUE.

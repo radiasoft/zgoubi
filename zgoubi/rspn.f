@@ -44,6 +44,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
 
+      PARAMETER(I90 = 90, I70=I90-20)
+
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
       READ(NDAT,*,ERR=90) TXT20
@@ -65,9 +67,17 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
         ELSEIF(KSO .EQ. 1) THEN
         ELSEIF (KSO .EQ. 4) THEN
           IF     (KSO2 .EQ. 0) THEN
+            II = 10
             DO I=1,IMAX
               LINE = LINE + 1
               READ(NDAT,*,ERR=90) (SI(J,I),J=1,3)
+              IF(II .LE. I70) THEN
+C--------------- For allowing the use of the first 7 traj with FIT
+                A(NOEL,II  ) = SI(1,I) 
+                A(NOEL,II+1) = SI(2,I) 
+                A(NOEL,II+2) = SI(3,I) 
+              ENDIF
+              II = II + 10
             ENDDO
           ELSEIF(KSO2 .EQ. 1) THEN
             LINE = LINE + 1
@@ -79,8 +89,8 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
             ENDDO
           ELSEIF(KSO2 .EQ. 2) THEN
             LINE = LINE + 1
-            READ(NDAT,*,ERR=90) fname
-            ta(noel,1) = fname
+            READ(NDAT,*,ERR=90) FNAME
+            TA(NOEL,1) = FNAME
           ENDIF
         ENDIF
         IA = 0

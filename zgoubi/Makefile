@@ -366,6 +366,7 @@ OBJ=\
  spinro.o\
  splint.o\
  spn.o\
+ spnmat.o\
  spnprn.o\
  spnprt.o\
  spnrot.o\
@@ -657,6 +658,7 @@ soleno.o: $(INC)/MXLD.H
 spach.o: $(INC)/MXLD.H
 spinr.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 spn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+spnmat.o: $(INC)/MAXTRA.H
 spnprn.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/FRMSPN.H
 spnprt.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXLD.H
 spnrot.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H

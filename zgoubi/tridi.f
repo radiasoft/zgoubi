@@ -22,21 +22,22 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE TRIDI(L,D,U,COE,nd,n)
+      SUBROUTINE TRIDI(L,D,U,COE,ND,N)
 C TRIDIAGONAL MATRIX
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      integer m,i
-      doubleprecision L(nd),D(nd),U(nd),COE(nd)
-      m = n - 1 
-      do 10 i = 1,m
-         L(i+1) = L(i+1) / D(i)
-         D(i+1) = D(i+1) - L(i+1) *U(i)
-         COE(i+1) = COE(i+1) - L(i+1) *COE(i)
-10    continue
+C      DOUBLE PRECISION L(ND),D(ND),U(ND),COE(ND)
+C FM Dec 2016
+      DOUBLE PRECISION L(ND),D(ND),U(ND),COE(0:ND)
+      M = N - 1 
+      DO I = 1,M
+         L(I+1) = L(I+1) / D(I)
+         D(I+1) = D(I+1) - L(I+1) *U(I)
+         COE(I+1) = COE(I+1) - L(I+1) *COE(I)
+      ENDDO
 C  THE COEFFICIENT VECTOR WILL TRANSFORM TO SOLUTION VECTOR*
-      COE(n) = COE(n)/D(n)
-      do 20 i = m,1,-1
-         COE(i) = (COE(i) - U(i) *COE(i+1)) / D(i)
-20    continue
-      return
-      end
+      COE(N) = COE(N)/D(N)
+      DO I = M,1,-1
+         COE(I) = (COE(I) - U(I) *COE(I+1)) / D(I)
+      ENDDO
+      RETURN
+      END

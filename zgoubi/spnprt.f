@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPNPRT(LBL1, LBL2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -56,7 +56,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       LOGICAL FIRST
       SAVE LUNPRT, FIRST
 
-      DIMENSION SMAT(3,3), DLT(3,3), PROD(3,3)
+      DIMENSION SMAT(3,3)
 
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
@@ -67,7 +67,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
       IF(NRES.GT.0) THEN
         IF(JDMAX .GT. 1) WRITE(NRES,121) JDMAX
- 121  FORMAT(/,25X,' .... ',I3,'  Groups  of  momenta  follow   ....')
+ 121  FORMAT(/,25X,' -- ',I0,'  GROUPS  OF  MOMENTA  FOLLOW   --')
       ENDIF
  
       DO 3 ID=1,JDMAX
@@ -142,16 +142,16 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         PHIM2 = PHIM2 / DBLE(II)
         SIGPHI = SQRT(PHIM2) 
         
-
         IF(NRES.GT.0) THEN
           SM = SQRT(SX*SX+SY*SY+SZ*SZ)/DBLE(II)
           SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/DBLE(II)
           PHIM = PHIM * DEG
           SIGPHI = SIGPHI * DEG
-          WRITE(NRES,120) II,SX/DBLE(II),SY/DBLE(II),SZ/DBLE(II),SM
+          WRITE(NRES,120) ID,II,SX/DBLE(II),SY/DBLE(II),SZ/DBLE(II),SM
      >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,GGM,phim,sigphi
- 120      FORMAT(//,25X,' Average  over  particles at this pass ; '
-     >    ,2X,'beam with  ',I6,'  particles :'
+ 120      FORMAT(//,25X,
+     >    'Momentum  group  #',I0,' ; '
+     >    'average  over ',I0,' particles at this pass : '
      >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T7,'<SX>',T18,'<SY>',T29,'<SZ>',T40,'<|S|>'
      >    ,T57,'<SX>',T68,'<SY>',T79,'<SZ>',T89,'<|S|>',T98,'<G.gma>'
@@ -219,61 +219,39 @@ C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
           ENDDO
  
         ENDIF
- 3    CONTINUE
  
 C Matrix computation
 C Pattern in OBJET has to be 
 C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0, 1,0,0
-      IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'MATRIX'
-     >.OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
+        IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'MATRIX'
+     >  .OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
 
-        IT = 1
-        SMAT(1,IT) = SF(1,IT) 
-        SMAT(2,IT) = SF(2,IT) 
-        SMAT(3,IT) = SF(3,IT) 
-        IT = 2
-        SMAT(1,IT) = SF(1,IT) 
-        SMAT(2,IT) = SF(2,IT) 
-        SMAT(3,IT) = SF(3,IT) 
-        IT = 3
-        SMAT(1,IT) = SF(1,IT) 
-        SMAT(2,IT) = SF(2,IT) 
-        SMAT(3,IT) = SF(3,IT) 
+          IF(JMAXT.NE.3) THEN
+            WRITE(NRES,FMT='(/,5X,
+     >      ''Pgm spnprt. For computation of spin matrices, ''
+     >      ''OBJET must be groups of 3 particles, each group with ''
+     >      ''same momentum and respective spins in direction X, Y, Z''
+     >      )')
+            CALL ENDJOB('Hint :  use  OBJET/KOB=',2)          
+          ENDIF
 
-        TRM = SMAT(1,1) + SMAT(2,2) + SMAT(3,3) 
-        SROT = ACOS((TRM-1.D0)/2.D0)
+          CALL SPNMAT(ID,
+     >                   SMAT,TRM, SROT,TR1,TR2,TR3)
 
-        CALL RAZ(DLT,3*3)
-        DLT(2,3) = -1.D0 
-        DLT(3,2) = +1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR1 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        DLT(2,3) = 0.D0 
-        DLT(3,2) = 0.D0 
-        DLT(1,3) = +1.D0 
-        DLT(3,1) = -1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        DLT(1,3) = 0.D0 
-        DLT(3,1) = 0.D0 
-        DLT(1,2) = -1.D0 
-        DLT(2,1) = +1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        REN = SQRT(TR1*TR1+TR2*TR2+TR3*TR3)
-        TR1 = TR1 / REN ; TR2 = TR2 / REN ; TR3 = TR3 / REN 
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,103) ID
+ 103        FORMAT(//,18X,'Spin transfer matrix, momentum group # '
+     >      ,I0,' :',/)
+            WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
+ 104        FORMAT(6X,1P,3G16.6)
+            WRITE(NRES,112)TRM,SROT*180.D0/(4.D0*ATAN(1.D0)),TR1,TR2,TR3
+112         FORMAT(/,10X,'Trace = ',F18.10,',',4X,
+     >      ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
+     >      /,10X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')')
+          ENDIF
 
-        IF(NRES.GT.0) THEN
-          WRITE(NRES,103) 
- 103      FORMAT(//,18X,'Spin  transfer  matrix  ',/)
-          WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
- 104      FORMAT(6X,1P,3G16.6)
-          WRITE(NRES,112) TRM, SROT*180.D0/(4.D0*ATAN(1.D0)),TR1,TR2,TR3
-112       FORMAT(/,10X,'Trace = ',F18.10,',',4X,
-     >    ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
-     >    /,10X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')')
-        ENDIF
       ENDIF
+ 3    CONTINUE
 
 C Print to zgoubi.SPNPRT.Out
       IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'PRINT'

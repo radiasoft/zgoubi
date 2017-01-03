@@ -38,6 +38,8 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       CHARACTER(40) FRMT
       CHARACTER(1) LET
 
+      PARAMETER(I90 = 90)
+
       OK = IDLUNI(
      >            LR)
       OPEN(UNIT=LR,FILE='zgoubi.res')
@@ -49,8 +51,10 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
 
       TXT132 = 'not END !' 
       DOWHILE(TXT132(1:5) .NE.'''END''')
+
         READ(LR,FMT='(A)',ERR=10,END=10) TXT132
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+
         IF(TXT132(1:4) .EQ. '''FIT') THEN
           WRITE(LW,FMT='(A)') 
      >    ' ! '//TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -76,12 +80,17 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
           WRITE(LW,FMT='(A)') 
      >    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
         ENDIF
+
         IF(TXT132(1:1) .EQ. '''') THEN
+
           READ(TXT132(105:132),*,ERR=11,END=11) NUEL      ! Position follows from prdata
+
           IF(NUEL .LT. 0 .OR. NUEL .GT. MXL) GOTO 11
           CALL ZGKLE(IQ(NUEL), 
      >                        KLEY)
+
           IF    (KLEY(1:5) .EQ. 'OBJET') THEN 
+
             READ(LR,FMT='(A)',ERR=10,END=10) TXT132              ! BORO
             WRITE(LW,FMT='(A)')                                  
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -90,20 +99,37 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
              IF(STRCON(TXT132,'.',
      >                           IS)) THEN
-              READ(TXT132(1:IS-1),*) KOBJ 
-               READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
+                READ(TXT132(1:IS-1),*) KOBJ 
+                READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
             ELSE
               READ(TXT132,*) KOBJ 
               KOBJ2 = 0
             ENDIF
             IF    (KOBJ.EQ.2) THEN
-              READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132 
+              READ(TXT132,*,ERR=10,END=10) IMAX, IDMAX
               WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-              READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-              READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
-              WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,3A)')
+              II = 30
+              IIT = 1
+              DO WHILE(II.LE.90 .AND. IIT .LE. IMAX)
+                READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+                READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
+                WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,3A)')
      >              (A(NUEL,J),J=30,35),' ''',LET,''' '
+                II = II + 10
+                IIT = IIT + 1
+              ENDDO
+              DO WHILE(IIT .LE. IMAX)
+                READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+                WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+                IIT = IIT + 1
+              ENDDO
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132   ! ' 1 1 1 1 1 ...'
+              WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+
             ELSEIF(KOBJ.EQ.5) THEN
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! Sampling
               WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
@@ -164,10 +190,12 @@ C Old style CHANGREF
               IF    (NINT(10*XSO) .EQ. 40) THEN
                 CALL ZGIMAX(
      >                      IMAX) 
+                JT = 10
                 DO IT = 1, IMAX
                   READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                  WRITE(LW,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
-     >                                  (A(NUEL,J),J=2,13)
+                  WRITE(LW,FMT='(3(F12.8,1X))')
+     >                                  (A(NUEL,J),J=JT,JT+2)
+                  JT = JT+10
                 ENDDO
               ELSEIF(NINT(10*XSO) .EQ. 41) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
@@ -233,6 +261,35 @@ C Old style CHANGREF
             WRITE(LW,FMT='(I0,4(1X,F13.7),T70,A)')
      >                      NINT(A(NUEL,63)),(A(NUEL,J),J=64,67),
      >                                  ' ! KPOS, RE, TE, RS, TS' 
+
+          ELSEIF(KLEY(1:8) .EQ. 'TOSCA') THEN 
+
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+            WRITE(LW,FMT='(1P,4E16.8)')
+     >                                  (A(NUEL,J),J=10,13)
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132  ! TITL
+            WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132 
+            READ(TXT132,*) IX,IY,IZ,AMOD
+            WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            DO I = 1, 4
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132  
+              WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+            ENDDO
+            READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+            IF(INT(AMOD) .LE. 19) THEN    ! Cartesian frame
+              WRITE(LW,FMT='(I0,1X,1P,3E16.8)')
+     >                           NINT(A(NUEL,60)),(A(NUEL,J),J=61,63)  ! KPOS, XCE, YC, ALE
+            ELSE
+              WRITE(LW,FMT='(I0,1X,1P,4E16.8)')
+     >                           NINT(A(NUEL,60)),(A(NUEL,J),J=61,64)  ! KPOS, RE, TE, RS, TS
+            ENDIF
           ENDIF
         ENDIF
       ENDDO

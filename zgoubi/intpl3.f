@@ -26,9 +26,9 @@ C  -------
       SUBROUTINE INTPL3(A,R,Z,DA,DR,DZ,FTAB3,
      >                                       B,DB,DDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     ---------------------------------------------------------
-C     Interpolation of field values in polar coord. 
-C     --------------------------------------------------------
+C     ------------------------------ -------
+C     Interpolation of field and derivatives
+C     --------------------------------------
       DIMENSION FTAB3(3,3,3,3)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

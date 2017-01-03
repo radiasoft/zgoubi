@@ -25,9 +25,9 @@ C  -------
       SUBROUTINE INTPLF(R1,A,R,DA,DR,FTAB,IRD, 
      >                                           BZ0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C     ---------------------------------------------------------
-C     Interpolation of field values in polar coord. 
-C     --------------------------------------------------------
+C     -----------------------------
+C     Interpolation of field values
+C     -----------------------------
       DIMENSION FTAB(5,5),BZ0(5,5)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"

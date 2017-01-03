@@ -58,6 +58,9 @@ C      SAVE IC2
       LOGICAL READAT
       PARAMETER (I0=0,ZRO=0.D0)
 
+      DIMENSION SMAT(3,3)
+      DIMENSION TR(3)
+      
       M=1
       CALL REMPLI(M)
       Z=0D0
@@ -480,7 +483,9 @@ C------------ Constraint on integral of field L-component for particle K, along 
 C-----------Contraints on spin
 
            IF    (ICONT2.EQ.0) THEN
+
              VAL=SF(L,K)
+
            ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on spin components,  
 C             e.g., equal spin values  (L=2,4 or other)
@@ -488,7 +493,26 @@ C                 at ends of cell
 C                   (hence expected value for the constraint is 0)
              VAL=ABS(SF(L,K) - SI(L,K))
 
-           ELSEIF(ICONT2.EQ.1) THEN
+           ELSEIF(ICONT2.EQ.2) THEN
+C------------ Constraint on spin rotation angle of momentum group #K.
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             all particles in a group have same momenta and respective spins in direction X, Y, Z
+
+             CALL SPNMAT(K,
+     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
+             VAL = SROT
+
+           ELSEIF(ICONT2.EQ.3) THEN
+C------------ Constraint on spin rotation axis of momentum group #K.
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             all particles in a group have same momenta and respective spins in direction X, Y, Z
+
+             CALL SPNMAT(K,
+     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
+
+             VAL = TR(L)
+
+           ELSE
              CALL ENDJOB(' SBR ff.f : no such FIT option 10.',ICONT2)
            ENDIF
 

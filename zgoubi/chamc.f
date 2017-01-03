@@ -187,11 +187,11 @@ C--------- ELCMIR
 C--------- HELIX
 
           IF    (KAN.EQ.0) THEN 
-C  Compute FFAG field and derivatives from analytical model
+C  Compute helix field and derivatives from analytical model
             CALL HELIXA(X,Y,Z,
      >                        B,DB,DDB,XROT)
           ELSEIF(KAN.EQ.1) THEN 
-C  Compute HELIX field  and derivatives from 3D (*(*( points flying field-mesh
+C  Compute HELIX field  and derivatives from 3D 3*3*3 point flying grid
 C  centered on particle position. 
             CALL HELIXF(X,Y,Z,
      >                        XX,YY,ZZ,DX,DY,DZ,FTAB3,XROT)

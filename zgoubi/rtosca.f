@@ -75,6 +75,8 @@ C                       be completed for others)
       LINE = LINE + 1
       READ(NDAT,200,ERR=99,END=98) TA(NOEL,1)
  200  FORMAT(A)
+      IF(STRCON(TA(NOEL,1),'!',
+     >      IS)) TA(NOEL,1) = TA(NOEL,1)(DEBSTR(TA(NOEL,1)):IS-1)
 
       ND = 50 
       IF    (IDIM .EQ. 1) THEN
