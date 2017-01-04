@@ -270,7 +270,7 @@ C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-
             NOELB = NOEL
  10         CONTINUE
           ELSE
-            CALL ENDJOB(' SBR RREBEL, NO SUCH OPTION IOP=',IOP)
+            CALL ENDJOB(' Sbr rrebel, No such option IOP=',IOP)
           ENDIF
         ELSE
           NOELA = 1
@@ -287,7 +287,7 @@ C      ENDIF
 
  98   CONTINUE
       CALL ENDJOB('*** Pgm robjet, keyword ''REBELOTE'' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
  
       END

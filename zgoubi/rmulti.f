@@ -100,6 +100,6 @@ c                 stop
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rmulti, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

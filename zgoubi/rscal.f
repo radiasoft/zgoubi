@@ -470,6 +470,6 @@ C----------- TIM2(IFM,IT)
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rscal, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

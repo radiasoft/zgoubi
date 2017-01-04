@@ -393,6 +393,6 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
 
  78   CONTINUE
       CALL ENDJOB('*** Pgm prdata, keyword INCLUDE : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

@@ -44,8 +44,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
 
-      PARAMETER(I90 = 90, I70=I90-20)
-
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
       READ(NDAT,*,ERR=90) TXT20
@@ -67,17 +65,9 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
         ELSEIF(KSO .EQ. 1) THEN
         ELSEIF (KSO .EQ. 4) THEN
           IF     (KSO2 .EQ. 0) THEN
-            II = 10
             DO I=1,IMAX
               LINE = LINE + 1
               READ(NDAT,*,ERR=90) (SI(J,I),J=1,3)
-              IF(II .LE. I70) THEN
-C--------------- For allowing the use of the first 7 traj with FIT
-                A(NOEL,II  ) = SI(1,I) 
-                A(NOEL,II+1) = SI(2,I) 
-                A(NOEL,II+2) = SI(3,I) 
-              ENDIF
-              II = II + 10
             ENDDO
           ELSEIF(KSO2 .EQ. 1) THEN
             LINE = LINE + 1
@@ -93,6 +83,7 @@ C--------------- For allowing the use of the first 7 traj with FIT
             TA(NOEL,1) = FNAME
           ENDIF
         ENDIF
+
         IA = 0
         DO I=1,IMAX
           IA = IA + 10
@@ -106,7 +97,9 @@ C--------------- For allowing the use of the first 7 traj with FIT
           ENDIF
         ENDDO
  11     CONTINUE
+
         A(NOEL,9) = IA
+
       ELSEIF(KSO .EQ. 5) THEN
 C        ... TO, PO = MEAN INITIAL PRCESSION DIRECTION
         LINE = LINE + 1
@@ -122,6 +115,6 @@ C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rspn, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

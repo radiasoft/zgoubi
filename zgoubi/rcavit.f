@@ -106,6 +106,6 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rcavit, keyword '//KLE//' : '// 
-     >'input data error, at line ',line)
+     >'input data error, at line #',line)
       RETURN 
       END

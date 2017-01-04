@@ -41,14 +41,17 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+
+C  If change MXREF, make sure MXT .ge. 11*MXREF
+      PARAMETER(MXREF=MIN(999,11*MXT))
+      COMMON/OBJ5RF/ REF(MXJ,MXREF)
+
       DIMENSION IA(5)
 
       PARAMETER(MXJ1=MXJ-1)
       PARAMETER(I0 = 0)
-      PARAMETER(I90 = 90)
+      PARAMETER(I90 = 90, I70 = I90-20)
 
-C  If change MXREF, make sure 1/ to change MXD (see  line 140), 2/ that MXT is large enough
-      PARAMETER(MXREF=999)
 
       CHARACTER(LEN=132) TXT132
       PARAMETER (MST=3)
@@ -103,7 +106,7 @@ C----- KOBJ - may be of the form "K.K2"
         READ(NDAT,FMT='(A)',ERR=99) TXT132
         READ(TXT132,*,END=98,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
         IF(II .LE. I90) THEN
-C--------- For allowing the use of the first 7 traj with FIT
+C--------- For allowing possible use of the first 7 traj with FIT
           A(NOEL,II  ) = FO(2,I) 
           A(NOEL,II+1) = FO(3,I) 
           A(NOEL,II+2) = FO(4,I) 
@@ -163,25 +166,47 @@ C----- Name of trajectory data storage file
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
       LINE = LINE + 1
-      READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)
+      READ(NDAT,*,ERR=99) (A(NOEL,I),I=30,35)   ! Reference trajectory
       IF(K2.EQ.1) THEN
 C------- Read initial beam, for possible transport by MATRIX or use by FIT
 C alfy, bety,  alfz, betz,  alfx, betx, Dy, Dy', Dz, Dz'
         LINE = LINE + 1
         READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,49)
       ELSEIF(K2 .GE. 2 .AND. K2 .LE. MXREF) THEN
-C------- Read additional references 
-        KK = 30
-        DO 52 K = 2, K2
-          KK = KK + 10
-          IF(KK.GT.MXD-10) THEN 
-            WRITE(*,FMT='(10X,A)') ' Problem : MXD is too small.'
-            WRITE(NRES,FMT='(10X,A)') ' Problem : MXD is too small.'
-            GOTO 99
-          ENDIF
+C------- Read multiple references 
+        IF(K2 .GT. MXREF) THEN 
+          WRITE(   *,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
+     >    //' : MXREF = ',MXREF,' is too small.'
+          WRITE(NRES,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
+     >    //' : MXREF = ',MXREF,' is too small.'
+          GOTO 99
+        ENDIF
+        KRF = 1
+        J = 1
+        DO KK = 30, 34
+          J = J + 1
+          REF(J,KRF) = A(NOEL,KK)
+        ENDDO
+        REF(1,KRF) = A(NOEL,35)
+
+        KK = 40
+        KRF = 2
+
+        DO WHILE (KRF .LE. K2)
           LINE = LINE + 1
-          READ(NDAT,*,ERR=99) (A(NOEL,I),I=KK,KK+5)
- 52       CONTINUE
+          READ(NDAT,*,ERR=99) (REF(J,KRF),J =2, 6), REF(1,KRF)
+          IF(KRF .LE. I70/10) THEN 
+C----------- For allowing possible use of the first 7 reference trajectories with FIT
+            J = 1
+            DO I = KK, KK+4
+              J = J + 1
+              A(NOEL,I) = REF(J,KRF)
+            ENDDO
+            A(NOEL,KK+5) = REF(1,KRF)
+            KK = KK + 10
+          ENDIF 
+          KRF = KRF + 1
+        ENDDO
       ELSEIF(K2 .GT. MXREF) THEN
         CALL ENDJOB(' Pgm robjet.f. MXREF is too small.',-99)
       ENDIF
@@ -261,7 +286,7 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm robjet, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
  
       END

@@ -192,8 +192,10 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
      >        ' No element found with label_1 = '
      >         //TXT20(DEBSTR(TXT20):FINSTR(TXT20))
      >         //', (FIT[2] was met at position ',NOEL,')'
-              WRITE(*,FMT='(A)') TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-              WRITE(NRES,FMT='(A)')TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              WRITE(*,FMT='(/,A)') 
+     >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              WRITE(NRES,FMT='(/,A)')
+     >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               GOTO 90
             ENDIF
           ENDIF
@@ -235,6 +237,6 @@ C--------- Numb. particls
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rfit, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

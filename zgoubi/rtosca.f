@@ -331,6 +331,6 @@ C       ... Polar map frame
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rtosca, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

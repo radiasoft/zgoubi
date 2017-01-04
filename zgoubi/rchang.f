@@ -138,7 +138,7 @@ C old style, x- and y-shift followed by z-rotation
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rchang, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       
       RETURN

@@ -57,12 +57,14 @@ C     > (IDE(5),IPMAX),(IDE(1),IMAXD)
 C      EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
 C     > (JDE(5),IP   ),(JDE(1),ID)
  
-      PARAMETER(MXREF=999)
-      DIMENSION REF(MXJ,MXREF)
+      PARAMETER(MXREF=MIN(999,11*MXT))
+      COMMON/OBJ5RF/ REF(MXJ,MXREF)
+
       DIMENSION FI(6,6)
 
       SAVE KOBJ2
       SAVE NBREF
+
       DATA NBREF / 1 /
 
       IMAX=11 * NBREF
@@ -81,11 +83,15 @@ C     > (JDE(5),IP   ),(JDE(1),ID)
         IREF = IREF + 1
         IREF1 = IREF-1
         K = 30 + 10 * IREF1
-        DO 52 J = 2,MXJ1
-          REF(J,IREF) = A(NOEL,K)
-          K = K + 1
- 52     CONTINUE
-        REF(1,IREF) = A(NOEL,K)
+
+        IF(IREF .LE. 7) THEN
+C----------- For allowing possible use of the first 7 reference trajectories with FIT
+          DO J = 2,MXJ1
+            REF(J,IREF) = A(NOEL,K)
+            K = K + 1
+          ENDDO 
+          REF(1,IREF) = A(NOEL,K)
+        ENDIF
 
         I = 11 * IREF1 
         DO 53 J=2,5
@@ -178,7 +184,8 @@ C Dy, Dy', Dz, Dz'
       ELSEIF(KOBJ2 .GE. 2 .AND. KOBJ2 .LE.MXREF) THEN
         NBREF = KOBJ2
       ELSE
-        CALL ENDJOB('OBJ5, wrong value KOBJ2 in OBJET. Max is ',MXREF)
+        CALL ENDJOB(
+     >  'Pgm obj5, wrong value KOBJ2 in OBJET. Max is MXREF=',MXREF)
       ENDIF 
       RETURN
       END

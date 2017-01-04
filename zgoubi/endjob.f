@@ -41,10 +41,10 @@ C  -------
       ELSE
         WRITE(6  ,FMT='( /,1X,A,I0,//,
      >  ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
-     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT)),II,NOEL,IPASS
+     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
         WRITE(LUN,FMT='( /,1X,A,I0,//,
      >  ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
-     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT)),II,NOEL,IPASS
+     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
       ENDIF
       WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
       WRITE(  6,FMT='(/,''End of job !'',//,''  '')')

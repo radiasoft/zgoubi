@@ -60,7 +60,7 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm roptio, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
  
       END

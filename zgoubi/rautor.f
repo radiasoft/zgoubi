@@ -88,6 +88,6 @@ C 2 : Center the beam on xce, yce, ale, p/pRef and set all times to A(NOEL,14)
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rautor, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

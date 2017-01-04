@@ -73,6 +73,6 @@ C Get the list of elements to be subjected to scaling
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rsrlos, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

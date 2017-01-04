@@ -93,6 +93,6 @@ C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm ragsmm, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

@@ -2406,6 +2406,9 @@ tracked,  or ``-9''  to indicates that the particle should not be tracked.
 
 \noindent\textbf{KOBJ = 2.1~:} Same as \KOBJ = 2    except for the units, meter and radian in that case. 
 
+\medskip
+
+\noindent Note that in this option  \textbf{KOBJ =  2[.]]}, only the first 7 trajectories  can possibly have their coodinates varied when using the \textsl{FIT[2]} procedure. 
 
 
 
@@ -2611,6 +2614,9 @@ of the  \textsl{N} references.
 
 \noindent A subsequent use of \textsl{MATRIX}  would then cause the computation of \textsl{N} transport matrices. 
 
+\medskip
+
+\noindent Note that in the option  \textsl{\KOBJ = 5.N, $N \geq 2$}, only the first 7 reference trajectories  can possibly have their coodinates varied when using the \textsl{FIT[2]} procedure. 
 
 \bigskip
 
@@ -8087,7 +8093,8 @@ The \textsl{reference} Lorentz factor corresponds to the reference rigidity
 
 \newpage
 
-\subsubsection*{TOSCA~: \TOSCATitl} \label{TOSCA} \index{TOSCA|textbf}
+\subsubsection*{TOSCA~: \TOSCATitl\ \rm (page~\pageref{TOSCA-B} in PART~B)} \label{TOSCA} \index{TOSCA|textbf}
+
 \medskip
 
  \textsl{TOSCA} is dedicated to the reading and treatment of 
@@ -8190,7 +8197,7 @@ The various \IZ, \textsl{MOD} and \textsl{MOD2} possibilities, when using \texts
 \medskip
 
 \noindent At each step of the trajectory of a particle inside the map, the
-field and its derivatives are calculated 
+field and its derivatives are calculated as follows~:
 
  - in the case of a 2-D map,  by means of a second or fourth order polynomial interpolation, 
 depending on \textsl{IORDRE\index{IORDRE}} (\textsl{IORDRE} = 2, 25 or 4), as for 
@@ -8206,6 +8213,24 @@ section~\ref{sec2.4.4}.
 \noindent In the Cartesian mesh case, entrance and/or exit integration boundaries between which the trajectories
 are integrated in the field may be defined, in the same way as in  \textsl{CARTEMES\index{CARTEMES}}. 
 
+\medskip  
+
+\noindent A '\textsl{TITL}' (a line of comments) is part  of the arguments of the keyword \textsl{TOSCA}. 
+It allows introducing options, for instance~:     
+
+$\diamond$ including `HEADER n'  allows specifying the number of header lines ('n' non-data lines) 
+at the top of the field map file, 
+
+$\diamond$ including `FLIP' in \textsl{TITL} causes the field map to be X-flipped, 
+
+$\diamond$ including  `ZroBXY'  forces $B_X=B_Y=0$ at all Z=0 nodes of the field map mesh (only applies with 
+\textsl{MOD}=15 and \textsl{MOD}=24), 
+
+$\diamond$ including  `RHIC\_helix' will normalize \textsl{BNORM} to measured B field value  
+  versus helix current (measured B(I) data are hard-coded in program toscac.f). In that case, 
+\textsl{BNORM} may be given the current value, in Amps, while a(1) in mode 
+\textsl{MOD.MOD2=15.1} is  used to normalize the field map (namely, $a(1)=1/B_{max}$ with $B_{max}$ the
+maximum field value on helix axis). 
 
 
 

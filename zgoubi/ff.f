@@ -314,6 +314,11 @@ c             CALL FITMM1(K,L,KK,MIMA,
 c     >                             VAL2)
 c             val = val1 + val2
      
+           ELSEIF(ICONT2.EQ.3) THEN
+C------------ Same coordinate L, two different particles K, K2 
+             K2 = NINT(CPAR(I,2)) 
+             VAL=ABS( F(L,K) + F(L,K2) )
+
            ELSEIF(ICONT2.EQ.4) THEN
 C------------ Same coordinate L, two different particles K, K2 
              K2 = NINT(CPAR(I,2)) 

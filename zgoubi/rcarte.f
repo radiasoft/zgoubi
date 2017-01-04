@@ -228,6 +228,6 @@ C       ... Polar map frame
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rcarte, keyword '//KLE//' : '// 
-     >'input data error, at line ',line)
+     >'input data error, at line #',line)
       RETURN
       END

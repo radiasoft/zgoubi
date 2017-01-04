@@ -82,6 +82,6 @@ C----- LABEL's
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rpckup, keyword '//KLE//' : '// 
-     >'input data error, at line ',LINE)
+     >'input data error, at line #',LINE)
       RETURN
       END

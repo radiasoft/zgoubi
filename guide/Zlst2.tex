@@ -3383,13 +3383,13 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \textsl{YR, TR, ZR, PR, SR, DR} \> 
                         Reference trajectory   ($\DR= B \rho /\text{\BORO}$~; \SR\ is not sused)      \> 2(cm,mrad),  cm, no dim. \>  6*E  \\
  \\
-\textsl{If KOBJ = 5.1}      \> additional data line :  \>\>\\
+$\diamond$ \textsl{If KOBJ = 5.1}      \> One additional data line :  \>\>\\
  $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_S, \beta_S$,  \> Initial beam ellipse parameters~\footnotemark[1]  
          \> 2(no dim.,m),  ?, ?, \>  6*E, \\
  $D_Y, D_Y'$, $D_Z, D_Z'$  \>       \> 2(m,rad)\>  4*E \\
  \\
-\textsl{If KOBJ = 5.N ($2\! \leq N \! \leq 99$)}
-      \> i = 1 to N-1 additional data lines :  \>\>\\
+$\diamond$ \textsl{If KOBJ = 5.N ($N\! \geq 2$)}
+      \> $N$ additional data lines~\footnotemark[2]    \>\>\\[.2ex]
  \textsl{YR, TR, ZR, PR, SR, DR}  \> 
                         Reference trajectory \# i  ($\DR= B \rho /\text{\BORO}$~; \SR\ is not sused)      \> 2(cm,mrad), cm, no dim.  \>  6*E  \\
  \\
@@ -3411,7 +3411,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \textsl{YR, TR, ZR, PR, SR, DR}              \>Reference  ($DR=B\rho/\text{\BORO}$)  \>2(cm,mrad), cm, no dim. \>  6*E \\
  \\
-\textbf{If KOBJ = 8} \label{pageOBJ8}     \>\textbf{Generation of phase-space coordinates on ellipses~\footnotemark[2]} \>\>\\
+\textbf{If KOBJ = 8} \label{pageOBJ8}     \>\textbf{Generation of phase-space coordinates on ellipses~\footnotemark[3]} \>\>\\
 \\
  $IY$,  $IZ$, $IS$  
        \>Number of samples in each 2-D phase-space~;  \>  {\footnotesize $0\le IY,IZ,IS \le IMAX$}, \> 3*I\\
@@ -3432,9 +3432,10 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 
 \end{tabbing}
 
-\footnotetext[1]{~ They can be transported by using MATRIX}
-\footnotetext[2]{~ Similar possibilities, random, are offered with \textsl{MCOBJET}, KOBJ=3 
-(p.~\pageref{pageMCOBJ3})} 
+\footnotetext[1]{~ They can be transported by using MATRIX.}
+\footnotetext[2]{~ The maximum value for $N$, normally MXREF=999, is hard-coded in obj5.f.}
+\footnotetext[3]{~ Similar possibilities, random, are offered with \textsl{MCOBJET}, KOBJ=3 
+(p.~\pageref{pageMCOBJ3}).} 
 %%%
 
 
@@ -4947,7 +4948,7 @@ cp zgoubi.res zgoubi.res_save
 \begin{tabbing}
 \mestab
  \textbf{TOSCA}        \label{TOSCA-B} \index{TOSCA|textbf}
-     \> \textbf{\TOSCATitl} \> \> 
+     \> \textbf{\TOSCATitl} (page~\pageref{TOSCA} in PART~A) \> \> 
  \\
  \\
  $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
@@ -4961,6 +4962,8 @@ cp zgoubi.res zgoubi.res_save
                       \>Include ``HEADER n'' if \textsl{FNAME} starts with $n\geq1$ header lines.  \> \> \\
                       \>Include ``ZroBXY'' to force $B_X=B_Y=0$ at all Z=0 (only applies  \> \> \\
                       \> for \textsl{MOD}=15 and \textsl{MOD}=24).  \> \> \\
+                      \>Include ``RHIC\_helix'' to normalize \textsl{BNORM} to measured value (B field  \> \> \\
+                      \> versus helix current, in program toscac.f).  \> \> \\
  \\
  $IX$, $IY$, $IZ,$~\footnotemark[1]     \>Number of nodes of the mesh in the $X$, $Y$    \>$\leq$\textsl{MXX}, $\leq$\textsl{MXY}, \>3*I, I[.I  \\
 \textsl{MOD[.MOD2 [, a(i),i=} \> and $Z$ directions, $IZ=1$ for a 2-D map~; \textsl{MOD} \> $\leq$\textsl{IZ}, [0-22.1-9], - \> [, MOD2*E]]\\
