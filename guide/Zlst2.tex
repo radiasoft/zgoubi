@@ -3191,19 +3191,21 @@ $KP$ and $KX$ can take the values
 ~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+                \right) \right) $, more  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 %%%%%%%%
-\textbf{If KOBJ = 3} \label{pageMCOBJ3} \>\textbf{On a phase-space ellipse~\footnotemark[1]} \> \> \\
+\textbf{If KOBJ = 3} \label{pageMCOBJ3} \>\textbf{On a phase-space ellipse~\footnotemark[1]. Four lines follow~:} \> \> \\
  \\
 $ \alpha_ Y$, $\beta_ Y$, $\varepsilon_Y/\pi$, $N_{\sigma_{\epsilon_Y}} $   
-		\>Ellipse parameters and    \>no dim., m/rad, \>4*E [,E] \\ 
+		\>Ellipse parameters and    \>no dim., m/rad, \>4*E [,E] [,2*E] \\ 
 {[}, $N'_{\sigma_{\epsilon_Y}}$ if $N_{\sigma_{\epsilon_Y}} < 0$]~\footnotemark[2]
-		 \>emittance, Y-T phase-space~; cut-off \> m, units of  $\sigma(\varepsilon_Y)$\> \\
+		 \>emittance, Y-T phase-space~; cut-off~; \> m, units of  $\sigma(\varepsilon_Y)$~; \> \\
+{[}, $D_Y$, $D_T$]  \> dispersion and derivative \> [, m, rad]\> \\
 \\
 $ \alpha_ Z$, $\beta_ Z$, $\varepsilon_ Z/\pi $, $ N_{\sigma_{\epsilon_Z}} $    
-	\>Ellipse parameters and       \>no dim., m/rad, \>4*E [,E]  \\ 
+	\>Ellipse parameters and       \>no dim., m/rad, \>4*E [,E] [,2*E]  \\ 
 {[}, $N'_{\sigma_{\epsilon_Z}}$ if $N_{\sigma_{\epsilon_Z}} < 0$]~\footnotemark[2]
-		 \>emittance, Z-P phase-space~; cut-off    \>m, units of  $\sigma(\varepsilon_Z)$\> \\
+		 \>emittance, Z-P phase-space~; cut-off~;    \>m, units of  $\sigma(\varepsilon_Z)$\> \\
+{[}, $D_Z$, $D_P$]  \> dispersion and derivative \> [, m, rad]\> \\
  \\
 $ \alpha_ X$, $\beta_ X$, $\varepsilon_ X/\pi $, $ N_{\sigma_{\epsilon_X}} $    
 	\>Ellipse parameters and       \> no dim., m/rad, \>4*E [,E] \\ 
@@ -3466,9 +3468,13 @@ which is $B\rho_{\rm ref} / \BORO = 3.111758007$
 
 \hspace{-7ex}
 \begin{minipage}{0.499\linewidth}
+This 9,000,000-turn job crashed at turn number 2,217,299. Tracking starts from clock'6 IP in RHIC, 
+ acceleration (keyword \textsl{CAVITE}) at a rate of $50 \times \cos(2.1618)$~kV per turn.
+
+Particle coordinates are stored turn-by-turn at SNK1 (keyword \textsl{FAISTORE}), location of the first helical dipole. 
+
 \scriptsize
 \begin{verbatim}
-This 9,000,000-turn job crashed at turn number 2,217,299.
 'OBJET'        
 87.5772517e3                    
 2              ! Declare 8 particles, all 
@@ -3517,7 +3523,16 @@ MULTIPOL MULT
 WRITE OFF                       
 'MARKER'   MARK      RHIC$START   
 'MARKER'   MARK      CLOCK6down
------- RHIC ring, from CLOCK6 to CLOCK6 ------------
+
+-------------------------------------------------
+----- RHIC ring, from CLOCK6 to CLOCK6 ----------
+----- including snake 1 region : 
+'MARKER' SNK1
+'SPINR'    Snake1     OSNKE                        
+1     
++45. 180.                ! snakAxis, spin angle 
+-------------------------------------------------
+
 'MARKER'   MARK      CLOCK6up    
 'MARKER'   MARK      RHIC$END   
 'CAVITE'  accelerating cavity  
@@ -3532,7 +3547,10 @@ WRITE OFF
 
 \end{minipage} \hspace{4ex}
 \begin{minipage}{0.47\linewidth}
-This run recovers from the  crash, starting with particle, magnet and cavity  data as found at turn number 2,217,299. 
+This run recovers from the  crash, starting at SNK1 (a permutation 
+of the previous data file) with coordinates as read from b\_zgoubi.fai 
+(storage file as filled by \textsl{FAISTORE} during the run that crashed). Magnet and cavity  data are 
+updated to their values  at turn number 2,217,299. 
 \scriptsize
 \begin{verbatim}
  'OBJET'                        
@@ -3552,7 +3570,7 @@ b_zgoubi.fai    ! The storage file is used to recover
 'FAISCEAU'                     
 
 'FAISTORE'                     
-b_zgoubi_rest.fai   SNK1   
+b_zgoubi.fai   SNK1   
 67
 'SCALING'               
 1  6
@@ -3585,15 +3603,17 @@ CAVITE
 1 1   
 WRITE OFF                        
 
-'MARKER'  SNK1down  ! RHIC start changed to SNK1
+'MARKER' SNK1   ! start point changed to SNK1
+
+------------------------------------------------
 ------ RHIC ring, from snake 1 to snake 1 ------
-'MARKER'   MULT      ERHLX                         
-'MARKER'    SNK1up
-'SPINR'    SNK1      OSNKE                        
+------------------------------------------------
+'SPINR'    Snake1     OSNKE                        
 1     
-+45. 180.                ! snkAxis, spin angle 
-'CAVITE'                 ! accelerating cavity                 
-2     
++45. 180.                ! snakAxis, spin angle 
+
+'CAVITE'                 ! accelerating cavity,
+2                        ! location is arbitrary
 3833.8456    120.00 
 50e3    2.61799387799           
 'REBELOTE'              
@@ -4579,7 +4599,7 @@ $ X$, $X $        \> Unused \> 2*unused\> 2*E\\
                 \>  axis~; spin precession angle around that axis. \>  \>  \\
 \\
 \textbf{If IOPT=2}  \>\bf Given the spin precession axis direction, $\phi$, in the horizontal plane, the spin precession \\
-   \> \bf angle follows a function of the Lorentz factor~: $\mu (\gamma) = \left(\dfrac{B}{B_0}\right)^2 * \left( C_0 + \dfrac{C_1}{\gamma} + \dfrac{C_2}{\gamma^2}  + \dfrac{C_3}{\gamma^3} \right) $  \\
+   \> \bf angle follows a function of the Lorentz factor~: $\mu (\gamma) = \left(\dfrac{B}{B_0}\right)^2 \times \left( C_0 + \dfrac{C_1}{\gamma} + \dfrac{C_2}{\gamma^2}  + \dfrac{C_3}{\gamma^3} \right) $  \\
  \\
 $\phi$, $B$, $B_0$,  \> Angle  (in $(X,Y)$ plane)  between the X-axis and the spin  \> deg.; 6*no dim \> 7*E \\
 $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define the spin precession \>  \>  \\

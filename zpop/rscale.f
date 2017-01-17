@@ -79,7 +79,7 @@ C------- Store name of family and label(s)
             
         IF(NST .GE. 2) THEN
           DO 11 KL=2,NST
- 11         LBF(IF,KL-1) =  STRA(KL)(1:LBLSIZ)
+ 11         LBF(IF,KL-1) =  STRA(KL)  !(1:LBLSIZ)
         ENDIF
         DO 12 KL=NST+1, MSTR
  12       LBF(IF,KL-1) = ' '

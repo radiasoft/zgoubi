@@ -78,17 +78,8 @@ C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
 
-
-c         write(*,*) ' ff call zgoubi',KK,READAT,
-c     >                              NBEL
-c             read(*,*)
-
             CALL ZGOUBI(1,KK,READAT,
      >                              NBEL)
-
-c         write(*,*) ' ff out of zgoubi',KK,READAT,
-c     >                              NBEL
-c             read(*,*)
 
          ENDIF
 
@@ -99,18 +90,9 @@ C 11=beta_y, 12=21=-alpha_y, 22=gamma_y ; 3-4 for ._z ; 5-6 for dp-s
            IF(KOBJ .EQ. 6) IORD=2
 
            IF    (ICONT2 .EQ. 0) THEN
-c         write(*,*) ' ff imptra 1 '
-c                  call imptra(1,11,6)
-c                 read(*,*)
              CALL COEFFS(1,IORD,U,T,1,
      >                                F0P,Cstrn)
-c         write(*,*) ' ff imptra 2 '
-c                  call imptra(1,11,6)
-c                 read(*,*)
              VAL= F0P(K,L)
-
-C         write(*,*) ' ff icont2, k, l, val : ',icont,icont2,k, l, val
-C                    read(*,*)
 
            ELSEIF(ICONT2 .GE. 1 .AND. ICONT2 .LE. 9) THEN
 C------------ Periodic case :  Twiss coefficients or tunes
@@ -148,8 +130,6 @@ C-----------Contraints are first order transport coeffs
      >                                F0P,Cstrn)
              IF(K .LE. 6 .AND. L .LE. 6 ) THEN
                VAL= U(K,L)
-
-c                   write(*,*) ' ffffffffffff ',k,l,val
 
              ELSEIF( K .EQ. 7 ) THEN
                IF(.NOT. L .EQ. 8 ) THEN
@@ -264,12 +244,8 @@ C-------------- Constraint is value of coordinate L of particle K
              ELSEIF(K.EQ.-1) THEN
 C------------ Constraint on beam : average value of coordinate L
                if    (NINT(CPAR(I,1)) .eq. 0) then
-c                     write(*,*) ' ff  imax ',imax
-c                        pause
                  VAL=FITLAV(L,1,imax,ZRO)
                elseif(NINT(CPAR(I,1)) .eq. 2) then
-c                 write(*,*) 'ff i1 i2 ',NINT(CPAR(I,2)),NINT(CPAR(I,3))
-c                        pause
                  VAL=FITLAV(L,NINT(CPAR(I,2)),NINT(CPAR(I,3)),ZRO)
                endif
              ELSEIF(K.EQ.-2) THEN
@@ -411,8 +387,6 @@ C    constraint rms  emittance
         ELSE IF(ICONT .EQ. 7) THEN
 C----------- Constraints on coordinates and fields *inside* optical elements
 
-C                 write(*,*) ' ff ',icont, icont2
-
            IF(ICONT2.EQ.1) THEN
 C------------ Constraint on min or max value (MIMA=1 or 2) of coordinate L reached inside optical element KK
              MIMA = NINT(CPAR(I,2))
@@ -512,9 +486,9 @@ C------------ Constraint on spin rotation axis of momentum group #K.
 C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
+
              CALL SPNMAT(K,
      >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
-
              VAL = TR(L)
 
            ELSE

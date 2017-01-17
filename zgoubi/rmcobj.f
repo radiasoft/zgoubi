@@ -42,6 +42,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (MXJ2=MXJ-2)
       PARAMETER (I0 = 0)
 
+      PARAMETER (MST=7)
+      CHARACTER(LEN=20) STRA(MST)
+
 C----- BORO
       LINE = 1
       READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
@@ -110,33 +113,42 @@ C----- IR1, IR2, IR3
       RETURN
  
  3    CONTINUE
-      LINE = 6
-      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,53)
-      IF(A(NOEL,53) .LT. 0.D0) THEN
-        BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=50,54)
-        A(NOEL,53) = -A(NOEL,53) 
-      ELSE
-        A(NOEL,54) = 0.D0
-      ENDIF 
-      LINE = 7
-      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,63)
-      IF(A(NOEL,63) .LT. 0.D0) THEN
-        BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=60,64)
-        A(NOEL,63) = -A(NOEL,63) 
-      ELSE
-        A(NOEL,64) = 0.D0
-      ENDIF 
-      LINE = 8
-      READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,73)
-      IF(A(NOEL,73) .LT. 0.D0) THEN
-        BACKSPACE(NDAT,ERR=99)
-        READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=70,74)
-        A(NOEL,73) = -A(NOEL,73) 
-      ELSE
-        A(NOEL,74) = 0.D0
-      ENDIF 
+      LL = 50
+      DO WHILE (LL .LE. 70)
+        LINE = 6 + (LL-50)/10
+        READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
+        IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(1:IS-1)
+        CALL STRGET(TXT132,MST,
+     >                         NST,STRA) 
+        IF(NST .GT. MST) GOTO 90
+        DO I = 1, NST
+          READ(STRA(I),*) A(NOEL,I-1+LL)  
+C             write(*,*) nst, i, I-1+LL  ,A(NOEL,I-1+LL)  
+        ENDDO
+        DO I = NST+1, 10
+          A(NOEL,I-1+LL) = 0.D0
+        ENDDO
+        IF(NST .GE. 6) THEN
+C eta_Y and eta_T are part of (last two) data
+          IF(A(NOEL,LL+3) .LT. 0.D0) THEN
+            IF(NST .LT. 7) THEN
+              WRITE(6,FMT='(//,A)') 'A line of 7 data is expected...'
+              GOTO 90
+            ENDIF
+C            A(NOEL,LL+3) = -A(NOEL,LL+3)         
+          ENDIF
+        ELSE
+          IF(A(NOEL,LL+3) .LT. 0.D0) THEN
+            IF(NST .LT. 5) THEN
+              WRITE(6,FMT='(//,A)') 'A line of 5 data is expected...'
+              GOTO 90
+            ENDIF
+          ENDIF
+        ENDIF
+        LL = LL + 10
+      ENDDO
+
       LINE = 9
       READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,82)
       RETURN

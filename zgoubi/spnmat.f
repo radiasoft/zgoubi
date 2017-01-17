@@ -31,6 +31,7 @@ C  -------
 
       DIMENSION DLT(3,3), PROD(3,3)
 
+C ID is the momentum group (ID = 1, IDMAX in OBJET/KOBJ=2)
         II = 1
         IT = 1 + (ID-1)*3
         SMAT(1,II) = SF(1,IT) 
@@ -48,7 +49,11 @@ C  -------
         SMAT(3,II) = SF(3,IT) 
 
         TRM = SMAT(1,1) + SMAT(2,2) + SMAT(3,3) 
-        SROT = ACOS((TRM-1.D0)/2.D0)
+        IF(ABS(TRM) .LE. 1.D0) THEN 
+          SROT = ACOS((TRM-1.D0)/2.D0)
+        ELSE
+          SROT = 1.D10
+        ENDIF
 
         CALL RAZ(DLT,3*3)
         DLT(2,3) = -1.D0 

@@ -164,12 +164,12 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
      >    ,I6,'  particles,  and  rotation  angle :'
      >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T12,'SX',T22,'SY',T32,'SZ',T42,'|S|'
-     >    ,T60,'SX',T70,'SY',T80,'SZ',T90,'|S|',T101,'GAMMA'
-     >    ,T110,'(Si,Sf)',T120,'(Si,Sf_x)')
+     >    ,T54,'SX',T64,'SY',T74,'SZ',T84,'|S|',T94,'GAMMA'
+     >    ,T102,'(Si,Sf)',T112,'(Z,Sf_X)',T122,'(Z,Sf)')
           WRITE(NRES,FMT='(
-     >    T110,'' (deg.)'',T120,''  (deg.)'')')
+     >    T102,'' (deg.)'',T112,'' (deg.)'',T122,'' (deg.)'')')
           WRITE(NRES,fmt='(T92,a,/)') 
-     >           '(Sf_x : projection of Sf on plane x=0)'
+     >           '(Sf_X : projection of Sf on YZ plane)'
 
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
@@ -178,25 +178,31 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
               AA(1) = SI(1,I)
               AA(2) = SI(2,I)
               AA(3) = SI(3,I)
+C This is in case |S| is not exactly 1
+              AA = AA / XNORM(AA,3)
               BB(1) = SF(1,I)
               BB(2) = SF(2,I)
               BB(3) = SF(3,I)
+              BB = BB / XNORM(BB,3)
 
+C Angle between SI and SF
               CPHI = VSCAL(AA,BB,3)
               PHI(I) = ACOS(CPHI) * DEG
 
-C If initial spin is // Z
-              PHIZF = ATAN(SQRT(SF(1,I)**2+SF(2,I)**2)/SF(3,I)) * DEG
-              BB(1)= 0.D0
+C Angle between SF and Z axis
+              PHIZF = ATAN2(SQRT(BB(1)**2+BB(2)**2),BB(3)) * DEG
+c              BB(1)= 0.D0
+c              CPHIX = VSCAL(AA,BB,3)/XNORM(BB,3)
+c              PHIX(I) = ACOS(CPHIX) * DEG 
 
-              CPHIX = VSCAL(AA,BB,3)/XNORM(BB,3)
-              PHIX(I) = ACOS(CPHIX) * DEG 
+C Angle between Z axis and projection of SF on YZ plane (== X=0 plane)
+              PHIX(I) = ATAN2(BB(2), BB(3)) * DEG
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
-     >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),I
- 101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),9X,4(1X,F9.6),1X,F11.4,
-     >        2(1X,F9.4),1X,I4)
-C              WRITE(NRES,*)'ATN(sy/sx)=',ATAN(SF(2,I)/SF(1,I))*DEG,'deg'
+     >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),PHIZF,I
+ 101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),3X,4(1X,F9.6),1X,F11.4,
+     >        3(1X,F8.3),1X,I4)
+
             ENDIF
           ENDDO
  
@@ -249,7 +255,7 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
 112         FORMAT(/,10X,'Trace = ',F18.10,',',4X,
      >      ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
      >      /,10X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
-     >      ' ;  angle to (X,Y) plane, angle to Z axis : ',
+     >      ' ;  angle to (X,Y) plane, angle to X axis : ',
      >       F10.4,', ',F10.4,'  degree')
           ENDIF
 
@@ -270,18 +276,19 @@ C Print to zgoubi.SPNPRT.Out
           ENDIF
           WRITE(LUNPRT,FMT='(3(A,/),A)') 
      >    '# spin data. PRINT by spnprt.f ',
-     >    '#  1  2  3  4  5  6    7    8     9 10 11 12   '//
+     >    '# 1  2  3  4  5  6    7    8     9 10 11 12   '//
      >    '    13 14 15 16      17       18   19 '//
-     >    '   20     21     22  23  24  25  26  27     '//
-     >    ' etc.                                               '//
+     >    '   20     21     22   23   24  25  26  27  28  29 '//
+     >    ' 30-32     etc.                               '//
      >    '           ',
      >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4), '//
      >    '(SF(J,I),J=1,4), gamma, G.gamma, PHI, '//
-     >    'PHIX, ITRAJ, IPASS, Yo, To, Zo, Po, So, Do '//
-     >    ' !spnprt.f ',
+     >    'PHIX, ITRAJ, IPASS, NOEL, Yo, To, Zo, Po, So, Do, '//
+     >    'AXE(1,3) !spnprt.f ',
      >    '# cm mr cm mr cm  -   -     -    - - - -       '//
-     >    '    - - - -            -        -     '//
-     >    '  etc.     '
+     >    '    - - - -            -         Spin angles in deg. '//
+     >    '                 -         -           -          '//
+     >    '30-32     etc.     '
         ENDIF
         DO I=IMAX1,IMAX2
           IF( IEX(I) .GE. -1 ) THEN
@@ -291,9 +298,9 @@ C Print to zgoubi.SPNPRT.Out
      >      (F(J,I),J=2,6),F(1,I)
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
-     >      ,(FO(J,I),J=2,6),FO(1,I)
+     >      ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3
  111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E14.6),3(1X,I6)
-     >      ,6(1X,E14.6))
+     >      ,9(1X,E14.6))
           ENDIF
         ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE

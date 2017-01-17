@@ -51,6 +51,8 @@ C     ----------------------------------------------------
       DIMENSION ALP(MXJ1),BET(MXJ1),EPS(MXJ1),RMA(MXJ1),RMB(MXJ1)
       DIMENSION EPST(MXJ1)
 
+      DIMENSION DIS(MXJ)
+
       DATA IKAR / 0 /
 
 C     .. PARAMETRE ELLIPSES
@@ -63,12 +65,25 @@ C     .. PARAMETRE ELLIPSES
       EPS(2)=A(NOEL,52)
       EPS(4)=A(NOEL,62)
       EPS(6)=A(NOEL,72)
-      RMA(2)=A(NOEL,53)
-      RMA(4)=A(NOEL,63)
-      RMA(6)=A(NOEL,73)
-      RMB(2)=A(NOEL,54)
-      RMB(4)=A(NOEL,64)
-      RMB(6)=A(NOEL,74)
+C      RMA(2)=A(NOEL,53)
+C      RMA(4)=A(NOEL,63)
+C      RMA(6)=A(NOEL,73)
+      J = 1
+      DOWHILE (J .LE. 3)      
+        RMA(2*J)=A(NOEL,53 + 10*(J-1))
+        IF(RMA(2*J) .LT. 0.D0) THEN 
+          RMA(2*J) = -RMA(2*J)
+          RMB(2*J) = A(NOEL,54 + 10*(J-1))
+          DIS(2*J)  = A(NOEL,55 + 10*(J-1))
+          DIS(2*J+1) = A(NOEL,56 + 10*(J-1))
+        ELSE
+          DIS(2*J)  = A(NOEL,54 + 10*(J-1))
+          DIS(2*J+1) = A(NOEL,55 + 10*(J-1))
+        ENDIF
+C      RMB(4)=A(NOEL,64)
+C      RMB(6)=A(NOEL,74)
+        J = J + 1
+      ENDDO
 
       IF    (KNRM .EQ. 1) THEN
         EPST(2)=EPS(2) / CENTRE(1) 
@@ -113,6 +128,15 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
      >  ,/,11X,' horizontal    :',T35,1P,3G12.4,G10.2,' (',G10.2,')'
      >  ,/,11X,' vertical      :',T35,   3G12.4,G10.2,' (',G10.2,')'
      >  ,/,11X,' longitudinal  :',T35,   3G12.4,G10.2,' (',G10.2,')')
+
+        WRITE(NRES,108) (DIS(J),J=2,5)
+ 108    FORMAT(/,15X
+     >  ,' Coordinates correlated :  ' 
+     >  ,' Y ->  Y +D_Y * dp/p,  T ->  T +D_T * dp/p,  '
+     >  ,' Z -> ZY +D_Z * dp/p,  P ->  P +D_P * dp/p.  '
+     >  ,/,11X,' Dispersion values as follows :'
+     >  ,/,11X,' horizontal, D_Y, D_T    :',T35,1P,2(G12.4,2X)
+     >  ,/,11X,' vertical, D_Z and D_P   :',T35,1P,2(G12.4,2X))
 
         WRITE(NRES,FMT='(/,15X,'' Sorting  types  (Y/Z/L) : '',
      >      3(A9,''/''))') (KTIR(J),J=2,MXJ1,2)
@@ -207,11 +231,22 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
         ENDIF
  1    CONTINUE      
                   
-      DO 4 I=IMI,IMA
-        FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
-        DO 4 J=2,MXJ1
+      DO I=IMI,IMA
+        DO J=2,MXJ1-1
+c       write(88,fmt='(a,1p,2(i4,2x),6(e12.4,2x))') ' mcobj3 ',
+c     > i,j,FO(J,I),DIS(J) ,FO(1,I),DIS(J)/UNIT(J-1) * FO(1,I),
+c     >  FO(J,I) + CENTRE(J)/UNIT(J-1),
+c     >   FO(J,I) + CENTRE(J)/UNIT(J-1) + DIS(J)/UNIT(J-1) * FO(1,I)
+c              read(*,*)
+          FO(J,I)=FO(J,I) + DIS(J)/UNIT(J-1) * FO(1,I)
           FO(J,I)=FO(J,I) + CENTRE(J)/UNIT(J-1)
- 4      CONTINUE
+        ENDDO
+        J = 1
+        FO(J,I)=FO(J,I) + CENTRE(J)/UNIT(6)
+C        FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
+        J = MXJ1
+        FO(J,I)=FO(J,I) + CENTRE(J)/UNIT(J-1)
+      ENDDO
  
       ENTRY MCOBJA
 

@@ -115,7 +115,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
               DO WHILE(II.LE.90 .AND. IIT .LE. IMAX)
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
                 READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
-                WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,3A)')
+                WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8,3A)')
      >              (A(NUEL,J),J=30,35),' ''',LET,''' '
                 II = II + 10
                 IIT = IIT + 1
@@ -135,7 +135,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
               WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
      >              (A(NUEL,J),J=20,25)
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! (1st) reference
-              WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
+              WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8)')
      >              (A(NUEL,J),J=30,35)
               IF(KOBJ2 .GE. 1) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
@@ -145,7 +145,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
                 ELSE
                   DO I = 1, KOBJ2-1
                     READ(LR,FMT='(A)',ERR=10,END=10) TXT132           ! Next references in a total of KOBJ2
-                    WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6)')
+                    WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8)')
      >              (A(NUEL,J),J=(I+4)*10,(I+4)*10+5)
                   ENDDO
                 ENDIF

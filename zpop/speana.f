@@ -32,7 +32,7 @@ C  -------
       INCLUDE 'MAXNTR.H'
       COMMON/TRACKM/COOR(NTRMAX,9),NPTS,NPTR
  
-      PARAMETER ( PI=3.1415926536 , DEUXPI=2.0*PI )
+      PARAMETER ( PI=4.D0*ATAN(1.D0) , DEUXPI=2.0D0*PI )
 
       DO 1 INU = 1, 5, 2
         JNU = 1 + INU/2

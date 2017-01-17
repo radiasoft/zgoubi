@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                                               és
+C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -34,7 +34,7 @@ C  -------
 C      CALL TXTFBG
       CHARACTER REP
       INTEGER FINSTR
-      parameter (z0=0.d0, i0=0)
+      PARAMETER (Z0=0.D0, I0=0)
       DATA ISCA / 1 /
 
       KX0=KX

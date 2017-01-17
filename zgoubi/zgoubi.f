@@ -1099,7 +1099,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
           ENDIF
           IF(MSTR .LE. NLBOPT) CALL ENDJOB('*** Pgm zgoubi, keyword '
      >    //'OPTICS :  inconsistent  data  IOPT. Check label list or '
-     >    //'NLBL - Now = ',NLBOPT)
+     >    //'NLBL - Now NLBL = ',NLBOPT)
           DO I = 1, NLBOPT
             READ(STRA(1+I),*) LBLOPT(I)
           ENDDO
@@ -1161,8 +1161,8 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
      >         '  Dxp           Dy            Dyp           phix/' //
-     >         '2pi      phiy/2pi    cumul_s         #lmnt  x    ' //
-     >         '         xp            y             yp          ' //
+     >         '2pi      phiy/2pi    cumul_s/m       #lmnt  x/m  ' //
+     >         '         xp/rad        y/m           yp/rad      ' //
      >         'KEYWORD    label1     label2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
      >         '       r       !    optimp.f    ' //

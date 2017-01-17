@@ -48,14 +48,14 @@ C----- CONTROLE VARIABLES
       IF(IER .EQ. 1) THEN
         IF(NRES.GT.0) WRITE(NRES,102) '''NV''',NV,'VARIABLES'
  102    FORMAT(/,5X,' SBR  FITEST - WARNING *  DATA  ',A,
-     >  '=',I3,'  IN ',A,'  IS  OUT  OF  RANGE')
+     >  '=',I0,'  IN ',A,'  IS  OUT  OF  RANGE')
       ENDIF
       DO 1 I=1,NV
 C------- LMNT VARIABLE
         IF(IR(I).LT.1 .OR. IR(I).GE.NOEL) THEN
           IF(NRES.GT.0) WRITE(NRES,101) '''IR''',IR(I),'VARIABLE',I
  101      FORMAT(/,5X,' SBR  FITEST - WARNING *  data  ',A,'=',
-     >    I2,'  in ',A,' #',I3,'  is  out  of  range')
+     >    I0,'  in ',A,' #',I0,'  is  out  of  range')
           IER = 1
         ELSE
           IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,

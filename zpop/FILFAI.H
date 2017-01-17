@@ -25,5 +25,5 @@ C  -------
 C------ Name of storage file for postprocessing by zpop
 C           normally zgoubi.fai ; b_zgoubi.fai for binary storage
       CHARACTER*20 FILFAI
-      PARAMETER (FILFAI='zgoubi.fai')
-C      PARAMETER (FILFAI='b_zgoubi.fai')
+C      PARAMETER (FILFAI='zgoubi.fai')
+      PARAMETER (FILFAI='b_zgoubi.fai')

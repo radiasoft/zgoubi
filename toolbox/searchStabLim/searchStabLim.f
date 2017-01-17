@@ -8,6 +8,8 @@ C extreme amplitude
       parameter (nTrajmx=999)
       dimension x(nTrajmx),xp(nTrajmx),z(nTrajmx),
      >                   zp(nTrajmx),s(nTrajmx),d(nTrajmx),let(nTrajmx)
+      dimension xi(nTrajmx),xpi(nTrajmx),zi(nTrajmx),
+     >                   zpi(nTrajmx)
       dimension storb(6,nTrajmx)
       logical ok, result, strcon, first
       character*2 HV, HVIn
@@ -59,7 +61,7 @@ C----------------------------------------
 
 C zgoubi_StabLim-In.dat is supposed to contain stable trajectories 
 C - these could be output from prior searchCO procedure - 
-C these will be starting point for search of stability limit
+C these will be starting point for search of stability limit. 
 C
       open(unit=lunR,file='zgoubi_StabLim-In.dat')
 
@@ -113,6 +115,7 @@ c                    read(*,*)
 C Read all initial traj from zgoubi_StabLim-In.dat, supposed to be stable
         do i=1,nTraj
           read(lunR,*) x(i),xp(i),z(i),zp(i),s(i),d(i),let(i)
+          xi(i) =x(i); xpi(i) =xp(i); zi(i) =z(i); zpi(i) =zp(i)
         enddo
 
 C Retains only one initial traj at a time
@@ -237,12 +240,18 @@ c                   stop
           write(icho,fmt='(1p,4e14.6,e9.1,e12.4)') 
      >                          xst,xpst,zst,zpst,sst,dst
           call flush2(icho,.false.)
+
           storb(1,jok) = xst
           storb(2,jok) = xpst
           storb(3,jok) = zst
           storb(4,jok) = zpst
           storb(5,jok) = sst
           storb(6,jok) = dst
+          if(xst .gt. xma) xma = xst
+          if(xpst .gt. xpma) xpma = xpst
+          if(zst .gt. zma) zma = zst
+          if(zpst .gt. zpma) zpma = zpst
+
         endif
         result = result .or. ok        
 
@@ -255,7 +264,7 @@ c                   stop
  60   continue
       close(lunR)
 
-Create zgoubi_StabLim-Out.dat_HV containing limit orbits
+Create zgoubi_StabLim-Out.dat_H, or _Hz, or _V containing limit orbits
       namFil = 'zgoubi_StabLim-Out.dat'//'_'//HV
       open(unit=lunW,file=namFil)
       open(unit=lunR,file='zgoubi_StabLim-In.dat')
@@ -283,14 +292,36 @@ C Read/write "IMAX IMAXT"
      >    ' .0001  .0001  .0001  .0001  .0001  1.  ''o'''
 C Write stab Lim coordinates
         do j=1,jok
-          read(lunR,fmt='(a)') txt132
+
+          if    (njj .eq. 1) then
+            dxx = 0.d0 ;       dzz = 0.d0
+            xxx = storb(1,j) ; zzz = storb(3,j) 
+          elseif(njj .ge. 2) then
+            dxx = (storb(1,j) - xi(j))/float(njj-1)
+            dzz = (storb(3,j) - zi(j))/float(njj-1)
+            xxx = xi(j) -dxx
+            zzz = zi(j) -dzz
+          else
+            write(*,*) 
+            write(*,*) 'Pgm searStabLim.  Found njj = ',njj,'  !!'
+            stop 'Such njj value cannot be !'
+          endif
+
+c         write(*,*) ' initial : ',xi(j),zi(j)
+c         write(*,*) ' xxx, dxx ',storb(1,j),xi(j),xxx-dxx, dxx
+c         write(*,*) ' zzz, dzz ',storb(3,j),zi(j),zzz-dzz, dzz
+c                      read(*,*)
+
+         read(lunR,fmt='(a)') txt132
           do jj = 1, njj
             if    (HV .eq. 'H' .or. HV .eq. 'Hz') then
-              xxx = storb(1,j)/float(njj) * float(jj)
+C              xxx = storb(1,j)/float(njj) * float(jj)
+              xxx = xxx + dxx
               zzz = storb(3,j)
             elseif(HV .eq. 'V') then
               xxx = storb(1,j)
-              zzz = storb(3,j)/float(njj) * float(jj)
+C              zzz = storb(3,j)/float(njj) * float(jj)
+              zzz = zzz + dzz
             endif
             write(lunW,fmt='(1p,4e16.8,e9.1,e16.8,4a,i4)') 
      >      xxx, storb(2,j), zzz, storb(4,j),

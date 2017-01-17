@@ -2231,19 +2231,21 @@ MCDESINT\index{MCDESINT}}).
 \medskip
 
 \noindent\textbf{KOBJ  = 3~:} Distribution of \IMAX\ particles inside a
-6-D ellipsoid defined by the three sets of data (one set per 
+6-D ellipsoid (with possible momentum correlation via dispersion) defined by the three sets of data (one set per 
  2-D phase-space)
 
 $$
-\begin{array}{*{4}{r<{,}}r}
+\begin{array}{*{5}{r<{,}}r}
  \alpha_ Y  &   \beta_ Y  
             &  \dfrac{ \varepsilon_Y}{\pi} 
             &  N_{\varepsilon_ Y}  ~~[
-            & N'_{\varepsilon_ Y}, \text{ if } N_{\varepsilon_ Y} < 0] \\
+            & N'_{\varepsilon_ Y}, \text{ if } N_{\varepsilon_ Y} < 0]  ~~[
+            &  D_Y, ~ D_T] \\
 \alpha_ Z   &  \beta_ Z  
             &  \dfrac{ \varepsilon_Z }{ \pi} 
             & N_{\varepsilon_ Z} ~~[
-            & N'_{\varepsilon_ Z}, \text{ if } N_{\varepsilon_ Z} < 0] \\
+            & N'_{\varepsilon_ Z}, \text{ if } N_{\varepsilon_ Z} < 0]  ~~[
+            &  D_Z, ~ D_P] \\
 \alpha_ X   & \beta_ X 
             &  \dfrac{\varepsilon_X }{ \pi} 
             & N_{\varepsilon_ X} ~~[
@@ -2251,11 +2253,11 @@ $$
 \end{array}           
 $$            
 %
-where $\alpha$, $\beta$ are the ellipse parameters and $\varepsilon/ 
-\pi$ the \rms\ emittance, corresponding to an elliptical  frontier 
-$\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = 
-\varepsilon_Y / \pi$ (\id\ for the ($Z, P$) 
-or ($X, D$) planes). $N_{\varepsilon_ Y}$, $N_{\varepsilon_ Z}$ and 
+where $\alpha_{X,Y,Z}$, $\beta_{X,Y,Z}$, $D_{Y,T}$, $D_{Z,P}$ are the ellipse parameters and the dispersions and derivatives,  
+ $\varepsilon_{X,Y,Z}/ \pi$ are the \rms\ emittances. 
+This defines for each plane an elliptical  frontier $\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = 
+\varepsilon_Y / \pi$ (\id\ for the ($Z, P$) or ($X, D$) planes). 
+$N_{\varepsilon_ Y}$, $N_{\varepsilon_ Z}$ and 
 $N_{\varepsilon_ X}$ are the sorting cut-offs (used only for Gaussian 
 distributions, $KY, KT, ...=2$).
 

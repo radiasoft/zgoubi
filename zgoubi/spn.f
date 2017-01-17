@@ -126,8 +126,6 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
             RETURN
          ENDIF
  
-C          P = BORO*CL*1D-9*(Q/QE)
-C          P = BORO*CL*1D-9*Q
           P = BORO*CL9*Q
           BE = P/SQRT(P*P + AM*AM)
           GG = G/SQRT(1.D0-BE*BE)
@@ -185,31 +183,32 @@ C          P = BORO*CL*1D-9*Q
         IM = IMAX
         IF(IM.GT.MXD/10) IM=MXD/10
         IA = 0
-c        DO I=1,IM
-c          IA = IA+10
-c          SX = A(NOEL,IA)
-c          SY = A(NOEL,IA+1)
-c          SZ = A(NOEL,IA+2)
-c          SI(1,I) = SX
-c          SI(2,I) = SY
-c          SI(3,I) = SZ
+        DO I=1,IM
+          IA = IA+10
+          SX = A(NOEL,IA)
+          SY = A(NOEL,IA+1)
+          SZ = A(NOEL,IA+2)
+          SI(1,I) = SX
+          SI(2,I) = SY
+          SI(3,I) = SZ
+          SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
+          SF(1,I) = SX
+          SF(2,I) = SY
+          SF(3,I) = SZ
+          SF(4,I) = SI(4,I)
+c           write(*,*) ' spn ',i,sx,sy,sz 
+       ENDDO
+c        DO I=IM+1,IMAX
+c        DO I=1,IMAX
+c          SX = SI(1,I)
+c          SY = SI(2,I)
+c          SZ = SI(3,I)
 c          SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
 c          SF(1,I) = SX
 c          SF(2,I) = SY
 c          SF(3,I) = SZ
 c          SF(4,I) = SI(4,I)
 c        ENDDO
-c        DO I=IM+1,IMAX
-        DO I=1,IMAX
-          SX = SI(1,I)
-          SY = SI(2,I)
-          SZ = SI(3,I)
-          SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
-          SF(1,I) = SX
-          SF(2,I) = SY
-          SF(3,I) = SZ
-          SF(4,I) = SI(4,I)
-        ENDDO
       ELSEIF(KSO2.EQ.1) THEN
         SX = A(NOEL,10)
         SY = A(NOEL,11)

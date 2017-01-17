@@ -28,8 +28,8 @@ C  -------
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       PARAMETER (MXLOC=100)
-      DIMENSION FMI(MXJ,MXLOC,mxt), FMA(MXJ,MXLOC,mxt)
-      DIMENSION FLDMI(3,MXLOC,mxt), FLDMA(3,MXLOC,mxt)
+      DIMENSION FMI(MXJ,MXLOC,MXT), FMA(MXJ,MXLOC,MXT)
+      DIMENSION FLDMI(3,MXLOC,MXT), FLDMA(3,MXLOC,MXT)
       DIMENSION SFLD(3,MXLOC,MXT)
 
       SAVE FMI, FMA, FLDMI, FLDMA, SFLD
@@ -50,6 +50,10 @@ C  -------
 C      IF(NEL.LE.0) CALL ENDJOB('SBR FITMM. '
 C     >//' Problem with constraint number assignement.'
 C     >//' Wrong element number in constraint ?',-99)
+
+      IF(NEL .GT. MXLOC) CALL ENDJOB(
+     >'Pgm fitmm. Found NEL > MXLOC=',MXLOC)
+      IF(IT .GT. MXT) CALL ENDJOB('Pgm fitmm. Found IT > MXT=',MXT)
 
       FMA(1,NEL,IT) = DMAX1( DP,FMA(1,NEL,IT))
       FMA(2,NEL,IT) = DMAX1(  Y,FMA(2,NEL,IT))
@@ -75,9 +79,9 @@ C     >//' Wrong element number in constraint ?',-99)
       FLDMI(2,NEL,IT) = DMIN1(B(1,2),FLDMI(2,NEL,IT))
       FLDMI(3,NEL,IT) = DMIN1(B(1,3),FLDMI(3,NEL,IT))
 
-      SFLD(1,nel,IT)       = SFLD(1,nel,IT) + B(1,1)*PAS
-      SFLD(2,nel,IT)       = SFLD(2,nel,IT) + B(1,2)*PAS
-      SFLD(3,nel,IT)       = SFLD(3,nel,IT) + B(1,3)*PAS
+      SFLD(1,NEL,IT)       = SFLD(1,NEL,IT) + B(1,1)*PAS
+      SFLD(2,NEL,IT)       = SFLD(2,NEL,IT) + B(1,2)*PAS
+      SFLD(3,NEL,IT)       = SFLD(3,NEL,IT) + B(1,3)*PAS
 
       RETURN
 
