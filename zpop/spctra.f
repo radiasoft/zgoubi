@@ -126,10 +126,13 @@ C----- PLOT SPECTRUM
  2    CONTINUE
       NT0 = NT
  23   WRITE(*,FMT=
-     > '(''  # of the particle to be analized ( 1-'',I6,'' ): '')') MXT 
+     > '('' Give # of the particle to be analized '')') 
       WRITE(*,FMT=
-     > '(''      ( Default = increment )'',I3)') NT
-      READ(5,FMT='(I4)',ERR=23) NT
+     > '(''      ( Default = increment  ->  '',I0,'')'')') NT+1
+      READ(5,FMT='(I6)',ERR=22,END=22) NT
+
+ 22   CONTINUE
+
       IF(NT .GT.  0) THEN 
         IF(NT.LE.MXT) THEN
           CALL READC6B(NT,NT)

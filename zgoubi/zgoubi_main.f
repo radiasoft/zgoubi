@@ -84,8 +84,10 @@ C Manage possible arguments to zgoubi -----------------------
         END DO
       ENDIF
       DO IX = 1, NBARGS
-         IF(ARGS(IX) .EQ. '-fileIn'  ) FLIN = ARGS(IX+1)
-         IF(ARGS(IX) .EQ. '-fileOut' ) FLOUT = ARGS(IX+1)
+         IF(  ARGS(IX) .EQ. '-fileIn'  
+     >   .OR. ARGS(IX) .EQ. '-in'  ) FLIN = ARGS(IX+1)
+         IF(ARGS(IX) .EQ. '-fileOut'  
+     >   .OR. ARGS(IX) .EQ. '-out'  ) FLIN = ARGS(IX+1)
          IF(ARGS(IX) .EQ. '-fileLog' ) FLOG = ARGS(IX+1)
          IF(ARGS(IX) .EQ. '-saveExec') SAVXEC = .TRUE.
          IF(ARGS(IX) .EQ. '-saveZpop') SAVZPP = .TRUE.

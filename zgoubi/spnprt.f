@@ -178,17 +178,17 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
               AA(1) = SI(1,I)
               AA(2) = SI(2,I)
               AA(3) = SI(3,I)
-C This is in case |S| is not exactly 1
-              AA = AA / XNORM(AA,3)
               BB(1) = SF(1,I)
               BB(2) = SF(2,I)
               BB(3) = SF(3,I)
-              BB = BB / XNORM(BB,3)
 
 C Angle between SI and SF
-              CPHI = VSCAL(AA,BB,3)
-              PHI(I) = ACOS(CPHI) * DEG
-
+              CPHI = VSCAL(AA,BB,3) /XNORM(AA,3) /XNORM(BB,3)
+              IF(ABS(CPHI) .GT.  1.D0) THEN
+                PHI(I) = 0.D0
+              ELSE
+                PHI(I) = ACOS(CPHI) * DEG
+              ENDIF
 C Angle between SF and Z axis
               PHIZF = ATAN2(SQRT(BB(1)**2+BB(2)**2),BB(3)) * DEG
 c              BB(1)= 0.D0
@@ -199,6 +199,7 @@ C Angle between Z axis and projection of SF on YZ plane (== X=0 plane)
               PHIX(I) = ATAN2(BB(2), BB(3)) * DEG
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
+C     >        ,(SF(J,I),J=1,4),CPHI,PHI(I),PHIX(I),PHIZF,I
      >        ,(SF(J,I),J=1,4),GAMA,PHI(I),PHIX(I),PHIZF,I
  101          FORMAT(1X,A1,1X,I2,4(1X,F9.6),3X,4(1X,F9.6),1X,F11.4,
      >        3(1X,F8.3),1X,I4)

@@ -4686,12 +4686,39 @@ $S_X$, $S_Y$, $S_Z$   \> $X$, $Y$ and $Z$ components of the initial spins. \> 3*
 \\
 \textbf{If KSO = 5} \> Random distribution in a cone (see figure)\\
       \> Enter the following two sequences : \\
-$TO$, $PO$, $A$, $\delta A$ \> Angles of average polarization : \> 4*rad \> 4*E \\
+$TO$, $PO$ \> Angles of average polarization : \> 2*rad \> 2*E \\
         \> $A$ = angle of the cone~; $\delta A$ = standard deviation \\
+$A$, $\delta A$ \> $A$ = angle of the cone around $(TO,PO)$~; $\delta A$ = standard deviation \\
         \> of distribution around $A$ \\
 \\
 $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I              
   \end{tabbing}
+
+\vfill 
+
+%%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
+\begin{figure}[H]
+\centering
+%\vspace{11 truecm}
+%%%Figure 7
+\begin{minipage}{.5\linewidth}
+\centering
+
+\includegraphics[height=1.\linewidth]{Fig7.ps}
+%{\setlength{\captionwidth}{12cm}
+%\hangcaption[Fig7]{\label{fig7}
+
+Option \textsl{KSO} = 5~: 
+          spins are distributed at random within an annular strip 
+         with standard deviation $\delta A$, 
+         centered at an angle $A$ with respect to the 
+         axis of mean polarization ($\vec S$) defined by $T_0$  and $P_0$.
+%} 
+%}
+\end{minipage}
+\end{figure}
+
+\vfill
   
 \footnotetext[1]{~ \textsl{SPNTRK} must be preceded by \textsl{PARTICUL} for
  the definition of $G$ and mass.}
@@ -4702,7 +4729,7 @@ and further away resumed using \textsl{KSO=~-1}.}
 
 
 
-\newpage
+\clearpage
 
 
 \begin{tabbing}

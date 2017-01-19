@@ -120,10 +120,12 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >           30X,'Same spin for all particles, read from file ',A)
             ENDIF
           ELSEIF(KSO .EQ. 5) THEN
+            WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)') 
+     >      'TO, PO, A, dA : ',
+     >      A(NOEL,10),A(NOEL,11),A(NOEL,20),A(NOEL,21)
             WRITE(NRES,108)
- 108        FORMAT(15X,' OPTION 5 UNAVAILABLE IN THIS VERSION',/)
-            KSO=0
-            RETURN
+ 108        FORMAT(15X,
+     >      'WARNING :  INSTALLATION OF KSO=5 NEEDS BE COMPLETED !',/)
          ENDIF
  
           P = BORO*CL9*Q
@@ -264,17 +266,21 @@ c                  read(*,*)
       AL = A(NOEL,20)
       DA = A(NOEL,21)
  
-      SX = COS(PO)*COS(TO)
-      SY = COS(PO)*SIN(TO)
-      SZ = SIN(PO)
+      XNRM = 0.D0
       DO 15 I=1,IMAX
-        SI(1,I) = SX
-        SI(2,I) = SY
-        SI(3,I) = SZ
+        RAND = (2.D0*RNDM()-1.D0)
+        TO = RAND*PI
+        SX = COS(PO)*COS(TO)
+        SY = COS(PO)*SIN(TO)
+        SZ = SIN(PO)
+        XNRM = SQRT(SX*SX + SY*SY + SZ*SZ)
+        SI(1,I) = SX/XNRM
+        SI(2,I) = SY/XNRM
+        SI(3,I) = SZ/XNRM
         SI(4,I) = 1.D0
-        SF(1,I) = SX
-        SF(2,I) = SY
-        SF(3,I) = SZ
+        SF(1,I) = SX/XNRM
+        SF(2,I) = SY/XNRM
+        SF(3,I) = SZ/XNRM
         SF(4,I) = 1.D0
  15   CONTINUE
  
@@ -288,18 +294,24 @@ c                  read(*,*)
         SXM = SXM + SI(1,I)
         SYM = SYM + SI(2,I)
         SZM = SZM + SI(3,I)
+        SXM = SXM/XNRM
+        SYM = SYM/XNRM
+        SZM = SZM/XNRM        
  20   CONTINUE
- 
+      XNRM = SQRT(SXM*SXM + SYM*SYM + SZM*SZM)
+      SXM = SXM / XNRM 
+      SYM = SYM / XNRM 
+      SZM = SZM / XNRM 
+
       IF(NRES.GT.0) THEN
-        RIMX = DBLE(IMAX)
-        SM = SQRT(SXM*SXM+SYM*SYM+SZM*SZM)/RIMX
-        WRITE(NRES,120) IMAX, SXM/RIMX, SYM/RIMX, SZM/RIMX, SM
+        SM = SQRT(SXM*SXM+SYM*SYM+SZM*SZM)
+        WRITE(NRES,120) IMAX, SXM, SYM, SZM, SM
  120    FORMAT(//,25X,' POLARISATION  INITIALE  MOYENNE  DU'
      >  ,2X,'FAISCEAU  DE  ',I7,'  PARTICULES :'
-     >  ,/,30X,' <SX> = ',F10.4
-     >  ,/,30X,' <SY> = ',F10.4
-     >  ,/,30X,' <SZ> = ',F10.4
-     >  ,/,30X,' <S>  = ',F10.4)
+     >  ,/,30X,' <SX> = ',F12.6
+     >  ,/,30X,' <SY> = ',F12.6
+     >  ,/,30X,' <SZ> = ',F12.6
+     >  ,/,30X,' <S>  = ',F12.6)
       ENDIF
  
       RETURN

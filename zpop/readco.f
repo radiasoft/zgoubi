@@ -485,7 +485,7 @@ C------- Write lmnt #,  KL1 to KL2
      >   ,''(assuming savings consistent'')')
         WRITE(6,FMT='(/,
      >        '' Enter desired values KL1, KL2  : '')')
-        READ(LN,fmt=*,ERR=33) KL1NEW, KL2NEW
+        READ(LN,FMT='(I6,I6)',ERR=33,END=33) KL1NEW, KL2NEW
       GOTO 32
  33     KL1NEW = KLA
         KL2NEW = KLB

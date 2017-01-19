@@ -486,11 +486,23 @@ C------------ Constraint on spin rotation axis of momentum group #K.
 C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
-
              CALL SPNMAT(K,
      >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
              VAL = TR(L)
 
+           ELSEIF(ICONT2.EQ.4) THEN
+C------------ Constraint on spin rotation axis of momentum group #K.
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             all particles in a group have same momenta and respective spins in direction X, Y, Z
+             
+             VAL = 0.D0
+             jj = 0
+             DO  II = 1, IMAX
+                 jj = jj + 1
+               VAL = VAL + SF(3,II)               
+             ENDDO
+             val = val /dble(jj)
+C                 write(*,*) ' ff  val = ',val
            ELSE
              CALL ENDJOB(' SBR ff.f : no such FIT option 10.',ICONT2)
            ENDIF
