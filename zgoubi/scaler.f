@@ -355,6 +355,35 @@ C            WRITE(NLOG,*) TIME, SCALER, p/p0, IPASS, NOEL,
 C     >            ' SBR SCALER :   TIME, SCALER, p/p0, IPASS, NOEL'
           ENDIF
 
+        ELSEIF(KTI .EQ. -89) THEN
+C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
+          PHAS = SCL(KF,2,1)
+          Q1   = SCL(KF,3,1)
+          Q2   = SCL(KF,4,1)
+          PP   = SCL(KF,5,1)
+          MSC   = SCL(KF,1,1) 
+          RAMPN = TIM(KF,1)
+          FLATN = TIM(KF,2)
+          DOWNN = TIM(KF,3)
+          DBLIP = DBLE(IPASS)
+          IF    (IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+            IF    (IPASS .LE. RAMPN) THEN
+              SCALER = DBLIP/RAMPN
+              QN = Q1
+            ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
+              SCALER = 1.D0
+              QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
+            ELSEIF(IPASS .GT. RAMPN+FLATN .AND.
+     >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+              SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
+              QN = Q2
+            ENDIF
+            SCALER = MSC * SCALER  * COS(2.D0*PP*DBLIP*QN + PHAS)
+          ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
+            SCALER = 0.D0
+          ENDIF
+C          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
+
         ELSEIF(KTI .EQ. -88) THEN
 C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
           PHAS = SCL(KF,1,1)

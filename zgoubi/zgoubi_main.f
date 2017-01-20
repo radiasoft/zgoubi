@@ -209,7 +209,7 @@ C -----
         OKWDAT = .TRUE.
 
         WRITE(6,201)
-C Proceeds downstream of FIT[2] to the end of zgoubi.dat list
+C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting REBELOTE)
         READAT = .TRUE.
         FITING = .FALSE.
         CALL FITSTA(I6,FITING)

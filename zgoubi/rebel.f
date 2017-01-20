@@ -88,6 +88,9 @@ C  -------
       LOGICAL AFTREB, AFTREO
       SAVE AFTREB
 
+      LOGICAL FITRBL
+      LOGICAL FITING
+
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
@@ -96,12 +99,20 @@ C  -------
       DATA OKLSTP / .FALSE. /
       DATA NPRM / 0 /
       DATA AFTREB / .FALSE. /
+      DATA FITING / .FALSE. /
+      DATA FITRBL / .FALSE. /
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
 C----- Switch for print to standard output :
-      KWRI6 = NINT((A(NOEL,2)-KWRT)*10)
+      CALL FITSTA(5,
+     >               FITING)
+      IF(FITING) THEN
+        KWRI6 = 0
+      ELSE
+        KWRI6 = NINT((A(NOEL,2)-KWRT)*10)
+      ENDIF
       KREB3 = NINT(A(NOEL,3))
 C----- For multiturn injection : 
 C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
@@ -448,7 +459,18 @@ C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
  
 C REBELOTE should be usable within FIT -> under developement. 
 
-        IPASS = IPASS+1
+        CALL FITST7(
+     >               FITRBL)   ! Switched to T by REBELOTE if FIT embedded
+        IF(FITRBL) THEN
+C This is necessary in order to allow FIT within REBELOTE 
+C An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/
+          IPASS = IPASS+1
+        ELSE
+C This is necessary in order to allow REBELOTE within FIT 
+C An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/REBELOTEfollowedByFIT/averageSpinAngleInCSnake.dat
+          IPASS = 1
+        ENDIF
+
         IF(OKPCKP) CALL PCKUP3(NOEL)
 
       ENDIF
