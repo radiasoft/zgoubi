@@ -18,33 +18,22 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE FITSET
+      FUNCTION ITAIL(TXT,SIGN,JTAIL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-
-      LOGICAL RBLFIT, RBLFII
-      SAVE RBLFIT
-      DATA RBLFIT / .FALSE. /
-
-C Set to T by REBELOTE, always. That allows it possibly embedded within FIT
-      IF(RBLFIT) THEN
-        IPASS = 1      ! Otherwise, it has value IPASS+1 as set at end of REBELOTE
-        CALL REBEL8(RBLFIT)
+      CHARACTER(*) TXT
+      CHARACTER(*) SIGN
+      INTEGER DEBSTR,FINSTR
+      LOGICAL STRCON
+      ITAIL = DEBSTR(TXT)
+      JTAIL = FINSTR(TXT)
+      IF(STRCON(TXT,SIGN,
+     >                   ITAIL)) THEN
+      ELSE
+        ITAIL = JTAIL+1
       ENDIF
-
-      IF(NRES.GT.0) NRES=-NRES
-      NB = NOEL-1
       RETURN
-
-      ENTRY FITSE2(
-     >             RBLFII)
-      RBLFIT = RBLFII
-      RETURN
-
       END

@@ -192,6 +192,7 @@ OBJ=\
  interv.o\
  intpl3.o\
  intplf.o\
+ itail.o\
  itavan.o\
  iter.o\
  itsens.o\

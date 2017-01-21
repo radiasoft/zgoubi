@@ -361,7 +361,7 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
           Q1   = SCL(KF,3,1)
           Q2   = SCL(KF,4,1)
           PP   = SCL(KF,5,1)
-          MSC   = SCL(KF,1,1) 
+          BSC   = SCL(KF,1,1)  
           RAMPN = TIM(KF,1)
           FLATN = TIM(KF,2)
           DOWNN = TIM(KF,3)
@@ -373,12 +373,12 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
             ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
               SCALER = 1.D0
               QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
-            ELSEIF(IPASS .GT. RAMPN+FLATN .AND.
+            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
      >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
               SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
               QN = Q2
             ENDIF
-            SCALER = MSC * SCALER  * COS(2.D0*PP*DBLIP*QN + PHAS)
+            SCALER = BSC * SCALER  * COS(2.D0*PP*DBLIP*QN + PHAS)
           ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
             SCALER = 0.D0
           ENDIF

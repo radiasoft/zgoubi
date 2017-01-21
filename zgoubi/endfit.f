@@ -29,11 +29,16 @@ C  -------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (INT0=0)
+
       CALL OPTIO1(
      >            KWROFF)
       IF(KWROFF .NE. 1) THEN
         IF(NRES .LT. 0) NRES = -NRES
       ENDIF
       CALL INTEG8(INT0)
+
+C In case REBELOTE would be embedded within FIT
+C That will cause going beyond FIT at the final run following completion of FIT
+      CALL REBEL8(.FALSE.)
       RETURN
       END

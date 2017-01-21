@@ -2055,7 +2055,9 @@ first label,
   \\
   \\
  \> Print particle coordinates at the location where the \\
- \> keyword is introduced in the structure.\\[60pt]
+ \> keyword is introduced in the structure.\\
+ \> If frist label is 'FORCE', will force printout when normally \\
+ \>  inhibited (\textsl{e.g.}, during FIT, or REBELOTE). \\[60pt]
 %
 %
 \textbf{FAISCNL}  \label{FAISCNL-B} \index{FAISCNL|textbf} 
@@ -4686,11 +4688,9 @@ $S_X$, $S_Y$, $S_Z$   \> $X$, $Y$ and $Z$ components of the initial spins. \> 3*
 \\
 \textbf{If KSO = 5} \> Random distribution in a cone (see figure)\\
       \> Enter the following two sequences : \\
-$TO$, $PO$ \> Angles of average polarization : \> 2*rad \> 2*E \\
-        \> $A$ = angle of the cone~; $\delta A$ = standard deviation \\
-$A$, $\delta A$ \> $A$ = angle of the cone around $(TO,PO)$~; $\delta A$ = standard deviation \\
+$TO$, $PO$ \> Angles of average polarization direction. \> 2*rad \> 2*E \\
+$A$, $\delta A$ \> $A$ = angle of the cone around $(TO,PO)$~; $\delta A$ = standard deviation \>2*rad \> 2*E \\
         \> of distribution around $A$ \\
-\\
 $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I              
   \end{tabbing}
 

@@ -97,7 +97,7 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
             READ(LR,FMT='(A)',ERR=10,END=10) TXT132              ! KOBJ[.KOBJ2]
             WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-             IF(STRCON(TXT132,'.',
+            IF(STRCON(TXT132,'.',
      >                           IS)) THEN
                 READ(TXT132(1:IS-1),*) KOBJ 
                 READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
@@ -105,7 +105,19 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
               READ(TXT132,*) KOBJ 
               KOBJ2 = 0
             ENDIF
-            IF    (KOBJ.EQ.2) THEN
+
+            IF    (KOBJ.EQ.1) THEN
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! Samples
+              WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! Sampling
+              WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,1X)')
+     >              (A(NUEL,J),J=30,35)
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! (1st) reference
+              WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8)')
+     >              (A(NUEL,J),J=40,45)
+
+            ELSEIF(KOBJ.EQ.2) THEN
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132 
               READ(TXT132,*,ERR=10,END=10) IMAX, IDMAX
               WRITE(LW,FMT='(A)') 
@@ -186,32 +198,44 @@ C Old style CHANGREF
             WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(TXT132,*,ERR=10,END=10) XSO
-            IF(XSO .GE. 4) THEN
+            IF    (INT(XSO) .EQ. 4) THEN
               IF    (NINT(10*XSO) .EQ. 40) THEN
                 CALL ZGIMAX(
      >                      IMAX) 
                 JT = 10
                 DO IT = 1, IMAX
                   READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                  WRITE(LW,FMT='(3(F12.8,1X))')
-     >                                  (A(NUEL,J),J=JT,JT+2)
+                  WRITE(LW,FMT='(3(F12.8,1X,A))')
+     >                  (A(NUEL,J),J=JT,JT+2) !,GTAIL(TXT132,'!',LN)
                   JT = JT+10
                 ENDDO
               ELSEIF(NINT(10*XSO) .EQ. 41) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                WRITE(LW,FMT='(3(E16.8,2X))')
-     >                                  (A(NUEL,J),J=10,12)
+                WRITE(LW,FMT='(3(E16.8,1X,A))')
+     >                    (A(NUEL,J),J=10,12)  !,GTAIL(TXT132,'!',LN)
               ELSEIF(NINT(10*XSO) .EQ. 50) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                WRITE(LW,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
-     >                                  (A(NUEL,J),J=2,13)
+                WRITE(LW,FMT=
+     >                     '(F9.6,1X,F6.2,1X,3(E16.8,1X),7(F4.1,1X),A)')
+     >                     (A(NUEL,J),J=2,13)  !,GTAIL(TXT132,'!',LN)
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                WRITE(LW,FMT='(F11.6,F7.2,3E16.8,7F4.1)')
-     >                                  (A(NUEL,J),J=2,13)
+                WRITE(LW,FMT=
+     >                     '(F9.6,1X,F6.2,1X,3(E16.8,1X),7(F4.1,1X),A)')
+     >                     (A(NUEL,J),J=2,13)  !,GTAIL(TXT132,'!',LN)
               ELSE
                 CALL ENDJOB('Pgm fitwda. Present KSO option in SPNTRK '
      >          //' needs be installed in fitwda. ',-99)
               ENDIF
+            ELSEIF(INT(XSO) .EQ. 5) THEN
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132        ! TO, PO
+              WRITE(LW,FMT='(1P,2(E14.6,1X),A)')
+     >        (A(NUEL,J),J=10,11),TXT132(ITAIL(TXT132,'!',JTAIL):JTAIL)
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132        ! A, dA
+              WRITE(LW,FMT='(1P,2(E14.6,1X),A)')
+     >        (A(NUEL,J),J=20,21),TXT132(ITAIL(TXT132,'!',JTAIL):JTAIL)
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132        !  Seed
+              WRITE(LW,FMT='(A)') 
+     >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             ENDIF
 
           ELSEIF(KLEY(1:8) .EQ. 'MULTIPOL') THEN 
@@ -220,16 +244,18 @@ C Old style CHANGREF
             WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-            WRITE(LW,FMT='(F11.6,F7.2,1P,3E16.8,0P,7F4.1)')
-     >                                  (A(NUEL,J),J=2,13)
+            WRITE(LW,FMT=
+     >                '(F9.6,1XF6.2,1X,1P,3(E16.8,1X),0P,7(F4.1,1X),A)')
+     >                     (A(NUEL,J),J=2,13) !,GTAIL(TXT132,'!',LN)
             II = 0
             DO I = 1, 2
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132               ! xe, xle, ...
-              WRITE(LW,FMT='(2(F8.4,1X),9(F6.2,1X))')
-     >                               (A(NUEL,J),J=14+II,24+II)
+              WRITE(LW,FMT='(2(F8.4,1X),9(F6.2,1X),A)')
+     >             (A(NUEL,J),J=14+II,24+II) !,GTAIL(TXT132,'!',LN)
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132               ! FF coeffs
-              WRITE(LW,FMT='(I0,1X,1P,6(E13.5,1X))')
-     >                    NINT(A(NUEL,25+II)),(A(NUEL,J),J=26+II,31+II)
+              WRITE(LW,FMT='(I0,1X,1P,6(E13.5,1X),A)') 
+     >        NINT(A(NUEL,25+II)),(A(NUEL,J),J=26+II,31+II),
+     >        TXT132(ITAIL(TXT132,'!',JTAIL):JTAIL)
               II = II + 18
             ENDDO
             DO I = 1, 2

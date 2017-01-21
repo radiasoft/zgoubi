@@ -107,6 +107,9 @@ C        ... TO, PO = MEAN INITIAL PRCESSION DIRECTION
 C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
         LINE = LINE + 1
         READ(NDAT,*,ERR=90) A(NOEL,20), A(NOEL,21)
+C       ... IR random seed
+        LINE = LINE + 1
+        READ(NDAT,*,ERR=90) A(NOEL,30)
       ENDIF 
  
       RETURN

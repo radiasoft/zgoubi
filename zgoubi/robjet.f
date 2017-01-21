@@ -271,14 +271,14 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
-      WRITE(NRES ,*) 
+      WRITE(ABS(NRES),*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
       GOTO 90
       
  98   WRITE(6,*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      WRITE(NRES ,*) 
+      WRITE(ABS(NRES),*) 
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
       

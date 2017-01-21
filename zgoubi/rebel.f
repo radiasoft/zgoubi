@@ -88,7 +88,8 @@ C  -------
       LOGICAL AFTREB, AFTREO
       SAVE AFTREB
 
-      LOGICAL FITRBL
+      LOGICAL FITRBL, RBLFIT, RBLFII
+      SAVE RBLFIT
       LOGICAL FITING
 
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
@@ -101,6 +102,7 @@ C  -------
       DATA AFTREB / .FALSE. /
       DATA FITING / .FALSE. /
       DATA FITRBL / .FALSE. /
+      DATA RBLFIT / .FALSE. /
 
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
@@ -252,6 +254,9 @@ C--------- endif SR loss ----------------------------------
 
         IF(IPASS .EQ. 1) THEN
 
+C In case REBELOTE would be embedded within FIT
+          CALL FITSE2(.TRUE.)
+
           LUN=ABS(NRES)
           IF(LUN .GT. 0) THEN
             WRITE(LUN,FMT='(/,5X,
@@ -320,8 +325,6 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
             ENDIF
 
           ENDIF
-
-C          IF(NRBLT.GT.1) READAT = .FALSE.
 
           IF(REBFLG) NOELRB = NOEL
 
@@ -453,7 +456,7 @@ C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
  108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
         ENDIF
 
-        READAT = .TRUE.
+C        READAT = .TRUE.
 
         NOEL = NOELB
  
@@ -461,15 +464,24 @@ C REBELOTE should be usable within FIT -> under developement.
 
         CALL FITST7(
      >               FITRBL)   ! Switched to T by REBELOTE if FIT embedded
-        IF(FITRBL) THEN
-C This is necessary in order to allow FIT within REBELOTE 
-C An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/
-          IPASS = IPASS+1
-        ELSE
+C        IF(FITRBL) THEN
+CC This is necessary in order to allow FIT within REBELOTE 
+CC An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/
+C          IPASS = IPASS+1
+C        ELSE
+        IF(RBLFIT) THEN
+
 C This is necessary in order to allow REBELOTE within FIT 
 C An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/REBELOTEfollowedByFIT/averageSpinAngleInCSnake.dat
           IPASS = 1
+
+        ELSE
+
+          READAT = .TRUE.
+          IPASS = IPASS+1
+
         ENDIF
+C        ENDIF
 
         IF(OKPCKP) CALL PCKUP3(NOEL)
 
@@ -534,6 +546,10 @@ C--------- reactive WRITE
       ENTRY REBEL7(
      >             NLBO)
       NLBO = NOELB 
+      RETURN
+
+      ENTRY REBEL8(RBLFII)
+      RBLFIT = RBLFII
       RETURN
 
       END

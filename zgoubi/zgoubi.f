@@ -420,15 +420,15 @@ C----- SEXTUPOL - B SEXTUPOLAIRE  ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
      >                        ND(NOEL))
       GOTO 998
 C----- IMAGE. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
-C----- FAISCEAU MONOCHROMATIQUE
+C----- Monochromatic beam
  5    CALL FOCALE(1)
       GOTO 998
 C----- IMAGES. RECHERCHE DU PLAN IMAGE ET DIMENSIONS D'IMAGE HORIZONTAUX
-C----- FAISCEAU POLYCHROME
+C----- Polychrome beam
  6    CALL FOCALE(2)
       GOTO 998
 C----- FAISCEAU. Print current beam in zgoubi.res
-7     IF(NRES.GT.0 .OR. LABEL(NOEL,1).EQ.'FORCE') 
+ 7    IF(NRES.GT.0 .OR. LABEL(NOEL,1).EQ.'FORCE') 
      >CALL IMPTRA(1,IMAX,ABS(NRES))
       GOTO 998
 C----- FAISCNL. Stores beam at current position (in .fai type file)

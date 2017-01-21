@@ -33,6 +33,7 @@ C  -------
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     !  COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
                               ! >IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       PARAMETER (MXV=60) 
       INCLUDE "C.VARY.H"  !  COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           ! >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
@@ -156,4 +157,5 @@ C------------ Constraint on  coordinate or field in optical element,
       ENDIF
 
       RETURN    
+
       END
