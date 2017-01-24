@@ -20,7 +20,7 @@ pause  'Press [Enter] key to continue...'
 echo "           "
 echo "           "
 echo "           "
-echo  "DONE RE-COMPILING WITH AD HOC PARIZ.H.               //////////////////////////////////////" 
+echo  "DONE RE-COMPILING USING PARIZ_compare.H.               ////////////////////////////////////" 
 echo  "Press [Enter] key to continue...       "
 echo " "
 pause "  "
@@ -196,15 +196,15 @@ echo "////////////////  ../usersGuide/FIT : done..."
 #################################################################
 echo "        "
 echo "        "
-echo "////////////////  Now doing :   ../KEYWORDS/FIT_embedded_in_REBELOTE/"
+echo "////////////////  Now doing :   ../KEYWORDS/FIT/FIT_embedded_in_REBELOTE/"
 echo "        "
-(cd ../KEYWORDS/FIT_embedded_in_REBELOTE/ ; gunzip -f warmSnake.map.gz ; cp centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
-echo "////////////////  ../KEYWORDS/FIT_embedded_in_REBELOTE/ - reference : "                                    | cat >>   compare.out
-grep "Fit reached penalty value " ../KEYWORDS/FIT_embedded_in_REBELOTE/centeredHelix_FIT_save_nofinal_150226.res | cat >>   compare.out
+(cd ../KEYWORDS/FIT/FIT_embedded_in_REBELOTE/ ; gunzip -f warmSnake.map.gz ; cp centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+echo "////////////////  ../KEYWORDS/FIT/FIT_embedded_in_REBELOTE/ - reference : "                                    | cat >>   compare.out
+grep "Fit reached penalty value " ../KEYWORDS/FIT/FIT_embedded_in_REBELOTE/centeredHelix_FIT_save_nofinal_150226.res | cat >>   compare.out
 echo "                          - new : "                                                                               | cat >>   compare.out
-grep "Fit reached penalty value " ../KEYWORDS/FIT_embedded_in_REBELOTE/zgoubi.res                                | cat >>   compare.out
+grep "Fit reached penalty value " ../KEYWORDS/FIT/FIT_embedded_in_REBELOTE/zgoubi.res                                | cat >>   compare.out
 echo "        "                                                                                                         | cat >>   compare.out
-echo "////////////////  KEYWORDS/FIT_embedded_in_REBELOTE/ : done..."
+echo "////////////////  KEYWORDS/FIT/FIT_embedded_in_REBELOTE/ : done..."
 #
 #
 #################################################################

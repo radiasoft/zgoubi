@@ -245,7 +245,7 @@ C Old style CHANGREF
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
             READ(LR,FMT='(A)',ERR=10,END=10) TXT132
             WRITE(LW,FMT=
-     >               '(F11.6,1XF6.2,1X,1P,3(E16.8,1X),0P,7(F4.1,1X),A)')
+     >              '(F11.6,1X,F6.2,1X,1P,3(E16.8,1X),0P,7(F4.1,1X),A)')
      >                     (A(NUEL,J),J=2,13) !,GTAIL(TXT132,'!',LN)
             II = 0
             DO I = 1, 2

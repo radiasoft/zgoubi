@@ -25,14 +25,14 @@ FFLAGS= -xHOST -O4 -ip  -save -cpp
 all :
 	cd modules ;  make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd coupling ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd guide ; make
 
 clean :
 	$(RM) *~
 	cd modules ;  make clean
 	cd common ;  make clean
-	cd coupling ; make clean
+	cd zgoubi/coupling ; make clean
 	cd zgoubi ;  make clean
-
+	cd guide ; $(MAKE) clean
  
