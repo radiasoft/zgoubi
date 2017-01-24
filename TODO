@@ -1,3 +1,10 @@
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+CODE DEVELOPMENTS
+
+---
 There are still several common files between zgoubi and zpop.  Unfortunately
 they are sufficiently different that one cannot use the one routine in both
 programs.  In addition, there is an inconsistency in zpop in the layout of the
@@ -54,20 +61,38 @@ runipo.f
 rwienf.f
 sref.f
 
-Make the documentation consistent with the code.
-
+---
 Determine if the current FFLAGS are necessary, and make changes to the code
 so that they are not.
 
+---
 Fix the warnings, in particular the one about tempnam.
 
---------------------
+---
 Install periodic dispersion when coupled, in matrix and twiss. 
 
 Install call tunesc in ff, twiss
 
+---
+Have same manipulation of labels at the top of zgoubi.f by OPTICS, FAISTORE, SPNSTORE, PICKUPS
 
---------------------
+---
+In lipsFromFai :
+- in the case that dispersion is removed :  some NOELs found in zgoubi.fai are not present in zgoubi.OPTICS.out. In 
+that case what is provided following reading from the latter is D=0 and D'=0. This can be fixed by removing from 
+the computation any NOEL in zgoubi.fai which wouild not have its match in  zgoubi.OPTICS.out. 
+
+
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+GUIDE AND WEB SITE DEVELOPMENTS
+
+---
+Make the documentation consistent with the code.
+
+---
 Actualize 'publications'. For the moment only copy-pasted main zgoubi (and only zgoubi) stuff found in : 
 
 ANSWinterMeeting    Logs     SRLoss_2015  cern    
@@ -76,13 +101,56 @@ ICFA-BD-08-07       Nature   baril
 JINST               RAST     bnl          
 LPSC                SATURNE  brevets      
 
-------------------------
-Have same manipulation of labels at the top of zgoubi.f by OPTICS, FAISTORE, SPNSTORE, PICKUPS
 
--------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+DEBUGGING, ZGOUBI 
 
-In lipsFromFai :
 
-- in the case that dispersion is removed :  some NOELs found in zgoubi.fai are not present in zgoubi.OPTICS.out. In 
-that case what is provided following reading from the latter is D=0 and D'=0. This can be fixed by removing from 
-the computation any NOEL in zgoubi.fai which wouild not have its match in  zgoubi.OPTICS.out. 
+* 1/
+
+1-A/ 
+meot@meot-Latitude-E6510:~/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE
+
+ne fonctionne pas si on compile sans 'save' dans ifort. 
+
+If instead
+FFLAGS= -xHOST -O3 -ip -traceback -check -save
+
+then it works vry well !
+
+1-B/
+If I compil using : 
+FC=gfortran
+FFLAGS= -Wall -pedantic
+
+then FIT stops, like that : 
+                    FIT  variables  in  good  order,  FIT  will proceed. 
+                    Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+ Error  open  file warmSnake.map                                                                   
+ Leaving...    Occured in element # 6
+End of job ! 
+
+1-C/
+whereas, using 
+FFLAGS=-O4 -Wall -fno-automatic -pedantic
+then it does work, and without optimiwer : 
+FFLAGS= -Wall -fno-automatic -pedantic
+works too.
+
+1-D/
+On the other hand, 
+REBELOTE alone dose work, see for instance ~/zgoubi/struct/bnl/rhic/topicsWithHaixin/n0-TiltAtPolarmtr_150209/test
+
+May be need some save in zgoubi_main ?
+
+
+* 2/ 
+FIT[2] pose probleme p.ex. avec thomas et hrs-desir, had to had "write(89,*)..." to solve it temporarily. Look up 'REWIND(89) in sources.
+
+
+* 3/
+../AGS/matrix/  yields "Maximum # steps allowed =       100000 .  At element number           89" on my laptop. It works if 0.960563380282 is shortened to 0.960563380 or less, or if 'WRITE OFF' is changed to 'WRITE ON'. 
+
+

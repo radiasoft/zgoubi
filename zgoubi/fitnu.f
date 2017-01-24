@@ -43,6 +43,7 @@ C      SAVE LSAV, FNAME
       SAVE FNAME, SAVFT
 
       DATA MTHD / 2 / 
+      DATA LSAV / -999 /
 
       CALL FITEST(SAVFT,FNAME,
      >                       IER)
@@ -66,11 +67,14 @@ C Implemented by Scott Berg, LPSC, April 2007
          CALL IMPAJU(LUN,F)
          CALL IMPAJU(6,F)
          IF(SAVFT) THEN
-           OK = IDLUNI(
+           IF(LSAV .LT. 0) THEN
+             OK = IDLUNI(
      >                 LSAV)
-           OPEN(UNIT=LSAV,FILE=FNAME)
+             OPEN(UNIT=LSAV,FILE=FNAME)
+           ENDIF
            CALL IMPAJU(LSAV,F)
-           CLOSE(LSAV)
+C Avoid closing to ensure pile up when FIT within REBELOTE
+C           CLOSE(LSAV)
          ENDIF
       ENDIF
       CALL ENDFIT

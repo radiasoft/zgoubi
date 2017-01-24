@@ -23,57 +23,68 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPNMAT(ID,
-     >                     SMAT,TRM, SROT,TR1,TR2,TR3)
+     >                     SMAT,TRM, SROT,TR1,TR2,TR3, QS)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION SMAT(3,3)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       DIMENSION DLT(3,3), PROD(3,3)
+      PARAMETER (PI = 4.D0 * ATAN(1.D0))
 
 C ID is the momentum group (ID = 1, IDMAX in OBJET/KOBJ=2)
-        II = 1
-        IT = 1 + (ID-1)*3
-        SMAT(1,II) = SF(1,IT) 
-        SMAT(2,II) = SF(2,IT) 
-        SMAT(3,II) = SF(3,IT) 
-        II = II+1
-        IT = IT+1
-        SMAT(1,II) = SF(1,IT) 
-        SMAT(2,II) = SF(2,IT) 
-        SMAT(3,II) = SF(3,IT) 
-        II = II+1
-        IT = IT+1
-        SMAT(1,II) = SF(1,IT) 
-        SMAT(2,II) = SF(2,IT) 
-        SMAT(3,II) = SF(3,IT) 
+      II = 1
+      IT = 1 + (ID-1)*3
+      SMAT(1,II) = SF(1,IT) 
+      SMAT(2,II) = SF(2,IT) 
+      SMAT(3,II) = SF(3,IT) 
+      II = II+1
+      IT = IT+1
+      SMAT(1,II) = SF(1,IT) 
+      SMAT(2,II) = SF(2,IT) 
+      SMAT(3,II) = SF(3,IT) 
+      II = II+1
+      IT = IT+1
+      SMAT(1,II) = SF(1,IT) 
+      SMAT(2,II) = SF(2,IT) 
+      SMAT(3,II) = SF(3,IT) 
 
-        TRM = SMAT(1,1) + SMAT(2,2) + SMAT(3,3) 
-        IF(ABS(TRM) .LE. 1.D0) THEN 
-          SROT = ACOS((TRM-1.D0)/2.D0)
-        ELSE
-          SROT = 1.D10
-        ENDIF
+      TRM = SMAT(1,1) + SMAT(2,2) + SMAT(3,3) 
+      IF(ABS(TRM) .LE. 1.D0) THEN 
+        SROT = ACOS((TRM-1.D0)/2.D0)
+      ELSE
+        SROT = 1.D10
+      ENDIF
 
-        CALL RAZ(DLT,3*3)
-        DLT(2,3) = -1.D0 
-        DLT(3,2) = +1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR1 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        DLT(2,3) = 0.D0 
-        DLT(3,2) = 0.D0 
-        DLT(1,3) = +1.D0 
-        DLT(3,1) = -1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        DLT(1,3) = 0.D0 
-        DLT(3,1) = 0.D0 
-        DLT(1,2) = -1.D0 
-        DLT(2,1) = +1.D0 
-        PROD = MATMUL(DLT,SMAT)
-        TR2 = (PROD(1,1) + PROD(2,3) + PROD(3,3))/(2.D0*SROT)
-        REN = SQRT(TR1*TR1+TR2*TR2+TR3*TR3)
-        TR1 = TR1 / REN ; TR2 = TR2 / REN ; TR3 = TR3 / REN 
+C Th. Roser's method
+C        CALL RAZ(DLT,3*3)
+C        DLT(2,3) = -1.D0 
+C        DLT(3,2) = +1.D0 
+C        PROD = MATMUL(DLT,SMAT)
+C        TR1 = (PROD(1,1) + PROD(2,2) + PROD(3,3))/(2.D0*SROT)
+C        DLT(2,3) = 0.D0 
+C        DLT(3,2) = 0.D0 
+C        DLT(1,3) = +1.D0 
+C        DLT(3,1) = -1.D0 
+C        PROD = MATMUL(DLT,SMAT)
+C        TR2 = (PROD(1,1) + PROD(2,2) + PROD(3,3))/(2.D0*SROT)
+C        DLT(1,3) = 0.D0 
+C        DLT(3,1) = 0.D0 
+C        DLT(1,2) = -1.D0 
+C        DLT(2,1) = +1.D0 
+C        PROD = MATMUL(DLT,SMAT)
+C        TR3 = (PROD(1,1) + PROD(2,2) + PROD(3,3))/(2.D0*SROT)
+C        REN = SQRT(TR1*TR1+TR2*TR2+TR3*TR3)
+C        TR1 = TR1 / REN ; TR2 = TR2 / REN ; TR3 = TR3 / REN 
+
+      SROT = ACOS((SMAT(1,1)+ SMAT(2,2)+ SMAT(3,3)-1.D0)/2.D0)
+      TR1 = SMAT(3,2)-SMAT(2,3) 
+      TR2 = SMAT(1,3)-SMAT(3,1)
+      TR3 = SMAT(2,1)-SMAT(1,2)
+      REN = SQRT(TR1*TR1+TR2*TR2+TR3*TR3)
+      TR1 = TR1 / REN ; TR2 = TR2 / REN ; TR3 = TR3 / REN 
+
+      QS =  ACOS((TRM -1.D0)/2.D0) / (2.D0 * PI)
 
       RETURN
       END

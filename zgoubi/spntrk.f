@@ -401,7 +401,7 @@ CALCUL S(s+ds) = S(s) +S'(s)ds +S''(s)ds^2/2 +S'''(s)ds^3/6 +S''''(s)ds4/24...
       AN=SQRT(SF1IT*SF1IT+SF2IT*SF2IT+SF3IT*SF3IT)
       SF4IT = AN
  
-C----- NORMALISATION (normally useless... check step size instead...)
+C----- NORMALISATION (may be useless... check step size instead...)
       SF1IT=SF1IT/AN
       SF2IT=SF2IT/AN
       SF3IT=SF3IT/AN

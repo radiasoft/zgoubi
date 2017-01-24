@@ -3496,11 +3496,17 @@ iterations on the step size or on the call to the function.
 
 
 \noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows for instance executing again 
-the  fitting procedure, following a change, by  \textsl{REBELOTE}, in  the value of some parameter in zgoubi.dat data list. 
+the  fitting procedure, following a change, by  \textsl{REBELOTE}, in  the value of some parameter(s) in zgoubi.dat data list. 
 
+\medskip
 
-An example is given page~\pageref{ExaFITREBELOTE}. 
+\noindent An example is given page~\pageref{ExaFITREBELOTE}. 
 
+\medskip
+
+\noindent Conversely,  \textsl{REBELOTE} may be followed by the keyword \textsl{FIT[2]}.  This allows for instance 
+optimization of constraints that require multi-turn tracking (\eg, optimized tune-jump quadrupole settings for beam 
+acceleration through depolarizing resonances). 
 
 
 \bigskip
@@ -3780,7 +3786,7 @@ optical elements are not compatible with  \textsl{MCDESINT\index{MCDESINT}}.
 
 \newpage
 
-\subsubsection{OPTICS~: \OPTICSTitl} \label{OPTICS} \index{OPTICS|textbf}
+\subsubsection{OPTICS~: \OPTICSTitl} \label{OPTICS} \index{OPTICS|textbf} \index{MATRIX!- beam matrix}
 
 \medskip
 
@@ -4111,17 +4117,24 @@ option \textsl{IOPT=1}.
 That's the interest of the game~: \textsl{REBELOTE}  changes that (these) parameter(s), and then sends the 
 zgoubi execution pointer back to the top of zgoubi.dat for a new  \textsl{FIT[2]}  run. 
 
+\medskip
+
+\noindent Conversely,  \textsl{REBELOTE} may be followed by the keyword \textsl{FIT[2]}.  This allows for instance 
+optimization of constraints that require multi-turn tracking (\eg, optimized tune-jump quadrupole settings for beam 
+acceleration through depolarizing resonances). 
 
 \bigskip
+
 
 \paragraph{\textsl{EXAMPLES}} 
 
 \noindent  An example of the use of the \textsl{REBELOTE} procedure is given page~\pageref{ExaREBELOTE}. 
 
+\medskip
+
+\noindent  An example of \textsl{FIT} preceding \textsl{REBELOTE} is given page~\pageref{ExaFITREBELOTE}. 
+
 \bigskip
-
-\noindent  An example combining \textsl{FIT} and \textsl{REBELOTE} is given page~\pageref{ExaFITREBELOTE}. 
-
 
 
 \paragraph{\textsl{RECOVERING FROM A CRASH}}\index{REBELOTE!- recovering from a crash}
@@ -8733,6 +8746,7 @@ runs in the structure will add up.
 \newpage
 
 \subsubsection{MATRIX~: \MATRIXTitl}\label{MATRIX} \index{MATRIX|textbf}  \index{transport coefficients|textbf}
+\index{MATRIX!- transport coefficients} \index{MATRIX!- beam matrix}
 \medskip
 
 \textsl{MATRIX}  causes the calculation of the transfer coefficients through the optical 
@@ -9060,14 +9074,25 @@ the initial and actual coordinates and modulus of the spin of the \IMAX\index{IM
 particles, their Lorentz factor $\gamma$, 
 the mean values of the spin components, etc.,  at the location where it is placed in the zgoubi.dat data list.
 
-\medskip
+
+\bigskip
+
+\noindent \textsl{PRINT}~: 
+If  ``\textsl{PRINT}''\index{PRINT!- SPNPRT} appears after \textsl{SPNPRT}, then spin data will  be stored in 
+zgoubi.SPNPRT.Out. The latter is opened at the first occurence of ``\textsl{PRINT}''. In particular, if \textsl{REBELOTE} is used then data will be stacked in zgoubi.SPNPRT.Out. 
 
 
 \bigskip
 
-\noindent PRINT~: 
-If the keyword \textsl{SPNPRT} is followed by ``\textsl{PRINT}''\index{PRINT!- SPNPRT} as its first label, then spin data will also be stored in 
-zgoubi.SPNPRT.Out, an output storage file opened at the first such occurence of ``\textsl{PRINT}''. In particular, if \textsl{REBELOTE} is used then data will be stacked in zgoubi.SPNPRT.Out. 
+\noindent \textsl{MATRIX}~: 
+If  ``\textsl{MATRIX}''\index{MATRIX!- spin rotation matrix} appears after \textsl{SPNPRT}, then spin rotation matrix (or matrices) will be 
+computed. This is done assuming appropriate initial particle and spin sampling has been defined 
+(by respectively \textsl{OBJET} and \textsl{SPNTRK}), as follows~: 
+
+\medskip
+
+
+
 
 
 
@@ -9086,7 +9111,7 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
  \newpage
 
 
-\subsubsection{TWISS~: \TWISSTitl}\label{TWISS} \index{TWISS|textbf}
+\subsubsection{TWISS~: \TWISSTitl}\label{TWISS} \index{TWISS|textbf} \index{MATRIX!- periodic beam matrix}
 \medskip
 
 \textsl{TWISS}   causes the calculation of 

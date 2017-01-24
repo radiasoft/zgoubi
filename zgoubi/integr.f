@@ -138,12 +138,6 @@ C---------------------  Some tests to possibly stop integration
         WRITE(6,fmt='(a,2(i0,a))') 
      >  'Particle exceeded maximum # of steps allowed : ',MXSTEP,
      >  '.  At element number ',NOEL,' ('//KEY//')'
-C        CALL ZGNOEL(
-C     >             NOEL)
-C        WRITE(ABS(NRES),*) 'Maximum # steps allowed = ',MXSTEP,
-C     >  '.  At element number ',NOEL
-C        WRITE(6,*) '      Maximum # steps allowed = ',MXSTEP,
-C     >  '.  At element number ',NOEL
         CALL KSTOP(2,IT,KEX,*97)
       ENDIF
  
@@ -175,23 +169,13 @@ C          IF(ABS(BZ).GT.0.020)  KEX =-1
       ELSE
 C-------  Compute  B(X,Y,Z), E(X,Y,Z)  from  mathematical  2D or 3D  field  models
  
- 
-cC/////////////////////////////////////////////////
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.245)   write(*,*) 'integr QBR chamc in ', qbr
-cC/////////////////////////////////////////////////
- 
         CALL CHAMC(X2,Y2,Z2)
- 
-c       if(noel.eq.245)   write(*,*) 'integr QBR chamc OUT ', qbr
  
       ENDIF
  
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C------- Correction for space charge calculation --Begin--
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
           IF (TSPCH)  THEN
 
 
@@ -222,35 +206,21 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
              T=T+Tsp   
              P=P+Psp
 
-c             write(lunX,*) Yinit-Y1,T,Tsp,Zinit-Z1,P,Psp
            endif   
 
-c           write(lunX,*) IT,Yinit-Y1,Y-Y1,Tsp,Zinit-Z1,Z-Z1,Psp
-
-           
-c         write(lunX,*) IT, ITinit, Xave(1), Yinit, Xave(2), Zinit,
-c     >          tlength, Tsp, Psp
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccc    write the data to a test4 file   ccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-           if ((IT .EQ. 1) .and. (tlength .LE. 2*PAS)) then
-             call ZGIPAS( 
-     >                   IPASS,NRBLT)
-              write(88,fmt=
-     >        '(1p,9(e14.6,1x),i10,1x,e14.6,a)') 
-     >        Rbeam(1),Rbeam(2),Xave(1),SAR,Emitt(1),Emitt(2),Tave,
-     >        Bunch_len, Emittz,IPASS,BTAG,' integr spach'
-           endif  
+c           if ((IT .EQ. 1) .and. (tlength .LE. 2*PAS)) then
+c             call ZGIPAS( 
+c     >                   IPASS,NRBLT)
+c              write(88,fmt=
+c     >        '(1p,9(e14.6,1x),i10,1x,e14.6,a)') 
+c     >        Rbeam(1),Rbeam(2),Xave(1),SAR,Emitt(1),Emitt(2),Tave,
+c     >        Bunch_len, Emittz,IPASS,BTAG,' integr spach'
+c           endif  
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
                   
-
-ccc              T=T+SCkx*(1.0/2.0) * exp(- ((Y-Xave(1)*100.0)**2 + 
-ccc     >      (Z-Xave(2)*100.0)**2)/
-ccc     >      (Rbeam(1)/2.0+Rbeam(2)/2.0)**2 ) * (Y-Xave(1)*100.0)*PAS 
-ccc              P=P+SCky*(1.0/2.0) * exp(- ((Y-Xave(1)*100.0)**2 + 
-ccc     >      (Z-Xave(2)*100.0)**2)/
-ccc     >      (Rbeam(1)/2.0+Rbeam(2)/2.0)**2 ) * (Z-Xave(2)*100.0)*PAS   
-            
           ENDIF   
 
 
@@ -265,12 +235,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C-------- Entrance wedge correction in BEND, in MULTIPOL(if non zero B1),
         IF(WEDGE) CALL WEDGKI(1,T,Z,P,WDGE,FINTE,GAPE)
       ENDIF
- 
-c       if(noel.eq.245)   write(*,*) 'integr QBR devtra IN ', qbr
 
       CALL DEVTRA
-
-c       if(noel.eq.245)   write(*,*) 'integr QBR devtra OUT ', qbr
  
       IF(KPAS.NE.0 ) THEN
 C------- Test case diffrnt step values @ entrance|body|exit.
@@ -293,19 +259,11 @@ C-------- CHREG is .true. if particle is going to next region
             ST=SIN(T)
             PAS = TPAS(KREG)
             DXI = PAS
-
-C        CALL RAZDRV(3)
  
             GOTO 1
         ENDIF
       ENDIF
  
-c       if(noel.eq.245)   write(*,*) 'integr KPAS out ', qbr
- 
-C----------------   TEST  DROITE(S) DE COUPURE SORTIE
-C                   Test exit integration boundary
-C                   Used either in maps,
-C                   or in case of sharp edge exit in BEND, WIENF, UNDUL, ELMIR...
 C FM 08/99      IF(IDRT .GE. 2) THEN
       IF(IDRT .GE. 1) THEN
 C------- DROITE(S) DE COUPURE EN SORTIE
@@ -376,12 +334,10 @@ C------------- if .not.mirror etc.
 C--------- Cylindrical coordinates
 C Array CA contains angle of integration boundary
  
-C          stop ' SBR INTEGR : IDRT not implemented'
+          CALL ENDJOB(
+     >    ' Sbr integr : IDRT not implemented for polar frame',-99)
  
           IF(ABS(CA(2)-X) .LT. DXI) THEN
- 
-c        write(*,*) ' be > XLIM) idrt, ca1 ',
-c     >       idrt, ca(2)-x, ca(2),x,dxi
  
           ENDIF ! XLIM-X
  
@@ -439,10 +395,6 @@ C---------- kart .eq. 1
 C-------- ifb .ne. 0
  
       DX=XLIM-X
-
-c      call ZGNOEL(
-c     >             NOEL)
-c        if(noel.eq.245)   write(*,*) 'cofin dx/dxi ', dx/dxi
 
       IF(DX/DXI .LT. 1.D0) THEN
         IF(.NOT.MIRROR) THEN
@@ -506,12 +458,6 @@ C           End loop on DXI
       XFINAL = XLIM
  
  6    CONTINUE
-
-cc       if(noel.eq.245) then
-c               write(*,*) 'integr 6666666666666 it qbr ',it, qbr
-cc            read(*,*)
-cc          endif
-
  
       DX=XFINAL-X
  
@@ -528,10 +474,12 @@ cc          endif
         TAR = TAR + DTAR
         IF(EVNT) THEN
           IF(KSPN .EQ. 1) THEN
+            IF(IDRT .EQ. 0) THEN   ! FM. Added Jan 2017. Pb was : spntrk won't linearly extrapolate as B .ne. 0
 C----------- Spin tracking
-            IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
-C            CALL SPNTRK(IT,PAF)
-            CALL SPNTRK(PAF)
+              IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
+C              CALL SPNTRK(IT,PAF)
+              CALL SPNTRK(PAF)
+            ENDIF
           ENDIF
 c          ELSE
 

@@ -243,7 +243,7 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
           ENDIF
 
           CALL SPNMAT(ID,
-     >                   SMAT,TRM, SROT,TR1,TR2,TR3)
+     >                   SMAT,TRM, SROT,TR1,TR2,TR3,QS)
 
           IF(NRES.GT.0) THEN
             WRITE(NRES,103) ID
@@ -252,12 +252,13 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
             WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
  104        FORMAT(6X,1P,3G16.6)
             WRITE(NRES,112)TRM,SROT*DEG,TR1,TR2,TR3
-     >      ,ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG,ATAN2(TR2,TR1)*DEG
-112         FORMAT(/,10X,'Trace = ',F18.10,',',4X,
+     >      ,ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG,ATAN2(TR2,TR1)*DEG,QS
+112         FORMAT(/,5X,'Trace = ',F18.10,',',4X,
      >      ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
-     >      /,10X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
-     >      ' ;  angle to (X,Y) plane, angle to X axis : ',
-     >       F10.4,', ',F10.4,'  degree')
+     >      /,5X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
+     >      '   ->   angle to (X,Y) plane,  angle to X axis : ',
+     >       F10.4,', ',F10.4,'  degree',
+     >      /,5X,'Spin  tune  Qs =   ',1P,E12.4)
           ENDIF
 
       ENDIF

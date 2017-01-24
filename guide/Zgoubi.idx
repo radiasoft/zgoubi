@@ -161,6 +161,7 @@
 \indexentry{XPAS!- negative}{72}
 \indexentry{MCDESINT}{72}
 \indexentry{OPTICS|textbf}{73}
+\indexentry{MATRIX!- beam matrix}{73}
 \indexentry{PRINT!- OPTICS}{73}
 \indexentry{zgoubi.OPTICS.out|textbf}{73}
 \indexentry{OPTIONS|textbf}{74}
@@ -451,6 +452,8 @@
 \indexentry{NPASS}{168}
 \indexentry{MATRIX|textbf}{170}
 \indexentry{transport coefficients|textbf}{170}
+\indexentry{MATRIX!- transport coefficients}{170}
+\indexentry{MATRIX!- beam matrix}{170}
 \indexentry{chromaticity@{chromaticity}|textbf}{170}
 \indexentry{MATRIX}{171}
 \indexentry{MATRIX}{171}
@@ -480,9 +483,11 @@
 \indexentry{SPNPRT|textbf}{175}
 \indexentry{IMAX@{\IMAX}}{175}
 \indexentry{PRINT!- SPNPRT}{175}
+\indexentry{MATRIX!- spin rotation matrix}{175}
 \indexentry{SRPRNT|textbf}{176}
 \indexentry{synchrotron radiation loss}{176}
 \indexentry{TWISS|textbf}{177}
+\indexentry{MATRIX!- periodic beam matrix}{177}
 \indexentry{coupling|textbf}{177}
 \indexentry{OBJET}{177}
 \indexentry{closed orbit}{177}

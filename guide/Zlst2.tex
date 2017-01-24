@@ -4643,14 +4643,16 @@ $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define th
  \> with \textsl{NPASS}\index{NPASS} $\geq IP-1$).  \\[60pt]
 %
 %
- \textbf{SPNPRT [PRINT]}        \label{SPNPRT-B} \index{SPNPRT|textbf}
+ \textbf{SPNPRT [PRINT] [MATRIX]}        \label{SPNPRT-B} \index{SPNPRT|textbf}
      \> \textbf{Print spin coordinates} \>  \\
 \\
  \> Print spin coordinates in zgoubi.res, at the location where this  keyword is introduced  \\
  \> in the structure. \\
- \> The first label, '\textsl{PRINT}', is optional, if it appears, then local data are stored in  the file  \\
+ \> A label '\textsl{PRINT}' is optional, if it appears, then local data are stored in  the file  \\
  \> zgoubi.SPNPRT.Out. That file is open at the first occurence of \textsl{SPNPRT} and left open  \\
  \> until \zgou\ execution is completed. 
+ \> A label '\textsl{MATRIX}' is optional, if it appears, then computation of spin rotation  \\
+ \> matrix is performed. This however assumes appropriate trajectory and spin sampling. \\
 \\
   \end{tabbing}
  

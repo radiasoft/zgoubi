@@ -478,7 +478,7 @@ C             Requires OBJET/KOBJ=2, w/ groups of 3 particles,
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
              CALL SPNMAT(K,
-     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
+     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3),QS)
              VAL = SROT
 
            ELSEIF(ICONT2.EQ.3) THEN
@@ -487,7 +487,7 @@ C             Requires OBJET/KOBJ=2, w/ groups of 3 particles,
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
              CALL SPNMAT(K,
-     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3))
+     >                     SMAT,TRM, SROT,TR(1),TR(2),TR(3),QS)
              VAL = TR(L)
 
            ELSEIF(ICONT2.EQ.4) THEN

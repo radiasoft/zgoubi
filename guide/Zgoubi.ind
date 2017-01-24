@@ -149,6 +149,10 @@
   \item MARKER, \textbf{140}, \textbf{246}, 322
   \item MATRIX, 55, 56, 62, 65, 96, 156, \textbf{170}, 171, 199, 
 		\textbf{247}, 254
+    \subitem - beam matrix, 73, 170
+    \subitem - periodic beam matrix, 177
+    \subitem - spin rotation matrix, 175
+    \subitem - transport coefficients, 170
   \item MCDESINT, 51, 53, 58, \textbf{71}, 72, 77, 79, 168, 
 		\textbf{248}, 272, 299
   \item MCOBJET, \textbf{50}, 51, 67, 71, 77, 184, \textbf{249}, 270
