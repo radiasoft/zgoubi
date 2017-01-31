@@ -23,6 +23,9 @@ C      CHARACTER*80 NOMFIC
       CHARACTER(80) STRA(3)
       logical strcon
 
+      INCLUDE 'FILFAI.H'     ! Tells FILFAI= [b_]zgoubi.fai
+      character*(20) FILFAIr, FILFAIn
+
       data stra / 3*'  ' /
       data txtsav / 'y' /
 
@@ -37,6 +40,9 @@ c Fourier transf. ksmpl turns strarting from kpa
       data okQ / .true. /
       data nt / -1 /
       data change / .true. /
+      data FILFAIr, FILFAIn / ' ', ' ' /
+
+      FILFAIn = FILFAIn
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -75,6 +81,7 @@ C Range of turns to be considered may be specified using tunesFromFai.In
      >  ,' ! 3*nbin : x/y/l # of bins in spectrum range'
         write(nlu,*) txtsav,'    ! yes/no save spectra '
         write(nlu,*) txtQ,' ! yes/no compute tunes, too (not just lips)'
+        write(nlu,*) FILFAIn,' !  coordinate storage file '
       endif
 
       rewind(nlu)
@@ -95,6 +102,9 @@ C        read(nlu,*,err=11,end=11) kpa, ksmpl
  33     if(txtQ .ne. 'n') txtQ = 'y'
         oksav = txtsav .eq. 'y'
         okQ = txtQ .eq. 'y'
+        read(nlu,*,err=34,end=34) FILFAIr
+        FILFAIn = FILFAIr
+ 34     continue
         close(nlu)
         write(*,*) ' Read following data from tunesFromFai.In :'
  
@@ -152,7 +162,8 @@ C     >           NLOG, LM, NOMFIC)
       nl = nfai
       okopn = .false.
       change = .true.
-      call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
+      call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ
+     >,FILFAIn)
 C                (NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)          
       call SPSAV4
       stop ' Ended correctly it seems...'
@@ -161,10 +172,12 @@ C                (NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
       stop 'Error during read from tunesFromFai.In.'
       end
 
-      SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)
+      SUBROUTINE SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ
+     >,FILFAI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL OKOPN, CHANGE, OKSAV, okQ
       character(*) HV
+      CHARACTER*(*) FILFAI
 C----- PLOT SPECTRUM     
       COMMON/CDF/ IES,IORDRE,LCHA,LIST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       PARAMETER (NCANAL=2500)
@@ -186,8 +199,6 @@ C      DATA NT / -1 /
       LOGICAL OPN
       DATA OPN / .FALSE. /
       LOGICAL IDLUNI, OKKT5
-
-      INCLUDE 'FILFAI.H'     ! Gives NOMFIC
 
       SAVE NPASS
 
@@ -763,7 +774,7 @@ c      COMMON/LUN/ NDAT,NRES,NPLT,NFAI,NMAP,NSPN
       IF(NL .EQ. NSPN) THEN
       ELSE
         IF(NL .EQ. NFAI) THEN
-C--------- read in zgoubi.fai type storage file
+C--------- read in [b_]zgoubi.fai type storage file
 
           IMAX = 0
           IF(BINARY) THEN

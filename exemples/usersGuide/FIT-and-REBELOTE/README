@@ -1,7 +1,7 @@
 
 1/ First, gunzip warmSnake.map
 
-2/ Copy centeredHelix_FIT&save[&nofinal].res to zgoubi.dat, then run zgoubi.
+2/ rzg -in centeredHelix_FIT&save[&nofinal].res 
 
 This will produce zgoubi.res, which can be compared - and should be identical - to centeredHelix_FIT&save[&nofinal].res.
 

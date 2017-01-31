@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE FITWDA
+      SUBROUTINE FITWDA(
+     >                  IER)
 C Will cause save of zgoubi.dat list with updated variables as following from FIT[2].
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -40,14 +41,15 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
 
       PARAMETER(I90 = 90)
 
+      IER = 0
       OK = IDLUNI(
      >            LR)
       OPEN(UNIT=LR,FILE='zgoubi.res')
       OK = IDLUNI(
      >            LW)
       OPEN(UNIT=LW,FILE='zgoubi.FIT.out.dat')
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Saving new version of '',
-     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
+C      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Saving new version of '',
+C     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
 
       TXT132 = 'not END !' 
       DOWHILE(TXT132(1:5) .NE.'''END''')
@@ -323,9 +325,9 @@ C Old style CHANGREF
 
  10   CONTINUE
 
-      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
-     >''Updated version of input data file saved in '',a)')
-     >'zgoubi.FIT.out.dat'
+C      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
+C     >''Updated version of input data file saved in '',a)')
+C     >'zgoubi.FIT.out.dat'
       WRITE(*,FMT='(/,20X,
      >''Updated version of input data file saved in  '',a)')
      >'zgoubi.FIT.out.dat'
@@ -336,17 +338,16 @@ C Old style CHANGREF
       RETURN
 
  11   CONTINUE
+      IER = 1
       WRITE(*,fmt='(/,A)') 
      >'Pgm fitwda. Need number at each element.'
      >//' Some element may have wrong/no number in zgoubi.dat ?'
       WRITE(*,fmt='(A,/)') 'Write to zgoubi.FIT.out.dat skipped.'
-      NRESA = ABS(NRES)
-      WRITE(NRESA,fmt='(/,10X,A)') 
-     >'Pgm fitwda. Need number at each element.'
-     >//' Some element may have wrong/no number in zgoubi.dat ?'
-      WRITE(NRESA,fmt='(10X,A,/)') 
-     >'Write to zgoubi.FIT.out.dat skipped.'
-
+C      WRITE(NRESA,fmt='(/,10X,A)') 
+C     >'Pgm fitwda. Need number at each element.'
+C     >//' Some element may have wrong/no number in zgoubi.dat ?'
+C      WRITE(NRESA,fmt='(10X,A,/)') 
+C     >'Write to zgoubi.FIT.out.dat skipped.'
 
       RETURN
       END

@@ -61,6 +61,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
+      LOGICAL TSPCH, TSPCH1
+      COMMON/SPACECHA/ TLAMBDA,RBEAM(2),XAVE(2),EMITT(2),TAVE,BUNCH_LEN,
+     >                EMITTZ, BTAG, SCKX, SCKY, TSPCH
       INCLUDE "C.STEP.H"     ! COMMON/STEP/ TPAS(3), KPAS
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
@@ -109,7 +112,8 @@ C Particle data
       DATA AMMU / 105.6583715D0 /
       DATA GMU / 11659208.9D-10 /
       DATA TAUMU / 2.1969811D-6 /
-
+      DATA TSPCH / .FALSE. /
+  
 C----- To yield MKSA units : 
 C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time

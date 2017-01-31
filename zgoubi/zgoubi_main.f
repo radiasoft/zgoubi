@@ -206,7 +206,7 @@ C -----
  335        FORMAT(/,2X,A)
         ENDIF
 
-        OKWDAT = .TRUE.
+C        OKWDAT = .TRUE.
 
         WRITE(6,201)
 C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting REBELOTE)
@@ -273,10 +273,6 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
  10   CONTINUE
       
       CLOSE(NDAT)     
-      IF(OKWDAT) THEN
-        CALL FITWDA
-        OKWDAT = .FALSE.
-      ENDIF
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(A)')  '   '
@@ -296,7 +292,17 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
       IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
 
+      OKWDAT = .TRUE.
+      IF(OKWDAT) 
+     >WRITE(NRES,FMT='(/,20X,
+     >''Updated version of input data file saved in '',a,//,a)')
+     >'zgoubi.FIT.out.dat',' '
+
       CLOSE(ABS(NRES))
+
+      IF(OKWDAT) CALL FITWDA(
+     >                       IER)
+
       CLOSE(NLOG)     
 
       STOP

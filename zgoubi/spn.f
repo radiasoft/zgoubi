@@ -53,7 +53,8 @@ C  -------
 
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
- 
+      DATA XNRM / 0.D0 /
+
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
  

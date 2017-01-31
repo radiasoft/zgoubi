@@ -27,9 +27,9 @@ c-------------------------------------------------------------------------------
 C-- For ifort compiler. Comment otherwise
 C BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE BEWARE 
 C If you compile w ifort and This is commented, that may cause zgoubi not to work
-#ifdef __INTEL_COMPILER
-         use ifport
-#endif
+c#ifdef __INTEL_COMPILER
+c         use ifport
+c#endif
 C        use ifport
 C--------------------------------------------------------------------------------
 C While not required, the recommend usage of the Intel Fortran portability 

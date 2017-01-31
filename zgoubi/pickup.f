@@ -70,7 +70,7 @@ C     -----------------------------------------------------
 
       IF(NRES .GT. 0) THEN
         WRITE(NRES,110) NPU
- 110    FORMAT(/,5X,' Pick-up  signal  calculation  requested, '
+ 110    FORMAT(/,5X,' Pick-up  signal  calculation  requested, ',
      >  'at ',I0,'  locations, as  follows : ')
         WRITE(NRES,111) 
  111    FORMAT(10X,' particle coordinates will be averaged',

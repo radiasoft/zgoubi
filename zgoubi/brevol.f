@@ -113,7 +113,7 @@ C      CHARACTER(20) FMTYP
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,2(A,I3,A),/)')
-     >  ,'Number of data files used is ',NFIC,' ;  '
+     >   'Number of data files used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' '
 
           WRITE(NRES,*) 

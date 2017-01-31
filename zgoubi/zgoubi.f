@@ -61,11 +61,11 @@ C      COMMON/TITR/ TITRE
 C----- For space charge computaton
       PARAMETER(MLBSC=10)
       CHARACTER(LBLSIZ) LBLSC(MLBSC)
-      LOGICAL TSPCH, TSPCH1
+      LOGICAL TSPCH
 C      COMMON/SPACECHA/ TSPCH,TLAMBDA,Rbeam,Xave,Emitt,Tave,Bunch_len,
-      COMMON/SPACECHA/ TLAMBDA,Rbeam(2),Xave(2),Emitt(2),Tave,Bunch_len,
-     >                Emittz, BTAG, SCkx, SCky, TSPCH
-CC----- For space charge computaton
+      COMMON/SPACECHA/ TLAMBDA,RBEAM(2),XAVE(2),EMITT(2),TAVE,BUNCH_LEN,
+     >                EMITTZ, BTAG, SCKX, SCKY, TSPCH
+CC----- FOR SPACE CHARGE COMPUTATON
 C      PARAMETER(MLBSC=10)
 C      CHARACTER(LBLSIZ) LBLSC(MLBSC)
 C      LOGICAL OKSPCH
@@ -97,9 +97,8 @@ C----- To get values into A(), from earlier FIT
 
       LOGICAL TOMANY, STRACO, STRWLD
       CHARACTER(LNTA) TXTEMP
-      CHARACTER(1) TXT1
       INTEGER DEBSTR,FINSTR
-
+  
       CHARACTER(80) TXTELT, TXTELO
       SAVE TXTELT
 
@@ -118,7 +117,7 @@ C      SAVE KOPIMP, KOPTCS, LBLOPT
       LOGICAL EMPTY, IDLUNI, OKCPLD
 
       SAVE LNOPTI
-      SAVE PNLTGT
+      SAVE PNLTGT, ITRMA, ICPTMA
       SAVE OKLNO
 
 C This INCLUDE must stay located right before the first statement
@@ -138,15 +137,17 @@ C      LOGICAL OKPRLB, OKPRDA
 
       SAVE NBLMN
 
-      CHARACTER(30) STRA(MLB+3)
+      PARAMETER (I30=30)
+      CHARACTER(I30) STRA(MLB+3)
 
-      CHARACTER(9) SCPLD
+      CHARACTER(I30) SCPLD
       SAVE SCPLD
+
+      DATA PNLTGT, ITRMA, ICPTMA / 1D-10, 90, 1000 /
 
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
-      DATA TSPCH / .FALSE. /
 
       INCLUDE 'LSTKEY.H'
 

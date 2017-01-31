@@ -43,18 +43,25 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(LNTA) FNAME
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
+      LOGICAL STRCON
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
       READ(NDAT,*,ERR=90) TXT20
-      READ(TXT20,*) A(NOEL,1)
       TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
+      IF(STRCON(TXT20,'!',
+     >                    IS)) TXT20 = TXT20(DEBSTR(TXT20):IS-1)
+      READ(TXT20,*) A(NOEL,1)
       IF    (A(NOEL,1).GE.0) THEN
         READ(TXT20(1:1),FMT='(I1)') KSO
-        READ(TXT20(3:20),*,END=10,ERR=10) KSO2
       ELSE
         READ(TXT20(1:2),FMT='(I2)') KSO
-        READ(TXT20(4:20),*,END=10,ERR=10) KSO2
+      ENDIF
+      IF(STRCON(TXT20,'.',
+     >                    IS)) THEN
+        READ(TXT20(IS:FINSTR(TXT20)),*,END=10,ERR=10) KSO2
+      ELSE
+        KSO2 = 0
       ENDIF
 
  10   CONTINUE

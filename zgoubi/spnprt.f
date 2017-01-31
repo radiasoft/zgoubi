@@ -61,6 +61,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
       DATA FIRST / .TRUE. /
+      DATA TR1, TR2, TR3 / 3 * 0.D0 /
 
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
@@ -151,7 +152,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
      >    ,SXF/DBLE(II),SYF/DBLE(II),SZF/DBLE(II),SMF,GGM,phim,sigphi
  120      FORMAT(//,25X,
      >    'Momentum  group  #',I0,' ; '
-     >    'average  over ',I0,' particles at this pass : '
+     >    ,'average  over ',I0,' particles at this pass : '
      >    ,//,T20,'INITIAL',T70,'FINAL'
      >    ,//,T7,'<SX>',T18,'<SY>',T29,'<SZ>',T40,'<|S|>'
      >    ,T57,'<SX>',T68,'<SY>',T79,'<SZ>',T89,'<|S|>',T98,'<G.gma>'
@@ -235,8 +236,8 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
 
           IF(JMAXT.NE.3) THEN
             WRITE(NRES,FMT='(/,5X,
-     >      ''Pgm spnprt. For computation of spin matrices, ''
-     >      ''OBJET must be groups of 3 particles, each group with ''
+     >      ''Pgm spnprt. For computation of spin matrices, '',
+     >      ''OBJET must be groups of 3 particles, each group with '',
      >      ''same momentum and respective spins in direction X, Y, Z''
      >      )')
             CALL ENDJOB('Hint :  use  OBJET/KOB=',2)          
@@ -286,11 +287,11 @@ C Print to zgoubi.SPNPRT.Out
      >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4), '//
      >    '(SF(J,I),J=1,4), gamma, G.gamma, PHI, '//
      >    'PHIX, ITRAJ, IPASS, NOEL, Yo, To, Zo, Po, So, Do, '//
-     >    'AXE(1,3) !spnprt.f ',
+     >    'AXE(1,3) Qs !spnprt.f ',
      >    '# cm mr cm mr cm  -   -     -    - - - -       '//
      >    '    - - - -            -         Spin angles in deg. '//
      >    '                 -         -           -          '//
-     >    '30-32     etc.     '
+     >    '     Qs !spnprt.f  -     '
         ENDIF
         DO I=IMAX1,IMAX2
           IF( IEX(I) .GE. -1 ) THEN
@@ -300,10 +301,10 @@ C Print to zgoubi.SPNPRT.Out
      >      (F(J,I),J=2,6),F(1,I)
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
-     >      ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3
- 111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E14.6),3(1X,I6)
-     >      ,9(1X,E14.6))
-          ENDIF
+     >      ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3,QS
+ 111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E16.8),3(1X,I6)
+     >      ,9(1X,E16.8),1X,0P,F9.6)
+          ENDIF   
         ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
 C        CLOSE(LUNPRT)

@@ -59,9 +59,9 @@ C  -------
      >' / ',I6,' max.)')
       IF(IUNIT.GT.0) WRITE(IUNIT,300)
 300   FORMAT(
-     >'  LMNT  VAR  PARAM   MINIMUM     INITIAL         FINAL        ',
-C-----  IR(I)   I   IS(I)    X(K)        XI(I)          X(I)  
-     >' MAXIMUM     STEP     NAME       LBL1                 LBL2' )
+     >'LMNT VAR PARAM  MINIMUM    INITIAL         FINAL        ',
+C----- IR(I)  I IS(I)    X(K)       XI(I)          X(I)  
+     >' MAXIMUM     STEP        NAME   LBL1                 LBL2' )
 C----    X(J)       P(I)
  
       DO 1 I=1,NV
@@ -76,7 +76,7 @@ C----    X(J)       P(I)
         IF(IUNIT.GT.0) WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I),KLE,LBL1,LBL2
  400    FORMAT(1P, 
-     >  2X,I4,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
+     >  I4,2X,I2,3X,I3,2(2X,G10.3),1X,G15.8,2(1X,G10.3),1X,3(1X,A))
         IF(XCOU(I).NE.0.D0) THEN
 C          KL=XCOU(I)
           KL=INT( XCOU(I) )

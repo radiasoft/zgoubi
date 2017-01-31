@@ -51,6 +51,7 @@ C      DATA NAMSAV / MIZ*' ' /
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
 C      PARAMETER (MXC = 4)
       DIMENSION COEFS(MMAP,NFM), AA(NFM)
+      SAVE COEFS
 C      DIMENSION COEFS(MMAP,IZ), AA(IZ)
  
 C Read
@@ -77,19 +78,9 @@ C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
 C OLDFIC stays true iff (the 1-NFIC series has already been met 
 C AND the linear combination coefficients have not been changed)
 
-c           call zgnoel(
-c     >                  noel)
-c             write(*,*) ' ksmap4 noel = ',noel
-c             write(*,*) '  ific = ',ific, 'old : ',OLDFIC, NOMFIC(IFIC)
-c             write(*,*) '  NOMFIC :  ',NOMFIC(IFIC)
-c             write(*,*) ' imap = ',        i, NAMSAV(I,IFIC)
-c             write(*,*) ' aa, coef : ', AA(IFIC), COEFS(I,IFIC)
-
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
-     >          .AND. (AA(IFIC).EQ.COEFS(I,IFIC))
+     >          .AND. (AA(24+IFIC-1).EQ.COEFS(I,IFIC))
 
-c             write(*,*) 'old, updated : ',OLDFIC
-c              read(*,*)
 
         ENDDO
         IF(OLDFIC) GOTO 1
@@ -98,6 +89,7 @@ c              read(*,*)
  1    CONTINUE
 
       NEWFIC = .NOT. OLDFIC
+
       IF(NEWFIC) THEN
         IF(NBMAPS.GE.MMAP) THEN
           WRITE(NRES,*) ' SBR ksmap : too many different field maps'
@@ -109,8 +101,8 @@ c              read(*,*)
         DO IFIC = 1, NFIC
           NAMSAV(IMAP,IFIC) = NOMFIC(IFIC)
 C     16/01/14 to save the coefficients
-          COEFS(IMAP,IFIC) = AA(IFIC)
-       ENDDO
+          COEFS(IMAP,IFIC) = AA(24+IFIC-1)
+        ENDDO
 
       ELSE
         IMAP = II

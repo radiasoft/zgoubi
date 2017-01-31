@@ -108,7 +108,7 @@ C Changed to allow positioning data after map name in MOD.MOD2=16.1-4
 C      PARAMETER (MXAA2=24+MXC-1)
       PARAMETER (MXMAP=4)
       PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
-      DIMENSION AA(MXL,MXAA2), UU(MXAA2)
+      DIMENSION AA(MXL,MXAA2)
       SAVE AA
 
       DATA AGS / .FALSE. /
@@ -141,7 +141,7 @@ C----- Some initializations and resets
       CALL CHAMK2(UN)
       CALL RAZ(DBDX,3)
       CALL CHAMK4(DBDX,3)
-
+      CALL RAZ (AA,MXL*MXAA2)
       CALL FITSTA(5,
      >              FITING)
       IF(.NOT. FITING) THEN 

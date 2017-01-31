@@ -31,6 +31,12 @@ C-------------------------------------------------
 C     Read field map with cartesian coordinates.
 C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
+      PARAMETER (MXC = 4)
+      PARAMETER (MXMAP=4)
+      PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
+      INCLUDE 'MXLD.H'
+      DIMENSION AA(MXL,MXAA2)
+
       LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
       INCLUDE "XYZHC.H"
@@ -38,7 +44,6 @@ C-------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
-      INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
@@ -58,7 +63,6 @@ C      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       LOGICAL BINAR
       LOGICAL FLIP
 C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
-      PARAMETER (MXC = 4)
       PARAMETER (NFM = IZ+MXC)
       CHARACTER(LNTA) TITL , NOMFIC(NFM), NAMFIC, NOMFI1(1)
       SAVE NOMFIC, NAMFIC
@@ -68,13 +72,13 @@ C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
       LOGICAL STRCON
  
       CHARACTER(20) FMTYP
-      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
-      SAVE XXH, YYH, ZZH
-      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
-      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
-      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
-      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
-      SAVE IIXMA, JJYMA, KKZMA
+C      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
+C      SAVE XXH, YYH, ZZH
+C      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
+C      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
+C      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+C      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
+C      SAVE IIXMA, JJYMA, KKZMA
  
       DIMENSION DBDX(3)
  
@@ -86,10 +90,7 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       INCLUDE 'MXSCL.H'
       DIMENSION KFM(MXSCL)
  
-C      PARAMETER (MXAA2=24+MXC-1)
-      PARAMETER (MXMAP=4)
-      PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
-      DIMENSION AA(MXL,MXAA2), UU(MXAA2)
+      DIMENSION UU(MXAA2)
 
 C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
@@ -174,7 +175,8 @@ C RHIC snake measured B(I) [T(A)]
      >     CALL ENDJOB('SBR toscac Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
- 
+
+
 C Possible SCAL change is by CAVITE
 C Possible A(noel,10) change by FIT
 C Aug 2012      BNORM = A(NOEL,10)*SCAL
@@ -189,9 +191,7 @@ C Takes B(T) from meaured B(I). Convert to kG. Assumes field map has been normal
 C for instance using a=1/Bmax scaling in 15.MOD2 option
         BNORM = CUBSPL(RSI,RSB,ABS(A(NOEL,10)),I16,I16) * T2KG
         IF(A(NOEL,10) .LT. 0.D0) BNORM = -BNORM
-c           write(*,*) ' toscac bnorm = ',bnorm,A(NOEL,10)
-c           write(*,*) '  '
-c              read(*,*)
+
       ENDIF
       IF    (STRCON(TITL,'ZroBXY',
      >                            IS) ) THEN
@@ -341,6 +341,9 @@ C--------  No symmetrization, map taken as is
 C--------- A single data file contains the all 3D volume
           I1=1
           I2 = 1
+          DO I = I1, I2
+            AA(NOEL,24-1+I) = A(NOEL,24-1+I)
+          ENDDO
 
         ELSEIF(MOD .EQ. 15) THEN
 C--------- MOD2 files are combined linearly into a single map after reading.
@@ -389,11 +392,9 @@ C Map positioning data (1 set per map)
 C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
 
         IF    (MOD .LE. 15) THEN 
+
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
-
-
-c              write(*,*) ' toscac MOD 15, newfic = ',newfic
 
         ELSEIF(MOD .EQ. 16) THEN 
           CALL KSMAP(
@@ -425,16 +426,6 @@ C          CALL CHAMKW(NFIC,NMPTN,UU)
           IF(ICOF .GT. 27)
      >    CALL ENDJOB('SBR toscac. No such possibility ICOF=',ICOF)
           NEWFIC = NEWFIC .OR. AA(NOEL,ICOF).NE.A(NOEL,ICOF)
-
-
-c              write(*,*) ' toscac test aa newfic = ',newfic
-c              write(*,*) ' aa  noel,ICOF : ',AA(NOEL,ICOF),noel,ICOF
-c              write(*,*) ' a ICOF  ', A(NOEL,ICOF),ICOF
-c              write(*,*) ' +++++++++++++++++'
-c              write(*,*) ' '
-c              write(*,*) ' '
-c                 read(*,*)
-
 
           ICOF = ICOF + 1
           IFIC = IFIC + 1
@@ -473,7 +464,7 @@ C Map positioning data (1 set per map)
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,3(A,I0),2A,I3,A)')
-     >  ,'Status of MOD.MOD2 is ', MOD,'.',MOD2,' ; NDIM = ',NDIM,' ;'
+     >  'Status of MOD.MOD2 is ', MOD,'.',MOD2,' ; NDIM = ',NDIM,' ;'
      >  ,' number of field data files used is ',NFIC,'.'
         IF    (MOD.EQ.3) THEN
           WRITE(NRES,FMT='(5X,A,I0,A)') 
@@ -559,12 +550,14 @@ c        ELSEIF(MOD.EQ.15) THEN
              IF(IDLUNI(
      >                 LUN)) THEN
                BINAR=BINARI(NOMFIC(NFIC),IB)
+
                IF(BINAR) THEN
                  OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),FORM='UNFORMATTED'
-     >           ,STATUS='OLD',ERR=96)
+     >           ,STATUS='OLD')
                ELSE
-                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD',ERR=96)
+                 OPEN(UNIT=LUN,FILE=NOMFIC(NFIC),STATUS='OLD')
                ENDIF
+
              ELSE
                GOTO 96
              ENDIF
@@ -974,8 +967,9 @@ C        XF = XH(IAMA)
  
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file ',
+ 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file  **'//
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+     >//'**'
       CALL ENDJOB('Leaving. ',-99)
       RETURN
  

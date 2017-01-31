@@ -10,60 +10,9 @@ they are sufficiently different that one cannot use the one routine in both
 programs.  In addition, there is an inconsistency in zpop in the layout of the
 common block CDF (RFFAG uses the layout found in zgoubi).  I think we should
 try to make all of the common files (particularly the r* files) consistent.
-Here is the list of the remaining routines which should be checked (some of
-which are not really common routines):
-
-block.f
-debstr.f
-finstr.f
-flush2.f
-header.f
-idluni.f
-lpsfit.f
-okkt.f
-prdata.f
-raiman.f
-rautor.f
-rbend.f
-rbinar.f
-rcarte.f
-rcavit.f
-rcible.f
-rcoils.f
-rcolli.f
-rcsr.f
-rdips.f
-rebmul.f
-rel2tu.f
-relcmi.f
-relcyl.f
-relmir.f
-rffags.f
-rfit.f
-rfitgt.f
-rgasca.f
-rhelix.f
-rmcdes.f
-rmcobj.f
-rmulti.f
-rnorma.f
-robjet.f
-robjta.f
-rqsod.f
-rsepar.f
-rsimb.f
-rsolen.f
-rspn.f
-rsrlos.f
-rtrans.f
-rundul.f
-runipo.f
-rwienf.f
-sref.f
 
 ---
-Determine if the current FFLAGS are necessary, and make changes to the code
-so that they are not.
+Determine if the current FFLAGS are necessary, and make changes to the code so that they are not.
 
 ---
 Fix the warnings, in particular the one about tempnam.
@@ -71,7 +20,9 @@ Fix the warnings, in particular the one about tempnam.
 ---
 Install periodic dispersion when coupled, in matrix and twiss. 
 
-Install call tunesc in ff, twiss
+
+---
+Install call tunesc in ff
 
 ---
 Have same manipulation of labels at the top of zgoubi.f by OPTICS, FAISTORE, SPNSTORE, PICKUPS
@@ -93,13 +44,8 @@ GUIDE AND WEB SITE DEVELOPMENTS
 Make the documentation consistent with the code.
 
 ---
-Actualize 'publications'. For the moment only copy-pasted main zgoubi (and only zgoubi) stuff found in : 
-
-ANSWinterMeeting    Logs     SRLoss_2015  cern    
-CHU-Gre609Juin2008  NIM      arXiv        
-ICFA-BD-08-07       Nature   baril        
-JINST               RAST     bnl          
-LPSC                SATURNE  brevets      
+Complete and update 
+/home/meot/zgoubi/SVN/sourceForge_webSite/malekFiles/ZGOUBI_DOCS/publications
 
 
 ----------------------------------------
@@ -109,16 +55,6 @@ DEBUGGING, ZGOUBI
 
 
 * 1/
-
-1-A/ 
-meot@meot-Latitude-E6510:~/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE
-
-ne fonctionne pas si on compile sans 'save' dans ifort. 
-
-If instead
-FFLAGS= -xHOST -O3 -ip -traceback -check -save
-
-then it works vry well !
 
 1-B/
 If I compil using : 

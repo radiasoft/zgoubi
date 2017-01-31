@@ -153,9 +153,6 @@ C            A(NOEL,LL+3) = -A(NOEL,LL+3)
       READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,82)
       RETURN
 
- 99   WRITE(NRES,FMT='(5X,A)') 
-     >'*** Pgm rmcobj. error upon BACKSPACE'
-
  90   CALL ENDJOB('*** Pgm rmcobj. MCOBJET. '//
      >'Input data error, at line ',line)
 

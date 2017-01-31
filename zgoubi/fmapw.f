@@ -67,6 +67,7 @@ C      SAVE HCTMP
 
       DATA MOD, MOD2 / 0, 0 /
       DATA IMAP / 1 /
+      DATA R0 / 0.D0 /
 
       CALL KSMAP(
      >           IMAP) 

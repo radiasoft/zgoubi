@@ -28,8 +28,6 @@ C  -------
 
       LOGICAL ITSENS
 
-C      PARAMETER (NITER=90)
-
       PARAMETER (VALMAX=1.D38)
       PARAMETER (D=3.0D0)
       EXTERNAL FONC

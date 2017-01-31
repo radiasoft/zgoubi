@@ -29,7 +29,8 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      DIMENSION DLT(3,3), PROD(3,3)
+      DIMENSION DLT(3,3)
+C      DIMENSION PROD(3,3)
       PARAMETER (PI = 4.D0 * ATAN(1.D0))
 
 C ID is the momentum group (ID = 1, IDMAX in OBJET/KOBJ=2)

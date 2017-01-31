@@ -40,7 +40,6 @@ C     ***************************************
       LOGICAL STRCON
       PARAMETER (I4=4)
       CHARACTER(I300) STRA(I4)
-      CHARACTER(10) STRA3
       CHARACTER(30) STRING
       LOGICAL OKKLE
 

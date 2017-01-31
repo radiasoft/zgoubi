@@ -29,7 +29,7 @@ C  -------
       EXTERNAL FONC
 
       SAVE ICPTF, ICPTMA
-      DATA ICPTMA / 1000 /
+C      DATA ICPTMA / 1000 /
 
       ICPTF=ICPTF+1
       F=FONC()
