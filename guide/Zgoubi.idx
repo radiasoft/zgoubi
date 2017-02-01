@@ -265,9 +265,12 @@
 \indexentry{TRAROT}{99}
 \indexentry{BREVOL|textbf}{100}
 \indexentry{CARTEMES}{100}
+\indexentry{integration boundary}{100}
 \indexentry{CARTEMES|textbf}{101}
 \indexentry{IORDRE}{101}
 \indexentry{IEX@{\IEX}}{101}
+\indexentry{droite de coupure: see integration boundary}{101}
+\indexentry{integration boundary}{101}
 \indexentry{ID@{\textsl{ID}}|textbf}{101}
 \indexentry{CAVITE|textbf}{103}
 \indexentry{acceleration}{103}
@@ -354,6 +357,7 @@
 \indexentry{QUADRUPO}{128}
 \indexentry{PARTICUL}{128}
 \indexentry{ELREVOL|textbf}{130}
+\indexentry{integration boundary}{130}
 \indexentry{CARTEMES}{130}
 \indexentry{PARTICUL}{130}
 \indexentry{EMMA|textbf}{131}
@@ -369,10 +373,12 @@
 \indexentry{MAP2D|textbf}{138}
 \indexentry{IORDRE}{138}
 \indexentry{IORDRE}{138}
+\indexentry{integration boundary}{138}
 \indexentry{CARTEMES}{138}
 \indexentry{MAP2D-E|textbf}{139}
 \indexentry{IORDRE}{139}
 \indexentry{IORDRE}{139}
+\indexentry{integration boundary}{139}
 \indexentry{CARTEMES}{139}
 \indexentry{MARKER|textbf}{140}
 \indexentry{LABEL@{\LABEL}}{140}
@@ -402,6 +408,7 @@
 \indexentry{MAP2D}{153}
 \indexentry{IORDRE}{155}
 \indexentry{CARTEMES}{155}
+\indexentry{integration boundary}{155}
 \indexentry{CARTEMES}{155}
 \indexentry{TRANSMAT|textbf}{156}
 \indexentry{MATRIX}{156}
@@ -579,9 +586,12 @@
 \indexentry{BEND|textbf}{201}
 \indexentry{BINARY|textbf}{203}
 \indexentry{BREVOL|textbf}{204}
+\indexentry{integration boundary}{204}
 \indexentry{maps, summing}{204}
 \indexentry{CARTEMES|textbf}{205}
 \indexentry{ID@{\textsl{ID}}|textbf}{205}
+\indexentry{integration boundary}{205}
+\indexentry{integration boundary}{206}
 \indexentry{CAVITE|textbf}{207}
 \indexentry{acceleration}{207}
 \indexentry{synchrotron motion}{207}
@@ -743,6 +753,7 @@
 \indexentry{SYSTEM|textbf}{285}
 \indexentry{system call}{285}
 \indexentry{TOSCA|textbf}{287}
+\indexentry{integration boundary}{287}
 \indexentry{CARTEMES}{287}
 \indexentry{TRANSMAT|textbf}{289}
 \indexentry{TRAROT|textbf}{290}

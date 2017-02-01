@@ -18,7 +18,7 @@ b_zgoubi.fai   #E
 0  2
 -1E-3  1. 1. 1.
 HEADER_9 QPOLES
-101 66 1 22.2            IZ=1 -> 2D ; MOD=22 -> polar map ; MOD2=.2 -> two map files
+101 66 1 22.2  1. 1.           IZ=1 -> 2D ; MOD=22 -> polar map ; MOD2=.2 -> two map files
 Dax240.Doffpolargridcoarse2.table
 Dax240.Foffpolargridcoarse2.table
 0 0 0 0

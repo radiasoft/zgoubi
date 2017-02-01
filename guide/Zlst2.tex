@@ -793,7 +793,8 @@ Expected format is 7 column rows. \\
 \textsl{FNAME [, SUM]}~\footnotemark[1]$^,$~\footnotemark[2]     \> File name  \> \>A80 \\
             \>   
  \\
- $ID$, $A$, $B$, $C$   \>Integration boundary. Ineffective when $ID=0$.      \>$\geq -1$, 2*no dim., \>I,3*E  \\
+ $ID$, $A$, $B$, $C$   \>Integration boundary. Ineffective when $ID=0$. \index{integration boundary}
+                                                                     \>$\geq -1$, 2*no dim., \>I,3*E  \\
  {[}, $A'$, $B'$, $C'$,   \>$ID=$ -1, 1 or $\geq 2$ : as for  \textsl{CARTEMES} \> cm {[},2*no dim.,\>[,3*E,etc.]\\
  $B''$, etc., if $\left. ID\geq 2\right]$ \>                                  \> cm, etc.]       \> \\
   \\
@@ -856,7 +857,8 @@ myMapFile3
  \\
 \textsl{FNAME}~\footnotemark[1] \> File name \> \>A80 \\
  \\
-$ ID$\index{ID@{\textsl{ID}}|textbf}, $A$, $B$, $C$   \>Integration boundary. Normally $ID=0$.                   \>$\geq -1$,2*no dim.,\>I, 3*E\\  %
+$ ID$\index{ID@{\textsl{ID}}|textbf}, $A$, $B$, $C$   \>Integration boundary. Normally $ID=0$.      
+                                    \index{integration boundary}             \>$\geq -1$,2*no dim.,\>I, 3*E\\  %
 $\left[, A'\right.$, $B'$, $C'$, $A''$,\>$ID=-1$ : integration in the map begins at \>cm [,2*no dim., \>[3*E,etc.]\\ %
 $B''$,etc., if $\left. ID\geq 2\right]$\>entrance boundary defined by $AX+BY+C=0$.\> cm, etc.]     \>           \\
                        \>$ID=1$ : integration in the map is terminated                \> \> \\
@@ -909,7 +911,9 @@ Integration zone limits may be defined, using $ ID\not= 0 $ : particle coordinat
 extrapolated linearly from the entrance face of the map, into the plane 
 $A'X+B'Y+C'=0$~; after ray-tracing inside the 
 map and terminating on the integration boundary $AX+BY+C=0$,   coordinates are
-extrapolated linearly to the exit face of the map.}
+extrapolated linearly to the exit face of the map.
+\index{integration boundary}
+}
 \end{figure}
 \vfill
 
@@ -5026,7 +5030,8 @@ Next NF lines :   \> Map file name(s), one line per name.   \> \>A80 \\
        \> If \textsl{MOD}=12 : a single \textsl{FNAME}  file contains the all 3-D volume.  \\ 
        \> \textsl{MOD=15, 20-22}, etc.~: see table next page.  \> \> \\
  \\
-$ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.     \>$\geq -1$,  cm, \>I,3*E  \\
+$ID$, $A$, $B$, $C$ {[}, $A'$, $B'$, $C'$,\>Integration boundary. Ineffective when $ID=0$.    \index{integration boundary}
+                                        \>$\geq -1$,  cm, \>I,3*E  \\
 $A''$, etc., if $\left. ID\geq 2\right]$ \>$ID=$ -1, 1 or $\geq 2$ : as for \textsl{CARTEMES}\>2*no dim. [,\id]\>[,3*E,etc.]\\
  \\
  \textsl{IORDRE}     \>If $IZ=1$ : 2, 25 or 4 as in \textsl{CARTEMES\index{CARTEMES}}~; unused if $IZ \not =1$.  \>2, 25 or 4 \>I\\

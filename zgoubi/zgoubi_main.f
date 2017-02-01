@@ -49,7 +49,7 @@ C  -------
       CHARACTER(LEN=I100), DIMENSION(:), ALLOCATABLE :: ARGS
 
       LOGICAL SAVXEC, SAVZPP
-      LOGICAL OKWDAT
+      LOGICAL OKWDAT, OKW
 
       CHARACTER(KSIZ) KEY, LBL1, LBL2
       PARAMETER (I0=0)
@@ -67,7 +67,7 @@ C Dummy
       DATA FDAT / 'zgoubi.dat' /
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
       DATA TIMSEC / 0.D0 / 
-      DATA OKWDAT / .FALSE. /
+      DATA OKWDAT, OKW / .FALSE., .FALSE. /
       DATA TAB /  1 * ' '  /
 
 C Manage possible arguments to zgoubi -----------------------
@@ -232,6 +232,9 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
           IF(OKWDAT) THEN
             CALL FITWDA
             OKWDAT = .FALSE.
+            OKW = .TRUE.
+          ELSE
+            OKW = .FALSE.
           ENDIF
           CALL ZGIPAS(
      >                IPASS,NRBLT)
@@ -292,16 +295,15 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
       IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
 
-      OKWDAT = .TRUE.
-      IF(OKWDAT) 
+      IF(OKW) 
      >WRITE(NRES,FMT='(/,20X,
      >''Updated version of input data file saved in '',a,//,a)')
      >'zgoubi.FIT.out.dat',' '
 
       CLOSE(ABS(NRES))
 
-      IF(OKWDAT) CALL FITWDA(
-     >                       IER)
+      IF(OKW) CALL FITWDA(
+     >                    IER)
 
       CLOSE(NLOG)     
 

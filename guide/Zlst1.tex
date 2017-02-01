@@ -1,4 +1,4 @@
-  
+   
       \pagestyle{headings}
 
 	% \part{Description of software contents}{Description of software contents}
@@ -3493,10 +3493,11 @@ iterations on the step size or on the call to the function.
 \bigskip
 
 \paragraph{\textsl{COMBINING FIT[2] AND REBELOTE } \index{FIT and REBELOTE, combined|textbf}}    %%%%[10]
-
+\label{FITREB}
 
 \noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows for instance executing again 
 the  fitting procedure, following a change, by  \textsl{REBELOTE}, in  the value of some parameter(s) in zgoubi.dat data list. 
+More on that can be found under \textsl{REBELOTE}, Sec.~\ref{REBELOTE}, page~\pageref{REBFIT}. 
 
 \medskip
 
@@ -4109,7 +4110,7 @@ data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking
 \clearpage
 
 \paragraph{\textsl{COMBINING REBELOTE AND FIT[2]} \index{combined with FIT|textbf}}    %%%%[10]
-
+\label{REBFIT}
 
 \noindent The keyword  \textsl{REBELOTE}  can follow   \textsl{FIT[2]}.  This allows executing again 
 the fit procedure,  after changing the value of some parameter(s) in zgoubi.dat using \textsl{REBELOTE} with 
@@ -5249,7 +5250,8 @@ order off-axis  extrapolation (see sections~\ref{sec2.3.1},~\ref{sec2.4.1}).
 
 \noindent Entrance and/or exit integration boundaries may be defined in the same way 
 as in \textsl{CARTEMES\index{CARTEMES}} by means of the flag $ID$ and coefficients
-$A$, $B$, $C$, etc. 
+$A$, $B$, $C$, etc.  \index{integration boundary}
+
 
 \newpage
 
@@ -5308,8 +5310,9 @@ too large.
 
 \bigskip
 
-\noindent Entrance and/or exit integration boundaries can be defined with 
-the flag $ID$\index{ID@{\textsl{ID}}|textbf}, as follows (Fig.~\ref{fig15}).
+\noindent Entrance and/or exit integration boundaries (so-called ``droite de coupure'' in the code) 
+\index{droite de coupure: see integration boundary} \index{integration boundary}
+can be defined with the flag $ID$\index{ID@{\textsl{ID}}|textbf}, as follows (Fig.~\ref{fig15}).
 \bigskip
 
 \noindent \textbf{If  $\mathbf{ID = 1}$~:} the integration in the field 
@@ -7066,7 +7069,8 @@ order off-axis extrapolation (see sections~\ref{sec2.5.2} and~\ref{sec2.4.1}).
 
 \medskip
 
-\noindent Entrance and/or exit integration boundaries may be defined in the same way 
+\noindent Entrance and/or exit integration boundaries \index{integration boundary}
+may be defined in the same way 
 as in \textsl{CARTEMES\index{CARTEMES}} by means of the flag $ID$ and coefficients  
 $A$, $B$, $C$, $A'$, $B'$, $C'$.  
 \medskip
@@ -7514,7 +7518,7 @@ for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}).
 
 \medskip
 
-\noindent Entrance and/or 
+\noindent Entrance and/or   \index{integration boundary} 
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
 
 
@@ -7572,7 +7576,7 @@ for 4th order (option \textsl{IORDRE = 4\index{IORDRE}}).
 
 \medskip
 
-\noindent Entrance and/or 
+\noindent Entrance and/or  \index{integration boundary}
 exit integration boundaries may be defined, in the same way as for \textsl{CARTEMES\index{CARTEMES}}.
 
 
@@ -8225,7 +8229,9 @@ section~\ref{sec2.4.4}.
 
 \medskip  
 
-\noindent In the Cartesian mesh case, entrance and/or exit integration boundaries between which the trajectories
+\noindent In the Cartesian mesh case, entrance and/or exit integration boundaries 
+\index{integration boundary}
+between which the trajectories
 are integrated in the field may be defined, in the same way as in  \textsl{CARTEMES\index{CARTEMES}}. 
 
 \medskip  
