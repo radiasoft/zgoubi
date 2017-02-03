@@ -122,19 +122,19 @@ C Yann, 14-03-07. Necessary for the online model to work
          
          CONSTY = TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'ON'
          CALL INTEGA(CONSTY)
-         CALL TRANS2(
-     >               CONSTy)
-           IF(ABS(NRES).GT.0) THEN
-             NRES = ABS(NRES)
-             WRITE(ABS(NRES),FMT='(5X,T5,A)') '- rays will be forced to'
-     >       //' constant Y and Z in pgm integr.'
-             WRITE(ABS(NRES),FMT='(5X,T5,A)') '- mid-plane symmetry'
-     >       //' test in pgm transf (i.e., ''dejaca'' procedure) '
-     >       //'is inhibited.'
-             WRITE(ABS(NRES),FMT='(5X,T5,A)') '- coordinates and field '
-     >       //'may be checked using IL = 1, 2 OR 7 '
-c     >       //'will stored in file zgoubi.consty.out '
-           ENDIF
+         CALL TRANS2(CONSTY)
+
+         IF(ABS(NRES).GT.0) THEN
+           NRES = ABS(NRES)
+           WRITE(ABS(NRES),FMT='(5X,T5,A)') '- rays will be forced to'
+     >     //' constant Y and Z in pgm integr.'
+           WRITE(ABS(NRES),FMT='(5X,T5,A)') '- mid-plane symmetry'
+     >     //' test in pgm transf (i.e., ''dejaca'' procedure) '
+     >     //'is inhibited.'
+           WRITE(ABS(NRES),FMT='(5X,T5,A)') '- coordinates and field '
+     >     //'may be checked using IL = 1, 2 OR 7 '
+c     >     //'will stored in file zgoubi.consty.out '
+         ENDIF
 
        ENDIF
       ENDDO

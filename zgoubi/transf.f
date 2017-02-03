@@ -159,8 +159,7 @@ C-------- IEX<-1 <=> Particle stopped
       BACKOU=BACKW
       RETURN
 
-      ENTRY TRANS2(
-     >             CONSTI)
+      ENTRY TRANS2(CONSTI)
       CONSTY = CONSTI
       RETURN
       END

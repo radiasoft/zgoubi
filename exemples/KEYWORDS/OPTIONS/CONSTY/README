@@ -1,0 +1,18 @@
+
+Generate a field map using keyword OPTIONS/CONSTY ON.  Use it for 50-particle tracking or 50-orbit MATRIX computation. 
+
+How this works : 
+
+1/ 'rzg -in consty_impdev_IX-567.IR-61.IZ-5.res' will generate zgoubi.res and zgoubi.impdev.out (thelatter, as a consequence of
+IL=7 under 'FFAG' keyword)
+
+2/ compile impdev2FieldMap.f and run impdev2FieldMap. This will read from zgoubi.impdev.out, reorganize field and corrdintaes 
+data it founds therein, and restitute that under the form of a field map (impdev2FieldMap.out) that 'TOSCA' keyword 
+will be able to use. 
+
+3/ 'rzg -in fieldMap_50traj_IX-567_dR2cm_dZ1cm.res' and 'rzg -in fieldMap_MATRIX_IX-567_dR2cm_dZ1cm.res' provide two 
+examples that use that field map. 
+The first one tracks 50 particles with initial coordinates taken on closed orbits at various momenta. 
+The second one computes the matrices at these 50 different momenta. 
+
+
