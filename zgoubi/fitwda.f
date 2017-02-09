@@ -207,13 +207,13 @@ C Old style CHANGREF
                 JT = 10
                 DO IT = 1, IMAX
                   READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                  WRITE(LW,FMT='(3(F12.8,1X,A))')
+                  WRITE(LW,FMT='(1P,3E16.8,1X,A)')
      >                  (A(NUEL,J),J=JT,JT+2) !,GTAIL(TXT132,'!',LN)
                   JT = JT+10
                 ENDDO
               ELSEIF(NINT(10*XSO) .EQ. 41) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
-                WRITE(LW,FMT='(3(E16.8,1X,A))')
+                WRITE(LW,FMT='(1P,3E16.8,A)')
      >                    (A(NUEL,J),J=10,12)  !,GTAIL(TXT132,'!',LN)
               ELSEIF(NINT(10*XSO) .EQ. 50) THEN
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
@@ -325,12 +325,12 @@ C Old style CHANGREF
 
  10   CONTINUE
 
-C      IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,
-C     >''Updated version of input data file saved in '',a)')
-C     >'zgoubi.FIT.out.dat'
-      WRITE(*,FMT='(/,20X,
-     >''Updated version of input data file saved in  '',a)')
-     >'zgoubi.FIT.out.dat'
+      WRITE(6,FMT='(/,20X,  
+     >''An updated version of the input data file, with va'',a,//)')
+     >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
+      WRITE(ABS(NRES),FMT='(/,20X,  
+     >''An updated version of the input data file, with va'',a,//)')
+     >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
 
       CLOSE(LR)
       CLOSE(LW)

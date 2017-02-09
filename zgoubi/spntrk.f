@@ -98,9 +98,12 @@ CALCUL d^nB||/ds^n  = d^n((B.U)U)/ds^n
      >  BU(1,1)*U(3,I)
         D3BU =    BU(4,1) + 3.D0*( BU(3,2) +       BU(2,3) )    
      >   + BU(1,4)
-       aaaa =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
+        BP(4,I) =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
      >      DBU*U(3,I) ) +  BU(1,1)*U(4,I)
-         BP(4,I)  = aaaa
+         
+c       aaaa =  D3BU*U(1,I) +   3.D0*(D2BU*U(2,I)  +       
+c     >      DBU*U(3,I) ) +  BU(1,1)*U(4,I)
+c         BP(4,I)  = aaaa
 C////// debug...
 c       if(noel.eq.20) then
 c           write(*,*) ' i, BP(4,i) : ',i, bp(4,i),aaaa

@@ -24,7 +24,8 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SPNPRT(LBL1, LBL2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(*) LBL1, LBL2
+      PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) LBL1, LBL2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "MAXTRA.H"
@@ -235,31 +236,32 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
      >  .OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
 
           IF(JMAXT.NE.3) THEN
-            WRITE(NRES,FMT='(/,5X,
+            WRITE(ABS(NRES),FMT='(/,5X,
      >      ''Pgm spnprt. For computation of spin matrices, '',
-     >      ''OBJET must be groups of 3 particles, each group with '',
-     >      ''same momentum and respective spins in direction X, Y, Z''
-     >      )')
-            CALL ENDJOB('Hint :  use  OBJET/KOB=',2)          
-          ENDIF
+     >      ''OBJET must create groups of 3 same-momentum particles, '',
+     >      /,5X,''with respective spins in direction X, Y, Z.'',
+     >      /,5X,''Hint :  use  OBJET with KOBJ = 1 or 2'')')
 
-          CALL SPNMAT(ID,
+          ELSE
+
+            CALL SPNMAT(ID,
      >                   SMAT,TRM, SROT,TR1,TR2,TR3,QS)
 
-          IF(NRES.GT.0) THEN
-            WRITE(NRES,103) ID
- 103        FORMAT(//,18X,'Spin transfer matrix, momentum group # '
-     >      ,I0,' :',/)
-            WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
- 104        FORMAT(6X,1P,3G16.6)
-            WRITE(NRES,112)TRM,SROT*DEG,TR1,TR2,TR3
-     >      ,ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG,ATAN2(TR2,TR1)*DEG,QS
-112         FORMAT(/,5X,'Trace = ',F18.10,',',4X,
-     >      ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
-     >      /,5X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
-     >      '   ->   angle to (X,Y) plane,  angle to X axis : ',
-     >       F10.4,', ',F10.4,'  degree',
-     >      /,5X,'Spin  tune  Qs =   ',1P,E12.4)
+            IF(NRES.GT.0) THEN
+              WRITE(NRES,103) ID
+ 103          FORMAT(//,18X,'Spin transfer matrix, momentum group # '
+     >        ,I0,' :',/)
+              WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
+ 104          FORMAT(6X,1P,3G16.6)
+              WRITE(NRES,112)TRM,SROT*DEG,TR1,TR2,TR3
+     >        ,ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG,ATAN2(TR2,TR1)*DEG,QS
+112           FORMAT(/,5X,'Trace = ',F18.10,',',4X,
+     >        ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
+     >        /,5X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
+     >        '   ->   angle to (X,Y) plane,  angle to X axis : ',
+     >         F10.4,', ',F10.4,'  degree',
+     >        /,5X,'Spin  tune  Qs =   ',1P,E12.4)
+            ENDIF
           ENDIF
 
       ENDIF
@@ -302,8 +304,9 @@ C Print to zgoubi.SPNPRT.Out
      >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
      >      ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3,QS
+     >      ,'!spnprt.f',LBL1,LBL2
  111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E16.8),3(1X,I6)
-     >      ,9(1X,E16.8),1X,0P,F9.6)
+     >      ,9(1X,E16.8),1X,0P,F9.6,3(1X,A))
           ENDIF   
         ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE

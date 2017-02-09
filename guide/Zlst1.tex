@@ -4466,6 +4466,11 @@ each one of the \IMAX\index{IMAX@{\IMAX}} particles of the beam.
 they are then assigned to  each one of the \IMAX\index{IMAX@{\IMAX}} particles of the beam.  
 \medskip
 
+\noindent\textbf{KSO = 4.2~:} \textsl{under development}. Read spin components from a file, file name has to be provided. 
+(that file at present can be zgoubi.res~:  KSO=4.2 looks for key ``(deg)       (deg)`` that appears 
+at start of the spin coordinates list under the keyword \textsl{SPNPRT}). 
+\medskip
+
 \noindent\textbf{KSO = 5~:} random generation of \IMAX\index{IMAX@{\IMAX}} initial spin
 conditions as described in Fig.~\ref{fig7}.  
 Given a mean polarization axis (S) defined by its angles $ T_0 $ and $ P_0 $, 
@@ -9096,6 +9101,18 @@ computed. This is done assuming appropriate initial particle and spin sampling h
 (by respectively \textsl{OBJET} and \textsl{SPNTRK}), as follows~: 
 
 \medskip
+
+- Three particles are needed for \textsl{SPNPRT} to compute a spin matrix. 
+All three have identical initial coordinates (for instance, the local 
+stable precession axis coordinates) and rigidity, and their spins are on a direct triedra, for instance, respectively, 
+\centerline{$(S_X, S_Y, S_Z) = (1,0,0),~ (0,1,0),~ (0,0,1),~ $}
+
+\medskip 
+
+ - There may be several groups of three particles, each group with a particular rigidity (\ie, the three 
+particles in a group have the same momentum). \text{OBJET} with \textsl{KOBJ=1} or \textsl{KOBJ=2} can be used for 
+instance to generate these particles by groups of like rigidity. \textsl{SPNPRT} will thus compute 
+as many matrices.
 
 
 

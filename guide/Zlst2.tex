@@ -4647,16 +4647,17 @@ $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define th
  \> with \textsl{NPASS}\index{NPASS} $\geq IP-1$).  \\[60pt]
 %
 %
- \textbf{SPNPRT [PRINT] [MATRIX]}        \label{SPNPRT-B} \index{SPNPRT|textbf}
-     \> \textbf{Print spin coordinates} \>  \\
+ \textbf{SPNPRT [,PRINT]}        \label{SPNPRT-B} \index{SPNPRT|textbf}     \> \textbf{Print spin coordinates, compute spin matrix} \>  \\
+ \textbf{[,MATRIX]}        \\
 \\
  \> Print spin coordinates in zgoubi.res, at the location where this  keyword is introduced  \\
  \> in the structure. \\
  \> A label '\textsl{PRINT}' is optional, if it appears, then local data are stored in  the file  \\
- \> zgoubi.SPNPRT.Out. That file is open at the first occurence of \textsl{SPNPRT} and left open  \\
- \> until \zgou\ execution is completed. 
+ \> zgoubi.SPNPRT.Out. That file is opened at the first occurence of \textsl{SPNPRT} and left open  \\
+ \> until \zgou\ execution is completed.  \\
  \> A label '\textsl{MATRIX}' is optional, if it appears, then computation of spin rotation  \\
- \> matrix is performed. This however assumes appropriate trajectory and spin sampling. \\
+ \> matrix is performed. This however assumes appropriate trajectory and spin \\
+ \> sampling (see Sec.~\ref{SPNPRT}, p.~\pageref{SPNPRT}). \\
 \\
   \end{tabbing}
  
@@ -4679,8 +4680,8 @@ $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define th
 \\
 \textbf{If KSO = 1 --  3} \> \textsl{KSO} = 1 (respectively 2, 3) : all particles \\
       \> have their spin automatically set to (1,0,0), \\
-      \> longitudinal [respectively (0,1,0), horizontal \\
-      \> and (0,0,1), vertical] \\
+      \> longitudinal (respectively (0,1,0), horizontal \\
+      \> and (0,0,1), vertical) \\
 \\
 \textbf{If KSO = 4}    \>  Repeat \IMAX\ times (corresponding to the \IMAX \\
       \> particles in `\textsl{OBJET}') the following sequence : \\
@@ -4691,6 +4692,8 @@ $S_X$, $S_Y$, $S_Z$   \> $X$, $Y$ and $Z$ initial components of the initial spin
 \\
 $S_X$, $S_Y$, $S_Z$   \> $X$, $Y$ and $Z$ components of the initial spins. \> 3*no dim. \> 3*E \\
                      \> These  will be assigned to all particles.   \>  \> \\
+\textbf{If KSO = 4.2}    \>      \>  \\
+\textsl{FNAME}~\footnotemark[3] \> File name  \textsl{(under development)} \> \>A80 \\
 \\
 \textbf{If KSO = 5} \> Random distribution in a cone (see figure)\\
       \> Enter the following two sequences : \\
@@ -4710,7 +4713,7 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \begin{minipage}{.5\linewidth}
 \centering
 
-\includegraphics[height=1.\linewidth]{Fig7.ps}
+\includegraphics[height=.8\linewidth]{Fig7.ps}
 %{\setlength{\captionwidth}{12cm}
 %\hangcaption[Fig7]{\label{fig7}
 
@@ -4732,7 +4735,12 @@ Option \textsl{KSO} = 5~:
 \footnotetext[2]{~ Spin tracking can be switched off at any location in zgoubi.dat data list using \textsl{KSO=0}, 
 and further away resumed using \textsl{KSO=~-1}.}
 
-
+\footnotetext[3]{ \textsl{FNAME}  contains the spin components. Formatting should be has follows~: \\
+ \centerline{ \textsl{ TXT, SXI, SYI, SZI, SMI,SX, SY, SZ, SM}} 
+with TXT a (arbitrary) 3-character string, SXI, SYI, SZI, SMI the initial spin components and their 
+modulus (unused), SX, SY, SZ, SM the current spin components (these will  be 
+tracked further) and their modulus(unused). 
+ }
 
 
 \clearpage

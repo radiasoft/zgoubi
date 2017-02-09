@@ -9,14 +9,15 @@ CFLAGS = -g -DGFORTRAN4
 FC=/opt/intel/bin/ifort
 #FC=/opt/intel/composerxe-2011.4.191/bin/ia32/ifort
 ### check : check array boundary errors
-FFLAGS= -xHOST -O3 -ip -traceback -check -static -save -cpp
+#FFLAGS= -xHOST -O3 -ip -traceback -check -static -save -cpp
 #FFLAGS= -xHOST -O3 -ip -traceback -check -static       -cpp
 #FFLAGS= -xHOST -O3 -ip -traceback -check         -save -cpp
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save -cpp
-#FFLAGS= -xHOST -O3 -ip                   -static -save -cpp
+FFLAGS= -xHOST -O3 -ip                   -static -save -cpp
 #FFLAGS= -xHOST -O3 -ip -traceback        -static -save -cpp
+###### -save :  Places variablesin static memory (same as -noauto or -noautomatic). 
 ######## case OWL : 
-# Note : the -static option includes local libs (-lm etc.) into executable. Pb with that on cscomputers
+###### The -static option includes local libs (-lm etc.) into executable. Pb with that on cscomputers
 #FC=/opt/intel/bin/ifort
 #FFLAGS= -xHOST -O4 -ip  -save -cpp
 #FFLAGS= -xHOST -O4 -ip -traceback -save -cpp

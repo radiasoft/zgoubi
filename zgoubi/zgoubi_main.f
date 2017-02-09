@@ -58,7 +58,7 @@ C Tentative pour faire fonctionner REBELOTE en compil dyn.
 C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne. 
 C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
       SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE, 
-     > FITFNL, FITRBL, OKWDAT, KLE, IPASS,NRBLT
+     > FITFNL, FITRBL, OKWDAT, OKW, KLE, IPASS,NRBLT
 
 C Dummy
       CHARACTER(1) TAB(1)
@@ -83,14 +83,29 @@ C Manage possible arguments to zgoubi -----------------------
           WRITE(6,FMT='(2(I0,A))') IX,' : '//ARGS(IX)
         END DO
       ENDIF
-      DO IX = 1, NBARGS
-         IF(  ARGS(IX) .EQ. '-fileIn'  
-     >   .OR. ARGS(IX) .EQ. '-in'  ) FLIN = ARGS(IX+1)
-         IF(ARGS(IX) .EQ. '-fileOut'  
-     >   .OR. ARGS(IX) .EQ. '-out'  ) FLIN = ARGS(IX+1)
-         IF(ARGS(IX) .EQ. '-fileLog' ) FLOG = ARGS(IX+1)
-         IF(ARGS(IX) .EQ. '-saveExec') SAVXEC = .TRUE.
-         IF(ARGS(IX) .EQ. '-saveZpop') SAVZPP = .TRUE.
+      IX = 1
+      DO WHILE (IX .LE. NBARGS)
+         IF    (  ARGS(IX) .EQ. '-fileIn'  
+     >   .OR. ARGS(IX) .EQ. '-in'  ) THEN
+           IX = IX + 1
+           FLIN = ARGS(IX)
+         ELSEIF(ARGS(IX) .EQ. '-fileOut'  
+     >   .OR. ARGS(IX) .EQ. '-out'  ) THEN
+           IX = IX + 1
+           FLIN = ARGS(IX)
+         ELSEIF(ARGS(IX) .EQ. '-fileLog' ) THEN
+           IX = IX + 1
+           FLOG = ARGS(IX)
+         ELSEIF(ARGS(IX) .EQ. '-saveExec') THEN
+           SAVXEC = .TRUE.
+         ELSEIF(ARGS(IX) .EQ. '-saveZpop') THEN
+           SAVZPP = .TRUE.
+         ELSE
+           WRITE(*,*) 'argument # IX = ',IX,'/',NBARGS,' : ',ARGS(IX)
+           WRITE(*,*) 'zgoubi_main : no such argument, # IX : ',ARGS(IX)
+           CALL ENDJOB('Exiting.',-99)
+         ENDIF
+         IX = IX + 1
       ENDDO
 C -----
 
@@ -206,7 +221,8 @@ C -----
  335        FORMAT(/,2X,A)
         ENDIF
 
-C        OKWDAT = .TRUE.
+        OKWDAT = .TRUE.
+        OKW = OKWDAT
 
         WRITE(6,201)
 C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting REBELOTE)
@@ -229,12 +245,10 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
+          OKW = OKWDAT
           IF(OKWDAT) THEN
             CALL FITWDA
             OKWDAT = .FALSE.
-            OKW = .TRUE.
-          ELSE
-            OKW = .FALSE.
           ENDIF
           CALL ZGIPAS(
      >                IPASS,NRBLT)
@@ -294,11 +308,6 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
       CALL CPU_TIME(TIMSEC)
       IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
-
-      IF(OKW) 
-     >WRITE(NRES,FMT='(/,20X,
-     >''Updated version of input data file saved in '',a,//,a)')
-     >'zgoubi.FIT.out.dat',' '
 
       CLOSE(ABS(NRES))
 

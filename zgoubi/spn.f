@@ -91,25 +91,25 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         ELSE
           WRITE(NRES,110) AM, G
  110      FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
-     >    ,//,25X,' PARTICLE  MASS          = ',G15.7,' MeV/c2'
-     >    , /,25x,' GYROMAGNETIC  FACTOR  G = ',G15.7)
+     >    ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
+     >    , /,25x,' Gyromagnetic  factor  G = ',G15.7)
  
           WRITE(NRES,111) KSO
- 111      FORMAT(/,25X,' INITIAL SPIN CONDITIONS TYPE ',I2,' :')
+ 111      FORMAT(/,25X,' Initial spin conditions type ',I2,' :')
  
           IF    (KSO .LE. 3) THEN
             WRITE(NRES,101) KAX(KSO)
- 101        FORMAT(30X,' ALL PARTICLES HAVE SPIN PARALLEL TO  ',A1
+ 101        FORMAT(30X,' All particles have spin parallel to  ',A1
      >      ,'  AXIS')
           ELSEIF(KSO .EQ. 4) THEN
             IF    (KSO2 .EQ.0) THEN
-              WRITE(NRES,104) NINT(A(NOEL,9))
+              WRITE(NRES,104) NINT(A(NOEL,9)/10)
  104          FORMAT(
      >           30X,'All spins entered particle by particle'
      >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
      >        ,      'matching using FIT procedure')
             ELSEIF(KSO2 .EQ.1) THEN
-              WRITE(NRES,113) NINT(A(NOEL,9))
+              WRITE(NRES,113) NINT(A(NOEL,9)/10)
  113          FORMAT(
      >           30X,'Same spin for all particles'
      >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
@@ -169,7 +169,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
       IF(KSO .EQ. 1) SX = 1.D0
       IF(KSO .EQ. 2) SY = 1.D0
       IF(KSO .EQ. 3) SZ = 1.D0
-      DO 11 I=1,IMAX
+      DO I=1,IMAX
         SI(1,I) = SX
         SI(2,I) = SY
         SI(3,I) = SZ
@@ -178,13 +178,14 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         SF(2,I) = SY
         SF(3,I) = SZ
         SF(4,I) = 1.D0
- 11   CONTINUE
+      ENDDO
       GOTO 98
  
  4    CONTINUE
       IF    (KSO2.EQ.0) THEN
-        IM = IMAX
-        IF(IM.GT.MXD/10) IM=MXD/10
+C        IM = IMAX
+C        IF(IM.GT.MXD/10) IM=MXD/10
+        IM = NINT(A(NOEL,9))/10
         IA = 0
         DO I=1,IM
           IA = IA+10
@@ -199,19 +200,8 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
           SF(2,I) = SY
           SF(3,I) = SZ
           SF(4,I) = SI(4,I)
-c           write(*,*) ' spn ',i,sx,sy,sz 
-       ENDDO
-c        DO I=IM+1,IMAX
-c        DO I=1,IMAX
-c          SX = SI(1,I)
-c          SY = SI(2,I)
-c          SZ = SI(3,I)
-c          SI(4,I) = SQRT(SX*SX+SY*SY+SZ*SZ)
-c          SF(1,I) = SX
-c          SF(2,I) = SY
-c          SF(3,I) = SZ
-c          SF(4,I) = SI(4,I)
-c        ENDDO
+        ENDDO
+
       ELSEIF(KSO2.EQ.1) THEN
         SX = A(NOEL,10)
         SY = A(NOEL,11)
@@ -226,23 +216,15 @@ c        ENDDO
           SF(3,I) = SZ
           SF(4,I) = SI(4,I)
         ENDDO
+
       ELSEIF(KSO2.EQ.2) THEN
         OK = IDLUNI(
      >              LR)
         OPEN(UNIT=LR,FILE=TA(NOEL,1))
-        ok = gttext(NRES,LR,'(deg)       (deg)',
-     >              txt2)
-c        do i = 1, 11
-c            write(*,*) ' spn ',txt2
-c                  read(*,*)
-          READ(LR,FMT='(A)') txt
-c        enddo
-c            write(*,*) ' spn ',txt
-c                  read(*,*)
-        READ(txt,*) txt2,SXi, SYi, SZi,smi,SX, SY, SZ,sm
-c            write(*,*) ' spn ',txt
-c            write(*,*) ' SX, SY, SZ ',SX, SY, SZ
-c                  read(*,*)
+        OK = GTTEXT(NRES,LR,'(deg)       (deg)',
+     >                                          TXT2)
+        READ(LR,FMT='(A)') TXT
+        READ(TXT,*) TXT2,SXI, SYI, SZI,SMI,SX, SY, SZ,SM
         CLOSE(LR)
         DO I=1,IMAX
           SI(1,I) = SX
@@ -293,14 +275,18 @@ c                  read(*,*)
       SXM = 0.D0
       SYM = 0.D0
       SZM = 0.D0
+      II = 0
       DO 20 I=1,IMAX
-        SXM = SXM + SI(1,I)
-        SYM = SYM + SI(2,I)
-        SZM = SZM + SI(3,I)
-        SXM = SXM/XNRM
-        SYM = SYM/XNRM
-        SZM = SZM/XNRM        
+        IF(IEX(IT) .GE. -1) THEN
+          SXM = SXM + SI(1,I)
+          SYM = SYM + SI(2,I)
+          SZM = SZM + SI(3,I)
+          II = II + 1
+        ENDIF
  20   CONTINUE
+      SXM = SXM / DBLE(II)
+      SYM = SYM / DBLE(II)
+      SZM = SZM / DBLE(II)
       XNRM = SQRT(SXM*SXM + SYM*SYM + SZM*SZM)
       SXM = SXM / XNRM 
       SYM = SYM / XNRM 

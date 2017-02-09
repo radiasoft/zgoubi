@@ -51,17 +51,16 @@ C     ... INITIAL SPIN DISTRIBUTION OPTION
       TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
       IF(STRCON(TXT20,'!',
      >                    IS)) TXT20 = TXT20(DEBSTR(TXT20):IS-1)
-      READ(TXT20,*) A(NOEL,1)
+      READ(TXT20,*,ERR=90) A(NOEL,1)
+      KSO2 = 0
       IF    (A(NOEL,1).GE.0) THEN
         READ(TXT20(1:1),FMT='(I1)') KSO
+        IF(STRCON(TXT20,'.',
+     >                      IS)) THEN
+          READ(TXT20(IS+1:FINSTR(TXT20)),*,END=10,ERR=10) KSO2
+        ENDIF
       ELSE
         READ(TXT20(1:2),FMT='(I2)') KSO
-      ENDIF
-      IF(STRCON(TXT20,'.',
-     >                    IS)) THEN
-        READ(TXT20(IS:FINSTR(TXT20)),*,END=10,ERR=10) KSO2
-      ELSE
-        KSO2 = 0
       ENDIF
 
  10   CONTINUE
