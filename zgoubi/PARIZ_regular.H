@@ -193,12 +193,22 @@ c       PARAMETER (MXX=801, MXY=79)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
-       PARAMETER (IZ=81 , ID=3, MMAP=4)
-       PARAMETER (MXX=1201, MXY=81)
+C       PARAMETER (IZ=81 , ID=3, MMAP=4)
+C       PARAMETER (MXX=1201, MXY=81)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-c       PARAMETER (IZ=41 , ID=3, MMAP=1)
-c       PARAMETER (MXX=567, MXY=201)
+       PARAMETER (IZ=41 , ID=3, MMAP=1)
+       PARAMETER (MXX=567, MXY=201)
 
- 
+
+C---------------------------------------------------------------
+C---------------------------------------------------------------
+C STONY BROOK LECTURES 
+
+C SBU lectures - cyclotron
+c      PARAMETER (IZ=3 , ID=3, MMAP=1)
+c      PARAMETER (MXX=136, MXY=140)
+
+C---------------------------------------------------------------
+C---------------------------------------------------------------

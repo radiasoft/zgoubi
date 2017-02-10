@@ -277,7 +277,7 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
       SZM = 0.D0
       II = 0
       DO 20 I=1,IMAX
-        IF(IEX(IT) .GE. -1) THEN
+        IF(IEX(I) .GE. -1) THEN
           SXM = SXM + SI(1,I)
           SYM = SYM + SI(2,I)
           SZM = SZM + SI(3,I)

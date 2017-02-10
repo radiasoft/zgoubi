@@ -141,10 +141,12 @@ C         ... No symm
  209       FORMAT(/,10X,' A new field map is now used ; ',
      >     ' Name(s) of map data file(s) are : ')
 C           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
-           WRITE(NRES,208) (NOMFIC(I),I=1,NFIC)
+           WRITE(NRES,208) 
+     >     (NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I))),I=1,NFIC)
  208       FORMAT(10X,A)
         ELSE
-          WRITE(NRES,210) (NOMFIC(I),I=1,NFIC)
+          WRITE(NRES,210)
+     >     (NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I))),I=1,NFIC)
  210      FORMAT(
      >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
      >    10X,'Skip  reading  field  map  file : ',10X,A80)
@@ -227,7 +229,10 @@ C      RM=.5D0*(YH(JYMA)+YH(1))
  
       RETURN
  
- 96   WRITE(NRES,*) 'ERROR  OPEN  FILE ',NOMFIC(NFIC)
+ 96   CONTINUE
+      I = NFIC
+      WRITE(NRES,*) 'ERROR  OPEN  FILE ',
+     >(NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I))),I=1,NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
  
       END
