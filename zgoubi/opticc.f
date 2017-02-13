@@ -57,10 +57,13 @@ C  -------
 C      DATA ((RSAV(I,J),I=1,6),J=1,6) / 36*0.D0 /
       DATA (RSAV(I,I),I=1,6) / 6*1.D0 /
 
+      IER = 0
       IORD = 1
       IFOC = 0
       KWR = 0
-      CALL MATRIC(IORD,IFOC,KWR,OKCPLD)
+      CALL MATRIC(IORD,IFOC,KWR,OKCPLD,
+     >                                 IER)
+      IF(IER.NE.0) GOTO 99
       CALL MATRI1(
      >            R)
 c        WRITE(NRES,*)
@@ -142,6 +145,11 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
      > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,R,
      >                                              PP0)  ! print to zgoubi.OPTICS.out (OPTICS keyword)
                                                            ! or to zgoubi.TWISS.out (TWISS keyword)
+      RETURN
+
+ 99   CONTINUE
+      IF(NRES.GT.0) WRITE(NRES,*) 'Pgm opticc.  Exit upon IER=-1.' 
+     >//' Matrix cannot be computed. Hint : check OBJET/KOBJ=5 or 6.'
       RETURN
 
       ENTRY OPTIC1(

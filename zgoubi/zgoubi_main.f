@@ -247,8 +247,8 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
         IF(FITRBL) THEN
           OKW = OKWDAT
           IF(OKWDAT) THEN
-c            CALL FITWDA(
-c     >                  IER)
+            CALL FITWDA(
+     >                  IER)
             OKWDAT = .FALSE.
           ENDIF
           CALL ZGIPAS(
@@ -312,8 +312,8 @@ c     >                  IER)
 
       CLOSE(ABS(NRES))
 
-c      IF(OKW) CALL FITWDA(
-c     >                    IER)
+      IF(OKW) CALL FITWDA(
+     >                    IER)
 
       CLOSE(NLOG)     
 

@@ -523,7 +523,8 @@ C----- MATRIX. COEFFICIENTS D'ABERRATION A L'ABSCISSE COURANTE
      >                       IORD,IFOC,KWR,SCPLD)
 C     >                       IORD,IFOC,KWR,KCPL)
       IF(FITGET) CALL FITGT1
-      CALL MATRIC(IORD,IFOC,KWR,SCPLD)
+      CALL MATRIC(IORD,IFOC,KWR,SCPLD,
+     >                                IER)
 C      CALL MATRIC(IORD,IFOC,KWR,KCPL)
       GOTO 998
 C----- CHAMBR. Stops and records trajectories out of chamber limits

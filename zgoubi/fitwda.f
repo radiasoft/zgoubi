@@ -99,8 +99,8 @@ C     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
             READ(LR,FMT='(A)',ERR=10,END=10) TXT132              ! KOBJ[.KOBJ2]
             WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-            IF(STRCON(TXT132,'.',
-     >                           IS)) THEN
+            IF(STRCON(TXT132(1:ITAIL(TXT132,'!',JTAIL)-1),'.',
+     >                                               IS)) THEN
                 READ(TXT132(1:IS-1),*) KOBJ 
                 READ(TXT132(IS+1:FINSTR(TXT132)),*) KOBJ2 
             ELSE
@@ -113,11 +113,11 @@ C     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
               WRITE(LW,FMT='(A)') 
      >                    TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! Sampling
-              WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,1X)')
-     >              (A(NUEL,J),J=30,35)
+              WRITE(LW,FMT='(1P,4(1X,E14.6),F7.2,1X,E13.6,1X,A)')
+     >        (A(NUEL,J),J=30,35),TXT132(ITAIL(TXT132,'!',JTAIL):JTAIL)
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132                 ! (1st) reference
-              WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8)')
-     >              (A(NUEL,J),J=40,45)
+              WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8,1X,A)')
+     >        (A(NUEL,J),J=40,45),TXT132(ITAIL(TXT132,'!',JTAIL):JTAIL)
 
             ELSEIF(KOBJ.EQ.2) THEN
               READ(LR,FMT='(A)',ERR=10,END=10) TXT132 

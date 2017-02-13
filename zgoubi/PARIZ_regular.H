@@ -195,11 +195,13 @@ C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
 C       PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=1201, MXY=81)
+       PARAMETER (IZ=81 , ID=3, MMAP=4)
+       PARAMETER (MXX=361, MXY=81)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-       PARAMETER (IZ=41 , ID=3, MMAP=1)
-       PARAMETER (MXX=567, MXY=201)
+C       PARAMETER (IZ=41 , ID=3, MMAP=1)
+C       PARAMETER (MXX=567, MXY=201)
 
 
 C---------------------------------------------------------------

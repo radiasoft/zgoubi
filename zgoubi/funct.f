@@ -23,31 +23,30 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      FUNCTION FUNCT(r,a,RM,FA)
+      FUNCTION FUNCT(R,A,RM,FA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3 
       INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
-      SAVE xi,EBT
-      IF (FA==1.0) THEN
-      xi= ASP0+ASP1*r+ASP2*r**2+ASP3*r**3
+      SAVE XI,EBT
+      IF (FA==1.0D0) THEN
+        XI= ASP0+ASP1*R+ASP2*R**2+ASP3*R**3
       ELSE
-      xi= ASPS0+ASPS1*r+ASPS2*r**2+ASPS3*r**3  
+        XI= ASPS0+ASPS1*R+ASPS2*R**2+ASPS3*R**3  
       ENDIF
-!      write(*,*) xi
-      EBT=exp(a/tan(xi))
-      FUNCT= r-RM*EBT
+!      WRITE(*,*) XI
+      EBT=EXP(A/TAN(XI))
+      FUNCT= R-RM*EBT
 
       RETURN
 
-
-      ENTRY FUNCTD(r,a,RM,FA)
-      IF (FA==1.0) THEN
-      xi1=ASP1+2*ASP2*r+3*ASP3*r**2
+      ENTRY FUNCTD(R,A,RM,FA)
+      IF (FA==1.0D0) THEN
+        XI1=ASP1 +2.D0*ASP2*R+3.D0*ASP3*R**2
       ELSE
-      xi1=ASPS1+2*ASPS2*r+3*ASPS3*r**2    
+        XI1=ASPS1+2.D0*ASPS2*R+3.D0*ASPS3*R**2    
       ENDIF
-!      write(*,*) xi1
-      FUNCTD= 1+RM*a*(1+1/(tan(xi))**2)*EBT*xi1
+!      WRITE(*,*) XI1
+      FUNCTD= 1.D0+RM*A*(1.D0+1.D0/(TAN(XI))**2)*EBT*XI1
 
       RETURN
       END

@@ -20,8 +20,8 @@ set grid
 #plot [:7300] [-.04:.04] \
 
 plot [:] [:] \
-     'zgoubi.OPTICS.out'  u ($13/100. + ($30 -1)*Circ):15  w l lc 1  tit "x orbit"  ,\
-     'zgoubi.OPTICS.out'  u ($13/100. + ($30 -1)*Circ):17  w l lc 3  tit "y orbit"
+     'zgoubi.OPTICS.out'  u ($13 + ($30 -1)*Circ):15  w l lc 1  tit "x orbit"  ,\
+     'zgoubi.OPTICS.out'  u ($13 + ($30 -1)*Circ):17  w l lc 3  tit "y orbit"
 
 set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12 
  set output "gnuplot_OPTICS_xy.eps" 
@@ -49,10 +49,10 @@ set grid
  
 # "every 3" in this plot assumes there are 3 different label classes stored in zgoubi.OPTICS.out
 plot [:] \
-     'zgoubi.OPTICS.out' every 3 u ($13/100. + ($30 -1)*Circ):7  axes x1y2 w l lc 2 lt 2  tit "{/Symbol h}_x"  ,\
-     'zgoubi.OPTICS.out' every 3  u ($13/100. + ($30 -1)*Circ):9  axes x1y2 w l lc 5 lt 2 tit "{/Symbol h}_y" ,\
-     'zgoubi.OPTICS.out' every 3  u ($13/100. + ($30 -1)*Circ):($2)  w l lc 1  lt 1 tit "{/Symbol b}_x"  ,\
-     'zgoubi.OPTICS.out' every 3  u ($13/100. + ($30 -1)*Circ):($4)  w l lc 3  lt 1 tit "{/Symbol b}_y" 
+     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):7  axes x1y2 w l lc 10 lt 2  tit "{/Symbol h}_x"  ,\
+     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):9  axes x1y2 w l lc 30 lt 2 tit "{/Symbol h}_y" ,\
+     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):($2)  w l lc 1  lt 1 tit "{/Symbol b}_x"  ,\
+     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):($4)  w l lc 3  lt 1 tit "{/Symbol b}_y" 
 
 set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12 
  set output "gnuplot_OPTICS_bxyDxy.eps" 

@@ -116,7 +116,7 @@ C The rm value in the spiral equation:
       NP=NP+1
       Typ   = A(NOEL,NP)
       IF(NRES.GT.0) WRITE(NRES,200) NBMAG,AT,RM
-  200 FORMAT(20X,'FFAG  N-tuple,  number  of  dipoles  N : ',I2,//,
+  200 FORMAT(20X,'Cyclotron N-tuple,  number  of  dipoles  N : ',I2,//,
      1 11X,' Total angular extent of the magnet : ',F6.2,' Degres',/,
      2 11X,' Reference geometrical radius R0  : ',F10.2,' cm',/)
 

@@ -67,7 +67,8 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA LUN / 0 /
  
       IF(MXTA.LT.MXF) THEN
-        WRITE(NRES,*) 'SBR RSCAL. Change MXTA to same value as MXF'
+        WRITE(NRES,*) 'SBR RSCAL. Change MXTA to = MXF+1'
+        WRITE(*,*) 'SBR RSCAL. Change MXTA to = MXF+1'
         GOTO 90
       ENDIF
 
@@ -78,15 +79,12 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       IF( STRCON(TXT132,'!',
      >                      IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
       READ(TXT132,*) A(NOEL,NP),NFAM
-      IF(NFAM .GE. MXTA) THEN
-        WRITE(NRES,*) 'SBR RSCAL - Too many TA. Max allowed is ',MXTA
-        GOTO 90
-      ENDIF
+
       IF( STRCON(TXT132,'PRINT',
      >                          IS)) THEN
-        TA(NOEL,NFAM+1) = 'PRINT'
+        TA(NOEL,MXTA)(121:125) = 'PRINT'
       ELSE
-        TA(NOEL,NFAM+1)='  '
+        TA(NOEL,MXTA)(121:125) = 'PRINT'
       ENDIF
 
       NP = NP + 1
@@ -113,7 +111,7 @@ C Remove possible comment trailer
         IF( STRCON(TXT132,'!',
      >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
  
-        I =   0
+C        I =   0
  
         CALL RAZS(STRA,MSTR)
         CALL STRGET(TXT132,MSTR,
@@ -130,21 +128,33 @@ C Remove possible comment trailer
         ENDIF
 
         FAM(IFM) = STRA(1)(1:KSIZ)
-        TA(NOEL,IFM) = FAM(IFM)
+        TA(NOEL,IFM)(1:KSIZ) = FAM(IFM)
  
+        TA(NOEL,IFM)(KSIZ+1:KSIZ+1) = ' '
+        II = KSIZ+2
         IF(NSTR .GE. 2) THEN
           DO  KL=1,NSTR-1
             IF(KL+1 .GT. MSTR) THEN
               WRITE(NRES,*) ' Pgm rscal, ERR : KL+1 > MSTR.'
               GOTO 90
             ENDIF
-            LBF(IFM,KL) =  STRA(KL+1)(1:LBLSIZ)
+
+            LSTR1 = FINSTR(STRA(KL+1)) - DEBSTR(STRA(KL+1)) 
+            IF(II+LSTR1 .GT. LNTA) CALL ENDJOB('Pgm rscal.  '//
+     >      'TA string length exceeded. Need to increase beyond ',lnta) 
+            TA(NOEL,IFM)(II:II+LSTR1) = 
+     >      STRA(KL+1)(DEBSTR(STRA(KL+1)):FINSTR(STRA(KL+1)))
+            II = II+LSTR1 +1
+            TA(NOEL,IFM)(II:II) = ' ' 
+            II = II+1          ! labels are separated by 1 space
+          ENDDO
+        ENDIF 
+
+        IF(II.LE.LNTA) THEN
+          DO JJ = II, LNTA
+            TA(NOEL,IFM)(JJ:JJ) = ' '
           ENDDO
         ENDIF
- 
-        DO KL=NSTR, MLF
-          LBF(IFM,KL) = ' '
-        ENDDO
  
 C For the current family, get the number of timings or working mode and possible parameters
 C (input data is of the form NT[.MODSCL].

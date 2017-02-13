@@ -148,6 +148,8 @@
                               dNu_y / dp/p = -6.01176605E+00
                               dNu_z / dp/p =  7.60180132E-01
                           - new : 
+                              dNu_y / dp/p = -6.01176605E+00
+                              dNu_z / dp/p =  7.60180131E-01
         
 ////////////////  ../AGS_Booster/TWISS - reference : 
                     NU_Y =  0.29727205         NU_Z =  0.53232835    

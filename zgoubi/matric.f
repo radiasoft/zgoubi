@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MATRIC(JORD,JFOC,KWR,SCPLD)
+      SUBROUTINE MATRIC(JORD,JFOC,KWR,SCPLD,
+     >                                      IER)
 C      SUBROUTINE MATRIC(JORD,JFOC,KWR,KCPLD)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------
@@ -56,13 +57,17 @@ C------        Beam_ref    +dp/p     -dp/p
 
       DATA KWRMAT / .FALSE. /
 
+      IER = 0
       CALL OBJET1(
      >            KOBJ,KOBJ2)
       IF(.NOT. (KOBJ.EQ.5 .OR. KOBJ.EQ.6)) THEN
-        IF(NRES.GT.0)
-     >  WRITE(NRES,FMT='('' Matrix  cannot  be  computed :  need "OBJET" 
-     >  with  KOBJ=5 or 6'')')
-        RETURN
+        IF(NRES.GT.0) THEN
+          WRITE(NRES,FMT='('' Matrix  cannot  be  computed :  '',
+     >    ''need "OBJET" with  KOBJ=5 or 6'')')
+          CALL IMPTRA(1,IMAX,NRES)
+          IER = 1
+          RETURN
+        ENDIF
       ENDIF
 
 C      IORD = A(NOEL,1)

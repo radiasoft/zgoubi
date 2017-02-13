@@ -64,14 +64,16 @@ C      PARAMETER (MXTA=45)
       SAVE TFILE
       LOGICAL OK, SCALEX
 
+      PARAMETER (MSTR=MLF+1)
+      CHARACTER(LBLSIZ) STRA(MSTR)
+
       DATA OPT/ '-- Now OFF --',' ' /
  
       NP = 1
       IOPT = NINT(A(NOEL,NP))
       NP = NP + 1
       NFAM = NINT(A(NOEL,NP))
-      OK=SCALEX(TA(NOEL,NFAM+1) .EQ. 'PRINT') 
-
+      OK=SCALEX(TA(NOEL,MXTA)(121:125) .EQ. 'PRINT') 
       KSCL=0
       IF(IOPT*NFAM.NE.0)  KSCL=1
 
@@ -83,44 +85,44 @@ C      PARAMETER (MXTA=45)
  
       DO 1 IF=1,NFAM
  
+C FM Jan 2017
+        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
 c        FAM(IF) = TA(NOEL,IF)(1:KSIZ)
 C FM July 2014. For compatibility with combined FIT+REBELOTE
         NP = NP + 1
         NTIM(IF) = NINT(A(NOEL,NP))
  
-        IF(NRES .GT. 0) THEN
-          NLF = 0
-          DO WHILE ( .NOT. EMPTY(LBF(IF,NLF+1)) )
-C FM Dec 2015
-C            IF(KSIZ+NLF+1+LBLSIZ.GT.ISZTA) CALL ENDJOB(
-C     >      'SBR scalin. Prblm with TA size. Should be > ',ISZTA)
-            IF(KSIZ+NLF+1+LBLSIZ.GT.LNTA) CALL ENDJOB(
-     >      'SBR scalin. Prblm with TA size. Should be > ',LNTA)
-C FM Sept 2014. Commented next line
-C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
-            IF(NLF+1 .GE. MLF) GOTO 10
-            NLF = NLF+1
+        CALL STRGET(TA(NOEL,IF),MSTR,
+     >                               NSTR,STRA)
+        NLF = NSTR-1
+        IF(NLF .GT. MLF) CALL ENDJOB(
+     >  'SBR scalin. Prblm with LBF size... Should be < ',NLF)
+        II = KSIZ+2
+        IF(NSTR .GE. 2) THEN
+          DO  KL=1,NLF
+            IF(KL+1 .GT. MSTR) THEN
+              CALL ENDJOB(' Pgm scalin, error : KL+1 > MSTR.',-99)
+            ENDIF
+            LBF(IF,KL) =  STRA(KL+1)
           ENDDO
- 
- 10       CONTINUE
+        ENDIF 
+
+        IF(NRES .GT. 0) THEN
  
           WRITE(NRES,FMT='(/,5X,''Family number  '',I2)') IF
           WRITE(NRES,101) NLF,FAM(IF)(DEBSTR(FAM(IF)):FINSTR(FAM(IF)))
  101      FORMAT(10X,'Element [/label(s) (',I2,')] to be scaled :'
      >    ,T60,A)
- 
-          IF( EMPTY(LBF(IF,1)) ) THEN
+
+          IF(NLF .EQ. 0) THEN
              WRITE(NRES,FMT='(15X,
      >       ''Family not labeled ;  this scaling will apply'',
      >       '' to all (unlabeled) elements  "'',A,''"'')') FAM(IF)
           ELSE
-            IF(NLF .GT. MLF) CALL ENDJOB(
-     >      'SBR scalin. Prblm with LBF size... Should be < ',NLF)
             WRITE(NRES,FMT='(T60,''/'',A)')
      >      (LBF(IF,KL)(DEBSTR(LBF(IF,KL)):FINSTR(LBF(IF,KL))),KL=1,NLF)
- 
           ENDIF
- 
+
           IF(JPA(IF,MXP).GT.0 .AND. JPA(IF,1).GT.0) THEN
             WRITE(NRES,FMT='(15X,''List of the '',I2
      >      ,'' parameters to be scaled in these elements : ''
@@ -139,9 +141,6 @@ C            LBF(IF,NLF+1) = TA(NOEL,IF)(KSIZ+NLF+1:KSIZ+NLF+1+LBLSIZ)
             DO IT = 1, NTIM(IF)
                SCL(IF,IT,1) = A(NOEL,NP+IT-1)
                TIM(IF,IT) = A(NOEL,NP+NTIM(IF)+IT-1)
-
-c            write(*,*) ' scalin ',IF,IT,SCL(IF,IT,1),TIM(IF,IT)
-c            write(*,*) ' scalin '
 
             ENDDO
             NP = NP +  2 * NTIM(IF)
