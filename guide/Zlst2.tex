@@ -324,7 +324,7 @@ above~; \>0-6, 6*no dim., cm \>I, 7*E\\
 $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB with respect
 to \textsl{ACENT}~; \>2*deg, 4*cm  \>6*E\\
  \>wedge angle of EFB~; radii and linear \> \> \\
- \>extents of EFB (use $\mid  U_{1,2} \mid  =  \infty$ when $R_{1,2}=\infty ) $ \>\>\\
+ \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $) \>\>\\
  \\
  \>(Note : $ \lambda =0$,  $\omega^ + $ = ACENT and $ \theta =0 $ for
 \underbar{sharp edge}) \>\>\\
@@ -1235,11 +1235,15 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
 \newpage
 
 \begin{tabbing}
-\mestab
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
-  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
-                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad   \= \kill
+$N$, $EB1$, $EB2$, $EG1$, ~  \=
+$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  ~ ~  \=
+             1-2, 2*cm, rad \quad \quad \quad ~  \= I, 6*E \quad \= \kill
+
+%\mestab
+%~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+%  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+%                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+%                \right) \right) $, more  \quad  \quad  \= 2*cm, 2*deg, cm \quad \quad   \= \kill
 %%%%%
 \textbf{DIPOLE}         \label{DIPOLE-B} \index{DIPOLE|textbf}
            \>\textbf{\DIPOLETitl}\> \>\\
@@ -1247,44 +1251,44 @@ $ X_S$, $\lambda_ S $    \>Exit face : see entrance face \>2*cm \>2*E \\
  \left(\dfrac{R-RM}{RM} \right)^2+G \left(\dfrac{R-RM}{RM} \right)^3 \right) $ \> \> \\
  \\
  \\
+   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm numb. \end{array} $\\[2ex]
  $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I\\
-        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
+        \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \>  \\
 % $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
  \\
- $AT$,  $RM$       \> Total angular extent  of the dipole~;  reference radius \> deg, cm \> 2*E\\
+ $AT$,  $RM$       \> Total angular extent  of the dipole~;  reference radius \> deg, cm \> 2*E  \>  2, 3 \\
  \\
  \textsl{ACENT}, $ B_0$, $N$, $B$, $G $           \>
- Azimuth for positioning of EFBs~; field and field indices \> deg., kG, 3*no dim.  \> 5*E\\
+ Azimuth for positioning of EFBs~; field and field indices \> deg., kG, 3*no dim.  \> 5*E  \>  4-8 \\
 % \>                        \> 3*no dim. \> \\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
  \\
 $\lambda$, $\xi$               \>Fringe field extent (normally $\simeq$ gap size)~; unused. 
-           \> cm, unused \>2*E\\
+           \> cm, unused \>2*E   \>  9, 10 \\
  \>Exponential type fringe field $ F=1\, /\, (1+ \exp (P(s)))$   \>\>\\
  \>with $ P(s)=C_0+C_1(\dfrac{s}{\lambda} )+C_2(\dfrac{s}{\lambda} )^2
-             +...+C_5(\dfrac{s}{\lambda} )^5 $   \>\>\\
+             +...+C_5(\dfrac{s}{\lambda} )^5 $   \>\>  \>      \\
  \\
- $NC$, $ C_0-C_5 $, shift     \>Unused~; $ C_0 $ to $ C_5 $ : see above~; EFB shift  \>0-6, 6*no dim., cm  \>I, 7*E\\
+ $NC$, $ C_0-C_5 $, shift     \>Unused~; $ C_0 $ to $ C_5 $ : see above~; EFB shift  \>0-6, 6*no dim., cm  \>I, 7*E  \> 11-18 \\
 % \>EFB shift   \>no dim., cm \> \\
 \\
 $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB with respect
-         to \textsl{ACENT}~; \>2*deg, 4*cm 
-\>6*E\\
+         to \textsl{ACENT}~; \>2*deg, 4*cm  \>  6*E   \>  19-24 \\
  \>wedge angle of EFB~; radii and linear \> \> \\
- \>extents of EFB (use $\mid  U_{1,2}  \mid  = \infty$ when $R_{1,2}=\infty$)  \>\>\\
+ \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $)   \>\>\\
  \\
 % \>(Note : $ \lambda =0$, $\omega^ + $ = \textsl{ACENT} and $ \theta =0 $ for
 %         \underbar{sharp edge}) \>\>\\
 % \\
  \>EXIT FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \\
-$\lambda$, $\xi$               \>Fringe field parameters \>cm, unused\>2*E \\
- $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E\\
+$\lambda$, $\xi$               \>Fringe field parameters \>cm, unused\>2*E \> 25, 26 \\
+ $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E   \>  27-34 \\
 % \>    \>dim., cm \> \\
 \\
 $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of the
-              exit EFB \>2*deg, 4*cm \>6*E\\
+              exit EFB \>2*deg, 4*cm \>6*E  \> 35-40 \\
  \\
 % \>(Note : $ \lambda =0$, $\omega^- = -AT+$ \textsl{ACENT} and $ \theta 
 % =0 $ for \> \> \\
@@ -1292,22 +1296,22 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Positioning and shape of 
  \\
  \>LATERAL FIELD BOUNDARY (See ENTRANCE FIELD BOUNDARY) \>\>\\
  \\
-$\lambda$, $\xi$               \> LATERAL EFB is inhibited if $\xi=0$\>cm, unused\>2*E \\
- $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E\\
-$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,    \>Positioning and shape of the EFB \>2*deg, 5*cm \>7*E\\
+$\lambda$, $\xi$               \> LATERAL EFB is inhibited if $\xi=0$\>cm, unused\>2*E \> 41-42\\
+ $NC$, $ C_0-C_5 $, shift     \>    \>0-6, 6*no dim., cm \>1, 7*E  \> 43-50 \\ 
+$ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,    \>Positioning and shape of the EFB \>2*deg, 5*cm \>7*E  \> 51-57  \\
 $ RM3$   \> \> \> \\
  \\
 % \>(Note : $ \lambda =0$, $\omega^- = -AT+$ \textsl{ACENT} and $ \theta 
 % =0 $ for \> \> \\
 %\> \underbar{sharp edge}) \\
   \\
- \textsl{IORDRE, Resol}  \> Degree of interpolation polynomial :        \> 2, 25 or 4~; no dim. \>I, E\\
+ \textsl{IORDRE, Resol}  \> Degree of interpolation polynomial :        \> 2, 25 or 4~; no dim. \>I, E  \> 58, 59 \\
  \>\ 2 = second degree,  9-point grid \>\>\\
  \>25 = second degree,  25-point grid \>\>\\
  \> \ 4 = fourth degree, 25-point grid~; \>\>\\
 \> resolution of flying mesh is \textsl{XPAS/Resol} \>\>\\
  \\
- \textsl{XPAS}            \>Integration step \>cm \>E \\
+ \textsl{XPAS}            \>Integration step \>cm \>E  \> 60  \\
  \\
  \textsl{KPOS}            \>Positioning of the map, normally 2. Two options : \>1-2 \>I\\
  \\
@@ -1373,7 +1377,7 @@ $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB 
          to \textsl{ACENT}~; \>2*deg, 4*cm 
 \>6*E\\
  \>wedge angle of EFB~; radii and linear \> \> \\
- \>extents of EFB (use $\mid  U_{1,2}  \mid  = \infty$ when $R_{1,2}=\infty$)  \>\>\\
+ \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $)  \>\>\\
  \\
  \>(Note : $ \lambda =0$, $\omega^ + $ = \textsl{ACENT} and $ \theta =0 $ for
          \underbar{sharp edge}) \>\>\\
@@ -1500,7 +1504,7 @@ $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$) 
 $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB with respect
          to \textsl{ACN}~; \>2*deg, 4*cm   \>6*E\\
  \>wedge angle of EFB~; radii and linear \> \> \\
- \>extents of EFB (use $\mid  U_{1,2}  \mid  = \infty$ when $R_{1,2}=\infty$)  \>\>\\
+ \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $)  \>\>\\
  \\
  \>(Note : $ g_0 =0$, $\omega^ + $ = \textsl{ACENT}, $ \theta =0 $ and 
         KIRD=0 for \underbar{sharp edge}) \>\>\\
@@ -2132,7 +2136,7 @@ $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$) 
 $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB with respect
          to \textsl{ACN}~; \>2*deg, 4*cm   \>6*E\\
  \>wedge angle of EFB~; radii and linear \> \> \\
- \>extents of EFB (use $\mid  U_{1,2}  \mid  = \infty$ when $R_{1,2}=\infty$)  \>\>\\
+ \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $)  \>\>\\
  \\
  \>(Note : $ g_0 =0$, $\omega^ + $ = \textsl{ACENT}, $ \theta =0 $ and 
         KIRD=0 for \underbar{sharp edge}) \>\>\\

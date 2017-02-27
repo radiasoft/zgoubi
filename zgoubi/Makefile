@@ -299,6 +299,7 @@ OBJ=\
  rel2tu.o\
  relcmi.o\
  relcyl.o\
+ rellip.o\
  relmir.o\
  remma.o\
  rempli.o\

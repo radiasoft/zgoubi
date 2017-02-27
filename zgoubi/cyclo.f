@@ -100,9 +100,9 @@ C FM Jan 2015
       DATA TYPCAL / ' analytic', ' interpolation'/
       DATA TYPGAP / ' constant', ' g_0(1-r**2)**k' /
 
-      parameter(lunW=12)
+c      parameter(lunW=12)
 
-      open(unit=lunW,file='Distance.H')
+c      open(unit=lunW,file='Distance.H')
 
 
 C  NBMAG=number of magnets.  AT=total extent angle of field 
@@ -586,10 +586,10 @@ C             Calcul du champ B au point (ITTA,JRO) de la grille volante
 
 
 cccccccccccccccccccc   write the distance to a file  malek   ccccccccccccccccccccccccc
-          if ((JRO .EQ. NN) .and. (ITTA .EQ. NN) .and. 
-     >         (KMAG .EQ. 1))  THEN
-        write(lunW,*) TTAI,Dent,Dexit, FTAB(ITTA,JRO), FE,FS,gap,F
-          endif
+c          if ((JRO .EQ. NN) .and. (ITTA .EQ. NN) .and. 
+c     >         (KMAG .EQ. 1))  THEN
+c        write(lunW,*) TTAI,Dent,Dexit, FTAB(ITTA,JRO), FE,FS,gap,F
+c          endif
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc          
           
     1 CONTINUE
@@ -599,7 +599,7 @@ C--------- end loop on   NN x tta  &  NN x ro
 C-----
 
 
-      CLOSE(lunW)
+c      CLOSE(lunW)
 
 C-----------------------------------------------------------
 C  Compute FFAG field  and derivatives from analytical model

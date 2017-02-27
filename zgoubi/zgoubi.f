@@ -1642,6 +1642,17 @@ C     >write(nres,*) ' zgoubi.f ******* ',noel,ipass
 C READAT may have been set to F, e.g. by REBELOTE. 
       READAT = .TRUE.
       GOTO 998
+C----- ELLIPTIC. 
+ 120  CONTINUE
+      IF(READAT) THEN
+        CALL RELLIP(NDAT,NOEL,MXL,A,MPOL,
+     >                                   ND(NOEL))
+      ELSE
+        CALL STPSI1(NOEL)
+      ENDIF
+      IF(FITGET) CALL FITGT1
+      CALL QUASEX
+      GOTO 998
 C-------------------------
 C-------------------------
 C-------------------------
