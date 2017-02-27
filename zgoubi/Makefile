@@ -112,6 +112,7 @@ OBJ=\
  elcylf.o\
  elcylm.o\
  ellip.o\
+ ellipt.o\
  elmirf.o\
  elmiri.o\
  emmac.o\
@@ -482,7 +483,7 @@ damper.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXS
 dejaca.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dipc.o: $(INC)/MXLD.H
 dipci.o: $(INC)/MXLD.H
-dipi.o: $(INC)/MXLD.H
+dipi.o: $(INC)/C.AIM_2.H $(INC)/C.CDF.H $(INC)/C.CONST.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DROITE_2.H $(INC)/C.ORDRES.H $(INC)/C.REBELO.H $(INC)/C.RIGID_2.H 
 dipolm.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 dipsi.o: $(INC)/MXLD.H
 dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -492,6 +493,7 @@ dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXS
 el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H
 elcyld.o: $(INC)/MXLD.H
+ellipt.o: $(INC)/C.AIM_2.H $(INC)/C.CDF.H $(INC)/C.CONST.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DROITE_2.H $(INC)/C.ORDRES.H $(INC)/C.REBELO.H $(INC)/C.RIGID_2.H 
 elmiri.o: $(INC)/MXLD.H
 emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAPHDR.H
 emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
@@ -605,7 +607,7 @@ rcsr.o: $(INC)/MXLD.H
 rcyclo.o: $(INC)/MXLD.H
 rdampe.o: $(INC)/MXLD.H
 rdipc.o: $(INC)/MXLD.H
-rdip.o: $(INC)/MXLD.H
+rdip.o: $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H
 rdips.o: $(INC)/MXLD.H
 rebel.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 rebmul.o: $(INC)/MXLD.H

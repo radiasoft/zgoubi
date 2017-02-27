@@ -1636,14 +1636,13 @@ C      CALL SPACH(KSPCH,LBLSC,NLBSC)
 C----- GOTO. 
  119  CONTINUE
       IF(READAT) CALL RGOTO(NOEL)
-C      IF(NRES.GT.0)    
-C     >write(nres,*) ' zgoubi.f ******* ',noel,ipass
       CALL GOTOL(IPASS,MXKLE,KLE)
-C READAT may have been set to F, e.g. by REBELOTE. 
-      READAT = .TRUE.
+      READAT = .TRUE.  ! As READAT may have been set to F, e.g. by REBELOTE. 
       GOTO 998
 C----- ELLIPTIC. 
  120  CONTINUE
+      KALC = 3
+      KUASEX = 41
       IF(READAT) THEN
         CALL RELLIP(NDAT,NOEL,MXL,A,MPOL,
      >                                   ND(NOEL))
@@ -1651,7 +1650,8 @@ C----- ELLIPTIC.
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX
+      CALL QUASEX(
+     >             ND(NOEL))
       GOTO 998
 C-------------------------
 C-------------------------
