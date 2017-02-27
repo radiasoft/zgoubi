@@ -84,8 +84,8 @@ C Field or alignment defects
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
-      SAVE DB, DPOS, TILT
+      DIMENSION DFB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
+      SAVE DFB, DPOS, TILT
       LOGICAL OK
       LOGICAL FITING, FITFNL
       LOGICAL PRNT, PRNTI
@@ -279,7 +279,7 @@ C----- Case erron (ERRORS)
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
             CALL MULERR(NOEL,IRR,MXTA,BM, 
      >      KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                             DB,DPOS,TILT)
+     >                                             DFB,DPOS,TILT)
 
             IF(PRNT .AND. OKOPN) THEN
               CALL ZGKLE(IQ(NOEL), 
@@ -299,17 +299,17 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
      >        IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
      >        TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >        ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
-     >             DB(NOEL,IPOL),
+     >             DFB(NOEL,IPOL),
      >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
      >           KLEY,LBL1L,LBL2L
             ENDIF
 
             IF(KUASEX .LE. MPOL) THEN
-              BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+              BM(KUASEX) = BM(KUASEX) + DFB(NOEL,KUASEX)
             ELSEIF(KUASEX .EQ. MPOL+1) THEN
               DO IM=1,MPOL
                 IF(KPOL(IRR,IM).EQ.1) THEN
-                  BM(IM) = BM(IM) + DB(NOEL,IM)
+                  BM(IM) = BM(IM) + DFB(NOEL,IM)
                 ENDIF
               ENDDO
             ELSE
@@ -649,8 +649,8 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
-     >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
+     >          //'DFB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          DFB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
      >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
@@ -672,8 +672,8 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
-     >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
+     >          //'DFB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          DFB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
      >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
@@ -741,15 +741,19 @@ C      ENDIF
       WRITE(LUN,FMT='(10X,A11,I2,3X,A)')
      >               ('*** ERROR #',I,TXT(I),I=1,IER)
 C----- Execution stopped :
-      RETURN 1
-      
-      ENTRY MULTKL(
-     >             AL, AK1)
-      aL = sXL
-      aK1 = AKS(1)
+      RETURN 1      
+
+
+C------
+      ENTRY ELLIPF(X,Y,Z,
+     >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
+C Field computation comes here
+
       RETURN
+
       
-      ENTRY MULTP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
+C ---- Error setting
+      ENTRY ELLIP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
      >               ERRCEI,ERRSII,ERRCUI,LBL1I,LBL2I)
       ERRON = .TRUE.
       IRR = IRRI
@@ -765,11 +769,11 @@ C----- Execution stopped :
       LBL2(IRR) = LBL2I
       RETURN
 
-      ENTRY MULTP4
+      ENTRY ELLIP4
       ERRON = .FALSE.
       RETURN      
 
-      ENTRY MULTP8(PRNTI)
+      ENTRY ELLIP8(PRNTI)
       PRNT = PRNTI
       IF(PRNT) THEN
         IF(.NOT. OKOPN) THEN
@@ -783,7 +787,7 @@ C----- Execution stopped :
      >    '# IPASS, NOEL, KREB3, IRR, IPOL, KPOL(IRR,Ipol) '
      >    //'TYPERR(IRR,IPOL), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
-     >    //'DB(NOEL,IPOL), '
+     >    //'DFB(NOEL,IPOL), '
      >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '
      >    //'KLEY, LBL1L, LBL2L'
           WRITE(LERR,FMT='(A)') '# '

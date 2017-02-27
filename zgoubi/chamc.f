@@ -95,24 +95,9 @@ C----------- Magnetic
           ELSEIF(KFLD .EQ. LC) THEN
 C----------- Electric
 
-c      call ZGNOEL(
-c     >             NOEL)
-c      if(noel.eq.19) then
-c        write(*,*) 'chamc bri : ',bri
-c        write(*,*)  (kkk,em(kkk),kkk=1,3) 
-c        write(*,*)  (kkk,e(1,kkk),kkk=1,3) 
-c      endif
-
             CALL MULTIP(IDE,LC,KUASEX,X,Y,Z,EM,QLE,QLS,QE,QS,RTQ,
      >               XE,XS,QCE,QCS,
      >               E,DE,DDE,D3EX,D3EY,D3EZ,D4EX,D4EY,D4EZ,ET)
-
-c      if(noel.eq.19) then
-c        write(*,*) 'chamc '
-c        write(*,*)  (kkk,em(kkk),kkk=1,3) 
-c        write(*,*)  (kkk,e(1,kkk),kkk=1,3) 
-cc            read(*,*)
-c      endif
 
           ELSEIF(KFLD .EQ. ML) THEN
 C----------- Electric & Magnetic
@@ -224,6 +209,13 @@ C--------- AGSQUAD = AGS quadrupole.
             CALL AGSQUF(IDB,X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
      >               XE,XS,CE,CS,
      >                  B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
+       
+        ELSEIF(KUASEX .EQ. 40) THEN
+C--------- ELLIPTIC
+
+            CALL ELLIPF(X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
+     >               XE,XS, CE, CS,
+     >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
        
         ELSE
           STOP ' SBR CHAMC :  No such field  installed !'
