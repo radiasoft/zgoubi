@@ -1241,4 +1241,7 @@ C----- SPACECHARG.
 C----- GOTO.
  119  CONTINUE
       GOTO 341
+C----- ELLIPTIC.
+ 120  CONTINUE
+      GOTO 341
       END

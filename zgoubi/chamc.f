@@ -213,8 +213,7 @@ C--------- AGSQUAD = AGS quadrupole.
         ELSEIF(KUASEX .EQ. 40) THEN
 C--------- ELLIPTIC
 
-            CALL ELLIPF(X,Y,Z,BM,DLE,DLS,DI,DS,RTB,
-     >               XE,XS, CE, CS,
+            CALL ELLIPF(X,Y,Z,
      >               B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY,D4BZ,BT)
        
         ELSE
