@@ -84,7 +84,7 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
      >                          IS)) THEN
         TA(NOEL,MXTA)(121:125) = 'PRINT'
       ELSE
-        TA(NOEL,MXTA)(121:125) = 'PRINT'
+        TA(NOEL,MXTA)(121:125) = '     '
       ENDIF
 
       NP = NP + 1

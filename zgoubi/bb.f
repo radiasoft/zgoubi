@@ -20,11 +20,11 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory     
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
         subroutine bb
 C S. White & F. Meot, Jan. 2012
-        implicit double precision (a-h,o-z)
+        IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
@@ -38,34 +38,34 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
-        parameter (epsilon0 = 8.854187817d-12)
-        parameter (r0 = 1.535e-18)
-        parameter (Gs = 1.79285d0)
+        PARAMETER (EPSILON0 = 8.854187817D-12)
+        PARAMETER (R0 = 1.535E-18)
+        PARAMETER (GS = 1.79285D0)
 
-        double precision  charge,mass,energev,intensity
-        double precision  alfx,betx,epsnx,epsx
-        double precision  alfy,bety,epsny,epsy
-        double precision  circ,alfmom,dpp,sigz
-        double precision  tunex,tuney,tunez
-        double precision  ampx,ampy,ampz
-C        dimension  spincoord(3)
-        dimension  sigma(6)
-        double precision  coef
+        DOUBLE PRECISION  CHARGE,MASS,ENERGEV,INTENSITY
+        DOUBLE PRECISION  ALFX,BETX,EPSNX,EPSX
+        DOUBLE PRECISION  ALFY,BETY,EPSNY,EPSY
+        DOUBLE PRECISION  CIRC,ALFMOM,DPP,SIGZ
+        DOUBLE PRECISION  TUNEX,TUNEY,TUNEZ
+        DOUBLE PRECISION  AMPX,AMPY,AMPZ
+C        DIMENSION  SPINCOORD(3)
+        DIMENSION  SIGMA(6)
+        DOUBLE PRECISION  COEF
 
-        parameter (mxpt=10000)
-        dimension  Ptsl(9,mxpt)
-        double precision linearmap(6,6) 
+        PARAMETER (MXPT=10000)
+        DIMENSION  PTSL(9,MXPT)
+        DOUBLE PRECISION LINEARMAP(6,6) 
 
-        double precision  ga, bet
+        DOUBLE PRECISION  GA, BET
 
-        save Npt,coef,sigma,Ptsl,ga
-        save linearmap
+        SAVE NPT,COEF,SIGMA,PTSL,GA
+        SAVE LINEARMAP
 
-        logical ok, idluni
+        LOGICAL OK, IDLUNI
 
-c        open(1,file="zgoubbi.in",status="old")
-c        read(1,*)Nturns
-c        read(1,*)Npt  
+C        OPEN(1,FILE="ZGOUBBI.IN",STATUS="OLD")
+C        READ(1,*)NTURNS
+C        READ(1,*)Npt  
 c        if(Npt.gt.mxpt) stop ' Npt > max allowed'
 c        read(1,*)charge,mass,energev,intensity
 c        read(1,*)alfx,betx,epsnx
@@ -77,115 +77,112 @@ c        read(1,*)spincoord(1:3)
 c        read(1,*)ampx,ampy,ampz
 c        close(1)
 
-      if(nint(a(noel,1)).eq.0) then
-          write(nres,*) ' BEAM-BEAM is OFF'
+      IF(NINT(A(NOEL,1)).EQ.0) THEN
+          WRITE(NRES,*) ' BEAM-BEAM is OFF'
          
-      else
-        if(ipass.eq.1) then
+      ELSE
+        IF(IPASS.EQ.1) THEN
 
-       write(nres,*) '   intensity= ',a(noel,2)
-       write(nres,*)  ' alfx= ',a(noel,10)
-       write(nres,*)  ' betx= ',a(noel,11)
-       write(nres,*)  ' epsnx= ',a(noel,12)
-       write(nres,*)  ' alfy= ',a(noel,20)
-       write(nres,*)  ' bety= ',a(noel,21)
-       write(nres,*)  ' epsny= ',a(noel,22)
-       write(nres,*)  ' sigz= ',a(noel,30)
-       write(nres,*)  ' dpp= ',a(noel,31)
-       write(nres,*)  ' circ= ',a(noel,40)
-       write(nres,*)  ' alfmom= ',a(noel,41)
-       write(nres,*)  ' tunex= ',a(noel,50)
-       write(nres,*)  ' tuney= ',a(noel,51)
-       write(nres,*)  ' tunez= ',a(noel,52)
-       write(nres,*)  ' ampx= ',a(noel,60)
-       write(nres,*)  ' ampy= ',a(noel,61)
-       write(nres,*)  ' ampz= ',a(noel,62)
+       WRITE(NRES,*) '   intensity= ',A(NOEL,2)
+       WRITE(NRES,*)  ' alfx= ',A(NOEL,10)
+       WRITE(NRES,*)  ' betx= ',A(NOEL,11)
+       WRITE(NRES,*)  ' epsnx= ',A(NOEL,12)
+       WRITE(NRES,*)  ' alfy= ',A(NOEL,20)
+       WRITE(NRES,*)  ' bety= ',A(NOEL,21)
+       WRITE(NRES,*)  ' epsny= ',A(NOEL,22)
+       WRITE(NRES,*)  ' sigz= ',A(NOEL,30)
+       WRITE(NRES,*)  ' dpp= ',A(NOEL,31)
+       WRITE(NRES,*)  ' circ= ',A(NOEL,40)
+       WRITE(NRES,*)  ' alfmom= ',A(NOEL,41)
+       WRITE(NRES,*)  ' tunex= ',A(NOEL,50)
+       WRITE(NRES,*)  ' tuney= ',A(NOEL,51)
+       WRITE(NRES,*)  ' tunez= ',A(NOEL,52)
+       WRITE(NRES,*)  ' ampx= ',A(NOEL,60)
+       WRITE(NRES,*)  ' ampy= ',A(NOEL,61)
+       WRITE(NRES,*)  ' ampz= ',A(NOEL,62)
 
-          mass=amq(1,1)
-          charge=amq(2,1)
-          P0 = BORO*CL9*charge
-          energev=.001d0 * sqrt(p0*p0 + mass*mass)
-          intensity=a(noel,2)
-          alfx=a(noel,10)
-          betx=a(noel,11)
-          epsnx=a(noel,12)
-          alfy=a(noel,20)
-          bety=a(noel,21)
-          epsny=a(noel,22)
-          sigz=a(noel,30)
-          dpp=a(noel,31)
-          circ=a(noel,40)
-          alfmom=a(noel,41)
-          tunex=a(noel,50)
-          tuney=a(noel,51)
-          tunez=a(noel,52)
-****        spincoord(1)
-          ampx=a(noel,60)
-          ampy=a(noel,61)
-          ampz=a(noel,62)
+          MASS=AMQ(1,1)
+          CHARGE=AMQ(2,1)
+          P0 = BORO*CL9*CHARGE
+          ENERGEV=.001D0 * SQRT(P0*P0 + MASS*MASS)
+          INTENSITY=A(NOEL,2)
+          ALFX=A(NOEL,10)
+          BETX=A(NOEL,11)
+          EPSNX=A(NOEL,12)
+          ALFY=A(NOEL,20)
+          BETY=A(NOEL,21)
+          EPSNY=A(NOEL,22)
+          SIGZ=A(NOEL,30)
+          DPP=A(NOEL,31)
+          CIRC=A(NOEL,40)
+          ALFMOM=A(NOEL,41)
+          TUNEX=A(NOEL,50)
+          TUNEY=A(NOEL,51)
+          TUNEZ=A(NOEL,52)
+****        SPINCOORD(1)
+          AMPX=A(NOEL,60)
+          AMPY=A(NOEL,61)
+          AMPZ=A(NOEL,62)
 
-          ga = sqrt(energev**2+mass**2)/mass
-          bet = sqrt(1.0-1.0/ga/ga)
-          epsx = epsnx/ga/bet
-          epsy = epsny/ga/bet
+          GA = SQRT(ENERGEV**2+MASS**2)/MASS
+          BET = SQRT(1.0-1.0/GA/GA)
+          EPSX = EPSNX/GA/BET
+          EPSY = EPSNY/GA/BET
 
-          gx = (1.0+alfx*alfx)/betx
-          gy = (1.0+alfy*alfy)/bety
+          GX = (1.0+ALFX*ALFX)/BETX
+          GY = (1.0+ALFY*ALFY)/BETY
 
-          sigma(1) = betx*epsx
-          sigma(2) = -alfx*epsx
-          sigma(3) = gx*epsx
-          sigma(4) = bety*epsy
-          sigma(5) = -alfy*epsy
-          sigma(6) = gy*epsy
+          SIGMA(1) = BETX*EPSX
+          SIGMA(2) = -ALFX*EPSX
+          SIGMA(3) = GX*EPSX
+          SIGMA(4) = BETY*EPSY
+          SIGMA(5) = -ALFY*EPSY
+          SIGMA(6) = GY*EPSY
 
-          coef = charge*qe*intensity*(1.0+bet**2) 
-     >          /(ga*bet*(bet+bet)*2*pi*epsilon0*mass)
+          COEF = CHARGE*QE*INTENSITY*(1.0+BET**2) 
+     >          /(GA*BET*(BET+BET)*2*PI*EPSILON0*MASS)
 
-          call bblmap(linearmap,tunex,tuney,tunez,
-     >              alfx,betx,alfy,bety,alfmom,ga,bet,cl,circ)
+          CALL BBLMAP(LINEARMAP,TUNEX,TUNEY,TUNEZ,
+     >              ALFX,BETX,ALFY,BETY,ALFMOM,GA,BET,CL,CIRC)
 
-        endif
-      endif
+        ENDIF
+      ENDIF
 
-      return
+      RETURN
 
-      entry bbkick
+      ENTRY BBKICK
 
-      call bbkck(Npt,coef/2.0d0,sigma,Ptsl,ga,Gs)
-      call bbkLm(Ptsl,Npt,linearmap)
+      CALL BBKCK(NPT,COEF/2.0D0,SIGMA,PTSL,GA,GS)
+      CALL BBKLM(PTSL,NPT,LINEARMAP)
         
-      if(ipass.eq.1) then
-c        ok = idluni(
-c     >              luna)
-c        open(unit=luna,file='zgoubbi.out')
+      IF(IPASS.EQ.1) THEN
 
-        ok = idluni(
-     >              lunb)
-        open(lunb,file="ptcl.out",status="unknown",position="append",
-     >                                        form="formatted")
-          write(lunb,*)Npt
-      endif
+        OK = IDLUNI(
+     >              LUNB)
+        OPEN(LUNB,FILE="ptcl.out",STATUS='UNKNOWN',POSITION='APPEND',
+     >                                        FORM='FORMATTED')
+          WRITE(LUNB,*)NPT
+      ENDIF
 
-        do i = 1, Npt
-c           write(luna,fmt='(2i6,6(1x,e15.6))') npt,i,(Ptsl(j,i),j=1,6)
-          f(1,i) = Ptsl(6,i)
-          f(2,i) = Ptsl(1,i)*1d2
-          f(3,i) = Ptsl(2,i)*1d3
-          f(4,i) = Ptsl(3,i)*1d2
-          f(5,i) = Ptsl(4,i)*1d3
-ccccccc          f(6,i) = Ptsl(5,i)*1d6
-        enddo
-c        close(luna)
+        DO I = 1, NPT
+C           WRITE(LUNA,FMT='(2I6,6(1X,E15.6))') NPT,I,(PTSL(J,I),J=1,6)
+          F(1,I) = PTSL(6,I)
+          F(2,I) = PTSL(1,I)*1D2
+          F(3,I) = PTSL(2,I)*1D3
+          F(4,I) = PTSL(3,I)*1D2
+          F(5,I) = PTSL(4,I)*1D3
+CCCCCCC          F(6,I) = PTSL(5,I)*1D6
+        ENDDO
+C        CLOSE(LUNA)
 
 
-        write(lunb,*) ipass
-        do i =1, Npt
-          snorm = sqrt(Ptsl(7,i)**2+Ptsl(8,i)**2+Ptsl(9,i)**2)
-          write(lunb,222) Ptsl(1:9,i),snorm,i,ipass
-        enddo
+        WRITE(LUNB,*) IPASS
+        DO I =1, NPT
+          SNORM = SQRT(PTSL(7,I)**2+PTSL(8,I)**2+PTSL(9,I)**2)
+          WRITE(LUNB,222) PTSL(1:9,I),SNORM,I,IPASS
+        ENDDO
 
-c        close(lunb)
-222     format(10(1x,e17.9),2(1x,i6))
-        return
-        end
+C        CLOSE(LUNB)
+222     FORMAT(10(1X,E17.9),2(1X,I6))
+        RETURN
+        END
