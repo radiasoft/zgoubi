@@ -185,7 +185,7 @@ C     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
      >                             NSR2,STRA)
             IF(.NOT. ISNUM(STRA(1))) THEN
 C New style CHANGREF
-              WRITE(FRMT,FMT='(A,I0,A)') '(,',NSR2/2,'(A2,1X,F12.8,1X))'
+              WRITE(FRMT,FMT='(A,I0,A)') '(',NSR2/2,'(A2,1X,F12.8,1X))'
               WRITE(LW,FRMT) 
      >        (STRA(J)(DEBSTR(STRA(J)):FINSTR(STRA(J))),
      >        A(NUEL,J/2+1),J=1,NSR2,2)

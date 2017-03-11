@@ -15,6 +15,7 @@ C extreme amplitude
       character*2 HV, HVIn
       character*2 txt0
       integer debstr, finstr
+      logical  empty
 
       data lunData, icho / 7, 10 /
 C H=pure H, Hz=H+small z, V=vertical 
@@ -85,10 +86,22 @@ c        enddo
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
           txt132 = txt132(debstr(txt132):finstr(txt132))
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
         read(lunR,fmt='(a)') txt132
-        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c        write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         read(lunR,fmt='(a)') txt132
         write(lunW,*) ' 2 '
 C Set "IMAX IMAXT" for kobj=2 option 
@@ -213,7 +226,13 @@ C Completes zgoubi.dat with the rest of zgoubi_StabLim-In.dat
               goto 10
           endif
 
-          write(lunW,fmt='(a)') txt132   
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132   
 
         goto 1
 
@@ -274,11 +293,23 @@ C Read/write till "KOBJ"
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
           txt132 = txt132(debstr(txt132):finstr(txt132))
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
         do i=1,2
           read(lunR,fmt='(a)') txt132
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
 C Read/write "IMAX IMAXT"
         read(lunR,fmt='(a)') txt132
@@ -387,7 +418,13 @@ C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
             goto 63
           endif
 
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
 
         goto 11
 
@@ -566,6 +603,7 @@ C     --------------------------------------
       data let / 'i' /
       logical du2
       integer debstr, finstr
+      logical  empty
 
       ok = .false.
       lost = .false.
@@ -603,11 +641,23 @@ C Read/write till "KOBJ"
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
           txt132 = txt132(debstr(txt132):finstr(txt132))
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
           do i=1,2
             read(lunR,fmt='(a)') txt132
-            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c            write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
           enddo
 C Read/write "IMAX IMAXT"
           read(lunR,fmt='(a)') txt132
@@ -623,7 +673,13 @@ C Write best co coordinates
 C Completes zgoubi.dat with the rest of searchStabLim.temp2
  19       continue
           read(lunR,fmt='(a)',end=10) txt132
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))   
         goto 19 
  10     continue
         close(lunR)
@@ -780,5 +836,17 @@ C        write(6,*) '   gotoEnd,  nTrajRun = ', nTrajRun
       ELSE
         READ(IUNIT) TXT80
       ENDIF
+      RETURN
+      END
+      FUNCTION EMPTY(STR)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL EMPTY
+      CHARACTER*(*) STR
+C     -----------------------------------------------------
+C     .TRUE. if STR is either empty or contains only blanks
+C     -----------------------------------------------------
+
+      INTEGER FINSTR
+      EMPTY = FINSTR(STR) .EQ. 0
       RETURN
       END

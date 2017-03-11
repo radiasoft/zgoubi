@@ -15,7 +15,7 @@ C      dimension dxminu(nTrajmx), dxplus(nTrajmx), duStrt(nTrajmx)
       dimension storb(7,ixMax)
       logical ok, strcon, first
       character*2 HV, HVIn
-      logical   chs
+      logical   chs, empty
 
       INTEGER DEBSTR,FINSTR
 
@@ -82,7 +82,11 @@ C     >'H ',prec,-abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunW,fmt='(a)') txt132
-          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
         enddo
         do i=1,2
           read(lunW,fmt='(a)') txt132
@@ -122,7 +126,13 @@ C Read till IMAX
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunW,fmt='(a)') txt132
-          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          txt132 = txt132(debstr(txt132):finstr(txt132))
+c          if(empty(txt132)) txt132 = ' '
         enddo
         do i=1,2
           read(lunW,fmt='(a)') txt132
@@ -163,7 +173,13 @@ C Read till IMAX
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunW,fmt='(a)') txt132
-          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          txt132 = txt132(debstr(txt132):finstr(txt132))
+c          if(empty(txt132)) txt132 = ' '
         enddo
         do i=1,2
           read(lunW,fmt='(a)') txt132
@@ -243,12 +259,28 @@ C Read till "KOBJ"
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-          txt132 = txt132(debstr(txt132):finstr(txt132))
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+c          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
 c        do i=1,2
           read(lunR,fmt='(a)') txt132
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+c             txt132 = ' '
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+c             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
 c        enddo
         read(lunR,fmt='(a)') txt132
         write(lunW,*) ' 2 '
@@ -258,7 +290,13 @@ C Set "IMAX IMAXT" for kobj=2 option
         if    (kobj .eq. 2) then
           read(lunR,*) nTraj, imaxt
         elseif(kobj .eq. 5) then
-          txt132 = txt132(debstr(txt132):finstr(txt132))
+c          txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
           read(txt132(3:99),*) kobj2
           ntraj = kobj2
           read(lunR,fmt='(a)') txt132        ! skip sample
@@ -288,7 +326,13 @@ C and sets z to nul
         write(6,*)
 C Complete OBJET with the line with '1'
  37     read(lunR,fmt='(a)',end=62) txt132
-        txt132 = txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c        txt132 = txt132(debstr(txt132):finstr(txt132))
+c          if(empty(txt132)) txt132 = ' '
         if(txt132(1:2) .eq. '1 ') then
           goto 37
         else
@@ -304,6 +348,12 @@ C Complete OBJET with the line with '1'
 C Completes zgoubi.dat with the rest of zgoubi_searchDA-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
+          if(empty(txt132)) then
+             txt132 = ' '
+          else
+             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
 
             if    (strcon(txt132,'''FAISTORE''',10,
      >                                        IS) ) then 
@@ -342,8 +392,13 @@ C Completes zgoubi.dat with the rest of zgoubi_searchDA-In.dat
               goto 10
           endif
 
-          write(lunW,*)txt132(debstr(txt132):finstr(txt132))   
-C          write(*,*) txt132   
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+          else
+             write(lunW,fmt='(a)')
+     >        txt132(debstr(txt132):finstr(txt132))
+          endif          
+c          write(lunW,*)txt132(debstr(txt132):finstr(txt132))   
 
         goto 1    !!go-on completing zgoubi.dat with the rest of zgoubi_searchDA-In.dat
 
@@ -544,6 +599,7 @@ C     --------------------------------------
       parameter (lunR=13,lunW=14)
       character txt132*132, let*1, cmnd*200
       INTEGER DEBSTR,FINSTR
+       logical empty
       data first / .true. /
       data let / 'i' /
 
@@ -580,12 +636,30 @@ C Read/write till "KOBJ"
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-          txt132 = txt132(debstr(txt132):finstr(txt132))
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+c             txt132 = ' '
+          else
+             write(lunW,fmt='(a)')
+     >       txt132(debstr(txt132):finstr(txt132))
+c             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          txt132 = txt132(debstr(txt132):finstr(txt132))
+c          if(empty(txt132)) txt132 = ' '
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
         do i=1,2
           read(lunR,fmt='(a)') txt132
-          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+c             txt132 = ' '
+          else
+             write(lunW,fmt='(a)')
+     >       txt132(debstr(txt132):finstr(txt132))
+c             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
+c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
 C Read/write "IMAX IMAXT"
           read(lunR,fmt='(a)') txt132
@@ -602,7 +676,16 @@ c     >    'New object :', xst,xpst,zst,zpst,sst,dst,' ','''','A','''',jo
 C Completes zgoubi.dat with the rest of searchStabLim.temp2
  19       continue
           read(lunR,fmt='(a)',end=10) txt132
-          write(lunW,fmt='(a)') txt132   
+          if(empty(txt132)) then
+            write(lunW,fmt='(a)') '!'
+c             txt132 = ' '
+          else
+             write(lunW,fmt='(a)')
+     >       txt132(debstr(txt132):finstr(txt132))
+c             txt132 = txt132(debstr(txt132):finstr(txt132))
+          endif
+c          if(empty(txt132)) txt132 = ' '
+c          write(lunW,fmt='(a)') txt132   
         goto 19 
  10     continue
         close(lunR)
@@ -754,3 +837,15 @@ c      write(*,*) ' sbr getRes * End of readPU upon read error *   '
       return
       end
 
+      FUNCTION EMPTY(STR)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      LOGICAL EMPTY
+      CHARACTER*(*) STR
+C     -----------------------------------------------------
+C     .TRUE. if STR is either empty or contains only blanks
+C     -----------------------------------------------------
+
+      INTEGER FINSTR
+      EMPTY = FINSTR(STR) .EQ. 0
+      RETURN
+      END

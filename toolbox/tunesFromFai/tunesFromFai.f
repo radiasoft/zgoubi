@@ -1718,7 +1718,7 @@ c      save kpa,kpb,ksmpl
       dimension q(NCANAL,I3)
 
       write(lusav,fmt='(a,3(1x,i7),a,3(1x,i5))') 
-     >,' ;   kpa, kpb, sample : ',kpa, kpb,  ksmpl 
+     > ' ;   kpa, kpb, sample : ',kpa, kpb,  ksmpl 
      >,' ;  # of channels x/y/l : ',nc0(1),nc0(2),nc0(3)
 
       DO INU = 1, 5, 2

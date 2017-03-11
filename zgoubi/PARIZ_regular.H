@@ -194,7 +194,8 @@ c       PARAMETER (MXX=801, MXY=79)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
 C       PARAMETER (IZ=81 , ID=3, MMAP=4)
-       PARAMETER (MXX=1201, MXY=81)
+C       PARAMETER (MXX=1201, MXY=81)
+       PARAMETER (MXX=1201, MXY=83)    ! compatible cbeta
        PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=361, MXY=81)
  

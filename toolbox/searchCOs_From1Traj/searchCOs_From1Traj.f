@@ -285,7 +285,7 @@ c                read(*,*)
  10     continue
         close(lunW)
 
-         if(.not. okpart ) stop ' PARTICUL data needed in zgoubi.dat'
+        if(.not. okpart ) stop ' PARTICUL data needed in zgoubi.dat'
 
 c         write(*,*) ' zgoubi.dat completed '
 c         read(*,*)
@@ -317,10 +317,6 @@ c         read(*,*)
           xjok = xav
           xpjok = xpav
         endif  
-
-c              write(*,*) ' jo, jok, ok : ',jo,jok,ok
-c                   read(*,*)
-
 
         write(6,*) ' jok / jo / nCO :    ', jok,' / ', jo,' / ', nCO
         if(dT.gt.0.d0) then
@@ -437,7 +433,7 @@ Create searchCO.out_COs
      >''# Ref rigidity BORO = '',1p,e16.8,'' (kG.cm)'',
      >/,''# '', /''# '',/,
      >''# '',T5, ''Y'',T20,''T'',T35,''Z'',T45,''P'',
-     >T60,''s'',T72,''p/pref'',T120,''#iter'')') ,BORO
+     >T60,''s'',T72,''p/pref'',T120,''#iter'')') BORO
       do j=1,jok
         pj = pRef * (1.d0+clorb(6,j))
         bta = pj / sqrt(pj*pj + am*am)
@@ -487,7 +483,7 @@ C Read "KOBJ", write "5.xx"
           write(lunW,fmt='(a)') '5'
         elseif(jok.le.  9) then 
           write(lunW,fmt='(a3,I1)') '5.0',jok
-        elseif(jok.le. 99) then
+        elseif(jok.le. 999) then
           write(lunW,fmt='(a2,I2)') '5.',jok
         else
           stop ' Prgrm searchCO. Too many co''s'
@@ -1037,7 +1033,8 @@ C     --------------------------------------
  2    continue
 
 C Run zgoubi with single traj
-      call system('~/zgoubi/current/zgoubi/zgoubi')
+                   
+      call system('~/zgoubi/SVN/current/zgoubi/zgoubi')
 
 C Get initial Traj coord, and average orbit, from zgoubi.res
       call getPUs_Av(
@@ -1142,7 +1139,7 @@ C are written in zgoubi.res at pass1 and last pass only.
       integer debstr, finstr
       data lunR / 15 /
 
-      open(unit=lunR,file='zgoubi.res') 
+      open(unit=lunR,file='zgoubi.res',status='old',err=999) 
 
       pass1 = .true.
 
@@ -1207,6 +1204,10 @@ c      write(*,*) ' sbr getPUs * End of readPU upon EOFile *    '
       kex = 0
 c      write(*,*) ' sbr getPUs * End of readPU upon read error *   '
  99   close(lunR)
+      return
+ 999  continue
+      write(*,*) ' pgm getPUs_Av. Could not open zgoubi.res'
+      stop
       return
       end
       subroutine gotoEnd(lunOut,

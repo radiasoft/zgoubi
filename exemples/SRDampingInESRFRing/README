@@ -1,4 +1,14 @@
 
+
+This is the benchmarking work discussed in :
+
+Simulation of radiation damping in rings, using stepwise ray-tracing methods,
+F. Meot,
+http://iopscience.iop.org/1748-0221/10/06/T06006
+
+
+------------
+
 Subfolders "6GeV" ... "18GeV" : 
 
 Particle bunches are launched with all 3 emittances zero, for several damping times.
