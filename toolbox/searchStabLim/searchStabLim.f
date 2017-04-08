@@ -301,7 +301,7 @@ C Read/write till "KOBJ"
           endif
 c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
-        do i=1,2
+c        do i=1,2
           read(lunR,fmt='(a)') txt132
           if(empty(txt132)) then
             write(lunW,fmt='(a)') '!'
@@ -309,8 +309,8 @@ c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
              write(lunW,fmt='(a)')
      >        txt132(debstr(txt132):finstr(txt132))
           endif
-c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
-        enddo
+          write(lunW,fmt='(a)') ' 2 '
+c        enddo
 C Read/write "IMAX IMAXT"
         read(lunR,fmt='(a)') txt132
         if(kprx.eq.1) then
@@ -359,7 +359,8 @@ C              zzz = storb(3,j)/float(njj) * float(jj)
      >      storb(5,j), storb(6,j),' ','''',let(j),''' ',j
           enddo
         enddo
-        do j=1,nTraj-jok
+c        do j=1,nTraj-jok   
+        do j=1,nTraj-jok   +1
           read(lunR,fmt='(a)') txt132
         enddo
 C Complete OBJET with the line of 1's
@@ -383,7 +384,8 @@ C Complete OBJET with the line of 1's
 C Completes zgoubi_StabLim-Out.dat_HV with the rest of zgoubi_StabLim-In.dat
  11     continue
           read(lunR,fmt='(a)',end=62) txt132
-
+c          write(*,*) 'stablim ',txt132(debstr(txt132):finstr(txt132))
+c          read(*,*)
           if    (strcon(txt132,'''FAISTORE''',10,
      >                                        IS) ) then 
             read(lunR,fmt='(a)',end=62) txt132
@@ -509,10 +511,6 @@ c      write(*,*) ' SearchStabLim :  end of loop 111... '
 
  997  continue
       write(*,*) ' SearchStabLim :  end of job on 997... '
-      goto 99
-
- 999  continue
-      write(*,*) ' *** SearchStabLim : error upon reading lunData '
       goto 99
 
  998  continue

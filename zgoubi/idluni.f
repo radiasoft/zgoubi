@@ -28,8 +28,11 @@ C  -------
       LOGICAL IDLUNI
 
       LOGICAL OPN
-
-      I = 20
+      SAVE II
+      
+      DATA II / 20 /
+      
+      I = II
  1    CONTINUE
         INQUIRE(UNIT=I,ERR=99,IOSTAT=IOS,OPENED=OPN)
         I = I+1
@@ -38,6 +41,7 @@ C  -------
 C        IF(IOS .GT. 0) GOTO 1
       
       LN = I-1
+      II = II + 1
       IDLUNI = .TRUE.
       RETURN
 

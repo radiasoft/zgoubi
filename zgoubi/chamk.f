@@ -56,7 +56,7 @@ c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
 c     >   A1,R1,A1N,R1N,i,imap,B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
       ELSEIF(NFIC .GE. 2) THEN 
-C Case MOD=16. IMAP has been incrized by NFIC units in tosca, each field map stored in HC
+C Case MOD=16. IMAP has been increazed by NFIC units in tosca, each field map stored in HC
         I = 1
         ID = 2  ! This is to be settled
         ird=2

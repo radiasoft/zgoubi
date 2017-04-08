@@ -357,7 +357,7 @@ C          Each one of these files should contain the all 3D volume.
           ENDDO
 
         ELSEIF(MOD .EQ. 16) THEN
-C--------- MOD2 files read for on-the-flight contribution
+C--------- MOD2 files are read for on-the-flight contribution
 C          Each one of these files should contain the all 3D volume.
           IF(MOD2 .GT. MXC) CALL ENDJOB('Pgm toscac. Number of field '
      >    //'maps cannot exceed ',MXC)

@@ -1320,7 +1320,8 @@ C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
      >       'R21           R22           R33          R34 '//
      >       'R43           R44           R51          R52 '//
      >       'R53           R54           R56          F66          '//
-     >       'SX            SY            SZ            |S|   ' 
+     >       'SX            SY            SZ            |S|   ' //
+     >       'Length        Deviation     ' 
           WRITE(LNOPTI,fmt='(a)') 
      >       '# 1             2             3             4    ' //
      >       '         5             6             7           ' //
@@ -1334,7 +1335,8 @@ C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
      >       '34            35            36           37 '//
      >       '38            39            40           41 '//
      >       '43            43            44           45           '//
-     >       '46            47            48           49     ' 
+     >       '46            47            48           49     ' //
+     >       '50            51 ' 
         ENDIF
       ELSE
 C        KOPIMP = 0

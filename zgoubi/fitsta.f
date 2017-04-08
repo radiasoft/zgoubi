@@ -37,11 +37,15 @@ C  -------
       LOGICAL FITRBL, FITRBI, FITRBO
       SAVE FITRBL
 
+      LOGICAL FITLST, FITLSI, FITLSO
+      SAVE FITLST
+
       DATA FITING / .FALSE. /
       DATA NUMKLE / 0 /
       DATA FITBYD / .FALSE. /
       DATA FITFNL / .FALSE. /
       DATA FITRBL / .FALSE. /
+      DATA FITLST / .FALSE. /
 
 C FITIN set to .true. (in zgoubi.f) when FIT procedure run
       IF(IO.EQ.5) THEN
@@ -71,7 +75,7 @@ C-------- save status
          FITBYD = FITBYI
       RETURN
 
-! .T. if executing Zgoubi w new variables (following completion of FIT[2])
+! .T. if request for executing Zgoubi w new variables (following completion of FIT[2])
       ENTRY FITST5(
      >             FITFNO)
       FITFNO = FITFNL
@@ -87,6 +91,14 @@ C-------- save status
       RETURN
       ENTRY FITST8(FITRBI)
          FITRBL = FITRBI
+      RETURN
+! .T. if FIT[2] is doing the last pass following completion (that can only happen if FITFNL=T)
+      ENTRY FITST9(
+     >             FITLSO)
+         FITLSO = FITLST
+      RETURN
+      ENTRY FITSTX(FITLSI)
+         FITLST = FITLSI
       RETURN
 
       END

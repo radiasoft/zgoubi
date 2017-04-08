@@ -58,12 +58,13 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       SAVE LUNPRT, FIRST
 
       DIMENSION SMAT(3,3)
+      LOGICAL FITIN
 
       DATA SXMF, SYMF, SZMF /  3 * 0.D0 /
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
       DATA FIRST / .TRUE. /
       DATA TR1, TR2, TR3 / 3 * 0.D0 /
-
+       
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
 
@@ -189,15 +190,12 @@ C Angle between SI and SF
               IF(ABS(CPHI) .GT.  1.D0) THEN
                 PHI(I) = 0.D0
               ELSE
-                PHI(I) = ACOS(CPHI) * DEG
+                PHI(I) = SIGN(ACOS(CPHI) * DEG,CPHI)
               ENDIF
 C Angle between SF and Z axis
               PHIZF = ATAN2(SQRT(BB(1)**2+BB(2)**2),BB(3)) * DEG
-c              BB(1)= 0.D0
-c              CPHIX = VSCAL(AA,BB,3)/XNORM(BB,3)
-c              PHIX(I) = ACOS(CPHIX) * DEG 
 
-C Angle between Z axis and projection of SF on YZ plane (== X=0 plane)
+C Angle between 'projection of SF on YZ plane' and Z axis 
               PHIX(I) = ATAN2(BB(2), BB(3)) * DEG
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
@@ -248,13 +246,14 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
      >                   SMAT,TRM, SROT,TR1,TR2,TR3,QS)
 
             IF(NRES.GT.0) THEN
+              A2XY = ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG
+              A2X = ATAN2(TR2,TR1)*DEG
               WRITE(NRES,103) ID
  103          FORMAT(//,18X,'Spin transfer matrix, momentum group # '
      >        ,I0,' :',/)
               WRITE(NRES,104) (( SMAT(IA,IB) , IB=1,3) , IA=1,3)
  104          FORMAT(6X,1P,3G16.6)
-              WRITE(NRES,112)TRM,SROT*DEG,TR1,TR2,TR3
-     >        ,ATAN2(TR3,SQRT(TR1*TR1+TR2*TR2))*DEG,ATAN2(TR2,TR1)*DEG,QS
+              WRITE(NRES,112)TRM,SROT*DEG,TR1,TR2,TR3,A2XY,A2X,QS
 112           FORMAT(/,5X,'Trace = ',F18.10,',',4X,
      >        ';   spin precession acos((trace-1)/2) = ',F18.10,' deg',
      >        /,5X,'Rotation axis :   (',F7.4,', ',F7.4,', ',F7.4,')',
@@ -270,47 +269,51 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
 C Print to zgoubi.SPNPRT.Out
       IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'PRINT'
      >.OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'PRINT') THEN
+        CALL FITSTA(5,
+     >                FITIN)
 
-        IF(FIRST) THEN
-          FIRST = .FALSE.
-          IF(IDLUNI(
-     >              LUNPRT)) THEN
-            OPEN(UNIT=LUNPRT,FILE='zgoubi.SPNPRT.Out',ERR=96)
-          ELSE
-            GOTO 96
+        IF(.NOT. FITIN) THEN    ! This can be past 'FIT' keyword
+          IF(FIRST) THEN
+            FIRST = .FALSE.
+            IF(IDLUNI(
+     >                LUNPRT)) THEN
+              OPEN(UNIT=LUNPRT,FILE='zgoubi.SPNPRT.Out',ERR=96)
+            ELSE
+              GOTO 96
+            ENDIF
+            WRITE(LUNPRT,FMT='(3(A,/),A)') 
+     >      '# spin data. PRINT by spnprt.f ',
+     >      '# 1  2  3  4  5  6    7    8     9 10 11 12   '//
+     >      '    13 14 15 16      17       18   19 '//
+     >      '   20     21     22   23   24  25  26  27  28  29 '//
+     >      ' 30-32     etc.                               '//
+     >      '           ',
+     >      '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4), '//
+     >      '(SF(J,I),J=1,4), gamma, G.gamma, PHI, '//
+     >      'PHIX, ITRAJ, IPASS, NOEL, Yo, To, Zo, Po, So, Do, '//
+     >      'AXE(1,3) Qs !spnprt.f ',
+     >      '# cm mr cm mr cm  -   -     -    - - - -       '//
+     >      '    - - - -            -         Spin angles in deg. '//
+     >      '                 -         -           -          '//
+     >      '     Qs !spnprt.f  -     '
           ENDIF
-          WRITE(LUNPRT,FMT='(3(A,/),A)') 
-     >    '# spin data. PRINT by spnprt.f ',
-     >    '# 1  2  3  4  5  6    7    8     9 10 11 12   '//
-     >    '    13 14 15 16      17       18   19 '//
-     >    '   20     21     22   23   24  25  26  27  28  29 '//
-     >    ' 30-32     etc.                               '//
-     >    '           ',
-     >    '# Y, T, Z, P, S, D, TAG, IEX, (SI(J,I),J=1,4), '//
-     >    '(SF(J,I),J=1,4), gamma, G.gamma, PHI, '//
-     >    'PHIX, ITRAJ, IPASS, NOEL, Yo, To, Zo, Po, So, Do, '//
-     >    'AXE(1,3) Qs !spnprt.f ',
-     >    '# cm mr cm mr cm  -   -     -    - - - -       '//
-     >    '    - - - -            -         Spin angles in deg. '//
-     >    '                 -         -           -          '//
-     >    '     Qs !spnprt.f  -     '
-        ENDIF
-        DO I=IMAX1,IMAX2
-          IF( IEX(I) .GE. -1 ) THEN
-            P = BORO*CL9 *F(1,I) *Q
-            GAMA = SQRT(P*P + AM*AM)/AM
-            WRITE(LUNPRT,111) 
-     >      (F(J,I),J=2,6),F(1,I)
-     >      ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
-     >      ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
-     >      ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3,QS
-     >      ,'!spnprt.f',LBL1,LBL2
- 111        FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E16.8),3(1X,I6)
-     >      ,9(1X,E16.8),1X,0P,F9.6,3(1X,A))
-          ENDIF   
-        ENDDO
+          DO I=IMAX1,IMAX2
+            IF( IEX(I) .GE. -1 ) THEN
+              P = BORO*CL9 *F(1,I) *Q
+              GAMA = SQRT(P*P + AM*AM)/AM
+              WRITE(LUNPRT,111) 
+     >        (F(J,I),J=2,6),F(1,I)
+     >        ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
+     >        ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
+     >        ,(FO(J,I),J=2,6),FO(1,I),TR1,TR2,TR3,QS
+     >        ,'!spnprt.f',LBL1,LBL2
+ 111          FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E16.8),
+     >        3(1X,I6),9(1X,E16.8),1X,0P,F9.6,3(1X,A))
+            ENDIF   
+          ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
 C        CLOSE(LUNPRT)
+        ENDIF
       ENDIF 
 
       CALL FLUSH2(LUNPRT,.FALSE.)
@@ -318,6 +321,8 @@ C        CLOSE(LUNPRT)
       RETURN
 
  96   CONTINUE
+      WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
+     >           ''Error open file zgoubi.SPNPRT.Out'')')
       WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
      >           ''Error open file zgoubi.SPNPRT.Out'')')
       CALL ENDJOB('Pgm spnprt. Error open file zgoubi.SPNPRT.Out',-99)

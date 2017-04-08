@@ -259,8 +259,8 @@ C----- MAP FILE NAME(S)
           TA(NOEL,1+IFIC) = STRA(1)
           IF(MOD .EQ. 16) THEN
             I5 = 5
-            IF(IDUM .LT. 6) CALL ENDJOB('Pgm rtosca. Number of '
-     >      //'data expected for positioning is ',I5)
+            IF(IDUM .LT. 6) CALL ENDJOB('Pgm rtosca. A list of 5 '
+     >      //'data expected for positioning, line ',LINE)
             DO I = 1, MIN(I5,IDUM)
               READ(STRA(I+1),*,ERR=90,END=90) A(NOEL,20+IFIC*10+I-1) 
             ENDDO

@@ -43,7 +43,7 @@ C  -------
 
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
-      LOGICAL FITFNL
+      LOGICAL FITFNL, FITLST
       INTEGER DEBSTR, FINSTR
 
       CHARACTER(LEN=I100), DIMENSION(:), ALLOCATABLE :: ARGS
@@ -69,6 +69,7 @@ C Dummy
       DATA TIMSEC / 0.D0 / 
       DATA OKWDAT, OKW / .FALSE., .FALSE. /
       DATA TAB /  1 * ' '  /
+      DATA FITFNL, FITLST / .FALSE., .FALSE. /
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -192,6 +193,8 @@ C -----
         CALL FITST5(
      >              FITFNL)
         IF(FITFNL) THEN
+          FITLST = .TRUE.
+          CALL FITSTX(FITLST)
           WRITE(6,200) 
           IF(NRES.GT.0) THEN
             WRITE(NRES,201)
@@ -204,6 +207,8 @@ C -----
           CALL FITST4(FITBYD)
           NBLMI = NBLMN
           CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
+          FITLST = .FALSE.
+          CALL FITSTX(FITLST)
           IF(NRES.GT.0) THEN 
             WRITE(NRES,201)
  201        FORMAT(/,132('*'))
@@ -215,10 +220,10 @@ C -----
           ENDIF
 
         ELSE
-            IF(NRES.GT.0) 
-     >      WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
-     >      //'as requested.  Now carrying on beyond FIT keyword.'
- 335        FORMAT(/,2X,A)
+          IF(NRES.GT.0) 
+     >    WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
+     >    //'as requested.  Now carrying on beyond FIT keyword.'
+ 335      FORMAT(/,2X,A)
         ENDIF
 
         OKWDAT = .TRUE.
@@ -278,15 +283,15 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
      >FLOG(DEBSTR(FLOG):FINSTR(FLOG))
       GOTO 10 
 
- 99     CONTINUE
-        WRITE(6   ,103) DMY,HMS
-        IF(NRES.GT.0) THEN
-          WRITE(NRES,103) DMY,HMS
-          WRITE(NRES,101)
- 101      FORMAT(/,128('*'))
-          WRITE(NRES,FMT='(/,10X,
-     >          '' Main program : stopped upon key  FIT'')')
-        ENDIF
+ 99   CONTINUE
+      WRITE(6   ,103) DMY,HMS
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,103) DMY,HMS
+        WRITE(NRES,101)
+ 101    FORMAT(/,128('*'))
+        WRITE(NRES,FMT='(/,10X,
+     >        '' Main program : stopped upon key  FIT'')')
+      ENDIF
 
  10   CONTINUE
       

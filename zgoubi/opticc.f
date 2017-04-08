@@ -38,6 +38,7 @@ C  -------
      >              XM2, YM2, DXM2, DYM2, DLTP, NC
       DIMENSION RSAV(6,6), RLOC(6,6), NW(6), BW(6)
       SAVE RSAV
+      PARAMETER (PI = 4.D0 *(ATAN(1.D0)))
 
       DATA OKLNO / .FALSE. /
 
@@ -126,25 +127,35 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
          AKL(1) = AK1 * AL *1.D-2
          AKL(2) = AK2 * AL *1.D-2
          AKL(3) = AK3 * AL *1.D-2
+         DEV = 2.D0 * PI /240.
       ELSEIF(KLE.EQ.'AGSQUAD') THEN
          CALL AGSQKL(
      >        AL, AK1)
          AKL(1) = 0.D0
          AKL(2) = AK1 * AL *1.D-1
+         DEV = 0.D0
       ELSEIF(KLE.EQ.'MULTIPOL') THEN
          CALL MULTKL(
-     >        AL, AK1, AK2, AK3)
+     >        AL, AK1, AK2, AK3, DEVI)
          AKL(1) = AK1 * AL *1.D-2
          AKL(2) = AK2 * AL *1.D-2
          AKL(3) = AK3 * AL *1.D-2
+         DEV = DEVI
+      ELSEIF(KLE.EQ.'BEND') THEN
+         CALL BENKL(
+     >              DEVI)
+         AKL = 0.D0
+         DEV = DEVI   ! rad
       ELSE
          AKL = 0.D0
+         DEV = 0.D0
       ENDIF
 
       IF(OKLNO) 
      > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,R,
-     >                                              PP0)  ! print to zgoubi.OPTICS.out (OPTICS keyword)
-                                                           ! or to zgoubi.TWISS.out (TWISS keyword)
+     > AL,DEV,                     ! print to zgoubi.OPTICS.out (OPTICS keyword)
+     >     PP0)                    ! or to zgoubi.TWISS.out (TWISS keyword)
+      
       RETURN
 
  99   CONTINUE

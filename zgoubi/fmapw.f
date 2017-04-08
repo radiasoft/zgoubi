@@ -1469,7 +1469,8 @@ C------- Mesh coordinates
            ENDDO
 
       ELSEIF(MOD .EQ. 16) THEN
-C Full 3-D map of magnet. Can sum up field from several maps at particle location, on-the-flight. 
+C     Full 3-D map of magnet. Can sum up field as read from several maps at particle
+C     location, on-the-flight (maps are used as provided, NOT summed up into a single one). 
            JTCNT=0
            IRCNT = 0
            KZCNT=0       

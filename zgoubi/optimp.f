@@ -20,9 +20,10 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OPTIMP(LUN,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,R,
+     >                                   AL,DEV,
      >                                                     PP0) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,6), F0(6,6),AKL(3)
@@ -81,10 +82,10 @@ C     >, PHY, PHZ, SCUM, NOEL
      >, R(1,1),R(1,2),R(2,1),R(2,2)
      >, R(3,3),R(3,4),R(4,3),R(4,4)
      >, R(5,1),R(5,2),R(5,3),R(5,4),R(5,6),F(6,6)
-     >, (SN0(JJ),JJ=1,4)
+     >, (SN0(JJ),JJ=1,4),AL,DEV
  104  FORMAT(1P,13(E15.7E3,1X),1X,I5,4(1X,E13.5E3),3(1X,A)
      >,6(1X,E13.5E3),A,1X,I0,1X,15(E14.6E3,1X)
-     >,4(E14.6E3,1X))
+     >,6(E14.6E3,1X))
 C FM 14 Apr. 14
 C     >,5(1X,E13.5),A,/)
 

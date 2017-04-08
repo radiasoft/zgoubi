@@ -142,7 +142,7 @@ C------------ Constraint on  coordinate or field in optical element,
      >  '(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
       ELSE
         IF(NRES.GT.0) WRITE(NRES,FMT=
-     >  '(/,20X,''FIT  variables  in  good  order,'',  
+     >  '(/,20X,''FIT  variables  and  constraints  in  good  order,'',
      >              ''  FIT  will proceed. '')')
       ENDIF
 

@@ -69,7 +69,7 @@ C Implemented by Scott Berg, LPSC, April 2007
          IF(SAVFT) THEN
            IF(LSAV .LT. 0) THEN
              OK = IDLUNI(
-     >                 LSAV)
+     >                   LSAV)
              OPEN(UNIT=LSAV,FILE=FNAME)
            ENDIF
            CALL IMPAJU(LSAV,F)

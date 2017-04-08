@@ -40,7 +40,7 @@ c Fourier transf. ksmpl turns strarting from kpa
       data okQ / .true. /
       data nt / -1 /
       data change / .true. /
-      data FILFAIr, FILFAIn / ' ', ' ' /
+      data FILFAIr, FILFAIn / ' ', 'b_zgoubi.fai' /
 
       FILFAIn = FILFAIn
 
@@ -1540,23 +1540,6 @@ C      CHARACTER*900 TXT80
       WRITE(6,*) '        ... Empty file ?'
       RETURN 1
       END
-      FUNCTION FINSTR(STR)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INTEGER FINSTR
-      CHARACTER * (*) STR
-C     -----------------------------------
-C     Renvoie dans FINSTR le rang du
-C     dernier caractere non-blanc de STR.
-C     Renvoie 0 si STR est vide ou blanc.
-C     -----------------------------------
-
-      FINSTR=LEN(STR)+1
-1     CONTINUE
-         FINSTR=FINSTR-1
-         IF(FINSTR.EQ. 0) RETURN
-         IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
-      RETURN
-      END
       SUBROUTINE SPEPR(NLOG,KPR,NT,NPTS,YM,YPM,YNU,PMAX,NC0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION YM(*), YPM(*), YNU(*), PMAX(*), NC0(*)
@@ -1867,5 +1850,22 @@ C        IF (STRING(DEBSTR:DEBSTR) .EQ. ' ') GOTO 1
           ENDIF
         ENDIF
 
+      RETURN
+      END
+      FUNCTION FINSTR(STR)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER FINSTR
+      CHARACTER * (*) STR
+C     -----------------------------------
+C     Renvoie dans FINSTR le rang du
+C     dernier caractere non-blanc de STR.
+C     Renvoie 0 si STR est vide ou blanc.
+C     -----------------------------------
+
+      FINSTR=LEN(STR)+1
+1     CONTINUE
+         FINSTR=FINSTR-1
+         IF(FINSTR.EQ. 0) RETURN
+         IF (STR(FINSTR:FINSTR).EQ. ' ') GOTO 1
       RETURN
       END

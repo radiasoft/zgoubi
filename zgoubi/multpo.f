@@ -98,6 +98,8 @@ C Field or alignment defects
       SAVE IPOL
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
+      SAVE DEVO
+      
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/
       DATA CASPI / .TRUE. /
@@ -730,8 +732,10 @@ C      ENDIF
         CALL INTEG6(AREG,BREG,CREG)
       ENDIF
 
-      IF(IER.NE.0) GOTO 99
+      DEVO = DEV
 
+      IF(IER.NE.0) GOTO 99
+      
  98   RETURN
 
  99   CONTINUE
@@ -744,9 +748,12 @@ C----- Execution stopped :
       RETURN 1
       
       ENTRY MULTKL(
-     >             AL, AK1)
-      aL = sXL
-      aK1 = AKS(1)
+     >             AL, AK1, AK2, AK3, DEVOO)
+      AL = SXL
+      AK1 = AKS(1)
+      AK2 = AKS(2)
+      AK3 = AKS(3)
+      DEVOO = DEVO
       RETURN
       
       ENTRY MULTP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,

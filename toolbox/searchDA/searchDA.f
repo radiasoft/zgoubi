@@ -80,7 +80,8 @@ C     >'H ',prec,-abs(duStrt),nTr12,' 0 1 0'    ! cyclotron Luciano
       open(unit=lunw,file='zgoubi_StabLim-Out.dat_H')
         txt132 = ' '
         dowhile
-     >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
+     >  (txt132(2:6) .ne. 'OBJET' .and. 
+     >   TXT132(2:8) .ne. 'MCOBJET')
           read(lunW,fmt='(a)') txt132
           if(empty(txt132)) then
              txt132 = ' '
@@ -131,8 +132,6 @@ C Read till IMAX
           else
              txt132 = txt132(debstr(txt132):finstr(txt132))
           endif
-c          txt132 = txt132(debstr(txt132):finstr(txt132))
-c          if(empty(txt132)) txt132 = ' '
         enddo
         do i=1,2
           read(lunW,fmt='(a)') txt132
@@ -178,8 +177,6 @@ C Read till IMAX
           else
              txt132 = txt132(debstr(txt132):finstr(txt132))
           endif
-c          txt132 = txt132(debstr(txt132):finstr(txt132))
-c          if(empty(txt132)) txt132 = ' '
         enddo
         do i=1,2
           read(lunW,fmt='(a)') txt132
@@ -259,15 +256,13 @@ C Read till "KOBJ"
         dowhile
      >  (txt132(2:6) .ne. 'OBJET' .and. TXT132(2:8) .ne. 'MCOBJET')
           read(lunR,fmt='(a)') txt132
-c          txt132 = txt132(debstr(txt132):finstr(txt132))
           if(empty(txt132)) then
             write(lunW,fmt='(a)') '!'
           else
              write(lunW,fmt='(a)')
      >        txt132(debstr(txt132):finstr(txt132))
           endif
-c          if(empty(txt132)) txt132 = ' '
-c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
+          txt132 = txt132(debstr(txt132):finstr(txt132))
         enddo
 c        do i=1,2
           read(lunR,fmt='(a)') txt132
@@ -642,11 +637,8 @@ c             txt132 = ' '
           else
              write(lunW,fmt='(a)')
      >       txt132(debstr(txt132):finstr(txt132))
-c             txt132 = txt132(debstr(txt132):finstr(txt132))
+             txt132 = txt132(debstr(txt132):finstr(txt132))
           endif
-c          txt132 = txt132(debstr(txt132):finstr(txt132))
-c          if(empty(txt132)) txt132 = ' '
-c          write(lunW,fmt='(a)') txt132(debstr(txt132):finstr(txt132))
         enddo
         do i=1,2
           read(lunR,fmt='(a)') txt132

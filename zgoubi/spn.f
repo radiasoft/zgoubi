@@ -106,13 +106,13 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
               WRITE(NRES,104) NINT(A(NOEL,9)/10)
  104          FORMAT(
      >           30X,'All spins entered particle by particle'
-     >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
+     >        ,/,30X,'Particles # 1 to ',I0,' may be subjected to spin '
      >        ,      'matching using FIT procedure')
             ELSEIF(KSO2 .EQ.1) THEN
               WRITE(NRES,113) NINT(A(NOEL,9)/10)
  113          FORMAT(
      >           30X,'Same spin for all particles'
-     >        ,/,30X,'Particles # 1 to ',I7,' may be subjected to spin '
+     >        ,/,30X,'Particles # 1 to ',I0,' may be subjected to spin '
      >        ,      'matching using FIT procedure')
             ELSEIF(KSO2 .EQ.2) THEN
               WRITE(NRES,112) 

@@ -44,7 +44,9 @@ C Will cause save of zgoubi.dat list with updated variables as following from FI
       IER = 0
       OK = IDLUNI(
      >            LR)
-      OPEN(UNIT=LR,FILE='zgoubi.res')
+      CALL SYSTEM('\cp zgoubi.res tempRes')
+      OPEN(UNIT=LR,FILE='tempRes')
+C      OPEN(UNIT=LR,FILE='zgoubi.res')
       OK = IDLUNI(
      >            LW)
       OPEN(UNIT=LW,FILE='zgoubi.FIT.out.dat')

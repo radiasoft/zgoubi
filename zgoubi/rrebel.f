@@ -136,7 +136,8 @@ C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
      >          'Pgm rrebel. Stopped while reading parameter data.'
                 WRITE(6,*)
      >          'Pgm rrebel. Stopped while reading parameter data.'
-                 CALL ENDJOB('Input error in keyword[label] data.',-99)
+                CALL ENDJOB('Input error in keyword[label] data at'
+     >          //' LINE=',LINE)
               ENDIF
             ELSE
               TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
@@ -150,7 +151,8 @@ C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
               IF( TPRM(IPRM,1) .EQ. 
      >          KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))
      >          .AND.
-     >          TPRM(IPRM,2) .EQ. LABEL(IEL,1))  OKKLE = .TRUE.
+     >          (TPRM(IPRM,2) .EQ. LABEL(IEL,1)
+     >           .OR.  TPRM(IPRM,2) .EQ. ' ' ))  OKKLE = .TRUE.
 c                 write(*,*) iel,KLE(IQ(IEL)),label(iel,1)
 c                 write(*,*) iel,TPRM(IPRM,1) ,TPRM(IPRM,2)
               IEL = IEL + 1

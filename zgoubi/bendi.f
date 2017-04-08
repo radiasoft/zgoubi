@@ -48,7 +48,8 @@ C      LOGICAL ZSYM
 
       LOGICAL SHARPE, SHARPS
       DIMENSION  AREG(2),BREG(2),CREG(2)
- 
+      SAVE DEVO
+      
 C----- Magnet length, geometrical
       XL =A(NOEL,10)
 C----- Skew angle
@@ -229,5 +230,11 @@ C        WRITE(NRES,104) 'DE  SORTIE'
 
       CALL BENDF2(G1,G2)
 
+      DEVO = DEV
+      RETURN
+
+      ENTRY BENKL(
+     >            DEVOO)
+      DEVOO = DEVO
       RETURN
       END

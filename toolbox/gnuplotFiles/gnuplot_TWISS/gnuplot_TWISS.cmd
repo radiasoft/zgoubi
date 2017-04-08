@@ -53,8 +53,8 @@ pause 2
  set ytics  font "roman,12" mirror      #offset 0,-.6
 
  plot \
-      "zgoubi.TWISS.out" u ($13/100.):($15) axes x1y1 w l lt 1 lc 1 tit "x"  ,\
-      "zgoubi.TWISS.out" u ($13/100.):($17) axes x1y1 w l lt 1 lc 3 tit "y"  
+      "zgoubi.TWISS.out" u ($13):($15) axes x1y1 w l lt 1 lc 1 tit "x"  ,\
+      "zgoubi.TWISS.out" u ($13):($17) axes x1y1 w l lt 1 lc 3 tit "y"  
 
  set samples 10000
  set terminal postscript eps blacktext color enh size 9.3cm,6cm "Times-Roman" 12

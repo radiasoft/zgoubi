@@ -162,10 +162,8 @@ C (input data is of the form NT[.MODSCL].
         READ(NDAT,FMT='(A)',err=90,end=90) TXT132
 C Remove possible comment trailer
         IF( STRCON(TXT132,'!',
-     >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
- 
+     >                        IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1) 
         READ(TXT132,*) TXT
- 
         IF( STRCON(TXT,'.',
      >                     IS)) THEN
  
