@@ -50,6 +50,7 @@ C      PARAMETER (MXTA=45)
       DATA TSCAL / ' ' /
       DATA LIST / ' ' /
       DATA SCLFLD / .FALSE. /
+      DATA KSOK / 0 /
 
       KSYN= NINT( A(NOEL,1) )
       IF(KSYN.EQ.0) THEN
@@ -57,6 +58,11 @@ C      PARAMETER (MXTA=45)
         OKSR = .FALSE.
         RETURN
       ENDIF
+      KSOK= NINT( A(NOEL,2) )
+      IF(KSOK .NE. 0 .AND. KSOK .NE. 1) CALL ENDJOB
+     >('Pgm srloss. KSOK can only be 0 (Sokolov-Ternov effect off), '
+     >//'or 1 (on)',-99)
+      CALL RAYSY6(KSOK)
 
       IF(IPASS .EQ. 1) THEN 
        OKPRSR = (NINT(10.D0*A(NOEL,1)) - 10*KSYN) .EQ. 1

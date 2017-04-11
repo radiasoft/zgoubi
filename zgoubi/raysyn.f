@@ -54,6 +54,7 @@ C      COMMON/TRAJ/ YT,T,Z,PT,XT,SAR,TAR,KEX,ITT,AMT,QT
       SAVE X, Y
       SAVE CQ,AM2,UNIT,UNITE,IRA,DXSPLI,FEC,FAC,FACG
       SAVE TYPMAG
+      SAVE KSOK
 
       DATA TYPMAG / 'ALL' /
       DATA X / .00123D0, .0123D0, .0265D0, .0571D0, .1228D0, .1544D0, 
@@ -77,7 +78,8 @@ C Y      2.       2.5       3.       4.       5.5        7        10.
      > .95D0, 1.D0, 1.2D0, 1.5D0,1.7D0, 
      > 2.D0, 2.5D0, 3.D0, 4.D0,5.5D0,7.D0,1.D1/
       DATA UNIT,UNITE / 1.D-2, 1.D-6/
-
+      DATA KSOK / 0 /   ! Sokolov-Ternov effect on/off=1/0
+ 
 C      DATA TTLOS2 / 0.D0 /
 
       IF(TYPMAG.NE.'ALL') THEN
@@ -227,5 +229,10 @@ C      TL2=0.D0
 C      NSTEP=0
 C      ECMEAN=0.D0
       RETURN
+
+      ENTRY RAYSY6(KSOKI)
+      KSOK = KSOKI
+      RETURN
+
       END
  

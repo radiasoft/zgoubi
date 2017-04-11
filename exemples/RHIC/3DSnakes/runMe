@@ -1,0 +1,26 @@
+
+
+echo ' '
+echo ' '
+echo ' '
+echo 'Computation result will be in zgoubi.res.'
+echo ' '
+echo 'TWISS keyword results in zgoubi.TWISS.out - a similar format to MADX TWISS output file.'
+echo ' '
+
+echo ' '
+echo 'Zero the snake induced orbit orbit at G.gamma=45.5 : '
+../../../zgoubi/zgoubi -in snake1Segment.inc
+../../../zgoubi/zgoubi -fileIn snake1Segment.inc
+
+echo ' '
+echo ' '
+echo 'Produce twiss functions and a MADX like output, zgoubi.TWISS.out : '
+../../../zgoubi/zgoubi -fileIn TWISS.dat
+
+echo ' '
+echo ' '
+gnuplot < ./gnuplot_TWISS.cmd 
+
+exit
+

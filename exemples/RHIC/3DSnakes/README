@@ -1,19 +1,30 @@
 
+
+
+The short path to getting plots of optical functions :  ./runMe
+
+
+
+-------------------
+
+
+
+
 Results from the files therein can be found in log_RHICdQy.pdf
 
 1/
-'rzg -fileIn snake1Segment.inc'  and  'rzg -fileIn snake1Segment.inc'  will zero 
-the snake induced orbit orbit  at G.gamma=45.5. 
+'../../../zgoubi/zgoubi -fileIn snake1Segment.inc'  and  '../../../zgoubi/zgoubi -fileIn snake1Segment.inc'  
+will zero the snake induced orbit orbit  at G.gamma=45.5. 
 
 They use the FIT procedure and dedicated 'snaKH' and 'snaKV' kickers. 
 
 2/
-'rzg -fileIn TWISS.dat' will execute zgoubi's TWISS procedure, producing Twiss functions 
+'../../../zgoubi/zgoubi -fileIn TWISS.dat' will execute zgoubi's TWISS procedure, producing Twiss functions 
 and a MADX like output, zgoubi.TWISS.out
 
 TWISS.dat accounts for 1/ as it 'INCLUDEs' snake1Segment.inc,  -fileIn snake1Segment.inc
 
-Content of zgoubi.TWISS.out can be plotted using ~/zgoubi-code/toolbox/gnuplotFiles/gnuplot_TWISS/gnuplot_TWISS.cmd
+Content of zgoubi.TWISS.out can be plotted using [...]/zgoubi-code/toolbox/gnuplotFiles/gnuplot_TWISS/gnuplot_TWISS.cmd
 
 3/ 
 orbit.dat stores (in b_zgoubi.fai) the orbit at all 'QUAD'

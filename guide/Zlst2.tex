@@ -4755,7 +4755,8 @@ tracked further) and their modulus(unused).
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
      \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
  \\
-\textsl{KSR[.i]}     \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.Out}       \> $0~or~1[.1]$  \> 2*I \\
+\textsl{KSR[.i] [,KSOK]} \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.Out}~;       \> $0~or~1[.1]$  \> I[.I], I \\
+ \>  Sokolov-Ternov effect  switch, optional (1/0 for on/off, default is off).   \>  \>  \\
 \\
 \textsl{STR1 [, STR2]} \> \textsl{STR1 = 'ALL'} or \textsl{'all'} or a particular magnet KEYWORD.  \> \> 2*A \\
                     \> Optional~: \textsl{STR2 = 'scale'} will scale fields following energy loss.              \>  \\

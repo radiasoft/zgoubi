@@ -1,0 +1,16 @@
+
+
+echo ' '
+echo ' '
+echo ' '
+echo 'Computation result will be in zgoubi.res.'
+echo ' '
+echo 'TWISS keyword results in zgoubi.TWISS.out - a similar format to MADX TWISS output file.'
+echo ' '
+
+../../../zgoubi/zgoubi -in TWISS_blue_coupled_150312.res
+
+gnuplot < ./gnuplot_opticalFctns.cmd
+
+exit
+

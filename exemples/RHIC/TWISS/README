@@ -1,10 +1,20 @@
 
+
+The short path to getting plots of optical functions :  ./runMe
+
+
+
+-------------------
+Some stuff to be debugged/investigated (nothing dramatic) : 
+
+(i) 
 Coupled case, pb :
-- les fctns optiques ne sont pas tout a fait egales aux 2 bouots
+- les fctns optiques ne sont pas tout a fait egales aux 2 bouts
 
 
-----------------------
-no more "Maximum # steps allowed =        10000" if spntrk is suppressed
+--
+(ii) 
+No more "Maximum # steps allowed =        10000" if spntrk is suppressed
 
 le pb vient de la valeur de B dans pvect
 
@@ -34,6 +44,6 @@ par conseqt, a l'entree dans 258 qui est le premier multip de champ non-nul en a
    1000.00000000000                                            et donc ensuite bri a l'entree dans le prochain MULTIPOL
  majtra OUT :           245           1
   DP  NaN                    
-------------
+
 
 

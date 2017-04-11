@@ -1,22 +1,34 @@
 
  
-These examples are maintained. Efforts are made to ensure that they are run-able with the latest version of zgoubi executable on the author's "trunk" branch. In particular some are part of the tools/compare procdure which tests their repeatability.
+1/ These examples are maintained. Efforts are made to ensure that they are run-able with the latest version of zgoubi executable on the author's "trunk" branch. In particular some are part of the tools/compare procdure which tests their repeatability.
 
 
-The example sub-folders found in exemple have the similar following content : 
+2/ The example sub-folders found in 'exemples' have similar content, more or less : 
 
 - one or more zgoubi input data files for a given example (a file with suffix ".dat"), and the corresponding result files (*.res suffix), and sometimes in addition *.eps plot files or other forms of computation outputs, 
 
 - or just one or more result files (suffix ".res")
 
-Zgoubi needs a zgoubi.dat as input file. That zgoubi.dat is obtained by copy-pasting 'thisExampleDataFile.dat' or 'thisExampleDataFile.res' file in that folder, to zgoubi.dat. (that works with a .res file since the first part of a '.res' zgoubi result file is a copy of the zgoubi.dat file that it stems from).  
-Note that Zgoubi, instead, also accepts the command 'zgoubi -inFile thisExampleDataFile.dat/.res. 
-
-Some of these examples are discussed in Part C of the users' guide. 
+- sometimes a 'runMe' script can be found, it is a short path to getting results and/or (gnu)plots.
 
 
-The folder exemples/tools is dedicated to the following : 
+3/ Zgoubi needs an input data file. Default is zgoubi.dat. That zgoubi.dat is obtained by copy-pasting 'thisExampleDataFile.dat' or 'thisExampleDataFile.res' file, to zgoubi.dat. (that works with a .res file since the first part of a '.res' zgoubi result file is a copy of the zgoubi.dat file that it stems from).  
 
-- running 'compare' will run some of the examples, and compare their outcomes (logged in compare.out) with reference ones logged in compare.out_reference. 
+Note that, also accepted, is the command 'zgoubi -inFile thisExampleDataFile.dat/.res' or 'zgoubi -in thisExampleDataFile.dat/.res'. In that case there is of any zgoubi.dat.
+
+Zgoubi delivers its results in, a minima, zgoubi.res. 'A minima', since the user can request more styles of outputs, in additional output files (e'g', zgoubi.fai, zgoubi.plt, or using the 'PRINT' attribute available with various keywords, see the users' guide). 
+
+
+
+4/ Some of these examples are discussed in Part C of the users' guide. 
+
+
+5/ The folder exemples/tools is dedicated to the following : 
+
+- running 'compare' will run some of the examples, and compare their outcomes (logged in compare.out) with reference ones prior logged in compare.out_reference. 
+
 Absence of (major) differences between compare.out_reference and compare.out is a sign of a good installation of zgoubi. 
+
+
+Good luck !
 

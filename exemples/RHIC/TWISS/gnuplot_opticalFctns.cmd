@@ -2,7 +2,7 @@ reset
 
  set term post eps enh  size 8.3cm,4cm "helvetica,14" blacktext color
  set terminal postscript eps blacktext color
- set output "gnuplot_betaFctns.eps"
+ set output "gnuplot.eps"
  
 #------- Siziing margins and plots
 NX=1; NY=3
@@ -36,20 +36,17 @@ set ytics font "roman,10"  nomirror
 set y2tics font "roman,10"  nomirror 
 
 set key default
-set key top right spacing .75 box 2  
-set label 1 '(a)' at graph 0.02,0.9 font ",14"
-set ylab  "\beta_x (m)"  font "roman,14" tc lt 1 
-set y2lab "\beta_y (m)"  font "roman,14" tc lt 3
+set key maxrow 1
+set key top c spacing .7  sampl 2.  # box 2  
 
-cm2m = 0.01
+set label 1 '(a)' at graph 0.02,0.9 font ",14"
+set ylab  "{/Symbol b}_x (m)"  font "roman,14" tc lt 1 
+set y2lab "{/Symbol b}_y (m)"  font "roman,14" tc lt 3
+
 
 plot [][] \
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $2 : 1/0)           w l lc 1 tit "\beta_x"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $2 : 1/0)           w l lc 1 notit          ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $2 : 1/0)           w p pt 6 ps .4 lc 1 notit ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $4 : 1/0) axes x1y2 w l lc 3 tit "\beta_y"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $4 : 1/0) axes x1y2 w l lc 3 notit  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $4 : 1/0) axes x1y2 w p pt 6 ps .4 lc 3 notit 
+ "zgoubi.TWISS.out" us ($13 ):($13 <xmax && $13 >xmin ? $2 : 1/0)           w l lc 1 tit "{/Symbol b}_x"  ,\
+ "zgoubi.TWISS.out" us ($13 ):($13 <xmax && $13 >xmin ? $4 : 1/0) axes x1y2 w l lc 3 tit "{/Symbol b}_y"  
 
 
 unset title
@@ -62,18 +59,14 @@ set origin DX,DY+SY
 set ytics  font "roman,10"  nomirror 
 set y2tics font "roman,10"  nomirror 
 
-set key top right box 2 
+set key b c   # box 2 
 set label 1 '(b)' at graph 0.02,0.9 font ',14'
 set ylab  "Dx (m)"  font "roman,14" 
 set y2lab "Dy (m)"  font "roman,14" 
 
 plot \
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $7 : 1/0)             w l lc 1  tit "Dx"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $7 : 1/0) axes x1y2   w l lc 1  notit     ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $7 : 1/0)           w p pt 6 ps .4 lc 1 notit ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $9 : 1/0)             w l lc 3  tit "Dy"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $9 : 1/0) axes x1y2   w l lc 3  notit ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $9 : 1/0) axes x1y2 w p pt 6 ps .4 lc 3 notit 
+ "zgoubi.TWISS.out" us ($13 ):($13 <xmax && $13 >xmin ? $7 : 1/0)             w l lc 1  tit "Dx"  ,\
+ "zgoubi.TWISS.out" us ($13 ):($13 <xmax && $13 >xmin ? $9 : 1/0)             w l lc 3  tit "Dy"  
  
 
 # BOTTOM PLOT----------------------
@@ -81,7 +74,7 @@ set size SX,SY
 set origin DX,DY 
 
 unset key
-set key bot right box 2 
+set key  t c   # box 2 
 set xlab "s (m)"  font "roman,16" offset -5, 0.5
 set xtics font "roman,10"  mirror 
 
@@ -92,14 +85,12 @@ set ylab  "x (m)"  font "roman,14"
 set y2lab "y (m)"  font "roman,14"
 
 plot \
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $15 : 1/0)           w l lc 1  tit "x"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $15 : 1/0)           w p pt 6 ps .4 lc 1 notit ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin ? $17 : 1/0) axes x1y2 w l lc 3  tit "y"  ,\
- "zgoubi.TWISS.out" us ($13 *cm2m):($13 *cm2m<xmax && $13 *cm2m>xmin && stringcolumn(1) eq 'DPUE' ? $17 : 1/0) axes x1y2 w p pt 6 ps .4 lc 3 notit 
+ "zgoubi.TWISS.out" us ($13):($13 <xmax && $13 >xmin ? $15 : 1/0)           w l lc 1  tit "x"  ,\
+ "zgoubi.TWISS.out" us ($13):($13 <xmax && $13 >xmin ? $17 : 1/0) axes x1y2 w l lc 3  tit "y"  
 
 unset multiplot
 
-system'okular gnuplot_opticalFctns.eps'
+system  'okular gnuplot.eps &'
 
 exit
 

@@ -40,7 +40,7 @@ set xrange  []
  set terminal X11
  unset output
 
-pause 2
+pause 1
 
  set title "Orbit, from zgoubi.TWISS.out"    font "roman,16"   # offset 0,+.7    
 
@@ -63,6 +63,9 @@ pause 2
  set terminal X11
  unset output
 
-      pause 2
+      pause 1
+
+system 'okular gnuplot_TWISS_btxy.eps &'
+system 'okular gnuplot_TWISS_xy.eps &'
 
  exit

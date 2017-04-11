@@ -39,7 +39,14 @@ C      PARAMETER (MXTA=45)
       CHARACTER(KSIZ) KLE
 
       LINE = 1
-      READ(NDAT,*,ERR=90,END=90) A(NOEL,1)
+      READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132
+      IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(1:IS-1)
+      CALL STRGET(TXT132,2,
+     >                     NSTR,STRA)
+      DO I = 1, NSTR                         ! KSR, KSOK
+        READ(STRA(I),*,ERR=90,END=90) A(NOEL,I)
+      ENDDO
 
       LINE = LINE + 1
       READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132
