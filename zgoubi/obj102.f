@@ -71,7 +71,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
  62   CONTINUE
       REF(1) = A(NOEL,35)
 
-      call ray102(p)
+      CALL RAY102(P)
 
       DO 66 I=1,IMAX
          IEX(I) =1

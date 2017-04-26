@@ -172,7 +172,7 @@ C write line with a "1"
 C Completes zgoubi.dat with the rest of zgoubi_searchCO-In.dat
  1      continue
           read(lunR,fmt='(a)',end=10) txt132
-          write(lunW,*) txt132   
+          write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
 
           if(strcon(txt132,'1 1 1 1 1 1 1 1 1 1',19,
      >                                              IS)) then 
@@ -181,7 +181,7 @@ C           do not write possible subsquent lines of "1's"
           elseif(strcon(txt132,'PARTICUL',8,
      >                                  IS)) then 
             read(lunR,fmt='(a)',end=10) txt132
-            write(lunW,*) txt132               
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))               
             read(txt132,*) am,q
             write(6,*) ' particle mass and charge : ', am, q
             P0 = BORO*CL9
@@ -192,21 +192,21 @@ C           do not write possible subsquent lines of "1's"
      >                                         IS)) then
               txt132 = '9   0.2  99'
 C              txt120 = '29   0.1  99'
-              write(lunW,*) txt132
+              write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               txt132 = '''END'''
-              write(lunW,*) txt132
+              write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               goto 10
 
             elseif(strcon(txt132,'''END''',5,
      >                                       IS)) then
               backspace(lunW)
               txt132 = '''REBELOTE'''
-              write(lunW,*) txt132
+              write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               txt132 = '9   0.2  99'
 C              txt120 = '29   0.1  99'
-              write(lunW,*) txt132
+              write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               txt132 = '''END'''
-              write(lunW,*) txt132
+              write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               goto 10
 
             endif
@@ -288,7 +288,7 @@ C Completes zgoubi_searchCO-Out.dat with the rest of zgoubi_searchCO-In.dat
       reb = .false.
  61   continue
         read(lunR,fmt='(a)',end=62) txt132
-        write(lunW,*) txt132   
+        write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
         if(strcon(txt132,'REBELOTE',8,
      >                                IS)) then 
           read(lunR,fmt='(a)',end=62) txt132
@@ -300,10 +300,10 @@ C 200 tours pour recherche tunes
           if(reb .eqv. .false.) then
             backspace(lunW)
             txt132 = '''REBELOTE'''
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
             txt132 = ' 199   0.2  99'
-            write(lunW,*) txt132
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
           endif
           txt132 = '''END'''
         endif
@@ -561,7 +561,7 @@ C          skip
      >                                        IS)) then 
           write(lunW,*) txtStep
         else
-          write(lunW,*) txt132   
+          write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
         endif
       goto 611
 
@@ -632,18 +632,18 @@ C Completes zgoubi_searchCO-Out_periodicParam.dat with the rest of zgoubi_search
           write(lunW,*) '''MARKER''  #END'
           write(lunW,*) '''FAISCEAU'''
         endif
-        write(lunW,*) txt132   
+        write(lunW,*) txt132(debstr(txt132):finstr(txt132))   
       goto 711
  721  continue
 
             txt132 = ' '
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
             txt132 = ' '
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
             txt132 = '''REBELOTE'''
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
             txt132 = '99   0.2  99'
-            write(lunW,*) txt132
+            write(lunW,*) txt132(debstr(txt132):finstr(txt132))
 
       close(lunR)
       close(lunW)

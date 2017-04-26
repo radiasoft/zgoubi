@@ -1360,7 +1360,7 @@ at AGS~\cite{polarAGS} and RHIC~\cite{polarRHIC},
 and in the magic-energy electrostatic ring of the proton-EDM project~\cite{polarPEDM}. 
 
 
-\subsection{Introduction}
+\subsection{Introduction \label{SecSpinIntro}}
 
 The precession  of the spin $ \vec  S $ of a charged particle in electric and magnetic fields 
 is governed by the Thomas-BMT first order differential equation~\cite{Biblio8}       %%%%[8] 
@@ -1545,7 +1545,6 @@ which is easily differentiated, recursively,
 \noindent The interest of that formulation is that the $\left( \dfrac{1}{\beta} \right)^{(n)}$ are already known from the particle dynamics, eq.~(\ref{eq2-2-17}), 
 as well as the derivatives 
 $$	\dfrac{ d^{n+1} \gamma }{ds^{n+1}} = \dfrac{q}{m} \, \dfrac{ d^n (\vec  e\cdot\vec  u) }{ ds^n}$$
-
 \noindent following eq.~(\ref{eq2-2-16}), whereas the $d^n (\vec  e\cdot\vec  u)/ ds^n$ are given by eq.~(\ref{eqEscalu}).
 
 
@@ -1590,6 +1589,57 @@ for the magnetic case~(eq.~\ref{eq3-6-S}) and for the electric case~(eq.~\ref{eq
 
 \noindent The process is then completed by applying the $\Delta s$ push, eq.~(\ref{eq3-5-S}). 
 
+
+
+
+ \subsection{Radiative polarization} \label{secRadiatPolar}
+
+Radiative spin transition is accounted for in  a classical manner 
+with an additional term in the Thomas-BMT differential equation for the motion of the polarization 
+vector~\cite{SYLeeSpinDyn}, namely, see Eqs.~\ref{eq3-1-S},~\ref{eq3-2-S} (in the absence of electric fields), 
+\begin{gather}
+ \dfrac{d\vec  S }{ dt} = \dfrac{q}{  m} \, \left( \vec  S\times\vec  (1+ a \gamma)\vec  b + a(1-\gamma )\vec  b_{\paral} \right) 
+    - \dfrac{1}{\tau_{ST}} \left(  \vec S - \dfrac{2}{9} (\vec S \cdot \vec u) \vec u + \dfrac{8}{5\sqrt{3}} \dfrac{\vec u \times \dot{\vec u}}{|\dot{\vec u}|}      \right)
+	     \label{eqRadPolar}  
+\end{gather}
+where the electron notation for the magnetic anomaly, $a$, replaces hadron's $G$ (and $q=-e$ with $e$ the elementary charge,  
+for electrons), 
+$\vec u$ is the unit velocity vector of the particle and $\dot{\vec u} = d\vec u/dt = v \vec u'$ (eq.~\ref{eq2-2-2}). 
+The Sokolov-Ternov polarization equilibrium  time constant has been introduced, 
+\begin{equation}
+\label{eqSokolovTernovTime}
+\tau_{ST}= \dfrac{4}{5 \sqrt{3}} \dfrac{E}{\hbar \omega_c} \tau_0
+\end{equation}
+with $E=\gamma m_0$ the particle energy and 
+ $\hbar \omega_c = h \times 3\gamma^3 c\, / \, 2\rho$  the critical photon energy. 
+
+This radiative term is only added if the particle does radiate~\cite{SYLPrivComm2017}, 
+that event being determined by the Monte Carlo photon emission simulation process described in Sec.~\ref{secSRLoss}. 
+It has the effect of slightly changing the electron polarization, under the effect of radiation 
+induced spin transition. 
+
+This radiative correction process is under installation in \zgou. Its benchmarking includes comparison with statistical 
+averages of quantum spin physics. 
+
+As to solving the differential eq.~\ref{eqRadPolar}, the methods follows the \zgou\ method, namely, 
+introducing derivatives with respect to the path variable $s$, and fields normalized to $B\rho$, 
+\begin{gather}
+ \dfrac{d\vec  S }{ ds} =  \left( \vec  S\times\vec  (1+ a \gamma)\vec  B + a(1-\gamma )\vec  B_{\paral} \right) 
+    - \dfrac{1}{\tau_{ST}} \left(  \vec S - \dfrac{2}{9} (\vec S \cdot \vec \beta) \vec \beta + \dfrac{8}{5\sqrt{3}} \dfrac{\vec \beta \times \dot{\vec \beta}}{|\dot{\vec \beta}|}      \right)
+	     \label{eqRadPolar}  
+\end{gather}
+
+
+
+
+The derivatives of the unit velocity vector $\vec u$ are outcomes of the solution of particle motion as 
+detailed in Sec.~\ref{sec2.2}. The derivatives of the polarization vector are computed as detailed in ec.~\ref{SecSpinIntro}. 
+
+
+
+ \subsection{Spin Diffusion} \label{secRadiatPolar}
+
+To be documented.
 
 
 
@@ -3632,12 +3682,11 @@ For that final run
               %%% [11]
 \label{MCDESINT}\index{MCDESINT|textbf}\index{Monte Carlo}
 
- As soon as \textsl{MCDESINT}  appears in a structure
+ When \textsl{MCDESINT}  is met in a structure
 (normally, after \textsl{OBJET\index{OBJET}} or after \textsl{CIBLE\index{CIBLE}}),
  in-flight decay simulation starts. 
 It must be preceded by \textsl{PARTICUL\index{PARTICUL}} for the definition of mass $ M_1 $ 
-and \textsl{COM} 
-lifetime $\tau_1$. 
+and \textsl{COM} lifetime $\tau_1$ of the parent particle. 
 
 \noindent The two-body decay simulated is 
  $$ 1 \longrightarrow  2+3 $$
@@ -3645,19 +3694,19 @@ lifetime $\tau_1$.
 \noindent The decay is isotropic in the center of mass. 
 1~is the incoming particle, with mass $ M_1 $, momentum $ p_1=\gamma_1 M_1\beta_ 1c $ (relative 
 momentum $ D_1= \dfrac{p_1 }{ q} \dfrac{1 }{\BORO} $ with \BORO\   = reference
-rigidity, defined in \textsl{[MC]OBJET\index{OBJET}\index{MCOBJET}}),  and position $ Y_1,Z_1 $ in the \zgou\ frame. 
+rigidity, defined in \textsl{[MC]OBJET\index{OBJET}\index{MCOBJET}}).
+%,  and position $ Y_1,Z_1 $ in the \zgou\ frame. 
 2~and 3 are decay products with respective masses and momenta $ M_2, $ $ M_3 $ and 
 $ p_2=\gamma_ 2M_2\beta_2c$,  $ p_3=\gamma_ 3M_3\beta_ 3c$.  
 
-\noindent The decay length  $ s_1 $ of particle~1 is related to its center of 
-mass lifetime $ \tau_ 1 $ by 
-$$ s_1=c\tau_ 1 \sqrt{ \gamma^ 2_1 -1} $$
-
-\noindent The path length $ s $ up to the decay point is then calculated from
-a random number $ 0<R_1\leq 1 $ by using the exponential decay formula
+\noindent The average distance   $ s_1 $ at which a particle will decay is related to its center of 
+mass lifetime $ \tau_ 1 $ by $$ s_1=c\tau_ 1 \sqrt{ \gamma^ 2_1 -1} $$
+The actual path length $ s $ up to the decay point is calculated, 
+for each one of the particles defined by \textsl{[MC]OBJET} and prior t ray-tracing, 
+from a random number $ 0<R_1\leq 1 $ by using the exponential decay formula
 $$ s = - s_1 \ell n R_1 $$
 
-\noindent After decay, particle~2  will  be ray-traced with assumed positive
+\noindent After decay of the parent particle~1, particle~2  will  be ray-traced with assumed positive
 charge, while particle~3 is discarded.  Its scattering angles in the center of mass 
 $ \theta^\ast $ and $\phi$ are generated from two other random numbers 
 %Corr 2004 following Napoli's remark
@@ -3710,7 +3759,7 @@ $$ \tan \theta = \dfrac{1 }{ \gamma_1}\,
 and $ P_2 $ in the \zgou\ frame, and the relative momentum takes the value 
 $ D_2= \dfrac{p_2 }{ q} \dfrac{1}{\BORO} $ (where \BORO\   
 is the reference rigidity, see \textsl{OBJET\index{OBJET}}), while the starting position of 
-$M_2 $ is $ (Y_1 , Z_1, s_1) $.   
+$M_2 $ is the very location of  the parent particle decay, $ (Y_1 , Z_1, s_1) $.   
 
 \bigskip
 
@@ -9102,14 +9151,14 @@ computed. This is done assuming appropriate initial particle and spin sampling h
 
 \medskip
 
-- Three particles are needed for \textsl{SPNPRT} to compute a spin matrix. 
+- three particles are needed for \textsl{SPNPRT} to compute a spin matrix. 
 All three have identical initial coordinates (for instance, the local 
-stable precession axis coordinates) and rigidity, and their spins are on a direct triedra, for instance, respectively, 
+stable precession axis coordinates) and rigidity, and their spins are on a direct triedra, for instance, respectively, \\
 \centerline{$(S_X, S_Y, S_Z) = (1,0,0),~ (0,1,0),~ (0,0,1),~ $}
 
 \medskip 
 
- - There may be several groups of three particles, each group with a particular rigidity (\ie, the three 
+ - there may be several groups of three particles, each group with a particular rigidity (\ie, the three 
 particles in a group have the same momentum). \text{OBJET} with \textsl{KOBJ=1} or \textsl{KOBJ=2} can be used for 
 instance to generate these particles by groups of like rigidity. \textsl{SPNPRT} will thus compute 
 as many matrices.

@@ -42,6 +42,8 @@ C        close(lunR)
         ltxtM = finstr(txtM) - debstr(txtM) +1
         ltxtQz = finstr(txtQz) - debstr(txtQz) +1
 
+        if(txtQz(debstr(txtQz):debstr(txtQz)+2) .eq. '|na') txtQz='000'
+
         drctry(ifile) = 'M'//txtM(debstr(txtM):debstr(txtM)+ltxtM-1)//
      >         'Qz'//txtQz(debstr(txtQz):debstr(txtQz)+ltxtQz-1)
         zgDatFile(ifile) = 'zgoubi_'

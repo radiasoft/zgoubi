@@ -13,7 +13,7 @@
 
 C Create ./Log/log.tex and write head section
       cmmnd = 
-     >'~/zgoubi/struct/tools/spin/xing_geneTexLog/geneTexIni'
+     >'~/zgoubi/current/toolbox/spin/xing_geneTexLog/geneTexIni'
       write(*,*) ' '
       write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
       call system(cmmnd)
@@ -42,7 +42,7 @@ C Create a page for each xing
         close(lunW)
         fname = drctry(i)(debstr(drctry(i)):finstr(drctry(i)))
         cmmnd = 'cd '//fname(debstr(fname):finstr(fname))//' ; '//
-     >  '~/zgoubi/struct/tools/spin/xing_geneTexLog/geneTexPage'
+     >  '~/zgoubi/current/toolbox/spin/xing_geneTexLog/geneTexPage'
         write(*,*) ' '
         write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
         call system(cmmnd)
@@ -109,7 +109,7 @@ C and cp to ./Log
 
 C End section of geneTexlog.tex
       cmmnd = 
-     >'~/zgoubi/struct/tools/spin/xing_geneTexLog/geneTexEnd'
+     >'~/zgoubi/current/toolbox/spin/xing_geneTexLog/geneTexEnd'
       write(*,*) ' '
       write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
       call system(cmmnd)

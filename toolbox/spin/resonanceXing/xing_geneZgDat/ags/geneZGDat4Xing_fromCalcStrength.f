@@ -393,7 +393,7 @@ C Complete zgoubi_searchCO-In.dat from content of zgoubi_geneZGDat4Xing-In.dat
       close(lunW)
 
 C Get closed orbit
-      cmmnd = '~/zgoubi/struct/tools/searchCO/searchCO_HV'
+      cmmnd = '~/zgoubi/toolbox/searchCO/searchCO_HV'
       call system(cmmnd)
       open(unit=lunR,file='zgoubi_searchCO-Out.dat')
       open(unit=lunW,file='zgoubi_geneZGDat4Xing-Out.dat')

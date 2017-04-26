@@ -1,33 +1,60 @@
-        SUBROUTINE RAY102(p)
-C****
-        IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       dimension p(*)
+C  ZGOUBI, a program for computing the trajectories of charged particles
+C  in electric and magnetic fields
+C  Copyright (C) 1988-2007  François Méot
+C
+C  This program is free software; you can redistribute it and/or modify
+C  it under the terms of the GNU General Public License as published by
+C  the Free Software Foundation; either version 2 of the License, or
+C  (at your option) any later version.
+C
+C  This program is distributed in the hope that it will be useful,
+C  but WITHOUT ANY WARRANTY; without even the implied warranty of
+C  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C  GNU General Public License for more details.
+C
+C  You should have received a copy of the GNU General Public License
+C  along with this program; if not, write to the Free Software
+C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
+C  Boston, MA  02110-1301  USA
+C
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory      
+C  C-AD, Bldg 911
+C  Upton, NY, 11973, USA
+C  -------
+
+C After a fortran routine written by Nick Tsoupas for RAYTRACE - 2015.
+
+      SUBROUTINE RAY102(P)
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION P(*)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
 
       DIMENSION XI(MXT), YI(MXT), VXI(MXT), VYI(MXT),DELP(MXT)
-       save tmin, pmin
-      save xmax, tmax, ymax, pmax, dmax
+      SAVE TMIN, PMIN
+      SAVE XMAX, TMAX, YMAX, PMAX, DMAX
 
-          data tmin, pmin / 1.d0, 1.d0 /
+          DATA TMIN, PMIN / 1.D0, 1.D0 /
 
         NR = 102
-        xmax = p(2)
-        tmax = p(3)
-        ymax = p(4)
-        pmax = p(5)
-        dmax = p(1)
+        XMAX = P(2)
+        TMAX = P(3)
+        YMAX = P(4)
+        PMAX = P(5)
+        DMAX = P(1)
 
         DO 1 I=1,NR
-        XI(I)=0.d0
-        YI(I)=0.d0
-        VXI(I)=0.d0
-        VYI(I)=0.d0
-        DELP(I)=0.d0
+        XI(I)=0.D0
+        YI(I)=0.D0
+        VXI(I)=0.D0
+        VYI(I)=0.D0
+        DELP(I)=0.D0
 1       CONTINUE        
-        IF (TMIN.EQ.0.) TMIN=1.0d0
-        IF (PMIN.EQ.0.) PMIN=1.0d0
+        IF (TMIN.EQ.0.) TMIN=1.0D0
+        IF (PMIN.EQ.0.) PMIN=1.0D0
         XMAX3 = XMAX/3.0
         YMAX3 = YMAX/3.0
         PMAX3 = PMAX/3.0

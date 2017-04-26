@@ -483,8 +483,10 @@ C Read "KOBJ", write "5.xx"
           write(lunW,fmt='(a)') '5'
         elseif(jok.le.  9) then 
           write(lunW,fmt='(a3,I1)') '5.0',jok
+        elseif(jok.le. 99) then
+          write(lunW,fmt='(a2,I2.2)') '5.',jok
         elseif(jok.le. 999) then
-          write(lunW,fmt='(a2,I2)') '5.',jok
+          write(lunW,fmt='(a2,I3.3)') '5.',jok
         else
           stop ' Prgrm searchCO. Too many co''s'
         endif
