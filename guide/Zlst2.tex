@@ -1489,13 +1489,13 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  \\[-1ex]
 \textsl{ Repeat $N$ times the following sequence} \rule{40mm}{.1mm} \> \> \> \\
  \\[-2ex]
- \textsl{ACN}, $\delta R\!M$~\footnotemark[1], $ B_0$, \> Positioning of EFBs : azimuth, $R\!M_{i} = R\!M + \delta R\!M$~; field~;
-                                                     \> deg., cm, kG, \> 3*E, I, \\
-$ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients     \> $(ind+1)$*no dim. \> $ind$*E\\
+ \textsl{ACN}, $\delta R\!M$~\footnotemark[2], $ B_0$, \> Positioning of EFBs : azimuth~\footnotemark[1], 
+$R\!M_{i} = R\!M + \delta R\!M$~; field~;          \> deg., cm, kG, \> 3*E, I, \\
+$ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients.  \> $(ind+1)$*no dim. \> $ind$*E\\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
  \\[-2ex]
-$g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)    \> cm, no dim. \>2*E\\
+$g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)  (0, 0 for hard-edge)~\footnotemark[1]  \> cm, no dim. \>2*E\\
  \>Exponential type fringe field $ F=1\, /\, (1+ \exp (P(s))) $ \>\>\\
  \>with $ P(s)=C_0+C_1(\dfrac{s}{g} )+C_2(\dfrac{s}{g} )^2
              +...+C_5(\dfrac{s}{g} )^5 $   \>\>\\
@@ -1505,7 +1505,7 @@ $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$) 
  \\
 $ \omega^ +$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $   \>Azimuth of entrance EFB with respect
          to \textsl{ACN}~; \>2*deg, 4*cm   \>6*E\\
- \>wedge angle of EFB~; radii and linear \> \> \\
+ \>wedge angle of EFB~\footnotemark[1]; radii and linear \> \> \\
  \>extents of EFB (use $U_{\! \! \! \tiny \begin{array}{c}1 \\[-.5ex] 2\end{array}} =  \mp \infty$ when $R_{1,2}=\infty  $)  \>\>\\
  \\
  \>(Note : $ g_0 =0$, $\omega^ + $ = \textsl{ACENT}, $ \theta =0 $ and 
@@ -1548,7 +1548,10 @@ $ \omega^-$, $\theta$, $R_1$, $U_1$, $U_2$, $R_2 $,  $ RM3$   \>  \>2*deg, 5*cm 
  $DP$              \>reference relative momentum \>no dim. \>E \\
 \end{tabbing}
 
-\footnotetext[1]{~ Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
+\footnotetext[1]{~ Hard-edge EFB model requires $\omega^+= ACN$ (entrance EFB) or $\omega^-= ACN-AT$ (exit) or 
+and $\theta=0$ wedge-angle.}
+
+\footnotetext[2]{~ Non-zero $\delta R\!M$ requires KIRD$=2,4$ or $25$.} 
 
 
 
@@ -3789,11 +3792,68 @@ $R_1$, $U_1$, $U_2$, $R_2 $     \quad \quad \=
       \>  \\
 \bf  NBOP lines follow. Possible choices :    \>  \\
 \\
- \sl 'WRITE', OPT \> OPT = ON/OFF~: allows/inhibites (most) write statements to zgoubi.res  \> 'WRITE', 'ON' or 'OFF' \> 2*A \\
+ \sl 'WRITE', OPT \> OPT = ON/OFF~: allows/inhibites (most) write statements                \> 'WRITE', 'ON' or 'OFF' \> 2*A \\
+                  \>  to zgoubi.res  \>                        \>    \\
 \\
-\sl 'CONSTY', OPT \> OPT = ON~: forces constant $Y$ and $Z$ across optical elements  \> 'CONSTY', 'ON' or 'OFF' \> 2*A \\
+\index{OPTIONS!- CONSTY}
+\sl 'CONSTY', OPT \> OPT = ON~: forces constant $Y$ and $Z$ across optical elements  \> {\small 'CONSTY', 'ON'/'OFF'} \> 2*A \\
 
 \end{tabbing}
+
+
+
+\vfill
+
+\noindent $\bullet$ \textbf{CONSTY}~: 
+The example below yields (data saved to zgoubi.plt due to $\IL=2$)
+3-D field components (trivially uniform in that particular case, $B_R=B_{\theta}=0, ~ B_Z=B_0$ 
+at all $(R,\theta,Z)$) on a 
+$n_R\times n_{\theta} \times n_Z = (41-1)/2\times (R*AT/XPAS) \times (11-1)/2$ node, 
+uniform 3-D mesh,  
+with $\Delta R = \delta Y ~{\rm in~\textsl{OBJET}~}=1$~cm, 
+$\Delta \theta\equiv XPAS/RM=10.471975512$~mrd, $\Delta Z=\delta Z ~{\rm in~\textsl{OBJET}~}= 0.2$~cm,  
+across a 60~degree hard-edged sector dipole (6 of these make up a uniform field cyclotron). 
+\\
+{\scriptsize
+\begin{verbatim}
+Cyclotron, classical.
+Cyclotron, classical.
+ 'OBJET' 
+1000.e0
+1
+41 1  11  1  1  1
+1. 0. 0.2 0. 0. 1.
+0. 0. 0. 0. 0. 1. 
+ 
+ 'OPTIONS'
+1 1
+CONSTY ON
+ 
+ 'DIPOLES'
+2
+1  60. 50.
+30. 0. 5. 1 0.
+0.  0.                                        ! EFB 1  hard-edge
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+30. 0.  1.E6  -1.E6  1.E6  1.E6
+0.   0.                                       ! EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-30. 0.  1.E6  -1.E6  1.E6  1.E6
+0. 0.                                         ! EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0. 0.
+0 2    KIRD, Resol=IDB
+0.523598775598
+2  00. 0. 00. 0.
+ 'FAISCEAU'
+ 
+ 'END'     
+\end{verbatim}
+}
+
+
+
+
 
 
 

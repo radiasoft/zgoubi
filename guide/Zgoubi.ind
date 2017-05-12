@@ -116,7 +116,7 @@
   \item {\IC}, 180
   \item {\textsl{ID}}, \textbf{101}, \textbf{205}, \textbf{230}
   \item {\IDMAX}, 53, \textbf{53}
-  \item {\IEX}, 32, 54, \textbf{54}, 87, 101, 108, 112, 165, 174, 
+  \item {\IEX}, 31, 54, \textbf{54}, 87, 101, 108, 112, 165, 174, 
 		\textbf{184}
   \item {\IL}, 179
   \item IMAGE, 96, 166, \textbf{166}, \textbf{241}
@@ -132,7 +132,7 @@
   \item integration step size, 184
     \subitem - coded, \textbf{184}
     \subitem - negative, \textbf{72}, 179
-  \item IORDRE, 27, 30, 75, 95, 101, 117, 138, 139, 155
+  \item IORDRE, 27, 29, 75, 95, 101, 117, 138, 139, 155
 
   \indexspace
 
@@ -184,6 +184,7 @@
   \item OCTUPOLE, 75, \textbf{142}, \textbf{257}, 269
   \item OPTICS, \textbf{73}, \textbf{258}
   \item OPTIONS, \textbf{74}, \textbf{259}
+    \subitem - CONSTY, 74, 259
   \item ORDRE, \textbf{75}, \textbf{260}
   \item outpoi.lis, 143
 

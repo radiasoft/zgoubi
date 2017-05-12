@@ -1,0 +1,18 @@
+Greetings from Malek
+Haj Tahar, Malek [mh3739@cumc.columbia.edu]
+[Reply] [Reply All] [Forward]
+Actions
+To:
+ Meot, Francois 
+Inbox
+Tuesday, February 14, 2017 10:18 AM
+Hi Francois,
+
+The procedure that were used is described here https://www.bnl.gov/ffag14/tutorial/ZGOUBI_DOCS/cyclo_model.pdf
+The field in Eq (1) is a direct fit from the PSI measured field map (see details in page 4).
+
+Another alternative which would be an interesting exercise is to obtain the Taylor expansion of Eq (5) which ensures the isochronous condition of the cyclotron and use the coefficients as an input to the CYCLOTRON model in the zgoubi.dat file.  Basically, a student can build his own model that way.
+
+Sorry for the delay. I hope this helped a bit.
+
+Malek

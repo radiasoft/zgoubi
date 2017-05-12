@@ -1,0 +1,37 @@
+
+
+An FFAG fixed-field ring is considered in this exercise. It is a model of the Kyushu and 
+KURRI 150 MeV proton, radial sector, FFAGs. 
+
+Zgoubi data file contains a single periodic-cell of the otherwise 12-cell ring. We will play with that cell : 
+       - compute closed orbits from injection energy (12 MeV) to extraction energy (150 MeV)
+       - compute transport matrices (also called '1 turn map') for each of these orbits
+       - compute tunes, chromaticites (~zero !) as a function of energy
+       - push some particles to very large excursion to observe non-lnear motion
+       - compute amplitudee-dependence of H and V betatron frequencies (tunes)
+       - and more...
+
+1/ 
+In this folder we find 2 different ways to find closed orbits over the energy span of the FFAG ring:
+
+(i) either using the FIT and REBELOTE keywords, the command is :
+   rzg -in running findOrbits_uFIT_REBELOTE_nofinal.res_svn703_ifort.
+This zgoubi run will produce zgoubi.fai which stores the closed orbits as found, zgoubi.fai 
+is further saved in closedOrbits.fai by the 'SYSTEM' command.
+
+(ii) or using  'searchCOs_From1Traj' from the toolbox, the command is : 
+   ./searchCOs_From1Traj,   
+   and requires,  
+       - zgoubi input file 'searchCO_from1Traj-In.dat' and 
+       - searchCOs_From1Traj input file 'searchCO.data'. 
+   This is an algothym in fortran. A similar tool can be found in pyZgoubi.
+This searchCOs_From1Traj tool will produce searchCOs.out which stores the closed orbits as found. 
+
+
+2/
+Time-of-flight on these orbits (i.e., the revolution time T_rev) allows defining the accelerating 
+cavity frequency law f_RF = h / T_rev, used for pulsed acceleration (the cavity voltage is pulsed, with 
+a frequency swing). 
+ 
+
+ 

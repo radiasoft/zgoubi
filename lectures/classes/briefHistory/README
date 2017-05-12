@@ -1,0 +1,42 @@
+
+Plan of these introductory courses :
+
+the 1h40 will be shared, half-half, between
+
+
+
+\begin{itemize}
+\item[] a brief history of partical accelerators
+
+That will allow us to point to the particular types of accelerators that we will study during this semester.
+
+It will allow to
+
+\begin{itemize}
+\item[] place and introduce them, more or less chronologically, in their historical context
+\item[] discuss the interconnections between their mutual developments
+\item[] stress the important developments today in the field
+\item[] point out their role in  many fields  of fundamental research and applications
+\end{itemize}
+\item[] an introduction to ray-tracing, particle tracking, and other beam optics, centered on the 
+paramount method of concern~: computer methods and computer simulations. 
+\end{itemize}
+
+The latter will constitute the bulk of these courses~: 
+
+- computer laboratory work, during which we will learn about these machines, working principles, properties, 
+and about the beam they provide, from zero-mass to heaviest particle beams,
+
+- a bot of homework in preparation of the course to come.
+
+~
+
+In paralle, we will organize a computer code project~:
+
+- CEBAF is a 12 GeV RLA,
+
+- we will transform it into a 8~GeV ERL~!
+
+We will perform beam physics related code development and computer simulations, 
+regarding for instance time-of-flight spectrometry aspects of the
+installation and its operation, CSR, mutliple-pass BBU, synchrotron radiation, etc.

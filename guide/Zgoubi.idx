@@ -26,8 +26,8 @@
 \indexentry{ELMULT}{28}
 \indexentry{EBMULT}{28}
 \indexentry{EBMULT}{28}
-\indexentry{IORDRE}{30}
-\indexentry{IEX@{\IEX}}{32}
+\indexentry{IORDRE}{29}
+\indexentry{IEX@{\IEX}}{31}
 \indexentry{spin tracking}{35}
 \indexentry{synchrotron radiation}{39}
 \indexentry{zpop}{41}
@@ -165,6 +165,7 @@
 \indexentry{PRINT!- OPTICS}{73}
 \indexentry{zgoubi.OPTICS.out|textbf}{73}
 \indexentry{OPTIONS|textbf}{74}
+\indexentry{OPTIONS!- CONSTY}{74}
 \indexentry{ORDRE|textbf}{75}
 \indexentry{QUADRUPO}{75}
 \indexentry{SEXTUPOL}{75}
@@ -689,6 +690,7 @@
 \indexentry{OCTUPOLE|textbf}{257}
 \indexentry{OPTICS|textbf}{258}
 \indexentry{OPTIONS|textbf}{259}
+\indexentry{OPTIONS!- CONSTY}{259}
 \indexentry{ORDRE|textbf}{260}
 \indexentry{PARTICUL|textbf}{261}
 \indexentry{PICKUPS|textbf}{262}

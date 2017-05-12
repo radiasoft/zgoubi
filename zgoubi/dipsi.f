@@ -127,9 +127,10 @@ C  NBMAG=number of magnets.  AT=total extent angle of field
       RM    = A(NOEL,NP)
 
       IF(NRES.GT.0) WRITE(NRES,200) NBMAG,AT,RM
-  200 FORMAT(20X,1P,'Dipole  magnet  N-tuple,  # of  units  N = ',I2,//,
-     1 11X,' Total  angular  extent  of  sector  AT = ',G12.4,' degs.',
-     2 /,11X,' Reference  radius  of  sector  is  RM = ',G12.4,' cm')
+  200 FORMAT(20X,1P,'Dipole  magnet  N-tuple. ',
+     >'Number  of  sectors  N = ',I2,//,
+     >11X,' Total  angular  extent  of  sector  AT = ',G12.4,' deg.',
+     >/,11X,' Reference  radius  of  sector  RM = ',G12.4,' cm')
 
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  CIND= field indices

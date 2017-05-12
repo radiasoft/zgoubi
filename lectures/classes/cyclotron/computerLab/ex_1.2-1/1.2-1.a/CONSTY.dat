@@ -1,0 +1,192 @@
+Cyclotron, classical.
+ 'OBJET'                                                                             1                        1
+1000.e0
+1
+61   1   6   1   1    1     
+1.  0.  0.2  0.  0.   .0
+40. 0.  0.   0.   0.  1.        ! will yield 10cm<Y<70cm
+ 
+ 'OPTIONS'                                                                                                    2
+1 1
+CONSTY ON
+  
+ 'DIPOLE'                                                                           2                        3
+2
+60. 50.
+30. 0. 5. 1 0.
+0.  0.                                        ! EFB 1  hard-edge
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+30. 0.  1.E6  -1.E6  1.E6  1.E6
+0.   0.                                       ! EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-30. 0.  1.E6  -1.E6  1.E6  1.E6
+0. 0.                                         ! EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0. 0.
+2     10.
+0.261799387799                ! XPAS = R*AT/200steps from entrance to exit EFB
+2  0. 0. 0. 0.                ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
+ 'FAISCEAU'                                                                           3                       4
+ 
+ 'END'                                                                               7                        5
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET       1                                         
+
+                          MAGNETIC  RIGIDITY =       1000.000 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  OPTIONS                                               
+
+         A list of 1 option(s) is expected.  List and actions taken are as follows :
+
+
+    Option #  1 : CONSTY ON
+    - rays will be forced to constant Y and Z in pgm integr.
+    - mid-plane symmetry test in pgm transf (i.e., 'dejaca' procedure) is inhibited.
+    - coordinates and field may be checked using IL = 1, 2 OR 7 
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  DIPOLES     2                                         
+
+
+                OPEN FILE zgoubi.plt                                                                      
+                FOR PRINTING TRAJECTORIES
+
+                    Dipole  magnet  N-tuple,  # of  units  N =  1
+
+            Total  angular  extent  of  sector  AT =    60.00     degs.
+            Reference  radius  of  sector  is  RM =    100.0     cm
+
+     Dipole  magnet # 1
+            Positionning  angle ACENT :    30.00     degrees
+            Positionning  wrt.  RM  :    0.000     cm
+            HNORM =   10.00     KGauss
+            Field  index   1 :      0.000    
+
+     Entrance  face
+          Reference gap for fringe field : g_0 =   0.000     CM ,  gap-k =   0.000    
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  =    0.000     CM
+
+
+  ***  Warning : sharp edge model entails vertical wedge focusing approximated with first order kick  ***
+          OMEGA =  30.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 cm
+           Straight  segment 1 = -1.00E+06 cm
+           Straight  segment 2 =  1.00E+06 cm
+           Radius 2 =  1.00E+06 cm
+
+     Exit      face
+          Reference gap for fringe field : g_0 =   0.000     CM ,  gap-k =   0.000    
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  =    0.000     CM
+
+
+  ***  Warning : sharp edge model entails vertical wedge focusing approximated with first order kick  ***
+          OMEGA = -30.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 cm
+           Straight  segment 1 = -1.00E+06 cm
+           Straight  segment 2 =  1.00E+06 cm
+           Radius 2 =  1.00E+06 cm
+  WARNING, SBR DIPSI :  Make sure you want hard edge correction with 
+  FINT at entrance / exit =   0.200000000000000       0.200000000000000     
+Entrance hard edge is to be implemented
+Exit hard edge is to be implemented
+
+      itypf=      0
+
+      Field formula : default  
+
+      Field & deriv. calculation : analytic     
+                    Derivatives computed to order 2
+
+                    Integration step :   1.000     cm   (i.e.,   1.0000E-02 rad  at mean radius RM =    100.0    )
+
+                               KPOS = 2.  Position of reference orbit on mechanical  faces
+                                         at entrance    RE =   0.00000     cm  TE =   0.00000     rad
+                                         at exit        RS =   0.00000     cm  TS =   0.00000     rad
+
+  A    1  1.0000   100.000     0.000     0.000     0.000            1.047   100.000    -0.000     0.000     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (      105.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                      0.000            0.000             0.000    
+                                       0.000             0.000    
+                                       0.000             0.000    
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    1.04719755     m ;  Time  (for ref. rigidity & particle) =   1.147690E-08 s 
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  FAISCEAU    3                                         
+
+0                                             TRACE DU FAISCEAU
+                                           (follows element #      3)
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
+
+o  1   1.0000   100.000     0.000     0.000     0.000       0.0000    1.0000  100.000   -0.000    0.000    0.000   1.047198E+02     1
+
+
+------
+  Characteristics of concentration ellipse (Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls inside ellips, ratio, space, pass#) : 
+
+   0.0000E+00   0.0000E+00   1.0000E+00   1.000000E+00  -8.048380E-13        1        1    1.000      (Y,T)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   0.000000E+00   0.000000E+00        1        1    1.000      (Z,P)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   3.493075E-03   2.997925E+02        1        1    1.000      (t,K)         1
+
+(Y,T)  space (units : (cm,rd)   ) :  
+      sigma_Y = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_T = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(Z,P)  space (units : (cm,rd)   ) :  
+      sigma_Z = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_P = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(t,K)  space (units : (mu_s,MeV)) :  
+      sigma_t = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_K = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+
+  Beam  sigma  matrix : 
+
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+
+      sqrt(det_Y), sqrt(det_Z) :     0.000000E+00    0.000000E+00    (Note :  sqrt(determinant) = ellipse surface / pi)
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  END                                                   
+
+
+                             1 particles have been launched
+                     Made  it  to  the  end :      1
+
+************************************************************************************************************************************
+
+          Pgm zgoubi : Execution ended upon key  END       
+
+************************************************************************************************************************************
+   
+            ZGOUBI RUN COMPLETED. 
+
+  Zgoubi, author's dvlpmnt version.
+  Job  started  on  02-05-0017,  at  06:28:47 
+  JOB  ENDED  ON    02-05-0017,  AT  06:28:47 
+
+   CPU time, total :    4.400200000000000E-002

@@ -1,0 +1,28 @@
+
+This computer lab session deals with synchrotron radiation (SR) from a helical wiggler
+
+~
+
+Recommended bibliography~:
+
+- B. M Kincaid, A short period helical wiggler as an improved source of SR, J. App. Phys., vol. 48, No 7, July 1977.
+
+- J. P. Blewett, R. Chasman, Orbits and field in the helical wiggler, J. App. Phys., vol. 48, No 7, July 1977.
+
+~
+
+The basic theory of the helical wiggler will be reviewed, and the computer lab work will be aimed at reproducing, from ray-tracing, its essential outcomes.
+
+This will include~: 
+
+- magnetic field in the HW
+
+- orbits
+
+- angular distribution of SR
+
+- SR spectral brightness
+
+- Comparison with SR from bending magnet and planar wiggler
+
+

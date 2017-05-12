@@ -1,0 +1,10 @@
+
+ STATUS OF VARIABLES  (Iteration #     0 /   1000 max.)
+LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
+   1   1    30    190.        221.       220.51700       460.      0.900      OBJET      -                    -                   
+   1   2    31   -400.        57.2       57.215860       400.       2.67      OBJET      -                    -                   
+ STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
+TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
+  3   1   2     3    0.000000E+00    1.000E+00    0.000000E+00         NaN FAISCEAU   			                  -                    0
+  3   1   3     3    0.000000E+00    1.000E+00    0.000000E+00         NaN FAISCEAU   			                  -                    0
+ Fit reached penalty value   0.0000E+00

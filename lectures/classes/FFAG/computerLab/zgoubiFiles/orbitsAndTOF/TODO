@@ -1,0 +1,10 @@
+
+gnuplot Y0_orbit, TOF vs E
+
+gnuplot orbits in Lab space (zpop 7/2[42,48])
+
+generate acceleration lwa
+
+see NIM paper w Lemuet and take from there, e.g., hard-edge vs soft edge, 3 dip vs 5 dip
+
+
