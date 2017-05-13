@@ -107,6 +107,14 @@ C KT=prtcl #, JI=field coordinate, LI=lmnt #
       ELSEIF(IC2.EQ.9) THEN
         
         VAL = SFLD(JI,NLI,KT)
+      ELSEIF(IC2.EQ.10) THEN
+        
+        IF(MIMA.EQ.1) THEN
+          VAL = FMI(JI,NLI,KT)
+        ELSEIF(MIMA.EQ.2) THEN
+          VAL = FMA(JI,NLI,KT)
+        ENDIF
+
       ELSE
         CALL ENDJOB('SBR FF. NO SUCH CONSTRAINT 3.',IC2)
       ENDIF 

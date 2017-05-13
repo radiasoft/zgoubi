@@ -598,8 +598,8 @@ C Write all template co coordinates
         do j=1,nCO-jok
           read(lunR,fmt='(a)') txt132
         enddo
-cC Get rid of '1  1  1 ...'
-          read(lunR,fmt='(a)') txt132
+ccC Get rid of '1  1  1 ...'
+c          read(lunR,fmt='(a)') txt132
 C Completes zgoubi_searchCO-Out_MATRIX.dat with the rest of zgoubi_searchCO_from1Traj-In.dat
 C except for introducing MATRIX
  631    continue

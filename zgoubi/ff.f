@@ -65,6 +65,8 @@ C      SAVE IC2
       CALL REMPLI(M)
       Z=0D0
       KK=0
+
+
       DO 3 I=1,NC
          ICONT=IC(I)
          ICONT2=IC2(I)
@@ -453,6 +455,23 @@ C------------ Constraint on integral of field L-component for particle K, along 
              CALL FITMM1(K,L,KK,MIMA,ICONT2,
      >                                      VAL)
 
+           ELSEIF(ICONT2.EQ.10) THEN
+C------------ Constraint on value of 
+C             min. coordinate L of particle K reached inside optical element KK, and 
+C             max. coordinate L2 of particle K2 inside optical element KK. 
+C Ex. of use: in CBEAT linear FFAG cell, allows centering the orbits in the QF quad such that 
+C extreme excursions (particle K,L (resp. K2,L2) has extreme negative (resp. positiv) excur.) have equal abs. value / opposite sign.
+
+             MIMA=1
+             CALL FITMM1(K,L,KK,MIMA,ICONT2,
+     >                                    VAL1)
+             K2 = NINT(CPAR(I,2))
+             L2 = NINT(CPAR(I,3))
+             MIMA=2
+             CALL FITMM1(K2,L2,KK,MIMA,ICONT2,
+     >                                      VAL2)
+             VAL = VAL2 + VAL1
+
            ELSE
              CALL ENDJOB(' SBR ff.f : no such FIT option 7.',ICONT2)
 
@@ -467,8 +486,7 @@ C-----------Contraints on spin
 
            ELSEIF(ICONT2.EQ.1) THEN
 C------------ Constraint on spin components,  
-C             e.g., equal spin values  (L=2,4 or other)
-C                 at ends of cell 
+C             e.g., equal spin values  (L=2,4 or other), at ends of cell 
 C                   (hence expected value for the constraint is 0)
              VAL=ABS(SF(L,K) - SI(L,K))
 
@@ -502,7 +520,7 @@ C             all particles in a group have same momenta and respective spins in
                VAL = VAL + SF(3,II)               
              ENDDO
              val = val /dble(jj)
-C                 write(*,*) ' ff  val = ',val
+
            ELSE
              CALL ENDJOB(' SBR ff.f : no such FIT option 10.',ICONT2)
            ENDIF

@@ -43,15 +43,17 @@ C Get number of turns, from zgoubi.res
       write(6,*) '-------'
       write(6,*) ' Pgm avrgSzFromFai. Now computing initial polar.'
       ipass1 = 1
-      ipass2 = npass/20         
+      ipass2 = float(npass)/6.
       write(6,*) ' using passes ',ipass1,' to ',ipass2 
       write(6,*)
       call averag(NLOG,NL,LM,OKOPN,CHANGE,HV,ipass1,ipass2)
 
       write(6,*) '-------'
       write(6,*) ' Pgm avrgSzFromFai. Now computing final polar.'
-      ipass1 = 1+npass*19/20
-      ipass2 = npass
+c      ipass1 = 1+npass*19/20
+c      ipass2 = npass
+      ipass1 = float(npass)*(1./2.) 
+      ipass2 = ipass1 + float(npass)/6.
       write(6,*) ' using passes ',ipass1,' to ',ipass2 
       write(6,*)
       call averag(NLOG,NL,LM,OKOPN,CHANGE,HV,ipass1,ipass2)
@@ -1201,9 +1203,6 @@ C----- Twiss parameters and emittance
      >     ,TXTS(J),'_M,_M2,_MI,_MA (_MI+_MA)/2 '
  123      FORMAT(1P,5(1X,G12.4),'  ',2A)
  6    CONTINUE
-        write(6,*) '**************************'
-        write(6,*) '**************************'
-        write(6,*) '**************************'
-        write(6,*) '**************************'
+
       RETURN 
       END

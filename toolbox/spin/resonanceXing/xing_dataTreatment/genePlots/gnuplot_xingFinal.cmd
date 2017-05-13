@@ -1,11 +1,11 @@
- set xlabel "kin-E (MeV)"       font "roman,20"
+ set xlabel "Turn"       font "roman,20"
  set ylabel "Sy "               font "roman,20"
  set title "RESONANCE CROSSING, LAST ~200 TURNS" font "roman,18"
 
  set xtics font "roman,14"
  set ytics font "roman,14"
 
-  plot 'fromBFai2Fai.out' us ($38):($38>maxPnt ?   $22 : 1/0)  w l lt 3 lw .5  title 'Zgoubi' 
+  plot 'fromBFai2Fai.out' us ($38):($38>maxPnt && $38 < maxPnt+30 ?   $22 : 1/0)  w l lt 3 lw .5  title 'Zgoubi' 
 
 #pause .1 
 

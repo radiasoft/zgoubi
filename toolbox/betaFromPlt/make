@@ -1,0 +1,1 @@
+gfortran -o  betaFromPlt betaFromPlt.f

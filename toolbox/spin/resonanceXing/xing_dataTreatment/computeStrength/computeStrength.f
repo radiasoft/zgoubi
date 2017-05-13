@@ -146,7 +146,7 @@ C Get resonance style
      >          , Bdip,circ,ah,Vp,phis,am,q,G,ez
         write(*,*) '  '
         write(*,*) ' Present conditions : '
-        write(*,*) '   xing speed alpha = dgamma/dtta = ',alpha
+        write(*,*) '   xing speed alpha = dGgamma/dtta = ',alpha
      >  , '    dB/dt  = ',Bdot
 
 C Save results
@@ -159,7 +159,7 @@ C Save results
         A2 = -dlog((pfin/pini + 1.d0)/2.d0)
         if    (typ2(debstr(typ2):finstr(typ2)) .eq. 'intrinsic') then
           write(lunW,*) '% intrinsic ', 
-     >    'E-tot, Qz, e_z/pi/1e-6, p_i, p_f, |J_n|^2/1e-6, |J_n|^2/ez'
+     >    'E-tot, Qz, e_z/pi/1e-6, p_i, p_f, |N_n|^2/1e-6, |N_n|^2/ez'
           write(lunW,fmt='(1p,'' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
      >           g11.3,1x, 4('' & '',g12.4))') 
      >    Etot/1d9, znu, ez*1.d6, pini, pfin, 
@@ -176,12 +176,17 @@ c          write(lunW,fmt='('' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
 c     >           g11.3,1x, 4('' & '',f12.4))') 
 c     >    Etot/1d9, znu, zco*vk/vkick, pini, pfin, A2*2.*alpha/pi*1.d6
 c     >    ,A2*2.*alpha/pi/(zco*vk/vkick)**2
-          write(lunW,*) '% imperfection E-tot, zmax, p_i, p_f, |J_n|
-     >    ^2/1e-6, |J_n|^2/zmax^2 '
+c          write(lunW,*) '% imperfection E-tot, zmax, p_i, p_f, |J_n|
+c     >    ^2/1e-6, |J_n|^2/zmax^2 '
+c          write(lunW,fmt='('' & '',g13.5,1x,'' & '',
+c     >           g11.3,1x, 4('' & '',f12.4))') 
+c     >    Etot/1d9, zco*vk/vkick, pini, pfin, A2*2.*alpha/pi*1.d6
+c     >    ,A2*2.*alpha/pi/(zco*vk/vkick)**2
+          write(lunW,*) '% imperfection E-tot, alpha, p_i, p_f, |J_n|, '
+     >    //' Vp,  phis (deg) '
           write(lunW,fmt='('' & '',g13.5,1x,'' & '',
-     >           g11.3,1x, 4('' & '',f12.4))') 
-     >    Etot/1d9, zco*vk/vkick, pini, pfin, A2*2.*alpha/pi*1.d6
-     >    ,A2*2.*alpha/pi/(zco*vk/vkick)**2
+     >           g11.3,1x, 5('' & '',f12.4))') 
+     >    Etot/1d9,alpha,pini,pfin,sqrt(A2*2.*alpha/pi),Vp,phis/pi*180.
         endif
       stop
 

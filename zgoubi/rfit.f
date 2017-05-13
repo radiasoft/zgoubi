@@ -56,6 +56,9 @@ C      PARAMETER (MXTA=45)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
 
+      PARAMETER (ITXT=10)
+      CHARACTER(ITXT) TXTIC
+
       SAVE FIRST
 
       DATA FIRST / .TRUE. /
@@ -176,6 +179,9 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
      >                     III)) TXT132 = TXT132(1:III-1) 
         READ(TXT132,*,ERR=98,END=98) XC,I1(I),I2(I),TXT20,V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
+
+        READ(TXT132,*,ERR=98,END=98) TXTIC
+
         IF(ISNUM(TXT20)) THEN
            READ(TXT20,*,ERR=90,END=90) I3(I)
         ELSE
@@ -201,7 +207,14 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
           ENDIF
         ENDIF
         IC(I) = INT(XC)
-        IC2(I) = NINT(10.D0*XC - 10*IC(I))
+        IF(STRCON(TXTIC,'.',
+     >                      JS)) THEN
+          IF(ISNUM(TXTIC(JS+1:ITXT)) .AND. JS .LT. ITXT) THEN
+            READ(TXTIC(JS+1:ITXT),*,ERR=98,END=98) IC2(I)
+          ELSE
+            GOTO 98
+          ENDIF
+        ENDIF
  4    CONTINUE  
 
 
@@ -226,6 +239,12 @@ C--------- Numb. particls
           ENDIF
         ENDIF
  5    CONTINUE  
+
+c      DO  I=1,NC
+c         write(*,*) ' rfit ',
+c     >          i,ic(i),ic2(i),cpar(i,1),cpar(i,2),cpar(i,3)
+c              read(*,*)
+c      enddo
 
       RETURN
 

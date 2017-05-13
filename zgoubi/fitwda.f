@@ -132,7 +132,7 @@ C     >''data file to zgoubi.FIT.out.dat, with variables updated.'')')
                 READ(LR,FMT='(A)',ERR=10,END=10) TXT132
                 READ(TXT132,*,ERR=10,END=10) Y,T,Z,P,X,D,LET
                 WRITE(LW,FMT='(1P,4(1X,E16.8),F7.2,1X,E15.8,3A)')
-     >              (A(NUEL,J),J=30,35),' ''',LET,''' '
+     >              (A(NUEL,J),J=II,II+5),' ''',LET,''' '
                 II = II + 10
                 IIT = IIT + 1
               ENDDO

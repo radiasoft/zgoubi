@@ -56,12 +56,14 @@ C      LOGICAL ZSYM
  100  FORMAT('0',45X,'TRACE DU FAISCEAU',
      > /,43X,'(follows element # ',I6,')',
      > /,45X,I6,' TRAJECTOIRES',//
-     >,35X,'OBJET',50X,'FAISCEAU',//,2(10X,'D',7X,'Y(CM)',4X,'T(MR)'
-     >,4X,'Z(CM)',4X,'P(MR)',6X,'S(CM)'),/)
+     >,35X,'OBJET',50X,'FAISCEAU',//
+     >,10X,'D',7X,'Y(cm)',5X,'T(mr)',5X,'Z(cm)',5X,'P(mr)',7X,'S(cm)'
+     >,7X,'D-1',5X,'Y(cm)',4X,'T(mr)',4X,'Z(cm)',4X,'P(mr)',6X,'S(cm)'
+     >,/)
  
       DO 1 I=IMAX1,IMAX2
         WRITE(LUN,101) LET(I),IEX(I),(FO(J,I),J=1,6)
-     >  ,(F(J,I),J=1,5),F(6,I),I
+     >  ,F(1,I)-1.D0,(F(J,I),J=2,5),F(6,I),I
  101    FORMAT(A1,1X,I2,1X,F8.4,4F10.3,1X,F12.4,
      >                     2X,F8.4,4F9.3,1X,(1P,E14.6),1X,I5)
         IF(AM .NE. 0D0) THEN

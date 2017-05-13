@@ -53,6 +53,7 @@ C     ----------------------------------------------------
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
       CHARACTER(1) TX1
+      CHARACTER(3000) TXT3K
 
       LOGICAL BINARY,BINAR,OKKP,OKKT,OKKL
       DIMENSION XVEC(3), YVEC(3), ZVEC(3)
@@ -108,7 +109,12 @@ C--------- read in zgoubi.spn type storage file
 
           ELSE
  1          CONTINUE
-            READ(NL,101,ERR=1,END=10) 
+            READ(NL,FMT='(A)',ERR=1,END=10) TXT3K
+            TXT3K = TRIM(TXT3K)
+            IF( TXT3K(1:1).EQ.'#' .OR. TXT3K(1:1).EQ.'!' 
+     >      .OR. TXT3K(1:1).EQ.'#' ) GOTO 1
+            READ(TXT3K,101,ERR=1,END=10) 
+C            READ(NL,101,ERR=1,END=10) 
 C 1          READ(NL,101,ERR=99,END=10) 
      >      KEX,(SI(J),J=1,4),(SF(J),J=1,4),F6I
      >      ,ENERG,IT,IMAX,IPASS,NOEL
@@ -179,7 +185,12 @@ C--------- read in zgoubi.fai type storage file
 
           ELSE
  21         CONTINUE
-            READ(NL,110,ERR=21,END=10)
+            READ(NL,FMT='(A)',ERR=21,END=10) TXT3K
+            TXT3K = TRIM(TXT3K)
+            IF( TXT3K(1:1).EQ.'#' .OR. TXT3K(1:1).EQ.'!' 
+     >      .OR. TXT3K(1:1).EQ.'#' ) GOTO 21
+            READ(TXT3K,110,ERR=21,END=10) 
+C            READ(NL,110,ERR=21,END=10)
      >      KEX,(FO(J),J=1,7),
      >      (F(J),J=1,7), 
      >      (SI(J),J=1,4),(SF(J),J=1,4),
@@ -227,7 +238,12 @@ C            ENDIF
 
           ELSE
  31         CONTINUE
-            READ(NL,100,ERR=31,END=10)
+            READ(NL,FMT='(A)',ERR=31,END=10) TXT3K
+            TXT3K = TRIM(TXT3K)
+            IF( TXT3K(1:1).EQ.'#' .OR. TXT3K(1:1).EQ.'!' 
+     >      .OR. TXT3K(1:1).EQ.'#' ) GOTO 31
+            READ(TXT3K,100,ERR=31,END=10) 
+C            READ(NL,100,ERR=31,END=10)
 C 31         READ(NL,100,ERR=99,END=10)
      >      KEX,(FO(J),J=1,MXJ),
      >      (F(J),J=1,MXJ), BTI, DS,

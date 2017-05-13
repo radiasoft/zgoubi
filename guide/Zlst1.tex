@@ -3483,17 +3483,29 @@ particle number $I$, across the optical element.
 
 \smallskip
 
-\noindent  {\it IC=10~: } If $1\leq I\leq \IMAX$ then the value of coordinate type $J$ ($J=1,3$ for respectively 
- $S_X, S_Y, S_Z$) of particle number $I$ is constrained.  
+\noindent  {\it IC=10~: } If $1\leq I\leq \IMAX$ then the constrint is the value of coordinate type $J$ ($J=1,3$ for respectively 
+ $S_X, S_Y, S_Z$) of particle number $I$.
 
 \smallskip
 
 \noindent  {\it IC=10.1~: } Difference between final and initial $J$-spin coordinate  of particle $I$ (convenient 
 \emph{e.g.} for $\vec n_0$ spin vector search). \index{spin, $\vec n_0$ vector}  
 
+\smallskip
 
+\noindent  {\it IC=10.2~: } 
+Constraint on spin rotation angle for particles of momentum group \#K.
+   This requires \textsl{OBJET/KOBJ=2}, with groups of 3 particles, 
+             all particles in a group have the same momentum, and their spins in direction, respectively, X, Y, Z.
 
+\smallskip
 
+\noindent  {\it IC=10.3~: } 
+Constraint on spin rotation axis for particles of momentum group \#K.
+   This requires \textsl{OBJET/KOBJ=2}, with groups of 3 particles, 
+             all particles in a group have the same momentum, and their spins in direction, respectively, X, Y, Z.
+
+\bigskip
 
 \paragraph{\textsl{OBJECT DEFINITION}}
 

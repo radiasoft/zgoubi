@@ -4,7 +4,7 @@
       parameter (dirTools=
      >   '~/zgoubi/toolbox/spin/resonanceXing/')
 
-      cmmnd = '~/zgoubi/toolbox/fromBFai2Fai/fromBFai2Fai'
+      cmmnd = '~/zgoubi/toolbox/b_fai2Fai/fromBFai2Fai'
       write(*,*) ' command : ',cmmnd
       call system(cmmnd)
 

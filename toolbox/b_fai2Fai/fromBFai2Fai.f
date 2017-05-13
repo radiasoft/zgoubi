@@ -120,7 +120,7 @@ C----- PLOT SPECTRUM
              call system('rm -f fromBFai2Fai.out')
              WRITE(6,FMT='(A)') ' file fromBFai2Fai.out'
      >       //' already exists. Saved it under fromBFai2Fai_save.'
-             READ(*,*)
+C             READ(*,*)
 C             STOP ' Pgm fromBFai2Fai. '
              goto 6
             ENDIF

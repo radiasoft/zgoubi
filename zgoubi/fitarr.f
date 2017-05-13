@@ -56,6 +56,11 @@ C  -------
           I3(II1)=I30
           V(II1)=V0
           W(II1)=W0
+          DO IJ = 1, 27
+            ICP0 = CPAR(I,IJ)
+            CPAR(I,IJ) = CPAR(II1,IJ) 
+            CPAR(II1,IJ) = ICP0
+          ENDDO
  5      CONTINUE
  4    CONTINUE
       IF(I3(NC).LE.NB)   GOTO 6
@@ -63,5 +68,6 @@ C  -------
       WRITE(6,100)
  100  FORMAT(' CONTRAINTE HORS LIMITES=DEROUTE')
  6    CONTINUE
+
       RETURN
       END

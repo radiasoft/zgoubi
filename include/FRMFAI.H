@@ -27,12 +27,12 @@ C      SUBROUTINE IMPFAI
 C Add space(1X) in the line of C5 to ensure a blank  between the 
 C data (  Takeichiro Yokoi)16/11/2006 
 
- 110     FORMAT(1X,
+ 110     FORMAT(1X
 
 C1               KEX,      XXXO,(FO(J,IT),J=2,MXJ)
-     >  1P,      1X,I3,    7(1X,E16.8)
+     >  ,1P,   1X, I3,    7(1X,E16.8)
 
-C2              XXX,Y,T*1.D3,
+C2              XXX,Y,T*1.D3
      >         ,3(1X,E24.16)
 
 C3       Z,P*1.D3,SAR,TAR 

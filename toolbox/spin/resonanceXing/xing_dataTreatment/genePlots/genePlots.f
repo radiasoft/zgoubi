@@ -11,15 +11,33 @@
       write(*,*) '----------------------------------------------------'
       write(*,*) ' '
 
+      open(unit=56,file='tunesFromFai.In')
+      read(56,*) iturn, irange
+      close(56)
+c        write(*,*) ' geneplots ',iturn, irange
+c             read(*,*)
+      npass = float(irange)/1.2*2.
+      write(txt10,fmt='(i10)') nint(0.6 * float(npass))
+
       cmmnd = 
      >'~/zgoubi/toolbox/b_fai2Fai/fromBFai2Fai'
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
       call system(cmmnd)
       
-      cmmnd =  'gnuplot < '//
+      cmmnd =  'cp '//
      >dirTools(debstr(dirTools):finstr(dirTools))
      >//'xing_dataTreatment/genePlots/'//
+     >'gnuplot_xingFull.cmd  . '
+      write(*,*) ' '
+      write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
+      call system(cmmnd)
+      cmmnd =  'sed -i ''s@maxPnt@'//txt10//'@g'' '
+     >//'gnuplot_xingFull.cmd '
+      write(*,*) ' '
+      write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
+      call system(cmmnd)
+      cmmnd =  'gnuplot < '//
      >'gnuplot_xingFull.cmd'
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
@@ -40,20 +58,12 @@
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
       call system(cmmnd)
-      open(unit=56,file='tunesFromFai.In')
-      read(56,*) iturn, irange
-      close(56)
-c        write(*,*) ' geneplots ',iturn, irange
-c             read(*,*)
-      write(txt10,fmt='(i10)') iturn + 4*irange/5
       cmmnd =  'sed -i ''s@maxPnt@'//txt10//'@g'' '
      >//'gnuplot_xingFinal.cmd '
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd
       call system(cmmnd)
       cmmnd =  'gnuplot < '//
-c     >dirTools(debstr(dirTools):finstr(dirTools))
-c     >//'xing_dataTreatment/genePlots/'//
      >'gnuplot_xingFinal.cmd'
       write(*,*) ' '
       write(*,*) ' Pgm dataTreatment, execute : ',cmmnd

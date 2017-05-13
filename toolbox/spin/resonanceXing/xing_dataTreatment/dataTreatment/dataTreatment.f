@@ -61,7 +61,7 @@ C Get number of turns, from zgoubi.res
      >  './'//drctry(i)(debstr(drctry(i)):finstr(drctry(i)))
      >  //'/tunesFromFai.In'
         open(unit=34,file=fname)
-        write(34,*) int(npass/2*.9d0), int(npass/2*1.1d0)
+        write(34,*) int(npass/2*.8d0), int(npass/2*1.2d0)
      >                                      ,'  ! turn# range'
         write(34,*) '0.51, 1., 0.51, 1., 0., 1. '
      >                                  //'  ! tune boundaries'

@@ -131,8 +131,8 @@ C End section of geneTexlog.tex
 
 C 
         fname = drctry(i)(debstr(drctry(i)):finstr(drctry(i)))
-        cmmnd = '(cd ./Log ;  latex log ; latex log ; xdvi log '
-     >   //' ; dvipdf log &)'
+        cmmnd = '(cd ./Log ;  latex log ; latex log '
+     >   //' ; dvips log  ;  gv log.ps &)'
         write(*,*) ' '
         write(*,*) 'Pgm geneTexLog, execute : ',cmmnd
         call system(cmmnd)

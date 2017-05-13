@@ -12,7 +12,8 @@
  1    continue
         if(txtfig(i:i) .eq. 'Q') then
           txtQ = txtfig(i+2:finstr(txtfig))
-          if(txtQ .eq. '0') txtQ = ' '
+          read(txtQ,*) Qz
+          if(Qz .le. 1e-6) txtQ = ' '
           txtM = txtfig(debstr(txtfig)+1:i-1)
         else
           i = i + 1
@@ -30,9 +31,9 @@
       txt132 = ' '
       write(lunW,*) txt132
       txt132 = '\addcontentsline{toc}{subsubsection}{\hspace{10ex} '
-     >  //' $\gamma G = '//txtM//' '//txtQ//'$ }'
+     >  //' $G\gamma = '//txtM//' '//txtQ//'$ }'
       write(lunW,*) txt132
-      txt132 = '{ $\gamma G = '//txtM//' '//txtQ//'$ }'
+      txt132 = '{ $G\gamma = '//txtM//' '//txtQ//'$ }'
       write(lunW,*) txt132
       txt132 = ' '
       write(lunW,*) txt132
