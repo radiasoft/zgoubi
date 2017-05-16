@@ -13,9 +13,9 @@ PROTON
  
  'DIPOLE'                                                                                                     4
 0
-60. 50.
-30.  5. 0. 0. 0.
-0.  0.                                        ! EFB 1  hard-edge
+60. 50.                                       ! AT, RM
+30.  5. 0. 0. 0.                              ! ACN, B0, N, B, G
+0.  0.                                        ! EFB 1  hard-edge (can only work with sector magnet))
 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
 30. 0.  1.E6  -1.E6  1.E6  1.E6
 0.   0.                                       ! EFB 2
@@ -25,7 +25,7 @@ PROTON
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.03                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+0.1                  ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   5
  
@@ -177,13 +177,13 @@ m  1   2.2365    28.907     0.000     0.000     0.000       0.0000    2.2365   2
                      Interpolation  option : 4
                     25-point  interpolation, size of flying mesh :   STEP /   10.0
 
-                    Integration step :  3.0000E-02 cm   (i.e.,   6.0000E-04 rad  at mean radius RM =    50.00    )
+                    Integration step :  0.1000     cm   (i.e.,   2.0000E-03 rad  at mean radius RM =    50.00    )
 
                                KPOS = 2.  Position of reference orbit on mechanical  faces
                                          at entrance    RE =   0.00000     cm  TE =   0.00000     rad
                                          at exit        RS =   0.00000     cm  TS =   0.00000     rad
 
-  A    1  2.2365    28.907     0.000     0.000     0.000            1.047    28.907    -0.000     0.000     0.000            1
+  A    1  2.2365    28.907     0.000     0.000     0.000            1.047    28.907    -0.001     0.000     0.000            1
 
  Cumulative length of optical axis =   0.523598776     m ;  Time  (for ref. rigidity & particle) =   8.460221E-08 s 
 
@@ -198,14 +198,14 @@ m  1   2.2365    28.907     0.000     0.000     0.000       0.0000    2.2365   2
 
           D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)          D       Y(CM)    T(MR)    Z(CM)    P(MR)      S(CM)
 
-m  1   2.2365    28.907     0.000     0.000     0.000       0.0000    2.2365   28.907   -0.000    0.000    0.000   3.027143E+01     1
+m  1   2.2365    28.907     0.000     0.000     0.000       0.0000    2.2365   28.907   -0.988    0.000    0.000   3.027143E+01     1
                Time of flight (mus) :  2.18881269E-02 mass (MeV/c2) :   938.272    
 
 
 ------
   Characteristics of concentration ellipse (Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls inside ellips, ratio, space, pass#) : 
 
-   0.0000E+00   0.0000E+00   1.0000E+00   2.890709E-01  -3.406018E-12        1        1    1.000      (Y,T)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   2.890710E-01  -9.882372E-04        1        1    1.000      (Y,T)         1
    0.0000E+00   0.0000E+00   1.0000E+00   0.000000E+00   0.000000E+00        1        1    1.000      (Z,P)         1
    0.0000E+00   0.0000E+00   1.0000E+00   2.188813E-02   1.000000E+00        1        1    1.000      (t,K)         1
 
@@ -252,12 +252,12 @@ m  1   2.2365    28.907     0.000     0.000     0.000       0.0000    2.2365   2
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
    1   1    30    28.0        28.9       28.907089       65.0      0.123      OBJET      -                    -                   
-   4   2    60  -3.000E-02   3.000E-02  3.00000000E-02  9.000E-02  4.000E-04  DIPOLE     -                    -                   
+   4   2    60  -0.100       0.108      0.10800000      0.300      1.333E-03  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    5.730172E-11    2.83E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    3.406018E-09    1.00E+00 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.1604E-17
+  3   1   2     5    0.000000E+00    1.000E+00    1.732623E-10    2.78E-04 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.039799E-08    1.00E+00 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.0815E-16
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -323,12 +323,12 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
    1   1    30    28.0        28.9       28.907089       65.0      0.123      OBJET      -                    -                   
-   4   2    60  -3.000E-02   3.000E-02  3.00000000E-02  9.000E-02  4.000E-04  DIPOLE     -                    -                   
+   4   2    60  -0.100       0.108      0.10800000      0.300      1.333E-03  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    5.730172E-11    2.83E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    3.406018E-09    1.00E+00 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.1604E-17
+  3   1   2     5    0.000000E+00    1.000E+00    1.732623E-10    2.78E-04 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.039799E-08    1.00E+00 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.0815E-16
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -363,13 +363,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        30.8       30.784835       65.0      7.864-102  OBJET      -                    -                   
-   4   2    60  -3.000E-02   3.053E-02  3.05346746E-02  9.000E-02  2.550-104  DIPOLE     -                    -                   
+   1   1    30    28.0        30.8       30.765055       65.0      4.643E-97  OBJET      -                    -                   
+   4   2    60  -0.100       0.124      0.12354276      0.300      5.020E-99  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    3.230729E-03    9.46E-01 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    7.741799E-04    5.43E-02 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.1037E-05
+  3   1   2     5    0.000000E+00    1.000E+00    1.312062E-02    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    2.544962E-05    3.76E-06 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.7215E-04
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -404,13 +404,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        32.7       32.675504       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   3.791E-02  3.79144665E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        32.7       32.674455       65.0      7.736E-08  OBJET      -                    -                   
+   4   2    60  -0.100       0.164      0.16365503      0.300      8.363E-10  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    2.666602E-08    3.56E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    1.413411E-06    1.00E+00 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.9984E-12
+  3   1   2     5    0.000000E+00    1.000E+00    5.245186E-04    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.197258E-06    5.21E-06 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.7512E-07
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -445,13 +445,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        34.6       34.558486       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   4.640E-02  4.64020796E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        34.5       34.528983       65.0      9.708-104  OBJET      -                    -                   
+   4   2    60  -0.100       0.176      0.17567237      0.300      1.050-105  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    6.132106E-04    9.98E-01 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    2.929171E-05    2.28E-03 FAISCEAU   -                    -                    0
- Fit reached penalty value   3.7689E-07
+  3   1   2     5    0.000000E+00    1.000E+00    1.536397E-02    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    4.100686E-05    7.12E-06 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.3605E-04
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -486,13 +486,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        36.4       36.443920       65.0      6.266E-06  OBJET      -                    -                   
-   4   2    60  -3.000E-02   5.513E-02  5.51293468E-02  9.000E-02  2.032E-08  DIPOLE     -                    -                   
+   1   1    30    28.0        36.4       36.442946       65.0      7.736E-08  OBJET      -                    -                   
+   4   2    60  -0.100       0.174      0.17419817      0.300      8.363E-10  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    1.039245E-07    4.43E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    4.939158E-06    1.00E+00 FAISCEAU   -                    -                    0
- Fit reached penalty value   2.4406E-11
+  3   1   2     5    0.000000E+00    1.000E+00    4.867087E-04    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    7.725413E-07    2.52E-06 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.3689E-07
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -527,13 +527,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        38.3       38.328127       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   6.163E-02  6.16322783E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        38.3       38.322093       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.210      0.21021145      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    4.837240E-09    4.90E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    2.185384E-07    1.00E+00 FAISCEAU   -                    -                    0
- Fit reached penalty value   4.7782E-14
+  3   1   2     5    0.000000E+00    1.000E+00    3.018108E-03    9.98E-01 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.233942E-04    1.67E-03 FAISCEAU   -                    -                    0
+ Fit reached penalty value   9.1242E-06
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -568,13 +568,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        40.2       40.212335       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   6.983E-02  6.98341468E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        40.2       40.213014       65.0      7.736E-08  OBJET      -                    -                   
+   4   2    60  -0.100       0.245      0.24493956      0.300      8.363E-10  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    1.135955E-07    5.39E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    4.892881E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   2.3953E-11
+  3   1   2     5    0.000000E+00    1.000E+00    3.396500E-04    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    2.632275E-08    6.01E-09 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.1536E-07
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -609,13 +609,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        42.1       42.095842       65.0      7.736E-08  OBJET      -                    -                   
-   4   2    60  -3.000E-02   7.496E-02  7.49570726E-02  9.000E-02  2.509E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        42.1       42.090622       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.300      0.29955113      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    3.500330E-04    1.00E+00 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    3.388990E-06    9.37E-05 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.2253E-07
+  3   1   2     5    0.000000E+00    1.000E+00    2.958405E-03    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.494235E-05    2.55E-05 FAISCEAU   -                    -                    0
+ Fit reached penalty value   8.7524E-06
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -650,13 +650,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        44.0       43.980750       65.0      1.880E-05  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.304E-02  8.30371823E-02  9.000E-02  6.097E-08  DIPOLE     -                    -                   
+   1   1    30    28.0        44.0       43.981692       65.0      6.089-110  OBJET      -                    -                   
+   4   2    60  -0.100       0.299      0.29924463      0.300      6.583-112  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    1.699475E-08    6.44E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    6.692629E-07    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   4.4820E-13
+  3   1   2     5    0.000000E+00    1.000E+00    4.711863E-04    9.55E-01 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.017321E-04    4.45E-02 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.3237E-07
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -691,13 +691,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        45.9       45.864261       65.0      7.736E-08  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.893E-02  8.89255725E-02  9.000E-02  2.509E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        45.9       45.859258       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.286      0.28559657      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    3.482761E-04    1.00E+00 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    5.706648E-06    2.68E-04 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.2133E-07
+  3   1   2     5    0.000000E+00    1.000E+00    2.848104E-03    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.928498E-06    4.58E-07 FAISCEAU   -                    -                    0
+ Fit reached penalty value   8.1117E-06
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -732,13 +732,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        47.7       47.749279       65.0      2.579E-08  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.978E-02  8.97765692E-02  9.000E-02  8.363E-11  DIPOLE     -                    -                   
+   1   1    30    28.0        47.7       47.749165       65.0      2.321E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.299      0.29924709      0.300      2.509E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    5.669901E-05    1.00E+00 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    7.843812E-09    1.91E-08 FAISCEAU   -                    -                    0
- Fit reached penalty value   3.2148E-09
+  3   1   2     5    0.000000E+00    1.000E+00    4.744263E-08    7.59E-04 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.721158E-06    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.9646E-12
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -773,13 +773,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        49.6       49.632307       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.975E-02  8.97466353E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        49.6       49.631224       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.297      0.29681656      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    5.330354E-04    9.99E-01 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    2.023141E-05    1.44E-03 FAISCEAU   -                    -                    0
- Fit reached penalty value   2.8454E-07
+  3   1   2     5    0.000000E+00    1.000E+00    1.073930E-03    1.00E+00 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    4.684260E-07    1.90E-07 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.1533E-06
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -814,13 +814,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        51.5       51.517580       65.0      6.962E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.852E-02  8.85150570E-02  9.000E-02  2.258E-09  DIPOLE     -                    -                   
+   1   1    30    28.0        51.5       51.517580       65.0      2.321E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.290      0.28988935      0.300      2.509E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    2.633408E-07    8.84E-04 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    8.853640E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   7.8456E-11
+  3   1   2     5    0.000000E+00    1.000E+00    1.705379E-07    8.84E-04 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    5.733446E-06    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   3.2901E-11
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -855,13 +855,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        53.4       53.399820       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.973E-02  8.97345572E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        53.4       53.395349       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.292      0.29248554      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    9.836021E-04    1.00E+00 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    1.900446E-06    3.73E-06 FAISCEAU   -                    -                    0
- Fit reached penalty value   9.6748E-07
+  3   1   2     5    0.000000E+00    1.000E+00    3.217663E-03    9.98E-01 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    1.538032E-04    2.28E-03 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.0377E-05
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -896,13 +896,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        55.3       55.285996       65.0      6.962E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.977E-02  8.97656726E-02  9.000E-02  2.258E-09  DIPOLE     -                    -                   
+   1   1    30    28.0        55.3       55.285996       65.0      2.089E-06  OBJET      -                    -                   
+   4   2    60  -0.100       0.298      0.29847591      0.300      2.258E-08  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    2.153553E-07    1.02E-03 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    6.746830E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   4.5566E-11
+  3   1   2     5    0.000000E+00    1.000E+00    3.080614E-07    1.02E-03 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    9.651338E-06    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   9.3243E-11
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -937,13 +937,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        57.2       57.170203       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.984E-02  8.98430795E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        57.2       57.166575       65.0      4.852E-14  OBJET      -                    -                   
+   4   2    60  -0.100       0.296      0.29615295      0.300      5.245E-16  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    1.065928E-07    1.09E-03 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    3.229352E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.0440E-11
+  3   1   2     5    0.000000E+00    1.000E+00    1.813549E-03    9.99E-01 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    5.117247E-05    7.96E-04 FAISCEAU   -                    -                    0
+ Fit reached penalty value   3.2916E-06
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -978,13 +978,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        59.1       59.052596       65.0      3.385E-94  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.999E-02  8.99909293E-02  9.000E-02  1.098E-96  DIPOLE     -                    -                   
+   1   1    30    28.0        59.1       59.054411       65.0      6.962E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.295      0.29456932      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    9.070552E-04    9.99E-01 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    2.522440E-05    7.73E-04 FAISCEAU   -                    -                    0
- Fit reached penalty value   8.2339E-07
+  3   1   2     5    0.000000E+00    1.000E+00    1.159635E-07    1.16E-03 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    3.401123E-06    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   1.1581E-11
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -1019,13 +1019,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        60.9       60.938618       65.0      2.321E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.962E-02  8.96176825E-02  9.000E-02  7.527E-10  DIPOLE     -                    -                   
+   1   1    30    28.0        60.9       60.931423       65.0      6.766-111  OBJET      -                    -                   
+   4   2    60  -0.100       0.295      0.29511111      0.300      7.314-113  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    1.422371E-07    1.24E-03 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    4.042754E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   1.6364E-11
+  3   1   2     5    0.000000E+00    1.000E+00    3.594805E-03    2.14E-02 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    2.430938E-02    9.79E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   6.0387E-04
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -1060,13 +1060,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
-   1   1    30    28.0        62.8       62.822826       65.0      6.962E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.997E-02  8.99745770E-02  9.000E-02  2.258E-09  DIPOLE     -                    -                   
+   1   1    30    28.0        62.8       62.822826       65.0      2.321E-07  OBJET      -                    -                   
+   4   2    60  -0.100       0.300      0.29964932      0.300      2.509E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    9.711241E-08    1.31E-03 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    2.677398E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   7.1779E-12
+  3   1   2     5    0.000000E+00    1.000E+00    1.760567E-08    1.31E-03 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    4.854182E-07    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   2.3594E-13
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -1203,7 +1203,7 @@ m  1   5.0064    62.823     0.000     0.000     0.000       0.0000    5.0064   6
                      Interpolation  option : 4
                     25-point  interpolation, size of flying mesh :   STEP /   10.0
 
-                    Integration step :  8.9975E-02 cm   (i.e.,   1.7995E-03 rad  at mean radius RM =    50.00    )
+                    Integration step :  0.2996     cm   (i.e.,   5.9930E-03 rad  at mean radius RM =    50.00    )
 
                                KPOS = 2.  Position of reference orbit on mechanical  faces
                                          at entrance    RE =   0.00000     cm  TE =   0.00000     rad
@@ -1373,7 +1373,7 @@ m  1   5.0064    62.823     0.000     0.000     0.000       0.0000    5.0064   6
                      Interpolation  option : 4
                     25-point  interpolation, size of flying mesh :   STEP /   10.0
 
-                    Integration step :  8.9975E-02 cm   (i.e.,   1.7995E-03 rad  at mean radius RM =    50.00    )
+                    Integration step :  0.2996     cm   (i.e.,   5.9930E-03 rad  at mean radius RM =    50.00    )
 
                                KPOS = 2.  Position of reference orbit on mechanical  faces
                                          at entrance    RE =   0.00000     cm  TE =   0.00000     rad
@@ -1448,12 +1448,12 @@ m  1   5.0064    62.823     0.000     0.000     0.000       0.0000    5.0064   6
  STATUS OF VARIABLES  (Iteration #     0 /     90 max.)
 LMNT VAR PARAM  MINIMUM    INITIAL         FINAL         MAXIMUM     STEP        NAME   LBL1                 LBL2
    1   1    30    28.0        64.7       64.707034       65.0      6.962E-07  OBJET      -                    -                   
-   4   2    60  -3.000E-02   8.997E-02  8.99728158E-02  9.000E-02  2.258E-09  DIPOLE     -                    -                   
+   4   2    60  -0.100       0.300      0.29999524      0.300      7.527E-09  DIPOLE     -                    -                   
  STATUS OF CONSTRAINTS (Target penalty =   1.0000E-10)
 TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NAME   LBL1                 LBL2      Nb param. [value]
-  3   1   2     5    0.000000E+00    1.000E+00    3.364581E-07    1.39E-03 FAISCEAU   -                    -                    0
-  3   1   3     5    0.000000E+00    1.000E+00    9.006210E-06    9.99E-01 FAISCEAU   -                    -                    0
- Fit reached penalty value   8.1225E-11
+  3   1   2     5    0.000000E+00    1.000E+00    2.568996E-07    1.39E-03 FAISCEAU   -                    -                    0
+  3   1   3     5    0.000000E+00    1.000E+00    6.876609E-06    9.99E-01 FAISCEAU   -                    -                    0
+ Fit reached penalty value   4.7354E-11
 
    Last run following FIT[2] is skipped,as requested.  Now carrying on beyond FIT keyword.
 
@@ -1489,7 +1489,7 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  16-05-0017,  at  05:09:26 
-  JOB  ENDED  ON    16-05-0017,  AT  05:10:00 
+  Job  started  on  16-05-0017,  at  05:50:26 
+  JOB  ENDED  ON    16-05-0017,  AT  05:50:45 
 
-   CPU time, total :     33.9341200000000     
+   CPU time, total :     18.9531840000000     

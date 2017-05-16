@@ -13,9 +13,9 @@ PROTON
  
  'DIPOLE'                                                                                                     4
 0
-60. 50.
-30.  5. 0. 0. 0.
-0.  0.                                        ! EFB 1  hard-edge
+60. 50.                                       ! AT, RM
+30.  5. 0. 0. 0.                              ! ACN, B0, N, B, G
+0.  0.                                        ! EFB 1  hard-edge (can only work with sector magnet))
 4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
 30. 0.  1.E6  -1.E6  1.E6  1.E6
 0.   0.                                       ! EFB 2
@@ -25,7 +25,7 @@ PROTON
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.03                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+0.01                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   5
  
