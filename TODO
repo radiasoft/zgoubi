@@ -89,4 +89,7 @@ FIT[2] pose probleme p.ex. avec thomas et hrs-desir, had to had "write(89,*)..."
 * 3/
 ../AGS/matrix/  yields "Maximum # steps allowed =       100000 .  At element number           89" on my laptop. It works if 0.960563380282 is shortened to 0.960563380 or less, or if 'WRITE OFF' is changed to 'WRITE ON'. 
 
+* 4/ Running /home/meot/zgoubi/struct/cornell/RCS/lattice/TWISS.dat with KOBJ=6 
+is almost ok... :  dQ1 comes ourt NaN. Tunes and dQ2 are ok...
+
 

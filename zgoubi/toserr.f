@@ -50,30 +50,36 @@ C  -------
           ELSEIF(TYPDIS(IRR,I).EQ.'U') THEN
             XXX = RNDM()
             DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0) 
-C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
-C                WRITE(88,*) ' TOSERR RNDM ',XXX
           ENDIF
 
           IF    (TYPERR(IRR,I)(1:1).EQ.'B') THEN
             IF    (TYPAR(IRR,I).EQ.'A') THEN
 C              ABSOLUTE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR
-C              WRITE(NRES,FMT='(10X,A,I,A,2(A,I0),A,1P,3E14.6)') 
-C     >        'Element #',NOEL,', error added - ',
-C     >        ' Multipole order is ',I0,' ;  type of error is ',IRR,
-C     >        ' ;  error center/delta/center+delta : ',
-C     >        ERRCEN(IRR,I), DERR, DB(NOEL,I)
             ELSEIF(TYPAR(IRR,I).EQ.'R') THEN
 C              RELATIVE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR*BM(I)
             ENDIF
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'S') THEN
-              DPOS(NOEL,I,3) = 0.D0
+C This is to be checked, has never been
+              IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
+                DPOS(NOEL,I,1) = ERRCEN(IRR,I) + DERR
+              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
+                DPOS(NOEL,I,2) = ERRCEN(IRR,I) + DERR
+              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
+                DPOS(NOEL,I,3) = ERRCEN(IRR,I) + DERR
+              ENDIF
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
-              TILT(NOEL,I,3) = 0.D0
+              IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
+            CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
+              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
+            CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
+              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
+                TILT(NOEL,I,3) = ERRCEN(IRR,I) + DERR
+              ENDIF
           ELSE
             WRITE(NRES,FMT='(//,5X,A)') '****** Found TYPERR = '//TYPERR
-            CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
+            CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR. ',-99)
           ENDIF
 
 C        ELSE

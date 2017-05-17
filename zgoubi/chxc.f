@@ -102,6 +102,8 @@ C      LOGICAL AGS, NEWFIC(MXTA)
       SAVE YSHFT
  
       DIMENSION DBDX(3)
+      PARAMETER (JPOL=6)
+      DIMENSION DPOS(MXL,JPOL,3)
 
       PARAMETER (MXC = 4)
 C Changed to allow positioning data after map name in MOD.MOD2=16.1-4
@@ -110,6 +112,9 @@ C      PARAMETER (MXAA2=24+MXC-1)
       PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
       DIMENSION AA(MXL,MXAA2)
       SAVE AA
+
+C--    ERRORS
+      LOGICAL ERRON
 
       DATA AGS / .FALSE. /
       DATA NEWFIC / .TRUE. /
@@ -128,10 +133,13 @@ C      DATA FMTYP / ' regular' /
       DATA BMIN,BMAX,
      >      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA, 
      >      BNORM,XNORM,YNORM,ZNORM / 9*0.D0, 3*1.D0 /
+      DATA ERRON / .FALSE. /
 
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
   
+      ERRON = .FALSE. 
+
 C----- Some initializations and resets
       CALL KSMAP(
      >           IMAP)
@@ -422,7 +430,8 @@ C-------- 7 : TOSCA. Read a 3-D field map, TOSCA data output format.
 
           CALL TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
+     >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC,
+     >                          DPOS,ERRON)
 
 C Steps back because this is settled after the endif...
           XBMA = XBMA/XNORM
@@ -442,6 +451,25 @@ C             Calculate XCE, YCE for entrance change of referential
             XCE = - YSHFT * SIN(A(NOEL,ND+NND+3))
             YCE =   YSHFT * COS(A(NOEL,ND+NND+3))
 
+          ENDIF
+
+          IF(ERRON) THEN
+            KCHG = 0
+            IF(DPOS(NOEL,1,1) .NE. 0.D0) THEN
+              XCE  = A(NOEL,ND+NND+1) + DPOS(NOEL,1,1) 
+              YCE  = A(NOEL,ND+NND+2)
+              KCHG = 1
+            ENDIF
+            IF(DPOS(NOEL,1,2) .NE. 0.D0) THEN
+              XCE  = A(NOEL,ND+NND+1)
+              YCE  = A(NOEL,ND+NND+2) + DPOS(NOEL,1,2) 
+              KCHG = 1
+            ENDIF
+
+                 write(*,*) ' chcc xce, yce ', xce, yce 
+                       read(*,*)
+
+            IF(KCHG .EQ. 1) GOTO 92
           ENDIF
 
         ELSEIF(KUASEX.EQ.9) THEN

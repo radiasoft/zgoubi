@@ -28,10 +28,10 @@ set xrange  []
 #set xrange  [490:510]
 
  plot \
-      "zgoubi.TWISS.out" u ($13/100.):($2) axes x1y1 w l lt 1 lc 1 tit "{/Symbol b}_x"  ,\
-      "zgoubi.TWISS.out" u ($13/100.):($4) axes x1y1 w l lt 1 lc 3 tit "{/Symbol b}_y"  ,\
-      "zgoubi.TWISS.out" u ($13/100.):($7) axes x1y2 w l lt 1 lc 2 lw 2 tit "{/Symbol h}_x"  ,\
-      "zgoubi.TWISS.out" u ($13/100.):($9) axes x1y2 w l lt 1 lc 4 lw 2 tit "{/Symbol h}_y"  
+      "zgoubi.TWISS.out" u ($13):($2) axes x1y1 w l lt 1 lc 1 tit "{/Symbol b}_x"  ,\
+      "zgoubi.TWISS.out" u ($13):($4) axes x1y1 w l lt 1 lc 3 tit "{/Symbol b}_y"  ,\
+      "zgoubi.TWISS.out" u ($13):($7) axes x1y2 w l lt 1 lc 2 lw 2 tit "{/Symbol h}_x"  ,\
+      "zgoubi.TWISS.out" u ($13):($9) axes x1y2 w l lt 1 lc 4 lw 2 tit "{/Symbol h}_y"  
 
  set samples 10000
  set terminal postscript eps blacktext color enh size 8.3cm,5cm "Times-Roman" 12

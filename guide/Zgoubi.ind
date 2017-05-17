@@ -313,7 +313,7 @@
   \item zgoubi.spn, 174, 280, 322
   \item zgoubi.SPNPRT.Out, 234, 243, 271
   \item zgoubi.sre, 87
-  \item zgoubi.TWISS.out, 177, 291
+  \item zgoubi.TWISS.out, 177
   \item zpop, 41, 164, 174, 180, 321
     \subitem - running the code, 321
 

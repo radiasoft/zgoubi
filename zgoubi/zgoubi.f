@@ -356,17 +356,21 @@ C---------------------------------------------------
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
-
-        WRITE(NRES,200) KLEY
- 200    FORMAT(/,10X,'Pgm zgoubi : Execution ended upon key  ',A)
-        WRITE(NRES,201) 
+        IF(KLEY.EQ.'END' .OR. KLEY.EQ.'FIN') THEN
+          WRITE(*,200) ' Ended upon keyword ',KLEY
+        ELSE
+          WRITE(*,200) 'Unknown keyword ',KLEY
+ 200      FORMAT(/,10X,'Pgm zgoubi. ',2A,/)
+          CALL ENDJOB(
+     >    'Pgm zgoubi : Execution ended upon unexpected keyword.',-99)
+        ENDIF
       ENDIF
       RETURN 
 
  996  CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
+      CALL ENDJOB(
      >'Pgm zgoubi : Execution stopped due to ERRor '//
-     >'while reading Key from input .dat file.'
+     >'while reading Key from input .dat file.',-99)
       RETURN 
 
  997  CONTINUE
@@ -1299,6 +1303,10 @@ C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
         ENDIF
       ENDIF
       CALL OPTIC2(OKLNO,LNOPTI)
+      CALL OBJET1(
+     >             KOBJ,KOBJ2)
+      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
+     >'Pgm zgoubi. TWISS requires OBJET/KOBJ=5 or 6.',-99)
       CALL TWISS(LNOPTI,OKCPLD,
      >                  KOPTCS,READAT,KTW)
       IF(KOPTCS .EQ. 1) THEN

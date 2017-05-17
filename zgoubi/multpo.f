@@ -84,8 +84,8 @@ C Field or alignment defects
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
-      SAVE DB, DPOS, TILT
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),ROLL(MXL,MPOL,3)
+      SAVE DB, DPOS, ROLL
       LOGICAL OK
       LOGICAL FITING, FITFNL
       LOGICAL PRNT, PRNTI
@@ -226,6 +226,7 @@ C        DECA, DODECA, ... 18-POLE
   
 C----- Multipole rotation
         IA = IA + MCOEF - NCS 
+        IA1 = IA
         DO 35 IM=1,MPOL
           IA = IA + 1
           RT(IM)=A(NOEL,IA) 
@@ -281,7 +282,7 @@ C----- Case erron (ERRORS)
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
             CALL MULERR(NOEL,IRR,MXTA,BM, 
      >      KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                             DB,DPOS,TILT)
+     >                                             DB,DPOS,ROLL)
 
             IF(PRNT .AND. OKOPN) THEN
               CALL ZGKLE(IQ(NOEL), 
@@ -294,7 +295,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
               IF(EMPTY(LBL2(IRR))) THEN 
                 LBL2L = '.'
               ELSE
-                LBL2L = LBL1(IRR)
+                LBL2L = LBL2(IRR)
               ENDIF
               WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
      >        3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
@@ -302,7 +303,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
      >        TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >        ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
      >             DB(NOEL,IPOL),
-     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
+     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(ROLL(NOEL,IPOL,JJ),JJ=1,3),
      >           KLEY,LBL1L,LBL2L
             ENDIF
 
@@ -312,6 +313,12 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
               DO IM=1,MPOL
                 IF(KPOL(IRR,IM).EQ.1) THEN
                   BM(IM) = BM(IM) + DB(NOEL,IM)
+                  RT(IM) = RT(IM) + ROLL(NOEL,IPOL,1)
+
+c                  write(*,*) ' multpo '
+c     >            ,IM,NOEL,IPOL,RT(IM),ROLL(NOEL,IPOL,1)
+c                     read(*,*)
+ 
                 ENDIF
               ENDDO
             ELSE
@@ -329,6 +336,13 @@ C            ENDIF
                   IA = IM + 3
                   A(NOEL,IA) = BM(IM) / SCAL
                 ENDIF
+              ENDDO
+              IA = IA1
+              SKEW=.FALSE.
+              DO IM=1,MPOL
+                IA = IA + 1
+                A(NOEL,IA) = RT(IM)
+                SKEW=SKEW .OR. RT(IM) .NE. ZERO
               ENDDO
             ENDIF      
 
@@ -367,7 +381,7 @@ C      ENDDO
           IF( (XL-DLE(NM0)-DLS(NM0)) .LT. 0.D0) 
      >    WRITE(NRES,102) NM0 
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  of  ',I0
-     >    '-pole  overlap, '
+     >    ,'-pole  overlap, '
      >    //'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
           DO IM=NM0+1,NM
             IF( (XL-DLE(NM0)*DLE(NM)-DLS(NM0)*DLS(NM)) .LT. 0.D0) 
@@ -651,9 +665,9 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          //'DB / X_,Y_,Z_shift / X_, Y_, Z_rot : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
-     >          (TILT(MXL,I,II),II=1,3)
+     >          (ROLL(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ELSE
@@ -674,9 +688,9 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
+     >          //'DB / X_,Y_,Z_shift / X_, Y_, Z_rot : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
-     >          (TILT(MXL,I,II),II=1,3)
+     >          (ROLL(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ENDIF
@@ -763,7 +777,7 @@ C----- Execution stopped :
       IPOL = IPOLI
       KPOL(IRR,IPOL) = 1
       TYPERR(IRR,IPOL)=      TYPERI
-      TYPAR(IRR,IPOL)=      TYPAI
+      TYPAR(IRR,IPOL)=       TYPAI
       TYPDIS(IRR,IPOL)=      TYPDII
       ERRCEN(IRR,IPOL)=      ERRCEI
       ERRSIG(IRR,IPOL)=      ERRSII
@@ -791,7 +805,7 @@ C----- Execution stopped :
      >    //'TYPERR(IRR,IPOL), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
      >    //'DB(NOEL,IPOL), '
-     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '
+     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (ROLL(NOEL,IPOL,JJ),JJ=1,3), '
      >    //'KLEY, LBL1L, LBL2L'
           WRITE(LERR,FMT='(A)') '# '
           OKOPN = .TRUE.
