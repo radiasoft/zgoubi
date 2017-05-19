@@ -80,16 +80,16 @@ These two techniques are employed  in the exercises, to develop on the propertie
 in cyclotrons. 
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloClass}-1 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassTra}-1 
 
-\noindent ~\ref{secCycloClass}-1.a - 
+\noindent ~\ref{secCycloClassTra}-1.a - 
 Construct a 60-degree sector mid-plane 2-dimensional field map, with constant vertical field 
 B=0.5~T, covering R=20 to 70~cm. Use a uniform mesh in cylindrical coordinates. 
 Using \texttt{TOSCA} keyword, track two protons with energy respectively 1~MeV and 5~MeV, 
 check convergence of numerical integration of motion versus mesh density. 
 
-\noindent ~\ref{secCycloClass}-1.b - 
-Track H- ions on their periodic circular orbit across this 60-degree sector, 
+\noindent ~\ref{secCycloClassTra}-1.b - 
+Track protons on their periodic circular orbit across this 60-degree sector, 
 assuming the orbit centered at the center of the field map, 
 for a few different momenta ranging from 1~MeV to 5~MeV.
  Plot, as a function of momentum, their 
@@ -101,15 +101,15 @@ Check evolution of these quantities with field map mesh density and with step si
 
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloClass}-2 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassTra}-2 
  \verb|CYCLOTRON| or \verb|DIPOLE| are two procedures amongst others, that provide an analytical 
  magnetic field model ${B_y(r,\theta)|_{y=0}}$ in the median plane of a dipole magnet. 
-Use it to produce a uniform field and re-derive the results above. 
+Use it to simulate a uniform field ring and re-derive the results above. 
 From the two series of results, comment on various pros and cons of the two methods, analytical field models and 
 fieldmaps.
 
 
-\subsection{Acceleration}\label{secCycloAccel}
+\subsection{Acceleration}\label{secCycloClassAccel}
 
 
 The RF gap provides a voltage  
@@ -131,31 +131,31 @@ will result in a  shift in the arrival phase of the particle at the RF gap amoun
  ******* prendre de valeurs R, B, etc. realistes, e.g. in ../biblio/22047216.pdf, 23001796.pdf*******
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-3 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassAccel}-1 
 
 Using \texttt{CAVITE}, install a double RF gap as in Fig.~\ref{figLBLCycloSketch}, 
-with a peak gap voltage $\hat V = 10$~kV, in a 6-sector ring based on the earlier material (ex.~~\ref{secCycloClass}-1,~2). 
+with a peak gap voltage $\hat V = 10$~kV, in a 6-sector ring based on the earlier material (ex.~~\ref{secCycloClassTra}-1,~2). 
 Set the RF gap parameters such that acceleration is independent of RF phase.
 Track a proton from 1 to 5~MeV. Plot the path length and time of flight as a function of energy, 
-compare with the results from ex.~~\ref{secCycloClass}-1,~2.
+compare with the results from ex.~~\ref{secCycloClassTra}-1,~2.
 
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-4 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassAccel}-2 
 
-\noindent \ref{secCycloClass}-4.a - 
+\noindent \ref{secCycloClassAccel}-2.a - 
 Set \texttt{CAVITE} parameters to obtain the phase dependence, 
 and assume an RF frequency $f_{\rm RF}$ which is the harmonic $h=$ of the revolution frequency.
 Track a proton from 1 to 5~MeV. 
 Get the path length, time of flight, RF phase as a function of energy,
-compare with the results of ~\ref{secCycloClass}-3.
+compare with the results of exercise~\ref{secCycloClassAccel}-1.
 
-\noindent \ref{secCycloClass}-4.b - 
+\noindent \ref{secCycloClassAccel}-2.b - 
 Introduce a magnetic field defect $\Delta B/B= 10^{-4}$, uniform over the ring. 
 In a $V(\phi)$ diagram, represent  the arrival phase  of the particle at the RF gap
 by plotting it along the V(t) curve. 
 Compare the evolution time of flight, RF phase, number of turns to the top energy,
- with the results of ~\ref{secCycloClass}-4.a.
+ with the results of 2.a above.
 
 
 
@@ -420,7 +420,7 @@ Accelerate a complete cycle, on h=1, h=3. In V(t) space, plot V(t) path of refer
 
 \section{Exercises: hints, help}
 
-\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-1 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassAccel}-1 
 
 The field map has to be in a uniform mesh, preferably in cylindrical coordinates due to the symmetry of the problem.
 Namely, $B(R,\theta)$ on nodes at fixed $\Delta R$, $\Delta \theta$ intervals. Aim $\approx 1$~mm intervals 
