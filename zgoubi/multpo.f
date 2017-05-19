@@ -84,8 +84,8 @@ C Field or alignment defects
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,MPOL),ERRSIG(MXERR,MPOL),ERRCUT(MXERR,MPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),ROLL(MXL,MPOL,3)
-      SAVE DB, DPOS, ROLL
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
+      SAVE DB, DPOS, TILT
       LOGICAL OK
       LOGICAL FITING, FITFNL
       LOGICAL PRNT, PRNTI
@@ -282,7 +282,7 @@ C----- Case erron (ERRORS)
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
             CALL MULERR(NOEL,IRR,MXTA,BM, 
      >      KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                             DB,DPOS,ROLL)
+     >                                             DB,DPOS,TILT)
 
             IF(PRNT .AND. OKOPN) THEN
               CALL ZGKLE(IQ(NOEL), 
@@ -303,7 +303,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
      >        TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >        ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
      >             DB(NOEL,IPOL),
-     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(ROLL(NOEL,IPOL,JJ),JJ=1,3),
+     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
      >           KLEY,LBL1L,LBL2L
             ENDIF
 
@@ -313,12 +313,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
               DO IM=1,MPOL
                 IF(KPOL(IRR,IM).EQ.1) THEN
                   BM(IM) = BM(IM) + DB(NOEL,IM)
-                  RT(IM) = RT(IM) + ROLL(NOEL,IPOL,1)
-
-c                  write(*,*) ' multpo '
-c     >            ,IM,NOEL,IPOL,RT(IM),ROLL(NOEL,IPOL,1)
-c                     read(*,*)
- 
+                  RT(IM) = RT(IM) + TILT(NOEL,IM,1)
                 ENDIF
               ENDDO
             ELSE
@@ -382,7 +377,7 @@ C      ENDDO
      >    WRITE(NRES,102) NM0 
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  of  ',I0
      >    ,'-pole  overlap, '
-     >    //'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
+     >    ,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
           DO IM=NM0+1,NM
             IF( (XL-DLE(NM0)*DLE(NM)-DLS(NM0)*DLS(NM)) .LT. 0.D0) 
      >      WRITE(NRES,102) IM
@@ -665,9 +660,9 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / X_,Y_,Z_shift / X_, Y_, Z_rot : ',
+     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
-     >          (ROLL(MXL,I,II),II=1,3)
+     >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ELSE
@@ -688,9 +683,9 @@ C----- Case erron (ERRORS)
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
      >          '    error  values  status, '
-     >          //'DB / X_,Y_,Z_shift / X_, Y_, Z_rot : ',
+     >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
-     >          (ROLL(MXL,I,II),II=1,3)
+     >          (TILT(MXL,I,II),II=1,3)
               ENDIF
             ENDDO
            ENDIF
@@ -777,7 +772,7 @@ C----- Execution stopped :
       IPOL = IPOLI
       KPOL(IRR,IPOL) = 1
       TYPERR(IRR,IPOL)=      TYPERI
-      TYPAR(IRR,IPOL)=       TYPAI
+      TYPAR(IRR,IPOL)=      TYPAI
       TYPDIS(IRR,IPOL)=      TYPDII
       ERRCEN(IRR,IPOL)=      ERRCEI
       ERRSIG(IRR,IPOL)=      ERRSII
@@ -805,7 +800,7 @@ C----- Execution stopped :
      >    //'TYPERR(IRR,IPOL), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
      >    //'DB(NOEL,IPOL), '
-     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (ROLL(NOEL,IPOL,JJ),JJ=1,3), '
+     >    //'(DPOS(NOEL,IPOL,JJ),JJ=1,3), (TILT(NOEL,IPOL,JJ),JJ=1,3), '
      >    //'KLEY, LBL1L, LBL2L'
           WRITE(LERR,FMT='(A)') '# '
           OKOPN = .TRUE.

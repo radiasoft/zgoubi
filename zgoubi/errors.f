@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ERRORS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -129,7 +129,7 @@ C Will save error list in zgoubi.ERRORS.out
      >                             IS2)
             OK = STRCON(TXT132(IS:IS2),',',
      >                                     IS3)
-            IF(IS+1.LE.IS2-1) THEN
+            IF(IS+1.LT.IS2-1) THEN
               IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
      >             READ(TXT132(IS+1:IS2-1),*) LBL1
             ENDIF

@@ -24,8 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
-     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC,
-     >               DPOS,ERRON)
+     >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -37,11 +36,6 @@ C-------------------------------------------------
       PARAMETER (MXAA2=MAX(24+MXC-1,20+10*MXMAP+9))
       INCLUDE 'MXLD.H'
       DIMENSION AA(MXL,MXAA2)
-      PARAMETER(JPOL=6)
-      DIMENSION DPOS(MXL,JPOL,3)
-C--    ERRORS
-      LOGICAL ERRON
-C      SAVE ERRON
 
       LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
@@ -102,11 +96,15 @@ C     16/01/14 to pass the map coefficients to KSMAP4
       PARAMETER (ONE=1.D0)
       PARAMETER (MXHD=20)
 
+C--    ERRORS
+      LOGICAL ERRON
+      SAVE ERRON
       PARAMETER (MXERR=MXTA)
       CHARACTER(LBLSIZ) LBL1(MXERR), LBL2(MXERR)
       CHARACTER(LBLSIZ) LBL1I, LBL2I
       SAVE LBL1, LBL2
       LOGICAL EMPTY
+      PARAMETER (JPOL=6)
       DIMENSION KPOL(MXERR,JPOL), BNRM(JPOL)
       CHARACTER(2) TYPERR(MXERR,JPOL)
       CHARACTER(1) TYPAR(MXERR,JPOL),TYPDIS(MXERR,JPOL)
@@ -114,10 +112,8 @@ C     16/01/14 to pass the map coefficients to KSMAP4
       CHARACTER(1) TYPAI,TYPDII
       DIMENSION ERRCEN(MXERR,JPOL),ERRSIG(MXERR,JPOL),ERRCUT(MXERR,JPOL)
       SAVE TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT
-C      DIMENSION DB(MXL,JPOL),DPOS(MXL,JPOL,3),TILT(MXL,JPOL,3)
-C      SAVE DB, DPOS, TILT
-      DIMENSION DB(MXL,JPOL),TILT(MXL,JPOL,3)
-      SAVE DB, TILT
+      DIMENSION DB(MXL,JPOL),DPOS(MXL,JPOL,3),TILT(MXL,JPOL,3)
+      SAVE DB, DPOS, TILT
       LOGICAL OK
       LOGICAL FITING, FITFNL
       LOGICAL PRNT, PRNTI
@@ -145,6 +141,7 @@ C      SAVE DB, DPOS, TILT
       DATA FMTYP / ' regular' /
       DATA IALOC / 0 /
       DATA NBMAPS / 0 /
+      DATA ERRON / .FALSE. /
       DATA BNRM / 6*0.D0 /
       DATA NMPTN / MXC * 1 /
       DATA NFIC / 1 /
@@ -874,6 +871,7 @@ C                BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
             ENDDO
 
             BNORM = BNRM(1)
+
 
             IF(PRNT .AND. OKOPN) THEN
               CALL ZGKLE(IQ(NOEL), 

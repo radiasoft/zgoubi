@@ -24,7 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MULERR(NOEL,IRR,MXTA,BM, 
      >KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
-     >                                     DB,DPOS,ROLL)
+     >                                     DB,DPOS,TILT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION BM(*)
 C      PARAMETER (MXTA=45)
@@ -36,7 +36,7 @@ C      PARAMETER (MXERR=MXTA)
       DIMENSION ERRCEN(MXTA,MPOL),ERRSIG(MXTA,MPOL),ERRCUT(MXTA,MPOL)
 
       INCLUDE 'MXLD.H'
-      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),ROLL(MXL,MPOL,3)
+      DIMENSION DB(MXL,MPOL),DPOS(MXL,MPOL,3),TILT(MXL,MPOL,3)
 
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
@@ -44,15 +44,15 @@ C      PARAMETER (MXERR=MXTA)
 
       DO I = 1, MPOL
         IF(KPOL(IRR,I) .EQ.1) THEN
-
           IF    (TYPDIS(IRR,I).EQ.'G') THEN
             SM = EXP(-(ERRCUT(IRR,I)*ERRSIG(IRR,I))**2/2.D0)
             DERR = (2.D0*RNDM() -1.D0)*SM
           ELSEIF(TYPDIS(IRR,I).EQ.'U') THEN
             XXX = RNDM()
             DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0) 
+C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
+C                WRITE(88,*) ' MULERR RNDM ',XXX
           ENDIF
-
           IF    (TYPERR(IRR,I)(1:1).EQ.'B') THEN
             IF    (TYPAR(IRR,I).EQ.'A') THEN
 C              ABSOLUTE ERROR
@@ -62,22 +62,23 @@ C              RELATIVE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR*BM(I)
             ENDIF
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'S') THEN
-C This is to be checked, has never been
-              IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
-                DPOS(NOEL,I,1) = ERRCEN(IRR,I) + DERR
-              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
-                DPOS(NOEL,I,2) = ERRCEN(IRR,I) + DERR
-              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
-                DPOS(NOEL,I,3) = ERRCEN(IRR,I) + DERR
-              ENDIF
+            IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
+              DPOS(NOEL,I,1) = ERRCEN(IRR,I) + DERR
+            ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
+              DPOS(NOEL,I,2) = ERRCEN(IRR,I) + DERR
+            ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
+              DPOS(NOEL,I,3) = ERRCEN(IRR,I) + DERR
+            ENDIF
+C            DPOS(NOEL,I,3) = 0.D0
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
-              IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
-                ROLL(NOEL,I,1) = ERRCEN(IRR,I) + DERR
-              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
-                ROLL(NOEL,I,2) = ERRCEN(IRR,I) + DERR
-              ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
-                ROLL(NOEL,I,3) = ERRCEN(IRR,I) + DERR
-              ENDIF
+            IF    (TYPERR(IRR,I)(1:1).EQ.'X') THEN
+              TILT(NOEL,I,1) = ERRCEN(IRR,I) + DERR
+            ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Y') THEN
+              TILT(NOEL,I,2) = ERRCEN(IRR,I) + DERR
+            ELSEIF(TYPERR(IRR,I)(1:1).EQ.'Z') THEN
+              TILT(NOEL,I,3) = ERRCEN(IRR,I) + DERR
+            ENDIF
+C              TILT(NOEL,I,3) = 0.D0
           ELSE
             CALL ENDJOB('Sbr mulerr. No such option for TYPERR',-99)
           ENDIF
