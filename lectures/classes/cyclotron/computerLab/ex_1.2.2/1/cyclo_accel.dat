@@ -1,0 +1,32 @@
+Cyclotron, classical.
+ 'OBJET'         
+64.62444403717985                                   ! 200keV
+2
+4 1 
+12.9248888074 0.  0.   0.   0.  1. 'm'              ! 200keV. R=Brho/B=*/.5 
+28.9070891209 0.  0.   0.   0.  2.23654451125 'm'   ! 1 MeV. R=Brho/B=*/.5 
+50.           0.  0.   0.   0.  3.86850523397 'o'   ! at RM  (B*rho=0.5*0.5=0.25T.m, 2.9885 MeV) 
+64.7070336799 0.  0.   0.   0.  5.0063899693  'M'   ! 5 MeV. R=Brho/B=*/.5
+1 1 1 1 
+  
+ 'DIPOLE'        
+0
+60. 50.
+30.  5. 0. 0. 0.
+0.  0.                                        ! EFB 1  hard-edge
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+30. 0.  1.E6  -1.E6  1.E6  1.E6
+0.   0.                                       ! EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-30. 0.  1.E6  -1.E6  1.E6  1.E6
+0. 0.                                         ! EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
+4   10.
+0.01                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
+ 'FAISCEAU'      
+ 'FAISTORE'
+ zgoubi.fai
+ 1
+ 'END'           

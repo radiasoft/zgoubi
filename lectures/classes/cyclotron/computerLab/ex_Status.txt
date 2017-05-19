@@ -1,0 +1,39 @@
+EXERCISE PREPARATION : STATUS 
+
+
+1.2-1 : tbdone
+
+1.2-2 : Essentially ok. Updated to sourceForge on May 16, 2017
+        Optionally / can be done during lab time : 
+           - add plot penalty in graphics (grep 'Fit reached penalty' zgoubi.res > grepPanalty.out etc.)
+
+
+---
+ex 1.2-1.a
+
+rigidity at 200keV is   0.06462444403717985   taken as reference "BORO" in OBJET. R=Brho/B=*/.5=
+rigidity at 1MeV   is   0.14453544560425785   R=Brho/B=*/.5=
+            5MeV        0.32353516839953839   D=0.32353516839953839/0.06462444403717985=5.0063899693
+
+With 0.5T field, uniform, that yields respectively 
+rho [cm] = 12.9248888074, 
+           64.7070336799.
+At RM, Brho= 0.5*0.5=0.25 T.m, D=0.25/0.06462444403717985=3.86850523397
+
+Take field map Rmin=10cm, Rmax=70cm. 
+
+Take 200 steps in X
+Hence, xpas=RM*AT/200=52.3598775598/200=0.261799387799
+And at Rmin, dtheta=Rmin*AT/200=0.523598775598mm
+       Rmax, dtheta=Rmax*AT/200=3.66519142919mm
+such dtheta is ok as field is uniform, small enough to ensure accurate interpolation/off mid-plane extrapolation of field 
+when it comes to non-uniform fields, non-zero radial field index and flutter.
+
+It appears that xpas=0.03 yields Y==Y0 at all energies ! dunno why...  otherwise need small value of xpas to get Y==Y0 at 200keV
+
+---
+ex 1.2-1.b
+
+rzg -in cyclo_DIPOLE_scanMom.dat               !  will create zgoubi.fai
+gnuplot <./gnuplot_zgoubi.fai_YvsE.cmd         !  set to plot zgoubi.fai_stepSize_xxx
+
