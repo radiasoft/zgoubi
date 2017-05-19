@@ -83,17 +83,19 @@ in cyclotrons.
 \noindent {\small $\bullet$} Exercise~\ref{secCycloClass}-1 
 
 \noindent ~\ref{secCycloClass}-1.a - 
-Construct a 45-degree sector mid-plane 2-dimensional field map, with constant vertical field such as to 
-achieve a R=0.5~m extraction radius for  10~MeV H- ions (an injector to a higher energy installation, 
-typically, \textsl{e.g.} using stripping extraction). 
-Use a uniform mesh in cylindrical coordinates. 
+Construct a 60-degree sector mid-plane 2-dimensional field map, with constant vertical field 
+B=0.5~T, covering R=20 to 70~cm. Use a uniform mesh in cylindrical coordinates. 
+Using \texttt{TOSCA} keyword, track two protons with energy respectively 1~MeV and 5~MeV, 
+check convergence of numerical integration of motion versus mesh density. 
 
 \noindent ~\ref{secCycloClass}-1.b - 
-In a 8-sector configuration (8 times that map, so constituting a complete ring), 
-track H- ions on their circular orbit, for a few different momenta ranging from 5~keV to 10~MeV.
+Track H- ions on their periodic circular orbit across this 60-degree sector, 
+assuming the orbit centered at the center of the field map, 
+for a few different momenta ranging from 1~MeV to 5~MeV.
  Plot, as a function of momentum, their 
 equilibrium orbit radius $R$ and the time of flight $T_{\rm rev}$ on that orbit, 
  from both ray-tracing and  theory on a same graphic. 
+Establish that the slight TOF increase with momentum observed is as expected from relativity. 
 Check evolution of these quantities with field map mesh density and with step size.
 
 
@@ -115,9 +117,10 @@ The RF gap provides a voltage
 \label{EqRCyclo}
 V_{\rm RF}(t) =\hat V \cos ........... 
 \end{equation}
-Particles are accelerated as long as they belong in the $[-90,+90]$~degree phase interval, 
-the closer to $\phi=90$~deg, the smaller the number of turns 
-(the time interval) necessary to reach the extraction radius of the cyclotron.
+Particles are accelerated as long as they reach the gap when the RF phase is in the 
+interval $[-90,+90]$~degree. 
+The closer the RF phase to $\phi=90$~deg, the smaller the number of turns 
+(the time interval) necessary to reach the top energy. 
 A deviation of the field B from the isochronous value $2\pi m f_{\rm rev}/q$
 will result in a  shift in the arrival phase of the particle at the RF gap amounting to 
 \begin{equation}
@@ -128,13 +131,31 @@ will result in a  shift in the arrival phase of the particle at the RF gap amoun
  ******* prendre de valeurs R, B, etc. realistes, e.g. in ../biblio/22047216.pdf, 23001796.pdf*******
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-1 
-Assume an accelerating double-gap  configuration as in Fig.~\ref{figLBLCycloSketch}. 
-What is the minimum number of turns  expected  from 5~keV to 10~MeV~? Track a particle over that range, 
-play with the RF phase, conclude on the  expectations. 
-In a V(t) diagram, plot  the position  of the particle along the V(t) curve at the 
-accelerating gap, for a magnetic field defect 
-$\Delta B/B= 10^{-4}$, homogeneous, in the previous sector  map. 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-3 
+
+Using \texttt{CAVITE}, install a double RF gap as in Fig.~\ref{figLBLCycloSketch}, 
+with a peak gap voltage $\hat V = 10$~kV, in a 6-sector ring based on the earlier material (ex.~~\ref{secCycloClass}-1,~2). 
+Set the RF gap parameters such that acceleration is independent of RF phase.
+Track a proton from 1 to 5~MeV. Plot the path length and time of flight as a function of energy, 
+compare with the results from ex.~~\ref{secCycloClass}-1,~2.
+
+
+\smallskip
+\noindent {\small $\bullet$} Exercise~\ref{secCycloAccel}-4 
+
+\noindent \ref{secCycloClass}-4.a - 
+Set \texttt{CAVITE} parameters to obtain the phase dependence, 
+and assume an RF frequency $f_{\rm RF}$ which is the harmonic $h=$ of the revolution frequency.
+Track a proton from 1 to 5~MeV. 
+Get the path length, time of flight, RF phase as a function of energy,
+compare with the results of ~\ref{secCycloClass}-3.
+
+\noindent \ref{secCycloClass}-4.b - 
+Introduce a magnetic field defect $\Delta B/B= 10^{-4}$, uniform over the ring. 
+In a $V(\phi)$ diagram, represent  the arrival phase  of the particle at the RF gap
+by plotting it along the V(t) curve. 
+Compare the evolution time of flight, RF phase, number of turns to the top energy,
+ with the results of ~\ref{secCycloClass}-4.a.
 
 
 
