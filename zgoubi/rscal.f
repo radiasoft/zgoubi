@@ -285,7 +285,9 @@ C               max = max(NDSCL,NDTIM)
           ELSEIF(NTIM(IFM) .EQ. -88) THEN
 C--------- AC dipole at  BNL
             NDSCL=4
-            NDTIM=3
+C FM May 2017 - updated
+C            NDTIM=3
+            NDTIM=4
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL
 

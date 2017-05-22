@@ -44,7 +44,7 @@ C      PARAMETER (MXTA=45)
       CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
  
-      LOGICAL EMPTY, IDLUNI
+      LOGICAL IDLUNI
  
       PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), freq(nd), ekin(nd), turn(nd)
@@ -351,37 +351,66 @@ C          TIM(IF,2) = A(NOEL,10*IF+5)
  
         ELSEIF(NTIM(IF) .EQ. -88) THEN
 C--------- AC dipole at  BNL
-C          SCL(IF,1) = A(NOEL,10*IF)       ! C
-C          SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
-C          SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2
-C          SCL(IF,4) = A(NOEL,10*IF+3)     ! P
-C          TIM(IF,1) = A(NOEL,10*IF+4)     ! Nramp
-C          TIM(IF,2) = A(NOEL,10*IF+5)     ! Nflat
-C          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
-            NDSCL=4
-            NDTIM=3
+          NDSCL=4
+          NDTIM=4
           NP = NP + 1
-          SCL(IF,1,1) = A(NOEL,NP)      ! C
+          SCL(IF,1,1) = A(NOEL,NP)     ! phase of the ac dipole
           NP = NP + 1
-          SCL(IF,2,1) = A(NOEL,NP)     ! Q1
+          SCL(IF,2,1) = A(NOEL,NP)     ! Q1, tune at the start of the sweep
           NP = NP + 1
-          SCL(IF,3,1) = A(NOEL,NP)     ! Q2
+          SCL(IF,3,1) = A(NOEL,NP)     ! Q2, tune at the end of the sweep
           NP = NP + 1
-          SCL(IF,4,1) = A(NOEL,NP)     ! P
+          SCL(IF,4,1) = A(NOEL,NP)     ! scale factor
           NP = NP + 1
-          TIM(IF,1) = A(NOEL,NP)     ! Nramp
+          TIM(IF,1) = A(NOEL,NP)     ! Hold number of turns (at zero)
           NP = NP + 1
-          TIM(IF,2) = A(NOEL,NP)     ! Nflat
+          TIM(IF,2) = A(NOEL,NP)     ! Ramp up number of turns
           NP = NP + 1
-          TIM(IF,3) = A(NOEL,NP)     ! Ndown
+          TIM(IF,3) = A(NOEL,NP)     ! Sweep number of turns
           NP = NP + 1
- 
+          TIM(IF,4) = A(NOEL,NP)     ! Ramp down number of turns
+          NP = NP + 1
           IF(NRES .GT. 0) THEN
-            WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))')
+            WRITE(NRES,
+     >          FMT='(5X,1P,''Phase, Q1, Q2, Scale'',4(1X,E14.6))') 
      >          (SCL(IF,IC,1) ,IC=1,4)
-            WRITE(NRES,FMT='(5X,'' N-ramp, -flat, -down : '',3I8)')
-     >          (NINT(TIM(IF,IT)), IT=1,3)
+            WRITE(NRES,
+     >          FMT='(5X,'' N-hold, -up , -sweep, -down : '',3I8)') 
+     >          (NINT(TIM(IF,IT)), IT=1,4)
           ENDIF
+
+C        ELSEIF(NTIM(IF) .EQ. -88) THEN
+CC--------- AC dipole at  BNL
+CC          SCL(IF,1) = A(NOEL,10*IF)       ! C
+CC          SCL(IF,2) = A(NOEL,10*IF+1)     ! Q1
+CC          SCL(IF,3) = A(NOEL,10*IF+2)     ! Q2
+CC          SCL(IF,4) = A(NOEL,10*IF+3)     ! P
+CC          TIM(IF,1) = A(NOEL,10*IF+4)     ! Nramp
+CC          TIM(IF,2) = A(NOEL,10*IF+5)     ! Nflat
+CC          TIM(IF,3) = A(NOEL,10*IF+6)     ! Ndown
+C            NDSCL=4
+C            NDTIM=3
+C          NP = NP + 1
+C          SCL(IF,1,1) = A(NOEL,NP)      ! C
+C          NP = NP + 1
+C          SCL(IF,2,1) = A(NOEL,NP)     ! Q1
+C          NP = NP + 1
+C          SCL(IF,3,1) = A(NOEL,NP)     ! Q2
+C          NP = NP + 1
+C          SCL(IF,4,1) = A(NOEL,NP)     ! P
+C          NP = NP + 1
+C          TIM(IF,1) = A(NOEL,NP)     ! Nramp
+C          NP = NP + 1
+C          TIM(IF,2) = A(NOEL,NP)     ! Nflat
+C          NP = NP + 1
+C          TIM(IF,3) = A(NOEL,NP)     ! Ndown
+C          NP = NP + 1
+C          IF(NRES .GT. 0) THEN
+C            WRITE(NRES,FMT='(5X,1P,''C, Q1, Q2, P :'',4(1X,E14.6))')
+C     >          (SCL(IF,IC,1) ,IC=1,4)
+C            WRITE(NRES,FMT='(5X,'' N-ramp, -flat, -down : '',3I8)')
+C     >          (NINT(TIM(IF,IT)), IT=1,3)
+C          ENDIF
  
         ELSEIF(NTIM(IF) .EQ. -87) THEN
 C AGS Q-jump quads.

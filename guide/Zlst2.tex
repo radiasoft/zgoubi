@@ -4469,7 +4469,9 @@ CAVITE  20  1.337399e9  1.33934e9   1.34012e9   1.34018e9
            \>$NT=-1$~: field scaling factor updated by \textsl{CAVITE}~;   \> \> \\
            \>$NT=-2$~:  RF law in \textsl{CAVITE} is  read from external data file.  \> \> \\
  \\
- $SCL(I)$, $I=1$, $NT$ \>Scaling values (a single value if $NT=-1$~; unused if $NT=-2$)  \>relative \>NT*E\\
+ $SCL(I)$, $I=1$, $NT$ \>Scaling values, and in particular~:                             \>relative \>NT*E\\
+                       \>a single value if $NT=-1$~; unused if $NT=-2$~:  \> \>  \\
+                       \>if $NT=1$ then  $SCL(I)= SCL(1)$ whatever the pass number. \> \>  \\
  \\
  $TIM(I)$, $I=1$, $NT$ \>Corresponding timings, in units of turns (1 if $NT=-1$~;   \>turn number \>NT*I \\
                        \>  unused  if      $NT=-2$).                       \>  \>  \\

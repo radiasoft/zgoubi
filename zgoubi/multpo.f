@@ -313,7 +313,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
               DO IM=1,MPOL
                 IF(KPOL(IRR,IM).EQ.1) THEN
                   BM(IM) = BM(IM) + DB(NOEL,IM)
-                  RT(IM) = RT(IM) + TILT(NOEL,IM,1)
+                  RT(IM) = RT(IM) + TILT(NOEL,IM,1)   ! poles only roll.  tilt_3=ZR goes to ALE in chxc.
                 ENDIF
               ENDDO
             ELSE

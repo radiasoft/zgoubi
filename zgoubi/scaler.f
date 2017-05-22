@@ -200,16 +200,6 @@ C                GOTO 88
 
               ENDIF
 
-c                    if(kf.eq.1)
-c               if(noel.eq.452) then 
-c               write(*,fmt='(/,a,1p,e12.4,8(2x,i6))') ' scaler ',scaler, 
-c     >            noel,ipass,kf,kti,mxs,i2,it1,it2
-c                 write(*,fmt='(8(2x,i6))') 
-c     >            IT1,NINT(TIM(KF,I)),KF,I,i2,it2
-C                   stop ' SBR scaler -  TESTS'
-c               endif
-
-
             ELSEIF((MODSCL(KF) .EQ. 10) .OR.
      >             (MODSCL(KF) .EQ. 11)) THEN
 
@@ -386,30 +376,86 @@ C          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
 
         ELSEIF(KTI .EQ. -88) THEN
 C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
+C-------- removed 2pi from input, added constant scaler SCLMX, jorg
           PHAS = SCL(KF,1,1)
           Q1   = SCL(KF,2,1)
           Q2   = SCL(KF,3,1)
-          PP   = SCL(KF,4,1)
-          RAMPN = TIM(KF,1)
-          FLATN = TIM(KF,2)
-          DOWNN = TIM(KF,3)
-          DBLIP = DBLE(IPASS)
-          IF    (IPASS .LE. RAMPN+FLATN+DOWNN) THEN
-            IF    (IPASS .LE. RAMPN) THEN
-              SCALER = DBLIP/RAMPN
-              QN = Q1
-            ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
-              SCALER = 1.D0
-              QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
-            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
-     >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
-              SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
-              QN = Q2
-            ENDIF
-            SCALER = SCALER * COS(2.D0*PP*DBLIP*QN + PHAS)
-          ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
-            SCALER = 1.D0
+          SCLMX = SCL(KF,4,1)
+          RININ = TIM(KF,1)
+          RAMPN = TIM(KF,2)
+          FLATN = TIM(KF,3)
+          DOWNN = TIM(KF,4)
+          acturns = DBLE(IPASS)-RININ
+          rampstart = RININ
+          sweepstart = RININ+RAMPN
+          sweepend = sweepstart+FLATN
+          downend = sweepend+DOWNN
+          write(88,*) phas, q1, q2, SCLMX, RININ, RAMPN,
+     &      FLATN,DOWNN,acturns,rampstart,sweepstart,sweepend,downend
+
+          IF (IPASS .LT. RININ .or. IPASS .gt. downend) THEN
+             SCAL = 0.d0
+             QN=0
+             iwhere=1
+             totalphasep=0
+          ELSE
+             IF  (IPASS .LE. sweepstart) THEN
+                   SCAL = acturns/RAMPN
+                   QN = Q1
+                   totalphasep=QN*acturns
+             iwhere=2
+             ELSEIF  (IPASS .LE. sweepend) THEN
+                   SCAL = 1.D0
+                   totalturn=IPASS
+                   sweepturns = acturns-RAMPN
+                   sweeprate = (Q2-Q1)/FLATN
+                   QN = Q1+ sweeprate * sweepturns
+                   totalphasep=Q1*acturns+
+     +               sweeprate*sweepturns*sweepturns/2.d0
+             iwhere=3
+             ELSE
+                   SCAL = (RAMPN+FLATN+DOWNN-acturns)/DOWNN
+                   QN = Q2
+                   totalphasep=QN*(acturns-RAMPN-FLATN)+Q1*(RAMPN+FLATN)
+             iwhere=4
+             ENDIF
+             SCAL = SCAL * COS(twopi*totalphasep + PHAS) * SCLMX
           ENDIF
+c         scal is used for debugging -jkl
+          SCALER = scal
+c         write(77,*) IPASS,QN,totalphasep,scaler
+c         write(77,*) ipass,noel,scaler,qn,totalphasep,PHAS,Q1,Q2,SCLMX,RININ,RAMPN,FLATN,
+c    &      DOWNN,acturns,rampstart,sweepstart,sweepend,downend, iwhere
+c         write(77,*) ipass,noel,scal,qn,totalphasep,iwhere
+
+
+
+C        ELSEIF(KTI .EQ. -88) THEN
+CC-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
+C          PHAS = SCL(KF,1,1)
+C          Q1   = SCL(KF,2,1)
+C          Q2   = SCL(KF,3,1)
+C          PP   = SCL(KF,4,1)
+C          RAMPN = TIM(KF,1)
+C          FLATN = TIM(KF,2)
+C          DOWNN = TIM(KF,3)
+C          DBLIP = DBLE(IPASS)
+C          IF    (IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+C            IF    (IPASS .LE. RAMPN) THEN
+C              SCALER = DBLIP/RAMPN
+C              QN = Q1
+C            ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
+C              SCALER = 1.D0
+C              QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
+C            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
+C     >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
+C              SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
+C              QN = Q2
+C            ENDIF
+C            SCALER = SCALER * COS(2.D0*PP*DBLIP*QN + PHAS)
+C          ELSEIF(IPASS .GT. RAMPN+FLATN+DOWNN) THEN
+C            SCALER = 1.D0
+C          ENDIF
 C          write(88,*) ' scaler ',IPASS,scaler,NINT(RAMPN+FLATN+DOWNN)
 
         ELSEIF(KTI .EQ. -87) THEN
