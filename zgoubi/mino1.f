@@ -39,7 +39,7 @@ C  -------
       SAVE SYSOUT
 
       DATA PNLTY, ICPTMA / 1D-10, 1000 /
-      DATA NITER / 90 /
+      DATA NITER / 999 /
 
       CALL CPTINI
       NI=0

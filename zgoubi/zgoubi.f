@@ -143,7 +143,9 @@ C      LOGICAL OKPRLB, OKPRDA
       CHARACTER(I30) SCPLD
       SAVE SCPLD
 
-      DATA PNLTGT, ITRMA, ICPTMA / 1D-10, 90, 1000 /
+      PARAMETER (ITRMA0=999)
+
+      DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
 
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
@@ -750,7 +752,7 @@ C----- FIT. FIT2. Two methods are available
      >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
 C      IF(READAT) CALL RFIT(KLEY,IMAX,
-      IF(READAT) CALL RFIT(KLEY,
+      IF(READAT) CALL RFIT(KLEY,ITRMA,
      >                         PNLTGT,ITRMA,ICPTMA,FITFNL)
       CALL FITST6(FITFNL)     !  True if request for last run with variables following from FIT[2}
       IF(MTHOD.EQ.1) CALL MINO12(PNLTGT,ITRMA,ICPTMA)

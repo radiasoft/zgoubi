@@ -1,1 +1,1 @@
-PARIZ_regular.H
+link PARIZ_regular.H

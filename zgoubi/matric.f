@@ -89,14 +89,11 @@ C      IORD = A(NOEL,1)
         ENDIF
       ENDIF 
 
-C      IFOC = A(NOEL,2) 
       IFOC = JFOC
       PRDIC = IFOC .GT. 10
       NMAIL = IFOC-10
 
-C      KWRMAT = NINT(A(NOEL,3)) .EQ. 1
       KWRMAT = KWR .EQ. 1
-C      IF(KWRMAT) CALL MATIM6(KWRMAT)
       CALL MATIM6(KWRMAT)
       IF(KWRMAT .AND. NRES .GT. 0) THEN
         WRITE(NRES,*) 
@@ -104,8 +101,6 @@ C      IF(KWRMAT) CALL MATIM6(KWRMAT)
      >  // ' zgoubi.MATRIX.out.'
       ENDIF
 
-C      KCPLD = A(NOEL,4) 
-C      OKCPLD = KCPLD .EQ. 1
       OKCPLD = SCPLD .EQ. 'coupled'
       CALL MATIM4(OKCPLD)
 
@@ -195,9 +190,7 @@ C          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
           IF(NRES .GT. 0) WRITE(NRES,FMT='(/,34X,'' Chromaticities : '',
      >      //,30X,''dNu_y / dp/p = '',G15.8,/, 
      >         30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
-C             write(nres,*) dp, a(numl,25)
         ENDIF
-C        CALL REFER(2,IORD,IFOC,1,6,7)
         CALL REFER(2,IORD,IFC,1,6,7)
 
       ELSEIF(IORD .EQ. 3) THEN

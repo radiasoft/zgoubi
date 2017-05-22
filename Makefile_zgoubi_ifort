@@ -1,26 +1,7 @@
-CFLAGS = -g -DGFORTRAN4
-#
-# Case of gfortran compiler, next two lines
-#FC=gfortran
-#FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
-#
-######## 
-# Case of ifort compiler, next two lines
-FC=/opt/intel/bin/ifort
-#FC=/opt/intel/composerxe-2011.4.191/bin/ia32/ifort
-### check : check array boundary errors
-FFLAGS= -xHOST -O3 -ip -traceback -check -static -save -cpp
-#FFLAGS= -xHOST -O3 -ip                   -static -save -cpp
-#FFLAGS= -xHOST -O3 -ip -traceback -check -static       -cpp
-#FFLAGS= -xHOST -O3 -ip -traceback -check         -save -cpp
-#FFLAGS= -xHOST -O3 -ip -traceback        -static -save -cpp
-###### -save :  Places variablesin static memory (same as -noauto or -noautomatic). 
-######## case OWL : 
-###### The -static option includes local libs (-lm etc.) into executable. Pb with that on cscomputers
-#FC=/opt/intel/bin/ifort
-#FFLAGS= -xHOST -O4 -ip  -save -cpp
-#FFLAGS= -xHOST -O4 -ip -traceback -save -cpp
-#FFLAGS= -xHOST -O4 -ip -traceback -check -save -cpp
+CFLAGS=-g -DGFORTRAN4
+FC=gfortran
+FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
+#FFLAGS=-O4 -Wall                -pedantic
 
 .POSIX:
 
@@ -28,6 +9,7 @@ all :
 	cd modules ;  make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
+	cd zpop ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd guide ; make
 
 clean :
@@ -36,4 +18,11 @@ clean :
 	cd common ;  make clean
 	cd zgoubi/coupling ; make clean
 	cd zgoubi ;  make clean
+	cd zpop/liblns ; $(MAKE) clean
+	cd zpop ; $(MAKE) clean
 	cd guide ; $(MAKE) clean
+
+
+
+# Comments : 
+# -fno-automatic      Treat each program unit (except those marked as RECURSIVE) as if the SAVE statement were specified for every local variable and array referenced in it. Does not affect common blocks. (Some Fortran compilers provide this option under the name -static or -save.) The default, which is -fautomatic, uses the stack for local variables smaller than the value given by -fmax-stack-var-size. 

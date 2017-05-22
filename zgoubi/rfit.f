@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
 C      SUBROUTINE RFIT(KLEY,IMAX,
-      SUBROUTINE RFIT(KLEY,
+      SUBROUTINE RFIT(KLEY,ITRMA0,
      >                     PNLTY,ITRMA,ICPTMA,FITFNL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ***************************************
@@ -55,7 +55,6 @@ C      PARAMETER (MXTA=45)
       LOGICAL ISNUM
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
-
       PARAMETER (ITXT=10)
       CHARACTER(ITXT) TXTIC
 
@@ -160,7 +159,7 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
  43   CONTINUE
       PNLTY = 1.D-10
  42   CONTINUE
-      ITRMA = 90
+      ITRMA = ITRMA0
  44   CONTINUE
       IF(KLEY .EQ. 'FIT') THEN
         ICPTMA = ICPTM1

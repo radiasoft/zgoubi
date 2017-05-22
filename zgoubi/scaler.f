@@ -72,6 +72,11 @@ C  -------
       LOGICAL OK3
 
       LOGICAL IDLUNI, OK, OKOPN, OKPRT, OKPRTI
+      LOGICAL STRWLD
+
+      PARAMETER (NLB=1)
+      CHARACTER(LBLSIZ) LBLST(NLB)
+
       SAVE OKPRT, OKOPN, LPRT
 
       DATA TIME, ICTIM / 0.D0 , 0/
@@ -110,28 +115,60 @@ C------------ LBF(,1-MLF) has to match current KLEY's label 1 in part or in full
             KL = 1
             DOWHILE(.NOT. EMPTY(LBF(KF,KL)) .AND. KL.LE.MLF)  
 
-              IF(STRCON(LBF(KF,KL),'*',
-     >                                 IS)) THEN
+C              IF(STRCON(LBF(KF,KL),'*',
+C     >                                 IS)) THEN
+C                LBFA = DEBSTR(LBF(KF,KL))
+C                LBFB = FINSTR(LBF(KF,KL))
+C                LLBF = LBFB-LBFA+1
+C                LABA = DEBSTR(LABEL(NOEL,1))
+C                LABB = FINSTR(LABEL(NOEL,1))
+C                LLAB = LABB-LABA+1
+C
+CC               ... either LBF ends with '*' ...
+C                IF(  LLBF-1 .GE. 1 ) THEN
+C                  IF(  LABEL(NOEL,1)(1:LLBF-1)
+C     >                      .EQ. LBF(KF,KL)(1:LLBF-1)) GOTO 2
+C                ELSE
+CC Dec 2015. To be checked before release
+CCC Means that LBF='*'. Scaling applies to all keywords
+CC                  GOTO 2
+C                ENDIF
+
+
+                  lblst(1) = LBF(KF,KL)
+
+c              write(*,*) ' scaler ',lblst(1) ,LABEL(NOEL,1),
+c     >           STRWLD(NLB,LBLST,LABEL(NOEL,1),IS),is,
+c     >             LABEL(NOEL,2),
+c     >           STRWLD(NLB,LBLST,LABEL(NOEL,2),IS),is
+
+
+              IF  (STRWLD(NLB,LBLST,LABEL(NOEL,1),
+     >                                          IS) 
+     >        .OR. STRWLD(NLB,LBLST,LABEL(NOEL,2),
+     >                                          IS)) THEN
+              
+                 jj = 1
+                 IF(STRWLD(NLB,LBLST,LABEL(NOEL,2),
+     >                                          IS))  jj = 2
+
+c                 write(*,*) ' scaler ',jj,LABEL(NOEL,1),
+c     >             LABEL(NOEL,2)
+C                         read(*,*)
+                  ok3 = .false.
+
                 LBFA = DEBSTR(LBF(KF,KL))
                 LBFB = FINSTR(LBF(KF,KL))
                 LLBF = LBFB-LBFA+1
-                LABA = DEBSTR(LABEL(NOEL,1))
-                LABB = FINSTR(LABEL(NOEL,1))
+                LABA = DEBSTR(LABEL(NOEL,jj))
+                LABB = FINSTR(LABEL(NOEL,jj))
                 LLAB = LABB-LABA+1
-
-C               ... either LBF ends with '*' ...
-                IF(  LLBF-1 .GE. 1 ) THEN
-                  IF(  LABEL(NOEL,1)(1:LLBF-1)
-     >                      .EQ. LBF(KF,KL)(1:LLBF-1)) GOTO 2
-                ELSE
-C Dec 2015. To be checked before release
-CC Means that LBF='*'. Scaling applies to all keywords
-C                  GOTO 2
-                ENDIF
                 IF( (LLAB-LLBF+2).GT.0) THEN                 !yann to protect -1 in LABEL table
-                   IF(LABEL(NOEL,1)(LLAB-LLBF+2:LLAB)
+                   IF(LABEL(NOEL,jj)(LLAB-LLBF+2:LLAB)
      >                  .EQ.LBF(KF,KL)(2:LBFB)) GOTO 2
                 ENDIF
+
+                GOTO 2
 
               ELSE
 C               ... or it as the right label...
@@ -294,7 +331,10 @@ c          call cavit1(
 c     >                PP0,GAMMA,dWs)
 c          scaler = SCL(KF,1) * pp0
           SCALER = SCL(KF,1,1) * DPREF
-            
+        
+c              write(*,*) 'scaler kti=-1. kf, scal ',KF,SCALER
+C                   read(*,*)
+    
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
 c          xv = ipass
@@ -522,6 +562,9 @@ C              SCALER = FAC * SCL(KF,1) * PP0
 
       IF(OKPRT) WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
      >LABEL(NOEL,2)
+
+c                 write(*,*) ' scaler ',jj,LABEL(NOEL,1),
+c     >             LABEL(NOEL,2), scaler
 
       RETURN
 

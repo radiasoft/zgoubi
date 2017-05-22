@@ -24,7 +24,6 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE RMATRX(
-C     >                  IORD,IFOC,KWR,KCPL)
      >                  IORD,IFOC,KWR,SCPL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) SCPL

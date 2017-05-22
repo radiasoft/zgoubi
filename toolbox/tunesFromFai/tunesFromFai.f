@@ -26,6 +26,8 @@ C      CHARACTER*80 NOMFIC
       INCLUDE 'FILFAI.H'     ! Tells FILFAI= [b_]zgoubi.fai
       character*(20) FILFAIr, FILFAIn
 
+      logical okfai
+
       data stra / 3*'  ' /
       data txtsav / 'y' /
 
@@ -41,8 +43,9 @@ c Fourier transf. ksmpl turns strarting from kpa
       data nt / -1 /
       data change / .true. /
       data FILFAIr, FILFAIn / ' ', 'b_zgoubi.fai' /
+      data okfai / .false. /
 
-      FILFAIn = FILFAIn
+      FILFAIn = FILFAI
 
       write(*,*) ' '
       write(*,*) '----------------------------------------------------'
@@ -86,40 +89,40 @@ C Range of turns to be considered may be specified using tunesFromFai.In
 
       rewind(nlu)
 
-C        read(nlu,*,err=11,end=11) kpa, ksmpl
-        read(nlu,fmt='(a)',err=11,end=11) txt200
-        if(strcon(txt200,'!',
-     >                       is)) txt200 = txt200(1:is-1)
-        call strget(txt200,3,
-     >                       nbstr,stra)
-        read(stra(1),*) kpa
-        read(stra(2),*) ksmpl
-        if(nbstr.eq.3) read(stra(3),*) nt
-        read(nlu,*,err=11,end=11) (borne(i),i=1,6)
-        read(nlu,*,err=11,end=11) (nc0(i),i=1,3)
-        read(nlu,*,err=11,end=11) txtsav
-        read(nlu,*,err=33,end=33) txtQ
- 33     if(txtQ .ne. 'n') txtQ = 'y'
-        oksav = txtsav .eq. 'y'
-        okQ = txtQ .eq. 'y'
-        read(nlu,*,err=34,end=34) FILFAIr
-        FILFAIn = FILFAIr
- 34     continue
-        close(nlu)
-        write(*,*) ' Read following data from tunesFromFai.In :'
- 
+      read(nlu,fmt='(a)',err=11,end=11) txt200
+      if(strcon(txt200,'!',
+     >                     is)) txt200 = txt200(1:is-1)
+      call strget(txt200,3,
+     >                     nbstr,stra)
+      read(stra(1),*) kpa
+      read(stra(2),*) ksmpl
+      if(nbstr.eq.3) read(stra(3),*) nt
+      read(nlu,*,err=11,end=11) (borne(i),i=1,6)
+      read(nlu,*,err=11,end=11) (nc0(i),i=1,3)
+      read(nlu,*,err=11,end=11) txtsav
+      read(nlu,*,err=33,end=33) txtQ
+ 33   if(txtQ .ne. 'n') txtQ = 'y'
+      oksav = txtsav .eq. 'y'
+      okQ = txtQ .eq. 'y'
+      okfai = .false.
+      read(nlu,*,err=34,end=34) FILFAIr
+      okfai = .true.
+      FILFAIn = FILFAIr
+ 34   continue
+      close(nlu)
+
+C----------------
+      write(*,*) 'I read following data from tunesFromFai.In :' 
       kpb = kpa + ksmpl -1
       kpc = 1
       do ii = 1, 3
         if(nc0(ii) .gt. ncanal) nc0(ii) = ncanal
       enddo
-
       if(nt.eq.-1) then
         write(*,*) ' Particle considered is # : ','   all ' 
       else
         write(*,*) ' Particle considered is # : ', nt
       endif
-C           read(*,*)
       write(*,*) 
      >' Turn # range :  ',ksmpl,' turns,  from ',kpa,' to ',kpb
       write(*,*) ' Tune boudaries (x/y/l) : ',(borne(i),i=1,6)
@@ -132,8 +135,15 @@ c      if(oksav) call spsav2(kpa,kpb,ksmpl)
           open(unit=lusav,file='tunesFromFai_spctra.Out')
         ELSE
           stop 'Pgm tunesFromFai : can''t open  tunesFromFai_spctra.Out'
-        ENDIF
+        ENDIF     
       ENDIF
+      if(okfai) then
+        write(*,*) 'Name of  .fai file,  as read : ',FILFAIn
+      else
+        write(*,*) 'Name of  .fai file, from FILFAI.H : ',FILFAIn
+      endif
+C----------------
+
 
 C Case of spiral ffag, just a temp storage for passing K, Xi :
       INQUIRE(FILE='tempKXi.dum',exist=EXS)

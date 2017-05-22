@@ -198,6 +198,8 @@ c       PARAMETER (MXX=1201, MXY=83)
 C       PARAMETER (MXX=1201, MXY=81)
 C       PARAMETER (MXX=1201, MXY=111)    ! compatible cbeta
        PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
+c       PARAMETER (IZ=81 , ID=3, MMAP=4)
+c       PARAMETER (MXX=361, MXY=81)
        PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=361, MXY=81)
  
