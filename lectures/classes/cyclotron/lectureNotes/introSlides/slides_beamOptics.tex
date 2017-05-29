@@ -1,0 +1,1183 @@
+\documentclass[12pt]{paper}
+%\usepackage{draftcopy}
+%\usepackage[draft]{graphicx}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{lscape}
+\usepackage{wrapfig}
+\usepackage{times}
+\usepackage{color}
+
+ \oddsidemargin =-0.7in                            
+ \evensidemargin=-0.7in                                                          
+ \textwidth=7.8in                         
+ \textheight=10.in                       
+ \topmargin=-.8in                                                                
+ \footskip=0in                                                                   
+%\oddsidemargin=-.6in
+%\evensidemargin=-.6in
+%\textwidth=10.in
+%\topmargin=-0.8in
+%\footskip=0.in
+%\oddsidemargin=-.5in
+%\evensidemargin=-.5in
+%\textwidth=10.in
+%\topmargin=-.7in
+%\footskip=-5.in
+  
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\ensuremath{\vec B}}
+\newcommand{\Br}{\ensuremath{B\!\rho}}
+\newcommand{\Bz}{\ensuremath{{B_z}}}
+\newcommand{\com}{\ensuremath{\it com}}
+\newcommand{\dip}{{\it DIPOLE}}
+\newcommand{\dl}{\ensuremath{\delta}}
+\newcommand{\ds}{\ensuremath{\vec {ds}}}
+\newcommand{\E}{\ensuremath{\vec E}}
+\newcommand{\EFB}{\ensuremath{E\!F\!B}}
+\newcommand{\EFBs}{\ensuremath{E\!F\!B\!s}}
+\newcommand{\F}{\ensuremath{\vec F}}
+\newcommand{\ffag}{{\it FFAG}}
+\newcommand{\hbrk}{\hfill \break}
+\newcommand{\lab}{\ensuremath{lab}}
+\newcommand{\ms}{\medskip}
+\newcommand{\MC}{Monte~Carlo}
+\newcommand{\nib}{\noindent $\bullet$~}
+\newcommand{\nin}{\noindent}
+\newcommand{\p}{\ensuremath{\vec p}}
+\newcommand{\R}{\ensuremath{\vec R}}
+\newcommand{\Res}{\ensuremath{\mathcal{R}}}
+\newcommand{\mR}{\ensuremath{\mathcal{R}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\vv}{\ensuremath{\vec v}}
+
+
+\newcommand{\black}{\color{black}}
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\green}{\color{green}}
+
+ 
+\pagestyle{myheadings} 
+
+\markboth{\large \color{blue} JUAS 2012, Archamps, 12 Jan. 2012, Beam Optics, F. M\'eot}
+         {\large \color{blue} JUAS 2012, Archamps, 12 Jan. 2012, Beam Optics, F. M\'eot}
+
+
+
+
+\begin{document}
+
+\landscape
+
+
+\sffamily
+
+
+%\thispagestyle{empty}
+  
+{
+ ~~~~~~~ \hfill \large   \bf F.~M\'eot 
+
+~~~~~~~\hfill \large   \bf BNL, C-AD/AP, Upton, NY
+}
+
+\begin{center} 
+\Huge  
+\bf An introduction to beam optics\footnote{\large \bf After (i) G.Leleux, Accelerateurs Circulaires, Lectures, CEA Saclay (1978), 
+(ii) L. Farvacque, A. Tkatchenko, \textsl{in} Ensembles de d\'etection magn\'etique du Laboratoire National SATURNE,  CEA Saclay (1980), (iii) A.~Septier, Charged Particle Optics.}
+\end{center} 
+
+
+{\blue   \Large \bf
+\nib\ We will address in this lecture  the theory of the  guiding and focusing of charged particles in accelerator structures. 
+We will start discussing the methods of ``Beam Optics'' by  introducing the basic tools  needed in that domain~: 
+
+
+
+(i) We will investigate how particle motion in electrostatic fields and magnetostatic fields is governed by the fundamental 
+laws of dynamics 
+
+
+
+and how  approximations of these into convenient  mathematical  tools will make our lives sometimes simpler 
+
+
+
+(ii) We will introduce the basic ``optical elements'' used in accelerator structures as beam lines, circular 
+accelerators, spectrometers, etc.,  which ensure guiding, focusing and other beam manipulations. 
+
+
+
+\nib\ Then, we will ``visit''~: discuss, understand, some typical examples of such optical assemblies. 
+}
+
+
+\begin{center}
+\includegraphics*[width=0.64\linewidth]{./beamOptics_Figs/AGSString.eps}
+\end{center}
+
+
+
+\clearpage
+
+\tableofcontents
+
+
+
+
+\clearpage
+
+\nib\ In a general manner, the design  
+
+~
+
+- of  beam transport lines, 
+
+~
+
+- and of circular accelerators as well -  including the largest ones !  
+
+~
+
+\nin in first approximation only require elementary  functions as parabola,  sine, cosine,  hyperbola, exponential. 
+
+~
+
+~
+
+\nib\ The complexity of optical assemblies arises from the variety of these laws and of their combination~: 
+
+~
+
+a particle will 
+follow arcs of circles, arcs of parabola, sine trajectories, ``pseudo-sine'' laws, etc. 
+
+~
+
+~
+
+\nib\ As a consequence, a very limited mathematical toolbox makes it is possible to deal with 
+sometimes very complex optical assemblies. 
+
+
+
+
+
+
+
+
+\clearpage
+
+\section{ \LARGE Motion of a charged particle in electric or magnetic fields}
+
+\bf \Large 
+
+\nib\ Optical rays are deflected, reflected, using dioptric and/or catadioptric systems, 
+
+~
+
+\nib\ charged particles are 
+deflected, reflected,  \textsl{and accelerated too}, 
+
+~
+
+- using   magnetic fields 
+
+~
+
+-  electric fields 
+
+~
+
+- combinations of both, 
+
+~
+
+-  either static or in addition, in some cases, varying in time. 
+
+~
+
+~
+
+\nib\ Prior to looking in a detailed way at the optical elements proper to  charged particle optics, 
+
+~
+
+we will first review 
+the basis of the motion of charged particles in  magnetic and electric fields. 
+
+
+
+\clearpage 
+
+\section*{ \LARGE Notions of dynamics}
+
+\nib\ The force that acts on a charged particle, 
+
+\hfill is the Lorentz force~:  {\blue  \LARGE \fbox{$  \mathbf{\vec F = q (\vec E + \vec v \times \vec B)}$} } \hfill ~ 
+
+~
+
+$q$ : charge of the particle (Coulomb, C)
+
+~
+
+$\vv$ : velocity of the particle (m/s)
+
+~
+
+$\vec E$~: electric field, in Volt/m (V/m)
+
+~
+
+$\vec B$~: magnetic field, in Tesla (T)
+
+
+~
+
+
+
+
+
+\clearpage
+
+
+
+{\blue \nib\ The MAGNETIC FORCE~: }
+  
+~
+
+
+\nib\ A manifestation of the magnetic force is  the Laplace force on an electrical circuit~: 
+$$\vec F = I \, \vec{dl} \times \vec B$$
+
+
+~
+
+\nib\ Another manifestation is the force experienced by  charged particle with  velocity, $\vv$~: 
+$$\F = q \vv \times \B ~ , $$
+
+\nin Under the effect of $\F$ the charged particle undergoes a deviation, its trajectory is curved. 
+
+
+~
+
+\nib\ A magnetic force does not work~: 
+
+~
+
+$\F  = q (\vv \times \B) $ entails  that $\F $ is orthogonal to $\vv = \ds / dt$, 
+
+as a consequence,  
+$$d\mathcal{T} = \F  . \ds = q (\vv \times \B) . \ds \equiv 0  = q (\vv \times \B) . \vv \ dt \equiv 0 $$
+
+~
+
+{\blue An important consequence~:  magnetic forces cannot change particle energy, they can only 
+change the direction of the velocity vector, i.e., \textsl{deviate} particles. }
+
+
+
+
+
+
+\clearpage 
+
+
+\underline{Two rules that allow inferring how a moving charged particle is deviated by a magnetic field }
+
+~
+
+Both  rules  yield the orientation of $\F$~: 
+
+
+{\blue \nib\  $I\vec{dl}$ , $\B$ and $\F$, in that order, form a direct triedra~: }
+\raisebox{-10mm}[0mm][0mm]{ ~  ~  ~  ~  \includegraphics*[width=0.33\linewidth]{./beamOptics_Figs/AGSString.eps}}
+%\hspace{60mm}
+%\raisebox{-10mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./beamOptics_Figs/fFoc.eps}\hspace{-5mm}}
+%~     ~ ~ ~ ~ ~ ~ ~ 
+
+~
+
+~
+
+{\centering
+
+\hfill ``Horizontally focusing dipole''   \hfill   ``Horizontally defocusing  dipole'' \hfill ~
+
+\hfill ``Vertically defocusing dipole''   \hfill   ``Vertically focusing  dipole'' \hfill ~
+
+\includegraphics*[width=9cm]{./beamOptics_Figs/fFocWF.eps}\hspace{30mm}
+\includegraphics*[width=9cm]{./beamOptics_Figs/dFocWF.eps} 
+
+
+\begin{minipage}[b]{.4\linewidth}
+
+~
+
+\vspace{30mm}
+
+{\blue \nib\ Rule of the 3 right hand fingers~: }
+%\hspace{75mm}
+%\raisebox{0mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./beamOptics_Figs/dFoc.eps} }
+
+
+\end{minipage}
+\begin{minipage}[b]{.49\linewidth}
+%\hfill ~ 
+\raisebox{-30mm}[0mm][0mm]{
+\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=11cm]{./beamOptics_Figs/3doigts.eps} 
+}
+%\hfill ~ 
+
+\end{minipage}
+
+}%\centering
+
+
+
+\clearpage
+
+\subsection*{\Large \underline{Discussing the fundamental equation of dynamics}}
+
+
+\begin{minipage}[b]{.49\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Classical mechanics}
+
+~
+
+$m \frac{ \textstyle{d\vv}}{\textstyle{dt}} = \F $, $m$ is constant
+
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}[b]{.49\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Relativistic mechanics}
+
+
+~
+
+$\frac{ \textstyle{dm\vv}}{\textstyle{dt}} = \F $, ~ ~   ~ $m$ varies with $\vv$
+
+
+\end{minipage}
+
+~
+
+\nin\ These two similar forms of the differential equation that governs charged particle motion state that the motion is 
+defined by a second order differential equation. 
+
+~
+
+
+\nin\  From a mathematical viewpoint, this has the consequence that the motion is considered as defined by 
+
+
+~
+
+- the knowledge of the forces that intervene
+
+~
+
+-  the knowledge of the initial state of the particle $m$~: initial position and initial velocity~
+
+in particular,   \textsl{initial acceleration or past motion play no role} 
+
+~
+
+\begin{minipage}[b]{.49\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Classical mechanics }
+
+~
+
+$\F = m \frac{ \textstyle{d^2 \vec M}}{\textstyle{dt^2}} = m \frac{ \textstyle{d\vv}}{\textstyle{dt}} $ 
+
+~
+
+which one can  write
+
+$\F =   \frac{ \textstyle{d m \vv}}{\textstyle{dt}} =  \frac{ \textstyle{d\vec p}}{\textstyle{dt}}  $ 
+
+~
+
+with $\vec p = m \vv$ the impulse, or momentum
+
+~
+
+ $m$  = constant = $m_0$
+
+~
+\end{minipage}
+\begin{minipage}[b]{.49\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Relativistic mechanics}
+
+
+~
+
+$\frac{ \textstyle{dm\vv}}{\textstyle{dt}} = \F $, 
+
+~
+
+ $m$ varies with $\vv$
+
+~
+
+with $\vec p = m \vv$ the impulse, or momentum
+
+~
+
+ $m = m_0 / \sqrt{1- \beta^2}$, with $\beta = v/c$
+
+~
+
+~
+
+\end{minipage}
+
+
+
+\clearpage
+
+%\subsection*{\Large The fundamental equation of dynamics}
+
+\begin{figure}
+
+\begin{minipage}[b]{.45\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Classical mechanics }
+
+~
+
+\underline{Work of the force during the interval  $t_1$ to $t_2$}
+
+
+\end{minipage}
+\begin{minipage}[b]{.54\linewidth}
+\centering
+\Large
+
+\blue 
+
+\underline{Relativistic mechanics}
+
+
+~
+
+\underline{Work of the force during the interval  $t_1$ to $t_2$}
+
+\end{minipage}
+
+
+
+
+
+\begin{center}
+\textsl{\Large \bf The variation of the kinetic energy is equal to the work of the forces applied. }
+\end{center}
+
+
+\begin{minipage}[b]{.44\linewidth}
+\centering
+\Large
+
+\blue 
+
+
+$\mathcal{T} = \int_{t_1}^{t_2} \F(M,t) . d\vec M ~ \textrm{ with } ~  d\vec M = \vv(t) \, dt $
+
+
+$= \int_{t_1}^{t_2} m\, \frac{ \textstyle{d\vv}}{\textstyle{dt}} . \vv \, dt $
+
+~
+
+$= \frac{ \textstyle{m}}{\textstyle{2}}\int_{t_1}^{t_2} \frac{ \textstyle{d}}{\textstyle{dt}}(\vv^2) dt $
+
+~
+
+$= \frac{ \textstyle{m}}{\textstyle{2}}\int_{t_1}^{t_2} d(v^2) 
+= \frac{ \textstyle{m}}{\textstyle{2}} \times \left[ v^2   \right]_{v_1}^{v_2}$
+
+~
+
+$= W_2 - W_1  $
+
+~
+
+$W =\frac{ \textstyle{1}}{\textstyle{2}} m v^2$ is the kinetic energy.  No need to define the nature of the force (magnetostatic, inductive...)
+
+
+~
+
+~
+
+
+The work by $\F$ is $\mathcal{T} = W_2 -W _1 = \frac{ \textstyle{1}}{\textstyle{2}} m (v_2^2 - v_1^2)$ 
+
+~
+
+~
+
+
+\end{minipage}
+\hspace{.01\linewidth}
+\begin{minipage}[b]{.04\linewidth}
+
+\blue 
+
+\bf \LARGE $\stackrel{v<< c}{\longleftarrow}$
+
+~
+
+~
+
+\end{minipage}
+\begin{minipage}[b]{.52\linewidth}
+\centering
+\Large
+
+\blue 
+
+~
+
+
+$\mathcal{T} = \int_{t_1}^{t_2} \F(M,t) . d\vec M ~ \textrm{with} ~  d\vec M = \vv(t) \, dt$
+
+~
+ 
+$= \int_{t_1}^{t_2}  \frac{ \textstyle{d}}{\textstyle{dt}} \left\{ \frac{ \textstyle{m_0\vv}}{\textstyle{\sqrt{1-v^2/c^2}}} \right\} \, \vv \, dt$
+
+~
+
+$= \int_{t_1}^{t_2}  \left( \frac{ \textstyle{m_0\vv . d\vv}}{\textstyle{\sqrt{1-v^2/c^2}}} +\frac{ \textstyle{m_0 \frac{ \textstyle{\vv^2}}{\textstyle{c^2}} \vv . d\vv}}{ \textstyle{ (1-v^2/c^2)^{3/2}} } \right) $
+
+
+~
+
+$=  \int_{t_1}^{t_2} \frac{ \textstyle{m_0 c^2 \vv . d\vv}}{\textstyle{(1-v^2/c^2)^{3/2}}c^2}  =  \int_{t_1}^{t_2} d \left\{ \frac{ \textstyle{m_0 c^2}}{\textstyle{\sqrt{1-v^2/c^2}}}  \right\} $
+
+~
+
+$= \int_{t_1}^{t_2} d (m c^2)  = (m_2 - m_1 ) c^2$
+
+
+~
+
+An energy is associated with the mass $m$, 
+
+
+$E=mc^2$, 
+
+
+hence a ``rest energy'' $E_0 = m_0 c^2$. 
+
+~
+
+The kinetic energy is defined by $W = E - E_0$
+
+~
+
+The work by $\F$ is $\mathcal{T} = E_2 - E_1 = W_2 -W _1$ 
+
+~
+
+~
+
+
+\end{minipage}
+
+\end{figure}
+
+
+
+
+\clearpage
+
+
+\begin{center}
+
+EXERCISE  \label{EX4}
+
+\LARGE 
+ \blue 
+
+~
+
+~
+
+~
+
+Show that $\mathcal{T}_{12} = W_2 - W_1 = (m_2 -m_1) c^2 ~ ~ \stackrel{v <\!< c}{\longrightarrow} ~ ~ \frac{ \textstyle{1}}{\textstyle{2}} m_0 (v_2^2 - v_1^2) $
+
+\end{center}
+
+
+
+
+
+
+
+
+
+\clearpage
+
+\subsection*{\Large \underline{Deviation of a charged particle in a uniform magnetic field} }
+
+
+\nib\ The Lorentz force equation~: $  \vec F = q (\vec E + \vec v \times \vec B)$ is reduced to 
+{\bf \fbox{$  \vec F = q \, \vec v \times \B$} }
+
+~
+
+\nib\ Remember that the fundamental relation of dynamics yields, 
+
+~
+
+$m_0 \frac{ \textstyle{d\vv}}{\textstyle{dt}} = q \, \vec v \times \B$  in ``classical mechanics'' ($v <\! < c$). 
+
+~
+
+$ \frac{ \textstyle{dm\vv}}{\textstyle{dt}} = q \, \vec v \times \B $ in ``relativistic mechanics'' 
+(when $v$ is no longer negligible compared to velocity of light).
+
+~
+
+\nib\  Remember also  that  $\B$ does not work, it cannot induce a change in energy,  the 
+velocity and the mass are constant~: 
+
+~
+
+Lorentz relativistic factor $\gamma = 1/\sqrt{1 - v^2/c^2} = $ constant. 
+
+~
+
+The relativistic mass  $m = \gamma m_0$  ~ is  constant. 
+
+~
+
+As a consequence, both classical and relativistic equations  can be written under the form 
+
+~
+
+\begin{center}
+
+\fbox{$ m \frac{\textstyle{d \vv}}{\textstyle{dt}} = q \, \vec v \times \B $ }
+\end{center}
+
+\clearpage
+
+\nib\ Only basic considerations will be introduced in the present chapter, 
+we will have many occasions to sophisticate things further 
+later during the lecture~: 
+
+so, for the moment, we simplify the problem  by taking $\vv_0 $ orthogonal to $\B$. 
+
+~
+
+
+\begin{minipage}[b]{.65\linewidth}
+%\centering
+\Large
+
+\nib\ We  simplify the notations, without loss in the generality,  
+by taking $\B$ ``vertical''~:   $\B // (y)$. 
+
+ 
+~
+
+As a consequence the initial velocity is contained in the ``bending plane'', 
+which  often happens to be the  ``horizontal plane'', $\vv_0 \in (Osx)$. 
+
+~
+
+~
+
+\nib\ Projection of $ m \frac{\textstyle{d \vv}}{\textstyle{dt}} = q \, \vec v \times \B $ onto the axes yields
+
+~
+
+~
+
+$ m \left| 
+\begin{array}{l} 
+\frac{ \textstyle{d^2s}}{\textstyle{dt}} \\
+\frac{ \textstyle{d^2x}}{\textstyle{dt}}  \\
+\frac{ \textstyle{d^2y}}{\textstyle{dt}} \\
+\end{array} 
+\right. 
+= 
+q \left| 
+\begin{array}{l} 
+\dot s    \\
+\dot x \\
+\dot y \\
+\end{array} 
+\right. 
+\times
+\left| 
+\begin{array}{l} 
+0    \\
+0 \\
+B_y \\
+\end{array}
+\right. 
+= 
+q \left| 
+\begin{array}{lr} 
+\dot x B_y    \\
+-\dot s B_y  \\
+0           \\
+\end{array} 
+\right. 
+$    ~ ~ ~ (we introduced $\frac{\textstyle{d()}}{\textstyle{dt}} = \dot {()}$)
+
+\end{minipage}
+%\hspace{5mm}
+\hfill
+\begin{minipage}[b]{.27\linewidth}
+\centering
+\Large
+
+\blue 
+We consider the usual  frame, a direct triedra  $(s,x,y)$. 
+
+We take $\B$  oriented parallel to $(y)$. 
+
+~
+
+\includegraphics[width=6cm]{./beamOptics_Figs/frameB.eps}
+
+\end{minipage}
+
+
+
+
+\clearpage 
+
+
+\begin{minipage}[b]{.50\linewidth}
+
+\nin Let's now  introduce the ``precession frequency''  
+$$ \omega = \frac{\textstyle{qB_y}}{\textstyle{m}}$$
+we then get~: ~ ~ ~  
+
+~
+
+\begin{center}
+$\left| 
+\begin{array}{lr} 
+\frac{\textstyle{d^2s}}{\textstyle{dt^2}} = \omega \dot x     & (1)\\
+\frac{\textstyle{d^2x}}{\textstyle{dt^2}} = - \omega \dot s    & (2)\\
+\frac{\textstyle{d^2y}}{\textstyle{dt^2}} = 0             & (3)\\
+\end{array} 
+\right.$
+\end{center}
+
+
+\end{minipage}
+%\hspace{5mm}
+\hfill
+\begin{minipage}[b]{.42\linewidth}
+\centering
+\Large
+\blue
+\begin{center}
+$\left| 
+\begin{array}{lr} 
+\omega ~ \textrm{is also known as }\\
+\textrm{the ``cyclotron frequency''} \\
+\textrm{i.e., the angular velocity } \frac{\textstyle{d\theta}}{\textstyle{dt}} \\
+\textrm{of a particle in a cyclotron } \\
+\textrm{accelerator. } \\
+\textrm{Note that} ~ \omega \textrm{ does not}  \\
+\textrm{ depend on the radius of the circular }  \\
+\textrm{trajectory~: same period }    \\
+\textrm{$T=2\pi/\omega$ to perform   }  \\
+\textrm{one turn ($\theta = 2\pi$), whatever the radius. }  
+\end{array} 
+\right.$
+\end{center}
+
+
+
+\end{minipage}
+
+
+
+
+
+\clearpage 
+
+{\centering
+
+\Large 
+
+
+{\blue 
+
+EXERCISE    \label{EX8}
+
+~
+
+
+A magnet is designed for a proton with velocity 0.2c to perform precession at a rate of $10^{-6}$~second per turn. 
+
+~
+
+What magnetic field value is needed~?  
+
+~
+
+What is  the radius of the proton orbit in that field~?
+
+
+~
+
+}
+
+
+}
+
+
+
+\clearpage 
+
+
+\paragraph{\underline{1st integration}}
+
+Equations (1)-(3) cannot be solved independently, they are coupled~: $\dot x$ appears in Eq.~(1) 
+whereas $\dot s$ appears in Eq.~(2).
+
+~
+
+{\blue However a first integration is possible and will allow uncoupling the variables~: }
+
+
+$$
+\frac{\textstyle{dv}}{\textstyle{dt}} = 
+\left| 
+\begin{array}{lr} 
+\frac{\textstyle{d^2s}}{\textstyle{dt^2}} = \omega \dot x     & (1)\\
+\frac{\textstyle{d^2x}}{\textstyle{dt^2}} = - \omega \dot s    & (2)\\
+\frac{\textstyle{d^2y}}{\textstyle{dt^2}} = 0             & (3)\\
+\end{array} 
+\right.
+~ ~ ~ \Rightarrow ~ ~ ~ 
+\left| 
+\begin{array}{lcrccl} 
+ \dot s - \dot s_0 &=&  & \omega (x - x_0)   \\
+ \dot x - \dot x_0 &=& -& \omega (s - s_0)  \\
+ \dot y - \dot y_0 &=&  & 0 \\
+\end{array} 
+\right.$$
+
+~
+
+\nin We now introduce the initial conditions~:  ~ ~ ~ $s_0 = 0$, $x_0 = 0$, $\dot y_0 = 0$, \hfill ~
+
+and thus get the first integrals
+   \hfill \raisebox{-30mm}[0mm][0mm]{\includegraphics[width=6cm]{./beamOptics_Figs/frameB.eps}}
+
+
+
+$$\left| 
+\begin{array}{lcrccl} 
+\dot s = \dot s_0 + \omega x  & ~ ~ ~ ~ ~ ~   (1') \\
+\dot x = \dot x_0 - \omega s  & ~ ~ ~ ~ ~ ~   (2') \\
+\dot y =0                      & ~ ~ ~ ~ ~ ~   (3') \\
+\end{array} 
+\right.$$
+
+~
+
+\nin Re-introducing these first integrals into Eqs.~(1)-(3) then gives 
+
+
+$$\left| 
+\begin{array}{lcclrcccrccr} 
+\frac{\textstyle{d^2s}}{\textstyle{dt^2}} &=&  & \omega (\dot x_0 -\omega s)  & ~ ~ ~ ~ ~ & \it i.e., & ~ ~ ~ ~ ~ &  \frac{\textstyle{d^2s}}{\textstyle{dt^2}} + \omega^2 s &=&  & \omega \dot x_0 & ~ ~ ~ ~ ~ ~   (1'')\\
+\frac{\textstyle{d^2x}}{\textstyle{dt^2}} &=& -& \omega (\dot s_0 + \omega x) && \it i.e., &  & \frac{\textstyle{d^2x}}{\textstyle{dt^2}}  +  \omega^2 x &=& -& \omega \dot s_0  &  (2'')\\
+\frac{\textstyle{d^2y}}{\textstyle{dt^2}} &=&  &  0                           &&           &  &                                                          & &  &   &  (3'') \\
+\end{array} 
+\right.$$
+
+
+
+
+
+\clearpage 
+
+
+\paragraph{\underline{Solving (3'')}} ~ ~ ~ 
+
+~
+
+Integration of differential equation (3'') is straightforward~: 
+
+
+$$\frac{\textstyle{d^2y}}{\textstyle{dt^2}} = 0 \Rightarrow \frac{\textstyle{dy}}{\textstyle{dt}}  =  \dot y_0  ~ , ~ ~  y =  \dot y_0 \, t \, + \, y_0  $$
+
+Given the initial conditions ~ ~  $\dot y_0 = 0$, ~ ~  $y_0 = 0 $, ~ ~ one gets 
+
+{\blue 
+$$ \fbox{y=0} $$ 
+
+
+\nin \textsl{the motion stays in the $(Osx)$ plane. }
+}
+
+~
+
+
+\clearpage 
+
+
+\paragraph{\underline{Solving the equations of motion (1''), (2'')}} ~ ~ ~ 
+
+$$\left| 
+\begin{array}{lcclrccc} 
+  \frac{\textstyle{d^2s}}{\textstyle{dt^2}} + \omega^2 s &=&  & \omega \dot x_0 & ~ ~ ~ ~ ~ ~   (1'')\\
+\frac{\textstyle{d^2x}}{\textstyle{dt^2}}  +  \omega^2 x &=& -& \omega \dot s_0  &  (2'')
+\end{array} 
+\right.$$
+
+~
+
+~
+
+\nin Integration of (1''), (2'') resorts to the regular techniques for solving a second order differential equation of 
+the form~: 
+
+$$\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = C ~, ~ ~ ~  ~ \textrm{with C a constant}, ~  z ~ \textrm{stands for either } ~ s ~ \textrm{or} ~  x$$
+
+
+~
+
+
+\nin The general solution is the superimposition of the general solution of the homogeneous equation, right hand side zero~:
+$$\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = 0 ~ ~ ~ ~ ~ ~ ~ ~ (4)$$
+
+~
+
+\nin with a particular solution of 
+$$\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = C ~ ~ ~ ~ ~ ~ ~ ~ (5)$$
+
+
+
+
+\clearpage 
+
+
+
+{\blue 
+
+\rule{24cm}{0.5mm}
+
+~
+
+A mathematical parenthesis~: 
+
+~
+
+\nib\ General solution of ~  ~ $\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = 0$~: 
+
+$$\left| 
+\begin{array}{lclr} 
+\textrm{if} ~ K  = 0 & : & z = A t + B  & \hspace{3cm}  \textrm{\nib\ A and B are integration constants}       \\
+\textrm{if} ~ K  < 0 & : & z = A \cosh\sqrt{-K} t + B \sinh\sqrt{-K} t   &  \textrm{that depend on initial conditions}    \\
+\textrm{if} ~ K  > 0 & : & z = A \cos\sqrt{K} t  + B \sin\sqrt{K} t   &\textrm{\nib\ } \left( \begin{array}{c} \cosh \\ \sinh \end{array} (x) = \frac{\textstyle{e^x \pm e^{-x}}}{\textstyle{2}} \right)   
+\end{array} 
+\right.$$
+
+~
+
+\nib\ Particular solution of ~  ~  $\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = C$~: 
+
+$$\left| 
+\begin{array}{lcl} 
+\textrm{if} ~ K     = 0 & : & z = C    \frac{\textstyle{t^2}}{\textstyle{2}}    \\
+\\[-1ex]
+\textrm{if} ~ K  \neq 0 & : & z =  \frac{\textstyle{C}}{\textstyle{K}}    \\
+\end{array} 
+\right.$$
+
+
+~
+
+\nib\ Hence the general solution of ~  ~ $\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = C$~: 
+
+~
+
+$$\left| 
+\begin{array}{lclr} 
+\textrm{if} ~ K  = 0 & : & z =  C    \frac{\textstyle{t^2}}{\textstyle{2}}   + A t + B        \\
+\textrm{if} ~ K  < 0 & : & z = A \cosh\sqrt{-K} t + B \sinh\sqrt{-K} t +  \frac{\textstyle{C}}{\textstyle{K}}    \\
+\textrm{if} ~ K  > 0 & : & z = A \cos\sqrt{K} t  + B \sin\sqrt{K} t +  \frac{\textstyle{C}}{\textstyle{K}}    \\
+\end{array} 
+\right.$$
+
+~
+
+\rule{24cm}{0.5mm}
+
+}
+
+
+
+
+\clearpage 
+
+{\blue 
+EXERCISE     \label{EX9}
+
+~
+
+\nib\ We consider  $\frac{\textstyle{d^2z}}{\textstyle{dt^2}} + K z   = 0$
+
+~
+
+Prove that 
+$$\left| 
+\begin{array}{lclr} 
+\textrm{if} ~ K  = 0 & : & z = A t + B  & ~ ~ ~ ~ \textrm{A and B integration constants}       \\
+\end{array} 
+\right.$$
+
+~
+
+Prove that 
+$$\left| 
+\begin{array}{lcl} 
+\textrm{if} ~ K  > 0 & : & z = A \cos\sqrt{K} t  + B \sin\sqrt{K} t   
+\end{array} 
+\right.$$
+}
+
+
+
+
+
+\clearpage
+
+\nin \underline{Back now to our earlier system, }
+
+
+~
+
+$$\left| 
+\begin{array}{lcclrcccrccr} 
+  \frac{\textstyle{d^2s}}{\textstyle{dt^2}} + \omega^2 s &=&  & \dot x_0 & ~ ~ ~ ~ ~ ~   (1'')\\
+  \frac{\textstyle{d^2x}}{\textstyle{dt^2}}  +  \omega^2 x &=& -& \omega \dot s_0  &  (2'')\\
+\end{array} 
+\right.$$
+
+~
+
+~
+
+Introducing the initial conditions, at $t=0$~:  $s_0=0$, $x_0=0$, $\dot s = \dot s_0$, $\dot x = \dot x_0$
+   \hfill \raisebox{-40mm}[0mm][0mm]{\includegraphics[width=6cm]{./beamOptics_Figs/frameB.eps}}
+
+~
+
+we get 
+$$\left| 
+\begin{array}{l} 
+ s = -\frac{\textstyle{\dot x_0}}{\textstyle{\omega}} \cos\omega t + \frac{\textstyle{\dot s_0}}{\textstyle{\omega}}  \sin\omega t 
++ \frac{\textstyle{\dot x_0}}{\textstyle{\omega}} \\
+ x = \frac{\textstyle{\dot s_0}}{\textstyle{\omega}} \cos\omega t  + \frac{\textstyle{\dot x_0}}{\textstyle{\omega}}  \sin\omega t 
+- \frac{\textstyle{\dot s_0}}{\textstyle{\omega}}\\
+\end{array} 
+\right.$$
+
+~
+
+~
+
+We get the trajectory by eliminating the time $t$ between these equations, which yields, 
+
+~
+
+~
+
+$\left| 
+\begin{array}{l} 
+ \cos\omega t  = 1 + \frac{\textstyle{\omega}}{\textstyle{\dot s_0^2+\dot x_0^2}}   (\dot s_0 x - \dot x_0 s)\\
+ \sin\omega t  = \frac{\textstyle{\omega}}{\textstyle{\dot s_0^2+\dot x_0^2}}   (\dot s_0 s + \dot x_0 x) \\
+\end{array} 
+\right.$   which lends itself to  ~ ~ $\cos^2 + \sin^2 = 1$, thus yielding 
+
+
+~
+
+~
+
+\hfill \fbox{$\mathbf{ (s - \frac{\textstyle{\dot x_0}}{\textstyle{\omega}})^2 + (x + \frac{\textstyle{\dot s_0}}{\textstyle{\omega}})^2 
+ = \frac{\textstyle{\dot s_0^2 + \dot x_0^2}}{\textstyle{\omega^2}}}  $}  \hfill ~
+
+
+
+
+\clearpage
+
+
+
+
+\fbox{$ (s - \frac{\textstyle{\dot x_0}}{\textstyle{\omega}})^2 + (x + \frac{\textstyle{\dot s_0}}{\textstyle{\omega}})^2 
+ = \frac{\textstyle{\dot s_0^2 + \dot x_0^2}}{\textstyle{\omega^2}}  $}
+
+~
+
+\nin This is the equation of a circle with radius 
+$\rho = \frac{\textstyle{\sqrt{\dot s_0^2 + \dot x_0^2}}}{\textstyle{|\omega|}}= \frac{\textstyle{v_0}}{\textstyle{|\omega|}}$, ~ 
+centered at 
+$s = \frac{\textstyle{\dot x_0}}{\textstyle{\omega}}, ~ ~  x = -\frac{\textstyle{\dot s_0}}{\textstyle{\omega}}  $. 
+
+~
+
+\hfill DISCUSSION   \hfill ~ ~ 
+
+   \hfill \raisebox{-10mm}[0mm][0mm]{\rotatebox{-70}{\includegraphics[width=6cm]{./beamOptics_Figs/3doigts.eps}}}  \hfill ~
+
+
+~
+
+\hfill \includegraphics[width=9cm]{./beamOptics_Figs/framebBpos.eps}  \hfill \includegraphics[width=9cm]{./beamOptics_Figs/frameqBneg.eps} \hfill ~
+
+~
+
+{\bf Note}~:  one can write  {\blue \fbox{$B\rho = p/q$}}, ~ given $p=mv$, $v=v_0 = \sqrt{\dot s_0^2 + \dot x_0^2}$ ~ and 
+$\omega = qB/m$. 
+
+~
+
+\hfill We call ~ ~  {\blue \fbox{$B\rho$ the rigidity of the particle}}.   \hfill ~ ~ 
+
+~
+
+
+\end{document}
+
