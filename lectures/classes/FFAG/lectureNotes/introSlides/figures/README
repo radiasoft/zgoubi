@@ -1,0 +1,54 @@
+
+tableau comp scal/non-scal de rees ou horst
+transparents Scott ffag04
+next year FFAG wrkshp will address pDrivers, probably mostly based on non-scaling non-linear
+
+
+FFAG ESS
+GRees
+- ESS 5MW ring proposal. Was stopped by Rees. The reason was pb for injecting. Need a 8m straight section to 
+have clean injection. Such long drift not possible, more generally symmetry of the radial sector 
+FFAG is a strong constraint, changing a drift length would break the scaling, the drift length is 
+linked to the other parameters (cf. Machida). 
+Therefore, too small drift in the FFAG scheme do not allow clean multiturn injection, which is 
+not tolerable at that level of power, power loss would be out of range. 
+Extraction would be feasible because it is a single turn (using fast kicker) xtraction. 
+- RCS scheme has been studued for SNS, and abandonned. 
+
+
+RCS
+GRees
+The specs on RCS depend on energy of utilisation
+
+
+Hadrontherapy. Discuss Mori. 
+- Intensity. 
+It is evident that doctors complain about lack of intensity at synchrotrons in Japan. 
+One reason is when the treatment needs 
+synchronization on breathing, in this case a long time is lost waiting, therefore want to decrease 
+irradiation time to improve overall treatment speed. Some cases take an hour due to lack of I. 
+- Cyclotrons. 
+Cyclotron at MGH has problems, Mori knows that the number of treatments is low since it started, 
+due to problems with machine stability. 
+There is an example of 70% xtraction efficiency in a IBA cyclotron. 
+FFAG would provide a way to higher intensity. 
+
+
+Discuss horst/HHH
+Cibler les Q qui sont posées => Connaitre les param installations concernées = faut-il inj au PS ou remplace PS. Idem p. GSI. Il 
+y a les design des RCS pDriver neutrino. 
+
+
+
+------------------------
+Mes réflex. 
+Si anneau ESS entre dans catégorie RCS ça donne une vue de la corresp av. ffag
+
+
+------------------
+Discuss avec Ric Baartman
+
+nu_r is equal to gamma in isochronous lattices, like in cyclotron, this is because one cannot escape the 
+law that B/B_0 = 1/ sqrt(1 - R/R_{v=c})^2, see his talk at Fermi FFAG workshop. 
+... it results that nu_r=gamma
+Muon ffag just work in the faraway region in the curve  B(gamma), over a small Delta-gamma (and hence Delta-R) region. 

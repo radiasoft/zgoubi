@@ -1,68 +1,162 @@
+%latex slides_FMeot.tex  ; latex slides_FMeot.tex  ; dvips slides_FMeot.dvi ; dvipdf slides_FMeot.dvi 
 \documentclass[12pt]{article}
+
 %\usepackage{draftcopy}
 %\usepackage[draft]{graphicx}
 \usepackage{graphicx}
+%\usepackage{wrapfig}
 \usepackage{amssymb}
 \usepackage{lscape}
-\usepackage{wrapfig}
 \usepackage{times}
-\usepackage{color}
-\oddsidemargin=-.6in
-\evensidemargin=-.6in
-\textwidth=10.in
-\topmargin=-0.1in
-\footskip=-5.in
-%\oddsidemargin=-.5in
-%\evensidemargin=-.5in
-%\textwidth=10.in
-%\topmargin=-.7in
-%\footskip=-5.in
- 
+\usepackage{color}  % For \textcolor and \color % Ex. : \textcolor{red}{Text colored with} ; {\color{red}Text colored with}
+\usepackage{soul}   % For \hl{ highlighted text} ; \sethlcolor{colorname}
+%\usepackage[table]{xcolor}
+\usepackage{xcolor,colortbl}
+\usepackage{yfonts}  % for textgoth
+
+%   portrait
+%\oddsidemargin =-0.4in
+%\evensidemargin=-0.4in
+%\textwidth=6.8in
+%\textheight=8in
+%\topmargin=-1.in
+%\footskip=0in
+%   landscape
+ \oddsidemargin =-.8in                            
+ \evensidemargin=-.8in                                                          
+ \textwidth=8.1in              
+ \textheight=10.1in                       
+ \topmargin=-.9in
+ \footskip=-0in                                                                   
+
 \newcommand{\Br}{\ensuremath{B\!\rho}}
+\newcommand{\bull}{\ensuremath{\bullet~}}
 \newcommand{\Bz}{\ensuremath{{B_z}}}
-\newcommand{\com}{\ensuremath{\it com}}
-\newcommand{\dip}{{\it DIPOLE}}
+\newcommand{\CE}{concentration ellipse}
+\newcommand{\CES}{CE-$\mathcal{S}$}
+\newcommand{\com}{{center of mass}}
+\newcommand{\dEE}{\small \ensuremath{\frac{dE}{E}}}
+\newcommand{\dip}{\textit{ DIPOLE}}
+\newcommand{\eg}{\textsl{e.g.}}
+\newcommand{\ie}{\textsl{i.e.}}
 \newcommand{\EFB}{\ensuremath{E\!F\!B}}
 \newcommand{\EFBs}{\ensuremath{E\!F\!B\!s}}
-\newcommand{\ffag}{{\it FFAG}}
+\newcommand{\ffag}{\textit{ FFAG}}
+\newcommand{\hel}{\ensuremath{\mathbf{^3 H\! e ^{2+}}}}
 \newcommand{\hbrk}{\hfill \break}
-\newcommand{\lab}{\ensuremath{lab}}
+\newcommand{\x}{\ensuremath{x}} 
+\newcommand{\xp}{\ensuremath{{x'}}}
+\newcommand{\y}{\ensuremath{y} }
+\newcommand{\yp}{\ensuremath{{y'}}}
+\newcommand{\dl}{\ensuremath{{\delta l}}} 
+\newcommand{\lab}{\ensuremath{lab. frame}}
 \newcommand{\MC}{Monte~Carlo}
+\newcommand{\nib}{\noindent \ensuremath{\bullet}~}
+\newcommand{\snib}{\noindent {\small \ensuremath{\bullet}}~}
+\newcommand{\nid}{\noindent \ensuremath{\diamond}~}
+\newcommand{\snid}{\noindent {\small \ensuremath{\diamond}}~}
+\newcommand{\sid}{{\small \ensuremath{\diamond}}~}
+\newcommand{\nin}{\noindent~}
+\newcommand{\p}{\ensuremath{\mathbf{p}}}
+\newcommand{\pp}{$p\! \! \uparrow$}
+\newcommand{\rms}{\ensuremath{rms}}
+\newcommand{\SRl}{SR loss}
+\newcommand{\Sx}{\ensuremath{\mathcal{S}_x}}
+\newcommand{\Sy}{\ensuremath{\mathcal{S}_y}}
+\newcommand{\Sz}{\ensuremath{\mathcal{S}_z}}
+\newcommand{\wrt}{{with respect to}}
+\newcommand{\Y}{\ensuremath{Y} }
+\newcommand{\Yp}{\ensuremath{{Y'}}}
+\newcommand{\z}{Zgoubi}
 
- 
-\landscape
 
-\pagestyle{myheadings} 
+\newcommand{\C}{\ensuremath{\mathcal{C}}}
+\newcommand{\D}{\ensuremath{\mathcal{D}}}
+\newcommand{\HH}{\ensuremath{\mathcal{H}}}
+\newcommand{\bHH}{\bar \HH}
+\newcommand{\LL}{\ensuremath{\mathcal{L}}}
+\newcommand{\zg}{Zgoubi}
 
-\markboth{\large  ICFA-HB2004}{\large  ICFA-HB2004}
+\newcommand{\black}{\color{black}}
+\newcommand{\red}{\color{red}}
+\newcommand{\green}{\color{green}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\BurntOrange}{\color{BurntOrange}}
 
+\newcommand{\hlyell}[1]{{\sethlcolor{yellow}\hl{#1}}}
+\newcommand{\hlcyan}[1]{{\sethlcolor{cyan}\hl{#1}}}
+
+\newcolumntype{a}{>{\columncolor{gray!40!white}}c}
+\newcolumntype{b}{>{\columncolor{blue!10!white}}c}
+
+\definecolor{yell80}{rgb}{1,1,.8}
+\definecolor{yell60}{rgb}{1,1,.6}
+\definecolor{yell40}{rgb}{1,1,.4}
+\definecolor{yell20}{rgb}{1,1,.2}
+\definecolor{bluelight}{rgb}{.75,.946,1.}
+\newcommand{\referenceA}{\rm  }
+\newcommand{\referenceB}{\rm }
+\newcommand{\referenceC}{\rm }
+
+
+
+\pagestyle{myheadings}
+
+\markboth
+%{\Huge \red ~ \large  }
+%{\Huge \red ~ \large  }
+{\it \red ~ \large  ACCELERATORS, A Speed-of-Light Universe, Dpt. of Physics and Astronomy, SBU-SUNY - 2017}
+{\it \red ~ \large  ACCELERATORS, A Speed-of-Light Universe, Dpt. of Physics and Astronomy, SBU-SUNY - 2017}
 
 
 \begin{document}
+\landscape
+
+\title{
+\fontsize{33pt}{34pt}\selectfont \it \blue
+ACCELERATORS \\ A Speed-of-Light Universe \\ Dpt. of Physics and Astronomy, SBU-SUNY \\ 2017 \\[5ex]
+\fontsize{29pt}{34pt}\selectfont \bf \black
+\fbox{ Fixed Field Alternating Gradient Synchrotrons }
+}
+
+\thispagestyle{empty}
+
+
+
+\author{ 
+~
+\\[5ex]
+\fontsize{29pt}{34pt}\selectfont \bf
+ Fran\c{c}ois~M\'eot \\
+~ \\
+\fontsize{29pt}{34pt}\selectfont \rm
+Brookhaven National Laboratory \\
+\fontsize{29pt}{34pt}\selectfont 
+Collider-Accelerator Department \\
+\fontsize{29pt}{34pt}\selectfont 
+ Upton, LI, NY
+}
+
+
+\date{}
+
+
+\thispagestyle{empty}
+
+\maketitle
+
+\clearpage
+
+\tableofcontents
+
+
+
+
+\clearpage
+
 
 
 \sffamily
-
-
-%\thispagestyle{empty}
-  
-~~~~~~~{\hfill \large   \bf F.~M\'eot 
-
-~~~~~~~\hfill \large   \bf CEA DAPNIA/SACM 
-
-~~~~~\hfill \large   \bf \& CERN AB/ABP
-}
-
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-\vspace{-10mm}
-
-\begin{center} 
-\Huge  
-\bf  Fixed Field Alternating Gradient Synchrotrons 
-\end{center} 
-
-
 
 \section*{\LARGE Introduction}
 
@@ -113,13 +207,6 @@ strong focusing, synchrotron stability.
 %Specific to FFAG~: scaling, i.e. replication of  \\ orbits and optical functions. 
 \end{center}
 \end{minipage}
-
-
-
-\clearpage 
-
-\tableofcontents
-
 
 
 
@@ -226,7 +313,7 @@ First operation March 1956, U of Michigan.
     \item from   lower energy  on inner orbit
     \item to largest energy on outer orbit
   \end{itemize}
-  \item Transverse motion stability is insured by AG focussing
+  \item Transverse motion stability is ensured by AG focussing
   \vspace{-2mm}
   \begin{itemize}
     \item {\it \Large Strong} focusing, as in pulsed synchrotrons, hence small beta functions
@@ -234,7 +321,7 @@ First operation March 1956, U of Michigan.
     \begin{itemize}
       \item positive curvature field sectors, hence focussing, {\Large $\frac{\rho(s)}{B(s)}\, \frac{dB}{d\rho} >0$}
       \item negative curvature field sectors, hence defocussing, {\Large $\frac{\rho(s)}{B(s)}\, \frac{dB}{d\rho} <0$}
-      \item with ratio {\Large $|\int B_D \, ds| \approx \frac{2}{3} \times \int B_F \, ds$},  to insure axial focussing
+      \item with ratio {\Large $|\int B_D \, ds| \approx \frac{2}{3} \times \int B_F \, ds$},  to ensure axial focussing
     \end{itemize}
   \end{itemize}
   \item  The  radial dependence {\Large  $B=B_0 (r/r_0)^K $} yields the 
@@ -251,7 +338,7 @@ First operation March 1956, U of Michigan.
     \item  large {\it \Large circumference factor}~~ {\Large $\mathcal{C}/2 \pi \rho$  } due to alternating curvature
     \item drift length is not free
 %    \item scalloping is small~: orbit length = $r \times (2 \pi+\epsilon) $, $\epsilon$ small 
-    \item {\Large $\alpha = 1/(1+K) \rightarrow$} larger K insures smaller {\Large $r_{max}-r_{min}$}
+    \item {\Large $\alpha = 1/(1+K) \rightarrow$} larger K ensures smaller {\Large $r_{max}-r_{min}$}
     \item transition energy  $E_{tr} = E_0/ \sqrt{\alpha} \approx E_0 \sqrt{1+K}$ easily beyond $E_{max}$
     \item etc.
   \end{itemize}
@@ -395,16 +482,10 @@ magnetic field  and machine  parameters~; long-term orbit stability~; RF acceler
 \hspace{-7mm} \includegraphics*[bbllx=14,bblly=14,bburx=250,bbury=220,width=9.cm]{./figures/ringSpiralDraw.eps}
 
 \medskip
-\includegraphics*[bbllx=14,bblly=44,bburx=250,bbury=230,width=5.cm]{./figures/ringSpiralMagDraw.eps}
+\includegraphics*[bbllx=14,bblly=44,bburx=250,bbury=230,width=4.5cm]{./figures/ringSpiralMagDraw.eps}
 
 \includegraphics*[bbllx=14,bblly=44,bburx=278,bbury=195,width=5.5cm]{./figures/ringSpiralCoilDraw.eps}
   \begin{center}   Logarithmic spiral poles \end{center}
-
-~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~
 
 \end{minipage}\hspace{0mm}
 \begin{minipage}[b]{.65\linewidth}
@@ -460,12 +541,12 @@ First operation Aug.~1957 at the  MURA Lab., Madison.
 
 \clearpage 
 
-\subsection*{\Large   Optics  in the spiral FFAG }
+\subsection*{\Large   Optics  of the spiral FFAG }
 
 \large \sf 
 
 The idea in the spiral FFAG was to superpose a positive field on top of the alternating sign one of the 
-radial sector, so as to always have the right curvature and decrease the circumference factor. 
+radial sector, so as to always have the right curvature and thus decrease the circumference factor. 
 
 
 \begin{minipage}[b]{.6\linewidth}
@@ -483,7 +564,7 @@ optics, though) $\mathcal{F}=1+f\sin(\ln \frac{r}{r_0}/w - N \theta)$.
 
 \medskip
 The logarythmic spiral edge %{\Large ~ ~ $r = r_0 \exp(Nw \theta)$~ ~}
- insures constant  angle between  spiral sector edges and closed orbits. 
+ ensures constant  angle (the ``wedge angle'') between  spiral sector edges and closed orbits. 
 
 %\medskip
 %The modulation is $2\pi/N$-periodic, a particle passes N ridges over a turn. 
@@ -523,7 +604,7 @@ A matrix model using hard-edge approximation would give similar result to first 
 
 \clearpage 
 
-\subsection*{\Large  Second radial sector, 50~MeV,  2-way}
+\subsection*{\Large  Second radial sector FFAG, 50~MeV,  2-way}
 
 \large   
 
@@ -581,7 +662,7 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
 
 
 
-\clearpage
+%\clearpage
 
 
 \large     
@@ -634,7 +715,7 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
       &   gap      & cm  &    30 - 9        &   \it        $gap = g_0 (r_0/r)^K$                  \\[1ex]
 \multicolumn{2}{l}{\it  \underline{Injection}}& &multi- or single-turn & \bigg\{ \raisebox{1ex}[0mm][0mm]{\it electrostatic inflector} \\
       &        &         &                  &                \raisebox{2ex}[0mm][0mm]{\it  + 2 bumpers}  \\[-2ex]
-\multicolumn{2}{l}{\it  \underline{Acceleration}}&&                &  \fbox{ \bf broad band, high E RF} \\
+\multicolumn{2}{l}{\it  \underline{Acceleration}}&&                &  \fbox{ \bf broad band, high gradient RF} \\
       & swing      & MHz &   0.6 - 1.4      &  \\
       &harmonic    &     &          1       &  \\
       &voltage p-to-p& kV&   1.3 - 3        &  \\
@@ -787,7 +868,7 @@ Acceptance  limits
 
 \clearpage 
 
-\section{\LARGE From 1964 to today's trends}
+\section{\LARGE After the MURA years, till 1990s}
 
 \large     
 
@@ -843,10 +924,10 @@ Finally rejected, considered difficult option, in particular as to injection, an
 \\
 \it \large FFAG optics   \\
 &  DFD sector, ~K&        &       $21$                & . feasiblity of the magnets was demonstrated / $\gamma_{tr} > \gamma_{max}$      \\
-%&   K            &        &       $21$              & . so to insure $\gamma_{tr} > \gamma_{max}$   \\
+%&   K            &        &       $21$              & . so to ensure $\gamma_{tr} > \gamma_{max}$   \\
 % spiral angle   &     deg&         30               & . small, to enhance vertical focusing   \\
 &   $\nu_r ~/~ \nu_z$      &        &  5.8~/~2.8        & . $\approx \sqrt{1+K}$         \\
-&number of sectors&       &        20                & . to insure smooth envelopes         \\
+&number of sectors&       &        20                & . to ensure smooth envelopes         \\
 &$\beta_r ~/~ \beta_z max.$&\it m  &       &   \it  min-max  \\
 & radial aperture&     m  &       $2.5$  &                                      \\
 &  $B_{min} ~/~ B_{max}$  &  T &  -2 / 4           \\
@@ -940,30 +1021,6 @@ cost estimates     & M\$ &      230       &      130  & . rough, for a 0.8-2.5~G
 %improve the performance of existing machines " Weaknesses o Less innovative (less attractive to 
 %universities) o Longer injection time to the MI " Possible improvement o To investigate ac 
 %superconducting magnet technology
-
-
-\clearpage 
-
-\subsection*{\LARGE    Today's trends}
-
-\large   
-
-
-\begin{itemize}
- \item  {\it still } candidate for high energy (multi-GeV range), high power (MW range) proton beams
- \item  candidate for compact, low cost, low-energy machines, e (MeV range) and p (sub-GeV range) e.g., medical \\
-\end{itemize}
-
-Ingredients for that, nowadays,  are
-
- \begin{itemize}
-%  \item  high repetition rate due to fixed field, $>100$~Hz 
-  \item the technology has progressed~:  magnets (SC), RF ~ ~ ~  ~ ~ $\rightarrow$  see Y. Mori, today
-  \item  new concepts, {non-scaling, semi-scaling  optics}  ~ ~ ~  ~ ~ $\rightarrow$  see S. Ruggiero, today
-\end{itemize}
-
-
-
 
 
 
@@ -1155,7 +1212,7 @@ $\rightarrow$ dogbone RLA $[ 2$-$5~$GeV$] \rightarrow$  FFAG $[ 5$-$10~$GeV$] \r
 
 \clearpage 
 
-\section*{\LARGE Conclusion, back to the 50's : an e-model of a muon FFAG}
+\section*{\LARGE An e-model of a muon FFAG}
 
 \large 
 

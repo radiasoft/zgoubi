@@ -1,0 +1,1 @@
+latex introToThisComputerWorkshop.tex ; latex introToThisComputerWorkshop.tex ; dvips introToThisComputerWorkshop ; dvipdf introToThisComputerWorkshop

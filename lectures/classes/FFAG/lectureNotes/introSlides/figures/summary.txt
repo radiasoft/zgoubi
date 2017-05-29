@@ -1,0 +1,8 @@
+ Fixed Field Altlernating Gradient acceleration methods. A review, present projects. 
+
+Fixed Field Alternating Gradient acceleration methods were initiated in the early 50's. They have 
+regained interest in the recent years in the context of increasing demand for high intensity and 
+fast acceleration. A review of the technique and projects will be performed, including possible 
+applications that span a large spectrum of machines from proton drivers to the acceleration of 
+muons for the neutrino factory. 
+
