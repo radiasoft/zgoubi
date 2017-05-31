@@ -1,0 +1,76 @@
+% \bibitem must have the following forms:
+%
+% \bibitem[Baker and Carter(1972)]{key}...
+% \bibitem[Jones et al.(1990)]{key}...
+%
+% Citation
+%
+% \cite{key}   ==>>  [Jones et al. (1990)]
+% \citet{key}  ==>>  Jones et al. (1990)
+% \citep{key}  ==>> (Jones et al., 1990)
+%
+% Multiple citations as normal:
+%
+% \citep{key1,key2}  ==>> (Jones et al., 1990; Smith, 1989)
+%                           or  (Jones et al., 1990, 1991)
+%                           or  (Jones et al., 1990a,b)
+%
+% Optional notes as:
+%
+%   \cite[Chap. 2]{key}     ==>> [Jones et al. (1990), Chap. 2]
+%   \citep[Chap. 2]{key}    ==>> (Jones et al., 1990, Chap. 2)
+%   \citep[e.g.,][]{key}    ==>> (e.g., Jones et al., 1990)
+%   \citep[see][pg. 34]{key}==>> (see Jones et al., 1990, pg. 34)
+%
+%  (Note: in standard LaTeX, only one note is allowed, after the ref.
+%   Here, one note is like the standard, two make pre- and post-notes.)
+%
+% Additional citation possibilities (both author-year and numerical modes)
+%
+%   \citealt{key}          ==>> Jones et al. 1990
+%   \citeauthor{key}       ==>> Jones et al.
+%   \citeyear{key}         ==>> 1990
+%   \citeyearpar{key}      ==>> (1990)
+%
+% For names like della Robbia at the start of a sentence, use
+%
+%   \Citet{dRob98}         ==>> Della Robbia (1998)
+%   \Citep{dRob98}         ==>> (Della Robbia, 1998)
+%   \Citeauthor{dRob98}    ==>> Della Robbia
+%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ws-book-har}[2015/01/20 WSPC Harvard Style for references and citations]
+\RequirePackage{natbib}
+\def\bibfont{\fontsize{9}{11}\selectfont}
+\makeatletter
+\DeclareRobustCommand{\cite}{\@ifnextchar[{\@bcite}{\@ncite}}
+\def\@ncite#1{[\citet{#1}]}
+\def\@bcite[#1]#2{[\citeauthor{#2} (\citeyear{#2}), #1]}
+\makerobust{\cite}
+\setlength{\bibhang}{24pt}
+\renewenvironment{thebibliography}[1]{\chapter*{Bibliography}
+    \markboth{\booktitle}{Bibliography}
+    \if@csrhead
+    \markboth{Bibliography}{Bibliography}
+    \fi
+    \if@acrhead
+    \markboth{Bibliography}{Bibliography}
+    \fi
+    \bibfont
+    \vspace*{4pt}
+    \list{\@biblabel{\arabic{enumiv}}}
+    {\settowidth\labelwidth{\@biblabel{#1}}%
+        \leftmargin\labelwidth\advance\leftmargin by 24pt
+    \labelsep0pt\itemsep0pt\parsep0pt\itemindent-24pt
+    \advance\leftmargin\labelsep
+    \usecounter{enumiv}%
+        \let\p@enumiv\@empty
+        \def\theenumiv{\arabic{enumiv}}}%
+        \def\newblock{\hskip .11em plus.33em minus.07em}%
+        \sloppy\clubpenalty4000\widowpenalty4000
+        \sfcode`\.=1000\relax}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+\makeatother
+\endinput

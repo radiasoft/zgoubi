@@ -1,1 +1,1 @@
-/home/meot/book/book/main_WorldSciStyle/WorldSci_material/template/ws-book9x6.cls
+../../../edition/WorldSci_material/template/ws-book9x6.cls
