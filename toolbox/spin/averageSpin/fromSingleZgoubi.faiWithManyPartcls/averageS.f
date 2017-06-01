@@ -1105,7 +1105,7 @@ C----- zpop log unit
 C----- Input data file name
 C      Normally, default is zgoubi.fai, .plt, .spn, .map...
 C      NOMFIC = 'b_zgoubi.fai'
-      NOMFIC = 'zgoubi.fai'
+C      NOMFIC = 'zgoubi.fai'
 
       RETURN
       END

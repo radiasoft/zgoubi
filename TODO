@@ -33,6 +33,12 @@ In lipsFromFai :
 that case what is provided following reading from the latter is D=0 and D'=0. This can be fixed by removing from 
 the computation any NOEL in zgoubi.fai which wouild not have its match in  zgoubi.OPTICS.out. 
 
+---
+Install orbit correction
+Install harmonic orbit correction
+
+---
+Have 'TWISS' orbit finder operational (and stop TWISS if orbit can't be found)
 
 
 ----------------------------------------

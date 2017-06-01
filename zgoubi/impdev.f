@@ -185,17 +185,17 @@ C--------- READ STEP #
 C--------- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)
           IF(1+K*((NSTEP-1)/K) .NE. NSTEP) RETURN
 
-          WRITE (88,fmt='(1p,20g12.4)') 
-C                           BX     BY     BZ
-     >    X,       Y,       B(1,1),B(1,2),B(1,3)
-C         dBXx    dBXy    dBYy    dBXz    dBYz
-     >    ,DB(1,1),DB(2,1),DB(2,2),DB(3,1),DB(3,2)
-C         d2BXxx     d2BXxy     d2BXyy     d2BYyy  
-     >    ,DDB(1,1,1),DDB(2,1,1),DDB(2,2,1),DDB(2,2,2)
-C         d2BXxz     d2BXyz     d2BYyz  
-c     >    ,DDB(3,1,1),DDB(3,2,1),DDB(3,2,2)
-C         d3BXdy2z     d4BXdyz3      d3BZdz3  
-c     >    ,D3BX(3,2,2),D4BX(3,3,3,2),D3BZ(3,3,3)
+C          WRITE (88,fmt='(1p,20g12.4)') 
+CC                           BX     BY     BZ
+C     >    X,       Y,       B(1,1),B(1,2),B(1,3)
+CC         dBXx    dBXy    dBYy    dBXz    dBYz
+C     >    ,DB(1,1),DB(2,1),DB(2,2),DB(3,1),DB(3,2)
+CC         d2BXxx     d2BXxy     d2BXyy     d2BYyy  
+C     >    ,DDB(1,1,1),DDB(2,1,1),DDB(2,2,1),DDB(2,2,2)
+CC         d2BXxz     d2BXyz     d2BYyz  
+Cc     >    ,DDB(3,1,1),DDB(3,2,1),DDB(3,2,2)
+CC         d3BXdy2z     d4BXdyz3      d3BZdz3  
+Cc     >    ,D3BX(3,2,2),D4BX(3,3,3,2),D3BZ(3,3,3)
         ENDIF
       ENDIF
  

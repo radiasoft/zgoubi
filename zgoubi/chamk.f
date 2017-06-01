@@ -76,8 +76,8 @@ C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
         IOP = 1
         CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
 
-         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
-     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
+c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+c     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
         DO I = 2, NFIC-1
 c               write(*,*) 'chamk NMPT(I) ',i,NMPT(I)
@@ -95,8 +95,8 @@ C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
           CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)          
           CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
 
-         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
-     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
+c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+c     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
         ENDDO
 
@@ -114,8 +114,8 @@ C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
         CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)
         CALL ADPOL(ID,I3,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
 
-         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
-     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
+c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
+c     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
       ELSE
         CALL ENDJOB('Pgm chamk. No such possibility NFIC = ',NFIC)

@@ -744,18 +744,18 @@ C Kin. energy, MeV
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
  220    FORMAT(1P, 
-     >       /,20X,'Orbit  length           =',E15.4,' m',
-     >       /,20X,'RF  harmonic            =',E15.4,
-     >       /,20X,'Peak  voltage           =',E15.4,' V',
-     >       /,20X,'RF  frequency           =',E15.4,' Hz',
-     >       /,20X,'Synchronous  phase      =',E15.4,' rd',
-     >       /,20X,'Isochronous  time       =',E15.4,' s',
-     >       /,20X,'qV.SIN(Phi_s)           =',E15.4,' MeV',
-     >       /,20X,'cos(Phi_s)              =',E15.4,' ',
-     >       /,20X,'Nu_s/sqrt(alpha)        =',E15.4,'  ',
-     >       /,20X,'dp-acc*sqrt(alpha)      =',E15.4,'  '
-     >       /,20X,'dgamma/dt               =',E15.4,' /s '
-     >       /,20X,'rho*dB/dt               =',E15.4,' T.m/s '
+     >       /,20X,'Orbit  length           =',E19.8,' m',
+     >       /,20X,'RF  harmonic            =',E19.8,
+     >       /,20X,'Peak  voltage           =',E19.8,' V',
+     >       /,20X,'RF  frequency           =',E19.8,' Hz',
+     >       /,20X,'Synchronous  phase      =',E19.8,' rd',
+     >       /,20X,'Isochronous  time       =',E19.8,' s',
+     >       /,20X,'qV.SIN(Phi_s)           =',E19.8,' MeV',
+     >       /,20X,'cos(Phi_s)              =',E19.8,' ',
+     >       /,20X,'Nu_s/sqrt(alpha)        =',E19.8,'  ',
+     >       /,20X,'dp-acc*sqrt(alpha)      =',E19.8,'  '
+     >       /,20X,'dgamma/dt               =',E19.8,' /s '
+     >       /,20X,'rho*dB/dt               =',E19.8,' T.m/s '
      >       )
         IF(SRLOSS) WRITE(NRES,FMT='(1P,
      >       /,20X,''SR loss compensation    ='',E19.8,'' MeV'')')

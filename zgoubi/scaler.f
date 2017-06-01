@@ -430,8 +430,8 @@ C-------- removed 2pi from input, added constant scaler SCLMX, jorg
           sweepstart = RININ+RAMPN
           sweepend = sweepstart+FLATN
           downend = sweepend+DOWNN
-          write(88,*) phas, q1, q2, SCLMX, RININ, RAMPN,
-     &      FLATN,DOWNN,acturns,rampstart,sweepstart,sweepend,downend
+c          write(88,*) phas, q1, q2, SCLMX, RININ, RAMPN,
+c     &      FLATN,DOWNN,acturns,rampstart,sweepstart,sweepend,downend
 
           IF (IPASS .LT. RININ .or. IPASS .gt. downend) THEN
              SCAL = 0.d0
@@ -443,6 +443,7 @@ C-------- removed 2pi from input, added constant scaler SCLMX, jorg
                    SCAL = acturns/RAMPN
                    QN = Q1
                    totalphasep=QN*acturns
+c             write(77,*) acturns,RAMPN,QN,acturns
              iwhere=2
              ELSEIF  (IPASS .LE. sweepend) THEN
                    SCAL = 1.D0
@@ -459,14 +460,24 @@ C-------- removed 2pi from input, added constant scaler SCLMX, jorg
                    totalphasep=QN*(acturns-RAMPN-FLATN)+Q1*(RAMPN+FLATN)
              iwhere=4
              ENDIF
-             SCAL = SCAL * COS(twopi*totalphasep + PHAS) * SCLMX
+ 
+c                write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
+             SCAL = SCAL * COS(2.D0*PI*totalphasep + PHAS) * SCLMX
+c                write(77,*) SCAL,ipass,iwhere
+
           ENDIF
 c         scal is used for debugging -jkl
           SCALER = scal
-c         write(77,*) IPASS,QN,totalphasep,scaler
-c         write(77,*) ipass,noel,scaler,qn,totalphasep,PHAS,Q1,Q2,SCLMX,RININ,RAMPN,FLATN,
-c    &      DOWNN,acturns,rampstart,sweepstart,sweepend,downend, iwhere
-c         write(77,*) ipass,noel,scal,qn,totalphasep,iwhere
+
+c           IF (IPASS .ge. RININ ) then
+c          write(*,*) IPASS,QN,totalphasep,scaler
+c             read(*,*)
+c           endif
+
+c         write(77,*) ipass,noel,scaler,qn,totalphasep,PHAS,Q1,Q2,
+c     &         SCLMX,RININ,RAMPN,FLATN,
+c     &      DOWNN,acturns,rampstart,sweepstart,sweepend,downend, iwhere
+c         write(77,*) ipass,noel,scal,qn,totalphasep,iwhere,phas
 
 
 
