@@ -1,0 +1,26 @@
+
+TOSCA keyword is popular to handle field maps. Notations below are those fond in ZUG, keyword 'TOSCA'.
+See "The various IZ, MOD and MOD2 possibilities, when using TOSCA", ZUG, p.~288: IZ=1, MOD=25, MOD2=1
+
+TOSCA is expecting to first find a few line header (arbitrary comments). Then follows the field map, 
+namely, NX*NY lines giving :
+
+Y Z X BY BZ BX         Angle X varies first, from a1 to a2 such that a2-a1=AT, then Y, from R_min to R_max. Z is zero always
+                       Assuming  a dipole magnet with mid-plane symmetry, BX=BY=0 always.
+
+Units are arbitrary as the second lines of data under TOSCA allows setting units. Should eventually be kG (B), rad (X), cm (Y).
+
+NX is the number of angular steps, from entrance boundary to exit boundary of the map, such that AT = (NX-1)*dA, with AT
+the total angular extent of the map (60 degrees here) and dA the angle increment of the mesh.
+
+NY is the number of steps in radius, from boundary at R_min to boundary at R_max of the map, such that the radial 
+extent is (NY-1)*dR, with dR the radius increment of the mesh.
+
+It is advised to take dA such that RM*dA~few mm, to start with.
+
+Two possible ways to generate that field map are as follows: 
+
+
+1/ write an appropriate piece of code which will do it
+
+2/ From an existing Zgoubi model based for instance on DIPOLE or CYCLOTRON, use CONSTY keyword. 
