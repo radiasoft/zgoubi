@@ -1,5 +1,5 @@
       implicit double precision (a-h,o-z)
-      parameter (pi = 4.d0*atan(1.d0)))
+      parameter (pi = 4.d0*atan(1.d0))
 
 C------------ Hypothesis :
 C Total angle extent of the field map
@@ -21,27 +21,32 @@ C A good starting point (by experience) is dX a few mm, say ~0.5 cm
       A1 = 0.d0 ; A2 = AT
 C----------------------------------------------
 
-      BX = 0.d0 ; BY = 0.d0, Z = 0.d0
+      BY = 0.d0 ; BX = 0.d0 ; Z = 0.d0
       BZ = 5.d0  ! kG
 
       open(unit=2,file='geneSectorMap.out')
+      write(2,*) Rmi,dR,dA/pi*180.d0,dZ,
+     >'     !  Rmi/cm, dR/cm, dA/deg, dZ/cm'
       write(2,*) '# Field map generated using geneSectorMap.f '
-      write(2,fmt='(a)') '# AT,  Rmi, Rma, RM, NR, dR, NX, dX, dA '
-      write(2,fmt='(a)') '# deg, cm   cm   cm      cm      cm  rd '
-      write(2,fmt='(a,1p,4(e16.8,1x),2(i3,1x,e16.8,1x),e16.8)') 
-     >'# ',AT, Rmi, Rma, RM, NR, dR, NX, dX, dA
+      write(2,fmt='(a)') '# AT/rd,  AT/deg, Rmi/cm, Rma/cm, RM/cm,'
+     >//' NR, dR/cm, NX, dX/cm, dA/rd : '
+      write(2,fmt='(a,1p,5(e16.8,1x),2(i3,1x,e16.8,1x),e16.8)') 
+     >'# ',AT, AT/pi*180.d0,Rmi, Rma, RM, NR, dR, NX, dX, dA
       write(2,*) '# '
       write(2,*) '# R, Z, X, BY, BZ, BX '
       write(2,*) '# cm cm rd kG  kG  kG '
       write(2,*) '# '
 
       do jr = 1, NR
-        R = Rmi + dble(NR-1)*dR
+        R = Rmi + dble(jr-1)*dR
         do ix = 1, NX
-          A = A1 + dble(NX-1)*dA
-          write(2,fmt='(1p,6(e16.8),a)')  R, Z, A, BY, BZ, BX
+          A = A1 + dble(ix-1)*dA
+C          write(2,fmt='(1p,6(e16.8),a)')  R, Z, A, BR, BZ, BA
+          X = R * sin(A)
+          Y = R * cos(A)
+          write(2,fmt='(1p,6(e16.8),a)')  Y, Z, X, BY, BZ, BX
         enddo
       enddo
 
-      stop ' Job complete ! Field map is in geneSectorMap.out.'
+      stop ' Job complete ! Field map stored in geneSectorMap.out.'
       end

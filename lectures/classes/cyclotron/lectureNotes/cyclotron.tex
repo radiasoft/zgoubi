@@ -20,12 +20,12 @@
 \sidebyside
 {
     \includegraphics[width=0.45\linewidth]{./figs_cyclo/LBLCycloSketch.eps}
-    \caption{A  resonant acceleration device: the cyclotron~[1].} %\cite{CASCycloSketch1994}
-    \label{figLBLCycloSketch}
+    \caption{A  resonant acceleration device: the cyclotron~[1].} %\cite{CASCycloSketch1994}    
+\label{figLBLCycloSketch}
 }{
     \includegraphics[width=0.45\linewidth]{./figs_cyclo/LBLCycloSketch.eps}
-    \caption{The world greatest beam power cyclotron, at PSI.}
-    \label{fig1.3}
+    \caption{     The world highest beam power cyclotron, at PSI.}
+\label{figPSICyclo}
 }
 \end{figure}
 
@@ -60,9 +60,15 @@ complete/strengthen with classical Applied Mathematics textbooks. (ii)~DIPOLES p
 
 In the ``classical limit'', the relative increase in the revolution period in the uniform field cyclotron,
  $\Delta T_{\rm rev}/T_{\rm rev} = \gamma-1 $,  does not exceed $2-3$\%.  
-This translates in a maximum $E-m^2 \approx$25~MeV kinetic energy for protons, 50~MeV for D and $\alpha$ particles. 
-That is enough energy to transmute all nuclei and, as a matter of fact, the classical cyclotron allowed discovering 
-numerous nuclear reactions and isotopes. 
+This translates in a maximum $E-mc^2 \approx$25~MeV kinetic energy for protons, 50~MeV for D and $\alpha$ particles. 
+%That is enough energy to transmute all nuclei and, as a matter of fact, the classical cyclotron allowed discovering 
+%numerous nuclear reactions and isotopes. 
+
+The classical cyclotron  is comprised of, (i)~a cyclindrical dipole magnet which provides a uniform 
+ magnetic field between its two poles, (ii)~two semi-cylindrical dees inserted 
+in the empty region between the  poles, connected to an alternating current (AC) source. 
+Inside the dees, ions only experience the magnetic field, in the two gaps between the dess, ions 
+experience an accelerating force, at each passage across a gap due to the alternating polarity of the AC source.
 
 
 
@@ -252,7 +258,22 @@ their limit in energy resides in achievable field strength and magnet size.
 
 
 
-\subsection{Resonant acceleration \label{secCycloClassAccel}}
+\section{Resonant acceleration \label{secCycloClassAccel}}
+
+An oscillating radio-frequency (RF) electric field 
+is applied in the gap between the two dees (the electrodes, 
+ ``Oscillator'' region in Fi.g~.ref{figLBLCycloSketch})
+so creating a potential difference 
+\begin{equation}
+\label{EqRFCyclo}
+ V(t) = qV sin(2\pi f_{\rm RF}t)
+\end{equation}
+An  ion reaching the gap at time $t$  experiences an accelerating force $\vec = -q \vec{grad}V(t)$ which changes 
+its  kinetic energy by the amount $\Delta W = q V \sin(2\pi f_{\rm RF}t + \phi)$. 
+With the  RF frequency satisfying $f_{\rm RF} = h f_{\rm rev}$,   the ions undergo acceleration at each passage across each gap. 
+
+
+.....
 
      Bunching~: particle beam injected into the cyclotron necessarily gets bunched, at the 
 frequency (or a sub-harmonic) of the RF, 
@@ -261,7 +282,7 @@ the time interval between two bunches is an RF period (or a multiple).
 
 
 
-Classical cyclotron $0<n<1$
+\subsection{Classical cyclotron, $0<n<1$}
 
 
 Isochronous cyclotron, $0<n<1$ cannot be satisfied as $B\propto \gamma$. Introduce Thomas focusing, using sector magnets,
@@ -313,109 +334,15 @@ In a $V(\phi)$ diagram, represent  the arrival phase  of the particle at the RF 
 by plotting it along the V(t) curve. 
 Compare the evolution time of flight, RF phase, number of turns to the top energy,
  with the results of 2.a above.
-
-
-
-
-A tight tuning between particle time-of-flight, which measns in practice the 
-field $B$, and the RF frequency is necessary in order to reach the 
-resonance condiiton, $f_{\rm RF} = h f_{\rm rev}$.
-
-The accelerating gap in the simulation provide $V_{\rm RF}(t) = \hat V \sin (\omega_{\rm RF} t)$......... 
-
-(i)~Check the evolution of the particle acceleration when 
- getting away from the resonant frequency: \\
-- Plot the particle position along the $V_{\rm RF}(t)$ curve in a $V_{\rm RF}(t)$ diagram. \\
-- Plot the final phase $\phi_{\rm final}$ as a function of $\Delta B/B$. \\
-- Find the tolerable deviation from the isochronous field, 
+ Plot the final phase $\phi_{\rm final}$ as a function of $\Delta B/B$. 
+ Find the tolerable deviation from the isochronous field, 
 $\Delta B/B$,  if particles are required to be dispersed in momentum by les 
 than $dp/p=10^{-3}$ at the end of the acceleration cycle.
 
 
-\subsection*{Exercise}
 
 
-{
-1/ On RF harmonic 1, which RF frequency applied on dees 
-is needed to accelerate a proton in a $\sim$uniform, 1~Tesla magnetic field~? 
-
-~
-
-2/ What is the  energy gained by a proton when it reaches $r=0.3\,$m~?
-}
-
-
-~
-
-~
-
-{
-Answers~:  
-
-~
-
-1/ $f_{rev.} = e B / 2 \pi m = c^2 B / 2 \pi (mc^2/e) = 9\, 10^{16} \times 1 / 2 \pi 10^9 \approx 15\,$MHz
-
-Two accelerating gaps  at 180~degrees $\Rightarrow  f_{RF} = f_{rev.}$ 
-
-~
-
-~
-
-2/
-From $r =\frac{mv}{eB}$ one gets $\frac{1}{2} m v^2 \equiv E  = \frac{1}{2} \frac{(eBr)^2}{m}  = 
-\frac{1}{2} \frac{eB^2r^2c^2}{(mc^2/e}  $ hence $\frac{E}{e} (eV) = \frac{1}{2} \frac{B^2r^2c^2}{(mc^2/e)}  $ 
-
-$\frac{E}{e} (eV) = \frac{1}{2} \frac{1^2 (0.3)^2 (3\, 10^8)^2}{10^9} \approx 4.3\, $MeV.  
-
-
-
-~
-}
-
-
-
-
-
-
-\subsection{Orbits}
-
-- find the orbits, energy dependence of radius, time of flight.
-
-Plot these quantities against theoretical expectations
-
-
-\subsection{Focusing}
-
-Check $Q_x^2 +Q_y^2$. Plot radial dependence of field index n(r), check \verb|0<n(r) <1|.
-
-
-\subsection{Acceleration}
-
-Introduce a double-Dee simulation. Hint: use CAVITE
-
-Accelerate a complete cycle, on h=1, h=3. In V(t) space, plot V(t) path of reference particle (use PRINT in CAVITE). 
-
-
-
-
-
-
-\section{Exercises: hints, help}
-
-\noindent {\small $\bullet$} Exercise~\ref{secCycloClassAccel}-1 
-
-The field map has to be in a uniform mesh, preferably in cylindrical coordinates due to the symmetry of the problem.
-Namely, $B(R,\theta)$ on nodes at fixed $\Delta R$, $\Delta \theta$ intervals. Aim $\approx 1$~mm intervals 
-$R\times \Delta \theta$ at $R=R_{\rm min}$. Amongst other possibilities, possible ways genrate that field map~: 
-
-- a short computer program,
-
-- use \texttt{DIPOLE-M} procedure. Given the option ``$IL=2$'', the field map that it generates will be stored in a dedicated file,
-
-- use \texttt{DIPOLE}, or \texttt{CYCLOTRON}, together with \texttt{OPTIONS}, option ``CONSTY''.
-
-
+\subsection{Relativistic cyclotron}
 
 
 
