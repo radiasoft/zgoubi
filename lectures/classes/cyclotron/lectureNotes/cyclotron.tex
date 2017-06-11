@@ -90,18 +90,17 @@ in cyclotrons.
 
 \noindent ~\ref{secCycloClassTra}-1.a - 
 Construct a 60-degree sector mid-plane 2-dimensional field map, with constant vertical field 
-B=0.5~T, covering R=20 to 70~cm. Use a uniform mesh in cylindrical coordinates. 
-Using \texttt{TOSCA} keyword, track two protons with energy respectively 1~MeV and 5~MeV, 
-check convergence of numerical integration of motion versus mesh density. 
+B=0.5~T, covering R=10 to 70~cm. Take for that a uniform mesh in cylindrical coordinates proper for use 
+with \texttt{TOSCA} option `IZ=1, MOD=22, MOD2=1`. 
+Using \texttt{TOSCA} keyword, track three protons with energy respectively 0.2, 1 and 5~MeV,
+launched a zero angle into the field map. 
+Check that trajectories are arc of circles, at expected radii. 
 
 \noindent ~\ref{secCycloClassTra}-1.b - 
-Track a proton on its periodic circular orbit across this 60-degree sector, 
-assuming the orbit centered at the center of the field map, 
-for a few different values of proton momentum ranging from 1~MeV to 5~MeV.
- Plot, as a function of momentum, the 
-equilibrium orbit radius $R$ and  time of flight $T_{\rm rev}$ on that orbit, 
- from both ray-tracing and relativistic kinematics on a same graphic,  
-showing   the slow TOF increase with momentum. 
+ Plot, as a function of energy, the 
+  radius $R$ and  time of flight $T_{\rm rev}$ on that orbit, 
+ from both ray-tracing and kinematics theory, on a same graphic, 
+showing   the slow, relativistic TOF increase with momentum. 
 
 \noindent ~\ref{secCycloClassTra}-1.c - 
 Check the evolution of orbit radius and TOF  with field map mesh density and with 
