@@ -2280,7 +2280,7 @@ MCDESINT\index{MCDESINT}}).
 
 \medskip
 
-\noindent\textbf{KOBJ  = 3~:} Distribution of \IMAX\ particles inside a
+\noindent\textbf{KOBJ  = 3~:} Distribution of \IMAX\ particles in a
 6-D ellipsoid (with possible momentum correlation via dispersion) defined by the three sets of data (one set per 
  2-D phase-space)
 
@@ -2305,31 +2305,35 @@ $$
 %
 where $\alpha_{X,Y,Z}$, $\beta_{X,Y,Z}$, $D_{Y,T}$, $D_{Z,P}$ are the ellipse parameters and the dispersions and derivatives,  
  $\varepsilon_{X,Y,Z}/ \pi$ are the \rms\ emittances. 
-This defines for each plane an elliptical  frontier $\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = 
-\varepsilon_Y / \pi$ (\id\ for the ($Z, P$) or ($X, D$) planes). 
-$N_{\varepsilon_ Y}$, $N_{\varepsilon_ Z}$ and 
-$N_{\varepsilon_ X}$ are the sorting cut-offs (used only for Gaussian 
-distributions, $KY, KT, ...=2$).
+This defines for each plane an elliptical  frontier~:
+$$\dfrac{1 + \alpha^2_Y}{\beta_Y} Y^2 + 2 \alpha_Y YT + \beta_Y T^2 = \varepsilon_Y / \pi, $$ 
+$$\dfrac{1 + \alpha^2_Z}{\beta_Z} Z^2 + 2 \alpha_Z ZP + \beta_Z P^2 = \varepsilon_Z / \pi, $$ 
+$$\dfrac{1 + \alpha^2_l}{\beta_l} l^2 + 2 \alpha_l l\delta + \beta_l \delta^2 = \varepsilon_l / \pi, $$ 
+with $l$ the bunch length variable (unit is cm) and $\delta$ a short notation for $\delta p/p$, momentum spread. 
 
-\noindent The sorting is uniform in surface (for $KY=1$ or $KZ=1$ 
-or $KX=1$) or Gaussian ($KY=2$ or $KZ=2$), and so on, as described 
-above. A uniform sorting has the ellipse above for support. A 
-Gaussian sorting has the ellipse above for r.m.s.~frontier, leading 
-to $\sigma_Y = \sqrt {\beta_Y \varepsilon_Y / \pi}$, 
-$\sigma_T = \sqrt {\dfrac{(1+\alpha_Y^2)}{\beta_Y} \varepsilon_Y / \pi}$, 
-and similar relations for $\sigma_Z$, $\sigma_P, \sigma_X$, $\sigma_D$.
+\noindent Sorting cut-offs $N_{\varepsilon_ Y}$, $N_{\varepsilon_ Z}$ and $N_{\varepsilon_ X}$ are accounted for if 
+distributions are Gaussian ($KY, KT, ...=2$)~; in this case \textsl{rms} values are 
+$$\sigma_Y = \sqrt{\beta_Y \times \varepsilon_Y / \pi} ~ \textrm{ and}~ \sigma_T = \sqrt{\gamma_Y \times \varepsilon_Y / \pi},$$ 
+$$\sigma_Z = \sqrt{\beta_Z \times \varepsilon_Z / \pi} ~\textrm{and}~ \sigma_P = \sqrt{\gamma_Z \times \varepsilon_Z / \pi},$$
+$$\sigma_l = \sqrt{\beta_l \times \varepsilon_l / \pi} ~ \textrm{(bunch ~length, ~unit ~cm), ~and} ~  \sigma_{\delta} = \sqrt{\gamma_l \times \varepsilon_l / \pi} ~\textrm{momentum ~ spread}.$$
 
-\noindent If $N_\varepsilon$ is negative, thus the sorting fills the 
-elliptical ring that extends from $\left| N_\varepsilon \right|$ to 
+\noindent For uniform sorting, the distribution extends over 
+the intervals, for respectively the radial, axial and longitudinal distribution, 
+$$\pm \sqrt{\varepsilon_Y / \pi \times \beta_Y} ~ \textrm{and} ~ \pm \sqrt{ \varepsilon_Y / \pi \times \gamma_Y},$$
+$$\pm \sqrt{\varepsilon_Z / \pi \times \beta_Z} ~ \textrm{and} ~ \pm \sqrt{ \varepsilon_Z / \pi \times \gamma_Z},$$
+$$\pm \sqrt{\varepsilon_l / \pi \times \beta_l} ~ \textrm{and} ~ \pm \sqrt{ \varepsilon_l / \pi \times \gamma_l}.$$
+
+\noindent  $\bullet ~ N_\varepsilon$ may be negative. The meaning of this is for  the sorting to fill up 
+  an elliptical ring that extends from $\left| N_\varepsilon \right|$ to 
 $N'_\varepsilon$ (rather than the inner region determined by the $N_\varepsilon$ 
-cut-off as discussed above).
+cut-off as discussed above, when $N_\varepsilon>0$).
 
 
 \vfill
 %%%%%%%%%%%%%%figure %%%%%%%%%%%%%
  \begin{figure}[H]
   % \vspace*{19 truecm}
-\centerline{\includegraphics[width=15cm,angle=-90]{Fig5.ps}}  %% now 6
+\centerline{\includegraphics[width=12cm,angle=-90]{Fig5.ps}}  %% now 6
 	\hangcaption[Fig5]{\label{fig5}A scheme of  input parameters to \textsl{MCOBJET} when \KOBJ = 2. \\
    Top~: Possible  distributions  of the $ Y $ coordinate. \\ 
 Bottom~: A 2-D grid in ($ Y, Z $) space.} 

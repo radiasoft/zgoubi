@@ -315,11 +315,10 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
       IF(NRES.GT.0) WRITE(NRES,*) '  CPU time, total :  ',  TIMSEC-TEMP
       WRITE(   6,*) '  CPU time, total :  ',  TIMSEC-TEMP
 
-      CLOSE(ABS(NRES))
-
       IF(OKW) CALL FITWDA(
      >                    IER)
 
+      CLOSE(ABS(NRES))
       CLOSE(NLOG)     
 
       STOP

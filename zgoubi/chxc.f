@@ -141,7 +141,7 @@ C----- Some initializations and resets
       CALL CHAMK2(UN)
       CALL RAZ(DBDX,3)
       CALL CHAMK4(DBDX,3)
-      CALL RAZ (AA,MXL*MXAA2)
+C      CALL RAZ (AA,MXL*MXAA2)
       CALL FITSTA(5,
      >              FITING)
       IF(.NOT. FITING) THEN 

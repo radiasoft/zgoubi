@@ -1,7 +1,24 @@
-CFLAGS=-g -DGFORTRAN4
-FC=gfortran
-FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
-#FFLAGS=-O4 -Wall                -pedantic
+CFLAGS = -g -DGFORTRAN4
+#
+# Case of gfortran compiler, next two lines
+#FC=gfortran
+#FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
+#
+######## 
+# Case of ifort compiler, next two lines
+FC=ifort
+### check : check array boundary errors
+##########################################FFLAGS= -xHOST -O9 -ip -traceback -check -static -save -cpp
+#FFLAGS= -xHOST -O9 -ip -traceback -check         -save -cpp
+#FFLAGS= -xHOST -O9 -ip -traceback        -static -save -cpp
+FFLAGS= -xHOST -O9 -ip                   -static -save -cpp
+#FFLAGS= -xHOST -O9 -ip -traceback        -static -save -cpp
+######## case OWL : 
+# Note : the -static option includes local libs (-lm etc.) into executable. Pb with that on cscomputers
+#FC=/opt/intel/bin/ifort
+#FFLAGS= -xHOST -O4 -ip  -save -cpp
+#FFLAGS= -xHOST -O4 -ip -traceback -save -cpp
+#FFLAGS= -xHOST -O4 -ip -traceback -check -save -cpp
 
 .POSIX:
 

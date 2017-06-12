@@ -20,10 +20,9 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory       
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973,  USA
 C  -------
-      SUBROUTINE DIST3(L,noela,noelb,
+      SUBROUTINE DIST3(L,NOELA,NOELB,
      >                               VAL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXTRA.H"
@@ -34,20 +33,20 @@ C     $     IREP(MXT),AMQLU,PABSLU
       
       DIMENSION XYZ1(MXJ), XYZ2(MXJ)
 C Get 1st and last PU #s, as well as corresponding NOELs, for PUs located in range noela-noelb
-      call PCKUP7(NOELa,noelb, 
-     >                         ipui,ipuf,noeli,noelf)
+      CALL PCKUP7(NOELA,NOELB, 
+     >                         IPUI,IPUF,NOELI,NOELF)
       VAL = 0.D0
-      kpu = 0
-      do ipu = ipui, ipuf-1
-        call PCKUP5(iPU
-     >                 ,xyz1)
-        do jpu = ipu+1, ipuf
-          kpu = kpu+1
-          call PCKUP5(jPU
-     >                   ,xyz2)
-          val = val + abs(xyz1(l)-xyz2(l))
-        enddo
-      enddo
+      KPU = 0
+      DO IPU = IPUI, IPUF-1
+        CALL PCKUP5(IPU
+     >                 ,XYZ1)
+        DO JPU = IPU+1, IPUF
+          KPU = KPU+1
+          CALL PCKUP5(JPU
+     >                   ,XYZ2)
+          VAL = VAL + ABS(XYZ1(L)-XYZ2(L))
+        ENDDO
+      ENDDO
 
       RETURN
       END
