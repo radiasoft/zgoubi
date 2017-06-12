@@ -37,12 +37,12 @@ set xrange [Brmi:Brma]
 set x2range [Ekmi:Ekma]
 
 plot  \
-   'zgoubi.fai' u (sqrt($25**2-$29**2)*MeV2eV/c):10 w p pt 5 ps .8 lc 1  tit "R(B{/Symbol r})",\
+   'zgoubi.fai_save' u (sqrt($25**2-$29**2)*MeV2eV/c):10 w p pt 5 ps .8 lc 1  tit "R(B{/Symbol r})",\
     rho(x) w l lc 1 tit 'R(B{/Symbol r}), theor.' ,\
-   'zgoubi.fai' u ($25-$29):10 axes x2y1 w p pt 5 ps 0.4 lc 3 tit "R(E_kin)"
+   'zgoubi.fai_save' u ($25-$29):10 axes x2y1 w p pt 5 ps 0.4 lc 3 tit "R(E_{kin})"
 
      set terminal postscript eps blacktext color  enh size 8.3cm,4cm "Times-Roman" 12  
-       set output "gnuplot_zgoubi.fai_TOFvsBrho.eps"  
+       set output "gnuplot_zgoubi.fai_RvsBrho.eps"  
        replot  
        set terminal X11  
        unset output  

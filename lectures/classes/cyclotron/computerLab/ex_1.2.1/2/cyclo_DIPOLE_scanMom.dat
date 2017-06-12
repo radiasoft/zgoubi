@@ -6,8 +6,8 @@ Cyclotron, classical.
 12.9248888074 0.  0.   0.   0.  1. 'm'              ! 200keV. R=Brho/B=*/.5 
 1
 
-'PARTICUL'   ! This is required to get time-of-flight. Otherwise not: zgoubi only needs rigidity.
-PROTON
+'PARTICUL'   ! This is required only because we want to get the time-of-flight, 
+PROTON       ! otherwise zgoubi only requires rigidity.
  
  'FAISCEAU'                                                                                                   3
  
@@ -25,17 +25,17 @@ PROTON
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.01                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+0.01                 ! 0.03 results in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   5
  
  'FIT'                                                                                                        6
 2   nofinal
-1 30 0 [12.,65.]
-4 60 0 2.
-2
-3.1 1 2 #End 0. 1. 0
-3.1 1 3 #End 0. 1. 0
+1 30 0 [12.,65.]     ! Variable : Y_0
+4 60 0 .99            ! Variable : step size in DIPOLE 
+2  2e-6  199
+3.1 1 2 #End 0. 1. 0    ! Constraint :  Y_final=Y_0
+3.1 1 3 #End 0. 1. 0    ! Constraint :  T_final=T_0
  
  'FAISTORE'                                                                                                   7
 zgoubi.fai

@@ -4,7 +4,7 @@ set key t l
 
 #set logscale y 
 
-set tit 'R vs. particle rigidity, from zgoubi.fai'
+set tit 'TOF vs. particle rigidity, from zgoubi.fai'
 
 set xtics nomirror
 set x2tics nomirror
