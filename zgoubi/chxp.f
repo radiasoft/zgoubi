@@ -345,20 +345,20 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
      >      BNORM,BMIN,BMAX,IXMA,JYMA,KZMA,
      >      XH(2)-XH(1),YH(2)-YH(1),ZH(I2)-ZH(1)
   203   FORMAT(
-     >   //,5X,'Field map limits, angle, min, max, max-min (rad) :',
-     >             3E15.6,
-     >    /,5X,'Field map limits, radius, min, max, max-min (cm) :',
-     >             3E15.6,
+     >   //,5X,'Field map limits, angle :  min, max, max-min (rad) :',
+     >             3E17.8,
+     >    /,5X,'Field map limits, radius :  min, max, max-min (cm) :',
+     >             3E17.8,
      >    /,5X,' Min / max  fields  drawn  from  map  data : ', 
-     >                           1P,G11.3,T80,' / ',G11.3,
-     >    /,5X,'  @  x-node, y-node, z-node :              ', 
+     >                           1P,G13.5,T80,' / ',G13.5,
+     >    /,5X,'  @  X-node, Y-node, z-node :              ', 
      >                             3G10.3,T80,' / ',3G10.3,
-     >    /,5X,'Normalisation  coeff.  BNORM   :', G12.4,
+     >    /,5X,'Normalisation  coeff.  BNORM   :', G14.6,
      >    /,5X,'Field  min/max  normalised  :             ', 
-     >                           1P,G11.3,T64,' / ',G11.3,
-     >    /,5X,'Nbre  of  nodes  in  x/y/z : ',I4,'/',I4,'/',I4,
-     >    /,5X,'Node  distance  in   x/y/z : ',G12.4,'/',
-     >                  G12.4,'/',G12.4)
+     >                           1P,G13.5,T64,' / ',G13.5,
+     >    /,5X,'Nbre  of  nodes  in  X/Y/Z : ',I4,'/',I4,'/',I4,
+     >    /,5X,'Node  distance  in   X/Y/Z : ',G14.6,'/',
+     >                  G14.6,'/',G14.6)
 CCCCCCCC     >                  G12.4,'/',G12.4,'  (rad/cm/cm)')
 
         IF    (NDIM .EQ. 1) THEN

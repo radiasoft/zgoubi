@@ -197,10 +197,10 @@ C       PARAMETER (IZ=81 , ID=3, MMAP=4)
 c       PARAMETER (MXX=1201, MXY=83)
 C       PARAMETER (MXX=1201, MXY=81)
 C       PARAMETER (MXX=1201, MXY=111)    ! compatible cbeta
-       PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
+c       PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
 c       PARAMETER (IZ=81 , ID=3, MMAP=4)
 c       PARAMETER (MXX=361, MXY=81)
-       PARAMETER (IZ=81 , ID=3, MMAP=4)
+c       PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=361, MXY=81)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
@@ -214,8 +214,8 @@ C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-c      PARAMETER (IZ=3 , ID=3, MMAP=1)
-c      PARAMETER (MXX=136, MXY=140)
+      PARAMETER (IZ=3 , ID=3, MMAP=3)
+      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
