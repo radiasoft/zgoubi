@@ -29,6 +29,9 @@
  \topmargin=-.9in
  \footskip=-0in                                                                   
 
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\ensuremath{\vec B}}
 \newcommand{\Br}{\ensuremath{B\!\rho}}
 \newcommand{\bull}{\ensuremath{\bullet~}}
 \newcommand{\Bz}{\ensuremath{{B_z}}}
@@ -37,34 +40,42 @@
 \newcommand{\com}{{center of mass}}
 \newcommand{\dEE}{\small \ensuremath{\frac{dE}{E}}}
 \newcommand{\dip}{\textit{ DIPOLE}}
+\newcommand{\dl}{\ensuremath{\delta}}
+\newcommand{\ds}{\ensuremath{\vec {ds}}}
 \newcommand{\eg}{\textsl{e.g.}}
 \newcommand{\ie}{\textsl{i.e.}}
+\newcommand{\E}{\ensuremath{\vec E}}
 \newcommand{\EFB}{\ensuremath{E\!F\!B}}
 \newcommand{\EFBs}{\ensuremath{E\!F\!B\!s}}
+\newcommand{\F}{\ensuremath{\vec F}}
 \newcommand{\ffag}{\textit{ FFAG}}
 \newcommand{\hel}{\ensuremath{\mathbf{^3 H\! e ^{2+}}}}
 \newcommand{\hbrk}{\hfill \break}
-\newcommand{\x}{\ensuremath{x}} 
-\newcommand{\xp}{\ensuremath{{x'}}}
-\newcommand{\y}{\ensuremath{y} }
-\newcommand{\yp}{\ensuremath{{y'}}}
-\newcommand{\dl}{\ensuremath{{\delta l}}} 
-\newcommand{\lab}{\ensuremath{lab. frame}}
+\newcommand{\lab}{\ensuremath{lab}}
+\newcommand{\mR}{\ensuremath{\mathcal{R}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\ms}{\medskip}
 \newcommand{\MC}{Monte~Carlo}
-\newcommand{\nib}{\noindent \ensuremath{\bullet}~}
-\newcommand{\snib}{\noindent {\small \ensuremath{\bullet}}~}
+\newcommand{\nib}{\noindent $\bullet$~}
+\newcommand{\nin}{\noindent}
 \newcommand{\nid}{\noindent \ensuremath{\diamond}~}
-\newcommand{\snid}{\noindent {\small \ensuremath{\diamond}}~}
-\newcommand{\sid}{{\small \ensuremath{\diamond}}~}
-\newcommand{\nin}{\noindent~}
 \newcommand{\p}{\ensuremath{\mathbf{p}}}
 \newcommand{\pp}{$p\! \! \uparrow$}
+\newcommand{\R}{\ensuremath{\vec R}}
+\newcommand{\Res}{\ensuremath{\mathcal{R}}}
 \newcommand{\rms}{\ensuremath{rms}}
+\newcommand{\snid}{\noindent {\small \ensuremath{\diamond}}~}
+\newcommand{\sid}{{\small \ensuremath{\diamond}}~}
 \newcommand{\SRl}{SR loss}
 \newcommand{\Sx}{\ensuremath{\mathcal{S}_x}}
 \newcommand{\Sy}{\ensuremath{\mathcal{S}_y}}
 \newcommand{\Sz}{\ensuremath{\mathcal{S}_z}}
+\newcommand{\vv}{\ensuremath{\vec v}}
 \newcommand{\wrt}{{with respect to}}
+\newcommand{\x}{\ensuremath{x}} 
+\newcommand{\xp}{\ensuremath{{x'}}}
+\newcommand{\y}{\ensuremath{y} }
+\newcommand{\yp}{\ensuremath{{y'}}}
 \newcommand{\Y}{\ensuremath{Y} }
 \newcommand{\Yp}{\ensuremath{{Y'}}}
 \newcommand{\z}{Zgoubi}
@@ -196,7 +207,7 @@ New concepts, new technologies reactivate the interest in the method.
 
 \vspace{-17mm}
 
-\hspace{20mm} \includegraphics[width=12.cm]{./figures/ring3Draw.eps}
+\hspace{20mm} \includegraphics[width=12.cm]{./figs_FFAG_introSlides/ring3Draw.eps}
 
 \vspace{-10mm}
 \begin{center} \Large  The  MURA 2-way FFAG \\
@@ -236,13 +247,13 @@ effects of misalignements~; effects  of resonances.
 
 \begin{minipage}[b]{.26\linewidth}
 %\begin{center}  
-%\hspace{-20mm} \includegraphics*[bbllx=60,bblly=60,bburx=245,bbury=230,width=10.cm]{./figures/drawRing1.eps}
-\hspace{-7mm}  \includegraphics*[bbllx=40,bblly=50,bburx=440,bbury=350,width=7.5cm]{./figures/ring1Photo.eps}
+%\hspace{-20mm} \includegraphics*[bbllx=60,bblly=60,bburx=245,bbury=230,width=10.cm]{./figs_FFAG_introSlides/drawRing1.eps}
+\hspace{-7mm}  \includegraphics*[bbllx=40,bblly=50,bburx=440,bbury=350,width=7.5cm]{./figs_FFAG_introSlides/ring1Photo.eps}
 
 \smallskip
-\hspace{-3mm} \includegraphics*[bbllx=90,bblly=130,bburx=760,bbury=440,width=6.5cm]{./figures/ring1MagPhoto.eps} 
+\hspace{-3mm} \includegraphics*[bbllx=90,bblly=130,bburx=760,bbury=440,width=6.5cm]{./figs_FFAG_introSlides/ring1MagPhoto.eps} 
 
-\hspace{-3mm} \includegraphics*[bbllx=14,bblly=14,bburx=450,bbury=200,width=6.5cm]{./figures/ring1MagDraw.eps}
+\hspace{-3mm} \includegraphics*[bbllx=14,bblly=14,bburx=450,bbury=200,width=6.5cm]{./figs_FFAG_introSlides/ring1MagDraw.eps}
 
 \vspace{-5mm}
 \begin{center}  
@@ -352,19 +363,19 @@ First operation March 1956, U of Michigan.
 \end{minipage}\hspace{-5mm}
 \begin{minipage}[b]{.5\linewidth}\hspace{3mm}
 %\begin{center}
-\includegraphics*[bbllx=34,bblly=70,bburx=245,bbury=220,width=9cm]{./figures/ring1Draw.eps}
+\includegraphics*[bbllx=34,bblly=70,bburx=245,bbury=220,width=9cm]{./figs_FFAG_introSlides/ring1Draw.eps}
 
-\hspace{2cm}\includegraphics*[bbllx=14,bblly=14,bburx=278,bbury=260,width=7cm, height=4cm]{./figures/fieldMarkI.eps}
+\hspace{2cm}\includegraphics*[bbllx=14,bblly=14,bburx=278,bbury=260,width=7cm, height=4cm]{./figs_FFAG_introSlides/fieldMarkI.eps}
 
 \mbox{
-\includegraphics*[bbllx=0,bblly=100,bburx=252,bbury=323,width=5cm]{./figures/geometry.eps}\hspace{-5mm}
-\includegraphics*[bbllx=0,bblly=100,bburx=252,bbury=323,width=5cm]{./figures/geometryD.eps} 
+\includegraphics*[bbllx=0,bblly=100,bburx=252,bbury=323,width=5cm]{./figs_FFAG_introSlides/geometry.eps}\hspace{-5mm}
+\includegraphics*[bbllx=0,bblly=100,bburx=252,bbury=323,width=5cm]{./figs_FFAG_introSlides/geometryD.eps} 
 }
 
 
 \mbox{\hspace{3mm}
-\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figures/fFoc.eps}  \hspace{5mm}
-\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figures/dFoc.eps}
+\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figs_FFAG_introSlides/fFoc.eps}  \hspace{5mm}
+\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figs_FFAG_introSlides/dFoc.eps}
 }
 
 %\end{center}
@@ -377,7 +388,8 @@ First operation March 1956, U of Michigan.
 \clearpage 
 
 
-\underline{Two rules that allow inferring how a moving charged particle is deviated by a magnetic field }
+\underline{These rules: how a moving charged particle is deviated by a magnetic field}, apply in the 240 AGS and 200 CERN  PS main 
+dipoles.
 
 ~
 
@@ -385,10 +397,12 @@ Both  rules  yield the orientation of $\F$~:
 
 
 {\blue \nib\  $I\vec{dl}$ , $\B$ and $\F$, in that order, form a direct triedra~: }
-\raisebox{-10mm}[0mm][0mm]{ ~  ~  ~  ~  \includegraphics*[width=0.33\linewidth]{./beamOptics_Figs/AGSString.eps}}
+\raisebox{-3mm}[0mm][0mm]{ ~  ~  ~  ~  \includegraphics*[width=0.33\linewidth]{./figs_FFAG_introSlides/AGSString.eps}}
 %\hspace{60mm}
-%\raisebox{-10mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./beamOptics_Figs/fFoc.eps}\hspace{-5mm}}
+%\raisebox{-10mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figs_FFAG_introSlides/fFoc.eps}\hspace{-5mm}}
 %~     ~ ~ ~ ~ ~ ~ ~ 
+
+~
 
 ~
 
@@ -400,8 +414,8 @@ Both  rules  yield the orientation of $\F$~:
 
 \hfill ``Vertically defocusing dipole''   \hfill   ``Vertically focusing  dipole'' \hfill ~
 
-\includegraphics*[width=9cm]{./beamOptics_Figs/fFocWF.eps}\hspace{30mm}
-\includegraphics*[width=9cm]{./beamOptics_Figs/dFocWF.eps} 
+\includegraphics*[width=9cm]{./figs_FFAG_introSlides/fFocWF.eps}\hspace{30mm}
+\includegraphics*[width=9cm]{./figs_FFAG_introSlides/dFocWF.eps} 
 
 
 \begin{minipage}[b]{.4\linewidth}
@@ -412,14 +426,14 @@ Both  rules  yield the orientation of $\F$~:
 
 {\blue \nib\ Rule of the 3 right hand fingers~: }
 %\hspace{75mm}
-%\raisebox{0mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./beamOptics_Figs/dFoc.eps} }
+%\raisebox{0mm}[0mm][0mm]{\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=4cm]{./figs_FFAG_introSlides/dFoc.eps} }
 
 
 \end{minipage}
 \begin{minipage}[b]{.49\linewidth}
 %\hfill ~ 
 \raisebox{-30mm}[0mm][0mm]{
-\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=11cm]{./beamOptics_Figs/3doigts.eps} 
+\includegraphics*[bbllx=0,bblly=0,bburx=300,bbury=254,width=11cm]{./figs_FFAG_introSlides/3doigts.eps} 
 }
 %\hfill ~ 
 
@@ -451,12 +465,12 @@ First ~: find the closed orbit {\Large $\leftarrow$} from  the FFAG parameters.
 \medskip
 {\LARGE ~ ~ ~ ~ ~ ~  ~ ~ ~ ~ ~ $ x'' + \frac{1-n}{\rho^2} x = 0, ~~~ z'' + \frac{n}{\rho^2} z = 0$}
 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~~ ~ ~ ~ ~ ~ ~
-\raisebox{7mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figures/envX.eps}}
+\raisebox{7mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figs_FFAG_introSlides/envX.eps}}
 
 \medskip
 with ~ ~ ~ ~ ~ ~ ~  {\Large $~~~~ n(s)=-\frac{\rho(s)}{B(s)}\, \frac{dB}{dx} \approx -\frac{\rho}{B}\, 
 \frac{dB}{dr} ~~~~ $}  (scalloping is negligible)
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~\raisebox{-8mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figures/envZ.eps}}
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~\raisebox{-8mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figs_FFAG_introSlides/envZ.eps}}
 \medskip
 
 The index $n(s)$ in the equations of motion, and $K$ in {\Large $B = B_0 (\frac{r}{r_0})^K$ } can be related as follows:
@@ -501,7 +515,7 @@ The longitudinal motion in presence of RF acceleration satisfies
 {\Large ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  %\fbox{ 
 $ \phi'' + \frac{\Omega^2}{\cos{\phi_s}}(\sin\phi - \sin \phi_s)=0$}
 ~ ~ ~ 
-\raisebox{-10mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figures/synMot100MeV.eps}}
+\raisebox{-10mm}[0mm][0mm]{\includegraphics*[bbllx=20,bblly=100,bburx=560,bbury=460,width=4cm]{./figs_FFAG_introSlides/synMot100MeV.eps}}
 
 \medskip
 yielding  classical results as \\
@@ -533,12 +547,12 @@ magnetic field  and machine  parameters~; long-term orbit stability~; RF acceler
 
 
 \begin{minipage}[b]{.33\linewidth}
-\hspace{-7mm} \includegraphics*[bbllx=14,bblly=14,bburx=250,bbury=220,width=9.cm]{./figures/ringSpiralDraw.eps}
+\hspace{-7mm} \includegraphics*[bbllx=14,bblly=14,bburx=250,bbury=220,width=9.cm]{./figs_FFAG_introSlides/ringSpiralDraw.eps}
 
 \medskip
-\includegraphics*[bbllx=14,bblly=44,bburx=250,bbury=230,width=4.5cm]{./figures/ringSpiralMagDraw.eps}
+\includegraphics*[bbllx=14,bblly=44,bburx=250,bbury=230,width=4.5cm]{./figs_FFAG_introSlides/ringSpiralMagDraw.eps}
 
-\includegraphics*[bbllx=14,bblly=44,bburx=278,bbury=195,width=5.5cm]{./figures/ringSpiralCoilDraw.eps}
+\includegraphics*[bbllx=14,bblly=44,bburx=278,bbury=195,width=5.5cm]{./figs_FFAG_introSlides/ringSpiralCoilDraw.eps}
   \begin{center}   Logarithmic spiral poles \end{center}
 
 \end{minipage}\hspace{0mm}
@@ -643,13 +657,13 @@ A matrix model using hard-edge approximation would give similar result to first 
 \begin{minipage}[b]{.6\linewidth}
 
 \vspace{-10mm}
-\includegraphics[bbllx=90,bblly=0,bburx=500,bbury=460,width=10.cm]{./figures/spiral3D.eps}
+\includegraphics[bbllx=90,bblly=0,bburx=500,bbury=460,width=10.cm]{./figs_FFAG_introSlides/spiral3D.eps}
 
 \vspace{-20mm}
-\includegraphics[width=10.cm,height=3cm]{./figures/spiralBvsR.eps}
+\includegraphics[width=10.cm,height=3cm]{./figs_FFAG_introSlides/spiralBvsR.eps}
 
 \vspace{-10mm}
- \hspace{10mm}\includegraphics*[bbllx=14,bblly=120,bburx=520,bbury=500,width=8.cm]{./figures/spiralFoc.eps}
+ \hspace{10mm}\includegraphics*[bbllx=14,bblly=120,bburx=520,bbury=500,width=8.cm]{./figs_FFAG_introSlides/spiralFoc.eps}
 
 \end{minipage}
 
@@ -671,10 +685,10 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
 
 \begin{minipage}[b]{.38\linewidth}
 \hspace{-10mm} 
-\includegraphics[width=16.cm]{./figures/photoRing.eps}
+\includegraphics[width=16.cm]{./figs_FFAG_introSlides/photoRing.eps}
 
 \vspace{-30mm}
-\hspace{-7mm} \includegraphics*[bbllx=125,bblly=80,bburx=280,bbury=208,width=7.cm]{./figures/ring3Traj2way.eps} 
+\hspace{-7mm} \includegraphics*[bbllx=125,bblly=80,bburx=280,bbury=208,width=7.cm]{./figs_FFAG_introSlides/ring3Traj2way.eps} 
                                      \hspace{-10mm} {\Large\bf $B_F=B_D$ }\\
 \end{minipage}\hspace{0mm}
 \begin{minipage}[b]{.65\linewidth}
@@ -723,17 +737,17 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
 
 \begin{minipage}[b]{.3\linewidth}
 
-\hspace{-20mm} \includegraphics*[bbllx=0,bblly=0,bburx=1024,bbury=768,width=9.cm]{./figures/PoPFFAG.eps}
+\hspace{-20mm} \includegraphics*[bbllx=0,bblly=0,bburx=1024,bbury=768,width=9.cm]{./figs_FFAG_introSlides/PoPFFAG.eps}
 
-\vspace{-70mm} \hspace{-20mm}\includegraphics[width=4.cm]{./figures/popMagnet.eps}
+\vspace{-70mm} \hspace{-20mm}\includegraphics[width=4.cm]{./figs_FFAG_introSlides/popMagnet.eps}
 
 \vspace{40mm}
 
-\includegraphics[bbllx=64,bblly=14,bburx=331,bbury=275,width=9.cm,height=6cm]{./figures/popField.eps}
+\includegraphics[bbllx=64,bblly=14,bburx=331,bbury=275,width=9.cm,height=6cm]{./figs_FFAG_introSlides/popField.eps}
 
 \vspace{-5mm}
 
-\hspace{-5mm} \includegraphics*[bbllx=340,bblly=540,bburx=650,bbury=740,width=10.5cm]{./figures/dNudB.eps}
+\hspace{-5mm} \includegraphics*[bbllx=340,bblly=540,bburx=650,bbury=740,width=10.5cm]{./figs_FFAG_introSlides/dNudB.eps}
 
 ~~~~~~~~
 
@@ -793,7 +807,7 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
 %\section{ POP - RF cavity} 
 %\large   
 %\begin{minipage}[b]{.3\linewidth}
-%\hspace{-20mm} \includegraphics*[bbllx=50,bblly=50,bburx=600,bbury=470,width=9.cm]{./figures/FFAG31_cavity.eps}
+%\hspace{-20mm} \includegraphics*[bbllx=50,bblly=50,bburx=600,bbury=470,width=9.cm]{./figs_FFAG_introSlides/FFAG31_cavity.eps}
 %\end{minipage}\hspace{0mm}
 %\begin{minipage}[b]{.65\linewidth}
 %\large   
@@ -819,17 +833,17 @@ First start Dec.~1959, 2-beam mode, 27~MeV~; disassembled in 60, magnets correct
 \large   
 
 \begin{minipage}[b]{.34\linewidth}
-\hspace{-20mm} \includegraphics*[bbllx=14,bblly=14,bburx=1701,bbury=1155,width=10.cm]{./figures/118-1825_IMG.eps}
+\hspace{-20mm} \includegraphics*[bbllx=14,bblly=14,bburx=1701,bbury=1155,width=10.cm]{./figs_FFAG_introSlides/118-1825_IMG.eps}
 
 ``return yoke free'' magnet % (+shunt yokes)
 
-\includegraphics*[width=7.cm]{./figures/FigTriplet.eps}
+\includegraphics*[width=7.cm]{./figs_FFAG_introSlides/FigTriplet.eps}
 
-\hspace{-10mm}\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm,height=4cm]{./figures/fieldOnCO.eps}
+\hspace{-10mm}\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm,height=4cm]{./figs_FFAG_introSlides/fieldOnCO.eps}
 
 \mbox{ \hspace{-20mm}
-\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=500,width=5.400cm]{./figures/QrVsE.eps}
-\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=500,width=5.400cm]{./figures/QzVsE.eps}
+\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=500,width=5.400cm]{./figs_FFAG_introSlides/QrVsE.eps}
+\includegraphics[bbllx=20,bblly=120,bburx=567,bbury=500,width=5.400cm]{./figs_FFAG_introSlides/QzVsE.eps}
 }
 
 ~~~~~~~~~~~~~
@@ -904,13 +918,13 @@ as starting data for further detailed studies)
 
 ~~~~~~~~~~~~~~~~~
 
-\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm]{./figures/FigStabLim.eps}
+\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm]{./figs_FFAG_introSlides/FigStabLim.eps}
 
 Acceptance  limits 
 
 ~~~~~~~~~~~~
 
-\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm]{./figures/analStp.06-Z1_rz.eps}
+\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=9.00cm]{./figs_FFAG_introSlides/analStp.06-Z1_rz.eps}
 
 12 to 150~MeV acceleration - adiabatic damping of vertical motion. 
 \end{center}
@@ -1093,7 +1107,7 @@ It has triggered a strong activity  in the domain of FFAG design, and lead to th
 
 \begin{minipage}[b]{.43\linewidth}
 \LARGE Europe NuFact\\
-\includegraphics[bbllx=14,bblly=14,bburx=515,bbury=365,width=11cm,height=6cm]{./figures/CERN_nf_triangle.eps} \\
+\includegraphics[bbllx=14,bblly=14,bburx=515,bbury=365,width=11cm,height=6cm]{./figs_FFAG_introSlides/CERN_nf_triangle.eps} \\
 
 \vspace{-55mm}
 {\footnotesize \hspace{0cm}  ~ ~ ~ ~ $A_n=1.5\pi$cm/$\pm20\%$}
@@ -1139,11 +1153,11 @@ No cooling, technology simpler, compact (R$\approx$200m)
 
 \vspace{-20mm}
 
-\hspace{-1cm}\includegraphics[angle=-90,width=8cm]{./figures/g3D-gnuplot.eps}
+\hspace{-1cm}\includegraphics[angle=-90,width=8cm]{./figs_FFAG_introSlides/g3D-gnuplot.eps}
 
 \vspace{-6cm}
 %%BoundingBox: 0 0 612 792
-\includegraphics*[bbllx=100,bblly=470,bburx=660,bbury=792,width=19cm]{./figures/nuFactJ.eps2}
+\includegraphics*[bbllx=100,bblly=470,bburx=660,bbury=792,width=19cm]{./figs_FFAG_introSlides/nuFactJ.eps2}
 
 \normalsize 
 Acceleration rate is lower than RLA, requires larger distance, but, 
@@ -1224,29 +1238,29 @@ $\rightarrow$ dogbone RLA $[ 2$-$5~$GeV$] \rightarrow$  FFAG $[ 5$-$10~$GeV$] \r
 }
 
 \mbox{
-\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=4.600cm]{./figures/fodoCell.eps}
-\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=4.600cm]{./figures/cell.eps}
+\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/fodoCell.eps}
+\includegraphics*[bbllx=20,bblly=120,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/cell.eps}
 }
 
 {\normalsize ~ ~ ~ FODO (QF-O-BD-O)  ~ ~  FDF (O-QF-BD-QF-O)}
 
 \mbox{
-\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figures/clorbParab.eps}
-\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figures/dC.eps}
+\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/clorbParab.eps}
+\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/dC.eps}
 }
 
 {\large ~ ~  $x_{co}\in [-8,+8]$~cm ~ ~ ~ ~ ~  $\delta$TOF$<3\, 10^{-4}$  }
 
 \mbox{
-\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figures/tunes.vs.E.eps}
-\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figures/betvsp.eps}
+\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/tunes.vs.E.eps}
+\includegraphics*[bbllx=20,bblly=100,bburx=567,bbury=480,width=4.600cm]{./figs_FFAG_introSlides/betvsp.eps}
 }
 
 {\large  Cell tunes: $0.5^-\rightarrow .1^+$ ~~   Optical functions}
 
 
 %\vspace{-4cm} \hspace{5cm}
- ~ ~ ~ ~ ~  ~ ~ ~~  \includegraphics*[angle=-90,width=4.400cm]{./figures/cavite200.eps}
+ ~ ~ ~ ~ ~  ~ ~ ~~  \includegraphics*[angle=-90,width=4.400cm]{./figs_FFAG_introSlides/cavite200.eps}
 
 {\large ~ ~ ~ ~ ~ ~ ~ ~ ~  200~MHz RF  Cavity }
 
@@ -1311,9 +1325,9 @@ RF power           &\it kW  &      $<$1.5  \\
 \end{minipage}\hspace{10mm}
 \begin{minipage}[b]{.65\linewidth}
 
-\includegraphics*[bbllx=14,bblly=14,bburx=271,bbury=271,width=12cm]{./figures/emodelBeta.eps}
+\includegraphics*[bbllx=14,bblly=14,bburx=271,bbury=271,width=12cm]{./figs_FFAG_introSlides/emodelBeta.eps}
 
-%\includegraphics*[bbllx=14,bblly=14,bburx=273,bbury=167,width=9cm]{./figures/emodelResoXing.eps}
+%\includegraphics*[bbllx=14,bblly=14,bburx=273,bbury=167,width=9cm]{./figs_FFAG_introSlides/emodelResoXing.eps}
 
 \end{minipage}\hspace{0mm}
 
@@ -1353,7 +1367,7 @@ RF power           &\it kW  &      $<$1.5  \\
 
 
 \begin{minipage}[b]{.55\linewidth}
-\includegraphics[width=14cm]{./figures/current-na-half.eps}
+\includegraphics[width=14cm]{./figs_FFAG_introSlides/current-na-half.eps}
 \end{minipage}\hspace{0mm}
 \begin{minipage}[b]{.55\linewidth}
 \normalsize \rm 
