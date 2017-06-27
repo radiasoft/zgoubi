@@ -1,0 +1,2 @@
+
+latex lectureNotes_cyclotron.tex ; latex lectureNotes_cyclotron.tex ;dvipdf lectureNotes_cyclotron.dvi 

@@ -72,7 +72,7 @@ experience an accelerating force, at each passage across a gap due to the altern
 
 
 
-\subsection{Closed orbit, time of flight \label{secCycloClassTra}}
+\subsection{Closed orbit, time of flight \label{secCycloClassOrb}}
 
 A cyclotron accelerator is a typical case 
 where just putting together drifts and dipoles in a matrix transport works at best 
@@ -86,9 +86,9 @@ These two techniques are employed  in the exercises, to develop on the propertie
 in cyclotrons. 
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloClassTra}-1 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassOrb}-1 
 
-\noindent ~\ref{secCycloClassTra}-1.a - 
+\noindent ~\ref{secCycloClassOrb}-1.a - 
 Construct a 60-degree sector mid-plane 2-dimensional field map, with constant vertical field 
 B=0.5~T, covering R=10 to 70~cm. Take for that a uniform mesh in cylindrical coordinates proper for use 
 with \texttt{TOSCA} option `IZ=1, MOD=22, MOD2=1`. 
@@ -96,25 +96,41 @@ Using \texttt{TOSCA} keyword, track three protons with energy respectively 0.2, 
 launched a zero angle into the field map. 
 Check that trajectories are arc of circles, at expected radii. 
 
-\noindent ~\ref{secCycloClassTra}-1.b - 
+\noindent ~\ref{secCycloClassOrb}-1.b - 
  Plot, as a function of energy, the 
   radius $R$ and  time of flight $T_{\rm rev}$ on that orbit, 
  from both ray-tracing and kinematics theory, on a same graphic, 
 showing   the slow, relativistic TOF increase with momentum. 
 
-\noindent ~\ref{secCycloClassTra}-1.c - 
+\noindent ~\ref{secCycloClassOrb}-1.c - 
 Check the evolution of orbit radius and TOF  with field map mesh density and with 
 integration step size.
 
 
 
 \smallskip
-\noindent {\small $\bullet$} Exercise~\ref{secCycloClassTra}-2 
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassOrb}-2 
  \verb|CYCLOTRON| or \verb|DIPOLE| are two procedures amongst others, that provide an analytical 
  magnetic field model ${B_y(r,\theta)|_{y=0}}$ in the median plane of a dipole magnet. 
 Use it to simulate a uniform field ring and re-derive the results above. 
 From the two series of results, comment on various pros and cons of the two methods, analytical field models and 
 fieldmaps.
+
+
+
+\subsubsection*{Periodic stability \label{secCycloFocus}}
+
+Circular motion in a  cyclotron defined uswing six such 60$^o$ sectors is not stable.
+As to particle motion in the horizontal plane,  any field defect $\delta B_y$ 
+at some azimuth $\theta$ will cause particles to be kicked away. The vertical 
+motion of a particle launched with a vertical velocity component is a drift, as there is no 
+vertical restoring stregnth component.
+
+\smallskip
+\noindent {\small $\bullet$} Exercise~\ref{secCycloClassOrb}-3 
+Show the first statement by tracking a particle in a 6-sector ring, with one of the sectors presenting a field defect. 
+Plot the particle trajectory in the plane of bending.
+Show the second by plotting the vertical coordinate  of a particle launched with a vertical velocity component. 
 
 
 
@@ -146,15 +162,15 @@ The two quantities
   \nu_r = \omega_r/\omega_{\rm rev} = \sqrt{1+k},   ~ ~ ~ ~ 
  \nu_y=\omega_y /\omega_{\rm rev}  = \sqrt{-k} 
 \end{equation}
-are known  respectively as the radial and the axial ``wave number'' of 
-the oscilatory motion in the neiboring of the reference circular orbit.
+are known  as, respectively, the radial and axial ``wave number'' of 
+the oscillatory motion around the reference circular orbit of radius R.
 Note that $\nu_r^2 + \nu_y^2=1$.
 Vertical motion stability requires $k$ to be negative~:  $B_y$ (respectively, the magnet gap) 
 is slowly  decreasing (increasing) with radius, restoring force toward the 
 median plane. 
-Focussing in both radial and axial motions requires $-1 < k <0$, a conditon known as ``weak focusing''.
+Stability of both radial and axial motions requires $-1 < k <0$, a conditon known as ``weak focusing''.
  Note that  at low energy  the electric field in the 
-region of the accelerating gap also contributes to the focusing, an aspect omitted here. 
+region of the accelerating gap also contributes to the focusing, an aspect which will be omitted here. 
 
 
 \smallskip
@@ -291,7 +307,7 @@ no longer slow r-decrease, weak focusing uniform field.
 
 The RF gap provides a voltage  
 \begin{equation}
-\label{EqRCyclo}
+\label{EqRFVolt}
 V_{\rm RF}(t) =\hat V \cos ........... 
 \end{equation}
 Particles are accelerated as long as they reach the gap when the RF phase is in the 
@@ -311,10 +327,10 @@ will result in a  shift in the arrival phase of the particle at the RF gap amoun
 \noindent {\small $\bullet$} Exercise~\ref{secCycloClassAccel}-1 
 
 Using \texttt{CAVITE}, install a double RF gap as in Fig.~\ref{figLBLCycloSketch}, 
-with a peak gap voltage $\hat V = 10$~kV, in a 6-sector ring based on the earlier material (ex.~~\ref{secCycloClassTra}-1,~2). 
+with a peak gap voltage $\hat V = 10$~kV, in a 6-sector ring based on the earlier material (ex.~~\ref{secCycloClassOrb}-1,~2). 
 Set the RF gap parameters such that acceleration is independent of RF phase.
 Track a proton from 1 to 5~MeV. Plot the path length and time of flight as a function of energy, 
-compare with the results from ex.~~\ref{secCycloClassTra}-1,~2.
+compare with the results from ex.~~\ref{secCycloClassOrb}-1,~2.
 
 
 \smallskip
