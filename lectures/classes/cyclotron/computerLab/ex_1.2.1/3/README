@@ -1,0 +1,10 @@
+
+
+rzg -in cyclo_DIPOLE.dat 
+
+cyclo_DIPOLE.dat tracks particles in a 6-sector ring. 
+
+coordinates stored in zgoubi.fai can be plotted using zpop
+
+IL=1 will store coordinates across sector(s) in zgoubi.plt. zpop can be used to plot. 
+
