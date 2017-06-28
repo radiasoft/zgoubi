@@ -73,6 +73,8 @@ C      PARAMETER (MXTA=45)
       PARAMETER (CG=8.846D-14)  ! m/MeV^3
 
       LOGICAL CEBAF, STRCON
+      PARAMETER (MXH=5)
+      DIMENSION HRM(MXH), VHRM(MXH)
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -101,6 +103,7 @@ C      PARAMETER (MXTA=45)
       SRLOSS = .FALSE.
       DWSR = 0.D0
       U0 = 0.D0
+      NBH = 1
 
       DUM = SCALE9(
      >            KFM )
@@ -184,7 +187,7 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
       WS = PS/BTS
-      FREV = HARM/DTS
+      FRF = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       PS = P0*SCALER(IPASS+1,NOEL,
      >                            DTA1)
@@ -197,15 +200,24 @@ C-------------------------------------------
  20   CONTINUE
       ORBL = AN10
       HARM = AN11
+      NBH = NINT(A(NOEL,19))
+      IF(NBH .GT. 2) THEN
+        CALL ENDJOB('Pgm cavite.  No such possibility NBH=',NBH)
+      ENDIF
+      DO I = 1, NBH
+        HRM(I) = A(NOEL,10+I)
+        VHRM(I) = A(NOEL,19+I)
+      ENDDO
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
       WKS = PS/BTS - AM
-      FREV = HARM/DTS
+      FRF = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
+      
       WKS = WKS + DWS
 C--- Case SR loss in storage ring (no acceleration). In that case PS is constant, DWS expected to be equal to SR loss.
       CALL SRLOS3(
@@ -230,7 +242,7 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
       WKS = PS/BTS - AM
-      FREV = HARM/DTS
+      FRF = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       CALL SRLOS3(
      >            SRLOSS)
@@ -270,14 +282,14 @@ c        dwsr = a(noel,22) * gg4
 c      ENDIF
 C      GOTO 1
 
-      SYNCT = SYNCT + 1.d0/FREV*AN11
+      SYNCT = SYNCT + 1.d0/FRF*AN11
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
         DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
-        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
 c        IF(SRLOSS) WRITE(NRES,FMT='(1P,
@@ -335,9 +347,9 @@ C        PH(I)=BLAG
         IF(OKIMP) 
      >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),12(1X,E14.6),A)') 
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
-     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,QV,
+     >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,QV,
      >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
-     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,QV'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,QV'
 
        ENDIF
 
@@ -425,7 +437,7 @@ C     ... PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       BTS = PS/WS
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
-      FREV = HARM /DTS
+      FRF = HARM /DTS
 C     ... PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C-------- Watch out ! This DTS calcul. assumes CAVITE IS THE LAST optical lmnt in zgoubi.dat
       PS = SCALDP(DTS,
@@ -446,7 +458,7 @@ C     ... PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       BTS = PS/WS
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
-      FREV = HARM/DTS
+      FRF = HARM/DTS
 C     ... PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C-------- Watch out ! This DTS calcul. assumes CAVITE is at the end of THE LAST optical lmnt
       PS = SCALDP(DTS,
@@ -465,11 +477,11 @@ C WS0 is the synchronous energy at start
       WS0 = AN11
 C      HN = AN12
       HN = 1.D0
-      FREV0 = AN10/HN
+      FRF0 = AN10/HN
       PS0 = SQRT((WS0+AM)**2 - AM2)
       BTS0 = PS0/SQRT(PS0*PS0+AM2)
 C     ... Conditions at cavity entrance 
-      OMRF = 2.D0*PI*FREV0*HN
+      OMRF = 2.D0*PI*FRF0*HN
 C     ... Synchronous conditions at cavity exit
       DWS = QV * SIN(PHS)
       WS = WS0 + DBLE(IPASS) * DWS
@@ -732,15 +744,20 @@ C Kin. energy, MeV
  
  1    CONTINUE
 
-      SYNCT = SYNCT + 1.d0/FREV*AN11
+      SYNCT = SYNCT + 1.d0/FRF*AN11
 
+      IF(NBH .EQ. 2) THEN
+        AK = VHRM(2) / VHRM(1)
+        RN = HRM(2) / HRM(1)
+        PHN = ATAN(TAN(PHS)/RN) / RN
+      ENDIF
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
         DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
-        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FREV, PHS, DTS, 
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
  220    FORMAT(1P, 
@@ -750,16 +767,32 @@ C Kin. energy, MeV
      >       /,20X,'RF  frequency           =',E19.8,' Hz',
      >       /,20X,'Synchronous  phase      =',E19.8,' rd',
      >       /,20X,'Isochronous  time       =',E19.8,' s',
-     >       /,20X,'qV.SIN(Phi_s)           =',E19.8,' MeV',
-     >       /,20X,'cos(Phi_s)              =',E19.8,' ',
+     >       /,20X,'qV.sin(phi_s)           =',E19.8,' MeV',
+     >       /,20X,'cos(phi_s)              =',E19.8,' ',
      >       /,20X,'Nu_s/sqrt(alpha)        =',E19.8,'  ',
      >       /,20X,'dp-acc*sqrt(alpha)      =',E19.8,'  '
-     >       /,20X,'dgamma/dt               =',E19.8,' /s '
-     >       /,20X,'rho*dB/dt               =',E19.8,' T.m/s '
-     >       )
+     >       /,20X,'dgamma/dt               =',E19.8,' /s ',
+     >       /,20X,'rho*dB/dt               =',E19.8,' T.m/s ',
+     >       /)
+
+        IF(NBH .EQ. 2) THEN
+          WRITE(NRES,221) NINT(HRM(1)),NINT(HRM(2)),VHRM(1),VHRM(2),
+     >    FRF,RN*FRF,NINT(RN),AK,ATAN(TAN(PHS)/RN)/RN,
+     >    QV*(SIN(PHS)+AK*SIN(RN*PHN))
+ 221      FORMAT(1P, 
+     >       /,20X,'h1, h2                   :    ',I0,',  ',I0,
+     >       /,20X,'Peak  voltage  1, 2      :',E19.8,',  ',E19.8,' V',
+     >       /,20X,'RF  frequency  1, 2      :',E19.8,',  ',E19.8,' Hz',
+     >       /,20X,'N = h2 / h1              =    ',I0,
+     >       /,20X,'k = V2 / V1              =',E19.8,
+     >       /,20X,'phi_n = atan(tan(phi_s)/n)/n    =',E19.8,' rd',
+     >       /,20X,'qV1.(sin(phi_s)+k.sin(n.phi_n)) =',E19.8,' MeV',
+     >       /)
+        ENDIF
+
         IF(SRLOSS) WRITE(NRES,FMT='(1P,
-     >       /,20X,''SR loss compensation    ='',E19.8,'' MeV'')')
-     >       DWSR
+     >  20X,''SR loss compensation    ='',E19.8,'' MeV'',/)') DWSR
+
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)
@@ -799,9 +832,13 @@ C DTI is the time it took since the last passage in CAVITE
         ELSE
            PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
         ENDIF
+
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
+
         WF = WF1(I) + QV*SIN(PHAS(I))
+        IF(NBH .EQ. 2) WF = WF + QV*AK*SIN(RN*(PHAS(I) - PHS + PHN))
+
         if(srloss) wf = wf + dwsr
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
@@ -825,9 +862,9 @@ C        PH(I)=BLAG
         IF(OKIMP) 
      >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),11(1X,E14.6),A)') 
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
-     >  ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0,
+     >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,
      >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
-     >  //' ORBL, HARM, BTA,BTS, OMRF,FREV,DWS,WKS,PS,WS,U0'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0'
 
  3    CONTINUE
       GOTO 88
@@ -1058,4 +1095,4 @@ C        PHIAV = PHIAV / DBLE(II)
       RETURN 
 
       END
-Cleaned and updated 'compare'
+

@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE SYMMED(Z,IDZ,BZ0,
      >                           B,DB,DDB,D3BX,D3BY,D3BZ,D4BX,D4BY)

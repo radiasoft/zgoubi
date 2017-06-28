@@ -1,0 +1,13 @@
+
+It s not sure which one of matrix_ffagSpi.res   and  matrix_ffagSpi.res_170621 is correct : 
+
+matrix_ffagSpi.res   and  matrix_ffagSpi.res_170621 essentially differ by the beam matrix for the second 
+momentum, for instance respectively: 
+                    NU_Y =  0.27852585         NU_Z =  0.16409912    
+                    NU_Y = 0.27797028         NU_Z = 0.16409903    
+
+The difference in the case of the first momentum is much smaller.
+
+This difference might result from a fixing of the calculation of the tune, for it to account to different reference orbits
+as in FFAGs. This fix might have happened between the two versions, matrix_ffagSpi.res   and  matrix_ffagSpi.res_170621.
+This remains TBC. 

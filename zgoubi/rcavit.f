@@ -37,12 +37,15 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
 
       CHARACTER(132) TXT132
-      LOGICAL STRCON
+      LOGICAL STRCON, OK
       INTEGER DEBSTR, FINSTR
-      CHARACTER(30) STRA(3)
+      PARAMETER (I9=9)
+      CHARACTER(30) STRA(I9)
       LOGICAL EMPTY, ISNUM
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
+
+      PARAMETER (MXH=5)
 
 C     ....IOPT -OPTION
       LINE = 1
@@ -69,10 +72,59 @@ C     ....IOPT -OPTION
         ENDIF
       ENDIF
 
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC     ....FREQ. (Hz), H -HARMONIQUE
-C     ....Orbit length. (m), H -HARMONIQUE... or so
+C     ....FREQ. (Hz) or orbit length (m), H -HARMONIQUE or list {ha, hb, ...}
       LINE = LINE + 1
-      READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
+C      READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      
+      IF(IOPT .NE. 0) then 
+        IF(STRCON(TXT132,'!',
+     >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
+        CALL STRGET(TXT132,I9
+     >                    ,MSTR,STRA)
+        IF(IOPT .EQ. 2) THEN
+          IF(STRCON(TXT132,'{',
+     >                        IS)) THEN
+            OK = STRCON(TXT132,'}',
+     >                             JS) 
+            IF(.NOT. OK) GOTO 90
+            TXT132 = TXT132(IS+1:JS-1)
+            I = 2
+            READ(TXT132,*,ERR=90,END=90) TMP
+            WRITE(STRA(I),*) TMP
+            DO WHILE(STRCON(TXT132,',',
+     >                                 IIS)) 
+              I = I + 1
+              TXT132 = TXT132(IIS+1:FINSTR(TXT132))
+              READ(TXT132,*,ERR=90,END=90) TMP
+              WRITE(STRA(I),*) TMP
+            ENDDO
+            MSTR = I
+            IF(MSTR-1 .GT. MXH) THEN
+              WRITE(NRES,*) 
+     >        'Pgm rcavit. Too many harmonics. Should be < ',MXH
+              GOTO 90
+            ENDIF
+          ELSE
+            MSTR=2       
+          ENDIF
+      
+        ELSE
+          MSTR=2       
+        ENDIF
+
+        DO I = 1, MSTR
+          IF(ISNUM(STRA(I))) THEN 
+            READ(STRA(I),*,ERR=90,END=90) A(NOEL,9+I)
+          ELSE
+            CALL ENDJOB('Pgm rcavit. Check input data, '
+     >      //' non-numerical data found at line ',LINE)
+          ENDIF
+        ENDDO
+      ENDIF
+C Nb of harmonics
+      NBH = MSTR-1
+      IF(IOPT .EQ. 2) A(NOEL,19) = NBH
+
 C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
 C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       LINE = LINE + 1
@@ -80,16 +132,40 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       IF(IOPT .NE. 0) then 
         IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
-        CALL STRGET(TXT132,3
+        CALL STRGET(TXT132,I9
      >                    ,MSTR,STRA)
-        IF(IOPT .NE. 10) THEN
-          MSTR=2        !      3rd data is IDMP in cavite IOPT=10
-        ELSE
+
+        IF(IOPT .EQ. 10) THEN
+C        3rd data is IDMP if IOPT=10
           IF(MSTR.LE.2) THEN
             A(NOEL,22)= 2      ! Chambers matrix approximations. Default=none.
             IF(MSTR.LE.3) A(NOEL,23)= 0.D0      ! BORORef setting. Default=0.
           ENDIF
+        ELSEIF(IOPT .EQ. 2) THEN
+          IF(STRCON(TXT132,'{',
+     >                        IS)) THEN
+            OK = STRCON(TXT132,'}',
+     >                             JS) 
+            IF(.NOT. OK) GOTO 90
+            TXT132 = TXT132(IS+1:JS-1)
+            I = 1
+            READ(TXT132,*,ERR=90,END=90) TMP
+            WRITE(STRA(I),*) TMP
+            DO WHILE(STRCON(TXT132,',',
+     >                                 IIS)) 
+              I = I + 1
+              READ(TXT132(IIS+1:FINSTR(TXT132)),*,ERR=90,END=90) TMP
+              WRITE(STRA(I),*) TMP
+            ENDDO
+            MSTR = I+1
+          ELSE
+            MSTR=2       
+          ENDIF
+      
+        ELSE
+          MSTR=2       
         ENDIF
+
         DO I = 1, MSTR
           IF(ISNUM(STRA(I))) THEN 
             READ(STRA(I),*,ERR=90,END=90) A(NOEL,19+I)

@@ -336,7 +336,7 @@
 \indexentry{DIPOLE}{118}
 \indexentry{fringe fields overlapping}{118}
 \indexentry{cyclotron}{118}
-\indexentry{FFAG magnet, radial}{118}
+\indexentry{FFAG magnet!- radial}{118}
 \indexentry{FFAG}{118}
 \indexentry{DODECAPO|textbf}{122}
 \indexentry{DRIFT|textbf}{123}
@@ -363,10 +363,10 @@
 \indexentry{PARTICUL}{130}
 \indexentry{EMMA|textbf}{131}
 \indexentry{FFAG}{131}
-\indexentry{FFAG magnet, radial}{132}
+\indexentry{FFAG magnet!- radial|textbf}{132}
 \indexentry{FFAG|textbf}{132}
 \indexentry{FFAG}{132}
-\indexentry{FFAG magnet, spiral}{134}
+\indexentry{FFAG magnet!- spiral|textbf}{134}
 \indexentry{FFAG-SPI|textbf}{134}
 \indexentry{FFAG}{134}
 \indexentry{GOTO|textbf}{136}
@@ -630,8 +630,9 @@
 \indexentry{LABEL@{\LABEL}}{228}
 \indexentry{REBELOTE}{228}
 \indexentry{NPASS}{228}
-\indexentry{FFAG magnet, radial|textbf}{229}
-\indexentry{FFAG magnet, spiral|textbf}{230}
+\indexentry{FFAG magnet!- radial|textbf}{229}
+\indexentry{FFAG magnet!- spiral|textbf}{230}
+\indexentry{FFAG-SPI|textbf}{230}
 \indexentry{ID@{\textsl{ID}}|textbf}{230}
 \indexentry{FIN|textbf}{231}
 \indexentry{END|textbf}{231}
