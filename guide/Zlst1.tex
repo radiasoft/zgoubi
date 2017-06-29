@@ -5589,7 +5589,7 @@ for the synchronous particle, is
 
 $$ \Delta W_s= q\hat  V \,\sin\phi_ s $$
 
-\noindent where the synchronous phase $ \phi_ s $ is given in the input data.
+\noindent where the synchronous phase $ \phi_ s $ is part of the input data to to \textsl{CAVITE}.
 From this, the calculation of the law $ (\Br )_s $ and the RF frequency 
 $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =  1} case. 
 
@@ -5598,6 +5598,19 @@ $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =
 \index{synchrotron radiation loss}
 \noindent \textsl{IOPT  =  2} can be used for SR loss compensation in \textsl{storage ring} mode. In that case 
 $ \phi_ s $ should be given  the appropriate value for compensation for SR induced energy loss. 
+
+\medskip
+
+\index{double RF system} \index{CAVITE!- double RF system} 
+\noindent \textsl{IOPT  =  2} handles double RF systems. Respective harmonic value and voltage amplitudes are $h_1$, $h_2$ 
+and $V_1$, $V_2$.
+It follows CERN ISR-TH-RF/80-26~\cite{ISRTHRF8026}. In particular, the stable phase $\phi_n$ of the higher harmonic
+voltage is taken to be 
+$$\rm \phi_n = atan (\tan (\phi_s)/n) / n$$
+wherein    $n = h_2 / h_1$. The synchronous energy gain is
+$$      \Delta W_s = q\hat V\, ( \sin(\phi_s)  + k \sin(n \phi_n))$$
+with    $k = V_2 / V_1$. 
+
 
 \medskip
 

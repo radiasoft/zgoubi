@@ -311,7 +311,8 @@ C         step size (used for SR computation by zpop for instance) :
         YZXB(9) = DS       * UNIT(5)
 C         r = sqrt(y^2+z^2) :
         YZXB(10) = SQRT(YZXB(2)*YZXB(2) + YZXB(4)*YZXB(4))
-        YZXB(18) = RET
+C        YZXB(18) = asin(sin(RET))  ! pb : can yield splitted trajectories at phase =pi+/-d_phi
+        YZXB(18) = asin(sin(RET))   ! instead this will center on phase=zero
 C------- (p_ps)/ps
         YZXB(19) = DPR            
 C-------- momentum

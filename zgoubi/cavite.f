@@ -20,8 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973,  USA
 C  -------
       SUBROUTINE CAVITE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -201,13 +200,18 @@ C-------------------------------------------
       ORBL = AN10
       HARM = AN11
       NBH = NINT(A(NOEL,19))
-      IF(NBH .GT. 2) THEN
-        CALL ENDJOB('Pgm cavite.  No such possibility NBH=',NBH)
+      IF(NBH .LE. 0 .OR. NBH .GT. 2) 
+     >CALL ENDJOB('Pgm cavite.  No such possibility NBH=',NBH)
+      PHS= A(NOEL,20+NBH)
+      IF(NBH .GT. 1) THEN
+        DO I = 1, NBH
+          HRM(I) = A(NOEL,10+I)
+          VHRM(I) = A(NOEL,19+I)
+        ENDDO
+        AK = VHRM(2) / VHRM(1)
+        RN = HRM(2) / HRM(1)
+        PHN = ATAN(TAN(PHS)/RN) / RN
       ENDIF
-      DO I = 1, NBH
-        HRM(I) = A(NOEL,10+I)
-        VHRM(I) = A(NOEL,19+I)
-      ENDDO
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
@@ -217,7 +221,7 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       FRF = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
-      
+      IF(NBH .EQ. 2) DWS = DWS + QV*AK*SIN(RN*PHN)
       WKS = WKS + DWS
 C--- Case SR loss in storage ring (no acceleration). In that case PS is constant, DWS expected to be equal to SR loss.
       CALL SRLOS3(
@@ -746,12 +750,6 @@ C Kin. energy, MeV
 
       SYNCT = SYNCT + 1.d0/FRF*AN11
 
-      IF(NBH .EQ. 2) THEN
-        AK = VHRM(2) / VHRM(1)
-        RN = HRM(2) / HRM(1)
-        PHN = ATAN(TAN(PHS)/RN) / RN
-      ENDIF
-
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
         ACCDP=  SQRT(QV/(AN11*WS)) * 
@@ -839,7 +837,8 @@ C DTI is the time it took since the last passage in CAVITE
         WF = WF1(I) + QV*SIN(PHAS(I))
         IF(NBH .EQ. 2) WF = WF + QV*AK*SIN(RN*(PHAS(I) - PHS + PHN))
 
-        if(srloss) wf = wf + dwsr
+        IF(SRLOSS) WF = WF + DWSR
+
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
@@ -1094,5 +1093,4 @@ C        PHIAV = PHIAV / DBLE(II)
       SYNCTO = SYNCT
       RETURN 
 
-      END
-
+      END 

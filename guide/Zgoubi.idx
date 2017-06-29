@@ -295,6 +295,8 @@
 \indexentry{SCALING}{104}
 \indexentry{CAVITE}{104}
 \indexentry{synchrotron radiation loss}{105}
+\indexentry{double RF system}{105}
+\indexentry{CAVITE!- double RF system}{105}
 \indexentry{FFAG}{105}
 \indexentry{cyclotron}{105}
 \indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{106}
@@ -597,6 +599,7 @@
 \indexentry{acceleration}{207}
 \indexentry{synchrotron motion}{207}
 \indexentry{SCALING}{207}
+\indexentry{CAVITE!- double RF system}{207}
 \indexentry{CHAMBR|textbf}{208}
 \indexentry{stopped particles}{208}
 \indexentry{stopped particles}{208}
@@ -631,6 +634,7 @@
 \indexentry{REBELOTE}{228}
 \indexentry{NPASS}{228}
 \indexentry{FFAG magnet!- radial|textbf}{229}
+\indexentry{FFAG|textbf}{229}
 \indexentry{FFAG magnet!- spiral|textbf}{230}
 \indexentry{FFAG-SPI|textbf}{230}
 \indexentry{ID@{\textsl{ID}}|textbf}{230}

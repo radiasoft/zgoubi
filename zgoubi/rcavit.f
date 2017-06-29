@@ -20,8 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory      
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RCAVIT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -144,20 +143,23 @@ C        3rd data is IDMP if IOPT=10
         ELSEIF(IOPT .EQ. 2) THEN
           IF(STRCON(TXT132,'{',
      >                        IS)) THEN
+            TXT132 = TXT132(IS+1:FINSTR(TXT132))
             OK = STRCON(TXT132,'}',
      >                             JS) 
             IF(.NOT. OK) GOTO 90
-            TXT132 = TXT132(IS+1:JS-1)
             I = 1
-            READ(TXT132,*,ERR=90,END=90) TMP
+            READ(TXT132(1:JS-1),*,ERR=90,END=90) TMP
             WRITE(STRA(I),*) TMP
             DO WHILE(STRCON(TXT132,',',
      >                                 IIS)) 
               I = I + 1
-              READ(TXT132(IIS+1:FINSTR(TXT132)),*,ERR=90,END=90) TMP
+              TXT132 = TXT132(IIS+1:FINSTR(TXT132))
+              READ(TXT132(1:JS-1),*,ERR=90,END=90) TMP
               WRITE(STRA(I),*) TMP
             ENDDO
             MSTR = I+1
+            READ(TXT132(JS+1:FINSTR(TXT132)),*,ERR=90,END=90) TMP
+            WRITE(STRA(MSTR),*) TMP
           ELSE
             MSTR=2       
           ENDIF
@@ -173,6 +175,7 @@ C        3rd data is IDMP if IOPT=10
             CALL ENDJOB('Pgm rcavit. Check input data, '
      >      //' non-numerical data found at line ',LINE)
           ENDIF
+             
         ENDDO
       ENDIF
 
