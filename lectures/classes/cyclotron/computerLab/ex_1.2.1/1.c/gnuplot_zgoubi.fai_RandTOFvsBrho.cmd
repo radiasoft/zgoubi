@@ -1,13 +1,13 @@
 
 
 
-set key font "roman, 8"
-set key maxrow 2
-set key b r
+set key font "roman, 6"
+set key maxrow 4 sample .1 
+set key t c
 
 #set logscale y 
 
-set tit 'R and TOF vs. particle energy and rigidity, from zgoubi.fai'
+set tit 'R and TOF vs. particle rigidity, changing step size'
 
 set xtics nomirror
 set x2tics nomirror
@@ -16,7 +16,7 @@ set y2tics nomirror
 
 set xlabel 'B{/Symbol r}   /T.m'
 set x2label 'kin. E   /MeV'
-set ylabel 'R   /cm'
+set ylabel '(R-R_0)/R_0'
 set y2label 'TOF   /{/Symbol m}s'
 
 ### electron : 
@@ -45,11 +45,15 @@ set xrange [Brmi:Brma]
 set x2range [Ekmi:Ekma]
 
 plot  \
-   'zgoubi.fai_save' u (sqrt($25**2-$29**2)*MeV2eV/c):10 w p pt 5 ps .8 lc 1  tit "R(B{/Symbol r})",\
-    rho(x) w l lc 1 tit 'theor.' ,\
-   'zgoubi.fai_save' u (sqrt($25**2-$29**2)*MeV2eV/c):15 axes x1y2 w p pt 5 ps .8 lc 2  tit "TOF(B{/Symbol r})",\
-    tof(x) axes x1y2 w l lc 2 tit 'theor.' ,\
-   'zgoubi.fai_save' u ($25-$29):10 axes x2y1 w p pt 5 ps 0.4 lc 3 tit "R(E_{kin})"
+   'zgoubi.fai_stepSize13cm'   u (sqrt($25**2-$29**2)*MeV2eV/c):15 axes x1y2 w lp pt 1  ps .4 lc 1  tit "TOF, step 13 cm" ,\
+   'zgoubi.fai_stepSize5cm'    u (sqrt($25**2-$29**2)*MeV2eV/c):15 axes x1y2 w lp pt 2  ps .4 lc 2  tit "step 5 cm" ,\
+   'zgoubi.fai_stepSize0.1cm'  u (sqrt($25**2-$29**2)*MeV2eV/c):15 axes x1y2 w lp pt 3  ps .4 lc 3  tit "step 0.1 cm" ,\
+   'zgoubi.fai_stepSize0.01cm' u (sqrt($25**2-$29**2)*MeV2eV/c):15 axes x1y2 w lp pt 5  ps .4 lc 4  tit "step 0.01 cm" ,\
+   'zgoubi.fai_stepSize13cm'   u (sqrt($25**2-$29**2)*MeV2eV/c):(($10 - $3)/$3)     w lp pt 10 ps .4 lc 1  tit "{/Symbol D}R/R " ,\
+   'zgoubi.fai_stepSize5cm'    u (sqrt($25**2-$29**2)*MeV2eV/c):(($10 - $3)/$3)     w lp pt 20 ps .4 lc 2  tit "  " ,\
+   'zgoubi.fai_stepSize0.1cm'  u (sqrt($25**2-$29**2)*MeV2eV/c):(($10 - $3)/$3)     w lp pt 30 ps .4 lc 3  tit "  " ,\
+   'zgoubi.fai_stepSize0.01cm' u (sqrt($25**2-$29**2)*MeV2eV/c):(($10 - $3)/$3)     w lp pt 50 ps .4 lc 4  tit "  " ,\
+    tof(x) axes x1y2 w l lc 2 notit 
 
      set terminal postscript eps blacktext color  enh size 8.3cm,4cm "Times-Roman" 12  
        set output "gnuplot_zgoubi.fai_RandTOFvsBrho.eps"  
