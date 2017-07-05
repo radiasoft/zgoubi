@@ -1,0 +1,1 @@
+../../../edition/WorldSci_material/template/ws-book9x6.cls
