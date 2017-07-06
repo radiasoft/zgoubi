@@ -1,7 +1,12 @@
+
+---
 EXERCISE PREPARATION : STATUS 
 
 
-1.2-1 : tbdone
+1.2-1 
+  a : mostly done 
+  b : mostly done 
+  c : mostly done 
 
 1.2-2 : Essentially ok. Updated to sourceForge on May 16, 2017
         Optionally / can be done during lab time : 

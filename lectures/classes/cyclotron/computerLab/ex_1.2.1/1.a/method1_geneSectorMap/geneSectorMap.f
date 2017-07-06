@@ -15,7 +15,7 @@ C dR is the radial distance between two nodes, good starting point is dR = 0.5 c
 C dX=RM*dA is the arc length between two nodes along R=RM arc, given angle increment dA
 C A good starting point (by experience) is dX a few mm, say ~0.5 cm
       dX = 0.5d0   ! cm
-      NX = NINT(RM*AT / dX)  +1  ! cm
+      NX = NINT(RM*AT / dX)  +1  
       dX = RM*AT / (NX - 1)
       dA = dX / RM
       A1 = 0.d0 ; A2 = AT
