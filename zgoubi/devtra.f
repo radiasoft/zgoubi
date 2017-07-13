@@ -909,7 +909,7 @@ c     > eu
 c     > CSV,DCSV,D2CSV,D3CSV,D4CSV
 cc     > kfld,ids,dbsb,d2bsb,d3bsb,d4bsb,d5bsb
 
-      IF(LST .GE. 1) CALL IMPDEV
+      IF(LST .GE. 1) CALL IMPDEV('DEVTRA')
       RETURN
 
       ENTRY DEVTRW(CEL)

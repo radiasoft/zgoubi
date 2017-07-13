@@ -359,8 +359,14 @@ C      COORDONNEES DU POINT COURANT
       DO  1  JRO = 1,NN
         ROJ = RO + DRO * DBLE(NN-JRO-INT(NN/2))
 
-        LTXI = TTA-DTTA .LT. XI
-        GTXF = TTA+DTTA .GT. XF
+C FM. Jul. 13, 2017
+        IF(IRD .EQ. 2) THEN            ! 3*3 grid
+          LTXI = TTA-DTTA .LT. XI
+          GTXF = TTA+DTTA .GT. XF
+        ELSE                           ! 5*5 grid
+          LTXI = TTA-2.D0*DTTA .LT. XI
+          GTXF = TTA+2.D0*DTTA .GT. XF
+        ENDIF
         OKTTA = .NOT.(LTXI .OR. GTXF)
 C        write(*,*) ' dipi  oktta, ltxi, gtxf ', oktta, ltxi, gtxf
         IF(OKTTA) THEN 
@@ -382,14 +388,20 @@ C        write(*,*) ' dipi  oktta, ltxi, gtxf ', oktta, ltxi, gtxf
         ENDIF
 
         DO  1  ITTA = 1,NN
-          TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
+          IF(TTA .LT. XF) THEN  
+            TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
+          ELSE                               ! This may happen at the last residual step
+            TTAI = XF - DTTA * DBLE(NN-ITTA-INT(NN/2))
+          ENDIF
           IF(OKTTA) THEN 
-          ELSEIF(LTXI) THEN 
-            TTAI = TTAI + DTTA
-            IF(IRD .NE. 2) TTAI = TTAI + DTTA
-          ELSEIF(GTXF) THEN
-            TTAI = TTAI - DTTA
-            IF(IRD .NE. 2) TTAI = TTAI - DTTA
+          ELSE
+            IF(LTXI) THEN 
+              TTAI = TTAI + DTTA
+              IF(IRD .NE. 2) TTAI = TTAI + DTTA
+            ELSEIF(GTXF) THEN
+              TTAI = TTAI - DTTA
+              IF(IRD .NE. 2) TTAI = TTAI - DTTA
+            ENDIF
           ENDIF
           
           ZETA = ACN - TTAI 
@@ -574,6 +586,8 @@ C             ... REGION DE COURBURE R2
  
          ROI= (ROJ-RM)/RM
          FTAB(ITTA,JRO)=F*HNORM*(1.D0+(COEFN+(COEFB+COEFG*ROI)*ROI)*ROI)
+          
+C            write(*,*) ' itta, jro, f ',itta,jro,f 
 
     1 CONTINUE
 C--------- end loop on   NN x tta  &  NN x ro

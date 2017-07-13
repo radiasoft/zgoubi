@@ -515,7 +515,7 @@ C----- Print last step
         IF(LST .EQ. 2) THEN
           CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
         ELSE
-          CALL IMPDEV
+          CALL IMPDEV('INTEGR')
         ENDIF
       ENDIF
  

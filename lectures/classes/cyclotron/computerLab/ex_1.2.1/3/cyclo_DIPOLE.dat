@@ -14,7 +14,7 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
  1
   
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -27,11 +27,11 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -44,11 +44,11 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -61,11 +61,11 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -78,11 +78,11 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -95,11 +95,11 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
  'DIPOLE'        Sector
-200    !  dip
+0    !  dip
 60. 50.
 30.  5. 0. 0. 0.
 0.  0.                                        ! EFB 1  hard-edge
@@ -112,7 +112,7 @@ Cyclotron, classical. Multi-turn tracking in a 6-sector cyclotron.
 0  0.      0.      0.      0.      0. 0.  0.
 0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
 4   10.
-0.100                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
+4.00                 ! 0.03 rsults in Y==Y0 at all E. If .ne.0.03, IT=1 or IT=2 do not close.
 2  0. 0. 0. 0.       ! could also be, e.g., 2 50. 0. 50. 0. with Y0 amended accordingly in OBJET
  'FAISCEAU'                                                                                                   3
 

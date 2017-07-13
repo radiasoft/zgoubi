@@ -16,7 +16,7 @@ echo " "
 pause  'Press [Enter] key to continue...'
 #echo "(cd ../../zgoubi ; ln -sf PARIZ_compare.H PARIZ.H ; cd .. ; make )"
 #pause " OK ? "  
-(cd ../../zgoubi ; ln -sf PARIZ_compare.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
+(cd ../../zgoubi ; \cp PARIZ_compare.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
 echo "           "
 echo "           "
 echo "           "
@@ -368,6 +368,6 @@ echo " "
 echo " "  
 echo " " 
 echo " "  
-(cd ../../zgoubi ; ln -sf PARIZ_regular.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
+(cd ../../zgoubi ; \cp PARIZ_regular.H PARIZ.H ; touch PARIZ.H ; cd .. ; make )
 
 exit

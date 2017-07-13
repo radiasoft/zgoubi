@@ -22,8 +22,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE IMPDEV
+      SUBROUTINE IMPDEV(FROM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      CHARACTER(*) FROM
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
@@ -59,8 +60,8 @@ C------- CONDITIONS DE MAXWELL
       IF(NRES .GT. 0) THEN
         IF(LST .EQ. 1) THEN
 C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
-          WRITE(NRES,105) IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
- 105      FORMAT(/,' SPGM   IMPDEV',5X,'TRAJ ',I3
+          WRITE(NRES,105) FROM,IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
+ 105      FORMAT(/,' SPGM   IMPDEV',5X,A,'  TRAJ ',I3
      >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E16.8)
  
           IF((KFLD .EQ. LC .OR. KFLD .EQ. ML).AND.BRI.NE.0D0) THEN
