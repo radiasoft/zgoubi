@@ -1,0 +1,8 @@
+
+
+Using OBJET[KOBJ=5], trajectories #2 and 3 are at an angle wrt traj. #1 which is taken as the reference.
+They can be plotted to check the property. 
+
+Limited of accuracy on matrix computation (by parameterization) has the fortunate of allowing checking that 
+NU_Y~1 (it is in theory exactly 1).
+The vertical transport matrix shos that the vertical motion is a drift (of length s/cos(P)), so, no periodic stability.
