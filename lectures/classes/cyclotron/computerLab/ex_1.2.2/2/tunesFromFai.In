@@ -1,0 +1,6 @@
+     0    600  -1                                           ! kpa, ksmpl, nt : Fourier transf. ksmpl turns starting from kpa.  nt is particle number or nt=-1 for all
+  0.5000   1.0000   0.5000   1.0000   0.0000   1.0000       ! 3*(Q_1, Q_2) : x/y/l  spectrum range
+  2500   2500   2500                                        ! 3*nbin : x/y/l # of bins in spectrum range
+ y    ! yes/no save spectra 
+ y ! yes/no compute tunes, too (not just lips)
+ zgoubi.fai         !  coordinate storage file 

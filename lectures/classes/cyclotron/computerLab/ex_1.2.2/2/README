@@ -1,0 +1,36 @@
+
+k is set to -0.3, this preserve 0.2 to 5 MeV stable range, and only changes a little 
+orbit radii compared to k=0. Apart from these two considerations, -0.3 is arbitrary
+
+1/ look for orbits at 200keV and other 3 momenta
+
+Notes :
+- I use zpop to get central coordinates of ellipse. It is possible to use PICKUPS instead, and avoid plotting.
+- It is possible to use searchCOs_From1Traj instead, or write a search of c.o. in python
+
+
+2/ Get MATRIX
+
+rzg -in cyclo_classical_km0.3_4mom_MATRIX.dat
+
+3/ MATRIX yields periodic functions at 5 MeV. These are used to set up a 1mu_m invariant particle.
+Then run track it
+
+rzg -in cyclo_classical_km0.3_4mom_5MeVInvariant.dat
+
+I use tunesFromFai to get the tunes - make sure tunesFromFai.In says 'zgoubi.fai'. zpop can be used too. 
+
+4/ Envelopes : 
+
+rzg -in cyclo_classical_km0.3_4mom_Envelopes.dat 
+
+and plot, using zpop for instance. Y and Z envelopes appears to be ~constant. Why ? Check maths.
+
+
+
+
+
+
+
+
+

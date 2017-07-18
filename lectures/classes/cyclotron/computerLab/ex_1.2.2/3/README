@@ -1,0 +1,23 @@
+
+k is set to -0.3, so to preserve 0.2 to 5 MeV stable range. Apart from this consideration, -0.3 is arbitrary
+
+1/ look for orbit at 200keV - it has changed, due to k
+
+rzg -in cyclo_classical_km0.3_200keVOrbit.dat
+
+Notes :
+- I used zpop to get central coordinates of ellipse. It is possible to use PICKUPS instead, and avoid plotting.
+- It is possible to use searchCOs_From1Traj instead, or write a search of c.o. in python
+
+
+2/ Scan mom for orbits :
+
+rzg -in cyclo_classical_km0.3_scanMom.dat
+
+
+3/ 
+
+
+
+
+

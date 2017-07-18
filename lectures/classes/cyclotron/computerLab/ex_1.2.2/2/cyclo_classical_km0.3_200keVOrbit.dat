@@ -1,0 +1,37 @@
+Cyclotron, classical.
+ 'OBJET'                                                                                                      1
+64.62444403717985                                   ! 200keV
+2
+1 1
+10.445816  0.  0.   0.   0.  1. 'm'              ! 200keV with index k=-0.3
+1
+ 
+ 'PARTICUL'   ! This is required only because we want to get the time-of-flight,                              2
+PROTON       ! otherwise zgoubi only requires rigidity.
+ 'FAISCEAU'                                                                                                   3
+ 
+ 'DIPOLE'                                                                                                     4
+0
+60. 50.                                       ! AT, RM
+30.  5.  -0.3  0. 0.                          ! ACENT, B_RM, N, N', N''
+0.  0.                                        ! EFB 1  hard-edge
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+30. 0.  1.E6  -1.E6  1.E6  1.E6
+0.   0.                                       ! EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-30. 0.  1.E6  -1.E6  1.E6  1.E6
+0. 0.                                         ! EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0. 0.  1.E6  -1.E6  1.E6  1.E6 0.
+4   10.              ! Interpolation 2nd order ;  grid size = step size/10.
+.8                   ! step size
+2  0. 0. 0. 0.
+ 'FAISCEAU'                                                                                                   5
+ 
+ 'FAISTORE'                                                                                                   6
+zgoubi.fai
+1
+ 
+ 'REBELOTE'                                                                                                   7
+49  0.2 99
+ 'END'                                                                                                        8
