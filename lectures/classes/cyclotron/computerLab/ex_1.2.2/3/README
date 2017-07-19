@@ -12,10 +12,25 @@ Notes :
 
 2/ Scan mom for orbits :
 
-rzg -in cyclo_classical_km0.3_scanMom.dat
+Make sure this one is in the folder : searchCO.data, 
+Then : 
+- cp cyclo_classical_km0.3_200keVOrbit.dat searchCO_from1Traj-In.dat
+- searchCOs_From1Traj
 
 
-3/ 
+3/ Pour obtenir les tunes vs. E : 
+
+- rzg -in zgoubi_searchCO-Out_MATRIX.dat
+
+and then
+
+- tunesFromMatrix
+
+- cp ~/zgoubi/current/toolbox/tunesFromMATRIX/gnuplot_tunesFromMATRIX_proton.cmd .
+
+- 
+
+
 
 
 

@@ -1,0 +1,7 @@
+ ! SearchCO.data not found. Created.
+   kaseV =            0  ! 0 or 1 (w/ or w/o vertical motion)
+   nCO =           30  ! a few units (nb of co-s)
+   T1 =    200.e3       ! initial energy (eV) - kinetic
+   T2 =    5e6       ! final energy (eV) - kinetic
+   precX =   1.E-003  ! (cm) 
+   precXp =  10E-003  ! (mrad) 
