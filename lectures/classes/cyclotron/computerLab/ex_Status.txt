@@ -16,8 +16,10 @@ EXERCISE PREPARATION : STATUS
 
 1.2.2-1 : Essentially ok. Updated to sourceForge on July 14, 2017
         
-1.2.2-2 : on-going...
-          find the new orbits in presence of k        
+1.2.2-2 : Essentially ok. Updated to sourceForge on July 14, 2017
+
+1.2.2-3 : Essentially ok. Updated to sourceForge on July 19, 2017
+
 
 ---
 ex 1.2.1-1.a

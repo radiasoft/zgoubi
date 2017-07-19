@@ -153,10 +153,17 @@ The radial and axial  strengths experienced by a particle moving in the vicinity
 write, to the first order in the radial, $x$,  and axial, $y$, coordinates 
 \begin{eqnarray}
 \label{EqCycloFoc}
-F_x = m \ddot x=  -qvB_y + m\frac{v^2}{r} \approx -q v (B_y|_{x=0} + \frac{\partial B_y}{\partial r}x)  + m\frac{v^2}{R}(1-\frac{x}{R}), & \nonumber \\ 
-\textrm{~yielding~}  \ddot x + \omega_r^2 x=0 &  \nonumber \\
-F_y= m\ddot y =   qvB_r \approx q v \frac{\partial B_r}{\partial y} y = q v \frac{\partial B_y}{\partial r} y, 
- \textrm{~yielding~}    \ddot{y} - \omega_y^2 y= 0  & ~ ~ ~ 
+\rm
+F_x = & m \ddot x=&  -qvB_y + m\frac{v^2}{r} \approx -q v (B_y|_{x=0} + \frac{\partial B_y}{\partial r}x)  + m\frac{v^2}{R}(1-\frac{x}{R}),   \nonumber \\ 
+\rm 
+F_y= & m\ddot y = &  qvB_r \approx q v \frac{\partial B_r}{\partial y} y = q v \frac{\partial B_y}{\partial r} y
+\end{eqnarray}
+These relations yield the differential equations for the raidal and axial motions, respectively, 
+\begin{eqnarray}
+\label{EqCycloDiffEq}
+\rm
+  \ddot x + \omega_r^2 x=0 &  \ \ \ \ \ \ \ \rm and \ \ \ \ \
+  \ddot{y} - \omega_y^2 y= 0  
 \end{eqnarray}
 wherein 
 $\omega_r^2 = \omega_{\rm rev}^2(1+\frac{R}{B}\frac{\partial B_y}{\partial r})$,  
@@ -174,14 +181,6 @@ The two quantities
 \end{equation}
 are known  as, respectively, the radial and axial ``wave number'' of 
 the oscillatory motion around the reference circular orbit of radius R.
-Note that $\nu_r^2 + \nu_y^2=1$.
-Vertical motion stability requires $k$ to be negative~:  $B_y$ (respectively, the magnet gap) 
-is slowly  decreasing (increasing) with radius, restoring force toward the 
-median plane. 
-Stability of both radial and axial motions requires $-1 < k <0$, a conditon known as ``weak focusing''.
- Note that  at low energy  the electric field in the 
-region of the accelerating gap also contributes to the focusing, an aspect which will be omitted here. 
-
 
 \smallskip
 \noindent {\small $\bullet$} Exercise~\ref{secCycloFocus}-1
@@ -190,30 +189,62 @@ field. Conclude on orbit and horizontal motion  stability.
 Derive the horizontal and vertical  transport matrices from ray-tracing, conclude on the stability of the 
  motion in a uniform field.
 
+
+\paragraph{\sl Periodic stability  \label{secCycloPerStab} - }
+Vertical motion stability requires $k$ to be negative~:  $B_y$ (respectively, the magnet gap) 
+has to  slowly  decrease (increase) with radius, so resulting restoring force toward the median plane. 
+Stability of both radial and axial motions requires $-1 < k <0$, a conditon known as ``weak focusing''.
+ Note that  at low energy  the electric field in the 
+region of the accelerating gap also contributes to the focusing, an aspect which will be omitted here. 
+
+
 \smallskip
 \noindent {\small $\bullet$} Exercise~\ref{secCycloFocus}-2
 Back to the field map of exercise~\ref{secCycloClassOrb}-1, or to the analytical model 
 of exercise~\ref{secCycloClassOrb}-2: introduce a field index $-1<k<0$ in this sector field. 
-Plot the radial and vertical phase space of a 5~MeV ion on a $1\mu$m normalized invariant.  
+Plot the radial and vertical paraxial motions of a 3~MeV ion over a few turns. 
 Compute its radial and axial motion wave numbers, $\nu_r$ and $\nu_y$, 
-using two different methods, namely, 1-turn mapping and  Fourier analysis of multi-turn motion. 
-From multiturn tracking, generate the envelope of a 5~MeV beam around the ring cyclotron.  
+using two different methods, namely, 1-turn mapping and  Fourier analysis of few tens of turns. 
 
 
 \smallskip
 \noindent {\small $\bullet$} Exercise~\ref{secCycloFocus}-3
 Using either the field map or the analytical model devised in the  exercise~\ref{secCycloFocus}-2, 
  plot the energy dependence of the reference orbit radius, $R(E)$. 
-Plot  $\nu_r^2 + \nu_y^2$ as a function of radius, compare with the value of the field index. 
-On a common graphic, plot the horizontal phase space of the 1, 10, 20, 50~MeV particle motion,
-assuming the latter on a $1\mu$m normalized invariant in each case.
+Show that $\nu_r^2 + \nu_y^2=1$, at all radii.
+
+
+\paragraph{\sl Phase space motion  \label{secCycloPhasSpac} }
+ is the solution of the equations of motions (Eq.~\ref{EqCycloDiffEq}). 
+It satisfies (with z standing for x or y)
+\begin{equation}
+\label{EqCycloInvariant}
+\rm
+\gamma_z z^2 + 2 \alpha_z z z' + \beta_z z'^2 = \epsilon/\pi
+\end{equation}
+{\sl i.e.}, phase space coordinates lie on an ellipse with surface $\rm \epsilon$.  
+$\rm \epsilon/\pi$ is known as the ``Courant invariant''~\cite{Courant}. 
+
+
+\smallskip
+\noindent {\small $\bullet$} Exercise~\ref{secCycloFocus}-5
+On a common graphic, plot the horizontal phase space portrait of 0.2, 1, 3 and 50~MeV particles
+taken on $\epsilon_x = \epsilon_y = 1\ \pi\mu$m invariant in each case.
 Plot the vertical phase space motion for these very energies. 
 Plot the components of the field vector experienced by a particle as a function of 
 azimutahl angle, over a few turns.
 
 
-\paragraph{Isochronism  \label{secCycloIsochro}}
-  
+
+\paragraph{\sl Beam envelopes  \label{secCycloEnvlps} }
+satisfy 
+
+\smallskip
+\noindent {\small $\bullet$} Exercise~\ref{secCycloFocus}-4
+From multi-turn tracking, generate the envelope of a 3~MeV beam around the ring cyclotron.  
+
+
+\paragraph{\sl Isochronism  \label{secCycloIsochro} - }  
 The  condition  for vertical focusing, $-1 < k <0$ 
 %  \hspace{2ex} \raisebox{-20mm}[0mm][0mm]{ \includegraphics[width=6cm]{rfCyclo.eps}} \\
 spoils the isochronism: the guiding field $B$ and thus $\omega_{\rm rev} = qB/m$ decrease with R (with increasing momentum). 
@@ -378,3 +409,4 @@ Stambach CAS
 
 R Baartman Cyclotrons: Classic to FFAG
 
+ Courant article
