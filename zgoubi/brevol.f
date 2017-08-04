@@ -107,6 +107,8 @@ C      CALL RAZ(AA,24+MXC-1)
       AA(24+NFIC-1) = 1.D0
       DO WHILE(IDUM.EQ.2 .AND. STRA(2) .EQ. 'SUM')
         NFIC = NFIC + 1
+        IF(NFIC .GT. 4) CALL ENDJOB(
+     >  'Pgm brevol. Too many field maps. Maximum allowed is ',MXC)
         CALL STRGET(TA(NOEL,1+NFIC),2,
      >                                IDUM,STRA)        
         NOMFIC(NFIC) = STRA(1)(DEBSTR(STRA(1)):FINSTR(STRA(1)))
