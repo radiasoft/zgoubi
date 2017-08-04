@@ -817,7 +817,6 @@ C             IRD = NINT(A(NOEL,40))
 
 C--------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
-
  
          ELSE
            CALL ENDJOB('SBR toscac. No such option MOD = ',MOD)

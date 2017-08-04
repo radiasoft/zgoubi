@@ -69,11 +69,13 @@ C      SAVE XXH, YYH, ZZH
 
       CHARACTER(LNTA) STRA(2) 
 
-      DATA NOMFIC / IZ*' '/
-      DATA NHDF / 8 /
- 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
+
+      DIMENSION HCSUM(MXX)
+
+      DATA NOMFIC / IZ*' '/
+      DATA NHDF / 8 /
       DATA NEWF / .TRUE. /
 
       BNORM = A(NOEL,10)
@@ -95,20 +97,23 @@ C      SAVE XXH, YYH, ZZH
       DO I = 1, IZ
         NOMFIC(I) = ' '
       ENDDO
-      CALL RAZ(AA,24+MXC-1)
+C      CALL RAZ(AA,24+MXC-1)
+      
       KZMA = 1
       NFIC = 1
       CALL STRGET(TA(NOEL,1+NFIC),2,
      >                              IDUM,STRA)        
       NOMFIC(NFIC) = STRA(1)(DEBSTR(STRA(1)):FINSTR(STRA(1)))
+      AA(24+NFIC-1) = 1.D0
       DO WHILE(IDUM.EQ.2 .AND. STRA(2) .EQ. 'SUM')
         NFIC = NFIC + 1
         CALL STRGET(TA(NOEL,1+NFIC),2,
      >                                IDUM,STRA)        
         NOMFIC(NFIC) = STRA(1)(DEBSTR(STRA(1)):FINSTR(STRA(1)))
+        AA(24+NFIC-1) = 1.D0
       ENDDO
 
-      CALL KSMAP4(NOMFIC,NFIC,AA(24:24+MXC-1),
+      CALL KSMAP4(NOMFIC,NFIC,AA(24:24+NFIC-1),
      >                          NEWFIC,NBMAPS,IMAP)
 
       IF(NRES.GT.0) THEN
@@ -121,31 +126,36 @@ C      SAVE XXH, YYH, ZZH
  
         IF(NEWFIC) THEN
            WRITE(NRES,209)
- 209       FORMAT(/,10X
+ 209       FORMAT(/,5X
      >     ,' New field map(s) now opened ; '
-     >     ,' name(s) of map data file(s) : ',/)
+     >     ,' name(s) of map data file(s), field coefficient : ')
            WRITE(NRES,208) (NOMFIC(I)(DEBSTR(NOMFIC(I)):
-     >     FINSTR(NOMFIC(I))),I=1,NFIC)
- 208       FORMAT(10X,A)
+     >     FINSTR(NOMFIC(I))),AA(24+NFIC-1),I=1,NFIC)
+ 208       FORMAT(10X,A,',  ',1P,E14.6)
         ELSE
           WRITE(NRES,210) (NOMFIC(I)(DEBSTR(NOMFIC(I)):
-     >     FINSTR(NOMFIC(I))),I=1,NFIC)
- 210      FORMAT(
-     >    10X,'No  new  map  file  to  be  opened. Already  stored.',/
-     >    10X,'Skip  reading  field  map  file : ',10X,A)
+     >     FINSTR(NOMFIC(I))),AA(24+NFIC-1),I=1,NFIC)
+ 210      FORMAT(/,
+     >    5X,'No  new  map  file  to  be  opened. Already  stored.',/
+     >    5X,'Skip  reading  field  map  file : ',10X,A,
+     >    ' (its field coefficient = ',1P,E14.6,')')
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
  
       IF(NEWFIC) THEN
 
-        CALL RAZ(HC,ID*IXMA)
+C FM, VM, Aug. 2017
+C        CALL RAZ(HC,ID*IXMA)
+        CALL RAZ(HCSUM,IXMA)
+
         JFIC = 0
         DO WHILE (JFIC .LT. NFIC)
           JFIC = JFIC+1
 
           OK = IDLUNI(
      >                LUN)
+
           IF(.NOT. OK) GOTO 96
           BINAR=BINARI(NOMFIC(JFIC),IB)
           IF(BINAR) THEN
@@ -174,7 +184,8 @@ CCCCCCCCCCCCCCCCCCC   if(jfic.eq.2) fac = 3.5d0    ! pour obtenir le meme champ 
 C                HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES * BNORM *FAC
 C--------------------------------------------------------
 
-            HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES
+C            HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES
+            HCSUM(I) = HCSUM(I) + BMES
             XH(I) = XH(I) * XNORM
   
           ENDDO
@@ -183,6 +194,10 @@ C--------------------------------------------------------
 C--------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat. 
 C          SUMAP is .T.
 
+        ENDDO
+
+        DO I = 1,IXMA
+          HC(ID,I,1,1,IMAP) = HCSUM(I)
         ENDDO
 
 C          Motion in this lmnt has no z-symm. 
@@ -198,8 +213,13 @@ C------- Restore mesh coordinates
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
         ZSYM=.FALSE.
 
-        IF(NRES.GT.0) WRITE(NRES,*) ' Pgm brevol, ',
-     >  ' restored mesh coordinates for field map # ',imap
+           IF(NRES.GT.0) THEN
+             WRITE(NRES,fmt='(5X,A,I3,2A)') 
+     >       'Restored mesh coordinates for field map #IMAP= ',imap,
+     >       ',  name : ',
+     >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+           ENDIF
+
       ENDIF
 
       CALL CHAMK2(BNORM*SCAL)

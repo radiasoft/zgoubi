@@ -1691,5 +1691,6 @@ C           ENDIF
            XBMA = XBBMA(IMAP)
            YBMA = YBBMA(IMAP)
            ZBMA = ZBBMA(IMAP)
+
       RETURN
       END

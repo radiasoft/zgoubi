@@ -198,8 +198,8 @@ c       PARAMETER (MXX=1201, MXY=83)
 C       PARAMETER (MXX=1201, MXY=81)
 C       PARAMETER (MXX=1201, MXY=111)    ! compatible cbeta
 c       PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
-c       PARAMETER (IZ=81 , ID=3, MMAP=4)
-c       PARAMETER (MXX=361, MXY=81)
+       PARAMETER (IZ=81 , ID=3, MMAP=4)
+       PARAMETER (MXX=361, MXY=81)
 c       PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=361, MXY=81)
  
@@ -214,8 +214,8 @@ C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-      PARAMETER (IZ=3 , ID=3, MMAP=3)
-      PARAMETER (MXX=136, MXY=140)
+c      PARAMETER (IZ=3 , ID=3, MMAP=3)
+c      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------

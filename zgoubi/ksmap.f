@@ -81,7 +81,6 @@ C AND the linear combination coefficients have not been changed)
           OLDFIC = OLDFIC .AND. (NOMFIC(IFIC).EQ.NAMSAV(I,IFIC))
      >          .AND. (AA(24+IFIC-1).EQ.COEFS(I,IFIC))
 
-
         ENDDO
         IF(OLDFIC) GOTO 1
       ENDDO
