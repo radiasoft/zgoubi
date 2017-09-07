@@ -69,6 +69,8 @@ C     ----------------------------------------------------
       SAVE NOEL1, NOC
       SAVE XVEC, YVEC, ZVEC
 
+      LOGICAL SRLOSS
+
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
@@ -78,9 +80,11 @@ C     ----------------------------------------------------
       DATA KKEX, KLET / 1, '*' / 
 
       DATA NOEL1, NOC / -1, 0 /
-      data xvec / 1.d0, 0.d0, 0.d0 /
-      data yvec / 0.d0, 1.d0, 0.d0 /
-      data zvec / 0.d0, 0.d0, 1.d0 /
+      DATA XVEC / 1.D0, 0.D0, 0.D0 /
+      DATA YVEC / 0.D0, 1.D0, 0.D0 /
+      DATA ZVEC / 0.D0, 0.D0, 1.D0 /
+
+      DATA TLOSS / 0.D0 /
 
       KT3 = 1
 
@@ -173,7 +177,7 @@ C--------- read in zgoubi.fai type storage file
      >      (SI(J),J=1,4),(SF(J),J=1,4),
      >      ENEKI, ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR, PS,
-     >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET
+     >      BORO, IPASS, NOEL ,KLEY,LBL1,LBL2,LET,TLOSS
 
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                                IEND)) GOTO 222
@@ -197,7 +201,7 @@ C            READ(NL,110,ERR=21,END=10)
      >      ENEKI, ENERG, 
      >      IT, IREP, SORT, AMQ1,AMQ2,AMQ3,AMQ4,AMQ5, RET, DPR,  PS,
      >      BORO, IPASS,NOEL, 
-     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1
+     >      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET,TX1,TLOSS
 
             INCLUDE "FRMFAI.H"
 
@@ -412,6 +416,7 @@ C      Location about where particle was lost
       alf = 0.d0 
       bta = 11.302651d0
       YZXB(62) = atan2(alf*F(4)/1.d2+bta*F(5)/1.d3,F(4)/1.d2)
+      YZXB(63) = TLOSS
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

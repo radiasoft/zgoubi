@@ -27,26 +27,24 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE 'MXLD.H'
+C      INCLUDE 'MXFS.H'
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
-      INCLUDE 'MXLD.H'
-      INCLUDE 'MXFS.H'
-      PARAMETER (LBLSIZ=20)
-      PARAMETER (KSIZ=10)
-      CHARACTER(KSIZ) FAM
-      CHARACTER(LBLSIZ) LBF
-      INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
-C      COMMON/TRAJ/ YT,T,Z,PT,XT,SAR,TAR,KEX,ITT,AMT,QT
 
+      PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
 
       INCLUDE "MAXTRA.H"
-      DIMENSION TPHOT(MXT),TLOSS(MXT)
+      DIMENSION TPHOT(MXT),TLOSS(MXT),TLOSSO(MXT)
 
       PARAMETER (NSPLIN=43)
       DIMENSION X(NSPLIN), Y(NSPLIN)
-      CHARACTER(8) TYPMAG,TYPMAGI
+      CHARACTER(KSIZ) TYPMAG,TYPMAGI
       PARAMETER(GAM13=2.67893853470774763365569D0)
       PARAMETER(UT=1.D0/3.D0)
                       
@@ -56,7 +54,15 @@ C      COMMON/TRAJ/ YT,T,Z,PT,XT,SAR,TAR,KEX,ITT,AMT,QT
       SAVE TYPMAG
       SAVE KSOK
 
+      LOGICAL OKLBL, EMPTY
+
+      PARAMETER (MLBL=5)
+      CHARACTER(LBLSIZ) LBLR(MLBL), LBLRI(MLBL)
+      SAVE LBLR, NLBL
+
       DATA TYPMAG / 'ALL' /
+      DATA LBLR / MLBL*' ' /
+
       DATA X / .00123D0, .0123D0, .0265D0, .0571D0, .1228D0, .1544D0, 
 C Y                     .01    .0136   .02   .0292    
      >.194D0, .221D0, .2619D0, .2893D0, .327D0,.36914D0, 
@@ -80,14 +86,28 @@ C Y      2.       2.5       3.       4.       5.5        7        10.
       DATA UNIT,UNITE / 1.D-2, 1.D-6/
       DATA KSOK / 0 /   ! Sokolov-Ternov effect on/off=1/0
  
-C      DATA TTLOS2 / 0.D0 /
-
       IF(TYPMAG.NE.'ALL') THEN
         CALL ZGKLEY(
      >              KLEY)
-        IF(KLEY.NE.TYPMAG) RETURN
-      ENDIF
+        IF(KLEY.NE.TYPMAG) GOTO 99
+        IF(EMPTY(LBLR(1))) THEN
+          OKLBL = .TRUE.
+        ELSE
+          OKLBL = .FALSE.
+          CALL ZGNOEL(
+     >                NOEL)
+          I = 1
+          DOWHILE((OKLBL .EQV. .FALSE.) .AND. (I .LE. NLBL))
+            OKLBL = OKLBL .OR. (LBLR(I) .EQ. LABEL(NOEL,1))
+            I = I + 1
+          ENDDO
+        ENDIF
 
+        IF(.NOT. OKLBL) GOTO 99
+      ENDIF
+ 
+c               write(*,*) ' raysyn.   srloss '
+           
 C      N is the maximum value of k with non-zero proba of Poisson law
 C----- Y(X) : data to be splined (i.e., the integral of the K_5/3 sum)
 
@@ -133,7 +153,7 @@ C----- Correction to particle rigidity
       QBR = SQRT(EN*EN-AM2)/CL9
       BRI = QT/QBR
 
-      RETURN
+ 99   RETURN
 
       ENTRY RAYSY1(IMAX,IRAI)
       IRA=IRAI
@@ -203,21 +223,12 @@ C     >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
      >  '' particle, per step :'',1P,T65,G15.7)') TTPHOT/XSTEP
       ENDIF
 
-      IF(IPASS.EQ.1 .OR. 10*(IPASS/10) .EQ. IPASS ) THEN 
-C        WRITE(88,FMT='('' Pass#, <Us>, <e_c>, #phot/pass/part, rms-e'',
-C     >  1P,I8,
-C     >  T60, 4(G15.7,3x),''  6 GeV  step 1 cm  seed 123456'')') 
-C     >  IPASS,  TTLOSS/XEVNT *1.D3/dble(ipass), 
-C     >   TTPHOT, ECMEAN/XSTEP*1.D3/dble(ipass),
-C     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
-C        CALL FLUSH2(88,.FALSE.)
-      ENDIF      
-C      TTLOS2 = TTLOSS
-
       RETURN
 
-      ENTRY RAYSY3(TYPMAGI)
+      ENTRY RAYSY0(TYPMAGI,LBLRI,NLBLI)
       TYPMAG=TYPMAGI
+      LBLR = LBLRI
+      NLBL = NLBLI
       RETURN
 
       ENTRY RAYSY4
@@ -232,6 +243,14 @@ C      ECMEAN=0.D0
 
       ENTRY RAYSY6(KSOKI)
       KSOK = KSOKI
+      IF(KSOK .NE. 0) CALL ENDJOB(
+     >'Pgm raysyn. Sokolov-Ternov effect is under development.'
+     >//' KSOK can only be ',0)
+      RETURN
+
+      ENTRY RAYSY7(
+     >             TLOSSO)
+      TLOSSO = TLOSS
       RETURN
 
       END

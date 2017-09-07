@@ -31,6 +31,7 @@ C  -------
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
@@ -44,6 +45,14 @@ C      PARAMETER (MXTA=45)
       LOGICAL EMPTY
 
       SAVE LNSR, OKOPEN, OKSR, OKPRSR
+
+      PARAMETER (LBLSIZ=20)
+      PARAMETER (MLBL=5)
+      CHARACTER(LBLSIZ) LBLST(MLBL)
+
+      PARAMETER (KSIZ=10)
+      CHARACTER(KSIZ) TYPMAG
+      LOGICAL STRCON
 
       DATA OKSR / .FALSE. /
       DATA OKOPEN, OKPRSR /.FALSE., .FALSE. /
@@ -77,7 +86,8 @@ C      PARAMETER (MXTA=45)
             WRITE(LNSR,FMT='(A)') '# '
             WRITE(LNSR,FMT='(A)') '# 1 2 3 4 5 6 7 8 ...' 
             WRITE(LNSR,FMT='(A)') 
-     >      '# KLE, NOEL, IPASS, BORO, DPREF, AM, Q, G, IMAX, '
+     >      '# KLE, LBL1, LBL2, '
+     >      //'NOEL, IPASS, BORO, DPREF, AM, Q, G, IMAX, '
      >      //'PI*EMIT(1), ALP(1), BET(1), XM(1), XPM(1), '
      >      //'NLIV(1), NINL(1), RATIN(1), '
      >      //'PI*EMIT(2), ALP(2), BET(2), XM(2), XPM(2), '
@@ -94,6 +104,26 @@ C      PARAMETER (MXTA=45)
           OKOPEN = .TRUE.
         ENDIF
        ENDIF
+      ENDIF
+
+      IF(STRCON(TA(NOEL,1),'{',
+     >                           IS)) THEN
+        TYPMAG = TA(NOEL,1)(DEBSTR(TA(NOEL,1)):IS-1)
+        IF(STRCON(TA(NOEL,1),'}',
+     >                           IIS)) THEN  
+          LBLST = ' '
+          READ(TA(NOEL,1)(IS+1:IIS-1),*,ERR=9,END=9) (LBLST(I),I=1,MLBL)
+ 9        CONTINUE
+            LBLST(I) = ' ' 
+            NLBL = I-1 
+C            WRITE(*,*) ' PGM srloss I, lblst ',
+C     >         nlbl,lblst,TA(NOEL,1)(IS+1:IIS-1)
+C                 stop 
+        ELSE
+          CALL ENDJOB('Pgm srloss. Wrong data in label list.',-99)
+        ENDIF
+      ELSE
+        TYPMAG = TA(NOEL,1)
       ENDIF
 
       TSCAL = TA(NOEL,2)
@@ -114,9 +144,11 @@ C      PARAMETER (MXTA=45)
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 
           WRITE(NRES,FMT='(/,15X,'' S.R.  TRACKING  REQUESTED'')')
-          IF(TA(NOEL,1).NE.'ALL' .AND. TA(NOEL,1).NE.'all') 
-     >                                    WRITE(NRES,FMT='(20X,
-     >           '' Accounted for only in '',A)') TA(NOEL,1)
+          IF(TYPMAG.NE.'ALL' .AND. TYPMAG.NE.'all') 
+     >    WRITE(NRES,FMT='(20X,
+     >    '' Accounted for only for keyword '',A)') TYPMAG
+          IF(NLBL .GT. 0) WRITE(NRES,FMT='(20X,
+     >      '' and with first label one of : '',5A)')(LBLST(I),I=1,NLBL)
           IF(SCLFLD) THEN
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will scale '',
      >      ''with energy lost in the following list of elements :'',
@@ -151,8 +183,8 @@ C----- Set SR loss tracking
 
       IRA=1+(NINT(A(NOEL,11))/2)*2    
       IF(IPASS.EQ.1) THEN 
+        CALL RAYSY0(TYPMAG,LBLST,NLBL)
         CALL RAYSY1(IMAX,IRA)
-        CALL RAYSY3(TA(NOEL,1))
       ENDIF
 
       RETURN

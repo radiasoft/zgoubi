@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE SYNPAR(B,XL)
+      SUBROUTINE SYNPAR(B,XTLT,XL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -68,6 +68,8 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
 
       WRITE(NRES,FMT='(/,2X,
      >'' * Theoretical S.R. parameters in local *dipole* field :'')')
+      IF(XTLT .GT. 1D-10) WRITE(NRES,FMT='(5X,''Bend plane is X-tilted''
+     >,'' tilt angle is '',1P,E14.6,'' rad'')') XTLT 
       WRITE(NRES,FMT='(5X,''Bending radius (Brho/B) :'',1P,G16.8,
      > ''m,   deviation angle :'',G16.8,'' rad'')') RHO, ANG
       WRITE(NRES,FMT='(5X,''Average energy loss per particle :'',

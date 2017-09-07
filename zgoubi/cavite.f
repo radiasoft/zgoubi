@@ -71,9 +71,15 @@ C      PARAMETER (MXTA=45)
 
       PARAMETER (CG=8.846D-14)  ! m/MeV^3
 
-      LOGICAL CEBAF, STRCON
+      LOGICAL STRCON
       PARAMETER (MXH=5)
       DIMENSION HRM(MXH), VHRM(MXH)
+
+      LOGICAL CEBAF
+      LOGICAL CRNLSY
+      LOGICAL ERCRCS
+ 
+      SAVE OMGA, BT0
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
       DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
@@ -94,14 +100,15 @@ C      PARAMETER (MXTA=45)
      >'DE/E<<1 aproximation, regular transport including damping',
      >'regular transport, including damped motion' /
 
-      DATA CEBAF / .FALSE. /
+      DATA CEBAF, CRNLSY, ERCRCS / .FALSE., .FALSE., .FALSE. /
+      DATA SYNCT / 0.D0 /
 
       DUM = SCALER(1, NOEL, 
      >                     DUM)
 
       SRLOSS = .FALSE.
-      DWSR = 0.D0
       U0 = 0.D0
+      DWSR = 0.D0
       NBH = 1
 
       DUM = SCALE9(
@@ -149,9 +156,6 @@ C      PARAMETER (MXTA=45)
 
       IF(KCAV .EQ. 0) RETURN
  
-      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
-     >                                   IS)
-
       AN10 = A(NOEL,10)
       AN11 = A(NOEL,11)
       AN20= A(NOEL,20)
@@ -171,7 +175,7 @@ C      QV = VLT*Q *1.D-6
       QV = AN20 *Q *1.D-6
  
 
-      GOTO(10,20,30,40,50,60,70,80,77,100,21) KCAV
+      GOTO(10,20,30,40,50,60,70,80,999,100,110) KCAV
       CALL ENDJOB(' Sbr cavite : No such option KCAV =',KCAV)
   
 C------------------------------------------- 
@@ -237,20 +241,32 @@ C It uses ph_s to accelerate (not for compensation of SR unlike 20) (so, ph_s=0
 C in storage mode); ph_s is corrected for SR compensation : 
 C requires A(noel,22) = theoretical SR loss at first pass, then, SR loss assumes ~gamma^4 
 C dependence at subsequent passes. 
- 21   CONTINUE
+ 110  CONTINUE
+      CRNLSY = STRCON(TA(NOEL,1), 'CornellSynch',
+     >                                         IS)
+      ERCRCS = STRCON(TA(NOEL,1), 'eRHIC_RCS',
+     >                                        IS)
       ORBL = AN10
       HARM = AN11
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
-      IF(IPASS .EQ. 1) PS = P0
+      IF(IPASS .EQ. 1) THEN
+        STS = 0.D0
+        IF(CRNLSY) OMGA = 2.D0*PI*60.D0
+        PS = P0
+        BT0 = P0/SQRT(P0*P0+AM2)
+      ENDIF
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
-      OMRF = 2.D0*PI*HARM / DTS
-      WKS = PS/BTS - AM
+      STS = STS + DTS
       FRF = HARM/DTS
+      OMRF = 2.D0*PI*FRF
+      WKS = PS/BTS - AM
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       CALL SRLOS3(
      >            SRLOSS)
+
       IF(SRLOSS) THEN 
+        IF(ERCRCS) THEN
 C        SI2 = 0.0568860943517   !  =I2=2pi/rho
 C        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
 C        U0 = 0.51552876 /(12008.775542289)**4 *  (PS/BTS)**4 
@@ -261,21 +277,37 @@ c         U0 = 11.071834e-3 * ( (PS/BTS) / 9.8932E+02)**4           ! C_gamma=88
 Case Vahid's eRHIC RCS
           radius = 283.860202518    ! bend radius (m), assumed isofield lattice
           u0 = 88.46276*((ps*1d-3)/bts)**4/radius *1d-3  ! u0 (MeV)  (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
-C---------
-
+        ELSEIF(CRNLSY) THEN
+          U0 = A(NOEL,22)  *( (ps/bts) / (p0/bt0) )**4 *1.d-6 ! AN22(eV)=Energy loss at first pass. U0 in MeV 
+********************
+        ELSE
+          U0 = 0.D0
+        ENDIF
       ENDIF
       WKS = WKS -U0
 
-C      QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
-c      QV = Q * (AN20 *1.D-6  + dble(ipass) * 76.14d-3) ! 1970 turns:   (final ^V - initial ^V) / number of turns = (180-30)/1970 
-      QV = Q * (AN20 *1.D-6  + dble(ipass) * 375.14d-3) ! 400 turns:   = (180-30)/400 
+      IF    (ERCRCS) THEN
+C        QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
+c        QV = Q * (AN20 *1.D-6  + dble(ipass) * 76.14d-3) ! 1970 turns:   (final ^V - initial ^V) / number of turns = (180-30)/1970 
+        QV = Q * (AN20 *1.D-6  + dble(ipass) * 375.14d-3) ! 400 turns:   = (180-30)/400 
 C                                                     ! 120MV justified by SR loss at 20GeV being 50MV
 C                                                     ! and willing sin(ph_s) to stay ~1/2
 C      qvfrac = AN20 *Q *1.D-6 /2.d0       ! energy gain per turn
-      qvfrac = AN20 *Q *1.D-6 * sin(2.8d0)       ! energy gain per turn
-      phs = asin((qvfrac + u0)/qv)   ! |U0| is the energy loss per turn
-         phs = pi - phs  
-      DWS = QV*SIN(PHS)
+        qvfrac = AN20 *Q *1.D-6 * sin(2.8d0)       ! energy gain per turn
+        phs = asin((qvfrac + u0)/qv)   ! |U0| is the energy loss per turn
+        phs = pi - phs  
+        DWS = QV*SIN(PHS)
+
+      ELSEIF(CRNLSY) THEN
+        QV = Q *(4.4D0* SIN(OMGA*STS) + 8.8D0*(SIN(OMGA*STS/2.D0) )**8)  ! MeV
+C        PHS = PI/2.D0
+        PHS = AN21
+        DWS = QV*SIN(PHS) - U0
+
+      ENDIF
+
+c            write(*,*) ' cavite srloss ',srloss,u0,dws,qv
+
       WKS = WKS + DWS
       PS = SQRT(WKS*(WKS+2.D0*AM))
       WS = WKS + AM
@@ -288,7 +320,8 @@ c        dwsr = a(noel,22) * gg4
 c      ENDIF
 C      GOTO 1
 
-      SYNCT = SYNCT + 1.d0/FRF*AN11
+C      SYNCT = SYNCT + 1.D0/FRF*AN11
+C      SYNCT = STS
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
@@ -297,10 +330,7 @@ C      GOTO 1
         DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
         WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
-     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
-c        IF(SRLOSS) WRITE(NRES,FMT='(1P,
-c     >       /,20X,''SR loss compensation    ='',E19.8,'' MeV'')')
-c     >       DWSR
+     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL,U0
       ENDIF
 
       DO I=1,IMAX 
@@ -341,13 +371,12 @@ C        DPR(I)=P-PS
         PH(I)=PHAS(I) 
 C        BLAG=(PHAS(I)-PHS)/OMRF
 C        BLNG=BLAG*(BTA*CL)
-C        PH(I)=BLAG
-     
+C        PH(I)=BLAG     
 
         F(1,I) = P/P0
         F(3,I) = ATAN(PY/PX)*1000.D0
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
- 
+
         F(6,I)=0.D0 
 
         IF(OKIMP) 
@@ -750,7 +779,7 @@ C Kin. energy, MeV
  
  1    CONTINUE
 
-      SYNCT = SYNCT + 1.d0/FRF*AN11
+      SYNCT = SYNCT + 1.D0/FRF*AN11
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
@@ -759,7 +788,7 @@ C Kin. energy, MeV
         DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
         WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
-     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL
+     >         QV/(Q *1.D-6)*SIN(PHS)/ORBL,U0
  220    FORMAT(1P, 
      >       /,20X,'Orbit  length           =',E19.8,' m',
      >       /,20X,'RF  harmonic            =',E19.8,
@@ -773,6 +802,7 @@ C Kin. energy, MeV
      >       /,20X,'dp-acc*sqrt(alpha)      =',E19.8,'  '
      >       /,20X,'dgamma/dt               =',E19.8,' /s ',
      >       /,20X,'rho*dB/dt               =',E19.8,' T.m/s ',
+     >       /,20X,'SR loss, this pass      =',E19.8,' MeV ',
      >       /)
 
         IF(NBH .EQ. 2) THEN
@@ -963,6 +993,9 @@ C Relative time to bunch centroid
           CPH = COS(PHI)
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
+c      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
+c     >                                   IS)
+c     >                                        IS)
 C tests cebaf
 c          IF(CEBAF) THEN 
 c            IF    (PHI .GT.  PI) THEN
@@ -1083,7 +1116,7 @@ C        PHIAV = PHIAV / DBLE(II)
  101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
       RETURN
 
- 77   RETURN   
+ 999  RETURN   
 
       ENTRY CAVIT1(
      >             DWSO)

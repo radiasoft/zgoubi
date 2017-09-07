@@ -57,6 +57,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       SAVE BINARY
       LOGICAL OPN
       SAVE OPN
+
+      LOGICAL SRLOSS
+      DIMENSION TLOSS(MXT)
+
       DATA OPN / .FALSE. /
 
       CALL FITSTA(5,
@@ -72,6 +76,17 @@ C------- Keyword FAISTORE: store at ipass=1 & every ipass=multiple of KPR
         ENDIF
       ENDIF
  
+C--- Case SR loss
+      CALL SRLOS3(
+     >            SRLOSS)
+      IF(SRLOSS) THEN
+        CALL RAYSY7(
+     >             TLOSS)
+c             write(*,*) ' impfai tloss ',tloss(1)
+c             write(*,*)
+      ENDIF
+
+
 C------- Dummies
       D = 0.D0
       ID = 0
@@ -87,7 +102,7 @@ C------- Dummies
      >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
      >      ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I)
+     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),TLOSS(I)
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
@@ -102,7 +117,8 @@ C------- Dummies
      5    ENEKI,ENERG,
      6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
      7    BORO, IPASS, NOEL, 
-     8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
+     8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
+     9    TLOSS(I)
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF

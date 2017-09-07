@@ -238,7 +238,7 @@ C        VSHROS(MSR) = 6
 
       IF(KSYN.EQ.1) THEN
         CALL SRLOS1(
-     >             OKPRSR,LNSR)
+     >              OKPRSR,LNSR)
         IF(OKPRSR) CALL PRSR(LNSR) 
       ENDIF
 

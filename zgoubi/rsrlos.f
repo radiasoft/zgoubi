@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE RSRLOS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -52,20 +52,19 @@ C      PARAMETER (MXTA=45)
       READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132
       IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
-      TA(NOEL,1)=TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-      CALL STRGET(TA(NOEL,1),10,
-     >                         NSTR,STRA)
+      READ(TXT132,FMT='(A)') TA(NOEL,1)
+      STRA = ' '
+      CALL STRGET(TXT132,MSTR,
+     >                        NSTR,STRA)
       IF(NSTR .GT. MSTR) GOTO 90
-      TA(NOEL,1)=' '
       TA(NOEL,2)=' '
-      IF(NSTR.GE.1) TA(NOEL,1)=STRA(1)
       IF(NSTR.GE.2) TA(NOEL,2)=STRA(2)
       IF(NSTR.GE.3) THEN
 C Get the list of elements to be subjected to scaling
         TA(NOEL,3) = STRA(3)(debstr(STRA(3)):finstr(STRA(3)))
         DO I = 4, NSTR
           TA(NOEL,3)=TA(NOEL,3)(debstr(TA(NOEL,3)):finstr(TA(NOEL,3)))
-     >    //' '//STRA(I)(debstr(STRA(I)):finstr(STRA(I)))
+     >    //' '//STRA(I)
         ENDDO
       ELSE
         TA(NOEL,3)=' ' 

@@ -61,13 +61,31 @@ C     ....IOPT -OPTION
       ELSE
         TA(NOEL,1) = ' '        
       ENDIF
-      IF(STRCON(TXT132,'CEBAF',
+      IF    (STRCON(TXT132,'CEBAF',
      >                         IS)) THEN
         IF(EMPTY(TA(NOEL,1))) THEN 
            TA(NOEL,1) = 'CEBAF'
         ELSE
            TA(NOEL,1) = 
      >     TA(NOEL,1)(debstr(TA(NOEL,1) ):finstr(TA(NOEL,1) ))//' CEBAF'
+        ENDIF
+      ELSEIF(STRCON(TXT132,'CornellSynch',
+     >                                IS)) THEN
+        IF(EMPTY(TA(NOEL,1))) THEN 
+           TA(NOEL,1) = 'CornellSynch'
+        ELSE
+           TA(NOEL,1) = 
+     >     TA(NOEL,1)(debstr(TA(NOEL,1) ):finstr(TA(NOEL,1) ))//
+     >     ' CornellSynch'
+        ENDIF
+      ELSEIF(STRCON(TXT132,'eRHIC_RCS',
+     >                                IS)) THEN
+        IF(EMPTY(TA(NOEL,1))) THEN 
+           TA(NOEL,1) = 'eRHIC_RCS'
+        ELSE
+           TA(NOEL,1) = 
+     >     TA(NOEL,1)(debstr(TA(NOEL,1) ):finstr(TA(NOEL,1) ))//
+     >     ' eRHIC_RCS'
         ENDIF
       ENDIF
 
@@ -134,11 +152,19 @@ C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
         CALL STRGET(TXT132,I9
      >                    ,MSTR,STRA)
 
-        IF(IOPT .EQ. 10) THEN
+        IF    (IOPT .EQ. 10) THEN
 C        3rd data is IDMP if IOPT=10
           IF(MSTR.LE.2) THEN
             A(NOEL,22)= 2      ! Chambers matrix approximations. Default=none.
             IF(MSTR.LE.3) A(NOEL,23)= 0.D0      ! BORORef setting. Default=0.
+          ENDIF
+        ELSEIF(IOPT .EQ. 11) THEN
+C        3rd data is energy loss at first pass, U0
+          IF(MSTR.LE.2) THEN
+            CALL ENDJOB(
+     >      'Pgm cavite. SR loss U0 at first turn is needed. ',-99)
+          ELSE
+            READ(STRA(3),*) A(NOEL,22)   ! SR loss U0 at injection energy
           ENDIF
         ELSEIF(IOPT .EQ. 2) THEN
           IF(STRCON(TXT132,'{',

@@ -67,13 +67,6 @@ C----- Field
         G2 = 0.D0
       ENDIF
 
-C----- SR-LOSS SWITCHED ON BY PROCEDURE SRLOSS
-      IF(KSYN.GE.1) THEN
-        IF(KFLD .EQ. MG) THEN
-          IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
-        ENDIF
-      ENDIF
-
       DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BM(1)))
       KP = NINT(A(NOEL,70))
       IF( KP .EQ. 3 ) THEN
@@ -231,6 +224,14 @@ C        WRITE(NRES,104) 'DE  SORTIE'
       CALL BENDF2(G1,G2)
 
       DEVO = DEV
+
+C----- SR-LOSS SWITCHED ON BY PROCEDURE SRLOSS
+      IF(KSYN.GE.1) THEN
+        IF(KFLD .EQ. MG) THEN
+          IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),BM(6),XL)
+        ENDIF
+      ENDIF
+
       RETURN
 
       ENTRY BENKL(

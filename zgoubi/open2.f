@@ -120,7 +120,7 @@ C------------- Write down a 4-line header
      >      //'  26,  27 , 28  ,   29  ,30,  31  ,   32 , unused,'
      >      //'   34 ,   35 ,'
      >      //'    36,  37  , 38   , 39  ,  40   ,'
-     >      //'  41/lbl1, 42/lbl2,  43 '
+     >      //'  41/lbl1, 42/lbl2,  43 ,  44'
             TXTA80 = 
      >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >      //'   T,  Z,   P,  S, time,'
@@ -129,7 +129,7 @@ C------------- Write down a 4-line header
      >      //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
      >      //'   RET,   DPR,'
      >      //'    PS,  BORO, IPASS, NOEL,   KLEY,'
-     >      //'  LABEL1, LABEL2,    LET'
+     >      //'  LABEL1, LABEL2,    LET,  SRloss'
             TXTB80 = 
      >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >      //' mrd, cm, mrd, cm, mu_s,'
@@ -138,7 +138,7 @@ C------------- Write down a 4-line header
      >      //' int,  int,   cm, MeV/c2, C, float, float,  float,'
      >      //' float, float,'
      >      //' float, kG.cm,   int,  int, string,'
-     >      //'  string, string, string'
+     >      //'  string, string, string,  MeV'
 
           ELSEIF(TXT.EQ.'SPIN DATA') THEN
             TXTN80 = 

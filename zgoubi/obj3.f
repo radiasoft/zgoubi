@@ -226,19 +226,6 @@ C        IF(BINARY) THEN
      >      BRO, IPASSR, NOELR,     TDUMK,
      >                              TDUML,
      >                              TDUML,     LETI 
-c     >      BRO, IPASSR, NOELR, tx1,TDUMK, tx1, 
-c     >                          tx1,TDUML, tx1, 
-c     >                          tx1,TDUML, tx1,LETI 
-C            INCLUDE "FRMFAI.H"
-
-c             write(88,*) ' KP1,KP2,KP3,IPASSR : ',KP1,KP2,KP3,IPASSR
-c     >       ,OKKP3(KP1,KP2,KP3,IPASSR,
-c     >                                 IEND)
-c             write(88,*) ' KT1,KT2,KT3,IT     : ',KT1,KT2,KT3,IT
-c     >       ,OKKT3(KT1,KT2,KT3,IT,
-c     >                            IEND)
-c             write(88,*) ' lm, noelr ',lm,noelr
-c             write(88,*) ' dp_o, dp ',dpo, dp
 
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221

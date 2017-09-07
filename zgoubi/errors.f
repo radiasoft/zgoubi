@@ -71,7 +71,8 @@ C Re-initialize the series to same seed, after REBELOTE, when multi-turn trackin
         WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)') 
         WRITE(NRES,FMT='(/,15X,''On/off, number of sets, seed, start '',
      >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
-        WRITE(NRES,FMT='(/,15X,''Errors to be introduced : '')')
+        WRITE(NRES,FMT='(/,15X,''Errors to be introduced, '',I0
+     >  ,'' set(s) : '')') NBR
         DO IRR = 1, NBR
           WRITE(NRES,FMT='(20X,A)')
      >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
@@ -129,13 +130,13 @@ C Will save error list in zgoubi.ERRORS.out
      >                             IS2)
             OK = STRCON(TXT132(IS:IS2),',',
      >                                     IS3)
-            IF(IS+1.LT.IS2-1) THEN
+            IF(IS+1.LE.IS2-1) THEN
               IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
      >             READ(TXT132(IS+1:IS2-1),*) LBL1
             ENDIF
             IF(OK) THEN
               IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
-     >          READ(TXT132(2:IS2+1),*) LBL2
+     >          READ(TXT132(IS3+1:IS2-1),*) LBL2
             ENDIF
             TXT132 = TXT132(IS2+1:FINSTR(TXT132))
           ENDIF
@@ -143,7 +144,6 @@ C          Get the rest of the arguments
           TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           CALL STRGET(TXT132,99,
      >                          NSTR,STRA)
-C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
 
           READ(STRA(1),*) IPOL     ! Pole to which the error applies (1-10)
           READ(STRA(2),*) TYPERR   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
@@ -158,6 +158,20 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
             CALL MULTP2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
      >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
           ENDIF
+
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',
+     >    /,A,I0,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
+     >    '   Error # ',IRR,' MULTIPOL keyword : ', 
+     >    '         IPOL : ',IPOL,
+     >    '       TYPERR : ',TYPERR,
+     >    '        TYPAR : ',TYPAR,
+     >    '       TYPDIS : ',TYPDIS,
+     >    '       ERRCEN : ',ERRCEN,
+     >    '       ERRSIG : ',ERRSIG,
+     >    '       ERRCUT : ',ERRCUT,
+     >    '         LBL1 : ',LBL1,
+     >    '         LBL2 : ',LBL2
+
         ELSEIF(KLERR.EQ.'TOSCA') THEN
           IF(NINT(A(NOEL,4) ) .EQ. 1) THEN
 C Will save error list in zgoubi.ERRORS.out
@@ -174,13 +188,13 @@ C Will save error list in zgoubi.ERRORS.out
      >                             IS2)
             OK = STRCON(TXT132(IS:IS2),',',
      >                                     IS3)
-            IF(IS+1.LT.IS2-1) THEN
+            IF(IS+1.LE.IS2-1) THEN
               IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
      >             READ(TXT132(IS+1:IS2-1),*) LBL1
             ENDIF
             IF(OK) THEN
               IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
-     >          READ(TXT132(2:IS2+1),*) LBL2
+     >          READ(TXT132(IS3+1:IS2-1),*) LBL2
             ENDIF
             TXT132 = TXT132(IS2+1:FINSTR(TXT132))
           ENDIF
@@ -188,8 +202,6 @@ C          Get the rest of the arguments
           TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
           CALL STRGET(TXT132,99,
      >                          NSTR,STRA)
-C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
-
           READ(STRA(1),*) IPOL     ! Pole to which the error applies (1-10)
           READ(STRA(2),*) TYPERR   ! Error type : BP (B_pole), XR,YR,ZR,XS,YS.ZS
           READ(STRA(3),*) TYPAR    ! Relative or absolute : R, A
@@ -203,20 +215,21 @@ C          write(*,fmt='(20a)') ' sbr errors ',(stra(ii),ii=1,nstr)
             CALL TOSCA2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
      >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
           ENDIF
-        ENDIF
 
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',/,
-     >  A,I3,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
-     >  '   Error # ',IRR,' : ', 
-     >  '         IPOL : ',IPOL,
-     >  '       TYPERR : ',TYPERR,
-     >  '        TYPAR : ',TYPAR,
-     >  '       TYPDIS : ',TYPDIS,
-     >  '       ERRCEN : ',ERRCEN,
-     >  '       ERRSIG : ',ERRSIG,
-     >  '       ERRCUT : ',ERRCUT,
-     >  '         LBL1 : ',LBL1,
-     >  '         LBL2 : ',LBL2
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',
+     >    /,A,I0,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
+     >    '   Error # ',IRR,' TOSCA keyword : ', 
+     >    '         IPOL : ',IPOL,
+     >    '       TYPERR : ',TYPERR,
+     >    '        TYPAR : ',TYPAR,
+     >    '       TYPDIS : ',TYPDIS,
+     >    '       ERRCEN : ',ERRCEN,
+     >    '       ERRSIG : ',ERRSIG,
+     >    '       ERRCUT : ',ERRCUT,
+     >    '         LBL1 : ',LBL1,
+     >    '         LBL2 : ',LBL2
+
+        ENDIF
  
       ENDDO
 

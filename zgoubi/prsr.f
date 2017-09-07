@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE PRSR(lnsr)
+      SUBROUTINE PRSR(LNSR)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C      INCLUDE "C.CDF.H"       ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -30,6 +30,10 @@ C      INCLUDE "C.CDF.H"       ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     1,AMS ,AMP,ENSTAR,BSTAR,TDVM,TETPHI(2,MXT)
+      PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE 'MXLD.H'
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "MAXCOO.H"
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       LOGICAL AMQLU(5),PABSLU
@@ -55,6 +59,9 @@ C      DIMENSION SIG(4,4)
       CHARACTER(KSIZ) KLE
       SAVE DEAV,PHEAV,PHERMS
 
+      CHARACTER(LBLSIZ) TLBL1, TLBL2
+      LOGICAL EMPTY
+
       DATA TXT / '(Y,T)', '(Z,P)', '(t,K)' /
       DATA UU / '(cm,rd)', '(cm,rd)', '(mu_s,MeV)' /
       DATA DE, SIGE2 / 0.d0, 0.d0 / 
@@ -78,15 +85,20 @@ Compute number of particles alive and numberinside ellipse
      >             KLE)
       TEMP = EMIT(3)/PI * (1.D0+ALP(3)**2)/BET(3)
 
+      TLBL1=LABEL(NOEL,1)
+      IF(EMPTY(TLBL1)) TLBL1 = 'none'
+      TLBL2=LABEL(NOEL,2)
+      IF(EMPTY(TLBL2)) TLBL2 = 'none'
+
       WRITE(LNSR,FMT='(1P,
-     >A,2(1X,I6),5(1X,E14.6),1X,I6,
+     >3(1X,A),2(1X,I6),5(1X,E14.6),1X,I6,
      >5(1X,E14.6),2(1X,I6),1X,E14.6,
      >5(1X,E14.6),2(1X,I6),1X,E14.6,
      >5(1X,E14.6),2(1X,I6),1X,E14.6,
      >1X,E14.6,
      >5(1X,E14.6)
      >)') 
-     >KLE,NOEL,IPASS,BORO,DPREF,AM,Q,G,IMAX,
+     >KLE,TLBL1,TLBL2,NOEL,IPASS,BORO,DPREF,AM,Q,G,IMAX,
 C Beam properties
      >PI*EMIT(1),ALP(1),BET(1),XM(1),XPM(1),NLIV(1),NINL(1),RATIN(1),
      >PI*EMIT(2),ALP(2),BET(2),XM(2),XPM(2),NLIV(2),NINL(2),RATIN(2),

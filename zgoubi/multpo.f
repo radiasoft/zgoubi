@@ -99,7 +99,7 @@ C Field or alignment defects
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
       SAVE DEVO
-      
+
       DATA DIM / 'kG ', 'V/m'/
       DATA BE / 'B-', 'E-'/
       DATA CASPI / .TRUE. /
@@ -176,13 +176,6 @@ C--------- ... or magnetic part of EBMULT
             IF(BM(IM).NE.0.D0) GAP = RO/IM
           ENDIF
         ENDDO
-
-C------- If SR-loss switched on by procedure SRLOSS
-        IF(KSYN.GE.1) THEN
-          IF(KFL .EQ. MG) THEN
-            IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),XL)
-          ENDIF
-        ENDIF
 
         IA = IA + 1
         XE =A(NOEL,IA)
@@ -266,7 +259,7 @@ C----- Case erron (ERRORS)
 
           OK =  OK .AND. 
      >    ( (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
-     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
      >    )
 
           IF(OK) THEN
@@ -280,78 +273,72 @@ C----- Case erron (ERRORS)
             IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
 
 C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-            CALL MULERR(NOEL,IRR,MXTA,BM, 
-     >      KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
+              CALL MULERR(NOEL,IRR,MXTA,BM, 
+     >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
 
-            IF(PRNT .AND. OKOPN) THEN
-              CALL ZGKLE(IQ(NOEL), 
-     >                            KLEY)
-              IF(EMPTY(LBL1(IRR))) THEN 
-                LBL1L = '.'
-              ELSE
-                LBL1L = LBL1(IRR)
-              ENDIF
-              IF(EMPTY(LBL2(IRR))) THEN 
-                LBL2L = '.'
-              ELSE
-                LBL2L = LBL2(IRR)
-              ENDIF
-              WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
-     >        3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
-     >        IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
-     >        TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
-     >        ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
-     >             DB(NOEL,IPOL),
-     >        (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
+              IF(PRNT .AND. OKOPN) THEN
+                CALL ZGKLE(IQ(NOEL), 
+     >                              KLEY)
+                IF(EMPTY(LBL1(IRR))) THEN 
+                  LBL1L = '.'
+                ELSE
+                  LBL1L = LBL1(IRR)
+                ENDIF
+                IF(EMPTY(LBL2(IRR))) THEN 
+                  LBL2L = '.'
+                ELSE
+                  LBL2L = LBL2(IRR)
+                ENDIF
+                WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
+     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
+     >          IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
+     >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
+     >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
+     >               DB(NOEL,IPOL),
+     >          (DPOS(NOEL,IPOL,JJ),JJ=1,3),(TILT(NOEL,IPOL,JJ),JJ=1,3),
      >           KLEY,LBL1L,LBL2L
-            ENDIF
+              ENDIF
 
-            IF(KUASEX .LE. MPOL) THEN
-              BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
-            ELSEIF(KUASEX .EQ. MPOL+1) THEN
-              DO IM=1,MPOL
-                IF(KPOL(IRR,IM).EQ.1) THEN
-                  BM(IM) = BM(IM) + DB(NOEL,IM)
-                  RT(IM) = RT(IM) + TILT(NOEL,IM,1)   ! poles only roll.  tilt_3=ZR goes to ALE in chxc.
-                ENDIF
-              ENDDO
-            ELSE
-              CALL ENDJOB
-     >        ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
-            ENDIF      
+              IF(KUASEX .LE. MPOL) THEN
+                BM(KUASEX) = BM(KUASEX) + DB(NOEL,KUASEX)
+              ELSEIF(KUASEX .EQ. MPOL+1) THEN
+                DO IM=1,MPOL
+                  IF(KPOL(IRR,IM).EQ.1) THEN
+                    BM(IM) = BM(IM) + DB(NOEL,IM)
+                    RT(IM) = RT(IM) + TILT(NOEL,IM,1)   ! poles only roll.  tilt_3=ZR goes to ALE in chxc.
 
-C            ENDIF      
+                  ENDIF
+                ENDDO
 
-            IF(KUASEX .LE. MPOL) THEN
-              A(NOEL,12) = BM(KUASEX) / SCAL
-            ELSEIF(KUASEX .EQ. MPOL+1) THEN
-              DO IM=1,MPOL
-                IF(KPOL(IRR,IM).EQ.1) THEN
-                  IA = IM + 3
-                  A(NOEL,IA) = BM(IM) / SCAL
-                ENDIF
-              ENDDO
-              IA = IA1
-              SKEW=.FALSE.
-              DO IM=1,MPOL
-                IA = IA + 1
-                A(NOEL,IA) = RT(IM)
-                SKEW=SKEW .OR. RT(IM) .NE. ZERO
-              ENDDO
-            ENDIF      
+              ELSE
+                CALL ENDJOB
+     >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
+              ENDIF      
+
+              IF(KUASEX .LE. MPOL) THEN
+                A(NOEL,12) = BM(KUASEX) / SCAL
+              ELSEIF(KUASEX .EQ. MPOL+1) THEN
+                DO IM=1,MPOL
+                  IF(KPOL(IRR,IM).EQ.1) THEN
+                    IA = IM + 3
+                    A(NOEL,IA) = BM(IM) / SCAL
+                  ENDIF
+                ENDDO
+                IA = IA1
+                SKEW=.FALSE.
+                DO IM=1,MPOL
+                  IA = IA + 1
+                  A(NOEL,IA) = RT(IM)
+                  SKEW=SKEW .OR. RT(IM) .NE. ZERO
+                ENDDO
+              ENDIF      
 
             ENDIF  ! .NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99
 
           ENDIF     ! OK
         ENDDO   ! IRR
       ENDIF   ! ERRON
-
-CC----- MULTIPOLE
-C      DO IM = NM0+1,NM
-C        DLE(IM)  = DLE(NM0)*DLE(IM)
-C        DLS(IM)  = DLS(NM0)*DLS(IM)
-C      ENDDO
 
       SXL = XL
 
@@ -742,6 +729,13 @@ C      ENDIF
       ENDIF
 
       DEVO = DEV
+
+C----- If SR-loss switched on by procedure SRLOSS
+      IF(KSYN.GE.1) THEN
+        IF(KFL .EQ. MG) THEN
+          IF(BM(1).NE.0.D0) CALL SYNPAR(BM(1),RT(1),XL)
+        ENDIF
+      ENDIF
 
       IF(IER.NE.0) GOTO 99
       

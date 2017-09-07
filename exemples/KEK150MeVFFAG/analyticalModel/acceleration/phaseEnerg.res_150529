@@ -17,7 +17,7 @@ CAVITE
 1
 #E
  'FAISTORE'                                                                                                   5
-b_zgoubi.fai  AftCAV
+zgoubi.fai  AftCAV
 1
  'FFAG'                                                                                                       6
 0
@@ -521,7 +521,7 @@ b_zgoubi.fai  AftCAV
       5  Keyword, label(s) :  FAISTORE                          
 
 
-                OPEN FILE b_zgoubi.fai                                                                    
+                OPEN FILE zgoubi.fai                                                                    
                 FOR PRINTING COORDINATES 
 
                Print will occur at element[s] labeled : 
