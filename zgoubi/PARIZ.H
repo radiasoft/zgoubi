@@ -188,8 +188,8 @@ c       PARAMETER (MXX=447, MXY=87)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
-c       PARAMETER (IZ=31 , ID=3, MMAP=2)
-c       PARAMETER (MXX=801, MXY=79)
+       PARAMETER (IZ=31 , ID=3, MMAP=2)
+       PARAMETER (MXX=801, MXY=79)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
@@ -198,8 +198,8 @@ c       PARAMETER (MXX=1201, MXY=83)
 C       PARAMETER (MXX=1201, MXY=81)
 C       PARAMETER (MXX=1201, MXY=111)    ! compatible cbeta
 c       PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
-       PARAMETER (IZ=81 , ID=3, MMAP=4)
-       PARAMETER (MXX=361, MXY=81)
+c       PARAMETER (IZ=81 , ID=3, MMAP=4)
+c       PARAMETER (MXX=361, MXY=81)
 c       PARAMETER (IZ=81 , ID=3, MMAP=4)
 C       PARAMETER (MXX=361, MXY=81)
  
