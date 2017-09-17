@@ -1003,6 +1003,9 @@ C---------- Electric & Magnetic
 C             Calculate ALE as half deviation. 
           IF(A(NOEL,ND+NND+3).EQ.0.D0) 
      >                           A(NOEL,ND+NND+3)=-DEV/2.D0
+
+          IF(A(NOEL,ND+NND+1) .NE. 0.D0) CALL ENDJOB('Pgm chxc. '//
+     >    'X-shift has to be installeded. ',7)
 C Modified, FM, Feb. 05 :
 C           Calculate XCE, YCE for entrance change of referential    
           YSHFT = A(NOEL,ND+NND+2)
@@ -1018,7 +1021,7 @@ c Test, Dec. 06 :
 
           TTA = -DEV/2.D0 
           DTTA = A(NOEL,ND+NND+3)
-          DTTA2 = DTTA/2.D0
+C          DTTA2 = DTTA/2.D0
           IF(KUASEX.EQ.37) THEN
             CALL AGSK13(NINT(A(NOEL,1)),NOEL,
      >                                    YSHFT1)  ! Case of AGS Main Magnet
@@ -1027,16 +1030,25 @@ c Test, Dec. 06 :
           ENDIF
 
           YSHFT = A(NOEL,ND+NND+2) + YSHFT1
-          XCE = - YSHFT * SIN(TTA) - xl* sin(dtta2) * sin(tta+dtta2)
-          YCE =   YSHFT * COS(TTA) + xl* sin(dtta2) * cos(tta+dtta2)
+CCC FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
+cccc          XCE = - YSHFT * SIN(TTA) - XL* SIN(DTTA2) * SIN(TTA+DTTA2)
+cccc          YCE =   YSHFT * COS(TTA) + XL* SIN(DTTA2) * COS(TTA+DTTA2)
+          XCE = - YSHFT * SIN(TTA) + XL/2.D0 * (1.D0 -COS(DTTA))
+          YCE =   YSHFT * COS(TTA) - XL/2.D0 * SIN(DTTA)
+
+          IF(A(NOEL,ND+NND+1) .NE. 0.D0) CALL ENDJOB('Pgm chxc. '//
+     >    'X-shift has to be installeded. ',7)
+
 C Z-shift
           ZSHFT = A(NOEL,ND+NND+4)
-C Y-rotation
+C Y-rotation PHE
           PHE = A(NOEL,ND+NND+5)
           XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
           ZCE = 0.5D0*XL * SIN(PHE) 
+          IF(PHE .NE. 0.D0) CALL ENDJOB('Pgm chxc. '//
+     >    'Y-rotation has to be benchmarked. ',7)
 
-          CALL QUASE2(dtta,zce,PHE)    
+          CALL QUASE2(YSHFT,DTTA,ZCE,PHE)    
 
           ALE  = A(NOEL,ND+NND+3) + TTA
 
@@ -1057,47 +1069,6 @@ C Y-rotation
           QSHROE(7) = 'YR'
           VSHROE(7) = PHE
           VSHROE(MSR) = 7
-C          Vshroe(MSR) = 6
-
-          GOTO 93
-
-        ELSEIF( KP .EQ. 5 ) THEN  
-
-C X-shift
-          XSHFT = A(NOEL,ND+NND+1)
-C Y-shift
-          YSHFT = A(NOEL,ND+NND+2)
-C Z-shift
-          ZSHFT = A(NOEL,ND+NND+3)
-C X-rotation
-          PHE = A(NOEL,ND+NND+5)
-C Y-rotation
-          PHE = A(NOEL,ND+NND+5)
-          XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
-          ZCE = 0.5D0*XL * SIN(PHE) 
-
-          CALL QUASE2(dtta,zce,PHE)    
-
-          ALE  = A(NOEL,ND+NND+3) + TTA
-
-          QSHROE(1) = 'XS'
-          VSHROE(1) = XCE
-          QSHROE(2) = 'YS'
-          VSHROE(2) = YCE
-          QSHROE(3) = 'ZR'
-          VSHROE(3) = ALE
-C Z-shift
-          QSHROE(4) = 'ZS'
-          VSHROE(4) = ZSHFT
-C Y-rotation 
-          QSHROE(5) = 'XS'
-          VSHROE(5) = XCEB
-          QSHROE(6) = 'ZS'
-          VSHROE(6) = ZCE
-          QSHROE(7) = 'YR'
-          VSHROE(7) = PHE
-          VSHROE(MSR) = 7
-C          Vshroe(MSR) = 6
 
           GOTO 93
 
@@ -1216,7 +1187,7 @@ C Y-rotation
           XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
           ZCE = 0.5D0*XL * SIN(PHE) 
 
-          CALL QUASE2(dtta,zce,PHE)    
+          CALL QUASE2(YSHFT,DTTA,ZCE,PHE)    
 
           ALE  = A(NOEL,ND+NND+3) + TTA
 

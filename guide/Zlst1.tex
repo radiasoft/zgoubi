@@ -9588,7 +9588,7 @@ axis, convenient for periodic structures, as follows (Fig~\ref{figKPOS3}).
 %  \textsl{CHANGREF(0,YCE,0)} right upstream the magnet, followed  by 
 %\textsl{CHANGREF(0,-YCE,-$\theta$/2)}.
 
-\noindent Next, the optical element is  Y-shifted by \textsl{YCE} (\textsl{XCE} is not used) in a 
+\noindent Next, the optical element is  Y-shifted by $\delta Y= \YCE$ (\textsl{XCE} is not used) in a 
 direction orthogonal to the new magnet axis (\emph{i.e.}, at an angle $ALE+\pi/2$ \wrt\ the $X$ axis of the incoming 
 reference frame).
 
@@ -9622,7 +9622,7 @@ Right~: Mis-aligning  an optical element using  \textsl{KPOS}$=2 $.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[height=5cm]{FigKPOS3.eps}
+\includegraphics[height=7cm]{FigKPOS3.eps}
 
 \hangcaption{\label{figKPOS3} 
 Case of Cartesian frame optical element. 
@@ -9641,58 +9641,77 @@ Alignment of a  bend by half the deviation, using  \textsl{KPOS}$=3 $.
 \end{center}
 \end{figure}
 
-\noindent \textsl{KPOS} $=4 $ applies to a limited number of optical elements, as 
-\textsl{AGSMM} (AGS main magnet). \index{AGSMM} 
+\medskip
+
+\noindent \textsl{KPOS} $=4 $ applies to 
+\textsl{AGSMM} (AGS main magnet) and \textsl{MULTIPOL}. \index{AGSMM} 
 By default, it aligns the magnet in a way similar 
 to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
-2 \dfrac{\BORO}{B1} \sin({\theta_Z}/{2})$. However magnet mis-alignment (alignment errors) are handled in a 
-specific way, as follows. 
+2 \dfrac{\BORO}{B1} \sin({\theta_Z}/{2})$. 
+
+\noindent However additional magnet mis-alignments (alignment errors) are available (Fig.~\ref{figYZmisal})~:
+ Z-rotation $\theta_Z$, 
+ Z-shift  $\delta Z$, 
+ Y-rotation $\theta_Y$. Rotations apply at the center of the magnet. 
 
 
+%\noindent All 6 types of misalignments, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation, can be accounted for, in an arbitrary order. 
+%They are specified using the ``new style'' \textsl{CHANGREF} method as described in page~\pageref{CHANGREFNew}. 
+%Longitudinal rotation ``XR'' is taken \wrt\ the longitudinal axis, whereas radial and axial rotations, ``YR'' and ``ZR'', 
+% are  with respect to an axis going through the center of the magnet. 
+% Transformations are as follows, see Fig.~\ref{figPitch}~: 
+%\begin{figure}[h]
+
+%%\medskip
+%%
+%%\noindent {\small $\bullet$} Y-rotation (pitch) by an angle $\varphi$~:  new coordinates (at $M$) as well as path 
+%%lengthening, etc, derive  from old ones (at $M_0$) following\\
+%%$X_{new} = 0$ by definition, \\
+%%$Y_{new} = Y_{old} + dS \cos P \sin T$, $dS$ is the path lengthening, given below, \\
+%%$Z_{new} = Z_{old} \cos p/\cos (p-\varphi)$, ensuing from $\varphi = \dfrac{\pi}{2} - p $, and $\tan p = \tan P / \cos T$ (since
+%%$om\, \cos p= OM\cos P \cos T $ as well as $om\, \sin p= OM \sin P$), \\
+%%$dS = dL/\cos P / \cos T$ with $d L = sign(dL, -Z_{new} \varphi) \sqrt{Z_{new}^2 \sin^2 \varphi+(Z_{new} \cos \varphi -Z_{old})^2}$. 
+%%
+%%\noindent {\small $\bullet$} etc.
+
+%\vspace{5ex}
+
+%\begin{center}
+%\includegraphics[height=9cm]{FigPitch.eps}
+%\hangcaption{\label{figPitch}Pitch angle, $\varphi$, in the``YR'' type of rotation, using \textsl{KPOS}$=4 $. 
+%$M$ is the new position, in the rotated plane $(Y,Z_{new})$, of a particle with velocity $\vec v // \vec{M_oM}$ located  
+%at former position $M_o$ in the old, $(Y,Z_{old})$, plane. $M'$, $m$, $m'$ are projections of $M$, $m''$ is projection of $M'$. 
+%$T$ and $P$ are the  horizontal and vertical angles as defined in Fig.~\ref{fig1}. 
+%$p$ is the projection of $P$. 
+%}
+%%\end{center}
+%%\end{figure}
+%%
+%%\begin{figure}[h]
+%%\begin{center}
+
+%\vspace{10ex}
+
+%\includegraphics[height=6cm]{Fig35.eps}
+%\hangcaption{\label{fig35}Positioning of a polar field map, using \textsl{KPOS}$=1 $.}
+%\end{center}
+
+%\vfill
+%\end{figure}
 
 \begin{figure}[h]
+\centering
 
-\noindent All 6 types of misalignments, namely, X-, Y-, Z-shift, X-, Y-, Z-rotation, can be accounted for, in an arbitrary order. 
-They are specified using the ``new style'' \textsl{CHANGREF} method as described in page~\pageref{CHANGREFNew}. 
-Longitudinal rotation ``XR'' is taken \wrt\ the longitudinal axis, whereas radial and axial rotations, ``YR'' and ``ZR'', 
- are  with respect to an axis going through the center of the magnet. 
-% Transformations are as follows, see Fig.~\ref{figPitch}~: 
+%\vspace{10ex}
 
-%\medskip
-%
-%\noindent {\small $\bullet$} Y-rotation (pitch) by an angle $\varphi$~:  new coordinates (at $M$) as well as path 
-%lengthening, etc, derive  from old ones (at $M_0$) following\\
-%$X_{new} = 0$ by definition, \\
-%$Y_{new} = Y_{old} + dS \cos P \sin T$, $dS$ is the path lengthening, given below, \\
-%$Z_{new} = Z_{old} \cos p/\cos (p-\varphi)$, ensuing from $\varphi = \dfrac{\pi}{2} - p $, and $\tan p = \tan P / \cos T$ (since
-%$om\, \cos p= OM\cos P \cos T $ as well as $om\, \sin p= OM \sin P$), \\
-%$dS = dL/\cos P / \cos T$ with $d L = sign(dL, -Z_{new} \varphi) \sqrt{Z_{new}^2 \sin^2 \varphi+(Z_{new} \cos \varphi -Z_{old})^2}$. 
-%
-%\noindent {\small $\bullet$} etc.
+\includegraphics[height=7cm]{FigKPOS4A.eps}
 
-\vspace{5ex}
+\includegraphics[height=4.5cm]{FigKPOS4B.eps}
 
-\begin{center}
-\includegraphics[height=9cm]{FigPitch.eps}
-\hangcaption{\label{figPitch}Pitch angle, $\varphi$, in the``YR'' type of rotation, using \textsl{KPOS}$=4 $. 
-$M$ is the new position, in the rotated plane $(Y,Z_{new})$, of a particle with velocity $\vec v // \vec{M_oM}$ located  
-at former position $M_o$ in the old, $(Y,Z_{old})$, plane. $M'$, $m$, $m'$ are projections of $M$, $m''$ is projection of $M'$. 
-$T$ and $P$ are the  horizontal and vertical angles as defined in Fig.~\ref{fig1}. 
-$p$ is the projection of $P$. 
+\hangcaption{\label{figYZmisal}
+Additional magnet mis-alignement with \textsl{KPOS=4}.
 }
-%\end{center}
-%\end{figure}
-%
-%\begin{figure}[h]
-%\begin{center}
 
-\vspace{10ex}
-
-\includegraphics[height=6cm]{Fig35.eps}
-\hangcaption{\label{fig35}Positioning of a polar field map, using \textsl{KPOS}$=1 $.}
-\end{center}
-
-\vfill
 \end{figure}
 
 

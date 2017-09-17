@@ -49,7 +49,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
       LOGICAL MIRROR, LDUM
 
       PARAMETER(I0=0, ZERO=0.D0)
-      SAVE DTTA, ZCE, PHI
+      SAVE YSHFT, DTTA, ZCE, PHI
 
       PARAMETER (MSR=8)
       CHARACTER(2) QSHROE(MSR),QSHROS(MSR)
@@ -179,22 +179,25 @@ C        YCE = 0.D0
         VSHROS(MSR) = 3
 
       ELSEIF(KP .EQ. 4)  THEN
-C------- Implemented for AGSMM. 
-C        ALE is a delta wrt. DEV/2 
+C------- Implemented for AGSMM. Also implemented in MULTPO. That's in quasex.f
+C        ALE includes a delta=dtta wrt. TTA=DEV/2 
         TTA = ALE - DTTA
         ALS = TTA - DTTA
         DTTA2 = DTTA / 2.D0
-        XCS = -XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
-        YCS = -YCE/COS(ALE) - XL * SIN(DTTA) * COS(DTTA2 + TTA)
- 
+CCC FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
+C See /home/meot/zgoubi/struct/KEYWORDS/MULTIPOL/KPOS4/equivalence_KPOS4-CHANGREF_using:YCE.ALE.ZCE_B0zero.dat
+cccc        XCS =               - XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
+cccc        YCS = -YCE/COS(ALE) - XL * SIN(DTTA)  * COS(DTTA2 + TTA) 
+        XCS =               - XL/2.D0 * (1.D0 -COS(-DTTA))
+        YCS =               + XL/2.D0 * SIN(-DTTA)
+        YCS2 = -YSHFT /COS(TTA)
 C ZCE
         ZCSB = -VSHROE(4)
-C PHE
+C Y-rotation PHE
         IF(VSHROE(6).NE.0.D0) THEN
           XCSB = VSHROE(5) 
           ZCSB = -VSHROE(6)
         ENDIF
-
 C X-ROT (YAW)
 C        QSHROS(1) = 'YR'
 c        VSHROS(1) = Vshroe(7) 
@@ -206,54 +209,22 @@ C Z-SHIFT
         QSHROS(3) = 'ZS'
         VSHROS(3) = -VSHROE(4)
 C Z-ROT (PITCH)
-        QSHROS(4) = 'YS'
-        VSHROS(4) = YCS
-        QSHROS(5) = 'ZR'
-        VSHROS(5) = ALS
-C        VSHROS(MSR) = 6
-        VSHROS(MSR) = 5
-
-      ELSEIF(KP .EQ. 5)  THEN
-C X-, Y-, Z-translation, followed by 
-C X-, Y-, Z-rotation wrt center of optical element at X=XL/2 
-
-        KSR = 1
-        DO WHILE (KSR .LT. NSR)
-
-
-
-          KSR = KSR+1
-        ENDDO
-
-
-        XLM = XS-XE
-        XTEMP=XCE
-        YTEMP=YCE
-
-        IF(PAS.LE.0.D0) CALL ENDJOB('Pgm quasex. Negative integration '
-     >  //'step not supported with KPOS = ',5)
-
-        XCS=-XTEMP
-        YCS=-YTEMP
-
-        QSHROE(1) = 'XS'
-        VSHROE(1) = XCE
-        QSHROE(2) = 'YS'
-        VSHROE(2) = YCE
-        QSHROE(3) = 'ZS'
-        VSHROE(3) = ALE
-        QSHROE(3) = 'ZS'
-        VSHROE(3) = ZCE
-        VSHROE(MSR) = 4
-        QSHROS(1) = 'XS'
-        VSHROS(1) = XCS
-        QSHROS(2) = 'YS'
-        VSHROS(2) = YCS
-        QSHROS(3) = 'ZR'
-        VSHROS(3) = ALS
-        VSHROS(MSR) = 3
+        QSHROS(4) = 'XS'
+        VSHROS(4) =  XCS
+        QSHROS(5) = 'YS'
+        VSHROS(5) =  YCS
+        QSHROS(6) = 'ZR'
+        VSHROS(6) = ALS
+        QSHROS(7) = 'YS'
+        VSHROS(7) =  YCS2
+        VSHROS(MSR) = 7
 
       ENDIF
+
+      IF(VSHROE(MSR) .GE. 8) CALL ENDJOB('Pgm quasex. '//
+     >'Too many entrance transforms. Max allowed is ',7)
+      IF(VSHROS(MSR) .GE. 8) CALL ENDJOB('Pgm quasex. '//
+     >'Too many exit transforms. Max allowed is ',7)
 
       IF(PAS.LE.0.D0) THEN
         TEMP=XI
@@ -291,7 +262,8 @@ C----- Unset coded step
 
       RETURN
 
-      ENTRY QUASE2(DTTAI,ZCEI,PHII)
+      ENTRY QUASE2(YSHFI,DTTAI,ZCEI,PHII)
+      YSHFT = YSHFI
       DTTA = DTTAI
       ZCE = ZCEI
       PHI = PHII

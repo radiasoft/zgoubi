@@ -101,8 +101,8 @@ $ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
 \textbf{If KPOS = 4}     \> \>\>\\
- \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Z-rotation
-           \>4, 2*cm, rad \>I, 5*E \\
+ \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Y-rotation
+           \>4, cm, 2*(cm, rad) \>I, 5*E \\
 \> Automatic ALE positioning as \textsl{KPOS} = 3, and in addition    \> \> \\ 
 \>  possible X- or Y- or Z-misalignment or Z-, Y-rotation.  \> \> \\ 
 \>  (under development).  \> \> \\ 
@@ -1030,6 +1030,11 @@ $YC$ stands for the reference radius (normally, $YC  \simeq RM$).}
 
 \begin{tabbing}
 \mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more  \= 2*cm, 2*deg, cm   \= \kill
+%%%%%
 \textbf{CHANGREF}  \label{CHANGREF-B} \index{CHANGREF|textbf}      \> \textbf{\CHANGREFTitl}\\
  \\
  \textbf{``Old Style''} (Figure below)~:   \\
@@ -3317,8 +3322,8 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
 \textbf{If KPOS = 4}     \> \>\>\\
- \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Z-rotation
-           \>4, 2*cm, rad \>I, 5*E \\
+ \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Y-rotation
+           \>4, cm, 2*(cm, rad) \>I, 5*E \\
 \> Automatic ALE positioning as \textsl{KPOS} = 3, and in addition    \> \> \\ 
 \>  possible X- or Y- or Z-misalignment or Z-, Y-rotation.  \> \> \\ 
 \> (under development).  \> \> \\ 
