@@ -37,6 +37,7 @@ C      PARAMETER (MXTA=45)
       LOGICAL STRCON
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
+      LOGICAL ISNUM
 
       LINE = 1
       READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132
@@ -44,9 +45,12 @@ C      PARAMETER (MXTA=45)
      >                     IS)) TXT132 = TXT132(1:IS-1)
       CALL STRGET(TXT132,2,
      >                     NSTR,STRA)
-      DO I = 1, NSTR                         ! KSR, KSOK
-        READ(STRA(I),*,ERR=90,END=90) A(NOEL,I)
-      ENDDO
+      READ(STRA(1),*,ERR=90,END=90) A(NOEL,1)    ! KSR[.i]
+      IF(NSTR .GE. 2) THEN                       ! KSOK
+        DO I = 2, NSTR  
+          IF(ISNUM(STRA(I))) READ(STRA(I),*,ERR=90,END=90) A(NOEL,I)
+        ENDDO
+      ENDIF
 
       LINE = LINE + 1
       READ(NDAT,FMT='(A80)',ERR=90,END=90) TXT132

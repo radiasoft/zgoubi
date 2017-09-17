@@ -213,6 +213,46 @@ C Z-ROT (PITCH)
 C        VSHROS(MSR) = 6
         VSHROS(MSR) = 5
 
+      ELSEIF(KP .EQ. 5)  THEN
+C X-, Y-, Z-translation, followed by 
+C X-, Y-, Z-rotation wrt center of optical element at X=XL/2 
+
+        KSR = 1
+        DO WHILE (KSR .LT. NSR)
+
+
+
+          KSR = KSR+1
+        ENDDO
+
+
+        XLM = XS-XE
+        XTEMP=XCE
+        YTEMP=YCE
+
+        IF(PAS.LE.0.D0) CALL ENDJOB('Pgm quasex. Negative integration '
+     >  //'step not supported with KPOS = ',5)
+
+        XCS=-XTEMP
+        YCS=-YTEMP
+
+        QSHROE(1) = 'XS'
+        VSHROE(1) = XCE
+        QSHROE(2) = 'YS'
+        VSHROE(2) = YCE
+        QSHROE(3) = 'ZS'
+        VSHROE(3) = ALE
+        QSHROE(3) = 'ZS'
+        VSHROE(3) = ZCE
+        VSHROE(MSR) = 4
+        QSHROS(1) = 'XS'
+        VSHROS(1) = XCS
+        QSHROS(2) = 'YS'
+        VSHROS(2) = YCS
+        QSHROS(3) = 'ZR'
+        VSHROS(3) = ALS
+        VSHROS(MSR) = 3
+
       ENDIF
 
       IF(PAS.LE.0.D0) THEN

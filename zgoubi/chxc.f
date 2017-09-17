@@ -122,7 +122,6 @@ C      PARAMETER (MXAA2=24+MXC-1)
      > 'MULTIPOLE ', 8*' ', 'SOLENOID ', 'WIENFILTER', '2-ELC LENS' /
       DATA KTOR /  'CLAMPEES', 'PARALLELES' /
       DATA DTA1 / 0.D0 /
-C      DATA FMTYP / ' regular' / 
       DATA LUN / 0 / 
       DATA FLIP / .FALSE. / 
       DATA BMIN,BMAX,
@@ -173,10 +172,6 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
-
-c              write(*,*) 'chxc  ',kscl, scal
-c              write(*,*) ' '
-
 
       XE = 0.D0
       XS = 0.D0
@@ -436,8 +431,8 @@ C Steps back because this is settled after the endif...
 
           KP = NINT(A(NOEL,ND+NND))   
           IF( KP .EQ. 3 ) THEN
-            CALL ENDJOB('Pgm chxc. KPOS=3 not supported. '//
-     >      'To be provisioned.',-99)
+            CALL ENDJOB('Pgm chxc. KPOS=3 not supported with field map.'
+     >      //' To be implemented.',-99)
 
             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
      >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
@@ -1005,10 +1000,6 @@ C---------- Electric & Magnetic
         ENDIF
         KP = NINT(A(NOEL,ND+NND))
         IF( KP .EQ. 3 ) THEN
-CC           Stop if XCE .ne. 0. To be provisionned...
-C     > A(NOEL,ND+NND),A(NOEL,ND+NND+1),A(NOEL,ND+NND+2),A(NOEL,ND+NND+3)  
-C             IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
-C     >                   STOP ' KPOS=3 does not support XCE.ne.0'
 C             Calculate ALE as half deviation. 
           IF(A(NOEL,ND+NND+3).EQ.0.D0) 
      >                           A(NOEL,ND+NND+3)=-DEV/2.D0
@@ -1023,13 +1014,17 @@ c Test, Dec. 06 :
 
           GOTO 92
 
-        ELSEIF( KP .EQ. 4 ) THEN  ! Only for AGS Main Magnet
+        ELSEIF( KP .EQ. 4 ) THEN  
 
           TTA = -DEV/2.D0 
           DTTA = A(NOEL,ND+NND+3)
           DTTA2 = DTTA/2.D0
-          CALL AGSK13(NINT(A(NOEL,1)),NOEL,
-     >                                    YSHFT1)
+          IF(KUASEX.EQ.37) THEN
+            CALL AGSK13(NINT(A(NOEL,1)),NOEL,
+     >                                    YSHFT1)  ! Case of AGS Main Magnet
+          ELSE
+            YSHFT1 = 0.D0
+          ENDIF
 
           YSHFT = A(NOEL,ND+NND+2) + YSHFT1
           XCE = - YSHFT * SIN(TTA) - xl* sin(dtta2) * sin(tta+dtta2)
@@ -1045,23 +1040,63 @@ C Y-rotation
 
           ALE  = A(NOEL,ND+NND+3) + TTA
 
-          qshroe(1) = 'XS'
-          Vshroe(1) = XCE
-          qshroe(2) = 'YS'
-          Vshroe(2) = YCE
-          qshroe(3) = 'ZR'
-          Vshroe(3) = ALE
+          QSHROE(1) = 'XS'
+          VSHROE(1) = XCE
+          QSHROE(2) = 'YS'
+          VSHROE(2) = YCE
+          QSHROE(3) = 'ZR'
+          VSHROE(3) = ALE
 C Z-shift
-          qshroe(4) = 'ZS'
-          Vshroe(4) = ZSHFT
+          QSHROE(4) = 'ZS'
+          VSHROE(4) = ZSHFT
 C Y-rotation 
-          qshroe(5) = 'XS'
-          Vshroe(5) = XCEB
-          qshroe(6) = 'ZS'
-          Vshroe(6) = ZCE
-          qshroe(7) = 'YR'
-          Vshroe(7) = PHE
-          Vshroe(MSR) = 7
+          QSHROE(5) = 'XS'
+          VSHROE(5) = XCEB
+          QSHROE(6) = 'ZS'
+          VSHROE(6) = ZCE
+          QSHROE(7) = 'YR'
+          VSHROE(7) = PHE
+          VSHROE(MSR) = 7
+C          Vshroe(MSR) = 6
+
+          GOTO 93
+
+        ELSEIF( KP .EQ. 5 ) THEN  
+
+C X-shift
+          XSHFT = A(NOEL,ND+NND+1)
+C Y-shift
+          YSHFT = A(NOEL,ND+NND+2)
+C Z-shift
+          ZSHFT = A(NOEL,ND+NND+3)
+C X-rotation
+          PHE = A(NOEL,ND+NND+5)
+C Y-rotation
+          PHE = A(NOEL,ND+NND+5)
+          XCEB =  - 0.5D0*XL * (1.D0 - COS(PHE))
+          ZCE = 0.5D0*XL * SIN(PHE) 
+
+          CALL QUASE2(dtta,zce,PHE)    
+
+          ALE  = A(NOEL,ND+NND+3) + TTA
+
+          QSHROE(1) = 'XS'
+          VSHROE(1) = XCE
+          QSHROE(2) = 'YS'
+          VSHROE(2) = YCE
+          QSHROE(3) = 'ZR'
+          VSHROE(3) = ALE
+C Z-shift
+          QSHROE(4) = 'ZS'
+          VSHROE(4) = ZSHFT
+C Y-rotation 
+          QSHROE(5) = 'XS'
+          VSHROE(5) = XCEB
+          QSHROE(6) = 'ZS'
+          VSHROE(6) = ZCE
+          QSHROE(7) = 'YR'
+          VSHROE(7) = PHE
+          VSHROE(MSR) = 7
 C          Vshroe(MSR) = 6
 
           GOTO 93
@@ -1278,6 +1313,11 @@ C          - warning on z-foc. if sharp edge dipole field
      >    ''  automatic positioning of element, '',/,
      >    8X,''XCE,YCE,Z-rot,ZCE,Y-rot =''
      >    ,1P,5G16.8,'' cm/cm/rad/cm/rad'' : )') KP,XCE,YCE,ALE,ZCE,PHE
+        ELSEIF( KP .EQ. 5)  THEN
+          WRITE(NRES,FMT='(/,5X,''KPOS = '',I2,'' :'',
+     >    ''  Positioning of element, '',/,
+     >    8X,''X-, Y-, Z-shift, X-, Y-, Z-rotation : ''
+     >    ,1P,6G14.6,'' 3*cm/3*rad '' : )') KP,XCE,YCE,ZCE,XRO,YRO,ZRO
         ENDIF
       ENDIF
 

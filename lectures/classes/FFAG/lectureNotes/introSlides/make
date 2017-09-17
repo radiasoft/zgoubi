@@ -1,2 +1,0 @@
-latex introSlides_FFAG.tex  ; latex introSlides_FFAG.tex ; dvips  introSlides_FFAG ; dvipdf  introSlides_FFAG
-

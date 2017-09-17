@@ -45,7 +45,7 @@ integer (I), real (E) or text string (A). For example, ``I, 3*E''
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\mestab}{
-~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+~ ~ ~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
                 \right) \right) $, more    \quad \= 2*cm, 2*deg, cm ~ ~  \= \kill
@@ -92,17 +92,21 @@ $ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 \\
  \textsl{XPAS}                 \>Integration step    \>cm \>E \\
  \\
- \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}    \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; shifts, tilt. 
-           \>1-4, 2*cm, rad \>I, 3*E \\
-% \textsl{YCE, ALE}      \>shifts, tilt (unused if \textsl{KPOS}=1). \> \> \\
-\> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
-\> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
-\> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
+\textbf{If KPOS = 1-3}     \>Positioning as follows : \>\>\\
+ \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}  
+               \> \textsl{KPOS}=1~: element aligned~; \textsl{KPOS}=2~: misaligned~; shifts, tilt~;
+               \>1-3, 2*cm, rad \>I, 3*E \\
+\> \textsl{KPOS}=3 :  effective only if $B1 \not = 0$ :  \> \> \\ 
+\> entrance and exit frames are  tilted \wrt\ the magnet by an angle  of  \> \> \\ 
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
-\> \textsl{KPOS} = 4 : same as \textsl{KPOS} = 3 however   \> \> \\ 
-\>  with possible X- or Y- or Z-misalignment or -rotation  \> \> \\ 
-\> (under development)  \> \> \\ 
+\textbf{If KPOS = 4}     \> \>\>\\
+ \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Z-rotation
+           \>4, 2*cm, rad \>I, 5*E \\
+\> Automatic ALE positioning as \textsl{KPOS} = 3, and in addition    \> \> \\ 
+\>  possible X- or Y- or Z-misalignment or Z-, Y-rotation.  \> \> \\ 
+\>  (under development).  \> \> \\ 
+%\> Translations performed first, rotations next (under development).  \> \> \\ 
 \end{tabbing}
 
 
@@ -3264,7 +3268,7 @@ Bottom~: A 2-D grid in ($ Y, Z $) space.
 
 \begin{tabbing}
 % \mestab
-$N$, $EB1$, $EB2$, $EG1$, ~ ~ \quad \=
+~ ~ ~ $N$, $EB1$, $EB2$, $EG1$, ~ ~ \quad \=
 $\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step, ~  \quad \=
              1-2, 2*cm, rad ~   \quad \= I, 6*E \quad \= \kill
 
@@ -3304,13 +3308,29 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
 \\
  \textsl{XPAS}                 \>Integration step    \>cm \>E \>  62  \\
  \\
- \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; shifts, tilt. 
-           \>1-3,  2*cm, rad \>I, 3*E  \>  63-66\\
-\> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
-\> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
-\> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
+\textbf{If KPOS = 1-3}     \>Positioning as follows : \>\>\\
+ \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}  
+               \> \textsl{KPOS}=1~: element aligned~; \textsl{KPOS}=2~: misaligned~; shifts, tilt~;
+               \>1-3, 2*cm, rad \>I, 3*E \\
+\> \textsl{KPOS}=3 :  effective only if $B1 \not = 0$ :  \> \> \\ 
+\> entrance and exit frames are  tilted \wrt\ the magnet by an angle  of  \> \> \\ 
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
+\textbf{If KPOS = 4}     \> \>\>\\
+ \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Z-rotation
+           \>4, 2*cm, rad \>I, 5*E \\
+\> Automatic ALE positioning as \textsl{KPOS} = 3, and in addition    \> \> \\ 
+\>  possible X- or Y- or Z-misalignment or Z-, Y-rotation.  \> \> \\ 
+\> (under development).  \> \> \\ 
+%\> Translations performed first, rotations next (under development).  \> \> \\ 
+% \\
+% \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}     \>\textsl{KPOS}=1 : element aligned, 2 : misaligned~; shifts, tilt. 
+%           \>1-3,  2*cm, rad \>I, 3*E  \>  63-66\\
+%\> \textsl{KPOS} = 3 : effective only if $B1 \not = 0$ :  \> \> \\ 
+%\> entrance and exit frames are shifted by \textsl{YCE} \> \> \\ 
+%\> and tilted \wrt\ the magnet by an angle  of          \> \> \\ 
+%\> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
+%\> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
 
 \end{tabbing}
 

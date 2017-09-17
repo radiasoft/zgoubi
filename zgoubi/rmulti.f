@@ -32,6 +32,10 @@ C     ------------------------
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
 
+      CHARACTER(130) TXT
+      PARAMETER (MSS=7)
+      CHARACTER(80) STRA(MSS)
+
 C-- eRHIC, skew ffag dipoles
 c          logical first
 c             data first / .true. /
@@ -80,19 +84,23 @@ C----- Rotation of multipole components
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)
 
-c           write(*,*) ' multip nd ',nd
-
-C Modif, FM, Dec. 05
-C      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+2,ND+4)
-C      A(NOEL,ND+1) = II
-      LINE = LINE + 1 
-      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+4,ND+6)
+C Modif FM - Sept 2017
+C      LINE = LINE + 1 
+C      READ(NDAT,*,END=90,ERR=90) II,(A(NOEL,I),I=ND+4,ND+6)
+C      A(NOEL,ND+3) = II 
+C KPOS=3 : XCE, YCE, ALE
+C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
+C KPOS=5 : X-, Y-, Z-shft, X-, Y-, Z-rotation
+      LINE = LINE + 1
+      READ(NDAT,FMT='(A)',ERR=90,END=90) TXT
+      CALL STRGET(TXT,MSS,
+     >                    NS,STRA) 
+      READ(STRA(1),*,ERR=90) II
       A(NOEL,ND+3) = II 
- 
-c          write(*,*) ' multip  ',ND+3,A(NOEL,ND+3), II 
-c          write(*,*) ' rfit '
-c          write(*,fmt='(1p,10(e12.4,1x))') (a(noel,i),i=1,70)  
-c                 stop
+      DO KK = 2, NS
+        READ(STRA(KK),*,ERR=90) TEMP
+        A(NOEL,ND+4+KK-2) = TEMP
+      ENDDO
 
       RETURN
 

@@ -254,6 +254,7 @@ c                  read(*,*)
           PNOW(1) = P
 c              write(*,*) 'agsks PNOW(1).ne.P ', PNOW(1),P
 c                         read(*,*)
+          DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -269,7 +270,7 @@ c                         read(*,*)
  861        CONTINUE
           ENDIF
 
-          DB1F = 0.D0
+C          DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -283,10 +284,19 @@ c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6
 c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
 c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
 
+          write(*,*) ' agsks ak1 ',UKBFM3,P3,UKBFM2,P2, UKBFM1,P
+     >    , UKBF0,UKBF1
+     >    ,UKBF2, UKBF3, UKBF4, UKBF5, P5 
+     >    ,UKBF6, P6 
+
           AK1(1)= UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
      >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
      >    +UKBF6*P6 
+
           AK1(1) = AK1(1)*(DB1F + 1.D0)
+
+              write(*,*) ' agsks BF ak1(1) : ',ak1(1)
+              write(*,*) ' agsks BF ak2(1) : ',ak2(1)
 
 C See /home/meot/zgoubi/struct/bnl/AtR/3He/n0/usingTOSCAMaps/blue/testA01BF.dat
 c FC=gfortran
@@ -318,6 +328,7 @@ C  K2BF :
           AK2(2)=SAK2(2)
         ELSE
           PNOW(2) = P
+          DB1D = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -333,7 +344,7 @@ C  K2BF :
  862        CONTINUE
           ENDIF
 
-          DB1D = 0.D0
+C          DB1D = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -360,6 +371,7 @@ C  K2CD :
           AK2(3)=SAK2(3)
         ELSE
           PNOW(3) = P
+          DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -375,7 +387,7 @@ C  K2CD :
  863        CONTINUE
           ENDIF
 
-          DB1F = 0.D0
+C          DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -401,6 +413,7 @@ C  K2AF :
           AK1(4)=SAK1(4)
           AK2(4)=SAK2(4)
         ELSE
+          DB1D = 0.D0
           PNOW(4) = P
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
@@ -417,7 +430,7 @@ C  K2AF :
  864        CONTINUE
           ENDIF
 
-          DB1D = 0.D0
+C          DB1D = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -444,6 +457,7 @@ C  K2BD :
           AK2(5)=SAK2(5)
         ELSE
           PNOW(5) = P
+          DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -459,7 +473,7 @@ C  K2BD :
  865        CONTINUE
           ENDIF
 
-          DB1F = 0.D0
+C          DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -486,6 +500,7 @@ C  K2CF :
           AK2(6)=SAK2(6)
         ELSE
           PNOW(6) = P
+          DB1D = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -501,7 +516,7 @@ C  K2CF :
  866        CONTINUE
           ENDIF
 
-          DB1D = 0.D0
+C          DB1D = 0.D0
           P2 = P*P
           P3 = P*P2
           P4 = P*P3
@@ -525,5 +540,11 @@ C  K2AD :
 
       AKS(2) = AK1(IMM) 
       AKS(3) = AK2(IMM) 
+
+              write(*,*) ' agsks BF ak1(1) : ',ak1(1)
+              write(*,*) ' agsks BF ak2(1) : ',ak2(1)
+              write(*,*) '  '
+
+
       RETURN
       END

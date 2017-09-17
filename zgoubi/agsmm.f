@@ -20,7 +20,7 @@ C
 C  François Meot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AGSMM(LMNT,KFL,MPOL,NPOL,SCAL,
      >  DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)

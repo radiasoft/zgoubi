@@ -57,7 +57,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
         IF    (QSHRO(KSR).EQ.'XS') THEN
           XS = VSHRO(KSR) 
           YO=Y
-          Y=(Y*COS(T)+XS*SIN(T))/COS(T)
+          Y= Y        + XS*SIN(T)  /COS(T)
+C         Y=(Y*COS(T) + XS*SIN(T) )/COS(T)
           XL=XS
           YL=-YO+Y
           DL=SQRT(XL*XL+YL*YL)
@@ -99,6 +100,8 @@ C          DS = DL/sin(pp)/SIN(P)
           TAR = TAR + DTAR
 C          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
 C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,+-YR,ZERO)
+          IF(KSPN .EQ. 1 ) CALL ENDJOB('Pgm chanrf. Y-rotation of '
+     >    //'spin is not implemented',-99)
         ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
           ZR = VSHRO(KSR) 
           YO=Y

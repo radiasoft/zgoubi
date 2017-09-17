@@ -75,10 +75,8 @@ C KPOS=4 : X-shft, Y-shft, Z-rot, Z-shft, Y-rot
       READ(NDAT,FMT='(A)',ERR=90,END=90) TXT
       CALL STRGET(TXT,MSS,
      >                    NS,STRA) 
-      
       READ(STRA(1),*,ERR=66) II
       A(NOEL,90) = II 
-
       DO KK = 2, NS
         READ(STRA(KK),*,ERR=66) TEMP
         A(NOEL,91+KK-2) = TEMP
