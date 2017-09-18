@@ -278,7 +278,7 @@ Case Vahid's eRHIC RCS
           radius = 283.860202518    ! bend radius (m), assumed isofield lattice
           u0 = 88.46276*((ps*1d-3)/bts)**4/radius *1d-3  ! u0 (MeV)  (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
         ELSEIF(CRNLSY) THEN
-          U0 = A(NOEL,22)  *( (ps/bts) / (p0/bt0) )**4 *1.d-6 ! AN22(eV)=Energy loss at first pass. U0 in MeV 
+          U0 = A(NOEL,22)  *( (ps/bts) / (p0/bt0) )**4  ! AN22(eV)=Energy loss at first pass. U0 in MeV 
 ********************
         ELSE
           U0 = 0.D0

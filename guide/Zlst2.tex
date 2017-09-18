@@ -65,12 +65,12 @@ integer (I), real (E) or text string (A). For example, ``I, 3*E''
  $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I\\
          \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
  \\
-\textsl{MOD[.MOD2]},  $dL$,   \> Type of magnet model~\footnotemark[1]~[type of back-leg winding model~\footnotemark[2]]~; \> 2*no dim., cm, \>I[.I], 5*E\\     
+\textsl{MOD},  $dL$,   \> Type of magnet model~\footnotemark[1]~; \> 2*no dim., cm, \>I[.I], 5*E\\     
 $R_0$, $dB1$, $dB2$, $dB3$ \> unused~; pole tip radius, 10~cm if set to zero~; relative  \>  3*no dim. \>\\     
  \>error on dipole, quadrupole, sextupole component. \>\>\\
  \\
- NBLW,    \>Number of back-leg windings~; for each back-leg winding~:   \> $\leq$2, \textsl{\small NBLW}$\times$  \> I, \textsl{NBLW}$\times$ \\     
-\textsl{NBLW times~:}  NW, I    \> number of windings, current.   \>(any, Amp.)  \>  (I, E)  \\     
+ \textsl{NBLW[.MOD]},    \>Number of back-leg windings~[back-leg winding model~\footnotemark[2]]~; for  \> $\leq$2, \textsl{\small NBLW}$\times$  \> I, \textsl{NBLW}$\times$ \\     
+\textsl{NBLW times~:}  NW, I    \> each back-leg winding~: number of windings, current.   \>(any, Amp.)  \>  (I, E)  \\     
  \\
  \>\textbf{Entrance face} \>\>\\
 $ X_E$, $\lambda_E$, $E_2$,  $E_3 $ \>Integration zone~; fringe field extent : \>2*cm, 2*no dim.\> 4*E\\
@@ -115,9 +115,10 @@ $ R1$, $R2$, $R3$   \>Skew angles of field components \>3*rad \>10*E \\
 \textsl{MOD=1}~:   centered multipole model~; \textsl{MOD=2}~: long-shifted dipole model~;
      \textsl{MOD=3}~: short-shifted dipole model.
 }
+\smallskip
 \footnotetext[2]{ 
-\textsl{MOD2 = 0} (default)~:   user defined back-leg windings (defined in routine \texttt{agsblw.f})~; 
-\textsl{MOD2 = 1}~:  actual AGS data are taken, namely~: 
+\textsl{MOD = 0} (default)~:   user defined back-leg windings (defined in routine \texttt{agsblw.f})~; 
+\textsl{MOD = 1}~:  actual AGS data are taken, namely~: 
 MM\_A16AD~: 
           NBLW = 1, 
           SIGN = 1.D0, 
@@ -232,9 +233,6 @@ MM\_G09BF~:
           NBLW = 1, 
           SIGN = -1.D0, 
           NW = 6.
-
-
-  \textsl{MOD2 = 1}~: User defined - implementation to be completed.  
 }
 %\end{alltt}  
 
@@ -939,7 +937,8 @@ extrapolated linearly to the exit face of the map.
  \> $ \Delta W=qV \sin (2\pi hf\Delta t+\varphi_ s) $ and other voltage and frequency laws.   \> \> \\
  \\
  \\
- \textsl{IOPT[.i]}       \> Option. $i=1$ causes info output into \texttt{zgoubi.CAVITE.Out}    \>0-7 \>I \\
+ \textsl{IOPT[.i] [,PRINT]} \> Option. $i=1$ or 'PRINT' causes info output into \texttt{zgoubi.CAVITE.Out}~;    \>0-7 \>I[.I] [A, A]\\
+ \textsl{[,Facility]}      \> 'Facility'~: 'CornellSynch' (used with \textsl{IOPT=11}) or 'eRHIC\_RCS' (\textsl{IOPT=11})  \>  \>  \\
  \\
 \textbf{If IOPT=0}  \>Element inactive \>\>\\
 \\
@@ -976,6 +975,11 @@ $ \hat  V, ~ \Phi_s $  \> R.F. peak voltage~; synchronous phase. \> V, rad \> 2*
 $L$, $f_{RF}$       \> Cavity length~; RF frequency.   \>  m , Hz  \>  2*E  \\
 $ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options. \> V, rad, $-2$-$+2$ \> 2*E, I \\
 %$ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options~; $B\rho_{ref}$ setting. \> V, rad, $-2$-$2$, - \> 2*E, I, E \\
+ \\
+\textbf{If IOPT=11}  \> Acceleration in presence of SR loss.  \\
+\\
+$\mathcal{L}$, $E_k$       \> Orbit length and kinetic energy at start of acceleration.  \>  m, MeV  \>  2*E  \\
+$ \hat  V, ~ \Phi_s $, $U_0$       \> R.F. peak voltage~; synchronous phase~; SR loss at first pass~\footnotemark[3]. \> V, rad \> 2*E \\
 
 
 \end{tabbing}
@@ -983,6 +987,7 @@ $ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~;
 \footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge. }
 \footnotetext[2]{~ For ramping the R.F. frequency following 
 $ B\rho (t)$,  use \textsl{SCALING}, with family \textsl{CAVITE}. } 
+\footnotetext[3]{~ SR loss at subsequent turns is actualized using $U\propto E^4$. }
 
 
 
@@ -4726,12 +4731,6 @@ $C_0$, $C_1$, $C_2$, $C_3$  \> precession axis~; six coefficients that define th
 
 \begin{tabbing}
 \mestab
-% \textbf{SPNPRT}        \label{SPNPRT-B} \index{SPNPRT}
-%     \> \textbf{Print spin\index{spin tracking} coordinates} \> \> \\
-%  \\
-%\\
-% \> Print spin coordinates at the location where this \\
-% \> keyword is introduced in the structure. \\[60pt]
  \textbf{SPNPRNL}        \label{SPNPRNL-B} \index{SPNPRNL|textbf}
      \> \textbf{Store spin coordinates in file \textsl{FNAME}} \> \> \\
  \\
@@ -4815,10 +4814,11 @@ $IR$ \> Random sequence seed  \> $\losim 10^6$  \> I
 \centering
 %\vspace{11 truecm}
 %%%Figure 7
-\begin{minipage}{.5\linewidth}
-\centering
+\begin{minipage}{.55\linewidth}
 
+\centerline{
 \includegraphics[height=.8\linewidth]{Fig7.ps}
+}
 %{\setlength{\captionwidth}{12cm}
 %\hangcaption[Fig7]{\label{fig7}
 
@@ -4852,20 +4852,23 @@ tracked further) and their modulus(unused).
 
 
 \begin{tabbing}
-\mestab
+$N$, $EB1$, $EB2$, $EG1$  \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%\mestab
  \textbf{SRLOSS}        \label{SRLOSS-B} \index{SRLOSS|textbf}
      \> \textbf{\SRLOSSTitl}\index{synchrotron radiation loss} \> \> \\
  \\
 \textsl{KSR[.i] [,KSOK]} \> On/off switch~; $i=1$ for info output  into \texttt{zgoubi.SRLOSS.Out}~;       \> $0~or~1[.1]$  \> I[.I], I \\
  \>  Sokolov-Ternov effect  switch, optional (1/0 for on/off, default is off).   \>  \>  \\
 \\
-\textsl{STR1[\{lblst\}]} \> Apply SR loss to \textsl{STR1 = 'ALL'} or \textsl{'all'} or a \textsl{STR1 =} particular KEYWORD~:\> \> A[1-5A] [,A] [,1-10A] \\
- \textsl{ [, STR2 [,List]]}  \> \textsl{\{lblst\}=\{lbl1, lbl2, ...,lbl5\}}~: a list of up to 5 labels to which this applies.   \>  \\
+\textsl{STR1[\{lblst\}]} \> Apply SR loss to \textsl{STR1 = 'ALL'} or \textsl{'all'} or a  particular KEYWORD~;\> \> A[1-5A] \\
+ \textsl{ [, STR2 [,List]]}  \> \textsl{\{lblst\}=\{lbl1, lbl2, ...,lbl5\}}~: a list of up to 5 labels to which this applies. \>  \>  [,A] [,1-10A] \\
                     \> Optional~: \textsl{STR2 = 'scale'} will scale fields following energy loss~;  \>  \\
                     \>   \textsl{List}~: a list of up to 10 keywords to which this scaling applies. \>  \\
  \\
-\textsl{Option}, seed \>  Option~: 0 / no effect, 1 / SR causes dp only,   \> $1-3$,  $>10^5$ \> 2*I \\
-                \>  2 / SR causes dp and angle kick (not installed).  \> \\
+\textsl{Option}, seed \>  Option = 0 or 1~: SR causes dp only~;  \> $1-3$,  $>10^5$ \> 2*I \\
+                \>  option = 2~: SR causes dp and angle kick (under development).  \> \\
 
   \end{tabbing}
   
@@ -4874,7 +4877,10 @@ tracked further) and their modulus(unused).
 \newpage
 
 \begin{tabbing}
-\mestab
+$N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%\mestab
  \textbf{SRPRNT}        \label{SRPRNT-B} \index{SRPRNT|textbf}\index{SRLOSS}
      \> \textbf{\SRPRNTTitl}   ~~ into zgoubi.res
 

@@ -1,0 +1,9 @@
+
+
+1/ coupled twiis :  edwards-teng delivers NaN. 
+See for instance KEYWORDS/TWISS
+
+1/ AGS/TWISS :  scaling does not account for orbit bump (MM_F08CD etc.). Probably because it only takes 
+the first occurence '*F', '*D'. The bump instruction does not add up ?
+
+

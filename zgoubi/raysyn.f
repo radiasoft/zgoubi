@@ -102,12 +102,9 @@ C Y      2.       2.5       3.       4.       5.5        7        10.
             I = I + 1
           ENDDO
         ENDIF
-
         IF(.NOT. OKLBL) GOTO 99
       ENDIF
- 
-c               write(*,*) ' raysyn.   srloss '
-           
+            
 C      N is the maximum value of k with non-zero proba of Poisson law
 C----- Y(X) : data to be splined (i.e., the integral of the K_5/3 sum)
 

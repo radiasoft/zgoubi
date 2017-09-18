@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE AGSBLW(MOD2,NOEL,DEV,NBLW,NB,WN,WA,
+      SUBROUTINE AGSBLW(MOD,NOEL,DEV,NBLW,NB,WN,WA,
      >                                              BM)
 C     ----------------------------------------------
 C     NBLW : # of blwg ; WN(i=1,nblw) : # of turns ; 
@@ -47,10 +47,10 @@ C     ----------------------------------------------
       MMNM = LABEL(NOEL,1)
       MMNM = MMNM(DEBSTR(MMNM):FINSTR(MMNM))
 
-      IF    (MOD2 .EQ.0) THEN
+      IF    (MOD .EQ.0) THEN
 C User defined values. 
-
-      ELSEIF(MOD2 .EQ.1) THEN
+        
+      ELSEIF(MOD .EQ.1) THEN
 C Actual AGS values
 
 c/========================================================================
@@ -343,7 +343,7 @@ c/==================================================
 
       ELSE
 
-        CALL ENDJOB('SBR AGSBLW. No such possibility MOD2',-99)
+        CALL ENDJOB('SBR AGSBLW. No such possibility MOD =',MOD)
       ENDIF
 
       BLWI = 0.D0

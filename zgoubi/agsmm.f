@@ -118,17 +118,22 @@ C Bcklg winding currents
  
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) GOTO 20
-        DO I = 1, JPA(KFM(ifm),MXP)
+        DO I = 1, JPA(KFM(IFM),MXP)
 C Apply scaling to all parameters concerned
           IF(JPA(KFM(IFM),I).GT.MXD) CALL ENDJOB(
      >                      ' SBR AGSMM. ARG TOO LARGE',-99)
           AA(JPA(KFM(IFM),I)) = AA(JPA(KFM(IFM),I)) * VPA(KFM(IFM),I)
-c         if(noel.eq.457)
-c     >     write(87,*) ' agsmm  i,ifm,mxp,JPA(KFM(ifm),MXP) ',
-c     >  i,ifm,mxp,JPA(KFM(ifm),MXP), VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
-c     >  , kfm(ifm)
+
+c         if(noel.eq.450)
+c     >     write(*,*) ' agsmm  i,ifm,KFM(ifm),JPA(KFM(ifm),i), '
+c     >     //' VPA,AA : ', 
+c     >     i,ifm,KFM(ifm),JPA(KFM(ifm),i),
+c     >     VPA(KFM(IFM),I),AA(JPA(KFM(IFM),I))
+c         if(noel.eq.450)  write(*,*) ' agsmm'
+
         ENDDO
       ENDDO
+
  
  20   CONTINUE
  
@@ -147,8 +152,6 @@ C------
       DO I = 1, NBLW
         WN(I) = A(NOEL,20+2*I-1)
         WA(I) = AA(20+2*I)
-c       if(noel.eq.456)
-c     >     write(87,*) ' agsmm i/nblw, wn,  wa ',i,'/',nblw,wn(i),wa(i)
       ENDDO
  
       CALL AGSBLW(MODBW,NOEL,ANGMM,NBLW,I3,WN,WA,
@@ -261,7 +264,7 @@ C-------
           ELSEIF(MODBW.EQ.1) THEN
             TXT30=' real AGS back-leg windings'
           ENDIF
-          WRITE(NRES,FMT='(15X,''Mode 2 = '',I2,'',  '',A)') MODBW,TXT30
+          WRITE(NRES,FMT='(15X,''Mode = '',I2,'',  '',A)') MODBW,TXT30
  
           DO IBLW = 1, NBLW
 c            WRITE(NRES,*) 'Backleg winding #, # of turns, current : ',

@@ -231,8 +231,6 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
       LBL1 = LABEL(NOEL,1)
       LAST = FINSTR(LBL1)
 
-c                 write(*,*) 'agsks PNOW(1), P ', PNOW(1),P
-
       IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
         IMM = 1
         IF(PNOW(1) .EQ. P) THEN
@@ -244,16 +242,9 @@ C With FIT2, pmom is "NaN" at first pass here (a01bf magnet), and in addition ak
 C the write statements below are active... in addition that corrects the content of ak1(1) so that the computation 
 c goes on silently...
 
-c                 write(*,*) 'agsks PNOW(1).eq.P ', PNOW(1),P
-c              write(abs(NRES),*) ak1(1), sak1(1)
-c                  read(*,*)
-
-
         ELSE
 
           PNOW(1) = P
-c              write(*,*) 'agsks PNOW(1).ne.P ', PNOW(1),P
-c                         read(*,*)
           DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
@@ -278,16 +269,10 @@ C          DB1F = 0.D0
           P6 = P*P5
 C  K1BF :
 
-c            write(*,*) ' agsks ',DB1F 
-c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
-c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
-c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
-c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
-
-          write(*,*) ' agsks ak1 ',UKBFM3,P3,UKBFM2,P2, UKBFM1,P
-     >    , UKBF0,UKBF1
-     >    ,UKBF2, UKBF3, UKBF4, UKBF5, P5 
-     >    ,UKBF6, P6 
+C          write(*,*) ' agsks ak1 ',UKBFM3,P3,UKBFM2,P2, UKBFM1,P
+C     >    , UKBF0,UKBF1
+C     >    ,UKBF2, UKBF3, UKBF4, UKBF5, P5 
+C     >    ,UKBF6, P6 
 
           AK1(1)= UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
      >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
@@ -295,21 +280,13 @@ c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
 
           AK1(1) = AK1(1)*(DB1F + 1.D0)
 
-              write(*,*) ' agsks BF ak1(1) : ',ak1(1)
-              write(*,*) ' agsks BF ak2(1) : ',ak2(1)
-
+C              write(*,*) ' agsks BF ak1(1) : ',ak1(1)
+C              write(*,*) ' agsks BF ak2(1) : ',ak2(1)
 C See /home/meot/zgoubi/struct/bnl/AtR/3He/n0/usingTOSCAMaps/blue/testA01BF.dat
 c FC=gfortran
 c FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
 C If I do this write, ak1 value is no longer NaN at first step 
 c            write(*,*) ' agsks AK1(1) ap : ' , AK1(1)
-
-c            write(*,*) ' agsks ',DB1F 
-c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
-c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
-c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
-c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
-
 
 C  K2BF :
           AK2(1)= TKBFM3/(P3)+ TKBFM2/(P2)+ TKBFM1/P + TKBF0+TKBF1*P 
@@ -540,11 +517,6 @@ C  K2AD :
 
       AKS(2) = AK1(IMM) 
       AKS(3) = AK2(IMM) 
-
-              write(*,*) ' agsks BF ak1(1) : ',ak1(1)
-              write(*,*) ' agsks BF ak2(1) : ',ak2(1)
-              write(*,*) '  '
-
 
       RETURN
       END

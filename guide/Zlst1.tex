@@ -9569,8 +9569,8 @@ optical element, followed by   \textsl{CHANGREF($\XCS$,$\YCS$,$\ALS=-\ALE$)} dow
 
 \medskip
 
-\noindent \textsl{KPOS} $=3 $ option is available for a limited number of  
- magnets  (\emph{e.g.}, \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM} \index{AGSMM})~; 
+\noindent \textsl{KPOS} $=3 $ option is available for some optical elements
+  (\emph{e.g.}, \textsl{BEND}, \textsl{MULTIPOL}, \textsl{AGSMM}\index{AGSMM})~; 
 it is effective only if a non zero dipole component $B1$ is present, or if  \textsl{ALE} is non-zero. 
 It positions automatically the magnet in a symmetric manner with respect to the incoming and outgoing reference 
 axis, convenient for periodic structures, as follows (Fig~\ref{figKPOS3}). 
@@ -9581,8 +9581,8 @@ axis, convenient for periodic structures, as follows (Fig~\ref{figKPOS3}).
 
  $\bullet$ either,  by an angle \textsl{ALE}  if ALE$\not =$0, 
 
- $\bullet$ or, if ALE=0  by  half the \textsl{Z}-rotation $\theta_Z/2$ such that $ L = 
-2 \dfrac{\BORO}{B1} \sin({\theta_Z}/{2})$,  wherein $L$ = geometrical length, 
+ $\bullet$ or, if ALE=0  by  half the \textsl{Z}-rotation $\alpha_Z/2$ such that $ L = 
+2 \dfrac{\BORO}{B1} \sin({\alpha_Z}/{2})$,  wherein $L$ = geometrical length, 
 \BORO\  = reference rigidity as defined in \textsl{OBJET\index{OBJET}}.
 %\noindent This is equivalent to the sequence \textsl{CHANGREF(0,0,-$\theta$/2)},
 %  \textsl{CHANGREF(0,YCE,0)} right upstream the magnet, followed  by 
@@ -9625,10 +9625,10 @@ Right~: Mis-aligning  an optical element using  \textsl{KPOS}$=2 $.
 \includegraphics[height=7cm]{FigKPOS3.eps}
 
 \hangcaption{\label{figKPOS3} 
-Case of Cartesian frame optical element. 
-Alignment of a  bend by half the deviation, using  \textsl{KPOS}$=3 $.  
+Alignment in \textsl{BEND} by half the deviation, $\alpha_Z/2$, using  \textsl{KPOS}$=3 $.  
 \textsl{$(X_E,Y_E)$} and \textsl{$(X_S, Y_S)$} are respectively the incoming 
  and outgoing  reference frames.
+Trajectory coordinates inside the magnet are defined in the magnet frame, \textsl{$(X_{ME},Y_{ME})$}. 
 }
 %\end{center}
 %\end{minipage}
@@ -9645,9 +9645,9 @@ Alignment of a  bend by half the deviation, using  \textsl{KPOS}$=3 $.
 
 \noindent \textsl{KPOS} $=4 $ applies to 
 \textsl{AGSMM} (AGS main magnet) and \textsl{MULTIPOL}. \index{AGSMM} 
-By default, it aligns the magnet in a way similar 
-to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\theta_Z/2$ as drawn from $ L = 
-2 \dfrac{\BORO}{B1} \sin({\theta_Z}/{2})$. 
+It orients the magnet in a way similar 
+to  \textsl{KPOS} $=3 $, with reference frame Z-rotated by $\alpha_Z/2$ as drawn from $ L = 
+2 \dfrac{\BORO}{B1} \sin({\alpha_Z}/{2})$. 
 
 \noindent However additional magnet mis-alignments (alignment errors) are available (Fig.~\ref{figYZmisal})~:
  Z-rotation $\theta_Z$, 

@@ -1005,7 +1005,7 @@ C             Calculate ALE as half deviation.
      >                           A(NOEL,ND+NND+3)=-DEV/2.D0
 
           IF(A(NOEL,ND+NND+1) .NE. 0.D0) CALL ENDJOB('Pgm chxc. '//
-     >    'X-shift has to be installeded. ',7)
+     >    'X-shift has to be installed. ',7)
 C Modified, FM, Feb. 05 :
 C           Calculate XCE, YCE for entrance change of referential    
           YSHFT = A(NOEL,ND+NND+2)
@@ -1037,7 +1037,7 @@ cccc          YCE =   YSHFT * COS(TTA) + XL* SIN(DTTA2) * COS(TTA+DTTA2)
           YCE =   YSHFT * COS(TTA) - XL/2.D0 * SIN(DTTA)
 
           IF(A(NOEL,ND+NND+1) .NE. 0.D0) CALL ENDJOB('Pgm chxc. '//
-     >    'X-shift has to be installeded. ',7)
+     >    'X-shift has to be installed. ',7)
 
 C Z-shift
           ZSHFT = A(NOEL,ND+NND+4)

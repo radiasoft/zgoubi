@@ -77,7 +77,8 @@ C         Y=(Y*COS(T) + XS*SIN(T) )/COS(T)
           Z = Z-ZS
         ELSEIF(QSHRO(KSR).EQ.'XR') THEN
           XR = VSHRO(KSR) 
-          CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
+          IF(XR.NE.0.D0)
+     >    CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
 C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'YR') THEN
           YR = VSHRO(KSR) 
@@ -100,8 +101,10 @@ C          DS = DL/sin(pp)/SIN(P)
           TAR = TAR + DTAR
 C          CALL ENDJOB('SBR CHANRF. YR is not implemented.',-99)
 C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,+-YR,ZERO)
-          IF(KSPN .EQ. 1 ) CALL ENDJOB('Pgm chanrf. Y-rotation of '
-     >    //'spin is not implemented',-99)
+          IF(KSPN .EQ. 1 ) THEN
+            IF(YR.NE.0.D0) CALL ENDJOB('Pgm chanrf. Y-rotation of '
+     >      //'spin is not implemented',-99)
+          ENDIF
         ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
           ZR = VSHRO(KSR) 
           YO=Y

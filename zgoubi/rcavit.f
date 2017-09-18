@@ -162,7 +162,7 @@ C        3rd data is IDMP if IOPT=10
 C        3rd data is energy loss at first pass, U0
           IF(MSTR.LE.2) THEN
             CALL ENDJOB(
-     >      'Pgm cavite. SR loss U0 at first turn is needed. ',-99)
+     >      'Pgm cavite. SR loss U0[MeV] at first turn is needed. ',-99)
           ELSE
             READ(STRA(3),*) A(NOEL,22)   ! SR loss U0 at injection energy
           ENDIF

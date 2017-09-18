@@ -99,3 +99,6 @@ FIT[2] pose probleme p.ex. avec thomas et hrs-desir, had to had "write(89,*)..."
 is almost ok... :  dQ1 comes ourt NaN. Tunes and dQ2 are ok...
 
 
+5/ Fixes needed in 'compare' tests : see  exemples/tools/TODO
+
+

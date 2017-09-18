@@ -60,6 +60,7 @@ C      PARAMETER (MXTA=45)
       DATA LIST / ' ' /
       DATA SCLFLD / .FALSE. /
       DATA KSOK / 0 /
+      DATA LBLST / MLBL*' ' /
 
       KSYN= NINT( A(NOEL,1) )
       IF(KSYN.EQ.0) THEN
@@ -123,7 +124,7 @@ C                 stop
           CALL ENDJOB('Pgm srloss. Wrong data in label list.',-99)
         ENDIF
       ELSE
-        TYPMAG = TA(NOEL,1)
+        TYPMAG = TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
       ENDIF
 
       TSCAL = TA(NOEL,2)
@@ -144,21 +145,30 @@ C                 stop
 C----- Set SR loss tracking
       IF(NRES.GT.0) THEN 
           WRITE(NRES,FMT='(/,15X,'' S.R.  TRACKING  REQUESTED'')')
-          IF(TYPMAG.NE.'ALL' .AND. TYPMAG.NE.'all') 
-     >    WRITE(NRES,FMT='(20X,
-     >    '' Accounted for only for keyword '',A)') TYPMAG
+          IF(TYPMAG.NE.'ALL' .AND. TYPMAG.NE.'all') THEN
+            WRITE(NRES,FMT='(20X,
+     >      '' SR simulated only for keyword '',A)') TYPMAG
+          ELSE
+            WRITE(NRES,FMT='(20X,
+     >      '' SR simulated in all magnets '')') 
+          ENDIF
           IF(NLBL .GT. 0) WRITE(NRES,FMT='(20X,
-     >      '' and with first label one of : '',5A)')(LBLST(I),I=1,NLBL)
+     >      '' with first label one of : '',5A)')(LBLST(I),I=1,NLBL)
           IF(SCLFLD) THEN
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will scale '',
      >      ''with energy lost in the following list of elements :'',
-     >    /,25X,''{'',A,''}'')') LIST(DEBSTR(LIST):FINSTR(LIST))
+     >      /,25X,''{'',A,''}'')') LIST(DEBSTR(LIST):FINSTR(LIST))
           ELSE
             WRITE(NRES,FMT='(20X,'' Magnetic strengths will NOT '',
      >      ''scale with energy lost in dipole fields.'')')
           ENDIF 
-          IF(A(NOEL,10).NE.1) WRITE(NRES,FMT='(20X,
-     >      '' Loss entails dp only, no angle kick installed!! '')') 
+          IF(NINT(A(NOEL,10)) .LE. 1) THEN
+            WRITE(NRES,FMT='(20X,
+     >      '' SR loss entails dp decrease, no recoil effect. '')') 
+          ELSE
+            WRITE(NRES,FMT='(20X,'' SR loss can only entail dp : ''
+     >      ,'' angle kick not installed !! '')') 
+          ENDIF
           P=BORO*CL9*Q
           E=SQRT(P*P + AM*AM)
           BTA = P/E

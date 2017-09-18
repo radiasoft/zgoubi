@@ -1262,7 +1262,7 @@ C----- MAP2D-E: 2D E-FIELD MAP
       GOTO 62
 C----- SRPRNT. Print/Store S.R. loss tracking statistics into file
  87   CONTINUE
-      CALL SRPRN(I0,NRES,IMAX)
+      CALL SRPRN(I1,NRES,IMAX)
       GOTO 998
 C----- BETATRON. Betatron core
  88   CONTINUE
@@ -1675,7 +1675,7 @@ C-------------------------
       ENTRY ZGKLEY( 
      >             KLEO)
 C Current KLEY
-      KLEO = KLEY
+      KLEO = KLEY(DEBSTR(KLEY):FINSTR(KLEY))
       RETURN
       ENTRY ZGMXKL( 
      >             MXKLEO)
@@ -1693,7 +1693,7 @@ C KLEY[IKL]
       IF(IKL.LE.0) THEN
         KLEO = 'UnknownKLE'
       ELSE
-        KLEO = KLE(IKL)
+        KLEO = KLE(IKL)(DEBSTR(KLE(IKL)):FINSTR(KLE(IKL)))
       ENDIF
 C      KLEO = KLE(IKL)
       RETURN
