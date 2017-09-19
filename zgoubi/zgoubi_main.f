@@ -24,12 +24,12 @@ C  Upton, NY, 11973, USA
 C  -------
       PROGRAM ZGOUBI_MAIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG                                      
       INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL                                                 
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
-      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)                                                                   
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
@@ -38,7 +38,7 @@ C  -------
 
       CHARACTER(I100) FDAT
       SAVE FDAT
-      
+
       PARAMETER (I5=5, I6=6)
 
       PARAMETER (KSIZ=10)
@@ -54,26 +54,27 @@ C  -------
       CHARACTER(KSIZ) KEY, LBL1, LBL2
       PARAMETER (I0=0)
 
-C Tentative pour faire fonctionner REBELOTE en compil dyn. 
-C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne. 
-C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
-      SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE, 
+C Tentative pour faire fonctionner REBELOTE en compil dyn.                                                                   
+C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne.                                               
+C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)                                                   
+      SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE,
      > FITFNL, FITRBL, OKWDAT, OKW, KLE, IPASS,NRBLT
 
-C Dummy
+C Dummy                                                                                                                      
       CHARACTER(1) TAB(1)
 
       DATA FLIN, FLOUT, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
       DATA FDAT / 'zgoubi.dat' /
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
-      DATA TIMSEC / 0.D0 / 
+      DATA TIMSEC / 0.D0 /
       DATA OKWDAT, OKW / .FALSE., .FALSE. /
       DATA TAB /  1 * ' '  /
       DATA FITFNL, FITLST / .FALSE., .FALSE. /
+      DATA IRANK  / 0 /
 
-C Manage possible arguments to zgoubi -----------------------
+C Manage possible arguments to zgoubi -----------------------                                                                
       NBARGS = COMMAND_ARGUMENT_COUNT()
-      ALLOCATE(ARGS(NBARGS)) 
+      ALLOCATE(ARGS(NBARGS))
       DO IX = 1, NBARGS
          CALL GET_COMMAND_ARGUMENT(IX,ARGS(IX))
       END DO
@@ -86,11 +87,15 @@ C Manage possible arguments to zgoubi -----------------------
       ENDIF
       IX = 1
       DO WHILE (IX .LE. NBARGS)
-         IF    (  ARGS(IX) .EQ. '-fileIn'  
+         IF(ARGS(IX) .EQ. '-rank'  ) THEN
+           IX = IX + 1
+           READ (ARGS(IX),'(I10)') IRANK
+           CALL MCOBJB(IRANK)
+         ELSEIF(  ARGS(IX) .EQ. '-fileIn'
      >   .OR. ARGS(IX) .EQ. '-in'  ) THEN
            IX = IX + 1
            FLIN = ARGS(IX)
-         ELSEIF(ARGS(IX) .EQ. '-fileOut'  
+         ELSEIF(ARGS(IX) .EQ. '-fileOut'
      >   .OR. ARGS(IX) .EQ. '-out'  ) THEN
            IX = IX + 1
            FLIN = ARGS(IX)
@@ -109,7 +114,7 @@ C Manage possible arguments to zgoubi -----------------------
          IX = IX + 1
       ENDDO
 C -----
-
+  
       IF(FLIN .EQ. 'zgoubi_temp.dat') CALL ENDJOB(
      >'Pgm zgoubi_main. ''zgoubi_temp.dat'' input file name '//
      >'is reserved. Please choose a different one.')

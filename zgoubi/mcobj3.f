@@ -52,8 +52,10 @@ C     ----------------------------------------------------
       DIMENSION EPST(MXJ1)
 
       DIMENSION DIS(MXJ)
+      SAVE IRANK
 
       DATA IKAR / 0 /
+      DATA IRANK / 0 /
 
 C     .. PARAMETRE ELLIPSES
       ALP(2)=A(NOEL,50)
@@ -98,9 +100,14 @@ C      RMB(6)=A(NOEL,74)
 C----- LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE SI REBELOTE)
 C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN
-        IR1 = NINT(A(NOEL,80))
-        IR2 = NINT(A(NOEL,81))
-        IR3 = NINT(A(NOEL,82))
+C        IR1 = NINT(A(NOEL,80))
+C        IR2 = NINT(A(NOEL,81))
+C        IR3 = NINT(A(NOEL,82))
+C FM, VR. 2017
+C Modified for multiple-run on NERSC
+        IR1 = 2*(NINT(A(NOEL,80))/2)+1 + 2*IRANK                                                                             
+        IR2 = 2*(NINT(A(NOEL,81))/2)+1 + 2*IRANK                                                                             
+        IR3 = 2*(NINT(A(NOEL,82))/2)+1 + 2*IRANK                                                                             
         IR1=(IR1/2)*2+1
         IR2=(IR2/2)*2+1
         IR3 =(IR3 /2)*2+1
@@ -263,4 +270,9 @@ C        FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
       ENDDO
 
       RETURN
+
+      ENTRY MCOBJB(IRKI)
+      IRANK = IRKI
+      RETURN
+
       END

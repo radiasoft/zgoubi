@@ -313,12 +313,12 @@ C          OPN = .FALSE.
            WRITE(IUN,*) 
      >     '# % Ellipse matching considers turn#',kpa,' and lmnt # ',kla
            WRITE(IUN,*) 
-     >     '# XM, XPM, (U(I),I=1,3), '//
-     >     'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, p'//
+     >     '# XM, XPM, (U(I),I=1,3), COOR(npass,5)/(npass-1), '//
+     >     'COOR(1,6), KT, YM, YPM, kpa, kpb, p'//
      >     ', LM, DPM, # of prtcls in rms lips_x,_y,_z, '//
      >     'sig_x,_y,_l, sig_xp,_yp,_d, sig_xxp,_yyp,_ldp, dp/p|Init'//
      >     ', kla, <s>'
-C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
+C     >    'COOR(npass,5)/(npass-1), COOR(1,6), KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
           ENDIF
