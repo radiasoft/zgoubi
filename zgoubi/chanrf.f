@@ -77,15 +77,22 @@ C         Y=(Y*COS(T) + XS*SIN(T) )/COS(T)
           Z = Z-ZS
         ELSEIF(QSHRO(KSR).EQ.'XR') THEN
           XR = VSHRO(KSR) 
+          CT = COS(XR)
+          ST = SIN(XR)
+          TEMP = Y * CT - Z * ST
+          Z = Y * ST + Z * CT          
+          Y = TEMP
+c          T = T in new frame
+c          P = P in new frame
           IF(XR.NE.0.D0)
      >    CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
-C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
+          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'YR') THEN
           YR = VSHRO(KSR) 
           ZO=Z
 C          pp = atan2(tan(P),cos(T))
-          PP = atan(tan(P)/cos(T))
-          Z=Z*COS(pp)/COS(pp-YR)
+          PP = ATAN(TAN(P)/COS(T))
+          Z=Z*COS(PP)/COS(PP-YR)
           PP=PP-YR 
           P = ATAN2(TAN(PP),1.D0/COS(T))
           XL = -Z *SIN(YR)
