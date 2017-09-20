@@ -84,7 +84,7 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       LOGICAL FITMEM
       SAVE FITMEM
  
-      LOGICAL CONSTY, CSTYI, IDLUNI
+      LOGICAL CONSTY, CSTYI
       SAVE CONSTY 
 
       PARAMETER (KSIZ=10)

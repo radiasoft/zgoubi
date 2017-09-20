@@ -57,7 +57,7 @@ C  -------
           V(II1)=V0
           W(II1)=W0
           DO IJ = 1, 27
-            ICP0 = CPAR(I,IJ)
+            ICP0 = NINT(CPAR(I,IJ))
             CPAR(I,IJ) = CPAR(II1,IJ) 
             CPAR(II1,IJ) = ICP0
           ENDDO
