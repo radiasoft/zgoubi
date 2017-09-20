@@ -350,19 +350,19 @@ C--------- Name of the storage file in the next line
 c     yann : modif to setup the read of the cols if the external file
 c     is used together with the new scaling method that point directly to the A table
           LINE = LINE + 1
-          READ(NDAT,FMT='(A)',err=90,end=90) TXTF
+          READ(NDAT,FMT='(A)',ERR=90,END=90) TXTF
           CALL SCALI8(TXTF, IFM)
           LINE = LINE + 1
-          READ(NDAT,fmt='(a)',err=90,end=90) TXT132
+          READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
           CALL RAZS(STRAD,MSTRD)
           CALL STRGET(TXT132,MSTRD,
-     >         KSTR,STRAD)
+     >                             KSTR,STRAD)
  
           IF( KSTR .LE. 2 ) THEN !yann : this case is "as usual"
             READ(TXT132,*) NTIMCOL, NSCALCOL(1)
             NPA = 1
             JPA(IFM,MXP) = NPA
-          ELSE                   !yann : this is the new case
+          ELSE                   !yann : this is the new case, read scalings from a separate file
             READ(TXT132,*) NPA, NTIMCOL
             IF( NPA.GT.10 ) THEN
               WRITE(NRES,*) 'SBR RSCAL - ' //

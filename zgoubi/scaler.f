@@ -352,6 +352,16 @@ C                          ekin freq
           COTIME = 1.D0/CUBSPL(DAT3,DAT2,XV,ND,NFRQ)
           D1 = COTIME
 
+C        ELSEIF(KTI .EQ. -60) THEN
+CC--------- AGS dipoles, K1 and K2 laws
+C          CALL MULTP2(.TRUE.)
+C          CALL CAVIT1(
+C     >                PP0,GAMMA,DWS)
+CC          print *, PP0,GAMMA,DWS
+CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3 
+C          CALL AGSKS(PP0*BORO*CL9/1.D3)
+C          scaler = SCL(KF,1) * pp0
+
         ELSEIF(KTI .EQ. -77) THEN
 C-------- Field law protn driver, FNAL, Nov.2000
           IF( IPASS .GE. TIM(KF,1) .AND. IPASS .LE. TIM(KF,2)  ) THEN
@@ -422,43 +432,80 @@ C-------- removed 2pi from input, added constant scaler SCLMX, jorg
           downend = sweepend+DOWNN
 c          write(88,*) phas, q1, q2, SCLMX, RININ, RAMPN,
 c     &      FLATN,DOWNN,acturns,rampstart,sweepstart,sweepend,downend
+	IF(MODSCL(KF) .EQ. 0) THEN
+		  IF (IPASS .LT. RININ .or. IPASS .gt. downend) THEN
+		     SCAL = 0.d0
+		     QN=0
+		     iwhere=1
+		     totalphasep=0
+		  ELSE
+		     IF  (IPASS .LE. sweepstart) THEN
+		           SCAL = acturns/RAMPN
+		           QN = Q1
+		           totalphasep=QN*acturns
+c	             write(77,*) acturns,RAMPN,QN,acturns
+		     iwhere=2
+		     ELSEIF  (IPASS .LE. sweepend) THEN
+		           SCAL = 1.D0
+		           totalturn=IPASS
+		           sweepturns = acturns-RAMPN
+		           sweeprate = (Q2-Q1)/FLATN
+		           QN = Q1+ sweeprate * sweepturns
+		           totalphasep=Q1*acturns+sweeprate*sweepturns*sweepturns/2.d0
+		     iwhere=3
+		     ELSE
+		           SCAL = (RAMPN+FLATN+DOWNN-acturns)/DOWNN
+		           QN = Q2
+		           totalphasep=QN*(acturns-RAMPN-FLATN)+
+     >Q1*(RAMPN+FLATN)+
+     >sweeprate*sweepturns*sweepturns/2.d0
+		     iwhere=4
+		     ENDIF
+	 
+c	                write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
+		     SCAL = SCAL * COS(2.D0*PI*totalphasep + PHAS) * SCLMX
+c	                write(77,*) SCAL,ipass,iwhere
 
-          IF (IPASS .LT. RININ .or. IPASS .gt. downend) THEN
-             SCAL = 0.d0
-             QN=0
-             iwhere=1
-             totalphasep=0
-          ELSE
-             IF  (IPASS .LE. sweepstart) THEN
-                   SCAL = acturns/RAMPN
-                   QN = Q1
-                   totalphasep=QN*acturns
-c             write(77,*) acturns,RAMPN,QN,acturns
-             iwhere=2
-             ELSEIF  (IPASS .LE. sweepend) THEN
-                   SCAL = 1.D0
-                   totalturn=IPASS
-                   sweepturns = acturns-RAMPN
-                   sweeprate = (Q2-Q1)/FLATN
-                   QN = Q1+ sweeprate * sweepturns
-                   totalphasep=Q1*acturns+
-     +               sweeprate*sweepturns*sweepturns/2.d0
-             iwhere=3
-             ELSE
-                   SCAL = (RAMPN+FLATN+DOWNN-acturns)/DOWNN
-                   QN = Q2
-                   totalphasep=QN*(acturns-RAMPN-FLATN)+Q1*(RAMPN+FLATN)
-             iwhere=4
-             ENDIF
- 
-c                write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
-             SCAL = SCAL * COS(2.D0*PI*totalphasep + PHAS) * SCLMX
-c                write(77,*) SCAL,ipass,iwhere
+		  ENDIF
+	ELSEIF(MODSCL(KF) .EQ. 1) THEN
+		  IF (IPASS .LT. RININ .or. IPASS .gt. downend) THEN
+		     SCAL = 0.d0
+		     QN=0
+		     iwhere=1
+		     totalphasep=0
+		  ELSE
+		     IF  (IPASS .LE. sweepstart) THEN
+		           SCAL = acturns/RAMPN
+		           sweeprate = (Q2-Q1)/downend
+		           QN = Q1+ sweeprate * IPASS/2.0
+		           totalphasep=QN*acturns
+		     iwhere=2
+		     ELSEIF  (IPASS .LE. sweepend) THEN
+		           SCAL = 1.D0
+		           sweeprate = (Q2-Q1)/downend
+		           QN = Q1+ sweeprate * IPASS/2.0
+		           totalphasep=QN*acturns
+		     iwhere=3
+		     ELSE
+		           SCAL = (RAMPN+FLATN+DOWNN-acturns)/DOWNN
+		           sweeprate = (Q2-Q1)/downend
+		           QN = Q1+ sweeprate * IPASS/2.0
+		           totalphasep=QN*acturns
+		     iwhere=4
+		     ENDIF
+	 
+c	                write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
+		     SCAL = SCAL * COS(2.D0*PI*totalphasep + PHAS) * SCLMX
+c       	         write(77,*) SCAL,ipass,iwhere
 
-          ENDIF
+		  ENDIF
+	ELSE
+		call endjob
+	ENDIF
+
 c         scal is used for debugging -jkl
           SCALER = scal
-
+	
 c           IF (IPASS .ge. RININ ) then
 c          write(*,*) IPASS,QN,totalphasep,scaler
 c             read(*,*)
@@ -562,7 +609,9 @@ C              SCALER = FAC * SCL(KF,1) * PP0
  88   CONTINUE
 
       IF(OKPRT) WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
-     >LABEL(NOEL,2)
+     >LABEL(NOEL,2), totalphasep, QN,
+     > ' IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),'//
+     > 'LABEL(NOEL,2), totalphasep, QN'
 
 c                 write(*,*) ' scaler ',jj,LABEL(NOEL,1),
 c     >             LABEL(NOEL,2), scaler
