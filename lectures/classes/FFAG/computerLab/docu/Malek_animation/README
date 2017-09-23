@@ -1,0 +1,13 @@
+ 
+May need the latest version of gnuplot. I am using Version 5.0 patchlevel 3.
+
+The command line from the gnuplot terminal is in command.gnu
+
+The second file contains the main plotting instructions.
+
+
+Abstract:
+"The focus of this work is on the high power ring methods in the frame of the KURRI FFAG collaboration in japan. Upgrade of the installation towards high intensity is crucial to demonstrate the high beam power capability of FFAG. Thus, modeling of the beam dynamics and benchmarking of different codes was undertaken to validate the simulation results. Experimental results revealed some major losses that need to be understood and eventually
+overcome. By developing analytical models that account for the field defects, one identified major sources of imperfection in the design of scaling FFAG that explain the important tune variations resulting in the crossing of several betatron resonances. A new formula is derived to compute the tunes and properties established that characterize the effect of the field imperfections on the transverse beam dynamics. The results obtained allow to
+develop a correction scheme to minimize the tune variations of the FFAG. This is the cornerstone of a new fixed tune non-scaling FFAG that represents a potential candidate for high power applications."
+
