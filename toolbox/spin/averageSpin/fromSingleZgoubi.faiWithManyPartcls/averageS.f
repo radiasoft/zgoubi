@@ -8,6 +8,8 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       logical exs
       LOGICAL IDLUNI, OK
 
+      data nomfic / 'zgoubi.fai' /
+
       write(*,*) ' '
       write(*,*) '------------------------- '
       write(*,*) 'Pgm averageS.  '
@@ -32,7 +34,7 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       else
         nx = 59
 c        ny = 23
-        ny = 25
+        ny = 25   !  average spin vector
       endif
 
       write(*,*) ' '
@@ -41,6 +43,7 @@ c        ny = 23
       write(*,*) 'file : ',nomfic
       write(*,*) '------------------------- '
       write(*,*) ' ok ?'
+      read(*,*) 
 
       nl = nfai
       OPEN(UNIT=nfai,FILE=nomfic)
@@ -126,6 +129,10 @@ C          OPN = .FALSE.
             ENDIF
           ENDIF
         ENDIF
+
+         write(*,*) ' OPN, IUN, NT : ',OPN, IUN, NT 
+         write(*,*) ' Dome opening averageS.out.  Ok ?'
+         read(*,*)
 
             CALL STORCO(I12,NL,LM,1  ,BINARY,nx,ny,
      >                              xvar, sum,nbtraj,npass)
@@ -341,12 +348,14 @@ c         write(*,*) yzxb(nx), nx, yzxb(21), yzxb(22), yzxb(23), ny,i12
             sum(ipass,1) = sum(ipass,1) + yzxb(21)
             sum(ipass,2) = sum(ipass,2) + yzxb(22)
             sum(ipass,3) = sum(ipass,3) + yzxb(23)
-c             write(*,*) ' Sbr storco. i12 = 1; ipass, |s_i|^2 : ',   ! this quantities IS OK
-c     >         ipass,
-c     >      yzxb(21)**2 + 
-c     >      yzxb(22)**2 + 
-c     >      yzxb(23)**2
-C                  read(*,*) 
+             write(*,*) ' Sbr storco. i12 = 1; ipass, SZ, |s_i|^2 : ',   ! this quantities IS OK
+     >         ipass,
+     >      yzxb(23),
+     >      yzxb(21)**2 + 
+     >      yzxb(22)**2 + 
+     >      yzxb(23)**2
+c                  read(*,*) 
+
           else
 C Avrge \vec S at pass # ipass
             a(1) = sum(ipass,1)
@@ -526,7 +535,16 @@ C--------- read in zgoubi.fai type storage file
  219        continue
             write(*,*) ' -----------------------'
             write(*,*) ' locl : ',locl
-            stop ' Out of readco at 219'
+            write(*,*) OKKT(KT1,KT2,KT3,IT,KEX,LET,IEND),
+     >      KT1,KT2,KT3,IT,KEX,LET,IEND,
+     >      '  OKKT, KT1,KT2,KT3,IT,KEX,LET,IEND '
+            write(*,*) OKKP(KP1,KP2,KP3,jPASS,IEND),
+     >      KP1,KP2,KP3,jPASS,IEND,
+     >      '  OKKP, KP1,KP2,KP3,JPASS,IEND '
+            write(*,*) OKKL(KL1,KL2,NOEL,IEND),
+     >      KL1,KL2,NOEL,IEND,
+     >      '  OKKL, KL1,KL2,NOEL,IEND '
+c            stop ' Out of readco at 219'
             write(*,*) ' -----------------------'
  21         READ(NL,fmt='(a)',END=10) TXT1K
 
@@ -545,16 +563,16 @@ C--------- read in zgoubi.fai type storage file
              jpass = ipass
             KT3 = 1
 
+c            write(*,*) KT1,KT2,KT3,IT,KEX,LET,IEND,
+c     >      ' OKKT :  KT1,KT2,KT3,IT,KEX,LET,IEND'
 c            write(*,*) ' OKKT(KT1,KT2 ',OKKT(KT1,KT2,KT3,IT,KEX,LET,
 c     >                             IEND)
             IF(.NOT. OKKT(KT1,KT2,KT3,IT,KEX,LET,
      >                             IEND)) GOTO 219
-
 c            write(*,*) ' OKKP(KP1,KP2 ',OKKP(KP1,KP2,KP3,jPASS,
 c     >                                IEND)
             IF(.NOT. OKKP(KP1,KP2,KP3,jPASS,
      >                                IEND)) GOTO 219
-
 c            write(*,*) ' OKKL(KL1,KL2 ',OKKL(KL1,KL2,NOEL,
 c     >                           IEND)
             IF(.NOT. OKKL(KL1,KL2,NOEL,
