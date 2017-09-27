@@ -130,11 +130,17 @@ c        goto 1
 C      write(lunW,*) ' ip, avrg_col1,sig_col1, avrg_col2,sig_col2, ...'
       do ip = 1, ipmax
         do ic = 1, nbcol
-          avrg(ic,ip) = avrg(ic,ip)  /dble(nbf-iout)
-          sig(ic,ip) = sqrt(sig(ic,ip)/dble(nbf-iout) -avrg(ic,ip)**2)
+c           if(ic.eq.1) write(*,*) ' --- ',avrg(ic,ip),ip,icol(ic)
+c            read(*,*)
+           if(icol(ic) .eq. 38 .or. icol(ic) .eq. 25) then
+           else
+            avrg(ic,ip) = avrg(ic,ip)  /dble(nbf-iout)
+            sig(ic,ip) = sqrt(sig(ic,ip)/dble(nbf-iout) -avrg(ic,ip)**2)
+          endif
         enddo
-        write(lunW,fmt='(i5,1x,6(e12.4,1x),i7,1x,i7)') 
-     >  ip,(avrg(ic,ip),sig(ic,ip),ic=2,nbcol),nbf,nbf-iout
+        write(lunW,fmt='(i7,1x,1p,7(e12.4,1x),3(1x,i7))') 
+     >  nint(avrg(1,ip)),avrg(2,ip)
+     >  ,(avrg(ic,ip),sig(ic,ip),ic=3,nbcol),nbf,nbf-iout,ip
       enddo
 c      nbcol = 5
 c      do ip = 1, ipmax
@@ -452,7 +458,9 @@ C before reaching here...
           endif
 
           do i = 1, nbcol
-            if(icol(i) .ne. 38) then
+           if(icol(i) .eq. 38 .or. icol(i) .eq. 25) then
+              avrg(i,ip) = coll(icol(i))
+           else
               avrg(i,ip) = avrg(i,ip) + coll(icol(i))
               sig(i,ip) = sig(i,ip) + coll(icol(i))*coll(icol(i))
             endif

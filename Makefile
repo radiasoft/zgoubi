@@ -1,6 +1,9 @@
 CFLAGS=-g -DGFORTRAN4
 FC=gfortran
-FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
+#FFLAGS=-O -g -fno-automatic -pg
+FFLAGS=-O9 -Wall -fno-automatic -pedantic -cpp
+#FFLAGS=-O9 -Wall -fno-automatic -pedantic -mtune=native
+#FFLAGS=-O4 -Wall -fno-automatic -pedantic -fbacktrace -cpp
 #FFLAGS=-Og -O4 -Wall -fno-automatic -pedantic -cpp
 #FFLAGS=-O4 -Wall                -pedantic
 
@@ -11,7 +14,7 @@ all :
 	cd common ; rm libzg.a || true  ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zgoubi ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
 	cd zpop ; make CFLAGS="$(CFLAGS)" FC="$(FC)" FFLAGS="$(FFLAGS)"
-	cd guide ; make
+#	cd guide ; make
 
 clean :
 	$(RM) *~
@@ -21,7 +24,7 @@ clean :
 	cd zgoubi ;  make clean
 	cd zpop/liblns ; $(MAKE) clean
 	cd zpop ; $(MAKE) clean
-	cd guide ; $(MAKE) clean
+#	cd guide ; $(MAKE) clean
 
 
 
