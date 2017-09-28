@@ -1,8 +1,0 @@
-
-1/ Field map used here is that fabricated in 1.a
-
-2/ The rigidity scan is performed using REBELOTE
-
-13cm is the maximum step size doable, it is close to rho*(60deg/180*pi)/16.
-Only then do R and TOF from numerical integration depart noticeably from theory. 
-

@@ -1,2 +1,0 @@
-
-latex lectureNotes_synchrotron.tex ; latex lectureNotes_synchrotron.tex ;dvipdf lectureNotes_synchrotron.dvi 
