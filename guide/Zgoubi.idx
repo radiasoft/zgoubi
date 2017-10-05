@@ -233,7 +233,7 @@
 \indexentry{IMAX@{\IMAX}}{84}
 \indexentry{IMAX@{\IMAX}}{84}
 \indexentry{SRLOSS|textbf}{86}
-\indexentry{synchrotron radiation loss}{86}
+\indexentry{synchrotron radiation energy loss}{86}
 \indexentry{PARTICUL}{86}
 \indexentry{SPNPRT}{86}
 \indexentry{SYNRAD|textbf}{87}
@@ -294,15 +294,18 @@
 \indexentry{IMAX@{\IMAX}}{104}
 \indexentry{SCALING}{104}
 \indexentry{CAVITE}{104}
-\indexentry{synchrotron radiation loss}{105}
+\indexentry{synchrotron radiation energy loss}{105}
 \indexentry{double RF system}{105}
 \indexentry{CAVITE!- double RF system}{105}
+\indexentry{synchrotron radiation energy loss!- treatment in CAVITE}{105}
+\indexentry{synchrotron radiation energy loss!- treatment in CAVITE}{105}
 \indexentry{FFAG}{105}
 \indexentry{cyclotron}{105}
 \indexentry{BORO@{\BORO}$\times D_{ref}$|textbf}{106}
 \indexentry{BORORef@$B\rho_{ref}$}{106}
-\indexentry{closed orbit!- computation}{106}
-\indexentry{CAVITE!- recovering from a crash}{106}
+\indexentry{synchrotron radiation energy loss!- treatment in CAVITE}{107}
+\indexentry{closed orbit!- computation}{107}
+\indexentry{CAVITE!- recovering from a crash}{107}
 \indexentry{PRINT!- CAVITE}{107}
 \indexentry{zgoubi.CAVITE.out|textbf}{107}
 \indexentry{CHAMBR|textbf}{108}
@@ -495,7 +498,7 @@
 \indexentry{PRINT!- SPNPRT}{175}
 \indexentry{MATRIX!- spin rotation matrix}{175}
 \indexentry{SRPRNT|textbf}{176}
-\indexentry{synchrotron radiation loss}{176}
+\indexentry{synchrotron radiation energy loss}{176}
 \indexentry{TWISS|textbf}{177}
 \indexentry{MATRIX!- periodic beam matrix}{177}
 \indexentry{coupling|textbf}{177}
@@ -599,7 +602,9 @@
 \indexentry{acceleration}{207}
 \indexentry{synchrotron motion}{207}
 \indexentry{SCALING}{207}
+\indexentry{synchrotron radiation energy loss!- treatment in CAVITE}{207}
 \indexentry{CAVITE!- double RF system}{207}
+\indexentry{synchrotron radiation energy loss!- treatment in CAVITE}{207}
 \indexentry{CHAMBR|textbf}{208}
 \indexentry{stopped particles}{208}
 \indexentry{stopped particles}{208}

@@ -142,7 +142,7 @@ C Nb of harmonics
       NBH = MSTR-1
       IF(IOPT .EQ. 2) A(NOEL,19) = NBH
 
-C     ....V(Volts), PHS(rd)  :  dW = q*V sin( H*OMEGA*T + PHS), SR loss at pass #1 for computation of compensation (cav. 21)
+C V(Volts); PHS(rd) : dW = q*V sin( H*OMEGA*T + PHS); SR loss at pass #1 for computation of compensation (cav. 21)
 C      READ(NDAT,*) A(NOEL,20),A(NOEL,21)
       LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      

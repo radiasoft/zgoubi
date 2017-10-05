@@ -950,8 +950,8 @@ $ X$, $X $        \> Unused. \>\>\\
 $\mathcal{L}$, $h$       \> Reference closed orbit length~; harmonic number. \>m, no dim.  \>2*E\\
 $ \hat  V, ~ X $       \> R.F. peak voltage~; unused.  \>V, unused\>2*E\\
  \\
-\textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $. Handles double RF systems \index{CAVITE!- double RF system} \\
- \\
+\textbf{If IOPT=2}  \> $ f_{RF} $ follows $ \Delta W_s=q\hat  Vsin\phi_ s $.   Handles SR loss, stationnary bucket \index{synchrotron radiation energy loss!- treatment in CAVITE}.   Handles double RF. \index{CAVITE!- double RF system} \\ 
+\\
 $\mathcal{L}$, $h$ or $\{h_1, h_2\}$      \> Reference closed orbit length~; harmonic number(s). \>m, no dim.\>2*E\\
 $ \hat  V$ or $ \{ \hat  V_1, \hat  V_2 \}$, $\phi_ s $       \> R.F. peak voltage(s)~; synchronous phase. \>V, rad \>2*E\\
  \\
@@ -972,7 +972,9 @@ $ \hat  V, ~ \Phi_s $  \> R.F. peak voltage~; synchronous phase. \> V, rad \> 2*
  \\
 \textbf{If IOPT=10}  \>   Chambers matrix method. \\
 \\
-$L$, $f_{RF}$       \> Cavity length~; RF frequency.   \>  m , Hz  \>  2*E  \\
+$L$, $f_{RF}$, \textsl{[, ID]}       \> Cavity length~; RF frequency~; damp option, ID=0 (default~: just a drift),  \>  m, Hz \> 2*E [,I]\\
+   \> or $ID=\pm 1$ ($dE/E\ll 1$ hyp. and, resp$\rm ^{ly}$ damped or determinant=1),  \>    \>    \\
+   \> or $ID=\pm 2$ (no hyp. on $dE/E$ and, resp$\rm ^{ly}$ damped or determinant=1).   \>   \>   \\
 $ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options. \> V, rad, $-2$-$+2$ \> 2*E, I \\
 %$ \hat  V, ~ \Phi_s $, \textsl{IOPT}  \> R.F. peak voltage~; synchronous phase~; matrix options~; $B\rho_{ref}$ setting. \> V, rad, $-2$-$2$, - \> 2*E, I, E \\
  \\
@@ -982,7 +984,13 @@ $\mathcal{L}$, $E_k$       \> Orbit length and kinetic energy at start of accele
 $ \hat  V, ~ \Phi_s $, $U_0$       \> R.F. peak voltage~; synchronous phase~; SR loss at first pass~\footnotemark[3]. \> V, rad \> 2*E \\
 
 
+
 \end{tabbing}
+
+\vfill
+
+\noindent \texttt{Routines concerned, mostly~:} rcavit.f (read input), cavite.f (cavity models).
+
 
 \footnotetext[1]{~ Use \textsl{PARTICUL} to declare mass and charge. }
 \footnotetext[2]{~ For ramping the R.F. frequency following 

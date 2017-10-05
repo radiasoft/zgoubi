@@ -361,8 +361,8 @@ C--------- SR loss ----------------------------------
             CALL SYNPA3(LUN,
      >                      SMELPP,EE)
             WRITE(LUN,FMT='(5X,
-     >      '' Particle E / Radiated energy per turn : '',1P,G16.8,/,
-     >      '',   time : '',G16.8,'' mu_sec'')') 
+     >      ''Particle energy / Radiated energy per turn = '',1P,G16.8,
+     >      ''turns;   in units of time = '',G16.8,'' mu_sec'')') 
      >      EE/SMELPP,EE/SMELPP*F(7,1)
           ENDIF
         ENDIF

@@ -60,7 +60,7 @@ outcomes in dedicated external files.
  search for closed orbits\index{closed orbit}  in periodic machines, computation of optical functions and parameters, 
 tune scans, dynamic aperture scans,   spin dynamics data treatment, 
  graphic scripts, etc., and including dedicated ones regarding, \emph{e.g.}, FFAG and cyclotron design, 
-AGS and RHIC studies, synchrotron radiation losses and their effects. 
+AGS and RHIC studies, synchrotron radiation energy losses and their effects. 
 In addition ``python'' interfaces are being developed by several users,  possibly made available on web 
 by their authors. 
 
@@ -4579,7 +4579,7 @@ $A = \pi /2$,	and	$\delta	A =	0$.} }
 
 \subsubsection{SRLOSS~: \SRLOSSTitl\ \cite{FMSEA-00-01} } \index{SRLOSS|textbf}\label{SRLOSS}
 \medskip 
-\index{synchrotron radiation loss}
+\index{synchrotron radiation energy loss}
 
 \noindent The keyword \textsl{SRLOSS} allows activating or stopping (option $\KSR=1,0$ respectively) 
  stepwise tracking  of energy loss by stochastic emission of 
@@ -5595,7 +5595,7 @@ $f_{RF} $ follows, according to the formulae given in the \mbox{\textsl{IOPT}  =
 
 \medskip
 
-\index{synchrotron radiation loss}
+\index{synchrotron radiation energy loss}
 \noindent \textsl{IOPT  =  2} can be used for SR loss compensation in \textsl{storage ring} mode. In that case 
 $ \phi_ s $ should be given  the appropriate value for compensation for SR induced energy loss. 
 
@@ -5611,6 +5611,18 @@ wherein    $n = h_2 / h_1$. The synchronous energy gain is
 $$      \Delta W_s = q\hat V\, ( \sin(\phi_s)  + k \sin(n \phi_n))$$
 with    $k = V_2 / V_1$. 
 
+\medskip
+
+\noindent The option \textsl{IOPT  =  2}  handles synchrotron radiation energy loss 
+in the case of stationary bucket (see \textsl{IOPT  =  11} for accelerating bucket).
+ \index{synchrotron radiation energy loss!- treatment in CAVITE} 
+Compensation is derived from the  synchronous phase $\phi_s$, via
+$ \Delta W_{SR}= q\hat  V \,\sin\phi_ s $, therefore assuming appropriate value
+
+$$\phi_s = {\rm asin}(\Delta W_{SR} / q\hat  V)$$
+
+\noindent with $\Delta W_{SR} = $ the energy loss between passes in the cavity. 
+
 
 \medskip
 
@@ -5620,6 +5632,13 @@ Any particle will be given a kick
 $$ \Delta W = q\hat  V\, \sin\phi_ s $$
 
 \noindent where $ \hat  V $ and $ \phi_ s $ are input data.  
+
+\medskip
+
+\noindent The option \textsl{IOPT  =  3}  handles synchrotron radiation energy loss 
+in the case of stationary bucket (as in  \textsl{IOPT  =  2}). 
+ \index{synchrotron radiation energy loss!- treatment in CAVITE} 
+
 
 \medskip
 
@@ -5705,6 +5724,15 @@ well as removing the longitudinal damping (thus geometrical emittance is conserv
 
 \item[-] \text{IOP} = 0~: Transverse matrix is that of a drift with length $L$.
 \end{itemize}
+
+\item[\footnotesize $\bullet$] \textbf{If $\mathbf{IOPT  =  11}$~:} under development. 
+
+ The same simulation of a synchrotron RF cavity 
+as for $\mathbf{IOPT  =  2}$ is performed, but in addition 
+ \textsl{IOPT  =  10}  handles synchrotron radiation energy loss, both stationnary or accelerated bucket. 
+ \index{synchrotron radiation energy loss!- treatment in CAVITE} 
+
+
 \end{itemize}  
 
 
@@ -9199,11 +9227,11 @@ as many matrices.
 
 \newpage
 
-\subsubsection{SRPRNT~: \SRPRNTTitl}\label{SRPRNT}\index{SRPRNT|textbf}\index{synchrotron radiation loss}
+\subsubsection{SRPRNT~: \SRPRNTTitl}\label{SRPRNT}\index{SRPRNT|textbf}\index{synchrotron radiation energy loss}
 \medskip 
 
 \noindent\textsl{SRPRNT} may be introduced anywhere in a structure. It allows switching on 
-synchrotron radiation loss computation. It produces in addition 
+synchrotron radiation energy loss computation. It produces in addition 
 a print out (to zgoubi.res) of current state of statistics on several parameters related to 
 SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}. 
 

@@ -121,9 +121,9 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
       EO = E
 
       IF(LUN.GT.0) 
-     >WRITE(LUN,FMT='(//,5X,''Average energy loss per particle, summed''
-     >,'' UP TO THIS POINT :'', 1P,G16.8,'' keV'',6X,
-     >''Relative to initial energy :'',G16.8)') SMELPP, SMELPP*1.D-3/E
+     >WRITE(LUN,FMT='(/,5X,''Average energy loss per particle, summed''
+     >,'' UP TO THIS POINT :'', 1P,G16.8,'' keV.'',3X,
+     >''Relative to initial energy :'',G16.8,/)') SMELPP, SMELPP*1.D-3/E
 
       RETURN
 
