@@ -44,15 +44,15 @@ C           1           2            3            4            5
      >   'ELMULT' ,  'EBMULT'  ,  'ESLVIR'  , 'TROBJET'  , 'TRANSLAT' ,
      8 'POLARMES' ,  'TRAROT'  ,  'SRLOSS'  , 'PICKUPS'  ,  'OPTICS'  ,
      >   'GASCAT' ,'UNDULATOR' , 'ELCYLDEF' ,  'ELMIR'   ,  'ELCMIR'  ,
-     9  'MAP2D-E' ,  'SRPRNT'  , 'BETATRON' ,  'TWISS'   ,   'END'    , 
+     9  'MAP2D-E' ,  'SRPRNT'  , 'BETATRON' ,  'TWISS'   ,   'END'    ,
      >    'FFAG'  ,  'HELIX'   ,   'CSR'    ,   'PATH'   ,   'COILS'  ,
-     A 'GETFITVAL', 'SUPERPOSE',  'MARKER'  , 'DIPOLES'  , 'TRACKING' 
+     A 'GETFITVAL', 'SUPERPOSE',  'MARKER'  , 'DIPOLES'  , 'TRACKING'
      > /
       DATA (KLE(I),I=101,MXKLE)/
      > 'FFAG-SPI' ,   'FIT2'   ,   'EMMA'   , 'DIPOLEC'  , 'REVERSE'  ,
      B 'SYSTEM'   ,  'SPINR'   ,  'BENDTH'  ,  'AGSMM'   , 'BEAMBEAM' ,
-     C 'AGSQUAD'  ,  'SYNRAD'  ,  'OPTIONS' , 'EPLATES'  , 'DAMPER'   ,  
-     D 'CYCLOTRON',  'ERRORS'  ,'SPACECHARG',  'GOTO'    , 'ELLIPTIC' 
+     > 'AGSQUAD'  ,  'SYNRAD'  ,  'OPTIONS' , 'EPLATES'  , 'DAMPER'   ,
+     C 'CYCLOTRON',  'ERRORS'  ,'SPACECHARG',  'GOTO'    , 'ELLIPTIC'
      >/
 
       INCLUDE 'ZGINIT.H'
