@@ -28,5 +28,5 @@ clean :
 
 
 
-# Comments : 
-# -fno-automatic      Treat each program unit (except those marked as RECURSIVE) as if the SAVE statement were specified for every local variable and array referenced in it. Does not affect common blocks. (Some Fortran compilers provide this option under the name -static or -save.) The default, which is -fautomatic, uses the stack for local variables smaller than the value given by -fmax-stack-var-size. 
+# Comments :
+# -fno-automatic      Treat each program unit (except those marked as RECURSIVE) as if the SAVE statement were specified for every local variable and array referenced in it. Does not affect common blocks. (Some Fortran compilers provide this option under the name -static or -save.) The default, which is -fautomatic, uses the stack for local variables smaller than the value given by -fmax-stack-var-size.
