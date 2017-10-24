@@ -248,7 +248,7 @@ C dependence at subsequent passes.
      >                                        IS)
       ORBL = AN10
       HARM = AN11
-      RADIUS = AN12  ***************
+      RADIUS = AN12  ! ***************
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) THEN
         STS = 0.D0
