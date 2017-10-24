@@ -101,7 +101,7 @@ C Manage possible arguments to zgoubi -----------------------
          ELSEIF(ARGS(IX) .EQ. '-fileOut'
      >   .OR. ARGS(IX) .EQ. '-out'  ) THEN
            IX = IX + 1
-           FLIN = ARGS(IX)
+           FLOUT = ARGS(IX)
          ELSEIF(ARGS(IX) .EQ. '-fileLog' ) THEN
            IX = IX + 1
            FLOG = ARGS(IX)
