@@ -49,7 +49,7 @@ C  -------
       YRMS = SQRT(YM2/DBLE(NC) - (YM/DBLE(NC))**2)
       DXRMS = SQRT(DXM2/DBLE(NC) - (DXM/DBLE(NC))**2)
       DYRMS = SQRT(DYM2/DBLE(NC) - (DYM/DBLE(NC))**2)
-
+       
  1    CONTINUE
         READ(LUNR,FMT='(A)',ERR=77,END=88) TXT400
         IF    (STRCON(TXT400,'@ DXMAX            %le'

@@ -40,12 +40,15 @@ C  -------
       LOGICAL FITLST, FITLSI, FITLSO
       SAVE FITLST
 
+      LOGICAL FITNHI, FITNHO, FITNHB
+
       DATA FITING / .FALSE. /
       DATA NUMKLE / 0 /
       DATA FITBYD / .FALSE. /
       DATA FITFNL / .FALSE. /
       DATA FITRBL / .FALSE. /
       DATA FITLST / .FALSE. /
+      DATA FITNHB / .FALSE. /
 
 C FITIN set to .true. (in zgoubi.f) when FIT procedure run
       IF(IO.EQ.5) THEN
@@ -92,6 +95,7 @@ C-------- save status
       ENTRY FITST8(FITRBI)
          FITRBL = FITRBI
       RETURN
+
 ! .T. if FIT[2] is doing the last pass following completion (that can only happen if FITFNL=T)
       ENTRY FITST9(
      >             FITLSO)
@@ -99,6 +103,15 @@ C-------- save status
       RETURN
       ENTRY FITSTX(FITLSI)
          FITLST = FITLSI
+      RETURN
+
+! .T. if FIT[2] is inhibited (by TWISS for instance, when FIT precedes FIT for orbit finding)
+      ENTRY FITSTB(
+     >             FITNHO)
+         FITNHO = FITNHB
+      RETURN
+      ENTRY FITSTC(FITNHI)
+         FITNHB = FITNHI
       RETURN
 
       END

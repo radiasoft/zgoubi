@@ -534,8 +534,10 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           else
             WRITE(LUN,50)'@ GAMMATR          %le   Imaginary '
           endif
-          WRITE(LUN,54)'@ Q1               %le', YNUREF,'   [+ integer]'
-          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
+C          WRITE(LUN,54)'@ Q1               %le', YNUREF,'   [+ integer]'
+C          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
+          WRITE(LUN,54)'@ Q1               %le', YNUREF,'  [fractional]'
+          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'  [fractional]'
           WRITE(LUN,51)'@ DQ1              %le', DNUYDP
           WRITE(LUN,51)'@ DQ2              %le', DNUZDP
           WRITE(LUN,50)'@ DXMAX            %le    0.    not computed'
@@ -554,8 +556,12 @@ C--------- P0, AM  are  in  MEV/c, /c^2
           WRITE(LUN,51)'@ |C|              %le', CC
           WRITE(LUN,51)'@ Q1*              %le', Q1
           WRITE(LUN,51)'@ Q2*              %le', Q2
+          WRITE(LUN,50)'@ SYNCH_1          %le    0.    not computed'
+          WRITE(LUN,50)'@ SYNCH_2          %le    0.    not computed'
+          WRITE(LUN,50)'@ SYNCH_3          %le    0.    not computed'
           WRITE(LUN,50)'@ SYNCH_4          %le    0.    not computed'
           WRITE(LUN,50)'@ SYNCH_5          %le    0.    not computed'
+          WRITE(LUN,50)'@ SYNCH_6          %le    0.    not computed'
           WRITE(LUN,50)'@ TITLE            %12s   "Zgoubi model"'
           WRITE(LUN,50)'@ ORIGIN           %12s   "twiss.f"'
           WRITE(LUN,50)'@ DATE             %08s   "  "'

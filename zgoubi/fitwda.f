@@ -327,16 +327,21 @@ C Old style CHANGREF
 
  10   CONTINUE
 
-      WRITE(6,FMT='(/,20X,  
+      WRITE(6,FMT='(/,5X,  
      >''An updated version of the input data file, with va'',a,//)')
      >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
-      WRITE(ABS(NRES),FMT='(/,20X,  
+      WRITE(ABS(NRES),FMT='(/,5X,  
      >''An updated version of the input data file, with va'',a,//)')
      >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
+
+      WRITE(NRES,201)
+ 201  FORMAT(132('*'))
 
       CLOSE(LR)
       CLOSE(LW)
 
+      CALL SYSTEM('rm -f tempRes')
+      
       RETURN
 
  11   CONTINUE

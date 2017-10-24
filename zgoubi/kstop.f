@@ -40,6 +40,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (LBLSIZ=20)
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) FAM ; CHARACTER(LBLSIZ) LBF
+      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
@@ -114,12 +115,12 @@ C     >    IMX-NSTOP,'/',IMX
      >              NUML)
         WRITE(ABS(NRES),100) 
 C     >  'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'  -> Traj. #',
-     >  'LMNT #',NUML,'   -> Traj. #',
+     >  'Lmnt #',NUML,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
 C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
- 100    FORMAT(A,I4,A,I4,A,I2,A,I6,A,I6)
+ 100    FORMAT(3(A,I0),A,I2,A,I6,A,I6)
         call flush2(abs(nres),.false.) 
       ENDIF 
 

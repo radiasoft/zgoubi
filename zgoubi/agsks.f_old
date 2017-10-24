@@ -231,6 +231,8 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
       LBL1 = LABEL(NOEL,1)
       LAST = FINSTR(LBL1)
 
+c                 write(*,*) 'agsks PNOW(1), P ', PNOW(1),P
+
       IF    (LBL1(LAST-1:LAST) .EQ. 'BF') THEN
         IMM = 1
         IF(PNOW(1) .EQ. P) THEN
@@ -238,11 +240,20 @@ C CORRECTION FOR B-DOT EFFECTS IS ADDED IN HERE.  K.BROWN (8/31/98)
           AK1(1)=SAK1(1)
           AK2(1)=SAK2(1)
 
+C With FIT2, pmom is "NaN" at first pass here (a01bf magnet), and in addition ak1 is NaN. pnow(1)=NaN can be seen if
+C the write statements below are active... in addition that corrects the content of ak1(1) so that the computation 
+c goes on silently...
+
+c                 write(*,*) 'agsks PNOW(1).eq.P ', PNOW(1),P
+c              write(abs(NRES),*) ak1(1), sak1(1)
+c                  read(*,*)
+
+
         ELSE
 
           PNOW(1) = P
-C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each magnet
-          DB1F = 0.D0
+c              write(*,*) 'agsks PNOW(1).ne.P ', PNOW(1),P
+c                         read(*,*)
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -258,7 +269,6 @@ C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each mag
  861        CONTINUE
           ENDIF
 
-C ZgoubiFromSnaprampCmd has "DB1F = 0.D0" 
           DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
@@ -267,11 +277,29 @@ C ZgoubiFromSnaprampCmd has "DB1F = 0.D0"
           P6 = P*P5
 C  K1BF :
 
+c            write(*,*) ' agsks ',DB1F 
+c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
+c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
+c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
+c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
+
           AK1(1)= UKBFM3/(P3)+ UKBFM2/(P2)+ UKBFM1/P+ UKBF0+UKBF1*P 
      >    +UKBF2*P2+UKBF3*P3+UKBF4*P4+UKBF5*P5 
      >    +UKBF6*P6 
-
           AK1(1) = AK1(1)*(DB1F + 1.D0)
+
+C See /home/meot/zgoubi/struct/bnl/AtR/3He/n0/usingTOSCAMaps/blue/testA01BF.dat
+c FC=gfortran
+c FFLAGS=-O4 -Wall -fno-automatic -pedantic -cpp
+C If I do this write, ak1 value is no longer NaN at first step 
+c            write(*,*) ' agsks AK1(1) ap : ' , AK1(1)
+
+c            write(*,*) ' agsks ',DB1F 
+c            write(*,*) ' agsks ',UKBFM3,UKBFM2,UKBFM1,UKBF0,UKBF1, 
+c     >    UKBF2,UKBF3,UKBF4,UKBF5 ,UKBF6 
+c            write(*,*) ' agsks ',P2, P3, P4, P5, P6
+c            write(*,*) ' agsks AK1(1),AK2(1) : ' , AK1(1),AK2(1)
+
 
 C  K2BF :
           AK2(1)= TKBFM3/(P3)+ TKBFM2/(P2)+ TKBFM1/P + TKBF0+TKBF1*P 
@@ -290,8 +318,6 @@ C  K2BF :
           AK2(2)=SAK2(2)
         ELSE
           PNOW(2) = P
-C FM. "DB1D = 0.D0" has to be placed here in order to be actualized for each magnet
-          DB1D = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -307,7 +333,6 @@ C FM. "DB1D = 0.D0" has to be placed here in order to be actualized for each mag
  862        CONTINUE
           ENDIF
 
-C ZgoubiFromSnaprampCmd has "DB1D = 0.D0" 
           DB1D = 0.D0
           P2 = P*P
           P3 = P*P2
@@ -335,8 +360,6 @@ C  K2CD :
           AK2(3)=SAK2(3)
         ELSE
           PNOW(3) = P
-C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each magnet
-          DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -352,7 +375,6 @@ C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each mag
  863        CONTINUE
           ENDIF
 
-C ZgoubiFromSnaprampCmd has "DB1F = 0.D0" 
           DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
@@ -379,7 +401,6 @@ C  K2AF :
           AK1(4)=SAK1(4)
           AK2(4)=SAK2(4)
         ELSE
-          DB1D = 0.D0
           PNOW(4) = P
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
@@ -423,8 +444,6 @@ C  K2BD :
           AK2(5)=SAK2(5)
         ELSE
           PNOW(5) = P
-C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each magnet
-          DB1F = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1F = ADBF(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -440,7 +459,6 @@ C FM. "DB1F = 0.D0" has to be placed here in order to be actualized for each mag
  865        CONTINUE
           ENDIF
 
-C ZgoubiFromSnaprampCmd has "DB1F = 0.D0" 
           DB1F = 0.D0
           P2 = P*P
           P3 = P*P2
@@ -468,7 +486,6 @@ C  K2CF :
           AK2(6)=SAK2(6)
         ELSE
           PNOW(6) = P
-          DB1D = 0.D0
           IF( P .LT. AP(1) ) THEN
             DB1D = ADBD(1)
           ELSEIF( P .GT. AP(ISCLMAX)) THEN 
@@ -508,6 +525,5 @@ C  K2AD :
 
       AKS(2) = AK1(IMM) 
       AKS(3) = AK2(IMM) 
-
       RETURN
       END

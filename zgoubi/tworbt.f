@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE TWorbt
+      SUBROUTINE TWORBT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -45,7 +45,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C      DIMENSION T3(5,6) , T4(5,6)
 
       LOGICAL READAT
-
+      PARAMETER (I0=0)
       DATA PREC /  1E-4 /
 
 

@@ -23,7 +23,6 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBLMI)
-C     >                                 NBLMN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
 
@@ -144,17 +143,18 @@ C      LOGICAL OKPRLB, OKPRDA
       SAVE SCPLD
 
       PARAMETER (ITRMA0=999)
-
+      SAVE IRET
       DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
 
       DATA PRDIC / .FALSE. /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
-
+      
       INCLUDE 'LSTKEY.H'
 
       NBLMN = NBLMI
-
+      IRET = 0
+      
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
      >            FITBYD)
@@ -359,7 +359,13 @@ C---------------------------------------------------
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
         IF(KLEY.EQ.'END' .OR. KLEY.EQ.'FIN') THEN
-          WRITE(*,200) ' Ended upon keyword ',KLEY
+          WRITE(6,*)
+     >     'Pgm zgoubi : Execution ended normally, '
+     >     //'upon keyword END or FIN'
+          WRITE(NRES,*)
+     >     'Pgm zgoubi : Execution ended normally, '
+     >     //'upon keyword END or FIN'
+          IRET = 1
         ELSE
           WRITE(*,200) 'Unknown keyword ',KLEY
  200      FORMAT(/,10X,'Pgm zgoubi. ',2A,/)
@@ -748,8 +754,8 @@ C----- FIT. FIT2. Two methods are available
  46   CONTINUE
       MTHOD = 1
  461  CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
-     >''FIT procedure launched. Method is '',I1,/)') MTHOD
+C      IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
+C     >''FIT procedure launched. Method is '',I1,/)') MTHOD
       CALL FITNU2(MTHOD)
 C      IF(READAT) CALL RFIT(KLEY,IMAX,
       IF(READAT) CALL RFIT(KLEY,ITRMA,
@@ -762,7 +768,9 @@ C      IF(READAT) CALL RFIT(KLEY,IMAX,
       CALL FITSTA(I6,FITING)
       CALL FITST2(NOEL)
       FITGET = .FALSE.
-      RETURN
+C      RETURN
+      IF(FITING) RETURN
+      GOTO 998
 C----- SPES3. CARTE DE CHAMP CARTESIENNE MESUREE DU SPES3
 C          D'APRES W. ROSCH, 1991
  47   CONTINUE
@@ -1276,6 +1284,11 @@ C      Also prints periodic beta functions (by setting KOPTCS to 1).
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
 C      IF(READAT) CALL RTWISS
+
+C      write(*,*) ' at twiss fitbyd, fiting :',fitbyd, fiting
+C      read(*,*)
+      IF(FITBYD) CALL FITSTC(.TRUE.)     ! inhibit FIT as it stands before TWISS
+
       IF(READAT) THEN
         READ(NDAT,FMT='(A)') TXT132
         IF(STRCON(TXT132,'!',
@@ -1721,6 +1734,11 @@ C Current pass #
      >             IMAXO)
 C Number of particles being tracked
       IMAXO = IMAX
+      RETURN
+      ENTRY ZGIRET( 
+     >             IRETO)
+C Number of particles being tracked
+      IRETO = IRET
       RETURN
 
       END

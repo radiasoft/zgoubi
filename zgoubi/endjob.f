@@ -39,14 +39,20 @@ C  -------
      >  ''  This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
      >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT)),NOEL,IPASS
       ELSE
-        WRITE(6  ,FMT='( /,1X,A,I0,//,
-     >  ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
-     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
-        WRITE(LUN,FMT='( /,1X,A,I0,//,
-     >  ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
-     >  ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
+        IF(II.EQ. -9999) THEN
+C          WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
+          WRITE(  6,FMT='(/,''End of job !'',//,''  '')')
+        ELSE
+          WRITE(6  ,FMT='( /,1X,A,I0,//,
+     >    ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
+     >    ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
+          WRITE(LUN,FMT='( /,1X,A,I0,//,
+     >    ''This Enjbb occured at element # '',I0,'', at pass # '',I0)') 
+     >    ' '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ',II,NOEL,IPASS
+        ENDIF
       ENDIF
-      WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
-      WRITE(  6,FMT='(/,''End of job !'',//,''  '')')
+      WRITE(6,201)
+C      WRITE(NRES,201)
+ 201  FORMAT(132('*'))
       STOP
       END

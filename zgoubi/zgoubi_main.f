@@ -32,7 +32,7 @@ C  -------
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)                                                                   
       CHARACTER(10) DMY
       CHARACTER(9) HMS
-      LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL
+      LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL, FITNHB
       PARAMETER (I100 = 100)
       CHARACTER(I100) FLIN, FLOUT, FLOG
 
@@ -62,7 +62,8 @@ C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
 
 C Dummy                                                                                                                      
       CHARACTER(1) TAB(1)
-
+      SAVE IRET
+      
       DATA FLIN, FLOUT, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
       DATA FDAT / 'zgoubi.dat' /
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
@@ -70,7 +71,9 @@ C Dummy
       DATA OKWDAT, OKW / .FALSE., .FALSE. /
       DATA TAB /  1 * ' '  /
       DATA FITFNL, FITLST / .FALSE., .FALSE. /
+      DATA FITNHB / .FALSE. /                    ! .T. if FIt inhibited (by TWISS for instance)
       DATA IRANK  / 0 /
+      DATA IRET / 0 /
 
 C Manage possible arguments to zgoubi -----------------------                                                                
       NBARGS = COMMAND_ARGUMENT_COUNT()
@@ -183,10 +186,19 @@ C -----
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
       NBLMI = NBLMN
+C FM - 17.10.24. Allows carrying on beyond FIT
+ 12   CONTINUE
       CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
+      CALL ZGIRET(
+     >            IRET)
+      IF(IRET.EQ.1) GOTO 10
       CALL FITSTA(I5,
      >               FITING)
-      IF(FITING) THEN
+      IF(.NOT. FITNHB) THEN
+       IF(FITING) THEN
+        IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
+     >  ''FIT procedure launched.'',/)') 
+C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
         READAT = .FALSE.
         CALL FITNU(NRES,*99)
         FITING = .FALSE.
@@ -274,9 +286,15 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
           ENDIF
         ENDIF
 
+       ENDIF
       ENDIF
 
-      GOTO 10
+C FM - 17.10.24. Inhibits FIT, possibly
+      CALL FITSTB(
+     >            FITNHB)
+C FM - 17.10.24. Allows carrying on beyond FIT
+      GOTO 12
+C      GOTO 10
  
  996  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
      >FLIN(DEBSTR(FLIN):FINSTR(FLIN))
@@ -326,5 +344,9 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
       CLOSE(ABS(NRES))
       CLOSE(NLOG)     
 
+           CALL ENDJOB
+     >     ('Pgm zgoubi : Execution ended normally, '
+     >     //'upon keyword END or FIN',-9999)
+      
       STOP
       END

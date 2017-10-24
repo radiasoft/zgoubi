@@ -147,8 +147,12 @@ C------
  
       CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
      >                                    AK1,AK2,AKS)
+c      write(*,*) ' AK1,AK2,MOD : ',AK1,AK2,MOD
+c       read(*,*)
+      
       CALL AGSK12(NOEL,RO,AK1,AK2,MOD,
      >                                XL,BM,ANGMM)
+
       DO I = 1, NBLW
         WN(I) = A(NOEL,20+2*I-1)
         WA(I) = AA(20+2*I)

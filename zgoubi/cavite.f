@@ -129,8 +129,8 @@ C      PARAMETER (MXTA=45)
       KCAV = NINT(A(NOEL,1))
              
       IF(IPASS .EQ. 1) THEN 
-        OKIMP = strcon(TA(NOEL,1),'PRINT',
-     >                                    is)
+        OKIMP = STRCON(TA(NOEL,1),'PRINT',
+     >                                    IS)
         IF(OKIMP) THEN 
           IF(.NOT.OKOPEN) THEN
             IF(IDLUNI(
@@ -248,7 +248,7 @@ C dependence at subsequent passes.
      >                                        IS)
       ORBL = AN10
       HARM = AN11
-      RADIUS = AN12  !***************
+      RADIUS = AN12  ***************
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) THEN
         STS = 0.D0
@@ -279,7 +279,7 @@ Case Vahid's eRHIC RCS
           radius = 283.860202518    ! bend radius (m), assumed isofield lattice
           u0 = 88.46276*((ps*1d-3)/bts)**4/radius *1d-3  ! u0 (MeV)  (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
         ELSEIF(CRNLSY) THEN
-          U0 = A(NOEL,22)  *( (ps/bts) / (p0/bt0) )**4 *1d-6 ! AN22(eV)=Energy loss at first pass. U0 in MeV 
+          U0 = (A(NOEL,22)*1d-6) *( (ps/bts) / (p0/bt0) )**4  ! AN22(eV)=Energy loss at first pass. U0 in MeV 
 ********************
         ELSE
           U0 = 0.D0

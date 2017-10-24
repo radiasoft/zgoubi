@@ -29,7 +29,7 @@ C  -------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 
       LOGICAL READAT, FITING
-      PARAMETER (I6 = 6)
+      PARAMETER (I0=0, I6 = 6)
 C      DIMENSION VECT(6,100)
 
       WRITE(NRES,*) ' Now tracking, from lmnt ',NLA,' to lmnt ',NLB
