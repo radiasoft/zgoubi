@@ -18,18 +18,18 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       PROGRAM ZGOUBI_MAIN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG                                      
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL                                                 
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
-      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)                                                                   
+      INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       LOGICAL IDLUNI, READAT, FITING, FITBYD, FITRBL, FITNHB
@@ -54,16 +54,16 @@ C  -------
       CHARACTER(KSIZ) KEY, LBL1, LBL2
       PARAMETER (I0=0)
 
-C Tentative pour faire fonctionner REBELOTE en compil dyn.                                                                   
-C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne.                                               
-C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)                                                   
+C Tentative pour faire fonctionner REBELOTE en compil dyn.
+C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne.
+C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
       SAVE FITING, READAT, NL1, NL2, FITBYD, NBLMN, NUMKLE,
      > FITFNL, FITRBL, OKWDAT, OKW, KLE, IPASS,NRBLT
 
-C Dummy                                                                                                                      
+C Dummy
       CHARACTER(1) TAB(1)
       SAVE IRET
-      
+
       DATA FLIN, FLOUT, FLOG / 'zgoubi.dat', 'zgoubi.res', 'zgoubi.log'/
       DATA FDAT / 'zgoubi.dat' /
       DATA SAVXEC, SAVZPP / .FALSE., .FALSE.  /
@@ -75,7 +75,7 @@ C Dummy
       DATA IRANK  / 0 /
       DATA IRET / 0 /
 
-C Manage possible arguments to zgoubi -----------------------                                                                
+C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
       ALLOCATE(ARGS(NBARGS))
       DO IX = 1, NBARGS
@@ -117,7 +117,7 @@ C Manage possible arguments to zgoubi -----------------------
          IX = IX + 1
       ENDDO
 C -----
-  
+
       IF(FLIN .EQ. 'zgoubi_temp.dat') CALL ENDJOB(
      >'Pgm zgoubi_main. ''zgoubi_temp.dat'' input file name '//
      >'is reserved. Please choose a different one.')
@@ -148,14 +148,14 @@ C -----
         WRITE(6,*) ' '
         WRITE(6,*) ' --'
         IF(SAVXEC) THEN
-          WRITE(6,FMT='(A)') 
+          WRITE(6,FMT='(A)')
      >    'Now copying zgoubi executable to local directory.'
-          CALL SYSTEM('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .') 
+          CALL SYSTEM('cp ~/zgoubi/SVN/current/zgoubi/zgoubi .')
         ENDIF
         IF(SAVZPP) THEN
           WRITE(6,FMT='(a)') 'Now copying zpop executable to local '
      >    //'directory (if you wish to run it, use an xterm terminal).'
-          CALL SYSTEM('cp ~/zgoubi/SVN/current/zpop/zpop .') 
+          CALL SYSTEM('cp ~/zgoubi/SVN/current/zpop/zpop .')
         ENDIF
         WRITE(6,*) ' --'
         WRITE(6,*) ' '
@@ -197,7 +197,7 @@ C FM - 17.10.24. Allows carrying on beyond FIT
       IF(.NOT. FITNHB) THEN
        IF(FITING) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT='(5X,
-     >  ''FIT procedure launched.'',/)') 
+     >  ''FIT procedure launched.'',/)')
 C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
         READAT = .FALSE.
         CALL FITNU(NRES,*99)
@@ -212,10 +212,10 @@ C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
         IF(FITFNL) THEN
           FITLST = .TRUE.
           CALL FITSTX(FITLST)
-          WRITE(6,200) 
+          WRITE(6,200)
           IF(NRES.GT.0) THEN
             WRITE(NRES,201)
-            WRITE(NRES,200) 
+            WRITE(NRES,200)
  200        FORMAT(/,10X,
      >     ' MAIN PROGRAM :  FIT completed. ',
      >     ' Now doing a last run using variable values from FIT. ',A10)
@@ -226,7 +226,7 @@ C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
           CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
           FITLST = .FALSE.
           CALL FITSTX(FITLST)
-          IF(NRES.GT.0) THEN 
+          IF(NRES.GT.0) THEN
             WRITE(NRES,201)
  201        FORMAT(/,132('*'))
             WRITE(NRES,334) NUMKLE,' Keyword FIT[2] is skipped since '
@@ -237,7 +237,7 @@ C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
           ENDIF
 
         ELSE
-          IF(NRES.GT.0) 
+          IF(NRES.GT.0)
      >    WRITE(NRES,335) ' Last run following FIT[2] is skipped,'
      >    //' as requested.  Now carrying on beyond FIT keyword.'
  335      FORMAT(/,2X,A)
@@ -277,10 +277,10 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
      >                IPASS,NRBLT)
           IF(IPASS .LE. NRBLT+1) THEN
             READAT = .FALSE.
-            FITRBL = .FALSE.   
+            FITRBL = .FALSE.
             CALL FITST8(FITRBL)
             REWIND(NDAT)
-            GOTO 11 
+            GOTO 11
           ELSE
             GOTO 10
           ENDIF
@@ -295,16 +295,16 @@ C FM - 17.10.24. Inhibits FIT, possibly
 C FM - 17.10.24. Allows carrying on beyond FIT
       GOTO 12
 C      GOTO 10
- 
- 996  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+
+ 996  WRITE(6,*) ' PGM ZGOUBI : error open file ',
      >FLIN(DEBSTR(FLIN):FINSTR(FLIN))
       GOTO 10
- 997  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+ 997  WRITE(6,*) ' PGM ZGOUBI : error open file ',
      >FLOUT(DEBSTR(FLOUT):FINSTR(FLOUT))
       GOTO 10
- 995  WRITE(6,*) ' PGM ZGOUBI : error open file ', 
+ 995  WRITE(6,*) ' PGM ZGOUBI : error open file ',
      >FLOG(DEBSTR(FLOG):FINSTR(FLOG))
-      GOTO 10 
+      GOTO 10
 
  99   CONTINUE
       WRITE(6   ,103) DMY,HMS
@@ -317,8 +317,8 @@ C      GOTO 10
       ENDIF
 
  10   CONTINUE
-      
-      CLOSE(NDAT)     
+
+      CLOSE(NDAT)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(A)')  '   '
@@ -342,11 +342,11 @@ C      GOTO 10
      >                    IER)
 
       CLOSE(ABS(NRES))
-      CLOSE(NLOG)     
+      CLOSE(NLOG)
 
            CALL ENDJOB
      >     ('Pgm zgoubi : Execution ended normally, '
      >     //'upon keyword END or FIN',-9999)
-      
+
       STOP
       END
