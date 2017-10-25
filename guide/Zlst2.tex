@@ -5265,21 +5265,30 @@ $RX$, $RY$, $RZ$
 
 
 \begin{tabbing}
-\mestab
-\textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf}
+$N$, $EB1$, $EB2$, $EG1$, $EG2$ \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%\mestab
+\textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf} \index{TWISS!- find orbit}
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
- \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of \>0-3[.1], 2*any    \>I1[.I1], 2*E \\
-         FacD, FacA \textsl{[, coupled]}    \> chromaticities / add computation of anharmonicities.    \> \>\\
+ \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of            \>0-3[.1], 2*any \>I1[.I1],  \\
+         FacD, FacA \textsl{[, coupled]}    \> chromaticities / add computation of anharmonicities.  \>  [,coupled]   \>  2*E [,A]\\
                           \> $KTW2$~: default is initial computation of closed orbit coordinates, \> \>\\
                           \>  $KTW2=1$ will avoid that.           \> \>\\
                           \> $\rm FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
                           \> in OBJET~; $FacA$~: unused.             \> \> \\
-                          \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.   \>\>\\
+                          \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.  
 \end{tabbing}
 
 
+\vspace{5ex}
+
+\noindent Note~: \textsl{TWISS} can be preceded by \textsl{FIT[2]}. This allows finding the closed orbit prior to
+doing \textsl{TWISS}. This is ilustrated in the example below (just un-comment the \textsl{FIT} instruction,
+and it will first find the orbit which will then be used by \textsl{OBJET[KOBJ=5]} to define the initial
+11 sample rays). 
 
 
 \vfill
@@ -5295,6 +5304,14 @@ $RX$, $RY$, $RZ$
 .................................
 zgoubi.dat optics list in between
 .................................
+! 'FIT'                                                                                      
+! 2
+! 1 30 0 [-1.,1.]     ! vary Y_ref
+! 1 31 0 [-1.,1.]     ! vary T_ref
+! 2  1e-10
+! 3.1 1 2 #End  0. 1. 0     ! particle 1: Y_initial = Y final
+! 3.1 1 3 #End  0. 1. 0     ! particle 1: T_initial = T final
+'FAISCEAU'
  'TWISS'
  2 1. 1.                           ! KTW = 3, FacD = 1
  'END'
@@ -5315,11 +5332,15 @@ delivery (print out to zgoubi.res) of
 
 
 
+
 \newpage
 
 
 \begin{tabbing}
-\mestab
+$N$, $EB1$, $EB2$, $EG1$, $EG2$\quad \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%\mestab
 \textbf{UNDULATOR}  \label{UNDULATOR-B} \index{UNDULATOR|textbf} \>\textbf{Undulator magnet} \> \> \\
  \\
  \\

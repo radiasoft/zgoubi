@@ -9243,8 +9243,7 @@ SR loss  presumably  activated beforehand with keyword \textsl{SRLOSS}.
 \subsubsection{TWISS~: \TWISSTitl}\label{TWISS} \index{TWISS|textbf} \index{MATRIX!- periodic beam matrix}
 \medskip
 
-\textsl{TWISS}   causes the calculation of 
-  transport coefficients and various other global parameters, in particular 
+\textsl{TWISS}   causes the calculation of  transport coefficients and various other global parameters, in particular 
 periodical quantities as tunes and optical functions, in the coupled hypothesis\index{coupling|textbf}.  
  \textsl{TWISS} is normally placed at the end of the structure~; it  causes a series 
 of up to 5 successive passes in the structure (at the manner of \textsl{REBELOTE}). 
@@ -9265,7 +9264,9 @@ changing for instance the reference trajectory in \textsl{OBJET} for dp/p relate
 
 - It assumes that the reference particle (particle \#1 of 11, when using \textsl{OBJET[\KOBJ= 5]}) is located on 
 the closed orbit. \textsl{This condition has to be satisfied for TWISS to work consistently}, 
-because  \textsl{TWISS} does not look for the closed orbit by itself (this is under installation). \index{closed orbit} 
+because  \textsl{TWISS} does not look for the closed orbit by itself. \index{closed orbit} 
+A simple way to first find the orbit is to have \textsl{TWISS} preceded by a dedicated \textsl{FIT[2]}, 
+see example in PART~B, page~\pageref{TWISS-B}.  \index{TWISS!- find orbit}
 
 - A first pass (the only one if \textsl{KTW=1}) through the structure allows computing the periodic 
 optical functions at the end of the structure,  from the  rays.
@@ -9281,7 +9282,8 @@ tracked on different transverse invariants, horizontal or vertical.
 
 \bigskip
 
-\noindent The execution of  \textsl{TWISS} will cause printout to the file zgoubi.TWISS.out\index{zgoubi.TWISS.out}, a MADX type ``twiss'' file, 
+\noindent The execution of  \textsl{TWISS} will cause printout to the file
+zgoubi.TWISS.out\index{zgoubi.TWISS.out}, a MADX type ``twiss'' file, 
 with similar formatting, including   periodic optical data as a header (tunes, chromaticities, etc.) and, 
 in sequence element by element~: optical functions, element strength, first order transport coefficients, spin $\vec n_0$ vector 
 (requires \textsl{'SPNTRK'} request). 
@@ -9290,7 +9292,7 @@ in sequence element by element~: optical functions, element strength, first orde
 
 
 
-\bigskip
+\vfill
 
 
 \noindent \underline{\textsl{About the source code~: }}
@@ -9298,7 +9300,7 @@ in sequence element by element~: optical functions, element strength, first orde
 \medskip
 
 \noindent The program \texttt{beamat} ensures the transport of the beam matrix along the 
-zgoubi.dat sequence. \texttt{beamat}  is called by \texttt{opticc}, 
+zgoubi.dat sequence, at the orgin of the content of zgoubi.TWISS.out. \texttt{beamat}  is called by \texttt{opticc}, 
  itself called after each optical element, in the  program \texttt{zgoubi}. 
 
 \smallskip
