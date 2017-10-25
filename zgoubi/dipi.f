@@ -419,7 +419,7 @@ C         (M=POINT COURANT), ORTHOGONALEMENT A LA DROITE (ABC)
             AX3 = ((YA3 - Y) * TANO3 ) + XA3
             CX3 = ((YC3 - Y) * TANO3 ) + XC3
           ENDIF
-C
+
 C POSITION DU POINT (X,Y) / FACE ENTREE
           IF     ( X.LT.CX .AND. X.LT.AX )  THEN
 C           REGION DE COURBURE R1
@@ -429,6 +429,7 @@ C           REGION DE COURBURE R1
             R = ABS(RR)
             D = R - SQRT((X - XO)**2 + (Y - YO)**2 )
             D =( -D * RR/R + SHIFTE )
+
           ELSE IF( X.GE.CX .AND. X.LE.AX )  THEN
 C            REGION LINEAIRE
             XO = SICO * (Y - YB) + XB * SIN2 + X * COS2
@@ -439,6 +440,7 @@ C           (M=POINT COURANT), PARALLELEMENT A LA DROITE (ABC)
             D = SQRT((X - XO)**2 + (Y - YO)**2 )
             IF( Y .LE. YL .OR. D .LE. 1.D-6 ) D = -D
             D=( D + SHIFTE )
+
           ELSE IF( X.GT.CX .AND. X.GT.AX )  THEN
 C           REGION DE COURBURE R2
             RR = R2
@@ -447,6 +449,7 @@ C           REGION DE COURBURE R2
             R = ABS(RR)
             D = R - SQRT((X - XO)**2 + (Y - YO)**2 )
             D=( -D * RR/R + SHIFTE )
+
           ELSE
 C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES.GT.0) WRITE(NRES,104)
@@ -454,7 +457,7 @@ C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES .GT. 0) WRITE(NRES,134) X,AX,CX,XA,YA,XC,YC
             GOTO  99
           ENDIF
- 
+
           IF(LAMBDE .EQ. 0.D0) THEN
             IF(D.LE.0.D0) THEN
               FE=1.D0
