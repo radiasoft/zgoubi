@@ -39,6 +39,7 @@ C  -------
       PARAMETER(MPOL=10)
       INCLUDE "C.MULTPE.H"     ! COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
       INCLUDE "C.MULTPL.H"     ! COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
@@ -65,8 +66,10 @@ C FM - July 2015
  100        FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >      ,/,15X,' Length  of  element  : ',G12.4,'  cm'
      >      ,/,15X,' Inner radius  RO =',G12.4,'  cm')
-            WRITE(NRES,103) 'CNTRL',BO,' kG'
- 103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A6)
+            WRITE(NRES,103) 'CNTRL',BO,' kG ;  ',BO/BORO
+     >      ,BO*XL/(2.D0*BORO)
+ 103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A,' K=B/BORO = '
+     >      ,G12.4,' /m ;   theor. angle  BL/(2*BORO) = ',G12.4,' rad')
             WRITE(NRES,145) XE,XLS
  145        FORMAT(15X,' Entrance and exit integration extents : '
      >      /,20X,'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
