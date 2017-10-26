@@ -189,9 +189,6 @@ C -----
 C FM - 17.10.24. Allows carrying on beyond FIT
  12   CONTINUE
       CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
-      CALL ZGIRET(
-     >            IRET)
-      IF(IRET.EQ.1) GOTO 10
       CALL FITSTA(I5,
      >               FITING)
       IF(.NOT. FITNHB) THEN
@@ -264,6 +261,9 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
         CALL FITST4(FITBYD)
         NBLMI = NBLMN
         CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
+        CALL ZGIRET(
+     >            IRET)
+        IF(IRET.EQ.1) GOTO 10
         CALL FITST7(
      >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
         IF(FITRBL) THEN
@@ -289,7 +289,7 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
        ENDIF
       ENDIF
 
-C FM - 17.10.24. Inhibits FIT, possibly
+C FM - 17.10.24. FIT has possibly been inhibited (e.g., by TWIIS)
       CALL FITSTB(
      >            FITNHB)
 C FM - 17.10.24. Allows carrying on beyond FIT

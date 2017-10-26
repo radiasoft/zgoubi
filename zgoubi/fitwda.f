@@ -334,7 +334,7 @@ C Old style CHANGREF
      >''An updated version of the input data file, with va'',a,//)')
      >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
 
-      WRITE(NRES,201)
+      WRITE(ABS(NRES),201)
  201  FORMAT(132('*'))
 
       CLOSE(LR)

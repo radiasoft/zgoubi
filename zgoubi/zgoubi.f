@@ -147,13 +147,14 @@ C      LOGICAL OKPRLB, OKPRDA
       DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
 
       DATA PRDIC / .FALSE. /
+      DATA IRET / 0 /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
       
       INCLUDE 'LSTKEY.H'
 
       NBLMN = NBLMI
-      IRET = 0
+C      IRET = 0
       
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
@@ -360,12 +361,12 @@ C---------------------------------------------------
         WRITE(NRES,201)
         IF(KLEY.EQ.'END' .OR. KLEY.EQ.'FIN') THEN
           WRITE(6,*)
+          WRITE(6,*)
      >     'Pgm zgoubi : Execution ended normally, '
-     >     //'upon keyword END or FIN'
+     >     //'upon keyword END or FIN.'
           WRITE(NRES,*)
      >     'Pgm zgoubi : Execution ended normally, '
      >     //'upon keyword END or FIN'
-          IRET = 1
         ELSE
           WRITE(*,200) 'Unknown keyword ',KLEY
  200      FORMAT(/,10X,'Pgm zgoubi. ',2A,/)
@@ -373,6 +374,7 @@ C---------------------------------------------------
      >    'Pgm zgoubi : Execution ended upon unexpected keyword.',-99)
         ENDIF
       ENDIF
+      IF(KLEY.EQ.'END' .OR. KLEY.EQ.'FIN') IRET=1
       RETURN 
 
  996  CONTINUE
