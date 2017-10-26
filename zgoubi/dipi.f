@@ -141,6 +141,12 @@ C 103    FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
  123    FORMAT(10('*'),' ATTENTION |    R1 OU R2 = 0 |',10('*'))
       ENDIF
 
+      IF(LAMBDE .EQ.0.D0) THEN
+        IF(ACENT .NE. UMEGA .OR. THETA .NE. 0.D0) 
+     >  CALL ENDJOB('Pgm dipi. Entrance hard edge requires ACENT=OMEGA+'
+     >  //'  AND  THETA=0',-99) 
+      ENDIF
+
 C Exit Fringe Field
       NP=NP+1 
       LAMBDS = A(NOEL,NP)
@@ -174,6 +180,12 @@ C Exit Fringe Field
         IF(R1S*R2S .EQ. 0.D0) WRITE(NRES,123)
       ENDIF
  
+      IF(LAMBDS .EQ.0.D0) THEN
+        IF(AT - ACENT .NE. -UMEGAS .OR. THETAS .NE. 0.D0) 
+     >  CALL ENDJOB('Pgm dipi. Exit hard edge requires ACENT=OMEGA+ AND'
+     >  //' THETA=0',-99) 
+      ENDIF
+
       NP=NP+1 
       LAMBD3 = A(NOEL,NP)
       NP=NP+1 
@@ -187,30 +199,30 @@ C Exit Fringe Field
       SHIFT3 = A(NOEL,NP)
       SHIFT3=0D0
  
-       NP=NP+1 
-       UMEGA3 = A(NOEL,NP)
-       NP=NP+1 
-       THETA3 = A(NOEL,NP)
-       NP=NP+1 
-       R13    = A(NOEL,NP)
-       NP=NP+1 
-       U13    = A(NOEL,NP)
-       NP=NP+1 
-       U23    = A(NOEL,NP)
-       NP=NP+1 
-       R23    = A(NOEL,NP)
-       NP=NP+1 
-       RM3    = A(NOEL,NP)
+      NP=NP+1 
+      UMEGA3 = A(NOEL,NP)
+      NP=NP+1 
+      THETA3 = A(NOEL,NP)
+      NP=NP+1 
+      R13    = A(NOEL,NP)
+      NP=NP+1 
+      U13    = A(NOEL,NP)
+      NP=NP+1 
+      U23    = A(NOEL,NP)
+      NP=NP+1 
+      R23    = A(NOEL,NP)
+      NP=NP+1 
+      RM3    = A(NOEL,NP)
  
-       IF(NRES.GT.0) THEN
-         WRITE(NRES,106) 'Lateral  EFB  ',LAMBD3,QSI3
-         WRITE(NRES,127) NCOEF3,(C3(KMAG,I),I=1,6),SHIFT3
-         WRITE(NRES,113) RM3
-113      FORMAT(20X,' Face centred on direction ACENT+OMEGA, A ',
-     >   G12.4,' CM'/)
-         WRITE(NRES,103) UMEGA3,THETA3,R13,U13,U23,R23
-         IF(R13*R23 .EQ. 0.D0) WRITE(NRES,123)
-       ENDIF
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,106) 'Lateral  EFB  ',LAMBD3,QSI3
+        WRITE(NRES,127) NCOEF3,(C3(KMAG,I),I=1,6),SHIFT3
+        WRITE(NRES,113) RM3
+113     FORMAT(20X,' Face centred on direction ACENT+OMEGA, A ',
+     >  G12.4,' CM'/)
+        WRITE(NRES,103) UMEGA3,THETA3,R13,U13,U23,R23
+        IF(R13*R23 .EQ. 0.D0) WRITE(NRES,123)
+      ENDIF
        
       NP=NP+1 
       IRD = NINT(A(NOEL,NP))
@@ -368,7 +380,7 @@ C FM. Jul. 13, 2017
           GTXF = TTA+2.D0*DTTA .GT. XF
         ENDIF
         OKTTA = .NOT.(LTXI .OR. GTXF)
-C        write(*,*) ' dipi  oktta, ltxi, gtxf ', oktta, ltxi, gtxf
+
         IF(OKTTA) THEN 
           AAA = 0.D0
         ELSEIF(LTXI) THEN 
@@ -590,8 +602,6 @@ C             ... REGION DE COURBURE R2
          ROI= (ROJ-RM)/RM
          FTAB(ITTA,JRO)=F*HNORM*(1.D0+(COEFN+(COEFB+COEFG*ROI)*ROI)*ROI)
           
-C            write(*,*) ' itta, jro, f ',itta,jro,f 
-
     1 CONTINUE
 C--------- end loop on   NN x tta  &  NN x ro
 
