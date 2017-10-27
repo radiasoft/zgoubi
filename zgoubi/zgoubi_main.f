@@ -189,6 +189,9 @@ C -----
 C FM - 17.10.24. Allows carrying on beyond FIT
  12   CONTINUE
       CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
+      CALL ZGIRET(
+     >            IRET)
+      IF(IRET.EQ.1) GOTO 10
       CALL FITSTA(I5,
      >               FITING)
       IF(.NOT. FITNHB) THEN
