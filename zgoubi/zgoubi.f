@@ -1286,10 +1286,7 @@ C      Also prints periodic beta functions (by setting KOPTCS to 1).
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
 C      IF(READAT) CALL RTWISS
-
-C      write(*,*) ' at twiss fitbyd, fiting :',fitbyd, fiting
-C      read(*,*)
-      IF(FITBYD) CALL FITSTC(.TRUE.)     ! inhibit FIT as it stands before TWISS
+      IF(FITBYD) CALL FITSTC(.TRUE.)     ! inhibit FIT if there is one before TWISS
 
       IF(READAT) THEN
         READ(NDAT,FMT='(A)') TXT132

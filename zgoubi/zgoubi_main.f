@@ -347,9 +347,8 @@ C      GOTO 10
       CLOSE(ABS(NRES))
       CLOSE(NLOG)
 
-           CALL ENDJOB
-     >     ('Pgm zgoubi : Execution ended normally, '
-     >     //'upon keyword END or FIN',-9999)
+C           CALL ENDJOB
+C     >     ('Pgm zgoubi_main : Job ended.',-9999)
 
       STOP
       END
