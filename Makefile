@@ -20,7 +20,7 @@ clean :
 	$(RM) *~
 	cd modules ;  make clean
 	cd common ;  make clean
-	cd zgoubi/coupling ; make clean
+	cd zgoubi/coupling ; rm libcoupl.a ; make clean
 	cd zgoubi ;  make clean
 	cd zpop/liblns ; $(MAKE) clean
 	cd zpop ; $(MAKE) clean
