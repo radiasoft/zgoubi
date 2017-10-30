@@ -1653,7 +1653,7 @@ C      CALL SPACH(KSPCH,LBLSC,NLBSC)
        IF(NRES .GT. 0) THEN
          IF (TSPCH) THEN
            WRITE(NRES,FMT='(15X,
-     >    ''Space charge effect will occur at element[s] labeled : '')') 
+     >    ''Space charge effect will occur at element[s] labeled : '')')
            WRITE(NRES,FMT='(20X,A)') (LBLSC(I),I=1,NLBSC)
 
          ELSE
