@@ -110,7 +110,7 @@ C----- To get values into A(), from earlier FIT
 
 C      CHARACTER(LBLSIZ) LBLOPT
 C      SAVE KOPIMP, KOPTCS, LBLOPT
-      SAVE KOPIMP, KOPTCS
+      SAVE KOPIMP, KOPTCS, KOPTIC
       LOGICAL OKLNO
 
       LOGICAL EMPTY, IDLUNI, OKCPLD
@@ -1105,7 +1105,7 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
         READ(STRA(1),*) XOPT
         KOPTCS = INT(XOPT)
         IF(KOPTCS .EQ. 1) THEN
-          IF( STRCON(STRA(1),'.',
+           IF( STRCON(STRA(1),'.',
      >                           IS)) THEN
             IF(FINSTR(STRA(1)) .GT. IS) THEN
               READ(STRA(1)(IS+1:FINSTR(STRA(1))),*) NLBOPT
@@ -1204,6 +1204,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
         OKLNO = .FALSE.
       ENDIF
       CALL OPTIC2(OKLNO,LNOPTI)
+      KOPTIC = KOPTCS
       GOTO 998
  899  CONTINUE
 C      IF(NRES.GT.0) 
@@ -1285,7 +1286,11 @@ C      Also prints periodic beta functions (by setting KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
 C                            ktwiss=2 :  Prtcl#   unused    [coupled]
-C      IF(READAT) CALL RTWISS
+C     IF(READAT) CALL RTWISS
+
+      IF(KOPTIC .EQ. 1) CALL ENDJOB('Pgm zgoubi. Sorry, ''OPTICS'' is'
+     >//' not compatible with ''TWISS''. Comment one or the other.',-99)
+      
       IF(FITBYD) CALL FITSTC(.TRUE.)     ! inhibit FIT if there is one before TWISS
 
       IF(READAT) THEN
