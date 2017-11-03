@@ -1,0 +1,9 @@
+echo " (cd avrgSzFromFai   ; gfortran -o avrgSzFromFai avrgSzFromFai.f ) "
+(cd avrgSzFromFai   ; gfortran -o avrgSzFromFai avrgSzFromFai.f )
+echo " (cd computeStrength  ; gfortran -o computeStrength  computeStrength.f ) "
+(cd computeStrength  ; gfortran -o computeStrength  computeStrength.f )
+echo " (cd dataTreatment  ; gfortran -o dataTreatment  dataTreatment.f ) "
+(cd dataTreatment  ; gfortran -o dataTreatment  dataTreatment.f )
+echo " (cd genePlots ; gfortran -o genePlots genePlots.f ) "
+(cd genePlots ; gfortran -o genePlots genePlots.f )
+exit

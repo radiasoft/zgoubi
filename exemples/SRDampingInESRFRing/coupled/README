@@ -1,0 +1,5 @@
+
+'zgoubi -in coupling0.58.dat' will generate b_zgoubi.fai, and the result file zgoubi.res.
+
+Z.vs.Turn_first100Turns.eps has been produced using zpop. It can be produced using gnuplot instead, gnuplot has to read in b_zgoubi (binary), or otherwise : change b_zgoubi.fai to zgoubi.fai in coupling0.58.dat, this will yield zgoubi.fai with ascii content (header lines detail that content), easier with gnuplot may be...
+

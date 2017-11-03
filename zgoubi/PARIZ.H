@@ -93,6 +93,11 @@ C----- Jaroslaw problem, Oct 2010
 c      PARAMETER (IZ=3 , ID=3, MMAP=1)
 c      PARAMETER (MXX=1271, MXY=97)
 
+C SPES2 ----------------------------------------------------
+CC SPES2 with 3 2D maps
+      PARAMETER (IZ=3 , ID=3, MMAP=3)
+      PARAMETER (MXX=132, MXY=80)
+
 C AGS ----------------------------------------------------
 CC AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -118,8 +123,8 @@ c       PARAMETER (MXX=801, MXY=29)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
-        PARAMETER (IZ=61 , ID=3, MMAP=5)
-      PARAMETER (MXX=1001, MXY=61)
+c        PARAMETER (IZ=61 , ID=3, MMAP=5)
+c      PARAMETER (MXX=1001, MXY=61)
 c      PARAMETER (MXX=801, MXY=201)
 c      PARAMETER (MXX=321, MXY=29)
 c       compatible eRHIC Halbach magnet
