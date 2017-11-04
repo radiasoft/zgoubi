@@ -610,31 +610,29 @@ C     >            ' ipass freq phi-phs ti qV*sin p-ps ITraj'
  
  
  70   CONTINUE
-C Bucketless acceleration. Ok for non-scaling FFAG
-C Used for muon, EMMA
+C Bucketless acceleration. Ok for non-scaling FFAG and cyclotron
+C Used for muon, EMMA, cyclotron
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
 C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is 
 C at V(t)=0)
-      ORBL = AN10
+      HARM = AN10
       FCAV = AN11
+      TREF = HARM / FCAV  ! sec. Synchronous time.
       PH0 = AN21
       PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
-      DTS = ORBL / ( CL * BTS)
-      HARM = DTS * FCAV
       OMRF = 2.D0 * PI * FCAV
 C      WS = PS / BTS
 C      TS = TS + DTS
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,170) FCAV,HARM,QV,BORO,DTS,
+        WRITE(NRES,170) FCAV,HARM,QV,
      >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
  170    FORMAT(
      >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
      >  /,20X,'Harmonic                          =',   E15.6,' ',
      >  /,20X,'Max energy  gain                  =',   E15.6,' MeV',
-     >  /,20X,'TOF for BRho_ref (',G10.2,') is',       E15.6,' s',
      >  /,20X,'Cumulated distance since origin   =',   E15.6,' m',
      >  /,20X,'Cumulated   TOF      "     "      =',   E15.6,' s',
      >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
@@ -657,38 +655,52 @@ C      TS = TS + DTS
         BTA = P / ENRG
 C F(7,I) is time in mu_s. of course, TI is in s
         TI = F(7,I) * UNIT(7) 
-        PHI = OMRF * TI + PH0
-C Phase, in [-pi,pi] interval
-        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
-        IF    (PHI .GT.  PI) THEN
-          PH(I) =PHI - 2.D0*PI
-        ELSEIF(PHI .LT. -PI) THEN
-          PH(I) =PHI + 2.D0*PI
-        ELSE
-          PH(I) =PHI 
-        ENDIF
 
-        DWF =  QV * SIN(PH(I))
+C Particle phase wrt. RF :
+        DTI = TI - DBLE(IPASS) *TREF
+        PHI = OMRF * DTI + PH0
+
+C        PHI = OMRF * TI + PH0
+C Phase, in [-pi,pi] interval
+C        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+c        IF    (PHI .GT.  PI) THEN
+c          PH(I) =PHI - 2.D0*PI
+c        ELSEIF(PHI .LT. -PI) THEN
+c          PH(I) =PHI + 2.D0*PI
+c        ELSE
+          PH(I) = modulo(PHI, 2.d0*pi)
+c        ENDIF
+
+C        DWF =  QV * SIN(PH(I))
+        DWF =  QV * SIN(PHI)
 C------- Rustine etude ffag muon
-        IF(OMRF.LE.0.D0) DWF = QV
+C        IF(OMRF.LE.0.D0) DWF = QV
 C------------------------------
-        WF1(I) = WF1(I) + DWF
-        WF = WF1(I)
 
 C Kin. energy, MeV
+        WF1(I) = WF1(I) + DWF
+        WF = WF1(I)
         DPR(I)=WF
+
+           write(*,*) ' cavite p, px av : ',p,px
 
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
+
+           write(*,*) ' cavite p, px ap : ',p,px
+           write(*,*) ' '
         F(1,I) = P / P0
         F(3,I) = ATAN2(PY,PX) / UNIT(2)
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
 
         IF(OKIMP) 
-     >     WRITE(LUN,FMT='(1P,5e14.6,2I6)') PH(I),DPR(I),
-     >     TI, ti-dble(ipass)*dts, QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
-
+     >  WRITE(LUN,FMT='(1P,4(e14.6,1x),2(I6,1x),6(e14.6,1x),a)') 
+     >  PHI,DWF,TI, SIN(PHI), I , IPASS
+     >  ,phi/(2.d0*pi),omrf,omrf*ti,wf,ph(i),phi+ph0
+     >  ,' phi, dwf, t, sin(ph+ph0),i,ipass,ph(i)/2pi,omrf,omrf*t,wf,'
+     >  //'ph(i),phi+ph0'
  71   CONTINUE
+
       GOTO 88
  
 

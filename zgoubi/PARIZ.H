@@ -172,8 +172,8 @@ C       PARAMETER (MXX=370, MXY=200)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For ~/zgoubi/SVN/zgoubi-code/exemples/tools/compare
 C       PARAMETER (IZ=29 , ID=3, MMAP=6)      ! strictu sensu
-cc       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
-cc       PARAMETER (MXX=801, MXY=200)
+c       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
+c       PARAMETER (MXX=801, MXY=200)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map
@@ -193,17 +193,34 @@ c       PARAMETER (MXX=447, MXY=87)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
-c       PARAMETER (IZ=31 , ID=3, MMAP=6)
-c       PARAMETER (MXX=801, MXY=81)
+c       PARAMETER (IZ=31 , ID=3, MMAP=2)
+c       PARAMETER (MXX=801, MXY=79)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
-C Full RHIC snake 
-c       PARAMETER (IZ=81 , ID=3, MMAP=2)
-c       PARAMETER (MXX=1201, MXY=81)
+C RHIC helix
+C       PARAMETER (IZ=81 , ID=3, MMAP=4)
+c       PARAMETER (MXX=1201, MXY=83)
+C       PARAMETER (MXX=1201, MXY=81)
+C       PARAMETER (MXX=1201, MXY=111)    ! compatible cbeta
+c       PARAMETER (MXX=1201, MXY=301)    ! compatible raccam
+c       PARAMETER (IZ=81 , ID=3, MMAP=4)
+c       PARAMETER (MXX=361, MXY=81)
+c       PARAMETER (IZ=81 , ID=3, MMAP=4)
+C       PARAMETER (MXX=361, MXY=81)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-c       PARAMETER (IZ=41 , ID=3, MMAP=1)
-c       PARAMETER (MXX=567, MXY=201)
+C       PARAMETER (IZ=41 , ID=3, MMAP=1)
+C       PARAMETER (MXX=567, MXY=201)
 
- 
+
+C---------------------------------------------------------------
+C---------------------------------------------------------------
+C STONY BROOK LECTURES 
+
+C SBU lectures - cyclotron
+      PARAMETER (IZ=3 , ID=3, MMAP=3)
+      PARAMETER (MXX=136, MXY=140)
+
+C---------------------------------------------------------------
+C---------------------------------------------------------------
