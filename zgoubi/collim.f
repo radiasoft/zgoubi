@@ -48,7 +48,11 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
   
-C      DIMENSION YM(MXJ), YPM(MXJ), U(MXJ), ALPHA(MXJ), BETA(MXJ)
+      LOGICAL FIRST
+      SAVE FIRST
+      DATA FIRST / .TRUE. /
+      
+C     DIMENSION YM(MXJ), YPM(MXJ), U(MXJ), ALPHA(MXJ), BETA(MXJ)
 C      DIMENSION YMX(MXJ), YPMX(MXJ)
 
       IL =   NINT(A(NOEL,1))
@@ -69,6 +73,16 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
         RETURN
       ENDIF
 
+      IF(FIRST) THEN
+         OK = IDLUNI(
+     >        LUNW)
+         OPEN(UNIT=LUNW,FILE='zgoubi.COLLIMA.out')
+         FIRST = .FALSE.
+         IF(IFRM .EQ. 1) WRITE(LUNW,FMT='(A)') 'N1, NOUT, LET(I),'
+     >   //' IEX(I), (FO(J,I),J=1,6), (F(J,I),J=1,6), I, IREP(I)'
+     >   //', IPASS'
+      ENDIF
+      
       IF(IFRM .LE. 2) THEN
         IF(JFRM.EQ.1) THEN
           YL=.5D0*(A2-A1)
@@ -158,7 +172,8 @@ C------------- Phase-space (acceptance) collimator
       LIVE = 0
       N1 = 0
       DO 1 I=1,IMAX
-        IF(IEX(I) .LT. -1) GOTO 1
+C        IF(IEX(I) .LT. -1) GOTO 1
+        IF(IEX(I) .LE. -1) GOTO 1
         LIVE = LIVE + 1
   
         IF    (IFRM .LT. 10) THEN
@@ -174,12 +189,18 @@ C----------- Physical collimator
             IF    (IFRM .EQ. 1) THEN
 C-------------- Rectangular
  
+c                 WRITE(88,106) N1,NOUT,LET(I),IEX(I), 
+c     >       (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
+
               IF( YP2 .GE. 1.D0 .OR. ZP2 .GE. 1.D0 ) THEN
                 N1 = N1 + 1
 C---------------- SORT = path length of a particle when stopped 
                 SORT(I) = F(6,I)
-                IF(NRES .GT. 0) THEN
-                  IF(IL .EQ. 2) THEN
+                CALL KSTOP(4,I,IEX(I),*10)
+ 10             CONTINUE
+                IF(IL .EQ. 2) THEN
+
+                  IF(NRES .GT. 0) THEN
                     IF(N1 .EQ. 1) WRITE(NRES,104)
  104                FORMAT(5X,/,'Coordinates  of  particles  stopped :'
      >              ,//,7X,'NTOT',T40,'(Do,Yo,To,Zo,Po)',
@@ -187,14 +208,17 @@ C---------------- SORT = path length of a particle when stopped
                     CALL CNTOUR(
      >                          NOUT)
                     WRITE(NRES,106) N1,NOUT,LET(I),IEX(I), 
-     >               (FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
- 106                FORMAT(1X,I3,I7,2X,A1,2X,I2,2(F8.4,4F10.3,2X),2I3)
+     >               (FO(J,I),J=1,5),(F(J,I),J=1,6),I,IREP(I),IPASS
+ 106                FORMAT(I3,1X,I7,1X,A1,1X,I2,2(F10.6,1X,4F11.4,
+     >              1X,1P,E14.6,0P),3(I6,1X))
                     WRITE(NRES,105) F(6,I)
  105                FORMAT(10X,'  path  length  =',F10.2,' cm')
-                  ENDIF
+                 ENDIF
+                 
+                  WRITE(LUNW,106) N1,NOUT,LET(I),IEX(I), 
+     >            (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
+
                 ENDIF
-                CALL KSTOP(4,I,IEX(I),*10)
- 10             CONTINUE
               ENDIF
  
             ELSEIF(IFRM .EQ. 2) THEN
@@ -203,18 +227,18 @@ C-------------- Elliptical
               IF( ( YP2 + ZP2 ) .GE. 1.D0 ) THEN
                 N1 = N1 + 1
                 SORT(I) = F(6,I)
+                CALL KSTOP(4,I,IEX(I),*11)
+ 11             CONTINUE
                 IF(NRES .GT. 0) THEN
                   IF(IL .EQ. 2) THEN
                     IF(N1 .EQ. 1) WRITE(NRES,104)
                     CALL CNTOUR(
      >                          NOUT)
                     WRITE(NRES,106) N1,NOUT,LET(I),IEX(I),
-     >               (FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
+     >               (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                     WRITE(NRES,105) F(6,I)
                   ENDIF
                 ENDIF
-                CALL KSTOP(4,I,IEX(I),*11)
- 11             CONTINUE
               ENDIF
  
             ENDIF
@@ -246,7 +270,7 @@ C-------------- SORT = path length of a particle when stopped
                   CALL CNTOUR(
      >                        NOUT)
                   WRITE(NRES,106) N1,NOUT,LET(I),IEX(I)
-     >            ,(FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
+     >            ,(FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                   WRITE(NRES,105) F(6,I)
                 ENDIF
               ENDIF
@@ -275,7 +299,7 @@ C----------- Horizontal
                   CALL CNTOUR(
      >                        NOUT)
                   WRITE(NRES,106) N1,NOUT,LET(I),IEX(I)
-     >            ,(FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
+     >            ,(FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                   WRITE(NRES,105) F(6,I)
                 ENDIF
               ENDIF
@@ -299,7 +323,7 @@ C----------- Vertical
                   CALL CNTOUR(
      >                        NOUT)
                   WRITE(NRES,106) N1,NOUT,LET(I),IEX(I)
-     >            ,(FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
+     >            ,(FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                   WRITE(NRES,105) F(6,I)
                 ENDIF
               ENDIF
@@ -326,7 +350,7 @@ CCCCC            T2 = F(1,I)*UNIT(6) - XPM
                   CALL CNTOUR(
      >                        NOUT)
                   WRITE(NRES,106) N1,NOUT,LET(I),IEX(I)
-     >            ,(FO(J,I),J=1,5),(F(J,I),J=1,5),I,IREP(I)
+     >            ,(FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                   WRITE(NRES,105) F(6,I)
                 ENDIF
               ENDIF
@@ -336,24 +360,27 @@ CCCCC            T2 = F(1,I)*UNIT(6) - XPM
 
         ENDIF
 
- 1      CONTINUE
-       
-C        CALL REBELR(KREB3,KDUM,IMX)
-C        IF(KREB3.NE.99) IMX = IMX + IMAX
+ 1    CONTINUE
 
-        CONTINUE
+      IF(LIVE.LE.0) CALL ENDJOB(
+     >'Pgm collim.f. All particles dead. Ipass =',IPASS)
+      
+C      CALL REBELR(KREB3,KDUM,IMX)
+C      IF(KREB3.NE.99) IMX = IMX + IMAX
 
-        CALL CNTMXR(
-     >              IMX) 
-        CALL CNTOUR(
-     >              NOUT) 
-          IF(NRES .GT. 0 ) 
-     >    WRITE(NRES,109) N1, NOUT,LIVE-N1,IMX,(100.D0*(LIVE-N1))/IMX
- 109      FORMAT(/,T20,' Number of particles counted out of acceptance',
-     >    /,T25,' -  at  this  collimator : ',I6,
-     >    /,T25,' -  by  collimations,  from  the  beginning : ',I6,
-     >    /,T25,' Overall  survival  :  ',I9,' / ',I9,'  (',G10.3,'%)')
-          CALL CNTSTO(NTOT) 
+      CONTINUE
+
+      CALL CNTMXR(
+     >            IMX) 
+      CALL CNTOUR(
+     >            NOUT) 
+      IF(NRES .GT. 0 ) 
+     >WRITE(NRES,109) N1, NOUT,LIVE-N1,IMX,(100.D0*(LIVE-N1))/IMX
+ 109  FORMAT(/,T20,' Number of particles counted out of acceptance',
+     >/,T25,' -  at  this  collimator : ',I6,
+     >/,T25,' -  by  collimations,  from  the  beginning : ',I6,
+     >/,T25,' Overall  survival  :  ',I9,' / ',I9,'  (',G10.3,'%)')
+      CALL CNTSTO(NTOT) 
 
       RETURN
       END
