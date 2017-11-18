@@ -80,7 +80,8 @@ C----- For possible storing of coordinates, if ellipse plot
       LOGICAL IDLUNI
       LOGICAL READBX, READBY
       
-      save norm
+      character(5) tmod
+      save norm, xco, yco, alf, bet, eta, etap
 
       DATA CNECT / .TRUE. /
 
@@ -97,7 +98,7 @@ C------ Entering negative value for X  will cancel tagging
 
       DATA READBX, READBY / .FALSE., .FALSE. /
       data norm / 0 /
-
+      
 C      IUNIT = NLOG
 C      WRITE(IUNIT,*) '%% <X>, Sig_X, <Y>, Sig_Y, Correlation, IPASS'
 C      CALL FLUSH2(IUNIT,.FALSE.)      
@@ -258,6 +259,36 @@ C----- File type zgoubi.plt
           ENDIF        
       ENDIF        
 
+c             call fbgtxt
+c             write(*,*) ' ploter norm : ',norm,x,y,xco,yco,alf,bet
+c             read(*,*)
+
+          if(norm .eq. 1) then
+
+c             call fbgtxt
+c                write(*,*) ' ploter x,y, xco,yco : ',x,y,xco,yco,alf,bet
+
+            if    ((kx.eq.2 .and. ky .eq. 3)
+     >      .or.   (kx.eq.4 .and. ky .eq. 5) ) then
+              y = (alf*(x-xco-eta*dpp) + bet*(y-yco-etap*dpp))/sqrt(bet)
+              x = (x-xco-eta*dpp) /sqrt(bet)
+            elseif((kx.eq.3 .and. ky .eq. 2) 
+     >      .or.   (kx.eq.5 .and. ky .eq. 4) ) then
+              x = (alf*(y-yco-eta*dp) + bet*(x-xco-etap*dpp))/sqrt(bet)
+              y = (y-yco-eta*dpp) /sqrt(bet)
+           endif
+
+c                write(*,*) ' ploter x,y : ',x,y
+           
+          elseif(norm .eq. 2) then
+            if(kx.ge.2 .and. kx .le.5) x = x *(1.d0+sqrt(yzxb(1)))
+            if(ky.ge.2 .and. ky .le.5) y = y *(1.d0+sqrt(yzxb(1)))
+c                  call fbgtxt
+c                write(*,*) ' ploter norm f(2) : ',(1.d0+sqrt(yzxb(1)))
+          else
+c                write(*,*) ' ploter not normed / ',yzxb(1)
+          endif
+
       IF( INRANG(X,Y,XMI,XMA,YMI,YMA) ) THEN
 
         NOC = NOC+1
@@ -268,16 +299,7 @@ C----- File type zgoubi.plt
           YDX =  (X-X0) * Y
           SYDX = SYDX + YDX
           X0=X
-            
-          if(norm .eq. 1) then
-            if(kx.ge.2 .and. kx .le.5) x = x *(1.d0+sqrt(yzxb(1)))
-            if(ky.ge.2 .and. ky .le.5) y = y *(1.d0+sqrt(yzxb(1)))
-c                  call fbgtxt
-c                write(*,*) ' ploter norm f(1) : ',(1.d0+sqrt(yzxb(1)))
-          else
-c                write(*,*) ' ploter not normed / ',yzxb(1)
-          endif
-
+                    
           CALL VECTPL(X,Y,2) 
 
           IF(LIS .EQ. 2) THEN 
@@ -311,16 +333,6 @@ C--------- Beginning of next optical lmnt or next pass
           YDX = 0.2D0
           SYDX = 0.D0
           X0 = X
-
-          if(norm .eq. 1) then
-            if(kx.ge.2 .and. kx .le.5) x = x *(1.d0+sqrt(yzxb(1)))
-            if(ky.ge.2 .and. ky .le.5) y = y *(1.d0+sqrt(yzxb(1)))
-c                  call fbgtxt
-c                write(*,*) ' ploter norm f(1) : ',(1.d0+sqrt(yzxb(1)))
-          else
-c                write(*,*) ' ploter not normed / ',yzxb(1)
-          endif
-
 
             IF(CNECT) THEN
               IF(XYLAST(1,NDX(2)) .LE. X) THEN
@@ -522,8 +534,20 @@ C Units in BTAB should be m, as delivered by READCO
         JPASS = IPASS
       RETURN
 
-      ENTRY PLOT20(normi)
-        norm = normi
+      ENTRY PLOT20(tmod,xcoi,ycoi,alfi,beti,etai,etapi)
+        if    (tmod .eq. 'N') then
+          norm = 1
+          xco = xcoi
+          yco = ycoi
+          alf = alfi
+          bet = beti
+          eta = etai
+          etap = etapi
+        elseif(tmod .eq. 'normD') then
+          norm = 2
+        else
+          norm = 0
+        endif
       RETURN
 
 C----- Scale computer
@@ -663,6 +687,30 @@ C----- File type zgoubi.spn
       ENDIF
       ITAB = ITAB + 1
 
+c             call fbgtxt
+c         write(*,*) ' calech norm : ',norm,x,y,xco,yco,alf,bet
+
+          if(norm .eq. 1) then
+
+            if    ((kx.eq.2 .and. ky .eq. 3)
+     >      .or.   (kx.eq.4 .and. ky .eq. 5) ) then
+              y = (alf*(x-xco-eta*dpp) + bet*(y-yco-etap*dpp))/sqrt(bet)
+              x = (x-xco-eta*dpp) /sqrt(bet)
+            elseif((kx.eq.3 .and. ky .eq. 2) 
+     >      .or.   (kx.eq.5 .and. ky .eq. 4) ) then
+              x = (alf*(y-yco-eta*dp) + bet*(x-xco-etap*dpp))/sqrt(bet)
+              y = (y-yco-eta*dpp) /sqrt(bet)
+           endif
+           
+          elseif(norm .eq. 2) then
+            if(kx.ge.2 .and. kx .le.5) x = x *(1.d0+sqrt(yzxb(1)))
+            if(ky.ge.2 .and. ky .le.5) y = y *(1.d0+sqrt(yzxb(1)))
+c                  call fbgtxt
+c                write(*,*) ' ploter norm f(2) : ',(1.d0+sqrt(yzxb(1)))
+          else
+c                write(*,*) ' ploter not normed / ',yzxb(1)
+          endif
+          
 c        X = AX*X**PX + BX
 c        Y = AY*Y**PY + BY
         CALL MINMAX(X,Y,XMI,XMA,YMI,YMA)

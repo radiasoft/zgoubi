@@ -44,6 +44,8 @@ C  -------
       SAVE AX,PX,BX,AY,PY,BY,IBXY
 
       LOGICAL IDLUNI
+      CHARACTER(80) FILE2O, FILE3O
+      character(20) tmod
 
       DATA OKXAV,OKYAV / .FALSE., .FALSE./
       DATA OKX12,OKY12 / .FALSE., .FALSE./
@@ -80,6 +82,7 @@ C  -------
      >, /,8X,'14: Change H/V variables :  X -> f(X)  and/or  Y -> f(Y) '
      >, /,8X,'15: Plot dx :', L1,'   dy :', L1
 C     >, /,8X,'16: Plot <y> +/- sig_y vs. x (e.g., Env. vs. Ipass) :', L1
+     >, /,8X,'17: Read zpop.dat '
      >, /,8X,'26: Path extrapolation in field maps'
      >, /,8X,'88: HELP' 
      >,/)
@@ -87,7 +90,7 @@ C     >, /,8X,'16: Plot <y> +/- sig_y vs. x (e.g., Env. vs. Ipass) :', L1
       WRITE(6,100) ' * Option  number : '
  100  FORMAT(A20)
       READ(5,*,ERR=21) IO
-      GOTO(21, 2,3 ,4 ,5 ,6 ,7 ,8 ,98,10,11,12,13,14,15) IO
+      GOTO(21, 2,3 ,4 ,5 ,6 ,7 ,8 ,98,10,11,12,13,14,15,21,17) IO
       IF(IO.EQ.26) GOTO 26
       IF(IO.EQ.88) GOTO 88
       GOTO 21
@@ -289,6 +292,20 @@ C------- Plot X(ipass)-X(ipass-1), Y(ipass)-Y(ipass-1)
         OKY12 = (IOP .EQ. 2) .OR.  (IOP .EQ. 3) 
       GOTO 98
 
+ 17   CONTINUE
+          CALL PLINI1('////MENU07////',
+     >     kx,ky,tmod,xco,xpco,alf,bet,
+     >     xmi,xma,ymi,yma,LIS, NB,mark,
+     >      FILE2O, kp1,kp2,kp3,kt1,kt2,FILE3O )
+          WRITE(6,*) '  kx, ky, tmod, xco, xpco, alf, bet : ',
+     >    kx,ky,tmod,xco,xpco,alf,bet
+          WRITE(6,*) '  xmi, xma, ymi, yma : ',xmi,xma,ymi,yma 
+          WRITE(6,*) '  NB, mark : ',NB,mark
+          WRITE(6,*) '  FILE2O : ',FILE2O
+          WRITE(6,*) '  kp1, kp2, kp3, kt1, kt2 : ',kp1,kp2,kp3,kt1,kt2
+          WRITE(6,*) '  FILE3O : ',FILE3O
+      GOTO 98
+          
  26   CONTINUE
 C------- Path extrapolation 
         CALL PLOTE2

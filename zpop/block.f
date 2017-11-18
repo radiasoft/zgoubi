@@ -46,7 +46,8 @@ C----- CONSTANTES
       COMMON/KAR/ KAR
  
       INCLUDE 'MXVAR.H'
-      CHARACTER KVAR(MXVAR)*7, KPOL(2)*9, KDIM(MXVAR)*7
+      CHARACTER(7) KVAR(MXVAR), KDIM(MXVAR)
+      CHARACTER(9) KPOL(2)
       COMMON/INPVR/ KVAR, KPOL, KDIM
 
       INCLUDE 'MAXNTR.H'
@@ -123,9 +124,10 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
      >' S_out',' Pass#'  ,2*'      ',
      >' Y_Lab','      ',' Z_Lab','      ','      ','      ',' X_Lab',
      >8*' ',
-     >' lmnt#' ,
-     >13*' '
-     >/
+     >' lmnt#' ,'prtcl #' ,'G.gamma' ,'s_Y2+Z2' ,'ph-spAY' ,'ph-spAZ',
+     >' ','sq_S_XY',  
+     >6*' '
+     >     /
       DATA KPOL/ 'cartesian' , 'cylindr.' /
 
       DATA BORNE/ .0D0, .5D0, .0D0, .5D0, .001D0, .999D0 /

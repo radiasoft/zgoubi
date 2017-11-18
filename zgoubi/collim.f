@@ -75,7 +75,7 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
 
       IF(FIRST) THEN
          OK = IDLUNI(
-     >        LUNW)
+     >               LUNW)
          OPEN(UNIT=LUNW,FILE='zgoubi.COLLIMA.out')
          FIRST = .FALSE.
          IF(IFRM .EQ. 1) WRITE(LUNW,FMT='(A)') 'N1, NOUT, LET(I),'
@@ -217,7 +217,8 @@ C---------------- SORT = path length of a particle when stopped
                  
                   WRITE(LUNW,106) N1,NOUT,LET(I),IEX(I), 
      >            (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
-
+                  CALL FLUSH2(LUNW,.FALSE.)
+                  
                 ENDIF
               ENDIF
  

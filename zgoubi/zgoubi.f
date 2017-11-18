@@ -124,7 +124,7 @@ C This INCLUDE must stay located right before the first statement
  
       LOGICAL PRDIC
 
-      LOGICAL FITFNL
+      LOGICAL FITFNL, FITLST
       SAVE FITFNL
 
       CHARACTER(132) TXT132
@@ -142,6 +142,8 @@ C      LOGICAL OKPRLB, OKPRDA
       CHARACTER(I30) SCPLD
       SAVE SCPLD
 
+      LOGICAL FAIFIT
+     
       PARAMETER (ITRMA0=999)
       SAVE IRET
       DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
@@ -150,6 +152,7 @@ C      LOGICAL OKPRLB, OKPRDA
       DATA IRET / 0 /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
+      DATA FAIFIT / .FALSE. /
       
       INCLUDE 'LSTKEY.H'
 
@@ -227,12 +230,19 @@ C------- From Keyword FAISTORE. Print after Lmnt with defined LABEL.
 C        LBLST contains the LABEL['s] after which print shall occur
 C        IF( STRACO(NLB,LBLST,LABEL(NOEL,1),
 C     >                                   IL) 
-C     >    .OR. LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL') 
-          IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1)) 
-     >    .OR.STRWLD(NLB,LBLST,LABEL(NOEL,1),
+C     >    .OR. LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL')
+         CALL FITST9(
+     >               FITLST)
+         IF(FAIFIT .AND. (.NOT.FITLST)) THEN ! skip if label1='finalFIT' and not at last pass after FIT
+c            write(*,*) ' zgoubi Not at final fit . won''t impfai '
+c             read(*,*)
+         ELSE
+           IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1)) 
+     >     .OR.STRWLD(NLB,LBLST,LABEL(NOEL,1),
      >                                       IS))
-     >    CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
+     >     CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
      >                                              LABEL(NOEL,2)) 
+         ENDIF
        ENDIF
        IF(PRLBSP) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
@@ -448,8 +458,8 @@ C----- FAISCEAU. Print current beam in zgoubi.res
       GOTO 998
 C----- FAISCNL. Stores beam at current position (in .fai type file)
  8    CONTINUE
-      IF(READAT) CALL RFAIST(I0,
-     >                         PRLB,KPRT,LBLST,NLB)
+      IF(READAT) CALL RFAIST(I0,LABEL(NOEL,1),
+     >                         PRLB,KPRT,LBLST,NLB,FAIFIT)
       IF(TA(NOEL,1).NE.'none') THEN
         NLB = 0
         TXTEMP = TA(NOEL,1)
@@ -967,15 +977,18 @@ C----- FAISTORE - Similar to FAISCNL, with additional options:
 C        - Print after LABEL'ed elements
 C        - Print every other IPASS = mutltiple of IA
  66   CONTINUE
-      IF(READAT) CALL RFAIST(MLB,
-     >                           PRLB,KPRT,LBLST,NLB)
+      IF(READAT) CALL RFAIST(MLB,LABEL(NOEL,1),
+     >                           PRLB,KPRT,LBLST,NLB,FAIFIT)
       TXTEMP = TA(NOEL,1)
       TXTEMP=TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
-      IF(TXTEMP.NE.'none') THEN
-        IF(TA(NOEL,2).NE.'none') THEN
-          CALL IMPFAW(TXTEMP,LBLST,NLB)
-          IF(.NOT. PRLB) CALL IMPFAI(KPRT,NOEL-1,KLE(IQ(NOEL-1)),
+      IF(FAIFIT .AND. (.NOT.FITLST)) THEN ! skip if label1='finalFIT' and not at last pass after FIT
+      ELSE
+        IF(TXTEMP.NE.'none') THEN
+          IF(TA(NOEL,2).NE.'none') THEN
+            CALL IMPFAW(TXTEMP,LBLST,NLB)
+            IF(.NOT. PRLB) CALL IMPFAI(KPRT,NOEL-1,KLE(IQ(NOEL-1)),
      >                           LABEL(NOEL-1,1), LABEL(NOEL-1,2))
+          ENDIF
         ENDIF
       ENDIF
       GOTO 998
@@ -1324,8 +1337,10 @@ C      CALL MATIM4(TA(NOEL,1) .EQ. 'coupled')
       CALL OPTIC2(OKLNO,LNOPTI)
       CALL OBJET1(
      >             KOBJ,KOBJ2)
-      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
+C      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
+      IF(KOBJ.NE.5) CALL ENDJOB(
      >'Pgm zgoubi. TWISS requires OBJET/KOBJ=5 or 6.',-99)
+      IF(KOBJ2.NE.0) IEX(12:IMAX)=-1
       CALL TWISS(LNOPTI,OKCPLD,
      >                  KOPTCS,READAT,KTW)
       IF(KOPTCS .EQ. 1) THEN

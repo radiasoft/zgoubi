@@ -617,6 +617,7 @@ C Used for muon, EMMA, cyclotron
 C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is 
 C at V(t)=0)
       HARM = AN10
+      IF(HARM.LE.0.D0) HARM=1.D0   ! for compatibility w/ older version where AN10 was unused
       FCAV = AN11
       TREF = HARM / FCAV  ! sec. Synchronous time.
       PH0 = AN21
@@ -694,9 +695,9 @@ C Kin. energy, MeV
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
 
         IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,4(e14.6,1x),2(I6,1x),6(e14.6,1x),a)') 
+     >  WRITE(LUN,FMT='(1P,4(e14.6,1x),2(I6,1x),7(e14.6,1x),a)') 
      >  PHI,DWF,TI, SIN(PHI), I , IPASS
-     >  ,phi/(2.d0*pi),omrf,omrf*ti,wf,ph(i),phi+ph0
+     >  ,phi/(2.d0*pi),omrf,omrf*ti,wf,ph(i),phi+ph0,DTI
      >  ,' phi, dwf, t, sin(ph+ph0),i,ipass,ph(i)/2pi,omrf,omrf*t,wf,'
      >  //'ph(i),phi+ph0'
  71   CONTINUE

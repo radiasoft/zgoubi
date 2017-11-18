@@ -39,7 +39,8 @@ C  -------
       DIMENSION OX(*), WF(*), WO(*), FNR(*)
       LOGICAL STORE
 
-      CHARACTER(80) TITL, TXT, FILE3O
+      CHARACTER(80) TITL, FILE3O
+      CHARACTER(200) TXT
       CHARACTER(5) STOR
       LOGICAL EXS, OPN, IDLUNI 
       LOGICAL EXS2, OPN2
@@ -47,14 +48,32 @@ C  -------
       LOGICAL EMPTY
       SAVE LUO
       LOGICAL TYLAB
-      DATA IFIVE /5/
 
+      parameter (mst=9)
+      character(20) stra(mst), tmod
+      logical strcon
+      
+      DATA IFIVE /5/
+      
       JUN = 6
       CALL IMPV2(JUN)
 
       ENTRY SRINIT(GNUFIL,TXTK,
      >                         PART,R0,Q,AM,OX,WF,WO,FNR,STORE)
+      kxo = kx ; kyo = ky
+      xmio = xmi; xmao = xma; ymio = ymi; ymao = yma;
+      liso = lis ; nbo = nb
+      
+      ENTRY PLINI1
+c      ENTRY PLINI1(TXTK,
+c     >     kxo,kyo,tmod,xco,xpco,alf,bet,
+c     >     xmio,xmao,ymio,ymao,LISo, NBo,mark,
+c     >      FILE2O, kp1,kp2,kp3,kt1,kt2,FILE3O )
 
+c      kx = kxo ; ky = kyo
+c      xmi = xmio; xma = xmao; ymi = ymio; yma = ymao;
+c      lis = liso ; nb = nbo
+      
       INQUIRE(FILE='zpop.dat',EXIST=EXS, ERR=98,IOSTAT=IOS,
      >  OPENED=OPN, NUMBER=LN)
       IF(EXS) THEN
@@ -114,8 +133,54 @@ C---------- Main menu
           KY0 = KY
 C--------- Lab coordinate types
           LINE = 0
-          READ(LN,*,ERR=57,END=57) KX,KY
+C          READ(LN,*,ERR=57,END=57) KX,KY
+          READ(LN,FMT='(A)',ERR=92,END=95) TXT
+          if(strcon(txt,'!',
+     >                      is)) txt = txt(1:is-1)
+          call strget(txt,9,
+     >                      nst,stra)
+          if(nst .gt. mst) nst=mst
+          
+c          write(*,*) ' Pgm plinit txt ',txt
+c            write(*,*) ' Pgm plinit stra ',nst,(stra(i),' ',i=1,nst)
+c            read(*,*) 
+            
+          if(nst .ge. 2) then
+            read(stra(1),*,err=92,end=92) KX
+            read(stra(2),*,err=92,end=92) KY
+            if(nst .ge. 3) then
+              tmod = stra(3)
+              if(tmod .eq. 'N') then
+                if(nst .ge. 9) then
+                  read(stra(4),*,err=92,end=92) xco
+                  read(stra(5),*,err=92,end=92) xpco 
+                  read(stra(6),*,err=92,end=92) alf
+                  read(stra(7),*,err=92,end=92) bet               
+                  read(stra(8),*,err=92,end=92) eta
+                  read(stra(9),*,err=92,end=92) etap               
+                else
+                  write(*,*) ' Pgm plinit. Error input alfa, beta.'
+                  goto 92
+                endif
+              elseif(tmod .eq. 'normD') then
+
+              else
+                tmod = ' '
+              endif
+            endif
+          else
+            write(*,*) ' Pgm plinit. Error input kx, ky.'
+            goto 92
+          endif
+
+c            write(*,*) ' stra(i) ',nst,(stra(i),' ',i=1,nst)
+c            read(*,*)
+            
           WRITE(*,*) ' Pgm plinit. KX, KY : ',KX,KY
+          if(nst .ge. 3) WRITE(*,*)
+     >         ' Pgm plinit. nst, alfa, beta, eta, etap : ',
+     >          nst,xco,xpco,alf,bet,eta,etap
+          call plot20(tmod,xco,xpco,alf,bet,eta,etap)
           LINE = LINE+1
           OKVAR = .TRUE.
           IF( TYLAB(KX,KY) ) THEN
@@ -163,13 +228,14 @@ C--------- Trajectories data file (default is zgoubi.plt)
           WRITE(*,*) ' Pgm plinit. FILE2O : ',FILE2O
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KP1, KP2, KP3
-          WRITE(*,*) ' Pgm plinit. Old style KP1-3 : ',KP1, KP2, KP3
           IF(KP1.EQ.-1) THEN
+            WRITE(*,*) ' Pgm plinit. Old style KP1-3, '
+     >      //' converted to new style '  
             KP1 = 1
             KP3 = KP2
             KP2 = 999999
           ENDIF
-          WRITE(*,*) ' converted to new style KP1-3 : ',KP1, KP2, KP3
+          WRITE(*,*) ' KP1-3 : ',KP1, KP2, KP3
           LINE = LINE+1
           READ(LN,*,ERR=57,END=57) KT1, KT2
           WRITE(*,*) KT1, KT2
@@ -263,7 +329,7 @@ C--------- Options, menu 7.7(LabCoord).5. Initial coordinates of synoptic
         GOTO 97
       ENDIF
 
- 92   WRITE(6,*) ' SBR PLINIT : Error at first READ in zpop.dat'
+ 92   WRITE(6,*) ' SBR PLINIT : Error READ in zpop.dat at LINE=',line
       GOTO 97
  95   WRITE(6,*) ' SBR PLINIT : End of file "zpop.dat" reached, ', 
      >     ' could not find initialisation data.'

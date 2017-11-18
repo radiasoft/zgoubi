@@ -69,8 +69,6 @@ C     ----------------------------------------------------
       SAVE NOEL1, NOC
       SAVE XVEC, YVEC, ZVEC
 
-      LOGICAL SRLOSS
-
       DATA MOD / 0 /
       DATA RFR, RFR2 / 0.D0, 0.D0 /
 
@@ -417,6 +415,7 @@ C      Location about where particle was lost
       bta = 11.302651d0
       YZXB(62) = atan2(alf*F(4)/1.d2+bta*F(5)/1.d3,F(4)/1.d2)
       YZXB(63) = TLOSS
+      YZXB(64) = SQRT(SF(1)*SF(1) + SF(2)*SF(2))
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

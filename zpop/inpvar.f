@@ -34,9 +34,10 @@ C  -------
 
       LOGICAL TYLAB
       character(200) txt200
-      character(9) stra(3)
-      character(5) tmod
+      character(20) stra(3), tmod
 
+      save alf, bet, eta, etap
+      
       GOTO 21
 
  20   CONTINUE      
@@ -87,15 +88,18 @@ C  -------
      >, /,8X,'58 :  Particle #  '
      >, /,8X,'59 :  G.gamma  '
      >, /,8X,'60 :  sqrt(Y^2 + Z^2) '
-     >, /,8X,'61 :  atan2(alf*Y+bta*T,Y) ph-space angle '
-     >, /,8X,'62 :  atan2(alf*Z+bta*P,Z)  ph-space angle '
+     >, /,8X,'61 :  atan2(alf*Y+bet*T,Y) ph-space angle '
+     >, /,8X,'62 :  atan2(alf*Z+bet*P,Z)  ph-space angle '
+     >, /,8X,'64 :  sqrt(S_X^2 + S_Y^2) '
      >,/)
 
       KX0 = KX
       KY0 = KY
       WRITE(6,100) ' * Give desired variables  (0 0 to quit) : '
-      WRITE(6,100) ' (add ''norm'' following KX KY, for coordinates'
-     >//' to be normalized)'
+      WRITE(6,100) ' - add ''N'' following KX KY, for normalized '
+     >//'coordinates (x/sqrt(bet),(alf.x+bet.x'')/sqrt(bet)'
+      WRITE(6,100) ' - add ''normD'' following KX KY, for coordinates'
+     >//' to be normalized to sqrt(rel. momentum)'
  100  FORMAT(A)
 C      READ(5,*,ERR=20) KX, KY
  10   CONTINUE
@@ -107,19 +111,58 @@ C      READ(5,*,ERR=20) KX, KY
       read(stra(2),*,err=10,end=10) KY
 c         write(*,*) ' inpvar nst, txt200 ',nst,txt200
 c         read(*,*)
+      alf = 0.d0 ; bet = 1.d0
+      eta = 0.d0 ; etap = 0.d0
       if(nst.eq.3) then
         read(stra(3),*) tmod
 c        write(*,*) ' Mode, tmod = ',tmod
-        if(tmod .eq. 'norm') call plot20(1)
-        write(*,*) ' '
-        write(*,*) ' KX = ',kx,'   KY = ',ky
-        write(*,*) ' Coordinates will be * by sqrt(relative momentum) '
-        write(*,*) ' '
-         read(*,*)
+        if(  (kx.eq.2 .and. ky .eq. 3)
+     >  .or. (kx.eq.3 .and. ky .eq. 2)
+     >  .or. (kx.eq.3 .and. ky .eq. 2)
+     >  .or. (kx.eq.3 .and. ky .eq. 2) ) then
+          if    (tmod .eq. 'N') then
+            write(*,*) ' '
+            write(*,*) ' KX = ',kx,'   KY = ',ky,'.   ''N'' is set, '
+            write(*,*) ' normalized phase-space will be plotted.'
+            write(*,*) ' Give x_co, x''_co (x=Y or Z) '
+ 13         READ(5,*,ERR=13) xco,xpco
+            write(*,*) ' x_co = ',xco,'   x''_co = ',xpco
+            write(*,*) ' Give alfa_x, beta_x (x=Y or Z) '
+ 11         READ(5,*,ERR=11) alf, bet
+            write(*,*) ' alfa_u = ', alf,'  beta_u = ',bet
+            write(*,*) ' Give eta_x, etap_x (x=Y or Z) '
+ 14         READ(5,*,ERR=14) eta, etap
+            write(*,*) ' eta_u = ', eta,'  etap_u = ',etap
+            write(*,*) ' Press return to continue'
+            read(*,*)
+          elseif(tmod .eq. 'normD') then
+            write(*,*) ' '
+            write(*,*) ' KX = ',kx,'   KY = ',ky,'.   ''normD'' set, '
+            write(*,*) ' coordinates will be * by sqrt(rltiv momentum.)'
+            write(*,*) ' '
+            write(*,*) ' Press return to continue'
+            read(*,*)
+          else
+            tmod = ' '
+            write(*,*) ' '
+            write(*,*) ' KX = ',kx,'   KY = ',ky,'.  No normalization.'
+            write(*,*) ' '
+            write(*,*) ' Press return to continue'
+           read(*,*)
+          endif  
+        else
+          tmod = ' '
+          write(*,*) ' '
+          write(*,*) ' KX = ',kx,'   KY = ',ky,'.  No normalization.'
+          write(*,*) ' '
+          write(*,*) ' Press return to continue'
+          read(*,*)
+        endif  
       else
-        call plot20(0)
+        tmod = ' '
       endif
-
+      call plot20(tmod,xco,xpco,alf,bet,eta,etap)
+      
       IF(KX .NE. KY) THEN
 
         IF(KX.EQ. 28) THEN

@@ -253,7 +253,7 @@ C          CALL TRAXES(XMI-DDX,XMA+DDX,YMI-DDY,YMA+DDY,ITWO)
  79            CONTINUE
           ENDIF
         ENDIF
-
+              
         IF(OKOPN) THEN
 
           IF( .NOT. OKECH) THEN

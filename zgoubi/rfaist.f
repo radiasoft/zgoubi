@@ -20,13 +20,13 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory                
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE RFAIST(MLB,
-     >                      PRLB,IA,LBL,NLB)
+      SUBROUTINE RFAIST(MLB,LBL1,
+     >                      PRLB,IA,LBL,NLB,FAIFIT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      LOGICAL PRLB
-      CHARACTER(*) LBL(*)
+      LOGICAL PRLB, FAIFIT
+      CHARACTER(*) LBL(*), LBL1
 C     ---------------------------------
 C     READS DATA FOR FAISTORE PROCEDURE
 C     ---------------------------------
@@ -75,5 +75,7 @@ C------- Will print every IA turn
         IA=NINT(A(NOEL,1))
       ENDIF
 
+      FAIFIT = LBL1.EQ.'AtFITfinal'
+      
       RETURN
       END

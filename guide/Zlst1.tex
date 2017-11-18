@@ -2654,7 +2654,7 @@ $$\YR, \quad \TR, \quad \ZR, \quad \PR,  \quad \DR $$
 initial beam ellipse parameters and  dispersions,  
 $\alpha_Y, \beta_Y$, $\alpha_Z, \beta_Z$, $\alpha_X, \beta_X$, $D_Y$ , $D'_Y$ , $D_Z$ , $D'_Z$,  
  for further transport of these using \textsl{MATRIX} or \textsl{OPTICS}, 
-or for  possible use by the \textsl{FIT[2]}\index{FIT}\index{FIT2} procedure. 
+or for  possible use by the \textsl{FIT[2]} procedure. 
 
 \bigskip
 
@@ -2848,7 +2848,7 @@ including  an extraction line section for instance,
 
 - \textsl{END\index{END}}~:  end of a problem, 
 
-- \textsl{FIT\index{FIT}}~: fitting procedure - can also appear before \textsl{REBELOTE}
+- \textsl{FIT\index{FIT[2]}}~: fitting procedure - can also appear before \textsl{REBELOTE}
 
 
 \medskip
@@ -2998,7 +2998,7 @@ requires modification in errors.f program.
 
 \newpage
 
-\subsubsection{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT|textbf} \index{FIT2|textbf}
+\subsubsection{FIT, FIT2~:  \FITTitl}  \label{FIT}  \index{FIT[2]|textbf} 
 \medskip
 
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
@@ -3066,7 +3066,7 @@ trials using various sets of parameters (option $K=22$ in \textsl{REBELOTE}).
 
 \paragraph{\textsl{VARIABLES}}\index{variable (FIT, FIT2)|textbf}
 
-\noindent The first input data in \textsl{FIT[2]\index{FIT}\index{FIT2}} is the number of variables
+\noindent The first input data in \textsl{FIT[2]}\index{FIT[2]} is the number of variables
 \textsl{\NV}. A variable is defined by a line of data comprised of 
 
 \smallskip
@@ -3096,7 +3096,7 @@ $ [Vmin,Vmax] = $ &allowed interval of variation of the physical parameter $ IP 
 \noindent The elements (\ie, keywords \textsl{DIPOLE\index{DIPOLE}, QUADRUPO\index{QUADRUPO},} etc.) 
 as read by \zgoubi\ in the zgoubi.dat sequence are assigned a number.  which follows 
  their sequence in the  data file.  It  is that very number, \IR, that 
-the \textsl{FIT[2]\index{FIT}}\index{FIT2} procedure uses. 
+the \textsl{FIT[2]\index{FIT[2]}} procedure uses. 
 A simple way to get $ IR $ once the zgoubi.dat file has been built, is to do a preliminary run, 
 since the first thing  \zgou\ does is 
 copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all elements numbered.  
@@ -3285,7 +3285,7 @@ is a request for coupling with the parameter number~100 of element~20.
 \bigskip
 
 \noindent An element of the structure which is coupled (by means of $ XC\not= 0) $ to a 
-variable declared in the data list of the \textsl{FIT[2]\index{FIT}}\index{FIT2} keyword, needs not appear 
+variable declared in the data list of the \textsl{FIT[2]\index{FIT[2]}} keyword, needs not appear 
 as one of the $ \NV $ variables in that data list (this would be redundant information).  
 
 \smallskip
@@ -3332,7 +3332,7 @@ Each constraint is defined by the following list of data~:
 	                    $T_{ijk}$~; $\sigma_{ ij}$~; trajectory $\#I$ and coordinate $\#J$)\\
 	\label{RefIR}
         $\IR$       &  =  &  number of the keyword at the exit of which the constraint applies~;  instead of numeral, \\[-.3ex]
-                    &     & can also be '\#End', so the constraint applies at the last keyword preceeding 'FIT[2]' \\
+                    &     & can also be '\#End', so the constraint applies at the last keyword preceeding '\textsl{FIT[2]}' \\
 	$V$        &  =  &  desired value of the constraint\\
 	$W$        &  =  &  weight of the constraint (smaller $W$ for higher weight)  \\
         $\NP$       &    &   $\NP$ additional parameters, values $\PV_{1 - N\!P}$, defining the constraint  
@@ -3558,7 +3558,9 @@ iterations on the step size or on the call to the function.
 
 \bigskip
 
-\paragraph{\textsl{COMBINING FIT[2] AND REBELOTE } \index{FIT and REBELOTE, combined|textbf}}    %%%%[10]
+\paragraph{\textsl{COMBINING FIT[2] AND REBELOTE } }
+\index{REBELOTE!- combined with FIT[2]}   
+\index{FIT[2]!- combined with REBELOTE}   
 \label{FITREB}
 
 \noindent \textsl{FIT[2]} may be followed by the keyword  \textsl{REBELOTE}.  This allows for instance executing again 
@@ -3587,7 +3589,10 @@ acceleration through depolarizing resonances).
 \noindent - 'nofinal' option~: \label{nofinal}
 a request to avoid a final run that would normally follow the completion of the fit, allowing for the 
 variable values as just determined by \textsl{FIT[2]}. By default, \ie, if `nofinal' does 
-not appear in the   \textsl{FIT[2]} data list, then that final run does occur. 
+not appear in the   \textsl{FIT[2]} data list, then that final run does occur. This is necessary in particular
+when it is desired to store resulting particle data, using \textsl{FAISTORE}, at the sole very final pass. 
+\index{FAISTORE!- in presence of \textsl{FIT[2]}}
+\index{FIT[2]!- in presence of FAISTORE}
 
 \smallskip
 
@@ -3634,7 +3639,7 @@ under the effect of scattering by residual gas.
 
 \newpage
 
-\subsubsection{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf} \index{FIT}\index{FIT2} 
+\subsubsection{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf} \index{FIT[2]}
 \medskip
 
 This keyword allows reading, 
@@ -4174,7 +4179,9 @@ data regarding particle decay \textsl{(MCDESINT\index{MCDESINT})}, spin tracking
 
 \clearpage
 
-\paragraph{\textsl{COMBINING REBELOTE AND FIT[2]} \index{combined with FIT|textbf}}    %%%%[10]
+\paragraph{\textsl{COMBINING REBELOTE AND FIT[2]}}
+\index{REBELOTE!- combined with FIT[2]}
+\index{FIT[2]!- combined with REBELOTE}   
 \label{REBFIT}
 
 \noindent The keyword  \textsl{REBELOTE}  can follow   \textsl{FIT[2]}.  This allows executing again 
@@ -8606,7 +8613,8 @@ together  tagging indices and letters, etc.  \index{tag, tag character}
 
 \medskip
 
-\noindent $\bullet$  \textsl{FAISCNL} produces a lot more information on particles at current location, including 
+\noindent $\bullet$  \textsl{FAISCNL} is an older, less performing, version of \textsl{FAISTORE}, see below for the latter.
+It produces a lot more information on particles at current location, including 
 spin components, decay distance, mass, charge, etc. (see list below), and stores it in a 
 dedicated file \textsl{FNAME} (advised name is \textsl{FNAME} = `zgoubi.fai'  
 (formatted write) or `b\_zgoubi.fai' (binary write) \index{zgoubi.fai}
@@ -8617,7 +8625,7 @@ option \mbox{\KOBJ= 3}, or used for other purposes such as graphics (see Part~D 
 in the subroutine \texttt{impfai.f}, where details and possible updates are to found. 
 The following is an instance~: 
 
-{\footnotesize
+{\scriptsize %footnotesize
 \begin{verbatim}
     OPEN (UNIT = NL, FILE = FNAME, STATUS = `NEW')
       IF(BINARY) THEN
@@ -8677,7 +8685,8 @@ C7         BORO,   IPASS, NOEL,
 C8            'KLEY',    ('LABEL(NOEL,I)',I=1,2),           'LET(IT)'
      >    ,1X,A1,A10,A1,   2(1X,A1,A ,A1),                   1X,3A1)
 \end{verbatim}}
-\medskip
+
+%\medskip
 
 \noindent The meaning of the main data is the following (see the keyword \textsl{OBJET})
 \medskip
@@ -8698,7 +8707,7 @@ C8            'KLEY',    ('LABEL(NOEL,I)',I=1,2),           'LET(IT)'
      \end{tabular}}
 \medskip
 
-\noindent $\bullet$  \textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with two more features. 
+\noindent $\bullet$  \textsl{FAISTORE} has an effect similar to \textsl{FAISCNL}, with more features. 
 
 - On the first data line, \textsl{FNAME} may be followed 
 by a series of up to 10 \LABEL s\index{LABEL@{\LABEL}}.     If there is no 
@@ -8712,17 +8721,15 @@ using \REBELOTE\index{REBELOTE} with \textsl{NPASS}\index{NPASS} $ \geq IP-1$.
 
 \medskip
 
-\noindent For instance the following data input in zgoubi.dat~: 
+\noindent For instance the following data list in zgoubi.dat~: 
 
-\medskip
-
-{\renewcommand{\arraystretch}{1}
-\begin{tabular}{lll}
-	\textsl{FAISTORE} &  &   \\
-	zgoubi.fai \index{zgoubi.fai} & \textsl{HPCKUP} & \textsl{VPCKUP}  \\
-	12 &  & 
-\end{tabular}}
-\medskip
+{\small
+\begin{verbatim}
+	FAISTORE
+	zgoubi.fai    HPCKUP   VPCKUP
+	12 
+\end{verbatim}
+}
 
 \noindent will result in output prints into zgoubi.fai, at pass 1 and then at every 12~other 
 pass, each time elements of the zgoubi.dat \index{zgoubi.dat} data list labeled either \textsl{HPCKUP}
@@ -8730,10 +8737,10 @@ or \textsl{VPCKUP} are encountered.
 
 \medskip
 
-\noindent\underline{Note}
 \medskip 
 
-\noindent Binary storage can be obtained from \textsl{FAISCNL} and \textsl{FAISTORE}. This is for 
+\noindent  \textbf{Case of Binary storage~:} \index{FAISTORE!- binary storage}
+it can be obtained from \textsl{FAISCNL} and \textsl{FAISTORE}. This is for 
 the sake of compactness and access speed, for instance  in case  voluminous amounts of 
 data would have to be manipulated using \zpop. 
 
@@ -8746,6 +8753,13 @@ is the same as in the \textsl{FORMATTED} case above.
 \noindent This is compatible with the \textsl{READ} statements in \textbf{zpop} that will recognize binary storage 
 from that very radical 'b\_' or 'B\_'. 
 
+\medskip 
+
+\noindent \textbf{Case of \textsl{FIT[2]} procedure~:} \index{FAISTORE!- in presence of \textsl{FIT[2]}}
+it may not be desired to store
+during the FITting process, but instead only when the FITtinig is completed. It is sufficient
+for that to  (i)~put 'AtFITfinal' as the first label following   \textsl{FAISTORE} keyword, this will inhibit all storage until the
+final run following a FIT procedure, and (ii)~avoid using the 'nofinal' instruction in \textsl{FIT[2]} (see p.~\pageref{nofinal})).
 
 
 \newpage
