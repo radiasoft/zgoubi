@@ -100,6 +100,11 @@ C------- BEND is skewed
 C----------- Champ DE FUITE
       SHARPE=DLE(1) .LE. 0.D0
       SHARPS=DLS(1) .LE. 0.D0
+
+c           write(*,*) ' sharps, xls, dls(1) ',sharps, xls, dls(1)
+c           write(*,*) ' sharps, dls(1) ',sharps, dls(1)
+c               read(*,*)
+
       IF(SHARPE) THEN 
         FINTE = XE
 C        XE=0.D0
@@ -113,8 +118,21 @@ C        if (xe.lt.1d-10) xe = 5.d0*tan(abs(te))
 C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
 C        be > XLIM), hence introducing some additional integration distance beyond XLIM
 C        so to encompass "Droite". 
-C FM, 130605. Removed, causes problems (see zgoubi//folks/samTygier/problem...)
-        if (xls.lt.1d-10) xls = 5.d0*tan(abs(ts))
+C FM, 130605. Removed, causes problems (see zgoubi/folks/samTygier/problem...)
+C FM 171122. Coded step size with wedge BEND causes problems, 
+C not compatible with "3 regions" (it remains to determine why !), 
+C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
+        if (xls.lt.1d-10) then
+          CALL CHXC1R(
+     >                KPAS)
+          IF(KPAS .EQ. 0) THEN
+            xls = 5.d0*tan(abs(ts))
+          ELSE
+            CALL ENDJOB(' Pgm bendi. Entrance/body/exit step size mode '
+     >      //'is not compatible with EXIT WEDGE ANGLE.'
+     >      //' Instead, use explicit single step size value. ',-99)
+          ENDIF
+        ENDIF
         GAPS = -DLS(1)
       ENDIF
       XI = 0.D0
@@ -141,6 +159,9 @@ C------- Correction for entrance wedge
           DE(1,I)=-DE(1,I-1)/DLE(1)
  10     CONTINUE
       ENDIF
+
+c           write(*,*) ' xls, dls(1) ', xls, dls(1)
+c               read(*,*)
 
       IF(SHARPS) THEN
 C------- Correction for exit wedge
@@ -214,11 +235,16 @@ C        WRITE(NRES,104) 'DE  SORTIE'
         WRITE(NRES,101) XLS,DLS(1),WS
         IF( .NOT. SHARPS ) WRITE(NRES,132) (CS(I),I=1,6)
 
-        IF( SHARPE .OR. SHARPS ) 
-     >    WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
+        IF( SHARPE) 
+     >    WRITE(NRES,FMT='(/,''  ***  Warning : entrance sharp edge '',
      >    ''entails vertical wedge focusing approximated with'',
-     >    '' first order kick, FINT values entr/exit : '',1P,2G12.4)') 
-     >         FINTE, FINTS
+     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)') 
+     >         FINTE
+        IF( SHARPS) 
+     >    WRITE(NRES,FMT='(/,''  ***  Warning : exit sharp edge '',
+     >    ''entails vertical wedge focusing approximated with'',
+     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)') 
+     >        FINTS
       ENDIF
 
       CALL BENDF2(G1,G2)

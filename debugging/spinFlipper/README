@@ -1,0 +1,68 @@
+
+Problem here :  
+
+if coded step size #20|100|20 is used in 'BEND'/ACD1-4, then the computation stops with the following diagnostics:
+
+ Pass #/Requested :     1920/   35001.  Particles remaining/launched =       1/      1.  Time :11:24:24     
+Particle exceeded maximum # of steps allowed : 100000.  At element number 1804 (BEND      )
+  SBR KSTOP : execution stopped, all particles lost !!
+  This Enjbb occured at element # 1804, at pass # 1925
+
+
+* No more problem if instead regular step size in cm is provided. 
+
+* What I observed : 
+
+1/ If coded step size #20|100|20 is used, then the step in the exit fringe field region, whereas it should be 0, instead 
+takes a (small) value, and that value is changing in addition with turn # : 
+   1804  Keyword, label(s) :  BEND        ACD1                                      
+                    Integration steps inside entrance|body|exit region : 
+                                      0.00      0.500      8.180E-07 (cm)
+                                    10           200      10
+
+
+2/ It does not happen with MULTIPOL, for instance : 
+
+1762  Keyword, label(s) :  MULTIPOL    QUAD                  Q4IT10
+                    Integration steps inside entrance|body|exit region : 
+                                      0.00      0.375       0.00     (cm)
+                                    10           200      10
+
+
+3/ It also  happens in  'BEND'/DCRot  which is also using coded step  : 
+   1794  Keyword, label(s) :  BEND        DCRot                                     
+                    Integration steps inside entrance|body|exit region : 
+                                      0.00       1.83      8.047E-04 (cm)
+                                    10           100      10
+
+4/ Although the step size pb is still there, it does not cause crash with 0.49-0.51 sweep range instead of .499-.501
+  1804  Keyword, label(s) :  BEND        ACD1                                      
+                    Field has been * by scaling factor   6.00088855E-03
+                    Integration steps inside entrance|body|exit region : 
+                                      0.00      0.500      3.595E-08 (cm)
+                                    10           200      10
+
+
+----
+
+* Conclusion : the use of #20|100|20 jeopardizes the integration regions ent/body/exit, at least in ACDs, in this problem.
+
+The cause is in handling of XLS in bend.f :
+
+      IF(SHARPS) THEN
+        FINTS = XLS
+        XLS=0.D0
+C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
+C        be > XLIM), hence introducing some additional integration distance beyond XLIM
+C        so to encompass "Droite". 
+C FM, 130605. Removed, causes problems (see zgoubi/folks/samTygier/problem...)
+C FM 171122. Coded step size with wedge BEND causes problems, 
+C not compatible with "3 regions", use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
+        if (xls.lt.1d-10) xls = 5.d0*tan(abs(ts))
+        GAPS = -DLS(1)
+
+
+
+
+
+
