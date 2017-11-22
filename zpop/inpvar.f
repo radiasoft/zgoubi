@@ -91,6 +91,7 @@ C  -------
      >, /,8X,'61 :  atan2(alf*Y+bet*T,Y) ph-space angle '
      >, /,8X,'62 :  atan2(alf*Z+bet*P,Z)  ph-space angle '
      >, /,8X,'64 :  sqrt(S_X^2 + S_Y^2) '
+     >, /,8X,'65 :  sqrt(S_Y^2 + S_Z^2) '
      >,/)
 
       KX0 = KX

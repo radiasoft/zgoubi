@@ -416,6 +416,7 @@ C      Location about where particle was lost
       YZXB(62) = atan2(alf*F(4)/1.d2+bta*F(5)/1.d3,F(4)/1.d2)
       YZXB(63) = TLOSS
       YZXB(64) = SQRT(SF(1)*SF(1) + SF(2)*SF(2))
+      YZXB(65) = SQRT(SF(3)*SF(3) + SF(2)*SF(2))
 
 C        write(77,*) KP1,KP2,KP3,IPASS,' readco'
 

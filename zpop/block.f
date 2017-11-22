@@ -125,8 +125,8 @@ C      DATA KX,KY,IAX,LIS,NB /6, 2, 1, 1, 100 /
      >' Y_Lab','      ',' Z_Lab','      ','      ','      ',' X_Lab',
      >8*' ',
      >' lmnt#' ,'prtcl #' ,'G.gamma' ,'s_Y2+Z2' ,'ph-spAY' ,'ph-spAZ',
-     >' ','sq_S_XY',  
-     >6*' '
+     >' ','sq_S_XY',  'sq_S_XY',  
+     >5*' '
      >     /
       DATA KPOL/ 'cartesian' , 'cylindr.' /
 

@@ -76,6 +76,5 @@ C------- Will print every IA turn
       ENDIF
 
       FAIFIT = LBL1.EQ.'AtFITfinal'
-      
       RETURN
       END
