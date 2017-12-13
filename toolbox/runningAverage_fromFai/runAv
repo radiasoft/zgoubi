@@ -1,0 +1,512 @@
+echo " Run000 "
+( cd Run000 ; ../runningAverage_fromFai )
+echo " Run001 "
+( cd Run001 ; ../runningAverage_fromFai )
+echo " Run002 "
+( cd Run002 ; ../runningAverage_fromFai )
+echo " Run003 "
+( cd Run003 ; ../runningAverage_fromFai )
+echo " Run004 "
+( cd Run004 ; ../runningAverage_fromFai )
+echo " Run005 "
+( cd Run005 ; ../runningAverage_fromFai )
+echo " Run006 "
+( cd Run006 ; ../runningAverage_fromFai )
+echo " Run007 "
+( cd Run007 ; ../runningAverage_fromFai )
+echo " Run008 "
+( cd Run008 ; ../runningAverage_fromFai )
+echo " Run009 "
+( cd Run009 ; ../runningAverage_fromFai )
+echo " Run010"
+( cd Run010 ; ../runningAverage_fromFai )
+echo " Run011"
+( cd Run011 ; ../runningAverage_fromFai )
+echo " Run012"
+( cd Run012 ; ../runningAverage_fromFai )
+echo " Run013"
+( cd Run013 ; ../runningAverage_fromFai )
+echo " Run014"
+( cd Run014 ; ../runningAverage_fromFai )
+echo " Run015"
+( cd Run015 ; ../runningAverage_fromFai )
+echo " Run016"
+( cd Run016 ; ../runningAverage_fromFai )
+echo " Run017"
+( cd Run017 ; ../runningAverage_fromFai )
+echo " Run018"
+( cd Run018 ; ../runningAverage_fromFai )
+echo " Run019"
+( cd Run019 ; ../runningAverage_fromFai )
+echo " Run020"
+( cd Run020 ; ../runningAverage_fromFai )
+echo " Run021"
+( cd Run021 ; ../runningAverage_fromFai )
+echo " Run022"
+( cd Run022 ; ../runningAverage_fromFai )
+echo " Run023"
+( cd Run023 ; ../runningAverage_fromFai )
+echo " Run024"
+( cd Run024 ; ../runningAverage_fromFai )
+echo " Run025"
+( cd Run025 ; ../runningAverage_fromFai )
+echo " Run026"
+( cd Run026 ; ../runningAverage_fromFai )
+echo " Run027"
+( cd Run027 ; ../runningAverage_fromFai )
+echo " Run028"
+( cd Run028 ; ../runningAverage_fromFai )
+echo " Run029"
+( cd Run029 ; ../runningAverage_fromFai )
+echo " Run030"
+( cd Run030 ; ../runningAverage_fromFai )
+echo " Run031"
+( cd Run031 ; ../runningAverage_fromFai )
+echo " Run032"
+( cd Run032 ; ../runningAverage_fromFai )
+echo " Run033"
+( cd Run033 ; ../runningAverage_fromFai )
+echo " Run034"
+( cd Run034 ; ../runningAverage_fromFai )
+echo " Run035"
+( cd Run035 ; ../runningAverage_fromFai )
+echo " Run036"
+( cd Run036 ; ../runningAverage_fromFai )
+echo " Run037"
+( cd Run037 ; ../runningAverage_fromFai )
+echo " Run038"
+( cd Run038 ; ../runningAverage_fromFai )
+echo " Run039"
+( cd Run039 ; ../runningAverage_fromFai )
+echo " Run040"
+( cd Run040 ; ../runningAverage_fromFai )
+echo " Run041"
+( cd Run041 ; ../runningAverage_fromFai )
+echo " Run042"
+( cd Run042 ; ../runningAverage_fromFai )
+echo " Run043"
+( cd Run043 ; ../runningAverage_fromFai )
+echo " Run044"
+( cd Run044 ; ../runningAverage_fromFai )
+echo " Run045"
+( cd Run045 ; ../runningAverage_fromFai )
+echo " Run046"
+( cd Run046 ; ../runningAverage_fromFai )
+echo " Run047"
+( cd Run047 ; ../runningAverage_fromFai )
+echo " Run048"
+( cd Run048 ; ../runningAverage_fromFai )
+echo " Run049"
+( cd Run049 ; ../runningAverage_fromFai )
+echo " Run050"
+( cd Run050 ; ../runningAverage_fromFai )
+echo " Run051"
+( cd Run051 ; ../runningAverage_fromFai )
+echo " Run052"
+( cd Run052 ; ../runningAverage_fromFai )
+echo " Run053"
+( cd Run053 ; ../runningAverage_fromFai )
+echo " Run054"
+( cd Run054 ; ../runningAverage_fromFai )
+echo " Run055"
+( cd Run055 ; ../runningAverage_fromFai )
+echo " Run056"
+( cd Run056 ; ../runningAverage_fromFai )
+echo " Run057"
+( cd Run057 ; ../runningAverage_fromFai )
+echo " Run058"
+( cd Run058 ; ../runningAverage_fromFai )
+echo " Run059"
+( cd Run059 ; ../runningAverage_fromFai )
+echo " Run060"
+( cd Run060 ; ../runningAverage_fromFai )
+echo " Run061"
+( cd Run061 ; ../runningAverage_fromFai )
+echo " Run062"
+( cd Run062 ; ../runningAverage_fromFai )
+echo " Run063"
+( cd Run063 ; ../runningAverage_fromFai )
+echo " Run064"
+( cd Run064 ; ../runningAverage_fromFai )
+echo " Run065"
+( cd Run065 ; ../runningAverage_fromFai )
+echo " Run066"
+( cd Run066 ; ../runningAverage_fromFai )
+echo " Run067"
+( cd Run067 ; ../runningAverage_fromFai )
+echo " Run068"
+( cd Run068 ; ../runningAverage_fromFai )
+echo " Run069"
+( cd Run069 ; ../runningAverage_fromFai )
+echo " Run070"
+( cd Run070 ; ../runningAverage_fromFai )
+echo " Run071"
+( cd Run071 ; ../runningAverage_fromFai )
+echo " Run072"
+( cd Run072 ; ../runningAverage_fromFai )
+echo " Run073"
+( cd Run073 ; ../runningAverage_fromFai )
+echo " Run074"
+( cd Run074 ; ../runningAverage_fromFai )
+echo " Run075"
+( cd Run075 ; ../runningAverage_fromFai )
+echo " Run076"
+( cd Run076 ; ../runningAverage_fromFai )
+echo " Run077"
+( cd Run077 ; ../runningAverage_fromFai )
+echo " Run078"
+( cd Run078 ; ../runningAverage_fromFai )
+echo " Run079"
+( cd Run079 ; ../runningAverage_fromFai )
+echo " Run080"
+( cd Run080 ; ../runningAverage_fromFai )
+echo " Run081"
+( cd Run081 ; ../runningAverage_fromFai )
+echo " Run082"
+( cd Run082 ; ../runningAverage_fromFai )
+echo " Run083"
+( cd Run083 ; ../runningAverage_fromFai )
+echo " Run084"
+( cd Run084 ; ../runningAverage_fromFai )
+echo " Run085"
+( cd Run085 ; ../runningAverage_fromFai )
+echo " Run086"
+( cd Run086 ; ../runningAverage_fromFai )
+echo " Run087"
+( cd Run087 ; ../runningAverage_fromFai )
+echo " Run088"
+( cd Run088 ; ../runningAverage_fromFai )
+echo " Run089"
+( cd Run089 ; ../runningAverage_fromFai )
+echo " Run090"
+( cd Run090 ; ../runningAverage_fromFai )
+echo " Run091"
+( cd Run091 ; ../runningAverage_fromFai )
+echo " Run092"
+( cd Run092 ; ../runningAverage_fromFai )
+echo " Run093"
+( cd Run093 ; ../runningAverage_fromFai )
+echo " Run094"
+( cd Run094 ; ../runningAverage_fromFai )
+echo " Run095"
+( cd Run095 ; ../runningAverage_fromFai )
+echo " Run096"
+( cd Run096 ; ../runningAverage_fromFai )
+echo " Run097"
+( cd Run097 ; ../runningAverage_fromFai )
+echo " Run098"
+( cd Run098 ; ../runningAverage_fromFai )
+echo " Run099"
+( cd Run099 ; ../runningAverage_fromFai )
+echo " Run100"
+( cd Run100 ; ../runningAverage_fromFai )
+echo " Run101"
+( cd Run101 ; ../runningAverage_fromFai )
+echo " Run102"
+( cd Run102 ; ../runningAverage_fromFai )
+echo " Run103"
+( cd Run103 ; ../runningAverage_fromFai )
+echo " Run104"
+( cd Run104 ; ../runningAverage_fromFai )
+echo " Run105"
+( cd Run105 ; ../runningAverage_fromFai )
+echo " Run106"
+( cd Run106 ; ../runningAverage_fromFai )
+echo " Run107"
+( cd Run107 ; ../runningAverage_fromFai )
+echo " Run108"
+( cd Run108 ; ../runningAverage_fromFai )
+echo " Run109"
+( cd Run109 ; ../runningAverage_fromFai )
+echo " Run110"
+( cd Run110 ; ../runningAverage_fromFai )
+echo " Run111"
+( cd Run111 ; ../runningAverage_fromFai )
+echo " Run112"
+( cd Run112 ; ../runningAverage_fromFai )
+echo " Run113"
+( cd Run113 ; ../runningAverage_fromFai )
+echo " Run114"
+( cd Run114 ; ../runningAverage_fromFai )
+echo " Run115"
+( cd Run115 ; ../runningAverage_fromFai )
+echo " Run116"
+( cd Run116 ; ../runningAverage_fromFai )
+echo " Run117"
+( cd Run117 ; ../runningAverage_fromFai )
+echo " Run118"
+( cd Run118 ; ../runningAverage_fromFai )
+echo " Run119"
+( cd Run119 ; ../runningAverage_fromFai )
+echo " Run120"
+( cd Run120 ; ../runningAverage_fromFai )
+echo " Run121"
+( cd Run121 ; ../runningAverage_fromFai )
+echo " Run122"
+( cd Run122 ; ../runningAverage_fromFai )
+echo " Run123"
+( cd Run123 ; ../runningAverage_fromFai )
+echo " Run124"
+( cd Run124 ; ../runningAverage_fromFai )
+echo " Run125"
+( cd Run125 ; ../runningAverage_fromFai )
+echo " Run126"
+( cd Run126 ; ../runningAverage_fromFai )
+echo " Run127"
+( cd Run127 ; ../runningAverage_fromFai )
+echo " Run128"
+( cd Run128 ; ../runningAverage_fromFai )
+echo " Run129"
+( cd Run129 ; ../runningAverage_fromFai )
+echo " Run130"
+( cd Run130 ; ../runningAverage_fromFai )
+echo " Run131"
+( cd Run131 ; ../runningAverage_fromFai )
+echo " Run132"
+( cd Run132 ; ../runningAverage_fromFai )
+echo " Run133"
+( cd Run133 ; ../runningAverage_fromFai )
+echo " Run134"
+( cd Run134 ; ../runningAverage_fromFai )
+echo " Run135"
+( cd Run135 ; ../runningAverage_fromFai )
+echo " Run136"
+( cd Run136 ; ../runningAverage_fromFai )
+echo " Run137"
+( cd Run137 ; ../runningAverage_fromFai )
+echo " Run138"
+( cd Run138 ; ../runningAverage_fromFai )
+echo " Run139"
+( cd Run139 ; ../runningAverage_fromFai )
+echo " Run140"
+( cd Run140 ; ../runningAverage_fromFai )
+echo " Run141"
+( cd Run141 ; ../runningAverage_fromFai )
+echo " Run142"
+( cd Run142 ; ../runningAverage_fromFai )
+echo " Run143"
+( cd Run143 ; ../runningAverage_fromFai )
+echo " Run144"
+( cd Run144 ; ../runningAverage_fromFai )
+echo " Run145"
+( cd Run145 ; ../runningAverage_fromFai )
+echo " Run146"
+( cd Run146 ; ../runningAverage_fromFai )
+echo " Run147"
+( cd Run147 ; ../runningAverage_fromFai )
+echo " Run148"
+( cd Run148 ; ../runningAverage_fromFai )
+echo " Run149"
+( cd Run149 ; ../runningAverage_fromFai )
+echo " Run150"
+( cd Run150 ; ../runningAverage_fromFai )
+echo " Run151"
+( cd Run151 ; ../runningAverage_fromFai )
+echo " Run152"
+( cd Run152 ; ../runningAverage_fromFai )
+echo " Run153"
+( cd Run153 ; ../runningAverage_fromFai )
+echo " Run154"
+( cd Run154 ; ../runningAverage_fromFai )
+echo " Run155"
+( cd Run155 ; ../runningAverage_fromFai )
+echo " Run156"
+( cd Run156 ; ../runningAverage_fromFai )
+echo " Run157"
+( cd Run157 ; ../runningAverage_fromFai )
+echo " Run158"
+( cd Run158 ; ../runningAverage_fromFai )
+echo " Run159"
+( cd Run159 ; ../runningAverage_fromFai )
+echo " Run160"
+( cd Run160 ; ../runningAverage_fromFai )
+echo " Run161"
+( cd Run161 ; ../runningAverage_fromFai )
+echo " Run162"
+( cd Run162 ; ../runningAverage_fromFai )
+echo " Run163"
+( cd Run163 ; ../runningAverage_fromFai )
+echo " Run164"
+( cd Run164 ; ../runningAverage_fromFai )
+echo " Run165"
+( cd Run165 ; ../runningAverage_fromFai )
+echo " Run166"
+( cd Run166 ; ../runningAverage_fromFai )
+echo " Run167"
+( cd Run167 ; ../runningAverage_fromFai )
+echo " Run168"
+( cd Run168 ; ../runningAverage_fromFai )
+echo " Run169"
+( cd Run169 ; ../runningAverage_fromFai )
+echo " Run170"
+( cd Run170 ; ../runningAverage_fromFai )
+echo " Run171"
+( cd Run171 ; ../runningAverage_fromFai )
+echo " Run172"
+( cd Run172 ; ../runningAverage_fromFai )
+echo " Run173"
+( cd Run173 ; ../runningAverage_fromFai )
+echo " Run174"
+( cd Run174 ; ../runningAverage_fromFai )
+echo " Run175"
+( cd Run175 ; ../runningAverage_fromFai )
+echo " Run176"
+( cd Run176 ; ../runningAverage_fromFai )
+echo " Run177"
+( cd Run177 ; ../runningAverage_fromFai )
+echo " Run178"
+( cd Run178 ; ../runningAverage_fromFai )
+echo " Run179"
+( cd Run179 ; ../runningAverage_fromFai )
+echo " Run180"
+( cd Run180 ; ../runningAverage_fromFai )
+echo " Run181"
+( cd Run181 ; ../runningAverage_fromFai )
+echo " Run182"
+( cd Run182 ; ../runningAverage_fromFai )
+echo " Run183"
+( cd Run183 ; ../runningAverage_fromFai )
+echo " Run184"
+( cd Run184 ; ../runningAverage_fromFai )
+echo " Run185"
+( cd Run185 ; ../runningAverage_fromFai )
+echo " Run186"
+( cd Run186 ; ../runningAverage_fromFai )
+echo " Run187"
+( cd Run187 ; ../runningAverage_fromFai )
+echo " Run188"
+( cd Run188 ; ../runningAverage_fromFai )
+echo " Run189"
+( cd Run189 ; ../runningAverage_fromFai )
+echo " Run190"
+( cd Run190 ; ../runningAverage_fromFai )
+echo " Run191"
+( cd Run191 ; ../runningAverage_fromFai )
+echo " Run192"
+( cd Run192 ; ../runningAverage_fromFai )
+echo " Run193"
+( cd Run193 ; ../runningAverage_fromFai )
+echo " Run194"
+( cd Run194 ; ../runningAverage_fromFai )
+echo " Run195"
+( cd Run195 ; ../runningAverage_fromFai )
+echo " Run196"
+( cd Run196 ; ../runningAverage_fromFai )
+echo " Run197"
+( cd Run197 ; ../runningAverage_fromFai )
+echo " Run198"
+( cd Run198 ; ../runningAverage_fromFai )
+echo " Run199"
+( cd Run199 ; ../runningAverage_fromFai )
+echo " Run200"
+( cd Run200 ; ../runningAverage_fromFai )
+echo " Run201"
+( cd Run201 ; ../runningAverage_fromFai )
+echo " Run202"
+( cd Run202 ; ../runningAverage_fromFai )
+echo " Run203"
+( cd Run203 ; ../runningAverage_fromFai )
+echo " Run204"
+( cd Run204 ; ../runningAverage_fromFai )
+echo " Run205"
+( cd Run205 ; ../runningAverage_fromFai )
+echo " Run206"
+( cd Run206 ; ../runningAverage_fromFai )
+echo " Run207"
+( cd Run207 ; ../runningAverage_fromFai )
+echo " Run208"
+( cd Run208 ; ../runningAverage_fromFai )
+echo " Run209"
+( cd Run209 ; ../runningAverage_fromFai )
+echo " Run210"
+( cd Run210 ; ../runningAverage_fromFai )
+echo " Run211"
+( cd Run211 ; ../runningAverage_fromFai )
+echo " Run212"
+( cd Run212 ; ../runningAverage_fromFai )
+echo " Run213"
+( cd Run213 ; ../runningAverage_fromFai )
+echo " Run214"
+( cd Run214 ; ../runningAverage_fromFai )
+echo " Run215"
+( cd Run215 ; ../runningAverage_fromFai )
+echo " Run216"
+( cd Run216 ; ../runningAverage_fromFai )
+echo " Run217"
+( cd Run217 ; ../runningAverage_fromFai )
+echo " Run218"
+( cd Run218 ; ../runningAverage_fromFai )
+echo " Run219"
+( cd Run219 ; ../runningAverage_fromFai )
+echo " Run220"
+( cd Run220 ; ../runningAverage_fromFai )
+echo " Run221"
+( cd Run221 ; ../runningAverage_fromFai )
+echo " Run222"
+( cd Run222 ; ../runningAverage_fromFai )
+echo " Run223"
+( cd Run223 ; ../runningAverage_fromFai )
+echo " Run224"
+( cd Run224 ; ../runningAverage_fromFai )
+echo " Run225"
+( cd Run225 ; ../runningAverage_fromFai )
+echo " Run226"
+( cd Run226 ; ../runningAverage_fromFai )
+echo " Run227"
+( cd Run227 ; ../runningAverage_fromFai )
+echo " Run228"
+( cd Run228 ; ../runningAverage_fromFai )
+echo " Run229"
+( cd Run229 ; ../runningAverage_fromFai )
+echo " Run230"
+( cd Run230 ; ../runningAverage_fromFai )
+echo " Run231"
+( cd Run231 ; ../runningAverage_fromFai )
+echo " Run232"
+( cd Run232 ; ../runningAverage_fromFai )
+echo " Run233"
+( cd Run233 ; ../runningAverage_fromFai )
+echo " Run234"
+( cd Run234 ; ../runningAverage_fromFai )
+echo " Run235"
+( cd Run235 ; ../runningAverage_fromFai )
+echo " Run236"
+( cd Run236 ; ../runningAverage_fromFai )
+echo " Run237"
+( cd Run237 ; ../runningAverage_fromFai )
+echo " Run238"
+( cd Run238 ; ../runningAverage_fromFai )
+echo " Run239"
+( cd Run239 ; ../runningAverage_fromFai )
+echo " Run240"
+( cd Run240 ; ../runningAverage_fromFai )
+echo " Run241"
+( cd Run241 ; ../runningAverage_fromFai )
+echo " Run242"
+( cd Run242 ; ../runningAverage_fromFai )
+echo " Run243"
+( cd Run243 ; ../runningAverage_fromFai )
+echo " Run244"
+( cd Run244 ; ../runningAverage_fromFai )
+echo " Run245"
+( cd Run245 ; ../runningAverage_fromFai )
+echo " Run246"
+( cd Run246 ; ../runningAverage_fromFai )
+echo " Run247"
+( cd Run247 ; ../runningAverage_fromFai )
+echo " Run248"
+( cd Run248 ; ../runningAverage_fromFai )
+echo " Run249"
+( cd Run249 ; ../runningAverage_fromFai )
+echo " Run250"
+( cd Run250 ; ../runningAverage_fromFai )
+echo " Run251"
+( cd Run251 ; ../runningAverage_fromFai )
+echo " Run252"
+( cd Run252 ; ../runningAverage_fromFai )
+echo " Run253"
+( cd Run253 ; ../runningAverage_fromFai )
+echo " Run254"
+( cd Run254 ; ../runningAverage_fromFai )
+echo " Run255"
+( cd Run255 ; ../runningAverage_fromFai )

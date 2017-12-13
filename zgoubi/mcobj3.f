@@ -55,7 +55,7 @@ C     ----------------------------------------------------
       SAVE IRANK
 
       DATA IKAR / 0 /
-      DATA IRANK / 0 /
+      DATA IRANK / -1 /
 
 C     .. PARAMETRE ELLIPSES
       ALP(2)=A(NOEL,50)
@@ -147,6 +147,10 @@ C Modified for multiple-run on NERSC
 
         WRITE(NRES,FMT='(/,15X,'' Sorting  types  (Y/Z/L) : '',
      >      3(A9,''/''))') (KTIR(J),J=2,MXJ1,2)
+
+        IF(IRANK.NE.-1) WRITE(NRES,FMT='(/,A,I0)') 
+     >  'IR!-2 updated using IRANK =  "',IRANK,'"'
+
       ENDIF
    
 C----- Constitution of the beam

@@ -1,0 +1,13 @@
+
+
+Created for eRHIC e-storage ring. 
+
+What it does : 
+
+- compute average p and p^2 over a few damping times traking, from what it deduces p_av and sig_p
+- stores the last read values of spin components
+
+That allows ploting spin components vs p_av and sig_p vs p_av.
+
+
+It was observed that over 1 a.gamma unit, sig_p/p_ref~1e-3.

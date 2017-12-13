@@ -8,6 +8,7 @@
       CHARACTER(40) status
 
       logical strcon
+      character*(20) FILFAI, FILFAIr
 
 C RHIC
 C      data  kpa, kpb, kpstp, ksmpl / 1, 80000, 2000, 200/ 
@@ -22,6 +23,7 @@ C AGD
       data okQ / .true. /
       data nt / -1 /
       data stra / 5*'  ' /
+      data filfai / 'zgoubi.fai' /
 
       INQUIRE(FILE='tunesFromFai_iterate.In',exist=EXS)
 
@@ -41,6 +43,7 @@ C AGD
        write(nlu,*) (nbin(i),i=1,3), ' ! nbin '
        write(nlu,*) txt,' !  save spectra (y/n)'
        write(nlu,*) txtQ,' ! yes/no compute tunes, too (not just lips)'
+       write(nlu,*) FILFAI
       endif
 
       rewind(nlu)
@@ -64,7 +67,10 @@ C        read(nlu,fmt='(L1)',err=10,end=10) oksav
  33     if(txtQ .ne. 'n') txtQ = 'y'
         oksav = txt.eq. 'y'
         okQ = txtQ .eq. 'y'
-        close(nlu)
+        read(nlu,*,err=34,end=34) FILFAIr
+        filfai = filfair
+ 34     continue
+      close(nlu)
 
       call system('rm -f temp_ipmx')
       call system('mv -f tunesFromFai.out  tunesFromFai.out_old')
@@ -90,6 +96,7 @@ C        write(nlu,*)  oksav,'    !  save spectra '
         write(nlu,*) txtQ
         oksav = txt.eq. 'y'
         okQ = txtQ.eq. 'y'
+        write(nlu,*) FILFAI
         close(nlu)
 
         write(*,*) 

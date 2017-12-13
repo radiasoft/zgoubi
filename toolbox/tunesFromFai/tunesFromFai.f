@@ -35,7 +35,8 @@ C      CHARACTER*80 NOMFIC
 
 C Channel number, .le. NCANAL
       data nc0 / 3* NCANAL /
-      data borne / 0.5d0, 1.d0, 0.5d0, 1.d0, 0.d0, 1.d0 /
+C      data borne / 0.5d0, 1.d0, 0.5d0, 1.d0, 0.d0, 1.d0 /
+      data borne / 0.d0, .5d0, 0.d0, .5d0, 0.d0, .01d0 /
 c Fourier transf. ksmpl turns strarting from kpa
       data kpa, ksmpl / 0, 600 /
       data txtQ / 'y' /
@@ -239,13 +240,13 @@ C         IF(NT.EQ.-1) THEN
            call system('rm -f tunesFromFai.out')
            OPEN(UNIT=IUN,FILE='tunesFromFai.out',ERR=699)
            OPN = .TRUE.
-           WRITE(IUN,*) '//////////////////////////////////////////'
+           WRITE(IUN,*) '#/////////////////////////////////////////'
            WRITE(IUN,*) 
-     >     '% Fourier analysis considers turn#',kpa,' to turn# ',kpb
+     >     '# Fourier analysis considers turn#',kpa,' to turn# ',kpb
            WRITE(IUN,fmt='(a)') 
      >     '# XM, XPM, XNU, ZNU, 1-XNU, 1-ZNU, (U(1-3)=U_Y,_Z,_L), '//
      >     'COOR(npass,5)/(npass-1),COOR(?,?), KT, YM, YPM, kpa, kpb,'//
-     >     ' E_total, alfx, betx, alfy, bety, alfl, betl '
+     >     ' E_total, alfx, betx, alfy, bety, alfl, betl, LNU '
 C     >    'COOR(npass,5)/(npass-1), dp/p, KT, YM, YPM, kpa, kpb, energ'
           ELSE
             GOTO 698
@@ -367,7 +368,8 @@ c      GOTO 99
         PAS=DEUXPI * DELNU
         VAL=DEUXPI *(ANUI - 0.5d0 * DELNU)
         PMAX(JNU)=0.D0
-        PMIN=1.D12
+C        PMIN=1.D12
+        PMIN=1.D30
         DO NC=1,NC0(JNU)
           VAL=VAL+PAS
           SR=0.D0
@@ -393,6 +395,11 @@ C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
 
         ENDDO
 
+c         write(*,*)
+c     >   ' max_val, kmax pmax = ',val,kmax,pmax(jnu)
+c           write(*,*) ' tunesfromfai anui-f : ',jnu,anui,anuf
+c             read(*,*)
+ 
         IF (PMAX(JNU) .GT. PMIN) THEN
            IF (KMAX .LT. NCANAL) THEN
              DEC=0.5D0 * (SPEC(KMAX-1,JNU)-SPEC(KMAX+1,JNU))
@@ -404,6 +411,8 @@ C ** ERR, FM Jan/04            FF = COOR(NT,INU) - YM(INU)
         ELSE
            YNU(JNU) = 0.D0
         ENDIF
+c           write(*,*) ' tunesfromfai  ynu(1-5) ',(ynu(ix),ix=1,5)
+c           write(*,*) '              pmax(1-5) ',(pmax(ix),ix=1,5)
       ENDDO
 
       I3 = 3
@@ -1651,9 +1660,9 @@ C      PARAMETER (NTR=NPTMAX*9)
      > ,XXNU, ZZNU, 1.d0-XXNU, 1.d0-ZZNU
 C     > ,(U(I),I=1,3),COOR(npass,5)/(npass-1), COOR(1,6)
      > ,(U(I),I=1,3),dum, COOR(1,6)
-     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3)
+     > ,KT,YM, YPM,kpa,kpb,energ,(alf(i),bet(i),i=1,3),YNU(3)
 !!     >      ,  xK, xiDeg,' ',HV
- 179    FORMAT(1P,11(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),7(1x,E14.6))
+ 179    FORMAT(1P,11(1x,E14.6),1x,I6,2(1x,E14.6),2(1x,i8),8(1x,E14.6))
 !! 179    FORMAT(1P,6G14.6,2I4,2G12.4,2a)
 
       RETURN
@@ -1701,17 +1710,15 @@ c      return
       INCLUDE 'MAXNPT.H'
       COMMON/TRACKM/COOR(NPTMAX,9),NPTS,NPTR
  
-      PARAMETER ( PI=3.1415926536 , DEUXPI=2.0*PI )
+C      PARAMETER ( PI=3.1415926536 , DEUXPI=2.0*PI )
       logical idluni
 
       common/KP/ lusav,kpa,kpb,ksmpl
-c      save lusav
-c      save kpa,kpb,ksmpl
 
       dimension q(NCANAL,I3)
 
       write(lusav,fmt='(a,3(1x,i7),a,3(1x,i5))') 
-     > ' ;   kpa, kpb, sample : ',kpa, kpb,  ksmpl 
+     > ' #   kpa, kpb, sample : ',kpa, kpb,  ksmpl 
      >,' ;  # of channels x/y/l : ',nc0(1),nc0(2),nc0(3)
 
       DO INU = 1, 5, 2
@@ -1719,17 +1726,20 @@ c      save kpa,kpb,ksmpl
         ANUI = BORNE(INU)
         ANUF = BORNE(INU+1)
         DELNU=(ANUF - ANUI) / NC0(JNU)
-        PAS=DEUXPI * DELNU
-        VAL=DEUXPI *(ANUI - 0.5d0 * DELNU)
+C FM. Dec 2017. Changed absissa axis to nu, instead of 2.pi.nu !
+C        PAS=DEUXPI * DELNU
+C        VAL=DEUXPI *(ANUI - 0.5d0 * DELNU)
+        PAS= DELNU
+        VAL= (ANUI - 0.5d0 * DELNU)
         DO NC=1,NC0(JNU)
           VAL=VAL+PAS
-          q(nc,jnu) = val
-        enddo
-      enddo
-      do i=1, ncanal
-        write(lusav,fmt='(1p,3(2(e13.4,1x)),4(i7,1x),a)')
-     >  (q(i,j),spec(i,j),j=1,3),kpa,kpb,kt,nspec
-     >  ,' qx,spec_x,qy,spec_y,ql,spec_l,kpa,kpb,kt,nspec'
+          Q(NC,JNU) = VAL
+        ENDDO
+      ENDDO
+      DO I=1, NCANAL
+        WRITE(LUSAV,FMT='(1P,3(2(E13.4,1X)),4(I7,1X),A)')
+     >  (Q(I,J),SPEC(I,J),J=1,3),KPA,KPB,KT,NSPEC
+     >  ,' qx, amp_x, qy, amp_y, ql, amp_l, kpa, kpb, kt, nspec'
       enddo
 
       RETURN

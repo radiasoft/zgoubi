@@ -2,7 +2,7 @@
       character(800) txt800
       parameter (c=2.99792458d8, smu2s=1d-6)
       
-      open(unit=1,file='zgoubi.fai')
+      open(unit=1,file='zgoubi.fai',action='read')
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
@@ -50,7 +50,7 @@
       i = 0
  1    continue
         read(1,fmt='(a)',end=97,err=98) txt800
-        write(*,*) txt800
+C        write(*,*) txt800
 
         read(txt800(646:655),*) ipass
         if(ipass.lt.ini) goto 1
