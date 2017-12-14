@@ -49,7 +49,8 @@ Case MADX : as resulting from a "select" w appropriate argument list
       write(*,*) 
      >'Centered or long-shifted or short-shftd multipole (1/2/3)?'
 C      read(*,*,err=8) kcs
-          kcs = 3
+          kcs = 2
+      write(*,*) ' kcs = ', kcs
       if( kcs .lt. 1 .or. kcs .gt. 3) goto 8
       call lmnkcs(kcs)
 

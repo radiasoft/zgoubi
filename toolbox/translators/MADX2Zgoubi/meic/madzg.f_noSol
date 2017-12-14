@@ -1,7 +1,7 @@
 C23456789012345678901234567890123456789012345678901234567890123456789012
       implicit double precision (a-h,o-z)
       character fnr*80, fnw*80,  txt*132
-      character txt590*590,keyword*20,txt20*20,txt60*60
+      character txt590*590,keyword*20,txt20*20,txt40*40
       parameter(lr=9, lw=10, lout=14)
       parameter (mxl=15000)
       dimension iq(mxl)
@@ -10,9 +10,7 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       character kle(mxk)*4, ny*1
       character(35) warn
       character(8) prtcl
-      parameter (mss=3)
-      character(20) stra(mss)
-      logical TOMANY, okV
+      logical TOMANY
 
       logical ok, strcon
       integer debstr, finstr
@@ -98,11 +96,6 @@ C 7    continue
       if(kbm.eq.1   ) write(*,*) ' BEND will be used for SBEND'
       if(kbm.eq.2) write(*,*) ' MULTIPOLE will be used for SBEND'
 
-C      okV = .false. 
-      okV = .true. 
-      write(*,*) ' Vertical bend :  ',okV
-      call lmntV(okV)
-
 c      write(*,*)
 c      write(*,*) ' Translate RBEND to BEND or to MULTIPOLE (1/2) :'
 c      read(*,*,err=71) kbmr 
@@ -167,28 +160,20 @@ c      write(*,*) txt590
      >  xl, ang, ak1,ak2,ak3,ak4, tilt, e1,e2, h1,h2,sCntr,
      >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, 
      >  hkic,vkic,
-     >  txt60
-C       txt60 includes : name, kley, solK
+     >  txt40
 
 c        write(*,*)
 c     >  xl, ang, ak1,ak2,ak3,ak4, tilt, e1,e2, h1,h2,sCntr,
-c     >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, txt60,
+c     >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, txt40,
 c     >  hkic,vkic
 
           
-        call strget(txt60,mss,
-     >                        nstr,stra)
-        read(stra(1),*) name
-        read(stra(2),*) kley
-        solK = 0.d0
-        if(nstr.eq.3) read(stra(3),*) solK
 
-C        read(txt60,*,end=85,err=99) txt20,keyword
-C        kley = keyword
-C        name = txt20
+        read(txt40,*,end=85,err=99) txt20,keyword
+        kley = keyword
+        name = txt20
 c        write(*,*) '-----------------------------------'
-c        write(*,*) kley, '  **', stra(1),'**',stra(2),'**',stra(3),'**'
-c        write(*,*) kley, '  **', kley,'**',name,'**'
+c        write(*,*) kley, '  ', name, xl, ang, ak1, ak2
 
         s = s+xl
 
@@ -217,7 +202,7 @@ C        stop
         call lmnt
      >    (lw,lout,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,ak3,ak4,
      >                                            tilt,e1,e2,h1,h2,
-     >                                      hkic, vkic, solK,
+     >                                      hkic, vkic,
      >                                      it)
 c        call lmnt
 c     >    (lw,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,tilt,e1,e2,h1,h2,
@@ -269,9 +254,9 @@ C      it = it + 1
 c      write(lw,fmt='(A,T111,I6)')  '''REBELOTE''',it
 c      write(lw,fmt='(A)')   '999999 0.2 99'
 c      write(lw,fmt='(A,T111,I6)')  '''MATRIX''',it
-c      write(lw,fmt='(A)')   ' 1  11  coupled'
+c      write(lw,fmt='(A)')   ' 1  11'
       write(lw,fmt='(A,T111,I6)')  '''TWISS''',it
-      write(lw,fmt='(A)')   ' 2  1.  1.  coupled   PRINT'
+      write(lw,fmt='(A)')   ' 2  1.  1.'
       it = it + 1
       write(lw,fmt='(A,T111,I6)')  '''END''',it
 
@@ -355,24 +340,20 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
 
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''SCALING''' 
-      write(lw,fmt='(A)') '1  3 '
+      write(lw,fmt='(A)') '1  2 '
       write(lw,fmt='(A)') 'BEND' 
       write(lw,fmt='(A)') '   -1   ' 
       write(lw,fmt='(1P,E16.8)') BRO
       write(lw,fmt='(A)') '1  '
-      write(lw,fmt='(A)') 'MULTIPOL'
+      write(lw,fmt='(A)') 'MULTIPOL '
       write(lw,fmt='(A)') '-1         '
       write(lw,fmt='(1P,E16.8)') BRO
-      write(lw,fmt='(A)') '1      '
-      write(lw,fmt='(A)') 'SOLENOID   OFF'
-      write(lw,fmt='(A)') '-1         '
-      write(lw,fmt='(A)') ' 40.5'
       write(lw,fmt='(A)') '1      '
 
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''OPTIONS''',it
       write(lw,fmt='(a)') ' 1 1 '
-      write(lw,fmt='(a)') ' WRITE ON'
+      write(lw,fmt='(a)') ' WRITE OFF'
       write(lw,fmt='(a)') ' '
 
       return
@@ -381,7 +362,7 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
       subroutine lmnt
      >(lw,lout,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,ak3,ak4,
      >                                        tilt,e1,e2,h1,h2,
-     >                                      hkic, vkic,solK,
+     >                                      hkic, vkic,
      >                                it)
 c      subroutine lmnt
 c     >(lw,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,tilt,e1,e2,h1,h2,
@@ -445,9 +426,6 @@ c     >                                                       it)
       save kpos, kbm, kbmr
       logical strcon
 
-      logical okV, okVi, Vbnd
-      save okV
-
       pi = 4.d0*atan(1.d0)
       zero=0.d0
       txtfrm = '(A,T12,A,T22,A,T111,i6)'
@@ -503,12 +481,12 @@ C----- DRIF
 C-------- Translate SBEND to BEND
          if(ik.eq.3) then
 C---------- SBEN -> BEND
-c           if(strcon(name,'BDOGLE',
-c     >                            is) ) then
-c              write(*,*) ' strcon(name, BDOGLE'
-cc                  read(*,*)
-c                goto 77
-c            endif
+           if(strcon(name,'BDOGLE',
+     >                            is) ) then
+              write(*,*) ' strcon(name, BDOGLE'
+                  read(*,*)
+                goto 77
+            endif
            goto 3
          endif
        endif
@@ -669,29 +647,28 @@ C      write(lw,fmt='(A)') ' 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.'
 C----- RBEN -> BEND
       if(xl * ang .eq. 0.d0) then
         if(xl .eq. 0.d0) then
-          write(lw,fmt=txtfrm) '''MARKER''',name,kley,it
+          write(lw,fmt=txtfrm) '''MARKER''',kley,name,it
         else
-          write(lw,fmt=txtfrm) '''DRIFT''',name,kley,it
+          write(lw,fmt=txtfrm) '''DRIFT''',kley,name,it
           write(lw,fmt='(1P,E14.6)') xl*cm
         endif
         goto 99
       endif
 
-      Vbnd = okV .and. tilt.gt.1d-6
-      if(Vbnd) then
-        it = it+1
-        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-C        write(lw,fmt=txtfrm) '''TRAROT''',name,kley,it
-        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',tilt,' 0. 0.'
-      endif
-
-      write(lw,fmt=txtfrm) '''BEND''',name,kley,it
+      write(lw,fmt=txtfrm) '''BEND''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Bend'
       ro=xl/2./sin(ang/2.)
       b=ang * bro / xl *10.  !bro/ro*t2kg
 C      xxl=ro*ang*cm
       ro=ro*cm
-      write(lw,fmt='(F14.7,a,F15.8)') xl*cm,' 0. ',abs(b) 
+
+C err. FM June 2009      write(lw,fmt='(2F14.7,F15.8)') xl,tilt,b 
+      if(abs(tilt).lt.1d-10) then 
+        fac = 1.d0
+      else
+        fac = 1.d-20
+      endif
+      write(lw,fmt='(2F16.9,F15.8)') xl*cm,tilt,fac*b 
       te=ang/2.+e1
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
@@ -711,122 +688,42 @@ C      xxl=ro*ang*cm
 C      write(lw,fmt='(F12.6,A4)') step * 10.,'  Bend'
 C      write(lw,fmt='(A,2X,A)') ' #10|10|10   Bend',name
       if(kpos.eq.3) then
-C        write(lw,fmt='(A)') '3 0. 0. 0.'
-        write(lw,fmt='(A,1p,e16.8)') '3 0. 0. ',ale
+        if(abs(tilt).lt.1d-10) then 
+          write(lw,fmt='(A)') '3 0. 0. 0.'
+        else
+          write(lw,fmt='(A)') '1 0. 0. 0.'
+        endif
       else
-        write(lw,fmt='(1P,I1,2X,3G18.10)') kpos,xce,yce,ale
-      endif
-
-      if(Vbnd) then
-        it = it+1
-        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_O',it
-C        write(lw,fmt=txtfrm) '''TRAROT''',name,kley,it
-        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',-tilt,' 0. 0.'
+        write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
       endif
       goto 99
-
-c 21   continue
-cC----- RBEN -> BEND
-c      if(xl * ang .eq. 0.d0) then
-c        if(xl .eq. 0.d0) then
-c          write(lw,fmt=txtfrm) '''MARKER''',kley,name,it
-c        else
-c          write(lw,fmt=txtfrm) '''DRIFT''',kley,name,it
-c          write(lw,fmt='(1P,E14.6)') xl*cm
-c        endif
-c        goto 99
-c      endif
-c
-c      Vbnd = okV .and. tilt.gt.1d-6
-c      if(Vbnd) then
-c        it = it+1
-c        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-cC        write(lw,fmt=txtfrm) '''TRAROT''',name,kley,it
-c        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',tilt,' 0. 0.'
-c      endif
-c
-c      write(lw,fmt=txtfrm) '''BEND''',kley,name,it
-c      write(lw,fmt='(I1,A)') i0,'  .Bend'
-c      ro=xl/2./sin(ang/2.)
-c      b=ang * bro / xl *10.  !bro/ro*t2kg
-cC      xxl=ro*ang*cm
-c      ro=ro*cm
-c
-cC err. FM June 2009      write(lw,fmt='(2F14.7,F15.8)') xl,tilt,b 
-c      if(abs(tilt).lt.1d-10) then 
-c        fac = 1.d0
-c      else
-c        fac = 1.d-20
-c      endif
-c      write(lw,fmt='(2F16.9,F15.8)') xl*cm,tilt,fac*b 
-c      te=ang/2.+e1
-c      if(frf .eq. 0.) then
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
-c      else 
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
-c      endif
-c      write(lw,fmt='(A)') txfd
-c      ts=ang/2.+e2
-c      if(frf .eq. 0.) then
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,ts
-c      else
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
-c      endif
-c      write(lw,fmt='(A)') txfd
-c      step = xl
-c      write(lw,fmt='(1P,E12.4,A)') dble(nint(step)),'  Bend'
-cC      write(lw,fmt='(F12.6,A4)') step * 10.,'  Bend'
-cC      write(lw,fmt='(A,2X,A)') ' #10|10|10   Bend',name
-c      if(kpos.eq.3) then
-c        if(abs(tilt).lt.1d-10) then 
-c          write(lw,fmt='(A)') '3 0. 0. 0.'
-c        else
-c          write(lw,fmt='(A)') '1 0. 0. 0.'
-c        endif
-c      else
-c        write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
-c      endif
-c      goto 99
 
  3    continue
 C----- SBEN -> BEND
       if(xl * ang .eq. 0.d0) then
         if(xl .eq. 0.d0) then
-          write(lw,fmt=txtfrm) '''MARKER''',name,kley,it
+          write(lw,fmt=txtfrm) '''MARKER''',kley,name,it
         else
-          write(lw,fmt=txtfrm) '''DRIFT''',name,kley,it
+          write(lw,fmt=txtfrm) '''DRIFT''',kley,name,it
           write(lw,fmt='(1P,E14.6)') xl*cm
         endif
         goto 99
       endif
 
-      Vbnd = okV .and. tilt.gt.1d-6
-      if(Vbnd) then
-        it = it+1
-        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-C        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',tilt,' 0. 0.'
-      endif
-
-      ro=xl/ang
-      b=bro/ro*t2kg
-
-      if(b<0.d0) then
-        write(lw,fmt=txtfrm) '''YMY''',name,'_YMY_I',it
-        write(lw,fmt=txtfrm) '''BEND''',name,'NEG_B',it
-      else
-        write(lw,fmt=txtfrm) '''BEND''',name,kley,it
-      endif
+      write(lw,fmt=txtfrm) '''BEND''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Bend'
-      xxl = 2.d0*ro*sin(xl/2.d0/ro)
-      write(lw,fmt='(F14.7,a,F15.8)') xxl*cm,' 0. ',abs(b) 
-      if(b<0.d0) then 
-        te = -e1
-        ale = ang/2.d0
+      ro=xl/ang
+      xxl = 2.d0*ro*sin(ang/2.d0)
+      b=bro/ro*t2kg
+              write(lout,*) ' ********* tilt xl ',tilt,xxl
+      if(abs(tilt).lt.1d-10) then 
+        fac = 1.d0
       else
-        te=e1
-        ale = -ang/2.d0
+        fac = 1.d-20
       endif
+c      write(lw,fmt='(1P,3(1X,E17.9))') xxl*cm,tilt,fac*b 
+      write(lw,fmt='(1P,3(1X,E17.9))') xxl*cm,tilt,b 
+      te=e1
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
       else
@@ -834,7 +731,6 @@ C        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
       endif
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
       ts=e2
-      if(b<0.d0) ts = -ts
       if(frf .eq. 0.) then
         write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,ts
       else
@@ -842,7 +738,11 @@ C        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
       endif
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
 C      istepdip=int(xxl*cm/3.0d0)
-      istepdip=int(xxl*cm)
+      istepdip=int(xxl*cm) 
+
+C             mstp = 2   ! step size hlaved in SBEN
+            istepdip=   istepdip * mstp
+
       if(istepdip .ge. 100) then
         write(lw,fmt='(A,I3,A,2X,A)') '#200|',istepdip,
      + '|200    Bend',name
@@ -853,95 +753,15 @@ C      istepdip=int(xxl*cm/3.0d0)
         write(lw,fmt='(2A)') '#200|5|200    Bend',name 
       endif
       if(kpos.eq.3) then
-C        write(lw,fmt='(A)') '3 0. 0. 0.'
-        write(lw,fmt='(A,1p,e16.8)') '3 0. 0. ',ale
+        if(abs(tilt).lt.1d-10) then 
+          write(lw,fmt='(A,1p,2x,e14.6)') '3 0. 0. ',-ang/2.d0
+        else
+          write(lw,fmt='(A)') '1 0. 0. 0.'
+        endif
       else
-        write(lw,fmt='(1P,I1,2X,3G18.10)') kpos,xce,yce,ale
+        write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
       endif
-      if(b<0.d0) 
-     >write(lw,fmt=txtfrm) '''YMY''',name,'_YMY_O',it
-
-      if(Vbnd) then
-        it = it+1
-        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_O',it
-C        write(lw,fmt=txtfrm) '''TRAROT''',name,kley,it
-        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',-tilt,' 0. 0.'
-      endif
-
       goto 99
-
-c 3    continue
-cC----- SBEN -> BEND
-c      if(xl * ang .eq. 0.d0) then
-c        if(xl .eq. 0.d0) then
-c          write(lw,fmt=txtfrm) '''MARKER''',kley,name,it
-c        else
-c          write(lw,fmt=txtfrm) '''DRIFT''',kley,name,it
-c          write(lw,fmt='(1P,E14.6)') xl*cm
-c        endif
-c        goto 99
-c      endif
-c
-c      Vbnd = okV .and. tilt.gt.1d-6
-c      if(Vbnd) then
-c        it = it+1
-c        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-cC        write(lw,fmt=txtfrm) '''TRAROT''',name,'_TRAROT_I',it
-c        write(lw,fmt='(a,1p,e14.6,a)') '0. 0. 0. ',tilt,' 0. 0.'
-c      endif
-c
-c      write(lw,fmt=txtfrm) '''BEND''',kley,name,it
-c      write(lw,fmt='(I1,A)') i0,'  .Bend'
-c      ro=xl/ang
-c      xxl = 2.d0*ro*sin(ang/2.d0)
-c      b=bro/ro*t2kg
-c              write(lout,*) ' ********* tilt xl ',tilt,xxl
-c      if(abs(tilt).lt.1d-10) then 
-c        fac = 1.d0
-c      else
-c        fac = 1.d-20
-c      endif
-cc      write(lw,fmt='(1P,3(1X,E17.9))') xxl*cm,tilt,fac*b 
-c      write(lw,fmt='(1P,3(1X,E17.9))') xxl*cm,tilt,b 
-c      te=e1
-c      if(frf .eq. 0.) then
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,te
-c      else
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,te
-c      endif
-c      write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
-c      ts=e2
-c      if(frf .eq. 0.) then
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x0,x0,ts
-c      else
-c        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
-c      endif
-c      write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
-cC      istepdip=int(xxl*cm/3.0d0)
-c      istepdip=int(xxl*cm) 
-c
-C             mstp = 2   ! step size hlaved in SBEN
-c            istepdip=   istepdip * mstp
-c
-c      if(istepdip .ge. 100) then
-c        write(lw,fmt='(A,I3,A,2X,A)') '#200|',istepdip,
-c     + '|200    Bend',name
-c      elseif(istepdip .ge. 10  .and. istepdip .lt. 100) then
-c        write(lw,fmt='(A,I2,A,2X,A)') '#200|',istepdip,
-c     + '|200    Bend',name
-c      elseif(istepdip .lt. 10) then
-c        write(lw,fmt='(2A)') '#200|5|200    Bend',name 
-c      endif
-c      if(kpos.eq.3) then
-c        if(abs(tilt).lt.1d-10) then 
-c          write(lw,fmt='(A,1p,2x,e14.6)') '3 0. 0. ',-ang/2.d0
-c        else
-c          write(lw,fmt='(A)') '1 0. 0. 0.'
-c        endif
-c      else
-c        write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
-c      endif
-c      goto 99
 
  4    continue
 C----- QUAD
@@ -1165,16 +985,11 @@ C----- SOLE -> SOLENOID
 C        it = it - 1
         goto 99
       endif
-C      r0 = 111.11
-      r0 = 2.
-      ffxtent= 2.5 * r0
-      write(lw,fmt=txtfrm) '''SOLENOID''','  OFF ',kley,it
-C      write(lw,fmt=txtfrm) '''SOLENOID''',kley,name,it
+      r0 = 111.11
+      write(lw,fmt=txtfrm) '''SOLENOID''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .soleno'
-      write(lw,fmt='(1P,G14.7,G10.4,G14.7,a)') 
-     >                     xl*cm,r0,solK*bro*t2kg,' 1'
-      write(lw,fmt='(2F10.2)') ffxtent, ffxtent
-C      write(lw,fmt='(A,2X,A)') '1.  Soleno',name
+      write(lw,fmt='(1P,G14.7,G10.4,G14.7)') xl*cm,r0,e1*bro*t2kg
+      write(lw,fmt='(2F10.2)') r0, r0
       write(lw,fmt='(A,2X,A)') '1.  Soleno',name
       write(lw,fmt='(A)') '1 0. 0. 0. '
       goto 99
@@ -1192,10 +1007,6 @@ C----- MATR
  99    continue
        write(6,fmt='(A,T12,A)') kley,name
        return
-
-      entry lmntV(okVi)
-      okV = okVi
-      return
 
       entry lmntff(kff)
 
@@ -1314,75 +1125,5 @@ C     ---------------------------------------------------------------
       ENDDO
  1    CONTINUE
       STRCON = .FALSE.
-      RETURN
-      END
-      SUBROUTINE STRGET(STR,MSS,
-     >                          NST,STRA)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      CHARACTER(*) STRA(*)
-      CHARACTER(*) STR
-C     ------------------------------------------------------
-C     Extract substrings #1 up to #MSS, out of string STR. 
-C     Strings are assumed spaced by (at least) one blank. 
-C     They are saved in  array STRA, and their total number 
-C     (possibly < mss) is NST.
-C     ------------------------------------------------------
-      INTEGER DEBSTR, FINSTR
-
-      CHARACTER(2000) STR0
-
-      IF(LEN(STR0).LT.LEN(STR)) 
-     >stop ' Sbr strget : increase length of string str0.'
-
-      STR0 = STR
-      IE = FINSTR(STR)
-      NST = 0
-      I2 = 1
-
- 1    CONTINUE
-
-        IF(STR(I2:I2) .EQ. ' '  .OR. 
-     >     STR(I2:I2) .EQ. ',') THEN
-          I2 = I2 + 1
-          IF(I2 .LE. IE) GOTO 1
-        ELSE
-          I1 = I2
- 2        CONTINUE
-          I2 = I2 + 1
-          IF(I2 .LE. IE) THEN
-            IF(STR(I2:I2) .EQ. ' '  .OR. 
-     >         STR(I2:I2) .EQ. ',') THEN
-              IF(NST .LT. MSS) THEN
-                NST = NST + 1
-                STRA(NST) = STR(I1:I2-1)
-                I2 = I2 + 1
-                GOTO 1
-              ENDIF
-            ELSE
-              GOTO 2
-            ENDIF
-          ELSE
-            IF(STR(I2-1:I2-1) .NE. ' ' .AND.
-     >         STR(I2-1:I2-1) .NE. ',') THEN
-              IF(NST .LT. MSS) THEN
-                NST = NST + 1
-                STRA(NST) = STR(I1:I2-1)
-              ENDIF
-            ENDIF
-          ENDIF
-        ENDIF
-
-      STR = STR0
-
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.89) then
-c           write(*,*) ' strget  //////////////////'
-c           write(*,*) ' strget  NST = ', nst
-c           write(*,*) ' strget ', (stra(i),i=1,nst)
-c            write(*,*) ' strget  //////////////////'
-c              read(*,*)     
-c          endif
-
       RETURN
       END

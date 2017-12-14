@@ -52,7 +52,7 @@ pause 2
  unset y2tics
  set ytics  font "roman,12" mirror      #offset 0,-.6
 
- plot \
+ plot [1100:1300] \
       "twiss.out" u ($12):($17) axes x1y1 w l lt 1 lc 1 tit "x"  ,\
       "twiss.out" u ($12):($18) axes x1y1 w l lt 1 lc 3 tit "y"  
 
