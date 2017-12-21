@@ -183,7 +183,7 @@ C            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
      >          'Pgm rrebel. Could not find keyword[label] '
      >          // TPRM(IPRM,1) //'['//TPRM(IPRM,2)//']'
      >          //'  in zgoubi data sequence.'
-                 CALL ENDJOB('Check keyword[label] data.',-99)              
+                 CALL ENDJOB('Check keyword[label] data.',-99)
             ENDIF
 
           ENDIF

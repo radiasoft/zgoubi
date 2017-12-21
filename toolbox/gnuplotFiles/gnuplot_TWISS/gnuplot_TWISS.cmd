@@ -12,7 +12,7 @@
 
 #set key above maxrows 1 
 #set key tm c maxrows 1 width 4
-set key b l maxrows 1 width 4
+set key t c maxrows 1 width 4
 set key font "roman, 12"  samplen 1  
 
 set grid

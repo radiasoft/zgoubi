@@ -300,7 +300,8 @@ C      qvfrac = AN20 *Q *1.D-6 /2.d0       ! energy gain per turn
         DWS = QV*SIN(PHS)
 
       ELSEIF(CRNLSY) THEN
-        QV = Q *(4.4D0* SIN(OMGA*STS) + 8.8D0*(SIN(OMGA*STS/2.D0) )**8)  ! MeV
+C     ! MeV
+        QV = Q *(4.4D0* SIN(OMGA*STS) + 8.8D0*(SIN(OMGA*STS/2.D0) )**8)
 C        PHS = PI/2.D0
         PHS = AN21
         DWS = QV*SIN(PHS) - U0
@@ -1088,7 +1089,7 @@ C        CHAMBERS CAVITY Det(M)=1
           F(3,I) = (v21 * F(2,I)*.01D0 + v22 * F(3,I)*.001D0)*1.D3
           F(4,I) = (v11 * F(4,I)*.01D0 + v12 * F(5,I)*.001D0)*1.D2
           F(5,I) = (v21 * F(4,I)*.01D0 + v22 * F(5,I)*.001D0)*1.D3
-          DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))           
+          DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           BTA = P / SQRT(P*P + AM2)
           F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 

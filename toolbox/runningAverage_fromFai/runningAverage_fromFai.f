@@ -5,7 +5,7 @@
       character(800) txt800
       parameter (c=2.99792458d8, smu2s=1d-6)
       
-      open(unit=1,file='zgoubi.fai',action='read')
+      open(unit=1,file='zgoubi.fai')
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
@@ -23,9 +23,13 @@
      >  //'  spxav , spx2av,'
      >  //'  spyav , spy2av,'
      >  //'  spzav , spz2av,'
-     >  //'  spmav , spm2av '
+     >  //'  spmav , spm2av, '
+     >  //'  sxmi, sxma, '
+     >  //'  symi, syma, '
+     >  //'  szmi, szma, '
+     >  //'  Ekin, Etot, am, Q, G'
 
-      ini =  1000 ! pass to start averaging from 
+      ini =  1 ! pass to start averaging from 
       ifi = 999999
       
       sd = 0.d0
@@ -50,8 +54,14 @@
       sspy2 = 0.d0
       sspz2 = 0.d0
       sspm2 = 0.d0
+      sxmi = 1d10
+      sxma = -1d10
+      symi = 1d10
+      syma = -1d10
+      szmi = 1d10
+      szma = -1d10
       i = 0
- 1    continue
+ 1        continue
         read(1,fmt='(a)',end=97,err=98) txt800
 C        write(*,*) txt800
 
@@ -88,8 +98,17 @@ c        st = st +t ; st2 = st2 + t*t
         spzav = sspz/dble(i) ; spz2av = sspz2/dble(i)
         spmav = sspm/dble(i) ; spm2av = sspm2/dble(i)
 
+        if(spx .lt. sxmi) sxmi = spx
+        if(spx .gt. sxma) sxma = spx
+        if(spy .lt. symi) symi = spy
+        if(spy .gt. syma) syma = spy
+        if(spz .lt. szmi) szmi = spz
+        if(spz .gt. szma) szma = spz
+
+        read(txt800(429:544),*)  EK, ET, IT, IRP, SRT, am,Q,G
+
         s = (c * t)* smu2s
-        write(2,fmt='(2(i6,1x),1p,24(e14.6,1x))') i,ipass,s,t,
+        write(2,fmt='(2(i6,1x),1p,35(e14.6,1x))') i,ipass,s,t,
      >  sdav , sd2av,
      >  syav , sy2av,
      >  stav , st2av,
@@ -100,46 +119,26 @@ c        st = st +t ; st2 = st2 + t*t
      >  spxav , spx2av, 
      >  spyav , spy2av, 
      >  spzav , spz2av, 
-     >  spmav , spm2av
+     >  spmav , spm2av,
+     >  sxmi, sxma, 
+     >  symi, syma, 
+     >  szmi, szma,
+     >  EK, ET,am,Q,G
       goto 1
 
- 10   continue
+ 10      continue
       
       goto 99
       
- 97   continue
+ 97      continue
       write(*,*) ' End upon EOF'
       goto 99
- 98   continue
+ 98      continue
       write(*,*) ' End upon read-error'
       
- 99   continue
+ 99      continue
       stop ' End upon read-error'
 
       end
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+ 

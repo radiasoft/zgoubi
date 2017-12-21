@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MCOBJ3(KTIR,CENTRE,KNRM,IMI,IMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -120,7 +120,7 @@ c     This assigns the value "20000328" to REAL_CLOCK (1), the value "110414.500
 C     and the value "-0500" to REAL_CLOCK (3). The following values are assigned to
 C     DATE_TIME: 2000, 3, 28, -300, 11, 4, 14, and 500.
           READ(REAL_CLOCK (2)(5:12),*) SSI
-          IR1 = nint(SSI*1000.D0)
+          IR1 = NINT(SSI*1000.D0)
         ENDIF       
         TEMP = RNDM2(IR1)
       ENDIF
