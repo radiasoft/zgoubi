@@ -1994,9 +1994,10 @@ zgoubi.res \index{zgoubi.res} and, upon options appearing in zgoubi.dat\index{zg
  into several other outputs files (see section~\ref{secD-3} below).  
 \item[$\bullet$] The command \zgou\ acccepts the following arguments (see zgobui\_main.f source file)~: 
 \begin{itemize}
-\item[] -fileIn, followed by an input file name, 
-\item[] -fileOut, followed by an output file name,
+\item[] -in or -fileIn, followed by an input file name, 
+\item[] -out or -fileOut, followed by an output file name,
 \item[] -fileLog, followed by a log file name,
+\item[] -rank, followed by an integer number, this causes the seed in \textsl{MCOBJET} to be overriden, replaced by reading the current time instead, 
 \item[] -saveExec, this will cause saving a copy of \zgou\ exec in the local directory,
 \item[] -saveZpop, this will cause saving a copy of \textbf{zpop} exec in the local directory. 
 \end{itemize}

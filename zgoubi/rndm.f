@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       FUNCTION RNDM()
 c--------------------------------------------------------------------------------
@@ -30,7 +30,6 @@ C If you compile w ifort and This is commented, that may cause zgoubi not to wor
 #ifdef __INTEL_COMPILER
          use ifport
 #endif
-C        use ifport
 C--------------------------------------------------------------------------------
 C While not required, the recommend usage of the Intel Fortran portability 
 C library functions is to access these either by inserting a USE IFPORT in 

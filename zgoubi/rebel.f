@@ -92,6 +92,14 @@ C  -------
       SAVE RBLFIT
       LOGICAL FITING
 
+      LOGICAL OKCOR
+      SAVE ICOR, NBLM, OKCOR
+      PARAMETER (T2KG = 10.D0)
+      PARAMETER (MX5=5)
+      CHARACTER(LBLSIZ) HPNA(MX5), VPNA(MX5), HCNA, VCNA
+      CHARACTER(LBLSIZ) HPNAI(MX5), VPNAI(MX5), HCNAI, VCNAI
+      SAVE HPNA, VPNA, HCNA, VCNA, NLMC
+      
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
@@ -103,7 +111,8 @@ C  -------
       DATA FITING / .FALSE. /
       DATA FITRBL / .FALSE. /
       DATA RBLFIT / .FALSE. /
-
+      DATA OKCOR / .FALSE. /
+      
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
@@ -122,7 +131,7 @@ C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
 C----- KREB4=1 allows changing parameter values prior to rebelote
       KREB4 = NINT(A(NOEL,4))
 
-      IF(KREB4 .EQ. 1) THEN
+      IF    (KREB4 .EQ. 1) THEN
         NPRM =  NINT( A(NOEL,10) )
         IF(NPRM .GT. MXPRM) 
      >    CALL ENDJOB('SBR REBEL. Too many parameters, has to be .le. '
@@ -138,9 +147,60 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
           A(KLM(IPRM),KPRM(IPRM)) = PARAM(IPRM,IPASS)
         ENDDO
 
+      ELSEIF(KREB4 .EQ. 2) THEN
+C Build SVD matrix:
+C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
+        IF(IPASS.EQ.1) THEN
+          ICOR = 0
+          KSCOR = 1      ! H corr first
+          NLMC = 0
+          CALL ZGNBLM( 
+     >                NBLMI)
+          NBLM = NBLMI
+C Fill PULAB with PU names
+C          call svdpus
+          
+        ELSE
+
+          IF(KSCOR.LE.2) THEN
+            DO WHILE ((.NOT. OKCOR) .AND. NLMC .LE. NBLM)
+C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list 
+              NLMC = NLMC + 1
+              OKCOR =
+     >        (KSCOR .EQ. 1 .AND. LABEL(NLMC,1).EQ.'HKIC')
+     >        .OR.       
+     >        (KSCOR .EQ. 2 .AND. LABEL(NLMC,1).EQ.'VKIC')
+            ENDDO
+            OKCOR=.FALSE.
+            IF(NLMC .LE. NBLM) THEN 
+              ICOR = ICOR + 1
+              IF    (KSCOR .EQ. 1) THEN
+                A(NLMC,4) = A(NOEL,10) / (A(NLMC,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
+
+        WRITE(88,*)' REBEL 1 ',icor,NLMC,(A(NLMC,j),j=1,4),IPASS
+c                   READ(*,*)
+
+              ELSEIF(KSCOR .EQ. 2) THEN
+                 A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG 
+
+        WRITE(88,*)' REBEL 2 ',icor,NLMC,(A(NLMC,j),j=1,4),IPASS
+c                    READ(*,*)
+
+              ELSE
+                CALL ENDJOB(
+     >          'SBR REBEL. NO SUCH POSSIBILITY KSCOR =',KSCOR)
+              ENDIF
+            ELSE
+        WRITE(88,*)' REBEL ksor 2 ',icor,NLMC,nblm,IPASS
+c                    READ(*,*)
+              KSCOR = KSCOR + 1
+              NLMC = 0
+            ENDIF
+          ENDIF
+        ENDIF
       ENDIF
 
-C Will stop at element # NOELB when doing last turn
+C WILL STOP AT ELEMENT # NOELB WHEN DOING LAST TURN
       REBFLG = NOELB .LT. NOEL
 
       IF(KWRI6 .NE. 0) THEN
@@ -550,6 +610,13 @@ C--------- reactive WRITE
 
       ENTRY REBEL8(RBLFII)
       RBLFIT = RBLFII
+      RETURN
+
+      ENTRY REBELA(HPNAI,HCNAI,VPNAI,VCNAI)
+      HPNA =       HPNAI
+      HCNA =       HCNAI
+      VPNA =       VPNAI
+      VCNA =       VCNAI
       RETURN
 
       END

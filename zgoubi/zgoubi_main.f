@@ -95,11 +95,11 @@ C Manage possible arguments to zgoubi -----------------------
            READ (ARGS(IX),'(I10)') IRANK
            CALL MCOBJB(IRANK)
          ELSEIF(  ARGS(IX) .EQ. '-fileIn'
-     >   .OR. ARGS(IX) .EQ. '-in'  ) THEN
+     >   .OR.     ARGS(IX) .EQ. '-in'  ) THEN
            IX = IX + 1
            FLIN = ARGS(IX)
          ELSEIF(ARGS(IX) .EQ. '-fileOut'
-     >   .OR. ARGS(IX) .EQ. '-out'  ) THEN
+     >   .OR.   ARGS(IX) .EQ. '-out'  ) THEN
            IX = IX + 1
            FLOUT = ARGS(IX)
          ELSEIF(ARGS(IX) .EQ. '-fileLog' ) THEN

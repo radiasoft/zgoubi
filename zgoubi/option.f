@@ -47,7 +47,7 @@ C Numb of options. NBOP lines should follow
 
       IF(NY*NBOP.EQ.0) THEN
         IF(NRSAV .EQ. -11111) THEN 
-          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,I2,A)') 
+          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,A)') 
      >    ' ''OPTIONS''  is  inhibited,  no  option  will  be  set.'
         ENDIF
         GOTO 99

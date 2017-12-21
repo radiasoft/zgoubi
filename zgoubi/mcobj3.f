@@ -54,6 +54,9 @@ C     ----------------------------------------------------
       DIMENSION DIS(MXJ)
       SAVE IRANK
 
+      INTEGER DATE_TIME (8)
+      CHARACTER (LEN = 12) REAL_CLOCK (3)
+      
       DATA IKAR / 0 /
       DATA IRANK / -1 /
 
@@ -104,14 +107,22 @@ C        IR1 = NINT(A(NOEL,80))
 C        IR2 = NINT(A(NOEL,81))
 C        IR3 = NINT(A(NOEL,82))
 C FM, VR. 2017
-C Modified for multiple-run on NERSC
-        IR1 = 2*(NINT(A(NOEL,80))/2)+1 + 2*IRANK                                                                             
-        IR2 = 2*(NINT(A(NOEL,81))/2)+1 + 2*IRANK                                                                             
-        IR3 = 2*(NINT(A(NOEL,82))/2)+1 + 2*IRANK                                                                             
-        IR1=(IR1/2)*2+1
-        IR2=(IR2/2)*2+1
-        IR3 =(IR3 /2)*2+1
-        DUMMY = RNDM2(IR1)
+C ModifIED FOR MULTIPLE-RUN ON NERSC
+        IF(IRANK .EQ. -1) THEN
+          IR1 = 2*(NINT(A(NOEL,80))/2)+1
+        ELSE
+C GENERATE A RANDOM SEED TO INITIAL THE SERIES
+C FIRST, INITIALIZE A SERIES
+          CALL DATE_AND_TIME (REAL_CLOCK (1), REAL_CLOCK (2), 
+     >                 REAL_CLOCK (3), DATE_TIME)      
+Consider the following example executed on 2000 March 28 at 11:04:14.5:
+c     This assigns the value "20000328" to REAL_CLOCK (1), the value "110414.500" to REAL_CLOCK (2),
+C     and the value "-0500" to REAL_CLOCK (3). The following values are assigned to
+C     DATE_TIME: 2000, 3, 28, -300, 11, 4, 14, and 500.
+          READ(REAL_CLOCK (2)(5:12),*) SSI
+          IR1 = nint(SSI*1000.D0)
+        ENDIF       
+        TEMP = RNDM2(IR1)
       ENDIF
  
       IF(NRES.GT.0) THEN

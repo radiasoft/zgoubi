@@ -548,8 +548,8 @@ C  Compute FFAG field  and derivatives from analytical model
       ENTRY FFGSPA(IDB,TTA,RO,
      >                        BZ0)
          
-      CALL ENDJOB
-     >    ('Pgm ffgspi. Analytical model is not implemented. ',-99)
+C      CALL ENDJOB
+C     >    ('Pgm ffgspi. Analytical model is not implemented. ',-99)
 
       KMAG = 0
  30   CONTINUE

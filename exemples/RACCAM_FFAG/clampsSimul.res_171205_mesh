@@ -1,0 +1,558 @@
+FFAG triplet. 150MeV machine. CPU time, analyt. : 11:01:35->
+ 'OBJET'                                                                             1                        1
+1839.090113 150MeV
+2
+1   1             r_co=r_0(Brho/2.54425)^(1/(k+1)) avec r_0=5.4, k~7.6
+516.52   0.    0.00  0. 0.   1.4    'o'  corr.
+1 1 1 1 1 1 1
+ 'PARTICUL'                                                                           2                       2
+938.2723 1.60217733D-19 0. 0. 0.
+ 'FAISTORE'                                                                           3                       3
+b_zgoubi.fai #START
+1
+ 'PARTICUL'       #START                                                                    2                 4
+938.2723 1.60217733D-19 0. 0. 0.
+ 'FFAG'                                                                                                       5
+20
+3   30.     540.                        NMAG, AT=tetaF+2tetaD+2Atan(XFF/R0), R0
+9.465  0.  -3.e-10  7.25             mag 1 : ACNT, dum, B0, K
+6.3  03.                                EFB 1 : lambda, gap const/var=0/.ne.0
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+1. 0.    1.E6  -1.E6  1.E6  1.E6
+6.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-1.  0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3 : inhibited by iop=0
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+15.   0.   17.16  7.58                  mag 2 : ACNT, dum, B0, K,dummies
+15.3  03.                                EFB 1
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+5.12   0.    1.E6  -1.E6  1.E6  1.E6
+15.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-5.12   0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+20.535  0.  -3.e-10  7.25             mag 3 : ACNT, dum, B0, K
+6.3  03.                                EFB 1
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+1. 0.    1.E6  -1.E6  1.E6  1.E6
+6.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-1.  0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+2  125.                   KIRD anal/num (=0/2,25,4), resol(mesh=step/resol)
+.25                           integration step size (cm)
+2   0.  0. 0. 0.        (comp anal/num yield best num prec for resol=1e3*step)
+ 'DRIFT'                                                                                                      6
+0.
+ 'FAISCEAU' 'END'                                                                                             7
+ 'OBJET'                                                                             1                        8
+1839.090113 150MeV
+2
+1   1             r_co=r_0(Brho/2.54425)^(1/(k+1)) avec r_0=5.4, k~7.6
+520.17   0.    0.00  0. 0.   1.4    'o'  corr.
+1 1 1 1 1 1 1
+ 'PARTICUL'                                                                           2                       9
+938.2723 1.60217733D-19 0. 0. 0.
+ 'FAISTORE'                                                                           3                      10
+b_zgoubi.fai #START
+1
+ 'PARTICUL'       #START                                                                    2                11
+938.2723 1.60217733D-19 0. 0. 0.
+ 'FFAG'                                                                                                      12
+20
+3   30.     540.                        NMAG, AT=tetaF+2tetaD+2Atan(XFF/R0), R0
+9.465  0.  -5.e-0  7.25             mag 1 : ACNT, dum, B0, K
+6.3  03.                                EFB 1 : lambda, gap const/var=0/.ne.0
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+1. 0.    1.E6  -1.E6  1.E6  1.E6
+6.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-1.  0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3 : inhibited by iop=0
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+15.   0.   17.16  7.58                  mag 2 : ACNT, dum, B0, K,dummies
+15.3  03.                                EFB 1
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+5.12   0.    1.E6  -1.E6  1.E6  1.E6
+15.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-5.12   0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+20.535  0.  -5.e-0  7.25             mag 3 : ACNT, dum, B0, K
+6.3  03.                                EFB 1
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+1. 0.    1.E6  -1.E6  1.E6  1.E6
+6.3  03.                                EFB 2
+4  .1455   2.2670  -.6395  1.1558  0. 0.  0.
+-1.  0.    1.E6  -1.E6  1.E6  1.E6
+0. -1                                   EFB 3
+0  0.      0.      0.      0.      0. 0.  0.
+0.  0.   0.    0.    0. 0.
+2  125.                   KIRD anal/num (=0/2,25,4), resol(mesh=step/resol)
+.25                           integration step size (cm)
+2   0.  0. 0. 0.        (comp anal/num yield best num prec for resol=1e3*step)
+ 'DRIFT'                                                                                                     13
+0.
+ 'FAISCEAU' 'END'                                                                                            14
+ 'END'                                                                                                       15
+
+************************************************************************************************************************************
+      1  Keyword, label(s) :  OBJET       1                                         
+
+                          MAGNETIC  RIGIDITY =       1839.090 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      2  Keyword, label(s) :  PARTICUL    2                                         
+
+
+     Particle  properties :
+      
+                     Mass          =    938.272        MeV/c2
+                     Charge        =   1.602177E-19    C     
+
+              Reference  data :
+                    mag. rigidity (kG.cm)   :   1839.0901      =p/q, such that dev.=B*L/rigidity
+                    mass (MeV/c2)           :   938.27230    
+                    momentum (MeV/c)        :   551.34564    
+                    energy, total (MeV)     :   1088.2724    
+                    energy, kinetic (MeV)   :   150.00015    
+                    beta = v/c              :  0.5066246390    
+                    gamma                   :   1.159868459    
+                    beta*gamma              :  0.5876179394    
+                    electric rigidity (MeV) :   279.3254305      =T[eV]*(gamma+1)/gamma, such that dev.=E*L/rigidity
+  
+ I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time, s :
+  
+     1   9.38272300E+02  1.00000053E+00  1.40000000E+00  6.35309445E-01  0.00000000E+00  0.00000000E+00
+
+************************************************************************************************************************************
+      3  Keyword, label(s) :  FAISTORE    3                                         
+
+
+                OPEN FILE b_zgoubi.fai                                                                    
+                FOR PRINTING COORDINATES 
+
+               Print will occur at element[s] labeled : 
+                    #START              
+
+************************************************************************************************************************************
+      4  Keyword, label(s) :  PARTICUL    #START                2                   
+
+
+************************************************************************************************************************************
+      5  Keyword, label(s) :  FFAG                                                  
+
+
+                OPEN FILE zgoubi.plt                                                                      
+                FOR PRINTING TRAJECTORIES
+
+                    FFAG  N-tuple,  number  of  dipoles,  N :  3
+
+            Total angular extent of the magnet :  30.0000 Degres
+            Reference geometrical radius R0  :     540.0000 cm
+
+     Dipole # 1
+            Positionning  angle ACENT :    9.46500     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 = -3.00000000E-10 kGauss,       K =   7.2500    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+     Dipole # 2
+            Positionning  angle ACENT :    15.0000     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 =   17.160000     kGauss,       K =   7.5800    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is  15.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   5.12 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is  15.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -5.12 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+     Dipole # 3
+            Positionning  angle ACENT :    20.5350     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 = -3.00000000E-10 kGauss,       K =   7.2500    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+
+     KIRD, resol :  2   125.000
+
+     Field & deriv. calculation : interpolation
+                    Order 2, 3*3-point  interpolation, size of flying mesh :  integration step /   125.0    
+
+                    Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
+
+                               KPOS = 2.  Position of reference orbit on mechanical  faces
+                                         at entrance    RE =   0.00000     cm  TE =   0.00000     rad
+                                         at exit        RS =   0.00000     cm  TS =   0.00000     rad
+
+  A    1  1.4000   516.520     0.000     0.000     0.000            0.524   516.625     0.001     0.000     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     1098.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                      0.000            0.000             0.000    
+                                       0.000             0.000    
+                                       0.000             0.000    
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    2.90811234     m ;  Time  (for ref. rigidity & particle) =   1.914715E-08 s 
+
+************************************************************************************************************************************
+      6  Keyword, label(s) :  DRIFT                                                 
+
+
+                              Drift,  length =     0.00000  cm
+
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  4.000000E-01  5.166249E+02  7.542723E-01  0.000000E+00  0.000000E+00   2.7447589E+02   1.44111E-02
+
+ Cumulative length of optical axis =    2.90811234     m   ;  Time  (for reference rigidity & particle) =   1.914715E-08 s 
+
+************************************************************************************************************************************
+      7  Keyword, label(s) :  FAISCEAU    'END'                                     
+
+0                                             TRACE DU FAISCEAU
+                                           (follows element #      6)
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(cm)     T(mr)     Z(cm)     P(mr)       S(cm)       D-1     Y(cm)    T(mr)    Z(cm)    P(mr)      S(cm)
+
+o  1   1.4000   516.520     0.000     0.000     0.000       0.0000    0.4000  516.625    0.754    0.000    0.000   2.744759E+02     1
+               Time of flight (mus) :  1.44111352E-02 mass (MeV/c2) :   938.272    
+
+
+------
+  Characteristics of concentration ellipse (Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls inside ellips, ratio, space, pass#) : 
+
+   0.0000E+00   0.0000E+00   1.0000E+00   5.166249E+00   7.542723E-04        1        1    1.000      (Y,T)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   0.000000E+00   0.000000E+00        1        1    1.000      (Z,P)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   1.441114E-02   2.767008E+02        1        1    1.000      (t,K)         1
+
+(Y,T)  space (units : (cm,rd)   ) :  
+      sigma_Y = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_T = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(Z,P)  space (units : (cm,rd)   ) :  
+      sigma_Z = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_P = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(t,K)  space (units : (mu_s,MeV)) :  
+      sigma_t = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_K = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+
+  Beam  sigma  matrix : 
+
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+
+      sqrt(det_Y), sqrt(det_Z) :     0.000000E+00    0.000000E+00    (Note :  sqrt(determinant) = ellipse surface / pi)
+
+************************************************************************************************************************************
+      8  Keyword, label(s) :  OBJET       1                                         
+
+                          MAGNETIC  RIGIDITY =       1839.090 kG*cm
+
+                                         TRAJECTOIRY SETTING UP
+
+                              OBJET  (2)  BUILT  UP  FROM       1 POINTS 
+
+
+
+************************************************************************************************************************************
+      9  Keyword, label(s) :  PARTICUL    2                                         
+
+
+************************************************************************************************************************************
+     10  Keyword, label(s) :  FAISTORE    3                                         
+
+
+     b_zgoubi.fai                                                                    
+      already open...
+               Print will occur at element[s] labeled : 
+                    #START              
+
+************************************************************************************************************************************
+     11  Keyword, label(s) :  PARTICUL    #START                2                   
+
+
+************************************************************************************************************************************
+     12  Keyword, label(s) :  FFAG                                                  
+
+
+     zgoubi.plt                                                                      
+      already open...
+                    FFAG  N-tuple,  number  of  dipoles,  N :  3
+
+            Total angular extent of the magnet :  30.0000 Degres
+            Reference geometrical radius R0  :     540.0000 cm
+
+     Dipole # 1
+            Positionning  angle ACENT :    9.46500     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 =  -5.0000000     kGauss,       K =   7.2500    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+     Dipole # 2
+            Positionning  angle ACENT :    15.0000     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 =   17.160000     kGauss,       K =   7.5800    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is  15.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   5.12 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is  15.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -5.12 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+     Dipole # 3
+            Positionning  angle ACENT :    20.5350     degrees
+            Positionning  wrt.  R0  :    0.00000     cm
+            B0 =  -5.0000000     kGauss,       K =   7.2500    
+
+     Entrance  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =   1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Exit  EFB
+          Fringe  field  :  gap at R0 is   6.30 cm,    type is :  g_0(r0/r)^K
+           COEFFICIENTS :  4   0.14550   2.26700  -0.63950   1.15580   0.00000   0.00000
+           Shift  of  EFB  is    0.000     cm
+
+          OMEGA =  -1.00 deg.     Wedge  angle  =   0.00 deg.
+           Radius 1 =  1.00E+06 CM
+           Straight  segment 1 = -1.00E+06 CM
+           Straight  segment 2 =  1.00E+06 CM
+           Radius 2 =  1.00E+06 CM
+
+         Lateral face :  unused
+
+
+     KIRD, resol :  2   125.000
+
+     Field & deriv. calculation : interpolation
+                    Order 2, 3*3-point  interpolation, size of flying mesh :  integration step /   125.0    
+
+                    Integration step :  0.2500     cm   (i.e.,   4.6296E-04 rad  at mean radius RM =    540.0    )
+
+                               KPOS = 2.  Position of reference orbit on mechanical  faces
+                                         at entrance    RE =   0.00000     cm  TE =   0.00000     rad
+                                         at exit        RS =   0.00000     cm  TS =   0.00000     rad
+
+  A    1  1.4000   520.170     0.000     0.000     0.000            0.524   523.031     0.021     0.000     0.000            1
+
+
+                CONDITIONS  DE  MAXWELL  (     1108.  PAS )  :
+                       DIV(B)        LAPLACIEN(B)     ROTATIONNEL(B)
+                      0.000            0.000             0.000    
+                                       0.000             0.000    
+                                       0.000             0.000    
+                       LAPLACIEN SCALAIRE =   0.000    
+
+
+
+ Cumulative length of optical axis =    5.81622469     m ;  Time  (for ref. rigidity & particle) =   3.829430E-08 s 
+
+************************************************************************************************************************************
+     13  Keyword, label(s) :  DRIFT                                                 
+
+
+                              Drift,  length =     0.00000  cm
+
+TRAJ #1 IEX,D,Y,T,Z,P,S,time :  1  4.000000E-01  5.230310E+02  2.051372E+01  0.000000E+00  0.000000E+00   2.7693857E+02   1.45404E-02
+
+ Cumulative length of optical axis =    5.81622469     m   ;  Time  (for reference rigidity & particle) =   3.829430E-08 s 
+
+************************************************************************************************************************************
+     14  Keyword, label(s) :  FAISCEAU    'END'                                     
+
+0                                             TRACE DU FAISCEAU
+                                           (follows element #     13)
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(cm)     T(mr)     Z(cm)     P(mr)       S(cm)       D-1     Y(cm)    T(mr)    Z(cm)    P(mr)      S(cm)
+
+o  1   1.4000   520.170     0.000     0.000     0.000       0.0000    0.4000  523.031   20.514    0.000    0.000   2.769386E+02     1
+               Time of flight (mus) :  1.45404361E-02 mass (MeV/c2) :   938.272    
+
+
+------
+  Characteristics of concentration ellipse (Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls inside ellips, ratio, space, pass#) : 
+
+   0.0000E+00   0.0000E+00   1.0000E+00   5.230310E+00   2.051372E-02        1        1    1.000      (Y,T)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   0.000000E+00   0.000000E+00        1        1    1.000      (Z,P)         1
+   0.0000E+00   0.0000E+00   1.0000E+00   1.454044E-02   2.767008E+02        1        1    1.000      (t,K)         1
+
+(Y,T)  space (units : (cm,rd)   ) :  
+      sigma_Y = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_T = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(Z,P)  space (units : (cm,rd)   ) :  
+      sigma_Z = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_P = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+(t,K)  space (units : (mu_s,MeV)) :  
+      sigma_t = sqrt(Surface/pi * BET) =   0.000000E+00
+      sigma_K = sqrt(Surface/pi * (1+ALP^2)/BET) =   0.000000E+00
+
+
+  Beam  sigma  matrix : 
+
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00
+
+      sqrt(det_Y), sqrt(det_Z) :     0.000000E+00    0.000000E+00    (Note :  sqrt(determinant) = ellipse surface / pi)
+
+************************************************************************************************************************************
+     15  Keyword, label(s) :  END                                                   
+
+
+                             1 particles have been launched
+                     Made  it  to  the  end :      1
+
+************************************************************************************************************************************
+ Pgm zgoubi : Execution ended normally, upon keyword END or FIN
+   
+            ZGOUBI RUN COMPLETED. 
+
+  Zgoubi, author's dvlpmnt version.
+  Job  started  on  05-12-2017,  at  16:50:31 
+  JOB  ENDED  ON    05-12-2017,  AT  16:50:31 
+
+   CPU time, total :     4.0000000000000001E-002
