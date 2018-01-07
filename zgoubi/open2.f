@@ -37,7 +37,9 @@ C  -------
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       SAVE BINARY
-C     ... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
+      INCLUDE 'FILHDF.H'     ! PARAMETER (NHDFL=4)
+
+C... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
 
       CALL ZGTITR(
      >            TITRE)
@@ -163,21 +165,32 @@ C------------- Write down a 4-line header
             TXTB80 = '# ...'
           ENDIF
 
+          NHD = 0
           IF(.NOT.BINARY) THEN
             TXT80 = TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
             WRITE(LUN,FMT='(A)') TXT80
+            NHD = NHD+1
             WRITE(LUN,FMT='(A)') TXTN80
+            NHD = NHD+1
             WRITE(LUN,FMT='(A)') TXTA80
+            NHD = NHD+1
             WRITE(LUN,FMT='(A)') TXTB80
+            NHD = NHD+1
           ELSE
             TXT80=TXT80(debstr(TXT80):finstr(TXT80))//'. '//TITRE
             WRITE(LUN) TXT80
+            NHD = NHD+1
             WRITE(LUN) TXTN80
+            NHD = NHD+1
             WRITE(LUN) TXTA80
+            NHD = NHD+1
             WRITE(LUN) TXTB80
+            NHD = NHD+1
           ENDIF
+          IF(NHD .GT. NHDFL) CALL ENDJOB('Pgm open2. Please increase '//
+     >    'value of parameter NHDFL=number of header lines, now ',NHDFL)
 
-C        ENDIF ! ipass.eq.1
+C       ENDIF ! ipass.eq.1
       ENDIF
 
       IF(TXT.EQ.'TRAJECTORIES') CALL IMPPL2(BINARY)

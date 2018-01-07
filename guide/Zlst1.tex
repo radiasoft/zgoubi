@@ -2989,7 +2989,7 @@ The defect can be relative (to the current field value) or absolute (adds to the
 - if \textsl{REBELOTE} is used in multi-turn mode (\ie, its $K$ argument value is $99$), then the same defect series is 
 applied at each pass, by default. However one may want to simulate one turn by repeating a cell subset, using 
 \textsl{REBELOTE}, in which case  defects of random type in the subset should be changed at each pass. This 
-requires modification in errors.f program.
+requires modification in \texttt{errors.f} program.
 
 
 
@@ -5089,13 +5089,22 @@ In addition, the beam is centered on a new relative momentum \textsl{DCE} and ne
  \index{beam-beam spin kick} \index{spin kick, beam-beam}
 \medskip
 
-\textsl{BEAMBEAM} is a beam-beam lens simulation, a point transform~\cite{BBSW}. 
+\textsl{BEAMBEAM} is a beam-beam lens simulation, a thin-lens transform~\cite{BBSW}, 
+ in the weak-strong approximation. 
 
 \medskip 
 
 \noindent Upon option using \textsl{SPNTRK}, 
 \textsl{BEAMBEAM} will include spin kicks, after  modelling as described in Ref.~\cite{YKBatyginSpin}. 
 
+
+
+\bigskip
+
+\paragraph{\textsl{For software developers}}  
+
+\noindent \texttt{rbb.f} reads the data from zgoubi.dat;
+\texttt{bb.f} and programs therein do the beam (and spin when requested) dynamics.
 
 
 \newpage
@@ -5804,9 +5813,9 @@ file \index{zgoubi.CAVITE.out|textbf}zgoubi.CAVITE.Out.
 
 \paragraph{\textsl{For software developers}}  
 
-\noindent Cavity simulations are done in cavite.f. Management of the reference rigidity 
-$B\rho_{ref}$ is ensured for part in \textsl{cavite.f}, and for part in routines associated with '\textsl{SCALLING}', 
-essentially \textsl{scaler.f}. 
+\noindent Cavity simulations are done in \texttt{cavite.f}. Management of the reference rigidity 
+$B\rho_{ref}$ is ensured for part in \texttt{cavite.f}, and for part in routines associated with '\textsl{SCALING}', 
+essentially \texttt{scaler.f}. 
 
 
 
@@ -7574,14 +7583,14 @@ input file to zgoubi). This is overcome by using the command 'zgoubi -fileIn myF
 \noindent An \textsl{INCLUDE} file may contain one or more \textsl{INCLUDE}. There is a limit in the 
  allowed depth of \textsl{INCLUDE} statements within \textsl{INCLUDE} files, 
 however high. \zgoubi\ will warn the user when it is exceeded. It can 
-be changed in prdata.f.
+be changed in \texttt{prdata.f}.
 
 
 \medskip 
 
 \noindent By contrast with other keywords, \textsl{INCLUDE} is not part on the LSTKEY.H keyword list (found 
 in the '\textsl{include}' folder). Instead, possible presence of \textsl{INCLUDE} in the input data file is dealt with by 
-prdata program (prdata.f source file) in a simple way~: the input data file is expanded so eliminating 
+prdata program (\texttt{prdata.f} source file) in a simple way~: the input data file is expanded so eliminating 
 all \textsl{INCLUDE} occurences, and the expanded, complete, data list is stored  in the standard \zgoubi\ input 
 data file zgoubi.dat. Thus \zgoubi\ eventually actually works using a regular, complete, data list in 
 a single input file, zgoubi.dat. 
@@ -8207,8 +8216,7 @@ derivatives are calculated by means of recursive relations~\cite{Biblio18}.  %%[
 
 \paragraph{\textsl{For software developers}}  
 
-\noindent Solenoid parameters are read from zgoubi.dat by rsolen.f. Initializations prior to tracking done in soleno.f. 
-Field computation during tracking is in solenf.f. 
+\noindent Solenoid parameters are read from zgoubi.dat by \texttt{rsolen.f}. Initializations prior to tracking done in \texttt{soleno.f}.  Field computation during tracking is in \texttt{solenf.f}. 
 
 
 
@@ -8378,7 +8386,7 @@ $\diamond$ including  `ZroBXY'  forces $B_X=B_Y=0$ at all Z=0 nodes of the field
 \textsl{MOD}=15 and \textsl{MOD}=24), 
 
 $\diamond$ including  `RHIC\_helix' will normalize \textsl{BNORM} to measured B field value  
-  versus helix current (measured B(I) data are hard-coded in program toscac.f). In that case, 
+  versus helix current (measured B(I) data are hard-coded in program \texttt{toscac.f}). In that case, 
 \textsl{BNORM} may be given the current value, in Amps, while a(1) in mode 
 \textsl{MOD.MOD2=15.1} is  used to normalize the field map (namely, $a(1)=1/B_{max}$ with $B_{max}$ the
 maximum field value on helix axis). 

@@ -39,20 +39,23 @@ C  -------
       PARAMETER(MPOL=10)
       INCLUDE "C.MULTPE.H"     ! COMMON/MULTPE/ EM(MPOL),QLE(MPOL),QLS(MPOL)
       INCLUDE "C.MULTPL.H"     ! COMMON/MULTPL/ BM(MPOL),DLE(MPOL),DLS(MPOL),DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "MAXTRA.H"
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
  
       DIMENSION  AREG(2),BREG(2),CREG(2)
       CHARACTER(20) TYP(2)
       DATA TYP / 'axial field model', 'elliptic integrals' /
 
-          XL =A(NOEL,10)
-          RO =A(NOEL,11)
-          BO =A(NOEL,12)*SCAL
+      XL =A(NOEL,10)
+      RO =A(NOEL,11)
+      BO =A(NOEL,12)*SCAL
 C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
-          MODL = NINT(A(NOEL,13))
-          XE = A(NOEL,20)
-          XLS= A(NOEL,21)
+      MODL = NINT(A(NOEL,13))
+      XE = A(NOEL,20)
+      XLS= A(NOEL,21)
  
       RO2 = RO*RO
 C      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
@@ -61,28 +64,32 @@ C FM - July 2015
       BO2 = BO /2.D0
       CALL SOLEN2(MODL,BO2,RO2)
 
-          IF(NRES.GT.0) THEN
-            WRITE(NRES,100) LMNT(KUASEX),XL,RO
- 100        FORMAT(/,5X,' -----  ',A10,'  : ', 1P
-     >      ,/,15X,' Length  of  element  : ',G12.4,'  cm'
-     >      ,/,15X,' Inner radius  RO =',G12.4,'  cm')
-            WRITE(NRES,103) 'CNTRL',BO,' kG ;  ',BO/BORO
-     >      ,BO*XL/(2.D0*BORO)
- 103        FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A,' K=B/BORO = '
-     >      ,G12.4,' /m ;   theor. angle  BL/(2*BORO) = ',G12.4,' rad')
-            WRITE(NRES,145) XE,XLS
- 145        FORMAT(15X,' Entrance and exit integration extents : '
-     >      /,20X,'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
-            WRITE(NRES,FMT='(15X,'' MODL = '',I2,
-     >      '' -> Solenoid model is '',A)') MODL,TYP(MODL)
-          ENDIF
-
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,100) LMNT(KUASEX),XL,RO
+ 100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
+     >  ,/,15X,' Length  of  element  : ',G12.4,'  cm'
+     >  ,/,15X,' Inner radius  RO =',G12.4,'  cm')
+        WRITE(NRES,103) 'CNTRL',BO,' kG ;  ',BO/BORO
+     >  ,BO*XL/(2.D0*BORO)
+ 103    FORMAT(15X,' B-',A,'  =',1P,G12.4,1X,A,' K=B/BORO = '
+     >  ,G12.4,' /m ;   theor. angle  BL/(2*BORO) = ',G12.4,' rad')
+        WRITE(NRES,145) XE,XLS
+ 145    FORMAT(15X,' Entrance and exit integration extents : '
+     >  /,20X,'   XE =',G12.4,' cm,   XS =',1P,G12.4,' cm')
+        WRITE(NRES,FMT='(15X,'' MODL = '',I2,
+     >  '' -> Solenoid model is '',A)') MODL,TYP(MODL)
+        IF(KSPN.EQ.1) THEN
+          WRITE(NRES,FMT='(15X,'' Spin X-rotation angle phi=(1+G)*B0.L'
+     >   //'/Brho ) = '',F10.4,''.  Strength phi/180 = '',F10.4,''%'')')
+     >   (1.D0+G)*BO*XL/BORO*DEG,(1.D0+G)*BO*XL/BORO/PI*1.D2
+        ENDIF
+      ENDIF
       
-          XI = 0.D0
-          XLIM = XL + XE + XLS
-          XF = XLIM
-          XS = XLIM - XLS
-          IF(BO .EQ. 0.D0) KFLD=0
+      XI = 0.D0
+      XLIM = XL + XE + XLS
+      XF = XLIM
+      XS = XLIM - XLS
+      IF(BO .EQ. 0.D0) KFLD=0
 
       CALL CHXC1R(
      >            KPAS)

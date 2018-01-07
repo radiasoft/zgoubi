@@ -1,0 +1,10 @@
+
+To produce gnuplot_Qscan.eps : 
+
+1/ rzg -in closestQ.dat
+
+2/ gnuplot <../gnuplot_QscanFromZRes.cmd
+
+Done !
+
+

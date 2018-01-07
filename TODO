@@ -39,6 +39,10 @@ Install harmonic orbit correction
 
 ---
 Have 'TWISS' orbit finder operational (and stop TWISS if orbit can't be found)
+Note, a alternative way is: FIT can be placed just before TWISS in zgoubi.dat, to first find the orbit.
+
+---
+Install hard edge in solenoid (e.g., in order to be able to split  the solenoid in 2 haves at IP6 in RHIC)
 
 
 ----------------------------------------
@@ -62,7 +66,8 @@ DEBUGGING, ZGOUBI
 
 -----
 THIS HAS BEEN SOLVED. 
-THIS was due to absence of declration of an entry as a logical, in a logical function
+THIS was due to absence of declration of an entry as a logical, in some logical function (forgot which... could lookup in souurceforge...)
+
 * 1/
 1-B/
 If I compil using : 
@@ -106,9 +111,11 @@ is almost ok... :  dQ1 comes out NaN. Tunes and dQ2 are ok...
 -----
 * 5/ Fixes needed in 'compare' tests : see  exemples/tools/TODO
 
+
 -----
 THIS HAS BEEN SOLVED. FM and Dan Abell, 2017.
 * 6/ In chcxc, do this
 chxc.f:C      CALL RAZ (AA,MXL*MXAA2)
 as the statement is useless.
 Otherwise it dramatically slows down computation. computation time is * factor 20 !
+

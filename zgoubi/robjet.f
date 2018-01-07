@@ -52,7 +52,6 @@ C  If change MXREF, make sure MXT .ge. 11*MXREF
       PARAMETER(I0 = 0)
       PARAMETER(I90 = 90, I70 = I90-20)
 
-
       CHARACTER(LEN=132) TXT132
       PARAMETER (MST=3)
       CHARACTER(LEN=20) STRA(MST)
@@ -62,6 +61,8 @@ C  If change MXREF, make sure MXT .ge. 11*MXREF
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
 
+      INCLUDE 'FILHDF.H'     ! PARAMETER (NHDFL=4)
+      
 C----- BORO
       LINE = 1
       READ(NDAT,*,ERR=99) A(NOEL,1)
@@ -121,19 +122,25 @@ C--------- For allowing possible use of the first 7 traj with FIT
       RETURN
  
  3    CONTINUE
-      CALL STRGET(TXT132,MST,
+      IF(K2 .NE. 0) THEN      
+        CALL STRGET(TXT132,MST,
      >                     NST,STRA) 
-      IF(NST .GT. MST) GOTO 90
-      I = 1
-      DOWHILE(STRA(I)(1:6).NE.'HEADER' .AND. I.LE.NST)
+        IF(NST .GT. MST) GOTO 90
+        I = 1
+        DOWHILE(STRA(I)(1:6).NE.'HEADER' .AND. I.LE.NST)
 C Key is of the form 'HEADER_num', 0.le.num.le.9 
         I = I + 1
-      ENDDO
-      IF(I.LE.NST) THEN
-        READ(STRA(I)(8:FINSTR(STRA(I))),*) NHDR
-        A(NOEL,12) = NHDR
+        ENDDO
+        IF(I.LE.NST) THEN
+C Means 'HEADER' is present         
+          READ(STRA(I)(8:FINSTR(STRA(I))),*) NHDR
+          A(NOEL,12) = NHDR
+        ELSE
+          A(NOEL,12) = 0.D0
+        ENDIF
       ELSE
-        A(NOEL,12) = 0.D0
+C Means [b_]zgoubi.fai style, as (would be) written by impfai: header is NHDFL lines           
+        A(NOEL,12) = NHDFL
       ENDIF
 C----- Will read from part. #I1 to part. #I2, step
       LINE = LINE + 1

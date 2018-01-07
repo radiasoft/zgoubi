@@ -83,7 +83,7 @@ c        close(1)
       ELSE
         IF(IPASS.EQ.1) THEN
 
-       WRITE(NRES,*) '   intensity= ',A(NOEL,2)
+       WRITE(NRES,*)  ' intensity= ',A(NOEL,2)
        WRITE(NRES,*)  ' alfx= ',A(NOEL,10)
        WRITE(NRES,*)  ' betx= ',A(NOEL,11)
        WRITE(NRES,*)  ' epsnx= ',A(NOEL,12)

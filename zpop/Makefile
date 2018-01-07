@@ -210,6 +210,7 @@ lpsfit.o: MAXNTR.H $(INC)/MAXCOO.H
 okkl.o: OKKL.H
 okkp.o: $(INC)/OKKP.H
 okkt.o: $(INC)/OKKT.H MAXNTR.H 
+opndef.o: $(INC)/FILHDF.H
 opnmn.o: $(INC)/FILPLT.H FILFAI.H
 opnmnl.o: $(INC)/FILPLT.H FILFAI.H
 pllips.o: MXVAR.H MAXNTR.H

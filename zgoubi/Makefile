@@ -579,6 +579,7 @@ objeta.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objets.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 objtrk.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 option.o: $(INC)/MXLD.H
+open2.o: $(INC)/C.CDF.H $(INC)/C.REBELO.H $(INC)/FILHDF.H
 opticc.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 optimp.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 partic.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H

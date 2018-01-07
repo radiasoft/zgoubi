@@ -188,8 +188,8 @@ c       PARAMETER (MXX=447, MXY=87)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
-c       PARAMETER (IZ=31 , ID=3, MMAP=2)
-c       PARAMETER (MXX=801, MXY=79)
+       PARAMETER (IZ=31 , ID=3, MMAP=2)
+       PARAMETER (MXX=801, MXY=83)
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
@@ -214,8 +214,8 @@ C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-      PARAMETER (IZ=3 , ID=3, MMAP=3)
-      PARAMETER (MXX=136, MXY=140)
+c      PARAMETER (IZ=3 , ID=3, MMAP=3)
+c      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------

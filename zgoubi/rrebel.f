@@ -50,7 +50,6 @@ C     ***************************************
       LOGICAL ISNUM
       PARAMETER (I3=3)
 
-      LOGICAL OK
       PARAMETER (LBLSIZ=20)
       PARAMETER (MX5=5)
       CHARACTER(LBLSIZ) HPNA(MX5), VPNA(MX5), HCNA, VCNA

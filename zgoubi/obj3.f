@@ -132,11 +132,12 @@ C----- Reset particle counter
         ELSE
           REWIND(NL)
         ENDIF
-        IF(NINT(A(NOEL,11)).GE.1) THEN
-          NHD = NINT(A(NOEL,12)) 
-        ELSE
-          NHD = 4
-        ENDIF
+C        IF(NINT(A(NOEL,11)).GE.1) THEN
+Changed Jan 2018 - FM. Now managed in robjet.
+        NHD = NINT(A(NOEL,12)) 
+C        ELSE
+C          NHD = 4
+C        ENDIF
         CALL HEADER(NL,NRES,NHD,BINARY,
      >                              *999)
       ELSE

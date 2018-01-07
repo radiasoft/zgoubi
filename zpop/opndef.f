@@ -30,7 +30,8 @@ C  -------
 
       LOGICAL EXS, OPN, BINARY 
       CHARACTER(11) FRMT
-
+      INCLUDE "FILHDF.H"
+      
       IF( LU2O .EQ. -1) THEN
 C------- Looks for a free LUO starting from #10
         OKOPN = .FALSE.

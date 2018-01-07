@@ -155,7 +155,7 @@ C        ENDIF
      >      T15,''      G*gamma                 :'',G18.10)') GAM*G
           WRITE(NRES,FMT='(1P,
      >      T15,''      electric rigidity (MeV) :'',G18.10,
-     >      ''  =T[eV]*(gamma+1)/gamma, such that dev.=E*L/rigidity'')')
+     >      ''=T[eV]*(gamma+1)/gamma, such that dev.=E*L/rigidity'')')
      >      (GAM+1.D0)/GAM * Q * (ENRG-AM)
         ENDIF
 
