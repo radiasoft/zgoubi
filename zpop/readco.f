@@ -346,6 +346,12 @@ C     >             AMAG)
 C        PI2 = 0.5D0 * PI     !2.D0*ATAN(1.D0)
         YINL = F(2)* UNIT(1)  
         ZINL = F(4)* UNIT(3)  
+
+Case /home/meot/zgoubi/SVN/zgoubi-lectures/SUNY/classes/cyclotron/computerLab/microtron/ex_1.2.1/1.b
+C set MOD to .ne. 0 .and. .ne. 20
+           mod = 1
+C-------
+
 C FM, Dec. 05       XINL = XX* UNIT(5) - ORIG(NOEL,5)
         IF    (KART .EQ. 1) THEN
           XINL = XX* UNIT(5) + ORIG(NOEL,5)

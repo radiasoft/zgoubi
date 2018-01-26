@@ -49,7 +49,9 @@ C Fred's ETparam
 C      DATA QXMI,XXMA,QYMI,YYMA/ 0. , .5, 0., .5 /
 C      DATA QXMI,XXMA,QYMI,YYMA/ 0.65 , 1., 0.65, 1. /
 C      DATA QXMI,XXMA,QYMI,YYMA/ 0.65d0 , .85d0, 0.85d0, 1.d0 /
-      DATA QXMI,XXMA,QYMI,YYMA/ 0.65d0 , .9d0, 0.75d0, 1.d0 /
+C      DATA QXMI,XXMA,QYMI,YYMA/ 0.65d0 , .9d0, 0.75d0, 1.d0 /
+      DATA QXMI,XXMA,QYMI,YYMA/ 0.d0 , 1.8d0, 0.d0, 1.8d0 /
+C      DATA QXMI,XXMA,QYMI,YYMA/ 3.5d0 , 4d0, 3.5d0, 4d0 /
 
       data ires, irot, MM, nharm / 3, 3, -4, 500 /
 
