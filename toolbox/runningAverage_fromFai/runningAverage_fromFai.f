@@ -1,6 +1,6 @@
-#ifdef __INTEL_COMPILER
-         use ifport
-#endif
+c#ifdef __INTEL_COMPILER
+c         use ifport
+c#endif
       implicit double precision (a-h,o-z)
       character(800) txt800
       parameter (c=2.99792458d8, smu2s=1d-6)

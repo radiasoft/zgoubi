@@ -40,7 +40,7 @@ C      INCLUDE 'MXFS.H'
       CHARACTER(KSIZ) KLEY
 
       INCLUDE "MAXTRA.H"
-      DIMENSION TPHOT(MXT),TLOSS(MXT),TLOSSO(MXT)
+      DIMENSION TPHOT(MXT),SRLT(MXT),SRLTO(MXT)
 
       PARAMETER (NSPLIN=43)
       DIMENSION X(NSPLIN), Y(NSPLIN)
@@ -48,7 +48,7 @@ C      INCLUDE 'MXFS.H'
       PARAMETER(GAM13=2.67893853470774763365569D0)
       PARAMETER(UT=1.D0/3.D0)
                       
-      SAVE TPHOT, TLOSS, TL2, NSTEP, ECMEAN
+      SAVE TPHOT, SRLT, TL2, NSTEP, ECMEAN
       SAVE X, Y
       SAVE CQ,AM2,UNIT,UNITE,IRA,DXSPLI,FEC,FAC,FACG
       SAVE TYPMAG
@@ -124,7 +124,7 @@ C         K= INT(APDPO(A))
          K= INT(POIDEV(A))
          TPHOT(IT)=TPHOT(IT)+K
 C----- Photon energies (ELOSS*EC) at current step
-C----- Cumulated energy loss TLOSS per particle (over all integr. steps) 
+C----- Cumulated energy loss SRLT per particle (over all integr. steps) 
       EC=FEC*G3*CURV
       NSTEP=NSTEP+1
       ECMEAN=ECMEAN+EC
@@ -143,7 +143,7 @@ C          X2=X(1)+DXSPLI*R1
         ELOSS=ELOSS+DELOSS
  19   CONTINUE
       DTI=ELOSS*EC
-      TLOSS(IT)=TLOSS(IT)+DTI
+      SRLT(IT)=SRLT(IT)+DTI
       TL2=TL2+DTI*DTI
 C----- Correction to particle rigidity
       EN = EN-DTI
@@ -168,7 +168,7 @@ C------- Working unit for energies is MeV
       FAC=2.5D0*R0*QE/(SQRT(3.D0)*HBAR) 
       FACG=12.D0*SQRT(3.D0)/(5.D0*2.D0**UT*GAM13)
       CALL RAZ(TPHOT,IMAX)
-      CALL RAZ(TLOSS,IMAX)
+      CALL RAZ(SRLT,IMAX)
       TL2=0.D0
       NSTEP=0
       ECMEAN=0.D0
@@ -180,12 +180,12 @@ C Called by SRPRNT. Can be anytime along the .dat sequence
      >''  pass #,       particle #       ->  total # of photons, ''
      >,''   total energy loss (MeV)'')')
       TTPHOT=0.D0
-      TTLOSS=0.D0
+      TSRLT=0.D0
       DO 55 I=1,IMAX
         TTPHOT=TTPHOT+TPHOT(I)
-        TTLOSS=TTLOSS+TLOSS(I)
+        TSRLT=TSRLT+SRLT(I)
         IF(LUN.GT.0) WRITE(LUN,FMT='(I6,T21,I6,T42,G15.7,T66,G15.7)') 
-     >                                IPASS,I,TPHOT(I),TLOSS(I)
+     >                                IPASS,I,TPHOT(I),SRLT(I)
  55   CONTINUE
       IF(NRES.GT.0) THEN
 C        PP = BORO*CL*1.D-9*Q/QE
@@ -200,18 +200,18 @@ C        PP = BORO*CL*1.D-9*Q
         WRITE(NRES,FMT='(5X,'' Average energy loss per particle ''
      >  ,''per pass :'',1P,
      >  T55,G15.7,'' keV.       Relative to initial energy :'',G15.7)') 
-     >  TTLOSS/XEVNT *1.D3,TTLOSS/(XEVNT*EE)
+     >  TSRLT/XEVNT *1.D3,TSRLT/(XEVNT*EE)
 C This is not compatibel with multiple use of SRPRNT
 C        WRITE(NRES,FMT='(5X,'' Average energy loss per particle, ''
 C     >  ,''this pass :'',1P,T55,G15.7,'' keV'')') 
-C     >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
+C     >  (TSRLT-TTLOS2)/DBLE(IMAX) *1.D3
         WRITE(NRES,FMT='(5X,'' Critical energy of photons (average) :''
      >  ,1P,T55,G15.7,'' keV'')') ECMEAN/XSTEP *1.D3
         WRITE(NRES,FMT='(5X,'' Average energy of radiated photon :''
-     >  ,1P,T55,G15.7,'' keV'')') TTLOSS/TTPHOT *1.D3
+     >  ,1P,T55,G15.7,'' keV'')') TSRLT/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
      >  T55,G15.7,'' keV'')') 
-     >      SQRT(TL2/TTPHOT-(TTLOSS/TTPHOT)**2) *1.D3
+     >      SQRT(TL2/TTPHOT-(TSRLT/TTPHOT)**2) *1.D3
         WRITE(NRES,FMT='(5X,'' Number of photons radiated - Total :'',
      >  1P,T65,G15.7)') TTPHOT
         WRITE(NRES,FMT='(5X,''                            - per'',
@@ -232,7 +232,7 @@ C     >  (TTLOSS-TTLOS2)/DBLE(IMAX) *1.D3
 C     >(IMX)
 C To be installed
 C      CALL RAZ(TPHOT,IMX)
-C      CALL RAZ(TLOSS,IMX)
+C      CALL RAZ(SRLT,IMX)
 C      TL2=0.D0
 C      NSTEP=0
 C      ECMEAN=0.D0
@@ -246,8 +246,8 @@ C      ECMEAN=0.D0
       RETURN
 
       ENTRY RAYSY7(
-     >             TLOSSO)
-      TLOSSO = TLOSS
+     >             SRLTO)
+      SRLTO = SRLT
       RETURN
 
       END

@@ -126,12 +126,14 @@ C of 11 particles (based on MATRIX)
           WRITE(NRES,*) ' Closed orbit search was requested, closed or'
      >    //'bit coordinates first searched and assigned to particle 1.'
           WRITE(NRES,*)
+          CALL ENDJOB('Pgm twiss. Orbit finder is under development.'
+     >    //' Use FIT prior to TWISS instead, see Users'' Guide.',-99)
+
         ENDIF
       ENDIF
 
       IF(.NOT. OKORBT) CALL TWORBT
 
- 
       IF(IPASS .EQ. 4 .AND. KTW .EQ. 2) GOTO 222
 
       KLOBJ = 'OBJET'
@@ -647,15 +649,18 @@ C        CALL MATIMP(RREF)
           IF(KTW .GE.3) THEN
 C             DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
 C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)        
-             WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
-     >      42X,''/ dEps_y/pi       / dEps_z/pi'',/, 
+            DNUYDY=0.D0 ; DNUYDZ=0.D0
+            DNUZDY=0.D0 ; DNUZDZ=0.D0
+ 
+            WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
+     >      42X,''/ dEps_y/pi       / dEps_z/pi'',
+     >      5X,'' TO BE DEBUGGED, pgm twiss.f... '',/, 
      >      30X,''dNu_y'',7X,2(E15.8,3X),/, 
      >      30X,''dNu_z'',7X,2(E15.8,3X), //, 
-     >      20X,''Nu_y_Ref = '',E15.8,'', Nu_z_Ref = '',E15.8, / 
-     >      20X,''Nu_y_+dp = '',E15.8,'',   Nu_z_+dp = '',E15.8, / 
-     >      20X,''Eps_y_Ref/pi = '',E15.8,''
-     >                                ,   Eps_z_Ref/pi = '',E15.8, / 
-     >      20X,''Eps_y_+dA/pi = '',E15.8,'',   Eps_z_+dA = '',E15.8)')
+     >      20X,''Nu_y_Ref = '',E15.8,'',  Nu_z_Ref = '',E15.8, /,
+     >      20X,''Nu_y_+dp = '',E15.8,'',  Nu_z_+dp = '',E15.8, /, 
+     >      20X,''Eps_y_Ref/pi = '',E15.8,'',  Eps_z_Ref/pi = '',E15.8, 
+     >      /,20X,''Eps_y_+dA/pi = '',E15.8,'',  Eps_z_+dA = '',E15.8)')
      >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
      >      YNUREF,ZNUREF,
      >      YNUP,  ZNUP,

@@ -5,6 +5,14 @@
 CODE DEVELOPMENTS
 
 ---
+Check twoorb.f :  orbit finder prior to TWISS.
+Could use for that /home1/meot/zgoubi/struct/KEYWORDS/TWISS/SATURNE/saturne_Linux2005_step.res
+
+---
+INstall TWISS/KTW=3
+Could use for that /home1/meot/zgoubi/struct/KEYWORDS/TWISS/SATURNE/saturne_Linux2005_step.res
+
+---
 There are still several common files between zgoubi and zpop.  Unfortunately
 they are sufficiently different that one cannot use the one routine in both
 programs.  In addition, there is an inconsistency in zpop in the layout of the

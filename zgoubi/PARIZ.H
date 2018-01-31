@@ -182,8 +182,8 @@ c       PARAMETER (MXX=447, MXY=87)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
-c       PARAMETER (IZ=31 , ID=3, MMAP=2)
-c       PARAMETER (MXX=801, MXY=31)
+       PARAMETER (IZ=27 , ID=3, MMAP=2)
+       PARAMETER (MXX=801, MXY=83)
 
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
@@ -191,11 +191,6 @@ C For Scott/Holger Cbeta iron quad map
 c       PARAMETER (IZ=9 , ID=3, MMAP=2)
 c       PARAMETER (MXX=447, MXY=87)
 
-C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
-C For CBeta - Nick
-       PARAMETER (IZ=31 , ID=3, MMAP=2)
-       PARAMETER (MXX=801, MXY=83)
- 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
 C       PARAMETER (IZ=81 , ID=3, MMAP=4)

@@ -36,12 +36,15 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
  
       DIMENSION REF(MXJ)
       DIMENSION istp(mxt)
+      parameter (mxstp=10000)
+      DIMENSION numel(mxstp)
 
       LOGICAL IDLUNI
 
       logical exs, ok, gttext
 
       CHARACTER(200) TXT200,TXT
+      CHARACTER(800) TXT8
       parameter (mstp=1000)
       dimension ddr(mxt,mstp)
       dimension yyr(mxt,mstp),ttr(mxt,mstp),zzr(mxt,mstp)
@@ -136,10 +139,11 @@ c      open(unit=lunout2,file='betaFromPlt.out2')
 
       itra = 0
  1    continue
-          read(lunin,*,err=10,end=10) 
+          read(lunin,fmt='(a)',err=10,end=10) txt8 
+          read(txt8,*,err=10,end=10) 
      >    KEX,  dbroi, aaa, bbb, ccc, ddd, eee, fff, 
      >          dbro, ppp, qqq, rrr, sss, ttt, uuu,
-     >    bta, ds, kart, it
+     >         bta, ds, kart, it
         
         if(it.ne.itra) then
           itra = it
@@ -153,6 +157,7 @@ c      open(unit=lunout2,file='betaFromPlt.out2')
         endif
 
         istp(itra) = istp(itra) +1
+        read(txt8(701:705),*) numel(istp(itra))
 
         ddr(itra,istp(itra))=dbro
         yyr(itra,istp(itra))=ppp
@@ -201,7 +206,8 @@ c      enddo
         enddo
 
         call scums(f(6,1))
-        call opticc(lunout,noel,KOPTIP)
+C        call opticc(lunout,noel,KOPTIP)
+        call opticc(lunout,numel(ist),KOPTIP)
 
       enddo
 

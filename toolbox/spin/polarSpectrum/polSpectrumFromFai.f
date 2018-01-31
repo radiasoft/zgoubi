@@ -9,8 +9,27 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
       logical first
       integer debstr, finstr
 
+      logical exs
+      
       data first / .true. /
+      data mxpass / 999999 /
 
+      temp = mxpass
+      inquire(file='polSpectrumFromFai.in',exist=exs)
+      if(exs) open(unit=3, file='polSpectrumFromFai.in')
+      read(3,*,err=22,end=22) mxpass
+      goto 23
+ 22   continue
+      mxpass = temp
+ 23   continue
+      close(unit=3)      
+      if(exs) then
+        write(*,*) 'Pass # found in polSpectrumFromFai.in, ok !' 
+      else
+        write(*,*) 'Can specify pass # in polSpectrumFromFai.in...'
+      endif
+      write(*,*) 'Average is computed at pass # ',mxpass
+      
       open(unit=2, file='polSpectrumFromFai.out')
       write(2,fmt='(a)') 
      >'# 1-folder#, 2-<a.gam>, 3-sig(a.gam), 4-pRef, 5-a.gam_ref, '
@@ -26,8 +45,9 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
  
       do i = 0, nFldr-1
  
-C          write(txti,fmt='(i3.3)') i
+C          write(txti,fmt='(i3.3)') i    
           write(txti,fmt='(i0)') i
+
           open(unit=1,file='Run'//trim(txti)//'/zgoubi.fai',
      >    action='read',err=77)
           write(*,*) 'Opened '//'Run'//trim(txti)//'/zgoubi.fai.'

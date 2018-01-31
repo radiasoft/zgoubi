@@ -52,7 +52,10 @@ C          WRITE(LUN,FMT='(/,''End of job !'',//,''  '')')
         ENDIF
       ENDIF
       WRITE(6,201)
-C      WRITE(NRES,201)
+      WRITE(NRES,*) ' '
+      WRITE(NRES,201)
+      WRITE(NRES,201)
+      WRITE(NRES,201)
  201  FORMAT(132('*'))
       STOP
       END

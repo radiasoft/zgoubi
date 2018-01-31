@@ -149,11 +149,15 @@ C      LOGICAL OKPRLB, OKPRDA
       SAVE IRET
       DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
 
+      LOGICAL TWOFF
+      SAVE TWOFF
+      
       DATA PRDIC / .FALSE. /
       DATA IRET / 0 /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
       DATA FAIFIT / .FALSE. /
+      DATA TWOFF / .FALSE. /
       
       INCLUDE 'LSTKEY.H'
 
@@ -1342,6 +1346,7 @@ C      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
       IF(KOBJ.NE.5) CALL ENDJOB(
      >'Pgm zgoubi. TWISS requires OBJET/KOBJ=5 or 6.',-99)
       IF(KOBJ2.NE.0) IEX(12:IMAX)=-1
+      IF(TWOFF) GOTO 998
       CALL TWISS(LNOPTI,OKCPLD,
      >                  KOPTCS,READAT,KTW)
       IF(KOPTCS .EQ. 1) THEN
@@ -1759,6 +1764,10 @@ C Number of particles being tracked
      >             IRETO)
 C Number of particles being tracked
       IRETO = IRET
+      RETURN
+      ENTRY ZGTWOF
+C Flip-fop TWISS on/off
+      TWOFF = .NOT. TWOFF
       RETURN
 
       END

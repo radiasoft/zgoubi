@@ -14,10 +14,10 @@ set key maxrow 1
 set grid
 
  plot  \
-      "betaFromPlt.out" u ($13):($2)  axes x1y1 w l lt 1 lc 1 tit "{/Symbol b}_x"  ,\
-      "betaFromPlt.out" u ($13):($4)  axes x1y1 w l lt 1 lc 3 tit "  {/Symbol b}_y"  ,\
-      "betaFromPlt.out" u ($13):($7)  axes x1y2 w l lt 2 lc 1 tit "  D_x"  ,\
-      "betaFromPlt.out" u ($13):($9)  axes x1y2 w l lt 2 lc 3 tit "  D_y"  
+      "betaFromPlt.out" u ($13):($2)  axes x1y1 w p ps .6 pt 4 lc rgb "red"  tit "{/Symbol b}_x"  ,\
+      "betaFromPlt.out" u ($13):($4)  axes x1y1 w p ps .6 pt 5 lc rgb "blue" tit "{/Symbol b}_y"  ,\
+      "betaFromPlt.out" u ($13):($7)  axes x1y2 w p ps .6 pt 6 lc rgb "red"  tit "D_x"  ,\
+      "betaFromPlt.out" u ($13):($9)  axes x1y2 w p ps .6 pt 7 lc rgb "blue" tit "D_y"  
 
 #set samples 100000
  set terminal postscript eps blacktext color enh size 8.3cm,6cm "Times-Roman" 12

@@ -48,14 +48,16 @@ C      DIMENSION T3(5,6) , T4(5,6)
       PARAMETER (I0=0)
       DATA PREC /  1E-4 /
 
-
+C Set TWOFF to true in zgoubi
+      CALL ZGTWOF
+      
       XAME = 1.D99
       DOWHILE(XAME .GT. PREC) 
 
-          READAT = .FALSE.  ! OBJET has to be skipped (there may be another way).
-                            ! Here, FO(j,1) has to be set to the new final coordinates
-                            ! and the sampling of OBJET/KOBJ=5 has to be updated.
-          CALL ZGOUBI(1,MXL,READAT,
+        READAT = .FALSE.  ! OBJET has to be skipped (there may be another way).
+                          ! Here, FO(j,1) has to be set to the new final coordinates
+                          ! and the sampling of OBJET/KOBJ=5 has to be updated.
+        CALL ZGOUBI(1,MXL,READAT,
      >                             NBEL)
 
         IF(KOBJ .EQ. 5) THEN
@@ -85,10 +87,15 @@ C      DIMENSION T3(5,6) , T4(5,6)
      >  ABS(F(1,5) - FO(1,5)) 
      >  )
 
+        write(*,*)' xame = ',xame
+        read(*,*)
+        
       ENDDO
       
       IPASS = 1
 
+C Set TWOFF back to false
+      CALL ZGTWOF
       RETURN
 
       END

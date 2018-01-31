@@ -3981,13 +3981,15 @@ instance $M$, $Q$ only when electric lenses are used,  $M$, $Q$, $G$ only when t
 \begin{tabbing}
 \mestab
 \textbf{PICKUPS}         \label{PICKUPS-B} \index{PICKUPS|textbf}         \> \textbf{\PICKUPSTitl}  \> \> \\
- \> \textbf{Summation of particles coordinates at pickups may be printed out in zgoubi.PICKUP.out.} \> \>  \\
+ \> \textbf{Particles coordinates at pickups may be printed out in zgoubi.PICKUP.out;} \> \>  \\
+ \> \textbf{they are anyway listed next to the sequence `\textsl{END}' keyword down zgoubi.res.} \> \>  \\
  \> \textbf{Pickup contents are zeroed at start of each pass, in multi-turn mode.} \> \>  \\
  \\
  \\
- $N$       \> 0 : inactive \> \> \\
- \> $\geq 1$ : number of \textsl{LABELs} \index{LABEL@{\LABEL}}  at which beam centroid is computed \>  $\geq 0$ \>I \\
- \> 
+ $N$  \textsl{[,PRINT]}     \> 0 : inactive \> \> \\
+\> $\geq 1$ : number of \textsl{LABELs} \index{LABEL@{\LABEL}}  at which beam centroid is computed \>  $\geq 0$ [, string]\>I  [,A]\\
+                           \> \textsl{[,PRINT]} is optional: will cause print of pickup contents to zgoubi.PICKUP.out. \> \>  \\
+\> 
  \\
   \\
 \textbf{A list of N keywords' labels follows} \> \>\>\\
@@ -5284,56 +5286,38 @@ $N$, $EB1$, $EB2$, $EG1$, $EG2$ \=
          $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
              1-2, 2*cm, rad ~ ~ \quad \= \kill
 %%\mestab
-\textbf{TWISS}         \label{TWISS-B} \index{TWISS|textbf} \index{TWISS!- find orbit}
+\textbf{TWISS}~\footnotemark[1]         \label{TWISS-B} \index{TWISS|textbf} \index{TWISS!- find orbit}
              \> \textbf{\TWISSTitl} \> \> \\
   \\
   \\
  \textsl{KTW[.KTW2]},  \> $KTW=0/1/2/3$ :  Off / as \textsl{MATRIX} / add computation  of            \>0-3[.1], 2*any \>I1[.I1],  \\
          FacD, FacA \textsl{[, coupled]}    \> chromaticities / add computation of anharmonicities.  \>  [,coupled]   \>  2*E [,A]\\
-                          \> $KTW2$~: default is initial computation of closed orbit coordinates, \> \>\\
-                          \>  $KTW2=1$ will avoid that.           \> \>\\
-                          \> $\rm FacD \times D = \delta p/p$ value applied, with $D$ the momentum sampling             \> \>\\
-                          \> in OBJET~; $FacA$~: unused.             \> \> \\
-                          \>  ``\textsl{coupled}'', in the periodic case,  will cause  use of coupled formalism.  
+                          \> $KTW2$~: default is NO initial computation of closed orbit, whereas \> \>\\
+                          \>  $KTW2=1$ will cause computation of initial closed orbit, prior to TWISS-ing~;           \> \>\\
+                          \> $\rm FacD \times D = B\rho/BORO$ value applied, with $D$ the momentum sampling             \> \>\\
+                          \> in OBJET~; $FacA$~: unused~;             \> \> \\
+                          \>  ``\textsl{coupled}''  will cause  use of coupled formalism for matrix computation from rays.  
 \end{tabbing}
 
 
 \vspace{5ex}
 
-\noindent Note~: \textsl{TWISS} can be preceded by \textsl{FIT[2]}. This allows finding the closed orbit prior to
-doing \textsl{TWISS}. This is ilustrated in the example below (just un-comment the \textsl{FIT} instruction,
-and it will first find the orbit which will then be used by \textsl{OBJET[KOBJ=5]} to define the initial
-11 sample rays). 
-
-
-\vfill
-
-{\noindent $\bullet$  {\bf \textsl{Example}} 
-{\small
-\begin{verbatim}
-'OBJET'
-20015.55                           ! 6 GeV electrons.
-5                                  ! Will generate 11 particles.
- .001 .001 .001 .001 0. .0001      ! Coordinate sampling for matrix computation : $delta_Y, 
-0. 0. 0. 0. 0. 1.                  ! delta_T, delta_Z, delta_P, delta_S (unused), delta_D$.
-.................................
-zgoubi.dat optics list in between
-.................................
-! 'FIT'                                                                                      
-! 2
-! 1 30 0 [-1.,1.]     ! vary Y_ref
-! 1 31 0 [-1.,1.]     ! vary T_ref
-! 2  1e-10
-! 3.1 1 2 #End  0. 1. 0     ! particle 1: Y_initial = Y final
-! 3.1 1 3 #End  0. 1. 0     ! particle 1: T_initial = T final
-'FAISCEAU'
- 'TWISS'
- 2 1. 1.                           ! KTW = 3, FacD = 1
- 'END'
-\end{verbatim}
+\footnotetext[1]{ \textsl{TWISS} may be preceded by \textsl{FIT[2]}. This allows finding the closed orbit prior to
+doing \textsl{TWISS}. This is ilustrated in the example page~\pageref{ExaFITTWISS}}. 
 }
-\noindent ``\textsl{KTW=3}'' under \textsl{TWISS} will cause 3 successive executions of zgoubi.dat and will result in 
-delivery (print out to zgoubi.res) of 
+
+
+
+
+\newpage
+
+
+{\noindent $\bullet$ {\bf \textsl{Example}}~: \textsl{FIT} orbit and \textsl{TWISS} \label{ExaFITTWISS}}  \\ 
+
+  \smallskip
+  
+\noindent ``\textsl{KTW=2}'' under \textsl{TWISS} will cause 4 successive runs of the optical sequence and will result in 
+the delivery of a zgoubi.TWISS.out file, and in the print out to zgoubi.res of 
 
 - the on-momentum matrix of the optical structure, 
 
@@ -5341,9 +5325,37 @@ delivery (print out to zgoubi.res) of
 
 - the Twiss parameters in the hypothesis of a stable periodic structure, 
 
-- the  momentum compaction, chromaticities, etc.  \index{chromaticity@{chromaticity}} \index{momentum compaction@{momentum compaction}}
+- the  momentum compaction, chromaticities, etc.  \index{chromaticity@{chromaticity}} \index{momentum compaction@{momentum compaction}
 }
 
+Un-comment the \textsl{FIT} instruction,
+and it will first find the orbit which will then be the reference trajectory in \textsl{OBJET[KOBJ=5]},
+in generatng the 11 sample rays.
+
+{\small
+\begin{verbatim}
+'OBJET'
+20015.55            ! Rigidity (kG.cm) for 6 GeV electrons.
+5                   ! Generate an 11 particle set. Normally used for MATRIX or TWISS computation.
+.001 .01 .001 .01 0. .0001   ! Coordinate sampling for MATRIX computation : delta-Y, -T, -Z etc. 
+0. 0. 0. 0. 0. 1.   ! Coordinates of the reference orbit: Y- ,T- ,Z- ,P-, s-ref (unused), D-ref
+                    ! this is the coordinates of particle numb 1 of the 11-particle set.
+.................................
+Optical sequence here
+.................................
+! 'FIT'                                                                                      
+! 2
+! 1 30 0 [-1.,1.]     ! vary Y-ref
+! 1 31 0 [-1.,1.]     ! vary T-ref
+! 2  1e-10
+! 3.1 1 2 #End  0. 1. 0     ! particle 1: Y initial = Y final
+! 3.1 1 3 #End  0. 1. 0     ! particle 1: T initial = T final
+'FAISCEAU'
+ 'TWISS'
+ 2 1. 1.                           ! KTW = 3, FacD = 1
+ 'END'
+\end{verbatim}
+}
 
 
 

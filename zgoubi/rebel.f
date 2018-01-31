@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory    
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE REBEL(READAT,KLE,LABEL,
      >                                  REBFLG,NOELRB)
@@ -29,13 +29,15 @@ C  -------
       INCLUDE 'MXLD.H'
       CHARACTER(*) LABEL(MXL,2)
       LOGICAL READAT
-
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH 
       PARAMETER (MXPUD=9,MXPU=5000)
-       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      PARAMETER (MPULAB=5)
+      PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) PULAB
+      INCLUDE 'C.COT.H'     ! COMMON/COT/ PULAB(MPULAB)
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -65,7 +67,6 @@ C  -------
       SAVE NOELA, NOELB
 
       PARAMETER (MXPRM=10, MXLST=4000)
-      PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LBL1(MXPRM), LBL2(MXPRM)
       SAVE LBL1, LBL2
       PARAMETER (KSIZ=10)
@@ -93,12 +94,19 @@ C  -------
       LOGICAL FITING
 
       LOGICAL OKCOR
-      SAVE ICOR, NBLM, OKCOR
+      SAVE NBLM, OKCOR
       PARAMETER (T2KG = 10.D0)
-      PARAMETER (MX5=5)
-      CHARACTER(LBLSIZ) HPNA(MX5), VPNA(MX5), HCNA, VCNA
-      CHARACTER(LBLSIZ) HPNAI(MX5), VPNAI(MX5), HCNAI, VCNAI
-      SAVE HPNA, VPNA, HCNA, VCNA, NLMC
+      parameter (IMON=MPULAB/2)
+      parameter(mxpuh =IMON, mxpuv =IMON)
+      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv), HCNA, VCNA
+      CHARACTER(LBLSIZ) HPNAI(mxpuh), VPNAI(mxpuv), HCNAI, VCNAI
+      SAVE HPNA, VPNA, HCNA, VCNA, NLMC, NLM
+
+      logical ok, idluni
+      save mpu, mpul
+      CHARACTER(70) TXFMT
+      save txfmt
+      save lsvd
       
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
@@ -151,50 +159,75 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
 C Build SVD matrix:
 C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
         IF(IPASS.EQ.1) THEN
-          ICOR = 0
+C Gets PU and corrector family names
           KSCOR = 1      ! H corr first
           NLMC = 0
+          NLM = 1
           CALL ZGNBLM( 
      >                NBLMI)
           NBLM = NBLMI
 C Fill PULAB with PU names
-C          call svdpus
+          CALL SVDPUS(NBLM,HPNA,VPNA,
+     >                               MPUL,MPU)
+          ok = idluni(
+     >                LSVD)
+          if(ok) then
+            open(unit=lsvd,file='zgoubi.SVDT.out')
+            WRITE(Lsvd,FMT='(''#  Pickup 1 to N = '',I0
+     >      ,'',    corrector number. '',I0,/,''#'')') MPU, ipass
+            WRITE(TXFMT,FMT='(A,I0,A)') '(1P,',MPU,'E12.4,2(1X,I0))'
+
+          ELSE
+            CALL ENDJOB('Pgm rebel. Could not open file '
+     >      //'zgoubi.SVDT.out.',-99)
+          ENDIF
+          
+          WRITE(NRES,fmt='(5X,''SVD correction matrix requested. A''
+     >    ,''total of '',I4,'' PUs, in '',I4,'' PU families : '',
+     >     5(a,1x))') mpu, mpul, (pulab(i),i=1,mpul)
           
         ELSE
 
+          if(nlmc.ge.1) WRITE(lsvd,fmt=txfmt) (FPU(2,I),I=1,MPU),nlmc
+          
+C Loops over corrector excitation, one-by-one. FIT finds the orbit each time. 
           IF(KSCOR.LE.2) THEN
-            DO WHILE ((.NOT. OKCOR) .AND. NLMC .LE. NBLM)
+C There are ! 2 families of correctors at the moment
+             
+             DO WHILE ((.NOT. OKCOR) .AND. NLM .LE. NBLM)
 C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list 
-              NLMC = NLMC + 1
               OKCOR =
-     >        (KSCOR .EQ. 1 .AND. LABEL(NLMC,1).EQ.'HKIC')
+     >        (KSCOR .EQ. 1 .AND. LABEL(NLM,1).EQ.'HKIC')
      >        .OR.       
-     >        (KSCOR .EQ. 2 .AND. LABEL(NLMC,1).EQ.'VKIC')
+     >        (KSCOR .EQ. 2 .AND. LABEL(NLM,1).EQ.'VKIC')
+              nlm = nlm + 1
             ENDDO
-            OKCOR=.FALSE.
-            IF(NLMC .LE. NBLM) THEN 
-              ICOR = ICOR + 1
-              IF    (KSCOR .EQ. 1) THEN
-                A(NLMC,4) = A(NOEL,10) / (A(NLMC,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
+            if(okcor) then
+               NLMc = NLMc + 1
+              OKCOR=.FALSE.
+              IF(NLM .LE. NBLM) THEN 
+                IF    (KSCOR .EQ. 1) THEN
+                  A(NLMC,4) = A(NOEL,10) / (A(NLMC,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
+                ELSEIF(KSCOR .EQ. 2) THEN
+                  A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG 
+                ELSE
+                  CALL ENDJOB(
+     >            'SBR REBEL. NO SUCH POSSIBILITY KSCOR =',KSCOR)
+                ENDIF
 
-        WRITE(88,*)' REBEL 1 ',icor,NLMC,(A(NLMC,j),j=1,4),IPASS
-c                   READ(*,*)
 
-              ELSEIF(KSCOR .EQ. 2) THEN
-                 A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG 
+                WRITE(*,*)' REBEL ',
+     >           kscor,nlm,NLMC,A(NLMC,4),A(NOEL,20),A(NLMC,2),T2KG 
+                    READ(*,*)
 
-        WRITE(88,*)' REBEL 2 ',icor,NLMC,(A(NLMC,j),j=1,4),IPASS
-c                    READ(*,*)
+
 
               ELSE
-                CALL ENDJOB(
-     >          'SBR REBEL. NO SUCH POSSIBILITY KSCOR =',KSCOR)
+
+        WRITE(*,*)' REBEL ksor nlm,NLMC,IPASS ',ksor nlm,NLMC,IPASS
+                    READ(*,*)
+                KSCOR = KSCOR + 1
               ENDIF
-            ELSE
-        WRITE(88,*)' REBEL ksor 2 ',icor,NLMC,nblm,IPASS
-c                    READ(*,*)
-              KSCOR = KSCOR + 1
-              NLMC = 0
             ENDIF
           ENDIF
         ENDIF

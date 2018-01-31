@@ -51,8 +51,10 @@ C     ***************************************
       PARAMETER (I3=3)
 
       PARAMETER (LBLSIZ=20)
-      PARAMETER (MX5=5)
-      CHARACTER(LBLSIZ) HPNA(MX5), VPNA(MX5), HCNA, VCNA
+      PARAMETER (MPULAB=5)
+      parameter (IMON=MPULAB/2)
+      parameter(mxpuh =IMON, mxpuv =IMON)
+      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv), HCNA, VCNA
       
       DATA IA4 / 0 /
 
@@ -91,15 +93,19 @@ C     ***************************************
       IF    (IA4 .EQ. 1) THEN
 C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for parameter #KPRM in element #KLM. 
 
-        IF(NRBLT .GT. MXLST) 
-     >  CALL ENDJOB(
-     >  'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT=',
-     >  NRBLT)
+        IF(NRBLT .GT. MXLST) THEN
+          WRITE(NRES,*)  
+     >    'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT= '
+     >    ,NRBLT
+          GOTO 98
+        ENDIF
         LINE = LINE + 1
         READ(NDAT,*,ERR=98,END=98) NPRM
-        IF(NPRM .GT. MXPRM) 
-     >    CALL ENDJOB('SBR RREBEL. Too many parameters, has to be .le. '
-     >    ,MXPRM)
+        IF(NPRM .GT. MXPRM) THEN
+          WRITE(*,*)
+     >    'SBR RREBEL. Too many parameters, has to be .le. ',MXPRM
+          GOTO 98
+        ENDIF
         A(NOEL,10) = NPRM
 
         DO IPRM = 1, NPRM
@@ -202,8 +208,10 @@ C DO loop style, V1:V_NRBLT
                 PARAM(IPRM,I) = VA + DBLE(I-1)*DV
               ENDDO
             ELSE
-              CALL ENDJOB('Sbr rrebel. List too large, must contain '
-     >        //'number of data .le. nrblt=',NRBLT)
+              WRITE(NRES,*)
+     >        'Sbr rrebel. List too large, must contain '
+     >        //'number of data .le. nrblt= ',NRBLT
+              GOTO 98
             ENDIF
           ELSE
 C List style, V1, V2, ..., V_NRBLT
@@ -222,10 +230,11 @@ C List style, V1, V2, ..., V_NRBLT
  80       CONTINUE
           A(NOEL,20+10*(IPRM-1)) = KLM
           A(NOEL,21+10*(IPRM-1)) = KPRM
-          IF(NRBLT .GT. MXLST) 
-     >      CALL ENDJOB('Sbr rrebel. Too many data, # must be .LE.'
-     >      //' nrblt=',NRBLT)
-
+          IF(NRBLT .GT. MXLST) THEN
+            WRITE(NRES,*) 'Sbr rrebel. Too many data, # must be .LE.'
+     >      //' nrblt= ',NRBLT
+            GOTO 98
+          ENDIF
 c             WRITE(*,*) ' RREBEL ', 
 c     >       ' NOEL= ',noel,
 c     >       ' KLM=',A(NOEL,20+10*(iprm-1)), 
@@ -249,11 +258,15 @@ C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading
         IF(STRCON(TXT300,'!',
      >                     II))
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,I5,
+        CALL STRGET(TXT300,mxpuh,
      >                      NSR,STRA)
-        IF(NSR.GT.I5) CALL ENDJOB('SBR RREBEL. Too many data.',-99)
-        DO I = 1, NSTR
-           READ(STRA(I),*,ERR=98) HPNA(I) 
+        IF(NSR.GT.mxpuH) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many H-PUs.'
+     >    //' Maximum allowed is ',mxpuh
+          GOTO 98
+        ENDIF
+        DO I = 1, NSR
+           READ(STRA(I),*,ERR=98) HPNA(I)    !  H PU name list 
         ENDDO
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
@@ -262,20 +275,27 @@ C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
         CALL STRGET(TXT300,I5,
      >                      NSR,STRA)
-        IF(NSR.GT.I2) CALL ENDJOB('SBR RREBEL. Too many data.',-99)
-        READ(STRA(1),*,ERR=98) HCNA
+        IF(NSR.GT.I2) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many data.'
+          GOTO 98
+        ENDIF
+        READ(STRA(1),*,ERR=98) HCNA      !  H corrector name
         READ(STRA(2),*,ERR=98) HKI
-        A(NOEL,10) = HKI
+        A(NOEL,10) = HKI                 !  H corrector kick value
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
         IF(STRCON(TXT300,'!',
      >                     II))
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,I5,
+        CALL STRGET(TXT300,mxpuv,
      >                      NSR,STRA)
-        IF(NSR.GT.I5) CALL ENDJOB('SBR RREBEL. Too many data.',-99)
-        DO I = 1, NSTR
-           READ(STRA(I),*,ERR=98) VPNA(I)
+        IF(NSR.GT.mxpuv) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many V-PUs.'
+     >    //' Maximum allowed is ',mxpuv
+          GOTO 98
+        ENDIF
+        DO I = 1, NSR
+           READ(STRA(I),*,ERR=98) VPNA(I)    !  V PU name list 
         ENDDO
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
@@ -284,12 +304,14 @@ C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
         CALL STRGET(TXT300,I5,
      >                      NSR,STRA)
-        IF(NSR.GT.I2) CALL ENDJOB('SBR RREBEL. Too many data.',-99)
-        READ(STRA(1),*,ERR=98) VCNA 
+        IF(NSR.GT.I2) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many data.'
+          GOTO 98
+        ENDIF
+        READ(STRA(1),*,ERR=98) VCNA      !  V corrector name
         READ(STRA(2),*,ERR=98) VKI  
-        A(NOEL,20) = VKI
-
-        CALL REBEL4(PARAM,TPRM)
+        A(NOEL,20) = VKI                 !  V corrector kick value
+        CALL REBELA(HPNA,HCNA,VPNA,VCNA)
         NOELA = 1
         NOELB = NOEL
       ENDIF

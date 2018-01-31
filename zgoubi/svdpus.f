@@ -22,52 +22,86 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE SVDPUS(NBLM, )
+      SUBROUTINE SVDPUS(NBLM,hpna,vpna,
+     >                                 MPUL,MPU)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
 C     Find PUs from in A() list. Put them in PULAB
 C     -----------------------------------------------------
-      INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      character(*) hpna(*), vpna(*)
+      INCLUDE 'C.CDF.H'         ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXPUD=9,MXPU=5000)
       INCLUDE 'C.CO.H'     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
+      PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) PULAB
       INCLUDE 'C.COT.H'     ! COMMON/COT/ PULAB(MPULAB)
       INCLUDE 'MXLD.H'
       INCLUDE 'C.DON.H'     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (LBLSIZ=20)
-      CHARACTER(LBLSIZ) PULAB
+      CHARACTER(LBLSIZ) LABEL
+      INCLUDE 'C.LABEL.H'     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE 'C.REBELO.H'   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
       LOGICAL OKPU
-      parameter (I5=5)
-      parameter(mxpuh =I5, mxpuv =I5)
+      parameter (IMON=MPULAB/2)
+      parameter(mxpuh =IMON, mxpuv =IMON)
+      logical deja
+
       DATA OKPU / .FALSE. /
 
-      read(ta(noel,6),*) npuh
-      read(ta(noel,25),*) npuv
+c      READ(TA(NOEL,6),*) NPUH
+c      READ(TA(NOEL,25),*) NPUV
 
       OKPU = .FALSE.
-      DO WHILE ((.NOT. OKPU) .AND. NLMP .LE. NBLM)
-C Move to next PU. NLMP (1<NLMP<NBLM) is its number in the A() sequence
-
-        NLMP = NLMP + 1
-        OKPU = .false.
+      MPUL = 0      ! Numb of PU families/labels
+      MPU = 0       ! Numb of PUs
+      nlm = 1    
+      DO WHILE ((.NOT. OKPU) .AND. nlm .LE. NBLM)
+C Move to next element in sequence. Test whether its label identifies w/ PU label.
+        i = 1
         do while((.NOT. OKPU) .AND. i.le.mxpuh)
-          okpu = okpu .or. LABEL(NLMP,1).EQ.ta(noel,1)
+          okpu = okpu .or. (LABEL(nlm,1).EQ.hpna(i))
+          i = i + 1
         enddo                 
+        i = 1
         do while((.NOT. OKPU) .AND. i.le.mxpuv)
-          okpu = okpu .or. LABEL(NLMP,1).EQ.ta(noel,20)
+          okpu = okpu .or. (LABEL(nlm,1).EQ.vpna(i))
+          i = i + 1
         enddo                 
+          
+        if(okpu) then
+          MPU = MPU + 1
+          j = 1
+          deja = .false.
+          dowhile (.not. deja .and. j.le. MPULAB)
+            deja = deja .or. (pulab(j) .eq. LABEL(nlm,1))
+            j = j+1
+          enddo
+          if(.not. deja ) then
+            MPUL = MPUL + 1
+            if(mpul .gt. mpulab) call endjob(
+     >      'Pgm svdpus.  Too many PU families. Max allowed is ',MPULAB) 
+            PULAB(MPUL) = LABEL(nlm,1)
+          endif
+          okpu = .false.
+        endif
+       
+        nlm = nlm + 1
+      enddo      
 
-        IF(.NOT. OKPU) CALL ENDJOB('Pgm svdpus. Could not find any PUs.'
-     >  //' Check PU names ans existence of corresponding label_1.',-99)
-              
-        OKPU=.FALSE.
-      
-        DO WHILE 
-          PULAB(I), I=1,NPU)
+      OKPU=.FALSE.
 
+      IF(MPUL.LE.0) CALL ENDJOB('Pgm svdpus.  None of the'
+     >//' PU families listed under REBELOTE appears in the sequence. '
+     >//'Check PU family names and existence of corresponding label_1.'
+     >,-99)
+      IF(MPU.GT.MXPU) CALL ENDJOB('Pgm svdpus. Too many PUs.'
+     >//' Need re-size FPU.  Max allowed is ',MXPU)
 
-           
+c      write(*,*) ' svdpus  MPUL, MPU = ',MPUL,MPU
+c      write(*,fmt='(a,i0,2x,a)')
+c     >  (' MPUL pulab : ',i, pulab(i),i=1,MPUL)
+c      read(*,*)
+
       RETURN
       END

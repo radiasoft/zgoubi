@@ -380,6 +380,7 @@ OBJ=\
  stpsiz.o\
  straco.o\
  strwld.o\
+ svdpus.o\
  symmed.o\
  sympl.o\
  synpar.o\
@@ -676,6 +677,7 @@ sref.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 srloss.o: $(INC)/MXLD.H
 srprn.o: $(INC)/MXLD.H
 stpsiz.o: $(INC)/MXLD.H
+svdpus.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.REBELO.H
 synpar.o: $(INC)/MXLD.H
 toroid.o: $(INC)/MAXTRA.H
 toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/MAPHDR.H

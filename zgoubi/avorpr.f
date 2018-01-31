@@ -34,11 +34,11 @@ C  -------
       IF    (IOPT .EQ. 1) THEN
 
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
- 100    FORMAT('# Pgm avorpr. Brute record at pick-ups :',/,
-     >  '#  PU#',T17,'Pos',T28,'S_Yco',T41, 'S_Tco',T54,'S_Zco'
-     >  ,T67,'S_Pco', T82,'S_L', T97,'D',T108,'S_t'
-     >  ,T117,' #traj ',T125,'Pass#',
-     >  /      ,T16,'(cm)',T29, '(cm)',T40,'(mrad)',T55,'(cm)'
+ 100    FORMAT('# Pgm avorpr. Brut record at pick-ups ',/
+     >  ,'#  PU#',T17,'Pos',T28,'Yco',T41, 'Tco',T54,'Zco'
+     >  ,T67,'Pco', T82,'L', T97,'D',T108,'time'
+     >  ,T117,' #traj ',T125,'Pass#'
+     >  ,/      ,T16,'(cm)',T29, '(cm)',T40,'(mrad)',T55,'(cm)'
      >  ,T66,'(mrad)',T81,'(cm)',T92,'(dp/p)',T105,'(mu_s)'
      >  )
 

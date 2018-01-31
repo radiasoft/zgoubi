@@ -6,17 +6,25 @@ C23456789012345678901234567890123456789012345678901234567890123456789012
       parameter (mxl=15000)
       dimension iq(mxl)
       character kley*4, name*20
-      parameter(mxk=19)
+      parameter(mxk=21)
       character kle(mxk)*4, ny*1
       character*35 warn
       logical TOMANY
 
       logical ok, strcon
       integer debstr, finstr
+      parameter (pi = 4.d0*atan(1.d0),dpi = 6.2781848719800006d0)   !2.d0 * pi)
 
       data kle/ 'DRIF', 'RBEN', 'SBEN', 'QUAD', 'SEXT', 'OCTU', 'MULT',
      >'SROT', 'YROT', 'MARK', 'KICK', 'HMON', 'VMON','HKIC', 'VKIC', 
-     >'SOLE', 'RCOL', 'MATR', 'MONI' /
+     >'SOLE', 'RCOL', 'MATR', 'MONI','TKIC','INST' /
+
+C This results from slightly wrong bend angle from MADX file. The compensaton is 
+C re-distributed to the arc bends by the translator
+      data devTot / dpi /   
+C      data devTot / 6.2831853071795862d0 /    !  store
+C      data devTot / 6.2783842424899960d0 /    ! injection
+      data ksnk / 1 /
 
 C      write(*,*) ' name of the survey file to be translated:'
 C      read(*,fmt='(A)') fnr
@@ -103,6 +111,26 @@ C      read(*,*,err=7) kbm
       if(kbm.eq.2) write(*,*) ' MULTIPOLE will be used for S/RBEND'
       call lmnkbm(kbm)
 
+      stp = 1.d0
+      write(*,*)
+      write(*,*) ' Step size in bends (cm, default is 1cm) :'
+      read(*,*,err=9,end=9) stp
+      goto 91
+ 9    continue
+      stp = 1.d0
+ 91   continue
+      if(stp.le.0.d0 .or. stp .ge. 100.) stp=1.d0
+      call lmnstp(stp)
+
+      write(*,*)
+      write(*,*) ' Include snake  (no/SPINR/fieldMap : 0/1/2) :'
+      read(*,*,err=8) ksnk
+ 8    continue
+      if( ksnk .lt.0 .or. ksnk .gt. 2  ) ksnk = 1
+c      write(*,*) ' ksnk = ',ksnk
+c        read(*,*)
+      call lmnksn(ksnk)
+
 C Get momentum
  32   continue
         read(lr,fmt='(A)',end=85,err=99) txt590
@@ -111,16 +139,7 @@ C Get momentum
       if(.not. ok) goto 32        
       read(txt590(finstr(txt590)-17:finstr(txt590)),*) pmom
 
-c       write(*,*) pmom
-
-      pmom =  1.d0 * 2.99792458d8 / 1.d9
-       
-      it = 0
-      call objet(lw,it,pmom*1.d9,
-     >                           bro)        
-      bro = 1.d0 
-
-        write(*,*) ' bro, p : ',bro, pmom
+c       write(*,*) pmom       
 
 C Swallow rest of top of madzg.in file
  33   continue
@@ -143,26 +162,44 @@ c      write(*,*) txt590
  86   continue
       
         read(lr,fmt='(a)',end=85,err=99) txt590
-        write(*,*) txt590
+c        write(*,*) txt590
+c             read(*,*)
 
-        read(txt590,fmt='(24e19.0,2e19.0,a)',end=85,err=99)
+        read(txt590,fmt='(24e19.0,2e19.0,a,2e19.0)',end=85,err=99)
      >  xl, ang, ak1,ak2,ak3,ak4, tilt, e1,e2, h1,h2,sCntr,
      >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, 
      >  hkic,vkic,
-     >  txt40
+     >  txt40, xp, yp
 
-c        write(*,*)
-c     >  xl, ang, ak1,ak2,ak3,ak4, tilt, e1,e2, h1,h2,sCntr,
-c     >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, txt40,
-c     >  hkic,vkic
+        if(ir.eq.0) then
+          it = 0
+          pmom =  1.d0 * 2.99792458d8 / 1.d9
+          call objet(lw,it,pmom*1.d9,xco,yco,xp,yp,
+     >                           bro)        
+          bro = 1.d0 
 
-          
+          write(*,*) ' bro, p : ',bro, pmom
+        endif
 
         read(txt40,*,end=85,err=99) txt20,keyword
         kley = keyword
         name = txt20
+
+C            if(hkic.ne.0.d0) then
+c             write(*,*) trim(kley)
+c            if(trim(kley) .eq. "VKIC") then
+c        write(*,*)
+c     >  xl, ang, ak1,ak2,ak3,ak4, tilt, e1,e2, h1,h2,sCntr,
+c     >  alfx,betx, alfy,bety, xco,yco, Dx,Dxp, Dy,Dyp, xmu,ymu, 
+c     >  hkic,vkic    ,txt40
+c        write(*,*)
+c     >  hkic,vkic    ,txt40
+c             endif
+     
+
 c        write(*,*) '-----------------------------------'
 c        write(*,*) kley, '  ', name, xl, ang, ak1, ak2
+c             read(*,*)
 
         s = s+xl
 
@@ -189,8 +226,8 @@ C        stop
  87     CONTINUE
         it = it + 1
         call lmnt
-     >    (lw,lout,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,ak3,ak4,
-     >                                            tilt,e1,e2,h1,h2,
+     >    (lw,lout,bro,frf,ik,noel,kley,name,devTot,xl,ang,
+     >                     ak1,ak2,ak3,ak4,  tilt,e1,e2,h1,h2,
      >                                      hkic, vkic,
      >                                      it)
 c        call lmnt
@@ -226,21 +263,67 @@ c     >                         s,sxl,s-sxl,xl,ds,kley,name,warn
       write(lw,fmt='(A)')   ' 1 1 '
       write(lw,fmt='(A)')   ' WRITE ON '
       write(lw,fmt='(A)')   ' '
+      write(lw,fmt='(A)')   '''FAISCEAU'''
+      write(lw,fmt='(A)')   '''SPNPRT'''
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''TWISS''',it
       write(lw,fmt='(A)')   '2  1. 1. '
-      write(lw,fmt='(A,T111,I6)') '''MATRIX''',it
-      write(lw,fmt='(A)')   '1  11 '
       it = it + 1
+      write(lw,fmt='(A)') ' '
+      write(lw,fmt='(A,T111,I6)') '! ''MATRIX''',it
+      write(lw,fmt='(A)')   '! 1  11 '
+      it = it + 1
+      write(lw,fmt='(A)') ' '
+      write(lw,fmt='(A,T111,I6)') '!  ''FIT''',it
+      write(lw,fmt='(a)') '! 3    save fitVals_n0_VVHH.save'
+      write(lw,fmt='(a)') '! 3 10 0 [-1.,1.] '
+      write(lw,fmt='(a)') '! 3 11 0 [-1.,1.] '
+      write(lw,fmt='(a)') '! 3 12 0 [-1.001,1.001] '
+      write(lw,fmt='(a)') '! 4   1e-10  9999'
+      write(lw,fmt='(a)') '! 10.1 3 1 #End 0. 1. 0 '
+      write(lw,fmt='(a)') '! 10.1 3 2 #End 0. 1. 0 '
+      write(lw,fmt='(a)') '! 10.1 3 3 #End 0. 1. 0 '
+      write(lw,fmt='(a)') '! 10   1 4 #End 1. .2 0 '
+      it = it + 1
+      write(lw,fmt='(A,T111,I6)') '''FAISCEAU''',it
+      it = it + 1
+      write(lw,fmt='(A,T111,I6)') '''SPNPRT''   #End  PRINT',it
+      it = it + 1
+      write(lw,fmt='(A)') ' '
+      write(lw,fmt='(A)') '! ''CAVITE'' '
+      write(lw,fmt='(A)') '!  3'
+      write(lw,fmt='(A)') '!  3833.84593    120.   !circumf., H'
+      write(lw,fmt='(A)') '!  40e3     2.792526803191E+00'
+      it = it + 1
+      write(lw,fmt='(A)') ' '
+      write(lw,fmt='(A)') '! ''REBELOTE'''
+      write(lw,fmt='(A)') '! 600 0.1 99'
+      write(lw,fmt='(A)') ' '
       write(lw,fmt='(A,T111,I6)') '''END''',it
-C      it = it + 1
-      write(lw,fmt='(///,A)') ' '
-      write(lw,fmt='(///,A)') '''REBELOTE'''
-      write(lw,fmt='(A)')   '600 0.1 99'
+
       write(*,*) ' Read ',ir,' elements from madzg.in file ',fnr
       write(*,*) ' Translated to',it,
      >' elements into the zgoubi data file ', fnw
       write(*,*) ' end of madzg.in file '
+
+      call lmnAle(
+     >            aleTot, nbArcBnd)
+
+      write(*,*) ' '
+      write(*,*) '-----------------------------------------------'
+      write(*,*) '-----------------------------------------------'
+      write(*,*) 'Total deviation in BENDs with KPOS=3, ALE_tot = '
+     >,-2.d0*aleTot
+      write(*,*) '(found ',nbArcBnd,' arc bends)'
+      write(*,*) ' '
+      write(*,*) ' '
+      write(*,*) 'If not 2*pi, recompile madzg with devTot=the  '
+     >//'value found above, re-run, this should yield the  '
+     >//'exected 2pi toatl deviation.'
+      write(*,*) '-----------------------------------------------'
+      write(*,*) '-----------------------------------------------'
+      write(*,*) ' '
+
       goto 999
 
  97   write(*,*) ' error open madzg.in file'
@@ -255,7 +338,7 @@ C      it = it + 1
       stop
       end
         
-      subroutine objet(lw,it,pmom,
+      subroutine objet(lw,it,pmom,xco,yco,xpco,ypco,
      >                            bro)
       implicit double precision (a-h,o-z)
      
@@ -274,14 +357,24 @@ C      it = it + 1
      >',  G.gamma = ',1.79284735d0*gamma
       write(lw,fmt='(A)') '5' 
       write(lw,fmt='(A)') '.001 .001 .001 .001 0. .0001  '
-      write(lw,fmt='(A)') '0. 0. 0. 0. 0. 1.'
+      write(lw,fmt='(1p,4(e14.6,2x),A)') 
+     >xco*1d2,xpco*1d3,yco*1d2,ypco*1d3, ' 0. 1.'
 
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''PARTICUL''',it
       write(lw,FMT='(A)') '9.3827203E+02 1.602176487E-19 1.7928474 0 0' 
 
       it = it + 1
+      write(lw,fmt='(A,T111,I6)') '''SPNTRK''',it
+      write(lw,FMT='(A)') ' 4.1 ' 
+      write(lw,FMT='(A)') ' 0. 0. 1. ' 
+
+      it = it + 1
       write(lw,fmt='(A,T111,I6)') '''FAISCEAU''',it
+      it = it + 1
+      write(lw,fmt='(A,T111,I6)') '''FAISTORE''',it
+      write(lw,fmt='(A)') 'b_zgoubi.fai'
+      write(lw,fmt='(A)') '1'
 
 c      it = it + 1
 c      write(lw,fmt='(A,T111,I6)') '''OPTICS''',it
@@ -289,29 +382,42 @@ c      write(lw,FMT='(A)')
 c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out' 
 
       it = it + 1
+      write(lw,FMT='(A)') ' ' 
       write(lw,fmt='(A,T111,I6)') '''SCALING''' 
-      write(lw,fmt='(A)') '1  6 '
+      write(lw,fmt='(A)') '1  9  '
+      write(lw,fmt='(A)') 'TOSCA  snk1LowB' 
+      write(lw,fmt='(A)') '   -1   ' 
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1  '
+      write(lw,fmt='(A)') 'TOSCA  snk1HighB' 
+      write(lw,fmt='(A)') '   -1   ' 
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1  '
+      write(lw,fmt='(A)') 'TOSCA  snk2LowB' 
+      write(lw,fmt='(A)') '   -1   ' 
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1  '
+      write(lw,fmt='(A)') 'TOSCA  snk2HighB' 
+      write(lw,fmt='(A)') '   -1   ' 
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1  '
       write(lw,fmt='(A)') 'BEND' 
       write(lw,fmt='(A)') '   -1   ' 
       write(lw,fmt='(1P,E16.8)') BRO
       write(lw,fmt='(A)') '1  '
-      write(lw,fmt='(A)') 'MULTIPOL HKIC'
-      write(lw,fmt='(A)') '-1         '
-      write(lw,fmt='(1P,E16.8)') BRO
-      write(lw,fmt='(A)') '1      '
-      write(lw,fmt='(A)') 'MULTIPOL VKIC'
-      write(lw,fmt='(A)') '-1         '
-      write(lw,fmt='(1P,E16.8)') BRO
-      write(lw,fmt='(A)') '1      '
-      write(lw,fmt='(A)') 'MULTIPOL QUADQF'
-      write(lw,fmt='(A)') '-1         '
-      write(lw,fmt='(1P,E16.8)') BRO
-      write(lw,fmt='(A)') '1      '
-      write(lw,fmt='(A)') 'MULTIPOL QUADQD'
-      write(lw,fmt='(A)') '-1         '
-      write(lw,fmt='(1P,E16.8)') BRO
-      write(lw,fmt='(A)') '1      '
       write(lw,fmt='(A)') 'MULTIPOL '
+      write(lw,fmt='(A)') '-1         '
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1      '
+      write(lw,fmt='(A)') 'MULTIPOL HKIC VKIC'
+      write(lw,fmt='(A)') '-1         '
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1      '
+      write(lw,fmt='(A)') 'MULTIPOL QUAD SEXT'
+      write(lw,fmt='(A)') '-1         '
+      write(lw,fmt='(1P,E16.8)') BRO
+      write(lw,fmt='(A)') '1      '
+      write(lw,fmt='(A)') 'MULTIPOL snaKH snaKV'
       write(lw,fmt='(A)') '-1         '
       write(lw,fmt='(1P,E16.8)') BRO
       write(lw,fmt='(A)') '1      '
@@ -327,8 +433,8 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
       end 
 
       subroutine lmnt
-     >(lw,lout,bro,frf,ik,noel,kley,name,xl,ang,ak1,ak2,ak3,ak4,
-     >                                        tilt,e1,e2,h1,h2,
+     >(lw,lout,bro,frf,ik,noel,kley,name,devTot,xl,ang,
+     >           ak1,ak2,ak3,ak4,    tilt,e1,e2,h1,h2,
      >                                      hkic, vkic,
      >                                it)
       implicit double precision (a-h,o-z)
@@ -343,6 +449,7 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
       save txfd,txfq,txffd, txffq
       logical drimul
       save drimul
+      logical strcon, ok
 
       parameter (cm=100.d0, t2kg=10.d0)
       parameter(i0=0, i1=1, i2=2, i4=4, i6=6)
@@ -352,6 +459,9 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
 
       character txt*80, txtfrm*23
       save kpos, kbm
+      save aleTot, nbArcBnd, ksnk
+
+      save stpBnd
 
       data ffq / '6.00  3.00 1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0. ' / 
       data fq / '6  .1122 6.2671 -1.4982 3.5882 -2.1209 1.723'/
@@ -389,6 +499,9 @@ c     > ' 2   Print out transport coeffs to zgoubi_MATRIX_out'
 !  LSS and matching cell quadrupoles (length=0.35, radius=89mm)
       data ffqmus / '17.0 20.0  1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0.' / 
 !----------- muon collider fringe fields -------------------------------
+     
+              data numb / 0 /
+       data stpBnd / 1.d0 /
 
 c      parameter (stpsiz = 2.d0)  ! step size in cm
 c      parameter (stpsiz = 1.d0)  ! step size in cm
@@ -401,11 +514,11 @@ c      parameter (stpsiz = 0.25d0)  ! step size in cm
 
 C----- 1    2    3    4    5    6    7    8    9    10   11   12   13
 C----- DRIF RBEN SBEN QUAD SEXT OCTU MULT SROT YROT MARK KICK HMON VMON
-C----- 14   15   16   17   18
-C----- HKIC VKIC SOLE RCOL MATR MONI
+C----- 14   15   16   17   18   19   20   21
+C----- HKIC VKIC SOLE RCOL MATR MONI TKIC INST
        goto (
      > 1,   2 ,  2 ,  4,   5,   6,   7,   8,   9,   10,  11,  12,  12,
-     > 11,  11,  13,  1,  18,   12) ik
+     > 11,  11,  13,  1,  18,   12, 1, 1 ) ik
 
  1    continue
 C----- DRIF      
@@ -417,7 +530,7 @@ C----- DRIF
           dum=1.d-20
           write(lw,fmt=txtfrm) '''MULTIPOL''',kley,name,it
           write(lw,fmt='(I1,A)') i0,'  .Drift'
-          write(lw,fmt='(G12.6,G8.2,G16.10,9G7.1)')
+          write(lw,fmt='(G12.6,1X,G8.2,1X,G16.10,1X,9(G7.1,1X))')
      >    xl*cm,x10,x0,dum,x0,x0,x0,x0,x0,x0,x0,x0
           txt = '0. 0. '//txffq
           write(lw,fmt='(A)') txt
@@ -432,6 +545,13 @@ C----- DRIF
           write(lw,fmt='(F14.6)') xl*cm
         endif
       endif
+
+      if(trim(name) .eq. 'DRIFT_142') then
+        it = it + 1
+        write(lw,fmt=txtfrm) 
+     >  '''SPNPRT''','pCPol','PRINT       ! @1988.540',it
+      endif
+
       goto 99
 
  2    continue
@@ -526,7 +646,7 @@ C         write(*,*) ak2, bro, b3, x10
       else
         fac = 1.d-20
       endif
-      write(lw,fmt='(F11.6,F7.2,3F13.8,7F4.1)')
+      write(lw,fmt='(F11.6,1X,F7.2,1X,3(F13.8,1X),7(F4.11X))')
      >xlmag*cm, x10, fac*b1*10.d0, fac*b2*10.d0, fac* b3*10.d0,
      > x0,x0,x0,x0,x0,x0,x0
 
@@ -592,6 +712,22 @@ C----- RBEN -> BEND
         goto 99
       endif
 
+        ok = strcon(name,'_DH',
+     >                         IS)
+        ok = ok .and. name(1:2) .eq. 'BO'
+     >          .or.  name(1:2) .eq. 'BI'
+        if(ok) then
+          read(name(is+3:is+4),*) num
+          if(num .ge. 10 .and. num .le. 21) then
+
+               numb = numb + 1
+            write(86,*)  ' numb ',ang, (2.d0*pi - devTot)/dble(132),numb
+
+            ang = ang + (2.d0*pi - devTot)/dble(132)
+          
+          endif
+        endif
+
       write(lw,fmt=txtfrm) '''BEND''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Bend'
       ro=xl/2./sin(ang/2.)
@@ -623,7 +759,8 @@ C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
       endif
       write(lw,fmt='(A)') txfd
 C      step = xl
-      step = stpsiz
+C      step = stpsiz
+      step = stpBnd      
       write(lw,fmt='(1P,E12.4,A)') dble(nint(step)),'  Bend'
 C      write(lw,fmt='(F12.6,A4)') step * 10.,'  Bend'
 C      write(lw,fmt='(A,2X,A)') ' #10|10|10   Bend',name
@@ -632,6 +769,20 @@ C      write(lw,fmt='(A,2X,A)') ' #10|10|10   Bend',name
           write(lw,fmt='(A)') '3 0. 0. 0.'
         else
           write(lw,fmt='(A)') '1 0. 0. 0.'
+        endif
+        aleTot = aleTot - ang/2.d0
+        ok = strcon(name,'_DH',
+     >                         IS)
+        ok = ok .and. name(1:2) .eq. 'BO'
+     >          .or.  name(1:2) .eq. 'BI'
+        if(ok) then
+c          write(*,*) ' name   ***',name,'***'
+c          write(*,*) ' name   ***',name(is+3:is+4),'***'
+c          read(*,*)
+          read(name(is+3:is+4),*) num
+          if(num .ge. 10 .and. num .le. 21) then
+            nbArcBnd = nbArcBnd + 1
+          endif
         endif
       else
         write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
@@ -649,6 +800,21 @@ C----- SBEN -> BEND
         endif
         goto 99
       endif
+
+        ok = strcon(name,'_DH',
+     >                         IS)
+        ok = ok .and. name(1:2) .eq. 'BO'
+     >          .or.  name(1:2) .eq. 'BI'
+        if(ok) then
+          read(name(is+3:is+4),*) num
+          if(num .ge. 10 .and. num .le. 21) then
+
+               numb = numb + 1
+            write(86,*)  ' numb ',ang, (2.d0*pi - devTot)/dble(132),numb
+
+            ang = ang + (2.d0*pi - devTot)/dble(132)
+          endif
+        endif
 
       write(lw,fmt=txtfrm) '''BEND''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Bend'
@@ -679,7 +845,8 @@ C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
       endif
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
 C      istepdip=int(xxl*cm/3.0d0)
-      istepdip=int(xxl*cm/stpsiz)
+C      istepdip=int(xxl*cm/stpsiz)
+      istepdip=int(xxl*cm/stpBnd)
       if(istepdip .ge. 10000) then
         if(istepdip .ge. 99999) istepdip = 99999
         write(lw,fmt='(A,I5,A,2X,A)') '#200|',istepdip,
@@ -702,6 +869,20 @@ C      istepdip=int(xxl*cm/3.0d0)
         else
           write(lw,fmt='(A)') '1 0. 0. 0.'
         endif
+        aleTot = aleTot - ang/2.d0
+        ok = strcon(name,'_DH',
+     >                         IS)
+        ok = ok .and. name(1:2) .eq. 'BO'
+     >          .or.  name(1:2) .eq. 'BI'
+        if(ok) then
+c          write(*,*) ' name   ***',name,'***'
+c          write(*,*) ' name   ***',name(is+3:is+4),'***'
+c          read(*,*)
+          read(name(is+3:is+4),*) num
+          if(num .ge. 10 .and. num .le. 21) then
+            nbArcBnd = nbArcBnd + 1
+          endif
+        endif
       else
         write(lw,fmt='(1P,I2,3(1x,e18.10))') kpos,xce,yce,ale
       endif
@@ -715,7 +896,7 @@ C----- QUAD
       endif
       write(lw,fmt=txtfrm) '''MULTIPOL''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Quad'
-      write(lw,fmt='(F12.6,F6.2,2F16.10,8F4.1)')
+      write(lw,fmt='(F12.6,1X,F6.2,1X,2(F16.10,1X),8(F4.1,1X))')
      >xl*cm,x10,x0,ak1/xl*bro,x0,x0,x0,x0,x0,x0,x0,x0
       txt = txffq
       txt=txt//name
@@ -754,7 +935,8 @@ C----- SEXT ***
       write(lw,fmt='(I1,A)') i0,'  .Sext'
       b3 = 10.d0 * ak2/xl * bro *(x10/100.)**2 / 2.d0 
       write(lout,*) ' SEXT         b3 = ',b3,' kG'
-      write(lw,fmt='(F12.6,F6.2,2F10.4,F16.10,7F4.1)')
+      write(lw,fmt=
+     >'(F12.6,1X,F6.2,1X,2(F10.4,1X),F16.10,1X,7(F4.1,1X))')
      >xl*cm,x10,x0,x0,b3,x0,x0,x0,x0,x0,x0,x0
       write(lw,fmt='(A)') '0.00 0.00  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
       write(lw,fmt='(A)') txfq//name
@@ -788,8 +970,8 @@ C        it = it - 1
       endif
       write(lw,fmt=txtfrm) '''MULTIPOL''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Octu'
-      write(lw,fmt='(F12.6,F6.2,2F16.10,4F9.4)')
-     >xl*cm,x10,x0,x0,x0,x0,x0,x0
+      write(lw,fmt='(F10.4,1x,F6.2,1x,1p,4(E12.4,1x),6(E8.2,1x))')
+     >xl*cm,x10,x0,x0,x0,x0,x0,x0,x0,x0,x0,x0
       write(lw,fmt='(A)') '0.000 0.00  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
       write(lw,fmt='(A)') txfq//name
       write(lw,fmt='(A)') '0.000 0.00  1.00 0.0 .0 0.0 .0 0.0 .0 0.0 .0'
@@ -831,7 +1013,7 @@ C----- MULT
       b6 = 0.d0
       write(lw,fmt=txtfrm) '''MULTIPOL''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .Mult'
-      write(lw,fmt='(F12.6,F6.2,2F16.10,8F4.1)')
+      write(lw,fmt='(F9.4,1x,F6.2,1x,1p,3(e11.4,1x),7(e8.1,1x))')
      >xl*cm,x10,x0,b2,b3,b4,b5,b6,x0,x0,x0,x0
 c      write(*,*)
 c     >b1,b2,b3,b4,b5,b6,bro,' b1,b2,b3,b4,b5,b6, bro'
@@ -876,6 +1058,16 @@ C----- YROT ***
 C----- MARK ***
       write(lw,fmt=txtfrm) '''MARKER''',kley,name,it
 C      it = it - 1
+
+      if    (trim(name) .eq. 'G6_MARKX') then
+        it = it + 1
+        write(lw,fmt=txtfrm) '''SPNPRT''','Clock6','PRINT',it
+      elseif(trim(name) .eq. 'G12_MARKX') then
+        it = it + 1
+        write(lw,fmt=txtfrm) 
+     >  '''SPNPRT''','PJET','PRINT   ! @1917.393',it
+      endif
+
       goto 99
 
  11   continue
@@ -891,10 +1083,11 @@ c--------- vkicker
         diptlt = pi/2.d0
         b = -bro*vkic/xxl*t2kg
       endif
-c             write(*,*) ' KICK, hkic, vkic :', hkic, vkic
+c             write(*,*) ' hkic, vkic :', hkic, vkic,bro,b,t2kg
+c                read(*,*)
       write(lw,fmt=txtfrm) '''MULTIPOL''',kley,name,it
       write(lw,fmt='(I1,A)') i0,'  .kicker'
-      write(lw,fmt='(E14.6,F6.2,E14.6,F12.6,8F4.1)')
+      write(lw,fmt='(E14.6,1x,F6.2,1x,E14.6,1x,F12.6,1x,8(F4.1,1x))')
      >xxl*cm,x10,b,x0,x0,x0,x0,x0,x0,x0,x0,x0
       txt = '.0 .0  1.00 0.00 0.00 0.00 0.00 0. 0. 0. 0.'
       write(lw,fmt='(A)') txt
@@ -904,12 +1097,52 @@ c             write(*,*) ' KICK, hkic, vkic :', hkic, vkic
       write(lw,fmt='(f12.9,A)') diptlt,' 0. 0. 0. 0. 0. 0. 0. 0. 0.'
       write(lw,fmt='(A)') '#20|4|20  Kick'
       write(lw,fmt='(A)') '1 0. 0. 0.'
+
+      if(trim(name) .eq. 'XKI1') then
+        it = it + 1
+        write(lw,fmt=txtfrm) '''SPNPRT''','InjKick','PRINT',it
+      endif
+
       goto 99
 
  12   continue
 C----- HMON, VMON
       write(lw,fmt=txtfrm) '''DRIFT''',kley,name,it
       write(lw,fmt='(F12.4)') xl*cm
+c      write(*,*) '**',trim(name),'**',trim(name) .eq. 'BI9_B7.1',ksnk
+      if    (trim(name) .eq. 'BI9_B7.1') then
+        it = it+1
+        write(lw,fmt='(A,T12,A,T111,i6)') '''MARKER''','SNAKE1',it
+        if    (ksnk .eq. 1) then
+          it = it+1
+          write(lw,fmt='(A,T12,A,T111,i6)') '''SPINR''','SNK1',it
+          write(lw,fmt=txtfrm) ' 1'
+          write(lw,fmt=txtfrm) ' -45.   180.    snake_1'
+        elseif(ksnk .eq. 2) then
+              stop ' ksnk =2 NOT IMPLEMENTED'
+          it = it+1
+          write(lw,fmt=txtfrm) '''DRIFT''',' DRIF ','DRIFT_81',it 
+          write(lw,fmt='(a)')   '  -655.441800'
+c------------- INSERT SNAKE MAPS HERE
+C          it = it+1
+c          write(lw,fmt=txtfrm) '''DRIFT''',' VMON ','BO3_B7.1',it 
+c          write(lw,fmt=txtfrm)        0.0000
+C------------------
+          it = it+1
+          write(lw,fmt=txtfrm) '''DRIFT''',' DRIF ','DRIFT_81',it 
+          write(lw,fmt='(a)') ' -655.441800'
+        endif
+      elseif(trim(name) .eq. 'BO3_B7.1') then
+        it = it+1
+        write(lw,fmt='(A,T12,A,T111,i6)') '''MARKER''','SNAKE2',it
+        if    (ksnk .eq. 1) then
+          it = it+1
+          write(lw,fmt='(A,T12,A,T111,i6)') '''SPINR''','SNK2',it
+          write(lw,fmt=txtfrm) ' 1'
+          write(lw,fmt=txtfrm) ' +45.   180.    snake_2'
+        elseif(ksnk .eq. 2) then
+        endif
+      endif
       goto 99
 
  13   continue
@@ -945,7 +1178,7 @@ C----- MATR
       goto 99
 
  99    continue
-       write(6,fmt='(A,T12,A)') kley,name
+c       write(6,fmt='(A,T12,A)') kley,name
        return
 
       entry lmntff(kff)
@@ -984,6 +1217,14 @@ c      write(*,fmt='(A)') txffd ,txfd,txffq ,txfq
       xce=xcei
       yce=ycei
       ale=alei
+      aleTot = 0.d0
+      nbArcBnd = 0 
+      return
+
+      entry lmnAle(
+     >             aleTotO,nbArcBndO)
+      aleTotO = aleTot 
+      nbArcBndO =nbArcBnd
       return
 
       entry lmndri(ny)
@@ -992,6 +1233,14 @@ c      write(*,fmt='(A)') txffd ,txfd,txffq ,txfq
 
       entry lmnkbm(kbmi)
       kbm =kbmi 
+      return
+
+      entry lmnstp(stpi)
+      stpBnd = stpi
+      return
+
+      entry lmnksn(ksnki)
+      ksnk = ksnki
       return
 
       end

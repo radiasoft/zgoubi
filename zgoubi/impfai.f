@@ -59,7 +59,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       SAVE OPN
 
       LOGICAL SRLOSS
-      DIMENSION TLOSS(MXT)
+      DIMENSION SRLT(MXT)
 
       DATA OPN / .FALSE. /
 
@@ -81,8 +81,8 @@ C--- Case SR loss
      >            SRLOSS)
       IF(SRLOSS) THEN
         CALL RAYSY7(
-     >             TLOSS)
-c             write(*,*) ' impfai tloss ',tloss(1)
+     >             SRLT)
+c             write(*,*) ' impfai SRLT ',SRLT(1)
 c             write(*,*)
       ENDIF
 
@@ -102,7 +102,7 @@ C------- Dummies
      >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
      >      ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),TLOSS(I)
+     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),SRLT(I)
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
@@ -118,7 +118,7 @@ C------- Dummies
      6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
      7    BORO, IPASS, NOEL, 
      8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
-     9    TLOSS(I)
+     9    SRLT(I)
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF
