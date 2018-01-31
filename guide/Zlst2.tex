@@ -2332,11 +2332,11 @@ $\left[, A'\right.$, $B'$, $\left. C' \right]$\>$ID=-1$~: integration in the mag
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
                 \right) \right) $ ~ ~   \= 2*cm, 2*deg, cm \quad \quad \= \kill
- \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT[2]|textbf}  \index{constraint (FIT, FIT2)|textbf} 
+ \textbf{FIT, FIT2}        \label{FIT-B} \index{FIT[2]|textbf}  
 \index{variable (FIT, FIT2)|textbf}   
           \> \textbf{\FITTitl} \> \> \\
   \\[-2ex]
- $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'  \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{fit procedure!- variable range|textbf} 
+ $NV$ \textsl{[, nofinal]} \>NV : Number of physical parameters to be varied~; 'nofinal'  \>$\leq 20$ [, nofinal]\>I [, A7] \\ \index{FIT[2]!- variable values!- range|textbf} 
  \textsl{[, noSYSout]}   \>  avoids final run (default is~: final run performed  using \> save [string] \> [, A4 [, A80]] \\  
  \textsl{[, save [, FileName]]} \> fitted values, once fit is done)~;  'noSYSout' inhibits system output  \>  \> \\  
   \> of variable and constraint status, except for  start and end, and   \> \\  
@@ -2355,7 +2355,7 @@ or :     \>    \>    \> \\
  $\IR$, $\IP$, $\XC$, $[V_{min},V_{max}]$  \>  $V_{min}$, $V_{max}$~: lower and upper limits of the variable. 
                                                                           \> see footnote\footnotemark[3] \>2*I, 3*E\\
   \\[2ex]
-$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[4]} \index{fit procedure!- penalty} \index{fit procedure!- max. number of iterations} 
+$ \NC$ ~ \textsl{[, Penalty~[,ITER]]~\footnotemark[4]} \index{FIT[2]!- penalty} \index{FIT[2]!- max. number of iterations} 
        \>Number of constraints [, penalty [, max. numb. of iterations]].   \> $\leq 20$ [,$10^{-n}$ [,$>0$]] \> I [, E [, I]] \\
  \\[-2ex]
 \textbf{For I = 1, NC}  \> \it repeat NC times the following sequence~: \>\>\\
@@ -2389,7 +2389,7 @@ relative to BORO) and B field (kG). It is in MKSA units (m, rad) in the case of 
 \label{TabFITZlst1}
     {\renewcommand{\arraystretch}{1}
 \input{tabFIT.tex}
-\index{fit procedure!- constraint|textbf}
+\index{FIT[2]!- constraint|textbf}
 
 
 
@@ -2612,7 +2612,7 @@ zgoubi.FITVALS.In
 
 \begin{tabbing}
 \mestab
-\textbf{GETFITVAL}         \label{GETFITVAL-B} \index{GETFITVAL|textbf}
+\textbf{GETFITVAL}         \label{GETFITVAL-B} \index{GETFITVAL|textbf} \index{FIT[2]!- variable values!- get|textbf}
         \> \textbf{\GETFITVALTitl}\>\>\\
  \\
  \\

@@ -1621,12 +1621,12 @@ induced spin transition.
 This radiative correction process is under installation in \zgou. Its benchmarking includes comparison with statistical 
 averages of quantum spin physics. 
 
-As to solving the differential eq.~\ref{eqRadPolar}, the methods follows the \zgou\ method, namely, 
+As to solving the differential eq.~\ref{eqRadPolar}, the technique follows the \zgou\ method, namely, 
 introducing derivatives with respect to the path variable $s$, and fields normalized to $B\rho$, 
 \begin{gather}
  \dfrac{d\vec  S }{ ds} =  \left( \vec  S\times\vec  (1+ a \gamma)\vec  B + a(1-\gamma )\vec  B_{\paral} \right) 
     - \dfrac{1}{\tau_{ST}} \left(  \vec S - \dfrac{2}{9} (\vec S \cdot \vec \beta) \vec \beta + \dfrac{8}{5\sqrt{3}} \dfrac{\vec \beta \times \dot{\vec \beta}}{|\dot{\vec \beta}|}      \right)
-	     \label{eqRadPolar}  
+	     \label{eqRadPolarSol}  
 \end{gather}
 
 
@@ -1637,7 +1637,7 @@ detailed in Sec.~\ref{sec2.2}. The derivatives of the polarization vector are co
 
 
 
- \subsection{Spin Diffusion} \label{secRadiatPolar}
+ \subsection{Spin Diffusion} \label{secSpinDiff}
 
 To be documented.
 
@@ -3106,7 +3106,7 @@ requires modification in \texttt{errors.f} program.
 \medskip
 
  The keywords \textsl{FIT, FIT2} allow the automatic adjustment of up to 20 
-variables\index{variable (FIT, FIT2)}, for fitting up to 20 constraints\index{constraint (FIT, FIT2)}. 
+variables\index{variable (FIT, FIT2)}, for fitting up to 20 constraints. 
 
 \medskip 
 
@@ -3195,7 +3195,7 @@ $ [Vmin,Vmax] = $ &allowed interval of variation of the physical parameter $ IP 
 
 
 
-\paragraph{Numbering of the Elements (\textsl{IR})~: } 
+\paragraph{Numbering of the Elements (\textsl{IR})~:   \index{FIT[2]!- numbering, keywords}} 
 
 \noindent The elements (\ie, keywords \textsl{DIPOLE\index{DIPOLE}, QUADRUPO\index{QUADRUPO},} etc.) 
 as read by \zgoubi\ in the zgoubi.dat sequence are assigned a number.  which follows 
@@ -3206,7 +3206,7 @@ since the first thing  \zgou\ does is
 copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all elements numbered.  
 %\bigskip
 
-\paragraph{Numbering of the Physical Parameters (\textsl{IP})~: }
+\paragraph{Numbering of the Physical Parameters (\textsl{IP})~:  \index{FIT[2]!- numbering, parameters}} 
 
 \noindent All the data that follow a keyword are numbered -  except for \textsl{SCALING}, see below. 
 
@@ -3374,7 +3374,7 @@ MULTIPOL  KICKH  KICKV  \\
 
 \clearpage
              
-\paragraph{Coupled Variables  ($XC$)  \index{fit procedure!- coupled variables|textbf} } 
+\paragraph{Coupled Variables  ($XC$)  \index{FIT[2]!- coupled variables|textbf} } 
 
 \noindent  Coupling a variable parameter to any other parameter in the
 structure is possible. This is done by giving $XC$ a value of the form $ int.ijk $ where
@@ -3404,7 +3404,7 @@ element can be shifted while preserving the length of the structure, by coupling
 together its upstream and downstream drift spaces).  
 
  
-\paragraph{Variation Range  \index{fit procedure!- variable range|textbf}} 
+\paragraph{Variable Variation Range  \index{FIT[2]!- variable values!- range|textbf}} 
 
 \noindent There are two ways to define the allowed range for a variable, as follows. 
 
@@ -3419,7 +3419,7 @@ allowed to explore the range $ v\times(1\pm DV)$.
 \noindent (i) $[v_{min}, v_{max}]$~: This specifies the allowed interval of variation. 
 
 
-\paragraph{\textsl{CONSTRAINTS}} \index{constraint (FIT, FIT2)|textbf} \index{fit procedure!- constraint}
+\paragraph{\textsl{CONSTRAINTS} \index{FIT[2]!- constraint|textbf} }
 
 \noindent The next input data in \textsl{FIT[2]} is the number of constraints, \textsl{\NC}. 
 A list of the available constraints is given in the table~page~\pageref{TabFITZlst1}~; adding or changing a constraint 
@@ -3477,7 +3477,7 @@ The fitting of the $ \lbrack R_{ij}\rbrack $ matrix coefficients
 \label{TabFITZlst1}
     {\renewcommand{\arraystretch}{1}
 \input{tabFIT.tex}
-\index{fit procedure!- constraint|textbf}
+\index{FIT[2]!- constraint}
 
 
 
@@ -3684,13 +3684,13 @@ acceleration through depolarizing resonances).
 
 \bigskip
 
-\paragraph{\textsl{FIT[2] OPTIONS} \index{fit procedure!- options|textbf}}
+\paragraph{\textsl{FIT[2] OPTIONS} \index{FIT[2]!- options|textbf}}
 
 \noindent \textsl{FIT} and \textsl{FIT2} accept various options, as follows. 
 
 \smallskip
 
-\noindent - 'nofinal' option~: \label{nofinal}
+\noindent - 'nofinal' option~: \label{nofinal} \index{FIT[2]!- no final run}
 a request to avoid a final run that would normally follow the completion of the fit, allowing for the 
 variable values as just determined by \textsl{FIT[2]}. By default, \ie, if `nofinal' does 
 not appear in the   \textsl{FIT[2]} data list, then that final run does occur. This is necessary in particular
@@ -3703,17 +3703,17 @@ when it is desired to store resulting particle data, using \textsl{FAISTORE}, at
 
 
 \noindent - 'save' [, FileName] option~:  a request for the variable values as resulting from  \textsl{FIT[2]} to be saved, by 
-default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{fit procedure!- save variables}
+default in zgoubi.FITVALS.out, or in \textsl{FileName} file if the latter is specified following the `save' instruction.\index{FIT[2]!- variable values!- save|textbf}
 
 \smallskip
 
 \noindent - Penalty~: value of the penalty to be reached, following what the  \textsl{FIT[2]} procedure 
-will be considered completed, and thus  stopped. \index{fit procedure!- penalty}
+will be considered completed, and thus  stopped. \index{FIT[2]!- penalty|textbf}
 
 \smallskip
 
 \noindent - ITER~: maximum allowed number of ``calls to the function'' (namely, (recursive) calls to zgoubi). Once that number is reached, 
- \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{fit procedure!- max. number of iterations}
+ \textsl{FIT[2]} is stopped, regardless of a possible ``penalty'' value. \index{FIT[2]!- max. number of iterations|textbf}
 
 \medskip
 
@@ -3743,7 +3743,7 @@ under the effect of scattering by residual gas.
 
 \newpage
 
-\subsubsection{GETFITVAL~: \GETFITVALTitl} \label{GETFITVAL}\index{GETFITVAL|textbf} \index{FIT[2]}
+\subsubsection{GETFITVAL~: \GETFITVALTitl \label{GETFITVAL} \index{GETFITVAL|textbf} \index{FIT[2]!- variable values!- get|textbf}}
 \medskip
 
 This keyword allows reading, 
@@ -3794,7 +3794,7 @@ upstream of  \textsl{[MC]OBJET} in zgoubi.dat, to allow updating the latter.
 
 \noindent Once completed, \textsl{FIT[2]} will be followed by a final  
 run of zgoubi.dat with variable values updated as resulting from the fit. 
-This can be inhibited by indicating `nofinal' option\index{fit procedure!- options}  
+This can be inhibited by indicating `nofinal' option\index{FIT[2]!- options}  
  in \textsl{FIT[2]} (see page~\pageref{nofinal}). 
 For that final run 
 \textsl{GETFITVAL} will be inhibited so avoid overridding the updated variable values. 
