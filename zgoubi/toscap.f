@@ -390,7 +390,7 @@ C------- Store mesh coordinates
             ENDIF
  
             IF(NRES.GT.0) THEN
-              LNGTH=len(
+              LNGTH=LEN(
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
@@ -560,6 +560,8 @@ C------- Restore mesh coordinates
       RETURN
 
  96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file ',
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+      WRITE(*        ,*) 'Pgm toscap. Error  open  file ',
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
       CALL ENDJOB('Leaving. ',-99)
       RETURN

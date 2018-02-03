@@ -93,6 +93,11 @@ C----- Jaroslaw problem, Oct 2010
 c      PARAMETER (IZ=3 , ID=3, MMAP=1)
 c      PARAMETER (MXX=1271, MXY=97)
 
+C SPES2 ----------------------------------------------------
+CC SPES2 with 3 2D maps
+c      PARAMETER (IZ=3 , ID=3, MMAP=3)
+c      PARAMETER (MXX=132, MXY=80)
+
 C AGS ----------------------------------------------------
 CC AGS with 2 (mmap -> +2) 2D snake maps (using MAP2D)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -189,8 +194,8 @@ c       PARAMETER (MXX=447, MXY=87)
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
 c       PARAMETER (IZ=31 , ID=3, MMAP=2)
-c       PARAMETER (MXX=801, MXY=79)
- 
+c       PARAMETER (MXX=801, MXY=83)
+  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
 C       PARAMETER (IZ=81 , ID=3, MMAP=4)
@@ -214,8 +219,10 @@ C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-      PARAMETER (IZ=3 , ID=3, MMAP=3)
-      PARAMETER (MXX=136, MXY=140)
+      PARAMETER (IZ=3, ID=3, MMAP=3)
+      PARAMETER (MXX=629, MXY=140)
+c      PARAMETER (IZ=3 , ID=3, MMAP=3)
+c      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
