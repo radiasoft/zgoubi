@@ -30,7 +30,7 @@ Two possible ways to generate that field map are as follows:
 2/ Note the possibility of field map supreimposition with 22.2 (22.1 instead with single map) : 
 
  'TOSCA'                                                                                                      5
-0  0
+0  2
 1.  1. 1. 1.
 HEADER_8
 106 121 1 22.2 .25 .75       IZ=1 -> 2D ; MOD=22 -> polar map ; .MOD2=.2 -> two map file
@@ -38,5 +38,5 @@ geneSectorMap.out
 geneSectorMap.out
 
 
-
+3/ IL=2 in TOSCA argument list (line 1) causes step-by-step parrticle data to be printed to zgoubi.plt
 

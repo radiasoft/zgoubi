@@ -5,13 +5,13 @@ C------------ Hypothesis :
 C Total angle extent of the field map
       AT = 360.d0  /180.d0*pi
 C Radial extent of the field map
-      Rmi = 10.d0   ! cm
-      Rma = 70.d0   ! cm
+      Rmi = 1.d0   ! cm
+      Rma = 76.d0   ! cm
 C Take RM=50 cm reference radius, as this (arbitray) value is found in other exercises
       RM = 50.d0
 C dR is the radial distance between two nodes, good starting point is dR = 0.5 cm
-      NR = 120 + 1
-      dR = (Rma - Rmi) / (NR -1)
+      dR = 0.5d0
+      NR = NINT((Rma - Rmi) / dR) +1
 C dX=RM*dA is the arc length between two nodes along R=RM arc, given angle increment dA
 C A good starting point (by experience) is dX a few mm, say ~0.5 cm
       dX = 0.5d0             ! cm mesh step at RM, approximate: allows getting NX 
@@ -32,7 +32,7 @@ C----------------------------------------------
      >//' NR, dR/cm, NX, dX/cm, dA/rd : '
       write(2,fmt='(a,1p,5(e16.8,1x),2(i3,1x,e16.8,1x),e16.8)') 
      >'# ',AT, AT/pi*180.d0,Rmi, Rma, RM, NR, dR, NX, dX, dA
-      write(2,*) '# For TOSCA:  629 121 1 22.1 1.  !IZ=1 -> 2D ; '
+      write(2,*) '# For TOSCA: ',NX,NR,' 1 22.1 1.  !IZ=1 -> 2D ; '
      >//'MOD=22 -> polar map ; .MOD2=.1 -> one map file'
       write(2,*) '# R*cosA (A:0->360), Z==0, R*sinA, BY, BZ, BX '
       write(2,*) '# cm                 cm    cm      kG  kG  kG '
@@ -45,7 +45,7 @@ C----------------------------------------------
 C          write(2,fmt='(1p,6(e16.8),a)')  R, Z, A, BR, BZ, BA
           X = R * sin(A)
           Y = R * cos(A)
-          write(2,fmt='(1p,6(e16.8),a)')  Y, Z, X, BY, BZ, BX
+          write(2,fmt='(1p,6(e16.8),2(1x,i0))') Y,Z,X,BY,BZ,BX,ix,jr
         enddo
       enddo
 

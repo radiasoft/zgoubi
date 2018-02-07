@@ -396,10 +396,10 @@ C        PH(I)=BLAG
 
 C------------------------------------------- 
  30   CONTINUE
-      HARM = AN11
+C      HARM = AN11
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
-      OMRF = 2.D0*PI*HARM 
+C      OMRF = 2.D0*PI*HARM 
       DWS = QV*SIN(PHS)
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) PS = P0
@@ -415,11 +415,12 @@ C--- Case SR loss
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,130) 
-     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10, AM, Q*QE
+     >  PHS,DWS,SCUM*UNIT(5),TCUM+AN10, AM, Q*QE
+C     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10, AM, Q*QE
  130    FORMAT(
-     >  /,20X,'Cavity  frequency                  =',1P,E15.4,' Hz',
+C     >  /,20X,'Cavity  frequency                  =',1P,E15.4,' Hz',
      >  /,20X,'Synchronous  phase                 =',  E15.4,' rad',
-     >  /,20X,'Harmonic                           =',  E15.4,' ',
+C     >  /,20X,'Harmonic                           =',  E15.4,' ',
      >  /,20X,'Synchronous energy  gain           =',  E15.4,' MeV',
      >  /,20X,'Cumulated  distance  from  origin  =',  E15.4,' m',
      >  /,20X,'Synchronous  time                  =',  E15.4,' s',
@@ -442,8 +443,8 @@ C--- Case SR loss
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
         TI = F(7,I)*UNIT(7)
-        DPHI = (TI-(TCUM+AN10))*OMRF
-        DPHI = DPHI - INT(DPHI/(2.D0*PI))*2.D0*PI-PI
+C        DPHI = (TI-(TCUM+AN10))*OMRF
+C        DPHI = DPHI - INT(DPHI/(2.D0*PI))*2.D0*PI-PI
 c        IF(DPHI .GT.  PI) DPHI =DPHI -2.D0*PI
 c        IF(DPHI .LT. -PI) DPHI =DPHI +2.D0*PI
 C        PH(I)=DPHI-PHS

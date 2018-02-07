@@ -465,7 +465,8 @@ C           REGION DE COURBURE R2
           ELSE
 C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES.GT.0) WRITE(NRES,104)
- 104        FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE ENTREE',/)
+ 104        FORMAT(/,5X,10('*'),
+     >      'Pgm dipi. ERREUR PARAMETRES FACE ENTREE',/)
             IF(NRES .GT. 0) WRITE(NRES,134) X,AX,CX,XA,YA,XC,YC
             GOTO  99
           ENDIF
@@ -516,7 +517,8 @@ C           ... REGION DE COURBURE R2
             D=( D * RRS/R + SHIFTS )
           ELSE
             IF(NRES.GT.0) WRITE(NRES,114)
-114         FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE SORTIE',/)
+114         FORMAT(/,5X,10('*'),
+     >      'Pgm dipi. ERREUR PARAMETRES FACE SORTIE',/)
             IF(NRES .GT. 0) WRITE(NRES,134) X,AXS,CXS,XAS,YAS,XCS,YCS
             GOTO  99
           ENDIF
@@ -569,7 +571,8 @@ C             ... REGION DE COURBURE R2
             ELSE
               IF(NRES.GT.0) THEN
                 WRITE(NRES,124)
-124             FORMAT(/,5X,9('*'),'ERREUR PARAMETRES FACE LATERALE',/)
+124             FORMAT(/,5X,9('*'),
+     >          'Pgm dipi. ERREUR PARAMETRES FACE LATERALE',/)
                 WRITE(NRES,134) X,AX3,CX3,XA3,YA3,XC3,YC3
 134             FORMAT(/,5X,7G12.4)
               ENDIF
