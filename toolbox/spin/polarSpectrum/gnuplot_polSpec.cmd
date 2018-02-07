@@ -31,19 +31,19 @@ aGammaRef = 40.5
 sigOv2 = .5    # In order for the xerror bar width to be 1 sigma of a.gamma (not +\- 1sigma)
 
  plot \
-     "polSpectrumFromFai.out" u ($2):($6) with l lt 1 linecolor rgb "blue" tit "S_l" ,\
-     "polSpectrumFromFai.out" u ($2):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}" 
+     "polSpectrumFromFai.out" u ($5):($6) with l lt 1 linecolor rgb "blue" tit "S_l" ,\
+     "polSpectrumFromFai.out" u ($5):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}" 
 
 # plot \
-#     "polSpectrumFromFai.out" u ($2):($6):($3 *sigOv2) with xerrorbars linecolor rgb "blue" tit "S_l" ,\
-#     "polSpectrumFromFai.out" u ($2):($6) with l linecolor rgb "blue" notit ,\
-#     "polSpectrumFromFai.out" u ($2):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}" ,\
-#     "polSpectrumFromFai.out" u ($2):(abs($11-$5)/$5) axes x1y2 w l linecolor rgb "red" tit "max({/Symbol d}E)/E_{ref}" 
+#     "polSpectrumFromFai.out" u ($5):($6):($3 *sigOv2) with xerrorbars linecolor rgb "blue" tit "S_l" ,\
+#     "polSpectrumFromFai.out" u ($5):($6) with l linecolor rgb "blue" notit ,\
+#     "polSpectrumFromFai.out" u ($5):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}" ,\
+#     "polSpectrumFromFai.out" u ($5):(abs($11-$5)/$5) axes x1y2 w l linecolor rgb "red" tit "max({/Symbol d}E)/E_{ref}" 
 
 # plot \
-#     "polSpectrumFromFai.out" u ($2):($6):($3 *sigOv2) with xerrorbars linecolor rgb "blue" tit "S_l" ,\
-#     "polSpectrumFromFai.out" u ($2):($6):($3 *sigOv2) with l linecolor rgb "blue" notit ,\
-#     "polSpectrumFromFai.out" u ($2):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}"
+#     "polSpectrumFromFai.out" u ($5):($6):($3 *sigOv2) with xerrorbars linecolor rgb "blue" tit "S_l" ,\
+#     "polSpectrumFromFai.out" u ($5):($6):($3 *sigOv2) with l linecolor rgb "blue" notit ,\
+#     "polSpectrumFromFai.out" u ($5):($3/$5) axes x1y2 w l linecolor rgb "red" tit "{/Symbol s}_{{/Symbol d}E}/E_{ref}"
 
  set samples 10000
  set terminal postscript eps blacktext color enh size 8.3cm,5cm "Times-Roman" 12
