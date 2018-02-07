@@ -38,7 +38,7 @@ C     ***************************************
       CHARACTER(I300) TXT300
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
-      PARAMETER (I2=2, I4=4, I5=5)
+      PARAMETER (I2=2, I4=4)
       CHARACTER(I300) STRA(I4)
       CHARACTER(30) STRING
       LOGICAL OKKLE
@@ -54,7 +54,9 @@ C     ***************************************
       PARAMETER (MPULAB=5)
       parameter (IMON=MPULAB/2)
       parameter(mxpuh =IMON, mxpuv =IMON)
-      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv), HCNA, VCNA
+      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv)
+      parameter (mxcoh=5, mxcov=5)
+      CHARACTER(LBLSIZ) HCNA(mxcoh), VCNA(mxcov)
       
       DATA IA4 / 0 /
 
@@ -273,15 +275,17 @@ C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading
         IF(STRCON(TXT300,'!',
      >                     II))
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,I5,
-     >                      NSR,STRA)
-        IF(NSR.GT.I2) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many data.'
+        CALL STRGET(TXT300,mxcoh+1,
+     >                             NSR,STRA)
+        IF(NSR.GT.mxcoh+1) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many H-correctors.'
           GOTO 98
         ENDIF
-        READ(STRA(1),*,ERR=98) HCNA      !  H corrector name
-        READ(STRA(2),*,ERR=98) HKI
-        A(NOEL,10) = HKI                 !  H corrector kick value
+        DO I = 1, NSR-1
+           READ(STRA(I),*,ERR=98) HCNA(I)    !  H-corr name list 
+        ENDDO
+        READ(STRA(NSR),*,ERR=98) HKI
+        A(NOEL,10) = HKI                 !  H-corrector kick value
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
         IF(STRCON(TXT300,'!',
@@ -302,15 +306,18 @@ C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading
         IF(STRCON(TXT300,'!',
      >                     II))
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,I5,
-     >                      NSR,STRA)
-        IF(NSR.GT.I2) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many data.'
+        CALL STRGET(TXT300,mxcov+1,
+     >                             NSR,STRA)
+        IF(NSR.GT.mxcov+1) THEN
+          WRITE(NRES,*) 'SBR RREBEL. Too many V-correctors.'
           GOTO 98
         ENDIF
-        READ(STRA(1),*,ERR=98) VCNA      !  V corrector name
-        READ(STRA(2),*,ERR=98) VKI  
-        A(NOEL,20) = VKI                 !  V corrector kick value
+        DO I = 1, NSR-1
+           READ(STRA(I),*,ERR=98) VCNA(I)    !  V-corr name list 
+        ENDDO
+        READ(STRA(NSR),*,ERR=98) VKI  
+        A(NOEL,20) = VKI                 !  V-corrector kick value
+
         CALL REBELA(HPNA,HCNA,VPNA,VCNA)
         NOELA = 1
         NOELB = NOEL

@@ -1,0 +1,16 @@
+
+
+The following is found at the bottom of mcobjet.res, under 'FAISCEAU' : 
+
+  Beam  ellipse  characteristics   (Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls inside ellips, ratio, space, pass#) : 
+
+   3.1080E-08  -1.4574E+00   1.8997E+01   5.308105E-06   2.949244E-07     9999     7910   0.7911      (Y,T)         1
+   3.2088E-08   2.8179E-01   1.0653E+01  -3.595720E-06   1.442752E-08     9999     7925   0.7926      (Z,P)         1
+   2.3491E-02   1.0249E-02   5.1243E-04   7.395436E-06   2.182705E+04     9999     7919   0.7920      (t,K)         1
+
+  (Note, (time,kin_E) space :   sigma_t [mu_second] = sqrt(Surface/pi * BET),  sigma_K [MeV] = sqrt(Surface/pi * (1+ALP^2)/BET)
+
+Emittances are same as in the .eps plots.
+
+sigma_t and sigma_K computed from receipes above are the same as in t_ and K_histo.eps
+

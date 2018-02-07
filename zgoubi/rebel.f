@@ -34,8 +34,11 @@ C  -------
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH 
       PARAMETER (MXPUD=9,MXPU=5000)
       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
-      PARAMETER (MPULAB=5)
+      PARAMETER (MCOLAB=5)
       PARAMETER (LBLSIZ=20)
+      CHARACTER(LBLSIZ) coLAB
+      INCLUDE 'C.COC.H'     ! COMMON/COC/ coLAB(McoLAB)
+      PARAMETER (MPULAB=5)
       CHARACTER(LBLSIZ) PULAB
       INCLUDE 'C.COT.H'     ! COMMON/COT/ PULAB(MPULAB)
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
@@ -96,14 +99,23 @@ C  -------
       LOGICAL OKCOR
       SAVE NBLM, OKCOR
       PARAMETER (T2KG = 10.D0)
+
       parameter (IMON=MPULAB/2)
       parameter(mxpuh =IMON, mxpuv =IMON)
-      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv), HCNA, VCNA
-      CHARACTER(LBLSIZ) HPNAI(mxpuh), VPNAI(mxpuv), HCNAI, VCNAI
-      SAVE HPNA, VPNA, HCNA, VCNA, NLMC, NLM
+      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv)
+      CHARACTER(LBLSIZ) HPNAI(mxpuh), VPNAI(mxpuv)
+      SAVE HPNA, VPNA
+
+      parameter (mxcoh=5, mxcov=5)
+      CHARACTER(LBLSIZ) HCNA(mxcoh), VCNA(mxcov)
+      CHARACTER(LBLSIZ) HCNAI(mxcoh), VCNAI(mxcov)
+      SAVE HCNA, VCNA
+
+      SAVE NLMC, NLM
 
       logical ok, idluni
       save mpu, mpul
+      save mcoH, mcoV, mcol
       CHARACTER(70) TXFMT
       save txfmt
       save lsvd
@@ -162,19 +174,23 @@ C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
 C Gets PU and corrector family names
           KSCOR = 1      ! H corr first
           NLMC = 0
-          NLM = 1
+          NLM = 0
           CALL ZGNBLM( 
      >                NBLMI)
           NBLM = NBLMI
 C Fill PULAB with PU names
           CALL SVDPUS(NBLM,HPNA,VPNA,
      >                               MPUL,MPU)
+C Check corrector families
+          CALL SVDCOS(NBLM,HCNA,VCNA,
+     >                               MCOL,MCOH,mcoV)
+
           ok = idluni(
      >                LSVD)
           if(ok) then
             open(unit=lsvd,file='zgoubi.SVDT.out')
-            WRITE(Lsvd,FMT='(''#  Pickup 1 to N = '',I0
-     >      ,'',    corrector number. '',I0,/,''#'')') MPU, ipass
+            WRITE(Lsvd,FMT='(''#  Pickup 1 to '',I0
+     >      ,'',    corrector number 1 to '',I0,/,''#'')') MPU, ipass
             WRITE(TXFMT,FMT='(A,I0,A)') '(1P,',MPU,'E12.4,2(1X,I0))'
 
           ELSE
@@ -182,9 +198,14 @@ C Fill PULAB with PU names
      >      //'zgoubi.SVDT.out.',-99)
           ENDIF
           
-          WRITE(NRES,fmt='(5X,''SVD correction matrix requested. A''
-     >    ,''total of '',I4,'' PUs, in '',I4,'' PU families : '',
-     >     5(a,1x))') mpu, mpul, (pulab(i),i=1,mpul)
+          WRITE(NRES,fmt='(5X,''SVD correction matrix requested:'',/,
+     >    10X,''A total of '',I0,'' PUs, in '',I0,'' PU families : ''
+     >    ,5(a,1x))')
+     >    MPU,MPUL,(PULAB(I),I=1,MPUL)
+          WRITE(NRES,fmt='(10X,''and     of '',I0,'' corrs ('',I0,
+     >    '' H and '',I0,'' V),  in '',I0,'' corr. families : ''
+     >    ,5(A,1X))')
+     >    MCOH+MCOV,MCOH,MCOV,MCOL,(COLAB(I),I=1,MCOL)
           
         ELSE
 
@@ -196,14 +217,16 @@ C There are ! 2 families of correctors at the moment
              
              DO WHILE ((.NOT. OKCOR) .AND. NLM .LE. NBLM)
 C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list 
+              nlm = nlm + 1
               OKCOR =
      >        (KSCOR .EQ. 1 .AND. LABEL(NLM,1).EQ.'HKIC')
      >        .OR.       
      >        (KSCOR .EQ. 2 .AND. LABEL(NLM,1).EQ.'VKIC')
-              nlm = nlm + 1
+C              nlm = nlm + 1
             ENDDO
-            if(okcor) then
-               NLMc = NLMc + 1
+
+            IF(OKCOR) THEN
+               NLMC = NLMC + 1
               OKCOR=.FALSE.
               IF(NLM .LE. NBLM) THEN 
                 IF    (KSCOR .EQ. 1) THEN
@@ -646,6 +669,7 @@ C--------- reactive WRITE
       RETURN
 
       ENTRY REBELA(HPNAI,HCNAI,VPNAI,VCNAI)
+!  HPU & HCorr name list, VPU & VCorr name list
       HPNA =       HPNAI
       HCNA =       HCNAI
       VPNA =       VPNAI
