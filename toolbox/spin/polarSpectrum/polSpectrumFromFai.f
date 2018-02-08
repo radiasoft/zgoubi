@@ -1,9 +1,9 @@
 Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chroma
       implicit double precision (a-h,o-z)
-      character(3) txti
+      character(4) txti
       character(800) txt800
 
-      parameter (mFldr=1024)
+      parameter (mFldr=2048)
       parameter (c=2.99792458d8, am = 0.511d0, gyro = 1.159652E-03)
       dimension nbPass(mFldr)
       logical first
