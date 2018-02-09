@@ -183,7 +183,7 @@ OBJS = \
 all : libcoupl.a
 
 libcoupl.a : $(OBJS)
-	ar -rv -U $@ $?
+	ar -rv $@ $?
 
 clean :
 	rm -rf *.o *.a *~
