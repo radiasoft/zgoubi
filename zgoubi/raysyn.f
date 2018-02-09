@@ -59,6 +59,7 @@ C      INCLUDE 'MXFS.H'
       PARAMETER (MLBL=5)
       CHARACTER(LBLSIZ) LBLR(MLBL), LBLRI(MLBL)
       SAVE LBLR, NLBL
+      SAVE DELMI, DELMA
 
       DATA TYPMAG / 'ALL' /
       DATA LBLR / MLBL*' ' /
@@ -140,6 +141,8 @@ C          X2=X(1)+DXSPLI*R1
           X2=DXSPLI*R1
           DELOSS=SPLINT(X,Y,NSPLIN,X2)
         ENDIF
+        IF(DELMI .GT. DELOSS) DELMI = DELOSS
+        IF(DELMA .LT. DELOSS) DELMA = DELOSS
         ELOSS=ELOSS+DELOSS
  19   CONTINUE
       DTI=ELOSS*EC
@@ -172,6 +175,8 @@ C------- Working unit for energies is MeV
       TL2=0.D0
       NSTEP=0
       ECMEAN=0.D0
+      DELMI = 1.D10
+      DELMA =-1.D0
       RETURN
 
       ENTRY RAYSY2(IMAX,LUN)
@@ -211,7 +216,9 @@ C     >  (TSRLT-TTLOS2)/DBLE(IMAX) *1.D3
      >  ,1P,T55,G15.7,'' keV'')') TSRLT/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
      >  T55,G15.7,'' keV'')') 
-     >      SQRT(TL2/TTPHOT-(TSRLT/TTPHOT)**2) *1.D3
+        WRITE(NRES,FMT='(5X,'' Bigest, smallest photon :'',1P,
+     >  T55,1P,2(E12.4,4X),'' keV'')') 
+     >  DELMI *1.D3, DELMA *1.D3
         WRITE(NRES,FMT='(5X,'' Number of photons radiated - Total :'',
      >  1P,T65,G15.7)') TTPHOT
         WRITE(NRES,FMT='(5X,''                            - per'',
