@@ -1,4 +1,4 @@
-
+#New
  set title "Polarization, eRHIC storage ring \n From polSpectrumFromFai.out"    font "roman,16"   # offset 0,+.7    
 
  set xlabel "a{/Symbol g}"        font "roman,18"   # offset +4,-.5 rotate by +20  
@@ -31,11 +31,11 @@ set yrange [-1:1.3]
 
 aGammaRef = 40.5
 sigOv2 = .5    # In order for the xerror bar width to be 1 sigma of a.gamma (not +\- 1sigma)
-nbPass = 225000
+nbPass = 22635
 
  plot \
      "polSpectrumFromFai.out" u ($5):($6) with l linecolor rgb "blue" tit 'S_l' ,\
-     "polSpectrumFromFai.out" u ($5):($10/nbPass) with l linecolor rgb "red" tit 'turn srvvl' ,\
+     "polSpectrumFromFai.out" u ($5):($10/nbPass) with l linecolor rgb "red" tit 'turn srvvl/22635' ,\
      "polSpectrumFromFai.out" u ($5):($3) axes x1y2 w l linecolor rgb "green" tit '{/Symbol s}_{/Symbol d}E/E_{ref}'
 
 # plot \

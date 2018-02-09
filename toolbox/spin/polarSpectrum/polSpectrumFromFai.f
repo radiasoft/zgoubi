@@ -1,6 +1,6 @@
 Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chroma
       implicit double precision (a-h,o-z)
-      character(4) txti
+      character(5) txti
       character(800) txt800
 
       parameter (mFldr=2048)
@@ -12,7 +12,7 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
       logical exs
       
       data first / .true. /
-      data mxpass / 999999 /
+      data mxPass / 999999 /
 
       temp = mxpass
       inquire(file='polSpectrumFromFai.in',exist=exs)
@@ -29,12 +29,13 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
         write(*,*) 'Can specify pass # in polSpectrumFromFai.in...'
       endif
       write(*,*) 'Average is computed at pass # ',mxpass
-      
+      write(*,*) 'Press return if ok '
+      read(*,*)
+
       open(unit=2, file='polSpectrumFromFai.out')
       write(2,fmt='(a)') 
      >'# 1-folder#, 2-<a.gam>, 3-sig(a.gam), 4-pRef, 5-a.gam_ref, '
-     >//'6-8-SX-Z, 9-|S|, 10-nPass(folder), 11-min(a.gma),'
-     >//'  12-max(a.gma),  13-am,  14-a, nPass(folder)'
+     >//'6-8-SX-Z, 9-|S|, 10-maxPass, 11-min(a.gma), 12-max(a.gma)'
 
  88   continue
       write(*,*) 'Give number of folders ( >0 & <',mFldr,') :'
@@ -45,14 +46,13 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
  
       do i = 0, nFldr-1
  
-C          write(txti,fmt='(i3.3)') i    
           write(txti,fmt='(i0)') i
-
+C          write(*,*) 'File : Run'//trim(txti)//'/zgoubi.fai.'
           open(unit=1,file='Run'//trim(txti)//'/zgoubi.fai',
-     >    action='read',err=77)
+     >    action='read')
           write(*,*) 'Opened '//'Run'//trim(txti)//'/zgoubi.fai.'
      >    //' Now computing <p> and <p^2>. '
-          nbPass(i+1) = 0
+          nbPass(i) = 0
           maxPass = -9999
           Dav = 0.d0
           D2av = 0.d0
@@ -67,46 +67,55 @@ C Read header
  1        continue
             read(1,fmt='(a)',err=10,end=10) txt800
 
-            read(txt800(125:151),*,err=10,end=10) dpp     ! = (p-p0)/p0
+            read(txt800(126:150),*,err=10,end=10) dpp     ! = (p-p0)/p0
 C            pp = 1.d0 + dpp
-            pp = 1.d0 + dpp
+            pp = dpp
             Dav = Dav + pp
             D2av = D2av + pp*pp
+C         write(*,*) ' D2av, Dav ',D2av,Dav,dpp,pp
+c                   read(*,*)
+
             if(pp .lt. Dmi) Dmi=pp
             if(pp .gt. Dma) Dma=pp
 
             read(txt800(647:655),*,err=10,end=10) ipass
 
+            if(ipass .gt. mxpass) goto 10
+
             if(first) read(txt800(629:646),*,err=10,end=10) BORO
-              first=.false.
 
             read(txt800(364:428),*,err=10,end=10) sx, sy, sz, sm
 
             SXf=sx; SYf=sy; SZf=sz; Smod=sm
-            nbPass(i+1) = nbPass(i+1) +1
             if (ipass.gt. maxPass) maxPass = ipass
-
+C                write(*,*) ' i, ipass, maxpass ',i, ipass, maxpass
           goto 1
 
- 10       continue          
+ 10       continue
+          
 
           close(1)
           first = .true.
-          pRaef = BORO*(c/1d9)       ! MeV
+          pRef = BORO*(c/1d9)       ! MeV
+c          aGamRef =  gyro * pRef/am 
+c          avGa = Dav/dble(maxPass) * aGamRef
+c          av2Ga = D2av/dble(maxPass) * aGamRef* aGamRef
           aGamRef =  gyro * pRef/am 
-          avGa = Dav/dble(nbPass(i+1))     !!  * aGamRef
-          av2Ga = D2av/dble(nbPass(i+1))   !!  * aGamRef* aGamRef
-          sigGa = sqrt(av2Ga - avGa*avGa)  
+          avGa = Dav/dble(maxPass) 
+          av2Ga = D2av/dble(maxPass)
+          sigGa = sqrt(av2Ga - avGa*avGa) 
           avGa = (1.d0 + Dav/dble(maxPass)) * aGamRef
           Gami = Dmi * aGamRef
           Gama = Dma * aGamRef
           
-          write(2,fmt='(i6,1x,1p,8(e14.6,1x),i8,1x,5(e14.6,1x))') 
-     >    i+1, avGa, sigGa, pRef, aGamRef, SXf, SYf, SZf, Smod, 
-     >    nbPass(i+1), Gami, Gama, BORO, am, gyro
-          call flush(2)
+c          write(*,fmt='(i6,1x,1p,8(e14.6,1x),i8,1x,2(e14.6,1x))') 
+c     >    i,avGa,  av2Ga, avGa*avGa,sigGa, dble(maxPass) , aGamRef
+c                  read(*,*)
 
- 77       continue
+         write(2,fmt='(i6,1x,1p,8(e14.6,1x),i8,1x,2(e14.6,1x))') 
+     >    i, avGa, sigGa, pRef, aGamRef, SXf, SYf, SZf, Smod, maxPass,
+     >    Gami, Gama
+          call flush(2)
 
       enddo
 
