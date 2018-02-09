@@ -68,6 +68,7 @@ C Read header
             read(1,fmt='(a)',err=10,end=10) txt800
 
             read(txt800(125:151),*,err=10,end=10) dpp     ! = (p-p0)/p0
+C            pp = 1.d0 + dpp
             pp = 1.d0 + dpp
             Dav = Dav + pp
             D2av = D2av + pp*pp
@@ -91,11 +92,12 @@ C Read header
 
           close(1)
           first = .true.
-          pRef = BORO*(c/1d9)       ! MeV
+          pRaef = BORO*(c/1d9)       ! MeV
           aGamRef =  gyro * pRef/am 
-          avGa = Dav/dble(nbPass(i+1)) * aGamRef
-          av2Ga = D2av/dble(nbPass(i+1)) * aGamRef* aGamRef
-          sigGa = sqrt(av2Ga - avGa*avGa)
+          avGa = Dav/dble(nbPass(i+1))     !!  * aGamRef
+          av2Ga = D2av/dble(nbPass(i+1))   !!  * aGamRef* aGamRef
+          sigGa = sqrt(av2Ga - avGa*avGa)  
+          avGa = (1.d0 + Dav/dble(maxPass)) * aGamRef
           Gami = Dmi * aGamRef
           Gama = Dma * aGamRef
           
