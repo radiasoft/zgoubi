@@ -216,6 +216,7 @@ C     >  (TSRLT-TTLOS2)/DBLE(IMAX) *1.D3
      >  ,1P,T55,G15.7,'' keV'')') TSRLT/TTPHOT *1.D3
         WRITE(NRES,FMT='(5X,'' rms energy of radiated photons :'',1P,
      >  T55,G15.7,'' keV'')') 
+     >      SQRT(TL2/TTPHOT-(TSRLT/TTPHOT)**2) *1.D3
         WRITE(NRES,FMT='(5X,'' Bigest, smallest photon :'',1P,
      >  T55,1P,2(E12.4,4X),'' keV'')') 
      >  DELMI *1.D3, DELMA *1.D3
