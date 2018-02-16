@@ -158,8 +158,8 @@ C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
  96   CALL ENDJOB('ERROR  OPEN  OLD  FILE '//OLDFIL,-99)
  97   CALL ENDJOB('ERROR  OPEN  NEW  FILE '//NEWFIL,-99)
  90   CONTINUE
-      WRITE(NRES,*) ' '
-      WRITE(NRES,*) ' Number of last line read is : ',line
+      WRITE(ABS(NRES),*) ' '
+      WRITE(ABS(NRES),*) 'Number of last line read is : ',line
       CALL ENDJOB('ERROR  DURING  READ  IN  '//OLDFIL,-99)
       RETURN
       END

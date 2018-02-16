@@ -1,5 +1,7 @@
-C Strats from the longest tracking (mDamp(mxDmp))
-C Only takes particles that made it to the end for the max number of damping times.
+C Reads in polSpectrumFromFai.out and computes the average polar over the aGamma bins in some [aG_min,aG_max] interval. 
+C Loops over mDamp, starting from the longest 
+C Only takes particles that did complete mPass(mDamp)
+      
       implicit double precision (a-h,o-z)
       character(200) txt200, txtF
       character(4) txt4

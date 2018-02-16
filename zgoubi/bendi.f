@@ -126,7 +126,7 @@ C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
           CALL CHXC1R(
      >                KPAS)
           IF(KPAS .EQ. 0) THEN
-            xls = 5.d0*tan(abs(ts))
+            XLS = 5.D0*TAN(ABS(TS))
           ELSE
             CALL ENDJOB(' Pgm bendi. Entrance/body/exit step size mode '
      >      //'is not compatible with EXIT WEDGE ANGLE.'

@@ -3,9 +3,25 @@ c         use ifport
 c#endif
       implicit double precision (a-h,o-z)
       character(800) txt800
+      character(80) fileFai
       parameter (c=2.99792458d8, smu2s=1d-6)
       
-      open(unit=1,file='zgoubi.fai')
+      open(unit=1,file='runningAverage_fromFai.in')
+      read(1,*,err=8,end=8) fileFai
+      read(1,*,err=8,end=8) j1Pass
+      goto 7
+      close(1)
+ 8    continue
+      fileFai = 'zgoubi.fai'
+      j1Pass = 2000
+ 7    continue
+
+      write(*,*) 'Read from file [pathTo]/zgoubi.fai '
+      write(*,*) 'Averaging starts at pass # ',j1Pass
+      write(*,*) ' ok ? '
+      read(*,*)
+      
+      open(unit=1,file=fileFai)
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
       read(1,fmt='(a)',end=97,err=98) txt800
@@ -29,7 +45,7 @@ c#endif
      >  //'  szmi, szma, '
      >  //'  Ekin, Etot, am, Q, G'
 
-      ini =  1 ! pass to start averaging from 
+      ini =  j1Pass ! pass to start averaging from 
       ifi = 999999
       
       sd = 0.d0
