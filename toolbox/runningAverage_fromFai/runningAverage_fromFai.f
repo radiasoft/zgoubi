@@ -5,6 +5,8 @@ c#endif
       character(800) txt800
       character(80) fileFai
       parameter (c=2.99792458d8, smu2s=1d-6)
+
+      data j1Pass / 10000 /
       
       open(unit=1,file='runningAverage_fromFai.in')
       read(1,*,err=8,end=8) fileFai
@@ -13,13 +15,13 @@ c#endif
       close(1)
  8    continue
       fileFai = 'zgoubi.fai'
-      j1Pass = 2000
+      j1Pass = 10000
  7    continue
 
       write(*,*) 'Read from file [pathTo]/zgoubi.fai '
       write(*,*) 'Averaging starts at pass # ',j1Pass
       write(*,*) ' ok ? '
-      read(*,*)
+!      read(*,*)
       
       open(unit=1,file=fileFai)
       read(1,fmt='(a)',end=97,err=98) txt800

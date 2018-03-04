@@ -200,7 +200,7 @@ C FM - 17.10.24. Allows carrying on beyond FIT
      >  ''FIT procedure launched.'',/)')
 C     >  ''FIT procedure launched. Method is '',I1,/)') MTHOD
         READAT = .FALSE.
-        CALL FITNU(NRES,*99)
+        CALL FITNU(NRES)
         FITING = .FALSE.
         CALL FITSTA(I6,FITING)
         CALL FITST1(
@@ -309,17 +309,7 @@ C      GOTO 10
      >FLOG(DEBSTR(FLOG):FINSTR(FLOG))
       GOTO 10
 
- 99   CONTINUE
-      WRITE(6   ,103) DMY,HMS
-      IF(NRES.GT.0) THEN
-        WRITE(NRES,103) DMY,HMS
-        WRITE(NRES,101)
- 101    FORMAT(/,128('*'))
-        WRITE(NRES,FMT='(/,10X,
-     >        '' Main program : stopped upon key  FIT'')')
-      ENDIF
-
- 10   CONTINUE
+  10   CONTINUE
 
       CLOSE(NDAT)
 

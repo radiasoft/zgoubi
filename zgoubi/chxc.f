@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,
-     >                                    XL,DSREF,QSHROE,VSHROE)
+      SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,HDPRF,
+     >                                 XL,DSREF,QSHROE,VSHROE)
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
@@ -173,6 +173,9 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
 
+c      write(88,*) ' chxc scal ',kscl,noel,SCAL0(),SCALER(IPASS,NOEL,
+c     >                                                 DTA1)
+      
       XE = 0.D0
       XS = 0.D0
       XLIM = 0.D0
@@ -985,18 +988,18 @@ C        IF(KUASEX .EQ. MPOL+1) NND = 1
         IF(KFLD .EQ. MG) THEN
 C---------- Magnetic
           CALL MULTPO(KUASEX,LMNT,MG,SCAL,
-     >     DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
+     >DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS, CE ,CS ,BORO,DPREF,HDPRF,*95)
                DSREF = XL
         ELSEIF(KFLD .EQ. LC) THEN
 C---------- Electric
           CALL MULTPO(KUASEX,LMNT,LC,SCAL,
-     >    DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
+     >DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,HDPRF,*95)
         ELSEIF(KFLD .EQ. ML) THEN
 C---------- Electric & Magnetic
           CALL MULTPO(KUASEX,LMNT,LC,SCAL,
-     >    DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,*95)
+     >DEV,RTQ,XL,EM ,QLE,QLS,QE,QS,XE,XS,QCE,QCS,BORO,DPREF,HDPRF,*95)
           CALL MULTPO(KUASEX,LMNT,MG,SCAL,
-     >    DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE ,CS ,BORO,DPREF,*95)
+     >DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS, CE ,CS ,BORO,DPREF,HDPRF,*95)
         ENDIF
         KP = NINT(A(NOEL,ND+NND))
         IF( KP .EQ. 3 ) THEN
@@ -1154,7 +1157,7 @@ C------- AGSMM. AGS main magnet
         NPOL = I3
 
         CALL AGSMM(LMNT,MG,MPOL,NPOL,SCAL,
-     >  DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+     >  DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,HDPRF)
           
         DSREF = XL
         KP = NINT(A(NOEL,ND+NND))
@@ -1221,7 +1224,7 @@ C-------- AGSQUAD
         IF(IRD .EQ. 4) IDB=4
 
         CALL AGSQUA(LMNT,MPOL,SCAL,
-     >  DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+     >  DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,HDPRF)
 
         DSREF = XL
 

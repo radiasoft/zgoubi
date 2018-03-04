@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE FITNU(LUN,*)
+      SUBROUTINE FITNU(LUN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (MXV=60) 
       INCLUDE "C.CONTR.H"     ! COMMON/CONTR/ VAT(MXV),XI(MXV)

@@ -24,19 +24,21 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPV(NLOG,NPT,X,Y,YDX,SYDX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      SAVE JUN
+      SAVE JUN, IC
+      DATA IC / 0 /
+      IC = IC + 1
       CALL FBGTXT
       CALL PLOT9(
      >           IPASS)
-      WRITE(6,FMT='(1P,4E20.12,3(1X,I6),A)') 
-     >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
+      WRITE(6,FMT='(1P,4E20.12,4(1X,I0),A)') 
+     >                     X,Y,YDX,SYDX,NPT,IT,IPASS,IC,
      >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
-      WRITE(NLOG,FMT='(1P,4E20.12,3(1X,I6),A)') 
-     >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
+      WRITE(NLOG,FMT='(1P,4E20.12,4(1X,I0),A)') 
+     >                     X,Y,YDX,SYDX,NPT,IT,IPASS,IC,
      >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
       IF(JUN.NE.6)
-     >WRITE( JUN,FMT='(1P,4E20.12,3(1X,I6),A)') 
-     >                                 X,Y,YDX,SYDX,NPT,IT,IPASS,
+     >WRITE( JUN,FMT='(1P,4E20.12,4(1X,I0),A)') 
+     >                     X,Y,YDX,SYDX,NPT,IT,IPASS,IC,
      >                            '  X,Y,YDX,SYDX,occ#,traj#,pass#'
 
       CALL FLUSH2(NLOG,.FALSE.)
@@ -44,5 +46,6 @@ C  -------
       RETURN
       ENTRY IMPV2(JUNI)
       JUN = JUNI
+      IC = 0
       RETURN
       END

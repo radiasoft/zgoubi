@@ -1291,8 +1291,9 @@ $\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  ~ ~ 
  $AT$,  $RM$       \> Total angular extent  of the dipole~;  reference radius \> deg, cm \> 2*E  \>  2, 3 \\
  \\
  \textsl{ACENT}, $ B_0$, $N$, $B$, $G $           \>
- Azimuth for positioning of EFBs~; field and field indices \> deg., kG, 3*no dim.  \> 5*E  \>  4-8 \\
-% \>                        \> 3*no dim. \> \\
+ Azimuth for positioning of EFBs~; field and field indices at > deg., kG, 3*no dim.  \> 5*E  \>  4-8 \\
+  \>   $R\equiv RM$. ($N=\frac{RM}{B_0} \frac{dB}{dR}; \ B=\frac{RM}{2B_0} \frac{d^2B}{dR^2}; \ G=\frac{RM}{6B_0} \frac{d^3B}{dR^3}$). \\
+ % \>                        \> 3*no dim. \> \\
  \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
  \\
@@ -1521,8 +1522,8 @@ $\gamma$,  $\alpha$,  $\mu$,  $\beta$            \>geometrical parameters of the
  \\[-2ex]
  \textsl{ACN}, $\delta R\!M$~\footnotemark[2], $ B_0$, \> Positioning of EFBs : azimuth~\footnotemark[1], 
 $R\!M_{i} = R\!M + \delta R\!M$~; field~;          \> deg., cm, kG, \> 3*E, I, \\
-$ind$, $b_i,~(i=1,ind)$    \> number of,  and field coefficients.  \> $(ind+1)$*no dim. \> $ind$*E\\
- \\
+$ind$, $b_i,~(i=1,ind)$    \> number of,  and field indices at  $R\equiv RM$ ($b_1=\frac{RM}{B_0} \frac{dB}{dR};$  \> $(ind+1)$*no dim. \> $\rm ind$*E\\
+   \> $b_2=\frac{RM}{2B_0} \frac{d^2B}{dR^2};$ etc.).   \\ \\
  \>ENTRANCE FIELD BOUNDARY \> \> \\
  \\[-2ex]
 $g_0$, $\kappa$               \> Fringe field extent ($g=g_0\,(RM/R)^{\kappa}$)  (0, 0 for hard-edge)~\footnotemark[1]  \> cm, no dim. \>2*E\\

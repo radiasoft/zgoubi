@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE AGSQUA(LMNT,MPOL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+     >      DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,HDPRF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -122,7 +122,7 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
       DLE(I2)  = DLE(I2)*DLE(I2)
       DLS(I2)  = DLS(I2)*DLS(I2)
  
-      QUADK1 = BM(I2)/RO/(BORO*DPREF)*1.D4
+      QUADK1 = BM(I2)/RO/(BORO*(DPREF+HDPRF))*1.D4
  
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(I2),XL,RO
@@ -132,7 +132,7 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
         WRITE(NRES,103) BM(I2)
  103    FORMAT(15X,' Field at pole tip  = ',1P,G15.7,' kG')
         WRITE(NRES,FMT='(15X,'' Strength  = '',1P,G15.7
-     >  ,''    (dp_ref = '',G15.7,'')'')') QUADK1,DPREF
+     >  ,''    (dp/p_ref-int = '',G15.7,'')'')') QUADK1,DPREF
         WRITE(NRES,FMT=
      >  '(15X,A,/,15X,3(A,1P,E13.5),/,15X,A,/,15X,3(A,1P,E13.5))')
      >    ' Winding currents (Ampere) : '

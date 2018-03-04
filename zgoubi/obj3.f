@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE OBJ3(KOBJ2,BORO)
+      SUBROUTINE OBJ3(KOBJ2,BORO,
+     >                           DPREF,HDPRF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     **************************************
 C     CONSTITUTION DE L'OBJET INITIAL KOBJ=3
@@ -139,7 +140,10 @@ C        ELSE
 C          NHD = 4
 C        ENDIF
         CALL HEADER(NL,NRES,NHD,BINARY,
-     >                              *999)
+     >                                 IER)
+C     >                              *999)
+        IF(IER.GT.0) GOTO 999
+
       ELSE
         CALL REBEL5(
      >              AFTREB)
@@ -150,7 +154,9 @@ C [...]/testKEYWORDS/FIT/FITfollowedByREBELOTE/orbitsInCYCLOTRON/REBELOTE-FIT_fo
           IF(OKOPN) THEN
             REWIND(NL)
             CALL HEADER(NL,NRES,NHD,BINARY,
-     >                                   *999)
+     >                                     IER)
+C     >                                   *999)
+            IF(IER.GT.0) GOTO 999
           ENDIF
         ENDIF
       ENDIF
@@ -176,8 +182,10 @@ C----- Traj. counter
         IPASS1 = IPASSR
         I = I + 1
 
-C        IF(BINARY) THEN
         IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
+C Expected to be resuming from 1 particular pass (for instance after a 
+C crash), reading a zgoubi.fai style file (i.e., a file created by FAISTORE (or FAISCNL);
+C KP1=KP2 is expected iin that case.
 
  222      CONTINUE
 
@@ -188,7 +196,8 @@ C        IF(BINARY) THEN
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
      >      EKIN,ENERG, 
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
-     >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI
+     >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI, SRLO ,
+     >      DPRF, GDPRF
 
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 222
@@ -205,10 +214,11 @@ C        IF(BINARY) THEN
           ENDIF
           
           IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
-     >                                  IEND)) THEN
-            GOTO 222
-          ENDIF
+     >                                  IEND)) GOTO 222
 
+C          IF(KP1.EQ.KP2) IPASS=IPASSR
+            DPREF = DPRF
+            HDPRF = GDPRF
           IT2 = IT2 + 1
           IT1 = IT1 + 1
 
@@ -218,6 +228,10 @@ C        IF(BINARY) THEN
           IF(IEND.EQ.1) GOTO 95
 
           IF  (KOBJ2.EQ.0) THEN           
+C Recommended, in case of resuming from 1 particular pass (for instance after a 
+C crash), reading a zgoubi.fai style file (i.e., a file created by FAISTORE (or FAISCNL);
+C KP1=KP2 is expected iin that case.
+             
             READ(NL,*,ERR=97,END=95)
      >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
      >      DP,Y,T,Z,P,S,TIM, 
@@ -226,8 +240,8 @@ C        IF(BINARY) THEN
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
      >      BRO, IPASSR, NOELR,     TDUMK,
      >                              TDUML,
-     >                              TDUML,     LETI 
-
+     >                              TDUML,     LETI, SRLO ,
+     >      DPRF, GDPRF
             IF(LM .NE. -1) THEN
               IF(LM .NE. NOELR) GOTO 221
             ENDIF
@@ -243,14 +257,13 @@ C        IF(BINARY) THEN
             ENDIF
 
             IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
-     >                                   IEND)) THEN
-              GOTO 221
-            ENDIF
+     >                                   IEND)) GOTO 221
 
+C            IF(KP1.EQ.KP2) IPASS=IPASSR
+            DPREF = DPRF
+            HDPRF = GDPRF                   
             IT2 = IT2 + 1
             IT1 = IT1 + 1
-C              write(88,*) ' iend_OKKT3 :',iend
-C              write(88,*) ' '
 
           ELSEIF(KOBJ2.EQ.1) THEN 
 C------------ Was installed for reading pion data at NuFact target
@@ -451,8 +464,8 @@ C          SUBSEQUENT PARTICUL
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
-c         write(*,*) ' obj3 ',y,t,z,p,dp
-c         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(1,it1)
+C         write(*,*) ' obj3 ',y,t,z,p,dp
+C         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(7,it1)
         IREP(IT1) = IT1
         IF (AMQLU(3)) THEN
            PH(IT1)=PHI

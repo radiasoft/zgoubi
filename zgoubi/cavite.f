@@ -38,7 +38,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
@@ -102,7 +102,8 @@ C      PARAMETER (MXTA=45)
 
       DATA CEBAF, CRNLSY, ERCRCS / .FALSE., .FALSE., .FALSE. /
       DATA SYNCT / 0.D0 /
-
+      data PHS_PREV / 999.d9 /
+      
       DUM = SCALER(1, NOEL, 
      >                     DUM)
 
@@ -217,7 +218,13 @@ C-------------------------------------------
         PHN = ATAN(TAN(PHS)/RN) / RN
       ENDIF
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
-      IF(IPASS .EQ. 1) PS = P0
+      IF(IPASS .EQ. 1) then
+        if(kobj.ne.3) then
+          PS = P0
+        else
+          PS = P0*(DPREF+HDPRF)
+        endif 
+      endif
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
@@ -385,6 +392,7 @@ C        PH(I)=BLAG
      >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),12(1X,E14.6),A)') 
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
      >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,QV,
+     >  ' EXIT     CAVITY '//
      >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
      >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,QV'
 
@@ -853,9 +861,9 @@ cC----- Initial conditions of  the IMAX particles
         ENDDO
       ENDIF
       PHS_prev = PHS
- 
-      DO 3 I=1,IMAX 
 
+      DO 3 I=1,IMAX 
+         
         IF(IEX(I) .LT. -1) GOTO 3
 
         TTA = F(3,I)*.001D0
@@ -874,11 +882,30 @@ C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to
 C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
-           PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
+           if(kobj.ne.3) then
+              PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
+           else
+c              write(*,*) ' cavite kobj3 ',ph(i)
+c              read(*,*)
+           PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
+           PHAS(I) = 1.959655E-01
+        endif      
         ELSE
            PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
         ENDIF
 
+
+        IF(OKIMP) 
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),23(1X,E14.6),A)') 
+     >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
+     >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS,
+     >  F(1,I)-1.,(F(J,I),J=2,7),DPREF,HDPRF,PHAS(I),
+     >  ' BEFORE CHANGE '//
+     >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS'
+     >  //',F1I-1, (F(J,I),J=2,7), DPREF, int(DPREF), PHASi'
+
+        
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
 
@@ -907,12 +934,14 @@ C        PH(I)=BLAG
         F(6,I)=0.D0 
 
         IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),11(1X,E14.6),A)') 
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),22(1X,E14.6),A)') 
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
-     >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,
+     >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS,
+     >  F(1,I)-1.,(F(J,I),J=2,7),DPREF,HDPRF,
+     >  ' AFTER CHANGE '//
      >  ' PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6),I,IPASS'
-     >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0'
-
+     >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS'
+     >  //',F1I-1, (F(J,I),J=2,7), DPREF, int(DPREF)'
  3    CONTINUE
       GOTO 88
 
@@ -931,7 +960,7 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       CALL SCUMW(0.5D0*CAVL)
       CALL SCUMR(
      >           DUM,SCUM,TCUM) 
-      PS = P0 * DPREF
+      PS = P0 * (DPREF+HDPRF)
       BTS = PS/SQRT(PS*PS+AM2)
       HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
@@ -944,7 +973,8 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
-     >  FCAV,CAVM,PH0,DWS,WSF/WS0,BORO*DPREF,DPREF,BORO*PSF/P0,PSF/P0,
+     >        FCAV,CAVM,PH0,DWS,WSF/WS0,BORO*(DPREF+HDPRF),
+     >        DPREF,BORO*PSF/P0,PSF/P0-INT(PSF/P0),
      >  SCUM*UNIT(5),TCUM,AM,Q*QE
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
@@ -954,14 +984,14 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >  / ,20X,'        RF phase phi_0                =',E15.6,' rad',
      >  / ,20X,'Synch energy gain qV.cos(phi_0)       =',E15.6,' MeV',
      >  / ,20X,'WF/WI                                 =',E15.6,' ',
-     >  //,20X,'BRho_ref in (dp_ref in)               =',E14.6,' kG.cm',
-     >                                                 3x,'(',E14.6,')',
-     >  / ,20X,'BRho_ref out (dp_ref out)             =',E14.6,' kG.cm',
-     >                                                 3x,'(',E14.6,')',
+     >  //,20X,'BRho_ref in  (frac(dp_ref) in)        =',E14.6,' kG.cm',
+     >                                                3X,'(',E14.6,')',
+     >  / ,20X,'BRho_ref out (frac(dp_ref) out)       =',E14.6,' kG.cm',
+     >                                                3X,'(',E14.6,')',
      >  / ,20X,'Cumulated distance at cavity center   =',E15.6,' m',
      >  / ,20X,'Cumulated   TOF      "         "      =',E15.6,' s',
      >  //,20X,'Particle mass                         =',E15.6,' MeV/c2'
-     >  ,/ ,20X,'         charge                       =',E15.6,' C')
+     >  ,/ ,20X,'         charge                      =',E15.6,' C')
       ENDIF
 
       TIAV = 0.D0
@@ -1122,14 +1152,17 @@ C        PHIAV = PHIAV / DBLE(II)
       GOTO 88
  
  88   CONTINUE
-      DPREF = PS / P0
+C FM Mar 2018
+C      DPREF = PS / P0 
+      HDPRF = DBLE(INT(PS / P0) )
+      DPREF = PS / P0 -HDPRF
 
       RETURN
 
  99   CONTINUE
-      IF(NRES .GT. 0) WRITE(NRES,101) 'CAVITE',
-     >                          ' OPEN zgoubi.CAVITE.Out'
- 101  FORMAT(/,' ******  SBR ',A,' : ERROR',A,/)
+      IF(NRES .GT. 0) WRITE(NRES,101) 'cavite.f.'
+     >//' At open zgoubi.CAVITE.Out'
+ 101  FORMAT(/,'Pgm ',A,' : ERROR',A,/)
       RETURN
 
  999  RETURN   

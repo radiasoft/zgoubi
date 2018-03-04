@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE AGSMM(LMNT,KFL,MPOL,NPOL,SCAL,
-     >  DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF)
+     >  DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,HDPRF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
@@ -145,7 +145,7 @@ C     > NBLW,KFM, mxp, JPA(KFM,mxp), AA(JPA(KFM,I)), VPA(KFM,I)
 C The problem is cured as well by adding a dummy "MULTIPOL' right before the first 'AGSMM'...
 C------
  
-      CALL AGSKS(NOEL,BORO*DPREF*CL9/1.D3,
+      CALL AGSKS(NOEL,BORO*(DPREF+HDPRF)*CL9/1.D3,
      >                                    AK1,AK2,AKS)
 c      write(*,*) ' AK1,AK2,MOD : ',AK1,AK2,MOD
 c       read(*,*)
@@ -171,7 +171,7 @@ c      ENDDO
       DEV = ANGMM
       DO I = 1, I3
         DB(I) = AA(12+I)
-c        BM(I) = SCAL * (BORO*DPREF*1.D-3) * BM(I) * (1.D0 + DB(I))
+c        BM(I) = SCAL * (BORO*(DPREF+HDPRF)*1.D-3) * BM(I) * (1.D0 + DB(I))
        BM(I) = SCAL * (BORO*1.D-3      ) * BM(I) * (1.D0 + DB(I))
       ENDDO
  
@@ -228,7 +228,7 @@ C-------
         DLS(IM)  = DLS(NM0)*DLS(IM)
       ENDDO
  
-      AKS(1) = BM(1)/(BORO*DPREF)*1.d2
+      AKS(1) = BM(1)/(BORO*(DPREF+HDPRF))*1.D2
  
       SXL = XL
  

@@ -1,0 +1,46 @@
+
+VSHROS sequence had a bug it seems. It has be corrected and that impacts on the AGS model.
+/rap/lattice_tools may not need be chenged, as this is a minor effect, which is compensated by dK1F, dK1D adjustments in the model.
+
+      ELSEIF(KP .EQ. 4)  THEN
+C--- Implemented for AGSMM.
+C    Also implemented in MULTPO. That's in quasex.f
+C    ALE includes a delta=dtta wrt. TTA=DEV/2 
+        TTA = ALE - DTTA
+        ALS = TTA - DTTA
+        DTTA2 = DTTA / 2.D0
+CCC  AGS model is affected by that
+CCC   FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
+C See /home/meot/zgoubi/struct/KEYWORDS/MULTIPOL/KPOS4/equivalence_KPOS4-CHANGREF_using:YCE.ALE.ZCE_B0zero.dat
+cccc        XCS =               - XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
+cccc        YCS = -YCE/COS(ALE) - XL * SIN(DTTA)  * COS(DTTA2 + TTA) 
+        XCS =               - XL/2.D0 * (1.D0 -COS(-DTTA))
+        YCS =               + XL/2.D0 * SIN(-DTTA)
+        YCS2 = -YSHFT /COS(TTA)
+C ZCE
+        ZCSB = -VSHROE(4)
+C Y-rotation PHE
+        IF(VSHROE(6).NE.0.D0) THEN
+          XCSB = VSHROE(5) 
+          ZCSB = -VSHROE(6)
+        ENDIF
+C X-ROT (YAW)
+C        QSHROS(1) = 'YR'
+c        VSHROS(1) = Vshroe(7) 
+        QSHROS(1) = 'ZS'
+        VSHROS(1) = -VSHROE(6)
+        QSHROS(2) = 'XS'
+        VSHROS(2) = -VSHROE(5)
+C Z-SHIFT
+        QSHROS(3) = 'ZS'
+        VSHROS(3) = -VSHROE(4)
+C Z-ROT (PITCH)
+        QSHROS(4) = 'XS'
+        VSHROS(4) =  XCS
+        QSHROS(5) = 'YS'
+        VSHROS(5) =  YCS
+        QSHROS(6) = 'ZR'
+        VSHROS(6) = ALS
+        QSHROS(7) = 'YS'
+        VSHROS(7) =  YCS2
+        VSHROS(MSR) = 7

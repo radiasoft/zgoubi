@@ -37,7 +37,7 @@ C-----------------------------------------------------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.TRNSF.H"     ! COMMON/TRNSF/ XFE,XFS
@@ -67,7 +67,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
 
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
-      CALL CHXC(ND,KALC,KUASEX,BORO,DPREF,
+      CALL CHXC(ND,KALC,KUASEX,BORO,DPREF,HDPRF,
      >                              XL,DSREF,QSHROE,VSHROE)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
  
@@ -179,12 +179,14 @@ C        YCE = 0.D0
         VSHROS(MSR) = 3
 
       ELSEIF(KP .EQ. 4)  THEN
-C------- Implemented for AGSMM. Also implemented in MULTPO. That's in quasex.f
-C        ALE includes a delta=dtta wrt. TTA=DEV/2 
+C--- Implemented for AGSMM.
+C    Also implemented in MULTPO. That's in quasex.f
+C    ALE includes a delta=dtta wrt. TTA=DEV/2 
         TTA = ALE - DTTA
         ALS = TTA - DTTA
         DTTA2 = DTTA / 2.D0
-CCC FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
+CCC  AGS model is affected by that
+CCC   FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
 C See /home/meot/zgoubi/struct/KEYWORDS/MULTIPOL/KPOS4/equivalence_KPOS4-CHANGREF_using:YCE.ALE.ZCE_B0zero.dat
 cccc        XCS =               - XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
 cccc        YCS = -YCE/COS(ALE) - XL * SIN(DTTA)  * COS(DTTA2 + TTA) 

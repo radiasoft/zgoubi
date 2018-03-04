@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ELLIPT(KUASEX,LMNT,KFL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
+     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       CALL ENDJOB('Pgm ellipt. Under development',-99)

@@ -45,7 +45,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
  
@@ -91,6 +91,9 @@ C------- Dummies
       D = 0.D0
       ID = 0
 
+C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
+C           read(*,*)
+      
       IF(BINARY) THEN
         DO 2 I=1,IMAX
             P = BORO*CL9 *F(1,I) * AMQ(2,I)
@@ -102,7 +105,8 @@ C------- Dummies
      >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
      >      ENEKI,ENERG,
      4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),SRLT(I)
+     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),SRLT(I),
+     6      DPREF,HDPRF
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
@@ -118,7 +122,8 @@ C------- Dummies
      6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
      7    BORO, IPASS, NOEL, 
      8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
-     9    SRLT(I)
+     9    SRLT(I), 
+     X    DPREF,HDPRF
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF

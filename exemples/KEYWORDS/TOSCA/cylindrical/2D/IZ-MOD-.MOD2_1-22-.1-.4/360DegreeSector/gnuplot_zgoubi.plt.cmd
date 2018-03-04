@@ -2,7 +2,7 @@
 set title "Plotted from file zgoubi.plt  \n From zgoubi's polar frame to lab frame \n u ($10 *cm2m *cos($22)):($10 *cm2m *sin($22)) " font "sans, 14"
 
 set key maxcol 1
-set key c c 
+set key t r
 
 #set logscale y 
 
@@ -33,6 +33,6 @@ plot  \
        unset output  
 
  
-pause 3
+pause 1
 exit
 

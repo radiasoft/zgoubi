@@ -38,7 +38,7 @@ C     **************************
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
  
       DIMENSION CENTRE(MXJ)
       PARAMETER (MXJ1=MXJ-1)
@@ -84,7 +84,13 @@ C--------- add new beamlet next to the previous one(s), e.g. for multiturn injec
  
       CALL FITSTA(5,
      >              FITING)
-      IF(FITING) DPREF = 1.D0
+
+C FM, Mar 2018      
+C      IF(FITING) DPREF = 1.D0
+      IF(FITING) THEN
+        DPREF = 0.D0
+        HDPRF = 1.D0
+      ENDIF
 
 C------ Type of support : 
 C      KOBJ=1 : window

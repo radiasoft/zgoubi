@@ -41,7 +41,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       
       DIMENSION T(6,6,6)
       SAVE      T
@@ -507,7 +507,7 @@ C        NLOBJ = 1
         CALL SCUMS(0.D0)
 
 C--------- P0, AM  are  in  MEV/c, /c^2
-          PREF = BORO*CL9*Q*DPREF
+          PREF = BORO*CL9*Q*(DPREF+HDPRF)
           IF(AM.LE.1D-8) AM = AMPROT
           ENERGY = sqrt(PREF*PREF + AM*AM)
           WRITE(LUN,50)'@ NAME             %05s   "TWISS"' 
@@ -554,7 +554,7 @@ C          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
           WRITE(LUN,50)'@ DYRMS            %le    0.    not computed'
           WRITE(LUN,56)'@ DELTAP           %le', REF(6)-1.D0, 
      >    '   [B.rho= ',BORO*REF(6)/1.d3,' E_kin= ',
-     >    (sqrt((BORO*CL9*Q*DPREF*REF(6))**2 + AM*AM)-AM)/1.d3,']'
+     >    (sqrt((BORO*CL9*Q*(DPREF+HDPRF)*REF(6))**2+AM*AM)-AM)/1.d3,']'
           WRITE(LUN,51)'@ |C|              %le', CC
           WRITE(LUN,51)'@ Q1*              %le', Q1
           WRITE(LUN,51)'@ Q2*              %le', Q2

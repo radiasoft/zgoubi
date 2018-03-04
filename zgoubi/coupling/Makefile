@@ -1,3 +1,4 @@
+ARFLAGS=rvU
 DIRLIBS  = -L.
 
 OBJS = \
@@ -183,7 +184,7 @@ OBJS = \
 all : libcoupl.a
 
 libcoupl.a : $(OBJS)
-	ar -rv $@ $?
+	ar $(ARFLAGS) $@ $?
 
 clean :
 	rm -rf *.o *.a *~

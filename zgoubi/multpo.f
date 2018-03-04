@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MULTPO(KUASEX,LMNT,KFL,SCAL,
-     >          DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,*)
+     >     DEV,RT,XL,BM,DLE,DLS,DE,DS,XE,XS,CE,CS,BORO,DPREF,HDPRF,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER(MPOL=10)
       CHARACTER(*) LMNT(*)
@@ -342,9 +342,9 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
 
       SXL = XL
 
-      AKS(1) =  BM(1)/1.D0/(BORO*DPREF)*1.D2
-      AKS(2) =  BM(2)/(RO)/(BORO*DPREF)*1.D4
-      AKS(3) =  BM(3)/(RO**2)/(BORO*DPREF)*1.D6
+      AKS(1) =  BM(1)/1.D0/(BORO*(DPREF+HDPRF))*1.D2
+      AKS(2) =  BM(2)/(RO)/(BORO*(DPREF+HDPRF))*1.D4
+      AKS(3) =  BM(3)/(RO**2)/(BORO*(DPREF+HDPRF))*1.D6
 
       IF(NRES.GT.0) THEN
 

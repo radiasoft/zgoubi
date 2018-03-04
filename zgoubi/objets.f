@@ -54,7 +54,7 @@ C            as resulting from decay (keyword 'MCDESINT')
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
@@ -105,12 +105,19 @@ C------- add new beamlet next to the previous one(s), e.g. for multiturn injecti
 
       CALL FITSTA(5,
      >              FITING)
+C FM Mar 2018
       IF(FITING) THEN
-        DPREF = 1.D0
+C        DPREF = 1.D0
+         DPREF = 0.D0
+         HDPRF = 1.D0
       ELSE
         CALL FITST5(
      >              FITFNL)
-        IF(FITFNL) DPREF = 1.D0
+        IF(FITFNL) THEN
+C         DPREF = 1.D0
+          DPREF = 0.D0
+          HDPRF = 1.D0
+        ENDIF
       ENDIF
 
 C      CALL RAZ(FO,MXJ*MXT)
@@ -150,7 +157,8 @@ C---------- OBJET with 61 traj. for 1st, 2nd, and higher coeff. computation
 
 C---------- Read OBJET from file
  16   CONTINUE
-        CALL OBJ3(KOBJ2,BORO)
+        CALL OBJ3(KOBJ2,BORO,
+     >                       DPREF,HDPRF)
       GOTO 99
 
 C---------- Initial conditions particle by particle
@@ -257,14 +265,14 @@ C             DE(J,K)=DELTA(K,P(J))
            DE(1,K)=DE(1,K)+D
    14   CONTINUE
         I=0
-        DO  8 ID=1,IDMAX
+        DO  ID=1,IDMAX
           IKAR=0
-          DO  8 IY=1,IYMAX
-            DO  8 IT=1,ITMAX
+          DO IY=1,IYMAX
+            DO IT=1,ITMAX
               IKAR=IKAR+1
               IF(IKAR.GT.41)  IKAR=1
-              DO  8 IZ=1,IZMAX
-                DO  8 IP=1,IPMAX
+              DO IZ=1,IZMAX
+                DO IP=1,IPMAX
                   I=I+1
                   IREP(I)=I
                   IF(IZ .EQ. 1 .AND. DE(5,IP).LT.0.D0)  IREP(I)=I-1
@@ -280,8 +288,12 @@ C             DE(J,K)=DELTA(K,P(J))
 C                    F(J,I)=FO(J,I)
                     LET(I)=KAR(IKAR)
 13                CONTINUE
-          F(6,I)= 0D0
-8       CONTINUE
+                  F(6,I)= 0D0
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDDO
         IMAX=I
  
         IF(IMAX .GT. MXT) GOTO 98
@@ -293,11 +305,12 @@ C                    F(J,I)=FO(J,I)
  162    CONTINUE
 
         REF(1) = 0.D0
-        DO 161 I=1,IMAX
-          DO 161 J=1, 6
+        DO I=1,IMAX
+          DO J=1, 6
             FO(J,I) = FO(J,I) + REF(J)
             F(J,I)=FO(J,I)
- 161    CONTINUE
+          ENDDO
+        ENDDO
 
       ELSEIF(KOBJ2.EQ.1) THEN
 C--------------- OBJET with Z>0 ET P>0
@@ -312,32 +325,38 @@ C--------------- OBJET with Z>0 ET P>0
             ENDIF
 22        CONTINUE
 21      CONTINUE
-        DO 23 J=4,5
+        DO J=4,5
           IDEMAX=IDE(J)
-          DO 23 K=1,IDEMAX
+          DO K=1,IDEMAX
             DE(J,K) =(K-1)*P(J)
-23      CONTINUE
-        DO 29 K=1,IDMAX
-29        DE(1,K)=DE(1,K)+D
+          ENDDO
+        ENDDO
+        DO K=1,IDMAX
+          DE(1,K)=DE(1,K)+D
+        ENDDO
         I=0
-        DO 25 ID=1,IDMAX
+        DO ID=1,IDMAX
           IKAR=0
-          DO 25 IY=1,IYMAX
-            DO 25 IT=1,ITMAX
+          DO IY=1,IYMAX
+            DO IT=1,ITMAX
               IKAR=IKAR+1
               IF(IKAR.GT.41)  IKAR=1
-              DO 25 IZ=1,IZMAX
-                DO 25 IP=1,IPMAX
-                   I=I+1
-                   IREP(I)=I
-                   DO 26 J=1,5
-                        KDE=JDE(J)
-                        FO(J,I)=DE(J,KDE)
-                        F(J,I)=FO(J,I)
-                        LET(I)=KAR(IKAR)
-26                 CONTINUE
-                   F(6,I)= 0D0
-25      CONTINUE
+              DO IZ=1,IZMAX
+                DO IP=1,IPMAX
+                  I=I+1
+                  IREP(I)=I
+                  DO 26 J=1,5
+                     KDE=JDE(J)
+                     FO(J,I)=DE(J,KDE)
+                     F(J,I)=FO(J,I)
+                     LET(I)=KAR(IKAR)
+26                CONTINUE
+                  F(6,I)= 0D0
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDDO
         IMAX=I
 
         IF(IMAX .GT. MXT) GOTO 98
@@ -349,11 +368,12 @@ C--------------- OBJET with Z>0 ET P>0
  24     CONTINUE
 
         REF(1) = 0.D0
-        DO 28 I=1,IMAX
-          DO 28 J=1, 6
+        DO I=1,IMAX
+          DO J=1, 6
             FO(J,I) = FO(J,I) + REF(J)
             F(J,I)=FO(J,I)
- 28     CONTINUE
+          ENDDO
+        ENDDO
 
         IMAXT=IMAX/IDMAX
         IF(NRES.GT.0) THEN
@@ -491,8 +511,8 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
  991  CONTINUE   
 
 
-c       write(*,*) ' objets f1 ',(f(1,i),i=1,imax)
-c           read(*,*)
+C       write(*,*) ' objets f ',(f(7,i),i=1,imax)
+C           read(*,*)
 
       RETURN
 

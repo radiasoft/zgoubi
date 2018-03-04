@@ -41,7 +41,7 @@ C     >,DE(MPOL,MCOEF),DS(MPOL,MCOEF),RTB(MPOL)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
  
       EQUIVALENCE (RTB(1),CTE),(RTB(2),STE),(RTB(4),CTS),(RTB(5),STS)
@@ -69,10 +69,17 @@ C----- Field
 
       DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BM(1)))
       KP = NINT(A(NOEL,70))
+
+c      write(88,*) ' bendi A(NOEL,73) ', A(NOEL,73)
+
+      
       IF( KP .EQ. 3 ) THEN
-        IF(A(NOEL,73) .NE. 0.D0) DEV = -A(NOEL,73) * 2.D0
+         IF(A(NOEL,73) .NE. 0.D0) DEV = -A(NOEL,73) * 2.D0
       ENDIF
 
+c         write(88,*) '  ',2.D0 * ASIN(XL/2.D0/(BORO/BM(1))),
+c     > A(NOEL,73), -A(NOEL,73) * 2.D0,XL,BORO,BM(1),scal
+         
       IF(BM(6) .NE. 0.D0) THEN
 C------- BEND is skewed
         DEVH=ATAN(TAN(DEV)*COS(BM(6)))
@@ -100,10 +107,6 @@ C------- BEND is skewed
 C----------- Champ DE FUITE
       SHARPE=DLE(1) .LE. 0.D0
       SHARPS=DLS(1) .LE. 0.D0
-
-c           write(*,*) ' sharps, xls, dls(1) ',sharps, xls, dls(1)
-c           write(*,*) ' sharps, dls(1) ',sharps, dls(1)
-c               read(*,*)
 
       IF(SHARPE) THEN 
         FINTE = XE
@@ -160,9 +163,6 @@ C------- Correction for entrance wedge
  10     CONTINUE
       ENDIF
 
-c           write(*,*) ' xls, dls(1) ', xls, dls(1)
-c               read(*,*)
-
       IF(SHARPS) THEN
 C------- Correction for exit wedge
         CALL INTEG2(-TS,FINTS,GAPS)
@@ -209,9 +209,10 @@ C------- Correction for exit wedge
      >       ,/,15X, ' GAP   = ',E14.6,' cm'
      >       ,/,15X, ' Gradient   = ',E14.6,' kG/cm'
      >       ,/,15X, ' Grad-prime   = ',E14.6,' kG/cm^2',/)
-        WRITE(NRES,103) BM(1),BORO/BM(1)
- 103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
-     >  /,15X, ' Reference curvature radius (Brho/B) = ',E14.6,' cm')
+        WRITE(NRES,103) BM(1),BM(1)/SCAL,BORO/BM(1)
+ 103    FORMAT(1P,15X,' Field  =',E15.7,'  kG ',
+     >  '  (i.e., ',E15.7,' * SCAL)',
+     >  /,15X, ' Reference curvature radius (Brho/B) = ',E15.7,' cm')
         WRITE(NRES,105) BM(6)
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
         IF(BM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 

@@ -33,7 +33,7 @@ C  -------
       INTEGER DEBSTR,FINSTR
       LOGICAL OPN, IDLUNI, BINARY
       CHARACTER(12) TXT
-      CHARACTER(280) TXTN80, TXTA80, TXTB80,TXT80
+      CHARACTER(320) TXTN80, TXTA80, TXTB80,TXT80
       CHARACTER(10) DMY
       CHARACTER(9) HMS
       SAVE BINARY
@@ -97,7 +97,7 @@ C------------- Write down a 4-line header
      >      //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
      >      //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
      >      //'  37, 38 , 39 ,  40  , 41   , 42  ,'
-     >      //'   43  , 44    , 45    ,   46  '
+     >      //'   43  , 44    , 45    ,   46 '
             TXTA80 = 
      >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >      //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
@@ -122,7 +122,7 @@ C------------- Write down a 4-line header
      >      //'  26,  27 , 28  ,   29  ,30,  31  ,   32 , unused,'
      >      //'   34 ,   35 ,'
      >      //'    36,  37  , 38   , 39  ,  40   ,'
-     >      //'  41/lbl1, 42/lbl2,  43 ,  44'
+     >      //'  41/lbl1, 42/lbl2,  43 ,  44      45             46'
             TXTA80 = 
      >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >      //'   T,  Z,   P,  S, time,'
@@ -131,7 +131,8 @@ C------------- Write down a 4-line header
      >      //'  IT, IREP, SORT,      M, Q,     G,   tau, unused,'
      >      //'   RET,   DPR,'
      >      //'    PS,  BORO, IPASS, NOEL,   KLEY,'
-     >      //'  LABEL1, LABEL2,    LET,  SRloss'
+     >      //'  LABEL1, LABEL2,    LET,  SRloss, DPREF-[DPREF],'
+     >      //'[DPREF], '
             TXTB80 = 
      >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >      //' mrd, cm, mrd, cm, mu_s,'
@@ -140,7 +141,7 @@ C------------- Write down a 4-line header
      >      //' int,  int,   cm, MeV/c2, C, float, float,  float,'
      >      //' float, float,'
      >      //' float, kG.cm,   int,  int, string,'
-     >      //'  string, string, string,  MeV'
+     >      //'  string, string, string,  MeV             '
 
           ELSEIF(TXT.EQ.'SPIN DATA') THEN
             TXTN80 = 

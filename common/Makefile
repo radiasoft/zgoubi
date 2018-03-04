@@ -22,7 +22,7 @@ OBJS=\
 .f.o:
 	$(FC) $(FFLAGS) -I$(INC) -c $<
 
-all : $(OBJS)
+all : $(OBJS) 
 
 clean:
 	$(RM) libzg.a *.o *~

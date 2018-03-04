@@ -26,7 +26,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "MAXCOO.H"
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
@@ -43,9 +43,7 @@ C----- Compute cumulative time. Default is for proton.
       QQ = Q
       IF(AAM .EQ. 0.D0) AAM = AMPROT
       IF(QQ .EQ. 0.D0) QQ = QE
-C      PREF = (BORO*DPREF) *CL*1.D-9*QQ/QE
-C      PREF = (BORO*DPREF) *CL*1.D-9*QQ
-      PREF = (BORO*DPREF) *CL9*QQ
+      PREF = (BORO*(DPREF+HDPRF)) *CL9*QQ
       BTA = PREF / SQRT(PREF*PREF+AAM*AAM)
 C----- XL is in centimeters, TCUM is seconds
       DT = XL / (CL*BTA) *UNIT(5)

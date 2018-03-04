@@ -43,16 +43,10 @@ C  -------
  
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
 
       LOGICAL CHFE, CHFS, CHU
       PARAMETER (Q7=3.038194444D-4)
-
-c       call zgnoel(noel)
-c       if(noel.eq.6) then 
-c          write(*,*) ' agsmmf... ',noel,x
-cc          read(*,*)
-c        endif
 
       XLS=XLIM-XS 
       IOP=1
@@ -146,9 +140,9 @@ C           *** EFFET DU Champ DE FUITE DE SORTIE
 C            CALL DRVG(6,CS,SS,GS,DGS,D2GS,D3GS,D4GS,D5GS,D6GS)
  
           ENDIF
- 
+
           G= GE+GS-UN
- 
+
           IF(G.LT.ZERO) CALL ENDJOB(
      >      'SBR CHAMC : gradient is wrong,  G (=GE+GS-1) < ',0)
  
@@ -681,5 +675,11 @@ C------ END  SEXTU
       I3 = 3
       CALL ADPOL(ID,I3,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
  
+c                call zgnoel(
+c     >            noel)
+c                write(*,*) ' agsmmf bm ',noel,(bm(iu),iu=1,3)
+c                write(*,*) ' agsmmf b(1,i) ',(b(1,iu),iu=1,3)
+c                write(*,*) ' agsmmf gn, bri ',gn, bri, g
+C                   read(*,*)
       RETURN
       END

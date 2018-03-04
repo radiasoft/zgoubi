@@ -23,13 +23,16 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE HEADER(NL,NW,N,BINARY,
-     >                                 *)
+     >                                 IER)
+C     >                                 *)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL BINARY
       INTEGER DEBSTR, FINSTR
 
       INCLUDE 'FILHDR.H'
 
+      IER = 0
+      
       IF(NW.GT.0) WRITE(NW,FMT='(/,10X,''Now reading file header  ('',
      >I1,'' lines) : '',/)') N
 
@@ -72,7 +75,9 @@ C  -------
      >'SBR HEADER : END of file reached while reading data file header'
       IF(NW.GT.0) WRITE(NW,*) 
      >'SBR HEADER : END of file reached while reading data file header'
-      RETURN 1
+      IER = 1
+      RETURN 
+C      RETURN 1
 
  99   CONTINUE
       WRITE(6,*) 
@@ -81,5 +86,7 @@ C  -------
       IF(NW.GT.0) WRITE(NW,*) 
      >'*** SBR HEADER : READ-error while reading data file header'
       IF(NW.GT.0) WRITE(NW,*) '        ... Empty file ?'
-      RETURN 1
+      IER = 1
+      RETURN 
+C      RETURN 1
       END

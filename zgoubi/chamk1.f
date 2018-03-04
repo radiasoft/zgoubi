@@ -50,7 +50,7 @@ C     --------------------------------------------------------
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
  
       DIMENSION A000(3),A100(3),A010(3),A001(3),A200(3),A020(3),
      >A002(3),A110(3),A101(3),A011(3)
@@ -184,7 +184,7 @@ C       .... ORDRE 2 ,  3*3 points grid
       F9= HC(ID,IAC+1,IRC+1,1,IMAP) * SCAL
 
 C BB/FM/ 18/08 to be thought of......
-      CALL MAPLIM(*999, 9, BMESH1)
+      CALL MAPLIM( 9, BMESH1)
 
       C1=F1+F2+F3+F4+F5+F6+F7+F8+F9
       C2=-F1+F3-F4+F6-F7+F9
@@ -274,7 +274,7 @@ C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
 2        CONTINUE
 1     CONTINUE
  
-      CALL MAPLIM(*999, 25, BMESH) 
+      CALL MAPLIM( 25, BMESH) 
 
 C     *** CALCUL DE BZ ET SES DERIVEES AU POINT DE MAILLAGE (IAC,IRC)
       DA1  =1.D0/DA
@@ -391,7 +391,7 @@ C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
  4       CONTINUE
  3    CONTINUE
 
-      CALL MAPLIM(*999, 25, BMESH)
+      CALL MAPLIM( 25, BMESH)
 
       FAC=1.D0/70D0
       A0 =A0 *FAC*.4D0
@@ -500,7 +500,7 @@ C     + A110*XY + A101*XZ + A011*YZ
               A011(L)=A011(L) +      JR*KZ       *BIJK
  416    CONTINUE
 
-        CALL MAPLIM(*999, 27, BMESH3)
+        CALL MAPLIM( 27, BMESH3)
 
 
         A000(L)=A000(L)/( 9.D0      )*BRI

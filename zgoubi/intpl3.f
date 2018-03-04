@@ -39,7 +39,7 @@ C     --------------------------------------
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
  
       DIMENSION A000(3),A100(3),A010(3),A001(3),A200(3),A020(3),
      >A002(3),A110(3),A101(3),A011(3)
@@ -77,7 +77,7 @@ C                 write(88,*) FTAB3(L,I,J,K), L,IA,JR,KZ
               A011(L)=A011(L) +      JR*KZ       *BIJK
  416    CONTINUE
 
-C        CALL MAPLIM(*999, 27, BMESH3)
+C        CALL MAPLIM( 27, BMESH3)
 
         A000(L)=A000(L)/( 9.D0      )*BRI
         A100(L)=A100(L)/(18.D0*DA   )*BRI

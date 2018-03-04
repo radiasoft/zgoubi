@@ -37,7 +37,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       PARAMETER (KSIZ=10)
@@ -78,13 +78,13 @@ C     >, PHY, PHZ, SCUM, NOEL
      >, F(2,1)*0.01D0, F(3,1)*0.001D0
      >, F(4,1)*0.01D0, F(5,1)*0.001D0
      >, KLE, LBL1, LBL2, F(6,1)*0.01D0, (AKL(I), I=1,3)
-     >, CSTRN, RPRM, '   ! optimp.f', IPASS,DPREF
+     >, CSTRN, RPRM, '   ! optimp.f', IPASS,DPREF,HDPRF
      >, R(1,1),R(1,2),R(2,1),R(2,2)
      >, R(3,3),R(3,4),R(4,3),R(4,4)
      >, R(5,1),R(5,2),R(5,3),R(5,4),R(5,6),F(6,6)
      >, (SN0(JJ),JJ=1,4),AL,DEV
  104  FORMAT(1P,13(E15.7E3,1X),1X,I5,4(1X,E13.5E3),3(1X,A)
-     >,6(1X,E13.5E3),A,1X,I0,1X,15(E14.6E3,1X)
+     >,6(1X,E13.5E3),A,1X,I0,1X,16(E14.6E3,1X)
      >,6(E14.6E3,1X))
 C FM 14 Apr. 14
 C     >,5(1X,E13.5),A,/)

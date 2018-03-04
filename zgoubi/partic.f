@@ -20,7 +20,7 @@ C
 C  François Méot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory           
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
+C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE PARTIC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -36,7 +36,7 @@ C  -------
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
       CHARACTER(11) CODE
@@ -45,13 +45,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       CHARACTER(20) PRTCL
 
-      LOGICAL FIRST 
+      LOGICAL FIRST, F7ZRO
       SAVE FIRST 
       INTEGER DEBSTR, FINSTR
 
       DATA CODE / 'NONE' /
 
       DATA FIRST / .TRUE. /
+      DATA F7ZRO / .TRUE. /
 
       IF(.NOT. FIRST) RETURN
       FIRST = .FALSE.
@@ -99,6 +100,18 @@ c           stop
 
 C----- Set time at OBJET
       DO I=1,IMAX
+        IF(AMQ(1,I)*AMQ(2,I) .EQ. 0.D0) CALL ENDJOB(
+     >  'Pgm partic. Mass or charge found null for particle #',I)
+      ENDDO
+      I=1
+      DO WHILE(I.LE.IMAX .AND. F7ZRO)
+        F7ZRO = F7ZRO .AND. (F(7,I) .EQ. 0.D0)
+        I = I + 1
+      ENDDO
+      IF(F7ZRO) THEN
+C F7 may have been set elsewhere, for instance by reading
+C input coordinates using OBJET[KOBJ=3]         
+        DO I=1,IMAX
         IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
 C Err. Corr. Franck, Nov. 05
 C          P = BORO*CL9*AMQ(2,I)
@@ -115,7 +128,8 @@ CC            F(1,I) = F(1,I) * AM2/AM
 C          ENDIF
 C        ENDIF        
         ENDIF
-      ENDDO
+       ENDDO
+      ENDIF
 
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,T6,''Particle  properties :'')')       

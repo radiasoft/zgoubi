@@ -1202,7 +1202,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         'KEYWORD    label1     label2       FO(6,1)       ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
      >         '       r       !    optimp.f    ' //
-     >         'IPASS            P/Pref   ....  pathL:45 ...'//  
+     >         'IPASS            P/Pref-[]   []   ....  pathL:46 ...'//  
      >         '  R11  R12  R21' //
      >         '  R22  R33  R34  R43  R44  R51 R52  R53  R54  '   //
      >         'R56  pathL=F(2,6) '
@@ -1215,7 +1215,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
      >         '       27      28      29        ' //
-     >         '30             31     ....   pathL:45 ...'  
+     >         '30             31     ....   pathL:46 ...'  
           ENDIF
         ENDIF
       ELSE

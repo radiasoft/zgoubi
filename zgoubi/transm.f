@@ -41,7 +41,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
       INCLUDE "C.TRNSM.H"     ! COMMON/TRNSM/ R(6,6),T(6,6,6)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
@@ -98,7 +98,7 @@ C 11     CONTINUE
 C      ENDIF
  
       IF(NRES.GT.0) THEN
-        WRITE(NRES,105) IORD,XLM,SCUM,DPREF
+        WRITE(NRES,105) IORD,XLM,SCUM,DPREF+HDPRF
  105    FORMAT(/,20X,8('+'),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
      >  I1,3X,8('+'), 1P,
      >  /,20X,'Length  of  element  :',G15.4,' m',
@@ -134,8 +134,6 @@ C      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
 
       DO 1 I=1,IMAX
         FF(6)=F(1,I) -1.D0
-C        FF(6)=DP
-c        FF(6)=DPREF -1.D0
         FF(1)=F(2,I)/1.d2
         FF(2)=F(3,I)/1.d3
         FF(3)=F(4,I)/1.d2

@@ -212,9 +212,9 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../KEYWORDS/SOLENOID.and.BREVOL/"
 echo "        "
-(cd ../KEYWORDS/SOLENOID.and.BREVOL/ ; cp trunk502.res_150226 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../KEYWORDS/SOLENOID.and.BREVOL/ ; cp SOLENOID.and.BREVOL.res zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEYWORDS/SOLENOID.and.BREVOL/ - reference : "    | cat >>   compare.out
-grep "DetY-1 ="  ../KEYWORDS/SOLENOID.and.BREVOL/trunk502.res_150226        | cat >>   compare.out
+grep "DetY-1 ="  ../KEYWORDS/SOLENOID.and.BREVOL/SOLENOID.and.BREVOL.res        | cat >>   compare.out
 echo "                          - new : "                                          | cat >>   compare.out
 grep "DetY-1 ="  ../KEYWORDS/SOLENOID.and.BREVOL/zgoubi.res                 | cat >>   compare.out
 echo "        "                                                                    | cat >>   compare.out
@@ -291,11 +291,11 @@ echo "        "
 echo "        "
 echo "////////////////  Now doing :   ../KEYWORDS/TWISS/"
 echo "        "
-(cd ../KEYWORDS/TWISS/ ; cp TWISS_coupled.res_160711 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
+(cd ../KEYWORDS/TWISS/ ; cp TWISS_coupled.res_180303 zgoubi.dat ; ~/zgoubi/SVN/current/zgoubi/zgoubi)
 echo "////////////////  ../KEYWORDS/TWISS/ - reference : "               | cat >>   compare.out
-grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_160711        | cat >>   compare.out
-grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_160711        | cat >>   compare.out
-grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out_coupled_160711        | cat >>   compare.out
+grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_180303        | cat >>   compare.out
+grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/TWISS_coupled.res_180303        | cat >>   compare.out
+grep "    86 "  ../KEYWORDS/TWISS/zgoubi.TWISS.out_coupled_180303        | cat >>   compare.out
 echo "                          - new : "                                | cat >>   compare.out
 grep "dNu_y / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out
 grep "dNu_z / dp/p ="  ../KEYWORDS/TWISS/zgoubi.res                      | cat >>   compare.out

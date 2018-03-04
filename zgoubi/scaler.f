@@ -33,7 +33,7 @@ C  -------
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
+      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
@@ -47,7 +47,7 @@ C  -------
 
       CHARACTER(KSIZ) KLEY
 
-      LOGICAL EMPTY, STRCON, SCALEX
+      LOGICAL EMPTY, SCALEX
 
       SAVE TIME, ICTIM
       SAVE ARGDP, FACDP, PSYN
@@ -71,7 +71,7 @@ C  -------
       INTEGER DEBSTR, FINSTR
       LOGICAL OK3
 
-      LOGICAL IDLUNI, OK, OKOPN, OKPRT, OKPRTI
+      LOGICAL IDLUNI, OK, OKOPN, OKPRT, OKPRI
       LOGICAL STRWLD
 
       PARAMETER (NLB=1)
@@ -248,7 +248,7 @@ C                GOTO 88
                 I2 = I
                 XT2=XT1
               ENDIF  
-              BRO = BORO * DPREF
+              BRO = BORO * (DPREF+HDPRF)
 
 C              write(66,*) kf, bro, dpref, xt1,xt2
               IF( BRO .GE. XT1 .AND. BRO .LE. XT2 ) THEN
@@ -272,7 +272,7 @@ C        IF(I .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
                       I2 = IT
                       YT2=YT1
                     ENDIF  
-                    BRO = BORO * DPREF
+                    BRO = BORO * (DPREF+HDPRF)
 
 c                      write(66,*) ' scaler SCL2(KF,IT) ',SCL2(KF,IT)
 c                      write(66,*) ' scaler ',BRO,YT1 ,YT2 
@@ -330,10 +330,14 @@ C         IF(IT .GT. MXD) CALL ENDJOB('Pgm scaler. Need IT < ',MXD)
 c          call cavit1(
 c     >                PP0,GAMMA,dWs)
 c          scaler = SCL(KF,1) * pp0
-          SCALER = SCL(KF,1,1) * DPREF
-        
-c              write(*,*) 'scaler kti=-1. kf, scal ',KF,SCALER
-C                   read(*,*)
+
+           SCALER = SCL(KF,1,1) * (DPREF+HDPRF)
+
+c           if((ipass .eq. 1 .or. ipass .eq. 1000) .and. kf.eq.3) 
+c     >     write(88,*) ' scaler ',ipass,SCL(kf,1,1), DPREF,HDPRF,scaler
+           
+c          write(88,*) 'scaler kti=-1. kf, scal ',KF,SCALER,SCL(KF,1,1)
+c                   read(*,*)
     
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
@@ -555,7 +559,7 @@ c     >                  PP0,GAMMA,dWs)
             CALL CAVIT1(
      >                  DWS)
             IF(AM.LE.0.D0) CALL ENDJOB(' SBR scaler : need mass >',0)
-            P2 = DPREF * BORO*CL9*Q
+            P2 = (DPREF+HDPRF) * BORO*CL9*Q
             GAMMA = SQRT(P2 + AM*AM)/AM
             GG = G*GAMMA
             IF(GG .GT. TIM(KF,1)) THEN
@@ -592,7 +596,7 @@ C             Q-JUMP STARTED
             
             IF(SWITCH.NE.0.D0) THEN
 C              SCALER = FAC * SCL(KF,1) * PP0
-              SCALER = FAC * SCL(KF,1,1) * DPREF
+              SCALER = FAC * SCL(KF,1,1) * (DPREF+HDPRF)
             ELSE
               SCALER = 0.D0
             ENDIF
@@ -610,11 +614,15 @@ C              SCALER = FAC * SCL(KF,1) * PP0
 
  88   CONTINUE
 
-      IF(OKPRT) WRITE(LPRT,*) IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
-     >LABEL(NOEL,2), totalphasep, QN,
-     > ' IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),'//
-     > 'LABEL(NOEL,2), totalphasep, QN'
-
+      IF(OKPRT) THEN
+        MF=3
+        WRITE(LPRT,FMT='(1P,I6,1X,E14.6,1X,I6,1X,3A,2(1X,E14.6),
+     >I6,1X,E14.6,1X,2(E16.8,1X),A)')
+     >IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),
+     >LABEL(NOEL,2),totalphasep,QN,MF,SCL(MF,1,1)-1.D0,DPREF,HDPRF,
+     >' IPASS,SCALER,NOEL,KLEY,LABEL(NOEL,1),'//
+     >'LABEL(NOEL,2), totalphasep, QN, KF, SCL(KF,1,1)-1, DPREF, int%'
+      ENDIF
 c                 write(*,*) ' scaler ',jj,LABEL(NOEL,1),
 c     >             LABEL(NOEL,2), scaler
 
@@ -677,7 +685,7 @@ C      RETURN
         KFMO(J) = KFM(J)
         IF((KFMO(J).GE.0)) THEN
          IF ((NTIM(KFMO(J)).NE.-1 )) THEN
-           BRO = BORO*DPREF
+           BRO = BORO*(DPREF+HDPRF)
            DO I=1, JPA(KFM(J),MXP) 
               VPA(KFM(J),I) = SPLINT(TIM(KFM(J),1:NTIM(KFM(J))),
      >        SCL(KFM(J),1:NTIM(KFM(J)),I),NTIM(KFM(J)),BRO)
@@ -688,8 +696,8 @@ C      RETURN
       SCALE9 = 0.D0 
       RETURN
 
-      ENTRY SCALEX(OKPRTI)
-      OKPRT = OKPRTI
+      ENTRY SCALEX(OKPRI)
+      OKPRT = OKPRI
       IF(OKPRT) THEN 
         IF(.NOT.OKOPN) THEN
           OK =(IDLUNI(

@@ -215,7 +215,7 @@ C STONY BROOK LECTURES
 
 C SBU lectures - cyclotron
       PARAMETER (IZ=3 , ID=3, MMAP=3)
-      PARAMETER (MXX=700, MXY=200)
+      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
