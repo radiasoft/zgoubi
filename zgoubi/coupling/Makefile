@@ -1,4 +1,4 @@
-ARFLAGS=rvU
+ARFLAGS=rv
 DIRLIBS  = -L.
 
 OBJS = \

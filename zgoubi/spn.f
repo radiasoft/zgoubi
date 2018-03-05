@@ -54,7 +54,7 @@ C  -------
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
       DATA XNRM / 0.D0 /
-
+      
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
  
@@ -68,7 +68,7 @@ C  -------
 C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(//,15X,
-     >  'Final  spins  of  last  run  taken  as  initial  spins')
+     >  'Final  spins  of  last  run  taken  as  initial  spins.')
         RETURN
       ENDIF
  
@@ -89,44 +89,49 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >     '' tracking machinery. '',/)')
           ENDIF
         ELSE
-          WRITE(NRES,110) AM, G
- 110      FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
-     >    ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
-     >    , /,25x,' Gyromagnetic  factor  G = ',G15.7)
+          IF(KOBJ .EQ. 3) THEN
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
+     >      ''Spins read by OBJET are taken as initial spins.'')')
+          ELSE
+            WRITE(NRES,110) AM, G
+ 110        FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
+     >      ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
+     >      , /,25x,' Gyromagnetic  factor  G = ',G15.7)
  
-          WRITE(NRES,111) KSO
- 111      FORMAT(/,25X,' Initial spin conditions type ',I2,' :')
+            WRITE(NRES,111) KSO
+ 111        FORMAT(/,25X,' Initial spin conditions type ',I2,' :')
  
-          IF    (KSO .LE. 3) THEN
-            WRITE(NRES,101) KAX(KSO)
- 101        FORMAT(30X,' All particles have spin parallel to  ',A1
-     >      ,'  AXIS')
-          ELSEIF(KSO .EQ. 4) THEN
-            IF    (KSO2 .EQ.0) THEN
-              WRITE(NRES,104) NINT(A(NOEL,9)/10)
- 104          FORMAT(
-     >           30X,'All spins entered particle by particle'
-     >        ,/,30X,'Particles # 1 to ',I0,' may be subjected to spin '
-     >        ,      'matching using FIT procedure')
-            ELSEIF(KSO2 .EQ.1) THEN
-              WRITE(NRES,113) NINT(A(NOEL,9)/10)
- 113          FORMAT(
-     >           30X,'Same spin for all particles'
-     >        ,/,30X,'Particles # 1 to ',I0,' may be subjected to spin '
-     >        ,      'matching using FIT procedure')
-            ELSEIF(KSO2 .EQ.2) THEN
-              WRITE(NRES,112) 
-     >        TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
- 112          FORMAT(
-     >           30X,'Same spin for all particles, read from file ',A)
-            ENDIF
-          ELSEIF(KSO .EQ. 5) THEN
-            WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)') 
-     >      'TO, PO, A, dA : ',
-     >      A(NOEL,10),A(NOEL,11),A(NOEL,20),A(NOEL,21)
-            WRITE(NRES,108)
- 108        FORMAT(15X,
-     >      'WARNING :  INSTALLATION OF KSO=5 NEEDS BE COMPLETED !',/)
+            IF    (KSO .LE. 3) THEN
+              WRITE(NRES,101) KAX(KSO)
+ 101          FORMAT(30X,' All particles have spin parallel to  ',A1
+     >        ,'  AXIS')
+            ELSEIF(KSO .EQ. 4) THEN
+              IF    (KSO2 .EQ.0) THEN
+                WRITE(NRES,104) NINT(A(NOEL,9)/10)
+ 104            FORMAT(
+     >             30X,'All spins entered particle by particle'
+     >          ,/,30X,'Particles # 1 to ',I0,' may be subjected to '
+     >          ,      'spin matching using FIT procedure')
+              ELSEIF(KSO2 .EQ.1) THEN
+                WRITE(NRES,113) NINT(A(NOEL,9)/10)
+ 113            FORMAT(
+     >             30X,'Same spin for all particles'
+     >          ,/,30X,'Particles # 1 to ',I0,' may be subjected to '
+     >          ,      'spin matching using FIT procedure')
+              ELSEIF(KSO2 .EQ.2) THEN
+                WRITE(NRES,112) 
+     >          TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
+ 112            FORMAT(
+     >             30X,'Same spin for all particles, read from file ',A)
+              ENDIF
+            ELSEIF(KSO .EQ. 5) THEN
+              WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)') 
+     >        'TO, PO, A, dA : ',
+     >        A(NOEL,10),A(NOEL,11),A(NOEL,20),A(NOEL,21)
+              WRITE(NRES,108)
+ 108          FORMAT(15X,
+     >        'WARNING :  INSTALLATION OF KSO=5 NEEDS BE COMPLETED !',/)
+           ENDIF
          ENDIF
  
           P = BORO*CL9*Q
@@ -137,7 +142,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >    //,25X,' PARAMETRES  DYNAMIQUES  DE  REFERENCE :'
      >    ,/,30X,' BORO   =  ',F12.3,' KG*CM'
      >    ,/,30X,' BETA   =  ',F10.6,/,30X,' GAMMA*G = ',F10.6)
- 
+
         ENDIF
       ENDIF
  
@@ -158,7 +163,9 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         ENDIF
         KSPN = 1
       ENDIF
- 
+
+      IF(KOBJ .EQ. 3) RETURN
+      
       GOTO(1,1,1,4,5) KSO
       RETURN
  

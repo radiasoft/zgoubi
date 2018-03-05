@@ -49,6 +49,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
 
       CHARACTER(LNTA) NOMFIC
@@ -449,6 +450,10 @@ C To be clean, otherwise LET(i) is undefined
         FO(5,IT1)=PO
         FO(6,IT1)=SO
         FO(7,IT1)=TIMO
+        SI(1,IT1)= SIX
+        SI(2,IT1)= SIY
+        SI(3,IT1)= SIZ
+        SI(4,IT1)= SIN
 
         IF (PABSLU) THEN
            DP0(IT1)=DP*DPFAC * BRO/BORO
@@ -464,7 +469,11 @@ C          SUBSEQUENT PARTICUL
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
-C         write(*,*) ' obj3 ',y,t,z,p,dp
+        SF(1,IT1)=SFX
+        SF(2,IT1)=SFY
+        SF(3,IT1)=SFZ
+        SF(4,IT1)=SFN
+C     write(*,*) ' obj3 ',y,t,z,p,dp
 C         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(7,it1)
         IREP(IT1) = IT1
         IF (AMQLU(3)) THEN
