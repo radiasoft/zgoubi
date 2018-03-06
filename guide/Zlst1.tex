@@ -2731,8 +2731,8 @@ regarding options 3.1-3.3, see the source file \texttt{'obj3.f'}.
 
 \paragraph{\textsl{RECOVERING FROM A CRASH}}\index{OBJET!- recovering from a crash}
 
-\noindent \textsl{OBJET} with option \KOBJ=3[.*] can be used to recover from a job 
-crash, when multi-turn tracking  - due to computer crash or else. This is discussed in the 
+\noindent \textsl{OBJET} with option \KOBJ=3 can be used to recover from a job 
+crash, which would occur when multi-turn tracking  -~due to computer crash or else. This is discussed in the 
 \textsl{SCALING} section, page~\pageref{SCALING}, an example of job resuming is given  page~\pageref{ExaOBJ3Recovery}. 
 
 \bigskip
@@ -4319,8 +4319,8 @@ acceleration through depolarizing resonances).
 \paragraph{\textsl{RECOVERING FROM A CRASH}}\index{REBELOTE!- recovering from a crash}
 
 \noindent When accelerating a bunch, \textsl{REBELOTE} is used to ensure the multi-turn process. 
-Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
-from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
+Now, if the job is stopped -~due to computer crash or else~-  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file),  using \textsl{OBJET}, \KOBJ = 3.
   \textsl{CAVITE} and  \textsl{SCALING} aspects of the data file modifications necessary to ensure the recovery, 
 in the case of pulsed magnets,  are 
 discussed respectively in the \textsl{SCALING} section, pp.~\pageref{SCALING},~\pageref{CrashSCALING}, 
@@ -4624,15 +4624,13 @@ This should be paid attention to by preliminary simulation tests.
 \noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
 so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
 argument list, see the two previous examples. 
-Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
-from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
-In the presence of acceleration using \textsl{CAVITE} however,  since there is no reference particle in \zgou, 
-  \textsl{CAVITE}  needs be told the reference rigidity at the corresponding time/turn where tracking is resumed. 
-This is done using \textsl{SCALING}, see example page~\pageref{ExaOBJ3Recovery}. This has the effect of updating 
-the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the one it had when the job stopped. 
-
-
-
+Now, if the job  stops during the multiturn tracking -~due to computer crash or else~-  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file),  using \textsl{OBJET}, \KOBJ = 3.
+In the presence of acceleration using \textsl{CAVITE},  since there is no reference particle in \zgou, 
+  \textsl{CAVITE} will read from [b\_]zboubi.fai the reference rigidity at the corresponding time/turn when tracking crashed/resumes. 
+Note that, as far as \textsl{CAVITE} is concerned, this recovery process in only installed for \textsl{CAVITE/Option=2},
+a option often used for synchronous acceleration
+(recovery for additional \textsl{CAVITE} options can be added in \texttt{cavite.f} program). 
 
 
 \newpage
@@ -5619,7 +5617,7 @@ accelerating cavity~; it can be used in conjunction with  keywords \REBELOTE\ind
 and \textsl{SCALING} for 
 the simulation of multi-turn\index{multi-turn tracking} tracking with synchrotron or 
 fixed field (FFAG, cyclotron) \index{FFAG} \index{cyclotron} acceleration (see section~\ref{sec4.6.4}). 
-It can also be used to simulate recirculating/energy-recovery linacs. 
+It can also be used to simulate recirculating linacs and energy-recovery linacs. 
 \textsl{CAVITE}  must be preceded by \textsl{PARTICUL} for the definition 
 of mass ~$ M $ and charge~$ q$.   
 
@@ -5950,12 +5948,10 @@ ray-tracing over one turn a particle starting with the initial condition
 \noindent When accelerating a bunch in a pulsed ring, \textsl{SCALING} is used to ramp magnetic fields, 
 so following the rigidity increase by  \textsl{CAVITE}.  \textsl{CAVITE} may or may not be part of the \textsl{SCALING}
 argument list, this is discussed in the \textsl{SCALING} section, page~\pageref{CrashSCALING}. 
-Now, if the job is stopped - due to computer crash or else -  it is possible to resume the tracking 
-from the latest records (in [b\_]zboubi.fai storage file), for instance using \textsl{OBJET}, \KOBJ = 3.
-In the presence of acceleration using \textsl{CAVITE} however,  since there is no reference particle in \zgou, 
-  \textsl{CAVITE}  needs be told the reference rigidity at the corresponding time/turn where tracking is resumed. 
-This is done using \textsl{SCALING}. This has the effect of updating 
-the refrence rigidity $B\rho_{ref}$ to its correct value (see Note~1 above), the one it had when the job stopped. 
+Now, if the job is stopped -~due to computer crash or else~-  it is possible to resume the tracking 
+from the latest records (in [b\_]zboubi.fai storage file),  using \textsl{OBJET}, \KOBJ = 3.
+In the presence of acceleration using \textsl{CAVITE},  since there is no reference particle in \zgou, 
+  \textsl{CAVITE} will read from [b\_]zboubi.fai the reference rigidity at the corresponding time/turn when tracking crashed/resumes.
 See  the \textsl{SCALING} section for more (page~\pageref{SCALING}) and the examples there, as well as the example 
  page~\pageref{ExaOBJ3Recovery}. 
 

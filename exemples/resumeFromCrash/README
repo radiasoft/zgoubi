@@ -3,36 +3,19 @@
 
 * Game here is to resume tracking after stop at turn number 1000
 
-* zgoubi.fai save is at start of turn, thus rays are saved w/ coordiantes at start of turn 1000
-It is next copied to turn1000.fai for read by grorud_resume.dat.
+* running track.res generates turn3000.fai
 
-* turn1000.fai is read using OBJET/kobj=3 (*NOT* 3.N, N.ne.0)
+* OBJET in resume.res reads initial particle ccordinates in turn3000.fai (at turn #1000)
+  running resume.res generates resume.fai
+  
+* gnuplot superimpose turn1000.fai and resume.fai in the turn region 990-1030.
 
-* CAVITE/opt=2 is used to accelerate.  It is equipped for recovering (A couple of tests on kobj=3)
+* Note:
+CAVITE/opt=2 is used to accelerate.  It is equipped for recovering (A couple of tests on kobj=3)
 (using different CAVITE option is possible, but cosmetics for handling kobj3 recovery must be added, in cavite.f).
 
-* In grorud_resume.dat I had to change    3 0. 0. 0. to    3 0. 0. -0.1963495506854311, otherwise it yields wrong arc length and wrong deviation:
-                Arc length    =   2.484246E+02 cm
-                Deviation    =   2.252182E+01 deg.,    3.930798E-01 rad
-     KPOS =  3 :  automatic positioning of element, 
-        XCE, YCE, ALE =   0.000000000       0.000000000     -0.1965399193     cm/cm/rad
-instead of (grorud_2006.dat):
-                Arc length    =   2.481838E+02 cm
-                Deviation    =   2.250000E+01 deg.,    3.926991E-01 rad
-     KPOS =  3 :  automatic positioning of element, 
-        XCE, YCE, ALE =   0.000000000       0.000000000     -0.1963495507     cm/cm/rad
+* track.res and resume.res, bottom of these files, show same final coordiantes and spin.
 
-This is because the A73, when actualized by chxc (jeust after 1st pass by bendi)
-does not take the expected value -0.1963495506854311. 
-I do not have to do that in grorud.dat, only in grorud_resume.dat.
-Pourtant, scaler computes, correctly, same scal at turn 1000 in grorud_2006, and at turn 1 in groryd_resume:
-  scaler         1000   5.0186700000000002        9.5702950229936690E-004   1.0000000000000000        5.0234730152523053     
-  scaler            1   5.0186700000000002        9.5702950200000003E-004   1.0000000000000000        5.0234730152508025     
-so, scal ends up the same in bendi, and dev should not be changed... I can't figue...
-
-Anyway, with "3 0. 0. ale=-dev/2" it works...
-
-* spinMotion.eps shows great overlapping of spin over turns 1-2000 from grorud_resume (over the 1000-3000 region in the graph), on top of grorud_2600's 1-3000 tracking.
 
 
 

@@ -3523,180 +3523,184 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 \newpage
 
 
-\noindent $\bullet$ \textbf{OBJET, \KOBJ=3} recovering from a crash~: An example  \label{ExaOBJ3Recovery}
+\noindent $\bullet$ \textbf{OBJET, \KOBJ=3}, recovering from a crash~: An example  \label{ExaOBJ3Recovery}
 \index{OBJET!- recovering from a crash}
 
 \smallskip 
 
-\noindent The job below, a 9 million turn tracking in RHIC, crashed at turn \# 2,217,299. 
-It can be read from the storage file b\_zgoubi.fai (or infered as well from the \textsl{OBJET} 
-and \textsl{CAVITE} data), that the reference (synchronous, theoretical) 
-rigidity at the previously saved turn (turn\# 2,217,298, the closest integer multiple of 67) 
-was  $B\rho_{\rm ref}=272.519214209$~T.m (magnet scaling coefficient under \textsl{SCALING}, right column below), 
-which is $B\rho_{\rm ref} / \BORO = 3.111758007$ 
-(as used in \textsl{SCALING}, \texttt{CAVITE} data, right column), with $\BORO=87.5772517$~T.m the initial rigidity (25.33~GeV), top of left column. 
+\noindent The job below simulates spin tracking in SATURNE 3~GeV proton synchrotron. 
+Turn-by-turn coordinates at the beginning of the ring sequence  are stored in zgoubi.fai during the tracking.
+\textsl{CAVITE/Option=2} is used.
 
-\noindent The right column shows how these informations are transposed to the new tracking run based on 
-\textsl{OBJET, \KOBJ=3}, which allows resuming tracking from that last saved turn \#2,217,298.  
+\smallskip 
+\noindent The left column shows the input data file for initial job. The 'INCLUDE' command uploads SATURNE ring
+sequence, from the very file used in the example in Sec.~\ref{Sec3SATURNESpin} (page~\pageref{Sec3SATURNESpin}, PART~B of the guide)
+-~note: it only loads the sequence comprised between the markers ``\#StartRing''  and ``\#EndRing''). 
+
+\smallskip 
+\noindent The right column  shows how 
+\textsl{OBJET, \KOBJ=3} is used to allow resuming tracking  at start of turn \#1000, possibly following a crash during that turn.
+\textsl{OBJET, \KOBJ=3} requests reading initial coordinates from turn3000.fai, at turn 1000.
 
 ~
 
 \hspace{-7ex}
 \begin{minipage}{0.499\linewidth}
-This 9,000,000-turn job crashed at turn number 2,217,299. Tracking starts from clock'6 IP in RHIC, 
- acceleration (keyword \textsl{CAVITE}) at a rate of $50 \times \cos(2.1618)$~kV per turn.
+This 3,000-turn job crashed at turn number 1,000. 
 
-Particle coordinates are stored turn-by-turn at SNK1 (keyword \textsl{FAISTORE}), location of the first helical dipole. 
+Particle coordinates were stored turn-by-turn at the beginning of the optical sequence, in turn3000.fai. 
 
 \scriptsize
 \begin{verbatim}
-'OBJET'        
-87.5772517e3                    
-2              ! Declare 8 particles, all 
-8 1            ! on a 21mu_m, norm. vertical invariant. 
-0.     0.    2.58575455E-01  -1.73487148E-01  0. 1. 'o'   
-0.     0.    1.82840458E-01   1.21643409E-01  0. 1. 'o'   
-0.     0.    1.58331802E-17   3.45516907E-01  0. 1. 'o'   
-0.     0.   -1.82840458E-01   3.66991287E-01  0. 1. 'o'   
-0.     0.   -2.58575455E-01   1.73487148E-01  0. 1. 'o'   
-0.     0.   -1.82840458E-01  -1.21643409E-01  0. 1. 'o'   
-0.     0.   -4.74995405E-17  -3.45516907E-01  0. 1. 'o'   
-0.     0.    1.82840458E-01  -3.66991287E-01  0. 1. 'o'   
-1 -1 -1 -1 -1 -1 -1 -1  ! on/off switches. Particle 1 selected. 
-'PARTICUL'        ! Particle data needed for spin tracking.
-9.382720300E+02 1.602176487E-19 1.792847400  0. 0.  
-'SPNTRK'     
-3                 ! All initial spins vertical. 
-'FAISCEAU'
-'FAISTORE'        ! Storage location in sequence is at SNK1, 
-b_zgoubi.fai SNK1 ! the first of the two helicoidal snakes. 
-67                ! Storage (at pass 1 and) every 67 passes.
-'SCALING'          
-1  5              ! 5 families of magnets ramped. 
-BEND              ! Magnet fields strictly follow cavity kick :
--1                ! (i) NT=-1 can be used, and (ii) CAVITE does 
-87.5772517        ! not need be declared under SCALING.
-1     
-MULTIPOL HKIC VKIC              
--1    
-0.                ! Zero field in HKIC and VKIC magnet families.
-1     
-MULTIPOL QUAD                   
--1    
-87.5772517                      
-1     
-MULTIPOL SEXT                   
--1    
-87.5772517                      
-1     
-MULTIPOL MULT                   
--1    
-87.5772517                      
+SATURNE. CROSSING GammaG=7-NUz, NUz=3.60877(perturbed)
+ 'OBJET'                                                                                                     
+5018.67
+2
+1  1
+0. 0.   .458  0.  0.  1.00   'o'
 1
- 'OPTIONS'
-1 1   
-WRITE OFF                       
-'MARKER'   MARK      RHIC$START   
-'MARKER'   MARK      CLOCK6down
-
--------------------------------------------------
------ RHIC ring, from CLOCK6 to CLOCK6 ----------
------ including snake 1 region : 
-'MARKER' SNK1
-'SPINR'    Snake1     OSNKE                        
-1     
-+45. 180.                ! snakAxis, spin angle 
--------------------------------------------------
-
-'MARKER'   MARK      CLOCK6up    
-'MARKER'   MARK      RHIC$END   
-'CAVITE'  accelerating cavity  
-2     
-3833.8456    120.00 circumf., H 
-50e3    2.61799387799           
-'REBELOTE'                     
-8999999   0.4  99    ! Carry on tracking through optical 
-                     ! sequence 8999999 times.
-'END'
+ 
+ 'PARTICUL'                                                                                                   
+PROTON
+ 'SPNTRK'                                                                                                     
+3
+ 'FAISCNL'                                                                                                    
+turn3000.fai
+ 
+ 'SCALING'                                                                                                    
+1  3        PRINT
+QUADRUPO
+-1
+5018.67E-3
+1
+MULTIPOL
+-1
+5018.67E-3
+1
+BEND
+-1
+5018.67E-3
+1
+ 
+ 'DRIFT'                                                             
+0.
+ 
+'INCLUDE'
+1
+SATURNE.ring[#StartRing:#EndRing] 
+ 
+ 'CAVITE'                                                            
+2  PRINT
+105.5556848673  3.
+6000.   0.205303158892
+ 
+ 'REBELOTE'                                                          
+2999  0.2  99                  
+ 
+ 'FAISCEAU'                                                          
+ 'SPNPRT'                                                            
+ 
+ 'END'                                                               
 \end{verbatim}
 
 \end{minipage} \hspace{4ex}
 \begin{minipage}{0.47\linewidth}
-This run recovers from the  crash, starting at SNK1 (a permutation 
-of the previous data file) with coordinates as read from b\_zgoubi.fai 
-(storage file as filled by \textsl{FAISTORE} during the run that crashed). Magnet and cavity  data are 
-updated to their values  at turn number 2,217,299. 
+  The input data below recover from the crash,  starting with coordinates as read at turn 1,000 in turn3000.fai. 
 \scriptsize
 \begin{verbatim}
- 'OBJET'                        
-87.5772517e3                    
+SATURNE. CROSSING GammaG=7-NUz, NUz=3.60877(perturbed)
+ 'OBJET'                                                                                                      
+5018.67
 3
-1 8 1                    ! Will look for stored turn in 
-2217290  2217299 1       ! range (2217298 is concerned). 
-1. 1. 1. 1. 0. 1. 0. '*' ! Zero factor to 'S' for correct 
-0. 0. 0. 0. 0. 0. 0.     ! path length/RF phase at CAVITE.
+1 1  1
+1000 1000  1
+1. 1. 1. 1. 1. 1. 1. *
+0. 0. 0. 0. 0. 0. 0.
 0
-b_zgoubi.fai    ! The storage file is used to recover 
-                ! particle coordinates at pass # 2217299.
-'PARTICUL'                     
-9.382720300E+02  1.602176487E-19  1.792847400E+00  0. 0.  
-'SPNTRK'                       
-3      
-'FAISCEAU'                     
+turn3000.fai
+ 
+ 'PARTICUL'                                                                                                   
+PROTON
+ 'SPNTRK'                                                                                                     
+3
+ 'FAISTORE'                   
+resume.fai
+1
+ 
+ 'SCALING'                                                                                                    
+1  3   PRINT
+QUADRUPO
+-1                            
+5018.67E-3
+1
+MULTIPOL
+-1
+5018.67E-3
+1
+BEND
+-1
+5018.67E-3
+1
+ 
+ 'DRIFT'                                                                                                      
+0.
+ 
+'INCLUDE'
+1
+SATURNE.ring[#StartRing:#EndRing]
+ 
+ 'CAVITE'                                                                                                  
+2  PRINT
+105.5556848673  3.
+6000.   0.205303158892
+ 
+ 'REBELOTE'                                                                                                
+2000  0.2  99                  
+ 
+ 'FAISCEAU'                                                                                                  
+ 'SPNPRT'                                                                                                    
+ 
+ 'END'                                                                   
 
-'FAISTORE'                     
-b_zgoubi.fai   SNK1   
-67
-'SCALING'               
-1  6
-BEND  
--1    
-272.519214209                      
-1     
-MULTIPOL HKIC VKIC              
--1    
-0.    
-1     
-MULTIPOL QUAD                   
--1    
-272.519214209                      
-1     
-MULTIPOL SEXT                   
--1    
-272.519214209                      
-1     
-MULTIPOL MULT                   
--1    
-272.519214209                      
-1     
-CAVITE
-2
-1.            3.07555022085 
-1             6782702
-
-'OPTIONS'               
-1 1   
-WRITE OFF                        
-
-'MARKER' SNK1   ! start point changed to SNK1
-
-------------------------------------------------
------- RHIC ring, from snake 1 to snake 1 ------
-------------------------------------------------
-'SPINR'    Snake1     OSNKE                        
-1     
-+45. 180.                ! snakAxis, spin angle 
-
-'CAVITE'                 ! accelerating cavity,
-2                        ! location is arbitrary
-3833.8456    120.00 
-50e3    2.61799387799           
-'REBELOTE'              
-6782700   0.4  99                      
-'END'                   
 \end{verbatim}
 
 \end{minipage}  
+
+~
+
+\smallskip 
+\noindent Particle and spin coordinates at the end of the complete 3,000 turn run and at the
+end of the 1,000 to 3,000 turn recovery, as from the two files above, are \textsl{identical}, they are displayed below.
+
+
+\smallskip 
+
+\begin{minipage}{0.47\linewidth}
+\tiny
+\begin{verbatim}
+                                              TRACE DU FAISCEAU
+                                           (follows element #     90)
+                                                  1 TRAJECTOIRES
+
+                                   OBJET                                                  FAISCEAU
+
+          D       Y(cm)     T(mr)     Z(cm)     P(mr)       S(cm)       D-1     Y(cm)    T(mr)    Z(cm)    P(mr)      S(cm)
+
+o  1   1.0000     0.000     0.000     0.458     0.000       0.0000    0.0029    0.006    0.007    0.498   -1.263   0.000000E+00     1
+               Time of flight (mus) :   1244.3530     mass (MeV/c2) :   938.272    
+---
+                Spin  components  of  each  of  the      1  particles,  and  rotation  angle :
+
+                   INITIAL                                           FINAL
+
+           SX        SY        SZ        |S|         SX        SY        SZ        |S|       GAMMA   (Si,Sf)   (Z,Sf_X)  (Z,Sf)
+                                                                                                      (deg.)    (deg.)    (deg.)
+                                                                                           (Sf_X : projection of Sf on YZ plane)
+
+ o  1  0.000000  0.000000  1.000000  1.000000    -0.926463  0.185319  0.327602  1.000000      1.8937   70.877   29.496   70.877    1
+\end{verbatim}
+\end{minipage}  
+
 
 
 

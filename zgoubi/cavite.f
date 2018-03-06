@@ -884,18 +884,17 @@ C DTI is the time it took since the last passage in CAVITE
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
           if(.not. (kzob.eq.1 .and. kobj.eq.3)) then
-C           if(kobj.ne.3) then
               PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
           else
-c              write(*,*) ' cavite kobj3 ',ph(i)
-c              read(*,*)
             PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
-C            PHAS(I) = 1.959655E-01
           endif      
         ELSE
            PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
         ENDIF
 
+c              write(*,*) ' cavite kobj3 ',ph(i)
+c              read(*,*)
+        
 
         IF(OKIMP) 
      >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),23(1X,E14.6),A)') 

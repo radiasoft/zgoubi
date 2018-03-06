@@ -1231,7 +1231,7 @@ MATRIX, WITH NEW VARIABLES :
 %%%%%%%%%%%%%%%%%%
 %\addtocounter{page}{2}  %% 2
  %%%%%%%%%%%%%%figure%%%%%%%%%%%%%%
-\section{MULTITURN SPIN TRACKING IN SATURNE 3 GeV SYNCHROTRON}
+\section{MULTITURN SPIN TRACKING IN SATURNE 3 GeV SYNCHROTRON \label{Sec3SATURNESpin}}
 %\centerline{\textbf{EXAMPLE 5: MULTITURN TRACKING AND SPIN RESONANCE
 %CROSSING IN SATURNE }
 %\addcontentsline{toc}{section}{\numberline{5}MULTITURN SPIN TRACKING 
@@ -1342,6 +1342,8 @@ $ 10^{-3} $.}
   938.2723  1.6021892E-19  1.7928474 0. 0.  
  'SPNTRK'
  3  
+
+ 'MARKER' #StartRing                                                     
  'QUADRUPO'                 QP  1                                        5      
    0                                                                             
   46.723  10.  .763695                  .763695  = FIELD FOR BORO=1 T.m          
@@ -1506,18 +1508,20 @@ $ 10^{-3} $.}
 
   'ESL'                                                                  84 
   392.148                                                                                 
-  'CAVITE'                                                               85      
+ 'MARKER' #EndRing                                                      86
+
+ 'CAVITE'                                                               87      
    1                                                                             
   105.5556848673   3.                                                                  
   6000.      0.                   SIN(phis) = .234162, dE=1.40497 keV/Turn.      
- 'FAISCNL'                                                               86      
+ 'FAISCNL'                                                               88      
   b_zgoubi.fai                                                                     
-  'SPNPRNL'                                                              87      
+  'SPNPRNL'                                                              89      
   zgoubi.spn                                                                     
-  'SPNPRT'                                                               88      
-  'REBELOTE'                                                             90      
+  'SPNPRT'                                                               90      
+  'REBELOTE'                                                             91      
   2999  0.1 99                     TOTAL NUMBER OF TURNS = 3000                  
- 'END'                                                                   91     
+ 'END'                                                                   92     
 \end{alltt}
 \end{tiny}
 
