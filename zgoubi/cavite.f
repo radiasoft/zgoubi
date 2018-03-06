@@ -35,7 +35,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
@@ -219,7 +219,8 @@ C-------------------------------------------
       ENDIF
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) then
-        if(kobj.ne.3) then
+        if(.not. (kzob.eq.1 .and. kobj.eq.3)) then
+C        if(kobj.ne.3) then
           PS = P0
         else
           PS = P0*(DPREF+HDPRF)
@@ -882,14 +883,15 @@ C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to
 C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
-           if(kobj.ne.3) then
+          if(.not. (kzob.eq.1 .and. kobj.eq.3)) then
+C           if(kobj.ne.3) then
               PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
-           else
+          else
 c              write(*,*) ' cavite kobj3 ',ph(i)
 c              read(*,*)
-           PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
-           PHAS(I) = 1.959655E-01
-        endif      
+            PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
+            PHAS(I) = 1.959655E-01
+          endif      
         ELSE
            PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
         ENDIF

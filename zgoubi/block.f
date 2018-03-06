@@ -51,7 +51,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE 'C.PDATA.H'  ! COMMON /PDATA/ QELM,AMLEC,GLEC,AMPRO,GPRO,AMMU,GMU,TAUMU,Q3HE,AM3HE,G3HE
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
@@ -92,7 +92,7 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
      > 'O','A','B','C','D','E','F','G','H','I','J','K','L','M','N'
      >,'P','Q','R','U','V','W','X','Y','Z','2','3','4','5','6'
      >,'7','8','9','0','(',')','+','-','/','=','"','*'/
-      DATA KOBJ /0/
+      DATA KZOB, KOBJ / 0, 0 /
       DATA KFLD,MG,LC,ML,ZSYM/ 1,1,2,3,.TRUE./
       DATA IDS, KORD / 4, 2 /
       DATA AAM, Q / 0.D0, 1D0 /

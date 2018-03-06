@@ -33,7 +33,7 @@ C  -------
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU,PABSLU
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
@@ -89,7 +89,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >     '' tracking machinery. '',/)')
           ENDIF
         ELSE
-          IF(KOBJ .EQ. 3) THEN
+          IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
      >      ''Spins read by OBJET are taken as initial spins.'')')
           ELSE
@@ -164,7 +164,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         KSPN = 1
       ENDIF
 
-      IF(KOBJ .EQ. 3) RETURN
+      IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) RETURN
       
       GOTO(1,1,1,4,5) KSO
       RETURN

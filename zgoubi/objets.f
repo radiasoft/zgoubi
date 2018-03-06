@@ -51,7 +51,7 @@ C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles
 C            as resulting from decay (keyword 'MCDESINT')
       CHARACTER(1) KAR(41)
       INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT
+      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
@@ -68,6 +68,8 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
  
       DIMENSION REF(MXJ)
       LOGICAL FITING, FITFNL
+
+      KZOB = 1
 
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
