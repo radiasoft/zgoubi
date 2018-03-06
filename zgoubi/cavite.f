@@ -890,7 +890,7 @@ C           if(kobj.ne.3) then
 c              write(*,*) ' cavite kobj3 ',ph(i)
 c              read(*,*)
             PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
-            PHAS(I) = 1.959655E-01
+C            PHAS(I) = 1.959655E-01
           endif      
         ELSE
            PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
