@@ -3524,7 +3524,7 @@ $\delta Y$, $\delta T$, $\delta Z$, $\delta P$, $\delta D$\quad \=
 
 
 \noindent $\bullet$ \textbf{OBJET, \KOBJ=3}, recovering from a crash~: An example  \label{ExaOBJ3Recovery}
-\index{OBJET!- recovering from a crash}
+\index{OBJET!- recovering from a crash} \index{recovering from a crash}
 
 \smallskip 
 
@@ -3533,14 +3533,24 @@ Turn-by-turn coordinates at the beginning of the ring sequence  are stored in zg
 \textsl{CAVITE/Option=2} is used.
 
 \smallskip 
-\noindent The left column shows the input data file for initial job. The 'INCLUDE' command uploads SATURNE ring
+\noindent The left column shows the input data file for initial job, turn3000.dat.
+Note: the 'INCLUDE' command uploads SATURNE.ring
 sequence, from the very file used in the example in Sec.~\ref{Sec3SATURNESpin} (page~\pageref{Sec3SATURNESpin}, PART~B of the guide)
--~note: it only loads the sequence comprised between the markers ``\#StartRing''  and ``\#EndRing''). 
+-~it only loads that part of the file which is comprised between the markers labelled ``\#StartRing''  and ``\#EndRing''). 
 
 \smallskip 
-\noindent The right column  shows how 
+\noindent The right column, job resume.dat,  shows how 
 \textsl{OBJET, \KOBJ=3} is used to allow resuming tracking  at start of turn \#1000, possibly following a crash during that turn.
 \textsl{OBJET, \KOBJ=3} requests reading initial coordinates from turn3000.fai, at turn 1000.
+
+\smallskip 
+\noindent A possible check:
+the 2,000  tracking by resume.dat (right column below) should yield all three phase spaces, namely,
+$\rm (Y,T)$, $\rm (Z,P)$, $\rm (D,time)$ superimposing with turns 1,000-3,000 of the original turn3000.dat job (left column).
+If this does not happen: 
+a quick check is by comparison of turn 1000 in turn3000.fai and the initial value of the  coordinates in resume.fai,
+they should be {\sl identical}.
+
 
 ~
 
@@ -3582,9 +3592,6 @@ BEND
 5018.67E-3
 1
  
- 'DRIFT'                                                             
-0.
- 
 'INCLUDE'
 1
 SATURNE.ring[#StartRing:#EndRing] 
@@ -3595,11 +3602,9 @@ SATURNE.ring[#StartRing:#EndRing]
 6000.   0.205303158892
  
  'REBELOTE'                                                          
-2999  0.2  99                  
- 
+2999  0.2  99                   
  'FAISCEAU'                                                          
  'SPNPRT'                                                            
- 
  'END'                                                               
 \end{verbatim}
 
@@ -3642,9 +3647,6 @@ BEND
 5018.67E-3
 1
  
- 'DRIFT'                                                                                                      
-0.
- 
 'INCLUDE'
 1
 SATURNE.ring[#StartRing:#EndRing]
@@ -3655,13 +3657,10 @@ SATURNE.ring[#StartRing:#EndRing]
 6000.   0.205303158892
  
  'REBELOTE'                                                                                                
-2000  0.2  99                  
- 
+2000  0.2  99                   
  'FAISCEAU'                                                                                                  
  'SPNPRT'                                                                                                    
- 
  'END'                                                                   
-
 \end{verbatim}
 
 \end{minipage}  
