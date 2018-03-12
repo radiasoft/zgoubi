@@ -274,7 +274,7 @@ c     >                         s,sxl,s-sxl,xl,ds,kley,name,warn
 
       it = it + 1
       write(lw,fmt='(A,T111,I6)') '''TWISS''',it
-      write(lw,fmt='(A)')   '2  1. 1. '
+      write(lw,fmt='(A)')   '2  1. 1. coupled '
 C      write(lw,fmt='(A,T111,I6)') '''MATRIX''',it
 C      write(lw,fmt='(A)')   '1  11 '
 

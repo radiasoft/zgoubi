@@ -173,6 +173,7 @@ C        3rd data is energy loss at first pass, U0
             OK = STRCON(TXT132,'}',
      >                             JS) 
             IF(.NOT. OK) GOTO 90
+
             I = 1
             READ(TXT132(1:JS-1),*,ERR=90,END=90) TMP
             WRITE(STRA(I),*) TMP
@@ -180,6 +181,8 @@ C        3rd data is energy loss at first pass, U0
      >                                 IIS)) 
               I = I + 1
               TXT132 = TXT132(IIS+1:FINSTR(TXT132))
+              OK = STRCON(TXT132,'}',
+     >                               JS) 
               READ(TXT132(1:JS-1),*,ERR=90,END=90) TMP
               WRITE(STRA(I),*) TMP
             ENDDO
@@ -195,12 +198,12 @@ C        3rd data is energy loss at first pass, U0
         ENDIF
 
         DO I = 1, MSTR
-          IF(ISNUM(STRA(I))) THEN 
+c          IF(ISNUM(STRA(I))) THEN 
             READ(STRA(I),*,ERR=90,END=90) A(NOEL,19+I)
-          ELSE
-            CALL ENDJOB('Pgm rcavit. Check input data, '
-     >      //' non-numerical data found at line ',LINE)
-          ENDIF
+c          ELSE
+c            CALL ENDJOB('Pgm rcavit. Check input data, '
+c     >      //' non-numerical data found at line ',LINE)
+c          ENDIF
              
         ENDDO
       ENDIF

@@ -46,12 +46,14 @@ Compute avergae <p> and <p^2>, to deduce average tune and tune spread from chrom
  
       do i = 0, nFldr-1
  
-          write(txti,fmt='(i0)') i
-C          write(*,*) 'File : Run'//trim(txti)//'/zgoubi.fai.'
-          open(unit=1,file='Run'//trim(txti)//'/zgoubi.fai',
-     >    action='read')
-          write(*,*) 'Opened '//'Run'//trim(txti)//'/zgoubi.fai.'
-     >    //' Now computing <p> and <p^2>. '
+            write(txti,fmt='(i0)') i
+            open(unit=1,file='Run'//trim(txti)//'/zgoubi.fai',
+     >      action='read')
+c          if((i/10)*i .eq. i) then
+            write(*,*) 'Opened '//'Run'//trim(txti)//'/zgoubi.fai.'
+     >      //' Now computing <p> and <p^2>. '
+c          endif
+
           nbPass(i) = 0
           maxPass = -9999
           Dav = 0.d0
@@ -168,3 +170,4 @@ C     --------------------------------------
 
       RETURN
       END
+

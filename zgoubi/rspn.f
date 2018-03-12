@@ -39,7 +39,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
  
       INTEGER DEBSTR, FINSTR
-      CHARACTER(20) TXT20
+      CHARACTER(130) TXT130
       CHARACTER(LNTA) FNAME
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
@@ -47,20 +47,26 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
 C     ... INITIAL SPIN DISTRIBUTION OPTION
       LINE = 1
-      READ(NDAT,*,ERR=90) TXT20
-      TXT20 = TXT20(DEBSTR(TXT20):FINSTR(TXT20))
-      IF(STRCON(TXT20,'!',
-     >                    IS)) TXT20 = TXT20(DEBSTR(TXT20):IS-1)
-      READ(TXT20,*,ERR=90) A(NOEL,1)
+      READ(NDAT,FMT='(A)',ERR=90) TXT130
+      TXT130 = TXT130(DEBSTR(TXT130):FINSTR(TXT130))
+      IF(STRCON(TXT130,'!',
+     >                    IS)) TXT130 = TXT130(DEBSTR(TXT130):IS-1)
+      IF(STRCON(TXT130,'startAt',
+     >                          IIS)) THEN
+        READ(TXT130(IIS+7:FINSTR(TXT130)),*,ERR=90) A(NOEL,2)
+      ELSE
+        A(NOEL,2) = 0
+      ENDIF
+      READ(TXT130,*,ERR=90) A(NOEL,1)
       KSO2 = 0
       IF    (A(NOEL,1).GE.0) THEN
-        READ(TXT20(1:1),FMT='(I1)') KSO
-        IF(STRCON(TXT20,'.',
+        READ(TXT130(1:1),FMT='(I1)') KSO
+        IF(STRCON(TXT130,'.',
      >                      IS)) THEN
-          READ(TXT20(IS+1:FINSTR(TXT20)),*,END=10,ERR=10) KSO2
+          READ(TXT130(IS+1:FINSTR(TXT130)),*,END=10,ERR=10) KSO2
         ENDIF
       ELSE
-        READ(TXT20(1:2),FMT='(I2)') KSO
+        READ(TXT130(1:2),FMT='(I2)') KSO
       ENDIF
 
  10   CONTINUE

@@ -51,13 +51,17 @@ C  -------
       CHARACTER(300) TXT,TXT2
       LOGICAL GTTEXT
 
+      SAVE KSPSAV
+
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
       DATA XNRM / 0.D0 /
       
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
- 
+
+      NSTRT=NINT(A(NOEL,2))
+
       ONCE = KSO .GE. 1  .OR. ONCE
  
       CALL REBELR(KREB3,KDUM,KDUM)
@@ -69,6 +73,7 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(//,15X,
      >  'Final  spins  of  last  run  taken  as  initial  spins.')
+        IF(IPASS .GE. NSTRT) KSPN = KSPSAV 
         RETURN
       ENDIF
  
@@ -89,6 +94,15 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >     '' tracking machinery. '',/)')
           ENDIF
         ELSE
+C<<<<<<< .mine
+          WRITE(NRES,FMT='(/,15X,'' SPIN  TRACKING  REQUESTED'')')
+          IF(NSTRT .GT. 0) WRITE(NRES,FMT='(/,15X,
+     >    '' Will only start at turn number '',I0)') NSTRT
+          WRITE(NRES,110) AM, G
+ 110      FORMAT(/,15X,1P
+     >    ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
+     >    , /,25x,' Gyromagnetic  factor  G = ',G15.7)
+C=======
           IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
      >      ''Spins read by OBJET are taken as initial spins.'')')
@@ -166,6 +180,11 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
 
       IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) RETURN
       
+      IF(NSTRT .GT. IPASS) THEN
+        KSPSAV = KSPN 
+        KSPN = 0        
+      ENDIF
+
       GOTO(1,1,1,4,5) KSO
       RETURN
  
