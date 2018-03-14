@@ -1,0 +1,12 @@
+
+/home/meot/zgoubi/struct/iRCMS/180313_bendWithFieldMap/sector/sectorMatrix_addQuad.dat
+
+adding QUADRUPO (same with MULTIPOL) causes printout
+"  *** Error. SBR TOSCAC. No such option MOD= 22 "
+
+and  we should be in toscap, not toscac...
+
+-----------------------------------------------------------------------------
+
+
+

@@ -56,6 +56,7 @@ C  -------
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
       DATA XNRM / 0.D0 /
+      DATA KSPSAV / 0 /
       
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
@@ -64,14 +65,14 @@ C  -------
 
       ONCE = KSO .GE. 1  .OR. ONCE
  
-      CALL REBELR(KREB3,KDUM,KDUM)
+      CALL REBELR(KREB3,KDUM,KDUM)   ! KREB3=0 at pass #1 before REBELOTE
       IF(  KREB3 .EQ. 99
      >.AND.  KSO .NE .0
      >.AND.  KSO .NE. -1
      >                   ) THEN
 C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
- 103    FORMAT(//,15X,
+ 103    FORMAT(/,15X,
      >  'Final  spins  of  last  run  taken  as  initial  spins.')
         IF(IPASS .GE. NSTRT) KSPN = KSPSAV 
         RETURN
@@ -100,8 +101,8 @@ C<<<<<<< .mine
      >    '' Will only start at turn number '',I0)') NSTRT
           WRITE(NRES,110) AM, G
  110      FORMAT(/,15X,1P
-     >    ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
-     >    , /,25x,' Gyromagnetic  factor  G = ',G15.7)
+     >    ,/,25X,' Particle  mass          = ',G15.7,' MeV/c2'
+     >    ,/,25x,' Gyromagnetic  factor  G = ',G15.7)
 C=======
           IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
@@ -150,7 +151,7 @@ C=======
           GG = G/SQRT(1.D0-BE*BE)
           WRITE(NRES,102) BORO,BE,GG
  102      FORMAT(
-     >    //,25X,' PARAMETRES  DYNAMIQUES  DE  REFERENCE :'
+     >    /,25X,' PARAMETRES  DYNAMIQUES  DE  REFERENCE :'
      >    ,/,30X,' BORO   =  ',F12.3,' KG*CM'
      >    ,/,30X,' BETA   =  ',F10.6,/,30X,' GAMMA*G = ',F10.6)
 
@@ -168,19 +169,15 @@ C=======
       ELSEIF(KSO.GE.1) THEN
         IF(AM .EQ. 0.D0) THEN
           IF(NRES.GT.0) WRITE(NRES,106)
- 106      FORMAT(//,15X,' SVP  INDIQUER  LA  MASSE  DES  PROJECTILES !'
+ 106      FORMAT(/,15X,' SVP  INDIQUER  LA  MASSE  DES  PROJECTILES !'
      >         ,/,15X,' - UTILISER  LE  MOT-CLE  ''PARTICUL''',/)
           CALL ENDJOB('SBR SPN. Need to provide particle mass.',-99)
         ENDIF
         KSPN = 1
       ENDIF
+      KSPSAV = KSPN
 
       IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) RETURN
-      
-      IF(NSTRT .GT. IPASS) THEN
-        KSPSAV = KSPN 
-        KSPN = 0        
-      ENDIF
 
       GOTO(1,1,1,4,5) KSO
       RETURN
