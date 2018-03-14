@@ -151,6 +151,8 @@ C      LOGICAL OKPRLB, OKPRDA
 
       LOGICAL TWOFF
       SAVE TWOFF
+
+      CHARACTER(LBLSIZ) LBL1, LBL2
       
       DATA PRDIC / .FALSE. /
       DATA IRET / 0 /
@@ -1714,6 +1716,12 @@ C-------------------------
      >             KLEO)
 C Current KLEY
       KLEO = KLEY(DEBSTR(KLEY):FINSTR(KLEY))
+      RETURN
+      ENTRY ZGLBL( 
+     >            LBL1,LBL2)
+C Current LABEL_1, _2
+      LBL1 = LABEL(NOEL,1)
+      LBL2 = LABEL(NOEL,2)
       RETURN
       ENTRY ZGMXKL( 
      >             MXKLEO)

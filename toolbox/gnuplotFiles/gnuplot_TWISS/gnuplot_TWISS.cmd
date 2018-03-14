@@ -28,10 +28,10 @@ set xrange  []
 #set xrange  [490:510]
 
  plot \
-      "zgoubi.TWISS.out" u ($13):($2) axes x1y1 w l lt 1 lc 1 tit "{/Symbol b}_x"  ,\
-      "zgoubi.TWISS.out" u ($13):($4) axes x1y1 w l lt 1 lc 3 tit "{/Symbol b}_y"  ,\
-      "zgoubi.TWISS.out" u ($13):($7) axes x1y2 w l lt 1 lc 2 lw 2 tit "{/Symbol h}_x"  ,\
-      "zgoubi.TWISS.out" u ($13):($9) axes x1y2 w l lt 1 lc 4 lw 2 tit "{/Symbol h}_y"  
+      "zgoubi.TWISS.out" u ($13):($2) axes x1y1 w l lt 1 lc rgb "red" tit "{/Symbol b}_x"  ,\
+      "zgoubi.TWISS.out" u ($13):($4) axes x1y1 w l lt 1 lc rgb "blue" tit "{/Symbol b}_y"  ,\
+      "zgoubi.TWISS.out" u ($13):($7) axes x1y2 w l lt 1 lc "magenta" lw 2 tit "{/Symbol h}_x"  ,\
+      "zgoubi.TWISS.out" u ($13):($9) axes x1y2 w l lt 1 lc rgb "cyan" lw 2 tit "{/Symbol h}_y"  
 
  set samples 10000
  set terminal postscript eps blacktext color enh size 8.3cm,5cm "Times-Roman" 12
@@ -53,8 +53,8 @@ pause 2
  set ytics  font "roman,12" mirror      #offset 0,-.6
 
  plot \
-      "zgoubi.TWISS.out" u ($13):($15) axes x1y1 w l lt 1 lc 1 tit "x"  ,\
-      "zgoubi.TWISS.out" u ($13):($17) axes x1y1 w l lt 1 lc 3 tit "y"  
+      "zgoubi.TWISS.out" u ($13):($15) axes x1y1 w l lt 1 lc rgb "red" tit "x"  ,\
+      "zgoubi.TWISS.out" u ($13):($17) axes x1y1 w l lt 1 lc rgb "blue" tit "y"  
 
  set samples 10000
  set terminal postscript eps blacktext color enh size 9.3cm,6cm "Times-Roman" 12

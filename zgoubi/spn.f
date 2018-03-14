@@ -106,11 +106,8 @@ C=======
           IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
      >      ''Spins read by OBJET are taken as initial spins.'')')
+
           ELSE
-            WRITE(NRES,110) AM, G
- 110        FORMAT(/,15X,' SPIN  TRACKING  REQUESTED  ',1P
-     >      ,//,25X,' Particle  mass          = ',G15.7,' MeV/c2'
-     >      , /,25x,' Gyromagnetic  factor  G = ',G15.7)
  
             WRITE(NRES,111) KSO
  111        FORMAT(/,25X,' Initial spin conditions type ',I2,' :')

@@ -1,4 +1,6 @@
 
+In quasex:
+
 VSHROS sequence had a bug it seems. It has be corrected and that impacts on the AGS model.
 /rap/lattice_tools may not need be chenged, as this is a minor effect, which is compensated by dK1F, dK1D adjustments in the model.
 

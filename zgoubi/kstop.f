@@ -49,6 +49,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(80) TXTELT
 
       LOGICAL FITING
+
+      LOGICAL OPN
+      CHARACTER(LBLSIZ) LBL1, LBL2
+      
       DATA FITING / .FALSE. /
 
       IF(JEX.LT.-1) GOTO 99
@@ -106,22 +110,28 @@ C     $     IREP(MXT),AMQLU,PABSLU
       ENDIF
  
       IF(.NOT.FITING) THEN 
-C        WRITE(6,100) 
-C     >  'Lmnt # '//TXTELT(1:FINSTR(TXTELT))//'-> Traj. #',
-C     >  II,' stopped (IK=',IK,') : ',
-C     >  TXT(DEBSTR(TXT):FINSTR(TXT)),' ;  remain/launched= ',
-C     >    IMX-NSTOP,'/',IMX
         CALL ZGNOEL(
      >              NUML)
         WRITE(ABS(NRES),100) 
-C     >  'LMNT # '//TXTELT(1:FINSTR(TXTELT))//'  -> Traj. #',
      >  'Lmnt #',NUML,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
-C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
  100    FORMAT(3(A,I0),A,I2,A,I6,A,I6)
-        call flush2(abs(nres),.false.) 
+
+        INQUIRE(UNIT=NFAI,ERR=99,IOSTAT=IOS,OPENED=OPN)
+        IF(OPN) THEN
+          CALL ZGNOEL(
+     >               NOEL)         
+          CALL ZGKLEY(  
+     >                KEY)
+          CALL ZGKLEY(  
+     >                LBL1,LBL2)
+          KPR = 1 
+          CALL IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2) 
+        ENDIF
+        
+        CALL FLUSH2(ABS(NRES),.FALSE.) 
       ENDIF 
 
       IF(NSTOP.GE.IMX) THEN
@@ -135,6 +145,8 @@ C 100    FORMAT(A,I6,A,I4,3A,I6,A1,I6)
         ENDIF
       ENDIF
 
+      
+      
  99   RETURN 1
 
       ENTRY KSTOPI(LMNTI)
