@@ -668,8 +668,8 @@ C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
       KALC = 2
       IDIM = I3
 C      IF(READAT) CALL RCARTE(KART,I3,
-      IF(READAT) CALL RTOSCA(KART,
-     >                            IDIM, ND(NOEL))
+      IF(READAT) CALL RTOSCA(IDIM, 
+     >                            ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
         KUASEX = 2
       ELSEIF(A(NOEL,22) .GT. 1) THEN
@@ -679,12 +679,14 @@ C      IF(READAT) CALL RCARTE(KART,I3,
      >  //'number of vertical mesh nodes and re-compile',-99) 
       ENDIF
       IF(FITGET) CALL FITGT1
-      IF    (KART.EQ.1) THEN 
+      IF    (NINT(A(NOEL,23)) .LT. 20) THEN
+Cartesian coordinates, KART=1 -> chxc -> toscac
         CALL QUASEX(
-     >                        ND(NOEL))
-      ELSEIF(KART.EQ.2) THEN 
+     >              ND(NOEL))
+      ELSE
+Cylindrical coordinates, KART=2 -> chxp -> toscap
         CALL AIMANT(
-     >                        ND(NOEL))
+     >              ND(NOEL))
       ENDIF
       GOTO 998
 C----- AUTOREF. CHGNT RFRNTIEL AUTMTIQ => PLAN NORMAL A LA TRAJ. DE REFERENCE
@@ -1520,7 +1522,7 @@ C----- EMMA. Read  2-D or 3-D field map,
 C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
  103  CONTINUE
       KALC = 2
-      IF(READAT) CALL REMMA(KART,I3,
+      IF(READAT) CALL REMMA(I3,
      >                        ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
 C------- 2-D map, KZMA = 1
@@ -1532,12 +1534,14 @@ C------- 3-D map, KZMA > 1
      >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
       ENDIF
       IF(FITGET) CALL FITGT1
-      IF    (KART.EQ.1) THEN 
+      IF    (NINT(A(NOEL,23)) .LT. 20) THEN
+Cartesian coordinates, KART=1 -> chxc -> emmac
         CALL QUASEX(
-     >                        ND(NOEL))
-      ELSEIF(KART.EQ.2) THEN 
+     >              ND(NOEL))
+      ELSE
+Cylindrical coordinates, KART=2 -> chxp -> emmap
         CALL AIMANT(
-     >                        ND(NOEL))
+     >              ND(NOEL))
       ENDIF
       GOTO 998
 C----- DIPOLEC. Like DIPOLES, with cartesian coordinates

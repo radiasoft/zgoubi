@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE RTOSCA(KART,IDIM,
-     >                            ND)
+      SUBROUTINE RTOSCA(IDIM,
+     >                       ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------
 C     Read input data for 'TOSCA' keyword

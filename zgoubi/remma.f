@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE REMMA(KART,IDIM,
-     >                            ND)
+      SUBROUTINE REMMA(IDIM,
+     >                      ND)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------
 C     READS B-FIELD FOR EMMA FFAG,

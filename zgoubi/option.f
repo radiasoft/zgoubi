@@ -101,18 +101,19 @@ C      ENDDO
            NRES = -ABS(NRES)
          ELSE
            CALL FITSTA(5,
-     >                FITING)
-           IF(NRSAV .NE. -11111 .AND. .NOT. FITING) THEN 
-C          IF(NRES.GT.0) THEN
-C Yann, 14-03-07. Necessary for the online model to work
-             IF(ABS(NRES).GT.0) THEN
+     >                   FITING)
+           IF(.NOT. FITING) THEN 
+C Yann, 14-03-07. NRES>0 here is necessary for the online model to work
+               CALL REBEL1(
+     >                     KWRT)
+               IF(KWRT.NE.0)  KWROFF = 0
+               KWROFF = 0
+               NRSAV = NRES
                NRES = ABS(NRES)
-               WRITE(ABS(NRES),FMT='(/,T5,A)') 'WRITE ON -> '//
+               WRITE(NRES,FMT='(/,T5,A)') 'WRITE ON -> '//
      >         '''WRITE'' bit in ''OPTIONS'' set to 1.'
-             ENDIF
-             CALL REBEL1(
-     >                 KWRT)
-             IF(KWRT.NE.0)  KWROFF = 0
+C             ELSE
+C             ENDIF
            ENDIF
          ENDIF
 
