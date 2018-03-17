@@ -208,14 +208,19 @@ C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
 C       PARAMETER (IZ=41 , ID=3, MMAP=1)
 C       PARAMETER (MXX=567, MXY=201)
 
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
+       PARAMETER (IZ=1 , ID=3, MMAP=1)
+       PARAMETER (MXX=2131, MXY=29)
+
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-      PARAMETER (IZ=3 , ID=3, MMAP=3)
-      PARAMETER (MXX=136, MXY=140)
+C      PARAMETER (IZ=3 , ID=3, MMAP=3)
+C      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
