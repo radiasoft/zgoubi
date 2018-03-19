@@ -28,8 +28,8 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
  
-      INCLUDE 'MXLD.H'
-      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+C      INCLUDE 'MXLD.H'
+C      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
@@ -44,6 +44,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
+      INCLUDE 'MXSTEP.H'
+
       INTEGER DEBSTR, FINSTR
       CHARACTER(42) TXT
       CHARACTER(80) TXTELT
@@ -57,7 +59,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       IF(JEX.LT.-1) GOTO 99
       KEX = -IK 
-
+      
       IF    (IK .EQ. 2 ) THEN
         CALL CNTNRJ
         TXT = 'too many integration steps (SBR INTEG)'
@@ -111,18 +113,23 @@ C     $     IREP(MXT),AMQLU,PABSLU
  
       IF(.NOT.FITING) THEN 
         CALL ZGNOEL(
-     >              NUML)
+     >              NOEL)
         WRITE(ABS(NRES),100) 
-     >  'Lmnt #',NUML,', pass #',IPASS,'   -> Traj. #',
+     >  'Lmnt #',NOEL,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
  100    FORMAT(3(A,I0),A,I2,A,I6,A,I6)
+        IF(IK.EQ.2)  WRITE(6,100) 
+     >  'Lmnt #',NOEL,', pass #',IPASS,'   -> Traj. #',
+     >  II,'  stopped  (IK=',IK,
+     >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
+     >    IMX-NSTOP,'/',IMX
 
         INQUIRE(UNIT=NFAI,ERR=99,IOSTAT=IOS,OPENED=OPN)
         IF(OPN) THEN
-          CALL ZGNOEL(
-     >               NOEL)         
+C          CALL ZGNOEL(
+C     >               NOEL)         
           CALL ZGKLEY(  
      >                KEY)
           CALL ZGKLEY(  
@@ -130,7 +137,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
           KPR = 1 
           CALL IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2) 
         ENDIF
-        
         CALL FLUSH2(ABS(NRES),.FALSE.) 
       ENDIF 
 

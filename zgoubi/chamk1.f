@@ -183,6 +183,35 @@ C       .... ORDRE 2 ,  3*3 points grid
       F8= HC(ID,IAC  ,IRC+1,1,IMAP) * SCAL
       F9= HC(ID,IAC+1,IRC+1,1,IMAP) * SCAL
 
+C Rustine iRCMS ------------------------
+c      if( ((a1-.35) .gt. -.725 .and. (a1-.35) .lt. -.475)
+c     > .or. ((a1-.35) .gt.-.2 .and. (a1-.35) .lt. 0.05) )  then
+c         ffff = 1.0
+c      F1=f1*ffff
+c      F2=f2*ffff
+c      F3=f3*ffff
+c      F4=f4 *ffff
+c      F5=f5 *ffff
+c      F6=f6 *ffff
+c      F7=f7 *ffff
+c      F8=f8 *ffff
+c      F9=f9 *ffff
+C     write(*,*) ' chamk1 a1, r1 ',a1, r1
+c      else
+c         ffff = .98
+c      F1=f1*ffff
+c      F2=f2*ffff
+c      F3=f3*ffff
+c      F4=f4 *ffff
+c      F5=f5 *ffff
+c      F6=f6 *ffff
+c      F7=f7 *ffff
+c      F8=f8 *ffff
+c      F9=f9 *ffff
+c      endif         
+C Fin de rustine iRCMS -----------------
+
+      
 C BB/FM/ 18/08 to be thought of......
       CALL MAPLIM( 9, BMESH1)
 

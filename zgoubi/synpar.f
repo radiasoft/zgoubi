@@ -94,8 +94,10 @@ C      SRMSE2=SRMSE2+11.d0/27.d0* EC**2  *ABS(ANG)/(2.D0*PI)
      >''Average energy loss : '',T80,G16.8,'' keV/particle'',6X,
      >/,15X,''- relative to initial energy :'',T80,G16.8)') 
      >SMELPP, SMELPP*1.D-3/E
-      WRITE(NRES,FMT='(5X,''rms photon energy : '',
-     >T80,1P,G16.8,'' keV'')') SQRT(SRMSE2)
+C FM. March 2018
+C Need check computation of the rms value over the series of dipoles:
+C     WRITE(NRES,FMT='(5X,''rms photon energy : '',
+C     >T80,1P,G16.8,'' keV'')') SQRT(SRMSE2)
       WRITE(NRES,FMT='(5X,''Number of average photons : '',
      >T80,1P,G16.8,'' /particle'')') SNMPP
 

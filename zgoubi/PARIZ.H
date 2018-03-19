@@ -113,8 +113,8 @@ c      PARAMETER (MXX=1001, MXY=101)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C AGS warm snake 
-       PARAMETER (IZ=29 , ID=3, MMAP=2)
-       PARAMETER (MXX=801, MXY=29)
+c       PARAMETER (IZ=29 , ID=3, MMAP=1)
+c       PARAMETER (MXX=801, MXY=29)
 
 CC AGS with (mmap -> +2) 3D snake maps (using TOSCA)  
 CC and using AGS dipole 2D maps (mmap -> +6) (using TOSCA)  
@@ -209,9 +209,9 @@ C       PARAMETER (IZ=41 , ID=3, MMAP=1)
 C       PARAMETER (MXX=567, MXY=201)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
-C For iRCMS
-C       PARAMETER (IZ=1 , ID=3, MMAP=1)
-C       PARAMETER (MXX=2131, MXY=29)
+C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
+       PARAMETER (IZ=1 , ID=3, MMAP=1)
+       PARAMETER (MXX=2131, MXY=29)
 
 
 C---------------------------------------------------------------
@@ -219,8 +219,8 @@ C---------------------------------------------------------------
 C STONY BROOK LECTURES 
 
 C SBU lectures - cyclotron
-c      PARAMETER (IZ=3 , ID=3, MMAP=3)
-c      PARAMETER (MXX=136, MXY=140)
+C      PARAMETER (IZ=3 , ID=3, MMAP=3)
+C      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------

@@ -127,19 +127,7 @@ C      Start loop on DXI
  
 C---------------------  Some tests to possibly stop integration
       NSTEP = NSTEP+1
-      IF(NSTEP .GT. MXSTEP) THEN
-        CALL ZGNOEL(
-     >             NOEL)
-        CALL ZGKLEY(  
-     >              KEY)
-        WRITE(ABS(NRES),fmt='(a,2(i0,a))') 
-     >  'Particle exceeded maximum # of steps allowed : ',MXSTEP,
-     >  '.  At element number ',NOEL,' ('//KEY//')'
-        WRITE(6,fmt='(a,2(i0,a))') 
-     >  'Particle exceeded maximum # of steps allowed : ',MXSTEP,
-     >  '.  At element number ',NOEL,' ('//KEY//')'
-        CALL KSTOP(2,IT,KEX,*97)
-      ENDIF
+      IF(NSTEP .GT. MXSTEP) CALL KSTOP(2,IT,KEX,*97)
  
       BACK = T*T .GT. PI24
       IF(.NOT.BACKW) THEN
