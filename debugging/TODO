@@ -1,4 +1,23 @@
 
+
+
+
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+In 
+/home1/meot/zgoubi/struct/KEYWORDS/BEND/wedgeMagnet/wedge60deg.dat
+
+the various BEND methods should agree with DIPOLE, top case.
+It's not the case
+TB dugged in
+
+
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+SOLVED. KART was not set in itme
+
 /home/meot/zgoubi/struct/iRCMS/180313_bendWithFieldMap/sector/sectorMatrix_addQuad.dat
 
 adding QUADRUPO (same with MULTIPOL) causes printout
@@ -6,6 +25,7 @@ adding QUADRUPO (same with MULTIPOL) causes printout
 
 and  we should be in toscap, not toscac...
 
+-----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 
 

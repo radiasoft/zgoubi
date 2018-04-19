@@ -125,7 +125,7 @@ C FM, 130605. Removed, causes problems (see zgoubi/folks/samTygier/problem...)
 C FM 171122. Coded step size with wedge BEND causes problems, 
 C not compatible with "3 regions" (it remains to determine why !), 
 C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
-        if (xls.lt.1d-10) then
+        IF (XLS.LT.1D-10) THEN
           CALL CHXC1R(
      >                KPAS)
           IF(KPAS .EQ. 0) THEN

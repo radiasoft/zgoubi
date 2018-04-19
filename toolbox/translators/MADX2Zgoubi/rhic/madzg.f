@@ -721,9 +721,9 @@ C----- RBEN -> BEND
           if(num .ge. 10 .and. num .le. 21) then
 
                numb = numb + 1
-            write(86,*)  ' numb ',ang, (2.d0*pi - devTot)/dble(132),numb
-
             ang = ang + (2.d0*pi - devTot)/dble(132)
+            write(86,*)
+     >       ' angle, numb ',ang, (2.d0*pi - devTot)/dble(132),numb
           
           endif
         endif
@@ -846,23 +846,24 @@ C        write(lw,fmt='(2F6.2,2(1x,F12.8))') x20,x8,ts
       write(lw,fmt='(A)') '4 .2401  1.8639  -.5572  .3904 0. 0. 0.'
 C      istepdip=int(xxl*cm/3.0d0)
 C      istepdip=int(xxl*cm/stpsiz)
-      istepdip=int(xxl*cm/stpBnd)
-      if(istepdip .ge. 10000) then
-        if(istepdip .ge. 99999) istepdip = 99999
-        write(lw,fmt='(A,I5,A,2X,A)') '#200|',istepdip,
-     + '|200    Bend',name
-      elseif(istepdip .ge. 1000  .and. istepdip .lt. 10000) then
-        write(lw,fmt='(A,I4,A,2X,A)') '#200|',istepdip,
-     + '|200    Bend',name
-      elseif(istepdip .ge. 100  .and. istepdip .lt. 1000) then
-        write(lw,fmt='(A,I3,A,2X,A)') '#200|',istepdip,
-     + '|200    Bend',name
-      elseif(istepdip .ge. 10  .and. istepdip .lt. 100) then
-        write(lw,fmt='(A,I2,A,2X,A)') '#200|',istepdip,
-     + '|200    Bend',name
-      elseif(istepdip .lt. 10) then
-        write(lw,fmt='(2A)') '#200|5|200    Bend',name 
-      endif
+c      istepdip=int(xxl*cm/stpBnd)
+c      if(istepdip .ge. 10000) then
+c        if(istepdip .ge. 99999) istepdip = 99999
+c        write(lw,fmt='(A,I5,A,2X,A)') '#200|',istepdip,
+c     + '|200    Bend',name
+c      elseif(istepdip .ge. 1000  .and. istepdip .lt. 10000) then
+c        write(lw,fmt='(A,I4,A,2X,A)') '#200|',istepdip,
+c     + '|200    Bend',name
+c      elseif(istepdip .ge. 100  .and. istepdip .lt. 1000) then
+c        write(lw,fmt='(A,I3,A,2X,A)') '#200|',istepdip,
+c     + '|200    Bend',name
+c      elseif(istepdip .ge. 10  .and. istepdip .lt. 100) then
+c        write(lw,fmt='(A,I2,A,2X,A)') '#200|',istepdip,
+c     + '|200    Bend',name
+c      elseif(istepdip .lt. 10) then
+c        write(lw,fmt='(2A)') '#200|5|200    Bend',name 
+c      endif
+      write(lw,fmt='(2A)') ' 1.  !  Bend',name 
       if(kpos.eq.3) then
         if(abs(tilt).lt.1d-10) then 
           write(lw,fmt='(A,1p,2x,e14.6)') '3 0. 0. ',-ang/2.d0

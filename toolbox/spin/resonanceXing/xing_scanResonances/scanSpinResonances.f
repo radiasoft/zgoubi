@@ -68,7 +68,10 @@ C Generate zgoubi_geneZGDat4Xing-Out.dat
       write(*,*) ' Pgm scanSpinResonances, now doing : ',
      >cmmnd(debstr(cmmnd):finstr(cmmnd))
         call system(cmmnd)
-         
+
+c      write(*,*) 'Press Enter to continue '
+c        read(*,*)
+        
 C Create dedicated directory and 
 C   moves zgoubi_geneZGDat4Xing-Out.dat there under dedicated name
         cmmnd = 'mkdir -p '//drctry(ifile)

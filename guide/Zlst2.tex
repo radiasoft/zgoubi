@@ -800,7 +800,7 @@ Expected format is 7 column rows. \\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
- \textsl{BNORM, XN}      \> Field and X-coordinate normalization  coeff.  \> 2*UnitConv. \> 2*E \\
+ \textsl{BNORM, XN}      \> Field and X-coordinate unit conversion  coeff.  \> 2*UnitConv. \> 2*E \\
         \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
@@ -866,7 +866,7 @@ myMapFile3
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
- \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.     \> 3*UnitConv. \> 3*E \\
+ \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate unit conversion  coeffs.     \> 3*UnitConv. \> 3*E \\
         \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
@@ -1902,7 +1902,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
  \\
- \textsl{ENORM, X-NORM}      \> Field and X-coordinate normalization  coeff.  \> 2*UnitConv. \> 2*E \\
+ \textsl{ENORM, X-NORM}      \> Field and X-coordinate unit conversion  coeff.  \> 2*UnitConv. \> 2*E \\
         \> Convert values  as read from map file, to MV/cm and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped. \> \>A80 \\
@@ -1958,7 +1958,7 @@ $ R1$, $R2$, $R3$, ..., $R{10}$    \>Skew angles of field components \>10*rad \>
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % $\IC$, $\IL$      \> see \textsl{CARTEMES} \>0-2, 0-2$[\times 10^n]$ \>2*I\\
  \\
- \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients. \> 4*UnitConv. \> 4*E \\
+ \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate unit conversion coefficients. \> 4*UnitConv. \> 4*E \\
         \> Convert values  as read from map file, to kG and cm or rad. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped  \> \>A80 \\
@@ -2937,7 +2937,7 @@ GOBACK
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
- \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.  \> 3*UnitConv. \> 3*E \\
+ \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate unit conversion  coeffs.  \> 3*UnitConv. \> 3*E \\
         \> Convert values  as read from map file, to kG and cm units. \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.  \> \>A80 \\
@@ -2996,7 +2996,7 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'}) :}
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>\>\\
  \\
- \textsl{ENORM, X-,Y-NORM}      \> Field and X-,Y-coordinate normalization  coeffs. \> 3*UnitConv. \> 3*E \\
+ \textsl{ENORM, X-,Y-NORM}      \> Field and X-,Y-coordinate unit conversion  coeffs. \> 3*UnitConv. \> 3*E \\
         \> Convert values  as read from map file, to MV/cm and cm units. \\
   \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped.   \> \>A80 \\
@@ -4060,7 +4060,7 @@ $ID$, $A$, $B$, $C$, ~ ~ ~ \qquad \quad  \= $ID=2$ : entrance ($A,B,C$) and exit
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. \> \> \\
  \\
- \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate normalization  coeffs.   \> 3*no dim. \> 3*E \\
+ \textsl{BNORM, XN,YN}      \> Field and X-,Y-coordinate unit conversion  coeffs.   \> 3*no dim. \> 3*E \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped  \> \>A80 \\
  \\
@@ -4117,7 +4117,7 @@ and possible updates are to be found in the source  file \texttt{'fmapw.f'} :}
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
 % \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.  \> \> \\
  \\
-  \textsl{BNORM, AN,RN}      \> Field and A-,R-coordinate normalization  coeffs.     \> 3*no dim. \> 3*E \\
+  \textsl{BNORM, AN,RN}      \> Field and A-,R-coordinate unit conversion  coeffs.     \> 3*no dim. \> 3*E \\
  \\
  \textsl{TITL}        \>Title. Start with ``FLIP'' to get field map X-flipped  \> \>A80 \\
  \\
@@ -5153,7 +5153,7 @@ cp zgoubi.res zgoubi.res_save
     \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \> \>   \\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
  \\
- \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate normalization coefficients. \> 4*UnitConv. \> 4*E \\
+ \textsl{BNORM, XN,YN, ZN}      \> Field and  X-,Y-,Z-coordinate unit conversion coefficients. \> 4*UnitConv. \> 4*E \\
         \> Convert values  as read from map file, to kG and cm or rad. \\
  \\
  \textsl{TITL}        \>Title. Include ``FLIP'' to get field map X-flipped.  \> \>A80 \\

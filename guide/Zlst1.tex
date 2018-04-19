@@ -1058,14 +1058,14 @@ fluctuations.
 the projection in  the ($ X,Y) $ plane of the actual point of the trajectory. 
 
 \noindent The interpolation polynomial is 
-
+%
  \begin{equation}
 	 B(X,Y,0) = A_{00} + A_{10}X + A_{01}Y + A_{20}X^2 + A_{11}XY + A_{02}Y^2
  	\label{eq2-4-4}
  \end{equation}
  %
  to the second order, or 
-
+%
  \begin{equation}
 	 \begin{aligned}
 		 B(X,Y,0)  = 
@@ -1077,7 +1077,7 @@ the projection in  the ($ X,Y) $ plane of the actual point of the trajectory.
 	 \end{aligned}
  	\label{eq2-4-5}
  \end{equation}
-
+%
 to the  fourth order.  The coefficients $ A_{ij} $ are calculated by
 expressions that 
 minimize, with respect to $ A_{ij}$, the quadratic sum 
@@ -8317,15 +8317,14 @@ $X_E $ at the entrance, and $ X_S $ at the exit (Fig.~\ref{fig30}).
 
 \medskip
 
-\noindent {\bf Method~1~:}   uses the on-axis field model 
+\noindent {\bf Method~1~:}   uses the on-axis field model
 \begin{equation}
 \label{EqSol}
-B_X(X,r=0) = \dfrac{\mu_0 N I }{2 \XL} \left[ \dfrac{\XL/2-X}{\sqrt{(\XL/2-X)^2+R_0^2}} 
+B_X(X,r=0) = \dfrac{B_0 }{2 } \left[ \dfrac{\XL/2-X}{\sqrt{(\XL/2-X)^2+R_0^2}} 
 +  \dfrac{\XL/2+X}{\sqrt{(\XL/2+X)^2+R_0^2}} \right]
 \end{equation}
-with $X=r=0$ taken at the center of the  solenoid. 
-This  model 
-assumes  that the coil thickness is small  compared to the mean radius $ R_0 $. 
+with $X=r=0$ taken at the center of the  solenoid.
+This  model assumes  that the coil thickness is small  compared to the mean radius $ R_0 $. 
 In this model, the magnetic length is 
 \begin{equation}
 \label{EqSol2}
@@ -8334,7 +8333,7 @@ L_{mag} \equiv  \dfrac{\int_{-\infty}^\infty B_X(X,r<R_0) dX }{B_X(X=r=0)}
 \end{equation}
 with in addition 
 $$B_X(\textrm{center}) \equiv B_X(X=r=0) = 
-      \dfrac{\mu_0 N I }{\XL\sqrt{1+\dfrac{4R_0^2}{\XL^2}}}.$$
+      \dfrac{\mu_0 N I }{\XL\sqrt{1+\dfrac{4R_0^2}{\XL^2}}} \ \ \stackrel{R_0 \ll XL}{\xrightarrow{\hspace{6ex}}} \ \ \dfrac{\mu_0 N I }{\XL} $$ 
 
 \medskip
 

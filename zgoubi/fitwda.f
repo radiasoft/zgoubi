@@ -317,8 +317,11 @@ C Old style CHANGREF
               WRITE(LW,FMT='(I0,1X,1P,3E16.8)')
      >                           NINT(A(NUEL,60)),(A(NUEL,J),J=61,63)  ! KPOS, XCE, YC, ALE
             ELSE
-              WRITE(LW,FMT='(I0,1X,1P,4E16.8)')
-     >                           NINT(A(NUEL,60)),(A(NUEL,J),J=61,64)  ! KPOS, RE, TE, RS, TS
+              WRITE(LW,FMT='(I0)')
+     >                           NINT(A(NUEL,60))     ! KPOS
+              READ(LR,FMT='(A)',ERR=10,END=10) TXT132
+              WRITE(LW,FMT='(1X,1P,4E16.8)')
+     >                           (A(NUEL,J),J=70,73)  ! RE, TE, RS, TS
             ENDIF
           ENDIF
         ENDIF

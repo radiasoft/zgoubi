@@ -135,6 +135,8 @@ C Get resonance style
         am = am * 1d6        ! MeV -> eV
         p =  boro*cl/1.d3
         Etot = sqrt(p*p+am*am)
+        bta = p/Etot
+        gma = Etot/am
         DE = Vp * sin(phis)      
         alpha = G * DE / am / (2. * pi)
         rho = 1./Bdip
@@ -160,14 +162,17 @@ C Save results
         if    (typ2(debstr(typ2):finstr(typ2)) .eq. 'intrinsic') then
           write(lunW,*) '% intrinsic ', 
      >    'E-tot, Qz, e_z/pi/1e-6, p_i, p_f, |N_n|^2/1e-6, |N_n|^2/ez'
+     >    //', |N_n| at 10pi'
           write(lunW,fmt='(1p,'' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
-     >           g11.3,1x, 4('' & '',g12.4))') 
+     >           g11.3,1x, 5('' & '',g12.4))') 
      >    Etot/1d9, znu, ez*1.d6, pini, pfin, 
-     >    A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez
+     >         A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez,
+     >         sqrt(A2*2.*alpha/pi/ez*(10e-6/(bta*gma)))
           write(*,fmt='(1p,'' & '',g13.5,1x,'' & '',g13.5,1x,'' & '',
-     >           g11.3,1x, 4('' & '',g12.4))') 
+     >           g11.3,1x, 5('' & '',g12.4))') 
      >    Etot/1d9, znu, ez*1.d6, pini, pfin, 
-     >    A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez
+     >    A2*2.*alpha/pi*1.d6, A2*2.*alpha/pi/ez,
+     >         sqrt(A2*2.*alpha/pi/ez*(10e-6/(bta*gma)))
 
         elseif(typ2(debstr(typ2):finstr(typ2)) .eq. 'imperfection') then
 c          write(lunW,*) '% imperfection E-tot, Qz, zmax, p_i, p_f, |J_n|

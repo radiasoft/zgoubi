@@ -501,7 +501,7 @@ C-------- Wedge correction in BEND, in MULTIPOL with non zero B1, etc.
 C----- Print last step
       IF(LST .GE. 1) THEN
         IF(LST .EQ. 2) THEN
-          CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
+!!          CALL IMPPLA(NPLT,Y,T,Z,P,X,SAR,TAR,PAF,AMT,QT,KEX,IT)
         ELSE
           CALL IMPDEV('INTEGR')
         ENDIF

@@ -15,11 +15,35 @@
       data typ2 / 'intrinsic' /
       parameter(pi=4.d0*atan(1.d0),c=2.99792458d8, deg2rd=pi/180.d0)
       parameter(zero=0.d0)
+      logical exs
+      
       data am, q, G / 938.27203d6,1.602176487d-19,1.7928474d0 /
 
       character(5) txtQz
 
 C Input data ---------------------------------------------------------
+      inquire(file='geneZGDat4Xing.data',exist=exs)
+      if(.not. exs) then
+        write(*,*) 'Pgm geneZGDat4Xing_fromCalcStrength : '
+        write(*,*) 'geneZGDat4Xing.data needed. '
+        write(*,*) 'Expected content, case of RHIC template:'
+        write(*,*) ' '
+        write(*,*) 'intrinsic'
+        write(*,*) '5.d-6                                      Jn^2.'
+     >  //'  5d-6 yields Pfinal/Pinitial~0.67'
+        write(*,*) '3833.85D0, 120.                            orbit'
+     >  //'length, HARMONIC number'
+        write(*,*) '23.5063091                                 '
+     >  //'gamma_tr'
+        write(*,*) '40.d3,  30.d0                             peak '
+     >  //'V (V),  phi_s (deg.) in [0,180] (Vsin(phi)=20keV) yields '
+     >  //'alpha=5.7e-6, about 5 times actual value==1.15e-6).'
+        write(*,*) '938.27203d6, 1.602176487d-19, 1.7928474d0   '
+     >  //'particle mass (eV), charge (C), G'
+        write(*,*) ' '
+c        read(*,*)
+C        stop
+      endif
       call system(
      >'cp -f geneZGDat4Xing.data geneZGDat4Xing.data_copy')
       open(unit=lunDat,file='geneZGDat4Xing.data')
@@ -32,6 +56,10 @@ C Input data ---------------------------------------------------------
 C typ2 = 'imperfection' or 'intrinsic' 
       close(lunDat)
 
+c      write(*,*) ' Pgm geneZDat4Xing_fromCalcStrength. '
+c      write(*,*) ' Press Enter to continue'
+c      read(*,*)
+      
 C  geneZGDat4Xing.In is a copy of calcStrength.out 
       open(unit=lunDa2,file='geneZGDat4Xing.In')
 C---------------------------------------------------------------------
@@ -48,22 +76,29 @@ C---------------------------------------------------------------------
         write(*,*) ' particle mass (MeV), charge (C), G'
         write(*,*) ' numb. of tracking turns upstream and downstream',
      >                                                  ' of resonance'
-        stop
+c        read(*,*)
+C        stop
       endif
 C-----------------------------
      
  20   continue
         read(lunDa2,fmt='(a)') txt132
-        read(txt132,*) M
-        read(txt132(5:12),*) txtQz
-        read(txtQz,*,err=27,end=27) Qz
- 27     continue
-        Qz = 0.d0
+        read(txt132,*) M, Qz
+c        read(txt132(5:12),*) txtQz
+c            write(*,*) 'txtQz ***',trim(txtQz),'***   M =',M,Qz
+c            read(*,*)           
+c        read(txtQz,*,err=27,end=27) Qz
+c 27     continue
+c        Qz = 0.d0
  28     continue
-        read(txt132(12:132),*) aJn2im,aJ2in,ymu,zma,vkick
+        read(txt132,*,err=99,end=99)
+     >  M, Qz,aJn2im,aJ2in,ymu,zma,vkick
+C        read(txt132(12:132),err=99,end=99)
+C     >  aJn2im,aJ2in,ymu,zma,vkick
         write(*,*) ' Read from geneZGDat4Xing.In, ',
      >  'M,Qz,aJn2im,aJ2in,zma,vkick : ',M,Qz,aJn2im,aJ2in,zma,vkick
-
+c        read(*,*)
+        
         gamma = (dble(M) + Qz) / G
         if    (typ2 .eq. 'imperfection') then
 C aJn2im is Jn^2/zmax^2
@@ -81,9 +116,11 @@ C aJ2in is Nn^2/epsilon/pi
           zma2 = 0.d0
           dE = 300.d0 * sqrt(aJn2*epspi) / G * am
         else
-          write(*,*) 'typ2 = ',typ2,' :  No such choice available ! '
-          stop 
+          write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+     >    //'typ2 = ',typ2,' :  No such choice available ! '
+c          read(*,*)
         endif
+
 C Note on value of nrbl : 
 C Static,     Sz^2 = Delta^2/Jn^2 / (1 + Delta^2/Jn^2) 
 C             Delta^2/Jn^2 = Sz^2 / (1 - Sz^2)
@@ -109,6 +146,7 @@ c     >  dEturn, G*gamma, G*Ei/am,G*(E + dble(nrbl2) * dEturn)/am,nrbl2
 c                read(*,*)
 
         write(*,*) 
+        write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
         write(*,*) ' M, Qz : ', M, Qz
         write(*,*) 
         write(*,*) ' Working conditions : '
@@ -120,7 +158,8 @@ c                read(*,*)
      >    nrbl2,'  turns to resonance ' 
         write(*,*) ' Xing speed, GdE/2piM = ',G*dEturn/2.d0/pi/am
         write(*,*) 
-
+c        read(*,*)
+        
         open(unit=lunR,file='zgoubi_geneZGDat4Xing-In.dat')
 
  2    continue
@@ -272,6 +311,7 @@ C                   stop
         goto 1
 
  11     continue
+
               txt132 = '''CAVITE'''
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))
               txt132 = ' 3'
@@ -280,6 +320,11 @@ C                   stop
               write(lunW,fmt='(1p,e16.8,3x,e20.12)') Vp, phis
               txt132 = '''MARKER''   #End'
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))
+
+c              write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+c              write(*,*) ' REBELOTE;  nrbl2 = ',nrbl2
+C              read(*,*)
+              
               txt132 = '''REBELOTE'''
               write(lunW,*) txt132(debstr(txt132):finstr(txt132))
 c              write(lunW,fmt='(i8,a)') 2*nrbl2, '  0.2  99'
@@ -315,8 +360,9 @@ C Read file number from temporary storage by scanSpinResonances.f
 
  10   continue
       write(*,*) ' '
-      write(*,*) ' End of zgoubi_geneZGDat4Xing-In.dat input file has'
-     >,' been reached, file zgoubi_geneZGDat4Xing-Out.dat completed.'
+      write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+     >//' End of zgoubi_geneZGDat4Xing-In.dat input file has'
+     >//' been reached, file zgoubi_geneZGDat4Xing-Out.dat completed.'
       write(*,*) ' ------------'
       write(*,*) ' '
       close(lunR)
@@ -374,8 +420,9 @@ C Complete zgoubi_searchCO-In.dat from content of zgoubi_geneZGDat4Xing-In.dat
 
  13     continue
       write(*,*) ' '
-      write(*,*) ' End of zgoubi_geneZGDat4Xing-Out.dat input file has'
-     >,' been reached, file zgoubi_searchCO-In.dat completed.'
+      write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+     >//' End of zgoubi_geneZGDat4Xing-Out.dat input file has'
+     >//' been reached, file zgoubi_searchCO-In.dat completed.'
       write(*,*) ' ------------'
       write(*,*) ' '
       close(lunR)
@@ -440,14 +487,21 @@ c              write(lunW,*) 2*nrbl2, '  0.2  99'
 
  16     continue
       write(*,*) ' '
-      write(*,*) ' End of zgoubi_searchCO-Out.dat input file has'
-     >,' been reached, file zgoubi_geneZGDat4Xing-Out.dat completed.'
+      write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+     >//' End of zgoubi_searchCO-Out.dat input file has'
+     >//' been reached, file zgoubi_geneZGDat4Xing-Out.dat completed.'
       write(*,*) ' ------------'
       write(*,*) ' '
       close(lunR)
       close(lunW)
 
+      stop
 
+ 99   continue
+      write(*,*) ' '
+      write(*,*) ' Pgm geneZGDat4Xing_fromCalcStrength : '
+     >//' Error during read from geneZGDat4Xing.In. '
+c      read(*,*)
       stop
       end
       FUNCTION STRCON(STR,STRIN,NCHAR,
