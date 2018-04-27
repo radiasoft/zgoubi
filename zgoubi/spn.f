@@ -51,13 +51,24 @@ C  -------
       CHARACTER(300) TXT,TXT2
       LOGICAL GTTEXT
 
+<<<<<<< .mine
+      LOGICAL DJLU, DJLUI
+      SAVE DJLU
+
+=======
       SAVE KSPSAV
 
+>>>>>>> .r1038
       DATA KAX / 'X' , 'Y' , 'Z' /
       DATA ONCE / .FALSE. /
       DATA XNRM / 0.D0 /
+<<<<<<< .mine
+      DATA DJLU / .FALSE. /
+
+=======
       DATA KSPSAV / 0 /
       
+>>>>>>> .r1038
       KSO = NINT(A(NOEL,1))
       KSO2 = NINT( 10.D0*A(NOEL,1) - 10.D0*DBLE(KSO) )
 
@@ -69,7 +80,7 @@ C  -------
       IF(  KREB3 .EQ. 99
      >.AND.  KSO .NE .0
      >.AND.  KSO .NE. -1
-     >                   ) THEN
+     >      ) THEN
 C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(/,15X,
@@ -175,10 +186,16 @@ C=======
         ENDIF
         KSPN = 1
       ENDIF
+<<<<<<< .mine
+
+      IF(DJLU) RETURN
+ 
+=======
       KSPSAV = KSPN
 
       IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) RETURN
 
+>>>>>>> .r1038
       GOTO(1,1,1,4,5) KSO
       RETURN
  
@@ -323,5 +340,9 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
      >  ,/,30X,' <S>  = ',F12.6)
       ENDIF
  
+      RETURN
+
+      ENTRY SPN2(DJLUI)
+      DJLU = DJLUI
       RETURN
       END
