@@ -100,26 +100,15 @@ C  -------
       SAVE NBLM, OKCOR
       PARAMETER (T2KG = 10.D0)
 
-      parameter (IMON=MPULAB/2)
-      parameter(mxpuh =IMON, mxpuv =IMON)
-      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv)
-      CHARACTER(LBLSIZ) HPNAI(mxpuh), VPNAI(mxpuv)
-      SAVE HPNA, VPNA
-
-      parameter (mxcoh=5, mxcov=5)
-      CHARACTER(LBLSIZ) HCNA(mxcoh), VCNA(mxcov)
-      CHARACTER(LBLSIZ) HCNAI(mxcoh), VCNAI(mxcov)
-      SAVE HCNA, VCNA
-
-      SAVE NLMC, NLM
-
-      logical ok, idluni
-      save mpu, mpul
-      save mcoH, mcoV, mcol
+      LOGICAL IDLUNI
+      SAVE MPUL, MPUH, MPUV, MPUHV
+      SAVE MCOH, MCOV, MCOL
       CHARACTER(70) TXFMT
-      save txfmt
-      save lsvd
+      SAVE TXFMT
+      SAVE LSVD
       
+      INTEGER(4) TODAY(3)
+
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
       DATA OKPCKP / .FALSE. /
       DATA PARAM / MXPL*0.D0 /
@@ -138,7 +127,7 @@ C----- Switch for print into zgoubi.res :
       KWRT = INT(A(NOEL,2)) 
 C----- Switch for print to standard output :
       CALL FITSTA(5,
-     >               FITING)
+     >              FITING)
       IF(FITING) THEN
         KWRI6 = 0
       ELSE
@@ -151,6 +140,9 @@ C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=1
 C----- KREB4=1 allows changing parameter values prior to rebelote
       KREB4 = NINT(A(NOEL,4))
 
+      CALL REBLT5(
+     >            NOELA, NOELB)
+      
       IF    (KREB4 .EQ. 1) THEN
         NPRM =  NINT( A(NOEL,10) )
         IF(NPRM .GT. MXPRM) 
@@ -166,94 +158,6 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
           AOLD(IPRM) = A(KLM(IPRM),KPRM(IPRM))
           A(KLM(IPRM),KPRM(IPRM)) = PARAM(IPRM,IPASS)
         ENDDO
-
-      ELSEIF(KREB4 .EQ. 2) THEN
-C Build SVD matrix:
-C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
-        IF(IPASS.EQ.1) THEN
-C Gets PU and corrector family names
-          KSCOR = 1      ! H corr first
-          NLMC = 0
-          NLM = 0
-          CALL ZGNBLM( 
-     >                NBLMI)
-          NBLM = NBLMI
-C Fill PULAB with PU names
-          CALL SVDPUS(NBLM,HPNA,VPNA,
-     >                               MPUL,MPU)
-C Check corrector families
-          CALL SVDCOS(NBLM,HCNA,VCNA,
-     >                               MCOL,MCOH,mcoV)
-
-          ok = idluni(
-     >                LSVD)
-          if(ok) then
-            open(unit=lsvd,file='zgoubi.SVDT.out')
-            WRITE(Lsvd,FMT='(''#  Pickup 1 to '',I0
-     >      ,'',    corrector number 1 to '',I0,/,''#'')') MPU, ipass
-            WRITE(TXFMT,FMT='(A,I0,A)') '(1P,',MPU,'E12.4,2(1X,I0))'
-
-          ELSE
-            CALL ENDJOB('Pgm rebel. Could not open file '
-     >      //'zgoubi.SVDT.out.',-99)
-          ENDIF
-          
-          WRITE(NRES,fmt='(5X,''SVD correction matrix requested:'',/,
-     >    10X,''A total of '',I0,'' PUs, in '',I0,'' PU families : ''
-     >    ,5(a,1x))')
-     >    MPU,MPUL,(PULAB(I),I=1,MPUL)
-          WRITE(NRES,fmt='(10X,''and     of '',I0,'' corrs ('',I0,
-     >    '' H and '',I0,'' V),  in '',I0,'' corr. families : ''
-     >    ,5(A,1X))')
-     >    MCOH+MCOV,MCOH,MCOV,MCOL,(COLAB(I),I=1,MCOL)
-          
-        ELSE
-
-          if(nlmc.ge.1) WRITE(lsvd,fmt=txfmt) (FPU(2,I),I=1,MPU),nlmc
-          
-C Loops over corrector excitation, one-by-one. FIT finds the orbit each time. 
-          IF(KSCOR.LE.2) THEN
-C There are ! 2 families of correctors at the moment
-             
-             DO WHILE ((.NOT. OKCOR) .AND. NLM .LE. NBLM)
-C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list 
-              nlm = nlm + 1
-              OKCOR =
-     >        (KSCOR .EQ. 1 .AND. LABEL(NLM,1).EQ.'HKIC')
-     >        .OR.       
-     >        (KSCOR .EQ. 2 .AND. LABEL(NLM,1).EQ.'VKIC')
-C              nlm = nlm + 1
-            ENDDO
-
-            IF(OKCOR) THEN
-               NLMC = NLMC + 1
-              OKCOR=.FALSE.
-              IF(NLM .LE. NBLM) THEN 
-                IF    (KSCOR .EQ. 1) THEN
-                  A(NLMC,4) = A(NOEL,10) / (A(NLMC,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
-                ELSEIF(KSCOR .EQ. 2) THEN
-                  A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG 
-                ELSE
-                  CALL ENDJOB(
-     >            'SBR REBEL. NO SUCH POSSIBILITY KSCOR =',KSCOR)
-                ENDIF
-
-
-                WRITE(*,*)' REBEL ',
-     >           kscor,nlm,NLMC,A(NLMC,4),A(NOEL,20),A(NLMC,2),T2KG 
-                    READ(*,*)
-
-
-
-              ELSE
-
-        WRITE(*,*)' REBEL ksor nlm,NLMC,IPASS ',ksor nlm,NLMC,IPASS
-                    READ(*,*)
-                KSCOR = KSCOR + 1
-              ENDIF
-            ENDIF
-          ENDIF
-        ENDIF
       ENDIF
 
 C WILL STOP AT ELEMENT # NOELB WHEN DOING LAST TURN
@@ -371,7 +275,7 @@ C        ENDIF
         IF(IPASS .EQ. 1) THEN
 
 C In case REBELOTE would be embedded within FIT
-          CALL FITSE2(.TRUE.)
+          CALL FITSE2(.TRUE.)     ! set RBLFIT = .T.
 
           LUN=ABS(NRES)
           IF(LUN .GT. 0) THEN
@@ -474,44 +378,42 @@ C--------- endif SR loss ----------------------------
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure HAS JUST BEEN completed
         LUN=ABS(NRES)
-C        IF(LUN.GT.0) THEN
-          WRITE(LUN,100) IPASS
-          CALL CNTMXR(
-     >                IMX)
-          WRITE(LUN,103) IMX
-          IF(KREB3.NE.99) THEN
-            KNDES = NNDES
-          ELSE
-            KNDES = NDES
-          ENDIF
-          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-          CALL CNTOUR(
-     >                NOUT)
-          IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
-          CALL CNTNRR(
-     >                NRJ)
-          IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
- 
-          WRITE(LUN,102) NRBLT+1
- 102      FORMAT(//,5X,' Next  pass  is  #',I6
-     >    ,' and  last  pass  through  the  optical  structure',/)
-          DO IPRM = 1, NPRM
-            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-     >      I4,''.  In element # '',I4,
-     >      '',  parameter #'',I3,''  changed  to  '',
-     >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
-            WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
-     >      I4,''.  In element # '',I4,
-     >      '',  parameter #'',I3,''  changed to  '',
-     >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
-     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
-          ENDDO
+C       IF(LUN.GT.0) THEN
+        WRITE(LUN,100) IPASS
+        CALL CNTMXR(
+     >               IMX)
+        WRITE(LUN,103) IMX
+        IF(KREB3.NE.99) THEN
+          KNDES = NNDES
+        ELSE
+          KNDES = NDES
+        ENDIF
+        IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
+        CALL CNTOUR(
+     >              NOUT)
+        IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
+        CALL CNTNRR(
+     >              NRJ)
+        IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
+        WRITE(LUN,102) NRBLT+1
+ 102    FORMAT(//,5X,' Next  pass  is  #',I6
+     >  ,' and  last  pass  through  the  optical  structure',/)
+        DO IPRM = 1, NPRM
+          WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >    I4,''.  In element # '',I4,
+     >    '',  parameter #'',I3,''  changed  to  '',
+     >    1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
+     >    KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
+          WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
+     >    I4,''.  In element # '',I4,
+     >    '',  parameter #'',I3,''  changed to  '',
+     >    1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
+     >    KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
+        ENDDO
 
 C        ENDIF
  
         READAT = .FALSE.
-
         IPASS=IPASS+1
         NOEL=NOELA-1
         IF(OKPCKP) CALL PCKUP3(NOELA)
@@ -634,26 +536,18 @@ C--------- reactive WRITE
       AFTREO = AFTREB
       RETURN
 
-      ENTRY REBEL6(NLAI, NLBI)
-      NOELA = NLAI
-      NOELB = NLBI
-      RETURN
+C      ENTRY REBEL6(NLAI, NLBI)
+C      NOELA = NLAI
+C      NOELB = NLBI
+C      RETURN
 
-      ENTRY REBEL7(
-     >             NLBO)
-      NLBO = NOELB 
-      RETURN
+C      ENTRY REBEL7(
+C     >             NLBO)
+C      NLBO = NOELB 
+C      RETURN
 
       ENTRY REBEL8(RBLFII)
       RBLFIT = RBLFII
-      RETURN
-
-      ENTRY REBELA(HPNAI,HCNAI,VPNAI,VCNAI)
-!  HPU & HCorr name list, VPU & VCorr name list
-      HPNA =       HPNAI
-      HCNA =       HCNAI
-      VPNA =       VPNAI
-      VCNA =       VCNAI
       RETURN
 
       END

@@ -170,28 +170,26 @@ C       PARAMETER (IZ=29 , ID=3, MMAP=6)      ! strictu sensu
 c       PARAMETER (IZ=31 , ID=3, MMAP=6)    ! compatible Cbeta
 c       PARAMETER (MXX=801, MXY=200)
 
-CBETA --------------------------------------------------
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map
 c       PARAMETER (IZ=9 , ID=3, MMAP=2)
 c       PARAMETER (MXX=447, MXY=87)
-C--
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
 c       PARAMETER (IZ=31 , ID=3, MMAP=2)
 c       PARAMETER (MXX=801, MXY=31)
-C--
+
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For Scott/Holger Cbeta iron quad map
 c       PARAMETER (IZ=9 , ID=3, MMAP=2)
 c       PARAMETER (MXX=447, MXY=87)
-C--
+
+C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For CBeta - Nick
 c       PARAMETER (IZ=31 , ID=3, MMAP=2)
 c       PARAMETER (MXX=801, MXY=79)
-C--
-C For CBeta - Nick, single 3D map
-       PARAMETER (IZ=1 , ID=3, MMAP=2)
-       PARAMETER (MXX=2131, MXY=29)
-!------------------------------------------------- CBETA
  
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C RHIC helix
@@ -212,8 +210,8 @@ C       PARAMETER (MXX=567, MXY=201)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For /home/meot/zgoubi/struct/ffag/150MeVMachine/analytic/makeFieldMap
-C       PARAMETER (IZ=1 , ID=3, MMAP=1)
-C       PARAMETER (MXX=2131, MXY=29)
+       PARAMETER (IZ=1 , ID=3, MMAP=1)
+       PARAMETER (MXX=2131, MXY=29)
 
 
 C---------------------------------------------------------------

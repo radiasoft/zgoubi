@@ -295,6 +295,7 @@ OBJ=\
  rdips.o\
  rdpois.o\
  rebel.o\
+ reblt.o\
  rebmul.o\
  refer.o\
  rel2tu.o\
@@ -341,6 +342,7 @@ OBJ=\
  rspn.o\
  rspnst.o\
  rsrlos.o\
+ rsvdoc.o\
  rtnewt.o\
  rtnewt2.o\
  rtosca.o\
@@ -381,6 +383,9 @@ OBJ=\
  straco.o\
  strwld.o\
  svdcos.o\
+ svdoc.o\
+ svdpck.o\
+ svdpr.o\
  svdpus.o\
  symmed.o\
  sympl.o\
@@ -613,6 +618,7 @@ rdipc.o: $(INC)/MXLD.H
 rdip.o: $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H
 rdips.o: $(INC)/MXLD.H
 rebel.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
+reblt.o: $(INC)/MXLD.H
 rebmul.o: $(INC)/MXLD.H
 refer.o: $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 rel2tu.o: $(INC)/MXLD.H
@@ -641,7 +647,7 @@ robjet.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 robjta.o: $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rparti.o: $(INC)/MXLD.H $(INC)/C.PDATA.H
 rpckup.o: $(INC)/C.CDF.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H
-rrebel.o: $(INC)/MXLD.H
+rrebel.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.DON.H
 rscal.o:  $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/MXSCL.H
 rsepar.o: $(INC)/MXLD.H
 rsimb.o:  $(INC)/MXLD.H
@@ -650,6 +656,7 @@ rspinr.o: $(INC)/MXLD.H
 rspn.o:   $(INC)/MXLD.H $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 rspnst.o: $(INC)/MXLD.H
 rsrlos.o: $(INC)/MXLD.H
+rsvdoc.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.DON.H
 rtosca.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.DONT.H
 rtrans.o: $(INC)/MXLD.H
 rundul.o: $(INC)/MXLD.H
@@ -679,6 +686,9 @@ srloss.o: $(INC)/MXLD.H
 srprn.o: $(INC)/MXLD.H
 stpsiz.o: $(INC)/MXLD.H
 svdcos.o: $(INC)/C.CDF.H               $(INC)/C.COC.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
+svdoc.o: $(INC)/C.CDF.H               $(INC)/C.COC.H $(INC)/C.COT.H $(INC)/MAXCOO.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
+svdpck.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
+svdpr.o: $(INC)/C.CO.H $(INC)/MXLD.H $(INC)/C.DON.H
 svdpus.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
 synpar.o: $(INC)/MXLD.H
 toroid.o: $(INC)/MAXTRA.H

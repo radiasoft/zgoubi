@@ -259,7 +259,8 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
      >                            KEY,LBL1,LBL2)
         NL2 = NBLMN
         NBLMI = NBLMN
-        CALL REBEL6(NL1, NBLMI)
+C        CALL REBEL6(NL1, NBLMI)
+        CALL REBLT6(NL1, NBLMI)
         FITBYD = .TRUE.
         CALL FITST4(FITBYD)
         NBLMI = NBLMN
@@ -268,7 +269,7 @@ C Proceeds downstream of FIT[2]  toward end of zgoubi.dat list (possibly meeting
      >            IRET)
         IF(IRET.EQ.1) GOTO 10
         CALL FITST7(
-     >              FITRBL)   ! Switched to T by REBELOTE if FIT embedded
+     >              FITRBL)   ! Switched to T by REBELOTE, SVDOC... if FIT embedded
         IF(FITRBL) THEN
           OKW = OKWDAT
           IF(OKWDAT) THEN

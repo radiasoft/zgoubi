@@ -65,7 +65,7 @@ C      LOGICAL ZSYM
       ENDDO
 
 C----- Pick-up signal calculation switched off
-      KCO = 0
+      IF(KCO .EQ. 1) KCO = 0    ! KCO=2 and has to stay so if SVD
 
 C     ....  Defaults: ORDRE=2 when KALC=3; 
 C                     fields have z-symmetry when KALC=1

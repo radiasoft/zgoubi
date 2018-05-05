@@ -79,7 +79,7 @@ C----- For printing after occurence of pre-defined labels
 
 C----- Pick-up signal
       PARAMETER (MXPUD=9,MXPU=5000)
-       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
+      INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MPULAB=5)
       CHARACTER(LBLSIZ) PULAB
       INCLUDE "C.COT.H"     ! COMMON/COT/ PULAB(MPULAB)
@@ -165,12 +165,12 @@ C      DATA OKPRDA / .FALSE. /
 
       NBLMN = NBLMI
 C      IRET = 0
-      
+         
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
      >            FITBYD)
 
-      IF(FITBYD) GOTO 998 
+      IF(FITBYD) GOTO 998
 
       IF(NL2 .GT. MXL) CALL ENDJOB(
      >      'Too  many  elements  in  the  structure, max is',MXL)
@@ -230,7 +230,7 @@ C------- Compute space charge kick and apply to bunch
      >                                       IL) 
      >   .OR. LBLSC(1).EQ.'all' .OR. LBLSC(1).EQ.'ALL') 
      >   CALL SPACH(
-     >                  SCkx, SCky ) 
+     >                  SCKX, SCKY ) 
        ENDIF
        IF(PRLB) THEN
 C------- From Keyword FAISTORE. Print after Lmnt with defined LABEL.
@@ -241,8 +241,7 @@ C     >    .OR. LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL')
          CALL FITST9(
      >               FITLST)
          IF(FAIFIT .AND. (.NOT.FITLST)) THEN ! skip if label1='finalFIT' and not at last pass after FIT
-c            write(*,*) ' zgoubi Not at final fit . won''t impfai '
-c             read(*,*)
+
          ELSE
            IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1)) 
      >     .OR.STRWLD(NLB,LBLST,LABEL(NOEL,1),
@@ -260,10 +259,10 @@ C        LBLSP contains the LABEL['s] after which print shall occur
      >                                              LABEL(NOEL,2)) 
        ENDIF
 
-       IF(KCO .EQ. 1) THEN
+       IF(KCO .EQ. 1) THEN      ! From PICKUP
 C------- Calculate pick-up signal
 C         PULAB contains the NPU LABEL's at which CO is calculated 
-
+          
          IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
 
            IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
@@ -272,6 +271,24 @@ C         PULAB contains the NPU LABEL's at which CO is calculated
      >                                       IS))
      >     CALL PCKUP
         
+         ENDIF
+       ELSEIF(KCO .EQ. 2) THEN    ! From REBELOTE/SVD or SVDOC
+
+         CALL FITST9(
+     >               FITLST)  ! A final pass after FIT 
+         
+         IF(FITLST) THEN   
+C------- Store pickup signal, at PUs belonging in svdpus list
+          
+         IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
+
+           IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
+     >                                       IL)
+     >     .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
+     >                                       IS))
+     >     CALL SVDPCK
+        
+         ENDIF
          ENDIF
        ENDIF
 
@@ -294,14 +311,21 @@ C This was introduced so to restrain OPTICS to optics-type keywords.  Any additi
 C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
        KUASEX = -99
 
+
+c       write(*,*) ' zgoubi ',
+c     >IPASS,NRBLT+1,noelb,klerb,IQ(NOEL),IQ(NOELB),KLE(IKLE)
+
        IF(REBFLG) THEN
 C----- Set to true by REBELOTE : last turn to be stopped at NOELB<MAX_NOEL
         IF(IPASS.EQ.NRBLT+1) THEN
-          CALL REBEL7(
-     >                NOELB)
+C          CALL REBEL7(
+C     >                NOELB)
+          CALL REBLT7(
+     >                NOELB,KLERB)
+          
           IF(NOEL.EQ.NOELB) THEN
-            IKLE = 11  
-            KLEY = KLE(IKLE)   ! 'REBELOTE'
+            IKLE = KLERB
+            KLEY = KLE(IKLE)   ! 'REBELOTE' OR 'SVDOC'
             NOEL = NOELRB
             IQ(NOEL) = IKLE
             GOTO 187
@@ -359,7 +383,7 @@ C------- Gets here in case of "FIT"
  334    FORMAT(2X,I5,4(2X,A),/)
         CALL FLUSH2(NRES,.FALSE.)
         WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))') 
-     >    NOEL,'/',NBLMN,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
+     >  NOEL,'/',NBLMN,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
  
@@ -385,7 +409,7 @@ C---------------------------------------------------
      >     'Pgm zgoubi : Execution ended normally, '
      >     //'upon keyword END or FIN'
         ELSE
-          WRITE(*,200) 'Unknown keyword ',KLEY
+          WRITE(6,200) 'Unknown keyword ',KLEY
  200      FORMAT(/,10X,'Pgm zgoubi. ',2A,/)
           CALL ENDJOB(
      >    'Pgm zgoubi : Execution ended upon unexpected keyword.',-99)
@@ -477,19 +501,19 @@ C----- FAISCNL. Stores beam at current position (in .fai type file)
       ENDIF
       GOTO 998
 C----- TRAVERSEE D'UNE CIBLE
-9     CONTINUE
+ 9    CONTINUE
       IF(READAT) CALL RCIBLE
       IF(FITGET) CALL FITGT1
       CALL CIBLE
       GOTO 998
 C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
-10    CONTINUE
+ 10   CONTINUE
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(FITGET) CALL FITGT1
       CALL FOCALE(3)
       GOTO 998
 C----- REBELOTE. Passes NRBLT more times thru the structure
-11    CONTINUE
+ 11   CONTINUE
       IF(READAT) CALL RREBEL(LABEL,KLE) 
       IF(FITBYD) THEN
         FITRBL = NRBLT .EQ.0 .OR. IPASS .LE. NRBLT  
@@ -500,20 +524,21 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
       IF(IPASS.EQ.NRBLT+2) THEN        ! Means that REBELOTE series is completed
-          FITRBL = .FALSE.   
-          CALL FITST8(FITRBL)
+        FITRBL = .FALSE.   
+        CALL FITST8(FITRBL)
       ENDIF
       CALL KSMAP0
+      CALL REBLT4(11)   !  11 = REBELOTE
       GOTO 998
 C----- QUADISEX. Champ creneau B = B0(1+N.Y+B.Y2+G.Y3) plan median
  12   CONTINUE
       KALC =1
       KUASEX = 3
       IF(READAT) CALL RSIMB(
-     >                        ND(NOEL))
+     >                      ND(NOEL))
       IF(FITGET) CALL FITGT1
       CALL  QUASEX(
-     >                        ND(NOEL))
+     >             ND(NOEL))
       GOTO 998
 C----- CHANGREF. Translation X,Y et rotation du referentiel courant
  13   CONTINUE
@@ -1709,9 +1734,27 @@ C----- ELLIPTIC.
       CALL QUASEX(
      >             ND(NOEL))
       GOTO 998
+C----- SVDOC. Compute SVD matrix. Requires to be preceded by FIT to find orbit
+ 121  CONTINUE
+      IF(READAT) CALL RSVDOC
+      IF(FITBYD) THEN
+        FITRBL = NRBLT .EQ.0 .OR. IPASS .LE. NRBLT
+        CALL FITST8(FITRBL)          ! Allows FIT embeded in SVDOC
+      ENDIF
+      CALL SVDOC(KLE,LABEL,
+     >                     READAT)
+      FITBYD = .FALSE.
+      CALL FITST4(FITBYD)
+      IF(IPASS.EQ.NRBLT+2) THEN        ! Means that loop is completed
+        FITRBL = .FALSE.   
+        CALL FITST8(FITRBL)
+      ENDIF
+      CALL REBLT4(121)   !  121 = SVDOC
+      GOTO 998
 C-------------------------
 C-------------------------
 C-------------------------
+
       ENTRY ZGLMNT(
      >             TXTELO)
       TXTELO = TXTELT

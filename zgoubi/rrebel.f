@@ -35,7 +35,7 @@ C     ***************************************
 
       CHARACTER(8) TXTA, TXTB
       PARAMETER(I300=300)
-      CHARACTER(I300) TXT300
+      CHARACTER(I300) TXT300, TXTMP
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       PARAMETER (I2=2, I4=4)
@@ -49,14 +49,6 @@ C     ***************************************
       CHARACTER(KSIZ) TPRM(MXPRM,3)
       LOGICAL ISNUM
       PARAMETER (I3=3)
-
-      PARAMETER (LBLSIZ=20)
-      PARAMETER (MPULAB=5)
-      parameter (IMON=MPULAB/2)
-      parameter(mxpuh =IMON, mxpuv =IMON)
-      CHARACTER(LBLSIZ) HPNA(mxpuh), VPNA(mxpuv)
-      parameter (mxcoh=5, mxcov=5)
-      CHARACTER(LBLSIZ) HCNA(mxcoh), VCNA(mxcov)
       
       DATA IA4 / 0 /
 
@@ -67,7 +59,7 @@ C     ***************************************
      >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
       CALL STRGET(TXT300,I4,
      >                      NSR,STRA)
-      IF(NSR.GT.I4) CALL ENDJOB('SBR RREBEL. TOO LARGE VALUE NSR=',NSR)
+      IF(NSR.GT.I4) CALL ENDJOB('Sbr rrebel. Too large value nsr=',NSR)
       READ(STRA(1),*,ERR=98) A(NOEL,1)
       NRBLT = NINT(A(NOEL,1))
       READ(STRA(2),*,ERR=98) A(NOEL,2)
@@ -113,7 +105,7 @@ C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for paramete
         DO IPRM = 1, NPRM
           LINE = LINE + 1
           READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-          IF(STRCON(TXT300,'!',
+          IF(STRCON(TXT300,'    !',
      >                          II))
      >    TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
 
@@ -124,8 +116,6 @@ C Two ways to define the element with parameter to be changed : either its keywo
 
             READ(TXT300,*,ERR=79,END=79) 
      >        KLM, KPRM, TXT300
-C     >        KLM,KPRM,(PARAM(IPRM,I),I=1,NRBLT)
-C        write(*,*) 'rrebel ',KLM,KPRM,(PARAM(IPRM,I),I=1,3)
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
             TPRM(IPRM,3) = ' '
@@ -217,7 +207,9 @@ C DO loop style, V1:V_NRBLT
             ENDIF
           ELSE
 C List style, V1, V2, ..., V_NRBLT
-            READ(TXT300,*,ERR=98,END=98) 
+            BACKSPACE(NDAT)
+C            READ(TXT300,*,ERR=98,END=98) 
+            READ(NDAT,*,ERR=98,END=98) 
      >      STRING, KPRM, (PARAM(IPRM,I),I=1,NRBLT)
           ENDIF
           GOTO 80
@@ -225,7 +217,7 @@ C List style, V1, V2, ..., V_NRBLT
  79       CONTINUE
           WRITE(6,FMT='(A)') ' '
           WRITE(6,FMT='(A)')
-     >    'SBR RREBEL. Stopped while reading list of parameter values.'
+     >    'Sbr rrebel. Stopped while reading list of parameter values.'
      >    //' Give NRBLT .le. number of values in list.'
           GOTO 98
 
@@ -237,12 +229,6 @@ C List style, V1, V2, ..., V_NRBLT
      >      //' nrblt= ',NRBLT
             GOTO 98
           ENDIF
-c             WRITE(*,*) ' RREBEL ', 
-c     >       ' NOEL= ',noel,
-c     >       ' KLM=',A(NOEL,20+10*(iprm-1)), 
-c     >       ' KPRM=',A(NOEL,21+10*(iprm-1)),
-c     >       ' param= ' ,(PARAM(IPRM,I),I=1,NRBLT)
-c                     read(*,*)
 
         ENDDO
 
@@ -250,77 +236,6 @@ c                     read(*,*)
         NOELA = 1
         NOELB = NOEL
 
-
-        
-      ELSEIF(IA4 .EQ. 2) THEN
-
-C Will 'REBELOTE' over corrector excitation 1-by-1, and PU reading 
-        LINE = LINE + 1
-        READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-        IF(STRCON(TXT300,'!',
-     >                     II))
-     >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,mxpuh,
-     >                      NSR,STRA)
-        IF(NSR.GT.mxpuH) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many H-PUs.'
-     >    //' Maximum allowed is ',mxpuh
-          GOTO 98
-        ENDIF
-        DO I = 1, NSR
-           READ(STRA(I),*,ERR=98) HPNA(I)    !  H PU name list 
-        ENDDO
-        LINE = LINE + 1
-        READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-        IF(STRCON(TXT300,'!',
-     >                     II))
-     >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,mxcoh+1,
-     >                             NSR,STRA)
-        IF(NSR.GT.mxcoh+1) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many H-correctors.'
-          GOTO 98
-        ENDIF
-        DO I = 1, NSR-1
-           READ(STRA(I),*,ERR=98) HCNA(I)    !  H-corr name list 
-        ENDDO
-        READ(STRA(NSR),*,ERR=98) HKI
-        A(NOEL,10) = HKI                 !  H-corrector kick value
-        LINE = LINE + 1
-        READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-        IF(STRCON(TXT300,'!',
-     >                     II))
-     >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,mxpuv,
-     >                      NSR,STRA)
-        IF(NSR.GT.mxpuv) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many V-PUs.'
-     >    //' Maximum allowed is ',mxpuv
-          GOTO 98
-        ENDIF
-        DO I = 1, NSR
-           READ(STRA(I),*,ERR=98) VPNA(I)    !  V PU name list 
-        ENDDO
-        LINE = LINE + 1
-        READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-        IF(STRCON(TXT300,'!',
-     >                     II))
-     >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-        CALL STRGET(TXT300,mxcov+1,
-     >                             NSR,STRA)
-        IF(NSR.GT.mxcov+1) THEN
-          WRITE(NRES,*) 'SBR RREBEL. Too many V-correctors.'
-          GOTO 98
-        ENDIF
-        DO I = 1, NSR-1
-           READ(STRA(I),*,ERR=98) VCNA(I)    !  V-corr name list 
-        ENDDO
-        READ(STRA(NSR),*,ERR=98) VKI  
-        A(NOEL,20) = VKI                 !  V-corrector kick value
-
-        CALL REBELA(HPNA,HCNA,VPNA,VCNA)
-        NOELA = 1
-        NOELB = NOEL
       ENDIF
 
 C      IF(STRCON(STRA(3),'.',
@@ -370,7 +285,8 @@ C        NOELA = 1
 C        NOELB = NOEL
 C      ENDIF
 
-      CALL REBEL6(NOELA, NOELB)
+C      CALL REBEL6(NOELA, NOELB)
+      CALL REBLT6(NOELA, NOELB)
 
       RETURN
 

@@ -99,7 +99,7 @@ C path length
       FPU(6,IPU) = FPUL(6,IPU)
 C time
       FPU(7,IPU) = FPUL(7,IPU)
-C turn #
+C turn #  
       FPU(8,IPU) = FPU(8,IPU) + NT
 
 C------- Record pick-up position (cm)

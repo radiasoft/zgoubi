@@ -63,7 +63,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       SAVE ALPHA
 
-C F2 contains seven 6-vectorss (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(7,*))
+C F2 contains seven 6-vector (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(7,*))
       DIMENSION F2(7,6), XYS(6,12), KAUX(6)   !!, SM(6,6)
       SAVE F2
   
