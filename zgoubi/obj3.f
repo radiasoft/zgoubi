@@ -454,17 +454,10 @@ C To be clean, otherwise LET(i) is undefined
         FO(5,IT1)=PO
         FO(6,IT1)=SO
         FO(7,IT1)=TIMO
-<<<<<<< .mine
         SI(1,IT1) = SIX
         SI(2,IT1) = SIY
         SI(3,IT1) = SIZ
         SI(4,IT1) = SIN
-=======
-        SI(1,IT1)= SIX
-        SI(2,IT1)= SIY
-        SI(3,IT1)= SIZ
-        SI(4,IT1)= SIN
->>>>>>> .r1038
 
         IF (PABSLU) THEN
            DP0(IT1)=DP*DPFAC * BRO/BORO
@@ -480,21 +473,10 @@ C          SUBSEQUENT PARTICUL
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
         F(7,IT1)=TIM*TIFAC + TIREF 
-<<<<<<< .mine
         SF(1,IT1) = SFX
         SF(2,IT1) = SFY
         SF(3,IT1) = SFZ
         SF(4,IT1) = SFN
-c         write(*,*) ' obj3 ',y,t,z,p,dp
-c         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(1,it1)
-=======
-        SF(1,IT1)=SFX
-        SF(2,IT1)=SFY
-        SF(3,IT1)=SFZ
-        SF(4,IT1)=SFN
-C     write(*,*) ' obj3 ',y,t,z,p,dp
-C         write(*,*) ' obj3 ',f(4,it1), f(5,it1),f(7,it1)
->>>>>>> .r1038
         IREP(IT1) = IT1
         IF (AMQLU(3)) THEN
            PH(IT1)=PHI
