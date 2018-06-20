@@ -58,6 +58,10 @@ C  -------
 C      DATA ((RSAV(I,J),I=1,6),J=1,6) / 36*0.D0 /
       DATA (RSAV(I,I),I=1,6) / 6*1.D0 /
 
+      IF(NRES.GT.0) 
+     >WRITE(NRES,FMT='(/,''---------------------------------------------
+     > Local OPTICS monitoring : '')')
+
       IER = 0
       IORD = 1
       IFOC = 0

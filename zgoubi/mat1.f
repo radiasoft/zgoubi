@@ -23,7 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MAT1(IT1,F,IMAX,
-     >                    R,T)
+     >                           R,T)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,*) , T(6,6,*)
       INCLUDE "MAXCOO.H"

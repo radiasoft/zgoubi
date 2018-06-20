@@ -1228,13 +1228,11 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         '  Dxp           Dy            Dyp           phix/' //
      >         '2pi      phiy/2pi    cumul_s/m       #lmnt  x/m  ' //
      >         '         xp/rad        y/m           yp/rad      ' //
-     >         'KEYWORD    label1     label2       FO(6,1)       ' //
+     >         'KEYWORD    label1     label2       FO(6,1)/m     ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
      >         '       r       !    optimp.f    ' //
-     >         'IPASS            P/Pref-[]   []   ....  pathL:46 ...'//  
-     >         '  R11  R12  R21' //
-     >         '  R22  R33  R34  R43  R44  R51 R52  R53  R54  '   //
-     >         'R56  pathL=F(2,6) '
+     >         'IPASS           frac(P/Pref) int(%)   R11-R56  '//  
+     >         '   pathL=F(1,6) '
             WRITE(LNOPTI,FMT='(A,3A2,A)') 
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
@@ -1244,7 +1242,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
      >         '       27      28      29        ' //
-     >         '30             31     ....   pathL:46 ...'  
+     >         '30             31           32        33-45      46'  
           ENDIF
         ENDIF
       ELSE

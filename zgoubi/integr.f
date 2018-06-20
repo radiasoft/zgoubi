@@ -91,7 +91,8 @@ cccccccccccccccccccccccccccccccccccccccccccccc
       CHARACTER(KSIZ) KEY
 
       DIMENSION F(MXJ,MXT)
- 
+      SAVE X0
+      
       DATA WEDGE, WEDGS / .FALSE.,  .FALSE./
       DATA WDGE, WDGS, FINTE, FINTS, GAPE, GAPS / 6*0.D0 /
  
@@ -120,6 +121,7 @@ C--------- Entrance is sharp edge
       Y2 = Y
       Z2 = Z
       IF(FITMEM) CALL FITMM2(IT)
+      IF(CONSTY) X0 = X
  
 C----- DEBUT DE BOUCLE SUR DXI
 C      Start loop on DXI
@@ -322,8 +324,8 @@ C------------- if .not.mirror etc.
 C--------- Cylindrical coordinates
 C Array CA contains angle of integration boundary
  
-          CALL ENDJOB(
-     >    ' Sbr integr : IDRT not implemented for polar frame',-99)
+          CALL ENDJOB(' Sbr integr : '
+     >    //'IDRT still to be implemented for polar frame',-99)
  
           IF(ABS(CA(2)-X) .LT. DXI) THEN
  
@@ -403,17 +405,18 @@ C-------- ifb .ne. 0
       CT=COS(T)
       ST=SIN(T)
  
-C  A trick for tests at constant coordinate -----------------
-         IF(CONSTY) THEN
-               CALL MAJTR1(
-     >                     F)
-                        Y = F(2,IT)
-                        Z = F(4,IT)
-                     T = 0.D0
-                     P = 0.D0  
-                    X = NSTEP*DXI
-         ENDIF
-C------------------------------------------------------------
+C A trick to force coordinates to constant, for tests - Keyword 'OPTIONS'
+      IF(CONSTY) THEN
+        CALL MAJTR1(
+     >              F)
+        Y = F(2,IT)
+        Z = F(4,IT)
+        T = 0.D0
+        P = 0.D0  
+        X = X0 + NSTEP*DXI
+           write(*,*) ' integr dxi, x, nstep : ',dxi, x, nstep
+      ENDIF
+C-----------------------------------------------------------------------
  
       X2 = X
       Y2 = Y
@@ -528,7 +531,8 @@ C----- Print last step
       WEDGS = .FALSE.
       RETURN
  
-      ENTRY INTEG4(NSTP)
+      ENTRY INTEG4(
+     >             NSTP)
       NSTP = NSTEP
       RETURN
  

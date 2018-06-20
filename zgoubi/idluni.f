@@ -36,7 +36,7 @@ C  -------
  1    CONTINUE
         INQUIRE(UNIT=I,ERR=99,IOSTAT=IOS,OPENED=OPN)
         I = I+1
-        IF(I .EQ. 97) GOTO 99
+        IF(I .EQ. 197) GOTO 99
         IF(OPN) GOTO 1
 C        IF(IOS .GT. 0) GOTO 1
       

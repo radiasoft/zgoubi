@@ -279,11 +279,11 @@ C             DE(J,K)=DELTA(K,P(J))
                   IREP(I)=I
                   IF(IZ .EQ. 1 .AND. DE(5,IP).LT.0.D0)  IREP(I)=I-1
                   IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .EQ. 0.D0)
-     >             IREP(I)=I-IPMAX
+     >            IREP(I)=I-IPMAX
                   IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .GT. 0.D0)
-     >             IREP(I)=I-IPMAX+1
+     >            IREP(I)=I-IPMAX+1
                   IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .LT. 0.D0)
-     >             IREP(I)=I-IPMAX-1
+     >            IREP(I)=I-IPMAX-1
                   DO 13 J=1,5
                     KDE=JDE(J)
                     FO(J,I)=DE(J,KDE)

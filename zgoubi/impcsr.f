@@ -57,7 +57,8 @@ C      LOGICAL ZSYM
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
 C----- READ STEP #
-      CALL INTEG4(NSTEP)
+      CALL INTEG4(
+     >            NSTEP)
       K = LSTK()
 
 C----- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)

@@ -58,14 +58,14 @@ C      LOGICAL ZSYM
      > /,45X,I6,' TRAJECTOIRES',//
      >,35X,'OBJET',50X,'FAISCEAU',//
      >,10X,'D',7X,'Y(cm)',5X,'T(mr)',5X,'Z(cm)',5X,'P(mr)',7X,'S(cm)'
-     >,7X,'D-1',5X,'Y(cm)',4X,'T(mr)',4X,'Z(cm)',4X,'P(mr)',6X,'S(cm)'
+     >,6X,'D-1',5X,'Y(cm)',4X,'T(mr)',4X,'Z(cm)',4X,'P(mr)',6X,'S(cm)'
      >,/)
  
       DO 1 I=IMAX1,IMAX2
         WRITE(LUN,101) LET(I),IEX(I),(FO(J,I),J=1,6)
      >  ,F(1,I)-1.D0,(F(J,I),J=2,5),F(6,I),I
- 101    FORMAT(A1,1X,I2,1X,F8.4,4F10.3,1X,F12.4,
-     >                     2X,F8.4,4F9.3,1X,(1P,E14.6),1X,I5)
+ 101    FORMAT(A1,1X,I2,1X,F8.4,4(1X,F9.3),1X,F11.4,
+     >                     2X,F8.4,4(1X,F8.3),1X,(1P,E14.6),1X,I5)
         IF(AM .NE. 0D0) THEN
           IF(IFDES.EQ.1) THEN
             WRITE(LUN,FMT='(15X,''Time of flight (mus) :'',
@@ -79,33 +79,35 @@ C      LOGICAL ZSYM
  1    CONTINUE
 
 Compute rms ellipse
-      WRITE(LUN,FMT='(//,A)') '------' 
-      WRITE(LUN,FMT='(''  Characteristics of concentration ellipse '',
-     >''(Surface, ALP, BET, <X>, <XP>, #prtcls, #prtcls'', 
-     >'' inside ellips, ratio, space, pass#) : '',/)')
+      WRITE(LUN,FMT='(//,A)') '---------------'// 
+     >'  Concentration ellipses : '
+      WRITE(LUN,FMT='(T4,''surface'',T17,''alpha'',T30,''beta'', 
+     >T43,''<X>'',T58,''<XP>'',T73,''numb. of prtcls'', 
+     >''   ratio      space      pass# '')')
+      WRITE(LUN,FMT='(T73,''in ellips,  out '')')
       PI = 4.D0 * ATAN(1.D0)
       DO JJ = 1, 3
         CALL LPSFIT(JJ, 
-     >                 EMIT,ALP,BET,XM,XPM)
+     >                 EMIT,ALF,BET,XM,XPM)
 Compute number of particles alive and numberinside ellipse
-        CALL CNTINL(JJ,PI*EMIT,ALP,BET,XM,XPM,
+        CALL CNTINL(JJ,PI*EMIT,ALF,BET,XM,XPM,
      >                                        NLIV,NINL)
         RATIN = DBLE(NINL)/DBLE(IMAX)
         WRITE(LUN,110)
-     >  PI*EMIT,ALP,BET,XM,XPM,NLIV,NINL,RATIN,TXT(JJ),IPASS
+     >  PI*EMIT,ALF,BET,XM,XPM,NLIV,NINL,RATIN,TXT(JJ),IPASS
  110    FORMAT(1P,3(1X,E12.4),2(1X,E14.6),2(1X,I8),1X,G12.4,2X,A,2X,I8)
       ENDDO
 
       DO JJ = 1, 3
         CALL LPSFIT(JJ, 
-     >                 EMIT,ALP,BET,XM,XPM)
+     >                 EMIT,ALF,BET,XM,XPM)
         WRITE(LUN,fmt='(1P,/,A,2(/,5X,A,E14.6))') 
      >  TXT(JJ)//'  space (units : '//UU(JJ)//') :  ',
      >  ' sigma_'//TXT(JJ)(2:2)//' = sqrt(Surface/pi * BET) = ',
      >  sqrt(emit * BET) ,
      >  ' sigma_'//TXT(JJ)(4:4)//
-     >                   ' = sqrt(Surface/pi * (1+ALP^2)/BET) = ',
-     >  sqrt(emit * (1.d0+alp**2)/BET) 
+     >                   ' = sqrt(Surface/pi * (1+ALF^2)/BET) = ',
+     >  SQRT(EMIT * (1.D0+ALF**2)/BET) 
       ENDDO
 
 Compute 4-D sigma matrix

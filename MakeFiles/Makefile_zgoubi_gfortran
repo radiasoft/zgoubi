@@ -21,6 +21,7 @@ clean :
 	cd modules ;  make clean
 	cd common ;  make clean
 	cd zgoubi/coupling ; rm libcoupl.a ; make clean
+	cd zgoubi/svd ; rm libsvd.a ; make clean
 	cd zgoubi ;  make clean
 	cd zpop/liblns ; $(MAKE) clean
 	cd zpop ; $(MAKE) clean

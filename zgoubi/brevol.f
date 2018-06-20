@@ -130,7 +130,7 @@ C      CALL RAZ(AA,24+MXC-1)
      >     ,' name(s) of map data file(s), field coefficient : ')
            WRITE(NRES,208) (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),AA(24+NFIC-1),I=1,NFIC)
- 208       FORMAT(10X,A,',  ',1P,E14.6)
+ 208       FORMAT(10X,''''A,''',  ',1P,E14.6)
         ELSE
           WRITE(NRES,210) (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),AA(24+NFIC-1),I=1,NFIC)

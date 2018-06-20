@@ -49,10 +49,10 @@ set grid
  
 # "every 3" in this plot assumes there are 3 different label classes stored in zgoubi.OPTICS.out
 plot [:] \
-     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):7  axes x1y2 w l lc 10 lt 2  tit "{/Symbol h}_x"  ,\
-     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):9  axes x1y2 w l lc 30 lt 2 tit "{/Symbol h}_y" ,\
-     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):($2)  w l lc 1  lt 1 tit "{/Symbol b}_x"  ,\
-     'zgoubi.OPTICS.out' every 3  u ($13 + ($30 -1)*Circ):($4)  w l lc 3  lt 1 tit "{/Symbol b}_y" 
+     'zgoubi.OPTICS.out' every 1  u ($13 + ($30 -1)*Circ):7  axes x1y2 w l lc 10 lt 2  tit "{/Symbol h}_x"  ,\
+     'zgoubi.OPTICS.out' every 1  u ($13 + ($30 -1)*Circ):9  axes x1y2 w l lc 30 lt 2 tit "{/Symbol h}_y" ,\
+     'zgoubi.OPTICS.out' every 1  u ($13 + ($30 -1)*Circ):($2)  w l lc 1  lt 1 tit "{/Symbol b}_x"  ,\
+     'zgoubi.OPTICS.out' every 1  u ($13 + ($30 -1)*Circ):($4)  w l lc 3  lt 1 tit "{/Symbol b}_y" 
 
 set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12 
  set output "gnuplot_OPTICS_bxyDxy.eps" 
@@ -84,9 +84,9 @@ p0 = 123.
 #plot [2000:2250] \
 
 plot [:] \
-     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):($32*$35-$33*$34)  w l lc 1  tit 'Det-Y'  ,\
-     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):($36*$39-$37*$38)  w l lc 3  tit 'Det-Z' ,\
-     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):(($31) *p0) axes x1y2 w l lc 3  tit 'Momentum'
+     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):(1.-($33*$36-$34*$35))  w l lc rgb "red"  tit '1-Det_Y'  ,\
+     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):(1.-($37*$40-$38*$39))  w l lc rgb "blue"  tit '1-Det_Z' ,\
+     'zgoubi.OPTICS.out' u ($13/100. + ($30 -1)*Circ):(($31+$32) *p0) axes x1y2 w l lc rgb "cyan"  tit 'Momentum'
 
 set terminal postscript eps blacktext color enh size 8.3cm,4cm "Times-Roman" 12 
  set output "gnuplot_OPTICS_DetYZ.eps" 

@@ -59,7 +59,7 @@ c     >   A1,R1,A1N,R1N,i,imap,B(1,3),' A1,R1,A1N,R1N,imag, BT '
 C Case MOD=16. IMAP has been increazed by NFIC units in tosca, each field map stored in HC
         I = 1
         ID = 2  ! This is to be settled
-        ird=2
+        IRD=2
 
 C Hyp UU : X_O2, Y_O2, theta, dY (magnet is first translated, then rotated, then Y-shifted)
         XO2 = UU(20+10*I+1)

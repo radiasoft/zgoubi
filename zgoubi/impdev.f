@@ -180,7 +180,8 @@ C 108      FORMAT('  DDE(I,J,K) ',6(1X,3I1,1X,1P,E11.3))
         ELSEIF(LST .EQ. 9) THEN
 
 C--------- READ STEP #
-          CALL INTEG4(NSTEP)
+          CALL INTEG4(
+     >                NSTEP)
           K = LSTK()
 
 C--------- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)

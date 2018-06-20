@@ -35,11 +35,11 @@ C  -------
 
         IF(IPASS .EQ. 1) WRITE(LUN,100) 
  100    FORMAT('# Pgm avorpr. Brut record at pick-ups ',/
-     >  ,'#  PU#',T17,'Pos',T28,'Yco',T41, 'Tco',T54,'Zco'
-     >  ,T67,'Pco', T82,'L', T97,'D',T108,'time'
-     >  ,T117,' #traj ',T125,'Pass#'
+     >  ,'#  PU#',T17,'Pos',T29,'Yco',T42, 'Tco',T55,'Zco'
+     >  ,T68,'Pco', T83,'L', T96,'D',T107,'time'
+     >  ,T112,' #traj ',T120,'pass#'
      >  ,/      ,T16,'(cm)',T29, '(cm)',T40,'(mrad)',T55,'(cm)'
-     >  ,T66,'(mrad)',T81,'(cm)',T92,'(dp/p)',T105,'(mu_s)'
+     >  ,T66,'(mrad)',T81,'(cm)',T93,'(dp/p)',T106,'(mu_s)'
      >  )
 
         CALL PCKUP1

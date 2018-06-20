@@ -38,7 +38,7 @@ C      PARAMETER (MXTA=45)
       CHARACTER(132) TXT132
       LOGICAL STRCON, OK
       INTEGER DEBSTR, FINSTR
-      PARAMETER (I9=9)
+      PARAMETER (I2=2, I9=9)
       CHARACTER(30) STRA(I9)
       LOGICAL EMPTY, ISNUM
       PARAMETER (KSIZ=10)
@@ -93,7 +93,7 @@ C     ....FREQ. (Hz) or orbit length (m), H -HARMONIQUE or list {ha, hb, ...}
       LINE = LINE + 1
 C      READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
       READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132      
-      IF(IOPT .NE. 0) then 
+      IF(IOPT .NE. 0) THEN 
         IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(DEBSTR(TXT132):IS-1)
         CALL STRGET(TXT132,I9
@@ -186,9 +186,14 @@ C        3rd data is energy loss at first pass, U0
               READ(TXT132(1:JS-1),*,ERR=90,END=90) TMP
               WRITE(STRA(I),*) TMP
             ENDDO
-            MSTR = I+1
-            READ(TXT132(JS+1:FINSTR(TXT132)),*,ERR=90,END=90) TMP
-            WRITE(STRA(MSTR),*) TMP
+            CALL STRGET(TXT132(JS+1:),I2
+     >                                  ,II,STRA)
+            MSTR = I+II
+            if(ii .eq. 1) then
+              READ(TXT132(JS+1:),*,ERR=90,END=90) STRA(MSTR)
+            elseif(ii .eq. 2) then
+              READ(TXT132(JS+1:),*,ERR=90,END=90)STRA(MSTR-1),STRA(MSTR)
+            endif
           ELSE
             MSTR=2       
           ENDIF

@@ -18,10 +18,9 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  Brookhaven National Laboratory        
 C  C-AD, Bldg 911
-C  Upton, NY, 11973
-C  USA
+C  Upton, NY, 11973,  USA
 C  -------
       SUBROUTINE YMOINY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -38,5 +37,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
          DO 1 J=2,5
             F(J,I)=-F(J,I)
 1     CONTINUE
+
+      IF(NRES.GT.0) THEN
+        WRITE(NRES,101) IEX(1),-1.D0+F(1,1),(F(J,1),J=2,7)
+ 101    FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',
+     >  I3,1P,5E14.6,1X,E15.7,1X,E13.5)
+        IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
+ 102    FORMAT('TRAJ #1 SX, SY, SZ, |S| :',1X,I2,2X,1P,4(E14.6,1X))
+      ENDIF
+
       RETURN
       END

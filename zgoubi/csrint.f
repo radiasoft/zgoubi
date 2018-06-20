@@ -55,7 +55,8 @@ C----- Velocity of observer
       BET(3) = BTA * SIN(P)
 
 C------- Loop on all  positions (tagged KSTP) upstream of IT, including current step
-        CALL INTEG4(NSTP)
+      CALL INTEG4(
+     >            NSTP)
 
 C------- Neglect (avoid!) action of bunch on itself
         IF(NSTP.EQ.1) RETURN

@@ -116,7 +116,7 @@ C Particle data
       PARAMETER (DQE0= 2.D0*QE0 )
       DATA Q3HE / DQE0 / 
       DATA AM3HE / 2808.39148D0 /
-      DATA G3HE / -4.1841538 /
+      DATA G3HE / -4.1841538D0 /
     
       DATA TSPCH / .FALSE. /
   

@@ -68,7 +68,8 @@ C      LOGICAL ZSYM
       LOGICAL IDLUNI, OPN
       SAVE LST2, LUN
 
-      CALL INTEG4(NSTEP)
+      CALL INTEG4(
+     >            NSTEP)
       K = LSTK()
 
 C----- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)

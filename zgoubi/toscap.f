@@ -283,7 +283,7 @@ C--------- Full 3D volume, no symmetry hypothesis
 !           WRITE(6   ,208) (NOMFIC(I),I=1,NFIC)
            WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
- 208       FORMAT(10X,A)
+ 208       FORMAT(10X,'''',A,'''')
         ELSE
           WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
@@ -559,10 +559,10 @@ C------- Restore mesh coordinates
  
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file ',
-     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
-      WRITE(*        ,*) 'Pgm toscap. Error  open  file ',
-     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
+ 96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file '''//
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
+      WRITE(*        ,*) 'Pgm toscap. Error  open  file '''//
+     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
       END

@@ -102,7 +102,7 @@ C      PARAMETER (MXTA=45)
 
       DATA CEBAF, CRNLSY, ERCRCS / .FALSE., .FALSE., .FALSE. /
       DATA SYNCT / 0.D0 /
-      data PHS_PREV / 999.d9 /
+      DATA PHS_PREV / 999.d9 /
       
       DUM = SCALER(1, NOEL, 
      >                     DUM)
@@ -209,23 +209,31 @@ C-------------------------------------------
      >CALL ENDJOB('Pgm cavite.  No such possibility NBH=',NBH)
       PHS= A(NOEL,20+NBH)
       IF(NBH .GT. 1) THEN
+        DPHN= A(NOEL,21+NBH)
         DO I = 1, NBH
           HRM(I) = A(NOEL,10+I)
           VHRM(I) = A(NOEL,19+I)
         ENDDO
         AK = VHRM(2) / VHRM(1)
         RN = HRM(2) / HRM(1)
-        PHN = ATAN(TAN(PHS)/RN) / RN
+        PHN = ATAN(TAN(PHS)/RN) / RN 
+
+C test
+        DPHN = pi/21.d0    ! = 0.149599650171
+        PHN = ATAN(TAN(PHS)/RN) / RN  +DPHN
+
+c        write(*,*) ' cavite phs, phN, dphn  = ',phs,phn,dphn
+
       ENDIF
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
-      IF(IPASS .EQ. 1) then
-        if(.not. (kzob.eq.1 .and. kobj.eq.3)) then
-C        if(kobj.ne.3) then
+      IF(IPASS .EQ. 1) THEN
+        IF(.NOT. (KZOB.EQ.1 .AND. KOBJ.EQ.3)) THEN
+C        IF(KOBJ.NE.3) THEN
           PS = P0
-        else
+        ELSE
           PS = P0*(DPREF+HDPRF)
-        endif 
-      endif
+        ENDIF 
+      ENDIF
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
@@ -234,6 +242,9 @@ C        if(kobj.ne.3) then
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
       IF(NBH .EQ. 2) DWS = DWS + QV*AK*SIN(RN*PHN)
+
+c      write(*,*) ' cavite dws  = ',dws
+
       WKS = WKS + DWS
 C--- Case SR loss in storage ring (no acceleration). In that case PS is constant, DWS expected to be equal to SR loss.
       CALL SRLOS3(
@@ -832,17 +843,18 @@ C Kin. energy, MeV
 
         IF(NBH .EQ. 2) THEN
           WRITE(NRES,221) NINT(HRM(1)),NINT(HRM(2)),VHRM(1),VHRM(2),
-     >    FRF,RN*FRF,NINT(RN),AK,ATAN(TAN(PHS)/RN)/RN,
+     >    FRF,RN*FRF,NINT(RN),AK,ATAN(TAN(PHS)/RN)/RN, DPHN, 
      >    QV*(SIN(PHS)+AK*SIN(RN*PHN))
  221      FORMAT(1P, 
-     >       /,20X,'h1, h2                   :    ',I0,',  ',I0,
-     >       /,20X,'Peak  voltage  1, 2      :',E19.8,',  ',E19.8,' V',
-     >       /,20X,'RF  frequency  1, 2      :',E19.8,',  ',E19.8,' Hz',
-     >       /,20X,'N = h2 / h1              =    ',I0,
-     >       /,20X,'k = V2 / V1              =',E19.8,
-     >       /,20X,'phi_n = atan(tan(phi_s)/n)/n    =',E19.8,' rd',
-     >       /,20X,'qV1.(sin(phi_s)+k.sin(n.phi_n)) =',E19.8,' MeV',
-     >       /)
+     >    /,20X,'h1, h2                   :    ',I0,',  ',I0,
+     >    /,20X,'Peak  voltage  1, 2      :',E19.8,',  ',E19.8,' V',
+     >    /,20X,'RF  frequency  1, 2      :',E19.8,',  ',E19.8,' Hz',
+     >    /,20X,'N = h2 / h1              =    ',I0,
+     >    /,20X,'k = V2 / V1              =',E19.8,
+     >    /,20X,'phi_n = atan(tan(phi_s)/n)/n           =',E19.8,' rd',
+     >    /,20X,'phi_n shift = dph_n                    =',E19.8,' rd',
+     >    /,20X,'qV1.(sin(phi_s)+k.sin(n.(phi_n+dph_n)) =',E19.8,' MeV',
+     >    /)
         ENDIF
 
         IF(SRLOSS) WRITE(NRES,FMT='(1P,
@@ -883,13 +895,13 @@ C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to
 C DTI is the time it took since the last passage in CAVITE 
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
-          if(.not. (kzob.eq.1 .and. kobj.eq.3)) then
-              PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
-          else
-            PHAS(I) = PH(I)   + (qv/abs(qv))*(DTI-DTS)*OMRF
-          endif      
+          IF(.NOT. (KZOB.EQ.1 .AND. KOBJ.EQ.3)) THEN
+              PHAS(I) = PHS + (QV/ABS(QV))*(DTI-DTS)*OMRF
+          ELSE
+            PHAS(I) = PH(I)   + (QV/ABS(QV))*(DTI-DTS)*OMRF
+          ENDIF      
         ELSE
-           PHAS(I) = PHAS(I) + (qv/abs(qv))*(DTI-DTS)*OMRF
+           PHAS(I) = PHAS(I) + (QV/ABS(QV))*(DTI-DTS)*OMRF
         ENDIF
 
 c              write(*,*) ' cavite kobj3 ',ph(i)

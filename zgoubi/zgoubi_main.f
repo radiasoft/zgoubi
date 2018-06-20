@@ -186,7 +186,7 @@ C -----
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
       NBLMI = NBLMN
-C FM - 17.10.24. Allows carrying on beyond FIT
+C FM - 17.10.24. Allows continuing beyond FIT
  12   CONTINUE
       CALL ZGOUBI(NL1,NL2,READAT,NBLMI)
       CALL ZGIRET(

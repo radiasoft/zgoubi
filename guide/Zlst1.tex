@@ -2508,8 +2508,8 @@ indicating a symmetry \index{tag, symmetry index} with respect to the ($ X$,$Y$)
 \mbox{\KOBJ= 3}. If two trajectories have mid-plane symmetry, only one  will be 
 ray-traced, while the other will be deduced using the mid-plane 
 symmetries. This is done for the purpose of saving computing time. It may 
-be incompatible with the use of some procedures (\emph{e.g.}~\textsl{MCDESINT\index{MCDESINT}}, which 
-involves random processes). 
+be non-compatible with the use of some procedures (\emph{e.g.}~\textsl{MCDESINT\index{MCDESINT}}, which 
+involves random processes) or with the use of non mid-plane symmetric fields.
 
 \noindent The last datum is a reference in each coordinate, $\YR,\TR,\ZR,\PR,\XR,\DR$. 
 For instance the reference rigidity is $ DR \ast$ \BORO, resulting 
@@ -2518,18 +2518,18 @@ $ (DR+I\ast \dD)\ast \BORO$.
 
 \bigskip
 
-\noindent\textbf{KOBJ = 1.1~:} Same as \KOBJ = 1    except for the $ Z $
-symmetry.  The initial $ Z $ and $ P $ conditions are the following 
-
-$$
-  \begin{array}{*{5}{r<{,}}}
+\noindent\textbf{KOBJ = 1.1~:} The initial $ Z $ and $ P $ conditions are 
+$$  \begin{array}{*{5}{r<{,}}}
 	  0  &  \dZ &   2  \ast   \dZ & \ldots & (\IZ-1)   \ast   \dZ \\
 	  0  &  \dP &   2  \ast   \dP  & \ldots & (\IP-1)   \ast   \dP 
-  \end{array}
- $$
-
+  \end{array} $$
 
 \noindent This object results in shorter outputs/CPU-time when studying problems with $Z $ symmetry.  
+
+\bigskip
+
+\noindent\textbf{KOBJ = 1.2~:} Same as \KOBJ = 1, but the mid-plane symmetry of the tracking is lifted, all
+particles are actually tracked.
 
 \bigskip
 
@@ -3229,6 +3229,7 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
 \noindent The examples of \textsl{QUADRUPO\index{QUADRUPO}} (quadrupole) and 
 \textsl{TOSCA\index{TOSCA}} (Cartesian or cylindrical mesh field map) are as follows. 
 
+\begin{minipage}{0.99\linewidth}
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 \index{QUADRUPO!- parameter numbering}
@@ -3244,7 +3245,16 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
     \textsl{\NCS}, $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$  &&  50, 51, 52, 53, 54, 55, 56 \\
    \textsl{XPAS}                                            &&  60\\
    \textsl{KPOS, XCE, YCE, ALE }                            && 70, 71, 72, 73 \\
-   \\
+\end{tabular}    }
+\end{center}  
+   
+\end{minipage} \hfill
+
+\begin{minipage}{0.99\linewidth}
+\centering
+\renewcommand{\arraystretch}{1}
+	\begin{tabular}{lcl}
+	\textbf{Input  data}  &~~~~~~~~&  \textbf{Numbering  for  FIT}\\[1ex ]
    \textsl{'TOSCA'}  \\
    \textsl{\IC, \IL}  &  &  1, 2\\
    \textsl{BNORM, X- [, Y-, Z-]NORM}     &&  10, 11 [, 12, 13] \\
@@ -3255,22 +3265,23 @@ copy the sequence from zgoubi.dat  into the result file  zgoubi.res,  with all e
              &&  30, 31, 32, 33 [34, 35, 36 [, 37, 38, 39] if $ID \geq  2$]  \\
    \textsl{IORDRE}    &&  40   \\
    \textsl{XPAS}      && 50    \\
-   \textsl{KPOS, XCE, YCE, ALE } 
-             && 60,61,62,63
-\end{tabular}  }
-\end{center}             
+   if \textsl{KPOS=1}~: \\[-.4ex]
+   \textsl{KPOS, XCE, YCE, ALE }     && 60,61,62,63 \\
+   if \textsl{KPOS=2}~: \\[-.4ex]
+   \textsl{KPOS }     && 60    \\
+   \textsl{KPOS, XCE, YCE, ALE }     && 70,71,72,73
+\end{tabular}
+\end{minipage}
 
 \bigskip
 
-\noindent A different numbering,  fully sequential, has been adopted in the following elements~: \\
-\\
+\noindent A different numbering,  fully sequential, has been adopted in the following elements~: \\[1ex]
  \textsl{AIMANT}\index{AIMANT!- parameter numbering},   \textsl{DIPOLE}\index{DIPOLE!- parameter numbering}, 
  \textsl{EBMULT}\index{EBMULT!- parameter numbering}, \textsl{ELMULT}\index{ELMULT!- parameter numbering}, 
-\textsl{MULTIPOL}. \index{MULTIPOL!- parameter numbering} \\
-\\
+\textsl{MULTIPOL}. \index{MULTIPOL!- parameter numbering} \\[1ex]
 It is  illustrated  here after 
-in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!- parameter numbering}
-
+in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!- parameter numbering} \\[1ex]
+\begin{minipage}{0.99\linewidth}
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lcl}
@@ -3287,9 +3298,11 @@ in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!- parame
 	\textsl{ KPOS, XCE, YCE, ALE }     && 63, 64, 65, 66    \\
 	\end{tabular}   }
 \end{center}
+\end{minipage}
 
-\newpage
+%\newpage
 
+\begin{minipage}{0.99\linewidth}
 \begin{center}
 {\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lcl}
@@ -3307,16 +3320,19 @@ in the case of \textsl{MULTIPOL} and \textsl{DIPOLE-M}. \index{DIPOLE-M!- parame
 	etc.                 && 
 	\end{tabular}   }
 \end{center}
+\end{minipage}
 
+\bigskip
 
 
 \noindent Parameters in \textsl{SCALING\index{SCALING!- parameter numbering}} also have a sequential numbering, yet some positions 
 are skipped, this is illustrated in the example hereafter which covers all possible working modes of \textsl{SCALING} 
  (all details regarding the numbering can be found in the \FORTRAN\ subroutine \texttt{rscal.f})~: 
 
+\begin{minipage}{0.99\linewidth}
 \begin{center}
-%\small
-{\renewcommand{\arraystretch}{1}
+\small
+%{\renewcommand{\arraystretch}{1}
 	\begin{tabular}{lclcl}
 	\textbf{Input  data}  &~~~~&  \textbf{Numbering in  FIT}  &~& \textbf{Quantities to be varied}  \\
                              &         &                                &         & (see  \text{SCALING} for details) \\
@@ -3358,8 +3374,11 @@ MULTIPOL  KICKH  KICKV  \\
 2          \\
 \fbox{0.1}     \fbox{0.3}  &&  33 ~ 34             & & Field factor  \\
 \fbox{1}       \fbox{10}     &&  35 ~  36   && Timing\\
-	\end{tabular}   }
+	\end{tabular}
+        %}
 \end{center}
+\end{minipage}
+
 
 %	$NT_1$    &      &            \\
 %	$SCL(I)$, $I=1$, $NT_1$ &&  10 $[,...,~10+NT_1]$ \\

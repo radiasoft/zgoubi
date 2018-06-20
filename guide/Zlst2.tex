@@ -250,7 +250,7 @@ $\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step, ~  \q
  \textbf{AGSQUAD}        \label{AGSQUAD-B} \index{AGSQUAD|textbf}
            \>\textbf{\AGSQUADTitl}\> \>\\
 \\
-   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm numb. \end{array} $\\[2ex]
+   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm num. \end{array} $\\[2ex]
  $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I\\
          \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
  \\
@@ -1283,7 +1283,7 @@ $\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  ~ ~ 
  \left(\dfrac{R-RM}{RM} \right)^2+G \left(\dfrac{R-RM}{RM} \right)^3 \right) $ \> \> \\
  \\
  \\
-   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm numb. \end{array} $\\[2ex]
+   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm num. \end{array} $\\[2ex]
  $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I\\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \>  \\
 % $\IL$    \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories.\> 0-2$[\times 10^n]$ \>  I  \\
@@ -2093,11 +2093,10 @@ will be sorted in a Gaussian (UG=G) distribution centered on $BNC=-10^{-3}$ (VC=
 
 
 \begin{tabbing}
-\mestab
 ~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
   $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
                 +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
-                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+                \right) \right) $ \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
 %%%%%%%%%
 \textbf{FAISCEAU}         \label{FAISCEAU-B} \index{FAISCEAU|textbf}
   \> \textbf{\FAISCEAUTitl }   \> \> \\
@@ -2143,14 +2142,14 @@ will be sorted in a Gaussian (UG=G) distribution centered on $BNC=-10^{-3}$ (VC=
 
 
 
-
-
-
-
 \newpage
 
 \begin{tabbing}
-\mestab
+~ ~ $ \omega^+$, $\theta$,     $R_1$, $U_1$, $U_2$, $R_2 $     \quad \=
+  $ B=\mathcal{F}B_0 \left(1+N \left(\frac{R-RM }{ RM} \right)      
+                +B \left(\frac{R-RM}{ RM} \right)^2+G \left(\frac{R-RM }{ RM}
+                \right) \right) $, more \quad  \= 2*cm, 2*deg, cm ~ ~ \quad \= \kill
+%%%%%%%%%
 \textbf{FFAG}         \label{FFAG-B} \index{FFAG magnet!- radial|textbf} \index{FFAG|textbf}
            \>\textbf{\FFAGTitl}   \> \>   \\
 \> {\bf UNDER DEVELOPMENT}\> \>   \\
@@ -3294,58 +3293,51 @@ Bottom~: A 2-D grid in ($ Y, Z $) space.
 
 
 \begin{tabbing}
-% \mestab
-~ ~ ~ $N$, $EB1$, $EB2$, $EG1$, ~ ~ \quad \=
+~ ~ ~ $N$, $EB1$, $EB2$, $EG1$, ~  \quad \=
 $\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step, ~  \quad \=
              1-2, 2*cm, rad ~   \quad \= I, 6*E \quad \= \kill
-
  \textbf{MULTIPOL}        \label{MULTIPOL-B} \index{MULTIPOL|textbf}
            \> \textbf{Magnetic Multipole}  \> \> \\
  \\
  \\
-   \>   \>   dim. \> $\begin{array}{c} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{c} \rm FIT \\[-.5ex] \rm numb. \end{array} $\\[2ex]
- $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I\\
+   \>   \>   dim. \> $\begin{array}{l} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{l} \rm FIT \\[-.5ex] \rm num. \end{array} $\\[2ex]
+ $\IL$   \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \>0-2$[\times 10^n]$, 7 \>I  \> 1 \\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
-% $\IL$   \>$\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories \>0-2$[\times 10^n]$ \>I\\
- \\
- $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~;
-\>2*cm,10*kG \>12*E\\     
+ $\XL$, $R_0$, $B1$, $B2$, ..., $B{10}$,  \>Length of element~; radius at pole tip~; \>2*cm,10*kG \>12*E \> 2-13\\     
  \>field at pole tip for dipole, quadrupole, \>\>\\
  \>..., dodecapole components \>\>\\
  \\
  \>\textbf{Entrance face} \>\>\\
-$ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : 
-\>2*cm,9*no dim.\> 11*E\\
+$ X_E$, $\lambda_E$, $E_2$, ..., $E_{10} $ \>Integration zone~; fringe field extent : \>2*cm,9*no dim.\> 11*E \> 14-24 \\
  \>dipole fringe field extent = $ \lambda_ E $~; \>\>\\
  \>quadrupole fringe field extent = $ \lambda_ E\ast E_2 $~;\>\>\\
  \>...\>\>\\
  \>20-pole fringe field extent = $ \lambda_ E\ast E_{10} $ \>\>\\
  \>(sharp edge if field extent is zero) \>\>\\
  \\
- \textsl{NCE}, $ C_0-C_5 $            \>same as \textsl{QUADRUPO} 
- 					\>0-6, 6*no dim. \>I, 6*E\\
+ \textsl{NCE}, $ C_0-C_5 $            \>same as \textsl{QUADRUPO} \>0-6, 6*no dim. \>I, 6*E  \> 25-31  \\
  \\
  \>\textbf{Exit face} \>\>\\
 $ X_S$, $\lambda_S$, $S_2$, ..., $S_{10} $ \>Integration zone~; as for entrance
-         \>2*cm, 9*no dim. \> 11*E\\
+         \>2*cm, 9*no dim. \> 11*E \> 32-42  \\
  \\
- \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \\
+ \textsl{NCS}, $ C_0-C_5 $           \> \> 0-6, 6*no dim. \>I, 6*E \> 43-49 \\
  \\
-$ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>10*E \\
+$ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>10*E \> 50-59  \\
 \\
- \textsl{XPAS}                 \>Integration step    \>cm \>E \>  62  \\
+ \textsl{XPAS}                 \>Integration step    \>cm \>E \>   60 \\
  \\
 \textbf{If KPOS = 1-3}     \>Positioning as follows : \>\>\\
  \textsl{KPOS}, \textsl{XCE},   \textsl{YCE, ALE}  
                \> \textsl{KPOS}=1~: element aligned~; \textsl{KPOS}=2~: misaligned~; shifts, tilt~;
-               \>1-3, 2*cm, rad \>I, 3*E \\
+               \>1-3, 2*cm, rad \>I, 3*E \> 61-64 \\
 \> \textsl{KPOS}=3 :  effective only if $B1 \not = 0$ :  \> \> \\ 
 \> entrance and exit frames are  tilted \wrt\ the magnet by an angle  of  \> \> \\ 
 \> $\bullet$ either ALE if ALE$\not =$0 \> \> \\ 
 \> $\bullet$ or $2\, \textrm{Arcsin}( B1 \, \XL\, /\, 2 BORO)$ if ALE=0 \> \> \\ 
 \textbf{If KPOS = 4}     \> \>\>\\
  \textsl{KPOS}, XS, YS, ZR, ZS, YR  \>X-, Y-shift, Z-rotation, Z-shift, Y-rotation
-           \>4, cm, 2*(cm, rad) \>I, 5*E \\
+           \>4, cm, 2*(cm, rad) \>I, 5*E \> 61-66 \\
 \> Automatic ALE positioning as \textsl{KPOS} = 3, and in addition    \> \> \\ 
 \>  possible X- or Y- or Z-misalignment or Z-, Y-rotation.  \> \> \\ 
 \> (under development).  \> \> \\ 
@@ -3373,7 +3365,9 @@ $ R1$, $R2$, $R3$, ..., $R{10}$   \>Skew angles of field components \>10*rad \>1
  \\
  \textsl{KOBJ[.K2]}           \>Option index [.More options]            \>1-6    \>I \\
  \\
-\textbf{If KOBJ = 1[.1]}      \> [Non-] Symmetric object \> \> \\
+\textbf{If KOBJ = 1[.N]}      \> By default, tracking assumes mid-plane symmetry; \> \> \\
+    \> N=1: generate particles with $Z_0>0$ only;   \> \> \\
+    \> N=2: same as default, but all particles tracked, no mid-plane symmetry assumed.  \> \> \\
 \\
  \textsl{IY, IT, IZ, IP, IS, ID}  
  \>Ray-Tracing assumes mid-plane symmetry. Generated points~:   \> {\footnotesize IY*IT*IZ*IP*IS*ID $\leq \imax$ } \> 6*1  \\
@@ -3798,6 +3792,10 @@ $ X_S$, $\lambda_ S $     \>Parameters for the exit fringe field~; see entrance 
 
 \begin{tabbing}
 \mestab
+% \mestab
+~ ~ ~ $N$, $EB1$, $EB2$, $EG1$, \quad \=
+$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step, ~  \quad \=
+             1-2, 2*cm, rad ~   \quad \= I, 6*E \quad \= \kill
 \textbf{OPTICS}         \label{OPTICS-B} \index{OPTICS|textbf}
   \> \textbf{\OPTICSTitl }   \> \> \\
   \\
@@ -3987,7 +3985,7 @@ instance $M$, $Q$ only when electric lenses are used,  $M$, $Q$, $G$ only when t
 \textbf{PICKUPS}         \label{PICKUPS-B} \index{PICKUPS|textbf}         \> \textbf{\PICKUPSTitl}  \> \> \\
  \> \textbf{Particle coordinates at pickups may be printed out in zgoubi.PICKUP.out;} \> \>  \\
  \> \textbf{they are anyway listed next to the sequence `\textsl{END}' keyword down zgoubi.res.} \> \>  \\
- \> \textbf{Pickup contents are zeroed at start of each pass, in multi-turn mode.} \> \>  \\
+ \> \textbf{In multi-turn mode, pickup contents are zeroed at start of each pass.} \> \>  \\
  \\
  \\
  $N$  \textsl{[,PRINT]}     \> 0 : inactive \> \> \\
@@ -5144,11 +5142,15 @@ cp zgoubi.res zgoubi.res_save
 
 
 \begin{tabbing}
-\mestab
+~ ~ ~ $N$, $EB1$, $EB2$, $EG1$, ~  \quad \=
+$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step, ~  \quad \=
+             1-2, 2*cm, rad ~   \quad \= I, 6*E \quad \= \kill
+%%\mestab
  \textbf{TOSCA}        \label{TOSCA-B} \index{TOSCA|textbf}
      \> \textbf{\TOSCATitl} (page~\pageref{TOSCA} in PART~A) \> \> 
  \\
  \\
+   \>   \>   dim. \> $\begin{array}{l} \rm data \\[-.5ex] \rm type \end{array} $  \>  $\begin{array}{l} \rm FIT \\[-.5ex] \rm num. \end{array} $\\[2ex]
  $\IC$, $\IL$      \>$\IC=1,2$ : print  the map \>0-2; 0-2$[\times 10^n]$, 7 \>2*I\\
     \>$\IL=1,2[\times 10^n],~7$ : print coordinates, fields, etc., step-by-step,  \> \>   \\
         \> in zgoubi.res ($1$),  zgoubi.plt ($2$),  zgoubi.impdev.out ($7$).       \>                   \> \\
@@ -5232,7 +5234,10 @@ BX and BY are assumed  zero at all nodes of the 2-D mesh, regardless of BX(J,1,I
 \newpage
 
 \begin{tabbing}
- \mestab
+$N$, $EB1$, $EB2$, $EG1$  \=
+         $\IL=1,2[\times 10^n]$ : print field and coordinates along trajectories. ~ ~  ~ ~ \quad \=
+             1-2, 2*cm, rad ~ ~ \quad \= \kill
+%%\mestab
  \textbf{TRANSMAT}        \label{TRANSMAT-B} \index{TRANSMAT|textbf}
      \> \textbf{\TRANSMATTitl} \> \> \\
  \\

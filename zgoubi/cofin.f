@@ -27,7 +27,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------
 C     COORDONNEES ABSOLUES EN FIN DE DS
-C      APPELE PAR INTEGR
+C     APPELE PAR INTEGR
 C     ----------------------------------
       LOGICAL EVNT
       INCLUDE "MAXTRA.H"

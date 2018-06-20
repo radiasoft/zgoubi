@@ -530,7 +530,7 @@ c        ELSEIF(MOD.EQ.15) THEN
      >     ,/,10X,' name(s) of map data file(s) : ',/)
            WRITE(NRES,208)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
- 208       FORMAT(10X,A)
+ 208       FORMAT(10X,'''',A,'''')
         ELSE
           WRITE(NRES,210)  (NOMFIC(I)(DEBSTR(NOMFIC(I)):
      >     FINSTR(NOMFIC(I))),I=1,NFIC)
@@ -581,9 +581,9 @@ c        ELSEIF(MOD.EQ.15) THEN
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-               WRITE(NRES,FMT='(5X,3A)')
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' ',
-     >         'map,  FORMAT type : ',FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
+               WRITE(NRES,FMT='(2(5X,A,/))')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' field map,',
+     >         'FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))//'.'
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
@@ -639,10 +639,10 @@ C------- Store mesh coordinates
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
                WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
      >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-               WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
-     >         'map, FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
-     >         //'.  Field multiplication factor :',AA(NOEL,ICOF)
+               WRITE(NRES,FMT='(2(5X,A,/),5X,A,1P,E16.8,A,/)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' field map,',
+     >         'FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))//','
+     >         ,'field multiplication factor :',AA(NOEL,ICOF),'.'
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
  
@@ -793,11 +793,12 @@ C------- Store mesh coordinates
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
                WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
      >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
-               WRITE(NRES,FMT='(5X,A,1P,E16.8,/,5x,a,4(e14.6,1x),2i4/)')
-     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
-     >         'map, FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))
-     >         //'.  Field multiplication factor :',AA(NOEL,23+NFIC),
-     >         'Positioning (X, Y, theta, dY) : ',
+               WRITE(NRES,FMT='(2(5X,A,/),5X,A,1P,E16.8,A,/,
+     >         5X,A,4(E14.6,1X),2(I4,1X)/)')
+     >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' field map,',
+     >         'FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))//','
+     >         ,'field multiplication factor :',AA(NOEL,23+NFIC),','
+     >         ,'positioning (X, Y, theta, dY) : ',
      >         (AA(NOEL,JJ),JJ=20+10*KZ+1,20+10*KZ+4),
      >             20+10*KZ, 20+10*KZ+4
                CALL FLUSH2(NRES,.FALSE.)
@@ -966,9 +967,9 @@ C        XF = XH(IAMA)
  
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file  **'//
+ 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file  '''//
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
-     >//'**'
+     >//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
  

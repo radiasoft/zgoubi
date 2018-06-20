@@ -37,7 +37,7 @@ CALCUL INTERSECTION DE LA TRAJECTOIRE AVEC DROITE AX+BY+C=0
         D=A*XF(1)+B*XF(2)+C
         ABSD = ABS(D)
         IF(ABSD .LE. EPS)  THEN
-C Etienne F. 25 Oct. 05
+C Etienne Forest. 25 Oct. 05
           IF(ABSD .LE. EPS2)  THEN
             RETURN
           ELSEIF(D.GT.DM.OR.D.EQ.0.D0 ) THEN 

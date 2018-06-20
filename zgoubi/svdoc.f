@@ -211,6 +211,8 @@ C      IF(NRES .GT. 0) WRITE(NRES,100) IPASS
         NRES = ABS(NRES)
         NOEL=NOELB
 
+        CALL SVDINV(LSVD,MCOH+MCOV,MPU)
+        
       ENDIF
 
       CALL SVDPC0      

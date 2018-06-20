@@ -52,8 +52,8 @@ C... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
       IF(OPN) THEN
          IF(NRES.GT.0)
      >   WRITE(NRES,FMT='(/,5X,A,/,5X,'' already open...'')')NAMFIC
-         IF(LN .NE. LUN) CALL ENDJOB(
-     >     '*** Error, SBR OPEN2 -> mixing up output files !',-99)
+         IF(LN .NE. LUN) CALL ENDJOB('Pgm open2. Mixing up logival unit'
+     >   //'numb. of output files !',-99)
       ELSE
         IF(IDLUNI(
      >            LUN)) THEN
@@ -66,6 +66,9 @@ C... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
             CLOSE(UNIT=LUN,STATUS='DELETE')
             OPEN(UNIT=LUN,FILE=NAMFIC,FORM='UNFORMATTED',ERR=99)
           ENDIF
+        ELSE
+         CALL ENDJOB('Pgm open2. Could not get logical unit number to'
+     >   //' open file '//TRIM(NAMFIC),-99)            
         ENDIF
 
 C FM. Nov 2013. Re-arranged here for compatibilty wit OPTIONS[WRITE ON/OFF]

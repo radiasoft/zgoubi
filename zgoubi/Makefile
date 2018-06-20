@@ -383,6 +383,7 @@ OBJ=\
  straco.o\
  strwld.o\
  svdcos.o\
+ svdinv.o\
  svdoc.o\
  svdpck.o\
  svdpr.o\
@@ -433,14 +434,18 @@ OBJ=\
 .f.o:
 	$(FC) $(FFLAGS) -I$(INC) -I$(MODS) -c $<
  
-zgoubi : $(OBJ) build_couplingLib
-	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) $(MOD) -L../common -lzg -L./coupling -lcoupl -o $@
+zgoubi : $(OBJ) build_couplingLib build_svdLib
+	$(FC) $(LDFLAGS) $(FFLAGS) $(OBJ) $(MOD) -L../common -lzg -L./coupling -lcoupl -o $@ -L./svd -lsvd -o $@
 
 build_couplingLib :
 	cd coupling ; $(MAKE)  
 
+build_svdLib :
+	cd svd ; $(MAKE)  
+
 clean :
 	cd coupling ; $(MAKE)  clean
+	cd svd ; $(MAKE)  clean
 	$(RM) *.o zgoubi *~
 
 accen.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H

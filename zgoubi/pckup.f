@@ -53,12 +53,19 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DIMENSION TBT(I4,MXPU),IQPU(MXL)
       SAVE TBT, IQPU
 
+      DIMENSION EMIT(3,MXPU), ALF(3,MXPU), BET(3,MXPU)
+      DIMENSION XM(3,MXPU), XPM(3,MXPU)
+      SAVE EMIT, ALF, BET, XM, XPM
+      
       PARAMETER (KSIZ=10)
 C      CHARACTER(KSIZ)  KLOBJ
 
       CHARACTER(KSIZ) KLEO
       LOGICAL CHKPU
 
+      CHARACTER(LBLSIZ) LBL1, LBL2
+      LOGICAL EMPTY
+      
       DATA NOELPU / MXPU*0 /
       DATA CHKPU / .TRUE. /
 
@@ -99,12 +106,17 @@ C path length
       FPU(6,IPU) = FPUL(6,IPU)
 C time
       FPU(7,IPU) = FPUL(7,IPU)
-C turn #  
+C #traj x #pass
       FPU(8,IPU) = FPU(8,IPU) + NT
 
 C------- Record pick-up position (cm)
       IF(IPASS .EQ. 1) FPU(9,IPU) = F(6,1)
 
+      DO JJ = 1, 3
+        CALL LPSFIT(JJ, 
+     >     EMIT(JJ,IPU),ALF(JJ,IPU),BET(JJ,IPU),XM(JJ,IPU),XPM(JJ,IPU))
+      ENDDO
+      
       RETURN
 
       ENTRY PCKUP1
@@ -112,12 +124,17 @@ C------- Record pick-up position (cm)
         NT = NINT(FPUL(8,I))
         CALL ZGKLE(IQ(NOELPU(I)),
      >                           KLEO)
+        LBL1 = LABEL(NOELPU(I),1)
+        IF(EMPTY(LBL1)) LBL1='-'
+        LBL2 = LABEL(NOELPU(I),2)
+        IF(EMPTY(LBL2)) LBL2='-'
         WRITE(NFPU,FMT= 
      >  '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4),2X,
-     >  I5,3(1X,A))')
+     >  I5,3(1X,A),3(3(1X,E12.4),2(1X,E14.6)))')
      >  I,FPU(9,I),(FPUL(J,I),J=2,6),FPUL(1,I),FPUL(7,I),NT,IPASS,
      >  (FPUL2(J,I),J=2,7), FPUL2(1,I), 
-     >  NOELPU(I),KLEO,LABEL(NOELPU(I),1),LABEL(NOELPU(I),2)
+     >  NOELPU(I),KLEO,LBL1,LBL2,
+     >  (EMIT(JJ,I),ALF(JJ,I),BET(JJ,I),XM(JJ,I),XPM(JJ,I),JJ=1,3)
  4    CONTINUE
       RETURN
 
