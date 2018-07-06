@@ -1,1 +1,1 @@
-/home/meot/zgoubi/SVN/current/common/date2.f
+../../common/date2.f

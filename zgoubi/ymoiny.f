@@ -42,7 +42,11 @@ C     $     IREP(MXT),AMQLU,PABSLU
         WRITE(NRES,101) IEX(1),-1.D0+F(1,1),(F(J,1),J=2,7)
  101    FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',
      >  I3,1P,5E14.6,1X,E15.7,1X,E13.5)
-        IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
+        error stop
+     &  "error termination inserted by damian before implicitly typed &
+     &   reference to array or function named SF in subroutine YMOINY &
+     &   (see commented line in zgoubi/ymoiny.f)"
+C        IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
  102    FORMAT('TRAJ #1 SX, SY, SZ, |S| :',1X,I2,2X,1P,4(E14.6,1X))
       ENDIF
 
