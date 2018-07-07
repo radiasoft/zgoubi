@@ -21,7 +21,7 @@ if ("${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")
    "Please create a new directory and build in a manner such as"
    "  $ mkdir build\n"
    "  $ cd build\n"
-   "  $ FC=caf cmake .. -DCMAKE_INSTALL_PREFIX=<install-path>\n"
+   "  $ FC=gfortran CC=gcc cmake .. -DCMAKE_INSTALL_PREFIX=<install-path>\n"
  )
 endif()
 
@@ -30,6 +30,12 @@ check_fortran_compiler_flag("-Wl,--allow-multiple-definition" _my_flag)
 if(_my_flag)
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Wl,--allow-multiple-definition")
 endif()
+
+set(issues_URL "https://github.com/radiasoft/zgoubi/issues")
+if (NOT "${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
+  message(WARNING "Untested compiler detected: ${CMAKE_Fortran_COMPILER_ID}. Report any issues at ${issues_URL}")
+endif()
+
 add_library(coupl
 zgoubi/coupling/libraries/libinv/zhemm.f
 zgoubi/coupling/libraries/libinv/zgeru.f
@@ -594,7 +600,7 @@ common/iraz.f
 
 
 include_directories(zgoubi include)
-add_executable( zgoubi.exe
+add_executable( zgoubi
 zgoubi/et2res.f
 zgoubi/rtrans.f
 zgoubi/rbinar.f
@@ -1089,17 +1095,20 @@ zgoubi/chreg.f
 zgoubi/depla.f
 modules/dynhc.f
 )
-target_link_libraries(zgoubi.exe zgoubi_blas toolbox zg)
+target_link_libraries(zgoubi zgoubi_blas toolbox zg)
 
 include_directories(zpop include)
 
 if ( "${CMAKE_SYSTEM_NAME}" MATCHES "Linux" )
   add_definitions(-DLINUX)
+else()
+  message(WARNING "Untested operating system: ${CMAKE_SYSTEM_NAME}. Report any issues at ${issues_URL}")
+  add_definitions(-DLINUX)
 endif()
 add_library(fminigraf
   zpop/liblns/fminigraf.c
 )
-add_executable(zpop.exe
+add_executable(zpop
 zpop/rtrans.f
 zpop/rbinar.f
 zpop/speana.f
@@ -1273,4 +1282,18 @@ zpop/prarc.f
 zpop/grad.f
 zpop/lastp.f
 )
-target_link_libraries(zpop.exe zg fminigraf)
+target_link_libraries(zpop zg fminigraf)
+
+# Set installation subdirectory for executable files
+install(
+  TARGETS zgoubi zpop 
+  DESTINATION bin
+  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+)
+
+# Set installation subdirectory for libraries
+install(
+  TARGETS zg fminigraf toolbox coupl zgoubi_blas 
+  DESTINATION lib
+  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
