@@ -1297,3 +1297,11 @@ install(
   DESTINATION lib
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
+
+enable_testing()
+
+add_test(NAME zgoubi-integration COMMAND "zgoubi")
+set_tests_properties(zgoubi-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
+
+add_test(NAME zpop-integration COMMAND "zpop")
+set_tests_properties(zpop-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")

@@ -186,8 +186,16 @@ FC=${arg_f:-gfortran} CC=${arg_c:-gcc} $CMAKE .. -DCMAKE_INSTALL_PREFIX="$instal
 make -j ${num_threads:-}
 ${SUDO:-} make install
 if [[ -x "${install_prefix}/bin/zgoubi" && -x "${install_prefix}/bin/zpop" ]]; then
-  info "zgoubi and zpop are installed in ${install_prefix}"
+  info ""
+  info "*************************************************************"
+  info "The executable files zgoubi and zpop have been installed in"
+  info "${install_prefix}"
+  info "To test the build, enter the following at the command prompt:"
+  info "   cd ${build_path}"
+  info "   ctest"
+  info "*************************************************************"
+  info ""
 else
-  emergency "zgoubi and/or zpop failed to install in ${install_prefix}. Please report an issue at https://github.com/radiasoft/zgoubi/issues."
+  emergency "zgoubi and/or zpop failed to install in ${install_prefix}. Please report this issue at https://github.com/radiasoft/zgoubi/issues."
 fi
 # ____________________________________ End of Main Body ____________________________________________
