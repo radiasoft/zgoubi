@@ -1,0 +1,1 @@
+      COMMON /LABEL/ LABEL(MXL,2)

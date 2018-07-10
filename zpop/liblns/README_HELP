@@ -1,0 +1,10 @@
+
+When running ttraxe as a test, if the alphanumeric comes out on the 
+graphic window, try, prior to running ttraxe,  to execute the following 
+on your xterm window : 
+
+setenv TERM xterm
+
+If it fixes the problem, it just means 
+"cela veut dire que le defaut du xterm est vt220 et que la denomition
+xterm existe avec d'autres parametres."

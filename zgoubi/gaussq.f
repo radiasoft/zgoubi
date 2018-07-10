@@ -1,0 +1,18 @@
+      SUBROUTINE QGAUS(FUNC,A,B,SS)
+C from numerical recipes, page 122
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION X(5), W(5)
+      DATA X /.1488743389D0, .4333953941D0, .6794095682D0, 
+     >  .8650633666D0, .9739065285D0 /
+      DATA W / .2955242247D0, .2692667193D0, .2190863625D0, 
+     >  .1494513491D0, .0666713443D0 /
+      XM = 0.5D0 * (B+A)
+      XR = 0.5D0 * (B-A)
+      SS = 0.D0
+      DO 11 J=1,5
+        DX = XR*X(J)
+        SS = SS + W(J) * (FUNC(XM+DX)+FUNC(XM-DX))
+ 11   CONTINUE
+      SS = XR * SS
+      RETURN
+      END

@@ -1,0 +1,3 @@
+      PARAMETER (MXHDF=20)    
+      CHARACTER(270) HDRF(MXHDF)
+

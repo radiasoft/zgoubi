@@ -1,0 +1,1 @@
+      COMMON/DDBXYZ/ DB(9),DDB(27)

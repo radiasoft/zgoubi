@@ -1,0 +1,1 @@
+      COMMON/PTICUL/ AM,Q,G,TO

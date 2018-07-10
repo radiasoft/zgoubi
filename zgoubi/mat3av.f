@@ -1,0 +1,24 @@
+      SUBROUTINE MAT3AV(VAR,NR,V_AVER,S_DEV)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER(4) I,NR
+      DIMENSION  VAR(*)
+C
+      V_AVER=0
+      S_DEV=0.0
+C
+      DO I=1,NR
+         V_AVER=V_AVER+VAR(I)
+         ENDDO
+C
+         V_AVER=V_AVER/FLOAT(NR)
+C
+      DO I=1,NR
+         S_DEV=S_DEV+(VAR(I)-V_AVER)*(VAR(I)-V_AVER)
+         ENDDO
+C
+	FFNUM=FLOAT(NR)
+	FFNUM=S_DEV/FFNUM
+         S_DEV=DSQRT(FFNUM) 
+C
+      RETURN
+      END

@@ -1,0 +1,4 @@
+C      PARAMETER (MXHD=20)
+      INCLUDE 'MXHD.H' 
+      CHARACTER(120) HDR(MXHD)
+

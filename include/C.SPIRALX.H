@@ -1,0 +1,1 @@
+      COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3

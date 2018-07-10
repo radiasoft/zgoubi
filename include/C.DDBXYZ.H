@@ -1,0 +1,1 @@
+      COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)

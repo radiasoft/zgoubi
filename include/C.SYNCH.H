@@ -1,0 +1,1 @@
+      COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
