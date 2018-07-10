@@ -1,0 +1,1 @@
+      COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB

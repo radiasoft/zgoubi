@@ -1,0 +1,8 @@
+
+ETparam is the version of ETparam taht zgoubi calls. The "call system" to ETparam is in Mmatric.f. 
+
+
+ETparam_autonomous is a version of ETparam which calls zgoubi. The "call system" to zgoubi is in tunesc. 
+
+
+

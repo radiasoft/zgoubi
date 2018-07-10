@@ -1,0 +1,1 @@
+      COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3

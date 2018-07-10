@@ -1,0 +1,1 @@
+      COMMON/COT/ PULAB(MPULAB)

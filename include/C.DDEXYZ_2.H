@@ -1,0 +1,1 @@
+      COMMON/DDEXYZ/ DE(9),DDE(27)

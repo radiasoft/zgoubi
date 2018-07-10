@@ -1,0 +1,1 @@
+      COMMON/VITES/ U(6,3),DQBR(6),DDT(6)

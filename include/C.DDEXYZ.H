@@ -1,0 +1,2 @@
+      COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
+ 

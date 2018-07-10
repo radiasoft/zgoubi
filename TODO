@@ -1,0 +1,129 @@
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+CODE DEVELOPMENTS
+
+---
+Check twoorb.f :  orbit finder prior to TWISS.
+Could use for that /home1/meot/zgoubi/struct/KEYWORDS/TWISS/SATURNE/saturne_Linux2005_step.res
+
+---
+INstall TWISS/KTW=3
+Could use for that /home1/meot/zgoubi/struct/KEYWORDS/TWISS/SATURNE/saturne_Linux2005_step.res
+
+---
+There are still several common files between zgoubi and zpop.  Unfortunately
+they are sufficiently different that one cannot use the one routine in both
+programs.  In addition, there is an inconsistency in zpop in the layout of the
+common block CDF (RFFAG uses the layout found in zgoubi).  I think we should
+try to make all of the common files (particularly the r* files) consistent.
+
+---
+Determine if the current FFLAGS are necessary, and make changes to the code so that they are not.
+
+---
+Fix the warnings, in particular the one about tempnam.
+
+---
+Install periodic dispersion when coupled, in matrix and twiss. 
+
+
+---
+Install call tunesc in ff
+
+---
+Have same manipulation of labels at the top of zgoubi.f by OPTICS, FAISTORE, SPNSTORE, PICKUPS
+
+---
+In lipsFromFai :
+- in the case that dispersion is removed :  some NOELs found in zgoubi.fai are not present in zgoubi.OPTICS.out. In 
+that case what is provided following reading from the latter is D=0 and D'=0. This can be fixed by removing from 
+the computation any NOEL in zgoubi.fai which wouild not have its match in  zgoubi.OPTICS.out. 
+
+---
+Install orbit correction
+Install harmonic orbit correction
+
+---
+Have 'TWISS' orbit finder operational (and stop TWISS if orbit can't be found)
+Note, a alternative way is: FIT can be placed just before TWISS in zgoubi.dat, to first find the orbit.
+
+---
+Install hard edge in solenoid (e.g., in order to be able to split  the solenoid in 2 haves at IP6 in RHIC)
+
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+GUIDE AND WEB SITE DEVELOPMENTS
+
+---
+Make the documentation consistent with the code.
+
+---
+Complete and update 
+/home/meot/zgoubi/SVN/sourceForge_webSite/malekFiles/ZGOUBI_DOCS/publications
+
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+DEBUGGING, ZGOUBI 
+
+
+-----
+THIS HAS BEEN SOLVED. 
+THIS was due to absence of declration of an entry as a logical, in some logical function (forgot which... could lookup in souurceforge...)
+
+* 1/
+1-B/
+If I compil using : 
+FC=gfortran
+FFLAGS= -Wall -pedantic
+then FIT stops, like that : 
+         FIT  variables  in  good  order,  FIT  will proceed. 
+         Final FIT status will be saved in zgoubi.FITVALS.out                                                              
+         Error  open  file warmSnake.map                                                                   
+         Leaving...    Occured in element # 6
+End of job ! 
+1-C/
+whereas, using 
+FFLAGS=-O4 -Wall -fno-automatic -pedantic
+then it does work, and without optimiwer : 
+FFLAGS= -Wall -fno-automatic -pedantic
+works too.
+1-D/
+On the other hand, 
+REBELOTE alone dose work, see for instance ~/zgoubi/struct/bnl/rhic/topicsWithHaixin/n0-TiltAtPolarmtr_150209/test
+
+-----
+THIS HAS BEEN SOLVED. 
+Same cause as 1/ : THIS was due to absence of declration of an entry as a logical, in a logical function
+* 2/ 
+FIT[2] pose probleme p.ex. avec thomas et hrs-desir, had to had "write(89,*)..." to solve it temporarily. Look up 'REWIND(89) in sources.
+
+
+-----
+THIS HAS BEEN SOLVED. 
+Same cause as 1/ : THIS was due to absence of declration of an entry as a logical, in a logical function
+* 3/
+../AGS/matrix/  yields "Maximum # steps allowed =       100000 .  At element number           89" on my laptop. It works if 0.960563380282 is shortened to 0.960563380 or less, or if 'WRITE OFF' is changed to 'WRITE ON'. 
+
+
+-----
+* 4/ Running /home/meot/zgoubi/struct/cornell/RCS/lattice/TWISS.dat with KOBJ=6 
+is almost ok... :  dQ1 comes out NaN. Tunes and dQ2 are ok...
+
+
+-----
+* 5/ Fixes needed in 'compare' tests : see  exemples/tools/TODO
+
+
+-----
+THIS HAS BEEN SOLVED. FM and Dan Abell, 2017.
+* 6/ In chcxc, do this
+chxc.f:C      CALL RAZ (AA,MXL*MXAA2)
+as the statement is useless.
+Otherwise it dramatically slows down computation. computation time is * factor 20 !
+

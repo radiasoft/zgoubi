@@ -1,0 +1,21 @@
+Librairies LNS (Graphique et saisie de données)
+***********************************************
+
+Ces librairies constituent une INTERFACE MINIMUM GRAPHIQUE et
+CONVERSATIONNELLE pour des programmes FORTRAN sous X11 (à partir d'une
+fenêtre "xterm") ou sur terminal asynchrone FALCO muni d'une fenêtre
+Tektronix.
+
+Elles ont été testées sous HPUX 9.05, SUNOS 4.x, SOLARIS 5.5 et
+LINUX (compilateur f2c).
+
+Pour générer les librairies et le programme d'exemple "ttraxe", modifier
+éventuellement le Makefile selon les indications qui s'y trouvent et entrer
+"make".
+
+S'il y a lieu, installer les librairies "rpsld.a" et "fminigraf.a" dans
+le catalogue adéquat.
+
+Le fichier PostScript "liblns.ps" contient la description et le mode
+d'emploi de ces bibliothèques ; le fichier LaTeX correspondant "liblns.tex"
+est également fourni.

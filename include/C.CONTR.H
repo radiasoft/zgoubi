@@ -1,0 +1,2 @@
+      COMMON/CONTR/ VAT(MXV),XI(MXV)
+ 
