@@ -1,5 +1,6 @@
   -c --with-c [arg]           Use specified C compiler (Example: -c /usr/local/bin/gcc). Default="gcc"
   -d --debug                  Enable debug mode. 
+  -D --documentation-only     Run FORD to generate HTML documentation files.
   -e --verbose                Enable verbose mode, print script as it is executed.
   -f --with-fortran [arg]     Use specified Fortran compiler (Example: -f /usr/local/bin/gfortran). Default="gfortran"
   -h --help                   Print this page.

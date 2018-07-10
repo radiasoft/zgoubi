@@ -146,8 +146,8 @@ info "build_path=\"${ZGOUBI_SRC_DIR}\"/build"
 
 # ________________________________ Start of the Main Body ___________________________________
 
-# Print version information and exit
 if [[ "${arg_v}" == "${__flag_present}" ]]; then
+  # Print version information and exit
   zgoubi_version=$(sed -n '/[0-9]\{1,\}\(\.[0-9]\{1,\}\)\{1,\}/{s/^\([^.]*\)\([0-9]\{1,\}\(\.[0-9]\{1,\}\)\{1,\}\)\(.*\)/\2/p;q;}' "${ZGOUBI_SRC_DIR}/VERSION")
   if [[ "${arg_v}" == "${__flag_present}" ]]; then
     echo "zgoubi ${zgoubi_version}"
@@ -165,10 +165,95 @@ elif grep -s -q Microsoft /proc/version  ; then
   info "Untested operating system detected: Windows Subsystem for Linux.  Please report any issues at https://github.com/radiasoft/zgoubi/issues."
 fi
 
-# Build and install zgoubi and zpop executable programs
-installation_record=install-zgoubi.log
-source "${ZGOUBI_SRC_DIR}/scripts/set_SUDO_if_needed_to_write_to_directory.sh"
-set_SUDO_if_needed_to_write_to_directory "${install_prefix}"
+# Build HTML documentation files using FORD
+if [[ "$arg_D" == "${__flag_present}" ]]; then
+  if ! type ford >& /dev/null; then
+    emergency "Invoking ford failed. Please ensure ford is installed and in your PATH.  See https://github.com/cmacmackin/ford.\n"
+  fi
+
+   export ford_fails=(  
+     "--exclude homclr.f"
+     "--exclude isofld.f"
+     "--exclude debstr.f"
+     "--exclude srinc.f"
+     "--exclude finstr.f"
+     "--exclude bndth.f"
+     "--exclude spach.f"
+     "--exclude twifnl.f"
+     "--exclude extract.f"
+     "--exclude zdotu.f"
+     "--exclude zdotc.f"
+     "--exclude getdet.f"
+     "--exclude Et2nf.f"
+     "--exclude geneSectorMap.f"
+     "--exclude binarize.f"
+     "--exclude impdev2FieldMap.f"
+     "--exclude madzg.f"
+     "--exclude rw.f"
+     "--exclude getDiffFromFai.f"
+     "--exclude scanTune.f"
+     "--exclude system_mkdir-part_i.f"
+     "--exclude getScumFromRes.f"
+     "--exclude searchStabLim.f"
+     "--exclude averageS.f"
+     "--exclude theorSy.f"
+     "--exclude polSpectrumFromFai_average.f"
+     "--exclude polSpectrumFromFai.f"
+     "--exclude profile_unif.f"
+     "--exclude profile_exp.f"
+     "--exclude profile.f"
+     "--exclude stroboscopy.f"
+     "--exclude scanSpinResonances.f"
+     "--exclude scanSpinResonances_launch.f"
+     "--exclude geneTexLog.f"
+     "--exclude geneTexIni.f"
+     "--exclude geneTexPage.f"
+     "--exclude geneTexEnd.f"
+     "--exclude avrgSzFromFai.f"
+     "--exclude genePlots.f"
+     "--exclude xing_gnuplot.f"
+     "--exclude computeStrength.f"
+     "--exclude dataTreatment.f"
+     "--exclude geneZGDat4Xing_fromCalcStrength.f"
+     "--exclude spinTuneFromFai_iterate.f"
+     "--exclude spinTuneFromFai.f"
+     "--exclude calcStrengths.f"
+     "--exclude weakXingFresnel.f"
+     "--exclude spinN0FIT.f"
+     "--exclude dpp.f"
+     "--exclude ggpmn.f"
+     "--exclude spectrumFromFai.f"
+     "--exclude spectrum.f"
+     "--exclude calcDA.f"
+     "--exclude betaFromMatrix.f"
+     "--exclude runningAverage_fromFai.f"
+     "--exclude geneRunAv.f"
+"--exclude_dir toolbox/averagesFromFai"
+"--exclude_dir toolbox/b_fai2Fai"
+"--exclude_dir toolbox/betaFromPlt"
+"--exclude_dir toolbox/ffagTools"
+"--exclude_dir toolbox/lipsFitFromFai"
+"--exclude_dir toolbox/readTunesFromFai"
+"--exclude_dir toolbox/rigidityAndStuff"
+"--exclude_dir toolbox/searchChroma"
+"--exclude_dir toolbox/searchCO"
+"--exclude_dir toolbox/searchCOs_From1Traj"
+"--exclude_dir toolbox/searchDA"
+"--exclude_dir toolbox/scanTune"
+"--exclude_dir toolbox/tunesFromFai"
+"--exclude_dir toolbox/tunesFromTWISS"
+"--exclude_dir toolbox/tunesFromMATRIX"
+"--exclude_dir toolbox/translators"
+   )
+#"--exclude_dir toolbox/tuneScan"
+  
+   ford documentation-generator.md ${ford_fails[@]}
+
+  if [[ -f doc/index.html ]]; then
+    info "HTML documentation has been installed in the doc/ subdirectory"
+    exit 0
+  fi
+fi
 
 cd ${ZGOUBI_SRC_DIR}
 if [[ -d build ]]; then
@@ -176,10 +261,15 @@ if [[ -d build ]]; then
 fi
 mkdir build
 cd build 
-
+  
 if ! type cmake >& /dev/null; then
-  emergency "Invoking cmake failed. Please insure cmake is installed and in your PATH.\n"
+  emergency "Invoking cmake failed. Please ensure cmake is installed and in your PATH.\n"
 fi
+
+# Build and install zgoubi and zpop executable programs
+installation_record=install-zgoubi.log
+source "${ZGOUBI_SRC_DIR}/scripts/set_SUDO_if_needed_to_write_to_directory.sh"
+set_SUDO_if_needed_to_write_to_directory "${install_prefix}"
 
 export CMAKE=${arg_m:-cmake}
 FC=${arg_f:-gfortran} CC=${arg_c:-gcc} $CMAKE .. -DCMAKE_INSTALL_PREFIX="$install_prefix" 
