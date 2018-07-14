@@ -1,0 +1,13 @@
+diff --git a/zgoubi/PARIZ.H b/zgoubi/PARIZ.H
+index 0949ade9..234de6d7 100644
+--- a/zgoubi/PARIZ.H
++++ b/zgoubi/PARIZ.H
+@@ -210,7 +210,7 @@ C       PARAMETER (MXX=567, MXY=201)
+ 
+ C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+ C For iRCMS
+-       PARAMETER (IZ=1 , ID=3, MMAP=1)
++       PARAMETER (IZ=29 , ID=3, MMAP=1)
+        PARAMETER (MXX=2131, MXY=29)
+ 
+ C---------------------------------------------------------------
