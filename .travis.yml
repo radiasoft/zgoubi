@@ -1,0 +1,58 @@
+---
+language: generic
+
+cache:
+  apt: true
+
+matrix:
+  fast_finish: true
+  include:
+    - &macOS
+      os: osx
+      env:
+        - FC="gfortran-8"
+          CC="gcc-8"
+          INSTALL_COMMAND="brew install gcc cmake shellcheck"
+    - &ubuntu
+      os: linux
+      sudo: false
+      dist: trusty
+      env:
+        - FC="gfortran-7"
+          CC="gcc-7"
+      cache:
+        apt: true
+      addons:
+        apt:
+          sources: &linuxsrcs
+            - ubuntu-toolchain-r-test
+          packages: &gcc7pkgs
+            - gcc-7
+            - gfortran-7
+            - cmake
+            - shellcheck
+
+before_install:
+  - mkdir build
+  - cd build || echo "Failed to create and move to build directory\!" >&2
+
+install:
+  - |
+    if [[ ${TRAVIS_OS_NAME} = osx ]] ; then
+      eval ${INSTALL_COMMAND} || brew link --overwrite gcc
+      brew upgrade gcc cmake || true
+    fi
+  - pwd
+  - cmake --version
+  - gfortran-7 --version
+  - gcc-7 --version
+
+script:
+  - FC=gfortran-7 CC=gcc-7 cmake ..
+  - make -j
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    on_start: never

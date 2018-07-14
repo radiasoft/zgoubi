@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Execute an example zgoubi file
+# Exit on error or on use of unset variable
+set -o errexit
+set -o nounset
+# Return highest error code in pipe chain
+set -o pipefail
+
+cd "@ZGOUBI_TEST_BIN_DIR@"
+if [[ ! -f zgoubi.dat ]]; then
+  ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
+fi
+"@CMAKE_BINARY_DIR@"/zgoubi
+
+export num_lines=1147
+if diff <(head -n $num_lines zgoubi.res) <(head -n $num_lines zgoubi.res.expected)
+then
+   echo "Test passed."
+else
+   echo "zgoubi.res differs from zgoubi.res.expected"
+fi

@@ -19,7 +19,7 @@
   Boston, MA  02110-1301  USA
 
   François Meot <fmeot@bnl.gov>
-  Brookhaven National Laboratory      
+  Brookhaven National Laboratory
   C-AD, Bldg 911
   Upton, NY, 11973
 */
@@ -54,8 +54,8 @@
 
 /* GENERATION CONDITIONNELLE SELON SYSTEME */
 
-#if defined(SUN) || defined(LINUX) || defined(GFORTRAN4)
-#define TRAXE  traxe_  
+#if defined(SUN) || defined(LINUX) || defined(GFORTRAN4) || defined(DARWIN)
+#define TRAXE  traxe_
 #define TRDEF  trdef_
 #define TRTEXT trtext_
 #define INIVCF inivcf_
@@ -74,7 +74,7 @@
 #endif
 
 #ifdef HP
-#define TRAXE  traxe  
+#define TRAXE  traxe
 #define TRDEF  trdef
 #define TRTEXT trtext
 #define INIVCF inivcf
@@ -120,7 +120,7 @@
 
 static int v_init,v_ix,v_iy;
 static int v_ix1,v_ix2,v_iy1,v_iy2;
-static char v_typlin,g_typlin; 
+static char v_typlin,g_typlin;
 static int g_motr,g_ntic,g_logx,g_logy,g_point;
 static int g_ix0,g_ix1,g_ix2,g_iy0,g_iy1,g_iy2;
 static double g_x1,g_x2,g_y1,g_y2,g_dx,g_dy,g_cx,g_cy,g_div;
@@ -602,7 +602,7 @@ static void trgrad(nat,c,dc,cc,ic,j1,j0,j2)
 				_inivph(1);
 			}
 			if(nat == 0) {
-				if(!(unsur2 && (((m + nparz) % 2) == 0) && 
+				if(!(unsur2 && (((m + nparz) % 2) == 0) &&
 				   (!typ1)) ) {
 					labaxe(ix,j1 - HCAR/2,x,typ1);
 					if(premdv) {
@@ -711,7 +711,7 @@ static void trgral(nat,l1,l2,k1,k2,j1,j2,motr,perlog)
 			lg  = ( (unsur5 && ((l % 5) != 0)) || lg );
 
 			/* LABELS */
-			if ( (maindv || labint) && (!((j == 8) && 
+			if ( (maindv || labint) && (!((j == 8) &&
 			     (nat == 0))) && (!lg) ) {
 				lx = MAXX/20;
 				if (!maindv) {
@@ -1141,7 +1141,7 @@ void _vectf(ix,iy,mode)
 			case 2:
 			case 3: {
 				SCALX(ix); SCALY(iy);
-				g_typlin = 
+				g_typlin =
 				   (mode ==2) ? v_typlin : v_typlin | 0x70;
 				if(!g_point) {
 					/* LIGNE */
@@ -1232,7 +1232,7 @@ static void gpoint(ix,iy,g_imark)
 
 	if(!g_imark) {
 		if( (ix < v_ix1) || (ix > v_ix2) ||
-		    (iy < v_iy1) || (iy > v_iy2) ) 
+		    (iy < v_iy1) || (iy > v_iy2) )
 			return;
 		vecpost(ix,iy,ix,iy+1);
 		xytek(ix,iy,s1); xytek(ix+1,iy+1,s2);
@@ -1272,7 +1272,7 @@ static void gclip(ix,iy)
 
 	ix1 = v_ix; ix2 = ix; iy1 = v_iy; iy2 = iy;
 
-	/* variables logiques: -1 = inferieur; 0 = dedans; 1 = superieur */  
+	/* variables logiques: -1 = inferieur; 0 = dedans; 1 = superieur */
 	lx1 = ( (ix1 > v_ix2) - (ix1 < v_ix1) );
 	ly1 = ( (iy1 > v_iy2) - (iy1 < v_iy1) );
 	lx2 = ( (ix2 > v_ix2) - (ix2 < v_ix1) );
@@ -1515,7 +1515,7 @@ static void textpost(x,y,s)
 	if(g_tcar != g_pscar
 ) {
 		fprintf(g_pps,
-		   "/Courier-Bold findfont %d scalefont setfont\n",g_hcar[g_tcar]); 
+		   "/Courier-Bold findfont %d scalefont setfont\n",g_hcar[g_tcar]);
 		g_pscar = g_tcar;
 	}
 	fprintf(g_pps,"%d %d M (%s) H\n",x,y,s);
