@@ -1136,7 +1136,7 @@ set( example_input_files
 )
 foreach(input_file ${example_input_files})
   configure_file(
-    ${ZGOUBI_EXAMPLE_SRC_DIR}/${input_file}
+    ${ZGOUBI_TEST_SRC_DIR}/${input_file}
     ${ZGOUBI_TEST_BIN_DIR}/${input_file}
     @ONLY
   )
