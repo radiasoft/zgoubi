@@ -412,7 +412,6 @@ common/date2.f
 common/iraz.f
 )
 
-include_directories(zgoubi include)
 add_executable( zgoubi
 zgoubi/et2res.f
 zgoubi/rtrans.f
@@ -1114,13 +1113,6 @@ install(
   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
 
-# Patch zgoubi source file PARIZ.H to ensure the zgoubi executable passes the first ctest test
-execute_process(
-  COMMAND patch -p1
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  INPUT_FILE ${CMAKE_SOURCE_DIR}/tests/zgoubi-test.patch
-)
-
 enable_testing()
 
 set(ZGOUBI_SOURCE_DIR ${CMAKE_SOURCE_DIR} )
@@ -1132,13 +1124,13 @@ set( example_input_files
   centeredHelix.eps
   centeredHelix_FIT_save.res_150226
   centeredHelix_FIT_save_nofinal_150226.res
-  warmSnake.map
+  warmSnake.map.xz
 )
 foreach(input_file ${example_input_files})
   configure_file(
     ${ZGOUBI_TEST_SRC_DIR}/${input_file}
     ${ZGOUBI_TEST_BIN_DIR}/${input_file}
-    @ONLY
+    COPYONLY
   )
 endforeach(input_file)
 configure_file(
@@ -1151,6 +1143,15 @@ configure_file(
   "${ZGOUBI_TEST_BIN_DIR}/zgoubi.res.expected"
 @ONLY
 )
+set(ZGOUBI_TEST_IZ 29)
+set(ZGOUBI_TEST_ID  3)
+set(ZGOUBI_TEST_MMAP 1)
+configure_file(
+  "${ZGOUBI_TEST_SRC_DIR}/PARIZ_cmake_configurable.H"
+  "${ZGOUBI_TEST_BIN_DIR}/PARIZ.H"
+@ONLY
+)
+include_directories(BEFORE ${ZGOUBI_TEST_BIN_DIR} zgoubi include)
 
 add_test(NAME zgoubi-integration COMMAND "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh")
 set_tests_properties(zgoubi-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
