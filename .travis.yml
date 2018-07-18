@@ -44,12 +44,13 @@ install:
     fi
   - pwd
   - cmake --version
-  - gfortran-7 --version
-  - gcc-7 --version
+  - ${FC} --version
+  - ${CC} --version
 
 script:
-  - FC=gfortran-7 CC=gcc-7 cmake ..
+  - cmake ..
   - make -j
+  - ctest --output-on-failure
 
 notifications:
   email:
