@@ -12,7 +12,7 @@ matrix:
       env:
         - FC="gfortran-8"
           CC="gcc-8"
-          INSTALL_COMMAND="brew install gcc cmake shellcheck"
+          INSTALL_COMMAND="brew install gcc cmake xz shellcheck"
     - &ubuntu
       os: linux
       sudo: false
@@ -44,12 +44,13 @@ install:
     fi
   - pwd
   - cmake --version
-  - gfortran-7 --version
-  - gcc-7 --version
+  - ${FC} --version
+  - ${CC} --version
 
 script:
-  - FC=gfortran-7 CC=gcc-7 cmake ..
+  - cmake ..
   - make -j
+  - ctest --output-on-failure
 
 notifications:
   email:
