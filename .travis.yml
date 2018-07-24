@@ -9,6 +9,7 @@ env:
 
 before_install:
   - docker pull "${DOCKER_IMG}"
+  - pwd
 
 script:
   - bash travis.sh "${DOCKER_IMG}"
