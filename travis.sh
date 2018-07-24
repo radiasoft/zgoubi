@@ -7,16 +7,18 @@ set -o pipefail
 set -o nounset
 set -o errexit
 
-docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash  <<-'EOF'
-    #!/usr/bin/env bash
+docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash <<-'EOF'
+    #!/bin/bash
     source ~/.bashrc
     set -euo pipefail
     cd ~/src/radiasoft/zgoubi
-    if ! mkdir build > /dev/null 2>&1 ; then
+    if [[ -d "${BUILD_DIR:-cmake-build}" ]] ; then
         echo \
-            "Warning: Using an old/dirty build directory! Please run 'rm -r build' and try again if script fails." >&2
+            "Warning: Using an old/dirty build directory! Please run 'rm -r ${BUILD_DIR:-cmake-build}' and try again if script fails." >&2
+    else
+        mkdir "${BUILD_DIR:-cmake-build}"
     fi
-    cd build
+    cd "${BUILD_DIR:-cmake-build}"
     cmake -Wdev -DCMAKE_INSTALL_PREFIX=$(pyenv prefix) ..
     make -j $(nproc)
     ctest --output-on-failure

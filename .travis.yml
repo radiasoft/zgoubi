@@ -6,10 +6,15 @@ services:
 env:
   global:
     - DOCKER_IMG="radiasoft/beamsim-part1"
+    - BUILD_DIR="cmake-build"
 
 before_install:
-  - docker pull "${DOCKER_IMG}"
+  - mkdir "${BUILD_DIR}"
+  - chmod a+rwX "${BUILD_DIR}"
+  - sudo chown 1000:1000 "${BUILD_DIR}"
   - pwd
+  - ls -l
+  - docker pull "${DOCKER_IMG}"
 
 script:
   - bash travis.sh "${DOCKER_IMG}"
