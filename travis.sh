@@ -10,7 +10,7 @@ set -o errexit
 docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash <<-'EOF'
     #!/bin/bash
     source ~/.bashrc
-    set -euo pipefail
+    set -veuo pipefail
     cd ~/src/radiasoft/zgoubi
     if [[ -d "${BUILD_DIR:-cmake-build}" ]] ; then
         echo \

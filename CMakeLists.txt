@@ -1,6 +1,6 @@
 # Name project and specify source languages
 project(zgoubi
-  LANGUAGES C Fortran
+  LANGUAGES Fortran C
 )
 
 # CMake 3.7.0 is required for CMake to parse Fortran 2008 submodules
@@ -1107,11 +1107,13 @@ install(
 )
 
 # Set installation subdirectory for libraries
-install(
-  TARGETS zg fminigraf coupl zgoubi_blas
-  DESTINATION lib
-  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-)
+if(BUILD_SHARED_LIBS)
+  install(
+    TARGETS zg fminigraf coupl zgoubi_blas
+    DESTINATION lib
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    )
+endif()
 
 enable_testing()
 
@@ -1121,18 +1123,17 @@ set(ZGOUBI_EXAMPLE_SRC_DIR ${CMAKE_SOURCE_DIR}/exemples/KEYWORDS/FIT/FIT_embedde
 set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )
 
 set( example_input_files
-  centeredHelix.eps
-  centeredHelix_FIT_save.res_150226
   centeredHelix_FIT_save_nofinal_150226.res
   warmSnake.map.xz
 )
+
 foreach(input_file ${example_input_files})
   configure_file(
     ${ZGOUBI_TEST_SRC_DIR}/${input_file}
     ${ZGOUBI_TEST_BIN_DIR}/${input_file}
     COPYONLY
   )
-endforeach(input_file)
+endforeach()
 configure_file(
   "${ZGOUBI_TEST_SRC_DIR}/zgoubi-integration-test.sh.template"
   "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh"
