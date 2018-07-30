@@ -1,10 +1,10 @@
+# CMake 3.7.0 is required for CMake to parse Fortran 2008 submodules
+cmake_minimum_required(VERSION 3.7.0)
+
 # Name project and specify source languages
 project(zgoubi
   LANGUAGES Fortran C
 )
-
-# CMake 3.7.0 is required for CMake to parse Fortran 2008 submodules
-cmake_minimum_required(VERSION 3.7.0)
 
 # Print an error message on an attempt to build inside
 # the top level of the source tree:
@@ -29,6 +29,45 @@ set(issues_URL "https://github.com/radiasoft/zgoubi/issues")
 if (NOT "${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
   message(WARNING "Untested compiler detected: ${CMAKE_Fortran_COMPILER_ID}. Report any issues at ${issues_URL}")
 endif()
+
+# Simple function to download assets and verify their checksum
+function(maybe_fetch_file FILE URL SHA256)
+  if( (NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/${FILE}) AND (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}) )
+    message(STATUS "Copying ${FILE} from the source tree to the build tree.")
+    file(COPY  ${CMAKE_CURRENT_SOURCE_DIR}/${FILE} ${CMAKE_CURRENT_BINARY_DIR}/${FILE})
+  elseif(NOT EXISTS ${CMAKE_BINARY_DIR}/${FILE} )
+    message( STATUS "Fetching ${FILE} from ${URL}")
+    file(DOWNLOAD "${URL}" "${CMAKE_CURRENT_BINARY_DIR}/${FILE}"
+      SHOW_PROGRESS
+      TLS_VERIFY ON
+      EXPECTED_HASH SHA256=${SHA256}
+      )
+  endif()
+  # We should now have the file unless something has gone wrong
+  if( EXISTS ${CMAKE_BINARY_DIR}/${FILE} )
+    message( STATUS "Verifying SHA256 for ${FILE}")
+    file(SHA256 ${CMAKE_BINARY_DIR}/${FILE} local_sha256)
+    if( NOT ${local_sha256} STREQUAL ${SHA256} )
+      message( FATAL_ERROR
+	"Checksum for ${FILE} does not match expected value!
+         ${CMAKE_CURRENT_BINARY_DIR}:${FILE} SHA256:
+              ${local_sha256}
+         expected SHA256:
+              ${SHA256}")
+    else()
+      message( STATUS "Checksum matches: ${FILE} SHA256=${local_sha256}")
+    endif()
+  endif()
+endfunction()
+
+# Get map file needed for test
+maybe_fetch_file( tests/warmSnake.map.gz
+  "https://sourceforge.net/p/zgoubi/code/HEAD/tree/trunk/exemples/usersGuide/FIT-and-REBELOTE/warmSnake.map.gz?format=raw"
+  06fac3c92404100ffcbbaf281136c2e3d565c6091aa24d3a216aae816b012878
+)
+
+find_package(UnixCommands)
+execute_process(COMMAND ${GZIP} -dkf ${CMAKE_BINARY_DIR}/tests/warmSnake.map.gz)
 
 add_library(coupl
 zgoubi/coupling/libraries/libeis/rg.f
@@ -1124,7 +1163,6 @@ set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )
 
 set( example_input_files
   centeredHelix_FIT_save_nofinal_150226.res
-  warmSnake.map.xz
 )
 
 foreach(input_file ${example_input_files})

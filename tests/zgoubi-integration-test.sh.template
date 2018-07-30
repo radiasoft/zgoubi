@@ -12,7 +12,7 @@ pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/PARIZ.H
 if [[ -f "$pariz_h_file" ]]; then
   cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
   make -j
-  mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H 
+  mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
 else
   echo "Missing cmake-configured PARIZ.H"
   exit 1
@@ -22,11 +22,9 @@ cd "@ZGOUBI_TEST_BIN_DIR@"
 if [[ ! -f zgoubi.dat ]]; then
   ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
 fi
-export warmSnakeFile=warmSnake.map
-if [[ -f "${warmSnakeFile}.xz" ]]; then
-  xz -dk "${warmSnakeFile}.xz"
-else
-  echo "Missing ${warmSnakeFile}.xz"
+warmSnakeFile=warmSnake.map
+if ! [[ -f "${warmSnakeFile}" ]]; then
+  echo "Missing ${warmSnakeFile}"
   exit 1
 fi
 
@@ -35,7 +33,7 @@ fi
 
 footer=10
 res_file_length=$(wc -l zgoubi.res.expected | awk '{print $1;}')
-let header=$res_file_length-$footer
+(( header=res_file_length-footer ))
 if diff <(head -n $header zgoubi.res) <(head -n $header zgoubi.res.expected)
 then
    echo "Test passed."
