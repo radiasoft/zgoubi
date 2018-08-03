@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# This file will likely be removed in the near future
+# for a simpler, more vanilla CMake/CTest approach
+# once dynamic memory allocation is implemented and tests
+# no longer require recompilation for different inputs
 
 # Execute an example zgoubi file
 # Exit on error or on use of unset variable
@@ -32,8 +36,7 @@ fi
 "@CMAKE_BINARY_DIR@"/zgoubi
 
 footer=10
-res_file_length=$(wc -l zgoubi.res.expected | awk '{print $1;}')
-(( header=res_file_length-footer ))
+(( header=$(wc -l < zgoubi.res.expected) - footer ))
 if diff <(head -n $header zgoubi.res) <(head -n $header zgoubi.res.expected)
 then
    echo "Test passed."
