@@ -1,10 +1,10 @@
-# Name project and specify source languages
-project(zgoubi
-  LANGUAGES C Fortran
-)
-
 # CMake 3.7.0 is required for CMake to parse Fortran 2008 submodules
 cmake_minimum_required(VERSION 3.7.0)
+
+# Name project and specify source languages
+project(zgoubi
+  LANGUAGES Fortran C
+)
 
 # Print an error message on an attempt to build inside
 # the top level of the source tree:
@@ -29,6 +29,22 @@ set(issues_URL "https://github.com/radiasoft/zgoubi/issues")
 if (NOT "${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
   message(WARNING "Untested compiler detected: ${CMAKE_Fortran_COMPILER_ID}. Report any issues at ${issues_URL}")
 endif()
+
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/maybe_fetch_file.cmake")
+find_package(UnixCommands)
+
+# Get map file needed for test
+macro(update_verify_warmSnake)
+  maybe_fetch_file( tests/warmSnake.map.gz
+    "https://sourceforge.net/p/zgoubi/code/HEAD/tree/trunk/exemples/usersGuide/FIT-and-REBELOTE/warmSnake.map.gz?format=raw"
+    06fac3c92404100ffcbbaf281136c2e3d565c6091aa24d3a216aae816b012878 # 8 # Real last digit is 8 not 7 use 7 for testing
+    have_warm_snake
+    )
+  execute_process(COMMAND ${GZIP} -dkf ${CMAKE_BINARY_DIR}/tests/warmSnake.map.gz)
+endmacro()
+
+update_verify_warmSnake()
+message( STATUS "have_warm_snake? ${have_warm_snake}")
 
 add_library(coupl
 zgoubi/coupling/libraries/libeis/rg.f
@@ -1107,11 +1123,13 @@ install(
 )
 
 # Set installation subdirectory for libraries
-install(
-  TARGETS zg fminigraf coupl zgoubi_blas
-  DESTINATION lib
-  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-)
+if(BUILD_SHARED_LIBS)
+  install(
+    TARGETS zg fminigraf coupl zgoubi_blas
+    DESTINATION lib
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    )
+endif()
 
 enable_testing()
 
@@ -1121,18 +1139,16 @@ set(ZGOUBI_EXAMPLE_SRC_DIR ${CMAKE_SOURCE_DIR}/exemples/KEYWORDS/FIT/FIT_embedde
 set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )
 
 set( example_input_files
-  centeredHelix.eps
-  centeredHelix_FIT_save.res_150226
   centeredHelix_FIT_save_nofinal_150226.res
-  warmSnake.map.xz
 )
+
 foreach(input_file ${example_input_files})
   configure_file(
     ${ZGOUBI_TEST_SRC_DIR}/${input_file}
     ${ZGOUBI_TEST_BIN_DIR}/${input_file}
     COPYONLY
   )
-endforeach(input_file)
+endforeach()
 configure_file(
   "${ZGOUBI_TEST_SRC_DIR}/zgoubi-integration-test.sh.template"
   "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh"
