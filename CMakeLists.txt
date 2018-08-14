@@ -1,10 +1,14 @@
-# CMake 3.7.0 is required for CMake to parse Fortran 2008 submodules
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.10.0)
+
+# Ensure the default configs are defined and select one if none are
+# chosen by user
+set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "MinSizeRel" "RelWithDebInfo" )
+set ( CMAKE_BUILD_TYPE "Release"
+  CACHE STRING "Select which configuration to build." )
 
 # Name project and specify source languages
 project(zgoubi
-  LANGUAGES Fortran C
-)
+  LANGUAGES Fortran C)
 
 # Print an error message on an attempt to build inside
 # the top level of the source tree:
@@ -45,6 +49,12 @@ endmacro()
 
 update_verify_warmSnake()
 message( STATUS "have_warm_snake? ${have_warm_snake}")
+
+if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+  set(common_fflags -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+  set(common_fflags -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
+endif()
 
 add_library(coupl
 zgoubi/coupling/libraries/libeis/rg.f
@@ -258,6 +268,8 @@ zgoubi/coupling/tunesc/hamilt.f
 zgoubi/coupling/tunesc/positi.f
 zgoubi/coupling/tunesc/extrac.f
 )
+target_compile_options(coupl PUBLIC ${common_fflags})
+
 add_library(zgoubi_blas
 zgoubi/coupling/libraries/libinv/BLAS/zhemm.f
 zgoubi/coupling/libraries/libinv/BLAS/zgeru.f
@@ -410,6 +422,7 @@ zgoubi/coupling/libraries/libinv/BLAS/ztrmm.f
 zgoubi/coupling/libraries/libinv/BLAS/zaxpy.f
 zgoubi/coupling/libraries/libinv/BLAS/cswap.f
 )
+target_compile_options(zgoubi_blas PUBLIC ${common_fflags})
 
 add_library(zg
 common/gttext.f
@@ -427,6 +440,7 @@ common/endjob.f
 common/date2.f
 common/iraz.f
 )
+target_compile_options(zg PUBLIC ${common_fflags})
 
 add_executable( zgoubi
 zgoubi/et2res.f
@@ -923,6 +937,7 @@ zgoubi/chreg.f
 zgoubi/depla.f
 modules/dynhc.f
 )
+target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi zgoubi_blas zg coupl)
 
 include_directories(zpop include)
@@ -1113,6 +1128,7 @@ zpop/prarc.f
 zpop/grad.f
 zpop/lastp.f
 )
+target_compile_options(zpop PRIVATE ${common_fflags})
 target_link_libraries(zpop zg fminigraf)
 
 # Set installation subdirectory for executable files
