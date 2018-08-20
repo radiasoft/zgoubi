@@ -51,7 +51,7 @@ update_verify_warmSnake()
 message( STATUS "have_warm_snake? ${have_warm_snake}")
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -Wall -fno-automatic -pedantic -cpp) # -fbacktrace
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()

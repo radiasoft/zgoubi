@@ -34,7 +34,7 @@ docker run --cap-add=ALL --privileged -i -u vagrant -v "$PWD":/home/vagrant/src/
     else
        tau dashboard
     fi
-    tau meas edit sample --throttle-per-call 2
+    tau meas edit sample --throttle False --unwind-depth 12
     tau select ${1:-sample}
     # No PAPI metrics are available in this docker environment...
     # Access to hardware counter registers is probably blocked by docker
