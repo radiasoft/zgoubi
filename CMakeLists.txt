@@ -51,9 +51,9 @@ update_verify_warmSnake()
 message( STATUS "have_warm_snake? ${have_warm_snake}")
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -fno-automatic -pedantic -cpp)
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-  set(common_fflags -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
+  set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
 
 add_library(coupl
@@ -953,7 +953,9 @@ endif()
 
 add_library(fminigraf
   zpop/liblns/fminigraf.c
-)
+  )
+target_compile_options(fminigraf PUBLIC -g)
+
 add_executable(zpop
 zpop/rtrans.f
 zpop/rbinar.f
