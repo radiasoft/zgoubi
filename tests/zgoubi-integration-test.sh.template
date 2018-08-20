@@ -33,7 +33,7 @@ if ! [[ -f "${warmSnakeFile}" ]]; then
 fi
 
 # Execute zgoubi
-"@CMAKE_BINARY_DIR@"/zgoubi
+@ZGOUBI_TEST_COMMAND@
 
 footer=10
 (( header=$(wc -l < zgoubi.res.expected) - footer ))

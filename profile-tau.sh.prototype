@@ -7,36 +7,39 @@ set -o pipefail
 set -o nounset
 set -o errexit
 
-docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash <<-'EOF'
+docker run --cap-add=ALL --privileged -i -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${2:-radiasoft/beamsim-part1}" bash <<-'EOF'
     #!/bin/bash
     source ~/.bashrc
-    cat /etc/shells
-    chsh /bin/bash
-    cat ~/.bashrc
-    set -v
+    stty cols $COLUMNS rows $LINES
+    set -veuo pipefail
     # Install tau commander for profiling
-    which curl
-    type -P curl
-    command -pv curl
-    which gcc
-    which gfortran
-    which g++
-    export CC=$(command -pv gcc)
-    export CXX=$(command -pv g++)
-    export FC=$(command -pv gfortran)
-    $CC --version
-    $FC --version
-    $CXX --version
-    mkdir -p ~/src/ParaTools/taucmdr
-    git clone --branch=unstable https://github.com/ParaToolsInc/taucmdr.git ~/src/ParaTools/taucmdr
-    cd ~/src/ParaTools/taucmdr
-    make SHELL=/bin/bash clean ; make SHELL=/bin/bash INSTALLDIR=/home/vagrant/taucmdr install
-    export PATH=/home/vagrant/taucmdr/bin
+    export CC=gcc
+    export CXX=g++
+    export FC=gfortran
+    taucmdr_install=$(pyenv prefix)/taucmdr
+    if ! [[ -x "${taucmdr_install}/bin/tau" ]]; then
+       mkdir -p ~/src/ParaTools/taucmdr
+       git clone --branch=unstable https://github.com/ParaToolsInc/taucmdr.git ~/src/ParaTools/taucmdr
+       cd ~/src/ParaTools/taucmdr
+       make clean ; make USE_MINICONDA=false INSTALLDIR=${taucmdr_install} install
+    fi
+    command -v tau || export PATH="${taucmdr_install}/bin:$PATH"
     # zgoubi specific install
     cd ~/src/radiasoft/zgoubi
-    tau init --linkage dynamic --mpi F --target=beamsim-p1 --application zgoubi --project zgoubi --cc $CC --cxx $CXX --fc $FC --os Linux
-    # See available hardware counters on platform, who knows what will happen inside docker
-    tau metrics
+    mpifort --version || true
+    mpicc --version || true
+    cmake --version
+    if ! [[ -d .tau ]] ; then
+       tau initialize --mpi T --target=beamsim-p1 --application zgoubi --project radiasoft --cc $CC --cxx $CXX --fc $FC
+    else
+       tau dashboard
+    fi
+    tau meas edit sample --throttle-per-call 2
+    tau select ${1:-sample}
+    # No PAPI metrics are available in this docker environment...
+    # Access to hardware counter registers is probably blocked by docker
+    # tau metrics
+    # Only useful metrics available through docker, AFAICT: TIME MEMORY_DELTA TAU_MPI_MESSAGE_SIZE, NO PAPI HW-counter metrics
     if [[ -d "${BUILD_DIR:-cmake-build}" ]] ; then
         echo \
             "Warning: Using an old/dirty build directory! Please run 'rm -r ${BUILD_DIR:-cmake-build}' and try again if script fails." >&2
@@ -44,10 +47,19 @@ docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:
         mkdir "${BUILD_DIR:-cmake-build}"
     fi
     cd "${BUILD_DIR:-cmake-build}"
-    # Unless MPI_init() is called, or other circumstances are met, TAU needs
-    # dynamically linked executables in order to use sampling correctly
-    cmake -DCMAKE_Fortran_COMPILER_LAUNCHER=tau -DBUILD_SHARED_LIBS -Wdev -DCMAKE_INSTALL_PREFIX=$(pyenv prefix) ..
-    make -j $(nproc)
-    # ctest --output-on-failure
-    # make install
+    cmake -DCMAKE_Fortran_COMPILER_LAUNCHER=tau -Wdev -DCMAKE_INSTALL_PREFIX=$(pyenv prefix) ..
+    make VERBOSE=1 -j $(nproc)
+    cp zgoubi{,.original}
+    ctest --output-on-failure
+    git checkout HEAD -- ../zgoubi/PARIZ.H
+    cp zgoubi{,.warmsnake}
+    mv zgoubi{.original,}
+    cp ../tests/coupling.1100.11.dat zgoubi.dat
+    make clean
+    make -j $(nproc) || sleep 10
+    tau mpirun -n 1 ./zgoubi || sleep 10
+    tau trial list || 2
+    tau dashboard || sleep 2
+    sleep 10
+    tar czvf ../zgoubi.tau.tgz ~/src/radiasoft/zgoubi/.tau
 EOF

@@ -54,6 +54,11 @@ C  -------
       CHARACTER(KSIZ) KEY, LBL1, LBL2
       PARAMETER (I0=0)
 
+# ifdef MPI_INIT
+      include "mpif.h"
+      INTEGER :: mpi_ierr
+# endif
+
 C Tentative pour faire fonctionner REBELOTE en compil dyn.
 C Yet, still does not work. Try to remove one by one once REBELOTE fonctionne.
 C (/home/meot/zgoubi/SVN/zgoubi-code/exemples/usersGuide/FIT-and-REBELOTE)
@@ -75,6 +80,11 @@ C Dummy
       DATA IRANK  / 0 /
       DATA IRET / 0 /
 
+# ifdef MPI_INIT
+!     This is here to provide an entry point hook for TAU, since dynamic linking is not an option
+!     due to multiply defined symbols
+      CALL MPI_init(mpi_ierr)
+# endif
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
       ALLOCATE(ARGS(NBARGS))
@@ -340,6 +350,8 @@ C      GOTO 10
 
 C           CALL ENDJOB
 C     >     ('Pgm zgoubi_main : Job ended.',-9999)
-
+# ifdef MPI_INIT
+      CALL MPI_finalize(mpi_ierr)
+# endif
       STOP
       END

@@ -937,6 +937,15 @@ zgoubi/chreg.f
 zgoubi/depla.f
 modules/dynhc.f
 )
+
+find_package(MPI)
+if(MPI_Fortran_FOUND)
+  target_link_libraries(zgoubi MPI::MPI_Fortran)
+  set_source_files_properties(zgoubi/zgoubi_main.f
+    PROPERTIES
+    COMPILE_DEFINITIONS MPI_INIT)
+endif()
+
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi zgoubi_blas zg coupl)
 
@@ -1167,6 +1176,12 @@ foreach(input_file ${example_input_files})
     COPYONLY
   )
 endforeach()
+
+set(ZGOUBI_TEST_COMMAND "${CMAKE_BINARY_DIR}/zgoubi")
+if(MPI_Fortran_FOUND)
+  set(ZGOUBI_TEST_COMMAND "${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 1 ${MPIEXEC_PREFLAGS} ${ZGOUBI_TEST_COMMAND} ${MPI_EXEC_POSTFLAGS}")
+endif()
+
 configure_file(
   "${ZGOUBI_TEST_SRC_DIR}/zgoubi-integration-test.sh.template"
   "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh"
@@ -1187,5 +1202,6 @@ configure_file(
 )
 include_directories(BEFORE ${ZGOUBI_TEST_BIN_DIR} zgoubi include)
 
-add_test(NAME zgoubi-integration COMMAND "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh")
+add_test(NAME zgoubi-integration
+  COMMAND "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh")
 set_tests_properties(zgoubi-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
