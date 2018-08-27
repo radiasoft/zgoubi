@@ -4,7 +4,7 @@
 # once dynamic memory allocation is implemented and tests
 # no longer require recompilation for different inputs
 
-# Execute an example zgoubi file
+# Execute a zgoubi input file for testing
 # Exit on error or on use of unset variable
 set -o errexit
 set -o nounset
