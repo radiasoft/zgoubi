@@ -35,8 +35,3 @@ tmp/
 zgoubi/zgoubi
 zpop/zpop
 
-#*.gz
-#*.gz*
-#.*.swp
-#.*.un~
-
