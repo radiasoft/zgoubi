@@ -131,14 +131,14 @@ C=======
               ELSEIF(KSO2 .EQ.1) THEN
                 WRITE(NRES,113) NINT(A(NOEL,9)/10)
  113            FORMAT(
-     >             30X,'Same spin for all particles'
+     >             30X,'KSO2=1. Same spin for all particles'
      >          ,/,30X,'Particles # 1 to ',I0,' may be subjected to '
      >          ,      'spin matching using FIT procedure')
               ELSEIF(KSO2 .EQ.2) THEN
                 WRITE(NRES,112) 
      >          TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
  112            FORMAT(
-     >             30X,'Same spin for all particles, read from file ',A)
+     >          30X,'KSO2=2. Particle spins read from file ',A)
               ENDIF
             ELSEIF(KSO .EQ. 5) THEN
               WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)') 

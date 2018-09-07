@@ -27,12 +27,14 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'MXLD.H'
       DIMENSION A(MXL,*)
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
-      INCLUDE 'C.PDATA.H'    ! COMMON /PDATA/ QELM,AMLEC,GLEC,AMPRO,GPRO,AMMU,GMU,TAUMU,Q3HE,AM3HE,G3HE
+      INCLUDE 'C.PDATA.H'       ! COMMON /PDATA/ AMLEC,GLEC,AMPRO,GPRO,AMMU,GMU,TAUMU,AM3HE,G3HE,
+                                ! AMDEU,GDEU
       CHARACTER(132) TXT
       CHARACTER(80) STRA(6)
       INTEGER DEBSTR, FINSTR
-      LOGICAL STRCON
+      LOGICAL STRCON, ISNUM
 
       READ(NDAT,FMT='(A)') TXT
       IF(STRCON(TXT,'!',
@@ -57,39 +59,57 @@ C------- Read 2 masses
         IF(TXT(1:1) .EQ. ',') TXT = TXT(2:IFT)
         
 C------- Read Q, G, tau, dum
-        READ(stra(3),*) A(NOEL,3)
-c        write(*,*) stra(1), stra(2), a(noel,1),a(noel,2),a(noel,3)
-c           stop
-C        READ(TXT,*) A(NOEL,3),A(NOEL,4),A(NOEL,5),A(NOEL,6)
+        READ(STRA(3),*) A(NOEL,3)
+
       ELSE
 C------- Default method
         CALL PARTII('NONE')
-        IF    (STRA(1) .EQ. 'ELECTRON') THEN
+        IF(ISNUM(STRA(1))) THEN
+         READ(TXT,*) (A(NOEL,I),I=1,5)
+         STRA(1) = ' '
+        ELSE
+         IF    (STRA(1) .EQ. 'ELECTRON') THEN
           A(NOEL,1) = AMLEC
-          A(NOEL,2) = -QE0
+          A(NOEL,2) = -QEL
           A(NOEL,3) = GLEC
           A(NOEL,4) = 1D99
-        ELSEIF(STRA(1) .EQ. 'MUON+') THEN
+         ELSEIF(STRA(1) .EQ. 'POSITRON') THEN
+          A(NOEL,1) = AMLEC
+          A(NOEL,2) = QEL
+          A(NOEL,3) = GLEC
+          A(NOEL,4) = 1D99
+         ELSEIF(STRA(1) .EQ. 'MUON+') THEN
           A(NOEL,1) = AMMU
-          A(NOEL,2) = QE0
+          A(NOEL,2) = QEL
           A(NOEL,3) = GMU
           A(NOEL,4) = TAUMU
-        ELSEIF(STRA(1) .EQ. 'MUON-') THEN
+         ELSEIF(STRA(1) .EQ. 'MUON-') THEN
           A(NOEL,1) = AMMU
-          A(NOEL,2) = -QE0
+          A(NOEL,2) = -QEL
           A(NOEL,3) = GMU
           A(NOEL,4) = TAUMU / 1.000024
-        ELSEIF(STRA(1) .EQ. 'PROTON') THEN
+         ELSEIF(STRA(1) .EQ. 'PROTON') THEN
           A(NOEL,1) = AMPRO
-          A(NOEL,2) = QE0
+          A(NOEL,2) = QEL
           A(NOEL,3) = GPRO
           A(NOEL,4) = 1D99
-        ELSE
-          READ(TXT,*) (A(NOEL,I),I=1,5)
-          STRA(1) = ' ' 
+         ELSEIF(STRA(1) .EQ. 'HELION') THEN
+          A(NOEL,1) = AM3HE
+          A(NOEL,2) = 2.D0 * QEL
+          A(NOEL,3) = G3HE
+          A(NOEL,4) = 1D99
+         ELSEIF(STRA(1) .EQ. 'DEUTERON') THEN
+          A(NOEL,1) = AMDEU
+          A(NOEL,2) = QEL
+          A(NOEL,3) = GDEU
+          A(NOEL,4) = 1D99
+         ELSE
+          CALL ENDJOB('Pgm rparti. No such particle "'
+     >    //TRIM(STRA(1))//'"',-99)
+         ENDIF
         ENDIF
         TA(NOEL,1) = STRA(1)
-        A(NOEL,5) = 0.d0        
+        A(NOEL,5) = 0.D0        
       ENDIF
       RETURN
 C 99   STOP ' *** DATA ERROR : in PARTICUL, while reading M1, M2 ***'
