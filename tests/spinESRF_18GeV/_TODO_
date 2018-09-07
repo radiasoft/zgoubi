@@ -1,0 +1,4 @@
+Make sure we point to the correct zgoubi executable.
+Recheck the expected results after we update
+  the various physical constants defined by zgoubi.
+Add color, etc, to output of test script.
