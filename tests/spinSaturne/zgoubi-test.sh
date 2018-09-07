@@ -46,8 +46,8 @@ echo " === Test ${testName} for zgoubi ==="
 ## execute zgoubi
 # zgoubi executable
 #zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
-zgoubi_exe=/Users/dabell/Projects/zgoubi/zgoubi-code/zgoubi/zgoubi
-#zgoubi_exe=/Users/dabell/Applications/bin/zgoubi
+#zgoubi_exe=/Users/dabell/Projects/zgoubi/zgoubi-code/zgoubi/zgoubi
+zgoubi_exe=/Users/dabell/Applications/bin/zgoubi
 # leading part of testName.res.expected contains the required input
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
 # run zgoubi command
