@@ -103,7 +103,7 @@ OBJET  35  1.3872739973  2.1368296674  4.8261190694  11.015241321
                           Gyromagnetic  factor  G =    1.792847    
 
                           Initial spin conditions type  4 :
-                              Same spin for all particles
+                              KSO2=1. Same spin for all particles
                               Particles # 1 to 1 may be subjected to spin matching using FIT procedure
 
                           PARAMETRES  DYNAMIQUES  DE  REFERENCE :
@@ -640,7 +640,7 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
                           Gyromagnetic  factor  G =    1.792847    
 
                           Initial spin conditions type  4 :
-                              Same spin for all particles
+                              KSO2=1. Same spin for all particles
                               Particles # 1 to 1 may be subjected to spin matching using FIT procedure
 
                           PARAMETRES  DYNAMIQUES  DE  REFERENCE :
@@ -860,7 +860,7 @@ o  1  11.0152    -0.400     0.120     0.000     0.000      0.0000   10.0152   -0
                           Gyromagnetic  factor  G =    1.792847    
 
                           Initial spin conditions type  4 :
-                              Same spin for all particles
+                              KSO2=1. Same spin for all particles
                               Particles # 1 to 1 may be subjected to spin matching using FIT procedure
 
                           PARAMETRES  DYNAMIQUES  DE  REFERENCE :
@@ -1145,10 +1145,10 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  12-07-2018,  at  16:50:16 
-  JOB  ENDED  ON    12-07-2018,  AT  16:50:21 
+  Job  started  on  03-09-2018,  at  18:37:33 
+  JOB  ENDED  ON    03-09-2018,  AT  18:37:35 
 
-   CPU time, total :     4.2244560000000000     
+   CPU time, total :     2.2229259999999997     
 
      An updated version of the input data file, with variables in FIT'ed state, has been saved in zgoubi.FIT.out.dat.
 
