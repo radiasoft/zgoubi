@@ -44,7 +44,6 @@ macro(update_verify_warmSnake)
     06fac3c92404100ffcbbaf281136c2e3d565c6091aa24d3a216aae816b012878 # 8 # Real last digit is 8 not 7 use 7 for testing
     have_warm_snake
     )
-  execute_process(COMMAND ${GZIP} -dkf ${CMAKE_BINARY_DIR}/tests/warmSnake.map.gz)
 endmacro()
 
 update_verify_warmSnake()
