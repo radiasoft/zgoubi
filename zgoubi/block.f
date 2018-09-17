@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  Fran�ois M�ot
+C  Copyright (C) 1988-2007  François Méot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  Fran�ois M�ot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  François Méot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -69,15 +69,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
- 
+
       PARAMETER (MDR3= 3*MDR)
-    
+
       DATA LF,LST / 2 * 0 /
       DATA KCO / 0 /
-      DATA CL / 2.99792458D8 /
       DATA XF,DXF,DQBRO / 3*0.D0, 3*0.D0, 0.D0 /
       DATA ZERO, UN / 0.D0, 1.D0 /
       DATA IDRT, AM, BM, CM / 0, MDR3*0.D0 /
@@ -102,44 +101,135 @@ C     DATA DPREF / 1.D0 /
       DATA IDMAX / 1 /
       DATA KSYN / 0 /
 
-C Particle data 
-C Updated 08/2018 - FM
-C Ref. : NIST, https://physics.nist.gov/cgi-bin/cuu/Value?mdu#mid (CODATA) 
+C ----- Fundamental Physical Constants -----
+C Updated 08/2018 - FM; 09/2018 - DTA
+C Unless noted otherwise, these data are taken from the database
+C of 2014 CODATA Recommended Values, available online at
+C   NIST, https://physics.nist.gov/cuu/Constants/index.html
+C Parentheses delimit the standard uncertainty in the last digits.
+C
+C The magnetic moment anomaly we require is the quantity (g - 2) / 2
+C traditionally denoted by either a (leptons) or G (baryons) in the
+C well-known Thomas-BMT equation of spin dynamics. Here g denotes a
+C so-called g-factor, which is a dimensionless constant that measures
+C the extent to which a particle's gyromagnetic ratio (the ratio of
+C magnetic moment to spin angular momentum) differs from the classical
+C value of q / (2 m). More specifically, one writes the gyromagnetic
+C ratio, denoted γ, in the form
+C   γ = g (q / (2 m)),
+C where q denotes the (signed) particle charge and m the particle mass.
+C One may therefore (I'm leaving out a few steps here!) compute the
+C required g-factor using the formula
+C   g = (u / u_N) * (m / m_p) / (Z * S / h-bar),
+C where
+C         u   = particle magnetic moment,
+C         u_N = nuclear magneton = (e * h-bar) / (2 * m_p),
+C         m   = particle mass,
+C         m_p = proton mass,
+C         Z   = particle charge in units of elementary charge e,
+C   S / h-bar = particle spin (max. proj. of S_z) in units of h-bar.
+C
+C Significant confusion may arise from the fact that the database of
+C CODATA Recommended Values lists not the g-factor we require, but a
+C different g-factor. A useful reference on the latter is the article
+C   PJ Mohr, DB Newell, and BN Taylor, “CODATA recommended values of
+C   the fundamental physical constants: 2014”, Rev. Modern Phys.,
+C   88(3), July–Sept. 2016; DOI: 10.1103/revmodphys.88.035009.
+C One may download this article from
+C   https://physics.nist.gov/cuu/Constants/article2014.html
+C See, in particular, the introductory portions of sections V and VI.
+C
+C For a lepton---electron, muon, tau---the differing definitions
+C affect only the sign of g, and one may compute the desired magnetic
+C moment anomaly as (|g| - 2) / 2. Because of the importance of these
+C values to an understanding of QED, both electron amd muon magnetic
+C anomalies are included in the CODATA Recommended Values.
+
+C For nucleons, the g-factor (here denoted g_n) used by the nuclear
+C physics community is defined by the rule
+C   u = g_n * (e / 2 * m_p) * S = g_n * u_N * (S / h-bar),
+C It follows that the two different g-factors are related according to
+C   g_s = g_n * (m_n / m_p) * (1 / Z).
+C Here g_s denotes the g-factor we need for computing spin dynamics
+C with the Thomas-BMT equation.
+
+C
+C speed of light in vacuum / m.s^-1 (exact)
+      DATA CL / 2.99792458D+08 /
+C
+C elementary charge / C (98)
+      DATA QEL / 1.602176487D-19 /   ! CODATA 2006
+C     DATA QEL / 1.6021766208D-19 /  ! CODATA 2014
+C
+C atomic mass unit energy equivalent u.c^2 / MeV (57)
       PARAMETER (AMU = 931.4940954D0)
-      DATA QEL / 1.602176487D-19 / 
-C electron. Spin +1/2
-C      DATA AMLEC / 0.510998928D0 / 
-      PARAMETER (XMLEC= 548.57990907D-6 * AMU) ! = 0.510998946154 
-      DATA AMLEC / XMLEC /   
-      DATA GLEC / 1.159652181D-3 /           ! = a = g/2-1; g = -2.00231930436182
-C muon. Spin +1/2
-      PARAMETER (XMMU = 0.1134289257D0 * AMU)     ! = 105.658374537
-      DATA AMMU / XMMU /     ! = 105.658374537
-      DATA GMU / 1.16592089D-3 /             ! g = -2.0023318418
-      DATA TAUMU / 2.1969811D-6 /            ! Note: tau_mu+/tau_mu- = 1.000024
-C proton. Spin +1/2
-      PARAMETER (XMPRO = 1.00727646688D0 * AMU)   ! = 938.272081333
+C
+C electron, spin +1/2
+C electron mass energy equivalent = 0.5109989461(31) MeV
+C electron mass = 548.579909070(16) x 10^-6 u
+      PARAMETER (XMLEC = 548.579909070D-06 * AMU) ! = 0.5109989461|537738
+      DATA AMLEC / XMLEC /
+C electron g-factor = 2.00231930436182(52)
+C electron magnetic moment anomaly / 1 (26) :: a = (g-2)/2
+      DATA GLEC / 1.159652181D-3 /     ! c. CODATA 2006
+C     DATA GLEC / 1.15965218091D-03 /  ! CODATA 2014
+C
+C muon, spin +1/2
+C muon mass energy equivalent = 105.6583745(24) MeV
+C muon mass = 0.1134289257(25) u
+      PARAMETER (XMMU = 0.1134289257D0 * AMU) ! = 105.6583745|371153
+      DATA AMMU / XMMU /
+C muon g-factor = 2.0023318418(13)
+C muon magnetic moment anomaly / 1 (63) :: a = (g-2)/2
+      DATA GMU / 1.16592089D-03 /
+C muon lifetime / s (22)
+C Ref: http://pdg.lbl.gov/2018/tables/rpp2018-sum-leptons.pdf
+C According to this reference, the ratio of lifetimes for positive and
+C negative muons is very nearly unity: tau_mu+ / tau_mu- = 1.00002(08).
+C In other words, experiment cannot yet say that the anti-particle
+C lifetime differs at all from the particle lifetime.
+      DATA TAUMU / 2.1969811D-06 /
+C
+C proton, spin +1/2
+C proton mass energy equivalent = 938.2720813(58) MeV
+C proton mass = 1.007276466879(91) u
+      PARAMETER (XMPRO = 1.00727646688D0 * AMU)  ! c. CODATA 2014
+C     PARAMETER (XMPRO = 1.007276466879D0 * AMU) ! = 938.2720813|33162
       DATA AMPRO / XMPRO /
       DATA AMPROT / XMPRO /
-      DATA GPRO / 1.79284735D0 /             ! = G = g/2-1; g = 5.585694702 
-C helion. Spin +1/2
-      PARAMETER (XM3HE = 3.01493224673D0 * AMU)   ! = 2808.39158586
-      DATA AM3HE / XM3HE /   ! = 2808.39158586
-C      DATA AM3HE / 2808.39148D0 /
-      DATA G3HE / -4.1841538D0 /             ! g = -4.255250616
-C deuteron. Spin +1 (boson)
-      PARAMETER (XMDEU = 2.013553212745D0 * AMU)   ! = 1875.61292845
-      DATA AMDEU / XMDEU /  ! = 1875.61292845
-      DATA GDEU / -0.14301D0 /               ! g = 0.8574382311
-    
+C proton g-factor = 5.585694702(17)
+C proton magnetic moment anomaly / 1 (85) :: G = (g-2)/2
+      DATA GPRO / 1.79284735D0 /    ! c. CODATA 2006
+C     DATA GPRO / 1.7928473508D0 /  ! CODATA 2014
+C
+C deuteron, spin +1 (boson)
+C deuteron mass energy equivalent = 1875.612928(12) MeV
+C deuteron mass = 2.013553212745(40) u
+      PARAMETER (XMDEU = 2.013553212745D0 * AMU) ! = 1875.612928|445668
+      DATA AMDEU / XMDEU /
+C deuteron g-factor = 1.7140254555(98)
+C deuteron magnetic moment anomaly / 1 (49) :: G = (g-2)/2
+      DATA GDEU / -0.14301D0 /
+C     DATA GDEU / -0.1429872722D0 /  ! DTA
+C
+C helion, spin +1/2
+C helion mass energy equivalent = 2808.391586(17) MeV
+C helion mass = 3.01493224673(12) u
+      PARAMETER (XM3HE = 3.01493224673D0 * AMU) ! = 2808.391585|86005
+      DATA AM3HE / XM3HE /
+C helion g-factor = -6.368307372(74)
+C helion magnetic moment anomaly / 1 (37) :: G = (g-2)/2
+      DATA G3HE / -4.1841538D0 /
+C     DATA G3HE / -4.184153686D0 /  ! DTA
+
       DATA TSPCH / .FALSE. /
-  
-C----- To yield MKSA units : 
+
+C----- To yield MKSA units :
 C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time
 C                                m     rad    m    rad    m    1     s
       DATA (UNIT(I),I=1,MXJ) / 1.D-2,1.D-3,1.D-2,1.D-3,1.D-2,1.D0,1.D-6/
       DATA (NTIM(I),I=1,MXF) / MXF * 0 /
       PARAMETER (MXL2=MXL*2)
-      DATA LABEL / MXL2*' ' / 
+      DATA LABEL / MXL2*' ' /
       END
