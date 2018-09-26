@@ -40,16 +40,12 @@ Files
 Graphs
 ------
 
-![turn-dp.pdf][turn-dp img]
+![turn-dp.pdf](https://github.com/radiasoft/zgoubi/files/2417504/turn-dp.pdf)
 
-![turn-SZ.pdf][turn-SZ img]
+![turn-SZ.pdf](https://github.com/radiasoft/zgoubi/files/2417505/turn-SZ.pdf)
 
-![turn-Y.pdf][turn-Y img]
+![turn-Y.pdf](https://github.com/radiasoft/zgoubi/files/2417506/turn-Y.pdf)
 
-![turn-Z.pdf][turn-Z img]
+![turn-Z.pdf](https://github.com/radiasoft/zgoubi/files/2417507/turn-Z.pdf)
 
-[turn-dp img]: https://github.com/radiasoft/zgoubi/files/2417504/turn-dp.pdf "graph: dp/p vs. Pass #"
-[turn-SZ img]: https://github.com/radiasoft/zgoubi/files/2417505/turn-SZ.pdf "graph: SZ vs. Pass #"
-[turn-Y img]: https://github.com/radiasoft/zgoubi/files/2417506/turn-Y.pdf "graph: Y (m) vs. Pass #"
-[turn-Z img]: https://github.com/radiasoft/zgoubi/files/2417507/turn-Z.pdf "graph: Z (m) vs. Pass #"
 [Graphs]: #graphs
