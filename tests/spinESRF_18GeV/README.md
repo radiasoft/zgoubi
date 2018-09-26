@@ -27,14 +27,12 @@ which inhibit (most of the) output printed to `zgoubi.res`.
 Files
 -----
 
-* Test execution script: 
- - `zgoubi-test.sh`
-
-* Principal expected result (to be compared with zgoubi.res):
- - `spinESRF_18GeV.res.expected` (includes the required input equivalent to a zgoubi.dat)
-
-* Other expected results:
- -  `spinESRF_18GeV.SPNPRT.Out.expected`
+* Test execution script: `zgoubi-test.sh`
+* Principal expected result : `spinESRF_18GeV.res.expected` 
+  - includes the required input (equivalent to a zgoubi.dat)
+  - compare with zgoubi.res
+* Other expected results: `spinESRF_18GeV.SPNPRT.Out.expected`
+ 
 
 
 Graphs
