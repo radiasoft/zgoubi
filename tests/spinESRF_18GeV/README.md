@@ -1,3 +1,7 @@
+[This document is formatted with GitHub-Flavored Markdown. ]:#
+[For better viewing, including hyperlinks, read it online at ]:#
+[https://github.com/radiasoft/zgoubi/blob/master/tests/spinESRF_GeV/README.md ]:#
+
 Spin ESRF 18 GeV Test
 =====================
 
@@ -28,11 +32,11 @@ Files
 -----
 
 * Test execution script: `zgoubi-test.sh`
-* Principal expected result : `spinESRF_18GeV.res.expected` 
+* Principal expected result : `spinESRF_18GeV.res.expected`
   - includes the required input (equivalent to a zgoubi.dat)
   - compare with zgoubi.res
 * Other expected results: `spinESRF_18GeV.SPNPRT.Out.expected`
- 
+
 
 
 Graphs
