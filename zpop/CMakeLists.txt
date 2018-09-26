@@ -1,0 +1,196 @@
+#-------------------------------------------------------------------------------
+#
+# Define source files for zpop executable
+# =========================================
+#
+# De-clutter top-level CMakeLists.txt and use modern CMake best practices:
+# Treat targets as objects and transitively propagate properties etc.
+#
+# Provides: ZPOP_SRCS
+#
+#-------------------------------------------------------------------------------
+
+# zpop/svd/extract.f # another main program
+#zpop/svd/LAPACK.f
+
+# Sources grouped by directory and alphabetized
+
+set(_zpop_srcs
+  agsddq.f
+  agsmdl.f
+  amini.f
+  asinh.f
+  begvcf.f
+  bin.f
+  binarf.f
+  block.f
+  caltra.f
+  caltri.f
+  class.f
+  clorbi.f
+  clscr.f
+  debstr.f
+  dfring.f
+  diagnu.f
+  diagq.f
+  doree.f
+  drawspi.f
+  drctry.f
+  dsherm.f
+  endvcf.f
+  erf.f
+  filcoo.f
+  finstr.f
+  flush2.f
+  fmag.f
+  fmatch.f
+  fmtcgr.f
+  fringe.f
+  funk.f
+  gk1.f
+  grad.f
+  graph7.f
+  graph8.f
+  header.f
+  help.f
+  hermit.f
+  hmatch.f
+  hmtcgr.f
+  homclr.f
+  idlg.f
+  idluni.f
+  impv.f
+  inigr.f
+  inpech.f
+  inpvar.f
+  inrang.f
+  insy.f
+  isofld.f
+  lastp.f
+  lintyp.f
+  lips.f
+  lpscnt.f
+  lpsdrw.f
+  lpsfit.f
+  match.f
+  menvcf.f
+  minmax.f
+  mnzgra.f
+  okkl.f
+  okkp.f
+  okkt.f
+  opndef.f
+  opngnu.f
+  opnmn.f
+  opnmnl.f
+  opnwrn.f
+  plhist.f
+  plinit.f
+  pllips.f
+  ploter.f
+  pltemi.f
+  plthis.f
+  pltlps.f
+  pltopt.f
+  ppar.f
+  prarc.f
+  prdata.f
+  prdip.f
+  prffag.f
+  prtime.f
+  ragsmm.f
+  ragsqu.f
+  raiman.f
+  rautor.f
+  ravorb.f
+  razi.f
+  rbend.f
+  rbinar.f
+  rcarte.f
+  rcavit.f
+  rcible.f
+  rcoils.f
+  rcolli.f
+  rcsr.f
+  rdips.f
+  readco.f
+  rebmul.f
+  rel2tu.f
+  relcmi.f
+  relcyl.f
+  relmir.f
+  rewin2.f
+  rffag.f
+  rffags.f
+  rfit.f
+  rfitgt.f
+  rfmtch.f
+  rgasca.f
+  rhelix.f
+  rhmtch.f
+  rmatrx.f
+  rmcdes.f
+  rmcobj.f
+  rmulti.f
+  rnorma.f
+  robjet.f
+  robjta.f
+  rqsod.f
+  rscale.f
+  rsepar.f
+  rsimb.f
+  rsolen.f
+  rspn.f
+  rsrlos.f
+  rtrans.f
+  rundul.f
+  runipo.f
+  rwienf.f
+  savplt.f
+  shermi.f
+  spctra.f
+  speana.f
+  spedrw.f
+  spegr.f
+  speimp.f
+  spepr.f
+  square.f
+  srax.f
+  srdnu.f
+  srdw.f
+  srdwc.f
+  srdwm.f
+  srdwpl.f
+  srdwsc.f
+  srdwst.f
+  sref.f
+  srefm.f
+  srinc.f
+  srinm.f
+  srmdl1.f
+  srmen.f
+  srmodl.f
+  srpli.f
+  srplt.f
+  srplv.f
+  storco.f
+  storig.f
+  superp.f
+  synaxe.f
+  synbox.f
+  tracsy.f
+  traxes.f
+  trkvar.f
+  trtxt.f
+  tylab.f
+  typtra.f
+  unitr.f
+  vectpl.f
+  xyzbr.f
+  zgoubi_plot.f
+  )
+
+foreach(src IN LISTS _zpop_srcs)
+  list(APPEND ZPOP_SRCS
+    "${CMAKE_CURRENT_LIST_DIR}/${src}")
+endforeach()
