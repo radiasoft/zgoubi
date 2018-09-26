@@ -40,12 +40,13 @@ Files
 Graphs
 ------
 
-![turn-dp.pdf](https://github.com/radiasoft/zgoubi/files/2417504/turn-dp.pdf)
+![turn-dp](https://user-images.githubusercontent.com/13108868/46050816-047dc900-c0eb-11e8-93da-c767123cc611.png)
 
-![turn-SZ.pdf](https://github.com/radiasoft/zgoubi/files/2417505/turn-SZ.pdf)
+![turn-sz](https://user-images.githubusercontent.com/13108868/46050817-047dc900-c0eb-11e8-898f-318d6da41102.png)
 
-![turn-Y.pdf](https://github.com/radiasoft/zgoubi/files/2417506/turn-Y.pdf)
+![turn-y](https://user-images.githubusercontent.com/13108868/46050818-047dc900-c0eb-11e8-86a9-fcc27bc672db.png)
 
-![turn-Z.pdf](https://github.com/radiasoft/zgoubi/files/2417507/turn-Z.pdf)
+![turn-z](https://user-images.githubusercontent.com/13108868/46050819-047dc900-c0eb-11e8-944a-478c16c52b2b.png)
+
 
 [Graphs]: #graphs
