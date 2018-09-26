@@ -6,9 +6,45 @@
 # De-clutter top-level CMakeLists.txt and use modern CMake best practices:
 # Treat targets as objects and transitively propagate properties etc.
 #
-# Provides: ZPOP_SRCS
+# Provides: ZPOP_SRCS, ZPOP_INCLUDES
 #
 #-------------------------------------------------------------------------------
+
+include_guard(GLOBAL)
+
+# Handle include files:
+set(_zpop_global_includes
+  FILHDF.H
+  FILHDR.H
+  FILPLT.H
+  FILSPN.H
+  FRMFAI.H
+  FRMPLT.H
+  FRMSPN.H
+  LSTKEY.H
+  MAXCOO.H
+  MAXTRA.H
+  MXFS.H
+  MXLD.H
+  MXSTEP.H
+  OKKP.H
+  OKKT.H
+  )
+set(_zpop_local_includes
+  FILFAI.H
+  MAXNTR.H
+  MXVAR.H
+  OKKL.H
+  PARCST.H
+  )
+foreach(include IN LISTS _zpop_local_includes)
+  list(APPEND ZPOP_INCLUDES
+    "${CMAKE_CURRENT_LIST_DIR}/${include}")
+endforeach()
+foreach(include IN LISTS _zpop_global_includes)
+  list(APPEND ZPOP_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/${include}")
+endforeach()
 
 # zpop/svd/extract.f # another main program
 #zpop/svd/LAPACK.f

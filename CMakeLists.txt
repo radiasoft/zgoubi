@@ -63,7 +63,7 @@ endif()
 #---------
 # libcoupl
 #---------
-add_library(coupl)
+add_library(coupl "")
 # Collect & define COUPL_SRCS
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/CMakeLists.txt")
 target_sources(coupl
@@ -73,7 +73,7 @@ target_compile_options(coupl PUBLIC ${common_fflags})
 #---------------
 # libzgoubi_blas
 #---------------
-add_library(zgoubi_blas)
+add_library(zgoubi_blas "")
 # Collect & define BLAS_SRCS
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/libraries/libinv/BLAS/CMakeLists.txt")
 target_sources(zgoubi_blas
@@ -83,11 +83,13 @@ target_compile_options(zgoubi_blas PUBLIC ${common_fflags})
 #------
 # libzg
 #------
-add_library(zg)
-# Collect and define ZG_SRCS
+add_library(zg "")
+# Collect and define ZG_SRCS, ZG_INCLUDES
 include("${CMAKE_CURRENT_SOURCE_DIR}/common/CMakeLists.txt")
 target_sources(zg
   PRIVATE ${ZG_SRCS})
+target_sources(zg
+  PUBLIC ${ZG_INCLUDES})
 target_compile_options(zg PUBLIC ${common_fflags})
 target_include_directories(zg
   PUBLIC
@@ -98,13 +100,15 @@ target_include_directories(zg
 #------------------
 # zgoubi executable
 #------------------
-add_executable(zgoubi)
+add_executable(zgoubi "")
 # Collect and define ZGOUBI_SRCS
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/CMakeLists.txt")
 target_sources(zgoubi
   PRIVATE ${ZGOUBI_SRCS})
 target_sources(zgoubi
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/modules/dynhc.f")
+target_sources(zgoubi
+  PUBLIC ${ZGOUBI_INCLUDES})
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi zgoubi_blas zg coupl)
 target_include_directories(zgoubi
@@ -124,7 +128,7 @@ else()
     message(WARNING "Untested operating system: ${CMAKE_SYSTEM_NAME}. Report any issues at ${issues_URL}")
   endif()
 endif()
-add_library(fminigraf)
+add_library(fminigraf "")
 target_sources(fminigraf
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/zpop/liblns/fminigraf.c")
 target_compile_definitions(fminigraf
@@ -135,11 +139,13 @@ target_compile_options(fminigraf
 #----------------
 # zpop executable
 #----------------
-add_executable(zpop)
+add_executable(zpop "")
 # Collect and define ZPOP_SRCS
 include("${CMAKE_CURRENT_SOURCE_DIR}/zpop/CMakeLists.txt")
 target_sources(zpop
   PRIVATE ${ZPOP_SRCS})
+target_sources(zpop
+  PUBLIC ${ZPOP_INCLUDES})
 target_compile_options(zpop PRIVATE ${common_fflags})
 target_link_libraries(zpop zg fminigraf)
 target_include_directories(zpop

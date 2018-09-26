@@ -6,12 +6,134 @@
 # De-clutter top-level CMakeLists.txt and use modern CMake best practices:
 # Treat targets as objects and transitively propagate properties etc.
 #
-# Provides: ZGOUBI_SRCS
+# Provides: ZGOUBI_SRCS, ZGOUBI_INCLUDES
 #
 #-------------------------------------------------------------------------------
 
+include_guard(GLOBAL)
+
+# These were in the original but seem to be unused:
 # zgoubi/svd/extract.f # another main program
 #zgoubi/svd/LAPACK.f
+
+# Include files:
+set(_zgoubi_global_includes
+  C.AIM.H
+  C.AIM_2.H
+  C.AIM_3.H
+  C.CARSH.H
+  C.CDF.H
+  C.CHAFUI.H
+  C.CHAMBR.H
+  C.CHAMP.H
+  C.CHAVE.H
+  C.CHAVE_2.H
+  C.CINE.H
+  C.CNTRLB.H
+  C.CO.H
+  C.COC.H
+  C.COIL.H
+  C.CONST.H
+  C.CONST2.H
+  C.CONST_2.H
+  C.CONST_3.H
+  C.CONTR.H
+  C.COT.H
+  C.D3B.H
+  C.D3B_2.H
+  C.D3E.H
+  C.D3E_2.H
+  C.D4B.H
+  C.D4B_2.H
+  C.D4EXYZ.H
+  C.D4EXYZ_2.H
+  C.DDBXYZ.H
+  C.DDBXYZ_2.H
+  C.DDEXYZ.H
+  C.DDEXYZ_2.H
+  C.DEPL.H
+  C.DESIN.H
+  C.DON.H
+  C.DONT.H
+  C.DON_2.H
+  C.DROITE.H
+  C.DROITE_2.H
+  C.EFBS.H
+  C.FAISC.H
+  C.FAISCT.H
+  C.FINIT.H
+  C.FITEX.H
+  C.FOCAL.H
+  C.GASC.H
+  C.HISTO.H
+  C.HISTOG.H
+  C.INTEG.H
+  C.KAR.H
+  C.LABEL.H
+  C.LIGNE.H
+  C.MARK.H
+  C.MIMA.H
+  C.MULTPE.H
+  C.MULTPL.H
+  C.MULTPL_2.H
+  C.OBJET.H
+  C.ORDRES.H
+  C.PDATA.H
+  C.PTICUL.H
+  C.PTICUL_2.H
+  C.RADIALS.H
+  C.REBELO.H
+  C.RIGID.H
+  C.RIGID_2.H
+  C.SCAL.H
+  C.SCALP.H
+  C.SCALT.H
+  C.SPIN.H
+  C.SPIRALE.H
+  C.SPIRALX.H
+  C.SPTRK.H
+  C.SS1.H
+  C.SSS.H
+  C.STEP.H
+  C.SYNCH.H
+  C.SYNRA.H
+  C.TRAJ.H
+  C.TRAJ_2.H
+  C.TRNSF.H
+  C.TRNSM.H
+  C.TYPFLD.H
+  C.UNITS.H
+  C.VAR.H
+  C.VARY.H
+  C.VAR_2.H
+  C.VITES.H
+  C.VITES_2.H
+  FILHDF.H
+  FILHDR.H
+  FILPLT.H
+  FRMFAI.H
+  FRMPLT.H
+  FRMSPN.H
+  LSTKEY.H
+  MAPHDR.H
+  MAXCOO.H
+  MAXTRA.H
+  MXFS.H
+  MXHD.H
+  MXLD.H
+  MXSCL.H
+  MXSTEP.H
+  )
+set(_zgoubi_local_includes
+  "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
+  "${CMAKE_CURRENT_LIST_DIR}/PARIZ.H"
+  "${CMAKE_CURRENT_LIST_DIR}/XYZHC.H"
+  )
+set(ZGOUBI_INCLUDES ${_zgoubi_local_includes})
+foreach( include IN LISTS _zgoubi_global_includes)
+  list(APPEND ZGOUBI_INCLUDES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/${include}")
+endforeach()
 
 # Sources grouped by directory and alphabetized
 
