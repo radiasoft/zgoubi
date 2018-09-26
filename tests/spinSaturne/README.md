@@ -1,6 +1,6 @@
 [This document is formatted with GitHub-Flavored Markdown. ]:#
 [For better viewing, including hyperlinks, read it online at ]:#
-[https://github.com/radiasoft/zgoubi/blob/build-test-infrastructure/tests/spinSaturne/README.md]:#
+[https://github.com/radiasoft/zgoubi/blob/master/tests/spinSaturne/README.md ]:#
 
 spinSaturne Test
 ================
