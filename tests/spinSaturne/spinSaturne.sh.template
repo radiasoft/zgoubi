@@ -45,9 +45,7 @@ echo " === Test ${testName} for zgoubi ==="
 
 ## execute zgoubi
 # zgoubi executable
-#zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
-#zgoubi_exe=/Users/dabell/Projects/zgoubi/zgoubi-code/zgoubi/zgoubi
-zgoubi_exe="/Users/dabell/Applications/bin"/zgoubi
+zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 # leading part of testName.res.expected contains the required input
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
 # run zgoubi command
@@ -60,8 +58,8 @@ fi
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
-(( header=$(wc -l < ${testName}.res.expected) - footer ))
-result=$(diff <(head -n $header ${testName}.res.expected)  <(head -n $header zgoubi.res))
+(( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected) - footer ))
+result=$(diff <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))

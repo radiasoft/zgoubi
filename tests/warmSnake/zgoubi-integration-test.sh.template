@@ -12,17 +12,19 @@ set -o nounset
 set -o pipefail
 
 cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
-pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/PARIZ.H
+pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
 if [[ -f "$pariz_h_file" ]]; then
   cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
+  pushd "@CMAKE_BINARY_DIR@"
   make -j
+  popd
   mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
 else
   echo "Missing cmake-configured PARIZ.H"
   exit 1
 fi
 
-cd "@ZGOUBI_TEST_BIN_DIR@"
+cd "@ZGOUBI_TEST_BIN_DIR@/warmSnake"
 if [[ ! -f zgoubi.dat ]]; then
   ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
 fi

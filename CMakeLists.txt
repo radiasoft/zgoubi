@@ -39,7 +39,7 @@ find_package(UnixCommands)
 
 # Get map file needed for test
 macro(update_verify_warmSnake)
-  maybe_fetch_file( tests/warmSnake.map.gz
+  maybe_fetch_file( tests/warmSnake/warmSnake.map.gz
     "https://sourceforge.net/p/zgoubi/code/HEAD/tree/trunk/exemples/usersGuide/FIT-and-REBELOTE/warmSnake.map.gz?format=raw"
     06fac3c92404100ffcbbaf281136c2e3d565c6091aa24d3a216aae816b012878 # 8 # Real last digit is 8 not 7 use 7 for testing
     have_warm_snake
@@ -1150,41 +1150,9 @@ endif()
 
 enable_testing()
 
-set(ZGOUBI_SOURCE_DIR ${CMAKE_SOURCE_DIR} )
 set(ZGOUBI_TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/tests )
-set(ZGOUBI_EXAMPLE_SRC_DIR ${CMAKE_SOURCE_DIR}/exemples/KEYWORDS/FIT/FIT_embedded_in_REBELOTE )
 set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )
 
-set( example_input_files
-  centeredHelix_FIT_save_nofinal_150226.res
-)
-
-foreach(input_file ${example_input_files})
-  configure_file(
-    ${ZGOUBI_TEST_SRC_DIR}/${input_file}
-    ${ZGOUBI_TEST_BIN_DIR}/${input_file}
-    COPYONLY
-  )
-endforeach()
-configure_file(
-  "${ZGOUBI_TEST_SRC_DIR}/zgoubi-integration-test.sh.template"
-  "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh"
-@ONLY
-)
-configure_file(
-  "${ZGOUBI_TEST_SRC_DIR}/zgoubi.res.expected"
-  "${ZGOUBI_TEST_BIN_DIR}/zgoubi.res.expected"
-@ONLY
-)
-set(ZGOUBI_TEST_IZ 29)
-set(ZGOUBI_TEST_ID  3)
-set(ZGOUBI_TEST_MMAP 1)
-configure_file(
-  "${ZGOUBI_TEST_SRC_DIR}/PARIZ_cmake_configurable.H"
-  "${ZGOUBI_TEST_BIN_DIR}/PARIZ.H"
-@ONLY
-)
 include_directories(BEFORE ${ZGOUBI_TEST_BIN_DIR} zgoubi include)
 
-add_test(NAME zgoubi-integration COMMAND "${ZGOUBI_TEST_BIN_DIR}/zgoubi-integration-test.sh")
-set_tests_properties(zgoubi-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
+add_subdirectory(tests)
