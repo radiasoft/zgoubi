@@ -1,3 +1,7 @@
+[This document is formatted with GitHub-Flavored Markdown. ]:#
+[For better viewing, including hyperlinks, read it online at ]:#
+[https://github.com/radiasoft/zgoubi/blob/build-test-infrastructure/tests/spinSaturne/README.md]:#
+
 spinSaturne Test
 ================
 
@@ -18,7 +22,7 @@ Files
 * Other expected results: `spinSaturne.SPNPRT.Out.expected`
 * gnuplot command script:  `spinSaturne_SzT-gnuplot.cmd`
   - called by a Zgoubi SYSTEM command
- 
+
 Expected Output Figure
 ----------------------
 ![spinsaturne_szt-save](https://user-images.githubusercontent.com/13108868/46051414-3ba1a980-c0ee-11e8-97ac-ba6a8791a6d4.png)
