@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Execute a zgoubi input file for testing
 
+# Exit on error or on use of unset variable
+set -o errexit
+set -o nounset
+# Return highest error code in pipe chain
+set -o pipefail
+
 ## usage message
 usage='usage: zgoubi-test.sh [-ehHqv] testName'
 usageF=$usage$'\n'
@@ -59,7 +65,7 @@ fi
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected) - footer ))
-result=$(diff <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne/"zgoubi.res))
+result=$(ndiff --relative-error 1.0e-06 <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
@@ -72,7 +78,7 @@ fi
 ## compare other files: ${testName}.fe
 exts="SPNPRT.Out"
 for fe in $exts; do
-  result=$(diff ${testName}.${fe}.expected zgoubi.${fe})
+  result=$(ndiff --relative-error 1.0e-08 ${testName}.${fe}.expected zgoubi.${fe})
   stat=$?
   if [ "$stat" -ne 0 ] ; then
     (( ++xstat ))
@@ -85,8 +91,8 @@ done
 
 if [ "$xstat" -eq 0 ]
 then
-   echo "Test ${testName} passed."
+   echo "Test passed."
 else
-   echo "Test ${testName} failed!"
+   echo "Test failed!"
 fi
 
