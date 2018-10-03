@@ -61,13 +61,6 @@ else
   eval $zgoubi_cmd
 fi
 
-# check for ndiff utility by Nelson Beebe (differs from ndiff installed by Ubunut package manager)
-export copyright_beebe=$(man ndiff | grep copyright -i | grep Beebe)
-if [[ -z "${copyright_beebe:-}" ]]; then
-  echo "ndiff is not the version by Nelson Beebe (https://www.math.utah.edu/~beebe/software/ndiff/)."
-  exit
-fi
-
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
