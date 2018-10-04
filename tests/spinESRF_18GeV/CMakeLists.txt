@@ -15,5 +15,11 @@ configure_file(
   "${ZGOUBI_TEST_BIN_DIR}/spinESRF_18GeV/spinESRF_18GeV.SPNPRT.Out.expected"
 @ONLY
 )
-add_test(NAME spinESRF_18GeV-test COMMAND "${ZGOUBI_TEST_BIN_DIR}/spinESRF_18GeV/spinESRF_18GeV-test.sh" spinESRF_18GeV)
-set_tests_properties(spinESRF_18GeV-test PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
+add_test(
+  NAME spinESRF_18GeV-test 
+  COMMAND "${ZGOUBI_TEST_BIN_DIR}/spinESRF_18GeV/spinESRF_18GeV-test.sh" spinESRF_18GeV 1.0e-09 1.0e-08
+)
+set_tests_properties(
+  spinESRF_18GeV-test 
+  PROPERTIES PASS_REGULAR_EXPRESSION "Test passed."
+)

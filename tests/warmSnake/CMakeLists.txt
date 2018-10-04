@@ -6,8 +6,8 @@ configure_file(
   COPYONLY
 )
 configure_file(
-  "${ZGOUBI_TEST_SRC_DIR}/warmSnake/zgoubi-integration-test.sh.template"
-  "${ZGOUBI_TEST_BIN_DIR}/warmSnake/zgoubi-integration-test.sh"
+  "${ZGOUBI_TEST_SRC_DIR}/warmSnake/warmSnake-test.sh.template"
+  "${ZGOUBI_TEST_BIN_DIR}/warmSnake/warmSnake-test.sh"
 @ONLY
 )
 configure_file(
@@ -25,5 +25,10 @@ configure_file(
 @ONLY
 )
 
-add_test(NAME zgoubi-integration COMMAND "${ZGOUBI_TEST_BIN_DIR}/warmSnake/zgoubi-integration-test.sh")
-set_tests_properties(zgoubi-integration PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
+set(res_error 1.0e-09)
+set(out_error 1.0e-09)
+add_test(
+  NAME warmSnake 
+  COMMAND "${ZGOUBI_TEST_BIN_DIR}/warmSnake/warmSnake-test.sh" warmSnake "${res_error}" "${out_error}"
+)
+set_tests_properties(warmSnake PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")

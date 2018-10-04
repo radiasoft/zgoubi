@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Execute a zgoubi input file for testing
+# Test zgoubi on the given input file (1st argument), using 
+# the provided error tolerances  (2nd & 3rd arguments)
 
-# Exit on error or on use of unset variable
-set -o errexit
+# Exit on use of unset variable
 set -o nounset
 # Return highest error code in pipe chain
 set -o pipefail
 
 ## usage message
-usage='usage: zgoubi-test.sh [-ehHqv] testName'
+usage='usage: zgoubi-test.sh [-ehHqv] testName res-tolerance out-tolerance'
 usageF=$usage$'\n'
 usageF=$usageF$'Execute a given test for zgoubi.\n'
 #usageF=$usageF$'  -e "ext ..." A quoted list of file extensions.\n'
@@ -37,17 +37,16 @@ done
 ## strip off the optional argumnents
 shift $(( OPTIND - 1 ))
 
-## we require exactly one non-optional argument
-if (( $# != 1 )); then
-  echo "zgoubi-test.sh: You must supply exactly one test name."
+## we require exactly three non-optional arguments
+if (( $# != 3 )); then
+  echo "zgoubi-test.sh: You must supply exactly one test name followed by two relative error tolerances."
   echo "$usage"
   exit
 fi
 testName=$1
-echo " === Test ${testName} for zgoubi ==="
-
-#cd "@ZGOUBI_TEST_BIN_DIR@" # taken from the corresponding CMake variable
-#                           # == argument WORKING_DIRECTORY of add_test()
+res_error=$2
+out_error=$3
+echo " === Test ${testName} for zgoubi. Relative error tolerances: $res_error $out_error ==="
 
 ## execute zgoubi
 # zgoubi executable
@@ -64,8 +63,8 @@ fi
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
-(( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected) - footer ))
-result=$(ndiff --relative-error 1.0e-06 <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/spinSaturne/"zgoubi.res))
+(( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
+result=$(ndiff -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
@@ -78,7 +77,7 @@ fi
 ## compare other files: ${testName}.fe
 exts="SPNPRT.Out"
 for fe in $exts; do
-  result=$(ndiff --relative-error 1.0e-08 ${testName}.${fe}.expected zgoubi.${fe})
+  result=$(ndiff -relative-error $out_error ${testName}.${fe}.expected zgoubi.${fe})
   stat=$?
   if [ "$stat" -ne 0 ] ; then
     (( ++xstat ))

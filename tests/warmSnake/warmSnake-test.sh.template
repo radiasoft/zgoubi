@@ -17,6 +17,34 @@ usageF=$usageF$'  -H   Print this help message and exit.\n'
 usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
 usageF=$usageF$'  -v   Print all differences (verbose output).\n'
 
+function rebuild_zgoubi() {
+  cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
+  pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
+  if [[ -f "$pariz_h_file" ]]; then
+    cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
+    pushd "@CMAKE_BINARY_DIR@"
+    make -j
+    popd
+    mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
+  else
+    echo "Missing cmake-configured PARIZ.H"
+    exit 1
+  fi
+}
+
+function link_field_map () {
+  if [[ ! -f zgoubi.dat ]]; then
+    ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
+  fi
+  fieldMapFile=warmSnake.map
+  if [[ -f "${fieldMapFile}.gz" ]]; then
+    gzip -dkf ${fieldMapFile}.gz
+  else
+    echo "Missing ${fieldMapFile}.gz"
+    exit 1
+  fi
+}
+
 ## default flags
 quiet=false  # quiet zgoubi
 verb=false   # verbose diffs
@@ -46,7 +74,12 @@ fi
 testName=$1
 res_error=$2
 out_error=$3
+
 echo " === Test ${testName} for zgoubi. Relative error tolerances: $res_error $out_error ==="
+
+rebuild_zgoubi
+
+link_field_map
 
 ## execute zgoubi
 # zgoubi executable
@@ -59,6 +92,8 @@ if [ "$quiet" = true ] ; then
 else
   eval $zgoubi_cmd
 fi
+
+rm $fieldMapFile
 
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
@@ -94,4 +129,3 @@ then
 else
    echo "Test failed!"
 fi
-
