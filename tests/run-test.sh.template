@@ -8,7 +8,7 @@ set -o nounset
 set -o pipefail
 
 ## usage message
-usage='usage: zgoubi-test.sh [-ehHqv] testName res-tolerance out-tolerance'
+usage='usage: zgoubi-test.sh [-ehHqv] <testName> <res-tolerance> <out-tolerance> [rebuild-with-fieldmap]'
 usageF=$usage$'\n'
 usageF=$usageF$'Execute a given test for zgoubi.\n'
 #usageF=$usageF$'  -e "ext ..." A quoted list of file extensions.\n'
@@ -16,6 +16,34 @@ usageF=$usageF$'  -h   Print a brief help message and exit.\n'
 usageF=$usageF$'  -H   Print this help message and exit.\n'
 usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
 usageF=$usageF$'  -v   Print all differences (verbose output).\n'
+
+function rebuild_zgoubi() {
+  cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
+  pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
+  if [[ -f "$pariz_h_file" ]]; then
+    cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
+    pushd "@CMAKE_BINARY_DIR@"
+    make -j
+    popd
+    mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
+  else
+    echo "Missing cmake-configured PARIZ.H"
+    exit 1
+  fi
+}
+
+function link_field_map () {
+  if [[ ! -f zgoubi.dat ]]; then
+    ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
+  fi
+  fieldMapFile=warmSnake.map
+  if [[ -f "${fieldMapFile}.gz" ]]; then
+    gzip -dkf ${fieldMapFile}.gz
+  else
+    echo "Missing ${fieldMapFile}.gz"
+    exit 1
+  fi
+}
 
 ## default flags
 quiet=false  # quiet zgoubi
@@ -37,16 +65,24 @@ done
 ## strip off the optional argumnents
 shift $(( OPTIND - 1 ))
 
-## we require exactly three non-optional arguments
-if (( $# != 3 )); then
-  echo "zgoubi-test.sh: You must supply exactly one test name followed by two relative error tolerances."
+## we require three non-optional arguments followed by one optional argument
+if (( $# != 3 && $# != 4 )); then
+  echo "zgoubi-test.sh:"
+  echo "  You must supply exactly one test name followed by two relative error tolerances,"
+  echo "  optionally followed by the string 'rebuild-with-field-map'."
   echo "$usage"
   exit
 fi
 testName=$1
 res_error=$2
 out_error=$3
+
 echo " === Test ${testName} for zgoubi. Relative error tolerances: $res_error $out_error ==="
+
+if [[ ${4:-} == "rebuild-with-field-map" ]]; then 
+  rebuild_zgoubi
+  link_field_map
+fi
 
 ## execute zgoubi
 # zgoubi executable
@@ -58,6 +94,10 @@ if [ "$quiet" = true ] ; then
   zgoubi_res=$(eval $zgoubi_cmd)
 else
   eval $zgoubi_cmd
+fi
+
+if [[ ${4:-} == "rebuild-with-field-map" ]]; then 
+  rm $fieldMapFile
 fi
 
 ## compare zgoubi.res with the expected result
@@ -94,4 +134,3 @@ then
 else
    echo "Test failed!"
 fi
-
