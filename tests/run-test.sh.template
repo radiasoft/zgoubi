@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# Test zgoubi on the given input file (1st argument), using 
+# the provided error tolerances  (2nd & 3rd arguments)
+
+# Exit on use of unset variable
+set -o nounset
+# Return highest error code in pipe chain
+set -o pipefail
+
+## usage message
+usage='usage: zgoubi-test.sh [-ehHqv] <testName> <res-tolerance> <out-tolerance> [rebuild-with-fieldmap]'
+usageF=$usage$'\n'
+usageF=$usageF$'Execute a given test for zgoubi.\n'
+#usageF=$usageF$'  -e "ext ..." A quoted list of file extensions.\n'
+usageF=$usageF$'  -h   Print a brief help message and exit.\n'
+usageF=$usageF$'  -H   Print this help message and exit.\n'
+usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
+usageF=$usageF$'  -v   Print all differences (verbose output).\n'
+
+function rebuild_zgoubi() {
+  cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
+  pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
+  if [[ -f "$pariz_h_file" ]]; then
+    cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
+    pushd "@CMAKE_BINARY_DIR@"
+    make -j
+    popd
+    mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
+  else
+    echo "Missing cmake-configured PARIZ.H"
+    exit 1
+  fi
+}
+
+function link_field_map () {
+  if [[ ! -f zgoubi.dat ]]; then
+    ln -s centeredHelix_FIT_save_nofinal_150226.res zgoubi.dat
+  fi
+  fieldMapFile=warmSnake.map
+  if [[ -f "${fieldMapFile}.gz" ]]; then
+    gzip -dkf ${fieldMapFile}.gz
+  else
+    echo "Missing ${fieldMapFile}.gz"
+    exit 1
+  fi
+}
+
+## default flags
+quiet=false  # quiet zgoubi
+verb=false   # verbose diffs
+
+## initialize the exit status
+xstat=0
+
+## parse optional arguments
+while getopts "hHqv" opt; do
+  case $opt in
+  h) echo "$usage"; exit;;
+  H) echo "$usageF"; exit;;
+  q) quiet=true;;
+  v) verb=true;;
+  \?) echo "$usage"; exit;;
+  esac
+done
+## strip off the optional argumnents
+shift $(( OPTIND - 1 ))
+
+## we require three non-optional arguments followed by one optional argument
+if (( $# != 3 && $# != 4 )); then
+  echo "zgoubi-test.sh:"
+  echo "  You must supply exactly one test name followed by two relative error tolerances,"
+  echo "  optionally followed by the string 'rebuild-with-field-map'."
+  echo "$usage"
+  exit
+fi
+testName=$1
+res_error=$2
+out_error=$3
+
+echo " === Test ${testName} for zgoubi. Relative error tolerances: $res_error $out_error ==="
+
+if [[ ${4:-} == "rebuild-with-field-map" ]]; then 
+  rebuild_zgoubi
+  link_field_map
+fi
+
+## execute zgoubi
+# zgoubi executable
+zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
+# leading part of testName.res.expected contains the required input
+zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
+# run zgoubi command
+if [ "$quiet" = true ] ; then
+  zgoubi_res=$(eval $zgoubi_cmd)
+else
+  eval $zgoubi_cmd
+fi
+
+if [[ ${4:-} == "rebuild-with-field-map" ]]; then 
+  rm $fieldMapFile
+fi
+
+## compare zgoubi.res with the expected result
+# we compare all but the last ten lines, which contain date and timing information
+footer=10
+(( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
+result=$(ndiff -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
+stat=$?
+if [ "$stat" -ne 0 ] ; then
+  (( ++xstat ))
+  echo "File zgoubi.res differs from ${testName}.res.expected."
+  if [ "$verb" = true ] ; then
+    echo "$result"
+  fi
+fi
+
+## compare other files: ${testName}.fe
+exts="SPNPRT.Out"
+for fe in $exts; do
+  result=$(ndiff -relative-error $out_error ${testName}.${fe}.expected zgoubi.${fe})
+  stat=$?
+  if [ "$stat" -ne 0 ] ; then
+    (( ++xstat ))
+    echo "File zgoubi.${fe} differs from ${testName}.${fe}.expected."
+    if [ "$verb" = true ] ; then
+      echo "$result"
+    fi
+  fi
+done
+
+if [ "$xstat" -eq 0 ]
+then
+   echo "Test passed."
+else
+   echo "Test failed!"
+fi
