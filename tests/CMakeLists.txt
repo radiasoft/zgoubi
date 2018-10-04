@@ -1,3 +1,8 @@
+configure_file(
+  "${ZGOUBI_TEST_SRC_DIR}/run-test.sh.template"
+  "${ZGOUBI_TEST_BIN_DIR}/run-test.sh"
+@ONLY
+)
 set( test_directories
   warmSnake
   spinESRF_18GeV
