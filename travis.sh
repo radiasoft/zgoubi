@@ -13,7 +13,6 @@ docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:
     source ~/.bashrc
     set -veuo pipefail
     cd ~/src/radiasoft/zgoubi
-    git checkout build-test-infrastructure
     wget ftp://ftp.math.utah.edu/pub/misc/ndiff-2.00.tar.gz
     tar xf ndiff-2.00.tar.gz
     cd ndiff-2.00
