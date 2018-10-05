@@ -10,9 +10,13 @@ Building in Docker
 
 To download and build zgoubi and execute the tests on a system with
 Docker installed and the Docker service running, execute the following
-in a command-line shell such as bash: ```bash git clone
-https://github.com/radiasoft/zgoubi cd zgoubi ./travis.sh ``` This
-will use [cmake] to build the master branch of the zgoubi repository.
+in a command-line shell such as bash:
+```bash
+git clone https://github.com/radiasoft/zgoubi
+cd zgoubi
+./travis.sh
+```
+This will use [cmake] to build the master branch of the zgoubi repository.
 Then it will use the companion package `ctest` to run the zgoubi test
 suite.  Please submit an [issue] describing any problems you
 encounter.
@@ -31,13 +35,12 @@ Examples
 --------
 
 These examples are maintained. Efforts are made to ensure that they
-are run-able with the latest version of zgoubi executable on the
-author's `master` branch. In particular some are part of the
-tools/compare procedure which tests their repeat-ability.
+are executable with the latest version of zgoubi on the
+author's `master` branch. In particular, some are part of the
+tools/compare procedure which tests their repeatability.
 
-
-The example sub-folders found in example have the similar following
-content :
+The example sub-folders found in `exemple` have the similar following
+content:
 
 - one or more zgoubi input data files for a given example (a file with
   suffix `.dat`), and the corresponding result files (*.res suffix),
@@ -54,8 +57,7 @@ accepts the command `zgoubi -inFile thisExampleDataFile.dat/.res`.
 
 Some of these examples are discussed in Part C of the [users' guide].
 
-
-The folder examples/tools is dedicated to the following :
+The folder `exemples/tools` is dedicated to the following:
 
 - running `compare` will run some of the examples, and compare their
 outcomes (logged in compare.out) with reference ones logged in
