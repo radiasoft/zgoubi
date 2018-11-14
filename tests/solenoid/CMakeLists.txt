@@ -8,6 +8,12 @@ configure_file(
 @ONLY
 )
 
+configure_file(
+  "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/sol30m_761.map"
+  "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/sol30m_761.map"
+@ONLY
+)
+
 set(res_error "1.0e-06")
 set(out_error "1.0e-08")
 add_test(
