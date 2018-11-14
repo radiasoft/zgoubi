@@ -3,11 +3,14 @@ configure_file(
   "${ZGOUBI_TEST_BIN_DIR}/run-test.sh"
 @ONLY
 )
+
 set( test_directories
   warmSnake
   spinESRF_18GeV
   spinSaturne
+  solenoid
 )
+
 foreach(test_directory ${test_directories})
   add_subdirectory(${test_directory})
 endforeach()
