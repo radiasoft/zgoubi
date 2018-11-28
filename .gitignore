@@ -30,8 +30,7 @@ mpxerr.tex
 *.o
 *.so
 
-build/
+build*/
 tmp/
 zgoubi/zgoubi
 zpop/zpop
-
