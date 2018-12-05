@@ -22,10 +22,11 @@ configure_file(
 @ONLY
 )
 
+#set(exts "")
 set(res_error 1.0e-09)
 set(out_error 1.0e-09)
 add_test(
-  NAME ${test_name}-test 
+  NAME ${test_name}-test
   COMMAND "${ZGOUBI_TEST_BIN_DIR}/run-test.sh" "${test_name}" "${res_error}" "${out_error}" "rebuild-with-field-map"
 )
 set_tests_properties(${test_name}-test PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
