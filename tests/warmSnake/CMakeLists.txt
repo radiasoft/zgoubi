@@ -8,8 +8,8 @@ configure_file(
   COPYONLY
 )
 configure_file(
-  "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/zgoubi.res.expected"
-  "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/zgoubi.res.expected"
+  "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/warmSnake.res.expected"
+  "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/warmSnake.res.expected"
 @ONLY
 )
 
