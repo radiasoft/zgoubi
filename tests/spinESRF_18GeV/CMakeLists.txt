@@ -13,7 +13,7 @@ configure_file(
 @ONLY
 )
 
-set(exts "plt SPNPRT.Out")
+set(exts "SPNPRT.Out")
 set(res_error "1.0e-06")
 set(out_error "1.0e-08")
 add_test(

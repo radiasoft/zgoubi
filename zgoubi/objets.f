@@ -49,7 +49,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
 C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles 
 C            as resulting from decay (keyword 'MCDESINT')
-      CHARACTER(1) KAR(41)
+      CHARACTER(LEN=1) KAR(41)
       INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO

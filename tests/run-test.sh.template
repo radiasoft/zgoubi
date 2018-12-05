@@ -102,6 +102,15 @@ if [[ ${4:-} == "rebuild-with-field-map" ]]; then
   rm $fieldMapFile
 fi
 
+if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected ]]; then
+  echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/$testName/${testName}.res.expected missing."
+  exit 1
+fi
+if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res ]]; then
+  echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/zgoubi.res missing."
+  exit 1
+fi
+
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
@@ -119,11 +128,21 @@ fi
 ## compare other files: ${testName}.fe
 if [ "$moreFiles" = true ] ; then
   for fe in $exts; do
-    result=$(ndiff -relative-error $out_error ${testName}.${fe}.expected zgoubi.${fe})
+
+    if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.${fe}.expected  ]]; then
+      echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected missing."
+      exit 1
+    fi
+    if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.${fe} ]]; then
+      echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/zgoubi.${fe} missing."
+      exit 1
+    fi
+
+    result=$(ndiff -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
     stat=$?
     if [ "$stat" -ne 0 ] ; then
       (( ++xstat ))
-      echo "File zgoubi.${fe} differs from ${testName}.${fe}.expected."
+      echo "File zgoubi.${fe} differs from @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected."
       if [ "$verb" = true ] ; then
         echo "$result"
       fi
