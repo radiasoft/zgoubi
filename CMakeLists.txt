@@ -158,7 +158,7 @@ target_sources(zgoubi
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi
   PUBLIC zg
-  PUBLIC coupl 
+  PUBLIC coupl
   PUBLIC zgoubi_utilities)
 target_include_directories(zgoubi
   PUBLIC
