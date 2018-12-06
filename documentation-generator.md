@@ -1,11 +1,8 @@
 ---
 project: zgoubi
 summary: charged-particle motion in magnetic electric fields
-src_dir: toolbox
 src_dir: zgoubi
-src_dir: zpop
 src_dir: common
-src_dir: exemples
 output_dir: doc
 preprocess: true
 display: public
