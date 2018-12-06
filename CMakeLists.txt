@@ -60,8 +60,39 @@ endif()
 # Define targets to be built: libraries and executables
 #======================================================
 
+find_package(BLAS REQUIRED)
+add_library(BLAS UNKNOWN IMPORTED GLOBAL)
+list(GET BLAS_LIBRARIES 0 MAIN_BLAS_LIB)
+set_target_properties(BLAS
+  PROPERTIES IMPORTED_LOCATION "${MAIN_BLAS_LIB}")
+list(REMOVE_AT BLAS_LIBRARIES 0)
+if(${BLAS_LIBRARIES})
+  target_link_libraries(BLAS
+    INTERFACE ${BLAS_LIBRARIES})
+endif()
+if(${BLAS_LINKER_FLAGS})
+  target_link_libraries(BLAS
+    INTERFACE "${BLAS_LINKER_FLAGS}")
+endif()
+
+
+find_package(LAPACK REQUIRED)
+add_library(LAPACK UNKNOWN IMPORTED GLOBAL)
+list(GET LAPACK_LIBRARIES 0 MAIN_LAPACK_LIB)
+set_target_properties(LAPACK
+  PROPERTIES IMPORTED_LOCATION "${MAIN_LAPACK_LIB}")
+list(REMOVE_AT LAPACK_LIBRARIES 0)
+if(${LAPACK_LIBRARIES})
+  target_link_libraries(LAPACK
+    INTERFACE ${LAPACK_LIBRARIES})
+endif()
+if(${LAPACK_LINKER_FLAGS})
+  target_link_libraries(LAPACK
+    INTERFACE "${LAPACK_LINKER_FLAGS}")
+endif()
+
 #---------
-# libcoupl
+# libcouplb
 #---------
 add_library(coupl "")
 # Collect & define COUPL_SRCS
@@ -69,16 +100,9 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/CMakeLists.txt")
 target_sources(coupl
   PRIVATE ${COUPL_SRCS})
 target_compile_options(coupl PUBLIC ${common_fflags})
-
-#---------------
-# libzgoubi_blas
-#---------------
-add_library(zgoubi_blas "")
-# Collect & define BLAS_SRCS
-include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/libraries/libinv/BLAS/CMakeLists.txt")
-target_sources(zgoubi_blas
-  PRIVATE ${BLAS_SRCS})
-target_compile_options(zgoubi_blas PUBLIC ${common_fflags})
+target_link_libraries(coupl
+  PUBLIC BLAS
+  PUBLIC LAPACK)
 
 #------
 # libzg
@@ -110,7 +134,9 @@ target_sources(zgoubi
 target_sources(zgoubi
   PUBLIC ${ZGOUBI_INCLUDES})
 target_compile_options(zgoubi PRIVATE ${common_fflags})
-target_link_libraries(zgoubi zgoubi_blas zg coupl)
+target_link_libraries(zgoubi
+  PUBLIC zg
+  PUBLIC coupl)
 target_include_directories(zgoubi
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -169,7 +195,7 @@ install(
 # Set installation subdirectory for libraries
 if(BUILD_SHARED_LIBS)
   install(
-    TARGETS zg coupl zgoubi_blas fminigraf
+    TARGETS zg coupl fminigraf
     DESTINATION lib
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     )
