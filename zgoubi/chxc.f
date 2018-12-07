@@ -24,6 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,HDPRF,
      >                                 XL,DSREF,QSHROE,VSHROE)
+      USE ISO_FORTRAN_ENV, ONLY : REAL64
       USE DYNHC
       use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
       use pariz_namelist_interface, only : ID, IZ, MXX, MXY
@@ -77,7 +78,10 @@ C      LOGICAL ZSYM
       CHARACTER(LNTA) TITL
       CHARACTER(LNTA) NAMFIC
       CHARACTER(LNTA) NOMFIC(MXTA)
-      DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
+      DIMENSION RCS(MDR)
+C     DIMENSION CBM(MXX),HC1(MXX,MXY),RCS(MDR)
+      REAL(REAL64), ALLOCATABLE, DIMENSION(:), SAVE :: CBM(:),HC1(:,:)
+
       INTEGER DEBSTR,FINSTR
  
       CHARACTER(10) LMNT(22)
@@ -131,6 +135,8 @@ C      PARAMETER (MXAA2=24+MXC-1)
 C- KALC = TYPE CALCUL : ANALYTIQUE + SYM PLAN MEDIAN (1) , ANALYTIQUE 3D (3)
 C   &  CARTE (2)
   
+      IF (.NOT. ALLOCATED(CBM)) ALLOCATE( CBM(MXX)     )
+      IF (.NOT. ALLOCATED(HC1)) ALLOCATE( HC1(MXX,MXY) )
 C----- Some initializations and resets
       CALL KSMAP(
      >           IMAP)
