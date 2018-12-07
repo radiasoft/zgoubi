@@ -5,15 +5,16 @@
 # -- This script 
 #    1. Extracts the DIMENSION statements from all *.f files in the present
 #       working directory, 
-#    2. Extracts the array names that use the passed argument ($1) as an array dimension,
-#    3. Reports whether or not any such array appears in a COMMON block inside ../include.
+#    2. Eliminates comments as determined by a "C" in column 1.
+#    3. Extracts all array names that use the passed argument ($1) as an array dimension.
+#    4. Sorts and compresses the list of array names to remove redundancies.
+#    5. Reports whether or not any such array appears in a COMMON block inside the ../include directory.
 
 # Exit on error. (Append ||true if an non-zero exit code is acceptable.)
 set -o errexit
 
 # Return an error upon the use of an unset variable
 set -o nounset
-
 
 # Remember & return the highest exit code in a chain of pipes.
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`
@@ -23,7 +24,7 @@ set -o pipefail
 
 export dimension="$1"
 
-grep "$dimension" -i *.f | grep DIMENSION  |
+grep "$dimension" -i *.f | grep DIMENSION | sed '/.f:C/d' | 
 {
   while IFS='' read -r line || [[ -n "${line}" ]]; do
 
@@ -52,6 +53,7 @@ grep "$dimension" -i *.f | grep DIMENSION  |
     done
   done
 
+  export dynamic_array_list=($(echo "${dynamic_array_list[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
   echo "dynamic_array_list=${dynamic_array_list[@]}"
   
   for dynamic_array in "${dynamic_array_list[@]}" ; do
