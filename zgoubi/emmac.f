@@ -27,12 +27,14 @@ C  -------
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
       use xyzhc_interface, only : XH, YH, IXMA, JYMA, KZMA
       USE dynhc
+      use iso_fortran_env, only : real64
+      use allocations_interface, only : allocate_if_unallocated
+      use pariz_namelist_interface, only : IZ, ID, MMAP, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates.
 C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
-      INCLUDE 'PARIZ.H'
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -69,17 +71,14 @@ C      DIMENSION HCA(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
 C      DIMENSION HCU(ID,MXX,MXY,IZ)
 C      SAVE HCU
  
-      parameter (idmx=ID*MXX*MXY*IZ)
- 
       CHARACTER(20) FMTYP
  
-      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
-      SAVE XXH, YYH, ZZH
-      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
-      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
-      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
-      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
-      SAVE IIXMA, JJYMA, KKZMA
+      real(real64), allocatable, dimension(:,:), save :: 
+     > XXH, YYH, ZZH
+      real(real64), allocatable, dimension(:), save :: 
+     >  BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+      integer, allocatable, dimension(:), save ::
+     > IIXMA, JJYMA, KKZMA
  
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
@@ -92,6 +91,22 @@ C      SAVE HCU
       DATA FMTYP / ' regular' /
       DATA IMAP / 1 /
       DATA AA / 27 * 0.D0 /
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+     
  
       if( .NOT.ALLOCATED( HC1 ))
      >     ALLOCATE( HC1(ID,MXX,MXY,IZ), STAT = IALOC)

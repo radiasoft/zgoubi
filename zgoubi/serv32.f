@@ -26,7 +26,6 @@ C  -------
       SUBROUTINE SERV32
       use c_ss1_interface, only : JX, JY, NN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
       JY(1)=-1
       JX(1)=-1
       JY(2)=-1

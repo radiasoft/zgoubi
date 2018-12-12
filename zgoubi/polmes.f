@@ -27,9 +27,8 @@ C  -------
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       use xyzhc_interface, only : XH, YH, IXMA, JYMA, KZMA
       USE dynhc
+      use pariz_namelist_interface, only : ID, IZ, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE "MAXTRA.H"

@@ -1,10 +1,14 @@
 module allocations_interface
+  !! author : Damian Rouson
+  !!
+  !! Allocate arrays if and only if they are currently unallocated
   implicit none
 
   private
   public :: allocate_if_unallocated
 
   interface allocate_if_unallocated
+    !! generic interface to type- and rank-specific allocation procedures
     module procedure allocate_1D_character_array
     module procedure allocate_2D_character_array
     module procedure allocate_1D_real_array

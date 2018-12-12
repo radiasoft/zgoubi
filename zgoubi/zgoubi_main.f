@@ -79,7 +79,7 @@ C Dummy
       DATA IRANK  / 0 /
       DATA IRET / 0 /
 
-      call  initialize_input_parameters('pariz.nml')
+      call initialize_input_parameters('pariz.nml')
       call ensure_xyzhc_allocation(MXX,MXY,IZ)
       call ensure_xyz_allocation(MXX,MXY,IZ)
 

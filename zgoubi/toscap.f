@@ -28,13 +28,14 @@ C     >                           BMIN,BMAX,BNORM,
      >                           XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
       use xyzhc_interface, only : XH, YH, IXMA, JYMA, KZMA
       USE DYNHC
+      use allocations_interface, only : allocate_if_unallocated
+      use pariz_namelist_interface, only : IZ, ID, MMAP, MXX, MXY
+      use iso_fortran_env, only : real64
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cylindrical coordinates.
 C     TOSCA keyword with MOD.ge.20.
 C-------------------------------------------------
-      INCLUDE 'PARIZ.H'
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ),IXMA,JYMA,KZMA
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -60,13 +61,6 @@ C      LOGICAL ZSYM
       LOGICAL STRCON
  
       CHARACTER(20) FMTYP
-      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
-      SAVE XXH, YYH, ZZH
-      DIMENSION BBMI(MMAP), BBMA(MMAP), XBBMI(MMAP), YBBMI(MMAP)
-      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
-      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
-      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
-      SAVE IIXMA, JJYMA, KKZMA
 C      INCLUDE 'MAPHDR.H'
       INCLUDE 'MXHD.H'
 
@@ -88,6 +82,30 @@ C      PARAMETER (MXAA2=24+MXC-1)
       DATA ZROBXY / .FALSE. /
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' /
+
+      real(real64), allocatable, dimension(:,:), save :: XXH, YYH, ZZH
+      real(real64), allocatable, dimension(:), save :: 
+     >  BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
+
+      integer, allocatable, dimension(:), save :: IIXMA, JJYMA, KKZMA
+      
+      
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP) 
+      call allocate_if_unallocated(KKZMA,MMAP) 
               
       call allocate_if_unallocated(NOMFIC, IZ)
 
@@ -567,14 +585,4 @@ C------- Restore mesh coordinates
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
-      contains
-        subroutine allocate_if_unallocated(string_array,array_size)
-          character(len=*), allocatable, intent(inout):: string_array(:)
-          integer, intent(in) :: array_size
-          integer istat
-          if (.not. allocated(string_array)) then 
-            allocate(string_array(array_size), stat=istat)
-            if (istat/=0) error stop "string_array allocation failed"
-          end if 
-        end subroutine
       END

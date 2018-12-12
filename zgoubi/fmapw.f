@@ -25,8 +25,10 @@ C  -------
       SUBROUTINE FMAPW(ACN,RFR,KART)
       use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
       USE DYNHC   ! HC(ID,MXX,MXY,IZ,IMAP)
+      use pariz_namelist_interface, only : IZ, ID, MMAP, MXX, MXY
+      use allocations_interface, only : allocate_if_unallocated
+      use iso_fortran_env, only : real64
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'     ! PARAMETERS : IZ, ID, MMAP, MXX, MXY
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'C.CONST.H'     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'C.DROITE.H'     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
@@ -53,12 +55,12 @@ C      SAVE HCTMP
 
       SAVE AA, IFIC
 
-      DIMENSION IIXMA(MMAP),XXH(MXX,MMAP),JJYMA(MMAP),YYH(MXY,MMAP),
-     >KKZMA(MMAP),ZZH(IZ,MMAP),BBMI(MMAP),BBMA(MMAP),XBBMI(MMAP),
-     >YBBMI(MMAP),ZBBMI(MMAP),XBBMA(MMAP),YBBMA(MMAP),ZBBMA(MMAP)
-      SAVE IIXMA,XXH,JJYMA,YYH,
-     >KKZMA,ZZH,BBMI,BBMA,XBBMI,
-     >YBBMI,ZBBMI,XBBMA,YBBMA,ZBBMA
+      integer, allocatable, dimension(:), save :: IIXMA, JJYMA, KKZMA
+
+      real(real64), allocatable, dimension(:,:), save :: XXH, YYH, ZZH
+
+      real(real64), allocatable, dimension(:), save ::
+     >  BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 
       LOGICAL ZROBXY   ! Set to .TRUE. to force BX==0, BY==0, at Z=0 (some OPERA maps have residual 
                        ! non-zero, that causes particles in mid-plane to wrongly acquire Z-motion). 
@@ -69,6 +71,23 @@ C      SAVE HCTMP
       DATA IMAP / 1 /
       DATA R0 / 0.D0 /
 
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
       CALL KSMAP(
      >           IMAP) 
 
@@ -138,6 +157,24 @@ C     >  ,((HC(ID,I,J,K,IMAP),I=1,IXMA),J=1,JYMA)
 C Called by POLMES
       ENTRY FMAPR(BINAR,LUN,MODI,MODI2,NHDI,
      >                                      RM)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
       MOD = MODI
       MOD2 = MODI2
       NHD = NHDI
@@ -302,6 +339,24 @@ C Read and interprete field maps in polar frame (MOD >= 20)
      >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
       CALL KSMAP(
      >           IMAP) 
 
@@ -868,6 +923,24 @@ C Read and interprete field maps in cartesian frame (MOD < 20)
      >             XNORM,YNORM,ZNORM,BNORM,I1,KZI,FMTYP,
      >                       BMIN,BMAX,
      >                       XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
       
 C      IF( .NOT.ALLOCATED( HCTMP )) 
 C     >     ALLOCATE( HCTMP(ID,MXX,MXY,IZ,MX3D), STAT = IALOC)
@@ -1640,11 +1713,47 @@ C           ENDIF
       RETURN
 
       ENTRY FMAPW2(IFICI,AAI)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
       IFIC = IFICI
       AA = AAI
       RETURN
 
       ENTRY FMAPW4(IMAPI,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
            IMAP = IMAPI
            IIXMA(IMAP) = IXMA
            DO I=1,IXMA
@@ -1670,6 +1779,24 @@ C           ENDIF
 
       ENTRY FMAPR5(IMAPI,
      >                  BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
+      call allocate_if_unallocated(IIXMA,MMAP)
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
+      call allocate_if_unallocated(XXH,MXX,MMAP)
+      call allocate_if_unallocated(YYH,MXY,MMAP)
+      call allocate_if_unallocated(ZZH,IZ,MMAP)
+
+      call allocate_if_unallocated(BBMI,MMAP)
+      call allocate_if_unallocated(BBMA,MMAP)
+      call allocate_if_unallocated(XBBMI,MMAP)
+      call allocate_if_unallocated(YBBMI,MMAP)
+      call allocate_if_unallocated(ZBBMI,MMAP)
+      call allocate_if_unallocated(XBBMA,MMAP)
+      call allocate_if_unallocated(YBBMA,MMAP)
+      call allocate_if_unallocated(ZBBMA,MMAP)
+      
            IMAP = IMAPI
            IXMA = IIXMA(IMAP)
            DO I=1,IXMA

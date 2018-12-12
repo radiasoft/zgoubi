@@ -25,6 +25,9 @@ C  USA
 C  -------
       SUBROUTINE KSMAP(
      >                 IMAPO)
+      use iso_fortran_env, only : real64
+      use allocations_interface, only : allocate_if_unallocated
+      use pariz_namelist_interface, only : IZ, MMAP
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C---------------------------------------------------------------------------------------
 C Monitors field map number. 
@@ -32,27 +35,18 @@ C IMAP is the number of a field map stored in HC(ID,IA,IR,IZ,IMAP) array, as a r
 C  - either individual reading if 1! file is read (e.g., MOD.MOD2=15.1)
 C  - or a combination of IFIC=1,NFIC field maps from as many files (e.g., MOD.MOD2=15.4)
 C---------------------------------------------------------------------------------------
-      INCLUDE 'PARIZ.H'
       PARAMETER (MXC = 4)
-      PARAMETER (NFM = IZ+MXC)
-      CHARACTER*(80) NAMSAV(MMAP,NFM)
-C      CHARACTER*(80) NAMSAV(MMAP,IZ)
       CHARACTER(*) NOMFIC(*)
       LOGICAL NEWFIC, OLDFIC
-      PARAMETER (MIZ = MMAP*IZ)
  
       SAVE NBMAPS, IMAP
- 
-      PARAMETER (MMNF=MMAP*NFM)
       DATA NBMAPS, IMAP / 0, 0 /
-      DATA NAMSAV / MMNF*' ' /
-C      DATA NAMSAV / MIZ*' ' /
  
 C     16/01/14 For KSMAP4 to remember the maps coeffcients used
 C      PARAMETER (MXC = 4)
-      DIMENSION COEFS(MMAP,NFM), AA(NFM)
-      SAVE COEFS
-C      DIMENSION COEFS(MMAP,IZ), AA(IZ)
+      DIMENSION AA(*)
+      real(real64), allocatable, save :: COEFS(:,:)
+      character(80), allocatable :: NAMSAV(:,:)
  
 C Read
       IMAPO = IMAP
@@ -70,6 +64,11 @@ C Stack, count.
       ENTRY KSMAP4(NOMFIC,NFIC,AA,
      >                         NEWFIC,NBMAPO,IMAPO)
 C      IF(NFIC.GT.IZ) CALL ENDJOB(' SBR KSMAP. NFIC should be <',IZ)
+
+      NFM = IZ+MXC
+      call allocate_if_unallocated(NAMSAV,MMAP,NFM)
+      call allocate_if_unallocated(COEFS,MMAP,NFM)
+
       II = 0
       DO I = 1, MMAP
         II = II+1

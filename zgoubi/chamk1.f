@@ -25,6 +25,9 @@ C  -------
       SUBROUTINE CHAMK1(A1,R1,Z1,IMAP,*)
       USE DYNHC
       use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
+      use pariz_namelist_interface, only : ID, IZ, MMAP
+      use iso_fortran_env, only : real64
+      use allocations_interface, only : allocate_if_unallocated
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------------
 C     CALCUL DU Champ ET DE SES DERIVEES, A PARTIR D'UNE CARTE,
@@ -33,7 +36,6 @@ C      ID=1 (ZGOUBI VERSION CARTES 2-DIM)  OU 3 (CARTES 3-DIM)
 C      SI ID=1 ALORS IZ=1 ;
 C      SI ID=3 ALORS IZ >= NOMBRE DE CARTES EN Z= IMPAIR > 2
 C     --------------------------------------------------------
-      INCLUDE 'PARIZ.H'
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
@@ -73,7 +75,7 @@ C     --------------------------------------------------------
       SAVE DBDX
       LOGICAL SUMF, SUMFI
       SAVE SUMF
-      DIMENSION IQMP(MMAP)
+      real(real64), allocatable, dimension(:) :: IQMP(:)
       SAVE IQMP
       SAVE MOD, MOD2
       LOGICAL FIRST
@@ -83,6 +85,8 @@ C      DATA IMAP / 1 /
       DATA SUMF / .FALSE. /
       DATA MOD, MOD2 / 0, 0 /
       DATA FIRST / .TRUE. /
+
+      call allocate_if_unallocated(IQMP,MMAP)
 
       IF(KUASEX .EQ. 9) THEN
 C------- MAP2D, MAP2D-E.  Tracking in symmetryless 2D map
@@ -696,6 +700,7 @@ C IMAP is the current number for the first map in this TOSCA[MOD.MOD2=16.MOD2] s
      >           IMAP)
       IF(IMAP+MOD2-1 .GT.MMAP) CALL ENDJOB('Pgm chamk. Too many field' 
      >//' maps under this TOSCA keyword. Max allowed is ',MMAP-IMAP+1)
+      call allocate_if_unallocated(IQMP,MMAP)
       DO I = 1, MOD2
         IQMP(I) = IMAP+I-1
       ENDDO

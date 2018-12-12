@@ -27,7 +27,6 @@ C  -------
       use c_ss1_interface, only : X, Y, JX, JY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
-      INCLUDE 'PARIZ.H'
 C      PARAMETER (MXX=400, MXY=200)
       INCLUDE "C.SSS.H"     ! COMMON/SSS/EE(15,25)
       DIMENSION A(20,21),IND(20),D(25)

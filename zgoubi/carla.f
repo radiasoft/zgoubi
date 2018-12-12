@@ -27,6 +27,7 @@ C  -------
      >                          ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA)
       USE dynhc
       use xyzhc_interface, only : XH, YH, IXMA, JYMA
+      use pariz_namelist_interface, only : ID, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     *******
 C     CONSTRUIT LA CARTE DE Champ D'UN DIPOLE EN MAILLAGE
@@ -39,7 +40,6 @@ C       DE DEGRE AU PLUS EGAL A 6.
 C     *******
       DOUBLE PRECISION LAMBDS,LAMBDE,LDRTS,LDRTE,LO
       DOUBLE PRECISION LAMBD3,LDRT3
-      INCLUDE 'PARIZ.H'
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CARSH.H"     ! COMMON/CARSH/ ATS,RMS
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

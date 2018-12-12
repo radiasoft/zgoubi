@@ -26,7 +26,6 @@ C  -------
      >                                      KERK)
       use c_ss1_interface, only : X, Y, NX, NY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
 
       KERK=0
 

@@ -26,7 +26,6 @@ C  -------
       SUBROUTINE SERV34
       use c_ss1_interface, only : X, Y, JX, JY, NN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
       INCLUDE "C.SSS.H"     ! COMMON/SSS/EE(15,25)
       DIMENSION A(20,21),IND(20),D(25)
       DO 100 KK=1,NN

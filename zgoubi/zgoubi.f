@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBLMI)
+      use pariz_namelist_interface, only : ID, IZ
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
 
@@ -103,7 +104,6 @@ C----- To get values into A(), from earlier FIT
 
       CHARACTER(300) SYSCMD
 
-      INCLUDE 'PARIZ.H'
       INCLUDE 'FILPLT.H'
 
       PARAMETER (I0=0, I1=1, I2=2, I3=3, I5=5, I6=6)

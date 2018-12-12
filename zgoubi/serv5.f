@@ -28,7 +28,6 @@ C  -------
       use c_ss1_interface, only : X, Y, Z, NX, NY, NZ
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE 'PARIZ.H'
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       NX=IXMA
       NY=JYMA

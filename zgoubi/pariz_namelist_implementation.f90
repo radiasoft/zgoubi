@@ -21,16 +21,16 @@ contains
         !! if(parize_nml_open) then; rewind(...); else; open(...)
     
       open(newunit=file_unit,file=pariz_namelist_file,iostat=io_status,status='old')
-      call assert( io_status==success, "input_initialization_parameters: "//pariz_namelist_file//" opened." )
+      call assert( io_status==success, "initialize_input_parameters: "//pariz_namelist_file//" opened." )
   
       read(file_unit,nml=pariz,iostat=io_status)
-      call assert( io_status==success, "input_initialization_parameters: "//pariz_namelist_file//" read." )
+      call assert( io_status==success, "initialize_input_parameters: "//pariz_namelist_file//" read." )
     end block
 
   end procedure
 
   module procedure all_namelist_values_read
-    call assert( all( [ID,IZ,MMAP,MXX,MXY]/=unread ), "input_initialization_parameters: all namelist values read" )
+    call assert( all( [ID,IZ,MMAP,MXX,MXY]/=unread ), "initialize_input_parameters: all namelist values read" )
   end procedure 
 
 end submodule pariz_namelist_implementation
