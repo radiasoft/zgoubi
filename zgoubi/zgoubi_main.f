@@ -25,7 +25,7 @@ C  -------
       PROGRAM ZGOUBI_MAIN
       use pariz_namelist_interface, only : MXX, MXY, IZ,
      >  initialize_input_parameters
-      use xyzhc_interface, only : XH, YH, ZH, ensure_xyzhc_allocation
+      use xyzhc_interface, only : ensure_xyzhc_allocation
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'

@@ -24,11 +24,11 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHXP(ND,KALC,KUASEX,
      >                               XL,DSREF,NDD)
+      use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'

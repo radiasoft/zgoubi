@@ -26,6 +26,7 @@ C  -------
       SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      use xyzhc_interface, only : IXMA, JYMA, KZMA
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -35,7 +36,6 @@ C-------------------------------------------------
 C      LOGICAL NEWFIC(*)
       LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
-      INCLUDE 'XYZHC.H'     ! COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
       INCLUDE 'C.AIM_3.H'     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MAXTRA.H'

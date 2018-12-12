@@ -25,6 +25,7 @@ C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
+      use xyzhc_interface, only : IXMA, JYMA, KZMA
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -39,7 +40,6 @@ C-------------------------------------------------
 
       LOGICAL NEWFIC
       INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"

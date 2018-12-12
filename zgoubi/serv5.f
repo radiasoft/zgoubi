@@ -24,10 +24,10 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE SERV5
+      use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
       USE dynhc
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.SS1.H"     ! COMMON/SS1/X(MXX),Y(MXY),Z(IZ),JY(25),JX(25),JZ(25),NX,NY,NZ,NN
       NX=IXMA

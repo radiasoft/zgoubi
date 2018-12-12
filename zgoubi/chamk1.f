@@ -24,6 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE CHAMK1(A1,R1,Z1,IMAP,*)
       USE DYNHC
+      use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------------------
 C     CALCUL DU Champ ET DE SES DERIVEES, A PARTIR D'UNE CARTE,
@@ -33,7 +34,6 @@ C      SI ID=1 ALORS IZ=1 ;
 C      SI ID=3 ALORS IZ >= NOMBRE DE CARTES EN Z= IMPAIR > 2
 C     --------------------------------------------------------
       INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
