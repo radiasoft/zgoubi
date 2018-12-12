@@ -48,7 +48,8 @@ C      LOGICAL ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
  
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
-      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NAMFIC
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
  
       INTEGER DEBSTR,FINSTR
@@ -63,10 +64,11 @@ C      INCLUDE 'MAPHDR.H'
       LOGICAL ZROBXY      
 
       DATA ZROBXY / .FALSE. /
-      DATA NOMFIC / IZ*'               '/
 C FM 9 Spet. 14
 C      DATA IMAP / 1 / 
       DATA AA / 27 * 0.D0 /
+
+      call allocate_if_unallocated(NOMFIC,IZ)
  
 C FM 9 Spet. 14
 C      CALL KSMAP(
@@ -234,5 +236,14 @@ C      RM=.5D0*(YH(JYMA)+YH(1))
       WRITE(NRES,*) 'ERROR  OPEN  FILE ',
      >(NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I))),I=1,NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
- 
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then 
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END

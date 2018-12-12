@@ -50,7 +50,8 @@ C      LOGICAL NEWFIC(*)
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
-      CHARACTER(LNTA) TITL , NOMFIC(IZ)
+      CHARACTER(LNTA) TITL
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
@@ -71,9 +72,10 @@ C      LOGICAL NEWFIC(*)
 
       DIMENSION HCSUM(MXX)
 
-      DATA NOMFIC / IZ*' '/
       DATA NHDF / 8 /
       DATA NEWF / .TRUE. /
+
+      call allocate_if_unallocated(NOMFIC, IZ)
 
       BNORM = A(NOEL,10)
       XNORM = A(NOEL,11)
@@ -232,4 +234,14 @@ C------- Restore mesh coordinates
       CALL ENDJOB('Leaving. ',-99)
  
       RETURN
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then 
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END

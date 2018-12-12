@@ -51,7 +51,8 @@ C      LOGICAL ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
  
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
-      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NAMFIC
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
@@ -85,10 +86,11 @@ C      PARAMETER (MXAA2=24+MXC-1)
       LOGICAL ZROBXY      
 
       DATA ZROBXY / .FALSE. /
-      DATA NOMFIC / IZ*'               '/ 
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' /
               
+      call allocate_if_unallocated(NOMFIC, IZ)
+
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
@@ -565,4 +567,14 @@ C------- Restore mesh coordinates
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then 
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END

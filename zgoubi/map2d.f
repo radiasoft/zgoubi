@@ -54,7 +54,8 @@ C      LOGICAL ZSYM
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
-      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NAMFIC
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
@@ -81,10 +82,11 @@ C      SAVE IIXMA, JJYMA, KKZMA
       LOGICAL ZROBXY      
 
       DATA ZROBXY / .FALSE. /
-      DATA NOMFIC / IZ*' '/
       DATA FMTYP / ' regular' /
       DATA AA / 27 * 0.D0 /
       DATA NEWF / .TRUE. /
+
+      call allocate_if_unallocated(NOMFIC, IZ)
 
 C      BNORM = A(NOEL,10)*SCAL
       BNORM = A(NOEL,10)
@@ -229,4 +231,14 @@ C------- Restore mesh coordinates
       CALL ENDJOB('Leaving. ',-99)
  
       RETURN
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then 
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END
