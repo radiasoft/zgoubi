@@ -9,6 +9,6 @@ This script
 Usage
 ----- 
 ```bash
-./scripts/check-common.sh [dimension_name] 
+./scripts/check-common-equivalence.sh [dimension_name] 
 ```
 Example: `cd zgoubi && ./scripts/check-common.sh MMAP`
