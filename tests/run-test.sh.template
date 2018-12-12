@@ -92,14 +92,9 @@ fi
 # zgoubi executable
 zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 # leading part of testName.res.expected contains the required input
+
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
 $zgoubi_cmd
-# run zgoubi command
-#if [ "$quiet" = true ] ; then
-  #zgoubi_res=$(eval $zgoubi_cmd)
-#else
-  #eval $zgoubi_cmd
-#fi
 
 if [[ ${4:-} == "rebuild-with-field-map" ]]; then
   rm $fieldMapFile
