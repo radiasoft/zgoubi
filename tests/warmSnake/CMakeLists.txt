@@ -21,6 +21,11 @@ configure_file(
   "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/PARIZ.H"
 @ONLY
 )
+configure_file(
+  "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/pariz_cmake_configurable.nml"
+  "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/pariz.nml"
+@ONLY
+)
 
 #set(exts "")
 set(res_error 1.0e-09)

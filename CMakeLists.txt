@@ -136,11 +136,16 @@ target_sources(zgoubi
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi
   PUBLIC zg
-  PUBLIC coupl)
+  PUBLIC coupl 
+  PUBLIC zgoubi_utilities)
 target_include_directories(zgoubi
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/zgoubi>  # <prefix>/include/zgoubi
+)
+set_target_properties( zgoubi
+  PROPERTIES
+  Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}/mod"
 )
 
 #-------------
@@ -208,4 +213,5 @@ set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )
 
 include_directories(BEFORE ${ZGOUBI_TEST_BIN_DIR} zgoubi include)
 
+add_subdirectory(utilities)
 add_subdirectory(tests)

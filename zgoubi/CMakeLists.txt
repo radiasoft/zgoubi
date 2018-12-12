@@ -127,7 +127,6 @@ set(_zgoubi_global_includes
 set(_zgoubi_local_includes
   "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
   "${CMAKE_CURRENT_LIST_DIR}/PARIZ.H"
-  "${CMAKE_CURRENT_LIST_DIR}/XYZHC.H"
   )
 set(ZGOUBI_INCLUDES ${_zgoubi_local_includes})
 foreach( include IN LISTS _zgoubi_global_includes)
@@ -135,9 +134,21 @@ foreach( include IN LISTS _zgoubi_global_includes)
     "${CMAKE_CURRENT_SOURCE_DIR}/include/${include}")
 endforeach()
 
+# Copy input file to source tree
+configure_file(
+  "${CMAKE_SOURCE_DIR}/zgoubi/pariz.nml"
+  "${CMAKE_BINARY_DIR}/pariz.nml"
+  COPYONLY
+)
+
 # Sources grouped by directory and alphabetized
 
 set(_zgoubi_srcs
+  c_ss1.f90
+  xyzhc_interface.f90
+  xyzhc_implementation.f90
+  pariz_namelist_implementation.f90
+  pariz_namelist_interface.f90
   svd/SVD.f
   accen.f
   accep.f
