@@ -92,7 +92,6 @@ set(_zgoubi_global_includes
   C.SPIRALE.H
   C.SPIRALX.H
   C.SPTRK.H
-  C.SS1.H
   C.SSS.H
   C.STEP.H
   C.SYNCH.H
@@ -144,7 +143,8 @@ configure_file(
 # Sources grouped by directory and alphabetized
 
 set(_zgoubi_srcs
-  c_ss1.f90
+  c_ss1_interface.f90
+  c_ss1_implementation.f90
   xyzhc_interface.f90
   xyzhc_implementation.f90
   pariz_namelist_implementation.f90

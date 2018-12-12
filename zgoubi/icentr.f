@@ -24,9 +24,9 @@ C  Upton, NY, 11973
 C  -------
       SUBROUTINE ICENTR(XT,YT,DX,DY,ICX,ICY,
      >                                      KERK)
+      use c_ss1_interface, only : X, Y, NX, NY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
-      INCLUDE "C.SS1.H"     ! COMMON/SS1/X(MXX),Y(MXY),Z(IZ),JY(25),JX(25),JZ(25),NX,NY,NZ,NN
 
       KERK=0
 

@@ -24,9 +24,9 @@ C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE SERV2
+      use c_ss1_interface, only : JX, JY, NN 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE 'PARIZ.H'
-      INCLUDE "C.SS1.H"     ! COMMON/SS1/X(MXX),Y(MXY),Z(IZ),JY(25),JX(25),JZ(25),NX,NY,NZ,NN
       JY(1)=-2
       JX(1)=-2
       JY(2)=-2

@@ -26,6 +26,7 @@ C  -------
       use pariz_namelist_interface, only : MXX, MXY, IZ,
      >  initialize_input_parameters
       use xyzhc_interface, only : ensure_xyzhc_allocation
+      use c_ss1_interface, only : ensure_xyz_allocation
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
@@ -80,6 +81,7 @@ C Dummy
 
       call  initialize_input_parameters('pariz.nml')
       call ensure_xyzhc_allocation(MXX,MXY,IZ)
+      call ensure_xyz_allocation(MXX,MXY,IZ)
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()
