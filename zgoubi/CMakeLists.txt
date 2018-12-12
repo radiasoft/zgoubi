@@ -92,7 +92,6 @@ set(_zgoubi_global_includes
   C.SPIRALE.H
   C.SPIRALX.H
   C.SPTRK.H
-  C.SS1.H
   C.SSS.H
   C.STEP.H
   C.SYNCH.H
@@ -127,7 +126,6 @@ set(_zgoubi_global_includes
 set(_zgoubi_local_includes
   "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
   "${CMAKE_CURRENT_LIST_DIR}/PARIZ.H"
-  "${CMAKE_CURRENT_LIST_DIR}/XYZHC.H"
   )
 set(ZGOUBI_INCLUDES ${_zgoubi_local_includes})
 foreach( include IN LISTS _zgoubi_global_includes)
@@ -135,72 +133,25 @@ foreach( include IN LISTS _zgoubi_global_includes)
     "${CMAKE_CURRENT_SOURCE_DIR}/include/${include}")
 endforeach()
 
+# Copy input file to source tree
+configure_file(
+  "${CMAKE_SOURCE_DIR}/zgoubi/pariz.nml"
+  "${CMAKE_BINARY_DIR}/pariz.nml"
+  COPYONLY
+)
+
 # Sources grouped by directory and alphabetized
 
 set(_zgoubi_srcs
-  svd/DBDSQR.f
-  svd/DCOPY.f
-  svd/DGEBD2.f
-  svd/DGEBRD.f
-  svd/DGELQ2.f
-  svd/DGELQF.f
-  svd/DGEMM.f
-  svd/DGEMV.f
-  svd/DGEQR2.f
-  svd/DGEQRF.f
-  svd/DGER.f
-  svd/DGESVD.f
-  svd/DISNAN.f
-  svd/DLABRD.f
-  svd/DLACPY.f
-  svd/DLAISNAN.f
-  svd/DLAMC3.f
-  svd/DLAMCH.f
-  svd/DLANGE.f
-  svd/DLAPY2.f
-  svd/DLARF.f
-  svd/DLARFB.f
-  svd/DLARFG.f
-  svd/DLARFT.f
-  svd/DLARTG.f
-  svd/DLAS2.f
-  svd/DLASCL.f
-  svd/DLASET.f
-  svd/DLASQ1.f
-  svd/DLASQ2.f
-  svd/DLASQ3.f
-  svd/DLASQ4.f
-  svd/DLASQ5.f
-  svd/DLASQ6.f
-  svd/DLASR.f
-  svd/DLASRT.f
-  svd/DLASSQ.f
-  svd/DLASV2.f
-  svd/DNRM2.f
-  svd/DORG2R.f
-  svd/DORGBR.f
-  svd/DORGL2.f
-  svd/DORGLQ.f
-  svd/DORGQR.f
-  svd/DORM2R.f
-  svd/DORMBR.f
-  svd/DORML2.f
-  svd/DORMLQ.f
-  svd/DORMQR.f
-  svd/DROT.f
-  svd/DSCAL.f
-  svd/DSWAP.f
-  svd/DTRMM.f
-  svd/DTRMV.f
-  svd/IEEECK.f
-  svd/ILADLC.f
-  svd/ILADLR.f
-  svd/ILAENV.f
-  svd/IPARMQ.f
-  svd/LSAME.f
+  allocations_interface.f90
+  allocations_implementation.f90
+  c_ss1_interface.f90
+  c_ss1_implementation.f90
+  xyzhc_interface.f90
+  xyzhc_implementation.f90
+  pariz_namelist_implementation.f90
+  pariz_namelist_interface.f90
   svd/SVD.f
-  svd/XERBLA.f
-
   accen.f
   accep.f
   adpol.f

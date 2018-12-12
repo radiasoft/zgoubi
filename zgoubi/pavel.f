@@ -25,15 +25,12 @@ C  -------
       SUBROUTINE PAVEL(IORDE,A1,R1,Z1,
      >                                B,DB,DDB,KERK)
       USE dynhc
+      use c_ss1_interface, only : Z, JX, JY, NN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
-      INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
-C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
 C      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
 C      INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
  
-      INCLUDE "C.SS1.H"     ! COMMON/SS1/X(MXX),Y(MXY),Z(IZ),JY(25),JX(25),JZ(25),NX,NY,NZ,NN
       INCLUDE "C.SSS.H"     ! COMMON/SSS/EE(15,25)
  
       SAVE INDEX, NT

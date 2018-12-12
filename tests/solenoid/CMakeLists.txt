@@ -3,6 +3,12 @@
 set(test_name "${test_directory}")
 
 configure_file(
+  "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/pariz.nml"
+  "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/pariz.nml"
+ COPYONLY
+)
+
+configure_file(
   "${ZGOUBI_TEST_SRC_DIR}/${test_directory}/${test_name}.res.expected"
   "${ZGOUBI_TEST_BIN_DIR}/${test_directory}/${test_name}.res.expected"
 @ONLY

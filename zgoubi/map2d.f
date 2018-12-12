@@ -26,7 +26,9 @@ C  -------
       SUBROUTINE MAP2D(SCAL,
      >                      BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,NEWFIC)
+      use xyzhc_interface, only : IXMA, JYMA, KZMA
       USE DYNHC
+      use pariz_namelist_interface, only :  IZ, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
 C     Read TOSCA map with cartesian coordinates.
@@ -34,8 +36,6 @@ C     TOSCA keyword with MOD.le.19.
 C-------------------------------------------------
 C      LOGICAL NEWFIC(*)
       LOGICAL NEWFIC
-      INCLUDE 'PARIZ.H'
-      INCLUDE 'XYZHC.H'     ! COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
       INCLUDE 'C.AIM_3.H'     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MAXTRA.H'
@@ -54,7 +54,8 @@ C      LOGICAL ZSYM
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
-      CHARACTER(LNTA) TITL , NOMFIC(IZ), NAMFIC
+      CHARACTER(LNTA) TITL , NAMFIC
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
@@ -81,10 +82,11 @@ C      SAVE IIXMA, JJYMA, KKZMA
       LOGICAL ZROBXY      
 
       DATA ZROBXY / .FALSE. /
-      DATA NOMFIC / IZ*' '/
       DATA FMTYP / ' regular' /
       DATA AA / 27 * 0.D0 /
       DATA NEWF / .TRUE. /
+
+      call allocate_if_unallocated(NOMFIC, IZ)
 
 C      BNORM = A(NOEL,10)*SCAL
       BNORM = A(NOEL,10)
@@ -229,4 +231,14 @@ C------- Restore mesh coordinates
       CALL ENDJOB('Leaving. ',-99)
  
       RETURN
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then 
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END

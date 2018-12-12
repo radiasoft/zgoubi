@@ -25,15 +25,15 @@ C  -------
       SUBROUTINE DIPOLM(SCAL,
      >                          BMIN,BMAX,BNORM,
      >                          XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+      use xyzhc_interface, only : XH, YH, IXMA, JYMA
       USE dynhc
+      use pariz_namelist_interface, only : ID, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-----------------------------------------------------------------------
 C     Build a simulated 2D magnetic field map in polar coordinates mesh.
 C     Improved version of SBR AIMANT.
 C-----------------------------------------------------------------------
       DOUBLE PRECISION LAMBDS,LAMBDE,LAMBD3
-      INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CARSH.H"     ! COMMON/CARSH/ ATS,RMS
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

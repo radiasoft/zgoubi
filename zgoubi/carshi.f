@@ -25,14 +25,13 @@ C  USA
 C  -------
       SUBROUTINE CARSHI(NBSHIM)
       USE dynhc
+      use pariz_namelist_interface, only : ID
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ------------------------------------------------
 C     CORRECTION DE LA CARTE DE Champ CALCULEE PAR CARLA. ON INTRODUIT
 C     DES SHIMS (OU DES ILOTS) D'AMPLITUDE DB/B0.
 C     LES LIMITES DU SHIM SONT TMIN-MAX (DEG) ET RMIN-MAX (CM).
 C     ------------------------------------------------
-      INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CARSH.H"     ! COMMON/CARSH/ ATS,RMS
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG

@@ -25,11 +25,11 @@ C  USA
 C  -------
       SUBROUTINE MAPSHF(HC,XH,YH,DY,IXMA,JYMA,
      >                                        HCB)
+      use pariz_namelist_interface, only : MXX, MXY, IZ, ID
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C------------------------------------------------------
 C     Compute new field map, HCB, in D-translated frame
 C------------------------------------------------------
-      INCLUDE 'PARIZ.H'
       DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
      >     HC, HCB
 C      DIMENSION HC(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)

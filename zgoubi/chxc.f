@@ -25,6 +25,8 @@ C  -------
       SUBROUTINE CHXC(ND,KALC,KUASEX,BORO,DPREF,HDPRF,
      >                                 XL,DSREF,QSHROE,VSHROE)
       USE DYNHC
+      use xyzhc_interface, only : XH, YH, ZH, IXMA, JYMA, KZMA
+      use pariz_namelist_interface, only : ID, IZ, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     --------------------------------------------------
 C     DEFINES THE FIELD:
@@ -37,8 +39,6 @@ C     --------------------------------------------------
       CHARACTER(2) QSHROE(MSR)
       DIMENSION VSHROE(MSR)
 
-      INCLUDE 'PARIZ.H'
-      INCLUDE 'XYZHC.H'     ! COMMON// XH(MXX),YH(MXY),ZH(IZ),IXMA,JYMA,KZMA
       INCLUDE 'C.AIM.H'     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)

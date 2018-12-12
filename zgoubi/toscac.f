@@ -25,6 +25,8 @@ C  -------
       SUBROUTINE TOSCAC(SCAL,NDIM,
      >                          BMIN,BMAX,BNORM,XNORM,YNORM,ZNORM,
      >               XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA,AA,NEWFIC)
+      use pariz_namelist_interface, only : ID, IZ, MXX, MXY
+      use xyzhc_interface, only : IXMA, JYMA, KZMA
       USE DYNHC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------------------------------------------------
@@ -38,8 +40,6 @@ C-------------------------------------------------
       DIMENSION AA(MXL,MXAA2)
 
       LOGICAL NEWFIC
-      INCLUDE 'PARIZ.H'
-      INCLUDE "XYZHC.H"
       INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
@@ -63,8 +63,8 @@ C      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       LOGICAL BINAR
       LOGICAL FLIP
 C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
-      PARAMETER (NFM = IZ+MXC)
-      CHARACTER(LNTA) TITL , NOMFIC(NFM), NAMFIC, NOMFI1(1)
+      CHARACTER(LNTA) TITL, NAMFIC, NOMFI1(1)
+      character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
@@ -137,7 +137,6 @@ C--    ERRORS
       PARAMETER (T2KG = 10.D0)
 
       DATA ZROBXY / .FALSE. /
-      DATA NOMFIC / NFM*'               '/
       DATA FMTYP / ' regular' /
       DATA IALOC / 0 /
       DATA NBMAPS / 0 /
@@ -145,6 +144,8 @@ C--    ERRORS
       DATA BNRM / 6*0.D0 /
       DATA NMPTN / MXC * 1 /
       DATA NFIC / 1 /
+
+      call allocate_if_unallocated(NOMFIC,IZ+MXC)
 
 C RHIC snake measured B(I) [T(A)]
       DATA RSB / 1.372D0,  1.921D0, 2.465D0, 2.994D0,  3.246D0, 
@@ -154,7 +155,6 @@ C RHIC snake measured B(I) [T(A)]
      >257.08D0, 267.4D0,  277.7D0,  288.D0,   298.3D0, 308.6D0, 
      >318.89D0, 329.18D0, 339.48D0, 349.76D0, 370.37D0 /
 
- 
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
@@ -974,6 +974,7 @@ C        XF = XH(IAMA)
       RETURN
  
       ENTRY TOSCA1
+      call allocate_if_unallocated(NOMFIC,IZ+MXC)
       DO I = 1, IZ
         NOMFIC(I) = ' '
       ENDDO
@@ -1023,4 +1024,14 @@ C        XF = XH(IAMA)
         IF(OKOPN) CLOSE(LERR)
       ENDIF
       RETURN      
+      contains
+        subroutine allocate_if_unallocated(string_array,array_size)
+          character(len=*), allocatable, intent(inout):: string_array(:)
+          integer, intent(in) :: array_size
+          integer istat
+          if (.not. allocated(string_array)) then
+            allocate(string_array(array_size), stat=istat)
+            if (istat/=0) error stop "string_array allocation failed"
+          end if 
+        end subroutine
       END

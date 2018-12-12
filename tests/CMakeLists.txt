@@ -9,6 +9,7 @@ set( test_directories
   spinESRF_18GeV
   spinSaturne
   solenoid
+  pariz_namelist_reader
 )
 
 foreach(test_directory ${test_directories})

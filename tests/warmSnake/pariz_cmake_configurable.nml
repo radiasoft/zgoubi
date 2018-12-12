@@ -1,0 +1,3 @@
+!-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
+! For iRCMS
+&PARIZ IZ=@ZGOUBI_TEST_IZ@  , ID=@ZGOUBI_TEST_ID@, MMAP=@ZGOUBI_TEST_MMAP@, MXX=2131, MXY=29 /
