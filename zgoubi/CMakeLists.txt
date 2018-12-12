@@ -143,6 +143,8 @@ configure_file(
 # Sources grouped by directory and alphabetized
 
 set(_zgoubi_srcs
+  allocations_interface.f90
+  allocations_implementation.f90
   c_ss1_interface.f90
   c_ss1_implementation.f90
   xyzhc_interface.f90
