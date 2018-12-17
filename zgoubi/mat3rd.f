@@ -1,15 +1,16 @@
       SUBROUTINE MAT3RD(LUN)
 C     ------------------------------------------------------
-C     Computation of transport coefficients up to 3rd order. 
+C     Computation of transport coefficients up to 3rd order.
 C     From Nick Tsoupas, RAYTRACE, Oct 2015
 C     ------------------------------------------------------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
       INCLUDE "MAXTRA.H"
       INCLUDE "MAXCOO.H"
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
+      INCLUDE "C.OBJET.H"  ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
+      INCLUDE "C.FAISC.H"  ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU,PABSLU
+      INCLUDE "C.ABERR.H"  ! COMMON/ABERR/  R(6,6),T2(5,6,6),W3(5,6,6,6),Z4(5,6,6,6,6)
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU,PABSLU
 
       DIMENSION XO(MXT), YO(MXT), VXO(MXT), VYO(MXT)
 C      DIMENSION XO(MXT), YO(MXT), ZO(MXT), VXO(MXT), VYO(MXT)
@@ -17,7 +18,6 @@ C     1, VZO(MXT), RTL(MXT),RLL(MXT)
       DIMENSION XI(MXT), YI(MXT), VXI(MXT), VYI(MXT)
 C      DIMENSION XI(MXT), YI(MXT), ZI(MXT), VXI(MXT), VYI(MXT)
 C     1, VZI(MXT),DELP(MXT)
-      COMMON/ABERR/  R(6,6),T2(5,6,6),W3(5,6,6,6),Z4(5,6,6,6,6)
       DIMENSION X(MXT)
       DIMENSION PL_D(MXT)
 C
@@ -25,7 +25,7 @@ C
       data IFLAGCO / 3 / ! Indicates that closed orbit search in RAYTRACE converged
       data ITERCO / 0 /
 
-      do j = 1, mxj 
+      do j = 1, mxj
         do it = 1, imax
 
           XO(IT) = f(2,it)*1d-2
@@ -44,15 +44,15 @@ c          ZI(IT) = fO(6,it)
           VXI(IT) = fO(3,it)*1d-3
           VYI(IT) = fO(5,it)*1d-3
 c          VZI(IT) = fO(2,it)
-        enddo        
+        enddo
       enddo
 
-	N6=6        
-	IF(IFLAGCO.EQ.1) N6=2
+      N6=6
+      IF(IFLAGCO.EQ.1) N6=2
       DO 21  I1= 1,N6
       DO 21  I2= 1,N6
-      R(I1,I2) = 0.          
-	IF(IFLAGCO.EQ.1) GO TO 2111
+      R(I1,I2) = 0.
+      IF(IFLAGCO.EQ.1) GO TO 2111
       DO 21 I3= 1,5
       T2(I3,I1,I2) = 0.0
       DO 21 I4=1,6
@@ -60,13 +60,13 @@ c          VZI(IT) = fO(2,it)
       DO 21 I5=1,6
       Z4(I3,I5,I4,I2,I1)=0.0
 21    CONTINUE
-2111  CONTINUE 
+2111  CONTINUE
 C****
-      		XM= FO(2,5)*1d-2  !XI(5)
-      		TM= FO(3,9)*1d-3  !VXI(9)
-      		YM= FO(4,13)*1d-2  !YI(13)
-      		PM= FO(5,17)*1d-3  !VYI(17)
-      		DM= FO(1,21) -1.d0  !DELP(21)
+      XM= FO(2,5)*1d-2  !XI(5)
+      TM= FO(3,9)*1d-3  !VXI(9)
+      YM= FO(4,13)*1d-2  !YI(13)
+      PM= FO(5,17)*1d-3  !VYI(17)
+      DM= FO(1,21) -1.d0  !DELP(21)
 
       IF(IMAX.EQ.22) GO TO 1000
 

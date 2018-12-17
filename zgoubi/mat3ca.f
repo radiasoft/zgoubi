@@ -7,8 +7,8 @@ C      DIMENSION XO(*),YO(*),ZO(*),VXO(*),VYO(*)
 C     >, VZO(*),RTL(*),RLL(*),PL_D(*)
       DIMENSION XO(*),YO(*),VXO(*),VYO(*),PL_D(*)
 C****
-      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      COMMON/ABERR/  R(6,6),T2(5,6,6),W3(5,6,6,6),Z4(5,6,6,6,6)
+      INCLUDE "C.CDF.H"    ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
+      INCLUDE "C.ABERR.H"  ! COMMON/ABERR/  R(6,6),T2(5,6,6),W3(5,6,6,6),Z4(5,6,6,6,6)
       COMMON/AV_STD/RFO(51,6,6)
 
         DIMENSION RM(6,6)
@@ -18,15 +18,15 @@ c****
       R(1,2) =  ( 27.0*( XO(7)-XO(8) )-( XO(9)-XO(10) ))/(16.0*TM)
 C	IFLAGCO=1 CLOSED ORBIT IS NOT FOUND YET THUS CALCULATE
 C	ONLY R11,R12,R21,R22
-	IF(IFLAGCO.EQ.1) GO TO 101
+      IF(IFLAGCO.EQ.1) GO TO 101
       R(1,3) =  ( 27.0*(XO(11)-XO(12))-(XO(13)-XO(14) ))/(16.0*YM)
       R(1,4) =  ( 27.0*(XO(15)-XO(16))-(XO(17)-XO(18) ))/(16.0*PM)
       R(1,6) =  ( 27.0*(XO(19)-XO(20))-(XO(21)-XO(22) ))/(16.0*DM)
 C*
-101	CONTINUE
+101   CONTINUE
       R(2,1) =  (27.0*(VXO(3)-VXO(4) )-(VXO(5)-VXO(6) ) )/(16.0*XM)
       R(2,2) =  (27.0*(VXO(7)-VXO(8) )-(VXO(9)-VXO(10) ))/(16.0*TM)
-	IF(IFLAGCO.EQ.1) RETURN
+      IF(IFLAGCO.EQ.1) RETURN
       R(2,3) = (27.0*(VXO(11)-VXO(12))-(VXO(13)-VXO(14) ))/(16.0*YM)
       R(2,4) = (27.0*(VXO(15)-VXO(16))-(VXO(17)-VXO(18) ))/(16.0*PM)
       R(2,6) = ( 27.0*(VXO(19)-VXO(20))-(VXO(21)-VXO(22) ))/(16.0*DM)
@@ -52,7 +52,7 @@ C*
 C*
       R( 6,1 )  =  0.
       R( 6,2 )  =  0.
-      R( 6,3 )  =  0. 
+      R( 6,3 )  =  0.
       R( 6,4 )  =  0.
       R( 6,5 )  =  0.
       R( 6,6 )  =  1.
@@ -67,9 +67,9 @@ c     To Calculate Average of matrix elements and stand dev.
 C****
       WRITE(NRES,22)
    22 FORMAT(/,40X, ' *1st order transform* (Units m, rad)'  )
-	DO IR=1,6
-      	  WRITE(NRES,221)  ( R(IR, IJ), IJ=1,6)
-	ENDDO
+      DO IR=1,6
+        WRITE(NRES,221)  ( R(IR, IJ), IJ=1,6)
+      ENDDO
   221 FORMAT( 12X, 6F10.5  )
 C****
       RETURN
