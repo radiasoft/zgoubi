@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -32,19 +32,19 @@ C     *******************************************
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
-      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
+      INCLUDE "C.DONT.H"    ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+      INCLUDE "C.FAISC.H"   ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
-      INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
+      INCLUDE "C.FAISCT.H"  ! COMMON/FAISCT/ LET(MXT)
+      INCLUDE "C.OBJET.H"   ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
+      INCLUDE "C.OBJ5RF.H"  ! COMMON/OBJ5RF/ REF(MXJ,MXREF)
 
 C  If change MXREF, make sure MXT .ge. 11*MXREF
       PARAMETER(MXREF=MIN(999,11*MXT))
-      COMMON/OBJ5RF/ REF(MXJ,MXREF)
 
       DIMENSION IA(5)
 
@@ -62,7 +62,7 @@ C  If change MXREF, make sure MXT .ge. 11*MXREF
       CHARACTER(KSIZ) KLE
 
       INCLUDE 'FILHDF.H'     ! PARAMETER (NHDFL=4)
-      
+
 C----- BORO
       LINE = 1
       READ(NDAT,*,ERR=99) A(NOEL,1)
@@ -77,7 +77,7 @@ C----- KOBJ - may be of the form "K.K2"
         READ(TXT132(3:FINSTR(TXT132)),*,ERR=99,END=99) K2
         A(NOEL,11) = K2
       ELSE
-        K2 = 0 
+        K2 = 0
         READ(TXT132,*,ERR=99,END=99) K
         A(NOEL,11) = I0
       ENDIF
@@ -86,7 +86,7 @@ C----- KOBJ - may be of the form "K.K2"
 
       GOTO (1,2,3,1,5,6,7,8,9) K
       CALL ENDJOB('*** Error, SBR ROBJET -> No  such  object  KOBJ= ',K)
- 
+
  1    CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
@@ -95,7 +95,7 @@ C----- KOBJ - may be of the form "K.K2"
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,45)
       RETURN
- 
+
  2    CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (IA(I),I=1,2)
@@ -108,38 +108,38 @@ C----- KOBJ - may be of the form "K.K2"
         READ(TXT132,*,END=98,ERR=98) (FO(J,I),J=2,MXJ1),FO(1,I),LET(I)
         IF(II .LE. I90) THEN
 C--------- For allowing possible use of the first 7 traj with FIT
-          A(NOEL,II  ) = FO(2,I) 
-          A(NOEL,II+1) = FO(3,I) 
-          A(NOEL,II+2) = FO(4,I) 
-          A(NOEL,II+3) = FO(5,I) 
-          A(NOEL,II+4) = FO(6,I) 
-          A(NOEL,II+5) = FO(1,I) 
+          A(NOEL,II  ) = FO(2,I)
+          A(NOEL,II+1) = FO(3,I)
+          A(NOEL,II+2) = FO(4,I)
+          A(NOEL,II+3) = FO(5,I)
+          A(NOEL,II+4) = FO(6,I)
+          A(NOEL,II+5) = FO(1,I)
         ENDIF
         II = II + 10
  21   CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (IEX(I),I=1,IA(1))
       RETURN
- 
+
  3    CONTINUE
-      IF(K2 .NE. 0) THEN      
+      IF(K2 .NE. 0) THEN
         CALL STRGET(TXT132,MST,
-     >                     NST,STRA) 
+     >                     NST,STRA)
         IF(NST .GT. MST) GOTO 90
         I = 1
         DOWHILE(STRA(I)(1:6).NE.'HEADER' .AND. I.LE.NST)
-C Key is of the form 'HEADER_num', 0.le.num.le.9 
+C Key is of the form 'HEADER_num', 0.le.num.le.9
         I = I + 1
         ENDDO
         IF(I.LE.NST) THEN
-C Means 'HEADER' is present         
+C Means 'HEADER' is present
           READ(STRA(I)(8:FINSTR(STRA(I))),*) NHDR
           A(NOEL,12) = NHDR
         ELSE
           A(NOEL,12) = 0.D0
         ENDIF
       ELSE
-C Means [b_]zgoubi.fai style, as (would be) written by impfai: header is NHDFL lines           
+C Means [b_]zgoubi.fai style, as (would be) written by impfai: header is NHDFL lines
         A(NOEL,12) = NHDFL
       ENDIF
 C----- Will read from part. #I1 to part. #I2, step
@@ -168,7 +168,7 @@ C----- Name of trajectory data storage file
       ENDIF
  100  FORMAT(A80)
       RETURN
- 
+
  5    CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
@@ -180,8 +180,8 @@ C alfy, bety,  alfz, betz,  alfx, betx, Dy, Dy', Dz, Dz'
         LINE = LINE + 1
         READ(NDAT,*,ERR=99) (A(NOEL,I),I=40,49)
       ELSEIF(K2 .GE. 2 .AND. K2 .LE. MXREF) THEN
-C------- Read multiple references 
-        IF(K2 .GT. MXREF) THEN 
+C------- Read multiple references
+        IF(K2 .GT. MXREF) THEN
           WRITE(   *,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
      >    //' : MXREF = ',MXREF,' is too small.'
           WRITE(NRES,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
@@ -202,7 +202,7 @@ C------- Read multiple references
         DO WHILE (KRF .LE. K2)
           LINE = LINE + 1
           READ(NDAT,*,ERR=99) (REF(J,KRF),J =2, 6), REF(1,KRF)
-          IF(KRF .LE. I70/10) THEN 
+          IF(KRF .LE. I70/10) THEN
 C----------- For allowing possible use of the first 7 reference trajectories with FIT
             J = 1
             DO I = KK, KK+4
@@ -211,14 +211,14 @@ C----------- For allowing possible use of the first 7 reference trajectories wit
             ENDDO
             A(NOEL,KK+5) = REF(1,KRF)
             KK = KK + 10
-          ENDIF 
+          ENDIF
           KRF = KRF + 1
         ENDDO
       ELSEIF(K2 .GT. MXREF) THEN
         CALL ENDJOB(' Pgm robjet.f. MXREF is too small.',-99)
       ENDIF
       RETURN
- 
+
  6    CONTINUE
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=20,25)
@@ -230,21 +230,21 @@ C----------- For allowing possible use of the first 7 reference trajectories wit
         CALL ENDJOB(' SBR ROBJET. No such option K2 = ',K2)
       ENDIF
       RETURN
- 
+
  7    CONTINUE
       RETURN
- 
+
  8    CONTINUE
 C----- IY, IZ, IX
       LINE = LINE + 1
       READ(NDAT,fmt='(a)',ERR=99) txt132
       READ(TXT132,*,ERR=99) (A(NOEL,19+I),I=1,3)
       CALL STRGET(TXT132,3,
-     >                     IDUM,STRA) 
-C Get number of digits after '.' in IX, IY, IZ      
+     >                     IDUM,STRA)
+C Get number of digits after '.' in IX, IY, IZ
       DO I = 1, 3
         IF(STRCON(STRA(I),'.'
-     >                       ,IS)) THEN 
+     >                       ,IS)) THEN
           A(NOEL,22+I) = FINSTR(STRA(I)(IS:132))-IS
         ENDIF
       ENDDO
@@ -259,9 +259,9 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
       RETURN
- 
+
  9    CONTINUE
-C----- IY, IZ, IX = number of phase angles in Y, Z, X 
+C----- IY, IZ, IX = number of phase angles in Y, Z, X
       LINE = LINE + 1
       READ(NDAT,*,ERR=99) (A(NOEL,19+I),I=1,3)
 C----- Centers of ellipses (Y, T, Z, P, X, D
@@ -276,24 +276,24 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
       READ(NDAT,*,ERR=99) (A(NOEL,I),I=60,62)
       RETURN
 
- 99   WRITE(6,*) 
+ 99   WRITE(6,*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
-      WRITE(ABS(NRES),*) 
+      WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
       GOTO 90
-      
- 98   WRITE(6,*) 
+
+ 98   WRITE(6,*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      WRITE(ABS(NRES),*) 
+      WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      
+
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm robjet, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm robjet, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
- 
+
       END

@@ -1,0 +1,1 @@
+      COMMON/AV_STD/ RFO(51,6,6)

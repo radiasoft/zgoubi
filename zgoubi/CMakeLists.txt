@@ -22,6 +22,7 @@ set(_zgoubi_global_includes
   C.AIM.H
   C.AIM_2.H
   C.AIM_3.H
+  C.AV_STD.H
   C.CARSH.H
   C.CDF.H
   C.CHAFUI.H
@@ -78,6 +79,7 @@ set(_zgoubi_global_includes
   C.MULTPL.H
   C.MULTPL_2.H
   C.OBJET.H
+  C.OBJ5RF.H
   C.ORDRES.H
   C.PDATA.H
   C.PTICUL.H
