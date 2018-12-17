@@ -1,6 +1,6 @@
 !  ZGOUBI, a program for computing the trajectories of charged particles
 !  in electric and magnetic fields
-!  Copyright (C) 1988-2007  François Mot
+!  Copyright (C) 1988-2007  François Méot
 !
 !  This program is free software; you can redistribute it and/or modify
 !  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 !  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 !  Boston, MA  02110-1301  USA
 !
-!  François Mot <fmeot@bnl.gov>
+!  François Méot <fmeot@bnl.gov>
 !  BNL
 !  C-AD, Bldg 911
 !  Upton, NY, 11973
@@ -41,5 +41,5 @@ contains
     if (.not. allocated(ZH)) allocate(ZH(IZ),stat=allocation_status)
     call assert(allocation_status==success,"ensure_xyzhc_allocation: ZH allocation succeeded")
   end procedure
-   
+
 end submodule
