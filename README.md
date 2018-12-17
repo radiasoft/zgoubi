@@ -28,7 +28,7 @@ For an interactive, command-line interface to the docker image,
 execute the following docker command:
 
 ```bash
-docker run -it --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash
+docker run -it --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim}" bash
 ```
 
 Examples
