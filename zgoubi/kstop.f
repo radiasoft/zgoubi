@@ -126,17 +126,22 @@ C     $     IREP(MXT),AMQLU,PABSLU
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
 
-        INQUIRE(UNIT=NFAI,ERR=99,IOSTAT=IOS,OPENED=OPN)
-        IF(OPN) THEN
-C          CALL ZGNOEL(
-C     >               NOEL)         
-          CALL ZGKLEY(  
-     >                KEY)
-          CALL ZGKLEY(  
-     >                LBL1,LBL2)
-          KPR = 1 
-          CALL IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2) 
-        ENDIF
+C Goal here is to have particle data logged to zgoubi.fai when it is stopped.
+C However, commented as impfai seems to cause fishy outputs to zgoubi.fai. Could be because
+C some particle data not clean when going to kstop.
+C To be debugged (launch some particles that get lost in an element, while zgoubi.fai has
+C been opened beforehanf by FAISTORE).
+C        INQUIRE(UNIT=NFAI,ERR=99,IOSTAT=IOS,OPENED=OPN)
+C        OPN = OPN .AND. NFAI .GT. 0
+C        IF(OPN) THEN
+C          CALL ZGKLEY(
+C     >                KEY)
+C          CALL ZGKLEY(
+C     >                LBL1,LBL2)
+C          KPR = 1
+C          CALL IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2)
+C        ENDIF
+
         CALL FLUSH2(ABS(NRES),.FALSE.) 
       ENDIF 
 
