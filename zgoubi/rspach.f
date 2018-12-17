@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -35,10 +35,9 @@ C     ---------------------------------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
-
       LOGICAL TSPCH
-      COMMON/SPACECHA/ TLAMBDA,Rbeam(2),Xave(2),Emitt(2),Tave,Bunch_len,
-     >                Emittz, BTAG, SCkx, SCky, TSPCH
+      INCLUDE "C.SPACECHA.H" ! COMMON/SPACECHA/ TLAMBDA,RBEAM(2),XAVE(2),EMITT(2),TAVE,BUNCH_LEN,
+C                             >                EMITTZ, BTAG, SCKX, SCKY, TSPCH
 
       INTEGER DEBSTR,FINSTR
       CHARACTER(80) TXT, STRA(1)
@@ -48,7 +47,7 @@ c      save TSPCH1
 
       READ(NDAT,FMT='(A)') TXT
       CALL STRGET(TXT,1,
-     >                  IDUM,STRA) 
+     >                  IDUM,STRA)
 C File name
       TA(NOEL,1) = STRA(1)
 
@@ -65,9 +64,9 @@ C File name
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                      NLB,LBL)
-        TSPCH1 = ((NLB .GE. 1) 
+        TSPCH1 = ((NLB .GE. 1)
      >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
-     >  .OR. LBL(1).EQ.'all' 
+     >  .OR. LBL(1).EQ.'all'
      >  .OR. LBL(1).EQ.'ALL' )
 
         READ(NDAT,*) A(NOEL,1)

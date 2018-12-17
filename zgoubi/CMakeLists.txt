@@ -91,6 +91,7 @@ set(_zgoubi_global_includes
   C.SCAL.H
   C.SCALP.H
   C.SCALT.H
+  C.SPACECHA.H
   C.SPIN.H
   C.SPIRALE.H
   C.SPIRALX.H

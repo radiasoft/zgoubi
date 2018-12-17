@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -46,13 +46,13 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
-      INCLUDE 'MXSCL.H'     
+      INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
       SAVE KLEY
       CHARACTER(80) TITRE, TITRO
-C      COMMON/TITR/ TITRE 
+C      COMMON/TITR/ TITRE
       SAVE TITRE
 
       PARAMETER(MPOL=10)
@@ -62,14 +62,8 @@ C----- For space charge computaton
       PARAMETER(MLBSC=10)
       CHARACTER(LBLSIZ) LBLSC(MLBSC)
       LOGICAL TSPCH
-C      COMMON/SPACECHA/ TSPCH,TLAMBDA,Rbeam,Xave,Emitt,Tave,Bunch_len,
-      COMMON/SPACECHA/ TLAMBDA,RBEAM(2),XAVE(2),EMITT(2),TAVE,BUNCH_LEN,
-     >                EMITTZ, BTAG, SCKX, SCKY, TSPCH
-CC----- FOR SPACE CHARGE COMPUTATON
-C      PARAMETER(MLBSC=10)
-C      CHARACTER(LBLSIZ) LBLSC(MLBSC)
-C      LOGICAL OKSPCH
-C      SAVE OKSPCH, LBLSC, NLBSC
+      INCLUDE "C.SPACECHA.H" ! COMMON/SPACECHA/ TLAMBDA,RBEAM(2),XAVE(2),EMITT(2),TAVE,BUNCH_LEN,
+C                             >                EMITTZ, BTAG, SCKX, SCKY, TSPCH
 
 C----- For printing after occurence of pre-defined labels
       PARAMETER(MLB=10)
@@ -98,7 +92,7 @@ C----- To get values into A(), from earlier FIT
       LOGICAL TOMANY, STRACO, STRWLD
       CHARACTER(LNTA) TXTEMP
       INTEGER DEBSTR,FINSTR
-  
+
       CHARACTER(80) TXTELT, TXTELO
       SAVE TXTELT
 
@@ -121,14 +115,14 @@ C      SAVE KOPIMP, KOPTCS, LBLOPT
 
 C This INCLUDE must stay located right before the first statement
       CHARACTER(KSIZ) KLEO
- 
+
       LOGICAL PRDIC
 
       LOGICAL FITFNL, FITLST
       SAVE FITFNL
 
       CHARACTER(132) TXT132
-      LOGICAL STRCON 
+      LOGICAL STRCON
 
       LOGICAL FITBYD, FITRBL
 C      LOGICAL OKPRLB, OKPRDA
@@ -144,7 +138,7 @@ C      LOGICAL OKPRLB, OKPRDA
 
       LOGICAL FAIFIT
       SAVE FAIFIT
-      
+
       PARAMETER (ITRMA0=999)
       SAVE IRET
       DATA PNLTGT, ITRMA, ICPTMA / 1D-10, ITRMA0, 1000 /
@@ -153,19 +147,19 @@ C      LOGICAL OKPRLB, OKPRDA
       SAVE TWOFF
 
       CHARACTER(LBLSIZ) LBL1, LBL2
-      
+
       DATA PRDIC / .FALSE. /
       DATA IRET / 0 /
 C      DATA OKLNO / .FALSE. /
 C      DATA OKPRDA / .FALSE. /
       DATA FAIFIT / .FALSE. /
       DATA TWOFF / .FALSE. /
-      
+
       INCLUDE 'LSTKEY.H'
 
       NBLMN = NBLMI
 C      IRET = 0
-         
+
 C .T. if FIT has been completed, and pgm executing beyond keyword FIT[2}
       CALL FITST3(
      >            FITBYD)
@@ -197,7 +191,7 @@ C------- Print after defined labels. Switched on by FAISTORE.
 C------- Print after defined labels. Switched on by SPNSTORE.
         PRLBSP = .FALSE.
       ENDIF
-        
+
 C----- Get FIT status
       CALL FITSTA(I5,
      >               FITING)
@@ -211,7 +205,7 @@ C------- space charge initially off
 
 CCCCCCCCCCCCfor LHC : do    REWIND(4)
 
-      IF(.NOT. FITING) THEN 
+      IF(.NOT. FITING) THEN
         IF(NRES .GT. 0) WRITE(6,905) TITRE
  905  FORMAT(/,1X,'Title : ',A80,//)
       ENDIF
@@ -227,42 +221,42 @@ C YD FM. 28/01/2014
 C------- Compute space charge kick and apply to bunch
        IF(TSPCH) THEN
          IF( STRACO(NLBSC,LBLSC,LABEL(NOEL,1),
-     >                                       IL) 
-     >   .OR. LBLSC(1).EQ.'all' .OR. LBLSC(1).EQ.'ALL') 
+     >                                       IL)
+     >   .OR. LBLSC(1).EQ.'all' .OR. LBLSC(1).EQ.'ALL')
      >   CALL SPACH(
-     >                  SCKX, SCKY ) 
+     >                  SCKX, SCKY )
        ENDIF
        IF(PRLB) THEN
 C------- From Keyword FAISTORE. Print after Lmnt with defined LABEL.
 C        LBLST contains the LABEL['s] after which print shall occur
 C        IF( STRACO(NLB,LBLST,LABEL(NOEL,1),
-C     >                                   IL) 
+C     >                                   IL)
 C     >    .OR. LBLST(1).EQ.'all' .OR. LBLST(1).EQ.'ALL')
          CALL FITST9(
      >               FITLST)
          IF(FAIFIT .AND. (.NOT.FITLST)) THEN ! skip if label1='finalFIT' and not at last pass after FIT
 
          ELSE
-           IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1)) 
+           IF( OKPRLB(NLB,LBLST,LABEL(NOEL,1))
      >     .OR.STRWLD(NLB,LBLST,LABEL(NOEL,1),
      >                                       IS))
      >     CALL IMPFAI(KPRT,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
-     >                                              LABEL(NOEL,2)) 
+     >                                              LABEL(NOEL,2))
          ENDIF
        ENDIF
        IF(PRLBSP) THEN
 C------- Print after Lmnt with defined LABEL - from Keyword SPNSTORE
 C        LBLSP contains the LABEL['s] after which print shall occur
         IF( STRACO(NLBSP,LBLSP,LABEL(NOEL,1),
-     >                                     IL) ) 
+     >                                     IL) )
      >    CALL SPNPRN(KPRTSP,NOEL,KLE(IQ(NOEL)),LABEL(NOEL,1),
-     >                                              LABEL(NOEL,2)) 
+     >                                              LABEL(NOEL,2))
        ENDIF
 
        IF(KCO .EQ. 1) THEN      ! From PICKUP
 C------- Calculate pick-up signal
-C         PULAB contains the NPU LABEL's at which CO is calculated 
-          
+C         PULAB contains the NPU LABEL's at which CO is calculated
+
          IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
 
            IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
@@ -270,16 +264,16 @@ C         PULAB contains the NPU LABEL's at which CO is calculated
      >     .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
      >                                       IS))
      >     CALL PCKUP
-        
+
          ENDIF
        ELSEIF(KCO .EQ. 2) THEN    ! From REBELOTE/SVD or SVDOC
 
          CALL FITST9(
-     >               FITLST)  ! A final pass after FIT 
-         
-         IF(FITLST) THEN   
+     >               FITLST)  ! A final pass after FIT
+
+         IF(FITLST) THEN
 C------- Store pickup signal, at PUs belonging in svdpus list
-          
+
          IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
 
            IF( STRACO(NPU,PULAB,LABEL(NOEL,1),
@@ -287,7 +281,7 @@ C------- Store pickup signal, at PUs belonging in svdpus list
      >     .OR.STRWLD(NPU,PULAB,LABEL(NOEL,1),
      >                                       IS))
      >     CALL SVDPCK
-        
+
          ENDIF
          ENDIF
        ENDIF
@@ -296,9 +290,9 @@ C------- Store pickup signal, at PUs belonging in svdpus list
 C------- Transport beam matrix and print at element ends. Set by OPTICS or by TWISS keywords.
 
          IF(KUASEX .NE. -99) THEN
-C OPTICC may not be desired for some elements (non-optical, or else.) 
+C OPTICC may not be desired for some elements (non-optical, or else.)
 
-           IF(OKPRLB(NLBOPT,LBLOPT,LABEL(NOEL,1)) 
+           IF(OKPRLB(NLBOPT,LBLOPT,LABEL(NOEL,1))
      >     .OR.STRWLD(NLBOPT,LBLOPT,LABEL(NOEL,1),
      >                                       IS)) THEN
              CALL OPTICC(NOEL,PRDIC,OKCPLD)
@@ -307,7 +301,7 @@ C OPTICC may not be desired for some elements (non-optical, or else.)
          ENDIF
        ENDIF
 
-C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired 
+C This was introduced so to restrain OPTICS to optics-type keywords.  Any additional desired
 C location should be assigned KUASEX=0 for OPTICC to operate (e.g., DRIFT, MARKER...)
        KUASEX = -99
 
@@ -322,7 +316,7 @@ C          CALL REBEL7(
 C     >                NOELB)
           CALL REBLT7(
      >                NOELB,KLERB)
-          
+
           IF(NOEL.EQ.NOELB) THEN
             IKLE = KLERB
             KLEY = KLE(IKLE)   ! 'REBELOTE' OR 'SVDOC'
@@ -333,15 +327,15 @@ C     >                NOELB)
         ENDIF
        ENDIF
 
-      ENDIF ! NOEL.GT.0 
+      ENDIF ! NOEL.GT.0
 
       IF(READAT) THEN
 
  188    READ(NDAT,*,ERR=996,END=997) KLEY
 
-        IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!' .OR. 
+        IF(KLEY(DEBSTR(KLEY):DEBSTR(KLEY)) .EQ. '!' .OR.
      >  FINSTR(KLEY) .LE. DEBSTR(KLEY) ! Takes care of empty lines and of possible crap single-character
-     >  ) GOTO 188 
+     >  ) GOTO 188
 
         DO IKLE=1,MXKLE
           IF(KLEY .EQ. KLE(IKLE)) THEN
@@ -372,9 +366,9 @@ C------- Gets here in case of "FIT"
 
 
       ENDIF
- 
+
  187  CONTINUE
-      
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,201)
  201    FORMAT(/,132('*'))
@@ -382,11 +376,11 @@ C------- Gets here in case of "FIT"
      >  KLEY,LABEL(NOEL,1),LABEL(NOEL,2)
  334    FORMAT(2X,I5,4(2X,A),/)
         CALL FLUSH2(NRES,.FALSE.)
-        WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))') 
+        WRITE(TXTELT,FMT='(I5,A1,I5,1X,A10,2(A1,A))')
      >  NOEL,'/',NBLMN,KLEY,'/',LABEL(NOEL,1),'/',LABEL(NOEL,2)
         IF(IPASS.EQ.1) CALL ARRIER(TXTELT)
       ENDIF
- 
+
       KFLD=MG
 
 CCCCCCCCCCCCfor LHC ; do REWIND(4).
@@ -416,21 +410,21 @@ C---------------------------------------------------
         ENDIF
       ENDIF
       IF(KLEY.EQ.'END' .OR. KLEY.EQ.'FIN') IRET=1
-      RETURN 
+      RETURN
 
  996  CONTINUE
       CALL ENDJOB(
      >'Pgm zgoubi : Execution stopped due to ERRor '//
      >'while reading Key from input .dat file.',-99)
-      RETURN 
+      RETURN
 
  997  CONTINUE
       IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
      >'Pgm zgoubi : Execution stopped due to END-of-file '//
      >'while reading Key from input .dat file.'
-      RETURN 
+      RETURN
 
-C----- DRIFT, ESL. Free space. 
+C----- DRIFT, ESL. Free space.
  1    CONTINUE
       KUASEX = 0
       IF(READAT) READ(NDAT,*) A(NOEL,1)
@@ -484,7 +478,7 @@ C----- Polychrome beam
  6    CALL FOCALE(2)
       GOTO 998
 C----- FAISCEAU. Print current beam in zgoubi.res
- 7    IF(NRES.GT.0 .OR. LABEL(NOEL,1).EQ.'FORCE') 
+ 7    IF(NRES.GT.0 .OR. LABEL(NOEL,1).EQ.'FORCE')
      >CALL IMPTRA(1,IMAX,ABS(NRES))
       GOTO 998
 C----- FAISCNL. Stores beam at current position (in .fai type file)
@@ -514,9 +508,9 @@ C----- FOCALE. DIMENSIONS DU FAISCEAU @ XI
       GOTO 998
 C----- REBELOTE. Passes NRBLT more times thru the structure
  11   CONTINUE
-      IF(READAT) CALL RREBEL(LABEL,KLE) 
+      IF(READAT) CALL RREBEL(LABEL,KLE)
       IF(FITBYD) THEN
-        FITRBL = NRBLT .EQ.0 .OR. IPASS .LE. NRBLT  
+        FITRBL = NRBLT .EQ.0 .OR. IPASS .LE. NRBLT
         CALL FITST8(FITRBL)          ! Allows FIT embeded in REBELOTE in zgoubi_main
       ENDIF
       CALL REBEL(READAT,KLE,LABEL,
@@ -524,7 +518,7 @@ C----- REBELOTE. Passes NRBLT more times thru the structure
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
       IF(IPASS.EQ.NRBLT+2) THEN        ! Means that REBELOTE series is completed
-        FITRBL = .FALSE.   
+        FITRBL = .FALSE.
         CALL FITST8(FITRBL)
       ENDIF
       CALL KSMAP0
@@ -567,7 +561,7 @@ C----- AIMANT TOROIDAL
       CALL  QUASEX(
      >                        ND(NOEL))
       GOTO 998
-C----- OBJETA. MONTE-CARLO GENERATION OF MU OR PI FROM ETA DECAY 
+C----- OBJETA. MONTE-CARLO GENERATION OF MU OR PI FROM ETA DECAY
 C          ( D'APRES Benjamin MAYER , FEVRIER 1990 )
  17   CONTINUE
       IF(READAT) CALL ROBJTA
@@ -628,7 +622,7 @@ C----- B OCTUPOLAIRE ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       CALL QUASEX(
      >                        ND(NOEL))
       GOTO 998
-C----- OBJET. 
+C----- OBJET.
 24    CONTINUE
       KUASEX = 0
       IF(READAT) CALL ROBJET
@@ -640,7 +634,7 @@ C----- MCOBJET. Object defined by Monte-Carlo
       KUASEX = 0
       IF(READAT) CALL RMCOBJ
       IF(FITGET) CALL FITGT1
-C FM July 2014 - Inhibited call to mcobja for eRHIC, to allow varying Z0,P0. 
+C FM July 2014 - Inhibited call to mcobja for eRHIC, to allow varying Z0,P0.
 C      IF(.NOT. FITING) THEN
         CALL MCOBJ
 C      ELSE
@@ -687,13 +681,13 @@ C----- AIMANT PS170 (Champ CONSTANT DANS UN CERCLE)
       CALL  QUASEX(
      >                        ND(NOEL))
       GOTO 998
-C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code), 
-C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
+C----- TOSCA. Read  2-D or 3-D field map (e.g., as obtained from TOSCA code),
+C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
  31   CONTINUE
       KALC = 2
       IDIM = I3
 C      IF(READAT) CALL RCARTE(KART,I3,
-      IF(READAT) CALL RTOSCA(IDIM, 
+      IF(READAT) CALL RTOSCA(IDIM,
      >                            ND(NOEL))
       IF    (A(NOEL,22) .EQ. 1) THEN
         KUASEX = 2
@@ -701,7 +695,7 @@ C      IF(READAT) CALL RCARTE(KART,I3,
         KUASEX = 7
         IF(IZ.LE.1) CALL ENDJOB('Pgm zgoubi. Cannot use a 3-D map. '
      >  //'Change IZ in PARIZ.H, to .ge. '
-     >  //'number of vertical mesh nodes and re-compile',-99) 
+     >  //'number of vertical mesh nodes and re-compile',-99)
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (NINT(A(NOEL,23)) .LT. 20) THEN
@@ -786,7 +780,7 @@ C----- PLOTDATA PURPOSE STUFF
       IF(FITGET) CALL FITGT1
       CALL PLTDAT
       GOTO 998
-C----- BINARY. 
+C----- BINARY.
 C          READ  THE  FORMATTED  FILE  'MYFILE' AND
 C          COPIES  IT  INTO  THE  BINARY  FILE  'B_MYFILE',
 C          OR RECIPROCAL.
@@ -794,7 +788,7 @@ C          OR RECIPROCAL.
       IF(READAT) CALL RBINAR
       CALL BINARY
       GOTO 998
-C----- FIT. FIT2. Two methods are available 
+C----- FIT. FIT2. Two methods are available
  102  MTHOD = 2
       GOTO 461
  46   CONTINUE
@@ -852,7 +846,7 @@ C----- BEND. Dipole magnet
  51   CONTINUE
       KALC =1
       KUASEX = 8
-      IF(READAT) THEN 
+      IF(READAT) THEN
         CALL RBEND(
      >                        ND(NOEL))
       ELSE
@@ -866,7 +860,7 @@ C----- SOLENOID
  52   CONTINUE
       KALC = 3
       KUASEX = 20
-      IF(READAT) THEN 
+      IF(READAT) THEN
         CALL RSOLEN(NDAT,NOEL,MXL,A,
      >                        ND(NOEL))
       ELSE
@@ -916,7 +910,7 @@ C----- COMMANDE DES SCALINGS ( B, FREQ...)
 C----- ELREVOL.  ELCTROSTATIQ  FIELD  Ex(R=0,X) 1-D MEASURED.  CYLINDRICAL SYMM.
  68   CONTINUE
       KFLD=LC
-C----- BREVOL. 1-D field B(r=0,x) on-axis field map, with cylindrical symmetry. 
+C----- BREVOL. 1-D field B(r=0,x) on-axis field map, with cylindrical symmetry.
  58   CONTINUE
       KALC =2
       KUASEX = 8
@@ -1109,7 +1103,7 @@ C----- TRANSLATION  F(2,n)=F(2,n)+A(,1) et F(4,n)=F(4,n)+A(,2)
       IF(FITGET) CALL FITGT1
       CALL TRAOBJ(1)
       GOTO 998
-C----- POLARMES. CARTE DE Champ POLAIRE. Field map, cylindrical coordinates. 
+C----- POLARMES. CARTE DE Champ POLAIRE. Field map, cylindrical coordinates.
  76   CONTINUE
       KALC =2
       KUASEX = 22
@@ -1133,7 +1127,7 @@ C----- SRLOSS. Switch synchrotron ligth on
       IF(FITGET) CALL FITGT1
       CALL SRLOSS(IMAX,IPASS,*999)
       GOTO 998
-C----- PICKUPS. 
+C----- PICKUPS.
  79   CONTINUE
       IF(READAT) CALL RPCKUP
       IF(FITGET) CALL FITGT1
@@ -1169,13 +1163,13 @@ C----- OPTICS. Transport the beam matrix and print/store it after keyword[s].
             READ(STRA(1+I),*) LBLOPT(I)
           ENDDO
           IF(MSTR .GE. NLBOPT+2) THEN
-            IF(STRA(NLBOPT+2) .EQ. 'PRINT' 
+            IF(STRA(NLBOPT+2) .EQ. 'PRINT'
      >      .OR. STRA(NLBOPT+2) .EQ. '1') THEN
               KOPIMP = 1
             ELSE
               KOPIMP = 0
             ENDIF
-            IF(MSTR .GE. NLBOPT+3) THEN 
+            IF(MSTR .GE. NLBOPT+3) THEN
 C              OKCPLD = STRA(NLBOPT+3) .EQ. 'coupled'
               SCPLD = STRA(NLBOPT+3)
 C            ELSE
@@ -1193,14 +1187,14 @@ C              OKCPLD = .FALSE.
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,*) ' '
-        WRITE(NRES,FMT='(10X,A,I0,A,I0)') 
+        WRITE(NRES,FMT='(10X,A,I0,A,I0)')
      >  ' KOPTCS = ',KOPTCS,'   (off/on = 0/1) ;  '
      >  //' number of label classes to account for  NLBOPT = ',NLBOPT
         WRITE(NRES,*) ' '
         DO I = 1, NLBOPT
           WRITE(NRES,FMT='(10X,A)') ' LBLOPT = ' //
      >    LBLOPT(I)(DEBSTR(LBLOPT(I)):FINSTR(LBLOPT(I)))  //
-     >    '  (will print beam matrix into zgoubi.res at those labels)' 
+     >    '  (will print beam matrix into zgoubi.res at those labels)'
         ENDDO
         WRITE(NRES,*) ' '
         WRITE(NRES,FMT='(10X,A,I0,A)') ' KOPIMP = ',KOPIMP,
@@ -1208,8 +1202,8 @@ C              OKCPLD = .FALSE.
      >  //'no/yes = 0/1)'
         WRITE(NRES,*) ' '
 C Sam, Dec 2016
-C        WRITE(NRES,FMT='(10X,A,I0)') 
-        WRITE(NRES,FMT='(10X,A,L1)') 
+C        WRITE(NRES,FMT='(10X,A,I0)')
+        WRITE(NRES,FMT='(10X,A,L1)')
      >  'Coupled optics hypothsis (True/False) : ',OKCPLD
         WRITE(NRES,*) ' '
       ENDIF
@@ -1222,7 +1216,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
           ENDIF
           IF(OKLNO) THEN
             WRITE(LNOPTI,FMT='(A)') '# From OPTICS keyword'
-            WRITE(LNOPTI,FMT='(A,A1,A8,A5,A)') 
+            WRITE(LNOPTI,FMT='(A,A1,A8,A5,A)')
      >         '# alfx          btx           alfy          bty  ' //
      >         '         alfl          btl           Dx          ' //
      >         '  Dxp           Dy            Dyp           phix/' //
@@ -1231,9 +1225,9 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         'KEYWORD    label1     label2       FO(6,1)/m     ' //
      >         'K0*L          K1*L          K2*L          |C|    ' //
      >         '       r       !    optimp.f    ' //
-     >         'IPASS           frac(P/Pref) int(%)   R11-R56  '//  
+     >         'IPASS           frac(P/Pref) int(%)   R11-R56  '//
      >         '   pathL=F(1,6) '
-            WRITE(LNOPTI,FMT='(A,3A2,A)') 
+            WRITE(LNOPTI,FMT='(A,3A2,A)')
      >         '# 1             2             3             4    ' //
      >         '         5             6             7           ' //
      >         '  8             9             10            11   ' //
@@ -1242,7 +1236,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
      >         '19         20         21           22            ' //
      >         '23            24            25            26     ' //
      >         '       27      28      29        ' //
-     >         '30             31           32        33-45      46'  
+     >         '30             31           32        33-45      46'
           ENDIF
         ENDIF
       ELSE
@@ -1252,7 +1246,7 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
       KOPTIC = KOPTCS
       GOTO 998
  899  CONTINUE
-C      IF(NRES.GT.0) 
+C      IF(NRES.GT.0)
       WRITE(abs(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
@@ -1326,7 +1320,7 @@ C----- BETATRON. Betatron core
       IF(FITGET) CALL FITGT1
       CALL DPKICK(DPKCK)
       GOTO 998
-C----- TWISS. Compute linear lattice functions, chromaticities, etc. 
+C----- TWISS. Compute linear lattice functions, chromaticities, etc.
 C      Also prints periodic beta functions (by setting KOPTCS to 1).
  89   CONTINUE
 C                            ktwiss=1 :  Fac_dp   Fac-ampl
@@ -1335,7 +1329,7 @@ C     IF(READAT) CALL RTWISS
 
       IF(KOPTIC .EQ. 1) CALL ENDJOB('Pgm zgoubi. Sorry, ''OPTICS'' is'
      >//' not compatible with ''TWISS''. Comment one or the other.',-99)
-      
+
       IF(FITBYD) CALL FITSTC(.TRUE.)     ! inhibit FIT if there is one before TWISS
 
       IF(READAT) THEN
@@ -1382,7 +1376,7 @@ C      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
         PRDIC = .TRUE.
         IF(OKLNO) THEN
           WRITE(LNOPTI,fmt='(a)') '# From TWISS keyword'
-          WRITE(LNOPTI,fmt='(a)') 
+          WRITE(LNOPTI,fmt='(a)')
      >       '# alfx          btx           alfy          bty  ' //
      >       '         alfl          btl           Dx          ' //
      >       '  Dxp           Dy            Dyp           phix/' //
@@ -1396,8 +1390,8 @@ C      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
      >       'R43           R44           R51          R52 '//
      >       'R53           R54           R56          F66          '//
      >       'SX            SY            SZ            |S|   ' //
-     >       'Length        Deviation     ' 
-          WRITE(LNOPTI,fmt='(a)') 
+     >       'Length        Deviation     '
+          WRITE(LNOPTI,fmt='(a)')
      >       '# 1             2             3             4    ' //
      >       '         5             6             7           ' //
      >       '  8             9             10            11   ' //
@@ -1411,7 +1405,7 @@ C      IF(KOBJ.NE.5 .OR. (KOBJ.EQ.5 .AND. KOBJ2.NE.0)) CALL ENDJOB(
      >       '38            39            40           41 '//
      >       '43            43            44           45           '//
      >       '46            47            48           49     ' //
-     >       '50            51 ' 
+     >       '50            51 '
         ENDIF
       ELSE
 C        KOPIMP = 0
@@ -1419,13 +1413,13 @@ C        OKLNO = .FALSE.
       ENDIF
       IF(IPASS .EQ. 2*KTW+1) READAT = .TRUE.
       GOTO 998
-C----- END. End of data list, end of execution. 
+C----- END. End of data list, end of execution.
  90   CONTINUE
       CALL END(
      >         READAT,NOEL,KCSR)
       IF(KCSR.EQ.1) GOTO 998
       GOTO 999
-C----- FFAG. FFAG Sector multi-dipole. 
+C----- FFAG. FFAG Sector multi-dipole.
  91   CONTINUE
       KALC = 1
       KUASEX = 27
@@ -1465,11 +1459,11 @@ C----- Each particle is pushed a Delta-S distance
       IF(FITGET) CALL FITGT1
       CALL PATH(A(NOEL,1))
       GOTO 998
-C----- COILS. 
+C----- COILS.
  95   CONTINUE
       KALC = 3
       KUASEX = 29
-      IF(READAT) THEN 
+      IF(READAT) THEN
         CALL RCOILS(NDAT,NOEL,MXL,A,
      >                        ND(NOEL))
       ELSE
@@ -1496,9 +1490,9 @@ C      IF(READAT) CALL RSUPER(NDAT,NOEL,MXL,A)
       IF(FITGET) CALL FITGT1
 C      CALL SUPERP
       GOTO 998
-C----- MARKER. 
+C----- MARKER.
  98   CONTINUE
-      KUASEX = 0  
+      KUASEX = 0
       IF(LABEL(NOEL,2).EQ.'.plt' .OR. LABEL(NOEL,2).EQ.'.PLT') THEN
         CALL OPEN2('MAIN',NPLT,FILPLT)
         DO IT = 1, IMAX
@@ -1509,7 +1503,7 @@ C----- MARKER.
         ENDDO
       ENDIF
       GOTO 998
-C----- DIPOLES. A set of neiboring or overlapping dipoles. 
+C----- DIPOLES. A set of neiboring or overlapping dipoles.
  99   CONTINUE
       KALC =1
       KUASEX = 32
@@ -1519,15 +1513,15 @@ C----- DIPOLES. A set of neiboring or overlapping dipoles.
       CALL AIMANT(
      >                        ND(NOEL))
       GOTO 998
-C----- TRACKING. 
+C----- TRACKING.
  100  CONTINUE
-        READ(NDAT,*) NLMA, NLMB 
+        READ(NDAT,*) NLMA, NLMB
         IF(NRES.GT.0)
      >  WRITE(NRES,*) ' Tracking,  NLM_A  ->  NLM_B : ',NLMA,' -> ',NLMB
         CALL TRACK(NLMA,NLMB)
         CALL ENDJOB(' End of job after TRACKING',-99)
       GOTO 998
-C----- FFAG-SPI. FFAG, spiral. 
+C----- FFAG-SPI. FFAG, spiral.
  101  CONTINUE
       KALC = 1
       KUASEX = 33
@@ -1541,8 +1535,8 @@ C----- FFAG-SPI. FFAG, spiral.
       CALL AIMANT(
      >                        ND(NOEL))
       GOTO 998
-C----- EMMA. Read  2-D or 3-D field map, 
-C      with mesh either cartesian (KART=1) or cylindrical (KART=2). 
+C----- EMMA. Read  2-D or 3-D field map,
+C      with mesh either cartesian (KART=1) or cylindrical (KART=2).
  103  CONTINUE
       KALC = 2
       IF(READAT) CALL REMMA(I3,
@@ -1554,7 +1548,7 @@ C------- 2-D map, KZMA = 1
 C------- 3-D map, KZMA > 1
         KUASEX = 35
         IF(IZ.LE.1) CALL ENDJOB(' *** ERROR ; cannot use a 3-D map, need
-     >  recompile zgoubi, using IZ>1 in PARIZ.H',-99) 
+     >  recompile zgoubi, using IZ>1 in PARIZ.H',-99)
       ENDIF
       IF(FITGET) CALL FITGT1
       IF    (NINT(A(NOEL,23)) .LT. 20) THEN
@@ -1577,7 +1571,7 @@ C----- DIPOLEC. Like DIPOLES, with cartesian coordinates
       CALL QUASEX(
      >                        ND(NOEL))
       GOTO 998
-C----- REVERSE. 
+C----- REVERSE.
  105  CONTINUE
       CALL REVERS
       GOTO 998
@@ -1594,17 +1588,17 @@ C      IF(READAT) READ(NDAT,*) A(NOEL,1)
         IF(STRCON(SYSCMD,'!'
      >                      ,IS)) SYSCMD = SYSCMD(1:IS-1)
         CALL SYSTEM(SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD)))
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,*) SYSCMD(DEBSTR(SYSCMD):FINSTR(SYSCMD))
-      ENDDO 
+      ENDDO
       GOTO 998
-C----- SPINR. Spin rotator 
+C----- SPINR. Spin rotator
  107  CONTINUE
       IF(READAT) CALL RSPINR
       IF(FITGET) CALL FITGT1
       CALL SPINR
       GOTO 998
-C----- BENDTH. Pure dipole field, analytical push. 
+C----- BENDTH. Pure dipole field, analytical push.
  108  CONTINUE
       IF(READAT) CALL RBNDTH(
      >                        ND(NOEL))
@@ -1612,7 +1606,7 @@ C----- BENDTH. Pure dipole field, analytical push.
       CALL BNDTHI(
      >                        ND(NOEL))
       GOTO 998
-C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or specificities. 
+C----- AGSMM. AGS main magnet. Works like MULTIPOL + various refinements or specificities.
  109  CONTINUE
       KALC = 3
       KUASEX = 37
@@ -1655,11 +1649,11 @@ C----- OPTIONS.
       IF(READAT) CALL ROPTIO
       CALL OPTION
       GOTO 998
-C----- EPLATES. 
+C----- EPLATES.
  114  CONTINUE
       KALC = 3
       KUASEX = 39
-      IF(READAT) THEN 
+      IF(READAT) THEN
         CALL REPLAT(
      >                        ND(NOEL))
       ELSE
@@ -1669,7 +1663,7 @@ C----- EPLATES.
       CALL QUASEX(
      >                        ND(NOEL))
       GOTO 998
-C----- DAMPER. 
+C----- DAMPER.
  115  CONTINUE
       IF(READAT) CALL RDAMPE
       IF(FITGET) CALL FITGT1
@@ -1685,13 +1679,13 @@ C----- CYCLOTRON.
       CALL AIMANT(
      >                        ND(NOEL))
       GOTO 998
-C----- ERRORS. 
+C----- ERRORS.
  117  CONTINUE
       IF(READAT) CALL RERROR
       IF(FITGET) CALL FITGT1
       CALL ERRORS
       GOTO 998
-C----- SPACECHARG. 
+C----- SPACECHARG.
  118  CONTINUE
 C      IF(READAT) CALL RSPACH(
 C     >                       KSPCH,LBLSC,NLBSC)
@@ -1708,17 +1702,17 @@ C      CALL SPACH(KSPCH,LBLSC,NLBSC)
 
          ELSE
            WRITE(NRES,FMT='(15X,
-     >    ''Space charge effect will not occur '')')            
+     >    ''Space charge effect will not occur '')')
          ENDIF
        ENDIF
       GOTO 998
-C----- GOTO. 
+C----- GOTO.
  119  CONTINUE
       IF(READAT) CALL RGOTO(NOEL)
       CALL GOTOL(IPASS,MXKLE,KLE)
-      READAT = .TRUE.  ! As READAT may have been set to F, e.g. by REBELOTE. 
+      READAT = .TRUE.  ! As READAT may have been set to F, e.g. by REBELOTE.
       GOTO 998
-C----- ELLIPTIC. 
+C----- ELLIPTIC.
  120  CONTINUE
       KALC = 3
       KUASEX = 41
@@ -1744,7 +1738,7 @@ C----- SVDOC. Compute SVD matrix. Requires to be preceded by FIT to find orbit
       FITBYD = .FALSE.
       CALL FITST4(FITBYD)
       IF(IPASS.EQ.NRBLT+2) THEN        ! Means that loop is completed
-        FITRBL = .FALSE.   
+        FITRBL = .FALSE.
         CALL FITST8(FITRBL)
       ENDIF
       CALL REBLT4(121)   !  121 = SVDOC
@@ -1757,18 +1751,18 @@ C-------------------------
      >             TXTELO)
       TXTELO = TXTELT
       RETURN
-      ENTRY ZGKLEY( 
+      ENTRY ZGKLEY(
      >             KLEO)
 C Current KLEY
       KLEO = KLEY(DEBSTR(KLEY):FINSTR(KLEY))
       RETURN
-      ENTRY ZGLBL( 
+      ENTRY ZGLBL(
      >            LBL1,LBL2)
 C Current LABEL_1, _2
       LBL1 = LABEL(NOEL,1)
       LBL2 = LABEL(NOEL,2)
       RETURN
-      ENTRY ZGMXKL( 
+      ENTRY ZGMXKL(
      >             MXKLEO)
 C Size of KLE array
       MXKLEO = MXKLE
@@ -1778,7 +1772,7 @@ C Size of KLE array
 C Current elmnt #
       NOELO = NOEL
       RETURN
-      ENTRY ZGKLE(IKL, 
+      ENTRY ZGKLE(IKL,
      >                KLEO)
 C KLEY[IKL]
       IF(IKL.LE.0) THEN
@@ -1788,32 +1782,32 @@ C KLEY[IKL]
       ENDIF
 C      KLEO = KLE(IKL)
       RETURN
-      ENTRY ZGNBLM( 
+      ENTRY ZGNBLM(
      >             NBLMNO)
 C Number of elements in the sequence
       NBLMNO = NBLMN
       RETURN
-      ENTRY ZGPNLT( 
+      ENTRY ZGPNLT(
      >             PNLTGO)
 C Target penalty in FIT[2]
       PNLTGO = PNLTGT
       RETURN
-      ENTRY ZGIPAS( 
+      ENTRY ZGIPAS(
      >             IPASSO,NRBLTO)
 C Current pass #
       IPASSO = IPASS
       NRBLTO = NRBLT
       RETURN
-      ENTRY ZGTITR( 
+      ENTRY ZGTITR(
      >             TITRO)
       TITRO = TITRE
       RETURN
-      ENTRY ZGIMAX( 
+      ENTRY ZGIMAX(
      >             IMAXO)
 C Number of particles being tracked
       IMAXO = IMAX
       RETURN
-      ENTRY ZGIRET( 
+      ENTRY ZGIRET(
      >             IRETO)
 C Number of particles being tracked
       IRETO = IRET
