@@ -5,7 +5,7 @@ services:
   - docker
 env:
   global:
-    - DOCKER_IMG="radiasoft/beamsim-part1"
+    - DOCKER_IMG="radiasoft/beamsim"
     - BUILD_DIR="cmake-build"
 
 before_install:

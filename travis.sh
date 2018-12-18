@@ -7,7 +7,7 @@ set -o pipefail
 set -o nounset
 set -o errexit
 
-docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash <<-'EOF'
+docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim}" bash <<-'EOF'
     #!/bin/bash
     source ~/.bashrc
     set -veuo pipefail
