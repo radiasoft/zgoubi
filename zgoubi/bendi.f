@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -43,13 +43,13 @@ C      LOGICAL ZSYM
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
- 
+
       EQUIVALENCE (RTB(1),CTE),(RTB(2),STE),(RTB(4),CTS),(RTB(5),STS)
 
       LOGICAL SHARPE, SHARPS
       DIMENSION  AREG(2),BREG(2),CREG(2)
       SAVE DEVO
-      
+
 C----- Magnet length, geometrical
       XL =A(NOEL,10)
 C----- Skew angle
@@ -72,20 +72,20 @@ C----- Field
 
 c      write(88,*) ' bendi A(NOEL,73) ', A(NOEL,73)
 
-      
+
       IF( KP .EQ. 3 ) THEN
          IF(A(NOEL,73) .NE. 0.D0) DEV = -A(NOEL,73) * 2.D0
       ENDIF
 
 c         write(88,*) '  ',2.D0 * ASIN(XL/2.D0/(BORO/BM(1))),
 c     > A(NOEL,73), -A(NOEL,73) * 2.D0,XL,BORO,BM(1),scal
-         
+
       IF(BM(6) .NE. 0.D0) THEN
 C------- BEND is skewed
         DEVH=ATAN(TAN(DEV)*COS(BM(6)))
         DEVV=ATAN(TAN(DEV)*SIN(BM(6)))
       ENDIF
- 
+
       XE = A(NOEL,20)
       DLE(1) = A(NOEL,21)
       WE = A(NOEL,22)
@@ -108,7 +108,7 @@ C----------- Champ DE FUITE
       SHARPE=DLE(1) .LE. 0.D0
       SHARPS=DLS(1) .LE. 0.D0
 
-      IF(SHARPE) THEN 
+      IF(SHARPE) THEN
         FINTE = XE
 C        XE=0.D0
 C        Introduced so to be consistent with xls below, yet actually not necessary...
@@ -118,12 +118,12 @@ C        if (xe.lt.1d-10) xe = 5.d0*tan(abs(te))
       IF(SHARPS) THEN
         FINTS = XLS
         XLS=0.D0
-C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot 
+C        In INTEGR "Droite" has to be intersected by trajectory within X<XLIM (X cannot
 C        be > XLIM), hence introducing some additional integration distance beyond XLIM
-C        so to encompass "Droite". 
+C        so to encompass "Droite".
 C FM, 130605. Removed, causes problems (see zgoubi/folks/samTygier/problem...)
-C FM 171122. Coded step size with wedge BEND causes problems, 
-C not compatible with "3 regions" (it remains to determine why !), 
+C FM 171122. Coded step size with wedge BEND causes problems,
+C not compatible with "3 regions" (it remains to determine why !),
 C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
         IF (XLS.LT.1D-10) THEN
           CALL CHXC1R(
@@ -146,7 +146,7 @@ C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
       STE=SIN(TE)
       CTS=COS(TS)
       STS=SIN(TS)
- 
+
 C----- SHARP EDGE => INTEGR STOPPE SUR DR. DE COUPURE
       IF(SHARPE) THEN
 C------- Correction for entrance wedge
@@ -215,13 +215,13 @@ C------- Correction for exit wedge
      >  /,15X, ' Reference curvature radius (Brho/B) = ',E15.7,' cm')
         WRITE(NRES,105) BM(6)
  105    FORMAT(1P,15X, ' Skew  angle  = ',E14.6,'  rad')
-        IF(BM(6).NE.0.D0) WRITE(NRES,FMT='(15X, 
+        IF(BM(6).NE.0.D0) WRITE(NRES,FMT='(15X,
      >       '' Projected  deviations  in H/V  planes  = '',
      >               1P,G13.6,''/'',G13.6,''  (rad)'')') DEVH, DEVV
- 
+
 C        WRITE(NRES,104) 'D''ENTREE'
 C 104    FORMAT(/,15X,' FACE  ',A)
-        WRITE(NRES,104) 'Entrance ' 
+        WRITE(NRES,104) 'Entrance '
  104    FORMAT(/,15X,A9,' face  ')
         WRITE(NRES,101) XE,DLE(1),WE
  101    FORMAT(15X,' DX = ',F10.3,'    LAMBDA = ',F10.3
@@ -230,21 +230,21 @@ C     >        ,/,15X,' ANGLE  DE  COIN =',F10.6,' RD')
         IF( .NOT. SHARPE ) WRITE(NRES,132) (CE(I),I=1,6)
 C 132    FORMAT(15X,' COEFFICIENTS DE Champ DE FUITE:',/,16X,6F9.5)
  132    FORMAT(15X,' Fringe  field  coefficients :',/,16X,6F9.5)
- 
+
 C        WRITE(NRES,104) 'DE  SORTIE'
         WRITE(NRES,104) 'Exit     '
         WRITE(NRES,101) XLS,DLS(1),WS
         IF( .NOT. SHARPS ) WRITE(NRES,132) (CS(I),I=1,6)
 
-        IF( SHARPE) 
+        IF( SHARPE)
      >    WRITE(NRES,FMT='(/,''  ***  Warning : entrance sharp edge '',
      >    ''entails vertical wedge focusing approximated with'',
-     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)') 
+     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)')
      >         FINTE
-        IF( SHARPS) 
+        IF( SHARPS)
      >    WRITE(NRES,FMT='(/,''  ***  Warning : exit sharp edge '',
      >    ''entails vertical wedge focusing approximated with'',
-     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)') 
+     >    '' first order kick, FINT values entr/exit : '',1P,G12.4)')
      >        FINTS
       ENDIF
 
