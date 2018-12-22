@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -27,7 +27,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -41,14 +41,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TOO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TOO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       CHARACTER(10) TYP(2)
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) NAMPU(2)
@@ -57,7 +57,7 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       integer debstr
 
       DATA TYP / 'HORIZONTAL',' VERTICAL ' /
- 
+
 C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
@@ -65,15 +65,15 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
 C     ...........................................................
 C        KHV = 1/2 for x/y plane
 C     ...........................................................
- 
-      
+
+
       KHV = NINT(A(NOEL,10))
       GAIN = A(NOEL,11)
       BTAD(1) = A(NOEL,12)
       BTAD(2) = A(NOEL,13)
       NPU = NINT(A(NOEL,20))
       DO IPU = 1, NPU
-        NAMPU(I) = 
+        NAMPU(I) =
      >   TA(NOEL,IPU)(DEBSTR(TA(NOEL,IPU)):DEBSTR(TA(NOEL,IPU))+9)
       ENDDO
 
@@ -85,9 +85,9 @@ C     ...........................................................
       call picku1(
      >            KPU)
 
-      if(kpu.eq.0 .and. khv .ne. 0) 
+      if(kpu.eq.0 .and. khv .ne. 0)
      >  call endjob(' SBR damper : need switch PICKUP on ',-99)
-       
+
 
       IF(KHV .NE. 0) THEN
         IF(NRES.GT.0) THEN
@@ -97,46 +97,46 @@ C     ...........................................................
      >          ,/,30X,' Gain                      = ',G12.5,'    '
      >          ,/,30X,' Local beta function, Y    = ',G12.5,'  m '
      >          ,/,30X,' Local beta function, Z    = ',G12.5,'  m ')
-          do ipu = 1, npu 
+          do ipu = 1, npu
             WRITE(NRES,111) ipu, NAMPU(ipu)
  111        FORMAT(/,25X,' Pick-up # ',I1,' : ',A)
             WRITE(NRES,112) btaPU(IPU,1:2)
  112        FORMAT(30X,' Beta function at PU       = ',G12.5,'  m ')
           enddo
-        ENDIF 
- 
+        ENDIF
+
       ELSEIF(KHV .EQ. 0.D0) THEN
- 
-        IF(NRES.GT.0) WRITE(NRES,109) 
+
+        IF(NRES.GT.0) WRITE(NRES,109)
  109    FORMAT(//,25X,' +++++++++++ DAMPER OFF ++++++++++++',//)
- 
+
       ENDIF
 
 c          write(*,*) ' damper '
 c           read(*,*)
 
 
- 
+
       IF(KHV .NE. 0) THEN
- 
+
         DO 10 IT = 1,IMAX
            Y = F(2,IT)    ! x
            T = F(3,IT)    ! xp
            Z = F(4,IT)    ! y
            P = F(5,IT)    ! yp
-            
 
-               F(2,IT) =  y  
-               F(3,IT) =  t   
-               F(4,IT) =  z  
-               F(5,IT) =  p   
-            
+
+               F(2,IT) =  y
+               F(3,IT) =  t
+               F(4,IT) =  z
+               F(5,IT) =  p
+
  10     CONTINUE
- 
+
       ELSEIF(IJ .EQ. 0) THEN
 C------- DAMPER OFF
- 
+
       ENDIF
- 
+
       RETURN
       END

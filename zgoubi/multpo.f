@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -30,12 +30,12 @@ C  -------
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
- 
+
       INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
@@ -51,15 +51,15 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
 
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
-     
+
 C----- FM, Fermilab, 1996, For special simulation of b10 in LHC low-beta quads
-      LOGICAL CASPI 
+      LOGICAL CASPI
 
       CHARACTER(3) DIM(2)
       CHARACTER(2) BE(2)
@@ -105,7 +105,7 @@ C Field or alignment defects
       DATA CASPI / .TRUE. /
       DATA ERRON / .FALSE. /
       DATA OKOPN / .FALSE. /
-     
+
       IER = 0
       SKEW=.FALSE.
       CALL RAZ(BM,MPOL)
@@ -131,7 +131,7 @@ C------- Single-pole, from QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
         XLS =A(NOEL,40)
         DLS(KUASEX) =A(NOEL,41)
 
-C        IF(XE+XLS.GE.XL) 
+C        IF(XE+XLS.GE.XL)
 C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
 
         CALL RAZ(CS,MCOEF)
@@ -142,13 +142,13 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
 
 C------- Multipole rotation
         RT(KUASEX)=ZERO
- 
+
         NM0 = KUASEX
-        NM = KUASEX        
+        NM = KUASEX
 
       ELSEIF(KUASEX .EQ. MPOL+1) THEN
 C-------  Mag MULTIPOLE, Elec Multipole ELMULT, Elec & Mag Multipole EBMULT
- 
+
         IF    (KFLD .EQ. MG .OR. KFL .EQ. LC) THEN
 C--------- Mag MULTIPOLE or electr ELMULT or Electric part of EBMULT...
           IA = 2
@@ -156,7 +156,7 @@ C--------- Mag MULTIPOLE or electr ELMULT or Electric part of EBMULT...
 C--------- ... or magnetic part of EBMULT
           IA = 60
         ENDIF
- 
+
         XL =A(NOEL,IA)
         IA = IA + 1
         RO =A(NOEL,IA)
@@ -164,7 +164,7 @@ C--------- ... or magnetic part of EBMULT
           IA = IA + 1
           BM(IM) =A(NOEL,IA)*SCAL
           IF(RO .EQ. 0.D0) THEN
-            IF(IM .GE. 2) THEN 
+            IF(IM .GE. 2) THEN
               IF(BM(IM) .NE. 0.D0) THEN
                 IER = IER+1
                 TXT(IER) = 'SBR  MULTPO - RO must be non-zero '
@@ -216,25 +216,25 @@ C        DECA, DODECA, ... 18-POLE
         DLS(8)=ZERO
         DLE(9)=ZERO
         DLS(9)=ZERO
-  
+
 C----- Multipole rotation
-        IA = IA + MCOEF - NCS 
+        IA = IA + MCOEF - NCS
         IA1 = IA
         DO 35 IM=1,MPOL
           IA = IA + 1
-          RT(IM)=A(NOEL,IA) 
+          RT(IM)=A(NOEL,IA)
           SKEW=SKEW .OR. RT(IM) .NE. ZERO
  35     CONTINUE
- 
+
         NM0 = 1
         NM = MPOL
- 
+
 C------- FM, LHC purpose, Fermilab, 1996
         IF(NCE .EQ. 999 .OR .NCS .EQ. 999) CALL MULTI1(CASPI)
 
       ENDIF
 C------------ KUASEX
- 
+
 C----- Magnetic MULTIPOL with non-zero dipole
 C--------- Automatic positionning in SBR TRANSF
 C           Dev normally identifies with the deviation
@@ -245,20 +245,20 @@ C             that would occur in a sharp edge dipole magnet.
           DEV= 0.D0
         ENDIF
 C------------------------  TESTS for COSY
-C         DEV = 2.D0 * PI /24.D0  
+C         DEV = 2.D0 * PI /24.D0
 CC         DEV = 2.D0 * ASIN(.5D0 * XL * 14.32633183D0 / BORO )
 C         DEV = ALE
 C-----------------------------------------
 
 C----- Case erron (ERRORS)
       IF(ERRON) THEN
-        DO IRR = 1, MXERR 
+        DO IRR = 1, MXERR
 
           OK = KUASEX .EQ. MPOL+1
      >    .OR. (KUASEX .LE. MPOL .AND. KUASEX .EQ. IPOL)
 
-          OK =  OK .AND. 
-     >    ( (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
+          OK =  OK .AND.
+     >    ( (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1))
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
      >    )
 
@@ -268,30 +268,30 @@ C----- Case erron (ERRORS)
             CALL FITSTA(5,
      >                    FITING)
             CALL FITST5(
-     >                  FITFNL)         
+     >                  FITFNL)
 
             IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
 
-C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-              CALL MULERR(NOEL,IRR,MXTA,BM, 
+C Won't go if KREB3=99, since this is multi-turn in same lattice.
+              CALL MULERR(NOEL,IRR,MXTA,BM,
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
 
               IF(PRNT .AND. OKOPN) THEN
-                CALL ZGKLE(IQ(NOEL), 
+                CALL ZGKLE(IQ(NOEL),
      >                              KLEY)
-                IF(EMPTY(LBL1(IRR))) THEN 
+                IF(EMPTY(LBL1(IRR))) THEN
                   LBL1L = '.'
                 ELSE
                   LBL1L = LBL1(IRR)
                 ENDIF
-                IF(EMPTY(LBL2(IRR))) THEN 
+                IF(EMPTY(LBL2(IRR))) THEN
                   LBL2L = '.'
                 ELSE
                   LBL2L = LBL2(IRR)
                 ENDIF
                 WRITE(LERR,FMT='(6(1X,I5),3(1X,A),
-     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))') 
+     >          3(1X,E16.8), 1X,E16.8, 6(1X,E16.8), 3(1X,A))')
      >          IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
      >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
      >          ERRCEN(IRR,IPOL),ERRSIG(IRR,IPOL),ERRCUT(IRR,IPOL),
@@ -314,7 +314,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
               ELSE
                 CALL ENDJOB
      >          ('Pgm multpo. No such possibility KUASEX = ',KUASEX)
-              ENDIF      
+              ENDIF
 
               IF(KUASEX .LE. MPOL) THEN
                 A(NOEL,12) = BM(KUASEX) / SCAL
@@ -332,7 +332,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
                   A(NOEL,IA) = RT(IM)
                   SKEW=SKEW .OR. RT(IM) .NE. ZERO
                 ENDDO
-              ENDIF      
+              ENDIF
 
             ENDIF  ! .NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99
 
@@ -352,7 +352,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
      >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
-        WRITE(NRES,103) 
+        WRITE(NRES,103)
      >    (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),BM(IM)/SCAL,IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,E15.7,1X,A,
      >  '  (i.e., ',E15.7,' * SCAL)')
@@ -360,20 +360,20 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
  101    FORMAT(15X,A,'  Skew  angle =',1P,E15.7,' rd')
 
         IF(XL .NE. 0.D0) THEN
-          IF( (XL-DLE(NM0)-DLS(NM0)) .LT. 0.D0) 
-     >    WRITE(NRES,102) NM0 
+          IF( (XL-DLE(NM0)-DLS(NM0)) .LT. 0.D0)
+     >    WRITE(NRES,102) NM0
  102      FORMAT(/,10X,'Entrance  &  exit  fringe  fields  of  ',I0
      >    ,'-pole  overlap, '
      >    ,'  =>  computed  gradient  is ',' G = GE + GS - 1 ')
           DO IM=NM0+1,NM
-            IF( (XL-DLE(NM0)*DLE(NM)-DLS(NM0)*DLS(NM)) .LT. 0.D0) 
+            IF( (XL-DLE(NM0)*DLE(NM)-DLS(NM0)*DLS(NM)) .LT. 0.D0)
      >      WRITE(NRES,102) IM
           ENDDO
         ELSE
           GOTO 98
         ENDIF
       ENDIF
- 
+
       DL0=DLE(NM0)+DLS(NM0)
       SUM=BM(NM0)*BM(NM0)
       IF(KFL .EQ. LC) THEN
@@ -392,7 +392,7 @@ C------- E converted to MeV/cm
 
 C--------------------------------------------------------------
 C OCT. 2016. THIS PROBLEM HAS BEEN SOLVED.
-C Problem was with laptop (ok on owl !) : this write(89 was necessary for the FIT problem 
+C Problem was with laptop (ok on owl !) : this write(89 was necessary for the FIT problem
 C ~/zgoubi/struct/cenbg/HRSDesirCommittee_111117/hrs_u180_v6t4/fitAtFinalFocus.dat
 c          CALL FITSTA(5,
 c     >                  FITING)
@@ -424,7 +424,7 @@ C-------- Sharp edge at entrance and exit
 C------------- MULTIPOL case. Set entrance & exit wedge correction in SBR INTEGR
             IF(BM(1) .NE. 0.D0) THEN
 C FM, Oct. 2011. Avoid wedge correction with short lens
-              IF(XL .GT. 2.D0) THEN            
+              IF(XL .GT. 2.D0) THEN
 C FM, 2006
                 CALL INTEG1(ZERO,FINTE,GAP)
                 CALL INTEG2(ZERO,FINTS,GAP)
@@ -432,7 +432,7 @@ C FM, 2006
             ENDIF
           ENDIF
         ENDIF
-        
+
       ELSE
 C-------- Form factor G(s) at entrance or exit
 C-----    Let's see entrance first
@@ -491,7 +491,7 @@ C--------------- MIXFF = true if combined sharp edge multpole + fringe field mul
 C 130        FORMAT(20X,' AVEC  Champ  DE  FUITE  :'
      >      ,/,20X,' DX  = ',F7.3,'  CM ')
             WRITE(NRES,131)   LMNT(NM0),DLE(NM0)
-            IF(NM0+1 .LE. NM) 
+            IF(NM0+1 .LE. NM)
      >      WRITE(NRES,131) ( LMNT(IM),DLE(NM0)*DLE(IM) ,IM=NM0+1,NM)
  131        FORMAT(20X,' LAMBDA-',A,' =',F7.3,'  CM')
 C            WRITE(NRES,132) (CE(I),I=1,6)
@@ -515,12 +515,12 @@ C              DO 44 I=2, 10 !MCOEF
             ENDIF
  45       CONTINUE
         ENDIF
- 
+
 C--------- Let's see exit, next
         IF(NRES.GT.0) WRITE(NRES,107)
  107    FORMAT(/,15X,' Exit  face  ')
 C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
- 
+
         DL0 = DLS(NM0)
         DO 6 IM=NM0+1,NM
  6        DL0 = DL0+DLS(NM0)*DLS(IM)
@@ -547,7 +547,7 @@ C FM, 2006
             MIXFF = DLS(NM0) .EQ. 0.D0 .AND. BM(NM0) .NE. 0.D0
             DO 61 IM = NM0+1,NM
               IF(.NOT. MIXFF) THEN
-                IF(DLS(NM0)*DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0) 
+                IF(DLS(NM0)*DLS(IM) .EQ. 0.D0 .AND. BM(IM) .NE. 0.D0)
      >           MIXFF= .TRUE.
               ENDIF
  61         CONTINUE
@@ -565,7 +565,7 @@ C FM, 2006
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XLS
             WRITE(NRES,131)   LMNT(NM0),DLS(NM0)
-            IF(NM0+1 .LE. NM) 
+            IF(NM0+1 .LE. NM)
      >      WRITE(NRES,131) ( LMNT(IM), DLS(NM0)*DLS(IM) ,IM=NM0+1,NM)
             WRITE(NRES,132) NCS,(CS(I),I=1,NCS)
           ENDIF
@@ -586,10 +586,10 @@ C              DO 461 I=2, 10 !MCOEF
             ENDIF
  46       CONTINUE
         ENDIF
- 
+
       ENDIF
 C---------- end of test DLE or DLS=0
- 
+
 C----- Some more actions about Magnetic Dipole components :
       IF( KUASEX .EQ. MPOL+1 .AND. KFL .EQ. MG ) THEN
 C----- MULTIPOL
@@ -597,10 +597,10 @@ C----- MULTIPOL
 C------- Entrance sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
           IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
      >      ''vertical wedge focusing approximated with '',
-     >      ''first order kick. FINT at entrance = '',1P,2G12.4)') 
+     >      ''first order kick. FINT at entrance = '',1P,2G12.4)')
      >      FINTE
           ENDIF
         ENDIF
@@ -608,10 +608,10 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C------- Exit sharp edge field model
 C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
           IF(BM(1) .NE. 0.D0) THEN
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge model, '',
      >      '' vertical wedge focusing approximated with '',
-     >      ''first order kick. FINT at exit = '',1P,2G12.4)') 
+     >      ''first order kick. FINT at exit = '',1P,2G12.4)')
      >      FINTS
           ENDIF
         ENDIF
@@ -620,32 +620,32 @@ C          IF(NM .EQ. 1 .AND. BM(1) .NE. 0.D0) THEN
 C----- Case erron (ERRORS)
       IF(NRES.GT.0) THEN
         IF(ERRON) THEN
-         DO IRR = 1, MXERR 
+         DO IRR = 1, MXERR
 
           OK = KUASEX .EQ. MPOL+1
      >    .OR. (KUASEX .LE. MPOL .AND. KUASEX .EQ. IPOL)
-          OK =  OK .AND. 
-     >    (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
-     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+          OK =  OK .AND.
+     >    (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1))
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
 
           IF(OK) THEN
            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
             DO I = 1, MPOL
-              IF(KPOL(IRR,I) .EQ. 1) THEN 
+              IF(KPOL(IRR,I) .EQ. 1) THEN
                 WRITE(NRES,FMT='(/,15X,
-     >          ''ERRORS are set, accounted for in the field '', 
+     >          ''ERRORS are set, accounted for in the field '',
      >          ''values above.'')')
                 WRITE(NRES,FMT=
      >          '(20X,''Case of MULTIPOL with labels : '',4A,I4,A,I4)')
      >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
-     >          ', # element = ',NOEL  
+     >          ', # element = ',NOEL
                 WRITE(NRES,FMT='(20X,
      >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
      >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
-                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))')
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
-                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
+                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))')
      >          '    error  values  status, '
      >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
@@ -654,21 +654,21 @@ C----- Case erron (ERRORS)
             ENDDO
            ELSE
             DO I = 1, MPOL
-              IF(KPOL(IRR,I) .EQ. 1) THEN 
+              IF(KPOL(IRR,I) .EQ. 1) THEN
                 WRITE(NRES,FMT='(/,15X,
-     >          ''ERRORS were set, accounted for in the field '', 
+     >          ''ERRORS were set, accounted for in the field '',
      >          ''values above - maintainded unchanged so far.'')')
                 WRITE(NRES,FMT=
      >          '(20X,''Case of MULTIPOL with labels : '',4A,I4,A,I4)')
      >          LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
-     >          ', # element = ',NOEL  
+     >          ', # element = ',NOEL
                 WRITE(NRES,FMT='(20X,
      >          ''Pole#, error type, A/R, G/U : '',I1,3(2X,A))')
      >          I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
-                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))') 
+                WRITE(NRES,FMT='(20X,A,1P,3(E14.6,2X))')
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
-                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))') 
+                WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))')
      >          '    error  values  status, '
      >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
@@ -692,22 +692,22 @@ C       MELANGE MPOLES-CRENAU + MPOLES-CHAMP DE FUITE
       IF( IFB .EQ. -1 ) THEN
         AFB(1) = 1.D0
         BFB(1) = 0.D0
-        CFB(1) = -XE         
+        CFB(1) = -XE
       ELSEIF( IFB .EQ. 1 ) THEN
         AFB(2) = 1.D0
         BFB(2) = 0.D0
-        CFB(2) = -XS       
+        CFB(2) = -XS
       ELSEIF( IFB .EQ. 2 ) THEN
         AFB(1) = 1.D0
         BFB(1) = 0.D0
-        CFB(1) = -XE       
+        CFB(1) = -XE
         AFB(2) = 1.D0
         BFB(2) = 0.D0
-        CFB(2) = -XS       
+        CFB(2) = -XS
       ENDIF
 C      IF( XE .GE. XL .OR. XLS .GE. XL ) THEN
 C        IER = IER+1
-C        TXT(IER) =  
+C        TXT(IER) =
 C     >   'Overlapping of fringe fields is too large. Check XE, XS < XL'
 C      ENDIF
 
@@ -738,7 +738,7 @@ C----- If SR-loss switched on by procedure SRLOSS
       ENDIF
 
       IF(IER.NE.0) GOTO 99
-      
+
  98   RETURN
 
  99   CONTINUE
@@ -749,7 +749,7 @@ C----- If SR-loss switched on by procedure SRLOSS
      >               ('*** ERROR #',I,TXT(I),I=1,IER)
 C----- Execution stopped :
       RETURN 1
-      
+
       ENTRY MULTKL(
      >             AL, AK1, AK2, AK3, DEVOO)
       AL = SXL
@@ -758,7 +758,7 @@ C----- Execution stopped :
       AK3 = AKS(3)
       DEVOO = DEVO
       RETURN
-      
+
       ENTRY MULTP2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
      >               ERRCEI,ERRSII,ERRCUI,LBL1I,LBL2I)
       ERRON = .TRUE.
@@ -777,7 +777,7 @@ C----- Execution stopped :
 
       ENTRY MULTP4
       ERRON = .FALSE.
-      RETURN      
+      RETURN
 
       ENTRY MULTP8(PRNTI)
       PRNT = PRNTI
@@ -789,7 +789,7 @@ C----- Execution stopped :
           WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : multpo'
      >    //' program. This file opened with unit # ',LERR,'.'
           WRITE(LERR,FMT='(A)') '# '
-          WRITE(LERR,FMT='(A)') 
+          WRITE(LERR,FMT='(A)')
      >    '# IPASS, NOEL, KREB3, IRR, IPOL, KPOL(IRR,Ipol) '
      >    //'TYPERR(IRR,IPOL), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
@@ -802,5 +802,5 @@ C----- Execution stopped :
       ELSE
         IF(OKOPN) CLOSE(LERR)
       ENDIF
-      RETURN      
+      RETURN
       END

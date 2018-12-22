@@ -33,7 +33,7 @@ C  -------
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       INCLUDE "C.FAISC.H"    ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT)
-      INCLUDE "C.PTICUL.H"   ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"   ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"    ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BR
       logical TSPCH
@@ -61,7 +61,7 @@ c     >             TLAMBDA1,TSPCH1)
       ENDIF
 
 
-C----- P0, AM  are  in  MEV/c, /c^2
+C----- P0, AMASS  are  in  MEV/c, /c^2
        P0 = BORO*CL9*Q
 
 C----- The momentum of the reference particle is used to give the space charge kick:
@@ -69,7 +69,7 @@ C      YOU SHOULD TRACK ONLY ONE DISTRIBUTION WHEN YOU WANT TO COMPUTE SPACE CHA
 C----- Be careful if you have RF you have to check the particle momentum
 
       P = P0*F(1,1)
-      AM2 = AM*AM
+      AM2 = AMASS*AMASS
       ENRG = SQRT(P*P+AM2)
       BTA = P/ENRG
       BTA2 = BTA**2
@@ -81,8 +81,8 @@ ccccccccccccccccccccc    compute the perveance term    cccccccccccccccccccccc
 !      epsilon0 = 8.854187817*10**(-12)   in Faraday
       GAMMA3 = GAMMA**3
       fact1=5526.347
-!      Q_perv = Q*tlambda*(10**6)/(2*pi*epsilon0*AM*GAMMA3*BTA2)
-      Q_perv = Q*tlambda/(2*pi*fact1*AM*GAMMA3*BTA2)
+!      Q_perv = Q*tlambda*(10**6)/(2*pi*epsilon0*AMASS*GAMMA3*BTA2)
+      Q_perv = Q*tlambda/(2*pi*fact1*AMASS*GAMMA3*BTA2)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c here I need to apply the space charge kick to each slice: the assumption is that the beam size does not change a lot, in order to apply a uniform space charge kick to each slice -- to be updated

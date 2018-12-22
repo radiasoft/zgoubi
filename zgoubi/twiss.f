@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -39,10 +39,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
-      
+
       DIMENSION T(6,6,6)
       SAVE      T
       DIMENSION TX3(5,6) , TX4(5,6)
@@ -50,9 +50,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       DIMENSION REF(6), PATHL(3)
       SAVE REF
-      DIMENSION RREF(6,6), RPLUS(6,6), RMINUS(6,6) 
+      DIMENSION RREF(6,6), RPLUS(6,6), RMINUS(6,6)
       SAVE RREF, RPLUS, RMINUS
-      DIMENSION F0REF(6,6), F0P(6,6), F0M(6,6) 
+      DIMENSION F0REF(6,6), F0P(6,6), F0M(6,6)
       SAVE F0REF, F0P, F0M
       SAVE YNUREF, ZNUREF, YNUP, ZNUP, YNUM, ZNUM
       SAVE DNUYDP, DNUZDP, DNUYDY, DNUZDY, DNUZDZ
@@ -66,7 +66,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C F2 contains seven 6-vector (2nd index), from ipass-6 (f2(1,*)) to ipass (f2(7,*))
       DIMENSION F2(7,6), XYS(6,12), KAUX(6)   !!, SM(6,6)
       SAVE F2
-  
+
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ)  KLOBJ
 
@@ -77,7 +77,7 @@ C      INTEGER DEBSTR, FINSTR
 
       LOGICAL DOLAST
       SAVE DOLAST
-      
+
       DIMENSION RTURN(6,6)
       LOGICAL PRDIC, OKORBT
 
@@ -99,8 +99,8 @@ C      INTEGER DEBSTR, FINSTR
 
 C KTW=1 : 1 pass, equivalent to matrix[1,11]
 C KTW=2 : 2 more passes to get matrices around +/-dp/p chromatic closed orbits;
-C KTW=3 : 1 more pass to get matrices with +/-dY amplitude and 
-C        +1 more to get matrices with +/-dZ amplitude. 
+C KTW=3 : 1 more pass to get matrices with +/-dY amplitude and
+C        +1 more to get matrices with +/-dZ amplitude.
 C KTW .ge. 99 : compute linear functions from multi-turn tracking - installation not completed.
 C KTW2 = 1 is a request for orbit search prior to attacking twiss procedure
 
@@ -112,7 +112,7 @@ C KTW2 = 1 is a request for orbit search prior to attacking twiss procedure
 Compute optical functions, tunes, chromaticity, anharmonicities, from a few passes
 C of 11 particles (based on MATRIX)
 
-      OKORBT = .NOT. KTW2 .EQ. 1 
+      OKORBT = .NOT. KTW2 .EQ. 1
       IF(OKORBT) THEN
         IF(NRES.GT.0) THEN
           WRITE(NRES,*)
@@ -138,7 +138,7 @@ C of 11 particles (based on MATRIX)
 
       KLOBJ = 'OBJET'
       CALL GETNOL(KLOBJ,
-     >                  NLOBJ)      
+     >                  NLOBJ)
 
       IF(IPASS .EQ. 1) THEN
 C Compute periodic beta from first pass.
@@ -152,7 +152,7 @@ C 2nd pass through structure will follow iff KTW>1.
      >    '' ****  End  of  pass #'',I1
      >  ,'' of TWISS  procedure  ****'',/)') IPASS
 
-C------- Switch off print into zgoubi.res : 
+C------- Switch off print into zgoubi.res :
         ANOEL2 = 0.1D0
         KWRIT = NINT(ANOEL2)
 C------- Switch on print to standard output :
@@ -164,7 +164,7 @@ C------- Switch on print to standard output :
           IORD=1
         ELSEIF(KOBJ .EQ. 6) THEN
           IORD=2
-        ENDIF 
+        ENDIF
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -180,7 +180,7 @@ C------- Switch on print to standard output :
         CALL MKSA(IORD,RREF,T,TX3,TX4)
 C        CALL MATIMP(RREF)
         IF(OKCPLD) THEN
-          CALL TUNESC(RREF, 
+          CALL TUNESC(RREF,
      >           F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
@@ -197,7 +197,7 @@ C        CALL MATIMP(RREF)
         IF(KTW.GE.2) THEN
 
           CALL REFER1(
-     >                PATHL(1)) 
+     >                PATHL(1))
 C          NLOBJ = 1
           REF(1) = A(NLOBJ,30)
           REF(2) = A(NLOBJ,31)
@@ -213,9 +213,9 @@ C          NLOBJ = 1
           A(NLOBJ,31) =  REF(2) -  1.D3*F0REF(2,6) * FAP25
           A(NLOBJ,32) =  REF(3) -  1.D2*F0REF(3,6) * FAP25
           A(NLOBJ,33) =  REF(4) -  1.D3*F0REF(4,6) * FAP25
-          
+
           IPASS=IPASS+1
-          NOEL=0 
+          NOEL=0
           CALL SCUMS(0.D0)
 
         ELSE
@@ -226,7 +226,7 @@ C          NLOBJ = 1
         ENDIF
 
         RETURN
- 
+
       ELSEIF(IPASS .EQ. 2) THEN
 C----- 3rd pass through structure will follow
         ISIGN = NRES/ABS(NRES)
@@ -248,7 +248,7 @@ C----- 3rd pass through structure will follow
         CALL MKSA(IORD,RMINUS,T,TX3,TX4)
 C        CALL MATIMP(RMINUS)
         IF(OKCPLD) THEN
-          CALL TUNESC(RMINUS, 
+          CALL TUNESC(RMINUS,
      >          F0M,YNUM,ZNUM,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RMINUS,F0M,NMAIL,IERY,IERZ,.TRUE.,
@@ -256,10 +256,10 @@ C        CALL MATIMP(RMINUS)
         ENDIF
         CALL MATIMP(RMINUS,F0M,YNUM,ZNUM,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
-     >              PATHL(2)) 
+     >              PATHL(2))
 
         NRES = ISIGN*NRES
- 
+
 C------- Reset reference coordinates for OBJECT sampling : p -> p+dp
 C        NLOBJ = 1
         FAP25 = FACP * A(NLOBJ,25)
@@ -268,14 +268,14 @@ C        NLOBJ = 1
         A(NLOBJ,31) =  REF(2) +  1.D3*F0REF(2,6) * FAP25
         A(NLOBJ,32) =  REF(3) +  1.D2*F0REF(3,6) * FAP25
         A(NLOBJ,33) =  REF(4) +  1.D3*F0REF(4,6) * FAP25
-          
+
         IPASS=IPASS+1
 
-        NOEL=0 
+        NOEL=0
         CALL SCUMS(0.D0)
 
         RETURN
- 
+
       ELSEIF(IPASS .EQ. 3) THEN
 C----- Chromatic tracking completed
 
@@ -285,7 +285,7 @@ C----- Chromatic tracking completed
      >    '' ****  End  of  pass #'',I1
      >  ,'' of TWISS  procedure  ****'',/)') IPASS
 
-C------- reactivate WRITE for printing results 
+C------- reactivate WRITE for printing results
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -300,7 +300,7 @@ C------- reactivate WRITE for printing results
         CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C        CALL MATIMP(RPLUS)
         IF(OKCPLD) THEN
-          CALL TUNESC(RPLUS, 
+          CALL TUNESC(RPLUS,
      >           F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -308,7 +308,7 @@ C        CALL MATIMP(RPLUS)
         ENDIF
         CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
         CALL REFER1(
-     >              PATHL(3)) 
+     >              PATHL(3))
 
         NRES = ISIGN*NRES
 
@@ -317,7 +317,7 @@ C Momentum compaction
 
 C Momentum detuning
 C        NLOBJ = 1
-C Mod FM. 15.09.14 
+C Mod FM. 15.09.14
 C        DNUYDP = (YNUP-YNUM)/2.D0/A(NLOBJ,25)
 C        DNUZDP = (ZNUP-ZNUM)/2.D0/A(NLOBJ,25)
         DPP = 2.D0*FAP25/REF(6)
@@ -334,12 +334,12 @@ C          NLOBJ = 1
           A(NLOBJ,33) =  REF(4)
           A(NLOBJ,34) =  REF(5)
 C------- Reset reference coordinates for OBJECT sampling : y -> y+dy
-          A(NLOBJ,20) =  FACA * A(NLOBJ,20)    
-          A(NLOBJ,21) =  FACA * A(NLOBJ,21)    
+          A(NLOBJ,20) =  FACA * A(NLOBJ,20)
+          A(NLOBJ,21) =  FACA * A(NLOBJ,21)
 
           IPASS=IPASS+1
-      
-          NOEL=0 
+
+          NOEL=0
           CALL SCUMS(0.D0)
 
           RETURN
@@ -373,7 +373,7 @@ C        ENDIF
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
-            CALL TUNESC(RPLUS, 
+            CALL TUNESC(RPLUS,
      >             F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -382,39 +382,39 @@ C          CALL MATIMP(RPLUS)
           CALL MATIMP(RPLUS,F0P,YNUP,ZNUP,CMUY,CMUZ,NMAIL,PRDIC,1)
 
           NRES = ISIGN*NRES
- 
+
 C  Amplitude detuning, dY effects
 C          NLOBJ = 1
           Y2 = FAC1*A(NLOBJ,20)-A(NLOBJ,30)
           YYP = Y2
-          Y2 = Y2*Y2 
+          Y2 = Y2*Y2
           YP2 = FAC1*A(NLOBJ,21)-A(NLOBJ,31)
           YYP = YYP*YP2
-          YP2 = YP2*YP2 
+          YP2 = YP2*YP2
           UYREF = F0REF(2,2)/1.D2*Y2+2.D0*(-F0REF(2,1))*YYP+
-     >             F0REF(1,1)*1.D2*YP2 
+     >             F0REF(1,1)*1.D2*YP2
           YY2 = A(NLOBJ,20)-A(NLOBJ,30)
           YYYP = YY2
-          YY2 = YY2*YY2 
+          YY2 = YY2*YY2
           YYP2 = A(NLOBJ,21)-A(NLOBJ,31)
           YYYP = YYYP*YYP2
-          YYP2 = YYP2*YYP2 
-          UYP = F0P(2,2)/1.D2*YY2 + 2.D0*(-F0P(2,1))*YYYP + 
-     >             F0P(1,1)*1.D2*YYP2 
+          YYP2 = YYP2*YYP2
+          UYP = F0P(2,2)/1.D2*YY2 + 2.D0*(-F0P(2,1))*YYYP +
+     >             F0P(1,1)*1.D2*YYP2
           DNUYDY=(YNUP-YNUREF)/(UYP-UYREF)
           DNUZDY=(ZNUP-ZNUREF)/(UYP-UYREF)
-        
+
 C--------- Reset reference coordinates for OBJECT sampling : z -> z+dz
 C          NLOBJ = 1
-          A(NLOBJ,20) =  FAC1 * A(NLOBJ,20) 
-          A(NLOBJ,21) =  FAC1 * A(NLOBJ,21) 
+          A(NLOBJ,20) =  FAC1 * A(NLOBJ,20)
+          A(NLOBJ,21) =  FAC1 * A(NLOBJ,21)
           A(NLOBJ,22) =  FACA * A(NLOBJ,22)
           A(NLOBJ,23) =  FACA * A(NLOBJ,23)
-    
+
           IPASS=IPASS+1
-          NOEL=0 
+          NOEL=0
           CALL SCUMS(0.D0)
-          RETURN 
+          RETURN
 
 C      ELSEIF(IPASS .GT. NRBLT) THEN
       ELSEIF(IPASS .EQ. 5) THEN
@@ -439,7 +439,7 @@ C------- Amplitude tracking completed
           CALL MKSA(IORD,RPLUS,T,TX3,TX4)
 C          CALL MATIMP(RPLUS)
           IF(OKCPLD) THEN
-            CALL TUNESC(RPLUS, 
+            CALL TUNESC(RPLUS,
      >            F0P,YNUP,ZNUP,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RPLUS,F0P,NMAIL,IERY,IERZ,.TRUE.,
@@ -453,24 +453,24 @@ C Amplitude detuning, dZ effects
 C        NLOBJ = 1
           Z2 = FAC1*A(NLOBJ,22)-A(NLOBJ,32)
           ZZP = Z2
-          Z2 = Z2*Z2 
+          Z2 = Z2*Z2
           ZP2 = FAC1*A(NLOBJ,23)-A(NLOBJ,33)
           ZZP = ZZP*ZP2
-          ZP2 = ZP2*ZP2 
+          ZP2 = ZP2*ZP2
           UZREF = F0REF(4,4)/1.D2*Z2+2.D0*(-F0REF(4,3))*ZZP+
-     >       F0REF(3,3)*1.D2*ZP2 
+     >       F0REF(3,3)*1.D2*ZP2
           ZZ2 = A(NLOBJ,22)-A(NLOBJ,32)
           ZZZP = ZZ2
-          ZZ2 = ZZ2*ZZ2 
+          ZZ2 = ZZ2*ZZ2
           ZZP2 = A(NLOBJ,23)-A(NLOBJ,33)
           ZZZP = ZZZP*ZZP2
-          ZZP2 = ZZP2*ZZP2 
-          UZP = F0P(4,4)/1.D2*ZZ2 + 2.D0*(-F0P(4,3))*ZZZP + 
-     >          F0P(3,3)*1.D2*ZZP2 
+          ZZP2 = ZZP2*ZZP2
+          UZP = F0P(4,4)/1.D2*ZZ2 + 2.D0*(-F0P(4,3))*ZZZP +
+     >          F0P(3,3)*1.D2*ZZP2
 
              DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
              DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
-        
+
       ENDIF
 
  222  CONTINUE
@@ -492,34 +492,34 @@ C----- So to print into zgoubi.TWISS.out
      >  ,'' of TWISS  procedure  ****'',/)') IPASS
 
         NRES = ISIGN*NRES
- 
+
 C------- Reset reference coordinates for OBJECT sampling : p -> p+dp
 C        NLOBJ = 1
         FAP25 = FACP * A(NLOBJ,25)
-        A(NLOBJ,35) =  REF(6) 
-        A(NLOBJ,30) =  REF(1) 
-        A(NLOBJ,31) =  REF(2) 
-        A(NLOBJ,32) =  REF(3) 
-        A(NLOBJ,33) =  REF(4) 
-          
+        A(NLOBJ,35) =  REF(6)
+        A(NLOBJ,30) =  REF(1)
+        A(NLOBJ,31) =  REF(2)
+        A(NLOBJ,32) =  REF(3)
+        A(NLOBJ,33) =  REF(4)
+
         IPASS=IPASS+1
-        NOEL=0 
+        NOEL=0
         CALL SCUMS(0.D0)
 
-C--------- P0, AM  are  in  MEV/c, /c^2
+C--------- P0, AMASS  are  in  MEV/c, /c^2
           PREF = BORO*CL9*Q*(DPREF+HDPRF)
-          IF(AM.LE.1D-8) AM = AMPROT
-          ENERGY = sqrt(PREF*PREF + AM*AM)
-          WRITE(LUN,50)'@ NAME             %05s   "TWISS"' 
+          IF(AMASS.LE.1D-8) AMASS = AMPROT
+          ENERGY = sqrt(PREF*PREF + AMASS*AMASS)
+          WRITE(LUN,50)'@ NAME             %05s   "TWISS"'
           WRITE(LUN,50)'@ TYPE             %05s   "TWISS"'
           WRITE(LUN,50)'@ SEQUENCE         %04s   "RING"'
           WRITE(LUN,50)'@ PARTICLE         %00s   ""'
-          WRITE(LUN,51)'@ MASS             %le', am/1.d3
+          WRITE(LUN,51)'@ MASS             %le', AMASS/1.d3
           WRITE(LUN,52)'@ CHARGE           %le', int(q)
           WRITE(LUN,51)'@ ENERGY           %le', Energy/1.d3
           WRITE(LUN,55)'@ PC               %le', PREF/1.D3,
      >    '   [B.rho= ',BORO/1.d3,']'
-          WRITE(LUN,51)'@ GAMMA            %le', Energy/am
+          WRITE(LUN,51)'@ GAMMA            %le', Energy/AMASS
           WRITE(LUN,50)'@ KBUNCH           %le                   1'
           WRITE(LUN,50)'@ BCURRENT         %le                   0'
           WRITE(LUN,50)'@ SIGE             %le                   0'
@@ -552,9 +552,10 @@ C          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
           WRITE(LUN,50)'@ YCORMS           %le    0.    not computed'
           WRITE(LUN,50)'@ DXRMS            %le    0.    not computed'
           WRITE(LUN,50)'@ DYRMS            %le    0.    not computed'
-          WRITE(LUN,56)'@ DELTAP           %le', REF(6)-1.D0, 
+          WRITE(LUN,56)'@ DELTAP           %le', REF(6)-1.D0,
      >    '   [B.rho= ',BORO*REF(6)/1.d3,' E_kin= ',
-     >    (sqrt((BORO*CL9*Q*(DPREF+HDPRF)*REF(6))**2+AM*AM)-AM)/1.d3,']'
+     >    (sqrt((BORO*CL9*Q*(DPREF+HDPRF)*REF(6))**2+AMASS*AMASS)-AMASS)
+     >    /1.d3,']'
           WRITE(LUN,51)'@ |C|              %le', CC
           WRITE(LUN,51)'@ Q1*              %le', Q1
           WRITE(LUN,51)'@ Q2*              %le', Q2
@@ -576,7 +577,7 @@ C          WRITE(LUN,54)'@ Q2               %le', ZNUREF,'   [+ integer]'
  56       FORMAT(A,T25,G18.10,A,2(G18.10,A))
 
 C          CLOSE(LUN)
-C        ENDIF 
+C        ENDIF
 
         RETURN
       ENDIF
@@ -603,7 +604,7 @@ C------- reactivate READ in zgoubi.dat
           IORD=1
         ELSEIF(KOBJ .EQ. 6) THEN
           IORD=2
-        ENDIF 
+        ENDIF
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -619,7 +620,7 @@ C------- reactivate READ in zgoubi.dat
         CALL MKSA(IORD,RREF,T,TX3,TX4)
 C        CALL MATIMP(RREF)
         IF(OKCPLD) THEN
-          CALL TUNESC(RREF, 
+          CALL TUNESC(RREF,
      >           F0REF,YNUREF,ZNUREF,CMUY,CMUZ,IERY,IERZ)
         ELSE
           CALL TUNES(RREF,F0REF,NMAIL,IERY,IERZ,.TRUE.,
@@ -632,36 +633,36 @@ C        CALL MATIMP(RREF)
         IF(KTW.GE.2) THEN
 
           CALL MATIMP(RREF,F0REF,YNUREF,ZNUREF,CMUY,CMUZ,NMAIL,PRDIC,1)
-          WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//, 
+          WRITE(NRES,FMT='(/,34X,1P,'' Momentum compaction : '',//,
      >    30X,''dL/L / dp/p = '',G15.8)') ALPHA
-          WRITE(NRES,FMT='(5X,1P,''(dp = '',E13.6,5X  
+          WRITE(NRES,FMT='(5X,1P,''(dp = '',E13.6,5X
      >    ,'' L(0)   = '',E14.5,'' cm, ''
      >    ,'' L(0)-L(-dp) = '',E14.5,'' cm, ''
-     >    ,'' L(0)-L(+dp) = '',E14.5,'' cm) '' )') 
+     >    ,'' L(0)-L(+dp) = '',E14.5,'' cm) '' )')
      >    A(1,25), pathl(1),(pathl(1)-pathl(2)),(pathl(1)-pathl(3))
           WRITE(NRES,FMT='(/,34X,1P,'' Transition gamma  = '',
      >    E15.8)') 1.d0/SQRT(ALPHA)
 
-          WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//, 
-     >    30X,''dNu_y / dp/p = '',E15.8,/, 
+          WRITE(NRES,FMT='(/,34X,1P,'' Chromaticities : '',//,
+     >    30X,''dNu_y / dp/p = '',E15.8,/,
      >    30X,''dNu_z / dp/p = '',E15.8)') DNUYDP, DNUZDP
 
           IF(KTW .GE.3) THEN
 C             DNUZDZ=(ZNUP-ZNUREF)/(UZP-UZREF)
-C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)        
+C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
             DNUYDY=0.D0 ; DNUYDZ=0.D0
             DNUZDY=0.D0 ; DNUZDZ=0.D0
- 
-            WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//, 
+
+            WRITE(NRES,FMT='(/,38X,1P,'' Amplitude  detunings : '',//,
      >      42X,''/ dEps_y/pi       / dEps_z/pi'',
-     >      5X,'' TO BE DEBUGGED, pgm twiss.f... '',/, 
-     >      30X,''dNu_y'',7X,2(E15.8,3X),/, 
-     >      30X,''dNu_z'',7X,2(E15.8,3X), //, 
+     >      5X,'' TO BE DEBUGGED, pgm twiss.f... '',/,
+     >      30X,''dNu_y'',7X,2(E15.8,3X),/,
+     >      30X,''dNu_z'',7X,2(E15.8,3X), //,
      >      20X,''Nu_y_Ref = '',E15.8,'',  Nu_z_Ref = '',E15.8, /,
-     >      20X,''Nu_y_+dp = '',E15.8,'',  Nu_z_+dp = '',E15.8, /, 
-     >      20X,''Eps_y_Ref/pi = '',E15.8,'',  Eps_z_Ref/pi = '',E15.8, 
+     >      20X,''Nu_y_+dp = '',E15.8,'',  Nu_z_+dp = '',E15.8, /,
+     >      20X,''Eps_y_Ref/pi = '',E15.8,'',  Eps_z_Ref/pi = '',E15.8,
      >      /,20X,''Eps_y_+dA/pi = '',E15.8,'',  Eps_z_+dA = '',E15.8)')
-     >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ, 
+     >      DNUYDY, DNUYDZ, DNUZDY, DNUZDZ,
      >      YNUREF,ZNUREF,
      >      YNUP,  ZNUP,
      >      UYREF, UZREF,
@@ -680,7 +681,7 @@ C             DNUYDZ=(YNUP-YNUREF)/(UZP-UZREF)
 
 C-------------------------------------------------------------------
  20   CONTINUE
-Compute linear functions, from multiturn tracking. Number of the particle used for that is given by user. 
+Compute linear functions, from multiturn tracking. Number of the particle used for that is given by user.
 c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier
       KPM = MIN(IPASS,8)
       IF(KPM.LE.7) THEN
@@ -708,7 +709,7 @@ c  F2( KPM : 7-> 1 ) : from end of last pass to end 6 passes earlier
         ENDDO
       ENDIF
 
-      IF(IPASS.LT.7) RETURN       
+      IF(IPASS.LT.7) RETURN
 
       DO IC=1,6
         DO I=1,6
@@ -735,4 +736,4 @@ C          SM(I,IC) = F2(8-I,IC)
       RETURN
 
       END
- 
+

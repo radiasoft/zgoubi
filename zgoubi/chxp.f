@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,17 +37,17 @@ C  -------
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
 C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       INCLUDE "C.STEP.H"     ! COMMON/STEP/ TPAS(3), KPAS
-C      COMMON/STEP/ KPAS, TPAS(3) 
+C      COMMON/STEP/ KPAS, TPAS(3)
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
-  
+
       CHARACTER(39) TXTT, TXTS, TXTA
       CHARACTER(11) TXTEMP
       SAVE IPREC
@@ -101,7 +101,7 @@ C--------- EMMA keyword using cylindrical mesh (MOD.ge.20)
 
       ELSE
 C        KALC = 1 or 3
-C        Field is defined by analytical models, mid plane (1) or 3D (3). 
+C        Field is defined by analytical models, mid plane (1) or 3D (3).
 
         IF(KUASEX .EQ. 30) THEN
 C--------- EMPTY
@@ -116,7 +116,7 @@ C--------- EMPTY
 
       CALL FITSTA(5,
      >              FITING)
-      IF(.NOT. FITING) THEN        
+      IF(.NOT. FITING) THEN
         IF    (KALC.EQ.2 ) THEN
 C--------- Field is defined by maps
           IF(KUASEX .EQ. 22) THEN
@@ -142,7 +142,7 @@ C----------- EMMA keyword using cylindrical mesh (MOD.ge.20)
           ENDIF
         ELSE
 C          KALC = 1 or 3
-C          Field is defined by analytical models, mid plane (1) or 3D (3). 
+C          Field is defined by analytical models, mid plane (1) or 3D (3).
           LF = 0
           LST =LSTSET(NINT(A(NOEL,1)))
         ENDIF
@@ -170,13 +170,13 @@ C Field scale factor. Used by  'SCALING'
       RFR = 0.D0
 
       GOTO (2001, 2002, 2003) KALC
- 
- 
+
+
  2001 CONTINUE
-C----------- KALC = 1: Define field in the median plane 
+C----------- KALC = 1: Define field in the median plane
 C                  with median plane symetry
 
-C Default IDB value is set here : 
+C Default IDB value is set here :
       IRD = KORD
       IF(IRD.EQ.4) IDB=4
 
@@ -188,7 +188,7 @@ C Modif, FM, Dec. 05
 
         CALL FFAGI(SCAL,
      >                  DSREF,IRD,IDB,IDZ)
-        
+
 C Modif, FM, Dec. 05
 C        KP = NINT(A(NOEL,ND+1))
 C        NDD = ND+2
@@ -200,8 +200,8 @@ C        KP = NINT(A(NOEL,ND+3))
 C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
 
       ELSEIF(KUASEX .EQ. 30) THEN
-C------- Installiing SBEND, not yet complete 
-        
+C------- Installiing SBEND, not yet complete
+
           CALL SBENDI(SCAL,
      >                    DSREF)
           KP = NINT(A(NOEL,ND+NND))
@@ -259,13 +259,13 @@ C        DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
       ENDIF
 
       GOTO 99
- 
+
 C---------------------------------------------------------------
  2002 CONTINUE
 C----- KALC = 2 : either read (TOSCAP, POLMES), or generate (CARLA, DIPOLM) a field map
 
       IF(KUASEX.EQ.2 .OR. KUASEX.EQ.7) THEN
-C TOSCA keyword with MOD.ge.20. 
+C TOSCA keyword with MOD.ge.20.
 
         IF(KUASEX .EQ. 2) THEN
           NDIM = 2
@@ -286,7 +286,7 @@ C     >                          BMIN,BMAX,BNORM,
         RFR = RM
 
       ELSEIF(KUASEX.EQ.34 .OR. KUASEX.EQ.35) THEN
-C EMMA. Polar -> MOD.ge.20. 
+C EMMA. Polar -> MOD.ge.20.
 
         IF(KUASEX .EQ. 34) THEN
 
@@ -336,11 +336,11 @@ C POLARMES keyword
       IF(NRES.GT.0) THEN
 C        I2=2 introduced to avoid compiler complainig when IZ=1...
         I2 = 2
-        WRITE(NRES,203) 
+        WRITE(NRES,203)
      >      XH(1),XH(IXMA),XH(IXMA)-XH(1),
      >      YH(1),YH(JYMA),YH(JYMA)-YH(1),
      >      BMIN/BNORM,BMAX/BNORM,
-     >      ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA, 
+     >      ABMI,RBMI,ZBMI,ABMA,RBMA,ZBMA,
      >      BNORM,BMIN,BMAX,IXMA,JYMA,KZMA,
      >      XH(2)-XH(1),YH(2)-YH(1),ZH(I2)-ZH(1)
   203   FORMAT(
@@ -348,12 +348,12 @@ C        I2=2 introduced to avoid compiler complainig when IZ=1...
      >             3E17.8,
      >    /,5X,'Field map limits, radius :  min, max, max-min (cm) :',
      >             3E17.8,
-     >    /,5X,' Min / max  fields  drawn  from  map  data : ', 
+     >    /,5X,' Min / max  fields  drawn  from  map  data : ',
      >                           1P,G13.5,T80,' / ',G13.5,
-     >    /,5X,'  @  X-node, Y-node, z-node :              ', 
+     >    /,5X,'  @  X-node, Y-node, z-node :              ',
      >                             3G10.3,T80,' / ',3G10.3,
      >    /,5X,'Normalisation  coeff.  BNORM   :', G14.6,
-     >    /,5X,'Field  min/max  normalised  :             ', 
+     >    /,5X,'Field  min/max  normalised  :             ',
      >                           1P,G13.5,T64,' / ',G13.5,
      >    /,5X,'Nbre  of  nodes  in  X/Y/Z : ',I4,'/',I4,'/',I4,
      >    /,5X,'Node  distance  in   X/Y/Z : ',G14.6,'/',
@@ -378,17 +378,17 @@ C           .... IRD=4 OU 25
  119      FORMAT(/,20X,' Option  for  interpolation :  3-D  grid',2X,
      >    '  3*3*3  points,   interpolation  at  ordre ',I2)
         ENDIF
- 
+
         IF(LF .NE. 0) CALL FMAPW(ZERO,RFR,2)
- 
+
       ENDIF
 C     ... endif NRES>0
- 
+
       GOTO 99
- 
+
 C---------------------------------------------------------------
  2003 CONTINUE
-C------- KALC = 3 : Full 3D calculation from analytical model 
+C------- KALC = 3 : Full 3D calculation from analytical model
 C ELMIR,  ELCYLDEF
         IRD = KORD
         IF(KUASEX .EQ. 24)   THEN
@@ -396,7 +396,7 @@ C--------- ELCYLDEF
           IDE = 2
           CALL ELCYLD(SCAL,
      >                     XL)
-C           Motion in this lmnt has no z-symm. 
+C           Motion in this lmnt has no z-symm.
           ZSYM=.FALSE.
 
           KP = NINT(A(NOEL,ND+10))
@@ -404,9 +404,9 @@ C           Motion in this lmnt has no z-symm.
 
         ELSEIF(KUASEX .EQ. 26 )   THEN
 C--------- ELCMIR
-          CALL ELCMII(SCAL,  
+          CALL ELCMII(SCAL,
      >                     XL)
-C           Motion in this lmnt has no z-symm. 
+C           Motion in this lmnt has no z-symm.
           ZSYM=.FALSE.
 
         ENDIF
@@ -431,7 +431,7 @@ C--------------------- SR Loss
       IF( KPAS .GT. 0 ) THEN
 C------- Coded step size of form  #stp_1|stp_2|stp_3, stp_i= arbitrary integer
 C                                    entr body exit
-C      (max stp_i is MXSTEP as assigned in SBR INTEGR), 
+C      (max stp_i is MXSTEP as assigned in SBR INTEGR),
 C                      step size = length/stp_i
 C------- KPAS=2 -> Variable step
 
@@ -449,23 +449,23 @@ C        STP3 = A(NOEL,ND)
         IF(NRES.GT.0) THEN
           WRITE(TXTA,FMT='(1P,'' / '',G11.3,'' / '')') TPAS(2)/RM
           WRITE(TXTS,FMT='(1P,'' / '',G11.3,'' / '')') TPAS(2)
-          WRITE(TXTT,FMT='('' /   central   / '')') 
+          WRITE(TXTT,FMT='('' /   central   / '')')
           IF(TPAS(1) .NE. 0.D0) THEN
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(1)/RM
             TXTA = TXTEMP//TXTA(1:28)
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(1)
             TXTS = TXTEMP//TXTS(1:28)
             TXTT = ' entrance  '//TXTT(1:28)
-          ENDIF 
+          ENDIF
           IF(TPAS(3) .NE. 0.D0) THEN
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(3)/RM
             TXTA = TXTA(1:17)//TXTEMP
             WRITE(TXTEMP,FMT='(1P,G11.3)') TPAS(3)
             TXTS = TXTS(1:17)//TXTEMP
             TXTT = TXTT(1:28)//'   exit    '
-          ENDIF 
+          ENDIF
 
-          WRITE(NRES,FMT='(/,25X,'' Integration  step :'')') 
+          WRITE(NRES,FMT='(/,25X,'' Integration  step :'')')
           WRITE(NRES,FMT='(30X,A,'' (rad) '')') TXTA
           WRITE(NRES,FMT='(30X,A,'' (cm,  at mean radius)'')') TXTS
           WRITE(NRES,FMT='(30X,A,/,35X,''region'')') TXTT
@@ -483,13 +483,13 @@ C        STP3 = A(NOEL,ND)
 
         IF(NRES.GT.0) WRITE(NRES,FMT='(/,20X,''Integration step :'',
      >    1P,G12.4,'' cm   (i.e., '',G12.4,'' rad  at mean radius'',
-     >    '' RM = '',G12.4,'')'')') 
+     >    '' RM = '',G12.4,'')'')')
      >      PAS, PAS/RM, RM
 
       ENDIF
 
       IF(KFLD.GE.LC) THEN
-        IF(Q*AM.EQ.0D0) 
+        IF(Q*AMASS.EQ.0D0)
      >  CALL ENDJOB('Provide  mass  and  charge - using PARTICUL',-99)
       ENDIF
 
@@ -504,5 +504,5 @@ C        STP3 = A(NOEL,ND)
       IPREC = IPRECI
       IF(KPAS .EQ. 2) CALL DEPLAW(.TRUE.,IPREC)
       RETURN
- 
+
       END

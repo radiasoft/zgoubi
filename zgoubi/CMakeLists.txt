@@ -77,13 +77,11 @@ set(_zgoubi_global_includes
   C.MIMA.H
   C.MULTPE.H
   C.MULTPL.H
-  C.MULTPL_2.H
   C.OBJET.H
   C.OBJ5RF.H
   C.ORDRES.H
   C.PDATA.H
   C.PTICUL.H
-  C.PTICUL_2.H
   C.RADIALS.H
   C.REBELO.H
   C.RIGID.H

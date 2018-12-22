@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -39,7 +39,7 @@ C     ***********************************
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
@@ -49,14 +49,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (MXJ1=MXJ-1)
       DIMENSION FF(MXJ1),FC(MXJ1)
 C      SAVE P0
- 
+
 
       INCLUDE 'MXFS.H'
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       INCLUDE 'MXSCL.H'
       dimension kfm(MXSCL)
 
-      DUM = SCALER(1, NOEL, 
+      DUM = SCALER(1, NOEL,
      >                     DUM)
       DUM = SCALE9(
      >             KFM )
@@ -72,12 +72,12 @@ C     *** R EST AU FORMAT 6 X 6
 CMODIFIED, FM, 04/97
 C         T EST AU FORMAT 6 x 6 x 6
 C         UNITES  MKSA
- 
+
       IORD = NINT( A(NOEL,1) )
       XLM = A(NOEL,10)
       CALL SCUMW(XLM/UNIT(5))
       CALL SCUMR(
-     >           XL,SCUM,TCUM) 
+     >           XL,SCUM,TCUM)
 
       IIB = 20
       DO 5  IA=1, 6
@@ -85,7 +85,7 @@ C         UNITES  MKSA
           R(IA,IB) = A(NOEL,IIB)
           IIB = IIB + 1
  5     CONTINUE
- 
+
 C Modified, FM, 04/97
 C      IF(IORD .EQ. 2) THEN
 CC       ** CHANGE MATRICE TRIANGULAIRE EN CARREE
@@ -96,7 +96,7 @@ C            DO 11 IC=IB1,6
 C              T(IA,IC,IB)=T(IA,IB,IC)
 C 11     CONTINUE
 C      ENDIF
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,105) IORD,XLM,SCUM,DPREF+HDPRF
  105    FORMAT(/,20X,8('+'),3X,'TRANSFERT  MATRICIEL  A  L''ORDRE  ',
@@ -120,7 +120,7 @@ C      ENDIF
  16       CONTINUE
         ENDIF
       ENDIF
- 
+
 C     ... ACCELERATION WITH 'CAVITE': PS=SYNCHRONOUS MOMENTUM
 C      IF(IPASS .EQ. 1) THEN
 C        P0 = BORO*CL*1.D-9 *Q/QE
@@ -129,7 +129,7 @@ C        P0 = BORO*CL9 *Q
 C        PS=P0
 C       ... ELSE: PS IS UP DATED BY 'CAVITE'
 C      ENDIF
- 
+
 C      DP = ( FO(1,10) - FO(1,11) ) / (.5D0*( FO(1,10) + FO(1,11) ) )
 
       DO 1 I=1,IMAX
@@ -164,6 +164,6 @@ C       ... Time of flight update ????
 C        F(7,I)= ??
 
  1    CONTINUE
- 
+
       RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,20 +17,20 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPPLT(LN,Y,T,Z,P,X,SAR,TAR,DS,AMT,QT,KEX,IT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C-------- Store into zgoubi.plt. 
-C         Post-processing of stored data possible with zpop. 
+C-------- Store into zgoubi.plt.
+C         Post-processing of stored data possible with zpop.
       INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
@@ -48,7 +48,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TOO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TOO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       PARAMETER (KSIZ=10)
@@ -57,7 +57,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
- 
+
       CHARACTER(KSIZ) KLEY
 
       CHARACTER(1) TX1
@@ -90,7 +90,7 @@ C-----------------------------------------------
 C  Assign XXX
 
 C       P0 = BR*CL*1.D-9 *Q/QE
-C       w=sqrt(p0*p0+am*am) -am
+C       w=sqrt(p0*p0+amass*amass) -amass
 C       XXX=W
 
 C      XXX=BR/BORO
@@ -102,7 +102,7 @@ C      CALL ENRGY(XXX)
 C-----------------------------------------------
       DY = 0.D0
 CCCC test spiral injection      IF(KART.EQ.2) DY = RM
-   
+
       GOTO 10
 
       ENTRY IMPPLB(LN,Y,T,Z,P,X,SAR,TAR,DS,AMT,QT,KEX,IT)
@@ -129,7 +129,7 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
       IF(BINARY) THEN
         WRITE(LN)
      >   KEX,      XXXO, (FO(J,IT),J=2,MXJ),
-     >   XXX, Y-DY, T*1.D3, Z, P*1.D3, SAR, TAR, BTI, DS, 
+     >   XXX, Y-DY, T*1.D3, Z, P*1.D3, SAR, TAR, BTI, DS,
      >   KART, IT, IREP(IT), SORT(IT), X, BX,BY,BZ, PH(IT),DPR(IT), PS,
      >   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
      >   EX,EY,EZ, BORO, IPASS,NOEL,KLEY,(LABEL(NOEL,I),I=1,2),LET(IT)
@@ -139,8 +139,8 @@ CCCC test spiral injection      IF(KART.EQ.2) DY = RM
 C       Initial coordinates: D,Y,T,Z,P,X,Time
 
      2   XXX,Y-DY,T*1.D3,Z,P*1.D3,SAR,   TAR,     BTI,   DS,
-C       current coordinates              time     v/c    Step 
-C                                        mu_s            size 
+C       current coordinates              time     v/c    Step
+C                                        mu_s            size
 
      4   KART,  IT,IREP(IT), SORT(IT),X, BX,BY,BZ, PH(IT), DPR(IT), PS,
 C        Cart.               Path out     - kG -     (S)   dp/p_Synchro
@@ -150,22 +150,22 @@ C        Polar                                       motion
      5   (SI(J,IT),J=1,4),(SF(J,IT),J=1,4),
 C        spin
 
-     6   EX,EY,EZ,   BORO,  IPASS, NOEL,  
+     6   EX,EY,EZ,   BORO,  IPASS, NOEL,
 C        - eV/cm -  refrnce       lmntt#   keywrd   2 labels at keyword
 C                  rigdty(kG.cm)
 
      7  TX1,KLEY,TX1,TX1,LABEL(NOEL,1),TX1,TX1,LABEL(NOEL,2),TX1,
      8                                            TX1,LET(IT),TX1
 C        keywrd   2 labels at keyword
-C         
+C
 
         INCLUDE "FRMPLT.H"
-      ENDIF 
+      ENDIF
 C      CALL FLUSH2(LN,.FALSE.)
 
       if(lst2.gt.0) write(lun,fmt='(8e12.4,I6,4e12.4)')
      2   XXX,Y-DY,T*1.D3,
-     3   Z,P*1.D3,SAR,     TAR,     DY, 
+     3   Z,P*1.D3,SAR,     TAR,     DY,
      4   IT,X, BX,BY,BZ
 
 

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -31,7 +31,7 @@ C     **************************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
@@ -47,7 +47,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(LEN=1) KAR(41)
       INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
@@ -71,7 +71,7 @@ C      CHARACTER(1) TX1
 
       SAVE NHD
       LOGICAL FIRST
- 
+
       DATA OKOPN / .FALSE. /
       DATA AFTREB / .FALSE. /
       DATA FIRST / .TRUE. /
@@ -83,7 +83,7 @@ C----- Reset particle counter
       KT2 = NINT(A(NOEL,21)      )
       KT3 = NINT(A(NOEL,22))
       KP1 = NINT(A(NOEL,30))
-      KP2 = NINT(A(NOEL,31)) 
+      KP2 = NINT(A(NOEL,31))
       KP3 = NINT(A(NOEL,32))
       YFAC = A(NOEL,40)
       TFAC = A(NOEL,41)
@@ -103,7 +103,7 @@ C----- Reset particle counter
       IF(KOBJ2.EQ.0) DREF=1.D0
       INITC = NINT(A(NOEL,60))
       NOMFIC=TA(NOEL,2)
-      
+
       NOMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
 
       BINARY=BINARI(NOMFIC,
@@ -113,19 +113,19 @@ C----- Reset particle counter
 
       IF(IPASS .EQ. 1) THEN
         INQUIRE(FILE=NOMFIC,NUMBER=NL,OPENED=OKOPN)
-        IF(.NOT. OKOPN) THEN      
+        IF(.NOT. OKOPN) THEN
           OKOPN = (IDLUNI(
-     >                    NL)) 
+     >                    NL))
           IF(.NOT. OKOPN) CALL ENDJOB
      >       ('Pgm obj3. Cannot get free unit for object file',-99)
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Opening input file  '',
-     >    A,'',  in logical unit # : '',I3)') 
+     >    A,'',  in logical unit # : '',I3)')
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),NL
-          OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',FORM=FRMT,ERR=96, 
+          OPEN(UNIT=NL,FILE=NOMFIC,STATUS='OLD',FORM=FRMT,ERR=96,
      >                                          IOSTAT=IOS)
             IF(IOS.NE.0) GOTO 96
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Reading  initial'',2X
-     >      ,''conditions  in  file  '',A)') 
+     >      ,''conditions  in  file  '',A)')
      >                             NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,''   Particles  '',2X
      >      ,I9,''  to  '',I9,'',  step  '',I9)') KT1,KT2,KT3
@@ -136,7 +136,7 @@ C----- Reset particle counter
         ENDIF
 C        IF(NINT(A(NOEL,11)).GE.1) THEN
 Changed Jan 2018 - FM. Now managed in robjet.
-        NHD = NINT(A(NOEL,12)) 
+        NHD = NINT(A(NOEL,12))
 C        ELSE
 C          NHD = 4
 C        ENDIF
@@ -149,7 +149,7 @@ C     >                              *999)
         CALL REBEL5(
      >              AFTREB)
         IF(AFTREB) THEN
-C May happen if problems are stacked, as in 
+C May happen if problems are stacked, as in
 C [...]/testKEYWORDS/FIT/FITfollowedByREBELOTE/orbitsInCYCLOTRON/REBELOTE-FIT_followedByOrbits.dat
           INQUIRE(FILE=NOMFIC,NUMBER=NL,OPENED=OKOPN)
           IF(OKOPN) THEN
@@ -184,7 +184,7 @@ C----- Traj. counter
         I = I + 1
 
         IF ((BINARY) .AND. (KOBJ2.EQ.0)) THEN
-C Expected to be resuming from 1 particular pass (for instance after a 
+C Expected to be resuming from 1 particular pass (for instance after a
 C crash), reading a zgoubi.fai style file (i.e., a file created by FAISTORE (or FAISCNL);
 C KP1=KP2 is expected iin that case.
 
@@ -192,10 +192,10 @@ C KP1=KP2 is expected iin that case.
 
           IF(IEND.EQ.1) GOTO 95
           READ(NL,ERR=97,END=95)
-     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
+     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO,
      >      DP,Y,T,Z,P,S,TIM,
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
-     >      EKIN,ENERG, 
+     >      EKIN,ENERG,
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
      >      BRO, IPASSR, NOELR, TDUMK,TDUML,TDUML,LETI, SRLO ,
      >      DPRF, GDPRF
@@ -205,17 +205,17 @@ C KP1=KP2 is expected iin that case.
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 222
           ENDIF
-          
+
           IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                   IEND)) THEN
-            IF(IEND.EQ.1) THEN 
+            IF(IEND.EQ.1) THEN
               IPASSR=IPASS1
               GOTO 95
             ENDIF
 
             GOTO 222
           ENDIF
-          
+
           IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                  IEND)) GOTO 222
 
@@ -230,16 +230,16 @@ C          IF(KP1.EQ.KP2) IPASS=IPASSR
  221      CONTINUE
           IF(IEND.EQ.1) GOTO 95
 
-          IF  (KOBJ2.EQ.0) THEN           
-C Recommended, in case of resuming from 1 particular pass (for instance after a 
+          IF  (KOBJ2.EQ.0) THEN
+C Recommended, in case of resuming from 1 particular pass (for instance after a
 C crash), reading a zgoubi.fai style file (i.e., a file created by FAISTORE (or FAISCNL);
 C KP1=KP2 is expected iin that case.
-             
+
             READ(NL,*,ERR=97,END=95)
-     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO, 
-     >      DP,Y,T,Z,P,S,TIM, 
+     >      IEXI,DPO,YO,TTO,ZO,PO,SO,TIMO,
+     >      DP,Y,T,Z,P,S,TIM,
      >      SIX,SIY,SIZ,SIN,SFX,SFY,SFZ,SFN,
-     >      EKIN,ENERG, 
+     >      EKIN,ENERG,
      >      IT,IREPI,SORTI,AMQ1,AMQ2,AMQ3,AMQ4,AMQ5,PHI,DPRI,PS,
      >      BRO, IPASSR, NOELR,     TDUMK,
      >                              TDUML,
@@ -253,7 +253,7 @@ C KP1=KP2 is expected iin that case.
 
             IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                       IEND)) THEN
-              IF(IEND.EQ.1) THEN 
+              IF(IEND.EQ.1) THEN
                 IPASSR=IPASS1
                 GOTO 95
               ENDIF
@@ -266,11 +266,11 @@ C KP1=KP2 is expected iin that case.
 
 C            IF(KP1.EQ.KP2) IPASS=IPASSR
             DPREF = DPRF
-            HDPRF = GDPRF                   
+            HDPRF = GDPRF
             IT2 = IT2 + 1
             IT1 = IT1 + 1
 
-          ELSEIF(KOBJ2.EQ.1) THEN 
+          ELSEIF(KOBJ2.EQ.1) THEN
 C------------ Was installed for reading pion data at NuFact target
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
@@ -282,14 +282,14 @@ C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
               READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             ENDIF
             IT2 = IT2 + 1
-            IF(KT3*((IT2-1)/KT3) .NE. IT2-1) GOTO 171            
+            IF(KT3*((IT2-1)/KT3) .NE. IT2-1) GOTO 171
             IT1 = IT1 + 1
             TIM = 0.D0
             LETI=KAR(IKAR)
             IEXI=1
             IT = IT1
             IREPI = IT
-            IPASSR =  KP1    
+            IPASSR =  KP1
             BRO = BORO
             YO= 0.D0
             TTO= 0.D0
@@ -299,7 +299,7 @@ C            READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP
             DPO= 0.D0
             TIMO= 0.D0
 
-          ELSEIF(KOBJ2.EQ.2) THEN 
+          ELSEIF(KOBJ2.EQ.2) THEN
 C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNIA/SPP March 03
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
@@ -315,7 +315,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             IEXI=1
             IT = IT1
             IREPI = IT
-            IPASSR =  KP1    
+            IPASSR =  KP1
             YO= 0.D0
             TTO= 0.D0
             ZO= 0.D0
@@ -325,7 +325,7 @@ C----------- Was installed for reading e+ data provided by Rosowski/Perez. DAPNI
             TIMO= 0.D0
             IT2 = IT2 + 1
 
-          ELSEIF(KOBJ2.EQ.3) THEN 
+          ELSEIF(KOBJ2.EQ.3) THEN
 C------------ Was installed for RHS_DESIR
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
@@ -336,7 +336,7 @@ C            TIM = 0.D0
             IEXI=1
             IT = IT1
             IREPI = IT
-            IPASSR =  KP1    
+            IPASSR =  KP1
             BRO = BORO
             YO= 0.D0
             TTO= 0.D0
@@ -347,23 +347,23 @@ C            TIM = 0.D0
             TIMO= 0.D0
             IT2 = IT2 + 1
 
-          ELSEIF(KOBJ2.EQ.4) THEN 
+          ELSEIF(KOBJ2.EQ.4) THEN
 C------------ Installed for RHIC FFAG arcs
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
  174        continue
             READ(NL,*,ERR=97,END=95) Y,T,Z,P,S, DP, leti, ien, jt2
             IT2 = JT2
-            IF(IT2 .LT. KT1 .OR. IT2 .GT. KT2) GOTO 174            
-            IF(IT1.GT.0) THEN 
-              IF(KT3*((IT2)/KT3) .NE. IT2) GOTO 174            
+            IF(IT2 .LT. KT1 .OR. IT2 .GT. KT2) GOTO 174
+            IF(IT1.GT.0) THEN
+              IF(KT3*((IT2)/KT3) .NE. IT2) GOTO 174
             ENDIF
             IT1 = IT1 + 1
             TIM = 0.D0
             IEXI=1
             IT = IT1
             IREPI = IT
-            IPASSR =  KP1    
+            IPASSR =  KP1
             BRO = BORO
             YO= 0.D0
             TTO= 0.D0
@@ -373,7 +373,7 @@ C------------ Installed for RHIC FFAG arcs
             DPO= 0.D0
             TIMO= 0.D0
 
-          ELSEIF(KOBJ2.EQ.5) THEN 
+          ELSEIF(KOBJ2.EQ.5) THEN
 C------------ Installed to read Yichao's files
             IKAR = IKAR+1
             IF(IKAR.GT.41)  IKAR=1
@@ -396,7 +396,7 @@ C------------ Installed to read Yichao's files
             IEXI=1
             IT = IT1
             IREPI = IT
-            IPASSR =  KP1    
+            IPASSR =  KP1
             BRO = BORO
             YO= 0.D0
             TTO= 0.D0
@@ -406,14 +406,14 @@ C------------ Installed to read Yichao's files
             DPO= 0.D0
             TIMO= 0.D0
 
-          ENDIF 
+          ENDIF
 
           IF(LM .NE. -1) THEN
             IF(LM .NE. NOELR) GOTO 221
           ENDIF
           IF(.NOT. OKKP3(KP1,KP2,KP3,IPASSR,
      >                                     IEND)) THEN
-            IF(IEND.EQ.1) THEN 
+            IF(IEND.EQ.1) THEN
               IPASSR=IPASS1
               GOTO 95
             ENDIF
@@ -422,8 +422,8 @@ C------------ Installed to read Yichao's files
 
           IF(.NOT. OKKT3(KT1,KT2,KT3,IT,
      >                                 IEND)) THEN
-            
-            IT1 = IT1 - 1 
+
+            IT1 = IT1 - 1
             GOTO 169
           ENDIF
 
@@ -435,7 +435,7 @@ C------------ Installed to read Yichao's files
 
         IF(IEXI.LE.0) THEN
 C So to avoid problem with test on D in objets
-          FO(1,IT1)= 1.D0 
+          FO(1,IT1)= 1.D0
           F(1,IT1) = 1.D0
 C To be clean, otherwise LET(i) is undefined
           LET(IT1) = LETI
@@ -461,7 +461,7 @@ C To be clean, otherwise LET(i) is undefined
 
         IF (PABSLU) THEN
            DP0(IT1)=DP*DPFAC * BRO/BORO
-C          THIS WILL NOT WORK RIGHT IF DREF.NE.0D0 AND Q IS CHANGED IN A 
+C          THIS WILL NOT WORK RIGHT IF DREF.NE.0D0 AND Q IS CHANGED IN A
 C          SUBSEQUENT PARTICUL
            F(1,IT1)= DP0(IT1)/Q
         ELSE
@@ -472,7 +472,7 @@ C          SUBSEQUENT PARTICUL
         F(4,IT1)=  Z*ZFAC  + ZREF
         F(5,IT1)=  P*PFAC  + PREF
         F(6,IT1)=  S*SFAC  + SREF
-        F(7,IT1)=TIM*TIFAC + TIREF 
+        F(7,IT1)=TIM*TIFAC + TIREF
         SF(1,IT1) = SFX
         SF(2,IT1) = SFY
         SF(3,IT1) = SFZ
@@ -491,7 +491,7 @@ C        IREP(IT1) = IREPI
            AMQ(1,IT1) = AMQ1
            AMQ(2,IT1) = AMQ2
         ELSE
-           AMQ(1,IT1) = AAM
+           AMQ(1,IT1) = AMASS
            AMQ(2,IT1) = Q
         ENDIF
 
@@ -504,23 +504,23 @@ C        IREP(IT1) = IREPI
             TEMP = F(J,IT1)
             F(J,IT1) = FO(J,IT1)
             FO(J,IT1) = TEMP
-          ENDDO        
+          ENDDO
         ENDIF
 
         IF(IT1 .EQ. MXT) GOTO 169
         IF(IT1 .EQ. KT2) GOTO 169
 
       GOTO  17
- 
+
  96   WRITE(TXT,FMT='(
-     >'' *** SBR OBJ3 : ERROR  at  OPEN  file  "'',A,''"'')') 
+     >'' *** SBR OBJ3 : ERROR  at  OPEN  file  "'',A,''"'')')
      >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       CALL ENDJOB(TXT,-99)
- 
+
  97   WRITE(NRES,FMT='(/,
      > '' SBR OBJ3 -> error in  reading  file '',
      >  A,'' at  event/traj #  '',I6,''/'')') NOMFIC,IT1
-          
+
  95   CONTINUE
 C      IT1 = IT1-1
 
@@ -547,11 +547,11 @@ C      IT1 = IT1-1
      >    NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),IMAX,KT1,KT2
         IF(IS.GT.0) WRITE(NRES,FMT='(/,T5,I6,
      >    ''  particles  are  of  secondary  type  (LET="S")'')') IS
-        IF(II.GT.0) THEN 
+        IF(II.GT.0) THEN
           WRITE(NRES,
      >    FMT='(/,T5,I6,''/'',I6,'' particles  have  IEX < 0,  hence'',
      >    I6,''  only  left  to  be  ray-traced. '')') II,IMAX,IMAX-II
-          WRITE(NRES,*) ' Last  pass  number  read :  ',IPASSR,'  in  ' 
+          WRITE(NRES,*) ' Last  pass  number  read :  ',IPASSR,'  in  '
      >    ,'requested range :  [',KP1,',',KP2,'], ipass-modulo=',KP3,'.'
           IF    (INITC.LT.2)  THEN
             WRITE(NRES,FMT='(/,T5,''InitC = '',I1
@@ -570,11 +570,11 @@ C      IT1 = IT1-1
       ENDIF
       IDMAX = 1
       IMAXT=IMAX
- 
+
 C      CLOSE(NL)
       RETURN
  999  CONTINUE
           CALL OBJERR(ABS(NRES),1,MXT,' Read error')
-          CALL ENDJOB('*** Error, SBR OBJ3 -> Read error',-99)  
+          CALL ENDJOB('*** Error, SBR OBJ3 -> Read error',-99)
       RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -36,19 +36,19 @@ C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
 C      CHARACTER(9)   HMS
 
 C      DATA LUN / 20 /
 C      SAVE LUN
-      
+
       KCSR = NINT(A(NOEL,1))
       KTRA = NINT(A(NOEL,2))
-C Number of macro-particles in the bunch, evenly distributed in x 
+C Number of macro-particles in the bunch, evenly distributed in x
       NPART = IMAX
- 
+
         XMI = 1.D10
         XMA = -1.D10
         DO 1 IT = 1, IMAX
@@ -64,8 +64,8 @@ C Number of macro-particles in the bunch, evenly distributed in x
  107      FORMAT(/,15X,' CSR  interaction  is  off ',/)
           GOTO 99
         ELSE
-          WRITE(NRES,110) 
- 110      FORMAT(/,15X,' CSR  interaction  requested. ', 
+          WRITE(NRES,110)
+ 110      FORMAT(/,15X,' CSR  interaction  requested. ',
      >    ' Reference  path  is  traj. #',
      >    //,25X,' A  first  run  will  track  paths,  ',
      >        'and  store  it. ',
@@ -75,8 +75,8 @@ C Number of macro-particles in the bunch, evenly distributed in x
      >                                   1P,G12.4,'' cm'')') XMA-XMI
         ENDIF
       ENDIF
- 
-      IF(AM*Q .EQ. 0.D0) THEN
+
+      IF(AMASS*Q .EQ. 0.D0) THEN
         IF(NRES .GT. 0) WRITE(NRES,106)
  106    FORMAT(//,15X,' Please  give   M  &  Q  of  particles !'
      >           ,/,15X,' - use  keyword  ''PARTICUL''',/)
@@ -85,17 +85,17 @@ C Number of macro-particles in the bunch, evenly distributed in x
 
       IF(IPASS.EQ.1) THEN
         NRBLT = 1
-C------- Switch on print into zgoubi.res : 
+C------- Switch on print into zgoubi.res :
         ANOEL2 = 1.1D0
         KWRIT = INT(ANOEL2)
 C------- Switch on print to standard output :
         KWRI6=INT((ANOEL2-KWRIT)*10)
 C------- Set value of macro-charge that radiates
-C The model assumes NPART particles uniformely spread along the bunch, 
+C The model assumes NPART particles uniformely spread along the bunch,
 C e.g., OBJET, KOBJ=2, DX: -Dxmin -> Dxmax, DXstep
            QB=Q*NPART
         CALL CSRIN1(QB/DBLE(NPART),NPART)
-C------- DWC is the perturbation (total variation of kinetic energy due to CSR) 
+C------- DWC is the perturbation (total variation of kinetic energy due to CSR)
         CALL RAZ(DWC,MXT)
       ENDIF
 

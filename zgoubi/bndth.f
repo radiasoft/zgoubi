@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -28,7 +28,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
@@ -39,12 +39,12 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TOO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TOO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       DIMENSION VEC(3), OT(4)
- 
+
       DUM=WDGE; DUM=FINTE; DUM=GAPE
       DUM=WDGS; DUM=FINTS; DUM=GAPS
 
@@ -53,7 +53,7 @@ C      HORS DES LIMITES   Y - Z  DU  SEPARATEUR
       IF(LIMIT .EQ. 1) THEN
         IF(ALCM.GE.0.D0) CALL CHMBR(1,IMAX)
       ENDIF
- 
+
             YO = Y*.01D0
             TO = T
             ZO = Z*.01D0
@@ -62,7 +62,7 @@ C      HORS DES LIMITES   Y - Z  DU  SEPARATEUR
             AL = ALCM*.01D0
 
 c       write(nres,*) ' bndth   '
-c       write(nres,*) ' bndth  y,t,z,p,x,s at start : ', y,t,z,p,x,sar 
+c       write(nres,*) ' bndth  y,t,z,p,x,s at start : ', y,t,z,p,x,sar
 
 C need install ~ WEDGKI(1,T,Z,P,WDGE,FINTE,GAPE)
 
@@ -74,20 +74,20 @@ C need install ~ WEDGKI(1,T,Z,P,WDGE,FINTE,GAPE)
             EPS = ATAN2( C2 , C1 )
 c       write(nres,*) 'bndth atan(c1/c2), eps, y, zp :',
 c     >                                    atan(c2/c1),eps,y,zp
-          
+
 Compute intersection of circle w exit face (exit face has eq. a/c*x+b/c*y+1=0)
       XC =  R * SIN(TO) + XO
       YC = -R * COS(TO) + YO
       AC = CA(2) / (CM(2) * 1.D-2)
       BC = SA(2) / (CM(2) * 1.D-2)
       AA = (BC*BC + AC*AC)
-      BB = 2.D0*(BC*(-XC*BC + AC*YC) + AC) 
+      BB = 2.D0*(BC*(-XC*BC + AC*YC) + AC)
       CC = BC*(BC*(XC*XC + YC*YC - R*R) + 2.D0*YC) + 1.D0
 
       DSC = BB*BB -4.D0*AA*CC
        IF(DSC.LT.0.D0) STOP '  DSC IS <0 '
       XF = (-BB + SQRT(DSC))/(2.D0*AA)
-      XL = XF - XO 
+      XL = XF - XO
 
             ARG = ACOS( C1 - XL/R )
             ARCA = ARG - EPS
@@ -108,14 +108,14 @@ c            write(nres,*) '    bndth  y : ',SIA,C2,(SIA-C2),YO,y
             SAR = SAR + ARCL/cos(zp)*1.D+2
 
 c       write(nres,*) ' bndth   '
-c       write(nres,*) ' bndth  y,t,z,p,x,s at end of arc : ', 
-c     >    y,t,z,p,x,sar 
+c       write(nres,*) ' bndth  y,t,z,p,x,s at end of arc : ',
+c     >    y,t,z,p,x,sar
 
 C To take particle back or forward to plane normal to X at AL
        dx = alcm - x
        dy = dx * tan(t)
-       du2 = dx*dx + dy*dy 
-       dz = sqrt(du2) * tan(P) 
+       du2 = dx*dx + dy*dy
+       dz = sqrt(du2) * tan(P)
        ds = sqrt(du2 + dz*dz)
        if(dx.lt.0.d0) ds = -ds
        x = x + dx
@@ -124,9 +124,9 @@ C To take particle back or forward to plane normal to X at AL
        sar = sar + ds
 
 c       write(nres,*) ' bndth   '
-c       write(nres,*)'bndth  y,t,z,p,x,s on bend exit face : ', 
-c     >    y,t,z,p,x,sar 
- 
+c       write(nres,*)'bndth  y,t,z,p,x,s on bend exit face : ',
+c     >    y,t,z,p,x,sar
+
 C need install ~   CALL WEDGKI(2,T,Z,P,WDGS,FINTS,GAPS)
 
             if(amt*qt.ne.0.d0) then
@@ -157,7 +157,7 @@ C             write(*,*)' bndth ',arca*deg,angle*deg
             SF(3,IT) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2)+
      +              S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2))+
      +              S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
-        
+
       ENDIF
 
       RETURN

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -32,8 +32,8 @@ C     --------------------------------------------
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.GASC.H"     ! COMMON/GASC/ AI, DEN, KGA
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
- 
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
+
       KGA= NINT(A(NOEL,1))
       KGA = 0
       AI= A(NOEL,10)
@@ -49,14 +49,14 @@ C     --------------------------------------------
      >    /,10X,' AI : ',1P,G12.4,/,10X,' DEN :',G12.4,/)
       ENDIF
 
-C      IF(AM*Q .EQ. 0.D0) THEN
-      IF(Q*AM.EQ.0D0) THEN
+C      IF(AMASS*Q .EQ. 0.D0) THEN
+      IF(Q*AMASS.EQ.0D0) THEN
         WRITE(NRES,106)
  106    FORMAT(//,15X,' PLEASE GIVE MASS OF FLYING PARTICLES !'
      >         ,/,15X,' - USE KEYWORD ''PARTICUL''',/)
         RETURN 1
       ENDIF
 
- 
+
       RETURN
       END

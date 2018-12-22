@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -42,13 +42,13 @@ C     ----------------------------------
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
- 
+
 C----- Write position M0, field at M0,  etc.
       IF(LST .EQ. 2) CALL IMPPLT(NL,Y,T,Z,P,X,SAR,TAR,DS,AMT,QT,KEX,IT)
 
@@ -77,7 +77,7 @@ C-------- Polar coordinates
          X=X+XF(1)
       ENDIF
 
-      IF(EVNT) THEN 
+      IF(EVNT) THEN
         IF(KSPN .EQ. 1) THEN
 C--------- Spin tracking
           IF(KART .EQ. 2) CALL SPNROT(IT,ZERO,ZERO,-DX)
@@ -95,7 +95,7 @@ C            ENDIF
 C----------- Compute interaction undergone by current particle, due to all earlier CSR emittors
             CALL CSRINT(DS,IMAX)
           ENDIF
-        ELSE        
+        ELSE
           CALL EVENT(
      >    DS,Y,T,Z,P,X,ZERO,QBR,SAR,TAR,KEX,IT,
      >    AMT,Q,BORO,KART,IMAX,*99)

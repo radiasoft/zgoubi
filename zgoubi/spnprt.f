@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -38,7 +38,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
@@ -64,7 +64,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
       DATA SPMI, SPMA / ICMXT*1D10, ICMXT* -1D10 /
       DATA FIRST / .TRUE. /
       DATA TR1, TR2, TR3 / 3 * 0.D0 /
-       
+
       JDMAX=IDMAX
       JMAXT=IMAX/IDMAX
 
@@ -72,13 +72,13 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
         IF(JDMAX .GT. 1) WRITE(NRES,121) JDMAX
  121  FORMAT(/,25X,' -- ',I0,'  GROUPS  OF  MOMENTA  FOLLOW   --')
       ENDIF
- 
+
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
         IMAX2=IMAX1+JMAXT-1
         SX =   0D0;  SY =   0D0;  SZ =   0D0
         SXM =  0D0;  SYM =  0D0;  SZM =  0D0
-        SXF =  0D0;  SYF =  0D0;  SZF =  0D0 
+        SXF =  0D0;  SYF =  0D0;  SZF =  0D0
         SXMF = 0D0;  SYMF = 0D0;  SZMF = 0D0
         PHIM = 0.D0 ; GGM = 0.D0
 
@@ -96,17 +96,17 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
           SYMF = SYMF + SYF
           SZMF = SZMF + SZF
           P = BORO*CL9 *F(1,I) *Q
-          GAMA = SQRT(P*P + AM*AM)/AM
-          GGM = GGM + G * GAMA 
+          GAMA = SQRT(P*P + AMASS*AMASS)/AMASS
+          GGM = GGM + G * GAMA
 
-          IF(SF(1,I).LT.SPMI(1,I)) SPMI(1,I) = SF(1,I)          
-          IF(SF(2,I).LT.SPMI(2,I)) SPMI(2,I) = SF(2,I)          
-          IF(SF(3,I).LT.SPMI(3,I)) SPMI(3,I) = SF(3,I)          
-          IF(SF(4,I).LT.SPMI(4,I)) SPMI(4,I) = SF(4,I)          
-          IF(SF(1,I).GT.SPMA(1,I)) SPMA(1,I) = SF(1,I)          
-          IF(SF(2,I).GT.SPMA(2,I)) SPMA(2,I) = SF(2,I)          
-          IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)          
-          IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)          
+          IF(SF(1,I).LT.SPMI(1,I)) SPMI(1,I) = SF(1,I)
+          IF(SF(2,I).LT.SPMI(2,I)) SPMI(2,I) = SF(2,I)
+          IF(SF(3,I).LT.SPMI(3,I)) SPMI(3,I) = SF(3,I)
+          IF(SF(4,I).LT.SPMI(4,I)) SPMI(4,I) = SF(4,I)
+          IF(SF(1,I).GT.SPMA(1,I)) SPMA(1,I) = SF(1,I)
+          IF(SF(2,I).GT.SPMA(2,I)) SPMA(2,I) = SF(2,I)
+          IF(SF(3,I).GT.SPMA(3,I)) SPMA(3,I) = SF(3,I)
+          IF(SF(4,I).GT.SPMA(4,I)) SPMA(4,I) = SF(4,I)
 
               AA(1) = SI(1,I)
               AA(2) = SI(2,I)
@@ -123,7 +123,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
         PHIM = PHIM / DBLE(II)
         GGM = GGM / DBLE(II)
- 
+
         PHIM2 = 0.D0
         II=0
         DO I=IMAX1,IMAX2
@@ -141,10 +141,10 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
 
          ENDIF
         ENDDO
- 
+
         PHIM2 = PHIM2 / DBLE(II)
-        SIGPHI = SQRT(PHIM2) 
-        
+        SIGPHI = SQRT(PHIM2)
+
         IF(NRES.GT.0) THEN
           SM = SQRT(SX*SX+SY*SY+SZ*SZ)/DBLE(II)
           SMF = SQRT(SXF*SXF+SYF*SYF+SZF*SZF)/DBLE(II)
@@ -161,7 +161,7 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
      >    ,T109,'<(SI,SF)>',T120,'sigma_(SI,SF)'
      >    ,/,T110,'  (deg)',T121,'   (deg)'
      >    ,/,4(1x,F10.6),6X,7(1x,F10.6))
- 
+
           WRITE(NRES,110) JMAXT
  110      FORMAT(//,15X,' Spin  components  of  each  of  the '
      >    ,I6,'  particles,  and  rotation  angle :'
@@ -171,13 +171,13 @@ C      DIMENSION SMI(4,MXT), SMA(4,MXT)
      >    ,T102,'(Si,Sf)',T112,'(Z,Sf_X)',T122,'(Z,Sf)')
           WRITE(NRES,FMT='(
      >    T102,'' (deg.)'',T112,'' (deg.)'',T122,'' (deg.)'')')
-          WRITE(NRES,fmt='(T92,a,/)') 
+          WRITE(NRES,fmt='(T92,a,/)')
      >           '(Sf_X : projection of Sf on YZ plane)'
 
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
-              GAMA = SQRT(P*P + AM*AM)/AM
+              GAMA = SQRT(P*P + AMASS*AMASS)/AMASS
               AA(1) = SI(1,I)
               AA(2) = SI(2,I)
               AA(3) = SI(3,I)
@@ -195,7 +195,7 @@ C Angle between SI and SF
 C Angle between SF and Z axis
               PHIZF = ATAN2(SQRT(BB(1)**2+BB(2)**2),BB(3)) * DEG
 
-C Angle between 'projection of SF on YZ plane' and Z axis 
+C Angle between 'projection of SF on YZ plane' and Z axis
               PHIX(I) = ATAN2(BB(2), BB(3)) * DEG
 
               WRITE(NRES,101) LET(I),IEX(I),(SI(J,I),J=1,4)
@@ -206,7 +206,7 @@ C     >        ,(SF(J,I),J=1,4),CPHI,PHI(I),PHIX(I),PHIZF,I
 
             ENDIF
           ENDDO
- 
+
           CALL SPNTR4(IMAX,SPMI,SPMA)
 
           WRITE(NRES,130) JMAXT
@@ -218,17 +218,17 @@ C     >        ,(SF(J,I),J=1,4),CPHI,PHI(I),PHIX(I),PHIZF,I
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
-              GAMA = SQRT(P*P + AM*AM)/AM
+              GAMA = SQRT(P*P + AMASS*AMASS)/AMASS
               WRITE(NRES,131) (SPMI(J,I),SPMA(J,I),J=1,4),F(1,I)
      >           ,GAMA,I,IEX(I)
  131          FORMAT(1P,8E12.4,2E13.5,1X,I6,1X,I3)
             ENDIF
           ENDDO
- 
+
         ENDIF
- 
+
 C Matrix computation
-C Pattern in OBJET has to be 
+C Pattern in OBJET has to be
 C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0, 1,0,0
         IF  (LBL1(DEBSTR(LBL1):FINSTR(LBL1)) .EQ. 'MATRIX'
      >  .OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
@@ -281,7 +281,7 @@ C Print to zgoubi.SPNPRT.Out
             ELSE
               GOTO 96
             ENDIF
-            WRITE(LUNPRT,FMT='(3(A,/),A)') 
+            WRITE(LUNPRT,FMT='(3(A,/),A)')
      >      '# spin data. PRINT by spnprt.f ',
      >      '# 1  2  3  4  5  6    7    8     9 10 11 12   '//
      >      '    13 14 15 16      17       18   19 '//
@@ -300,8 +300,8 @@ C Print to zgoubi.SPNPRT.Out
           DO I=IMAX1,IMAX2
             IF( IEX(I) .GE. -1 ) THEN
               P = BORO*CL9 *F(1,I) *Q
-              GAMA = SQRT(P*P + AM*AM)/AM
-              WRITE(LUNPRT,111) 
+              GAMA = SQRT(P*P + AMASS*AMASS)/AMASS
+              WRITE(LUNPRT,111)
      >        (F(J,I),J=2,6),F(1,I)
      >        ,'''',LET(I),'''',IEX(I),(SI(J,I),J=1,4)
      >        ,(SF(J,I),J=1,4),GAMA,G*GAMA,PHI(I),PHIX(I),I,IPASS,NOEL
@@ -309,12 +309,12 @@ C Print to zgoubi.SPNPRT.Out
      >        ,'!spnprt.f',LBL1,LBL2
  111          FORMAT(1X,1P,6(1X,E14.6),1X,3A1,1X,I2,12(1X,E16.8),
      >        3(1X,I6),9(1X,E16.8),1X,0P,F9.6,3(1X,A))
-            ENDIF   
+            ENDIF
           ENDDO
 C Leaving unclosed allows stacking when combined use of FIT and REBELOTE
 C        CLOSE(LUNPRT)
         ENDIF
-      ENDIF 
+      ENDIF
 
       CALL FLUSH2(LUNPRT,.FALSE.)
 

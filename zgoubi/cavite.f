@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973,  USA
 C  -------
@@ -36,7 +36,7 @@ C      PARAMETER (MXTA=45)
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
@@ -45,13 +45,13 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
 
       SAVE SYNCT
       DIMENSION KFM(MXSCL)
-      
+
       CHARACTER(10) SKAV(12)
       DIMENSION DTI0(MXT)
       SAVE DTI0
@@ -78,11 +78,11 @@ C      PARAMETER (MXTA=45)
       LOGICAL CEBAF
       LOGICAL CRNLSY
       LOGICAL ERCRCS
- 
+
       SAVE OMGA, BT0
 
       DATA WF1, PHAS / MXT*0.D0, MXT*0.D0 /
-      DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ', 
+      DATA SKAV /'** OFF **','OPTION 1 ','OPTION 2 ','OPTION 3 ',
      >   'OPTION 4 ', 'OPTION 5 ', '   FFAG  ', 'Isochron.',
      >  ' ' , ' ' , 'RLA', 'SR +accel.' /
 
@@ -92,7 +92,7 @@ C      PARAMETER (MXTA=45)
       DATA OKOPEN, OKIMP /.FALSE., .FALSE. /
 
       DATA TIOLD, PHIOLD /  2 * 0.D0 /
-      DATA DWS / 0.D0 / 
+      DATA DWS / 0.D0 /
 
       DATA TYPCH / 'no motion damping (det(M) forced to 1)',
      >'DE/E<<1 aproximation, no motion damping (det(M) forced to 1)',
@@ -103,8 +103,8 @@ C      PARAMETER (MXTA=45)
       DATA CEBAF, CRNLSY, ERCRCS / .FALSE., .FALSE., .FALSE. /
       DATA SYNCT / 0.D0 /
       DATA PHS_PREV / 999.d9 /
-      
-      DUM = SCALER(1, NOEL, 
+
+      DUM = SCALER(1, NOEL,
      >                     DUM)
 
       SRLOSS = .FALSE.
@@ -118,7 +118,7 @@ C      PARAMETER (MXTA=45)
         IF(KFM(IFM) .LE. 0) THEN
           GOTO 121
         ELSE
-          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF) 
+          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF)
      >    CALL ENDJOB('Pgm cavite. Exceed array size, KFM = ',KFM(IFM))
         ENDIF
         DO I= 1 , JPA(KFM(IFM),MXP)
@@ -128,11 +128,11 @@ C      PARAMETER (MXTA=45)
  121  CONTINUE
 
       KCAV = NINT(A(NOEL,1))
-             
-      IF(IPASS .EQ. 1) THEN 
+
+      IF(IPASS .EQ. 1) THEN
         OKIMP = STRCON(TA(NOEL,1),'PRINT',
      >                                    IS)
-        IF(OKIMP) THEN 
+        IF(OKIMP) THEN
           IF(.NOT.OKOPEN) THEN
             IF(IDLUNI(
      >              LUN)) THEN
@@ -152,11 +152,11 @@ C      PARAMETER (MXTA=45)
         WRITE(NRES,102) SKAV(KCAV+1)
  102    FORMAT(15X,' Accelerating cavity. Type is :',3X,A,/)
         IF(OKIMP) WRITE(NRES,FMT='(15X,
-     >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)') 
+     >  '' Cavite parameters saved in zgoubi.CAVITE.Out'',/)')
       ENDIF
 
       IF(KCAV .EQ. 0) RETURN
- 
+
       AN10 = A(NOEL,10)
       AN11 = A(NOEL,11)
       AN20= A(NOEL,20)
@@ -165,21 +165,21 @@ C      VLT= A(NOEL,20)
       AN22= A(NOEL,22)
       AN23= A(NOEL,23)
       PHS= AN21
- 
-      IF(Q*AM .EQ. 0.D0) CALL ENDJOB('Pgm cavite. Give mass & charge'
+
+      IF(Q*AMASS .EQ. 0.D0) CALL ENDJOB('Pgm cavite. Give mass & charge'
      >//'of particles. Use ''PARTICUL'' keyword',-99)
 
-C----- P0, AM  are  in  MEV/c, /c^2
+C----- P0, AMASS  are  in  MEV/c, /c^2
       P0 = BORO*CL9*Q
-      AM2= AM*AM
+      AM2= AMASS*AMASS
 C      QV = VLT*Q *1.D-6
       QV = AN20 *Q *1.D-6
- 
+
 
       GOTO(10,20,30,40,50,60,70,80,999,100,110) KCAV
       CALL ENDJOB(' Sbr cavite : No such option KCAV =',KCAV)
-  
-C------------------------------------------- 
+
+C-------------------------------------------
  10   CONTINUE
 C Ph_s is computed from rigidity law as specified using SCALING/CAVITE
       ORBL = AN10
@@ -199,13 +199,13 @@ C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       WS = WS + DWS
       PHS=ASIN(DWS/QV)
       GOTO 1
- 
-C------------------------------------------- 
+
+C-------------------------------------------
  20   CONTINUE
       ORBL = AN10
       HARM = AN11
       NBH = NINT(A(NOEL,19))
-      IF(NBH .LE. 0 .OR. NBH .GT. 2) 
+      IF(NBH .LE. 0 .OR. NBH .GT. 2)
      >CALL ENDJOB('Pgm cavite.  No such possibility NBH=',NBH)
       PHS= A(NOEL,20+NBH)
       IF(NBH .GT. 1) THEN
@@ -216,7 +216,7 @@ C-------------------------------------------
         ENDDO
         AK = VHRM(2) / VHRM(1)
         RN = HRM(2) / HRM(1)
-        PHN = ATAN(TAN(PHS)/RN) / RN 
+        PHN = ATAN(TAN(PHS)/RN) / RN
 
 C test
         DPHN = pi/21.d0    ! = 0.149599650171
@@ -232,12 +232,12 @@ C        IF(KOBJ.NE.3) THEN
           PS = P0
         ELSE
           PS = P0*(DPREF+HDPRF)
-        ENDIF 
+        ENDIF
       ENDIF
       BTS = PS/SQRT(PS*PS+AM2)
       DTS = ORBL / ( CL * BTS)
       OMRF = 2.D0*PI*HARM / DTS
-      WKS = PS/BTS - AM
+      WKS = PS/BTS - AMASS
       FRF = HARM/DTS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       DWS = QV*SIN(PHS)
@@ -250,16 +250,16 @@ C--- Case SR loss in storage ring (no acceleration). In that case PS is constant
       CALL SRLOS3(
      >            SRLOSS)
       IF(SRLOSS) WKS = WKS - DWS
-      PS = SQRT(WKS*(WKS+2.D0*AM))
-      WS = WKS + AM
+      PS = SQRT(WKS*(WKS+2.D0*AMASS))
+      WS = WKS + AMASS
       GOTO 1
 
-C------------------------------------------- 
-C Works like CAVITE/2 (tag 20) if no SR, or if SR in storage ring. Diff is allows SR with acceleration. 
-C It uses ph_s to accelerate (not for compensation of SR unlike 20) (so, ph_s=0 
-C in storage mode); ph_s is corrected for SR compensation : 
-C requires A(noel,22) = theoretical SR loss at first pass, then, SR loss assumes ~gamma^4 
-C dependence at subsequent passes. 
+C-------------------------------------------
+C Works like CAVITE/2 (tag 20) if no SR, or if SR in storage ring. Diff is allows SR with acceleration.
+C It uses ph_s to accelerate (not for compensation of SR unlike 20) (so, ph_s=0
+C in storage mode); ph_s is corrected for SR compensation :
+C requires A(noel,22) = theoretical SR loss at first pass, then, SR loss assumes ~gamma^4
+C dependence at subsequent passes.
  110  CONTINUE
       CRNLSY = STRCON(TA(NOEL,1), 'CornellSynch',
      >                                         IS)
@@ -280,16 +280,16 @@ C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       STS = STS + DTS
       FRF = HARM/DTS
       OMRF = 2.D0*PI*FRF
-      WKS = PS/BTS - AM
+      WKS = PS/BTS - AMASS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       CALL SRLOS3(
      >            SRLOSS)
 
-      IF(SRLOSS) THEN 
+      IF(SRLOSS) THEN
         IF(ERCRCS) THEN
 C        SI2 = 0.0568860943517   !  =I2=2pi/rho
 C        U0 = CG * (PS/BTS)**4 / (2.D0*PI) * SI2
-C        U0 = 0.51552876 /(12008.775542289)**4 *  (PS/BTS)**4 
+C        U0 = 0.51552876 /(12008.775542289)**4 *  (PS/BTS)**4
 C normalisation de U0=11.071834e-3 keV, a E=9.8932E+02MeV
 c         U0 = 11.071834e-3 * ( (PS/BTS) / 9.8932E+02)**4           ! C_gamma=88.46276*1e-6 m/GeV^3
 
@@ -298,7 +298,7 @@ Case Vahid's eRHIC RCS
           radius = 283.860202518    ! bend radius (m), assumed isofield lattice
           u0 = 88.46276*((ps*1d-3)/bts)**4/radius *1d-3  ! u0 (MeV)  (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
         ELSEIF(CRNLSY) THEN
-          U0 = (A(NOEL,22)*1d-6) *( (ps/bts) / (p0/bt0) )**4  ! AN22(eV)=Energy loss at first pass. U0 in MeV 
+          U0 = (A(NOEL,22)*1d-6) *( (ps/bts) / (p0/bt0) )**4  ! AN22(eV)=Energy loss at first pass. U0 in MeV
 ********************
         ELSE
           U0 = 0.D0
@@ -307,15 +307,15 @@ Case Vahid's eRHIC RCS
       WKS = WKS -U0
 
       IF    (ERCRCS) THEN
-C        QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns 
-c        QV = Q * (AN20 *1.D-6  + dble(ipass) * 76.14d-3) ! 1970 turns:   (final ^V - initial ^V) / number of turns = (180-30)/1970 
-        QV = Q * (AN20 *1.D-6  + dble(ipass) * 375.14d-3) ! 400 turns:   = (180-30)/400 
+C        QV = AN20 *Q *1.D-6 *(1.d0 + 1.8d-3* dble(ipass)) ! peak voltage. Varies from 15 to 120MV in 4000 turns
+c        QV = Q * (AN20 *1.D-6  + dble(ipass) * 76.14d-3) ! 1970 turns:   (final ^V - initial ^V) / number of turns = (180-30)/1970
+        QV = Q * (AN20 *1.D-6  + dble(ipass) * 375.14d-3) ! 400 turns:   = (180-30)/400
 C                                                     ! 120MV justified by SR loss at 20GeV being 50MV
 C                                                     ! and willing sin(ph_s) to stay ~1/2
 C      qvfrac = AN20 *Q *1.D-6 /2.d0       ! energy gain per turn
         qvfrac = AN20 *Q *1.D-6 * sin(2.8d0)       ! energy gain per turn
         phs = asin((qvfrac + u0)/qv)   ! |U0| is the energy loss per turn
-        phs = pi - phs  
+        phs = pi - phs
         DWS = QV*SIN(PHS)
 
       ELSEIF(CRNLSY) THEN
@@ -330,14 +330,14 @@ C        PHS = PI/2.D0
 c            write(*,*) ' cavite srloss ',srloss,u0,dws,qv
 
       WKS = WKS + DWS
-      PS = SQRT(WKS*(WKS+2.D0*AM))
-      WS = WKS + AM
+      PS = SQRT(WKS*(WKS+2.D0*AMASS))
+      WS = WKS + AMASS
 C--- Case SR loss in storage ring or booster
 c      CALL SRLOS3(
 c     >            SRLOSS)
 c      IF(SRLOSS) THEN
 c        gg4 = ( ws / (ws-dws)   )**4
-c        dwsr = a(noel,22) * gg4         
+c        dwsr = a(noel,22) * gg4
 c      ENDIF
 C      GOTO 1
 
@@ -346,15 +346,15 @@ C      SYNCT = STS
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
-        ACCDP=  SQRT(QV/(AN11*WS)) * 
+        ACCDP=  SQRT(QV/(AN11*WS)) *
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
-        DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
-        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
+        DGDT = QV*SIN(PHS)/(ORBL/CL)/AMASS
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS,
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL,U0
       ENDIF
 
-      DO I=1,IMAX 
+      DO I=1,IMAX
 
        IF(IEX(I) .GT. 0) THEN
 
@@ -365,13 +365,13 @@ C      SYNCT = STS
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I)*AMQ(1,I)
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
-C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0), 
-C DTI is the time it took since the last passage in CAVITE 
+C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0),
+C DTI is the time it took since the last passage in CAVITE
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
            PHAS(I) = PHS + (qv/abs(qv))*(DTI-DTS)*OMRF
@@ -385,23 +385,23 @@ c        if(srloss) wf = wf + dwsr
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
- 
+
 
 C        DPR(I)=P-PS
         DPR(I)=(P-PS)/PS
-        PH(I)=PHAS(I) 
+        PH(I)=PHAS(I)
 C        BLAG=(PHAS(I)-PHS)/OMRF
 C        BLNG=BLAG*(BTA*CL)
-C        PH(I)=BLAG     
+C        PH(I)=BLAG
 
         F(1,I) = P/P0
         F(3,I) = ATAN(PY/PX)*1000.D0
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
 
-        F(6,I)=0.D0 
+        F(6,I)=0.D0
 
-        IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),12(1X,E14.6),A)') 
+        IF(OKIMP)
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),12(1X,E14.6),A)')
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
      >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,QV,
      >  ' EXIT     CAVITY '//
@@ -414,29 +414,29 @@ C        PH(I)=BLAG
       GOTO 88
 
 
-C------------------------------------------- 
+C-------------------------------------------
  30   CONTINUE
 C      HARM = AN11
       CALL SCUMR(
-     >           DUM,SCUM,TCUM) 
-C      OMRF = 2.D0*PI*HARM 
+     >           DUM,SCUM,TCUM)
+C      OMRF = 2.D0*PI*HARM
       DWS = QV*SIN(PHS)
 C----- PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
       IF(IPASS .EQ. 1) PS = P0
       BTS = PS/SQRT(PS*PS+AM2)
-      WKS = PS/BTS - AM
+      WKS = PS/BTS - AMASS
 C----- PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
       WKS = WKS + DWS
 C--- Case SR loss
       CALL SRLOS3(
      >            SRLOSS)
       IF(SRLOSS) WKS = WKS - DWS
-      PS = SQRT(WKS*(WKS+2.D0*AM))
- 
+      PS = SQRT(WKS*(WKS+2.D0*AMASS))
+
       IF(NRES.GT.0) THEN
-        WRITE(NRES,130) 
-     >  PHS,DWS,SCUM*UNIT(5),TCUM+AN10, AM, Q*QE
-C     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10, AM, Q*QE
+        WRITE(NRES,130)
+     >  PHS,DWS,SCUM*UNIT(5),TCUM+AN10, AMASS, Q*QE
+C     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10, AMASS, Q*QE
  130    FORMAT(
 C     >  /,20X,'Cavity  frequency                  =',1P,E15.4,' Hz',
      >  /,20X,'Synchronous  phase                 =',  E15.4,' rad',
@@ -447,7 +447,7 @@ C     >  /,20X,'Harmonic                           =',  E15.4,' ',
      >  /,20X,'Particle mass           =',  E15.5,' MeV/c2',
      >  /,20X,'         charge         =',  E15.6,' C')
       ENDIF
- 
+
       DO 31 I=1,IMAX
         IF(IEX(I) .LT. -1) GOTO 31
         TTA = F(3,I)*.001D0
@@ -457,7 +457,7 @@ C     >  /,20X,'Harmonic                           =',  E15.4,' ',
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I)*AMQ(1,I)
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
@@ -476,15 +476,15 @@ C        PH(I)=DPHI-PHS
 
 
 C      write(88,*) ' cavite ', QV*SIN(PH(I)), dphi,PH(I)*deg
- 
+
         DPR(I)=WF-QV*SIN(PHS)
         F(1,I) = P/P0
         F(3,I) = ATAN2(PY,PX)*1000.D0
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY))*1000.D0
  31   CONTINUE
       GOTO 88
- 
-C------------------------------------------- 
+
+C-------------------------------------------
  40   CONTINUE
       ORBL = AN10
       HARM = AN11
@@ -499,13 +499,13 @@ C     ... PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C     ... PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C-------- Watch out ! This DTS calcul. assumes CAVITE IS THE LAST optical lmnt in zgoubi.dat
       PS = SCALDP(DTS,
-     >                TIME)    
+     >                TIME)
       DWS = SQRT(PS*PS+AM2) - WS
       WS = WS + DWS
       PHS=ASIN(DWS/QV)
       GOTO 1
- 
-C------------------------------------------- 
+
+C-------------------------------------------
  50   CONTINUE
       ORBL = AN10
       HARM = AN11
@@ -520,39 +520,39 @@ C     ... PARTICULE SYNCHRONE, ENTREE DE LA CAVITE
 C     ... PARTICULE SYNCHRONE, SORTIE DE LA CAVITE
 C-------- Watch out ! This DTS calcul. assumes CAVITE is at the end of THE LAST optical lmnt
       PS = SCALDP(DTS,
-     >                TIME)    
+     >                TIME)
       DWS = SQRT(PS*PS+AM2) - WS
       WS = WS + DWS
       QV = VALQV(TIME)*Q *1.D-6
       PHS=ASIN(DWS/QV)
       GOTO 1
- 
-C------------------------------------------- 
+
+C-------------------------------------------
  60   CONTINUE
-C----- FFAG acceleration. 
-C      Single cavity, assumed located at end of zgoubi.dat     
+C----- FFAG acceleration.
+C      Single cavity, assumed located at end of zgoubi.dat
 C WS0 is the synchronous energy at start
       WS0 = AN11
 C      HN = AN12
       HN = 1.D0
       FRF0 = AN10/HN
-      PS0 = SQRT((WS0+AM)**2 - AM2)
+      PS0 = SQRT((WS0+AMASS)**2 - AM2)
       BTS0 = PS0/SQRT(PS0*PS0+AM2)
-C     ... Conditions at cavity entrance 
+C     ... Conditions at cavity entrance
       OMRF = 2.D0*PI*FRF0*HN
 C     ... Synchronous conditions at cavity exit
       DWS = QV * SIN(PHS)
       WS = WS0 + DBLE(IPASS) * DWS
-      PS = SQRT((WS+AM)**2 - AM2)
+      PS = SQRT((WS+AMASS)**2 - AM2)
       BTS = PS/SQRT(PS*PS+AM2)
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
-        ACCDP=  SQRT(QV/(AN11*WS)) * 
+        ACCDP=  SQRT(QV/(AN11*WS)) *
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
-        WRITE(NRES,126) HN, QV/(Q *1.D-6), PHS, OMRF/(2.D0*PI),  
+        WRITE(NRES,126) HN, QV/(Q *1.D-6), PHS, OMRF/(2.D0*PI),
      >       QV*SIN(PHS),COS(PHS),   GTRNUS, ACCDP
- 126    FORMAT(1P, 
+ 126    FORMAT(1P,
      >       /,20X,'RF  harmonic          =',E15.4,
      >       /,20X,'Peak  voltage         =',E15.4,' V',
      >       /,20X,'Synchronous  phase    =',E15.4,' rd',
@@ -563,7 +563,7 @@ C     ... Synchronous conditions at cavity exit
      >       /,20X,'dp-acc*sqrt(alpha)    =',E15.4,'  ')
       ENDIF
 
-      DO 63 I=1,IMAX 
+      DO 63 I=1,IMAX
 
         IF(IEX(I) .LT. -1) GOTO 63
 
@@ -574,20 +574,20 @@ C     ... Synchronous conditions at cavity exit
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I)*AMQ(1,I)
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
 C F(7,I) is time in mu_s. Of course, TI is in s
-        TI = F(7,I) * UNIT(7) 
+        TI = F(7,I) * UNIT(7)
 C        PHI = OMRF * TI + PHS
         DUM = SCALE4(F(7,I),WF1(I))
         PHI = SCALER(IPASS,NOEL,
      >                          coTime) + PHS
 
 C Phase, in [-pi,pi] interval
-        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
         IF    (PHI .GT.  PI) THEN
           PHI =PHI - 2.D0*PI
         ELSEIF(PHI .LT. -PI) THEN
@@ -615,28 +615,28 @@ C Phase, in [-pi,pi] interval
         IF(OKIMP) THEN
           SCALA = SCALER(IPASS,NOEL,
      >                              DTA1)
-          WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)') 
+          WRITE(LUN,FMT='(1P,I6,1x,5G14.6,1x,I6,A)')
      >            IPASS, OMRF/(2.*PI),
-C     >            scala, 
+C     >            scala,
 C     >            PHI-PHS,
      >            PHI,
      >            TI,
      >             WF,
-C     >              QV*SIN(PH(I))/(Q*1.D-6), 
-     >               P-PS, I, 
+C     >              QV*SIN(PH(I))/(Q*1.D-6),
+     >               P-PS, I,
      >            '       ! ipass freq phi ti WF p-ps ITraj'
 C     >            ' ipass freq phi-phs ti qV*sin p-ps ITraj'
         ENDIF
  63   CONTINUE
       GOTO 88
- 
- 
+
+
  70   CONTINUE
 C Bucketless acceleration. Ok for non-scaling FFAG and cyclotron
 C Used for muon, EMMA, cyclotron
       CALL SCUMR(
-     >           DUM,SCUM,TCUM) 
-C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is 
+     >           DUM,SCUM,TCUM)
+C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is
 C at V(t)=0)
       HARM = AN10
       IF(HARM.LE.0.D0) HARM=1.D0   ! for compatibility w/ older version where AN10 was unused
@@ -648,10 +648,10 @@ C at V(t)=0)
       OMRF = 2.D0 * PI * FCAV
 C      WS = PS / BTS
 C      TS = TS + DTS
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,170) FCAV,HARM,QV,
-     >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
+     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QE
  170    FORMAT(
      >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
      >  /,20X,'Harmonic                          =',   E15.6,' ',
@@ -671,13 +671,13 @@ C      TS = TS + DTS
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I) * AMQ(1,I)
         ENRG = SQRT(P*P + AM2)
         WF1(I) = ENRG - AMQ(1,I)
         BTA = P / ENRG
 C F(7,I) is time in mu_s. of course, TI is in s
-        TI = F(7,I) * UNIT(7) 
+        TI = F(7,I) * UNIT(7)
 
 C Particle phase wrt. RF :
         DTI = TI - DBLE(IPASS) *TREF
@@ -685,7 +685,7 @@ C Particle phase wrt. RF :
 
 C        PHI = OMRF * TI + PH0
 C Phase, in [-pi,pi] interval
-C        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+C        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
 c        IF    (PHI .GT.  PI) THEN
 c          PH(I) =PHI - 2.D0*PI
 c        ELSEIF(PHI .LT. -PI) THEN
@@ -716,8 +716,8 @@ C Kin. energy, MeV
         F(3,I) = ATAN2(PY,PX) / UNIT(2)
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
 
-        IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,4(e14.6,1x),2(I6,1x),7(e14.6,1x),a)') 
+        IF(OKIMP)
+     >  WRITE(LUN,FMT='(1P,4(e14.6,1x),2(I6,1x),7(e14.6,1x),a)')
      >  PHI,DWF,TI, SIN(PHI), I , IPASS
      >  ,phi/(2.d0*pi),omrf,omrf*ti,wf,ph(i),phi+ph0,DTI
      >  ,' phi, dwf, t, sin(ph+ph0),i,ipass,ph(i)/2pi,omrf,omrf*t,wf,'
@@ -725,13 +725,13 @@ C Kin. energy, MeV
  71   CONTINUE
 
       GOTO 88
- 
+
 
  80   CONTINUE
-C For HNJ acceleration developements 
+C For HNJ acceleration developements
       CALL SCUMR(
-     >           DUM,SCUM,TCUM) 
-C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is 
+     >           DUM,SCUM,TCUM)
+C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is
 C at V(t)=0)
       ORBL = AN10
       FCAV = AN11
@@ -743,10 +743,10 @@ C at V(t)=0)
       OMRF = 2.D0 * PI * FCAV
 C      WS = PS / BTS
 C      TS = TS + DTS
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,180) FCAV,HARM,QV,BORO,DTS,
-     >                    SCUM*UNIT(5),TCUM*UNIT(7),AM,Q*QE
+     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QE
  180    FORMAT(
      >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
      >  /,20X,'Harmonic                          =',   E15.6,' ',
@@ -757,7 +757,7 @@ C      TS = TS + DTS
      >  /,20X,'Particle mass                     =',   E15.6,' MeV/c2',
      >  /,20X,'         charge                   =',   E15.6,' C')
       ENDIF
- 
+
       DO 81 I=1,IMAX
         IF(IEX(I) .LT. -1) GOTO 81
         TTA = F(3,I)*.001D0
@@ -767,26 +767,26 @@ C      TS = TS + DTS
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I) * AMQ(1,I)
         ENRG = SQRT(P*P + AM2)
         WF1(I) = ENRG - AMQ(1,I)
         BTA = P / ENRG
 C F(7,I) is time in mu_s. of course, TI is in s
-        TI = F(7,I) * UNIT(7) 
+        TI = F(7,I) * UNIT(7)
 C        PHI = OMRF * (TI - TS)
         alpha = an10
         ddphi = omrf * ti * alpha * (p-p0)/p0
         PHI = OMRF * TI + PH0  - ddphi
 
 C Phase, in [-pi,pi] interval
-        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI 
+        PHI = PHI - INT(PHI/(2.D0*PI)) * 2.D0*PI
         IF    (PHI .GT.  PI) THEN
           PH(I) =PHI - 2.D0*PI
         ELSEIF(PHI .LT. -PI) THEN
           PH(I) =PHI + 2.D0*PI
         ELSE
-          PH(I) =PHI 
+          PH(I) =PHI
         ENDIF
 
         DWF =  QV * SIN(PH(I))
@@ -805,27 +805,27 @@ C Kin. energy, MeV
         F(3,I) = ATAN2(PY,PX) / UNIT(2)
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
 
-        IF(OKIMP) 
+        IF(OKIMP)
      >          WRITE(LUN,FMT='(1P,4G14.6,2I6)') PH(I),DPR(I),
      >            TI,QV*SIN(PH(I))/(Q*1.D-6), I , IPASS
 
  81   CONTINUE
 
       GOTO 88
- 
+
  1    CONTINUE
 
       SYNCT = SYNCT + 1.D0/FRF*AN11
 
       IF(NRES.GT.0) THEN
         GTRNUS = SQRT(ABS(QV*AN11*COS(PHS) / (2.D0*PI*WS)))
-        ACCDP=  SQRT(QV/(AN11*WS)) * 
+        ACCDP=  SQRT(QV/(AN11*WS)) *
      >  SQRT(ABS(-(2.D0*COS(PHS)/PI+(2.D0*PHS/PI-1.D0)*SIN(PHS))))
-        DGDT = QV*SIN(PHS)/(ORBL/CL)/AM 
-        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS, 
+        DGDT = QV*SIN(PHS)/(ORBL/CL)/AMASS
+        WRITE(NRES,220) ORBL, AN11, QV/(Q *1.D-6), FRF, PHS, DTS,
      >       QV*SIN(PHS),COS(PHS),GTRNUS, ACCDP,DGDT,
      >         QV/(Q *1.D-6)*SIN(PHS)/ORBL,U0
- 220    FORMAT(1P, 
+ 220    FORMAT(1P,
      >       /,20X,'Orbit  length           =',E19.8,' m',
      >       /,20X,'RF  harmonic            =',E19.8,
      >       /,20X,'Peak  voltage           =',E19.8,' V',
@@ -843,9 +843,9 @@ C Kin. energy, MeV
 
         IF(NBH .EQ. 2) THEN
           WRITE(NRES,221) NINT(HRM(1)),NINT(HRM(2)),VHRM(1),VHRM(2),
-     >    FRF,RN*FRF,NINT(RN),AK,ATAN(TAN(PHS)/RN)/RN, DPHN, 
+     >    FRF,RN*FRF,NINT(RN),AK,ATAN(TAN(PHS)/RN)/RN, DPHN,
      >    QV*(SIN(PHS)+AK*SIN(RN*PHN))
- 221      FORMAT(1P, 
+ 221      FORMAT(1P,
      >    /,20X,'h1, h2                   :    ',I0,',  ',I0,
      >    /,20X,'Peak  voltage  1, 2      :',E19.8,',  ',E19.8,' V',
      >    /,20X,'RF  frequency  1, 2      :',E19.8,',  ',E19.8,' Hz',
@@ -863,7 +863,7 @@ C Kin. energy, MeV
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)
-C            write(33,*) time, QV/(Q/QE *1.D-6)/1.6D6, QV*SIN(PHS)/1.3, 
+C            write(33,*) time, QV/(Q/QE *1.D-6)/1.6D6, QV*SIN(PHS)/1.3,
 C     >        ps/16, AN11/DTS/(53e6), GTRNUS/40/0.11
       ENDIF
 
@@ -875,8 +875,8 @@ cC----- Initial conditions of  the IMAX particles
       ENDIF
       PHS_prev = PHS
 
-      DO 3 I=1,IMAX 
-         
+      DO 3 I=1,IMAX
+
         IF(IEX(I) .LT. -1) GOTO 3
 
         TTA = F(3,I)*.001D0
@@ -886,30 +886,30 @@ cC----- Initial conditions of  the IMAX particles
         PX = PCP * COS(TTA)
         PY = PCP * SIN(TTA)
         PZ = P * SIN(PHI)
- 
+
         AM2 = AMQ(1,I)*AMQ(1,I)
         ENRG = SQRT(P*P+AM2)
         WF1(I) = ENRG-AMQ(1,I)
         BTA = P/ENRG
-C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0), 
-C DTI is the time it took since the last passage in CAVITE 
+C At all pass#,  F6i is the previous-turn path length (see below : F(6,I) set to 0),
+C DTI is the time it took since the last passage in CAVITE
         DTI = F(6,I)*.01D0 / (BTA*CL)
         IF(IPASS .EQ. 1) THEN
           IF(.NOT. (KZOB.EQ.1 .AND. KOBJ.EQ.3)) THEN
               PHAS(I) = PHS + (QV/ABS(QV))*(DTI-DTS)*OMRF
           ELSE
             PHAS(I) = PH(I)   + (QV/ABS(QV))*(DTI-DTS)*OMRF
-          ENDIF      
+          ENDIF
         ELSE
            PHAS(I) = PHAS(I) + (QV/ABS(QV))*(DTI-DTS)*OMRF
         ENDIF
 
 c              write(*,*) ' cavite kobj3 ',ph(i)
 c              read(*,*)
-        
 
-        IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),23(1X,E14.6),A)') 
+
+        IF(OKIMP)
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),23(1X,E14.6),A)')
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
      >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS,
      >  F(1,I)-1.,(F(J,I),J=2,7),DPREF,HDPRF,PHAS(I),
@@ -918,7 +918,7 @@ c              read(*,*)
      >  //' ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS'
      >  //',F1I-1, (F(J,I),J=2,7), DPREF, int(DPREF), PHASi'
 
-        
+
         IF(PHAS(I) .GT.  PI) PHAS(I) =PHAS(I) -2.D0*PI
         IF(PHAS(I) .LT. -PI) PHAS(I) =PHAS(I) +2.D0*PI
 
@@ -930,24 +930,24 @@ c              read(*,*)
         WF1(I) = WF
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
- 
+
 
 C        DPR(I)=P-PS
         DPR(I)=(P-PS)/PS
-        PH(I)=PHAS(I) 
+        PH(I)=PHAS(I)
 C        BLAG=(PHAS(I)-PHS)/OMRF
 C        BLNG=BLAG*(BTA*CL)
 C        PH(I)=BLAG
-     
+
 
         F(1,I) = P/P0
         F(3,I) = ATAN(PY/PX)*1000.D0
         F(5,I) = ATAN(PZ/SQRT(PX*PX+PY*PY))*1000.D0
- 
-        F(6,I)=0.D0 
 
-        IF(OKIMP) 
-     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),22(1X,E14.6),A)') 
+        F(6,I)=0.D0
+
+        IF(OKIMP)
+     >  WRITE(LUN,FMT='(1P,7(E14.6,1X),2(I6,1X),22(1X,E14.6),A)')
      >  PH(I),PHS,P-PS,OMRF,DTI,DTS,QV*SIN(PH(I))/(Q*1.D-6), I,IPASS,
      >  ORBL, HARM, BTA,BTS, OMRF,FRF,DWS,WKS,PS,WS,U0,P,(P-PS)/PS,
      >  F(1,I)-1.,(F(J,I),J=2,7),DPREF,HDPRF,
@@ -972,23 +972,23 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
 
       CALL SCUMW(0.5D0*CAVL)
       CALL SCUMR(
-     >           DUM,SCUM,TCUM) 
+     >           DUM,SCUM,TCUM)
       PS = P0 * (DPREF+HDPRF)
       BTS = PS/SQRT(PS*PS+AM2)
       HARM = 1.D0
       OMRF = 2.D0 * PI * FCAV
-      WS0 = SQRT(PS**2 +AM**2) - AM
+      WS0 = SQRT(PS**2 +AMASS**2) - AMASS
 
       DWS = QV * COS(PH0)
       WSF = WS0 +  DWS
-      PSF = SQRT((WSF+AM)**2 - AM2)
+      PSF = SQRT((WSF+AMASS)**2 - AM2)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,200) IDMP,
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
      >        FCAV,CAVM,PH0,DWS,WSF/WS0,BORO*(DPREF+HDPRF),
      >        DPREF,BORO*PSF/P0,PSF/P0-INT(PSF/P0),
-     >  SCUM*UNIT(5),TCUM,AM,Q*QE
+     >  SCUM*UNIT(5),TCUM,AMASS,Q*QE
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
      >  //,15X,'Transport option : ',I2,'  (',A,')',
@@ -1010,44 +1010,44 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
       TIAV = 0.D0
       II = 0
       DO I=1,IMAX
-        IF(IEX(I) .GE. -1) THEN 
+        IF(IEX(I) .GE. -1) THEN
           II = II + 1
-          P = P0*F(1,I) 
+          P = P0*F(1,I)
           AM2 = AMQ(1,I) * AMQ(1,I)
           ENRG = SQRT(P*P + AM2)
           BTA = P / ENRG
-Compute particle time at center of cavity 
-C          TI = F(7,I) * UNIT(7) 
+Compute particle time at center of cavity
+C          TI = F(7,I) * UNIT(7)
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
-          F7I = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
+          F7I = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7)
 C F(7,I) is time in mu_s. Of course, TI is in s
-          TI = F7I * UNIT(7) 
+          TI = F7I * UNIT(7)
           TIAV = TIAV + TI
-        ENDIF   
+        ENDIF
       ENDDO
       TIAV = TIAV / DBLE(II)
 
       DO I=1,IMAX
-        IF(IEX(I) .GE. -1) THEN 
-          P = P0*F(1,I) 
+        IF(IEX(I) .GE. -1) THEN
+          P = P0*F(1,I)
           AM2 = AMQ(1,I) * AMQ(1,I)
           ENRG = SQRT(P*P + AM2)
           WF1(I) = ENRG - AMQ(1,I)
           BTA = P / ENRG
 
-Compute particle time at center of cavity 
+Compute particle time at center of cavity
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
-          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
+          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7)
 C FM Dec 2015 - wrong units          TI = TI + dsar2 / (bta*cl)
 C F(7,I) is time in mu_s. Of course, TI is in s
-          TI = F(7,I) * UNIT(7) 
+          TI = F(7,I) * UNIT(7)
 
 C Relative time to bunch centroid
           TI = TI-TIAV
-          PHI = OMRF * TI + PH0   
+          PHI = OMRF * TI + PH0
           PHIAV = PHIAV + PHI
-          PH(I) =PHI 
+          PH(I) =PHI
           DWF=QV*COS(PHI)
           CPH = COS(PHI)
 
@@ -1056,43 +1056,43 @@ c      CEBAF = STRCON(TA(NOEL,1), 'CEBAF',
 c     >                                   IS)
 c     >                                        IS)
 C tests cebaf
-c          IF(CEBAF) THEN 
+c          IF(CEBAF) THEN
 c            IF    (PHI .GT.  PI) THEN
 c              PH(I) =PHI - 2.D0*PI
 c            ELSEIF(PHI .LT. -PI) THEN
 c              PH(I) =PHI + 2.D0*PI
 c            ELSE
-c              PH(I) =PHI 
+c              PH(I) =PHI
 c            ENDIF
 c          ENDIF
 ccccccccccccccccccccccccccc
 
-          WI = WF1(I) 
+          WI = WF1(I)
           WF1(I) = WF1(I) + DWF
           WF = WF1(I)
 C Kin. energy, MeV
           DPR(I)=WF
           P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
-          
+
           IF     (DWF.EQ.0.D0 .OR. IDMP.EQ.0.) THEN
 C        CAVITY + DRIFT
             V11= 1.D0
             V12= CAVM
-            V21= 0.D0                               
+            V21= 0.D0
             V22= 1.D0
           ELSE IF(IDMP.EQ.1) THEN
 C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)#1
             FAC=SQRT(WI/WF)
             V11= FAC
             V12= CAVM*FAC
-            V21= 0.D0                               
+            V21= 0.D0
             V22= FAC
           ELSE IF(IDMP.EQ.-1) THEN
 C        CHAMBERS CAVITY WITH DE/E<<1 APROXIMATION Det(M)=1
             FAC=SQRT(WI/WF)
             V11= FAC
             V12= CAVM*FAC
-            V21= 0.D0     
+            V21= 0.D0
             V22= FAC
             DWFT=DSQRT(V11*V22-V21*V12)
             V11=V11/DWFT
@@ -1112,7 +1112,7 @@ C        CHAMBERS CAVITY Det(M)#1
             V22=(COSFAC+SQRT2*SINFAC*CPH)/EFEI
           ELSE IF(IDMP.EQ.-2) THEN
 C        CHAMBERS CAVITY Det(M)=1
-            EFEI=WF/WI 
+            EFEI=WF/WI
             FAC=DLOG(EFEI)/SQRT8/CPH
             COSFAC=COS(FAC)
             SINFAC=SIN(FAC)
@@ -1126,7 +1126,7 @@ C        CHAMBERS CAVITY Det(M)=1
             V12=V12/DWFT
             V22=V22/DWFT
             V21=V21/DWFT
-          ENDIF 
+          ENDIF
 
           F(1,I) = P / P0
           F(2,I) = (v11 * F(2,I)*.01D0 + v12 * F(3,I)*.001D0)*1.D2
@@ -1136,15 +1136,15 @@ C        CHAMBERS CAVITY Det(M)=1
           DSAR2=0.5D0*CAVL /(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
           F(6,I) = F(6,I) + DSAR2
           BTA = P / SQRT(P*P + AM2)
-          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7) 
+          F(7,I) = F(7,I) + (dsar2*unit(5)) / (bta*cl) / unit(7)
 
-          IF(OKIMP) 
+          IF(OKIMP)
      >    WRITE(LUN,FMT='(1P,5e14.6,2I6,e14.6)') PH(I),DPR(I),
      >    TI, WI, WF, I , IPASS, DWF
-          
+
 c          ii = ii + 1
 
-        ENDIF   
+        ENDIF
       ENDDO
       PHIAV = PHIAV / DBLE(II)
 
@@ -1163,10 +1163,10 @@ C        PHIAV = PHIAV / DBLE(II)
       ENDIF
 
       GOTO 88
- 
+
  88   CONTINUE
 C FM Mar 2018
-C      DPREF = PS / P0 
+C      DPREF = PS / P0
       HDPRF = DBLE(INT(PS / P0) )
       DPREF = PS / P0 -HDPRF
 
@@ -1178,7 +1178,7 @@ C      DPREF = PS / P0
  101  FORMAT(/,'Pgm ',A,' : ERROR',A,/)
       RETURN
 
- 999  RETURN   
+ 999  RETURN
 
       ENTRY CAVIT1(
      >             DWSO)
@@ -1188,6 +1188,6 @@ C      DPREF = PS / P0
       ENTRY CAVIT3(
      >             SYNCTO)
       SYNCTO = SYNCT
-      RETURN 
+      RETURN
 
-      END 
+      END

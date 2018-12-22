@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory         
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,7 +37,7 @@ C  -------
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
@@ -65,7 +65,7 @@ C------- store at ipass=1 & every ipass=multiple of KPR
           ENDIF
         ENDIF
       ENDIF
- 
+
       IF(BINARY) THEN
 
         DO I=1,IMAX
@@ -80,7 +80,7 @@ C------- store at ipass=1 & every ipass=multiple of KPR
         DO I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           GA = SQRT(P*P/(AMQ(1,I)*AMQ(1,I)) + 1.D0)
-          WRITE(NSPN,101) 
+          WRITE(NSPN,101)
      >    IEX(I),(SI(J,I),J=1,4),(SF(J,I),J=1,4),F(6,I)
      >    ,(GA-1.D0)*AMQ(1,I),I,IMAX,IPASS,NOEL
      >    ,TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1
@@ -97,13 +97,13 @@ C------- store at ipass=1 & every ipass=multiple of KPR
 
       ENTRY SPNPRW(FNAME,LBL,NLB)
 
-C FM July 2015. 
+C FM July 2015.
 C      IF(IPASS .EQ. 1) CALL OPEN2('SPNPRN',NSPN,FNAME)
       CALL OPEN2('SPNPRN',NSPN,FNAME)
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,
-     >    ''Print of spin info will occur at element[s] labeled : '')') 
+     >    ''Print of spin info will occur at element[s] labeled : '')')
         WRITE(NRES,FMT='(20X,A)') (LBL(I),I=1,NLB)
       ENDIF
 

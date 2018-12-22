@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -26,7 +26,7 @@ C  -------
       SUBROUTINE SPINR
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------
-C     Spin rotator. 
+C     Spin rotator.
 C     Installed by Mei Bai, 2009.
 C     ---------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -40,7 +40,7 @@ C     ---------------------------
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
+      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
@@ -51,7 +51,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       IOPT = NINT(A(NOEL,1))
 
-C SCALING 
+C SCALING
       SCAL = SCAL0()
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
@@ -61,13 +61,13 @@ C SCALING
          ANG = A(NOEL,11) * SCAL
       ELSEIF(IOPT .EQ. 2)THEN
          PHI = A(NOEL,10)
-         GMAREF = SQRT((BORO*(DPREF+HDPRF)*Q*CL9/AM)**2+1.d0)
-         ANG = ((A(NOEL,11)/A(NOEL,12))**2* 
-     >   (A(NOEL,13) + (A(NOEL,14) + (A(NOEL,15) + 
+         GMAREF = SQRT((BORO*(DPREF+HDPRF)*Q*CL9/AMASS)**2+1.d0)
+         ANG = ((A(NOEL,11)/A(NOEL,12))**2*
+     >   (A(NOEL,13) + (A(NOEL,14) + (A(NOEL,15) +
      >             A(NOEL,16)/GMAREF)/GMAREF)/GMAREF) ) * SCAL
       ELSE
-         IF(NRES.GT.0) THEN 
-            WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')') 
+         IF(NRES.GT.0) THEN
+            WRITE(NRES,FMT='(35X,''+++++ SpinR is OFF +++++'')')
          ENDIF
          RETURN
       ENDIF
@@ -86,14 +86,14 @@ C              phi=(ANG-int(ANG))*100.d0
               VEC(2)=sin(dtr*phi)
               VEC(3)=0.d0
               CALL SPINRO(ANG,VEC,OT)
-            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2) 
-     >      +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4)) 
+            SF(1,i) = S1*(OT(1)**2+OT(2)**2-OT(3)**2-OT(4)**2)
+     >      +S2*2.d0*(OT(2)*OT(3)-OT(1)*OT(4))
      >      +S3*2.d0*(OT(2)*OT(4)+OT(1)*OT(3))
-            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2) 
-     >      +S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4)) 
+            SF(2,i) = S2*(OT(1)**2-OT(2)**2+OT(3)**2-OT(4)**2)
+     >      +S1*2.d0*(OT(2)*OT(3)+OT(1)*OT(4))
      >      +S3*2.d0*(OT(3)*OT(4)-OT(1)*OT(2))
-            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2) 
-     >      +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2)) 
+            SF(3,i) = S3*(OT(1)**2-OT(2)**2-OT(3)**2+OT(4)**2)
+     >      +S2*2.d0*(OT(3)*OT(4)+OT(1)*OT(2))
      >      +S1*2.d0*(OT(2)*OT(4)-OT(1)*OT(3))
            ENDIF
          ENDDO
@@ -112,5 +112,5 @@ C              phi=(ANG-int(ANG))*100.d0
       ENDIF
       RETURN
       END
-      
-      
+
+
