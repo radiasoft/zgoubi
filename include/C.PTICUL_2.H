@@ -1,1 +1,0 @@
-      COMMON/PTICUL/ AMASS,Q,G,TO
