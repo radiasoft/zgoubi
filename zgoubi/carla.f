@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -44,8 +44,8 @@ C     *******
       INCLUDE "C.CARSH.H"     ! COMMON/CARSH/ ATS,RMS
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CHAMBR.H" 
- 
+      INCLUDE "C.CHAMBR.H"
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -53,26 +53,26 @@ C     *******
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
- 
+
       DIMENSION CI(6),CS(6),C3(6)
 
       CALL KSMAP5(
      >            IMAP)
- 
+
 C  NBFACE=(2)3 :DIPOLE LIMITE PAR (2)3 FACES.
       NBFACE = NINT(A(NOEL,1))
- 
+
 C  IXMA/JYMA = NBRE DE PAS ANGULAIRE/RADIAL DE LA CARTE DE Champ.
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
 C  AT=ANGLE TOTAL DE LA CARTE DE Champ, ACENT='ANGLE AU CENTRE',
 C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
- 
+
       IXMA = NINT(A(NOEL,4))
-      IF(IXMA.GT.MXX) 
+      IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
       JYMA = NINT(A(NOEL,5))
-      IF(JYMA.GT.MXY ) 
+      IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
 
       HNORM = A(NOEL,6)*SCAL
@@ -98,7 +98,7 @@ C101     FORMAT(/,10X,' ATTENTION: VALEURS DES RAYONS INCOMPATIBLES||'/)
      >                                    I5,'  in  radius :',I5)
 C105     FORMAT(20X,'NBRE PAS ANGULAIRE=',I5,'  NBRE PAS RAYON=',I5)
       ENDIF
- 
+
       ATO = 0D0
       ATOS = 0D0
       ATS = AT / (IXMA - 1)
@@ -133,7 +133,7 @@ C Champ DE FUITE ENTREE
  227    CI(I) = A(NOEL,17+I)
       SHIFTE = A(NOEL,24)
       SHIFTE=0D0
- 
+
       NCFE1=NCOEFE+1
       IF(QSIE.LT.0.D0) THEN
          IF(NRES.GT.0) WRITE(NRES,107)
@@ -158,7 +158,7 @@ C
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       IF(R1*R1 .GE. 1.D10) U1 = -1.D6
       IF(R2*R2 .GE. 1.D10) U2 =  1.D6
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) LAMBDE
 106     FORMAT (/,5X,'Entrance  EFB',/,10X,
@@ -234,7 +234,7 @@ C Champ DE FUITE SORTIE
  228    CS(I) = A(NOEL,33+I)
       SHIFTS = A(NOEL,40)
       SHIFTS=0D0
- 
+
       NCFS1=NCOEFS+1
       IF(QSIS.LT.0.D0) THEN
          IF(NRES.GT.0) WRITE(NRES,117)
@@ -314,7 +314,7 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
  229     C3(I) = A(NOEL,49+I)
        SHIFT3 = A(NOEL,56)
        SHIFT3=0D0
- 
+
        NCF31=NCOEF3+1
        IF(QSI3.LT.0.D0) THEN
           IF(NRES.GT.0) WRITE(NRES,137)
@@ -334,7 +334,7 @@ C
        U23    = A(NOEL,61)
        R23    = A(NOEL,62)
        RM3    = A(NOEL,63)
- 
+
        IF(NRES.GT.0) THEN
          WRITE(NRES,136) LAMBD3
 136      FORMAT (/,5X,'Lateral  EFB',/,10X,
@@ -553,7 +553,7 @@ C 8002 FORMAT(/,' LIEU,DP,RR  E/S/3 : ',/,3(I3,2G12.4))
 C
 C
 C        ** CALCULE LES COEFFS. DE Champ DE FUITE ASSOCIES AUX FACES
- 
+
          LO=ABS(DP)
          IF(IFACE .EQ. 1) THEN
 C           ****EXTERIEUR AIMANT / FACE D'ENTREE
@@ -615,7 +615,7 @@ C                 ****Champ DE FUITE 'ZGOUBI'
             ENDIF
          ENDIF
          FHE = FH
- 
+
          LO=ABS(DPS)
          IF(IFACES .EQ. 2) THEN
 C           ****EXTERIEUR AIMANT / FACE DE SORTIE
@@ -681,7 +681,7 @@ C                 ****Champ DE FUITE 'ZGOUBI'
             ENDIF
          ENDIF
          FHS = FH
- 
+
          IF(NBFACE .EQ. 3) THEN
          LO=ABS(DP3)
          IF(IFACE3 .EQ. 3) THEN
@@ -749,10 +749,10 @@ C                 ****Champ DE FUITE 'ZGOUBI'
          ENDIF
          FH3 = FH
          ENDIF
- 
+
       FH = FHE * FHS
       IF(NBFACE .EQ. 3) FH = FH * FH3
- 
+
 C     CE 'POINT DE MESURE' PERMET DE SUIVRE LE
 C     PARCOURS A TRAVERS LES FACES, LE LONG D'UN RAYON.
 C      IF(I .EQ. JYMA/2)
@@ -766,7 +766,7 @@ C
 C     ****FIN DE BOUCLES SUR ANGLES ET RAYONS
     2 CONTINUE
     1 CONTINUE
- 
+
 C     ****SIMULE DES PERTURBATIONS DE LA CARTE DE Champ
       IF(NBFACE .EQ. 2) THEN
         ND = 57
@@ -777,7 +777,7 @@ C     ****SIMULE DES PERTURBATIONS DE LA CARTE DE Champ
       IF    (NBSHIM .NE. 0) THEN
          IF(NBSHIM.GT.0) THEN
 C           ****INTRODUCTION D'ILOTS OU SHIMS
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,*) ' NO SHIMS AVAILABLE: TO BE IMPLEMENTED'
 C            CALL CARSHI(NBSHIM)
          ELSEIF(NBSHIM .EQ. -1) THEN
@@ -814,7 +814,7 @@ C           ****PERTURBATION LINEAIRE EN RAYON
 4           CONTINUE
          ENDIF
       ENDIF
- 
+
       BAMP = 1.D10
       CALL MAPLI1(BAMP)
 
@@ -823,9 +823,9 @@ C           ****PERTURBATION LINEAIRE EN RAYON
       AT = AT * RAD
       XI = XH(1)
       XF = XH(NN)
- 
+
 15    CONTINUE
- 
+
   100 FORMAT(20X,'AIMANT  PRINCIPAL',///,
      1 11X,'ANGLES : A.TOTAL =',F6.2,' degrees',5X,'A.CENTRAL =',
      2 F6.2,' degrees',// ,11X,'RM =',F7.2,' cm',5X,'RMIN =',F7.2,' cm',

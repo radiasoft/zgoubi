@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -37,14 +37,14 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
- 
+
       SAVE NN, RESOL
       CHARACTER(24) TYPCAL(2)
       SAVE TYPCAL
 
       DIMENSION B(5,3),DB(3,3),DDB(3,3,3)
       DIMENSION FTAB3(3,3,3,3)
- 
+
       LOGICAL OKX, LTXI, GTXF
       SAVE PITCHB, XROT, AK
 
@@ -56,7 +56,7 @@ C      LOGICAL ZSYM
           PITCHB =A(NOEL,11)
           BO =A(NOEL,12)*SCAL
           XROT = A(NOEL,13) * RAD
- 
+
           AK = 2.D0 * PI / PITCHB
           IF(NRES.GT.0) THEN
             WRITE(NRES,100)'Helical magnet',XL,PITCHB,BO,XROT/RAD
@@ -75,15 +75,15 @@ C    analytic. A(NOEL,21) = 2 or 4 = order of derivatives (not necessarily opera
         KAN = 0
         IRD = 3
       ELSEIF(IRDA.EQ.3) THEN
-C 3D interpolation from 3D 3*3*3 points flying grid with mesh size integration step/Resol. 
+C 3D interpolation from 3D 3*3*3 points flying grid with mesh size integration step/Resol.
         RESOL=A(NOEL,21)
-        KAN = 1   
+        KAN = 1
         NN=3
       ELSE
         CALL ENDJOB('ERROR - SBR HELIX, wrong value IRD',-99)
       ENDIF
       CALL CHAMC6(KAN)
-    
+
           XI = 0.D0
           XLIM = XL
           XF = XLIM
@@ -140,16 +140,16 @@ C        LTXI = X-DX .LT. XI
 C        GTXF = X+DX .GT. XF
 C        OKX = .NOT.(LTXI .OR. GTXF)
 CC        write(*,*) ' dipi  okX, ltxi, gtxf ', okX, ltxi, gtxf
-C        IF(OKX) THEN 
+C        IF(OKX) THEN
 C          XX = 0.D0
-C        ELSEIF(LTXI) THEN 
-C          XX=-DX 
+C        ELSEIF(LTXI) THEN
+C          XX=-DX
 C          DX = 2.D0 * DX
 C        ELSEIF(GTXF) THEN
-C          XX= DX 
+C          XX= DX
 C          DX = 2.D0 * DX
 C        ENDIF
-     
+
         DO  1  IX = 1,NN
           XI = X - DX * DBLE(NN-IX-NN2)
 
@@ -185,7 +185,7 @@ c          bxo = -2.d0*ak * fx * (y*CKX + z*SKX)                * BO
             FTAB3(1,IX,JY,KZ) = BX
             FTAB3(2,IX,JY,KZ) = BY
             FTAB3(3,IX,JY,KZ) = BZ
-          
+
  1    CONTINUE
 C--------- end loop on   NN x DX,  NN x DY, NN x DZ
 
@@ -224,10 +224,10 @@ C--------- Components Bx, By, Bz of field
 
           cp = -ak * sx
           sp =  ak * cx
-          cpp = -ak * sp 
-          spp =  ak * cp          
-          ay = AK28*Y 
-          az = AK28*Z 
+          cpp = -ak * sp
+          spp =  ak * cp
+          ay = AK28*Y
+          az = AK28*Z
           uay2z2 = 1.D0 + ay2z2
           yczs =  (y*cx + z*sx)
           ycpzsp =  (y*cp + z*sp)

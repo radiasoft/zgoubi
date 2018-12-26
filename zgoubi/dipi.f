@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DIPI(SCAL, 
+      SUBROUTINE DIPI(SCAL,
      >                     DSREF)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C---------------------------------------------------------
-C     Same as DIPSI, but for a single dipole. 
+C     Same as DIPSI, but for a single dipole.
 C---------------------------------------------------------
       INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -37,14 +37,14 @@ C---------------------------------------------------------
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
- 
+
       PARAMETER (NMAG=5)
       DIMENSION CE(NMAG,6),CS(NMAG,6),C3(NMAG,6)
- 
+
       DIMENSION FTAB(5,5)
-      
+
       DOUBLE PRECISION LAMBDE, LAMBDS, LAMBD3
- 
+
       SAVE CE,CS,C3,SHIFTE,SHIFTS,SHIFT3
       SAVE COEFN,COEFB,COEFG,ACN
       SAVE LAMBDE,QSIE,NCOEFE
@@ -61,32 +61,32 @@ C---------------------------------------------------------
 
       NP = 2
       AT    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       RM    = A(NOEL,NP)
 
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
 C  AT=ANGLE TOTAL DE LA CARTE DE Champ, ACENT='ANGLE AU CENTRE',
-C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ. 
+C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
 C  NBFACE=(2)3 : dipole limited by (2)3 field boundaries
 
       KMAG = 1
 
-      NP=NP+1 
+      NP=NP+1
       ACENT = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       HNORM = A(NOEL,NP)*SCAL
-CCCCCCC       write(*,*) ' dipi  SCAL  ',SCAL,hnorm 
+CCCCCCC       write(*,*) ' dipi  SCAL  ',SCAL,hnorm
 
-      NP=NP+1  
+      NP=NP+1
       COEFN = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       COEFB = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       COEFG = A(NOEL,NP)
 
-      ACN = ACENT * RAD      
-      IF(NRES.GT.0) 
+      ACN = ACENT * RAD
+      IF(NRES.GT.0)
      >     WRITE(NRES,100)AT,ACENT,RM,HNORM,COEFN,COEFB,COEFG
 C     >     WRITE(NRES,100)AT,ACENT,RM+DRM,HNORM,COEFN,COEFB,COEFG
   100 FORMAT(20X,'Dipole  magnet',//,1P,
@@ -96,32 +96,32 @@ C     2 G12.4,' degrees',/,11X,'RM+DRM =',G12.4,' cm',/,
      5 11X,'HNORM =',G12.4,' kGauss',5X,'COEF.N =',G12.4,5X,'COEF.B =',
      6 G12.4,5X,'COEF.G=',G12.4)
 
-      NP=NP+1 
+      NP=NP+1
       LAMBDE = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QSIE = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       NCOEFE = NINT(A(NOEL,NP))
       DO 227 I=1,6
-        NP=NP+1 
+        NP=NP+1
  227    CE(KMAG,I) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       SHIFTE = A(NOEL,NP)
       SHIFTE=0.D0
- 
-      NP=NP+1 
+
+      NP=NP+1
       UMEGA = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       THETA = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R1    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U1    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U2    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R2    = A(NOEL,NP)
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) 'Entrance  EFB ',LAMBDE,QSIE
 106     FORMAT (/,5X,A14,/,10X,
@@ -142,36 +142,36 @@ C 103    FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
       ENDIF
 
       IF(LAMBDE .EQ.0.D0) THEN
-        IF(ACENT .NE. UMEGA .OR. THETA .NE. 0.D0) 
+        IF(ACENT .NE. UMEGA .OR. THETA .NE. 0.D0)
      >  CALL ENDJOB('Pgm dipi. Entrance hard edge requires ACENT=OMEGA+'
-     >  //'  AND  THETA=0',-99) 
+     >  //'  AND  THETA=0',-99)
       ENDIF
 
 C Exit Fringe Field
-      NP=NP+1 
+      NP=NP+1
       LAMBDS = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QSIS   = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       NCOEFS = NINT(A(NOEL,NP))
       DO 228 I=1,6
-        NP=NP+1 
+        NP=NP+1
  228    CS(KMAG,I) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       SHIFTS = A(NOEL,NP)
       SHIFTS=0D0
 
-      NP=NP+1 
+      NP=NP+1
       UMEGAS = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       THETAS = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R1S    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U1S    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U2S    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R2S    = A(NOEL,NP)
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) 'Exit  EFB     ',LAMBDS,QSIS
@@ -179,41 +179,41 @@ C Exit Fringe Field
         WRITE(NRES,103) UMEGAS,THETAS,R1S,U1S,U2S,R2S
         IF(R1S*R2S .EQ. 0.D0) WRITE(NRES,123)
       ENDIF
- 
+
       IF(LAMBDS .EQ.0.D0) THEN
-        IF(AT - ACENT .NE. -UMEGAS .OR. THETAS .NE. 0.D0) 
+        IF(AT - ACENT .NE. -UMEGAS .OR. THETAS .NE. 0.D0)
      >  CALL ENDJOB('Pgm dipi. Exit hard edge requires ACENT=OMEGA+ AND'
-     >  //' THETA=0',-99) 
+     >  //' THETA=0',-99)
       ENDIF
 
-      NP=NP+1 
+      NP=NP+1
       LAMBD3 = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QSI3   = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       NCOEF3 = NINT(A(NOEL,NP))
       DO 229 I=1,6
-        NP=NP+1 
+        NP=NP+1
  229    C3(KMAG,I) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       SHIFT3 = A(NOEL,NP)
       SHIFT3=0D0
- 
-      NP=NP+1 
+
+      NP=NP+1
       UMEGA3 = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       THETA3 = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R13    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U13    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       U23    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       R23    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       RM3    = A(NOEL,NP)
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) 'Lateral  EFB  ',LAMBD3,QSI3
         WRITE(NRES,127) NCOEF3,(C3(KMAG,I),I=1,6),SHIFT3
@@ -223,10 +223,10 @@ C Exit Fringe Field
         WRITE(NRES,103) UMEGA3,THETA3,R13,U13,U23,R23
         IF(R13*R23 .EQ. 0.D0) WRITE(NRES,123)
       ENDIF
-       
-      NP=NP+1 
+
+      NP=NP+1
       IRD = NINT(A(NOEL,NP))
-      IF    (IRD.EQ.2) THEN 
+      IF    (IRD.EQ.2) THEN
         NN=3
       ELSEIF(IRD.EQ.25) THEN
         NN=5
@@ -235,7 +235,7 @@ C Exit Fringe Field
       ELSE
         STOP ' *** ERROR - SBR DIPI, WRONG VALUE IRD'
       ENDIF
-      NP=NP+1 
+      NP=NP+1
       RESOL=A(NOEL,NP)
 
       AE=0.D0
@@ -244,8 +244,8 @@ C Exit Fringe Field
       XI = 0.D0
       XF = AT
 
-      DSREF = RM * ((UMEGA-UMEGAS)*RAD +  TAN(ACN - UMEGA* RAD) + 
-     >         TAN(AT - ACN + UMEGAS* RAD) )    
+      DSREF = RM * ((UMEGA-UMEGAS)*RAD +  TAN(ACN - UMEGA* RAD) +
+     >         TAN(AT - ACN + UMEGAS* RAD) )
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,119) IRD
@@ -275,19 +275,19 @@ C Entrance EFB
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       IF(R1*R1 .GE. 1.D6) U1 = -1.D6
       IF(R2*R2 .GE. 1.D6) U2 =  1.D6
- 
+
       UMEG = UMEGA * RAD
       TETA = THETA * RAD
       UT = UMEG - TETA
       SINO = SIN(UT)
       COSO = COS(UT)
       TANO = SINO / COSO
- 
+
 C  CALCUL DES PARAMETRES DE FACE  :
 C  AXE X DU REFERENTIEL  = PARALLELE  DIRCTN ACENT, SENS DES RAYONS CROISSANTS
 C  AXE Y DU REFERENTIEL  = ORTHOGONAL DIRCTN ACENT, DIRIGE VERS FACE D'ENTREE
 C  ORIGINE DU REFERENTIEL= A L'INTERSECTION DE RM ET ACENT
- 
+
 C  PROJECTIONS DU RAYON MOYEN SUR LES AXES X,Y
       XB = RM * ( COS(UMEG) - 1.D0)
       YB = RM * SIN(UMEG)
@@ -306,12 +306,12 @@ C  COORDONNEES DU CENTRE DE COURBURE DE RAYON R2
       SIN2 = SINO**2
       COS2 = COSO**2
       SICO = SINO * COSO
- 
+
 C Exit EFB
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       IF(R1S*R1S .GE. 1.D10) U1S = -1.D6
       IF(R2S*R2S .GE. 1.D10) U2S =  1.D6
- 
+
       UMEGS = UMEGAS * RAD
       TETAS = THETAS * RAD
       UTS= UMEGS- TETAS
@@ -331,7 +331,7 @@ C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       SIN2S = SINOS**2
       COS2S = COSOS**2
       SICOS = SINOS * COSOS
- 
+
 C Third EFB
       NBFACE=2
       IF(LAMBD3 .NE. 0.D0) NBFACE=3
@@ -345,7 +345,7 @@ C Third EFB
 139       FORMAT(/,20X,' FACE 3, ATTENTION : ABS(UT3) > 90 DEG. =>',
      >    ' VALEUR AMBIGUE POUR LE CALCUL DE LA CARTE DE Champ')
         ENDIF
- 
+
         SINO3= SIN(UT3)
         COSO3= COS(UT3)
         TANO3= SINO3/ COSO3
@@ -365,7 +365,7 @@ C Third EFB
       ENDIF
 C---------- endif third EFB
 
-C----- CALCUL LE Champ en X, Y 
+C----- CALCUL LE Champ en X, Y
 C      COORDONNEES DU POINT COURANT
       RRR = 0.D0
       DO  1  JRO = 1,NN
@@ -381,33 +381,33 @@ C FM. Jul. 13, 2017
         ENDIF
         OKTTA = .NOT.(LTXI .OR. GTXF)
 
-        IF(OKTTA) THEN 
+        IF(OKTTA) THEN
           AAA = 0.D0
-        ELSEIF(LTXI) THEN 
-          AAA=-DTTA 
+        ELSEIF(LTXI) THEN
+          AAA=-DTTA
           DA = 2.D0 * DTTA
           IF(IRD .NE. 2) THEN
             AAA = AAA -DTTA
             DA = 4.D0 * DTTA
           ENDIF
         ELSEIF(GTXF) THEN
-          AAA= DTTA 
+          AAA= DTTA
           DA = 2.D0 * DTTA
           IF(IRD .NE. 2) THEN
             AAA = AAA +DTTA
             DA = 4.D0 * DTTA
-          ENDIF          
+          ENDIF
         ENDIF
 
         DO  1  ITTA = 1,NN
-          IF(TTA .LT. XF) THEN  
+          IF(TTA .LT. XF) THEN
             TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
           ELSE                               ! This may happen at the last residual step
             TTAI = XF - DTTA * DBLE(NN-ITTA-INT(NN/2))
           ENDIF
-          IF(OKTTA) THEN 
+          IF(OKTTA) THEN
           ELSE
-            IF(LTXI) THEN 
+            IF(LTXI) THEN
               TTAI = TTAI + DTTA
               IF(IRD .NE. 2) TTAI = TTAI + DTTA
             ELSEIF(GTXF) THEN
@@ -415,8 +415,8 @@ C FM. Jul. 13, 2017
               IF(IRD .NE. 2) TTAI = TTAI - DTTA
             ENDIF
           ENDIF
-          
-          ZETA = ACN - TTAI 
+
+          ZETA = ACN - TTAI
 
           X = ROJ * COS(ZETA) - RM
           Y = ROJ * SIN(ZETA)
@@ -489,7 +489,7 @@ C           ERREUR  DE  DONNEES  FACE  ENTREE
               FE = 1.D0/(1.D0+EXP(P))
             ENDIF
           ENDIF
- 
+
 C POSITION DU POINT (X,Y) / FACE SORTIE
           IF     ( X.LT.CXS .AND. X.LT.AXS )  THEN
 C           ... REGION DE COURBURE R1
@@ -522,7 +522,7 @@ C           ... REGION DE COURBURE R2
             IF(NRES .GT. 0) WRITE(NRES,134) X,AXS,CXS,XAS,YAS,XCS,YCS
             GOTO  99
           ENDIF
- 
+
           IF(LAMBDS .EQ. 0.D0) THEN
             IF(D.LE.0.D0) THEN
               FS=1.D0
@@ -541,7 +541,7 @@ C           ... REGION DE COURBURE R2
               FS = 1.D0/(1.D0+EXP(P))
             ENDIF
           ENDIF
- 
+
 C POSITION DU POINT (X,Y) / FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
           IF(NBFACE .EQ. 3) THEN
             IF     ( X.LT.CX3 .AND. X.LT.AX3 )  THEN
@@ -578,7 +578,7 @@ C             ... REGION DE COURBURE R2
               ENDIF
               GOTO  99
             ENDIF
- 
+
             IF(LAMBD3 .EQ. 0.D0) THEN
               IF(D.LE.0.D0) THEN
                 F3=1.D0
@@ -598,16 +598,16 @@ C             ... REGION DE COURBURE R2
               ENDIF
             ENDIF
           ENDIF
- 
+
           F = FE * FS
           IF(NBFACE .EQ. 3) F = F * F3
- 
+
          ROI= (ROJ-RM)/RM
          FTAB(ITTA,JRO)=F*HNORM*(1.D0+(COEFN+(COEFB+COEFG*ROI)*ROI)*ROI)
-          
+
     1 CONTINUE
 C--------- end loop on   NN x tta  &  NN x ro
 
       RETURN
  99   STOP
-      END 
+      END
