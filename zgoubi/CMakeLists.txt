@@ -85,7 +85,6 @@ set(_zgoubi_global_includes
   C.RADIALS.H
   C.REBELO.H
   C.RIGID.H
-  C.RIGID_2.H
   C.SCAL.H
   C.SCALP.H
   C.SCALT.H
