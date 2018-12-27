@@ -425,8 +425,8 @@ C        REGION DE COURBURE R1
          XO = XD
          YO = YD
          R = ABS(RR)
-         DP = R - SQRT((X - XO)**2 + (Y - YO)**2 )
-         IF(DP*RR .LT. 0.D0) IFACE = 1
+         DPE = R - SQRT((X - XO)**2 + (Y - YO)**2 )
+         IF(DPE*RR .LT. 0.D0) IFACE = 1
       ELSE IF( X.GE.CX .AND. X.LE.AX )  THEN
 C        REGION LINEAIRE
          XO = SICO * (Y - YB) + XB * SIN2 + X * COS2
@@ -434,8 +434,8 @@ C        REGION LINEAIRE
          YL = YB + ((X - XB) * TANO )
 C        ****YL = COTE Y DE LA PROJECTION DE B SUR LA DROITE (MY)
 C        (M=POINT COURANT), PARALLELEMENT A LA DROITE (ABC)
-         DP = SQRT((X - XO)**2 + (Y - YO)**2 )
-         IF( Y .LE. YL .OR. DP .LE. 1.D-6 ) THEN
+         DPE = SQRT((X - XO)**2 + (Y - YO)**2 )
+         IF( Y .LE. YL .OR. DPE .LE. 1.D-6 ) THEN
 C           COTE INTERIEUR / FACE ENTREE
             LIEU=4
          ELSE
@@ -449,8 +449,8 @@ C        REGION DE COURBURE R2
          XO = XE
          YO = YE
          R = ABS(RR)
-         DP = R - SQRT((X - XO)**2 + (Y - YO)**2 )
-         IF(DP*RR .LT. 0.D0) IFACE = 1
+         DPE = R - SQRT((X - XO)**2 + (Y - YO)**2 )
+         IF(DPE*RR .LT. 0.D0) IFACE = 1
       ELSE
 C        ERREUR  DE  DONNEES  FACE  ENTREE
          IF(NRES.GT.0) WRITE(NRES,104)
@@ -544,17 +544,17 @@ C           REGION DE COURBURE R2
 C
 CE 'POINT DE MESURE' S'UTILISE AVEC UNE TRAJECTOIRE. IL PERMET DE CONNAITRE
 C  LA DISTANCE DU POINT COURANT X,Y A CHACUNE DES 3 FACES, RESPECTIVEMENT
-C  DP(ENTREE), DPS(SORTIE), DP3(FACE 'EXTERNE')
+C  DPE(ENTREE), DPS(SORTIE), DP3(FACE 'EXTERNE')
 C      IF(I .EQ. JYMA/2)
 C     X WRITE(NRES,8002) IFACE,IFACES,IFACE3
 C 8002 FORMAT(/,' IFACE,S,3 :', 3I3)
-C     X WRITE(NRES,8002) LIEU,DP,RR,LIEUS,DPS,RRS,LIEU3,DP3,RR3
-C 8002 FORMAT(/,' LIEU,DP,RR  E/S/3 : ',/,3(I3,2G12.4))
+C     X WRITE(NRES,8002) LIEU,DPE,RR,LIEUS,DPS,RRS,LIEU3,DP3,RR3
+C 8002 FORMAT(/,' LIEU,DPE,RR  E/S/3 : ',/,3(I3,2G12.4))
 C
 C
 C        ** CALCULE LES COEFFS. DE Champ DE FUITE ASSOCIES AUX FACES
 
-         LO=ABS(DP)
+         LO=ABS(DPE)
          IF(IFACE .EQ. 1) THEN
 C           ****EXTERIEUR AIMANT / FACE D'ENTREE
             IF(LO.LT.LAMBDE) THEN
@@ -562,10 +562,10 @@ C           ****EXTERIEUR AIMANT / FACE D'ENTREE
 C                 ****Champ DE FUITE EXPONENTIEL
                   IF(LIEU .EQ. -1) THEN
 C                    ****ZONE R1 OU R2
-                     DPNORM=(-DP*RR/ABS(RR)+SHIFTE)/LAMBDE
+                     DPNORM=(-DPE*RR/ABS(RR)+SHIFTE)/LAMBDE
                   ELSE
 C                    ****ZONE LINEAIRE U1 OU U2
-                     DPNORM=( DP           +SHIFTE)/LAMBDE
+                     DPNORM=( DPE           +SHIFTE)/LAMBDE
                   ENDIF
                   PH=CI(1)
                   DO 18 ICOEF=2,NCFE1
@@ -593,10 +593,10 @@ C           ****INTERIEUR AIMANT / FACE D'ENTREE
 C                 ****Champ DE FUITE EXPONENTIEL
                   IF(LIEU .EQ. -1) THEN
 C                    ****ZONE R1 OU R2
-                     DPNORM=(-DP*RR/ABS(RR)+SHIFTE)/LAMBDE
+                     DPNORM=(-DPE*RR/ABS(RR)+SHIFTE)/LAMBDE
                   ELSE
 C                    ****ZONE LINEAIRE U1 OU U2
-                     DPNORM=(-DP           +SHIFTE)/LAMBDE
+                     DPNORM=(-DPE           +SHIFTE)/LAMBDE
                   ENDIF
                   PH=CI(1)
                   DO 19 ICOEF=2,NCFE1
