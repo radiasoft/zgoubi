@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -48,7 +48,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       PARAMETER(MXJ1=MXJ-1)
 
       DIMENSION P(MXJ)
@@ -57,7 +57,7 @@ C      EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
 C     > (IDE(5),IPMAX),(IDE(1),IMAXD)
 C      EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
 C     > (JDE(5),IP   ),(JDE(1),ID)
- 
+
       DIMENSION REF(MXJ)
 
       P(2) = A(NOEL,20)
@@ -98,7 +98,7 @@ C     ** TRAJECTOIRES SANS COUPLAGE
           FO(1,II) =  + (1+I/2) * P(1)
         ENDIF
  67   CONTINUE
- 
+
 C     ** TRAJECTOIRES AVEC COUPLAGE ./YT, /YZ, /YP, YD
       J=2
       DO 61 JJ=3,5
@@ -127,7 +127,7 @@ C     ** TRAJECTOIRES AVEC COUPLAGE ./YT, /YZ, /YP, YD
       II=II+1
       FO(J,II) =  - P(J)
       FO(1,II) =  + P(1)
- 
+
 C     ** TRAJECTOIRES AVEC COUPLAGE ./TZ, ./TP ET ./TD
       J=3
       DO 63 JJ=4,5
@@ -156,7 +156,7 @@ C     ** TRAJECTOIRES AVEC COUPLAGE ./TZ, ./TP ET ./TD
       II=II+1
       FO(J,II) =  - P(J)
       FO(1,II) =  + P(1)
- 
+
 C     ** TRAJECTOIRES AVEC COUPLAGE ./ZP ET ./ZD
       J=4
       JJ=5
@@ -185,7 +185,7 @@ C     ** TRAJECTOIRES AVEC COUPLAGE ./ZP ET ./ZD
       II=II+1
       FO(J,II) =  - P(J)
       FO(1,II) =  + P(1)
- 
+
 C     ** TRAJECTOIRES AVEC COUPLAGE  ./PD
       II=II+1
       FO(5,II) =  + P(5)
@@ -199,7 +199,7 @@ C     ** TRAJECTOIRES AVEC COUPLAGE  ./PD
       II=II+1
       FO(5,II) =  - P(5)
       FO(1,II) =  + P(1)
- 
+
       IMAX = II
       IMAXT=IMAX/IDMAX
       IREP(1)=1
