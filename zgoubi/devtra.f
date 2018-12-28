@@ -44,7 +44,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPTRK.H"     ! COMMON/SPTRK/ EU(5),CSV,DCSV,D2CSV,D3CSV,D4CSV,DBSB,D2BSB,D3BSB,D4BSB,D5BSB
 c     >,DBSB,D2BSB,D3BSB,D4BSB,D5BSB
-      INCLUDE "C.TRAJ_2.H"     ! COMMON/TRAJ/ R1,T1,Z1,P1,A1,SAR,TAR,KEX,IT,AMT,QT
+      INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
 
       PARAMETER(IMAX=3, IJMAX=9, IJLMAX=27, IM2 = IMAX+IJMAX)
@@ -66,10 +66,10 @@ C      DDB(3,3,1) = DDB(3*3**0+2*3**1+0*3**2)=DDB(9)
 C-------------------------------------------------------------
 
 CALCUL u=DX/DS
-      CP=COS(P1)
-      U(1,1)=CP*COS(T1)
-      U(1,2)=CP*SIN(T1)
-      U(1,3)=SIN(P1)
+      CP=COS(P)
+      U(1,1)=CP*COS(T)
+      U(1,2)=CP*SIN(T)
+      U(1,3)=SIN(P)
 
 C      umod1 = sqrt(U(1,1)*U(1,1) +U(1,2)*U(1,2) +U(1,3)*U(1,3))
 
@@ -84,8 +84,8 @@ cc u is spoiled here. See comment in agsmm
 c       call zgnoel(noel)
 c       call fitsta(5,fiting)
 c       if(noel.eq.6 .and. fiting) then
-c         write( *,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
-c         write(88,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
+c         write( *,*) ' devtra ',noel,y,((u(iii,jjj),iii=1,6),jjj=1,3)
+c         write(88,*) ' devtra ',noel,y,((u(iii,jjj),iii=1,6),jjj=1,3)
 ccc          read(*,*)
 c        endif
 
