@@ -38,7 +38,6 @@ set(_zgoubi_global_includes
   C.CONST.H
   C.CONST2.H
   C.CONST_2.H
-  C.CONST_3.H
   C.CONTR.H
   C.COT.H
   C.D3B.H

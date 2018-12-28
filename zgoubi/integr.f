@@ -35,7 +35,7 @@ C     -------------------------------------------------------------
       PARAMETER(MCOEF=6)
       INCLUDE "C.CHAFUI.H"   ! COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       INCLUDE "C.CHAVE_2.H"  ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      INCLUDE "C.CONST_3.H"  ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"    ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.DROITE.H"   ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.EFBS.H"     ! COMMON/EFBS/ AFB(2), BFB(2), CFB(2), IFB
       INCLUDE "C.INTEG.H"    ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -234,14 +234,14 @@ C         Exist entrance and/or exit fringe field regions and XPAS is coded.
 C-------- CHREG is .true. if particle is going to next region
         IF(CHREG(KART,X,Y,AREG,BREG,CREG,DXI,TPAS,
      >                                            KREG,AL,BL,D)) THEN
-            CL = -D
+            CHL = -D
             ST = SIN(T)
             CT = COS(T)
             COSTA = AL*CT + BL*ST
             PAF = D/COSTA
             CALL DEPLA(PAF)
             COSTA=AL*CT+BL*ST
-            CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+            CALL ITER(AL,BL,CHL,PAF,COSTA,KEX,IT,*97)
             CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
             CT=COS(T)
@@ -266,7 +266,7 @@ C--------- COORDONNEES CARTESIENNES
           IF(D .LT. DXI) THEN
             AL = CA(KDR)
             BL = SA(KDR)
-            CL = -D
+            CHL = -D
             ST = SIN(T)
             CT = COS(T)
             COSTA = AL*CT + BL*ST
@@ -277,7 +277,7 @@ C------------- Step onto the exit 'DROITE'
 
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
-              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+              CALL ITER(AL,BL,CHL,PAF,COSTA,KEX,IT,*97)
               CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
               IF(LST .EQ. 2) THEN
@@ -360,14 +360,14 @@ C----------- EFB sortie
             IF(D .LT. DXI) THEN
               AL = AFB(KFB)
               BL = BFB(KFB)
-              CL = -D
+              CHL = -D
               ST = SIN(T)
               CT = COS(T)
               COSTA = AL*CT + BL*ST
               PAF = D/COSTA
               CALL DEPLA(PAF)
               COSTA=AL*CT+BL*ST
-              CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+              CALL ITER(AL,BL,CHL,PAF,COSTA,KEX,IT,*97)
               CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
               CT=COS(T)
@@ -430,18 +430,18 @@ C           End loop on DXI
       IF(KART .EQ. 1) THEN
         AL=1.D0
         BL=0.D0
-        CL=-DX
+        CHL=-DX
         PAF=DX/CT
       ELSEIF(KART .EQ. 2) THEN
         AL=COS(DX)
         BL=-SIN(DX)
-        CL=BL*Y
-        PAF=-CL/CT
+        CHL=BL*Y
+        PAF=-CHL/CT
       ENDIF
 
       CALL DEPLA(PAF)
       COSTA=AL*CT+BL*ST
-      CALL ITER(AL,BL,CL,PAF,COSTA,KEX,IT,*97)
+      CALL ITER(AL,BL,CHL,PAF,COSTA,KEX,IT,*97)
       CALL COFIN(KART,NPLT,LST,PAF,KEX,IT,AMT,QT,EVNT,
      >                                            Y,T,Z,P,X,SAR,TAR,*97)
 

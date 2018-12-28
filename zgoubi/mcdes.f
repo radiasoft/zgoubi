@@ -26,7 +26,7 @@ C  -------
      >   DS,KEX,Y,T,Z,P,DA,QBR,SAR,TAR,IT,AMT,Q,BORO,XAR,KART)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE "C.CONST_3.H"      ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"      ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "MAXTRA.H"
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
@@ -176,7 +176,7 @@ C---------- FDES(7,IT) contains com life time (s) of S particle
              U=RNDM()
              IF(U .EQ. 0.D0) U=1.D0
              FDES(6,IT) = FDES(6,IT)
-     >                 -1.D-7*CEL*CEL * BORO*DP * TOS / AMS * LOG(U)
+     >                 -1.D-7*CL*CL * BORO*DP * TOS / AMS * LOG(U)
            ENDIF
 C---------- Decay counter
            NDES=NDES+1

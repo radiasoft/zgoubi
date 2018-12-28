@@ -29,7 +29,7 @@ C     Initialise parametres necessairy for managing
 C      decays in flight.
 C     --------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE "C.CONST_3.H"      ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"      ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "MAXTRA.H"
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
       INCLUDE 'MXLD.H'
@@ -102,7 +102,7 @@ C------- Life time (s) of secondary particle
         SE = SE + ENSTAR
         SB  = SB + BSTAR
         STO = STO + TO
-        VTOLAB = 1.D-7*CEL*CEL * BORO * TO / AMP
+        VTOLAB = 1.D-7*CL*CL * BORO * TO / AMP
         SVTO = SVTO + VTOLAB
         FDES(6,I) = -VTOLAB*F(1,I)* LOG(U)
         TETPHI(1,I) = ACOS(1.D0 - 2.D0*RNDM())

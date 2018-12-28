@@ -32,7 +32,7 @@ C-----------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
       INCLUDE "C.CHAFUI.H"     ! COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
-      INCLUDE "C.CONST_3.H"      ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST.H"      ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
@@ -109,17 +109,17 @@ C        reference frame. No exit CHANGREF needed'
 C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic
 C        re-positionning of the exit frame to old position:
 C        XLIM = XF
-C        CL=COS(ALE)
-C        SL=SIN(ALE)
-C        XTEMP=XCE-XLIM*(1.D0-CL)
-C        YTEMP=YCE+XLIM*SL
+C        CALE=COS(ALE)
+C        SALE=SIN(ALE)
+C        XTEMP=XCE-XLIM*(1.D0-CALE)
+C        YTEMP=YCE+XLIM*SALE
 C Modified Jan 06, FM
 C         WRITE(*,*) ' QUASEX ',XE,XS,XLIM
         XLM = XS-XE
-        CL=COS(ALE)
-        SL=SIN(ALE)
-        XTEMP=XCE-XLM*(1.D0-CL)
-        YTEMP=YCE+XLM*SL
+        CALE=COS(ALE)
+        SALE=SIN(ALE)
+        XTEMP=XCE-XLM*(1.D0-CALE)
+        YTEMP=YCE+XLM*SALE
 
         IF(PAS.LE.0.D0) THEN
           TEMP=XCE
@@ -129,8 +129,8 @@ C         WRITE(*,*) ' QUASEX ',XE,XS,XLIM
           YCE=YTEMP
           YTEMP=TEMP
         ENDIF
-        XCS=-XTEMP*CL-YTEMP*SL
-        YCS=XTEMP*SL-YTEMP*CL
+        XCS=-XTEMP*CALE-YTEMP*SALE
+        YCS=XTEMP*SALE-YTEMP*CALE
         ALS=-ALE
 
         QSHROE(1) = 'XS'
