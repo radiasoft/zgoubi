@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
-      SUBROUTINE LPSFIT(JJ, 
+      SUBROUTINE LPSFIT(JJ,
      >                     SQ,A,B,XM,XPM)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CONST_3.H"      ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -100,17 +100,17 @@ C----------- Get kineticE
         XXP = XXP/NPTS
 
 C G. Leleux : surface de l'ellipse S=4.pi.sqrt(DELTA)
-C Soit d11=X2/sqrt(DELTA), d12=XXP/sqrt(DELTA), d22=XP2/sqrt(DELTA), alors 
-C d22.x^2-2.d12.x.x'+d11.x'^2=S/pi=4sqrt(DELTA), ce qui permet d'ecrire 
+C Soit d11=X2/sqrt(DELTA), d12=XXP/sqrt(DELTA), d22=XP2/sqrt(DELTA), alors
+C d22.x^2-2.d12.x.x'+d11.x'^2=S/pi=4sqrt(DELTA), ce qui permet d'ecrire
 C gamma=d22=XP2/sqrt(DELTA),-alpha=d12=XXP/sqrt(DELTA),beta=d11=X2/sqrt(DELTA).
-C En outre, par definition des dij, 
-C     2.sigma_x=sqrt(d11.S/pi),  2.sigma_x'=sqrt(d22.S/pi). 
-C En outre, frontiere : 
+C En outre, par definition des dij,
+C     2.sigma_x=sqrt(d11.S/pi),  2.sigma_x'=sqrt(d22.S/pi).
+C En outre, frontiere :
 C          <x^2>_frontiere=2.(sigma_x)^2,    <x'^2>_frontiere=2.(sigma_x')^2
 
 C------- Courant invariant at 1 sigma is U=4.sqrt(DELTA)=Eps/pi (consistant with zgoubi !!) :
 C Eps=ellipse surface
-        SQ = SQRT(X2*XP2-XXP*XXP) 
+        SQ = SQRT(X2*XP2-XXP*XXP)
         IF(SQ .GT. 0.D0) THEN
           B=  X2/SQ
           A=  -XXP/SQ

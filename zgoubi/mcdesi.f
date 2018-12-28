@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -26,7 +26,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ---------------------------------------------
 C     Initialise parametres necessairy for managing
-C      decays in flight. 
+C      decays in flight.
 C     --------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CONST_3.H"      ! COMMON/CONST/ CL9,CEL,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -43,15 +43,15 @@ C     --------------------------------------------
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       SAVE VTOLAB,E3STAR,B3STAR
- 
+
 C----- Mass of secondary particle to be tracked
-      AMS= A(NOEL,1) 
+      AMS= A(NOEL,1)
       IF(AMS.LE.0.D0) CALL ENDJOB('Wrong M2 value :  should be > 0',-99)
 C----- Mass of secondary particle to be abandonned
       AM3= A(NOEL,2)
-C----- Life time (s) of secondary particle. Zero if to be abandonned. 
+C----- Life time (s) of secondary particle. Zero if to be abandonned.
       TOS= A(NOEL,3)
       KINFO = NINT(A(NOEL,4))
 
@@ -67,12 +67,12 @@ C       *** Initialisation at 1st pass only
       ELSE
         CALL REBELR(KREB3,KREB31,KDUM)
         IF(KREB3.EQ.99) RETURN
-      ENDIF 
+      ENDIF
 
       AMS2 = AMS*AMS
       AM32 = AM3*AM3
- 
-C------- Sort life time for each parent particle, 
+
+C------- Sort life time for each parent particle,
 C      in a law   N/N0 = EXP(-S/S0) , S=fligth distance in cm
       TDVM=0.D0
       SE = 0.D0
@@ -126,16 +126,16 @@ CC-----------------------------------------//
       TO = STO/IT
       VTOLAB =SVTO/IT
       NDES=0
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100)
  100    FORMAT(20X,'            IN-FLIGHT  DECAY  SWITCHED ON ! ',/)
- 
+
         IF(KOBJ .EQ. 1) WRITE(NRES,104)
  104    FORMAT(20X,'!! ATTENTION, if using OBJET/KOBJ=1 :'
      >  ,/,20X,'trajectories with initial  Po<0'
      >  ,'&  Zo<0  are derived by symmetry, not from  ray-tracing  !!')
- 
+
         E3STAR = .5D0*(AMP2+AM32-AMS2)/AMP
         B3STAR = SQRT(1.D0-AM32/E3STAR/E3STAR)
         WRITE(NRES,101) AMP, TO, VTOLAB*UNIT(5)
@@ -166,7 +166,7 @@ CC-----------------------------------------//
               SFD6 = SFD6 + FDES(6,I)
             ENDIF
           ENDDO
-          SFD6 = SFD6 * UNIT(5) / II 
+          SFD6 = SFD6 * UNIT(5) / II
           WRITE(NRES,103) IT
 103       FORMAT(/,'  Individual  life  distances  of  the  ',I5,
      >                           '  particles  (m) :',/)
