@@ -30,7 +30,7 @@ C     Essentially copied from Nick Tsoupas, RAYTRACE code, 2015.
 C     ----------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
-      INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
@@ -52,12 +52,6 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
       PARAMETER(MXJ1=MXJ-1)
 
       DIMENSION P(MXJ)
-C      DIMENSION IDE(MXJ),JDE(MXJ),P(MXJ)
-C      EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
-C     > (IDE(5),IPMAX),(IDE(1),IMAXD)
-C      EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
-C     > (JDE(5),IP   ),(JDE(1),ID)
-
       DIMENSION REF(MXJ)
 
       P(2) = A(NOEL,20)
