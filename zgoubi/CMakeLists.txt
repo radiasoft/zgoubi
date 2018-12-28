@@ -97,7 +97,6 @@ set(_zgoubi_global_includes
   C.SYNCH.H
   C.SYNRA.H
   C.TRAJ.H
-  C.TRAJ_2.H
   C.TRNSF.H
   C.TRNSM.H
   C.TYPFLD.H
