@@ -57,7 +57,6 @@ set(_zgoubi_global_includes
   C.DESIN.H
   C.DON.H
   C.DONT.H
-  C.DON_2.H
   C.DROITE.H
   C.DROITE_2.H
   C.EFBS.H

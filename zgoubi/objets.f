@@ -36,7 +36,7 @@ C      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MX
 C
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
-      INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
+      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
@@ -62,9 +62,9 @@ C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       PARAMETER(MXJ1=MXJ-1)
       DIMENSION DE(MXJ,MXT),IDE(MXJ),JDE(MXJ),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
-     > (IDE(5),IPMAX),(IDE(1),IMAXD)
-      EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
-     > (JDE(5),IP   ),(JDE(1),ID)
+     >            (IDE(5),IPMAX),(IDE(1),IMAXD)
+      EQUIVALENCE (JDE(2),IYloc),(JDE(3),ITloc),(JDE(4),IZloc),
+     >            (JDE(5),IPloc),(JDE(1),IDloc)
 
       DIMENSION REF(MXJ)
       LOGICAL FITING, FITFNL
@@ -267,22 +267,22 @@ C             DE(J,K)=DELTA(K,P(J))
            DE(1,K)=DE(1,K)+D
    14   CONTINUE
         I=0
-        DO  ID=1,IDMAX
+        DO  IDloc=1,IDMAX
           IKAR=0
-          DO IY=1,IYMAX
-            DO IT=1,ITMAX
+          DO IYloc=1,IYMAX
+            DO ITloc=1,ITMAX
               IKAR=IKAR+1
               IF(IKAR.GT.41)  IKAR=1
-              DO IZ=1,IZMAX
-                DO IP=1,IPMAX
+              DO IZloc=1,IZMAX
+                DO IPloc=1,IPMAX
                   I=I+1
                   IREP(I)=I
-                  IF(IZ .EQ. 1 .AND. DE(5,IP).LT.0.D0)  IREP(I)=I-1
-                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .EQ. 0.D0)
+                  IF(IZloc.EQ.1 .AND. DE(5,IPloc).LT.0.D0) IREP(I)=I-1
+                  IF(DE(4,IZloc).LT.0D0 .AND. DE(5,IPloc) .EQ. 0.D0)
      >            IREP(I)=I-IPMAX
-                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .GT. 0.D0)
+                  IF(DE(4,IZloc).LT.0D0 .AND. DE(5,IPloc) .GT. 0.D0)
      >            IREP(I)=I-IPMAX+1
-                  IF(DE(4,IZ).LT.0D0 .AND. DE(5,IP) .LT. 0.D0)
+                  IF(DE(4,IZloc).LT.0D0 .AND. DE(5,IPloc) .LT. 0.D0)
      >            IREP(I)=I-IPMAX-1
                   DO 13 J=1,5
                     KDE=JDE(J)
@@ -337,14 +337,14 @@ C--------------- OBJET with Z>0 ET P>0
           DE(1,K)=DE(1,K)+D
         ENDDO
         I=0
-        DO ID=1,IDMAX
+        DO IDloc=1,IDMAX
           IKAR=0
-          DO IY=1,IYMAX
-            DO IT=1,ITMAX
+          DO IYloc=1,IYMAX
+            DO ITloc=1,ITMAX
               IKAR=IKAR+1
               IF(IKAR.GT.41)  IKAR=1
-              DO IZ=1,IZMAX
-                DO IP=1,IPMAX
+              DO IZloc=1,IZMAX
+                DO IPloc=1,IPMAX
                   I=I+1
                   IREP(I)=I
                   DO 26 J=1,5
@@ -410,14 +410,14 @@ C--------------- OBJET with Y>0 ET T>0, Z>0 ET P>0
           DE(1,K)=DE(1,K)+D
         ENDDO
         I=0
-        DO ID=1,IDMAX
+        DO IDloc=1,IDMAX
           IKAR=0
-          DO IY=1,IYMAX
-            DO IT=1,ITMAX
+          DO IYloc=1,IYMAX
+            DO ITloc=1,ITMAX
               IKAR=IKAR+1
               IF(IKAR.GT.41)  IKAR=1
-              DO IZ=1,IZMAX
-                DO IP=1,IPMAX
+              DO IZloc=1,IZMAX
+                DO IPloc=1,IPMAX
                    I=I+1
                    IREP(I)=I
                    DO J=1,5
@@ -500,7 +500,7 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
       IF(NRES.LE.0) LUN=6
       DO 991 I=1,IMAX
         IF(IEX(I) .LT. -1) THEN
-          CALL KSTOP(ABS(IEX(I)),IT,IEX(I),*992)
+          CALL KSTOP(ABS(IEX(I)),ITloc,IEX(I),*992)
  992      CONTINUE
         ELSEIF(F(1,I) .EQ. 0.D0) THEN
           IEX(I) = -6
