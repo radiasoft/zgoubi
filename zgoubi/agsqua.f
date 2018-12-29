@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -29,12 +29,12 @@ C  -------
       DIMENSION RT(*),BM(*),DLE(*),DLS(*),DE(MPOL,*),DS(MPOL,*)
       PARAMETER(MCOEF=6)
       DIMENSION CE(MCOEF), CS(MCOEF)
- 
+
       INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
@@ -48,28 +48,28 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE 'MXFS.H'
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
- 
- 
+
+
 C----------- MIXFF = true if combined sharp edge multpole + fringe field multpole
       LOGICAL SKEW, MIXFF
- 
+
       DIMENSION  AREG(2),BREG(2),CREG(2)
       DIMENSION CUR(3), DCUR(3)
       PARAMETER (I2 = 2, I3 = 3)
       INCLUDE 'MXSCL.H'
       DIMENSION KFM(MXSCL)
- 
+
       SAVE SXL, QUADK1
- 
+
       DATA MIXFF / .FALSE.  /
- 
+
       DUM = SCALE9(
      >              KFM )
       DO IFM = 1, MXSCL
         IF(KFM(IFM) .LE. 0) THEN
           GOTO 20
         ELSE
-          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF) 
+          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF)
      >    CALL ENDJOB('Pgm agsqua. Exceed array size, KFM = ',KFM(IFM))
         ENDIF
         DO I= 1 , JPA(KFM(IFM),MXP)
@@ -77,9 +77,9 @@ C----------- MIXFF = true if combined sharp edge multpole + fringe field multpol
         ENDDO
       ENDDO
  20   CONTINUE
- 
+
       CALL RAZ(BM,MPOL)
- 
+
       XL =A(NOEL,10)
       RO =A(NOEL,11)
       GAP = RO/I2
@@ -97,33 +97,33 @@ C----- Roll angle.  To be implemented
      >                                              BBM)
       BM(I2) = BBM * SCAL
       if(BM(I2) .eq. 0.d0) BM(I2) = 1.d-20  ! does not work if 0... to be fixed
- 
+
       XE =A(NOEL,20)
       DLE(I2) =A(NOEL,21)
- 
+
       CALL RAZ(CE,MCOEF)
       NCE = NINT(A(NOEL,30))
       DO I=1, NCE
         CE(I) =A(NOEL,30+I)
       ENDDO
- 
+
       XLS =A(NOEL,40)
       DLS(I2) =A(NOEL,41)
- 
+
 C      IF(XE+XLS.GE.XL)
 C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
- 
+
       CALL RAZ(CS,MCOEF)
       NCS = NINT(A(NOEL,50))
       DO I=1,NCS
         CS(I) =A(NOEL,50+I)
       ENDDO
- 
+
       DLE(I2)  = DLE(I2)*DLE(I2)
       DLS(I2)  = DLS(I2)*DLS(I2)
- 
+
       QUADK1 = BM(I2)/RO/(BORO*(DPREF+HDPRF))*1.D4
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(I2),XL,RO
  100    FORMAT(/,5X,' -----  AGS ',A10,'  : ', 1P
@@ -151,14 +151,14 @@ C     >   CALL ENDJOB('SBR MULTIP : fringe field extent too long',-99)
           GOTO 98
         ENDIF
       ENDIF
- 
+
       DL0=0.D0
       SUM=0.D0
- 
+
         DL0=DL0+DLE(I2)+DLS(I2)
         SUM=SUM+BM(I2)*BM(I2)
         IF(BM(I2).NE.0.D0) BM(I2) = BM(I2)/RO**(I2-1)
- 
+
       IF(SUM .EQ. 0.D0) KFLD=KFLD-KFL
       IF(DL0 .EQ. 0.D0) THEN
 C-------- Sharp edge at entrance and exit
@@ -172,13 +172,13 @@ C-------- Sharp edge at entrance and exit
           WRITE(NRES,FMT='(15X,''FINTE, FINTS, gap : '',
      >    1P,3(1X,E12.4))') FINTE,FINTS,GAP
         ENDIF
- 
+
             IF(XL .GT. 2.D0) THEN
 C FM, 2006
               CALL INTEG1(ZERO,FINTE,GAP)
               CALL INTEG2(ZERO,FINTS,GAP)
             ENDIF
- 
+
       ELSE
 C-------- Gradient G(s) at entrance or exit
 C-----    Let's see entrance first
@@ -187,7 +187,7 @@ C-----    Let's see entrance first
 C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
         DL0 = 0.D0
         DL0 = DL0+DLE(I2)
- 
+
         IF(DL0 .EQ. 0.D0) THEN
           FINTE = XE
           XE=0.D0
@@ -197,7 +197,7 @@ C 104    FORMAT(/,15X,' FACE  D''ENTREE  ')
      >      1P,2(1X,E12.4))') FINTE,GAP
           ENDIF
           IF(XL .GT. 2.D0) CALL INTEG1(ZERO,FINTE,GAP)
- 
+
         ELSE
 C---------- IFB = 0 if no mixff
 C----------     set to -1 if mixff at entrance
@@ -210,7 +210,7 @@ C------------- MIXFF = true if combined sharp edge multpole + fringe field multp
               IF(DLE(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0)
      >          MIXFF= .TRUE.
             ENDIF
- 
+
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
                 IFB = -1
@@ -219,7 +219,7 @@ C------------- MIXFF = true if combined sharp edge multpole + fringe field multp
               ENDIF
             ENDIF
           ENDIF
- 
+
           IF(NRES.GT.0) THEN
             WRITE(NRES,130) XE
  130        FORMAT(20X,' with  fringe  field :'
@@ -231,7 +231,7 @@ C            WRITE(NRES,132) (CE(I),I=1,6)
             WRITE(NRES,132) NCE, (CE(I),I=1,NCE)
  132        FORMAT(20X,I1,' COEFFICIENTS :',6F9.5)
           ENDIF
- 
+
             IF(DLE(I2) .NE. 0.D0) THEN
               DE(I2,1)= -BM(I2)/DLE(I2)
 C Error - Corrctn FM Nov. 2009
@@ -240,14 +240,14 @@ C              DO 44 I=2, 10 !MCOEF
                 DE(I2,I)=-DE(I2,I-1)/DLE(I2)
               ENDDO
             ENDIF
- 
+
         ENDIF
- 
+
 C--------- Let's see exit, next
         IF(NRES.GT.0) WRITE(NRES,107)
  107    FORMAT(/,15X,' Exit  face  ')
 C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
- 
+
         DL0 = 0.D0
         DL0 = DL0+DLS(I2)
         IF(DL0 .EQ. 0.D0) THEN
@@ -259,7 +259,7 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
      >      1P,2(1X,E12.4))') FINTS,GAP
           ENDIF
           IF(XL .GT. 2.D0) CALL INTEG2(ZERO,FINTS,GAP)
- 
+
         ELSE
           IF( IFB .EQ. 0 .OR. IFB .EQ. -1 ) THEN
             MIXFF = .FALSE.
@@ -267,14 +267,14 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
               IF(DLS(I2) .EQ. 0.D0 .AND. BM(I2) .NE. 0.D0)
      >         MIXFF= .TRUE.
             ENDIF
- 
+
             IF(MIXFF) THEN
               IF(IFB .EQ. 0) THEN
                 IFB = 1
- 
+
               ELSE
                 IFB = 2
- 
+
               ENDIF
             ENDIF
           ENDIF
@@ -283,7 +283,7 @@ C 107    FORMAT(/,15X,' FACE  DE  SORTIE  ')
             WRITE(NRES,131) DLS(I2)
             WRITE(NRES,132) NCS,(CS(I),I=1,NCS)
           ENDIF
- 
+
             IF(DLS(I2) .NE. 0.D0) THEN
               DS(I2,1)=  BM(I2)/DLS(I2)
 C Error - Corrctn FM Nov. 2009
@@ -292,18 +292,18 @@ C              DO 461 I=2, 10 !MCOEF
                 DS(I2,I)= DS(I2,I-1)/DLS(I2)
               ENDDO
             ENDIF
- 
+
         ENDIF
- 
+
       ENDIF
 C---------- end of test DLE or DLS=0
- 
+
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM
       XS = XL + XE
       SUM=0.D0
- 
+
 C----- Passage obligatoire sur les EFB's si
 C       melange Mpoles-crenau + Mpoles-champ de fuite
       IF( IFB .EQ. -1 ) THEN
@@ -327,10 +327,10 @@ C        IER = IER+1
 C        TXT(IER) =
 C     >   'Overlapping of fringe fields is too large. Check XE, XS < XL'
 C      ENDIF
- 
- 
+
+
           DEV= 0.D0
- 
+
       CALL CHXC1R(
      >            KPAS)
       IF(KPAS.GE.1) THEN
@@ -347,13 +347,13 @@ C      ENDIF
         CREG(2)=-2.D0*XS+XLIM
         CALL INTEG6(AREG,BREG,CREG)
       ENDIF
- 
+
  98   RETURN
- 
+
       ENTRY AGSQKL(
      >             AL, AK1)
       AL  = SXL
       AK1 = QUADK1
       RETURN
- 
+
       END

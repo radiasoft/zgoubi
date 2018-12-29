@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -48,8 +48,8 @@ C  -------
       IF(STRA(1)(1:1) .EQ. '{') THEN
 C------- Read 2 masses
         CALL PARTII('MASS_CODE_1')
-        STRA(1)=STRA(1)(2:IFIN) 
-        STRA(2)=STRA(2)(1:IFIN-1) 
+        STRA(1)=STRA(1)(2:IFIN)
+        STRA(2)=STRA(2)(1:IFIN-1)
 
         READ(STRA(1),*) A(NOEL,1)
         READ(STRA(2),*) A(NOEL,2)
@@ -57,7 +57,7 @@ C------- Read 2 masses
         TXT = TXT(IDT:IFT)
         IFT = FINSTR(TXT)
         IF(TXT(1:1) .EQ. ',') TXT = TXT(2:IFT)
-        
+
 C------- Read Q, G, tau, dum
         READ(STRA(3),*) A(NOEL,3)
 
@@ -109,7 +109,7 @@ C------- Default method
          ENDIF
         ENDIF
         TA(NOEL,1) = STRA(1)
-        A(NOEL,5) = 0.D0        
+        A(NOEL,5) = 0.D0
       ENDIF
       RETURN
 C 99   STOP ' *** DATA ERROR : in PARTICUL, while reading M1, M2 ***'
