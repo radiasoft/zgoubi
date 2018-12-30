@@ -54,8 +54,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DATA FIRST / .TRUE. /
       DATA F7ZRO / .TRUE. /
 
-      QE = QEL
-
       IF(.NOT. FIRST) RETURN
       FIRST = .FALSE.
 
@@ -78,7 +76,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 c         write(*,*) ' partic.f  am, am2 : ', amass, am2
 c           stop
 
-      IF (A(NOEL,NM+1).NE.0D0) Q  = A(NOEL,NM+1) / QE
+      IF (A(NOEL,NM+1).NE.0D0) Q = A(NOEL,NM+1) / QEL
       G  = A(NOEL,NM+NQ+1)
       TO = A(NOEL,NM+NQ+2)
 
@@ -145,7 +143,7 @@ C        ENDIF
             WRITE(NRES,100)'Type  2  mass      = ',AM2,'  MeV/c2'
           ENDIF
         ENDIF
-        WRITE(NRES,100)'Charge        = ',Q*QE , '  C     '
+        WRITE(NRES,100)'Charge        = ',Q*QEL, '  C     '
         IF(G.NE.0.D0)  WRITE(NRES,100)' G  factor     = ',G , '        '
         IF(TO.NE.0.D0) WRITE(NRES,100)' COM life-time = ',TO, '  s     '
  100    FORMAT(T20,A18,1P,G14.6,A10)
