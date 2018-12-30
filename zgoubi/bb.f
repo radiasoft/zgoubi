@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -54,7 +54,7 @@ C        DIMENSION  SPINCOORD(3)
 
         PARAMETER (MXPT=10000)
         DIMENSION  PTSL(9,MXPT)
-        DOUBLE PRECISION LINEARMAP(6,6) 
+        DOUBLE PRECISION LINEARMAP(6,6)
 
         DOUBLE PRECISION  GA, BET
 
@@ -65,7 +65,7 @@ C        DIMENSION  SPINCOORD(3)
 
 C        OPEN(1,FILE="ZGOUBBI.IN",STATUS="OLD")
 C        READ(1,*)NTURNS
-C        READ(1,*)Npt  
+C        READ(1,*)Npt
 c        if(Npt.gt.mxpt) stop ' Npt > max allowed'
 c        read(1,*)charge,mass,energev,intensity
 c        read(1,*)alfx,betx,epsnx
@@ -79,7 +79,7 @@ c        close(1)
 
       IF(NINT(A(NOEL,1)).EQ.0) THEN
           WRITE(NRES,*) ' BEAM-BEAM is OFF'
-         
+
       ELSE
         IF(IPASS.EQ.1) THEN
 
@@ -139,7 +139,7 @@ c        close(1)
           SIGMA(5) = -ALFY*EPSY
           SIGMA(6) = GY*EPSY
 
-          COEF = CHARGE*QE*INTENSITY*(1.0+BET**2) 
+          COEF = CHARGE*QE*INTENSITY*(1.0+BET**2)
      >          /(GA*BET*(BET+BET)*2*PI*EPSILON0*MASS)
 
           CALL BBLMAP(LINEARMAP,TUNEX,TUNEY,TUNEZ,
@@ -154,7 +154,7 @@ c        close(1)
 
       CALL BBKCK(NPT,COEF/2.0D0,SIGMA,PTSL,GA,GS)
       CALL BBKLM(PTSL,NPT,LINEARMAP)
-        
+
       IF(IPASS.EQ.1) THEN
 
         OK = IDLUNI(
