@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -54,7 +54,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (MRHO=4)
       DIMENSION RHO(MRHO)
 
-      DATA RHO / 0.2671D0, 0.9400D0, 1.9617D0, 4.1589D0 / 
+      DATA RHO / 0.2671D0, 0.9400D0, 1.9617D0, 4.1589D0 /
 
 C----- IX, IY, IZ
       IMAX = 0
@@ -85,18 +85,18 @@ C----- PARAMETRE ELLIPSES
       EPS(2)=A(NOEL,42)
       EPS(4)=A(NOEL,52)
       EPS(6)=A(NOEL,62)
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) (rho(i),i=1,4)
 100     FORMAT(/,15X,' Distribution  on  four  ellipses  at  ',
-     >  '  rho/epsilon = ',1P,4(1X,e12.4),/) 
- 
+     >  '  rho/epsilon = ',1P,4(1X,e12.4),/)
+
         WRITE(NRES,123) (CENTRE(J),J=2,MXJ1),CENTRE(1)
  123    FORMAT(15X,'  Ellipse centres (m-rad): '
      >  ,/,11X,' HORIZONTAL    ( Yo, To ):',T50,1P,2G12.4
      >  ,/,11X,' VERTICAL      ( Zo, Po ):',T50,   2G12.4
      >  ,/,11X,' LONGITUDINAL  ( Xo, Do ):',T50,   2G12.4,/)
- 
+
         WRITE(NRES,109) (ALP(J),BET(J),EPS(J),J=2,MXJ1,2)
  109    FORMAT(15X,
      >  ' Alpha(rad), Beta(m/rad), E/pi(m.rad) :'
@@ -104,7 +104,7 @@ C----- PARAMETRE ELLIPSES
      >  ,/,11X,' VERTICAL      :',T35,   3G12.4
      >  ,/,11X,' LONGITUDINAL  :',T35,   3G12.4,/)
 
-        WRITE(NRES,FMT='(15X,'' Sampling of phases in X/Y/Z : '', 
+        WRITE(NRES,FMT='(15X,'' Sampling of phases in X/Y/Z : '',
      >             3(I5,''/''))') (ISAM(I),I=1,3)
       ENDIF
 
@@ -114,14 +114,14 @@ C----- CONSTITUTION DU FAISCEAU
 C For each coordinate pair ((x,x'), ...)
         J1=J+1
         J2=J/2
-        IF(J1.EQ.MXJ) J1=1 
+        IF(J1.EQ.MXJ) J1=1
         IF(EPS(J).EQ.0.D0) THEN
           DO 11 I=IMI,IMA
             FO(J ,I)=0.D0
             FO(J1,I)=0.D0
  11       CONTINUE
         ELSE
-          IF(ISAM(J2) .GT. 0) THEN 
+          IF(ISAM(J2) .GT. 0) THEN
 C If sample index is not zero
             DA = 2.D0*PI/DBLE(ISAM(J2))
             DO II = 1, 4
@@ -139,7 +139,7 @@ c           write(88,*) xn, xpn
 c     >         ,xn*xn+xpn*xpn
 cC     >  ,(1+alp(j)*alp(j))/bet(j)*x*x+2.d0*alp(j)*x*xp+bet(j)*xp*xp
 c     > ,ang, reb,i,it
-                ANG = ANG + DA 
+                ANG = ANG + DA
               ENDDO
             ENDDO
           ELSE
@@ -149,8 +149,8 @@ c     > ,ang, reb,i,it
             ENDDO
           ENDIF
         ENDIF
- 1    CONTINUE      
- 
+ 1    CONTINUE
+
       IKAR = 1
       DO 5 I=IMI,IMA
         FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
@@ -165,7 +165,7 @@ c     > ,ang, reb,i,it
         IKAR=IKAR+1
         IF(IKAR.GT.41) IKAR=1
  5    CONTINUE
- 
+
       RETURN
 
  98   TXT = '    Too  many  particles'

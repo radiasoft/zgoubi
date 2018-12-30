@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -33,7 +33,7 @@ C     -------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -47,11 +47,11 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
-  
+
       LOGICAL FIRST
       SAVE FIRST
       DATA FIRST / .TRUE. /
-      
+
 C     DIMENSION YM(MXJ), YPM(MXJ), U(MXJ), ALPHA(MXJ), BETA(MXJ)
 C      DIMENSION YMX(MXJ), YPMX(MXJ)
 
@@ -82,7 +82,7 @@ C      DIMENSION YMX(MXJ), YPMX(MXJ)
      >   //' IEX(I), (FO(J,I),J=1,6), (F(J,I),J=1,6), I, IREP(I)'
      >   //', IPASS'
       ENDIF
-      
+
       IF(IFRM .LE. 2) THEN
         IF(JFRM.EQ.1) THEN
           YL=.5D0*(A2-A1)
@@ -112,20 +112,20 @@ C--------- Phase-space (acceptance) collimator
               IF(IFRM .EQ. 14) THEN
 C--------------- Compute H matched llips
                 JJ = 1
-                CALL LPSFIT(JJ, 
+                CALL LPSFIT(JJ,
      >                         EMIT,ALP,BET,XM,XPM)
               ELSEIF(IFRM .EQ. 15) THEN
 C--------------- Compute V matched llips
                 JJ = 2
-                CALL LPSFIT(JJ, 
+                CALL LPSFIT(JJ,
      >                         EMIT,ALP,BET,XM,XPM)
               ELSEIF(IFRM .EQ. 16) THEN
 C---------------Compute LONGITUDINAL matched llips
                 JJ = 3
-                CALL LPSFIT(JJ, 
+                CALL LPSFIT(JJ,
      >                         EMIT,ALP,BET,XM,XPM)
               ENDIF
-          ENDIF  
+          ENDIF
         ENDIF
       ENDIF
 
@@ -152,7 +152,7 @@ C---------------Compute LONGITUDINAL matched llips
           ELSEIF(IFRM .GE. 11) THEN
 C------------- Phase-space (acceptance) collimator
             IF(IFRM .EQ.11 .OR. IFRM .EQ.14.OR. IFRM .EQ.17) THEN
-              
+
               WRITE(NRES,FMT='(/,20X,
      >            '' Horizontal  acceptance  collimator.'')')
             ELSEIF(IFRM .EQ.12 .OR. IFRM .EQ.15.OR. IFRM .EQ.18) THEN
@@ -164,7 +164,7 @@ C------------- Phase-space (acceptance) collimator
             ENDIF
             WRITE(NRES,FMT='(/,15X,''     Beta,      Alpha,'',
      >      ''    E/pi,     Cut-off (units of Bet*Eps/pi),  XM, XPM :'',
-     >      /,T16,1P,3G12.4,A6,G10.2,A2,15X,2G12.4)') 
+     >      /,T16,1P,3G12.4,A6,G10.2,A2,15X,2G12.4)')
      >      BET,ALP,EPSPI,'     (',CUTOFF,' )',XM, XPM
           ENDIF
         ENDIF
@@ -175,7 +175,7 @@ C------------- Phase-space (acceptance) collimator
 C        IF(IEX(I) .LT. -1) GOTO 1
         IF(IEX(I) .LE. -1) GOTO 1
         LIVE = LIVE + 1
-  
+
         IF    (IFRM .LT. 10) THEN
 
           IF    (IFRM .LT. 6) THEN
@@ -185,16 +185,16 @@ C----------- Physical collimator
             YP2 = YP2*YP2
             ZP2 = (F(4,I) - ZC)/ZL
             ZP2 = ZP2*ZP2
- 
+
             IF    (IFRM .EQ. 1) THEN
 C-------------- Rectangular
- 
-c                 WRITE(88,106) N1,NOUT,LET(I),IEX(I), 
+
+c                 WRITE(88,106) N1,NOUT,LET(I),IEX(I),
 c     >       (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
 
               IF( YP2 .GE. 1.D0 .OR. ZP2 .GE. 1.D0 ) THEN
                 N1 = N1 + 1
-C---------------- SORT = path length of a particle when stopped 
+C---------------- SORT = path length of a particle when stopped
                 SORT(I) = F(6,I)
                 CALL KSTOP(4,I,IEX(I),*10)
  10             CONTINUE
@@ -207,24 +207,24 @@ C---------------- SORT = path length of a particle when stopped
      >              T93,'(D,Y,T,Z,P)',/)
                     CALL CNTOUR(
      >                          NOUT)
-                    WRITE(NRES,106) N1,NOUT,LET(I),IEX(I), 
+                    WRITE(NRES,106) N1,NOUT,LET(I),IEX(I),
      >               (FO(J,I),J=1,5),(F(J,I),J=1,6),I,IREP(I),IPASS
  106                FORMAT(I3,1X,I7,1X,A1,1X,I2,2(F10.6,1X,4F11.4,
      >              1X,1P,E14.6,0P),3(I6,1X))
                     WRITE(NRES,105) F(6,I)
  105                FORMAT(10X,'  path  length  =',F10.2,' cm')
                  ENDIF
-                 
-                  WRITE(LUNW,106) N1,NOUT,LET(I),IEX(I), 
+
+                  WRITE(LUNW,106) N1,NOUT,LET(I),IEX(I),
      >            (FO(J,I),J=1,6),(F(J,I),J=1,6),I,IREP(I),IPASS
                   CALL FLUSH2(LUNW,.FALSE.)
-                  
+
                 ENDIF
               ENDIF
- 
+
             ELSEIF(IFRM .EQ. 2) THEN
 C-------------- Elliptical
- 
+
               IF( ( YP2 + ZP2 ) .GE. 1.D0 ) THEN
                 N1 = N1 + 1
                 SORT(I) = F(6,I)
@@ -241,7 +241,7 @@ C-------------- Elliptical
                   ENDIF
                 ENDIF
               ENDIF
- 
+
             ENDIF
 
           ELSEIF(IFRM .GE. 6) THEN
@@ -258,10 +258,10 @@ C            JFRM = 1, 2 for rspctvly 1+dp/p, kinE
               ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
               V = ENERG - AMQ(1,I)
             ENDIF
-            IF( H .LE. YL .OR. H .GE. ZL .OR. 
+            IF( H .LE. YL .OR. H .GE. ZL .OR.
      >          V .LE. YC .OR. V .GE. ZC ) THEN
               N1 = N1 + 1
-C-------------- SORT = path length of a particle when stopped 
+C-------------- SORT = path length of a particle when stopped
               SORT(I) = F(6,I)
               CALL KSTOP(4,I,IEX(I),*15)
  15           CONTINUE
@@ -277,13 +277,13 @@ C-------------- SORT = path length of a particle when stopped
               ENDIF
             ENDIF
           ENDIF
- 
+
         ELSEIF(IFRM .GE. 11) THEN
 C--------- Phase-space (acceptance) collimator
           GAM = (1.D0+ALP*ALP) / BET
 
           IF    (IFRM .EQ.11 .OR. IFRM .EQ.14) THEN
-C----------- Horizontal  
+C----------- Horizontal
             Y2 = F(2,I)*UNIT(1) - XM
             T2 = F(3,I)*UNIT(2) - XPM
             YT = Y2*T2
@@ -305,9 +305,9 @@ C----------- Horizontal
                 ENDIF
               ENDIF
             ENDIF
- 
+
           ELSEIF(IFRM .EQ.12 .OR. IFRM .EQ.15) THEN
-C----------- Vertical  
+C----------- Vertical
             Y2 = F(4,I)*UNIT(3) - XM
             T2 = F(5,I)*UNIT(4) - XPM
             YT = Y2*T2
@@ -365,23 +365,23 @@ CCCCC            T2 = F(1,I)*UNIT(6) - XPM
 
       IF(LIVE.LE.0) CALL ENDJOB(
      >'Pgm collim.f. All particles dead. Ipass =',IPASS)
-      
+
 C      CALL REBELR(KREB3,KDUM,IMX)
 C      IF(KREB3.NE.99) IMX = IMX + IMAX
 
       CONTINUE
 
       CALL CNTMXR(
-     >            IMX) 
+     >            IMX)
       CALL CNTOUR(
-     >            NOUT) 
-      IF(NRES .GT. 0 ) 
+     >            NOUT)
+      IF(NRES .GT. 0 )
      >WRITE(NRES,109) N1, NOUT,LIVE-N1,IMX,(100.D0*(LIVE-N1))/IMX
  109  FORMAT(/,T20,' Number of particles counted out of acceptance',
      >/,T25,' -  at  this  collimator : ',I6,
      >/,T25,' -  by  collimations,  from  the  beginning : ',I6,
      >/,T25,' Overall  survival  :  ',I9,' / ',I9,'  (',G10.3,'%)')
-      CALL CNTSTO(NTOT) 
+      CALL CNTSTO(NTOT)
 
       RETURN
       END

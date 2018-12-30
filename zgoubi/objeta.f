@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -49,10 +49,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       DIMENSION B(3),B4(3),PX1(5),PX2(5),P3(5),P4(5)
       DIMENSION FP(6,MXT)
- 
+
       DIMENSION AMAX(5),CENTRE(5)
       CHARACTER(8)  KTIR(2)
       CHARACTER(2)  BODY(3)
@@ -63,7 +63,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DATA BODY /'M3' , 'M5' , 'M6' /
 
       KZOB = 3
-      
+
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
       AMQLU(3) = .FALSE.
@@ -74,7 +74,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C  .... MAGNETIC  RIGIDITY (KG*CM), MASSE (MeV/c/2)
 C  .... Magnetic rigidity (Kg*cm), Mass (MeV/c/2)
       BORO = A(NOEL,1)
- 
+
       IF(NRES.GT.0) WRITE(NRES,103) BORO
  103  FORMAT(25X,' MAGNETIC  RIGIDITY =',F15.3,' kG*cm')
 C 103  FORMAT('1',15X,' RIGIDITE  MAGNETIQUE =',F15.3,' KG*CM')
@@ -87,8 +87,8 @@ C       ... SET TO 99 IN SBR REBELOTE
      >  'FINAL  COORDINATES  TAKEN  AS  INITIAL  COORDINATES')
         RETURN
       ENDIF
- 
- 
+
+
 C     ... GENERE M3(IBODY=1) OU M5( PAR DECROISSANCE,IBODY=2 )
 C         OU M6 ( = PARTNERS OF M5 PRVIOUSLY GENERATED; IBODY=3)
 C         KOBJ=LOI DE Y,Z = 1(UNIF) OU 2(GAUSS)
@@ -114,7 +114,7 @@ C     ... REST MASSES  (GEV/C2)
       AM6 = A(NOEL,35)
 C     ... KINETIC-E (GEV)  INCIDENT  OF  BEAM AM1 (.896) :
       T1 = A(NOEL,40)
- 
+
 C   ...LECTURE CENTRE ET FRONTIERES DU TIRAGE
       CENTRE(2) = A(NOEL,50)
       CENTRE(3) = A(NOEL,51)
@@ -127,21 +127,21 @@ C     ** FRONTIERES  +/-   :
       AMAX(4) = A(NOEL,62)
       AMAX(5) = A(NOEL,63)
       AMAX(1) = A(NOEL,64)
- 
+
       TMIN=CENTRE(3)-AMAX(3)
       TMAX=CENTRE(3)+AMAX(3)
       PMIN=CENTRE(5)-AMAX(5)
       PMAX=CENTRE(5)+AMAX(5)
       DMIN=CENTRE(1)-AMAX(1)
       DMAX=CENTRE(1)+AMAX(1)
- 
+
 C     ** DEMI-LONGUEUR DE LA CIBLE
       XL = A(NOEL,70)
       IF(IPASS .EQ. 1) THEN
         IRAND = NINT( A(NOEL,80) )
         IRAND2= NINT( A(NOEL,81) )
       ENDIF
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,102) IMAX,BODY(IBODY),AM1,AM2,AM3,AM4,AM4,AM5,AM6
  102    FORMAT(15X,' GENERATION  DE ',I10,'  PARTICULES  DU  GENRE   '
@@ -152,16 +152,16 @@ C     ** DEMI-LONGUEUR DE LA CIBLE
         IF    (IBODY .NE. 3) THEN
           WRITE(NRES,104) T1
  104      FORMAT(15X,' M1  kinetic  energy :',1P,G12.4,' GeV',/)
- 
+
           WRITE(NRES,100) (CENTRE(J),J=2,5),CENTRE(1),KTIR(KOBJ)
  100      FORMAT(15X,' CENTRE  DU  TIRAGE   : '
      >    ,/,11X,' YO, TO, ZO, PO,  BR/BORO : ',T50,1P,5G12.4
      >    ,/,11X,'( ',A,'  EN  Y  ET  Z )')
- 
+
           WRITE(NRES,109) (AMAX(J),J=2,5),AMAX(1)
  109      FORMAT(15X,' FRONTIERES  DU  TIRAGE  (  +/- ) :'
      >    ,/,11X,' DY, DT, DZ, DP, DBR/BORO : ',T50,1P,5G12.4)
- 
+
           WRITE(NRES,110) XL
  110      FORMAT(15X,' FRONTIERE  LONGITUDINALE  :'
      >    ,/,11X,' XL   =    +/-',F8.4,'  CM',/)
@@ -169,15 +169,15 @@ C     ** DEMI-LONGUEUR DE LA CIBLE
           WRITE(NRES,200)
  200      FORMAT(15X,' OBJET  CONSTITUE  DES  PARTNERS  ( M6 )',/)
         ENDIF
- 
+
       ENDIF
- 
+
       GOTO(1,1,2) IBODY
- 
+
  1    CONTINUE
 C     ++++ GENERE AM3(IBODY=1)
 C          OU AM5 ( = LEPTON DE DECROISSANCE DE AM4; IBODY=2 )
- 
+
       E1=AM1+T1
       ECM2=AM1**2+AM2**2+2.D0*AM2*E1
       ECM=SQRT(ECM2)
@@ -194,46 +194,46 @@ C
       IF(IPASS .EQ. 1) STIR=0.D0
       IKAR = 1
       I = 1
- 
+
  11   CONTINUE
         STIR = STIR+1
- 
+
         CALL DESBIN(AM4,AM5,AM6,PX1,PX2)
         CALL GENETA(AK,E3CM,E4CM,P3,P4,B4)
- 
+
         IF(IBODY .EQ. 1) THEN
- 
+
 C         ... M3 IN LAB
           CALL BOOST(B,P3,3)
- 
+
           T=GANG(1,P3,KAXE)
           IF( T .LT. TMIN .OR. T .GT. TMAX ) GOTO 11
- 
+
           P=GANG(2,P3,KAXE)
           IF( P .LT. PMIN .OR. P .GT. PMAX ) GOTO 11
- 
+
           DPP = P3(5)/(BORO*CL*1.D-12)
           IF( DPP .LT. DMIN .OR. DPP .GT. DMAX ) GOTO 11
- 
+
         ELSEIF(IBODY .EQ. 2) THEN
- 
+
 C         ... M5
- 
+
 C         PX1 = 4-VECTEUR QdM DE M5 : PX1(1,2,3)=PX,Y,Z ,
 C         PX1(4)=Etot=T+Masse ,  PX1(5)=P=SQRT(PX**2+PY**2+PZ**2) .
           CALL BOOST(B4,PX1,3)
           CALL BOOST(B,PX1,3)
- 
+
           T=GANG(1,PX1,KAXE)
           IF( T .LT. TMIN .OR. T .GT. TMAX ) GOTO 11
- 
+
           P=GANG(2,PX1,KAXE)
           IF( P .LT. PMIN .OR. P .GT. PMAX ) GOTO 11
- 
+
           DPP = PX1(5)/(BORO*CL*1.D-12)
           IF( DPP .LT. DMIN .OR. DPP .GT. DMAX ) GOTO 11
         ENDIF
- 
+
         FO(1,I) = DPP
         FO(3,I) = T
         FO(5,I) = P
@@ -260,15 +260,15 @@ C         AU CENTRE DE LA CIBLE
 C          FO(6,I)= - AL/(COS(FO(3,I)*1.D-3)*COS(FO(5,I)*1.D-3))
           FO(6,I)= AL/(COS(FO(3,I)*1.D-3)*COS(FO(5,I)*1.D-3))
         ENDIF
- 
+
         IF(IBODY .EQ. 2) THEN
- 
+
 C         ... STORE M6 = PARTNER OF M5, FOR FURTHER USE OF IBODY=3
 C        .... PX2 = 4-VECTEUR QdM DE M6
- 
+
           CALL BOOST(B4,PX2,3)
           CALL BOOST(B,PX2,3)
- 
+
           FP(3,I)=GANG(1,PX2,KAXE)
           FP(5,I)=GANG(2,PX2,KAXE)
           FP(1,I) = PX2(5)/(BORO*CL*1.D-12)
@@ -276,7 +276,7 @@ C        .... PX2 = 4-VECTEUR QdM DE M6
           FP(4,I)=FO(4,I)
           FP(6,I)=FO(6,I)
         ENDIF
- 
+
         IREP(I) = I
         IEX(I) = 1
         IF(IKAR.GT.41)  IKAR=1
@@ -285,35 +285,35 @@ C        .... PX2 = 4-VECTEUR QdM DE M6
         DO 12 J=1,6
           F(J,I)=FO(J,I)
  12     CONTINUE
- 
+
         I = I+1
       IF(I .LE. IMAX) GOTO 11
- 
- 
+
+
       IF(NRES.GT.0) WRITE(NRES,105)STIR,IMAX*IPASS
      X ,IMAX*IPASS/STIR*1.D2
  105  FORMAT(/,10X,' Total number of sortings  = ',F15.0
      X      ,/,10X,' for ',I5,'  particles in  Window '
      X      ,1X,'( ',F7.2,' % )',/)
- 
+
       GOTO 99
- 
+
  2    CONTINUE
 C     ... OBJECT = STORED M6 ( = PARTNERS OF NOT STOPPED M5 )
- 
+
       II = 0
       DO 21 I=1,IMAX
 C       ... IEX<-1 <=> PARTICULE STOPPEE
         IF(IEX(I) .LT. -1) GOTO 21
         II = II+1
- 
+
 C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
         IF(KAXE .EQ. 1) THEN
           FP(3,I) = -FP(3,I)
         ELSE
           FP(5,I) = ASIN( SIN(.001D0*FP(5,I)) )*1.D3
         ENDIF
- 
+
         DO  22 J=1,6
           FO(J,II) = FP(J,I)
           F(J,II) =  FP(J,I)
@@ -327,14 +327,14 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
       IMAX0 = IMAX
       IMAX = II
       IMAXT=IMAX/IDMAX
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,105) STIR , IMAX0*IPASS ,IMAX0*IPASS/STIR*1.D2
         WRITE(NRES,205) STIRP, STIRP/STIR*1.D2
  205    FORMAT(/,10X,' NOMBRE  TOTAL  DE  PARTNERS  = ',F15.0
      X    ,1X,'( ',F7.2,' % )',/)
       ENDIF
- 
+
  99   CONTINUE
       IF (IBODY.EQ.1) THEN
          AM = AM3
@@ -350,7 +350,7 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
          AMQ(1,I) = AM
  993     AMQ(2,I) = Q
       AMQLU(1) = .TRUE.
-      
+
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
       RETURN
       END

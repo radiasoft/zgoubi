@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,21 +30,21 @@ C  -------
       INCLUDE "C.DDEXYZ.H"     ! COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
- 
+
 C----- D=DISTANCE TUBES, VDR=(V2-V1)/(D.RO), OR=Omega/RO, X0=refX
       EQUIVALENCE (EN,D), (EB1,VDR),(EB2,OR),(EG1,X0),(EG2,X22)
- 
+
       PARAMETER (MDX=6)
       DIMENSION EX(MDX)
       DIMENSION ER(2),DER(2,2),DDER(2,2,2)
- 
-      CALL EAX3TU(OR,XX-X0,VDR*BRI,D,X22,EX) 
+
+      CALL EAX3TU(OR,XX-X0,VDR*BRI,D,X22,EX)
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,
      >                    ER,DER,DDER)
       CALL BXRXYZ(ER,DER,DDER,Y,Z,R,2,
      >                                   E,DE,DDE)
- 
+
       RETURN
       END

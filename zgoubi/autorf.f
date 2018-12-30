@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -41,7 +41,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
- 
+
       LOGICAL EVNT
       SAVE EVNT
       PARAMETER (MSR=8)
@@ -49,10 +49,10 @@ C      LOGICAL ZSYM
       DIMENSION VSHRO(MSR)
 
       DATA EVNT / .FALSE. /
-     
+
       IOP = NINT(A(NOEL,1))
       IOP2 = NINT(A(NOEL,2))
- 
+
       IF    (IOP .LE. 3) THEN
 
         IF(IOP .EQ. 0) GOTO 99
@@ -61,10 +61,10 @@ C      LOGICAL ZSYM
 C--------- POSITIONNEMENT REFERENCE = TRAJ. 1, ABSCISSE ACTUELLE
           IRF=1
           XC =ZERO
-          YC =F(2,IRF) 
+          YC =F(2,IRF)
           AA  =F(3,IRF) * 0.001D0
           IF(IOP2 .EQ. 5) THEN
-            ZC =F(4,IRF) 
+            ZC =F(4,IRF)
             BB = F(5,IRF) * 0.001D0
           ENDIF
         ELSEIF(IOP .EQ. 2) THEN
@@ -93,17 +93,17 @@ C First center the beam on Y=0, T=0, D
         DO I = 1, IMAX
           IF( IEX(I) .GT. 0) THEN
             II = II + 1
-            YC = YC + F(2,I) 
-            AA = AA + F(3,I) 
+            YC = YC + F(2,I)
+            AA = AA + F(3,I)
           ENDIF
         ENDDO
 
-        YC = YC / DBLE(II)        
-        AA = AA / DBLE(II) * 1.D-3 
+        YC = YC / DBLE(II)
+        AA = AA / DBLE(II) * 1.D-3
 
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
-          IF( IEX(I) .GE. -1) THEN 
+          IF( IEX(I) .GE. -1) THEN
             IF(I .EQ. IREP(I) .OR. .NOT. ZSYM) THEN
               CALL INITRA(I)
               CALL CHAREF(.FALSE.,XC,YC,AA)
@@ -116,18 +116,18 @@ C         +++ IEX<-1 <=> Particule stoppee
         ENDDO
         IF(NRES .GT. 0) THEN
           WRITE(NRES,FMT='(1X,A)') ' First,  center  beam  on'
-     >    // ' Y=0,  T=0 : ' 
+     >    // ' Y=0,  T=0 : '
           WRITE(NRES,100) XC,YC,AA*DEG,AA
           WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
           WRITE(NRES,FMT='(/,1X,A)') ' Then,  move  beam  to '
      >    // ' new  centroid :'
         ENDIF
- 
+
 C Then update to requested beam centering coordinates
         XC =  -A(NOEL,10)
         YC =  -A(NOEL,11)
         AA =  -A(NOEL,12) * 1.D-3
-        
+
       ELSEIF(IOP .EQ. 5) THEN
 
         ZC = ZERO
@@ -137,15 +137,15 @@ C First center the beam on Z=0, P=0
         DO I = 1, IMAX
           IF( IEX(I) .GT. 0) THEN
             II = II + 1
-            ZC = ZC + F(4,I) 
-            BB = BB + F(5,I) 
+            ZC = ZC + F(4,I)
+            BB = BB + F(5,I)
           ENDIF
         ENDDO
-        ZC = ZC / DBLE(II)        
-        BB = BB / DBLE(II) 
+        ZC = ZC / DBLE(II)
+        BB = BB / DBLE(II)
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
-          IF( IEX(I) .GE. -1) THEN 
+          IF( IEX(I) .GE. -1) THEN
             F(4,I) = F(4,I) - ZC
             F(5,I) = F(5,I) - BB
           ELSE
@@ -156,7 +156,7 @@ C         +++ IEX<-1 <=> Particule stoppee
           WRITE(NRES,107) ZC,BB*DEG,BB
           WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
         ENDIF
- 
+
 C Then update to requested beam centering coordinates
         ZC =  -A(NOEL,10)
         BB =  -A(NOEL,11) * 1.D-3
@@ -168,7 +168,7 @@ C Then update to requested beam centering coordinates
       IF    (IOP .LE. 4) THEN
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
-          IF( IEX(I) .GE. -1) THEN 
+          IF( IEX(I) .GE. -1) THEN
             IF(I .EQ. IREP(I) .OR. .NOT.ZSYM) THEN
               CALL INITRA(I)
               CALL CHAREF(.FALSE.,XC,YC,AA)
@@ -181,7 +181,7 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
             IF(IOP2.EQ.5) THEN
 
               VSHRO(MSR) = 2
-              VSHRO(1) = ZC 
+              VSHRO(1) = ZC
               VSHRO(2) = BB
               QSHRO(1) = 'ZS'
               QSHRO(2) = 'YR'
@@ -189,7 +189,7 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
               CALL CHANRF(EVNT,QSHRO,VSHRO)
               CALL MAJTRA(I)
               IF(KSPN .EQ. 1 ) then
-                if(nres .gt. 0) write(nres,*) 
+                if(nres .gt. 0) write(nres,*)
      >          ' WARNING : Y-rotation in autorf.f. Spin '
      >          //'rotation is to be implemented. '
               ENDIF
@@ -205,12 +205,12 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
               DO I = 1, IMAX
                IF( IEX(I) .GT. 0) THEN
                 II = II + 1
-                DD = DD + F(1,I) 
-                TT = TT + F(7,I) 
+                DD = DD + F(1,I)
+                TT = TT + F(7,I)
                ENDIF
               ENDDO
-              DD = DD / DBLE(II)        
-              TT = TT / DBLE(II)        
+              DD = DD / DBLE(II)
+              TT = TT / DBLE(II)
               DO I = 1, IMAX
                 IF( IEX(I) .GT. 0) THEN
                   F(1,I) = F(1,I) - DD + A(NOEL,13)
@@ -223,10 +223,10 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
               DO I = 1, IMAX
                IF( IEX(I) .GT. 0) THEN
                 II = II + 1
-                DD = DD + F(1,I) 
+                DD = DD + F(1,I)
                ENDIF
               ENDDO
-              DD = DD / DBLE(II)        
+              DD = DD / DBLE(II)
               DO I = 1, IMAX
                 IF( IEX(I) .GT. 0) THEN
                   F(1,I) = F(1,I) - DD + A(NOEL,13)
@@ -237,26 +237,26 @@ C            IF(IOP2.EQ.1) F(1,I) = F(1,I) - DD
 
       ELSEIF(IOP .EQ. 5) THEN
         VSHRO(MSR) = 2
-        VSHRO(1) = ZC 
+        VSHRO(1) = ZC
         VSHRO(2) = BB
         QSHRO(1) = 'ZS'
         QSHRO(2) = 'YR'
         DO I=1,IMAX
 C         +++ IEX<-1 <=> Particule stoppee
-          IF( IEX(I) .GE. -1) THEN 
+          IF( IEX(I) .GE. -1) THEN
             CALL INITRA(I)
             CALL CHANRF(EVNT,QSHRO,VSHRO)
             CALL MAJTRA(I)
           ENDIF
         ENDDO
       ENDIF
- 
+
  99   CONTINUE
 
       IF(NRES .GT. 0) THEN
 
         IF    (IOP .EQ. 0) THEN
-          WRITE(NRES,102) 
+          WRITE(NRES,102)
  102      FORMAT(/,20X,' AUTOREF  is  off')
         ELSEIF(IOP .LE. 5) THEN
           IF(IOP .LE.4) THEN
@@ -280,7 +280,7 @@ C     >     F10.3,' cm ,   A =',F12.5,' deg  (i.e., ',F10.6,' rad)',/)
         ENDIF
 
       ENDIF
- 
+
       RETURN
       END
 

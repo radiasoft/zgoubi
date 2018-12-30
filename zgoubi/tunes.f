@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -55,11 +55,11 @@ C  HORIZONTAL
         COSMU=CMUY
 CBETA style
         SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(1,2) )
-        YNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI) 
+        YNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI)
         IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)-YNU
         YNU=YNU-AINT(YNU)
 
-CMAD style. Optimized precisison close to 1/2 ? 
+CMAD style. Optimized precisison close to 1/2 ?
         SINMU=SIGN(SQRT(-R(1,2)*R(2,1)-.25D0*(R(1,1)-R(2,2))**2),R(1,2))
         YNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(1,2))
         IF (R(1,2) .LT. 0.0D0) YNU=DBLE(NMAIL)+YNU
@@ -90,12 +90,12 @@ C  VERTICAL
       ELSE
         COSMU = CMUZ
 CBETA style
-            ZNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI) 
+            ZNU=ACOS(COSMU)*DBLE(NMAIL)/(2.D0 * PI)
             IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)-ZNU
             ZNU=ZNU-AINT(ZNU)
             SINMU=SIGN( SQRT(1.0D0-COSMU*COSMU) , R(3,4) )
 
-CMAD style. Optimized precisison close to 1/2 ? 
+CMAD style. Optimized precisison close to 1/2 ?
         SINMU=SIGN(SQRT(-R(3,4)*R(4,3)-.25D0*(R(3,3)-R(4,4))**2),R(3,4))
         ZNU = SIGN(ATAN2(SINMU,COSMU) /(2.D0 * PI) ,R(3,4))
         IF (R(3,4) .LT. 0.0D0) ZNU=DBLE(NMAIL)+ZNU

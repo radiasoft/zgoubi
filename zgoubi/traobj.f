@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory         
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -38,7 +38,7 @@ C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       ALP=A(NOEL,1)
       BET=A(NOEL,2)
       IF(IOPT .EQ. 1) THEN
@@ -46,14 +46,14 @@ C     $     IREP(MXT),AMQLU,PABSLU
  110    FORMAT(/,10X,'TRANSLATION Y ',
      S         F12.5,' Z ',F12.5/)
       ENDIF
- 
+
       DO 2 I=1,IMAX
- 
+
          F(2,I)=F(2,I)+ALP
          F(4,I)=F(4,I)+BET
- 
+
  2    CONTINUE
- 
+
       IF(NRES.GT.0) WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
   101 FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
 

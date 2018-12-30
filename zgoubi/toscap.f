@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -50,16 +50,16 @@ C      PARAMETER (MXTA=45)
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
- 
+
       LOGICAL BINAR,BINARI,IDLUNI, NEWFIC
       CHARACTER(LNTA) TITL , NAMFIC
       character(LNTA), allocatable :: NOMFIC(:)
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
- 
+
       LOGICAL STRCON
- 
+
       CHARACTER(20) FMTYP
 C      INCLUDE 'MAPHDR.H'
       INCLUDE 'MXHD.H'
@@ -77,19 +77,19 @@ C      PARAMETER (MXAA2=24+MXC-1)
 
       PARAMETER (ONE = 1.D0)
 
-      LOGICAL ZROBXY      
+      LOGICAL ZROBXY
 
       DATA ZROBXY / .FALSE. /
       DATA NHDF / 8 /
       DATA FMTYP / ' regular' /
 
       real(real64), allocatable, dimension(:,:), save :: XXH, YYH, ZZH
-      real(real64), allocatable, dimension(:), save :: 
+      real(real64), allocatable, dimension(:), save ::
      >  BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 
       integer, allocatable, dimension(:), save :: IIXMA, JJYMA, KKZMA
-      
-      
+
+
       call allocate_if_unallocated(XXH,MXX,MMAP)
       call allocate_if_unallocated(YYH,MXY,MMAP)
       call allocate_if_unallocated(ZZH,IZ,MMAP)
@@ -102,11 +102,11 @@ C      PARAMETER (MXAA2=24+MXC-1)
       call allocate_if_unallocated(XBBMA,MMAP)
       call allocate_if_unallocated(YBBMA,MMAP)
       call allocate_if_unallocated(ZBBMA,MMAP)
-      
+
       call allocate_if_unallocated(IIXMA,MMAP)
-      call allocate_if_unallocated(JJYMA,MMAP) 
-      call allocate_if_unallocated(KKZMA,MMAP) 
-              
+      call allocate_if_unallocated(JJYMA,MMAP)
+      call allocate_if_unallocated(KKZMA,MMAP)
+
       call allocate_if_unallocated(NOMFIC, IZ)
 
       IF( .NOT.ALLOCATED( HCA ))
@@ -115,14 +115,14 @@ C      PARAMETER (MXAA2=24+MXC-1)
      >     CALL ENDJOB('SBR toscap Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
- 
+
       IF( .NOT.ALLOCATED( HCB ))
      >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
      >     CALL ENDJOB('SBR toscap Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
- 
+
       IF( .NOT.ALLOCATED( HCC ))
      >     ALLOCATE( HCC(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
@@ -159,17 +159,17 @@ C July 2013      BNORM = A(NOEL,10)*SCAL
       JYMA = NINT( A(NOEL,21) )
       IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
- 
+
       KZMA =NINT( A(NOEL,22) )
       IF(KZMA.GT.IZ )
      >  CALL ENDJOB('Z-dim of map is too large, max is ',IZ)
- 
+
       MOD = NINT(A(NOEL,23))
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
 
       IF    (NDIM.EQ.2 ) THEN
         IF(MOD2 .LE. 1) MOD2 = 1
-C Keyword TOSCA, option cylindrical frame, with up to 4 2D maps, 
+C Keyword TOSCA, option cylindrical frame, with up to 4 2D maps,
 C such that total B is their linear superimposition.
         IF(MOD2 .GT. 4) CALL ENDJOB('Pgm toscap. Number of field '
      >  //'maps cannot exceed ',MXC)
@@ -178,7 +178,7 @@ C such that total B is their linear superimposition.
         DO I = 1, I2
           AA(NOEL,24-1+I) = A(NOEL,24-1+I)
         ENDDO
- 
+
         NFIC=0
         DO I=I1, I2
           NFIC = NFIC+1
@@ -188,7 +188,7 @@ C such that total B is their linear superimposition.
           DO LL = 24, MXAA2     !24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
- 
+
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
         ENDDO
@@ -233,7 +233,7 @@ C--------- Full 3D volume, no symmetry hypothesis
 
         DO LL = 24, MXAA2     !24+MXC-1
           UU(LL) = AA(NOEL,LL)
-        ENDDO 
+        ENDDO
         CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
@@ -294,7 +294,7 @@ C--------- Full 3D volume, no symmetry hypothesis
      >       'BX and BY values in Z=0 plane left as read.'
            ENDIF
         ENDIF
- 
+
         IF(NEWFIC) THEN
            WRITE(NRES,209)
  209       FORMAT(/,10X
@@ -312,9 +312,9 @@ C--------- Full 3D volume, no symmetry hypothesis
      >    10X,'Skip  reading  field  map  file : ',10X,A)
         ENDIF
       ENDIF
- 
+
       IF(NEWFIC) THEN
- 
+
         IF    (MOD .EQ. 20 .OR. MOD .EQ. 21) THEN
 
           IF(IDLUNI(
@@ -329,11 +329,11 @@ C--------- Full 3D volume, no symmetry hypothesis
           ELSE
             GOTO 96
           ENDIF
- 
+
           IF(NRES.GT.0) THEN
               LNGTH=len(
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
               WRITE(NRES,FMT='(5X,3A)')
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' ',
@@ -342,17 +342,17 @@ C--------- Full 3D volume, no symmetry hypothesis
           ENDIF
 
           IRD = NINT(A(NOEL,40))
- 
+
 C BNORM set to ONE, since sent to CHAMK below
           KZ = 1
           CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
         ELSEIF(MOD .EQ. 24) THEN
 
           IF(IDLUNI(
@@ -367,11 +367,11 @@ C------- Store mesh coordinates
           ELSE
             GOTO 96
           ENDIF
- 
+
           IF(NRES.GT.0) THEN
               LNGTH=len(
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
               WRITE(NRES,FMT='(5X,3A)')
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' ',
@@ -380,19 +380,19 @@ C------- Store mesh coordinates
           ENDIF
 
           IRD = NINT(A(NOEL,40))
- 
+
 C BNORM set to ONE, since sent to CHAMK below
           KZ = 1
           CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
         ELSEIF(MOD .EQ. 22 .OR. MOD .EQ. 23 .OR. MOD .EQ. 25) THEN
- 
+
           NFIC = 0
           DO KZ=I1,I2
             NFIC = NFIC+1
@@ -408,11 +408,11 @@ C------- Store mesh coordinates
             ELSE
               GOTO 96
             ENDIF
- 
+
             IF(NRES.GT.0) THEN
               LNGTH=LEN(
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
               WRITE(NRES,FMT='(5X,A,1P,E16.8,/)')
      >        NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' '//
@@ -420,19 +420,19 @@ C------- Store mesh coordinates
      >        //'.  Field multiplication factor :',AA(NOEL,23+NFIC)
               CALL FLUSH2(NRES,.FALSE.)
             ENDIF
- 
+
             IRD = NINT(A(NOEL,40))
- 
+
 C BNORM set to ONE, since sent to CHAMK below
             CALL FMAPR2(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                      BMIN,BMAX,
      >                      XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
             CALL FMAPW2(NFIC,AA(NOEL,NFIC))
 
              IF    (NFIC.EQ.1) THEN
- 
+
                IF(MOD2.EQ.1) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -444,9 +444,9 @@ C BNORM set to ONE, since sent to CHAMK below
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                ELSE
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -457,15 +457,15 @@ C BNORM set to ONE, since sent to CHAMK below
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
 c                   write(*,*) ' toscap  faca : ',faca,kzma,jyma,ixma,id
 c                      read(*,*)
- 
+
                ENDIF
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.2) THEN
- 
+
                IF(MOD2.EQ.2) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -477,11 +477,11 @@ c                      read(*,*)
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
 c                   write(*,*) ' toscap  facb : ',facb,kzma,jyma,ixma,id
 c                      read(*,*)
                ELSE
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -492,12 +492,12 @@ c                      read(*,*)
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                ENDIF
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.3) THEN
- 
+
                IF(MOD2.EQ.3) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -510,7 +510,7 @@ c                      read(*,*)
                   ENDDO
                  ENDDO
                  CLOSE(UNIT=LUN)
- 
+
                ELSE
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -522,12 +522,12 @@ c                      read(*,*)
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                endif
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.4) THEN
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -539,10 +539,10 @@ c                      read(*,*)
                   ENDDO
                  ENDDO
                  CLOSE(UNIT=LUN)
- 
+
              ENDIF
              CLOSE(UNIT=LUN)
- 
+
            ENDDO
 
 C------- Store mesh coordinates
@@ -551,24 +551,24 @@ C------- Store mesh coordinates
         ELSE
           CALL ENDJOB('Pgm toscap. No such option MOD = ',MOD)
         ENDIF
- 
+
       ELSE   !  .not. NEWFIC
- 
+
 C------- Restore mesh coordinates
         CALL FMAPR5(IMAP,
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
         IF(NRES.GT.0) THEN
           WRITE(NRES,fmt='(A,I3,2A)') ' Pgm toscap, '//
      >    ' restored mesh coordinates for field map # ',imap,
      >    ',  name : ',
      >    NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
         ENDIF
- 
+
       ENDIF
- 
+
       CALL CHAMK2(BNORM*SCAL)
- 
+
       CALL MAPLI1(BMAX-BMIN)
       AT=XH(IXMA)-XH(1)
       ATO = 0.D0
@@ -576,7 +576,7 @@ C------- Restore mesh coordinates
       RM=.5D0*(YH(JYMA)+YH(1))
       XI = XH(1)
       XF = XH(IXMA)
- 
+
       RETURN
 
  96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file '''//

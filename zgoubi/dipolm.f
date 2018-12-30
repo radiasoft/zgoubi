@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -38,7 +38,7 @@ C-----------------------------------------------------------------------
       INCLUDE "C.CARSH.H"     ! COMMON/CARSH/ ATS,RMS
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH 
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -46,7 +46,7 @@ C-----------------------------------------------------------------------
       INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       DIMENSION CI(6),CS(6),C3(6)
 C      DATA IMAP / 1 /
 
@@ -57,18 +57,18 @@ C      DATA IMAP / 1 /
 
 C----- NBFACE=2(3) :DIPOLE LIMITE PAR (2)3 FACES.
       NBFACE = NINT(A(NOEL,1))
- 
+
 C  IXMA/JYMA = NBRE DE PAS ANGULAIRE/RADIAL DE LA CARTE DE Champ.
 C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
 C  AT=ANGLE TOTAL DE LA CARTE DE Champ, ACENT='ANGLE AU CENTRE',
 C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
- 
+
       IXMA = NINT(A(NOEL,4))
-      IF(IXMA.GT.MXX) 
+      IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large, max is ',MXX)
       JYMA = NINT(A(NOEL,5))
-      IF(JYMA.GT.MXY ) 
+      IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large, max is ',MXY)
 
       HNORM = A(NOEL,6)*SCAL
@@ -81,7 +81,7 @@ C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
       RM    = A(NOEL,12)
       RMIN  = A(NOEL,13)
       RMAX  = A(NOEL,14)
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) AT,ACENT,RM,RMIN,RMAX,HNORM,COEFN,COEFB,COEFG
         IF(NBFACE .EQ. 3 .AND. (RMIN.GT.RM.OR.RMAX.LT.RM))
@@ -90,7 +90,7 @@ C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
         WRITE(NRES,105) IXMA,JYMA
 105     FORMAT(20X,'NBRE PAS ANGULAIRE=',I5,'  NBRE PAS RAYON=',I5)
       ENDIF
- 
+
       AE = 0.D0
       AS = 0.D0
       ATS = AT / (IXMA - 1)
@@ -104,7 +104,7 @@ C    RM,MIN,MAX=RAYONS MOYEN,MIN,MAX DE LACARTE DE Champ.
       IF(NRES.GT.0) WRITE(NRES,120)ATS,ATSRM,RMS
 120   FORMAT(19X,' PAS ANGULAIRE =',F8.4,' DEG. OU ',F8.4
      1,' CM AU RAYON MOYEN',/,19X,' PAS EN RAYON  =',F8.4,' CM')
- 
+
 C LE MODELE DE Champ DE FUITE DE CHACUNE DES 3 FACES EST CELUI DE ENGE
 C Champ DE FUITE ENTREE
       LAMBDE = A(NOEL,15)
@@ -112,18 +112,18 @@ C Champ DE FUITE ENTREE
  227    CI(I) = A(NOEL,17+I)
       SHIFTE = A(NOEL,24)
       SHIFTE=0.D0
- 
+
       UMEGA = A(NOEL,25)
       THETA = A(NOEL,26)
       R1    = A(NOEL,27)
       U1    = A(NOEL,28)
       U2    = A(NOEL,29)
       R2    = A(NOEL,30)
- 
+
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       IF(R1*R1 .GE. 1.D6) U1 = -1.D6
       IF(R2*R2 .GE. 1.D6) U2 =  1.D6
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) LAMBDE
 106     FORMAT (/,5X,'Entrance  face',/,10X,
@@ -136,19 +136,19 @@ C106     FORMAT (/,5X,'FACE  D''ENTREE',/,10X,
         IF(R1*R2 .EQ. 0.D0) WRITE(NRES,123)
  123    FORMAT(10('*'),' ATTENTION |    R1 OU R2 = 0 |',10('*'))
       ENDIF
- 
+
       UMEG = UMEGA * RAD
       TETA = THETA * RAD
       UT = UMEG - TETA
       SINO = SIN(UT)
       COSO = COS(UT)
       TANO = SINO / COSO
- 
+
 C  CALCUL DES PARAMETRES DE FACE  :
 C  AXE X DU REFERENTIEL  = PARALLELE  DIRCTN ACENT, SENS DES RAYONS CROISSANTS
 C  AXE Y DU REFERENTIEL  = ORTHOGONAL DIRCTN ACENT, DIRIGE VERS FACE D'ENTREE
 C  ORIGINE DU REFERENTIEL= A L'INTERSECTION DE RM ET ACENT
- 
+
 C  PROJECTIONS DU RAYON MOYEN SUR LES AXES X,Y
       XB = RM * ( COS(UMEG) - 1.D0)
       YB = RM * SIN(UMEG)
@@ -167,25 +167,25 @@ C  COORDONNEES DU CENTRE DE COURBURE DE RAYON R2
       SIN2 = SINO**2
       COS2 = COSO**2
       SICO = SINO * COSO
- 
+
 C Champ DE FUITE SORTIE
       LAMBDS = A(NOEL,31)
       DO 228 I=1,6
  228    CS(I) = A(NOEL,33+I)
       SHIFTS = A(NOEL,40)
       SHIFTS=0D0
- 
+
       UMEGAS = A(NOEL,41)
       THETAS = A(NOEL,42)
       R1S    = A(NOEL,43)
       U1S    = A(NOEL,44)
       U2S    = A(NOEL,45)
       R2S    = A(NOEL,46)
- 
+
 C     ** POUR LES BESOINS DE LA SIMPLE PRECISION :
       IF(R1S*R1S .GE. 1.D10) U1S = -1.D6
       IF(R2S*R2S .GE. 1.D10) U2S =  1.D6
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,116) LAMBDS
 116     FORMAT(/,5X,'Exit  face',/,10X,
@@ -195,7 +195,7 @@ C116     FORMAT(/,5X,'FACE  DE  SORTIE',/,10X,
         WRITE(NRES,103) UMEGAS,THETAS,R1S,U1S,U2S,R2S
         IF(R1S*R2S .EQ. 0.D0) WRITE(NRES,123)
       ENDIF
- 
+
       UMEGS = UMEGAS * RAD
       TETAS = THETAS * RAD
       UTS= UMEGS- TETAS
@@ -215,7 +215,7 @@ C116     FORMAT(/,5X,'FACE  DE  SORTIE',/,10X,
       SIN2S = SINOS**2
       COS2S = COSOS**2
       SICOS = SINOS * COSOS
- 
+
 C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
       IF(NBFACE .EQ. 3) THEN
        LAMBD3 = A(NOEL,47)
@@ -223,7 +223,7 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
  229     C3(I) = A(NOEL,49+I)
        SHIFT3 = A(NOEL,56)
        SHIFT3=0D0
- 
+
        UMEGA3 = A(NOEL,57)
        THETA3 = A(NOEL,58)
        R13    = A(NOEL,59)
@@ -231,7 +231,7 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
        U23    = A(NOEL,61)
        R23    = A(NOEL,62)
        RM3    = A(NOEL,63)
- 
+
        IF(NRES.GT.0) THEN
          WRITE(NRES,136) LAMBD3
 136      FORMAT (/,5X,'FACE  LATERALE ',/,10X,
@@ -243,7 +243,7 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
          WRITE(NRES,103) UMEGA3,THETA3,R13,U13,U23,R23
          IF(R13*R23 .EQ. 0.D0) WRITE(NRES,123)
        ENDIF
- 
+
        UMEG3 = UMEGA3 * RAD
        TETA3 = THETA3 * RAD
        UT3= UMEG3- TETA3
@@ -252,7 +252,7 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
 139      FORMAT(/,20X,' FACE 3, ATTENTION : ABS(UT3) > 90 DEG. =>',
      >   ' VALEUR AMBIGUE POUR LE CALCUL DE LA CARTE DE Champ')
        ENDIF
- 
+
        SINO3= SIN(UT3)
        COSO3= COS(UT3)
        TANO3= SINO3/ COSO3
@@ -269,11 +269,11 @@ C Champ DE FUITE FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
        SIN23 = SINO3**2
        COS23 = COSO3**2
        SICO3 = SINO3 * COSO3
- 
+
       ENDIF
- 
+
 C  CALCUL LA CARTE DE Champ, POUR IXMA ANGLES ET JYMA RAYONS
- 
+
 C     ****DEBUT DE BOUCLES SUR ANGLES ET RAYONS
       BMIN=1.D10
       BMAX=-1.D10
@@ -285,7 +285,7 @@ C     ****DEBUT DE BOUCLES SUR ANGLES ET RAYONS
         XH(NN) = (NN - 1) * ATS * RAD
         ZETA = ACN - XH(NN)
         DO  2  I = 1,JYMA
- 
+
 C         ... COORDONNEES DU POINT COURANT
           X = YH(I) * COS(ZETA) - RM
           Y = YH(I) * SIN(ZETA)
@@ -334,7 +334,7 @@ C           ERREUR  DE  DONNEES  FACE  ENTREE
  104        FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE ENTREE',/)
             GOTO  15
           ENDIF
- 
+
           IF(LAMBDE .EQ. 0.D0) THEN
             IF(D.LE.0.D0) THEN
               FE=1D0
@@ -352,7 +352,7 @@ C           ERREUR  DE  DONNEES  FACE  ENTREE
               FE = 1.D0/(1.D0+EXP(P))
             ENDIF
           ENDIF
- 
+
 C POSITION DU POINT (X,Y) / FACE SORTIE
           IF     ( X.LT.CXS .AND. X.LT.AXS )  THEN
 C           ... REGION DE COURBURE R1
@@ -383,7 +383,7 @@ C           ... REGION DE COURBURE R2
 114         FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE SORTIE',/)
             GOTO  15
           ENDIF
- 
+
           IF(LAMBDS .EQ. 0.D0) THEN
             IF(D.LE.0.D0) THEN
               FS=1D0
@@ -401,7 +401,7 @@ C           ... REGION DE COURBURE R2
               FS = 1.D0/(1.D0+EXP(P))
             ENDIF
           ENDIF
- 
+
 C POSITION DU POINT (X,Y) / FACE EXTERNE (SEULEMENT SI OPTION 3 FACES)
           IF(NBFACE .EQ. 3) THEN
             IF     ( X.LT.CX3 .AND. X.LT.AX3 )  THEN
@@ -437,7 +437,7 @@ C             ... REGION DE COURBURE R2
               ENDIF
               GOTO  15
             ENDIF
- 
+
             IF(LAMBD3 .EQ. 0.D0) THEN
               IF(D.LE.0.D0) THEN
                 F3=1D0
@@ -456,10 +456,10 @@ C             ... REGION DE COURBURE R2
               ENDIF
             ENDIF
           ENDIF
- 
+
           F = FE * FS
           IF(NBFACE .EQ. 3) F = F * F3
- 
+
 C         CE 'POINT DE MESURE' PERMET DE SUIVRE LE
 C         PARCOURS A TRAVERS LES FACES, LE LONG D'UN RAYON.
 C         IF(I .EQ. JYMA/2)
@@ -495,7 +495,7 @@ C     ****SIMULE DES PERTURBATIONS DE LA CARTE DE Champ
       IF    (NBSHIM .NE. 0) THEN
          IF(NBSHIM.GT.0) THEN
 C           ****INTRODUCTION D'ILOTS OU SHIMS
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(NRES,*) ' NO SHIMS AVAILABLE: TO BE IMPLEMENTED'
 C            CALL CARSHI(NBSHIM)
          ELSEIF(NBSHIM .EQ. -1) THEN
@@ -532,18 +532,18 @@ C           ****PERTURBATION LINEAIRE EN RAYON
 4           CONTINUE
          ENDIF
       ENDIF
- 
+
       BAMP = 1.D10
       CALL MAPLI1(BAMP)
- 
+
       IRD = NINT(A(NOEL,93))
- 
+
       AT = AT * RAD
       XI = XH(1)
       XF = XH(NN)
- 
+
 15    CONTINUE
- 
+
   100 FORMAT(20X,'AIMANT  PRINCIPAL',//,
      1 11X,'ANGLES : A.TOTAL =',F6.2,' degrees',5X,'A.CENTRAL =',
      2 F6.2,' degrees',/ ,11X,'RM =',F7.2,' cm',5X,'RMIN =',F7.2,' cm',

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -47,7 +47,7 @@ C      LOGICAL ZSYM
  11   CONTINUE
 
 CALCUL VECTEURS dR ET dU RESULTANT DE DS
- 
+
       DO K=1,3
         XF(K)=0.D0
         DXF(K)=0.D0
@@ -82,7 +82,7 @@ C------ Electric or elctro-mag lmnt
 C----- Tests implementation EL[T]MIR
 C          CALL VTHET(U(1))
 C          CALL ENRGY(Error)
-          DANG2 = 
+          DANG2 =
      >    ( (DXF(1)-U(1))*(DXF(1)-U(1)) +
      >    (DXF(2)-U(7))*(DXF(2)-U(7)) +
      >    (DXF(3)-U(13))*(DXF(3)-U(13)) )
@@ -98,7 +98,7 @@ C          CALL ENRGY(Error)
 
       ELSE
          QBRO = QBR*CL9
-         DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) 
+         DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
       ENDIF
 
       RETURN

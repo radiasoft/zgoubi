@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -31,7 +31,7 @@ C     ------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
@@ -47,11 +47,11 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
-  
+
       DL=XL
       CALL SCUMW(XL)
       CALL SCUMR(
-     >           XL,SCUM,TCUM) 
+     >           XL,SCUM,TCUM)
 
       IF(IOPT .EQ. 1)THEN
         IF(NRES.GT.0) THEN
@@ -66,26 +66,26 @@ C ?? Do not test limit here due to possible decay etc. Only at end of ESL. ??
       IF(LIMIT .EQ. 1) THEN
         IF(DL.GE.0.D0) CALL CHMBR(I1,I2)
       ENDIF
-  
+
       IF( DL .NE. 0D0 ) THEN
 
 C        DO 1 I=1,IMAX
         DO 1 I=I1, I2
 C---------- IEX < -1 <=> PARTICLE STOPPEE
            IF(IEX(I) .LT. -1) GOTO 1
- 
+
            F(2,I)=F(2,I)+DL*TAN(F(3,I)*1.D-3)
            F(4,I)=F(4,I)+DL*TAN(F(5,I)*1.D-3)*(1.D0/COS(F(3,I)*1.D-3))
            DS = DL/(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
            F(6,I)= F(6,I) + DS
            P = BORO*F(1,I)*CL9*AMQ(2,I)
            AMI = AMQ(1,I)
-           IF(AMI*P.NE.0.D0) F(7,I) = F(7,I) + 
+           IF(AMI*P.NE.0.D0) F(7,I) = F(7,I) +
      >         (DS*1.D4 / (P/SQRT(P*P+AMI*AMI)*CL))
  1      CONTINUE
 
       ENDIF
- 
+
 C-------- DESINTEGRATION EN COURS DE VOL
 C         DOIT PRECEDER LE TEST CHMBR !!
       IF(IFDES .EQ. 1) THEN
@@ -93,22 +93,22 @@ C         DOIT PRECEDER LE TEST CHMBR !!
           CALL MCDESL(DL,I1,I2)
           IF(KGA .EQ. 1) THEN
             IF(NRES.GT.0) THEN
-              WRITE(NRES,*) 
+              WRITE(NRES,*)
               WRITE(NRES,*) ' *** WARNING, subroutine ESL'
               WRITE(NRES,*) '   mixing of gas-scattering and decay in '
               WRITE(NRES,*) '   flight not correctly implemented'
-              WRITE(NRES,*) 
+              WRITE(NRES,*)
             ENDIF
           ENDIF
         ELSE
           IF(NRES.GT.0) THEN
-            WRITE(NRES,*) 
+            WRITE(NRES,*)
             WRITE(NRES,*) ' *** WARNING, subroutine ESL'
             WRITE(NRES,*) '    No correction to decay in negative drift'
-            WRITE(NRES,*) 
-          ENDIF       
-        ENDIF       
-      ENDIF       
+            WRITE(NRES,*)
+          ENDIF
+        ENDIF
+      ENDIF
 
 C-------- Gas-scattering
       IF(KGA .EQ. 1) THEN
@@ -119,7 +119,7 @@ C-------- COMPTAGE / LIMITES CHAMBRE
       IF(LIMIT .EQ. 1) THEN
         IF(DL.GE.0.D0) CALL CHMBR(I1,I2)
       ENDIF
- 
+
       IF(IOPT .EQ. 1)THEN
        IF(NRES.GT.0) THEN
          WRITE(NRES,101) IEX(1),-1.D0+F(1,1),(F(J,1),J=2,7)
@@ -133,7 +133,7 @@ C-------- COMPTAGE / LIMITES CHAMBRE
       IF(NRES .GT. 0)
      >  WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >  1P,G17.9,'' m  '',
-     >  '' ;  Time  (for reference rigidity & particle) = '', 
+     >  '' ;  Time  (for reference rigidity & particle) = '',
      >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN

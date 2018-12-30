@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE BEAIMP(F0,PHY,PHZ) 
+      SUBROUTINE BEAIMP(F0,PHY,PHZ)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION F0(6,*)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
@@ -32,11 +32,11 @@ C  -------
       CALL BEAMA1(
      >            FI)
       WRITE(NRES,103) 'INITIAL'
- 103  FORMAT(//,18X,'BEAM  MATRIX (beta/alpha/alpha/gamma, D,D''), 
+ 103  FORMAT(//,18X,'BEAM  MATRIX (beta/alpha/alpha/gamma, D,D''),
      >       ',A,/)
       WRITE(NRES,104) (( FI(IA,IB) , IB=1,6) , IA=1,6)
  104  FORMAT(6X,1P,6G16.6)
-      WRITE(NRES,103) 'FINAL' 
+      WRITE(NRES,103) 'FINAL'
       WRITE(NRES,104) (( F0(IA,IB) , IB=1,6) , IA=1,6)
       WRITE(NRES,FMT='(/,18X,''Betatron phase advances (fractional),  ''
      >,''phi_y/2pi,'',''  phi_z/2pi :''

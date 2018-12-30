@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -46,7 +46,7 @@ C     ----------------------------------------------------
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       PARAMETER (MXJ1=MXJ-1)
       DIMENSION ALP(MXJ1),BET(MXJ1),EPS(MXJ1),RMA(MXJ1),RMB(MXJ1)
       DIMENSION EPST(MXJ1)
@@ -56,7 +56,7 @@ C     ----------------------------------------------------
 
       INTEGER DATE_TIME (8)
       CHARACTER (LEN = 12) REAL_CLOCK (3)
-      
+
       DATA IKAR / 0 /
       DATA IRANK / -1 /
 
@@ -74,9 +74,9 @@ C      RMA(2)=A(NOEL,53)
 C      RMA(4)=A(NOEL,63)
 C      RMA(6)=A(NOEL,73)
       J = 1
-      DOWHILE (J .LE. 3)      
+      DOWHILE (J .LE. 3)
         RMA(2*J)=A(NOEL,53 + 10*(J-1))
-        IF(RMA(2*J) .LT. 0.D0) THEN 
+        IF(RMA(2*J) .LT. 0.D0) THEN
           RMA(2*J) = -RMA(2*J)
           RMB(2*J) = A(NOEL,54 + 10*(J-1))
           DIS(2*J)  = A(NOEL,55 + 10*(J-1))
@@ -91,14 +91,14 @@ C      RMB(6)=A(NOEL,74)
       ENDDO
 
       IF    (KNRM .EQ. 1) THEN
-        EPST(2)=EPS(2) / CENTRE(1) 
-        EPST(4)=EPS(4) / CENTRE(1) 
-        EPST(6)=EPS(6) / CENTRE(1) 
+        EPST(2)=EPS(2) / CENTRE(1)
+        EPST(4)=EPS(4) / CENTRE(1)
+        EPST(6)=EPS(6) / CENTRE(1)
       ELSE
         EPST(2)=EPS(2)
         EPST(4)=EPS(4)
         EPST(6)=EPS(6)
-      ENDIF 
+      ENDIF
 
 C----- LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE SI REBELOTE)
 C      TIRAGE AVEC MELANGE ALEATOIRE
@@ -113,29 +113,29 @@ C ModifIED FOR MULTIPLE-RUN ON NERSC
         ELSE
 C GENERATE A RANDOM SEED TO INITIAL THE SERIES
 C FIRST, INITIALIZE A SERIES
-          CALL DATE_AND_TIME (REAL_CLOCK (1), REAL_CLOCK (2), 
-     >                 REAL_CLOCK (3), DATE_TIME)      
+          CALL DATE_AND_TIME (REAL_CLOCK (1), REAL_CLOCK (2),
+     >                 REAL_CLOCK (3), DATE_TIME)
 Consider the following example executed on 2000 March 28 at 11:04:14.5:
 c     This assigns the value "20000328" to REAL_CLOCK (1), the value "110414.500" to REAL_CLOCK (2),
 C     and the value "-0500" to REAL_CLOCK (3). The following values are assigned to
 C     DATE_TIME: 2000, 3, 28, -300, 11, 4, 14, and 500.
           READ(REAL_CLOCK (2)(5:12),*) SSI
           IR1 = NINT(SSI*1000.D0)
-        ENDIF       
+        ENDIF
         TEMP = RNDM2(IR1)
       ENDIF
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100)
 100     FORMAT(/,15X,' Distribution  with  ellipcal  frontiers')
- 
+
         WRITE(NRES,123) (CENTRE(J),J=2,6),CENTRE(1)
  123    FORMAT(/,15X,' Ellipse  centers  (MKSA units) : '
      >  ,/,11X,' horizontal    ( Yo, To ):',T50,1P,2G12.4
      >  ,/,11X,' vertical      ( Zo, Po ):',T50,   2G12.4
      >  ,/,11X,' longitudinal  ( Xo, Do ):',T50,   2G12.4,/)
- 
-        IF(KNRM .EQ. 1) 
+
+        IF(KNRM .EQ. 1)
      >  WRITE(NRES,FMT='(A,/)') ' Transverse emittances as declared are'
      >  //' assumed normalized to BORO. Actual geometrical emittances '
      >  //' below drawn by changing  epsilon -> epsilon/(central p/p0).'
@@ -149,7 +149,7 @@ C     DATE_TIME: 2000, 3, 28, -300, 11, 4, 14, and 500.
 
         WRITE(NRES,108) (DIS(J),J=2,5)
  108    FORMAT(/,15X
-     >  ,' Coordinates correlated :  ' 
+     >  ,' Coordinates correlated :  '
      >  ,' Y ->  Y +D_Y * dp/p,  T ->  T +D_T * dp/p,  '
      >  ,' Z -> ZY +D_Z * dp/p,  P ->  P +D_P * dp/p.  '
      >  ,/,11X,' Dispersion values as follows :'
@@ -159,17 +159,17 @@ C     DATE_TIME: 2000, 3, 28, -300, 11, 4, 14, and 500.
         WRITE(NRES,FMT='(/,15X,'' Sorting  types  (Y/Z/L) : '',
      >      3(A9,''/''))') (KTIR(J),J=2,MXJ1,2)
 
-        IF(IRANK.NE.-1) WRITE(NRES,FMT='(/,A,I0)') 
+        IF(IRANK.NE.-1) WRITE(NRES,FMT='(/,A,I0)')
      >  'IR!-2 updated using IRANK =  "',IRANK,'"'
 
       ENDIF
-   
+
 C----- Constitution of the beam
-C MXJ1=6 ; J : 2,4,6 -> Y,Z,s 
+C MXJ1=6 ; J : 2,4,6 -> Y,Z,s
       DO 1 J=2,MXJ1,2
 C------- J1 : 3,5,7(1) -> T,P,D
         J1=J+1
-        IF(J1.EQ.MXJ) J1=1 
+        IF(J1.EQ.MXJ) J1=1
         IF(EPST(J).EQ.0.D0) THEN
           DO I=IMI,IMA
             FO(J ,I)=0.D0
@@ -194,13 +194,13 @@ C                TRANSVERSE COORDINATES
               ELSE
 C                DP/P, X
                 R=RNDM()*REBM
-                SIGN =  1.D0 
+                SIGN =  1.D0
                 IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J ,I) = X/UNIT(J-1)
                 R=RNDM()*
      >            SQRT(RMA(J)*EPST(J)*(1.D0+ALP(J))**2/BET(J))
-                SIGN =  1.D0 
+                SIGN =  1.D0
                 IF(2.D0*(RNDM()-.5D0).LE.0.D0) SIGN=-SIGN
                 X = R*SIGN
                 FO(J1,I) = X/UNIT(J)
@@ -219,7 +219,7 @@ C---------------    Sorting in [SMA,SMB]
                 R=SM + RNDM()*(SMB-SM)
               ENDIF
 
-CCCCC------------- /2.D0 leads to same emittance as calculated from 
+CCCCC------------- /2.D0 leads to same emittance as calculated from
 CCCCC                            concentration ellipse in zgplot :
 CCCCC             R=SQRT(-2.D0*LOG(R))*REB /2.D0
 
@@ -244,15 +244,15 @@ C       Tirage parabolic en y : p(y) = (1-y2/y02)*3/4/y0
               IF(DXM .LT. 0.D0) GOTO 7
               DXM = SQRT( DXM )
               XM = -AXB
-              R = RNDM() 
+              R = RNDM()
               A3 = ACOS( 1.D0 - 2.D0 * R ) / 3.D0
               X = XM - DXM * COS ( A3 + PI/3.D0 )
               FO(J1,I) = X/UNIT(J)
             ENDIF
           ENDDO
         ENDIF
- 1    CONTINUE      
-                  
+ 1    CONTINUE
+
       DO I=IMI,IMA
         DO J=2,MXJ1-1
 c       write(88,fmt='(a,1p,2(i4,2x),6(e12.4,2x))') ' mcobj3 ',
@@ -269,7 +269,7 @@ C        FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
         J = MXJ1
         FO(J,I)=FO(J,I) + CENTRE(J)/UNIT(J-1)
       ENDDO
- 
+
       ENTRY MCOBJA
 
       DO I=1,IMAX

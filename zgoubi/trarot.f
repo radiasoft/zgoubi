@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory          
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -30,7 +30,7 @@ C     -------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXSTEP.H'
       INCLUDE 'CSR.H'
@@ -49,9 +49,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       LOGICAL EVNT
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) TX,TY,TZ,RX,RY,RZ
  100    FORMAT(/,10X,' CHANGEMENT  DE  REFERENCIEL'
@@ -65,20 +65,20 @@ C      LOGICAL ZSYM
      >             ,/,15X,'   RZ =',G12.4,'  rad')
       ENDIF
 
-c        WRITE(NRES,*) ' ' 
-c        WRITE(NRES,*) '                  UNDER DEVELOPMENT, SORRY' 
+c        WRITE(NRES,*) ' '
+c        WRITE(NRES,*) '                  UNDER DEVELOPMENT, SORRY'
 
-c      STOP 
+c      STOP
 
 
       EVNT = KSPN .EQ. 1 .OR. IFDES .EQ. 1 .OR. KGA .EQ. 1 .OR.
      >  LIMIT .EQ. 1 .OR. KCSR.EQ. 1
- 
+
       DO 1 IT=1,IMAX
- 
+
 C------- IEX<-1<=> PARTICULE STOPPEE
         IF( IEX(IT) .LT. -1) GOTO 1
- 
+
         IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
           CALL INITRA(IT)
           CALL TRROTE(EVNT,TX*100.D0,TY*100.D0,TZ*100.D0,RX,RY,RZ)
@@ -86,9 +86,9 @@ C------- IEX<-1<=> PARTICULE STOPPEE
         ELSE
           CALL DEJACA(IT)
         ENDIF
- 
+
    1  CONTINUE
- 
+
       IF(NRES.GT.0) WRITE(NRES,101) IEX(1),(F(J,1),J=1,7)
   101 FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
 
