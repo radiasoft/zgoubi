@@ -30,7 +30,7 @@ C  Compute ER at Z=0 & derivatives wrt to R, as a function of R
 C--------------------------------------------------------------
       DIMENSION ER0(*)
 
-      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
+      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
 
       SAVE D, D2, D3, D4, R1, R2, V21D, V32D
 
