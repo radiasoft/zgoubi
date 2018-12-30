@@ -25,26 +25,26 @@ C  -------
       SUBROUTINE CAVITE
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST_2.H"   ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
-      INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
+      INCLUDE "C.DONT.H"    ! COMMON/DONT/ TA(MXL,MXTA)
       INCLUDE "MAXCOO.H"
       INCLUDE "MAXTRA.H"
       LOGICAL AMQLU(5),PABSLU
-      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
-      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
-      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
-      INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
+      INCLUDE "C.FAISC.H"   ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+      INCLUDE "C.OBJET.H"   ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
+      INCLUDE "C.PTICUL.H"  ! COMMON/PTICUL/ AMASS,Q,G,TO
+      INCLUDE "C.REBELO.H"  ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
+      INCLUDE "C.RIGID.H"   ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'
-      INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
-      INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
-      INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
-      INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.SCAL.H"    ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE "C.SCALP.H"   ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
+      INCLUDE "C.SYNCH.H"   ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
+      INCLUDE "C.UNITS.H"   ! COMMON/UNITS/ UNIT(MXJ)
 
       DIMENSION WF1(MXT), PHAS(MXT)
       SAVE WF1, PHAS
@@ -435,8 +435,8 @@ C--- Case SR loss
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,130)
-     >  PHS,DWS,SCUM*UNIT(5),TCUM+AN10, AMASS, Q*QE
-C     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10, AMASS, Q*QE
+     >  PHS,DWS,SCUM*UNIT(5),TCUM+AN10, AMASS, Q*QEL
+C     >  OMRF/(2.D0*PI),PHS,HARM,DWS,SCUM*UNIT(5),TCUM+AN10,AMASS,Q*QEL
  130    FORMAT(
 C     >  /,20X,'Cavity  frequency                  =',1P,E15.4,' Hz',
      >  /,20X,'Synchronous  phase                 =',  E15.4,' rad',
@@ -651,7 +651,7 @@ C      TS = TS + DTS
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,170) FCAV,HARM,QV,
-     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QE
+     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QEL
  170    FORMAT(
      >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
      >  /,20X,'Harmonic                          =',   E15.6,' ',
@@ -746,7 +746,7 @@ C      TS = TS + DTS
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,180) FCAV,HARM,QV,BORO,DTS,
-     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QE
+     >                    SCUM*UNIT(5),TCUM*UNIT(7),AMASS,Q*QEL
  180    FORMAT(
      >  /,20X,'Cavity  frequency                 =',1P,E15.6,' Hz',
      >  /,20X,'Harmonic                          =',   E15.6,' ',
@@ -863,7 +863,7 @@ C Kin. energy, MeV
 
 C        IF(KCAV .EQ. 1) WRITE(NRES,199) SCALER(IPASS+1,NOEL,DTA1,DTA2,DTA3)
 C 199    FORMAT(/,20X,'Post acceleration SCALING factor is ',1P,G16.8)
-C            write(33,*) time, QV/(Q/QE *1.D-6)/1.6D6, QV*SIN(PHS)/1.3,
+C            write(33,*) time, QV/(Q/QEL *1.D-6)/1.6D6, QV*SIN(PHS)/1.3,
 C     >        ps/16, AN11/DTS/(53e6), GTRNUS/40/0.11
       ENDIF
 
@@ -988,7 +988,7 @@ C Orbit length between 2 cavities, RF freq., phase of 1st cavity (ph0=0 is at V(
      >  TYPCH(IDMP+3)(DEBSTR(TYPCH(IDMP+3)):FINSTR(TYPCH(IDMP+3))),
      >        FCAV,CAVM,PH0,DWS,WSF/WS0,BORO*(DPREF+HDPRF),
      >        DPREF,BORO*PSF/P0,PSF/P0-INT(PSF/P0),
-     >  SCUM*UNIT(5),TCUM,AMASS,Q*QE
+     >  SCUM*UNIT(5),TCUM,AMASS,Q*QEL
  200    FORMAT(1P,
      >  / ,15X,'CHAMBERS  CAVITY  STYLE',
      >  //,15X,'Transport option : ',I2,'  (',A,')',

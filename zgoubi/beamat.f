@@ -28,7 +28,7 @@ C Transport the beam matrix. Initial beam matrix is in FI, set by OBJ5 or by TWI
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION R(6,6),F0(6,6)
       LOGICAL PRDIC, OKCPLD
-      INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
 
       PARAMETER (N4 = 4)
       PARAMETER (N6 = 6)
