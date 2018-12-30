@@ -18,7 +18,7 @@ C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
 C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory         
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -36,10 +36,10 @@ C  -------
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
-      
+
 C      c = 299 792 458
        C = CL
-     
+
         J1 = 2*JJ
         J2 = J1+1
         UNIT1=  UNIT(J1-1)
@@ -91,7 +91,7 @@ C--------- Time-momentum
         XP2=0.D0
         XXP=0.D0
 
-  
+
         DO 26 I=1,IMAX
           IF(IEX(I) .LT. -1) GOTO 26
 c          WRITE(*,*) F(7,I)
@@ -109,10 +109,10 @@ C---------  Condition to calculate the longitudinal rms beamsize
              ENRG=SQRT(P*P + AMQ(1,I)*AMQ(1,I))
              BTA = P/ENRG
              Fac= (BTA * c * 1e-4 * 0.5)**2  ! THE 0.5 FACTOR IS DUE TO THE DEFINITION OF rx=2*sqrt(X2)
-        ELSE     
+        ELSE
              Fac = 1.0
-        ENDIF   
-C--------------------------          
+        ENDIF
+C--------------------------
           X2  = X2 + Fac * (X-YM)**2
           XP2 = XP2 + (XP-YPM)**2
           XXP = XXP + (X-YM)*(XP-YPM)
@@ -123,17 +123,17 @@ C--------------------------
         XXP = XXP/NPTS
 
 C G. Leleux : surface de l'ellipse S=4.pi.sqrt(DELTA)
-C Soit d11=X2/sqrt(DELTA), d12=XXP/sqrt(DELTA), d22=XP2/sqrt(DELTA), alors 
-C d22.x^2-2.d12.x.x'+d11.x'^2=S/pi=4sqrt(DELTA), ce qui permet d'ecrire 
+C Soit d11=X2/sqrt(DELTA), d12=XXP/sqrt(DELTA), d22=XP2/sqrt(DELTA), alors
+C d22.x^2-2.d12.x.x'+d11.x'^2=S/pi=4sqrt(DELTA), ce qui permet d'ecrire
 C gamma=d22=XP2/sqrt(DELTA),-alpha=d12=XXP/sqrt(DELTA),beta=d11=X2/sqrt(DELTA).
-C En outre, par definition des dij, 
-C     2.sigma_x=sqrt(d11.S/pi),  2.sigma_x'=sqrt(d22.S/pi). 
-C En outre, frontiere : 
+C En outre, par definition des dij,
+C     2.sigma_x=sqrt(d11.S/pi),  2.sigma_x'=sqrt(d22.S/pi).
+C En outre, frontiere :
 C          <x^2>_frontiere=2.(sigma_x)^2,    <x'^2>_frontiere=2.(sigma_x')^2
 
 C------- Courant invariant at 1 sigma is U=4.sqrt(DELTA)=Eps/pi (consistant with zgoubi !!) :
 C Eps=ellipse surface
-        SQ = 4*SQRT(X2*XP2-XXP*XXP) 
+        SQ = 4*SQRT(X2*XP2-XXP*XXP)
         IF(SQ .GT. 0.D0) THEN
           B =  X2/SQ
           AL =  -XXP/SQ

@@ -32,9 +32,9 @@ C  -------
       DATA ISTAT / 0 /
 
 !     Allocate storage for array A accordingly
-      IF( .NOT.ALLOCATED( HC )) 
+      IF( .NOT.ALLOCATED( HC ))
      >  ALLOCATE( HC(ID,MXX,MXY,IZ,MMAP), STAT = ISTAT)
-      IF (ISTAT .NE. 0) 
+      IF (ISTAT .NE. 0)
      >     CALL ENDJOB('SBR INIDAT Not enough memory for Malloc of HC',
      >     -99)
 
