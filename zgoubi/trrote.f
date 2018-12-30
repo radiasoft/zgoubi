@@ -29,7 +29,7 @@ C     --------------------------------------------------
 C     TRANSLATION, ROTATION + TRANSPORT TO THE NEW FRAME
 C     --------------------------------------------------
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CONST.H"      ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE ,AMPROT, CM2M
+      INCLUDE "C.CONST_2.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
 C      INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 CC     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
