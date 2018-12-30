@@ -28,7 +28,7 @@ C  -------
       use pariz_namelist_interface, only : ID, MXX, MXY, IZ, MMAP
       DOUBLE PRECISION CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
 
-      INCLUDE "C.CONST_2.H"  ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
+      INCLUDE "C.CONST.H"  ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
       DATA ISTAT / 0 /
 
 !     Allocate storage for array A accordingly
