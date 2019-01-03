@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -40,7 +40,7 @@ C-----------------------------------------------------
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       LOGICAL BONUL
 
       PARAMETER (I0=0, ZERO=0.D0)
@@ -52,7 +52,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
 
 C------ Fields defined in polar coordinates - Champs definis en coordonnees polaires
       KART = 2
- 
+
       CALL CHXP(ND,KALC,KUASEX,
      >                         XL,DSREF,NDD)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
@@ -61,7 +61,7 @@ C------ Fields defined in polar coordinates - Champs definis en coordonnees pola
 
       CALL SCUMW(DSREF)
       CALL SCUMR(
-     >            DUM,SCUM,TCUM) 
+     >            DUM,SCUM,TCUM)
 
       CALL RAZDRV(3)
 
@@ -157,7 +157,7 @@ C3     CONTINUE
       IF(KSYN.EQ.1) THEN
         CALL SRLOS1(
      >             OKPRSR,LNSR)
-        IF(OKPRSR) CALL PRSR(LNSR) 
+        IF(OKPRSR) CALL PRSR(LNSR)
       ENDIF
 
  99   CONTINUE
@@ -170,11 +170,11 @@ C----- Unset coded step
       IF(NRES .GT. 0)
      >WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >1P,G17.9,
-     >'' m ;  Time  (for ref. rigidity & particle) = '', 
+     >'' m ;  Time  (for ref. rigidity & particle) = '',
      >1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
 
       RETURN
- 
+
 100   FORMAT(/,5X,'  Magnet positionning computed from'
      > ,1X,'backward tracking of particle with impulse D =',F7.4,/)
 101   FORMAT(/,30X,' KPOS = ',I1,

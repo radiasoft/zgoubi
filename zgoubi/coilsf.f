@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -30,17 +30,17 @@ C  -------
 C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       PARAMETER (MXCOIL=8)
       INCLUDE "C.COIL.H"     ! COMMON/COIL/ XLI(MXCOIL),RI(MXCOIL),BI(MXCOIL),DIST(MXCOIL),MS
- 
-      DO 1 M = 0, MS-1         
+
+      DO 1 M = 0, MS-1
         M1 = M+1
-        IF(M1.GT.MXCOIL) 
+        IF(M1.GT.MXCOIL)
      >    CALL ENDJOB(' Too  many  coils, max is ',MXCOIL)
-        RO = RI(M1) 
-        BO = BI(M1) 
+        RO = RI(M1)
+        BO = BI(M1)
         X=XX-(XS-XE)/2.D0-XE
         CALL SOLENF(X,Y,Z)
  1    CONTINUE
- 
+
       XL  =-((XS-XE)/2.D0 +X)
 
       RETURN
