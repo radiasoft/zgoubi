@@ -50,7 +50,7 @@ C      PARAMETER (MXTA=45)
 C      LOGICAL ZSYM
       INCLUDE 'C.TYPFLD.H'     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE 'C.ORDRES.H'     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
- 
+
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
@@ -59,9 +59,9 @@ C      LOGICAL ZSYM
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
- 
+
       LOGICAL STRCON
- 
+
       CHARACTER(20) FMTYP
 C      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
 C      SAVE XXH, YYH, ZZH
@@ -70,16 +70,16 @@ C      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
 C      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 C      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
 C      SAVE IIXMA, JJYMA, KKZMA
-      
+
 
       PARAMETER (MXHD=20)
       PARAMETER (ONE=1.D0)
-  
+
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
 
       LOGICAL NEWF
-      LOGICAL ZROBXY      
+      LOGICAL ZROBXY
 
       DATA ZROBXY / .FALSE. /
       DATA FMTYP / ' regular' /
@@ -93,7 +93,7 @@ C      BNORM = A(NOEL,10)*SCAL
       XNORM = A(NOEL,11)
       YNORM = A(NOEL,12)
       ZNORM = A(NOEL,13)
-      IF(ZNORM .EQ. 0.D0) ZNORM = 1.D0      
+      IF(ZNORM .EQ. 0.D0) ZNORM = 1.D0
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                              IS) ) THEN
@@ -113,7 +113,7 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
       JYMA = NINT(A(NOEL,21))
       IF(JYMA.GT.MXY )
      >   CALL ENDJOB('Y-dim of map is too large,  max  is ',MXY)
- 
+
              MOD = 0
              MOD2 = 0
 C FM - Mar 2016
@@ -123,7 +123,7 @@ C             MOD2 = 3
       NFIC = 1
       NAMFIC = TA(NOEL,2)
       NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
- 
+
              IF(     STRCON(NOMFIC(NFIC),'GSI',
      >                                         IS)
      >          .OR. STRCON(NOMFIC(NFIC),'gsi',
@@ -147,7 +147,7 @@ C             MOD2 = 3
 
                WRITE(NRES,FMT='(/,3A,/)')
      >           (NOMFIC(I)(DEBSTR(NOMFIC(I)):
-     >    FINSTR(NOMFIC(I))),I=1,NFIC), 
+     >    FINSTR(NOMFIC(I))),I=1,NFIC),
      >           ' map,  FORMAT type : ', FMTYP
                 CALL FLUSH2(NRES,.FALSE.)
 
@@ -169,11 +169,11 @@ C          IF(NEWFIC(I)) THEN
           ENDIF
         ENDDO
       ENDIF
- 
+
       INDEX=0
       NT = 1
       CALL PAVELW(INDEX,NT)
- 
+
       NEWF = .FALSE.
       I = 1
       DO WHILE(.NOT. NEWF .AND. I.LE.NFIC)
@@ -181,7 +181,7 @@ C        NEWF = NEWFIC(I)
         NEWF = NEWFIC
         I = I+1
       ENDDO
- 
+
       IF(NEWF) THEN
                NFIC = 1
                IF(IDLUNI(
@@ -196,11 +196,11 @@ C        NEWF = NEWFIC(I)
                ELSE
                  GOTO 96
                ENDIF
- 
+
              I1 = 1
              KZ = 1
              IRD = NINT(A(NOEL,40))
- 
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
@@ -210,35 +210,35 @@ C------- Store mesh coordinates
         CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
       ELSE
- 
+
 C------- Restore mesh coordinates
         CALL FMAPR5(IMAP,
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
         IF(NRES.GT.0) WRITE(NRES,*) ' Pgm map2d, ',
      >  ' restored mesh coordinates for field map # ',imap
- 
+
       ENDIF
- 
+
       CALL CHAMK2(BNORM*SCAL)
- 
+
       CALL MAPLI1(BMAX-BMIN)
 
       RETURN
- 
+
  96   WRITE(ABS(NRES),*) 'Pgm map2d. Error  open  file ',
      >NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I)))
       CALL ENDJOB('Leaving. ',-99)
- 
+
       RETURN
       contains
         subroutine allocate_if_unallocated(string_array,array_size)
           character(len=*), allocatable, intent(inout):: string_array(:)
           integer, intent(in) :: array_size
           integer istat
-          if (.not. allocated(string_array)) then 
+          if (.not. allocated(string_array)) then
             allocate(string_array(array_size), stat=istat)
             if (istat/=0) error stop "string_array allocation failed"
-          end if 
+          end if
         end subroutine
       END

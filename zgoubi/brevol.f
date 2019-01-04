@@ -48,7 +48,7 @@ C      LOGICAL NEWFIC(*)
       INCLUDE 'C.INTEG.H'     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE 'C.TYPFLD.H'     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE 'C.ORDRES.H'     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
- 
+
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
@@ -57,16 +57,16 @@ C      LOGICAL NEWFIC(*)
       SAVE NOMFIC
       INTEGER DEBSTR,FINSTR
       SAVE NHDF
- 
+
       LOGICAL STRCON, OK, NEWF
- 
-      real(real64), allocatable, dimension(:), save :: 
+
+      real(real64), allocatable, dimension(:), save ::
      > BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
- 
-      integer, allocatable, dimension(:), save :: 
+
+      integer, allocatable, dimension(:), save ::
      > IIXMA, JJYMA, KKZMA
 
-      CHARACTER(LNTA) STRA(2) 
+      CHARACTER(LNTA) STRA(2)
 
       PARAMETER (MXC = 4)
       DIMENSION AA(24+MXC-1)
@@ -92,7 +92,7 @@ C      LOGICAL NEWFIC(*)
 
       BNORM = A(NOEL,10)
       XNORM = A(NOEL,11)
-      ZNORM = 1.D0      
+      ZNORM = 1.D0
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'HEADER',
      >                              IS) ) THEN
@@ -105,16 +105,16 @@ C      LOGICAL NEWFIC(*)
       IXMA = NINT(A(NOEL,20))
       IF(IXMA.GT.MXX)
      >   CALL ENDJOB('X-dim of map is too large,  max  is ',MXX)
- 
+
       DO I = 1, IZ
         NOMFIC(I) = ' '
       ENDDO
 C      CALL RAZ(AA,24+MXC-1)
-      
+
       KZMA = 1
       NFIC = 1
       CALL STRGET(TA(NOEL,1+NFIC),2,
-     >                              IDUM,STRA)        
+     >                              IDUM,STRA)
       NOMFIC(NFIC) = STRA(1)(DEBSTR(STRA(1)):FINSTR(STRA(1)))
       AA(24+NFIC-1) = 1.D0
       DO WHILE(IDUM.EQ.2 .AND. STRA(2) .EQ. 'SUM')
@@ -122,7 +122,7 @@ C      CALL RAZ(AA,24+MXC-1)
         IF(NFIC .GT. 4) CALL ENDJOB(
      >  'Pgm brevol. Too many field maps. Maximum allowed is ',MXC)
         CALL STRGET(TA(NOEL,1+NFIC),2,
-     >                                IDUM,STRA)        
+     >                                IDUM,STRA)
         NOMFIC(NFIC) = STRA(1)(DEBSTR(STRA(1)):FINSTR(STRA(1)))
         AA(24+NFIC-1) = 1.D0
       ENDDO
@@ -135,9 +135,9 @@ C      CALL RAZ(AA,24+MXC-1)
      >   'Number of data files used is ',NFIC,' ;  '
      >  ,'Stored in field array # IMAP =  ',IMAP,' '
 
-          WRITE(NRES,*) 
+          WRITE(NRES,*)
      >    ' Will sum up ',NFIC,'  field maps.'
- 
+
         IF(NEWFIC) THEN
            WRITE(NRES,209)
  209       FORMAT(/,5X
@@ -156,7 +156,7 @@ C      CALL RAZ(AA,24+MXC-1)
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
- 
+
       IF(NEWFIC) THEN
 
 C FM, VM, Aug. 2017
@@ -201,11 +201,11 @@ C--------------------------------------------------------
 C            HC(ID,I,1,1,IMAP) = HC(ID,I,1,1,IMAP) + BMES
             HCSUM(I) = HCSUM(I) + BMES
             XH(I) = XH(I) * XNORM
-  
+
           ENDDO
 
           CLOSE(LUN)
-C--------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat. 
+C--------- Will sum (superimpose) 1D field maps if 'SUM' follows map file name in zgoubi.dat.
 C          SUMAP is .T.
 
         ENDDO
@@ -214,21 +214,21 @@ C          SUMAP is .T.
           HC(ID,I,1,1,IMAP) = HCSUM(I)
         ENDDO
 
-C          Motion in this lmnt has no z-symm. 
+C          Motion in this lmnt has no z-symm.
         ZSYM=.FALSE.
 
 C------- Store mesh coordinates
         CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
 
       ELSE
- 
+
 C------- Restore mesh coordinates
         CALL FMAPR5(IMAP,
      >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
         ZSYM=.FALSE.
 
            IF(NRES.GT.0) THEN
-             WRITE(NRES,fmt='(5X,A,I3,2A)') 
+             WRITE(NRES,fmt='(5X,A,I3,2A)')
      >       'Restored mesh coordinates for field map #IMAP= ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
@@ -237,14 +237,14 @@ C------- Restore mesh coordinates
       ENDIF
 
       CALL CHAMK2(BNORM*SCAL)
-      
+
       CALL MAPLI1(BMAX-BMIN)
- 
+
       RETURN
- 
+
  96   WRITE(ABS(NRES),*) 'Pgm brevol. Error  open  file ',
      >NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):FINSTR(NOMFIC(JFIC)))
       CALL ENDJOB('Leaving. ',-99)
- 
+
       RETURN
       END
