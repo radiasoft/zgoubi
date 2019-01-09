@@ -36,7 +36,7 @@ C-------------------------------------------------
 C     Read TOSCA map with cylindrical coordinates.
 C     TOSCA keyword with MOD.ge.20.
 C-------------------------------------------------
-      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE 'C.AIM_2.H'     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
@@ -571,8 +571,8 @@ C------- Restore mesh coordinates
 
       CALL MAPLI1(BMAX-BMIN)
       AT=XH(IXMA)-XH(1)
-      ATO = 0.D0
-      ATOS = 0.D0
+      AE = 0.D0
+      AS = 0.D0
       RM=.5D0*(YH(JYMA)+YH(1))
       XI = XH(1)
       XF = XH(IXMA)

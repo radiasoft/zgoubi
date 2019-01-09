@@ -40,7 +40,7 @@ C-------------------------------------------------
       DIMENSION AA(MXL,MXAA2)
 
       LOGICAL NEWFIC
-      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE 'C.AIM_2.H'     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QEL,AMPROT,CM2M
@@ -959,8 +959,8 @@ C                BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
 C Make sure this is ok with cartésien
         CALL MAPLI1(BMAX-BMIN)
 C        AT=XH(IAMA)-XH(1)
-C        ATO = 0.D0
-C        ATOS = 0.D0
+C        AE = 0.D0
+C        AS = 0.D0
 C        RM=.5D0*(YH(JRMA)+YH(1))
 C        XI = XH(1)
 C        XF = XH(IAMA)

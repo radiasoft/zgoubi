@@ -21,7 +21,6 @@ set(_zgoubi_global_includes
   C.ABERR.H
   C.AIM.H
   C.AIM_2.H
-  C.AIM_3.H
   C.AV_STD.H
   C.CARSH.H
   C.CDF.H

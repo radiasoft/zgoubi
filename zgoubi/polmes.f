@@ -29,7 +29,7 @@ C  -------
       USE dynhc
       use pariz_namelist_interface, only : ID, IZ, MXX, MXY
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      INCLUDE "C.AIM_3.H"     ! COMMON/AIM/ ATO,AT,ATOS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE 'C.AIM_2.H'     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE "MAXTRA.H"
 C      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
@@ -221,8 +221,8 @@ C----- KUASEX
       CALL MAPLI1(BMAX-BMIN)
 
       AT=XH(IXMA)-XH(1)
-      ATO = 0D0
-      ATOS = 0D0
+      AE = 0D0
+      AS = 0D0
 C      RM=.5D0*(YH(JYMA)+YH(1))
 
       XI = XH(1)
