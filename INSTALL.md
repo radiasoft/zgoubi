@@ -29,7 +29,7 @@ make install
 The [travis.sh](./travis.sh) script shows an analogous process we use
 to build and test zgoubi on
 [Travis-CI.org](https://travis-ci.org/radiasoft/zgoubi/branches) via
-the radiasoft/beamsim-part1 docker image.
+the radiasoft/beamsim docker image.
 
 Building with make
 ------------------

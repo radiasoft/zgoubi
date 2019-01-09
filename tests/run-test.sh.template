@@ -83,8 +83,7 @@ out_error=$3
 
 echo " === Test ${testName} using relative error tolerances: $res_error $out_error ==="
 
-if [[ ${4:-} == "rebuild-with-field-map" ]]; then
-  rebuild_zgoubi
+if [[ ${4:-} == "link-field-map" ]]; then
   link_field_map
 fi
 

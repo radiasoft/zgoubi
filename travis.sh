@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # Perform CI testing in the desired docker image passed as the first argument
-# default to radiasoft/beamsim-part1 if no first argument is passed
+# default to radiasoft/beamsim if no first argument is passed
 
 set -o pipefail
 set -o nounset
 set -o errexit
 set -o verbose
 
-docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim-part1}" bash <<-'EOF'
+docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim}" bash <<-'EOF'
     #!/bin/bash
     source ~/.bashrc
     set -veuo pipefail
