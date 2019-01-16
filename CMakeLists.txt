@@ -88,13 +88,13 @@ list(GET BLAS_LIBRARIES 0 MAIN_BLAS_LIB)
 set_target_properties(BLAS
   PROPERTIES IMPORTED_LOCATION "${MAIN_BLAS_LIB}")
 list(REMOVE_AT BLAS_LIBRARIES 0)
-if(${BLAS_LIBRARIES})
-  target_link_libraries(BLAS
-    INTERFACE ${BLAS_LIBRARIES})
-endif()
 if(${BLAS_LINKER_FLAGS})
   target_link_libraries(BLAS
     INTERFACE "${BLAS_LINKER_FLAGS}")
+endif()
+if(${BLAS_LIBRARIES})
+  target_link_libraries(BLAS
+    INTERFACE ${BLAS_LIBRARIES})
 endif()
 
 
@@ -104,13 +104,14 @@ list(GET LAPACK_LIBRARIES 0 MAIN_LAPACK_LIB)
 set_target_properties(LAPACK
   PROPERTIES IMPORTED_LOCATION "${MAIN_LAPACK_LIB}")
 list(REMOVE_AT LAPACK_LIBRARIES 0)
-if(${LAPACK_LIBRARIES})
-  target_link_libraries(LAPACK
-    INTERFACE ${LAPACK_LIBRARIES})
-endif()
 if(${LAPACK_LINKER_FLAGS})
   target_link_libraries(LAPACK
     INTERFACE "${LAPACK_LINKER_FLAGS}")
+endif()
+if(${LAPACK_LIBRARIES})
+  target_link_libraries(LAPACK
+    INTERFACE BLAS
+    INTERFACE ${LAPACK_LIBRARIES})
 endif()
 
 #---------
@@ -123,8 +124,8 @@ target_sources(coupl
   PRIVATE ${COUPL_SRCS})
 target_compile_options(coupl PUBLIC ${common_fflags})
 target_link_libraries(coupl
-  PUBLIC BLAS
-  PUBLIC LAPACK)
+  PUBLIC LAPACK
+  PUBLIC BLAS)
 
 #------
 # libzg
