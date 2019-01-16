@@ -10,7 +10,7 @@ set -o pipefail
 set -o errexit
 
 ## usage message
-usage='usage: run-test.sh [-hHqv] [-e "ext .."] <testName> <res-tolerance> <out-tolerance> [rebuild-with-fieldmap]'
+usage='usage: run-test.sh [-hHqv] [-e "ext .."] <testName> <res-tolerance> <out-tolerance> [link-field-map]'
 usageF=$usage$'\n'
 usageF=$usageF$'Execute a given test for zgoubi.\n'
 usageF=$usageF$'  -e "ext ..." A quoted list of file extensions.\n'
@@ -18,21 +18,6 @@ usageF=$usageF$'  -h   Print a brief help message and exit.\n'
 usageF=$usageF$'  -H   Print this help message and exit.\n'
 usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
 usageF=$usageF$'  -v   Print all differences (verbose output).\n'
-
-function rebuild_zgoubi() {
-  cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
-  pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
-  if [[ -f "$pariz_h_file" ]]; then
-    cp "$pariz_h_file" "@CMAKE_SOURCE_DIR@"/zgoubi/
-    pushd "@CMAKE_BINARY_DIR@"
-    make -j
-    popd
-    mv original.pariz.h "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H
-  else
-    echo "Missing cmake-configured PARIZ.H"
-    exit 1
-  fi
-}
 
 function link_field_map () {
   if [[ ! -f zgoubi.dat ]]; then
@@ -73,7 +58,7 @@ shift $(( OPTIND - 1 ))
 if (( $# != 3 && $# != 4 )); then
   echo "zgoubi-test.sh:"
   echo "  You must supply exactly one test name followed by two relative error tolerances,"
-  echo "  optionally followed by the string 'rebuild-with-field-map'."
+  echo "  optionally followed by the string 'link-field-map'."
   echo "$usage"
   exit
 fi
@@ -95,7 +80,7 @@ zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
 $zgoubi_cmd
 
-if [[ ${4:-} == "rebuild-with-field-map" ]]; then
+if [[ ${4:-} == "link-field-map" ]]; then
   rm $fieldMapFile
 fi
 

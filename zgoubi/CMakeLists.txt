@@ -125,7 +125,6 @@ set(_zgoubi_global_includes
   )
 set(_zgoubi_local_includes
   "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
-  "${CMAKE_CURRENT_LIST_DIR}/PARIZ.H"
   )
 set(ZGOUBI_INCLUDES ${_zgoubi_local_includes})
 foreach( include IN LISTS _zgoubi_global_includes)
