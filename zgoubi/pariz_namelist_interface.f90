@@ -7,13 +7,9 @@ module pariz_namelist_interface
    private
    public :: IZ, ID, MMAP, MXX, MXY
    public :: initialize_input_parameters
-   public :: all_namelist_values_read
 
-   integer, parameter :: unread=-1
-     !! invalid value for distinguishing default-initialized namelist variables
-     !! from namelist variables that have been read from the corresponding namelist
-
-   integer, protected :: IZ=unread, ID=unread, MMAP=unread, MXX=unread, MXY=unread
+   integer, protected :: IZ=29, ID=3, MMAP=8, MXX=801, MXY=29
+     !! set default values for the input parameters
 
    interface
 
@@ -22,9 +18,6 @@ module pariz_namelist_interface
        !! in a 'pariz.nml' file
        implicit none
        character(len=*), intent(in) :: pariz_namelist_file
-     end subroutine
-
-     pure module subroutine all_namelist_values_read
      end subroutine
 
    end interface
