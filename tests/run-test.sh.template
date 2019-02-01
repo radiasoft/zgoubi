@@ -136,7 +136,11 @@ if [ "$moreFiles" = true ] ; then
       exit 1
     fi
 
-    result=$(ndiff -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
+    if [ "$fe" == "fai" ] ; then
+      result=$(ndiff -relative-error $out_error <(sed 1d @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected) <(sed 1d zgoubi.${fe}))
+    else
+      result=$(ndiff -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
+    fi
     stat=$?
     if [ "$stat" -ne 0 ] ; then
       (( ++xstat ))
