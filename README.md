@@ -45,10 +45,10 @@ to https://cmake.org/ to download the latest release for your system.
 
 To get Fortran with the latest Fortran 2018 features, we recommend
 installing via [OpenCoarrays](http://www.opencoarrays.org/).
-On a typical Linux system, the following steps should do the job
-of installing gfortran together with support for coarrays and other
+On a typical Linux system, the following steps will do the job of
+installing gfortran together with support for coarrays and other
 Fortran 2018 features.
-Before you start, make sure you have a working internet connection.
+*NB*: Before you start, make sure you have a working internet connection.
 ```
 sudo su -l        # you're logged in as root now, so watch your steps!!
 umask 022         # ensure correct permissions for installation
