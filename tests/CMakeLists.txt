@@ -10,6 +10,8 @@ set( test_directories
   spinSaturne
   solenoid
   pariz_namelist_reader
+  FITandTWISS
+  SVDOC_Saturne
 )
 
 foreach(test_directory ${test_directories})
