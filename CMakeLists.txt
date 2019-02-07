@@ -72,7 +72,7 @@ if(NOT NDIFF OR NDIFF STREQUAL ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff)
 endif()
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -Wall -fbacktrace -fno-automatic -pedantic -cpp)
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
@@ -82,37 +82,11 @@ endif()
 # Define targets to be built: libraries and executables
 #======================================================
 
-find_package(BLAS REQUIRED)
-add_library(BLAS UNKNOWN IMPORTED GLOBAL)
-list(GET BLAS_LIBRARIES 0 MAIN_BLAS_LIB)
-set_target_properties(BLAS
-  PROPERTIES IMPORTED_LOCATION "${MAIN_BLAS_LIB}")
-list(REMOVE_AT BLAS_LIBRARIES 0)
-if(${BLAS_LINKER_FLAGS})
-  target_link_libraries(BLAS
-    INTERFACE "${BLAS_LINKER_FLAGS}")
-endif()
-if(${BLAS_LIBRARIES})
-  target_link_libraries(BLAS
-    INTERFACE ${BLAS_LIBRARIES})
-endif()
-
-
-find_package(LAPACK REQUIRED)
-add_library(LAPACK UNKNOWN IMPORTED GLOBAL)
-list(GET LAPACK_LIBRARIES 0 MAIN_LAPACK_LIB)
-set_target_properties(LAPACK
-  PROPERTIES IMPORTED_LOCATION "${MAIN_LAPACK_LIB}")
-list(REMOVE_AT LAPACK_LIBRARIES 0)
-if(${LAPACK_LINKER_FLAGS})
-  target_link_libraries(LAPACK
-    INTERFACE "${LAPACK_LINKER_FLAGS}")
-endif()
-if(${LAPACK_LIBRARIES})
-  target_link_libraries(LAPACK
-    INTERFACE BLAS
-    INTERFACE ${LAPACK_LIBRARIES})
-endif()
+find_package(LAPACK REQUIRED) # LAPACK looks for BLAS too
+message(STATUS "BLAS_LINKER_FLAGS: ${BLAS_LINKER_FLAGS}")
+message(STATUS "BLAS_LIBRARIES: ${BLAS_LIBRARIES}")
+message(STATUS "LAPACK_LINKER_FLAGS: ${LAPACK_LINKER_FLAGS}")
+message(STATUS "LAPACK_LIBRARIES: ${LAPACK_LIBRARIES}")
 
 #---------
 # libcouplb
@@ -123,9 +97,14 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/CMakeLists.txt")
 target_sources(coupl
   PRIVATE ${COUPL_SRCS})
 target_compile_options(coupl PUBLIC ${common_fflags})
-target_link_libraries(coupl
-  PUBLIC LAPACK
-  PUBLIC BLAS)
+if(LAPACK_LINKER_FLAGS)
+  target_link_libraries(coupl
+    INTERFACE "${LAPACK_LINKER_FLAGS}")
+endif()
+if(LAPACK_LIBRARIES)
+  target_link_libraries(coupl
+    INTERFACE ${LAPACK_LIBRARIES})
+endif()
 
 #------
 # libzg
