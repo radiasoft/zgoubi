@@ -52,6 +52,7 @@ C  -------
       XL =A(NOEL,10)
       RO =A(NOEL,11)
       BO =A(NOEL,12)*SCAL
+      CALL SOLEN1(BO,RO)
 C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
       MODL = NINT(A(NOEL,13))
       XE = A(NOEL,20)
@@ -62,7 +63,7 @@ C      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
 C      CALL SOLEN2(MODL,BOSQ,RO2)
 C FM - July 2015
       BO2 = BO /2.D0
-      CALL SOLEN2(BO,RO,MODL,BO2,RO2)
+      CALL SOLEN2(MODL,BO2,RO2)
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) LMNT(KUASEX),XL,RO

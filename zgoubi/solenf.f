@@ -40,7 +40,8 @@ C  -------
       PARAMETER (MDX=6)
       DIMENSION BX(MDX)
 
-      SAVE BO, RO, MODL, BO2, RO2
+      SAVE BO, RO
+      SAVE MODL, BO2, RO2
 
       DATA MODL / 1 /
 
@@ -232,9 +233,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      >                                B,DB,DDB)
       RETURN
 
-      ENTRY SOLEN2(BOI,ROI,MODLI,BO2I,RO2I)
+      ENTRY SOLEN1(BOI,ROI)
       BO = BOI
       RO = ROI
+      RETURN
+
+      ENTRY SOLEN2(MODLI,BO2I,RO2I)
       MODL = MODLI
       BO2 = BO2I
       RO2 = RO2I
