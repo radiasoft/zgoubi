@@ -137,6 +137,7 @@ set( zgoubi_modules
   mathphys_consts.f90
   particle_ixfc.f90
   particle_impl.f90
+  dBarrays.f90
 )
 foreach(module_file ${zgoubi_modules})
   target_sources(zgoubi
