@@ -1,7 +1,6 @@
 submodule(particle) particle_impl
-  implicit none
-
   use assertions_interface, only : assert, assertions
+  implicit none
 
 contains
 
@@ -23,11 +22,13 @@ contains
 
 
   module procedure evalDU
+    use numeric_defs, only : zero_r
+    use taylor, only : orderEnd, evalMonomsU
     integer :: k
 
     ! Requires
     if (assertions) then
-      call assert(lbound(derivB,2)==0 .and. ubound(derivB,ntord-1), "evalDU: received expected derivB shape")
+      call assert(lbound(derivB,2)==0 .and. ubound(derivB,2)==ntord-1, "evalDU: received expected derivB shape")
     end if
 
     derivU = zero_r
@@ -44,8 +45,7 @@ contains
 
 
   module procedure derivU_column
-    use taylor, only : PascalStart, PascalEntry, ncdim
-    use numeric_defs, only : dbl, zero_r
+    use taylor, only : PascalStart, PascalEntry
     integer :: k
 
     associate( n => np1 - 1 )
