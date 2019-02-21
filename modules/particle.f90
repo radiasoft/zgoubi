@@ -4,7 +4,7 @@ module particle
   implicit none
 
   private
-  public :: derivU, derivB, evalDU, evalDB
+  public :: derivU, evalDU
 
   ! derivitives along the particle trajectory
   real(dbl) :: derivU(1:ncdim, 0:ntord)   ! normalized velocity u^(k)
@@ -14,11 +14,27 @@ module particle
   ! dnB_{x,y,z}, in Giorgilli order
   real(dbl), allocatable :: dnB(:, :)
 
+  ! array of monomials involving U, U', etc.
+  real(dbl), allocatable :: monomsU(:)
+
 contains
+
+  ! initialise memory for this module
+  subroutine init_particle_module
+    ! allocate dnB
+    if(.not. allocated(dnB)) then
+      allocate(dnB(ncdim, orderEnd(ntord-1)), source = zero_r)
+    end if
+    ! allocate monomsU
+    if(.not. allocated(monomsU)) then
+      allocate(monomsU(orderEnd(ntord-1)), source = zero_r)
+    end if
+  end subroutine init_particle_module
+
 
   ! compute d^(n+1) U / ds^(n+1)
   !   = sum_(k = 0 .. n) binom(n,k) * u^(n-k) x B^(k)
-  subroutine evalDU(np1, maxDB)
+  subroutine evalDUn(np1, maxDB)
     implicit none
     integer, intent(in) :: np1    ! derivative order to evaluate (n + 1)
     integer, intent(in) :: maxDB  ! maximuim order of B derivatives
@@ -35,32 +51,32 @@ contains
       uxb(:) = cross(derivU(:,n-k), derivB(:,k))
       derivU(:,np1) = derivU(:,np1) + PascalEntry(psn + k) * uxb(:)
     end do
+  end subroutine evalDUn
+
+
+  ! compute d^(n+1) U / ds^(n+1) for n in 0:ntord
+  ! NB: array dnB must be populated
+  subroutine evalDU(U, B, maxDB)
+    implicit none
+    real(dbl), intent(in) :: U    ! normalized velocity U
+    real(dbl), intent(in) :: B    ! normalized magnetic field B
+    integer, intent(in) :: maxDB  ! maximuim order of B derivatives
+                                  ! (e.g., uniform B => maxDB = 0)
+
+    integer :: k
+
+    derivU = zero_r
+    derivB = zero_r
+    derivU(:,0) = U
+    derivB(:,0) = B
+
+    do k = 1, ntord-1
+      call evalDUn(k,maxDB)
+      call evalMonomsU(k, derivU, monomsU)
+      derivB(:,k) = matmul( dnB(:, 1:orderEnd(k)), monomsU(1:orderEnd(k)) )
+    end do
+    call evalDUn(ntord, maxDB)
   end subroutine evalDU
-
-
-  ! compute d^(n+1) B / ds^(n+1)
-  !   = evalMonomsU() . dnB(:)
-  subroutine evalDB(np1, maxDB)
-    implicit none
-    integer, intent(in) :: np1    ! derivative order to evaluate (n + 1)
-    integer, intent(in) :: maxDB  ! maximuim order of B derivatives
-                                  ! (e.g., uniform B => maxDB = 0)
-
-    ! spatial derivatives of magnetic field, in Giorgilli order
-    real(dbl) :: dnB(1:ncdim, 0:orderEnd(ntord-1))
-
-    integer :: k, km, n, psn
-    real(dbl) :: uxb(1:ncdim)
-
-    n = np1 - 1
-    psn = PascalStart(n)
-    km = min(n, maxDB)
-    derivU(:,np1) = zero_r
-    do k = 0, km
-      uxb(:) = cross(derivU(:,n-k), derivB(:,k))
-      derivU(:,np1) = derivU(:,np1) + PascalEntry(psn + k) * uxb(:)
-    end do
-  end subroutine evalDB
 
   ! populate the one-dimensional field derivative array dnB
   ! from the various multi-dimensional DB arrays
@@ -72,16 +88,12 @@ contains
 
     integer :: i
 
-    if(.not. allocated(dnB)) then
-      allocate(dnB(ncdim, orderEnd(ntord-1)), source = zero_r)
-    else
-      dnB = zero_r
-    end if
-
     ! dB/dXi
+    if(maxDB < 1) return
     dnB(:, 1:3) = DB(:,:)
 
     ! d^2 B / dXi.dXj
+    if(maxDB < 2) return
     dnB(:, 4) = DDB(:, 1,1)
     dnB(:, 5) = DDB(:, 1,2)
     dnB(:, 6) = DDB(:, 1,3)
@@ -90,6 +102,7 @@ contains
     dnB(:, 9) = DDB(:, 3,3)
 
     ! d^3 B / dXi.dXj.dXk
+    if(maxDB < 3) return
     dnB(1, 10) = D3BX(1,1,1)
     dnB(2, 10) = D3BY(1,1,1)
     dnB(3, 10) = D3BZ(1,1,1)
@@ -122,6 +135,7 @@ contains
     dnB(3, 19) = D3BZ(3,3,3)
 
     ! d^4 B / dXi.dXj.dXk.dXl
+    if(maxDB < 4) return
     dnB(1, 20) = D4BX(1,1,1,1)
     dnB(2, 20) = D4BY(1,1,1,1)
     dnB(3, 20) = D4BZ(1,1,1,1)
