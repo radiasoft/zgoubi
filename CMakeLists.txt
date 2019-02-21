@@ -129,8 +129,19 @@ add_executable(zgoubi "")
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/CMakeLists.txt")
 target_sources(zgoubi
   PRIVATE ${ZGOUBI_SRCS})
-target_sources(zgoubi
-  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/modules/dynhc.f")
+
+set( zgoubi_modules
+  dynhc.f
+  numeric_defs.f90
+  taylor.f90
+  mathphys_consts.f90
+  particle.f90
+)
+foreach(module_file ${zgoubi_modules})
+  target_sources(zgoubi
+    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/modules/${module_file}")
+endforeach()
+
 target_sources(zgoubi
   PUBLIC ${ZGOUBI_INCLUDES})
 target_compile_options(zgoubi PRIVATE ${common_fflags})
