@@ -1,16 +1,20 @@
 module numeric_defs
   implicit none
 
-  !private
-  public
+  private
+  public :: dbl
+  public :: iarray1, iarray2, rarray1, rarray2
+   !! ragged-edged array types
+  public :: zero_r, half, one, two, three, four, five, six, seven, eight, nine
+   !! numerical constants
 
-  ! for absolutely *all* floating-point declarations,
-  ! use
-  !   real(dbl) :: foo
-  ! and similar
-  integer, parameter :: dbl = kind(0.d0)  ! double precision
+  integer, parameter :: dbl = kind(0.d0)  !! machine-specific double precision
+    !! for absolutely *all* floating-point declarations,
+    !! use
+    !!   real(dbl) :: foo
+    !! and similar
 
-  ! numeric constants
+  ! Numeric constants
   real(dbl), parameter :: zero_r = 0.0e0_dbl
   real(dbl), parameter :: half =   0.5e0_dbl
   real(dbl), parameter :: one =    1.0e0_dbl
@@ -23,22 +27,23 @@ module numeric_defs
   real(dbl), parameter :: eight =  8.0e0_dbl
   real(dbl), parameter :: nine =   9.0e0_dbl
 
-  ! simple allocatable arrays -- used for the derived types following
   type iarray1
+    !! encapsulated integer allocatabl array for creating ragged-edged arrays arrays
     integer, allocatable :: r(:)
   end type iarray1
   type rarray1
+    !! encapsulated real allocatabl array for creating ragged-edged arrays arrays
     real(dbl), allocatable :: r(:)
   end type rarray1
 
-  ! derived types that facilitate non-rectangular arrays
-  !     type(array2) nra
-  !     allocate(nra%c(ncols))
-  !     do i = 1, ncols
-  !       allocate(nra%c(i)%r(nrows(i)))
-  !     end do
-  ! NB: in nra%c(i)%r(j), j is the fast index
   type iarray2
+    !! Usage:
+    !!     type(array2) nra
+    !!     allocate(nra%c(ncols))
+    !!     do i = 1, ncols
+    !!       allocate(nra%c(i)%r(nrows(i)))
+    !!     end do
+    !! NB: in nra%c(i)%r(j), j is the fast index
     type(iarray1), allocatable :: c(:)
   end type iarray2
   type rarray2

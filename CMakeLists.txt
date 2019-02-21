@@ -135,7 +135,8 @@ set( zgoubi_modules
   numeric_defs.f90
   taylor.f90
   mathphys_consts.f90
-  particle.f90
+  particle_ixfc.f90
+  particle_impl.f90
 )
 foreach(module_file ${zgoubi_modules})
   target_sources(zgoubi

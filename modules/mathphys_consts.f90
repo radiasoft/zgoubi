@@ -1,9 +1,10 @@
 module mathphys_consts
-  use numeric_defs
+  use numeric_defs, only : dbl, half, one, two, four
   implicit none
 
-  !private
-  public
+  private
+   !! Nothing in this module is used yet.
+   !! Let's explicitly add names to a public list as necessary.
 
   !
   ! mathematical constants
