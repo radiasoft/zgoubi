@@ -5,13 +5,21 @@ module particle
   implicit none
 
   private
-  public :: derivU, derivB, evalDU
+  public :: derivU                                     !! Data
+  public :: evalDU, DBarrays2dnB, init_particle_module !! Methods
   public :: operator(.cross.)
 
-  real(dbl) :: derivU(1:ncdim, 0:ntord)   !! normalized velocity u^(k)
+  real(dbl) :: derivU(1:ncdim, 0:ntord)
    !! normalized velocity derivatives, u^(k), along the particle trajectory
   real(dbl) :: derivB(1:ncdim, 0:ntord-1) 
    !! magnetic field derivatives, B^(k), along the particle trajectory
+
+  real(dbl), allocatable :: dnB(:, :)
+    !! spatial derivatives of the magnetic field B
+    !! dnB_{x,y,z}, in Giorgilli order
+
+  real(dbl), allocatable :: monomsU(:)
+    !! array of monomials involving U, U', etc.
 
   interface operator(.cross.)
     !! cross-product operator
@@ -20,13 +28,28 @@ module particle
 
   interface 
 
-    module subroutine evalDU(np1, maxDB)
+    module subroutine init_particle_module
+      !! initialise memory for this module: dnB and monomsU
+      implicit none
+    end subroutine init_particle_module
+
+    module subroutine evalDUn(np1, maxDB)
       !! compute d^(n+1) U / ds^(n+1)
       !!   = sum_(k = 0 .. n) binom(n,k) * u^(n-k) x B^(k)
-      !! (e.g., uniform B => maxDB = 0)
+      !! uniform B => maxDB = 0
       implicit none
       integer, intent(in) :: np1    !! derivative order to evaluate (n + 1)
       integer, intent(in) :: maxDB  !! maximuim order of B derivatives
+    end subroutine evalDUn
+
+    module subroutine evalDU(U, B, maxDB)
+      !! compute d^(n+1) U / ds^(n+1) for n in 0:ntord
+      !! NB: array dnB must be populated befpre ca;;omg this subroutine
+      implicit none
+      real(dbl), intent(in) :: U    !! normalized velocity U
+      real(dbl), intent(in) :: B    !! normalized magnetic field B
+      integer, intent(in) :: maxDB  !! maximuim order of B derivatives
+                                    !! (e.g., uniform B => maxDB = 0)
     end subroutine evalDU
 
     pure module function derivU_column(np1, maxDB) result(dUn)
@@ -46,6 +69,14 @@ module particle
       real(dbl), intent(in) :: b(3)  !! right-hand argument
       real(dbl) :: axb(3)            !! cross-product
     end function cross
+
+    module subroutine DBarrays2dnB(maxDB)
+      !! populate the one-dimensional field derivative array dnB
+      !! from the various multi-dimensional DB arrays
+      implicit none
+      integer, intent(in) :: maxDB  !! maximuim order of B derivatives
+                                    !! (e.g., uniform B => maxDB = 0)
+    end subroutine DBarrays2dnB
 
   end interface
 
