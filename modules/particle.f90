@@ -1,10 +1,12 @@
 module particle
+  use assertions_interface, only : assert, assertions
   use numeric_defs
   use taylor
   implicit none
 
   private
-  public :: derivU, evalDU
+  public :: derivU                       !! Data
+  public :: evalDU, DBarrays2dnB, init_particle_module !! Methods
 
   ! derivitives along the particle trajectory
   real(dbl) :: derivU(1:ncdim, 0:ntord)   ! normalized velocity u^(k)
@@ -65,8 +67,12 @@ contains
 
     integer :: k
 
+    ! Requires
+    if (assertions) then
+      call assert(lbound(derivB,2)==0 .and. ubound(derivB,ntord-1), "evalDU: received expected derivB shape")
+    end if
+
     derivU = zero_r
-    derivB = zero_r
     derivU(:,0) = U
     derivB(:,0) = B
 
@@ -76,6 +82,7 @@ contains
       derivB(:,k) = matmul( dnB(:, 1:orderEnd(k)), monomsU(1:orderEnd(k)) )
     end do
     call evalDUn(ntord, maxDB)
+
   end subroutine evalDU
 
   ! populate the one-dimensional field derivative array dnB
