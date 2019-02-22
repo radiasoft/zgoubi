@@ -1,8 +1,29 @@
 submodule(particle) particle_impl
   use assertions_interface, only : assert, assertions
+  use numeric_defs, only : zero_r
+  use taylor, only : orderEnd
   implicit none
 
+  real(dbl) :: derivB(1:ncdim, 0:ntord-1) 
+   !! magnetic field derivatives, B^(k), along the particle trajectory
+
+  real(dbl), allocatable :: dnB(:, :)
+    !! spatial derivatives of the magnetic field B
+    !! dnB_{x,y,z}, in Giorgilli order
+
+  real(dbl), allocatable :: monomsU(:)
+    !! array of monomials involving U, U', etc.
+
 contains
+
+  module procedure init_particle_module
+    !! initialise memory for this module
+    !! allocate dnB
+    if(.not. allocated(dnB)) allocate(dnB(ncdim, orderEnd(ntord-1)), source = zero_r)
+    !! allocate monomsU
+    if(.not. allocated(monomsU)) allocate(monomsU(orderEnd(ntord-1)), source = zero_r)
+  end procedure init_particle_module
+
 
   module procedure evalDUn
     use taylor, only : PascalStart, PascalEntry, ncdim

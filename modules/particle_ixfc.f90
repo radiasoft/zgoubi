@@ -11,15 +11,6 @@ module particle
 
   real(dbl) :: derivU(1:ncdim, 0:ntord)
    !! normalized velocity derivatives, u^(k), along the particle trajectory
-  real(dbl) :: derivB(1:ncdim, 0:ntord-1) 
-   !! magnetic field derivatives, B^(k), along the particle trajectory
-
-  real(dbl), allocatable :: dnB(:, :)
-    !! spatial derivatives of the magnetic field B
-    !! dnB_{x,y,z}, in Giorgilli order
-
-  real(dbl), allocatable :: monomsU(:)
-    !! array of monomials involving U, U', etc.
 
   interface operator(.cross.)
     !! cross-product operator
@@ -46,8 +37,8 @@ module particle
       !! compute d^(n+1) U / ds^(n+1) for n in 0:ntord
       !! NB: array dnB must be populated befpre ca;;omg this subroutine
       implicit none
-      real(dbl), intent(in) :: U    !! normalized velocity U
-      real(dbl), intent(in) :: B    !! normalized magnetic field B
+      real(dbl), intent(in) :: U(3) !! normalized velocity U
+      real(dbl), intent(in) :: B(3) !! normalized magnetic field B
       integer, intent(in) :: maxDB  !! maximuim order of B derivatives
                                     !! (e.g., uniform B => maxDB = 0)
     end subroutine evalDU
