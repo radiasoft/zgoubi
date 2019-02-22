@@ -31,14 +31,35 @@ contains
     integer :: k, km, n, psn
     real(dbl) :: uxb(1:ncdim)
 
+
     n = np1 - 1
     psn = PascalStart(n)
     km = min(n, maxDB)
+
+    if (assertions) then
+      call assert(in_bounds(derivU,2,np1),  "evalDUn: derivU(:,np1) in bounds")
+      call assert(in_bounds(derivU,2,n),    "evalDUn: derivU(:,n) in bounds")
+      call assert(in_bounds(derivU,2,n-km), "evalDUn: derivU(:,n-km) in bounds")
+      call assert(in_bounds(derivB,2,0),    "evalDUn: derivB(:,0) in bounds")
+      call assert(in_bounds(derivB,2,km),   "evalDUn: derivB(:,km) in bounds")
+      call assert(lbound(PascalEntry,1)<=psn .and. psn+km<=ubound(PascalEntry,1),   "evalDUn: derivB(:,km) in bounds")
+      call assert(all([size(derivU,1),size(derivB,1)] == size(uxb)), "evalDUn: conformable cross-product operands and result")
+    end if
+
     derivU(:,np1) = zero_r
+
     do k = 0, km
       uxb(:) = derivU(:,n-k) .cross. derivB(:,k)
       derivU(:,np1) = derivU(:,np1) + PascalEntry(psn + k) * uxb(:)
     end do
+
+  contains
+     pure function in_bounds(array,dimension_,index_)  result(is_in_bounds)
+       real(dbl), intent(in) :: array(:,:)
+       integer, intent(in) :: dimension_, index_
+       logical is_in_bounds
+       is_in_bounds = lbound(array,dimension_) <= index_ .and. index_ <= ubound(array,dimension_)
+     end function
   end procedure evalDUn
 
 
