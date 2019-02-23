@@ -37,12 +37,21 @@ module assertions_interface
   !!
   implicit none
   private
-  public :: assert
+  public :: assert, stringify
   public :: assertions
+   !! toggle switch for use in conditionally executing assertions
 
   logical, parameter :: assertions=USE_ASSERTIONS
 
   interface
+
+    pure module function stringify(array) result(string)
+      !! produce the string that results from concatenating the elements of a character array 
+      implicit none
+      character(len=1), intent(in) :: array(:)
+      character(len=size(array)) :: string
+    end function
+
     pure module subroutine assert(assertion,description,diagnostic_data,success,error_message)
       !! On false assertion, error-terminate or, if present(success), copy assertion into success
       implicit none
@@ -50,12 +59,14 @@ module assertions_interface
         !! Most assertions will be expressions, e.g., call assert( i>0, "positive i")
       character(len=*), intent(in) :: description
         !! Brief statement of what is being asserted
-      class(*), intent(in), optional :: diagnostic_data
+      class(*), intent(in), optional :: diagnostic_data(:)
         !! Optional data to printed or added to error_message assertion evaluates to .false.
       logical, intent(out), optional :: success
         !! Optional copy of the assertion dummy argument
       character(len=:), intent(out), optional, allocatable :: error_message
         !! Optional informational message allocated only if assertion==.false. .and. present(success)
     end subroutine
+
   end interface
+
 end module

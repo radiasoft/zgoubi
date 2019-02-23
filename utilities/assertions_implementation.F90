@@ -5,6 +5,13 @@ submodule(assertions_interface) assertions_implementation
 
 contains
 
+  module procedure stringify
+    integer, parameter :: max_format_len=10
+    character(len=max_format_len) :: io_format
+    write(io_format,'(a,i4,a)') "(",size(array),"a)"
+    write(string,io_format) array
+  end procedure
+
   module procedure assert
 
     character(len=:), allocatable :: message
@@ -44,7 +51,7 @@ contains
 
           select type(diagnostic_data)
             type is(character(len=*))
-              diagnostic_string = diagnostic_data
+              diagnostic_string = stringify(diagnostic_data)
             type is(real)
               write(diagnostic_string,*) diagnostic_data
             type is(integer)
