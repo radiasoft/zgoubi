@@ -2,23 +2,22 @@
 [For better viewing, including hyperlinks, read it online at ]:#
 [https://github.com/radiasoft/zgoubi/blob/master/tests/FITandTWISS/README.md ]:#
 
-spinSaturne Test
+FitandTWISS Test
 ================
 
 Description
 -----------
-This test, FITandTWISS, was derived by François Méot.  It uses the TWISS and FIT keywords and
+This test, FITandTWISS, was derived from an example by François Méot.  It uses the TWISS and FIT keywords and
 is based on the SATURNE 3 GEeV synchrotron lattice.
 
 
 Files
 -----
-* Test execution script: `zgoubi-test.sh`
 * Principal expected result: `FITandTWISS.res.expected`
   - compare with zgoubi.res
   - includes the required input (equivalent to a zgoubi.dat)
 * Other expected results: `FITandTWISS.out.expected`
-  - called by a Zgoubi SYSTEM command
+* 'pariz.nml' required
 
 Expected Output Figure
 ----------------------
