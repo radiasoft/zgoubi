@@ -30,20 +30,19 @@ contains
     integer :: k, km, n, psn
     real(dbl) :: uxb(1:ncdim)
 
-
     n = np1 - 1
     psn = PascalStart(n)
     km = min(n, maxDB)
 
     if (assertions) then
-      call assert(all([lbound(derivU,2) <= np1 , np1 <= ubound(derivU,2)]), "evalDUn: derivU(:,np1) in bounds" )
-      call assert(all([lbound(derivU,2) <= n   ,   n <= ubound(derivU,2)]), "evalDUn: derivU(:,n) in bounds"   )
-      call assert(all([lbound(derivU,2) <= n-km, n-km<= ubound(derivU,2)]), "evalDUn: derivU(:,n-km) in bounds")
-      call assert(all([lbound(derivB,2) <= 0   ,   0 <= ubound(derivB,2)]), "evalDUn: derivB(:,0) in bounds"   )
-      call assert(all([lbound(derivB,2) <= km  ,  km <= ubound(derivB,2)]), "evalDUn: derivB(:,km) in bounds"  )
-      call assert(all([lbound(PascalEntry,1)<=psn, psn<=ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
-      call assert(all([lbound(PascalEntry,1)<=psn+km, psn+km<=ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
-      call assert(all([size(derivU,1),size(derivB,1)] == size(uxb)       ), "evalDUn: conformable cross-product operands & result")
+      call assert(all([lbound(derivU,2) <= np1 , np1  <= ubound(derivU,2)]), "evalDUn: derivU(:,np1) in bounds" )
+      call assert(all([lbound(derivU,2) <= n   , n    <= ubound(derivU,2)]), "evalDUn: derivU(:,n) in bounds"   )
+      call assert(all([lbound(derivU,2) <= n-km, n-km <= ubound(derivU,2)]), "evalDUn: derivU(:,n-km) in bounds")
+      call assert(all([lbound(derivB,2) <= 0   , 0    <= ubound(derivB,2)]), "evalDUn: derivB(:,0) in bounds"   )
+      call assert(all([lbound(derivB,2) <= km  , km   <= ubound(derivB,2)]), "evalDUn: derivB(:,km) in bounds"  )
+      call assert(all([lbound(PascalEntry,1) <= psn,    psn    <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
+      call assert(all([lbound(PascalEntry,1) <= psn+km, psn+km <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
+      call assert(all([size(derivU,1),size(derivB,1)] == size(uxb)), "evalDUn: conformable cross-product operands & result")
     end if
 
     derivU(:,np1) = zero_r
@@ -52,7 +51,6 @@ contains
       uxb(:) = derivU(:,n-k) .cross. derivB(:,k)
       derivU(:,np1) = derivU(:,np1) + PascalEntry(psn + k) * uxb(:)
     end do
-
   end procedure evalDUn
 
 
@@ -88,7 +86,6 @@ contains
     associate( km => min(n, maxDB) )
       dUn = sum([(PascalEntry(psn + k) * (derivU(:,n-k) .cross. derivB(:,k)), k=0,km)])
     end associate; end associate; end associate
-
   end procedure derivU_column
 
 
