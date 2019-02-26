@@ -17,7 +17,7 @@ module particle
     module procedure cross
   end interface
 
-  interface 
+  interface
 
     module subroutine init_particle_module
       !! initialise memory for this module: dnB and monomsU

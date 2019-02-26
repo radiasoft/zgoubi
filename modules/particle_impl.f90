@@ -4,7 +4,7 @@ submodule(particle) particle_impl
   use taylor, only : orderEnd
   implicit none
 
-  real(dbl) :: derivB(1:ncdim, 0:ntord-1) 
+  real(dbl) :: derivB(1:ncdim, 0:ntord-1)
    !! magnetic field derivatives, B^(k), along the particle trajectory
 
   real(dbl), allocatable :: dnB(:, :)
