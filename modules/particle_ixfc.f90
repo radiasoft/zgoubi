@@ -34,8 +34,8 @@ module particle
     end subroutine evalDUn
 
     module subroutine evalDU(U, B, maxDB)
-      !! compute d^(n+1) U / ds^(n+1) for n in 0:ntord
-      !! NB: array dnB must be populated befpre ca;;omg this subroutine
+      !! compute d^(n+1) U / ds^(n+1) for n+1 in 0:ntord
+      !! NB: array dnB must be populated before calling this subroutine
       implicit none
       real(dbl), intent(in) :: U(3) !! normalized velocity U
       real(dbl), intent(in) :: B(3) !! normalized magnetic field B
