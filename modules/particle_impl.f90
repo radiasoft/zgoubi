@@ -62,6 +62,8 @@ contains
     ! Requires
     if (assertions) then
       call assert(lbound(derivB,2)==0 .and. ubound(derivB,2)==ntord-1, "evalDU: received expected derivB shape")
+      call assert(size(dnB,1) == ncdim .and. size(dnB,2) == orderEnd(ntord-1) .and. orderEnd(ntord-1) > 0, &
+        &         "evalDU: array dnB properly allocated")
     end if
 
     derivU = zero_r
