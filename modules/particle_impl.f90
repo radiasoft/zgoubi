@@ -40,13 +40,12 @@ contains
       call assert(all([lbound(derivU,2) <= n-km, n-km <= ubound(derivU,2)]), "evalDUn: derivU(:,n-km) in bounds")
       call assert(all([lbound(derivB,2) <= 0   , 0    <= ubound(derivB,2)]), "evalDUn: derivB(:,0) in bounds"   )
       call assert(all([lbound(derivB,2) <= km  , km   <= ubound(derivB,2)]), "evalDUn: derivB(:,km) in bounds"  )
-      call assert(all([lbound(PascalEntry,1) <= psn,    psn    <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
-      call assert(all([lbound(PascalEntry,1) <= psn+km, psn+km <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn + k) in bounds")
-      call assert(all([size(derivU,1),size(derivB,1)] == size(uxb)), "evalDUn: conformable cross-product operands & result")
+      call assert(all([lbound(PascalEntry,1) <= psn,    psn    <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn+k) in bounds")
+      call assert(all([lbound(PascalEntry,1) <= psn+km, psn+km <= ubound(PascalEntry,1)]), "evalDUn: PascalEntry(psn+k) in bounds")
+      call assert(all([size(derivU,1),size(derivB,1)] == size(uxb)), "evalDUn: conformable cross-product operands and result")
     end if
 
     derivU(:,np1) = zero_r
-
     do k = 0, km
       uxb(:) = derivU(:,n-k) .cross. derivB(:,k)
       derivU(:,np1) = derivU(:,np1) + PascalEntry(psn + k) * uxb(:)
