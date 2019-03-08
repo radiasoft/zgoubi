@@ -29,6 +29,7 @@ C  -------
       INCLUDE "MAXCOO.H"
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
+      INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 C     $     IREP(MXT),AMQLU,PABSLU
  
       IF(NRES.GT.0) WRITE(NRES,100)
@@ -42,11 +43,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
         WRITE(NRES,101) IEX(1),-1.D0+F(1,1),(F(J,1),J=2,7)
  101    FORMAT('TRAJ #1 IEX,D,Y,T,Z,P,S,time :',
      >  I3,1P,5E14.6,1X,E15.7,1X,E13.5)
-        error stop
-     &  "error termination inserted by damian before implicitly typed &
-     &   reference to array or function named SF in subroutine YMOINY &
-     &   (see commented line in zgoubi/ymoiny.f)"
-C        IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
+        IF(KSPN.EQ.1) WRITE(NRES,102) IEX(1),(SF(I,1),I=1,4)
  102    FORMAT('TRAJ #1 SX, SY, SZ, |S| :',1X,I2,2X,1P,4(E14.6,1X))
       ENDIF
 
