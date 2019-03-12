@@ -5,9 +5,12 @@ module particle
   implicit none
 
   private
-  public :: derivU                                     !! Data
+  public :: derivB, derivU                             !! Data
   public :: evalDU, DBarrays2dnB, init_particle_module !! Methods
   public :: operator(.cross.)
+
+  real(dbl) :: derivB(1:ncdim, 0:ntord-1)
+   !! magnetic field derivatives, B^(k), along the particle trajectory
 
   real(dbl) :: derivU(1:ncdim, 0:ntord)
    !! normalized velocity derivatives, u^(k), along the particle trajectory

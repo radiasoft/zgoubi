@@ -79,13 +79,16 @@ C----- MAGNETIC FIELD
  1    CONTINUE
 
       block
-      use taylor, only : ntord
-      use particle, only : DBarrays2dnB, evalDU, derivU
+      use taylor, only : ncdim, ntord
+      use particle, only : DBarrays2dnB, evalDU, derivB, derivU
       !! should use maxDB in place of ntord
       call DBarrays2dnB(ntord)
-      call evalDU(U(1,1:3), B(1,1:3), ntord)
+      call evalDU(U(1,1:ncdim), B(1,1:ncdim), ntord)
+      do concurrent(iord = 0:ntord-1)
+        B(iord+1, 1:ncdim) = derivB(1:ncdim, iord)
+      end do
       do concurrent(iord = 0:ntord)
-        U(iord+1, 1:3) = derivU(1:3, iord)
+        U(iord+1, 1:ncdim) = derivU(1:ncdim, iord)
       end do
       end block
 

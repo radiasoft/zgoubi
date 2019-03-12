@@ -4,9 +4,6 @@ submodule(particle) particle_impl
   use taylor, only : orderEnd
   implicit none
 
-  real(dbl) :: derivB(1:ncdim, 0:ntord-1)
-   !! magnetic field derivatives, B^(k), along the particle trajectory
-
   real(dbl), allocatable :: dnB(:, :)
     !! spatial derivatives of the magnetic field B
     !! dnB_{x,y,z}, in Giorgilli order
