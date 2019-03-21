@@ -75,13 +75,14 @@ contains
 
   module procedure derivU_column
     use taylor, only : PascalStart, PascalEntry
-    integer :: k
+!   integer :: k
 
-    associate( n => np1 - 1 )
-    associate( psn => PascalStart(n) )
-    associate( km => min(n, maxDB) )
-      dUn = sum([(PascalEntry(psn + k) * (derivU(:,n-k) .cross. derivB(:,k)), k=0,km)])
-    end associate; end associate; end associate
+!   associate( n => np1 - 1 )
+!   associate( psn => PascalStart(n) )
+!   associate( km => min(n, maxDB) )
+!     dUn = sum([(PascalEntry(psn + k) * (derivU(:,n-k) .cross. derivB(:,k)), k=0,km)])
+!   end associate; end associate; end associate
+
   end procedure derivU_column
 
 
