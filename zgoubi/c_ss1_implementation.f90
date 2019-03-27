@@ -16,9 +16,7 @@ contains
       integer istat
       if (.not. allocated(X)) then
         allocate(array(array_size), stat=istat)
-        if (assertions) then
-          call assert(istat==success, "ensure_xyz_allocation: array allocation failed")
-        end if
+        if (assertions) call assert(istat==success, "ensure_xyz_allocation: array allocation failed")
       end if 
     end subroutine
   end procedure

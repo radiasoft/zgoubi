@@ -1,5 +1,5 @@
 submodule(allocations_interface) allocations_implementation
-  use assertions_interface, only : assert
+  use assertions_interface, only : assert, assertions
   implicit none
 
 contains
@@ -8,7 +8,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(array_size), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
@@ -16,7 +16,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(rows,columns), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
@@ -24,7 +24,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(array_size), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
@@ -32,7 +32,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(rows,columns), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
@@ -40,7 +40,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(array_size), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
@@ -48,7 +48,7 @@ contains
       integer istat
       if (.not. allocated(array)) then 
         allocate(array(rows,columns), stat=istat)
-        call assert(istat==0,"array allocation succeeded")
+        if (assertions) call assert(istat==0,"array allocation succeeded")
       end if 
     end procedure
 
