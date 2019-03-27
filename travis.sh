@@ -13,13 +13,6 @@ docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:
     source ~/.bashrc
     set -veuo pipefail
     cd ~/src/radiasoft/zgoubi
-    wget https://github.com/radiasoft/zgoubi/files/2444605/ndiff-2.00.tar.gz
-    tar xf ndiff-2.00.tar.gz
-    cd ndiff-2.00
-    ./configure
-    make
-    export PATH="${PWD}:${PATH}"
-    cd ..
     if [[ -d "${BUILD_DIR:-cmake-build}" ]] ; then
         echo \
             "Warning: Using an old/dirty build directory! Please run 'rm -r ${BUILD_DIR:-cmake-build}' and try again if script fails." >&2
