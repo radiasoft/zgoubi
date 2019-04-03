@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Test zgoubi on the given input file (1st argument), using 
+# Test zgoubi on the given input file (1st argument), using
 # the provided error tolerances  (2nd & 3rd arguments)
 
 # Exit on use of unset variable
@@ -97,7 +97,7 @@ fi
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
-result=$(ndiff -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
+result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
@@ -120,7 +120,7 @@ if [ "$moreFiles" = true ] ; then
       exit 1
     fi
 
-    result=$(ndiff -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
+    result=$(@NDIFF@ -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
     stat=$?
     if [ "$stat" -ne 0 ] ; then
       (( ++xstat ))

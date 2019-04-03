@@ -34,10 +34,9 @@ if (NOT "${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
   message(WARNING "Untested compiler detected: ${CMAKE_Fortran_COMPILER_ID}. Report any issues at ${issues_URL}")
 endif()
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/maybe_fetch_file.cmake")
 find_package(UnixCommands)
-
 # Get map file needed for test
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/maybe_fetch_file.cmake")
 macro(update_verify_warmSnake)
   maybe_fetch_file( tests/warmSnake/warmSnake.map.gz
     "https://sourceforge.net/p/zgoubi/code/HEAD/tree/trunk/exemples/usersGuide/FIT-and-REBELOTE/warmSnake.map.gz?format=raw"
@@ -48,6 +47,29 @@ endmacro()
 
 update_verify_warmSnake()
 message( STATUS "have_warm_snake? ${have_warm_snake}")
+
+find_program(NDIFF
+  ndiff
+  HINTS ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00
+  DOC "Path to ndiff executable")
+
+if(NOT NDIFF OR NDIFF STREQUAL ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff)
+  # Add ndiff as external project if it's not on the user's path
+  include(ExternalProject)
+  ExternalProject_add(ndiff
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00
+    BUILD_IN_SOURCE ON
+    BUILD_ALWAYS ON
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND "./configure"
+    COMMAND "make"
+    TEST_COMMAND ""
+    TEST_EXCLUDE_FROM_MAIN ON
+    INSTALL_COMMAND ""
+    )
+  set(NDIFF ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff
+    CACHE FILEPATH "Path to compiled ndiff executable" FORCE)
+endif()
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   set(common_fflags -g -static-libgfortran -Wall -fbacktrace -pedantic -cpp)
