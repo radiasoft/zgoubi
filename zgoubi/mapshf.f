@@ -33,25 +33,12 @@ C------------------------------------------------------
       DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE :: 
      >     HC, HCB
 C      DIMENSION HC(ID,MXX,MXY,IZ), HCB(ID,MXX,MXY,IZ)
-C     DIMENSION XH(MXX),YH(MXY)
-      REAL(REAL64), ALLOCATABLE, DIMENSION(:) :: XH(:),YH(:)
+      DIMENSION XH(MXX),YH(MXY)
 
       PARAMETER (IRD=2, KART=1)
       PARAMETER (DX = 0.D0)
 
       DIMENSION BMESH(5,5)
-
-      IF (.NOT. ALLOCATED(XH)) ALLOCATE( XH(MXX), STAT=IALOC )
-      IF (IALOC /= 0)
-     >     CALL ENDJOB('SBR MAPSHF Not enough memory'//
-     >     ' for Malloc of XH',
-     >     -99)
-
-      IF (.NOT. ALLOCATED(YH)) ALLOCATE( YH(MXY), STAT=IALOC )
-      IF (IALOC /= 0)
-     >     CALL ENDJOB('SBR MAPSHF Not enough memory'//
-     >     ' for Malloc of YH',
-     >     -99)
 
        if( .NOT.ALLOCATED( HC )) 
      >     ALLOCATE( HC(ID,MXX,MXY,IZ), STAT = IALOC)
