@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Create a shell script wrapping tau's invocation of gfortran and gcc
+# because cmake has trouble dealing with passing `FC="tau gfortran"`
+
+"${HOME}/taucmdr/bin/tau" gcc "$@"
