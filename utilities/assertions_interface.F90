@@ -15,7 +15,7 @@ module assertions_interface
   !!
   !! or set the corresponding NO_ASSERTIONS variable defined in this directory's CMakeLists.txt:
   !!
-  !!    FC=caf cmake <opencoarrays-source-path> -DNO_ASSERTIONS=ON
+  !!    cmake <opencoarrays-source-path> -DNO_ASSERTIONS=ON
   !!
   !! Conditioning assertion calls on the "assertions" compile-time constant enables optimizing compilers
   !! to eliminate assertion calls via dead-code-removal optimiztion.
