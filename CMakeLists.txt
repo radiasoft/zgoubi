@@ -6,6 +6,14 @@ set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "MinSizeRel" "R
 set ( CMAKE_BUILD_TYPE "Release"
   CACHE STRING "Select which configuration to build." )
 
+if(CMAKE_BUILD_TYPE MATCHES "Release|MinSizeRel")
+  set(assertions_default OFF)
+else()
+  set(assertions_default ON)
+endif()
+option(ZGOUBI_USE_ASSERTIONS "Turn on runtime assertions"
+  ${assertions_default})
+
 # Name project and specify source languages
 project(zgoubi
   LANGUAGES Fortran C)

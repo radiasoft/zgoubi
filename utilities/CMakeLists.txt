@@ -20,7 +20,7 @@ target_compile_options(zgoubi_utilities
   PUBLIC
   "-fcoarray=single")
 
-if(ASSERTIONS)
+if(USE_ASSERTIONS)
   target_compile_definitions( zgoubi_utilities
     PUBLIC "-DUSE_ASSERTIONS=.true."
   )
