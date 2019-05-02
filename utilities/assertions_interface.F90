@@ -13,9 +13,9 @@ module assertions_interface
   !!
   !!    gfortran -cpp -DUSE_ASSERTIONS=.false. -c assertions_interface.f90
   !!
-  !! or set the corresponding NO_ASSERTIONS variable defined in this directory's CMakeLists.txt:
+  !! or set the corresponding ASSERTIONS variable defined in this directory's CMakeLists.txt:
   !!
-  !!    cmake <opencoarrays-source-path> -DNO_ASSERTIONS=ON
+  !!    cmake <opencoarrays-source-path> -DASSERTIONS=ON
   !!
   !! Conditioning assertion calls on the "assertions" compile-time constant enables optimizing compilers
   !! to eliminate assertion calls via dead-code-removal optimiztion.
