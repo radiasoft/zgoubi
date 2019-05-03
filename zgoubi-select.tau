@@ -1,5 +1,28 @@
 
+BEGIN_FILE_INCLUDE_LIST
+*impplt.f
+*integr.f
+*cofin.f
+*zgoubi_main.f
+*zgoubi.f
+*pckup.f
+*cavite.f
+*open2.f
+*transf.f
+*flush2.f
+*quasex.f
+*chxc.f
+*fmapw.f
+*fitwda.f
+END_FILE_INCLUDE_LIST
+
 BEGIN_EXCLUDE_LIST
+# spinsaturne
+chxc_
+# warm snake
+master.0.zgoubi_
+
+
 __allocations_interface_MOD_allocate_1d_real_array
 adpol_
 baxbxr_
@@ -7,6 +30,7 @@ bendf_
 bonul_
 bxrxyz_
 chamc_
+chamk1_
 chamk2_
 chamk4_
 chamk_
@@ -15,10 +39,12 @@ charef_
 chreg_
 chxc1r_
 chxc1w_
+cofin_
 dbdxyz_
 debstr_
 depla_
 deplaw_
+devtra_
 drvg_
 empty_
 esl_
@@ -42,8 +68,11 @@ majtra_
 maplim_
 master.0.bendf_
 master.0.chamc_
+master.0.chamk1_
 master.0.chamk_
+master.0.chxc_
 master.0.depla_
+master.0.devtra_
 master.0.fitmm_
 master.0.fitsta_
 master.0.ksmap_
@@ -61,6 +90,7 @@ master.0.solenf_
 master.0.spntrk_
 master.0.stpsiz_
 multip_
+pckup_
 poidev_
 pvect_
 raysyn_
