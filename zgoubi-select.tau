@@ -1,13 +1,17 @@
 
 BEGIN_FILE_INCLUDE_LIST
+# IO heavy routines
 *impplt.f
-*integr.f
-*zgoubi_main.f
-*pckup.f
-*cavite.f
-*quasex.f
-*fmapw.f
 *fitwda.f
+*fmapw.f
+*pckup.f
+
+# More computation
+*integr.f
+*quasex.f
+*cavite.f
+
+*zgoubi_main.f
 END_FILE_INCLUDE_LIST
 
 BEGIN_EXCLUDE_LIST
