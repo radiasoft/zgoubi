@@ -2,16 +2,10 @@
 BEGIN_FILE_INCLUDE_LIST
 *impplt.f
 *integr.f
-*cofin.f
 *zgoubi_main.f
-*zgoubi.f
 *pckup.f
 *cavite.f
-*open2.f
-*transf.f
-*flush2.f
 *quasex.f
-*chxc.f
 *fmapw.f
 *fitwda.f
 END_FILE_INCLUDE_LIST
