@@ -25,7 +25,7 @@ function link_field_map () {
   fi
   fieldMapFile=warmSnake.map
   if [[ -f "${fieldMapFile}.gz" ]]; then
-    gzip -dkf ${fieldMapFile}.gz
+    gzip -df < ${fieldMapFile}.gz > ${fieldMapFile}
   else
     echo "Missing ${fieldMapFile}.gz"
     exit 1
