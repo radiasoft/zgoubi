@@ -25,7 +25,7 @@ function link_field_map () {
   fi
   fieldMapFile=warmSnake.map
   if [[ -f "${fieldMapFile}.gz" ]]; then
-    gzip -dkf ${fieldMapFile}.gz
+    gzip -df < ${fieldMapFile}.gz > ${fieldMapFile}
   else
     echo "Missing ${fieldMapFile}.gz"
     exit 1
@@ -78,7 +78,7 @@ zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 # leading part of testName.res.expected contains the required input
 
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
-$zgoubi_cmd
+@TAU_EXE@$zgoubi_cmd
 
 if [[ ${4:-} == "link-field-map" ]]; then
   rm $fieldMapFile

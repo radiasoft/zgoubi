@@ -2,9 +2,20 @@ cmake_minimum_required(VERSION 3.10.0)
 
 # Ensure the default configs are defined and select one if none are
 # chosen by the user
-set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "MinSizeRel" "RelWithDebInfo" )
+set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "RelWithDebInfo" "Baseline" "Sample" "Compiler-inst")
 set ( CMAKE_BUILD_TYPE "Release"
   CACHE STRING "Select which configuration to build." )
+
+if(CMAKE_BUILD_TYPE MATCHES "Release|MinSizeRel|[Bb]aseline|[Ss]ample|[Cc]ompiler-inst")
+  set(assertions_default OFF)
+else()
+  set(assertions_default ON)
+endif()
+option(ZGOUBI_USE_ASSERTIONS "Turn on runtime assertions"
+  ${assertions_default})
+
+# Ensure the right to experiment is selected, if a profiling build was chosen
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/setup_tau_profiling.cmake")
 
 # Name project and specify source languages
 project(zgoubi
@@ -72,7 +83,8 @@ if(NOT NDIFF OR NDIFF STREQUAL ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff)
 endif()
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -O3 -fno-realloc-lhs -fstack-arrays -fno-protect-parens -faggressive-function-elimination -lto -Wall -pedantic -fno-automatic -cpp)
+  set(SAVE_EVERYWHERE -fno-automatic)
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
@@ -158,7 +170,7 @@ target_sources(zgoubi
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi
   PUBLIC zg
-  PUBLIC coupl 
+  PUBLIC coupl
   PUBLIC zgoubi_utilities)
 target_include_directories(zgoubi
   PUBLIC
