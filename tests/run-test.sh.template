@@ -78,7 +78,7 @@ zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 # leading part of testName.res.expected contains the required input
 
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
-tau $zgoubi_cmd
+@TAU_EXE@$zgoubi_cmd
 
 if [[ ${4:-} == "link-field-map" ]]; then
   rm $fieldMapFile

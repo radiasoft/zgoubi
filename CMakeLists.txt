@@ -2,17 +2,20 @@ cmake_minimum_required(VERSION 3.10.0)
 
 # Ensure the default configs are defined and select one if none are
 # chosen by the user
-set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "MinSizeRel" "RelWithDebInfo" )
+set ( CMAKE_CONFIGURATION_TYPES "Debug" "RuntimeDebug" "Release" "RelWithDebInfo" "Baseline" "Sample" "Compiler-inst")
 set ( CMAKE_BUILD_TYPE "Release"
   CACHE STRING "Select which configuration to build." )
 
-if(CMAKE_BUILD_TYPE MATCHES "Release|MinSizeRel")
+if(CMAKE_BUILD_TYPE MATCHES "Release|MinSizeRel|[Bb]aseline|[Ss]ample|[Cc]ompiler-inst")
   set(assertions_default OFF)
 else()
   set(assertions_default ON)
 endif()
 option(ZGOUBI_USE_ASSERTIONS "Turn on runtime assertions"
   ${assertions_default})
+
+# Ensure the right to experiment is selected, if a profiling build was chosen
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/setup_tau_profiling.cmake")
 
 # Name project and specify source languages
 project(zgoubi
