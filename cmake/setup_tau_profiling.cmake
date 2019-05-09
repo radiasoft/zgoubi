@@ -1,5 +1,7 @@
 # Find TAU Commander if it's installed, see if the project is setup and set it up if TAU is present but the project is not installed.
 
+set(PROFILE_CONFIGS_REGEX "([Bb]aseline)|([Ss]ample)|([Cc]ompiler-inst)")
+
 # Look for TAU Commander executable on $PATH and in suspected locations
 find_program(TAU_COMMANDER
   tau
@@ -13,7 +15,7 @@ find_path(TAU_PROJECT_DIR
   DOC "Location for the TAU project directory")
 
 # Warn user and attempt to install TAU Commander if profiling requested but `tau` not found
-if(CMAKE_BUILD_TYPE MATCHES "[Bb]aseline|[Ss]ample|[Cc]ompiler-inst")
+if("${CMAKE_BUILD_TYPE}" MATCHES ${PROFILE_CONFIGS_REGEX})
   if(NOT TAU_COMMANDER)
     message(WARNING "A profiling build configuration was requested, but TAU Commander was not found. Attempting to install TAU Commander now.")
     execute_process(COMMAND ./install-update-tau.sh
@@ -30,7 +32,7 @@ endif()
 if(TAU_COMMANDER)
   if(NOT TAU_PROJECT_DIR)
     message(STATUS "TAU Commander was found, but no TAU Commander project appears to be initialized")
-    if(CMAKE_BUILD_TYPE MATCHES "[Bb]aseline|[Ss]ample|[Cc]ompiler-inst")
+    if("${CMAKE_BUILD_TYPE}" MATCHES ${PROFILE_CONFIGS_REGEX})
       message(WARNING "A profiling build configuration was requested, but no project was initialized. A TAU project will be initialized now.")
       execute_process(COMMAND ./setup_tau_project.sh
 	WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
@@ -49,12 +51,11 @@ endif()
 set(TAU_EXE "")
 # Make sure that the correct tau measurement is selected
 # This may be problematic if multiple targets or applications are present
-if(CMAKE_BUILD_TYPE MATCHES "[Bb]aseline|[Ss]ample|[Cc]ompiler-inst")
+if("${CMAKE_BUILD_TYPE}" MATCHES ${PROFILE_CONFIGS_REGEX})
   string(TOLOWER "${CMAKE_BUILD_TYPE}" TAU_CONFIG)
   string(TOUPPER "${CMAKE_BUILD_TYPE}" BUILD_CONFIG)
-  get_filename_component(TAU_ROOT_DIR "${TAU_PROJECT_DIR}" NAME_WE)
-  execute_process(COMMAND "${TAU_COMMANDER}" select ${TAU_CONFIG}
-    WORKING_DIRECTORY "${TAU_ROOT_DIR}")
+  execute_process(COMMAND ${TAU_COMMANDER} select ${TAU_CONFIG}
+    WORKING_DIRECTORY "${TAU_PROJECT_DIR}")
 
   # Use defaults from the RelWithDebInfo config to get debug symbols and optimization
   set(CMAKE_Fortran_FLAGS_${BUILD_CONFIG} ${CMAKE_Fortran_FLAGS_RELWITHDEBINFO}
