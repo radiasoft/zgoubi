@@ -210,8 +210,8 @@ C       PARAMETER (MXX=567, MXY=201)
 
 C-- Sizing of the field map array HC(ID,MXX,MXY,IZ,MMAP)
 C For iRCMS
-       PARAMETER (IZ=1 , ID=3, MMAP=1)
-       PARAMETER (MXX=2131, MXY=29)
+c       PARAMETER (IZ=1 , ID=3, MMAP=1)
+c       PARAMETER (MXX=2131, MXY=29)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
@@ -223,3 +223,8 @@ C      PARAMETER (MXX=136, MXY=140)
 
 C---------------------------------------------------------------
 C---------------------------------------------------------------
+C SIREPO EXAMPLES
+
+      PARAMETER (IZ=41, ID=3, MMAP=9)
+      PARAMETER (MXX=801, MXY=301)
+
