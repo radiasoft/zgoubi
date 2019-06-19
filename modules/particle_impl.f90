@@ -82,6 +82,7 @@ contains
     associate( km => min(n, maxDB) )
       dUn = sum([(PascalEntry(psn + k) * (derivU(:,n-k) .cross. derivB(:,k)), k=0,km)])
     end associate; end associate; end associate
+
   end procedure derivU_column
 
 

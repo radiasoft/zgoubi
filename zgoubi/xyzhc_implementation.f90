@@ -28,18 +28,18 @@ submodule(xyzhc_interface) xyzhc_implementation
 contains
 
   module procedure ensure_xyzhc_allocation
-    use assertions_interface, only : assert
+    use assertions_interface, only : assert, assertions
     integer allocation_status
     integer, parameter :: success=0
 
     if (.not. allocated(XH)) allocate(XH(MXX),stat=allocation_status)
-    call assert(allocation_status==success,"ensure_xyzhc_allocation: XH allocation succeeded")
+    if (assertions) call assert(allocation_status==success,"ensure_xyzhc_allocation: XH allocation succeeded")
 
     if (.not. allocated(YH)) allocate(YH(MXY),stat=allocation_status)
-    call assert(allocation_status==success,"ensure_xyzhc_allocation: YH allocation succeeded")
+    if (assertions) call assert(allocation_status==success,"ensure_xyzhc_allocation: YH allocation succeeded")
 
     if (.not. allocated(ZH)) allocate(ZH(IZ),stat=allocation_status)
-    call assert(allocation_status==success,"ensure_xyzhc_allocation: ZH allocation succeeded")
+    if (assertions) call assert(allocation_status==success,"ensure_xyzhc_allocation: ZH allocation succeeded")
   end procedure
    
 end submodule

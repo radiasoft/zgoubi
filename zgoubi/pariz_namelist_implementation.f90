@@ -1,5 +1,5 @@
 submodule(pariz_namelist_interface) pariz_namelist_implementation
-  use assertions_interface, only : assert
+  use assertions_interface, only : assert, assertions
   implicit none
 
 contains
@@ -14,7 +14,7 @@ contains
       logical pariz_nml_open
 
       inquire(file=pariz_namelist_file, number=file_unit, opened=pariz_nml_open)
-      call assert( .not. pariz_nml_open, "read_from_file: file not already open" )
+      if (assertions) call assert( .not. pariz_nml_open, "read_from_file: file not already open" )
         !! If the above assertion is removed, then add code the following form:
         !! if(pariz_nml_open) then; rewind(...); else; open(...)
     
@@ -23,7 +23,7 @@ contains
         !! return with the default values if the namelist file is not found
   
       read(file_unit,nml=pariz,iostat=io_status)
-      call assert( io_status==success, "initialize_input_parameters: "//pariz_namelist_file//" read." )
+      if (assertions) call assert( io_status==success, "initialize_input_parameters: "//pariz_namelist_file//" read." )
     end block
 
   end procedure

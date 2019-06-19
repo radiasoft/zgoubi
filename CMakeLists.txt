@@ -34,10 +34,9 @@ if (NOT "${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
   message(WARNING "Untested compiler detected: ${CMAKE_Fortran_COMPILER_ID}. Report any issues at ${issues_URL}")
 endif()
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/maybe_fetch_file.cmake")
 find_package(UnixCommands)
-
 # Get map file needed for test
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/maybe_fetch_file.cmake")
 macro(update_verify_warmSnake)
   maybe_fetch_file( tests/warmSnake/warmSnake.map.gz
     "https://sourceforge.net/p/zgoubi/code/HEAD/tree/trunk/exemples/usersGuide/FIT-and-REBELOTE/warmSnake.map.gz?format=raw"
@@ -49,10 +48,35 @@ endmacro()
 update_verify_warmSnake()
 message( STATUS "have_warm_snake? ${have_warm_snake}")
 
+find_program(NDIFF
+  ndiff
+  HINTS ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00
+  DOC "Path to ndiff executable")
+
+if(NOT NDIFF OR NDIFF STREQUAL ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff)
+  # Add ndiff as external project if it's not on the user's path
+  include(ExternalProject)
+  ExternalProject_add(ndiff
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00
+    BUILD_IN_SOURCE ON
+    BUILD_ALWAYS ON
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND "./configure"
+    COMMAND "make"
+    TEST_COMMAND ""
+    TEST_EXCLUDE_FROM_MAIN ON
+    INSTALL_COMMAND ""
+    )
+  set(NDIFF ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff
+    CACHE FILEPATH "Path to compiled ndiff executable" FORCE)
+endif()
+
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -static-libgfortran -Wall -fbacktrace -pedantic -cpp)
+  set(SAVE_EVERYWHERE -fno-automatic)
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-  set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
+  set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -cpp)
+  set(SAVE_EVERYWHERE -save)
 endif()
 
 
@@ -65,6 +89,10 @@ add_library(BLAS UNKNOWN IMPORTED GLOBAL)
 list(GET BLAS_LIBRARIES 0 MAIN_BLAS_LIB)
 set_target_properties(BLAS
   PROPERTIES IMPORTED_LOCATION "${MAIN_BLAS_LIB}")
+
+message(STATUS "BLAS LIBRARIES: ${BLAS_LIBRARIES}")
+message(STATUS "BLAS LINKER_FLAGS: ${BLAS_LINKER_FLAGS}")
+
 list(REMOVE_AT BLAS_LIBRARIES 0)
 if(${BLAS_LIBRARIES})
   target_link_libraries(BLAS
@@ -81,6 +109,10 @@ add_library(LAPACK UNKNOWN IMPORTED GLOBAL)
 list(GET LAPACK_LIBRARIES 0 MAIN_LAPACK_LIB)
 set_target_properties(LAPACK
   PROPERTIES IMPORTED_LOCATION "${MAIN_LAPACK_LIB}")
+
+message(STATUS "LAPACK LIBRARIES: ${BLAS_LIBRARIES}")
+message(STATUS "LAPACK LINKER_FLAGS: ${BLAS_LINKER_FLAGS}")
+
 list(REMOVE_AT LAPACK_LIBRARIES 0)
 if(${LAPACK_LIBRARIES})
   target_link_libraries(LAPACK
@@ -99,6 +131,8 @@ add_library(coupl "")
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/coupling/CMakeLists.txt")
 target_sources(coupl
   PRIVATE ${COUPL_SRCS})
+set_source_files_properties(${COUPL_SRCS}
+  PROPERTIES COMPILE_OPTIONS ${SAVE_EVERYWHERE})
 target_compile_options(coupl PUBLIC ${common_fflags})
 target_link_libraries(coupl
   PUBLIC BLAS
@@ -112,6 +146,8 @@ add_library(zg "")
 include("${CMAKE_CURRENT_SOURCE_DIR}/common/CMakeLists.txt")
 target_sources(zg
   PRIVATE ${ZG_SRCS})
+set_source_files_properties(${ZG_SRCS}
+  PROPERTIES COMPILE_OPTIONS ${SAVE_EVERYWHERE})
 target_sources(zg
   PUBLIC ${ZG_INCLUDES})
 target_compile_options(zg PUBLIC ${common_fflags})
@@ -129,6 +165,8 @@ add_executable(zgoubi "")
 include("${CMAKE_CURRENT_SOURCE_DIR}/zgoubi/CMakeLists.txt")
 target_sources(zgoubi
   PRIVATE ${ZGOUBI_SRCS})
+set_source_files_properties(${ZGOUBI_SRCS}
+  PROPERTIES COMPILE_OPTIONS ${SAVE_EVERYWHERE})
 
 set( zgoubi_modules
   dynhc.f
@@ -149,11 +187,12 @@ target_sources(zgoubi
 target_compile_options(zgoubi PRIVATE ${common_fflags})
 target_link_libraries(zgoubi
   PUBLIC zg
-  PUBLIC coupl 
+  PUBLIC coupl
   PUBLIC zgoubi_utilities)
 target_include_directories(zgoubi
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/mod>
   $<INSTALL_INTERFACE:include/zgoubi>  # <prefix>/include/zgoubi
 )
 set_target_properties( zgoubi
@@ -188,6 +227,8 @@ add_executable(zpop "")
 include("${CMAKE_CURRENT_SOURCE_DIR}/zpop/CMakeLists.txt")
 target_sources(zpop
   PRIVATE ${ZPOP_SRCS})
+set_source_files_properties(${ZPOP_SRCS}
+  PROPERTIES COMPILE_OPTIONS ${SAVE_EVERYWHERE})
 target_sources(zpop
   PUBLIC ${ZPOP_INCLUDES})
 target_compile_options(zpop PRIVATE ${common_fflags})
