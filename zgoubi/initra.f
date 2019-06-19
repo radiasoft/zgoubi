@@ -34,16 +34,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
 
-
-C///////////////////////
-c      call ZGNOEL(
-c     >             NOEL)
-c       if(noel.eq.245) then
-c           write(*,*) 'initra IN : ',noel,i
-c           write(*,*) ' QBR,DP ',QBR,DP
-c           write(*,*) '  F(1,I)  ',F(1,I)
-c         endif
-
       IT = I
       Y=F(2,I)
       T=F(3,I)*0.001D0
@@ -59,13 +49,6 @@ c         endif
       AMT = AMQ(1,I)
 C----- AMQ(2,I) = Q/QE
       TAR = F(7,I)   *1.D5
-
-cC///////////////////////
-c       if(noel.eq.245) then
-c           write(*,*) 'initra OUT : ',noel,i
-c           write(*,*) ' QBR,DP ',QBR,DP
-c           write(*,*) ' BRI  ',bri
-c         endif
 
       RETURN
       END
