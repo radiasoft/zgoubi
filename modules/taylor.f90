@@ -14,21 +14,6 @@ module taylor
   integer, parameter :: ncdim = 3  ! num coordinate dimensions
   integer, parameter :: ntord = 5  ! max Taylor order
 
-  !!! PascalMatrix(0:ntord+1, 0:ncdim)
-  !!!   = [ 0  0  0  0 ]
-  !!!     [ 1  1  1  1 ]
-  !!!     [ 1  2  3  4 ]
-  !!!     [ 1  3  6 10 ]
-  !!!     [ 1  4 10 20 ]
-  !!!     [ 1  5 15 35 ]
-  !!!     [ 1  6 21 56 ]
-  !!! Matrix constructed from Pascal's triangle.
-  !!! All entries are binomial coefficients:
-  !!!   PascalMatrix(j, k) = binom(j + k - 1, k)
-  !!! or
-  !!!   binom(n, k) = PascalMatrix(n + 1 - k, k)
-  !!!integer :: PascalMatrix(0:ntord+1, 0:ncdim)
-
   ! PascalMatrix(0:ncdim, 0:ntord+1)
   !   = [ 0  1  1  1  1  1  1 ]
   !     [ 0  1  2  3  4  5  6 ]
@@ -39,24 +24,29 @@ module taylor
   !   PascalMatrix(j, k) = binom(j + k - 1, k - 1)
   ! or
   !   binom(n, k) = PascalMatrix(n - k, k + 1)
-  integer :: PascalMatrix(0:ncdim, 0:ntord+1)
+  integer, parameter :: PascalMatrix(0:ncdim, 0:ntord+1) = reshape( &
+    & [ 0,  1,  1,  1,  1,  1,  1,   &
+    &   0,  1,  2,  3,  4,  5,  6,   &
+    &   0,  1,  3,  6, 10, 15, 21,   &
+    &   0,  1,  4, 10, 20, 35, 56 ], &
+    & [ ncdim + 1, ntord + 2 ], order = [2, 1])
 
   ! Pascal's triangle flattened into a linear array
   integer, allocatable :: PascalEntry(:)
   !
   ! index at which each row of Pascal's triangle begins
   ! ==> binom(n, k) = PascalEntry(PascalStart(n) + k)
-  integer :: PascalStart(0:ntord+1)
+  integer, parameter :: PascalStart(0:ntord+1) = PascalMatrix(ncdim-1,:)
 
   ! orderStart(0:ntord)
   !   = [ 0 1 4 10 20 35 ]
   ! Initial Giorgilli index for monomials of a given order.
-  integer :: orderStart(0:ntord)
+  integer, parameter :: orderStart(0:ntord) = PascalMatrix(ncdim,0:ntord)
 
   ! orderEnd(0:ntord)
   !   = [ 0 3 9 19 34 55 ]
   ! Final Giorgilli index for monomials of a given order.
-  integer :: orderEnd(0:ntord)
+  integer, parameter :: orderEnd(0:ntord) = PascalMatrix(ncdim,1:ntord+1) - 1
 
   ! multinomCoeff(0:Smon(ntord,ncdim))
   !   = [ 1  1 1 1  1 2 2 1 2 1  1 3 3 3 6 3 1 3 3 1  ... ]
@@ -65,7 +55,15 @@ module taylor
   !   [ j1 j2 j3 ], with j1 + j2 + j3 = n,
   ! we define the multinomial coefficient as
   !   n! / (j1! j2! j3!).
-  integer, allocatable :: multinomCoeff(:)
+  !integer, allocatable :: multinomCoeff(:)
+  integer, parameter :: multinomCoeff(0:orderEnd(ntord)) = &
+    & [ 1, &
+    &   1,  1,  1, &
+    &   1,  2,  2,  1,  2,  1, &
+    &   1,  3,  3,  3,  6,  3,  1,  3,  3,  1, &
+    &   1,  4,  4,  6, 12,  6,  4, 12, 12,  4,  1,  4,  6,  4,  1, &
+    &   1,  5,  5, 10, 20, 10, 10, 30, 30, 10,  5, 20, 30, 20,  5, &
+    &           1,  5, 10, 10,  5,  1 ]
 
   ! look-up table for the Giorgilli index of a product of monomials
   type(iarray2) :: GIndexTimes
@@ -81,19 +79,8 @@ contains
     integer :: fact(0:ntord)
     integer :: jv(1:ncdim)
     integer :: jv1(1:ncdim)
-    integer :: bin(0:ntord+1)
 
-    ! initialise PascalMatrix
-    PascalMatrix(0,:) = 1
-    PascalMatrix(:,0) = 0
-    do j = 1, ntord+1
-      do i = 1, ncdim
-        PascalMatrix(i,j) = PascalMatrix(i-1,j) + PascalMatrix(i,j-1)
-      end do
-    end do
-
-    ! initialise PascalStart
-    PascalStart(:) = PascalMatrix(2,:)
+    ! initialise PascalEntry
     allocate(PascalEntry(0:((ntord+3) * (ntord+2) / 2 - 1)))
     ! allocate and populate the enrtries of Pascal's triangle
     do j = 0, ntord+1
@@ -106,26 +93,24 @@ contains
       PascalEntry(os + j) = 1
     end do
 
-    ! initialise orderStart and orderEnd
-    bin(:) = PascalMatrix(ncdim,:)
-    orderStart(:) = bin(:ntord)
-    orderEnd(:) = bin(1:) - 1
-
-    ! initialise array of multinomial coefficients
-    allocate(multinomCoeff(0:orderEnd(ntord)))
-    fact(0) = 1
-    do i = 1, ntord
-      fact(i) = i * fact(i-1)
-    end do
+    !! initialise array of multinomial coefficients
+    !allocate(multinomCoeff(0:orderEnd(ntord)))
+    !fact(0) = 1
+    !do i = 1, ntord
+    !  fact(i) = i * fact(i-1)
+    !end do
+    !do i = 0, ntord
+    !  do gi = orderStart(i), orderEnd(i)
+    !    call GiorgilliExpon(i, gi, jv)
+    !    mc = fact(i)
+    !    do k = 1, ncdim
+    !      mc = mc / fact(jv(k))
+    !    end do
+    !    multinomCoeff(gi) = mc
+    !  end do
+    !end do
     do i = 0, ntord
-      do gi = orderStart(i), orderEnd(i)
-        call GiorgilliExpon(i, gi, jv)
-        mc = fact(i)
-        do k = 1, ncdim
-          mc = mc / fact(jv(k))
-        end do
-        multinomCoeff(gi) = mc
-      end do
+      write(6, '(55(i4))') (multinomCoeff(gi), gi=orderStart(i),orderEnd(i))
     end do
 
     ! allocate and populate the look-up table GIndexTimes
