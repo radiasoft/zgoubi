@@ -31,7 +31,7 @@ C     LE 2-EME INDICE EST LE NUMERO DE COORDONNEE,
 C     EXEMPLE: B(2,3)=dBz/ds, V(3,2)=d2Vy/ds2
 C     ----------------------------------------------
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
-      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
  
       V(I,1)=U(J,2)*B(K,3)-U(J,3)*B(K,2)
       V(I,2)=U(J,3)*B(K,1)-U(J,1)*B(K,3)

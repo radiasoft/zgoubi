@@ -30,7 +30,7 @@ C     i.e., calcul des coeffs des series de Taylor
 C     (eqs. 2.2.4-5)
 C     -----------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)

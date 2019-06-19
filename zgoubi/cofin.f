@@ -47,7 +47,7 @@ C     ----------------------------------
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
 
-      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
 
 C----- Write position M0, field at M0,  etc.
       IF(LST .EQ. 2) CALL IMPPLT(NL,Y,T,Z,P,X,SAR,TAR,DS,AMT,QT,KEX,IT)

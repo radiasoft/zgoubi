@@ -28,7 +28,6 @@ set(_zgoubi_global_includes
   C.CHAMBR.H
   C.CHAMP.H
   C.CHAVE.H
-  C.CHAVE_2.H
   C.CINE.H
   C.CNTRLB.H
   C.CO.H

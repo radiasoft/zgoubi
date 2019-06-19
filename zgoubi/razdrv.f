@@ -32,7 +32,7 @@ C     DU Champ B(X,Y,Z).
 C     --------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
-      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
+      INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.DDBXYZ_2.H"     ! COMMON/DDBXYZ/ DB(9),DDB(27)
       INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
