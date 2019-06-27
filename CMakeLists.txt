@@ -1133,9 +1133,14 @@ zpop/lastp.f
 target_compile_options(zpop PRIVATE ${common_fflags})
 target_link_libraries(zpop zg fminigraf)
 
+add_executable(tunesFromFai
+tunesFromFai/tunesFromFai.f
+)
+target_compile_options(tunesFromFai PRIVATE ${common_fflags})
+
 # Set installation subdirectory for executable files
 install(
-  TARGETS zgoubi zpop
+  TARGETS zgoubi zpop tunesFromFai
   DESTINATION bin
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
 )
