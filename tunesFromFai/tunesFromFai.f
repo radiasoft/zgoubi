@@ -176,7 +176,7 @@ C     >           NLOG, LM, NOMFIC)
       call SPCTRA(NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ
      >,FILFAIn)
 C                (NLOG,NL,LM,OKOPN,CHANGE,HV,kpa,kpb,nt,OKSAV,okQ)          
-      call SPSAV4
+      call SPSAV4(3)
       stop ' Ended correctly it seems...'
 
  11   continue
@@ -1755,7 +1755,7 @@ c          stop 'Pgm tunesFromFai : can''t open  tunesFromFai_spctra.Out'
 c        ENDIF
 c      return
 
-      ENTRY SPSAV4
+      ENTRY SPSAV4(I3)
       close(lusav)
       return
       END
