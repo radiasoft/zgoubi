@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -48,6 +48,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'     
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
+      INCLUDE "C.INTGRT_OPT.H"  ! COMMON/INTGRT_OPT/ INTEG_OPT
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
       SAVE KLEY
@@ -448,6 +449,7 @@ C----- AIMANT. Dipole with computed field map in cylindrical coordinates
      >                        ND(NOEL))
       GOTO 998
 C----- QUADRUPO - B quadrupolaire et derivees calcules en tout point (X,Y,Z)
+C----- The new sypmletic kick-drift-kick integrator is implemented
  3    CONTINUE
       KALC = 3
       KUASEX = 2
@@ -458,8 +460,67 @@ C----- QUADRUPO - B quadrupolaire et derivees calcules en tout point (X,Y,Z)
         CALL STPSI1(NOEL)
       ENDIF
       IF(FITGET) CALL FITGT1
-      CALL QUASEX(
-     >                        ND(NOEL))
+
+      newIntegQ = NINT(A(noel,2))
+      IF (newIntegQ .EQ. 0) THEN
+        WRITE (*,'(/, 10X, A, I1, A, /)')
+     >          'newIntegQ = ', newIntegQ, ', CALL QUASEX'
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >          'INTEGRATOR OPTION = ', newIntegQ,
+     >          ', using the default integrator.'
+        ENDIF
+
+        CALL CPU_TIME(time_begin)
+        CALL QUASEX(ND(NOEL))
+        CALL CPU_Time(time_end)
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        ENDIF
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+
+      ELSE IF (newIntegQ .eq. 1) THEN
+        WRITE (*,'(/, 10X, A, I1, A, /)')
+     >     'newIntegQ = ', newIntegQ, ', CALL fastSympQuad'
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >          'INTEGRATOR OPTION = ', newIntegQ,
+     >          ', the dkd integrator will be used.'
+        ENDIF
+
+        CALL CPU_TIME(time_begin)
+        CALL fastSympQuad(KUASEX, NRES)
+        CALL CPU_Time(time_end)
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by fastSympQuad is: ', time_end-time_begin, ' s'
+        ENDIF
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by fastSympQuad is: ', time_end-time_begin, ' s'
+
+      ELSE
+        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ',
+     >    newIntegQ, ', NOT implemented, CALL QUASEX'
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >        'INTEGRATOR OPTION = ', newIntegQ,
+     >        '. It is NOT implemented, using the default integrator.'
+        ENDIF
+
+        CALL CPU_TIME(time_begin)
+        CALL QUASEX(ND(NOEL))
+        CALL CPU_Time(time_end)
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        ENDIF
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+
+      ENDIF
+
       GOTO 998
 C----- SEXTUPOL - B SEXTUPOLAIRE  ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 4     CONTINUE
@@ -1748,6 +1809,17 @@ C----- SVDOC. Compute SVD matrix. Requires to be preceded by FIT to find orbit
         CALL FITST8(FITRBL)
       ENDIF
       CALL REBLT4(121)   !  121 = SVDOC
+      GOTO 998
+C----- INTEG_OPT
+ 122  CONTINUE
+        WRITE(*,*) 'Before read, INTEG_OPT =', INTEG_OPT
+        IF(READAT) READ(NDAT, *) INTEG_OPT
+        WRITE(*,*) 'After read, INTEG_OPT =', INTEG_OPT
+
+        IF (NRES .GT. 0) THEN
+          WRITE(NRES, '(/, 10X, A20, I5, /)')
+     >          'INTEGRATOR OPTION = ', INTEG_OPT
+        ENDIF
       GOTO 998
 C-------------------------
 C-------------------------

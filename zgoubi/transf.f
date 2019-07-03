@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory 
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -126,9 +126,19 @@ C-------- IEX<-1 <=> Particle stopped
           CALL INTEGR(EVNT,BACKW,MIRROR,KFLD)
  
           IF( CHPFS  ) CALL CHAREF(EVNT,XFS,ZERO,ZERO)
+
           IF( CHGRFS ) THEN
+C--------print phi and theta in mrad
+            IF((NRES.GT.0) .AND. (IT.EQ.1)) THEN
+              WRITE(NRES,199) '  KPOS  DP         Y(cm)   T(mrad)  ',
+     >        '   Z(cm)   P(mrad)  ', '  X(cm)     Y(cm)   T(mrad)  ',
+     >        '   Z(cm)   P(mrad)   ', ' I'
+ 199  FORMAT(2X, A, A, 8X, A, A, 8X, A)
+            ENDIF
+
             IF(NRES.GT.0)
-     >        WRITE(NRES,100)'A',KEX,(FO(J,IT),J=1,5),X ,Y,T,Z,P,IT
+     >        WRITE(NRES,100)'A',KEX,(FO(J,IT),J=1,5),
+     > X, Y, T*1000.D0, Z, P*1000.D0, IT
  100          FORMAT(2X,A1,2X,I3,F8.4,4F10.3,8X,F9.3,4F10.3,8X,I5)
               CALL CHANRF(EVNT,QSHROS,VSHROS)
           ENDIF

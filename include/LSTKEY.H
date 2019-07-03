@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      PARAMETER (MXKLE=121)
+      PARAMETER (MXKLE=122)
       CHARACTER(KSIZ)  KLE(MXKLE)
 C           1           2            3            4            5
       DATA (KLE(I),I=1,50)/
@@ -53,7 +53,7 @@ C           1           2            3            4            5
      B 'SYSTEM'   ,  'SPINR'   ,  'BENDTH'  ,  'AGSMM'   , 'BEAMBEAM' ,
      > 'AGSQUAD'  ,  'SYNRAD'  ,  'OPTIONS' , 'EPLATES'  , 'DAMPER'   ,
      C 'CYCLOTRON',  'ERRORS'  ,'SPACECHARG',  'GOTO'    , 'ELLIPTIC' ,
-     > 'SVDOC'  /
+     > 'SVDOC'    ,  'INTEGRAT' /
 
       INCLUDE 'ZGINIT.H'
 
@@ -66,7 +66,7 @@ C           1           2            3            4            5
      >,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83
      >,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103
      >,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119
-     >,120,121) IKLE
+     >,120,121,122) IKLE
       GOTO 999
 
  1000 CONTINUE

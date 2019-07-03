@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -31,6 +31,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
+      INCLUDE "C.INTGRT_OPT.H"  ! COMMON/INTGRT_OPT/ INTEG_OPT
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LABEL
       INCLUDE "C.LABEL.H"     ! COMMON/LABEL/ LABEL(MXL,2)
@@ -82,6 +83,9 @@ C Dummy
       call initialize_input_parameters('pariz.nml')
       call ensure_xyzhc_allocation(MXX,MXY,IZ)
       call ensure_xyz_allocation(MXX,MXY,IZ)
+
+C The default value of INTEG_OPT = 0
+      INTEG_OPT = 0 ! This is researved for other integrators applicable to not only mag-quadru
 
 C Manage possible arguments to zgoubi -----------------------
       NBARGS = COMMAND_ARGUMENT_COUNT()

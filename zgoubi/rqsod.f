@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory  
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
@@ -32,10 +32,20 @@ C     -----------------------
       PARAMETER(MPOL=10)
  
 C----- IL
-      READ(NDAT,*) IA
+
+      READ(NDAT, *, err=199) IA, newIntegQ
+      GOTO 200
+
+199   BACKSPACE NDAT       ! Error: only one integer in this record. Position
+                           ! the input file to just before the preceding record
+      newIntegQ = 0
+
+200   CONTINUE
       A(NOEL,1) = IA
+      A(NOEL,2) = newIntegQ
 
 C XL, R0, B0
+
       READ(NDAT,*) (A(NOEL,I),I=10,12)
 
 C     ... CHP FUITE ENTREE
@@ -48,8 +58,7 @@ C     ... CHP FUITE SORTIE
       A(NOEL,50) = IA
  
       ND=60
-      CALL STPSIZ(NDAT,NOEL,ND,
-     >                         A)
+      CALL STPSIZ(NDAT,NOEL,ND,A)
 
       READ(NDAT,*) IA,(A(NOEL,I),I=ND+10+1,ND+10+3)
       A(NOEL,ND+10) = IA

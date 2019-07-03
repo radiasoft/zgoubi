@@ -24,6 +24,6 @@ C  Upton, NY, 11973, USA
 
 C-- Max integration steps in an lmnt
 C       PARAMETER (MXSTEP = 10000)
-      PARAMETER (MXSTEP = 100000)
+      PARAMETER (MXSTEP = 1000000)
 C Cyclotrons
 C      PARAMETER (MXSTEP = 10000000)

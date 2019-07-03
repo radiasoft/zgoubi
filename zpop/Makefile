@@ -194,7 +194,7 @@ clean :
 
 bin.o: MXVAR.H
 block.o: $(INC)/MAXTRA.H
-caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H $(INC)/ZGINIT.H
+caltra.o: $(INC)/MXLD.H $(INC)/MXFS.H $(INC)/LSTKEY.H $(INC)/ZGINIT.H $(INC)/C.INTGRT_OPT.H
 filcoo.o: MAXNTR.H
 graph7.o: MXVAR.H MAXNTR.H
 graph8.o: MXVAR.H
@@ -209,7 +209,7 @@ lpsdrw.o: MXVAR.H MAXNTR.H
 lpsfit.o: MAXNTR.H $(INC)/MAXCOO.H
 okkl.o: OKKL.H
 okkp.o: $(INC)/OKKP.H
-okkt.o: $(INC)/OKKT.H MAXNTR.H 
+okkt.o: $(INC)/OKKT.H MAXNTR.H
 opndef.o: $(INC)/FILHDF.H
 opnmn.o: $(INC)/FILPLT.H FILFAI.H
 opnmnl.o: $(INC)/FILPLT.H FILFAI.H
