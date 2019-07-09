@@ -74,7 +74,6 @@ OBJ=\
  coils.o\
  coilsf.o\
  collim.o\
- convert_coord.o\
  cptfct.o\
  csri.o\
  csrint.o\
@@ -96,6 +95,7 @@ OBJ=\
  dist2.o\
  dist3.o\
  dispu.o\
+ dkd_integr.o\
  dlgau.o\
  dpkick.o\
  drtent.o\
@@ -200,7 +200,6 @@ OBJ=\
  iter.o\
  itsens.o\
  jcentr.o\
- kdk_integr.o\
  krtax.o\
  ksmap.o\
  kstop.o\
@@ -312,7 +311,6 @@ OBJ=\
  rerror.o\
  reset.o\
  revers.o\
- revert_coord.o\
  rfaist.o\
  rffag.o\
  rfit.o\
@@ -492,7 +490,6 @@ coeffs.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 cofin.o: $(INC)/MAXTRA.H $(INC)/MXSTEP.H CSR.H $(INC)/MAXCOO.H
 coils.o: $(INC)/MXLD.H
 collim.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
-convert_coord.o: $(INC)/C.TRAJ.H $(INC)/C.TRAJ_DTA.H $(INC)/C.TRAJ_SCL.H $(INC)/SCALE_KDK.H
 csri.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 csrint.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 cyclo.o: $(INC)/MXLD.H
@@ -506,6 +503,7 @@ dipsi.o: $(INC)/MXLD.H
 dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dist3.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dispu.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
+dkd_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/SCALE_symp.H 
 dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXSCL.H
 el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H
@@ -516,11 +514,12 @@ emmac.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAPHDR.H
 emmap.o: PARIZ.H XYZHC.H $(INC)/MAXTRA.H $(INC)/MXLD.H
 end.o: $(INC)/MXSTEP.H $(INC)/MAXTRA.H CSR.H $(INC)/MAXCOO.H
 endfit.o: $(INC)/MXLD.H
+endjob.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.REBELO.H
 errors.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
-fastSympQuad.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.TRAJ.H $(INC)/C.UNITS.H $(INC)/SCALE_KDK.H
+fastSympQuad.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H $(INC)/SCALE_symp.H
 fborne.o: $(INC)/MXLD.H
 ffagi.o: $(INC)/MXLD.H
 ff.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -558,7 +557,6 @@ integr.o: $(INC)/MXSTEP.H
 intpl3.o: $(INC)/MAXTRA.H
 intplf.o: $(INC)/MAXTRA.H
 jcentr.o: PARIZ.H
-kdk_integr.o: $(INC)/C.TRAJ_SCL.H
 krtax.o: PARIZ.H
 ksmap.o: PARIZ.H
 kstop.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H
@@ -642,7 +640,6 @@ rempli.o: $(INC)/MXLD.H
 replat.o: $(INC)/MXLD.H
 rerror.o: $(INC)/MXLD.H
 reset.o:  $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H
-revert_coord.o: $(INC)/C.TRAJ.H $(INC)/C.TRAJ_DTA.H $(INC)/C.TRAJ_SCL.H $(INC)/SCALE_KDK.H
 rfaist.o: $(INC)/MXLD.H
 rffag.o:  $(INC)/MXLD.H $(INC)/MAPHDR.H
 rfit.o:   $(INC)/MXLD.H

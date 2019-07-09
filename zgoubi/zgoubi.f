@@ -487,7 +487,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
         IF (NRES .GT. 0) THEN
           WRITE(NRES, '(/, 10X, A, I1, A, /)')
      >          'INTEGRATOR OPTION = ', newIntegQ,
-     >          ', the dkd integrator will be used.'
+     >          ', the drift-kick-drift integrator will be used.'
         ENDIF
 
         CALL CPU_TIME(time_begin)
@@ -502,22 +502,33 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
 
       ELSE
         WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ',
-     >    newIntegQ, ', NOT implemented, CALL QUASEX'
+     >    newIntegQ, ', NOT implemented, stop the job.'
         IF (NRES .GT. 0) THEN
           WRITE(NRES, '(/, 10X, A, I1, A, /)')
      >        'INTEGRATOR OPTION = ', newIntegQ,
-     >        '. It is NOT implemented, using the default integrator.'
+     >        '. It is NOT implemented, stop the job.'
         ENDIF
 
-        CALL CPU_TIME(time_begin)
-        CALL QUASEX(ND(NOEL))
-        CALL CPU_Time(time_end)
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, E20.10, A)')
-     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
-        ENDIF
-        WRITE(*, '(/, 10X, A, E20.10, A)')
-     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        CALL ENDJOB(' The choice of integrator
+     >has NOT been implemented', -99)
+
+C        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ',
+C     >    newIntegQ, ', NOT implemented, CALL QUASEX'
+C        IF (NRES .GT. 0) THEN
+C          WRITE(NRES, '(/, 10X, A, I1, A, /)')
+C     >        'INTEGRATOR OPTION = ', newIntegQ,
+C     >        '. It is NOT implemented, using the default integrator.'
+C        ENDIF
+C
+C        CALL CPU_TIME(time_begin)
+C        CALL QUASEX(ND(NOEL))
+C        CALL CPU_Time(time_end)
+C        IF (NRES .GT. 0) THEN
+C          WRITE(NRES, '(/, 10X, A, E20.10, A)')
+C     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+C        ENDIF
+C        WRITE(*, '(/, 10X, A, E20.10, A)')
+C     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
 
       ENDIF
 

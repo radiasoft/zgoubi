@@ -99,7 +99,6 @@ set(_zgoubi_global_includes
   C.SYNRA.H
   C.TRAJ.H
   C.TRAJ_2.H
-  C.TRAJ_DTA.H
   C.TRNSF.H
   C.TRNSM.H
   C.TYPFLD.H
@@ -124,7 +123,7 @@ set(_zgoubi_global_includes
   MXLD.H
   MXSCL.H
   MXSTEP.H
-  SCALE_KDK.H
+  SCALE_symp.H
   )
 set(_zgoubi_local_includes
   "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
@@ -223,7 +222,6 @@ set(_zgoubi_srcs
   coils.f
   coilsf.f
   collim.f
-  convert_coord.f
   cptfct.f
   csri.f
   csrint.f
@@ -246,6 +244,7 @@ set(_zgoubi_srcs
   dispu.f
   dist2.f
   dist3.f
+  dkd_integr.f
   dlgau.f
   dpkick.f
   drtent.f
@@ -353,7 +352,6 @@ set(_zgoubi_srcs
   iter.f
   itsens.f
   jcentr.f
-  kdk_integr.f
   krtax.f
   ksmap.f
   kstop.f
@@ -467,7 +465,6 @@ set(_zgoubi_srcs
   rerror.f
   reset.f
   revers.f
-  revert_coord.f
   rfaist.f
   rffag.f
   rfit.f

@@ -25,4 +25,5 @@ C  USA
 C  -------
 
 C Max number of coordinates
+      INTEGER MXJ
       PARAMETER (MXJ=7)

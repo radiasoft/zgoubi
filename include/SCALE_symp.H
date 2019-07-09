@@ -25,5 +25,7 @@ C  Upton, NY, 11973, USA
 C  scaling length scl_l0, scaling frequency scl_w0
 C  make sure scl_l0*scl_w0 = c, speed of light
 
+      DOUBLE PRECISION scl_l0, scl_w0
+
       PARAMETER (scl_l0 = 100.D0)
       PARAMETER (scl_w0 = 299792458.D0)

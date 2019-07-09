@@ -131,15 +131,15 @@ C-------- IEX<-1 <=> Particle stopped
 C--------print phi and theta in mrad
             IF((NRES.GT.0) .AND. (IT.EQ.1)) THEN
               WRITE(NRES,199) '  KPOS  DP         Y(cm)   T(mrad)  ',
-     >        '   Z(cm)   P(mrad)  ', '  X(cm)     Y(cm)   T(mrad)  ',
-     >        '   Z(cm)   P(mrad)   ', ' I'
+     >        '   Z(cm)   P(mrad)  ', ' X(cm)         Y(cm)      ',
+     >        '  T(mrdd)      Z(cm)        P(mrad)   ', '  I'
  199  FORMAT(2X, A, A, 8X, A, A, 8X, A)
             ENDIF
 
             IF(NRES.GT.0)
      >        WRITE(NRES,100)'A',KEX,(FO(J,IT),J=1,5),
      > X, Y, T*1000.D0, Z, P*1000.D0, IT
- 100          FORMAT(2X,A1,2X,I3,F8.4,4F10.3,8X,F9.3,4F10.3,8X,I5)
+ 100          FORMAT(2X,A1,2X,I3,F8.4,4F10.3,8X,F12.6,4F13.6,8X,I5)
               CALL CHANRF(EVNT,QSHROS,VSHROS)
           ENDIF
 
