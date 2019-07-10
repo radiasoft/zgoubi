@@ -232,6 +232,7 @@ OBJ=\
  mino1.o\
  minonm.o\
  mix.o\
+ mkm_integr.o 
  mksa.o\
  modord.o\
  mulerr.o\
@@ -580,6 +581,7 @@ mcobj1.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mcobj3.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mix.o: $(INC)/MAXCOO.H
+mkm_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/SCALE_symp.H 
 mksa.o: $(INC)/MAXCOO.H
 modord.o: $(INC)/MXLD.H
 mulerr.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.CONST_2.H  $(INC)/C.CONST2.H

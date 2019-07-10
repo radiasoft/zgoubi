@@ -22,7 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DKD_INTEGR(MAX_STEP, PAS_scl, hfPAS_scl,
+      SUBROUTINE DKD_INTEGR(MAX_STEP, PAS_scl,
      >      gb0, eb2, PREF, IMAX, AM, data, X_axis)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
@@ -35,14 +35,13 @@ C     --------------------------------------------------------------------
       INCLUDE "SCALE_symp.H"  ! PARAMETER (scl_l0, scl_w0)
 
       INTEGER, INTENT(IN) :: MAX_STEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: PAS_scl,hfPAS_scl,gb0,eb2,PREF,AM
+      DOUBLE PRECISION, INTENT(IN) :: PAS_scl, gb0, eb2, PREF, AM
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION, INTENT(OUT) :: X_axis(MXT)
       DOUBLE PRECISION theta, phi, x_dta, y_dta, z_dta, s_dta, t_dta
-      DOUBLE PRECISION px_dta, py_dta, pt_dta, S_scl, Z_scl
+      DOUBLE PRECISION px_dta, py_dta, pt_dta, S_scl, Z_scl, deltaZ
       DOUBLE PRECISION X_scl, PX_scl, Y_scl, PY_scl, T_scl, PT_scl
-      DOUBLE PRECISION pt_gb2, ps, portion, deltaZ, DTscl
-      DOUBLE PRECISION Pxz, Ptot, Etot
+      DOUBLE PRECISION hfPAS_scl, P2, Ps, Tdft, Pxz, Ptot, Etot, KL
       INTEGER NUM_STEP, IT
 
 C      DP=F(1,I)
@@ -52,6 +51,9 @@ C      Z =F(4,I)
 C      P =F(5,I)*0.001D0
 C      SAR=F(6,I)
 C      TAR=F(7,I)*1.D5
+
+      hfPAS_scl = 0.5D0*PAS_scl
+      KL = eb2*PAS_scl
 
       DO CONCURRENT (IT = 1:IMAX)  !!! Loop over all the particles
         Ptot = PREF*data(1,IT)         ! the total momentum
@@ -83,49 +85,48 @@ C---------Scale the coordinated from DTA to dimensionless
         T_scl = -t_dta*scl_w0
         S_scl =  s_dta/scl_l0
 
+C---------Compute constants for a particle
+        P2 = PT_scl*PT_scl - gb0*gb0
+
 C---------Start the symplectic dfift-kick-drift integrator
-        pt_gb2 = PT_scl*PT_scl - gb0*gb0
         NUM_STEP = 1
-
         DO 999 WHILE (NUM_STEP .LE. MAX_STEP)
-C----------DRIFT half stepsize for the first drift
+C----------DRIFT: half the stepsize for the first drift
           IF (NUM_STEP .EQ. 1) THEN
-            ps = SQRT(pt_gb2 - PX_scl*PX_scl - PY_scl*PY_scl)
-            portion = hfPAS_scl/ps
+            Ps = SQRT(P2 - PX_scl*PX_scl - PY_scl*PY_scl)
+            Tdft = hfPAS_scl/Ps  ! the scaled drift time
 
-            X_scl = X_scl + portion*PX_scl
-            Y_scl = Y_scl + portion*PY_scl
-            DTscl = portion*PT_scl
-            T_scl = T_scl - DTscl
+            X_scl = X_scl + Tdft*PX_scl
+            Y_scl = Y_scl + Tdft*PY_scl
+            T_scl = T_scl - Tdft*PT_scl
 
             deltaZ = hfPAS_scl*
-     >             SQRT(1-(PX_scl*PX_scl+PY_scl*PY_scl)/(ps*ps))
+     >             SQRT(1-(PX_scl*PX_scl+PY_scl*PY_scl)/(Ps*Ps))
             Z_scl = Z_scl + deltaZ
             S_scl = S_scl + hfPAS_scl
           ENDIF
 
 C----------KICK----------------------------------------------
-          PX_scl = PX_scl - eb2*X_scl
-          PY_scl = PY_scl + eb2*Y_scl
+          PX_scl = PX_scl - KL*X_scl
+          PY_scl = PY_scl + KL*Y_scl
 
-C----------DRIFT the whole step size except for the last step
-          ps = SQRT(pt_gb2 - PX_scl*PX_scl - PY_scl*PY_scl)
+C----------DRIFT: the whole step size except for the last step
+          Ps = SQRT(P2 - PX_scl*PX_scl - PY_scl*PY_scl)
           IF (NUM_STEP .EQ. MAX_STEP) THEN
-            portion = hfPAS_scl/ps
+            Tdft = hfPAS_scl/Ps
             deltaZ = hfPAS_scl*
      >             SQRT(1-(PX_scl*PX_scl+PY_scl*PY_scl)/(ps*ps))
             S_scl = S_scl + hfPAS_scl
           ELSE
-            portion = PAS_scl/ps
+            Tdft = PAS_scl/Ps
             deltaZ = PAS_scl*
      >             SQRT(1-(PX_scl*PX_scl+PY_scl*PY_scl)/(ps*ps))
             S_scl = S_scl + PAS_scl
           ENDIF
 
-          X_scl = X_scl + portion*PX_scl
-          Y_scl = Y_scl + portion*PY_scl
-          DTscl = portion*PT_scl
-          T_scl = T_scl - DTscl
+          X_scl = X_scl + Tdft*PX_scl
+          Y_scl = Y_scl + Tdft*PY_scl
+          T_scl = T_scl - Tdft*PT_scl
           Z_scl = Z_scl + deltaZ
 
           NUM_STEP = NUM_STEP + 1

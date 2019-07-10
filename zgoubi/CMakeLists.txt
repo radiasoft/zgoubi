@@ -384,6 +384,7 @@ set(_zgoubi_srcs
   mino1.f
   minonm.f
   mix.f
+  mkm_integr.f
   mksa.f
   modord.f
   mulerr.f

@@ -465,70 +465,63 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
       IF (newIntegQ .EQ. 0) THEN
         WRITE (*,'(/, 10X, A, I1, A, /)')
      >          'newIntegQ = ', newIntegQ, ', CALL QUASEX'
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, I1, A, /)')
-     >          'INTEGRATOR OPTION = ', newIntegQ,
-     >          ', using the default integrator.'
-        ENDIF
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >     'INTEGRATOR OPTION = ', newIntegQ,
+     >     ', using the default integrator'
 
         CALL CPU_TIME(time_begin)
         CALL QUASEX(ND(NOEL))
         CALL CPU_Time(time_end)
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, E20.10, A)')
-     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
-        ENDIF
+
         WRITE(*, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
      >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
 
       ELSE IF (newIntegQ .eq. 1) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)')
-     >     'newIntegQ = ', newIntegQ, ', CALL fastSympQuad'
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, I1, A, /)')
-     >          'INTEGRATOR OPTION = ', newIntegQ,
-     >          ', the drift-kick-drift integrator will be used.'
-        ENDIF
+        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+     >', CALL fastSympQuad, using the drift-kick-drift integrator'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >     'INTEGRATOR OPTION = ', newIntegQ,
+     >     ', using the drift-kick-drift integrator'
 
         CALL CPU_TIME(time_begin)
-        CALL fastSympQuad(KUASEX, NRES)
+        CALL fastSympQuad(KUASEX, NRES, newIntegQ)
         CALL CPU_Time(time_end)
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, E20.10, A)')
-     >  'CPU time used by fastSympQuad is: ', time_end-time_begin, ' s'
-        ENDIF
+
         WRITE(*, '(/, 10X, A, E20.10, A)')
-     >  'CPU time used by fastSympQuad is: ', time_end-time_begin, ' s'
+     >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
+     >     time_end-time_begin, ' s'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
+     >     time_end-time_begin, ' s'
+
+      ELSE IF (newIntegQ .eq. 2) THEN
+        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+     >', Call fastSympQuad, using the matrix-kick-matrix integrator'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >     'INTEGRATOR OPTION = ', newIntegQ,
+     >     ', using the matrix-kick-matrix integrator'
+
+        CALL CPU_TIME(time_begin)
+        CALL fastSympQuad(KUASEX, NRES, newIntegQ)
+        CALL CPU_Time(time_end)
+
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
+     >     time_end-time_begin, ' s'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
+     >     time_end-time_begin, ' s'
 
       ELSE
-        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ',
-     >    newIntegQ, ', NOT implemented, stop the job.'
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A, I1, A, /)')
-     >        'INTEGRATOR OPTION = ', newIntegQ,
-     >        '. It is NOT implemented, stop the job.'
-        ENDIF
-
-        CALL ENDJOB(' The choice of integrator
-     >has NOT been implemented', -99)
-
-C        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ',
-C     >    newIntegQ, ', NOT implemented, CALL QUASEX'
-C        IF (NRES .GT. 0) THEN
-C          WRITE(NRES, '(/, 10X, A, I1, A, /)')
-C     >        'INTEGRATOR OPTION = ', newIntegQ,
-C     >        '. It is NOT implemented, using the default integrator.'
-C        ENDIF
-C
-C        CALL CPU_TIME(time_begin)
-C        CALL QUASEX(ND(NOEL))
-C        CALL CPU_Time(time_end)
-C        IF (NRES .GT. 0) THEN
-C          WRITE(NRES, '(/, 10X, A, E20.10, A)')
-C     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
-C        ENDIF
-C        WRITE(*, '(/, 10X, A, E20.10, A)')
-C     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+     >     newIntegQ, ', NOT implemented, stop the job.'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
+     >    'INTEGRATOR OPTION = ', newIntegQ,
+     >    '. It is NOT implemented, stop the job.'
+        CALL ENDJOB(
+     >' The choice of integrator has NOT been implemented', -99)
 
       ENDIF
 
