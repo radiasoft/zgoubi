@@ -30,7 +30,7 @@ mpxerr.tex
 *.o
 *.so
 
-tags
+/tags
 build*/
 tmp/
 zgoubi/zgoubi
