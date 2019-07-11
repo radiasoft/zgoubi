@@ -48,7 +48,7 @@ C
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
-      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,DP,QBR,BRI
 
@@ -277,23 +277,23 @@ C-----------------------------
         IDRT = NINT(A(NOEL,NP))
         IF    (IDRT.EQ.-1) THEN
 C          Intgration limit at entrance
-          AM(1) = A(NOEL,NP+1)
-          BM(1) = A(NOEL,NP+2)
+          CA(1) = A(NOEL,NP+1)
+          SA(1) = A(NOEL,NP+2)
           CM(1) = A(NOEL,NP+3)
           NP = NP + 3
         ELSEIF(IDRT.EQ. 1) THEN
 C          Intgration limit at exit
-          AM(2) = A(NOEL,NP+1)
-          BM(2) = A(NOEL,NP+2)
+          CA(2) = A(NOEL,NP+1)
+          SA(2) = A(NOEL,NP+2)
           CM(2) = A(NOEL,NP+3)
           NP = NP + 3
         ELSEIF(IDRT.EQ. 2) THEN
 C          Intgration limit at entrance and at exit
-          AM(1) = A(NOEL,NP+1)
-          BM(1) = A(NOEL,NP+2)
+          CA(1) = A(NOEL,NP+1)
+          SA(1) = A(NOEL,NP+2)
           CM(1) = A(NOEL,NP+3)
-          AM(2) = A(NOEL,NP+4)
-          BM(2) = A(NOEL,NP+5)
+          CA(2) = A(NOEL,NP+4)
+          SA(2) = A(NOEL,NP+5)
           CM(2) = A(NOEL,NP+6)
           NP = NP + 6
         ELSE
@@ -352,21 +352,21 @@ C--------------------
             WRITE(NRES,FMT='(/,5X,'' Integration limit at entrance,'',
      >      ''  positionning as follows :  '',/,20X,
      >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
-     >      '' ;  tilt : '',E14.6)') AM(1),BM(1),CM(1)
+     >      '' ;  tilt : '',E14.6)') CA(1),SA(1),CM(1)
           ELSEIF(IDRT.EQ. 1) THEN
             WRITE(NRES,FMT='(/,5X,'' Integration limit at exit,'',
      >      ''  positionning as follows :  '',/,20X,
      >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
-     >      '' ;  tilt : '',E14.6)') AM(2),BM(2),CM(2)
+     >      '' ;  tilt : '',E14.6)') CA(2),SA(2),CM(2)
           ELSEIF(IDRT.EQ. 2) THEN
             WRITE(NRES,FMT='(/,5X,'' Integration limit at entrance,'',
      >      ''  positionning as follows :  '',/,20X,
      >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
-     >      '' ;  tilt : '',E14.6)') AM(1),BM(1),CM(1)
+     >      '' ;  tilt : '',E14.6)') CA(1),SA(1),CM(1)
             WRITE(NRES,FMT='(/,5X,'' Integration limit at exit,    '',
      >      ''  positionning as follows :  '',/,20X,
      >      ''  angle : '',1P,E14.6,'' ;  radius : '',E14.6,
-     >      '' ;  tilt : '',E14.6)') AM(2),BM(2),CM(2)
+     >      '' ;  tilt : '',E14.6)') CA(2),SA(2),CM(2)
           ENDIF
         ELSE
             WRITE(NRES,FMT='(/,5X,'' No integration limit set.'')')

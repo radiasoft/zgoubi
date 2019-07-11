@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -28,20 +28,20 @@ C  -------
 C-----------------------------
 C     Droite de coupure entree
 C-----------------------------
-      INCLUDE "C.DROITE_2.H"     ! COMMON/DROITE/ AM(9),BM(9),CM(9),IDRT
+      INCLUDE "C.DROITE.H"     ! COMMON/DROITE/ CA(9),SA(9),CM(9),IDRT
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 
       CT=COS(T)
       ST=SIN(T)
- 
-        DEN = AM(1)*CT+BM(1)*ST
+
+        DEN = CA(1)*CT+SA(1)*ST
 
         IF    (KART .EQ. 1) THEN
 C CARTESIEN
-          XN = (-CM(1)*CT+X*BM(1)*ST-Y*BM(1)*CT)/DEN
-          Y  = (-CM(1)*ST-X*AM(1)*ST+Y*AM(1)*CT)/DEN
+          XN = (-CM(1)*CT+X*SA(1)*ST-Y*SA(1)*CT)/DEN
+          Y  = (-CM(1)*ST-X*CA(1)*ST+Y*CA(1)*CT)/DEN
           DL = (XN-X)/CT
           SAR = SAR + DL/COS(P)
           Z = Z + DL*TAN(P)
@@ -50,14 +50,14 @@ C CARTESIEN
         ELSEIF(KART .EQ. 2) THEN
 C POLAIRE
 C ****************  NEVER BEEN USED! CHECK FORMULAE FIRST !!! *************8
-          XN = (-CM(1)*ST+Y*AM(1)*CT)/DEN
-          YN = (-CM(1)*CT-Y*BM(1)*CT)/DEN
+          XN = (-CM(1)*ST+Y*CA(1)*CT)/DEN
+          YN = (-CM(1)*CT-Y*SA(1)*CT)/DEN
           SAR = SAR + XN/CT*COS(P)
           Z = Z + XN/CT*TAN(P)
           X = ATAN(XN/YN)
           Y = YN/COS(X)
           T = T+X
         ENDIF
- 
+
       RETURN
       END
