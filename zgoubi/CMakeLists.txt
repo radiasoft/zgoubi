@@ -54,7 +54,6 @@ set(_zgoubi_global_includes
   C.DON.H
   C.DONT.H
   C.DROITE.H
-  C.DROITE_2.H
   C.EFBS.H
   C.FAISC.H
   C.FAISCT.H
