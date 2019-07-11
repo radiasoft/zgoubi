@@ -42,16 +42,16 @@ C---------------------------------------------------------
       INCLUDE 'C.INTEG.H'  ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.OBJET.H"  ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.RIGID.H"  ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
-      INCLUDE "SCALE_symp.H"  ! PARAMETER (scl_l0, scl_w0)
+      INCLUDE "SCALE_symp.H" ! PARAMETER (l0, w0)
       INCLUDE "C.UNITS.H"    ! COMMON/UNITS/ UNIT(MXJ)
 
       DOUBLE PRECISION XL, XE, RO, GAP, SCAL, SCAL0, B_mag, b2_mag
       DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, X_axis(MXT)
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
-      DOUBLE PRECISION eb2, gb0, PAS0, PAS_scl, RO_scl
+      DOUBLE PRECISION eb2, b0g0, PAS0, PAS_scl, RO_scl
       INTEGER KUASEX, NRES, newIntegQ, MAX_STEP, J, IT
 
-C-------- Get the parameters for the magnetic qradrupole
+C-------- Get the parameters for the magnetic qradrupole----------------
 
       XL = A(NOEL,10)
       RO = A(NOEL,11)
@@ -105,34 +105,34 @@ C-------- Sharp edge at entrance and exit
      >  /, 20X, 'The input  integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm', /)
 
-C---------Compute some constants for the sympletic integration
+C---------Compute some constants for the sympletic integration----------
       IF(Q .EQ. 0.D0) Q = 1
       PREF = BORO*CL9*Q ! the reference momentum; BORO in kG.cm
                         ! CL9 = 0.29979246; Q=1 for proton;
       EREF = SQRT(PREF*PREF + AM*AM) ! the total energy
       BETA0 = PREF / EREF
       GAMMA0 = EREF / AM
-      gb0 = 1.D0/(BETA0*GAMMA0)
-      PAS_scl = PAS/scl_l0
-      RO_scl = RO/scl_l0
-      eb2 = ((B_mag*RO)/BORO)/(RO_scl*RO_scl)
-
+      b0g0 = 1.D0/(BETA0*GAMMA0)
+      PAS_scl = PAS/l0
+      RO_scl = RO/l0
+      eb2 = ((B_mag*RO)/BORO)/(RO_scl**2)   ! eb2/P0, i.e., scaled by the
+                                            ! reference momentum P0 = BORO*Q
       IF (newIntegQ .EQ. 1) THEN
-C---------Drift-kick-drift motion integrator
-        CALL DKD_INTEGR(MAX_STEP, PAS_scl,
-     >           gb0, eb2, PREF, IMAX, AM, F, X_axis)
+C---------Option 1: Drift-kick-drift motion integrator------------------
+        CALL DKD_INTEGR(MAX_STEP, PAS_scl, b0g0, eb2, AM, PREF, IMAX,
+     >           F, X_axis)
       ELSE IF (newIntegQ .EQ. 2) THEN
-C---------Matrix-kick-Matrix motion integrator
-        CALL MKM_INTEGR(MAX_STEP, PAS_scl,
-     >           gb0, eb2, PREF, IMAX, AM, F, X_axis)
+C---------Option 2: Matrix-kick-Matrix motion integrator----------------
+        CALL MKM_INTEGR(MAX_STEP, PAS_scl, b0g0, eb2, AM, PREF, IMAX,
+     >           F, X_axis)
       ELSE
         WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      >    newIntegQ, ', NOT implemented, stop the job.'
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
      >    'INTEGRATOR OPTION = ', newIntegQ,
      >    '. It is NOT implemented, stop the job.'
-        CALL ENDJOB(' The choice of integrator has NOT been
-     >implemented', -99)
+        CALL ENDJOB(' The choice of integrator has NOT been implemented'
+     >, -99)
       END IF
 
       DO IT = 1, IMAX
@@ -140,7 +140,7 @@ C---------Matrix-kick-Matrix motion integrator
           IF(IT.EQ.1) THEN
             WRITE(NRES,199)
           ENDIF
-C----------NOTE: P and T in unit of mrad (as in F(J,I))
+C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
      >      X_axis(IT), (F(J,IT), J=2,5), IT
         ENDIF

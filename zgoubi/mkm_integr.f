@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MKM_INTEGR(MAX_STEP, PAS_scl,
-     >      gb0, eb2, PREF, IMAX, AM, data, X_axis)
+      SUBROUTINE MKM_INTEGR(MAX_STEP, PAS, b0g0, eb2, AM, PREF, IMAX,
+     >      data, X_axis)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
 C     ALL the variables are scaled
@@ -32,20 +32,18 @@ C     --------------------------------------------------------------------
       IMPLICIT NONE
       INCLUDE "MAXTRA.H"      ! PARAMETER (MXJ=7)
       INCLUDE "MAXCOO.H"      ! PARAMETER (MXT=10000)
-      INCLUDE "SCALE_symp.H"  ! PARAMETER (scl_l0, scl_w0)
+      INCLUDE "SCALE_symp.H"  ! PARAMETER (l0, w0)
 
       INTEGER, INTENT(IN) :: MAX_STEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: PAS_scl, gb0, eb2, PREF, AM
+      DOUBLE PRECISION, INTENT(IN) :: PAS, b0g0, eb2, PREF, AM
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION, INTENT(OUT) :: X_axis(MXT)
 
-      DOUBLE PRECISION theta, phi, x_dta, y_dta, z_dta, s_dta, t_dta
-      DOUBLE PRECISION px_dta, py_dta, pt_dta, S_scl, Z_scl, delZ_scl
-      DOUBLE PRECISION X_scl, PX_scl, Y_scl, PY_scl, T_scl, PT_scl
-      DOUBLE PRECISION X0_scl, PX0_scl, Y0_scl, PY0_scl, delX_scl
-      DOUBLE PRECISION X1_scl, PX1_scl, Y1_scl, PY1_scl, delY_scl
-      DOUBLE PRECISION hfPAS_scl, PAS_scl2, del_p, del_t, Ptot, Etot
-      DOUBLE PRECISION P1, P2, P3, P1m1, tP3, Ps, Psm1, Pxy2, Pxz
+      DOUBLE PRECISION theta, phi, x, y, z, s, t, px, py, pt, S_scl
+      DOUBLE PRECISION Z_scl, X_scl, PX_scl, Y_scl, PY_scl, T_scl
+      DOUBLE PRECISION PT_scl, X0, PX0, Y0, PY0, X1, PX1, Y1, PY1
+      DOUBLE PRECISION delX, delY, delZ, hfPAS, PAS2, delP, delT, Ptot
+      DOUBLE PRECISION Etot, P1, P2, P3, P1m1, tP3, Ps, Psm1, Pxy2, Pxz
       DOUBLE PRECISION kp, kl, ckl, skl, chkl, shkl
       DOUBLE PRECISION tkl, c2kl, s2kl, ch2kl, sh2kl
       DOUBLE PRECISION const1, const2, const3, kappa
@@ -53,6 +51,7 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION MQ51, MQ52, MQ53, MQ54, MQ55, MQ56
       INTEGER NUM_STEP, IT
 
+C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
 C      DP=F(1,I)
 C      Y =F(2,I)
 C      T =F(3,I)*0.001D0
@@ -60,9 +59,11 @@ C      Z =F(4,I)
 C      P =F(5,I)*0.001D0
 C      SAR=F(6,I)
 C      TAR=F(7,I)*1.D5
+C-----------------------------------------------------------------------
 
-      hfPAS_scl = 0.5D0*PAS_scl
-      PAS_scl2 = PAS_scl*PAS_scl
+C-----------Constants for all the particles-----------------------------
+      hfPAS = 0.5D0*PAS                ! 0.5L/L0
+      PAS2  = PAS*PAS                  ! PAS = L/L0, scaled
 
       DO CONCURRENT (IT = 1:IMAX)  !!! Loop over all the particles
         Ptot = PREF*data(1,IT)         ! the total momentum
@@ -70,33 +71,29 @@ C      TAR=F(7,I)*1.D5
         phi   = data(5,IT)*0.001D0     ! angle phi
         theta = data(3,IT)*0.001D0     ! angle theta
 
-C---------Convert the coordinate system from Zgobi to DTA
-        z_dta = data(6,IT)*cos(phi)*cos(theta)
-        x_dta = data(2,IT)
-        y_dta = data(4,IT)
+C---------Convert the coordinates from Zgobi notation to DTA notation---
+        z  = data(6,IT)*cos(phi)*cos(theta)
+        x  = data(2,IT)
+        y  = data(4,IT)
+        px = Ptot*cos(phi)*sin(theta)
+        py = Ptot*sin(phi)
+        pt = Etot
+        t  = data(7,IT)        ! time = F(7,I), but TAR = F(7,I)*1.D5
+        s  = data(6,IT)        ! displacement = F(6,I)
 
-        px_dta = Ptot*cos(phi)*sin(theta)
-        py_dta = Ptot*sin(phi)
-
-        pt_dta = Etot
-        t_dta = data(7,IT)        ! time = F(7,I), but TAR = F(7,I)*1.D5
-        s_dta = data(6,IT)        ! displacement = F(6,I)
-
-C---------Scale the coordinated from DTA to dimensionless
-        X_scl = x_dta/scl_l0
-        Y_scl = y_dta/scl_l0
-        Z_scl = z_dta/scl_l0
-
-        PX_scl = px_dta/PREF
-        PY_scl = py_dta/PREF
-        PT_scl = pt_dta/PREF
-
-        T_scl = -t_dta*scl_w0
-        S_scl =  s_dta/scl_l0
+C---------Scale the coordinated from DTA to dimensionless---------------
+        X_scl = x/l0
+        Y_scl = y/l0
+        Z_scl = z/l0
+        PX_scl = px/PREF
+        PY_scl = py/PREF
+        PT_scl = pt/PREF
+        T_scl = -t*w0
+        S_scl =  s/l0
 
 C---------Compute constants for the symplectic matrix-kick-matrix integrator
-C---------These constants do not change for a particle during MKM
-        P2 = PT_scl*PT_scl - gb0*gb0        ! P^2
+C---------These constants do not change for a particle during MKM-------
+        P2 = PT_scl*PT_scl - b0g0*b0g0      ! P^2 = P_T^2 - (1/(beta0*gamma0))^2
         P1 = SQRT(P2)                       ! P
         P3 = P1**3                          ! P^3
         P1m1 = 1.D0/P1                      ! P^(-1)
@@ -107,20 +104,20 @@ C---------These constants do not change for a particle during MKM
         const3 = 0.250D0*PT_scl/P2          ! P_T*K/2P/P/2K = 0.250*P_T/P^2
 
         kp = kappa*P1               ! KP is a constant for a particle
-        kl = kappa*hfPAS_scl        ! KL is a constant for a particle
+        kl = kappa*hfPAS            ! KL is a constant for a particle
                                     ! Note that M_Q(L/2), half of L=PAS
         ckl = cos(kl)
         skl = sin(kl)
         chkl = cosh(kl)
         shkl = sinh(kl)
 
-        tkl = kappa*PAS_scl           ! 2KL, where L/2 is for M_Q operation
+        tkl = kappa*PAS               ! 2KL, where L/2 is for M_Q operation
         s2kl  = sin(tkl)              ! sin(2KL)
         c2kl  = cos(tkl)              ! cos(2KL)
         sh2kl = sinh(tkl)             ! sinh(2KL)
         ch2kl = cosh(tkl)             ! cosh(2KL)
 
-        MQ11 = ckl
+        MQ11 = ckl                    ! MQ?? are transition maxtrix elements
         MQ12 = skl/kp
         MQ21 = ckl
         MQ22 = -kp*skl
@@ -136,84 +133,82 @@ C---------These constants do not change for a particle during MKM
         MQ55 = const3*(c2kl-1.D0)  ! (P_T*K/2P^2)*[cos(2KL)-1]/2K
         MQ56 = const3*(ch2kl-1.D0) ! (P_T*K/2P^2)*[cosh(2KL)-1]/2K
 
-C---------Start the symplectic matrix-kick-matrix integrator
+C---------Start the symplectic matrix-kick-matrix integrator------------
         NUM_STEP = 1
         DO 999 WHILE (NUM_STEP .LE. MAX_STEP)
-C----------M_Q(L/2)--------------------------------------------
-          X0_scl = X_scl
-          Y0_scl = Y_scl
-          PX0_scl = PX_scl
-          PY0_scl = PY_scl
+C----------M_Q(L/2)-----------------------------------------------------
+          X0  = X_scl
+          Y0  = Y_scl
+          PX0 = PX_scl
+          PY0 = PY_scl
 
-          X_scl  =  X0_scl*MQ11 + PX0_scl*MQ12
-          PX_scl = PX0_scl*MQ21 +  X0_scl*MQ22
-          Y_scl  =  Y0_scl*MQ31 + PY0_scl*MQ32
-          PY_scl = PY0_scl*MQ41 +  Y0_scl*MQ42
+          X_scl  =  X0*MQ11 + PX0*MQ12
+          PX_scl = PX0*MQ21 +  X0*MQ22
+          Y_scl  =  Y0*MQ31 + PY0*MQ32
+          PY_scl = PY0*MQ41 +  Y0*MQ42
           T_scl  = T_scl -
-     >            (PX0_scl*PX0_scl*MQ51 + PY0_scl*PY0_scl*MQ52
-     >            + X0_scl* X0_scl*MQ53 +  Y0_scl* Y0_scl*MQ54
-     >            + X0_scl*PX0_scl*MQ55 +  Y0_scl*PY0_scl*MQ56)
+     >            (PX0*PX0*MQ51 + PY0*PY0*MQ52
+     >            + X0* X0*MQ53 +  Y0* Y0*MQ54
+     >            + X0*PX0*MQ55 +  Y0*PY0*MQ56)
 
-C----------K_Q(L)----------------------------------------------
+C----------K_Q(L)-------------------------------------------------------
           Pxy2 = PX_scl*PX_scl + PY_scl*PY_scl
-          Ps = SQRT(P2 - Pxy2)
+          Ps   = SQRT(P2 - Pxy2)
           Psm1 = 1.D0/Ps
-          del_p = (Psm1 - P1m1)*PAS_scl
-          del_t = (Psm1 - Pxy2/tP3)*PAS_scl
+          delP = (Psm1 - P1m1)*PAS
+          delT = (Psm1 - Pxy2/tP3)*PAS
 
-          X_scl = X_scl + del_p*PX_scl
-          Y_scl = Y_scl + del_p*PY_scl
-          T_scl = T_scl - del_t*PT_scl
+          X_scl = X_scl + delP*PX_scl
+          Y_scl = Y_scl + delP*PY_scl
+          T_scl = T_scl - delT*PT_scl
 
-C----------M_Q(L/2)--------------------------------------------
-          X1_scl  = X_scl
-          Y1_scl  = Y_scl
-          PX1_scl = PX_scl
-          PY1_scl = PY_scl
+C----------M_Q(L/2)-----------------------------------------------------
+          X1  = X_scl
+          Y1  = Y_scl
+          PX1 = PX_scl
+          PY1 = PY_scl
 
-          X_scl  =  X1_scl*MQ11 + PX1_scl*MQ12
-          PX_scl = PX1_scl*MQ21 +  X1_scl*MQ22
-          Y_scl  =  Y1_scl*MQ31 + PY1_scl*MQ32
-          PY_scl = PY1_scl*MQ41 +  Y1_scl*MQ42
+          X_scl  =  X1*MQ11 + PX1*MQ12
+          PX_scl = PX1*MQ21 +  X1*MQ22
+          Y_scl  =  Y1*MQ31 + PY1*MQ32
+          PY_scl = PY1*MQ41 +  Y1*MQ42
           T_scl  = T_scl -
-     >            (PX1_scl*PX1_scl*MQ51 + PY1_scl*PY1_scl*MQ52
-     >            + X1_scl* X1_scl*MQ53 +  Y1_scl* Y1_scl*MQ54
-     >            + X1_scl*PX1_scl*MQ55 +  Y1_scl*PY1_scl*MQ56)
+     >            (PX1*PX1*MQ51 + PY1*PY1*MQ52
+     >            + X1* X1*MQ53 +  Y1* Y1*MQ54
+     >            + X1*PX1*MQ55 +  Y1*PY1*MQ56)
 
-C-----------Update Z_scl and S_scl after one cycle of MKM
-          delX_scl = X_scl - X0_scl
-          delY_scl = Y_scl - Y0_scl
-          delZ_scl = SQRT(PAS_scl2 - delX_scl**2 - delY_scl**2)
-          Z_scl = Z_scl + delZ_scl
-          S_scl = S_scl + PAS_scl
+C-----------Update Z_scl and S_scl after one cycle of MKM---------------
+          delX = X_scl - X0
+          delY = Y_scl - Y0
+          delZ = SQRT(PAS2 - delX**2 - delY**2)
+          Z_scl = Z_scl + delZ
+          S_scl = S_scl + PAS
 
           NUM_STEP = NUM_STEP + 1
  999    CONTINUE
 
-C----------Revert scaling coordinates from dimensionless to DTA
-        x_dta = X_scl*scl_l0
-        y_dta = Y_scl*scl_l0
-        z_dta = Z_scl*scl_l0
+C----------Revert scaling coordinates from dimensionless to DTA---------
+        x  = X_scl*l0
+        y  = Y_scl*l0
+        z  = Z_scl*l0
+        px = PX_scl*PREF
+        py = PY_scl*PREF
+        t  = -T_scl/w0
+        s  = S_scl*l0
 
-        px_dta = PX_scl*PREF
-        py_dta = PY_scl*PREF
+C----------Revert coordinates from DTA notation to Zgoubi---------------
+C----------Assuming phi and theta are both quite small------------------
+        Pxz = SQRT(Ptot*Ptot - py*py) ! the projected momentum on the xz-plane
+        theta = ASIN(px/Pxz)  ! theta = arcsin(px/p_y)
+        phi = ASIN(py/Ptot)   ! phi = arcsin(py/P)
 
-        t_dta  = -T_scl/scl_w0
-        s_dta  = S_scl*scl_l0
-
-C----------Revert coordinates from DTA to Zgoubi
-C----------Assuming phi and theta are both quite small
-        Pxz = SQRT(Ptot*Ptot - py_dta*py_dta) ! the projected momentum on the xz-plane
-        theta = ASIN(px_dta/Pxz)  ! theta = arcsin(px/p_y)
-        phi = ASIN(py_dta/Ptot)   ! phi = arcsin(py/P)
-
-        X_axis(IT) = z_dta
-        data(2,IT) = x_dta
+        X_axis(IT) = z
+        data(2,IT) = x
         data(3,IT) = theta*1000.D0
-        data(4,IT) = y_dta
+        data(4,IT) = y
         data(5,IT) = phi*1000.D0
-        data(6,IT) = s_dta
-        data(7,IT) = t_dta
+        data(6,IT) = s
+        data(7,IT) = t
 
       ENDDO
 
