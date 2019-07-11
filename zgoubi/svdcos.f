@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -50,7 +50,7 @@ C     -----------------------------------------------------
       MCOL = 0      ! Numb of c.o. families/labels
       MCOH = 0      ! Numb of H-corrs
       MCOV = 0      ! Numb of V-corrs
-      NLM = 1    
+      NLM = 1
       DO WHILE ((.NOT. OKCO) .AND. NLM .LE. NBLM)
 C Move to next element in sequence. Test whether its label identifies w/ C.O. label.
 
@@ -59,14 +59,14 @@ C Move to next element in sequence. Test whether its label identifies w/ C.O. la
           OKCO = OKCO .OR. (LABEL(NLM,1).EQ.HCNA(I))
           IF(OKCO) MCOH = MCOH + 1
           I = I + 1
-        ENDDO                 
+        ENDDO
         I = 1
         DO WHILE((.NOT. OKCO) .AND. I.LE.MXCOV)
           OKCO = OKCO .OR. (LABEL(NLM,1).EQ.VCNA(I))
           IF(OKCO) MCOV = MCOV + 1
           I = I + 1
-        ENDDO                 
-          
+        ENDDO
+
         IF(OKCO) THEN
           J = 1
           DEJA = .FALSE.
@@ -77,14 +77,14 @@ C Move to next element in sequence. Test whether its label identifies w/ C.O. la
           IF(.NOT. DEJA ) THEN
              MCOL = MCOL + 1
             IF(MCOL .GT. MCOLAB) CALL ENDJOB(
-     >      'Pgm svdcos. Too many c.o. families. Must be .le. ',MCOLAB) 
+     >      'Pgm svdcos. Too many c.o. families. Must be .le. ',MCOLAB)
             COLAB(MCOL) = LABEL(NLM,1)
           ENDIF
           OKCO = .FALSE.
         ENDIF
-       
+
         NLM = NLM + 1
-      ENDDO      
+      ENDDO
 
       OKCO=.FALSE.
 

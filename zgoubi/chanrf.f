@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -55,7 +55,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       KSR = 1
  1    CONTINUE
         IF    (QSHRO(KSR).EQ.'XS') THEN
-          XS = VSHRO(KSR) 
+          XS = VSHRO(KSR)
           YO=Y
           Y= Y        + XS*SIN(T)  /COS(T)
 C         Y=(Y*COS(T) + XS*SIN(T) )/COS(T)
@@ -70,17 +70,17 @@ C         Y=(Y*COS(T) + XS*SIN(T) )/COS(T)
           DTAR = DS / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9)
           TAR = TAR + DTAR
         ELSEIF(QSHRO(KSR).EQ.'YS') THEN
-          YS = VSHRO(KSR) 
+          YS = VSHRO(KSR)
           Y = Y-YS
         ELSEIF(QSHRO(KSR).EQ.'ZS') THEN
-          ZS = VSHRO(KSR) 
+          ZS = VSHRO(KSR)
           Z = Z-ZS
         ELSEIF(QSHRO(KSR).EQ.'XR') THEN
-          XR = VSHRO(KSR) 
+          XR = VSHRO(KSR)
           CT = COS(XR)
           ST = SIN(XR)
           TEMP = Y * CT - Z * ST
-          Z = Y * ST + Z * CT          
+          Z = Y * ST + Z * CT
           Y = TEMP
 c          T = T in new frame
 c          P = P in new frame
@@ -88,12 +88,12 @@ c          P = P in new frame
      >    CALL ENDJOB('SBR CHANRF. XR is not implemented.',-99)
           IF(KSPN .EQ. 1 ) CALL SPNROT(IT,+-XR,ZERO,ZERO)
         ELSEIF(QSHRO(KSR).EQ.'YR') THEN
-          YR = VSHRO(KSR) 
+          YR = VSHRO(KSR)
           ZO=Z
 C          pp = atan2(tan(P),cos(T))
           PP = ATAN(TAN(P)/COS(T))
           Z=Z*COS(PP)/COS(PP-YR)
-          PP=PP-YR 
+          PP=PP-YR
           P = ATAN2(TAN(PP),1.D0/COS(T))
           XL = -Z *SIN(YR)
           ZL = -ZO + Z*COS(YR)
@@ -113,10 +113,10 @@ C          IF(KSPN .EQ. 1 ) CALL SPNROT(IT,ZERO,+-YR,ZERO)
      >      //'spin is not implemented',-99)
           ENDIF
         ELSEIF(QSHRO(KSR).EQ.'ZR') THEN
-          ZR = VSHRO(KSR) 
+          ZR = VSHRO(KSR)
           YO=Y
           Y=Y*COS(T)/COS(T-ZR)
-          T=T-ZR 
+          T=T-ZR
           XL=-Y*SIN(ZR)
           YL=-YO+Y*COS(ZR)
           DL=SQRT(XL*XL+YL*YL)
@@ -147,7 +147,7 @@ C--------- Cylindrical coordinates
           XX = ZR
         ENDIF
 
-C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be 
+C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be
 C either y or y+rm  depending when it is called
 C            write(*,*) ' sbr charef ',it,y,rm,y+rm
 C        CALL EVENT(DL,YY,T,Z,P,XX,UN,QBR,SAR,TAR,KEX,IT,
@@ -156,5 +156,5 @@ C 99   CONTINUE
 
       ENDIF
 
-      RETURN 
+      RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -31,7 +31,7 @@ C  -------
       LOGICAL READAT
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH 
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
       PARAMETER (MXPUD=9,MXPU=5000)
       INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       PARAMETER (MCOLAB=5)
@@ -61,7 +61,7 @@ C  -------
 
       SAVE KREB3, KREB31, KREB4
 
-      SAVE KWRI6 
+      SAVE KWRI6
       LOGICAL REBFLG
 
       LOGICAL OKPCKP
@@ -88,7 +88,7 @@ C  -------
       PARAMETER (MXPL= MXPRM*MXLST, MXPRM3= MXPRM*3)
       LOGICAL OKLSTP
       DIMENSION AOLD(MXPRM)
-      
+
       LOGICAL AFTREB, AFTREO
       SAVE AFTREB
 
@@ -106,7 +106,7 @@ C  -------
       CHARACTER(70) TXFMT
       SAVE TXFMT
       SAVE LSVD
-      
+
       INTEGER(4) TODAY(3)
 
       DATA KREB3, KREB31, KREB4 / 0, 0, 0 /
@@ -121,10 +121,10 @@ C  -------
       DATA FITRBL / .FALSE. /
       DATA RBLFIT / .FALSE. /
       DATA OKCOR / .FALSE. /
-      
+
       NRBLT = NINT(A(NOEL,1))
 C----- Switch for print into zgoubi.res :
-      KWRT = INT(A(NOEL,2)) 
+      KWRT = INT(A(NOEL,2))
 C----- Switch for print to standard output :
       CALL FITSTA(5,
      >              FITING)
@@ -134,7 +134,7 @@ C----- Switch for print to standard output :
         KWRI6 = NINT((A(NOEL,2)-KWRT)*10)
       ENDIF
       KREB3 = NINT(A(NOEL,3))
-C----- For multiturn injection : 
+C----- For multiturn injection :
 C      If A(NOEL,3)=99.xx, then KREB31=xx. For instance, KREB3=99.15 -> KREB31=15 for 16-turn injection
       KREB31 = NINT(100*(A(NOEL,3)-KREB3))
 C----- KREB4=1 allows changing parameter values prior to rebelote
@@ -142,13 +142,13 @@ C----- KREB4=1 allows changing parameter values prior to rebelote
 
       CALL REBLT5(
      >            NOELA, NOELB)
-      
+
       IF    (KREB4 .EQ. 1) THEN
         NPRM =  NINT( A(NOEL,10) )
-        IF(NPRM .GT. MXPRM) 
+        IF(NPRM .GT. MXPRM)
      >    CALL ENDJOB('SBR REBEL. Too many parameters, has to be .le. '
      >    ,MXPRM)
-        IF(NRBLT .GT. MXLST) 
+        IF(NRBLT .GT. MXLST)
      >  CALL ENDJOB('SBR REBEL. Parameter list too large. Has to be < '
      >  //' NRBLT=',NRBLT)
 
@@ -169,7 +169,7 @@ C WILL STOP AT ELEMENT # NOELB WHEN DOING LAST TURN
         IF(IPASS .EQ. 1 .OR. II*(IPASS/II).EQ.IPASS) THEN
           CALL CNTSTO(
      >                NSTOP)
-          WRITE(TXTBUF,FMT='(A20,I8,A1,I8,A34,I7,A1,I7,2A9)') 
+          WRITE(TXTBUF,FMT='(A20,I8,A1,I8,A34,I7,A1,I7,2A9)')
      >    ' Pass #/Requested : ',IPASS,'/', NRBLT+1,
      >    '.  Particles remaining/launched = ',IMAX-NSTOP,'/',IMAX,
      >    '.  Time :', HMS
@@ -178,7 +178,7 @@ C WILL STOP AT ELEMENT # NOELB WHEN DOING LAST TURN
         IF(IPASS.EQ.1) WRITE(6,FMT='(/)')
         IF(IPASS.EQ.NRBLT) WRITE(6,FMT='(/)')
       ENDIF
- 
+
 C-----  structure length ------------
       CALL SCUMS(ZERO)
 C------------------------------------------------
@@ -189,12 +189,12 @@ C      IF(IPASS .EQ. 1) THEN
 C        CALL CNTMXW(IMAX)
 C      ELSE
       IF(IPASS .GT. 1) THEN
-C------- If not periodic sequence type of tracking (i.e., final coord .ne. initial coord) : 
+C------- If not periodic sequence type of tracking (i.e., final coord .ne. initial coord) :
         IF(KREB3.NE.99) CALL CNTMXT(IMAX)
       ENDIF
 C-----  endif particle count ------------
 
-C----- Pick-up signal ---------------------------------------- 
+C----- Pick-up signal ----------------------------------------
       IF(KCO .EQ. 1) THEN
         CALL AVORPR(NFPU,1)
         IF(NRES .GT. 0) CALL AVORPR(NRES,2)
@@ -232,7 +232,7 @@ C----------- 1-er pass at REBELOTE
         ENDIF
       ENDIF
 C--------- endif spin tracking ----------------------------------
-         
+
 C--------- SR loss ----------------------------------
       IF(KSYN .EQ. 1) THEN
         IF(KREB3.NE.99) THEN
@@ -261,7 +261,7 @@ C        IF(LUN .GT. 0) THEN
             ELSE
               KNDES = NDES
             ENDIF
-            IF(IFDES .EQ. 1) 
+            IF(IFDES .EQ. 1)
      >        WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
             CALL CNTOUR(
      >                NOUT)
@@ -280,12 +280,12 @@ C In case REBELOTE would be embedded within FIT
           LUN=ABS(NRES)
           IF(LUN .GT. 0) THEN
             WRITE(LUN,FMT='(/,5X,
-     >      ''Multiple pass, '', /, 
+     >      ''Multiple pass, '', /,
      >      10X,''from element # '',I5,'' : '',
      >      A,''/label1='',A,''/label2='',A,/,28X,
-     >      '' to  REBELOTE  '',''/label1='',A,''/label2='',A,/, 
+     >      '' to  REBELOTE  '',''/label1='',A,''/label2='',A,/,
      >      5X,''ending at pass # '',I7,'' at element # '',I5,'' : '',
-     >      A,''/label1='',A,''/label2='',A,/)') 
+     >      A,''/label1='',A,''/label2='',A,/)')
      >      NOELA,KLE(IQ(NOELA)),LABEL(NOELA,1),LABEL(NOELA,2),
      >      LABEL(NOELA,1),LABEL(NOELA,2), NRBLT+1,
      >      NOELB,KLE(IQ(NOELB)),LABEL(NOELB,1),LABEL(NOELB,2)
@@ -293,8 +293,8 @@ C In case REBELOTE would be embedded within FIT
 
           IF(REBFLG) NOELRB = NOEL
 
-        ENDIF  !IF(IPASS .EQ. 1) 
- 
+        ENDIF  !IF(IPASS .EQ. 1)
+
         IF(KREB4 .EQ. 1) THEN
 C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
 
@@ -313,12 +313,12 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
             ENDIF
             FOUND = .FALSE.
             NEL = 1
-            DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)  
+            DO WHILE (.NOT. FOUND .AND. NEL .LE. NOEL)
               IF(
      >        KLE(IQ(NEL))(DEBSTR(KLE(IQ(NEL))):FINSTR(KLE(IQ(NEL))))
      >        .EQ. KLEI(IPRM)(DEBSTR(KLEI(IPRM)):FINSTR(KLEI(IPRM))))
      >        THEN
-                IF    (NLBL(IPRM) .EQ. 0) THEN                
+                IF    (NLBL(IPRM) .EQ. 0) THEN
                   FOUND = .TRUE.
                 ELSEIF( LBL1(IPRM) .EQ. LABEL(NEL,1) ) THEN
                   FOUND = .TRUE.
@@ -330,7 +330,7 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
               CALL ENDJOB(
      >        'Sbr rebel. No such keyword[label] in optical sequence',
      >        -99)
-            ENDIF 
+            ENDIF
           ENDDO
 
           LUN = NRES
@@ -359,7 +359,7 @@ C----- Will first change parameter values in zgoubi.dat, prior to rebelote.
 C--------- SR loss ----------------------------------
         IF(KSYN .EQ. 1) THEN
           LUN = NRES
-          IF(LUN.GT.0) THEN 
+          IF(LUN.GT.0) THEN
             WRITE(LUN,FMT='(/,2X,
      >      '' * Theoretical S.R. parameters in BEND and MULTIPOL ''
      >      ,''*dipole*  field :'')')
@@ -367,7 +367,7 @@ C--------- SR loss ----------------------------------
      >                      SMELPP,EE)
             WRITE(LUN,FMT='(5X,
      >      ''Particle energy / Radiated energy per turn = '',1P,G16.8,
-     >      ''turns;   in units of time = '',G16.8,'' mu_sec'')') 
+     >      ''turns;   in units of time = '',G16.8,'' mu_sec'')')
      >      EE/SMELPP,EE/SMELPP*F(7,1)
           ENDIF
         ENDIF
@@ -412,16 +412,16 @@ C       IF(LUN.GT.0) THEN
         ENDDO
 
 C        ENDIF
- 
+
         READAT = .FALSE.
         IPASS=IPASS+1
         NOEL=NOELA-1
         IF(OKPCKP) CALL PCKUP3(NOELA)
- 
+
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
 C------- Last pass HAS JUST BEEN completed
 C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
-        AFTREB = .TRUE. 
+        AFTREB = .TRUE.
 
         LUN=ABS(NRES)
 C        IF(LUN.GT.0) THEN
@@ -429,12 +429,12 @@ C        IF(LUN.GT.0) THEN
  101      FORMAT(/,25X,'****  End  of  ''REBELOTE''  procedure  ****',//
      >     ,5X,' There  has  been ',I10,
      >              '  passes  through  the  optical  structure ',/)
- 
+
           CALL CNTMXR(
      >                IMX)
           WRITE(LUN,103) IMX
  103      FORMAT(20X,' Total of ',I10,' particles have been launched')
- 
+
           IF(KREB3.NE.99) THEN
             KNDES = NNDES
           ELSE
@@ -444,7 +444,7 @@ C        IF(LUN.GT.0) THEN
  105      FORMAT(20X,
      >    ' Average  life  distance  from  Monte Carlo :',F10.3,' m',/,
      >    20X,' Number  of  decays  in  flight  :',3I10)
- 
+
           CALL CNTOUR(
      >                NOUT)
           IF(NOUT.GT. 0) WRITE(LUN,107) NOUT,IMX
@@ -457,19 +457,19 @@ C        IF(LUN.GT.0) THEN
 C        ENDIF
 
         NOEL = NOELB
- 
-C REBELOTE should be usable within FIT -> under developement. 
+
+C REBELOTE should be usable within FIT -> under developement.
 
         CALL FITST7(
      >               FITRBL)   ! Switched to T by REBELOTE if FIT embedded
 C        IF(FITRBL) THEN
-CC This is necessary in order to allow FIT within REBELOTE 
+CC This is necessary in order to allow FIT within REBELOTE
 CC An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/
 C          IPASS = IPASS+1
 C        ELSE
         IF(RBLFIT) THEN
 
-C This is necessary in order to allow REBELOTE within FIT 
+C This is necessary in order to allow REBELOTE within FIT
 C An example is ~/zgoubi/struct/KEYWORDS/REBELOTE/REBELOTEfollowedByFIT/averageSpinAngleInCSnake.dat
           IPASS = 1
 
@@ -543,7 +543,7 @@ C      RETURN
 
 C      ENTRY REBEL7(
 C     >             NLBO)
-C      NLBO = NOELB 
+C      NLBO = NOELB
 C      RETURN
 
       ENTRY REBEL8(RBLFII)

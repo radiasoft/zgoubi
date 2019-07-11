@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -64,7 +64,7 @@ C      INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       KP = NINT(A(NOEL,40))
       IF( KP .EQ. 3 ) THEN
         IF(A(NOEL,43) .EQ. 0.D0) THEN
-C          DEV = 
+C          DEV =
         ELSE
           DEV = -A(NOEL,73) * 2.D0
         ENDIF
@@ -73,9 +73,9 @@ C          DEV =
 C------ Normally L1 ~ 3D
 C----- MT = 11, 12 for mirror H, V
 C           21, 22 for lense V, H
-      IF(MT/10.NE.1 .AND. MT/10.NE.2) 
+      IF(MT/10.NE.1 .AND. MT/10.NE.2)
      >        CALL ENDJOB('Wrong data MT',-99)
-      IF(MT-10*(MT/10).NE.1 .AND. MT-10*(MT/10).NE.2) 
+      IF(MT-10*(MT/10).NE.1 .AND. MT-10*(MT/10).NE.2)
      >        CALL ENDJOB('Wrong data MT',-99)
 
       IF(NRES.GT.0) THEN
@@ -95,7 +95,7 @@ C           21, 22 for lense V, H
  112    FORMAT(  30X,'         ',I2,' :',5X,1P,G12.5,' V')
 
       ENDIF
- 
+
 C----- change units : AL,D -> cm  and V1-3 -> MeV
 C----- V -> V/D, MeV/cm
       D=D*100.D0
@@ -111,11 +111,11 @@ C----- V -> V/D, MeV/cm
       XS = XF
 
       IF(MT-10*(MT/10).EQ.1) THEN
-C----- MT=11 or 21. 
+C----- MT=11 or 21.
 C----- plates are parallel to H-plane -> h-mirror or v-lens
         EM(6) = 0.D0
       ELSEIF(MT-10*(MT/10).EQ.2) THEN
-C----- MT=12 or 22. 
+C----- MT=12 or 22.
 C----- plates are parallel to V-plane -> v-mirror or h-lens
         EM(6) = 0.5D0*PI
       ENDIF

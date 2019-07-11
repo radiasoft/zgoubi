@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,7 +30,7 @@ C     CHAMBRE DE LIMITES TRANSVERSALES YLIM2 ET ZLIM2.
 C     ( ATTENTION: EN POLAIRES  Y EST UN RAYON...)
 C        LE COMPTAGE EST EFFECTUE A CHAQUE PAS D'INTEGRATION, ENTRE
 C     LE 1-ER ET LE 2-EME APPEL A CHAMBR. CETTE CHAMBR A DONC UNE
-C     ETENDUE longitudinale NON NULLE, EGALE A LA DIFFERENCE 
+C     ETENDUE longitudinale NON NULLE, EGALE A LA DIFFERENCE
 C            D'ABSCISSES ENTRE LES
 C     2 POINTS DE LA STRUCTURE OU ONT LIEU LES APPELS a CHAMBR.
 C        LE TEST DE SORTIE A LIEU DANS LE SPGM COFIN.
@@ -42,7 +42,7 @@ C     ***************************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
@@ -52,7 +52,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       DIMENSION T(MXT)
       SAVE N1
 
@@ -71,7 +71,7 @@ C
       A2 = A(NOEL,12)
       A3 = A(NOEL,13)
       A4 = A(NOEL,14)
- 
+
       IF(JFRM.EQ.1) THEN
         YL=.5D0*(A2-A1)
         ZL=.5D0*(A4-A3)
@@ -86,7 +86,7 @@ C
 
       YLIM2=YL*YL
       ZLIM2=ZL*ZL
-  
+
       IF    (LIMIT .EQ. 0) THEN
         IF(NRES .GT. 0) THEN
           WRITE(NRES,100)
@@ -109,7 +109,7 @@ C
      >      ,/,20X,' centered  on :',/
      >           ,25X,' YC =    ',   G12.4,' m'
      >            ,5X,' ZC =    ',   G12.4,' m')
-            WRITE(NRES,107)  (YCH-YL)*UNIT(1),(YCH+YL)*UNIT(1), 
+            WRITE(NRES,107)  (YCH-YL)*UNIT(1),(YCH+YL)*UNIT(1),
      >                       (ZCH-ZL)*UNIT(3),(ZCH+ZL)*UNIT(3)
  107        FORMAT(/,20X,
      >       ' => Max.  accepted  coordinates  Y,  Z  such  that :',1P,
@@ -131,19 +131,19 @@ C     >                      YCH*UNIT(1),ZCH*UNIT(3)
      >       G10.3,')^2 < 1')
           ENDIF
         ENDIF
- 
+
       ELSEIF( LIMIT .EQ. 2 ) THEN
- 
+
         CALL CNTOUR(
      >              NOUT)
         CALL CNTMXR(
-     >              IMX) 
+     >              IMX)
         CALL CNTSTO(
-     >              NTOT) 
+     >              NTOT)
         IF(NRES .GT. 0) THEN
           WRITE(NRES,106)
  106      FORMAT(/,15X,' End  of  CHAMBRE  option ')
-          WRITE(NRES,109) NOUT-N1, NOUT, IMX-NTOT, IMX, 
+          WRITE(NRES,109) NOUT-N1, NOUT, IMX-NTOT, IMX,
      >                            (100.D0*(IMX-NTOT))/IMX
  109      FORMAT(/,T20,' Number  of  particles  out  of  acceptance  '
      >    ,/,T25,' -  in  the  sense  of  CHAMBR  since  last  call : ',
@@ -152,7 +152,7 @@ C     >                      YCH*UNIT(1),ZCH*UNIT(3)
      >    /,T25,' Overall  survival  :  ',I9,' / ',I9,'  (',G10.3,'%)')
 
           IF(IPASS .EQ. 1) THEN
- 
+
 C------------ TRI DES VALEURS P0MAX(T0)
             IF(IFORM .EQ. 10) THEN
               WRITE(NRES,105)
@@ -188,6 +188,6 @@ C
           ENDIF
         ENDIF
       ENDIF
- 
+
       RETURN
       END

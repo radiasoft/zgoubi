@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,7 +47,7 @@ C      PARAMETER (MXTA=45)
      >                     NSTR,STRA)
       READ(STRA(1),*,ERR=90,END=90) A(NOEL,1)    ! KSR[.i]
       IF(NSTR .GE. 2) THEN                       ! KSOK
-        DO I = 2, NSTR  
+        DO I = 2, NSTR
           IF(ISNUM(STRA(I))) READ(STRA(I),*,ERR=90,END=90) A(NOEL,I)
         ENDDO
       ENDIF
@@ -71,7 +71,7 @@ C Get the list of elements to be subjected to scaling
      >    //' '//STRA(I)
         ENDDO
       ELSE
-        TA(NOEL,3)=' ' 
+        TA(NOEL,3)=' '
       ENDIF
 
       LINE = LINE + 1
@@ -80,9 +80,9 @@ C Get the list of elements to be subjected to scaling
       RETURN
 
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rsrlos, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rsrlos, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
       END

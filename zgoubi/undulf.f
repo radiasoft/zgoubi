@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -35,22 +35,22 @@ C  -------
 C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       SAVE A, B1
- 
+
       BN=BO*BRI
       P = 1 + (X/A)**8
       P1 = 8.D0 * (X/A)**7 /A
       P2 = 56.D0 * (X/A)**6 /(A*A)
       SBX = SIN(B1*X)
       CBX = COS(B1*X)
-      F =  SBX / P  
+      F =  SBX / P
       F1 =  B1 * CBX / P  -  SBX * P1/(P*P)
-      F2 =  - B1*B1 * SBX / P - 2.D0*B1 * CBX * P1/(P*P)  
+      F2 =  - B1*B1 * SBX / P - 2.D0*B1 * CBX * P1/(P*P)
      >        -  SBX * P2/(P*P) + 2.D0 * SBX * (P1/P)**2/P
       F3 = 0.D0
       F4 = 0.D0
-      
+
       Z2 = Z*Z
       Z3 = Z2*Z
       Z4 = Z3*Z
@@ -62,7 +62,7 @@ C  .. dBx/dZ = dBz/dX
 C  ... dBx/dX
       DB(1,1) = BN * (F2 * Z - F4 * Z3/6.D0)
 C  ... d2Bx/dX2
-      DDB(1,1,1) = BN * F3 * Z 
+      DDB(1,1,1) = BN * F3 * Z
 C  ... d2Bx/dXdZ = d2Bz/dX2
       DDB(3,1,1) = BN * (F2 - F4 * Z2/2.D0)
 

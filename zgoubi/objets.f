@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -33,7 +33,7 @@ C     ****************************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
 C      INCLUDE "MAXTRA.H"
 C      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
-C 
+C
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON_2.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IIP(MXL),NB,NOEL
@@ -47,7 +47,7 @@ C      PARAMETER (MXTA=45)
 C     $     IREP(MXT),AMQLU,PABSLU
       CHARACTER(1) LET
       INCLUDE "C.FAISCT.H"     ! COMMON/FAISCT/ LET(MXT)
-C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles 
+C----- KAR: tagging letter ( 'S'  is reserved for tagging secondary particles
 C            as resulting from decay (keyword 'MCDESINT')
       CHARACTER(1) KAR(41)
       INCLUDE "C.KAR.H"     ! COMMON/KAR/ KAR
@@ -58,14 +58,14 @@ C            as resulting from decay (keyword 'MCDESINT')
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       PARAMETER(MXJ1=MXJ-1)
       DIMENSION DE(MXJ,MXT),IDE(MXJ),JDE(MXJ),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
      > (IDE(5),IPMAX),(IDE(1),IMAXD)
       EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
      > (JDE(5),IP   ),(JDE(1),ID)
- 
+
       DIMENSION REF(MXJ)
       LOGICAL FITING, FITFNL
 
@@ -123,7 +123,7 @@ C         DPREF = 1.D0
       ENDIF
 
 C      CALL RAZ(FO,MXJ*MXT)
-C----- Was necessary for FIT procedure when time is constrained : 
+C----- Was necessary for FIT procedure when time is constrained :
       CALL RAZ(F,MXJ*MXT)
 
       KOBJ = NINT(A(NOEL,10))
@@ -137,7 +137,7 @@ C----- Was necessary for FIT procedure when time is constrained :
       IF(NRES.GT.0) WRITE(NRES,FMT=
      >'(10X,''SBR OBJETS:    NO  SUCH  OBJECT  KOBJ='',I2)') KOBJ
       CALL ENDJOB(' NO  SUCH  OBJECT  ',-99)
- 
+
 C---------- OBJET with 11 traj. for 1st order matrix calculation
  50   CONTINUE
       CALL RAZ(FO,MXJ*MXT)
@@ -177,7 +177,7 @@ C----- For allowing the use of the first 7 traj with FIT
         DO 112 J=2,MXJ1
           FO(J,I) = A(NOEL,II+J-2)
  112      CONTINUE
-C       Time=FO(7,I) further initialized by 'PARTICUL' if used. 
+C       Time=FO(7,I) further initialized by 'PARTICUL' if used.
  11   CONTINUE
 
       LUN = NRES
@@ -196,19 +196,19 @@ C       Time=FO(7,I) further initialized by 'PARTICUL' if used.
           FO(7,I) = FO(7,I)/UNIT(7)
         ENDDO
       ENDIF
- 
+
       DO I=1,IMAX
         IF(FO(1,I) .EQ. 0.D0) THEN
           IEX(I) = -6
-          WRITE(LUN,*) ' Momentum value 0 found, ', 
-     >          ' particle of concern  is  # ',I,' ; ', 
+          WRITE(LUN,*) ' Momentum value 0 found, ',
+     >          ' particle of concern  is  # ',I,' ; ',
      >          ' its KEX will be forced to -6 ; will not be tracked'
           WRITE(LUN,*) 'Y T Z P S D Time : ',(F(J,I),J=1,7),
      >                                            ' KEX=',IEX(I)
         ENDIF
 C Time of flight is initialized in subroutine PARTIC
 C        P0 = BORO*CL9*FO(1,I)
-C        BTA = P0 / SQRT( P0*P0 + 0.511**2 )  
+C        BTA = P0 / SQRT( P0*P0 + 0.511**2 )
 C        FO(7,I) = FO(6,I)/(BTA*CL)
         DO J=1,MXJ
           F(J,I)=FO(J,I)
@@ -219,17 +219,17 @@ C        FO(7,I) = FO(6,I)/(BTA*CL)
       IMAXT=IMAX/IDMAX
       IF(NRES.GT.0) WRITE(NRES,106) KOBJ,IMAX
       GOTO 99
- 
+
 C---------- Initial conditions on an ellipsoid
  80   CONTINUE
         CALL OBJ8(KREB31)
       GOTO 99
- 
+
 C---------- Initial conditions = 32 particles simulating Gaussian beam (Ref. Thesis M Bai)
  90   CONTINUE
        CALL OBJ9
       GOTO 99
- 
+
 C---------- OBJET AUTOMATIQUE SYMETRIQUE
  1    CONTINUE
       IYMAX = NINT(A(NOEL,20))
@@ -238,7 +238,7 @@ C---------- OBJET AUTOMATIQUE SYMETRIQUE
       IPMAX = NINT(A(NOEL,23))
       IXMAX = NINT(A(NOEL,24))
       IDMAX = NINT(A(NOEL,25))
-      IF(IYMAX*ITMAX*IZMAX*IPMAX*IXMAX*IDMAX .GT. MXT) 
+      IF(IYMAX*ITMAX*IZMAX*IPMAX*IXMAX*IDMAX .GT. MXT)
      >   CALL ENDJOB('Too many trajectories, max is ',MXT)
 
       IMAXD=IDMAX
@@ -297,9 +297,9 @@ C                    F(J,I)=FO(J,I)
           ENDDO
         ENDDO
         IMAX=I
- 
+
         IF(IMAX .GT. MXT) GOTO 98
- 
+
         K = 40
         DO 162 J = 2,MXJ1
           REF(J) = A(NOEL,K)
@@ -469,7 +469,7 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
           F(1,I)=FO(1,I)
         ENDDO
       ENDIF
- 
+
       IMAXT=IMAX/IDMAX
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) KOBJ,IMAX
@@ -480,7 +480,7 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
         IEX(I) = 1
    15 CONTINUE
       GOTO 99
- 
+
  97   CONTINUE
       CALL ENDJOB(' NO SUCH OBJET KOBJ = ',4)
 
@@ -505,12 +505,12 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
         ELSEIF(F(1,I) .EQ. 0.D0) THEN
           IEX(I) = -6
           CALL OBJERR(ABS(NRES),1,MXT,'   momentum value 0 found.')
-          WRITE(LUN,*) ' particle of concern  is  # ',I,' ; ', 
+          WRITE(LUN,*) ' particle of concern  is  # ',I,' ; ',
      >          ' its KEX will be forced to -6 ; will not be tracked'
           WRITE(LUN,*) 'Y T Z P S D Time : ',(F(J,I),J=1,7),
      >                                            ' KEX=',IEX(I)
         ENDIF
- 991  CONTINUE   
+ 991  CONTINUE
 
 
 C       write(*,*) ' objets f ',(f(7,i),i=1,imax)
@@ -522,8 +522,8 @@ C           read(*,*)
      >             KOBJO,KOBJ2O)
       KOBJO = KOBJ
       KOBJ2O = KOBJ2
-      RETURN      
- 
+      RETURN
+
 C  106 FORMAT(/,41X,'CALCUL  DES  TRAJECTOIRES',//,30X,'OBJET  (',I1,
 C     1')  FORME  DE ',I6,' POINTS ',//)
   106 FORMAT(/,41X,'TRAJECTOIRY SETTING UP',//,30X,'OBJET  (',I1,

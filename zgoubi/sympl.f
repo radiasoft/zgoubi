@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -31,8 +31,8 @@ C  -------
       DIMENSION S(14)
 
 C Symplectic conditions (6 independent)
-C Hyp : T = [M & n \\ m & N]. 
-C |M|+|m|=1, |N|+|n|=1, inv_M n + inv_m N = 0  <=>  |M|+|n|=1, |N|+|m|=1, M inv_m + n inv_N = 0 
+C Hyp : T = [M & n \\ m & N].
+C |M|+|m|=1, |N|+|n|=1, inv_M n + inv_m N = 0  <=>  |M|+|n|=1, |N|+|m|=1, M inv_m + n inv_N = 0
 C |M|=|N|, |m|=|n|
 
 C----- First order. Cours INSTN G. Leleux, p5-14.
@@ -43,7 +43,7 @@ C      conditions equivalent to T(R).S.R = S
       S(4)= R(2,4)*R(1,2)-R(1,4)*R(2,2) + R(4,4)*R(3,2)-R(3,4)*R(4,2)
       S(5)=-R(2,3)*R(1,1)+R(1,3)*R(2,1) - R(4,3)*R(3,1)+R(3,3)*R(4,1)
       S(6)=-R(2,3)*R(1,2)+R(1,3)*R(2,2) - R(4,3)*R(3,2)+R(3,3)*R(4,2)
-      
+
       IF(NRES.GT.0) WRITE(NRES,100) (S(J),J=1,6)
  100  FORMAT(/,5X,
      >' First order symplectic conditions (expected values = 0) :',
@@ -53,7 +53,7 @@ C      conditions equivalent to T(R).S.R = S
       ENTRY SYMPL2(R,T)
 
 C----- Second order. These J.L. Laclare, p18.
-      S(1) =    R(1,1)*(T(2,1,2)+T(2,2,1)) + 2.D0*R(2,2)*T(1,1,1) 
+      S(1) =    R(1,1)*(T(2,1,2)+T(2,2,1)) + 2.D0*R(2,2)*T(1,1,1)
      > - 2.D0*R(1,2)*T(2,1,1) -    R(2,1)*(T(1,1,2)+T(1,2,1))
 
       S(2) = 2.D0*R(1,1)*T(2,2,2) +    R(2,2)*(T(1,1,2)+T(1,2,1))
@@ -62,7 +62,7 @@ C----- Second order. These J.L. Laclare, p18.
       S(3) =    R(1,1)*(T(2,2,6)+T(2,6,2)) +  R(2,2)*(T(1,1,6)+T(1,6,1))
      > -    R(1,2)*(T(2,1,6)+T(2,6,1)) -    R(2,1)*(T(1,2,6)+T(1,6,2))
 
-      S(4) = 2.D0*R(1,1)*T(2,3,3) +    R(4,3)*(T(3,1,3)+T(3,3,1)) 
+      S(4) = 2.D0*R(1,1)*T(2,3,3) +    R(4,3)*(T(3,1,3)+T(3,3,1))
      > -    R(3,3)*(T(4,1,3)+T(4,3,1)) - 2.D0*R(2,1)*T(1,3,3)
 
       S(5) =    R(1,1)*(T(2,3,4)+T(2,4,3)) +  R(4,3)*(T(3,1,4)+T(3,4,1))
@@ -77,24 +77,24 @@ C----- Second order. These J.L. Laclare, p18.
       S(8) =    R(1,2)*(T(2,3,4)+T(2,4,3)) +  R(4,4)*(T(3,2,3)+T(3,3,2))
      > -    R(3,4)*(T(4,2,3)+T(4,3,2)) -    R(2,2)*(T(1,3,4)+T(1,4,3))
 
-      S(9) = 2.D0*R(1,2)*T(2,4,4) +    R(4,4)*(T(3,2,4)+T(3,4,2)) 
+      S(9) = 2.D0*R(1,2)*T(2,4,4) +    R(4,4)*(T(3,2,4)+T(3,4,2))
      > -    R(3,4)*(T(4,2,4)+T(4,4,2)) - 2.D0*R(2,2)*T(1,4,4)
 
-C FM 07/97      S(10)= 2.D0*R(1,2)*T(2,3,3) +    R(2,1)*(T(3,2,3)+T(3,3,2)) 
-      S(10)= 2.D0*R(1,2)*T(2,3,3) +    R(4,3)*(T(3,2,3)+T(3,3,2)) 
+C FM 07/97      S(10)= 2.D0*R(1,2)*T(2,3,3) +    R(2,1)*(T(3,2,3)+T(3,3,2))
+      S(10)= 2.D0*R(1,2)*T(2,3,3) +    R(4,3)*(T(3,2,3)+T(3,3,2))
      > -    R(3,3)*(T(4,2,3)+T(4,3,2)) - 2.D0*R(2,2)*T(1,3,3)
 
-C FM 07/97       S(11)= 2.D0*R(1,2)*(T(2,3,4)+T(2,4,3))+ R(2,1)*(T(3,2,4)+T(3,4,2)) 
-      S(11)=    R(1,2)*(T(2,3,4)+T(2,4,3))+ R(4,3)*(T(3,2,4)+T(3,4,2)) 
+C FM 07/97       S(11)= 2.D0*R(1,2)*(T(2,3,4)+T(2,4,3))+ R(2,1)*(T(3,2,4)+T(3,4,2))
+      S(11)=    R(1,2)*(T(2,3,4)+T(2,4,3))+ R(4,3)*(T(3,2,4)+T(3,4,2))
      > -    R(3,3)*(T(4,2,4)+T(4,4,2)) -    R(2,2)*(T(1,3,4)+T(1,4,3))
 
-      S(12)=    R(3,3)*(T(4,1,4)+T(4,4,1)) +  R(4,4)*(T(3,1,3)+T(3,3,1)) 
+      S(12)=    R(3,3)*(T(4,1,4)+T(4,4,1)) +  R(4,4)*(T(3,1,3)+T(3,3,1))
      > -    R(3,4)*(T(4,1,3)+T(4,3,1)) -    R(4,3)*(T(3,1,4)+T(3,4,1))
 
-      S(13)=    R(3,3)*(T(4,2,4)+T(4,4,2)) +  R(4,4)*(T(3,2,3)+T(3,3,2)) 
+      S(13)=    R(3,3)*(T(4,2,4)+T(4,4,2)) +  R(4,4)*(T(3,2,3)+T(3,3,2))
      > -    R(3,4)*(T(4,2,3)+T(4,3,2)) -    R(4,3)*(T(3,2,4)+T(3,4,2))
 
-      S(14)=    R(3,3)*(T(4,4,6)+T(4,6,4)) +  R(4,4)*(T(3,3,6)+T(3,6,3)) 
+      S(14)=    R(3,3)*(T(4,4,6)+T(4,6,4)) +  R(4,4)*(T(3,3,6)+T(3,6,3))
      > -    R(3,4)*(T(4,3,6)+T(4,6,3)) -    R(4,3)*(T(3,4,6)+T(3,6,4))
 
       IF(NRES.GT.0) WRITE(NRES,101) (S(J),J=1,14)

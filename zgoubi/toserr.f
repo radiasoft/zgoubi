@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE TOSERR(NOEL,IRR,MXTA,BM, 
+      SUBROUTINE TOSERR(NOEL,IRR,MXTA,BM,
      >KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                     DB,DPOS,TILT)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -49,8 +49,8 @@ C  -------
             DERR = (2.D0*RNDM() -1.D0)*SM
           ELSEIF(TYPDIS(IRR,I).EQ.'U') THEN
             XXX = RNDM()
-            DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0) 
-C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0) 
+            DERR = ERRSIG(IRR,I)* 2.D0*(XXX-0.5D0)
+C            DERR = ERRSIG(IRR,I)* 2.D0*(rndm()-0.5D0)
 C                WRITE(88,*) ' TOSERR RNDM ',XXX
           ENDIF
 
@@ -58,7 +58,7 @@ C                WRITE(88,*) ' TOSERR RNDM ',XXX
             IF    (TYPAR(IRR,I).EQ.'A') THEN
 C              ABSOLUTE ERROR
               DB(NOEL,I) = ERRCEN(IRR,I) + DERR
-C              WRITE(NRES,FMT='(10X,A,I,A,2(A,I0),A,1P,3E14.6)') 
+C              WRITE(NRES,FMT='(10X,A,I,A,2(A,I0),A,1P,3E14.6)')
 C     >        'Element #',NOEL,', error added - ',
 C     >        ' Multipole order is ',I0,' ;  type of error is ',IRR,
 C     >        ' ;  error center/delta/center+delta : ',
@@ -81,7 +81,7 @@ C          CALL ENDJOB('SBR TOSERR. NO SUCH OPTION KPOL=',KPOL(IRR,I))
 
         ENDIF
 
-      ENDDO      
+      ENDDO
 
-      RETURN      
+      RETURN
       END

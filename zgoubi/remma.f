@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -46,14 +46,14 @@ C----- BNORM & X-,Y-,Z-NORM
  8    CONTINUE
       WRITE(6,*) ' *** Need 4 normalisation coefficients on that line'
       CALL ENDJOB('*** Input data error in SBR RCARTE, data line #2',0)
-      STOP 
+      STOP
  81   CONTINUE
- 
-C----- TITLE - Start TITLE with FLIP to get map flipped 
+
+C----- TITLE - Start TITLE with FLIP to get map flipped
       READ(NDAT,200) TA(NOEL,1)
  200  FORMAT(A)
 
-C----- Either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20) 
+C----- Either cartesian mesh (MOD.le.19), or polar mesh (MOD.ge.20)
       READ(NDAT,*,ERR=50) A(NOEL,20),A(NOEL,21),KZMA,A(NOEL,23)
 C      write(*,*) 'remma ',A(NOEL,20),A(NOEL,21),KZMA,A(NOEL,23)
       GOTO 51
@@ -70,10 +70,10 @@ C------------------------------------------------------
 C------- Cartesian mesh
         KART = 1
       ELSEIF(MOD .GE. 20) THEN
-C------- Cylindrical mesh. Axis is Z. 
+C------- Cylindrical mesh. Axis is Z.
 C MOD=22 :  a pair of data files, one for Foff one for Doff
-C MOD=24 :  NN pairs of field maps, each pair corresponding to a different value 
-C of the distance (d_1 ... d_NN) between quads' axis. 
+C MOD=24 :  NN pairs of field maps, each pair corresponding to a different value
+C of the distance (d_1 ... d_NN) between quads' axis.
         KART = 2
 C        MOD=24 : Read name of the file that contains names of all map files
         IF(MOD.EQ.24) NFIC = 1
@@ -99,9 +99,9 @@ C----- MAP FILE NAME(S)
       DO 37 IFIC=1,NFIC
         READ(NDAT,FMT='(A)') TXT
         CALL STRGET(TXT,1,
-     >                       IDUM,STRA) 
+     >                       IDUM,STRA)
         TA(NOEL,1+IFIC) = STRA(1)
-C               write(*,*) ' sbr remma : ', TA(NOEL,1+IFIC) 
+C               write(*,*) ' sbr remma : ', TA(NOEL,1+IFIC)
 C               write(*,*) ' sbr remma : ', noel, ific
  37   CONTINUE
 
@@ -116,7 +116,7 @@ C     ... IRD
       READ(NDAT,*) A(NOEL,50)
 C     ... XPAS
       READ(NDAT,*) A(NOEL,60)
-      ND = 60 
+      ND = 60
       IF(KART .EQ. 1) THEN
 C       ... Cartesian map frame
 C           KP, XCE, YCE, ALE

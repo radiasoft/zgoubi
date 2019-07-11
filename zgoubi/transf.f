@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -37,7 +37,7 @@ C     ----------------------------------------------------------------
       INCLUDE "C.CHAFUI.H"     ! COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXSTEP.H'
@@ -70,15 +70,15 @@ C      LOGICAL ZSYM
       INCLUDE "C.TRNSF.H"     ! COMMON/TRNSF/ XFE,XFS
 
       LOGICAL CHGRFE,CHGRFS,CHPFE,CHPFS,EVNT,BACKW,DRT
-     
+
       PARAMETER(MPOL=10)
-      
+
       LOGICAL MIRROR, MIRRIN, BACKIN, MIRROU, BACKOU
       SAVE MIRROR, BACKW
 
       LOGICAL CONSTY, CONSTI
       SAVE CONSTY
-      
+
       DATA MIRROR / .FALSE. /
       DATA CONSTY / .FALSE. /
       DATA BACKW / .FALSE. /
@@ -87,19 +87,19 @@ C      LOGICAL ZSYM
 
       CHGRFE= NINT(VSHROE(MSR)).NE.0
       CHGRFS= NINT(VSHROS(MSR)).NE.0
- 
+
       CHPFE = ( KART .EQ. 1 .AND. XFE .NE. ZERO )
       CHPFS = ( KART .EQ. 1 .AND. XFS .NE. ZERO )
- 
+
 C----- Trajectory deviations T > Pi/2 are allowed in the field map of SPES3
 C      BACKW = ( KALC .EQ. 2 .AND. KUASEX .EQ. 3 )
-C      also with CARTEMES, 
+C      also with CARTEMES,
 C     >     .OR. ( KALC .EQ. 2 .AND. KUASEX .EQ. 1 )
 
 C----- Events, such as spin tracking, in-flight decay, etc...
       EVNT = KSPN .EQ. 1 .OR. IFDES .EQ. 1 .OR. KGA .EQ. 1 .OR.
      >   LIMIT .EQ. 1  .OR. KSYN.GE.1  .OR. KCSR.EQ.1
- 
+
 C----- Droite de coupure entree
       DRT = IDRT .EQ. -1 .OR. IDRT .GE. 2
 
@@ -108,10 +108,10 @@ C------ Some initialisations in SBR DEVTRA...
 
       XO=X
       DO 1 IT=1,IMAX
- 
+
 C-------- IEX<-1 <=> Particle stopped
         IF(IEX(IT) .LT. -1) GOTO 1
- 
+
         IF(IT .EQ. IREP(IT) .OR. .NOT. ZSYM
      >     .OR. CONSTY                      ) THEN
 
@@ -122,9 +122,9 @@ C-------- IEX<-1 <=> Particle stopped
           IF( CHPFE  ) CALL CHAREF(EVNT,XFE,ZERO,ZERO)
 
           IF( DRT  ) CALL DRTENT
- 
+
           CALL INTEGR(EVNT,BACKW,MIRROR,KFLD)
- 
+
           IF( CHPFS  ) CALL CHAREF(EVNT,XFS,ZERO,ZERO)
           IF( CHGRFS ) THEN
             IF(NRES.GT.0)
@@ -140,11 +140,11 @@ C-------- IEX<-1 <=> Particle stopped
           CALL DEJACA(IT)
 
         ENDIF
- 
+
  1    CONTINUE
- 
+
       IF(LST .GE. 1 ) CALL CTRLB(2)
- 
+
       MIRROR = .FALSE.
       BACKW = .FALSE.
       RETURN

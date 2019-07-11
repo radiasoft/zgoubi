@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -48,7 +48,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER(I0=0)
       YO=Y
       Y=((Y-YC)*COS(T)+XC*SIN(T))/COS(T-A)
-      T=T-A 
+      T=T-A
       XL=XC-Y*SIN(A)
       YL=YC-YO+Y*COS(A)
       DL=SQRT(XL*XL+YL*YL)
@@ -71,12 +71,12 @@ C--------- Cylindrical coordinates
           YY = Y+RM
           XX = A
         ENDIF
-C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be 
+C Problems with DIPOLE-M when calling EVENT/CHAMBRE here : y itself can be
 C either y or y+rm  depending when it is called
 C            write(*,*) ' sbr charef ',it,y,rm,y+rm
 C        CALL EVENT(DL,YY,T,Z,P,XX,UN,QBR,SAR,TAR,KEX,IT,
 C     >  AMT,QT,BORO,KART,IFDES,KGA,I0,IMAX,*99)
       ENDIF
-C 99   RETURN 
-      RETURN 
+C 99   RETURN
+      RETURN
       END

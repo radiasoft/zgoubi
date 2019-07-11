@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,15 +27,15 @@ C  -------
      >                      DSREF,IRD,IDB)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C---------------------------------------------------------
-C     CYCLOTRON sector with several dipoles. 
-C     Each dipole has entrance and exit field boundaries, 
-C     possibly a third lateral one, much like DIPOLES. 
-C     Up to NMAG dipoles. 
-C     The total angular extent of the field region is given 
-C     by AT, each dipole is positionned within AT by  ACENT 
-C     angle and by its RM radial positionniing. 
-C     For each dipole, the three faces are positionned wrt. 
-C     the dipole's ACENT value. 
+C     CYCLOTRON sector with several dipoles.
+C     Each dipole has entrance and exit field boundaries,
+C     possibly a third lateral one, much like DIPOLES.
+C     Up to NMAG dipoles.
+C     The total angular extent of the field region is given
+C     by AT, each dipole is positionned within AT by  ACENT
+C     angle and by its RM radial positionniing.
+C     For each dipole, the three faces are positionned wrt.
+C     the dipole's ACENT value.
 C---------------------------------------------------------
       INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -48,10 +48,10 @@ C---------------------------------------------------------
       INCLUDE "C.RIGID_2.H"     ! COMMON/RIGID/ BORO,DPREF,DPPP,QBR,BRI
       INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3
       INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
-      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex     
+      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex
 
       DIMENSION FTAB(5,5)
-       
+
       PARAMETER (NM=5)
       DIMENSION NBFACE(NM)
       DIMENSION CE(NM,8),CS(NM,8),CC(NM,6)
@@ -60,14 +60,14 @@ C---------------------------------------------------------
       DIMENSION COEFN(NM)
       DOUBLE PRECISION LAMBDE, LAMBDS, LAMBD3
       DOUBLE PRECISION NORMS
-      DIMENSION LAMBDE(NM),QAPPAE(NM),NCOEFE(NM),RNME(NM) 
-      DOUBLE PRECISION G10,G11,G20,G21 
-      DIMENSION G10(NM),G11(NM),G20(NM),G21(NM) 
-      DIMENSION LAMBDS(NM),QAPPAS(NM),NCOEFS(NM),NORMS(NM) 
+      DIMENSION LAMBDE(NM),QAPPAE(NM),NCOEFE(NM),RNME(NM)
+      DOUBLE PRECISION G10,G11,G20,G21
+      DIMENSION G10(NM),G11(NM),G20(NM),G21(NM)
+      DIMENSION LAMBDS(NM),QAPPAS(NM),NCOEFS(NM),NORMS(NM)
       DIMENSION LAMBD3(NM),QAPPAL(NM),NCOEF3(NM),SHIFT3(NM),RM3(NM)
-      DIMENSION UMEGA(NM),ASPIE0(NM),ASPIE1(NM),ASPIE2(NM),ASPIE3(NM) 
-      DIMENSION UMEGAS(NM),ASPIS0(NM),ASPIS1(NM),ASPIS2(NM),ASPIS3(NM) 
-      DIMENSION UMEGA3(NM),ASPI3(NM),R1L(NM),U13(NM),U23(NM),R2L(NM) 
+      DIMENSION UMEGA(NM),ASPIE0(NM),ASPIE1(NM),ASPIE2(NM),ASPIE3(NM)
+      DIMENSION UMEGAS(NM),ASPIS0(NM),ASPIS1(NM),ASPIS2(NM),ASPIS3(NM)
+      DIMENSION UMEGA3(NM),ASPI3(NM),R1L(NM),U13(NM),U23(NM),R2L(NM)
       DIMENSION aen1(NM), ben1(NM), cen1(NM), aex1(NM),bex1(NM),cex1(NM)
 
       SAVE ACN,DRM,HNORM,Rref,CE,CS,CC,H1,H2,H3,H4
@@ -105,13 +105,13 @@ c      parameter(lunW=12)
 c      open(unit=lunW,file='Distance.H')
 
 
-C  NBMAG=number of magnets.  AT=total extent angle of field 
+C  NBMAG=number of magnets.  AT=total extent angle of field
       NP = 2
       NBMAG = NINT(A(NOEL,NP))
-      NP=NP+1 
+      NP=NP+1
       AT    = A(NOEL,NP)
-      NP=NP+1 
-C The rm value in the spiral equation: 
+      NP=NP+1
+C The rm value in the spiral equation:
       RM    = A(NOEL,NP)
       NP=NP+1
       Typ   = A(NOEL,NP)
@@ -124,34 +124,34 @@ C  HNORM=Champ MAX DANS LE DIPOLE.
 C  COEFN=N=INDICE DE Champ, B=N', G=N''.
 C  Rref= rayon de reference utilise uniquement dans la loi de champ: B(r)~ [1-(r/Rref)**2]**(-0.5)
 C  AT=ANGLE TOTAL DE LA zone DE Champ, ACENT='ANGLE AU CENTRE',
-C    RM=RAYON MOYEN DE LA zone DE Champ. 
-C  NBFACE(KMAG)=(2)3 : dipole limited by (2)3 field boundaries 
+C    RM=RAYON MOYEN DE LA zone DE Champ.
+C  NBFACE(KMAG)=(2)3 : dipole limited by (2)3 field boundaries
 
 C-----  a list of NBMAG.LE.NM magnets
       KMAG = 0
  10   CONTINUE
       KMAG = KMAG+1
 
-      NP=NP+1 
+      NP=NP+1
       ACENT = A(NOEL,NP)
-      ACN(KMAG) = ACENT * RAD      
-      NP=NP+1 
+      ACN(KMAG) = ACENT * RAD
+      NP=NP+1
       DRM(KMAG)    = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       FAC(KMAG) = A(NOEL,NP)
       NP=NP+1
       HNORM(KMAG) = A(NOEL,NP)*SCAL
-      NP=NP+1 
+      NP=NP+1
       COEFN(KMAG) = A(NOEL,NP)
       NP=NP+1
       Rref(KMAG)  = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       H1(KMAG) = A(NOEL,NP)*SCAL
-      NP=NP+1 
+      NP=NP+1
       H2(KMAG) = A(NOEL,NP)*SCAL
-      NP=NP+1 
+      NP=NP+1
       H3(KMAG) = A(NOEL,NP)*SCAL
-      NP=NP+1 
+      NP=NP+1
       H4(KMAG) = A(NOEL,NP)*SCAL
 
       IF(NRES.GT.0) WRITE(NRES,100) KMAG,ACN(KMAG)/RAD,DRM(KMAG),
@@ -161,39 +161,39 @@ C-----  a list of NBMAG.LE.NM magnets
      > 11X,' Positionning  wrt.  R0  : ',G10.2,' cm',/,
      5 11X,' B0 =',G12.4,' kGauss,',7X,'K =',G13.5)
 
-      NP=NP+1 
+      NP=NP+1
       LAMBDE(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QAPPAE(KMAG) = A(NOEL,NP)
       NP=NP+1
       G10(KMAG) = A(NOEL,NP)
       NP=NP+1
-      G11(KMAG) = A(NOEL,NP)      
+      G11(KMAG) = A(NOEL,NP)
 
       SHARPE=LAMBDE(KMAG) .LE. 0.D0
       IF(SHARPE) THEN
         GPE = -LAMBDE(KMAG)
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
         CALL INTEG1(ZERO,ZERO,GPE)
       ENDIF
-      NP=NP+1 
+      NP=NP+1
       NCOEFE(KMAG) = NINT(A(NOEL,NP))
       DO 227 I=1,8
-        NP=NP+1 
+        NP=NP+1
  227    CE(KMAG,I) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       RNME(KMAG) = A(NOEL,NP)
 !      write(*,*) RNME(KMAG)  ! malek
-      NP=NP+1 
+      NP=NP+1
       UMEGA(KMAG)  = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIE0(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIE1(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIE2(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIE3(KMAG) = A(NOEL,NP)
 
       NP=NP+1
@@ -202,7 +202,7 @@ C-----  a list of NBMAG.LE.NM magnets
       ben1(KMAG) = A(NOEL,NP)
       NP=NP+1
       cen1(KMAG) = A(NOEL,NP)
- 
+
       IF(NRES.GT.0) THEN
         KGAP = 2
         IF(QAPPAE(KMAG).EQ.0) KGAP=1
@@ -219,38 +219,38 @@ C 103    FORMAT(10X,7HOMEGA =,F7.2,5X,17HANGLE  DE  FACE =,F7.2,/ ,
       ENDIF
 
 C Exit Fringe Field
-      NP=NP+1 
+      NP=NP+1
       LAMBDS(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QAPPAS(KMAG)   = A(NOEL,NP)
       NP=NP+1
       G20(KMAG) = A(NOEL,NP)
       NP=NP+1
-      G21(KMAG) = A(NOEL,NP) 
+      G21(KMAG) = A(NOEL,NP)
       SHARPS=LAMBDS(KMAG) .LE. 0.D0
       IF(SHARPS) THEN
         GPS = -LAMBDS(KMAG)
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
         CALL INTEG2(ZERO,ZERO,GPS)
       ENDIF
-      NP=NP+1 
+      NP=NP+1
       NCOEFS(KMAG) = NINT(A(NOEL,NP))
       DO 228 I=1,8
-        NP=NP+1 
+        NP=NP+1
  228    CS(KMAG,I) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       NORMS(KMAG) = A(NOEL,NP)
 
-      NP=NP+1 
+      NP=NP+1
       UMEGAS(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIS0(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIS1(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIS2(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       ASPIS3(KMAG) = A(NOEL,NP)
 
       NP=NP+1
@@ -258,8 +258,8 @@ C Exit Fringe Field
       NP=NP+1
       bex1(KMAG) = A(NOEL,NP)
       NP=NP+1
-      cex1(KMAG) = A(NOEL,NP)      
-     
+      cex1(KMAG) = A(NOEL,NP)
+
       IF(NRES.GT.0) THEN
         KGAP = 2
         IF(QAPPAS(KMAG).EQ.0) KGAP=1
@@ -267,40 +267,40 @@ C Exit Fringe Field
         WRITE(NRES,127) NCOEFS(KMAG),(CS(KMAG,I),I=1,6),NORMS(KMAG)
         WRITE(NRES,103) UMEGAS(KMAG),ASPIS0(KMAG)
       ENDIF
- 
-      NP=NP+1 
+
+      NP=NP+1
       LAMBD3(KMAG) = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       QAPPAL(KMAG)   = A(NOEL,NP)
-      NP=NP+1 
+      NP=NP+1
       NCOEF3(KMAG) = NINT(A(NOEL,NP))
       DO 229 I=1,6
-        NP=NP+1 
+        NP=NP+1
  229    CC(KMAG,I) = A(NOEL,49+I)
-      NP=NP+1 
+      NP=NP+1
       SHIFT3(KMAG) = A(NOEL,NP)
- 
-       NP=NP+1 
+
+       NP=NP+1
        UMEGA3(KMAG) = A(NOEL,NP)
-       NP=NP+1 
+       NP=NP+1
        ASPI3(KMAG) = A(NOEL,NP)
-       NP=NP+1 
+       NP=NP+1
        R1L(KMAG)    = A(NOEL,NP)
-       NP=NP+1 
+       NP=NP+1
        U13(KMAG)    = A(NOEL,NP)
-       NP=NP+1 
+       NP=NP+1
        U23(KMAG)    = A(NOEL,NP)
-       NP=NP+1 
+       NP=NP+1
        R2L(KMAG)    = A(NOEL,NP)
- 
+
        NBFACE(KMAG)=2
        IF(QAPPAL(KMAG) .GE. 0) NBFACE(KMAG)=3
 
        IF(NRES.GT.0) THEN
          IF(QAPPAL(KMAG).LT.0) THEN
-            WRITE(NRES,*) 
+            WRITE(NRES,*)
             WRITE(NRES,*) '        Lateral face :  unused'
-            WRITE(NRES,*) 
+            WRITE(NRES,*)
          ELSE
            STOP 'Lateral EFB is not implemented. Use Entrance/Exit only'
            KGAP = 2
@@ -315,24 +315,24 @@ C Exit Fringe Field
      >        U23(KMAG),R2L(KMAG)
          ENDIF
        ENDIF
- 
+
       IF(KMAG.LT.NBMAG) GOTO 10
 
 C-----------------------------
-      
-C Get type of field & deriv. calculation 
-      NP=NP+1 
+
+C Get type of field & deriv. calculation
+      NP=NP+1
       KIRD = NINT(A(NOEL,NP))
 C Get resol, or idb
-      NP=NP+1 
+      NP=NP+1
       RESOL=A(NOEL,NP)
       IF    (KIRD.NE.0) THEN
-C    interpolation 
+C    interpolation
         IF(SHARPE .OR. SHARPS) CALL ENDJOB
      >    ('ERROR :  sharp edge not compatible with num. deriv.',-99)
         IRD = KIRD
         KIRD = 1
-        IF    (IRD.EQ.2) THEN 
+        IF    (IRD.EQ.2) THEN
           NN=3
         ELSEIF(IRD.EQ.25) THEN
           NN=5
@@ -347,26 +347,26 @@ C    analytic
         IF(IDB.NE.4) IDB=2
       ENDIF
       CALL CHAMC6(KIRD)
-    
+
       AE=0.D0
       AS=0.D0
       AT = AT * RAD
 
-      AMIN = -AT/2.D0 !- ACN(KMAG)       
-      AMAX =  AT/2.D0 !- ACN(KMAG)       
+      AMIN = -AT/2.D0 !- ACN(KMAG)
+      AMAX =  AT/2.D0 !- ACN(KMAG)
 
 c          write(*,*) ' sbr ffgspi,   amin,amax :', amin,amax
 c                 pause
 
       XI = AMIN
       XF = AMAX
- 
-C--- Formule à revoir...
+
+C--- Formule Ã  revoir...
       DSREF = RM * (UMEGA(KMAG)-UMEGAS(KMAG))
 C--------------------
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)') 
+        WRITE(NRES,FMT='(/,5X,'' Field & deriv. calculation :'',A)')
      >  TYPCAL(KIRD+1)
         IF    (KIRD.NE.0) THEN
           IF(IRD .EQ. 2) THEN
@@ -407,18 +407,18 @@ C           write(*,*) ' tta, ro  ',tta, ro,acn(kmag),tta-amin,amin
 C------------------------------------------------------------
 
 C Entrance EFB
- 
+
       UMEG = UMEGA(KMAG) * RAD
       ASP0 = ASPIE0(KMAG) * RAD
       ASP1 = ASPIE1(KMAG) * RAD
       ASP2 = ASPIE2(KMAG) * RAD
-      ASP3 = ASPIE3(KMAG) * RAD  
+      ASP3 = ASPIE3(KMAG) * RAD
 C Exit EFB
       UMEGS = UMEGAS(KMAG) * RAD
       ASPS0 = ASPIS0(KMAG) * RAD
       ASPS1 = ASPIS1(KMAG) * RAD
       ASPS2 = ASPIS2(KMAG) * RAD
-      ASPS3 = ASPIS3(KMAG) * RAD 
+      ASPS3 = ASPIS3(KMAG) * RAD
 
 
 C Entrance and exit EFBs DO NOT necessarily have the same parameters
@@ -434,12 +434,12 @@ C  Entrance and Exit radial face equation parameters: ax+by+c=0
       aex=aex1(KMAG)
       bex=bex1(KMAG)
       cex=cex1(KMAG)
-     
+
 
 
 C------------------------------------------------------------
 
-C----- CALCUL LE Champ en X, Y 
+C----- CALCUL LE Champ en X, Y
 C      COORDONNEES DU POINT COURANT
 
       XACC=0.0001D0     ! accuracy for newton zero method
@@ -448,21 +448,21 @@ C      COORDONNEES DU POINT COURANT
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCC  MALEK  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C      IF(ASP .EQ. 0.D0) GOTO 13
-         
-C      ELSE   
+
+C      ELSE
 C      B1=1.D0/TAN(ASP0)
 C      ENDIF
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC      
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       RO2=RM
-      
 
-      AMIN =  -AT/2.D0 !- ACN(KMAG)       
-      AMAX =   AT/2.D0 !- ACN(KMAG)       
+
+      AMIN =  -AT/2.D0 !- ACN(KMAG)
+      AMAX =   AT/2.D0 !- ACN(KMAG)
 
 c      TTA1 = UMEG
 c      TTA2 = -UMEG
       TTA1 = acn(kmag) + UMEG
-      TTA2 = acn(kmag) + UMEGS 
+      TTA2 = acn(kmag) + UMEGS
 
       DO  1  JRO = 1,NN
         ROJ = RO + DRO * DBLE(NN-JRO-INT(NN/2))
@@ -475,19 +475,19 @@ c      TTA2 = -UMEG
           TTAI = TTA - DTTA * DBLE(NN-ITTA-INT(NN/2))
           X = ROJ * COS(TTAI)
           Y = ROJ * SIN(TTAI)
-          
+
 C CALCUL DE LA DISTANCE DE (X,Y) A LA FACE D'ENTREE
           FA=1.0
-          D=-DSTEFB2(X,Y,RO1,AMIN,AMAX,XACC,TTA1,YN,FA,Typ) 
+          D=-DSTEFB2(X,Y,RO1,AMIN,AMAX,XACC,TTA1,YN,FA,Typ)
 
 
 C          write(*,*) B1
 C            IF( Y .GT. YN .OR. D .LE. 1.D-6) D = -D
             IF( Y .GT. YN ) D = -D
 C            D=( D + SHIFTE(KMAG) )
-            
 
-C CALCUL DE FE            
+
+C CALCUL DE FE
 
           IF(LAMBDE(KMAG) .EQ. 0.D0) THEN
             IF(D.LE.0.D0) THEN
@@ -497,20 +497,20 @@ C CALCUL DE FE
             ENDIF
           ELSE
             IF(QAPPAE(KMAG).EQ.0) THEN
-              GAP = LAMBDE(KMAG) 
+              GAP = LAMBDE(KMAG)
             ELSE
-         GAP = G10(KMAG)+G11(KMAG)*ROJ/100.0      
-               
+         GAP = G10(KMAG)+G11(KMAG)*ROJ/100.0
+
 !        GAP = QAPPAE(KMAG)/((HNORM(KMAG)+H1(KMAG)*ROJ+H2(KMAG)*(ROJ)**2+
 !     >         H3(KMAG)*(ROJ)**3+H4(KMAG)*(ROJ)**4))  !* (1-(ROJ/Rref(KMAG))**2)**QAPPAE(KMAG)          !  loi du gap pour satisfaire l'isochronisme
             ENDIF
             DNTR=D
-            D = D/GAP 
+            D = D/GAP
 
             Dent=D
 
 
-   
+
 
             P=CE(KMAG,1)+(CE(KMAG,2)+(CE(KMAG,3)+(CE(KMAG,4)+
      >              (CE(KMAG,5)+(CE(KMAG,6)+CE(KMAG,7)*D)*D)*D)*D)*D)*D
@@ -526,12 +526,12 @@ C CALCUL DE FE
           ENDIF
 
 C CALCUL DE LA DISTANCE DE (X,Y) A LA FACE DE SORTIE
-         FA=2.0 
+         FA=2.0
          D=DSTEFB2(X,Y,RO2,AMIN,AMAX,XACC,TTA2,YN,FA,Typ)
-         
+
          IF( Y .GT. YN ) D = -D
 
-            
+
 
 
 C CALCUL DE FS
@@ -544,26 +544,26 @@ C CALCUL DE FS
             ENDIF
           ELSE
             IF(QAPPAS(KMAG).EQ.0) THEN
-              GAP = LAMBDS(KMAG) 
+              GAP = LAMBDS(KMAG)
             ELSE
-         GAP = G20(KMAG)+G21(KMAG)*ROJ/100.0   
+         GAP = G20(KMAG)+G21(KMAG)*ROJ/100.0
 
 !       GAP = QAPPAS(KMAG)/((HNORM(KMAG)+H1(KMAG)*ROJ+H2(KMAG)*(ROJ)**2+
  !    >         H3(KMAG)*(ROJ)**3+H4(KMAG)*(ROJ)**4))  !* (1-(ROJ/Rref(KMAG))**2)**0.5
             ENDIF
-            
 
-            D = D/GAP 
-            
+
+            D = D/GAP
+
             Dexit=D
-                      
+
 
 
 
 C            GAP = LAMBDS(KMAG) * (1-(ROJ/Rref(KMAG))**2)**0.5
             P=CS(KMAG,1)+(CS(KMAG,2)+(CS(KMAG,3)+(CS(KMAG,4)+
      >              (CS(KMAG,5)+(CS(KMAG,6)+CS(KMAG,7)*D)*D)*D)*D)*D)*D
-            
+
             IF    (P .GE.  PLIM) THEN
               FS = 0.D0
             ELSEIF(P .LE. -PLIM) THEN
@@ -572,8 +572,8 @@ C            GAP = LAMBDS(KMAG) * (1-(ROJ/Rref(KMAG))**2)**0.5
               FS = (1.D0/(1.D0+EXP(P)))
             ENDIF
           ENDIF
-        
-          
+
+
 c          A1=-0.00584785
 c          A2=1.13695053
 
@@ -586,12 +586,12 @@ C             Calcul du champ B au point (ITTA,JRO) de la grille volante
 
 
 cccccccccccccccccccc   write the distance to a file  malek   ccccccccccccccccccccccccc
-c          if ((JRO .EQ. NN) .and. (ITTA .EQ. NN) .and. 
+c          if ((JRO .EQ. NN) .and. (ITTA .EQ. NN) .and.
 c     >         (KMAG .EQ. 1))  THEN
 c        write(lunW,*) TTAI,Dent,Dexit, FTAB(ITTA,JRO), FE,FS,gap,F
 c          endif
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc          
-          
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
     1 CONTINUE
 C--------- end loop on   NN x tta  &  NN x ro
 
@@ -603,7 +603,7 @@ c      CLOSE(lunW)
 
 C-----------------------------------------------------------
 C  Compute FFAG field  and derivatives from analytical model
-  
+
       RETURN
-  
-      END 
+
+      END

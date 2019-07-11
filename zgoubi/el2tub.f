@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -35,9 +35,9 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       EQUIVALENCE (EN,D), (EB1,V21), (EB2,OM), (EG1,X0)
- 
+
       X1 =A(NOEL,10)
       D =A(NOEL,11)
       X2 =A(NOEL,12)
@@ -54,7 +54,7 @@ C      LOGICAL ZSYM
      >        ,/,30X,' Radius                    = ',G12.5,' m'
      >        ,/,30X,' Potential  1              = ',G12.5,' V'
      >        ,/,30X,' Potential  2              = ',G12.5,' V')
- 
+
 C------- DISTANCES FOCALES
         IF(V1*V2 .NE. 0.D0) THEN
           OM=1.318D0/RO
@@ -75,23 +75,23 @@ C------- DISTANCES FOCALES
      >        ,/,30X,' F1 = ',G12.4,' M,  F2 = ',G12.4,' M')
         ENDIF
       ENDIF
- 
+
 C----- change unites: XLIM:cm, R:cm, V1-2:MeV, D:cm
       XLIM=XLIM*100.D0
       RO=RO*100.D0
       X0=(X1+0.5D0*D)*100.D0
- 
+
 C----- Omega=1.318/RO
       OM=1.318D0/RO
       V1=V1*1.D-6
       V2=V2*1.D-6
       D=D*100.D0
- 
+
       IF(V1 .EQ. V2) KFLD=0
       V21=V2-V1
       XI = 0.D0
       XF=XLIM
       XL=XLIM
- 
+
       RETURN
       END

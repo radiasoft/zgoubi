@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -39,7 +39,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
-  
+
       R1 = A(NOEL,10)
       R2 = A(NOEL,11)
       AT = A(NOEL,12)
@@ -49,7 +49,7 @@ C      LOGICAL ZSYM
       V32 =A(NOEL,21)*SCAL
 
 C------ NORMALLY RB-R2 AND R1-RA ~ 3D
-      
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,110) R1,R2,AT,D,V21,V32
  110    FORMAT(/,40X,' --- TRANSAXIAL  MIRROR ---',/,1P
@@ -60,8 +60,8 @@ C------ NORMALLY RB-R2 AND R1-RA ~ 3D
      >        ,/,30X,' V2 - V1                  = ',G12.5,' V'
      >        ,/,30X,' V3 - V2                  = ',G12.5,' V')
       ENDIF
- 
-C----- CHANGE UNITS: R1,R2,D -> CM 
+
+C----- CHANGE UNITS: R1,R2,D -> CM
       R1 = R1 * 100.D0
       R2 = R2 * 100.D0
       D = D * 100.D0
@@ -70,7 +70,7 @@ C----- V1-3 -> V/D, MEV/CM
       V32D = V32*1.D-6/D
 
 C------ RM IS IN CM
-      RM = 0.5D0*(R1+R2) 
+      RM = 0.5D0*(R1+R2)
       AE = 0.D0
       AS = 0.D0
 C------ XI, XF IS IN RAD

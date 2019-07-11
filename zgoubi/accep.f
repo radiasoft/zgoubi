@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -26,7 +26,7 @@ C  -------
      >                    EMIT,AMA,BMA,XMA,XPMA,NLIV,MXINL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C----------------------------------------------------------------------------
-C     Looks for ellipse with emittance EPSPI and other parameters taken in 
+C     Looks for ellipse with emittance EPSPI and other parameters taken in
 C     the vicinity of the rms ellipse, that has the maximum particle content.
 C----------------------------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -44,7 +44,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       SAVE EPSPI
 
 Compute rms ellipse
-      CALL LPSFIT(JJ, 
+      CALL LPSFIT(JJ,
      >                         EMIT,ALP,BET,XM,XPM)
 
 Compute number of particles alive and number inside ellipse
@@ -68,7 +68,7 @@ Compute number of particles alive and number inside ellipse
           CALL CNTINL(JJ,EPSPI,AA,BB,XX,XXP,
      >                                         NLIV,NINL)
           IF(NINL .GT. MXINL) THEN
-            MXINL = NINL   
+            MXINL = NINL
             AMA = AA
             BMA = BB
             XMA = XX
@@ -77,7 +77,7 @@ Compute number of particles alive and number inside ellipse
  10   CONTINUE
 C      RATIN = DBLE(MXINL)/DBLE(IMAX)
       EMIT = EPSPI
-C        write(*,*) ' sbr accep nliv, ninl :', nliv, ninl 
+C        write(*,*) ' sbr accep nliv, ninl :', nliv, ninl
       RETURN
       ENTRY ACCEPW(EPSPIN)
       EPSPI = EPSPIN

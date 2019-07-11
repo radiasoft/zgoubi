@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,7 +37,7 @@ C     ****************************
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       INTEGER DEBSTR, FINSTR
       CHARACTER(130) TXT130
       CHARACTER(LNTA) FNAME
@@ -122,14 +122,14 @@ C       ... AL, DA = CONE ANGLE AND D-ANGLE AROUND TO, PO
 C       ... IR random seed
         LINE = LINE + 1
         READ(NDAT,*,ERR=90) A(NOEL,30)
-      ENDIF 
- 
+      ENDIF
+
       RETURN
 
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rspn, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rspn, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
       END

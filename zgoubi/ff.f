@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,7 +37,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
- 
+
       DIMENSION U(6,6), T(6,6,6)
       CHARACTER(1) BLANC
       CHARACTER(10) AST
@@ -53,14 +53,14 @@ C      PARAMETER (AST  ='*')
 C      DIMENSION IC2(MXV)
 C      SAVE IC2
 
-      DIMENSION RPD(6,6), RMD(6,6) 
+      DIMENSION RPD(6,6), RMD(6,6)
 
       LOGICAL READAT
       PARAMETER (I0=0,ZRO=0.D0)
 
       DIMENSION SMAT(3,3)
       DIMENSION TR(3)
-      
+
       M=1
       CALL REMPLI(M)
       Z=0D0
@@ -75,7 +75,7 @@ C      SAVE IC2
 
          IF(I3(I) .NE. KK) THEN
             KK=I3(I)
-C----------- Compute present value of constraint 
+C----------- Compute present value of constraint
 C            FITING = .FALSE.
 C            CALL FITSTA(6,FITING)
             READAT = .FALSE.
@@ -173,7 +173,7 @@ C-----------Chromaticity
                YNUI(IREF) = YNU
                ZNUI(IREF) = ZNU
 
-             IF(IREF.LT.NBREF) GOTO 1 
+             IF(IREF.LT.NBREF) GOTO 1
 
              IF    (NBREF .EQ. 1) THEN
                STOP ' SBR FF : not enough MATRIX blocks  '
@@ -219,10 +219,10 @@ C-----------Contraints are second order transport coeffs
      >                                F0P,Cstrn)
              CALL MAT2P(RPD,DP)
              CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
-     >                                             YNUP,ZNUP,CMUY,CMUZ) 
+     >                                             YNUP,ZNUP,CMUY,CMUZ)
              CALL MAT2M(RMD,DP)
              CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
-     >                                             YNUM,ZNUM,CMUY,CMUZ) 
+     >                                             YNUM,ZNUM,CMUY,CMUZ)
              DNUYDP = (YNUP-YNUM)/2.D0/DP
              DNUZDP = (ZNUP-ZNUM)/2.D0/DP
 
@@ -233,9 +233,9 @@ C-------------Contraint dNu_Y/dpp
 C-------------Contraint dNu_Z/dpp
                VAL= DNUZDP
              ENDIF
-             
+
            ENDIF
- 
+
         ELSE IF(ICONT .EQ. 3) THEN
 C----------- Constraints on particle coordinates or bundle
 
@@ -254,29 +254,29 @@ C------------ Constraint on beam : average value of coordinate L
 C------------- Constraint on beam : max value of coordinate L
                VAL=FITLMA(L)
              ELSEIF(K.EQ.-3) THEN
-C------------ Constraint : minimze distance between paticles for coord. L. 
+C------------ Constraint : minimze distance between paticles for coord. L.
 C             List of particles concerned is entered via parameter list
                CALL DIST2(L,
      >                      VAL)
              ELSEIF(K.EQ.-4) THEN
 C------------ Constraint : bring distance between bunch centroids at various pickups closest to VAL.
 C             PUs concerned are those included in the range NOELA - NOELB.
-C             What that does : get PU signals for a given coordinate, then 
+C             What that does : get PU signals for a given coordinate, then
 C             dist3 computes the sum of the absolute values of the differences between these averages.
                CALL DIST3(L,nint(CPAR(I,2)),NINT(CPAR(I,3)),
      >                                                      VAL)
              ENDIF
            ELSEIF(ICONT2.EQ.1) THEN
-C------------ Constraint on closed orbit : 
-C             e.g., particle #K has equal values for coordinate L, 
-C                 at ends of cell 
+C------------ Constraint on closed orbit :
+C             e.g., particle #K has equal values for coordinate L,
+C                 at ends of cell
 C                   (hence expected constraint value in zgoubi.dat is 0).
              VAL=ABS(F(L,K) - FO(L,K))
 
            ELSEIF(ICONT2.EQ.2) THEN
-C------------ Constraint on closed orbit : 
+C------------ Constraint on closed orbit :
 C             or opposite angle values (L=3,5)
-C                 at ends of cell 
+C                 at ends of cell
 C                   (hence expected constraint value in zgoubi.dat is 0)
              VAL=ABS(F(L,K) + FO(L,K))
 
@@ -291,20 +291,20 @@ c             if(mima .eq. 2) mima=1
 c             CALL FITMM1(K,L,KK,MIMA,
 c     >                             VAL2)
 c             val = val1 + val2
-     
+
            ELSEIF(ICONT2.EQ.3) THEN
-C------------ Same coordinate L, two different particles K, K2 
-             K2 = NINT(CPAR(I,2)) 
+C------------ Same coordinate L, two different particles K, K2
+             K2 = NINT(CPAR(I,2))
              VAL=ABS( F(L,K) + F(L,K2) )
 
            ELSEIF(ICONT2.EQ.4) THEN
-C------------ Same coordinate L, two different particles K, K2 
-             K2 = NINT(CPAR(I,2)) 
+C------------ Same coordinate L, two different particles K, K2
+             K2 = NINT(CPAR(I,2))
              VAL=ABS( F(L,K) - F(L,K2) )
 
            ELSEIF(ICONT2.EQ.5) THEN
-C------------ Same coordinate L, two different particles K, K2 
-             K2 = NINT(CPAR(I,2)) 
+C------------ Same coordinate L, two different particles K, K2
+             K2 = NINT(CPAR(I,2))
              VAL=F(L,K) / F(L,K2) -1.D0
 
            ENDIF
@@ -312,14 +312,14 @@ C------------ Same coordinate L, two different particles K, K2
          ELSE IF(ICONT .EQ. 4) THEN
 C----------- Constraint ellipse parameters
 
-            IF    (K.LE.2) THEN 
+            IF    (K.LE.2) THEN
               K2=1
-            ELSEIF(K.LE.4) THEN 
+            ELSEIF(K.LE.4) THEN
               K2=2
-            ELSEIF(K.LE.6) THEN 
+            ELSEIF(K.LE.6) THEN
               K2=3
             ENDIF
-            CALL LPSFIT(K2, 
+            CALL LPSFIT(K2,
      >                     EMIT,ALP,BET,XM,XPM)
             IF(K.EQ.L) THEN
               IF(K.EQ.2*K2) THEN
@@ -345,7 +345,7 @@ C------------- Ratio of iex>0 particles,  (IMAX-Nstopped)/IMAX
             ELSE IF( K .GE. 1) THEN
 
               IF( K .LE. 3) THEN
-C--------------- Ratio N_InLips/IMAX of particles within ph-space ellipse ; 
+C--------------- Ratio N_InLips/IMAX of particles within ph-space ellipse ;
 C                ellipse surface is entered as parameter in constraint data list
                 CALL ACCEN(K,
      >                       RATIN)
@@ -354,7 +354,7 @@ C                VAL = 1.D0/VAL
 CCCCCCC     ?? remplace VAL = 1.D0/VAL par VAL = 1.D0-VAL dans FF ????
 
               ELSEIF( K .LE. 6) THEN
-C--------------- Maximum ratio N_InLips/IMAX  of particles within a 
+C--------------- Maximum ratio N_InLips/IMAX  of particles within a
 C                ph-space ellipse which is found at best in region of rms ellipse ;
 C                ellipse surface is entered as parameter in constraint data list
                 CALL ACCEP(K-3,
@@ -362,7 +362,7 @@ C                ellipse surface is entered as parameter in constraint data list
 C     >                         EMIT,ALP,BET,XM,XPM,NLIV,NINL)
 
 C--------------- For a follow-up of the optimized ellipse, using zpop (Menu8/14/7/6) ------
-c                WRITE(88,FMT='(1P,I7,5G12.4,A13)') 
+c                WRITE(88,FMT='(1P,I7,5G12.4,A13)')
 c     >              MXINL,EMIT,ALP,BET,XM,XPM,'  Function FF'
 c                BACKSPACE(88)
 c                READ(88,*) DUM
@@ -371,18 +371,18 @@ C-------------------------------------------------------------------------------
                 VAL=DBLE(MXINL)/DBLE(IMAX)
 C                VAL=DBLE(NINL)/DBLE(IMAX)
 
-              ELSE 
+              ELSE
                 STOP ' *** Error, FCT FF -> No such constraint 5.K'
               ENDIF
 
-            ELSE 
+            ELSE
               STOP ' *** Error, FCT FF -> No such constraint 5.K'
             ENDIF
 
          ELSE IF(ICONT .EQ. 6) THEN
 C    constraint rms  emittance
 
-            CALL LPSFIT(K, 
+            CALL LPSFIT(K,
      >                    EMIT,ALP,BET,XM,XPM)
             VAL=EMIT
 
@@ -392,8 +392,8 @@ C----------- Constraints on coordinates and fields *inside* optical elements
            IF(ICONT2.EQ.1) THEN
 C------------ Constraint on min or max value (MIMA=1 or 2) of coordinate L reached inside optical element KK
              MIMA = NINT(CPAR(I,2))
-             IF(MIMA .NE. 1 .AND. 
-     >          MIMA .NE. 2) 
+             IF(MIMA .NE. 1 .AND.
+     >          MIMA .NE. 2)
      >          CALL KSTOP(' FF, MIMA should = 1 or 2. ',-99)
 
              CALL FITMM1(K,L,KK,MIMA,icont2,
@@ -408,7 +408,7 @@ C------------ Constraint on |min-max| value of coordinate L reached inside optic
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL2 - VAL1
-     
+
            ELSEIF(ICONT2.EQ.3) THEN
 C------------ Constraint on  min+max  value of coordinate L reached inside optical element KK
              MIMA = 1
@@ -418,17 +418,17 @@ C------------ Constraint on  min+max  value of coordinate L reached inside optic
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL1 + VAL2
-     
+
            ELSEIF(ICONT2.EQ.6) THEN
 C------------ Constraint on  min or max value  (MIMA=1 or 2) of field L-component, across optical element KK
              MIMA = NINT(CPAR(I,2))
-             IF(MIMA .NE. 1 .AND. 
-     >          MIMA .NE. 2) 
+             IF(MIMA .NE. 1 .AND.
+     >          MIMA .NE. 2)
      >          CALL KSTOP(' FF, MIMA should = 1 or 2. ',-99)
 
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL)
-     
+
            ELSEIF(ICONT2.EQ.7) THEN
 C------------ Constraint on  |min-max| value of field L-component, across optical element KK
              MIMA = 1
@@ -438,7 +438,7 @@ C------------ Constraint on  |min-max| value of field L-component, across optica
              CALL FITMM1(K,L,KK,MIMA,icont2,
      >                                    VAL2)
              VAL = VAL2 - VAL1
-     
+
            ELSEIF(ICONT2.EQ.8) THEN
 C------------ Constraint on  min+max  value of field L-component, across optical element KK
              MIMA = 1
@@ -448,7 +448,7 @@ C------------ Constraint on  min+max  value of field L-component, across optical
              CALL FITMM1(K,L,KK,MIMA,ICONT2,
      >                                    VAL2)
              VAL = VAL1 + VAL2
-     
+
            ELSEIF(ICONT2.EQ.9) THEN
 C------------ Constraint on integral of field L-component for particle K, along optical element KK
              MIMA = 0
@@ -456,10 +456,10 @@ C------------ Constraint on integral of field L-component for particle K, along 
      >                                      VAL)
 
            ELSEIF(ICONT2.EQ.10) THEN
-C------------ Constraint on value of 
-C             min. coordinate L of particle K reached inside optical element KK, and 
-C             max. coordinate L2 of particle K2 inside optical element KK. 
-C Ex. of use: in CBEAT linear FFAG cell, allows centering the orbits in the QF quad such that 
+C------------ Constraint on value of
+C             min. coordinate L of particle K reached inside optical element KK, and
+C             max. coordinate L2 of particle K2 inside optical element KK.
+C Ex. of use: in CBEAT linear FFAG cell, allows centering the orbits in the QF quad such that
 C extreme excursions (particle K,L (resp. K2,L2) has extreme negative (resp. positiv) excur.) have equal abs. value / opposite sign.
 
              MIMA=1
@@ -485,14 +485,14 @@ C-----------Contraints on spin
              VAL=SF(L,K)
 
            ELSEIF(ICONT2.EQ.1) THEN
-C------------ Constraint on spin components,  
-C             e.g., equal spin values  (L=2,4 or other), at ends of cell 
+C------------ Constraint on spin components,
+C             e.g., equal spin values  (L=2,4 or other), at ends of cell
 C                   (hence expected value for the constraint is 0)
              VAL=ABS(SF(L,K) - SI(L,K))
 
            ELSEIF(ICONT2.EQ.2) THEN
 C------------ Constraint on spin rotation angle of momentum group #K.
-C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles,
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
              CALL SPNMAT(K,
@@ -501,7 +501,7 @@ C             all particles in a group have same momenta and respective spins in
 
            ELSEIF(ICONT2.EQ.3) THEN
 C------------ Constraint on spin rotation axis of momentum group #K.
-C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles,
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
 
              CALL SPNMAT(K,
@@ -510,14 +510,14 @@ C             all particles in a group have same momenta and respective spins in
 
            ELSEIF(ICONT2.EQ.4) THEN
 C------------ Constraint on spin rotation axis of momentum group #K.
-C             Requires OBJET/KOBJ=2, w/ groups of 3 particles, 
+C             Requires OBJET/KOBJ=2, w/ groups of 3 particles,
 C             all particles in a group have same momenta and respective spins in direction X, Y, Z
-             
+
              VAL = 0.D0
              jj = 0
              DO  II = 1, IMAX
                  jj = jj + 1
-               VAL = VAL + SF(3,II)               
+               VAL = VAL + SF(3,II)
              ENDDO
              val = val /dble(jj)
 
@@ -531,7 +531,7 @@ C             all particles in a group have same momenta and respective spins in
          VAT(I)=VAL
 
  3    CONTINUE
-      
+
       IF(FINI.LE.Z) THEN
 C        WRITE(6,100) CHAR(13),IV,FINI,Z,BLANC
 C100      FORMAT(1H+,A1,I3,1P,2E20.5,1X,A10,$)

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory            
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,7 +37,7 @@ C  -------
       INTEGER DEBSTR, FINSTR
       PARAMETER (MSR=8,MSR2=2*MSR)
       CHARACTER(30) SSHRO(MSR2)
-      LOGICAL STRCON 
+      LOGICAL STRCON
       CHARACTER(3) TXDIM
       PARAMETER (PI = 4.D0 * ATAN(1.D0))
       PARAMETER (KSIZ=10)
@@ -51,7 +51,7 @@ C  -------
 
       TXT1 = TXT(1:1)
       IF( TXT1.EQ.'X' .OR.
-     >    TXT1.EQ.'Y' .OR. 
+     >    TXT1.EQ.'Y' .OR.
      >    TXT1.EQ.'Z'     ) THEN
 C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
         CALL STRGET(TXT,MSR2,
@@ -108,7 +108,7 @@ C New style, x-, y-, z-shift or  x-, y-, z-rotation in arbitrary order
 
  10     CONTINUE
 
-C To allow for old style. 
+C To allow for old style.
 c        TA(NOEL,4) = ' '
 c yann prblem, erase the 4th transformation
       ELSE
@@ -128,18 +128,18 @@ C old style, x- and y-shift followed by z-rotation
 
       RETURN
 
- 99   WRITE(6,*) 
+ 99   WRITE(6,*)
      >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
-      WRITE(NRES ,*) 
+      WRITE(NRES ,*)
      >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
       GOTO 90
-      
+
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rchang, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rchang, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
-      
+
       RETURN
       END

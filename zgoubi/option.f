@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -36,7 +36,7 @@ C      PARAMETER (MXTA=45)
       SAVE KWROFF
       LOGICAL FITING
       LOGICAL CONSTY
-      
+
       DATA NRSAV / -11111 /
       DATA KWROFF /  0 /
       DATA CONSTY / .FALSE. /
@@ -46,8 +46,8 @@ C Numb of options. NBOP lines should follow
       NBOP = NINT(A(NOEL,2))
 
       IF(NY*NBOP.EQ.0) THEN
-        IF(NRSAV .EQ. -11111) THEN 
-          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,A)') 
+        IF(NRSAV .EQ. -11111) THEN
+          IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(/,T25,A)')
      >    ' ''OPTIONS''  is  inhibited,  no  option  will  be  set.'
         ENDIF
         GOTO 99
@@ -55,9 +55,9 @@ C Numb of options. NBOP lines should follow
 
       IF(NBOP.GT.40)
      >CALL ENDJOB('SBR option : nmbr of options exceded ; max is ',40)
-       
-      IF(NRSAV .EQ. -11111) THEN 
-               IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T10,A,I0,A,/)') 
+
+      IF(NRSAV .EQ. -11111) THEN
+               IF(NRES.GT.0) WRITE(ABS(NRES),FMT='(T10,A,I0,A,/)')
      >         'A list of ',NBOP,' option(s) is expected.  '//
      >         'List and actions taken are as follows :'
       ENDIF
@@ -65,11 +65,11 @@ C Numb of options. NBOP lines should follow
 C      DO I = 1, NBOP
 C        READ(TA(NOEL,I),*,ERR=88,END=88) TXT1
 C        IF(NRES.GT.0) THEN
-C          IF(NRSAV .EQ. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
+C          IF(NRSAV .EQ. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)')
 C     >    'Option # ',I,' : ',
 C     >    TA(NOEL,I)(DEBSTR(TA(NOEL,I)):FINSTR(TA(NOEL,I)))
 C        ENDIF
-C        IF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'WRITE') 
+C        IF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'WRITE')
 C     >    READ(TA(NOEL,I),*) TXT1, TXT2
 C      ENDDO
 
@@ -78,7 +78,7 @@ C      ENDDO
        READ(TA(NOEL,I),*,ERR=88,END=88) TXT1
 
        IF(NRES.GT.0) THEN
-          IF(NRSAV .EQ. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)') 
+          IF(NRSAV .EQ. -11111) WRITE(ABS(NRES),FMT='(/,T5,A,I2,2A)')
      >    'Option # ',I,' : ',
      >    TA(NOEL,I)(DEBSTR(TA(NOEL,I)):FINSTR(TA(NOEL,I)))
        ENDIF
@@ -90,7 +90,7 @@ C      ENDDO
          IF(TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'OFF') THEN
            IF(NRSAV .EQ. -11111) THEN
              IF(NRES.GT.0) THEN
-               WRITE(ABS(NRES),FMT='(/,T5,A)') 
+               WRITE(ABS(NRES),FMT='(/,T5,A)')
      >         'WRITE OFF -> A lot of (almost all) '//
      >         'WRITE statements will be inhibited !'
                WRITE(ABS(NRES),FMT='(/,132(''*''))')
@@ -102,7 +102,7 @@ C      ENDDO
          ELSE
            CALL FITSTA(5,
      >                   FITING)
-           IF(.NOT. FITING) THEN 
+           IF(.NOT. FITING) THEN
 C Yann, 14-03-07. NRES>0 here is necessary for the online model to work
                CALL REBEL1(
      >                     KWRT)
@@ -120,7 +120,7 @@ C             ENDIF
        ELSEIF(TXT1(DEBSTR(TXT1):FINSTR(TXT1)) .EQ. 'CONSTY') THEN
 
          READ(TA(NOEL,I),*) TXT1, TXT2
-         
+
          CONSTY = TXT2(DEBSTR(TXT2):FINSTR(TXT2)) .EQ. 'ON'
          CALL INTEGA(CONSTY)
          CALL TRANS2(CONSTY)

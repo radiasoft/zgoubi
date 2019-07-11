@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -45,7 +45,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER (KSIZ=10)
       CHARACTER FAM*(KSIZ),LBF*(LBLSIZ)
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
- 
+
       CHARACTER(60) NAMFIC
       INTEGER DEBSTR,FINSTR
 
@@ -79,9 +79,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       NAMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
 
-      IF(NRES .GT. 0) WRITE(NRES,100) 
+      IF(NRES .GT. 0) WRITE(NRES,100)
      >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
- 100  FORMAT(/,10X, 
+ 100  FORMAT(/,10X,
      >'Parameter values to be refreshed from FIT storage file : ',A,/)
 
       IF(NAMFIC.EQ.'NONE' .OR. NAMFIC.EQ.'none') GOTO 97
@@ -90,12 +90,12 @@ C     $     IREP(MXT),AMQLU,PABSLU
       IF(.NOT. EXS) GOTO 2
       IF(OPN) CLOSE(UNIT=LUN)
       GOTO 3
- 2    IF(NRES .GT. 0) WRITE(NRES,FMT='(3A,/)')     
+ 2    IF(NRES .GT. 0) WRITE(NRES,FMT='(3A,/)')
      >'    Could not find file ',NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC)),
      >' ;  proceeding without it ... '
       RETURN
 
- 3    CONTINUE        
+ 3    CONTINUE
       IF(IDLUNI(
      >    LUN)) OPEN(UNIT=LUN,FILE=NAMFIC,status='OLD',ERR=99)
 
@@ -117,7 +117,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
           IF(NRES.GT.0) WRITE(NRES,FMT='(A)') TXT200(DEBSTR(TXT200):132)
           GOTO 1
         ENDIF
-        READ(TXT200,*,end=10,err=1) 
+        READ(TXT200,*,end=10,err=1)
      >      NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
 
         KREAD = KREAD + 1
@@ -130,9 +130,9 @@ C        NEWVAL(NUML,ISI) = 1
 
 C        K=KREAD+NV
 C        J=K+NV
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,400) NUML,I,ISI,XK,XII,XI,XJ,PI,KLE,LBL1,LBL2
-400     FORMAT(1P, 
+400     FORMAT(1P,
      >  2X,I3,3X,I2,4X,I3,2(2X,G10.3),2X,G17.10,2(1X,G10.3),3(1X,A))
 
         GOTO 1
@@ -141,7 +141,7 @@ C        J=K+NV
       IF(KREAD.GE.1) FITGET = .TRUE.
       IF(NRES .GT. 0) THEN
         WRITE(NRES,103) KREAD,NAMFIC
- 103    FORMAT(/,10X, I3, 
+ 103    FORMAT(/,10X, I3,
      >  ' variables have been read from FIT storage file ',A,' :',/)
         WRITE(NRES,FMT='(A)')
      >  ' Var#  Param       Val     Kley      Lbl1   Lbl2 '
@@ -162,53 +162,53 @@ C FM 14-08-01
         WRITE(NRES,FMT='(20X,''GETFITVAL :  file name is '''''',A
      >  ,'''''''')')
      >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
-        WRITE(NRES,FMT='(20X,''Thus no updating requested, 
-     >  carrying on without that...'',/)') 
+        WRITE(NRES,FMT='(20X,''Thus no updating requested,
+     >  carrying on without that...'',/)')
       ENDIF
-      RETURN 
+      RETURN
 
  98   CONTINUE
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(20X,''GETFITVAL :  sorry, could not'',
-     >  '' find string ''''STATUS OF VARIABLES'''' in file '',A)') 
+     >  '' find string ''''STATUS OF VARIABLES'''' in file '',A)')
      >  NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
         WRITE(NRES,FMT='(20X,''Thus, no initialization of'',
-     >  '' variables performed, carrying on without that...'',/)') 
+     >  '' variables performed, carrying on without that...'',/)')
       ENDIF
-      RETURN 
+      RETURN
 
  99   CONTINUE
       IF(NRES.GT.0) WRITE(NRES,FMT='(3A)') ' Could not open '
      >  ,NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
      >  ,', give ''none'' as name so to allow proceeding.  '
       CALL ENDJOB('*** Error, SBR FITGTV -> can`t open strage file',-99)
-      RETURN 
+      RETURN
 
       ENTRY FITGT1
       CALL ZGKLEY(
      >            KLEY)
       CALL FITST5(
-     >            FITFNL)     
+     >            FITFNL)
 
-        FIRST = .TRUE. 
+        FIRST = .TRUE.
         DO IV = 1, KREAD
 C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
           IF(KLEFIT(IV) .EQ. KLEY) THEN
             IF(.NOT. EMPTY(LABEL(NOEL,1))) THEN
               IF(
-     >        (LB1FIT(IV) .EQ. '*' 
-     >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1)) 
+     >        (LB1FIT(IV) .EQ. '*'
+     >        .OR. LB1FIT(IV) .EQ. LABEL(NOEL,1))
      >        .AND.
-     >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*' 
-     >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN 
+     >        (EMPTY(LABEL(NOEL,2)) .OR. LB2FIT(IV) .EQ. '*'
+     >        .OR. LB2FIT(IV) .EQ. LABEL(NOEL,2)) ) THEN
                 SKPLIN = .TRUE.
                 IF(.NOT. FITFNL) THEN
-                  TEMP = A(NOEL,IPRM(IV)) 
+                  TEMP = A(NOEL,IPRM(IV))
                   A(NOEL,IPRM(IV)) = AFIT(IV)
                   IF(NRES .GT. 0) WRITE(NRES,
      >            FMT='('' GETFITVAL procedure. ''
      >            ,'' Former  value  A(NOEL=''
-     >            ,I3,'','',I3,'') = '',1P,G15.6,'',   changed to '', 
+     >            ,I3,'','',I3,'') = '',1P,G15.6,'',   changed to '',
      >            G15.6)') NOEL,IPRM(IV),TEMP,A(NOEL,IPRM(IV))
                 ELSE
                   IF(FIRST) THEN
@@ -221,9 +221,9 @@ C          IF(NEWVAL(NOEL,IV) .EQ. 1) THEN
                   FIRST = .FALSE.
                   IF(NRES .GT. 0) WRITE(NRES,FMT='(
      >            '' Variable concerned, and its present value :  ''
-     >            ,'' A(NOEL='',I3,'','',I3,'') = '',1P,G15.6)') 
+     >            ,'' A(NOEL='',I3,'','',I3,'') = '',1P,G15.6)')
      >            NOEL,IPRM(IV),A(NOEL,IPRM(IV))
-                ENDIF          
+                ENDIF
               ENDIF
             ELSE
               IF(NRES .GT. 0) WRITE(NRES,

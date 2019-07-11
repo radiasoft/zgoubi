@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -52,7 +52,7 @@ C----------------------------------------------------------
       LOGICAL YINC, YINC2, STRCON
       CHARACTER(LBLSIZ) LBL1A(MXFIL),LBL2A(MXFIL),
      >LBL1B(MXFIL),LBL2B(MXFIL)
-      CHARACTER(LBLSIZ) L1A,L2A,L1B,L2B 
+      CHARACTER(LBLSIZ) L1A,L2A,L1B,L2B
       LOGICAL LBAVU, LBBVU, EXS
 
       DATA YINC, YINC2 / .FALSE. , .FALSE. /
@@ -63,19 +63,19 @@ C----------------------------------------------------------
 
       IDA = 1
       LUNR(IDA) = NLIN
-      YINC = .FALSE. 
-      YINC2 = .FALSE. 
-      
+      YINC = .FALSE.
+      YINC2 = .FALSE.
+
 C----- Read zgoubi.dat title (1st data line)
       READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
       IF(NRES.GT.0)
      >WRITE(NRES,FMT='(A)') TEXT(DEBSTR(TEXT):FINSTR(TEXT))
 
       NOEL=0
-      L1A = '*'      
-      L2A = '*'      
-      L1B = '*'      
-      L2B = '*'      
+      L1A = '*'
+      L2A = '*'
+      L1B = '*'
+      L2B = '*'
  10   CONTINUE
         READ (LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
         IF( .NOT. EMPTY(TEXT) ) THEN
@@ -94,7 +94,7 @@ C----- Read zgoubi.dat title (1st data line)
           ENDDO
 
  2        CONTINUE
-          
+
           LABEL(NOEL,1) = ' '
           LABEL(NOEL,2) = ' '
           IF( .NOT. EMPTY(TEXT((I+1):I2000)) ) THEN
@@ -105,7 +105,7 @@ C----- Read zgoubi.dat title (1st data line)
                 IF(.NOT. EMPTY(LAB2(1))) THEN
                   LABEL(NOEL,1) = LAB2(1)
                 ELSE
-                  LABEL(NOEL,1) = ' ' 
+                  LABEL(NOEL,1) = ' '
                 ENDIF
                 IF(NST.EQ.2) THEN
                   IF(LAB2(2)(1:1).NE.'!') THEN
@@ -143,15 +143,15 @@ C----- Read zgoubi.dat title (1st data line)
      >        ((L2A .EQ. '*') .OR. (L2A .EQ. LABEL(NOEL,2))))
 
               IF(LBAVU) THEN
-                IF((L1A .EQ. '*') .AND. (L2A .EQ. '*')) THEN 
+                IF((L1A .EQ. '*') .AND. (L2A .EQ. '*')) THEN
                   WRITE(TXT110,FMT='(A)') '''MARKER'''
      >            //'  ! Include_Start :'
                 ELSE
                   WRITE(TXT110,FMT='(A)')TEXT(DEBSTR(TEXT):FINSTR(TEXT))
      >            //'  ! Include_Start :'
-                ENDIF                
-C                WRITE(TXT110,FMT='(A)') 
-                TXT110 = 
+                ENDIF
+C                WRITE(TXT110,FMT='(A)')
+                TXT110 =
      >          TXT110(DEBSTR(TXT110):FINSTR(TXT110))
      >          //' '//FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
      >          //';  range : '
@@ -163,8 +163,8 @@ C                WRITE(TXT110,FMT='(A)')
                 WRITE(TXT6,FMT='(I6)') NOEL
                 TXT110 = TXT110(1:I104)//TXT6
                 IF(NRES.GT.0)
-     >                WRITE(NRES,FMT='(T2,A)') TXT110 
-                if((l1a .eq. '*') .and. (l2a .eq. '*')) then 
+     >                WRITE(NRES,FMT='(T2,A)') TXT110
+                if((l1a .eq. '*') .and. (l2a .eq. '*')) then
                   NOEL = NOEL + 1
                   WRITE(TXT6,FMT='(I6)') NOEL
                   TXT110 = TEXT(1:I104)//TXT6
@@ -176,14 +176,14 @@ C                WRITE(TXT110,FMT='(A)')
               ENDIF
             ENDIF
             IF( .NOT. LBAVU ) THEN
-              NOEL = NOEL -1 
+              NOEL = NOEL -1
               GOTO 10
             ENDIF
             IF(  LBBVU ) GOTO 95
           ENDIF
 
           IF(TEXT(IDEB+1:I-1) .EQ. 'INCLUDE') THEN
-             
+
             YINC2 = .TRUE.
 
             IF(FINSTR(FLIN)-9 .GE. 1) THEN
@@ -195,7 +195,7 @@ C                WRITE(TXT110,FMT='(A)')
      >        ,-99)
             ENDIF
 
-            LINE =1 
+            LINE =1
             READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
             READ(TEXT,*,ERR=78) NBFIL
             IF(NBFIL .GT. 1) CALL ENDJOB('Pgm prdata. '//
@@ -206,13 +206,13 @@ C                WRITE(TXT110,FMT='(A)')
             IF(NBFIL.GT.MXFIL) CALL ENDJOB('Pgm prdata. '//
      >      'INCLUDE has too many files. Max allowed is ',MXFIL)
             DO IFL = 1, NBFIL
-              LINE = LINE + 1 
+              LINE = LINE + 1
               READ(LUNR(IDA),FMT='(A)',ERR=10,END=95) TEXT
-C TEXT is of the form FILENAME[LBL1a,LBLl2a:LBL1b,LBL2b]. 
-C Only text within range Any_KEYWORD LABEL1=lbl1a&LABEL2=lbl2a : Any_KEYWORD LABEL1=lbl1b&LABEL2=lbl2b 
+C TEXT is of the form FILENAME[LBL1a,LBLl2a:LBL1b,LBL2b].
+C Only text within range Any_KEYWORD LABEL1=lbl1a&LABEL2=lbl2a : Any_KEYWORD LABEL1=lbl1b&LABEL2=lbl2b
 C will be included
               OK = STRCON(TEXT,'[',
-     >                             ISA) 
+     >                             ISA)
               IF(OK) THEN
                 FINC(IFL) = TEXT(DEBSTR(TEXT):ISA-1)
               ELSE
@@ -221,7 +221,7 @@ C will be included
 
               IF(OK) THEN
                 OK = STRCON(TEXT,']',
-     >                                     ISB) 
+     >                                     ISB)
                 IF(.NOT. OK) CALL ENDJOB
      >          ('Sbr prdata. Keyword INCLUDE. Formatting error '//
      >          ' in INCLUDE[lbl1a,lbl2a:lbl1b,lbl2b] (missing '//
@@ -238,7 +238,7 @@ C will be included
      >                                        ISAC)
 
                 IF(OK) THEN
-                
+
                   IF(ISA+1 .LE. ISAC-1) THEN
 C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
                     LBL1A(IFL) = TEXT(ISA+1:ISAC-1)
@@ -290,13 +290,13 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
                   LBL2B(IFL) = '*'
                 ENDIF
 
-                LBL1A(IFL) = 
+                LBL1A(IFL) =
      >          LBL1A(IFL)(DEBSTR(LBL1A(IFL)):FINSTR(LBL1A(IFL)))
-                LBL2A(IFL) = 
+                LBL2A(IFL) =
      >          LBL2A(IFL)(DEBSTR(LBL2A(IFL)):FINSTR(LBL2A(IFL)))
-                LBL1B(IFL) = 
+                LBL1B(IFL) =
      >          LBL1B(IFL)(DEBSTR(LBL1B(IFL)):FINSTR(LBL1B(IFL)))
-                LBL2B(IFL) = 
+                LBL2B(IFL) =
      >          LBL2B(IFL)(DEBSTR(LBL2B(IFL)):FINSTR(LBL2B(IFL)))
 
               ELSE
@@ -311,20 +311,20 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
             ENDDO
             IDA = IDA + 1
             OK = IDLUNI(
-     >                  LUNR(IDA)) 
+     >                  LUNR(IDA))
             IFL = 1
 
             INQUIRE(FILE=FINC(IFL),EXIST=EXS)
             IF(.NOT. EXS) CALL ENDJOB('Pgm prdata, keyword INCLUDE  : '
      >      //'could not include file, does not exist ',-99)
-            OPEN(UNIT=LUNR(IDA),FILE=FINC(IFL))           
+            OPEN(UNIT=LUNR(IDA),FILE=FINC(IFL))
 
             L1A = LBL1A(IFL)
             L2A = LBL2A(IFL)
             L1B = LBL1B(IFL)
             L2B = LBL2B(IFL)
 
-            NOEL = NOEL -1 
+            NOEL = NOEL -1
             GOTO 10
 
           ELSE
@@ -355,16 +355,16 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
  95   CONTINUE
 
       IF(IDA.GT.1) THEN
-        IF(YINC2) THEN 
+        IF(YINC2) THEN
           IF(.NOT. LBBVU) THEN
-            NOEL = NOEL +1 
+            NOEL = NOEL +1
             WRITE(TXT110,FMT='(A)') '''MARKER'''
      >      //'  ! Include_End : '
      >      //FINC(IFL)(DEBSTR(FINC(IFL)):FINSTR(FINC(IFL)))
             WRITE(TXT6,FMT='(I6)') NOEL
             TXT110 = TXT110(1:I104)//TXT6
             IF(NRES.GT.0)
-     >            WRITE(NRES,FMT='(T2,A)') TXT110 
+     >            WRITE(NRES,FMT='(T2,A)') TXT110
           ENDIF
         ENDIF
         YINC2 = .FALSE.
@@ -392,7 +392,7 @@ C TEXT is of the form FILENAME[lbl1a,lbll2a: NOT YET KNOWN]
       RETURN
 
  78   CONTINUE
-      CALL ENDJOB('*** Pgm prdata, keyword INCLUDE : '// 
+      CALL ENDJOB('*** Pgm prdata, keyword INCLUDE : '//
      >'input data error, at line #',LINE)
       RETURN
       END

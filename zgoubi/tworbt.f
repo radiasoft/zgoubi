@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -40,7 +40,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
-      
+
       DIMENSION RREF(6,6), T(6,6,6)
 C      DIMENSION T3(5,6) , T4(5,6)
 
@@ -50,9 +50,9 @@ C      DIMENSION T3(5,6) , T4(5,6)
 
 C Set TWOFF to true in zgoubi
       CALL ZGTWOF
-      
+
       XAME = 1.D99
-      DOWHILE(XAME .GT. PREC) 
+      DOWHILE(XAME .GT. PREC)
 
         READAT = .FALSE.  ! OBJET has to be skipped (there may be another way).
                           ! Here, FO(j,1) has to be set to the new final coordinates
@@ -66,7 +66,7 @@ C Set TWOFF to true in zgoubi
           IORD=2
         ELSE
           call endjob('SBR tworbt. Cannot run if kobj .ne. 5 or 6',-99)
-        ENDIF 
+        ENDIF
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -81,17 +81,17 @@ C Set TWOFF to true in zgoubi
         ENDIF
 
         XAME = (
-     >  ABS(F(1,2) - FO(1,2)) + 
-     >  ABS(F(1,3) - FO(1,3)) + 
-     >  ABS(F(1,4) - FO(1,4)) + 
-     >  ABS(F(1,5) - FO(1,5)) 
+     >  ABS(F(1,2) - FO(1,2)) +
+     >  ABS(F(1,3) - FO(1,3)) +
+     >  ABS(F(1,4) - FO(1,4)) +
+     >  ABS(F(1,5) - FO(1,5))
      >  )
 
         write(*,*)' xame = ',xame
         read(*,*)
-        
+
       ENDDO
-      
+
       IPASS = 1
 
 C Set TWOFF back to false

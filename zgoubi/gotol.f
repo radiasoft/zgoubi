@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -56,7 +56,7 @@ C      PARAMETER (MXTA=45)
      >'large. Increase MST - now MST = ',MST)
 
       IF(TA(NOEL,1) .NE. 'GOBACK') THEN
-C GOTO 
+C GOTO
         IF(TA(NOEL,1) .EQ. 'PASS#') THEN
 
 C          IF(FIRST) THEN
@@ -76,9 +76,9 @@ c                 write(*,*) ' gotol frmt ta2 : ',
 c     >             ta(noel,2)(DEBSTR(TA(NOEL,2)):FINSTR(TA(NOEL,2)))
 c                 write(*,*) ' gotol frmt ',frmt
 c                  read(*,*)
-            WRITE(FRMT,FMT='(A,I0,A)') '(10X,A,', MLST, 'I10)' 
+            WRITE(FRMT,FMT='(A,I0,A)') '(10X,A,', MLST, 'I10)'
             WRITE(NRES,FMT=FRMT)'Pass #        : ',(I,I=1,MLST)
-            WRITE(FRMT,FMT='(A,I0,A)') '(10X,A,4X,', MLST, 'A)' 
+            WRITE(FRMT,FMT='(A,I0,A)') '(10X,A,4X,', MLST, 'A)'
             WRITE(NRES,FMT=FRMT)'Element label : ',(LBLST(I),I=1,MLST)
             WRITE(NRES,FMT='(/,15X,''Present pass is  # '',I0)') IPASS
           ENDIF
@@ -92,12 +92,12 @@ c               write(*,*) ' GOTOL : ok open '
 C          ENDIF
 
 C          REWIND(LUN)
-          CALL ZGNBLM( 
+          CALL ZGNBLM(
      >                NBLMN)
 
           NUEL = 0
  11       CONTINUE
-          TXT132 = ' ' 
+          TXT132 = ' '
           DOWHILE(TXT132(1:1).NE.'''' .AND. NUEL.LT.NBLMN)
 c            IF(NUEL.EQ.NBLMN) CALL ENDJOB('Pgm gotol. Could not goto.'
 c     >      //' Check GOTO list (too short ?). Now number of elements'
@@ -108,7 +108,7 @@ C Read keyword [/ label1 [/ label2]]
           ENDDO
 
           IF(NUEL.GE.NBLMN) THEN
-            IF(NRES.GT.0) 
+            IF(NRES.GT.0)
      >      WRITE(ABS(NRES),*) 'Branching tag at this GOTO is ''',
      >      LBLST(IPASS)(DEBSTR(LBLST(IPASS)):FINSTR(LBLST(IPASS))),''''
             CALL ENDJOB('Pgm gotol, keyword GOTO : '//
@@ -122,7 +122,7 @@ C Read keyword [/ label1 [/ label2]]
             NLBCK(IPASS) = NOEL+1
             NOEL = NUEL
             CALL GO2KEY(NOEL,IQCNT,MXKLE,KLE,
-     >                                       KEY, LBL1, LBL2) 
+     >                                       KEY, LBL1, LBL2)
           ELSE
             GOTO 11
           ENDIF
@@ -132,7 +132,7 @@ C Read keyword [/ label1 [/ label2]]
      >      '' element # '',I0,'' with label #1 : '',A)') NOEL,STRA(2)
             WRITE(NRES,FMT='(15X,''Return address will be'',
      >      '' element # '',I0)') NLBCK(IPASS)
-          ENDIF 
+          ENDIF
           CLOSE(LUN,status='delete')
           NOEL = NOEL - 1
 
@@ -148,18 +148,18 @@ C Read keyword [/ label1 [/ label2]]
 
       ELSE
 C GOBACK
-        NOEL = NLBCK(IPASS) 
+        NOEL = NLBCK(IPASS)
         CALL GO2KEY(NOEL,iqcnt,mxkle,kle,
-     >                                   KEY, LBL1, LBL2) 
+     >                                   KEY, LBL1, LBL2)
 
-c            WRITE(*,*) ' GOBACK NLBCK(IPASS)  ',NLBCK(IPASS) 
+c            WRITE(*,*) ' GOBACK NLBCK(IPASS)  ',NLBCK(IPASS)
 c                  read(*,*)
 
           IF(NRES.GT.0) THEN
             WRITE(NRES,FMT='(/,15X,''Present pass is  # '',I0)') IPASS
             WRITE(NRES,FMT='(/,15X,''This GOTO/GOBACK switches to '',
      >      ''return address, namely :   element # '',I0)') NLBCK(IPASS)
-          ENDIF 
+          ENDIF
 
           NOEL = NOEL - 1
       ENDIF

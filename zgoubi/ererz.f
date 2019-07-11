@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -53,15 +53,15 @@ C************      DEC(1,1) = **** ER0(2)  ****  + Z2*DECuZ2
 C      dEr/dz
       DEC(2,1) = Z* (DERZ2 + Z2/6.D0*DERZ4)
 C      dEz/dz
-      DEC(2,2) = DEZZ + 0.5D0*Z2*DEZZ3 
+      DEC(2,2) = DEZZ + 0.5D0*Z2*DEZZ3
 
-C      d2Er/dr2 
+C      d2Er/dr2
       DDEC(1,1,1) =.5D0*Z2*((6.D0*(ER0(1)/R2-ER0(2)/R)+3.D0*ER0(3))/R2-
      >      ER0(4)/R - ER0(5))
 C      d2Er/dzdr, etc.
       DDEC(2,1,1) = 2.D0*Z*DECuZ2
-      DDEC(2,2,1) = DERZ2 + 0.5D0*Z2*DERZ4                
-C      DDEC(2,2,2) = **** ER0(3)  ****  + Z*DEZZ3         
+      DDEC(2,2,1) = DERZ2 + 0.5D0*Z2*DERZ4
+C      DDEC(2,2,2) = **** ER0(3)  ****  + Z*DEZZ3
 
       IF(IDE .EQ. 2) RETURN
 

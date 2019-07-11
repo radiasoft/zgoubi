@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,20 +37,20 @@ C     **********************************************
 C     $     IREP(MXT),AMQLU,PABSLU
 
       SAVE XI,YI,ALE,PATHL,ZE,PE
-      DATA XI, YI, ALE / 3*-9999.D0 / 
-      DATA PATHL / 0.D0 / 
+      DATA XI, YI, ALE / 3*-9999.D0 /
+      DATA PATHL / 0.D0 /
       DATA ZE, PE / 0.D0, 0.D0 /
 
       GOTO (1,2) IO
- 
+
  1    CONTINUE
 C----- GOES TO NEW REFERENCE FRAME + computes new coordinates there
- 
+
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,1P,''  Reference, before change of frame '',
-     >  ''(part #'',I6,'')  : '', /, 
+     >  ''(part #'',I6,'')  : '', /,
      >   1P,7(1X,E16.8))') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
-      ENDIF 
+      ENDIF
 
       IF    (IFOC .EQ. 0) THEN
         XI=0.D0
@@ -86,25 +86,25 @@ C        DE TRANSFERT S'APPUIE SUR LA DIRECTION DE LA TRAJECTOIRE #1
 
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(/,1P,''  Reference, after change of frame '',
-     >  ''(part #'',I6,'')  : '', /, 
+     >  ''(part #'',I6,'')  : '', /,
      >   1P,7(1X,E16.8))') IT1,-1.D0+F(1,IT1),(F(J,IT1),J=2,7)
         WRITE(NRES,FMT='(/,1P,''  Reference particle '',
-     >  ''(#'',I6,''), path length :'',G16.8,'' cm'', 
+     >  ''(#'',I6,''), path length :'',G16.8,'' cm'',
      >  ''  relative momentum : '',G14.6)') IT1, F(6,IT1), F(1,IT1)
-      ENDIF 
- 
+      ENDIF
+
       XIA = XI
       YIA = YI
       ALEA = ALE
       PATHA = PATHL
       ZEA = F(1,4)
       PEA = F(1,5)*.001D0
- 
+
       RETURN
- 
+
  2    CONTINUE
 C----- COMES BACK TO OLD FRAME + OLD COORDINATES
- 
+
       IF(IFOC.LE.1) THEN
          DO 81 I=1,IMAX
             CALL INITRA(I)
@@ -113,14 +113,14 @@ C----- COMES BACK TO OLD FRAME + OLD COORDINATES
             CALL MAJTRA(I)
 81       CONTINUE
       ENDIF
- 
+
       RETURN
 
       ENTRY REFER1(
      >             PATHLO)
       PATHLO = PATHL
       RETURN
-      
+
       ENTRY REFER3(
      >             XIO,YIO,ALEO,PATHO,ZEO,PEO)
       XIO = XIA
@@ -130,5 +130,5 @@ C----- COMES BACK TO OLD FRAME + OLD COORDINATES
       ZEO = F14A
       PEO = F15A*.001D0
       RETURN
-      
+
       END

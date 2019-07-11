@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -33,8 +33,8 @@ C  -------
       LOGICAL OKLNO, OKLNOI
       SAVE OKLNO
       SAVE LNOPT
-      SAVE DXMA, DYMA, XMA, YMA, BTXMA, BTYMA, 
-     >              XM, YM, DXM, DYM, 
+      SAVE DXMA, DYMA, XMA, YMA, BTXMA, BTYMA,
+     >              XM, YM, DXM, DYM,
      >              XM2, YM2, DXM2, DYM2, DLTP, NC
       DIMENSION RSAV(6,6), RLOC(6,6), NW(6), BW(6)
       SAVE RSAV
@@ -42,23 +42,23 @@ C  -------
 
       DATA OKLNO / .FALSE. /
 
-      DATA DXMA, DYMA / -1.D10, -1.D10 / 
-      DATA DXMI, DYMI / 1.D10, 1.D10 / 
-      DATA XMA, YMA / -1.D10, -1.D10 / 
-      DATA XMI, YMI / 1.D10, 1.D10 / 
-      DATA BTXMA, BTYMA / -1.D0, -1.D0 / 
-      DATA BTXMI, BTYMI / 99999.D0, 99999.D0 / 
-      DATA XM, YM / 0.D0, 0.D0 / 
-      DATA XM2, YM2 / 0.D0, 0.D0 / 
-      DATA DXM, DYM / 0.D0, 0.D0 / 
-      DATA DXM2, DYM2 / 0.D0, 0.D0 / 
-      DATA DLTP / 0.D0 / 
+      DATA DXMA, DYMA / -1.D10, -1.D10 /
+      DATA DXMI, DYMI / 1.D10, 1.D10 /
+      DATA XMA, YMA / -1.D10, -1.D10 /
+      DATA XMI, YMI / 1.D10, 1.D10 /
+      DATA BTXMA, BTYMA / -1.D0, -1.D0 /
+      DATA BTXMI, BTYMI / 99999.D0, 99999.D0 /
+      DATA XM, YM / 0.D0, 0.D0 /
+      DATA XM2, YM2 / 0.D0, 0.D0 /
+      DATA DXM, DYM / 0.D0, 0.D0 /
+      DATA DXM2, DYM2 / 0.D0, 0.D0 /
+      DATA DLTP / 0.D0 /
 
       DATA NC / 0 /
 C      DATA ((RSAV(I,J),I=1,6),J=1,6) / 36*0.D0 /
       DATA (RSAV(I,I),I=1,6) / 6*1.D0 /
 
-      IF(NRES.GT.0) 
+      IF(NRES.GT.0)
      >WRITE(NRES,FMT='(/,''---------------------------------------------
      > Local OPTICS monitoring : '')')
 
@@ -79,7 +79,7 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
       RLOC = MATMUL(R,RSAV)
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,113) 
+        WRITE(NRES,113)
  113    FORMAT(//,18X,'TRANSFER  MATRIX  OF  LAST  ELEMENT',
      >  '  (MKSA units)',/)
         WRITE(NRES,104) (( RLOC(IA,IB) , IB=1,6) , IA=1,6)
@@ -99,20 +99,20 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
       CALL BEAMAT(R,PRDIC,OKCPLD,
      >                           F0,PHY,PHZ,CSTRN,RPRM)
       NC = NC + 1
-      DX = F0(1,6)      
-      DY = F0(3,6)      
+      DX = F0(1,6)
+      DY = F0(3,6)
       IF(F0(1,6) .GT. DXMA) DXMA = DX
       IF(F0(3,6) .GT. DYMA) DYMA = DY
       IF(YI .GT. XMA) XMA = YI
       IF(ZE .GT. YMA) YMA = ZE
-      IF(F0(1,1) .GT. BTXMA) BTXMA = F0(1,1)      
-      IF(F0(3,3) .GT. BTYMA) BTYMA = F0(3,3)      
+      IF(F0(1,1) .GT. BTXMA) BTXMA = F0(1,1)
+      IF(F0(3,3) .GT. BTYMA) BTYMA = F0(3,3)
       IF(F0(1,6) .LT. DXMI) DXMI = DX
       IF(F0(3,6) .LT. DYMI) DYMI = DY
       IF(YI .LT. XMI) XMI = YI
       IF(ZE .LT. YMI) YMI = ZE
-      IF(F0(1,1) .LT. BTXMI) BTXMI = F0(1,1)      
-      IF(F0(3,3) .LT. BTYMI) BTYMI = F0(3,3)      
+      IF(F0(1,1) .LT. BTXMI) BTXMI = F0(1,1)
+      IF(F0(3,3) .LT. BTYMI) BTYMI = F0(3,3)
       XM = XM + YI
       YM = YM + ZE
       XM2 = XM2 + YI*YI
@@ -155,23 +155,23 @@ c        WRITE(NRES,104) (( Rsav(IA,IB) , IB=1,6) , IA=1,6)
          DEV = 0.D0
       ENDIF
 
-      IF(OKLNO) 
+      IF(OKLNO)
      > CALL OPTIMP(LNOPT,NOEL,F0,PHY,PHZ,AKL,CSTRN,RPRM,R,
      > AL,DEV,                     ! print to zgoubi.OPTICS.out (OPTICS keyword)
      >     PP0)                    ! or to zgoubi.TWISS.out (TWISS keyword)
-      
+
       RETURN
 
  99   CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,*) 'Pgm opticc.  Exit upon IER=-1.' 
+      IF(NRES.GT.0) WRITE(NRES,*) 'Pgm opticc.  Exit upon IER=-1.'
      >//' Matrix cannot be computed. Hint : check OBJET/KOBJ=5 or 6.'
       RETURN
 
       ENTRY OPTIC1(
-     >              DXMAO, DYMAO, DXMIO, DYMIO, 
-     >              XMAO, YMAO, XMIO, YMIO, 
-     >              BTXMAO, BTYMAO, BTXMIO, BTYMIO, 
-     >              XMO, YMO, DXMO, DYMO, 
+     >              DXMAO, DYMAO, DXMIO, DYMIO,
+     >              XMAO, YMAO, XMIO, YMIO,
+     >              BTXMAO, BTYMAO, BTXMIO, BTYMIO,
+     >              XMO, YMO, DXMO, DYMO,
      >              XM2O, YM2O, DXM2O, DYM2O, DLTPO, NCO)
       DXMAO = DXMA
       DYMAO = DYMA

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -30,8 +30,8 @@ C     **********************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
-      NP = 1                                     ! IL      
+
+      NP = 1                                     ! IL
       READ(NDAT,*) A(NOEL,NP)
       READ(NDAT,*) (A(NOEL,NP+I),I=1,3)          ! NMAG, AT, RM
       NMAG = NINT(A(NOEL,NP+1))
@@ -39,31 +39,31 @@ C     **********************
 
       DO 1 IMAG = 1, NMAG
 
-        READ(NDAT,*) 
+        READ(NDAT,*)
      >    (A(NOEL,NP+I),I=1,3),IND,(A(NOEL,NP+4+I),I=1,ABS(IND)) ! ACENT, DRM, HNORM, indices
         A(NOEL,NP+4) = IND
         NP=NP+4 + ABS(IND)
 
 C       ... Entrance face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        NP=NP+2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
-C         ... Exit face 
+C         ... Exit face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
-C        write(*,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        NP=NP+2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
+C        write(*,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
 C        write(*,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
 C         ... Lateral face
         READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA, QSI
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        NP=NP+2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,7)          ! OMEGA,THETA,R1,U1,U2,R2,RM3
         NP=NP+7

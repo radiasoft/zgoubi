@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -82,7 +82,7 @@ C--------- ECARTEMENT DES BARREAUX :
         NL=50
 
       ENDIF
- 
+
 C     .... LECTURE  FRONTIERES DU TIRAGE
 C     .. POSITION DU BARREAU CENTRAL :
 C                      Y   T   Z   P   X  D
@@ -104,7 +104,7 @@ C------- Cut-offs
         IF(J2 .EQ. MXJ1+1) J2 = 1
         IF(KTIR(J) .EQ. 'Gaussian') THEN
           L2 = NL + 10 + J - 1
-          CUT(J2) = A(NOEL,L2) 
+          CUT(J2) = A(NOEL,L2)
         ELSE
           CUT(J2) = 1.D0
         ENDIF
@@ -116,12 +116,12 @@ C     .. COEFFICIENTS POUR LA LOI DE D
       C1 = A(NOEL,NL+22)
       C2 = A(NOEL,NL+23)
       C3 = A(NOEL,NL+24)
- 
+
 C     ... LECTURE GENERATEURS ( SEULEMENT AU 1-ER PASSAGE )
 C      TIRAGE AVEC MELANGE ALEATOIRE
       IF(IPASS .EQ. 1) THEN
         NI = NL+30
-        IF(NI .EQ. 100) NI = 95 
+        IF(NI .EQ. 100) NI = 95
         IR1 = NINT(A(NOEL,NI))
         IR2 = NINT(A(NOEL,NI+1))
         IR3 = NINT(A(NOEL,NI+2))
@@ -129,9 +129,9 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
         IR2=(IR2/2)*2+1
         IR3 =(IR3/2)*2+1
       ENDIF
- 
+
       IF(NRES.GT.0) THEN
- 
+
         WRITE(NRES,100) KOUV
 100     FORMAT(15X,' Distribution in a ',A)
 
@@ -143,15 +143,15 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
  102      FORMAT(15X,' Intervals between bars (MKSA units) : '
      >    ,/,11X,'Y , T , Z , P , X , BR/BORO : ',T50,1P,5E11.3,G12.4)
         ENDIF
- 
+
         IF(CINE) WRITE(NRES,FMT=
      >  '(15X,'' Kinematical  coefficients : '',1P,G12.4
      >  ,'' /mrad'')') AMAX(1)
- 
+
         WRITE(NRES,123) (CENTRE(J),J=2,MXJ1),CENTRE(1)
  123    FORMAT(/,15X,' Central values (MKSA units): '
      >  ,/,11X,' Yo, To, Zo, Po, Xo, BR/BORO  : ',T50,1P,6G12.4,/)
- 
+
         WRITE(NRES,109) (AMAX(J),J=2,MXJ1) , AMAX(1)
  109    FORMAT(15X,' Width  (  +/- , MKSA units ) :'
      >  ,/,11X,' DY, DT, DZ, DP, DX, DBR/BORO : ',T50,1P,6G12.3,/)
@@ -165,7 +165,7 @@ C      TIRAGE AVEC MELANGE ALEATOIRE
      >  ,/,11X,' Y, T, Z, P, X, D : ',T50,6A12,/)
 
        ENDIF
- 
+
 C--------- Change units from MKSA to cm, mrad...
        DO 33 J=1,MXJ1
           IU = J-1
@@ -187,7 +187,7 @@ C              IGR = 1 + IG(J) * RNDM() * .999999D0
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF
- 
+
             IF    (KTIR(J) .EQ. 'Uniform') THEN
               FAISC1(J,I)= CENTR+2.D0*(RNDM()-.5D0)*AMAX(J)
 
@@ -200,9 +200,9 @@ C              IGR = 1 + IG(J) * RNDM() * .999999D0
               FAISC1(J,I)=APHERF(CENTR,AMAX(J))
 
             ENDIF
- 
+
  31     CONTINUE
- 
+
 C------- TIRAGE GENERATEUR IR2
         DO 41 I=1,IMAX
           DO 41 J=1,MXJ1
@@ -215,7 +215,7 @@ C              IGR = 1 + IG(J) * RNDM() * .999999D0
               IGR = IGR/2 * (-1)**IGR
               CENTR = CENTR + IGR * P(J)
             ENDIF
- 
+
             IF    (KTIR(J) .EQ. 'Uniform') THEN
               FAISC2(J,I)= CENTR+2.D0*(RNDM()-.5D0)*AMAX(J)
 
@@ -228,11 +228,11 @@ C              IGR = 1 + IG(J) * RNDM() * .999999D0
               FAISC2(J,I)=APHERF(CENTR,AMAX(J))
 
             ENDIF
- 
+
  41     CONTINUE
- 
+
       CALL MIX(IMAX,FO,FAISC1,FAISC2)
- 
+
       XL = 0.D0
       DO 5 I=1,IMAX
         IF(CINE) FO(1,I)=CENTRE(1) + FO(3,I)*AMAX(1)
@@ -247,9 +247,9 @@ C              IGR = 1 + IG(J) * RNDM() * .999999D0
         XX = ABS( F(6,I) )
         IF(XL .LT. XX ) XL = XX
  5    CONTINUE
- 
-C     ... Long target : projct coordinates 
-C         onto plane orthogonal to longitudinal axis 
+
+C     ... Long target : projct coordinates
+C         onto plane orthogonal to longitudinal axis
 C         at centre of target
       IF ( XL .NE. 0.D0) THEN
         DO 6 I=1,IMAX
@@ -260,6 +260,6 @@ C         at centre of target
 C           F(6,I)= - AL/(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
  6      CONTINUE
       ENDIF
- 
+
       RETURN
       END

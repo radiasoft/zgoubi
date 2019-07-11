@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory          
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -41,13 +41,13 @@ C     ***********************************************
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.FOCAL.H"     ! COMMON/FOCAL/ TTI(MXT),YI(MXT),ZI(MXT),WC,XI,YIO,YMI,WCZ,MZ,IMAX1,IMAX2,MY
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
- 
+
       DIMENSION F2(MXT),F3(MXT),F4(MXT),F5(MXT)
       CHARACTER(10) HOVE(2)
       CHARACTER(1) YZ(2)
       CHARACTER(7) LAHA(2)
       INTEGER HV
- 
+
       DATA (HOVE(I),I=1,2) / 'HORIZONTAL' , 'VERTICAL' /
       DATA (YZ(I),I=1,2) / 'Y', 'Z' /
       DATA (LAHA(I),I=1,2) / 'LARGEUR' , 'HAUTEUR' /
@@ -73,7 +73,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
  5      CONTINUE
         IEN=-IENERG
       ENDIF
- 
+
       IF    (IEN .EQ. 1 .OR. IEN .EQ. 3) THEN
         JDMAX=1
         JMAXT=IMAX
@@ -81,7 +81,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
         JDMAX=IDMAX
         JMAXT=IMAXT
       ENDIF
- 
+
       SWI2 = 0.D0
       DO 3 ID=1,JDMAX
         IMAX1=1+(ID-1)*JMAXT
@@ -100,13 +100,13 @@ C     $     IREP(MXT),AMQLU,PABSLU
           SY=SY+F2(I)
           IMAXI=IMAXI+1
  1      CONTINUE
- 
+
         IF    (IEN .LT. 3) THEN
           XI=-(STY-(ST*SY)/IMAXI)/(ST2-(ST*ST)/IMAXI)
         ELSEIF(IEN .EQ. 3) THEN
           XI = A(NOEL,1)
         ENDIF
- 
+
         YMI=0D0
         YMIN= 1.D10
         YMAX=-1.D10
@@ -136,18 +136,18 @@ C       WCZ=0.05*DBLE(IFIX(ZMAX/0.05)/30+1)
         MZ=nint(100.D0*WCZ+0.5D0)
         WT=YMAX-YMIN
         SWI2 = SWI2 + WI*WI
- 
+
         IF(NRES.GT.0) THEN
           WRITE(NRES,103)HOVE(HV),IMAXI,JMAXT,HOVE(HV)
      >    ,XI,YZ(HV),YIO,YZ(HV),YMI,LAHA(HV),WI,WT
           CALL IMPTRA(IMAX1,IMAX2,NRES)
 C          CALL TRACE
         ENDIF
- 
+
     3 CONTINUE
- 
+
       RETURN
- 
+
   103 FORMAT(/,1P,
      >5X,'RECHERCHE DU POINT DE FOCALISATION ',A,' DE ',I6
      1,' TRAJECTOIRES (SUR ',I6,')'
@@ -156,5 +156,5 @@ C          CALL TRACE
      3,' CM',//,5X,'DECALAGE DU CENTRE DE GRAVITE EN ',A,' = ',G14.6
      4,' CM',//,5X,A,' IMAGE,  A MI-HAUTEUR =',G14.6,' CM,  TOTALE ='
      5,G14.6,' CM',/,21X,2(17X,9('.')),/)
- 
+
       END

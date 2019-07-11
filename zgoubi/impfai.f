@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -33,7 +33,7 @@ C------- Called by keyword FAISTORE
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
@@ -48,7 +48,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
- 
+
       CHARACTER(80) FNAME
       LOGICAL BINARY, FITING
 
@@ -75,7 +75,7 @@ C------- Keyword FAISTORE: store at ipass=1 & every ipass=multiple of KPR
           ENDIF
         ENDIF
       ENDIF
- 
+
 C--- Case SR loss
       CALL SRLOS3(
      >            SRLOSS)
@@ -93,7 +93,7 @@ C------- Dummies
 
 C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
 C           read(*,*)
-      
+
       IF(BINARY) THEN
         DO 2 I=1,IMAX
             P = BORO*CL9 *F(1,I) * AMQ(2,I)
@@ -120,9 +120,9 @@ C           read(*,*)
      4    (SI(J,I),J=1,4),(SF(J,I),J=1,4),
      5    ENEKI,ENERG,
      6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     7    BORO, IPASS, NOEL, 
+     7    BORO, IPASS, NOEL,
      8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
-     9    SRLT(I), 
+     9    SRLT(I),
      X    DPREF,HDPRF
           INCLUDE "FRMFAI.H"
  1      CONTINUE
@@ -150,7 +150,7 @@ C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,
-     >    ''Print will occur at element[s] labeled : '')') 
+     >    ''Print will occur at element[s] labeled : '')')
         WRITE(NRES,FMT='(20X,A)') (LBLST(I),I=1,NLB)
       ENDIF
 

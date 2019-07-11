@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -42,7 +42,7 @@ C      DO 3 IT=1,IMAX
       DO 3 IT=I1,I2
 C------- IEX<-1<=> PARTICULE STOPPEE
         IF(IEX(IT) .LT. -1) GOTO 3
- 
+
         Y = F(2,IT)
         T = F(3,IT)*.001D0
         Z = F(4,IT)
@@ -59,7 +59,7 @@ C------- IEX<-1<=> PARTICULE STOPPEE
         F(6,IT) = SAR
         DP=QBR/(Q*BORO)
         F(1,IT) = DP
- 
+
  3    CONTINUE
-      RETURN 
+      RETURN
       END

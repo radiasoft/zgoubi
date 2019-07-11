@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory          
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -36,13 +36,13 @@ C     -------------------------------------------------
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
 C      INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
- 
+
       CALL RAZ(R,6*6)
       R(5,5) = 1.D0
       R(6,6) = 1.D0
       CALL RAZ(T,5*6*6)
       S1 = 2.D0 * F(6,IT1)
- 
+
 C..............................................
 C             Y     T     Z     P     L     D
 C
@@ -62,7 +62,7 @@ C..............................................
         R(J-1,6)  = (F(J,I10) - F(J,I11)) /DP
         DO 11 I=1,4
           I2 = 2*I +IT1-1
-          I3 = I2+1 
+          I3 = I2+1
           UO = FO(I+1,I2)-FO(I+1,I3)
           R(J-1,I)  = (F(J,I2) - F(J,I3)) / UO
           IF(J .EQ. 5) THEN
@@ -77,8 +77,8 @@ c        call fitsta(5,
 c     >                  fiting)
 c           call ZGNOEL(
 c     >                 NOEL)
-c         if(fiting .and. noel.eq. 700) then 
-cC         if(fiting ) then 
+c         if(fiting .and. noel.eq. 700) then
+cC         if(fiting ) then
 c              write(*,*) ' MAT1. NOEL = ',noel
 c              write(*,*) ' F(1-5,1-11) : '
 c              write(*,fmt='(1p,i,5e12.4)') (j,( f(i,j),i=1,5),j=1,11)
@@ -90,7 +90,7 @@ c          endif
 C----
 
       IF(IMAX.NE.13) RETURN
-C     ... Compute Ri5, i=1,5. 
+C     ... Compute Ri5, i=1,5.
       IF(FO(6,13)-FO(6,12) .NE. 0.D0) THEN
         DL=FO(6,13)-FO(6,12)
         R(1,5)  = ( F(2,13) - F(2,12) ) / DL

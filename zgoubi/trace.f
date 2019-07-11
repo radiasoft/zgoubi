@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -33,9 +33,9 @@ C  -------
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.FOCAL.H"     ! COMMON/FOCAL/TTI(MXT),YI(MXT),ZI(MXT),WC,XI,YIO,YMI,WCZ,MZ,IMAX1,IMAX2,MY
       INCLUDE "C.LIGNE.H"     ! COMMON/LIGNE/ NT(MXT),NC(MXT)
- 
+
       WRITE(NRES,100) MY,MZ,XI,YIO,YMI
- 
+
       YM=65.5D0*WC
       DO 1 L=1,61
         ZLP=(31.5D0-L)*WCZ
@@ -47,7 +47,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
           NK=INT((YM-YI(I))/WC+1.D0)
           IF(NK.LT.1.OR.NK.GT.131)  GOTO 2
           NKAR=NKAR+1
-          IF(NKAR.GT.MXT) 
+          IF(NKAR.GT.MXT)
      >      STOP " *** Error, SBR TRACE -> NKAR should be < MXT"
           NT(NKAR)=I
           NC(NKAR)=NK
@@ -56,9 +56,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
         IF(MOD(L,10) .EQ. 1)  K=1
         CALL LIGN(K,NKAR)
     1 CONTINUE
- 
+
       WRITE(NRES,101) MY,XI,YIO,YMI
- 
+
       DO 3 L=1,61
         NKAR=0
         K=2
@@ -78,9 +78,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
     4 CONTINUE
       CALL LIGN(K,NKAR)
     3 CONTINUE
- 
+
       RETURN
- 
+
   100 FORMAT('1',3X,' ABERRATIONS VERTICALES',/
      1,3X,' MAILLE EN Y=' ,I4,' MM     EN Z ='
      1,I4,' MM   POINT CENTRAL X=',1P,E9.2,' CM Y=',E9.2,' CM',/

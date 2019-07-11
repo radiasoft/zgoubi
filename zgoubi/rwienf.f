@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -29,14 +29,14 @@ C     ************************
 C     READS DATA FOR SEPARATOR
 C     ************************
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      INCLUDE 'MXLD.H'        
+      INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
- 
+
 C----- IL
       READ(NDAT,*) A(NOEL,1)
 C----- XL(m), E(V/m), B(T), H-V
       READ(NDAT,*) (A(NOEL,I),I=10,13)
- 
+
 C----- ENTREE
 C         XE,LMBD-E, LMBD-B
       READ(NDAT,*) (A(NOEL,I),I=20,22)
@@ -51,12 +51,12 @@ C         COEFS E
       READ(NDAT,*) (A(NOEL,I),I=60,65)
 C         COEFS B
       READ(NDAT,*) (A(NOEL,I),I=70,75)
- 
+
       ND = 80
 C----- XPAS
       READ(NDAT,*) A(NOEL,80)
 C----- KP,XCE,YCE,ALE
       READ(NDAT,*) A(NOEL,81),(A(NOEL,I),I=82,84)
- 
+
       RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -58,7 +58,7 @@ C      LOGICAL ZSYM
 C      INCLUDE "C.ORDRES.H"     ! COMMON/ORDRES/ KORD,IRD,IDS,IDB,IDE,IDZ
       INCLUDE 'MXFS.H'
       INCLUDE "C.SCALP.H"     ! COMMON/SCALP/ VPA(MXF,MXP),JPA(MXF,MXP)
- 
+
       LOGICAL BINARI,IDLUNI
       LOGICAL BINAR
       LOGICAL FLIP
@@ -68,9 +68,9 @@ C      CHARACTER(80) TITL , NOMFIC(IZ), NAMFIC
       SAVE NOMFIC, NAMFIC
       INTEGER DEBSTR,FINSTR
       PARAMETER (NHDF=8)
- 
+
       LOGICAL STRCON
- 
+
       CHARACTER(20) FMTYP
 C      DIMENSION XXH(MXX,MMAP), YYH(MXY,MMAP), ZZH(IZ,MMAP)
 C      SAVE XXH, YYH, ZZH
@@ -79,17 +79,17 @@ C      DIMENSION ZBBMI(MMAP), XBBMA(MMAP), YBBMA(MMAP), ZBBMA(MMAP)
 C      SAVE BBMI, BBMA, XBBMI, YBBMI, ZBBMI, XBBMA, YBBMA, ZBBMA
 C      DIMENSION IIXMA(MMAP), JJYMA(MMAP), KKZMA(MMAP)
 C      SAVE IIXMA, JJYMA, KKZMA
- 
+
       DIMENSION DBDX(3)
- 
+
       DOUBLE PRECISION, DIMENSION(:,:,:,:), ALLOCATABLE ::
      >     HCA, HCB, HCC
 C      DIMENSION HCA(ID,MXX,MXY,IZ),HCB(ID,MXX,MXY,IZ),HCC(ID,MXX,MXY,IZ)
       SAVE HCA, HCB, HCC
- 
+
       INCLUDE 'MXSCL.H'
       DIMENSION KFM(MXSCL)
- 
+
       DIMENSION UU(MXAA2)
 
 C     16/01/14 to pass the map coefficients to KSMAP4
@@ -125,7 +125,7 @@ C--    ERRORS
       SAVE IPOL
       CHARACTER(LBLSIZ) LBL1l, LBL2l
 
-      LOGICAL ZROBXY      
+      LOGICAL ZROBXY
       PARAMETER (IONE = 1)
 
       DIMENSION NMPT(NOEL,MXC),NMPTN(MXC)
@@ -147,28 +147,28 @@ C--    ERRORS
       DATA NFIC / 1 /
 
 C RHIC snake measured B(I) [T(A)]
-      DATA RSB / 1.372D0,  1.921D0, 2.465D0, 2.994D0,  3.246D0, 
-     >3.367D0, 3.485D0,  3.598D0,  3.712D0,  3.822D0,  3.929D0, 
+      DATA RSB / 1.372D0,  1.921D0, 2.465D0, 2.994D0,  3.246D0,
+     >3.367D0, 3.485D0,  3.598D0,  3.712D0,  3.822D0,  3.929D0,
      >4.034D0,  4.138D0,  4.240D0,  4.341D0,  4.539D0 /
       DATA RSI / 102.64D0, 143.82D0, 185.D0, 226.19D0, 246.78D0,
-     >257.08D0, 267.4D0,  277.7D0,  288.D0,   298.3D0, 308.6D0, 
+     >257.08D0, 267.4D0,  277.7D0,  288.D0,   298.3D0, 308.6D0,
      >318.89D0, 329.18D0, 339.48D0, 349.76D0, 370.37D0 /
 
- 
+
       IF( .NOT.ALLOCATED( HCA ))
      >     ALLOCATE( HCA(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
      >     CALL ENDJOB('SBR toscac Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
- 
+
       IF( .NOT.ALLOCATED( HCB ))
      >     ALLOCATE( HCB(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
      >     CALL ENDJOB('SBR toscac Not enough memory'//
      >     ' for Malloc of HC',
      >     -99)
- 
+
       IF( .NOT.ALLOCATED( HCC ))
      >     ALLOCATE( HCC(ID,MXX,MXY,IZ), STAT = IALOC)
       IF (IALOC /= 0)
@@ -187,7 +187,7 @@ C Aug 2012      BNORM = A(NOEL,10)*SCAL
       TITL = TA(NOEL,1)
       IF    (STRCON(TITL,'RHIC_helix',
      >                                IS) ) THEN
-C Takes B(T) from meaured B(I). Convert to kG. Assumes field map has been normalized to Bmax=1, 
+C Takes B(T) from meaured B(I). Convert to kG. Assumes field map has been normalized to Bmax=1,
 C for instance using a=1/Bmax scaling in 15.MOD2 option
         BNORM = CUBSPL(RSI,RSB,ABS(A(NOEL,10)),I16,I16) * T2KG
         IF(A(NOEL,10) .LT. 0.D0) BNORM = -BNORM
@@ -232,10 +232,10 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           KZMA=1
         ENDIF
       ENDIF
- 
+
       MOD = NINT(A(NOEL,23))
       MOD2 = NINT(10.D0*A(NOEL,23)) - 10*MOD
- 
+
       IF    (NDIM.EQ.2 ) THEN
         IF    (MOD .EQ. 0) THEN
           I1=1
@@ -243,26 +243,26 @@ C      FLIP = TITL(IDEB:IDEB+3).EQ.'FLIP'
           NFIC=1
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
- 
+
           DO LL = 24, MXAA2  ! 24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
- 
+
         ELSEIF(MOD .EQ. 3) THEN
           I1=1
           I2 = 1
           NFIC=1
           NAMFIC = TA(NOEL,2)
           NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
- 
+
           DO LL = 24, MXAA2     !24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
- 
+
           IF(MOD2 .EQ. 1) THEN
 C TOSCA 2D map for the AGS main magnet
 C dB1, dB2, dB3
@@ -283,9 +283,9 @@ C Apply scaling to all parameters concerned
               ENDDO
 c            ENDIF
             ENDDO
- 
+
  20         CONTINUE
- 
+
             DBDX(1) = AA(NOEL,24)
             DBDX(2) = AA(NOEL,25)
             DBDX(3) = AA(NOEL,26)
@@ -302,7 +302,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
           DO I = 1, I2
             AA(NOEL,24-1+I) = A(NOEL,24-1+I)
           ENDDO
- 
+
           DO LL = 24, MXAA2     !24+MXC-1
             UU(LL) = AA(NOEL,LL)
           ENDDO
@@ -313,7 +313,7 @@ C--------- MOD2 files are combined linearly into a single 2D map, after reading.
             NAMFIC = TA(NOEL,1+NFIC)
             NOMFIC(NFIC) = NAMFIC(DEBSTR(NAMFIC):FINSTR(NAMFIC))
           ENDDO
- 
+
 C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
@@ -321,9 +321,9 @@ C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
         ELSE
           CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
- 
+
       ELSEIF(NDIM .EQ. 3 ) THEN
- 
+
         IF(MOD .EQ. 0) THEN
 C--------- Several data files, normally one per XY plane
 C          3-D map is  symmetrysed wrt horizontal plane
@@ -377,7 +377,7 @@ C Map positioning data (1 set per map)
         ELSE
           CALL ENDJOB('*** Error. SBR TOSCAC. No such option MOD= ',MOD)
         ENDIF
- 
+
         DO LL = 24, MXAA2
           UU(LL) = AA(NOEL,LL)
         ENDDO
@@ -391,12 +391,12 @@ C Map positioning data (1 set per map)
 
 C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
 
-        IF    (MOD .LE. 15) THEN 
+        IF    (MOD .LE. 15) THEN
 
           CALL KSMAP4(NOMFIC,NFIC,UU,
      >                          NEWFIC,NBMAPS,IMAP)
 
-        ELSEIF(MOD .EQ. 16) THEN 
+        ELSEIF(MOD .EQ. 16) THEN
           CALL KSMAP(
      >               IMP)
           NEW = IMP
@@ -416,7 +416,7 @@ C Store NOMFIC(1:NFIC) name series, and increment IMAP -> IMAP+1
 C          CALL CHAMKW(NFIC,NMPTN,UU)
 
         ENDIF ! MOD  .le.15, .eq.16
-   
+
       ENDIF  ! NDIM.EQ.3
 
       IF    (MOD .EQ. 15) THEN
@@ -461,14 +461,14 @@ C Map positioning data (1 set per map)
           CALL CHAMKW(NFIC,NMPTN,UU)
 
       ENDIF
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,FMT='(/,5X,3(A,I0),2A,I3,A)')
      >  'Status of MOD.MOD2 is ', MOD,'.',MOD2,' ; NDIM = ',NDIM,' ;'
      >  ,' number of field data files used is ',NFIC,'.'
         IF    (MOD.EQ.3) THEN
-          WRITE(NRES,FMT='(5X,A,I0,A)') 
-     >    'Field map set stored in field array HC(IMAP = ',IMAP,')' 
+          WRITE(NRES,FMT='(5X,A,I0,A)')
+     >    'Field map set stored in field array HC(IMAP = ',IMAP,')'
           IF(MOD2.EQ.1) THEN
             WRITE(NRES,FMT='(/,5X,A,I1,2A,1P,2E15.6,/)')
      >      'MOD2 = ',MOD2,' ->  map will be perturbed using '
@@ -476,8 +476,8 @@ C Map positioning data (1 set per map)
           ENDIF
 c        ELSEIF(MOD.EQ.15) THEN
         ELSEIF(MOD.EQ.15) THEN
-          WRITE(NRES,FMT='(5X,A,I0,A)') 
-     >    'Field map set stored in field array HC(IMAP = ',IMAP,')' 
+          WRITE(NRES,FMT='(5X,A,I0,A)')
+     >    'Field map set stored in field array HC(IMAP = ',IMAP,')'
           IF(I2.GT.1) THEN
             WRITE(NRES,FMT='(5X,2(A,I2),2A,1P,/,15X,4E14.6)')
      >      '3-D map. MOD=',MOD,'.   Will sum up ',I2,'  field maps, ',
@@ -498,15 +498,15 @@ c        ELSEIF(MOD.EQ.15) THEN
           ENDIF
         ELSEIF(MOD .EQ. 16) THEN
           IF(I2.EQ.1) THEN
-            WRITE(NRES,FMT='(5X,A,I0,A)') 
+            WRITE(NRES,FMT='(5X,A,I0,A)')
      >      'Single 3-D field map, stored in field array HC(IMAP = '
      >      ,IMAP,')'
             WRITE(NRES,FMT='(5X,A,4E14.6)')
      >      'Field coefficient will apply : ',(a(noel,24+i-1),i=i1,i2)
           ELSE
-            WRITE(NRES,FMT='(5X,2(A,I0),A)') 
+            WRITE(NRES,FMT='(5X,2(A,I0),A)')
      >      'New 3-D field map(s) stored in field array(s) HC(IMAP = ',
-     >      IMP+1,'-',IMP+NEW,')' 
+     >      IMP+1,'-',IMP+NEW,')'
             WRITE(NRES,FMT='(5X,A,I2,2A,1P,/,15X,4E14.6)')
      >      'Will sum up field from ',I2,
      >      ' maps, on-the-flight at particle location. ',
@@ -540,9 +540,9 @@ c        ELSEIF(MOD.EQ.15) THEN
         ENDIF
         CALL FLUSH2(NRES,.FALSE.)
       ENDIF
- 
+
       IF(NEWFIC) THEN
- 
+
          IF    (MOD .LT. 15) THEN
            NFIC = 0
            DO 12 KZ=I1,I2
@@ -561,7 +561,7 @@ c        ELSEIF(MOD.EQ.15) THEN
              ELSE
                GOTO 96
              ENDIF
- 
+
              IF(     STRCON(NOMFIC(NFIC),'GSI',
      >                                         IS)
      >          .OR. STRCON(NOMFIC(NFIC),'gsi',
@@ -575,33 +575,33 @@ c        ELSEIF(MOD.EQ.15) THEN
                   NHD = 0
                   FMTYP = 'GSI'
              ENDIF
- 
+
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+              WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >        ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
                WRITE(NRES,FMT='(2(5X,A,/))')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' field map,',
      >         'FORMAT type : '//FMTYP(DEBSTR(FMTYP):FINSTR(FMTYP))//'.'
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
- 
+
 C             IRD = NINT(A(NOEL,40))
- 
+
 C BNORM set to ONE, since sent to CHAMK below
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
  12        CONTINUE
- 
+
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
          ELSEIF(MOD .EQ. 15) THEN
- 
+
            NFIC = 0
            DO KZ=I1,I2
              NFIC = NFIC+1
@@ -617,7 +617,7 @@ C------- Store mesh coordinates
              ELSE
                GOTO 96
              ENDIF
- 
+
              IF(     STRCON(NOMFIC(NFIC),'GSI',
      >                                         IS)
      >          .OR. STRCON(NOMFIC(NFIC),'gsi',
@@ -631,13 +631,13 @@ C------- Store mesh coordinates
                   NHD = 0
                   FMTYP = 'GSI'
              ENDIF
- 
+
              ICOF = 23+NFIC
 
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
                WRITE(NRES,FMT='(2(5X,A,/),5X,A,1P,E16.8,A,/)')
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):LNGTH)//' field map,',
@@ -645,18 +645,18 @@ C------- Store mesh coordinates
      >         ,'field multiplication factor :',AA(NOEL,ICOF),'.'
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
- 
+
 C             IRD = NINT(A(NOEL,40))
- 
+
              CALL FMAPW2(NFIC,AA(NOEL,ICOF))
- 
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
      >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
              IF    (NFIC.EQ.1) THEN
- 
+
                IF(MOD2.EQ.1) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -668,9 +668,9 @@ C             IRD = NINT(A(NOEL,40))
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                ELSE
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -681,12 +681,12 @@ C             IRD = NINT(A(NOEL,40))
                    ENDDO
                   ENDDO
                  ENDDO
-  
+
                ENDIF
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.2) THEN
- 
+
                IF(MOD2.EQ.2) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -700,7 +700,7 @@ C             IRD = NINT(A(NOEL,40))
                  ENDDO
 
                ELSE
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -711,12 +711,12 @@ C             IRD = NINT(A(NOEL,40))
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                ENDIF
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.3) THEN
- 
+
                IF(MOD2.EQ.3) THEN
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -729,7 +729,7 @@ C             IRD = NINT(A(NOEL,40))
                   ENDDO
                  ENDDO
                  CLOSE(UNIT=LUN)
- 
+
                ELSE
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
@@ -741,12 +741,12 @@ C             IRD = NINT(A(NOEL,40))
                    ENDDO
                   ENDDO
                  ENDDO
- 
+
                endif
                CLOSE(UNIT=LUN)
- 
+
              ELSEIF(NFIC.EQ.4) THEN
- 
+
                  DO KKK=1,KZMA
                   DO JJJ=1,JYMA
                    DO III=1,IXMA
@@ -758,17 +758,17 @@ C             IRD = NINT(A(NOEL,40))
                   ENDDO
                  ENDDO
                  CLOSE(UNIT=LUN)
- 
+
              ENDIF
              CLOSE(UNIT=LUN)
- 
+
            ENDDO
 
 C------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
          ELSEIF(MOD .EQ. 16) THEN
- 
+
            NFIC = 0
            DO KZ=I1,I2
              NFIC = NFIC+1
@@ -785,13 +785,13 @@ C------- Store mesh coordinates
              ELSE
                GOTO 96
              ENDIF
- 
+
              ICOF = 23+NFIC
 
              IF(NRES.GT.0) THEN
                LNGTH=len(
      >         NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC))))
-               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)') 
+               WRITE(NRES,FMT='(2(/,2X,A),I4,A,I0,A,/)')
      >         ' ----',' Map file number ',NFIC,' ( of ',(I2-I1+1),') :'
                WRITE(NRES,FMT='(2(5X,A,/),5X,A,1P,E16.8,A,/,
      >         5X,A,4(E14.6,1X),2(I4,1X)/)')
@@ -803,50 +803,50 @@ C------- Store mesh coordinates
      >             20+10*KZ, 20+10*KZ+4
                CALL FLUSH2(NRES,.FALSE.)
              ENDIF
- 
+
 C             IRD = NINT(A(NOEL,40))
- 
+
              CALL FMAPW2(NFIC,AA(NOEL,ICOF))
- 
+
              CALL FMAPR3(BINAR,LUN,MOD,MOD2,NHD,ZROBXY,
      >                   XNORM,YNORM,ZNORM,ONE,I1,KZ,FMTYP,
      >                                    BMIN,BMAX,
-     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA) 
+     >                                    XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
              CLOSE(UNIT=LUN)
- 
+
            ENDDO
 
 C--------- Store mesh coordinates
            CALL FMAPW4(IMAP,BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
- 
+
          ELSE
            CALL ENDJOB('SBR toscac. No such option MOD = ',MOD)
          ENDIF
- 
- 
+
+
       ELSE   !  .not. NEWFIC
- 
+
 C           IRD = NINT(A(NOEL,40))
- 
+
 C------- Restore mesh coordinates
            CALL FMAPR5(IMAP,
-     >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA) 
- 
+     >                   BMIN,BMAX,XBMI,YBMI,ZBMI,XBMA,YBMA,ZBMA)
+
            IF(NRES.GT.0) THEN
-             WRITE(NRES,fmt='(5X,A,I3,2A)') 
+             WRITE(NRES,fmt='(5X,A,I3,2A)')
      >       'Restored mesh coordinates for field map #IMAP= ',imap,
      >       ',  name : ',
      >       NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
            ENDIF
- 
+
       ENDIF ! NEWFIC
- 
+
 C----- Case erron (errors)
       IF(ERRON) THEN
 
-        DO IRR = 1, MXERR 
-          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
-     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+        DO IRR = 1, MXERR
+          OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1))
+     >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
 
           IF(OK) THEN
             CALL REBELR(
@@ -854,12 +854,12 @@ C----- Case erron (errors)
             CALL FITSTA(5,
      >                    FITING)
             CALL FITST5(
-     >                  FITFNL)         
+     >                  FITFNL)
 
 C            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
-            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) 
-C Won't go if KREB3=99, since this is multi-turn in same lattice. 
-     >        CALL TOSERR(NOEL,IRR,MXTA,BNRM, 
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99))
+C Won't go if KREB3=99, since this is multi-turn in same lattice.
+     >        CALL TOSERR(NOEL,IRR,MXTA,BNRM,
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
 
@@ -874,23 +874,23 @@ C                BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
 
 
             IF(PRNT .AND. OKOPN) THEN
-              CALL ZGKLE(IQ(NOEL), 
+              CALL ZGKLE(IQ(NOEL),
      >                           KLEY)
-              CALL ZGIPAS( 
+              CALL ZGIPAS(
      >                    IPASS,NRBLT)
-              IF(EMPTY(LBL1(IRR))) THEN 
+              IF(EMPTY(LBL1(IRR))) THEN
                 LBL1L = '.'
               ELSE
                 LBL1L = LBL1(IRR)
               ENDIF
-              IF(EMPTY(LBL2(IRR))) THEN 
+              IF(EMPTY(LBL2(IRR))) THEN
                 LBL2L = '.'
               ELSE
                 LBL2L = LBL1(IRR)
               ENDIF
               WRITE(TXT1,FMT='(I1)') JPOL
               TXFM='(6(1X,I5),3(1X,A),3(1X,E16.8), 1X,E16.8,'//
-     >          '6(1X,E16.8), 3(1X,A))' 
+     >          '6(1X,E16.8), 3(1X,A))'
                 WRITE(LERR,FMT=TXFM)
      >          IPASS,NOEL,KREB3,IRR,IPOL,KPOL(IRR,IPOL),
      >          TYPERR(IRR,IPOL), TYPAR(IRR,IPOL),TYPDIS(IRR,IPOL),
@@ -900,49 +900,49 @@ C                BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
      >          KLEY,LBL1L,LBL2L
               ENDIF
 
-          ENDIF      
+          ENDIF
         ENDDO
 
         IF(NRES.GT.0) THEN
-          DO IRR = 1, MXERR 
-            OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1)) 
-     >      .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2)) 
+          DO IRR = 1, MXERR
+            OK = (EMPTY(LBL1(IRR)) .OR. LBL1(IRR).EQ.LABEL(NOEL,1))
+     >      .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
             IF(OK) THEN
               IF(.NOT.FITING .AND. .NOT.FITFNL .AND. (KREB3.NE.99)) THEN
                 DO I = 1, JPOL
-                  IF(KPOL(IRR,I) .EQ. 1) THEN 
+                  IF(KPOL(IRR,I) .EQ. 1) THEN
                     WRITE(NRES,FMT='(/,5X,
      >              ''ERRORS are set : '')')
                     WRITE(NRES,FMT='(10X,
      >              ''- case of TOSCA key with labels : '',4A,I4,A,I4)')
      >              LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
-     >              ', # element = ',NOEL  
+     >              ', # element = ',NOEL
                     WRITE(NRES,FMT='(10X,
      >              ''- pole#, error type, A/R, G/U : '',I1,3(2X,A))')
      >              I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
-                    WRITE(NRES,FMT='(10X,A,1P,4(E14.6,2X),/)') 
+                    WRITE(NRES,FMT='(10X,A,1P,4(E14.6,2X),/)')
      >              '- err_center, _sigma, _cutoff, '
-     >              //'resulting BNORM : ',  
+     >              //'resulting BNORM : ',
      >              ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I),
      >              BNRM(I)
                   ENDIF
                 ENDDO
               ELSE
                 DO I = 1, JPOL
-                  IF(KPOL(IRR,I) .EQ. 1) THEN 
+                  IF(KPOL(IRR,I) .EQ. 1) THEN
                     WRITE(NRES,FMT='(/,5X,
-     >              ''ERRORS found set'', 
+     >              ''ERRORS found set'',
      >              '' - maintainded unchanged so far : '')')
                     WRITE(NRES,FMT='(10X,
      >              ''- case of TOSCA key with labels : '',4A,I4,A,I4)')
      >              LBL1(IRR), ' / ',LBL2(IRR),' /  ERROR SET # ',IRR,
-     >              ', # element = ',NOEL  
+     >              ', # element = ',NOEL
                     WRITE(NRES,FMT='(10X,
      >              ''- pole#, error type, A/R, G/U : '',I1,3(2X,A))')
      >              I, TYPERR(IRR,I), TYPAR(IRR,I), TYPDIS(IRR,I)
-                    WRITE(NRES,FMT='(10X,A,1P,4(E14.6,2X),/)') 
+                    WRITE(NRES,FMT='(10X,A,1P,4(E14.6,2X),/)')
      >              '- err_center, _sigma, _cutoff, '
-     >              //'resulting BNORM : ',  
+     >              //'resulting BNORM : ',
      >              ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I),
      >              BNRM(I)
                   ENDIF
@@ -955,8 +955,8 @@ C                BNRM(IM) = BNRM(IM) + DB(NOEL,IM)
       ENDIF
 
       CALL CHAMK2(BNORM*SCAL)
- 
-C Make sure this is ok with cartésien
+
+C Make sure this is ok with cartÃ©sien
         CALL MAPLI1(BMAX-BMIN)
 C        AT=XH(IAMA)-XH(1)
 C        ATO = 0.D0
@@ -964,7 +964,7 @@ C        ATOS = 0.D0
 C        RM=.5D0*(YH(JRMA)+YH(1))
 C        XI = XH(1)
 C        XF = XH(IAMA)
- 
+
       RETURN
 
  96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file  '''//
@@ -972,13 +972,13 @@ C        XF = XH(IAMA)
      >//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
- 
+
       ENTRY TOSCA1
       DO I = 1, IZ
         NOMFIC(I) = ' '
       ENDDO
       RETURN
- 
+
       ENTRY TOSCA2(IRRI,IPOLI,TYPERI,TYPAI,TYPDII,
      >               ERRCEI,ERRSII,ERRCUI,LBL1I,LBL2I)
       ERRON = .TRUE.
@@ -997,7 +997,7 @@ C        XF = XH(IAMA)
 
       ENTRY TOSCA4
       ERRON = .FALSE.
-      RETURN      
+      RETURN
 
       ENTRY TOSCA8(PRNTI)
       PRNT = PRNTI
@@ -1009,7 +1009,7 @@ C        XF = XH(IAMA)
           WRITE(LERR,FMT='(A,I0,A)') '# Origin of this print : toscac'
      >    //' program. This file opened with unit # ',LERR,'.'
           WRITE(LERR,FMT='(A)') '# '
-          WRITE(LERR,FMT='(A)') 
+          WRITE(LERR,FMT='(A)')
      >    '# IPASS, NOEL, KREB3, IRR, IPOL, KPOL(IRR,Ipol) '
      >    //'TYPERR(IRR,Ipol), TYPAR(IRR,IPOL), TYPDIS(IRR,IPOL), '
      >    //'ERRCEN(IRR,IPOL), ERRSIG(IRR,IPOL), ERRCUT(IRR,IPOL), '
@@ -1022,5 +1022,5 @@ C        XF = XH(IAMA)
       ELSE
         IF(OKOPN) CLOSE(LERR)
       ENDIF
-      RETURN      
+      RETURN
       END

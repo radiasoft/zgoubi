@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE IMPCTR(IUNIT,F)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.CONTR.H"     ! COMMON/CONTR/VAT(MXV),XI(MXV)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -54,12 +54,12 @@ C  -------
      >    ('' Fit reached penalty value '',1P,E12.4,
      >     ''            still working on it... '')') FINI
           CALL ARRIER(TXTBUF)
-C          CALL FLUSH2(IUNIT,.FALSE.) 
+C          CALL FLUSH2(IUNIT,.FALSE.)
         ENDIF
         RETURN
-      ENDIF     
+      ENDIF
 
-      CALL ZGPNLT( 
+      CALL ZGPNLT(
      >            PNLTGT)
 
       IF(IUNIT.GT.0) WRITE(IUNIT,500) PNLTGT
@@ -68,7 +68,7 @@ C          CALL FLUSH2(IUNIT,.FALSE.)
 600   FORMAT(
      >'TYPE  I   J LMNT#     DESIRED          WEIGHT         ',
      >'REACHED         KI2     NAME   LBL1                 LBL2',
-     >'      Nb param. [value]')  
+     >'      Nb param. [value]')
 C----      X(J)        P(I)
       DO I=1,NC
         XI2=((VAT(I)-V(I))/W(I))**2/F
@@ -79,8 +79,8 @@ C----      X(J)        P(I)
         LBL2 = LABEL(I3(I),2)
         IF(EMPTY(LBL1)) LBL1 = '-'
         IF(EMPTY(LBL2)) LBL2 = '-'
-        IF(IUNIT.GT.0) WRITE(IUNIT,700) 
-     >  IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2, 
+        IF(IUNIT.GT.0) WRITE(IUNIT,700)
+     >  IC(I),I1(I),I2(I),I3(I),V(I),W(I),VAT(I),XI2,
      >  KLE,LBL1,LBL2,NINT(CPAR(I,1)),(CPAR(I,JJ),JJ=2,NPRM1)
 700     FORMAT(3(I3,1X),I5,2X,1P,E14.6,2X,E11.3,2X,E14.6,2X,E10.2,
      >  3(1X,A),1X,I1,5(1X,E9.1))
@@ -88,7 +88,7 @@ C----      X(J)        P(I)
       IF(IUNIT.GT.0) THEN
         WRITE(IUNIT,FMT='
      >  ('' Fit reached penalty value '',1P,E12.4)') FINI
-        CALL FLUSH2(IUNIT,.FALSE.) 
+        CALL FLUSH2(IUNIT,.FALSE.)
       ENDIF
 
       NSYS = NOSYS

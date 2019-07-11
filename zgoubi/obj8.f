@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -52,7 +52,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       PARAMETER(NDIM = 3)
       DIMENSION ISAM(NDIM)
 
-      DIMENSION NVRNT(NDIM) 
+      DIMENSION NVRNT(NDIM)
       LOGICAL STRCON
       CHARACTER(80) TXT80
 
@@ -95,7 +95,7 @@ C----- PARAMETRE ELLIPSES
       DO I= 1, NDIM
         IF(EPS(2*I) .EQ. 0) NVRNT(I) = 1
       ENDDO
- 
+
       IMAX = 1
       DO  I= 1, 3
         IF(ISAM(I).NE.0) IMAX = IMAX * ISAM(I)*NVRNT(I)
@@ -120,15 +120,15 @@ C--------- Multiturn injection
 
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) IMAX
-100     FORMAT(/,15X,' Object  comprised  of ',I6,'  particles, '  
+100     FORMAT(/,15X,' Object  comprised  of ',I6,'  particles, '
      >  ,'distributed  on  ellipses,  as  follows :',/)
- 
+
         WRITE(NRES,123) (CENTRE(J),J=2,MXJ1),CENTRE(1)
  123    FORMAT(15X,' Ellipse centres (m-rad): '
      >  ,/,11X,' HORIZONTAL    ( Yo, To ):',T50,1P,2G12.4
      >  ,/,11X,' VERTICAL      ( Zo, Po ):',T50,   2G12.4
      >  ,/,11X,' LONGITUDINAL  ( Xo, Do ):',T50,   2G12.4,/)
- 
+
         WRITE(NRES,109) (ALP(J),BET(J),EPS(J),J=2,MXJ1,2)
  109    FORMAT(15X,
      >  ' Alpha(rad), Beta(m/rad), E/pi(m.rad) :'
@@ -148,14 +148,14 @@ C----- CONSTITUTION DU FAISCEAU
         J1=J+1
         J2=J/2
         NVRNT2 = NVRNT(J2)
-        IF(J1.EQ.MXJ) J1=1 
+        IF(J1.EQ.MXJ) J1=1
         IF(EPS(J).EQ.0.D0) THEN
           DO 11 I=IMI,IMA
             FO(J ,I)=0.D0
             FO(J1,I)=0.D0
  11       CONTINUE
         ELSE
-          IF(ISAM(J2) .GT. 0) THEN 
+          IF(ISAM(J2) .GT. 0) THEN
             REB=SQRT(EPS(J)*BET(J))
             DA = 2.D0*PI/DBLE(ISAM(J2))
           ELSE
@@ -168,22 +168,22 @@ C----- CONSTITUTION DU FAISCEAU
           IMA1 = IMI1 + JIM - 1
           REBIV = 0.D0
           DO IVRNT = 1, NVRNT2
-            IMI1 = IMI1 + JIM            
-            IMA1 = IMA1 + JIM            
+            IMI1 = IMI1 + JIM
+            IMA1 = IMA1 + JIM
             REBIV = REBIV + DREB
             ANG = 0.D0
             DO 12 I=IMI1,IMA1
               X = REBIV*COS(ANG)
-              IF(I.GT.MXT) 
+              IF(I.GT.MXT)
      >          CALL ENDJOB('ERROR, SBR OBJ8 : max  MXT is ',MXT)
               FO(J ,I) = X/UNIT(J-1)
               FO(J1,I) = (REBIV*SIN(ANG)-ALP(J)*X)/BET(J)/UNIT(J)
               ANG = ANG + DA
- 12         CONTINUE         
+ 12         CONTINUE
           ENDDO
         ENDIF
- 1    CONTINUE      
- 
+ 1    CONTINUE
+
       IKAR = 1
       DO 5 I=IMI,IMA
         FO(1,I)=FO(1,I) + CENTRE(1)/UNIT(6)
@@ -198,7 +198,7 @@ C----- CONSTITUTION DU FAISCEAU
         IKAR=IKAR+1
         IF(IKAR.GT.41) IKAR=1
  5    CONTINUE
- 
+
       RETURN
 
  98   TXT = '    Too  many  particles'

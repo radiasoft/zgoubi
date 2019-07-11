@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -50,7 +50,7 @@ C  -------
         IF(TEMP.GT.1.D10) THEN
 C--------- Old method for entrance|body|exit number of steps -> convert to new method
           TXT = TXT(1:IS-1)
-          IF(STRCON(TXT,'.',IS)) WRITE(TXTEMP,FMT='(A)') 
+          IF(STRCON(TXT,'.',IS)) WRITE(TXTEMP,FMT='(A)')
      >       '#'//TXT(IS+1:IS+3)//'|'//TXT(1:IS-1)//'|'//TXT(IS+1:IS+3)
           TXT = TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
           IFIN = FINSTR(TXT)
@@ -60,7 +60,7 @@ C------- Variable number of steps in entrance|body|exit regions
         KPAS = 2
         READ(TXT(IS+2:IS+3),*) IPREC
         TXT = TXT(1:IS-1)
-        IF(STRCON(TXT,'.',IS)) WRITE(TXTEMP,FMT='(A)') 
+        IF(STRCON(TXT,'.',IS)) WRITE(TXTEMP,FMT='(A)')
      >       '#'//TXT(IS+1:IS+3)//'|'//TXT(1:IS-1)//'|'//TXT(IS+1:IS+3)
         TXT = TXTEMP(DEBSTR(TXTEMP):FINSTR(TXTEMP))
         IFIN = FINSTR(TXT)
@@ -78,7 +78,7 @@ C                                    entr body exit
             IF(IS1+IS.GT.IFIN-1) GOTO 99
             READ(TXT(IS1+1:IS1+IS-1),*) A(NOEL,ND+1)
             READ(TXT(IS1+IS+1:IFIN),*) A(NOEL,ND+2)
-          ENDIF            
+          ENDIF
         ELSE
           GOTO 99
         ENDIF
@@ -89,7 +89,7 @@ C        ND = ND+2
       ELSE
         READ(TXT,*) A(NOEL,ND)
       ENDIF
-      
+
       KPSTO(NOEL) = KPAS
       IPRSTO(NOEL) = IPREC
       CALL CHXC1W(KPAS,IPREC)

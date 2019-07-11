@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,7 +47,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DATA FNAME / 'plotda.out' /
       DATA IPASS0,SP,MAXLOC/0,0,0/
 
- 
+
       LOC = NINT( A(NOEL,1) )
 
       IF(IPASS0 .EQ. 1) THEN
@@ -66,7 +66,7 @@ C       ... NEXT LOOP
       ELSE
         SP=SP-SSP
       ENDIF
- 
+
 C     ... LOCATION NUMBER
       NLOC= NLOC+1
       IF(NLOC .GT. 20)  CALL ENDJOB(
@@ -74,7 +74,7 @@ C     ... LOCATION NUMBER
       IF(IPASS .EQ. 1) THEN
         IF(NLOC .GT. MAXLOC) MAXLOC=NLOC
       ENDIF
- 
+
 C     ... SLP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
       SLP=0
       DO 1 I=1,IMAX
@@ -89,7 +89,7 @@ C     ... SLP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
         FF(I,NLOC,7) = F(6,I)
         FF(I,NLOC,8) = F(1,I)
  1    CONTINUE
- 
+
 C     ... SSP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
       SSP=0D0
       IF( LOC .LT. 0 ) THEN
@@ -105,14 +105,14 @@ C     ... SSP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
  2      CONTINUE
         SSP=SLP
       ENDIF
- 
+
       IF(NRES .GT. 0) THEN
- 
+
         WRITE(NRES,101) LOC,NLOC,IPASS,SLP,IMAX
  101    FORMAT(5X,/,' PLOTDATA  OUTPUT',//,15X,' LOCATION  #',I4
      >  ,'        AT  POSITION  #',I2,//,15X,' LOOP  NUMBER ',I5,10X
      >  ,F4.0,'  PARTICLES  OVER  ',I3,'  MAKE  IT  TO  HERE')
- 
+
         IF    ( LOC .GT. 0 ) THEN
           WRITE(NRES,102) SLP
  102      FORMAT(15X,F7.0,' PARTICLES  STORED  IN  ARRAY')
@@ -120,9 +120,9 @@ C     ... SSP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
           WRITE(NRES,103) SP, LUN
  103      FORMAT(15X,F7.0,' PARTICLES  PRINTED  IN  UNIT=',I2)
         ENDIF
- 
+
       ENDIF
- 
+
       IF(IPASS .GT. 1 .AND. IPASS .EQ. NRBLT+1) THEN
        IF(NLOC .EQ. MAXLOC) THEN
          MAXLOC=0
@@ -131,7 +131,7 @@ C     ... SSP COUNTS HOW MANY OVER IMAX MAKE IT AT THE ACTUAL LOOP
          CLOSE(LUN)
        ENDIF
       ENDIF
- 
+
       RETURN
  99   WRITE(6,*) ' SBR ZGOUBI : ERREUR  OPEN FICHIER ',FNAME
       RETURN

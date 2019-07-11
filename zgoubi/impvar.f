@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 CC
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPVAR(IUNIT,NI)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.CONTR.H"     ! COMMON/CONTR/VAT(MXV),XI(MXV)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -45,10 +45,10 @@ C  -------
       SAVE NOSYS,NSYS
 
       DATA NSYS, NOSYS / .FALSE. , .FALSE. /
-    
+
       IF(NSYS) THEN
         RETURN
-      ENDIF     
+      ENDIF
 
       CALL MINO13(
      >            NITER)
@@ -60,10 +60,10 @@ C  -------
       IF(IUNIT.GT.0) WRITE(IUNIT,300)
 300   FORMAT(
      >'LMNT VAR PARAM  MINIMUM    INITIAL         FINAL        ',
-C----- IR(I)  I IS(I)    X(K)       XI(I)          X(I)  
+C----- IR(I)  I IS(I)    X(K)       XI(I)          X(I)
      >' MAXIMUM     STEP        NAME   LBL1                 LBL2' )
 C----    X(J)       P(I)
- 
+
       DO 1 I=1,NV
         K=I+NV
         J=K+NV
@@ -75,7 +75,7 @@ C----    X(J)       P(I)
         IF(EMPTY(LBL2)) LBL2 = '-'
         IF(IUNIT.GT.0) WRITE(IUNIT,400) IR(I),I,IS(I),X(K),XI(I),
      >  A(IR(I),IS(I)),X(J),P(I),KLE,LBL1,LBL2
- 400    FORMAT(1P, 
+ 400    FORMAT(1P,
      >  I4,2X,I2,3X,I3,2(2X,G10.3),1X,G15.8,2(1X,G10.3),1X,3(1X,A))
         IF(XCOU(I).NE.0.D0) THEN
 C          KL=XCOU(I)
@@ -88,7 +88,7 @@ C          KL=XCOU(I)
             XINI = XI(I)
             XMA = X(J)
           ELSEIF(ISGN .EQ. -1) THEN
-            SGN= DSIGN(1.D0,A(IR(I),IS(I)))* 
+            SGN= DSIGN(1.D0,A(IR(I),IS(I)))*
      >                            DSIGN(1.D0,A(ISGN*KL,ISGN*KP))
             JSGN = NINT(SGN)
             IF   (JSGN .EQ. 1) THEN
@@ -105,7 +105,7 @@ C          KL=XCOU(I)
           ELSE
             CALL ENDJOB('Pgm impvar. Impossible value ISGN =',ISGN)
           ENDIF
-          IF(IUNIT.GT.0) WRITE(IUNIT,400) 
+          IF(IUNIT.GT.0) WRITE(IUNIT,400)
      >    ISGN*KL,I,ISGN*KP,xmi,xini,
      >    A(ISGN*KL,ISGN*KP),xma,P(I)
         ENDIF

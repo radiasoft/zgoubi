@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
@@ -38,11 +38,11 @@ C  -------
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       CHARACTER(1) KAX(3)
- 
+
       SAVE SXM,SYM,SZM
- 
+
       LOGICAL ONCE
       SAVE ONCE
 
@@ -68,7 +68,7 @@ C  -------
       NSTRT=NINT(A(NOEL,2))
 
       ONCE = KSO .GE. 1  .OR. ONCE
- 
+
       CALL REBELR(KREB3,KDUM,KDUM)   ! KREB3=0 at pass #1 before REBELOTE
       IF(  KREB3 .EQ. 99
      >.AND.  KSO .NE .0
@@ -78,11 +78,11 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
         IF(NRES.GT.0) WRITE(NRES,103)
  103    FORMAT(/,15X,
      >  'Final  spins  of  last  run  taken  as  initial  spins.')
-        IF(IPASS .GE. NSTRT) KSPN = KSPSAV 
+        IF(IPASS .GE. NSTRT) KSPN = KSPSAV
         RETURN
       ENDIF
- 
- 
+
+
       IF(NRES.GT.0) THEN
         IF    (KSO .EQ. 0) THEN
           WRITE(NRES,107)
@@ -113,10 +113,10 @@ C=======
      >      ''Spins read by OBJET are taken as initial spins.'')')
 
           ELSE
- 
+
             WRITE(NRES,111) KSO
  111        FORMAT(/,25X,' Initial spin conditions type ',I2,' :')
- 
+
             IF    (KSO .LE. 3) THEN
               WRITE(NRES,101) KAX(KSO)
  101          FORMAT(30X,' All particles have spin parallel to  ',A1
@@ -135,13 +135,13 @@ C=======
      >          ,/,30X,'Particles # 1 to ',I0,' may be subjected to '
      >          ,      'spin matching using FIT procedure')
               ELSEIF(KSO2 .EQ.2) THEN
-                WRITE(NRES,112) 
+                WRITE(NRES,112)
      >          TA(NOEL,1)(DEBSTR(TA(NOEL,1)):FINSTR(TA(NOEL,1)))
  112            FORMAT(
      >             30X,'Same spin for all particles, read from file ',A)
               ENDIF
             ELSEIF(KSO .EQ. 5) THEN
-              WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)') 
+              WRITE(NRES,FMT='(10X,A,1P,4E13.5,/)')
      >        'TO, PO, A, dA : ',
      >        A(NOEL,10),A(NOEL,11),A(NOEL,20),A(NOEL,21)
               WRITE(NRES,108)
@@ -149,7 +149,7 @@ C=======
      >        'WARNING :  INSTALLATION OF KSO=5 NEEDS BE COMPLETED !',/)
            ENDIF
          ENDIF
- 
+
           P = BORO*CL9*Q
           BE = P/SQRT(P*P + AM*AM)
           GG = G/SQRT(1.D0-BE*BE)
@@ -161,7 +161,7 @@ C=======
 
         ENDIF
       ENDIF
- 
+
       IF    (KSO.EQ.-1) THEN
         IF(ONCE) THEN
           KSPN = 1
@@ -188,7 +188,7 @@ C=======
 
       GOTO(1,1,1,4,5) KSO
       RETURN
- 
+
  1    CONTINUE
       SX = 0D0
       SY = 0D0
@@ -207,7 +207,7 @@ C=======
         SF(4,I) = 1.D0
       ENDDO
       GOTO 98
- 
+
  4    CONTINUE
       IF    (KSO2.EQ.0) THEN
 C        IM = IMAX
@@ -264,20 +264,20 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
           SF(4,I) = SI(4,I)
         ENDDO
       ELSE
-        CALL ENDJOB('*** Pgm spn, keyword SPNTRK : '// 
+        CALL ENDJOB('*** Pgm spn, keyword SPNTRK : '//
      >' No such option KSO2 =',KSO2)
       ENDIF
       GOTO 98
- 
+
  5    CONTINUE
- 
+
       TO = A(NOEL,10)
       PO = A(NOEL,11)
       AL = A(NOEL,20)
       DA = A(NOEL,21)
-      
+
       IF(IPASS .EQ. 1) DUM = RNDM2(IR1)
- 
+
       XNRM = 0.D0
       DO 15 I=1,IMAX
         RAND = (2.D0*RNDM()-1.D0)
@@ -295,10 +295,10 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
         SF(3,I) = SZ/XNRM
         SF(4,I) = 1.D0
  15   CONTINUE
- 
- 
+
+
  98   CONTINUE
- 
+
       SXM = 0.D0
       SYM = 0.D0
       SZM = 0.D0
@@ -315,9 +315,9 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
       SYM = SYM / DBLE(II)
       SZM = SZM / DBLE(II)
       XNRM = SQRT(SXM*SXM + SYM*SYM + SZM*SZM)
-      SXM = SXM / XNRM 
-      SYM = SYM / XNRM 
-      SZM = SZM / XNRM 
+      SXM = SXM / XNRM
+      SYM = SYM / XNRM
+      SZM = SZM / XNRM
 
       IF(NRES.GT.0) THEN
         SM = SQRT(SXM*SXM+SYM*SYM+SZM*SZM)
@@ -329,7 +329,7 @@ C        IF(IM.GT.MXD/10) IM=MXD/10
      >  ,/,30X,' <SZ> = ',F12.6
      >  ,/,30X,' <S>  = ',F12.6)
       ENDIF
- 
+
       RETURN
 
       ENTRY SPN2(DJLUI)

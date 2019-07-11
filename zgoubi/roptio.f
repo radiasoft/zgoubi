@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -37,7 +37,7 @@ C      PARAMETER (MXTA=45)
       CHARACTER(KSIZ) KLE
 
 C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
-      LINE =1          
+      LINE =1
       READ(NDAT,*,END=90,ERR=90) NY, NBOP
       A(NOEL,1) = NY
       A(NOEL,2) = NBOP
@@ -46,7 +46,7 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
      >CALL ENDJOB('SBR roptio : nmbr of options exceded ; max is ',40)
 
       DO I = 1, NBOP
-        LINE = LINE + 1          
+        LINE = LINE + 1
         READ(NDAT,FMT='(A)',END=90,ERR=90) TXT
         TXT = TXT(DEBSTR(TXT):FINSTR(TXT))
         IF(STRCON(TXT,'!',
@@ -57,10 +57,10 @@ C NY = 0/1 = off/on. NBOP = # of options, NBOP lines should follow
       RETURN
 
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm roptio, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm roptio, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
- 
+
       END

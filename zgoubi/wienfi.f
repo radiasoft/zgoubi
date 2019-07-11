@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -42,15 +42,15 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       EQUIVALENCE (RTB(1),CTE),(RTB(2),STE),(RTB(4),CTS),(RTB(5),STS)
       EQUIVALENCE
      >  (RTQ(1),CTEQ),(RTQ(2),STEQ),(RTQ(4),CTSQ),(RTQ(5),STSQ)
       LOGICAL SHARPE, SHARPS
- 
+
       CHARACTER(10) TYP(2)
       DATA TYP / 'HORIZONTAL',' VERTICAL ' /
- 
+
       XL =A(NOEL,10)
       E  =A(NOEL,11)*SCAL
       B  =A(NOEL,12)*SCAL
@@ -68,7 +68,7 @@ C      LOGICAL ZSYM
         QCS(I1) =A(NOEL,60+I)
         CS(I1) =A(NOEL,70+I)
  8    CONTINUE
- 
+
       TE=0.D0
       TS=0.D0
       CTE=COS(TE)
@@ -81,7 +81,7 @@ C      LOGICAL ZSYM
       STEQ=SIN(TEQ)
       CTSQ=COS(TSQ)
       STSQ=SIN(TSQ)
- 
+
 C----------- Champ DE FUITE
       SHARPE=QLE(1)*DLE(1) .LE. 0.D0
       SHARPS=QLS(1)*DLS(1) .LE. 0.D0
@@ -91,7 +91,7 @@ C------- Correction for entrance wedge
         XE=0D0
         GAPE = -DLE(1)
 C        GAPE = -AMAX1(QLE(1),DLE(1))
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,FMT='(''Entrance hard edge is to be implemented'')')
         CALL INTEG1(-TE,FINTE,GAPE)
 C        QLE(1)=0.D0
@@ -103,19 +103,19 @@ C------- Correction for exit wedge
         XLS=0D0
 C        GAPS = -AMAX1(QLS(1),DLS(1))
         GAPS = -DLS(1)
-        IF(NRES.GT.0) 
+        IF(NRES.GT.0)
      >  WRITE(NRES,FMT='(''Exit hard edge is to be implemented'')')
         CALL INTEG2(-TS,FINTS,GAPS)
 C        QLS(1)=0.D0
 C        DLS(1)=0.D0
       ENDIF
- 
+
 C---------------------------------------------------
 C        KHV = 1 (H SEPARATION) OR 2 ( V SEPARATION)
 C        E  ( V/M )  = E-FIELD
 C        B  ( T )    = B-FIELD
 C---------------------------------------------------
- 
+
 C      P0 = BORO*CL*1.D-9*Q/QEL
 C      P0 = BORO*CL*1.D-9*Q
       P0 = BORO*CL9*Q
@@ -131,7 +131,7 @@ C      P0 = BORO*CL*1.D-9*Q
      >        ,/,30X,' Reference  beta         = ',G12.5)
         IF(B .NE. 0.D0) WRITE(NRES,111) E/(-B*CL)
  111    FORMAT(30X,' BETA  WANTED = -E/c.B =',1P,G12.5)
- 
+
         WRITE(NRES,104) 'D''ENTREE'
  104    FORMAT(/,15X,' FACE  ',A)
         WRITE(NRES,101) XE,QLE(1),DLE(1)
@@ -139,21 +139,21 @@ C      P0 = BORO*CL*1.D-9*Q
         IF(QLE(1) .NE. 0.D0) WRITE(NRES,132) 'E',(QCE(I),I=1,6)
  132    FORMAT(15X,' COEFFICIENTS DE ',A,' :',6F9.5)
         IF(DLE(1) .NE. 0.D0) WRITE(NRES,132) 'B',(CE(I),I=1,6)
- 
+
         WRITE(NRES,104) 'DE  SORTIE'
         WRITE(NRES,101) XLS,QLS(1),DLS(1)
         IF(QLS(1) .NE. 0.D0) WRITE(NRES,132) 'E',(QCS(I),I=1,6)
         IF(DLS(1) .NE. 0.D0) WRITE(NRES,132) 'B',(CS(I),I=1,6)
- 
+
       ENDIF
- 
+
 C----- change unites: XL->cm, B->kG, E->MeV/cm
       XL=XL*100.D0
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM
       XS = XL + XE
- 
+
       EM(1)=E*1.D-8
       BM(1)=B*10.D0
       IF    (KHV .EQ. 1) THEN
@@ -163,11 +163,11 @@ C----- change unites: XL->cm, B->kG, E->MeV/cm
        EM(6)=0.D0
        BM(6)=-.5D0*PI
       ENDIF
- 
+
       IF(B .EQ. 0.D0) KFLD=LC
       IF(E .EQ. 0.D0) KFLD=MG
       IF(E*E+B*B .EQ. 0.D0) KFLD=0
- 
+
 C----- DEFINITION DES ANGLES DE COIN
 C      (=0 DEG. DANS CETTE VERSION)
       IF(SHARPE) THEN
@@ -200,9 +200,9 @@ C      (=0 DEG. DANS CETTE VERSION)
           DS(1,I)=-DS(1,I-1)/DLS(1)
  11     CONTINUE
       ENDIF
-      
+
       IF(NRES.GT.0) THEN
-        IF( SHARPE .OR. SHARPS ) 
+        IF( SHARPE .OR. SHARPS )
      >     WRITE(NRES,FMT='(/,''  ***  Warning : sharp edge '',
      >    ''model entails vertical wedge focusing simulated with'',
      >    /,17X,'' first order kick  ***'')')

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,72 +27,72 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION X(*),XMIN(*),XMAX(*),P(*),V(*)
 C----------------------------------------------------------
-C                                                     
-C   Soit F={Fj} 1<=j<=M / Fj=Fj(Xi) 1<=i<=N             
-C                                                         
-C   On cherche {Xi} / {Fj(Xi)}={Cj}                     
-C              
-C   Soit G=(Somme j(Pj*(Fj(Xi)-Cj)**2))=G(Fj)  
-C                                              
+C
+C   Soit F={Fj} 1<=j<=M / Fj=Fj(Xi) 1<=i<=N
+C
+C   On cherche {Xi} / {Fj(Xi)}={Cj}
+C
+C   Soit G=(Somme j(Pj*(Fj(Xi)-Cj)**2))=G(Fj)
+C
 C   On se ramene a la recherche du minimum de G
-C                                              
+C
 C----------------------------------------------------------
-C                                                          
-C          Recherche du minimum de G par deplacement       
-C                                                          
+C
+C          Recherche du minimum de G par deplacement
+C
 C----------------------------------------------------------
-C                                                          
-C  1) Determination du sens de deplacement                 
-C                                                          
-C     a) U={Xj} 1<=j<=N ; G0=G(U) ; k=0                    
-C                                                          
-C     b) i=1                                               
-C                                                          
+C
+C  1) Determination du sens de deplacement
+C
+C     a) U={Xj} 1<=j<=N ; G0=G(U) ; k=0
+C
+C     b) i=1
+C
 C     c) U'={Xj} /Xj = Xj +/- Pj * d(i-j), XjMin <= Xj <= XjMax ; G1=G(U')
-C                                                              
-C     d) si G1 < G0 => Vi = Pi ; G0=G1                         
-C                                                              
-C        sinon         Vi = 0  ; Xi = Xi - Pi                  
-C                                                              
-C        i=i+1 si i <=N => reprendre en 1c)                    
-C                                                              
-C        sinon  1e)                                            
-C                                                              
-C     e) k=k+1 si k < 4 => reprendre en 1f)                    
-C                                                              
-C        sinon arret "recherche de chemin impossible"          
-C                                                              
+C
+C     d) si G1 < G0 => Vi = Pi ; G0=G1
+C
+C        sinon         Vi = 0  ; Xi = Xi - Pi
+C
+C        i=i+1 si i <=N => reprendre en 1c)
+C
+C        sinon  1e)
+C
+C     e) k=k+1 si k < 4 => reprendre en 1f)
+C
+C        sinon arret "recherche de chemin impossible"
+C
 C     f) si V = {0} => Pj = Pj/D 1<=j<N ; reprendre en 1b)
-C                                                         
-C        sinon  2)                                        
-C                                                         
-C  2) Avance dans la direction trouvee                    
-C                                                         
+C
+C        sinon  2)
+C
+C  2) Avance dans la direction trouvee
+C
 C     a) U{Xj = Xj + Vj} / 1<=j<=N , XjMin <= Xj <= XjMax ; G1=G(U)
-C                                                                  
-C        si G1 < epsilon arret "minimum trouve"                    
-C                                                                  
-C        sinon si G1 < G0 => G0=G1 reprendre en 2a)                
-C                                                                  
-C              sinon Xj= Xj - Vj 1<=j<=N ; reprendre en 1)         
-C                                                                  
+C
+C        si G1 < epsilon arret "minimum trouve"
+C
+C        sinon si G1 < G0 => G0=G1 reprendre en 2a)
+C
+C              sinon Xj= Xj - Vj 1<=j<=N ; reprendre en 1)
+C
 C------------------------------------------------------------------
-C                                                                  
-C     SUBROUTINE ITMINO(FONC,N,X,)                              
-C                                                                
-C     FONC   :FONCTION A TRAITER                                 
-C                                                                
-C     N      :NOMBRES DE  VARIABLES                              
-C     X      :VALEURS DES VARIABLES   ATTEINTES Xi    1<=i<=N    
-C     XMIN   :MINIMUM DES VARIABLES             XMINi 1<=i<=N    
-C     XMAX   :MAXIMUM DES VARIABLES             XMAXi 1<=i<=N    
-C                                                                
-C                                                                
+C
+C     SUBROUTINE ITMINO(FONC,N,X,)
+C
+C     FONC   :FONCTION A TRAITER
+C
+C     N      :NOMBRES DE  VARIABLES
+C     X      :VALEURS DES VARIABLES   ATTEINTES Xi    1<=i<=N
+C     XMIN   :MINIMUM DES VARIABLES             XMINi 1<=i<=N
+C     XMAX   :MAXIMUM DES VARIABLES             XMAXi 1<=i<=N
+C
+C
 C----------------------------------------------------------------
       LOGICAL OK
       PARAMETER (NITER=3)
       EXTERNAL FONC
- 
+
       NI=1
       OK=.FALSE.
 1     CONTINUE

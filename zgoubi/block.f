@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -68,12 +68,12 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
- 
+
       PARAMETER (MDR3= 3*MDR)
-    
+
       DOUBLE PRECISION QE0
       PARAMETER (QE0=1.602176487D-19)
       PARAMETER (PROTM=938.27203D0)
@@ -105,8 +105,8 @@ C     DATA DPREF / 1.D0 /
       DATA IDMAX / 1 /
       DATA KSYN / 0 /
 C Particle data
-      DATA QELM / QE0 / 
-      DATA AMLEC / 0.510998928D0 / 
+      DATA QELM / QE0 /
+      DATA AMLEC / 0.510998928D0 /
       DATA GLEC / 1.15965218076D-3 /
       DATA AMPRO / PROTM /
       DATA GPRO / 1.79284735D0 /
@@ -114,18 +114,18 @@ C Particle data
       DATA GMU / 11659208.9D-10 /
       DATA TAUMU / 2.1969811D-6 /
       PARAMETER (DQE0= 2.D0*QE0 )
-      DATA Q3HE / DQE0 / 
+      DATA Q3HE / DQE0 /
       DATA AM3HE / 2808.39148D0 /
       DATA G3HE / -4.1841538D0 /
-    
+
       DATA TSPCH / .FALSE. /
-  
-C----- To yield MKSA units : 
+
+C----- To yield MKSA units :
 C                                1      2     3     4     5    6     7
 C                                Y      T     Z     P     S    D    time
 C                                m     rad    m    rad    m    1     s
       DATA (UNIT(I),I=1,MXJ) / 1.D-2,1.D-3,1.D-2,1.D-3,1.D-2,1.D0,1.D-6/
       DATA (NTIM(I),I=1,MXF) / MXF * 0 /
       PARAMETER (MXL2=MXL*2)
-      DATA LABEL / MXL2*' ' / 
+      DATA LABEL / MXL2*' ' /
       END

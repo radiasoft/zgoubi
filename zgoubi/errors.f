@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -38,17 +38,17 @@ C      PARAMETER (MXTA=45)
       CHARACTER(132) TXT132
       LOGICAL STRCON, OK
       CHARACTER(40) STRA(10)
- 
+
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLERR
       PARAMETER (LBLSIZ=20)
       CHARACTER(LBLSIZ) LBL1, LBL2
-C                  XR, ZS... 
+C                  XR, ZS...
       CHARACTER(2) TYPERR
 C                  A or R   G or U
       CHARACTER(1) TYPAR,   TYPDIS
       LOGICAL EMPTY
-      INTEGER DEBSTR, FINSTR 
+      INTEGER DEBSTR, FINSTR
       LOGICAL PRNT
 
       DATA LBL1, LBL2 / 2*' ' /
@@ -68,9 +68,9 @@ C Re-initialize the series to same seed, after REBELOTE, when multi-turn trackin
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)') 
+        WRITE(NRES,FMT='(/,25X,''--- SETTING ERRORS ---'',/)')
         WRITE(NRES,FMT='(/,15X,''On/off, number of sets, seed, start '',
-     >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM() 
+     >  ''of the series :'',2I4,I8,1P,E12.4)') IOP, NBR, ISEED,RNDM()
         WRITE(NRES,FMT='(/,15X,''Errors to be introduced, '',I0
      >  ,'' set(s) : '')') NBR
         DO IRR = 1, NBR
@@ -78,12 +78,12 @@ C Re-initialize the series to same seed, after REBELOTE, when multi-turn trackin
      >    TA(NOEL,IRR)(DEBSTR(TA(NOEL,IRR)):FINSTR(TA(NOEL,IRR)))
         ENDDO
 
-        IF(IOP.EQ.0) 
+        IF(IOP.EQ.0)
      >  WRITE(NRES,FMT='(/,15X,''Errors are off. Exiting.'',/)')
 
       ENDIF
 
-      IF (IOP .EQ. 0) THEN 
+      IF (IOP .EQ. 0) THEN
 C        Switch off all possible earlier error settings
         CALL MULTP4
         CALL MULTP8(.NOT. PRNT)
@@ -95,9 +95,9 @@ C        Switch off all possible earlier error settings
       IF(NBR.GT.MXTA) CALL ENDJOB('SBR RERROR. NUMBER OF INSTRUCTIONS '
      >//' CANNOT EXCEED ',MXTA)
 
-C EXAMPLE OF AN ERROR ASSIGNMENT LINE : 
+C EXAMPLE OF AN ERROR ASSIGNMENT LINE :
 C          MULTIPOL{lbl1,lbl2} 1, XR, R, G, center, sigma, cut
-C {lbl1,lbl2} is optional, can be {,lbl2}, {lbl1}  
+C {lbl1,lbl2} is optional, can be {,lbl2}, {lbl1}
 C 1 is the  pole # (dipole). can be 1-10 for dipole-20_pole
 C XR is roll. Other possibilities : YR, ZR, XS, YS, ZS, BP (B_pole)
 C R is for relative, A for absolute
@@ -109,7 +109,7 @@ C cut is in units of sigma
 C         Get possible label1 and/or label2
         OK = STRCON(TXT132,'{',
      >                         IS)
-        IF(OK) THEN 
+        IF(OK) THEN
           READ(TXT132(1:IS-1),*) KLERR
         ELSE
           READ(TXT132,*) KLERR
@@ -123,7 +123,7 @@ C Will save error list in zgoubi.ERRORS.out
           ENDIF
 
           TXT132 = TXT132(9:FINSTR(TXT132))
-          IF(OK) THEN 
+          IF(OK) THEN
             OK = STRCON(TXT132,'{',
      >                             IS)
             OK = STRCON(TXT132,'}',
@@ -131,11 +131,11 @@ C Will save error list in zgoubi.ERRORS.out
             OK = STRCON(TXT132(IS:IS2),',',
      >                                     IS3)
             IF(IS+1.LE.IS2-1) THEN
-              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
+              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1)))
      >             READ(TXT132(IS+1:IS2-1),*) LBL1
             ENDIF
             IF(OK) THEN
-              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
+              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1)))
      >          READ(TXT132(IS3+1:IS2-1),*) LBL2
             ENDIF
             TXT132 = TXT132(IS2+1:FINSTR(TXT132))
@@ -156,12 +156,12 @@ C          Get the rest of the arguments
             READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
             READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
             CALL MULTP2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
-     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
+     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)
           ENDIF
 
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',
      >    /,A,I0,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
-     >    '   Error # ',IRR,' MULTIPOL keyword : ', 
+     >    '   Error # ',IRR,' MULTIPOL keyword : ',
      >    '         IPOL : ',IPOL,
      >    '       TYPERR : ',TYPERR,
      >    '        TYPAR : ',TYPAR,
@@ -181,7 +181,7 @@ C Will save error list in zgoubi.ERRORS.out
           ENDIF
 
           TXT132 = TXT132(9:FINSTR(TXT132))
-          IF(OK) THEN 
+          IF(OK) THEN
             OK = STRCON(TXT132,'{',
      >                             IS)
             OK = STRCON(TXT132,'}',
@@ -189,11 +189,11 @@ C Will save error list in zgoubi.ERRORS.out
             OK = STRCON(TXT132(IS:IS2),',',
      >                                     IS3)
             IF(IS+1.LE.IS2-1) THEN
-              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1))) 
+              IF(.NOT. EMPTY(TXT132(IS+1:IS2-1)))
      >             READ(TXT132(IS+1:IS2-1),*) LBL1
             ENDIF
             IF(OK) THEN
-              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1))) 
+              IF(.NOT. EMPTY(TXT132(IS3+1:IS2-1)))
      >          READ(TXT132(IS3+1:IS2-1),*) LBL2
             ENDIF
             TXT132 = TXT132(IS2+1:FINSTR(TXT132))
@@ -213,12 +213,12 @@ C          Get the rest of the arguments
             READ(STRA(6),*) ERRSIG   ! sigma for G, half-width for U
             READ(STRA(7),*) ERRCUT   ! in units of errsig for G, unused for U
             CALL TOSCA2(IRR,IPOL,TYPERR,TYPAR,TYPDIS,
-     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)          
+     >                      ERRCEN,ERRSIG,ERRCUT,LBL1,LBL2)
           ENDIF
 
           IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,''ERRORS PARAMETERS : '',
      >    /,A,I0,A,/,A,I3,3(A,A,/),3(A,1P,E12.4,/),2(A,A,/),/)')
-     >    '   Error # ',IRR,' TOSCA keyword : ', 
+     >    '   Error # ',IRR,' TOSCA keyword : ',
      >    '         IPOL : ',IPOL,
      >    '       TYPERR : ',TYPERR,
      >    '        TYPAR : ',TYPAR,
@@ -230,7 +230,7 @@ C          Get the rest of the arguments
      >    '         LBL2 : ',LBL2
 
         ENDIF
- 
+
       ENDDO
 
  99   CONTINUE

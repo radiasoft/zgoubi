@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -34,14 +34,14 @@ C     --------------------------
 C      PARAMETER (LNTA=132) ; CHARACTER(LNTA) TA
 C      PARAMETER (MXTA=45)
       INCLUDE "C.DONT.H"     ! COMMON/DONT/ TA(MXL,MXTA)
- 
+
       CHARACTER(400) TXT
       INTEGER DEBSTR
 
-      READ(NDAT,*) A(NOEL,1)               ! IL      
-      NP = 1                 
+      READ(NDAT,*) A(NOEL,1)               ! IL
+      NP = 1
       READ(NDAT,*) (A(NOEL,NP+I),I=1,3)    ! NMAG, AT, R0
-      NMAG = NINT(A(NOEL,NP+1))                                
+      NMAG = NINT(A(NOEL,NP+1))
       NP=NP+3
 
       DO IMAG = 1, NMAG
@@ -49,23 +49,23 @@ C      PARAMETER (MXTA=45)
         READ(NDAT,*) (A(NOEL,NP+I),I=1,4)          ! ACENT, DR0, HNORM, K
         NP=NP+4
 C       ... Entrance face
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k
         NP=NP+2                                    !    .eq.0/.ne.0 for constant/g_0(R0/r)^k
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
         NP=NP+6
-C         ... Exit face 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+C         ... Exit face
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k
+        NP=NP+2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,XI, 4*dummies (unused)
         NP=NP+6
 C         ... Lateral face
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k 
-        NP=NP+2 
-        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT 
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,2)          ! LAMBDA=g, gap's k
+        NP=NP+2
+        READ(NDAT,*) (A(NOEL,NP+I),I=1,8)          ! NBCOEF, COEFS_C0-5, SHIFT
         NP=NP+8
         READ(NDAT,*) (A(NOEL,NP+I),I=1,6)          ! OMEGA,THETA,R1,U1,U2,R2
         NP=NP+6
@@ -77,7 +77,7 @@ C         ... Lateral face
 
       IF(TXT(DEBSTR(TXT):DEBSTR(TXT)+5) .EQ. 'IntLim') THEN
 C Integration limts defined by entrance and/or exit lines
-        READ(TXT(DEBSTR(TXT)+6:400),*) IDRT  
+        READ(TXT(DEBSTR(TXT)+6:400),*) IDRT
         NP = NP + 1
         A(NOEL,NP) = IDRT
         IF    (IDRT.EQ.-1) THEN
@@ -114,7 +114,7 @@ C KIRD=2,25 OR 4 AND IRD==RESOL
         A(NOEL,NP+2) = IB
       ENDIF
       NP=NP+2
-             
+
 C     ... XPAS
       NP=NP+1
       ND=NP

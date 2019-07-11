@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -65,7 +65,7 @@ C      SUM=0.D0
         FP(J)=FPJ/FPMAX
         IF(FPJ.LT.0.D0) THEN
 C--------- 'cause sometimes FP(NN) slightly < 0 !
-           WRITE(6,fmt='(/,A,I6,A)') 
+           WRITE(6,fmt='(/,A,I6,A)')
      >     ' ** WARNING / poisson law : p(k)<0 at k=',J,
      >     '    action undertaken : extrapolated from p(k-2), p(k-1)'
            FP(J)=FP(J-1)/(FP(J-2)/FP(J-1))
@@ -73,13 +73,13 @@ C--------- 'cause sometimes FP(NN) slightly < 0 !
  15     CONTINUE
 C-------- FP(J) now contains the normalised POISSON law
 C            FP_k, k=0,nn-1 = FP(J=1,NN)
-C----- Number of photons emitted by each particle, 
-C                 "acceptance-rejection" method. 
- 17     R1=RNDM()       
+C----- Number of photons emitted by each particle,
+C                 "acceptance-rejection" method.
+ 17     R1=RNDM()
 C          K= (NN*R1)
           K= INT( (NN*R1) )
           J=K+1
-          R2=RNDM()       
+          R2=RNDM()
         IF(R2.GT.FP(J)) GOTO 17
        APDPO=K
        RETURN

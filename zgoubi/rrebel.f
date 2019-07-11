@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -49,7 +49,7 @@ C     ***************************************
       CHARACTER(KSIZ) TPRM(MXPRM,3)
       LOGICAL ISNUM
       PARAMETER (I3=3)
-      
+
       DATA IA4 / 0 /
 
       LINE = 1
@@ -85,10 +85,10 @@ C     ***************************************
       A(NOEL,4) = IA4
 
       IF    (IA4 .EQ. 1) THEN
-C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for parameter #KPRM in element #KLM. 
+C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for parameter #KPRM in element #KLM.
 
         IF(NRBLT .GT. MXLST) THEN
-          WRITE(NRES,*)  
+          WRITE(NRES,*)
      >    'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT= '
      >    ,NRBLT
           GOTO 98
@@ -111,10 +111,10 @@ C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for paramete
 
           READ(TXT300,*,ERR=98,END=98) STRING
 
-C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence 
+C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence
           IF(ISNUM(STRING)) THEN
 
-            READ(TXT300,*,ERR=79,END=79) 
+            READ(TXT300,*,ERR=79,END=79)
      >        KLM, KPRM, TXT300
             TPRM(IPRM,1) = ' '
             TPRM(IPRM,2) = ' '
@@ -151,7 +151,7 @@ C Two ways to define the element with parameter to be changed : either its keywo
             IEL = 1
             OKKLE = .FALSE.
             DO WHILE(.NOT. OKKLE .AND. IEL .LE. NOEL)
-              IF( TPRM(IPRM,1) .EQ. 
+              IF( TPRM(IPRM,1) .EQ.
      >          KLE(IQ(IEL))(DEBSTR(KLE(IQ(IEL))):FINSTR(KLE(IQ(IEL))))
      >          .AND.
      >          (TPRM(IPRM,2) .EQ. LABEL(IEL,1)
@@ -208,8 +208,8 @@ C DO loop style, V1:V_NRBLT
           ELSE
 C List style, V1, V2, ..., V_NRBLT
             BACKSPACE(NDAT)
-C            READ(TXT300,*,ERR=98,END=98) 
-            READ(NDAT,*,ERR=98,END=98) 
+C            READ(TXT300,*,ERR=98,END=98)
+            READ(NDAT,*,ERR=98,END=98)
      >      STRING, KPRM, (PARAM(IPRM,I),I=1,NRBLT)
           ENDIF
           GOTO 80
@@ -243,14 +243,14 @@ C     >                      II)) THEN
 C        READ(STRA(3)(II+1:FINSTR(STRA(3))),*,ERR=98,END=98) IOP
         IF(IOP .GE. 1) THEN
           IF(IOP .EQ. 1) THEN
-C GET LABEL, DEDUCE RELATED NOEL : MULTI-PASS TRACKING WILL LOOP OVER NOEL-REBELOTE   
+C GET LABEL, DEDUCE RELATED NOEL : MULTI-PASS TRACKING WILL LOOP OVER NOEL-REBELOTE
             READ(TXT300,*,ERR=98,END=98) DUM,DUM,DUM,TXTA
             DO JJ = 1, NOEL
               IF(LABEL(JJ,1).EQ.TXTA) THEN
                 NOELA = JJ
                 GOTO 12
               ENDIF
-            ENDDO           
+            ENDDO
             NOELA = 1
  12         CONTINUE
             NOELB = NOEL
@@ -262,7 +262,7 @@ C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-
                 NOELA = JJ
                 GOTO 11
               ENDIF
-            ENDDO           
+            ENDDO
             NOELA = 1
  11         CONTINUE
             DO JJ = 1, NOEL
@@ -270,7 +270,7 @@ C GET 2 LABELS, DEDUCE RELATED NOELS : MULTI-PASS TRACKING WILL LOOP OVER NOEL1-
                 NOELB = JJ
                 GOTO 10
               ENDIF
-            ENDDO           
+            ENDDO
             NOELB = NOEL
  10         CONTINUE
           ELSE
@@ -291,8 +291,8 @@ C      CALL REBEL6(NOELA, NOELB)
       RETURN
 
  98   CONTINUE
-      CALL ENDJOB('*** Pgm robjet, keyword ''REBELOTE'' : '// 
+      CALL ENDJOB('*** Pgm robjet, keyword ''REBELOTE'' : '//
      >'input data error, at line #',LINE)
       RETURN
- 
+
       END

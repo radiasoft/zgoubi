@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,16 +27,16 @@ C  -------
      >                              EX)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION EX(*)
- 
+
       IF(D .EQ. 0.D0) THEN
 C------- LENTILLE A 2 TUBES INFINIMENT PROCHES, cf SEPTIER
 C        V(X) = .5(V1+V2) ( 1 + (V2-V1)/(V2+V1)TH(OmegaX) )
- 
+
         E=EXP(OX)
         CH=.5D0*(E+1.D0/E)
         SH=.5D0*(E-1.D0/E)
         TH=SH/CH
- 
+
 C------- EX(n)=-dnV/dXn
         EX(1)=-.5D0*V21*OM/CH/CH
         EX(2)=-OM* 2.D0*TH*EX(1)
@@ -46,11 +46,11 @@ C------- EX(n)=-dnV/dXn
      >                   +  2.D0*EX(1)*OM )*OM)*OM )
         EX(6)=-OM*(6.D0*TH*EX(5)+(14.D0*EX(4)+ (16.D0*TH*EX(3)
      >                   + (9.D0*EX(2)+ 2.D0*TH*EX(1)*OM )*OM)*OM)*OM )
- 
+
       ELSE
 C------- LENTILLE A 2 TUBES DISTANTS DE D, cf SEPTIER
 C        V(X) = .5(V1+V2) ( 1 + (V2-V1)/(V2+V1)/(2 OM D)*LOG(CH+/CH-) )
- 
+
         EP=EXP(OX+OM*D)
         EM=EXP(OX-OM*D)
         CP=.5D0*(EP+1.D0/EP)
@@ -64,7 +64,7 @@ C        V(X) = .5(V1+V2) ( 1 + (V2-V1)/(V2+V1)/(2 OM D)*LOG(CH+/CH-) )
         TP=SP/CP
         TM=SM/CM
         VD=.25D0*V21/D
- 
+
         EX(1)=  -VD*(TP-TM)
         VD=VD*OM
         EX(2)= -VD*(1.D0/CP2-1.D0/CM2)
@@ -78,6 +78,6 @@ C        V(X) = .5(V1+V2) ( 1 + (V2-V1)/(V2+V1)/(2 OM D)*LOG(CH+/CH-) )
 C-------- EX(6) waiting to be documented...
         EX(6)=0D0
       ENDIF
- 
+
       RETURN
       END

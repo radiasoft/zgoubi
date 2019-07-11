@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973,  USA
 C  -------
@@ -32,17 +32,17 @@ C  -------
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       DOUBLE PRECISION K2L,KP2L,K2LR,KL
       DOUBLE PRECISION K2R,KP2R,K2RR,KR
- 
+
       DIMENSION BC(2),DBC(2,2),DDBC(2,2,2)
       PARAMETER (MDX=6)
       DIMENSION BX(MDX)
 
       SAVE MODL, BO2, RO2
 
-      DATA MODL / 1 / 
+      DATA MODL / 1 /
 
       GOTO(1,2) MODL
       CALL ENDJOB('SBR SOLENF. No such model # ',MODL)
@@ -75,10 +75,10 @@ C Elliptic integral model
  2    CONTINUE
 
       X=XX-(XS-XE)/2.D0-XE
- 
+
       XL  =-((XS-XE)/2.D0 +X)
       XR  =(XS-XE)/2.D0 -X
- 
+
       Y2=Y*Y
       Z2=Z*Z
       R2  =Z2 + Y2
@@ -95,43 +95,43 @@ C Elliptic integral model
       K2R =4.D0*RO*R/(RR*RR)
       KP2L=1.D0-K2L
       KP2R=1.D0-K2R
-C            write(88,*) ' solenf bo',bo 
+C            write(88,*) ' solenf bo',bo
       BBC  =BO/(4.D0*PI)*BRI
- 
-CCCCCCC Modified because the approximation (GOTO 1000) causes dirac 
-C pics (in an apparently stochastic maner...) in the field values in 
+
+CCCCCCC Modified because the approximation (GOTO 1000) causes dirac
+C pics (in an apparently stochastic maner...) in the field values in
 C the uniform region within solenoid. To be debugged
 C FM March/02          IF (R .LE. (RO*1.D-4)) GOTO 1000
 C       IF (R .LE. (RO*1.D-8)) GOTO 1000
        IF (R .EQ. 0.D0) GOTO 1000
- 
+
       CALL ELLIP(K2L,KP2L,C2,CP2,KL,EL,PL)
       CALL ELLIP(K2R,KP2R,C2,CP2,KR,ER,PR)
- 
+
       KL=KL*BBC
       EL=EL*BBC
       PL=PL*BBC
       KR=KR*BBC
       ER=ER*BBC
       PR=PR*BBC
- 
+
       AL =2.D0*(KL-EL)-K2L*KL
       AR =2.D0*(KR-ER)-K2R*KR
       GL  =RL/R
       GR  =RR/R
- 
+
       BRL=GL*AL
       BRR=GR*AR
       BR =BRR-BRL
       BSR=BR/R
- 
- 
+
+
       BXR=(4.D0*RO*XR/(ROR*RR))*(KR+(RO-R)*(PR-KR)/(2.D0*RO))
       BXL=(4.D0*RO*XL/(ROR*RL))*(KL+(RO-R)*(PL-KL)/(2.D0*RO))
- 
+
       BC(1)=(BXR-BXL)
       BC(2)=BR
- 
+
       K2LR =SQRT(K2L)
       K2RR =SQRT(K2R)
       XL   =-XL
@@ -141,8 +141,8 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
       SR   =SQRT(R)
       R3R  =R2R*RR
       R3L  =R2L*RL
- 
- 
+
+
       DGRX =-XR/RRR
       DGLX = XL/RRL
       DGRR =-RR/R2+ROR/RRR
@@ -153,7 +153,7 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
       D2GLR= (2.D0*R2L/R2-2.D0*ROR/R+1.D0-ROR*ROR/R2L)/RRL
       DGRXR= (XR/R+ROR*XR/R2R)/RRR
       DGLXR=-(XL/R+ROR*XL/R2L)/RRL
- 
+
       DKRX = 2.D0*SRO*SR*XR/R3R
       DKLX =-2.D0*SRO*SR*XL/R3L
       DKRR = ( 1.D0-DR*ROR/R2R)*SRO/SR/RR
@@ -166,12 +166,12 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
      >                   +6.D0*ROR*ROR*R/R2L)
       DKRXR= (1.D0-6.D0*R*ROR/R2R)*SRO*XR/SR/R3R
       DKLXR=-(1.D0-6.D0*R*ROR/R2L)*SRO*XL/SR/R3L
- 
+
       DAR  =K2RR*(ER/KP2R-KR)
       DAL  =K2LR*(EL/KP2L-KL)
       D2AR =((1.D0+2.D0*K2R/KP2R)*ER-KR)/KP2R
       D2AL =((1.D0+2.D0*K2L/KP2L)*EL-KL)/KP2L
- 
+
       DBRRX =DGRX*AR+GR*DKRX*DAR
       DBRLX =DGLX*AL+GL*DKLX*DAL
       DBRRR =DGRR*AR+GR*DKRR*DAR
@@ -188,18 +188,18 @@ C       IF (R .LE. (RO*1.D-8)) GOTO 1000
      >       GR*DKRR*DKRX*D2AR
       DBRLXR=DGLXR*AL+DAL*(GL*DKLXR+DGLR*DKLX+DGLX*DKLR)+
      >       GL*DKLR*DKLX*D2AL
- 
+
       DBC(2,2)=DBRRR-DBRLR
       DBC(1,1)=-BC(2)/R-DBC(2,2)
       DBC(2,1)=DBRRX-DBRLX
- 
+
       DDBC(1,1,1)=-((DBRRX-DBRLX)/R +DBRRXR-DBRLXR)
       DDBC(2,1,1)= D2BRRX-D2BRLX
       DDBC(2,2,1)= DBRRXR-DBRLXR
       DDBC(2,2,2)= D2BRRR-D2BRLR
- 
+
       GOTO 2000
- 
+
 CCCCCCCCCCCCCCCCCCC Seems to not work well...CCCCCCCCCCC
 1000  XL=-XL
       U =(RO*RO +XR*XR)
@@ -210,15 +210,15 @@ CCCCCCCCCCCCCCCCCCC Seems to not work well...CCCCCCCCCCC
       V3=SQV*VV
       U5=U3*U
       V5=V3*VV
- 
-      BC(1)=(XR/SQU+XL/SQV)  
+
+      BC(1)=(XR/SQU+XL/SQV)
       BC(2)=0.D0
- 
-      DBC(1,1) =-1.D0/SQU+1/SQV+XR*XR/U3-XL*XL/V3 
+
+      DBC(1,1) =-1.D0/SQU+1/SQV+XR*XR/U3-XL*XL/V3
 CCC DBC(2,2)=0?????
       DBC(2,2)=0.D0
       DBC(2,1)=0.D0
- 
+
       DDBC(1,1,1)=3.D0*(-XR/U3-XL/V3+XR*XR*XR/U5+XL*XL*XL/V5)
       DDBC(2,1,1)= 0.D0
 CCC DDBC(2,2,1)=0?????
@@ -227,13 +227,13 @@ CCC DDBC(2,2,1)=0?????
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
  2000 CONTINUE
- 
+
       CALL BXRXYZ(BC,DBC,DDBC,Y,Z,R,2,
      >                                B,DB,DDB)
-      RETURN      
+      RETURN
 
       ENTRY SOLEN2(MODLI,BO2I,RO2I)
-      MODL = MODLI 
+      MODL = MODLI
       BO2 = BO2I
       RO2 = RO2I
       RETURN

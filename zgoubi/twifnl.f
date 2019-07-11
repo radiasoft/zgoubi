@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -40,33 +40,33 @@ C  -------
       OPEN(UNIT=LUNR,FILE='zgoubi.TWISS.out_temp')
 
       CALL OPTIC1(
-     >            DXMA, DYMA, DXMI, DYMI, 
-     >            XMA, YMA, XMI, YMI, 
-     >            BTXMA, BTYMA, BTXMI, BTYMI, 
-     >            XM, YM, DXM, DYM, 
+     >            DXMA, DYMA, DXMI, DYMI,
+     >            XMA, YMA, XMI, YMI,
+     >            BTXMA, BTYMA, BTXMI, BTYMI,
+     >            XM, YM, DXM, DYM,
      >            XM2, YM2, DXM2, DYM2, DLTP, NC)
       XRMS = SQRT(XM2/DBLE(NC) - (XM/DBLE(NC))**2)
       YRMS = SQRT(YM2/DBLE(NC) - (YM/DBLE(NC))**2)
       DXRMS = SQRT(DXM2/DBLE(NC) - (DXM/DBLE(NC))**2)
       DYRMS = SQRT(DYM2/DBLE(NC) - (DYM/DBLE(NC))**2)
-       
+
  1    CONTINUE
         READ(LUNR,FMT='(A)',ERR=77,END=88) TXT400
         IF    (STRCON(TXT400,'@ DXMAX            %le'
      >                    ,IS)) THEN
-          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
      >    DXMA, '@ DXMIN            %le',DXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DYMAX            %le'
      >                    ,IS)) THEN
-          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
      >    DYMA, '@ DYMIN            %le',DYMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ XCOMAX           %le'
      >                    ,IS)) THEN
-          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
      >    XMA,  '@ XCOMIN           %le',XMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
@@ -78,7 +78,7 @@ C  -------
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ BETXMAX          %le'
      >                    ,IS)) THEN
-          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)') 
+          WRITE(TXT72,FMT='(1P,E16.8,T21,A,3X,E16.8)')
      >    BTXMA,'@ BETXMIN          %le',BTXMI
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
@@ -100,7 +100,7 @@ C  -------
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
      >    //TXT72(1:finstr(TXT72))
         ELSEIF(STRCON(TXT400,'@ DXRMS            %le'
-     >           
+     >
      >             ,IS)) THEN
           WRITE(TXT72,FMT='(1P,E16.8)') DXRMS
           TXT400 = TXT400(DEBSTR(TXT400):22)//'   '
@@ -120,7 +120,7 @@ C  -------
         ELSEIF(STRCON(TXT400,'XXXXXXXXX'
      >                    ,IS)) THEN
         ENDIF
-        WRITE(LUNW,FMT='(A)') TXT400(DEBSTR(TXT400):FINSTR(TXT400))        
+        WRITE(LUNW,FMT='(A)') TXT400(DEBSTR(TXT400):FINSTR(TXT400))
       GOTO 1
 
  77   CONTINUE

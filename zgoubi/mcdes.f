@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -48,15 +48,15 @@ C     $     IREP(MXT),AMQLU,PABSLU
       IF( LET(IT) .NE. 'S' .AND. DL .GT. 0D0 ) THEN
          DSAR = FDES(6,IT)-SAR
          IF( DSAR .LE. 0D0 ) THEN
-C---------- Primary particle has reached or passed  its TOF limit. Therefore: 
-C             * If field free section (CHANGREF, ESL... - B=0) then go back 
+C---------- Primary particle has reached or passed  its TOF limit. Therefore:
+C             * If field free section (CHANGREF, ESL... - B=0) then go back
 C             linearly to decay point (XAR=1.).
-C             Test on time of flight of primary particles is performed at end of 
-C             sextion, then back to decay point (by DSAR<0) for calculation of 
-C             transport of secondary particle. 
-C             * If B non zero, test on time of flight is performed after each 
-C             integration step, and no corrective interpolation is 
-C             performed (XAR=0) : hence an error on position of decay point < step. 
+C             Test on time of flight of primary particles is performed at end of
+C             sextion, then back to decay point (by DSAR<0) for calculation of
+C             transport of secondary particle.
+C             * If B non zero, test on time of flight is performed after each
+C             integration step, and no corrective interpolation is
+C             performed (XAR=0) : hence an error on position of decay point < step.
 C             Save  coordinates of decay point.
 
            DSAR=DSAR*XAR
@@ -83,7 +83,7 @@ C--- It is necessary to catch TET, PHI from fixed sets if FIT is to be used
            TET = TETPHI(1,IT)
            PHI = TETPHI(2,IT)
 C--------------------------------------------------------------------------
- 
+
 C---------- Ref. lab :
            BETAP = 1.D0/SQRT( 1.D0 +  (AMP/(CL9*QBR))**2  )
            GAMAP = 1.D0/SQRT(1.D0-BETAP*BETAP)
@@ -97,13 +97,13 @@ C---------- Ref. lab :
            DP00=DP
 C ERROR, corrctn FM Feb. 2002
 C           DP=ENSTAR*GAMAP*(1.D0+BSTAR*BETAP*COS(TET))/(BORO*CL9)
-           DP=SQRT((ENSTAR*GAMAP*(1.D0+BSTAR*BETAP*COS(TET)))**2 - 
+           DP=SQRT((ENSTAR*GAMAP*(1.D0+BSTAR*BETAP*COS(TET)))**2 -
      >       AMS2)       /(BORO*CL9)
 
 CC---------- Test densities ("ligne verte")//
 C           DP = .4d0
 C           DP0=DP
-C           costet = ( SQRT((DP*BORO*CL9)**2 + AMS2)/(ENSTAR*GAMAP) 
+C           costet = ( SQRT((DP*BORO*CL9)**2 + AMS2)/(ENSTAR*GAMAP)
 C     >             -1.D0) / (BSTAR*BETAP)
 C           TET =  ACOS(costet)
 CC-----------------------------------------//
@@ -124,7 +124,7 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
      >         ,/,15X,'- native  life  flight  distance  of  #',I6
      >         ,'  is ',G12.4
      >         ,' cm,     current  path  length  is  ',G12.4,' cm')
- 
+
                WRITE(ABS(NRES),100) TET*1.D3, PHI*1.D3, DP
 100            FORMAT(1P
      >         ,/,10X,'Native  parameters  of  daugther  particle  M2 :'
@@ -132,7 +132,7 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
      >         ,' mrad ,     phi = ',G12.4,' mrad ,'
      >         ,/,15X,'Relative momentum  p/p_ref = ',F11.5)
            ENDIF
- 
+
            CTET = COS(TET)
            STET = SIN(TET)
            CPHI = COS(PHI)
@@ -141,28 +141,28 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
            ST = SIN(T)
            CP = COS(P)
            SP = SIN(P)
- 
+
            XP = CTET*CP*CT - STET*(CPHI*ST + SPHI*SP*CT)
            YP = STET*CPHI*CT + (CTET*CP - STET*SPHI*SP)*ST
            RP = SQRT(XP*XP + YP*YP)
- 
+
 C---------- ANGLES LAB APRES DESINTEGRATION
            T = ATAN2(YP,XP)
            P = ATAN2((CTET*SP + STET*SPHI*CP),RP)
- 
+
 C---------- COTES EN FIN DE DL
            Y = Y - DSAR*SIN(T)*COS(P)
            Z = Z - DSAR*SIN(P)
            SAR= FDES(6,IT)-DSAR
- 
+
 C----------- Calculate M1 TOF upstream of decay point
            QBRO = QBR*CL9
            DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
            TAR= TAR + DTAR
-C---------- Assigns  mass 
+C---------- Assigns  mass
            AMT = AMS
 C----------- Calculate M2 TOF downstream of decay point
-           IF(AMT .NE. 0.D0) THEN 
+           IF(AMT .NE. 0.D0) THEN
              QBRO = BORO*DP*CL9*Q
              DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
              TAR= TAR - DTAR
@@ -177,7 +177,7 @@ C---------- FDES(7,IT) contains com life time (s) of S particle
              IF(U .EQ. 0.D0) U=1.D0
              FDES(6,IT) = FDES(6,IT)
      >                 -1.D-7*CEL*CEL * BORO*DP * TOS / AMS * LOG(U)
-           ENDIF 
+           ENDIF
 C---------- Decay counter
            NDES=NDES+1
 
@@ -188,23 +188,23 @@ C---------- Decay counter
      >       ,2I6,2X,6G12.4,/)')
      >       IT, NDES, Y, T, Z, P, SAR, FDES(6,IT)
            ENDIF
- 
+
 C-----------------------
- 
+
          ENDIF
- 
+
       ELSEIF( LET(IT) .EQ. 'S') THEN
- 
+
 C------- Change  reference  at each  step
         IF(KART .EQ. 2) FDES(3,IT) = FDES(3,IT) - DA*1.D3
- 
+
         IF( DL .LT. 0.D0) THEN
 C--------- The particle has undergone linear backward motion (e.g., in CHANGREF, negative ESL)
 
-C          DSAR = FDES(6,IT) - SAR 
+C          DSAR = FDES(6,IT) - SAR
 C          IF( DSAR .GT. 0. ) THEN
 CC----------- The parent particle decay point does stand somewhere along this backward step
-C 
+C
 C            NDES = NDES - 1
 CC----------- Go forth to decay point
 C            CP = COS(P)
@@ -226,18 +226,18 @@ CC----------- Deduces TOF of M2
 C            QBRO = BR*CL9*QT
 C            DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
 C            TAR= TAR-DTAR
-CC----------- Resets  mass to parent, rigidity 
+CC----------- Resets  mass to parent, rigidity
 C            AMT = AMP
 C            BR = BORO*DP
 CCCCCCCCCC il manque la correction de dsar, en utilisant dx ou da
 CC------------ Adds M1 TOF
-C            QBRO = BR*CL9*QT   
+C            QBRO = BR*CL9*QT
 C            DTAR = DSAR / (QBRO/SQRT(QBRO*QBRO+AMT*AMT)*CL9) *1.D-5
 C            TAR= TAR + DTAR
 C
 CC----------- REAFFECTE SA LETTRE INITIALE A TOUTE PARTICULE REINTEGREE
 C            LET(IT)=LTD(IT)
-C 
+C
 C          ENDIF
 
         ELSE
@@ -248,7 +248,7 @@ C--------- FDES(7,IT) contains com life time (s) of S(econdary) particle
           ENDIF
 
         ENDIF
- 
+
       ENDIF
       QBR=Q*BORO*DP
       BRI = QT/QBR

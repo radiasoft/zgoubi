@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -27,7 +27,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
 C      INCLUDE 'MXLD.H'
 C      INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "MAXCOO.H"
@@ -54,12 +54,12 @@ C     $     IREP(MXT),AMQLU,PABSLU
 
       LOGICAL OPN
       CHARACTER(LBLSIZ) LBL1, LBL2
-      
+
       DATA FITING / .FALSE. /
 
       IF(JEX.LT.-1) GOTO 99
-      KEX = -IK 
-      
+      KEX = -IK
+
       IF    (IK .EQ. 2 ) THEN
         CALL CNTNRJ
         TXT = 'too many integration steps (SBR INTEG)'
@@ -78,7 +78,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
         TXT = 'enrgy loss > partcle enrgy (SBR GASCAT)'
       ELSEIF( IK .EQ. 7 ) THEN
         CALL CNTNRJ
-        TXT = 'field steps > 50% in field map' 
+        TXT = 'field steps > 50% in field map'
       ELSEIF( IK .EQ. 8 ) THEN
         CALL CNTNRJ
         TXT = 'reached field limit in optical element'
@@ -90,7 +90,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
         TXT = 'secondary particle has decayed'
         IEX(II) = KEX
       ENDIF
- 
+
       CALL CNTMXR(
      >            IMX)
       CALL CNTSTO(
@@ -110,17 +110,17 @@ C     $     IREP(MXT),AMQLU,PABSLU
       ELSEIF( IK .EQ. 9 ) THEN
       ELSEIF( IK .EQ. 10) THEN
       ENDIF
- 
-      IF(.NOT.FITING) THEN 
+
+      IF(.NOT.FITING) THEN
         CALL ZGNOEL(
      >              NOEL)
-        WRITE(ABS(NRES),100) 
+        WRITE(ABS(NRES),100)
      >  'Lmnt #',NOEL,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
      >    IMX-NSTOP,'/',IMX
  100    FORMAT(3(A,I0),A,I2,A,I6,A,I6)
-        IF(IK.EQ.2)  WRITE(6,100) 
+        IF(IK.EQ.2)  WRITE(6,100)
      >  'Lmnt #',NOEL,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
@@ -142,22 +142,22 @@ C          KPR = 1
 C          CALL IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2)
 C        ENDIF
 
-        CALL FLUSH2(ABS(NRES),.FALSE.) 
-      ENDIF 
+        CALL FLUSH2(ABS(NRES),.FALSE.)
+      ENDIF
 
       IF(NSTOP.GE.IMX) THEN
         CALL FITSTA(5,
      >                FITING)
-        IF(.NOT.FITING) THEN 
+        IF(.NOT.FITING) THEN
           WRITE(ABS(NRES),*) ' '
-          WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK 
+          WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK
           CALL ENDJOB
      >    ('SBR KSTOP : execution stopped, all particles lost !!',-99)
         ENDIF
       ENDIF
 
-      
-      
+
+
  99   RETURN 1
 
       ENTRY KSTOPI(LMNTI)

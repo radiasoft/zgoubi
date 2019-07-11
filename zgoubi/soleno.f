@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -44,7 +44,7 @@ C  -------
       INCLUDE "MAXTRA.H"
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
- 
+
       DIMENSION  AREG(2),BREG(2),CREG(2)
       CHARACTER(20) TYP(2)
       DATA TYP / 'axial field model', 'elliptic integrals' /
@@ -56,7 +56,7 @@ C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
       MODL = NINT(A(NOEL,13))
       XE = A(NOEL,20)
       XLS= A(NOEL,21)
- 
+
       RO2 = RO*RO
 C      BOSQ = BO * SQRT(XL*XL+4.D0*RO2)/(2.D0*XL)
 C      CALL SOLEN2(MODL,BOSQ,RO2)
@@ -84,7 +84,7 @@ C FM - July 2015
      >   (1.D0+G)*BO*XL/BORO*DEG,(1.D0+G)*BO*XL/BORO/PI*1.D2
         ENDIF
       ENDIF
-      
+
       XI = 0.D0
       XLIM = XL + XE + XLS
       XF = XLIM

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -39,7 +39,7 @@ C     **************************
       INCLUDE "C.PTICUL_2.H"     ! COMMON/PTICUL/ AAM,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       DIMENSION CENTRE(MXJ)
       PARAMETER (MXJ1=MXJ-1)
 
@@ -48,12 +48,12 @@ C     **************************
       LOGICAL CINE
       CHARACTER(80) TXT
       LOGICAL FITING
- 
-      DATA KTIR, KOUV / MXJ*' ', ' ' / 
-      DATA CENTRE / MXJ*0.D0 / 
+
+      DATA KTIR, KOUV / MXJ*' ', ' ' /
+      DATA CENTRE / MXJ*0.D0 /
 
       KZOB = 2
-      
+
       AMQLU(1) = .FALSE.
       AMQLU(2) = .FALSE.
       AMQLU(3) = .FALSE.
@@ -75,7 +75,7 @@ C------- SET TO 99 IN SBR REBELOTE
 C--------- add new beamlet next to the previous one(s), e.g. for multiturn injection
           IF(IPASS .LE. 1+KREB31) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(
-     >           15X,'' Injection run ; new beamlet launched'',/)') 
+     >           15X,'' Injection run ; new beamlet launched'',/)')
           ELSE
             GOTO 99
           ENDIF
@@ -83,18 +83,18 @@ C--------- add new beamlet next to the previous one(s), e.g. for multiturn injec
           GOTO 99
         ENDIF
       ENDIF
- 
+
       CALL FITSTA(5,
      >              FITING)
 
-C FM, Mar 2018      
+C FM, Mar 2018
 C      IF(FITING) DPREF = 1.D0
       IF(FITING) THEN
         DPREF = 0.D0
         HDPRF = 1.D0
       ENDIF
 
-C------ Type of support : 
+C------ Type of support :
 C      KOBJ=1 : window
 C      KOBJ=2 : grid
 C      KOBJ=3 : ellipses
@@ -118,7 +118,7 @@ C      KOBJ=3 : ellipses
 
       IMAX  = NINT(A(NOEL,20))
       IF(KREB31 .EQ. 0) THEN
-        IMI  = 1 
+        IMI  = 1
         IMA = IMAX
         IF(IMAX .GT. MXT) GOTO 98
       ELSE
@@ -170,7 +170,7 @@ C------- Multiturn injection
  103  FORMAT(25X,' Reference  magnetic rigidity ='
      >,F15.3,' KG*CM'
      >   ,//,25X,' Object  built  up  of ',I7,'  particles')
- 
+
 C     .... Central values of the sorting
 C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
       CENTRE(2) = A(NOEL,40)
@@ -188,7 +188,7 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
 
  99   CONTINUE
       DO 991 I=1,IMAX
-        IF(IEX(I) .LT. -1) GOTO 991 
+        IF(IEX(I) .LT. -1) GOTO 991
         IF(F(1,I) .EQ. 0.D0) THEN
           TXT = '       zero momentum found.'
           CALL OBJERR(ABS(NRES),1,MXT,TXT)
@@ -196,7 +196,7 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
         ENDIF
         AMQ(1,I) = AAM
         AMQ(2,I) = Q
- 991  CONTINUE 
+ 991  CONTINUE
       IF(IPASS .EQ. 1) CALL CNTMXW(IMAX)
       RETURN
 

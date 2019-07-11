@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -29,7 +29,7 @@ C     CHANGEMENT DE REFERENCE DE L'ENSEMBLE DU FAISCEAU
 C     -------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
-      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH 
+      INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE 'MXSTEP.H'
       INCLUDE 'CSR.H'
@@ -55,7 +55,7 @@ C     -------------------------------------------------
       CHARACTER(2) QSHRO(MSR)
       DIMENSION VSHRO(MSR)
       PARAMETER (I1=1)
- 
+
       DUM = SCALER(I1,NOEL,
      >                     DUM)
       DUM = SCALE9(
@@ -64,7 +64,7 @@ C     -------------------------------------------------
         IF(KFM(IFM) .LE. 0) THEN
           GOTO 20
         ELSE
-          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF) 
+          IF(KFM(IFM).GT.MXD .OR. KFM(IFM).GT.MXF)
      >    CALL ENDJOB('Pgm cavite. Exceed array size, KFM = ',KFM(IFM))
         ENDIF
         DO I= 1 , JPA(KFM(IFM),MXP)
@@ -89,8 +89,8 @@ C     -------------------------------------------------
 C To allow for old style
       QSHRO(4) = TA(NOEL,4)(1:2)
 
-      EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR. 
-     >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1 
+      EVNT = KSPN.EQ.1 .OR. IFDES.EQ.1 .OR. KGA.EQ.1 .OR.
+     >  LIMIT.EQ.1 .OR. KSYN.GE.1 .OR. KCSR.EQ.1
 
       IF( QSHRO(4) .EQ. 'OL') THEN
 C Old style. TA(NOEL,4)(1:2) was set to 4 in rchang.f
@@ -111,7 +111,7 @@ C Old style. TA(NOEL,4)(1:2) was set to 4 in rchang.f
         DO IT=1,IMAX
 C--------- IEX<-1<=> PARTICULE STOPPEE
           IF( IEX(IT) .GE. -1) THEN
- 
+
             IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
               CALL INITRA(IT)
               CALL CHAREF(EVNT,XC,YC,AA)
@@ -122,7 +122,7 @@ C--------- IEX<-1<=> PARTICULE STOPPEE
           ENDIF
         ENDDO
 
-      ELSE      
+      ELSE
 C New style
 
         DO I=1, NSR
@@ -134,7 +134,7 @@ C New style
           WRITE(NRES,FMT='(/,5X,''Change  of  reference, '',
      >    I2,''  transformations :'',/)') NSR
           DO I=1, NSR
-            IF(QSHRO(I)(2:2).EQ.'S') 
+            IF(QSHRO(I)(2:2).EQ.'S')
      >        WRITE(NRES,110) QSHRO(I)(1:1),VSHRO(I)
  110          FORMAT(10X,
      >         'type : ',A1,'-shift,        value : ',1P,E14.6,' cm')
@@ -149,7 +149,7 @@ C New style
         DO IT=1,IMAX
 C--------- IEX<-1<=> PARTICULE STOPPEE
           IF( IEX(IT) .GE. -1) THEN
- 
+
             IF(IT .EQ. IREP(IT) .OR. .NOT.ZSYM) THEN
               CALL INITRA(IT)
 C              CALL CHANRF(NSR,EVNT,QSHRO,VSHRO)

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory         
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -43,10 +43,10 @@ C      COMMON/SYMPL/ NRME,NRMS
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       DIMENSION EMY(MXT),EMZ(MXT)
       SAVE EMY, EMZ
- 
+
 C     ... TRANSVERSE PHASE_SPACES
       NRME = NINT( A(NOEL,1) )
 C     ... BETA, ALPHA
@@ -58,22 +58,22 @@ C     ... BETATRON CLOSED ORBIT
 C     ...RG, RG'
       DY   =A(NOEL,14)
       DPY  =A(NOEL,15)
- 
+
       BZ   =A(NOEL,20)
       AZ   =A(NOEL,21)
       ZO   =A(NOEL,22)
       ZPO  =A(NOEL,23)
- 
+
 C     ... SPIN
       NRMS= NINT( A(NOEL,30) )
- 
+
       IF(NRME .NE. 1) NRME=0
       IF(NRMS .NE. 1) NRMS=0
       IF(NRME+NRMS .EQ. 0) WRITE(NRES,100)
  100  FORMAT(/,10X,'NO  RENORMALISATION  REQUIRED')
- 
+
       IF(NRME .EQ. 1) THEN
- 
+
         GY=(1.D0+AY*AY)/BY
         GZ=(1.D0+AZ*AZ)/BZ
         IF(NRES.GT.0) WRITE(NRES,110) IMAX,BY,BZ,AY,AZ,GY,GZ
@@ -88,7 +88,7 @@ C     ... SPIN
      >  ,/,20X,'Y''O.F.  =',  G12.4,' RD        Z''O.F. =',G12.4,' RD'
      >  ,/,20X,'RG      =',   G12.4,' M '
      >  ,/,20X,'RG''     =',  G12.4,//)
- 
+
         IF(IPASS.GT.1) THEN
           DO 10 IT=1,IMAX
 C           ... HORIZONTAL
@@ -103,7 +103,7 @@ C           ... VERTICAL
             AN=SQRT(EMZ(IT) / (GZ*Y*Y+2.D0*AZ*Y*YP+BZ*YP*YP) )
             F(4,IT) = ( Y*AN   +ZO )*1.D2
             F(5,IT) = ( YP*AN  +ZPO)*1.D3
- 
+
  10       CONTINUE
         ELSEIF(IPASS .EQ. 1) THEN
           DO 11 IT=1,IMAX
@@ -115,26 +115,26 @@ C           ... VERTICAL
             EMZ(IT)=GZ*Y*Y+2.D0*AZ*Y*YP+BZ*YP*YP
  11       CONTINUE
         ENDIF
- 
+
         IF(NRES.GT.0) WRITE(NRES,111) (I,EMY(I),EMZ(I),I=1,IMAX)
  111    FORMAT(5X,'PARTICLE # ',I3,3X,'EY/PI =',1P,G12.4,' M.RD'
      >  ,5X,'EZ/PI =',1P,G12.4,' M.RD')
- 
+
       ENDIF
- 
+
       IF(NRMS .EQ. 1) THEN
- 
+
         IF(NRES.GT.0) WRITE(NRES,120) IMAX
  120    FORMAT(/,10X,80('.'),//,10X,'SPIN  OF  THE ',I3,'  PARTICLES'
      >  ,2X,'RENORMALIZED  TO  INITIAL  VALUES  AT   EACH  PASS')
- 
+
         DO 20 IT=1,IMAX
           AN=SQRT(SF(1,IT)*SF(1,IT)+SF(2,IT)*SF(2,IT)+SF(3,IT)*SF(3,IT))
           DO 20 J=1,3
             SF(J,IT)=SF(J,IT)/AN*SI(4,IT)
  20     CONTINUE
- 
+
       ENDIF
- 
+
       RETURN
       END

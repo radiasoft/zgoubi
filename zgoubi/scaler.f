@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, LI, NY, 11973, USA
 C  -------
-      FUNCTION SCALER(IPASS,NOEL, 
+      FUNCTION SCALER(IPASS,NOEL,
      >                           D1)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
@@ -55,7 +55,7 @@ C  -------
 
       PARAMETER (ND=70000)
       DIMENSION XM(ND), YM(ND), XMI(ND), YMI(ND)
-      DIMENSION DAT1(ND), DAT2(ND), DAT3(ND), 
+      DIMENSION DAT1(ND), DAT2(ND), DAT3(ND),
      >          DAT1I(ND),DAT2I(ND),DAT3I(ND)
       SAVE XM, YM, NFRQ, DAT1, DAT2, DAT3
       SAVE OCLOCK, EKIN
@@ -67,7 +67,7 @@ C  -------
       SAVE SCL2, TIM2, NTIM2
 
       DIMENSION KFM(MXSCL), KFMO(MXSCL)
-      SAVE KFM 
+      SAVE KFM
       INTEGER DEBSTR, FINSTR
       LOGICAL OK3
 
@@ -93,8 +93,8 @@ C  -------
 C      IF(NFAM .GT. MXF ) CALL ENDJOB('Pgm scaler. Need NFAM < ',MXF)
       CALL ZGKLEY(
      >            KLEY)
-C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING'). 
-C        Looks for possible limitation due to LABEL[s] associated with FAM(KF). 
+C----- Looks whether current kley is registered for scaling (in FAM(KF), when declared in 'SCALING').
+C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
       DO I = 1, MXSCL
         KFM(I) = -99
       ENDDO
@@ -107,13 +107,13 @@ C        Looks for possible limitation due to LABEL[s] associated with FAM(KF).
       DO KF = KF1, NFAM
 
         IF(KLEY .EQ. FAM(KF)) THEN
-C--------- CURRENT KLEY RECORDED FOR SCALING 
-        
+C--------- CURRENT KLEY RECORDED FOR SCALING
+
           IF( .NOT. EMPTY(LBF(KF,1)) ) THEN
 C------------ LBF(,1-MLF) has to match current KLEY's label 1 in part or in full
 
             KL = 1
-            DOWHILE(.NOT. EMPTY(LBF(KF,KL)) .AND. KL.LE.MLF)  
+            DOWHILE(.NOT. EMPTY(LBF(KF,KL)) .AND. KL.LE.MLF)
 
 C              IF(STRCON(LBF(KF,KL),'*',
 C     >                                 IS)) THEN
@@ -144,10 +144,10 @@ c     >           STRWLD(NLB,LBLST,LABEL(NOEL,2),IS),is
 
 
               IF  (STRWLD(NLB,LBLST,LABEL(NOEL,1),
-     >                                          IS) 
+     >                                          IS)
      >        .OR. STRWLD(NLB,LBLST,LABEL(NOEL,2),
      >                                          IS)) THEN
-              
+
                  jj = 1
                  IF(STRWLD(NLB,LBLST,LABEL(NOEL,2),
      >                                          IS))  jj = 2
@@ -178,7 +178,7 @@ C                  ok3 = .false.
 
                   GOTO 2
                 ELSE
-           
+
                 ENDIF
 
               ENDIF
@@ -192,7 +192,7 @@ C                  ok3 = .false.
 
           ENDIF
         ENDIF
-       
+
       ENDDO
 
       GOTO 88
@@ -211,7 +211,7 @@ C      IF(IFM .EQ. MXSCL) CALL ENDJOB('Pgm scaler. Need IFM < ',MXSCL)
         IF(KTI .GT. 0) THEN
 
           DO 1 I=1,KTI
- 
+
             IF    (MODSCL(KF) .LT. 10) THEN
 
               IT1=NINT(TIM(KF,I))
@@ -221,7 +221,7 @@ C      IF(IFM .EQ. MXSCL) CALL ENDJOB('Pgm scaler. Need IFM < ',MXSCL)
               ELSE
                 I2 = I
                 IT2=IT1
-              ENDIF  
+              ENDIF
 
 C       IF(I2 .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
 
@@ -247,7 +247,7 @@ C                GOTO 88
               ELSE
                 I2 = I
                 XT2=XT1
-              ENDIF  
+              ENDIF
               BRO = BORO * (DPREF+HDPRF)
 
 C              write(66,*) kf, bro, dpref, xt1,xt2
@@ -257,7 +257,7 @@ C        IF(I .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
                 SCALER = SCL(KF,I,1)
                 IF(XT2 .NE. XT1) SCALER= SCALER+ (SCL(KF,I2,1)- SCALER)*
      >                 ( BRO - XT1 ) / (XT2 - XT1)
-               
+
                 IF(MODSCL(KF) .EQ. 11) THEN
 
                   SCAL2 = 1.D0
@@ -271,17 +271,17 @@ C        IF(I .GT. MXS) CALL ENDJOB('Pgm scaler. Need I2 < ',MXS)
                     ELSE
                       I2 = IT
                       YT2=YT1
-                    ENDIF  
+                    ENDIF
                     BRO = BORO * (DPREF+HDPRF)
 
 c                      write(66,*) ' scaler SCL2(KF,IT) ',SCL2(KF,IT)
-c                      write(66,*) ' scaler ',BRO,YT1 ,YT2 
+c                      write(66,*) ' scaler ',BRO,YT1 ,YT2
 
 C         IF(IT .GT. MXD) CALL ENDJOB('Pgm scaler. Need IT < ',MXD)
 
                     IF( BRO .GE. YT1 .AND. BRO .LE. YT2 ) THEN
                       SCAL2 = SCL2(KF,IT)
-                      IF(YT2 .NE. YT1) SCAL2= SCAL2+ 
+                      IF(YT2 .NE. YT1) SCAL2= SCAL2+
      >                  (SCL2(KF,I2)- SCAL2) * (BRO - YT1) / (YT2 - YT1)
 
                       GOTO 11
@@ -307,11 +307,11 @@ C         IF(IT .GT. MXD) CALL ENDJOB('Pgm scaler. Need IT < ',MXD)
                ELSE
                   I2 = I
                   XT2=XT1
-               ENDIF  
+               ENDIF
                CALL CAVIT3(
      >                     STIME)
-            
-             
+
+
                IF( STIME .GE. XT1 .AND. STIME .LE. XT2 ) THEN
                   SCALER = SCL(KF,I,1)
 
@@ -333,12 +333,12 @@ c          scaler = SCL(KF,1) * pp0
 
            SCALER = SCL(KF,1,1) * (DPREF+HDPRF)
 
-c           if((ipass .eq. 1 .or. ipass .eq. 1000) .and. kf.eq.3) 
+c           if((ipass .eq. 1 .or. ipass .eq. 1000) .and. kf.eq.3)
 c     >     write(88,*) ' scaler ',ipass,SCL(kf,1,1), DPREF,HDPRF,scaler
-           
+
 c          write(88,*) 'scaler kti=-1. kf, scal ',KF,SCALER,SCL(KF,1,1)
 c                   read(*,*)
-    
+
         ELSEIF(KTI .EQ. -2) THEN
 C--------- Field law for scaling FFAG, LPSC, Sept. 2007
 c          xv = ipass
@@ -346,7 +346,7 @@ c          scaler = CUBSPL(xm,ym,xv,nd,nfrq)/ym(1)
           XV = OCLOCK
 C                         time   phase
           SCALER = CUBSPL(XM,    YM,    XV,ND,NFRQ)
-C                         
+C
           IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data '
      >    //'sent to cubspl. Max allowed is ND = ',ND)
 
@@ -362,7 +362,7 @@ C          CALL MULTP2(.TRUE.)
 C          CALL CAVIT1(
 C     >                PP0,GAMMA,DWS)
 CC          print *, PP0,GAMMA,DWS
-CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3 
+CC            print *, PP0,BORO,CL9,Q,PP0*BORO*CL9/1.D3
 C          CALL AGSKS(PP0*BORO*CL9/1.D3)
 C          scaler = SCL(KF,1) * pp0
 
@@ -374,10 +374,10 @@ C-------- Field law protn driver, FNAL, Nov.2000
             BREF = SCL(KF,3,1)
             FREP = SCL(KF,4,1)
             OMGAT = 2.D0*PI*FREP*TIME
-            
-C            TEMP = 0.5D0*( (BRMA+BRMI) - (BRMA-BRMI)* ( COS(OMGAT) 
-C     >       - 0.25D0*SIN(2.D0*OMGAT) ) ) / BREF 
-C            SCALER=TEMP 
+
+C            TEMP = 0.5D0*( (BRMA+BRMI) - (BRMA-BRMI)* ( COS(OMGAT)
+C     >       - 0.25D0*SIN(2.D0*OMGAT) ) ) / BREF
+C            SCALER=TEMP
             SCALER=TEMP * BRMI
 C------- CONV converts from Brho (kG.cm) to momentum (MeV/c)
             CONV=1.D3 * CL9*Q
@@ -395,7 +395,7 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
           Q1   = SCL(KF,3,1)
           Q2   = SCL(KF,4,1)
           PP   = SCL(KF,5,1)
-          BSC   = SCL(KF,1,1)  
+          BSC   = SCL(KF,1,1)
           RAMPN = TIM(KF,1)
           FLATN = TIM(KF,2)
           DOWNN = TIM(KF,3)
@@ -407,7 +407,7 @@ C-------- Field law AC dipole for Mei, Delta-Airlines, 2nd Oct. 2009
             ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
               SCALER = 1.D0
               QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
-            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
+            ELSEIF(IPASS .GT. RAMPN+FLATN .AND.
      >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
               SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
               QN = Q2
@@ -466,7 +466,7 @@ c               write(77,*) acturns,RAMPN,QN,acturns
      >          sweeprate*sweepturns*sweepturns/2.d0
                 iwhere=4
               ENDIF
-         
+
 c                     write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
               SCAL = SCAL *COS(2.D0*PI*totalphasep + PHAS) *SCLMX
 c                     write(77,*) SCAL,ipass,iwhere
@@ -498,7 +498,7 @@ c                     write(77,*) SCAL,ipass,iwhere
                   totalphasep=QN*acturns
                   iwhere=4
                 ENDIF
-         
+
 c                        write(77,*) SCAL,2.D0*PI,totalphasep, PHAS, SCLMX
                 SCAL = SCAL * COS(2.D0*PI*totalphasep + PHAS) * SCLMX
 c                        write(77,*) SCAL,ipass,iwhere
@@ -511,7 +511,7 @@ c                        write(77,*) SCAL,ipass,iwhere
 
 c         scal is used for debugging -jkl
           SCALER = scal
-        
+
 c           IF (IPASS .ge. RININ ) then
 c          write(*,*) IPASS,QN,totalphasep,scaler
 c             read(*,*)
@@ -541,7 +541,7 @@ C              QN = Q1
 C            ELSEIF(IPASS .GT. RAMPN .AND. IPASS .LE. RAMPN+FLATN) THEN
 C              SCALER = 1.D0
 C              QN = Q1+(Q2-Q1) * (DBLIP-RAMPN)/FLATN
-C            ELSEIF(IPASS .GT. RAMPN+FLATN .AND. 
+C            ELSEIF(IPASS .GT. RAMPN+FLATN .AND.
 C     >                              IPASS .LE. RAMPN+FLATN+DOWNN) THEN
 C              SCALER = (RAMPN+FLATN+DOWNN-DBLIP)/DOWNN
 C              QN = Q2
@@ -563,7 +563,7 @@ c     >                  PP0,GAMMA,dWs)
             GAMMA = SQRT(P2 + AM*AM)/AM
             GG = G*GAMMA
             IF(GG .GT. TIM(KF,1)) THEN
-C             Q-JUMP STARTED 
+C             Q-JUMP STARTED
               SWITCH=1.D0
               DN = TIM(KF,2)
               DTRN = TIM(KF,3)
@@ -585,15 +585,15 @@ C             Q-JUMP STARTED
                     IF(DINT.LT.TRMP4) THEN
                       FAC = (TRMP4-DINT) / (TRMP4-TRMP3)
                     ELSE
-                      FAC = 0.D0  
+                      FAC = 0.D0
                     ENDIF
                   ENDIF
                 ENDIF
               ENDIF
             ELSE
               SWITCH=0.D0
-            ENDIF           
-            
+            ENDIF
+
             IF(SWITCH.NE.0.D0) THEN
 C              SCALER = FAC * SCL(KF,1) * PP0
               SCALER = FAC * SCL(KF,1,1) * (DPREF+HDPRF)
@@ -645,20 +645,20 @@ c     >             LABEL(NOEL,2), scaler
       ENTRY SCALE2(SCL2I,TIM2I,NTIM2I,JF)
       NTIM2(JF) = NTIM2I(JF)
       DO JT = 1, NTIM2(JF)
-         SCL2(JF,JT) = SCL2I(JF,JT) 
-         TIM2(JF,JT) = TIM2I(JF,JT) 
+         SCL2(JF,JT) = SCL2I(JF,JT)
+         TIM2(JF,JT) = TIM2I(JF,JT)
       ENDDO
       SCALE2 = 0.D0
       RETURN
 
       ENTRY SCALE4(OCLOCI,EKINI)
       OCLOCK = OCLOCI
-      EKIN = EKINI 
+      EKIN = EKINI
       SCALE4 = 0.D0
       RETURN
 
       ENTRY SCALE6(XMI,YMI,DAT1I,DAT2I,DAT3I,NFRQI)
-C               OCLOCK PHI TURN#  FREQ  EKIN 
+C               OCLOCK PHI TURN#  FREQ  EKIN
       NFRQ = NFRQI
       IF(NFRQ.GT.ND) CALL ENDJOB(' SBR SCALER, too many data '
      >//'sent to cubspl. Max allowed is ND = ',ND)
@@ -676,7 +676,7 @@ C      ENTRY SCALE8(FREV0I,E0I,AKI)
 C      FREV0 = FREV0I
 C      E0 = E0I
 C      AK = AKI
-C      SCALE8 = 0.D0 
+C      SCALE8 = 0.D0
 C      RETURN
 
       ENTRY SCALE9(
@@ -686,22 +686,22 @@ C      RETURN
         IF((KFMO(J).GE.0)) THEN
          IF ((NTIM(KFMO(J)).NE.-1 )) THEN
            BRO = BORO*(DPREF+HDPRF)
-           DO I=1, JPA(KFM(J),MXP) 
+           DO I=1, JPA(KFM(J),MXP)
               VPA(KFM(J),I) = SPLINT(TIM(KFM(J),1:NTIM(KFM(J))),
      >        SCL(KFM(J),1:NTIM(KFM(J)),I),NTIM(KFM(J)),BRO)
            ENDDO
-         ENDIF   
+         ENDIF
         ENDIF
       ENDDO
-      SCALE9 = 0.D0 
+      SCALE9 = 0.D0
       RETURN
 
       ENTRY SCALEX(OKPRI)
       OKPRT = OKPRI
-      IF(OKPRT) THEN 
+      IF(OKPRT) THEN
         IF(.NOT.OKOPN) THEN
           OK =(IDLUNI(
-     >                LPRT)) 
+     >                LPRT))
           OPEN(UNIT=LPRT,FILE='zgoubi.SCALING.Out',
      >                   ERR=66,IOSTAT=IOS)
           WRITE(LPRT,*) '#  IPASS, SCALER, lmnt #, KLEY, '
@@ -716,19 +716,19 @@ C      RETURN
       ENDIF
       GOTO 67
  66   CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,FMT='(A)') 
-     >'                *** WARNING, pgm scaler : ' 
+      IF(NRES.GT.0) WRITE(NRES,FMT='(A)')
+     >'                *** WARNING, pgm scaler : '
      >//' could not open zgoubi.SCALING.out. Will skip printing.'
       OKPRT = .FALSE.
  67   CONTINUE
       IF(NRES.GT.0) THEN
-        IF(OKPRT) THEN 
-          WRITE(NRES,FMT='(/,15X,''PRINT option is ON, '')') 
+        IF(OKPRT) THEN
+          WRITE(NRES,FMT='(/,15X,''PRINT option is ON, '')')
           WRITE(NRES,FMT='(  15X,
      >    ''SCALING parameters will be logged in zgoubi.SCALING.Out.'',
-     >    /)') 
+     >    /)')
         ELSE
-          WRITE(NRES,FMT='(/,15X,''PRINT option is OFF.'')') 
+          WRITE(NRES,FMT='(/,15X,''PRINT option is OFF.'')')
         ENDIF
       ENDIF
       SCALEX = OKPRT

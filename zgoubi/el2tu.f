@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,32 +17,32 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
 C  -------
       SUBROUTINE EL2TU(XX,Y,Z,BRI)
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z) 
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.DDEXYZ.H"     ! COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
- 
+
 C----- D=DISTANCE ENTRE TUBES, V21=(V2-V1), OM=Omega/Rayon, X0=refX
       EQUIVALENCE (EN,D), (EB1,V21), (EB2,OM), (EG1,X0)
- 
+
       PARAMETER (MDX=6)
       DIMENSION EX(MDX)
       DIMENSION ER(2),DER(2,2),DDER(2,2,2)
- 
+
       CALL EAXIAL(OM,OM*(XX-X0),V21*BRI,D,EX)
       R2  =Y*Y + Z*Z
       R   =SQRT(R2)
       CALL BAXBXR(EX,R,R2,ER,DER,DDER)
       CALL BXRXYZ(ER,DER,DDER,Y,Z,R,2,E,DE,DDE)
- 
+
       RETURN
       END

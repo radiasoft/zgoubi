@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,14 +47,14 @@ C      PARAMETER (MXTA=45)
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       DIMENSION XMO2(JH,KH), IMX(JH,KH)
       CHARACTER(2) TYP(JH,KH)
       CHARACTER(38) TEXT
       CHARACTER(1) KAR
       CHARACTER(14) NORME(2)
       CHARACTER(6) KOORD(JH), KUNIT(JH)
- 
+
       DATA NORME /'NORMALISE     ','NON  NORMALISE'/
       DATA KOORD /'  D  ','Y    ','THETA','Z    ','PHI  ','  S  '
      >,4*' Time ','  Do ','Yo   ','To   ','Zo   ','PHIo ','  So '
@@ -63,9 +63,9 @@ C      PARAMETER (MXTA=45)
      >,4*' (s)  ','      ',' (CM) ',' (MRD)',' (CM) ',' (MRD)',' (CM) '
      >,8*' (s)  ' /
       DATA MIDCOL/ 50 /
- 
- 
- 
+
+
+
 C                   NUM.COORD.  BORNES      NCOL/LISTING     NUMERO DE
 C                     1-JH     PHYSIQUES      < 120           L'HISTO
 C                              COMPTAGE                        1-KH
@@ -87,25 +87,25 @@ C
 C     LE GRAPHIQ SE CENTRE AUTOMATIQT SUR LA COLONNE
 C     MIDCOL DU LSTING. SA LARGEUR EST DE NCOL COLONNES
 C     POUR DES BORNES PHYSIQUES DE VALEURS XMIN ET XMAX
- 
+
       IF(IPASS .EQ. 1) THEN
         IMX(J,NH)=0
         XMO2(J,NH)=0D0
       ENDIF
- 
+
       IF(NCOL.GT.2*MIDCOL) NCOL=2*MIDCOL
       FNORM=NCOL/(XMAX-XMIN)
       NC2=NCOL/2
       IC1=MIDCOL-NC2+1
       IC2=IC1+NCOL
       JMAX(J,NH) = JMAX(J,NH) + IMAX
- 
+
 C     ** LIMITES ET MOYENNE PHYS. DE LA VARIABLE :
       DO 3 I=1,IMAX
- 
+
 C       +++ IEX<-1<=> PARTICULE STOPPEE
         IF(IEX(I) .LT. -1) GOTO 3
- 
+
         IF    (J .LE.  6) THEN
 C         ** DP/P initial, Y, T, Z, P, S
           FJI = F(J,I)
@@ -116,7 +116,7 @@ C         ** DP/P final Yo, To, Zo, Po, So
 C         ** COMPOSANTES SPIN: SX, SY, SZ, ET <S>=SQRT(SX2+SY2+SZ2)
           FJI = SF(J-20,I)
         ENDIF
- 
+
 C        IF    (IFDES .EQ. 1) THEN
           IF(  (TYP(J,NH) .EQ. 'P' .AND. LET(I) .NE. 'S')
      >    .OR. (TYP(J,NH) .EQ. 'S' .AND. LET(I) .EQ. 'S')
@@ -134,15 +134,15 @@ C          IMX(J,NH) = IMX(J,NH) + 1
 C          XMO(J,NH) = XMO(J,NH) + FJI
 C          XMO2(J,NH) = XMO2(J,NH) + FJI*FJI
 C        ENDIF
- 
+
  3    CONTINUE
- 
+
 C     ** COMPTAGE DANS LA FENETRE  XMIN-XMAX
       DO 4 I=1,IMAX
- 
+
 C       +++ IEX<-1<=> PARTICULE STOPPEE
         IF(IEX(I) .LT. -1) GOTO 4
- 
+
         IF    (J .LE.  6) THEN
 C         ** DP/P initial, Y, T, Z, P, S
           FJI = F(J,I)
@@ -153,7 +153,7 @@ C         ** DP/P final Yo, To, Zo, Po, So
 C         ** SPIN: SX, SY, SZ, ET <S>=SQRT(SX2+SY2+SZ2)
           FJI = SF(J-20,I)
         ENDIF
- 
+
 C        IF    (IFDES .EQ. 1) THEN
           IF(  (TYP(J,NH) .EQ. 'P' .AND. LET(I) .NE. 'S')
      >    .OR. (TYP(J,NH) .EQ. 'S' .AND. LET(I) .EQ. 'S')
@@ -169,9 +169,9 @@ C            ICOL = IC1 + NINT( ( FJI - XMIN ) * FNORM )
 C            NC(J,ICOL,NH) = NC(J,ICOL,NH) + 1
 C          ENDIF
 C        ENDIF
- 
+
  4    CONTINUE
- 
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,106) KOORD(J)
  106    FORMAT(/,30X,'HISTOGRAMME  DE  LA  COORDONNEE  ',A)
@@ -186,18 +186,18 @@ C        IF    (IFDES .EQ. 1) THEN
           WRITE(NRES,104) TEXT
  104      FORMAT(30X,A)
 C        ENDIF
- 
+
         WRITE(NRES,103) XMIN,XMAX,KUNIT(J),NORME(NORMY)
  103    FORMAT(30X,'DANS  LA  FENETRE : '
      >  ,1P,G12.4,' / ',G12.4,A,/,30X,A,/)
- 
+
         CALL HISTAB(IC1,IC2, NBLINE, KAR, NORMY, *5)
- 
+
         POSIT=(MOYC(J,NH)-IC1)/FNORM + XMIN
         WRITE(NRES,102) POSIT,KUNIT(J), 1.D0/FNORM,KUNIT(J)
  102    FORMAT(15X,' VAL. PHYS. AU  "      "         : ',1P,G10.3,A6,/
      >        ,15X,' RESOLUTION  PAR  CANAL          : ',   G10.3,A6)
- 
+
  5      CONTINUE
         SIGMA=SQRT(XMO2(J,NH)/IMX(J,NH)-(XMO(J,NH)/IMX(J,NH))**2)
         WRITE(NRES,105)
@@ -212,6 +212,6 @@ C        ENDIF
   101   FORMAT(' TRAJ 1 IEX,D,Y,T,Z,P,S,time :',I3,1P,5G12.4,2G17.5)
 
       ENDIF
- 
+
       RETURN
       END

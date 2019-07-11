@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Meot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory              
+C  FranÃ§ois Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -41,9 +41,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
- 
+
       DOUBLE PRECISION M1,M2,M3,M4,M12,M1212,M22
- 
+
 C         M1  MASSE CIBLE EN MEV
 C           M2 MASSE PROJECTILE EN MEV
 C        M3 MASSE DU DIFFUSE EN MEV
@@ -54,7 +54,7 @@ C           THETA ANGLE DE DIFFUSION
 C          BETA ANGLE CIBLE
 C        LES ANGLES SONT DONNES EN DEGRES
 C         LE PGM CONVERTIT LES DONNES EN GEV
- 
+
       M1 = A(NOEL,1)
       M2 = A(NOEL,2)
       M3 = A(NOEL,3)
@@ -62,7 +62,7 @@ C         LE PGM CONVERTIT LES DONNES EN GEV
       T2 = A(NOEL,5)
       THETA = A(NOEL,6)
       BETA = A(NOEL,7)
- 
+
        M1=M1/1.D3
       M2=M2/1.D3
       M3=M3/1.D3
@@ -82,13 +82,13 @@ C         LE PGM CONVERTIT LES DONNES EN GEV
       M12=M1+M2
       M1212=M12*M12
       M22=M2*M2
- 
+
       NTSMAX = NINT(A(NOEL,10))
       NPSMAX = NINT(A(NOEL,11))
       PTS = A(NOEL,20)
       PPS = A(NOEL,21)
       DTS = A(NOEL,22)
- 
+
       DTS=DTS*1.D-3
       IF(NRES .GT. 0) WRITE(NRES,101) NTSMAX,PTS,NPSMAX,PPS
       PTS=PTS*1.D-3
@@ -181,20 +181,20 @@ C         LE PGM CONVERTIT LES DONNES EN GEV
               CALL DEJACA(II)
  14         CONTINUE
  13       CONTINUE
- 
+
  15       CONTINUE
- 
+
 6       CONTINUE
 1     CONTINUE
- 
+
 C        AJUSTEMENT LIGNE EN AVAL DE LA CIBLE
 C       ***************************************************************
- 
+
        IF(NRES .GT. 0) WRITE(NRES,196)
  196   FORMAT(//,5X,' AJUSTEMENT DE LA LIGNE AVAL CIBLE :',/)
- 
+
        BORO = A(NOEL,30)
- 
+
        IF(NRES .GT. 0) WRITE(NRES,197) BORO
  197   FORMAT(10X,'MAGNETIC RIGIDITY AFTER TARGET',3X,G15.8,2X,
      >  'kG*cm')

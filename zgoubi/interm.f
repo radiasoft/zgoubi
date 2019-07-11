@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -26,13 +26,13 @@ C  -------
       FUNCTION INTERM(X,PX,I,IMA)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION PX(*)
- 
+
  1    CONTINUE
       IF(PX(I).LE.X .AND. X.LE.PX(I+1)) THEN
         INTERM=I
       ELSE
         I=I+1
-        IF(I.GT.IMA) 
+        IF(I.GT.IMA)
      >    CALL ENDJOB('*** Error, FCT INTERM ->  max I is',IMA)
         GOTO 1
       ENDIF

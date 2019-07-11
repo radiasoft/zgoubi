@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -32,14 +32,14 @@ C     CHAMBRE DE LIMITES TRANSVERSALES YLIM2 ET ZLIM2.
 C     ------------------------------------------------
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
- 
+
+
 C------- SKIP SI LA PARTICULE EST DEJA SORTIE :
       IF(KEX .LT. -1) RETURN
- 
+
 CC---- SEULEMNT SI LA FACE MAGNTQ EST FRANCHIE :
 CCCCC IF(FMAG .GE. .45D0) THEN
- 
+
         YP2 = (Y - YCH)*(Y - YCH)/YLIM2
         ZP2 = (Z - ZCH)*(Z - ZCH)/ZLIM2
 
@@ -58,7 +58,7 @@ C--------- CHAMBRE ELLIPTIQUE
         ENDIF
 
 CCCCC ENDIF
- 
+
       RETURN
  99   RETURN 1
       END

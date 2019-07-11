@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,15 +47,15 @@ C  -------
       DATA NFIC / 1 /
       DATA NMPT / MXC * 1 /
 
-      IF    (NFIC .EQ. 1) THEN 
+      IF    (NFIC .EQ. 1) THEN
         CALL KSMAP(
-     >           IMAP) 
+     >           IMAP)
         CALL CHAMK1(A1,R1,Z1,IMAP,*999)
 
 c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
 c     >   A1,R1,A1N,R1N,i,imap,B(1,3),' A1,R1,A1N,R1N,imag, BT '
 
-      ELSEIF(NFIC .GE. 2) THEN 
+      ELSEIF(NFIC .GE. 2) THEN
 C Case MOD=16. IMAP has been increazed by NFIC units in tosca, each field map stored in HC
         I = 1
         ID = 2  ! This is to be settled
@@ -92,7 +92,7 @@ C         if(xo2.ne.0.d0)   write(*,*) ' chamk ',i,xo2,yo2,tta,dy
 
           A1N =  (A1-XO2)*CT + (R1-YO2)*ST
           R1N = -(A1-XO2)*ST + (R1-YO2)*CT - DY
-          CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)          
+          CALL CHAMK1(A1N,R1N,Z1,NMPT(I),*999)
           CALL ADPOL(ID,IOP,B,DB,DDB,D3BX,D3BY,D4BX,D4BY,BT)
 
 c         write(88,fmt='(1p,4e12.4,1x,2i4,1x,e12.4,a)')
@@ -121,7 +121,7 @@ c     >   A1,R1,A1N,R1N,i,NMPT(I),B(1,3),' A1,R1,A1N,R1N,imag, BT '
         CALL ENDJOB('Pgm chamk. No such possibility NFIC = ',NFIC)
       ENDIF
 
-c               write(*,*) ' ' 
+c               write(*,*) ' '
 
       RETURN
 

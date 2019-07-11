@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -46,7 +46,7 @@ C      LOGICAL ZSYM
       LOGICAL IDLUNI, OKIMP
 
       DATA FIRST, OKIMP / .TRUE., .FALSE. /
- 
+
 C------- CONDITIONS DE MAXWELL
         XSTP = XSTP + 1
         DIVB = DB(1,1) + DB(2,2) + DB(3,3)
@@ -63,9 +63,9 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
           WRITE(NRES,105) FROM,IT,QBR/(Q*BORO),Y,T,Z,P,X,SAR
  105      FORMAT(/,' SPGM   IMPDEV',5X,A,'  TRAJ ',I3
      >    ,/,' D,Y,T,Z,P,X,S :',/,' ',1P,7E16.8)
- 
+
           IF((KFLD .EQ. LC .OR. KFLD .EQ. ML).AND.BRI.NE.0D0) THEN
- 
+
             WRITE(NRES,104) E(1,1)/BRI,E(1,2)/BRI,E(1,3)/BRI
      >      ,DE(1,1)/BRI,DE(2,1)/BRI,DE(3,1)/BRI,DE(2,2)/BRI,DE(3,2)/BRI
      >      ,DDE(1,1,1)/BRI,DDE(2,1,1)/BRI,DDE(3,1,1)/BRI
@@ -74,9 +74,9 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
      >          ,/,' E'' :',5E16.8
      >          ,/,' E'''':',6E16.8)
           ENDIF
- 
+
           IF((KFLD .EQ. MG .OR. KFLD .EQ. ML).AND.BRI.NE.0D0) THEN
- 
+
             WRITE(NRES,106) B(1,1)/BRI,B(1,2)/BRI,B(1,3)/BRI
      >      ,DB(1,1)/BRI,DB(2,1)/BRI,DB(3,1)/BRI,DB(2,2)/BRI,DB(3,2)/BRI
      >      ,DDB(1,1,1)/BRI,DDB(2,1,1)/BRI,DDB(3,1,1)/BRI
@@ -85,7 +85,7 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
      >          ,/,' B'' :',5E16.8
      >          ,/,' B'''':',6E16.8)
           ENDIF
- 
+
           WRITE(NRES,FMT='('' SF_X, _Y, _Z  |S| : '',1P,4(1X,E12.4))')
      >    (SF(J,IT), J=1,4)
 
@@ -93,7 +93,7 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
 
           IF(FIRST) THEN
 
-            FIRST = .FALSE. 
+            FIRST = .FALSE.
             IF(IDLUNI(
      >                LUN)) THEN
               OPEN(UNIT=LUN,FILE='zgoubi.impdev.out')
@@ -102,7 +102,7 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
               OKIMP = .FALSE.
               WRITE(6,*)' SBR impdev. Could not opem zgoubi.impdev.out.'
             ENDIF
-          
+
             IF(OKIMP) WRITE(LUN,FMT='(A,/,A)')
      >     '#1, 2, 3, 4, 5, 6, 7, 8-10,11-19, 20-46,   47-73,    '//
      >     '74-100,   101-127,  128-208,   209-289,   290-370,   '//
@@ -112,7 +112,7 @@ C--------- LST LE Champ SUR TRAJ. dans zgoubi.res
      >     'E_J,     DE_IJ,   DDE_IJK,  IT,   BRho(kG.cm)  '
 
           ENDIF
- 
+
           IF(OKIMP) THEN
             WRITE(LUN,109) QBR/(Q*BORO), Y, T, Z, P, X, SAR
      >      ,( B(1,J)/BRI,J=1,3)
@@ -187,19 +187,19 @@ C--------- READ STEP #
 C--------- Case  IL=2*10**n with n>1 (IL=20, 200, 2000...)
           IF(1+K*((NSTEP-1)/K) .NE. NSTEP) RETURN
 
-C          WRITE (88,fmt='(1p,20g12.4)') 
+C          WRITE (88,fmt='(1p,20g12.4)')
 CC                           BX     BY     BZ
 C     >    X,       Y,       B(1,1),B(1,2),B(1,3)
 CC         dBXx    dBXy    dBYy    dBXz    dBYz
 C     >    ,DB(1,1),DB(2,1),DB(2,2),DB(3,1),DB(3,2)
-CC         d2BXxx     d2BXxy     d2BXyy     d2BYyy  
+CC         d2BXxx     d2BXxy     d2BXyy     d2BYyy
 C     >    ,DDB(1,1,1),DDB(2,1,1),DDB(2,2,1),DDB(2,2,2)
-CC         d2BXxz     d2BXyz     d2BYyz  
+CC         d2BXxz     d2BXyz     d2BYyz
 Cc     >    ,DDB(3,1,1),DDB(3,2,1),DDB(3,2,2)
-CC         d3BXdy2z     d4BXdyz3      d3BZdz3  
+CC         d3BXdy2z     d4BXdyz3      d3BZdz3
 Cc     >    ,D3BX(3,2,2),D4BX(3,3,3,2),D3BZ(3,3,3)
         ENDIF
       ENDIF
- 
+
       RETURN
       END

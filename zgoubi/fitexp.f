@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -28,12 +28,12 @@ C     ------------------------------------------
 C     GENERE DES N.A. DANS UNE DISTRIBUTION EXPO
 C     ------------------------------------------
       INCLUDE "C.FITEX.H"     ! COMMON/FITEX/ DN0,C0,C1,C2,C3,DL
- 
+
  10   X=RNDM()
       Y = EXP( C0 + (C1 + (C2 + C3*X)*X)*X ) / DN0
       A=RNDM()
       IF(A .GT. Y) GOTO 10
       FITEXP=DMOY+2.D0*(X-.5D0)*DMAX
- 
+
       RETURN
       END

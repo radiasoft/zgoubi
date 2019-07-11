@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -27,8 +27,8 @@ C  -------
 C     -----------------------------------------------------
 C     Pick-up signal (multiturn AND multiparticle summmation)
 C     at labeled elements.
-C     MPULAB = max number of LABEL's. MXPU = max number of 
-C     pick-ups (virtual pick-ups, positionned at indicated 
+C     MPULAB = max number of LABEL's. MXPU = max number of
+C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -56,7 +56,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       DIMENSION EMIT(3,MXPU), ALF(3,MXPU), BET(3,MXPU)
       DIMENSION XM(3,MXPU), XPM(3,MXPU)
       SAVE EMIT, ALF, BET, XM, XPM
-      
+
       PARAMETER (KSIZ=10)
 C      CHARACTER(KSIZ)  KLOBJ
 
@@ -65,7 +65,7 @@ C      CHARACTER(KSIZ)  KLOBJ
 
       CHARACTER(LBLSIZ) LBL1, LBL2
       LOGICAL EMPTY
-      
+
       DATA NOELPU / MXPU*0 /
       DATA CHKPU / .TRUE. /
 
@@ -77,7 +77,7 @@ C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
         IQPU(NOEL) = IPU
       ENDIF
 
-      IF(IPU .GT. MXPU) 
+      IF(IPU .GT. MXPU)
      >CALL ENDJOB('SBR PCKUP.  Too many c.o. pick-ups,  max is ',MXPU)
 
       NT = 0
@@ -98,7 +98,7 @@ C----- Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP
  2    CONTINUE
       FPUL(8,IPU) = NT
 
-C Cumulated coordinates 
+C Cumulated coordinates
       DO J = 1, 5
         FPU(J,IPU) = FPU(J,IPU) + FPUL(J,IPU)
       ENDDO
@@ -113,10 +113,10 @@ C------- Record pick-up position (cm)
       IF(IPASS .EQ. 1) FPU(9,IPU) = F(6,1)
 
       DO JJ = 1, 3
-        CALL LPSFIT(JJ, 
+        CALL LPSFIT(JJ,
      >     EMIT(JJ,IPU),ALF(JJ,IPU),BET(JJ,IPU),XM(JJ,IPU),XPM(JJ,IPU))
       ENDDO
-      
+
       RETURN
 
       ENTRY PCKUP1
@@ -128,11 +128,11 @@ C------- Record pick-up position (cm)
         IF(EMPTY(LBL1)) LBL1='-'
         LBL2 = LABEL(NOELPU(I),2)
         IF(EMPTY(LBL2)) LBL2='-'
-        WRITE(NFPU,FMT= 
+        WRITE(NFPU,FMT=
      >  '(1P,2X,I4,1X,E15.7,7(1X,E12.4),I9,I7,1X,7(1X,E12.4),2X,
      >  I5,3(1X,A),3(3(1X,E12.4),2(1X,E14.6)))')
      >  I,FPU(9,I),(FPUL(J,I),J=2,6),FPUL(1,I),FPUL(7,I),NT,IPASS,
-     >  (FPUL2(J,I),J=2,7), FPUL2(1,I), 
+     >  (FPUL2(J,I),J=2,7), FPUL2(1,I),
      >  NOELPU(I),KLEO,LBL1,LBL2,
      >  (EMIT(JJ,I),ALF(JJ,I),BET(JJ,I),XM(JJ,I),XPM(JJ,I),JJ=1,3)
  4    CONTINUE
@@ -151,7 +151,7 @@ C------- Record pick-up position (cm)
         IF(IPU1.LE.MXPU) THEN
           IF(NOELPU(IPU1).EQ.0) THEN
             GOTO 10
-          ELSE 
+          ELSE
             IF(NOELPU(IPU1).LT.NOELI) IPU1= IPU1+1
           ENDIF
         ELSE
@@ -160,15 +160,15 @@ C------- Record pick-up position (cm)
       ENDDO
  10   CONTINUE
       IF(NOELPU(IPU1).EQ.NOELI) THEN
-        IPU = IPU1        
+        IPU = IPU1
       ELSE
         IPU = IPU1-1
       ENDIF
       CALL RAZ(FPUL,MXPUD*MXPU)
       CALL RAZ(FPUL2,(MXPUD-2)*MXPU)
       IF(NRES.GT.0) THEN
-        WRITE(NRES,*) 
-        WRITE(NRES,*) 
+        WRITE(NRES,*)
+        WRITE(NRES,*)
      >   ' Found ',IPU,' pick-ups prior to element #',NOELI,'.'
         IF(IPU.GT.0) WRITE(NRES,*) ' Of which last PU is # ',
      >  IPU,' (located at  element NOEL = ',NOELPU(IPU),')'
@@ -179,11 +179,11 @@ C------- Record pick-up position (cm)
      >                ,YCM,ZCM)
       IF(   FPUL(8,MPU) .LE.0 )
      >  CALL ENDJOB(' SBR pckup. All particles fucked up !',-99)
-      YCM = TBT(1,MPU) /    FPUL(8,MPU) 
-      ZCM = TBT(3,MPU) /    FPUL(8,MPU) 
+      YCM = TBT(1,MPU) /    FPUL(8,MPU)
+      ZCM = TBT(3,MPU) /    FPUL(8,MPU)
       RETURN
 
-      ENTRY PCKUP7(NOELA,NOELB, 
+      ENTRY PCKUP7(NOELA,NOELB,
      >                         IPUI,IPUF,noeli,noelf)
         CALL ENDJOB('SBR PCKUP.  Must  have  NOELA .LE. NOELB.',-99)
 C Range of PUs (1st and last PU's NOEL) located between NOELA and NOELB
@@ -195,7 +195,7 @@ cC     >  NOELPU(I),KLEO,LABEL(NOELPU(I),1),LABEL(NOELPU(I),2)
 c        IF(IL.LE.MXPU) THEN
 c          IF(NOELPU(IL).EQ.0) THEN
 c            GOTO 17
-c          ELSE 
+c          ELSE
 c            IF(IPU1 .EQ. 1) noeli = NOELPU(IPU1)
 c            IF(NOELPU(IPU1).LT.NOELI) IPU1= IPU1+1
 c          ENDIF
@@ -205,7 +205,7 @@ c        ENDIF
 c      ENDDO
 
 c 17   CONTINUE
-c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)   
+c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)
       CHKPU = .TRUE.
       NOEL = NOELA
       DO WHILE(CHKPU .AND. NOEL.LE.NOELB)
@@ -216,7 +216,7 @@ c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)
         ENDIF
       ENDDO
       NOELI = NOEL
-      IPUI = IQPU(NOEL) 
+      IPUI = IQPU(NOEL)
       CHKPU = .TRUE.
       NOEL = NOELB
       DO WHILE(CHKPU .AND. NOEL .GT. NOELA)
@@ -227,6 +227,6 @@ c      CALL ENDJOB('SBR PCKUP. Problem : found a PU with NOEL=0 ',-99)
         ENDIF
       ENDDO
       NOELF = NOEL
-      IPUF = IQPU(NOEL) 
+      IPUF = IQPU(NOEL)
       RETURN
       END

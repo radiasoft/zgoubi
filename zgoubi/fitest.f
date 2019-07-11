@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -34,13 +34,13 @@ C  -------
       INCLUDE "C.FAISC.H"     !  COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
                               ! >IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.VARY.H"  !  COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           ! >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
-      PARAMETER (INT1=1) 
-      PARAMETER (I0=0) 
+      PARAMETER (INT1=1)
+      PARAMETER (I0=0)
 
       IER=0
 C----- CONTROLE VARIABLES
@@ -62,7 +62,7 @@ C------- LMNT VARIABLE
           IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >    '      IR = ',IR(I),',   ok.'
         ENDIF
- 
+
 C------- PARAMTRE VARIABLE DANS L'LMNT
         IF(IS(I).LT.1 .OR. IS(I).GT.MXD) THEN
           IF(NRES.GT.0) WRITE(NRES,101) '''IP''',IS(I),'VARIABLE',I
@@ -71,7 +71,7 @@ C------- PARAMTRE VARIABLE DANS L'LMNT
           IF(NRES.GT.0) WRITE(NRES,*) '          variable # ',I,
      >    '      IP = ',IS(I),',   ok.'
         ENDIF
- 
+
 C------- COUPLAGE AVEC LMNT #KL, PRMTR #KP
         KL=INT(XCOU(I))
         IF(KL .NE. 0) THEN
@@ -99,13 +99,13 @@ C--------- # PARAMETR COUPLE
           ENDIF
         ENDIF
  1    CONTINUE
- 
+
 C----- CONTROLE CONTRAINTES
       IF(NC.LT.1 .OR. NC.GT.MXV) THEN
         IF(NRES.GT.0) WRITE(NRES,102) '''NC''',NC,'CONSTRAINTS'
         IER = 1
       ENDIF
- 
+
       CALL FITMM6(I0)
 
       DO 8 I=1,NC
@@ -131,12 +131,12 @@ c            IER = 1
 c          ENDIF
         ENDIF
         IF(IC(I) .EQ. 7) THEN
-C------------ Constraint on  coordinate or field in optical element, 
+C------------ Constraint on  coordinate or field in optical element,
             CALL INTEG8(INT1)
             CALL FITMM4(I3(I))
         ENDIF
  8    CONTINUE
- 
+
       IF(IER .EQ. 1) THEN
         IF(NRES.GT.0) WRITE(NRES,FMT=
      >  '(/,20X,''** NO  FIT  WILL  BE  PERFORMED **'')')
@@ -156,6 +156,6 @@ C------------ Constraint on  coordinate or field in optical element,
      >   '' ''''save [FileName]'''' command'')')
       ENDIF
 
-      RETURN    
+      RETURN
 
       END

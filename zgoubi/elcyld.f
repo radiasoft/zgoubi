@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -44,10 +44,10 @@ C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AM,Q,G,TO
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
 C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
       EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,E0), (EG2,ANDX)
- 
+
       DEV =A(NOEL,10)
       RM =A(NOEL,11)*1.D2
       EM(1)  = A(NOEL,12)*SCAL
@@ -71,17 +71,17 @@ C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
         QCE(I) = A(NOEL,30+I-1)
         QCS(I) = A(NOEL,50+I-1)
  8    CONTINUE
- 
+
       AE = ATAN(XLE/RM)
       AS = ATAN(XLS/RM)
       AT = AE + DEV + AS
 
       XI = 0.D0
       XF = AT
-      
+
       IF(NRES.GT.0) THEN
         WRITE(NRES,100) ' Electrical Cyl Deflector',
-     >    DEV, RM,EM(1),ANDX,P0/SQRT(P0*P0+AM*AM), 
+     >    DEV, RM,EM(1),ANDX,P0/SQRT(P0*P0+AM*AM),
      >    EM(1)*AM*RM/1.D2/P0/P0*1.D-6, ETA
  100    FORMAT(/,5X,' +++++  ', A30
      >        ,//,15X,' Deviation                 = ',F10.5 ,' rad'
@@ -91,20 +91,20 @@ C      EQUIVALENCE (EB1,XLE), (EB2,XLS), (EG1,V0), (EG2,ANDX)
      >        ,//,15X,' v/c                       = ',G12.4
      >        ,/ ,15X,' Balance (E.Mass.R/p^2, normally 1)  = ',F12.6
      >        ,/ ,15X,' eta = Ekin / 2Mass                  = ',G12.4)
- 
+
         WRITE(NRES,104) 'Entrance'
  104    FORMAT(/,15X,A8,'  face')
         WRITE(NRES,101) XLE,QLE(1)
  101    FORMAT(15X,' DX = ',F10.3,'    LAMBDA = ',F10.3)
         IF(QLE(1).NE.0D0) WRITE(NRES,132) (QCE(I),I=1,MCOEF)
  132    FORMAT(15X,' COEFFICIENTS :',6F9.5)
- 
+
         WRITE(NRES,104) 'Exit    '
         WRITE(NRES,101) XLS,QLS(1)
         IF(QLS(1).NE.0D0) WRITE(NRES,132) (QCS(I),I=1,MCOEF)
- 
+
       ENDIF
- 
+
 C----- E:MeV/cm
       EM(1)=EM(1)*1.D-8
       V0=V0*1.D-8
@@ -125,6 +125,6 @@ C        QS(1,1)=-EM(1)/QLS(1)
           QS(1,I)=-QS(1,I-1)/QLS(1)
  11     CONTINUE
       ENDIF
- 
+
       RETURN
       END

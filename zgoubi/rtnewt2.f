@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,21 +27,21 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       PARAMETER (JMAX=10000)
       PARAMETER(lunY=12,lunW=13)
-      INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3 
+      INCLUDE "C.SPIRALE.H"     ! COMMON/spiral_ent/UMEG,ASP0,ASP1,ASP2,ASP3
       INCLUDE "C.SPIRALX.H"     ! COMMON/spiral_ext/UMEGs,ASPS0,ASPS1,ASPS2,ASPS3
-      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex 
+      INCLUDE "C.RADIALS.H"     ! COMMON/radial_sec/aen,ben,cen,aex,bex,cex
 
       pi = 4.d0 * atan (1.d0)
 
 
        open(unit=lunW,file='plot_spiral.H')
 
-      if (Typ .EQ. 1.0) THEN   
-CCCCCCCCCCCCCCCCCCCCCCCCCCCC     Malek plot spiral boundaries   CCCCCCCCCCCCCCCCCCCCCCCC 
+      if (Typ .EQ. 1.0) THEN
+CCCCCCCCCCCCCCCCCCCCCCCCCCCC     Malek plot spiral boundaries   CCCCCCCCCCCCCCCCCCCCCCCC
        if (i .LT. 2) then
             rmin=50.0
             rmax=1000.0
-            theta_min=-20.0/180.0*pi        ! -2*pi/12.0 
+            theta_min=-20.0/180.0*pi        ! -2*pi/12.0
             theta_max=20.0/180.0*pi        ! 2*pi/12.0
             deltat=0.0005
             Nzi=int((theta_max-theta_min)/deltat)
@@ -51,29 +51,29 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCC     Malek plot spiral boundaries   CCCCCCCCCCCCCCCC
                r0=rmin+(iz-1)*deltar
                thet=theta
                call RSOLVE(thet,D,rmin,rc,FA)
-       
-               if (FA==1.0) then 
+
+               if (FA==1.0) then
                   a0=UMEG
                else
                   a0=UMEGS
-               endif   
+               endif
                r=rc
                xpro=r*cos(thet+a0)
                ypro=r*sin(thet+a0)
                Write(lunW,*) xpro,ypro
             enddo
-        endif   
+        endif
          i=i+1
-         
 
-       elseif (Typ .EQ. 0.0) THEN   
+
+       elseif (Typ .EQ. 0.0) THEN
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCC    Magnet plot radial boundaries  CCCCCCCCCCCCCCCCCCCCCCCC
-  
+
          if (i .LT. 3) THEN
-            theta_min=-30.0/180.0*pi        ! -2*pi/12.0 
+            theta_min=-30.0/180.0*pi        ! -2*pi/12.0
             theta_max=30.0/180.0*pi        ! 2*pi/12.0
-            deltat=0.00005            
+            deltat=0.00005
             Nzi=int((theta_max-theta_min)/deltat)
 
             if (FA==1.0) then
@@ -84,27 +84,27 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCC    Magnet plot radial boundaries  CCCCCCCCCCCCCCCC
               a=aex
               b=bex
               c=cex
-            endif   
-            
+            endif
+
             do iz=1,Nzi+1
                theta=theta_min+(iz-1)*deltat
                thet=theta
 
                r=-c/(a*cos(thet)+b*sin(thet))
-               
+
                xpro=r*cos(thet)
                ypro=r*sin(thet)
 !               Write(lunY,*) xpro,ypro
             enddo
-          endif  
-          i=i+1        
+          endif
+          i=i+1
        endif
 
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC    solve spiral sector  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-        if (Typ .EQ. 1.0) THEN 
+        if (Typ .EQ. 1.0) THEN
 
       TZ=X2
 C      sol0: i have to figure out how to give a good first approximation to r_sol
@@ -114,45 +114,45 @@ C      sol0: i have to figure out how to give a good first approximation to r_so
          CALL RSOLVE(TZ,D,sol0,RS,FA)
            IF (FA==1.0) THEN
               xi=ASP0+ASP1*RS+ASP2*RS**2+ASP3*RS**3
-           ELSE 
-              xi=ASPS0+ASPS1*RS+ASPS2*RS**2+ASPS3*RS**3  
+           ELSE
+              xi=ASPS0+ASPS1*RS+ASPS2*RS**2+ASPS3*RS**3
            ENDIF
          E=1.D0/tan(xi)
 
 
 
-                     
+
 CCCCCCCCCCCCCCCCCCCCCC
-        
+
          CALL FUNCD2(TZ,XB,YB,D,E,F,DF,TTARF)
          DX=F/DF
 C        write(*,*) DX
 C     DEB RAJOUT
          DXLIM=1.D0
          IF (ABS(DX).GT.DXLIM) THEN
-            DX=0.1D0*(X1+X2)   
+            DX=0.1D0*(X1+X2)
          ENDIF
 C     FIN RAJOUT
          TZ=TZ-DX
-         IF((X1-TZ)*(TZ-X2).LT.0.D0) THEN 
-           TZ=TEMP  
-           RETURN   
+         IF((X1-TZ)*(TZ-X2).LT.0.D0) THEN
+           TZ=TEMP
+           RETURN
          ENDIF
 
-         IF(ABS(DX).LT.XACC) RETURN 
+         IF(ABS(DX).LT.XACC) RETURN
 
  11      CONTINUE
 C      PAUSE 'rtnewt2 exceeding maximum iterations'
-     
+
          RETURN
- 
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC    solve radial sector  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-CCCCCCCCCCCCCCCCCCCC   D = RM,  (XB,YB) = point courant,  
+CCCCCCCCCCCCCCCCCCCC   D = RM,  (XB,YB) = point courant,
 
-       elseif (Typ .EQ. 0.0) THEN         
-  
-         
+       elseif (Typ .EQ. 0.0) THEN
+
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       endif

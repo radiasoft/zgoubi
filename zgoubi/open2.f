@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -28,7 +28,7 @@ C  -------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       CHARACTER(80) TITRE
- 
+
       CHARACTER(80) NAMFIC
       INTEGER DEBSTR,FINSTR
       LOGICAL OPN, IDLUNI, BINARY
@@ -43,12 +43,12 @@ C... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
 
       CALL ZGTITR(
      >            TITRE)
- 
+
       NAMFIC=NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       INQUIRE(FILE=NAMFIC,ERR=98,OPENED=OPN,NUMBER=LN)
 
       BINARY=NAMFIC(1:2).EQ.'B_' .OR. NAMFIC(1:2).EQ. 'b_'
-        
+
       IF(OPN) THEN
          IF(NRES.GT.0)
      >   WRITE(NRES,FMT='(/,5X,A,/,5X,'' already open...'')')NAMFIC
@@ -68,7 +68,7 @@ C... ATTENTION: UNITES LOGIQUES 10... RESRVEES CARTES DE Champ 3D
           ENDIF
         ELSE
          CALL ENDJOB('Pgm open2. Could not get logical unit number to'
-     >   //' open file '//TRIM(NAMFIC),-99)            
+     >   //' open file '//TRIM(NAMFIC),-99)
         ENDIF
 
 C FM. Nov 2013. Re-arranged here for compatibilty wit OPTIONS[WRITE ON/OFF]
@@ -81,7 +81,7 @@ C        IF(IPASS .EQ. 1) THEN
           IF(SBR .EQ. 'MAIN') TXT='TRAJECTORIES'
           IF(SBR .EQ. 'SPNPRN') TXT='SPIN DATA'
           IF(SBR .EQ. 'SRPRN') TXT='S.R. DATA'
-          TXT80 = ' ' 
+          TXT80 = ' '
           IF(SBR .EQ. 'SRPRN') WRITE(TXT80,FMT='(15X,
      >    ''Particle #   Total # photons   Total E-loss (keV)'')')
           CALL DATE2(DMY)
@@ -94,21 +94,21 @@ C------------- Write down a 4-line header
           WRITE(TXT80,FMT='(''# '',A,'' - STORAGE FILE, '',A,1X,A)')
      >                                                TXT,DMY,HMS
           IF    (TXT.EQ.'TRAJECTORIES') THEN
-            TXTN80 = 
+            TXTN80 =
      >      '#  1 ,  2   , 3 ,  4 , 5 ,  6 , 7 ,  8  ,  9   , 10  ,'
      >      //'  11, 12,  13, 14, 15  , 16  , 17,  18 , 19 ,'
      >      //' 20  ,  21 , 22, 23, 24, 25,  26  ,  27  ,  28  ,'
      >      //'   29 ,  30 , 31  , 32   ,  33  ,  34 ,  35 , 36  ,'
      >      //'  37, 38 , 39 ,  40  , 41   , 42  ,'
      >      //'   43  , 44    , 45    ,   46 '
-            TXTA80 = 
+            TXTA80 =
      >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1, Y-DY,'
      >      //'   T,  Z,   P,  S, time, beta, DS, KART,  IT,'
      >      //' IREP, SORT,  X, BX, BY, BZ,   RET,   DPR,    PS,'
      >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >      //'  EX,  EY,  EZ,  BORO, IPASS, NOEL,'
      >      //'   KLEY, LABEL1, LABEL2,    LET'
-            TXTB80 = 
+            TXTB80 =
      >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float,   cm,'
      >      //' mrd, cm, mrd, cm, mu_s,  v/c, cm,  int, int,'
      >      //'  int,   cm, cm, kG, kG, kG, float, float, float,'
@@ -117,7 +117,7 @@ C------------- Write down a 4-line header
      >      //' string, string, string, string'
 
           ELSEIF(TXT.EQ.'COORDINATES') THEN
-            TXTN80 = 
+            TXTN80 =
      >      '#  1 ,  2   , 3 ,  4 , 5 , 6  , 7 ,  8  ,  9   , 10,'
      >      //'  11, 12,  13, 14, 15  ,'
      >      //'   16 ,  17 ,  18 , 19   ,  20  ,  21 ,  22 ,  23 ,'
@@ -126,7 +126,7 @@ C------------- Write down a 4-line header
      >      //'   34 ,   35 ,'
      >      //'    36,  37  , 38   , 39  ,  40   ,'
      >      //'  41/lbl1, 42/lbl2,  43 ,  44      45             46'
-            TXTA80 = 
+            TXTA80 =
      >      '# KEX,  Do-1, Yo,  To, Zo,  Po, So,   to,   D-1,  Y,'
      >      //'   T,  Z,   P,  S, time,'
      >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
@@ -136,7 +136,7 @@ C------------- Write down a 4-line header
      >      //'    PS,  BORO, IPASS, NOEL,   KLEY,'
      >      //'  LABEL1, LABEL2,    LET,  SRloss, DPREF-[DPREF],'
      >      //'[DPREF], '
-            TXTB80 = 
+            TXTB80 =
      >      '# int, float, cm, mrd, cm, mrd, cm, mu_s, float, cm,'
      >      //' mrd, cm, mrd, cm, mu_s,'
      >      //' float,float,float, float, float,float,float,float,'
@@ -147,17 +147,17 @@ C------------- Write down a 4-line header
      >      //'  string, string, string,  MeV             '
 
           ELSEIF(TXT.EQ.'SPIN DATA') THEN
-            TXTN80 = 
+            TXTN80 =
      >      '#  1 ,'
      >      //'   2  ,  3  ,  4  ,  5   ,  6   ,  7  ,  8  ,  9  ,'
      >      //' 10, 11  , 12   , 13  , 14   , 15  ,'
      >      //'  16   ,  17   ,  18   ,   19  '
-            TXTA80 = 
+            TXTA80 =
      >      '# KEX,'
      >      //'   SXo,  SYo,  SZo, modSo,    SX,   SY,   SZ, modS,'
      >      //'  s, Ekin, Itraj, IMAX, IPASS, NOEL,'
      >      //'   KLEY, LABEL1, LABEL2,    LET'
-            TXTB80 = 
+            TXTB80 =
      >      '# int,'
      >      //' float,float,float, float, float,float,float,float,'
      >      //' cm,  MeV,   int,  int,   int,  int,'
@@ -203,7 +203,7 @@ C        ENDIF
 C------- OPN
 
       RETURN
- 
+
  98   IF(NRES .GT. 0) WRITE(NRES,101) SBR,' INQUIRE ',NAMFIC
  101  FORMAT(/,' ******  SBR ',A,' : ERROR',2A,/)
       RETURN

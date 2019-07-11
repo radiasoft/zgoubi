@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -75,7 +75,7 @@ C----- Central values Yo, To, Zo, Po, Xo, Do
 
       GOTO (1,2,3) KOBJ
       CALL ENDJOB('KOBJ should be 1, 2 or 3. No such object KOBJ=',KOBJ)
- 
+
  1    CONTINUE
 C----- dY, dT, dZ,...
       LINE = 6
@@ -90,7 +90,7 @@ C----- IR1, IR2, IR3
       LINE = 9
       READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=80,82)
       RETURN
- 
+
  2    CONTINUE
 C----- # of bars IY, IT , IZ,...
       LINE = 6
@@ -111,7 +111,7 @@ C----- IR1, IR2, IR3
       LINE = 11
       READ(NDAT,*,ERR=90,END=90) (A(NOEL,I),I=95,97)
       RETURN
- 
+
  3    CONTINUE
       LL = 50
       DO WHILE (LL .LE. 70)
@@ -120,11 +120,11 @@ C----- IR1, IR2, IR3
         IF(STRCON(TXT132,'!',
      >                     IS)) TXT132 = TXT132(1:IS-1)
         CALL STRGET(TXT132,MST,
-     >                         NST,STRA) 
+     >                         NST,STRA)
         IF(NST .GT. MST) GOTO 90
         DO I = 1, NST
-          READ(STRA(I),*) A(NOEL,I-1+LL)  
-C             write(*,*) nst, i, I-1+LL  ,A(NOEL,I-1+LL)  
+          READ(STRA(I),*) A(NOEL,I-1+LL)
+C             write(*,*) nst, i, I-1+LL  ,A(NOEL,I-1+LL)
         ENDDO
         DO I = NST+1, 10
           A(NOEL,I-1+LL) = 0.D0
@@ -136,7 +136,7 @@ C eta_Y and eta_T are part of (last two) data
               WRITE(6,FMT='(//,A)') 'A line of 7 data is expected...'
               GOTO 90
             ENDIF
-C            A(NOEL,LL+3) = -A(NOEL,LL+3)         
+C            A(NOEL,LL+3) = -A(NOEL,LL+3)
           ENDIF
         ELSE
           IF(A(NOEL,LL+3) .LT. 0.D0) THEN

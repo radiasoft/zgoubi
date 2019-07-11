@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -30,7 +30,7 @@ C     READS DATA FOR AGS QUAD
 C     -----------------------
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
- 
+
 C----- IL
       READ(NDAT,*) IA
       A(NOEL,1) = IA
@@ -42,13 +42,13 @@ C     ... Entrance fringe field
       READ(NDAT,*) (A(NOEL,I),I=20,21)
       READ(NDAT,*) IA,(A(NOEL,I),I=31,36)
       A(NOEL,30) = IA
-C     ... Exit fringe field 
+C     ... Exit fringe field
       READ(NDAT,*) (A(NOEL,I),I=40,41)
       READ(NDAT,*) IA,(A(NOEL,I),I=51,56)
       A(NOEL,50) = IA
 C     ... Roll angle
       READ(NDAT,*) A(NOEL,60)
- 
+
       ND=70
       CALL STPSIZ(NDAT,NOEL,ND,
      >                         A)

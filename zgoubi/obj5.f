@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,7 +47,7 @@ C      POUR ETIQUETER LES PARTICULES SECONDAIRES -OPTION 'MCDESINT')
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       PARAMETER(MXJ1=MXJ-1)
 
       DIMENSION P(MXJ)
@@ -56,7 +56,7 @@ C      EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
 C     > (IDE(5),IPMAX),(IDE(1),IMAXD)
 C      EQUIVALENCE (JDE(2),IY   ),(JDE(3),IT   ),(JDE(4),IZ   ),
 C     > (JDE(5),IP   ),(JDE(1),ID)
- 
+
       PARAMETER(MXREF=MIN(999,11*MXT))
       COMMON/OBJ5RF/ REF(MXJ,MXREF)
 
@@ -76,7 +76,7 @@ C     > (JDE(5),IP   ),(JDE(1),ID)
       P(5) = A(NOEL,23)
       P(6) = A(NOEL,24)
       P(1) = A(NOEL,25)
-           
+
       IREF = 0
 
  1    CONTINUE
@@ -89,11 +89,11 @@ C----------- For allowing possible use of the first 7 reference trajectories wit
           DO J = 2,MXJ1
             REF(J,IREF) = A(NOEL,K)
             K = K + 1
-          ENDDO 
+          ENDDO
           REF(1,IREF) = A(NOEL,K)
         ENDIF
 
-        I = 11 * IREF1 
+        I = 11 * IREF1
         DO 53 J=2,5
           I=I+2
           DX = P(J)
@@ -101,7 +101,7 @@ C----------- For allowing possible use of the first 7 reference trajectories wit
           FO(J,I+1 ) = - DX
  53     CONTINUE
         FO(1,11*IREF-1) = P(1)
-        FO(1,11*IREF) = - P(1)   
+        FO(1,11*IREF) = - P(1)
 
         IKAR = 1
         DO 51 I=11*IREF1+1,11*IREF
@@ -121,29 +121,29 @@ C----------- For allowing possible use of the first 7 reference trajectories wit
 C        if(nres.gt.0) write(nres,fmt='(a)')
 C     >  'beam line initial alpha_y, beta_y, *_z, *_d are as follows :'
 C In case of periodic structure, FI is filled up by tunes.f (uncoupled option) or tunesc.f (coupled option)
-        FI(1,1) = A(NOEL,41)  
-        IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0    
+        FI(1,1) = A(NOEL,41)
+        IF(FI(1,1) .EQ. 0.D0) FI(1,1) = 1.D0
         FI(2,1) = A(NOEL,40)      ! +alpha
         FI(1,2) = FI(2,1)
         FI(2,2) = (1.D0+FI(2,1)*FI(2,1))/FI(1,1)
-        FI(3,3) = A(NOEL,43)  
-        IF(FI(3,3) .EQ. 0.D0) FI(3,3) = 1.D0    
+        FI(3,3) = A(NOEL,43)
+        IF(FI(3,3) .EQ. 0.D0) FI(3,3) = 1.D0
         FI(4,3) = A(NOEL,42)      ! +alpha
         FI(3,4) = FI(4,3)
         FI(4,4) = (1.D0+FI(4,3)*FI(4,3))/FI(3,3)
-        FI(5,5) = A(NOEL,45)  
-        IF(FI(5,5) .EQ. 0.D0) FI(5,5) = 1.D0    
-        FI(6,5) = A(NOEL,44)      
+        FI(5,5) = A(NOEL,45)
+        IF(FI(5,5) .EQ. 0.D0) FI(5,5) = 1.D0
+        FI(6,5) = A(NOEL,44)
         FI(5,6) = FI(6,5)
-        FI(6,6) = (1.D0+FI(6,5)*FI(6,5))/FI(5,5)        
+        FI(6,6) = (1.D0+FI(6,5)*FI(6,5))/FI(5,5)
 C Dy, Dy', Dz, Dz'
-        FI(1,6) = A(NOEL,46)      
+        FI(1,6) = A(NOEL,46)
         FI(6,1) = FI(1,6)
-        FI(2,6) = A(NOEL,47)      
+        FI(2,6) = A(NOEL,47)
         FI(6,2) = FI(2,6)
-        FI(3,6) = A(NOEL,48)      
+        FI(3,6) = A(NOEL,48)
         FI(6,3) = FI(3,6)
-        FI(4,6) = A(NOEL,49)      
+        FI(4,6) = A(NOEL,49)
         FI(6,4) = FI(4,6)
         SIGN = +1.D0
         CALL BEAMA2(FI,SIGN)
@@ -155,15 +155,15 @@ C Dy, Dy', Dz, Dz'
      >  ')  FORME  DE ',I6,' POINTS ',//)
         WRITE(NRES,FMT='(/,T33,''Y (cm)'',T48,''T (mrd)'',T62,
      >  ''Z (cm)'',T76,''P (mrd)'',T90,''S (cm)'',T103,'' dp/p '')')
-       WRITE(NRES,FMT='(14X,'' Sampling : '',T30, 
+       WRITE(NRES,FMT='(14X,'' Sampling : '',T30,
      >  5(4X,G10.2),4X,G12.4)') (P(J), J=2,6), P(1)
         IREF = 1
         WRITE(NRES,FMT='(2X,''Reference trajectry # '',I6,'' : '',T30,
-     >                         5(4X,G10.2),4X,G12.4)') 
+     >                         5(4X,G10.2),4X,G12.4)')
      >  IREF,(REF(J,IREF), J=2,6), REF(1,IREF)
         DO 20 IREF=2, NBREF
           WRITE(NRES,FMT='(
-     >    20X,''# '',I6,'' : '',T30,5(4X,G10.2),4X,G12.4)') 
+     >    20X,''# '',I6,'' : '',T30,5(4X,G10.2),4X,G12.4)')
      >    IREF,(REF(J,IREF), J=2,6), REF(1,IREF)
  20     CONTINUE
       ENDIF
@@ -186,6 +186,6 @@ C Dy, Dy', Dz, Dz'
       ELSE
         CALL ENDJOB(
      >  'Pgm obj5, wrong value KOBJ2 in OBJET. Max is MXREF=',MXREF)
-      ENDIF 
+      ENDIF
       RETURN
       END

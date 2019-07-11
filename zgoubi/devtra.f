@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -27,7 +27,7 @@ C  -------
 C     -----------------------------------------
 C     CALCULE u ET SES DERIVEES dnu/dsn, n=1,5,
 C     i.e., calcul des coeffs des series de Taylor
-C     (eqs. 2.2.4-5) 
+C     (eqs. 2.2.4-5)
 C     -----------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
@@ -46,14 +46,14 @@ C      LOGICAL ZSYM
 c     >,DBSB,D2BSB,D3BSB,D4BSB,D5BSB
       INCLUDE "C.TRAJ_2.H"     ! COMMON/TRAJ/ R1,T1,Z1,P1,A1,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.VITES.H"     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
-  
+
       PARAMETER(IMAX=3, IJMAX=9, IJLMAX=27, IM2 = IMAX+IJMAX)
       PARAMETER(IM3 = IM2+IJLMAX)
 
       SAVE CL, CL9
 
 c          logical fiting
- 
+
 C-------------------------------------------------------------
 C     CALCUL D'ADRESSE : ADRESSE(I,J) = I + (J-1)*IMAX
 C     EXEMPLES:
@@ -70,20 +70,20 @@ CALCUL u=DX/DS
       U(1,1)=CP*COS(T1)
       U(1,2)=CP*SIN(T1)
       U(1,3)=SIN(P1)
- 
+
 C      umod1 = sqrt(U(1,1)*U(1,1) +U(1,2)*U(1,2) +U(1,3)*U(1,3))
 
       GOTO(1,2,3) KFLD
- 
+
 C----- MAGNETIC FIELD
  1    CONTINUE
- 
+
 
 C------------------
 cc u is spoiled here. See comment in agsmm
 c       call zgnoel(noel)
 c       call fitsta(5,fiting)
-c       if(noel.eq.6 .and. fiting) then 
+c       if(noel.eq.6 .and. fiting) then
 c         write( *,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
 c         write(88,*) ' devtra ',noel,r1,((u(iii,jjj),iii=1,6),jjj=1,3)
 ccc          read(*,*)
@@ -95,11 +95,11 @@ CALCUL u'=uxB
       CALL PVECT(1,1,1)
       DO 10 K=1,3
  10     U(2,K)=V(1,K)
- 
+
 C      umod2 = sqrt(U(2,1)*U(2,1) +U(2,2)*U(2,2) +U(2,3)*U(2,3))
 
       IF(IDS.LE.2) GOTO 99
- 
+
 C      B'=dB/dS
       KIM = -IMAX
       DO 12 K=1,3
@@ -113,17 +113,17 @@ C      B'=dB/dS
         ENDIF
         B(2,K)=TP
  12   CONTINUE
- 
+
 CALCUL u''=u'xB + uxB'
       CALL PVECT(1,1,2)
       CALL PVECT(2,2,1)
       DO 13 K=1,3
  13     U(3,K)=V(1,K)+V(2,K)
- 
+
 C      umod3 = sqrt(U(3,1)*U(3,1) +U(3,2)*U(3,2) +U(3,3)*U(3,3))
 
       IF(IDS.LE.3) GOTO 99
- 
+
 CALCUL B''=d2B/ds2
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -154,18 +154,18 @@ C
         ENDIF
         B(3,K)=TP
  15   CONTINUE
- 
+
 CALCUL u'''=u''xB + 2*u'B' + uxB''
       CALL PVECT(1,1,3)
       CALL PVECT(2,2,2)
       CALL PVECT(3,3,1)
       DO 16 K=1,3
  16     U(4,K)=V(1,K)+2.D0*V(2,K)+V(3,K)
- 
+
 C      umod4 = sqrt(U(4,1)*U(4,1) +U(4,2)*U(4,2) +U(4,3)*U(4,3))
 
       IF(IDS.LE.4) GOTO 99
- 
+
 C      B'''=d3B/ds3
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -220,7 +220,7 @@ C
         ENDIF
         B(4,K)=TP
  18   CONTINUE
- 
+
 CALCUL u''''=u'''xB + 3*u''xB' + 3*u'xB''+ B'''
       CALL PVECT(1,1,4)
       CALL PVECT(2,2,3)
@@ -228,11 +228,11 @@ CALCUL u''''=u'''xB + 3*u''xB' + 3*u'xB''+ B'''
       CALL PVECT(4,4,1)
       DO 19 K=1,3
  19     U(5,K)=V(1,K)+3.D0*V(2,K)+3.D0*V(3,K)+V(4,K)
- 
+
 C      umod5 = sqrt(U(5,1)*U(5,1) +U(5,2)*U(5,2) +U(5,3)*U(5,3))
 
       IF (IDS.LE.5) GOTO 99
- 
+
 C     B''''=d4B/ds4
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -325,15 +325,15 @@ CALCUL   u'''''=u''''xB + 4*u'''xB' + 6*u''xB''+ 4*u'xB''' + B''''
       CALL PVECT(5,5,1)
       DO 45 K=1,3
  45     U(6,K)=V(1,K)+4.D0*(V(2,K)+V(4,K))+6.D0*V(3,K)+V(5,K)
- 
+
 C      umod6 = sqrt(U(6,1)*U(6,1) +U(6,2)*U(6,2) +U(6,3)*U(6,3))
 
       GOTO 99
- 
+
 C----- ELECTRIC FIELD
 C----- E=e/Bro
  2    CONTINUE
-         
+
 c        write(*,*)  ' devtra ids, ide = ',ids,ide
 
       AM2 = AMT*AMT
@@ -351,7 +351,7 @@ Calcul (e.u)/Bro, Bro'
 Calcul u'=E/v + uxB - uBro'/Bro
       DO 21 K=1,3
  21     U(2,K)=E(1,K)/VL  - U(1,K)*DBSB
- 
+
       IF(IDS.LE.2) GOTO 99
 
 Calcul e'/Bro = (e/Bro)'|Bro=cste = E'|Bro=cste
@@ -380,10 +380,10 @@ Calcul u''=(1/v)'E + (e'/Bro)/v - 2Bro'/Brou' - Bro''/Brou
         U(3,K)=E(1,K)*D1SV + E(2,K)/VL
      >  -2.D0*U(2,K)*DBSB - U(1,K)*D2BSB
  26   CONTINUE
- 
+
       IF(IDS.LE.3) GOTO 99
- 
-Calcul e''/Bro = E''|Bro=cste            
+
+Calcul e''/Bro = E''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
       DO 25 K=1,3
@@ -428,9 +428,9 @@ C           - 3Bro'/Brou'' - 3Bro''/Brou' - Bro'''/Brou
         U(4,K)=E(1,K)*D21SV + 2.D0*E(2,K)*D1SV + E(3,K)/VL
      >  -3.D0*( DBSB*U(3,K) + D2BSB*U(2,K) ) - D3BSB*U(1,K)
  27   CONTINUE
- 
+
       IF(IDS.LE.4) GOTO 99
- 
+
 Calcul e'''/Bro = E'''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -499,13 +499,13 @@ Calcul u''''=(1/v)'''E+3(1/v)''(e'/Bro)+3(1/v)'(e''/Bro)+(1/v)E'''/Bro
 C           - 4Bro'/Brou''' - 6Bro''/Brou'' - 4Bro'''/Brou' - Bro''''/Brou
       DO 240 K=1,3
         U(5,K)=E(1,K)*D31SV + 3.D0*E(2,K)*D21SV + 3.D0*E(3,K)*D1SV
-     >  + E(4,K)/VL 
+     >  + E(4,K)/VL
      >  -4.D0*(DBSB*U(4,K)+D3BSB*U(2,K))-6.D0*D2BSB*U(3,K)-D4BSB*U(1,K)
  240  CONTINUE
- 
- 
+
+
       IF(IDS.LE.5) GOTO 99
- 
+
 Calcul e''''/Bro = E''''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -606,7 +606,7 @@ Calcul (e.u)''''/Bro, Bro'''''
 Calcul u'''''
       DO 840 K=1,3
         U(6,K)=E(1,K)*D41SV + 4.D0*E(2,K)*D31SV + 6.D0*E(3,K)*D21SV +
-     >  4.D0*E(4,K)*D1SV + E(5,K)/VL 
+     >  4.D0*E(4,K)*D1SV + E(5,K)/VL
      >  -(5.D0*DBSB*U(5,K)+10.D0*D2BSB*U(4,K)+10.D0*D3BSB*U(3,K)+
      >  5.D0*D4BSB*U(2,K)+D5BSB*U(1,K))
  840  CONTINUE
@@ -622,7 +622,7 @@ C       write(*,*) 'C----- MAGNETIC+ELECTRIC FIELD '
       BRCQ = QBR*CL9
 C----- Wt=sqrt(p2+m2), p=beta.Wt/c
       CSV = SQRT(1.D0 + AM2/(BRCQ*BRCQ))
- 
+
 Calcul (e.u)/Bro, Bro'
       EU(1)= E(1,1)*U(1,1)+E(1,2)*U(1,2)+E(1,3)*U(1,3)
       VL=CL9/CSV
@@ -634,9 +634,9 @@ CALCUL u'=uxB
 Calcul u'=E/v + uxB - uBro'/Bro
       DO 31 K=1,3
  31     U(2,K)=E(1,K)/VL + V(1,K) - U(1,K)*DBSB
- 
+
       IF(IDS.LE.2) GOTO 99
- 
+
 Calcul e'/Bro = (e/Bro)'|Bro=cste = E'|Bro=cste
       KIM = -IMAX
       DO 33 K=1,3
@@ -679,9 +679,9 @@ Calcul u''=(1/v)'E + (e'/Bro)/v + (uxb)'/Bro - 2Bro'/Brou' - Bro''/Brou
         U(3,K)=E(1,K)*D1SV + E(2,K)/VL + V(1,K)+V(2,K)
      >  -2.D0*U(2,K)*DBSB - U(1,K)*D2BSB
  36   CONTINUE
- 
+
       IF(IDS.LE.3) GOTO 99
- 
+
 Calcul e''/Bro = E''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -762,9 +762,9 @@ C           - 3Bro'/Brou'' - 3Bro''/Brou' - Bro'''/Brou
      >  +V(1,K)+2.D0*V(2,K)+V(3,K)
      >  -3.D0*(DBSB*U(3,K) + D2BSB*U(2,K)) - D3BSB*U(1,K)
  37   CONTINUE
- 
+
       IF(IDS.LE.4) GOTO 99
- 
+
 Calcul e'''/Bro = E'''|Bro=cste
       KIJM = -IJMAX-IMAX
       KIM = -IMAX
@@ -896,13 +896,13 @@ C           - 4Bro'/Brou''' - 6Bro''/Brou'' - 4Bro'''/Brou' - Bro''''/Brou
      >  + E(4,K)/VL + V(1,K)+3.D0*V(2,K)+3.D0*V(3,K)+V(4,K)
      >  -4.D0*(DBSB*U(4,K)+D3BSB*U(2,K))-6.D0*D2BSB*U(3,K)-D4BSB*U(1,K)
  40   CONTINUE
- 
+
 C DNCSV is used by spntrk
 
 
- 
+
  99   CONTINUE
-c       write(*,fmt='(1a,1x,2i3,1x,20e12.4)') 
+c       write(*,fmt='(1a,1x,2i3,1x,20e12.4)')
 c     >' devtra kfld ids, dbsb : ',
 c     > kfld,ids,
 c     > eu

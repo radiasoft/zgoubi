@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -27,7 +27,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION COF(6)
 C      REAL*8 COF,STP,HALF,ONE,FPF,X,TMP,SER
-      DATA COF, STP / 76.18009173D0, -86.50532033D0, 24.01409822D0, 
+      DATA COF, STP / 76.18009173D0, -86.50532033D0, 24.01409822D0,
      > -1.231739516D0, .120858003D-2, -.536382D-5, 2.50662827465D0 /
       DATA HALF, ONE, FPF / .5D0, 1.D0, 5.5D0 /
       X=XX-ONE

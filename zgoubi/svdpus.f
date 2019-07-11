@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -47,16 +47,16 @@ C     -----------------------------------------------------
       PARAMETER(MXPUH =IMON, MXPUV =IMON, MXPUHV =IMON)
       LOGICAL DEJA
       DIMENSION KHV(MXPU)    ! 1, 2, 3 FOR H V, HV
-      
+
       DATA OKPU / .FALSE. /
 
       OKPU = .FALSE.
       MPUL = 0      ! Numb of PU families/labels
       MPUH = 0       ! Numb of H PUs
-      MPUV = 0     
-      MPUHV = 0    
+      MPUV = 0
+      MPUHV = 0
       MPU = 0        ! total numb of PUs
-      NLM = 1    
+      NLM = 1
       DO WHILE ((.NOT. OKPU) .AND. NLM .LE. NBLM)
 C Move to next element in sequence. Test whether its label identifies w/ PU label.
         I = 1
@@ -64,7 +64,7 @@ C Move to next element in sequence. Test whether its label identifies w/ PU labe
           OKPU = OKPU .OR. (LABEL(NLM,1).EQ.HPNA(I))
           IF(OKPU) THEN
             MPU = MPU + 1
-            KHV(MPU) = 1 
+            KHV(MPU) = 1
             MPUH = MPUH + 1
           ENDIF
           I = I + 1
@@ -78,7 +78,7 @@ C Move to next element in sequence. Test whether its label identifies w/ PU labe
             MPUV = MPUV + 1
           ENDIF
           I = I + 1
-        ENDDO                 
+        ENDDO
         I = 1
         DO WHILE((.NOT. OKPU) .AND. I.LE.MXPUHV)
           OKPU = OKPU .OR. (LABEL(NLM,1).EQ.HVPNA(I))
@@ -88,8 +88,8 @@ C Move to next element in sequence. Test whether its label identifies w/ PU labe
             MPUHV = MPUHV + 1
           ENDIF
           I = I + 1
-        ENDDO                 
-          
+        ENDDO
+
         IF(OKPU) THEN
           J = 1
           DEJA = .FALSE.
@@ -100,14 +100,14 @@ C Move to next element in sequence. Test whether its label identifies w/ PU labe
           IF(.NOT. DEJA ) THEN
             MPUL = MPUL + 1
             IF(MPUL .GT. MPULAB) CALL ENDJOB(
-     >      'Pgm svdpus.  Too many PU families. Max allowed is ',MPULAB) 
+     >      'Pgm svdpus.  Too many PU families. Max allowed is ',MPULAB)
             PULAB(MPUL) = LABEL(NLM,1)
           ENDIF
           OKPU = .FALSE.
         ENDIF
-       
+
         NLM = NLM + 1
-      ENDDO      
+      ENDDO
 
       OKPU=.FALSE.
 
@@ -125,7 +125,7 @@ c     >  (' MPUL pulab : ',i, pulab(i),i=1,MPUL)
 c      read(*,*)
 
       KCO = 2
-      NPU=MPUL      
+      NPU=MPUL
       CALL SVDPR2(MPUH,MPUV,MPUHV,KHV)
       RETURN
       END

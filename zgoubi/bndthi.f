@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -30,7 +30,7 @@ C  -------
       INCLUDE "C.CHAFUI.H"     ! COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.CONST2.H"     ! COMMON/CONST2/ ZERO, UN
       INCLUDE 'MXLD.H'
@@ -56,7 +56,7 @@ C  -------
       INCLUDE "C.SYNRA.H"     ! COMMON/SYNRA/ KSYN
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       EQUIVALENCE (RTB(1),CTE),(RTB(2),STE),(RTB(4),CTS),(RTB(5),STS)
 
       LOGICAL DRT
@@ -64,7 +64,7 @@ C  -------
       LOGICAL CHGRFE,CHGRFS,EVNT
       LOGICAL BONUL, LNUL
       SAVE NND
-      DATA NND / 10 / 
+      DATA NND / 10 /
 
 C----- Magnet length, straight axis
       XL =A(NOEL,10)
@@ -72,7 +72,7 @@ C----- Field
       BFLD  =A(NOEL,12)
       KFLD = MG
       IF(BFLD .EQ. 0.D0) KFLD = 0
-      
+
 C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       KART = 1
       IF ( LNUL(XL) ) RETURN
@@ -122,7 +122,7 @@ C        if (xls.lt.1d-10) xls = 5.d0*tan(abs(ts))
       STE=SIN(TE)
       CTS=COS(TS)
       STS=SIN(TS)
- 
+
 C----- SHARP EDGE => INTEGR STOPPE SUR DR. DE COUPURE
         IDRT = 2
         CA(1)=CTE
@@ -142,10 +142,10 @@ C----- SHARP EDGE => INTEGR STOPPE SUR DR. DE COUPURE
         WRITE(NRES,103) BFLD,BORO/BFLD
  103    FORMAT(1P,15X,' Field  =',E14.6,'  kG ',
      >        /,15X, ' Reference  radius  (BRo/B)  = ',E14.6,'  cm')
- 
+
 C        WRITE(NRES,104) 'D''ENTREE'
 C 104    FORMAT(/,15X,' FACE  ',A)
-        WRITE(NRES,104) 'Entrance ' 
+        WRITE(NRES,104) 'Entrance '
  104    FORMAT(/,15X,A9,' face  ')
         WRITE(NRES,101) XE,DLE(1),WE
  101    FORMAT(15X,' DX = ',F10.3,'    LAMBDA = ',F10.3
@@ -157,26 +157,26 @@ C 104    FORMAT(/,15X,' FACE  ',A)
         WRITE(NRES,FMT='(/,
      >    ''***************************************'',
      >    ''Vertical wedge focusing still needs be approximated with'',
-     >    '' first order kick, FINT values entr/exit : '',1P,2G12.4)') 
+     >    '' first order kick, FINT values entr/exit : '',1P,2G12.4)')
      >         FINTE, FINTS
 
       ENDIF
 
           IF( KP .EQ. 3 ) THEN
 C            Stop if XCE .ne. 0. To be provisionned...
-            IF(A(NOEL,ND+NND+1) .NE. 0.D0) 
+            IF(A(NOEL,ND+NND+1) .NE. 0.D0)
      >                  STOP ' KPOS=3 does not support XCE.ne.0'
-C             Calculate ALE as half deviation. 
-            IF(A(NOEL,ND+NND+3).EQ.0.D0) 
+C             Calculate ALE as half deviation.
+            IF(A(NOEL,ND+NND+3).EQ.0.D0)
      >                      A(NOEL,ND+NND+3)=-DEV/2.D0
 C Modified, FM, Dec 05 :
-C             Calculate XCE, YCE for entrance change of referential    
+C             Calculate XCE, YCE for entrance change of referential
              YSHFT = A(NOEL,ND+NND+2)
              A(NOEL,ND+NND+1) = - YSHFT * SIN(A(NOEL,ND+NND+3))
              A(NOEL,ND+NND+2) =   YSHFT * COS(A(NOEL,ND+NND+3))
           ENDIF
           DSREF = ABS(DEV * (XL/(2.D0 * SIN(DEV/2.D0))))
-          
+
           CALL SCUMW(DSREF)
 
 C-------------------------------------------------------------------
@@ -203,13 +203,13 @@ C------------SR Loss
       XFE=-XE
       XFS=XS-XLIM
       IF(KP .EQ. 1)  THEN
-C------- Optical elmnt undergoes new positionning. Its frame becomes the new 
+C------- Optical elmnt undergoes new positionning. Its frame becomes the new
 C        reference frame. No exit CHANGREF needed
         XCS = 0.D0
         YCS = 0.D0
         ALS = 0.D0
       ELSEIF(KP .EQ. 2)  THEN
-C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic 
+C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic
 C        re-positionning of the exit frame to old position:
         XLM = XS-XE
         COL=COS(ALE)
@@ -221,8 +221,8 @@ C        re-positionning of the exit frame to old position:
         ALS=-ALE
         IF(NRES.GT.0) WRITE(NRES,100) XCE,YCE,ALE
       ELSEIF(KP .EQ. 3)  THEN
-C------- Optical elmnt is Z-rotated. Entrance and exit frames are 
-C        tilted by (normally) half the deviation. 
+C------- Optical elmnt is Z-rotated. Entrance and exit frames are
+C        tilted by (normally) half the deviation.
         XCS = 0.D0
         YCS = -YCE/COS(ALE)
         ALS=ALE
@@ -230,7 +230,7 @@ C        tilted by (normally) half the deviation.
 
       X=XI
       XLIM=XF
- 
+
 C--------------------------------
 C------- Now equivalent to TRANSF
 
@@ -238,17 +238,17 @@ C------- Now equivalent to TRANSF
       CHGRFS= ( KP .GE. 2 .AND. XCS*XCS + YCS*YCS + ALS*ALS .GT. ZERO )
 
 C----- Events, such as spin tracking, in-flight decay, etc...
-      EVNT = KSPN .EQ. 1 
+      EVNT = KSPN .EQ. 1
 
 C----- Droite de coupure entree
       DRT = IDRT .EQ. -1 .OR. IDRT .GE. 2
 
       XO=X
       DO 1 IT=1,IMAX
- 
+
 C-------- IEX<-1 <=> Particle stopped
         IF(IEX(IT) .LT. -1) GOTO 1
- 
+
           CALL INITRA(IT)
           X=XO
 
@@ -256,9 +256,9 @@ C-------- IEX<-1 <=> Particle stopped
 C          CALL CHAREF(EVNT,ZERO,ZERO,TE)
 
           IF( DRT  ) CALL DRTENT
- 
+
           CALL BNDTH(BFLD,XL,-TE,FINTE,GAPE,-TS,FINTS,GAPS)
- 
+
 C          CALL CHAREF(EVNT,XFS,ZERO,ZERO)
           IF( CHGRFS ) THEN
             IF(NRES.GT.0)
@@ -270,13 +270,13 @@ C          CALL CHAREF(EVNT,XFS,ZERO,ZERO)
           CALL MAJTRA(IT)
 
  1    CONTINUE
- 
+
       IF(NRES .GT. 0) THEN
         CALL SCUMR(
-     >             DUM,SCUM,TCUM) 
+     >             DUM,SCUM,TCUM)
         WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >  1P,G17.9,
-     >'' m ;  Time  (for ref. rigidity & particle) = '', 
+     >'' m ;  Time  (for ref. rigidity & particle) = '',
      >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
       ENDIF
 
@@ -287,6 +287,6 @@ C     2,' CM   Y =',G10.2,' CM   INCLINAISON =',G12.4,' RAD',/)
 100   FORMAT(/,5X,'Element  is  mis-aligned  wrt.  the  optical  axis'
      1,/,10X,'Center  of  entrance  EFB  is  at    X =',1P,G12.4
      2,' CM   Y =',G12.4,' cm,  tilt  angle =',G14.6,' RAD',/)
- 
+
       RETURN
       END

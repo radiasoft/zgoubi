@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -64,24 +64,24 @@ C----- LABEL's
 
       RETURN
 
- 98   WRITE(6,FMT='(A,1X,I0)') 
+ 98   WRITE(6,FMT='(A,1X,I0)')
      >'Data error met while reading pickup list. Check # of PUs. '
      >//' Expected # of itmes in list is ',NPU
-      WRITE(NRES ,*) 
+      WRITE(NRES ,*)
      >'Data error met while reading pickup list. Check # of PUs. '
      >//' Expected # of itmes in list is ',NPU
       GOTO 90
 
- 99   WRITE(6,*) 
+ 99   WRITE(6,*)
      >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
-      WRITE(NRES ,*) 
+      WRITE(NRES ,*)
      >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
       GOTO 90
-      
+
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rpckup, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rpckup, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
       END

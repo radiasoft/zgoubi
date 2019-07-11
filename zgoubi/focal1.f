@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -35,9 +35,9 @@ C     ------------------------------------------------
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
- 
+
       DIMENSION TTI(MXT)
- 
+
       TTI(1)=TAN(F(3,IRF)*.001D0)
       STY=TTI(1)*F(2,IRF)
       ST2=TTI(1)*TTI(1)
@@ -55,6 +55,6 @@ C     $     IREP(MXT),AMQLU,PABSLU
  1    CONTINUE
       XI=-(STY-(ST*SY)/MXI)/(ST2-(ST*ST)/MXI)
       YI =F(2,IRF)+XI*TTI(1)
- 
+
       RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
-C  ------- 
+C  -------
       SUBROUTINE SVDPCK
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------------------------------
 C     Pick-up signal (multiturn AND multiparticle summmation)
 C     at labeled elements.
-C     MPULAB = max number of LABEL's. MXPU = max number of 
-C     pick-ups (virtual pick-ups, positionned at indicated 
+C     MPULAB = max number of LABEL's. MXPU = max number of
+C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -55,13 +55,13 @@ C      CHARACTER(KSIZ)  KLOBJ
       CHARACTER(KSIZ) KLEO
       LOGICAL CHKPU
       SAVE IPSS
-      
+
       DATA NOELPU / MXPU*0 /
       DATA CHKPU / .TRUE. /
       DATA IPSS / 1 /
-      
+
 C-----Pick-up number. Reset to 0 via ENTRY PICKP2 below, by SBR PICKUP,
-C or by SVD procedure in REBELOTE      
+C or by SVD procedure in REBELOTE
       IPU = IPU + 1
 
       IF(IPASS.EQ.2) THEN  ! Will never be 1, as REBELOTE is at end of pass
@@ -69,7 +69,7 @@ C or by SVD procedure in REBELOTE
         IQPU(NOEL) = IPU
       ENDIF
 
-      IF(IPU .GT. MXPU) 
+      IF(IPU .GT. MXPU)
      >CALL ENDJOB('SBR PCKUP.  Too many c.o. pick-ups,  max is ',MXPU)
 
       NT = 0
@@ -84,10 +84,10 @@ C or by SVD procedure in REBELOTE
         ENDIF
       ENDDO
       FPU(8,IPU) = NT
-      
+
 C------- Record pick-up position (cm)
       IF(IPASS .EQ. 2) FPU(9,IPU) = F(6,1)
-      
+
       RETURN
 
       ENTRY SVDPC0

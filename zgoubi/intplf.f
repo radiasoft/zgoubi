@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE INTPLF(R1,A,R,DA,DR,FTAB,IRD, 
+      SUBROUTINE INTPLF(R1,A,R,DA,DR,FTAB,IRD,
      >                                           BZ0)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     -----------------------------
@@ -32,20 +32,20 @@ C     -----------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       PARAMETER (F1S6=1.D0/6.D0, F1S12=1.D0/12.D0, F1S24=1.D0/24.D0,
      >F1S35=1.D0/35.D0, F1S49=1.D0/49.D0, F1S70=1.D0/70.D0)
- 
+
       IF(IRD.EQ.2) THEN
 C       .... ORDRE 2 , uses a 3*3 points grid
 
-        F1=FTAB(1,3)      !H(ID,IAC-1,IRC-1,1)    FTAB(TTA,RO) : 
+        F1=FTAB(1,3)      !H(ID,IAC-1,IRC-1,1)    FTAB(TTA,RO) :
         F2=FTAB(2,3)      !H(ID,IAC  ,IRC-1,1)      11 21 31    11 : TTAMIN-RMAX
         F3=FTAB(3,3)      !H(ID,IAC+1,IRC-1,1)      12 22 32
         F4=FTAB(1,2)      !H(ID,IAC-1,IRC  ,1)      13 23 33          33 : TTAMAX-RMIN
@@ -98,7 +98,7 @@ C        write(*,*) ' intplf F5-F9 : ',f5,f6,f7,f7,f9
         ENDIF
 
       ELSEIF(IRD.EQ.4) THEN
-C       .... ORDRE 4 , USES A  5*5 POINTS GRID. 
+C       .... ORDRE 4 , USES A  5*5 POINTS GRID.
 C      CALCUL DES 15 COEFFS DU POLYNOME DE DEGRE 4 :
 C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
         S1   =0.D0
@@ -146,7 +146,7 @@ C      BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*Y2+...+A42*X2Y2+A43*XY3+A44*Y4
               SJ4  =SJ4  +RJ3*RJ  *BIAJR
 2          CONTINUE
 1       CONTINUE
- 
+
 C     *** CALCUL DE BZ ET SES DERIVEES AU POINT COURANT
         DA1  =1.D0/DA
         DA12 =DA1 *DA1
@@ -174,21 +174,21 @@ C     *** CALCUL DE BZ ET SES DERIVEES AU POINT COURANT
         BZYY  = ((SJ2-2.D0*S1-310.D0*F1S24*BZY4)*F1S35-BZX2Y2)
         BZX4  = (7.D0 *SI4  -31.D0 *SI2    +14.4D0 *S1)*F1S12
         BZXX  = (SI2-2.D0*S1-155.D0*BZX4*F1S12)*F1S35-BZX2Y2
-        BZ =(.01D0*SI2J2 - 1.7D0*(BZXX+BZYY)-13.D0*(BZX4+BZY4)*F1S24 - 
+        BZ =(.01D0*SI2J2 - 1.7D0*(BZXX+BZYY)-13.D0*(BZX4+BZY4)*F1S24 -
      >  2.89D0*BZX2Y2) * BRI
         BZXX  = BZXX   *DA12       *BRI
         BZYY  = BZYY   *DR12       *BRI
         BZX4  = BZX4   *DA13*DA1   *BRI
         BZX2Y2= BZX2Y2 *DA12*DR12  *BRI
         BZY4  = BZY4   *DR13*DR1   *BRI
- 
+
         IF(A.NE.0.D0 .OR. R.NE.0.D0) THEN
           A2=A *A
           A3=A2*A
           R2=R *R
           R3=R2*R
           BZ=BZ+BZX*A+BZY*R+0.5D0*BZXX*A2+BZXY*A*R+0.5D0*BZYY*R2
-     >    +F1S6*BZXXX*A3+.5D0*BZXXY*A2*R 
+     >    +F1S6*BZXXX*A3+.5D0*BZXXY*A2*R
      >    +.5D0*BZXYY*A *R2+F1S6*BZYYY*R3
      >    +(0.25D0*BZX4*A+BZX3Y*R)*F1S6*A3+.25D0*BZX2Y2*A2*R2
      >    +(BZXY3*A+0.25D0*BZY4*R)*F1S6*R3
@@ -208,7 +208,7 @@ C     *** CALCUL DE BZ ET SES DERIVEES AU POINT COURANT
 
       ELSEIF(IRD.EQ. 25) THEN
 C--------- ORDRE 2 , GRILLE A 5*5 POINTS
- 
+
 C     --- CALCUL DES 6 COEFFS DU POLYNOME DE DEGRE 2 :
 C       BZ=A0+A10*X+A11*Y+A20*X2+A21*XY+A22*YY
         A0 =0.D0
@@ -227,7 +227,7 @@ C           IRCJR=IRC+JR
               AI=DBLE(IA)
               AI2=AI*AI
 C              BIAJR=H(ID,IAC+IA,IRCJR,1)
-              BIAJR=FTAB(I,J) 
+              BIAJR=FTAB(I,J)
               A0 =A0 +(27.D0-5.D0*(AI2+RJ2))*BIAJR
               A10=A10+         AI       *BIAJR
               A11=A11+             RJ   *BIAJR
@@ -270,7 +270,7 @@ C  CALCUL DE BZ ET SES DERIVEES AU POINT DE MAILLAGE IAC,IRC
         BZX=A10    /DA       *BRI
         BZY=A11    /DR       *BRI
         BZ=A0                *BRI
- 
+
         IF(A.NE.0.D0 .OR. R.NE.0.D0) THEN
           BZ=BZ+BZX*A+BZY*R+0.5D0*BZXX*A*A+0.5D0*BZYY*R*R+BZXY*A*R
           BZX=BZX+BZXX*A+BZXY*R
@@ -282,7 +282,7 @@ C  CALCUL DE BZ ET SES DERIVEES AU POINT DE MAILLAGE IAC,IRC
 CC     ** PASSAGE DE LA FACE MAGNETIQUE (FMAG>.45) ,
 CC        SI ON UTILISE CHAMBR
 C      IF(LIMIT .EQ. 1) FMAG=ABS(BZ*BR/BMAX)
- 
+
       IF(KART .NE. 1) THEN
 C        ****TRANSFORMATION POLAIRE-CARTESIEN
          R11=1.D0/R1
@@ -319,6 +319,6 @@ C Due to reminicences from ancient times
       BZ0(3,3)=BZX2Y2
       BZ0(2,4)=BZXY3
       BZ0(1,5)=BZY4
- 
+
       RETURN
       END

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory        
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -50,18 +50,18 @@ c      CALL SPA1(
 c     >             TLAMBDA1,TSPCH1)
 
 
-      IF(NRES.GT.0) THEN 
+      IF(NRES.GT.0) THEN
          IF  (TSPCH)  THEN
-          WRITE(NRES,FMT='(/,A,ES15.8,A,/)') 
+          WRITE(NRES,FMT='(/,A,ES15.8,A,/)')
      >    'The linear charge density is: ', tlambda,'*10**(10) e.m-1'
 
-         ELSE 
+         ELSE
           WRITE(NRES,107)
  107      FORMAT(/,15X,' Space charge is off. ',/)
          ENDIF
       ENDIF
 
-         
+
 C----- P0, AM  are  in  MEV/c, /c^2
        P0 = BORO*CL9*Q
 
@@ -86,24 +86,24 @@ ccccccccccccccccccccc    compute the perveance term    cccccccccccccccccccccc
       Q_perv = Q*tlambda/(2*pi*fact1*AM*GAMMA3*BTA2)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-c here I need to apply the space charge kick to each slice: the assumption is that the beam size does not change a lot, in order to apply a uniform space charge kick to each slice -- to be updated 
+c here I need to apply the space charge kick to each slice: the assumption is that the beam size does not change a lot, in order to apply a uniform space charge kick to each slice -- to be updated
 
 
       DO 10 JJ = 1, 2
          CALL RMS(JJ,
-     >                           EMIT,ALP,BET,XM,XPM,rx)      
+     >                           EMIT,ALP,BET,XM,XPM,rx)
          Xave(JJ)=XM
          XPave(JJ)=XPM
          Rbeam(JJ)=rx*100.0   ! zgoubi unity is in cm
          Emitt(JJ)=EMIT
  10   CONTINUE
 
-cccccccccccccccccc  the longitudinal rms beamsize is computed here -- JJ=3 activates this calculation      
+cccccccccccccccccc  the longitudinal rms beamsize is computed here -- JJ=3 activates this calculation
          JJ=3
          CALL RMS(JJ,
-     >                           Emittz,ALP2,BET2,Tave,XPM2,Bunch_len)     
-         
-               
+     >                           Emittz,ALP2,BET2,Tave,XPM2,Bunch_len)
+
+
 cccccccccccccccccccccccccccccc   compute the linear space charge kick here   cccccccccccccccccccccccccccc
       if ((Rbeam(1) .GT. 0.) .AND. (Rbeam(2) .GT. 0.) .AND.
      >      (TSPCH)) THEN
@@ -111,16 +111,16 @@ cccccccccccccccccccccccccccccc   compute the linear space charge kick here   ccc
        SCky=2*Q_perv/((Rbeam(1)+Rbeam(2))*Rbeam(2))!*1/(1+Bunch_len*1000)
        open(unit=lunWW,file='perv.out')    ! malek
              write(lunWW,*) Q_perv
-       close(lunWW)      
-c         WRITE(NRES,FMT='(/,A,/)') 
+       close(lunWW)
+c         WRITE(NRES,FMT='(/,A,/)')
 c     > 'Summary: Space charge calculation ended up normally'
-      else   
+      else
          SCkx=0.0
          SCky=0.0
-c         WRITE(NRES,FMT='(/,A,/)') 
+c         WRITE(NRES,FMT='(/,A,/)')
 c     > 'Space charge is not applied: the beam does not have any radius'
 
-      endif   
+      endif
 
 
       RETURN

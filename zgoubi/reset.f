@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -26,7 +26,7 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       PARAMETER (MXPUD=9,MXPU=5000)
        INCLUDE "C.CO.H"     ! COMMON/CO/ FPU(MXPUD,MXPU),KCO,NPU,NFPU,IPU
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
@@ -56,28 +56,28 @@ C      LOGICAL ZSYM
       CHARACTER(LBLSIZ) LBF
       INCLUDE "C.SCALT.H"     ! COMMON/SCALT/ FAM(MXF),LBF(MXF,MLF)
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
- 
+
       DO I=1,MXF
-        FAM(I) = ' ' 
+        FAM(I) = ' '
         DO J=1,MLF
-          LBF(I,J) = ' ' 
+          LBF(I,J) = ' '
         ENDDO
       ENDDO
 
 C----- Pick-up signal calculation switched off
       IF(KCO .EQ. 1) KCO = 0    ! KCO=2 and has to stay so if SVD
 
-C     ....  Defaults: ORDRE=2 when KALC=3; 
+C     ....  Defaults: ORDRE=2 when KALC=3;
 C                     fields have z-symmetry when KALC=1
       KORD=2
       ZSYM=.TRUE.
- 
+
 C     ....  REBELOTE
       KOBJ = 0
 C      IPASS = 1
 C     .... COMPTEUR DE PASSAGE PAR 'REBELOTE'
       NRBLT = 0
- 
+
 C----- Decay simulation switched off
       IFDES = 0
 C     ... COMPTEUR DE DESINTEGRATION
@@ -85,10 +85,10 @@ C     ... COMPTEUR DE DESINTEGRATION
 
 C     ... COORD AU POINT DE DESINTEGRATION
       CALL RAZ(FDES,6*MXT)
- 
+
 C     ... TEMPS DE VOL AU POINT DE SORTIE
       CALL RAZ(SORT,MXT)
- 
+
 C       ... RAZ LES HISTOS
         CALL IRAZ(NC,JH*120*KH)
         CALL IRAZ(JMAX,JH*KH)
@@ -99,17 +99,17 @@ C       ... RESET LES SOMMES
             XMI(J,K)=1.D10
             XMA(J,K)=-1.D10
  3      CONTINUE
- 
+
 C     ....  SPIN TRACKING
       KSPN = 0
- 
+
 C     .... SCALING
       KSCL=0
       CALL IRAZ(NTIM,MXF)
 
       CALL RAZ(F ,MXJ*MXT)
       CALL RAZ(FO,MXJ*MXT)
- 
+
       ENTRY RESET2
 C     ... # part. rejected in SBR INTEG
 C     ... # part. out of acceptance (collimator, chamber)

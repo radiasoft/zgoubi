@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -71,10 +71,10 @@ C      SAVE MCOH, MCOV, MCOL
       INTEGER(4) TODAY(3)
 
       SAVE NOELB
-      
+
       DATA FITRBL / .FALSE. /
       DATA NOELA, NOELB / 1, MXL /
-      
+
 C Build SVD matrix:
 C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
 
@@ -82,11 +82,11 @@ C Scan all correctors. For each: 1/ change it 2/ find orbit 3/ store PUs
      >            NOELA, NOELB)
 
       IF(IPASS.EQ.1) THEN
-        
+
         KSCOR = 1                 ! H corr first
         NLMC = 0
         NLM = 0
-        CALL ZGNBLM( 
+        CALL ZGNBLM(
      >              NBLMI)
         NBLM = NBLMI
 
@@ -104,13 +104,13 @@ Check corrector families
           CALL IDATE(TODAY)
           WRITE(LSVD,FMT='(''# '',2(I2.2,A1),I4.4,
      >    '' (dd-mm-yr). zgoubi.SVDtmp.out, from rebel.f/svdpr.f.'')')
-     >    TODAY(1),'-',TODAY(2),'-',TODAY(3) 
+     >    TODAY(1),'-',TODAY(2),'-',TODAY(3)
           WRITE(LSVD,FMT='(''# Columns: PU records 1 to '',I0
-     >    ,'' (=#PUH+#PUV+2*#PUHV)'', 
-     >    '', ordering follows zgoubi.res optical sequence.'')') 
+     >    ,'' (=#PUH+#PUV+2*#PUHV)'',
+     >    '', ordering follows zgoubi.res optical sequence.'')')
      >    MPU+MPUHV
           WRITE(LSVD,FMT='(''# Rows: corrector 1 to '',I0,
-     >    '', ordering follows zgoubi.res optical sequence.'')') 
+     >    '', ordering follows zgoubi.res optical sequence.'')')
      >    MCOH+MCOV
           WRITE(LSVD,FMT='(
      >    ''# A total of '',I0,'' PUs ('',I0,''H, '',I0,''V, '',
@@ -145,51 +145,51 @@ Check corrector families
      >  CALL SVDPR(LSVD,TXFMT,NLM,NLMC,KLE,IPASS,LABEL)
 
       ENDIF
-          
-C Loop over corrector excitation, one-by-one. FIT finds the orbit each time. 
+
+C Loop over corrector excitation, one-by-one. FIT finds the orbit each time.
       IF(KSCOR.LE.2) THEN
 C There are ! 2 families of correctors at the moment
 
         IF(NLM .GT. 1 .AND. NLM1 .LT. NBLM) THEN
-          A(NLM1,4) = ANLM1 
+          A(NLM1,4) = ANLM1
         ENDIF
-         
+
         DO WHILE ((.NOT. OKCOR) .AND. NLM .LT. NBLM)
-C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list 
+C Move to next corrector. NLMC (1<NLMC<NBLM) is its number in the A() list
           NLM = NLM + 1
           OKCOR =
      >    (KSCOR .EQ. 1 .AND. LABEL(NLM,1).EQ.'HKIC')
-     >    .OR.       
+     >    .OR.
      >    (KSCOR .EQ. 2 .AND. LABEL(NLM,1).EQ.'VKIC')
         ENDDO
 
-        IF(NLM .GE. NBLM) THEN 
+        IF(NLM .GE. NBLM) THEN
           OKCOR=.FALSE.
           KSCOR = KSCOR + 1
           NLM = 0
         ENDIF
-             
+
         IF(OKCOR) THEN
           NLMC = NLMC + 1
           OKCOR=.FALSE.
-          IF(NLM .LE. NBLM) THEN 
+          IF(NLM .LE. NBLM) THEN
             NLM1 = NLM
             ANLM1 = A(NLM,4)
             IF    (KSCOR .EQ. 1) THEN
 C              A(NLMC,4) = A(NOEL,10) / (A(NLMC,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
               A(NLM,4) = A(NOEL,10) / (A(NLM,2)*1.D-2) * T2KG    ! B=(Brho==1)*kick/L
             ELSEIF(KSCOR .EQ. 2) THEN
-C              A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG 
-              A(NLM,4) =  A(NOEL,20) / (A(NLM,2)*1.D-2) * T2KG 
+C              A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG
+              A(NLM,4) =  A(NOEL,20) / (A(NLM,2)*1.D-2) * T2KG
             ELSE
               CALL ENDJOB(
      >        'SBR REBEL. NO SUCH POSSIBILITY KSCOR =',KSCOR)
             ENDIF
-          ENDIF            
+          ENDIF
         ENDIF
-         
+
       ENDIF
-      
+
 C      IF(NRES .GT. 0) WRITE(NRES,100) IPASS
       WRITE(ABS(NRES),100) IPASS
  100  FORMAT(/,30X,'SVDOC. End of pass # ',
@@ -197,13 +197,13 @@ C      IF(NRES .GT. 0) WRITE(NRES,100) IPASS
 
       NRBLT = MCOH+MCOV+2
       IPASS=IPASS+1
-        
-      
+
+
       IF( IPASS .LE. NRBLT ) THEN
 
         READAT = .FALSE.
         NOEL=NOELA-1
-         
+
       ELSEIF(IPASS .EQ. NRBLT+1) THEN
 
         READAT = .TRUE.
@@ -212,15 +212,15 @@ C      IF(NRES .GT. 0) WRITE(NRES,100) IPASS
         NOEL=NOELB
 
         CALL SVDINV(LSVD,MCOH+MCOV,MPU)
-        
+
       ENDIF
 
-      CALL SVDPC0      
+      CALL SVDPC0
 
 c      write(*,*) ' svdoc ',NOEL,noela-1,noelb,nrblt
 c     > ,IPASS .EQ. NRBLT+1
 C           read(*,*)
-      
+
       RETURN
 
       ENTRY SVDOC2(HPNAI,VPNAI,HVPNAI,HCNAI,VCNAI)

@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -138,7 +138,7 @@ C     ***************************************
               GOTO 98
             ENDIF
             DO I = 1, NSRH
-              READ(STRA(I),*,ERR=98) HCNA(I)    !  H-corr name list 
+              READ(STRA(I),*,ERR=98) HCNA(I)    !  H-corr name list
             ENDDO
           ENDIF
         ENDIF
@@ -158,7 +158,7 @@ C     ***************************************
               GOTO 98
             ENDIF
             DO I = 1, NSRV
-              READ(STRA(I),*,ERR=98) VCNA(I)    !  V-corr name list 
+              READ(STRA(I),*,ERR=98) VCNA(I)    !  V-corr name list
             ENDDO
           ENDIF
         ENDIF
@@ -177,8 +177,8 @@ C     ***************************************
       RETURN
 
  98   CONTINUE
-      CALL ENDJOB('*** Pgm robjet, keyword ''SVDOC'' : '// 
+      CALL ENDJOB('*** Pgm robjet, keyword ''SVDOC'' : '//
      >'input data error, at line #',LINE)
       RETURN
- 
+
       END

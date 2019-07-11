@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -33,63 +33,63 @@ C     ----------------------------
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       PARAMETER(MPOL=10)
- 
+
       IB = 1
       READ(NDAT,*) A(NOEL,IB)
- 
+
 C----- E FIELD
 C----- X,RO,E1,E2,E3,E4,E5,E6,...E10
-      IA = IB + 1             
-      IB = IA+MPOL+1          
+      IA = IB + 1
+      IB = IA+MPOL+1
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
 C----- Entrance fringe field
-      IA = IB + 1             
-      IB = IA+MPOL            
+      IA = IB + 1
+      IB = IA+MPOL
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
-      IA = IB+1               
-      IB = IA + 6             
+      IA = IB+1
+      IB = IA + 6
       READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C----- Exit fringe field
-      IA = IB + 1             
-      IB = IA + MPOL          
+      IA = IB + 1
+      IB = IA + MPOL
        READ(NDAT,*) (A(NOEL,I),I=IA,IB)
-      IA = IB+1               
-      IB = IA + 6             
+      IA = IB+1
+      IB = IA + 6
        READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C------- Rotation of multipole components
-      IA = IB +1              
-      IB = IA + MPOL - 1      
+      IA = IB +1
+      IB = IA + MPOL - 1
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
- 
+
 C----- B FIELD
 C----- X,RO,B1,B2,B3,B4,B5,B6,...B10
-      IA = IB + 1             
-      IB = IA+MPOL+1          
+      IA = IB + 1
+      IB = IA+MPOL+1
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
 C----- Entrance fringe field
-      IA = IB + 1             
-      IB = IA+MPOL            
+      IA = IB + 1
+      IB = IA+MPOL
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
-      IA = IB+1               
-      IB = IA + 6             
+      IA = IB+1
+      IB = IA + 6
       READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C----- Exit fringe field
-      IA = IB + 1             
-      IB = IA+MPOL            
+      IA = IB + 1
+      IB = IA+MPOL
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
-      IA = IB+1               
-      IB = IA + 6             
+      IA = IB+1
+      IB = IA + 6
       READ(NDAT,*) II,(A(NOEL,I),I=IA+1,IB)
       A(NOEL,IA) = II
 C----- Rotation of multipole components
-      IA = IB +1              
-      IB = IA + MPOL - 1      
+      IA = IB +1
+      IB = IA + MPOL - 1
       READ(NDAT,*) (A(NOEL,I),I=IA,IB)
- 
-      ND= IB + 1              
+
+      ND= IB + 1
 C----- XPAS
       READ(NDAT,*) A(NOEL,ND)
 C----- KP,XCE,YCE,ALE
@@ -98,6 +98,6 @@ C      READ(NDAT,*) II,(A(NOEL,I),I=ND+2,ND+4)
 C      A(NOEL,ND+1) = II
       READ(NDAT,*) II,(A(NOEL,I),I=ND+4,ND+6)
       A(NOEL,ND+3) = II
- 
+
       RETURN
       END

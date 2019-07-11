@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Meot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -39,15 +39,15 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
 C      INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),IREP(MXT),AMQLU,PABSLU
- 
+
 C------         R_ref    +dp/p     -dp/p
-      DIMENSION R(6,6), RPD(6,6), RMD(6,6) 
+      DIMENSION R(6,6), RPD(6,6), RMD(6,6)
       DIMENSION T(6,6,6)
       DIMENSION T3(5,6) , T4(5,6)
       SAVE R,T, T3,       T4
 
 C------        Beam_ref    +dp/p     -dp/p
-      DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6) 
+      DIMENSION F0(6,6), F0PD(6,6), F0MD(6,6)
 
       LOGICAL OKCPLD
       LOGICAL KWRMAT
@@ -84,10 +84,10 @@ C      IORD = A(NOEL,1)
       ELSEIF(KOBJ .EQ. 6) THEN
         IF(KOBJ2 .EQ. 0) THEN
           IORD=2
-        ELSEIF(KOBJ2 .EQ. 1) THEN    
+        ELSEIF(KOBJ2 .EQ. 1) THEN
           IORD=3
         ENDIF
-      ENDIF 
+      ENDIF
 
       IFOC = JFOC
       PRDIC = IFOC .GT. 10
@@ -96,7 +96,7 @@ C      IORD = A(NOEL,1)
       KWRMAT = KWR .EQ. 1
       CALL MATIM6(KWRMAT)
       IF(KWRMAT .AND. NRES .GT. 0) THEN
-        WRITE(NRES,*) 
+        WRITE(NRES,*)
         WRITE(NRES,*)  ' Matrix coefficients are printed in '
      >  // ' zgoubi.MATRIX.out.'
       ENDIF
@@ -125,7 +125,7 @@ C          CALL REFER(1,IORD,IFOC,IT1,IT2,IT3)
           CALL MKSA(IORD,R,T,T3,T4)
           IF(PRDIC) THEN
             IF(OKCPLD) THEN
-              CALL TUNESC(R, 
+              CALL TUNESC(R,
      >                      F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ)
             ELSE
               CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
@@ -138,7 +138,7 @@ C FM, Nov. 2008
           CALL REFER(2,IORD,IFC,IT1,IT2,IT3)
 
           IF(IREF.LT.NBREF) GOTO 1
-          
+
       ELSEIF(IORD .EQ. 2) THEN
 
 C FM, Nov. 2008
@@ -151,7 +151,7 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         CALL MKSA(IORD,R,T,T3,T4)
         IF(PRDIC) THEN
           IF(OKCPLD) THEN
-            CALL TUNESC(R, 
+            CALL TUNESC(R,
      >                    F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(R,F0,NMAIL,IERY,IERZ,.TRUE.,
@@ -160,11 +160,11 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
         ENDIF
         CALL MATIMP(R,F0,YNU,ZNU,CMUY,CMUZ,NMAIL,PRDIC,iref)
         CALL MATIM2(R,T,T3)
-        IF(PRDIC) THEN 
+        IF(PRDIC) THEN
           CALL MAT2P(RPD,DP)
-          CALL MKSA(IORD,RPD,T,T3,T4)          
+          CALL MKSA(IORD,RPD,T,T3,T4)
           IF(OKCPLD) THEN
-            CALL TUNESC(R, 
+            CALL TUNESC(R,
      >                    F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RPD,F0PD,NMAIL,IERY,IERZ,.TRUE.,
@@ -174,7 +174,7 @@ C        CALL REFER(1,IORD,IFOC,1,6,7)
           CALL MAT2M(RMD,DP)
           CALL MKSA(IORD,RMD,T,T3,T4)
           IF(OKCPLD) THEN
-            CALL TUNESC(R, 
+            CALL TUNESC(R,
      >                    F0,YNU,ZNU,CMUY,CMUZ,IERY,IERZ)
           ELSE
             CALL TUNES(RMD,F0MD,NMAIL,IERY,IERZ,.TRUE.,
@@ -188,7 +188,7 @@ C          DNUZDP = (ZNUP-ZNUM)/2.D0/A(NUML,25)
           DNUYDP = (YNUP-YNUM)/2.D0/DP
           DNUZDP = (ZNUP-ZNUM)/2.D0/DP
           IF(NRES .GT. 0) WRITE(NRES,FMT='(/,34X,'' Chromaticities : '',
-     >      //,30X,''dNu_y / dp/p = '',G15.8,/, 
+     >      //,30X,''dNu_y / dp/p = '',G15.8,/,
      >         30X,''dNu_z / dp/p = '',G15.8)') DNUYDP, DNUZDP
         ENDIF
         CALL REFER(2,IORD,IFC,1,6,7)
@@ -205,7 +205,7 @@ C From Nick Tsoupas, RAYTRACE, 3rd order transport coeffs
       ENDIF
 
       RETURN
- 
+
       ENTRY MATRI1(
      >             RO)
       DO IB = 1, 6

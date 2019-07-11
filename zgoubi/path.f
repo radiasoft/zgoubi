@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -31,7 +31,7 @@ C     ------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.CONST.H"     ! COMMON/CONST/ CL9,CL ,PI,RAD,DEG,QE ,AMPROT, CM2M
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
 C     >,AMS,AMP,AM3,TDVM,TETPHI(2,MXT)
@@ -48,13 +48,13 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
-  
+
       IF( SL .NE. 0D0 ) THEN
 
         DO 1 I=1,IMAX
 C---------- IEX < -1 <=> PARTICLE STOPPEE
            IF(IEX(I) .LT. -1) GOTO 1
-            
+
            IF(LET(I).NE.'S') THEN
 C------------ Particle is not yet decayed
              UL = FDES(6,I)-F(6,I)
@@ -62,7 +62,7 @@ C------------ Particle is not yet decayed
 C-------------- Particle will decay...
                DL = UL + 1.D-10
                XL = DL*(COS(F(3,I)*UNIT(2))*COS(F(5,I)*UNIT(4)))
-               CALL ESL(0,XL,I,I)    
+               CALL ESL(0,XL,I,I)
 C-------------- Particle has decayed !
                XL = (SL-DL)*(COS(F(3,I)*UNIT(2))*COS(F(5,I)*UNIT(4)))
              ELSE
@@ -72,7 +72,7 @@ C-------------- Particle has decayed !
              XL =  SL*(COS(F(3,I)*UNIT(2))*COS(F(5,I)*UNIT(4)))
            ENDIF
            CALL ESL(0,XL,I,I)
- 
+
  1      CONTINUE
 
       ENDIF

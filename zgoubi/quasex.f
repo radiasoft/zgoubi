@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory 
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -44,7 +44,7 @@ C-----------------------------------------------------
 C----- Conversion  coord. (cm,mrd) -> (m,rd)
       INCLUDE 'MAXCOO.H'
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
- 
+
       LOGICAL BONUL, LNUL
       LOGICAL MIRROR, LDUM
 
@@ -58,7 +58,7 @@ C----- Conversion  coord. (cm,mrd) -> (m,rd)
 
       INTEGER DEBSTR, FINSTR
       CHARACTER(51) TXTF(4)
-      DATA TXTF / 
+      DATA TXTF /
      >'Change  of  frame  at  exit  of  element.',
      >'Element  is  mis-aligned  wrt.  the  optical  axis.',
      >'Automatic  positionning  of  element.',
@@ -70,13 +70,13 @@ C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       CALL CHXC(ND,KALC,KUASEX,BORO,DPREF,HDPRF,
      >                              XL,DSREF,QSHROE,VSHROE)
       IF(NRES .GT. 0) CALL FLUSH2(NRES,.FALSE.)
- 
+
       IF ( LNUL(XL) ) GOTO 99
       IF ( BONUL(XL,PAS) ) GOTO 99
 
       CALL SCUMW(DSREF)
       CALL SCUMR(
-     >           DUM,SCUM,TCUM) 
+     >           DUM,SCUM,TCUM)
 
       CALL RAZDRV(3)
 
@@ -84,7 +84,7 @@ C FIELDS ARE DEFINED IN CARTESIAN COORDINATES
       XFE=-XE
       XFS=XS-XLIM
       IF(KP .EQ. 1)  THEN
-C------- Optical elmnt undergoes new positionning. Its frame becomes the new 
+C------- Optical elmnt undergoes new positionning. Its frame becomes the new
 C        reference frame. No exit CHANGREF needed'
         XCS = 0.D0
         YCS = 0.D0
@@ -106,7 +106,7 @@ C        reference frame. No exit CHANGREF needed'
         VSHROS(MSR) = 3
 
       ELSEIF(KP .EQ. 2)  THEN
-C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic 
+C------- KP=2, element is misaligned. Hence compute XCS,YCS,ALS for automatic
 C        re-positionning of the exit frame to old position:
 C        XLIM = XF
 C        CL=COS(ALE)
@@ -149,8 +149,8 @@ C         WRITE(*,*) ' QUASEX ',XE,XS,XLIM
         VSHROS(MSR) = 3
 
       ELSEIF(KP .EQ. 3)  THEN
-C------- Optical elmnt is Z-rotated. Entrance and exit frames are 
-C        tilted by (normally) half the deviation. 
+C------- Optical elmnt is Z-rotated. Entrance and exit frames are
+C        tilted by (normally) half the deviation.
 C Modified, FM, Dec 05
 C        YCS = -YCE
 C        YCE = 0.D0
@@ -159,7 +159,7 @@ C        YCE = 0.D0
         ALS = ALE
         CALL TRANSR(
      >              MIRROR,LDUM)
-        IF(MIRROR) THEN 
+        IF(MIRROR) THEN
           ALS = -(PI - ALE)
         ENDIF
 
@@ -181,7 +181,7 @@ C        YCE = 0.D0
       ELSEIF(KP .EQ. 4)  THEN
 C--- Implemented for AGSMM.
 C    Also implemented in MULTPO. That's in quasex.f
-C    ALE includes a delta=dtta wrt. TTA=DEV/2 
+C    ALE includes a delta=dtta wrt. TTA=DEV/2
         TTA = ALE - DTTA
         ALS = TTA - DTTA
         DTTA2 = DTTA / 2.D0
@@ -189,7 +189,7 @@ CCC  AGS model is affected by that
 CCC   FM. Sept 2017. Had to change, in order to match CHANGREF w same xce, yce, ale
 C See /home/meot/zgoubi/struct/KEYWORDS/MULTIPOL/KPOS4/equivalence_KPOS4-CHANGREF_using:YCE.ALE.ZCE_B0zero.dat
 cccc        XCS =               - XL * SIN(DTTA2) * SIN(DTTA2 + TTA)
-cccc        YCS = -YCE/COS(ALE) - XL * SIN(DTTA)  * COS(DTTA2 + TTA) 
+cccc        YCS = -YCE/COS(ALE) - XL * SIN(DTTA)  * COS(DTTA2 + TTA)
         XCS =               - XL/2.D0 * (1.D0 -COS(-DTTA))
         YCS =               + XL/2.D0 * SIN(-DTTA)
         YCS2 = -YSHFT /COS(TTA)
@@ -197,12 +197,12 @@ C ZCE
         ZCSB = -VSHROE(4)
 C Y-rotation PHE
         IF(VSHROE(6).NE.0.D0) THEN
-          XCSB = VSHROE(5) 
+          XCSB = VSHROE(5)
           ZCSB = -VSHROE(6)
         ENDIF
 C X-ROT (YAW)
 C        QSHROS(1) = 'YR'
-c        VSHROS(1) = Vshroe(7) 
+c        VSHROS(1) = Vshroe(7)
         QSHROS(1) = 'ZS'
         VSHROS(1) = -VSHROE(6)
         QSHROS(2) = 'XS'
@@ -237,7 +237,7 @@ C Z-ROT (PITCH)
       ENDIF
       X=XI
       XLIM=XF
- 
+
       CALL TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
 
       IF(NRES .GT. 0) THEN
@@ -245,14 +245,14 @@ C Z-ROT (PITCH)
      >  TXTF(KP)(DEBSTR(TXTF(KP)):FINSTR(TXTF(KP))),XCE,YCE,ALE
         WRITE(NRES,FMT='(/,'' Cumulative length of optical axis = '',
      >  1P,G17.9,
-     >  '' m ;  Time  (for ref. rigidity & particle) = '', 
+     >  '' m ;  Time  (for ref. rigidity & particle) = '',
      >  1P,G14.6,'' s '')')  SCUM*UNIT(5), TCUM
       ENDIF
 
       IF(KSYN.EQ.1) THEN
         CALL SRLOS1(
      >              OKPRSR,LNSR)
-        IF(OKPRSR) CALL PRSR(LNSR) 
+        IF(OKPRSR) CALL PRSR(LNSR)
       ENDIF
 
  99   CONTINUE

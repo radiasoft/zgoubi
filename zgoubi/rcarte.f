@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -65,23 +65,23 @@ C----- BNORM & X-,Y-,Z-NORM
         A(NOEL,10+I) = 1.D0
       ENDDO
       LINE = LINE + 1
-      READ(NDAT,FMT='(A)',ERR=99,END=98) TXT   
-      IF( STRCON(TXT,'!', 
+      READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
+      IF( STRCON(TXT,'!',
      >                   IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       CALL STRGET(TXT,4,
      >                  NSTR,STRA)
       IF(NSTR .GT. MXSTR) CALL ENDJOB
      >('SBR rcarte. Prblm with normalization coefficients list : '
-     >//' expected is a list of  1 to 4 data at line ',LINE) 
+     >//' expected is a list of  1 to 4 data at line ',LINE)
 
       I = 1
       DOWHILE (I .LE. NSTR)
         IF(ISNUM(STRA(I)))   ! In case unexpectedly a ! is missing at that line...
      >  READ(STRA(I),*,ERR=99,END=98) A(NOEL,9+I)
         I = I + 1
-      ENDDO      
- 
-C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to 
+      ENDDO
+
+C----- TITLE - Start TITLE with FLIP to get map flipped (implemented with TOSCA... to
 C                       be completed for others)
       LINE = LINE + 1
       READ(NDAT,200,ERR=99,END=98) TA(NOEL,1)
@@ -106,12 +106,12 @@ C                       be completed for others)
         A(NOEL,20)=NX
         A(NOEL,21)=NY
 
-C Old style only has NX, NY for 2D maps. New style gets KZMA here for further use.  
-        IF(NSTR.GE.3) THEN 
-          IF    (NSTR.EQ.3) THEN 
+C Old style only has NX, NY for 2D maps. New style gets KZMA here for further use.
+        IF(NSTR.GE.3) THEN
+          IF    (NSTR.EQ.3) THEN
             READ(STRA(3),*,ERR=99,END=98) AMOD
             NFIC = 1
-          ELSEIF(NSTR.GE.4) THEN 
+          ELSEIF(NSTR.GE.4) THEN
             READ(STRA(3),*,ERR=99,END=98) KZMA
             READ(STRA(4),*,ERR=99,END=98) AMOD
             MOD=INT(AMOD)
@@ -128,14 +128,14 @@ C Old style only has NX, NY for 2D maps. New style gets KZMA here for further us
       ENDIF
 
 C----- MAP FILE NAME(S)
-      IF(NFIC.GT.1) THEN 
+      IF(NFIC.GT.1) THEN
         DO IFIC=1,NFIC
           LINE = LINE + 1
           READ(NDAT,FMT='(A)',ERR=99,END=98) TXT
           IF(STRCON(TXT,'!',
      >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
           CALL STRGET(TXT,1,
-     >                      IDUM,STRA) 
+     >                      IDUM,STRA)
           TA(NOEL,1+IFIC) = STRA(1)
         ENDDO
       ELSEIF(NFIC.EQ.1) THEN
@@ -148,10 +148,10 @@ C------- Will sum (superimpose) 1D or 2D field maps if map file name is followed
         IF(STRCON(TXT,'!',
      >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
         CALL STRGET(TXT,2,
-     >                    IDUM,STRA) 
+     >                    IDUM,STRA)
 C 'SUM' has to be in the string transmitted to brevol sbr
         TA(NOEL,1+IFIC) = TXT
-        DO WHILE(IDUM.EQ.2 .AND. STRA(2).EQ.'SUM') 
+        DO WHILE(IDUM.EQ.2 .AND. STRA(2).EQ.'SUM')
           IF(IFIC .GE. MXTA) CALL ENDJOB('Pgm rcarte. '
      >    //'Too many field maps. Max allowed is  ',MXTA-2)
           IFIC = IFIC + 1
@@ -160,7 +160,7 @@ C 'SUM' has to be in the string transmitted to brevol sbr
           IF(STRCON(TXT,'!',
      >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
           CALL STRGET(TXT,2,
-     >                      IDUM,STRA) 
+     >                      IDUM,STRA)
           TA(NOEL,1+IFIC) = TXT
         ENDDO
       ENDIF
@@ -171,7 +171,7 @@ C----- DROITE(S) DE COUPURE (IA=-1, 1, 2 or 3)
       IF(STRCON(TXT,'!',
      >                    IS)) TXT = TXT(DEBSTR(TXT):IS-1)
       READ(TXT,*,ERR=99,END=98) IA
-      IF(IA.GE.1) READ(TXT,*,ERR=99,END=98) 
+      IF(IA.GE.1) READ(TXT,*,ERR=99,END=98)
      >IA,(A(NOEL,I),I=31,30+3*ABS(IA))
 
       IF(IA .GT. 3) CALL ENDJOB(
@@ -184,7 +184,7 @@ C     ... IRD
 C     ... XPAS
       LINE = LINE + 1
       READ(NDAT,*,ERR=99,END=98) A(NOEL,50)
-      ND = 50 
+      ND = 50
 
       IF(KART .EQ. 1) THEN
 C       ... Cartesian map frame
@@ -208,26 +208,26 @@ C       ... Polar map frame
 
       RETURN
 
- 99   WRITE(6,*) 
+ 99   WRITE(6,*)
      >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
-      WRITE(NRES ,*) 
+      WRITE(NRES ,*)
      >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
       GOTO 90
-      
- 98   WRITE(6,*) 
+
+ 98   WRITE(6,*)
      >  ' *** Execution stopped upon READ END : invalid input in rcarte'
-      WRITE(NRES ,*) 
+      WRITE(NRES ,*)
      >  ' *** Execution stopped upon READ END : invalid input in rcarte'
-      IF(LINE.EQ.2) WRITE(NRES,*) 
+      IF(LINE.EQ.2) WRITE(NRES,*)
      >'SBR rcarte. Prblm with normalization coefficients list : '
-     >//' expected is a list of  1 to 4 data at line ',LINE 
-      IF(LINE.EQ.6) WRITE(NRES,*) 
+     >//' expected is a list of  1 to 4 data at line ',LINE
+      IF(LINE.EQ.6) WRITE(NRES,*)
      >'Expecting more data after MOD=3, at line ',LINE
 
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rcarte, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rcarte, keyword '//KLE//' : '//
      >'input data error, at line #',line)
       RETURN
       END

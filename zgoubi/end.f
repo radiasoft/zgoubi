@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Meot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois Meot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -53,7 +53,7 @@ C----- Coherent synchrotron radiation
      >     ' through the optical structure',/)
           READAT = .FALSE.
           IPASS=IPASS+1
-          NOEL=0 
+          NOEL=0
           CALL SCUMS(ZERO)
           KCSRO = KCSR
           GOTO 99
@@ -61,7 +61,7 @@ C----- Coherent synchrotron radiation
 C--------- CSR calculations done
 
           IF(NRES.GT.0) THEN
-            WRITE(NRES,101) IPASS          
+            WRITE(NRES,101) IPASS
  101        FORMAT(/,25X,' ****  End  of  ''CSR''  procedure  ****',//
      >      ,5X,' There  has  been ',I10,
      >          '  pass  through  the  optical  structure ',/)
@@ -71,7 +71,7 @@ C          write(  88,fmt='(i6,1p,g12.4)') (it,dwc(it),it=1,imax)
         ENDIF
       ENDIF
 
-C----- Pick-up signal ---------------------------------------- 
+C----- Pick-up signal ----------------------------------------
       IF(KCO .EQ. 1) THEN
         CALL AVORPR(NFPU,1)
         IF(NRES .GT. 0) CALL AVORPR(NRES,2)
@@ -123,7 +123,7 @@ C-------------------------------------------------------------
           IF(NRES.GT.0) THEN
             IF(NRJ .GT. 0) WRITE(NRES,108) NRJ,IMX
  108        FORMAT(/,5X,'     # of particles stopped during ',
-     >      'integration in field :', I10,'/',I10) 
+     >      'integration in field :', I10,'/',I10)
           ENDIF
       ENDIF
 

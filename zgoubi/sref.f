@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory       
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -26,7 +26,7 @@ C  -------
      >                             EVB,*)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------
-C     Calculate SR  E-field 
+C     Calculate SR  E-field
 C     ----------------------
       DIMENSION EVB(*)
 C----- E is the radiated E-field in observer time
@@ -42,7 +42,7 @@ C      COMMON/CSR/ KTRA,KCSR,YZXB(MXSTEP,41,36),DWC(MXT)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
 C-----          Emitor Emitor-Obs.                       Nrmlzd
-C               posit.  direct     beta  beta-dot  field obs. pos. 
+C               posit.  direct     beta  beta-dot  field obs. pos.
       DIMENSION RP(3),  RO(3),     BE(3), BED(3),   B(3), ON(3),  OX(3)
       DIMENSION E(3), ONO(3), BEO(3)
 
@@ -63,17 +63,17 @@ C------- Normalized ( n(t') )
         ON(3) = RO(3)/RR
 
 C------- Beta
-C   yzxb(1)=-1+dp/p. Rigidity (T.m),  Momentum (MeV/c) 
-        BRO = YZXB(KSTP,ITEM,36) * (1.D0 + YZXB(KSTP,ITEM,1)) 
-        P0 = BRO * CL * 1.D-6 * QT    
-        BTA = P0 / SQRT( P0*P0 + AMT*AMT )  
+C   yzxb(1)=-1+dp/p. Rigidity (T.m),  Momentum (MeV/c)
+        BRO = YZXB(KSTP,ITEM,36) * (1.D0 + YZXB(KSTP,ITEM,1))
+        P0 = BRO * CL * 1.D-6 * QT
+        BTA = P0 / SQRT( P0*P0 + AMT*AMT )
 C   q/m.gamma, MKSA units
-        QMG = BTA * CL * CL / (P0 * 1.D6)* QT 
+        QMG = BTA * CL * CL / (P0 * 1.D6)* QT
 
         BE(1) = BTA * CT * CP
         BE(2) = BTA * SIN( YZXB(KSTP,ITEM,3) ) * CP
         BE(3) = BTA * SIN( YZXB(KSTP,ITEM,5) )
-                 
+
 C------- Acceleration = Beta-dot = q/m beta x Field
         BED(1) = QMG * ( BE(2)*B(3) - BE(3)*B(2) )
         BED(2) = QMG * ( BE(3)*B(1) - BE(1)*B(3) )
@@ -102,25 +102,25 @@ C------- EVB = E + vXB
         EVB(2) = E(2) + ( BE(3)*EVB(1) - BE(1)*EVB(3) )
         EVB(3) = E(3) + ( BE(1)*EVB(2) - BE(2)*EVB(1) )
 
-      RETURN      
+      RETURN
 
       ENTRY SREF1(KSTP,ITE,
      >                     RRR,ONO,BEO,BTAO)
 C----- Position of front particle (the observer, victim of the interaction)
-        DS = FO(6,IT)                 ! cm  
-        DX = DS * COS(T) * COS(P)  
-        DY = DS * SIN(T) * COS(P)  
-        DZ = DS * SIN(P)           
+        DS = FO(6,IT)                 ! cm
+        DX = DS * COS(T) * COS(P)
+        DY = DS * SIN(T) * COS(P)
+        DZ = DS * SIN(P)
         OX(1) = (X + DX) * UNIT(5)    ! m
-        OX(2) = (Y + DY) * UNIT(1) 
-        OX(3) = (Z + DZ) * UNIT(3)  
+        OX(2) = (Y + DY) * UNIT(1)
+        OX(3) = (Z + DZ) * UNIT(3)
 C------- Position of emitor (tag=ITE) in magnet frame  ( r(t') )
-        DS = FO(6,ITE) * UNIT(5)      ! m  
+        DS = FO(6,ITE) * UNIT(5)      ! m
         CT = COS( YZXB(KSTP,ITE,3) )
         CP = COS( YZXB(KSTP,ITE,5) )
         ST = SIN( YZXB(KSTP,ITE,3) )
         SP = SIN( YZXB(KSTP,ITE,5) )
-        DX = DS * CT * CP             ! m  
+        DX = DS * CT * CP             ! m
         DY = DS * ST * CP
         DZ = DS * SP
         RP(1) = YZXB(KSTP,ITE,7) + DX                 ! X (m)
@@ -137,14 +137,14 @@ C------- Normalized ( n(t') )
         ONO(2) = RO(2)/RRR
         ONO(3) = RO(3)/RRR
 C------- Beta emittor
-C   yzxb(1)=dp/p. Rigidity (T.m),  Momentum (MeV/c) 
-        BRO = YZXB(KSTP,ITE,36) * (1.D0 + YZXB(KSTP,ITE,1)) 
-        P0 = BRO * CL * 1.D-6 * QT    
-        BTA = P0 / SQRT( P0*P0 + AMT*AMT )  
+C   yzxb(1)=dp/p. Rigidity (T.m),  Momentum (MeV/c)
+        BRO = YZXB(KSTP,ITE,36) * (1.D0 + YZXB(KSTP,ITE,1))
+        P0 = BRO * CL * 1.D-6 * QT
+        BTA = P0 / SQRT( P0*P0 + AMT*AMT )
         BTAO = BTA
         BEO(1) = BTA * CT * CP
         BEO(2) = BTA * ST * CP
         BEO(3) = BTA * SP
-                 
+
       RETURN
       END

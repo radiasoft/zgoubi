@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -40,41 +40,41 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
- 
+
       DIMENSION  AREG(2),BREG(2),CREG(2)
- 
+
       MS = NINT(A(NOEL,2))
       XLT = 0.D0
       BO = 0.D0
-       
+
       M=0
       M1 = M+1
       DIST(M1) = 0.D0
       XLI(M1) = A(NOEL,3+4*M)
       RI(M1) =  A(NOEL,4+4*M)
       BI(M1) =  A(NOEL,5+4*M)*SCAL
-      DO M = 1, MS-1         
+      DO M = 1, MS-1
           M1 = M+1
-          IF(M1.GT.MXCOIL) 
+          IF(M1.GT.MXCOIL)
      >      CALL ENDJOB(' Too  many  coils, max is ',MXCOIL)
           DIST(M1) =A(NOEL,6+4*(M-1))
           XLI(M1) = A(NOEL,3+4*M)
           RI(M1) =  A(NOEL,4+4*M)
           BI(M1) =  A(NOEL,5+4*M)*SCAL
           XLT = XLT + DIST(M)
-          BO = BO + BI(M) 
+          BO = BO + BI(M)
       ENDDO
       XLT = XLT + DIST(MS)
-      XLT = XLT + XLI(1)/2.D0 + XLI(MS)/2.D0 
+      XLT = XLT + XLI(1)/2.D0 + XLI(MS)/2.D0
 
       XE = A(NOEL,7+4*MS)
       XLS = A(NOEL,8+4*MS)
 
         IF(NRES.GT.0) THEN
           WRITE(NRES,*) 'NUMBER  OF  COILS :',MS
-          DO 2 M = 1,MS 
+          DO 2 M = 1,MS
             WRITE(NRES,100) 'Coil  #',M,DIST(M),XLI(M),RI(M),BI(M)
- 100        FORMAT(/,5X,A,I2,1P, 
+ 100        FORMAT(/,5X,A,I2,1P,
      >      /,15X,' Distance  from  previous  coil  = ',G12.4,'  cm'
      >      /,15X,' Length  of  element  = ',G12.4,'  cm'
      >      /,15X,' Radius   RO          = ',G12.4,'  cm'

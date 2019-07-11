@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -32,21 +32,21 @@ C  -------
 C      COMMON//XH(MXX),YH(MXY),ZH(IZ),HC(ID,MXX,MXY,IZ,IMAP),IXMA,JYMA,KZMA
 C      INCLUDE "C.CHAVE_2.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
 C      INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
- 
+
       INCLUDE "C.SS1.H"     ! COMMON/SS1/X(MXX),Y(MXY),Z(IZ),JY(25),JX(25),JZ(25),NX,NY,NZ,NN
       INCLUDE "C.SSS.H"     ! COMMON/SSS/EE(15,25)
- 
+
       SAVE INDEX, NT
 C      DATA INDEX/0/
       DATA IMAP / 1 /
 
       CALL KSMAP(
-     >           IMAP) 
+     >           IMAP)
 
       IF(IORDE .EQ. 2) GOTO 3001
 
 C EXTRAPOLATION TO 4th ORDER IN COORDINATES
-C EXTRAPOLATION IS DONE FROM THE NT PLANE 
+C EXTRAPOLATION IS DONE FROM THE NT PLANE
 C      NT=1
 
       IF(INDEX .EQ. 1) GOTO 102

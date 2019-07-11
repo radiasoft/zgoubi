@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory     
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -33,21 +33,21 @@ C  -------
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"     ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
- 
+
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
- 
+
       EQUIVALENCE (R1,EB1),(R2,EB2),(R3,EG1),(R4,EG2)
- 
+
       BN=BO*BRI
           XX = X
           X = ABS(X)
- 
+
           IF(Y*Y .LE. RO*RO) THEN
- 
+
             IF    (EN .EQ. 1.D0) THEN
               IF(X .LT. R1) THEN
                 BZ    = 0D0
@@ -78,7 +78,7 @@ C                BZX   = FAC * ( 1.D0- R42/X/X )
                 BZX   = 0D0
                 BZXX  = 0D0
               ENDIF
- 
+
             ELSEIF(EN .EQ. 2.D0) THEN
               IF(X .LT. R1) THEN
                 BZ    = 0D0
@@ -98,14 +98,14 @@ C                BZX   = FAC * ( 1.D0- R42/X/X )
               ENDIF
             ENDIF
 C           ... ENDIF EN=1,2
- 
+
             X=XX
             IF(X.LT. 0.D0) THEN
               BZ = -BZ
               BZX = -BZX
               BZXX = -BZXX
             ENDIF
- 
+
           ELSE
             BZ    = 0D0
             BZX   = 0D0

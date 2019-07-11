@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory           
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -27,8 +27,8 @@ C  -------
 C     -----------------------------------------------------
 C     Pick-up signal (multiturn AND multiparticle summmation)
 C     at labeled elements.
-C     MPULAB = max number of LABEL's. MPX = max number of 
-C     pick-ups (virtual pick-ups, positionned at indicated 
+C     MPULAB = max number of LABEL's. MPX = max number of
+C     pick-ups (virtual pick-ups, positionned at indicated
 C     labeled elements!) for CO measurments.
 C     -----------------------------------------------------
       INCLUDE 'C.CDF.H'     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -41,13 +41,13 @@ C     -----------------------------------------------------
       INCLUDE 'MXLD.H'
       INCLUDE 'C.DON.H'     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE 'C.REBELO.H'   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
-       
+
       LOGICAL IDLUNI, OPN
       SAVE OPN, KPCKUP
       LOGICAL FITING
       INTEGER DEBSTR, FINSTR
       CHARACTER(50) FRMT
- 
+
       DATA OPN / .FALSE. /
 
       NPU = NINT(A(NOEL,1))
@@ -72,12 +72,12 @@ C     -----------------------------------------------------
         WRITE(NRES,110) NPU
  110    FORMAT(/,5X,' Pick-up  signal  calculation  requested, ',
      >  'at ',I0,'  locations, as  follows : ')
-        WRITE(NRES,111) 
+        WRITE(NRES,111)
  111    FORMAT(10X,' particle coordinates will be averaged',
      >  ' at elements labeled :')
-        WRITE(NRES,112) (PULAB(I), I=1,NPU) 
+        WRITE(NRES,112) (PULAB(I), I=1,NPU)
  112    FORMAT(20X,A)
-        WRITE(NRES,*) ' ' 
+        WRITE(NRES,*) ' '
       ENDIF
 
       CALL FITSTA(5,
@@ -92,7 +92,7 @@ C     -----------------------------------------------------
  10       CONTINUE
           IF(OPN) THEN
             INQUIRE(FILE='zgoubi.PICKUP.out',ERR=11,NUMBER=LN)
-            IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)') 
+            IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)')
      >      '     Pgm picup. Pick-up storage file zgoubi.PICKUP.out'
      >      //' already open under logical unit number ', LN,'.'
           ELSE
@@ -102,21 +102,21 @@ C     -----------------------------------------------------
             IF(IDLUNI(
      >                NFPU)) THEN
               OPEN(UNIT=NFPU,FILE='zgoubi.PICKUP.out',ERR=99)
-              IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)') 
+              IF(NRES.GT.0) WRITE(NRES,FMT='(A,I0,A)')
      >        '     Pgm pickup. Pick-up storage file zgoubi.PICKUP.out'
      >        //' opened under logical unit number ', NFPU,'.'
             ELSE
               GOTO 99
-            ENDIF 
-          ENDIF 
+            ENDIF
+          ENDIF
  11       CONTINUE
 
           WRITE(FRMT,FMT='(I0)') 2*NPU -1
           FRMT = '(A,I0,A,'//FRMT(DEBSTR(FRMT):FINSTR(FRMT))//'A)'
-          WRITE(NFPU,FMT=FRMT) 
+          WRITE(NFPU,FMT=FRMT)
      >    '# Pgm pickup - storage file. '
      >    ,NPU,'  PU(s), located at keywords with first label : '
-     >    ,(PULAB(I)(DEBSTR(PULAB(I)):FINSTR(PULAB(I))),', ', 
+     >    ,(PULAB(I)(DEBSTR(PULAB(I)):FINSTR(PULAB(I))),', ',
      >    I=1,NPU-1),PULAB(NPU)(DEBSTR(PULAB(NPU)):FINSTR(PULAB(NPU)))
         ENDIF
       ENDIF

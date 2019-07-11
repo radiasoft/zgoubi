@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory   
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -28,7 +28,7 @@ C  -------
       DIMENSION  T3(5,*), T4(5,*)
 C     ------------------------------------
 C     Option  IORD = 2 :
-C       Matrix ordre 1, coeff ordre 2, & 
+C       Matrix ordre 1, coeff ordre 2, &
 C        coeffs > 2; Taylor series ordre 5
 C     ------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
@@ -41,8 +41,8 @@ C      COMMON/DON/ A(09876,99),IQ(09876),IP(09876),NB,NOEL
       LOGICAL AMQLU(5),PABSLU
       INCLUDE "C.FAISC.H"     ! COMMON/FAISC/ F(MXJ,MXT),AMQ(5,MXT),DP0(MXT),IMAX,IEX(MXT),
 C     $     IREP(MXT),AMQLU,PABSLU
- 
-      DIMENSION RPD(6,6), RMD(6,6), RPDO(6,6), RMDO(6,6) 
+
+      DIMENSION RPD(6,6), RMD(6,6), RPDO(6,6), RMDO(6,6)
       SAVE RPD, RMD, DP
 
       CALL RAZ(R,6*6)
@@ -50,10 +50,10 @@ C     $     IREP(MXT),AMQLU,PABSLU
       R(6,6) = 1D0
       CALL RAZ(T,5*6*6)
       S1 = 2.D0 * F(6,1)
- 
+
 C      ++++ Ordre  1  ,  &  ordres 2  to  4  uncoupled
 C           +++ utilise  traj. 1-21
- 
+
       DP = ( FO(1,18)-FO(1,19) )/( FO(1,18)+FO(1,19) )
       DP2 = DP*DP
       DO 10 J=2,5
@@ -93,7 +93,7 @@ C           +++ utilise  traj. 1-21
       T(5,6,6)= (16.D0*( QP+QM-S1) - ( QPP+QMM-S1)  )/24.D0/DP2
       T3(5,6)=-( 2.D0*( QP-QM   ) - ( QPP-QMM   )  )/12.D0/DP2/DP
       T4(5,6)=-( 4.D0*( QP+QM-S1) - ( QPP+QMM-S1)  )/24.D0/DP2/DP2
- 
+
       CALL RAZ(RPD,4*4)
       DO 20 J=2,5
         J1=J-1
@@ -106,7 +106,7 @@ C           +++ utilise  traj. 1-21
           UO = FO(5,58) - FO(5,61)
           RPD(J1,4) = (F(J,58) - F(J,61)) / UO
  20   CONTINUE
- 
+
       CALL RAZ(RMD,4*4)
       DO 21 J=2,5
         J1=J-1
@@ -119,10 +119,10 @@ C           +++ utilise  traj. 1-21
           UO = FO(5,59) - FO(5,60)
           RMD(J1,4) = (F(J,59) - F(J,60)) / UO
  21    CONTINUE
- 
+
 C      ++++ Ordre 2  coupled
 C           +++ utilise  traj. >=  #22
- 
+
       III=4
 C     ++++ COUPLAGE ./YT
       II=22
@@ -158,7 +158,7 @@ C     ... J/J1.J2 : Y/YT  ... L/YT
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)   *0.5D0
  12   CONTINUE
- 
+
 C     ++++ COUPLAGE ./YZ
       II=II+III
       J1=1
@@ -193,7 +193,7 @@ C     ... J/J1.J2 : Y/YZ  ... L/YZ
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  13   CONTINUE
- 
+
 C     ++++ COUPLAGE ./YP
       II=II+III
       J1=1
@@ -228,7 +228,7 @@ C     ... J/J1.J2 : Y/YP  ... L/YP
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  14   CONTINUE
- 
+
 C     ++++ COUPLAGE ./YD
       II=II+III
       J1=1
@@ -263,7 +263,7 @@ C     ... J/J1.J2 : Y/YD  ... L/YD
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  16   CONTINUE
- 
+
 C     ++++ COUPLAGE ./TZ
       II=II+III
       J1=2
@@ -298,7 +298,7 @@ C     ... J/J1.J2 : Y/TZ  ... L/TZ
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  23   CONTINUE
- 
+
 C     ++++ COUPLAGE ./TP
       II=II+III
       J1=2
@@ -333,7 +333,7 @@ C     ... J/J1.J2 : Y/TP  ... L/TP
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  24   CONTINUE
- 
+
 C     ++++ COUPLAGE ./TD
       II=II+III
       J1=2
@@ -368,7 +368,7 @@ C     ... J/J1.J2 : Y/TD  ... L/TD
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  26   CONTINUE
- 
+
 C     ++++ COUPLAGE ./ZP
       II=II+III
       J1=3
@@ -403,7 +403,7 @@ C     ... J/J1.J2 : Y/ZP ...  L/ZP
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  34   CONTINUE
- 
+
 C     ++++ COUPLAGE ./ZD
       II=II+III
       J1=3
@@ -438,7 +438,7 @@ C     ... J/J1.J2 : Y/ZD  ... L/ZD
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  36   CONTINUE
- 
+
 C     ++++ COUPLAGE ./PD
       II=II+III
       J1=4
@@ -473,20 +473,20 @@ C     ... J/J1.J2 : Y/PD  ... L/PD
         IF(J .EQ. 5) QMP=QMP-F(6,1)
         T(J,J1,J2)=(QPP+QMM-QPM-QMP)/(4.D0*UO*VO)    *0.5D0
  46   CONTINUE
- 
+
       RETURN
 
       ENTRY MAT2P(RPDO,DPO)
       DO 66 J=1,6
         DO 66 I=1,6
- 66       RPDO(I,J) = RPD(I,J) 
+ 66       RPDO(I,J) = RPD(I,J)
       DPO = DP
       RETURN
 
       ENTRY MAT2M(RMDO,DPO)
       DO 67 J=1,6
         DO 67 I=1,6
- 67        RMDO(I,J) = RMD(I,J) 
+ 67        RMDO(I,J) = RMD(I,J)
       DPO = DP
       RETURN
 

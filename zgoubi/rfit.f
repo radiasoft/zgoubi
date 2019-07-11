@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 CC
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -31,7 +31,7 @@ C     READS DATA FOR FIT PROCEDURE WITH 'FIT'
 C     ***************************************
       CHARACTER(*) KLEY
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.MIMA.H"     ! COMMON/MIMA/ DX(MXV),XMI(MXV),XMA(MXV)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -51,7 +51,7 @@ C      PARAMETER (MXTA=45)
       INTEGER DEBSTR, FINSTR
       CHARACTER(80) FNAME
       LOGICAL EMPTY
-      LOGICAL FIRST 
+      LOGICAL FIRST
       LOGICAL ISNUM
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLE
@@ -79,9 +79,9 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
       ENDIF
 
       FITFNL = .NOT. STRCON(TXT132,'nofinal',
-     >                                       IIS) 
+     >                                       IIS)
       FITSAV = STRCON(TXT132,'save',
-     >                             JJS) 
+     >                             JJS)
       IF(FITSAV) THEN
         TXT132 = TXT132(JJS+4:FINSTR(TXT132))
         TXT132 = TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -97,14 +97,14 @@ C  READ NV [,'nofinal','save' [FileName],'noSYSout']
           FNAME = 'zgoubi.FITVALS.out'
         ENDIF
         IF(FIRST) CALL FITNU6(FNAME)
-        FIRST = .FALSE.  
+        FIRST = .FALSE.
       ENDIF
-     
+
       DO I=1,NV
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
         CMMNT = STRCON(TXT132,'!',
-     >                            III) 
+     >                            III)
         IF(CMMNT) THEN
           III = III - 1
         ELSE
@@ -121,7 +121,7 @@ C--------- New method
             CALL ENDJOB(' SBR RFIT, wrong input data / variables',-99)
           ENDIF
         ELSE
-C--------- Original method 
+C--------- Original method
            READ(TXT132,*,ERR=90,END=90) IR(I),IS(I),XCOU(I),DX(I)
            XI = A(IR(I),IS(I))
            XMI(I)=XI-ABS(XI)*DX(I)
@@ -133,7 +133,7 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
       LINE = LINE + 1
       READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
       IF(STRCON(TXT132,'!',
-     >                     III)) TXT132 = TXT132(1:III-1) 
+     >                     III)) TXT132 = TXT132(1:III-1)
       CALL STRGET(TXT132,3,
      >                     NSTR,STRA)
       IF(NSTR .GT. 3) NSTR = 3
@@ -173,9 +173,9 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
         LINE = LINE + 1
         READ(NDAT,FMT='(A)',ERR=90,END=90) TXT132
         IF(STRCON(TXT132,'!',
-     >                     III)) TXT132 = TXT132(1:III-1) 
+     >                     III)) TXT132 = TXT132(1:III-1)
         IF(STRCON(TXT132,'!',
-     >                     III)) TXT132 = TXT132(1:III-1) 
+     >                     III)) TXT132 = TXT132(1:III-1)
         READ(TXT132,*,ERR=98,END=98) XC,I1(I),I2(I),TXT20,V(I),W(I),
      >  CPAR(I,1),(CPAR(I,JJ),JJ=2,NINT(CPAR(I,1))+1)
 
@@ -190,14 +190,14 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
             NUML = NOEL-1
             CALL GETLLB(TXT20,         ! TXT20 contains an lmnt's 1st label. Look for its first occurence
      >                        NUML)
-            IF    (NUML .LE. NOEL-1) THEN 
+            IF    (NUML .LE. NOEL-1) THEN
               I3(I) = NUML
             ELSE
-              WRITE(TXT132,FMT='(A,I0,A)') 
+              WRITE(TXT132,FMT='(A,I0,A)')
      >        ' No element found with label_1 = '
      >         //TXT20(DEBSTR(TXT20):FINSTR(TXT20))
      >         //', (FIT[2] was met at position ',NOEL,')'
-              WRITE(*,FMT='(/,A)') 
+              WRITE(*,FMT='(/,A)')
      >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               WRITE(NRES,FMT='(/,A)')
      >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
@@ -214,12 +214,12 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
             GOTO 98
           ENDIF
         ENDIF
- 4    CONTINUE  
+ 4    CONTINUE
 
 
 C----- LOOKS FOR POSSIBLE PARAMETERS, WITH VALUES IN CPAR, AND ACTION
       DO 5 I=1,NC
-        IF    (IC(I).EQ.3) THEN 
+        IF    (IC(I).EQ.3) THEN
 C--------- TRAJ COORD
           IF    (I1(I).EQ.-1)  THEN
           ELSEIF(I1(I).EQ.-3)  THEN
@@ -227,7 +227,7 @@ C--------- TRAJ COORD
           ELSEIF(I1(I).EQ.-4)  THEN
             CALL DISPU2(CPAR,I)
           ENDIF
-        ELSEIF(IC(I).EQ.5) THEN 
+        ELSEIF(IC(I).EQ.5) THEN
 C--------- Numb. particls
           IF(I1(I).GE.1) THEN
             IF(I1(I).LE.3) THEN
@@ -237,7 +237,7 @@ C--------- Numb. particls
             ENDIF
           ENDIF
         ENDIF
- 5    CONTINUE  
+ 5    CONTINUE
 
 c      DO  I=1,NC
 c         write(*,*) ' rfit ',
@@ -252,9 +252,9 @@ c      enddo
       GOTO 90
 
  90   CONTINUE
-      CALL ZGKLEY( 
+      CALL ZGKLEY(
      >            KLE)
-      CALL ENDJOB('*** Pgm rfit, keyword '//KLE//' : '// 
+      CALL ENDJOB('*** Pgm rfit, keyword '//KLE//' : '//
      >'input data error, at line #',LINE)
       RETURN
       END

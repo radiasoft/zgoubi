@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -29,7 +29,7 @@ C  -------
 C      DATA PI,DPI,RAD/3.14159265359D0,6.28318530718D0,
 C     >1.745329252D-2/
 C      DATA PI,DPI,RAD/3.14159265359,6.28318530718,1.745329252E-2/
- 
+
       DPI = 8.D0 * ATAN(1.D0)
 C .......3He et eta (pi) dans le CM
       U=RNDM()

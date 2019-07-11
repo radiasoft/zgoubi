@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory      
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
@@ -37,9 +37,9 @@ C      PARAMETER (MXTA=45)
       CHARACTER(132) TXT132
       LOGICAL STRCON
       INTEGER DEBSTR
- 
+
 C on/off switch  (1/0), number of lines to follow, random generator seed
-      READ(NDAT,FMT='(A)') TXT132      
+      READ(NDAT,FMT='(A)') TXT132
       READ(TXT132,*) IOP, NBR, ISEED
 
       A(NOEL,1) = IOP
@@ -53,8 +53,8 @@ C on/off switch  (1/0), number of lines to follow, random generator seed
         A(NOEL,4) = 1
       ELSE
         A(NOEL,4) = 0
-      ENDIF      
-      
+      ENDIF
+
       IF(NBR.GT.MXTA) CALL ENDJOB('SBR rerror. Number of instructions '
      >//' cannot exceed ',MXTA)
 

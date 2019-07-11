@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
@@ -48,7 +48,7 @@ c      save TSPCH1
 
       READ(NDAT,FMT='(A)') TXT
       CALL STRGET(TXT,1,
-     >                  IDUM,STRA) 
+     >                  IDUM,STRA)
 C File name
       TA(NOEL,1) = STRA(1)
 
@@ -65,9 +65,9 @@ C File name
         TA(NOEL,2) = TXT
         CALL STRGET(TXT,MLB,
      >                      NLB,LBL)
-        TSPCH1 = ((NLB .GE. 1) 
+        TSPCH1 = ((NLB .GE. 1)
      >  .AND. (TA(NOEL,1).NE.'none') .AND. (LBL(1).NE.'none')
-     >  .OR. LBL(1).EQ.'all' 
+     >  .OR. LBL(1).EQ.'all'
      >  .OR. LBL(1).EQ.'ALL' )
 
         READ(NDAT,*) A(NOEL,1)

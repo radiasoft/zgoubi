@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory    
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,10 +30,10 @@ C  -------
       INCLUDE 'C.REBELO.H'   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
 
       DIMENSION CO1(7), CO2(7), COMA(7), COMI(7)
-      
+
       IF    (IOPT .EQ. 1) THEN
 
-        IF(IPASS .EQ. 1) WRITE(LUN,100) 
+        IF(IPASS .EQ. 1) WRITE(LUN,100)
  100    FORMAT('# Pgm avorpr. Brut record at pick-ups ',/
      >  ,'#  PU#',T17,'Pos',T29,'Yco',T42, 'Tco',T55,'Zco'
      >  ,T68,'Pco', T83,'L', T96,'D',T107,'time'
@@ -46,7 +46,7 @@ C  -------
 
       ELSEIF(IOPT .EQ. 2) THEN
 
-        WRITE(LUN,100) 
+        WRITE(LUN,100)
         DO I = 1, IPU
           NT = NINT(FPU(8,I))
 C          WRITE(LUN,FMT= '(1P,2X,I4,6(1X,E13.5),2(1X,E13.5),2(1X,I6))')
@@ -75,12 +75,12 @@ C            IF( DU2 .GT. COMA(J)*COMA(J) ) COMA(J) = DU
           IF(IPU.GT.1) CO2(J) = SQRT( CO2(J) / IPU - CO1(J) * CO1(J) )
  251    CONTINUE
 
-C Careful before changing output format : 
+C Careful before changing output format :
 C - some post-processor use it
 C - they may need high prec.!
       WRITE(LUN,FMT= '(/,''# PU_average (over trajct and pass #) : '',
      >/,T12,''Y'',T28,''T'',T45,''Z'',T60,''P'',
-     >T74,''path-L'',T90,''D'',T105,''time'', 
+     >T74,''path-L'',T90,''D'',T105,''time'',
      >/,2X,1P,7E16.8,/)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
 C     >  /,7X,1P,2E16.8,4E12.4,E16.8)' ) (CO1(J),J=2,6 ), CO1(1), CO1(7)
       IF(IPU.GT.1) WRITE(LUN,FMT= '(  1X,''Sigma  '',

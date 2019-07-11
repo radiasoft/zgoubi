@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory                    és
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory                    Ã©s
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  USA
@@ -30,10 +30,10 @@ C     ------------------------
 C     READS DATA FOR COILS
 C     ------------------------
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
- 
+
 C------ IL
       READ(NDAT,*) A(NOEL,1)
-C MS= total number of solenoids, D2, ... , DMS = distances from center to center. 
+C MS= total number of solenoids, D2, ... , DMS = distances from center to center.
 C----- MS, XL_1, RO_1, BO_1, Dist_2, XL_2, RO_2, BO_2, ... , Dist_MS, XL_MS, RO_MS, BO_MS
       READ(NDAT,*) MS,
      >(A(NOEL,3+4*M),A(NOEL,4+4*M),A(NOEL,5+4*M),A(NOEL,6+4*M),M=0,MS-1)
@@ -52,6 +52,6 @@ C      READ(NDAT,*) JA,(A(NOEL,I),I=ND+2,ND+4)
 C      A(NOEL,ND+1) = JA
       READ(NDAT,*) JA,(A(NOEL,I),I=ND+4,ND+6)
       A(NOEL,ND+3) = JA
- 
+
       RETURN
       END

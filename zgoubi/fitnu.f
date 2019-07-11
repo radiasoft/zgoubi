@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  FranÃ§ois MÃ©ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
-C  Brookhaven National Laboratory  
+C  FranÃ§ois MÃ©ot <fmeot@bnl.gov>
+C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE FITNU(LUN)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      PARAMETER (MXV=60) 
+      PARAMETER (MXV=60)
       INCLUDE "C.CONTR.H"     ! COMMON/CONTR/ VAT(MXV),XI(MXV)
       INCLUDE 'MXLD.H'
       INCLUDE "C.DON.H"     ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
@@ -33,7 +33,7 @@ C  -------
       INCLUDE "C.VARY.H"  ! COMMON/VARY/ NV,IR(MXV),NC,I1(MXV),I2(MXV),V(MXV),IS(MXV),W(MXV),
                           !     >IC(MXV),IC2(MXV),I3(MXV),XCOU(MXV),CPAR(MXV,27)
       EXTERNAL FF
- 
+
       DIMENSION Y(MXV),VI(MXV)
       SAVE MTHD
 
@@ -42,7 +42,7 @@ C      SAVE LSAV, FNAME
       LOGICAL SAVFT, OK, IDLUNI
       SAVE FNAME, SAVFT
 
-      DATA MTHD / 2 / 
+      DATA MTHD / 2 /
       DATA LSAV / -999 /
 
       CALL FITEST(SAVFT,FNAME,
@@ -80,11 +80,11 @@ C           CLOSE(LSAV)
       CALL ENDFIT
       RETURN
 
-      ENTRY FITNU2(MTHDI) 
+      ENTRY FITNU2(MTHDI)
       MTHD = MTHDI
       RETURN
 
-      ENTRY FITNU6(FNAMEI) 
+      ENTRY FITNU6(FNAMEI)
       SAVFT = .TRUE.
       FNAME = FNAMEI
       RETURN
