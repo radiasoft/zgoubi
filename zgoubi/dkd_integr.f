@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DKD_INTEGR(MAX_STEP, PAS, b0g0, eb2, AM, PREF, IMAX,
-     >      data, X_axis)
+      SUBROUTINE DKD_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass,
+     >      IMAX, data, X_axis)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
 C     ALL the variables are scaled
@@ -35,13 +35,12 @@ C     --------------------------------------------------------------------
       INCLUDE "SCALE_symp.H"  ! PARAMETER (l0, w0)
 
       INTEGER, INTENT(IN) :: MAX_STEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: PAS, b0g0, eb2, PREF, AM
+      DOUBLE PRECISION, INTENT(IN) :: stepsize, b0g0, eb2, mass
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION, INTENT(OUT) :: X_axis(MXT)
-      DOUBLE PRECISION theta, phi, x, y, z, s, t, px, py, pt
-      DOUBLE PRECISION S_scl, Z_scl, X_scl, PX_scl, Y_scl
-      DOUBLE PRECISION PY_scl, T_scl, PT_scl, KL, PAS0, hfPAS
-      DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Tdft, Pxz, Ptot, Etot
+      DOUBLE PRECISION halfStep, KL, Ptot, step0
+      DOUBLE PRECISION theta, phi, X, Y, Z, PX, PY, T, PT, S
+      DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
       INTEGER NUM_STEP, IT
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
@@ -55,99 +54,80 @@ C      TAR=F(7,I)*1.D5
 C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
-      hfPAS = 0.5D0*PAS                ! 0.5L/L0C      DP=F(1,I)
-      KL = eb2*PAS
+      halfStep = 0.5D0*stepsize                ! 0.5L/L0
+      KL = eb2*stepsize
 
-      DO CONCURRENT (IT = 1:IMAX)  !!! Loop over all the particles
-        Ptot = PREF*data(1,IT)         ! the total momentum
-        Etot = SQRT(Ptot*Ptot + AM*AM) ! the total energy
-        phi   = data(5,IT)*0.001D0     ! angle phi
-        theta = data(3,IT)*0.001D0     ! angle theta
+      DO CONCURRENT (IT = 1:IMAX)     ! Loop over all the particles
+        Ptot = data(1,IT)             ! the scaled total momentum
+        PT = SQRT(Ptot**2 + mass**2)  ! the scaled total energy
+        phi   = data(5,IT)*0.001D0    ! angle phi
+        theta = data(3,IT)*0.001D0    ! angle theta
 
-C---------Convert the coordinate system from Zgobi to DTA---------------
-        z = data(6,IT)*cos(phi)*cos(theta)
-        x = data(2,IT)
-        y = data(4,IT)
-        px= Ptot*cos(phi)*sin(theta)
-        py= Ptot*sin(phi)
-        pt= Etot
-        t = data(7,IT)        ! time = F(7,I), but TAR = F(7,I)*1.D5
-        s = data(6,IT)        ! displacement = F(6,I)
-
-C---------Scale the coordinated from DTA to dimensionless---------------
-        X_scl = x/l0
-        Y_scl = y/l0
-        Z_scl = z/l0
-        PX_scl = px/PREF
-        PY_scl = py/PREF
-        PT_scl = pt/PREF
-        T_scl = -t*w0
-        S_scl =  s/l0
+C---------Convert the coordinates from Zgobi notation to DTA notation,
+C---------then scaled by l0, w0, and P0 = PREF--------------------------
+        Z = data(6,IT)*cos(phi)*cos(theta)/l0
+        X = data(2,IT)/l0
+        Y = data(4,IT)/l0
+        PX= Ptot*cos(phi)*sin(theta)  ! Ptot is already scaled by PREF
+        PY= Ptot*sin(phi)
+        T = data(7,IT)*(-w0)          ! time = F(7,I), but TAR = F(7,I)*1.D5
+        S = data(6,IT)/l0             ! displacement = F(6,I)
 
 C---------Compute constants for a particle------------------------------
-        P2 = PT_scl*PT_scl - b0g0*b0g0
+        P2 = PT*PT - b0g0*b0g0
 
 C---------Start the symplectic dfift-kick-drift integrator--------------
         NUM_STEP = 1
         DO 999 WHILE (NUM_STEP .LE. MAX_STEP)
 C----------DRIFT: half the stepsize for the first drift-----------------
           IF (NUM_STEP .EQ. 1) THEN
-            Pxy2 = PX_scl*PX_scl + PY_scl*PY_scl
+            Pxy2 = PX*PX + PY*PY
             Ps2  = P2 - Pxy2
             Ps   = SQRT(Ps2)
-            Tdft = hfPAS/Ps                      ! the scaled drift time
+            delT = halfStep/Ps        ! the scaled drift time
 
-            X_scl = X_scl + Tdft*PX_scl
-            Y_scl = Y_scl + Tdft*PY_scl
-            T_scl = T_scl - Tdft*PT_scl
-            Z_scl = Z_scl + hfPAS*SQRT(1-Pxy2/Ps2)
-            S_scl = S_scl + hfPAS
+            X = X + delT*PX
+            Y = Y + delT*PY
+            T = T - delT*PT
+            Z = Z + halfStep*SQRT(1-Pxy2/Ps2)
+            S = S + halfStep
           ENDIF
 
 C----------KICK---------------------------------------------------------
-          PX_scl = PX_scl - KL*X_scl
-          PY_scl = PY_scl + KL*Y_scl
+          PX = PX - KL*X
+          PY = PY + KL*Y
 
 C----------DRIFT: the whole step size except for the last step----------
-          PAS0 = PAS
-          IF (NUM_STEP .EQ. MAX_STEP) PAS0 = hfPAS ! Stepsize = L/2 for the last step
+          step0 = stepsize
+          IF (NUM_STEP .EQ. MAX_STEP) step0 = halfStep ! Stepsize = L/2 for the last step
 
-          Pxy2 = PX_scl*PX_scl + PY_scl*PY_scl
+          Pxy2 = PX*PX + PY*PY
           Ps2  = P2 - Pxy2
           Ps   = SQRT(Ps2)
-          Tdft = PAS0/Ps
+          delT = step0/Ps
 
-          X_scl = X_scl + Tdft*PX_scl
-          Y_scl = Y_scl + Tdft*PY_scl
-          T_scl = T_scl - Tdft*PT_scl
-          Z_scl = Z_scl + PAS0*SQRT(1-Pxy2/Ps2)
-          S_scl = S_scl + PAS0
+          X = X + delT*PX
+          Y = Y + delT*PY
+          T = T - delT*PT
+          Z = Z + step0*SQRT(1-Pxy2/Ps2)
+          S = S + step0
 
           NUM_STEP = NUM_STEP + 1
  999    CONTINUE
 
-C----------Revert scaling coordinates from dimensionless to DTA---------
-        x = X_scl*l0
-        y = Y_scl*l0
-        z = Z_scl*l0
-        px= PX_scl*PREF
-        py= PY_scl*PREF
-        t = -T_scl/w0
-        s = S_scl*l0
-
 C----------Revert coordinates from DTA to Zgoubi------------------------
-C----------Assuming phi and theta are both quite small------------------
-        Pxz = SQRT(Ptot*Ptot - py*py) ! the projected momentum on the xz-plane
-        theta = ASIN(px/Pxz)  ! theta = arcsin(px/p_y)
-        phi = ASIN(py/Ptot)   ! phi = arcsin(py/P)
+C----------And then scale them back-------------------------------------
+        Pxz = SQRT(Ptot*Ptot - PY*PY) ! the projected momentum on the xz-plane
+        theta = ASIN(PX/Pxz)  ! theta = arcsin(px/p_y)
+        phi = ASIN(PY/Ptot)   ! phi = arcsin(py/P)
 
-        X_axis(IT) = z
-        data(2,IT) = x
+        X_axis(IT) = Z*l0
+        data(2,IT) = X*l0
         data(3,IT) = theta*1000.D0
-        data(4,IT) = y
+        data(4,IT) = Y*l0
         data(5,IT) = phi*1000.D0
-        data(6,IT) = s
-        data(7,IT) = t
+        data(6,IT) = S*l0
+        data(7,IT) = -T/w0
 
       ENDDO
 

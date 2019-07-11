@@ -48,7 +48,7 @@ C---------------------------------------------------------
       DOUBLE PRECISION XL, XE, RO, GAP, SCAL, SCAL0, B_mag, b2_mag
       DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, X_axis(MXT)
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
-      DOUBLE PRECISION eb2, b0g0, PAS0, PAS_scl, RO_scl
+      DOUBLE PRECISION eb2, b0g0, PAS0, stepsize, radius, mass
       INTEGER KUASEX, NRES, newIntegQ, MAX_STEP, J, IT
 
 C-------- Get the parameters for the magnetic qradrupole----------------
@@ -85,9 +85,9 @@ C-------- Sharp edge at entrance and exit
         ENDIF
       ENDIF
 
-      PAS0 = PAS           ! Integration step from input
+      PAS0 = PAS                          ! Integration step from input
       MAX_STEP = CEILING(XL/PAS0)
-      PAS = XL/MAX_STEP    ! Adjust the step size to fit the length
+      PAS = XL/MAX_STEP        ! Adjust the step size to fit the length
       IF(NRES.GT.0) THEN
         WRITE(NRES,103) PAS0, PAS
       ENDIF
@@ -113,17 +113,18 @@ C---------Compute some constants for the sympletic integration----------
       BETA0 = PREF / EREF
       GAMMA0 = EREF / AM
       b0g0 = 1.D0/(BETA0*GAMMA0)
-      PAS_scl = PAS/l0
-      RO_scl = RO/l0
-      eb2 = ((B_mag*RO)/BORO)/(RO_scl**2)   ! eb2/P0, i.e., scaled by the
+      mass = AM / PREF                      ! the scaled mass
+      stepsize = PAS/l0                     ! the scaled stepsize
+      radius = RO/l0                        ! the scaled radius
+      eb2 = ((B_mag*RO)/BORO)/(radius**2)   ! eb2/P0, i.e., scaled by the
                                             ! reference momentum P0 = BORO*Q
       IF (newIntegQ .EQ. 1) THEN
 C---------Option 1: Drift-kick-drift motion integrator------------------
-        CALL DKD_INTEGR(MAX_STEP, PAS_scl, b0g0, eb2, AM, PREF, IMAX,
+        CALL DKD_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass, IMAX,
      >           F, X_axis)
       ELSE IF (newIntegQ .EQ. 2) THEN
 C---------Option 2: Matrix-kick-Matrix motion integrator----------------
-        CALL MKM_INTEGR(MAX_STEP, PAS_scl, b0g0, eb2, AM, PREF, IMAX,
+        CALL MKM_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass, IMAX,
      >           F, X_axis)
       ELSE
         WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
