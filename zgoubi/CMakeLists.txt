@@ -100,7 +100,6 @@ set(_zgoubi_global_includes
   C.VARY.H
   C.VAR_2.H
   C.VITES.H
-  C.VITES_2.H
   FILHDF.H
   FILHDR.H
   FILPLT.H

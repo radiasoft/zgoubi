@@ -35,7 +35,7 @@ C      LOGICAL ZSYM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.TRAJ.H"     ! COMMON/TRAJ/ Y,T,Z,P,X,SAR,TAR,KEX,IT,AMT,QT
-      INCLUDE "C.VITES_2.H"     ! COMMON/VITES/ U(18),DQBR(6),DDT(6)
+      INCLUDE 'C.VITES.H'     ! COMMON/VITES/ U(6,3),DQBR(6),DDT(6)
 
       PARAMETER (IMX=6)
 
@@ -56,11 +56,9 @@ CALCUL VECTEURS dR ET dU RESULTANT DE DS
       DV=1.D0
       DO 3 I=1,IDS
          V=DV*DS/DBLE(I)
-         IK = I - IMX
          DO 1 K=1,3
-            IK = IK + IMX
-            DXF(K)=DXF(K)+U(IK)*DV
-            XF(K)=XF(K)+U(IK)*V
+            DXF(K)=DXF(K)+U(I,K)*DV
+            XF(K)=XF(K)+U(I,K)*V
  1       CONTINUE
          DV=V
  3    CONTINUE
@@ -83,9 +81,9 @@ C----- Tests implementation EL[T]MIR
 C          CALL VTHET(U(1))
 C          CALL ENRGY(Error)
           DANG2 =
-     >    ( (DXF(1)-U(1))*(DXF(1)-U(1)) +
-     >    (DXF(2)-U(7))*(DXF(2)-U(7)) +
-     >    (DXF(3)-U(13))*(DXF(3)-U(13)) )
+     >    ( (DXF(1)-U(1,1))*(DXF(1)-U(1,1)) +
+     >      (DXF(2)-U(1,2))*(DXF(2)-U(1,2)) +
+     >      (DXF(3)-U(1,3))*(DXF(3)-U(1,3)) )
 
           IF(DQBRO*DQBRO .GT. PREC
      >      .OR.  DANG2 .GT. PREC
