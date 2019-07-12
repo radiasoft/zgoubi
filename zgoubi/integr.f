@@ -126,7 +126,7 @@ C--------- Entrance is sharp edge
 C----- DEBUT DE BOUCLE SUR DXI
 C      Start loop on DXI
     1 CONTINUE
- 
+
 C---------------------  Some tests to possibly stop integration
       NSTEP = NSTEP+1
       IF(NSTEP .GT. MXSTEP) CALL KSTOP(2,IT,KEX,*97)

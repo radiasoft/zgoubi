@@ -22,8 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DKD_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass,
-     >      IMAX, data, X_axis)
+      SUBROUTINE DKD_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, data)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
 C     ALL the variables are scaled
@@ -34,14 +33,13 @@ C     --------------------------------------------------------------------
       INCLUDE "MAXCOO.H"      ! PARAMETER (MXT=10000)
       INCLUDE "SCALE_symp.H"  ! PARAMETER (l0, w0)
 
-      INTEGER, INTENT(IN) :: MAX_STEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: stepsize, b0g0, eb2, mass
+      INTEGER, INTENT(IN) :: NSTEP, IMAX
+      DOUBLE PRECISION, INTENT(IN) :: step, b0g0, eb2, mass
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
-      DOUBLE PRECISION, INTENT(OUT) :: X_axis(MXT)
       DOUBLE PRECISION halfStep, KL, Ptot, step0
-      DOUBLE PRECISION theta, phi, X, Y, Z, PX, PY, T, PT, S
+      DOUBLE PRECISION theta, phi, X, Y, PX, PY, T, PT, S
       DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
-      INTEGER NUM_STEP, IT
+      INTEGER IT, ISTEP
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
 C      DP=F(1,I)
@@ -54,33 +52,30 @@ C      TAR=F(7,I)*1.D5
 C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
-      halfStep = 0.5D0*stepsize                ! 0.5L/L0
-      KL = eb2*stepsize
+      halfStep = 0.5D0*step           ! 0.5L/L0
+      KL = eb2*step                   ! parameter for kick
 
       DO CONCURRENT (IT = 1:IMAX)     ! Loop over all the particles
         Ptot = data(1,IT)             ! the scaled total momentum
         PT = SQRT(Ptot**2 + mass**2)  ! the scaled total energy
+        P2 = PT*PT - b0g0*b0g0        ! P^2 = PT^2 - (beta0*gamma0)^(-2)
         phi   = data(5,IT)*0.001D0    ! angle phi
         theta = data(3,IT)*0.001D0    ! angle theta
 
 C---------Convert the coordinates from Zgobi notation to DTA notation,
 C---------then scaled by l0, w0, and P0 = PREF--------------------------
-        Z = data(6,IT)*cos(phi)*cos(theta)/l0
         X = data(2,IT)/l0
         Y = data(4,IT)/l0
         PX= Ptot*cos(phi)*sin(theta)  ! Ptot is already scaled by PREF
         PY= Ptot*sin(phi)
-        T = data(7,IT)*(-w0)          ! time = F(7,I), but TAR = F(7,I)*1.D5
+        T = data(7,IT)*(-w0)*1.D-6    ! time = F(7,I) in us
         S = data(6,IT)/l0             ! displacement = F(6,I)
 
-C---------Compute constants for a particle------------------------------
-        P2 = PT*PT - b0g0*b0g0
-
 C---------Start the symplectic dfift-kick-drift integrator--------------
-        NUM_STEP = 1
-        DO 999 WHILE (NUM_STEP .LE. MAX_STEP)
+        ISTEP = 1
+        DO 999 WHILE (ISTEP .LE. NSTEP)
 C----------DRIFT: half the stepsize for the first drift-----------------
-          IF (NUM_STEP .EQ. 1) THEN
+          IF (ISTEP .EQ. 1) THEN
             Pxy2 = PX*PX + PY*PY
             Ps2  = P2 - Pxy2
             Ps   = SQRT(Ps2)
@@ -89,8 +84,7 @@ C----------DRIFT: half the stepsize for the first drift-----------------
             X = X + delT*PX
             Y = Y + delT*PY
             T = T - delT*PT
-            Z = Z + halfStep*SQRT(1-Pxy2/Ps2)
-            S = S + halfStep
+            S = S + halfStep*SQRT(1+Pxy2/Ps2)
           ENDIF
 
 C----------KICK---------------------------------------------------------
@@ -98,8 +92,8 @@ C----------KICK---------------------------------------------------------
           PY = PY + KL*Y
 
 C----------DRIFT: the whole step size except for the last step----------
-          step0 = stepsize
-          IF (NUM_STEP .EQ. MAX_STEP) step0 = halfStep ! Stepsize = L/2 for the last step
+          step0 = step
+          IF (ISTEP .EQ. NSTEP) step0 = halfStep ! Stepsize = L/2 for the last step
 
           Pxy2 = PX*PX + PY*PY
           Ps2  = P2 - Pxy2
@@ -109,10 +103,9 @@ C----------DRIFT: the whole step size except for the last step----------
           X = X + delT*PX
           Y = Y + delT*PY
           T = T - delT*PT
-          Z = Z + step0*SQRT(1-Pxy2/Ps2)
-          S = S + step0
+          S = S + step0*SQRT(1+Pxy2/Ps2)
 
-          NUM_STEP = NUM_STEP + 1
+          ISTEP = ISTEP + 1
  999    CONTINUE
 
 C----------Revert coordinates from DTA to Zgoubi------------------------
@@ -121,13 +114,12 @@ C----------And then scale them back-------------------------------------
         theta = ASIN(PX/Pxz)  ! theta = arcsin(px/p_y)
         phi = ASIN(PY/Ptot)   ! phi = arcsin(py/P)
 
-        X_axis(IT) = Z*l0
         data(2,IT) = X*l0
         data(3,IT) = theta*1000.D0
         data(4,IT) = Y*l0
         data(5,IT) = phi*1000.D0
         data(6,IT) = S*l0
-        data(7,IT) = -T/w0
+        data(7,IT) = -T*1.D6/w0
 
       ENDDO
 

@@ -128,18 +128,17 @@ C-------- IEX<-1 <=> Particle stopped
           IF( CHPFS  ) CALL CHAREF(EVNT,XFS,ZERO,ZERO)
 
           IF( CHGRFS ) THEN
-C--------print phi and theta in mrad
-            IF((NRES.GT.0) .AND. (IT.EQ.1)) THEN
-              WRITE(NRES,199) '  KPOS  DP         Y(cm)   T(mrad)  ',
-     >        '   Z(cm)   P(mrad)  ', ' X(cm)         Y(cm)      ',
-     >        '  T(mrdd)      Z(cm)        P(mrad)   ', '  I'
- 199  FORMAT(2X, A, A, 8X, A, A, 8X, A)
-            ENDIF
+C--------print phi and theta in mrad, and time in ns--------------------
+            IF((NRES.GT.0) .AND. (IT.EQ.1)) WRITE(NRES,199)
+            IF(NRES.GT.0) WRITE(NRES,100) KEX,(FO(J,IT),J=1,5),
+     > X, Y, T*1000.D0, Z, P*1000.D0, SAR, TAR*1.0D-5, IT
 
-            IF(NRES.GT.0)
-     >        WRITE(NRES,100)'A',KEX,(FO(J,IT),J=1,5),
-     > X, Y, T*1000.D0, Z, P*1000.D0, IT
- 100          FORMAT(2X,A1,2X,I3,F8.4,4F10.3,8X,F12.6,4F13.6,8X,I5)
+ 199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)     ',
+     >  'Z(cm)   P(mrad)   |', 2X, ' X(cm)         Y(cm)        ',
+     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(us)',
+     >   4X, '  I')
+ 100  FORMAT(2X,'A',2X,I3,F8.4,4F10.3, '   |', F12.6, 6F13.6, 2X, I5)
+
               CALL CHANRF(EVNT,QSHROS,VSHROS)
           ENDIF
 

@@ -520,8 +520,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
      >    'INTEGRATOR OPTION = ', newIntegQ,
      >    '. It is NOT implemented, stop the job.'
-        CALL ENDJOB(
-     >' The choice of integrator has NOT been implemented', -99)
+        CALL ENDJOB(' This integrator has NOT been implemented', -99)
 
       ENDIF
 

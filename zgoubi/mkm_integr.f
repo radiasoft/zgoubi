@@ -22,8 +22,7 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MKM_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass,
-     >      IMAX, data, X_axis)
+      SUBROUTINE MKM_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, data)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
 C     ALL the variables are scaled
@@ -34,21 +33,18 @@ C     --------------------------------------------------------------------
       INCLUDE "MAXCOO.H"      ! PARAMETER (MXT=10000)
       INCLUDE "SCALE_symp.H"  ! PARAMETER (l0, w0)
 
-      INTEGER, INTENT(IN) :: MAX_STEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: stepsize, b0g0, eb2, mass
+      INTEGER, INTENT(IN) :: NSTEP, IMAX
+      DOUBLE PRECISION, INTENT(IN) :: step, b0g0, eb2, mass
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
-      DOUBLE PRECISION, INTENT(OUT) :: X_axis(MXT)
-
-      DOUBLE PRECISION theta, phi, X, Y, Z, PX, PY, T, PT, S
-      DOUBLE PRECISION X0, PX0, Y0, PY0, X1, PX1, Y1, PY1
-      DOUBLE PRECISION delX, delY, delZ, delP, delT, Ptot
+      DOUBLE PRECISION theta, phi, X, Y, PX, PY, T, PT, S
+      DOUBLE PRECISION X0, PX0, Y0, PY0, X1, PX1, Y1, PY1, Ptot
       DOUBLE PRECISION P1, P2, P3, P1m1, tP3, Ps, Psm1, Pxy2, Pxz
       DOUBLE PRECISION kp, kl, ckl, skl, chkl, shkl, halfStep
-      DOUBLE PRECISION tkl, c2kl, s2kl, ch2kl, sh2kl, stepsize2
-      DOUBLE PRECISION const1, const2, const3, kappa
+      DOUBLE PRECISION tkl, c2kl, s2kl, ch2kl, sh2kl, step2
+      DOUBLE PRECISION const1, const2, const3, kappa, delP, delT
       DOUBLE PRECISION MQ11, MQ12, MQ21, MQ22, MQ31, MQ32, MQ41, MQ42
       DOUBLE PRECISION MQ51, MQ52, MQ53, MQ54, MQ55, MQ56
-      INTEGER NUM_STEP, IT
+      INTEGER IT, ISTEP
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
 C      DP=F(1,I)
@@ -61,8 +57,8 @@ C      TAR=F(7,I)*1.D5
 C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
-      halfStep  = 0.5D0*stepsize                ! 0.5L/L0
-      stepsize2 = stepsize*stepsize             ! stepsize = L/L0, scaled
+      halfStep  = 0.5D0*step          ! 0.5L/L0
+      step2 = step*step               ! stepsize is scaled
 
       DO CONCURRENT (IT = 1:IMAX)     ! Loop over all the particles
         Ptot = data(1,IT)             ! the scaled total momentum
@@ -72,12 +68,11 @@ C-----------Constants for all the particles-----------------------------
 
 C---------Convert the coordinates from Zgobi notation to DTA notation,
 C---------then scaled by l0, w0, and P0 = PREF--------------------------
-        Z = data(6,IT)*cos(phi)*cos(theta)/l0
         X = data(2,IT)/l0
         Y = data(4,IT)/l0
         PX= Ptot*cos(phi)*sin(theta)  ! Ptot is already scaled by PREF
         PY= Ptot*sin(phi)
-        T = data(7,IT)*(-w0)          ! time = F(7,I), but TAR = F(7,I)*1.D5
+        T = data(7,IT)*(-w0)*1.D-6    ! time = F(7,I)
         S = data(6,IT)/l0             ! displacement = F(6,I)
 
 C---------Compute constants for the symplectic matrix-kick-matrix integrator
@@ -93,14 +88,12 @@ C---------These constants do not change for a particle during MKM-------
         const3 = 0.250D0*PT/P2        ! P_T*K/2P/P/2K = 0.250*P_T/P^2
 
         kp = kappa*P1                 ! KP is a constant for a particle
-        kl = kappa*halfStep           ! KL is a constant for a particle
-                                      ! Note that M_Q(L/2), half of L=stepsize
+        kl = kappa*halfStep           ! KL, note that M_Q(L/2)KL
         ckl = cos(kl)
         skl = sin(kl)
         chkl = cosh(kl)
         shkl = sinh(kl)
-
-        tkl = kappa*stepsize          ! 2KL, where L/2 is for M_Q operation
+        tkl = kappa*step              ! 2KL, where L/2 is for M_Q operation
         s2kl  = sin(tkl)              ! sin(2KL)
         c2kl  = cos(tkl)              ! cos(2KL)
         sh2kl = sinh(tkl)             ! sinh(2KL)
@@ -114,7 +107,6 @@ C---------These constants do not change for a particle during MKM-------
         MQ32 = shkl/kp
         MQ41 = chkl
         MQ42 = shkl*kp
-
         MQ51 = const1*(tkl+s2kl)      ! (P_T/2P^3)*[2KL+sin(2KL)]/4K
         MQ52 = const1*(sh2kl+tkl)     ! (P_T/2P^3)*[sinh(2KL)+2KL]/4K
         MQ53 = const2*(tkl-s2kl)      ! (P_T*K^2/2P)*[2KL-sin(2KL)]/4K
@@ -123,8 +115,7 @@ C---------These constants do not change for a particle during MKM-------
         MQ56 = const3*(ch2kl-1.D0)    ! (P_T*K/2P^2)*[cosh(2KL)-1]/2K
 
 C---------Start the symplectic matrix-kick-matrix integrator------------
-        NUM_STEP = 1
-        DO 999 WHILE (NUM_STEP .LE. MAX_STEP)
+        DO ISTEP = 1, NSTEP
 C----------M_Q(L/2)-----------------------------------------------------
           X0  = X
           Y0  = Y
@@ -143,8 +134,8 @@ C----------K_Q(L)-------------------------------------------------------
           Pxy2 = PX*PX + PY*PY
           Ps   = SQRT(P2 - Pxy2)
           Psm1 = 1.D0/Ps
-          delP = (Psm1 - P1m1)*stepsize
-          delT = (Psm1 - Pxy2/tP3)*stepsize
+          delP = (Psm1 - P1m1)*step
+          delT = (Psm1 - Pxy2/tP3)*step
 
           X = X + delP*PX
           Y = Y + delP*PY
@@ -164,15 +155,9 @@ C----------M_Q(L/2)-----------------------------------------------------
      >             + X1* X1*MQ53 +  Y1* Y1*MQ54
      >             + X1*PX1*MQ55 +  Y1*PY1*MQ56)
 
-C-----------Update Z and S after one cycle of MKM---------------
-          delX = X - X0
-          delY = Y - Y0
-          delZ = SQRT(stepsize2 - delX**2 - delY**2)
-          Z = Z + delZ
-          S = S + stepsize
-
-          NUM_STEP = NUM_STEP + 1
- 999    CONTINUE
+C-----------Update S(AR) after one step of MKM integration------------
+          S = S + SQRT(step2 + (X-X0)**2 + (Y-Y0)**2)
+        ENDDO
 
 C----------Revert coordinates from DTA to Zgoubi------------------------
 C----------And then scale them back-------------------------------------
@@ -180,13 +165,12 @@ C----------And then scale them back-------------------------------------
         theta = ASIN(PX/Pxz)  ! theta = arcsin(px/p_y)
         phi = ASIN(PY/Ptot)   ! phi = arcsin(py/P)
 
-        X_axis(IT) = Z*l0
         data(2,IT) = X*l0
         data(3,IT) = theta*1000.D0
         data(4,IT) = Y*l0
         data(5,IT) = phi*1000.D0
         data(6,IT) = S*l0
-        data(7,IT) = -T/w0
+        data(7,IT) = -T*1.D6/w0
 
       ENDDO
 

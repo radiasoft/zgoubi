@@ -46,10 +46,10 @@ C---------------------------------------------------------
       INCLUDE "C.UNITS.H"    ! COMMON/UNITS/ UNIT(MXJ)
 
       DOUBLE PRECISION XL, XE, RO, GAP, SCAL, SCAL0, B_mag, b2_mag
-      DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, X_axis(MXT)
+      DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
-      DOUBLE PRECISION eb2, b0g0, PAS0, stepsize, radius, mass
-      INTEGER KUASEX, NRES, newIntegQ, MAX_STEP, J, IT
+      DOUBLE PRECISION eb2, b0g0, PAS0, step, radius, mass, DUMMY
+      INTEGER KUASEX, NRES, newIntegQ, NSTEP, J, IT
 
 C-------- Get the parameters for the magnetic qradrupole----------------
 
@@ -86,8 +86,8 @@ C-------- Sharp edge at entrance and exit
       ENDIF
 
       PAS0 = PAS                          ! Integration step from input
-      MAX_STEP = CEILING(XL/PAS0)
-      PAS = XL/MAX_STEP        ! Adjust the step size to fit the length
+      NSTEP = CEILING(XL/PAS0)
+      PAS = XL/NSTEP        ! Adjust the step size to fit the length
       IF(NRES.GT.0) THEN
         WRITE(NRES,103) PAS0, PAS
       ENDIF
@@ -114,50 +114,45 @@ C---------Compute some constants for the sympletic integration----------
       GAMMA0 = EREF / AM
       b0g0 = 1.D0/(BETA0*GAMMA0)
       mass = AM / PREF                      ! the scaled mass
-      stepsize = PAS/l0                     ! the scaled stepsize
+      step = PAS/l0                         ! the scaled stepsize
       radius = RO/l0                        ! the scaled radius
       eb2 = ((B_mag*RO)/BORO)/(radius**2)   ! eb2/P0, i.e., scaled by the
                                             ! reference momentum P0 = BORO*Q
       IF (newIntegQ .EQ. 1) THEN
 C---------Option 1: Drift-kick-drift motion integrator------------------
-        CALL DKD_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass, IMAX,
-     >           F, X_axis)
+        CALL DKD_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F)
       ELSE IF (newIntegQ .EQ. 2) THEN
 C---------Option 2: Matrix-kick-Matrix motion integrator----------------
-        CALL MKM_INTEGR(MAX_STEP, stepsize, b0g0, eb2, mass, IMAX,
-     >           F, X_axis)
+        CALL MKM_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F)
       ELSE
         WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      >    newIntegQ, ', NOT implemented, stop the job.'
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
-     >    'INTEGRATOR OPTION = ', newIntegQ,
-     >    '. It is NOT implemented, stop the job.'
-        CALL ENDJOB(' The choice of integrator has NOT been implemented'
-     >, -99)
+     >    'INTEGRATOR OPTION = ', newIntegQ, ', NOT implemented, exit.'
+        CALL ENDJOB(' This integrator has NOT been implemented', 99)
       END IF
 
       DO IT = 1, IMAX
         IF(NRES.GT.0) THEN
-          IF(IT.EQ.1) THEN
-            WRITE(NRES,199)
-          ENDIF
+          IF(IT.EQ.1) WRITE(NRES,199)
 C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
-     >      X_axis(IT), (F(J,IT), J=2,5), IT
+     >      XL, (F(J,IT), J=2,6), F(7,IT), IT
         ENDIF
 
       ENDDO
 
-      SCUM = F(6,1)
-      TCUM = F(7,1)
+      CALL SCUMW(XL)
+      CALL SCUMR(DUMMY, SCUM, TCUM)
       IF(NRES .GT. 0) THEN
         WRITE(NRES,201) KP, XCE, YCE, ALE, SCUM*UNIT(5), TCUM
       ENDIF
 
- 199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)  ',
-     >  '   Z(cm)   P(mrad)  ', 8X, ' X(cm)         Y(cm)      ',
-     >  '  T(mrdd)      Z(cm)        P(mrad)   ', 8X, '  I')
- 200  FORMAT(2X, 'A', 2X, I3, F8.4, 4F10.3, 8X, F12.6, 4F13.6, 8X, I5)
+ 199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)     ',
+     >  'Z(cm)   P(mrad)   |', 2X, ' X(cm)         Y(cm)        ',
+     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(us)',
+     >   4X, '  I')
+ 200  FORMAT(2X,'A',2X,I3,F8.4,4F10.3, '   |', F12.6, 6F13.6, 2X, I5)
  201  FORMAT(/, 5X, 'KPOS =  ', I0,
      >  '.  Change  of  frame  at  exit  of  element.', /, 10X,
      >  'X =', 1P, G12.4, ' CM   Y =', G12.4, 1P,
