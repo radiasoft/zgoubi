@@ -36,7 +36,7 @@ C     --------------------------------------------------------
       INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
-      INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)
+      INCLUDE "C.DDEXYZ.H"     ! COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       INCLUDE "C.D3E.H"     ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
       INCLUDE "C.D4EXYZ_2.H"     ! COMMON/D4EXYZ/ D4EX(81), D4EY(81), D4EZ(81)
 
@@ -60,8 +60,8 @@ C     --------------------------------------------------------
  2    CONTINUE
 
       E(1,:) = 0.D0
-      DE(:) = 0.D0
-      DDE(:) = 0.D0
+      DE(:,:) = 0.D0
+      DDE(:,:,:) = 0.D0
       D3EX(:) = 0.D0
       D3EY(:) = 0.D0
       D3EZ(:) = 0.D0
