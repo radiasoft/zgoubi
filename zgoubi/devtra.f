@@ -36,7 +36,7 @@ C     -----------------------------------------
       INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)
       INCLUDE "C.D3E.H"     ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
       INCLUDE "C.D4EXYZ_2.H"     ! COMMON/D4EXYZ/ D4EX(81), D4EY(81), D4EZ(81)
-      INCLUDE "C.DDBXYZ_2.H"     ! COMMON/DDBXYZ/ DB(9),DDB(27)
+      INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       INCLUDE "C.MARK.H"     ! COMMON/MARK/ KART,KALC,KERK,KUASEX
 C      LOGICAL ZSYM
       INCLUDE "C.TYPFLD.H"     ! COMMON/TYPFLD/ KFLD,MG,LC,ML,ZSYM
@@ -94,21 +94,19 @@ c        endif
 CALCUL u'=uxB
       CALL PVECT(1,1,1)
       DO 10 K=1,3
- 10     U(2,K)=V(1,K)
+        U(2,K)=V(1,K)
+ 10   CONTINUE
 
 C      umod2 = sqrt(U(2,1)*U(2,1) +U(2,2)*U(2,2) +U(2,3)*U(2,3))
 
       IF(IDS.LE.2) GOTO 99
 
 C      B'=dB/dS
-      KIM = -IMAX
       DO 12 K=1,3
         TP=0.D0
-        KIM = KIM + IMAX
         IF(IDB.GE.1) THEN
           DO 11 I=1,3
-            IK = I + KIM
-            TP=TP+U(1,I)*DB(IK)
+            TP=TP+U(1,I)*DB(I,K)
  11       CONTINUE
         ENDIF
         B(2,K)=TP
@@ -118,36 +116,30 @@ CALCUL u''=u'xB + uxB'
       CALL PVECT(1,1,2)
       CALL PVECT(2,2,1)
       DO 13 K=1,3
- 13     U(3,K)=V(1,K)+V(2,K)
+        U(3,K)=V(1,K)+V(2,K)
+ 13   CONTINUE
 
 C      umod3 = sqrt(U(3,1)*U(3,1) +U(3,2)*U(3,2) +U(3,3)*U(3,3))
 
       IF(IDS.LE.3) GOTO 99
 
 CALCUL B''=d2B/ds2
-      KIJM = -IJMAX-IMAX
-      KIM = -IMAX
       DO 15 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIJM = KIJM + IJMAX
-          KIM = KIM + IMAX
           DO 14 I=1,3
-            IK = I + KIM
-            TP=TP+U(2,I)*DB(IK)
+            TP=TP+U(2,I)*DB(I,K)
 C
 C           symetrie
 C
             IF(IDB.GE.2) THEN
-              IKIJ = I + KIJM
               DO 141 J=I,3
                 IF(I .EQ. J) THEN
                   XMUL=1.0D0
                 ELSE
                   XMUL=2.0D0
                 ENDIF
-                IJK = IKIJ + J*IMAX
-                TP=TP+XMUL*U(1,I)*U(1,J)*DDB(IJK)
+                TP=TP+XMUL*U(1,I)*U(1,J)*DDB(I,J,K)
  141          CONTINUE
             ENDIF
  14       CONTINUE
@@ -160,29 +152,23 @@ CALCUL u'''=u''xB + 2*u'B' + uxB''
       CALL PVECT(2,2,2)
       CALL PVECT(3,3,1)
       DO 16 K=1,3
- 16     U(4,K)=V(1,K)+2.D0*V(2,K)+V(3,K)
+        U(4,K)=V(1,K)+2.D0*V(2,K)+V(3,K)
+ 16   CONTINUE
 
 C      umod4 = sqrt(U(4,1)*U(4,1) +U(4,2)*U(4,2) +U(4,3)*U(4,3))
 
       IF(IDS.LE.4) GOTO 99
 
 C      B'''=d3B/ds3
-      KIJM = -IJMAX-IMAX
-      KIM = -IMAX
       DO 18 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIJM = KIJM + IJMAX
-          KIM = KIM + IMAX
           DO 17 I=1,3
-            IK = I + KIM
-            TP=TP+U(3,I)*DB(IK)
+            TP=TP+U(3,I)*DB(I,K)
             IF(IDB.GE.2) THEN
               IMIM2 = I - IM2
-              IKIJ = I + KIJM
               DO 172 J=1,3
-                IJK = IKIJ + J*IMAX
-                TP=TP+3.D0*U(2,I)*U(1,J)*DDB(IJK)
+                TP=TP+3.D0*U(2,I)*U(1,J)*DDB(I,J,K)
 C
 C               symetrie
 C
@@ -227,30 +213,24 @@ CALCUL u''''=u'''xB + 3*u''xB' + 3*u'xB''+ B'''
       CALL PVECT(3,3,2)
       CALL PVECT(4,4,1)
       DO 19 K=1,3
- 19     U(5,K)=V(1,K)+3.D0*V(2,K)+3.D0*V(3,K)+V(4,K)
+        U(5,K)=V(1,K)+3.D0*V(2,K)+3.D0*V(3,K)+V(4,K)
+ 19   CONTINUE
 
 C      umod5 = sqrt(U(5,1)*U(5,1) +U(5,2)*U(5,2) +U(5,3)*U(5,3))
 
       IF (IDS.LE.5) GOTO 99
 
 C     B''''=d4B/ds4
-      KIJM = -IJMAX-IMAX
-      KIM = -IMAX
       DO 44 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIJM = KIJM + IJMAX
-          KIM = KIM + IMAX
           DO 43 I=1,3
-            IK = I + KIM
-            TP=TP+U(4,I)*DB(IK)
+            TP=TP+U(4,I)*DB(I,K)
             IF(IDB.GE.2) THEN
               IMIM3 = I - IM3
               IMIM2 = I - IM2
-              IKIJ = I + KIJM
               DO 432 J=1,3
-                IJK = IKIJ + J*IMAX
-                TP=TP+(4.D0*U(3,I)*U(1,J)+3.D0*U(2,I)*U(2,J))*DDB(IJK)
+                TP=TP+(4.D0*U(3,I)*U(1,J)+3.D0*U(2,I)*U(2,J))*DDB(I,J,K)
                 IF(IDB.GE.3) THEN
                   JIM = J*IMAX
                   IJIM = IMIM3 + JIM
@@ -324,7 +304,8 @@ CALCUL   u'''''=u''''xB + 4*u'''xB' + 6*u''xB''+ 4*u'xB''' + B''''
       CALL PVECT(4,4,2)
       CALL PVECT(5,5,1)
       DO 45 K=1,3
- 45     U(6,K)=V(1,K)+4.D0*(V(2,K)+V(4,K))+6.D0*V(3,K)+V(5,K)
+        U(6,K)=V(1,K)+4.D0*(V(2,K)+V(4,K))+6.D0*V(3,K)+V(5,K)
+ 45   CONTINUE
 
 C      umod6 = sqrt(U(6,1)*U(6,1) +U(6,2)*U(6,2) +U(6,3)*U(6,3))
 
@@ -350,7 +331,8 @@ Calcul (e.u)/Bro, Bro'
       DQBR(1)=DBSB*QBR
 Calcul u'=E/v + uxB - uBro'/Bro
       DO 21 K=1,3
- 21     U(2,K)=E(1,K)/VL  - U(1,K)*DBSB
+        U(2,K) = E(1,K) / VL - U(1,K) * DBSB
+ 21   CONTINUE
 
       IF(IDS.LE.2) GOTO 99
 
@@ -633,7 +615,8 @@ CALCUL u'=uxB
       CALL PVECT(1,1,1)
 Calcul u'=E/v + uxB - uBro'/Bro
       DO 31 K=1,3
- 31     U(2,K)=E(1,K)/VL + V(1,K) - U(1,K)*DBSB
+        U(2,K)=E(1,K)/VL + V(1,K) - U(1,K)*DBSB
+ 31   CONTINUE
 
       IF(IDS.LE.2) GOTO 99
 
@@ -659,14 +642,11 @@ Calcul (e.u)'/Bro, Bro''
       D2BSB=D1SV*EU(1)+EU(2)/VL
       DQBR(2)=D2BSB*QBR
 C      b'/Bro = B'|Bro=cste
-      KIM = -IMAX
       DO 312 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIM = KIM + IMAX
           DO 311 I=1,3
-            IK = I + KIM
-            TP=TP+U(1,I)*DB(IK)
+            TP=TP+U(1,I)*DB(I,K)
  311      CONTINUE
         ENDIF
         B(2,K)=TP
@@ -722,29 +702,22 @@ Calcul (e.u)''/Bro, Bro'''
       D3BSB=D21SV*EU(1)+2.D0*D1SV*EU(2)+EU(3)/VL
       DQBR(3)=D3BSB*QBR
 CALCUL b''/Bro = B''|Bro=cste
-      KIJM = -IJMAX-IMAX
-      KIM = -IMAX
       DO 315 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIJM = KIJM + IJMAX
-          KIM = KIM + IMAX
           DO 314 I=1,3
-            IK = I + KIM
-            TP=TP+U(2,I)*DB(IK)
+            TP=TP+U(2,I)*DB(I,K)
 C
 C           symetrie
 C
             IF(IDB.GE.2) THEN
-              IKIJ = I + KIJM
               DO 3141 J=I,3
                 IF(I .EQ. J) THEN
                   XMUL=1.0D0
                 ELSE
                   XMUL=2.0D0
                 ENDIF
-                IJK = IKIJ + J*IMAX
-                TP=TP+XMUL*U(1,I)*U(1,J)*DDB(IJK)
+                TP=TP+XMUL*U(1,I)*U(1,J)*DDB(I,J,K)
  3141         CONTINUE
             ENDIF
  314      CONTINUE
@@ -830,22 +803,15 @@ Calcul (e.u)'''/Bro, Bro''''
       D4BSB=D31SV*EU(1)+3.D0*(D21SV*EU(2)+D1SV*EU(3))+EU(4)/VL
       DQBR(4)=D4BSB*QBR
 CALCUL b'''/Bro = B'''|Bro=cste
-      KIJM = -IJMAX-IMAX
-      KIM = -IMAX
       DO 318 K=1,3
         TP=0.D0
         IF(IDB.GE.1) THEN
-          KIJM = KIJM + IJMAX
-          KIM = KIM + IMAX
           DO 317 I=1,3
-            IK = I + KIM
-            TP=TP+U(3,I)*DB(IK)
+            TP=TP+U(3,I)*DB(I,K)
             IF(IDB.GE.2) THEN
               IMIM2 = I - IM2
-              IKIJ = I + KIJM
               DO 3172 J=1,3
-                IJK = IKIJ + J*IMAX
-                TP=TP+3.D0*U(2,I)*U(1,J)*DDB(IJK)
+                TP=TP+3.D0*U(2,I)*U(1,J)*DDB(I,J,K)
 C
 C               symetrie
 C

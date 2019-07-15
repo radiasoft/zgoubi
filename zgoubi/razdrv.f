@@ -33,7 +33,7 @@ C     --------------------------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      INCLUDE "C.DDBXYZ_2.H"     ! COMMON/DDBXYZ/ DB(9),DDB(27)
+      INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)
@@ -44,51 +44,31 @@ C     --------------------------------------------------------
 
  1    CONTINUE
 
-      DO 10 I=1,3
- 10     B(1,I)=0.D0
-        DO 11 I=1,9
- 11       DB(I)=0.D0
-          DO 12 I=1,27
- 12         DDB(I)=0.D0
-            DO 13 I=1,27
-              D3BX(I)=0.D0
-              D3BY(I)=0.D0
-              D3BZ(I)=0.D0
- 13         CONTINUE
-              DO 14 I=1,81
-                D4BX(I)=0.D0
-                D4BY(I)=0.D0
-                D4BZ(I)=0.D0
- 14           CONTINUE
-
-      DO 15 J=1,5
-        DO 15 I=1,5
- 15       BZ0(I,J) = 0.D0
+      B(1,:) = 0.D0
+      DB(:,:) = 0.D0
+      DDB(:,:,:) = 0.D0
+      D3BX(:) = 0.D0
+      D3BY(:) = 0.D0
+      D3BZ(:) = 0.D0
+      D4BX(:) = 0.D0
+      D4BY(:) = 0.D0
+      D4BZ(:) = 0.D0
+      BZ0(:,:) = 0.D0
 
       IF(IOP .EQ. 1) RETURN
 
  2    CONTINUE
 
-      DO 20 I=1,3
- 20     E(1,I)=0.D0
-        DO 21 I=1,9
- 21       DE(I)=0.D0
-          DO 22 I=1,27
- 22         DDE(I)=0.D0
-            DO 23 I=1,27
-              D3EX(I)=0.D0
-              D3EY(I)=0.D0
-              D3EZ(I)=0.D0
- 23         CONTINUE
-              DO 24 I=1,81
-                D4EX(I)=0.D0
-                D4EY(I)=0.D0
-                D4EZ(I)=0.D0
- 24           CONTINUE
-
-      DO 25 J=1,5
-        DO 25 I=1,5
- 25       EZ0(I,J) = 0.D0
+      E(1,:) = 0.D0
+      DE(:) = 0.D0
+      DDE(:) = 0.D0
+      D3EX(:) = 0.D0
+      D3EY(:) = 0.D0
+      D3EZ(:) = 0.D0
+      D4EX(:) = 0.D0
+      D4EY(:) = 0.D0
+      D4EZ(:) = 0.D0
+      EZ0(:,:) = 0.D0
 
       RETURN
       END

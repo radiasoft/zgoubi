@@ -46,7 +46,6 @@ set(_zgoubi_global_includes
   C.D4EXYZ.H
   C.D4EXYZ_2.H
   C.DDBXYZ.H
-  C.DDBXYZ_2.H
   C.DDEXYZ.H
   C.DDEXYZ_2.H
   C.DEPL.H
