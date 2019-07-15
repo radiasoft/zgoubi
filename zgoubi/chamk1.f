@@ -45,7 +45,6 @@ C     --------------------------------------------------------
       INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
       INCLUDE "C.D3B_2.H"     ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
       INCLUDE "C.D4B.H"     ! COMMON/D4BXYZ/ D4BX(3,3,3,3) ,D4BY(3,3,3,3) ,D4BZ(3,3,3,3)
-      INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)
       INCLUDE "C.D3E_2.H"     ! COMMON/D3EXYZ/ D3EX(3,3,3), D3EY(3,3,3), D3EZ(3,3,3)
       INCLUDE "C.D4EXYZ.H"     ! COMMON/D4EXYZ/ D4EX(3,3,3,3) ,D4EY(3,3,3,3) ,D4EZ(3,3,3,3)
       INCLUDE "C.INTEG.H"     ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
