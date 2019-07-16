@@ -34,7 +34,7 @@ C     --------------------------------------------------------
       INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.DDBXYZ.H"     ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
-      INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
+      INCLUDE "C.D3B_2.H"     ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "C.DDEXYZ.H"     ! COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       INCLUDE "C.D3E.H"     ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
@@ -47,9 +47,9 @@ C     --------------------------------------------------------
       B(1,:) = 0.D0
       DB(:,:) = 0.D0
       DDB(:,:,:) = 0.D0
-      D3BX(:) = 0.D0
-      D3BY(:) = 0.D0
-      D3BZ(:) = 0.D0
+      D3BX(:,:,:) = 0.D0
+      D3BY(:,:,:) = 0.D0
+      D3BZ(:,:,:) = 0.D0
       D4BX(:) = 0.D0
       D4BY(:) = 0.D0
       D4BZ(:) = 0.D0
