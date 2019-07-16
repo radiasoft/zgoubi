@@ -166,7 +166,6 @@ C      B'''=d3B/ds3
           DO 17 I=1,3
             TP=TP+U(3,I)*DB(I,K)
             IF(IDB.GE.2) THEN
-              IMIM2 = I - IM2
               DO 172 J=1,3
                 TP=TP+3.D0*U(2,I)*U(1,J)*DDB(I,J,K)
 C
@@ -174,7 +173,6 @@ C               symetrie
 C
                 IF(J.GE.I) THEN
                   IF(IDB.GE.3) THEN
-                    IJL2 = IMIM2 + J*IMAX
                     DO 171 L = J,3
                       IF(J .EQ. I) THEN
                         IF(L .EQ. J) THEN
@@ -189,7 +187,6 @@ C
                           XMUL=6.0D0
                         ENDIF
                       ENDIF
-                      IJL = IJL2 + L*IJMAX
                       IF    ( K .EQ. 1 ) THEN
                         TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                       ELSEIF( K .EQ. 2 ) THEN
@@ -227,16 +224,10 @@ C     B''''=d4B/ds4
           DO 43 I=1,3
             TP=TP+U(4,I)*DB(I,K)
             IF(IDB.GE.2) THEN
-              IMIM3 = I - IM3
-              IMIM2 = I - IM2
               DO 432 J=1,3
                 TP=TP+(4.D0*U(3,I)*U(1,J)+3.D0*U(2,I)*U(2,J))*DDB(I,J,K)
                 IF(IDB.GE.3) THEN
-                  JIM = J*IMAX
-                  IJIM = IMIM3 + JIM
-                  IJL  = IMIM2 + JIM
                   DO 433 L = 1,3
-                    IJL = IJL + IJMAX
                     IF    (K .EQ. 1) THEN
                       TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                     ELSEIF(K .EQ. 2) THEN
@@ -247,7 +238,6 @@ C     B''''=d4B/ds4
                     IF(J.GE.I) THEN
                       IF(L.GE.J) THEN
                         IF(IDB.GE.4) THEN
-                          IJLM2 = IJIM + L*IJMAX
                           DO 431 M=L,3
                             IF(J .EQ. I) THEN
                               IF(L .EQ. J) THEN
@@ -809,7 +799,6 @@ CALCUL b'''/Bro = B'''|Bro=cste
           DO 317 I=1,3
             TP=TP+U(3,I)*DB(I,K)
             IF(IDB.GE.2) THEN
-              IMIM2 = I - IM2
               DO 3172 J=1,3
                 TP=TP+3.D0*U(2,I)*U(1,J)*DDB(I,J,K)
 C
@@ -817,7 +806,6 @@ C               symetrie
 C
                 IF(J.GE.I) THEN
                   IF(IDB.GE.3) THEN
-                    IJL2 = IMIM2 + J*IMAX
                     DO 3171 L = J,3
                       IF(J .EQ. I) THEN
                         IF(L .EQ. J) THEN
@@ -832,7 +820,6 @@ C
                           XMUL=6.0D0
                         ENDIF
                       ENDIF
-                      IJL = IJL2 + L*IJMAX
                       IF    ( K .EQ. 1 ) THEN
                         TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                       ELSEIF( K .EQ. 2 ) THEN
