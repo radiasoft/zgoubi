@@ -31,7 +31,7 @@ C     (eqs. 2.2.4-5)
 C     -----------------------------------------
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      INCLUDE "C.D3B.H"     ! COMMON/D3BXYZ/ D3BX(27), D3BY(27), D3BZ(27)
+      INCLUDE "C.D3B_2.H"     ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
       INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
       INCLUDE "C.DDEXYZ_2.H"     ! COMMON/DDEXYZ/ DE(9),DDE(27)
       INCLUDE "C.D3E.H"     ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
@@ -191,11 +191,11 @@ C
                       ENDIF
                       IJL = IJL2 + L*IJMAX
                       IF    ( K .EQ. 1 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                       ELSEIF( K .EQ. 2 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BY(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BY(I,J,L)
                       ELSEIF( K .EQ. 3 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BZ(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BZ(I,J,L)
                       ENDIF
  171                CONTINUE
                   ENDIF
@@ -238,11 +238,11 @@ C     B''''=d4B/ds4
                   DO 433 L = 1,3
                     IJL = IJL + IJMAX
                     IF    (K .EQ. 1) THEN
-                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BX(IJL)
+                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                     ELSEIF(K .EQ. 2) THEN
-                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BY(IJL)
+                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BY(I,J,L)
                     ELSEIF(K .EQ. 3) THEN
-                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BZ(IJL)
+                      TP = TP+6.D0*U(2,I)*U(1,J)*U(1,L)*D3BZ(I,J,L)
                     ENDIF
                     IF(J.GE.I) THEN
                       IF(L.GE.J) THEN
@@ -834,11 +834,11 @@ C
                       ENDIF
                       IJL = IJL2 + L*IJMAX
                       IF    ( K .EQ. 1 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BX(I,J,L)
                       ELSEIF( K .EQ. 2 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BY(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BY(I,J,L)
                       ELSEIF( K .EQ. 3 ) THEN
-                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BZ(IJL)
+                        TP = TP+XMUL*U(1,I)*U(1,J)*U(1,L)*D3BZ(I,J,L)
                       ENDIF
  3171               CONTINUE
                   ENDIF
