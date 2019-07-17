@@ -34,8 +34,8 @@ C     --------------------------------------------------------
       INCLUDE "C.CHAMP.H"     ! COMMON/CHAMP/ BZ0(5,5), EZ0(5,5)
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
       INCLUDE "C.DDBXYZ.H"    ! COMMON/DDBXYZ/ DB(3,3),DDB(3,3,3)
-      INCLUDE "C.D3B.H"       ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
-      INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
+      INCLUDE "C.D3B.H"       ! COMMON/D3BXYZ/ D3BX(3,3,3),D3BY(3,3,3),D3BZ(3,3,3)
+      INCLUDE "C.D4B.H"       ! COMMON/D4BXYZ/ D4BX(3,3,3,3),D4BY(3,3,3,3),D4BZ(3,3,3,3)
       INCLUDE "C.DDEXYZ.H"    ! COMMON/DDEXYZ/ DE(3,3),DDE(3,3,3)
       INCLUDE "C.D3E.H"       ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
       INCLUDE "C.D4EXYZ_2.H"  ! COMMON/D4EXYZ/ D4EX(81), D4EY(81), D4EZ(81)
@@ -50,9 +50,9 @@ C     --------------------------------------------------------
       D3BX(:,:,:) = 0.D0
       D3BY(:,:,:) = 0.D0
       D3BZ(:,:,:) = 0.D0
-      D4BX(:) = 0.D0
-      D4BY(:) = 0.D0
-      D4BZ(:) = 0.D0
+      D4BX(:,:,:,:) = 0.D0
+      D4BY(:,:,:,:) = 0.D0
+      D4BZ(:,:,:,:) = 0.D0
       BZ0(:,:) = 0.D0
 
       IF(IOP .EQ. 1) RETURN
