@@ -31,8 +31,8 @@ C     (eqs. 2.2.4-5)
 C     -----------------------------------------
       INCLUDE "C.CDF.H"       ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "C.CHAVE.H"     ! COMMON/CHAVE/ B(5,3),V(5,3),E(5,3)
-      INCLUDE "C.D3B.H"       ! COMMON/D3BXYZ/ D3BX(3,3,3), D3BY(3,3,3), D3BZ(3,3,3)
-      INCLUDE "C.D4B_2.H"     ! COMMON/D4BXYZ/ D4BX(81) ,D4BY(81) ,D4BZ(81)
+      INCLUDE "C.D3B.H"       ! COMMON/D3BXYZ/ D3BX(3,3,3),D3BY(3,3,3),D3BZ(3,3,3)
+      INCLUDE "C.D4B.H"       ! COMMON/D4BXYZ/ D4BX(3,3,3,3),D4BY(3,3,3,3),D4BZ(3,3,3,3)
       INCLUDE "C.DDEXYZ_2.H"  ! COMMON/DDEXYZ/ DE(9),DDE(27)
       INCLUDE "C.D3E.H"       ! COMMON/D3EXYZ/ D3EX(27), D3EY(27), D3EZ(27)
       INCLUDE "C.D4EXYZ_2.H"  ! COMMON/D4EXYZ/ D4EX(81), D4EY(81), D4EZ(81)
@@ -264,16 +264,15 @@ C     B''''=d4B/ds4
                                 XMUL=12.0D0
                               ENDIF
                             ENDIF
-                            IJLM = IJLM2 + M*IJLMAX
                             IF    (K .EQ. 1) THEN
                               TP = TP+U(1,I)*U(1,J)*U(1,L)*U(1,M)*
-     S                             D4BX(IJLM)*XMUL
+     S                             D4BX(I,J,L,M)*XMUL
                             ELSEIF(K .EQ. 2) THEN
                               TP = TP+U(1,I)*U(1,J)*U(1,L)*U(1,M)*
-     S                             D4BY(IJLM)*XMUL
+     S                             D4BY(I,J,L,M)*XMUL
                             ELSEIF(K .EQ. 3) THEN
                               TP = TP+U(1,I)*U(1,J)*U(1,L)*U(1,M)*
-     S                             D4BZ(IJLM)*XMUL
+     S                             D4BZ(I,J,L,M)*XMUL
                             ENDIF
  431                      CONTINUE
                         ENDIF
