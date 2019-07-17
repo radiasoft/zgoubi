@@ -30,8 +30,7 @@ C  -------
       INTEGER NN
       INTEGER MXV
       PARAMETER (MXV=60)
-      DOUBLE PRECISION X(3*MXV),P(MXV)
-      INCLUDE "C.VAR_2.H"     ! COMMON /VAR/ X,P
+      INCLUDE "C.VAR.H"     ! COMMON /VAR/ X(3*MXV), P(MXV)
       DOUBLE PRECISION FF
       EXTERNAL FF
       INTEGER I

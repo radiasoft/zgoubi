@@ -1,1 +1,2 @@
-      COMMON /VAR/ X(3*MXV),P(MXV)
+      DOUBLE PRECISION X(3*MXV), P(MXV)
+      COMMON /VAR/ X, P

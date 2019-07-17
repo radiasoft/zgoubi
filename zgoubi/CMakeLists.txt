@@ -95,7 +95,6 @@ set(_zgoubi_global_includes
   C.UNITS.H
   C.VAR.H
   C.VARY.H
-  C.VAR_2.H
   C.VITES.H
   FILHDF.H
   FILHDR.H
