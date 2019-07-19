@@ -5,6 +5,7 @@ configure_file(
 )
 
 set( test_directories
+  chromPSR
   warmSnake
   spinESRF_18GeV
   spinSaturne
