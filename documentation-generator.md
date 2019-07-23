@@ -1,11 +1,9 @@
 ---
 project: zgoubi
 summary: charged-particle motion in magnetic electric fields
-src_dir: toolbox
 src_dir: zgoubi
 src_dir: zpop
 src_dir: common
-src_dir: exemples
 output_dir: doc
 preprocess: true
 display: public
@@ -48,7 +46,6 @@ X marks indicated documented all files that do not require modification for ford
  - [ ] [common](./common)
  - [ ] [exemples](./exemples)
  - [ ] [modules](./modules)
- - [ ] [toolbox](./toolbox)
 
 
 Compilers
