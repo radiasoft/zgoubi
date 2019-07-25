@@ -48,7 +48,7 @@ C      PARAMETER (MXTA=45)
       INCLUDE 'MXFS.H'
       INCLUDE 'MXSCL.H'     
       INCLUDE "C.SCAL.H"     ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
-      INCLUDE "C.INTGRT_OPT.H"  ! COMMON/INTGRT_OPT/ INTEG_OPT
+
       PARAMETER (KSIZ=10)
       CHARACTER(KSIZ) KLEY
       SAVE KLEY
@@ -454,8 +454,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
       KALC = 3
       KUASEX = 2
       IF(READAT) THEN
-        CALL RQSOD(NDAT,NOEL,MXL,A,
-     >                        ND(NOEL))
+        CALL RQSOD(NDAT,NOEL,MXL,A,ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
@@ -483,7 +482,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
      >', CALL fastSympQuad, using the drift-kick-drift integrator'
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
      >     'INTEGRATOR OPTION = ', newIntegQ,
-     >     ', using the drift-kick-drift integrator'
+     >     ', using the drift-kick-drift integrator for the quad'
 
         CALL CPU_TIME(time_begin)
         CALL fastSympQuad(KUASEX, NRES, newIntegQ)
@@ -501,7 +500,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
      >', Call fastSympQuad, using the matrix-kick-matrix integrator'
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
      >     'INTEGRATOR OPTION = ', newIntegQ,
-     >     ', using the matrix-kick-matrix integrator'
+     >     ', using the matrix-kick-matrix integrator for the quad'
 
         CALL CPU_TIME(time_begin)
         CALL fastSympQuad(KUASEX, NRES, newIntegQ)
@@ -519,7 +518,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
      >     newIntegQ, ', NOT implemented, stop the job.'
         IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
      >    'INTEGRATOR OPTION = ', newIntegQ,
-     >    '. It is NOT implemented, stop the job.'
+     >    '. It is NOT implemented for quad, stop the job.'
         CALL ENDJOB(' This integrator has NOT been implemented', -99)
 
       ENDIF
@@ -795,11 +794,57 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       KALC = 3
       KUASEX = MPOL+1
       IF(READAT) THEN
-        CALL RMULTI(NDAT,NOEL,MXL,A,MPOL,
-     >                        ND(NOEL))
+        CALL RMULTI(NDAT, NOEL, MXL, A, MPOL, ND(NOEL))
       ELSE
         CALL STPSI1(NOEL)
       ENDIF
+      IF(FITGET) CALL FITGT1
+
+      newIntegQ = NINT(A(noel,100))
+      IF (newIntegQ .EQ. 0) THEN
+        WRITE (*,'(/, 10X, A, I1, A, /)')
+     >     'newIntegQ = ', newIntegQ, ', CALL QUASEX for multipole'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >     'INTEGRATOR OPTION = ', newIntegQ,
+     >     ', using the default integrator for multipole'
+
+        CALL CPU_TIME(time_begin)
+        CALL QUASEX(ND(NOEL))
+        CALL CPU_Time(time_end)
+
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
+
+      ELSE IF (newIntegQ .eq. 1) THEN
+        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+     >', CALL fastSympMultiP, using the drift-kick-drift integrator'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+     >     'INTEGRATOR OPTION = ', newIntegQ,
+     >     ', using the drift-kick-drift integrator for multipole'
+
+        CALL CPU_TIME(time_begin)
+        CALL fastSympMultiP(NRES, newIntegQ)
+        CALL CPU_Time(time_end)
+
+        WRITE(*, '(/, 10X, A, E20.10, A)')
+     >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
+     >     time_end-time_begin, ' s'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+     >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
+     >     time_end-time_begin, ' s'
+
+      ELSE
+        WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+     >     newIntegQ, ', NOT implemented for multipole, stop the job.'
+        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
+     >    'INTEGRATOR OPTION = ', newIntegQ,
+     >    '. It is NOT implemented for multipole, stop the job.'
+        CALL ENDJOB(' The integrator has NOT been implemented', -99)
+
+      ENDIF
+
       IF(FITGET) CALL FITGT1
       CALL QUASEX(
      >                        ND(NOEL))

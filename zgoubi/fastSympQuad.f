@@ -26,7 +26,8 @@ C  -------
       IMPLICIT NONE
 C---------------------------------------------------------
 C     (1) Optical elements defined in cartesian frame
-C     (2) Fast drift-kick-drift particle motion integrator
+C     (2) Fast Drift-Kick-Drift and Matrix-Kick-Matrix sympletic
+C         particle motion integrator for a magnetic quadrupole
 C---------------------------------------------------------
       INCLUDE "MAXTRA.H"   ! PARAMETER (MXJ=7)
       INCLUDE "MAXCOO.H"   ! PARAMETER (MXT=10000)
@@ -42,14 +43,16 @@ C---------------------------------------------------------
       INCLUDE 'C.INTEG.H'  ! COMMON/INTEG/ PAS,DXI,XLIM,XCE,YCE,ALE,XCS,YCS,ALS,KP
       INCLUDE "C.OBJET.H"  ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.RIGID.H"  ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
-      INCLUDE "SCALE_symp.H" ! PARAMETER (l0, w0)
-      INCLUDE "C.UNITS.H"    ! COMMON/UNITS/ UNIT(MXJ)
+      INCLUDE "C.UNITS.H"  ! COMMON/UNITS/ UNIT(MXJ)
 
       DOUBLE PRECISION XL, XE, RO, GAP, SCAL, SCAL0, B_mag, b2_mag
-      DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM
+      DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, l0, w0
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
       DOUBLE PRECISION eb2, b0g0, PAS0, step, radius, mass, DUMMY
       INTEGER KUASEX, NRES, newIntegQ, NSTEP, J, IT
+
+      PARAMETER (l0 = 100.D0)
+      PARAMETER (w0 = 299792458.D0)
 
 C-------- Get the parameters for the magnetic qradrupole----------------
 
@@ -85,9 +88,9 @@ C-------- Sharp edge at entrance and exit
         ENDIF
       ENDIF
 
-      PAS0 = PAS                          ! Integration step from input
+      PAS0 = PAS                  ! Integration step from input
       NSTEP = CEILING(XL/PAS0)
-      PAS = XL/NSTEP        ! Adjust the step size to fit the length
+      PAS = XL/NSTEP              ! Adjust the step size to fit the length
       IF(NRES.GT.0) THEN
         WRITE(NRES,103) PAS0, PAS
       ENDIF
@@ -120,10 +123,10 @@ C---------Compute some constants for the sympletic integration----------
                                             ! reference momentum P0 = BORO*Q
       IF (newIntegQ .EQ. 1) THEN
 C---------Option 1: Drift-kick-drift motion integrator------------------
-        CALL DKD_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F)
+        CALL DKD_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F, l0, w0)
       ELSE IF (newIntegQ .EQ. 2) THEN
 C---------Option 2: Matrix-kick-Matrix motion integrator----------------
-        CALL MKM_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F)
+        CALL MKM_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, F, l0, w0)
       ELSE
         WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      >    newIntegQ, ', NOT implemented, stop the job.'
@@ -137,7 +140,7 @@ C---------Option 2: Matrix-kick-Matrix motion integrator----------------
           IF(IT.EQ.1) WRITE(NRES,199)
 C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
-     >      XL, (F(J,IT), J=2,6), F(7,IT), IT
+     >      XL, (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
         ENDIF
 
       ENDDO
@@ -150,7 +153,7 @@ C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
 
  199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)     ',
      >  'Z(cm)   P(mrad)   |', 2X, ' X(cm)         Y(cm)        ',
-     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(us)',
+     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(ns)',
      >   4X, '  I')
  200  FORMAT(2X,'A',2X,I3,F8.4,4F10.3, '   |', F12.6, 6F13.6, 2X, I5)
  201  FORMAT(/, 5X, 'KPOS =  ', I0,

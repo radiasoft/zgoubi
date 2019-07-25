@@ -123,7 +123,6 @@ set(_zgoubi_global_includes
   MXLD.H
   MXSCL.H
   MXSTEP.H
-  SCALE_symp.H
   )
 set(_zgoubi_local_includes
   "${CMAKE_CURRENT_LIST_DIR}/CSR.H"
@@ -245,6 +244,7 @@ set(_zgoubi_srcs
   dist2.f
   dist3.f
   dkd_integr.f
+  dkd_multip.f
   dlgau.f
   dpkick.f
   drtent.f
@@ -280,6 +280,7 @@ set(_zgoubi_srcs
   et2res.f
   event.f
   fastSympQuad.f
+  fastSympMultiP.f
   fborne.f
   ff.f
   ffagi.f

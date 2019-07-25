@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory   
 C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
-      SUBROUTINE RMULTI(NDAT,NOEL,MXL,A,MPOL,
-     >                                       ND)
+      SUBROUTINE RMULTI(NDAT, NOEL, MXL, A, MPOL, ND)
 C     ------------------------
 C     READS DATA FOR MULTIPOLE
 C     ------------------------
@@ -43,8 +42,18 @@ C-- eRHIC, skew ffag dipoles
 
       IA = 1
       LINE =1 
-      READ(NDAT,*,END=90,ERR=90) IL
+
+      READ(NDAT, *, err=199) IL, newIntegQ
+      GOTO 200
+199   BACKSPACE NDAT       ! Error: only one integer in this record. Position
+                           ! the input file to just before the preceding record
+      newIntegQ = 0
+200   CONTINUE
       A(NOEL,IA) = IL
+      A(NOEL,100) = newIntegQ
+
+C      READ(NDAT,*,END=90,ERR=90) IL
+C      A(NOEL,IA) = IL
 
       IA = IA+1                
       IB = IA+MPOL+1           
@@ -105,6 +114,7 @@ C KPOS=5 : X-, Y-, Z-shft, X-, Y-, Z-rotation
       RETURN
 
  90   CONTINUE
+
       CALL ZGKLEY( 
      >            KLE)
       CALL ENDJOB('*** Pgm rmulti, keyword '//KLE//' : '// 

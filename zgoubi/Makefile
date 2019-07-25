@@ -96,6 +96,7 @@ OBJ=\
  dist3.o\
  dispu.o\
  dkd_integr.o\
+ dkd_multip.o\
  dlgau.o\
  dpkick.o\
  drtent.o\
@@ -129,6 +130,7 @@ OBJ=\
  et2res.o\
  event.o\
  fastSympQuad.o\
+ fastSympMultiP.o\
  fborne.o\
  ffagi.o\
  ff.o\
@@ -504,7 +506,7 @@ dipsi.o: $(INC)/MXLD.H
 dist2.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dist3.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
 dispu.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
-dkd_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/SCALE_symp.H 
+dkd_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H 
 dpkick.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXSCL.H
 el2tub.o: $(INC)/MXLD.H
 elcmii.o: $(INC)/MXLD.H
@@ -520,7 +522,8 @@ errors.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
-fastSympQuad.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H $(INC)/SCALE_symp.H
+fastSympQuad.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H
+fastSympMultiP.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H
 fborne.o: $(INC)/MXLD.H
 ffagi.o: $(INC)/MXLD.H
 ff.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -581,7 +584,7 @@ mcobj1.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mcobj3.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mcobj.o: $(INC)/MXLD.H $(INC)/MAXCOO.H $(INC)/MAXTRA.H
 mix.o: $(INC)/MAXCOO.H
-mkm_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/SCALE_symp.H 
+mkm_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H 
 mksa.o: $(INC)/MAXCOO.H
 modord.o: $(INC)/MXLD.H
 mulerr.o: $(INC)/MXLD.H $(INC)/C.CDF.H $(INC)/C.CONST_2.H  $(INC)/C.CONST2.H

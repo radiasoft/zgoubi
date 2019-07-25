@@ -22,19 +22,18 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE MKM_INTEGR(NSTEP, step, b0g0, eb2, mass, IMAX, data)
+      SUBROUTINE MKM_INTEGR(NSTEP,step,b0g0,eb2,mass,IMAX,data,l0,w0)
 C     --------------------------------------------------------------------
-C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for magnetic quadrupole
-C     ALL the variables are scaled
+C     Matrix(L/2)Kick(L)Matrix(L/2) motion integrator for magnetic quadrupole
+C     ALL the variables are scaled!
 C     --------------------------------------------------------------------
 
       IMPLICIT NONE
       INCLUDE "MAXTRA.H"      ! PARAMETER (MXJ=7)
       INCLUDE "MAXCOO.H"      ! PARAMETER (MXT=10000)
-      INCLUDE "SCALE_symp.H"  ! PARAMETER (l0, w0)
 
       INTEGER, INTENT(IN) :: NSTEP, IMAX
-      DOUBLE PRECISION, INTENT(IN) :: step, b0g0, eb2, mass
+      DOUBLE PRECISION, INTENT(IN) :: step, b0g0, eb2, mass, l0, w0
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION theta, phi, X, Y, PX, PY, T, PT, S
       DOUBLE PRECISION X0, PX0, Y0, PY0, X1, PX1, Y1, PY1, Ptot

@@ -131,11 +131,11 @@ C-------- IEX<-1 <=> Particle stopped
 C--------print phi and theta in mrad, and time in ns--------------------
             IF((NRES.GT.0) .AND. (IT.EQ.1)) WRITE(NRES,199)
             IF(NRES.GT.0) WRITE(NRES,100) KEX,(FO(J,IT),J=1,5),
-     > X, Y, T*1000.D0, Z, P*1000.D0, SAR, TAR*1.0D-5, IT
+     > X, Y, T*1000.D0, Z, P*1000.D0, SAR, TAR*1.0D-2, IT
 
  199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)     ',
      >  'Z(cm)   P(mrad)   |', 2X, ' X(cm)         Y(cm)        ',
-     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(us)',
+     >  'T(mrdd)      Z(cm)        P(mrad)     S(cm)         Time(ns)',
      >   4X, '  I')
  100  FORMAT(2X,'A',2X,I3,F8.4,4F10.3, '   |', F12.6, 6F13.6, 2X, I5)
 
