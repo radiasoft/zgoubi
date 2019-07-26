@@ -146,9 +146,11 @@ C-------- Get the parameters for the magnetic multipole----------------
       ENDIF
 
       KUASEX = 0
-      DO 998 J = 1, 10
+      J = 1
+      DO WHILE ((KUASEX .EQ. 0) .AND. (J .LE. 10))
         IF (Bfield(J) .NE. 0.D0) KUASEX = J
-  998 CONTINUE
+        J = J + 1
+      END DO
 
       IF (KUASEX .NE. 0) THEN
         GAP = RO/KUASEX

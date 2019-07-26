@@ -1,6 +1,6 @@
 C  ZGOUBI, a program for computing the trajectories of charged particles
 C  in electric and magnetic fields
-C  Copyright (C) 1988-2007  François Méot
+C  Copyright (C) 1988-2007  Franï¿½ois Mï¿½ot
 C
 C  This program is free software; you can redistribute it and/or modify
 C  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@ C  along with this program; if not, write to the Free Software
 C  Foundation, Inc., 51 Franklin Street, Fifth Floor,
 C  Boston, MA  02110-1301  USA
 C
-C  François Méot <fmeot@bnl.gov>
+C  Franï¿½ois Mï¿½ot <fmeot@bnl.gov>
 C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      PARAMETER (MXKLE=122)
+      PARAMETER (MXKLE=121)
       CHARACTER(KSIZ)  KLE(MXKLE)
 C           1           2            3            4            5
       DATA (KLE(I),I=1,50)/
@@ -53,7 +53,7 @@ C           1           2            3            4            5
      B 'SYSTEM'   ,  'SPINR'   ,  'BENDTH'  ,  'AGSMM'   , 'BEAMBEAM' ,
      > 'AGSQUAD'  ,  'SYNRAD'  ,  'OPTIONS' , 'EPLATES'  , 'DAMPER'   ,
      C 'CYCLOTRON',  'ERRORS'  ,'SPACECHARG',  'GOTO'    , 'ELLIPTIC' ,
-     > 'SVDOC'    ,  'INTEGRAT' /
+     > 'SVDOC'    /
 
       INCLUDE 'ZGINIT.H'
 
@@ -66,7 +66,7 @@ C           1           2            3            4            5
      >,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83
      >,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103
      >,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119
-     >,120,121,122) IKLE
+     >,120,121) IKLE
       GOTO 999
 
  1000 CONTINUE

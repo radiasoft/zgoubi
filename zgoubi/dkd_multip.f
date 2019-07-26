@@ -36,7 +36,7 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION, INTENT(IN) :: step, b0g0, mass, l0, w0
       DOUBLE PRECISION, INTENT(IN) :: eb(10)
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
-      DOUBLE PRECISION halfStep, KL, Ptot, step0
+      DOUBLE PRECISION halfStep, Ptot, step0
       DOUBLE PRECISION theta, phi, X, Y, PX, PY, T, PT, S
       DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
       INTEGER IT, ISTEP
@@ -53,7 +53,6 @@ C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
       halfStep = 0.5D0*step           ! 0.5L/L0
-C      KL = eb2*step                   ! parameter for kick
 
       DO CONCURRENT (IT = 1:IMAX)     ! Loop over all the particles
         Ptot = data(1,IT)             ! the scaled total momentum
@@ -88,12 +87,12 @@ C----------DRIFT: half the stepsize for the first drift-----------------
           ENDIF
 
 C----------KICK---------------------------------------------------------
-          PX = PX - eb(1) - eb(2)*X - eb(3)*(X*X-Y*Y)        ! Contributions from dipole, quadrupole, sextupole
+          PX = PX - eb(1) - eb(2)*X - eb(3)*(X*X-Y*Y)          ! Contributions from dipole, quadrupole, sextupole
           PY = PY + eb(2)*Y + eb(3)*2.D0*X*Y
 
           IF (eb(4) .NE. 0.D0) THEN                            ! Contributions from octupole
             PX = PX - eb(4)*(X*X*X - 3.D0*X*Y*Y)
-            PY = PY + eb(4)*(3.D0*X*X - Y*Y*Y)
+            PY = PY + eb(4)*(3.D0*X*X*Y - Y*Y*Y)
           ENDIF
           IF (eb(5) .NE. 0.D0) THEN                            ! Contributions from decapole
             PX = PX - eb(5)*(X**4 - 6.D0*X*X*Y*Y + Y**4)

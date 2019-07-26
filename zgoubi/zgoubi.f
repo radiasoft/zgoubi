@@ -462,9 +462,8 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
 
       newIntegQ = NINT(A(noel,2))
       IF (newIntegQ .EQ. 0) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)')
-     >          'newIntegQ = ', newIntegQ, ', CALL QUASEX'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+        WRITE (*,3680) 'newIntegQ = ', newIntegQ, ', CALL QUASEX'
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the default integrator'
 
@@ -472,15 +471,15 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
         CALL QUASEX(ND(NOEL))
         CALL CPU_Time(time_end)
 
-        WRITE(*, '(/, 10X, A, E20.10, A)')
+        WRITE(*, 3679)
      >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+        IF (NRES .GT. 0) WRITE(NRES, 3679)
      >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
 
       ELSE IF (newIntegQ .eq. 1) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+        WRITE (*,3680) 'newIntegQ = ', newIntegQ,
      >', CALL fastSympQuad, using the drift-kick-drift integrator'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the drift-kick-drift integrator for the quad'
 
@@ -488,17 +487,17 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
         CALL fastSympQuad(KUASEX, NRES, newIntegQ)
         CALL CPU_Time(time_end)
 
-        WRITE(*, '(/, 10X, A, E20.10, A)')
+        WRITE(*, 3679)
      >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+        IF (NRES .GT. 0) WRITE(NRES, 3679)
      >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE IF (newIntegQ .eq. 2) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+        WRITE (*,3680) 'newIntegQ = ', newIntegQ,
      >', Call fastSympQuad, using the matrix-kick-matrix integrator'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the matrix-kick-matrix integrator for the quad'
 
@@ -506,17 +505,17 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
         CALL fastSympQuad(KUASEX, NRES, newIntegQ)
         CALL CPU_Time(time_end)
 
-        WRITE(*, '(/, 10X, A, E20.10, A)')
+        WRITE(*, 3679)
      >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
      >     time_end-time_begin, ' s'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+        IF (NRES .GT. 0) WRITE(NRES, 3679)
      >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE
-        WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+        WRITE (*,3680) 'newIntegQ = ',
      >     newIntegQ, ', NOT implemented, stop the job.'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >    'INTEGRATOR OPTION = ', newIntegQ,
      >    '. It is NOT implemented for quad, stop the job.'
         CALL ENDJOB(' This integrator has NOT been implemented', -99)
@@ -802,9 +801,9 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 
       newIntegQ = NINT(A(noel,100))
       IF (newIntegQ .EQ. 0) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)')
+        WRITE (*,3680)
      >     'newIntegQ = ', newIntegQ, ', CALL QUASEX for multipole'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the default integrator for multipole'
 
@@ -812,15 +811,15 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
         CALL QUASEX(ND(NOEL))
         CALL CPU_Time(time_end)
 
-        WRITE(*, '(/, 10X, A, E20.10, A)')
+        WRITE(*, 3679)
      >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+        IF (NRES .GT. 0) WRITE(NRES, 3679)
      >  'CPU time used by QUASEX is: ', time_end-time_begin, ' s'
 
       ELSE IF (newIntegQ .eq. 1) THEN
-        WRITE (*,'(/, 10X, A, I1, A, /)') 'newIntegQ = ', newIntegQ,
+        WRITE (*,3680) 'newIntegQ = ', newIntegQ,
      >', CALL fastSympMultiP, using the drift-kick-drift integrator'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I1, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the drift-kick-drift integrator for multipole'
 
@@ -828,26 +827,23 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
         CALL fastSympMultiP(NRES, newIntegQ)
         CALL CPU_Time(time_end)
 
-        WRITE(*, '(/, 10X, A, E20.10, A)')
+        WRITE(*, 3679)
      >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, E20.10, A)')
+        IF (NRES .GT. 0) WRITE(NRES, 3679)
      >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE
-        WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+        WRITE (*,3680) 'newIntegQ = ',
      >     newIntegQ, ', NOT implemented for multipole, stop the job.'
-        IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
+        IF (NRES .GT. 0) WRITE(NRES, 3680)
      >    'INTEGRATOR OPTION = ', newIntegQ,
      >    '. It is NOT implemented for multipole, stop the job.'
         CALL ENDJOB(' The integrator has NOT been implemented', -99)
 
       ENDIF
 
-      IF(FITGET) CALL FITGT1
-      CALL QUASEX(
-     >                        ND(NOEL))
       GOTO 998
 C----- SEPARA. SEPARATEUR ELECTROSTATIQUE ANALYTIQUE
  35   CONTINUE
@@ -1858,18 +1854,10 @@ C----- SVDOC. Compute SVD matrix. Requires to be preceded by FIT to find orbit
       ENDIF
       CALL REBLT4(121)   !  121 = SVDOC
       GOTO 998
-C----- INTEG_OPT
- 122  CONTINUE
-        WRITE(*,*) 'Before read, INTEG_OPT =', INTEG_OPT
-        IF(READAT) READ(NDAT, *) INTEG_OPT
-        WRITE(*,*) 'After read, INTEG_OPT =', INTEG_OPT
-
-        IF (NRES .GT. 0) THEN
-          WRITE(NRES, '(/, 10X, A20, I5, /)')
-     >          'INTEGRATOR OPTION = ', INTEG_OPT
-        ENDIF
-      GOTO 998
 C-------------------------
+C-------------------------
+ 3679 FORMAT (/, 10X, A, E20.10, A)
+ 3680 FORMAT (/, 10X, A, I0, A)
 C-------------------------
 C-------------------------
 
