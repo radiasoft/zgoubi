@@ -461,6 +461,7 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
       IF(FITGET) CALL FITGT1
 
       newIntegQ = NINT(A(noel,2))
+      MQI = 1
       IF (newIntegQ .EQ. 0) THEN
         WRITE (*,3680) 'newIntegQ = ', newIntegQ, ', CALL QUASEX'
         IF (NRES .GT. 0) WRITE(NRES, 3680)
@@ -478,38 +479,38 @@ C----- The new sypmletic kick-drift-kick integrator is implemented
 
       ELSE IF (newIntegQ .eq. 1) THEN
         WRITE (*,3680) 'newIntegQ = ', newIntegQ,
-     >', CALL fastSympQuad, using the drift-kick-drift integrator'
+     >', CALL SympIntegr, using the drift-kick-drift integrator'
         IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the drift-kick-drift integrator for the quad'
 
         CALL CPU_TIME(time_begin)
-        CALL fastSympQuad(KUASEX, NRES, newIntegQ)
+        CALL SympIntegr(NRES, newIntegQ, MQI)
         CALL CPU_Time(time_end)
 
         WRITE(*, 3679)
-     >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
+     >     'CPU time used by SympIntegr (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
         IF (NRES .GT. 0) WRITE(NRES, 3679)
-     >     'CPU time used by fastSympQuad (drift-kick-drift) is: ',
+     >     'CPU time used by SympInteg (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE IF (newIntegQ .eq. 2) THEN
         WRITE (*,3680) 'newIntegQ = ', newIntegQ,
-     >', Call fastSympQuad, using the matrix-kick-matrix integrator'
+     >', Call SympIntegr, using the matrix-kick-matrix integrator'
         IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the matrix-kick-matrix integrator for the quad'
 
         CALL CPU_TIME(time_begin)
-        CALL fastSympQuad(KUASEX, NRES, newIntegQ)
+        CALL SympIntegr(NRES, newIntegQ, MQI)
         CALL CPU_Time(time_end)
 
         WRITE(*, 3679)
-     >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
+     >     'CPU time used by SympIntegr (matrix-kick-matrix) is: ',
      >     time_end-time_begin, ' s'
         IF (NRES .GT. 0) WRITE(NRES, 3679)
-     >     'CPU time used by fastSympQuad (matrix-kick-matrix) is: ',
+     >     'CPU time used by SympIntegr (matrix-kick-matrix) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE
@@ -800,6 +801,7 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
       IF(FITGET) CALL FITGT1
 
       newIntegQ = NINT(A(noel,100))
+      MQI = 2
       IF (newIntegQ .EQ. 0) THEN
         WRITE (*,3680)
      >     'newIntegQ = ', newIntegQ, ', CALL QUASEX for multipole'
@@ -818,20 +820,20 @@ C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
 
       ELSE IF (newIntegQ .eq. 1) THEN
         WRITE (*,3680) 'newIntegQ = ', newIntegQ,
-     >', CALL fastSympMultiP, using the drift-kick-drift integrator'
+     >', CALL SympIntegr, using the drift-kick-drift integrator'
         IF (NRES .GT. 0) WRITE(NRES, 3680)
      >     'INTEGRATOR OPTION = ', newIntegQ,
      >     ', using the drift-kick-drift integrator for multipole'
 
         CALL CPU_TIME(time_begin)
-        CALL fastSympMultiP(NRES, newIntegQ)
+        CALL SympIntegr(NRES, newIntegQ, MQI)
         CALL CPU_Time(time_end)
 
         WRITE(*, 3679)
-     >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
+     >     'CPU time used by SympIntegr (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
         IF (NRES .GT. 0) WRITE(NRES, 3679)
-     >     'CPU time used by fastSympMultiP (drift-kick-drift) is: ',
+     >     'CPU time used by SympIntegr (drift-kick-drift) is: ',
      >     time_end-time_begin, ' s'
 
       ELSE

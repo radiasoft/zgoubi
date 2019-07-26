@@ -96,7 +96,6 @@ OBJ=\
  dist3.o\
  dispu.o\
  dkd_integr.o\
- dkd_multip.o\
  dlgau.o\
  dpkick.o\
  drtent.o\
@@ -129,8 +128,6 @@ OBJ=\
  eslvir.o\
  et2res.o\
  event.o\
- fastSympQuad.o\
- fastSympMultiP.o\
  fborne.o\
  ffagi.o\
  ff.o\
@@ -394,6 +391,7 @@ OBJ=\
  svdpr.o\
  svdpus.o\
  symmed.o\
+ symp_integr.o\
  sympl.o\
  synpar.o\
  syntrk.o\
@@ -522,8 +520,6 @@ errors.o: $(INC)/MXLD.H
 esl.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 eslvir.o: $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MAXCOO.H
 event.o: $(INC)/MAXTRA.H
-fastSympQuad.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H
-fastSympMultiP.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H
 fborne.o: $(INC)/MXLD.H
 ffagi.o: $(INC)/MXLD.H
 ff.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H
@@ -705,6 +701,7 @@ svdoc.o: $(INC)/C.CDF.H $(INC)/C.COC.H $(INC)/C.COT.H $(INC)/MAXCOO.H $(INC)/MXL
 svdpck.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
 svdpr.o: $(INC)/C.CO.H $(INC)/MXLD.H $(INC)/C.DON.H
 svdpus.o: $(INC)/C.CDF.H $(INC)/C.CO.H $(INC)/C.COT.H $(INC)/MXLD.H $(INC)/C.DON.H $(INC)/C.LABEL.H $(INC)/C.REBELO.H
+symp_integr.o: $(INC)/MAXTRA.H $(INC)/MAXCOO.H $(INC)/MXFS.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/C.CONST.H $(INC)/C.DON.H $(INC)/C.SCAL.H $(INC)/C.FAISC.H $(INC)/C.PTICUL.H $(INC)/C.INTEG.H $(INC)/C.OBJET.H $(INC)/C.RIGID.H $(INC)/C.UNITS.H
 synpar.o: $(INC)/MXLD.H
 toroid.o: $(INC)/MAXTRA.H
 toscac.o: PARIZ.H $(INC)/MAXTRA.H $(INC)/MXLD.H $(INC)/MXSCL.H $(INC)/MAPHDR.H

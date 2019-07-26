@@ -25,7 +25,7 @@ C  -------
       SUBROUTINE MKM_INTEGR(NSTEP,step,b0g0,eb2,mass,IMAX,data,l0,w0)
 C     --------------------------------------------------------------------
 C     Matrix(L/2)Kick(L)Matrix(L/2) motion integrator for magnetic quadrupole
-C     ALL the variables are scaled!
+C     ALL the variables are scaled in this subroutine
 C     --------------------------------------------------------------------
 
       IMPLICIT NONE
@@ -41,8 +41,8 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION kp, kl, ckl, skl, chkl, shkl, halfStep
       DOUBLE PRECISION tkl, c2kl, s2kl, ch2kl, sh2kl, step2
       DOUBLE PRECISION const1, const2, const3, kappa, delP, delT
-      DOUBLE PRECISION MQ11, MQ12, MQ21, MQ22, MQ31, MQ32, MQ41, MQ42
-      DOUBLE PRECISION MQ51, MQ52, MQ53, MQ54, MQ55, MQ56
+      DOUBLE PRECISION MQ11, MQ12, MQ21, MQ22, MQ31, MQ32, MQ41
+      DOUBLE PRECISION MQ42, MQ51, MQ52, MQ53, MQ54, MQ55, MQ56
       INTEGER IT, ISTEP
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
