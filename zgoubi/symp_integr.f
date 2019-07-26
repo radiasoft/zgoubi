@@ -70,22 +70,13 @@ C-------- Get the parameters for the magnetic multipole----------------
         XE = A(NOEL,20)                      ! Integration zone: entrance
         DLE= A(NOEL,21)                      ! Dipole fringe field lambda_E
         NCE = NINT(A(NOEL,30))               ! NCE = unused number
-        FFCE(0) = A(NOEL,31)                 ! Entrance fringe field coefficients
-        FFCE(1) = A(NOEL,32)
-        FFCE(2) = A(NOEL,33)
-        FFCE(3) = A(NOEL,34)
-        FFCE(4) = A(NOEL,35)
-        FFCE(5) = A(NOEL,36)
-
         XLS = A(NOEL,40)                     ! Integration zone: exit
         DLS = A(NOEL,41)                     ! Dipole fringe field lambda_S
         NCS = NINT(A(NOEL,50))               ! NCS = unused number
-        FFCS(0) = A(NOEL,51)                 ! Exit fringe field coefficients
-        FFCS(1) = A(NOEL,52)
-        FFCS(2) = A(NOEL,53)
-        FFCS(3) = A(NOEL,54)
-        FFCS(4) = A(NOEL,55)
-        FFCS(5) = A(NOEL,56)
+        DO J = 0, 5
+          FFCE(J) = A(NOEL,31+J)             ! Entrance fringe field coefficients
+          FFCS(J) = A(NOEL,51+J)             ! Exit fringe field coefficients
+        ENDDO
 
         PAS = A(NOEL,60)
         KP  = NINT(A(NOEL,70))
@@ -102,67 +93,25 @@ C-------- Get the parameters for the magnetic multipole----------------
         XL = A(NOEL,2)                       ! Length
         RO = A(NOEL,3)                       ! Radius
 
-        Bfield(1) = A(NOEL,4)                ! Magnetic field from dipole
-        Bfield(2) = A(NOEL,5)                ! Magnetic field from quadrupole
-        Bfield(3) = A(NOEL,6)                ! Magnetic field from sextupole
-        Bfield(4) = A(NOEL,7)                ! etc.
-        Bfield(5) = A(NOEL,8)
-        Bfield(6) = A(NOEL,9)
-        Bfield(7) = A(NOEL,10)
-        Bfield(8) = A(NOEL,11)
-        Bfield(9) = A(NOEL,12)
-        Bfield(10)= A(NOEL,13)
+        DO J = 1, 10
+          Bfield(J) = A(NOEL,3+J)            ! Magnetic field from 2J-pole
+          RSA(J) = A(NOEL,49+J)              ! Skew angles of field components
+          IF (J .GT. 1) THEN
+            FFE(J) = A(NOEL,14+J)            ! Quadrupole fringe field = lambda_E * FFE(J != 1)
+            FFS(J) = A(NOEL,32+J)            ! Quadrupole fringe field = lambda_S * FFS(J != 1)
+          ENDIF
+          IF (J .LE. 6) THEN
+            FFCE(J-1) = A(NOEL,25+J)         ! Entrance fringe field coefficients
+            FFCS(J-1) = A(NOEL,43+J)         ! Exit fringe field coefficients
+          ENDIF
+        ENDDO
 
         XE = A(NOEL,14)                      ! Integration zone: entrance
         DLE= A(NOEL,15)                      ! Dipole fringe field lambda_E
-        FFE(2) = A(NOEL,16)                  ! Quadrupole fringe field = lambda_E * FFE(2)
-        FFE(3) = A(NOEL,17)                  ! Sextupole fringe field = lambda_E * FFE(3)
-        FFE(4) = A(NOEL,18)                  ! etc.
-        FFE(5) = A(NOEL,19)
-        FFE(6) = A(NOEL,20)
-        FFE(7) = A(NOEL,21)
-        FFE(8) = A(NOEL,22)
-        FFE(9) = A(NOEL,23)
-        FFE(10)= A(NOEL,24)
-
         NCE = NINT(A(NOEL,25))               ! NCE = unused number
-        FFCE(0) = A(NOEL,26)                 ! Entrance fringe field coefficients
-        FFCE(1) = A(NOEL,27)
-        FFCE(2) = A(NOEL,28)
-        FFCE(3) = A(NOEL,29)
-        FFCE(4) = A(NOEL,30)
-        FFCE(5) = A(NOEL,31)
-
         XLS = A(NOEL,32)                     ! Integration zone: exit
         DLS = A(NOEL,33)                     ! Dipole fringe field lambda_S
-        FFS(2) = A(NOEL,34)                  ! Quadrupole fringe field = lambda_S * FFS(2)
-        FFS(3) = A(NOEL,35)                  ! Sextupole fringe field = lambda_S * FFS(3)
-        FFS(4) = A(NOEL,36)                  ! etc.
-        FFS(5) = A(NOEL,37)
-        FFS(6) = A(NOEL,38)
-        FFS(7) = A(NOEL,39)
-        FFS(8) = A(NOEL,40)
-        FFS(9) = A(NOEL,41)
-        FFS(10)= A(NOEL,42)
-
         NCS = NINT(A(NOEL,43))               ! NCS = unused number
-        FFCS(0) = A(NOEL,44)                 ! Exit fringe field coefficients
-        FFCS(1) = A(NOEL,45)
-        FFCS(2) = A(NOEL,46)
-        FFCS(3) = A(NOEL,47)
-        FFCS(4) = A(NOEL,48)
-        FFCS(5) = A(NOEL,49)
-
-        RSA(1) = A(NOEL,50)                  ! Skew angles of field components
-        RSA(2) = A(NOEL,51)
-        RSA(3) = A(NOEL,52)
-        RSA(4) = A(NOEL,53)
-        RSA(5) = A(NOEL,54)
-        RSA(6) = A(NOEL,55)
-        RSA(7) = A(NOEL,56)
-        RSA(8) = A(NOEL,57)
-        RSA(9) = A(NOEL,58)
-        RSA(10)= A(NOEL,59)
 
         PAS = A(NOEL,60)                     ! Integration step
         KP = NINT(A(NOEL,63))                ! In the Zgoubi manu, KPOS is located at # 61
@@ -181,9 +130,7 @@ C-------- Get the parameters for the magnetic multipole----------------
         ENDIF
 
         IF(NRES.GT.0) THEN
-          WRITE(NRES, 101) XL, RO, Bfield(1), Bfield(2), Bfield(3),
-     >      Bfield(4), Bfield(5), Bfield(6), Bfield(7),
-     >      Bfield(8), Bfield(9), Bfield(10)
+          WRITE(NRES, 101) XL, RO, (Bfield(J), J=1,10)
         ENDIF
 
         KUASEX = 0
@@ -200,7 +147,7 @@ C-------- Get the parameters for the magnetic multipole----------------
       IF (KUASEX .NE. 0) THEN
         GAP = RO/KUASEX
       ELSE
-        CALL ENDJOB('KAUSEX = 0, all field is zero', -99)
+        CALL ENDJOB(' KAUSEX = 0, all field is zero', -99)
       ENDIF
 
       DL0 = DLE + DLS
@@ -272,17 +219,15 @@ C---------Option 2: Matrix-kick-Matrix motion integrator----------------
           CALL MKM_INTEGR(NSTEP,step,b0g0,eb2,mass,IMAX,F,l0,w0)
         ELSE
           WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
-     >  newIntegQ, ', NOT implemented, stop the job.'
-          IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, /)')
-     >  'INTEGRATOR OPTION = ', newIntegQ, ', NOT implemented, exit.'
-          CALL ENDJOB(' This integrator has NOT been implemented', 99)
+     >  newIntegQ, ', NOT implemented for quadrupole, stop the job.'
+          CALL ENDJOB(' This integrator has NOT been implemented', -99)
         END IF
 
-      ELSE IF (MQI .EQ. 2) THEN                ! Multipole
+      ELSE IF (MQI .EQ. 2) THEN             ! Multipole
         ROBR = RO/BORO
-        DO 999 J = 1, 10
-          eb(J) = step*(Bfield(J)*ROBR)/(radius**J) ! step_size * eb_m/P0, where P0 = BORO*Q
- 999    CONTINUE
+        DO J = 1, 10
+          eb(J) = step*(Bfield(J)*ROBR)/(radius**J) ! step_size * eb_m/P0,
+        ENDDO                                       ! where P0 = BORO*Q
 
         IF (newIntegQ .EQ. 1) THEN
 C---------Option 1: Drift-kick-drift motion integrator------------------
@@ -290,11 +235,10 @@ C---------Option 1: Drift-kick-drift motion integrator------------------
         ELSE
           WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      > newIntegQ, ', NOT implemented for multipole, stop the job.'
-          IF (NRES .GT. 0) WRITE(NRES, '(/, 10X, A, I0, A, A, /)')
-     > 'INTEGRATOR OPTION = ', newIntegQ, ', NOT implemented ',
-     > 'for multiple, exit.'
           CALL ENDJOB(' This integrator has NOT been implemented', -99)
         END IF
+      ELSE
+        CALL ENDJOB(' Invalid MQI', -99)
       ENDIF
 
       DO IT = 1, IMAX
@@ -304,7 +248,6 @@ C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
      >      XL, (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
         ENDIF
-
       ENDDO
 
       CALL SCUMW(XL)

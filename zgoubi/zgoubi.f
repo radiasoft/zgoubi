@@ -449,7 +449,7 @@ C----- AIMANT. Dipole with computed field map in cylindrical coordinates
      >                        ND(NOEL))
       GOTO 998
 C----- QUADRUPO - B quadrupolaire et derivees calcules en tout point (X,Y,Z)
-C----- The new sypmletic kick-drift-kick integrator is implemented
+C----- Sypmletic integrators are implemented
  3    CONTINUE
       KALC = 3
       KUASEX = 2
@@ -790,6 +790,7 @@ C----- COLLIMA. Collimator ( particules out => IEX = -4 )
       CALL COLLIM
       GOTO 998
 C----- MULTIPOL. B ET DERIVEES CALCULES EN TOUT POINT (X,Y,Z)
+C----- Sypmletic integrators are implemented
  34   CONTINUE
       KALC = 3
       KUASEX = MPOL+1
