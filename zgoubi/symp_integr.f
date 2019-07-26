@@ -56,12 +56,13 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION b0g0, PAS0, step, radius, mass, DUMMY
       DOUBLE PRECISION Bfield(10), RSA(10), eb(10)
       DOUBLE PRECISION FFE(10), FFCE(0:5), FFS(10), FFCS(0:5)
-      INTEGER KUASEX, NRES, newIntegQ, NSTEP, J, IT, NCE, NCS, MQI
+      INTEGER KUASEX, NRES, newIntegQ, NSTEP, J,IT,NCE,NCS, MQI, HOMP
 
       PARAMETER (l0 = 100.D0)
       PARAMETER (w0 = 299792458.D0)
 
-C-------- Get the parameters for the magnetic multipole----------------
+C-------- Get the parameters for magnetic quadrupole (MQI .EQ. 1) ------
+C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
       IF (MQI .EQ. 1) THEN
         XL = A(NOEL,10)
         RO = A(NOEL,11)
@@ -88,6 +89,7 @@ C-------- Get the parameters for the magnetic multipole----------------
           WRITE(NRES, 100) XL, RO, Bfield(2), Bfield(2)/RO
         ENDIF
         KUASEX = 2
+        HOMP = 2
 
       ELSE IF(MQI .EQ. 2) THEN
         XL = A(NOEL,2)                       ! Length
@@ -134,11 +136,16 @@ C-------- Get the parameters for the magnetic multipole----------------
         ENDIF
 
         KUASEX = 0
+        HOMP = 0
         J = 1
-        DO WHILE ((KUASEX .EQ. 0) .AND. (J .LE. 10))
-          IF (Bfield(J) .NE. 0.D0) KUASEX = J
+        DO WHILE (J .LE. 10)
+          IF (Bfield(J) .NE. 0.D0) THEN
+            IF (KUASEX .EQ. 0) KUASEX = J
+            HOMP = J
+          ENDIF
           J = J + 1
         END DO
+        WRITE (*,99) KUASEX, HOMP
 
       ELSE
         CALL ENDJOB('MQI cannot be this value', -99)
@@ -147,7 +154,7 @@ C-------- Get the parameters for the magnetic multipole----------------
       IF (KUASEX .NE. 0) THEN
         GAP = RO/KUASEX
       ELSE
-        CALL ENDJOB(' KAUSEX = 0, all field is zero', -99)
+        CALL ENDJOB(' KUASEX = 0, all field is zero', -99)
       ENDIF
 
       DL0 = DLE + DLS
@@ -169,13 +176,15 @@ C-------- Sharp edge at entrance and exit---------------------
         WRITE(NRES,103) PAS0, PAS
       ENDIF
 
- 100  FORMAT(/, 5X, ' -----  QUADRUPOLE  : ', 1P
-     >  , /, 15X,' Length  of  element  = ',G16.8,'  cm'
-     >  , /, 15X,' Bore  radius      RO = ',G13.5,'  cm'
-     >  , /, 15X, 'B-QUADRUPOLE  =', 1P, E15.7, 1X, 'kG'
-     >  , /, 15X, 'The strength of the magnetic quadrupole b2 = '
+  99  FORMAT(/, 5X, 'The  lowest-order nonzero multipole is: ', I0,
+     > /, 5X, 'The highest-order nonzero multipole is: ', I0)
+ 100  FORMAT(/, 5X, ' -----  QUADRUPOLE  : ', 1P,
+     > /, 15X,' Length  of  element  = ',G16.8,'  cm',
+     > /, 15X,' Bore  radius      RO = ',G13.5,'  cm',
+     > /, 15X, 'B-QUADRUPOLE  =', 1P, E15.7, 1X, 'kG',
+     > /, 15X, 'The strength of the magnetic quadrupole b2 = '
      >  , E15.7, ' kG/cm')
- 101  FORMAT(/, 5X, ' -----  MULTIPOLE  : ', 1P,
+ 101  FORMAT(/, 5X, ' -----  MULTIPOLE   : ', 1P,
      > /, 15X,' Length  of  element  = ',G16.8,'  cm',
      > /, 15X,' Bore  radius      RO = ',G13.5,'  cm',
      > /, 15X, 'B-DIPOLE      =', 1P, E15.7, 1X, 'kG',
@@ -187,7 +196,7 @@ C-------- Sharp edge at entrance and exit---------------------
      > /, 15X, 'B-14-POLE     =', 1P, E15.7, 1X, 'kG',
      > /, 15X, 'B-16-POLE     =', 1P, E15.7, 1X, 'kG',
      > /, 15X, 'B-18-POLE     =', 1P, E15.7, 1X, 'kG',
-     > /, 15X, 'B-20-POLE     =', 1P, E15.7, 1X, 'kG' )
+     > /, 15X, 'B-20-POLE     =', 1P, E15.7, 1X, 'kG')
 
  102  FORMAT(/, 15X, 'Entrance/exit field models are sharp edge',
      >  /, 15X, 'FINTE, FINTS, gap : ', 1P, 3(1X, E12.4))
@@ -212,10 +221,11 @@ C---------Compute some constants for the sympletic integration----------
         eb(2) = step*eb2                          ! step_size * eb2/P0
 
         IF (newIntegQ .EQ. 1) THEN
-C---------Option 1: Drift-kick-drift motion integrator------------------
-          CALL DKD_INTEGR(NSTEP,step,b0g0,eb,mass,IMAX,F,l0,w0,MQI)
+C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
+          CALL DKD_INTEGR(NSTEP, step, b0g0, eb, mass,
+     >                           IMAX, F, l0, w0, MQI, HOMP)
         ELSE IF (newIntegQ .EQ. 2) THEN
-C---------Option 2: Matrix-kick-Matrix motion integrator----------------
+C---------Option 2: Matrix-kick-Matrix motion integrator for quadrupole-
           CALL MKM_INTEGR(NSTEP,step,b0g0,eb2,mass,IMAX,F,l0,w0)
         ELSE
           WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
@@ -230,8 +240,9 @@ C---------Option 2: Matrix-kick-Matrix motion integrator----------------
         ENDDO                                       ! where P0 = BORO*Q
 
         IF (newIntegQ .EQ. 1) THEN
-C---------Option 1: Drift-kick-drift motion integrator------------------
-          CALL DKD_INTEGR(NSTEP,step,b0g0,eb,mass,IMAX,F,l0,w0,MQI)
+C---------Option 1: Drift-kick-drift motion integrator for multiple-----
+          CALL DKD_INTEGR(NSTEP, step, b0g0, eb, mass,
+     >                           IMAX, F, l0, w0, MQI, HOMP)
         ELSE
           WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      > newIntegQ, ', NOT implemented for multipole, stop the job.'
@@ -264,9 +275,9 @@ C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
  201  FORMAT(/, 5X, 'KPOS =  ', I0,
      >  '.  Change  of  frame  at  exit  of  element.', /, 10X,
      >  'X =', 1P, G12.4, ' CM   Y =', G12.4, 1P,
-     >  'cm,  tilt  angle =', G14.6, ' RAD', /, /, /, 1P,
-     >  'Cumulative length of optical axis = ', 1P, G17.9, ' m ;  ',
-     >  'Time  (for ref. rigidity & particle) = ', 1P, G14.6, ' s')
+     >  ' cm,  tilt  angle =', G14.6, ' RAD', /, /, /, 1P,
+     >  ' Cumulative length of optical axis = ', 1P, G17.9, ' m ;  ',
+     >  'Time  (for ref. rigidity & particle) = ', 1P, G14.6, ' s ')
 
       RETURN
       END

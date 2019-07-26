@@ -22,7 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DKD_INTEGR(NSTEP,step,b0g0,eb,mass,IMAX,data,l0,w0,MQI)
+      SUBROUTINE DKD_INTEGR(NSTEP, step, b0g0, eb, mass,
+     >                       IMAX, data, l0, w0, MQI, HOMP)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for
 C           both magnetic quadrupole and multipole
@@ -33,7 +34,7 @@ C     --------------------------------------------------------------------
       INCLUDE "MAXTRA.H"      ! PARAMETER (MXJ=7)
       INCLUDE "MAXCOO.H"      ! PARAMETER (MXT=10000)
 
-      INTEGER, INTENT(IN) :: NSTEP, IMAX, MQI
+      INTEGER, INTENT(IN) :: NSTEP, IMAX, MQI, HOMP
       DOUBLE PRECISION, INTENT(IN) :: step, b0g0, mass, l0, w0
       DOUBLE PRECISION, INTENT(IN) :: eb(10)
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
@@ -96,39 +97,50 @@ C----------KICK---------------------------------------------------------
             PX = PX - eb(1) - eb(2)*X - eb(3)*(X*X-Y*Y)
             PY = PY + eb(2)*Y + eb(3)*2.D0*X*Y
 
-            IF (eb(4) .NE. 0.D0) THEN   ! Contributions from octupole
-              PX = PX - eb(4)*(X*X*X - 3.D0*X*Y*Y)
-              PY = PY + eb(4)*(3.D0*X*X*Y - Y*Y*Y)
-            ENDIF
-            IF (eb(5) .NE. 0.D0) THEN   ! Contributions from decapole
-              PX = PX - eb(5)*(X**4 - 6.D0*X*X*Y*Y + Y**4)
-              PY = PY + eb(5)*(4.D0*X*X*X*Y - 4.D0*X*Y*Y*Y)
-            ENDIF
-            IF (eb(6) .NE. 0.D0) THEN   ! Contributions from dodacapole
-            PX = PX - eb(6)*(X**5 - 10.D0*X*X*X*Y*Y + 5.D0*X*(Y**4))
-            PY = PY + eb(6)*(5.D0*(X**4)*Y - 10.D0*X*X*Y*Y*Y + Y**5)
-            ENDIF
-            IF (eb(7) .NE. 0.D0) THEN   ! Contributions from 14-pole
-            PX = PX-eb(7)*(X**6-15.D0*(X**4)*Y*Y+15.D0*X*X*(Y**4))
-            PY = PY+eb(7)*(6.D0*(X**5)*Y-20.D0*X*X*X*Y*Y*Y+6.D0*X*Y**5)
-            ENDIF
-            IF (eb(8) .NE. 0.D0) THEN   ! Contributions from 16-pole
-              PX = PX - eb(8)*(X**7 - 21.D0*(X**5)*Y*Y
-     >              + 35.D0*(X**3)*(Y**4) - 7.D0*X*(Y**6))
-              PY = PY + eb(8)*(7.D0*(X**6)*Y - 35.D0*(X**4)*Y*Y*Y
-     >              + 21.D0*X*X*(Y**5) - Y**7)
-            ENDIF
-            IF (eb(9) .NE. 0.D0) THEN   ! Contributions from 18-pole
-            PX = PX - eb(9)*(X**8 - 28.D0*(X**6)*Y*Y
-     >              + 70.D0*(X**4)*(Y**4) - 28.D0*X*X*(Y**6) + Y**8)
-            PY = PY + eb(9)*(8.D0*(X**7)*Y - 56.D0*(X**5)*Y*Y*Y
-     >              + 56.D0*X*X*X*(Y**5) - 8.D0*X*(Y**7))
-            ENDIF
-            IF (eb(10).NE. 0.D0) THEN   ! Contributions from 20-pole
-            PX = PX - eb(10)*(X**9 - 36.D0*(X**7)*Y*Y
-     >         +126.D0*(X**5)*(Y**4) - 84.D0*X*X*X*(Y**6) + 9.D0*Y**9)
-            PY = PY + eb(10)*(9.D0*(X**8)*Y - 84.D0*(X**6)*Y*Y*Y
-     >              + 126.D0*(X**4)*(Y**5) - 36.D0*X*X*(Y**7) + Y**9)
+            IF(HOMP .GT. 3) THEN          ! Rarely occur when highest-order
+                                          ! nonezero multipole > 3
+              IF (eb(4) .NE. 0.D0) THEN   ! Contributions from octupole
+                PX = PX - eb(4)*(X*X*X - 3.D0*X*Y*Y)
+                PY = PY + eb(4)*(3.D0*X*X*Y - Y*Y*Y)
+              ENDIF
+
+              IF (eb(5) .NE. 0.D0) THEN   ! Contributions from decapole
+                PX = PX - eb(5)*(X**4 - 6.D0*X*X*Y*Y + Y**4)
+                PY = PY + eb(5)*(4.D0*X*X*X*Y - 4.D0*X*Y*Y*Y)
+              ENDIF
+
+              IF (eb(6) .NE. 0.D0) THEN   ! Contributions from dodacapole
+                PX = PX - eb(6)*(X**5 -10.D0*X*X*X*Y*Y +5.D0*X*(Y**4))
+                PY = PY + eb(6)*(5.D0*(X**4)*Y -10.D0*X*X*Y*Y*Y +Y**5)
+              ENDIF
+
+              IF (eb(7) .NE. 0.D0) THEN   ! Contributions from 14-pole
+                PX = PX-eb(7)*(X**6-15.D0*(X**4)*Y*Y+15.D0*X*X*(Y**4))
+                PY = PY+eb(7)*(6.D0*(X**5)*Y - 20.D0*X*X*X*Y*Y*Y
+     >                                       + 6.D0*X*Y**5)
+              ENDIF
+
+              IF (eb(8) .NE. 0.D0) THEN   ! Contributions from 16-pole
+                PX = PX - eb(8)*(X**7 - 21.D0*(X**5)*Y*Y
+     >                  + 35.D0*(X**3)*(Y**4) - 7.D0*X*(Y**6))
+                PY = PY + eb(8)*(7.D0*(X**6)*Y - 35.D0*(X**4)*Y*Y*Y
+     >                  + 21.D0*X*X*(Y**5) - Y**7)
+              ENDIF
+
+              IF (eb(9) .NE. 0.D0) THEN   ! Contributions from 18-pole
+                PX = PX - eb(9)*(X**8 - 28.D0*(X**6)*Y*Y
+     >             + 70.D0*(X**4)*(Y**4) - 28.D0*X*X*(Y**6) + Y**8)
+                PY = PY + eb(9)*(8.D0*(X**7)*Y - 56.D0*(X**5)*Y*Y*Y
+     >                  + 56.D0*X*X*X*(Y**5) - 8.D0*X*(Y**7))
+              ENDIF
+
+              IF (eb(10).NE. 0.D0) THEN   ! Contributions from 20-pole
+                PX = PX - eb(10)*(X**9 - 36.D0*(X**7)*Y*Y
+     >                  + 126.D0*(X**5)*(Y**4) - 84.D0*X*X*X*(Y**6)
+     >                  + 9.D0*Y**9)
+                PY = PY + eb(10)*(9.D0*(X**8)*Y - 84.D0*(X**6)*Y*Y*Y
+     >             + 126.D0*(X**4)*(Y**5) - 36.D0*X*X*(Y**7) + Y**9)
+              ENDIF
             ENDIF
           ENDIF
 
