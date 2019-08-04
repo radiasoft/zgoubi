@@ -244,6 +244,7 @@ set(_zgoubi_srcs
   dist2.f
   dist3.f
   dkd_integr.f
+  dkd_integr_FF.f
   dlgau.f
   dpkick.f
   drtent.f

@@ -22,8 +22,8 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 
-C-- Max integration steps in an lmnt
-C       PARAMETER (MXSTEP = 10000)
+      INTEGER MXSTEP
       PARAMETER (MXSTEP = 1000000)
+
 C Cyclotrons
 C      PARAMETER (MXSTEP = 10000000)

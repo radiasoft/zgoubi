@@ -38,6 +38,7 @@ C-----------------------------------------------------------------------
       INCLUDE "MXFS.H"     ! PARAMETRE (MXF=45, MXS=2000, MLF=9, MXP=11)
       INCLUDE "MXLD.H"     ! PARAMETER (MXL=15000 , MXD=1400)
       INCLUDE "MXSCL.H"    ! PARAMETER (MXSCL=10)
+      INCLUDE "MXSTEP.H"   ! PARAMETER (MXSTEP = 1000000)
       INCLUDE "C.CONST.H"  ! COMMON/CONST/ CL9,CL,PI,RAD,DEG,QE,AMPROT,CM2M
       INCLUDE "C.DON.H"    ! COMMON/DON/ A(MXL,MXD),IQ(MXL),IP(MXL),NB,NOEL
       INCLUDE 'C.SCAL.H'   ! COMMON/SCAL/ SCL(MXF,MXS,MXSCL),TIM(MXF,MXS),NTIM(MXF),KSCL
@@ -50,13 +51,17 @@ C-----------------------------------------------------------------------
       INCLUDE "C.RIGID.H"  ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.UNITS.H"  ! COMMON/UNITS/ UNIT(MXJ)
 
-      DOUBLE PRECISION XL, XE, RO, GAP, ROBR, XS, YS, ZR, ZS, YR
+      DOUBLE PRECISION XL, XLE, RO, GAP, ROBR, XS, YS, ZR, ZS, YR
       DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, l0, w0, eb2
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
-      DOUBLE PRECISION b0g0, PAS0, step, radius, mass, DUMMY
+      DOUBLE PRECISION b0g0, step, radius, mass, DUMMY, XLT
+      DOUBLE PRECISION PAS_E, PAS_L, PAS_S, step_E, step_L, step_S
+      DOUBLE PRECISION Xpos, dist, Pfunct, GFE, GFS
       DOUBLE PRECISION Bfield(10), RSA(10), eb(10)
-      DOUBLE PRECISION FFE(10), FFCE(0:5), FFS(10), FFCS(0:5)
-      INTEGER KUASEX, NRES, newIntegQ, NSTEP, J,IT,NCE,NCS, MQI, HOMP
+      DOUBLE PRECISION GF(MXSTEP), eb2G(MXSTEP)
+      DOUBLE PRECISION FFEE(10), CE(0:5), FFES(10), CS(0:5)
+      INTEGER KUASEX, NRES, newIntegQ, J, IT, NCE, NCS, MQI, HOMP
+      INTEGER NSTEP, NSTEP_E, NSTEP_L, NSTEP_S, NSTEP_EL, JJ
 
       PARAMETER (l0 = 100.D0)
       PARAMETER (w0 = 299792458.D0)
@@ -68,15 +73,15 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
         RO = A(NOEL,11)
         Bfield(2) = A(NOEL,12)
 
-        XE = A(NOEL,20)                      ! Integration zone: entrance
-        DLE= A(NOEL,21)                      ! Dipole fringe field lambda_E
-        NCE = NINT(A(NOEL,30))               ! NCE = unused number
+        XLE = A(NOEL,20)                     ! Integration zone: entrance
+        DLE = A(NOEL,21)                     ! Dipole fringe field lambda_E
+        NCE = NINT(A(NOEL,30))               ! NCE = number of coefs. for entrance fringe field
         XLS = A(NOEL,40)                     ! Integration zone: exit
         DLS = A(NOEL,41)                     ! Dipole fringe field lambda_S
-        NCS = NINT(A(NOEL,50))               ! NCS = unused number
+        NCS = NINT(A(NOEL,50))               ! NCS = number of coefs. for entrance fringe field
         DO J = 0, 5
-          FFCE(J) = A(NOEL,31+J)             ! Entrance fringe field coefficients
-          FFCS(J) = A(NOEL,51+J)             ! Exit fringe field coefficients
+          CE(J) = A(NOEL,31+J)               ! Entrance fringe field coefficients
+          CS(J) = A(NOEL,51+J)               ! Exit fringe field coefficients
         ENDDO
 
         PAS = A(NOEL,60)
@@ -99,24 +104,25 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
           Bfield(J) = A(NOEL,3+J)            ! Magnetic field from 2J-pole
           RSA(J) = A(NOEL,49+J)              ! Skew angles of field components
           IF (J .GT. 1) THEN
-            FFE(J) = A(NOEL,14+J)            ! Quadrupole fringe field = lambda_E * FFE(J != 1)
-            FFS(J) = A(NOEL,32+J)            ! Quadrupole fringe field = lambda_S * FFS(J != 1)
+            FFEE(J) = A(NOEL,14+J)           ! entrance fringe field extend = lambda_E * FFE(J != 1)
+            FFES(J) = A(NOEL,32+J)           ! exit fringe field extend = lambda_S * FFS(J != 1)
           ENDIF
           IF (J .LE. 6) THEN
-            FFCE(J-1) = A(NOEL,25+J)         ! Entrance fringe field coefficients
-            FFCS(J-1) = A(NOEL,43+J)         ! Exit fringe field coefficients
+            CE(J-1) = A(NOEL,25+J)           ! Entrance fringe field coefficients
+            CS(J-1) = A(NOEL,43+J)           ! Exit fringe field coefficients
           ENDIF
         ENDDO
 
-        XE = A(NOEL,14)                      ! Integration zone: entrance
-        DLE= A(NOEL,15)                      ! Dipole fringe field lambda_E
-        NCE = NINT(A(NOEL,25))               ! NCE = unused number
+        XLE = A(NOEL,14)                     ! Integration zone: entrance
+        DLE = A(NOEL,15)                     ! Dipole fringe field lambda_E
+        NCE = NINT(A(NOEL,25))               ! NCE = number of coefs. for entrance fringe field
         XLS = A(NOEL,32)                     ! Integration zone: exit
         DLS = A(NOEL,33)                     ! Dipole fringe field lambda_S
-        NCS = NINT(A(NOEL,43))               ! NCS = unused number
+        NCS = NINT(A(NOEL,43))               ! NCS = number of coefs. for exit fringe field
 
         PAS = A(NOEL,60)                     ! Integration step
         KP = NINT(A(NOEL,63))                ! In the Zgoubi manu, KPOS is located at # 61
+                                             ! but in the program, it was move by two spots
         IF ((KP .EQ. 1) .OR. (KP .EQ. 2) .OR. (KP .EQ. 3)) THEN
           XCE = A(NOEL,64)
           YCE = A(NOEL,65)
@@ -132,7 +138,7 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
         ENDIF
 
         IF(NRES.GT.0) THEN
-          WRITE(NRES, 101) XL, RO, (Bfield(J), J=1,10)
+          WRITE(NRES, 101) XL, RO, (Bfield(J), J=1, 10)
         ENDIF
 
         KUASEX = 0
@@ -157,23 +163,106 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
         CALL ENDJOB(' KUASEX = 0, all field is zero', -99)
       ENDIF
 
+      NSTEP_E = 0
+      NSTEP_S = 0
+      NSTEP_L = CEILING(XL/PAS)
+      IF (NSTEP_L .GT. MXSTEP) THEN
+        CALL ENDJOB('Number of integration step > MASTEP', -99)
+      ENDIF
+      PAS_L = XL/NSTEP_L
+      NSTEP = NSTEP_L
+
       DL0 = DLE + DLS
       IF(DL0 .EQ. 0.D0) THEN
-C-------- Sharp edge at entrance and exit---------------------
-        FINTE = XE
-        XE = 0.D0
+C-------- Sharp edge at entrance and exit-------------------------------
+        FINTE = XLE
+        XLE = 0.D0
         FINTS = XLS
         XLS = 0.D0
         IF(NRES.GT.0) THEN
-          WRITE(NRES,102) FINTE, FINTS, GAP
+          WRITE(NRES,120) FINTE, FINTS, GAP
+        ENDIF
+      ELSE
+C-------- Fringe fields are present-------------------------------------
+        IF (MQI .EQ. 1) THEN            ! Quadrupole
+          IF(NRES.GT.0) THEN
+            IF((DLE .EQ. 0.D0) .OR. (XLE .EQ. 0.D0)) THEN
+              FINTE = XLE
+              XLE = 0.D0
+              WRITE(NRES,121) FINTE, GAP
+            ELSE
+              WRITE(NRES,128)
+              WRITE(NRES,130) XLE, DLE, NCE, (CE(J), J=0, NCE-1)
+              NSTEP_E = CEILING (XLE/PAS)
+              PAS_E = XLE/NSTEP_E       ! Integration step for entrance fringe field
+              step_E = PAS_E/l0         ! Scaled integration step for entrance fringe field
+            ENDIF
+
+            IF((DLS .EQ. 0.D0) .OR. (XLS .EQ. 0.D0)) THEN
+              FINTS = XLS
+              XLS = 0.D0
+              WRITE(NRES,122) FINTS, GAP
+            ELSE
+              WRITE(NRES,129)
+              WRITE(NRES,130) XLS,DLS, NCE, (CS(J), J=0, NCS-1)
+              NSTEP_S = CEILING (XLS/PAS)
+              PAS_S = XLS/NSTEP_S       ! Integration step for exit fringe field
+              step_S = PAS_S/l0         ! Scaled integration step for exit fringe field
+            ENDIF
+          ENDIF
+
+          NSTEP_EL = NSTEP_E + NSTEP_L
+          NSTEP = NSTEP_EL + NSTEP_S
+          IF (NSTEP .GT. MXSTEP) THEN
+            CALL ENDJOB('Number of integration step > MASTEP', -99)
+          ENDIF
+
+          DO J = 1, NSTEP
+            IF (J .LE. NSTEP_E) THEN                   ! Entrance fringe field
+              Xpos = PAS_E*(J - NSTEP_E - 1)
+            ELSE IF (J .GT. (NSTEP_EL+1)) THEN         ! Exit fringe field
+              Xpos = XL + PAS_S*(J - NSTEP_EL - 1)
+            ELSE
+              Xpos = PAS_L * (J - NSTEP_E - 1)
+            ENDIF
+
+            IF ((ABS(Xpos) .LE. XLE) .AND. (DLE .GT. 0.D0)) THEN
+              dist = -Xpos/DLE
+              Pfunct = 0.D0
+              DO JJ = 0, NCE-1
+                Pfunct = Pfunct + CE(JJ)*(dist**JJ)
+              ENDDO
+              GFE = 1.D0/(1.D0 + EXP(Pfunct))
+            ELSE
+              GFE = 1.D0
+            ENDIF
+
+            IF ((ABS(Xpos-XL) .LE. XLS) .AND. (DLS .GT. 0.D0)) THEN
+              dist = (Xpos-XL)/DLS
+              Pfunct = 0.D0
+              DO JJ = 0, NCS-1
+                Pfunct = Pfunct + CS(JJ)*(dist**JJ)
+              ENDDO
+              GFS = 1.D0/(1.D0 + EXP(Pfunct))
+            ELSE
+              GFS = 1.D0
+            ENDIF
+
+            GF(J) = GFE + GFS - 1.D0
+          ENDDO
+
+C          DO J = 1, CEILING(NSTEP/10.D0)
+C            JJ1 = (J-1)*10 + 1
+C            JJ2 = J*10
+C            IF (JJ2 .GT. NSTEP) JJ2 = NSTEP
+C            WRITE (*,*) (GF(JJ), JJ = JJ1, JJ2)
+C          ENDDO
+
         ENDIF
       ENDIF
 
-      PAS0 = PAS                  ! Integration step from input
-      NSTEP = CEILING(XL/PAS0)
-      PAS = XL/NSTEP              ! Adjust the step size to fit the length
       IF(NRES.GT.0) THEN
-        WRITE(NRES,103) PAS0, PAS
+        WRITE(NRES,140) PAS, PAS_L
       ENDIF
 
   99  FORMAT(/, 5X, 'The  lowest-order nonzero multipole is: ', I0,
@@ -198,9 +287,20 @@ C-------- Sharp edge at entrance and exit---------------------
      > /, 15X, 'B-18-POLE     =', 1P, E15.7, 1X, 'kG',
      > /, 15X, 'B-20-POLE     =', 1P, E15.7, 1X, 'kG')
 
- 102  FORMAT(/, 15X, 'Entrance/exit field models are sharp edge',
+ 120  FORMAT(/, 15X, 'Entrance/exit field models are sharp edge',
      >  /, 15X, 'FINTE, FINTS, gap : ', 1P, 3(1X, E12.4))
- 103  FORMAT(
+ 121  FORMAT(/, 15X, 'Entrance field model is sharp edge',
+     >  /, 15X, 'FINTE, gap : ', 1P, 2(1X, E12.4))
+ 122  FORMAT(/, 15X, 'Exit field model is sharp edge',
+     >  /, 15X, 'FINTS, gap : ', 1P, 2(1X, E12.4))
+ 128  FORMAT(/,15X,' Entrance  face  ')
+ 129  FORMAT(/,15X,' Exit  face  ')
+ 130  FORMAT(20X, ' with  fringe  field :',
+     > /, 20X, ' DX  = ', F7.3, '  CM ',
+     > /, 20X, ' LAMBDA-QUADRUPOLE =', F7.3, '  CM',
+     > /, 20X, I1, ' COEFFICIENTS :', 6F9.5)
+
+ 140  FORMAT(
      >  /, 20X, 'The input  integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm', /)
 
@@ -213,51 +313,79 @@ C---------Compute some constants for the sympletic integration----------
       GAMMA0 = EREF / AM
       b0g0 = 1.D0/(BETA0*GAMMA0)
       mass = AM / PREF                      ! the scaled mass
-      step = PAS/l0                         ! the scaled stepsize
+      step_L = PAS_L/l0                     ! the scaled stepsize inside
       radius = RO/l0                        ! the scaled radius
 
       IF (MQI .EQ. 1) THEN                  ! Quadrupole
-        eb2 = ((Bfield(2)*RO)/BORO)/(radius**2)   ! reference momentum P0 = BORO*Q
-        eb(2) = step*eb2                          ! step_size * eb2/P0
+        eb2 = ((Bfield(2)*RO)/BORO)/(radius**2)   !
+        eb(2) = step_L*eb2                  ! Reference momentum P0 = BORO*Q
+                                            ! Step_size * eb2/P0
+        IF (NSTEP .GT. NSTEP_L) THEN        ! Presence of fringe field
+          NSTEP_EL = NSTEP_E + NSTEP_L
+          DO J = 1, NSTEP
+            IF (J .LE. NSTEP_E) THEN
+              step = step_E
+            ELSE IF (J .GT. NSTEP_EL) THEN
+              step = step_S
+            ELSE
+              step = step_L
+            ENDIF
+            eb2G(J) = step*eb2*GF(J)
+          ENDDO
 
-        IF (newIntegQ .EQ. 1) THEN
+          IF (newIntegQ .EQ. 1) THEN
+C            CALL CHAREF(.FALSE., -XLE, 0.D0, 0.D0)
 C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
-          CALL DKD_INTEGR(NSTEP, step, b0g0, eb, mass,
-     >                           IMAX, F, l0, w0, MQI, HOMP)
-        ELSE IF (newIntegQ .EQ. 2) THEN
+            CALL DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S,
+     >  step_E, step_L, step_S, b0g0, eb, mass,
+     >  IMAX, F, l0, w0, MQI, HOMP, eb2G, XLE, XLS)
+C            CALL CHAREF(.TRUE., -XLS, 0.D0, 0.D0)
+          ELSE
+            CALL ENDJOB ('With fringe field, newIntegQ must be 1', -99)
+          ENDIF
+
+        ELSE                                ! No fringe field
+          IF (newIntegQ .EQ. 1) THEN
+C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
+            CALL DKD_INTEGR(NSTEP_L, step_L, b0g0, eb, mass,
+     >        IMAX, F, l0, w0, MQI, HOMP)
+          ELSE IF (newIntegQ .EQ. 2) THEN
 C---------Option 2: Matrix-kick-Matrix motion integrator for quadrupole-
-          CALL MKM_INTEGR(NSTEP,step,b0g0,eb2,mass,IMAX,F,l0,w0)
-        ELSE
-          WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+            CALL MKM_INTEGR(NSTEP_L, step_L, b0g0, eb2, mass,
+     >        IMAX, F, l0, w0)
+          ELSE
+            WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      >  newIntegQ, ', NOT implemented for quadrupole, stop the job.'
-          CALL ENDJOB(' This integrator has NOT been implemented', -99)
-        END IF
+            CALL ENDJOB(' This integrator NOT implemented', -99)
+          ENDIF
+        ENDIF
 
       ELSE IF (MQI .EQ. 2) THEN             ! Multipole
         ROBR = RO/BORO
         DO J = 1, 10
-          eb(J) = step*(Bfield(J)*ROBR)/(radius**J) ! step_size * eb_m/P0,
-        ENDDO                                       ! where P0 = BORO*Q
+          eb(J) = step_L*(Bfield(J)*ROBR)/(radius**J)    ! step_size * eb_m/P0,
+        ENDDO                                            ! where P0 = BORO*Q
 
         IF (newIntegQ .EQ. 1) THEN
 C---------Option 1: Drift-kick-drift motion integrator for multiple-----
-          CALL DKD_INTEGR(NSTEP, step, b0g0, eb, mass,
-     >                           IMAX, F, l0, w0, MQI, HOMP)
+          CALL DKD_INTEGR(NSTEP_L, step_L, b0g0, eb, mass,
+     >      IMAX, F, l0, w0, MQI, HOMP)
         ELSE
           WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      > newIntegQ, ', NOT implemented for multipole, stop the job.'
           CALL ENDJOB(' This integrator has NOT been implemented', -99)
         END IF
       ELSE
-        CALL ENDJOB(' Invalid MQI', -99)
+        CALL ENDJOB(' Invalid MQI, SHOULD NEVER ENTER HERE', -99)
       ENDIF
 
+      XLT = XL + XLE + XLS                  ! Total integration length
       DO IT = 1, IMAX
         IF(NRES.GT.0) THEN
           IF(IT.EQ.1) WRITE(NRES,199)
 C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
-     >      XL, (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
+     >      XLT, (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
         ENDIF
       ENDDO
 
