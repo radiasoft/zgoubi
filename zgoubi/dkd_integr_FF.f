@@ -44,8 +44,9 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION step, halfStep_E, halfStep_L, halfStep_S
       DOUBLE PRECISION Ptot, theta, phi, X, Y, PX, PY, T, PT, S, CLCM
-      DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT, DX, DZ, DL, DS, DT
-      PARAMETER (CLCM = 2.99792458D10)
+      DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
+      DOUBLE PRECISION XC, ZC, alpha, DX, DL, DS, DT
+      PARAMETER (CLCM = 2.99792458D10)          ! Speed of light in cm/s
       INTEGER IT, ISTEP, NSTEP, NSTEP_EL
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
@@ -59,7 +60,7 @@ C      TAR=F(7,I)*1.D5
 C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
-      halfStep_L = 0.5D0*step_L       ! 0.5L/L0
+      halfStep_L = 0.5D0*step_L       ! 0.5L/l0, scaled length
       halfStep_E = 0.5D0*step_E
       halfStep_S = 0.5D0*step_S
       NSTEP_EL = NSTEP_E + NSTEP_L
@@ -80,10 +81,14 @@ C                                                Y <----> Z of Zgoubi
         Y = data(4,IT)
         S = data(6,IT)
         T = data(7,IT)*1.D-6
-        DZ = -XLE
-        DX = X - (X*COS(theta) + DZ*SIN(theta))/COS(theta)
-        DL = SQRT(DX*DX + DZ*DZ)
-        DL = SIGN(DL, DZ)
+
+        ZC = -XLE                     ! ZC <----> XC of Zgoubi
+        XC = 0.D0                     ! XC <----> YC of Zgoubi
+        alpha = 0.D0                  ! alpha <-> A  of Agoubi
+
+        DX = ((X-XC)*COS(theta) + ZC*SIN(theta))/COS(theta-alpha) - X
+        DL = SQRT(DX*DX + ZC*ZC)
+        DL = SIGN(DL, ZC)
         DS = DL/COS(phi)
         DT = DS / ((Ptot/PT)*CLCM)
 
@@ -208,17 +213,20 @@ C----------Revert coordinates from DTA to Zgoubi------------------------
         theta = ASIN(PX/Pxz)  ! theta = arcsin(px/p_y)
         phi = ASIN(PY/Ptot)   ! phi = arcsin(py/P)
 C----------Frame Change by -XLS due to exit fringe field----------------
-        DZ = -XLS/l0
-        DX = X - (X*cos(theta) + DZ*TAN(theta))
-        DL = SQRT(DX*DX + DZ*DZ)
-        DL = SIGN(DL, DZ)
+        ZC = -XLS/l0          ! Here X, Y, S, T are all scaled
+        XC = 0.D0/l0          ! So we need to scale ZC, XC
+        alpha = 0.D0
+
+        DX = ((X-XC)*COS(theta) + ZC*SIN(theta))/COS(theta-alpha) - X
+        DL = SQRT(DX*DX + ZC*ZC)
+        DL = SIGN(DL, ZC)
         DS = DL/COS(phi)
-        DT = (DS*l0) / ((Ptot/PT)*CLCM)
+        DT = (DS*l0) / ((Ptot/PT)*CLCM)      ! Get the time in unit of s
 
         X = X + DX
         Y = Y + DL*TAN(phi)
         S = S + DS
-        T = T + DT*(-w0)
+        T = T + DT*(-w0)                     ! T is scaled, but DT is NOT
 C----------Scale them back----------------------------------------------
         data(2,IT) = X*l0
         data(3,IT) = theta*1000.D0
