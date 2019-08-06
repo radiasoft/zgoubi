@@ -57,7 +57,7 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION b0g0, step, radius, mass, DUMMY, XLT
       DOUBLE PRECISION PAS_E, PAS_L, PAS_S, step_E, step_L, step_S
       DOUBLE PRECISION Xpos, dist, Pfunct, GFE, GFS
-      DOUBLE PRECISION Bfield(10), RSA(10), eb(10)
+      DOUBLE PRECISION Bfield(10), RSA(10), eb(10), XLtrc(MXT)
       DOUBLE PRECISION GF(MXSTEP), eb2G(MXSTEP)
       DOUBLE PRECISION FFEE(10), CE(0:5), FFES(10), CS(0:5)
       INTEGER KUASEX, NRES, newIntegQ, J, IT, NCE, NCS, MQI, HOMP
@@ -141,8 +141,8 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
           WRITE(NRES, 101) XL, RO, (Bfield(J), J=1, 10)
         ENDIF
 
-        KUASEX = 0
-        HOMP = 0
+        KUASEX = 0                           ! Lowest-order multipole
+        HOMP = 0                             ! Highest-order multipole
         J = 1
         DO WHILE (J .LE. 10)
           IF (Bfield(J) .NE. 0.D0) THEN
@@ -171,6 +171,11 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
       ENDIF
       PAS_L = XL/NSTEP_L
       NSTEP = NSTEP_L
+
+      IF((DLE .LT. 0.D0) .OR. (DLS .LT. 0.D0)) CALL
+     >  ENDJOB('Delta_E or Delta_S cannot be negative', -99)
+      IF((XLE .LT. 0.D0) .OR. (XLS .LT. 0.D0)) CALL
+     >  ENDJOB('XLE or XLS cannot be negative', -99)
 
       DL0 = DLE + DLS
       IF(DL0 .EQ. 0.D0) THEN
@@ -232,7 +237,14 @@ C-------- Fringe fields are present-------------------------------------
               DO JJ = 0, NCE-1
                 Pfunct = Pfunct + CE(JJ)*(dist**JJ)
               ENDDO
-              GFE = 1.D0/(1.D0 + EXP(Pfunct))
+
+              IF (Pfunct .GT. 87.D0) THEN        ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                GFE = 0.D0                       ! for generating a number < 1.D-38
+              ELSE IF (Pfunct .LT. -87.D0) THEN
+                GFE = 1.D0
+              ELSE
+                GFE = 1.D0/(1.D0 + EXP(Pfunct))
+              ENDIF
             ELSE
               GFE = 1.D0
             ENDIF
@@ -243,7 +255,14 @@ C-------- Fringe fields are present-------------------------------------
               DO JJ = 0, NCS-1
                 Pfunct = Pfunct + CS(JJ)*(dist**JJ)
               ENDDO
-              GFS = 1.D0/(1.D0 + EXP(Pfunct))
+
+              IF (Pfunct .GT. 87.D0) THEN        ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                GFS = 0.D0                       ! for generating a number < 1.D-38
+              ELSE IF (Pfunct .LT. -87.D0) THEN
+                GFS = 1.D0
+              ELSE
+                GFS = 1.D0/(1.D0 + EXP(Pfunct))
+              ENDIF
             ELSE
               GFS = 1.D0
             ENDIF
@@ -261,8 +280,9 @@ C          ENDDO
         ENDIF
       ENDIF
 
+      XLT = XL + XLE + XLS
       IF(NRES.GT.0) THEN
-        WRITE(NRES,140) PAS, PAS_L
+        WRITE(NRES,140) PAS, PAS_L, PAS_E, PAS_S, XLT
       ENDIF
 
   99  FORMAT(/, 5X, 'The  lowest-order nonzero multipole is: ', I0,
@@ -302,10 +322,13 @@ C          ENDDO
 
  140  FORMAT(
      >  /, 20X, 'The input  integration step :', 1P, G15.8, ' cm',
-     >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm', /)
+     >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm',
+     >  /, 20X, 'The Entrnc integration step :', 1P, G15.8, ' cm',
+     >  /, 20X, 'The Exit   integration step :', 1P, G15.8, ' cm',
+     >  /, 20X, 'The total integration length:', 1P, G15.8, ' cm', /)
 
 C---------Compute some constants for the sympletic integration----------
-      IF(Q .EQ. 0.D0) Q = 1
+      IF(Q .EQ. 0.D0) Q = 1.0D0
       PREF = BORO*CL9*Q ! the reference momentum; BORO in kG.cm
                         ! CL9 = 0.29979246; Q=1 for proton;
       EREF = SQRT(PREF*PREF + AM*AM) ! the total energy
@@ -336,9 +359,9 @@ C---------Compute some constants for the sympletic integration----------
           IF (newIntegQ .EQ. 1) THEN
 C            CALL CHAREF(.FALSE., -XLE, 0.D0, 0.D0)
 C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
-            CALL DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S,
-     >  step_E, step_L, step_S, b0g0, eb, mass,
-     >  IMAX, F, l0, w0, MQI, HOMP, eb2G, XLE, XLS)
+            CALL DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S, step_E,
+     >  step_L, step_S, XLE, XLS, b0g0, eb, eb2G, mass,
+     >  IMAX, F, l0, w0, MQI, HOMP, XLtrc)
 C            CALL CHAREF(.TRUE., -XLS, 0.D0, 0.D0)
           ELSE
             CALL ENDJOB ('With fringe field, newIntegQ must be 1', -99)
@@ -380,12 +403,13 @@ C---------Option 1: Drift-kick-drift motion integrator for multiple-----
       ENDIF
 
       XLT = XL + XLE + XLS                  ! Total integration length
+
       DO IT = 1, IMAX
         IF(NRES.GT.0) THEN
           IF(IT.EQ.1) WRITE(NRES,199)
 C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
           WRITE(NRES,200) IEX(IT), (FO(J,IT), J=1,5),
-     >      XLT, (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
+     >      XLtrc(IT), (F(J,IT), J=2,6), F(7,IT)*1.D3, IT
         ENDIF
       ENDDO
 

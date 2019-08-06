@@ -22,9 +22,9 @@ C  Brookhaven National Laboratory
 C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
-      SUBROUTINE DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S,
-     >  step_E, step_L, step_S, b0g0, eb, mass,
-     >  IMAX, data, l0, w0, MQI, HOMP, eb2G, XLE, XLS)
+      SUBROUTINE DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S, step_E,
+     >  step_L, step_S, XLE, XLS, b0g0, eb, eb2G, mass,
+     >  IMAX, data, l0, w0, MQI, HOMP, XLtrc)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for
 C           both magnetic quadrupole and multipole
@@ -42,11 +42,11 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION, INTENT(IN) :: b0g0, mass, l0, w0, XLS
       DOUBLE PRECISION, INTENT(IN) :: eb(10), eb2G(MXSTEP)
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
+      DOUBLE PRECISION, INTENT(OUT) :: XLtrc(MXT)
       DOUBLE PRECISION step, halfStep_E, halfStep_L, halfStep_S
-      DOUBLE PRECISION Ptot, theta, phi, X, Y, PX, PY, T, PT, S, CLCM
+      DOUBLE PRECISION Ptot, theta, phi, X, Y, PX, PY, T, PT, S
       DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
-      DOUBLE PRECISION XC, ZC, alpha, DX, DL, DS, DT
-      PARAMETER (CLCM = 2.99792458D10)          ! Speed of light in cm/s
+      DOUBLE PRECISION XC, ZC, alpha, DX, DL, DS, DT, XLT
       INTEGER IT, ISTEP, NSTEP, NSTEP_EL
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
@@ -70,8 +70,8 @@ C-----------Constants for all the particles-----------------------------
         Ptot = data(1,IT)             ! the scaled total momentum
         PT = SQRT(Ptot**2 + mass**2)  ! the scaled total energy
         P2 = PT*PT - b0g0*b0g0        ! P^2 = PT^2 - (beta0*gamma0)^(-2)
-        phi   = data(5,IT)*0.001D0    ! angle phi
-        theta = data(3,IT)*0.001D0    ! angle theta
+        phi   = data(5,IT)*0.001D0    ! angle phi (in rad)
+        theta = data(3,IT)*0.001D0    ! angle theta (in rad)
 
 C---------Convert the coordinates from Zgobi notation to DTA notation,
 C---------Frame change by -XLE (in DTA notation, Z <----> X of Zgoubi
@@ -90,7 +90,7 @@ C                                                Y <----> Z of Zgoubi
         DL = SQRT(DX*DX + ZC*ZC)
         DL = SIGN(DL, ZC)
         DS = DL/COS(phi)
-        DT = DS / ((Ptot/PT)*CLCM)
+        DT = DS / ((Ptot/PT)*(w0*l0)) ! l0*w0 = speed of light in cm/s
 
         X = X + DX
         Y = Y + DL*TAN(phi)
@@ -103,34 +103,47 @@ C---------then scaled by l0, w0, and P0 = PREF--------------------------
         S = S/l0
         T = T*(-w0)
 
-        PX= Ptot*cos(phi)*sin(theta)  ! Ptot is already scaled by PREF
+        PX= Ptot*cos(phi)*sin(theta)      ! Ptot is already scaled by PREF
         PY= Ptot*sin(phi)
-
+        XLT = 0.D0
 C---------Start the symplectic dfift-kick-drift integrator--------------
         ISTEP = 1
         DO 999 WHILE (ISTEP .LE. NSTEP)
 C----------DRIFT: half the stepsize for the first drift-----------------
-          IF (ISTEP .EQ. 1) THEN
-            step = halfStep_E
-            IF (NSTEP_E .EQ. 0) step = halfStep_L
+          IF ((ISTEP .EQ. 1) .OR. (ISTEP .EQ. NSTEP_E+1) .OR.
+     >     (ISTEP .EQ. NSTEP_EL+1)) THEN
+
+            IF (ISTEP .EQ. 1) THEN
+              step = halfStep_E
+              IF (NSTEP_E .EQ. 0) step = halfStep_L
+            ENDIF
+
+            IF ((NSTEP_E .NE. 0) .AND. (ISTEP .EQ. NSTEP_E+1)) THEN
+              step = halfStep_L
+            ENDIF
+
+            IF ((NSTEP_S .NE. 0) .AND. (ISTEP .EQ. NSTEP_EL+1)) THEN
+              step = halfStep_S
+            ENDIF
 
             Pxy2 = PX*PX + PY*PY
             Ps2  = P2 - Pxy2
             Ps   = SQRT(Ps2)
-            delT = step/Ps            ! the scaled drift time
+            delT = step/Ps                ! the scaled drift time
 
             X = X + delT*PX
             Y = Y + delT*PY
             S = S + step*SQRT(1+Pxy2/Ps2)
             T = T - delT*PT
+            XLT = XLT + step
           ENDIF
 
 C----------KICK---------------------------------------------------------
-          IF (MQI .EQ. 1) THEN          ! Quadrupole
+          IF (MQI .EQ. 1) THEN            ! Quadrupole
             PX = PX - eb2G(ISTEP)*X
             PY = PY + eb2G(ISTEP)*Y
 
-          ELSE IF (MQI .EQ. 2) THEN     ! Multiple
+          ELSE IF (MQI .EQ. 2) THEN       ! Multiple
             PX = PX - eb(1) - eb(2)*X - eb(3)*(X*X-Y*Y)
             PY = PY + eb(2)*Y + eb(3)*2.D0*X*Y
 
@@ -195,6 +208,14 @@ C----------DRIFT: the whole step size except for the last step----------
             IF (NSTEP_S .EQ. 0) step = halfStep_L
           ENDIF
 
+          IF ((NSTEP_E .NE. 0) .AND. (ISTEP .EQ. NSTEP_E)) THEN
+            step = halfStep_E
+          ENDIF
+
+          IF ((NSTEP_S .NE. 0) .AND. (ISTEP .EQ. NSTEP_EL)) THEN
+            step = halfStep_L
+          ENDIF
+
           Pxy2 = PX*PX + PY*PY
           Ps2  = P2 - Pxy2
           Ps   = SQRT(Ps2)
@@ -204,24 +225,25 @@ C----------DRIFT: the whole step size except for the last step----------
           Y = Y + delT*PY
           S = S + step*SQRT(1+Pxy2/Ps2)
           T = T - delT*PT
+          XLT = XLT + step
 
           ISTEP = ISTEP + 1
  999    CONTINUE
 
 C----------Revert coordinates from DTA to Zgoubi------------------------
         Pxz = SQRT(Ptot*Ptot - PY*PY) ! the projected momentum on the xz-plane
-        theta = ASIN(PX/Pxz)  ! theta = arcsin(px/p_y)
-        phi = ASIN(PY/Ptot)   ! phi = arcsin(py/P)
+        theta = ASIN(PX/Pxz)          ! theta = arcsin(px/p_y)
+        phi = ASIN(PY/Ptot)           ! phi = arcsin(py/P)
 C----------Frame Change by -XLS due to exit fringe field----------------
-        ZC = -XLS/l0          ! Here X, Y, S, T are all scaled
-        XC = 0.D0/l0          ! So we need to scale ZC, XC
+        ZC = -XLS/l0                  ! Here X, Y, S, T are all scaled
+        XC = 0.D0/l0                  ! So we need to scale ZC, XC
         alpha = 0.D0
 
         DX = ((X-XC)*COS(theta) + ZC*SIN(theta))/COS(theta-alpha) - X
         DL = SQRT(DX*DX + ZC*ZC)
         DL = SIGN(DL, ZC)
         DS = DL/COS(phi)
-        DT = (DS*l0) / ((Ptot/PT)*CLCM)      ! Get the time in unit of s
+        DT = DS / ((Ptot/PT)*w0)   ! Get the time in unit of s
 
         X = X + DX
         Y = Y + DL*TAN(phi)
@@ -229,12 +251,13 @@ C----------Frame Change by -XLS due to exit fringe field----------------
         T = T + DT*(-w0)                     ! T is scaled, but DT is NOT
 C----------Scale them back----------------------------------------------
         data(2,IT) = X*l0
-        data(3,IT) = theta*1000.D0
+        data(3,IT) = theta*1000.D0           ! theta in mrad in F-matrix
         data(4,IT) = Y*l0
-        data(5,IT) = phi*1000.D0
+        data(5,IT) = phi*1000.D0             ! phi in mrad in F-matrix
         data(6,IT) = S*l0
-        data(7,IT) = -T*1.D6/w0
-
+        data(7,IT) = -T*1.D6/w0              ! time in us in F-matrix
+        XLtrc(IT)  = XLT*l0                  ! Make sure the ray-tracing
+                                             ! length = XL + XLE + XLS
       ENDDO
 
       RETURN
