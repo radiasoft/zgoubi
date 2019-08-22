@@ -53,7 +53,7 @@ C      LOGICAL ZSYM
 C----- Magnet length, geometrical
       XL =A(NOEL,10)
 C----- Skew angle
-      BM(6) = A(NOEL,11)
+      BM(6) = A(NOEL,11)*SCAL
 C----- Field
       BM(1)  =A(NOEL,12)*SCAL
       GAP  =A(NOEL,13)
@@ -67,18 +67,17 @@ C----- Field
         G2 = 0.D0
       ENDIF
 
-      DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BM(1)))
+C FM. 06/2019
+C      DEV = 2.D0 * ASIN(XL/2.D0/(BORO/BM(1)))
+      DEV = 2.D0 * ASIN(XL/2.D0/(BORO*(DPREF+HDPRF)/BM(1)))
       KP = NINT(A(NOEL,70))
 
-c      write(88,*) ' bendi A(NOEL,73) ', A(NOEL,73)
+C      write(88,*) ' bendi DPREF+HDPRF, scal :',DPREF+HDPRF, scal
 
 
       IF( KP .EQ. 3 ) THEN
          IF(A(NOEL,73) .NE. 0.D0) DEV = -A(NOEL,73) * 2.D0
       ENDIF
-
-c         write(88,*) '  ',2.D0 * ASIN(XL/2.D0/(BORO/BM(1))),
-c     > A(NOEL,73), -A(NOEL,73) * 2.D0,XL,BORO,BM(1),scal
 
       IF(BM(6) .NE. 0.D0) THEN
 C------- BEND is skewed
@@ -132,7 +131,7 @@ C use cm step instead  (see [pathTo]/SVN/current/debugging/spinFlipper)
             XLS = 5.D0*TAN(ABS(TS))
           ELSE
             CALL ENDJOB(' Pgm bendi. Entrance/body/exit step size mode '
-     >      //'is not compatible with EXIT WEDGE ANGLE.'
+     >      //'is not compatible with wedge BEND.'
      >      //' Instead, use explicit single step size value. ',-99)
           ENDIF
         ENDIF
@@ -200,8 +199,8 @@ C------- Correction for exit wedge
       ENDIF
 
       IF(NRES.GT.0) THEN
-        WRITE(NRES,100) ' BEND',XL,BORO/BM(1)*DEV,DEV*DEG,DEV
-     >       , GAP, G1, G2
+         WRITE(NRES,100) ' BEND',XL,BORO*(DPREF+HDPRF)/BM(1)*DEV,
+     >     DEV*DEG,DEV, GAP, G1, G2
  100    FORMAT(1P, /,5X,' +++++  ',A10,'  : ',
      >       //,15X, ' Length    = ',E14.6,' cm'
      >       ,/,15X, ' Arc length    = ',E14.6,' cm'
@@ -209,7 +208,9 @@ C------- Correction for exit wedge
      >       ,/,15X, ' GAP   = ',E14.6,' cm'
      >       ,/,15X, ' Gradient   = ',E14.6,' kG/cm'
      >       ,/,15X, ' Grad-prime   = ',E14.6,' kG/cm^2',/)
-        WRITE(NRES,103) BM(1),BM(1)/SCAL,BORO/BM(1)
+C FM. 06/2019
+C        WRITE(NRES,103) BM(1),BM(1)/SCAL,BORO/BM(1)
+        WRITE(NRES,103) BM(1),BM(1)/SCAL,BORO*(DPREF+HDPRF)/BM(1)
  103    FORMAT(1P,15X,' Field  =',E15.7,'  kG ',
      >  '  (i.e., ',E15.7,' * SCAL)',
      >  /,15X, ' Reference curvature radius (Brho/B) = ',E15.7,' cm')
