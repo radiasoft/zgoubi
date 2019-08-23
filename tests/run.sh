@@ -57,7 +57,7 @@ run_pariz_h_setup() {
 }
 
 run_warm_snake() {
-    local e=( $(md5sum < "$run_warm_snake_gz" 2>&1 || true) )
+    local e=( $(md5sum "$run_warm_snake_gz" 2>&1 || true) )
     if [[ ${e[0]} == 5e1206f09fcc3ac85ce9f4346117f074 ]]; then
         return
     fi
