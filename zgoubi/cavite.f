@@ -736,13 +736,13 @@ C Kin. energy, MeV
         WF = WF1(I)
         DPR(I)=WF
 
-           write(*,*) ' cavite p, px av : ',p,px
+C          write(*,*) ' cavite p, px av : ',p,px
 
         P = SQRT(WF*(WF + 2.D0*AMQ(1,I)))
         PX=SQRT( P*P -PY*PY-PZ*PZ)
 
-           write(*,*) ' cavite p, px ap : ',p,px
-           write(*,*) ' '
+C          write(*,*) ' cavite p, px ap : ',p,px
+C          write(*,*) ' '
         F(1,I) = P / P0
         F(3,I) = ATAN2(PY,PX) / UNIT(2)
         F(5,I) = ATAN2(PZ,SQRT(PX*PX+PY*PY)) / UNIT(4)
