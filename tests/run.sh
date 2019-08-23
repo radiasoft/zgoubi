@@ -21,6 +21,7 @@ run_main() {
     run_pariz_h_setup
     run_warm_snake
     local t s e
+    local res=ZGOUBI_PASSED
     for t in [1-9]*; do
         local s=$run_src_d/$t
         cp "$s/PARIZ.H" "$run_pariz_h"
@@ -35,10 +36,15 @@ run_main() {
         e=$s/zgoubi.res
         "$run_zgoubi" >& zgoubi.out
         (( header=$(wc -l < "$e") - 10 ))
-        diff <(head -n "$header" zgoubi.res) <(head -n "$header" "$e") > res.diff
+        if diff <(head -n "$header" zgoubi.res) <(head -n "$header" "$e") > diffs; then
+            rm -f diffs
+        else
+            echo "$t FAILED: $PWD/diffs"
+            res=FAILED
+        fi
         cd "$run_out_d"
     done
-    echo ZGOUBI_PASSED
+    echo "$res"
 }
 
 run_pariz_h_setup() {
