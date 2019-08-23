@@ -1,6 +1,13 @@
 #!/usr/bash
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
+declare run_src_d=$PWD
+declare run_build_d=$run_src_d/../build
+declare run_out_d=$run_build_d/tests
+declare run_warm_snake_gz=$run_build_d/tests/warmSnake.map.gz
+declare run_pariz_h=$run_src_d/../zgoubi/PARIZ.H
+declare run_pariz_h_orig=$run_pariz_h.tests-run-orig
+declare run_zgoubi=$run_build_d/zgoubi
 
 run_cleanup() {
     if [[ -f $run_pariz_h_orig ]]; then
@@ -10,14 +17,6 @@ run_cleanup() {
 
 run_main() {
     # globals
-    local run_src_d=$PWD
-    local run_build_d=$run_src_d/../build
-    local run_out_d=$run_build_d/tests
-    local run_warm_snake_gz=$run_build_d/tests/warmSnake.map.gz
-    local run_pariz_h=$run_src_d/../zgoubi/PARIZ.H
-    local run_pariz_h_orig=$run_pariz_h.zit-orig
-    local run_zgoubi=$run_build_d/zgoubi
-
     mkdir -p "$run_out_d"
     run_pariz_h_setup
     run_warm_snake
@@ -26,7 +25,7 @@ run_main() {
         local s=$run_src_d/$t
         cp "$s/PARIZ.H" "$run_pariz_h"
         cd "$run_build_d"
-        make ${MAKEFLAGS:+-}$MAKEFLAGS >& /dev/null
+        make ${MAKEFLAGS:+-$MAKEFLAGS} >& /dev/null
         cd "$run_out_d"
         rm -rf "$t"
         mkdir "$t"
@@ -34,9 +33,9 @@ run_main() {
         gunzip -d < "$run_warm_snake_gz" > warmSnake.map
         cp "$s/zgoubi.dat" .
         e=$s/zgoubi.res
-        "$run_zgoubi"
+        "$run_zgoubi" >& zgoubi.out
         (( header=$(wc -l < "$e") - 10 ))
-        diff <(head -n "$header" zgoubi.res) <(head -n "$header" "$e")
+        diff <(head -n "$header" zgoubi.res) <(head -n "$header" "$e") > res.diff
         cd "$run_out_d"
     done
     echo ZGOUBI_PASSED
@@ -52,7 +51,7 @@ run_pariz_h_setup() {
 }
 
 run_warm_snake() {
-    local e=$(md5sum "$run_warm_snake_gz" 2>&1 || true)
+    local e=( $(md5sum < "$run_warm_snake_gz" 2>&1 || true) )
     if [[ ${e[0]} == 5e1206f09fcc3ac85ce9f4346117f074 ]]; then
         return
     fi
