@@ -35,7 +35,7 @@ C     ***************************************
 
       CHARACTER(8) TXTA, TXTB
       PARAMETER(I300=300)
-      CHARACTER(I300) TXT300
+      CHARACTER(I300) TXT300, TX300
       INTEGER DEBSTR, FINSTR
       LOGICAL STRCON
       PARAMETER (I2=2, I4=4)
@@ -50,14 +50,17 @@ C     ***************************************
       LOGICAL ISNUM, EMPTY
       PARAMETER (I3=3)
 
+      CHARACTER(10) TXT10
+
       DATA IA4 / 0 /
 
       LINE = 1
       READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-      IF(STRCON(TXT300,'!',
-     >                     II))
-     >  TXT300 = TXT300(DEBSTR(TXT300):II-1)
-      CALL STRGET(TXT300,I4,
+      TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
+      IF(STRCON(TXT300,'        !',
+     >                             II))
+     >TXT300 = TXT300(DEBSTR(TXT300):II-1)
+      CALL STRGET(TXt300,I4,
      >                      NSR,STRA)
       IF(NSR.GT.I4) CALL ENDJOB('Sbr rrebel. Too large value nsr=',NSR)
       READ(STRA(1),*,ERR=98) A(NOEL,1)
@@ -108,16 +111,20 @@ C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for paramete
           IF(STRCON(TXT300,'    !',
      >                             II))
      >    TXT300 = TXT300(DEBSTR(TXT300):FINSTR(TXT300))
-
           READ(TXT300,*,ERR=98,END=98) STRING
 C Two ways to define the element with parameter to be changed : either its keyword, or its number in the sequence
           IF(ISNUM(STRING)) THEN
 
-            READ(TXT300,*,ERR=79,END=79)
-     >      KLM, KPRM, TXT300
+            READ(TXT300,*,ERR=79,END=79) KLM, KPRM
             TPRM(IPRM,1) = ' '  ! Keyword is absent, element concerned is specified by its number in the sequence
             TPRM(IPRM,2) = ' '  ! label1 absent
             TPRM(IPRM,3) = ' '  ! label2 absent
+
+            WRITE(TXT10,FMT='(I0)') KLM
+            TXT300 = TXT300(LEN(TRIM(TXT10))+1:)
+            II2 = 0
+c            write(*,*) ' ||| txt300 ',trim(txt300)
+c            write(*,*) ' *** txt10 ',trim(txt10),II2
 
           ELSE
 
@@ -177,6 +184,7 @@ C Two ways to define the element with parameter to be changed : either its keywo
               TPRM(IPRM,1) = STRING(DEBSTR(STRING):)
               TPRM(IPRM,2) = ' '   ! No LABEL1
               TPRM(IPRM,3) = ' '   ! No LABEL2
+              II2 = LEN(TRIM(STRING))
             ENDIF
 
             IEL = 1
@@ -199,8 +207,9 @@ C Keyword with parameter to be changed
               BACKSPACE(NDAT)
               LINE = LINE + 1
               READ(NDAT,FMT='(A)',ERR=98,END=98) TXT300
-              CALL STRGET(TXT300,I3,
-     >                              NSR,STRA)
+              TX300 = TXT300
+              CALL STRGET(TX300,I3,
+     >                             NSR,STRA)
 C              TPRM(IPRM,3) = ' '
 
             ELSE
@@ -217,11 +226,12 @@ C              TPRM(IPRM,3) = ' '
 
           ENDIF
 
+c             write(*,*) ' ii2 = ',iI2
 c             write(*,*) ' string ',iprm,trim(string),' ',TPRM(IPRM,1)
 c     >              ,' * ',TPRM(IPRM,2),' * ',TPRM(IPRM,3),' ',okkle
+c             write(*,*) ' TXT300 ',TXT300
 c              write(*,*) ' TXT300(II2+1:) ',trim(TXT300(II2+1:))
 c              read(*,*)
-
 
           IF(STRCON(STRA(I3),':',
      >                           IS)) THEN
@@ -249,8 +259,12 @@ C            BACKSPACE(NDAT)
 
 C            IF(STRCON(STRING,',',
 C     >                           IS4)) THEN
-C              READ(NDAT,*,ERR=98,END=98)
+C     READ(NDAT,*,ERR=98,END=98)
+
+C                write(*,*) ' length(string)= ',len(trim(string))
+
               READ(TXT300(II2+1:),*,ERR=98,END=98)
+C              READ(TXT300(len(trim(string))+1:),*,ERR=98,END=98)
      >        KPRM, (PARAM(IPRM,I),I=1,NRBLT)
 C            ELSE
 C              READ(NDAT,*,ERR=98,END=98)
