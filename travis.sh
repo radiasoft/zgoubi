@@ -1,26 +1,20 @@
 #!/usr/bin/env bash
-
-# Perform CI testing in the desired docker image passed as the first argument
-# default to radiasoft/beamsim-part1 if no first argument is passed
-
-set -o pipefail
-set -o nounset
-set -o errexit
-
-docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:-radiasoft/beamsim}" bash <<-'EOF'
-    #!/bin/bash
-    source ~/.bashrc
-    set -veuo pipefail
-    cd ~/src/radiasoft/zgoubi
-    if [[ -d "${BUILD_DIR:-cmake-build}" ]] ; then
-        echo \
-            "Warning: Using an old/dirty build directory! Please run 'rm -r ${BUILD_DIR:-cmake-build}' and try again if script fails." >&2
-    else
-        mkdir "${BUILD_DIR:-cmake-build}"
-    fi
-    cd "${BUILD_DIR:-cmake-build}"
-    cmake -Wdev -DCMAKE_INSTALL_PREFIX=$(pyenv prefix) ..
-    make -j $(nproc)
-    ctest --output-on-failure
-    make install
+set -euo pipefail
+docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "$1" bash -l <<'EOF'
+#!/bin/bash
+set -xeuo pipefail
+cd ~/src/radiasoft/zgoubi
+# Needs to match what tests assume
+build_d=build
+if [[ -d $build_d ]] ; then
+    echo "$PWD/$build_d should not exist"
+    exit 1
+fi
+mkdir "$build_d"
+cd "$build_d"
+cmake -Wdev -DCMAKE_INSTALL_PREFIX=$HOME/.local ..
+CTEST_OUTPUT_ON_FAILURE=1 make -j $(nproc) test
+# do not install: "make test" creates a new zgoubi that
+# has a non-default PARIZ.H. Probably don't need to test
+# "install" here.
 EOF
