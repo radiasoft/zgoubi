@@ -39,7 +39,8 @@ run_main() {
         if diff <(head -n "$header" zgoubi.res) <(head -n "$header" "$e") > diffs; then
             rm -f diffs
         else
-            echo "$t FAILED: $PWD/diffs"
+            echo "$t FAILED $PWD/diffs:"
+            cat diffs
             res=FAILED
         fi
         cd "$run_out_d"
