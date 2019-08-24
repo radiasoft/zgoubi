@@ -375,6 +375,8 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
      11  Keyword, label(s) :  REBELOTE                                              
 
 
+ Pgm rebel. At pass #    1/   5.  In element #    1,  parameter # 35  changed to    1.38727400E+00   (was    1.00000000E+00)
+
                                 -----  REBELOTE  -----
 
      End of pass #        1 through the optical structure 
@@ -386,8 +388,6 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
                              to  REBELOTE  /label1=                    /label2=                    
      ending at pass #       5 at element #    11 : REBELOTE  /label1=                    /label2=                    
 
-
- Pgm rebel. At pass #    1/   5.  In element #    1,  parameter # 35  changed to    1.38727400E+00   (was    1.00000000E+00)
 
      WRITE statements to zgoubi.res are inhibeted from now on.
 
@@ -454,13 +454,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
      11  Keyword, label(s) :  REBELOTE                                              
 
 
+ Pgm rebel. At pass #    2/   5.  In element #    1,  parameter # 35  changed to    2.13682967E+00   (was    1.38727400E+00)
+
                                 -----  REBELOTE  -----
 
      End of pass #        2 through the optical structure 
 
                      Total of          2 particles have been launched
-
- Pgm rebel. At pass #    2/   5.  In element #    1,  parameter # 35  changed to    2.13682967E+00   (was    1.38727400E+00)
 
      WRITE statements to zgoubi.res are inhibeted from now on.
 
@@ -527,13 +527,13 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
      11  Keyword, label(s) :  REBELOTE                                              
 
 
+ Pgm rebel. At pass #    3/   5.  In element #    1,  parameter # 35  changed to    4.82611907E+00   (was    2.13682967E+00)
+
                                 -----  REBELOTE  -----
 
      End of pass #        3 through the optical structure 
 
                      Total of          3 particles have been launched
-
- Pgm rebel. At pass #    3/   5.  In element #    1,  parameter # 35  changed to    4.82611907E+00   (was    2.13682967E+00)
 
      WRITE statements to zgoubi.res are inhibeted from now on.
 
@@ -600,6 +600,8 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
      11  Keyword, label(s) :  REBELOTE                                              
 
 
+ Pgm rebel. At pass #    4/   5.  In element #    1,  parameter # 35  changed to    1.10152413E+01   (was    4.82611907E+00)
+
                                 -----  REBELOTE  -----
 
      End of pass #        4 through the optical structure 
@@ -609,8 +611,6 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
 
       Next  pass  is  #     5 and  last  pass  through  the  optical  structure
 
-
- Pgm rebel. At pass #    4/   5.  In element #    1,  parameter # 35  changed to    1.10152413E+01   (was    4.82611907E+00)
 
      WRITE statements to zgoubi.res are re-established from now on.
 
@@ -1121,7 +1121,7 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
      11  Keyword, label(s) :  REBELOTE                                              
 
 
-                         ****  End  of  'REBELOTE'  procedure  ****
+                         >>>>  End  of  'REBELOTE'  procedure  <<<<
 
       There  has  been          5  passes  through  the  optical  structure 
 
@@ -1145,10 +1145,10 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  12-07-2018,  at  16:50:16 
-  JOB  ENDED  ON    12-07-2018,  AT  16:50:21 
+  Job  started  on  24-08-2019,  at  01:16:45 
+  JOB  ENDED  ON    24-08-2019,  AT  01:16:47 
 
-   CPU time, total :     4.2244560000000000     
+   CPU time, total :     2.0841839999999996     
 
      An updated version of the input data file, with variables in FIT'ed state, has been saved in zgoubi.FIT.out.dat.
 

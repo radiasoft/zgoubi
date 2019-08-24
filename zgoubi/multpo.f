@@ -110,6 +110,10 @@ C Field or alignment defects
       SKEW=.FALSE.
       CALL RAZ(BM,MPOL)
 
+C FM - Fdb 2019
+      DLE(1) = 1.D0
+      DLS(1) = 1.D0
+
       GAP = 0.D0
       IF(KUASEX .LE. MPOL) THEN
 C------- Single-pole, from QUAD (KUASEX=2) up to 20-POLE (KUASEX=10)
@@ -240,7 +244,7 @@ C--------- Automatic positionning in SBR TRANSF
 C           Dev normally identifies with the deviation
 C             that would occur in a sharp edge dipole magnet.
         IF(BM(1) .NE. 0.D0) THEN
-          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/BORO)
+          DEV= 2.D0* ASIN(.5D0*XL*BM(1)/(BORO*(DPREF+HDPRF)))
         ELSE
           DEV= 0.D0
         ENDIF
@@ -270,13 +274,13 @@ C----- Case erron (ERRORS)
             CALL FITST5(
      >                  FITFNL)
 
-            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+C            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+            IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.LT.98)) THEN
 
-C Won't go if KREB3=99, since this is multi-turn in same lattice.
+C Won't go if KREB3=99 or 98, since this is multi-turn in same lattice.
               CALL MULERR(NOEL,IRR,MXTA,BM,
      >        KPOL,TYPERR,TYPAR,TYPDIS,ERRCEN,ERRSIG,ERRCUT,
      >                                             DB,DPOS,TILT)
-
               IF(PRNT .AND. OKOPN) THEN
                 CALL ZGKLE(IQ(NOEL),
      >                              KLEY)
@@ -334,7 +338,7 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
                 ENDDO
               ENDIF
 
-            ENDIF  ! .NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99
+            ENDIF  ! .NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.LT.98
 
           ENDIF     ! OK
         ENDDO   ! IRR
@@ -351,11 +355,15 @@ C Won't go if KREB3=99, since this is multi-turn in same lattice.
         WRITE(NRES,100) LMNT(KUASEX),XL,RO
  100    FORMAT(/,5X,' -----  ',A10,'  : ', 1P
      >  ,/,15X,' Length  of  element  = ',G16.8,'  cm'
-     >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
+     >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm'
+     >  30X,'B/RO^IM/Brho (strength)')
+C     >  ,/,15X,' Bore  radius      RO = ',G13.5,'  cm')
         WRITE(NRES,103)
-     >    (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),BM(IM)/SCAL,IM=NM0,NM)
+     >  (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),BM(IM)/SCAL,
+     >  BM(IM)/RO**(IM-1)/(BORO*(DPREF+HDPRF))*1D2**IM,IM=NM0,NM)
+C     >    (BE(KFL),LMNT(IM),BM(IM),DIM(KFL),BM(IM)/SCAL,IM=NM0,NM)
  103    FORMAT(15X,2A,'  =',1P,E15.7,1X,A,
-     >  '  (i.e., ',E15.7,' * SCAL)')
+     >  '  (i.e., ',E15.7,' * SCAL)   ',E15.7)
         IF(SKEW) WRITE(NRES,101) (LMNT(IM),RT(IM),IM=NM0,NM)
  101    FORMAT(15X,A,'  Skew  angle =',1P,E15.7,' rd')
 
@@ -629,7 +637,8 @@ C----- Case erron (ERRORS)
      >    .AND.(EMPTY(LBL2(IRR)) .OR. LBL2(IRR).EQ.LABEL(NOEL,2))
 
           IF(OK) THEN
-           IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+C           IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.NE.99)) THEN
+           IF(.NOT.FITING .AND. .NOT. FITFNL .AND. (KREB3.LT.98)) THEN
             DO I = 1, MPOL
               IF(KPOL(IRR,I) .EQ. 1) THEN
                 WRITE(NRES,FMT='(/,15X,
@@ -646,7 +655,7 @@ C----- Case erron (ERRORS)
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))')
-     >          '    error  values  status, '
+     >          'Error  values  status, '
      >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
      >          (TILT(MXL,I,II),II=1,3)
@@ -669,7 +678,7 @@ C----- Case erron (ERRORS)
      >          'err_center, err_sigma, err_cutoff : ',
      >          ERRCEN(IRR,I),ERRSIG(IRR,I),ERRCUT(IRR,I)
                 WRITE(NRES,FMT='(20X,A,1P,7(E14.6,2X))')
-     >          '    error  values  status, '
+     >          'Error  values  status, '
      >          //'DB / DPOS_X,_Y,_Z / X_, Y_, Z_TILT : ',
      >          DB(NOEL,I),(DPOS(NOEL,I,II),II=1,3),
      >          (TILT(MXL,I,II),II=1,3)

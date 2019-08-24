@@ -173,9 +173,6 @@ C     ... FACTEUR D'ECHELLE DES ChampS. UTILISE PAR 'SCALING'
       IF(KSCL .EQ. 1) SCAL = SCAL0()*SCALER(IPASS,NOEL,
      >                                                 DTA1)
 
-c      write(88,*) ' chxc scal ',kscl,noel,SCAL0(),SCALER(IPASS,NOEL,
-c     >                                                 DTA1)
-
       XE = 0.D0
       XS = 0.D0
       XLIM = 0.D0
@@ -299,7 +296,7 @@ C             Stop if XCE .ne. 0. To be provisionned...
      >      CALL ENDJOB('Pgm chxc. KPOS=3 does not support XCE.ne.',I0)
 C            Calculate ALE as half BL/BRho. BL_arc???
             IF(A(NOEL,ND+NND+3) .EQ. 0.D0)
-     >        A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/BORO)
+     >        A(NOEL,ND+NND+3)= ASIN(.5D0*XLMAG*BO/(BORO*(DPREF+HDPRF)))
 C Modified, FM, Dec 05 :
 C            Calculate XCE, YCE for entrance change of referential
             YSHFT = A(NOEL,ND+NND+2)
@@ -971,7 +968,7 @@ C        ... endif NRES>0
 
 C---------------------------------------------------------------
  2003 CONTINUE
-C----- KALC = 3: DIP,QUAD, ... DODECA, MULTPL, SOLENOID, WIENFILTER, COILS
+C----- KALC = 3: DIP,QUAD, ... DODECA, MULTPL, EBMULT, SOLENOID, WIENFILTER, COILS
 C        EL2TUB, UNIPOT
 
       IF(KUASEX .LE. MPOL+1 )   THEN
@@ -989,7 +986,7 @@ C        IF(KUASEX .EQ. MPOL+1) NND = 1
 C---------- Magnetic
           CALL MULTPO(KUASEX,LMNT,MG,SCAL,
      >DEV,RTB,XL,BM,DLE,DLS,DE,DS,XE,XS, CE ,CS ,BORO,DPREF,HDPRF,*95)
-               DSREF = XL
+          DSREF = XL
         ELSEIF(KFLD .EQ. LC) THEN
 C---------- Electric
           CALL MULTPO(KUASEX,LMNT,LC,SCAL,
@@ -1251,7 +1248,7 @@ C-------------------------------------------------------------------
 
       IF(KSCL .EQ. 1
 C------ Cavity
-     >  .OR. KSYN.EQ.1) THEN
+     >.OR. KSYN.EQ.1) THEN
 C------------SR Loss
 
         IF(NRES .GT. 0) THEN
@@ -1261,8 +1258,9 @@ C------------SR Loss
      >      ''momentum-dependent law''
      >      )')
           ENDIF
-          WRITE(NRES,199) SCAL
- 199      FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8)
+          WRITE(NRES,199) SCAL,BORO*(DPREF+HDPRF)
+ 199      FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8,
+     >    '   (Brho_ref = ',G16.8,')')
         ENDIF
 
       ENDIF
