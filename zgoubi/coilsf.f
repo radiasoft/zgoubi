@@ -38,7 +38,6 @@ C      COMMON/CHAFUI/ XE,XS,CE(6),CS(6),QCE(6),QCS(6)
         RO = RI(M1)
         BO = BI(M1)
         X=XX-(XS-XE)/2.D0-XE
-        CALL SOLEN1(BO,RO)
         CALL SOLENF(X,Y,Z)
  1    CONTINUE
 
