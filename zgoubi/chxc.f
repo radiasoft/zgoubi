@@ -323,7 +323,6 @@ C--------- PS170
 
         ELSEIF(KUASEX .EQ. 7 )   THEN
 C---------- Toroidal spectro for LNS
-          CALL TOROIDI(BO,RO)
           EN  =A(NOEL,20)
           EB1 =A(NOEL,21)
           EB2 =A(NOEL,22)
