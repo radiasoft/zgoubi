@@ -27,7 +27,7 @@ C  -------
      >                                   XL)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) LMNT(*)
-      INCLUDE "C.AIM_2.H"     ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
+      INCLUDE "C.AIM.H"     ! COMMON/AIM/ BO,RO,FG,GF,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER(MCOEF=6)
       INCLUDE "C.CHAFUI.H"     ! COMMON/CHAFUI/ XE,XS,CE(MCOEF),CS(MCOEF),QCE(MCOEF),QCS(MCOEF)
@@ -52,7 +52,6 @@ C  -------
       XL =A(NOEL,10)
       RO =A(NOEL,11)
       BO =A(NOEL,12)*SCAL
-      CALL SOLEN1(BO,RO)
 C MODL=1 (default) for axial model, MODL=2 for E,K,PI integral model
       MODL = NINT(A(NOEL,13))
       XE = A(NOEL,20)
