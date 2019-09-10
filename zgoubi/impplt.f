@@ -26,7 +26,6 @@ C  -------
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C-------- Store into zgoubi.plt.
 C         Post-processing of stored data possible with zpop.
-      INCLUDE "C.AIM_2.H"    ! COMMON/AIM/ AE,AT,AS,RM,XI,XF,EN,EB1,EB2,EG1,EG2
       INCLUDE "C.CDF.H"      ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       INCLUDE "MAXTRA.H"
       INCLUDE "C.CHAMBR.H"   ! COMMON/CHAMBR/ LIMIT,IFORM,YLIM2,ZLIM2,SORT(MXT),FMAG,YCH,ZCH
