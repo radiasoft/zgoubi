@@ -19,7 +19,7 @@ include_guard(GLOBAL)
 # Include files:
 set(_zgoubi_global_includes
   C.ABERR.H
-  C.AIM.H
+  C.QUA.H
   C.AIM_2.H
   C.AV_STD.H
   C.CARSH.H
