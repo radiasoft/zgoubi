@@ -20,7 +20,7 @@ include_guard(GLOBAL)
 set(_zgoubi_global_includes
   C.ABERR.H
   C.QUA.H
-  C.AIM_2.H
+  C.AIM.H
   C.AV_STD.H
   C.CARSH.H
   C.CDF.H
