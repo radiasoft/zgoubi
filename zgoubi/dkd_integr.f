@@ -41,6 +41,9 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION halfStep, Ptot, step0
       DOUBLE PRECISION theta, phi, X, Y, PX, PY, T, PT, S
       DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT
+      DOUBLE PRECISION X0, Y0, PX0, PY0
+      DOUBLE PRECISION alpha_ff1, alpha_ff2, alpha_ff3, alpha_ff4
+      DOUBLE PRECISION cospi4, sinpi4, X3, Y3, Pdelta, Pdelta3
       INTEGER IT, ISTEP
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
@@ -55,11 +58,19 @@ C-----------------------------------------------------------------------
 
 C-----------Constants for all the particles-----------------------------
       halfStep = 0.5D0*step           ! 0.5L/L0
+      alpha_ff1 = eb(2)/6.D0
+      alpha_ff2 = eb(2)/12.D0
+      alpha_ff3 = eb(2)/2.D0
+      alpha_ff4 = eb(2)/4.D0
+      cospi4 = SQRT(0.5D0)
+      sinpi4 = cospi4
 
       DO CONCURRENT (IT = 1:IMAX)     ! Loop over all the particles
         Ptot = data(1,IT)             ! the scaled total momentum
         PT = SQRT(Ptot**2 + mass**2)  ! the scaled total energy
         P2 = PT*PT - b0g0*b0g0        ! P^2 = PT^2 - (beta0*gamma0)^(-2)
+        Pdelta = SQRT(P2)             ! Pdelta = 1 + delta = Ptot
+        Pdelta3= Pdelta**3
         phi   = data(5,IT)*0.001D0    ! angle phi
         theta = data(3,IT)*0.001D0    ! angle theta
 
@@ -75,6 +86,42 @@ C---------then scaled by l0, w0, and P0 = PREF--------------------------
 C---------Start the symplectic dfift-kick-drift integrator--------------
         ISTEP = 1
         DO 999 WHILE (ISTEP .LE. NSTEP)
+C----------KICK for the hard-edge fringe field--------------------------
+          IF (ISTEP .EQ. 1) THEN  ! Entrance to the fringe field, the hard-edge model
+            X0  = X
+            Y0  = Y
+            PX0 = PX
+            PY0 = PY
+            X  =  X0*cospi4 -  Y0*sinpi4
+            Y  =  X0*sinpi4 +  Y0*cospi4
+            PX = PX0*cospi4 - PY0*sinpi4
+            PY = PX0*sinpi4 + PY0*cospi4
+
+            X3 = X*X*X
+            PX = PX + alpha_ff4*X*X*PY/Pdelta
+            Y  = Y  - alpha_ff2*X3/Pdelta
+            T  = T  + alpha_ff2*X3*PY*PT/Pdelta3
+
+            Y3 = Y*Y*Y
+            PY = PY + alpha_ff3*Y*Y*PX/Pdelta
+            X  = X  - alpha_ff1*Y3/Pdelta
+            T  = T  + alpha_ff1*Y3*PX*PT/Pdelta3
+
+            X3 = X*X*X
+            PX = PX + alpha_ff4*X*X*PY/Pdelta
+            Y  = Y  - alpha_ff2*X3/Pdelta
+            T  = T  + alpha_ff2*X3*PY*PT/Pdelta3
+
+            X0  = X
+            Y0  = Y
+            PX0 = PX
+            PY0 = PY
+            X  =  X0*cospi4 +  Y0*sinpi4
+            Y  = -X0*sinpi4 +  Y0*cospi4
+            PX = PX0*cospi4 + PY0*sinpi4
+            PY =-PX0*sinpi4 + PY0*cospi4
+          ENDIF
+
 C----------DRIFT: half the stepsize for the first drift-----------------
           IF (ISTEP .EQ. 1) THEN
             Pxy2 = PX*PX + PY*PY
@@ -158,7 +205,44 @@ C----------DRIFT: the whole step size except for the last step----------
           T = T - delT*PT
           S = S + step0*SQRT(1+Pxy2/Ps2)
 
+C----------KICK for the hard-edge fringe field--------------------------
+          IF (ISTEP .EQ. NSTEP) THEN     ! Exit from the fringe field, the hard-edge model
+            X0  = X
+            Y0  = Y
+            PX0 = PX
+            PY0 = PY
+            X  =  X0*cospi4 -  Y0*sinpi4
+            Y  =  X0*sinpi4 +  Y0*cospi4
+            PX = PX0*cospi4 - PY0*sinpi4
+            PY = PX0*sinpi4 + PY0*cospi4
+
+            X3 = X*X*X
+            PX = PX - alpha_ff4*X*X*PY/Pdelta
+            Y  = Y  + alpha_ff2*X3/Pdelta
+            T  = T  - alpha_ff2*X3*PY*PT/Pdelta3
+
+            Y3 = Y*Y*Y
+            PY = PY - alpha_ff3*Y*Y*PX/Pdelta
+            X  = X  + alpha_ff1*Y3/Pdelta
+            T  = T  - alpha_ff1*Y3*PX*PT/Pdelta3
+
+            X3 = X*X*X
+            PX = PX - alpha_ff4*X*X*PY/Pdelta
+            Y  = Y  + alpha_ff2*X3/Pdelta
+            T  = T  - alpha_ff2*X3*PY*PT/Pdelta3
+
+            X0  = X
+            Y0  = Y
+            PX0 = PX
+            PY0 = PY
+            X  =  X0*cospi4 +  Y0*sinpi4
+            Y  = -X0*sinpi4 +  Y0*cospi4
+            PX = PX0*cospi4 + PY0*sinpi4
+            PY =-PX0*sinpi4 + PY0*cospi4
+          ENDIF
+
           ISTEP = ISTEP + 1
+
  999    CONTINUE
 
 C----------Revert coordinates from DTA to Zgoubi------------------------

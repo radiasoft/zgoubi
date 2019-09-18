@@ -24,12 +24,11 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S, step_E,
      >  step_L, step_S, XLE, XLS, b0g0, eb, eb2G0, eb2G2, eb2G4,
-     >  mass, IMAX, data, l0, w0, MQI, HOMP, XLtrc, inv_beta0, G0)
+     >  mass, IMAX, data, l0, w0, MQI, HOMP, XLtrc, inv_beta0)
 C     --------------------------------------------------------------------
 C     Drift(L/2)Kick(L)Drift(L/2) motion integrator for
 C           both magnetic quadrupole and multipole
 C     ALL the variables are scaled in this subroutine
-C     SOFT-EDGE fringe field model was added for the quadrupole
 C     --------------------------------------------------------------------
 
       IMPLICIT NONE
@@ -41,8 +40,7 @@ C     --------------------------------------------------------------------
       INTEGER, INTENT(IN) :: IMAX, MQI, HOMP
       DOUBLE PRECISION, INTENT(IN) :: step_E, step_L, step_S, XLE
       DOUBLE PRECISION, INTENT(IN) :: b0g0, mass, l0, w0, XLS, inv_beta0
-      DOUBLE PRECISION, INTENT(IN) :: eb(10), G0(MXSTEP)
-      DOUBLE PRECISION, INTENT(IN) :: eb2G0(MXSTEP), eb2G2(MXSTEP)
+      DOUBLE PRECISION, INTENT(IN) :: eb(10),eb2G0(MXSTEP),eb2G2(MXSTEP)
       DOUBLE PRECISION, INTENT(IN) :: eb2G4(MXSTEP)
       DOUBLE PRECISION, INTENT(IN OUT) :: data(MXJ,MXT)
       DOUBLE PRECISION, INTENT(OUT) :: XLtrc(MXT)
@@ -51,9 +49,9 @@ C     --------------------------------------------------------------------
       DOUBLE PRECISION P2, Ps, Ps2, Pxy2, Pxz, delT, alpha
       DOUBLE PRECISION XC, ZC, DX, DL, DS, DT, XLT
       DOUBLE PRECISION alpha_ff1, alpha_ff2, alpha_ff3, alpha_ff4
-      DOUBLE PRECISION Pdelta, Pdelta2, Pdelta3, PTbeta, X3, Y3
+      DOUBLE PRECISION Pdelta, Pdelta3, PTbeta, X3, Y3
       DOUBLE PRECISION X0, Y0, PX0, PY0, cospi4, sinpi4
-      INTEGER IT, ISTEP, NSTEP, NSTEP_EL, half_NSTEP
+      INTEGER IT, ISTEP, NSTEP, NSTEP_EL
 
 C--------Zgoubi uses (Y, T, Z, P, SAR, TAR) coordinates-----------------
 C      DP=F(1,I)
@@ -71,7 +69,6 @@ C-----------Constants for all the particles-----------------------------
       halfStep_S = 0.5D0*step_S
       NSTEP_EL = NSTEP_E + NSTEP_L
       NSTEP = NSTEP_EL + NSTEP_S
-      half_NSTEP = NSTEP/2
       alpha_ff1 = eb(2)/6.D0
       alpha_ff2 = eb(2)/12.D0
       alpha_ff3 = eb(2)/2.D0
@@ -83,9 +80,8 @@ C-----------Constants for all the particles-----------------------------
         Ptot = data(1,IT)             ! the scaled total momentum
         PT = SQRT(Ptot**2 + mass**2)  ! the scaled total energy
         P2 = PT*PT - b0g0*b0g0        ! P^2 = PT^2 - (beta0*gamma0)^(-2)
-        Pdelta = SQRT(P2)             ! Pdelta = 1 + delta = Ptot
-        Pdelta2= Pdelta**2
-        Pdelta3= Pdelta**3
+        Pdelta = SQRT(P2)
+        Pdelta3 = Pdelta**3
         PTbeta = PT + inv_beta0
 
         phi   = data(5,IT)*0.001D0    ! angle phi (in rad)
@@ -128,9 +124,6 @@ C---------Start the symplectic dfift-kick-drift integrator--------------
         ISTEP = 1
         DO 999 WHILE (ISTEP .LE. NSTEP)
 C----------DRIFT: half the stepsize for the first drift-----------------
-C----------In the fringe field region, the drift is different from that
-C----------in the normal region-----------------------------------------
-C
           IF ((ISTEP .EQ. 1) .OR. (ISTEP .EQ. NSTEP_E+1) .OR.
      >     (ISTEP .EQ. NSTEP_EL+1)) THEN
 
@@ -145,106 +138,20 @@ C
             Pxy2 = PX*PX + PY*PY
             Ps2  = P2 - Pxy2
             Ps   = SQRT(Ps2)
-
-            IF (G0(ISTEP) .EQ. 1.D0) THEN ! In the normal region
-              delT = step/Ps              ! the scaled drift time
-              T = T - delT*PT
-            ELSE                          ! In the fringe region
-              delT = step/Pdelta
-              T = T - step*((0.5D0*Pxy2/Pdelta2 + 1.D0)
-     >              *(PT/Pdelta))
-            ENDIF
+            delT = step/Ps                ! the scaled drift time
 
             X = X + delT*PX
             Y = Y + delT*PY
             S = S + step*SQRT(1+Pxy2/Ps2)
+            T = T - delT*PT
             XLT = XLT + step
           ENDIF
 
 C----------KICK---------------------------------------------------------
-          IF (MQI .EQ. 1) THEN                              ! Quadrupole
+          IF (MQI .EQ. 1) THEN            ! Quadrupole
 
-            IF (G0(ISTEP) .EQ. 1.D0) THEN                ! Normal region
-              PX = PX - eb(2)*X
-              PY = PY + eb(2)*Y
-            ELSE                                   ! Fringe Field Region
-C              alpha_ff1 = eb2G0(ISTEP)/6.D0
-C              alpha_ff2 = eb2G0(ISTEP)/12.D0
-C              alpha_ff3 = eb2G0(ISTEP)/2.D0
-C              alpha_ff4 = eb2G0(ISTEP)/4.D0
-
-              IF (ISTEP .LT. half_NSTEP)  THEN  ! Enter the fringe field
-                X0  = X
-                Y0  = Y
-                PX0 = PX
-                PY0 = PY
-                X  =  X0*cospi4 -  Y0*sinpi4
-                Y  =  X0*sinpi4 +  Y0*cospi4
-                PX = PX0*cospi4 - PY0*sinpi4
-                PY = PX0*sinpi4 + PY0*cospi4
-
-                X3 = X*X*X
-                PX = PX + alpha_ff4*X*X*PY/Pdelta
-                Y  = Y  - alpha_ff2*X3/Pdelta
-                T  = T  + alpha_ff2*X3*PY*PT/Pdelta3
-
-                Y3 = Y*Y*Y
-                PY = PY + alpha_ff3*Y*Y*PX/Pdelta
-                X  = X  - alpha_ff1*Y3/Pdelta
-                T  = T  + alpha_ff1*Y3*PX*PT/Pdelta3
-
-                X3 = X*X*X
-                PX = PX + alpha_ff4*X*X*PY/Pdelta
-                Y  = Y  - alpha_ff2*X3/Pdelta
-                T  = T  + alpha_ff2*X3*PY*PT/Pdelta3
-
-                X0  = X
-                Y0  = Y
-                PX0 = PX
-                PY0 = PY
-                X  =  X0*cospi4 +  Y0*sinpi4
-                Y  = -X0*sinpi4 +  Y0*cospi4
-                PX = PX0*cospi4 + PY0*sinpi4
-                PY =-PX0*sinpi4 + PY0*cospi4
-
-              ELSE       ! Exit of the fringe field, the hard-edge model
-                X0  = X
-                Y0  = Y
-                PX0 = PX
-                PY0 = PY
-                X  =  X0*cospi4 -  Y0*sinpi4
-                Y  =  X0*sinpi4 +  Y0*cospi4
-                PX = PX0*cospi4 - PY0*sinpi4
-                PY = PX0*sinpi4 + PY0*cospi4
-
-                X3 = X*X*X
-                PX = PX - alpha_ff4*X*X*PY/Pdelta
-                Y  = Y  + alpha_ff2*X3/Pdelta
-                T  = T  - alpha_ff2*X3*PY*PT/Pdelta3
-
-                Y3 = Y*Y*Y
-                PY = PY - alpha_ff3*Y*Y*PX/Pdelta
-                X  = X  + alpha_ff1*Y3/Pdelta
-                T  = T  - alpha_ff1*Y3*PX*PT/Pdelta3
-
-                X3 = X*X*X
-                PX = PX - alpha_ff4*X*X*PY/Pdelta
-                Y  = Y  + alpha_ff2*X3/Pdelta
-                T  = T  - alpha_ff2*X3*PY*PT/Pdelta3
-
-                X0  = X
-                Y0  = Y
-                PX0 = PX
-                PY0 = PY
-                X  =  X0*cospi4 +  Y0*sinpi4
-                Y  = -X0*sinpi4 +  Y0*cospi4
-                PX = PX0*cospi4 + PY0*sinpi4
-                PY =-PX0*sinpi4 + PY0*cospi4
-             ENDIF
-           ENDIF
-
-C            PX = PX - eb2G0(ISTEP)*X      ! Soft fringe-field is treated as
-C            PY = PY + eb2G0(ISTEP)*Y      ! the zeroth-order perturbation
+            PX = PX - eb2G0(ISTEP)*X      ! Soft fringe-field is treated as
+            PY = PY + eb2G0(ISTEP)*Y      ! the zeroth-order perturbation
 
 C            PX = PX - eb2G0(ISTEP)*X + eb2G2(ISTEP)*(X**3)
 C     > - eb2G4(ISTEP)*((X**5)/2.D0+(X**3)*(Y**2)/3.D0-X*(Y**4)/6.D0)
@@ -322,95 +229,88 @@ C----------DRIFT: the whole step size except for the last step----------
           Pxy2 = PX*PX + PY*PY
           Ps2  = P2 - Pxy2
           Ps   = SQRT(Ps2)
-
-          IF (G0(ISTEP) .EQ. 1.D0) THEN           ! In the normal region
-            delT = step/Ps                       ! the scaled drift time
-            T = T - delT*PT
-          ELSE                                    ! In the fringe region
-            delT = step/Pdelta
-            T = T - step*((0.5D0*Pxy2/Pdelta2 + 1.D0)
-     >            *(PTbeta/Pdelta) - inv_beta0)
-          ENDIF
+          delT = step/Ps
 
           X = X + delT*PX
           Y = Y + delT*PY
           S = S + step*SQRT(1+Pxy2/Ps2)
+          T = T - delT*PT
           XLT = XLT + step
 
           ISTEP = ISTEP + 1
 
 C--------KICK due to the hard-edge fringe field model-------------------
-C          IF (MQI .EQ. 1) THEN                  ! Quadrupole
-C            IF (ISTEP .EQ. (NSTEP_E+1)) THEN    ! Entrance of the fringe field, the hard-edge model
-C              X0  = X
-C              Y0  = Y
-C              PX0 = PX
-C              PY0 = PY
-C              X  =  X0*cospi4 -  Y0*sinpi4
-C              Y  =  X0*sinpi4 +  Y0*cospi4
-C              PX = PX0*cospi4 - PY0*sinpi4
-C              PY = PX0*sinpi4 + PY0*cospi4
-C
-C              X3 = X*X*X
-C              PX = PX + alpha_ff4*X*X*PY/Pdelta
-C              Y  = Y  - alpha_ff2*X3/Pdelta
-C              T  = T  + alpha_ff2*X3*PY*PTbeta/Pdelta3
-C
-C              Y3 = Y*Y*Y
-C              PY = PY + alpha_ff3*Y*Y*PX/Pdelta
-C              X  = X  - alpha_ff1*Y3/Pdelta
-C              T  = T  + alpha_ff1*Y3*PX*PTbeta/Pdelta3
-C
-C              X3 = X*X*X
-C              PX = PX + alpha_ff4*X*X*PY/Pdelta
-C              Y  = Y  - alpha_ff2*X3/Pdelta
-C              T  = T  + alpha_ff2*X3*PY*PTbeta/Pdelta3
-C
-C              X0  = X
-C              Y0  = Y
-C              PX0 = PX
-C              PY0 = PY
-C              X  =  X0*cospi4 +  Y0*sinpi4
-C              Y  = -X0*sinpi4 +  Y0*cospi4
-C              PX = PX0*cospi4 + PY0*sinpi4
-C              PY =-PX0*sinpi4 + PY0*cospi4
-C            ENDIF
-C
-C            IF (ISTEP .EQ. (NSTEP_EL+1)) THEN   ! Exit of the fringe field, the hard-edge model
-C              X0  = X
-C              Y0  = Y
-C              PX0 = PX
-C              PY0 = PY
-C              X  =  X0*cospi4 -  Y0*sinpi4
-C              Y  =  X0*sinpi4 +  Y0*cospi4
-C              PX = PX0*cospi4 - PY0*sinpi4
-C              PY = PX0*sinpi4 + PY0*cospi4
-C
-C              X3 = X*X*X
-C              PX = PX - alpha_ff4*X*X*PY/Pdelta
-C              Y  = Y  + alpha_ff2*X3/Pdelta
-C              T  = T  - alpha_ff2*X3*PY*PTbeta/Pdelta3
-C
-C              Y3 = Y*Y*Y
-C              PY = PY - alpha_ff3*Y*Y*PX/Pdelta
-C              X  = X  + alpha_ff1*Y3/Pdelta
-C              T  = T  - alpha_ff1*Y3*PX*PTbeta/Pdelta3
-C
-C              X3 = X*X*X
-C              PX = PX - alpha_ff4*X*X*PY/Pdelta
-C              Y  = Y  + alpha_ff2*X3/Pdelta
-C              T  = T  - alpha_ff2*X3*PY*PTbeta/Pdelta3
-C
-C              X0  = X
-C              Y0  = Y
-C              PX0 = PX
-C              PY0 = PY
-C              X  =  X0*cospi4 +  Y0*sinpi4
-C              Y  = -X0*sinpi4 +  Y0*cospi4
-C              PX = PX0*cospi4 + PY0*sinpi4
-C              PY =-PX0*sinpi4 + PY0*cospi4
-C             ENDIF
-C           ENDIF
+          IF (MQI .EQ. 1) THEN                  ! Quadrupole
+            IF (ISTEP .EQ. (NSTEP_E+1)) THEN    ! Entrance of the fringe field, the hard-edge model
+              X0  = X
+              Y0  = Y
+              PX0 = PX
+              PY0 = PY
+              X  =  X0*cospi4 -  Y0*sinpi4
+              Y  =  X0*sinpi4 +  Y0*cospi4
+              PX = PX0*cospi4 - PY0*sinpi4
+              PY = PX0*sinpi4 + PY0*cospi4
+
+              X3 = X*X*X
+              PX = PX + alpha_ff4*X*X*PY/Pdelta
+              Y  = Y  - alpha_ff2*X3/Pdelta
+              T  = T  + alpha_ff2*X3*PY*PTbeta/Pdelta3
+
+              Y3 = Y*Y*Y
+              PY = PY + alpha_ff3*Y*Y*PX/Pdelta
+              X  = X  - alpha_ff1*Y3/Pdelta
+              T  = T  + alpha_ff1*Y3*PX*PTbeta/Pdelta3
+
+              X3 = X*X*X
+              PX = PX + alpha_ff4*X*X*PY/Pdelta
+              Y  = Y  - alpha_ff2*X3/Pdelta
+              T  = T  + alpha_ff2*X3*PY*PTbeta/Pdelta3
+
+              X0  = X
+              Y0  = Y
+              PX0 = PX
+              PY0 = PY
+              X  =  X0*cospi4 +  Y0*sinpi4
+              Y  = -X0*sinpi4 +  Y0*cospi4
+              PX = PX0*cospi4 + PY0*sinpi4
+              PY =-PX0*sinpi4 + PY0*cospi4
+            ENDIF
+
+            IF (ISTEP .EQ. (NSTEP_EL+1)) THEN   ! Exit of the fringe field, the hard-edge model
+              X0  = X
+              Y0  = Y
+              PX0 = PX
+              PY0 = PY
+              X  =  X0*cospi4 -  Y0*sinpi4
+              Y  =  X0*sinpi4 +  Y0*cospi4
+              PX = PX0*cospi4 - PY0*sinpi4
+              PY = PX0*sinpi4 + PY0*cospi4
+
+              X3 = X*X*X
+              PX = PX - alpha_ff4*X*X*PY/Pdelta
+              Y  = Y  + alpha_ff2*X3/Pdelta
+              T  = T  - alpha_ff2*X3*PY*PTbeta/Pdelta3
+
+              Y3 = Y*Y*Y
+              PY = PY - alpha_ff3*Y*Y*PX/Pdelta
+              X  = X  + alpha_ff1*Y3/Pdelta
+              T  = T  - alpha_ff1*Y3*PX*PTbeta/Pdelta3
+
+              X3 = X*X*X
+              PX = PX - alpha_ff4*X*X*PY/Pdelta
+              Y  = Y  + alpha_ff2*X3/Pdelta
+              T  = T  - alpha_ff2*X3*PY*PTbeta/Pdelta3
+
+              X0  = X
+              Y0  = Y
+              PX0 = PX
+              PY0 = PY
+              X  =  X0*cospi4 +  Y0*sinpi4
+              Y  = -X0*sinpi4 +  Y0*cospi4
+              PX = PX0*cospi4 + PY0*sinpi4
+              PY =-PX0*sinpi4 + PY0*cospi4
+             ENDIF
+           ENDIF
 
  999    CONTINUE
 

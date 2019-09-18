@@ -30,7 +30,7 @@ C     (2) The drift-kick-drift symplectic particle motion integrator
 C         for quadrupole (MQchoice = 1, newIntegQ = 1)
 C     (3) The matrix-kick-matrix symplectic particle motion integrator
 C         for quadrupole (MQchoice = 1, newIntegQ = 2)
-C     (3) The drift-kick-drift symplectic particle motion integrator
+C     (4) The drift-kick-drift symplectic particle motion integrator
 C         for a general magnetic multipole (MQchoice = 2, newIntegQ = 1)
 C-----------------------------------------------------------------------
       INCLUDE "MAXTRA.H"   ! PARAMETER (MXJ=7)
@@ -54,14 +54,19 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION XL, XLE, RO, GAP, ROBR, XS, YS, ZR, ZS, YR
       DOUBLE PRECISION DLE, XLS, DLS, DL0, TCUM, SCUM, l0, w0, eb2
       DOUBLE PRECISION FINTE, FINTS, PREF, EREF, BETA0, GAMMA0
-      DOUBLE PRECISION b0g0, step, radius, mass, DUMMY, XLT
+      DOUBLE PRECISION b0g0, step, radius, mass, DUMMY, XLT, EXPd
       DOUBLE PRECISION PAS_E, PAS_L, PAS_S, step_E, step_L, step_S
-      DOUBLE PRECISION Xpos, dist, Pfunct, GFE, GFS
-      DOUBLE PRECISION Bfield(10), RSA(10), eb(10), XLtrc(MXT)
-      DOUBLE PRECISION GF(MXSTEP), eb2G(MXSTEP)
+      DOUBLE PRECISION Xpos, dist, G0E, G0S, G2E, G2S, G4E, G4S
+      DOUBLE PRECISION Bfield(10), RSA(10), eb(10), XLtrc(MXT), ppii
+      DOUBLE PRECISION dle1, dle2, dle3, dle4, dls1, dls2, dls3, dls4
+      DOUBLE PRECISION Pd0, Pd1, Pd2, Pd3, Pd4, P1G1, P1G2, P2G2, P3G3
+C      DOUBLE PRECISION EXPd
+      DOUBLE PRECISION G0(MXSTEP), G2(MXSTEP), G4(MXSTEP), inv_beta0
+      DOUBLE PRECISION eb2G0(MXSTEP), eb2G2(MXSTEP), eb2G4(MXSTEP)
       DOUBLE PRECISION FFEE(10), CE(0:5), FFES(10), CS(0:5)
-      INTEGER KUASEX, NRES, newIntegQ, J, IT, NCE, NCS, MQI, HOMP
-      INTEGER NSTEP, NSTEP_E, NSTEP_L, NSTEP_S, NSTEP_EL, JJ
+      INTEGER KUASEX, NRES, newIntegQ, IT, NCE, NCS, MQI, HOMP
+      INTEGER NSTEP, NSTEP_E, NSTEP_L, NSTEP_S, NSTEP_EL
+      INTEGER J, JJ, JJ1, JJ2, JJ3, JJ4
 
       PARAMETER (l0 = 100.D0)
       PARAMETER (w0 = 299792458.D0)
@@ -163,8 +168,8 @@ C---------or magnetic multipole (MQI .EQ. 2) ---------------------------
         CALL ENDJOB(' KUASEX = 0, all field is zero', -99)
       ENDIF
 
-      NSTEP_E = 0
-      NSTEP_S = 0
+C      NSTEP_E = 0
+C      NSTEP_S = 0
       NSTEP_L = CEILING(XL/PAS)
       IF (NSTEP_L .GT. MXSTEP) THEN
         CALL ENDJOB('Number of integration step > MASTEP', -99)
@@ -198,9 +203,14 @@ C-------- Fringe fields are present-------------------------------------
             ELSE
               WRITE(NRES,128)
               WRITE(NRES,130) XLE, DLE, NCE, (CE(J), J=0, NCE-1)
-              NSTEP_E = CEILING (XLE/PAS)
-              PAS_E = XLE/NSTEP_E       ! Integration step for entrance fringe field
-              step_E = PAS_E/l0         ! Scaled integration step for entrance fringe field
+              WRITE(NRES,131)
+C              NSTEP_E = CEILING (XLE/PAS)
+C              PAS_E = XLE/NSTEP_E       ! Integration step for entrance fringe field
+C              step_E = PAS_E/l0         ! Scaled integration step for entrance fringe field
+C              dle1 = DLE/l0
+C              dle2 = dle1*dle1
+C              dle3 = dle2*dle1
+C              dle4 = dle3*dle1
             ENDIF
 
             IF((DLS .EQ. 0.D0) .OR. (XLS .EQ. 0.D0)) THEN
@@ -210,79 +220,153 @@ C-------- Fringe fields are present-------------------------------------
             ELSE
               WRITE(NRES,129)
               WRITE(NRES,130) XLS,DLS, NCE, (CS(J), J=0, NCS-1)
-              NSTEP_S = CEILING (XLS/PAS)
-              PAS_S = XLS/NSTEP_S       ! Integration step for exit fringe field
-              step_S = PAS_S/l0         ! Scaled integration step for exit fringe field
+              WRITE(NRES,131)
+C              NSTEP_S = CEILING (XLS/PAS)
+C              PAS_S = XLS/NSTEP_S       ! Integration step for exit fringe field
+C              step_S = PAS_S/l0         ! Scaled integration step for exit fringe field
+C              dls1 = DLS/l0
+C              dls2 = dls1*dls1
+C              dls3 = dls2*dls1
+C              dls4 = dls3*dls1
             ENDIF
           ENDIF
 
-          NSTEP_EL = NSTEP_E + NSTEP_L
-          NSTEP = NSTEP_EL + NSTEP_S
+C          NSTEP_EL = NSTEP_E + NSTEP_L
+C          NSTEP = NSTEP_EL + NSTEP_S
           IF (NSTEP .GT. MXSTEP) THEN
             CALL ENDJOB('Number of integration step > MASTEP', -99)
           ENDIF
 
-          DO J = 1, NSTEP
-            IF (J .LE. NSTEP_E) THEN                   ! Entrance fringe field
-              Xpos = PAS_E*(J - NSTEP_E - 1)
-            ELSE IF (J .GT. (NSTEP_EL+1)) THEN         ! Exit fringe field
-              Xpos = XL + PAS_S*(J - NSTEP_EL - 1)
-            ELSE
-              Xpos = PAS_L * (J - NSTEP_E - 1)
-            ENDIF
+C          DO J = 1, NSTEP
+C            IF (J .LE. NSTEP_E) THEN              ! Entrance fringe field
+C              Xpos = PAS_E*(J - NSTEP_E - 0.5D0)
+C            ELSE IF (J .GT. NSTEP_EL) THEN        ! Exit fringe field
+C              Xpos = XL + PAS_S*(J - NSTEP_EL - 0.5D0)
+C            ELSE
+C              Xpos = PAS_L * (J - NSTEP_E - 0.5D0)
+C            ENDIF
 
-            IF ((ABS(Xpos) .LE. XLE) .AND. (DLE .GT. 0.D0)) THEN
-              dist = -Xpos/DLE
-              Pfunct = 0.D0
-              DO JJ = 0, NCE-1
-                Pfunct = Pfunct + CE(JJ)*(dist**JJ)
-              ENDDO
-
-              IF (Pfunct .GT. 87.D0) THEN        ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
-                GFE = 0.D0                       ! for generating a number < 1.D-38
-              ELSE IF (Pfunct .LT. -87.D0) THEN
-                GFE = 1.D0
-              ELSE
-                GFE = 1.D0/(1.D0 + EXP(Pfunct))
-              ENDIF
-            ELSE
-              GFE = 1.D0
-            ENDIF
-
-            IF ((ABS(Xpos-XL) .LE. XLS) .AND. (DLS .GT. 0.D0)) THEN
-              dist = (Xpos-XL)/DLS
-              Pfunct = 0.D0
-              DO JJ = 0, NCS-1
-                Pfunct = Pfunct + CS(JJ)*(dist**JJ)
-              ENDDO
-
-              IF (Pfunct .GT. 87.D0) THEN        ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
-                GFS = 0.D0                       ! for generating a number < 1.D-38
-              ELSE IF (Pfunct .LT. -87.D0) THEN
-                GFS = 1.D0
-              ELSE
-                GFS = 1.D0/(1.D0 + EXP(Pfunct))
-              ENDIF
-            ELSE
-              GFS = 1.D0
-            ENDIF
-
-            GF(J) = GFE + GFS - 1.D0
-          ENDDO
-
-C          DO J = 1, CEILING(NSTEP/10.D0)
-C            JJ1 = (J-1)*10 + 1
-C            JJ2 = J*10
-C            IF (JJ2 .GT. NSTEP) JJ2 = NSTEP
-C            WRITE (*,*) (GF(JJ), JJ = JJ1, JJ2)
+C            IF ((ABS(Xpos) .LE. XLE) .AND. (DLE .GT. 0.D0)) THEN
+C              dist = -Xpos/DLE
+C              Pd0 = 0.D0
+C              Pd1 = 0.D0
+C              Pd2 = 0.D0
+C              Pd3 = 0.D0
+C              Pd4 = 0.D0
+C              DO JJ = 0, NCE-1
+C                JJ1 = JJ
+C                JJ2 = JJ1*(JJ-1)
+C                JJ3 = JJ2*(JJ-2)
+C                JJ4 = JJ3*(JJ-3)
+C                Pd0 = Pd0 + CE(JJ)*(dist**JJ)
+C                Pd1 = Pd1 + JJ1*CE(JJ)*(dist**(JJ-1))/dle1
+C                Pd2 = Pd2 + JJ2*CE(JJ)*(dist**(JJ-2))/dle2
+C                Pd3 = Pd3 + JJ3*CE(JJ)*(dist**(JJ-3))/dle3
+C                Pd4 = Pd4 + JJ4*CE(JJ)*(dist**(JJ-4))/dle4
+C              ENDDO
+C
+C              IF (Pd0 .GT. 40.D0) THEN           ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+C                G0E = 0.D0                       ! for generating a number < 1.D-38
+C                G2E = 0.D0                       ! Second-order derivative for the FF
+C                G4E = 0.D0                       ! Fourth-order derivative
+C              ELSE IF (Pd0 .LT. -40.D0) THEN
+C                G0E = 1.D0
+C                G2E = 0.D0
+C                G4E = 0.D0
+C              ELSE
+C                EXPd = EXP(Pd0)
+C                G0E  = 1.D0/(1.D0 + EXPd)
+C                P1G1 = EXPd*G0E                  ! EXPd*G0E
+C                P1G2 = P1G1*G0E                  ! EXPd*(G0E**2)
+C                P2G2 = P1G2*EXPd                 ! (EXPd**2)*(G0E**2)
+C                P3G3 = P1G1*P2G2                 ! (EXPd**3)*(G0E**3)
+C
+C                G2E = P1G2*((-1.D0+2.D0*P1G1)*(Pd1**2) - Pd2)
+C                G4E = P1G2*((-1.D0+14.D0*P1G1-36.D0*P2G2+24.D0*P3G3)
+C     > *(Pd1**4) + (-6.D0+36.D0*P1G1-36.D0*P2G2)*(Pd1**2)*Pd2
+C     > + (-4.D0+8.D0*P1G1)*Pd1*Pd3 + (-3.D0+6.D0*P1G1)*(Pd2**2)
+C     > - 2.D0*Pd4)
+C              ENDIF
+C            ELSE
+C              G0E = 1.D0
+C              G2E = 0.D0
+C              G4E = 0.D0
+C            ENDIF
+C
+C            IF ((ABS(Xpos-XL) .LE. XLS) .AND. (DLS .GT. 0.D0)) THEN
+C              dist = (Xpos-XL)/DLS
+C              Pd0 = 0.D0
+C              Pd1 = 0.D0
+C              Pd2 = 0.D0
+C              Pd3 = 0.D0
+C              Pd4 = 0.D0
+C              DO JJ = 0, NCS-1
+C                JJ1 = JJ
+C                JJ2 = JJ1*(JJ-1)
+C                JJ3 = JJ2*(JJ-2)
+C                JJ4 = JJ3*(JJ-3)
+C                Pd0 = Pd0 + CS(JJ)*(dist**JJ)
+C                Pd1 = Pd1 + JJ1*CS(JJ)*(dist**(JJ-1))/dls1
+C                Pd2 = Pd2 + JJ2*CS(JJ)*(dist**(JJ-2))/dls2
+C                Pd3 = Pd3 + JJ3*CS(JJ)*(dist**(JJ-3))/dls3
+C                Pd4 = Pd4 + JJ4*CS(JJ)*(dist**(JJ-4))/dls4
+C              ENDDO
+C
+C              IF (Pd0 .GT. 40.D0) THEN           ! Avoid IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+C                G0S = 0.D0                       ! for generating a number < 1.D-38
+C                G2S = 0.D0                       ! Second-order derivative for the FF
+C                G4S = 0.D0                       ! Fourth-order derivative
+C              ELSE IF (Pd0 .LT. -40.D0) THEN
+C                G0S = 1.D0
+C                G2S = 0.D0
+C                G4S = 0.D0
+C              ELSE
+C                EXPd = EXP(Pd0)
+C                G0S  = 1.D0/(1.D0 + EXPd)
+C                P1G1 = EXPd*G0S                  ! EXPd*G0S
+C                P1G2 = P1G1*G0S                  ! EXPd*(G0S**2)
+C                P2G2 = P1G2*EXPd                 ! (EXPd**2)*(G0S**2)
+C                P3G3 = P1G1*P2G2                 ! (EXPd**3)*(G0S**3)
+C
+C                G2S = P1G2*((-1.D0+2.D0*P1G1)*(Pd1**2) - Pd2)
+C                G4S = P1G2*((-1.D0+14.D0*P1G1-36.D0*P2G2+24.D0*P3G3)
+C     > *(Pd1**4) + (-6.D0+36.D0*P1G1-36.D0*P2G2)*(Pd1**2)*Pd2
+C     > + (-4.D0+8.D0*P1G1)*Pd1*Pd3 + (-3.D0+6.D0*P1G1)*(Pd2**2)
+C     > - 2.D0*Pd4)
+C              ENDIF
+C            ELSE
+C              G0S = 1.D0
+C              G2S = 0.D0
+C              G4S = 0.D0
+C            ENDIF
+C
+C            G0(J) = G0E + G0S - 1.D0
+C            G2(J) = G2E + G2S
+C            G4(J) = G4E + G4S
 C          ENDDO
-
+C
         ENDIF
       ENDIF
 
+C      JJ3 = NSTEP/10
+C      IF (NSTEP .GT. JJ3*10) JJ3 = JJ3+1
+C      DO J = 1, JJ3
+C        JJ1 = 1 + (J-1)*10
+C        JJ2 = J*10
+C        IF (JJ2 .GT. NSTEP) JJ2 = NSTEP
+C        WRITE(*,*) 'G0  ', (G0(JJ), JJ = JJ1, JJ2), '  G0'
+C        WRITE(*,*) 'G2  ', (G2(JJ), JJ = JJ1, JJ2), '  G2'
+C        WRITE(*,*) 'G4  ', (G4(JJ), JJ = JJ1, JJ2), '  G4'
+C      ENDDO
+
+C      XLT = XL + XLE + XLS
+C      IF(NRES.GT.0) THEN
+C        WRITE(NRES,140) PAS, PAS_L, PAS_E, PAS_S, XLT
+C      ENDIF
+
       XLT = XL + XLE + XLS
       IF(NRES.GT.0) THEN
-        WRITE(NRES,140) PAS, PAS_L, PAS_E, PAS_S, XLT
+        WRITE(NRES,141) PAS, PAS_L
       ENDIF
 
   99  FORMAT(/, 5X, 'The  lowest-order nonzero multipole is: ', I0,
@@ -319,13 +403,17 @@ C          ENDDO
      > /, 20X, ' DX  = ', F7.3, '  CM ',
      > /, 20X, ' LAMBDA-QUADRUPOLE =', F7.3, '  CM',
      > /, 20X, I1, ' COEFFICIENTS :', 6F9.5)
-
+ 131  FORMAT(20X, 'NOTE: ONLY the sharp-edge model was implemented',
+     > ' for the symplectic integrator.' /)
  140  FORMAT(
      >  /, 20X, 'The input  integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The Entrnc integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The Exit   integration step :', 1P, G15.8, ' cm',
      >  /, 20X, 'The total integration length:', 1P, G15.8, ' cm', /)
+ 141  FORMAT(
+     >  /, 20X, 'The input  integration step :', 1P, G15.8, ' cm',
+     >  /, 20X, 'The ACTUAL integration step :', 1P, G15.8, ' cm', /)
 
 C---------Compute some constants for the sympletic integration----------
       IF(Q .EQ. 0.D0) Q = 1.0D0
@@ -335,6 +423,7 @@ C---------Compute some constants for the sympletic integration----------
       BETA0 = PREF / EREF
       GAMMA0 = EREF / AM
       b0g0 = 1.D0/(BETA0*GAMMA0)
+      inv_beta0 = 1.D0/BETA0                ! inverse of beta0
       mass = AM / PREF                      ! the scaled mass
       step_L = PAS_L/l0                     ! the scaled stepsize inside
       radius = RO/l0                        ! the scaled radius
@@ -343,45 +432,59 @@ C---------Compute some constants for the sympletic integration----------
         eb2 = ((Bfield(2)*RO)/BORO)/(radius**2)   !
         eb(2) = step_L*eb2                  ! Reference momentum P0 = BORO*Q
                                             ! Step_size * eb2/P0
-        IF (NSTEP .GT. NSTEP_L) THEN        ! Presence of fringe field
-          NSTEP_EL = NSTEP_E + NSTEP_L
-          DO J = 1, NSTEP
-            IF (J .LE. NSTEP_E) THEN
-              step = step_E
-            ELSE IF (J .GT. NSTEP_EL) THEN
-              step = step_S
-            ELSE
-              step = step_L
-            ENDIF
-            eb2G(J) = step*eb2*GF(J)
-          ENDDO
+C        IF (NSTEP .GT. NSTEP_L) THEN        ! Presence of fringe field
+C          NSTEP_EL = NSTEP_E + NSTEP_L
+C          DO J = 1, NSTEP
+C            IF (J .LE. NSTEP_E) THEN
+C              step = step_E
+C            ELSE IF (J .GT. NSTEP_EL) THEN
+C              step = step_S
+C            ELSE
+C              step = step_L
+C            ENDIF
+C            eb2G0(J) = step*eb2*G0(J)
+C            eb2G2(J) = step*eb2*G2(J)/3.D0
+C
+C            eb2G4(J) = step*eb2*G4(J)/64.D0
+C            eb2G4(J) = 0.D0
+C          ENDDO
 
-          IF (newIntegQ .EQ. 1) THEN
+C          JJ3 = NSTEP/10
+C          IF (NSTEP .GT. JJ3*10) JJ3 = JJ3+1
+C          DO J = 1, JJ3
+C            JJ1 = 1 + (J-1)*10
+C            JJ2 = J*10
+C            IF (JJ2 .GT. NSTEP) JJ2 = NSTEP
+C            WRITE(*,*) 'G0  ', (G0(JJ), JJ = JJ1, JJ2), '  G0'
+C            WRITE(*,*) 'G2  ', (G2(JJ), JJ = JJ1, JJ2), '  G2'
+C          ENDDO
+
+C          IF (newIntegQ .EQ. 1) THEN
 C            CALL CHAREF(.FALSE., -XLE, 0.D0, 0.D0)
 C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
-            CALL DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S, step_E,
-     >  step_L, step_S, XLE, XLS, b0g0, eb, eb2G, mass,
-     >  IMAX, F, l0, w0, MQI, HOMP, XLtrc)
+C            CALL DKD_INTEGR_FF(NSTEP_E, NSTEP_L, NSTEP_S, step_E,
+C     >  step_L, step_S, XLE, XLS, b0g0, eb, eb2G0, eb2G2, eb2G4,
+C     >  mass, IMAX, F, l0, w0, MQI, HOMP, XLtrc, inv_beta0, G0)
 C            CALL CHAREF(.TRUE., -XLS, 0.D0, 0.D0)
-          ELSE
-            CALL ENDJOB ('With fringe field, newIntegQ must be 1', -99)
-          ENDIF
+C          ELSE
+C            CALL ENDJOB ('With fringe field, newIntegQ must be 1', -99)
+C          ENDIF
 
-        ELSE                                ! No fringe field
-          IF (newIntegQ .EQ. 1) THEN
+C        ELSE                                ! No fringe field
+        IF (newIntegQ .EQ. 1) THEN           ! Only the sharp-edge model
 C---------Option 1: Drift-kick-drift motion integrator for quadrupole---
-            CALL DKD_INTEGR(NSTEP_L, step_L, b0g0, eb, mass,
+          CALL DKD_INTEGR(NSTEP_L, step_L, b0g0, eb, mass,
      >        IMAX, F, l0, w0, MQI, HOMP)
-          ELSE IF (newIntegQ .EQ. 2) THEN
+        ELSE IF (newIntegQ .EQ. 2) THEN
 C---------Option 2: Matrix-kick-Matrix motion integrator for quadrupole-
-            CALL MKM_INTEGR(NSTEP_L, step_L, b0g0, eb2, mass,
+          CALL MKM_INTEGR(NSTEP_L, step_L, b0g0, eb2, mass,
      >        IMAX, F, l0, w0)
-          ELSE
-            WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
+        ELSE
+          WRITE (*,'(/, 10X, A, I0, A, /)') 'newIntegQ = ',
      >  newIntegQ, ', NOT implemented for quadrupole, stop the job.'
-            CALL ENDJOB(' This integrator NOT implemented', -99)
-          ENDIF
+          CALL ENDJOB(' This integrator NOT implemented', -99)
         ENDIF
+C        ENDIF
 
       ELSE IF (MQI .EQ. 2) THEN             ! Multipole
         ROBR = RO/BORO
@@ -402,8 +505,6 @@ C---------Option 1: Drift-kick-drift motion integrator for multiple-----
         CALL ENDJOB(' Invalid MQI, SHOULD NEVER ENTER HERE', -99)
       ENDIF
 
-      XLT = XL + XLE + XLS                  ! Total integration length
-
       DO IT = 1, IMAX
         IF(NRES.GT.0) THEN
           IF(IT.EQ.1) WRITE(NRES,199)
@@ -418,6 +519,14 @@ C----------NOTE: P and T in unit of mrad (as in F(J,I))-----------------
       IF(NRES .GT. 0) THEN
         WRITE(NRES,201) KP, XCE, YCE, ALE, SCUM*UNIT(5), TCUM
       ENDIF
+
+C      ppii = 13591409.D0 - 120.D0*
+C     >  (13591409.D0 + 545140134.D0)/(640320.D0**3)
+C      ppii = ppii + 12*11*10*9*8*7*(13591409.D0 + 545140134.D0*2)/
+C     > (8.D0*(640320.D0**6))
+C      ppii = (12.D0/(640320**1.5D0)) * ppii
+C      ppii = 1.D0/ppii
+C      write (*,*) 'ppii = ', ppii
 
  199  FORMAT(2X, '  KPOS  DP         Y(cm)   T(mrad)     ',
      >  'Z(cm)   P(mrad)   |', 2X, ' X(cm)         Y(cm)        ',
