@@ -24,6 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPFAI(KPR,NOEL,KLEY,LBL1,LBL2)
 C------- Called by keyword FAISTORE
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER(*) KLEY
       CHARACTER(*) LBL1,LBL2
@@ -48,6 +49,9 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
       INCLUDE "C.SPIN.H"     ! COMMON/SPIN/ KSPN,KSO,SI(4,MXT),SF(4,MXT)
       INCLUDE "C.SYNCH.H"     ! COMMON/SYNCH/ PH(MXT), DPR(MXT), PS
+
+      type(data_partition) particle_set
+      integer, parameter :: particle_index=2
 
       CHARACTER(80) FNAME
       LOGICAL BINARY, FITING
@@ -94,6 +98,9 @@ C------- Dummies
 C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
+      call particle_set%gather(F, result_image=1, dim=particle_index)
+      call particle_set%gather(SF, result_image=1, dim=particle_index)
+      call particle_set%gather(SRLT, result_image=1)
       IF(BINARY) THEN
         DO 2 I=1,IMAX
             P = BORO*CL9 *F(1,I) * AMQ(2,I)

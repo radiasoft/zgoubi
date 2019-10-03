@@ -1,7 +1,9 @@
 add_library( interfaces OBJECT
   object_interface.f90
   assertions_interface.F90
-  )
+  data-partition-impl.f90
+  data-partition-ixfc.f90
+    )
 add_library( zgoubi_utilities
   assertions_implementation.F90
   $<TARGET_OBJECTS:interfaces>

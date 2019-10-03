@@ -13,6 +13,7 @@ set( test_directories
   pariz_namelist_reader
   FITandTWISS
   SVDOC_Saturne
+  utilities
 )
 
 foreach(test_directory ${test_directories})
