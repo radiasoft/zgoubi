@@ -77,9 +77,8 @@ elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
 
-
 #======================================================
-# Define targets to be built: libraries and executables
+# Find external libraries to link against
 #======================================================
 
 find_package(BLAS REQUIRED)
@@ -113,6 +112,25 @@ if(${LAPACK_LIBRARIES})
     INTERFACE BLAS
     INTERFACE ${LAPACK_LIBRARIES})
 endif()
+
+if(EXISTS $ENV{HOME}/software OR EXISTS $ENV{HOME}/Software)
+  file(GLOB OC_TOP_INSTALL_DIR
+    LIST_DIRECTORIES true
+    $ENV{HOME}/[Ss]oftware/[Oo]pen[Ccoarrays]/[1-9]*.[1-9]*/)
+  if(${OC_TOP_INSTALL_DIR})
+    message( STATUS "Found OpenCoarrays installation in: ${OC_TOP_INSTALL_DIR}")
+  endif()
+endif()
+message(STATUS "If CMake fails to find OpenCoarrays, please set OpenCoarrays_ROOT to point to the installation.")
+find_package(OpenCoarrays REQUIRED
+  NO_MODULE
+  HINTS ${OC_TOP_INSTALL_DIR}
+  PATHS $ENV{USER}/software $ENV{USER}/Software $ENV{USER}/SOFTWARE
+  PATH_SUFFIXES gnu GNU gcc GCC gnu/${CMAKE_Fortran_COMPILER_VERSION} ${CMAKE_Fortran_COMPILER_ID}/${CMAKE_Fortran_COMPILER_VERSION})
+
+#======================================================
+# Define targets to be built: libraries and executables
+#======================================================
 
 #---------
 # libcouplb
