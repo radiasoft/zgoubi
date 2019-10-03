@@ -7,6 +7,7 @@ program main
    implicit none
    type(data_partition) my_data
 
+   print *,"Hello from image",this_image(),"of",num_images()
    print *,"Test passed."
 
 end program

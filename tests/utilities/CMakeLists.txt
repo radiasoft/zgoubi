@@ -1,17 +1,16 @@
-# Set up paramerter_namelist reader test
+set(test "data-partition")
+set(executable "test-${test}")
+set(source "${executable}.f90" )
 
-set(test_name "${test_directory}")
-
-add_executable(${test_name} data-partition.f90)
-target_link_libraries(${test_name} zgoubi_utilities)
-
-set_target_properties( ${test_name}
+add_executable(${executable} ${source})
+target_link_libraries(${executable} zgoubi_utilities)
+set_target_properties(${executable}
    PROPERTIES
    Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}/mod"
 )
 
-add_test(
-  NAME ${test_name}-test
-  COMMAND "${test_name}"
-)
-set_tests_properties(${test_name}-test PROPERTIES PASS_REGULAR_EXPRESSION "Test passed.")
+set(num_test_images 3)
+add_caf_test( ${test} ${num_test_images} ${CMAKE_CURRENT_BINARY_DIR}/${executable})
+  
+  
+  #WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
