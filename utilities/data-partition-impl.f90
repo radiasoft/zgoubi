@@ -39,6 +39,11 @@ contains
   end procedure
 
   module procedure gather_real_1D_array
+    associate( my_first=>singleton%my_first(), my_last=>singleton%my_last() )
+      a(1:my_first-1)  = 0.
+      a(my_last+1:)  = 0.
+      call co_sum(a,result_image)
+    end associate
   end procedure
 
   module procedure gather_real_2D_array

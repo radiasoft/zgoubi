@@ -44,14 +44,14 @@ module data_partition_ixfc
     !! 1. Near the beginning/end of execution to amortize costs across an entire run or
     !! 2. Temporarily while developing/debugging code.
 
-    pure module subroutine gather_real_1D_array( a, result_image, dim )
+    module subroutine gather_real_1D_array( a, result_image, dim )
       !! Gather the elements of an 1D array distributed along dimension dim onto result_image
       real(real64), intent(inout) :: a(:)
       integer, intent(in) :: result_image
       integer, intent(in), optional :: dim
     end subroutine
 
-    pure module subroutine gather_real_2D_array( a, result_image, dim )
+    module subroutine gather_real_2D_array( a, result_image, dim )
       !! Gather the elements of an 2D array distributed along dimension dim onto result_image
       real(real64), intent(inout) :: a(:,:)
       integer, intent(in) :: result_image
