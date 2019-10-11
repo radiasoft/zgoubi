@@ -23,9 +23,9 @@ module data_partition_ixfc
 
   interface 
 
-    module subroutine define_partition(data_set_size)
+    module subroutine define_partition(cardinality)
       !! define the range of data identification numbers owned by the executing image
-      integer, intent(in) :: data_set_size
+      integer, intent(in) :: cardinality
     end subroutine
 
     pure module function my_first() result(first_datum)

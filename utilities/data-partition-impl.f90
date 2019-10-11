@@ -10,11 +10,11 @@ contains
 
     associate( me => this_image(), ni => num_images() )
 
-      call assert( ni<=data_set_size, "sufficient data for distribution across images")
+      call assert( ni<=cardinality, "sufficient data for distribution across images")
 
-      associate( remainder => mod(data_set_size,ni), quotient => data_set_size/ni )
+      associate( remainder => mod(cardinality,ni), quotient => cardinality/ni )
         singleton%my_first_datum = sum([(quotient+overflow(image,remainder), image=1, me-1)]) + 1
-        singleton%my_last_datum = singleton%my_first_datum + quotient + overflow(image,remainder) - 1
+        singleton%my_last_datum = singleton%my_first_datum + quotient + overflow(me,remainder) - 1
       end associate
     end associate
 
