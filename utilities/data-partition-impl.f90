@@ -33,12 +33,12 @@ contains
   end procedure 
 
   module procedure my_first
-   if (assertions) call assert( allocated(singleton%my_first_datum), "partition lower bound defined")
+   if (assertions) call assert( allocated(singleton%my_first_datum), "allocated(singleton%my_first_datum)")
    first_datum = singleton%my_first_datum
   end procedure
 
   module procedure my_last
-   if (assertions) call assert( allocated(singleton%my_last_datum), "partition upper bound defined")
+   if (assertions) call assert( allocated(singleton%my_last_datum), "allocated(singleton%my_last_datum)")
    last_datum = singleton%my_last_datum
   end procedure
 
@@ -51,6 +51,20 @@ contains
   end procedure
 
   module procedure gather_real_2D_array
+    call assert( present(dim), "present(dim)")
+    associate( my_first=>singleton%my_first(), my_last=>singleton%my_last() )
+      select case(dim)
+        case(1)
+          a(1:my_first-1, :) = 0.
+          a(my_last+1:, :) = 0.
+        case(2)
+          a(:, 1:my_first-1)  = 0.
+          a(:, my_last+1:)  = 0.
+        case default
+          error stop "gather_real_2D_array: invalid dim argument"
+      end select
+      call co_sum(a,result_image)
+    end associate
   end procedure
 
 end submodule data_partition_impl
