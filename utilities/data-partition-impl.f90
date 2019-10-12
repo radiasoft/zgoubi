@@ -2,6 +2,10 @@ submodule(data_partition_ixfc) data_partition_impl
   use assertions_interface, only : assert, assertions
   implicit none
 
+  type(data_partition) singleton
+    !! This is the sole instance of this class in the executing image, making 
+    !! it the multiverse analogue of the classical Singleton design pattern.
+
 contains
 
   module procedure define_partition

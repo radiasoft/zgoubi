@@ -19,8 +19,6 @@ module data_partition_ixfc
     generic :: gather => gather_real_2D_array, gather_real_1D_array
   end type
 
-  type(data_partition) singleton
-
   interface 
 
     module subroutine define_partition(cardinality)
