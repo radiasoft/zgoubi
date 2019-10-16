@@ -54,8 +54,8 @@ C      LOGICAL ZSYM
       CALL ZGNOEL(
      >            NOEL)
 
-      call particle_set%gather( F, result_image=1 )
-      call particle_set%gather( FO, result_image=1 )
+      call particle_set%gather( F, result_image=1, dim=2 )
+      call particle_set%gather( FO, result_image=1, dim=2 )
       ! ^^^^^ Are we sure we need this?
       !call gather(FDES)
       ! ^^^^^ Do we also need this?
