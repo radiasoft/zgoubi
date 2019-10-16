@@ -14,7 +14,7 @@ contains
 
     associate( me => this_image(), ni => num_images() )
 
-      call assert( ni<=cardinality, "sufficient data for distribution across images")
+      call assert( ni<cardinality, "sufficient data for distribution across images")
 
       associate( remainder => mod(cardinality,ni), quotient => cardinality/ni )
         singleton%my_first_datum = sum([(quotient+overflow(image,remainder), image=1, me-1)]) + 1
