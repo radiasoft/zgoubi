@@ -93,6 +93,7 @@ fi
 zgoubi_exe="@CMAKE_BINARY_DIR@"/zgoubi
 # leading part of testName.res.expected contains the required input
 
+echo " --- run Zgoubi ---"
 zgoubi_cmd="$zgoubi_exe -in ${testName}.res.expected"
 $zgoubi_cmd
 
@@ -100,6 +101,7 @@ if [[ ${4:-} == "rebuild-with-field-map" ]]; then
   rm $fieldMapFile
 fi
 
+echo " --- check zgoubi.res ---"
 if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected ]]; then
   echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/$testName/${testName}.res.expected missing."
   exit 1
@@ -124,11 +126,14 @@ if [ "$stat" -ne 0 ] ; then
     echo " ===== end ndiff output ====="
   fi
 fi
+echo "$stat"
+echo " --- end check zgoubi.res ---"
 
 ## compare other files: ${testName}.fe
 if [ "$moreFiles" = true ] ; then
   for fe in $exts; do
 
+    echo " --- check zgoubi.${fe} ---"
     if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.${fe}.expected  ]]; then
       echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected missing."
       exit 1
@@ -153,6 +158,8 @@ if [ "$moreFiles" = true ] ; then
         echo " ===== end ndiff output ====="
       fi
     fi
+    echo "$stat"
+    echo " --- end check zgoubi.${fe} ---"
   done
 fi
 
