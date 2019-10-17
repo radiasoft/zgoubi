@@ -62,7 +62,7 @@ while getopts "e:hHqv" opt; do
   h) echo "$usage"; exit;;
   H) echo "$usageF"; exit;;
   q) quiet=true;;
-  v) verb=true;;
+  v) verb=true; echo "flag -v is set";;
   \?) echo "$usage"; exit;;
   esac
 done
@@ -119,7 +119,9 @@ if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
   echo "File zgoubi.res differs from ${testName}.res.expected."
   if [ "$verb" = true ] ; then
+    echo " ===== start ndiff output ====="
     echo "$result"
+    echo " ===== end ndiff output ====="
   fi
 fi
 
@@ -146,7 +148,9 @@ if [ "$moreFiles" = true ] ; then
       (( ++xstat ))
       echo "File zgoubi.${fe} differs from @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected."
       if [ "$verb" = true ] ; then
+        echo " ===== start ndiff output ====="
         echo "$result"
+        echo " ===== end ndiff output ====="
       fi
     fi
   done
