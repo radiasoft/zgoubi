@@ -22,6 +22,7 @@ docker run -i --rm -u vagrant -v "$PWD":/home/vagrant/src/radiasoft/zgoubi "${1:
     cd "${BUILD_DIR:-cmake-build}"
     cmake -Wdev -DCMAKE_INSTALL_PREFIX=$(pyenv prefix) ..
     make -j $(nproc)
-    ctest --output-on-failure
+    #ctest --output-on-failure
+    ctest VERBOSE=ON --output-on-failure
     make install
 EOF
