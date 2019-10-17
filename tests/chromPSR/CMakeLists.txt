@@ -23,7 +23,7 @@ set(res_error "1.0e-05")
 set(out_error "1.0e-07")
 add_test(
   NAME ${test_name}-test
-  COMMAND "${ZGOUBI_TEST_BIN_DIR}/run-test.sh -v" "-e ${exts}" ${test_name} "${res_error}" "${out_error}"
+  COMMAND "${ZGOUBI_TEST_BIN_DIR}/run-test.sh" "-v -e ${exts}" ${test_name} "${res_error}" "${out_error}"
 )
 set_tests_properties(
   ${test_name}-test
