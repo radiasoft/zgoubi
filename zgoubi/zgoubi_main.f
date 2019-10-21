@@ -140,7 +140,19 @@ C -----
 
       IF(IDLUNI(
      >          NRES)) THEN
-        OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
+      block 
+        character(len=9) :: image_number
+        character(len=:), allocatable :: output_file
+
+        write(image_number,'(i4)') this_image()
+        if (this_image()==1) then
+          OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
+        else
+          output_file = trim(adjustl(FLOUT))
+     C                 //"_image_"// trim(adjustl(image_number))
+          OPEN(UNIT=NRES,FILE=output_file,ERR=997)
+        end if
+      end block
       ELSE
         GOTO 997
       ENDIF
@@ -349,5 +361,4 @@ C      GOTO 10
 C           CALL ENDJOB
 C     >     ('Pgm zgoubi_main : Job ended.',-9999)
 
-      STOP
       END
