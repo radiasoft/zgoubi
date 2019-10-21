@@ -349,5 +349,4 @@ C      GOTO 10
 C           CALL ENDJOB
 C     >     ('Pgm zgoubi_main : Job ended.',-9999)
 
-      STOP
       END
