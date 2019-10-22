@@ -10,31 +10,33 @@ module data_partition_ixfc
   type data_partition
     !! encapsulate a description of the data subset the executing image owns
     private
-    integer, allocatable :: my_first_datum, my_last_datum
+    integer, allocatable :: first_datum(:), last_datum(:)
   contains
-    procedure, nopass :: define_partition
-    procedure, nopass :: my_first
-    procedure, nopass :: my_last
+    procedure, nopass :: define_partitions
+    procedure, nopass :: first
+    procedure, nopass :: last
     procedure, nopass, private :: gather_real_2D_array, gather_real_1D_array
     generic :: gather => gather_real_2D_array, gather_real_1D_array
   end type
 
   interface 
 
-    module subroutine define_partition(cardinality)
+    module subroutine define_partitions(cardinality)
       !! define the range of data identification numbers owned by the executing image
       integer, intent(in) :: cardinality
     end subroutine
 
-    pure module function my_first() result(first_datum)
+    pure module function first(image_number) result(first_datum)
       !! the result is the first identification number owned by the executing image
       implicit none
+      integer, intent(in) :: image_number
       integer first_datum
     end function
 
-    pure module function my_last() result(last_datum)
+    pure module function last(image_number) result(last_datum)
       !! the result is the last identification number owned by the executing image
       implicit none
+      integer, intent(in) :: image_number
       integer last_datum
     end function
 
@@ -45,14 +47,14 @@ module data_partition_ixfc
     module subroutine gather_real_1D_array( a, result_image, dim )
       !! Gather the elements of an 1D array distributed along dimension dim onto result_image
       real(real64), intent(inout) :: a(:)
-      integer, intent(in) :: result_image
+      integer, intent(in), optional :: result_image
       integer, intent(in), optional :: dim
     end subroutine
 
     module subroutine gather_real_2D_array( a, result_image, dim )
       !! Gather the elements of an 2D array distributed along dimension dim onto result_image
       real(real64), intent(inout) :: a(:,:)
-      integer, intent(in) :: result_image
+      integer, intent(in), optional :: result_image
       integer, intent(in), optional :: dim
     end subroutine
 
