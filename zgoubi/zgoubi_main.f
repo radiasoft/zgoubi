@@ -144,12 +144,12 @@ C -----
         character(len=9) :: image_number
         character(len=:), allocatable :: output_file
 
-        write(image_number,'(i4)') this_image()
         if (this_image()==1) then
           OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
         else
+          write(image_number,'(i4)') this_image()
           output_file = trim(adjustl(FLOUT))
-     C                 //"_image_"// trim(adjustl(image_number))
+     >                 //"_image_"// trim(adjustl(image_number))
           OPEN(UNIT=NRES,FILE=output_file,ERR=997)
         end if
       end block

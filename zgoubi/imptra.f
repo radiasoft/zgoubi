@@ -54,14 +54,16 @@ C      LOGICAL ZSYM
       CALL ZGNOEL(
      >            NOEL)
 
-      call particle_set%gather( F, result_image=1, dim=2 )
-      call particle_set%gather( FO, result_image=1, dim=2 )
+      !call particle_set%gather(F)
+      !call particle_set%gather(FO)
       ! ^^^^^ Are we sure we need this?
       !call gather(FDES)
       ! ^^^^^ Do we also need this?
 
+      block
+      logical, parameter :: all_images_write=.true.
       associate( me => this_image() )
-      image_1_writes: if ( me==1 ) then
+      image_1_writes: if ( me==1 .or. all_images_write) then
 
       WRITE(LUN,100) NOEL-1,IMAX2-IMAX1+1
  100  FORMAT('0',45X,'TRACE DU FAISCEAU',
@@ -133,6 +135,7 @@ Compute 4-D sigma matrix
 
       end if image_1_writes
       end associate
+      end block
 
       RETURN
       END

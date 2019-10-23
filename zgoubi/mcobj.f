@@ -207,6 +207,6 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
       CALL OBJERR(ABS(NRES),2,MXT,TXT)
       CALL ENDJOB('Too many particles, max is ',MXT/(KREB31+1))
  97   CONTINUE
-      call particle_set%define_partition(IMAX)
+      call particle_set%define_partitions(IMAX)
       RETURN
       END

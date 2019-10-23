@@ -356,6 +356,6 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
 
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
   98  CONTINUE
-      call particle_set%define_partition(IMAX)
+      call particle_set%define_partitions(IMAX)
       RETURN
       END

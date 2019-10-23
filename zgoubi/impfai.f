@@ -98,9 +98,9 @@ C------- Dummies
 C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
-      call particle_set%gather(F, result_image=1, dim=particle_index)
-      call particle_set%gather(SF, result_image=1, dim=particle_index)
-      call particle_set%gather(SRLT, result_image=1)
+      !call particle_set%gather(F)
+      !call particle_set%gather(SF)
+      !call particle_set%gather(SRLT)
       IF(BINARY) THEN
         DO 2 I=1,IMAX
             P = BORO*CL9 *F(1,I) * AMQ(2,I)

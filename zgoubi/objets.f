@@ -518,7 +518,7 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
 C       write(*,*) ' objets f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
-      call particle_set%define_partition(IMAX)
+      call particle_set%define_partitions(IMAX)
       RETURN
 
       ENTRY OBJET1(
