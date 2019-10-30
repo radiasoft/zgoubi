@@ -98,9 +98,9 @@ C------- Dummies
 C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
-       call particle_set%gather(F)
-       call particle_set%gather(SF)
-       call particle_set%gather(SRLT)
+      call particle_set%gather(F, result_image=1)
+      call particle_set%gather(SF, result_image=1)
+      call particle_set%gather(SRLT, result_image=1)
       IF(BINARY) THEN
         DO 2 I=1,IMAX
             P = BORO*CL9 *F(1,I) * AMQ(2,I)
@@ -153,7 +153,18 @@ C Bug found by Sam T, July 2015 : FAISTORE may come after REBELOTE and ipass>1
 C      IF(.NOT. OPN) INQUIRE(FILE=FNAME,OPENED=OPN)
 C      IF(IPASS .EQ. 1) CALL OPEN2('FAISCN',NFAI,FNAME)
 C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
-      CALL OPEN2('FAISCN',NFAI,FNAME)
+      block 
+        character(len=9) :: imageNum
+        character(len=:), allocatable :: outputF
+        if (this_image()==1) then
+          CALL OPEN2('FAISCN',NFAI,FNAME)
+        else
+          write(imageNum,'(i4)') this_image()
+          outputF = trim(adjustl(FNAME))
+     >                       //"_image_"// trim(adjustl(imageNum))
+          CALL OPEN2('FAISCN',NFAI,outputF)
+          end if
+      end block
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
         WRITE(NRES,FMT='(15X,

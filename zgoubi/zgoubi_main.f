@@ -149,7 +149,7 @@ C -----
         else
           write(image_number,'(i4)') this_image()
           output_file = trim(adjustl(FLOUT))
-     >                 //"_image_"// trim(adjustl(image_number))
+     >                       //"_image_"// trim(adjustl(image_number))
           OPEN(UNIT=NRES,FILE=output_file,ERR=997)
         end if
       end block
