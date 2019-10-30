@@ -54,13 +54,21 @@ contains
   module procedure gather_real_1D_array
 
     if (present(dim)) call assert (dim==1, "dimensioned partitioned == 1")
-    if (present(result_image)) error stop "1D gather: result_image support not yet implemented"
 
     associate( me => this_image() )
       associate( first=>singleton%first(me), last=>singleton%last(me) )
         a(1:first-1)  = 0.
         a(last+1:)  = 0.
-        call co_sum(a)
+        if (present(result_image)) then
+          block
+          real(real64), allocatable :: tmp_a(:)
+          tmp_a = a
+          call co_sum(a,  result_image=result_image)
+          if (result_image /= me) a = tmp_a
+          end block
+        else
+          call co_sum(a)
+        end if
       end associate
     end associate
   end procedure
@@ -68,14 +76,11 @@ contains
   module procedure gather_real_2D_array
 
     integer dim_
-
-    if (present(dim)) then 
+    if (present(dim)) then
       dim_ = dim
     else
       dim_ = 2
     end if
-
-    if (present(result_image)) error stop "2D gather: result_image support not yet implemented"
 
     associate( me => this_image() )
       associate( first => singleton%first(me), last => singleton%last(me) )
@@ -89,7 +94,16 @@ contains
           case default
             error stop "gather_real_2D_array: invalid dim argument"
         end select
-        call co_sum(a)
+        if (present(result_image)) then
+          block
+          real(real64), allocatable :: tmp_a(:,:)
+          tmp_a = a
+          call co_sum(a, result_image=result_image)
+          if (result_image /= me) a = tmp_a
+          end block
+        else
+          call co_sum(a)
+        end if
       end associate
     end associate
   end procedure

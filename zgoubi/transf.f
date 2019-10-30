@@ -111,7 +111,8 @@ C------ Some initialisations in SBR DEVTRA...
       XO=X
 
       associate( me => this_image() )
-      do 1 IT=1,IMAX ! particle_set%first(me), particle_set%last(me)
+      !do 1 IT = 1, IMAX
+      do 1 IT = particle_set%first(me), particle_set%last(me)
 
 C-------- IEX<-1 <=> Particle stopped
         IF(IEX(IT) .LT. -1) GOTO 1
