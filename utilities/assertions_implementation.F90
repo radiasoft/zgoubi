@@ -1,4 +1,5 @@
 submodule(assertions_interface) assertions_implementation
+  use iso_fortran_env, only : real64
   !! Define the assert procedure
 
   implicit none
@@ -46,6 +47,8 @@ contains
             type is(character(len=*))
               diagnostic_string = diagnostic_data
             type is(real)
+              write(diagnostic_string,*) diagnostic_data
+            type is(real(real64))
               write(diagnostic_string,*) diagnostic_data
             type is(integer)
               write(diagnostic_string,*) diagnostic_data

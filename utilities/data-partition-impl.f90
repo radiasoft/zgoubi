@@ -57,17 +57,23 @@ contains
 
     associate( me => this_image() )
       associate( first=>singleton%first(me), last=>singleton%last(me) )
-        a(1:first-1)  = 0.
-        a(last+1:)  = 0.
-        if (present(result_image)) then
-          block
-          real(real64), allocatable :: tmp_a(:)
-          tmp_a = a
-          call co_sum(a,  result_image=result_image)
-          if (result_image /= me) a = tmp_a
-          end block
-        else
+        if (.not. present(result_image)) then
+          a(1:first-1)  = 0.
+          a(last+1:)  = 0.
           call co_sum(a)
+        else
+          block
+            real(real64), allocatable, dimension(:) :: a_lower, a_upper
+            a_lower = a(1:first-1)
+            a_upper = a(last+1:)
+            a(1:first-1)  = 0.
+            a(last+1:)  = 0.
+            call co_sum(a, result_image=result_image)
+            if (result_image /= me) then
+              a(1:first-1) = a_lower
+              a(last+1:) = a_upper
+            end if
+          end block
         end if
       end associate
     end associate
@@ -84,25 +90,51 @@ contains
 
     associate( me => this_image() )
       associate( first => singleton%first(me), last => singleton%last(me) )
-        select case(dim_)
-          case(1)
-            a(1:first-1, :) = 0.
-            a(last+1:, :) = 0.
-          case(2)
-            a(:, 1:first-1) = 0.
-            a(:, last+1:) = 0.
-          case default
-            error stop "gather_real_2D_array: invalid dim argument"
-        end select
-        if (present(result_image)) then
-          block
-          real(real64), allocatable :: tmp_a(:,:)
-          tmp_a = a
-          call co_sum(a, result_image=result_image)
-          if (result_image /= me) a = tmp_a
-          end block
-        else
+        if (.not. present(result_image)) then
+          select case(dim_)
+            case(1)
+              a(1:first-1, :) = 0.
+              a(last+1:, :) = 0.
+            case(2)
+              a(:, 1:first-1) = 0.
+              a(:, last+1:) = 0.
+            case default
+              error stop "gather_real_2D_array: invalid dim argument"
+          end select
           call co_sum(a)
+        else
+          block
+            real(real64), allocatable, dimension(:,:) :: a_lower, a_upper
+            select case(dim_)
+              case(1)
+                a_lower = a(1:first-1, :)
+                a_upper = a(last+1:, :)
+                a(1:first-1, :) = 0.
+                a(last+1:, :) = 0.
+              case(2)
+                a_lower = a(:, 1:first-1)
+                a_upper = a(:, last+1:)
+                a(:, 1:first-1) = 0.
+                a(:, last+1:) = 0.
+              case default
+                error stop "gather_real_2D_array: invalid dim argument"
+            end select
+
+            call co_sum(a, result_image=result_image)
+
+            if (result_image /= me) then
+              select case(dim_)
+                case(1)
+                  a(1:first-1, :) = a_lower 
+                  a(last+1:, :) = a_upper 
+                case(2)
+                  a(:, 1:first-1) = a_lower 
+                  a(:, last+1:) = a_upper 
+                case default
+                  error stop "gather_real_2D_array: invalid dim argument"
+              end select
+            end if
+          end block
         end if
       end associate
     end associate
