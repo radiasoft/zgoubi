@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OBJETA
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     **********************************************
 C     GENERE DES LEPTONS DE DECROISSANCE DU ETA
@@ -49,6 +50,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
       INCLUDE "C.OBJET.H"     ! COMMON/OBJET/ FO(MXJ,MXT),KOBJ,IDMAX,IMAXT,KZOB
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
+
+      type(data_partition) particle_set
 
       DIMENSION B(3),B4(3),PX1(5),PX2(5),P3(5),P4(5)
       DIMENSION FP(6,MXT)
@@ -85,7 +88,7 @@ C       ... SET TO 99 IN SBR REBELOTE
         IF(NRES.GT.0) WRITE(NRES,133)
  133    FORMAT(//,15X,
      >  'FINAL  COORDINATES  TAKEN  AS  INITIAL  COORDINATES')
-        RETURN
+        GOTO 98
       ENDIF
 
 
@@ -352,5 +355,7 @@ C       .... SYM MIROIR <=> ROTATION DE 180 DEG / AXE X
       AMQLU(1) = .TRUE.
 
       IF(IPASS.EQ.1) CALL CNTMXW(IMAX)
+  98  CONTINUE
+      call particle_set%define_partitions(IMAX)
       RETURN
       END

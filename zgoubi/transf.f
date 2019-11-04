@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------------------------
 C     APPELE PAR AIMANT ET QUASEX .
@@ -78,6 +79,7 @@ C      LOGICAL ZSYM
 
       LOGICAL CONSTY, CONSTI
       SAVE CONSTY
+      type(data_partition) particle_set
 
       DATA MIRROR / .FALSE. /
       DATA CONSTY / .FALSE. /
@@ -107,7 +109,10 @@ C------ Some initialisations in SBR DEVTRA...
       IF(KFLD.GE.LC) CALL DEVTRW(CL)
 
       XO=X
-      DO 1 IT=1,IMAX
+
+      associate( me => this_image() )
+      !do 1 IT = 1, IMAX
+      do 1 IT = particle_set%first(me), particle_set%last(me)
 
 C-------- IEX<-1 <=> Particle stopped
         IF(IEX(IT) .LT. -1) GOTO 1
@@ -142,6 +147,7 @@ C-------- IEX<-1 <=> Particle stopped
         ENDIF
 
  1    CONTINUE
+      end associate
 
       IF(LST .GE. 1 ) CALL CTRLB(2)
 

@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE OBJETS
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ****************************************
 C     CONSTITUTION DE L'OBJET INITIAL STOCKE DANS F0(6,MXT):
@@ -59,6 +60,7 @@ C            as resulting from decay (keyword 'MCDESINT')
 C----- CONVERSION DES COORD. (CM,MRD) -> (M,RD)
       INCLUDE "C.UNITS.H"     ! COMMON/UNITS/ UNIT(MXJ)
 
+      type(data_partition) particle_set
       PARAMETER(MXJ1=MXJ-1)
       DIMENSION DE(MXJ,MXT),IDE(MXJ),JDE(MXJ),P(MXJ)
       EQUIVALENCE (IDE(2),IYMAX),(IDE(3),ITMAX),(IDE(4),IZMAX),
@@ -516,6 +518,7 @@ C------- EFFET CINEMATIQUE PRIS EN COMPTE
 C       write(*,*) ' objets f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
+      call particle_set%define_partitions(IMAX)
       RETURN
 
       ENTRY OBJET1(
