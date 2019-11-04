@@ -156,14 +156,18 @@ C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
       block 
         character(len=9) :: imageNum
         character(len=:), allocatable :: outputF
+        logical, parameter :: all_images_write=.false.
+
         if (this_image()==1) then
           CALL OPEN2('FAISCN',NFAI,FNAME)
-        else
+        else if (all_images_write) then
           write(imageNum,'(i4)') this_image()
           outputF = trim(adjustl(FNAME))
      >                       //"_image_"// trim(adjustl(imageNum))
           CALL OPEN2('FAISCN',NFAI,outputF)
-          end if
+        else
+          NRES = 0
+        end if
       end block
       BINARY=FNAME(1:2).EQ.'B_' .OR. FNAME(1:2).EQ. 'b_'
       IF(NRES .GT. 0) THEN
