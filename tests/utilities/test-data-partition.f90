@@ -9,7 +9,7 @@ program main
 
    implicit none
    type(data_partition) partition
-   integer, parameter :: num_particles=3, gatherer=1
+   integer, parameter :: num_particles=31, gatherer=1
 
    associate( me=>this_image(), ni=>num_images() )
 
