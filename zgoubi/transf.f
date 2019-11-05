@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973
 C  -------
       SUBROUTINE TRANSF(QSHROE,VSHROE,QSHROS,VSHROS)
+      use iso_fortran_env, only : real64
       use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     ----------------------------------------------------------------
@@ -80,6 +81,9 @@ C      LOGICAL ZSYM
       LOGICAL CONSTY, CONSTI
       SAVE CONSTY
       type(data_partition) particle_set
+      real(real64) :: time0, time1
+      real(real64) :: timeTot = 0.d0
+      save timeTot
 
       DATA MIRROR / .FALSE. /
       DATA CONSTY / .FALSE. /
@@ -111,6 +115,7 @@ C------ Some initialisations in SBR DEVTRA...
       XO=X
 
       associate( me => this_image() )
+      call cpu_time(time0)
       !do 1 IT = 1, IMAX
       do 1 IT = particle_set%first(me), particle_set%last(me)
 
@@ -147,6 +152,9 @@ C-------- IEX<-1 <=> Particle stopped
         ENDIF
 
  1    CONTINUE
+      call cpu_time(time1)
+      timeTot = timeTot + time1 - time0
+      write(6,*) "On image ", me, ": cumul.time(transf loop) = ",timeTot
       end associate
 
       IF(LST .GE. 1 ) CALL CTRLB(2)
