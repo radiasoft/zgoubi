@@ -143,7 +143,7 @@ C -----
       block 
         character(len=9) :: image_number
         character(len=:), allocatable :: output_file
-        logical, parameter :: all_images_write=.false.
+        logical, parameter :: all_images_write=.true.
 
         if (this_image()==1) then
           OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
