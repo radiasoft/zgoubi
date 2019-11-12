@@ -63,7 +63,7 @@ C      LOGICAL ZSYM
       block
       logical, parameter :: all_images_write=.true.
       associate( me => this_image() )
-      image_1_writes: if ( me==1 .or. all_images_write) then
+      image_1_writes: if (me==1 .or. all_images_write) then
 
       WRITE(LUN,100) NOEL-1,IMAX2-IMAX1+1
  100  FORMAT('0',45X,'TRACE DU FAISCEAU',
