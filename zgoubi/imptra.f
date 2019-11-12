@@ -60,6 +60,8 @@ C      LOGICAL ZSYM
       !call gather(FDES, result_image=1)
       ! ^^^^^ Do we also need this?
 
+      IF(LUN .EQ. 0) RETURN
+
       block
       logical, parameter :: all_images_write=.true.
       associate( me => this_image() )
