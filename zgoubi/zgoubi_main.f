@@ -140,7 +140,7 @@ C -----
 
       IF(IDLUNI(
      >          NRES)) THEN
-      block 
+      block
         character(len=9) :: image_number
         character(len=:), allocatable :: output_file
         logical, parameter :: all_images_write=.true.
@@ -150,9 +150,9 @@ C -----
         else if (all_images_write) then
           write(image_number,'(i4)') this_image()
           output_file = trim(adjustl(FLOUT))
-     >                       //"_image_"// trim(adjustl(image_number))
+     >                    //"_image_"// trim(adjustl(image_number))
           OPEN(UNIT=NRES,FILE=output_file,ERR=997)
-        else 
+        else
           NRES = 0
         end if
       end block

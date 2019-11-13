@@ -106,31 +106,35 @@ C           read(*,*)
             P = BORO*CL9 *F(1,I) * AMQ(2,I)
             ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
             ENEKI = ENERG - AMQ(1,I)
-            WRITE(NFAI)
-     1      IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
-     2      -1.D0+F(1,I),F(2,I),F(3,I),(F(J,I),J=4,MXJ),
-     >      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
-     >      ENEKI,ENERG,
-     4      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     5      BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),SRLT(I),
-     6      DPREF,HDPRF
+            IF(NFAI .GT. 0) THEN
+              WRITE(NFAI)
+     1        IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
+     2        -1.D0+F(1,I),F(2,I),F(3,I),(F(J,I),J=4,MXJ),
+     >        (SI(J,I),J=1,4),(SF(J,I),J=1,4),
+     >        ENEKI,ENERG,
+     4        I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
+     5        BORO, IPASS, NOEL, KLEY,LBL1,LBL2,LET(I),SRLT(I),
+     6        DPREF,HDPRF
+            END IF
  2      CONTINUE
       ELSE
         DO 1 I=1,IMAX
           P = BORO*CL9 *F(1,I) * AMQ(2,I)
           ENERG = SQRT(P*P + AMQ(1,I)*AMQ(1,I))
           ENEKI = ENERG - AMQ(1,I)
-          WRITE(NFAI,110)
-     1    IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
-     2    -1.D0+F(1,I),F(2,I),F(3,I),
-     3    (F(J,I),J=4,MXJ),
-     4    (SI(J,I),J=1,4),(SF(J,I),J=1,4),
-     5    ENEKI,ENERG,
-     6    I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
-     7    BORO, IPASS, NOEL,
-     8    TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
-     9    SRLT(I),
-     X    DPREF,HDPRF
+          IF(NFAI .GT. 0) THEN
+            WRITE(NFAI,110)
+     1      IEX(I),-1.D0+FO(1,I),(FO(J,I),J=2,MXJ),
+     2      -1.D0+F(1,I),F(2,I),F(3,I),
+     3      (F(J,I),J=4,MXJ),
+     4      (SI(J,I),J=1,4),(SF(J,I),J=1,4),
+     5      ENEKI,ENERG,
+     6      I,IREP(I), SORT(I),(AMQ(J,I),J=1,5),PH(I),DPR(I),PS,
+     7      BORO, IPASS, NOEL,
+     8      TX1,KLEY,TX1,TX1,LBL1,TX1,TX1,LBL2,TX1,TX1,LET(I),TX1,
+     9      SRLT(I),
+     X      DPREF,HDPRF
+          END IF
           INCLUDE "FRMFAI.H"
  1      CONTINUE
       ENDIF
@@ -156,14 +160,14 @@ C      IF(.NOT. OPN) CALL OPEN2('FAISCN',NFAI,FNAME)
       block 
         character(len=9) :: imageNum
         character(len=:), allocatable :: outputF
-        logical, parameter :: all_images_write=.true.
+        logical, parameter :: all_images_write=.false.
 
         if (this_image()==1) then
           CALL OPEN2('FAISCN',NFAI,FNAME)
         else if (all_images_write) then
           write(imageNum,'(i4)') this_image()
           outputF = trim(adjustl(FNAME))
-     >                       //"_image_"// trim(adjustl(imageNum))
+     >                // "_image_" // trim(adjustl(imageNum))
           CALL OPEN2('FAISCN',NFAI,outputF)
         else
           NFAI = 0
