@@ -228,17 +228,19 @@ C*
 C*
 100   CONTINUE
 C*
-      WRITE(LUN,120)
-  120 FORMAT(/,40X, '  *2nd order TRANSPORT coeffs.* (units m, rad)')
-      DO 24 I1= 1,5
-      DO 25 I2= 1,6
-      WRITE(LUN,121) ( I1,I3,I2, T2(I1,I3,I2), I3=1,I2 )
-C      write(*,121) ( I1,I3,I2, T2(I1,I3,I2), I3=1,I2 )
-  121 FORMAT(9X,6(I4,I2,I1, 1PE11.3)  )
-   25 CONTINUE
-      WRITE(LUN,122)
-  122 FORMAT( 1X  )
-   24 CONTINUE
+      IF(LUN .GT. 0) THEN
+        WRITE(LUN,120)
+  120   FORMAT(/,40X, '  *2nd order TRANSPORT coeffs.* (units m, rad)')
+        DO 24 I1= 1,5
+        DO 25 I2= 1,6
+        WRITE(LUN,121) ( I1,I3,I2, T2(I1,I3,I2), I3=1,I2 )
+C        write(*,121) ( I1,I3,I2, T2(I1,I3,I2), I3=1,I2 )
+  121   FORMAT(9X,6(I4,I2,I1, 1PE11.3)  )
+   25   CONTINUE
+        WRITE(LUN,122)
+  122   FORMAT( 1X  )
+   24   CONTINUE
+      END IF
 C*
        IF(IMAX.EQ.82) RETURN
 C*
@@ -336,22 +338,24 @@ C*
 C*
 C*    PRINT THIRD ORDER TRANSFORM
 C*
-      WRITE(LUN,500)
-C	write(*,500)
-500   FORMAT(/,40X,' *3rd order TRANSPORT coeffs.* (units m, rad)')
+      IF(LUN .GT. 0) THEN
+        WRITE(LUN,500)
+C         write(*,500)
+500     FORMAT(/,40X,' *3rd order TRANSPORT coeffs.* (units m, rad)')
 C*
-      DO 300 I1=1,5
-502   FORMAT(1X)
-      DO 299 I4=1,6
-      DO 298 I3=1,I4
+        DO 300 I1=1,5
+502     FORMAT(1X)
+        DO 299 I4=1,6
+        DO 298 I3=1,I4
 C*
-       WRITE(LUN,501) (I1,I2,I3,I4, W3(I1,I2,I3,I4), I2=1,I3)
-C       write(*,501) (I1,I2,I3,I4, W3(I1,I2,I3,I4), I2=1,I3)
-501   FORMAT(8x,6(I4,I2,I1,I1, 1PE11.3) )
-298   CONTINUE
-299   CONTINUE
-       WRITE(LUN,502)
-300   CONTINUE
+        WRITE(LUN,501) (I1,I2,I3,I4, W3(I1,I2,I3,I4), I2=1,I3)
+C         write(*,501) (I1,I2,I3,I4, W3(I1,I2,I3,I4), I2=1,I3)
+501     FORMAT(8x,6(I4,I2,I1,I1, 1PE11.3) )
+298     CONTINUE
+299     CONTINUE
+        WRITE(LUN,502)
+300     CONTINUE
+      END IF
 C*
 C*    COMPUTE FEW FORTH ORDER COEFFICIENTS
 C*
@@ -400,16 +404,18 @@ C*
 C*
 C***  PRINT FEW OF THE FOURTH ORDER COEFFICIENTS
 C*
-      WRITE(LUN,800)
-800   FORMAT( /,46X,'  * Few 4th order TRANSPORT coefficients * ' )
+      IF(LUN .GT. 0) THEN
+        WRITE(LUN,800)
+800     FORMAT( /,46X,'  * Few 4th order TRANSPORT coefficients * ' )
 C*
-      DO 900 I1=1,5
-      WRITE(LUN,502)
-      DO 900 I3=1,6
+        DO 900 I1=1,5
+        WRITE(LUN,502)
+        DO 900 I3=1,6
 C*
-      WRITE(LUN,801) (I1,I2,I2,I3,I3, Z4(I1,I2,I2,I3,I3), I2=1,I3 )
-801   FORMAT( 6(I4,I2,I1,I1,I1,1PE11.3) )
-900   CONTINUE
+        WRITE(LUN,801) (I1,I2,I2,I3,I3, Z4(I1,I2,I2,I3,I3), I2=1,I3 )
+801     FORMAT( 6(I4,I2,I1,I1,I1,1PE11.3) )
+900     CONTINUE
+      END IF
 C*
       RETURN
       END

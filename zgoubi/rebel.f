@@ -245,7 +245,7 @@ C--------- endif SR loss ----------------------------------
       IF( IPASS .LT. NRBLT ) THEN
 
         LUN=ABS(NRES)
-C        IF(LUN .GT. 0) THEN
+        IF(LUN .NE. 0) THEN
 
           CALL OPTIO1(
      >                KWROF)
@@ -270,7 +270,7 @@ C        IF(LUN .GT. 0) THEN
      >                  NRJ)
             IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
           ENDIF
-C        ENDIF
+        ENDIF
 
         IF(IPASS .EQ. 1) THEN
 
@@ -278,7 +278,7 @@ C In case REBELOTE would be embedded within FIT
           CALL FITSE2(.TRUE.)     ! set RBLFIT = .T.
 
           LUN=ABS(NRES)
-          IF(LUN .GT. 0) THEN
+          IF(LUN .NE. 0) THEN
             WRITE(LUN,FMT='(/,5X,
      >      ''Multiple pass, '', /, 
      >      10X,''from element # '',I5,'' : '',
@@ -378,40 +378,39 @@ C--------- endif SR loss ----------------------------
       ELSEIF(IPASS .EQ. NRBLT) THEN
 C------- Last but one pass through structure HAS JUST BEEN completed
         LUN=ABS(NRES)
-C       IF(LUN.GT.0) THEN
-        WRITE(LUN,100) IPASS
-        CALL CNTMXR(
-     >               IMX)
-        WRITE(LUN,103) IMX
-        IF(KREB3.NE.99) THEN
-          KNDES = NNDES
-        ELSE
-          KNDES = NDES
+        IF(LUN .NE. 0) THEN
+          WRITE(LUN,100) IPASS
+          CALL CNTMXR(
+     >                 IMX)
+          WRITE(LUN,103) IMX
+          IF(KREB3.NE.99) THEN
+            KNDES = NNDES
+          ELSE
+            KNDES = NDES
+          ENDIF
+          IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
+          CALL CNTOUR(
+     >                NOUT)
+          IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
+          CALL CNTNRR(
+     >                NRJ)
+          IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
+          WRITE(LUN,102) NRBLT+1
+ 102      FORMAT(//,5X,' Next  pass  is  #',I6
+     >    ,' and  last  pass  through  the  optical  structure',/)
+          DO IPRM = 1, NPRM
+            WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed  to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
+            WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
+     >      I4,''.  In element # '',I4,
+     >      '',  parameter #'',I3,''  changed to  '',
+     >      1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
+     >      KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
+          ENDDO
         ENDIF
-        IF(IFDES .EQ. 1) WRITE(LUN,105) STDVM*UNIT(5)/IMX/IPASS, KNDES
-        CALL CNTOUR(
-     >              NOUT)
-        IF(NOUT.GT. 0) WRITE(LUN,107) NOUT
-        CALL CNTNRR(
-     >              NRJ)
-        IF(NRJ .GT. 0) WRITE(LUN,108) NRJ
-        WRITE(LUN,102) NRBLT+1
- 102    FORMAT(//,5X,' Next  pass  is  #',I6
-     >  ,' and  last  pass  through  the  optical  structure',/)
-        DO IPRM = 1, NPRM
-          WRITE(6,fmt='(/,'' SBR rebel. At pass # '',I4,''/'',
-     >    I4,''.  In element # '',I4,
-     >    '',  parameter #'',I3,''  changed  to  '',
-     >    1P,E16.8,''   (was  '',E16.8,'')'',/)') IPASS,NRBLT+1,
-     >    KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
-          WRITE(LUN,FMT='(/,'' Pgm rebel. At pass # '',I4,''/'',
-     >    I4,''.  In element # '',I4,
-     >    '',  parameter #'',I3,''  changed to  '',
-     >    1P,E16.8,''   (was  '',E16.8,'')'')') IPASS,NRBLT+1,
-     >    KLM(IPRM),KPRM(IPRM),PARAM(IPRM,IPASS),AOLD(IPRM)
-        ENDDO
-
-C        ENDIF
  
         READAT = .FALSE.
         IPASS=IPASS+1
@@ -424,7 +423,7 @@ C This is the last occurence of REBELOTE. Wiil carry on beyond REBELOTE
         AFTREB = .TRUE. 
 
         LUN=ABS(NRES)
-C        IF(LUN.GT.0) THEN
+        IF(LUN.NE.0) THEN
           WRITE(LUN,101) IPASS
  101      FORMAT(/,25X,'****  End  of  ''REBELOTE''  procedure  ****',//
      >     ,5X,' There  has  been ',I10,
@@ -454,7 +453,7 @@ C        IF(LUN.GT.0) THEN
      >                NRJ)
           IF(NRJ .GT. 0) WRITE(LUN,108) NRJ,IMX
  108      FORMAT(/,5X,' Number of particles stopped :',I10,'/',I10)
-C        ENDIF
+        ENDIF
 
         NOEL = NOELB
  
