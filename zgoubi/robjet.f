@@ -183,7 +183,8 @@ C------- Read multiple references
         IF(K2 .GT. MXREF) THEN
           WRITE(   *,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
      >    //' : MXREF = ',MXREF,' is too small.'
-          WRITE(NRES,FMT='(//,10X,A,I0,A,/)') 'Problem in sbr robjet'
+          IF(NRES .GT. 0) WRITE(NRES,FMT='(//,10X,A,I0,A,/)')
+     >    'Problem in sbr robjet'
      >    //' : MXREF = ',MXREF,' is too small.'
           GOTO 99
         ENDIF
@@ -277,14 +278,14 @@ C----- alpha, beta, epsilon/pi, for Y, Z, X phase-spaces
 
  99   WRITE(6,*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
-      WRITE(ABS(NRES),*)
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET'
       GOTO 90
 
  98   WRITE(6,*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
-      WRITE(ABS(NRES),*)
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ : invalid input in OBJET',
      >  ' at particle #',I
 

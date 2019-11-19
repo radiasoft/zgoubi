@@ -32,7 +32,8 @@ C  -------
       PARAMETER (I0=0, I6 = 6)
 C      DIMENSION VECT(6,100)
 
-      WRITE(NRES,*) ' Now tracking, from lmnt ',NLA,' to lmnt ',NLB
+      IF(NRES .GT. 0) WRITE(NRES,*)
+     >' Now tracking, from lmnt ',NLA,' to lmnt ',NLB
  
 C      CALL OBJTRK(VECT)
       NOEL = 1

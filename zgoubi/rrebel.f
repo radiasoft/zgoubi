@@ -88,7 +88,7 @@ C     ***************************************
 C Will 'REBELOTE' using new value (as changed by 'REBELOTE' itself) for parameter #KPRM in element #KLM. 
 
         IF(NRBLT .GT. MXLST) THEN
-          WRITE(NRES,*)  
+          IF(NRES .GT. 0) WRITE(NRES,*)  
      >    'SBR RREBEL. Parameter list too large. Has to be .le. NRBLT= '
      >    ,NRBLT
           GOTO 98
@@ -135,7 +135,7 @@ C Two ways to define the element with parameter to be changed : either its keywo
                 TPRM(IPRM,2) = TPRM(IPRM,2)
      >          (DEBSTR(TPRM(IPRM,2)):FINSTR(TPRM(IPRM,2)))
               ELSE
-                WRITE(abs(nres),*)
+                IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >          'Pgm rrebel. Stopped while reading parameter data.'
                 WRITE(6,*)
      >          'Pgm rrebel. Stopped while reading parameter data.'
@@ -172,7 +172,7 @@ C            TPRM(IPRM,1) = STRING(DEBSTR(STRING):FINSTR(STRING))
      >                              NSR,STRA)
               TPRM(IPRM,3) = ' '
             ELSE
-                WRITE(abs(nres),fmt='(a)')
+                IF(NRES .NE. 0) WRITE(ABS(NRES),FMT='(A)')
      >          'Pgm rrebel. Could not find keyword[label] '
      >          // TPRM(IPRM,1) //'['//TPRM(IPRM,2)//']'
      >          //'  in zgoubi data sequence.'
@@ -200,7 +200,7 @@ C DO loop style, V1:V_NRBLT
                 PARAM(IPRM,I) = VA + DBLE(I-1)*DV
               ENDDO
             ELSE
-              WRITE(NRES,*)
+              IF(NRES .GT. 0) WRITE(NRES,*)
      >        'Sbr rrebel. List too large, must contain '
      >        //'number of data .le. nrblt= ',NRBLT
               GOTO 98
@@ -225,7 +225,8 @@ C            READ(TXT300,*,ERR=98,END=98)
           A(NOEL,20+10*(IPRM-1)) = KLM
           A(NOEL,21+10*(IPRM-1)) = KPRM
           IF(NRBLT .GT. MXLST) THEN
-            WRITE(NRES,*) 'Sbr rrebel. Too many data, # must be .LE.'
+            IF(NRES .GT. 0) WRITE(NRES,*)
+     >      'Sbr rrebel. Too many data, # must be .LE.'
      >      //' nrblt= ',NRBLT
             GOTO 98
           ENDIF

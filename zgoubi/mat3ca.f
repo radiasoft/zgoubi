@@ -65,12 +65,14 @@ c     To Calculate Average of matrix elements and stand dev.
          enddo
       enddo
 C****
-      WRITE(NRES,22)
-   22 FORMAT(/,40X, ' *1st order transform* (Units m, rad)'  )
-      DO IR=1,6
-        WRITE(NRES,221)  ( R(IR, IJ), IJ=1,6)
-      ENDDO
-  221 FORMAT( 12X, 6F10.5  )
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES,22)
+   22   FORMAT(/,40X, ' *1st order transform* (Units m, rad)'  )
+        DO IR=1,6
+          WRITE(NRES,221)  ( R(IR, IJ), IJ=1,6)
+        ENDDO
+  221   FORMAT( 12X, 6F10.5  )
+      END If
 C****
       RETURN
       END

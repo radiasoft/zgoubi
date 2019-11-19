@@ -1246,8 +1246,8 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
       KOPTIC = KOPTCS
       GOTO 998
  899  CONTINUE
-C      IF(NRES.GT.0)
-      WRITE(abs(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
+      IF(NRES.NE.0)
+     >WRITE(ABS(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE

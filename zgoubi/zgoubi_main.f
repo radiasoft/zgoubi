@@ -143,7 +143,7 @@ C -----
       block
         character(len=9) :: image_number
         character(len=:), allocatable :: output_file
-        logical, parameter :: all_images_write=.true.
+        logical, parameter :: all_images_write=.false.
 
         if (this_image()==1) then
           OPEN(UNIT=NRES,FILE=FLOUT,ERR=997)
@@ -358,7 +358,7 @@ C      GOTO 10
       IF(OKW) CALL FITWDA(
      >                    IER)
 
-      CLOSE(ABS(NRES))
+      IF(NRES .NE. 0) CLOSE(ABS(NRES))
       CLOSE(NLOG)
 
 C           CALL ENDJOB

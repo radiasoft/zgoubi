@@ -194,7 +194,7 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
         IF(IEX(I) .LT. -1) GOTO 991
         IF(F(1,I) .EQ. 0.D0) THEN
           TXT = '       zero momentum found.'
-          CALL OBJERR(ABS(NRES),1,MXT,TXT)
+          IF(NRES .NE. 0) CALL OBJERR(ABS(NRES),1,MXT,TXT)
           CALL ENDJOB('*** Error, SBR MCOBJ -> momentum  cannot  be ',0)
         ENDIF
         AMQ(1,I) = AMASS
@@ -204,7 +204,7 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
       GOTO 97
 
  98   TXT = '    Too many particles'
-      CALL OBJERR(ABS(NRES),2,MXT,TXT)
+      IF(NRES .NE. 0) CALL OBJERR(ABS(NRES),2,MXT,TXT)
       CALL ENDJOB('Too many particles, max is ',MXT/(KREB31+1))
  97   CONTINUE
       call particle_set%define_partitions(IMAX)

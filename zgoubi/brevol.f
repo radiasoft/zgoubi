@@ -241,7 +241,7 @@ C------- Restore mesh coordinates
 
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm brevol. Error  open  file ',
+ 96   IF(NRES.NE.0) WRITE(ABS(NRES),*) 'Pgm brevol. Error  open  file ',
      >NOMFIC(JFIC)(DEBSTR(NOMFIC(JFIC)):FINSTR(NOMFIC(JFIC)))
       CALL ENDJOB('Leaving. ',-99)
 

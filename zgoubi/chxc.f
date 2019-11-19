@@ -1335,18 +1335,24 @@ C        STP3 = A(NOEL,ND)
       GOTO 99
 
  97   NRES = ABS(NRES)
-      WRITE(NRES,200) 'Pgm chxc. ERROR DURING READ IN ',NOMFIC(NFIC)
-      WRITE(NRES,*) '                 AT NODE IX =',I,',  IY =',J
+      IF(NRES .NE. 0) THEN
+        WRITE(NRES,200) 'Pgm chxc. ERROR DURING READ IN ',NOMFIC(NFIC)
+        WRITE(NRES,*) '                 AT NODE IX =',I,',  IY =',J
+      END IF
       CALL ENDJOB('Execution stopped : error during READ  ',-99)
  96   NRES = ABS(NRES)
-      WRITE(NRES,200) 'Pgm chxc. ERROR  OPEN  FILE ',NOMFIC(NFIC)
+      IF(NRES .NE. 0) THEN
+        WRITE(NRES,200) 'Pgm chxc. ERROR  OPEN  FILE ',NOMFIC(NFIC)
+      END IF
       CALL ENDJOB('Execution stopped : error at OPEN  file  ',-99)
  95   NRES = ABS(NRES)
-      WRITE(NRES,FMT=
-     > '(//,''Pgm chxc.  Error  in  data  list'')')
-      WRITE(6,FMT=
-     > '(//,''  Error  in  data  list'',
-     >        /,''    * See zgoubi.res'',//)')
+      IF(NRES .NE. 0) THEN
+        WRITE(NRES,FMT=
+     >   '(//,''Pgm chxc.  Error  in  data  list'')')
+        WRITE(6,FMT=
+     >   '(//,''  Error  in  data  list'',
+     >          /,''    * See zgoubi.res'',//)')
+      END IF
       CALL ENDJOB('Execution stopped, data list error ',-99)
 
  99   CONTINUE

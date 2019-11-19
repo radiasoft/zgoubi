@@ -88,7 +88,7 @@ C------- Life time (s) of secondary particle
         AMP = AMQ(1,I)
         TO = AMQ(4,I)
         IF(AMP*TO .EQ. 0.D0) THEN
-          WRITE(NRES,106)
+          IF(NRES .GT. 0) WRITE(NRES,106)
  106      FORMAT(//,15X,' Give  mass  &  TO  of  projectiles !'
      >           ,/,15X,' - use  keyword  ''PARTICUL''',/)
           RETURN 1

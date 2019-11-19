@@ -67,14 +67,14 @@ C----- LABEL's
  98   WRITE(6,FMT='(A,1X,I0)') 
      >'Data error met while reading pickup list. Check # of PUs. '
      >//' Expected # of itmes in list is ',NPU
-      WRITE(NRES ,*) 
+      IF(NRES .GT. 0) WRITE(NRES ,*) 
      >'Data error met while reading pickup list. Check # of PUs. '
      >//' Expected # of itmes in list is ',NPU
       GOTO 90
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
-      WRITE(NRES ,*) 
+      IF(NRES .GT. 0) WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ : invalid input in PICKUPS'
       GOTO 90
       

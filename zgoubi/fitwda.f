@@ -333,11 +333,11 @@ C Old style CHANGREF
       WRITE(6,FMT='(/,5X,  
      >''An updated version of the input data file, with va'',a,//)')
      >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
-      WRITE(ABS(NRES),FMT='(/,5X,  
+      IF(NRES .NE. 0) WRITE(ABS(NRES),FMT='(/,5X,  
      >''An updated version of the input data file, with va'',a,//)')
      >'riables in FIT''ed state, has been saved in zgoubi.FIT.out.dat.'
 
-      WRITE(ABS(NRES),201)
+      IF(NRES .NE. 0) WRITE(ABS(NRES),201)
  201  FORMAT(132('*'))
 
       CLOSE(LR)

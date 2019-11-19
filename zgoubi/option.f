@@ -110,7 +110,7 @@ C Yann, 14-03-07. NRES>0 here is necessary for the online model to work
                KWROFF = 0
                NRSAV = NRES
                NRES = ABS(NRES)
-               WRITE(NRES,FMT='(/,T5,A)') 'WRITE ON -> '//
+               IF(NRES.GT.0) WRITE(NRES,FMT='(/,T5,A)') 'WRITE ON -> '//
      >         '''WRITE'' bit in ''OPTIONS'' set to 1.'
 C             ELSE
 C             ENDIF

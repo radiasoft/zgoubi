@@ -89,7 +89,7 @@ C        P0 = BORO*CL*1.D-9 *Q
 
 C        IF(AMASS*Q .EQ. 0.D0) THEN
         IF(Q*AMASS.EQ.0D0) THEN
-          WRITE(NRES,106)
+          IF(NRES.GT.0) WRITE(NRES,106)
  106      FORMAT(//,15X,' Please  give   M  &  Q  of  projectiles !'
      >           ,/,15X,' - use  keyword  ''PARTICUL''',/)
           RETURN 1
@@ -97,7 +97,8 @@ C        IF(AMASS*Q .EQ. 0.D0) THEN
 
 C        IF(ABS(Q/QEL) .GE. 2.D0) THEN
         IF(ABS(Q) .GE. 2.D0) THEN
-          WRITE(NRES,FMT='(15X,'' SORRY, SUBROUTINE SEPARA '',
+          IF(NRES.GT.0) WRITE(NRES,
+     >    FMT='(15X,'' SORRY, SUBROUTINE SEPARA '',
      >    ''WORKS ONLY FOR SINGLE-CHARGE PARTICLES'',/)')
           RETURN 1
         ENDIF

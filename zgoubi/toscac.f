@@ -968,7 +968,8 @@ C        XF = XH(IAMA)
 
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm toscac. Error  open  file  '''//
+ 96   IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >'Pgm toscac. Error  open  file  '''//
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))
      >//''''
       CALL ENDJOB('Leaving. ',-99)

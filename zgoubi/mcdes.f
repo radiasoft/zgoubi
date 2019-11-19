@@ -112,7 +112,8 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
            TET = ATAN( SIN(TET) / GAMAP / (COS(TET) + BETAP/BSTAR) )
 
            IF(KINFO .EQ. 1) THEN
-               WRITE(ABS(NRES),102) IT,T*1.D3, P*1.D3, DP00 ,BETAP
+               IF(NRES .NE. 0)
+     >           WRITE(ABS(NRES),102) IT,T*1.D3, P*1.D3, DP00 ,BETAP
      >           , GAMAP, IT, FDES(6,IT), SAR
 102            FORMAT(1P
      >         ,/,10X,'Decay  of  parent  particle  M1,  # ',I6
@@ -125,7 +126,8 @@ C          *** TETA LAB PAR RAPPORT A L'INCIDENCE :
      >         ,'  is ',G12.4
      >         ,' cm,     current  path  length  is  ',G12.4,' cm')
 
-               WRITE(ABS(NRES),100) TET*1.D3, PHI*1.D3, DP
+               IF(NRES .NE. 0)
+     >           WRITE(ABS(NRES),100) TET*1.D3, PHI*1.D3, DP
 100            FORMAT(1P
      >         ,/,10X,'Native  parameters  of  daugther  particle  M2 :'
      >         ,/,15X,'Lab  angles :  theta = ',G12.4
@@ -182,11 +184,12 @@ C---------- Decay counter
            NDES=NDES+1
 
            IF(KINFO .EQ. 1) THEN
-             WRITE(ABS(NRES),FMT='(1P,/,10X
-     >       ,''Parameters of daugther particle M2 in Zgoubi frame :''
-     >       ,/,5X,''#, nDes, Y, T, Z, P, SAR, decay absissa :''
-     >       ,2I6,2X,6G12.4,/)')
-     >       IT, NDES, Y, T, Z, P, SAR, FDES(6,IT)
+             IF(NRES .NE. 0)
+     >         WRITE(ABS(NRES),FMT='(1P,/,10X
+     >         ,''Parameters of daugther particle M2 in Zgoubi frame :''
+     >         ,/,5X,''#, nDes, Y, T, Z, P, SAR, decay absissa :''
+     >         ,2I6,2X,6G12.4,/)')
+     >         IT, NDES, Y, T, Z, P, SAR, FDES(6,IT)
            ENDIF
 
 C-----------------------

@@ -35,6 +35,7 @@ C IMAP is the number of a field map stored in HC(ID,IA,IR,IZ,IMAP) array, as a r
 C  - either individual reading if 1! file is read (e.g., MOD.MOD2=15.1)
 C  - or a combination of IFIC=1,NFIC field maps from as many files (e.g., MOD.MOD2=15.4)
 C---------------------------------------------------------------------------------------
+      INCLUDE "C.CDF.H"     ! COMMON/CDF/ IES,LF,LST,NDAT,NRES,NPLT,NFAI,NMAP,NSPN,NLOG
       PARAMETER (MXC = 4)
       CHARACTER(*) NOMFIC(*)
       LOGICAL NEWFIC, OLDFIC
@@ -90,7 +91,8 @@ C AND the linear combination coefficients have not been changed)
 
       IF(NEWFIC) THEN
         IF(NBMAPS.GE.MMAP) THEN
-          WRITE(NRES,*) ' SBR ksmap : too many different field maps'
+          IF(NRES .GT. 0)
+     >      WRITE(NRES,*) ' SBR ksmap : too many different field maps'
           CALL ENDJOB(' In PARIZ.H :  have  MMAP >',MMAP)
         ENDIF
         NBMAPS = NBMAPS+1

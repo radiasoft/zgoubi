@@ -146,11 +146,13 @@ C 2nd pass through structure will follow iff KTW>1.
 
         DOLAST = .TRUE.
 
-        ISIGN = NRES/ABS(NRES)
-        NRES = ISIGN*NRES
-        WRITE(NRES,FMT='(/,25X,
-     >    '' ****  End  of  pass #'',I1
-     >  ,'' of TWISS  procedure  ****'',/)') IPASS
+        IF(NRES .NE. 0) THEN
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+        END IF
 
 C------- Switch off print into zgoubi.res :
         ANOEL2 = 0.1D0
@@ -229,11 +231,13 @@ C          NLOBJ = 1
 
       ELSEIF(IPASS .EQ. 2) THEN
 C----- 3rd pass through structure will follow
-        ISIGN = NRES/ABS(NRES)
-        NRES = ISIGN*NRES
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
-     >    '' ****  End  of  pass #'',I1
-     >  ,'' of TWISS  procedure  ****'',/)') IPASS
+        IF(NRES .NE. 0) THEN
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+        ENDIF
 
         IF    (IORD .EQ. 1) THEN
           CALL REFER(1,1,0,1,4,5)
@@ -279,11 +283,13 @@ C        NLOBJ = 1
       ELSEIF(IPASS .EQ. 3) THEN
 C----- Chromatic tracking completed
 
-        ISIGN = NRES/ABS(NRES)
-        NRES = ISIGN*NRES
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
-     >    '' ****  End  of  pass #'',I1
-     >  ,'' of TWISS  procedure  ****'',/)') IPASS
+        IF(NRES .NE. 0) THEN
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+        ENDIF
 
 C------- reactivate WRITE for printing results
 
@@ -354,11 +360,13 @@ C        ENDIF
 
       ELSEIF(IPASS .EQ. 4) THEN
 
-        ISIGN = NRES/ABS(NRES)
-        NRES = ISIGN*NRES
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
-     >    '' ****  End  of  pass #'',I1
-     >  ,'' of TWISS  procedure  ****'',/)') IPASS
+        IF(NRES .NE. 0) THEN
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+        END IF
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -420,11 +428,13 @@ C      ELSEIF(IPASS .GT. NRBLT) THEN
       ELSEIF(IPASS .EQ. 5) THEN
 C------- Amplitude tracking completed
 
-          ISIGN = NRES/ABS(NRES)
-          NRES = ISIGN*NRES
-          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
-     >      '' ****  End  of  pass #'',I1
-     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+          IF(NRES .NE. 0) THEN
+            ISIGN = NRES/ABS(NRES)
+            NRES = ISIGN*NRES
+            IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >        '' ****  End  of  pass #'',I1
+     >      ,'' of TWISS  procedure  ****'',/)') IPASS
+          END If
 
           IF    (IORD .EQ. 1) THEN
             CALL REFER(1,1,0,1,4,5)
@@ -485,11 +495,13 @@ C Now make a last pass to get optical functions at all elements
 C----- So to print into zgoubi.TWISS.out
         KOPTCS = 1
 
-        ISIGN = NRES/ABS(NRES)
-        NRES = ISIGN*NRES
-        IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
-     >    '' ****  End  of  pass #'',I1
-     >  ,'' of TWISS  procedure  ****'',/)') IPASS
+        IF(NRES .NE. 0) THEN
+          ISIGN = NRES/ABS(NRES)
+          NRES = ISIGN*NRES
+          IF(NRES.GT.0) WRITE(NRES,FMT='(/,25X,
+     >      '' ****  End  of  pass #'',I1
+     >    ,'' of TWISS  procedure  ****'',/)') IPASS
+        END IF
 
         NRES = ISIGN*NRES
 

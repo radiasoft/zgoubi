@@ -117,7 +117,7 @@ C      READ(NDAT,*,ERR=90,END=90) A(NOEL,10),A(NOEL,11)
             ENDDO
             MSTR = I
             IF(MSTR-1 .GT. MXH) THEN
-              WRITE(NRES,*) 
+              IF(NRES .GT. 0) WRITE(NRES,*) 
      >        'Pgm rcavit. Too many harmonics. Should be < ',MXH
               GOTO 90
             ENDIF

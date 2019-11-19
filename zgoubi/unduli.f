@@ -67,11 +67,11 @@ C      LOGICAL SHARPE, SHARPS
  103    FORMAT(15X,1P,' B-',A,'  =',G12.4,'  kG ',
      >        /15X   ,' A        =',G12.4,'  cm',
      >        /15X   ,' B        =',G12.4,'  cm')
-      ENDIF
 
         WRITE(NRES,*)'WARNING : '
         WRITE(NRES,*)'  THIS ROUTINE IS UNDER DEVELOPMENT, CHECK DATA !'
 
+      ENDIF
 
       CALL UNDUL1(AA,BB)
 

@@ -232,7 +232,7 @@ C      RM=.5D0*(YH(JYMA)+YH(1))
 
  96   CONTINUE
       I = NFIC
-      WRITE(NRES,*) 'ERROR  OPEN  FILE ',
+      IF(NRES .GT. 0) WRITE(NRES,*) 'ERROR  OPEN  FILE ',
      >(NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I))),I=1,NFIC)
       CALL ENDJOB('ERROR  OPEN  FILE ',-99)
       contains

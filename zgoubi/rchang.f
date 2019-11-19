@@ -130,7 +130,7 @@ C old style, x- and y-shift followed by z-rotation
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
-      WRITE(NRES ,*) 
+      IF(NRES .GT. 0) WRITE(NRES ,*) 
      >  ' *** Execution stopped in pgm rchang : no such unit',TXDIM
       GOTO 90
       

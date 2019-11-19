@@ -130,11 +130,12 @@ Check corrector families
      >    //'zgoubi.SVDtmp.out.',-99)
         ENDIF
 
-        WRITE(ABS(NRES),
+        IF(NRES.NE.0) WRITE(ABS(NRES),
      >  FMT='(5X,''REBELOTE/SVD correction matrix requested:'',/,
      >  10X,''A total of '',I0,'' PUs, in '',I0,'' PU families : ''
      >  ,5(A,1x))') MPU,MPUL,(TRIM(PULAB(I)),I=1,MPUL)
-        WRITE(ABS(NRES),FMT='(10X,''and of '',I0,'' corrctrs ('',I0,
+        IF(NRES.NE.0) WRITE(ABS(NRES),
+     >  FMT='(10X,''and of '',I0,'' corrctrs ('',I0,
      >  '' H and '',I0,'' V),  in '',I0,'' families : ''
      >  ,5(A,1X))')
      >  MCOH+MCOV,MCOH,MCOV,MCOL,(TRIM(COLAB(I)),I=1,MCOL)
@@ -191,7 +192,7 @@ C              A(NLMC,4) =  A(NOEL,20) / (A(NLMC,2)*1.D-2) * T2KG
       ENDIF
       
 C      IF(NRES .GT. 0) WRITE(NRES,100) IPASS
-      WRITE(ABS(NRES),100) IPASS
+      IF(NRES.NE.0) WRITE(ABS(NRES),100) IPASS
  100  FORMAT(/,30X,'SVDOC. End of pass # ',
      >I0,' through the optical structure ',/)
 

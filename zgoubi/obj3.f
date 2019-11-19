@@ -517,7 +517,7 @@ C        IREP(IT1) = IREPI
      >NOMFIC(DEBSTR(NOMFIC):FINSTR(NOMFIC))
       CALL ENDJOB(TXT,-99)
 
- 97   WRITE(NRES,FMT='(/,
+ 97   IF(NRES .GT. 0) WRITE(NRES,FMT='(/,
      > '' SBR OBJ3 -> error in  reading  file '',
      >  A,'' at  event/traj #  '',I6,''/'')') NOMFIC,IT1
 
