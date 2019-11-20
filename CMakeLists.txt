@@ -72,7 +72,7 @@ if(NOT NDIFF OR NDIFF STREQUAL ${CMAKE_SOURCE_DIR}/vendor/ndiff-2.00/ndiff)
 endif()
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(common_fflags -g -static-libgfortran -fchec=all,no-array-temps,no-recursion -Wall -fbacktrace -fno-automatic -pedantic -cpp)
+  set(common_fflags -g -static-libgfortran -fcheck=all,no-array-temps,no-recursion -Wall -fbacktrace -fno-automatic -pedantic -cpp)
 elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
