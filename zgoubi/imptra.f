@@ -60,7 +60,7 @@ C      LOGICAL ZSYM
       call particle_set%gather(F, result_image=1)
       write(output_unit,*)'imptra(): gather(FO) on image',this_image()
       flush(output_unit)
-      call particle_set%gather_real_2D_array(FO, result_image=1)
+      call particle_set%gather(FO, result_image=1)
       ! ^^^^^ Are we sure we need this?
       !call gather(FDES, result_image=1)
       ! ^^^^^ Do we also need this?
