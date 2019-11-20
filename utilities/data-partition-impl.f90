@@ -1,5 +1,6 @@
 submodule(data_partition_ixfc) data_partition_impl
   use assertions_interface, only : assert, assertions
+  use iso_fortran_env, only : output_unit
   implicit none
 
 contains
@@ -47,12 +48,17 @@ contains
   end procedure
 
   module procedure gather_real_1D_array
+ 
+      integer, save :: call_count=0
+      call_count = call_count + 1
+
+      write(output_unit,*) &
+      'gather_real_1D_array(): executing on image', this_image(),"call_count",call_count
+      flush(output_unit)
 
     if (present(dim)) call assert (dim==1, "dimensioned partitioned == 1")
 
     associate( me => this_image() )
-      write(6,*) 'gather_real_1D_array(): executing on image', me
-      flush(6)
       associate( first=>first(me), last=>last(me) )
         if (.not. present(result_image)) then
           a(1:first-1)  = 0.
@@ -79,6 +85,15 @@ contains
   module procedure gather_real_2D_array
 
     integer dim_
+
+      integer, save :: call_count=0
+      call_count = call_count + 1
+
+      write(output_unit,*) &
+      'gather_real_2D_array(): executing on image', this_image(),"call_count",call_count
+      flush(output_unit)
+      if (call_count==2) stop 'second 2D call'
+
     if (present(dim)) then
       dim_ = dim
     else
@@ -86,8 +101,6 @@ contains
     end if
 
     associate( me => this_image() )
-      write(6,*) 'gather_real_2D_array(): executing on image', me
-      flush(6)
       associate( first => first(me), last => last(me) )
         if (.not. present(result_image)) then
           select case(dim_)
