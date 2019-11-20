@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPTRA(IMAX1,IMAX2,LUN)
+      use iso_fortran_env, only : output_unit
       use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXTRA.H"
@@ -54,12 +55,12 @@ C      LOGICAL ZSYM
       CALL ZGNOEL(
      >            NOEL)
 
-      write(6,*) 'imptra(): calling gather(F) on image', this_image()
-      flush(6)
+      write(output_unit,*)'imptra(): gather(F) on image',this_image()
+      flush(output_unit)
       call particle_set%gather(F, result_image=1)
-      write(6,*) 'imptra(): calling gather(FO) on image', this_image()
-      flush(6)
-      call particle_set%gather(FO, result_image=1)
+      write(output_unit,*)'imptra(): gather(FO) on image',this_image()
+      flush(output_unit)
+      call particle_set%gather_real_2D_array(FO, result_image=1)
       ! ^^^^^ Are we sure we need this?
       !call gather(FDES, result_image=1)
       ! ^^^^^ Do we also need this?
