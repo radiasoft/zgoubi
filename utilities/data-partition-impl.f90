@@ -2,30 +2,25 @@ submodule(data_partition_ixfc) data_partition_impl
   use assertions_interface, only : assert, assertions
   implicit none
 
-  type(data_partition) singleton
-    !! This is the sole instance of this class in the executing image, making 
-    !! it the multiverse analogue of the classical Singleton design pattern.
-
 contains
 
   module procedure define_partitions
 
-
-    if (allocated(singleton%first_datum)) deallocate(singleton%first_datum)
-    if (allocated(singleton%last_datum)) deallocate(singleton%last_datum)
+    if (allocated(first_datum)) deallocate(first_datum)
+    if (allocated(last_datum)) deallocate(last_datum)
 
     associate( ni => num_images() )
 
       call assert( ni<=cardinality, "sufficient data for distribution across images")
 
-      allocate(singleton%first_datum(ni), singleton%last_datum(ni))
+      allocate(first_datum(ni), last_datum(ni))
 
-      block 
+      block
         integer i, image
         do image=1,ni
           associate( remainder => mod(cardinality, ni), quotient => cardinality/ni )
-            singleton%first_datum(image) = sum([(quotient+overflow(i, remainder), i=1, image-1)]) + 1
-            singleton%last_datum(image) = singleton%first_datum(image) + quotient + overflow(image, remainder) - 1
+            first_datum(image) = sum([(quotient+overflow(i, remainder), i=1, image-1)]) + 1
+            last_datum(image) = first_datum(image) + quotient + overflow(image, remainder) - 1
           end associate
         end do
       end block
@@ -39,16 +34,16 @@ contains
       extra_datum= merge(1,0,im<=excess)
     end function
 
-  end procedure 
+  end procedure
 
   module procedure first
-    if (assertions) call assert( allocated(singleton%first_datum), "allocated(singleton%first_datum)")
-    first_datum = singleton%first_datum( image_number )
+    if (assertions) call assert( allocated(first_datum), "allocated(first_datum)")
+    first_index= first_datum( image_number )
   end procedure
 
   module procedure last
-    if (assertions) call assert( allocated(singleton%last_datum), "allocated(singleton%last_datum)")
-    last_datum = singleton%last_datum( image_number )
+    if (assertions) call assert( allocated(last_datum), "allocated(last_datum)")
+    last_index = last_datum( image_number )
   end procedure
 
   module procedure gather_real_1D_array
@@ -56,7 +51,9 @@ contains
     if (present(dim)) call assert (dim==1, "dimensioned partitioned == 1")
 
     associate( me => this_image() )
-      associate( first=>singleton%first(me), last=>singleton%last(me) )
+      write(6,*) 'gather_real_1D_array(): executing on image', me
+      flush(6)
+      associate( first=>first(me), last=>last(me) )
         if (.not. present(result_image)) then
           a(1:first-1)  = 0.
           a(last+1:)  = 0.
@@ -89,7 +86,9 @@ contains
     end if
 
     associate( me => this_image() )
-      associate( first => singleton%first(me), last => singleton%last(me) )
+      write(6,*) 'gather_real_2D_array(): executing on image', me
+      flush(6)
+      associate( first => first(me), last => last(me) )
         if (.not. present(result_image)) then
           select case(dim_)
             case(1)
@@ -125,11 +124,11 @@ contains
             if (result_image /= me) then
               select case(dim_)
                 case(1)
-                  a(1:first-1, :) = a_lower 
-                  a(last+1:, :) = a_upper 
+                  a(1:first-1, :) = a_lower
+                  a(last+1:, :) = a_upper
                 case(2)
-                  a(:, 1:first-1) = a_lower 
-                  a(:, last+1:) = a_upper 
+                  a(:, 1:first-1) = a_lower
+                  a(:, last+1:) = a_upper
                 case default
                   error stop "gather_real_2D_array: invalid dim argument"
               end select

@@ -98,8 +98,14 @@ C------- Dummies
 C       write(*,*) ' impfai f ',(f(7,i),i=1,imax)
 C           read(*,*)
 
+      write(6,*) 'impfai(): calling gather(F) on image', this_image()
+      flush(6)
       call particle_set%gather(F, result_image=1)
+      write(6,*) 'impfai(): calling gather(SF) on image', this_image()
+      flush(6)
       call particle_set%gather(SF, result_image=1)
+      write(6,*) 'impfai(): calling gather(SRLT) on image', this_image()
+      flush(6)
       call particle_set%gather(SRLT, result_image=1)
       IF(BINARY) THEN
         DO 2 I=1,IMAX

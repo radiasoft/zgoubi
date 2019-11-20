@@ -54,7 +54,11 @@ C      LOGICAL ZSYM
       CALL ZGNOEL(
      >            NOEL)
 
+      write(6,*) 'imptra(): calling gather(F) on image', this_image()
+      flush(6)
       call particle_set%gather(F, result_image=1)
+      write(6,*) 'imptra(): calling gather(FO) on image', this_image()
+      flush(6)
       call particle_set%gather(FO, result_image=1)
       ! ^^^^^ Are we sure we need this?
       !call gather(FDES, result_image=1)

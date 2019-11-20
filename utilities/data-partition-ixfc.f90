@@ -1,5 +1,5 @@
 module data_partition_ixfc
-  !! distribute data identification numbers across images such that the number of 
+  !! distribute data identification numbers across images such that the number of
   !! items differs by at most 1 between any two images.
   use iso_fortran_env, only : real64
   implicit none
@@ -10,7 +10,6 @@ module data_partition_ixfc
   type data_partition
     !! encapsulate a description of the data subset the executing image owns
     private
-    integer, allocatable :: first_datum(:), last_datum(:)
   contains
     procedure, nopass :: define_partitions
     procedure, nopass :: first
@@ -19,25 +18,27 @@ module data_partition_ixfc
     generic :: gather => gather_real_2D_array, gather_real_1D_array
   end type
 
-  interface 
+  integer, allocatable :: first_datum(:), last_datum(:)
+
+  interface
 
     module subroutine define_partitions(cardinality)
       !! define the range of data identification numbers owned by the executing image
       integer, intent(in) :: cardinality
     end subroutine
 
-    pure module function first(image_number) result(first_datum)
+    pure module function first(image_number) result(first_index)
       !! the result is the first identification number owned by the executing image
       implicit none
       integer, intent(in) :: image_number
-      integer first_datum
+      integer first_index
     end function
 
-    pure module function last(image_number) result(last_datum)
+    pure module function last(image_number) result(last_index)
       !! the result is the last identification number owned by the executing image
       implicit none
       integer, intent(in) :: image_number
-      integer last_datum
+      integer last_index
     end function
 
     !! Gathers are inherently expensive and are best used either
