@@ -130,8 +130,8 @@ C     $     IREP(MXT),AMQLU,PABSLU
         IF(OPN) THEN
 C          CALL ZGNOEL(
 C     >               NOEL)         
-          CALL ZGKLEY(  
-     >                KEY)
+C         CALL ZGKLEY(  
+C    >                KEY)
           CALL ZGKLEY(  
      >                LBL1,LBL2)
           KPR = 1 
