@@ -92,7 +92,7 @@ contains
       write(output_unit,*) &
       'gather_real_2D_array(): executing on image', this_image(),"call_count",call_count
       flush(output_unit)
-      if (call_count==2) stop 'second 2D call'
+     !if (call_count==2) stop 'second 2D call'
 
     if (present(dim)) then
       dim_ = dim
