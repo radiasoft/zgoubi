@@ -5,6 +5,7 @@ configure_file(
 )
 
 set( test_directories
+  elmult
   chromPSR
   warmSnake
   spinESRF_18GeV
