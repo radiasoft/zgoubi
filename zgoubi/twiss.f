@@ -146,6 +146,7 @@ C 2nd pass through structure will follow iff KTW>1.
 
         DOLAST = .TRUE.
 
+        ISIGN = 1
         IF(NRES .NE. 0) THEN
           ISIGN = NRES/ABS(NRES)
           NRES = ISIGN*NRES
@@ -600,12 +601,12 @@ C-------------------------------------------------------------------
 
       IF(NRES.LT.0) NRES=-NRES
 C------- reactivate READ in zgoubi.dat
-        READAT = .TRUE.
+      READAT = .TRUE.
 
-        IF(NRES.GT.0) THEN
-          WRITE(6,101) IPASS
-          WRITE(NRES,101) IPASS
- 101      FORMAT(/,T25,
+      IF(NRES.GT.0) THEN
+        WRITE(6,101) IPASS
+        WRITE(NRES,101) IPASS
+ 101    FORMAT(/,T25,
      >   ' *********************************************************',/
      >   ,T25
      >   ,' **************  End  of  TWISS  procedure  **************',

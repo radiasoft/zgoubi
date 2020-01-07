@@ -35,7 +35,7 @@ C      ELSE
 C        READ(IUNIT,FMT='(A80)') TXT80
 C      ENDIF
 C 2016, June : I add problem with the above version when adding that in spnprt. 
-C For this reasoned I chanegd to fortran 2003 style flush : 
+C For this reasoned I changed to fortran 2003 style flush : 
       IF(IUNIT .GT. 0) FLUSH(IUNIT)
       RETURN
       END

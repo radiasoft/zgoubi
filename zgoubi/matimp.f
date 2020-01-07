@@ -123,7 +123,7 @@ c         ELSEIF(ABS(CMUY).LT.1.D0 .OR. ABS(CMUZ).LT.1.D0) THEN
            ENDIF
 c         ENDIF
 
-         WRITE(NRES,FMT='(15X,2(5X,A,A))') 
+          WRITE(NRES,FMT='(15X,2(5X,A,A))') 
      >            'NU_Y = ', TXTYNU, 'NU_Z = ', TXTZNU
 
         ENDIF
