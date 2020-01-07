@@ -67,7 +67,8 @@ C      COMMON/SCAL/SCL(MXF,MXS),TIM(MXF,MXS),NTIM(MXF),JPA(MXF,MXP),KSCL
       DATA LUN / 0 /
  
       IF(MXTA.LT.MXF) THEN
-        IF(NRES.GT.0) WRITE(NRES,*) 'SBR RSCAL. Change MXTA to = MXF+1'
+        IF(NRES.NE.0) WRITE(ABS(NRES),*)
+     >      'SBR RSCAL. Change MXTA to = MXF+1'
         WRITE(*,*) 'SBR RSCAL. Change MXTA to = MXF+1'
         GOTO 90
       ENDIF
@@ -91,7 +92,7 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       A(NOEL,NP) = NFAM
  
       IF(NFAM .GT. MXF) THEN
-        IF(NRES .GT. 0) WRITE(NRES,*)
+        IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >  'SBR RSCAL - Too many families. Max allowed is ',MXF
         GOTO 90
       ENDIF
@@ -99,7 +100,7 @@ C----- IOPT; NB OF DIFFRNT FAMILIES TO BE SCALED (<= MXF)
       DO 1 IFM=1,NFAM
  
         IF(NP .GT. MXD-2) THEN
-          IF(NRES .GT. 0) WRITE(NRES,*)
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >    'SBR RSCAL - Too many data. Max allowed is ',MXD-2
           GOTO 90
         ENDIF
@@ -118,12 +119,12 @@ C        I =   0
      >                          NSTR,STRA)
  
         IF(NSTR .GT. MSTR) THEN
-          IF(NRES .GT. 0) WRITE(NRES,*)
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >    'SBR RSCAL - Too many labels in family. Max allowed is ',MLF
           GOTO 90
         ENDIF
         IF(KSIZ .GT. LBLSIZ) THEN
-          IF(NRES .GT. 0) WRITE(NRES,*)
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >    ' Pgm rscal, ERR : KSIZ > LBLSIZ.'
           GOTO 90
         ENDIF
@@ -136,7 +137,7 @@ C        I =   0
         IF(NSTR .GE. 2) THEN
           DO  KL=1,NSTR-1
             IF(KL+1 .GT. MSTR) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        ' Pgm rscal, ERR : KL+1 > MSTR.'
               GOTO 90
             ENDIF
@@ -186,7 +187,7 @@ C Possible additional scaling factor :
  45       CONTINUE
  
           IF(NTIM(IFM) .GT. MXS-2) THEN
-            IF(NRES .GT. 0) WRITE(NRES,*)
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >     'SBR RSCAL - Too many timings. Max is ',MXS-2
             GOTO 90
           ENDIF
@@ -200,7 +201,7 @@ C Possible additional scaling factor :
           NP = NP + 1
           A(NOEL,NP) = NTIM(IFM)
           IF(NTIM(IFM) .GT. MXD-2) THEN
-            IF(NRES .GT. 0) WRITE(NRES,*)
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >      'SBR RSCAL - Too many timings. Max is ',MXD-2
             GOTO 90
           ENDIF
@@ -208,12 +209,12 @@ C Possible additional scaling factor :
           IF(KSTR.GE.2) THEN
             READ(STRAD(2),*) NPA
             IF(NPA.GT.MPA)  THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RSCAL - Too many parameterss. Max is ',MPA
               GOTO 90
             ENDIF
             IF(NPA .GT. MXSCL) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR rscal. Exceded size of SCL tab.'
               GOTO 90
             ENDIF
@@ -225,19 +226,20 @@ C Possible additional scaling factor :
           DO J = 1, NPA
 C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
             IF(2*J+1 .GT. MSTRD)  THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        ' SBR rscal, ERR : 2J+1 > MSTRD.'
               GOTO 90
             ENDIF
             READ(STRAD(2*J+1),*) JPA(IFM,J)
             READ(STRAD(2*J+2),*) VPA(IFM,J)
             IF(NP.GT.MXD-2) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR rscal. Too many data.'
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >            'SBR rscal. Too many data.'
               GOTO 90
             ENDIF
             NP = NP + 1
             IF(NP.GT.MXD)  THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR rscal. NP >',MXD
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*) 'SBR rscal. NP >',MXD
               GOTO 90
             ENDIF
             A(NOEL,NP) = VPA(IFM,J)
@@ -261,7 +263,8 @@ C            IF(2*J+1 .GT. KSTRA) STOP ' SBR rscal, ERR : 2J+1 > KSTRA.'
 C               max = max(NDSCL,NDTIM)
             MAX=NDSCL
             IF(NP.GT.MXD-2)  THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >            'SBR RSCAL. Too many data.'
               GOTO 90
             ENDIF
             A(NOEL,MXD-IFM) = NTIM(IFM)
@@ -315,7 +318,8 @@ C               max = max(NDSCL,NDTIM)
 C--------- SCL(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) THEN
-            IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >          'SBR RSCAL. Too many data.'
             GOTO 90
           ENDIF
           LINE = LINE + 1
@@ -329,7 +333,8 @@ C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDSCL)
 C--------- TIM(IFM,IT)
           NP = NP + 1
           IF(NP.GT.MXD-2) THEN
-            IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >          'SBR RSCAL. Too many data.'
             GOTO 90
           ENDIF
           LINE = LINE + 1
@@ -342,7 +347,8 @@ C     >          (NP+IT-1,A(NOEL,NP+IT-1),IT=1,NDtim)
  
           NP = NP + 1
           IF(NP.GT.MXD-2) THEN
-            IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >          'SBR RSCAL. Too many data.'
             GOTO 90
           ENDIF
           A(NOEL,NP) = NSTR
@@ -367,7 +373,7 @@ c     is used together with the new scaling method that point directly to the A 
           ELSE                   !yann : this is the new case, read scalings from a separate file
             READ(TXT132,*) NPA, NTIMCOL
             IF( NPA.GT.10 ) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL - ' //
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*) 'SBR RSCAL - ' //
      >           'Too many parameter, max is ', 10
               GOTO 90
             ENDIF
@@ -398,7 +404,7 @@ c     yann : End of modif
      >            SCL(IFM,NTIM(IFM),I)
              NTIM(IFM) = NTIM(IFM)+1
              IF(NTIM(IFM) .GT. MXS-2) THEN
-               IF(NRES .GT. 0) WRITE(NRES,*)
+               IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >           'SBR RSCAL - ' //
      >            'Too many timings, max is ',MXS-2
                GOTO 90
@@ -417,7 +423,7 @@ c     yann : End of modif
             READ(NDAT,*,err=90,end=90) NTIM2(IFM)
             IIT = NTIM2(IFM)
             IF(IIT .GT. MXS-2) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RSCAL - Too many timings, max is ',MXS-2
               GOTO 90
             ENDIF
@@ -430,7 +436,8 @@ C----------- SCL2(IFM,IT)
             READ(NDAT,*,err=90,end=90) (SCL2(IFM,IT),IT=1,IIT)
             NP = NP + IIT
             IF(NP.GT.MXD-2) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >            'SBR RSCAL. Too many data.'
               GOTO 90
             ENDIF
             DO IT = 1, IIT
@@ -441,7 +448,8 @@ C----------- TIM2(IFM,IT)
             READ(NDAT,*,err=90,end=90) (TIM2(IFM,IT),IT=1,IIT)
             NP = NP + IIT
             IF(NP.GT.MXD-2) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*) 'SBR RSCAL. Too many data.'
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >            'SBR RSCAL. Too many data.'
               GOTO 90
             ENDIF
             DO IT = 1, IIT
@@ -456,7 +464,7 @@ C----------- TIM2(IFM,IT)
  
         ELSE
            
-          IF(NRES .GT. 0) WRITE(NRES,*)
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >    'SBR RSCAL: No such option MODSCL = ',MODSCL(IFM)
           GOTO 90
  

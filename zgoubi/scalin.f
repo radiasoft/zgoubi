@@ -261,7 +261,7 @@ C--------- Field law for scaling FFAG, LPSC, Sept. 2007
               OPEN(UNIT=LUN,
      >            FILE='zgoubi.freqLaw.In',STATUS='OLD',ERR=597)
             ELSE
-              IF(NRES .NE. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        ' Tried  to  open  zgoubi.freqLaw.In...'
               GOTO 596
             ENDIF

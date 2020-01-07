@@ -345,11 +345,12 @@ C     >                NOELB)
             NOEL = NOEL+1
             IF( NOEL .EQ. MXL+1) THEN
               TOMANY=.TRUE.
-              IF(NRES .GT. 0) THEN
-                WRITE(NRES,*) ' PROCEDURE STOPPED: too many elements'
-                WRITE(NRES,*) ' (number of elements should not exceed '
-     >                                                       ,MXL,').'
-                WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
+              IF(NRES .NE. 0) THEN
+                WRITE(ABS(NRES),*)
+     >              ' PROCEDURE STOPPED: too many elements'
+                WRITE(ABS(NRES),*)
+     >              ' (number of elements should not exceed ',MXL,').'
+                WRITE(ABS(NRES),*) ' Increase  MXL  in   MXLD.H'
               ENDIF
               CALL ENDJOB(' Increase  MXL  in   MXLD.H',-99)
             ENDIF
@@ -422,7 +423,7 @@ C---------------------------------------------------
       RETURN
 
  997  CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
+      IF(NRES.NE.0) WRITE(ABS(NRES),fmt='(a)')
      >'Pgm zgoubi : Execution stopped due to END-of-file '//
      >'while reading Key from input .dat file.'
       RETURN

@@ -316,18 +316,18 @@ C       ... Polar map frame
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ ERR : invalid input in rtosca'
-      IF(NRES .NE. 0) WRITE(NRES ,*)
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ ERR : invalid input in rtosca'
       GOTO 90
       
  98   WRITE(6,*) 
      >  ' *** Execution stopped upon READ END : invalid input in rtosca'
-      IF(NRES .NE. 0) WRITE(NRES ,*) 
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*) 
      >  ' *** Execution stopped upon READ END : invalid input in rtosca'
-      IF(LINE.EQ.2 .AND. NRES .GT. 0) WRITE(NRES,FMT='(A,I0,A)') 
+      IF(LINE.EQ.2 .AND. NRES .NE. 0) WRITE(ABS(NRES),FMT='(A,I0,A)') 
      >'Pgm rtosca. Prblm with normalization coefficients list : '
      >//' expected is a list of  1 to ',MXC,' data at line ',LINE 
-      IF(LINE.EQ.6 .AND. NRES .GT. 0) WRITE(NRES,*) 
+      IF(LINE.EQ.6 .AND. NRES .NE. 0) WRITE(ABS(NRES),*) 
      >'Expecting more data after MOD=3, at line ',LINE
 
  90   CONTINUE
