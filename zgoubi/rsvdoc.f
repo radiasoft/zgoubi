@@ -64,7 +64,7 @@ C     ***************************************
             CALL STRGET(TXTMP(1:jj-1),MXPUH,
      >                                      NSR,STRA)
             IF(NSR.GT.mxpuH) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RREBEL. Too many H-PUs.'
      >        //' Maximum allowed is ',mxpuh
               GOTO 98
@@ -87,7 +87,7 @@ C     ***************************************
             CALL STRGET(TXTMP(1:jj-1),mxpuv,
      >                                 NSR,STRA)
             IF(NSR.GT.mxpuV) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RREBEL. Too many V-PUs.'
      >        //' Maximum allowed is ',mxpuv
               GOTO 98
@@ -109,7 +109,7 @@ C     ***************************************
             CALL STRGET(TXTMP(1:jj-1),mxpuhv,
      >                                   NSR,STRA)
             IF(NSR.GT.mxpuHV) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RREBEL. Too many HV-PUs.'
      >        //' Maximum allowed is ',mxpuhv
               GOTO 98
@@ -137,7 +137,7 @@ C     ***************************************
             CALL STRGET(TXTMP(1:jj-1),mxcoh,
      >                           NSRH,STRA)
             IF(NSRH.GT.mxcoh) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RREBEL. Too many H-correctors.'
               GOTO 98
             ENDIF
@@ -158,7 +158,7 @@ C     ***************************************
             CALL STRGET(TXTMP(1:jj-1),mxcov,
      >                           NSRV,STRA)
             IF(NSRV.GT.mxcov) THEN
-              IF(NRES .GT. 0) WRITE(NRES,*)
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >        'SBR RREBEL. Too many V-correctors.'
               GOTO 98
             ENDIF
