@@ -192,6 +192,7 @@ C----- Set SR loss tracking
       OKSR = .TRUE.
 
       IRA=1+(NINT(A(NOEL,11))/2)*2
+      !IRA = IRA + 2 * this_image()
       IF(IPASS.EQ.1) THEN
         CALL RAYSY0(TYPMAG,LBLST,NLBL)
         CALL RAYSY1(IMAX,IRA)
