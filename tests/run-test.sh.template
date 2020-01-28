@@ -3,11 +3,11 @@
 # the provided error tolerances  (2nd & 3rd arguments)
 
 # Exit on use of unset variable
-set -o nounset
+#set -o nounset
 # Return highest error code in pipe chain
-set -o pipefail
+#set -o pipefail
 # Exit on non-zero exit code
-set -o errexit
+#set -o errexit
 
 ## usage message
 usage='usage: run-test.sh [-hHqv] [-e "ext .."] <testName> <res-tolerance> <out-tolerance> [rebuild-with-fieldmap]'
@@ -131,8 +131,8 @@ else
   echo " :: Command '@NDIFF@' found."
 fi
 result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
-echo " :: ndiff run"
 stat=$?
+echo " :: ndiff run"
 echo "$stat"
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
