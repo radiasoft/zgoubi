@@ -5,8 +5,8 @@ configure_file(
 )
 
 set( test_directories
-  chromPSR
   warmSnake
+  chromPSR
   spinESRF_18GeV
   spinSaturne
   solenoid

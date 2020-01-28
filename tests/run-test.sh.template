@@ -124,17 +124,11 @@ footer=10
 echo " :: footer = $footer"
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
 echo " :: header = $header"
-echo " :: Loking for '@NDIFF@' ..."
+echo " :: Looking for '@NDIFF@' ..."
 if ! [ -x "$(command -v @NDIFF@)" ] ; then
   echo " :: Can't find '@NDIFF@'."
 else
   echo " :: Command '@NDIFF@' found."
-fi
-echo " :: Loking for 'ndiff' ..."
-if ! [ -x "$(command -v ndiff)" ] ; then
-  echo " :: Can't find 'ndiff'."
-else
-  echo " :: Command 'ndiff' found."
 fi
 result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 echo " :: ndiff run"
