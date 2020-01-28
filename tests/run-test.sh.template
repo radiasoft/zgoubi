@@ -116,14 +116,16 @@ if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res ]]; then
   echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/zgoubi.res missing."
   exit 1
 fi
-
 echo " :: both .res files present ..."
 
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
+echo " :: footer = $footer"
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
+echo " :: header = $header"
 result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
+echo " :: ndiff run"
 stat=$?
 echo "$stat"
 if [ "$stat" -ne 0 ] ; then
