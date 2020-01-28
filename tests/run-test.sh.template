@@ -19,6 +19,12 @@ usageF=$usageF$'  -H   Print this help message and exit.\n'
 usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
 usageF=$usageF$'  -v   Print all differences (verbose output).\n'
 
+# call this function to write to stderr
+function echo_stderr ()
+{
+    echo "$@" >&2
+}
+
 function rebuild_zgoubi() {
   cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
   pariz_h_file="@ZGOUBI_TEST_BIN_DIR@"/warmSnake/PARIZ.H
@@ -121,9 +127,9 @@ if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
   echo "File zgoubi.res differs from ${testName}.res.expected."
   if [ "$verb" = true ] ; then
-    echo " ===== start ndiff output ====="
-    echo "$result"
-    echo " ===== end ndiff output ====="
+    echo_stderr " ===== start ndiff output ====="
+    echo_stderr "$result"
+    echo_stderr " ===== end ndiff output ====="
   fi
 fi
 echo "$stat"
@@ -153,9 +159,9 @@ if [ "$moreFiles" = true ] ; then
       (( ++xstat ))
       echo "File zgoubi.${fe} differs from @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected."
       if [ "$verb" = true ] ; then
-        echo " ===== start ndiff output ====="
-        echo "$result"
-        echo " ===== end ndiff output ====="
+        echo_stderr " ===== start ndiff output ====="
+        echo_stderr "$result"
+        echo_stderr " ===== end ndiff output ====="
       fi
     fi
     echo "$stat"
