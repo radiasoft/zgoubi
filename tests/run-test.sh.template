@@ -2,11 +2,11 @@
 # Test zgoubi on the given input file (1st argument), using
 # the provided error tolerances  (2nd & 3rd arguments)
 
-# Exit on use of unset variable
-#set -o nounset
-# Return highest error code in pipe chain
-#set -o pipefail
-# Exit on non-zero exit code
+# exit on use of unset variable
+set -o nounset
+# return highest error code in pipe chain
+set -o pipefail
+# exit on non-zero exit code
 #set -o errexit
 
 ## usage message
@@ -18,12 +18,6 @@ usageF=$usageF$'  -h   Print a brief help message and exit.\n'
 usageF=$usageF$'  -H   Print this help message and exit.\n'
 usageF=$usageF$'  -q   Suppress  output from zgoubi.\n'
 usageF=$usageF$'  -v   Print all differences (verbose output).\n'
-
-# call this function to write to stderr
-function echo_stderr ()
-{
-    echo "$@" >&2
-}
 
 function rebuild_zgoubi() {
   cp "@CMAKE_SOURCE_DIR@"/zgoubi/PARIZ.H original.pariz.h
@@ -68,7 +62,7 @@ while getopts "e:hHqv" opt; do
   h) echo "$usage"; exit;;
   H) echo "$usageF"; exit;;
   q) quiet=true;;
-  v) verb=true; echo "flag -v is set";;
+  v) verb=true; echo "Verbose mode set in run-test.sh.";;
   \?) echo "$usage"; exit;;
   esac
 done
@@ -116,24 +110,13 @@ if  [[ ! -f "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res ]]; then
   echo "Test failed: @ZGOUBI_TEST_BIN_DIR@/${testName}/zgoubi.res missing."
   exit 1
 fi
-echo " :: both .res files present ..."
 
 ## compare zgoubi.res with the expected result
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
-echo " :: footer = $footer"
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
-echo " :: header = $header"
-echo " :: Looking for '@NDIFF@' ..."
-if ! [ -x "$(command -v @NDIFF@)" ] ; then
-  echo " :: Can't find '@NDIFF@'."
-else
-  echo " :: Command '@NDIFF@' found."
-fi
 result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 stat=$?
-echo " :: ndiff run"
-echo "$stat"
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
   echo "File zgoubi.res differs from ${testName}.res.expected."
@@ -142,8 +125,6 @@ if [ "$stat" -ne 0 ] ; then
     echo "$result"
     echo " ===== end ndiff output ====="
   fi
-else
-  echo "File zgoubi.res okay."
 fi
 echo "$stat"
 echo " --- end check zgoubi.res ---"
@@ -172,9 +153,9 @@ if [ "$moreFiles" = true ] ; then
       (( ++xstat ))
       echo "File zgoubi.${fe} differs from @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected."
       if [ "$verb" = true ] ; then
-        echo_stderr " ===== start ndiff output ====="
-        echo_stderr "$result"
-        echo_stderr " ===== end ndiff output ====="
+        echo " ===== start ndiff output ====="
+        echo "$result"
+        echo " ===== end ndiff output ====="
       fi
     fi
     echo "$stat"
@@ -182,9 +163,8 @@ if [ "$moreFiles" = true ] ; then
   done
 fi
 
-if [ "$xstat" -eq 0 ]
-then
-   echo "Test passed."
+if [ "$xstat" -eq 0 ] ; then
+  echo "Test passed."
 else
-   echo "Test failed!"
+  echo "Test failed!"
 fi
