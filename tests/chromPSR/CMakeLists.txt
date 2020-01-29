@@ -19,8 +19,8 @@ configure_file(
 )
 
 set(exts "MATRIX.out")
-set(res_error "1.0e-05")
-set(out_error "1.0e-07")
+set(res_error "4.0e-04")
+set(out_error "2.5e-06")
 add_test(
   NAME ${test_name}-test
   COMMAND "${ZGOUBI_TEST_BIN_DIR}/run-test.sh" "-v" "-e ${exts}" ${test_name} "${res_error}" "${out_error}"
