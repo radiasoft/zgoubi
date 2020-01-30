@@ -115,7 +115,7 @@ fi
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
-result=$(@NDIFF@ -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
+result=$(@NDIFF@ -separators '[ \t,()]' -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
   (( ++xstat ))
@@ -144,9 +144,9 @@ if [ "$moreFiles" = true ] ; then
     fi
 
     if [ "$fe" == "fai" ] ; then
-      result=$(@NDIFF@ -relative-error $out_error <(sed 1d @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected) <(sed 1d zgoubi.${fe}))
+      result=$(@NDIFF@ -separators '[ \t,()]' -relative-error $out_error <(sed 1d @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected) <(sed 1d zgoubi.${fe}))
     else
-      result=$(@NDIFF@ -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
+      result=$(@NDIFF@ -separators '[ \t,()]' -relative-error $out_error @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected zgoubi.${fe})
     fi
     stat=$?
     if [ "$stat" -ne 0 ] ; then
