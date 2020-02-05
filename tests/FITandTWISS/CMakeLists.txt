@@ -19,7 +19,7 @@ configure_file(
 )
 
 set(exts "FIT.out.dat")
-set(res_error "2.0e-04")
+set(res_error "6.0e-04")
 set(out_error "1.0e-08")
 add_test(
   NAME ${test_name}-test

@@ -115,6 +115,10 @@ fi
 # we compare all but the last ten lines, which contain date and timing information
 footer=10
 (( header=$(wc -l < "@ZGOUBI_TEST_BIN_DIR@/${testName}"/${testName}.res.expected) - footer ))
+## Convert tiny numbers to zero.
+## It would be better if ndiff would AND the -a and -r flags, instead of OR them.
+sed -i -E 's:(^| |\t|,)[-+]?([0-9][0-9]*([.][0-9]*)?|[.][0-9][0-9]*)[DdEeQq][-]([1][4-9]+|[1][0-9][0-9]+|[2-9][0-9]+)\>:  0.00000:g' "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected
+sed -i -E 's:(^| |\t|,)[-+]?([0-9][0-9]*([.][0-9]*)?|[.][0-9][0-9]*)[DdEeQq][-]([1][4-9]+|[1][0-9][0-9]+|[2-9][0-9]+)\>:  0.00000:g' "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res
 result=$(@NDIFF@ -separators '[ \t,()]' -relative-error $res_error <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.res.expected)  <(head -n $header "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.res))
 stat=$?
 if [ "$stat" -ne 0 ] ; then
@@ -143,6 +147,10 @@ if [ "$moreFiles" = true ] ; then
       exit 1
     fi
 
+    ## Convert tiny numbers to zero.
+    ## It would be better if ndiff would AND the -a and -r flags, instead of OR them.
+    sed -i -E 's:(^| |\t|,)[-+]?([0-9][0-9]*([.][0-9]*)?|[.][0-9][0-9]*)[DdEeQq][-]([1][4-9]+|[1][0-9][0-9]+|[2-9][0-9]+)\>:  0.00000:g' "@ZGOUBI_TEST_BIN_DIR@/$testName"/${testName}.${fe}.expected
+    sed -i -E 's:(^| |\t|,)[-+]?([0-9][0-9]*([.][0-9]*)?|[.][0-9][0-9]*)[DdEeQq][-]([1][4-9]+|[1][0-9][0-9]+|[2-9][0-9]+)\>:  0.00000:g' "@ZGOUBI_TEST_BIN_DIR@/${testName}/"zgoubi.${fe}
     if [ "$fe" == "fai" ] ; then
       result=$(@NDIFF@ -separators '[ \t,()]' -relative-error $out_error <(sed 1d @ZGOUBI_TEST_BIN_DIR@/${testName}/${testName}.${fe}.expected) <(sed 1d zgoubi.${fe}))
     else
