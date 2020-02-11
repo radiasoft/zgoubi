@@ -7,6 +7,7 @@ configure_file(
 set( test_directories
   warmSnake
   chromPSR
+  elmult
   spinESRF_18GeV
   spinSaturne
   solenoid
