@@ -8,6 +8,7 @@ set( test_directories
   warmSnake
   chromPSR
   elmult
+  wienfilter
   spinESRF_18GeV
   spinSaturne
   solenoid
