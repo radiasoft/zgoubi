@@ -13,7 +13,7 @@ configure_file(
 @ONLY
 )
 
-set(res_error "1.0e-06")
+set(res_error "6.0e-04")
 set(out_error "1.0e-08")
 add_test(
   NAME ${test_name}-test
