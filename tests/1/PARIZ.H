@@ -1,2 +1,0 @@
-       PARAMETER (IZ=29 , ID=3, MMAP=1)
-       PARAMETER (MXX=2131, MXY=29)

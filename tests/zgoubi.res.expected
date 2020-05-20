@@ -1145,10 +1145,10 @@ TYPE  I   J LMNT#     DESIRED          WEIGHT         REACHED         KI2     NA
             ZGOUBI RUN COMPLETED. 
 
   Zgoubi, author's dvlpmnt version.
-  Job  started  on  24-08-2019,  at  01:16:45 
-  JOB  ENDED  ON    24-08-2019,  AT  01:16:47 
+  Job  started  on  20-05-2020,  at  22:43:39 
+  JOB  ENDED  ON    20-05-2020,  AT  22:43:41 
 
-   CPU time, total :     2.0841839999999996     
+   CPU time, total :     1.2985139999999999     
 
      An updated version of the input data file, with variables in FIT'ed state, has been saved in zgoubi.FIT.out.dat.
 
