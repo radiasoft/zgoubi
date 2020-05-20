@@ -173,17 +173,17 @@ C        ENDIF
      >      (GAM+1.D0)/GAM * Q * (ENRG-AMASS)
         ENDIF
 
-      WRITE(NRES,*) ' '
-      WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time, s :'
-      WRITE(NRES,*) ' '
-      DO I=1,IMAX
-        IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
-          P = BORO*CL9*Q * F(1,I)
-          BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
-          WRITE(NRES,FMT='(I6,1X,1P,6E16.8)')
-     >       I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I),F(6,I)
-        ENDIF
-      ENDDO
+        WRITE(NRES,*) ' '
+        WRITE(NRES,*) 'I, AMQ(1,I), AMQ(2,I)/QE, P/Pref, v/c, time, s :'
+        WRITE(NRES,*) ' '
+        DO I=1,IMAX
+          IF(AMQ(1,I)*AMQ(2,I) .NE. 0.D0) THEN
+            P = BORO*CL9*Q * F(1,I)
+            BTA = P / SQRT(P*P + AMQ(1,I) * AMQ(1,I))
+            WRITE(NRES,FMT='(I6,1X,1P,6E16.8)')
+     >         I,AMQ(1,I),AMQ(2,I),F(1,I),bta,F(7,I),F(6,I)
+          ENDIF
+        ENDDO
 
       ENDIF
 

@@ -35,6 +35,7 @@ C     written by Frédéric Desforges (2013)
       SAVE RPARAM,C,NU1,NU2,ALPHA1, ALPHA2, BETA1,    
      >BETA2,GAMMA1,GAMMA2,CMOINS,CPLUS,DELTA,DELTA2,NUX0,NUY0,P
       
+      IF(NRES .GT. 0) THEN
       WRITE(NRES,FMT='(//,40X,
      >                     ''----------------------------------------''
      >)')
@@ -91,7 +92,8 @@ c     >ANCE:'',10X,F13.8,/)') CPLUS
       WRITE(NRES,FMT='(6X,''P MATRIX :'',/)')
       WRITE(NRES,188) ((P(I,J),J=1,4),I=1,4)
  188  FORMAT(1p,4(2X,E18.10))
-      
+      END IF
+
       RETURN
 
       ENTRY MATIC2(X3,X4,X5,X6,X7,X8,X9,X10,X11,X12,X13,X14,X15,X16,

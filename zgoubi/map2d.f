@@ -225,8 +225,9 @@ C------- Restore mesh coordinates
 
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm map2d. Error  open  file ',
-     >NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I)))
+ 96   IF(NRES .NE. 0)
+     >  WRITE(ABS(NRES),*) 'Pgm map2d. Error  open  file ',
+     >  NOMFIC(I)(DEBSTR(NOMFIC(I)):FINSTR(NOMFIC(I)))
       CALL ENDJOB('Leaving. ',-99)
 
       RETURN

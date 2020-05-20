@@ -77,9 +77,8 @@ elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(common_fflags -g -standard-semantics -fp-model precise -xHOST -traceback -staticlib -save -cpp)
 endif()
 
-
 #======================================================
-# Define targets to be built: libraries and executables
+# Find external libraries to link against
 #======================================================
 
 find_package(BLAS REQUIRED)
@@ -113,6 +112,16 @@ if(${LAPACK_LIBRARIES})
     INTERFACE BLAS
     INTERFACE ${LAPACK_LIBRARIES})
 endif()
+
+find_package(OpenCoarrays REQUIRED
+  NO_MODULE
+  HINTS ${OC_TOP_INSTALL_DIR}
+  PATHS $ENV{USER}/software $ENV{USER}/Software $ENV{USER}/SOFTWARE
+  PATH_SUFFIXES gnu GNU gcc GCC gnu/${CMAKE_Fortran_COMPILER_VERSION} ${CMAKE_Fortran_COMPILER_ID}/${CMAKE_Fortran_COMPILER_VERSION})
+
+#======================================================
+# Define targets to be built: libraries and executables
+#======================================================
 
 #---------
 # libcouplb
@@ -230,6 +239,15 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 enable_testing()
+
+# Define function for adding parallel tests to be run by the OpenCoarrays "cafrun" compiler wrapper
+function(add_caf_test 
+  name num_images test_target)
+  add_test(NAME ${name} COMMAND cafrun -n ${num_images} "${test_target}")
+  set_tests_properties( ${name}
+    PROPERTIES
+    PASS_REGULAR_EXPRESSION "Test passed.")
+endfunction(add_caf_test)
 
 set(ZGOUBI_TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/tests )
 set(ZGOUBI_TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests )

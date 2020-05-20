@@ -27,23 +27,30 @@ C  -------
       CHARACTER(*) TXT
       WRITE(   *,*)
       WRITE(   *,*) ' *** ERROR in object definition : '
-      WRITE(NRES,*) ' *** ERROR in object definition : '
+      IF(NRES.GT.0)
+     >WRITE(NRES,*) ' *** ERROR in object definition : '
       WRITE(   *,*) TXT
-      WRITE(NRES,*) TXT
+      IF(NRES.GT.0)
+     >WRITE(NRES,*) TXT
       IF(IER .EQ. 1) THEN
         WRITE(   *,*) '   Only  non-zero  dp/p  allowed...'
-        WRITE(NRES,*) '   Only  non-zero  dp/p  allowed...'
+        IF(NRES.GT.0)
+     >  WRITE(NRES,*) '   Only  non-zero  dp/p  allowed...'
       ELSEIF(IER .EQ. 2) THEN
         WRITE(6,*) '          MAX # OF PARTICLES IS ',MXT
         CALL REBELR(KREB3,KREB31,KDUM)
         IF(KREB31 .NE. 0) THEN
           WRITE(6,*) '  CHECK APPROPRIATE USE OF ''REBELOTE'''
-          WRITE(NRES,*) '          MAX  # OF PARTICLES IS ',MXT
-          WRITE(NRES,*) '  CHECK APPROPRIATE USE OF ''REBELOTE'''
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,*) '          MAX  # OF PARTICLES IS ',MXT
+            WRITE(NRES,*) '  CHECK APPROPRIATE USE OF ''REBELOTE'''
+          END IF
         ELSE
           WRITE(6,*) '  MAY WE SUGGEST THE USE OF ''REBELOTE'''
-          WRITE(NRES,*) '          MAX  # OF PARTICLES IS ',MXT
-          WRITE(NRES,*) '  MAY WE SUGGEST THE USE OF ''REBELOTE'''
+          IF(NRES.GT.0) THEN
+            WRITE(NRES,*) '          MAX  # OF PARTICLES IS ',MXT
+            WRITE(NRES,*) '  MAY WE SUGGEST THE USE OF ''REBELOTE'''
+          END IF
         ENDIF
       ENDIF
       RETURN

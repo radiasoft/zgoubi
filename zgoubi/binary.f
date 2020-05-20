@@ -118,7 +118,8 @@ C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
      >              LNR)) THEN
             OPEN( UNIT=LNR, FILE=OLDFIL, ERR=96)
           ELSE
-            WRITE(ABS(NRES),*) ' SBR BINARY, no idle unit for'
+            IF (NRES. NE. 0)
+     >      WRITE(ABS(NRES),*) ' SBR BINARY, no idle unit for'
      >            ,' opening file ',oldfil
             GOTO 96
           ENDIF
@@ -158,8 +159,10 @@ C            WRITE(6,200) ' TRANSLATING  FILE  ',OLDFIL
  96   CALL ENDJOB('ERROR  OPEN  OLD  FILE '//OLDFIL,-99)
  97   CALL ENDJOB('ERROR  OPEN  NEW  FILE '//NEWFIL,-99)
  90   CONTINUE
-      WRITE(ABS(NRES),*) ' '
-      WRITE(ABS(NRES),*) 'Number of last line read is : ',line
+      IF (NRES. NE. 0) THEN
+        WRITE(ABS(NRES),*) ' '
+        WRITE(ABS(NRES),*) 'Number of last line read is : ',line
+      END IF
       CALL ENDJOB('ERROR  DURING  READ  IN  '//OLDFIL,-99)
       RETURN
       END

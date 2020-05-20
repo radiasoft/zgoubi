@@ -210,19 +210,21 @@ C       ... Polar map frame
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
-      WRITE(NRES ,*) 
+      IF(NRES .GT. 0) WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ ERR : invalid input in rcarte'
       GOTO 90
       
  98   WRITE(6,*) 
      >  ' *** Execution stopped upon READ END : invalid input in rcarte'
-      WRITE(NRES ,*) 
+      IF(NRES .GT. 0) THEN
+        WRITE(NRES ,*) 
      >  ' *** Execution stopped upon READ END : invalid input in rcarte'
-      IF(LINE.EQ.2) WRITE(NRES,*) 
-     >'SBR rcarte. Prblm with normalization coefficients list : '
-     >//' expected is a list of  1 to 4 data at line ',LINE 
-      IF(LINE.EQ.6) WRITE(NRES,*) 
-     >'Expecting more data after MOD=3, at line ',LINE
+        IF(LINE.EQ.2) WRITE(NRES,*) 
+     >  'SBR rcarte. Prblm with normalization coefficients list : '
+     >  //' expected is a list of  1 to 4 data at line ',LINE 
+        IF(LINE.EQ.6) WRITE(NRES,*) 
+     >  'Expecting more data after MOD=3, at line ',LINE
+      END IF
 
  90   CONTINUE
       CALL ZGKLEY( 

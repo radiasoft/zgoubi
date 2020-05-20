@@ -579,7 +579,8 @@ C------- Restore mesh coordinates
 
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm toscap. Error  open  file '''//
+ 96   IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >'Pgm toscap. Error  open  file '''//
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
       WRITE(*        ,*) 'Pgm toscap. Error  open  file '''//
      >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''

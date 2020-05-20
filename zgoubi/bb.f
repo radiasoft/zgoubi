@@ -78,29 +78,30 @@ c        read(1,*)ampx,ampy,ampz
 c        close(1)
 
       IF(NINT(A(NOEL,1)).EQ.0) THEN
-          WRITE(NRES,*) ' BEAM-BEAM is OFF'
+        IF(NRES .GT. 0) WRITE(NRES,*) ' BEAM-BEAM is OFF'
 
       ELSE
         IF(IPASS.EQ.1) THEN
 
-       WRITE(NRES,*)  ' intensity= ',A(NOEL,2)
-       WRITE(NRES,*)  ' alfx= ',A(NOEL,10)
-       WRITE(NRES,*)  ' betx= ',A(NOEL,11)
-       WRITE(NRES,*)  ' epsnx= ',A(NOEL,12)
-       WRITE(NRES,*)  ' alfy= ',A(NOEL,20)
-       WRITE(NRES,*)  ' bety= ',A(NOEL,21)
-       WRITE(NRES,*)  ' epsny= ',A(NOEL,22)
-       WRITE(NRES,*)  ' sigz= ',A(NOEL,30)
-       WRITE(NRES,*)  ' dpp= ',A(NOEL,31)
-       WRITE(NRES,*)  ' circ= ',A(NOEL,40)
-       WRITE(NRES,*)  ' alfmom= ',A(NOEL,41)
-       WRITE(NRES,*)  ' tunex= ',A(NOEL,50)
-       WRITE(NRES,*)  ' tuney= ',A(NOEL,51)
-       WRITE(NRES,*)  ' tunez= ',A(NOEL,52)
-       WRITE(NRES,*)  ' ampx= ',A(NOEL,60)
-       WRITE(NRES,*)  ' ampy= ',A(NOEL,61)
-       WRITE(NRES,*)  ' ampz= ',A(NOEL,62)
-
+        IF(NRES .GT. 0) THEN
+          WRITE(NRES,*)  ' intensity= ',A(NOEL,2)
+          WRITE(NRES,*)  ' alfx= ',A(NOEL,10)
+          WRITE(NRES,*)  ' betx= ',A(NOEL,11)
+          WRITE(NRES,*)  ' epsnx= ',A(NOEL,12)
+          WRITE(NRES,*)  ' alfy= ',A(NOEL,20)
+          WRITE(NRES,*)  ' bety= ',A(NOEL,21)
+          WRITE(NRES,*)  ' epsny= ',A(NOEL,22)
+          WRITE(NRES,*)  ' sigz= ',A(NOEL,30)
+          WRITE(NRES,*)  ' dpp= ',A(NOEL,31)
+          WRITE(NRES,*)  ' circ= ',A(NOEL,40)
+          WRITE(NRES,*)  ' alfmom= ',A(NOEL,41)
+          WRITE(NRES,*)  ' tunex= ',A(NOEL,50)
+          WRITE(NRES,*)  ' tuney= ',A(NOEL,51)
+          WRITE(NRES,*)  ' tunez= ',A(NOEL,52)
+          WRITE(NRES,*)  ' ampx= ',A(NOEL,60)
+          WRITE(NRES,*)  ' ampy= ',A(NOEL,61)
+          WRITE(NRES,*)  ' ampz= ',A(NOEL,62)
+        END IF
           MASS=AMQ(1,1)
           CHARGE=AMQ(2,1)
           P0 = BORO*CL9*CHARGE

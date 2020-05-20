@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE MCOBJ
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     **************************
 C      CONSTITUTION DE L'OBJET PAR TIRAGE MONTE-CARLO
@@ -39,6 +40,8 @@ C     **************************
       INCLUDE "C.PTICUL.H"     ! COMMON/PTICUL/ AMASS,Q,G,TO
       INCLUDE "C.REBELO.H"   ! COMMON/REBELO/ NRBLT,IPASS,KWRT,NNDES,STDVM
       INCLUDE "C.RIGID.H"     ! COMMON/RIGID/ BORO,DPREF,HDPRF,DP,QBR,BRI
+
+      type(data_partition) particle_set
 
       DIMENSION CENTRE(MXJ)
       PARAMETER (MXJ1=MXJ-1)
@@ -191,18 +194,19 @@ C       2-Y, 3-T, 4-Z, 5-P, 6-X, 1-D
         IF(IEX(I) .LT. -1) GOTO 991
         IF(F(1,I) .EQ. 0.D0) THEN
           TXT = '       zero momentum found.'
-          CALL OBJERR(ABS(NRES),1,MXT,TXT)
+          IF(NRES .NE. 0) CALL OBJERR(ABS(NRES),1,MXT,TXT)
           CALL ENDJOB('*** Error, SBR MCOBJ -> momentum  cannot  be ',0)
         ENDIF
         AMQ(1,I) = AMASS
         AMQ(2,I) = Q
  991  CONTINUE
       IF(IPASS .EQ. 1) CALL CNTMXW(IMAX)
-      RETURN
+      GOTO 97
 
  98   TXT = '    Too many particles'
-      CALL OBJERR(ABS(NRES),2,MXT,TXT)
+      IF(NRES .NE. 0) CALL OBJERR(ABS(NRES),2,MXT,TXT)
       CALL ENDJOB('Too many particles, max is ',MXT/(KREB31+1))
+ 97   CONTINUE
+      call particle_set%define_partitions(IMAX)
       RETURN
-
       END

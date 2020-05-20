@@ -490,8 +490,9 @@ C Make sure this is ok with cartésien
 
       RETURN
 
- 96   WRITE(ABS(NRES),*) 'Pgm emmac. Error  open  file '''//
-     >NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
+ 96   IF(NRES .NE. 0)
+     >  WRITE(ABS(NRES),*) 'Pgm emmac. Error  open  file '''//
+     >  NOMFIC(NFIC)(DEBSTR(NOMFIC(NFIC)):FINSTR(NOMFIC(NFIC)))//''''
       CALL ENDJOB('Leaving. ',-99)
       RETURN
       END

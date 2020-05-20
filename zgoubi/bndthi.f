@@ -189,7 +189,7 @@ C------ Cavity
      >  .OR. KSYN.EQ.1) THEN
 C------------SR Loss
 
-        IF(NRES .GT. 0)  WRITE(NRES,199) SCAL
+        IF(NRES .GT. 0) WRITE(NRES,199) SCAL
  199    FORMAT(/,20X,'Field has been * by scaling factor ',1P,G16.8)
 
       ENDIF

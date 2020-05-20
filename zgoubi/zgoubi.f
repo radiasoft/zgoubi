@@ -24,6 +24,7 @@ C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE ZGOUBI(NL1,NL2,READAT,NBLMI)
       use pariz_namelist_interface, only : ID, IZ
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       LOGICAL READAT
 
@@ -57,6 +58,8 @@ C      COMMON/TITR/ TITRE
 
       PARAMETER(MPOL=10)
       DIMENSION ND(MXL)
+
+      type(data_partition) particle_set
 
 C----- For space charge computaton
       PARAMETER(MLBSC=10)
@@ -342,11 +345,12 @@ C     >                NOELB)
             NOEL = NOEL+1
             IF( NOEL .EQ. MXL+1) THEN
               TOMANY=.TRUE.
-              IF(NRES .GT. 0) THEN
-                WRITE(NRES,*) ' PROCEDURE STOPPED: too many elements'
-                WRITE(NRES,*) ' (number of elements should not exceed '
-     >                                                       ,MXL,').'
-                WRITE(NRES,*) ' Increase  MXL  in   MXLD.H'
+              IF(NRES .NE. 0) THEN
+                WRITE(ABS(NRES),*)
+     >              ' PROCEDURE STOPPED: too many elements'
+                WRITE(ABS(NRES),*)
+     >              ' (number of elements should not exceed ',MXL,').'
+                WRITE(ABS(NRES),*) ' Increase  MXL  in   MXLD.H'
               ENDIF
               CALL ENDJOB(' Increase  MXL  in   MXLD.H',-99)
             ENDIF
@@ -419,17 +423,20 @@ C---------------------------------------------------
       RETURN
 
  997  CONTINUE
-      IF(NRES.GT.0) WRITE(NRES,fmt='(a)')
+      IF(NRES.NE.0) WRITE(ABS(NRES),fmt='(a)')
      >'Pgm zgoubi : Execution stopped due to END-of-file '//
      >'while reading Key from input .dat file.'
       RETURN
 
 C----- DRIFT, ESL. Free space.
  1    CONTINUE
+      associate( me => this_image() )
       KUASEX = 0
       IF(READAT) READ(NDAT,*) A(NOEL,1)
       IF(FITGET) CALL FITGT1
       CALL ESL(1,A(NOEL,1),1,IMAX)
+      !CALL ESL(1,A(NOEL,1),particle_set%first(me),particle_set%last(me))
+      end associate
       GOTO 998
 C----- AIMANT. Dipole with computed field map in cylindrical coordinates
  2    CONTINUE
@@ -1246,8 +1253,8 @@ C        WRITE(NRES,FMT='(10X,A,I0)')
       KOPTIC = KOPTCS
       GOTO 998
  899  CONTINUE
-C      IF(NRES.GT.0)
-      WRITE(abs(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
+      IF(NRES.NE.0)
+     >WRITE(ABS(NRES),*) 'KEYWORD OPTICS. Error open zgoubi.OPTICS.out.'
       GOTO 998
 C-----  GASCAT. Switch gas-scattering
  81   CONTINUE

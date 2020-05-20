@@ -178,7 +178,8 @@ C--------- There are 'MOD2' files, they will be combined linearly
 C          Each single file contains the all 3D volume
             NFIC = MOD2
             IF(4+NFIC .GT. MXSTR) THEN
-              WRITE(ABS(NRES),*) 'At input data line ',LINE
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >        'At input data line ',LINE
               CALL ENDJOB('Pgm rtosca. Too many'
      >        //'  field map scaling factors. Max is ',MXC)
             ENDIF
@@ -199,7 +200,8 @@ C          Each single file contains the all 3D volume
 C          Their field contributions at particle location will add
             NFIC = MOD2
             IF(4+NFIC .GT. MXSTR) THEN
-              WRITE(ABS(NRES),*) 'At input data line ',LINE
+              IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >        'At input data line ',LINE
               CALL ENDJOB('Pgm rtosca. Too many'
      >        //'  field map scaling factors. Max is ',MXC)
             ENDIF
@@ -231,7 +233,8 @@ C--------- Some MOD values allow superimposing maps.
           ENDIF
 
           IF(4+NFIC .GT. MXSTR) THEN
-            WRITE(ABS(NRES),*) 'At input data line ',LINE
+            IF(NRES .NE. 0) WRITE(ABS(NRES),*)
+     >      'At input data line ',LINE
             CALL ENDJOB('Pgm rtosca. Too many'
      >      //'  field map scaling factors. Max is ',MXC)
           ENDIF
@@ -313,18 +316,18 @@ C       ... Polar map frame
 
  99   WRITE(6,*) 
      >  ' *** Execution stopped upon READ ERR : invalid input in rtosca'
-      WRITE(NRES ,*) 
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*)
      >  ' *** Execution stopped upon READ ERR : invalid input in rtosca'
       GOTO 90
       
  98   WRITE(6,*) 
      >  ' *** Execution stopped upon READ END : invalid input in rtosca'
-      WRITE(NRES ,*) 
+      IF(NRES .NE. 0) WRITE(ABS(NRES),*) 
      >  ' *** Execution stopped upon READ END : invalid input in rtosca'
-      IF(LINE.EQ.2) WRITE(NRES,FMT='(A,I0,A)') 
+      IF(LINE.EQ.2 .AND. NRES .NE. 0) WRITE(ABS(NRES),FMT='(A,I0,A)') 
      >'Pgm rtosca. Prblm with normalization coefficients list : '
      >//' expected is a list of  1 to ',MXC,' data at line ',LINE 
-      IF(LINE.EQ.6) WRITE(NRES,*) 
+      IF(LINE.EQ.6 .AND. NRES .NE. 0) WRITE(ABS(NRES),*) 
      >'Expecting more data after MOD=3, at line ',LINE
 
  90   CONTINUE

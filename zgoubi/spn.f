@@ -99,7 +99,6 @@ C       ... SET TO 99 IN SBR REBELOTE - FOR PERIODIC MACHINES
      >     '' tracking machinery. '',/)')
           ENDIF
         ELSE
-C<<<<<<< .mine
           WRITE(NRES,FMT='(/,15X,'' SPIN  TRACKING  REQUESTED'')')
           IF(NSTRT .GT. 0) WRITE(NRES,FMT='(/,15X,
      >    '' Will only start at turn number '',I0)') NSTRT
@@ -107,7 +106,7 @@ C<<<<<<< .mine
  110      FORMAT(/,15X,1P
      >    ,/,25X,' Particle  mass          = ',G15.7,' MeV/c2'
      >    ,/,25x,' Gyromagnetic  factor  G = ',G15.7)
-C=======
+
           IF(KZOB .EQ. 1 .AND. KOBJ .EQ. 3) THEN
             IF(NRES.GT.0) WRITE(NRES,FMT='(/,15X,
      >      ''Spins read by OBJET are taken as initial spins.'')')

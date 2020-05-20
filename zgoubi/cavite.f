@@ -294,7 +294,7 @@ C normalisation de U0=11.071834e-3 keV, a E=9.8932E+02MeV
 c         U0 = 11.071834e-3 * ( (PS/BTS) / 9.8932E+02)**4           ! C_gamma=88.46276*1e-6 m/GeV^3
 
 
-Case Vahid's eRHIC RCS
+Case eRHIC RCS by Vahid
           radius = 283.860202518    ! bend radius (m), assumed isofield lattice
           u0 = 88.46276*((ps*1d-3)/bts)**4/radius *1d-3  ! u0 (MeV)  (elctrn with bta~1 : 88.463*E[GeV]^4/rho[m]*(Ang/2pi))
         ELSEIF(CRNLSY) THEN

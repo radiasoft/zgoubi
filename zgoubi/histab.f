@@ -89,20 +89,20 @@ C       ** TRACE L'HISTO
               KARL(IC)=' '
             ENDIF
  2        CONTINUE
-          WRITE(NRES,100) LINE, (BLANC,IC=6,IC10-1)
+          IF(NRES .GT. 0) WRITE(NRES,100) LINE, (BLANC,IC=6,IC10-1)
      >    , (KARL(JC),JC=IC10,IC20)
  100      FORMAT(I5,126A1)
  1      CONTINUE
  
-        WRITE(NRES,103)
+        IF(NRES .GT. 0) WRITE(NRES,103)
      >  (BLANC,II=1,IC10-1),(KARO(I-(I/10)*10+1),I=IC10-1,IC20-1)
  103    FORMAT(/,131A1)
-        WRITE(NRES,107) (BLANC,II=1,(IC10/10)*10-1)
+        IF(NRES .GT. 0) WRITE(NRES,107) (BLANC,II=1,(IC10/10)*10-1)
      >  ,( ( BLANC,II=(I-(I/10)*10),8 )
      >  ,KARO((I)/10) , I=(IC10/10)*10,(IC20/10-1 )*10,10)
  107    FORMAT(1X,131A1)
  
-        WRITE(NRES,104) ICTOT(J,NH),JMAX(J,NH)
+        IF(NRES .GT. 0) WRITE(NRES,104) ICTOT(J,NH),JMAX(J,NH)
      >  ,MOYC(J,NH),NC(J,MOYC(J,NH),NH)
  104    FORMAT(
      >  //,15X,' TOTAL  COMPTAGE                 : ',I7,'  SUR',I7
@@ -111,7 +111,7 @@ C       ** TRACE L'HISTO
  
       ELSEIF(ICTOT(J,NH) .EQ. 0) THEN
  
-        WRITE(NRES,108)
+        IF(NRES .GT. 0) WRITE(NRES,108)
  108    FORMAT(////,15X,' TOTAL  COMPTAGE                 : 0',///)
         RETURN 1
  

@@ -513,7 +513,7 @@ C           REGION DE COURBURE R2
 C           ERREUR  DE  DONNEES  FACE  ENTREE
             IF(NRES.GT.0) WRITE(NRES,104)
  104        FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE ENTREE',/)
-                WRITE(NRES,134) X,AX,CX,XA,YA,XC,YC
+            IF(NRES.GT.0) WRITE(NRES,134) X,AX,CX,XA,YA,XC,YC
             GOTO  99
           ENDIF
 
@@ -569,7 +569,7 @@ C           ... REGION DE COURBURE R2
           ELSE
             IF(NRES.GT.0) WRITE(NRES,114)
 114         FORMAT(/,5X,10('*'),' ERREUR PARAMETRES FACE SORTIE',/)
-                WRITE(NRES,134) X,AXS,CXS,XAS,YAS,XCS,YCS
+            IF(NRES.GT.0) WRITE(NRES,134) X,AXS,CXS,XAS,YAS,XCS,YCS
             GOTO  99
           ENDIF
 

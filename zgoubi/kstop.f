@@ -114,7 +114,7 @@ C     $     IREP(MXT),AMQLU,PABSLU
       IF(.NOT.FITING) THEN 
         CALL ZGNOEL(
      >              NOEL)
-        WRITE(ABS(NRES),100) 
+        IF(NRES .NE. 0) WRITE(ABS(NRES),100) 
      >  'Lmnt #',NOEL,', pass #',IPASS,'   -> Traj. #',
      >  II,'  stopped  (IK=',IK,
      >  ') : '//TXT(DEBSTR(TXT):FINSTR(TXT))//' ;  remain/launched= ',
@@ -144,8 +144,8 @@ C     >               NOEL)
         CALL FITSTA(5,
      >                FITING)
         IF(.NOT.FITING) THEN 
-          WRITE(ABS(NRES),*) ' '
-          WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK 
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*) ' '
+          IF(NRES .NE. 0) WRITE(ABS(NRES),*) 'SBR KSTOP,  IK = ', IK 
           CALL ENDJOB
      >    ('SBR KSTOP : execution stopped, all particles lost !!',-99)
         ENDIF

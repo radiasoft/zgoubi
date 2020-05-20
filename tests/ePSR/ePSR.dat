@@ -1,0 +1,63 @@
+ePSR --- electron PSR
+
+ 'OBJET'
+4869.148131767104
+8
+1 10 1
+0. 0.  0. 0.  0. 1.
+ 0.83333504  6.0693320  1.e-06
+-0.94425989  6.6338782  1.e-10
+ 0.          1.         1.e-03
+ 'PARTICUL'
+POSITRON
+ 'SPNTRK'
+4.1
+0.0  0.707106781187  0.707106781187
+
+ 'SRLOSS'
+0
+BEND
+0  123456
+
+ 'FAISTORE'
+zgoubi.fai  MARK  ! no labels means print beam at this location
+1
+
+ 'FAISCEAU'
+ 'SPNPRT'
+
+ 'OPTIONS'
+1 1
+WRITE OFF
+
+ 'INCLUDE'  !--- import PSR lattice ---
+1
+ePSR-lattice.dat [MARK,RING$START:MARK,RING$END]
+
+ 'FAISCEAU'
+ 'SPNPRT'
+
+ 'CAVITE'
+2                                ! Iopt(2 :> dW_s = q Vcav \sin\phi_s)
+90.224  1                        ! Circ/m, H#
+197976.439  0.5235987755982988   ! Vcav/V, phi_s/rad
+
+ 'OPTIONS'
+1 1
+WRITE ON
+
+ 'FAISCEAU'
+ 'SPNPRT'
+ 'SRPRNT'
+
+ 'REBELOTE'
+1 0 99   ! Nt–1, Kwrite, Iopt(99 :> m.turn tracking)
+
+ 'MARKER' MARK SIM$END
+ 
+ 'FAISCEAU'
+ 'SPNPRT'
+ 'SRPRNT'
+
+ 'END'
+

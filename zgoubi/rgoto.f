@@ -51,7 +51,7 @@ C      PARAMETER (MXTA=45)
 
       RETURN
 
- 97   WRITE(NRES,*)
+ 97   IF(NRES .GT. 0) WRITE(NRES,*)
      >'Data error met while reading condition from data list.'
       WRITE(6,*)
      >'Data error met while reading condition from data list.'

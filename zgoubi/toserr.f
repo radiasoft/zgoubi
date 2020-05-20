@@ -72,7 +72,8 @@ C              RELATIVE ERROR
           ELSEIF(TYPERR(IRR,I)(2:2).EQ.'R') THEN
               TILT(NOEL,I,3) = 0.D0
           ELSE
-            WRITE(NRES,FMT='(//,5X,A)') '****** Found TYPERR = '//TYPERR
+            IF(NRES .NE. 0) WRITE(ABS(NRES),FMT='(//,5X,A)')
+     >        '****** Found TYPERR = '//TYPERR
             CALL ENDJOB('SBR TOSERR. NO SUCH OPTION FOR TYPERR',-99)
           ENDIF
 

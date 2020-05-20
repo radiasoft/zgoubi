@@ -23,6 +23,7 @@ C  C-AD, Bldg 911
 C  Upton, NY, 11973, USA
 C  -------
       SUBROUTINE IMPTRA(IMAX1,IMAX2,LUN)
+      use data_partition_ixfc, only : data_partition
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       INCLUDE "MAXTRA.H"
       INCLUDE "C.DESIN.H"     ! COMMON/DESIN/ FDES(7,MXT),IFDES,KINFO,IRSAR,IRTET,IRPHI,NDES
@@ -45,12 +46,30 @@ C      LOGICAL ZSYM
       DIMENSION SIG(4,4)
       CHARACTER(5) TXT(3)
       CHARACTER(10) UU(3)
+      type(data_partition) particle_set
 
       DATA TXT / '(Y,T)', '(Z,P)', '(t,K)' /
       DATA UU / '(cm,rd)', '(cm,rd)', '(mu_s,MeV)' /
 
       CALL ZGNOEL(
      >            NOEL)
+
+      write(6,*) 'imptra(): calling gather(F) on image', this_image()
+      flush(6)
+      call particle_set%gather(F, result_image=1)
+      write(6,*) 'imptra(): calling gather(FO) on image', this_image()
+      flush(6)
+      call particle_set%gather(FO, result_image=1)
+      ! ^^^^^ Are we sure we need this?
+      !call gather(FDES, result_image=1)
+      ! ^^^^^ Do we also need this?
+
+      IF(LUN .EQ. 0) RETURN
+
+      block
+      logical, parameter :: all_images_write=.true.
+      associate( me => this_image() )
+      image_1_writes: if (me==1 .or. all_images_write) then
 
       WRITE(LUN,100) NOEL-1,IMAX2-IMAX1+1
  100  FORMAT('0',45X,'TRACE DU FAISCEAU',
@@ -119,6 +138,10 @@ Compute 4-D sigma matrix
       WRITE(LUN,fmt='(/,5X,1P,A,2(2X,E14.6),3X,A)')
      >' sqrt(det_Y), sqrt(det_Z) : ', SQX, SQZ,
      >' (Note :  sqrt(determinant) = ellipse surface / pi)'
+
+      end if image_1_writes
+      end associate
+      end block
 
       RETURN
       END

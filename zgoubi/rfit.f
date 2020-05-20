@@ -199,7 +199,7 @@ C  READ NC [,PNLTY [,ITRMA [,ICPTMA]]]
      >         //', (FIT[2] was met at position ',NOEL,')'
               WRITE(*,FMT='(/,A)') 
      >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
-              WRITE(NRES,FMT='(/,A)')
+              IF(NRES .GT. 0) WRITE(NRES,FMT='(/,A)')
      >        TXT132(DEBSTR(TXT132):FINSTR(TXT132))
               GOTO 90
             ENDIF

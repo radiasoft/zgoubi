@@ -234,7 +234,7 @@ C  3 identical particles on orbit with their spin components resp. 0,0,1, 0,1,0,
      >  .OR. LBL2(DEBSTR(LBL2):FINSTR(LBL2)) .EQ. 'MATRIX') THEN
 
           IF(JMAXT.NE.3) THEN
-            WRITE(ABS(NRES),FMT='(/,5X,
+            IF(NRES .NE. 0) WRITE(ABS(NRES),FMT='(/,5X,
      >      ''Pgm spnprt. For computation of spin matrices, '',
      >      ''OBJET must create groups of 3 same-momentum particles, '',
      >      /,5X,''with respective spins in direction X, Y, Z.'',
@@ -321,7 +321,8 @@ C        CLOSE(LUNPRT)
       RETURN
 
  96   CONTINUE
-      WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
+      IF(NRES .NE. 0)
+     >WRITE(ABS(NRES),FMT='(/,''SBR SPNPRT : '',
      >           ''Error open file zgoubi.SPNPRT.Out'')')
       WRITE(*        ,FMT='(/,''SBR SPNPRT : '',
      >           ''Error open file zgoubi.SPNPRT.Out'')')

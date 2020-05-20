@@ -69,19 +69,20 @@ C ?? Do not test limit here due to possible decay etc. Only at end of ESL. ??
 
       IF( DL .NE. 0D0 ) THEN
 
-C        DO 1 I=1,IMAX
-        DO 1 I=I1, I2
+C        DO 1 I = 1,IMAX
+        DO 1 I = I1, I2
 C---------- IEX < -1 <=> PARTICLE STOPPEE
            IF(IEX(I) .LT. -1) GOTO 1
 
-           F(2,I)=F(2,I)+DL*TAN(F(3,I)*1.D-3)
-           F(4,I)=F(4,I)+DL*TAN(F(5,I)*1.D-3)*(1.D0/COS(F(3,I)*1.D-3))
-           DS = DL/(COS(F(3,I)*1.D-3)*COS(F(5,I)*1.D-3))
-           F(6,I)= F(6,I) + DS
-           P = BORO*F(1,I)*CL9*AMQ(2,I)
+           F(2,I) = F(2,I) + DL * TAN(F(3,I)*1.D-3)
+           F(4,I) = F(4,I) + DL * TAN(F(5,I)*1.D-3)
+     >                          * (1.D0 / COS(F(3,I)*1.D-3))
+           DS = DL / ( COS(F(3,I)*1.D-3) * COS(F(5,I)*1.D-3) )
+           F(6,I) = F(6,I) + DS
+           P = BORO * F(1,I) * CL9 * AMQ(2,I)
            AMI = AMQ(1,I)
-           IF(AMI*P.NE.0.D0) F(7,I) = F(7,I) +
-     >         (DS*1.D4 / (P/SQRT(P*P+AMI*AMI)*CL))
+           IF(AMI * P .NE. 0.D0)
+     >       F(7,I) = F(7,I) + DS * 1.D4 * SQRT(P*P+AMI*AMI) / (P*CL)
  1      CONTINUE
 
       ENDIF
