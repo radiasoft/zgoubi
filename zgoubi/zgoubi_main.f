@@ -120,7 +120,7 @@ C -----
 
       IF(FLIN .EQ. 'zgoubi_temp.dat') CALL ENDJOB(
      >'Pgm zgoubi_main. ''zgoubi_temp.dat'' input file name '//
-     >'is reserved. Please choose a different one.')
+     >'is reserved. Please choose a different one.', 0)
 
       IF(IDLUNI(
      >          NLIN)) THEN
